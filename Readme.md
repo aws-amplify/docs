@@ -2,4 +2,4 @@
 
 ***Work in progress***
 
-This is a work in progress documenation repository for AWS Amplify documenation. For the current documentation please visit [Getting Started](https://aws-amplify.github.io/media/get_started) and select your platform to get started.
+We are working on a new documentation repository for AWS Amplify. For the latest current documentation please visit [Getting Started](https://aws-amplify.github.io/media/get_started) and select your platform to get started.
