@@ -66,14 +66,14 @@ amplify:
             platform: for JavaScript
         nav:
             - item_name: Get Started
-              item_url: '/js/get_started'
-              id: get_started
+              item_url: '/js/start'
+              id: start
             - item_name: Toolchain
-              item_url: '/js/toolchain'
-              id: toolchain
+              item_url: '/js/cli'
+              id: cli
             - item_name: Style Guide
-              item_url: '/js/ui_library'
-              id: ui_library
+              item_url: '/js/ui'
+              id: ui
     footer:
         content:
             logo:
@@ -110,63 +110,46 @@ category_list:
     - category: SetupAndInstallation
       title: Setup & Installation
       excerpt: 
-      base_url: '/js/quick_start'
+      base_url: '/js/start'
       subs:
         - title: Getting Started
           excerpt: get started excerpt
-          url: '/js/quick_start'
+          url: '/js/start'
           icon: '/images/icons/Misc/Present.svg'
-    # - category: Tutorials
-    #   title: Tutorials
-    #   excerpt: 
-    #   base_url: 'building-web-apps'
-    #   subs:
-    #     - title: Web Apps
-    #       excerpt: 'A step-by-step tutorial for learning how to build a cloud-enabled React Web app with AWS Amplify.<br/><b>30 min to complete</b>'
-    #       url: '/media/building-web-apps'
-    #       icon: '/images/icons/Misc/Present.svg'
-    #     - title: React Native Apps
-    #       excerpt: 'A step-by-step tutorial for learning how to build a cloud-enabled mobile app with React Native and AWS Amplify.<br/><b>30 min to complete</b>'
-    #       url: '/media/building-react-native-apps' 
-    #       icon: '/images/icons/Misc/Present.svg'
-    #     - title: Ionic 4 Apps
-    #       excerpt: "Learn to build a cloud enabled 'Notes App' with Ionic 4 and AWS Amplify <br/><b>45 min to complete</b>"
-    #       url: '/media/building-ionic-4-apps' 
-    #       icon: '/images/icons/Misc/Present.svg'
     - category: Tutorials
       title: Framework Support
       excerpt: 
-      base_url: '/js/react_guide'
+      base_url: '/js/reacte'
       subs:
         - title: React & React Native
           excerpt: #'A step-by-step tutorial for learning how to build a cloud-enabled React Web app with AWS Amplify.<br/><b>30 min to complete</b>'
-          url: '/js/react_guide'
+          url: '/js/react'
           icon: '/images/icons/Misc/Present.svg'
         - title: Angular & Ionic
           excerpt: #"Learn to build a cloud enabled 'Notes App' with Ionic 4 and AWS Amplify <br/><b>45 min to complete</b>"
-          url: '/js/ionic_guide' 
+          url: '/js/ionic' 
           icon: '/images/icons/Misc/Present.svg'
         - title: Vue
           excerpt: #"Learn to build a cloud enabled App with Vue.js and AWS Amplify <br/><b>45 min to complete</b>"
-          url: '/js/vue_guide' 
+          url: '/js/vue' 
           icon: '/images/icons/Misc/Present.svg'
     - category: Toolchain
       title: Toolchain
       excerpt: Better developer experience when building and deploying your apps.
-      base_url: '/js/hosting_guide'
+      base_url: '/js/cli'
       subs:
         - title: CLI
           excerpt: Deploy your Web app or static website for global CDN distribution with media streaming support.
           cta: Read more
           class: aws-icon-ps-60-network-nodes
-          url: '/js/cli_guide'   
+          url: '/js/cli'   
           icon: '/images/icons/Misc/Tool.svg'
           services:
               - title: Amazon CloudFront
                 url: https://aws.amazon.com/cloudfront/
         - title: UI Components
           excerpt: UI excerpt
-          url: '/js/ui_guide'
+          url: '/js/ui'
           icon: '/images/icons/Misc/Present.svg'
         - title: VS Code Extension 
           excerpt: Code snippets for AWS Amplify in Visual Studio Code.
@@ -177,13 +160,13 @@ category_list:
     - category: Categories
       title: API Guides
       excerpt: Add cloud features to your app quickly using our toolchain and declarative APIs.
-      base_url: '/media/analytics_guide'
+      base_url: '/js/analytics'
       subs:
         - title: Analytics 
           excerpt: Drop-in analytics to track user sessions, custom user attributes, and in-app metrics.
           cta: Read more
           class: aws-icon-ps-60-pie-bar-charts 
-          url: '/js/analytics_guide'
+          url: '/js/analytics'
           icon: '/images/icons/Misc/Cloud.svg'
           services:
             - title: Amazon Pinpoint,
@@ -196,7 +179,7 @@ category_list:
           excerpt: A simple and secure solution for making HTTP requests using REST and GraphQL, with support for real-time data.
           cta: Read more
           class: aws-icon-ps-60-database-server
-          url: '/js/api_guide' 
+          url: '/js/api' 
           icon: '/images/icons/Misc/Cloud.svg'   
           services: 
             - title: Amazon API Gateway,
@@ -207,7 +190,7 @@ category_list:
           excerpt:  Authentication APIs with pre-built UI components for your app.  
           cta: Read more
           class: aws-icon-ps-60-shield-circle
-          url: '/js/authentication_guide'
+          url: '/js/authentication'
           icon: '/images/icons/Misc/Cloud.svg'
           services:
             - title: Amazon Cognito,
@@ -220,7 +203,7 @@ category_list:
           excerpt: Create conversational bots powered by deep learning technologies.
           cta: Read more
           class: aws-icon-ps-60-bubble-gear
-          url: '/js/interactions_guide'   
+          url: '/js/interactions'   
           icon: '/images/icons/Misc/Cloud.svg'
           services:
               - title: Amazon Lex
@@ -242,7 +225,7 @@ category_list:
           excerpt: Push notifications with campaign analytics and targeting.
           cta: Read more
           class: aws-icon-ps-60-device-message
-          url: '/js/push_notifications_setup'   
+          url: '/js/push-notifications'   
           icon: '/images/icons/Misc/Cloud.svg'
           services:
               - title: Amazon Pinpoint
@@ -251,7 +234,7 @@ category_list:
           excerpt: A simple mechanism for managing user content in public, protected or private storage.
           cta: Read more
           class: aws-icon-ps-60-file-box
-          url: '/js/storage_guide'   
+          url: '/js/storage'   
           icon: '/images/icons/Misc/Cloud.svg'
           services:
               - title: Amazon S3
@@ -268,32 +251,32 @@ category_list:
     - category: Utilities
       title: Utilities
       excerpt: Common programming utilities that you can use with your app.
-      base_url: '/js/cache_guide'
+      base_url: '/js/cache'
       subs:
         - title: Service Worker 
           excerpt: A utility class to work with PWA and Service Worker APIs. 
           cta: Read more
-          url: '/js/service_workers_guide'   
+          url: '/js/service-workers'   
           icon: '/images/icons/Misc/Gear.svg'
         - title: Cache 
           excerpt: A generic LRU cache for storing data with priority and expiration settings. 
           cta: Read more
-          url: '/js/cache_guide'  
+          url: '/js/cache'  
           icon: '/images/icons/Misc/Gear.svg'
         - title: Hub  
           excerpt: A lightweight local event bus for your app.
           cta: Read more
-          url: '/js/hub_guide' 
+          url: '/js/hub' 
           icon: '/images/icons/Misc/Gear.svg'
         - title: I18n  
           excerpt: A lightweight internationalization solution.
           cta: Read more
-          url: '/js/i18n_guide'  
+          url: '/js/i18n'  
           icon: '/images/icons/Misc/Gear.svg'
         - title: Logger  
           excerpt: Console logging utility.
           cta: Read more
-          url: '/js/logger_guide'  
+          url: '/js/logger'  
           icon: '/images/icons/Misc/Gear.svg'   
 
 defaults:

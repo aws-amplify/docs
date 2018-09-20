@@ -1,6 +1,0 @@
----
-
-# Page settings
-layout: toolchain
-
----
