@@ -1,10 +1,10 @@
 # Add Analytics to Your Mobile App with Amazon Pinpoint
 
-## Overview
+## Pinpoint
 
 Gather the data that helps improve your app's usability, monetization, and engagement with your users. The CLI deploys your analytics backend using [Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html).
 
-## Set Up Your Backend
+### Set Up Your Backend
 
 1. Complete the [Get Started TODO link](asdf) steps before you proceed.
 
@@ -40,11 +40,11 @@ Gather the data that helps improve your app's usability, monetization, and engag
     $ amplify push
     ```
 
-## Connect to Your Backend
+### Connect to Your Backend
 
 Use the following steps to add analytics to your mobile app and monitor the results through Amazon Pinpoint.
 
-### Add Analytics
+#### Add Analytics
 
 1. Set up AWS Mobile SDK components by including the following libraries in your `app/build.gradle` dependencies list.
 
@@ -128,7 +128,7 @@ Use the following steps to add analytics to your mobile app and monitor the resu
 	}
 	```
 
-### Monitor Analytics
+#### Monitor Analytics
 
 Build and run your app to see usage metrics in Amazon Pinpoint. When you run the previous code samples, the console shows a logged Session.
 
@@ -144,7 +144,7 @@ Build and run your app to see usage metrics in Amazon Pinpoint. When you run the
 
     [Learn more about Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html).
 
-## Enable Custom App Analytics
+### Enable Custom App Analytics
 
 Instrument your code to capture app usage event information, including attributes you define.  Use graphs of your custom usage event data  in the Amazon Pinpoint console. Visualize how your users' behavior aligns with a model you design using [Amazon Pinpoint Funnel Analytics](https://docs.aws.amazon.com/pinpoint/latest/userguide/analytics-funnels.html), or use [stream the data](https://docs.aws.amazon.com/pinpoint/latest/userguide/analytics-streaming.html) for deeper analysis.
 
@@ -169,7 +169,7 @@ public void logEvent() {
 
 Build, run, and use your app. Then, view your custom events on the `Events` tab of the Amazon Pinpoint console (choose `Analytics`>`Events`). Look for the name of your event in the `Events` menu.
 
-## Enable Revenue Analytics
+### Enable Revenue Analytics
 
 Amazon Pinpoint supports the collection of monetization event data. Use the following steps to place
 and design analytics related to purchases through your app.
@@ -192,3 +192,6 @@ public void logMonetizationEvent() {
     pinpointManager.getAnalyticsClient().recordEvent(event);
 }
 ```
+
+## Kinesis
+
