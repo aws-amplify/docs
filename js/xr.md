@@ -67,14 +67,14 @@ XR.configure({ // XR category configuration
 The XR Category allows a Sumerian scene to be rendered into an DIV HTML element with `loadScene` method. When the scene is loaded successfully, *XR.start()* method will start the scene. To render the scene, pass your scene name and the id of the element in the method call:
 
 ```js
-// Load scene with sceneName: "scene1" into dom element id: "sumarian-scene-dom-id"
+// Load scene with sceneName: "scene1" into dom element id: "sumerian-scene-dom-id"
 async loadAndStartScene() {
     await XR.loadScene("scene1", "sumerian-scene-dom-id");
     XR.start("scene1");
 }
 
 // HTML
-<div id="sumarian-scene-dom-id"></div>
+<div id="sumerian-scene-dom-id"></div>
 ```
 
 ## Scene API
@@ -93,7 +93,7 @@ async loadAndStartScene() {
         progressCallback
     }
     
-    await XR.loadScene("scene1", "sumarian-scene-dom-id", sceneOptions);
+    await XR.loadScene("scene1", "sumerian-scene-dom-id", sceneOptions);
     XR.start("scene1");
 }
 ```
