@@ -5,16 +5,8 @@
 	</head>
 	<body class="{{ site.amplify.color_theme }}" data-spy="scroll" data-target=".js-scrollspy">
 		{% include docs-header.html %}
-
 		<div class="section-padding">
 			<div class="container docs-page-container">
-				<!-- <div class="github-edit-link">
-					<a title="Edit this page on github" class="" target="_blank" rel="noopener noreferrer" 
-					href="{{ site.github.repository_url }}{{ page.path }}">
-						<span class="">Edit this page</span> 
-					</a>				
-				</div> -->
-
 				{% if site.category_list %}
 					{% for category in site.category_list %}
 						{% for item in category.subs %}
@@ -24,7 +16,6 @@
 						{% endfor %}
 					{% endfor %}
 				{% endif %}
-
 				<div class="row">
 					<div class="col-md-4 col-md-offset-1 dev-guide-container">
 						{% if page.url contains 'tutorials' %}
@@ -40,14 +31,6 @@
 							</div><!-- /.sections-list -->
 						</div>
 						{% else %}
-						<!-- <div class="version-section">
-							<p>Version</p>
-							<div class="version-selector">
-								<select id="version-selector-select">
-									<option value="1.x.x">1.x.x (Stable release)</option>
-								</select>
-							</div>
-						</div> -->
 						<div class="version-section visible-xs">
 							<p>View Section</p>
 							<div class="version-selector">
@@ -95,7 +78,7 @@
 						{% endif %}
 					</div><!-- /.col -->
 						<div class="col-md-8 section-top docs-container">
-							{% if page.url contains 'quick_start' %}
+							{% if page.url contains 'start' %}
 							<div class='js-library-selector-text'>
 								Select your framework
 							</div>
@@ -109,14 +92,6 @@
 								</div>
 								<div class="arrows"></div>
 							</div>
-							<!-- <div class="js-library-selector">
-								<img id="js-library-icon" /> 
-								<select onchange="location = this.value" id="js-library-select">
-									{% for item in site.js_libraries %}
-										<option value={{ item.url }}>{{ item.title }}</option>
-									{% endfor %}
-								</select>
-							</div> -->
 							{% endif %}
 							<div class="content">
 								{{ content }}
@@ -125,15 +100,6 @@
 				</div><!-- /.row -->
 			</div><!-- /.container -->
 		</div><!-- /.section -->
-		<!-- <div class="section section--grey"> -->
-			<!-- <div class="container"> -->
-				<!-- <div class="row"> -->
-					<!-- <div class="col-md-7"> -->
-						<!-- {% include comments.html %} -->
-					<!-- </div>/.col -->
-				<!-- </div>/.row -->
-			<!-- </div>/.container -->
-		<!-- </div>/.section -->
 		<div class="js-footer-area">
 			{% if page.page_nav.prev.content or page.page_nav.next.content %}
 				<nav class="page-nav">
@@ -193,7 +159,7 @@
 				view_section_box.style.backgroundPosition = "240px 5px";
 			}
 		}
-		{% if page.url contains 'quick_start' %}
+		{% if page.url contains 'start' %}
 			let tabs = document.getElementsByClassName('tabs');
 			for (let i = 0; i < tabs.length; i++) {
 				tabs[i].style.display = 'none';
@@ -237,53 +203,3 @@
 			}
 		{% endif %}
 	</script>
-	<!-- 
-	{% if jekyll.environment == 'production' %}
-		<script>
-			var setBackgroundImage = function() {
-				const version_box = document.getElementById("version-selector-select");
-				const view_section_box = document.getElementById("section-select");
-				const js_library_box = document.getElementById("js-library-select");
-				version_box.style.background = "url('/amplify-js/images/icons/Minis/Arrows.svg') no-repeat"; 
-				view_section_box.style.background = "url('/amplify-js/images/icons/Minis/Arrows.svg') no-repeat"; 
-				if (js_library_box) js_library_box.style.background = "url('/amplify-js/images/icons/Minis/Arrows.svg') no-repeat";
-				if (window.innerWidth < 828) {
-					version_box.style.backgroundPosition = "240px 5px";
-					view_section_box.style.backgroundPosition = "240px 5px";
-					if (js_library_box) js_library_box.style.backgroundPosition = "160px -4px";
-				}
-				else {
-					version_box.style.backgroundPosition = "164px 3px";
-					view_section_box.style.backgroundPosition = "164px 3px";
-					if (js_library_box) js_library_box.style.backgroundPosition = "160px -4px";
-				}
-			}
-
-			setBackgroundImage();
-		</script>
-	{% else %}
-		<script>
-			var setBackgroundImage = function() {
-				const version_box = document.getElementById("version-selector-select");
-				const view_section_box = document.getElementById("section-select");
-				const js_library_box = document.getElementById("js-library-select");
-				version_box.style.background = "url('/images/icons/Minis/Arrows.svg') no-repeat"; 
-				view_section_box.style.background = "url('/images/icons/Minis/Arrows.svg') no-repeat"; 
-				if (js_library_box) js_library_box.style.background = "url('/images/icons/Minis/Arrows.svg') no-repeat"; 
-				if (window.innerWidth < 828) {
-					version_box.style.backgroundPosition = "240px 5px";
-					view_section_box.style.backgroundPosition = "240px 5px";
-					if (js_library_box) js_library_box.style.backgroundPosition = "160px -4px";
-				}
-				else {
-					version_box.style.backgroundPosition = "164px 3px";
-					view_section_box.style.backgroundPosition = "164px 3px";
-					if (js_library_box) js_library_box.style.backgroundPosition = "160px -4px";
-				}
-			}
-
-			setBackgroundImage();
-		</script>
-	{% endif %}
-	</html>
--->

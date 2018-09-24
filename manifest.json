@@ -1,7 +1,7 @@
 {
     "name": "AWS Amplify Documentation",
     "short_name": "AWS Amplify",
-    "start_url": "https://aws-amplify.github.io/docs",
+    "start_url": "index.html",
     "icons": [
         {
             "src": "images/android-chrome-192x192.png",

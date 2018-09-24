@@ -119,7 +119,7 @@ category_list:
     - category: Tutorials
       title: Framework Support
       excerpt: 
-      base_url: '/js/reacte'
+      base_url: '/js/react'
       subs:
         - title: React & React Native
           excerpt: #'A step-by-step tutorial for learning how to build a cloud-enabled React Web app with AWS Amplify.<br/><b>30 min to complete</b>'
@@ -243,7 +243,7 @@ category_list:
           excerpt: Build AR/VR enabled web applications.
           cta: Read more
           class: aws-icon-ps-60-file-box
-          url: '/js/xr_guide'   
+          url: '/js/xr'   
           icon: '/images/icons/Misc/Cloud.svg'
           services:
               - title: Amazon S3
