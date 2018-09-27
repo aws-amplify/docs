@@ -122,7 +122,7 @@ category_list:
           excerpt: get started excerpt
           url: '/js/start'
           icon: '/images/icons/Misc/Present.svg'
-    - category: Getting Started
+    - category: Getting Started123
       title: Getting Started
       excerpt:
       base_url: '/js/start'
@@ -140,7 +140,7 @@ category_list:
           url: '/ios/getting-started'
           icon: '/images/icons/Misc/Present.svg'
     - category: Tutorials
-      title: Framework Support
+      title: Framework Support123
       excerpt:
       base_url: '/js/react'
       subs:
