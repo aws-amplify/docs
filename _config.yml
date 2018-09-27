@@ -360,6 +360,23 @@ category_list:
           excerpt: get started excerpt
           url: '/js/start'
           icon: '/images/icons/Misc/Present.svg'
+    - category: Getting Started
+      title: Getting Started
+      excerpt:
+      base_url: '/js/start'
+      subs:
+        - title: JavaScript
+          excerpt: #'A step-by-step tutorial for learning how to build a cloud-enabled React Web app with AWS Amplify.<br/><b>30 min to complete</b>'
+          url: '/js/start'
+          icon: '/images/icons/Misc/Present.svg'
+        - title: Android
+          excerpt: #"Learn to build a cloud enabled 'Notes App' with Ionic 4 and AWS Amplify <br/><b>45 min to complete</b>"
+          url: '/android/getting-started'
+          icon: '/images/icons/Misc/Present.svg'
+        - title: ios
+          excerpt: #"Learn to build a cloud enabled App with Vue.js and AWS Amplify <br/><b>45 min to complete</b>"
+          url: '/ios/getting-started'
+          icon: '/images/icons/Misc/Present.svg'
     - category: Tutorials
       title: Framework Support
       excerpt:
