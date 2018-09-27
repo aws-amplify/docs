@@ -45,34 +45,12 @@ when configuring authentication using the AWS Amplify CLI.
 8. Choose your platform and provide information about your app that Facebook will use for
    integration during credential validation.
 
-   `For Android:`
+   `For iOS:`
 
-      1. Provide your app's `Google Play Package Name`. (ie. :code:`com.yourprojectname`).
+      1. Add your app's Bundle ID. (for example, com.amazon.YourProjectName).
 
-      2. Provide your `Class Name` that handles deep links (ie.
-        :code:`com.yourprojectname.MainActivity`).
+![Image](./media/new-facebook-add-platform-ios.png)
 
-![Image](./media/new-facebook-add-platform-android.png)
-
-      3. Provide your app's Facebook development `Key Hashes`. This is a value that you
-        generate via a terminal in your development environment, and is unique to that environment.
-
-        To generate a development key for your Android environment on Mac, run the following command
-        line.
-
-        ```bash
-            keytool -exportcert -alias androiddebugkey -keystore ~/.android/debug.keystore | openssl sha1 -binary | openssl base64
-        ```
-
-        To generate a development key for your Android environment on Windows, run the following
-        command line.
-
-        ```bash
-            keytool -exportcert -alias androiddebugkey -keystore %HOMEPATH%\.android\debug.keystore | openssl sha1 -binary | openssl base64
-        ```
-
-        For more information, choose the `Quick Start` button in the upper left of the
-        Facebook Developer Portal Add Platform dialog.
 
 9. In the Facebook Developers portal, choose `Save changes`, then `Use this
    package name` if a dialog appears saying that Google Play has an issue with your package name.
