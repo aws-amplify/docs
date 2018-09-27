@@ -474,6 +474,8 @@ For mutations, a `mutation` function needs to be provided with `Connect` compone
 class CreateEvent extends React.Component {
   // ...
   // This component calls its onCreate prop to trigger the mutation
+  // const variables = { id: '1' }
+  // this.props.onCreate(variables)
   // ...
 }
 <Connect mutation={graphqlOperation(Operations.CreateEvent)}>
