@@ -9,17 +9,17 @@ The SDK for iOS provides two high-level client classes, `AWSKinesisRecorder` and
 `AWSFirehoseRecorder`, designed to help you interface with Amazon Kinesis and Amazon
 Kinesis Firehose.
 
-The Amazon Kinesis :command:`AWSKinesisRecorder` client lets you store `PutRecord
+The Amazon Kinesis `AWSKinesisRecorder` client lets you store `PutRecord
 <http://docs.aws.amazon.com/kinesis/latest/APIReference/API_PutRecord.html>`_ requests on disk and
 then send them all at once. This is useful because many mobile applications that use Amazon Kinesis
-will create multiple :command:`PutRecord` requests per second. Sending an individual request for
-each :command:`PutRecord` action could adversely impact battery life. Moreover, the requests could
+will create multiple `PutRecord` requests per second. Sending an individual request for
+each `PutRecord` action could adversely impact battery life. Moreover, the requests could
 be lost if the device goes offline. Thus, using the high-level Amazon Kinesis client for batching
 can preserve both battery life and data.
 
-The Amazon Kinesis Firehose :command:`AWSFirehoseRecorder` client lets you store `PutRecords
+The Amazon Kinesis Firehose `AWSFirehoseRecorder` client lets you store `PutRecords
 <http://docs.aws.amazon.com/kinesis/latest/APIReference/API_PutRecords.html>`_ requests on disk and
-then send them using :command:`PutRecordBatch`.
+then send them using Kinesis Data Firehose`PutRecordBatch`.
 
 For information about Amazon Kinesis Region availability, see  [AWS Service Region Availability]
 (http://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/).
@@ -113,14 +113,14 @@ following snippet returns a shared instance of the Amazon Kinesis service client
 let kinesisRecorder = AWSKinesisRecorder.default()
 ```
 
-You can use :command:`AWSFirehoseRecorder` with Amazon Kinesis Firehose. The
+You can use `AWSFirehoseRecorder` with Amazon Kinesis Firehose. The
 following snippet returns a shared instance of the Amazon Kinesis Firehose service client:
 
 ```swift
 let firehoseRecorder = AWSFirehoseRecorder.default()
 ```
 
-You can configure :command:`AWSKinesisRecorder` or :command:`AWSFirehoseRecorder` through their properties:
+You can configure `AWSKinesisRecorder` or `AWSFirehoseRecorder` through their properties:
 
 ```swift
                 kinesisRecorder.diskAgeLimit = TimeInterval(30 * 24 * 60 * 60); // 30 days
@@ -156,44 +156,30 @@ console] (https://console.aws.amazon.com/kinesis/).
 Here is a similar snippet for Amazon Kinesis Firehose:
 
 ```swift
-                let yourData = "Test_data".data(using: .utf8)
-                firehoseRecorder.saveRecord(yourData, streamName: "YourStreamName")
+let yourData = "Test_data".data(using: .utf8)
+firehoseRecorder.saveRecord(yourData, streamName: "YourStreamName")
 ```
 
 To submit all the records stored on the device, call
 `submitAllRecords`.
 
-Swift
-            .. code-block:: swift
+```swift
+kinesisRecorder.submitAllRecords()
 
-                kinesisRecorder.submitAllRecords()
+firehoseRecorder.submitAllRecords()
+```
 
-                firehoseRecorder.submitAllRecords()
-
-
-        Objective-C
-            .. code-block:: objc
-
-                [kinesisRecorder submitAllRecords];
-
-                [firehoseRecorder submitAllRecords];
-
-
-:command:`submitAllRecords` sends all locally saved requests to the Amazon Kinesis
+`submitAllRecords` sends all locally saved requests to the Amazon Kinesis
 service. Requests that are successfully sent will be deleted from the device.
 Requests that fail because the device is offline will be kept and submitted later.
 Invalid requests are deleted.
 
-Both :command:`saveRecord` and :command:`submitAllRecords` are asynchronous
-operations, so you should ensure that :command:`saveRecord` is complete before you
-invoke :command:`submitAllRecords`. The following code sample shows the methods
+Both `saveRecord` and `submitAllRecords` are asynchronous
+operations, so you should ensure that `saveRecord` is complete before you
+invoke `submitAllRecords`. The following code sample shows the methods
 used correctly together.
 
-     .. container:: option
-
-        Swift
-            .. code-block:: swift
-
+```swift
                 // Create an array to store a batch of objects.
                 var tasks = Array<AWSTask<AnyObject>>()
                 for i in 0...100 {
@@ -208,25 +194,7 @@ used correctly together.
                     }
                     return nil
                 })
-
-
-        Objective-C
-            .. code-block:: objc
-
-                // Create an array to store a batch of objects.
-                NSMutableArray *tasks = [NSMutableArray new];
-                for (int32_t i = 0; i < 100; i++) {
-                    [tasks addObject:[kinesisRecorder saveRecord:[[NSString stringWithFormat:@"TestString-%02d", i] dataUsingEncoding:NSUTF8StringEncoding]
-                                              streamName:@"YourStreamName"]];
-                }
-                [[[AWSTask taskForCompletionOfAllTasks:tasks] continueWithSuccessBlock:^id(AWSTask *task) {
-                    return [kinesisRecorder submitAllRecords];
-                }] continueWithBlock:^id(AWSTask *task) {
-                    if (task.error) {
-                        NSLog(@"Error: [%@]", task.error);
-                    }
-                    return nil;
-                }];
+```
 
 To learn more about working with Amazon Kinesis, see the [Amazon Kinesis Developer Resources]
 (http://aws.amazon.com/kinesis/developer-resources/).
