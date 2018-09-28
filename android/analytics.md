@@ -27,11 +27,11 @@ Gather the data that helps improve your app's usability, monetization, and engag
 3. When configuration for analytics is complete, a message appears confirming that you have configured local CLI metadata for this category. You can confirm this by viewing status.
 
     ```bash
-           $ amplify status
-          | Category  | Resource name   | Operation | Provider plugin   |
-          | --------- | --------------- | --------- | ----------------- |
-          | Auth      | cognitoabcd0123 | Create    | awscloudformation |
-          | Analytics | yourprojectname | Create    | awscloudformation |
+    $ amplify status
+    | Category  | Resource name   | Operation | Provider plugin   |
+    | --------- | --------------- | --------- | ----------------- |
+    | Auth      | cognitoabcd0123 | Create    | awscloudformation |
+    | Analytics | yourprojectname | Create    | awscloudformation |
     ```
 
 4. To create your backend AWS resources run the following:
@@ -67,17 +67,17 @@ Use the following steps to add analytics to your mobile app and monitor the resu
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     ```
 
-3. Add calls to capture session starts and stops. A session is one use of an app by the user. A session begins when an app is launched (or brought to the foreground), and ends when the app is terminated (or goes to the background). To accommodate for brief interruptions, like a text message, an inactivity period of up to 5 seconds is not counted as a new session. :guilabel:`Total daily sessions` shows the number of sessions your app has each day. :guilabel:`Average sessions per daily active user` shows the mean number of sessions per user per day.
+3. Add calls to capture session starts and stops. A session is one use of an app by the user. A session begins when an app is launched (or brought to the foreground), and ends when the app is terminated (or goes to the background). To accommodate for brief interruptions, like a text message, an inactivity period of up to 5 seconds is not counted as a new session. `Total daily sessions` shows the number of sessions your app has each day. `Average sessions per daily active user` shows the mean number of sessions per user per day.
 
    The following are typical places where you can instrument your app session start and stop:
 
-   * Start a session in the :code:`Application.onCreate()` method.
+   * Start a session in the `Application.onCreate()` method.
 
-   * Start a session in the :code:`onCreate()` method of the app's first activity.
+   * Start a session in the `onCreate()` method of the app's first activity.
 
-   * Start or stop a session in the `ActivityLifecycleCallbacks <https://developer.android.com/reference/android/app/Application.ActivityLifecycleCallbacks>`__ class.
+   * Start or stop a session in the [ActivityLifecycleCallbacks](https://developer.android.com/reference/android/app/Application.ActivityLifecycleCallbacks) class.
 
-   The following example shows how to start a session in the :code:`OnCreate` event of :code:`MainActivity`.
+   The following example shows how to start a session in the `OnCreate` event of `MainActivity`.
 
     ```java
     import android.support.v7.app.AppCompatActivity;
@@ -116,13 +116,13 @@ Use the following steps to add analytics to your mobile app and monitor the resu
     }
     ```
 
-	To stop the session, use :code:`stopSession()` and :code:`submitEvents()` at the last point in the session you want to capture. In this example, we are using a single Activity, so the session will stop when the MainActivity is destroyed. :code:`onDestroy()` is usually called when the back button is pressed while in the activity.
-	
+	To stop the session, use `stopSession()` and `submitEvents()` at the last point in the session you want to capture. In this example, we are using a single Activity, so the session will stop when the MainActivity is destroyed. `onDestroy()` is usually called when the back button is pressed while in the activity.
+
 	```java
 	@Override
 	protected void onDestroy() {
 	    super.onDestroy();
-	
+
 	    pinpointManager.getSessionClient().stopSession();
 	    pinpointManager.getAnalyticsClient().submitEvents();
 	}
@@ -194,4 +194,3 @@ public void logMonetizationEvent() {
 ```
 
 ## Kinesis
-

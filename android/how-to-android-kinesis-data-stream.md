@@ -16,8 +16,8 @@ Sending one data request for each action could adversely impact battery life. Mo
 could be lost if the device goes offline. Thus, using the high-level Kinesis client for batching can
 preserve both battery life and data.
 
-For information about Kinesis Region availability, see  [AWS Service Region Availability]
-(http://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/).
+For information about Kinesis Region availability, see  
+[AWS Service Region Availability](http://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/).
 
 To get started using the Amazon Kinesis mobile client, you'll need to integrate the SDK for Android
 into your app, set the appropriate permissions, and import the necessary libraries.
@@ -33,11 +33,9 @@ destination that you specified.
 `KinesisFirehoseRecorder` is the high level client for Kinesis Data Firehose. Its usage is very similar to
 that of `KinesisRecorder`.
 
-For more information about Kinesis Data Firehose, see [Amazon Kinesis Firehose]
-(http://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.html).
+For more information about Kinesis Data Firehose, see [Amazon Kinesis Firehose](http://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.html).
 
-You can also learn more about how the Kinesis services work together on the following page: [Amazon
-Kinesis services] (http://aws.amazon.com/kinesis/).
+You can also learn more about how the Kinesis services work together on the following page: [Amazon Kinesis services](http://aws.amazon.com/kinesis/).
 
 ## Getting Started
 
@@ -51,8 +49,7 @@ permissions to control which AWS services your users have access to.
 The identities of your application's users are stored and managed by an identity pool, which is a
 store of user identity data specific to your account. Every identity pool has roles that specify
 which AWS resources your users can access. Typically, a developer will use one identity pool per
-application. For more information on identity pools, see the [Cognito Developer Guide]
-(http://docs.aws.amazon.com/cognito/devguide/identity/identity-pools/).
+application. For more information on identity pools, see the [Cognito Developer Guide](http://docs.aws.amazon.com/cognito/devguide/identity/identity-pools/).
 
 To create an identity pool for your application:
 
@@ -86,7 +83,7 @@ policy allows the user to submit records to a Kinesis stream identified by `ARN
 ```
 This policy should be applied to roles assigned to the Cognito identity pool, but you need to
 replace the `Resource` value with the correct ARN for your Kinesis stream. You can apply
-policies at the [IAM console] (https://console.aws.amazon.com/iam/)
+policies at the [IAM console](https://console.aws.amazon.com/iam/)
 
 
 ### Set IAM Permissions (Amazon Kinesis Firehose)
@@ -104,26 +101,25 @@ user to submit records to an Amazon Kinesis Firehose stream identified by the Am
     }]
 }
 ```
-For more information about ARN formatting and example policies, see [Amazon Resource Names for
-Amazon Kinesis]
-(http://docs.aws.amazon.com/kinesis/latest/dev/kinesis-using-iam.html#kinesis-using-iam-arn-format).
+
+For more information about ARN formatting and example policies, see
+[Amazon Resource Names for Amazon Kinesis](http://docs.aws.amazon.com/kinesis/latest/dev/kinesis-using-iam.html#kinesis-using-iam-arn-format).
 
 To learn more about Kinesis-specific policies, see
-[Controlling Access to Amazon Kinesis Resources with IAM]
-(http://docs.aws.amazon.com/kinesis/latest/dev/kinesis-using-iam.html).
+[Controlling Access to Amazon Kinesis Resources with IAM](http://docs.aws.amazon.com/kinesis/latest/dev/kinesis-using-iam.html).
 
-To learn more about IAM policies, see [Using IAM]
-(http://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_Introduction.html).
+To learn more about IAM policies, see
+[Using IAM](http://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_Introduction.html).
 
 ### Include the SDK in Your Project
 
-Follow the instructions on the [Set Up the SDK for Android]
-(http://docs.aws.amazon.com/mobile/sdkforandroid/developerguide/setup.html) page to include the
-proper JAR files for this service and set the appropriate permissions.
+Follow the instructions on the
+[Set Up the SDK for Android](http://docs.aws.amazon.com/mobile/sdkforandroid/developerguide/setup.html)
+page to include the proper JAR files for this service and set the appropriate permissions.
 
 #### Set Permissions in Your Android Manifest
 
-In your :file:`AndroidManifest.xml` file, add the following permission:
+In your `AndroidManifest.xml` file, add the following permission:
 
 ```java
 <uses-permission android:name="android.permission.INTERNET" />
@@ -160,7 +156,7 @@ You'll use `KinesisRecorder` to save records and then send them in a batch.
 recorder.saveRecord("MyData".getBytes(),"MyStreamName");
 recorder.submitAllRecords();
 ```
-For the `saveRecord()` request above to work, you would have to have created a stream named `MyStreamName`. You can create new streams in the [Amazon Kinesis console] (https://console.aws.amazon.com/kinesis).
+For the `saveRecord()` request above to work, you would have to have created a stream named `MyStreamName`. You can create new streams in the [Amazon Kinesis console](https://console.aws.amazon.com/kinesis).
 
 If `submitAllRecords()` is called while the app is online, requests will be sent and removed from the disk. If `submitAllRecords()` is called while the app is offline, requests will be kept on disk until `submitAllRecords()` is called while online. This applies even if you lose your internet connection midway through a submit. So if you save ten requests, call `submitAllRecords()`, send five, and then lose the Internet connection, you have five requests left on disk. These remaining five will be sent the next time `submitAllRecords()` is invoked online.
 
@@ -177,6 +173,7 @@ KinesisRecorderConfig kinesisRecorderConfig = recorder.getKinesisRecorderConfig(
 Long maxStorageSize = kinesisRecorderConfig.getMaxStorageSize();
 // Do something with maxStorageSize
 ```
+
 ```kotlin
 val recorder = KinesisRecorder(
           myActivity.getDir("YOUR_UNIQUE_DIRECTORY", 0),
@@ -189,7 +186,7 @@ You'll use `KinesisRecorder` to save records and then send them in a batch.
 recorder.saveRecord("MyData".getBytes(), "MyStreamName")
 recorder.submitAllRecords()
 ```
-For the :code:`saveRecord()` request above to work, you would have to have created a stream named `MyStreamName`. You can create new streams in the [Amazon Kinesis console] (https://console.aws.amazon.com/kinesis).
+For the :code:`saveRecord()` request above to work, you would have to have created a stream named `MyStreamName`. You can create new streams in the [Amazon Kinesis console](https://console.aws.amazon.com/kinesis).
 
 If `submitAllRecords()` is called while the app is online, requests will be sent and removed from the disk. If `submitAllRecords()` is called while the app is offline, requests will be kept on disk until `submitAllRecords()` is called while online. This applies even if you lose your internet connection midway through a submit. So if you save ten requests, call `submitAllRecords()`, send five, and then lose the Internet connection, you have five requests left on disk. These remaining five will be sent the next time `submitAllRecords()` is invoked online.
 
@@ -219,7 +216,7 @@ Long bytesUsed = recorder.getDiskBytesUsed();
  val bytesUsed = recorder.diskBytesUsed
  // Do something with bytesUsed
 ```
-To learn more about working with Amazon Kinesis, see [Amazon Kinesis Developer Resources] (http://aws.amazon.com/kinesis/developer-resources/). To learn more about the Kinesis classes, see the [API Reference for the Android SDK] (http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/).
+To learn more about working with Amazon Kinesis, see [Amazon Kinesis Developer Resources](http://aws.amazon.com/kinesis/developer-resources/). To learn more about the Kinesis classes, see the [API Reference for the Android SDK](http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/).
 
 
 ## Use KinesisFirehoseRecorder
@@ -275,6 +272,6 @@ thread(start = true) {
   }
 }
 ```
-To learn more about working with Amazon Kinesis Firehose, see `Amazon Kinesis Firehose <http://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.html>`__.
+To learn more about working with Amazon Kinesis Firehose, see [Amazon Kinesis Firehose](http://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.html).
 
-To learn more about the Kinesis Firehose classes, see the `API Reference for the Android SDK <http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/>`__.
+To learn more about the Kinesis Firehose classes, see the [API Reference for the Android SDK](http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/).

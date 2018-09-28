@@ -153,11 +153,11 @@ Note that the CLI allows you to select more than one identity provider for your 
 	     dependencies {
 	          // Mobile Client for initializing the SDK
 	          implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.6.+@aar') { transitive = true }
-	
+
 	          // Cognito UserPools for SignIn
 	          implementation 'com.android.support:support-v4:24.+'
 	          implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.6.+@aar') { transitive = true }
-	
+
 	          // Sign in UI Library
 	          implementation 'com.android.support:appcompat-v7:24.+'
 	          implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.6.+@aar') { transitive = true }
@@ -296,18 +296,18 @@ Note that the CLI allows you to select more than one identity provider for your 
 	```java
 	import android.app.Activity;
 	import android.os.Bundle;
-		
+
 	import com.amazonaws.mobile.auth.ui.SignInUI;
 	import com.amazonaws.mobile.client.AWSMobileClient;
 	import com.amazonaws.mobile.client.AWSStartupHandler;
 	import com.amazonaws.mobile.client.AWSStartupResult;
-		
+
 	public class AuthenticatorActivity extends Activity {
 	    @Override
 	    protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.activity_authenticator);
-		
+
 	        // Add a call to initialize AWSMobileClient
 	        AWSMobileClient.getInstance().initialize(this, new AWSStartupHandler() {
 	            @Override
@@ -359,6 +359,6 @@ IdentityManager.getDefaultIdentityManager().signOut();
 
 ### Next Steps
 
-  * `Customize the UI <add-aws-mobile-user-sign-in-customize>`
-  * `Import Your Existing Amazon Cognito Identity Pool <how-to-cognito-integrate-an-existing-identity-pool>`
-  * `Amazon Cognito Developer Guide <http://docs.aws.amazon.com/cognito/latest/developerguide/>`__
+  * [Customize the UI](./add-aws-mobile-user-sign-in-customize)
+  * [Import Your Existing Amazon Cognito Identity Pool](./how-to-cognito-integrate-an-existing-identity-pool)
+  * [Amazon Cognito Developer Guide](./http://docs.aws.amazon.com/cognito/latest/developerguide/)
