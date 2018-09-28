@@ -11,9 +11,9 @@ which support both voice and text input and can return either voice or text. Ama
 integration with AWS Lambda to allow insertion of custom business logic into your Amazon Lex processing flow, including all of the extension to other services that Lambda makes possible.
 
 For information on Amazon Lex concepts and service configuration, see
-[How it Works] (http://docs.aws.amazon.com/lex/latest/dg/how-it-works.html) in the *Lex Developer Guide*.
+[How it Works](http://docs.aws.amazon.com/lex/latest/dg/how-it-works.html) in the *Lex Developer Guide*.
 
-For information about  Region availability, see [AWS Service Region Availability] (http://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/).
+For information about  Region availability, see [AWS Service Region Availability](http://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/).
 
 To get started using the Amazon Lex mobile client, integrate the SDK for Android
 into your app, set the appropriate permissions, and import the necessary libraries.
@@ -48,13 +48,13 @@ permissions.
 ### Set IAM Permissions for Amazon Lex
 
 To use Amazon Lex in an application, create a role and attach policies as described in Step 1 of
-[Getting Started] (http://docs.aws.amazon.com/lex/latest/dg/gs-bp-prep.html) in the *Lex Developer Guide*.
+[Getting Started](http://docs.aws.amazon.com/lex/latest/dg/gs-bp-prep.html) in the *Lex Developer Guide*.
 
-To learn more about IAM policies, see [Using IAM] (http://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_Introduction.html).
+To learn more about IAM policies, see [Using IAM](http://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_Introduction.html).
 
 ### Configure a Bot
 
-Use the [Amazon Lex console] (https://console.aws.amazon.com/lex/)__ console to configure a bot that interacts with your mobile app features. To learn more, see [Amazon Lex Developer Guide] (https://docs.aws.amazon.com/lex/latest/dg/what-is.html). For a quickstart, see [Getting Started] (https://alpha-docs-aws.amazon.com/lex/latest/dg/getting-started.html).
+Use the [Amazon Lex console](https://console.aws.amazon.com/lex/) console to configure a bot that interacts with your mobile app features. To learn more, see [Amazon Lex Developer Guide](https://docs.aws.amazon.com/lex/latest/dg/what-is.html). For a quickstart, see [Getting Started](https://alpha-docs-aws.amazon.com/lex/latest/dg/getting-started.html).
 
 Amazon Lex also supports model building APIs, which allow creation of bots, intents, and slots at runtime. This SDK does not currently offer additional support for interacting with Amazon Lex model building APIs.
 
@@ -236,7 +236,7 @@ described in the preceding sections. You can use those interfaces directly inste
   }
   ```
 
-  ```Kotlin
+  ```kotlin
   private fun init() {
     val voiceView = voiceInterface as InteractiveVoiceView
     val cp = CognitoCredentialsProvider(IDENTITY_POOL_ID, REGION)

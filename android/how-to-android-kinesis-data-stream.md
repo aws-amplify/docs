@@ -252,6 +252,7 @@ new AsyncTask<Void, Void, Void>() {
    }
 }.execute();
 ```
+
 ```kotlin
 val firehose = KinesisFirehoseRecorder(
   context.getCachedDir(),     // Working directory for recorder

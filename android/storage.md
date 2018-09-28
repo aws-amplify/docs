@@ -8,7 +8,7 @@
 getApplicationContext().startService(new Intent(getApplicationContext(), TransferService.class));
 ```
 
-See [Limitations of TransferUtility](transfer-utility-limitations) for further details.
+See [Limitations of TransferUtility](./transfer-utility-limitations) for further details.
 
 # Overview
 
@@ -86,7 +86,7 @@ Use the following steps to connect add file storage backend services to your app
 
 	```xml
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	
+
 	<service android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService" android:enabled="true" />
 	```
 
@@ -94,7 +94,7 @@ Use the following steps to connect add file storage backend services to your app
 
 To upload a file to an Amazon S3 bucket, use `AWSMobileClient` to get the `AWSConfiguration` and `AWSCredentialsProvider`,
 and then create the `TransferUtility` object. `AWSMobileClient` expects an activity context for resuming an authenticated session and creating the credentials provider.
-	
+
 The following example shows how to use the `TransferUtility` in the context of an Activity.
 If you are creating `TransferUtility` from an application context, you can construct the `AWSCredentialsProvider` and pass it into `TransferUtility` to use in forming the `AWSConfiguration` object. `TransferUtility` checks the size of the file being uploaded and automatically switches over to using multi-part uploads if the file size exceeds 5 MB.
 
