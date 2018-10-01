@@ -7,7 +7,7 @@ The XR category enables you to work with augmented reality (AR) and virtual real
 
 ## Configuration
 
-To download the required scene configuration for your Sumerian scene, visit <a href="https://console.aws.amazon.com/sumerian/home" target="_blank">Amazon Sumerian console</a>, create or open the scene you would like to use with AWS Amplify, the click *Publish* dropdown from the top right corner of the Sumerian console, then click *Host privately*:
+To download the required scene configuration for your Sumerian scene, visit <a href="https://console.aws.amazon.com/sumerian/home" target="_blank">Amazon Sumerian console</a>, create or open the scene you would like to use with AWS Amplify, click *Publish* dropdown from the top right corner of the Sumerian console, then click *Host privately*:
 
 If your scene was already published publicly, you will need to unpublish then publish again using the instructions below.
 {: .callout .callout--info}
