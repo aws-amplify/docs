@@ -11,7 +11,7 @@ You can also create Amazon Pinpoint campaigns that tie user behavior to push or 
 
 2. Use the CLI to add storage to your cloud-enabled backend and app.
 
-    In a terminal window, navigate to your project folder (the folder that typically contains your project level :file:`build.gradle`), and add the SDK to your app.
+    In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`), and add the SDK to your app.
 
     ```bash
     $ cd ./YOUR_PROJECT_FOLDER
@@ -51,7 +51,7 @@ Use the following steps to connect add push notification backend services to you
     apply plugin: 'com.google.gms.google-services'
 	```
 	
-2. Add the following to your project level :file:`build.gradle`. Make sure that you specify the `google` repository:
+2. Add the following to your project level `build.gradle`. Make sure that you specify the `google` repository:
 
 	```groovy
     buildscript {

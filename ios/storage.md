@@ -68,7 +68,7 @@ iOS - Swift
 
 Use the following steps to connect add file storage backend services to your app.
 
-1. Add the following to :file:`Podfile` that you configure to install the AWS Mobile SDK:
+1. Add the following to `Podfile` that you configure to install the AWS Mobile SDK:
 
 	```ruby
    platform :ios, '9.0'

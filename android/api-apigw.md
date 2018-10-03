@@ -1,8 +1,8 @@
 # Add Cloud APIs to Your Mobile App with Amazon API Gateway and AWS Lambda
 
-# Overview
+## Overview
 
-Add RESTful APIs handled by your serverless |LAM| functions. The CLI deploys your APIs and handlers using [Amazon API Gateway](http://docs.aws.amazon.com/apigateway/latest/developerguide/) and [AWS Lambda](http://docs.aws.amazon.com/lambda/latest/dg/).
+Add RESTful APIs handled by your serverless Lambda functions. The CLI deploys your APIs and handlers using [Amazon API Gateway](http://docs.aws.amazon.com/apigateway/latest/developerguide/) and [AWS Lambda](http://docs.aws.amazon.com/lambda/latest/dg/).
 
 ## Set Up Your Backend
 
@@ -74,7 +74,12 @@ Use the following steps to add Cloud Logic to your app.
 
     The following code shows how to invoke a Cloud Logic API using your API's client class,
     model, and resource paths.
-
+<div class="nav-tab create" data-group='create'>
+<ul class="tabs">
+    <li class="tab-link java current" data-tab="java">Java</li>
+    <li class="tab-link kotlin" data-tab="kotlin">Kotlin</li>
+</ul>
+<div id="java" class="tab-content current">
     ```java
     import android.support.v7.app.AppCompatActivity;
     import android.os.Bundle;
@@ -186,3 +191,80 @@ Use the following steps to add Cloud Logic to your app.
         }
     }
     ```
+</div>
+<div id="kotlin" class="tab-content">
+    ```kotlin
+    import android.os.Bundle
+    import android.support.v7.app.AppCompatActivity
+    import android.util.Log
+    import com.amazonaws.http.HttpMethodName
+    import com.amazonaws.mobile.client.AWSMobileClient
+    import com.amazonaws.mobileconnectors.apigateway.ApiClientFactory
+    import com.amazonaws.mobileconnectors.apigateway.ApiRequest
+    import com.amazonaws.util.IOUtils
+    import com.amazonaws.util.StringUtils
+
+    // TODO Replace this with your api friendly name and client class name
+    import YOUR_API_RESOURCE_NAME.YOUR_APP_NAME_XXXXClient
+    import kotlin.concurrent.thread
+
+    class MainActivity : AppCompatActivity() {
+        companion object {
+            private val TAG = MainActivity.javaClass.simpleName
+        }
+
+        // TODO Replace this with your client class name
+        private var apiClient: YOUR_APP_NAME_XXXXClient? = null
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_main)
+
+            // Initialize the AWS Mobile Client
+            AWSMobileClient.getInstance().initialize(this) { Log.d(TAG, "AWSMobileClient is instantiated and you are connected to AWS!") }.execute()
+
+            // Create the client
+            apiClient = ApiClientFactory().credentialsProvider(AWSMobileClient.getInstance().credentialsProvider)
+                    // TODO Replace this with your client class name
+                    .build(YOUR_APP_NAME_XXXXClient::class.java)
+
+            callCloudLogic()
+        }
+
+        fun callCloudLogic() {
+            val body = ""
+
+            val parameters = mapOf("lang" to "en_US")
+            val headers = mapOf("Content-Type" to "application/json")
+
+            val request = ApiRequest(apiClient?.javaClass?.simpleName)
+                    .withPath("/items")
+                    .withHttpMethod(HttpMethodName.GET)
+                    .withHeaders(headers)
+                    .withParameters(parameters)
+
+            if (body.isNotEmpty()) {
+                val content = body.toByteArray(StringUtils.UTF8)
+                request.addHeader("Content-Length", content.size.toString())
+                        .withBody(content)
+            }
+
+            thread(start = true) {
+                try {
+                    Log.d(TAG, "Invoking API")
+                    val response = apiClient?.execute(request)
+                    val responseContentStream = response?.getContent()
+                    if (responseContentStream != null) {
+                        val responseData = IOUtils.toString(responseContentStream)
+                        // Do something with the response data here
+                        Log.d(TAG, "Response: $responseData")
+                    }
+                } catch (ex: Exception) {
+                    Log.e(TAG, "Error invoking API")
+                }
+            }
+        }
+    }
+
+    ```
+</div>

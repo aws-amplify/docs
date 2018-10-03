@@ -71,7 +71,7 @@ The CLI configures three different access levels on the storage bucket; public, 
 
 Use the following steps to connect add file storage backend services to your app.
 
-1. Add the following to :file:`app/build.gradle` (Module:app):
+1. Add the following to `app/build.gradle` (Module:app):
 
 	```groovy
 	dependencies {

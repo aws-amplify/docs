@@ -17,7 +17,7 @@ Gather the data that helps improve your app's usability, monetization, and engag
     $ amplify add analytics
     ```
 
-    In a terminal window, navigate to your project folder (the folder contains your app :file:`.xcodeproj` file), and add the SDK to your app.
+    In a terminal window, navigate to your project folder (the folder contains your app `.xcodeproj` file), and add the SDK to your app.
 
     ```bash
     $ cd ./YOUR_PROJECT_FOLDER
