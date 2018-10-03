@@ -6,7 +6,7 @@ The Amplify cli is written in Node.js. It has a pluggable architecture and can b
 ***
 
 # Architecture
-![](https://github.com/aws/aws-amplify-staging/blob/master/images/AmplifyCli.jpg)
+![](https://github.com/UnleashedMind/docs/blob/master/cli/images/AmplifyCliConcept.jpg)
 ## Cli core and plugins
 The Amplify cli uses `gluegun`. It is highly modularized.  <br/>
 The cli core provides the pluggable platform, most of the cli functionalities are delivered by plugins. <br/> 
