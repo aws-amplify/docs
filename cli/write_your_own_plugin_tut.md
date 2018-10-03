@@ -1,14 +1,12 @@
 # Write your own Amplify CLI Plugin Tutorial
 
 Plugins enable you to add additional commands and functionality to existing Amplify CLI. 
-The Amplify CLI is using [Gluegun](https://infinitered.github.io/gluegun/) by Infinitered as the CLI framework which supports a [plugin based architecture](https://infinitered.github.io/gluegun/#/tutorial-making-a-plugin).
 This tutorial goes through the steps needed to create a utility plugin like the [`amplify-codegen` ](https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-codegen) plugin.
 
 # Steps to create an Amplify CLI Plugin
 
 ## Step 1: Amplify CLI
 
-  
 ```bash
 $ npm install -g @aws-amplify/cli
 
@@ -20,8 +18,8 @@ Let's create a utility plugin having add/update/remove commands. It'll be called
 NOTE: This is the naming scheme we recommend for amplify-powered plugins -- put the name of your CLI, a dash, and then the name of your plugin. We support this naming scheme right out of the box.
 
 ```bash
-$ mkdir amplify-myplugin
-$ cd amplify-myplugin
+$ mkdir amplify-utility
+$ cd amplify-utility
 $ npm init
 ```
 
@@ -53,18 +51,6 @@ module.exports = {
   });
 }
 
-```
-  - Here's how the plugin/package directory structure should look like
-   ```
-   |_amplify-utility/
-    |_package.json
-    |_commands/
-      |_utility/
-        |_ add.js
-        |_ update.js
-        |_ remove.js  
-   ```
-   Note: The commands directory can have multiple command files with the above-mentioned structure
    
 ## Step 4: Create an extension
 
@@ -100,6 +86,21 @@ module.exports = {
 }
 
 ```
+
+Here's how the plugin/package directory structure should look like at the end
+ ```
+ |_amplify-utility/
+  |_package.json
+  |_commands/
+    |_utility/
+      |_ add.js
+      |_ update.js
+      |_ remove.js
+    |_extensions
+      |_customprint-extension.js
+      
+ ```
+ 
 ## Step 5: Test your plugin
 
 Go to the root of your plugin/package and run the following commands
