@@ -1,3 +1,7 @@
+<a href="https://aws-amplify.github.io/" target="_blank">
+    <img src="https://s3.amazonaws.com/aws-mobile-hub-images/aws-amplify-logo.png" alt="AWS Amplify" width="550" >
+</a>
+
 # Write your own Amplify CLI Plugin Tutorial
 
 Plugins enable you to add additional commands and functionality to existing Amplify CLI. 
