@@ -29,7 +29,7 @@ module.exports = {
         run: async (context) => {
         // All the logic for your CLI command should go in here
         console.log('Welcome to my plugin!!');
- },
+      },
 }
   ```
   - Here's how the plugin/package directory structure should look like
