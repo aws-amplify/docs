@@ -5,7 +5,7 @@ This tutorial goes through the steps needed to create a utility plugin like the 
 
 # Steps to create an Amplify CLI Plugin
 
-## Step 1: Amplify CLI
+## Step 1: Install Amplify CLI
 
 ```bash
 $ npm install -g @aws-amplify/cli
@@ -50,6 +50,7 @@ module.exports = {
     console.log('Adding Amplify utility');
   });
 }
+```
 
    
 ## Step 4: Create an extension
