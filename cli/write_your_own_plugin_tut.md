@@ -18,7 +18,7 @@ This tutorial goes through the steps needed to create a utility plugin like the 
     "license": "whatever"
   }
   ```
-  - mkdir commands/ inside amplify-myplugin/
+  - `mkdir commands` inside amplify-myplugin/
   - create a file inside amplify/myplugin/commands/ - `myplugin.js`
   - Fill in the `myplugin.js` file with the collowing code
   ```js
