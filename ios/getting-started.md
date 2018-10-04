@@ -1,4 +1,4 @@
-# iOS: Get Started
+# Get Started
 
 Get started building a cloud-powered iOS app using the AWS Amplify CLI and the AWS SDK for iOS. This page guides you through setting up an initial backend and integrating the SDK into your app.
 

@@ -1,5 +1,9 @@
 # Add Analytics to Your Mobile App with Amazon Pinpoint
-
+<div class="nav-tab create" data-group='create'>
+<ul class="tabs">
+    <li class="tab-link java current" data-tab="java">Java</li>
+    <li class="tab-link kotlin" data-tab="kotlin">Kotlin</li>
+</ul>
 ## Pinpoint
 
 Gather the data that helps improve your app's usability, monetization, and engagement with your users. The CLI deploys your analytics backend using [Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html).
@@ -45,7 +49,7 @@ Gather the data that helps improve your app's usability, monetization, and engag
 Use the following steps to add analytics to your mobile app and monitor the results through Amazon Pinpoint.
 
 #### Add Analytics
-
+<div id="java" class="tab-content current">
 1. Set up AWS Mobile SDK components by including the following libraries in your `app/build.gradle` dependencies list.
 
     ```groovy
@@ -127,7 +131,86 @@ Use the following steps to add analytics to your mobile app and monitor the resu
 	    pinpointManager.getAnalyticsClient().submitEvents();
 	}
 	```
+</div>
+<div id="kotlin" class="tab-content">
+1. Set up AWS Mobile SDK components as follows.
 
+    1. Include the following libraries in your :file:`app/build.gradle` dependencies list.
+
+        ```groovy
+        dependencies {
+            implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.6.+'
+            implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.6.+@aar') { transitive = true }
+            // other dependencies . . .
+        }
+        ```
+        * `aws-android-sdk-pinpoint` library enables sending analytics to Amazon Pinpoint.
+        * `aws-android-sdk-mobile-client` library gives access to the AWS credentials provider and configurations.
+
+    2. Add required permissions to your app manifest.
+
+        The AWS Mobile SDK required the `INTERNET` and `ACCESS_NETWORK_STATE` permissions.  These are defined in the `AndroidManifest.xml` file.
+
+        ```xml
+        <uses-permission android:name="android.permission.INTERNET"/>
+        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+        ```
+
+2. Add calls to capture session starts and stops. A session is one use of an app by the user. A session begins when an app is launched (or brought to the foreground), and ends when the app is terminated (or goes to the background). To accommodate for brief interruptions, like a text message, an inactivity period of up to 5 seconds is not counted as a new session. Total daily sessions shows the number of sessions your app has each day. Average sessions per daily active user shows the mean number of sessions per user per day.
+
+   Three typical places to instrument your app session start and stop are:
+
+   * Start a session in the `Application.onCreate()` method.
+
+   * Start a session in the `onCreate()` method of the app's first activity.
+
+   * Start or stop a session in the [ActivityLifecycleCallbacks](https://developer.android.com/reference/android/app/Application.ActivityLifecycleCallbacks) class.
+
+   The following example shows how to start a session in the `OnCreate` event of `MainActivity`.
+
+      ```kotlin
+      import android.support.v7.app.AppCompatActivity;
+      import android.os.Bundle;
+      import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
+      import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
+      import com.amazonaws.mobile.client.AWSMobileClient;
+
+      class MainActivity : AppCompatActivity() {
+          companion object {
+              private val TAG = MainActivity.javaClass.simpleName
+              var pinpointManager: PinpointManager? = null
+          }
+
+          override fun onCreate(savedInstanceState: Bundle?) {
+              super.onCreate(savedInstanceState)
+              setContentView(R.layout.activity_main)
+
+              // Initialize the AWS Mobile client
+              AWSMobileClient.getInstance().initialize(this) { Log.d(TAG, "AWSMobileClient is instantiated and you are connected to AWS!") }.execute()
+
+              val config = PinpointConfiguration(
+                      this@MainActivity,
+                      AWSMobileClient.getInstance().credentialsProvider,
+                      AWSMobileClient.getInstance().configuration
+              )
+
+              pinpointManager = PinpointManager(config)
+              pinpointManager?.sessionClient?.startSession()
+          }
+      }
+      ```
+   To stop the session, use `stopSession()` and `submitEvents()` at the last point in the session that you want to capture. In this example, we are using a single Activity, so the session will stop when the MainActivity is destroyed. `onDestroy()` is usually called when the back button is pressed while in the activity.
+
+   ```kotlin
+
+      override fun onDestroy() {
+          super.onDestroy()
+
+          pinpointManager?.sessionClient?.stopSession()
+          pinpointManager?.analyticsClient?.submitEvents()
+      }
+  ```  
+</div>
 #### Monitor Analytics
 
 Build and run your app to see usage metrics in Amazon Pinpoint. When you run the previous code samples, the console shows a logged Session.
@@ -149,7 +232,7 @@ Build and run your app to see usage metrics in Amazon Pinpoint. When you run the
 Instrument your code to capture app usage event information, including attributes you define.  Use graphs of your custom usage event data  in the Amazon Pinpoint console. Visualize how your users' behavior aligns with a model you design using [Amazon Pinpoint Funnel Analytics](https://docs.aws.amazon.com/pinpoint/latest/userguide/analytics-funnels.html), or use [stream the data](https://docs.aws.amazon.com/pinpoint/latest/userguide/analytics-streaming.html) for deeper analysis.
 
 Use the following steps to implement Amazon Pinpoint custom analytics for your app.
-
+<div id="java" class="tab-content current">
 ```java
 import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsEvent;
 
@@ -166,14 +249,31 @@ public void logEvent() {
    pinpointManager.getAnalyticsClient().recordEvent(event);
 }
 ```
+</div>
+<div id="kotlin" class="tab-content">
+```kotlin
+import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsEvent;
 
+/**
+ * Call this method to log a custom event to the analytics client.
+ */
+fun logEvent() {
+    pinpointManager?.analyticsClient?.let {
+        val event = it.createEvent("EventName")
+            .withAttribute("DemoAttribute1", "DemoAttributeValue1")
+            .withAttribute("DemoAttribute2", "DemoAttributeValue2")
+            .withMetric("DemoMetric1", Math.random());
+        it.recordEvent(event)
+}
+```
+</div>
 Build, run, and use your app. Then, view your custom events on the `Events` tab of the Amazon Pinpoint console (choose `Analytics`>`Events`). Look for the name of your event in the `Events` menu.
 
 ### Enable Revenue Analytics
 
 Amazon Pinpoint supports the collection of monetization event data. Use the following steps to place
 and design analytics related to purchases through your app.
-
+<div id="java" class="tab-content current">
 ```java
 import com.amazonaws.mobileconnectors.pinpoint.analytics.monetization.AmazonMonetizationEventBuilder;
 
@@ -192,7 +292,27 @@ public void logMonetizationEvent() {
     pinpointManager.getAnalyticsClient().recordEvent(event);
 }
 ```
+</div>
+<div id="kotlin" class="tab-content">
+```kotlin
+import com.amazonaws.mobileconnectors.pinpoint.analytics.monetization.AmazonMonetizationEventBuilder
 
+/**
+ * Call this method to log a monetized event to the analytics client.
+ */
+fun logMonetizationEvent() {
+    pinpointManager?.analyticsClient?.let {
+        val event = AmazonMonetizationEventBuilder.create(it)
+                .withCurrency("USD")
+                .withItemPrice(10.00)
+                .withProductId("DEMO_PRODUCT_ID")
+                .withQuantity(1.0)
+                .withProductId("DEMO_TRANSACTION_ID").build();
+        it.recordEvent(event)
+    }
+}
+```
+</div>
 ## Kinesis
 
 ### Overview
@@ -221,7 +341,7 @@ into your app, set the appropriate permissions, and import the necessary librari
 #### What is Kinesis Data Firehose?
 
 Amazon Kinesis Data Firehose is a fully managed service for delivering real-time streaming data to destinations such
-as |S3| and |RS|. With Kinesis Data Firehose, you do not need to write any applications or manage any resources. You
+as Amazon S3 and Amazon Redshift. With Kinesis Data Firehose, you do not need to write any applications or manage any resources. You
 configure your data producers to send data to Firehose and it automatically delivers the data to the
 destination that you specified.
 
@@ -332,10 +452,10 @@ import com.amazonaws.regions.Regions;
 
 Once you've imported the necessary libraries and have your credentials object, you can instantiate `KinesisRecorder`. `KinesisRecorder` is a high-level client meant for storing PutRecord requests on an Android device. Storing requests on the device lets you retain data when the device is offline, and it can also increase performance and battery efficiency since the network doesn't need to be awakened as frequently.
 
-`KinesisRecorder` uses synchronous calls, so you shouldn't call :code:`KinesisRecorder` methods on the main thread.
+`KinesisRecorder` uses synchronous calls, so you shouldn't call `KinesisRecorder` methods on the main thread.
 
-When you create the :code:`KinesisRecorder` client, you'll pass in a directory and an AWS region. The directory should be empty the first time you instantiate `KinesisRecorder`; it should be private to your application; and, to prevent collision, it should be used only by `KinesisRecorder`.  The following snippet creates a directory and instantiates the `KinesisRecorder` client, passing in a Cognito credentials object (`cognitoProvider`), a region enum, and the directory.
-
+When you create the `KinesisRecorder` client, you'll pass in a directory and an AWS region. The directory should be empty the first time you instantiate `KinesisRecorder`; it should be private to your application; and, to prevent collision, it should be used only by `KinesisRecorder`.  The following snippet creates a directory and instantiates the `KinesisRecorder` client, passing in a Cognito credentials object (`cognitoProvider`), a region enum, and the directory.
+<div id="java" class="tab-content current">
 ```java
 String kinesisDirectory = "YOUR_UNIQUE_DIRECTORY";
 KinesisRecorder recorder = new KinesisRecorder(
@@ -354,20 +474,22 @@ For the `saveRecord()` request above to work, you would have to have created a s
 
 If `submitAllRecords()` is called while the app is online, requests will be sent and removed from the disk. If `submitAllRecords()` is called while the app is offline, requests will be kept on disk until `submitAllRecords()` is called while online. This applies even if you lose your internet connection midway through a submit. So if you save ten requests, call `submitAllRecords()`, send five, and then lose the Internet connection, you have five requests left on disk. These remaining five will be sent the next time `submitAllRecords()` is invoked online.
 
-To see how much space the :code:`KinesisRecorder` client is allowed to use, you can call :code:`getDiskByteLimit()`.
+To see how much space the `KinesisRecorder` client is allowed to use, you can call `getDiskByteLimit()`.
 
 ```java
 Long byteLimit = recorder.getDiskByteLimit();
 // Do something with byteLimit
 ```
-Alternatively, you can retrieve the same information by getting the :code:`KinesisRecorderConfig` object for the recorder and calling :code:`getMaxStorageSize():`
+Alternatively, you can retrieve the same information by getting the `KinesisRecorderConfig` object for the recorder and calling `getMaxStorageSize():`
 
 ```java
 KinesisRecorderConfig kinesisRecorderConfig = recorder.getKinesisRecorderConfig();
 Long maxStorageSize = kinesisRecorderConfig.getMaxStorageSize();
 // Do something with maxStorageSize
 ```
+</div>
 
+<div id="kotlin" class="tab-content">
 ```kotlin
 val recorder = KinesisRecorder(
           myActivity.getDir("YOUR_UNIQUE_DIRECTORY", 0),
@@ -380,43 +502,48 @@ You'll use `KinesisRecorder` to save records and then send them in a batch.
 recorder.saveRecord("MyData".getBytes(), "MyStreamName")
 recorder.submitAllRecords()
 ```
-For the :code:`saveRecord()` request above to work, you would have to have created a stream named `MyStreamName`. You can create new streams in the [Amazon Kinesis console](https://console.aws.amazon.com/kinesis).
+For the `saveRecord()` request above to work, you would have to have created a stream named `MyStreamName`. You can create new streams in the [Amazon Kinesis console](https://console.aws.amazon.com/kinesis).
 
 If `submitAllRecords()` is called while the app is online, requests will be sent and removed from the disk. If `submitAllRecords()` is called while the app is offline, requests will be kept on disk until `submitAllRecords()` is called while online. This applies even if you lose your internet connection midway through a submit. So if you save ten requests, call `submitAllRecords()`, send five, and then lose the Internet connection, you have five requests left on disk. These remaining five will be sent the next time `submitAllRecords()` is invoked online.
 
-To see how much space the :code:`KinesisRecorder` client is allowed to use, you can call `getDiskByteLimit()`.
+To see how much space the `KinesisRecorder` client is allowed to use, you can call `getDiskByteLimit()`.
 
 ```kotlin
 val byteLimit = recorder.diskByteLimit
 // Do something with byteLimit
 ```
-Alternatively, you can retrieve the same information by getting the :code:`KinesisRecorderConfig` object for the recorder and calling :code:`getMaxStorageSize():`
+Alternatively, you can retrieve the same information by getting the `KinesisRecorderConfig` object for the recorder and calling `getMaxStorageSize():`
 ```kotlin
  val maxStorageSize = recorder.kinesisRecorderConfig.maxStorageSize
  // Do something with maxStorageSize
 ```
+</div>
+
 #### Storage limits
 
 If you exceed the storage limit for `KinesisRecorder`, requests will not be saved or sent. `KinesisRecorderConfig` has a default `maxStorageSize` of 8 MiB. You can configure the maximum allowed storage via the `withMaxStorageSize()` method of `KinesisRecorderConfig`.
 
 To check the number of bytes currently stored in the directory passed in to the `KinesisRecoder` constructor, call `getDiskBytesUsed()`:
-
+<div id="java" class="tab-content current">
 ```java
 Long bytesUsed = recorder.getDiskBytesUsed();
 // Do something with bytesUsed
 ```
-
+</div>
+<div id="kotlin" class="tab-content">
 ```kotlin
  val bytesUsed = recorder.diskBytesUsed
  // Do something with bytesUsed
 ```
+</div>
+
 To learn more about working with Amazon Kinesis, see [Amazon Kinesis Developer Resources](http://aws.amazon.com/kinesis/developer-resources/). To learn more about the Kinesis classes, see the [API Reference for the Android SDK](http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/).
 
 
 ### Use KinesisFirehoseRecorder
 
 To use `KinesisFirehoseRecorder`, you need to pass the object in a directory where streaming data is saved. We recommend you use an app private directory because the data is not encrypted.
-
+<div id="java" class="tab-content current">
 ```java
 // Gets a working directory for the recorder
 File directory = context.getCachedDir();
@@ -446,7 +573,8 @@ new AsyncTask<Void, Void, Void>() {
    }
 }.execute();
 ```
-
+</div>
+<div id="kotlin" class="tab-content">
 ```kotlin
 val firehose = KinesisFirehoseRecorder(
   context.getCachedDir(),     // Working directory for recorder
@@ -467,6 +595,8 @@ thread(start = true) {
   }
 }
 ```
+</div>
+
 To learn more about working with Amazon Kinesis Firehose, see [Amazon Kinesis Firehose](http://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.html).
 
 To learn more about the Kinesis Firehose classes, see the [API Reference for the Android SDK](http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/).

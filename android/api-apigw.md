@@ -1,5 +1,9 @@
 # Add Cloud APIs to Your Mobile App with Amazon API Gateway and AWS Lambda
-
+<div class="nav-tab create" data-group='create'>
+<ul class="tabs">
+    <li class="tab-link java current" data-tab="java">Java</li>
+    <li class="tab-link kotlin" data-tab="kotlin">Kotlin</li>
+</ul>
 ## Overview
 
 Add RESTful APIs handled by your serverless Lambda functions. The CLI deploys your APIs and handlers using [Amazon API Gateway](http://docs.aws.amazon.com/apigateway/latest/developerguide/) and [AWS Lambda](http://docs.aws.amazon.com/lambda/latest/dg/).
@@ -49,6 +53,7 @@ Add RESTful APIs handled by your serverless Lambda functions. The CLI deploys yo
 
 Use the following steps to add Cloud Logic to your app.
 
+<div id="java" class="tab-content current">
 1. Add the following to your `app/build.gradle`:
 
 	```groovy
@@ -74,12 +79,7 @@ Use the following steps to add Cloud Logic to your app.
 
     The following code shows how to invoke a Cloud Logic API using your API's client class,
     model, and resource paths.
-<div class="nav-tab create" data-group='create'>
-<ul class="tabs">
-    <li class="tab-link java current" data-tab="java">Java</li>
-    <li class="tab-link kotlin" data-tab="kotlin">Kotlin</li>
-</ul>
-<div id="java" class="tab-content current">
+
     ```java
     import android.support.v7.app.AppCompatActivity;
     import android.os.Bundle;
@@ -189,10 +189,36 @@ Use the following steps to add Cloud Logic to your app.
                 }
             }).start();
         }
-    }
+      }
     ```
 </div>
 <div id="kotlin" class="tab-content">
+1. Add the following to your `app/build.gradle`:
+
+	```groovy
+	dependencies {
+		implementation 'com.amazonaws:aws-android-sdk-apigateway-core:2.6.+'
+		implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.6.+@aar') { transitive = true }
+		implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.6.+@aar') { transitive = true }
+	}
+	```
+
+2. Get your API client name.
+
+    The CLI generates a client code file for each API you add. The API client name is the name of that file, without the extension.
+
+    The path of the client code file is `./src/main/java/YOUR_API_RESOURCE_NAME/YOUR_APP_NAME_XXXXClient.java`.
+
+    So, for an app named `useamplify` with an API resource named `xyz123`, the path of the code file will be `./src/main/java/xyz123/useamplifyabcdClient.java`. The API client name will be `useamplifyabcdClient`.
+
+    - Find the resource name of your API by running `amplify status`.
+    - Copy your API client name to use when invoking the API in the following step.
+
+3. Invoke a Cloud Logic API.
+
+    The following code shows how to invoke a Cloud Logic API using your API's client class,
+    model, and resource paths.
+
     ```kotlin
     import android.os.Bundle
     import android.support.v7.app.AppCompatActivity
