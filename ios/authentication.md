@@ -174,44 +174,44 @@ Note that the CLI allows you to select more than one identity provider for your 
 3. Add Facebook meta data to `Info.plist`.
 
 	To configure your Xcode project to use Facebook Login, right-choose `Info.plist` and then choose `Open As > Source Code`.
-	
+
 	Add the following entry, using your project name, Facebook ID and login scheme ID.
-	
+
 	```xml
-	    <plist version="1.0">
-	
-	    <dict>
-	    <!-- YOUR OTHER PLIST ENTRIES HERE -->
-	
-	    <!-- START OF FACEBOOK PLIST ENTRIES HERE -->
-	    <!-- 0123456789012345 BELOW IS EQUIVALENT TO YOUR APP ID -->
-	    <key>FacebookAppID</key>
-	    <string>0123456789012345</string>
-	    <key>FacebookDisplayName</key>
-	    <string>YOUR-PROJECT-NAME</string>
-	    <key>LSApplicationQueriesSchemes</key>
-	    <array>
-	        <string>fbapi</string>
-	        <string>fb-messenger-api</string>
-	        <string>fbauth2</string>
-	        <string>fbshareextension</string>
-	    </array>
-	    <!-- END OF FACEBOOK PLIST ENTRIES HERE -->
-	
-	    <!-- ADD AN ENTRY TO CFBundleURLTypes for Facebook -->
-	    <!-- IF YOU DO NOT HAVE CFBundleURLTypes, YOU CAN COPY THE WHOLE BLOCK BELOW -->
-	    <key>CFBundleURLTypes</key>
-	    <array>
-	        <dict>
-	            <key>CFBundleURLSchemes</key>
-	            <array>
-	                <string>fb0123456789012345</string>
-	            </array>
-	        </dict>
-	    </array>
-	
-	    <!-- ... -->
-	    </dict>
+  <plist version="1.0">
+
+  <dict>
+  <!-- YOUR OTHER PLIST ENTRIES HERE -->
+
+  <!-- START OF FACEBOOK PLIST ENTRIES HERE -->
+  <!-- 0123456789012345 BELOW IS EQUIVALENT TO YOUR APP ID -->
+  <key>FacebookAppID</key>
+  <string>0123456789012345</string>
+  <key>FacebookDisplayName</key>
+  <string>YOUR-PROJECT-NAME</string>
+  <key>LSApplicationQueriesSchemes</key>
+  <array>
+      <string>fbapi</string>
+      <string>fb-messenger-api</string>
+      <string>fbauth2</string>
+      <string>fbshareextension</string>
+  </array>
+  <!-- END OF FACEBOOK PLIST ENTRIES HERE -->
+
+  <!-- ADD AN ENTRY TO CFBundleURLTypes for Facebook -->
+  <!-- IF YOU DO NOT HAVE CFBundleURLTypes, YOU CAN COPY THE WHOLE BLOCK BELOW -->
+  <key>CFBundleURLTypes</key>
+  <array>
+      <dict>
+          <key>CFBundleURLSchemes</key>
+          <array>
+              <string>fb0123456789012345</string>
+          </array>
+      </dict>
+  </array>
+
+  <!-- ... -->
+  </dict>
 	```
 
 ## Set Up Google Login in Your Mobile App
@@ -239,10 +239,10 @@ Note that the CLI allows you to select more than one identity provider for your 
 	To configure your Xcode project to use Google Login, open its `Info.plist` file using **Right-click > Open As > Source Code.** Add the following entry. Substitute your project name for the placeholder string.
 
 	```xml
-	
+
 	<plist version="1.0">
 	<!-- YOUR OTHER PLIST ENTRIES HERE -->
-	
+
 	<!-- ADD AN ENTRY TO CFBundleURLTypes for Google -->
 	<!-- IF YOU DO NOT HAVE CFBundleURLTypes, YOU CAN COPY THE WHOLE BLOCK BELOW -->
 	<key>CFBundleURLTypes</key>
@@ -254,48 +254,48 @@ Note that the CLI allows you to select more than one identity provider for your 
 	    </array>
 	    </dict>
 	</array>
-	
+
 	<!-- ... -->
 	```
 
 ## Add sign-in
 
 1. Add code to create an instance of `AWSMobileClient` in the `application:open url` function  of your `AppDelegate.swift`, to resume a previously signed-in authenticated session.
-	
+
 	Then add another instance of `AWSMobileClient` in the `didFinishLaunching` function to register the sign in providers, and to fetch an Amazon Cognito credentials that AWS will use to authorize access once the user signs in.
-	
+
 	```swift
 	 import UIKit
 	 import AWSMobileClient
-	
+
 	 @UIApplicationMain
-	
+
 	 class AppDelegate: UIResponder, UIApplicationDelegate {
-	
+
 	     // Add an AWSMobileClient call in application:open url
 	     func application(_ application: UIApplication, open url: URL,
 	         sourceApplication: String?, annotation: Any) -> Bool {
-	
+
 	         return AWSMobileClient.sharedInstance().interceptApplication(
 	             application, open: url,
 	             sourceApplication: sourceApplication,
 	             annotation: annotation)
-	
+
 	     }
-	
+
 	     // Add an AWSMobileClient call in application:didFinishLaunching
 	     func application(
 	         _ application: UIApplication,
 	             didFinishLaunchingWithOptions launchOptions:
 	                 [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-	
+
 	          return AWSMobileClient.sharedInstance().interceptApplication(
 	              application, didFinishLaunchingWithOptions:
 	              launchOptions)
 	     }
-	
+
 	     // Other functions in AppDelegate . . .
-	
+
 	   }
 	```
 
@@ -307,19 +307,19 @@ Note that the CLI allows you to select more than one identity provider for your 
 	import UIKit
 	import AWSAuthCore
 	import AWSAuthUI
-	
+
 	class SampleViewController: UIViewController {
-	
+
 	 override func viewDidLoad() {
-	
+
 	     super.viewDidLoad()
-	
+
 	     // Call the showSignIn method from your `viewDidLoad` method
 	     // The showSignIn() method will check if the user is logged in,
 	     // and if the user is not logged in, it will present a sign-in UI using the navigation controller the view is part of.
 	     showSignIn()
 	 }
-	
+
 	 func showSignIn() {
 	     if !AWSSignInManager.sharedInstance().isLoggedIn {
 	        AWSAuthUIViewController
@@ -339,12 +339,12 @@ Note that the CLI allows you to select more than one identity provider for your 
 
 	Choose the run icon (|play|) in the top left of the Xcode window or type Cmd+R to build and run your app. You should see our pre-built sign-in UI for your app. Checkout the next steps to learn how to :ref:`customize your UI <add-aws-mobile-user-sign-in-customize>`.
 
- * - API References
-   - * `AWSMobileClient <https://docs.aws.amazon.com/AWSiOSSDK/latest/Classes/AWSMobileClient.html>`_
+ * API References
+    * [AWSMobileClient](https://docs.aws.amazon.com/AWSiOSSDK/latest/Classes/AWSMobileClient.html)
        `A library that initializes the SDK, fetches the AWS credentials, and creates a SDK SignInUI client instance.`
-     * `Auth UserPools <https://docs.aws.amazon.com/AWSiOSSDK/latest/Classes/AWSUserPoolsUIOperations.html>`_
+    * [Auth UserPools](https://docs.aws.amazon.com/AWSiOSSDK/latest/Classes/AWSUserPoolsUIOperations.html)
        `A wrapper Library for Amazon Cognito UserPools that provides a managed Email/Password sign-in UI.`
-     * `Auth Core <https://docs.aws.amazon.com/AWSiOSSDK/latest/Classes/AWSIdentityManager.html>`_
+    * [Auth Core](https://docs.aws.amazon.com/AWSiOSSDK/latest/Classes/AWSIdentityManager.html)
        `A library that caches and federates a login provider authentication token using Amazon Cognito Federated Identities, caches the federated AWS credentials, and handles the sign-in flow.`
 
 ## Add sign-out
@@ -362,6 +362,6 @@ For a fuller example, see [Sign-out a Signed-in User](how-to-user-sign-in-sign-o
 
 ### Next Steps
 
-  * `Customize the UI <add-aws-mobile-user-sign-in-customize>`
-  * `Import Your Existing Amazon Cognito Identity Pool <how-to-cognito-integrate-an-existing-identity-pool>`
-  * `Amazon Cognito Developer Guide <http://docs.aws.amazon.com/cognito/latest/developerguide/>`__
+  * [Customize the UI](./add-aws-mobile-user-sign-in-customize)
+  * [Import Your Existing Amazon Cognito Identity Pool](./how-to-cognito-integrate-an-existing-identity-pool)
+  * [Amazon Cognito Developer Guide](http://docs.aws.amazon.com/cognito/latest/developerguide/)

@@ -1,12 +1,12 @@
 # How to Integrate Your Existing Identity Pool
 
 
-**Just Getting Started?** | `Use streamlined steps <add-aws-mobile-user-sign-in>` to install the SDK and integrate Amazon Cognito.
+**Just Getting Started?** | [Use streamlined steps](./add-aws-mobile-user-sign-in) to install the SDK and integrate Amazon Cognito.
 ------------ | -------------
 
-The `Get Started <add-aws-mobile-user-sign-in>` section of this guide allows you to create new resources and complete the steps described on this page in minutes. If you want to import existing resources or create them from scratch, this page will walk you through the following steps:
+The [Get Started](./add-aws-mobile-user-sign-in) section of this guide allows you to create new resources and complete the steps described on this page in minutes. If you want to import existing resources or create them from scratch, this page will walk you through the following steps:
 
-    * Set up short-lived credentials for accessing your AWS resources using a [Cognito Identity Pool] (http://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html).
+    * Set up short-lived credentials for accessing your AWS resources using a [Cognito Identity Pool](http://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html).
 
     * Create an AWS Mobile configuration file that ties your app code to the identity pool that enables users to access your AWS resources.
 
@@ -17,11 +17,11 @@ The `Get Started <add-aws-mobile-user-sign-in>` section of this guide allows you
 
 ### Import or Create a New Identity Pool
 
-* If you already have an Amazon Cognito Identity Pool and know its ID and region, you can skip to :ref:`how-to-auth-connect-to-your-backend`.
+* If you already have an Amazon Cognito Identity Pool and know its ID and region, you can skip to `how-to-auth-connect-to-your-backend`.
 
 To create a new identity pool:
 
-1. Go to [Amazon Cognito Console] (https://console.aws.amazon.com/cognito) and choose `Manage Federated Identities`.
+1. Go to [Amazon Cognito Console](https://console.aws.amazon.com/cognito) and choose `Manage Federated Identities`.
 
 2. Choose `Create new Identity pool` on the top left of the console.
 
@@ -70,7 +70,7 @@ Take the following steps to connect your app to its backend.
 
      - Need to find your pool's ID and region?
 
-       - Go to [Amazon Cognito Console] (https://console.aws.amazon.com/cognito) and choose `Manage Federated Identities`, then choose your pool and choose `Edit identity pool`. Copy the value of `Identity pool ID`.
+       - Go to [Amazon Cognito Console](https://console.aws.amazon.com/cognito) and choose `Manage Federated Identities`, then choose your pool and choose `Edit identity pool`. Copy the value of `Identity pool ID`.
 
          Insert this region value into the following form to create the value you need for this integration.
 
@@ -171,4 +171,4 @@ class ViewController: UIViewController {
 
 ## Next Steps
 
-* For further information, see [Amazon Cognito Developer Guide] (https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html).
+* For further information, see [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html).

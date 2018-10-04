@@ -72,16 +72,16 @@ Use the following steps to connect add file storage backend services to your app
 
 	```ruby
    platform :ios, '9.0'
-	
+
       target :'YOUR-APP-NAME' do
          use_frameworks!
-	
+
          pod 'AWSS3', '~> 2.6.13'   # For file transfers
          pod 'AWSMobileClient', '~> 2.6.13'
          pod 'AWSUserPoolsSignIn', '~> 2.6.13'
-	
+
          # other pods . . .
-	
+
       end
 	```
 	Run `pod install --repo-update` before you continue.

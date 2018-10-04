@@ -1,8 +1,8 @@
 # Set Up Facebook Authentication
 
-To use the following Facebook service configuration steps to federate Facebook as a user sign-in provider for AWS services called in your app, try the AWS Amplify `User Sign-in feature <add-aws-mobile-user-sign-in>`.
+To use the following Facebook service configuration steps to federate Facebook as a user sign-in provider for AWS services called in your app, try the AWS Amplify [User Sign-in feature](./add-aws-mobile-user-sign-in).
 
-You must first register your application with Facebook by using the [Facebook Developers portal] (https://developers.facebook.com/).
+You must first register your application with Facebook by using the [Facebook Developers portal](https://developers.facebook.com/).
 
 AWS Amplify generates code that enables you to use Facebook to provide federated authentication for your mobile app users. This topic explains how to set up Facebook as an identity provider for your app.
 
@@ -11,7 +11,7 @@ when configuring authentication using the AWS Amplify CLI.
 
 **To get a Facebook app ID**
 
-1. In the [Facebook Developers portal] (https://developers.facebook.com/), sign in with your
+1. In the [Facebook Developers portal](https://developers.facebook.com/), sign in with your
    Facebook credentials.
 
 2. From `Create App`, choose `Add a New App` (note: this menu label will be
@@ -66,5 +66,4 @@ when configuring authentication using the AWS Amplify CLI.
 
 11. In the Mobile Hub console, choose `Save changes`.
 
-For more information about integrating with Facebook Login, see the [Facebook Getting Started Guide]
-(https://developers.facebook.com/docs/facebook-login).
+For more information about integrating with Facebook Login, see the [Facebook Getting Started Guide](https://developers.facebook.com/docs/facebook-login).

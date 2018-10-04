@@ -9,7 +9,7 @@ This page explains how to implement upload and download functionality and a numb
 
 The examples on this page assume you have added the AWS Mobile SDK to your mobile app. To create a new cloud storage backend for your app, see [Add User File Storage] (./add-aws-mobile-user-data-storage).
 
-**Best practice** | If you use the transfer utility multipart upload feature, take advantage of automatic cleanup features by setting up the [AbortIncompleteMultipartUpload] (https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html) action in your Amazon S3 bucket life cycle configuration.
+**Best practice** | If you use the transfer utility multipart upload feature, take advantage of automatic cleanup features by setting up the [AbortIncompleteMultipartUpload] https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html) action in your Amazon S3 bucket life cycle configuration.
 ------------ | -------------
 
 ## Upload a File
@@ -931,7 +931,7 @@ TransferObserver observer = transferUtility.upload(
 );
 ```
 
-To download the meta, use the S3 `getObjectMetadata` method. For more information, see the [API Reference] (http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/services/s3/AmazonS3Client.html#getObjectMetadata%28com.amazonaws.services.s3.model.GetObjectMetadataRequest%29).
+To download the meta, use the S3 `getObjectMetadata` method. For more information, see the [API Reference](http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/services/s3/AmazonS3Client.html#getObjectMetadata%28com.amazonaws.services.s3.model.GetObjectMetadataRequest%29).
 
 Android - Kotlin
 
@@ -957,7 +957,7 @@ val observer = transferUtility.upload(
 )
 ```
 
-To download the meta, use the S3 `getObjectMetadata` method. For more information, see the [API Reference] (http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/services/s3/AmazonS3Client.html#getObjectMetadata%28com.amazonaws.services.s3.model.GetObjectMetadataRequest%29).
+To download the meta, use the S3 `getObjectMetadata` method. For more information, see the [API Reference](http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/services/s3/AmazonS3Client.html#getObjectMetadata%28com.amazonaws.services.s3.model.GetObjectMetadataRequest%29).
 
 iOS - Swift
 
@@ -994,7 +994,7 @@ transferUtility.uploadUsingMultiPart(data:data,
 
 Android - Java
 
-To upload a file with Access Control List, use the `CannedAccessControlList` object. The [CannedAccessControlList] (http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/services/s3/model/CannedAccessControlList.html) specifies the constants defining a canned access control list. For example, if you use [CannedAccessControlList.PublicRead] (http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/services/s3/model/CannedAccessControlList.html#PublicRead) , this specifies the owner is granted `Permission.FullControl` and the `GroupGrantee.AllUsers` group grantee is granted Permission.Read access.
+To upload a file with Access Control List, use the `CannedAccessControlList` object. The [CannedAccessControlList](http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/services/s3/model/CannedAccessControlList.html) specifies the constants defining a canned access control list. For example, if you use [CannedAccessControlList.PublicRead](http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/services/s3/model/CannedAccessControlList.html#PublicRead) , this specifies the owner is granted `Permission.FullControl` and the `GroupGrantee.AllUsers` group grantee is granted Permission.Read access.
 
 Then, upload an object along with its ACL:
 
@@ -1010,7 +1010,7 @@ TransferObserver observer = transferUtility.upload(
 
 Android - Kotlin
 
-To upload a file with Access Control List, use the `CannedAccessControlList` object. The [CannedAccessControlList] (http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/services/s3/model/CannedAccessControlList.html) specifies the constants defining a canned access control list. For example, if you use [CannedAccessControlList.PublicRead] (http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/services/s3/model/CannedAccessControlList.html#PublicRead) , this specifies the owner is granted `Permission.FullControl` and the `GroupGrantee.AllUsers` group grantee is granted Permission.Read access.
+To upload a file with Access Control List, use the `CannedAccessControlList` object. The [CannedAccessControlList](http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/services/s3/model/CannedAccessControlList.html) specifies the constants defining a canned access control list. For example, if you use [CannedAccessControlList.PublicRead](http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/services/s3/model/CannedAccessControlList.html#PublicRead) , this specifies the owner is granted `Permission.FullControl` and the `GroupGrantee.AllUsers` group grantee is granted Permission.Read access.
 
 Then, upload an object along with its ACL:
 
@@ -1431,18 +1431,18 @@ transferUtility.downloadData(
 
 Android - Java
 
-If you expect your app to perform transfers that take longer than 50 minutes, use `AmazonS3Client (http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/services/s3/AmazonS3Client.html) instead of `TransferUtility (http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/mobileconnectors/s3/transferutility/TransferUtility.html).
+If you expect your app to perform transfers that take longer than 50 minutes, use [AmazonS3Client](http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/services/s3/AmazonS3Client.html) instead of [TransferUtility](http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/mobileconnectors/s3/transferutility/TransferUtility.html).
 
 `TransferUtility` generates Amazon S3 pre-signed URLs to use for background data transfer. Using |COG| Identity, you receive AWS temporary credentials. The credentials are valid for up to 60 minutes. Generated Amazon S3 pre-signed URLs cannot last longer than that time. Because of this limitation, the Amazon S3 Transfer Utility enforces 50 minute transfer timeouts, leaving a 10 minute buffer before AWS temporary credentials are regenerated. After **50 minutes**, you receive a transfer failure.
 
 Android - Kotlin
 
-If you expect your app to perform transfers that take longer than 50 minutes, use `AmazonS3Client (http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/services/s3/AmazonS3Client.html) instead of `TransferUtility (http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/mobileconnectors/s3/transferutility/TransferUtility.html).
+If you expect your app to perform transfers that take longer than 50 minutes, use [AmazonS3Client](http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/services/s3/AmazonS3Client.html) instead of [TransferUtility](http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/mobileconnectors/s3/transferutility/TransferUtility.html).
 
 `TransferUtility` generates Amazon S3 pre-signed URLs to use for background data transfer. Using |COG| Identity, you receive AWS temporary credentials. The credentials are valid for up to 60 minutes. Generated Amazon S3 pre-signed URLs cannot last longer than that time. Because of this limitation, the Amazon S3 Transfer Utility enforces 50 minute transfer timeouts, leaving a 10 minute buffer before AWS temporary credentials are regenerated. After **50 minutes**, you receive a transfer failure.
 
 iOS - Swift
 
-If you expect your app to perform transfers that take longer than 50 minutes, use `AWSS3 (https://docs.aws.amazon.com/AWSiOSSDK/latest/Classes/AWSS3.html) instead of `AWSS3TransferUtility (https://docs.aws.amazon.com/AWSiOSSDK/latest/Classes/AWSS3TransferUtility.html).
+If you expect your app to perform transfers that take longer than 50 minutes, use [AWSS3](https://docs.aws.amazon.com/AWSiOSSDK/latest/Classes/AWSS3.html) instead of [AWSS3TransferUtility](https://docs.aws.amazon.com/AWSiOSSDK/latest/Classes/AWSS3TransferUtility.html).
 
 `AWSS3TransferUtility` generates Amazon S3 pre-signed URLs to use for background data transfer. Using Amazon Cognito Identity, you receive AWS temporary credentials. The credentials are valid for up to 60 minutes. At the same time, generated S3 pre-signed URLs cannot last longer than that time. Because of this limitation, the AWSS3TransferUtility enforces **50 minutes** transfer timeout, leaving a 10 minute buffer before AWS temporary credentials are regenerated. After 50 minutes, you receive a transfer failure.

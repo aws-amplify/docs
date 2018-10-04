@@ -15,7 +15,7 @@ Amazon Lex has built-in integration with AWS Lambda to allow insertion of custom
 into your Amazon Lex processing flow, including all of the extension to other services that Lambda makes possible.
 
 For information on Amazon Lex concepts and service configuration, see
-[How it Works] (http://docs.aws.amazon.com/lex/latest/dg/how-it-works.html) in the Amazon Lex Developer Guide.
+[How it Works](http://docs.aws.amazon.com/lex/latest/dg/how-it-works.html) in the Amazon Lex Developer Guide.
 
 To get started using the Amazon Lex mobile client for iOS, you'll need to integrate the SDK for iOS
 into your app, set the appropriate permissions, and import the necessary libraries.
@@ -25,18 +25,18 @@ into your app, set the appropriate permissions, and import the necessary librari
 
 ### Include the SDK in Your Project
 
-Follow the instructions on the [Set Up the SDK for iOS] (http://docs.aws.amazon.com/mobile/sdkforios/developerguide/setup.html) page to include the frameworks for this service.
+Follow the instructions on the [Set Up the SDK for iOS](http://docs.aws.amazon.com/mobile/sdkforios/developerguide/setup.html) page to include the frameworks for this service.
 
 ### Set IAM Permissions for Amazon Lex
 
 To use Amazon Lex in an application, create a role and attach policies as described in Step 1 of
-[Getting Started] (http://docs.aws.amazon.com/lex/latest/dg/gs-bp-prep.html) in the Amazon Lex Developer Guide.
+[Getting Started](http://docs.aws.amazon.com/lex/latest/dg/gs-bp-prep.html) in the Amazon Lex Developer Guide.
 
-To learn more about IAM policies, see [Using IAM] (http://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_Introduction.html).
+To learn more about IAM policies, see [Using IAM](http://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_Introduction.html).
 
 ### Configure a Bot
 
-Use the [Amazon Lex console] (https://console.aws.amazon.com/lex/) console to configure a bot that interacts with your mobile app features. To learn more, see [Amazon Lex Developer Guide] (https://docs.aws.amazon.com/lex/latest/dg/what-is.html). For a quickstart, see [Getting Started] (https://alpha-docs-aws.amazon.com/lex/latest/dg/getting-started.html).
+Use the [Amazon Lex console](https://console.aws.amazon.com/lex/) console to configure a bot that interacts with your mobile app features. To learn more, see [Amazon Lex Developer Guide](https://docs.aws.amazon.com/lex/latest/dg/what-is.html). For a quickstart, see [Getting Started](https://alpha-docs-aws.amazon.com/lex/latest/dg/getting-started.html).
 
 Amazon Lex also supports model building APIs, which allow creation of bots, intents, and slots at runtime. This SDK does not currently offer additional support for interacting with Amazon Lex model building APIs.
 

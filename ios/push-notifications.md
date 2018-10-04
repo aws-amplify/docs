@@ -25,7 +25,7 @@ You can also create Amazon Pinpoint campaigns that tie user behavior to push or 
        ```
        > APNS
        ```
-       
+
     - Choose Certificate as your authentication method.
 
        ```
@@ -45,16 +45,16 @@ Use the following steps to connect add push notification backend services to you
 
 	```ruby
     platform :ios, '9.0'
-	
+
     target :'YOUR-APP-NAME' do
       use_frameworks!
-	
+
         pod  'AWSPinpoint', '~> 2.6.13'
         # other pods
-	
+
     end
 	```
-	
+
 	Run `pod install --repo-update` before you continue.
 
 	If you encounter an error message that begins `[!] Failed to connect to GitHub to update the CocoaPods/Specs . . .`, and your internet connectivity is working, you may need to [update openssl and Ruby](https://stackoverflow.com/questions/38993527/cocoapods-failed-to-connect-to-github-to-update-the-cocoapods-specs-specs-repo/48962041#48962041).
@@ -157,7 +157,7 @@ The following steps show how to receive push notifications targeted for your app
 
     1. For your app target, go to the `General` tab of project configuration and make sure `Automatically Manage Signing` check box is not selected.
 
-    2. In the `Signing(Release)` section, choose the production provisioning profile you created on Apple developer console. For testing push notifications on a device, you will need an `Ad Hoc Provisioining Profile <https://help.apple.com/xcode/mac/current/#/dev4335bfd3d>`__ configured with a Production AppStore and Ad Hoc certificate, and with the device(s) to be used for testing.
+    2. In the `Signing(Release)` section, choose the production provisioning profile you created on Apple developer console. For testing push notifications on a device, you will need an [Ad Hoc Provisioining Profile](https://help.apple.com/xcode/mac/current/#/dev4335bfd3d) configured with a Production AppStore and Ad Hoc certificate, and with the device(s) to be used for testing.
 
     3. In the top left corner of Xcode (where your app name is displayed next to the current build target device), choose on your app name and then select `Edit Scheme`, and then set `Build configuration` to `Release`
 

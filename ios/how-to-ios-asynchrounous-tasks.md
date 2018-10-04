@@ -5,7 +5,7 @@ To work with asynchronous operations without blocking the UI thread, the SDK pro
     - ``completionHandler``, a streamlined class which offers a simple, common pattern for most API calls.
 
     - ``AWSTask``, a class that is a renamed version of BFTask from the Bolts framework. AWSTasks provides advantages for more complex operations like chaining asynchronous requests. For complete documentation on Bolts, see the
-      [Bolts-ObjC repo] (https://github.com/BoltsFramework/Bolts-ObjC).
+      [Bolts-ObjC repo](https://github.com/BoltsFramework/Bolts-ObjC).
 
 ## Using completionHandler
 

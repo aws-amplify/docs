@@ -27,11 +27,11 @@ Gather the data that helps improve your app's usability, monetization, and engag
 3. When configuration for analytics is complete, a message appears confirming that you have configured local CLI metadata for this category. You can confirm this by viewing status.
 
     ```bash
-           $ amplify status
-          | Category  | Resource name   | Operation | Provider plugin   |
-          | --------- | --------------- | --------- | ----------------- |
-          | Auth      | cognitoabcd0123 | Create    | awscloudformation |
-          | Analytics | yourprojectname | Create    | awscloudformation |
+     $ amplify status
+    | Category  | Resource name   | Operation | Provider plugin   |
+    | --------- | --------------- | --------- | ----------------- |
+    | Auth      | cognitoabcd0123 | Create    | awscloudformation |
+    | Analytics | yourprojectname | Create    | awscloudformation |
     ```
 
 4. To create your backend AWS resources run the following:

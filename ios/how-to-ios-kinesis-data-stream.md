@@ -119,9 +119,9 @@ let firehoseRecorder = AWSFirehoseRecorder.default()
 You can configure `AWSKinesisRecorder` or `AWSFirehoseRecorder` through their properties:
 
 ```swift
-                kinesisRecorder.diskAgeLimit = TimeInterval(30 * 24 * 60 * 60); // 30 days
-                kinesisRecorder.diskByteLimit = UInt(10 * 1024 * 1024); // 10MB
-                kinesisRecorder.notificationByteThreshold = UInt(5 * 1024 * 1024); // 5MB
+kinesisRecorder.diskAgeLimit = TimeInterval(30 * 24 * 60 * 60); // 30 days
+kinesisRecorder.diskByteLimit = UInt(10 * 1024 * 1024); // 10MB
+kinesisRecorder.notificationByteThreshold = UInt(5 * 1024 * 1024); // 5MB
 ```
 
 The `diskAgeLimit` property sets the expiration for cached requests.
@@ -161,7 +161,6 @@ To submit all the records stored on the device, call
 
 ```swift
 kinesisRecorder.submitAllRecords()
-
 firehoseRecorder.submitAllRecords()
 ```
 
@@ -176,20 +175,20 @@ invoke `submitAllRecords`. The following code sample shows the methods
 used correctly together.
 
 ```swift
-                // Create an array to store a batch of objects.
-                var tasks = Array<AWSTask<AnyObject>>()
-                for i in 0...100 {
-                    tasks.append(kinesisRecorder!.saveRecord(String(format: "TestString-%02d", i).data(using: .utf8), streamName: "YourStreamName")!)
-                }
+// Create an array to store a batch of objects.
+var tasks = Array<AWSTask<AnyObject>>()
+for i in 0...100 {
+    tasks.append(kinesisRecorder!.saveRecord(String(format: "TestString-%02d", i).data(using: .utf8), streamName: "YourStreamName")!)
+}
 
-                AWSTask(forCompletionOfAllTasks: tasks).continueOnSuccessWith(block: { (task:AWSTask<AnyObject>) -> AWSTask<AnyObject>? in
-                    return kinesisRecorder?.submitAllRecords()
-                }).continueWith(block: { (task:AWSTask<AnyObject>) -> Any? in
-                    if let error = task.error as? NSError {
-                        print("Error: \(error)")
-                    }
-                    return nil
-                })
+AWSTask(forCompletionOfAllTasks: tasks).continueOnSuccessWith(block: { (task:AWSTask<AnyObject>) -> AWSTask<AnyObject>? in
+    return kinesisRecorder?.submitAllRecords()
+}).continueWith(block: { (task:AWSTask<AnyObject>) -> Any? in
+    if let error = task.error as? NSError {
+        print("Error: \(error)")
+    }
+    return nil
+})
 ```
 
 To learn more about working with Amazon Kinesis, see the [Amazon Kinesis Developer Resources](http://aws.amazon.com/kinesis/developer-resources/).

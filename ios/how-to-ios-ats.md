@@ -1,6 +1,6 @@
 # iOS: Preparing Your App to Work with ATS
 
-If you use the iOS 9 SDK (or Xcode 7) or later, the Apple [App Transport Security (ATS)] (https://developer.apple.com/library/prerelease/ios/technotes/App-Transport-Security-Technote/)
+If you use the iOS 9 SDK (or Xcode 7) or later, the Apple [App Transport Security (ATS)](https://developer.apple.com/library/prerelease/ios/technotes/App-Transport-Security-Technote/)
 feature might impact how your apps interact with some AWS services.
 
 If your app targeted for iOS 9+ attempts to connect to an AWS service endpoint that does not yet meet all the ATS requirements, the connection may fail. The following sections provide instructions to determine if your app is affected, and what steps to take to mitigate the impact of ATS on your app.
@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 ```
    If you cannot find the SSL handshake error message, it is possible that another problem caused your app to stop working. Some internal behaviors change with major operating system updates, and it is common for previously unseen issues to surface.
 
-   If you are unable to resolve such issues, you can post code snippets, and steps to reproduce the issue on [our forum] (https://forums.aws.amazon.com/forum.jspa?forumID=88) or [GitHub] (https://github.com/aws/aws-sdk-ios/issues) so that we can assist you in identifying the issue. Remember to include the versions of Xcode, iOS, and the AWS Mobile SDK.
+   If you are unable to resolve such issues, you can post code snippets, and steps to reproduce the issue on [our forum](https://forums.aws.amazon.com/forum.jspa?forumID=88) or [GitHub](https://github.com/aws/aws-sdk-ios/issues) so that we can assist you in identifying the issue. Remember to include the versions of Xcode, iOS, and the AWS Mobile SDK.
 
 ## Mitigating ATS Connection Issues
 

@@ -22,64 +22,64 @@ an object key, an HTTP method, and an expiration date and time. The pre-signed U
 The following example shows how to build a pre-signed URL for an Amazon S3 download in the background.
 
 ```swift
-                AWSS3PreSignedURLBuilder.default().getPreSignedURL(getPreSignedURLRequest).continueWith { (task:AWSTask<NSURL>) -> Any? in
-                    if let error = task.error as? NSError {
-                        print("Error: \(error)")
-                        return nil
-                    }
+AWSS3PreSignedURLBuilder.default().getPreSignedURL(getPreSignedURLRequest).continueWith { (task:AWSTask<NSURL>) -> Any? in
+    if let error = task.error as? NSError {
+        print("Error: \(error)")
+        return nil
+    }
 
-                    let presignedURL = task.result
-                    print("Download presignedURL is: \(presignedURL)")
+    let presignedURL = task.result
+    print("Download presignedURL is: \(presignedURL)")
 
-                    let request = URLRequest(url: presignedURL as! URL)
-                    let downloadTask: URLSessionDownloadTask = URLSession.shared.downloadTask(with: request)
-                    downloadTask.resume()
+    let request = URLRequest(url: presignedURL as! URL)
+    let downloadTask: URLSessionDownloadTask = URLSession.shared.downloadTask(with: request)
+    downloadTask.resume()
 
-                    return nil
-                }
+    return nil
+}
 ```
 
 The preceding example uses ``GET`` as the HTTP method: ``AWSHTTPMethodGET``. For an upload request to Amazon S3,
 we would need to use a PUT method and also specify a content type.
 
 ```swift
-                getPreSignedURLRequest.httpMethod = .PUT
-                let fileContentTypeStr = "text/plain"
-                getPreSignedURLRequest.contentType = fileContentTypeStr
+getPreSignedURLRequest.httpMethod = .PUT
+let fileContentTypeStr = "text/plain"
+getPreSignedURLRequest.contentType = fileContentTypeStr
 ```
 
 Here's an example of building a pre-signed URL for a background upload to Amazon S3.
 
 ```swift
-                let getPreSignedURLRequest = AWSS3GetPreSignedURLRequest()
-                getPreSignedURLRequest.bucket = "myBucket"
-                getPreSignedURLRequest.key = "myFile.txt"
-                getPreSignedURLRequest.httpMethod = .PUT
-                getPreSignedURLRequest.expires = Date(timeIntervalSinceNow: 3600)
+let getPreSignedURLRequest = AWSS3GetPreSignedURLRequest()
+getPreSignedURLRequest.bucket = "myBucket"
+getPreSignedURLRequest.key = "myFile.txt"
+getPreSignedURLRequest.httpMethod = .PUT
+getPreSignedURLRequest.expires = Date(timeIntervalSinceNow: 3600)
 
-                //Important: set contentType for a PUT request.
-                let fileContentTypeStr = "text/plain"
-                getPreSignedURLRequest.contentType = fileContentTypeStr
+//Important: set contentType for a PUT request.
+let fileContentTypeStr = "text/plain"
+getPreSignedURLRequest.contentType = fileContentTypeStr
 
-                AWSS3PreSignedURLBuilder.default().getPreSignedURL(getPreSignedURLRequest).continueWith { (task:AWSTask<NSURL>) -> Any? in
-                    if let error = task.error as? NSError {
-                        print("Error: \(error)")
-                        return nil
-                    }
+AWSS3PreSignedURLBuilder.default().getPreSignedURL(getPreSignedURLRequest).continueWith { (task:AWSTask<NSURL>) -> Any? in
+    if let error = task.error as? NSError {
+        print("Error: \(error)")
+        return nil
+    }
 
-                    let presignedURL = task.result
-                    print("Download presignedURL is: \(presignedURL)")
+    let presignedURL = task.result
+    print("Download presignedURL is: \(presignedURL)")
 
-                    var request = URLRequest(url: presignedURL as! URL)
-                    request.cachePolicy = .reloadIgnoringLocalCacheData
-                    request.httpMethod = "PUT"
-                    request.setValue(fileContentTypeStr, forHTTPHeaderField: "Content-Type")
+    var request = URLRequest(url: presignedURL as! URL)
+    request.cachePolicy = .reloadIgnoringLocalCacheData
+    request.httpMethod = "PUT"
+    request.setValue(fileContentTypeStr, forHTTPHeaderField: "Content-Type")
 
-                    let uploadTask: URLSessionTask = URLSession.shared.uploadTask(with: request, fromFile: URL(fileURLWithPath: "your/file/path/myFile.txt"))
-                    uploadTask.resume()
+    let uploadTask: URLSessionTask = URLSession.shared.uploadTask(with: request, fromFile: URL(fileURLWithPath: "your/file/path/myFile.txt"))
+    uploadTask.resume()
 
-                    return nil
-                }
+    return nil
+}
 ```
 
 ## Additional Resources
