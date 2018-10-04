@@ -1,6 +1,6 @@
 # Overview
 The Amplify cli enables front-end developers to easily set up the backend resources in the cloud. <br/>
-It is designed to work side by side with the Amplify library. Official resource categories provided by the cli can be easily consumed by the corresponding Amplify library modules. <br/>
+It is designed to work side by side with the [Amplify](https://github.com/aws-amplify/amplify-js) library. Official resource categories provided by the cli can be easily consumed by the corresponding Amplify library modules. <br/>
 The Amplify cli is written in Node.js. It has a pluggable architecture and can be easily extended with additional functionalities.
  
 ***
@@ -102,8 +102,8 @@ This command allows the user to change the project configuration set during the 
 
 # The Amplify cli artifacts
 ## amplfy folder structure
-The CLI places the following folder structure at the root directory of the user project in the init process:
-<br/><br/>
+The CLI places the following folder structure at the root directory of the project when `init` is completed successfully:
+<br/>
 amplify<br/>
 &nbsp;&nbsp;.config<br/>
 &nbsp;&nbsp;#current-cloud-backend<br/>
@@ -118,23 +118,38 @@ It contains the latest local development of the backend resources specifications
 Each plugin stores contents in its own subfolder inside this folder. 
 
 ## amplify-meta.json file
-The cli core and the plugins log metadata into this file, both the `backend` and `#current-cloud-backend` folders contains a amplify-meta.json file. It serves as a the white board for the cli core and the plugins to communicate with each other.  
+The cli core and the plugins log metadata into this file, both the `backend` and `#current-cloud-backend` directories contain a amplify-meta.json file. It serves as a the white board for the cli core and the plugins to communicate with each other.  
 ## .amplifyrc file
 The CLI places the `.amplifyrc` file at the root directory of the user project in the init process:
 It is the amplify-cli run control, this file is checked into code repo, it facilitates collaborations between team members and outside contributors of the user project.
 
 # The AWS CloudFormation provider
-Currently the only official provider plugin, amplify-provider-awscloudformation, uses the AWS CloudFormation to form and update the backend resources in the AWS for the amplify categories. 
-## How it works
-For general information of the AWS CloudFormation, check its user guide: 
+Currently the only official provider plugin, amplify-provider-awscloudformation, uses the AWS CloudFormation to form and update the backend resources in the AWS for the amplify categories. <br/>
+For more information of the AWS CloudFormation, check its user guide: 
 [AWS CloudFormation User Guide](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html)
 <br/>
+## How it works
 The amplify-provider-awscloudformation uses 
 [nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html) 
 to get its job done
-<br/>
-During the init process, 
 
+### `amplify init`
+During the init process, the root stack is created with three resources: 
+- an IAM role for un-authenticated users
+- an IAM role for authenticated users
+- a S3 bucket, the deployment bucket, to support this provider's workflow
+The provider then logs the information of the root stack and the resources into the project metadata file <br/>
+amplify/backend/amplify-meta.json <br/>
+The root stack's template can be found in this folder: <br/>
+amplify/backend/awscloudformation
+
+### `amplify <category> add`
+Once the init is complete, run the command `amplify <category> add` to add resources of a category to the backend. <br/>
+This will place the aws cloudformation template for the resources of this category in the category's subdirectory `amplify/backend/<category>`, and insert its reference into the above mentioned root stack as the nested child stack. 
+
+### `amplify push` 
+Once the resources of the categories are done been added or updated locally, run the command `amplify push` to update the backend resources in the cloud. <br/>
+The cli will first upload the latest versions of the categories' nested stack templates to the S3 deployment bucket, and then call the AWS CloudFormation API to create / update resources in the cloud.
 
 
 
