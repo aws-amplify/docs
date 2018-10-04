@@ -68,7 +68,7 @@ The plugin is then picked up by the cli core and used the same as the official p
 - `amplify run`
 - `amplify status`
 
-### Most plugs also have these commands
+### Most plugins also have these commands
 - `amplify <plugin> configure`
 - `amplify <category> add`
 - `amplify <category> remove`
@@ -94,23 +94,38 @@ The `init` command goes through these steps to setup things:
 - Generate the project metadata file, amplify-meta.json, with the outputs of the above-selected frontend plugin and provider plugin(s). The amplify-meta.json file is inside the amplify folder structure.
 - Generate the .amplifyrc file, it is written to the root directory or the project, outside of the amplify folder structure. 
 
+## Configuration
+### amplify configure
+This command will lead the user to setup a new aws iam user, then save the credentials locally in a named profile, which can then be used by a project for aws access. The user specifies if and what profile is used for a project in the init process, and can later change it using the `amplify configure project` command.
+### amplify configure project
+This command allows the user to change the project configuration set during the init process. 
+
 # The Amplify cli artifacts
 ## amplfy folder structure
+The CLI places the following folder structure at the root directory of the user project in the init process:
+<br/>
 amplify<br/>
 &nbsp;&nbsp;.config<br/>
 &nbsp;&nbsp;#current-cloud-backend<br/>
 &nbsp;&nbsp;backend<br/>
-## amplify-meta.json file
-Serves as the white board for the amplify-cli core and the plugins to log information for themselves and for communications with each other.  
-## .amplifyrc file
-Serves as the amplify-cli run control, this file is checked into code repo, it facilitates collaborations between team members and outside contributors of the user project.
+### amplify/.config folder
+It contains files that store the configuration settings.
+### amplify/#current-cloud-backend folder
+It contains the backend resources specifications in the cloud from the last synchroization by the push or pull command.
+Each plugin stores contents in its own subfolder inside this folder. 
+### amplify/backend folder
+It contains the latest local development of the backend resources specifications to be pushed to the cloud. 
+Each plugin stores contents in its own subfolder inside this folder. 
 
-***
-# Configuration
-## amplify configure
-This command will lead the user to setup a new aws iam user, and save the credentials on the local machine in a named profile. 
-## amplify configure project
-This command allows the user to change the project configuration set during the init process. 
+## amplify-meta.json file
+The cli core and the plugins log metadata into this file, both the `backend` and `#current-cloud-backend` folders contains a amplify-meta.json file. It serves as a the white board for the cli core and the plugins to communicate with each other.  
+## .amplifyrc file
+The CLI places the `.amplifyrc` file at the root directory of the user project in the init process:
+It is the amplify-cli run control, this file is checked into code repo, it facilitates collaborations between team members and outside contributors of the user project.
+
+# The AWS CloudFormation provider
+Currently the only official provider plugin, amplify-provider-awscloudformation, uses the AWS CloudFormation to form and update the backend resources in the AWS for the amplify categories. 
+## How it works
 
 
 
