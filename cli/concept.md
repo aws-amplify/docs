@@ -103,7 +103,7 @@ This command allows the user to change the project configuration set during the 
 # The Amplify cli artifacts
 ## amplfy folder structure
 The CLI places the following folder structure at the root directory of the user project in the init process:
-<br/>
+<br/><br/>
 amplify<br/>
 &nbsp;&nbsp;.config<br/>
 &nbsp;&nbsp;#current-cloud-backend<br/>
@@ -111,7 +111,7 @@ amplify<br/>
 ### amplify/.config folder
 It contains files that store the configuration settings.
 ### amplify/#current-cloud-backend folder
-It contains the backend resources specifications in the cloud from the last synchroization by the push or pull command.
+It contains the backend resources specifications in the cloud from the last synchroization, by the push or pull command.
 Each plugin stores contents in its own subfolder inside this folder. 
 ### amplify/backend folder
 It contains the latest local development of the backend resources specifications to be pushed to the cloud. 
@@ -126,6 +126,16 @@ It is the amplify-cli run control, this file is checked into code repo, it facil
 # The AWS CloudFormation provider
 Currently the only official provider plugin, amplify-provider-awscloudformation, uses the AWS CloudFormation to form and update the backend resources in the AWS for the amplify categories. 
 ## How it works
+For general information of the AWS CloudFormation, check its user guide: 
+[AWS CloudFormation User Guide](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html)
+<br/>
+The amplify-provider-awscloudformation uses 
+[nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html) 
+to get its job done
+<br/>
+During the init process, 
+
+
 
 
 
