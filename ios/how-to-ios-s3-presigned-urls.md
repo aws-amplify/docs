@@ -5,11 +5,11 @@ may want to perform uploads and downloads in the background. To do this, you nee
 background session using ``NSURLSession`` and then transfer your objects using pre-signed URLs.
 
 The following sections describe pre-signed Amazon S3 URLs. To learn more about ``NSURLSession``, see
-[Using NSURLSession] (https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/URLLoadingSystem/Articles/UsingNSURLSession.html).
+[Using NSURLSession](https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/URLLoadingSystem/Articles/UsingNSURLSession.html).
 
 ## Pre-Signed URLs
 By default, all Amazon S3 resources are private. If you want your users to have access to Amazon S3 buckets
-or objects, you can assign appropriate permissions with an [IAM policy] (http://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html).
+or objects, you can assign appropriate permissions with an [IAM policy](http://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html).
 
 Alternatively, you can use pre-signed URLs to give your users access to Amazon S3 objects. A pre-signed URL
 provides access to an object without requiring AWS security credentials or permissions.
@@ -84,6 +84,6 @@ Here's an example of building a pre-signed URL for a background upload to Amazon
 
 ## Additional Resources
 
-* [Amazon Simple Storage Service Getting Started Guide] (http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html)
-* [Amazon Simple Storage Service API Reference] (http://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html)
-* [Amazon Simple Storage Service Developer Guide] (http://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html)
+* [Amazon Simple Storage Service Getting Started Guide](http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html)
+* [Amazon Simple Storage Service API Reference](http://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html)
+* [Amazon Simple Storage Service Developer Guide](http://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html)

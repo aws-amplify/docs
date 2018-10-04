@@ -1,14 +1,14 @@
 # Amazon S3 Server-Side Encryption Support in iOS
 
 The AWS Mobile SDK for iOS supports server-side encryption of Amazon S3 data. To learn more about server-side
-encryption, see [PUT Object] (http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUT.html).
+encryption, see [PUT Object](http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUT.html).
 
 The following properties are available to configure the encryption:
 
-* [SSECustomerAlgorithm] (http://docs.aws.amazon.com/AWSiOSSDK/latest/Classes/AWSS3ReplicateObjectOutput.html#//api/name/SSECustomerAlgorithm)
-* [SSECustomerKey] (http://docs.aws.amazon.com/AWSiOSSDK/latest/Classes/AWSS3UploadPartRequest.html#//api/name/SSECustomerKey)
-* [SSECustomerKeyMD5] (http://docs.aws.amazon.com/AWSiOSSDK/latest/Classes/AWSS3PutObjectOutput.html#//api/name/SSECustomerKeyMD5)
-* [AWSS3ServerSideEncryption] (http://docs.aws.amazon.com/AWSiOSSDK/latest/Constants/AWSS3ServerSideEncryption.html)
+* [SSECustomerAlgorithm](http://docs.aws.amazon.com/AWSiOSSDK/latest/Classes/AWSS3ReplicateObjectOutput.html#//api/name/SSECustomerAlgorithm)
+* [SSECustomerKey](http://docs.aws.amazon.com/AWSiOSSDK/latest/Classes/AWSS3UploadPartRequest.html#//api/name/SSECustomerKey)
+* [SSECustomerKeyMD5](http://docs.aws.amazon.com/AWSiOSSDK/latest/Classes/AWSS3PutObjectOutput.html#//api/name/SSECustomerKeyMD5)
+* [AWSS3ServerSideEncryption](http://docs.aws.amazon.com/AWSiOSSDK/latest/Constants/AWSS3ServerSideEncryption.html)
 
 To use these properties, add the following statement which imports the ``AWSSS3Model``.
 
@@ -57,9 +57,9 @@ let objectOutput = AWSS3PutObjectOutput()
 ```
 ## Additional Resources
 
-* [Amazon Simple Storage Service Getting Started Guide] (http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html)
-* [Amazon Simple Storage Service API Reference] (http://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html)
-* [Amazon Simple Storage Service Developer Guide] (http://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html)
+* [Amazon Simple Storage Service Getting Started Guide](http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html)
+* [Amazon Simple Storage Service API Reference](http://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html)
+* [Amazon Simple Storage Service Developer Guide](http://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html)
 
 .. _Identity and Access Management Console: https://console.aws.amazon.com/iam/home
 .. _Granting Access to an Amazon S3 Bucket: http://blogs.aws.amazon.com/security/post/Tx3VRSWZ6B3SHAV/Writing-IAM-Policies-How-to-grant-access-to-an-Amazon-S3-bucket
