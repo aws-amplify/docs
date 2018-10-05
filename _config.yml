@@ -126,8 +126,32 @@ android_category_list:
           excerpt: get started excerpt
           url: '/android/getting-started'
           icon: '/images/icons/Misc/Present.svg'
-    - category: Guides
-      title: Guides
+    - category: Toolchain
+      title: Toolchain
+      excerpt: Better developer experience when building and deploying your apps.
+      base_url: '/js/cli'
+      subs:
+        - title: CLI
+          excerpt: Deploy your Web app or static website for global CDN distribution with media streaming support.
+          cta: Read more
+          class: aws-icon-ps-60-network-nodes
+          url: '/js/cli'
+          icon: '/images/icons/Misc/Tool.svg'
+          services:
+              - title: Amazon CloudFront
+                url: https://aws.amazon.com/cloudfront/
+        - title: UI Components
+          excerpt: UI excerpt
+          url: '/js/ui'
+          icon: '/images/icons/Misc/Present.svg'
+        - title: VS Code Extension
+          excerpt: Code snippets for AWS Amplify in Visual Studio Code.
+          cta: Read more
+          class: aws-icon-ps-60-network-nodes
+          url_external: 'https://marketplace.visualstudio.com/items?itemName=aws-amplify.aws-amplify-vscode'
+          icon: '/images/icons/Misc/Present.svg'
+    - category: API Guides
+      title: API Guides
       excerpt: Add cloud features to your app quickly using our toolchain and declarative APIs.
       base_url: '/android/analytics'
       subs:
@@ -177,19 +201,6 @@ android_category_list:
           services:
               - title: Amazon Lex
                 url: https://aws.amazon.com/lex/
-        - title: PubSub
-          excerpt: Connect your app to message-oriented middleware on the cloud.
-          cta: Read more
-          class: aws-icon-ps-60-circular-circuit
-          url: '/android/pub_sub_guide'
-          icon: '/images/icons/Misc/Cloud.svg'
-          services:
-              - title: AWS IoT,
-                url: https://aws.amazon.com/iot/
-              - title: Generic MQTT,
-                url: https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html#mqtt
-              - title: Custom Plugin
-                url:
         - title: Push Notifications
           excerpt: Push notifications with campaign analytics and targeting.
           cta: Read more
@@ -208,6 +219,17 @@ android_category_list:
           services:
               - title: Amazon S3
                 url: https://aws.amazon.com/s3/
+
+ios_category_list:
+    - category: SetupAndInstallation
+      title: Setup & Installation
+      excerpt:
+      base_url: '/ios/getting-started'
+      subs:
+        - title: Getting Started
+          excerpt: get started excerpt
+          url: '/ios/getting-started'
+          icon: '/images/icons/Misc/Present.svg'
     - category: Toolchain
       title: Toolchain
       excerpt: Better developer experience when building and deploying your apps.
@@ -232,19 +254,8 @@ android_category_list:
           class: aws-icon-ps-60-network-nodes
           url_external: 'https://marketplace.visualstudio.com/items?itemName=aws-amplify.aws-amplify-vscode'
           icon: '/images/icons/Misc/Present.svg'
-
-ios_category_list:
-    - category: SetupAndInstallation
-      title: Setup & Installation
-      excerpt:
-      base_url: '/ios/getting-started'
-      subs:
-        - title: Getting Started
-          excerpt: get started excerpt
-          url: '/ios/getting-started'
-          icon: '/images/icons/Misc/Present.svg'
-    - category: Guides
-      title: Guides
+    - category: API Guides
+      title: API Guides
       excerpt: Add cloud features to your app quickly using our toolchain and declarative APIs.
       base_url: '/ios/analytics'
       subs:
@@ -294,19 +305,6 @@ ios_category_list:
           services:
               - title: Amazon Lex
                 url: https://aws.amazon.com/lex/
-        - title: PubSub
-          excerpt: Connect your app to message-oriented middleware on the cloud.
-          cta: Read more
-          class: aws-icon-ps-60-circular-circuit
-          url: '/ios/pub_sub_guide'
-          icon: '/images/icons/Misc/Cloud.svg'
-          services:
-              - title: AWS IoT,
-                url: https://aws.amazon.com/iot/
-              - title: Generic MQTT,
-                url: https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html#mqtt
-              - title: Custom Plugin
-                url:
         - title: Push Notifications
           excerpt: Push notifications with campaign analytics and targeting.
           cta: Read more
@@ -325,30 +323,6 @@ ios_category_list:
           services:
               - title: Amazon S3
                 url: https://aws.amazon.com/s3/
-    - category: Toolchain
-      title: Toolchain
-      excerpt: Better developer experience when building and deploying your apps.
-      base_url: '/js/cli'
-      subs:
-        - title: CLI
-          excerpt: Deploy your Web app or static website for global CDN distribution with media streaming support.
-          cta: Read more
-          class: aws-icon-ps-60-network-nodes
-          url: '/js/cli'
-          icon: '/images/icons/Misc/Tool.svg'
-          services:
-              - title: Amazon CloudFront
-                url: https://aws.amazon.com/cloudfront/
-        - title: UI Components
-          excerpt: UI excerpt
-          url: '/js/ui'
-          icon: '/images/icons/Misc/Present.svg'
-        - title: VS Code Extension
-          excerpt: Code snippets for AWS Amplify in Visual Studio Code.
-          cta: Read more
-          class: aws-icon-ps-60-network-nodes
-          url_external: 'https://marketplace.visualstudio.com/items?itemName=aws-amplify.aws-amplify-vscode'
-          icon: '/images/icons/Misc/Present.svg'
 
 category_list:
     - category: SetupAndInstallation

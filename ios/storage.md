@@ -1,4 +1,4 @@
-# Add User File Storage to Your Mobile App with Amazon S3
+# Storage
 
 # Overview
 

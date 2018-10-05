@@ -1,4 +1,4 @@
-# Add Analytics to Your Mobile App with Amazon Pinpoint
+# Analytics
 <div class="nav-tab create" data-group='create'>
 <ul class="tabs">
     <li class="tab-link java current" data-tab="java">Java</li>

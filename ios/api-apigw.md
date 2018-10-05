@@ -1,8 +1,8 @@
-# Add Cloud APIs to Your Mobile App with Amazon API Gateway and AWS Lambda
+# API
 
 # Overview
 
-Add RESTful APIs handled by your serverless |LAM| functions. The CLI deploys your APIs and handlers using [Amazon API Gateway](http://docs.aws.amazon.com/apigateway/latest/developerguide/) and [AWS Lambda](http://docs.aws.amazon.com/lambda/latest/dg/).
+Add RESTful APIs handled by your serverless Lambda functions. The CLI deploys your APIs and handlers using [Amazon API Gateway](http://docs.aws.amazon.com/apigateway/latest/developerguide/) and [AWS Lambda](http://docs.aws.amazon.com/lambda/latest/dg/).
 
 ## Set Up Your Backend
 
@@ -50,22 +50,22 @@ Add RESTful APIs handled by your serverless |LAM| functions. The CLI deploys you
 Use the following steps to add Cloud Logic to your app.
 
 1. `Podfile` that you configure to install the AWS Mobile SDK must contain:
-	
+
 	```ruby
 	platform :ios, '9.0'
-	
+
 	target :'YOUR-APP-NAME' do
 	  use_frameworks!
-	
+
 	     # For auth
 	     pod 'AWSAuthCore', '~> 2.6.13'
 	     pod 'AWSMobileClient', '~> 2.6.13'
-	
+
 	     # For API
 	     pod 'AWSAPIGateway', '~> 2.6.13'
-	
+
 	     # other pods
-	
+
 	end
 	```
 

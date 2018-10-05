@@ -1,4 +1,4 @@
-# Get Started
+# Getting Started
 
 Get started building a cloud-powered Android app using the AWS Amplify CLI and the AWS SDK for Android. This page guides you through setting up an initial backend and integrating the SDK into your app.
 

@@ -1,4 +1,4 @@
-# Add Push Notifications to Your Mobile App with Amazon Pinpoint
+# Push Notifications
 
 ## Overview
 
@@ -40,17 +40,17 @@ Use the following steps to connect add push notification backend services to you
     dependencies {
         // Overrides an auth dependency to ensure correct behavior
         implementation 'com.google.android.gms:play-services-auth:15.0.1'
-	
+
         implementation 'com.google.firebase:firebase-core:16.0.1'
         implementation 'com.google.firebase:firebase-messaging:17.3.0'
-	
+
         implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.6.+'
         implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.6.+@aar') { transitive = true }
     }
-	
+
     apply plugin: 'com.google.gms.google-services'
 	```
-	
+
 2. Add the following to your project level `build.gradle`. Make sure that you specify the `google` repository:
 
 	```groovy
@@ -66,7 +66,7 @@ Use the following steps to connect add push notification backend services to you
         }
     }
 	```
-	
+
 3. `AndroidManifest.xml` must contain the definition of the following service for PushListenerService in the application tag:
 
 	```xml
@@ -77,7 +77,7 @@ Use the following steps to connect add push notification backend services to you
         </intent-filter>
     </service>
 	```
-	
+
 4. Create an Amazon Pinpoint client in the location of your push notification code.
 
 	```java
@@ -91,7 +91,7 @@ Use the following steps to connect add push notification backend services to you
 	import android.support.v7.app.AlertDialog;
 	import android.support.v7.app.AppCompatActivity;
 	import android.util.Log;
-	
+
 	import com.amazonaws.mobile.client.AWSMobileClient;
 	import com.amazonaws.mobile.client.AWSStartupHandler;
 	import com.amazonaws.mobile.client.AWSStartupResult;
@@ -101,21 +101,21 @@ Use the following steps to connect add push notification backend services to you
 	import com.google.android.gms.tasks.Task;
 	import com.google.firebase.iid.FirebaseInstanceId;
 	import com.google.firebase.iid.InstanceIdResult;
-	
+
 	public class MainActivity extends AppCompatActivity {
 	    public static final String TAG = MainActivity.class.getSimpleName();
-	
+
 	    private static PinpointManager pinpointManager;
-	
+
 	    public static PinpointManager getPinpointManager(final Context applicationContext) {
 	        if (pinpointManager == null) {
 	            PinpointConfiguration pinpointConfig = new PinpointConfiguration(
 	                    applicationContext,
 	                    AWSMobileClient.getInstance().getCredentialsProvider(),
 	                    AWSMobileClient.getInstance().getConfiguration());
-	
+
 	            pinpointManager = new PinpointManager(pinpointConfig);
-	
+
 	            FirebaseInstanceId.getInstance().getInstanceId()
 	                    .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
 	                        @Override
@@ -128,12 +128,12 @@ Use the following steps to connect add push notification backend services to you
 	        }
 	        return pinpointManager;
 	    }
-	
+
 	    @Override
 	    protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.activity_main);
-	
+
 	        // Initialize the AWS Mobile Client
 	        AWSMobileClient.getInstance().initialize(this, new AWSStartupHandler() {
 	            @Override
@@ -141,7 +141,7 @@ Use the following steps to connect add push notification backend services to you
 	                Log.d(TAG, "AWSMobileClient is instantiated and you are connected to AWS!");
 	            }
 	        }).execute();
-	
+
 	        // Initialize PinpointManager
 	        getPinpointManager(getApplicationContext());
 	    }
@@ -246,7 +246,7 @@ The following steps show how to receive push notifications targeted for your app
         }
     }
 	```
-	
+
 3. To create a new campaign to send notifications to your app from the Amazon Pinpoint console run the following command from your app project folder.
 
 	```bash

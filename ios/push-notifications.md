@@ -1,4 +1,4 @@
-# Add Push Notifications to Your Mobile App with Amazon Pinpoint
+# Push Notifications
 
 ## Overview
 
