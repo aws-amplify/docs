@@ -212,7 +212,7 @@ category_list:
           excerpt: Connect your app to message-oriented middleware on the cloud.
           cta: Read more
           class: aws-icon-ps-60-circular-circuit
-          url: '/js/pub_sub_guide'   
+          url: '/js/pubsub'
           icon: '/images/icons/Misc/Cloud.svg'
           services:
               - title: AWS IoT,
