@@ -12,7 +12,7 @@ AWS Amplify provides drop-in UI components with a [style guide](https://aws-ampl
 
 ## Authentication
 
-User interface elements that provide drop-in components for user authentication. By defaulthese copmonents will use Amazon Cognito
+User interface elements that provide drop-in components for user authentication. By default these components will use Amazon Cognito.
 
 ### Authenticator
 
@@ -57,7 +57,7 @@ Available for [React]({%if jekyll.environment == 'production'%}{{site.amplify.do
 
 ## Interactions
 
-User interface elements that provide drop-in components for AI enabled chat bot interactions. By default copmonents will use Amazon Lex.
+User interface elements that provide drop-in components for AI enabled chat bot interactions. By default components will use Amazon Lex.
 
 ### Chatbot
 
