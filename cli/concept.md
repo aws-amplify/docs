@@ -121,13 +121,16 @@ It contains the latest local development of the backend resources specifications
 Each plugin stores contents in its own subfolder inside this folder. 
 
 ## amplfy files
+
 ### <a name="meta"></a>amplify-meta.json file
-The CLI core and the CLI plugins log metadata into this file, both the `backend` and `#current-cloud-backend` directories contain an amplify-meta.json file. It serves as the white board for the CLI core and the plugins to log infomration for themsevles, and to communicate with each other. <br/>
+Both the `backend` and `#current-cloud-backend` directories contain an amplify-meta.json file.<br/>
+The amplify-meta.json in the `backend` directory serves as the white board for the CLI core and the plugins to log infomration for themsevles, and to communicate with each other. <br/><br/>
 The CLI core provides read and write access to the file for the lugins.<br/>
-The CLI core collects the selected providers' outputs after init and log them under the "providers" object, e.g. the awscloudformation provider outputs the information of the root stack, the deployment S3 bucket, and the authorized/unauthorized IAM roles, and they are logged under the providers.awscloudformation object<br/>
+The CLI core collects the selected providers' outputs after init and log them under the "providers" object, e.g. the awscloudformation provider outputs the information of the root stack, the deployment S3 bucket, and the authorized/unauthorized IAM roles, and they are logged under the providers.awscloudformation object<br/><br/>
 Each category plugin logs information under its own name. <br/>
-Because one category can create multiple services within one project (e.g. the interactions category can create multiple bots), the category meta data generally follows a two-level structuse as the following: 
-`{
+Because one category might create multiple services within one project (e.g. the interactions category can create multiple bots), the category meta data generally follows a two-level structuse as the following: <br/>
+```
+{
     <category>: {
         <service1>: {
             //service1 metadata
@@ -136,10 +139,10 @@ Because one category can create multiple services within one project (e.g. the i
             //service2 metadata
         }
     }
-}`
-The metadata for each service is first logged into the meta file after the `amplify <category> add` command is executed, containing the information to setup the cloud resources. <br/>
+}
+```
+The metadata for each service is first logged into the meta file after the `amplify <category> add` command is executed, containing some general information that indicates one service of the category has been added locally. <br/>
 Then, on successful execution of the `amplify push` command, the `output` object will be added/updated in the service's metadata with information that describes the actual cloud resources that have been created or updated.
-
 
 ### .amplifyrc file
 The CLI places the `.amplifyrc` file at the root directory of the user project in the init process:
