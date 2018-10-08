@@ -120,9 +120,28 @@ Each plugin stores contents in its own subfolder inside this folder.
 It contains the latest local development of the backend resources specifications to be pushed to the cloud. 
 Each plugin stores contents in its own subfolder inside this folder. 
 
-## <a name="meta"></a>amplify-meta.json file
-The CLI core and the plugins log metadata into this file, both the `backend` and `#current-cloud-backend` directories contain an amplify-meta.json file. It serves as the white board for the CLI core and the plugins to communicate with each other.  
-## .amplifyrc file
+## amplfy files
+### <a name="meta"></a>amplify-meta.json file
+The CLI core and the CLI plugins log metadata into this file, both the `backend` and `#current-cloud-backend` directories contain an amplify-meta.json file. It serves as the white board for the CLI core and the plugins to log infomration for themsevles, and to communicate with each other. <br/>
+The CLI core provides read and write access to the file for the lugins.<br/>
+The CLI core collects the selected providers' outputs after init and log them under the "providers" object, e.g. the awscloudformation provider outputs the information of the root stack, the deployment S3 bucket, and the authorized/unauthorized IAM roles, and they are logged under the providers.awscloudformation object<br/>
+Each category plugin logs information under its own name. <br/>
+Because one category can create multiple services within one project (e.g. the interactions category can create multiple bots), the category meta data generally follows a two-level structuse as the following: 
+`{
+    <category>: {
+        <service1>: {
+            //service1 metadata
+        },
+        <service2>: {
+            //service2 metadata
+        }
+    }
+}`
+The metadata for each service is first logged into the meta file after the `amplify <category> add` command is executed, containing the information to setup the cloud resources. <br/>
+Then, on successful execution of the `amplify push` command, the `output` object will be added/updated in the service's metadata with information that describes the actual cloud resources that have been created or updated.
+
+
+### .amplifyrc file
 The CLI places the `.amplifyrc` file at the root directory of the user project in the init process:
 It is the amplify-CLI run control, this file is checked into code repo, it facilitates collaborations between team members and outside contributors of the user project.
 
