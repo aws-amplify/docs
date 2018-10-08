@@ -1,6 +1,6 @@
 # Overview
 The AWS Amplify CLI toolchain enables front-end developers to easily set up the backend resources in the cloud. <br/>
-It is designed to work with the [Amplify](https://github.com/aws-amplify/amplify-js) JavaScript library as well as the AWS Mobile SDKs for iOS and Android. Resources in your AWS account that the Amplify CLI category commands create can be easily consumed by the corresponding Amplify library modules or native SDKs. <br/>
+It is designed to work with the [Amplify](https://github.com/aws-amplify/amplify-js) JavaScript library as well as the AWS Mobile SDKs for [iOS](https://github.com/aws/aws-sdk-ios/) and [Android](https://github.com/aws/aws-sdk-android). Resources in your AWS account that the Amplify CLI category commands create can be easily consumed by the corresponding Amplify library modules or native SDKs. <br/>
 The Amplify CLI is written in Node.js. It has a pluggable architecture and can be easily extended with additional functionalities.
 Click [here](https://github.com/aws-amplify/docs/blob/master/cli/new-plugin.md) for more details.
  
@@ -87,7 +87,7 @@ The following command should be executed inside the user project's root director
 
 ## The init process
 `$ amplify init` <br/>
-The `init` command must be executed at the root directory of a project to initialize the project for the amplify-CLI to work with. 
+The `init` command must be executed at the root directory of a project to initialize the project for the Amplify CLI to work with. 
 The `init` command goes through these steps to setup things: 
 - Analyzes the project and confirms with the user to pick the right frontend plugin to handle the project.
 - Carries out the initialization logic of the selected frontend plugin.
@@ -147,6 +147,16 @@ Then, on successful execution of the `amplify push` command, the `output` object
 ### .amplifyrc file
 The CLI places the `.amplifyrc` file at the root directory of the user project in the init process:
 It is the amplify-CLI run control, this file is checked into code repo, it facilitates collaborations between team members and outside contributors of the user project.
+
+### aws-exports.js file
+This file is generated only for JavaScript projects.<br/>
+It contains the consolidated outputs from all the categories, and is placed under the `src` directory that the user (the developer) specified during the `init` process. It is updated after each successful execution of the `amplify push` command because the push command has updated the cloud resources.<br/> 
+This file is consumed by the [Amplify](https://github.com/aws-amplify/amplify-js) JavaScript library for configuration.
+
+### awsconfiguration.json file
+This file is generated for Android and iOS projects.<br/>
+It contains the consolidated outputs from all the categories. It is updated after each successful execution of the `amplify push` command because the push command has updated the cloud resources.<br/> 
+This file is consumed by the [iOS](https://github.com/aws/aws-sdk-ios/) and [Android](https://github.com/aws/aws-sdk-android) native SDKs for configuration.
 
 # The AWS CloudFormation provider
 Currently the only official provider plugin, amplify-provider-awscloudformation, uses the AWS CloudFormation to form and update the backend resources in the AWS for the amplify categories. <br/>
