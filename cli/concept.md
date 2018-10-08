@@ -54,7 +54,7 @@ It's easy to add a third party plugin to the Amplify CLI.
 2. The plugin user executes `npm install -g <plugin>` and installs the plugin to the global node_modules directory.
 
 The plugin is then picked up by the CLI core and used the same as the official plugins. 
-Click [here](https://github.com/aws-amplify/docs/blob/master/cli/new-plugin.md) for more details on how to auth new plugins. 
+Click [here](https://github.com/aws-amplify/docs/blob/master/cli/new-plugin.md) for more details on how to author new plugins. 
 
 ***
 # Commands
@@ -120,7 +120,7 @@ Each plugin stores contents in its own subfolder inside this folder.
 It contains the latest local development of the backend resources specifications to be pushed to the cloud. 
 Each plugin stores contents in its own subfolder inside this folder. 
 
-## <a name="tith"></a>amplify-meta.json file
+## <a name="meta"></a>amplify-meta.json file
 The CLI core and the plugins log metadata into this file, both the `backend` and `#current-cloud-backend` directories contain an amplify-meta.json file. It serves as the white board for the CLI core and the plugins to communicate with each other.  
 ## .amplifyrc file
 The CLI places the `.amplifyrc` file at the root directory of the user project in the init process:
