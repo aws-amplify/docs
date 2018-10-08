@@ -1,18 +1,19 @@
 # Overview
-The Amplify cli enables front-end developers to easily set up the backend resources in the cloud. <br/>
-It is designed to work side by side with the [Amplify](https://github.com/aws-amplify/amplify-js) library. Official resource categories provided by the cli can be easily consumed by the corresponding Amplify library modules. <br/>
-The Amplify cli is written in Node.js. It has a pluggable architecture and can be easily extended with additional functionalities.
+The AWS Amplify CLI toolchain enables front-end developers to easily set up the backend resources in the cloud. <br/>
+It is designed to work with the [Amplify](https://github.com/aws-amplify/amplify-js) JavaScript library as well as the AWS Mobile SDKs for iOS and Android. Resources in your AWS account that the Amplify CLI category commands create can be easily consumed by the corresponding Amplify library modules or native SDKs. <br/>
+The Amplify CLI is written in Node.js. It has a pluggable architecture and can be easily extended with additional functionalities.
+Click [here](https://github.com/aws-amplify/docs/blob/master/cli/new-plugin.md) for more details.
  
 ***
 
 # Architecture
-![](https://github.com/UnleashedMind/docs/blob/master/cli/images/AmplifyCliConcept.jpg)
+![](https://github.com/aws-amplify/docs/blob/master/CLI/images/AmplifyCliConcept.jpg)
 ## Cli core and plugins
-The Amplify cli uses `gluegun`. It is highly modularized.  <br/>
-The cli core provides the pluggable platform, most of the cli functionalities are delivered by plugins. <br/> 
-The cli core searches for plugins in the global `node_modules` directory, and its own `node_modules` directory.  <br/>
+The Amplify CLI uses [gluegun](https://github.com/infinitered/gluegun#readme). It is highly modularized.  <br/>
+The CLI core provides the pluggable platform, and most of the CLI category functions are implemented as plugins. <br/> 
+The CLI core searches for plugins in the global `node_modules` directory, and its own `node_modules` directory.  <br/>
 Plugins are recognized by the `amplify-` prefix in the package names. <br/>
-Plugins communicate with the cli core, and with each other, through the project metadata. The cli core provides the read and write access to the project metadata for the plugins. The project metadata is stored in file `amplify/backend/amplify-meta.json` in the user project.
+Plugins communicate with the CLI core, and with each other, through the project metadata. The CLI core provides the read and write access to the project metadata for the plugins. The project metadata is stored in file `amplify/backend/amplify-meta.json` in the user project, see [below](#meta) for more details of the meta data file. 
 
 ## Plugin types
 There are four types of plugins
@@ -21,7 +22,8 @@ There are four types of plugins
 - frontend
 - general purpose
 ### category plugin
-Recognized by the `amplify-category-` prefix in the package name, a category plugin wraps up the logic to create and manage one category of backend resources in the cloud. It defines the "shape" of the cloud resources based on user (the developer) input, constructs parameters to CRUD cloud resource, and exports relevant cloud resource information to the project metadata. 
+Recognized by the `amplify-category-` prefix in the package name, a category plugin wraps up the logic to create and manage one category of backend resources in the cloud. It defines the "shape" of the cloud resources based on user (the developer) input, constructs parameters to CRUD cloud resource, and exports relevant cloud resource information to the project metadata. <br/>
+Categories are managed by AWS and are functional use case that a client engineer is building as part of their UX, rather than service implementations.
 ### provider plugin
 Recognized by the `amplify-provider-` prefix in the package name, a provider plugin abstracts the actual cloud resource provider. It wraps up communication details such as access credentials, api invoke and wait logic, and response data parsing etc. and exposes simple interface methods for the category plugins to CRUD cloud resource. 
 ### frontend plugin
@@ -30,7 +32,7 @@ Recognized by the `amplify-frontend-` prefix in the package name, a frontend plu
 - builds and serves the frontend application locally with backend hot-wired to the cloud resources. 
 - builds and publishes the application (frontend and backend) to its intended users.
 ### general purpose plugin
-Recognized by the `amplify-` prefix, without a plugin type decoration, in the package name, a general purpose plugin does not manage any backend resources in the cloud, but provides certain cli commands and/or certain functionalities for the cli core, and other plugins.
+Recognized by the `amplify-` prefix, without a plugin type decoration, in the package name, a general purpose plugin does not manage any backend resources in the cloud, but provides certain CLI commands and/or certain functionalities for the CLI core, and other plugins.
 
 ## Official plugins
 - amplify-category-analytics
@@ -47,15 +49,16 @@ Recognized by the `amplify-` prefix, without a plugin type decoration, in the pa
 - amplify-provider-awscloudformation
 
 ## Third party plugin setup
-It's easy to add a third party plugin to the Amplify cli. 
+It's easy to add a third party plugin to the Amplify CLI. 
 1. The plugin author names the plugin package according to the naming convention outlined above, and publishes it to the npm registry.
 2. The plugin user executes `npm install -g <plugin>` and installs the plugin to the global node_modules directory.
 
-The plugin is then picked up by the cli core and used the same as the official plugins. 
+The plugin is then picked up by the CLI core and used the same as the official plugins. 
+Click [here](https://github.com/aws-amplify/docs/blob/master/cli/new-plugin.md) for more details on how to auth new plugins. 
 
 ***
 # Commands
-### Official cli commands
+### Official CLI commands
 - `amplify categoires`
 - `amplify configure`
 - `amplify console`
@@ -76,7 +79,7 @@ The plugin is then picked up by the cli core and used the same as the official p
 - `amplify <category> pull` (to be implemented)
 
 ***
-# Typical cli workflow
+# Typical CLI workflow
 The following command should be executed inside the user project's root directory: 
 1. `amplify init`
 2. `amplify <category> add/remove`
@@ -84,7 +87,7 @@ The following command should be executed inside the user project's root director
 
 ## The init process
 `$ amplify init` <br/>
-The `init` command must be executed at the root directory of a project to initialize the project for the amplify-cli to work with. 
+The `init` command must be executed at the root directory of a project to initialize the project for the amplify-CLI to work with. 
 The `init` command goes through these steps to setup things: 
 - Analyzes the project and confirms with the user to pick the right frontend plugin to handle the project.
 - Carries out the initialization logic of the selected frontend plugin.
@@ -100,7 +103,7 @@ This command will lead the user to setup a new aws iam user, then save the crede
 ### amplify configure project
 This command allows the user to change the project configuration set during the init process. 
 
-# The Amplify cli artifacts
+# The Amplify CLI artifacts
 ## amplfy folder structure
 The CLI places the following folder structure at the root directory of the project when `init` is completed successfully:
 <br/>
@@ -117,11 +120,11 @@ Each plugin stores contents in its own subfolder inside this folder.
 It contains the latest local development of the backend resources specifications to be pushed to the cloud. 
 Each plugin stores contents in its own subfolder inside this folder. 
 
-## amplify-meta.json file
-The cli core and the plugins log metadata into this file, both the `backend` and `#current-cloud-backend` directories contain an amplify-meta.json file. It serves as a the white board for the cli core and the plugins to communicate with each other.  
+## <a name="tith"></a>amplify-meta.json file
+The CLI core and the plugins log metadata into this file, both the `backend` and `#current-cloud-backend` directories contain an amplify-meta.json file. It serves as the white board for the CLI core and the plugins to communicate with each other.  
 ## .amplifyrc file
 The CLI places the `.amplifyrc` file at the root directory of the user project in the init process:
-It is the amplify-cli run control, this file is checked into code repo, it facilitates collaborations between team members and outside contributors of the user project.
+It is the amplify-CLI run control, this file is checked into code repo, it facilitates collaborations between team members and outside contributors of the user project.
 
 # The AWS CloudFormation provider
 Currently the only official provider plugin, amplify-provider-awscloudformation, uses the AWS CloudFormation to form and update the backend resources in the AWS for the amplify categories. <br/>
@@ -150,7 +153,7 @@ This will place the aws cloudformation template for the resources of this catego
 
 ### `amplify push` 
 Once the resources of the categories are done been added or updated locally, run the command `amplify push` to update the backend resources in the cloud. <br/>
-The cli will first upload the latest versions of the categories' nested stack templates to the S3 deployment bucket, and then call the AWS CloudFormation API to create / update resources in the cloud.
+The CLI will first upload the latest versions of the categories' nested stack templates to the S3 deployment bucket, and then call the AWS CloudFormation API to create / update resources in the cloud.
 
 
 
