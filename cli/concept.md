@@ -150,12 +150,12 @@ It is the amplify-CLI run control, this file is checked into code repo, it facil
 
 ### aws-exports.js file
 This file is generated only for JavaScript projects.<br/>
-It contains the consolidated outputs from all the categories, and is placed under the `src` directory that the user (the developer) specified during the `init` process. It is updated after each successful execution of the `amplify push` command because the push command has updated the cloud resources.<br/> 
+It contains the consolidated outputs from all the categories, and is placed under the `src` directory that the user (the developer) specified during the `init` process. It is updated after each successful execution of the `amplify push` command,  that has created or updated the cloud resources.<br/> 
 This file is consumed by the [Amplify](https://github.com/aws-amplify/amplify-js) JavaScript library for configuration.
 
 ### awsconfiguration.json file
 This file is generated for Android and iOS projects.<br/>
-It contains the consolidated outputs from all the categories. It is updated after each successful execution of the `amplify push` command because the push command has updated the cloud resources.<br/> 
+It contains the consolidated outputs from all the categories. It is updated after each successful execution of the `amplify push` command, that has created or updated the cloud resources.<br/> <br/> 
 This file is consumed by the [iOS](https://github.com/aws/aws-sdk-ios/) and [Android](https://github.com/aws/aws-sdk-android) native SDKs for configuration.
 
 # The AWS CloudFormation provider
