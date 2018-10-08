@@ -7,7 +7,7 @@ Click [here](https://github.com/aws-amplify/docs/blob/master/cli/new-plugin.md) 
 ***
 
 # Architecture
-![](https://github.com/aws-amplify/docs/blob/master/CLI/images/AmplifyCliConcept.jpg)
+![](https://github.com/UnleashedMind/docs/blob/master/cli/images/AmplifyCliConcept.jpg)
 ## Cli core and plugins
 The Amplify CLI uses [gluegun](https://github.com/infinitered/gluegun#readme). It is highly modularized.  <br/>
 The CLI core provides the pluggable platform, and most of the CLI category functions are implemented as plugins. <br/> 
