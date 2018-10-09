@@ -6,9 +6,11 @@
 
 Codegen helps you generate native code for iOS and android, generation of types for Flow and Typescript. It can also generates GraphQL statements(queries, mutations and subscriptions) so that you doesn't have to hand code them.
 
-Codegen `add` workflow triggers automatically when an AppSync API is pushed to the cloud. You will be prompted if they want to configure codegen when an AppSync API is created and if you opt-in for codegen, subsequent pushes prompts you if they want to update the generated code after changes get pushed to cloud.
+Codegen `add` workflow triggers automatically when an AppSync API is pushed to the cloud. You will be prompted if you want to configure codegen when an AppSync API is created and if you opt-in for codegen, subsequent pushes prompts you if they want to update the generated code after changes get pushed to cloud.
 
 When an project is configured to generate code with codegen, it stores all the configuration `.graphqlconfig.yml` file in the root folder of your project. Codegen behind the scene use [`amplify-graphql-docs-generator`](https://www.npmjs.com/package/amplify-graphql-docs-generator) to generate the GraphQL statements and [`aws-appsync-codegen`](https://www.npmjs.com/package/aws-appsync-codegen) to generate the types.
+
+When generating types, codegen uses GraphQL statements as input. It will generates only the types that are being used in the GraphQL statements.
 
 
 ## amplify add codegen
