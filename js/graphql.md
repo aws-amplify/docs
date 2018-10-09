@@ -2,10 +2,11 @@
 ---
 # The GraphQL Transform
 
-The GraphQL Transform is a library that simplifies the process of designing GraphQL APIs.
-In short, it allows a developer to design application backends with a simple `schema.graphql`
-which is then *transformed* into a AWS CloudFormation that implements the data model
-defined in `schema.graphql`. For example you might create the backend for a blog like this:
+After defining your API using the GraphQL Schema Definition Language (SDL), 
+you can then use this library to transform it into a fully descriptive 
+CloudFormation template that implements the API's data model.
+
+For example you might create the backend for a blog like this:
 
 ```
 type Blog @model {
