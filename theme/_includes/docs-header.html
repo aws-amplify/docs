@@ -99,8 +99,8 @@
 							<div id="docs-select" class="dropdown">
 								<button class="dropbtn white-text">Docs</button>
 								<div class="dropdown-content">
-									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/ios/getting-started"><p>iOS</p></a>
-									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/android/getting-started"><p>Android</p></a>
+									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/ios/start"><p>iOS</p></a>
+									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/android/start"><p>Android</p></a>
 									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/js/start?platform=purejs"><p>JavaScript</p></a>
 									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/js/start?platform=react-native"><p>React Native</p></a>
 								</div>
@@ -152,7 +152,6 @@
 	let edit_url = "https://github.com/aws-amplify/docs/edit/master/";
 	let href_path = href.substring(href.indexOf('/docs/') + 6, href.length);
 	let edit_path = edit_url + href_path + '.md';
-
 	// let page = href.split("?");
 	// page = page[0];
 	// page = page.substring(page.length, (page.indexOf('/docs') - 5));

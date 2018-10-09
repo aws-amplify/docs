@@ -216,7 +216,7 @@ Note that the CLI allows you to select more than one identity provider for your 
 
 ## Set Up Google Login in Your Mobile App
 
-1. Add or update your AWS backend configuration file to incorporate your new sign-in. For details, see the last steps in the [Get Started: Set Up Your Backend](./getting-started) section.
+1. Add or update your AWS backend configuration file to incorporate your new sign-in. For details, see the last steps in the [Get Started: Set Up Your Backend](./start) section.
 
 2. Add the following dependencies in the Podfile.
 

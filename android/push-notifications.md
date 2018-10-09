@@ -7,7 +7,7 @@ You can also create Amazon Pinpoint campaigns that tie user behavior to push or 
 
 ## Set Up Your Backend
 
-1. Complete the [Get Started](./getting-started) steps before you proceed.
+1. Complete the [Get Started](./start) steps before you proceed.
 
 2. Use the CLI to add storage to your cloud-enabled backend and app.
 

@@ -120,11 +120,11 @@ android_category_list:
     - category: SetupAndInstallation
       title: Setup & Installation
       excerpt:
-      base_url: '/android/getting-started'
+      base_url: '/android/start'
       subs:
         - title: Getting Started
           excerpt: get started excerpt
-          url: '/android/getting-started'
+          url: '/android/start'
           icon: '/images/icons/Misc/Present.svg'
     - category: Toolchain
       title: Toolchain
@@ -224,11 +224,11 @@ ios_category_list:
     - category: SetupAndInstallation
       title: Setup & Installation
       excerpt:
-      base_url: '/ios/getting-started'
+      base_url: '/ios/start'
       subs:
         - title: Getting Started
           excerpt: get started excerpt
-          url: '/ios/getting-started'
+          url: '/ios/start'
           icon: '/images/icons/Misc/Present.svg'
     - category: Toolchain
       title: Toolchain
