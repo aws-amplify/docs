@@ -1162,12 +1162,13 @@ console.log('Application creation successfully started. It may take a few minute
 As shown above the `GraphQLTransform` class takes a list of transformers and later is able to transform
 GraphQL SDL documents into CloudFormation documents.
 
-### The transform lifecycle
+### The Transform Lifecycle
 
-At a high level the `GraphQLTransform` takes the input SDL, parses it, validates the schema
-is complete and satisfies the directive definitions, calls each transformers `.before()` method
-if one exists, walks the parsed AST and called the relevant methods if they exists (e.g. `object()`, `field()`, `interface()` etc),
-in reverse order calls each transformer's `.after()` method if one exists, and finally returns the context's finished template.
+At a high level the `GraphQLTransform` takes the input SDL, parses it, and validates the schema
+is complete and satisfies the directive definitions. It then iterates through the list of transformers
+passed to the transform when it was created and calls `.before()` if it exists. It then walks the parsed AST 
+and calls the relevant transformer methods (e.g. `object()`, `field()`, `interface()` etc) as directive matches are found.
+In reverse order it then calls each transformer's `.after()` method if it exists, and finally returns the context's finished template.
 
 Here is pseudo code for how `const cfdoc = transformer.transform(schema);` works.
 
@@ -1204,13 +1205,13 @@ function transform(schema: string): Template {
                 case 'InputObjectTypeDefinition':
                     this.transformInputObject(transformer, def, context)
                     break;
+                // Note: Extension and operation definition nodes are not supported.
                 default:
                     continue
             }
         }
     }
-    // transform() is meant to behave like a composition so the after 
-    // functions are called in the reverse order (as if they were popping off a stack
+    // After is called in the reverse order as if they were popping off a stack.
     let reverseThroughTransformers = this.transformers.length - 1;
     while (reverseThroughTransformers >= 0) {
         const transformer = this.transformers[reverseThroughTransformers]
@@ -1219,12 +1220,13 @@ function transform(schema: string): Template {
         }
         reverseThroughTransformers -= 1
     }
-    // Write the schema.
+    // Return the template.
+    // In the future there will likely be a formatter concept here.
     return context.template
 }
 ```
 
-### The TransformerContext
+### The Transformer Context
 
 The transformer context serves like an accumulator that is manipulated by transformers. See the code to see what methods are available
 to you.
