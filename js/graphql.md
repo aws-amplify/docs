@@ -73,8 +73,8 @@ type Comment @model {
 ```
 
 Once you are happy with your schema, save the file and click enter in your
-terminal window. If now error messages are thrown then you are good to go
-and can deploy your new API.
+terminal window. if no error messages are thrown this means the transformation 
+was successful and you can deploy your new API.
 
 ```bash
 amplify push
@@ -110,6 +110,12 @@ mutation CreatePost($blogId:ID!) {
   }
 }
 
+# Provide the returned id from the CreateBlog mutation as the "blogId" variable 
+# in the "variables" pane (bottom left pane) of the query editor:
+{
+  "blogId": "returned-id-goes-here"
+}
+
 # Create a comment and associate it with the post via the "commentPostId" input field.
 mutation CreateComment($postId:ID!) {
   createComment(input:{content:"A comment!", commentPostId:$postId}) {
@@ -126,7 +132,13 @@ mutation CreateComment($postId:ID!) {
   }
 }
 
-# Get a blog, its posts, and its posts comments.
+# Provide the returned id from the CreatePost mutation as the "postId" variable 
+# in the "variables" pane (bottom left pane) of the query editor:
+{
+  "postId": "returned-id-goes-here"
+}
+
+# Get a blog, its posts, and its posts' comments.
 query GetBlog($blogId:ID!) {
   getBlog(id:$blogId) {
     id
@@ -150,7 +162,7 @@ query GetBlog($blogId:ID!) {
   }
 }
 
-# List all blogs, their posts, and their posts comments.
+# List all blogs, their posts, and their posts' comments.
 query ListBlogs {
   listBlogs { # Try adding: listBlog(filter: { name: { eq: "My New Blog!" } })
     items {
@@ -537,7 +549,7 @@ type Post @model @auth(rules: [{allow: groups, groups: ["Admin"]}]) {
 
 Static group auth is simpler than the others. The generated resolvers would be protected like so:
 
-- `Mutation.createX`: Verify the requesting user has a valid credential and that `ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail`.
+- `Mutation.createX`: Verify the requesting user has a valid credential and that `ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
 - `Mutation.updateX`: Verify the requesting user has a valid credential and that `ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
 - `Mutation.deleteX`: Verify the requesting user has a valid credential and that `ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
 - `Query.getX`: Verify the requesting user has a valid credential and that `ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
@@ -789,8 +801,8 @@ input SearchableQueryMap { search: String }
 
 #### Usage
 
-Store posts in DynamoDB and automatically stream them to ElasticSearch
-via lambda and connect a searchQueryField resolver.
+Store posts in Amazon DynamoDB and automatically stream them to Amazon ElasticSearch
+via AWS Lambda and connect a searchQueryField resolver.
 
 ```
 type Post @model @searchable {
@@ -802,7 +814,7 @@ type Post @model @searchable {
 }
 ```
 
-You may then create objects in DynamoDB that will automatically streamed to lambda
+You may then create objects in DynamoDB that will be automatically streamed to lambda
 using the normal `createPost` mutation.
 
 ```
@@ -859,7 +871,7 @@ query SearchPosts {
 
 The above query returns all documents whose `title` begins with `S` and ends with `Elasticsearch!`.
 
-Moreover you can use the `filter` parameter to pass a nested `and`/`or`/`not` conditions. By default, every operation in the filter properties is *AND* ed. You can use the `or` or `not` properties in the `filter` parameter of the search query to override this behavior. Each of these operators (`and`, `or`, `not` properties in the filter object) accepts an array of SearchableTypes which are in turn joined by the corresponding operator. For example, consider the following search query:
+Moreover you can use the `filter` parameter to pass a nested `and`/`or`/`not` condition. By default, every operation in the filter properties is *AND* ed. You can use the `or` or `not` properties in the `filter` parameter of the search query to override this behavior. Each of these operators (`and`, `or`, `not` properties in the filter object) accepts an array of SearchableTypes which are in turn joined by the corresponding operator. For example, consider the following search query:
 
 ```
 query SearchPosts {
@@ -878,7 +890,7 @@ query SearchPosts {
 }
 ```
 
-Assuming, you used the `createPost` mutation to create new posts with `title`, `createdAt` and `updatedAt` values, the above search query will return you a list of all `Posts`, whose `title` starts with `S` _and_ have `createdAt` _or_ `updatedAt` value as `08/20/2018`.
+Assuming you used the `createPost` mutation to create new posts with `title`, `createdAt` and `updatedAt` values, the above search query will return you a list of all `Posts`, whose `title` starts with `S` _and_ have `createdAt` _or_ `updatedAt` value as `08/20/2018`.
 
 Here is a complete list of searchable operations per GraphQL type supported as of today:
 
