@@ -2,9 +2,35 @@
 ---
 # The GraphQL Transform
 
-The GraphQL Transform is a library that simplifies the process of developing, deploying, and maintaining GraphQL APIs. With it, you define your API using the GraphQL Schema Definition Language (SDL) and can then use this library where to transform it into a fully descriptive cloudformation template that implements the API's data model.
+The GraphQL Transform is a library that simplifies the process of designing GraphQL APIs.
+In short, it allows a developer to design application backends with a simple `schema.graphql`
+which is then *transformed* into a AWS CloudFormation that implements the data model
+defined in `schema.graphql`. For example you might create the backend for a blog like this:
 
-The Transform can be run as an independent library, however it is integrated into the Amplify CLI via the `API` category for you to use immediately.
+```
+type Blog @model {
+  id: ID!
+  name: String!
+  posts: [Post] @connection(name: "BlogPosts")
+}
+type Post @model {
+  id: ID!
+  title: String!
+  blog: Blog @connection(name: "BlogPosts")
+  comments: [Comment] @connection(name: "PostComments")
+}
+type Comment @model {
+  id: ID!
+  content: String
+  post: Post @connection(name: "PostComments")
+}
+```
+
+When used along with tools like the Amplify CLI, the GraphQL Transform simplifies the process of 
+developing, deploying, and maintaining GraphQL APIs. With it, you define your API using the 
+GraphQL Schema Definition Language (SDL) and can then use automation to transform it into a fully 
+descriptive cloudformation template that implements the spec. The transform also provides a framework
+through which you can define you own transformers as `@directives` for custom workflows.
 
 ## Quick Start
 
