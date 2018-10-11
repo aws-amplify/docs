@@ -170,6 +170,306 @@ func downloadData() {
 
 ## Usage with GraphQL APIs (Complex Objects)
 
+Many times you might want to create logical objects that have more complex data, such as images or videos, as part of their structure. For example, you might create a Person type with a profile picture or a Post type that has an associated image. You can use AWS AppSync to model these as GraphQL types. If any of your mutations have a variable with bucket, key, region, mimeType, and localUri fields, the SDK uploads the file to Amazon S3 for you.
+
+Update your schema as follows to add the S3Object and S3ObjectInput types for the file, and a new mutation named CreatePostWithFileInputMutation:
+
+```
+  input CreatePostInput {
+          author: String!
+          title: String
+          content: String
+          url: String
+          ups: Int
+          downs: Int
+          version: Int!
+  }
+
+  input CreatePostWithFileInput {
+          author: String!
+          title: String
+          content: String
+          url: String
+          ups: Int
+          downs: Int
+          file: S3ObjectInput!
+          version: Int!
+  }
+
+  input DeletePostInput {
+          id: ID!
+  }
+
+  type Mutation {
+          createPost(input: CreatePostInput!): Post
+          createPostWithFile(input: CreatePostWithFileInput!): Post
+          updatePost(input: UpdatePostInput!): Post
+          deletePost(input: DeletePostInput!): Post
+  }
+
+  type Post {
+          id: ID!
+          author: String!
+          title: String
+          content: String
+          url: String
+          ups: Int
+          downs: Int
+          file: S3Object
+          version: Int!
+  }
+
+  type PostConnection {
+          items: [Post]
+          nextToken: String
+  }
+
+  type Query {
+          singlePost(id: ID!): Post
+          getPost(id: ID!): Post
+          listPosts(filter: TablePostFilterInput, limit: Int, nextToken: String): PostConnection
+  }
+
+  type S3Object {
+          bucket: String!
+          key: String!
+          region: String!
+  }
+
+  input S3ObjectInput {
+          bucket: String!
+          key: String!
+          region: String!
+          localUri: String!
+          mimeType: String!
+  }
+
+  type Subscription {
+          onCreatePost(
+                  id: ID,
+                  author: String,
+                  title: String,
+                  content: String,
+                  url: String
+          ): Post
+                  @aws_subscribe(mutations: ["createPost"])
+          onUpdatePost(
+                  id: ID,
+                  author: String,
+                  title: String,
+                  content: String,
+                  url: String
+          ): Post
+                  @aws_subscribe(mutations: ["updatePost"])
+          onDeletePost(
+                  id: ID,
+                  author: String,
+                  title: String,
+                  content: String,
+                  url: String
+          ): Post
+                  @aws_subscribe(mutations: ["deletePost"])
+  }
+
+  input TableBooleanFilterInput {
+          ne: Boolean
+          eq: Boolean
+  }
+
+  input TableFloatFilterInput {
+          ne: Float
+          eq: Float
+          le: Float
+          lt: Float
+          ge: Float
+          gt: Float
+          contains: Float
+          notContains: Float
+          between: [Float]
+  }
+
+  input TableIDFilterInput {
+          ne: ID
+          eq: ID
+          le: ID
+          lt: ID
+          ge: ID
+          gt: ID
+          contains: ID
+          notContains: ID
+          between: [ID]
+          beginsWith: ID
+  }
+
+  input TableIntFilterInput {
+          ne: Int
+          eq: Int
+          le: Int
+          lt: Int
+          ge: Int
+          gt: Int
+          contains: Int
+          notContains: Int
+          between: [Int]
+  }
+
+  input TablePostFilterInput {
+          id: TableIDFilterInput
+          author: TableStringFilterInput
+          title: TableStringFilterInput
+          content: TableStringFilterInput
+          url: TableStringFilterInput
+          ups: TableIntFilterInput
+          downs: TableIntFilterInput
+          version: TableIntFilterInput
+  }
+
+  input TableStringFilterInput {
+          ne: String
+          eq: String
+          le: String
+          lt: String
+          ge: String
+          gt: String
+          contains: String
+          notContains: String
+          between: [String]
+          beginsWith: String
+  }
+
+  input UpdatePostInput {
+          id: ID!
+          author: String
+          title: String
+          content: String
+          url: String
+          ups: Int
+          downs: Int
+          version: Int
+  }
+
+  schema {
+          query: Query
+          mutation: Mutation
+          subscription: Subscription
+  }
+```
+
+**Note:** If you're using the sample schema specified at the start of this documentation, you can replace your schema with the previous schema.
+
+Next, you need to add a resolver for createPostWithFile mutation. You can do that from the AWS AppSync console by selecting PostsTable as the data source and the following mapping templates.
+
+**Request Mapping Template**
+
+```
+  {
+      "version": "2017-02-28",
+      "operation": "PutItem",
+      "key": {
+        "id": $util.dynamodb.toDynamoDBJson($util.autoId()),
+      },
+      #set( $attribs = $util.dynamodb.toMapValues($ctx.args.input) )
+      #if($util.isNull($ctx.args.input.file.version))
+            #set( $attribs.file = $util.dynamodb.toS3Object($ctx.args.input.file.key, $ctx.args.input.file.bucket, $ctx.args.input.file.region))
+      #else
+            #set( $attribs.file = $util.dynamodb.toS3Object($ctx.args.input.file.key, $ctx.args.input.file.bucket, $ctx.args.input.file.region, $ctx.args.input.file.version))
+      #end
+      "attributeValues": $util.toJson($attribs),
+      "condition": {
+        "expression": "attribute_not_exists(#id)",
+        "expressionNames": {
+          "#id": "id",
+        },
+      },
+   }
+```
+**Response Mapping Template**
+
+```
+  $util.toJson($context.result)
+```
+After you have a resolver for the mutation, to ensure that our S3 Complex Object details are fetched correctly during any query operation, add a resolver for the file field of Post. You can do that from the AWS AppSync console by using the following mapping templates.
+
+**Request Mapping Template**
+
+```
+  {
+    "version" : "2017-02-28",
+    "operation" : "Query",
+    "query" : {
+        ## Provide a query expression. **
+        "expression": "id = :id",
+        "expressionValues" : {
+            ":id" : {
+                "S" : "${ctx.args.id}"
+            }
+        }
+    }
+  }
+```
+
+**Response Mapping Template**
+
+```
+  $util.toJson($util.dynamodb.fromS3ObjectJson($context.source.file))
+```
+The AWS AppSync SDK doesn't take a direct dependency on the AWS SDK for iOS for Amazon S3, but takes in :code:`AWSS3TransferUtility` and :code:`AWSS3PresignedURLClient` clients as part of AWSAppSyncClientConfiguration. The code generator used above for generating the API generates the Amazon S3 wrappers required to use the previous clients in the client code. To generate the wrappers, pass the :code:`--add-s3-wrapper` flag while running the code generator tool. You also need to take a dependency on the AWSS3 SDK. You can do that by updating your Podfile to the following:
+
+```
+
+  target 'PostsApp' do
+    use_frameworks!
+    pod 'AWSAppSync' ~> '2.6.18'
+    pod 'AWSS3' ~> '2.6.27'
+  end
+```
+Then run `pod install` to fetch the new dependency.
+
+Download the updated schema.json from the and put it in the GraphQLOperations folder in the root of the app.
+
+Next, you have to add the new mutation, which is used to perform S3 uploads as part of mutation. Add the following mutation operation in your posts.graphql file:
+
+```
+  mutation AddPostWithFile($input: CreatePostWithFileInput!) {
+      createPostWithFile(input: $input) {
+          id
+          title
+          author
+          url
+          content
+          ups
+          downs
+          version
+          file {
+              ...S3Object
+          }
+      }
+    }
+
+    fragment S3Object on S3Object {
+      bucket
+      key
+      region
+    }
+  }
+```
+
+After adding the new mutation in our operations file, we run the code generator again with the new schema to generate mutations that support file uploads. This time, we also pass the -add-s3-wrapper flag, as follows:
+
+```bash
+  aws-appsync-codegen generate GraphQLOperations/posts.graphql --schema GraphQLOperations/schema.json --output API.swift --add-s3-wrapper
+```
+Update the :code:`AWSAppSyncClientConfiguration` object to provide the :code:`AWSS3TransferUtility` client for managing the uploads and downloads:
+
+```swift
+  let appSyncConfig = try AWSAppSyncClientConfiguration(url: AppSyncEndpointURL,
+                                                      serviceRegion: AppSyncRegion,
+                                                      credentialsProvider: credentialsProvider,
+                                                      databaseURL:databaseURL,
+                                                      s3ObjectManager: AWSS3TransferUtility.default())
+```
+The mutation operation doesn't require any specific changes in method signature. It requires only an S3ObjectInput with bucket, key, region, localUri, and mimeType. Now when you do a mutation, it automatically uploads the specified file to Amazon S3 using the `AWSS3TransferUtility` client internally.
+
 
 ## Next Steps
 
