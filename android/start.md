@@ -29,7 +29,14 @@ Minimum requirements for your development environment are as follows.
 
 ## Step 1: Create a new app
 
-Create a new android app
+* Follow [these steps](https://developer.android.com/training/basics/firstapp/creating-project) to create a new Android Studio application
+
+* Add the following to your `AndroidManifest.xml` :
+
+  ```xml
+  <uses-permission android:name="android.permission.INTERNET"/>
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+  ```
 
 ## Step 2: Install amplify
 
@@ -64,7 +71,7 @@ Follow the following steps to setup your backend.
     | -------- | ------------- | --------- | --------------- |
     ```
 
-Use the steps in the next section to configure the connection between your app and the serverless backend.
+Your app is now ready for you to add cloud-powered features. We recommend [adding analytics](./analytics) as your first feature.
 
 ## Step 4: Connect to Your Backend
 

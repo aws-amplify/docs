@@ -7,6 +7,195 @@
 
 ## GraphQL: Realtime and Offline
 
+AWS AppSync integrates with the [Apollo GraphQL client](https://github.com/apollographql/apollo-client) when building client applications. AWS provides plugins for offline support, authorization, and subscription handshaking to make this process easier. You can use the Apollo client directly, or with some client helpers provided in the AWS AppSync SDK when you get started.
+
+For a step-by-step tutorial describing how to build an Android application, including code generation for Java types, by using AWS AppSync see `aws-appsync-building-a-client-app-android`.
+
+The following information gives an overview of how the AWS SDKs work as well as code generation for your GraphQL application using the [AWS Amplify toolchain](https://aws-amplify.github.io/).
+
+### Application Configuration
+
+The AWS SDKs support configuration through a centralized file called `awsconfiguration.json` defining all the regions and service endpoints to communicate. When you configure categories in the Amplify CLI and run `amplify push`, this file is updated allowing you to focus on your Android application code. On Android Studio projects the `awsconfiguration.json` are placed in the `./src/main/res/raw` directory when using the CLI. If you are building an application and starting from the AWS AppSync console, choose the **Download Config** button on the **App Integration** page to download the `awsconfiguration.json` file, which is already populated for that specific API. You need to place it in the `./src/main/res/raw`.
+
+### Code Generation
+
+To execute GraphQL operations in Android you need to run a code generation process, which requires both the GraphQL schema and the statements (for example, queries, mutations, or subscriptions) that your client defines. The Amplify CLI toolchain makes this easy for you by automatically pulling down your schema and generating default GraphQL queries, mutations, and subscriptions before kicking off the code generation process using Gradle. If your client requirements change, you can alter these GraphQL statements and kick off a Gradle build again to regenerate the types. Install the CLI with the following command:
+
+```bash
+    npm install -g @aws-amplify/cli
+```
+
+Next, open a terminal, go to your Android Studio project root, and then run the following:
+
+```bash
+    amplify init
+    amplify add codegen --apiId XXXXXX
+```
+
+The `XXXXXX` is the unique AppSync API identifier that you can find in the console in the root of your API's integration page. When you run this command you can accept the defaults, which create a `./src/main.graphql` folder structure with your statements. When you add the required Gradle dependencies later, the generated packages are automatically added to your project.
+
+### Import SDK and Config
+
+To use AppSync in your Android studio project, modify the project's `build.gradle` with the following dependency in the build script:
+
+```bash
+    classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.6.+'
+```
+
+Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `compile 'com.amazonaws:aws-android-sdk-appsync:2.6.+'`. For example:
+
+
+```bash
+    apply plugin: 'com.android.application'
+    apply plugin: 'com.amazonaws.appsync'
+    android {
+        // Typical items
+    }
+    dependencies {
+        // Typical dependencies
+        compile 'com.amazonaws:aws-android-sdk-appsync:2.6.+'
+        compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
+        compile 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+    }
+```
+
+
+Finally, update your AndroidManifest.xml with updates to `<uses-permissions>` for network calls and offline state. Also, add a `<service>` entry under `<application>` for `MqttService` to use subscriptions:
+
+```xml
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+            <!--other code-->
+
+        <application
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme">
+
+            <service android:name="org.eclipse.paho.android.service.MqttService" />
+
+            <!--other code-->
+        </application>
+```
+
+**Build your project** ensuring there are no issues.
+
+### Client Initialization
+
+Inside your application code, such as the `onCreate()` lifecycle method of your activity class, you can initialize the AppSync client using an instance of `AWSConfiguration()` in the `AWSAppSyncClient` builder like the following:
+
+```java
+
+    private AWSAppSyncClient mAWSAppSyncClient;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        mAWSAppSyncClient = AWSAppSyncClient.builder()
+                .context(getApplicationContext())
+                .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+                .build();
+    }
+```
+
+This reads configuration information in the `awsconfiguration.json` file. By default, the information in the `Default` section of the json file is used.
+
+### Run a Query
+
+Now that the client is configured, you can run a GraphQL query. The syntax of the callback is `GraphQLCall.Callback<{NAME>Query.Data>` where `{NAME}` comes from the GraphQL statements that `amplify codegen` created after you ran a Gradle build. You invoke this from an instance of the AppSync client with a similar syntax of `.query(<NAME>Query.builder().build())`. For example, if you have a `ListTodos` query, your code will look like the following:
+
+```java
+    public void query(){
+        mAWSAppSyncClient.query(ListTodosQuery.builder().build())
+                .responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK)
+                .enqueue(todosCallback);
+    }
+
+    private GraphQLCall.Callback<ListTodosQuery.Data> todosCallback = new GraphQLCall.Callback<ListTodosQuery.Data>() {
+        @Override
+        public void onResponse(@Nonnull Response<ListTodosQuery.Data> response) {
+            Log.i("Results", response.data().listTodos().items().toString());
+        }
+
+        @Override
+        public void onFailure(@Nonnull ApolloException e) {
+            Log.e("ERROR", e.toString());
+        }
+    };
+```
+
+Optionally, you can change the cache policy on `AppSyncResponseFetchers`, but we recommend leaving `CACHE_AND_NETWORK` because it pulls results from the local cache first before retrieving data over the network. This gives a snappy UX and offline support.
+
+### Run a Mutation
+
+To add data you need to run a GraphQL mutation. The syntax of the callback is `GraphQLCall.Callback<{NAME}Mutation.Data>` where `{NAME}` comes from the GraphQL statements that `amplify codegen` created after a Gradle build. However, most GraphQL schemas organize mutations with an `input` type for maintainability, which is what the Amplify CLI does as well. Therefore you'll pass this as a parameter called `input` created with a second builder. You invoke this from an instance of the AppSync client with a similar syntax of `.mutate({NAME}Mutation.builder().input({Name}Input).build())` like the following:
+
+```java
+    public void mutation(){
+        CreateTodoInput createTodoInput = CreateTodoInput.builder().
+            name("Use AppSync").
+            description("Realtime and Offline").
+            build();
+
+        mAWSAppSyncClient.mutate(CreateTodoMutation.builder().input(createTodoInput).build())
+            .enqueue(mutationCallback);
+    }
+
+    private GraphQLCall.Callback<CreateTodoMutation.Data> mutationCallback = new GraphQLCall.Callback<CreateTodoMutation.Data>() {
+        @Override
+        public void onResponse(@Nonnull Response<CreateTodoMutation.Data> response) {
+            Log.i("Results", "Added Todo");
+        }
+
+        @Override
+        public void onFailure(@Nonnull ApolloException e) {
+            Log.e("Error", e.toString());
+        }
+    };
+```
+
+### Subscribe to Data
+
+Finally, it's time to set up a subscription to real-time data. The callback is just `AppSyncSubscriptionCall.Callback` and you invoke it with a client `.subscribe()` call and pass in a builder with syntax of `{NAME}Subscription.builder()` where `{NAME}` comes from the GraphQL statements that `amplify codegen` and Gradle build created. Note that the AppSync console and Amplify GraphQL transformer have a common nomenclature that puts the word `On` in front of a subscription as in the following example:
+
+```java
+    private AppSyncSubscriptionCall subscriptionWatcher;
+
+    private void subscribe(){
+        OnCreateTodoSubscription subscription = OnCreateTodoSubscription.builder().build();
+        subscriptionWatcher = mAWSAppSyncClient.subscribe(subscription);
+        subscriptionWatcher.execute(subCallback);
+    }
+
+    private AppSyncSubscriptionCall.Callback subCallback = new AppSyncSubscriptionCall.Callback() {
+        @Override
+        public void onResponse(@Nonnull Response response) {
+            Log.i("Response", response.data().toString());
+        }
+
+        @Override
+        public void onFailure(@Nonnull ApolloException e) {
+            Log.e("Error", e.toString());
+        }
+
+        @Override
+        public void onCompleted() {
+            Log.i("Completed", "Subscription completed");
+        }
+    };
+```
+
+Subscriptions can also take input types like mutations, in which case they will be subscribing to particular events based on the input. To learn more about subscription arguments, see [Real-Time data](./aws-appsync-real-time-data).
+
 ## REST API
 
 ### Overview

@@ -413,7 +413,7 @@ After you have a resolver for the mutation, to ensure that our S3 Complex Object
 ```
   $util.toJson($util.dynamodb.fromS3ObjectJson($context.source.file))
 ```
-The AWS AppSync SDK doesn't take a direct dependency on the AWS SDK for iOS for Amazon S3, but takes in :code:`AWSS3TransferUtility` and :code:`AWSS3PresignedURLClient` clients as part of AWSAppSyncClientConfiguration. The code generator used above for generating the API generates the Amazon S3 wrappers required to use the previous clients in the client code. To generate the wrappers, pass the :code:`--add-s3-wrapper` flag while running the code generator tool. You also need to take a dependency on the AWSS3 SDK. You can do that by updating your Podfile to the following:
+The AWS AppSync SDK doesn't take a direct dependency on the AWS SDK for iOS for Amazon S3, but takes in `AWSS3TransferUtility` and `AWSS3PresignedURLClient` clients as part of AWSAppSyncClientConfiguration. The code generator used above for generating the API generates the Amazon S3 wrappers required to use the previous clients in the client code. To generate the wrappers, pass the `--add-s3-wrapper` flag while running the code generator tool. You also need to take a dependency on the AWSS3 SDK. You can do that by updating your Podfile to the following:
 
 ```
 
@@ -451,25 +451,23 @@ Next, you have to add the new mutation, which is used to perform S3 uploads as p
       key
       region
     }
-  }
 ```
 
 After adding the new mutation in our operations file, we run the code generator again with the new schema to generate mutations that support file uploads. This time, we also pass the -add-s3-wrapper flag, as follows:
 
 ```bash
-  aws-appsync-codegen generate GraphQLOperations/posts.graphql --schema GraphQLOperations/schema.json --output API.swift --add-s3-wrapper
+aws-appsync-codegen generate GraphQLOperations/posts.graphql --schema GraphQLOperations/schema.json --output API.swift --add-s3-wrapper
 ```
-Update the :code:`AWSAppSyncClientConfiguration` object to provide the :code:`AWSS3TransferUtility` client for managing the uploads and downloads:
+Update the `AWSAppSyncClientConfiguration` object to provide the `AWSS3TransferUtility` client for managing the uploads and downloads:
 
 ```swift
-  let appSyncConfig = try AWSAppSyncClientConfiguration(url: AppSyncEndpointURL,
-                                                      serviceRegion: AppSyncRegion,
-                                                      credentialsProvider: credentialsProvider,
-                                                      databaseURL:databaseURL,
-                                                      s3ObjectManager: AWSS3TransferUtility.default())
+let appSyncConfig = try AWSAppSyncClientConfiguration(url: AppSyncEndpointURL,
+                                                    serviceRegion: AppSyncRegion,
+                                                    credentialsProvider: credentialsProvider,
+                                                    databaseURL:databaseURL,
+                                                    s3ObjectManager: AWSS3TransferUtility.default())
 ```
 The mutation operation doesn't require any specific changes in method signature. It requires only an S3ObjectInput with bucket, key, region, localUri, and mimeType. Now when you do a mutation, it automatically uploads the specified file to Amazon S3 using the `AWSS3TransferUtility` client internally.
-
 
 ## Next Steps
 
