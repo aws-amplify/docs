@@ -2,11 +2,79 @@
 
 Enable your users to sign-in using credentials from Facebook, Google, or your own custom user directory. The CLI deploys [Amazon Cognito identity pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-identity.html) and [user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html) to create your backend.
 
-## Set Up Your Backend
+## Customize the SDK Sign-In UI
+
+By default, the SDK presents sign-in UI for each sign in provider you enable in your Mobile Hub project (Email and Password, Facebook, Google) with a default look and feel. It knows which provider(s) you chose by reading the `awsconfiguration.json` file you integrated with your app.
+
+To override the defaults, and modify the behavior, look, and feel of the sign-in UI, create an `AuthUIConfiguration` object and set the appropriate properties.
+
+
+iOS - Swift
+
+Create and configure an `AWSAuthUIConfiguration` object and set its properties.
+
+Create and configure an `AuthUIConfiguration` object.
+
+* To present the Email and Password user `SignInUI`, set `enableUserPoolsUI` to `true`.
+
+* To present Facebook or Google  user `SignInUI`, add `.addSignInButtonView(class: AWSFacebookSignInButton.self)` or `.addSignInButtonView(class: AWSFacebookSignInButton.self)`.
+
+* To change the logo, use `logoImage`.
+
+* To change the background color, use `backgroundColor`.
+
+* To cancel the sign-in flow, use `canCancel`.
+
+* To change the font in the sign-in views, use the `font` property and pass in the `UIFont` object that represents a font family.
+
+* To draw the `backgroundColor` full screen, use `fullScreenBackgroundColor`.
+
+```swift
+import UIKit
+import AWSAuthUI
+import AWSMobileClient
+import AWSUserPoolsSignIn
+import AWSFacebookSignIn
+import AWSGoogleSignIn
+
+class SampleViewController: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        if !AWSSignInManager.sharedInstance().isLoggedIn {
+            presentAuthUIViewController()
+        }
+    }
+
+    func presentAuthUIViewController() {
+        let config = AWSAuthUIConfiguration()
+        config.enableUserPoolsUI = true
+        config.addSignInButtonView(class: AWSFacebookSignInButton.self)
+        config.addSignInButtonView(class: AWSGoogleSignInButton.self)
+        config.backgroundColor = UIColor.blue
+        config.font = UIFont (name: "Helvetica Neue", size: 20)
+        config.isBackgroundColorFullScreen = true
+        config.canCancel = true
+
+        AWSAuthUIViewController.presentViewController(
+            with: self.navigationController!,
+            configuration: config, completionHandler: { (provider: AWSSignInProvider, error: Error?) in
+                if error == nil {
+                    // SignIn succeeded.
+                } else {
+                    // end user faced error while loggin in, take any required action here.
+                }
+        })
+    }
+}
+```
+
+## Add User Sign-in to Your Mobile App with Amazon Cognito
+
+### Set Up Your Backend
 
 **Prerequisite** Complete the [Get Started](./get-started) steps before you proceed.
 
-### Email & Password
+#### Email & Password
 
 `This default auth configuration sets up a custom user pool for your app.`
 
@@ -41,7 +109,7 @@ Enable your users to sign-in using credentials from Facebook, Google, or your ow
 
 5. Follow the [Set up Email & Password Login](set-up-email-and-password) steps to connect to your backend from your app.
 
-## Facebook
+#### Facebook
 
 **To set up Facebook sign-in**
 
@@ -87,7 +155,7 @@ Enable your users to sign-in using credentials from Facebook, Google, or your ow
 
 9. Follow the steps at [Set Up Facebook Login](./set-up-facebook) to connect to your backend from your app.
 
-## Google
+#### Google
 
 **To set up Google sign-in**
 
@@ -133,7 +201,7 @@ Enable your users to sign-in using credentials from Facebook, Google, or your ow
 
 Note that the CLI allows you to select more than one identity provider for your app. You can also run `amplify auth update` to add an identity provider to an existing auth configuration.
 
-## Set Up Email and Password Login in Your Mobile App
+### Set Up Email and Password Login in Your Mobile App
 
 1. Add the following dependencies in your project's `Podfile`:
 
@@ -152,7 +220,7 @@ Note that the CLI allows you to select more than one identity provider for your 
 	```bash
 	pod install --repo-update
 	```
-## Set Up Facebook Login in Your Mobile App
+### Set Up Facebook Login in Your Mobile App
 
 1. Add or update your AWS backend configuration file to incorporate your new sign-in. For details, see the last steps in the [Get Started: Set Up Your Backend](./add-aws-mobile-sdk-basic-setup) section.
 
@@ -214,7 +282,7 @@ Note that the CLI allows you to select more than one identity provider for your 
   </dict>
 	```
 
-## Set Up Google Login in Your Mobile App
+### Set Up Google Login in Your Mobile App
 
 1. Add or update your AWS backend configuration file to incorporate your new sign-in. For details, see the last steps in the [Get Started: Set Up Your Backend](./start) section.
 
@@ -257,6 +325,91 @@ Note that the CLI allows you to select more than one identity provider for your 
 
 	<!-- ... -->
 	```
+
+## Set Up Facebook Authentication
+
+To use the following Facebook service configuration steps to federate Facebook as a user sign-in provider for AWS services called in your app, try the AWS Amplify [User Sign-in feature](./add-aws-mobile-user-sign-in).
+
+You must first register your application with Facebook by using the [Facebook Developers portal](https://developers.facebook.com/).
+
+AWS Amplify generates code that enables you to use Facebook to provide federated authentication for your mobile app users. This topic explains how to set up Facebook as an identity provider for your app.
+
+If you already have a Facebook app ID, copy and paste it into the `Facebook App ID` field
+when configuring authentication using the AWS Amplify CLI.
+
+**To get a Facebook app ID**
+
+1. In the [Facebook Developers portal](https://developers.facebook.com/), sign in with your
+   Facebook credentials.
+
+2. From `Create App`, choose `Add a New App` (note: this menu label will be
+   `My Apps` if you have previously created an app.
+
+![Image](./media/new-facebook-app.png)
+
+3. If asked, choose the platform of your app that will use Facebook sign-in, and `basic
+   setup`.
+
+4. Type a display name for your app, select a category for your app from the `Category`
+   drop-down list, and then choose `Create App ID`.
+
+![Image](./media/new-facebook-app-new-app-id.png)
+
+
+5. Complete the `Security Check` that appears. Your new app then appears in the
+   `Dashboard`.
+
+![Image](./media/new-facebook-app-id.png)
+
+6. Copy the App ID and paste it into the `Facebook App ID` field in the Mobile Hub console.
+
+![Image](./media/facebook-app-id-console-entry.png)
+
+7. In the Facebook Developer portal's left hand navigation list, choose `Settings`, then
+   choose `+ Add Platform`.
+
+![Image](./media/new-facebook-add-platform.png)
+
+8. Choose your platform and provide information about your app that Facebook will use for
+   integration during credential validation.
+
+   `For iOS:`
+
+      1. Add your app's Bundle ID. (for example, com.amazon.YourProjectName).
+
+![Image](./media/new-facebook-add-platform-ios.png)
+
+
+9. In the Facebook Developers portal, choose `Save changes`, then `Use this
+   package name` if a dialog appears saying that Google Play has an issue with your package name.
+
+10. Only users with roles assigned in the Facebook portal will be able to authenticate through your
+   app while it is in development (not yet published).
+
+    To authorize users, in the Facebook Developer portal's left hand navigation list, choose
+    `Roles`, then `Add Testers`. Provide a valid Facebook ID.
+
+![Image](./media/new-facebook-add-testers.png)
+
+
+11. In the Mobile Hub console, choose `Save changes`.
+
+For more information about integrating with Facebook Login, see the [Facebook Getting Started Guide](https://developers.facebook.com/docs/facebook-login).
+
+## Set Up Google Authentication
+
+To use the following Google service configuration steps to federate Google as a user sign-in provider for AWS services called in your app, try the AWS Amplify [User Sign-in feature](./add-aws-mobile-user-sign-in).
+
+With AWS Amplify, you can configure a working Google Sign-In feature for both Android and iOS apps. To fully integrate Google Sign-In with your app, AWS Amplify needs information that comes from Google's setup process.
+
+The following pages detail the Google Sign-In requirements ans steps to integrate Google Sign-In for both iOS and Android apps.
+
+* `auth-google-create-google-project` (required for `all apps` regardless of platform)
+
+* `auth-google-create-oauth-android-clientid` (required for all Android apps)
+
+* `auth-google-create-oauth-ios-clientid` (required for all iOS apps)
+
 
 ## Add sign-in
 

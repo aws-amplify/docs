@@ -4,7 +4,7 @@
     <li class="tab-link java current" data-tab="java">Java</li>
     <li class="tab-link kotlin" data-tab="kotlin">Kotlin</li>
 </ul>
-## Add User File Storage to Your Mobile App with Amazon S3
+## S3
 
 ### Note
 
@@ -1558,6 +1558,9 @@ If you expect your app to perform transfers that take longer than 50 minutes, us
 
 `TransferUtility` generates Amazon S3 pre-signed URLs to use for background data transfer. Using Amazon Cognito Identity, you receive AWS temporary credentials. The credentials are valid for up to 60 minutes. Generated Amazon S3 pre-signed URLs cannot last longer than that time. Because of this limitation, the Amazon S3 Transfer Utility enforces 50 minute transfer timeouts, leaving a 10 minute buffer before AWS temporary credentials are regenerated. After **50 minutes**, you receive a transfer failure.
 </div>
+
+## Usage with GraphQL APIs (Complex Objects)
+
 
 ## Next Steps
 

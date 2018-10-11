@@ -1,10 +1,12 @@
 # Storage
 
-# Overview
+## S3
+
+### Overview
 
 Enable your app to store and retrieve user files from cloud storage with the permissions model that suits your purpose. The CLI deploys and configures cloud storage buckets using [Amazon Simple Storage Service](http://docs.aws.amazon.com/AmazonS3/latest/dev/).
 
-## Storage Access
+### Storage Access
 
 The CLI configures three different access levels on the storage bucket; public, protected and private.
 
@@ -14,7 +16,7 @@ The CLI configures three different access levels on the storage bucket; public, 
 
 - Files with private access level are only accessible for specific authenticated users only. In S3, they are stored under ``private/{user_identity_id}/`` where the user_identity_id corresponds to a unique Amazon Cognito Identity ID for that user.
 
-## Set Up Your Backend
+### Set Up Your Backend
 
 1. Complete the [Get Started](./start) steps before you proceed.
 
@@ -64,7 +66,7 @@ iOS - Swift
 
     The CLI will create the awsconfiguration.json file in your project directory. Add it to your project using XCode.
 
-## Connect to Your Backend
+### Connect to Your Backend
 
 Use the following steps to connect add file storage backend services to your app.
 
@@ -92,7 +94,7 @@ Use the following steps to connect add file storage backend services to your app
 	import AWSS3
 	```
 
-## Upload a File
+### Upload a File
 
 The following example shows how to upload data to an |S3| bucket.
 
@@ -129,7 +131,7 @@ The following example shows how to upload data to an |S3| bucket.
           }
 ```
 
-## Download a File
+### Download a File
 
 The following example shows how to download a file from an |S3| bucket.
 
@@ -165,8 +167,11 @@ func downloadData() {
 }
 ```
 
-Next Steps
-==========
+
+## Usage with GraphQL APIs (Complex Objects)
+
+
+## Next Steps
 
 * For sample apps that demonstrate TransferUtility capabilities, see [iOS S3 TransferUtility Sample](https://github.com/awslabs/aws-sdk-ios-samples/tree/master/S3TransferUtility-Sample).
 

@@ -4,11 +4,16 @@
     <li class="tab-link java current" data-tab="java">Java</li>
     <li class="tab-link kotlin" data-tab="kotlin">Kotlin</li>
 </ul>
-## Overview
+
+## GraphQL: Realtime and Offline
+
+## REST API
+
+### Overview
 
 Add RESTful APIs handled by your serverless Lambda functions. The CLI deploys your APIs and handlers using [Amazon API Gateway](http://docs.aws.amazon.com/apigateway/latest/developerguide/) and [AWS Lambda](http://docs.aws.amazon.com/lambda/latest/dg/).
 
-## Set Up Your Backend
+### Set Up Your Backend
 
 1. Complete the [Get Started](./get-started) steps before you proceed.
 
@@ -49,7 +54,7 @@ Add RESTful APIs handled by your serverless Lambda functions. The CLI deploys yo
 
    Use the steps in the next section to connect your app to your backend.
 
-## Connect to Your Backend
+### Connect to Your Backend
 
 Use the following steps to add Cloud Logic to your app.
 
