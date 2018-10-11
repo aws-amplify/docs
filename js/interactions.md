@@ -10,7 +10,7 @@ Ensure you have [installed and configured the Amplify CLI and library]({%if jeky
 
 **Amazon Lex**
 
-AWS Amplify implements [Amazon Lex](https://aws.amazon.com/lex) as the default chatbots service. Amazon Lex supports creating conversational bots with the by the same deep learning technologies that power Amazon Alexa.
+AWS Amplify implements [Amazon Lex](https://aws.amazon.com/lex) as the default chatbots service. Amazon Lex supports creating conversational bots with the same deep learning technologies that power Amazon Alexa.
 
 #### Automated Setup
 
@@ -48,6 +48,8 @@ import aws_exports from './aws-exports';
 Amplify.configure(aws_exports);
 ```
 
+Click [HERE](#WorkingWithAPI) for usage in your app
+
 ### Manual Setup
 
 #### Create your Chatbot
@@ -79,7 +81,7 @@ Amplify.configure({
 });
 ```
 
-## Working with the API
+##<a name="WorkingWithAPI"></a> Working with the Interactions API
 
 You can import *Interactions* module from 'aws-amplify' package to work with the API.
 
