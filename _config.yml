@@ -155,19 +155,6 @@ android_category_list:
       excerpt: Add cloud features to your app quickly using our toolchain and declarative APIs.
       base_url: '/android/analytics'
       subs:
-        - title: Analytics
-          excerpt: Drop-in analytics to track user sessions, custom user attributes, and in-app metrics.
-          cta: Read more
-          class: aws-icon-ps-60-pie-bar-charts
-          url: '/android/analytics'
-          icon: '/images/icons/Misc/Cloud.svg'
-          services:
-            - title: Amazon Pinpoint,
-              url: https://aws.amazon.com/pinpoint/
-            - title: Amazon Kinesis,
-              url: https://aws.amazon.com/kinesis/
-            - title: Custom Plugin
-              url: https://aws-amplify.github.io/amplify-js/media/analytics_guide#using-a-custom-plugin
         - title: API
           excerpt: A simple and secure solution for making HTTP requests using REST and GraphQL, with support for real-time data.
           cta: Read more
@@ -179,6 +166,15 @@ android_category_list:
               url: https://aws.amazon.com/api-gateway
             - title: AWS AppSync
               url: https://aws.amazon.com/appsync
+        - title: Storage
+          excerpt: A simple mechanism for managing user content in public, protected or private storage.
+          cta: Read more
+          class: aws-icon-ps-60-file-box
+          url: '/android/storage'
+          icon: '/images/icons/Misc/Cloud.svg'
+          services:
+              - title: Amazon S3
+                url: https://aws.amazon.com/s3/
         - title: Authentication
           excerpt:  Authentication APIs with pre-built UI components for your app.
           cta: Read more
@@ -192,15 +188,19 @@ android_category_list:
               url: https://aws.amazon.com/cognito/
             - title: Custom Plugin
               url:
-        - title: Interactions
-          excerpt: Create conversational bots powered by deep learning technologies.
+        - title: Analytics
+          excerpt: Drop-in analytics to track user sessions, custom user attributes, and in-app metrics.
           cta: Read more
-          class: aws-icon-ps-60-bubble-gear
-          url: '/android/interactions'
+          class: aws-icon-ps-60-pie-bar-charts
+          url: '/android/analytics'
           icon: '/images/icons/Misc/Cloud.svg'
           services:
-              - title: Amazon Lex
-                url: https://aws.amazon.com/lex/
+            - title: Amazon Pinpoint,
+              url: https://aws.amazon.com/pinpoint/
+            - title: Amazon Kinesis,
+              url: https://aws.amazon.com/kinesis/
+            - title: Custom Plugin
+              url: https://aws-amplify.github.io/amplify-js/media/analytics_guide#using-a-custom-plugin
         - title: Push Notifications
           excerpt: Push notifications with campaign analytics and targeting.
           cta: Read more
@@ -210,15 +210,15 @@ android_category_list:
           services:
               - title: Amazon Pinpoint
                 url: https://aws.amazon.com/pinpoint/
-        - title: Storage
-          excerpt: A simple mechanism for managing user content in public, protected or private storage.
+        - title: Interactions
+          excerpt: Create conversational bots powered by deep learning technologies.
           cta: Read more
-          class: aws-icon-ps-60-file-box
-          url: '/android/storage'
+          class: aws-icon-ps-60-bubble-gear
+          url: '/android/interactions'
           icon: '/images/icons/Misc/Cloud.svg'
           services:
-              - title: Amazon S3
-                url: https://aws.amazon.com/s3/
+              - title: Amazon Lex
+                url: https://aws.amazon.com/lex/
 
 ios_category_list:
     - category: SetupAndInstallation
@@ -259,19 +259,6 @@ ios_category_list:
       excerpt: Add cloud features to your app quickly using our toolchain and declarative APIs.
       base_url: '/ios/analytics'
       subs:
-        - title: Analytics
-          excerpt: Drop-in analytics to track user sessions, custom user attributes, and in-app metrics.
-          cta: Read more
-          class: aws-icon-ps-60-pie-bar-charts
-          url: '/ios/analytics'
-          icon: '/images/icons/Misc/Cloud.svg'
-          services:
-            - title: Amazon Pinpoint,
-              url: https://aws.amazon.com/pinpoint/
-            - title: Amazon Kinesis,
-              url: https://aws.amazon.com/kinesis/
-            - title: Custom Plugin
-              url: https://aws-amplify.github.io/amplify-js/media/analytics_guide#using-a-custom-plugin
         - title: API
           excerpt: A simple and secure solution for making HTTP requests using REST and GraphQL, with support for real-time data.
           cta: Read more
@@ -283,6 +270,15 @@ ios_category_list:
               url: https://aws.amazon.com/api-gateway
             - title: AWS AppSync
               url: https://aws.amazon.com/appsync
+        - title: Storage
+          excerpt: A simple mechanism for managing user content in public, protected or private storage.
+          cta: Read more
+          class: aws-icon-ps-60-file-box
+          url: '/ios/storage'
+          icon: '/images/icons/Misc/Cloud.svg'
+          services:
+              - title: Amazon S3
+                url: https://aws.amazon.com/s3/
         - title: Authentication
           excerpt:  Authentication APIs with pre-built UI components for your app.
           cta: Read more
@@ -296,15 +292,19 @@ ios_category_list:
               url: https://aws.amazon.com/cognito/
             - title: Custom Plugin
               url:
-        - title: Interactions
-          excerpt: Create conversational bots powered by deep learning technologies.
+        - title: Analytics
+          excerpt: Drop-in analytics to track user sessions, custom user attributes, and in-app metrics.
           cta: Read more
-          class: aws-icon-ps-60-bubble-gear
-          url: '/ios/interactions'
+          class: aws-icon-ps-60-pie-bar-charts
+          url: '/ios/analytics'
           icon: '/images/icons/Misc/Cloud.svg'
           services:
-              - title: Amazon Lex
-                url: https://aws.amazon.com/lex/
+            - title: Amazon Pinpoint,
+              url: https://aws.amazon.com/pinpoint/
+            - title: Amazon Kinesis,
+              url: https://aws.amazon.com/kinesis/
+            - title: Custom Plugin
+              url: https://aws-amplify.github.io/amplify-js/media/analytics_guide#using-a-custom-plugin
         - title: Push Notifications
           excerpt: Push notifications with campaign analytics and targeting.
           cta: Read more
@@ -314,15 +314,15 @@ ios_category_list:
           services:
               - title: Amazon Pinpoint
                 url: https://aws.amazon.com/pinpoint/
-        - title: Storage
-          excerpt: A simple mechanism for managing user content in public, protected or private storage.
+        - title: Interactions
+          excerpt: Create conversational bots powered by deep learning technologies.
           cta: Read more
-          class: aws-icon-ps-60-file-box
-          url: '/ios/storage'
+          class: aws-icon-ps-60-bubble-gear
+          url: '/ios/interactions'
           icon: '/images/icons/Misc/Cloud.svg'
           services:
-              - title: Amazon S3
-                url: https://aws.amazon.com/s3/
+              - title: Amazon Lex
+                url: https://aws.amazon.com/lex/
 
 category_list:
     - category: SetupAndInstallation

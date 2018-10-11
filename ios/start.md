@@ -2,7 +2,7 @@
 
 Get started building a cloud-powered iOS app using the AWS Amplify CLI and the AWS SDK for iOS. This page guides you through setting up an initial backend and integrating the SDK into your app.
 
-## Step 1: Set Up Your Development Environment
+## Step 0: Set Up Your Development Environment
 
 We strongly recommend that you use the Amplify CLI for building the serverless backend for your app. If you have already installed the CLI, skip ahead to [Step 2](./add-aws-mobile-sdk-basic-setup).
 
@@ -22,7 +22,17 @@ $ amplify configure
 * Choose the iOS app project you want to integrate with an AWS backend.
 * [Install Xcode](https://developer.apple.com/xcode/downloads/) version 8.0 or later.
 
-## Step 2: Set Up Your Backend
+## Step 1: Create a new app
+
+Create a new android app
+
+## Step 2: Install amplify
+
+```bash
+$ npm install --save aws-amplify
+```
+
+## Step 3: Set Up Your Backend
 
 1. The CLI prompts you for configuration parameters.
 
@@ -54,7 +64,7 @@ In the Finder, navigate to the folder containing your app `.xcodeproj` file. Fro
 
    Use the steps in the next section to configure the connection between your app and the serverless backend.
 
-## Step 3: Connect to Your Backend
+## Step 4: Connect to Your Backend
 
 Perform the following steps to set up a connection to AWS services that you'll use in the Get Started section of this guide.
 
@@ -97,6 +107,10 @@ pod install --repo-update
 6. Rebuild your app after reopening it in the workspace to resolve APIs from new libraries called in your code. This is a good practice any time you add import statements.
 
 Your app is now ready for you to add cloud-powered features. We recommend [adding analytics](./analytics) as your first feature.
+
+## Step 5: Initialize the SDK
+
+## Step 6: Tutorials and best Practices
 
 ## Next Steps
 

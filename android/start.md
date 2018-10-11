@@ -2,7 +2,7 @@
 
 Get started building a cloud-powered Android app using the AWS Amplify CLI and the AWS SDK for Android. This page guides you through setting up an initial backend and integrating the SDK into your app.
 
-## Step 1: Set Up Your Development Environment
+## Step 0: Set Up Your Development Environment
 
 We strongly recommend that you use the Amplify CLI for building the serverless backend for your app. If you have already installed the CLI, skip ahead to [Step 2](./add-aws-mobile-sdk-basic-setup).
 
@@ -27,7 +27,17 @@ Minimum requirements for your development environment are as follows.
 
 * Install Android SDK for API level 23 (Android SDK 6.0).
 
-## Step 2: Set Up Your Backend
+## Step 1: Create a new app
+
+Create a new android app
+
+## Step 2: Install amplify
+
+```bash
+$ npm install --save aws-amplify
+```
+
+## Step 3: Set Up Your Backend
 
 Follow the following steps to setup your backend.
 
@@ -56,7 +66,7 @@ Follow the following steps to setup your backend.
 
 Use the steps in the next section to configure the connection between your app and the serverless backend.
 
-## Step 3: Connect to Your Backend
+## Step 4: Connect to Your Backend
 
 Perform the following steps to set up a connection to AWS services that you'll use in the Get Started section of this guide.
 
@@ -76,6 +86,10 @@ Perform the following steps to set up a connection to AWS services that you'll u
     ```
 
 	Your app is now ready for you to add cloud-powered features. We recommend [adding analytics](./analytics) as your first feature.
+
+## Step 5: Initialize the SDK
+
+## Step 6: Tutorials and best Practices
 
 ## Next Steps
 
