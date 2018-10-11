@@ -73,30 +73,37 @@ Follow the following steps to setup your backend.
 
 Your app is now ready for you to add cloud-powered features. We recommend [adding analytics](./analytics) as your first feature.
 
-## Step 4: Connect to Your Backend
-
-Perform the following steps to set up a connection to AWS services that you'll use in the Get Started section of this guide.
-
-1. Add dependencies to your `app/build.gradle`, and then choose `Sync Now` on the upper-right side of Android Studio. These libraries enable basic AWS functions, like credentials and analytics.
-
-  	```
-  	dependencies {
-  		implementation 'com.amazonaws:aws-android-sdk-core:2.6.+'
-  	}
-  	```
-
-2. Your `AndroidManifest.xml` must contain the following:
-
-    ```xml
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    ```
-
-	Your app is now ready for you to add cloud-powered features. We recommend [adding analytics](./analytics) as your first feature.
-
 ## Step 5: Initialize the SDK
 
-## Step 6: Tutorials and best Practices
+Initialize the SDK with the following snippet
+
+```java
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+import com.amazonaws.mobile.client.AWSMobileClient;
+
+public class MainActivity extends AppCompatActivity {
+    private static final String TAG = MainActivity.class.getSimpleName();
+
+    public static PinpointManager pinpointManager;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Initialize the AWS Mobile Client
+        AWSMobileClient.getInstance().initialize(this, new AWSStartupHandler() {
+            @Override
+            public void onComplete(AWSStartupResult awsStartupResult) {
+                Log.d(TAG, "AWSMobileClient is instantiated and you are connected to AWS!");
+            }
+        }).execute();
+    }
+}
+```
+## Step 6: Concepts (awsconfig, manual credentials)
 
 ## Next Steps
 

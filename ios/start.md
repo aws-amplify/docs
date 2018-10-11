@@ -24,7 +24,7 @@ $ amplify configure
 
 ## Step 1: Create a new app
 
-Create a new android app
+Follow [these steps](https://developer.apple.com/library/archive/referencelibrary/GettingStarted/DevelopiOSAppsSwift/BuildABasicUI.html) to create an iOS application using Swift.
 
 ## Step 2: Install amplify
 
@@ -110,7 +110,7 @@ Your app is now ready for you to add cloud-powered features. We recommend [addin
 
 ## Step 5: Initialize the SDK
 
-## Step 6: Tutorials and best Practices
+## Step 6: Concepts (awsconfig, manual credentials)
 
 ## Next Steps
 

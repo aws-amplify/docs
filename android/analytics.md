@@ -202,13 +202,11 @@ Use the following steps to add analytics to your mobile app and monitor the resu
    To stop the session, use `stopSession()` and `submitEvents()` at the last point in the session that you want to capture. In this example, we are using a single Activity, so the session will stop when the MainActivity is destroyed. `onDestroy()` is usually called when the back button is pressed while in the activity.
 
    ```kotlin
-
-      override fun onDestroy() {
-          super.onDestroy()
-
-          pinpointManager?.sessionClient?.stopSession()
-          pinpointManager?.analyticsClient?.submitEvents()
-      }
+    override fun onDestroy() {
+        super.onDestroy()
+        pinpointManager?.sessionClient?.stopSession()
+        pinpointManager?.analyticsClient?.submitEvents()
+    }
   ```  
 </div>
 #### Monitor Analytics
