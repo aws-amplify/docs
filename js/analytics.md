@@ -102,8 +102,7 @@ User session data is automatically collected unless you disabled analytics. To s
 
 #### Update your IAM Policy:
 
-AWS Pinpoint has updated their service and so you need to update your IAM policy in order to continue using the `record` API.
-The Updated IAM policy for Pinpoint would be like:
+Amazon Pinpoint service requires an IAM policy in order to use the `record` API:
 ```json
 {
     "Version": "2012-10-17",
@@ -112,7 +111,6 @@ The Updated IAM policy for Pinpoint would be like:
             "Effect": "Allow",
             "Action": [
                 "mobiletargeting:UpdateEndpoint",
-                // to use the updated Pinpoint API
                 "mobiletargeting:PutEvents"
             ],
             "Resource": [
