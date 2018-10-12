@@ -27,9 +27,11 @@ type Comment @model {
 }
 ```
 
+> This is just an example. The transform defines more directives such as @auth and @searchable below.
+
 When used along with tools like the Amplify CLI, the GraphQL Transform simplifies the process of 
 developing, deploying, and maintaining GraphQL APIs. With it, you define your API using the 
-GraphQL Schema Definition Language (SDL) and can then use automation to transform it into a fully 
+[GraphQL Schema Definition Language (SDL)](https://facebook.github.io/graphql/June2018/) and can then use automation to transform it into a fully 
 descriptive cloudformation template that implements the spec. The transform also provides a framework
 through which you can define you own transformers as `@directives` for custom workflows.
 
@@ -205,11 +207,16 @@ amplify push
 ### @model
 
 Object types that are annotated with `@model` are top-level entities in the
-generated API. Objects annotated with `@model` are stored in DynamoDB and are
+generated API. Objects annotated with `@model` are stored in Amazon DynamoDB and are
 capable of being protected via `@auth`, related to other objects via `@connection`,
-and streamed into Elasticsearch via `@searchable`.
+and streamed into Amazon Elasticsearch via `@searchable`. You may also apply the
+`@versioned` directive to instantly add versioning and conflict detection to a
+model type.
 
 #### Definition
+
+The following SDL defines the `@model` directive that allows you to easily define
+top level object types in your API that are backed by Amazon DynamoDB.
 
 ```
 directive @model(
@@ -251,10 +258,12 @@ no mutation fields.
 
 A single `@model` directive configures the following AWS resources:
 
-- An Amazon DynamoDB table with 5 r/w units. Support for auto-scaling and encryption at rest coming soon.
+- An Amazon DynamoDB table with 5 read/write units.
 - An AWS AppSync DataSource configured to access the table above.
 - An AWS IAM role attached to the DataSource that allows AWS AppSync to call the above table on your behalf.
 - Up to 8 resolvers (create, update, delete, get, list, onCreate, onUpdate, onDelete) but this is configurable via the `query`, `mutation`, and `subscription` arguments on the `@model` directive.
+- Input objects for create, update, and delete mutations.
+- Filter input objects that allow you to filter objects in list queries and connection fields.
 
 This input schema document
 
@@ -399,10 +408,9 @@ type Subscription {
 
 ### @auth
 
-Object types that are annotated with `@auth` are protected by one of the
-supported authorization strategies. Types that are annotated with `@auth`
-must also be annotated with `@model`. Currently, Amazon Cognito user pools
-is the only supported authorization mode.
+Object types that are annotated with `@auth` are protected by a set of authorization
+rules. Currently, @auth only supports APIs with Amazon Cognito User Pools enabled. 
+Types that are annotated with `@auth` must also be annotated with `@model`.
 
 #### Definition
 
@@ -449,29 +457,17 @@ type Post
 }
 ```
 
-Owner authorization specifies that a user (and soon to be set of users) can access an object. To
+Owner authorization specifies that a user can access an object. To
 do so, each object has an *ownerField* (by default "owner") that stores ownership information
 and is verified in various ways during resolver execution.
 
 You can use the *queries* and *mutations* arguments to specify which operations are augmented as follows:
 
-**get**: If the record's owner is not the same as the logged in user (via `$ctx.identity.username`), throw `$util.unauthorized()`.
-**list**: Filter `$ctx.result.items` for owned items.
-**create**: Inject the logged in user's `$ctx.identity.username` as the *ownerField* automatically.
-**update**: Add conditional update that checks the stored *ownerField* is the same as `$ctx.identity.username`.
-**delete**: Add conditional update that checks the stored *ownerField* is the same as `$ctx.identity.username`.
-
-**Multi Owner Authorization (Coming Soon)**
-
-In the future, we will support multiple owners:
-
-```
-type Post @model @auth(rules: [{allow: owner, ownerField: "owners"}]) {
-  id: ID!
-  title: String!
-  owners: [String]
-}
-```
+- **get**: If the record's owner is not the same as the logged in user (via `$ctx.identity.username`), throw `$util.unauthorized()`.
+- **list**: Filter `$ctx.result.items` for owned items.
+- **create**: Inject the logged in user's `$ctx.identity.username` as the *ownerField* automatically.
+- **update**: Add conditional update that checks the stored *ownerField* is the same as `$ctx.identity.username`.
+- **delete**: Add conditional update that checks the stored *ownerField* is the same as `$ctx.identity.username`.
 
 **Static Group Authorization**
 
@@ -716,7 +712,7 @@ directive @versioned(versionField: String = "version", versionInput: String = "e
 
 #### Usage
 
-Annotate a `@model` type with the `@versioned` directive to add object versioning and conflict detection to a type.
+Add `@versioned` to a type that is also annotate with `@model` to enable object versioning and conflict detection for a type.
 
 ```
 type Post @model @versioned {
