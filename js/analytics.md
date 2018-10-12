@@ -100,6 +100,26 @@ Amplify.configure({
 User session data is automatically collected unless you disabled analytics. To see the results visit the [Amazon Pinpoint console](https://console.aws.amazon.com/pinpoint/home/).
 {: .callout .callout--info}
 
+#### Update your IAM Policy:
+
+Amazon Pinpoint service requires an IAM policy in order to use the `record` API:
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "mobiletargeting:UpdateEndpoint",
+                "mobiletargeting:PutEvents"
+            ],
+            "Resource": [
+                "arn:aws:mobiletargeting:*:${accountID}:apps/${appId}*"
+            ]
+        }
+    ]
+}
+
 ### Working with the API 
 
 #### Recording Custom Events
