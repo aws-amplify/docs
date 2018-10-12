@@ -594,7 +594,7 @@ const oauth = {
 
     // 'code' for Authorization code grant, 
     // 'token' for Implicit grant
-    responseType: 'code'
+    responseType: 'code',
 
     // optional, for Cognito hosted ui specified options
     options: {
