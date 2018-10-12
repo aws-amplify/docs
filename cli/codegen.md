@@ -13,7 +13,7 @@ When an project is configured to generate code with codegen, it stores all the c
 
 ### amplify add codegen <a name="codegen-add"></a>
 ```bash
-$ amplify add codgen [--apiId <api-id>]
+$ amplify add codegen [--apiId <api-id>]
 ```
 
 The `amplify add codegen` allows you to add AppSync API created using the AWS console. If you have your API is in a different region then that of your current region, the command asks you to choose the region. 
@@ -21,33 +21,33 @@ __Note__: If you use the --apiId flag to add an externally created AppSync API, 
 
 ### amplify configure codegen <a name="codegen-configure"></a>
 ```bash
-$ amplify configure codgen
+$ amplify configure codegen
 ```
-The `amplify configure codegen` command allows you to update the codgen configuration after it is added to your project. 
+The `amplify configure codegen` command allows you to update the codegen configuration after it is added to your project. 
 
 ### amplify codegen statements <a name="codegen-statements"></a>
 ```bash
 $ amplify codegen statements [--nodownload]
 ```
-The `amplify codegen statements` command  generates GraphQL statements(queries, mutation and subscription) based on your GraphQL schema. This command downloads introspection schema everytime it is run but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag
+The `amplify codegen statements` command  generates GraphQL statements(queries, mutation and subscription) based on your GraphQL schema. This command downloads introspection schema every time it is run but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag
 
 
-### amplify codegen types <a name="codgen-types"></a>
+### amplify codegen types <a name="codegen-types"></a>
 ```bash
 $ amplify codegen types
 ```
-The `amplify codegen types [--nodownload]` command generates GraphQL `types` for Flow and typescript and Swift class in an iOS project. This command downloads introspection schema everytime it is run but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag
+The `amplify codegen types [--nodownload]` command generates GraphQL `types` for Flow and typescript and Swift class in an iOS project. This command downloads introspection schema every time it is run but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag
 
-### amplify codegen <a name="codegent-types-and-statements"></a>
+### amplify codegen <a name="codegen-types-and-statements"></a>
 ```bash
 $ amplify codegen
 ```
-The `amplify codegen [--nodownload]` generates GraphQL `statements` and `types`. This command downloads introspection schema everytime it is run but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag
+The `amplify codegen [--nodownload]` generates GraphQL `statements` and `types`. This command downloads introspection schema every time it is run but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag
 
 
 ## Workflows <a name="workflows"></a>
 
-The design of codegen functionality provides mechanisms to run at different points in your app development lifecycle, including when you create or update an API as well as independently when you want to just update the data fetching requirements of your app but leave your API alone. It additionally allows you to work in a team where the schema is updated or managed by another person. Finally, you can also include the codgen in your build process so that it runs automatically (such as from in XCode).
+The design of codegen functionality provides mechanisms to run at different points in your app development lifecycle, including when you create or update an API as well as independently when you want to just update the data fetching requirements of your app but leave your API alone. It additionally allows you to work in a team where the schema is updated or managed by another person. Finally, you can also include the codegen in your build process so that it runs automatically (such as from in XCode).
 
 **Flow 1: Create API then automatically generate code**
 
@@ -355,7 +355,7 @@ dependencies {
 }
 ```
 
-Finally, update your `AndroidManifest.xml` with updats to `<uses-permissions>`for network calls and offline state. Also add a `<service>` entry under `<application>` for `MqttService` for subscriptions:
+Finally, update your `AndroidManifest.xml` with updates to `<uses-permissions>`for network calls and offline state. Also add a `<service>` entry under `<application>` for `MqttService` for subscriptions:
 
 ```xml
 <uses-permission android:name="android.permission.INTERNET"/>
@@ -454,7 +454,7 @@ private GraphQLCall.Callback<CreateTodoMutation.Data> mutationCallback = new Gra
 ```
 
 ### Subscriptions
-Finally it's time to setup a subscription to realtime data. The callback is just `AppSyncSubscriptionCall.Callback` and you invoke it with a client `.subscribe()` call and pass in a builder with syntax of `{NAME}Subscription.builder()` where `{NAME}` comes from the GraphQL statements that `amplify codegen types` created. Note that the Amplify GraphQL transformer has a common nomenclature of puttin the word `On` in front of a subscription like the below example:
+Finally it's time to setup a subscription to realtime data. The callback is just `AppSyncSubscriptionCall.Callback` and you invoke it with a client `.subscribe()` call and pass in a builder with syntax of `{NAME}Subscription.builder()` where `{NAME}` comes from the GraphQL statements that `amplify codegen types` created. Note that the Amplify GraphQL transformer has a common nomenclature of putting the word `On` in front of a subscription like the below example:
 
 ```java
 private AppSyncSubscriptionCall subscriptionWatcher;
