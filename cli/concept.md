@@ -8,7 +8,7 @@ Click [here](https://github.com/aws-amplify/docs/blob/master/cli/new-plugin.md) 
 
 # Architecture
 ![](https://github.com/UnleashedMind/docs/blob/master/cli/images/AmplifyCliConcept.jpg)
-## Cli core and plugins
+## CLI core and plugins
 The Amplify CLI uses [gluegun](https://github.com/infinitered/gluegun#readme). It is highly modularized.  <br/>
 The CLI core provides the pluggable platform, and most of the CLI category functions are implemented as plugins. <br/> 
 The CLI core searches for plugins in the global `node_modules` directory, and its own `node_modules` directory.  <br/>
@@ -122,7 +122,7 @@ Each plugin stores contents in its own subfolder inside this folder.
 
 ## amplfy files
 
-### <a name="meta"></a>amplify-meta.json file
+###<a name="meta"></a>amplify-meta.json file
 Both the `backend` and `#current-cloud-backend` directories contain an amplify-meta.json file.<br/>
 The amplify-meta.json in the `backend` directory serves as the white board for the CLI core and the plugins to log infomration for themsevles, and to communicate with each other. <br/><br/>
 The CLI core provides read and write access to the file for the lugins.<br/>
