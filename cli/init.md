@@ -1,7 +1,7 @@
 ---
 ---
 
-# New Project Setup
+# Project Setup
 
 The AWS Amplify CLI helps you set up an AWS IAM user, set up an AWS profile on your local system and the initialize Amplify powered apps with all your defined configurations. We'll also walk through steps as to how you could share the Amplify generated backend configuration between other frontend projects and re-use the same backend infrastructure in-between multiple platforms/users.
 
