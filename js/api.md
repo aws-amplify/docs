@@ -114,20 +114,12 @@ The following transformers are available to be used with AWS AppSync when defini
 
 ##### Type Generation using GraphQL Schemas
 
-When working with GraphQL data, it is useful to import your types from your schema into your code for type safety. You can easily do this with Amplify CLI's automated code generation feature. The CLI automatically downloads GraphQL Introspection Schemas from your defined GraphQL endpoint and generates TypeScript or Flow classes for you.
+When working with GraphQL data, it is useful to import your types from your schema into your code for type safety. You can easily do this with Amplify CLI's automated code generation feature. The CLI automatically downloads GraphQL Introspection Schemas from your defined GraphQL endpoint and generates TypeScript or Flow classes for you. Every time you push your GraphQL API, the cli will confirm if you want to generate the types and statements.
 
-To enable code generation, run:
-
-```bash
-$ amplify add codegen
-```
-
-When prompted, provide a folder location for your GraphQL query files, and a target file for the generated output.
-
-To generate your types, run:
+If you want to generate your GraphQL statements and types, run:
 
 ```bash
-$ amplify codegen generate
+$ amplify codegen
 ```
 
 A TypeScript or Flow type definition file will be generated in your target folder.  
@@ -256,102 +248,47 @@ AWS Amplify API category provides a GraphQL client for working with queries, mut
 
 #### Query Declarations
 
-You can declare GraphQL queries with standard GraphQL query syntax. To learn more about GraphQL queries, please visit [GraphQL Developer Documentation](http://graphql.org/learn/queries/). 
-
+Amplify cli codegen automatically generates all possible GraphQL statements (queries, mutations and subscriptions) and saves it in `src/graphql` folder.
 ```js
-const ListEvents = `query ListEvents {
-  listEvents {
-    items {
-      id
-      where
-      description
-    }
-  }
-}`;
-```
-
-You can also define parameters in your query. You can later assign values to parameters with `graphqlOperation` function.
-
-```js
-const GetEvent = `query GetEvent($id: ID! $nextToken: String) {
-    getEvent(id: $id) {
-        id
-        name
-        description
-        comments(nextToken: $nextToken) {
-            items {
-                content
-            }
-        }
-    }
-}`;
+import * as queries from './graphql/queries';
+import * as mutations from './graphql/mutations';
+import * as subscriptions from './graphql/subscriptions';
 ```
 
 #### Simple Query
 
-Running a GraphQL query is simple. Define your query and execute it with `API.graphql`:
+Running a GraphQL query is simple. Import the generated query and execute it with `API.graphql`:
 
 ```js
 import Amplify, { API, graphqlOperation } from "aws-amplify";
+import * as queries from './graphql/queries';
 
-const ListEvents = `query ListEvents {
-  listEvents {
-    items {
-      id
-      where
-      description
-    }
-  }
-}`;
-
-const GetEvent = `query GetEvent($id: ID! $nextToken: String) {
-    getEvent(id: $id) {
-        id
-        name
-        description
-        comments(nextToken: $nextToken) {
-            items {
-                content
-            }
-        }
-    }
-}`;
 
 // Simple query
-const allEvents = await API.graphql(graphqlOperation(ListEvents));
+const allTodos = await API.graphql(graphqlOperation(queries.listTodos));
+console.log(allTodos);
 
 // Query using a parameter
-const oneEvent = await API.graphql(graphqlOperation(GetEvent, { id: 'some id' }));
+const oneTodo = await API.graphql(graphqlOperation(queries.getTodo, { id: 'some id' }));
 console.log(oneEvent);
 
 ```
 
 #### Mutations
 
-Mutations are used to create or update data with GraphQL. A sample mutation query to create a new *Event* in a calendar app looks like this:
+Mutations are used to create or update data with GraphQL. A sample mutation query to create a new *Todo* looks like this:
 
 ```js
 import Amplify, { API, graphqlOperation } from "aws-amplify";
-
-const CreateEvent = `mutation CreateEvent($name: String!, $when: String!, $where: String!, $description: String!) {
-  createEvent(name: $name, when: $when, where: $where, description: $description) {
-    id
-    name
-    where
-    when
-    description
-  }
-}`;
+import * as mutations from './graphql/mutations';
 
 // Mutation
-const eventDetails = {
-    name: 'Party tonight!',
-    when: '8:00pm',
-    where: 'Ballroom',
-    description: 'Coming together as a team!'
+const todoDetails = {
+    name: 'Todo 1',
+    description: 'Learn AWS AppSync'
 };
 
-const newEvent = await API.graphql(graphqlOperation(CreateEvent, eventDetails));
+const newEvent = await API.graphql(graphqlOperation(mutations.createTodo, todoDetails));
 console.log(newEvent);
 ```
 
@@ -361,20 +298,13 @@ Subscriptions is a GraphQL feature allowing the server to send data to its clien
 
 ```js
 import Amplify, { API, graphqlOperation } from "aws-amplify";
+import * as subscriptions from './graphql/subscriptions';
 
-const SubscribeToEventComments = `subscription SubscribeToEventComments($eventId: String!) {
-  subscribeToEventComments(eventId: $eventId) {
-    eventId
-    commentId
-    content
-  }
-}`;
-
-// Subscribe with eventId 123
+// Subscribe to creation of Todo
 const subscription = API.graphql(
-    graphqlOperation(SubscribeToEventComments, { eventId: '123' })
+    graphqlOperation(subscriptions.onCreateTodo)
 ).subscribe({
-    next: (eventData) => console.log(eventData)
+    next: (todoData) => console.log(eventData)
 });
 
 // Stop receiving data updates from the subscription
@@ -415,33 +345,26 @@ import React from 'react';
 import Amplify, { graphqlOperation }  from "aws-amplify";
 import { Connect } from "aws-amplify-react";
 
+import * as queries from './graphql/queries';
+import * as subscriptions from './graphql/subscriptions';
+
 class App extends React.Component {
 
     render() {
 
-        const ListView = ({ events }) => (
+        const ListView = ({ todos }) => (
             <div>
-                <h3>All events</h3>
+                <h3>All Todos</h3>
                 <ul>
-                    {events.map(event => <li key={event.id}>{event.name} ({event.id})</li>)}
+                    {todos.map(todo => <li key={todo.id}>{todo.name} ({todo.id})</li>)}
                 </ul>
             </div>
         );
 
-        const ListEvents = `query ListEvents {
-            listEvents {
-                items {
-                id
-                name
-                description
-                }
-            }
-        }`;
-
         return (
-            <Connect query={graphqlOperation(ListEvents)}>
-                {({ data: { listEvents } }) => (
-                    <ListView events={listEvents.items} />
+            <Connect query={graphqlOperation(queries.listTodos)}>
+                {({ data: { listTodos } }) => (
+                    <ListView todos={listTodos.items} />
                 )}
             </Connect>
         )
@@ -456,13 +379,16 @@ Also, you can use `subscription` and `onSubscriptionMsg` attributes to enable su
 
 ```js
 
-<Connect  query={graphqlOperation(GetEvent, { id: currEventId })}
-          subscription={graphqlOperation(SubscribeToEventComments, { eventId: currEventId })}
-          onSubscriptionMsg={(prev, { subscribeToEventComments }) => {
-            console.log ( subscribeToEventComments);
-            return prev; }}>
-    {({ data: { listEvents } }) => (
-        <AllEvents events={listEvents ? listEvents.items : []} />
+<Connect
+    query={graphqlOperation(queries.listTodos)}
+    subscription={graphqlOperation(subscriptions.onCreateTodo)}
+    onSubscriptionMsg={(prev, { onCreateTodo }) => {
+        console.log ( onCreateTodo );
+        return prev; 
+    }}
+>
+    {({ data: { listTodos } }) => (
+        <ListView todos={listTodos ? listTodos.items : []} />
     )}
  </Connect>
 
@@ -471,16 +397,17 @@ Also, you can use `subscription` and `onSubscriptionMsg` attributes to enable su
 For mutations, a `mutation` function needs to be provided with `Connect` component. `mutation` returns a promise that resolves with the result of the GraphQL mutation.
 
 ```js
-class CreateEvent extends React.Component {
+import * as mutations from './graphql/mutations';
+class CreateTodo extends React.Component {
   // ...
   // This component calls its onCreate prop to trigger the mutation
   // const variables = { id: '1' }
   // this.props.onCreate(variables)
   // ...
 }
-<Connect mutation={graphqlOperation(Operations.CreateEvent)}>
+<Connect mutation={graphqlOperation(mutations.createTodo)}>
   {({ mutation }) => (
-      <CreateEvent onCreate={mutation} />
+      <CreateTodo onCreate={mutation} />
   )}
 </Connect>
 ```
