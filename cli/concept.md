@@ -25,7 +25,7 @@ There are four types of plugins
 
 #### category plugin
 Recognized by the `amplify-category-` prefix in the package name, a category plugin wraps up the logic to create and manage one category of backend resources in the cloud. It defines the "shape" of the cloud resources based on user (the developer) input, constructs parameters to CRUD cloud resource, and exports relevant cloud resource information to the project metadata. <br/>
-Categories are managed by AWS and are functional use case that a client engineer is building as part of their UX, rather than service implementations.
+Categories are managed by AWS and are a functional use case that a client engineer is building as part of their UX, rather than service implementations.
 
 #### provider plugin
 Recognized by the `amplify-provider-` prefix in the package name, a provider plugin abstracts the actual cloud resource provider. It wraps up communication details such as access credentials, api invoke and wait logic, and response data parsing etc. and exposes simple interface methods for the category plugins to CRUD cloud resource. 
@@ -55,7 +55,7 @@ Recognized by the `amplify-` prefix, without a plugin type decoration, in the pa
 
 #### Third party plugin setup
 It's easy to add a third party plugin to the Amplify CLI. 
-1. The plugin author names the plugin package according to the naming convention outlined above, and publishes it to the npm registry.
+1. The plugin author names the plugin package according to the naming convention outlined above and publishes it to the npm registry.
 2. The plugin user executes `npm install -g <plugin>` and installs the plugin to the global node_modules directory.
 
 The plugin is then picked up by the CLI core and used the same as the official plugins. 
@@ -104,7 +104,7 @@ The `init` command goes through these steps to setup things:
 #### Configuration
 
 ##### amplify configure
-This command will lead the user to setup a new aws iam user, then save the credentials locally in a named profile, which can then be used by a project for aws access. The user specifies if and what profile is used for a project in the init process, and can later change it using the `amplify configure project` command.
+This command will lead the user to set up a new aws iam user, then save the credentials locally in a named profile, which can then be used by a project for aws access. The user specifies if and what profile is used for a project in the init process and can later change it using the `amplify configure project` command.
 
 ##### amplify configure project
 This command allows the user to change the project configuration set during the init process. 
@@ -127,15 +127,15 @@ Each plugin stores contents in its own subfolder inside this folder.
 It contains the latest local development of the backend resources specifications to be pushed to the cloud. 
 Each plugin stores contents in its own subfolder inside this folder. 
 
-## Amplfy Files
+## Amplify Files
 
 ### amplify/amplify-meta.json file
 Both the `backend` and `##current-cloud-backend` directories contain an amplify-meta.json file.<br/>
-The amplify-meta.json in the `backend` directory serves as the white board for the CLI core and the plugins to log infomration for themsevles, and to communicate with each other. <br/><br/>
-The CLI core provides read and write access to the file for the lugins.<br/>
-The CLI core collects the selected providers' outputs after init and log them under the "providers" object, e.g. the awscloudformation provider outputs the information of the root stack, the deployment S3 bucket, and the authorized/unauthorized IAM roles, and they are logged under the providers.awscloudformation object<br/><br/>
+The amplify-meta.json in the `backend` directory serves as the whiteboard for the CLI core and the plugins to log information for themselves, and to communicate with each other. <br/><br/>
+The CLI core provides read and write access to the file for the plugins.<br/>
+The CLI core collects the selected providers' outputs after init and logs them under the "providers" object, e.g. the awscloudformation provider outputs the information of the root stack, the deployment S3 bucket, and the authorized/unauthorized IAM roles, and they are logged under the providers.awscloudformation object<br/><br/>
 Each category plugin logs information under its own name. <br/>
-Because one category might create multiple services within one project (e.g. the interactions category can create multiple bots), the category meta data generally follows a two-level structuse as the following: <br/>
+Because one category might create multiple services within one project (e.g. the interactions category can create multiple bots), the category metadata generally follows a two-level structure like the following: <br/>
 ```
 {
     <category>: {
@@ -148,8 +148,8 @@ Because one category might create multiple services within one project (e.g. the
     }
 }
 ```
-The metadata for each service is first logged into the meta file after the `amplify <category> add` command is executed, containing some general information that indicates one service of the category has been added locally. <br/>
-Then, on successful execution of the `amplify push` command, the `output` object will be added/updated in the service's metadata with information that describes the actual cloud resources that have been created or updated.
+The metadata for each service is first logged into the metafile after the `amplify <category> add` command is executed, containing some general information that indicates one service of the category has been added locally. <br/>
+Then, on the successful execution of the `amplify push` command, the `output` object will be added/updated in the service's metadata with information that describes the actual cloud resources that have been created or updated.
 
 ### .amplifyrc file
 The CLI places the `.amplifyrc` file at the root directory of the user project in the init process:
@@ -157,7 +157,7 @@ It is the amplify-CLI run control, this file is checked into code repo, it facil
 
 ### aws-exports.js file
 This file is generated only for JavaScript projects.<br/>
-It contains the consolidated outputs from all the categories, and is placed under the `src` directory that the user (the developer) specified during the `init` process. It is updated after each successful execution of the `amplify push` command,  that has created or updated the cloud resources.<br/> 
+It contains the consolidated outputs from all the categories and is placed under the `src` directory that the user (the developer) specified during the `init` process. It is updated after each successful execution of the `amplify push` command,  that has created or updated the cloud resources.<br/> 
 This file is consumed by the [Amplify](https://github.com/aws-amplify/amplify-js) JavaScript library for configuration.
 
 ### awsconfiguration.json file
@@ -166,8 +166,8 @@ It contains the consolidated outputs from all the categories. It is updated afte
 This file is consumed by the [iOS](https://github.com/aws/aws-sdk-ios/) and [Android](https://github.com/aws/aws-sdk-android) native SDKs for configuration.
 
 ## AWS CloudFormation
-Currently the only official provider plugin, amplify-provider-awscloudformation, uses the AWS CloudFormation to form and update the backend resources in the AWS for the amplify categories. <br/>
-For more information of the AWS CloudFormation, check its user guide: 
+Currently, the only official provider plugin, amplify-provider-awscloudformation, uses the AWS CloudFormation to form and update the backend resources in the AWS for the amplify categories. <br/>
+For more information on the AWS CloudFormation, check its user guide: 
 [AWS CloudFormation User Guide](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html)
 <br/>
 ### How it works
@@ -177,9 +177,9 @@ to get its job done
 
 ### amplify init
 During the init process, the root stack is created with three resources: 
-- an IAM role for un-authenticated users
+- an IAM role for unauthenticated users
 - an IAM role for authenticated users
-- a S3 bucket, the deployment bucket, to support this provider's workflow
+- an S3 bucket, the deployment bucket, to support this provider's workflow
 <br/>
 The provider then logs the information of the root stack and the resources into the project metadata file <br/>
 amplify/backend/amplify-meta.json <br/>
@@ -188,7 +188,7 @@ amplify/backend/awscloudformation
 
 ### amplify <category> add
 Once the init is complete, run the command `amplify <category> add` to add resources of a category to the backend. <br/>
-This will place the aws cloudformation template for the resources of this category in the category's subdirectory `amplify/backend/<category>`, and insert its reference into the above mentioned root stack as the nested child stack. 
+This will place the aws cloudformation template for the resources of this category in the category's subdirectory `amplify/backend/<category>`, and insert its reference into the above-mentioned root stack as the nested child stack. 
 
 ### amplify push
 Once the resources of the categories are done been added or updated locally, run the command `amplify push` to update the backend resources in the cloud. <br/>
