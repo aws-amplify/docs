@@ -150,6 +150,10 @@ category_list:
           excerpt: Host your web project or static assets
           url: '/cli/hosting' 
           icon: '/images/icons/Misc/Present.svg'
+        - title: Codegen
+          excerpt: Codegen for GraphQL
+          url: '/cli/codegen' 
+          icon: '/images/icons/Misc/Present.svg'
         - title: Plugins
           excerpt: Create a new plugin for the CLI
           url: '/cli/plugins' 

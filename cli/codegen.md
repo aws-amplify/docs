@@ -1,15 +1,15 @@
-<a href="https://aws-amplify.github.io/" target="_blank">
-    <img src="https://s3.amazonaws.com/aws-mobile-hub-images/aws-amplify-logo.png" alt="AWS Amplify" width="550" >
-</a>
+---
+---
 
-# AWS Amplify CLI codegen configuration & Workflow
+# Codegen
 
-Codegen helps you generate native code for iOS and Android, generation of types for Flow and TypeScript. It can also generates GraphQL statements(queries, mutations and subscriptions) so that you doesn't have to hand code them.
+Codegen helps you generate native code for iOS and Android, as well as generation of types for Flow and TypeScript. It can also generates GraphQL statements(queries, mutations and subscriptions) so that you doesn't have to hand code them.
 
 Codegen `add` workflow triggers automatically when an AppSync API is pushed to the cloud. You will be prompted if you want to configure codegen when an AppSync API is created and if you opt-in for codegen, subsequent pushes prompts you if they want to update the generated code after changes get pushed to cloud.
 
 When an project is configured to generate code with codegen, it stores all the configuration `.graphqlconfig.yml` file in the root folder of your project. When generating types, codegen uses GraphQL statements as input. It will generates only the types that are being used in the GraphQL statements.
 
+## General Usage
 
 ### amplify add codegen <a name="codegen-add"></a>
 ```bash
@@ -93,7 +93,7 @@ You should have newly generated GraphQL statements and Swift code that matches t
 
 This section will walk through the steps needed to take an iOS project written in Swift and add Amplify to it along with a GraphQL API using AWS AppSync. If you are a first time user, we recommend starting with a new XCode project and a single View Controller.
 
-## Setup
+### Setup
 
 After completing the [Amplify Getting Started](https://aws-amplify.github.io/media/get_started) navigate in your terminal to an XCode project directory and run the following:
 
@@ -118,7 +118,7 @@ end
 
 Run `pod install` from your terminal and open up the `*.xcworkspace` XCode project. Add the `API.swift` and `awsconfiguration.json` files to your project (_File->Add Files to ..->Add_) and then build your project ensuring there are no issues.
 
-### Initialize the AppSync client
+#### Initialize the AppSync client
 Inside your application delegate is the best place to initialize the AppSync client. The `AWSConfiguration` represents the configuration information present in awsconfiguration.json file. By default, the information under Default section will be used. You will need to create an `AWSAppSyncClientConfiguration` and `AWSAppSyncClient` like below:
 
 ```swift
@@ -163,7 +163,7 @@ class Todos: UIViewController{
 }
 ```
 
-### Queries
+#### Queries
 Now that the backend is configured, you can run a GraphQL query. The syntax is `appSyncClient?.fetch(query: <NAME>Query() {(result, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen types` created. For example, if you have a `ListTodos` query your code will look like the following:
 
 ```swift
@@ -185,7 +185,7 @@ appSyncClient?.fetch(query: ListTodosQuery(), cachePolicy: .returnCacheDataAndFe
 
 `returnCacheDataAndFetch` will pull results from the local cache first before retrieving data over the network. This gives a snappy UX as well as offline support.
 
-### Mutations
+#### Mutations
 For adding data now you will need to run a GraphQL mutation. The syntax `appSyncClient?.perform(mutation: <NAME>Mutation() {(result, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen types` created. However, most GraphQL schemas organize mutations with an `input` type for maintainability, which is what the Amplify CLI does as well. Therefore you'll pass this as a parameter called `input` as in the example below:
 
 ```swift
@@ -202,7 +202,7 @@ appSyncClient?.perform(mutation: CreateTodoMutation(input: mutationInput)) { (re
 }
 ```
 
-### Subscriptions
+#### Subscriptions
 Finally it's time to setup a subscription to realtime data. The syntax `appSyncClient?.subscribe(subscription: <NAME>Subscription() {(result, transaction, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen types` created.
 
 ```swift
@@ -224,8 +224,6 @@ do {
 ```
 
 Subscriptions can also take `input` types like mutations, in which case they will be subscribing to particular events based on the input. Learn more about Subscription arguments in AppSync [here](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html).
-
-### Complete Sample <a name="iossample"></a>
 
 **AppDelegate.swift**
 
@@ -321,7 +319,7 @@ class ViewController: UIViewController {
 
 This section will walk through the steps needed to take an Android Studio project written in Java and add Amplify to it along with a GraphQL API using AWS AppSync. If you are a first time user, we recommend starting with a new Android Studio project and a single Activity class.
 
-## Setup
+### Setup
 After completing the [Amplify Getting Started](https://aws-amplify.github.io/media/get_started) navigate in your terminal to an Android Studio project directory and run the following:
 
 ```bash
@@ -383,7 +381,7 @@ Finally, update your `AndroidManifest.xml` with updates to `<uses-permissions>`f
 
 Build your project ensuring there are no issues.
 
-### Initialize the AppSync client
+#### Initialize the AppSync client
 Inside your application code, such as the `onCreate()` lifecycle method of your activity class, you can initialize the AppSync client using an instance of `AWSConfiguration()` in the `AWSAppSyncClient` builder. This reads configuration information present in the `awsconfiguration.json` file. By default, the information under Default section will be used.
 
 ```java
@@ -401,7 +399,7 @@ Inside your application code, such as the `onCreate()` lifecycle method of your 
     }
 ```
 
-### Queries
+#### Queries
 Now that the backend is configured, you can run a GraphQL query. The syntax of the callback is `GraphQLCall.Callback<{NAME>Query.Data>` where `{NAME}` comes from the GraphQL statements that `amplify codegen types` created. You will invoke this from an instance of the AppSync client with a similar syntax of `.query(<NAME>Query.builder().build())`. For example, if you have a `ListTodos` query your code will look like the following:
 
 ```java
@@ -426,7 +424,7 @@ Now that the backend is configured, you can run a GraphQL query. The syntax of t
 
 You can optionally change the cache policy on `AppSyncResponseFetchers` but we recommend leaving `CACHE_AND_NETWORK` as it will pull results from the local cache first before retrieving data over the network. This gives a snappy UX as well as offline support.
 
-### Mutations
+#### Mutations
 For adding data now you will need to run a GraphQL mutation. The syntax of the callback is `GraphQLCall.Callback<{NAME}Mutation.Data>` where `{NAME}` comes from the GraphQL statements that `amplify codegen types` created. However, most GraphQL schemas organize mutations with an `input` type for maintainability, which is what the Amplify CLI does as well. Therefore you'll pass this as a parameter called `input` created with a second builder. You will invoke this from an instance of the AppSync client with a similar syntax of `.mutate({NAME}Mutation.builder().input({Name}Input).build())` like so:
 
 ```java
@@ -453,7 +451,7 @@ private GraphQLCall.Callback<CreateTodoMutation.Data> mutationCallback = new Gra
 };
 ```
 
-### Subscriptions
+#### Subscriptions
 Finally it's time to setup a subscription to realtime data. The callback is just `AppSyncSubscriptionCall.Callback` and you invoke it with a client `.subscribe()` call and pass in a builder with syntax of `{NAME}Subscription.builder()` where `{NAME}` comes from the GraphQL statements that `amplify codegen types` created. Note that the Amplify GraphQL transformer has a common nomenclature of putting the word `On` in front of a subscription like the below example:
 
 ```java
@@ -485,8 +483,6 @@ private AppSyncSubscriptionCall subscriptionWatcher;
 ```
 
 Subscriptions can also take `input` types like mutations, in which case they will be subscribing to particular events based on the input. Learn more about Subscription arguments in AppSync [here](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html).
-
-### Complete Sample <a name="androidsample"></a>
 
 **MainActivity.java**
 
@@ -589,9 +585,3 @@ public class MainActivity extends AppCompatActivity {
     };
 }
 ```
-
-
-
-
-
-
