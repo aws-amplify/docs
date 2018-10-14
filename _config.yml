@@ -20,7 +20,7 @@ description: >- # this means to ignore newlines until "baseurl:"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com 
 github:
-  repository_url: https://github.com/aws-amplify/amplify-js/edit/master/docs/
+  repository_url: https://github.com/aws-amplify/docs
 
 show_downloads: "true"
 include: 
@@ -69,7 +69,7 @@ amplify:
               item_url: '/js/start'
               id: start
             - item_name: Toolchain
-              item_url: '/js/cli'
+              item_url: '/cli'
               id: cli
             - item_name: Style Guide
               item_url: '/js/ui'
@@ -136,19 +136,26 @@ category_list:
     - category: Toolchain
       title: Toolchain
       excerpt: Better developer experience when building and deploying your apps.
-      base_url: '/js/cli'
+      base_url: '/cli/hosting'
       subs:
-        - title: CLI
-          excerpt: Deploy your Web app or static website for global CDN distribution with media streaming support.
-          cta: Read more
-          class: aws-icon-ps-60-network-nodes
-          url: '/js/cli'   
-          icon: '/images/icons/Misc/Tool.svg'
-          services:
-              - title: Amazon CloudFront
-                url: https://aws.amazon.com/cloudfront/
+        - title: Overview
+          excerpt: CLI Overview
+          url: '/cli'
+          icon: '/images/icons/Misc/Present.svg'
+        - title: New Project Setup
+          excerpt: Setup and Configure a New Project with the CLI
+          url: '/cli/init'
+          icon: '/images/icons/Misc/Present.svg'
+        - title: Hosting
+          excerpt: Host your web project or static assets
+          url: '/cli/hosting' 
+          icon: '/images/icons/Misc/Present.svg'
+        - title: Plugins
+          excerpt: Create a new plugin for the CLI
+          url: '/cli/plugins' 
+          icon: '/images/icons/Misc/Present.svg'
         - title: UI Components
-          excerpt: UI excerpt
+          excerpt: User interface components
           url: '/js/ui'
           icon: '/images/icons/Misc/Present.svg'
         - title: VS Code Extension 

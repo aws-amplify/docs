@@ -1,8 +1,7 @@
-<a href="https://aws-amplify.github.io/" target="_blank">
-    <img src="https://s3.amazonaws.com/aws-mobile-hub-images/aws-amplify-logo.png" alt="AWS Amplify" width="550" >
-</a>
+---
+---
 
-# AWS Amplify CLI initialization & configuration tutorial
+# New Project Setup
 
 The AWS Amplify CLI helps you set up an AWS IAM user, set up an AWS profile on your local system and the initialize Amplify powered apps with all your defined configurations. We'll also walk through steps as to how you could share the Amplify generated backend configuration between other frontend projects and re-use the same backend infrastructure in-between multiple platforms/users.
 

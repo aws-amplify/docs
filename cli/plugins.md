@@ -1,13 +1,10 @@
-<a href="https://aws-amplify.github.io/" target="_blank">
-    <img src="https://s3.amazonaws.com/aws-mobile-hub-images/aws-amplify-logo.png" alt="AWS Amplify" width="550" >
-</a>
+---
+---
 
-# Write your own Amplify CLI Plugin Tutorial
+# Plugins
 
 Plugins enable you to add additional commands and functionality to existing Amplify CLI. 
-This tutorial goes through the steps needed to create a utility plugin like the [`amplify-codegen` ](https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-codegen) plugin.
-
-# Steps to create an Amplify CLI Plugin
+This tutorial goes through the steps needed to create a utility plugin like the <a href="https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-codegen" target="_blank">`amplify-codegen`</a> plugin.
 
 ## Step 1: Install Amplify CLI
 
