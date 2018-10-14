@@ -1,1 +1,1 @@
-<meta http-equiv="refresh" content="0; URL='start'" />
+<meta http-equiv="refresh" content="0; URL='/docs/js/start'" />
