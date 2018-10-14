@@ -136,11 +136,11 @@ category_list:
     - category: Toolchain
       title: Toolchain
       excerpt: Better developer experience when building and deploying your apps.
-      base_url: '/cli/hosting'
+      base_url: '/cli/'
       subs:
         - title: Overview
           excerpt: CLI Overview
-          url: '/cli'
+          url: '/cli/concept'
           icon: '/images/icons/Misc/Present.svg'
         - title: New Project Setup
           excerpt: Setup and Configure a New Project with the CLI

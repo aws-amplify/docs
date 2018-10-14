@@ -1,3 +1,1 @@
 <meta http-equiv="refresh" content="0; URL='/js/start'" />
-
-Redirecting to getting started...
