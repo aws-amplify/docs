@@ -3,11 +3,11 @@
 
 # Codegen
 
-Codegen helps you generate native code for iOS and Android, as well as generation of types for Flow and TypeScript. It can also generates GraphQL statements(queries, mutations and subscriptions) so that you doesn't have to hand code them.
+Codegen helps you generate native code for iOS and Android, as well as the generation of types for Flow and TypeScript. It can also generate GraphQL statements(queries, mutations, and subscriptions) so that you don't have to hand code them.
 
-Codegen `add` workflow triggers automatically when an AppSync API is pushed to the cloud. You will be prompted if you want to configure codegen when an AppSync API is created and if you opt-in for codegen, subsequent pushes prompts you if they want to update the generated code after changes get pushed to cloud.
+Codegen `add` workflow triggers automatically when an AppSync API is pushed to the cloud. You will be prompted if you want to configure codegen when an AppSync API is created and if you opt-in for codegen, subsequent pushes prompt you if they want to update the generated code after changes get pushed to the cloud.
 
-When an project is configured to generate code with codegen, it stores all the configuration `.graphqlconfig.yml` file in the root folder of your project. When generating types, codegen uses GraphQL statements as input. It will generates only the types that are being used in the GraphQL statements.
+When a project is configured to generate code with codegen, it stores all the configuration `.graphqlconfig.yml` file in the root folder of your project. When generating types, codegen uses GraphQL statements as input. It will generate only the types that are being used in the GraphQL statements.
 
 ## General Usage
 
@@ -71,7 +71,7 @@ Each time you will be prompted to update the code in your API and also ask you i
  
 **Flow 3: No API changes, just update GraphQL statements & generate code**
 
-One of the benefits of GraphQL is the client can define it's data fetching requirements independently of the API. Amplify codegen supports this by allowing you to modify the selection set (e.g. add/remove fields inside the curly braces) for the GraphQL statements and running type generation again. This gives you fine grained control over the network requests that your application is making. Modify your GraphQL statements (default in the `./graphql` folder unless you changed it) then save the files and run:
+One of the benefits of GraphQL is the client can define it's data fetching requirements independently of the API. Amplify codegen supports this by allowing you to modify the selection set (e.g. add/remove fields inside the curly braces) for the GraphQL statements and running type generation again. This gives you fine-grained control over the network requests that your application is making. Modify your GraphQL statements (default in the `./graphql` folder unless you changed it) then save the files and run:
 
 ```bash
 $amplify codegen types
@@ -86,7 +86,7 @@ Suppose you are working in a team and the schema is updated either from the AWS 
 $amplify codegen statements
 $amplify codegen types
 ```
-You should have newly generated GraphQL statements and Swift code that matches the schema updates. If you ran the second command your types will be updated as well. Alternatively if you run `amplify codegen` alone it will perform both of these actions.
+You should have newly generated GraphQL statements and Swift code that matches the schema updates. If you ran the second command your types will be updated as well. Alternatively, if you run `amplify codegen` alone it will perform both of these actions.
 
 
 ## iOS usage <a name="iosuse"></a>
@@ -103,7 +103,7 @@ $amplify add api    ## Select GraphQL, API key, "Single object with fields Todo 
 $amplify push       ## Sets up backend and prompts you for codegen, accept the defaults
 ```
 
-The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on you can always change it.
+The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on, you can always change it.
 
 Since you added an API the `amplify push` process will automatically prompt you to enter the codegen process and walk through the configuration options. Accept the defaults and it will create a file named `API.swift` in your root directory (unless you choose to name it differently) as well as a directory called `graphql` with your documents. You also will have an `awsconfiguration.json` file that the AppSync client will use for initialization. 
 
@@ -119,7 +119,7 @@ end
 Run `pod install` from your terminal and open up the `*.xcworkspace` XCode project. Add the `API.swift` and `awsconfiguration.json` files to your project (_File->Add Files to ..->Add_) and then build your project ensuring there are no issues.
 
 #### Initialize the AppSync client
-Inside your application delegate is the best place to initialize the AppSync client. The `AWSConfiguration` represents the configuration information present in awsconfiguration.json file. By default, the information under Default section will be used. You will need to create an `AWSAppSyncClientConfiguration` and `AWSAppSyncClient` like below:
+Inside your application delegate is the best place to initialize the AppSync client. The `AWSConfiguration` represents the configuration information present in awsconfiguration.json file. By default, the information under the Default section will be used. You will need to create an `AWSAppSyncClientConfiguration` and `AWSAppSyncClient` like below:
 
 ```swift
 import AWSAppSync
@@ -328,9 +328,9 @@ $amplify add api    ## Select GraphQL, API key, "Single object with fields Todo 
 $amplify push       ## Sets up backend and prompts you for codegen, accept the defaults
 ```
 
-The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on you can always change it.
+The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on, you can always change it.
 
-Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults and it will create a file named `awsconfiguration.json` in the `./src/main/res/raw` directory that the AppSync client will use for initialization. To finish off the build process there are a few Gradle and permission updates needed.
+Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults and it will create a file named `awsconfiguration.json` in the `./src/main/res/raw`  directory that the AppSync client will use for initialization. To finish off the build process there are a few Gradle and permission updates needed.
 
 First, in the project's `build.gradle`, add the following dependency in the build script:
 ```gradle
@@ -382,7 +382,7 @@ Finally, update your `AndroidManifest.xml` with updates to `<uses-permissions>`f
 Build your project ensuring there are no issues.
 
 #### Initialize the AppSync client
-Inside your application code, such as the `onCreate()` lifecycle method of your activity class, you can initialize the AppSync client using an instance of `AWSConfiguration()` in the `AWSAppSyncClient` builder. This reads configuration information present in the `awsconfiguration.json` file. By default, the information under Default section will be used.
+Inside your application code, such as the `onCreate()` lifecycle method of your activity class, you can initialize the AppSync client using an instance of `AWSConfiguration()` in the `AWSAppSyncClient` builder. This reads configuration information present in the `awsconfiguration.json` file. By default, the information under the Default section will be used.
 
 ```java
     
@@ -452,7 +452,7 @@ private GraphQLCall.Callback<CreateTodoMutation.Data> mutationCallback = new Gra
 ```
 
 #### Subscriptions
-Finally it's time to setup a subscription to realtime data. The callback is just `AppSyncSubscriptionCall.Callback` and you invoke it with a client `.subscribe()` call and pass in a builder with syntax of `{NAME}Subscription.builder()` where `{NAME}` comes from the GraphQL statements that `amplify codegen types` created. Note that the Amplify GraphQL transformer has a common nomenclature of putting the word `On` in front of a subscription like the below example:
+Finally, it's time to set up a subscription to real-time data. The callback is just `AppSyncSubscriptionCall.Callback` and you invoke it with a client `.subscribe()` call and pass in a builder with the syntax of `{NAME}Subscription.builder()` where `{NAME}` comes from the GraphQL statements that `amplify codegen types` created. Note that the Amplify GraphQL transformer has a common nomenclature of putting the word `On` in front of a subscription like the below example:
 
 ```java
 private AppSyncSubscriptionCall subscriptionWatcher;
