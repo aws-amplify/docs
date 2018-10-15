@@ -114,7 +114,7 @@ The following transformers are available to be used with AWS AppSync when defini
 
 ##### Type Generation using GraphQL Schemas
 
-When working with GraphQL data, it is useful to import your types from your schema into your code for type safety. You can easily do this with Amplify CLI's automated code generation feature. The CLI automatically downloads GraphQL Introspection Schemas from your defined GraphQL endpoint and generates TypeScript or Flow classes for you. Every time you push your GraphQL API, the cli will confirm if you want to generate the types and statements.
+When working with GraphQL data, it is useful to import your types from your schema into your code for type safety. You can easily do this with Amplify CLI's automated code generation feature. The CLI automatically downloads GraphQL Introspection Schemas from your defined GraphQL endpoint and generates TypeScript or Flow classes for you. Every time you push your GraphQL API, the CLI will confirm if you want to generate the types and statements.
 
 If you want to generate your GraphQL statements and types, run:
 
@@ -248,7 +248,7 @@ AWS Amplify API category provides a GraphQL client for working with queries, mut
 
 #### Query Declarations
 
-Amplify cli codegen automatically generates all possible GraphQL statements (queries, mutations and subscriptions) and saves it in `src/graphql` folder.
+Amplify cli codegen automatically generates all possible GraphQL statements (queries, mutations and subscriptions) and for JavaScript applications saves it in `src/graphql` folder
 ```js
 import * as queries from './graphql/queries';
 import * as mutations from './graphql/mutations';
@@ -363,9 +363,11 @@ class App extends React.Component {
 
         return (
             <Connect query={graphqlOperation(queries.listTodos)}>
-                {({ data: { listTodos } }) => (
+                {({ data: { listTodos }, loading, error }) => {
+                    if (error) return (<h3>Error</h3>);
+                    if(loading || !listTodos) return (<h3>Loading...</h3>)
                     <ListView todos={listTodos.items} />
-                )}
+                }}
             </Connect>
         )
     }
@@ -387,29 +389,104 @@ Also, you can use `subscription` and `onSubscriptionMsg` attributes to enable su
         return prev; 
     }}
 >
-    {({ data: { listTodos } }) => (
+    {({ data: { listTodos }, loading, error }) => {
+        if (error) return (<h3>Error</h3>);
+        if (loading || !listTodos) return (<h3>Loading...</h3>);
         <ListView todos={listTodos ? listTodos.items : []} />
-    )}
+    }
  </Connect>
 
 ```
 
 For mutations, a `mutation` function needs to be provided with `Connect` component. `mutation` returns a promise that resolves with the result of the GraphQL mutation.
 
-```js
+```jsx
 import * as mutations from './graphql/mutations';
-class CreateTodo extends React.Component {
-  // ...
-  // This component calls its onCreate prop to trigger the mutation
-  // const variables = { id: '1' }
-  // this.props.onCreate(variables)
-  // ...
+import * as queries from './graphql/queries';
+import * as subscriptions from './graphql/subscriptions';
+
+class AddTodo extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        name: '',
+        description: '',
+    };
+  }
+
+  handleChange(name, ev) {
+      this.setState(name, ev.target.value);
+  }
+
+  async submit() {
+    const { onCreate } = this.props;
+    var input = {
+      name: this.state.name,
+      description: this.state.description
+    }
+    console.log(input);
+    await onCreate({input})
+  }
+
+  render(){
+    return (
+        <div>
+            <input
+                name="name"
+                placeholder="name"
+                onChange={(ev) => { this.handleChange('name', ev)}}
+            />
+            <input
+                name="description"
+                placeholder="description"
+                onChange={(ev) => { this.handleChange('description', ev)}}
+            />
+            <button onClick={this.submit.bind(this)}>
+                Add
+            </button>
+        </div>
+    );
+  }
 }
-<Connect mutation={graphqlOperation(mutations.createTodo)}>
-  {({ mutation }) => (
-      <CreateTodo onCreate={mutation} />
-  )}
-</Connect>
+
+class App extends Component {
+  render() {
+
+    const ListView = ({ todos }) => (
+      <div>
+          <h3>All Todos</h3>
+          <ul>
+            {todos.map(todo => <li key={todo.id}>{todo.name}</li>)}
+          </ul>
+      </div>
+    )
+
+    return (
+      <div className="App">
+        <Connect mutation={graphqlOperation(mutations.createTodo)}>
+          {({mutation}) => (
+            <AddTodo onCreate={mutation} />
+          )}
+        </Connect>
+
+        <Connect query={graphqlOperation(queries.listTodos)}
+          subscription={graphqlOperation(subscriptions.onCreateTodo)}
+          onSubscriptionMsg={(prev, {onCreateTodo}) => {
+              console.log('Subscription data:', onCreateTodo)
+              return prev;
+            }
+          }>
+        {({ data: { listTodos }, loading, error }) => {
+          if (error) return <h3>Error</h3>;
+          if (loading || !listTodos) return <h3>Loading...</h3>;
+            return <ListView todos={listTodos.items} />
+        }}
+        </Connect>
+      </div>
+
+    );
+  }
+}
 ```
 
 ## Using REST
