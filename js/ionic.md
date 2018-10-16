@@ -37,7 +37,7 @@ Please visit [Authentication Guide]({%if jekyll.environment == 'production'%}{{s
 
 A configuration file is placed inside your configured source directory. To import the configuration file to your Ionic app, you will need to rename `aws_exports.js` to `aws_exports.ts`. You can setup your `package.json` npm scripts to rename the file for you, so that any configuration changes which result in a new generated `aws_exports.js` file get changed over to the `.ts` extension.
 
-```js	
+```javascript	
 "scripts": {	
     "start": "[ -f src/aws-exports.js ] && mv src/aws-exports.js src/aws-exports.ts || ng serve; ng serve",	
     "build": "[ -f src/aws-exports.js ] && mv src/aws-exports.js src/aws-exports.ts || ng build --prod; ng build --prod"	
@@ -48,7 +48,7 @@ A configuration file is placed inside your configured source directory. To impor
 
 Import the configuration file and configure Amplify in your `main.ts` file. 
 
-```js
+```javascript
 import Amplify from 'aws-amplify';
 import amplify from './aws-exports';
 Amplify.configure(amplify);
@@ -56,7 +56,7 @@ Amplify.configure(amplify);
 
 In your [home page component](https://angular.io/guide/bootstrapping) `src/app/app.module.ts`, you can import Amplify modules as following:
 
-```js
+```javascript
 import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
 
 @NgModule({
@@ -80,7 +80,7 @@ NOTE: the service provider is optional. You can import the core categories norma
 
 AmplifyService is a provider in your Angular app, and it provides AWS Amplify core categories through dependency injection. To use *AmplifyService* with [dependency injection](https://angular.io/guide/dependency-injection-in-action), inject it into the constructor of any component or service, anywhere in your application.
 
-```js
+```javascript
 import { AmplifyService } from 'aws-amplify-angular';
 
 ...
@@ -96,7 +96,7 @@ constructor(
 
 You can access and work directly with AWS Amplify Categories via the built-in service provider:
 
-```js
+```javascript
 import { Component } from '@angular/core';
 import { AmplifyService }  from 'aws-amplify-angular';
 
@@ -134,7 +134,7 @@ You can access all [AWS Amplify Category APIs](https://aws-amplify.github.io/amp
 
 Import AmplifyService into your component and listen for auth state changes:
 
-```js
+```javascript
 import { AmplifyService }  from 'aws-amplify-angular';
 
   // ...
@@ -205,7 +205,7 @@ The component will emit two events:
 
 Use  `onImagePicked(event)` to upload your photo to S3 using AWS Amplify Storage category:
 
-```js
+```javascript
 onImagePicked( file ) {
 
     let key = `pics/${file.name}`;
@@ -239,7 +239,7 @@ To render the album, use *amplify-s3-album* component in your Angular view:
 
 `(selected)` event can be used to retrieve the URL of the clicked image on the list:
 
-```js
+```javascript
 onAlbumImageSelected( event ) {
       window.open( event, '_blank' );
 }

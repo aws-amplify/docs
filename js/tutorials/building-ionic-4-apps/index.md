@@ -101,7 +101,7 @@ First, create a new directory under *src/app* called `classes`.  Then copy the f
 The base Ionic project uses TypeScript, which will later be compiled into JavaScript. 
 {:  .callout .callout--info}
 
-```js
+```javascript
 import { v4 as uuid } from 'uuid';
 
 export class ToDoList {
@@ -135,7 +135,7 @@ This file defines the data model for *ToDoList* and *ToDoItem*.  The list is a l
 
 Create a new file as your list component under *src/app/pages/list/list.page.ts*. This file will define the functionality of the list component. 
 
-```js
+```javascript
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalController, Events } from '@ionic/angular';
 // import { ListItemModal } from './list.item.modal';
@@ -290,7 +290,7 @@ A little bit of styling in *src/app/pages/list/list.page.scss*:
 
 Make sure that the files you have created previously are exposed to the larger application by creating a module definition file in *src/app/pages/list/list.module.ts* location:
 
-```js
+```javascript
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -325,13 +325,13 @@ Add a path for your list module in by adding the ‘list’ route definition und
 **In *src/app/pages/tabs/tabs.router.module* file**
 
 Import the components:
-```js
+```javascript
 import { ListPage } from '../list/list.page';
 import { AuthGuardService } from '../../services/auth-route-guard';
 ```
 
 Add the path configuration by adding a new item to the children array:
-```js
+```javascript
 //...
        {
          path: 'list',
@@ -356,7 +356,7 @@ Modify the HTML page *src/app/pages/tabs/tabs.page.html* by adding a new 'List' 
 
 The *List* tab will only be shown to signed in users, so you need logic to control its behavior. This is where *services* come in. Create a file under *src/app/services/auth-route-guard.ts* that will have the service code:
 
-```js
+```javascript
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
 import { Events } from '@ionic/angular'
@@ -386,7 +386,7 @@ You’ll note that your app doesn’t currently provide a way for users to login
 
 Replace *src/app/pages/home/home.page.ts* with the following code to declare your temporary auth logic:
 
-```js
+```javascript
 import { Component, AfterContentInit } from '@angular/core';
 import { Events } from '@ionic/angular';
 import { AuthGuardService } from '../../services/auth-route-guard'
@@ -449,13 +449,13 @@ The tabs module will use your custom authorization module `AuthGuardService` to 
 **In *src/app/pages/tabs/tabs.module.ts* file:**
 
 import `AuthGuardService` and `ListModule` :
-```js
+```javascript
  import { AuthGuardService } from '../../services/auth-route-guard';
  import { ListModule } from '../list/list.module';
 ```
 
 And add *AuthGuardService* as a provider in module definition:
-```js
+```javascript
 
 @NgModule({
   imports: [
@@ -505,7 +505,7 @@ To create a modal, you need to implement a component  and a view for the compone
 
 First, create the file *src/app/pages/list/list.item.modal.ts* with the following code:
 
-```js
+```javascript
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ToDoItem, ToDoList } from '../../classes/item.class';
@@ -580,13 +580,13 @@ And then create the view file for the modal *src/app/pages/list/list.item.modal.
 To define your modal controller, add following code to *src/app/pages/list/list.module.ts*:
 
 Import ListItemModal:
-```js
+```javascript
 import { ListItemModal } from ‘./list.item.modal’;
 ```
 
 Also, add `ListItemModal` in *declarations* and *entryComponents*;
 
-```js
+```javascript
 //...
  declarations: [
  	ListPage,
@@ -605,7 +605,7 @@ To use your new modal in your list component, make the following changes in *src
 
 Import the modal into your component: 
 
-```js
+```javascript
 import { ListItemModal } from './list.item.modal';
 ```
 
@@ -678,7 +678,7 @@ $ amplify push
 
 The, you need to import `aws-exports.js` configuration file into your app. To do that, open *src/main.ts* and make the following changes in code:
 
-```js
+```javascript
 import Amplify, { Analytics } from 'aws-amplify';
 import aws_exports from './aws-exports';
 
@@ -718,7 +718,7 @@ $ amplify push
 Next, you need to make the AWS Amplify's authentication components available to your application. To do that, you need to import 
 *AmplifyService*, *AmplifyAngularModule*  and *AmplifyIonicModule* (more on that in a moment) modules in your *home* module which is declared in *src/app/pages/home/home.module.ts*:
 
-```js
+```javascript
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -760,13 +760,13 @@ This component will render UI elements and provide functionality for user signup
 
 To change the look and feel of your UI components, you can update *src/global.scss* file which includes global style rules for your app. For now, import default styles from *aws-amplify-angular* module to make sure that  your authenticator component (and other AWS Amplify UI components) are styled properly:
 
-```js
+```javascript
 @import './node_modules/aws-amplify-angular/theme.scss';
 ```
 ### Enable components in home module
 
 Finally, you need to enable required components in your home page module. Open *src/app/pages/home/home.page.ts* and modify it so that it looks like this:
-```js
+```javascript
 import { Component, AfterContentInit } from '@angular/core';
 import { Events } from '@ionic/angular';
 import { AuthGuardService } from '../../services/auth-route-guard'
@@ -972,9 +972,9 @@ After running this command, the CLI creates the  `amplify/backend/api/ToDoItems/
 
 At that stage,  your database and API resources have been deployed to the cloud. Now, you can add CRUD (create-read-update-delete) functionality to your application which will enable managing todo's in your app.
 
-Remember that the todo list would be displayed in `list` page. So, you need to bind the data from your backend data to this page and enable basic CRUD funtionality to work with data.  To accomplish this, you’ll need to update src/app/pages/lists/list.page.ts to match this:
+Remember that the todo list would be displayed in `list` page. So, you need to bind the data from your backend data to this page and enable basic CRUD functionality to work with data.  To accomplish this, you’ll need to update src/app/pages/lists/list.page.ts to match this:
 
-```js
+```javascript
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalController, Events } from '@ionic/angular';
 import { AmplifyService } from 'aws-amplify-angular'

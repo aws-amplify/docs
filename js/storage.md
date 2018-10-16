@@ -40,7 +40,7 @@ When your backend is successfully updated, your new configuration file `aws-expo
 
 In your app's entry point *i.e. App.js*, import and load the configuration file `aws-exports.js` which has been created and replaced into `/src` folder in the previous step.
 
-```js
+```javascript
 import Amplify, { Storage } from 'aws-amplify';
 import aws_exports from './aws-exports';
 Amplify.configure(aws_exports);
@@ -50,7 +50,7 @@ Amplify.configure(aws_exports);
 
 Manual setup enables you to use your existing Amazon Cognito and Amazon S3 credentials in your app:
 
-```js
+```javascript
 import Amplify from 'aws-amplify';
 
 Amplify.configure({
@@ -118,7 +118,7 @@ Default access level for Storage module is `public`. Unless you configure Storag
 
 Access level configuration on the Storage object:
 
-```js
+```javascript
 Storage.configure({ level: 'private' });
 
 Storage.get('welcome.png'); // Gets the welcome.png belongs to current user
@@ -126,30 +126,30 @@ Storage.get('welcome.png'); // Gets the welcome.png belongs to current user
 
 Configuration when calling the API:
 
-```js
+```javascript
 Storage.get('welcome.png', { level: 'public' }); // Gets welcome.png in public space
 ```
 
 The default access level is `public`:
-```js
+```javascript
 Storage.get('welcome.png'); // Get welcome.png in public space
 ```
 
 There is also a shortcut `vault`, which is merely a Storage instance with `private` level set:
 
-```js
+```javascript
 Storage.vault.get('welcome.png'); // Get the welcome.png belonging to current user
 ```
 
 ## Working with the API
 
 Import *Storage* from the aws-amplify library:
-```js
+```javascript
 import { Storage } from 'aws-amplify';
 ```
 
 If you use `aws-exports.js` file, Storage is already configured. To configure Storage manually,
-```js
+```javascript
 Storage.configure({
     bucket: //Your bucket ARN;
     region: //Specify the region your bucket was created in;
@@ -163,7 +163,7 @@ Puts data into Amazon S3.
 
 Public level:
 
-```js
+```javascript
 Storage.put('test.txt', 'Hello')
     .then (result => console.log(result))
     .catch(err => console.log(err));
@@ -171,7 +171,7 @@ Storage.put('test.txt', 'Hello')
 
 Protected level:
 
-```js
+```javascript
 Storage.put('test.txt', 'Protected Content', {
     level: 'protected',
     contentType: 'text/plain'
@@ -182,7 +182,7 @@ Storage.put('test.txt', 'Protected Content', {
 
 Private level:
 
-```js
+```javascript
 Storage.put('test.txt', 'Private Content', {
     level: 'private',
     contentType: 'text/plain'
@@ -193,7 +193,7 @@ Storage.put('test.txt', 'Private Content', {
 
 Upload an image in the browser:
 
-```js
+```javascript
 class S3ImageUpload extends React.Component {
   onChange(e) {
       const file = e.target.files[0];
@@ -217,7 +217,7 @@ class S3ImageUpload extends React.Component {
 
 Upload an image in React Native app:
 
-```js
+```javascript
 import RNFetchBlob from 'react-native-fetch-blob';
 
 readFile(filePath) {
@@ -241,7 +241,7 @@ When a networking error happens during the upload, Storage module retries upload
 Retrieves a publicly accessible URL for data stored.
 
 Public level:
-```js
+```javascript
 Storage.get('test.txt')
     .then(result => console.log(result))
     .catch(err => console.log(err));
@@ -249,13 +249,13 @@ Storage.get('test.txt')
 
 Protected level:
 To get current user's objects
-```js
+```javascript
 Storage.get('test.txt', { level: 'protected' })
     .then(result => console.log(result))
     .catch(err => console.log(err));
 ```
 To get other users' objects
-```js
+```javascript
 Storage.get('test.txt', { 
     level: 'protected', 
     identityId: 'xxxxxxx' // the identityId of that user
@@ -265,14 +265,14 @@ Storage.get('test.txt', {
 ```
 
 Private level:
-```js
+```javascript
 Storage.get('test.txt', {level: 'private'})
     .then(result => console.log(result))
     .catch(err => console.log(err));
 ```
 
 You can use `expires` option to limit the availability of your URLs. This configuration returns the pre-signed URL that expires in 60 seconds:
-```js
+```javascript
 Storage.get('test.txt', {expires: 60})
     .then(result => console.log(result))
     .catch(err => console.log(err));
@@ -283,21 +283,21 @@ Storage.get('test.txt', {expires: 60})
 Delete stored data from the storage bucket.
 
 Public level: 
-```js
+```javascript
 Storage.remove('test.txt')
     .then(result => console.log(result))
     .catch(err => console.log(err));
 ```
 
 Protected level: 
-```js
+```javascript
 Storage.remove('test.txt', {level: 'protected'})
     .then(result => console.log(result))
     .catch(err => console.log(err));
 ```
 
 Private level:
-```js
+```javascript
 Storage.remove('test.txt', {level: 'private'})
     .then(result => console.log(result))
     .catch(err => console.log(err));
@@ -308,7 +308,7 @@ Storage.remove('test.txt', {level: 'private'})
 List keys under path specified.
 
 Public level:
-```js
+```javascript
 Storage.list('photos/')
     .then(result => console.log(result))
     .catch(err => console.log(err));
@@ -316,13 +316,13 @@ Storage.list('photos/')
 
 Protected level:
 To list current user's objects
-```js
+```javascript
 Storage.list('photos/', { level: 'protected' })
     .then(result => console.log(result))
     .catch(err => console.log(err));
 ```
 To get other users' objects
-```js
+```javascript
 Storage.list('photos/', { 
     level: 'protected', 
     identityId: 'xxxxxxx' // the identityId of that user
@@ -332,7 +332,7 @@ Storage.list('photos/', {
 ```
 
 Private level:
-```js
+```javascript
 Storage.list('photos/', {level: 'private'})
     .then(result => console.log(result))
     .catch(err => console.log(err));
@@ -352,13 +352,13 @@ You can enable automatic tracking of storage events such as uploads and download
 
 Track all the Storage events:
 
-```js
+```javascript
 Storage.configure({ track: true })
 ```
 
 Track a specific storage action:
 
-```js
+```javascript
 Storage.get('welcome.png', { track: true });
 ```
 
@@ -376,7 +376,7 @@ You can also use the track property directly on [React components](#analytics-fo
 <img src="{%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/images/photo_picker_and_code.png" width="100%"/>
 
 Listen to `PhotoPicker` onPick event:
-```jsx
+```javascriptx
 import { PhotoPicker } from 'aws-amplify-react';
 
 render() {
@@ -386,13 +386,13 @@ render() {
 
 To display a preview, you can use `preview` directive:
 
-```jsx
+```javascriptx
 <PhotoPicker preview onLoad={dataURL => console.log(dataURL)} />
 ```
 
 You can retrieve the URL of the image by implementing `onLoad` action. In this case, you may also want to hide the preview:  
 
-```jsx
+```javascriptx
 <PhotoPicker preview="hidden" onLoad={dataURL => console.log(dataURL)} />
 ```
 
@@ -400,7 +400,7 @@ You can retrieve the URL of the image by implementing `onLoad` action. In this c
 
 `S3Image` component renders an *Amazon S3 object key* as an image:
 
-```jsx
+```javascriptx
 import { S3Image } from 'aws-amplify-react';
 
 render() {
@@ -410,13 +410,13 @@ render() {
 
 For private images, supply the `level` property:
 
-```jsx
+```javascriptx
 return <S3Image level="private" imgKey={key} />
 ```
 
 To initiate an upload, set the `body` property:
 
-```jsx
+```javascriptx
 import { S3Image } from 'aws-amplify-react';
 
 render() {
@@ -427,7 +427,7 @@ render() {
 
 To hide the image shown in the S3Image, set `hidden`:
 
-```jsx
+```javascriptx
 import { S3Image } from 'aws-amplify-react';
 
 render() {
@@ -439,7 +439,7 @@ render() {
 
 `S3Image` converts path to actual URL. To get the URL, listen to the `onLoad` event:
 
-```jsx
+```javascriptx
 <S3Image imgKey={key} onLoad={url => console.log(url)} />
 ```
 
@@ -447,19 +447,19 @@ render() {
 
 Set `picker` property to true on `S3Image`. A `PhotoPicker` let the user pick a picture from the device. After users picks an image, the image will be uploaded with `imgKey`.
 
-```jsx
+```javascriptx
 <S3Image imgKey={key} picker />
 ```
 
 When you set `path`, the *key* for the image will be the combination of `path` and image file name.
 
-```jsx
+```javascriptx
 <S3Image path={path} picker />
 ```
 
 To generate a custom key value, you can provide a callback:
 
-```jsx
+```javascriptx
 function fileToKey(data) {
     const { name, size, type } = data;
     return 'test_' + name;
@@ -482,7 +482,7 @@ function fileToKey(data) {
 
 <img src="{%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/images/S3Album_and_code.png" width="100%"/>
 
-```jsx
+```javascriptx
 import { S3Album } from 'aws-amplify-react';
 
 render() {
@@ -491,13 +491,13 @@ render() {
 
 For display private objects, supply the `level` property:
 
-```jsx
+```javascriptx
 return <S3Album level="private" path={path} />
 ```
 
 You can use `filter` property customize the path for your album:
 
-```jsx
+```javascriptx
 return (
     <S3Album
         level="private"
@@ -511,13 +511,13 @@ return (
 
 Set `picker` property to true on `S3Album`. A `Picker` let user select photos or text files from the device. The selected files will be automatically uploaded to the `path`. 
 
-```jsx
+```javascriptx
 <S3Album path={path} picker />
 ```
 
 By default, photo picker saves images on S3 with filename as the key. To have custom keys, you can provide a callback:
 
-```jsx
+```javascriptx
 function fileToKey(data) {
     const { name, size, type } = data;
     return 'test_' + name;
@@ -534,7 +534,7 @@ function fileToKey(data) {
 
 You can automatically track `Storage` operations on the following React components: `S3Album`, `S3Text`, `S3Image` by providing a `track` prop:
 
-```jsx
+```javascriptx
 return <S3Album track />
 ```
 
@@ -578,7 +578,7 @@ See the [Angular Guide](https://aws-amplify.github.io/amplify-js/media/angular_g
 
 You can customize your upload path by defining prefixes:
 
-```js
+```javascript
 const customPrefix: {
     public: 'myPublicPrefix/',
     protected: 'myProtectedPrefix/',
@@ -635,7 +635,7 @@ If you only need to use Storage, you can do: `npm install @aws-amplify/storage` 
 Note: if you're using Cognito Federated Identity Pool to get AWS credentials, please also install `@aws-amplify/auth`.
 
 Then in your code, you can import the Storage module by:
-```js
+```javascript
 import Storage from '@aws-amplify/storage';
 
 Storage.configure();

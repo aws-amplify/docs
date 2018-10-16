@@ -57,7 +57,7 @@ yarn add aws-amplify aws-amplify-react
 
 The `./src/aws-exports.js` file that's created has all of the appropriate cloud resources defined for your application. Edit `./src/App.js` to include the Amplify library, configurations, and [React HOC](https://reactjs.org/docs/higher-order-components.html). Then, initialize the library as follows:
 
-```js
+```javascript
 import Amplify from 'aws-amplify';
 import aws_exports from './aws-exports';
 import { withAuthenticator } from 'aws-amplify-react';
@@ -66,7 +66,7 @@ Amplify.configure(aws_exports);
 
 Wrap the default `App` component using `withAuthenticator` at the bottom of the file as follows:
 
-```js
+```javascript
 export default withAuthenticator(App, true);
 ```
 
@@ -80,7 +80,7 @@ Run `amplify add storage` and then select **Content (Images, audio, video, etc.)
 
 Edit your `App.js` file in the React project again and modify your imports so that the `Analytics` and `Storage` categories are included in addition to the `S3Album` component, which we'll use to upload and download photos.
 
-```js
+```javascript
 import Amplify, { Analytics, Storage } from 'aws-amplify';
 import { withAuthenticator, S3Album } from 'aws-amplify-react';
 ```
@@ -91,7 +91,7 @@ The `Analytics` category automatically tracks user session data such as sign-in 
 
 Next, add the following methods before the component's `render` method as follows:
 
-```js
+```javascript
   uploadFile = (evt) => {
     const file = evt.target.files[0];
     const name = file.name;
@@ -108,7 +108,7 @@ Next, add the following methods before the component's `render` method as follow
 
 Finally, modify the `render` method so that you can upload files and also view any of the `private` photos that have been added for the logged in user as follows:
 
-```js
+```javascript
   render() {
     return (
       <div className="App">
@@ -134,7 +134,7 @@ To get started run `amplify add api` and select `GraphQL`. When prompted, choose
 
 The guided steps provide some default schemas that are pre-annotated to help you learn. The following steps take you through the `Single object with fields` option, but feel free to revisit these steps later in another project. If you choose this option you'll see the following annotated schema in your text editor:
 
-```js
+```javascript
 type Todo @model {
   id: ID!
   name: String!
@@ -146,13 +146,13 @@ This is the GraphQL schema that you'll deploy to AWS AppSync. If you're familiar
 
 After the deployment is complete, open your `App.js` again and update the import to include both the `API` category and `graphqlOperation` method as follows:
 
-```js
+```javascript
 import Amplify, { Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 ```
 
 Add the following query and mutations in your code, *before* the `class App extends Component {...}` definition as follows:
 
-```js
+```javascript
 const listTodos = `query listTodos {
   listTodos{
     items{
@@ -178,7 +178,7 @@ const addTodo = `mutation createTodo($name:String! $description: String!) {
 
 Now, inside the `App` component add the following two methods before the `render()` method:
 
-```js
+```javascript
   todoMutation = async () => {
     const todoDetails = {
       name: 'Party tonight!',
@@ -198,7 +198,7 @@ Now, inside the `App` component add the following two methods before the `render
 
 You can now make GraphQL calls from your application. Update the `render()` method so that it has the following buttons to invoke the mutation and query:
 
-```js
+```javascript
   render() {
     return (
       <div className="App">
@@ -226,14 +226,14 @@ Next, for the API security type questions, choose **Yes** when prompted for Rest
 
 In the React project, edit your `App.js` file again and modify your imports so that the `API` category is included so that you can make API calls from the app.
 
-```js
+```javascript
 import Amplify, { Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 ```
 
 
 In `App.js`, add the following code before the `render()` method and update `myapi` if you used an alternative name during the setup:
 
-```js
+```javascript
   post = async () => {
     console.log('calling api');
     const response = await API.post('myapi', '/items', {
@@ -258,7 +258,7 @@ In `App.js`, add the following code before the `render()` method and update `mya
 
 Update the `render()` method to include calls to the following methods:
 
-```js
+```javascript
   render() {
     return (
       <div className="App">

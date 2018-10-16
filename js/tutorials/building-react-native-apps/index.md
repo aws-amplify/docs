@@ -46,14 +46,14 @@ When you have installed AWS Amplify packages and initialized your project with *
 In index.js (or in other code that runs at launch-time), add the
 following imports.
 
-```js
+```javascript
 import Amplify from 'aws-amplify';
 import amplify from './YOUR-PATH-TO/aws-exports';
 ```
 
 Then add the following code.
 
-```js
+```javascript
 Amplify.configure(amplify);
 ```
 
@@ -102,13 +102,13 @@ The Amplify React Native package enables you to integrate ready-to-use sign-up/s
 1.  Add the following import in App.js (or another file that runs upon app
     startup):
 
-    ```js
+    ```javascript
     import { withAuthenticator } from 'aws-amplify-react-native';
     ```
 
 2.  Then change `export default App;` to the following.
 
-    ```js
+    ```javascript
     export default withAuthenticator(App);
     ```
 
@@ -142,7 +142,7 @@ When prompted, select following options to create a REST API that triggers a new
 
 When you add the API feature, a boilerplate code for your Lambda function `theListFunction` is copied in *amplify/backend/function/theListFunction/src/app.js* file. You can find the sample handler for the */items* path here:
 
-```js
+```javascript
 app.get('/items', function(req, res) {
   // Add your code here
   // Return the API Gateway event and query string parameters for example
@@ -175,7 +175,7 @@ Once you have created your own Cloud APIs and Lambda functions, you can call the
 In App.js (or other code that runs at launch-time), add the following
 import.
 
-```js
+```javascript
 import Amplify, { API } from 'aws-amplify';
 import aws_exports from './aws-exports';
 Amplify.configure(aws_exports);
@@ -183,7 +183,7 @@ Amplify.configure(aws_exports);
 
 Then add this to the component that calls your API.
 
-```js
+```javascript
 state = { apiResponse: null };
 
 async getSample() {
@@ -322,7 +322,7 @@ The required DynamoDB tables, API Gateway endpoints, and Lambda functions will n
 
 1.  In App.js import the following.
 
-    ```js
+    ```javascript
     import Amplify, { API } from 'aws-amplify';
     import aws_exports from 'path_to_your_aws-exports';
     Amplify.configure(aws_exports);
@@ -330,7 +330,7 @@ The required DynamoDB tables, API Gateway endpoints, and Lambda functions will n
 
 2.  Add the following `state` to your component.
 
-    ```js
+    ```javascript
     state = {
       apiResponse: null,
       noteId: ''
@@ -350,7 +350,7 @@ handler in your React component, call the `put` method. Use
 the JSON and the root path (`/Notes`) of your API that you
 copied from the CLI prompt response earlier.
 
-```js
+```javascript
 // Create a new Note according to the columns we defined earlier
   async saveNote() {
     let newNote = {
@@ -389,7 +389,7 @@ The CLI utilizes [AWS Serverless Express](https://github.com/awslabs/aws-serverl
 Call the `get` method using the API path (copied earlier)
 to the item you are querying for.
 
-```js
+```javascript
 // noteId is the primary key of the particular record you want to fetch
     async getNote() {
       const path = "/Notes/object/" + this.state.noteId;
@@ -409,7 +409,7 @@ to the item you are querying for.
 
 Add this method to your component. Use your API path (copied earlier).
 
-```js
+```javascript
 // noteId is the NoteId of the particular record you want to delete
     async deleteNote() {
       const path = "/Notes/object/" + this.state.noteId;
@@ -428,7 +428,7 @@ Add this method to your component. Use your API path (copied earlier).
 The following is an example of how you might construct UI to exercise
 these operations.
 
-```js
+```javascript
 <View style={styles.container}>
         <Text>Response: {this.state.apiResponse && JSON.stringify(this.state.apiResponse)}</Text>
         <Button title="Save Note" onPress={this.saveNote.bind(this)} />
@@ -483,7 +483,7 @@ In your component where you want to transfer files:
 Import the `Storage` module from aws-amplify and configure
 it to communicate with your backend.
 
-```js
+```javascript
 import { Storage } from 'aws-amplify';
 ```
 
@@ -498,7 +498,7 @@ below.
 Add the following methods to the component where you handle file
 uploads.
 
-```js
+```javascript
 async uploadFile() {
   let file = 'My upload text';
   let name = 'myFile.txt';
@@ -513,7 +513,7 @@ async uploadFile() {
 
 Add the following code to a component where you display files.
 
-```js
+```javascript
 async getFile() {
   let name = 'myFile.txt';
   const access = { level: "public" };
@@ -529,7 +529,7 @@ async getFile() {
 Add the following code to a component where you list a collection of
 files.
 
-```js
+```javascript
 async componentDidMount() {
   const path = this.props.path;
   const access = { level: "public" };
@@ -541,7 +541,7 @@ async componentDidMount() {
 Use the following code to fetch file attributes such as the size or time
 of last file change.
 
-```js
+```javascript
 file.Size; // file size
 file.LastModified.toLocaleDateString(); // last modified date
 file.LastModified.toLocaleTimeString(); // last modified time
@@ -551,7 +551,7 @@ file.LastModified.toLocaleTimeString(); // last modified time
 
 Add the following statement to the element where you handle file transfers.
 
-```js
+```javascript
 async deleteFile(key) {
   const access = { level: "public" };
   Storage.remove(key, access);
@@ -603,14 +603,14 @@ You can configure your app so that [Amazon Pinpoint](http://docs.aws.amazon.com/
 In the file containing the event you want to track, add the following
 import:
 
-```js
+```javascript
 import { Analytics } from 'aws-amplify';
 ```
 
 Add a call like the following to the spot in your JavaScript where
 the tracked event should be fired:
 
-```js
+```javascript
 componentDidMount() {
    Analytics.record('FIRST-EVENT-NAME');
 }
@@ -618,7 +618,7 @@ componentDidMount() {
 
 Or to relevant page elements:
 
-```js
+```javascript
 handleClick = () => {
      Analytics.record('SECOND-EVENT-NAME');
 }

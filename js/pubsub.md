@@ -17,14 +17,14 @@ When used with `AwsIOTProvider`, PubSub is capable of signing request according 
 
 To use in your app, import `AWSIoTProvider`:
 
-```js
+```javascript
 import Amplify, { PubSub } from 'aws-amplify';
 import { AWSIoTProvider } from '@aws-amplify/pubsub/lib/Providers';
 ```
 
 Define your endpoint and region in your configuration:
 
-```js
+```javascript
 // Apply plugin with configuration
 Amplify.addPluggable(new AWSIoTProvider({
      aws_pubsub_region: '<YOUR-AWS-REGION>',
@@ -48,7 +48,7 @@ The next step is attaching the policy to your *Cognito Identity*.
 You can retrieve *Cognito Identity Id* from your `aws-exports.js` file in `aws_cognito_identity_pool_id` property. 
 
 Alternatively, you can retrieve the `Cognito Identity Id` of a logged in user with Auth Module:
-```js
+```javascript
     Auth.currentCredentials().then((info) => {
       const cognitoIdentityId = info._identityId;
     });
@@ -64,13 +64,13 @@ aws iot attach-principal-policy --policy-name 'myIOTPolicy' --principal '<YOUR_C
 
 Import PubSub module and related service provider plugin to your app:
 
-```js
+```javascript
 import { PubSub } from 'aws-amplify';
 import { MqttOverWSProvider } from "@aws-amplify/pubsub/lib/Providers";
 ```
 
 To configure your service provider with a service endpoint, add following code:
-```js
+```javascript
 // Apply plugin with configuration
 Amplify.addPluggable(new MqttOverWSProvider({
     aws_pubsub_endpoint: 'wss://iot.eclipse.org:443/mqtt',
@@ -85,7 +85,7 @@ You can integrate any MQTT Over WebSocket provider with your app. Click [here](h
 ### Subscribe to a topic
 
 In order to start receiving messages from your provider, you need to subscribe to a topic as follows;
-```js
+```javascript
 PubSub.subscribe('myTopic').subscribe({
     next: data => console.log('Message received', data),
     error: error => console.error(error),
@@ -103,7 +103,7 @@ Event | Description
 ### Subscribe to multiple topics
 
 To subscribe for multiple topics, just pass a String array including the topic names:
-```js
+```javascript
 PubSub.subscribe(['myTopic1','myTopic1']).subscribe({
     // ...
 });
@@ -112,19 +112,19 @@ PubSub.subscribe(['myTopic1','myTopic1']).subscribe({
 ### Publish to a topic
 
 To send a message to a topic, use `publish()` method with your topic name and the message:
-```js
+```javascript
 await PubSub.publish('myTopic1', { msg: 'Hello to all subscribers!' });
 ```
 
 You can also publish a message to multiple topics:
-```js
+```javascript
 await PubSub.publish(['myTopic1','myTopic2'], { msg: 'Hello to all subscribers!' });
 ```
 
 ### Unsubscribe from a topic
 
 To stop receiving messages from a topic, you can use `unsubscribe()` method:
-```js
+```javascript
 const sub1 = PubSub.subscribe('myTopicA').subscribe({
     next: data => console.log('Message received', data),
     error: error => console.error(error),
@@ -146,7 +146,7 @@ If you only need to use Pubsub, you can do: `npm install @aws-amplify/pubsub` wh
 Note: if you're using Cognito Federated Identity Pool to get AWS credentials, please also install `@aws-amplify/auth`.
 
 Then in your code, you can import the Pubsub module by:
-```js
+```javascript
 import Pubsub from '@aws-amplify/pubsub';
 
 Pubsub.configure();

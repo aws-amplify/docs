@@ -39,7 +39,7 @@ After creating your backend a configuration file will be generated in your confi
 
 Import the configuration file and load it in `main.ts`: 
 
-```js
+```javascript
 import Amplify from 'aws-amplify';
 import amplify from './aws-exports';
 Amplify.configure(amplify);
@@ -49,7 +49,7 @@ Depending on your TypeScript version you may need to rename the `aws-exports.js`
 {: .callout .callout--info}
 
 When working with underlying `aws-js-sdk`, the "node" package should be included in *types* compiler option. update your `src/tsconfig.app.json`:
-```json
+```javascripton
 "compilerOptions": {
     "types" : ["node"]
 }
@@ -59,7 +59,7 @@ When working with underlying `aws-js-sdk`, the "node" package should be included
 
 In your [app module](https://angular.io/guide/bootstrapping) `src/app/app.module.ts` import the Amplify Module and Service:
 
-```js
+```javascript
 import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
 
 @NgModule({
@@ -85,7 +85,7 @@ The `AmplifyService` provides AWS Amplify core categories and authentication sta
 
 To use *AmplifyService* with [dependency injection](https://angular.io/guide/dependency-injection-in-action), inject it into the constructor of any component or service anywhere in your application.
 
-```js
+```javascript
 import { Component } from '@angular/core';
 import { AmplifyService } from 'aws-amplify-angular';
 
@@ -105,7 +105,7 @@ export class AppComponent {
 
 You can access Categories via the built-in service provider:
 
-```js
+```javascript
 import { Component } from '@angular/core';
 import { AmplifyService }  from 'aws-amplify-angular';
 
@@ -135,7 +135,7 @@ export class AppComponent {
 
 Import `AmplifyService` into your component and listen for authentication state changes:
 
-```js
+```javascript
 import { Component } from '@angular/core';
 import { AmplifyService }  from 'aws-amplify-angular';
 
@@ -205,7 +205,7 @@ The Album component will display a list of images from the configured S3 Storage
 
 - `(selected)` - event used to retrieve the S3 signed URL of the clicked image:
 
-```js
+```javascript
 onAlbumImageSelected( event ) {
       window.open( event, '_blank' );
 }

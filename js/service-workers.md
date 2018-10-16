@@ -12,7 +12,7 @@ After registering the service worker, the ServiceWorker module will listen and a
 ## Installation
 
 Import *ServiceWorker* and instantiate a new instance (you can have mulitple workers on different scopes):
-```js
+```javascript
 import { ServiceWorker } from 'aws-amplify';
 const myServiceWorker = new ServiceWorker();
 ```
@@ -27,14 +27,14 @@ First, you need to create a service worker script **service-worker.js**. Your se
 
 Make sure that worker script is included with your build and provide a script path relative to the source directory when registering:
 
-```js
+```javascript
 // Register the service worker with `service-worker.js` with service worker scope `/`.
 myServiceWorker = await this.serviceWorker.register('/service-worker.js', '/');
 ```
 
 This method will enable web push notifications for your app. If your app is not previously subscribed to the push service to receive notifications, a new subscription will be created with the provided *public key*. 
 
-```js
+```javascript
     myServiceWorker.enablePush('BLx__NGvdasMNkjd6VYPdzQJVBkb2qafh')
 ```
 
@@ -47,7 +47,7 @@ To handle incoming push notifications in your service worker, your script should
 
 In your *service-worker.js* file, add following event listener:
 
-```js
+```javascript
 /**
  * Listen for incoming Push events
  */
@@ -87,7 +87,7 @@ For more information about Notifications API, please visit [here](https://develo
 
 This is useful when you want to control your service worker logic programmatically from your app, such as cleaning the service worker cache:
 
-```js
+```javascript
 
     myServiceWorker.send({
       'message': 'CleanAllCache'
@@ -104,7 +104,7 @@ To receive the messages in your service worker, you need to add an event handler
 
 In your *service-worker.js* file, add the following event listener:
 
-```js
+```javascript
     /**
      * The message will receive messages sent from the application.
      * This can be useful for updating a service worker or messaging
@@ -134,7 +134,7 @@ For the complete API documentation for ServiceWorker module, visit our [API Refe
 If you only need to use ServiceWorker, you can do: `npm install @aws-amplify/core` which will only install the Core module which contains the ServiceWorkder module.
 
 Then in your code, you can import the Analytics module by:
-```js
+```javascript
 import { ServiceWorker } from '@aws-amplify/core';
 
 ```
