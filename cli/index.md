@@ -1,1 +1,1 @@
-<meta http-equiv="refresh" content="0; URL='/cli/concept'" />
+<meta http-equiv="refresh" content="0; URL='/docs/cli/concept'" />
