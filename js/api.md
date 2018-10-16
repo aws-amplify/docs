@@ -270,7 +270,7 @@ console.log(allTodos);
 
 // Query using a parameter
 const oneTodo = await API.graphql(graphqlOperation(queries.getTodo, { id: 'some id' }));
-console.log(oneEvent);
+console.log(oneTodo);
 
 ```
 
@@ -288,8 +288,8 @@ const todoDetails = {
     description: 'Learn AWS AppSync'
 };
 
-const newEvent = await API.graphql(graphqlOperation(mutations.createTodo, todoDetails));
-console.log(newEvent);
+const newTodo = await API.graphql(graphqlOperation(mutations.createTodo, todoDetails));
+console.log(newTodo);
 ```
 
 #### Subscriptions
@@ -365,7 +365,7 @@ class App extends React.Component {
             <Connect query={graphqlOperation(queries.listTodos)}>
                 {({ data: { listTodos }, loading, error }) => {
                     if (error) return (<h3>Error</h3>);
-                    if(loading || !listTodos) return (<h3>Loading...</h3>)
+                    if (loading || !listTodos) return (<h3>Loading...</h3>)
                     <ListView todos={listTodos.items} />
                 }}
             </Connect>
@@ -415,7 +415,7 @@ class AddTodo extends Component {
   }
 
   handleChange(name, ev) {
-      this.setState(name, ev.target.value);
+      this.setState({ [name], ev.target.value });
   }
 
   async submit() {
