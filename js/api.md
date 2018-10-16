@@ -114,7 +114,7 @@ The following transformers are available to be used with AWS AppSync when defini
 
 ##### Type Generation using GraphQL Schemas
 
-When working with GraphQL data, it is useful to import your types from your schema into your code for type safety. You can easily do this with Amplify CLI's automated code generation feature. The CLI automatically downloads GraphQL Introspection Schemas from your defined GraphQL endpoint and generates TypeScript or Flow classes for you. Every time you push your GraphQL API, the CLI will confirm if you want to generate the types and statements.
+When working with GraphQL data it is useful to import types from your schema for type safety. You can do this with the Amplify CLI's automated code generation feature. The CLI automatically downloads GraphQL Introspection Schemas from the defined GraphQL endpoint and generates TypeScript or Flow classes for you. Every time you push your GraphQL API, the CLI will provide you the option to generate types and statements.
 
 If you want to generate your GraphQL statements and types, run:
 
@@ -398,7 +398,7 @@ Also, you can use `subscription` and `onSubscriptionMsg` attributes to enable su
 
 ```
 
-For mutations, a `mutation` function needs to be provided with `Connect` component. `mutation` returns a promise that resolves with the result of the GraphQL mutation.
+For mutations, a `mutation` function needs to be provided with the `Connect` component. A `mutation` returns a promise that resolves with the result of the GraphQL mutation.
 
 ```jsx
 import * as mutations from './graphql/mutations';
