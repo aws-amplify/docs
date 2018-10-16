@@ -440,8 +440,8 @@ class App extends React.Component {
 
         return (
             <Connect query={graphqlOperation(ListEvents)}>
-                {({ data: { listEvents } }) => (
-                    <ListView events={listEvents.items} />
+                {({ data: { listEvents }, loading }) => (
+                    !loading && <ListView events={listEvents.items} />
                 )}
             </Connect>
         )
@@ -461,8 +461,8 @@ Also, you can use `subscription` and `onSubscriptionMsg` attributes to enable su
           onSubscriptionMsg={(prev, { subscribeToEventComments }) => {
             console.log ( subscribeToEventComments);
             return prev; }}>
-    {({ data: { listEvents } }) => (
-        <AllEvents events={listEvents ? listEvents.items : []} />
+    {({ data: { listEvents }, loading }) => (
+        !loading && <AllEvents events={listEvents ? listEvents.items : []} />
     )}
  </Connect>
 
@@ -471,16 +471,60 @@ Also, you can use `subscription` and `onSubscriptionMsg` attributes to enable su
 For mutations, a `mutation` function needs to be provided with `Connect` component. `mutation` returns a promise that resolves with the result of the GraphQL mutation.
 
 ```js
-class CreateEvent extends React.Component {
-  // ...
-  // This component calls its onCreate prop to trigger the mutation
-  // const variables = { id: '1' }
-  // this.props.onCreate(variables)
-  // ...
+class CreateEventView extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = this.getInitialState();
+  }
+
+  getInitialState() {
+    return {
+      name: '',
+      where: '',
+      when: new Date().toISOString(),
+      description: '',
+    };
+  }
+
+  handleChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
+  handleSubmit = async () => {
+    const { name, where, when, description } = this.state;
+    const { onCreate } = this.props;
+
+    try {
+      await onCreate({ name, where, when, description });
+    } catch (error) {
+      console.error(error);
+    }
+
+    this.setState(this.getInitialState());
+  }
+
+  render() {
+    const { name, where, when, description } = this.state;
+
+    return (
+      <div onSubmit={this.handleSubmit}>
+        <div>
+          <label>Create event</label>
+          <div><label>Name</label> <input type="text" name="name" value={name} onChange={this.handleChange} /></div>
+          <div><label>Where</label> <input type="text" name="where" value={where} onChange={this.handleChange} /></div>
+          <div><label>When</label> <input type="text" name="when" value={when} onChange={this.handleChange} /></div>
+          <div><label>Description</label><input type="text" name="description" value={description} onChange={this.handleChange} /></div>
+          <button onClick={this.handleSubmit}>Create</button>
+        </div>
+      </div>
+    );
+  }
 }
 <Connect mutation={graphqlOperation(Operations.CreateEvent)}>
   {({ mutation }) => (
-      <CreateEvent onCreate={mutation} />
+      <CreateEventView onCreate={mutation} />
   )}
 </Connect>
 ```
