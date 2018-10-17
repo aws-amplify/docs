@@ -11,7 +11,7 @@ For more  information of the Amazon S3 and Amazon CloudFront, check their docs:<
 
 ## Workflow
 - `amplify hosting add`<br/>
-This adds the hosting resources to the backend. The command will first prompt for environment selection, either DEV or PROD. Upon completion, the cloudformation template for the resources is placed in the amplify/backend/hosting directory. <br/><br/>
+This adds the hosting resources to the backend. The command will first prompt for environment selection, either DEV or PROD. Upon completion, the CloudFormation template for the resources is placed in the amplify/backend/hosting directory. <br/><br/>
 - `amplify hosting configure`<br/>
 This command walks through the steps to configure the different sections of the resources used in hosting, including S3, CloudFront, and publish ignore. See below for more details.<br/><br/>
 - `amplify publish`<br/>

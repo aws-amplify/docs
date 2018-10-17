@@ -174,7 +174,7 @@ Open a browser and navigate to <a href="http://localhost:8080" target="_blank">h
 
 <div id="react" class="tab-content">
 
-Use [Create React App](https://github.com/facebookincubator/create-react-app) to boostrap your application.
+Use [Create React App](https://github.com/facebookincubator/create-react-app) to bootstrap your application.
 
 ```bash
 $ npm install -g create-react-app

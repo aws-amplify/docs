@@ -156,7 +156,7 @@ Auth.confirmSignUp(username, code, {
 
 **Forcing Email Uniqueness in Cognito User Pools**
 
-When your Cognito User Pool sign-in options are set to "*Username*", and "*Also allow sign in with verified email address*", *signUp()* method creates a new user account everytime, without validating email uniqueness. In this case you will end up having multiple user pool identities and previously created account's attribute is changed to *email_verified : false*. 
+When your Cognito User Pool sign-in options are set to "*Username*", and "*Also allow sign in with verified email address*", *signUp()* method creates a new user account every time, without validating email uniqueness. In this case you will end up having multiple user pool identities and previously created account's attribute is changed to *email_verified : false*. 
 
 To enforce Cognito User Pool signups with a unique email, you need to change your User Pool's *Attributes* setting in [Amazon Cognito console](https://console.aws.amazon.com/cognito) as the following:
 
@@ -340,7 +340,7 @@ ga.signIn().then(googleUser => {
 });
 ```
 
-Availible identity providers are `google`, `facebook`, `amazon`, `developer` and OpenID. To use an `OpenID` provider, use the URI of your provider as the key, e.g. `accounts.your-openid-provider.com`.
+Available identity providers are `google`, `facebook`, `amazon`, `developer` and OpenID. To use an `OpenID` provider, use the URI of your provider as the key, e.g. `accounts.your-openid-provider.com`.
 
 **Retrieving JWT Token**
 
@@ -566,7 +566,7 @@ You can also enable Federated Identities for your hosted UI;
 
 - Go to *Federation* > *Identity providers*
 - Select an *Identity provider* and enter required credentials for the identity provider. (e.g., App Id, App secret, Authorized scope)
-- In the settings page for your selected identity provider (Facebook, Google, etc.),  set *Oauth Redirected URI* to `https://your-domain-prefix.auth.us-east-1.amazoncognito.com/oauth2/idpresponse` (*your-domain-prefix* is the domain prefix you have entered in previously).
+- In the settings page for your selected identity provider (Facebook, Google, etc.),  set *OAuth Redirected URI* to `https://your-domain-prefix.auth.us-east-1.amazoncognito.com/oauth2/idpresponse` (*your-domain-prefix* is the domain prefix you have entered in previously).
 - To retrieve user attributes from your identity provider, go to *Federation* > *Attribute mapping*. Here, you can map Federation Provider attributes to corresponding User pool attributes. 
 
 If  *email* attribute is a required field in your Cognito User Pool settings, please make sure that you have selected *email* in your Authorized Scopes, and you have mapped it correctly to your User Pool attributes.
@@ -792,7 +792,7 @@ Auth.configure({
 })
 ```
 
-For your Cognito User Pool to accept authentication requests using `USER_PASSWORD_AUTH`, your Cognito app client has to be configured to allow that flow. In the AWS Console, this is done by ticking the checkbox at General settings > App clients > Show Details (for the affected client) > Enable username-password (non-SRP) flow. If you're using the AWS CLI or Cloudformation, update your app client by adding `USER_PASSWORD_AUTH` to the list of "Explicit Auth Flows".
+For your Cognito User Pool to accept authentication requests using `USER_PASSWORD_AUTH`, your Cognito app client has to be configured to allow that flow. In the AWS Console, this is done by ticking the checkbox at General settings > App clients > Show Details (for the affected client) > Enable username-password (non-SRP) flow. If you're using the AWS CLI or CloudFormation, update your app client by adding `USER_PASSWORD_AUTH` to the list of "Explicit Auth Flows".
 
 #### Creating a CAPTCHA
 

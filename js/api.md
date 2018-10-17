@@ -110,7 +110,7 @@ The following transformers are available to be used with AWS AppSync when defini
 | @model | Used for storing types in Amazon DynamoDB. |
 | @auth | Used to define different authorization strategies. | 
 | @connection | Used for specifying relationships between @model object types. |
-| @searchable | Used for streaming the data of an @model object type to Amazon ElasticSearch Service. |
+| @searchable | Used for streaming the data of an @model object type to Amazon Elasticsearch Service. |
 
 ##### Type Generation using GraphQL Schemas
 

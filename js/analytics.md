@@ -103,7 +103,8 @@ User session data is automatically collected unless you disabled analytics. To s
 #### Update your IAM Policy:
 
 Amazon Pinpoint service requires an IAM policy in order to use the `record` API:
-```javascripton
+
+```json
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -119,6 +120,7 @@ Amazon Pinpoint service requires an IAM policy in order to use the `record` API:
         }
     ]
 }
+```
 
 ### Working with the API 
 
@@ -320,7 +322,7 @@ Analytics.configure({
 
 ```
 
-The default provider (Amazon Pinpoint) is in use when you call `Analytics.record()` unelss you specify a different provider: `Analytics.record({..},'MyAnalyticsProvider')`. 
+The default provider (Amazon Pinpoint) is in use when you call `Analytics.record()` unless you specify a different provider: `Analytics.record({..},'MyAnalyticsProvider')`. 
 {: .callout .callout--info}
 
 ## Using Modular Imports

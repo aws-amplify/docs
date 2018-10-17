@@ -367,7 +367,7 @@ You can also use the track property directly on [React components](#analytics-fo
 
 ## UI Components for React
 
-`aws-amplify-react` package provides React UI components for common usecases such as picking a file and image previews. 
+`aws-amplify-react` package provides React UI components for common use cases such as picking a file and image previews. 
 
 ### Picker
 
@@ -469,7 +469,7 @@ function fileToKey(data) {
 <S3Image path={path} picker fileToKey={fileToKey} />
 ```
 
-`S3Image` will escape all spaces in key values to underscore. For example, 'a b' will ve converted to 'a_b'.
+`S3Image` will escape all spaces in key values to underscore. For example, 'a b' will be converted to 'a_b'.
 {: .callout .callout--info}
 
 ### S3Text

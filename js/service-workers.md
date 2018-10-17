@@ -11,7 +11,7 @@ After registering the service worker, the ServiceWorker module will listen and a
 
 ## Installation
 
-Import *ServiceWorker* and instantiate a new instance (you can have mulitple workers on different scopes):
+Import *ServiceWorker* and instantiate a new instance (you can have multiple workers on different scopes):
 ```javascript
 import { ServiceWorker } from 'aws-amplify';
 const myServiceWorker = new ServiceWorker();
@@ -85,7 +85,7 @@ For more information about Notifications API, please visit [here](https://develo
 
 `send` method sends a message to your service worker, from your web app. Remember that your app's code and service worker script work in different contexts, and the communication between the two is possible with *send()* method.
 
-This is useful when you want to control your service worker logic programmatically from your app, such as cleaning the service worker cache:
+This is useful when you want to control your service worker logic from your app, such as cleaning the service worker cache:
 
 ```javascript
 
@@ -131,7 +131,7 @@ For the complete API documentation for ServiceWorker module, visit our [API Refe
 
 ## Using Modular Imports
 
-If you only need to use ServiceWorker, you can do: `npm install @aws-amplify/core` which will only install the Core module which contains the ServiceWorkder module.
+If you only need to use ServiceWorker, you can do: `npm install @aws-amplify/core` which will only install the Core module which contains the ServiceWorker module.
 
 Then in your code, you can import the Analytics module by:
 ```javascript

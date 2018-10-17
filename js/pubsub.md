@@ -142,13 +142,13 @@ For the complete API documentation for PubSub module, visit our [API Reference](
 
 ## Using Modular Imports
 
-If you only need to use Pubsub, you can do: `npm install @aws-amplify/pubsub` which will only install the Pubsub module for you.
+If you only need to use PubSub, you can do: `npm install @aws-amplify/pubsub` which will only install the PubSub module for you.
 Note: if you're using Cognito Federated Identity Pool to get AWS credentials, please also install `@aws-amplify/auth`.
 
-Then in your code, you can import the Pubsub module by:
+Then in your code, you can import the PubSub module by:
 ```javascript
-import Pubsub from '@aws-amplify/pubsub';
+import PubSub from '@aws-amplify/pubsub';
 
-Pubsub.configure();
+PubSub.configure();
 
 ```
