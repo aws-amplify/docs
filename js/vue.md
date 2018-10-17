@@ -6,7 +6,7 @@
 Vue.js support is currently in beta and installable via `aws-amplify-vue@beta` from npm.
 {: .callout .callout--info}
 
-The ```aws-amplify-vue``` package is a set of Vue components which integrates your Vue application with the AWS-Amplify library. It is intended for use with Vue applications using version 2.5 or above, and was created using the Vue 3.0 CLI.
+The ```aws-amplify-vue``` package is a set of Vue components which integrates your Vue application with the AWS-Amplify library. The package supports Vue applications using version 2.5 or above, and was created using the Vue 3.0 CLI.
 
 ## Configuration 
 
@@ -76,7 +76,7 @@ The aws-amplify-vue package provides a Vue plugin to access the Amplify library.
 
 ```Vue.use(AmplifyVue.plugins.amplifyPlugin, {AmplifyModules})```
 
-This makes the Amplify library available to the aws-amplify-vue components as well as to your application.  Please note that you can restrict the modules that are made available to the plugin by passing only specific modules in the second argument of ```Vue.use``` call.
+This makes the Amplify library available to the aws-amplify-vue components as well as your application. Please note that you can restrict the modules that are made available to the plugin by passing only specific modules in the second argument of ```Vue.use``` call.
 
 ### Using the AmplifyPlugin
 
@@ -87,7 +87,7 @@ To call the Amplify library, simply use ``this.$Amplify.`` followed by whichever
 
 ### Authenticator
 
-The Authenticator component provides basic basic login/logout functionality for your application, as well confirmation steps for new user registration and user login. It uses the following components as children:
+The Authenticator component provides basic login/logout functionality for your application, as well confirmation steps for new user registration and user login. It uses the following components as children:
 
 * SignIn
 * ConfirmSignIn
@@ -152,8 +152,8 @@ signInOptions = {
 
 Events: 
 
-* ```AmplifyEventBus.$emit('authState', 'signedIn')```: Emitted when a user successfully signs in without answering an MFA challenge.
-* ```AmplifyEventBus.$emit('authState', 'confirmSignIn')```: Emitted when a user successfully provides their credentials but is then asked to answer and MFA challenge.
+* ```AmplifyEventBus.$emit('authState', 'signedIn')```: Emitted when a user signs in without answering an MFA challenge.
+* ```AmplifyEventBus.$emit('authState', 'confirmSignIn')```: Emitted when a user provides their credentials but is then asked to answer and MFA challenge.
 * ```AmplifyEventBus.$emit('authState', 'forgotPassword')```: Emitted when a user clicks the 'Forgot Password' button.
 * ```AmplifyEventBus.$emit('authState', 'signUp')```: Emitted when a user clicks 'Back to Sign Up'.
 
@@ -177,9 +177,8 @@ confirmSignInOptions = {
 
 Events: 
 
-* ```AmplifyEventBus.$emit('authState', 'signedIn')```: Emitted when a user successfully answers their MFA challenge.
+* ```AmplifyEventBus.$emit('authState', 'signedIn')```: Emitted when a user answers their MFA challenge.
 * ```AmplifyEventBus.$emit('authState', 'signedOut');```: Emitted when a user clicks 'Back to Sign In'.
-
 
 ### SignUp
 
@@ -199,8 +198,8 @@ signUpOptions = {
 
 Events: 
 
-* ```AmplifyEventBus.$emit('authState', 'confirmSignUp')```: Emitted when a user successfully enters their information but has not yet completed a required verification step.
-* ```AmplifyEventBus.$emit('authState', 'signedOut')```: Emitted when a user successfully provides their information and does not need to complete a required verification step, or when they click 'Back to Sign In'.
+* ```AmplifyEventBus.$emit('authState', 'confirmSignUp')```: Emitted when a user enters their information but has not yet completed a required verification step.
+* ```AmplifyEventBus.$emit('authState', 'signedOut')```: Emitted when a user provides their information and does not need to complete a required verification step, or when they click 'Back to Sign In'.
 
 
 ### ConfirmSignUp
@@ -222,7 +221,7 @@ confirmSignUpOptions = {
 
 Events: 
 
-* ```AmplifyEventBus.$emit('authState', 'signedOut')```: Emitted when a user successfully completes their verification step or clicks 'Back to Sign In'.
+* ```AmplifyEventBus.$emit('authState', 'signedOut')```: Emitted when a user completes their verification step or clicks 'Back to Sign In'.
 
 ### ForgotPassword
 
@@ -242,7 +241,7 @@ forgotPasswordOptions = {
 
 Events: 
 
-* ```AmplifyEventBus.$emit('authState', 'signedOut')```: Emitted when a user successfully resets their password or clicks 'Back to Sign In'.
+* ```AmplifyEventBus.$emit('authState', 'signedOut')```: Emitted when a user resets their password or clicks 'Back to Sign In'.
 
 ### SignOut
 
@@ -263,7 +262,7 @@ signOutOptions = {
 
 Events: 
 
-* ```AmplifyEventBus.$emit('authState', 'signedOut')```: Emitted when a user successfully signs out.
+* ```AmplifyEventBus.$emit('authState', 'signedOut')```: Emitted when a user signs out.
 
 ### SetMFA
 
@@ -362,4 +361,4 @@ chatbotOptions = {
 
 Events:
 
-* ```AmplifyEventBus.$emit('chatComplete', this.options.botTitle)```: Emitted when a chat session has been completed (only if the clearComplete options is 'true')
+* ```AmplifyEventBus.$emit('chatComplete', this.options.botTitle)```: Emitted when a chat session has been completed (if the clearComplete options is 'true')

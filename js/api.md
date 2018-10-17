@@ -57,7 +57,7 @@ $ amplify push
 
 When you create a GraphQL backend with the CLI, the schema definition for your backend data structure is saved in *amplify/backend/api/YOUR-API-NAME/schema.graphql* file. 
 
-Once your API is deployed, updating the schema is very easy with the CLI. You can edit the schema file and run *amplify push* command to update your GraphQL backend.
+Once your API is deployed, updating the schema is easy with the CLI. You can edit the schema file and run *amplify push* command to update your GraphQL backend.
 
 For example, a sample GraphQL schema will look like this:
 

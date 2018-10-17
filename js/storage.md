@@ -303,7 +303,7 @@ Storage.remove('test.txt', {level: 'private'})
     .catch(err => console.log(err));
 ```
 
-#### List
+#### List keys
 
 List keys under path specified.
 

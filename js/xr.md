@@ -21,7 +21,7 @@ You will then be prompted with the following dialog. Click the *Publish* button:
 Now click the *Download JSON configuration* button to download the scene configuration JSON that will be used for configuring your scene within AWS Amplify:
 ![XR]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/images/xr/amplify_published_dialog.png){: class="screencap" style="max-height:600px;"}
 
-Amazon Sumerian private scenes do not currently support Unauthenticated access roles when using Amazon Cognito and AWS Amplify Authentication. If you are publishing a private scene, be sure to only include an Authenticated Role/Policy with your Cognito Identity Pool. To understand how to configure your Authenticated Role/Policy for Sumerian scene access go to the <a href="https://docs.aws.amazon.com/sumerian/latest/userguide/sumerian-permissions.html">Amazon Sumerian Permissions</a> documentation page. <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html" target="_blank"> Learn more</a> about IAM Roles with Cognito Identity Pools.
+Amazon Sumerian private scenes do not support Unauthenticated access roles when using Amazon Cognito and AWS Amplify Authentication. If you are publishing a private scene, be sure to include an Authenticated Role/Policy with your Cognito Identity Pool. To understand how to configure your Authenticated Role/Policy for Sumerian scene access go to the <a href="https://docs.aws.amazon.com/sumerian/latest/userguide/sumerian-permissions.html">Amazon Sumerian Permissions</a> documentation page. <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html" target="_blank"> Learn more</a> about IAM Roles with Cognito Identity Pools.
 {: .callout .callout--info}
 
 Add the following code to your application to configure the XR category:
@@ -41,7 +41,7 @@ XR.configure({ // XR category configuration
 });
 ```
 
-**Or modular import configuration (include only the XR category in your app)**
+**Or modular import configuration (include the XR category in your app)**
 
 ```javascript
 import XR from '@aws-amplify/xr';
@@ -58,7 +58,7 @@ XR.configure({ // XR category configuration
 });
 ```
 
-**Use additional publish parameters**
+**Use publish parameters**
 
 ```javascript
 import XR from '@aws-amplify/xr';
@@ -77,7 +77,7 @@ XR.configure({ // XR category configuration
 });
 ```
 
-The XR Category allows a Sumerian scene to be rendered into an DIV HTML element with `loadScene` method. When the scene is loaded successfully, *XR.start()* method will start the scene. To render the scene, pass your scene name and the id of the element in the method call:
+The XR Category allows a Sumerian scene to be rendered into an DIV HTML element with `loadScene` method. When the scene has been loaded the *XR.start()* method will start the scene. To render the scene, pass your scene name and the id of the element in the method call:
 
 ```javascript
 // Load scene with sceneName: "scene1" into dom element id: "sumerian-scene-dom-id"

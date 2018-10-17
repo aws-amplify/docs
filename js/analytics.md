@@ -145,7 +145,7 @@ Analytics.record({
 
 #### Record Engagement Metrics
 
-Metrics data can also be added to an event:
+Data can also be added to an event:
 
 ```javascript
 Analytics.record({
@@ -157,7 +157,7 @@ Analytics.record({
 
 #### Disable Analytics
 
-You can also completely disable or re-enable Analytics:
+You can also disable or re-enable Analytics:
 ```javascript
 // to disable Analytics
 Analytics.disable();

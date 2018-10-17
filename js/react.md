@@ -25,7 +25,7 @@ If you're using Windows, we recommend the [Windows Subsystem for Linux](https://
 To get started, initialize your project in the new directory:
 `amplify init`
 
-After you answer a few questions, you can use `amplify help` at any time to see the overall command structure, and `amplify help <category>` to see actions for a specific category. 
+After you answer the provided questions, you can use `amplify help` at any time to see the overall command structure, and `amplify help <category>` to see actions for a specific category. 
 
 The Amplify CLI uses AWS CloudFormation, and you can add or modify configurations locally before you push them for execution in your account. To see the status of the deployment at any time, run `amplify status`.
 
@@ -74,7 +74,7 @@ You can now use `amplify publish` to build and publish your app again. This time
 
 ## Add Analytics and Storage
 
-Next, we'll add some features, like tracking user behavior analytics and uploading/downloading images in the cloud. Start by running `amplify add analytics` in your project. You can enable analytics for authenticated users only, or for users that aren't authenticated. You would be prompted to ask whether you want to allow guests and unauthenticated users to send analytics events, so you can choose `Yes`. You you an also try a new project without authentication configured to test this feature.
+Next, we'll add some features, like tracking user behavior analytics and uploading/downloading images in the cloud. Start by running `amplify add analytics` in your project. You can enable analytics for authenticated users only, or for users that aren't authenticated. You would be prompted to ask whether you want to allow guests and unauthenticated users to send analytics events, so you can choose `Yes`. You can also try a new project without authentication configured to test this feature.
 
 Run `amplify add storage` and then select **Content (Images, audio, video, etc.)**. You'll then be prompted for authorization related questions. Choose **Auth and guest users** to give both authorized and guest users access. In the next prompts, based on your previous selection you would be asked to configure read/write permissions for the authorized and guest users. When complete, run `amplify push` to create the cloud resources.
 

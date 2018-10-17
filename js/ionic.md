@@ -162,7 +162,7 @@ AWS Amplifies provides components that you can use in your Angular view template
 
 ### Authenticator
 
-Authenticator component creates an out-of-the-box signing/sign-up experience for your Angular app. 
+The Authenticator component creates an out-of-the-box signing/sign-up experience for your Angular app. 
 
 Before using this component, please be sure that you have activated [Authentication category](https://aws-amplify.github.io/amplify-js/media/authentication_guide):
 ```bash
