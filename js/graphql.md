@@ -1296,8 +1296,6 @@ query ListBlogs {
 
 **Note: To use the @auth directive, the API must be configured to use Amazon Cognito user pools.**
 
-**There is currently a bug with the user pool creation. To make this work you need to have your own user pool and then pass the id via a CloudFormation parameter. The Amplify CLI user pool with the default setting doesn't work (a fix is in the works).**
-
 ```
 type Task 
   @model 
