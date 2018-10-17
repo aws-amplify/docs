@@ -277,7 +277,7 @@ Auth.configure({
 
 To learn more about tokens, please visit [Amazon Cognito Developer Documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-with-identity-providers.html).
 
-### Using Components in React
+### Using Components in React & React Native
 
 For React and React Native apps, the simplest way to add authentication flows into your app is to use *withAuthenticator* High Order Component.
 
@@ -291,6 +291,123 @@ import { withAuthenticator } from 'aws-amplify-react'; // or 'aws-amplify-react-
 export default withAuthenticator(App);
 ```
 Now, your app has complete flows for user sign-in and registration. Since you have wrapped your **App** with `withAuthenticator`, only signed in users can access your app. The routing for login pages and giving access to your **App** Component will be managed automatically.
+
+#### Props
+
+`withAuthenticator` component renders your App component after a successful user signed in, and it prevents non-sign-in uses to interact with your app. In this case, we need to display a *sign-out* button to trigger the related process.
+
+To display a sign-out button or customize other, set `includeGreetings = true` in the parameter object. It displays a *greetings section* on top of your app, and a sign-out button is displayed in the authenticated state. Other customization options are also available as properties to the HOC:
+
+```jsx
+export default withAuthenticator(App, 
+                // Render a sign out button once logged in
+                includeGreetings = false, 
+                // Show only certain components
+                authenticatorComponents = [MyComponents],
+                // display federation/social provider buttons 
+                federated = {myFederatedConfig}, 
+                // customize the UI/styling
+                theme = {myCustomTheme});
+```
+
+### Using the Authenticator Component Directly
+
+The `withAuthenticator` HOC wraps an `Authenticator` component. Using `Authenticator` directly gives you more customization options for your UI.
+
+```jsx
+
+<Authenticator 
+    // Optionally hard-code an initial state
+    authState="signIn",
+    // Pass in an already authenticated CognitoUser or FederatedUser object
+    authData={CognitoUser | 'username'} 
+    // Fired when Authentication State changes
+    onStateChange={(authState) => console.log(authState)} 
+    // An object referencing federation and/or social providers
+    federated={myFederatedConfig}
+    // A theme object to override the UI / styling
+    theme={myCustomTheme} 
+    // Hide specific components within the Authenticator
+    hide={ 
+        [
+            Greetings,
+            SignIn,
+            ConfirmSignIn,
+            RequireNewPassword,
+            SignUp,
+            ConfirmSignUp,
+            VerifyContact,
+            ForgotPassword,
+            TOTPSetup
+        ]
+    }
+    // or hide all the default components
+    hideDefault={true}
+    // Pass in an aws-exports configuration
+    amplifyConfig={myAWSExports}, 
+    // Pass in a message map for error strings
+    errorMessage={myMessageMap}
+>
+    // Default components can be customized/passed in as child components
+    <Greetings/>
+    <SignIn federated={myFederatedConfig}/>
+    <ConfirmSignIn/>
+    <RequireNewPassword/>
+    <SignUp/>
+    <ConfirmSignUp/>
+    <VerifyContact/>
+    <ForgotPassword/>
+    <TOTPSetup/>
+</Authenticator>
+```
+
+#### Wrapping your Component
+
+This will render your App component with *Authenticator*:
+
+```javascript
+import { Authenticator } from 'aws-amplify-react'; // or 'aws-amplify-react-native'
+...
+
+class AppWithAuth extends Component {
+  render(){
+    return (
+      <div>
+      <Authenticator>
+        <App />
+      </Authenticator>
+      </div>
+    );
+  }
+}
+
+export default AppWithAuth;
+```
+
+#### Show your App After Sign-in
+
+In the previous example, you'll see the App is rendered even before the user is signed-in. To change this behavior, you can use *Authenticator* properties. When inside `Authenticator`, the App component automatically receives those properties.
+
+**authState** is the current authentication state (a string):
+```
+ - signIn
+ - signUp
+ - confirmSignIn
+ - confirmSignUp
+ - forgotPassword
+ - verifyContact
+ - signedIn
+ ```
+
+**authData** - additional data within authState; when the state is `signedIn`, it will return a `user` object.
+
+Using the options above, to control the condition for *Authenticator* to render App component, simply set `_validAuthStates` property:
+
+```javascript
+this._validAuthStates = ['signedIn'];
+```
+
+Then, in the component's constructor,  implement `showComponent(theme) {}` in lieu of the typical `render() {}` method.
 
 #### Enabling Federated Identities
 
@@ -380,68 +497,6 @@ Auth.configure({
     }
 })
 ```
-
-#### Rendering a Sign Out Button
-
-`withAuthenticator` component renders your App component after a successful user signed in, and it prevents non-sign-in uses to interact with your app. In this case, we need to display a *sign-out* button to trigger the related process.
-
-To display a sign-out button, set `includeGreetings = true` in the parameter object. It displays a *greetings section* on top of your app, and a sign-out button is displayed in the authenticated state.
-
-```javascript
-export default withAuthenticator(App, { includeGreetings: true });
-```
-
-### Using Authenticator Component
-
-The `withAuthenticator` HOC essentially just wraps `Authenticator` component. Using `Authenticator` directly gives you more customization options for your UI.
-
-#### Wrapping your Component
-
-This will render your App component with *Authenticator*:
-
-```javascript
-import { Authenticator } from 'aws-amplify-react'; // or 'aws-amplify-react-native'
-...
-
-class AppWithAuth extends Component {
-  render(){
-    return (
-      <div>
-      <Authenticator>
-        <App />
-      </Authenticator>
-      </div>
-    );
-  }
-}
-
-export default AppWithAuth;
-```
-
-#### Show your App After Sign-in
-
-In the previous example, you'll see the App is rendered even before the user is signed-in. To change this behavior, you can use *Authenticator* properties. When inside `Authenticator`, the App component automatically receives those properties.
-
-**authState** is the current authentication state (a string):
-```
- - signIn
- - signUp
- - confirmSignIn
- - confirmSignUp
- - forgotPassword
- - verifyContact
- - signedIn
- ```
-
-**authData** - additional data within authState; when the state is `signedIn`, it will return a `user` object.
-
-Using the options above, to control the condition for *Authenticator* to render App component, simply set `_validAuthStates` property:
-
-```javascript
-this._validAuthStates = ['signedIn'];
-```
-
-Then, in the component's constructor,  implement `showComponent(theme) {}` in lieu of the typical `render() {}` method.
 
 ### Federated Identities (Social Sign-in)
 
