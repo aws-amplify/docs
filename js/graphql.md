@@ -898,9 +898,276 @@ Here is a complete list of searchable operations per GraphQL type supported as o
 | Float | `ne`, `gt`, `lt`, `gte`, `lte`, `eq`, `range`      |
 | Boolean | `eq`, `ne`      |
 
-#### Generates
+## S3 Objects
 
-Todo: What does searchable generate.
+The GraphQL Transform, Amplify CLI, and Amplify Library make it simple to add complex object
+support with Amazon S3 to an application.
+
+### Basics
+
+At a minimum the steps to add S3 Object support are as follows:
+
+**Create a Amazon S3 bucket to hold files via `amplify add storage`.**
+
+**Create a user pool in Amazon Cognito User Pools via `amplify add auth`.**
+
+**Create a GraphQL API via `amplify add api` and add the following type definition:**
+
+```
+type S3Object {
+  bucket: String!
+  region: String!
+  key: String!
+}
+```
+
+**Reference the S3Object type from some `@model` type:**
+
+```
+type Picture @model @auth(rules: [{allow: owner}]) {
+  id: ID!
+  name: String
+  owner: String
+
+  # Reference the S3Object type from a field.
+  file: S3Object
+}
+```
+
+The GraphQL Transform handles creating the relevant input types and will store pointers to S3 objects in Amazon DynamoDB. The AppSync SDKs and Amplify library handle uploading the files to S3 transparently.
+
+**Run a mutation with s3 objects from your client app:**
+
+```
+mutation ($input: CreatePictureInput!) {
+  createPicture(input: $input) {
+    id
+    name
+    visibility
+    owner
+    createdAt
+    file {
+      region
+      bucket
+      key
+    }
+  }
+}
+```
+
+### Tutorial (S3 & React)
+
+**First create an amplify project:**
+
+```
+amplify init
+```
+
+**Next add the `auth` category to enable Amazon Cognito User Pools:**
+
+```
+amplify add auth
+
+# You may use the default settings.
+```
+
+**Then add the `storage` category and configure an Amazon S3 bucket to store files.**
+
+```
+amplify add storage
+
+# Select "Content (Images, audio, video, etc.)"
+# Follow the rest of the instructions and customize as necessary.
+```
+
+**Next add the `api` category and configure a GraphQL API with Amazon Cognito User Pools enabled.**
+
+```
+amplify add api
+
+# Select the graphql option and then Amazon Cognito User Pools option.
+# When asked if you have a schema, say No.
+# Select one of the default samples. You can change it later.
+# Choose to edit the schema and it will open your schema.graphql in your editor.
+```
+
+**Once your `schema.graphql` is open in your editor of choice, enter the following:**
+
+```
+type Picture @model @auth(rules: [{allow: owner}]) {
+  id: ID!
+  name: String
+  owner: String
+  visibility: Visibility
+  file: S3Object
+  createdAt: String
+}
+
+type S3Object {
+  bucket: String!
+  region: String!
+  key: String!
+}
+
+enum Visibility {
+  public
+  private
+}
+```
+
+**After defining your API's schema.graphql deploy it to AWS.**
+
+```
+amplify push
+```
+
+**In your top level `App.js` (or similar), instantiate the AppSync client and include
+the necessary `<Provider />` and `<Rehydrated />` components.**
+
+```javascript
+import React, { Component } from 'react';
+import Amplify, { Auth } from 'aws-amplify';
+import { withAuthenticator } from 'aws-amplify-react';
+import AWSAppSyncClient from "aws-appsync";
+import { Rehydrated } from 'aws-appsync-react';
+import { ApolloProvider } from 'react-apollo';
+import awsconfig from './aws-exports';
+
+// Amplify init
+Amplify.configure(awsconfig);
+
+const GRAPHQL_API_REGION = awsconfig.aws_appsync_region
+const GRAPHQL_API_ENDPOINT_URL = awsconfig.aws_appsync_graphqlEndpoint
+const S3_BUCKET_REGION = awsconfig.aws_user_files_s3_bucket_region
+const S3_BUCKET_NAME = awsconfig.aws_user_files_s3_bucket
+const AUTH_TYPE = awsconfig.aws_appsync_authenticationType
+
+// AppSync client instantiation
+const client = new AWSAppSyncClient({
+  url: GRAPHQL_API_ENDPOINT_URL,
+  region: GRAPHQL_API_REGION,
+  auth: {
+    type: AUTH_TYPE,
+    // Get the currently logged in users credential from 
+    // Amazon Cognito User Pools.
+    jwtToken: async () => (
+        await Auth.currentSession()).getAccessToken().getJwtToken(),
+  },
+  // Uses Amazon IAM credentials to authorize requests to S3.
+  complexObjectsCredentials: () => Auth.currentCredentials(),
+});
+
+// Define you root app component
+class App extends Component {
+    render() {
+        // ... your code here
+    }
+}
+
+const AppWithAuth = withAuthenticator(App, true);
+
+export default () => (
+  <ApolloProvider client={client}>
+    <Rehydrated>
+      <AppWithAuth />
+    </Rehydrated>
+  </ApolloProvider>
+);
+```
+
+**Then define a component and call a mutation to create a Picture object and upload
+a file.**
+
+```javascript
+import React, { Component } from 'react';
+import gql from 'graphql-tag';
+
+// Define your component
+class AddPhoto extends Component {
+    render() {
+        <Button onClick={async () => {
+            const visibility = 'private';
+            const { identityId } = await Auth.currentCredentials();
+            const name = 'Friendly File Name';
+            const file = {
+                bucket: this.props.s3Bucket,
+                key: `${visibility}/${identityId}/${this.state.selectedFile.name}`,
+                region,
+                mimeType,
+                
+                // This comes from an HTML file input element.
+                // <input type="file" onChange={this.updateStateOnFileSelected} />
+                localUri: this.state.selectedFile,
+            };
+            // Fires the createPicture mutation and transparently uploads the
+            // file to Amazon S3.
+            this.props.createPicture({ name, visibility, file });
+        }} />
+    }
+}
+
+// Write your mutation
+const MutationCreatePicture = gql`
+mutation ($input: CreatePictureInput!) {
+  createPicture(input: $input) {
+    id
+    name
+    visibility
+    owner
+    createdAt
+    file {
+      region
+      bucket
+      key
+    }
+  }
+}`;
+
+// Decorate your component with your mutation. 
+export default graphql(
+    MutationCreatePicture,
+    {
+        options: {
+            // Tell the SDK how to store the new "Picture" 
+            // object in the offline cache.
+            update: (proxy, { data: { createPicture } }) => {
+                const query = QueryListPictures;
+                const data = proxy.readQuery({ query });
+                data.listPictures.items = [
+                    ...data.listPictures.items,
+                    createPicture
+                ];
+                proxy.writeQuery({ query, data });
+            }
+        },
+        props: ({ ownProps, mutate }) => ({
+
+            // Add a "createPicture" prop that will trigger 
+            // our mutation from our component.
+            createPicture: photo => mutate({
+
+                // Pass our photo (NOTE: with the file object as variables)
+                // The AppSync SDK will know how to upload the file to S3.
+                variables: { input: photo },
+
+                // Optionally provide an optimistic update rule 
+                // for snappy UIs.
+                optimisticResponse: () => ({
+                    createPicture: {
+                        ...photo,
+                        id: uuid(),
+                        createdAt: new Date().toISOString(),
+                        __typename: 'Picture',
+                        file: { ...photo.file, __typename: 'S3Object' }
+                    }
+                }),
+            }),
+        }),
+    }
+)(AddPhoto);
+```
+
+> See [https://github.com/aws-samples/aws-amplify-graphql](https://github.com/aws-samples/aws-amplify-graphql) for the full code.
 
 ## Examples
 
