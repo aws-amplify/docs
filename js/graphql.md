@@ -574,8 +574,8 @@ the generated resolvers would be protected like so:
 ### @connection
 
 The `@connection` directive enables you to specify relationships between `@model` object types.
-Currently, this supports one-to-one, one-to-many, and many-to-one relationships. An error
-is thrown if you try to configure a many-to-many relationship.
+Currently, this supports one-to-one, one-to-many, and many-to-one relationships. You may implement many-to-many relationships
+yourself using two one-to-many connections and joining @model type. See the usage section for details.
 
 #### Definition
 
@@ -689,6 +689,34 @@ mutation CreateCommentOnPost {
     }
 }
 ```
+
+**Many-To-Many Connections**
+
+You can implement many to many yourself using two 1-M @connections and a joining @model. For example:
+
+```
+type Post @model {
+  id: ID!
+  title: String!
+  editors: [PostEditor] @connection(name: "PostEditors")
+}
+
+# Create a join model and disable queries as you don't need them
+# and can query through Post.editors and User.posts
+type PostEditor @model(queries: null) {
+  id: ID!
+  post: Post! @connection(name: "PostEditors")
+  editor: User! @connection(name: "UserEditors")
+}
+
+type User @model {
+  id: ID!
+  username: String!
+  posts: [PostEditor] @connection(name: "UserEditors")
+}
+```
+
+You can then create Posts & Users independently and join them in a many-to-many by creating PostEditor objects. In the future we will support more native support for many to many out of the box. The issue is being [tracked on github here](https://github.com/aws-amplify/amplify-cli/issues/91).
 
 #### Generates
 
