@@ -580,7 +580,7 @@ if (props.onStateChange) props.onStateChange(state, data);
 
 To customize the UI for Federated Identities sign-in, you can use `withFederated` component. The following code shows how you customize the login buttons and the layout for social sign-in.
 
-> ***The withFederated and Federated components are not supported on React Native***. Use the API Auth.federatedSignin() on React Native.
+> ***The withFederated and Federated components are not supported on React Native***. Use the API Auth.federatedSignIn() on React Native.
 
 ```javascript
 import { withFederated } from 'aws-amplify-react';

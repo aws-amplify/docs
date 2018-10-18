@@ -242,6 +242,8 @@ signedIn
 signedOut
 customizable
 AmplifyTheme.js
+withFederated
+Auth.federatedSignIn
 
 # js/api.md
 api
