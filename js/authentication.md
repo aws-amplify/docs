@@ -506,7 +506,7 @@ Currently, our federated identity components only support Google, Facebook and A
 
 To enable social sign-in in your app with Federated Identities, add `Google client_id`, `Facebook app_id` and/or `Amazon client_id` properties to *Authenticator* component:
 
-```javascriptx
+```javascript
 const federated = {
     google_client_id: '',
     facebook_app_id: '',
@@ -560,7 +560,7 @@ export default class App extends React.Component {
 
 To customize the UI for Federated Identities sign-in, you can use `withFederated` component. The following code shows how you customize the login buttons and the layout for social sign-in.
 
-```javascriptx
+```javascript
 import { withFederated } from 'aws-amplify-react';
 
 const Buttons = (props) => (
@@ -1020,29 +1020,38 @@ For the complete API documentation for Authentication module, visit our [API Ref
 
 ### Customize UI Theme
 
-AWS Amplify's default UI components are theme based. To see the default styling, check  `AmplifyTheme.js` for the related package in our repo.
+For React, you can create your own theme and use it to render Amplify components:
 
-You can create your own theme, and use it to render Amplify components:
+Your custom theme must use the selectors from the following [template](https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-react/src/Amplify-UI/Amplify-UI-Theme.jsx)
+{: .callout .callout--info}
 
-```javascriptx
+```javascript
 import MyTheme from './MyTheme';
 
 <Authenticator theme={MyTheme} />
 ```
 
-Alternatively, you can import and override `AmplifyTheme` component in your code to apply style changes:
+Alternatively, you can change a few properties and pass in a theme object from the same file:
 
-```javascriptx
-import { AmplifyTheme } from 'aws-amplify-react';
+```javascript
+const MyTheme = {
+    signInButtonIcon: { 'display': 'none' },
+    googleSignInButton: { 'backgroundColor': 'red', 'borderColor': 'red' }
+}
+
+<Authenticator theme={MyTheme} />
+```
+
+For React Native, you must override properties defined in AmplifyTheme.js [here](https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-react-native/src/AmplifyTheme.js)
+
+```javascript
+import { AmplifyTheme } from 'aws-amplify-react-native';
 
 const MySectionHeader = Object.assign({}, AmplifyTheme.sectionHeader, { background: 'orange' });
 const MyTheme = Object.assign({}, AmplifyTheme, { sectionHeader: MySectionHeader });
 
 <Authenticator theme={MyTheme} />
 ```
-
-A sample theme can be found [here](https://github.com/richardzcode/a-theme-react).
-{: .callout .callout--info}
 
 ### Create Your Own UI
 
@@ -1056,7 +1065,7 @@ To customize the default auth experience even more, you can create your own auth
 
 The following example creates an 'Always On' Auth UI, which continuously shows the current auth state in your app.
 
-```javascriptx
+```javascript
 import { Authenticator, SignIn, SignUp, ConfirmSignUp, Greetings } from 'aws-amplify-react';
 
 const AlwaysOn = (props) => {
@@ -1095,7 +1104,7 @@ If you want to replace some or all of the Authenticator elements, you need to se
 
 You can also pass the child components you want to use. For example, the following Authenticator configuration only renders *Greetings* component which has a *Sign Out* button:
 
-```javascriptx
+```javascript
 <Authenticator hideDefault={true}>
     <Greetings />
 </Authenticator>
@@ -1105,7 +1114,7 @@ You can also pass the child components you want to use. For example, the followi
 
 The *Greetings* component has two states: signedIn, and signedOut. To customize the greeting message, set properties `inGreeting` and `outGreeting` using a string or function.
 
-```javascriptx
+```javascript
 <Authenticator hideDefault={true}>
     <Greetings
         inGreeting={(username) => 'Hello ' + username}
@@ -1145,13 +1154,19 @@ export default withAuthenticator(App, false, [
 ]);
 ```
 
+If you would like to add custom styling to the UI components you can pass a custom theme object as a parameter to the withAuthenticator HOC using the instructions [above](#customize-ui-theme):
+
+```javascript
+export default withAuthenticator(App, false, [], null, MyTheme);
+```
+
 ### Customize Error Messages
 
 During authentication flows, Amplify handles error messages returned from the server. Amplify provides a simple way of customizing those error messages with a `messageMap` callback.
 
 The function takes the original message as arguments and then outputs the desired message. Check `AmplifyMessageMap.js` file to see how Amplify makes the map function.
 
-```javascriptx
+```javascript
 const map = (message) => {
     if (/incorrect.*username.*password/i.test(message)) {
         return 'Incorrect username or password';
@@ -1169,7 +1184,7 @@ You may notice in `AmplifyMessageMap.js` it also handles internationalization. T
 
 You can change the text for the labels (like 'Sign In' and 'Sign Up') on the built-in user interface by providing your own dictionary to the localization engine:
 
-```javascriptx
+```javascript
 import { I18n } from 'aws-amplify';
 
 const authScreenLabels = {
@@ -1188,7 +1203,7 @@ I18n.putVocabularies(authScreenLabels);
 
 You can change the initial auth state for your Authenticator. By default the initial state is `signIn` which will shows the `signIn` component.
 If you want the `signUp` component shows first, you can do:
-```javascriptx
+```javascript
 <Authenticator authState='signUp'>
 ```
 

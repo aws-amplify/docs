@@ -241,6 +241,7 @@ non-SRP
 signedIn
 signedOut
 customizable
+AmplifyTheme.js
 
 # js/api.md
 api
