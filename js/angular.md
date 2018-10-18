@@ -32,7 +32,7 @@ $ amplify add storage
 $ amplify push
 ```
 
-Visit the [Authentication Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/authentication_guide) and [Storage Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/storage_guide) to learn more about enabling and configuring these categories.
+Visit the [Authentication Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/authentication) and [Storage Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/storage) to learn more about enabling and configuring these categories.
 {: .callout .callout--info}
 
 After creating your backend a configuration file will be generated in your configured source directory you identified in the `amplify init` command.
@@ -229,7 +229,7 @@ end of the conversation.
     (complete)="onBotComplete($event)"></amplify-interactions>
 ```
 
-See the [Interactions documentation]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/interactions_guide) for information on creating a Lex Chatbot.
+See the [Interactions documentation]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/interactions) for information on creating a Lex Chatbot.
 
 ### Custom Styles
 

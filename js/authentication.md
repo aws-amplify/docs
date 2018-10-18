@@ -12,7 +12,7 @@ AWS Amplify Authentication module provides Authentication APIs and building bloc
 
 When working together, Cognito User Pools acts as a source of user identities (identity provider) for the Cognito Federated Identities. Other sources can be OpenID, Facebook, Google, etc. AWS Amplify uses User Pools to store your user information and handle authorization, and it leverages Federated Identities to manage user access to AWS Resources, for example allowing a user to upload a file to an S3 bucket.
 
-Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/quick_start).
+Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start).
 {: .callout .callout--info}
 
 ### Automated Setup
@@ -104,7 +104,7 @@ Amplify.configure({
 
 ### Common Authentication Use Cases
 
-The Authentication category exposes a set of APIs to be used in any JavaScript framework. Please check [AWS Amplify API Reference]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/api/classes/authclass.html) for full API list.
+The Authentication category exposes a set of APIs to be used in any JavaScript framework. Please check [AWS Amplify API Reference](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html) for full API list.
 
 #### Sign In
 
@@ -160,7 +160,7 @@ When your Cognito User Pool sign-in options are set to "*Username*", and "*Also 
 
 To enforce Cognito User Pool signups with a unique email, you need to change your User Pool's *Attributes* setting in [Amazon Cognito console](https://console.aws.amazon.com/cognito) as the following:
 
-![User Pool Settings]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/images/cognito_user_pool_settings.png){: style="max-height:300px;"}
+![User Pool Settings]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/cognito_user_pool_settings.png){: style="max-height:300px;"}
 
 #### Sign Out
 ```javascript
@@ -236,7 +236,7 @@ Auth.currentAuthenticatedUser()
     .catch(err => console.log(err));
 ```
 This method can be used to check if a user is logged in when the page is loaded. It will throw an error if there is no user logged in.
-This method should be called after the Auth module is configured or the user is logged in. To ensure that you can listen on the auth events `configured` or `signIn`. [Learn how to listen on auth events.]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/hub_guide#listening-authentication-events)
+This method should be called after the Auth module is configured or the user is logged in. To ensure that you can listen on the auth events `configured` or `signIn`. [Learn how to listen on auth events.]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/hub#listening-authentication-events)
 
 #### Retrieve Current Session
 
@@ -501,7 +501,7 @@ Auth.configure({
 ### Federated Identities (Social Sign-in)
 
 **Availability Note**
-Currently, our federated identity components only support Google, Facebook and Amazon identities. Please see our[ Setup Guide for Federated Identities]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/federated_identity_setup).
+Currently, our federated identity components only support Google, Facebook and Amazon identities. Please see our[ Setup Guide for Federated Identities]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/federated-identity).
 {: .callout .callout--info}
 
 To enable social sign-in in your app with Federated Identities, add `Google client_id`, `Facebook app_id` and/or `Amazon client_id` properties to *Authenticator* component:
@@ -720,7 +720,7 @@ export default withOAuth(MyApp);
 
 #### Handling Authentication Events
 
-When using the hosted UI, you can handle authentication events by creating event listeners with the [Hub module]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/hub_guide#listening-authentication-events).
+When using the hosted UI, you can handle authentication events by creating event listeners with the [Hub module]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/hub#listening-authentication-events).
     
 ### Enabling MFA
 
@@ -983,7 +983,7 @@ let result = await Auth.verifyCurrentUserAttributeSubmit('email', 'abc123');
 
 ### Subscribing Events
 
-You can take specific actions when users sign-in or sign-out by subscribing authentication events in your app. Please see our [Hub Module Developer Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/hub_guide#listening-authentication-events) for more information.
+You can take specific actions when users sign-in or sign-out by subscribing authentication events in your app. Please see our [Hub Module Developer Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/hub#listening-authentication-events) for more information.
 
 
 ### Working with AWS Service Objects
@@ -1013,7 +1013,7 @@ Note: To work with Service Interface Objects, your Amazon Cognito users' [IAM ro
 
 ### API Reference
 
-For the complete API documentation for Authentication module, visit our [API Reference]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/api/classes/authclass.html)
+For the complete API documentation for Authentication module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html)
 {: .callout .callout--info}
 
 ## Customization
@@ -1178,7 +1178,7 @@ const map = (message) => {
 <Authenticator errorMessage={map} />
 ```
 
-You may notice in `AmplifyMessageMap.js` it also handles internationalization. This topic is covered in our [I18n Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/i18n_guide).
+You may notice in `AmplifyMessageMap.js` it also handles internationalization. This topic is covered in our [I18n Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/i18n).
 
 ### Customize Text Labels
 

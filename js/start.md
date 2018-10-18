@@ -770,8 +770,8 @@ $ amplify status
 🎉 Congratulations! Your app is built, published, and hosted on Amazon S3.
 
 What next? Here are some things to add to your app:
- - Add [Authentication]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/authentication_guide)
- - Add [Data]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/api_guide) with serverless GraphQL
+ - Add [Authentication]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/authentication)
+ - Add [Data]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/api) with serverless GraphQL
 
 
 **Existing AWS Resources**
@@ -798,10 +798,10 @@ In the configuration above, you are required to pass in an Amazon Cognito identi
 
 **Configuration Parameters for existing AWS resources**
 To see the configuration parameters for existing AWS resources, see the *Existing AWS Resources* section in AWS Amplify Developer Guide for each individual service:
-[Amazon Cognito]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/authentication_guide#manual-setup),
-[Amazon S3]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/storage_guide#manual-setup),
-[Amazon Pinpoint]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/analytics_guide#manual-setup),
-[Amazon API Gateway]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/api_guide#manual-setup)
+[Amazon Cognito]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/authentication#manual-setup),
+[Amazon S3]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/storage#manual-setup),
+[Amazon Pinpoint]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/analytics#manual-setup),
+[Amazon API Gateway]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/api#manual-setup)
 {: .callout .callout--info}
 
 

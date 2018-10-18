@@ -143,7 +143,7 @@ category_list:
           excerpt: CLI Overview
           url: '/cli/concept'
           icon: '/images/icons/Misc/Present.svg'
-        - title: New Project Setup
+        - title: Project Setup
           excerpt: Setup and Configure a New Project with the CLI
           url: '/cli/init'
           icon: '/images/icons/Misc/Present.svg'
