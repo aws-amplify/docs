@@ -1,5 +1,6 @@
 # AWS Amplify Documentation
 
-***Work in progress***
+The main documentation repository for AWS Amplify. The documentation is new and feedback is welcome. Please feel free to [open an issue](https://github.com/aws-amplify/docs/issues/new).
 
-This 'docs' repository for AWS Amplify is Work in Progress (Do *NOT* use it at this time). For the current Amplify documentation please visit [Getting Started](https://aws-amplify.github.io/media/get_started) and select your platform.
+ - [Amplify JS](https://aws-amplify.github.io/docs/js)
+ - [Amplify Toolchain](https://aws-amplify.github.io/docs/cli)

@@ -1,11 +1,3 @@
-<html>
-  <head>
-        <!-- Global site tag (gtag.js) - Google Analytics -->     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115615468-1"></script>     <script>         window.dataLayer = window.dataLayer || [];         function gtag(){dataLayer.push(arguments);}         gtag('js', new Date());         gtag('config', 'UA-115615468-1',{             'linker': {             'domains': ['aws-amplify.github.io']             }         });         var navigateToNextPage = function (elem) {             var path = "{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/media/quick_start";             location.replace( path + location.search);         };       gtag('event', 'page_view', {         'event_callback': navigateToNextPage         });     </script> <meta http-equiv="refresh" content="5; url={% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/media/quick_start" />
-  </head>
-  <body>
-    <p>Redirecting to <a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/media/quick_start">https://aws-amplify.github.io/amplify-js/media/quick_start</a></p>
-  </body>
-</html>
 Building React Native Apps with AWS Amplify
 ===========
 
@@ -32,7 +24,7 @@ $ npm start
 
 ## Install and Configure AWS Amplify 
 
-Before start, please be sure that you have installed the Amplify CLI and client libraries by visiting [AWS Amplify JavaScript Installation Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/install_n_config??platform=react-native&ref_url=/amplify-js/media/tutorials/building-react-native-apps&ref_content={{"Tutorial: Building React Native Apps with AWS Amplify" | uri_escape }}&ref_content_section=configure-your-app).
+Before start, please be sure that you have installed the Amplify CLI and client libraries by visiting [AWS Amplify JavaScript Installation Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start?platform=react-native&ref_url=/amplify-js/media/tutorials/building-react-native-apps&ref_content={{"Tutorial: Building React Native Apps with AWS Amplify" | uri_escape }}&ref_content_section=configure-your-app).
 {: .callout .callout--action}
 
 **When you are done with the installation**, you can continue with the next step in the tutorial.

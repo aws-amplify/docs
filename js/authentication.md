@@ -12,7 +12,7 @@ AWS Amplify Authentication module provides Authentication APIs and building bloc
 
 When working together, Cognito User Pools acts as a source of user identities (identity provider) for the Cognito Federated Identities. Other sources can be OpenID, Facebook, Google, etc. AWS Amplify uses User Pools to store your user information and handle authorization, and it leverages Federated Identities to manage user access to AWS Resources, for example allowing a user to upload a file to an S3 bucket.
 
-Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/quick_start).
+Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start).
 {: .callout .callout--info}
 
 ### Automated Setup
@@ -104,7 +104,7 @@ Amplify.configure({
 
 ### Common Authentication Use Cases
 
-The Authentication category exposes a set of APIs to be used in any JavaScript framework. Please check [AWS Amplify API Reference]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/api/classes/authclass.html) for full API list.
+The Authentication category exposes a set of APIs to be used in any JavaScript framework. Please check [AWS Amplify API Reference](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html) for full API list.
 
 #### Sign In
 
@@ -160,7 +160,7 @@ When your Cognito User Pool sign-in options are set to "*Username*", and "*Also 
 
 To enforce Cognito User Pool signups with a unique email, you need to change your User Pool's *Attributes* setting in [Amazon Cognito console](https://console.aws.amazon.com/cognito) as the following:
 
-![User Pool Settings]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/images/cognito_user_pool_settings.png){: style="max-height:300px;"}
+![User Pool Settings]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/cognito_user_pool_settings.png){: style="max-height:300px;"}
 
 #### Sign Out
 ```javascript
@@ -236,7 +236,7 @@ Auth.currentAuthenticatedUser()
     .catch(err => console.log(err));
 ```
 This method can be used to check if a user is logged in when the page is loaded. It will throw an error if there is no user logged in.
-This method should be called after the Auth module is configured or the user is logged in. To ensure that you can listen on the auth events `configured` or `signIn`. [Learn how to listen on auth events.]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/hub_guide#listening-authentication-events)
+This method should be called after the Auth module is configured or the user is logged in. To ensure that you can listen on the auth events `configured` or `signIn`. [Learn how to listen on auth events.]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/hub#listening-authentication-events)
 
 #### Retrieve Current Session
 
@@ -283,6 +283,8 @@ For React and React Native apps, the simplest way to add authentication flows in
 
 *withAuthenticator* automatically detects the authentication state and updates the UI. If the user is signed in, the underlying component (typically your app's main component) is displayed otherwise signing/signup controls is displayed.
 
+> The default implementation uses the Amplify UI styling, for an example of what that looks like out of the box on web and mobile, see <a href="https://aws-amplify.github.io/media/ui_library" target="_blank">here</a>.
+
 Just add these two lines to your `App.js`:
 
 ```javascript
@@ -323,7 +325,9 @@ The `withAuthenticator` HOC wraps an `Authenticator` component. Using `Authentic
     authData={CognitoUser | 'username'} 
     // Fired when Authentication State changes
     onStateChange={(authState) => console.log(authState)} 
-    // An object referencing federation and/or social providers
+    // An object referencing federation and/or social providers 
+    // *** Only supported on React/Web (Not React Native) ***
+    // For React Native use the API Auth.federatedSignIn()
     federated={myFederatedConfig}
     // A theme object to override the UI / styling
     theme={myCustomTheme} 
@@ -348,7 +352,8 @@ The `withAuthenticator` HOC wraps an `Authenticator` component. Using `Authentic
     // Pass in a message map for error strings
     errorMessage={myMessageMap}
 >
-    // Default components can be customized/passed in as child components
+    // Default components can be customized/passed in as child components. 
+    // Define them here if you used hideDefault={true}
     <Greetings/>
     <SignIn federated={myFederatedConfig}/>
     <ConfirmSignIn/>
@@ -399,7 +404,7 @@ In the previous example, you'll see the App is rendered even before the user is 
  - signedIn
  ```
 
-**authData** - additional data within authState; when the state is `signedIn`, it will return a `user` object.
+**authData** - additional data within authState; when the state is `signedIn`, it will return a [`CognitoUser`](https://github.com/aws-amplify/amplify-js/blob/master/packages/amazon-cognito-identity-js/index.d.ts#L48) object.
 
 Using the options above, to control the condition for *Authenticator* to render App component, simply set `_validAuthStates` property:
 
@@ -411,7 +416,7 @@ Then, in the component's constructor,  implement `showComponent(theme) {}` in li
 
 #### Enabling Federated Identities
 
-You can enable federated Identity login by specifying  *federated* option. Here is a configuration for enabling social login with multiple providers:
+For React You can enable federated Identity login by specifying  *federated* option. Here is a configuration for enabling social login with multiple providers:
 
 ```javascript
 const AppWithAuth = withAuthenticator(App);
@@ -425,7 +430,7 @@ const federated = {
 ReactDOM.render(<AppWithAuth federated={federated}/>, document.getElementById('root'));
 ```
 
-You can also initiate a federated signin process by calling `Auth.federatedSignIn()` method with a specific identity provider in your code:  
+For React Native as well as web, you can also initiate a federated signin process by calling `Auth.federatedSignIn()` method with a specific identity provider in your code:  
 
 ```javascript
 import { Auth } from 'aws-amplify';
@@ -501,7 +506,7 @@ Auth.configure({
 ### Federated Identities (Social Sign-in)
 
 **Availability Note**
-Currently, our federated identity components only support Google, Facebook and Amazon identities. Please see our[ Setup Guide for Federated Identities]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/federated_identity_setup).
+Currently, our federated identity components only support Google, Facebook and Amazon identities. Please see our[ Setup Guide for Federated Identities]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/federated-identity).
 {: .callout .callout--info}
 
 To enable social sign-in in your app with Federated Identities, add `Google client_id`, `Facebook app_id` and/or `Amazon client_id` properties to *Authenticator* component:
@@ -558,7 +563,24 @@ export default class App extends React.Component {
 
 #### Customize UI
 
+You can provide custom components to the `Authenticator` as child components in React and React Native. 
+
+```jsx
+<Authenticator hideDefault={true}>
+  <SignIn />
+  <MyCustomSignUp />
+</Authenticator>
+```
+
+You can render the custom component (or not) based on the injected `authState` within your component as well as jump to other states within your component.
+
+```jsx
+if (props.onStateChange) props.onStateChange(state, data);
+```
+
 To customize the UI for Federated Identities sign-in, you can use `withFederated` component. The following code shows how you customize the login buttons and the layout for social sign-in.
+
+> ***The withFederated and Federated components are not supported on React Native***. Use the API Auth.federatedSignIn() on React Native.
 
 ```javascript
 import { withFederated } from 'aws-amplify-react';
@@ -599,6 +621,8 @@ There is also `withGoogle`, `withFacebook`, `withAmazon` components, in case you
 
 Amazon Cognito provides a customizable user experience via the hosted UI. The hosted UI supports OAuth 2.0 and Federated Identities with Facebook, Amazon, Google, and SAML providers. To learn more about Amazon Cognito Hosted UI, please visit [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-configuring-app-integration.html).
 
+> ***The Hosted UI support is only available for React / Web***
+
 #### Setup your Cognito App Client
 
 To start using hosted UI, you need to setup your App Client in the Amazon Cognito console.
@@ -630,6 +654,8 @@ If  *email* attribute is a required field in your Cognito User Pool settings, pl
 #### Configuring the Hosted UI
 
 To configure your application for hosted UI, you need to use *oauth* options:
+
+> ***The Hosted UI support is only available for React / Web***
 
 ```javascript
 import Amplify from 'aws-amplify';
@@ -672,6 +698,8 @@ Amplify.configure({
 
 To invoke the browser to display the hosted UI, you need to construct the URL in your app;
 
+> ***The Hosted UI support is only available for React / Web***
+
 ```javascript
 const config = Auth.configure();
 const { 
@@ -701,6 +729,8 @@ window.location.assign(url_to_facebook);
 
 With React, you can use `withOAuth` HOC to launch the hosted UI experience. Just wrap your app's main component with our HOC:
 
+> ***The Hosted UI support is only available for React / Web***
+
 ```javascript
 import { withOAuth } from 'aws-amplify-react';
 
@@ -720,7 +750,7 @@ export default withOAuth(MyApp);
 
 #### Handling Authentication Events
 
-When using the hosted UI, you can handle authentication events by creating event listeners with the [Hub module]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/hub_guide#listening-authentication-events).
+When using the hosted UI, you can handle authentication events by creating event listeners with the [Hub module]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/hub#listening-authentication-events).
     
 ### Enabling MFA
 
@@ -983,7 +1013,7 @@ let result = await Auth.verifyCurrentUserAttributeSubmit('email', 'abc123');
 
 ### Subscribing Events
 
-You can take specific actions when users sign-in or sign-out by subscribing authentication events in your app. Please see our [Hub Module Developer Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/hub_guide#listening-authentication-events) for more information.
+You can take specific actions when users sign-in or sign-out by subscribing authentication events in your app. Please see our [Hub Module Developer Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/hub#listening-authentication-events) for more information.
 
 
 ### Working with AWS Service Objects
@@ -1013,7 +1043,7 @@ Note: To work with Service Interface Objects, your Amazon Cognito users' [IAM ro
 
 ### API Reference
 
-For the complete API documentation for Authentication module, visit our [API Reference]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/api/classes/authclass.html)
+For the complete API documentation for Authentication module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html)
 {: .callout .callout--info}
 
 ## Customization
@@ -1178,7 +1208,7 @@ const map = (message) => {
 <Authenticator errorMessage={map} />
 ```
 
-You may notice in `AmplifyMessageMap.js` it also handles internationalization. This topic is covered in our [I18n Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/i18n_guide).
+You may notice in `AmplifyMessageMap.js` it also handles internationalization. This topic is covered in our [I18n Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/i18n).
 
 ### Customize Text Labels
 

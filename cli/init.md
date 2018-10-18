@@ -1,7 +1,7 @@
 ---
 ---
 
-# New Project Setup
+# Getting Started
 
 The AWS Amplify CLI helps you set up an AWS IAM user, set up an AWS profile on your local system and the initialize Amplify powered apps with all your defined configurations. We'll also walk through steps as to how you could share the Amplify generated backend configuration between other frontend projects and re-use the same backend infrastructure in-between multiple platforms/users.
 
@@ -10,6 +10,19 @@ In this tutorial, we'll go walk through setting up an Amplify enabled project an
 * [amplify init](#amplify-init)
 * [amplify configure project](#amplify-configure-project)
 
+## Install the CLI
+
+Before you install the CLI, ensure you have:
+
+- <a href="https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start" target="_blank">Sign up for an AWS Account</a>
+- Install <a href="https://nodejs.org/en/download/" target="_blank">Node.js®</a> and <a href="https://www.npmjs.com/get-npm" target="_blank">npm</a> if they are not already on your machine.
+
+Verify that you are running at least Node.js version 8.x or greater and npm version 5.x or greater by running `node -v` and `npm -v` in a terminal/console window.
+{: .callout .callout--action}
+
+```bash
+$ npm install -g @aws-amplify/cli
+```
 
 ## amplify configure
 ```bash

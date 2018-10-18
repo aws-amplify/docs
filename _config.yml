@@ -139,11 +139,11 @@ category_list:
       excerpt: Better developer experience when building and deploying your apps.
       base_url: '/cli/'
       subs:
-        - title: Overview
-          excerpt: CLI Overview
+        - title: Architecture
+          excerpt: CLI Architecture and Overview
           url: '/cli/concept'
           icon: '/images/icons/Misc/Present.svg'
-        - title: New Project Setup
+        - title: Getting Started
           excerpt: Setup and Configure a New Project with the CLI
           url: '/cli/init'
           icon: '/images/icons/Misc/Present.svg'

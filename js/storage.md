@@ -5,7 +5,7 @@
 
 AWS Amplify Storage module provides a simple mechanism for managing user content for your app in public, protected or private storage buckets.
 
-Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/quick_start).
+Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start).
 {: .callout .callout--info}
 
 ### Automated Setup
@@ -341,7 +341,7 @@ Storage.list('photos/', {level: 'private'})
 
 #### API Reference
 
-For the complete API documentation for Storage module, visit our [API Reference]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/api/classes/storageclass.html)
+For the complete API documentation for Storage module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/storageclass.html)
 {: .callout .callout--info}
 
 ## Tracking Events
@@ -373,7 +373,7 @@ You can also use the track property directly on [React components](#analytics-fo
 
 `Picker` is used to pick a file from local device storage. `PhotoPicker` and `TextPicker` components are specific to image and text file types .
 
-<img src="{%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/images/photo_picker_and_code.png" width="100%"/>
+<img src="{%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/photo_picker_and_code.png" width="100%"/>
 
 Listen to `PhotoPicker` onPick event:
 ```javascriptx
@@ -480,7 +480,7 @@ function fileToKey(data) {
 
 `S3Album` renders a list of `S3Image` and `S3Text` objects:
 
-<img src="{%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/images/S3Album_and_code.png" width="100%"/>
+<img src="{%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/S3Album_and_code.png" width="100%"/>
 
 ```javascriptx
 import { S3Album } from 'aws-amplify-react';
