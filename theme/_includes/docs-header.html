@@ -138,12 +138,15 @@
 {% endif %}
 
 <script>
-	let page = window.location.href.split("/");
-	page = page[page.length-1].split("?")[0];
+	// let page = window.location.href.split("/");
+	// page = page[page.length-1].split("?")[0];
+	let page = str.split("?");
+	page = page[0].split("?")[0];
+	page = page.substring(page.length, page.indexOf('/docs'));
 
 	const feedback_url = "https://github.com/aws-amplify/docs/issues/new/choose";
 	const tweet_url = "https://twitter.com/intent/tweet?text=Get%20started%20with%20AWS%20Amplify%20at%20https://aws-amplify.github.io/docs/js/start";
-	const edit_url = "https://github.com/aws-amplify/docs/";
+	const edit_url = "https://github.com/aws-amplify/";
 
 	document.getElementById("feedback-link").href = feedback_url;
 	document.getElementById("tweet-link").href = tweet_url;
