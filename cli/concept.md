@@ -1,7 +1,7 @@
 ---
 ---
 
-# Overview
+# Architecture
 The AWS Amplify CLI toolchain enables front-end developers to easily set up the backend resources in the cloud.
 It is designed to work with the [Amplify](https://github.com/aws-amplify/amplify-js) JavaScript library as well as the AWS Mobile SDKs for [iOS](https://github.com/aws/aws-sdk-ios/) and [Android](https://github.com/aws/aws-sdk-android). Resources in your AWS account that the Amplify CLI category commands create can be easily consumed by the corresponding Amplify library modules or native SDKs. <br/>
 The Amplify CLI is written in Node.js. It has a pluggable architecture and can be easily extended with additional functionalities.
