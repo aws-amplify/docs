@@ -142,7 +142,7 @@
 	// page = page[page.length-1].split("?")[0];
 	let page = window.location.href.split("?");
 	page = page[0].split("?")[0];
-	page = page.substring(page.length, page.indexOf('/docs'));
+	page = page.substring(page.length, (page.indexOf('/docs') - 5));
 
 	const feedback_url = "https://github.com/aws-amplify/docs/issues/new/choose";
 	const tweet_url = "https://twitter.com/intent/tweet?text=Get%20started%20with%20AWS%20Amplify%20at%20https://aws-amplify.github.io/docs/js/start";
