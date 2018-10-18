@@ -140,7 +140,7 @@
 <script>
 	// let page = window.location.href.split("/");
 	// page = page[page.length-1].split("?")[0];
-	let page = str.split("?");
+	let page = window.location.href.split("?");
 	page = page[0].split("?")[0];
 	page = page.substring(page.length, page.indexOf('/docs'));
 
