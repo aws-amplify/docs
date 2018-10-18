@@ -27,6 +27,6 @@ $ npm install aws-amplify-react-native
 
 ### Setup
 
-Follow setup and configuration steps in our [Get Started Guide](https://aws-amplify.github.io/amplify-js/media/quick_start?platform=react-native).
+Follow setup and configuration steps in our [Get Started Guide](https://aws-amplify.github.io/amplify-js/docs/js/start?platform=react-native).
 
  

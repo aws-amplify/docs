@@ -27,7 +27,7 @@
 			</li>
 		{% endfor %}
 		<li>
-			<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/media/quick_start?platform=purejs">
+			<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/docs/js/start?platform=purejs">
 				Docs
 			</a>
 		</li>
@@ -93,8 +93,8 @@
 								<div class="dropdown-content">
 									<a href="https://docs.aws.amazon.com/aws-mobile/latest/developerguide/getting-started.html#ios-swift" target="_blank"><p>iOS</p></a>
 									<a href="https://docs.aws.amazon.com/aws-mobile/latest/developerguide/getting-started.html#android-java" target="_blank"><p>Android</p></a>
-									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/media/quick_start?platform=purejs"><p>JavaScript</p></a>
-									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/media/quick_start?platform=react-native"><p>React Native</p></a>
+									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/docs/js/start?platform=purejs"><p>JavaScript</p></a>
+									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/docs/js/start?platform=react-native"><p>React Native</p></a>
 								</div>
 							</div>
 						</li>
@@ -142,7 +142,7 @@
 	page = page[page.length-1].split("?")[0];
 
 	const feedback_url = "https://github.com/aws-amplify/amplify-js/issues/new/choose";
-	const tweet_url = "https://twitter.com/intent/tweet?text=Get%20started%20with%20AWS%20Amplify%20at%20https://aws-amplify.github.io/amplify-js/media/quick_start";
+	const tweet_url = "https://twitter.com/intent/tweet?text=Get%20started%20with%20AWS%20Amplify%20at%20https://aws-amplify.github.io/amplify-js/docs/js/start";
 	const edit_url = "https://github.com/aws-amplify/amplify-js/blob/master/docs/media/";
 
 	document.getElementById("feedback-link").href = feedback_url;
