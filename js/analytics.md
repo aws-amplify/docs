@@ -33,7 +33,7 @@ A configuration file called `aws-exports.js` will be copied to your configured s
 
 Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `App.js` in React or `main.ts` in Angular.
 
-```js
+```javascript
 import Amplify, { Analytics } from 'aws-amplify';
 import aws_exports from './aws-exports';
 
@@ -44,7 +44,7 @@ Amplify.configure(aws_exports);
 
 The manual setup enables you to use your existing Amazon Pinpoint resource in your app.
 
-```js
+```javascript
 import Amplify from 'aws-amplify';
 
 Amplify.configure({
@@ -100,13 +100,35 @@ Amplify.configure({
 User session data is automatically collected unless you disabled analytics. To see the results visit the [Amazon Pinpoint console](https://console.aws.amazon.com/pinpoint/home/).
 {: .callout .callout--info}
 
+#### Update your IAM Policy:
+
+Amazon Pinpoint service requires an IAM policy in order to use the `record` API:
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "mobiletargeting:UpdateEndpoint",
+                "mobiletargeting:PutEvents"
+            ],
+            "Resource": [
+                "arn:aws:mobiletargeting:*:${accountID}:apps/${appId}*"
+            ]
+        }
+    ]
+}
+```
+
 ### Working with the API 
 
 #### Recording Custom Events
 
 To record custom events call the `record` method:
 
-```js
+```javascript
 Analytics.record({ name: 'albumVisit' });
 ```
 
@@ -114,7 +136,7 @@ Analytics.record({ name: 'albumVisit' });
 
 The `record` method lets you add additional attributes to an event. For example, to record *artist* information with an *albumVisit* event:
 
-```js
+```javascript
 Analytics.record({
     name: 'albumVisit', 
     attributes: { genre: '', artist: '' }
@@ -123,9 +145,9 @@ Analytics.record({
 
 #### Record Engagement Metrics
 
-Metrics data can also be added to an event:
+Data can also be added to an event:
 
-```js
+```javascript
 Analytics.record({
     name: 'albumVisit', 
     attributes: {}, 
@@ -135,8 +157,8 @@ Analytics.record({
 
 #### Disable Analytics
 
-You can also completely disable or re-enable Analytics:
-```js
+You can also disable or re-enable Analytics:
+```javascript
 // to disable Analytics
 Analytics.disable();
 
@@ -148,7 +170,7 @@ Analytics.enable();
 
 An endpoint uniquely identifies your app within Pinpoint. In order to update your <a href="https://docs.aws.amazon.com/pinpoint/latest/apireference/rest-api-endpoints.html" target="_blank">endpoint</a> use the `updateEndpoint()` method:
 
-```js
+```javascript
 Analytics.updateEndpoint({
     // Customized userId
     UserId: 'XXXXXXXXXXXX',
@@ -181,7 +203,7 @@ The Amazon Kinesis analytics provider allows you to send analytics data to an [A
 
 Register the *AWSKinesisProvider* with the Analytics category: 
 
-```js
+```javascript
 import { Analytics, AWSKinesisProvider } from 'aws-amplify';
 Analytics.addPluggable(new AWSKinesisProvider());
 
@@ -190,7 +212,7 @@ Analytics.addPluggable(new AWSKinesisProvider());
 If you did not use the CLI, ensure you have <a href="https://docs.aws.amazon.com/streams/latest/dev/learning-kinesis-module-one-iam.html" target="_blank">setup IAM permissions</a> for `PutRecords`.
 
 Example IAM policy for Amazon Kinesis:
-```json
+```javascripton
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -210,7 +232,7 @@ For more information visit [Amazon Kinesis Developer Documentation](https://docs
 
 Configure Kinesis:
 
-```js
+```javascript
 
 // Configure the plugin after adding it to the Analytics module
 Analytics.configure({
@@ -239,7 +261,7 @@ Analytics.configure({
 
 You can send a data to a Kinesis stream with the standard *record()* method:
 
-```js
+```javascript
 Analytics.record({
     data: { 
         // The data blob to put into the record
@@ -281,7 +303,7 @@ export default class MyAnalyticsProvider implements AnalyticsProvider {
 
 You can now register your pluggable:
 
-```js
+```javascript
 // add the plugin
 Analytics.addPluggable(new MyAnalyticsProvider());
 
@@ -300,7 +322,7 @@ Analytics.configure({
 
 ```
 
-The default provider (Amazon Pinpoint) is in use when you call `Analytics.record()` unelss you specify a different provider: `Analytics.record({..},'MyAnalyticsProvider')`. 
+The default provider (Amazon Pinpoint) is in use when you call `Analytics.record()` unless you specify a different provider: `Analytics.record({..},'MyAnalyticsProvider')`. 
 {: .callout .callout--info}
 
 ## Using Modular Imports
@@ -309,7 +331,7 @@ You can import only specific categories into your app if you are only using spec
 
 Import only Analytics:
 
-```js
+```javascript
 import Analytics from '@aws-amplify/analytics';
 
 Analytics.configure();
@@ -327,7 +349,7 @@ A web session can be defined in different ways. To keep it simple we define that
 A session in the React Native app is active when the app is in the foreground and inactive when the app is in the background.
 
 For example: 
-```js
+```javascript
 Analytics.autoTrack('session', {
     // REQUIRED, turn on/off the auto tracking
     enable: true,
@@ -349,7 +371,7 @@ Analytics.autoTrack('session', {
 ```
 
 When the page is loaded, the Analytics module will send an event with:
-```js
+```javascript
 { 
     eventType: '_session_start', 
     attributes: { 
@@ -360,14 +382,14 @@ When the page is loaded, the Analytics module will send an event with:
 to the AWS Pinpoint Service. 
 
 To keep backward compatibility, the auto tracking of the session is enabled by default. You can turn it off by:
-```js
+```javascript
 Analytics.configure({
     // OPTIONAL - Allow recording session events. Default is true.
     autoSessionRecord: false,
 });
 ```
 or 
-```js
+```javascript
 Analytics.autoTrack('session', {
     enable: false
 });
@@ -380,7 +402,7 @@ Analytics.autoTrack('session', {
 If you want to track which page/url in your webapp is the most frequently viewed one, you can use this feature. It will automatically send events containing url information when the page is visited.
 
 To turn it on:
-```js
+```javascript
 Analytics.autoTrack('pageView', {
     // REQUIRED, turn on/off the auto tracking
     enable: true,
@@ -417,7 +439,7 @@ Note: This is not supported in React Native.
 If you want to track user interactions with elements on the page, you can use this feature. All you need to do is attach the specified selectors to your dom element and turn on the auto tracking.
 
 To turn it on:
-```js
+```javascript
 Analytics.autoTrack('event', {
     // REQUIRED, turn on/off the auto tracking
     enable: true,

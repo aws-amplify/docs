@@ -8,7 +8,7 @@ AWS Amplify writes console logs through Logger. You can use Logger in your apps 
 ## Installation
 
 Import Logger:
-```js
+```javascript
 import { Logger } from 'aws-amplify';
 
 ```
@@ -16,7 +16,7 @@ import { Logger } from 'aws-amplify';
 ## Working with the API
 
 You can call logger for different console message modes:
-```js
+```javascript
 
 const logger = new Logger('foo');
 
@@ -27,7 +27,7 @@ logger.error('error bar');
 ```
 
 When handling an error:
-```js
+```javascript
 try {
     ...
 } catch(e) {
@@ -39,7 +39,7 @@ try {
 
 You can set a log level when you create your logger instance:
 
-```js
+```javascript
 const logger = new Logger('foo', 'INFO');
 
 logger.debug('callback data', data); // this will not write the message
@@ -47,7 +47,7 @@ logger.debug('callback data', data); // this will not write the message
 
 Global logger configuration will override your logger instance's configuration:
 
-```js
+```javascript
 Amplify.Logger.LOG_LEVEL = 'DEBUG';
 
 const logger = new Logger('foo', 'INFO');
@@ -56,7 +56,7 @@ logger.debug('callback data', data); //  this will write the message since the g
 ```
 
 During web development, you can set global log level in browser console log:
-```js
+```javascript
 window.LOG_LEVEL = 'DEBUG';
 ```
 

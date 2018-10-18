@@ -57,7 +57,7 @@ $ amplify push
 
 When you create a GraphQL backend with the CLI, the schema definition for your backend data structure is saved in *amplify/backend/api/YOUR-API-NAME/schema.graphql* file. 
 
-Once your API is deployed, updating the schema is very easy with the CLI. You can edit the schema file and run *amplify push* command to update your GraphQL backend.
+Once your API is deployed, updating the schema is easy with the CLI. You can edit the schema file and run *amplify push* command to update your GraphQL backend.
 
 For example, a sample GraphQL schema will look like this:
 
@@ -110,7 +110,7 @@ The following transformers are available to be used with AWS AppSync when defini
 | @model | Used for storing types in Amazon DynamoDB. |
 | @auth | Used to define different authorization strategies. | 
 | @connection | Used for specifying relationships between @model object types. |
-| @searchable | Used for streaming the data of an @model object type to Amazon ElasticSearch Service. |
+| @searchable | Used for streaming the data of an @model object type to Amazon Elasticsearch Service. |
 
 ##### Type Generation using GraphQL Schemas
 
@@ -128,7 +128,7 @@ A TypeScript or Flow type definition file will be generated in your target folde
 
 Import your auto-generated `aws-exports.js` file to configure your app to work with your AWS AppSync GraphQL backend:
 
-```js
+```javascript
 import aws_config from "./aws-exports";
 Amplify.configure(aws_config);
 ```
@@ -139,7 +139,7 @@ As an alternative to automatic configuration, you can manually enter AWS AppSync
 
 ##### Using API_KEY
 
-```js
+```javascript
 let myAppConfig = {
     // ...
     'aws_appsync_graphqlEndpoint': 'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
@@ -154,7 +154,7 @@ Amplify.configure(myAppConfig);
 
 ##### Using AWS_IAM
 
-```js
+```javascript
 let myAppConfig = {
     // ...
     'aws_appsync_graphqlEndpoint': 'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
@@ -168,7 +168,7 @@ Amplify.configure(myAppConfig);
 
 ##### Using AMAZON_COGNITO_USER_POOLS
 
-```js
+```javascript
 let myAppConfig = {
     // ...
     'aws_appsync_graphqlEndpoint': 'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
@@ -182,7 +182,7 @@ Amplify.configure(myAppConfig);
 
 ##### Using OPENID_CONNECT
 
-```js
+```javascript
 let myAppConfig = {
     // ...
     'aws_appsync_graphqlEndpoint': 'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
@@ -198,7 +198,7 @@ Amplify.configure(myAppConfig);
 
 To access a GraphQL API with your app, you need to configure the endpoint URL in your app's configuration. Add the following line to your setup:
 
-```js
+```javascript
 
 import Amplify, { API } from "aws-amplify";
 import aws_config from "./aws-exports";
@@ -219,7 +219,7 @@ Amplify.configure({
 
 When working with a GraphQL endpoint, you may need to set request headers for authorization purposes. This is done by passing a `graphql_headers` function into the configuration:
 
-```js
+```javascript
 Amplify.configure({
   API: {
     graphql_headers: async () => ({
@@ -233,7 +233,7 @@ Amplify.configure({
 
 AWS Amplify provides the ability to sign requests automatically with AWS Identity Access Management (IAM) for GraphQL requests that are processed through AWS API Gateway. Add *graphql_endpoint_iam_region* parameter to your GraphQL configuration statement to enable signing: 
 
-```js
+```javascript
 Amplify.configure({
   API: {
     graphql_endpoint: 'https://www.example.com/my-graphql-endpoint',
@@ -248,8 +248,10 @@ AWS Amplify API category provides a GraphQL client for working with queries, mut
 
 #### Query Declarations
 
-Amplify cli codegen automatically generates all possible GraphQL statements (queries, mutations and subscriptions) and for JavaScript applications saves it in `src/graphql` folder
-```js
+
+The Amplify cli codegen automatically generates all possible GraphQL statements (queries, mutations and subscriptions) and for JavaScript applications saves it in `src/graphql` folder
+
+```javascript
 import * as queries from './graphql/queries';
 import * as mutations from './graphql/mutations';
 import * as subscriptions from './graphql/subscriptions';
@@ -259,7 +261,7 @@ import * as subscriptions from './graphql/subscriptions';
 
 Running a GraphQL query is simple. Import the generated query and execute it with `API.graphql`:
 
-```js
+```javascript
 import Amplify, { API, graphqlOperation } from "aws-amplify";
 import * as queries from './graphql/queries';
 
@@ -278,7 +280,7 @@ console.log(oneTodo);
 
 Mutations are used to create or update data with GraphQL. A sample mutation query to create a new *Todo* looks like this:
 
-```js
+```javascript
 import Amplify, { API, graphqlOperation } from "aws-amplify";
 import * as mutations from './graphql/mutations';
 
@@ -296,7 +298,7 @@ console.log(newTodo);
 
 Subscriptions is a GraphQL feature allowing the server to send data to its clients when a specific event happens. You can enable real-time data integration in your app with a subscription. 
 
-```js
+```javascript
 import Amplify, { API, graphqlOperation } from "aws-amplify";
 import * as subscriptions from './graphql/subscriptions';
 
@@ -314,7 +316,7 @@ subscription.unsubscribe();
 
 When using **AWS AppSync** subscriptions, be sure that your AppSync configuration is at the root of the configuration object, instead of being under API: 
 
-```js
+```javascript
 Amplify.configure({
   Auth: {
     identityPoolId: 'xxx',
@@ -340,7 +342,7 @@ API category provides React components for working with GraphQL data.
 
 `<Connect/>` component is used to execute a GraphQL query or mutation. You can execute GraphQL queries by passing your queries in `query` or `mutation` attributes:
 
-```js
+```javascript
 import React from 'react';
 import Amplify, { graphqlOperation }  from "aws-amplify";
 import { Connect } from "aws-amplify-react";
@@ -379,7 +381,7 @@ export default App;
 
 Also, you can use `subscription` and `onSubscriptionMsg` attributes to enable subscriptions:
 
-```js
+```javascript
 
 <Connect
     query={graphqlOperation(queries.listTodos)}
@@ -528,7 +530,7 @@ A configuration file called `aws-exports.js` will be copied to your configured s
 
 Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `App.js` in React or `main.ts` in Angular.
 
-```js
+```javascript
 import Amplify, { API } from 'aws-amplify';
 import aws_exports from './aws-exports';
 
@@ -539,7 +541,7 @@ Amplify.configure(aws_exports);
 
 For manual configuration you need to provide your AWS Resource configuration and optionally configure authentication.
 
-```js
+```javascript
 import Amplify, { API } from 'aws-amplify';
 
 Amplify.configure({
@@ -582,7 +584,7 @@ You can also utilize regional endpoints by passing in the *service* and *region*
 
 As an example, the following API configuration defines a Lambda invocation in the `us-east-1` region:  
 
-```js
+```javascript
 API: {
     endpoints: [
         {
@@ -612,7 +614,7 @@ Under the hood the API category utilizes [Axios](https://github.com/axios/axios)
 
 #### **GET**
 
-```js
+```javascript
 let apiName = 'MyApiName';
 let path = '/path'; 
 let myInit = { // OPTIONAL
@@ -631,7 +633,7 @@ API.get(apiName, path, myInit).then(response => {
 
 Example with async/await
 
-```js
+```javascript
 async getData() { 
     let apiName = 'MyApiName';
     let path = '/path';
@@ -648,7 +650,7 @@ getData();
 
 To use query parameters with *get* method, you can pass them in `queryStringParameters` parameter in your method call:
 
-```js
+```javascript
 let items = await API.get('myCloudApi', '/items', {
   'queryStringParameters': {
     'order': 'byPrice'
@@ -660,7 +662,7 @@ let items = await API.get('myCloudApi', '/items', {
 
 If you are using a Cloud API which is generated with Amplify CLI, your backend is created with Lambda Proxy Integration, and you can access your query parameters within your Lambda function via the *event* object:
 
-```js
+```javascript
 exports.handler = function(event, context, callback) {
     console.log (event.queryStringParameters);
 }
@@ -668,14 +670,14 @@ exports.handler = function(event, context, callback) {
 
 Alternatively, you can update your backend file which is locates at `amplifyjs/backend/cloud-api/[your-lambda-function]/app.js` with the middleware:
 
-```js
+```javascript
 var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 app.use(awsServerlessExpressMiddleware.eventContext())
 ```
 
 In your request handler use `req.apiGateway.event`:
 
-```js
+```javascript
 app.get('/items', function(req, res) {
   // req.apiGateway.event.queryStringParameters
   res.json(req.apiGateway.event)
@@ -684,7 +686,7 @@ app.get('/items', function(req, res) {
 
 Then you can use query parameters in your path as follows:
 
-```js
+```javascript
 API.get('sampleCloudApi', '/items?q=test');
 ```
 
@@ -695,7 +697,7 @@ To learn more about Lambda Proxy Integration, please visit [Amazon API Gateway D
 
 Posts data to the API endpoint:
 
-```js
+```javascript
 let apiName = 'MyApiName'; // replace this with your api name.
 let path = '/path'; //replace this with the path you have configured on your API
 let myInit = {
@@ -712,7 +714,7 @@ API.post(apiName, path, myInit).then(response => {
 
 Example with async/await
 
-```js
+```javascript
 async function postData() { 
     let apiName = 'MyApiName';
     let path = '/path';
@@ -730,7 +732,7 @@ postData();
 
 When used together with [Cloud API](https://docs.aws.amazon.com/aws-mobile/latest/developerguide/web-access-apis.html), PUT method can be used to create or update records. It updates the record if a matching record is found. Otherwise, a new record is created.
 
-```js
+```javascript
 let apiName = 'MyApiName'; // replace this with your api name.
 let path = '/path'; // replace this with the path you have configured on your API
 let myInit = {
@@ -747,7 +749,7 @@ API.put(apiName, path, myInit).then(response => {
 
 Example with async/await:
 
-```js
+```javascript
 async function putData() { 
     let apiName = 'MyApiName';
     let path = '/path';
@@ -763,7 +765,7 @@ putData();
 
 Update a record:
 
-```js
+```javascript
 const params = {
     body: {
         itemId: '12345',
@@ -775,7 +777,7 @@ const apiResponse = await API.put('MyTableCRUD', '/manage-items', params);
 
 #### **DELETE**
 
-```js
+```javascript
 let apiName = 'MyApiName'; // replace this with your api name.
 let path = '/path'; //replace this with the path you have configured on your API
 let myInit = { // OPTIONAL
@@ -791,7 +793,7 @@ API.del(apiName, path, myInit).then(response => {
 
 Example with async/await
 
-```js
+```javascript
 async function deleteData() { 
     let apiName = 'MyApiName';
     let path = '/path';
@@ -806,7 +808,7 @@ deleteData();
 
 #### **HEAD**
 
-```js
+```javascript
 let apiName = 'MyApiName'; // replace this with your api name.
 let path = '/path'; //replace this with the path you have configured on your API
 let myInit = { // OPTIONAL
@@ -819,7 +821,7 @@ API.head(apiName, path, myInit).then(response => {
 
 Example with async/await:
 
-```js
+```javascript
 async function head() { 
     let apiName = 'MyApiName';
     let path = '/path';
@@ -836,7 +838,7 @@ head();
 
 When working with a REST endpoint, you may need to set request headers for authorization purposes. This is done by passing a `custom_header` function into the configuration:
 
-```js
+```javascript
 Amplify.configure({
   API: {
     endpoints: [
@@ -882,7 +884,7 @@ Note: if you're using Graphql, please also install `@aws-amplify/pubsub`
 
 Then in your code, you can import the Api module by:
 
-```js
+```javascript
 import API from '@aws-amplify/api';
 
 API.configure();

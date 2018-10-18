@@ -5,24 +5,63 @@
 
 AWS Amplify Interactions category enables AI-powered chatbots in your web or mobile apps. You can use *Interactions* to configure your backend chatbot provider and to integrate a chatbot UI into your app with just a single line of code.
 
-Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/quick_start).
+Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start).
 {: .callout .callout--info}
 
 **Amazon Lex**
 
-AWS Amplify implements [Amazon Lex](https://aws.amazon.com/lex) as the default chatbots service. Amazon Lex supports creating conversational bots with the by the same deep learning technologies that power Amazon Alexa.
+AWS Amplify implements [Amazon Lex](https://aws.amazon.com/lex) as the default chatbots service. Amazon Lex supports creating conversational bots with the same deep learning technologies that power Amazon Alexa.
 
-## Create your Chatbot
+#### Automated Setup
 
-You can create Amazon Lex chatbox in Amazon Lex console. To create your bot, follow the steps shown in [Amazon Lex Developer Guide](https://docs.aws.amazon.com/lex/latest/dg/getting-started.html).
- 
-![Interactions]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/images/interactions_lex_console_edit_bot.jpg){: class="screencap" style="max-height:600px;"}
+Run the following command in your project's root folder:
+
+```bash
+$ amplify add interactions
+```
+
+The CLI will lead you through the steps to specify the chatbot to be created. 
+
+You can choose to start from a sample chatbot or start from scratch.  If you choose to start from scratch, the CLI will prompt you with a series of questions to set the intents and slots for the chatbot. 
+
+You are allowed to run the `amplify add interactions` command multiple times to add multiple chatbots into your project.
+
+{The Interactions category utilizes the Authentication category behind the scenes to authorize your app to send analytics events.}
+{: .callout .callout--info}
+
+The `add` command automatically creates a backend configuration locally. To update your backend in the cloud, run:
+
+```bash
+$ amplify push
+```
+
+Upon successful execution of the push command, a configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`. 
+
+##### Configure Your App
+
+Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `App.js` in React or `main.ts` in Angular.
+
+```javascript
+import Amplify, { Interactions } from 'aws-amplify';
+import aws_exports from './aws-exports';
+
+Amplify.configure(aws_exports);
+```
+
+Click [HERE](#WorkingWithAPI) for usage in your app
 
 ### Manual Setup
 
+#### Create your Chatbot
+
+You can create Amazon Lex chatbox in Amazon Lex console. To create your bot, follow the steps shown in [Amazon Lex Developer Guide](https://docs.aws.amazon.com/lex/latest/dg/getting-started.html).
+ 
+![Interactions]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/interactions_lex_console_edit_bot.jpg){: class="screencap" style="max-height:600px;"}
+
+
 With manual setup, you need to provide your auth credentials and bot details to configure your app:
 
-```js
+```javascript
 import Amplify from 'aws-amplify';
 
 Amplify.configure({
@@ -42,11 +81,11 @@ Amplify.configure({
 });
 ```
 
-## Working with the API
+##<a name="WorkingWithAPI"></a> Working with the Interactions API
 
 You can import *Interactions* module from 'aws-amplify' package to work with the API.
 
-```js
+```javascript
 import { Interactions } from 'aws-amplify';
 ```
 
@@ -54,13 +93,13 @@ import { Interactions } from 'aws-amplify';
 
 You can send a text message to chatbot backend with *send()* command. The method returns a promise that includes the chatbot response.
 
-```js
+```javascript
 import { Interactions } from 'aws-amplify';
 
 let userInput = "I want to reserve a hotel for tonight";
 
 // Provide a bot name and user input
-const response = await Interactions.send("BookTripMOBILEHUB", userInput);
+const response = await Interactions.send("BookTrip", userInput);
 
 // Log chatbot response
 console.log (response.message);
@@ -70,7 +109,7 @@ console.log (response.message);
 
 You can use *onComplete()* method to register a function to catch errors or chatbot confirmations when the session successfully ends.  
 
-```js
+```javascript
 
 var handleComplete = function (err, confirmation) {
     if (err) {
@@ -99,19 +138,22 @@ When using React, you can use *ChatBot* with following properties;
 <ChatBot
     title="My Bot"
     theme={myTheme}
-    botName="BookTripMOBILEHUB"
+    botName="BookTrip"
     welcomeMessage="Welcome, how can I help you today?"
     onComplete={this.handleComplete.bind(this)}
     clearOnComplete={true}
 />
 ```
 
-Following simple app shows how to use **ChatBot** component in a React app;
+Following simple app shows how to use **ChatBot** component in a React app, with the automatic setup outlined above;
 
-```js
+```javascript
 import React, { Component } from 'react';
 import Amplify, { Interactions } from 'aws-amplify';
 import { ChatBot, AmplifyTheme } from 'aws-amplify-react';
+import aws_exports from './aws-exports';
+
+Amplify.configure(aws_exports);
 
 // Imported default theme can be customized by overloading attributes
 const myTheme = {
@@ -121,23 +163,6 @@ const myTheme = {
     backgroundColor: '#ff6600'
   }
 };
-
-Amplify.configure({
-  Auth: {
-    // Use your Amazon Cognito Identity Pool Id
-    identityPoolId: 'us-east-1:xxx-xxx-xxx-xxx-xxx',
-    region: 'us-east-1'
-  },
-  Interactions: {
-    bots: {
-      "BookTripMOBILEHUB": {
-        "name": "BookTripMOBILEHUB",
-        "alias": "$LATEST",
-        "region": "us-east-1",
-      },
-    }
-  }
-});
 
 class App extends Component {
 
@@ -160,7 +185,7 @@ class App extends Component {
         <ChatBot
           title="My Bot"
           theme={myTheme}
-          botName="BookTripMOBILEHUB"
+          botName="BookTrip"
           welcomeMessage="Welcome, how can I help you today?"
           onComplete={this.handleComplete.bind(this)}
           clearOnComplete={true}
@@ -193,27 +218,15 @@ When using React Native, you can use *ChatBot* with following properties;
 
 Following simple app shows how to use **ChatBot** component in a React Native app;
 
- ```js
+ ```javascript
 import React from 'react';
 import { StyleSheet, Text, SafeAreaView, Alert, StatusBar } from 'react-native';
 import Amplify from 'aws-amplify';
 import { ChatBot } from 'aws-amplify-react-native';
 
-Amplify.configure({
-  Auth: {
-    identityPoolId: 'us-east-1:xxx-xxx-xxx-xxx-xxx',
-    region: 'us-east-1'
-  },
-  Interactions: {
-    bots: {
-      "BookTripMOBILEHUB": {
-        "name": "BookTripMOBILEHUB",
-        "alias": "$LATEST",
-        "region": "us-east-1",
-      },
-    }
-  }
-});
+import aws_exports from './aws-exports';
+
+Amplify.configure(aws_exports);
 
 const styles = StyleSheet.create({
   container: {
@@ -228,7 +241,7 @@ const styles = StyleSheet.create({
 export default class App extends React.Component {
 
     state = {
-        botName: 'BookTripMOBILEHUB',
+        botName: 'BookTrip',
         welcomeMessage: 'Welcome, what would you like to do today?',
     };
 
@@ -246,7 +259,7 @@ export default class App extends React.Component {
         Alert.alert('Done', JSON.stringify(confirmation, null, 2), [{ text: 'OK' }]);
 
         this.setState({
-        botName: 'BookTripMOBILEHUB',
+        botName: 'BookTrip',
         });
 
         return 'Trip booked. Thank you! what would you like to do next?';
@@ -277,7 +290,7 @@ export default class App extends React.Component {
  
 ### Using with Angular and Ionic
 
-Please see [Angular]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/angular_guide#interactions) and [Ionic]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/media/ionic_guide#interactions) documentation for Interactions UI components.
+Please see [Angular]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/angular#interactions) and [Ionic]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/ionic#interactions) documentation for Interactions UI components.
 
 ### API Reference
 

@@ -174,7 +174,7 @@ Setup instructions are provided for Android and iOS, and configuration for both 
  
 2. Create a native link on a React Native app:
 
-    ```js
+    ```javascript
     $ react-native init myapp
     $ cd myapp
     $ npm install
@@ -283,7 +283,7 @@ If you don't have Analytics already enabled, see our [Analytics Developer Guide]
 
 First, import `PushNotification` module and configure it with `PushNotification.configure()`.
 
-```js
+```javascript
 import { PushNotificationIOS } from 'react-native';
 import Analytics from '@aws-amplify/analytics';
 import PushNotification from '@aws-amplify/pushnotification';
@@ -300,7 +300,7 @@ PushNotification.configure({
 
 You can also use `aws-exports.js` file in case you have set up your backend with Amplify CLI.
 
-```js
+```javascript
 import { PushNotificationIOS } from 'react-native';
 import Analytics from '@aws-amplify/analytics';
 import PushNotification from '@aws-amplify/pushnotification';
@@ -316,7 +316,7 @@ PushNotification.configure(aws_exports);
 
 You can use `onNotification` and `onRegister` event handlers to work with push notifications in your app. The following code shows how you can retrieve the notification data and registration token:
 
-```js
+```javascript
 // get the notification data
 PushNotification.onNotification((notification) => {
   // Note that the notification object structure is different from Android and IOS

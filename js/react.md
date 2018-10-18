@@ -25,7 +25,7 @@ If you're using Windows, we recommend the [Windows Subsystem for Linux](https://
 To get started, initialize your project in the new directory:
 `amplify init`
 
-After you answer a few questions, you can use `amplify help` at any time to see the overall command structure, and `amplify help <category>` to see actions for a specific category. 
+After you answer the provided questions, you can use `amplify help` at any time to see the overall command structure, and `amplify help <category>` to see actions for a specific category. 
 
 The Amplify CLI uses AWS CloudFormation, and you can add or modify configurations locally before you push them for execution in your account. To see the status of the deployment at any time, run `amplify status`.
 
@@ -36,7 +36,7 @@ Without making any changes to your React application, add web hosting as follows
 amplify add hosting
 ```
 
-You would be prompted next to select the environment setup. Select **DEV (S3 only with HTTP)** for quick prototyping and testing, and once production ready you could run the `amplify update hosting` command to publish your app to Amazon Cloudfront (a CDN service).
+You would be prompted next to select the environment setup. Select **DEV (S3 only with HTTP)** for quick prototyping and testing, and once production ready you could run the `amplify update hosting` command to publish your app to Amazon CloudFront (a CDN service).
 
 **Note:** when using the **PROD** option there could be a 15-20 minute delay for the CDN setup and content replication.
 
@@ -44,7 +44,7 @@ When you're prompted for information, such as the bucket name or application fil
 
 **Note** You can use an order alias to add or remove category features. You can also run `amplify hosting add`.
 
-Run `amplify status` to see that status (not deployed). Next, build and deploy your site by running `amplify publish` or `amplify publish -invalidate-cache` - for cache invalidation in the distribution network (if Cloudfront is added via the hosting category). After it's complete, your application is available in an S3 hosting bucket for testing. It's also fronted with an Amazon CloudFront distribution. (if it is added via the hosting category in the prior bucket)
+Run `amplify status` to see that status (not deployed). Next, build and deploy your site by running `amplify publish` or `amplify publish -invalidate-cache` - for cache invalidation in the distribution network (if CloudFront is added via the hosting category). After it's complete, your application is available in an S3 hosting bucket for testing. It's also fronted with an Amazon CloudFront distribution. (if it is added via the hosting category in the prior bucket)
 
 ## Add Auth
 
@@ -57,7 +57,7 @@ yarn add aws-amplify aws-amplify-react
 
 The `./src/aws-exports.js` file that's created has all of the appropriate cloud resources defined for your application. Edit `./src/App.js` to include the Amplify library, configurations, and [React HOC](https://reactjs.org/docs/higher-order-components.html). Then, initialize the library as follows:
 
-```js
+```javascript
 import Amplify from 'aws-amplify';
 import aws_exports from './aws-exports';
 import { withAuthenticator } from 'aws-amplify-react';
@@ -66,7 +66,7 @@ Amplify.configure(aws_exports);
 
 Wrap the default `App` component using `withAuthenticator` at the bottom of the file as follows:
 
-```js
+```javascript
 export default withAuthenticator(App, true);
 ```
 
@@ -74,13 +74,13 @@ You can now use `amplify publish` to build and publish your app again. This time
 
 ## Add Analytics and Storage
 
-Next, we'll add some features, like tracking user behavior analytics and uploading/downloading images in the cloud. Start by running `amplify add analytics` in your project. You can enable analytics for authenticated users only, or for users that aren't authenticated. You would be pormpted to ask whether you want to allow guests and unauthenticated users to send analytics events, so you can choose `Yes`. You you an also try a new project without authentication configured to test this feature.
+Next, we'll add some features, like tracking user behavior analytics and uploading/downloading images in the cloud. Start by running `amplify add analytics` in your project. You can enable analytics for authenticated users only, or for users that aren't authenticated. You would be prompted to ask whether you want to allow guests and unauthenticated users to send analytics events, so you can choose `Yes`. You can also try a new project without authentication configured to test this feature.
 
-Run `amplify add storage` and then select **Content (Images, audio, video, etc.)**. You'll then be prompted for autorization related questions. Choose **Auth and guest users** to give both authorized and guest users access. In the next prompts, based on your previous selection you would be asked to configure read/write permissions for the authorized and guest users. When complete, run `amplify push` to create the cloud resources.
+Run `amplify add storage` and then select **Content (Images, audio, video, etc.)**. You'll then be prompted for authorization related questions. Choose **Auth and guest users** to give both authorized and guest users access. In the next prompts, based on your previous selection you would be asked to configure read/write permissions for the authorized and guest users. When complete, run `amplify push` to create the cloud resources.
 
 Edit your `App.js` file in the React project again and modify your imports so that the `Analytics` and `Storage` categories are included in addition to the `S3Album` component, which we'll use to upload and download photos.
 
-```js
+```javascript
 import Amplify, { Analytics, Storage } from 'aws-amplify';
 import { withAuthenticator, S3Album } from 'aws-amplify-react';
 ```
@@ -91,7 +91,7 @@ The `Analytics` category automatically tracks user session data such as sign-in 
 
 Next, add the following methods before the component's `render` method as follows:
 
-```js
+```javascript
   uploadFile = (evt) => {
     const file = evt.target.files[0];
     const name = file.name;
@@ -108,7 +108,7 @@ Next, add the following methods before the component's `render` method as follow
 
 Finally, modify the `render` method so that you can upload files and also view any of the `private` photos that have been added for the logged in user as follows:
 
-```js
+```javascript
   render() {
     return (
       <div className="App">
@@ -134,7 +134,7 @@ To get started run `amplify add api` and select `GraphQL`. When prompted, choose
 
 The guided steps provide some default schemas that are pre-annotated to help you learn. The following steps take you through the `Single object with fields` option, but feel free to revisit these steps later in another project. If you choose this option you'll see the following annotated schema in your text editor:
 
-```js
+```javascript
 type Todo @model {
   id: ID!
   name: String!
@@ -146,13 +146,13 @@ This is the GraphQL schema that you'll deploy to AWS AppSync. If you're familiar
 
 After the deployment is complete, open your `App.js` again and update the import to include both the `API` category and `graphqlOperation` method as follows:
 
-```js
+```javascript
 import Amplify, { Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 ```
 
 Add the following query and mutations in your code, *before* the `class App extends Component {...}` definition as follows:
 
-```js
+```javascript
 const listTodos = `query listTodos {
   listTodos{
     items{
@@ -178,7 +178,7 @@ const addTodo = `mutation createTodo($name:String! $description: String!) {
 
 Now, inside the `App` component add the following two methods before the `render()` method:
 
-```js
+```javascript
   todoMutation = async () => {
     const todoDetails = {
       name: 'Party tonight!',
@@ -198,7 +198,7 @@ Now, inside the `App` component add the following two methods before the `render
 
 You can now make GraphQL calls from your application. Update the `render()` method so that it has the following buttons to invoke the mutation and query:
 
-```js
+```javascript
   render() {
     return (
       <div className="App">
@@ -226,14 +226,14 @@ Next, for the API security type questions, choose **Yes** when prompted for Rest
 
 In the React project, edit your `App.js` file again and modify your imports so that the `API` category is included so that you can make API calls from the app.
 
-```js
+```javascript
 import Amplify, { Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 ```
 
 
 In `App.js`, add the following code before the `render()` method and update `myapi` if you used an alternative name during the setup:
 
-```js
+```javascript
   post = async () => {
     console.log('calling api');
     const response = await API.post('myapi', '/items', {
@@ -258,7 +258,7 @@ In `App.js`, add the following code before the `render()` method and update `mya
 
 Update the `render()` method to include calls to the following methods:
 
-```js
+```javascript
   render() {
     return (
       <div className="App">

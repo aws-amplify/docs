@@ -1,6 +1,6 @@
 ---
 ---
-```js
+```javascript
 
 /**
  * @copyright 2018 Amazon Web Services
