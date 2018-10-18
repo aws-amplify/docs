@@ -16,7 +16,7 @@ npm install aws-amplify
 ## Working with the API
 
 First, import the library:
-```js
+```javascript
 import { Cache } from 'aws-amplify';
 ```
 
@@ -24,13 +24,13 @@ After the import, you can invoke the appropriate methods within your application
 
 ### setItem()
 
-```js
+```javascript
 Cache.setItem(key, value, [options]);
 ```
 
 You can set *number*, *string*, *boolean* or *object* values to the cache. You can also specify options along with the call such as the priority or expiration time.
 
-```js
+```javascript
 // Standard case
 Cache.setItem('key', 'value');
 
@@ -45,19 +45,19 @@ Cache.setItem('key', 'value', { expires: expiration.getTime() });
 When using `priority` setting, the cached item with the lower number will be expired first. The Cache module decides expiration based on the memory available to the cache. In the following example,`breakfastFoodOrder` will be expired before `mothersBirthday`.
 
 
-```js
+```javascript
 Cache.setItem('mothersBirthday', 'July 18th', { priority: 1 });
 Cache.setItem('breakfastFoodOrder', 'Pancakes', { priority: 3 });
 ```
 
 ### getItem()
 
-```js
+```javascript
 Cache.getItem(key[, options]);
 ```
   Retrieves an item from the cache. It will return null if the item doesn’t exist or it has expired.
 
-```js
+```javascript
 // Standard case
 Cache.getItem('key');
 
@@ -71,7 +71,7 @@ Cache.getItem('key', { callback: callback });
 
   Removes item from cache.
 
-```js
+```javascript
 Cache.removeItem(key);
 ```
 
@@ -79,7 +79,7 @@ Cache.removeItem(key);
 
 Removes all of the items in the cache.
 
-```js
+```javascript
 Cache.clear();
 ```
 
@@ -87,7 +87,7 @@ Cache.clear();
 
 Returns all of the keys available in the cache.
 
-```js
+```javascript
 Cache.getAllKeys();
 ```
 
@@ -95,7 +95,7 @@ Cache.getAllKeys();
 
 Returns the current size of the cache in bytes.
 
-```js
+```javascript
 const size = Cache.getCacheCurSize();
 ```
 
@@ -103,7 +103,7 @@ const size = Cache.getCacheCurSize();
 
 Configures default settings for `setItem` functionality. You can see all available options in [Configuration](#configuration) section.
 
-```js
+```javascript
 const config = {
   itemMaxSize: 3000, // 3000 bytes
   defaultPriority: 4
@@ -119,7 +119,7 @@ const myCacheConfig = Cache.configure(config);
 
 Creates a new instance of Cache with custom configuration.
 
-```js
+```javascript
 const config = {
   itemMaxSize: 3000, // 3000 bytes
   storage: window.sessionStorage // switch to sessionStorage
@@ -164,7 +164,7 @@ callback | *function* | You can provide a callback function with getItem() to im
 If you only need to use Cache, you can do: `npm install @aws-amplify/cache` which will only install the Cache module for you.
 
 Then in your code, you can import the Cache module by:
-```js
+```javascript
 import Cache from '@aws-amplify/cache';
 
 Cache.configure();

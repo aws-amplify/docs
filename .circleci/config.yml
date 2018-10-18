@@ -1,0 +1,22 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.4-node
+    steps:
+      - checkout
+      - run: bundle install
+      - run: bundle exec jekyll build
+  test:
+    docker:
+      - image: circleci/node:8.12.0-jessie
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm test
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test

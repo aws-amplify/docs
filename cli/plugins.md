@@ -34,7 +34,7 @@ $ mkdir commands extensions
 
 ## Step 3: Create a command
 
-We're going to make a command that we'll invoke with `amplify utility add` which will display the log statement `Adding Amplify utility` but should ideally consist of the entire walkthrough or the business logic for that command
+We're going to make a command that we'll invoke with `amplify utility add` which will display the log statement `Adding Amplify utility` but should ideally consist of the entire walk through or the business logic for that command
 
 ```bash
 $ mkdir commands/utility

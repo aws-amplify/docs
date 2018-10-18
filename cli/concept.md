@@ -104,14 +104,14 @@ The `init` command goes through these steps to setup things:
 #### Configuration
 
 ##### amplify configure
-This command will lead the user to set up a new aws iam user, then save the credentials locally in a named profile, which can then be used by a project for aws access. The user specifies if and what profile is used for a project in the init process and can later change it using the `amplify configure project` command.
+This command will lead the user to set up a new aws IAM user, then save the credentials locally in a named profile, which can then be used by a project for aws access. The user specifies if and what profile is used for a project in the init process and can later change it using the `amplify configure project` command.
 
 ##### amplify configure project
 This command allows the user to change the project configuration set during the init process. 
 
 ## Amplify CLI Artifacts
 
-### Amplfy folder structure
+### Amplify folder structure
 The CLI places the following folder structure at the root directory of the project when `init` is completed successfully:
 <br/>
 amplify<br/>
@@ -121,7 +121,7 @@ amplify<br/>
 #### amplify/.config folder
 It contains files that store the configuration settings.
 #### amplify/##current-cloud-backend folder
-It contains the backend resources specifications in the cloud from the last synchroization, by the push or pull command.
+It contains the backend resources specifications in the cloud from the last synchronization, by the push or pull command.
 Each plugin stores contents in its own subfolder inside this folder. 
 #### amplify/backend folder
 It contains the latest local development of the backend resources specifications to be pushed to the cloud. 

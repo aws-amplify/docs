@@ -63,7 +63,7 @@ The app directory structure should be:
 
 Add the following to the `package.json` file:
 
-```js
+```javascript
 {
   "name": "amplify-js-app",
   "version": "1.0.0",
@@ -130,7 +130,7 @@ Add the following to the `index.html` file:
 
 Add the following to the `webpack.config.js` file:
 
-```js
+```javascript
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
@@ -174,7 +174,7 @@ Open a browser and navigate to <a href="http://localhost:8080" target="_blank">h
 
 <div id="react" class="tab-content">
 
-Use [Create React App](https://github.com/facebookincubator/create-react-app) to boostrap your application.
+Use [Create React App](https://github.com/facebookincubator/create-react-app) to bootstrap your application.
 
 ```bash
 $ npm install -g create-react-app
@@ -382,7 +382,7 @@ $ amplify push
 
 Add the following to the `src/app.js` file:
 
-```js
+```javascript
 import Auth from '@aws-amplify/auth';
 import Analytics from '@aws-amplify/analytics';
 
@@ -414,7 +414,7 @@ AnalyticsEventButton.addEventListener('click', (evt) => {
 <div id="react" class="tab-content">
 Change your `src/App.js` file to the following:
 
-```js
+```javascript
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
@@ -477,7 +477,7 @@ export default App;
 <div id="react-native" class="tab-content">
 Change your `src/App.js` file to the following:
 
-```js
+```javascript
 import React from 'react';
 import { Linking, Button, StyleSheet, Text, View } from 'react-native';
 import Auth from '@aws-amplify/auth';
@@ -548,7 +548,7 @@ After creating your backend a configuration file will be generated in your confi
 
 Import the configuration file and load it in `main.ts`: 
 
-```js
+```javascript
 import Amplify from 'aws-amplify';
 import amplify from './aws-exports';
 Amplify.configure(amplify);
@@ -558,7 +558,7 @@ Depending on your TypeScript version you may need to rename the `aws-exports.js`
 {: .callout .callout--info}
 
 When working with underlying `aws-js-sdk`, the "node" package should be included in *types* compiler option. update your `src/tsconfig.app.json`:
-```json
+```javascripton
 "compilerOptions": {
     "types" : ["node"]
 }
@@ -566,7 +566,7 @@ When working with underlying `aws-js-sdk`, the "node" package should be included
 
 In your [app module](https://angular.io/guide/bootstrapping) `src/app/app.module.ts`, change your code to the following:
 
-```js
+```javascript
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -599,13 +599,13 @@ Note: If you are using Angular 6, you may need to add the following to the top o
 
 In your `src/app/app.component.ts` file, add the following import statements:
 
-```js
+```javascript
 import { AmplifyService } from 'aws-amplify-angular';
 import awsconfig from '../aws-exports';
 ```
 
 To add the analytics event recorder to your app, replace your ```AppComponent``` class with the following:
-```js
+```javascript
 export class AppComponent {
   title = 'amplify-angular-app';
   url = 'https://console.aws.amazon.com/pinpoint/home/?region=us-east-1#/apps/'
@@ -640,7 +640,7 @@ Then, add the following to your `src/app/app.component.html` file:
 After creating your backend, the configuration file is copied to `/amplify/#current-cloud-backend/aws-exports.js`, and the source folder you have identified in the `amplify init` command.
 
 To import the configuration file to your Ionic app, you will need to rename `aws_exports.js` to `aws_exports.ts`. You should make sure that your `package.json` scripts also rename the file upon build, so that any configuration changes which result in the download of an `aws_exports.js` from AWS Mobile Hub get changed over to the ts extension.
-```js	
+```javascript	
 "scripts": {	
     "start": "[ -f src/aws-exports.js ] && mv src/aws-exports.js src/aws-exports.ts || ng serve; ng serve",	
     "build": "[ -f src/aws-exports.js ] && mv src/aws-exports.js src/aws-exports.ts || ng build --prod; ng build --prod"	
@@ -649,7 +649,7 @@ To import the configuration file to your Ionic app, you will need to rename `aws
 
 Import the configuration file and load it in your `main.ts`, which is the entry point of your Angular application. 
 
-```js
+```javascript
 import Amplify from 'aws-amplify';
 import amplify from './aws-exports';
 Amplify.configure(amplify);
@@ -657,7 +657,7 @@ Amplify.configure(amplify);
 
 In your [app module](https://angular.io/guide/bootstrapping) `src/app/app.module.ts`, change your code to the following:
 
-```js
+```javascript
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, RouteReuseStrategy } from '@angular/router';
@@ -693,13 +693,13 @@ Note: If you are using Angular 6, you may need to add the following to the top o
 
 In your `src/app/app.component.ts` file, add the following import statements:
 
-```js
+```javascript
 import { AmplifyService } from 'aws-amplify-angular';
 import awsconfig from '../aws-exports';
 ```
 
 To add the analytics event recorder to your app, replace your ```AppComponent``` class with the following:
-```js
+```javascript
 export class AppComponent {
   constructor(
     private platform: Platform,
@@ -778,7 +778,7 @@ What next? Here are some things to add to your app:
 
 If you want to use your existing AWS resources with your app you will need to **manually configure** your app with your current credentials in your code, for example:
 
-```js
+```javascript
 import Amplify from 'aws-amplify';
 
 Amplify.configure({
@@ -814,7 +814,7 @@ To work with service interface objects, your Amazon Cognito users' [IAM role](ht
 
 You can call methods on any AWS Service interface object supported by the <a href="https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/_index.html" target="_blank">AWS JavaScript SDK</a> by passing your credentials from *Auth* to the service call constructor. For example, to use Amazon Route53 in your app:
 
-```js
+```javascript
 import Route53 from 'aws-sdk/clients/route53';
 
 ...

@@ -41,7 +41,7 @@ Upon successful execution of the push command, a configuration file called `aws-
 
 Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `App.js` in React or `main.ts` in Angular.
 
-```js
+```javascript
 import Amplify, { Interactions } from 'aws-amplify';
 import aws_exports from './aws-exports';
 
@@ -61,7 +61,7 @@ You can create Amazon Lex chatbox in Amazon Lex console. To create your bot, fol
 
 With manual setup, you need to provide your auth credentials and bot details to configure your app:
 
-```js
+```javascript
 import Amplify from 'aws-amplify';
 
 Amplify.configure({
@@ -85,7 +85,7 @@ Amplify.configure({
 
 You can import *Interactions* module from 'aws-amplify' package to work with the API.
 
-```js
+```javascript
 import { Interactions } from 'aws-amplify';
 ```
 
@@ -93,7 +93,7 @@ import { Interactions } from 'aws-amplify';
 
 You can send a text message to chatbot backend with *send()* command. The method returns a promise that includes the chatbot response.
 
-```js
+```javascript
 import { Interactions } from 'aws-amplify';
 
 let userInput = "I want to reserve a hotel for tonight";
@@ -109,7 +109,7 @@ console.log (response.message);
 
 You can use *onComplete()* method to register a function to catch errors or chatbot confirmations when the session successfully ends.  
 
-```js
+```javascript
 
 var handleComplete = function (err, confirmation) {
     if (err) {
@@ -147,7 +147,7 @@ When using React, you can use *ChatBot* with following properties;
 
 Following simple app shows how to use **ChatBot** component in a React app, with the automatic setup outlined above;
 
-```js
+```javascript
 import React, { Component } from 'react';
 import Amplify, { Interactions } from 'aws-amplify';
 import { ChatBot, AmplifyTheme } from 'aws-amplify-react';
@@ -218,7 +218,7 @@ When using React Native, you can use *ChatBot* with following properties;
 
 Following simple app shows how to use **ChatBot** component in a React Native app;
 
- ```js
+ ```javascript
 import React from 'react';
 import { StyleSheet, Text, SafeAreaView, Alert, StatusBar } from 'react-native';
 import Amplify from 'aws-amplify';

@@ -6,7 +6,7 @@
 Vue.js support is currently in beta and installable via `aws-amplify-vue@beta` from npm.
 {: .callout .callout--info}
 
-The ```aws-amplify-vue``` package is a set of Vue components which integrates your Vue application with the AWS-Amplify library. It is intended for use with Vue applications using version 2.5 or above, and was created using the Vue 3.0 CLI.
+The ```aws-amplify-vue``` package is a set of Vue components which integrates your Vue application with the AWS-Amplify library. The package supports Vue applications using version 2.5 or above, and was created using the Vue 3.0 CLI.
 
 ## Configuration 
 
@@ -19,7 +19,7 @@ npm i aws-amplify-vue@beta
 
 Then, alter main.js:
 
-```js
+```javascript
 import * as AmplifyModules from 'aws-amplify';
 import * as AmplifyVue from 'aws-amplify-vue';
 import aws_exports from './aws-exports';
@@ -37,7 +37,7 @@ new Vue({
 
 In App.vue:
 
-```js
+```javascript
 <script>
 import { components } from 'aws-amplify-vue'
 
@@ -54,17 +54,17 @@ export default {
 
 ## AmplifyEventBus
 
-The aws-amplify-vue package implments a Vue EventBus for emitting and listening to events within it's components.  The events emmitted by the components are listed within the documentation for each individual component.
+The aws-amplify-vue package implements a Vue EventBus for emitted and listening to events within it's components.  The events emitted by the components are listed within the documentation for each individual component.
 
 To listen to these events within one of your components, import the EventBus:
 
-```js
+```javascript
 import { AmplifyEventBus } from 'aws-amplify-vue';
 ```
 
 Then, register an event listener (potentially within a lifecycle hook):
 
-```js
+```javascript
 AmplifyEventBus.$on('authState', info => {
   console.log(`Here is the auth event that was just emitted by an Amplify component: ${info}`)
 });
@@ -76,7 +76,7 @@ The aws-amplify-vue package provides a Vue plugin to access the Amplify library.
 
 ```Vue.use(AmplifyVue.plugins.amplifyPlugin, {AmplifyModules})```
 
-This makes the Amplify library available to the aws-amplify-vue components as well as to your application.  Please note that you can restict the modules that are made available to the plugin by passing only specific modules in the second argument of ```Vue.use``` call.
+This makes the Amplify library available to the aws-amplify-vue components as well as your application. Please note that you can restrict the modules that are made available to the plugin by passing only specific modules in the second argument of ```Vue.use``` call.
 
 ### Using the AmplifyPlugin
 
@@ -87,7 +87,7 @@ To call the Amplify library, simply use ``this.$Amplify.`` followed by whichever
 
 ### Authenticator
 
-The Authenticator component provides basic basic login/logout functionality for your application, as well confirmation steps for new user registration and user login. It uses the following components as children:
+The Authenticator component provides basic login/logout functionality for your application, as well confirmation steps for new user registration and user login. It uses the following components as children:
 
 * SignIn
 * ConfirmSignIn
@@ -100,7 +100,7 @@ Usage: ```<amplify-authenticator></amplify-authenticator>```
 
 Options: 
 
-```js
+```javascript
 
 <amplify-authenticator v-bind:authOptions="authOptions"></amplify-authenticator>
 
@@ -141,7 +141,7 @@ Usage: ```<amplify-sign-in></amplify-sign-in>```
 
 Options:
 
-```js
+```javascript
 <amplify-sign-in v-bind:signInOptions="signInOptions"></amplify-sign-in>
 
 signInOptions = {
@@ -152,8 +152,8 @@ signInOptions = {
 
 Events: 
 
-* ```AmplifyEventBus.$emit('authState', 'signedIn')```: Emitted when a user successfully signs in without answering an MFA challenge.
-* ```AmplifyEventBus.$emit('authState', 'confirmSignIn')```: Emitted when a user successfully provides their credentials but is then asked to answer and MFA challenge.
+* ```AmplifyEventBus.$emit('authState', 'signedIn')```: Emitted when a user signs in without answering an MFA challenge.
+* ```AmplifyEventBus.$emit('authState', 'confirmSignIn')```: Emitted when a user provides their credentials but is then asked to answer and MFA challenge.
 * ```AmplifyEventBus.$emit('authState', 'forgotPassword')```: Emitted when a user clicks the 'Forgot Password' button.
 * ```AmplifyEventBus.$emit('authState', 'signUp')```: Emitted when a user clicks 'Back to Sign Up'.
 
@@ -165,7 +165,7 @@ Usage: ```<amplify-confirm-sign-in></amplify-confirm-sign-in>```
 
 Options:
 
-```js
+```javascript
 
 <amplify-sign-in v-bind:confirmSignInOptions="confirmSignInOptions"></amplify-sign-in>
 
@@ -177,9 +177,8 @@ confirmSignInOptions = {
 
 Events: 
 
-* ```AmplifyEventBus.$emit('authState', 'signedIn')```: Emitted when a user successfully answers their MFA challenge.
+* ```AmplifyEventBus.$emit('authState', 'signedIn')```: Emitted when a user answers their MFA challenge.
 * ```AmplifyEventBus.$emit('authState', 'signedOut');```: Emitted when a user clicks 'Back to Sign In'.
-
 
 ### SignUp
 
@@ -189,7 +188,7 @@ Usage: ```<amplify-sign-up></amplify-sign-up>```
 
 Options:
 
-```js
+```javascript
 <amplify-sign-up v-bind:signUpOptions="signUpOptions"></amplify-sign-up>
 
 signUpOptions = {
@@ -199,8 +198,8 @@ signUpOptions = {
 
 Events: 
 
-* ```AmplifyEventBus.$emit('authState', 'confirmSignUp')```: Emitted when a user successfully enters their information but has not yet completed a required verification step.
-* ```AmplifyEventBus.$emit('authState', 'signedOut')```: Emitted when a user successfully provides their information and does not need to complete a required verfication step, or when they click 'Back to Sign In'.
+* ```AmplifyEventBus.$emit('authState', 'confirmSignUp')```: Emitted when a user enters their information but has not yet completed a required verification step.
+* ```AmplifyEventBus.$emit('authState', 'signedOut')```: Emitted when a user provides their information and does not need to complete a required verification step, or when they click 'Back to Sign In'.
 
 
 ### ConfirmSignUp
@@ -211,7 +210,7 @@ Usage: ```<amplify-confirm-sign-up></amplify-confirm-sign-up>```
 
 Options:
 
-```js
+```javascript
 <amplify-sign-in v-bind:confirmSignUpOptions="confirmSignUpOptions"></amplify-sign-in>
 
 confirmSignUpOptions = {
@@ -222,7 +221,7 @@ confirmSignUpOptions = {
 
 Events: 
 
-* ```AmplifyEventBus.$emit('authState', 'signedOut')```: Emitted when a user successfully completes their verification step or clicks 'Back to Sign In'.
+* ```AmplifyEventBus.$emit('authState', 'signedOut')```: Emitted when a user completes their verification step or clicks 'Back to Sign In'.
 
 ### ForgotPassword
 
@@ -232,7 +231,7 @@ Usage: ```<amplify-forgot-password></amplify-forgot-password>```
 
 Options:
 
-```js
+```javascript
 <amplify-forgot-password v-bind:forgotPasswordOptions="forgotPasswordOptions"></amplify-forgot-password>
 
 forgotPasswordOptions = {
@@ -242,7 +241,7 @@ forgotPasswordOptions = {
 
 Events: 
 
-* ```AmplifyEventBus.$emit('authState', 'signedOut')```: Emitted when a user successfully resets their password or clicks 'Back to Sign In'.
+* ```AmplifyEventBus.$emit('authState', 'signedOut')```: Emitted when a user resets their password or clicks 'Back to Sign In'.
 
 ### SignOut
 
@@ -252,7 +251,7 @@ Usage: ```<amplify-sign-out></amplify-sign-out>```
 
 Options:
 
-```js
+```javascript
 <amplify-sign-out v-bind:signOutOptions="signOutOptions"></amplify-sign-out>
 
 signOutOptions = {
@@ -263,17 +262,17 @@ signOutOptions = {
 
 Events: 
 
-* ```AmplifyEventBus.$emit('authState', 'signedOut')```: Emitted when a user successfully signs out.
+* ```AmplifyEventBus.$emit('authState', 'signedOut')```: Emitted when a user signs out.
 
 ### SetMFA
 
-The SetMFA component provides your users with the ability to set their preferrend Multifactor Authentication (MFA) method.  It has the ability to show three options - SMS Text Message, TOTP, or None (depending on the options that you pass into it).
+The SetMFA component provides your users with the ability to set their preferred Multifactor Authentication (MFA) method.  It has the ability to show three options - SMS Text Message, TOTP, or None (depending on the options that you pass into it).
 
 Usage: ```<amplify-set-mfa></amplify-set-mfa>```
 
 Options:
 
-```js
+```javascript
 <amplify-set-mfa v-bind:mfaOptions="mfaOptions"></amplify-set-mfa>
 
 mfaOptions = {
@@ -299,7 +298,7 @@ Usage: ```<amplify-photo-picker></amplify-photo-picker>```
 
 Options:
 
-```js
+```javascript
 <amplify-photo-picker v-bind:photoPickerOptions="photoPickerOptions"></amplify-photo-picker>
 
 photoPickerOptions = {
@@ -350,7 +349,7 @@ Usage: ```<amplify-chatbot></amplify-chatbot>```
 
 Options:
 
-```js
+```javascript
 <amplify-chatbot v-bind:chatbotOptions="chatbotOptions"></amplify-chatbot>
 
 chatbotOptions = {
@@ -362,4 +361,4 @@ chatbotOptions = {
 
 Events:
 
-* ```AmplifyEventBus.$emit('chatComplete', this.options.botTitle)```: Emitted when a chat session has been completed (only if the clearComplete options is 'true')
+* ```AmplifyEventBus.$emit('chatComplete', this.options.botTitle)```: Emitted when a chat session has been completed (if the clearComplete options is 'true')

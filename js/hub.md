@@ -7,7 +7,7 @@ AWS Amplify has a local event bus system called Hub. It is a lightweight impleme
 ## Installation
 
 Import:
-```js
+```javascript
 import { Hub } from 'aws-amplify';
 
 // or
@@ -19,14 +19,14 @@ import { Hub } from '@aws-amplify/core';
 ### dispatch()
 
 You can dispatch an event with `dispatch` function:
-```js
+```javascript
 Hub.dispatch('auth', { event: 'signIn', data: user }, 'Auth');
 ```
 
 ### listen()
 
 You can subscribe to a channel with `listen` function:
-```js
+```javascript
 import { Hub, Logger } from 'aws-amplify';
 
 const logger = new Logger('MyClass');
@@ -51,7 +51,7 @@ In order to capture event updates, you need to implement `onHubCapsule` handler 
 
 AWS Amplify Authentication module publishes in `auth` channel when 'signIn', 'signUp', and 'signOut' events happen. You can create your listener to listen and act upon those event notifications.
 
-```js
+```javascript
 import { Hub, Logger } from 'aws-amplify';
 
 const alex = new Logger('Alexander_the_auth_watcher');
