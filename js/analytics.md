@@ -139,6 +139,7 @@ The `record` method lets you add additional attributes to an event. For example,
 ```javascript
 Analytics.record({
     name: 'albumVisit', 
+    // Attribute values must be strings
     attributes: { genre: '', artist: '' }
 });
 ```
