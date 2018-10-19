@@ -448,7 +448,7 @@ type Post
   @model 
   @auth(
     rules: [
-      {allow: owner, ownerField: "owner", mutations: [create, update, delete], queries: [get, list]}
+      {allow: owner, ownerField: "owner", mutations: [create, update, delete], queries: [get, list]},
     ]) 
 {
   id: ID!
@@ -469,18 +469,197 @@ You can use the *queries* and *mutations* arguments to specify which operations 
 - **update**: Add conditional update that checks the stored *ownerField* is the same as `$ctx.identity.username`.
 - **delete**: Add conditional update that checks the stored *ownerField* is the same as `$ctx.identity.username`.
 
-**Static Group Authorization**
+You may also apply mutliple ownership rules on a single `@model` type. For example, imagine you have a type **Draft**
+that stores unfinished posts for a blog. You might want to allow the **Draft's owner** to create, update, delete, and
+read **Draft** objects. However, you might also want the **Draft's editors** to be able to update and read **Draft** objects.
+To allow for this use case you could use the following type definition:
 
 ```
-# Static group auth
-type Post @model @auth(rules: [{allow: groups, groups: ["Admin"]}]) {
-  id: ID!
-  title: String
+type Draft 
+    @model 
+    @auth(rules: [
+
+        # Defaults to use the "owner" field.
+        { allow: owner },
+
+        # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
+        { allow: owner, ownerField: "editors", mutations: [update] }
+    ]) {
+    id: ID!
+    title: String!
+    content: String
+    owner: String!
+    editors: [String]!
 }
 ```
 
-If the user credential (as specified by the resolver's `$ctx.identity`) is not
-enrolled in the *Admin* group, throw an unauthorized error using `$util.unauthorized()`.
+**Ownership with create mutations**
+
+The ownership authorization rule tries to make itself as easy as possible to use. One
+feature that helps with this is that it will automatically fill ownership fields unless 
+told explicitly not to do so. To show how this works, lets look at how the create mutation
+would work for the **Draft** type above:
+
+```
+mutation CreateDraft {
+    createDraft(input: { title: "A new draft" }) {
+        id
+        title
+        owner
+        editors
+    }
+}
+```
+
+Let's assume that when I mcall this mutation I am logged in as `someuser@my-domain.com`. The result would be:
+
+```json
+{
+    "data": {
+        "createDraft": {
+            "id": "...",
+            "title": "A new draft",
+            "owner": "someuser@my-domain.com",
+            "editors": ["someuser@my-domain.com"]
+        }
+    }
+}
+```
+
+The `Mutation.createDraft` resolver is smart enough to match your auth rules to attributes
+and will fill them in be default. If you do not want the value to be automatically set all
+you need to do is include a value for it in your input. For example, to have the resolver
+automatically set the **owner** but not the **editors**, you would run this:
+
+```
+mutation CreateDraft {
+    createDraft(
+        input: { 
+            title: "A new draft", 
+            editors: [] 
+        }
+    ) {
+        id
+        title
+        owner
+        editors
+    }
+}
+```
+
+This would return:
+
+```json
+{
+    "data": {
+        "createDraft": {
+            "id": "...",
+            "title": "A new draft",
+            "owner": "someuser@my-domain.com",
+            "editors": []
+        }
+    }
+}
+```
+
+You can try do the same to **owner** but this will throw an **Unauthorized** exception because you are no longer the owner of the object you are trying to create
+
+```
+mutation CreateDraft {
+    createDraft(
+        input: { 
+            title: "A new draft", 
+            editors: [],
+            owner: null
+        }
+    ) {
+        id
+        title
+        owner
+        editors
+    }
+}
+```
+
+To set the owner to null with the current schema, you would still need to be in the editors list:
+
+```
+mutation CreateDraft {
+    createDraft(
+        input: { 
+            title: "A new draft", 
+            editors: ["someuser@my-domain.com"],
+            owner: null
+        }
+    ) {
+        id
+        title
+        owner
+        editors
+    }
+}
+```
+
+Would return:
+
+```json
+{
+    "data": {
+        "createDraft": {
+            "id": "...",
+            "title": "A new draft",
+            "owner": null,
+            "editors": ["someuser@my-domain.com"]
+        }
+    }
+}
+```
+
+
+**Static Group Authorization**
+
+Static group authorization allows you to protect `@model` types by restricting access
+to a known set of groups. For example, you can allow all **Admin** users to create,
+update, delete, get, and list Salary objects.
+
+```
+type Salary @model @auth(rules: [{allow: groups, groups: ["Admin"]}]) {
+  id: ID!
+  wage: Int
+  currency: String
+}
+```
+
+When calling the GraphQL API, if the user credential (as specified by the resolver's `$ctx.identity`) is not
+enrolled in the *Admin* group, the operation will fail.
+
+To enable advanced authorization use cases, you can layer auth rules to provide specialized functionality.
+To show how we might do that, let's expand the **Draft** example we started in the **Owner Authorization**
+section above. When we last left off, a **Draft** object could be updated and read by both its owner
+and any of its editors and could be created and deleted only by its owner. Let's change it so that 
+now any member of the "Admin" group can also create, update, delete, and read a **Draft** object.
+
+```
+type Draft 
+    @model 
+    @auth(rules: [
+        
+        # Defaults to use the "owner" field.
+        { allow: owner },
+        
+        # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
+        { allow: owner, ownerField: "editors", mutations: [update] },
+
+        # Admin users can access any operation.
+        { allow: groups, groups: ["Admin"] }
+    ]) {
+    id: ID!
+    title: String!
+    content: String
+    owner: String!
+    editors: [String]!
+}
+```
 
 **Dynamic Group Auth**
 
@@ -506,6 +685,69 @@ specify which attribute in the underlying data store holds this group
 information. To specify that a single group should have access, use a field of
 type `String`. To specify that multiple groups should have access, use a field of
 type `[String]`.
+
+Just as with the other auth rules, you can layer dynamic group rules on top of other rules.
+Let's again expand the **Draft** example from the **Owner Authorization** and **Static Group Authorization**
+sections above. When we last left off editors could update and read objects, owners had full
+access, and members of the admin group had full access to **Draft** objects. Now we have a new
+requirement where each record should be able to specify an optional list of groups that can read
+the draft. This would allow you to share an individual document with an external team, for example.
+
+```
+type Draft 
+    @model 
+    @auth(rules: [
+        
+        # Defaults to use the "owner" field.
+        { allow: owner },
+        
+        # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
+        { allow: owner, ownerField: "editors", mutations: [update] },
+
+        # Admin users can access any operation.
+        { allow: groups, groups: ["Admin"] }
+
+        # Each record may specify which groups may read them.
+        { allow: groups, groupsField: "groupsCanAccess", mutations: [], queries: [get, list] }
+    ]) {
+    id: ID!
+    title: String!
+    content: String
+    owner: String!
+    editors: [String]!
+    groupsCanAccess: [String]!
+}
+```
+
+With this setup, you could create an object that can be read by the "BizDev" group:
+
+```
+mutation CreateDraft {
+    createDraft(input: {
+        title: "A new draft",
+        editors: [],
+        groupsCanAccess: ["BizDev"]
+    }) {
+        id
+        groupsCanAccess
+    }
+}
+```
+
+And another draft that can be read by the "Marketing" group:
+
+```
+mutation CreateDraft {
+    createDraft(input: {
+        title: "Another draft",
+        editors: [],
+        groupsCanAccess: ["Marketing"]
+    }) {
+        id
+        groupsCanAccess
+    }
+}
+```
 
 #### Generates
 
