@@ -272,6 +272,30 @@ mouseover
 url
 webapp
 
+# js/graphql.md
+DataSource
+onCreate
+onUpdate
+onDelete
+ownerField
+groupsField
+BizDev
+Project.team
+postCommentsId
+PostEditor
+versioned
+expectedVersion
+versionField
+ElasticSearch
+searchQueryField
+Wildcard
+wildcard
+_or_
+S3Object
+s3
+versionInput
+versioning
+
 # cli/plugins.md
 walk
 gluegun
