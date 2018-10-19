@@ -60,6 +60,10 @@ amplify:
     baseurl: /docs
     docs_baseurl: /docs
     color_theme:  # Available themes: blue (default), green, purple, red and yellow
+    marketing_site_home: 'https://aws-amplify.github.io/'
+    marketing_site_get_started: 'https://aws-amplify.github.io/media/get_started'
+    marketing_site_toolchain: 'https://aws-amplify.github.io/media/toolchain'
+    marketing_site_ui: 'https://aws-amplify.github.io/media/ui_library'
     header:
         logo:
             text: AWS Amplify
@@ -67,13 +71,13 @@ amplify:
             platform: for JavaScript
         nav:
             - item_name: Get Started
-              item_url: '/js/start'
+              item_url: 'https://aws-amplify.github.io/media/get_started'
               id: start
             - item_name: Toolchain
-              item_url: '/cli'
+              item_url: 'https://aws-amplify.github.io/media/toolchain'
               id: cli
             - item_name: Style Guide
-              item_url: '/js/ui'
+              item_url: 'https://aws-amplify.github.io/media/ui_library'
               id: ui
     footer:
         content:

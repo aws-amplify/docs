@@ -54,13 +54,13 @@
 			<div class="relative">
 				{% if site.amplify.header.logo.text %}
 				<div class="logo-container" id="logo-container">
-					<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/" class="site-header__logo">
+					<a href="{{ site.amplify.marketing_site_home }}" class="site-header__logo">
 						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/Amplify-Logo-White.svg">
 						<p class="header-amplify docs-header-amplify">{{ site.amplify.header.logo.text }} </p>
 					</a>
 				</div>
 				{% elsif site.amplify.header.logo.image %}
-					<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/" class="site-header__logo">
+					<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.marketing_site_url }}{% endif %}" class="site-header__logo">
 						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/Amplify-Logo-White.svg">
 					</a><!-- /.site-header__logo -->
 				{% endif %}
