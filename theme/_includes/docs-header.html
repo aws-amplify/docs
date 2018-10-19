@@ -54,13 +54,13 @@
 			<div class="relative">
 				{% if site.amplify.header.logo.text %}
 				<div class="logo-container" id="logo-container">
-					<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/" class="site-header__logo">
+					<a href="{{ site.amplify.marketing_site_home }}" class="site-header__logo">
 						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/Amplify-Logo-White.svg">
 						<p class="header-amplify docs-header-amplify">{{ site.amplify.header.logo.text }} </p>
 					</a>
 				</div>
 				{% elsif site.amplify.header.logo.image %}
-					<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/" class="site-header__logo">
+					<a href="{{ site.amplify.marketing_site_home }}" class="site-header__logo">
 						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/Amplify-Logo-White.svg">
 					</a><!-- /.site-header__logo -->
 				{% endif %}
@@ -105,7 +105,7 @@
 									<a href="https://aws.github.io/aws-sdk-ios/docs/reference/" target="_blank"><p>iOS</p></a>
 									<a href="https://aws.github.io/aws-sdk-android/docs/reference/" target="_blank"><p>Android</p></a>
 									<a href="https://aws-amplify.github.io/amplify-js/api/" target="_blank"><p>JavaScript</p></a>
-									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/api/" target="_blank"><p>React Native</p></a>
+									<a href="https://aws-amplify.github.io/amplify-js/api/" target="_blank"><p>React Native</p></a>
 								</div>
 							</div>
 						</li>
@@ -116,17 +116,17 @@
 					<input type="text" id="search-input-xs" class="visible-xs docs-search-xs"></input>
 					<button id="collapse-search">Cancel</button>
 				{% endif %}
-				<div id="docs-edit-bar" class="hidden-xs">
+				<div id="docs-edit-bar" class="hidden-xs" style="padding-top:0.5em;padding-bottom:2.5em;font-size:80%;">
 					<a id="feedback-link" target="_blank" href="#">
-						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/icons/Minis/outline-feedback-24px.svg" />
+						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/icons/Minis/outline-feedback-24px.svg" style="height:16px;" />
 						<p>Feedback</p>
 					</a>
 					<a id="edit-link" target="_blank" href="#">
-						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/icons/Minis/outline-create-24px.svg" />
+						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/icons/Minis/outline-create-24px.svg" style="height:16px;" />
 						<p>Edit</p>
 					</a>
 					<a id="tweet-link" target="_blank" href="#">
-						<img id="twitter-logo" src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/Twitter_Logo_Blue.svg" />
+						<img id="twitter-logo" src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/Twitter_Logo_Blue.svg" style="height:16px;" />
 						<p>Tweet</p>
 					</a>
 				</div>
