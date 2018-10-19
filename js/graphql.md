@@ -85,7 +85,7 @@ amplify push
 
 Go to AWS CloudFormation to view it. You can also find your project assets in the amplify/backend folder under your API.
 
-Once the API is finsihed deploying, try going to the AWS AppSync console and
+Once the API is finished deploying, try going to the AWS AppSync console and
 running some of these queries in your new API's query page.
 
 ```
@@ -210,7 +210,7 @@ Object types that are annotated with `@model` are top-level entities in the
 generated API. Objects annotated with `@model` are stored in Amazon DynamoDB and are
 capable of being protected via `@auth`, related to other objects via `@connection`,
 and streamed into Amazon Elasticsearch via `@searchable`. You may also apply the
-`@versioned` directive to instantly add versioning and conflict detection to a
+`@versioned` directive to instantly add a version field and conflict detection to a
 model type.
 
 #### Definition
@@ -469,7 +469,7 @@ You can use the *queries* and *mutations* arguments to specify which operations 
 - **update**: Add conditional update that checks the stored *ownerField* is the same as `$ctx.identity.username`.
 - **delete**: Add conditional update that checks the stored *ownerField* is the same as `$ctx.identity.username`.
 
-You may also apply mutliple ownership rules on a single `@model` type. For example, imagine you have a type **Draft**
+You may also apply multiple ownership rules on a single `@model` type. For example, imagine you have a type **Draft**
 that stores unfinished posts for a blog. You might want to allow the **Draft's owner** to create, update, delete, and
 read **Draft** objects. However, you might also want the **Draft's editors** to be able to update and read **Draft** objects.
 To allow for this use case you could use the following type definition:
@@ -511,7 +511,7 @@ mutation CreateDraft {
 }
 ```
 
-Let's assume that when I mcall this mutation I am logged in as `someuser@my-domain.com`. The result would be:
+Let's assume that when I call this mutation I am logged in as `someuser@my-domain.com`. The result would be:
 
 ```json
 {
@@ -772,7 +772,7 @@ the generated resolvers would be protected like so:
 - `Query.getX`: In the response mapping template verify that the result's **owner** attribute is the same as the `$ctx.identity.username`. If it is not return null.
 - `Query.listX`: In the response mapping template filter the result's **items** such that only items with an **owner** attribute that is the same as the `$ctx.identity.username` are returned.
 
-**Multie Owner Authorization**
+**Multi Owner Authorization**
 
 Work in progress.
 
@@ -806,7 +806,7 @@ type Post @model @auth(rules: [{allow: groups, groupsField: "groups"}]) {
 
 the generated resolvers would be protected like so:
 
-- `Mutation.createX`: Verify the requesting user has a valid credential and that it contains a claim to atleast one group passed to the query in the `$ctx.args.input.groups` argument.
+- `Mutation.createX`: Verify the requesting user has a valid credential and that it contains a claim to at least one group passed to the query in the `$ctx.args.input.groups` argument.
 - `Mutation.updateX`: Update the condition expression so that the DynamoDB `UpdateItem` operation only succeeds if the record's **groups** attribute contains at least one of the caller's claimed groups via `ctx.identity.claims.get("cognito:groups")`.
 - `Mutation.deleteX`: Update the condition expression so that the DynamoDB `DeleteItem` operation only succeeds if the record's **groups** attribute contains at least one of the caller's claimed groups via `ctx.identity.claims.get("cognito:groups")`
 - `Query.getX`: In the response mapping template verify that the result's **groups** attribute contains at least one of the caller's claimed groups via `ctx.identity.claims.get("cognito:groups")`.
@@ -861,7 +861,7 @@ mutation CreateProject {
 }
 ```
 
-> **Note** The **Project.team** resolver is preconfigured to work with the defined connection.
+> **Note** The **Project.team** resolver is configured to work with the defined connection.
 
 Likewise, you can make a simple one-to-many connection as follows:
 
@@ -1111,10 +1111,10 @@ query SearchPosts {
 
 There are multiple `SearchableTypes` generated in the schema, based on the datatype of the fields you specify in the Post type.
 
-The `filter` parameter in the search queery has a searchable type field that corresponds to the field listed in the Post type. For example, the `title` field of the `filter` object, has the following properties (containing the operators that are applicable to the `string` type):
+The `filter` parameter in the search query has a searchable type field that corresponds to the field listed in the Post type. For example, the `title` field of the `filter` object, has the following properties (containing the operators that are applicable to the `string` type):
 
 * `eq` - which uses the Elasticsearch keyword type to match for the exact term.
-* `ne` - this is an iverse operation of `eq`.
+* `ne` - this is the inverse operation of `eq`.
 * `matchPhrase` - searches using the Elasticsearch's [Match Phrase Query](https://www.elastic.co/guide/en/elasticsearch/reference/6.2/query-dsl-match-query-phrase.html) to filter the documents in the search query.
 * `matchPhrasePrefix` - This uses the Elasticsearch's [Match Phrase Prefix Query](https://www.elastic.co/guide/en/elasticsearch/reference/6.2/query-dsl-match-query-phrase-prefix.html) to filter the documents in the search query.
 * `multiMatch` - Corresponds to the Elasticsearch [Multi Match Query](https://www.elastic.co/guide/en/elasticsearch/reference/6.2/query-dsl-multi-match-query.html).
@@ -1138,7 +1138,7 @@ query SearchPosts {
 
 The above query returns all documents whose `title` begins with `S` and ends with `Elasticsearch!`.
 
-Moreover you can use the `filter` parameter to pass a nested `and`/`or`/`not` condition. By default, every operation in the filter properties is *AND* ed. You can use the `or` or `not` properties in the `filter` parameter of the search query to override this behavior. Each of these operators (`and`, `or`, `not` properties in the filter object) accepts an array of SearchableTypes which are in turn joined by the corresponding operator. For example, consider the following search query:
+Moreover you can use the `filter` parameter to pass a nested `and`/`or`/`not` condition. By default, every operation in the filter properties is *AND* ed. You can use the `or` or `not` properties in the `filter` parameter of the search query to override this behavior. Each of these operators (`and`, `or`, `not` properties in the filter object) accepts an array of searchable types which are in turn joined by the corresponding operator. For example, consider the following search query:
 
 ```
 query SearchPosts {
@@ -1827,7 +1827,7 @@ type Post @model @versioned {
 }
 ```
 
-> Note: @versioned depends on @model so we must pass `new new DynamoDBModelTransformer()` before `new new VersionedModelTransformer()`. Also note that `new AppSyncTransformer()` must go first for now. In the future we can add a dependency mechanism and topologically sort it outselves.
+> Note: @versioned depends on @model so we must pass `new new DynamoDBModelTransformer()` before `new new VersionedModelTransformer()`. Also note that `new AppSyncTransformer()` must go first for now. In the future we can add a dependency mechanism and topologically sort it ourselves.
 
 The next step after defining the directive is to implement the transformer's business logic. The `graphql-transformer-core` package makes this a little easier
 by exporting a common class through which we may define transformers. User's extend the `Transformer` class and implement the required functions.
