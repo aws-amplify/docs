@@ -7,7 +7,7 @@ It is designed to work with the [Amplify](https://github.com/aws-amplify/amplify
 The Amplify CLI is written in Node.js. It has a pluggable architecture and can be easily extended with additional functionalities.
 Click [here](new-plugin) for more details.
 
-## Architecture
+## Overview
 ![](images/AmplifyCliConcept.jpg)
 ### CLI core and plugins
 The Amplify CLI uses <a href="https://github.com/infinitered/gluegun##readme" target="_blank">gluegun</a>. It is highly modularized.  <br/>
