@@ -64,6 +64,7 @@ amplify:
     marketing_site_get_started: 'https://aws-amplify.github.io/media/get_started'
     marketing_site_toolchain: 'https://aws-amplify.github.io/media/toolchain'
     marketing_site_ui: 'https://aws-amplify.github.io/media/ui_library'
+    api_js_url: 'https://aws-amplify.github.io/amplify-js/api/'
     header:
         logo:
             text: AWS Amplify
@@ -71,13 +72,13 @@ amplify:
             platform: for JavaScript
         nav:
             - item_name: Get Started
-              item_url: 'https://aws-amplify.github.io/media/get_started'
+              item_external_url: 'https://aws-amplify.github.io/media/get_started'
               id: start
             - item_name: Toolchain
-              item_url: 'https://aws-amplify.github.io/media/toolchain'
+              item_external_url: 'https://aws-amplify.github.io/media/toolchain'
               id: cli
             - item_name: Style Guide
-              item_url: 'https://aws-amplify.github.io/media/ui_library'
+              item_external_url: 'https://aws-amplify.github.io/media/ui_library'
               id: ui
     footer:
         content:
