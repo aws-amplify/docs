@@ -174,6 +174,12 @@ category_list:
           class: aws-icon-ps-60-network-nodes
           url_external: 'https://marketplace.visualstudio.com/items?itemName=aws-amplify.aws-amplify-vscode'   
           icon: '/images/icons/Misc/Present.svg'
+        - title: GraphQL Transform
+          excerpt: Transform simple GraphQL schema files into full application backends.
+          cta: Read more
+          class: aws-icon-ps-60-network-nodes
+          icon: '/images/icons/Misc/Tool.svg'
+          url: '/js/graphql'
     - category: Categories
       title: API Guides
       excerpt: Add cloud features to your app quickly using our toolchain and declarative APIs.
