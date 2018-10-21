@@ -112,6 +112,8 @@ The following transformers are available to be used with AWS AppSync when defini
 | @connection | Used for specifying relationships between @model object types. |
 | @searchable | Used for streaming the data of an @model object type to Amazon Elasticsearch Service. |
 
+Please see [reference documentation](https://github.com/aws-amplify/amplify-cli/blob/master/graphql-transform-tutorial.md#reference-documentation) for detailed annotation explanation.
+
 ##### Type Generation using GraphQL Schemas
 
 When working with GraphQL data, it is useful to import your types from your schema into your code for type safety. You can easily do this with Amplify CLI's automated code generation feature. The CLI automatically downloads GraphQL Introspection Schemas from your defined GraphQL endpoint and generates TypeScript or Flow classes for you.
