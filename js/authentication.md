@@ -243,8 +243,11 @@ This method should be called after the Auth module is configured or the user is 
 `Auth.currentSession()` returns a `CognitoUserSession` object which contains JWT `accessToken`, `idToken`, and `refreshToken`.
 
 ```javascript
-let session = Auth.currentSession();
-// CognitoUserSession => { idToken, refreshToken, accessToken }
+import { Auth } from 'aws-amplify';
+
+Auth.currentSession()
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
 ```
 
 #### Managing Security Tokens
