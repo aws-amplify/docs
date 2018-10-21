@@ -23,7 +23,10 @@ If you're using Windows, we recommend the [Windows Subsystem for Linux](https://
 
 ***Getting Started with the CLI***
 To get started, initialize your project in the new directory:
-`amplify init`
+
+```
+amplify init
+```
 
 After you answer the provided questions, you can use `amplify help` at any time to see the overall command structure, and `amplify help <category>` to see actions for a specific category. 
 
