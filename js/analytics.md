@@ -463,6 +463,7 @@ Analytics.autoTrack('event', {
     //        myAttr: attr
     //    }
     // }
+});
 ```
 
 For example:
