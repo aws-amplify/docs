@@ -290,7 +290,7 @@ const todoDetails = {
     description: 'Learn AWS AppSync'
 };
 
-const newTodo = await API.graphql(graphqlOperation(mutations.createTodo, todoDetails));
+const newTodo = await API.graphql(graphqlOperation(mutations.createTodo, {input: todoDetails}));
 console.log(newTodo);
 ```
 
