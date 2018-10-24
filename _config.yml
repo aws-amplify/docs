@@ -18,12 +18,12 @@ email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
   AWS Amplify is a JavaScript library for frontend and mobile developers building cloud-enabled applications.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com 
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github:
   repository_url: https://github.com/aws-amplify/docs
 
 show_downloads: "true"
-include: 
+include:
 - api
 - api/assets
 - api/classes
@@ -52,7 +52,7 @@ kramdown:
 plugins:
   - jekyll-feed
   - jekyll-sitemap
-future: true  
+future: true
 
 
 # Amplify theme settings
@@ -68,6 +68,8 @@ amplify:
     header:
         logo:
             text: AWS Amplify
+            android_text: 'AWS Android SDK'
+            ios_text: 'AWS iOS SDK'
             image: true
             platform: for JavaScript
         nav:
@@ -80,6 +82,8 @@ amplify:
             - item_name: Style Guide
               item_external_url: 'https://aws-amplify.github.io/media/ui_library'
               id: ui
+        ios:
+          theme: 'dark'
     footer:
         content:
             logo:
@@ -95,7 +99,7 @@ amplify:
               profile_url: 'https://twitter.com/search?q=%23awsamplify&src=typd'
             - network_name: youtube
               profile_url: 'https://www.youtube.com/watch?v=vAjf3lyjf8c'
-              
+
     google_analytics:
         tracking_code: # Add your Google Analytics tracking code to activate Google Analytics
     comments:
@@ -112,19 +116,270 @@ includes_dir: ./theme/_includes
 exclude: [ 'README.md', 'CHANGELOG.md' ]
 permalink: /:title
 
+android_category_list:
+    - category: SetupAndInstallation
+      title: Setup & Installation
+      excerpt:
+      base_url: '/android/start'
+      subs:
+        - title: Getting Started
+          excerpt: get started excerpt
+          url: '/android/start'
+          icon: '/images/icons/Misc/Present.svg'
+    - category: Toolchain
+      title: Toolchain
+      excerpt: Better developer experience when building and deploying your apps.
+      base_url: '/js/cli'
+      subs:
+        - title: CLI
+          excerpt: Deploy your Web app or static website for global CDN distribution with media streaming support.
+          cta: Read more
+          class: aws-icon-ps-60-network-nodes
+          url: '/js/cli'
+          icon: '/images/icons/Misc/Tool.svg'
+          services:
+              - title: Amazon CloudFront
+                url: https://aws.amazon.com/cloudfront/
+        - title: UI Components
+          excerpt: UI excerpt
+          url: '/js/ui'
+          icon: '/images/icons/Misc/Present.svg'
+        - title: VS Code Extension
+          excerpt: Code snippets for AWS Amplify in Visual Studio Code.
+          cta: Read more
+          class: aws-icon-ps-60-network-nodes
+          url_external: 'https://marketplace.visualstudio.com/items?itemName=aws-amplify.aws-amplify-vscode'
+          icon: '/images/icons/Misc/Present.svg'
+    - category: API Guides
+      title: API Guides
+      excerpt: Add cloud features to your app quickly using our toolchain and declarative APIs.
+      base_url: '/android/analytics'
+      subs:
+        - title: API
+          excerpt: A simple and secure solution for making HTTP requests using REST and GraphQL, with support for real-time data.
+          cta: Read more
+          class: aws-icon-ps-60-database-server
+          url: '/android/api-apigw'
+          icon: '/images/icons/Misc/Cloud.svg'
+          services:
+            - title: Amazon API Gateway,
+              url: https://aws.amazon.com/api-gateway
+            - title: AWS AppSync
+              url: https://aws.amazon.com/appsync
+        - title: Storage
+          excerpt: A simple mechanism for managing user content in public, protected or private storage.
+          cta: Read more
+          class: aws-icon-ps-60-file-box
+          url: '/android/storage'
+          icon: '/images/icons/Misc/Cloud.svg'
+          services:
+              - title: Amazon S3
+                url: https://aws.amazon.com/s3/
+        - title: Authentication
+          excerpt:  Authentication APIs with pre-built UI components for your app.
+          cta: Read more
+          class: aws-icon-ps-60-shield-circle
+          url: '/android/authentication'
+          icon: '/images/icons/Misc/Cloud.svg'
+          services:
+            - title: Amazon Cognito,
+              url: https://aws.amazon.com/cognito/
+            - title: OAuth 2.0 ,
+              url: https://aws.amazon.com/cognito/
+            - title: Custom Plugin
+              url:
+        - title: Analytics
+          excerpt: Drop-in analytics to track user sessions, custom user attributes, and in-app metrics.
+          cta: Read more
+          class: aws-icon-ps-60-pie-bar-charts
+          url: '/android/analytics'
+          icon: '/images/icons/Misc/Cloud.svg'
+          services:
+            - title: Amazon Pinpoint,
+              url: https://aws.amazon.com/pinpoint/
+            - title: Amazon Kinesis,
+              url: https://aws.amazon.com/kinesis/
+            - title: Custom Plugin
+              url: https://aws-amplify.github.io/amplify-js/media/analytics_guide#using-a-custom-plugin
+        - title: Push Notifications
+          excerpt: Push notifications with campaign analytics and targeting.
+          cta: Read more
+          class: aws-icon-ps-60-device-message
+          url: '/android/push-notifications'
+          icon: '/images/icons/Misc/Cloud.svg'
+          services:
+              - title: Amazon Pinpoint
+                url: https://aws.amazon.com/pinpoint/
+        - title: Interactions
+          excerpt: Create conversational bots powered by deep learning technologies.
+          cta: Read more
+          class: aws-icon-ps-60-bubble-gear
+          url: '/android/interactions'
+          icon: '/images/icons/Misc/Cloud.svg'
+          services:
+              - title: Amazon Lex
+                url: https://aws.amazon.com/lex/
+
+ios_category_list:
+    - category: SetupAndInstallation
+      title: Setup & Installation
+      excerpt:
+      base_url: '/ios/start'
+      subs:
+        - title: Getting Started
+          excerpt: get started excerpt
+          url: '/ios/start'
+          icon: '/images/icons/Misc/Present.svg'
+    - category: Toolchain
+      title: Toolchain
+      excerpt: Better developer experience when building and deploying your apps.
+      base_url: '/js/cli'
+      subs:
+        - title: CLI
+          excerpt: Deploy your Web app or static website for global CDN distribution with media streaming support.
+          cta: Read more
+          class: aws-icon-ps-60-network-nodes
+          url: '/js/cli'
+          icon: '/images/icons/Misc/Tool.svg'
+          services:
+              - title: Amazon CloudFront
+                url: https://aws.amazon.com/cloudfront/
+        - title: UI Components
+          excerpt: UI excerpt
+          url: '/js/ui'
+          icon: '/images/icons/Misc/Present.svg'
+        - title: VS Code Extension
+          excerpt: Code snippets for AWS Amplify in Visual Studio Code.
+          cta: Read more
+          class: aws-icon-ps-60-network-nodes
+          url_external: 'https://marketplace.visualstudio.com/items?itemName=aws-amplify.aws-amplify-vscode'
+          icon: '/images/icons/Misc/Present.svg'
+        - title: PubSub
+          excerpt: Connect your app to message-oriented middleware on the cloud.
+          cta: Read more
+          class: aws-icon-ps-60-circular-circuit
+          url: '/android/pubsub'
+          icon: '/images/icons/Misc/Cloud.svg'
+          services:
+              - title: AWS IoT,
+                url: https://aws.amazon.com/iot/
+              - title: Generic MQTT,
+                url: https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html#mqtt
+              - title: Custom Plugin
+                url:
+    - category: API Guides
+      title: API Guides
+      excerpt: Add cloud features to your app quickly using our toolchain and declarative APIs.
+      base_url: '/ios/analytics'
+      subs:
+        - title: API
+          excerpt: A simple and secure solution for making HTTP requests using REST and GraphQL, with support for real-time data.
+          cta: Read more
+          class: aws-icon-ps-60-database-server
+          url: '/ios/api-apigw'
+          icon: '/images/icons/Misc/Cloud.svg'
+          services:
+            - title: Amazon API Gateway,
+              url: https://aws.amazon.com/api-gateway
+            - title: AWS AppSync
+              url: https://aws.amazon.com/appsync
+        - title: Storage
+          excerpt: A simple mechanism for managing user content in public, protected or private storage.
+          cta: Read more
+          class: aws-icon-ps-60-file-box
+          url: '/ios/storage'
+          icon: '/images/icons/Misc/Cloud.svg'
+          services:
+              - title: Amazon S3
+                url: https://aws.amazon.com/s3/
+        - title: Authentication
+          excerpt:  Authentication APIs with pre-built UI components for your app.
+          cta: Read more
+          class: aws-icon-ps-60-shield-circle
+          url: '/ios/authentication'
+          icon: '/images/icons/Misc/Cloud.svg'
+          services:
+            - title: Amazon Cognito,
+              url: https://aws.amazon.com/cognito/
+            - title: OAuth 2.0 ,
+              url: https://aws.amazon.com/cognito/
+            - title: Custom Plugin
+              url:
+        - title: Analytics
+          excerpt: Drop-in analytics to track user sessions, custom user attributes, and in-app metrics.
+          cta: Read more
+          class: aws-icon-ps-60-pie-bar-charts
+          url: '/ios/analytics'
+          icon: '/images/icons/Misc/Cloud.svg'
+          services:
+            - title: Amazon Pinpoint,
+              url: https://aws.amazon.com/pinpoint/
+            - title: Amazon Kinesis,
+              url: https://aws.amazon.com/kinesis/
+            - title: Custom Plugin
+              url: https://aws-amplify.github.io/amplify-js/media/analytics_guide#using-a-custom-plugin
+        - title: Push Notifications
+          excerpt: Push notifications with campaign analytics and targeting.
+          cta: Read more
+          class: aws-icon-ps-60-device-message
+          url: '/ios/push-notifications'
+          icon: '/images/icons/Misc/Cloud.svg'
+          services:
+              - title: Amazon Pinpoint
+                url: https://aws.amazon.com/pinpoint/
+        - title: Interactions
+          excerpt: Create conversational bots powered by deep learning technologies.
+          cta: Read more
+          class: aws-icon-ps-60-bubble-gear
+          url: '/ios/interactions'
+          icon: '/images/icons/Misc/Cloud.svg'
+          services:
+              - title: Amazon Lex
+                url: https://aws.amazon.com/lex/
+        - title: PubSub
+          excerpt: Connect your app to message-oriented middleware on the cloud.
+          cta: Read more
+          class: aws-icon-ps-60-circular-circuit
+          url: '/ios/pubsub'
+          icon: '/images/icons/Misc/Cloud.svg'
+          services:
+              - title: AWS IoT,
+                url: https://aws.amazon.com/iot/
+              - title: Generic MQTT,
+                url: https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html#mqtt
+              - title: Custom Plugin
+                url:
+
 category_list:
     - category: SetupAndInstallation
       title: Setup & Installation
-      excerpt: 
+      excerpt:
       base_url: '/js/start'
       subs:
         - title: Getting Started
           excerpt: get started excerpt
           url: '/js/start'
           icon: '/images/icons/Misc/Present.svg'
+    - category: Getting Started
+      title: Getting Started
+      excerpt:
+      base_url: '/js/start'
+      subs:
+        - title: JavaScript
+          excerpt: #'A step-by-step tutorial for learning how to build a cloud-enabled React Web app with AWS Amplify.<br/><b>30 min to complete</b>'
+          url: '/js/start'
+          icon: '/images/icons/Misc/Present.svg'
+        - title: Android
+          excerpt: #"Learn to build a cloud enabled 'Notes App' with Ionic 4 and AWS Amplify <br/><b>45 min to complete</b>"
+          url: '/android/getting-started'
+          icon: '/images/icons/Misc/Present.svg'
+        - title: ios
+          excerpt: #"Learn to build a cloud enabled App with Vue.js and AWS Amplify <br/><b>45 min to complete</b>"
+          url: '/ios/getting-started'
+          icon: '/images/icons/Misc/Present.svg'
     - category: Tutorials
       title: Framework Support
-      excerpt: 
+      excerpt:
       base_url: '/js/react'
       subs:
         - title: React & React Native
@@ -133,11 +388,11 @@ category_list:
           icon: '/images/icons/Misc/Present.svg'
         - title: Angular & Ionic
           excerpt: #"Learn to build a cloud enabled 'Notes App' with Ionic 4 and AWS Amplify <br/><b>45 min to complete</b>"
-          url: '/js/ionic' 
+          url: '/js/ionic'
           icon: '/images/icons/Misc/Present.svg'
         - title: Vue
           excerpt: #"Learn to build a cloud enabled App with Vue.js and AWS Amplify <br/><b>45 min to complete</b>"
-          url: '/js/vue' 
+          url: '/js/vue'
           icon: '/images/icons/Misc/Present.svg'
     - category: Toolchain
       title: Toolchain
@@ -168,11 +423,11 @@ category_list:
           excerpt: User interface components
           url: '/js/ui'
           icon: '/images/icons/Misc/Present.svg'
-        - title: VS Code Extension 
+        - title: VS Code Extension
           excerpt: Code snippets for AWS Amplify in Visual Studio Code.
           cta: Read more
           class: aws-icon-ps-60-network-nodes
-          url_external: 'https://marketplace.visualstudio.com/items?itemName=aws-amplify.aws-amplify-vscode'   
+          url_external: 'https://marketplace.visualstudio.com/items?itemName=aws-amplify.aws-amplify-vscode'
           icon: '/images/icons/Misc/Present.svg'
         - title: GraphQL Transform
           excerpt: Transform simple GraphQL schema files into full application backends.
@@ -185,10 +440,10 @@ category_list:
       excerpt: Add cloud features to your app quickly using our toolchain and declarative APIs.
       base_url: '/js/analytics'
       subs:
-        - title: Analytics 
+        - title: Analytics
           excerpt: Drop-in analytics to track user sessions, custom user attributes, and in-app metrics.
           cta: Read more
-          class: aws-icon-ps-60-pie-bar-charts 
+          class: aws-icon-ps-60-pie-bar-charts
           url: '/js/analytics'
           icon: '/images/icons/Misc/Cloud.svg'
           services:
@@ -198,19 +453,19 @@ category_list:
               url: https://aws.amazon.com/kinesis/
             - title: Custom Plugin
               url: https://aws-amplify.github.io/amplify-js/media/analytics_guide#using-a-custom-plugin
-        - title: API 
+        - title: API
           excerpt: A simple and secure solution for making HTTP requests using REST and GraphQL, with support for real-time data.
           cta: Read more
           class: aws-icon-ps-60-database-server
-          url: '/js/api' 
-          icon: '/images/icons/Misc/Cloud.svg'   
-          services: 
+          url: '/js/api'
+          icon: '/images/icons/Misc/Cloud.svg'
+          services:
             - title: Amazon API Gateway,
               url: https://aws.amazon.com/api-gateway
             - title: AWS AppSync
               url: https://aws.amazon.com/appsync
         - title: Authentication
-          excerpt:  Authentication APIs with pre-built UI components for your app.  
+          excerpt:  Authentication APIs with pre-built UI components for your app.
           cta: Read more
           class: aws-icon-ps-60-shield-circle
           url: '/js/authentication'
@@ -221,17 +476,17 @@ category_list:
             - title: OAuth 2.0 ,
               url: https://aws.amazon.com/cognito/
             - title: Custom Plugin
-              url:  
-        - title: Interactions 
+              url:
+        - title: Interactions
           excerpt: Create conversational bots powered by deep learning technologies.
           cta: Read more
           class: aws-icon-ps-60-bubble-gear
-          url: '/js/interactions'   
+          url: '/js/interactions'
           icon: '/images/icons/Misc/Cloud.svg'
           services:
               - title: Amazon Lex
                 url: https://aws.amazon.com/lex/
-        - title: PubSub 
+        - title: PubSub
           excerpt: Connect your app to message-oriented middleware on the cloud.
           cta: Read more
           class: aws-icon-ps-60-circular-circuit
@@ -243,30 +498,30 @@ category_list:
               - title: Generic MQTT,
                 url: https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html#mqtt
               - title: Custom Plugin
-                url:  
-        - title: Push Notifications 
+                url:
+        - title: Push Notifications
           excerpt: Push notifications with campaign analytics and targeting.
           cta: Read more
           class: aws-icon-ps-60-device-message
-          url: '/js/push-notifications'   
+          url: '/js/push-notifications'
           icon: '/images/icons/Misc/Cloud.svg'
           services:
               - title: Amazon Pinpoint
                 url: https://aws.amazon.com/pinpoint/
-        - title: Storage 
+        - title: Storage
           excerpt: A simple mechanism for managing user content in public, protected or private storage.
           cta: Read more
           class: aws-icon-ps-60-file-box
-          url: '/js/storage'   
+          url: '/js/storage'
           icon: '/images/icons/Misc/Cloud.svg'
           services:
               - title: Amazon S3
                 url: https://aws.amazon.com/s3/
-        - title: XR 
+        - title: XR
           excerpt: Build AR/VR enabled web applications.
           cta: Read more
           class: aws-icon-ps-60-file-box
-          url: '/js/xr'   
+          url: '/js/xr'
           icon: '/images/icons/Misc/Cloud.svg'
           services:
               - title: Amazon S3
@@ -276,31 +531,31 @@ category_list:
       excerpt: Common programming utilities that you can use with your app.
       base_url: '/js/cache'
       subs:
-        - title: Service Worker 
-          excerpt: A utility class to work with PWA and Service Worker APIs. 
+        - title: Service Worker
+          excerpt: A utility class to work with PWA and Service Worker APIs.
           cta: Read more
-          url: '/js/service-workers'   
+          url: '/js/service-workers'
           icon: '/images/icons/Misc/Gear.svg'
-        - title: Cache 
-          excerpt: A generic LRU cache for storing data with priority and expiration settings. 
+        - title: Cache
+          excerpt: A generic LRU cache for storing data with priority and expiration settings.
           cta: Read more
-          url: '/js/cache'  
+          url: '/js/cache'
           icon: '/images/icons/Misc/Gear.svg'
-        - title: Hub  
+        - title: Hub
           excerpt: A lightweight local event bus for your app.
           cta: Read more
-          url: '/js/hub' 
+          url: '/js/hub'
           icon: '/images/icons/Misc/Gear.svg'
-        - title: I18n  
+        - title: I18n
           excerpt: A lightweight internationalization solution.
           cta: Read more
-          url: '/js/i18n'  
+          url: '/js/i18n'
           icon: '/images/icons/Misc/Gear.svg'
-        - title: Logger  
+        - title: Logger
           excerpt: Console logging utility.
           cta: Read more
-          url: '/js/logger'  
-          icon: '/images/icons/Misc/Gear.svg'   
+          url: '/js/logger'
+          icon: '/images/icons/Misc/Gear.svg'
 
 defaults:
   -
@@ -312,7 +567,7 @@ defaults:
 
 examples:
   - title: Web apps
-    url: 'web-apps' 
+    url: 'web-apps'
   - title: React Native apps
     url: 'react-native-apps'
   - title: Hybrid Mobile
@@ -345,3 +600,9 @@ js_libraries:
     url: '?platform=ionic'
   - title: JavaScript
     url: '?platform=purejs'
+
+android_languages:
+  - title: Java
+    url: '?platform=java'
+  - title: Kotlin
+    url: '?platform=kotlin'
