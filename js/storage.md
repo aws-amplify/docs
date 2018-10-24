@@ -377,7 +377,7 @@ You can also use the track property directly on [React components](#analytics-fo
 <img src="{%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/photo_picker_and_code.png" width="100%"/>
 
 Listen to `PhotoPicker` onPick event:
-```javascriptx
+```jsx
 import { PhotoPicker } from 'aws-amplify-react';
 
 render() {
@@ -387,13 +387,13 @@ render() {
 
 To display a preview, you can use `preview` directive:
 
-```javascriptx
+```jsx
 <PhotoPicker preview onLoad={dataURL => console.log(dataURL)} />
 ```
 
 You can retrieve the URL of the image by implementing `onLoad` action. In this case, you may also want to hide the preview:  
 
-```javascriptx
+```jsx
 <PhotoPicker preview="hidden" onLoad={dataURL => console.log(dataURL)} />
 ```
 
@@ -401,7 +401,7 @@ You can retrieve the URL of the image by implementing `onLoad` action. In this c
 
 `S3Image` component renders an *Amazon S3 object key* as an image:
 
-```javascriptx
+```jsx
 import { S3Image } from 'aws-amplify-react';
 
 render() {
@@ -411,13 +411,13 @@ render() {
 
 For private images, supply the `level` property:
 
-```javascriptx
+```jsx
 return <S3Image level="private" imgKey={key} />
 ```
 
 To initiate an upload, set the `body` property:
 
-```javascriptx
+```jsx
 import { S3Image } from 'aws-amplify-react';
 
 render() {
@@ -428,7 +428,7 @@ render() {
 
 To hide the image shown in the S3Image, set `hidden`:
 
-```javascriptx
+```jsx
 import { S3Image } from 'aws-amplify-react';
 
 render() {
@@ -440,7 +440,7 @@ render() {
 
 `S3Image` converts path to actual URL. To get the URL, listen to the `onLoad` event:
 
-```javascriptx
+```jsx
 <S3Image imgKey={key} onLoad={url => console.log(url)} />
 ```
 
@@ -448,19 +448,19 @@ render() {
 
 Set `picker` property to true on `S3Image`. A `PhotoPicker` let the user pick a picture from the device. After users picks an image, the image will be uploaded with `imgKey`.
 
-```javascriptx
+```jsx
 <S3Image imgKey={key} picker />
 ```
 
 When you set `path`, the *key* for the image will be the combination of `path` and image file name.
 
-```javascriptx
+```jsx
 <S3Image path={path} picker />
 ```
 
 To generate a custom key value, you can provide a callback:
 
-```javascriptx
+```jsx
 function fileToKey(data) {
     const { name, size, type } = data;
     return 'test_' + name;
@@ -483,7 +483,7 @@ function fileToKey(data) {
 
 <img src="{%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/S3Album_and_code.png" width="100%"/>
 
-```javascriptx
+```jsx
 import { S3Album } from 'aws-amplify-react';
 
 render() {
@@ -492,13 +492,13 @@ render() {
 
 For display private objects, supply the `level` property:
 
-```javascriptx
+```jsx
 return <S3Album level="private" path={path} />
 ```
 
 You can use `filter` property customize the path for your album:
 
-```javascriptx
+```jsx
 return (
     <S3Album
         level="private"
@@ -512,13 +512,13 @@ return (
 
 Set `picker` property to true on `S3Album`. A `Picker` let user select photos or text files from the device. The selected files will be automatically uploaded to the `path`. 
 
-```javascriptx
+```jsx
 <S3Album path={path} picker />
 ```
 
 By default, photo picker saves images on S3 with filename as the key. To have custom keys, you can provide a callback:
 
-```javascriptx
+```jsx
 function fileToKey(data) {
     const { name, size, type } = data;
     return 'test_' + name;
@@ -535,7 +535,7 @@ function fileToKey(data) {
 
 You can automatically track `Storage` operations on the following React components: `S3Album`, `S3Text`, `S3Image` by providing a `track` prop:
 
-```javascriptx
+```jsx
 return <S3Album track />
 ```
 
