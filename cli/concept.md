@@ -64,7 +64,7 @@ Click [here](plugins) for more details on how to author new plugins.
 ## CLI Commands
 
 ### Official CLI commands
-- `amplify categoires`
+- `amplify categories`
 - `amplify configure`
 - `amplify console`
 - `amplify delete`
