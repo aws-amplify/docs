@@ -522,3 +522,21 @@ AWSAppSyncClientConfiguration
 schema.json
 GraphQLOperations
 posts.graphql
+
+# android/how-to-android-sdk-setup.md
+aws-android-sdk-lex
+Rekognition
+
+# ios/analytics.md
+PutRecords
+NSData
+
+# ios/how-to-ios-sdk-setup.md
+CocoaPods
+DocSet
+
+# ios/how-to-transfer-files-with-transfer-utility.md
+AWSS3TransferUtility
+
+# Readme.md
+CircleCI
