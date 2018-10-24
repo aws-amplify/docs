@@ -96,7 +96,7 @@ Drag the `awsconfiguration.json` you created into the `res/raw` folder. Android 
 
 Android - Kotlin
 
-In the Android Studio Project Navigator, right-click your app's `res` folder, and then choose `New > Directory`. Type :userinput:`raw` as the directory name and then choose `OK`.
+In the Android Studio Project Navigator, right-click your app's `res` folder, and then choose `New > Directory`. Type `raw` as the directory name and then choose `OK`.
 
 ![Image](./media/add-aws-mobile-sdk-android-studio-res-raw.png)
 

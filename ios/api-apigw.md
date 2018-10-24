@@ -264,7 +264,7 @@ Use the following steps to add Cloud Logic to your app.
 
 5. Select all the files under `generated-src` folder of your application's root folder and add them to your project.
 
-6. Next, set the bridging header for Swift in your project settings. Double-click your project name in the Xcode Project Navigator, choose the Build Settings tab and search for  :guilabel:`Objective-C Bridging Header`. Enter `generated-src/Bridging_Header.h`
+6. Next, set the bridging header for Swift in your project settings. Double-click your project name in the Xcode Project Navigator, choose the Build Settings tab and search for  `Objective-C Bridging Header`. Enter `generated-src/Bridging_Header.h`
 
 	This is needed because the AWS generated code has some Objective-C code which requires bridging to be used for Swift.
 
