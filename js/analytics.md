@@ -213,7 +213,7 @@ Analytics.addPluggable(new AWSKinesisProvider());
 If you did not use the CLI, ensure you have <a href="https://docs.aws.amazon.com/streams/latest/dev/learning-kinesis-module-one-iam.html" target="_blank">setup IAM permissions</a> for `PutRecords`.
 
 Example IAM policy for Amazon Kinesis:
-```javascripton
+```json
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -464,6 +464,7 @@ Analytics.autoTrack('event', {
     //        myAttr: attr
     //    }
     // }
+});
 ```
 
 For example:

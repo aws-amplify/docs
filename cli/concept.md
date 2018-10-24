@@ -5,9 +5,9 @@
 The AWS Amplify CLI toolchain enables front-end developers to easily set up the backend resources in the cloud.
 It is designed to work with the [Amplify](https://github.com/aws-amplify/amplify-js) JavaScript library as well as the AWS Mobile SDKs for [iOS](https://github.com/aws/aws-sdk-ios/) and [Android](https://github.com/aws/aws-sdk-android). Resources in your AWS account that the Amplify CLI category commands create can be easily consumed by the corresponding Amplify library modules or native SDKs. <br/>
 The Amplify CLI is written in Node.js. It has a pluggable architecture and can be easily extended with additional functionalities.
-Click [here](new-plugin) for more details.
+Click [here](plugins) for more details.
 
-## Architecture
+## Overview
 ![](images/AmplifyCliConcept.jpg)
 ### CLI core and plugins
 The Amplify CLI uses <a href="https://github.com/infinitered/gluegun##readme" target="_blank">gluegun</a>. It is highly modularized.  <br/>
@@ -59,12 +59,12 @@ It's easy to add a third party plugin to the Amplify CLI.
 2. The plugin user executes `npm install -g <plugin>` and installs the plugin to the global node_modules directory.
 
 The plugin is then picked up by the CLI core and used the same as the official plugins. 
-Click [here](new-plugin) for more details on how to author new plugins. 
+Click [here](plugins) for more details on how to author new plugins. 
 
 ## CLI Commands
 
 ### Official CLI commands
-- `amplify categoires`
+- `amplify categories`
 - `amplify configure`
 - `amplify console`
 - `amplify delete`
