@@ -18,6 +18,7 @@ Authenticator
 aws-exports
 analytics
 backend
+cli
 callout
 callout--info
 dropdown
