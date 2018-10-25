@@ -417,7 +417,7 @@ class AddTodo extends Component {
   }
 
   handleChange(name, ev) {
-      this.setState({ [name], ev.target.value });
+      this.setState({ [name]: ev.target.value });
   }
 
   async submit() {
