@@ -3,9 +3,6 @@
 
 # Vue
 
-Vue.js support is currently in beta and installable via `aws-amplify-vue@beta` from npm.
-{: .callout .callout--info}
-
 The ```aws-amplify-vue``` package is a set of Vue components which integrates your Vue application with the AWS-Amplify library. The package supports Vue applications using version 2.5 or above, and was created using the Vue 3.0 CLI.
 
 ## Configuration 
@@ -13,8 +10,8 @@ The ```aws-amplify-vue``` package is a set of Vue components which integrates yo
 In your Vue app, install the following:
 
 ```bash
-npm i aws-amplify@beta 
-npm i aws-amplify-vue@beta
+npm i aws-amplify
+npm i aws-amplify-vue
 ```
 
 Then, alter main.js:
