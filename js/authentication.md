@@ -212,7 +212,7 @@ Either the phone number or the email address is required for account recovery. Y
 Auth.verifyCurrentUserAttributes(attr)
 .then(() => {
      console.log('a verification code is sent');
-}).catch(e) => {
+}).catch((e) => {
      console.log('failed with error', e);
 });
 
