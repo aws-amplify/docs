@@ -569,10 +569,38 @@ export default class App extends React.Component {
 You can provide custom components to the `Authenticator` as child components in React and React Native. 
 
 ```jsx
+import { Authenticator, SignUp, SignIn } from 'aws-amplify-react';
+
 <Authenticator hideDefault={true}>
   <SignIn />
-  <MyCustomSignUp />
+  <MyCustomSignUp override={SignUp}/> {/* to tell the Authenticator the SignUp component is not hidden but overrided */}
 </Authenticator>
+
+class MyCustomSignUp extends Component {
+  constructor() {
+    super();
+    this.gotoSignIn = this.gotoSignIn.bind(this);
+  }
+
+  gotoSignIn() {
+    // to switch the authState to 'signIn'
+    this.props.onStateChange('signIn',{});
+  }
+
+  render() {
+    return (
+      <div>
+        {/* only render this component when the authState is 'signUp' */}
+        { this.props.authState === 'signUp' && 
+        <div>
+          My Custom SignUp Component
+          <button onClick={this.gotoSignIn}>Goto SignIn</button>
+        </div>
+        }
+      </div>
+    );
+  }
+}
 ```
 
 You can render the custom component (or not) based on the injected `authState` within your component as well as jump to other states within your component.
