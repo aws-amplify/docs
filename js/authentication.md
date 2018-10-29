@@ -212,7 +212,7 @@ Either the phone number or the email address is required for account recovery. Y
 Auth.verifyCurrentUserAttributes(attr)
 .then(() => {
      console.log('a verification code is sent');
-}).catch(e) => {
+}).catch((e) => {
      console.log('failed with error', e);
 });
 
@@ -243,8 +243,11 @@ This method should be called after the Auth module is configured or the user is 
 `Auth.currentSession()` returns a `CognitoUserSession` object which contains JWT `accessToken`, `idToken`, and `refreshToken`.
 
 ```javascript
-let session = Auth.currentSession();
-// CognitoUserSession => { idToken, refreshToken, accessToken }
+import { Auth } from 'aws-amplify';
+
+Auth.currentSession()
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
 ```
 
 #### Managing Security Tokens
