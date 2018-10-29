@@ -32,7 +32,7 @@ Here is the sequence of the tutorial:
 - Part 2: [Working with Amplify CLI](#part-2-working-with-aws-mobile-cli)
 - Part 3: [Adding Authorization](#part-3-adding-analytics)
 - Part 4: [Enabling the Cloud Backend](#part-4-adding-authorization)
- 
+
 # Part 1: Create an Ionic 4 App
 
 This section will introduce Ionic basics and you will learn how to bootstrap a new Ionic app with the Ionic CLI. In subsequent parts of the tutorial, you will add cloud functionality to the application that you will create in this section.
@@ -45,7 +45,7 @@ The source code for this section of the tutorial can be found in *tutorial-part-
 Ionic is a web development framework that allows developers to create cross-platform applications that run on mobile platforms such as iOS and Android, on the desktop using Electron.js, or in the browser as a progressive web app. Ionic applications have the ‘look-and-feel’ of native apps and also offer the ability (via Apache Cordova plugins) to access mobile OS features such as cameras, contact lists, etc.
 
 Apache Cordova is an open source mobile development platform that runs web code (HTML, CSS, and JavaScript) in a WebView wrapped in a mobile app shell.  Since it is native code, it can be distributed on the app stores just like any other mobile app and presented as an app on mobile platforms.
- 
+
 ## Install the Ionic CLI and Create the Base Project
 
 The easiest way to create an Ionic 4 application is with the Ionic Command Line Interface (CLI). To install the Ionic CLI, run the following command in your terminal:
@@ -57,7 +57,7 @@ $ npm install -g ionic cordova
 After installation, navigate to a location where you wish to start your new project and execute:
 
 ```bash
-$ ionic start fancy-todos tabs --type=angular 
+$ ionic start fancy-todos tabs --type=angular
 ```
 Ionic CLI will prompt some questions for you:
 
@@ -69,7 +69,7 @@ If you want your application to run as an iOS or Android application as well as 
 
 To confirm that you're using the correct version of Ionic, navigate into the project directory and execute 'ionic info'. The Ionic Framework value should be greater than 4.
 {: .callout}
- 
+
 ## Angular Modules in Ionic
 
 Previous versions of Ionic made use of the Angular framework, and Ionic 4 is no exception. Modern versions of Angular provide a component-based architecture in which the application consists of components, which are in turn executed in the context of a module.
@@ -77,9 +77,9 @@ Previous versions of Ionic made use of the Angular framework, and Ionic 4 is no 
 Each component typically consists of an HTML template, a module file, a component file, an SCSS (SASS stylesheet) file and a SPEC file used for testing. This form of architecture encourages developers to write code that is relatively easy to understand, extend, and debug.
 
 In the ‘tabs’ Ionic starter that you've created, each of the three tabs is defined by its own module, which in turn consists of one component each.
- 
+
 If your application grows much larger, you can refactor it into multiple components per page. For example, in this tutorial, you will be adding a component to one of the modules which define the behavior and appearance of a modal dialog for adding and editing items.
- 
+
 ##  Create the ToDo model and UI
 
 In this section, you will replace the ‘About’ component that comes with the Ionic starter project with a ‘List’ component that holds the ToDo items created by the user.   The component you will create allows users to create or edit individual ToDo items with a modal. The user will also be able to delete items and mark items as complete by interacting with an item in the list.
@@ -88,9 +88,9 @@ To being this process, create a directory called *src/app/pages/list*.
 
 ### Define the data model
 
-First, create a new directory under *src/app* called `classes`.  Then copy the following code into a new file *src/app/classes/item.class.ts*, this will define the model for the ToDo list item. 
+First, create a new directory under *src/app* called `classes`.  Then copy the following code into a new file *src/app/classes/item.class.ts*, this will define the model for the ToDo list item.
 
-The base Ionic project uses TypeScript, which will later be compiled into JavaScript. 
+The base Ionic project uses TypeScript, which will later be compiled into JavaScript.
 {:  .callout .callout--info}
 
 ```javascript
@@ -111,7 +111,7 @@ export class ToDoItem {
   title: string;
   description: string;
   status: any;
-  
+
   constructor(params){
     this.id = uuid();
     this.title = params.title;
@@ -121,11 +121,11 @@ export class ToDoItem {
 }
 ```
 
-This file defines the data model for *ToDoList* and *ToDoItem*.  The list is a list of items, and each item has an ID, title, description, and status. 
+This file defines the data model for *ToDoList* and *ToDoItem*.  The list is a list of items, and each item has an ID, title, description, and status.
 
 ### Create a list component
 
-Create a new file as your list component under *src/app/pages/list/list.page.ts*. This file will define the functionality of the list component. 
+Create a new file as your list component under *src/app/pages/list/list.page.ts*. This file will define the functionality of the list component.
 
 ```javascript
 import { Component, OnInit, Input } from '@angular/core';
@@ -151,7 +151,7 @@ export class ListPage implements OnInit {
     events: Events
 
   ) {
-    
+
     // Listen for changes to the AuthState in order to change item list appropriately
     events.subscribe('data:AuthState', async (data) => {
       if (data.loggedIn){
@@ -239,9 +239,7 @@ The list component will list the todo items, so you need the related UI for that
 ```html
 <ion-header>
   <ion-toolbar>
-    <ion-title *ngIf="user">
-      {{user.username + '\'s list' }}
-    </ion-title>
+    <ion-title *ngIf="user">User</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="modify(null, null)">Add Item</ion-button>
     </ion-buttons>
@@ -367,7 +365,7 @@ export class AuthGuardService implements CanActivate {
       }
     })
   }
-  
+
   canActivate() {
     return this.signedIn;
   }
@@ -436,7 +434,7 @@ To trigger user authorization, you will need action buttons. Replace  *src/app/p
 
 ### Add auth service and list module to tabs module
 
-The tabs module will use your custom authorization module `AuthGuardService` to control the user interface. 
+The tabs module will use your custom authorization module `AuthGuardService` to control the user interface.
 
 **In *src/app/pages/tabs/tabs.module.ts* file:**
 
@@ -490,10 +488,10 @@ $ ionic cordova plugin add cordova-plugin-ionic-webview@2.0.0-beta.1
 ## Implementing CRUD functionality
 
 Our app at this stage is stale, so let's add some functionality! To add and edit to do items, you will utilize a modal control.  
- 
+
 ### Create a modal
 
-To create a modal, you need to implement a component  and a view for the component. 
+To create a modal, you need to implement a component  and a view for the component.
 
 First, create the file *src/app/pages/list/list.item.modal.ts* with the following code:
 
@@ -512,11 +510,11 @@ export class ListItemModal implements OnInit {
   editItem: ToDoItem;
   user: string;
   item: ToDoItem;
-  
+
   constructor(private modalController: ModalController) {}
 
   ngOnInit(){
-    /* 
+    /*
       If you pass in an 'editItem' property, then you create a copy to store changes to the existing item
       so that the original is not modified unless the user saves.
     */
@@ -526,7 +524,7 @@ export class ListItemModal implements OnInit {
   save() {
     this.modalController.dismiss({
       itemList: this.itemList,
-      /* 
+      /*
         You pass back either a newItem or editItem value depending on whether an edit operation is taking place
         so that the list module can decide whether to insert into the items array or splice into it.
       */
@@ -540,13 +538,13 @@ export class ListItemModal implements OnInit {
   }
 }
 ```
- 
+
 And then create the view file for the modal *src/app/pages/list/list.item.modal.html*:
 
 ```html
 <ion-header>
     <ion-toolbar>
-      <ion-title>{{editItem ? 'Edit' : 'Create'}} Item</ion-title>
+      <ion-title>Edit Item</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content>
@@ -591,11 +589,11 @@ Also, add `ListItemModal` in *declarations* and *entryComponents*;
 //...
 ```
 
-### Import the modal in your list page 
+### Import the modal in your list page
 
 To use your new modal in your list component, make the following changes in *src/app/pages/list/list.page.ts* file.
 
-Import the modal into your component: 
+Import the modal into your component:
 
 ```javascript
 import { ListItemModal } from './list.item.modal';
@@ -608,37 +606,37 @@ Now, run the app and check out the List page (as a logged-in user). Users should
 2.    Edit existing items by clicking a title
 3.    Mark items complete
 4.    Delete items
- 
+
 You’ve just created an Ionic 4 and Angular 6 project using the Ionic CLI!
 
 In the next step, you will be cloud-enabling your application using AWS.
 
 # Part 2: Working with Amplify CLI
 
-This section will introduce you to Amplify CLI and you'll learn how to create backend resources for your Ionic app. The Amplify CLI is a command line tool that allows you to generate AWS resources and connect them to your application quickly. 
+This section will introduce you to Amplify CLI and you'll learn how to create backend resources for your Ionic app. The Amplify CLI is a command line tool that allows you to generate AWS resources and connect them to your application quickly.
 
-## Install and Configure AWS Amplify 
+## Install and Configure AWS Amplify
 
 Before start, please be sure that you have installed the Amplify CLI and client libraries by visiting [AWS Amplify JavaScript Installation Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start?platform=angular&ref_url=/amplify-js/media/tutorials/building-ionic-4-apps&ref_content={{"Tutorial: Building Ionic 4 apps with AWS Amplify" | uri_escape }}&ref_content_section=creating-aws-resources-with-the-cli).
 {: .callout .callout--action}
 
 **When you are done with the installation**, you can continue with the next step in the tutorial.
 
-AWS Amplify will enable adding cloud features to your Ionic 4 app like authentication and user storage. 
+AWS Amplify will enable adding cloud features to your Ionic 4 app like authentication and user storage.
 
 ```bash
-$ npm install aws-amplify 
+$ npm install aws-amplify
 $ npm install aws-amplify-angular
 ```
 
 ## Creating AWS Resources with the CLI
- 
+
 Since we are using TypeScript, change the name of the aws-exports file to *aws-exports.ts*.
 {: .callout .callout--info}
 
 AWS resources for your application can be generated using:
 ```bash
-$ amplify add <feature> 
+$ amplify add <feature>
 ```
 
 When you update your backend configuration with the CLI, you can update your backend with `amplify push`.
@@ -657,7 +655,7 @@ Angular 6 has removed a shim for the global object used by many NPM modules, inc
 
 ### Adding Analytics to your Ionic app
 
-The AWS Amplify library provides a mechanism for your front-end application to interact with AWS cloud resources without you having to do the laborious work of configuring resources and coding for integration. 
+The AWS Amplify library provides a mechanism for your front-end application to interact with AWS cloud resources without you having to do the laborious work of configuring resources and coding for integration.
 
 AWS Amplify analytics category works with Amazon Pinpoint, a service that allows you to collect data about user actions in your app and create targeted campaigns.  
 
@@ -685,12 +683,12 @@ You’ve just given your application the ability to interact with an AWS resourc
 
 # Part 3: Adding Authorization
 
-In this section, you will create a signin/signup flow for your Ionic app. AWS Amplify makes this process very simple with Authentication category. AWS Amplify's Authentication category works with Amazon Cognito. 
+In this section, you will create a signin/signup flow for your Ionic app. AWS Amplify makes this process very simple with Authentication category. AWS Amplify's Authentication category works with Amazon Cognito.
 
 The source code for this section of the tutorial can be found in *tutorial-part-3* branch of the [project Github repo](https://github.com/aws-samples/aws-amplify-ionic-sample/tree/tutorial-part-3).
 {: .callout}
 
- 
+
 **What is Amazon Cognito?**
 
 Amazon Cognito is a cloud-based authentication service that helps you manage user access to your applications. The Amplify CLI and AWS-Amplify further help you in authentication by creating and connecting to these resources.
@@ -699,15 +697,15 @@ To enable authentication for your application, first execute the following comma
 ```bash
 $ amplify add auth
 ```
- 
+
 And then, run following command to update your app backend:
 ```bash
 $ amplify push
 ```
- 
-### Enable auth UI 
 
-Next, you need to make the AWS Amplify's authentication components available to your application. To do that, you need to import 
+### Enable auth UI
+
+Next, you need to make the AWS Amplify's authentication components available to your application. To do that, you need to import
 *AmplifyService*, *AmplifyAngularModule*  and *AmplifyIonicModule* (more on that in a moment) modules in your *home* module which is declared in *src/app/pages/home/home.module.ts*:
 
 ```javascript
@@ -746,7 +744,7 @@ In Part 1, you have placed dummy authentication buttons in the home component. T
 </ion-content>
 ```
 
-This component will render UI elements and provide functionality for user signup, signin, password recovery and multi-factor authentication. 
+This component will render UI elements and provide functionality for user signup, signin, password recovery and multi-factor authentication.
 
 ### Enable Styling
 
@@ -807,12 +805,12 @@ ionic serve
 ```
 Or, run your app in iOS emulator:
 ```bash
-ionic cordova run ios -l 
+ionic cordova run ios -l
 ```
 
 Once your application loads, click on the ‘Home’ tab, and you should see login/signup controls that use ionic-specific buttons and input fields.
 
-![](images/browser-login-screen.jpg) 
+![](images/browser-login-screen.jpg)
 
 Your app now authenticates users with Amazon Cognito, allowing you to control access to data and to access information about the user. Your users should now be able to sign-up and subsequently sign-in.
 
@@ -820,7 +818,7 @@ Your app now authenticates users with Amazon Cognito, allowing you to control ac
 
 By default, Multi-factor Authentication is enabled for you auth flow, which requires users to validate their phone number with an SMS message. You can change this by configuring your [Amazon Cognito User Pool](https://console.aws.amazon.com/cognito/home) settings.
 
-Please note that the phone numbers should be entered in the format of 
+Please note that the phone numbers should be entered in the format of
 "+<country-code><area-code><phone-number>".
 
 **Disabling Ionic UI**
@@ -833,8 +831,8 @@ Please note that the phone numbers should be entered in the format of
 
 After the application reloads, the login controls will have the simpler Angular look-and-feel, instead of Ionic UI:
 
-![](images/browser-login-screen-default.jpg) 
- 
+![](images/browser-login-screen-default.jpg)
+
 If you don’t want to use the Ionic versions of AWS Amplify's UI components, you do not need to import the *AmplifyIonicModule*.
 {: .callout .callout--info}
 
@@ -901,7 +899,7 @@ You are creating a table in a [NoSQL database](http://docs.aws.amazon.com/amazon
 4.  Choose `(No Sort Key)` as the sort key and then `no` to adding any more indexes, to keep the example simple.
 
     ```terminal
-    ? Please choose sort key for the table: 
+    ? Please choose sort key for the table:
       userId
       items
     ❯ (No Sort Key)
@@ -926,7 +924,7 @@ To access your NoSQL database, you will create an API that can be called from yo
     ```bash
     $ amplify add api
     ```
-    
+
     When prompted, provide friendly names for your resources and Choose `CRUD function for Amazon DynamoDB table` template to create your new API.
 
     ```terminal
@@ -947,7 +945,7 @@ To access your NoSQL database, you will create an API that can be called from yo
     ❯ ToDoItems
     ```
 
-4.  Push your configuration to the cloud. 
+4.  Push your configuration to the cloud.
 
     ```bash
     $ amplify push
@@ -992,7 +990,7 @@ export class ListPage implements OnInit {
     amplify: AmplifyService,
     events: Events
   ) {
-    
+
     this.amplifyService = amplify;
     // Listen for changes to the AuthState in order to change item list appropriately
     events.subscribe('data:AuthState', async (data) => {
@@ -1093,12 +1091,5 @@ You’ve added persisted your app's using Amazon DynamoDB, AWS Lambda, and AWS A
 
 ## What's next
 
-- Learn more about [AWS Amplify categories]({%if jekyll.environment == 'production'%}{{site.amplify.baseurl}}{%endif%}/js/start) to work with many cloud services to create your backend. 
--  Learn more about [API category]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/api) to work with REST and GraphQL endpoints. 
-
-
-
-
-
-
-
+- Learn more about [AWS Amplify categories]({%if jekyll.environment == 'production'%}{{site.amplify.baseurl}}{%endif%}/js/start) to work with many cloud services to create your backend.
+-  Learn more about [API category]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/api) to work with REST and GraphQL endpoints.

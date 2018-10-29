@@ -167,4 +167,4 @@ XR.enableAudio('scene1')
 
 ### API Reference
 
-For a complete XR reference visit the [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/xrclass.html)
+For a complete XR reference visit the [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/xr.html)
