@@ -1,86 +1,45 @@
 # Getting Started
 
-Get started building a cloud-powered iOS app using the AWS Amplify CLI and the AWS SDK for iOS. This page guides you through setting up an initial backend and integrating the SDK into your app.
+Build an iOS app using the AWS Amplify CLI and the AWS SDK for iOS. The Amplify CLI lets you quickly add backend features to your application so that you can focus on your application code. This page guides you through setting up an initial backend and integration into your app. 
 
-## Step 0: Set Up Your Development Environment
+## Prerequisites
 
-We strongly recommend that you use the Amplify CLI for building the serverless backend for your app. If you have already installed the CLI, skip ahead to [Step 2](./add-aws-mobile-sdk-basic-setup).
+[Install Xcode](https://developer.apple.com/xcode/downloads/) version 8.0 or later.
+
+Install the Amplify CLI. If you have already installed the CLI, skip ahead to [Step 2](./add-aws-mobile-sdk-basic-setup).
 
 *  [Sign up for an AWS Account](https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start).
 
-*  Install [Node.js](https://nodejs.org/) and npm (if they are not already installed).
+*  Install [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/get-npm) if they are not already installed.
 
-> Verify that you are running at least Node.js version 8.x or greater and npm version 5.x or greater by running :code:`node -v` and :code:`npm -v` in a terminal/console window. Older versions aren't supported and might generate errors.
+Verify that you are running at least Node.js version 8.11+ or greater and npm version 5.x or greater by running `node -v` and `npm -v` in a terminal/console window.
+{: .callout .callout--action}
 
 To install and configure the Amplify CLI globally, run the following commands in a terminal window.
+
+Install and configure the Amplify CLI.
 
 ```bash
 $ npm install -g @aws-amplify/cli
 $ amplify configure
 ```
 
-* Choose the iOS app project you want to integrate with an AWS backend.
-* [Install Xcode](https://developer.apple.com/xcode/downloads/) version 8.0 or later.
+Note: These commands will install the CLI globally. If you're using Windows, the CLI currently supports <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10" target="_blank">Windows Subsystem for Linux</a>.
+{: .callout .callout--action}
+
 
 ## Step 1: Create a new app
 
 Follow [these steps](https://developer.apple.com/library/archive/referencelibrary/GettingStarted/DevelopiOSAppsSwift/BuildABasicUI.html) to create an iOS application using Swift.
 
-## Step 2: Install amplify
+Install Cocoapods. From a terminal window navigate into your Xcode project's application directory and run the following:
 
 ```bash
-$ npm install --save aws-amplify
-```
-
-## Step 3: Set Up Your Backend
-
-1. The CLI prompts you for configuration parameters.
-
-	In a terminal window, navigate to your project folder (the folder that typically contains your project level `xcodeproj` file), and add the SDK to your app.
-
-```bash
-$ cd ./YOUR_PROJECT_FOLDER
-$ amplify init
-```
-
-2. To create your backend AWS resources and add a configuration file to your app, run the following:
-
-```bash
-$ amplify push
-```
-
-In the Finder, navigate to the folder containing your app `.xcodeproj` file. From there, drag :code:`awsconfiguration.json` to Xcode under the top Project Navigator folder (the folder name should match your Xcode project name). In the `Options` dialog box that appears, do the following:
-
-* Clear the `Copy items if needed` check box.
-* Choose `Create groups`, and then choose `Next`.
-
-3. To verify that the CLI is set up for your app, run the following command. The CLI displays a status table with no resources listed. As you add categories to your app, backend resources created for your app are listed in this table.
-
-```bash
-  $ amplify status
-  | Category | Resource name | Operation | Provider plugin |
-  | -------- | ------------- | --------- | --------------- |
-```
-
-   Use the steps in the next section to configure the connection between your app and the serverless backend.
-
-## Step 4: Connect to Your Backend
-
-Perform the following steps to set up a connection to AWS services that you'll use in the Get Started section of this guide.
-
-1. Install Cocoapods. From a terminal window run the following:
-
-```
 sudo gem install cocoapods
-```
-
-2. Create `Podfile`. From a terminal window, navigate to the directory that contains your project's `.xcodeproj` file and run the following:
-
-```
 pod init
 ```
 
-3. Open `Podfile` in a text editor and add the pod for core AWS Mobile SDK components to your build.
+Open the created  `Podfile` in a text editor and add the pod for core AWS Mobile SDK components to your build.
 
 ```
 platform :ios, '9.0'
@@ -92,32 +51,224 @@ target :'YOUR-APP-NAME' do
     # other pods
 end
 ```
-4. Install dependencies by running the following:
 
-```
+Install dependencies by running the following:
+
+```bash
 pod install --repo-update
 ```
 
- If you encounter an error message that begins `[!] Failed to connect to GitHub to update the CocoaPods/Specs . . .`, and your internet connectivity is working, you might need to [update openssl and Ruby](https://stackoverflow.com/questions/38993527/cocoapods-failed-to-connect-to-github-to-update-the-cocoapods-specs-specs-repo/48962041#48962041).
+Close your Xcode project and reopen it using `./YOUR-PROJECT-NAME.xcworkspace` file. Remember to always use `./YOUR-PROJECT-NAME.xcworkspace` to open your Xcode project from now on. **Build your Xcode project**.
 
-5. The command `pod install` creates a new workspace file. Close your Xcode project and reopen it using `./YOUR-PROJECT-NAME.xcworkspace`.
-	- Use **ONLY** your .xcworkspace
-	- Remember to always use `./YOUR-PROJECT-NAME.xcworkspace` to open your Xcode project from now on.
 
-6. Rebuild your app after reopening it in the workspace to resolve APIs from new libraries called in your code. This is a good practice any time you add import statements.
+## Step 2: Set Up Your Backend
 
-Your app is now ready for you to add cloud-powered features. We recommend [adding analytics](./analytics) as your first feature.
+Create new AWS backend resources and pull the AWS services configuration into the app. In a terminal window, navigate to your project folder (the folder that contains your `xcodeproj` file), and run the following command (for this app, accepting all defaults is OK):
 
-## Step 5: Initialize the SDK
+```bash
+$ cd ./YOUR_PROJECT_FOLDER
+$ amplify init        #accept defaults
+$ amplify push        #creates configuration file
+```
 
-## Step 6: Concepts (awsconfig, manual credentials)
+In the Finder, drag `awsconfiguration.json` into Xcode under the top Project Navigator folder (the folder name should match your Xcode project name). When the `Options` dialog box that appears, do the following:
+
+* Clear the `Copy items if needed` check box.
+* Choose `Create groups`, and then choose `Next`.
+
+## Step 3: How it Works
+
+Rather than configuring each service through a constructor or constants file, the AWS SDKs for iOS support configuration through a centralized file called `awsconfiguration.json` which defines all the regions and service endpoints to communicate. Whenever you run `amplify push`, this file is automatically created allowing you to focus on your Swift application code. On iOS projects the `awsconfiguration.json` will be placed into the root directory and you will need to add it to your XCode project.
+
+To verify that the CLI is set up for your app, run the following command.
+
+```bash
+  $ amplify status
+  | Category | Resource name | Operation | Provider plugin |
+  | -------- | ------------- | --------- | --------------- |
+```
+
+The CLI displays a status table with no resources listed. As you add feature categories to your app and run `amplify push`, backend resources created for your app are listed in this table.
+
+## Step 4: Add API and Database
+
+Add a GraphQL API to your app and automatically provision a database with the following command (accepting all defaults is OK):
+
+```bash
+$ amplify add api     #select GraphQL
+```
+
+The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on you can always change it. This process creates an AWS AppSync API and connects it to an Amazon DynamoDB database.
+
+Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults which generate a file named `API.swift`. Drag and drop this file from you `Finder` to the Xcode project and update your Podfile to include `AWSAppSync`:
+
+```bash
+target 'MyApp' do             ##Replace MyApp with your application name
+  use_frameworks!
+
+  pod 'AWSAppSync'
+
+end
+```
+
+Run `pod install` and **build your app**.
+
+## Step 5: Integrate into your app
+
+initialize the AppSync client inside your application delegate:
+
+```swift
+import AWSAppSync
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+   var appSyncClient: AWSAppSyncClient?
+
+   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+      //You can choose your database location
+      let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("database_name")
+        
+      do {
+        //AppSync configuration & client initialization
+        let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(),databaseURL: databaseURL)
+        appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+        } catch {
+            print("Error initializing appsync client. \(error)")
+        }
+        //other methods
+        return true
+}
+```
+
+Next, in your application code where you wish to use the AppSync client (like your View Controller) reference this in the `viewDidLoad()` lifecycle method:
+
+```swift
+import AWSAppSync
+
+class Todos: UIViewController{
+  //Reference AppSync client
+  var appSyncClient: AWSAppSyncClient?
+
+  override func viewDidLoad() {
+      super.viewDidLoad()
+      let appDelegate = UIApplication.shared.delegate as! AppDelegate
+      appSyncClient = appDelegate.appSyncClient
+  }
+}
+```
+
+You can now add data to your database with a mutation:
+
+```swift
+    func runMutation(){
+        let mutationInput = CreateTodoInput(name: "Use AppSync", description:"Realtime and Offline")
+        appSyncClient?.perform(mutation: CreateTodoMutation(input: mutationInput)) { (result, error) in
+            if let error = error as? AWSAppSyncClientError {
+                print("Error occurred: \(error.localizedDescription )")
+            }
+            if let resultError = result?.errors {
+                print("Error saving the item on server: \(resultError)")
+                return
+            }
+        }
+    }
+```
+
+Next, query the data:
+
+```swift
+    func runQuery(){
+        appSyncClient?.fetch(query: ListTodosQuery()) {(result, error) in
+            if error != nil {
+                print(error?.localizedDescription ?? "")
+                return
+            }
+            result?.data?.listTodos?.items!.forEach { print(($0?.name)! + " " + ($0?.description)!) }
+        }
+    }
+```
+
+You can also setup realtime subscriptions to data:
+
+```swift
+    var discard: Cancellable?
+
+    func subscribe() {
+        do {
+            discard = try appSyncClient?.subscribe(subscription: OnCreateTodoSubscription(), resultHandler: { (result, transaction, error) in
+                if let result = result {
+                    print(result.data!.onCreateTodo!.name + " " + result.data!.onCreateTodo!.description!)
+                } else if let error = error {
+                    print(error.localizedDescription)
+                }
+            })
+        } catch {
+            print("Error starting subscription.")
+        }
+    }
+```
+
+Call the `runMutation()`, `runQuery()`, and `subscribe()` methods from your app code, such as from a button click or when your app starts in `viewDidLoad()`. You will see data being stored and retrieved in your backend from the Xcode console.
 
 ## Next Steps
 
-* [Add Analytics](./analytics)
-* [Add User Sign-in](./authentication)
-* [Add Push Notification](./push-notifications)
-* [Add User File Storage](./storage)
-* [Add Serverless Backend](./api)
-* [Add Cloud Logic](./api)
-* [Add Messaging](./messaging)
+🎉 Congratulations! Your app is built, with a realtime backend using AWS AppSync.
+
+What next? Here are some things to add to your app:
+
+* [Analytics](./analytics)
+* [Authentication](./authentication)
+* [Push Notification](./push-notifications)
+* [User File Storage](./storage)
+* [Serverless APIs](./api)
+* [Messaging](./messaging)
+
+**Existing AWS Resources**
+
+If you want to use your existing AWS resources with your app you will need to **manually configure** your app with an `awsconfiguration.json` file in your code. For example, if you were using Amazon Cognito Identity, Cognito User Pools, AWS AppSync, or Amazon S3:
+
+```xml
+{
+    "CredentialsProvider": {
+        "CognitoIdentity": {
+            "Default": {
+                "PoolId": "XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab",
+                "Region": "XX-XXXX-X"
+            }
+        }
+    },
+    "CognitoUserPool": {
+        "Default": {
+            "PoolId": "XX-XXXX-X_abcd1234",
+            "AppClientId": "XXXXXXXX",
+            "AppClientSecret": "XXXXXXXXX",
+            "Region": "XX-XXXX-X"
+        }
+    },
+    "AppSync": {
+        "Default": {
+            "ApiUrl": "https://XXXXXX.appsync-api.XX-XXXX-X.amazonaws.com/graphql",
+            "Region": "XX-XXXX-X",
+            "AuthMode": "AMAZON_COGNITO_USER_POOLS"
+        }
+    },
+    "S3TransferUtility": {
+        "Default": {
+            "Bucket": "BUCKET_NAME",
+            "Region": "XX-XXXX-X"
+        }
+    }
+}
+```
+
+In the configuration above, you would need to set the appropriate values such as `Region`, `Bucket`, etc.
+
+**AWS SDK Interfaces**
+
+For working with other AWS services you can use service interface objects directly via the generated SDK clients. 
+
+To work with service interface objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
+{: .callout .callout--warning}
+
+You can call methods on any AWS Service interface object supported by the AWS iOS SDK by passing your credentials from the AWSMobileClient to the service call constructor. See [Manual SDK Setup](./manualsetup) for more information.
