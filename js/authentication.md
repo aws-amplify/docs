@@ -225,6 +225,36 @@ Auth.verifyCurrentUserAttributeSubmit(attr, 'the_verification_code')
 });
 ```
 
+#### Set Session Manually
+
+You can manually set the user session by:
+```js
+import Auth, {
+    AWSCognitoProvider, 
+    GoogleProvider,
+    FacebookProvider,
+    AmazonProvider,
+    DeveloperProvider,
+    GenericProvider
+} from '@aws-amplify/auth';
+
+const { session, user, credentials } = await Auth.setSession({
+    username: 'Alice',       // Required, user name
+    attributes: {            // Optional, user attributes
+        email: 'alice@gmail.com',
+        phone_number: '123-456-7890'
+    },
+    tokens: {                 // either id token or access token should be provided
+        idToken: 'xxxxxxx',  // Optional, the id token
+        accessToken: 'xxxxxxx', // Optional, the access token
+        refreshToken: 'xxxxxxx', // Optional, the refresh token
+        expires_at: 1540857110755, // Required, the timestamp when the token expires
+    },
+    provider: AWSCognitoProvider.NAME, // Required, the name of the token provider
+    identityId: 'xxxxxxxx', // Optional, specify the identity id from the Cognito Federated Identity Pool
+});
+```
+
 #### Retrieve Current Authenticated User
 
 You can call `Auth.currentAuthenticatedUser()` to get the current authenticated user object.
