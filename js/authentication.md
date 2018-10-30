@@ -244,7 +244,7 @@ const { session, user, credentials } = await Auth.setSession({
         email: 'alice@gmail.com',
         phone_number: '123-456-7890'
     },
-    tokens: {                 // either id token or access token should be provided
+    tokens: {                 // Either id token or access token should be provided
         idToken: 'xxxxxxx',  // Optional, the id token
         accessToken: 'xxxxxxx', // Optional, the access token
         refreshToken: 'xxxxxxx', // Optional, the refresh token
@@ -252,6 +252,23 @@ const { session, user, credentials } = await Auth.setSession({
     },
     provider: AWSCognitoProvider.NAME, // Required, the name of the token provider
     identityId: 'xxxxxxxx', // Optional, specify the identity id from the Cognito Federated Identity Pool
+    refreshHandlers: () => {
+        // Optional, to refresh the token here and get the new token info
+        // ......
+
+        return new Promise(res, rej => {
+            const data = {
+                token, // the token from the provider, which is used to get the credentials
+                expires_at, // the timestamp for the expiration
+                identity_id, // optional, the identityId for the credentials
+            }
+            res(data);
+        });
+    },
+    errorHandler: (e) => {
+        // Optional, handle the error when getting credentials from Cognito Federated Identity Pool
+    },
+    credentialsDomain: 'www.example.com' // Optional, the domain used to get the credentials
 });
 ```
 
