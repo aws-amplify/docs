@@ -290,7 +290,7 @@ const todoDetails = {
     description: 'Learn AWS AppSync'
 };
 
-const newTodo = await API.graphql(graphqlOperation(mutations.createTodo, todoDetails));
+const newTodo = await API.graphql(graphqlOperation(mutations.createTodo, {input: todoDetails}));
 console.log(newTodo);
 ```
 
@@ -306,7 +306,7 @@ import * as subscriptions from './graphql/subscriptions';
 const subscription = API.graphql(
     graphqlOperation(subscriptions.onCreateTodo)
 ).subscribe({
-    next: (todoData) => console.log(eventData)
+    next: (todoData) => console.log(todoData)
 });
 
 // Stop receiving data updates from the subscription
@@ -417,7 +417,7 @@ class AddTodo extends Component {
   }
 
   handleChange(name, ev) {
-      this.setState({ [name], ev.target.value });
+      this.setState({ [name]: ev.target.value });
   }
 
   async submit() {
@@ -553,8 +553,8 @@ Amplify.configure({
         region: 'XX-XXXX-X', 
         // OPTIONAL - Amazon Cognito User Pool ID
         userPoolId: 'XX-XXXX-X_abcd1234', 
-        // OPTIONAL - Amazon Cognito Web Client ID
-        userPoolWebClientId: 'XX-XXXX-X_abcd1234',
+        // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
+        userPoolWebClientId: 'a1b2c3d4e5f6g7h8i9j0k1l2m3',
     },
     API: {
         endpoints: [
