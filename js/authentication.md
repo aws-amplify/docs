@@ -583,7 +583,7 @@ Auth.federatedSignIn({
 });
 ```
 
-Step3. Now you can get the current user and current Credentials:
+Step 3. Now you can get the current user and current Credentials:
 ```js
 Auth.currentAuthenticatedUser().then(user => console.log(user));
 Auth.currentCredentials().then(creds => console.log(creds));
@@ -591,7 +591,7 @@ Auth.currentCredentials().then(creds => console.log(creds));
 // Unfortunately Auth.currentSession() doesn't support federated identities for now. Please store the auth0 session info manually.
 ```
 
-Step4. If you want the credentials not to get expired, you can pass a refresh handler to the Auth module to refresh the id token from `Auth0`:
+Step 4. If you want the credentials not to get expired, you can pass a refresh handler to the Auth module to refresh the id token from `Auth0`:
 ```js
 function refreshToken() {
     // refresh the token here and get the new token info

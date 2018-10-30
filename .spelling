@@ -14,6 +14,7 @@ AmplifyIonicModule
 AmplifyService
 AmplifyEventBus
 AmplifyPlugin
+Auth0
 Authenticator
 aws-exports
 analytics
