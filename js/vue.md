@@ -182,7 +182,7 @@ Config:
 Events: 
 
 * ```AmplifyEventBus.$emit('authState', 'confirmSignUp')```: Emitted when a user successfully enters their information but has not yet completed a required verification step.
-* ```AmplifyEventBus.$emit('authState', 'signedOut')```: Emitted when a user successfully provides their information and does not need to complete a required verfication step, or when they click 'Back to Sign In'.
+* ```AmplifyEventBus.$emit('authState', 'signedOut')```: Emitted when a user successfully provides their information and does not need to complete a required verification step, or when they click 'Back to Sign In'.
 
 
 ### ConfirmSignUp
@@ -196,10 +196,10 @@ Config:
 <amplify-sign-in v-bind:confirmSignUpConfig="confirmSignUpConfig"></amplify-sign-in>
 ```
 
-| Attribute | Type   | Description                               | Default           | Required |
-|-----------|--------|-------------------------------------------|-------------------|----------|
-| header    | string | the component header                      | 'Confirm Sign Up' | no       |
-| username  | string | the username of the user who is signingup | ''                | no       |
+| Attribute | Type   | Description                                | Default           | Required |
+|-----------|--------|--------------------------------------------|-------------------|----------|
+| header    | string | the component header                       | 'Confirm Sign Up' | no       |
+| username  | string | the username of the user who is signing up | ''                | no       |
 
 
 Events: 
@@ -270,7 +270,7 @@ Events: None
 
 ### SignUp Fields
 
-The `aws-amplify-vue` SignUp component allows you to programatically define the user input fields that are displayed to the user. Information entered into these fields will populate the user's record in your User Pool.
+The `aws-amplify-vue` SignUp component allows you to programmatically define the user input fields that are displayed to the user. Information entered into these fields will populate the user's record in your User Pool.
 
 Usage: 
 
@@ -524,7 +524,7 @@ Config:
 | botTitle      | string  | the name of the chatbot component in your frontend app                                        | 'Chatbot' | no       |
 
 
-If not in your aws.exports file, the bot can also be defined in the AWS configure method:
+If not in your aws-exports file, the bot can also be defined in the AWS configure method:
 ```
  Interactions: {
     bots: {
