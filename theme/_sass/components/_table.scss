@@ -1,21 +1,21 @@
-table { 
+.doc-table { 
 	width: 750px; 
 	border-collapse: collapse; 
 	margin:50px auto;
-	}
+}
 
 /* Zebra striping */
-tr:nth-of-type(odd) { 
+.table-doc > tr:nth-of-type(odd) { 
 	background: #eee; 
 	}
 
-th { 
+.table-doc > th { 
 	background: #3498db; 
 	color: white; 
 	font-weight: bold; 
 	}
 
-td, th { 
+.table-doc > td, th { 
 	padding: 10px; 
 	border: 1px solid #ccc; 
 	text-align: left; 
