@@ -2,26 +2,25 @@
 	width: 750px; 
 	border-collapse: collapse; 
 	margin:50px auto;
-}
+	}
 
 /* Zebra striping */
-.table-doc > tr:nth-of-type(odd) { 
+.doc-tr:nth-of-type(odd) { 
 	background: #eee; 
 	}
 
-.table-doc > th { 
+.doc-th { 
 	background: #3498db; 
 	color: white; 
 	font-weight: bold; 
 	}
 
-.table-doc > td, th { 
+.doc-td, .doc-th { 
 	padding: 10px; 
 	border: 1px solid #ccc; 
 	text-align: left; 
 	font-size: 18px;
-  }
-
+	}
 
 /* 
 Max width before this PARTICULAR table gets nasty
@@ -33,25 +32,24 @@ only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px)  {
 
 	.doc-table { 
-      width: 100%; 
-      display: block;
+	  	width: 100%; 
 	}
 
 	/* Force table to not be like tables anymore */
-	.doc-table > thead, tbody, th, td, tr { 
+	.doc-table, .doc-thead, .doc-tbody, .doc-th, .doc-td, .doc-tr { 
 		display: block; 
 	}
 	
 	/* Hide table headers (but not display: none;, for accessibility) */
-	.doc-table > thead tr { 
+	.doc-thead .doc-tr { 
 		position: absolute;
 		top: -9999px;
 		left: -9999px;
 	}
 	
-	.doc-table > tr { border: 1px solid #ccc; }
+	.doc-tr { border: 1px solid #ccc; }
 	
-	.doc-table > td { 
+  .doc-td { 
 		/* Behave  like a "row" */
 		border: none;
 		border-bottom: 1px solid #eee; 
@@ -59,7 +57,7 @@ only screen and (max-width: 760px),
 		padding-left: 50%; 
 	}
 
-	.doc-table > td:before { 
+	.doc-td:before { 
 		/* Now like a table header */
 		position: absolute;
 		/* Top/left values mimic padding */
