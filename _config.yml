@@ -599,3 +599,8 @@ android_languages:
     url: '?platform=java'
   - title: Kotlin
     url: '?platform=kotlin'
+
+collections_dir: doc_collections
+
+collections:
+  - signUpFields
