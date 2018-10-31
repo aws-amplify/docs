@@ -6,7 +6,7 @@
 
 The ```aws-amplify-vue``` package is a set of Vue components which integrates your Vue application with the AWS-Amplify library. The package supports Vue applications using version 2.5 or above, and was created using the Vue 3.0 CLI.
 
-{% include_relative test.md %}
+{% include test.html %}
 
 ## Configuration 
 
