@@ -11,3 +11,5 @@
 By default the SignUp Component will display Username, Password, Email and Phone Number fields (all required, and in that order).  You can override the labels, displayOrder or 'required' values for these fields by passing objects with 'username', 'password', 'email' or 'phone_number' keys in the signUpConfig.signUpFields array.
 
 Fields passed into the signUpFields array without a displayOrder value will be placed after those fields with defined displayOrder values and in alphabetical order by key.
+
+{% includes table.html %}
