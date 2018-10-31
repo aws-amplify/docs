@@ -55,7 +55,7 @@ If you are creating your AppSync API using the Amplify CLI, see [Native developm
 ### Import SDK and Config
 To use AppSync in your XCode project, modify your Podfile with a dependency of the AWS AppSync SDK as follows:
 
-```
+```ruby
 target 'PostsApp' do
     use_frameworks!
     pod 'AWSAppSync', ' ~> 2.6.20'
@@ -494,11 +494,11 @@ Use the following steps to add Cloud Logic to your app.
 	  use_frameworks!
 
 	     # For auth
-	     pod 'AWSAuthCore', '~> 2.6.13'
-	     pod 'AWSMobileClient', '~> 2.6.13'
+	     pod 'AWSAuthCore', '~> 2.6.33'
+	     pod 'AWSMobileClient', '~> 2.6.33'
 
 	     # For API
-	     pod 'AWSAPIGateway', '~> 2.6.13'
+	     pod 'AWSAPIGateway', '~> 2.6.33'
 
 	     # other pods
 

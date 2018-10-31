@@ -109,7 +109,7 @@ Since you added an API the `amplify push` process will automatically prompt you 
 
 Next, modify your **Podfile** with a dependency of the AWS AppSync SDK:
 
-```bash
+```ruby
 target 'PostsApp' do
   use_frameworks!
   pod 'AWSAppSync', ' ~> 2.6.20'

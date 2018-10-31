@@ -134,4 +134,4 @@ Perform the following tasks to implement voice interaction with Amazon Lex in yo
 
 Add a voice UIView into your storyboard scene or xib file, add a voice button (the UI element that enables users to speak to Amazon Lex). Map the voice button to the SDK button component by setting the `class` for the voice UIView to `AWSLexVoiceButton` as illustrated in the following image.
 
-![Image](./media/conversational-bots-voice-ui.png)
+![Image](./images/conversational-bots-voice-ui.png)

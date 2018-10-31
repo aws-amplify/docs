@@ -26,22 +26,24 @@ Importing the SDK in multiple ways loads duplicate copies of the SDK into the pr
 CocoaPods
 1. The AWS Mobile SDK for iOS is available through [CocoaPods](http://cocoapods.org/). Install CocoaPods by running the following commands from the folder containing your projects `*.xcodeproj` file.
 
-    $ `gem install cocoapods`
+    ```bash
+    $ gem install cocoapods
+    ```
 
-       Depending on your system settings, you may need to run the command as administrator using `sudo`, as follows:
+    Depending on your system settings, you may need to run the command as administrator using `sudo`, as follows:
 
-    $ `sudo gem install cocoapods`
+    ```bash
+    $ sudo gem install cocoapods
+    $ pod setup
+    $ pod init
+    ```
 
-    $ `pod setup`
+2. In your project directory (the directory where your `*.xcodeproj` file is), open the empty text file named `Podfile` (without a file extension) and add the following lines to the file. Replace `myAppName` with your app name. You can also remove pods for services that you don't use. For example, if you don't use `AWSAutoScaling`, remove or do not include the `AWSAutoScaling` pod.
 
-    $ `pod init`
-
-2. In your project directory (the directory where your `*.xcodeproj` file is), open the empty text file named `Podfile` (without a file extension) and add the following lines to the file. Replace ``myAppName`` with your app name. You can also remove pods for services that you don't use. For example, if you don't use `AWSAutoScaling`, remove or do not include the ``AWSAutoScaling`` pod.
-
-```javascript
+    ```ruby
     source 'https://github.com/CocoaPods/Specs.git'
 
-    platform :ios, '8.0'
+    platform :ios, '9.0'
     use_frameworks!
 
     target :'YOUR-APP-NAME' do
@@ -79,15 +81,17 @@ CocoaPods
         pod 'AWSSimpleDB'
         pod 'AWSUserPoolsSignIn'
     end
-```
+    ```
 
 3. Run the following command:
 
-    $ `pod install`
+    ```bash
+    $ pod install
+    ```
 
 4. Open `*.xcworkspace` with Xcode, rebuild your app, and start using the SDK.
 
-      Once you have created a workspace, always use `*.xcworkspace` to open the project instead of `*.xcodeproj`.
+    Once you have created a workspace, always use `*.xcworkspace` to open the project instead of `*.xcodeproj`.
 
 5. Rebuild your app after reopening it in the workspace to resolve APIs from new libraries called in your code. This is a good practice any time you add import statements.
 
@@ -95,188 +99,185 @@ CocoaPods
 Carthage
 1. Install the latest version of [Carthage](https://github.com/Carthage/Carthage#installing-carthage).
 
-2. Add the following to your `Cartfile`::
+2. Add the following to your `Cartfile`:
 
+    ```
     github "aws/aws-sdk-ios"
+    ```
 
 3. Run the following command:
 
-    $ `carthage update`
+    ```bash
+    $ carthage update
+    ```
 
 4. With your project open in Xcode, choose your **Target**. In the **General** tab, find **Embedded Binaries**,  then choose the **+** button.
 
 5. Choose the **Add Other** button, navigate to the ``AWS<#ServiceName#>.framework`` files under **Carthage** > **Build** > **iOS** and select ``AWSCore.framework`` and the other service frameworks you require. Do not select the **Destination: Copy items if needed** check box when prompted.
 
-    * :code:`AWSAuth`
-    * :code:`AWSAuthCore`
-    * :code:`AWSAuthUI`
-    * :code:`AWSAutoScaling`
-    * :code:`AWSCloudWatch`
-    * :code:`AWSCognito`
-    * :code:`AWSCognitoAuth`
-    * :code:`AWSCognitoIdentityProvider`
-    * :code:`AWSCognitoIdentityProviderASF`
-    * :code:`AWSCore`
-    * :code:`AWSDynamoDB`
-    * :code:`AWSEC2`
-    * :code:`AWSElasticLoadBalancing`
-    * :code:`AWSFacebookSignIn`
-    * :code:`AWSGoogleSignIn`
-    * :code:`AWSIoT`
-    * :code:`AWSKMS`
-    * :code:`AWSKinesis`
-    * :code:`AWSLambda`
-    * :code:`AWSLex`
-    * :code:`AWSLogs`
-    * :code:`AWSMachineLearning`
-    * :code:`AWSMobileAnalytics`
-    * :code:`AWSMobileClient`
-    * :code:`AWSPinpoint`
-    * :code:`AWSPolly`
-    * :code:`AWSRekognition`
-    * :code:`AWSS3`
-    * :code:`AWSSES`
-    * :code:`AWSSNS`
-    * :code:`AWSSQS`
-    * :code:`AWSSimpleDB`
-    * :code:`AWSUserPoolsSignIn`
+    * `AWSAuth`
+    * `AWSAuthCore`
+    * `AWSAuthUI`
+    * `AWSAutoScaling`
+    * `AWSCloudWatch`
+    * `AWSCognito`
+    * `AWSCognitoAuth`
+    * `AWSCognitoIdentityProvider`
+    * `AWSCognitoIdentityProviderASF`
+    * `AWSCore`
+    * `AWSDynamoDB`
+    * `AWSEC2`
+    * `AWSElasticLoadBalancing`
+    * `AWSFacebookSignIn`
+    * `AWSGoogleSignIn`
+    * `AWSIoT`
+    * `AWSKMS`
+    * `AWSKinesis`
+    * `AWSLambda`
+    * `AWSLex`
+    * `AWSLogs`
+    * `AWSMachineLearning`
+    * `AWSMobileAnalytics`
+    * `AWSMobileClient`
+    * `AWSPinpoint`
+    * `AWSPolly`
+    * `AWSRekognition`
+    * `AWSS3`
+    * `AWSSES`
+    * `AWSSNS`
+    * `AWSSQS`
+    * `AWSSimpleDB`
+    * `AWSUserPoolsSignIn`
 
 6. Under the **Build Phases** tab in your **Target**, choose the **+** button on the top left and then select **New Run Script Phase**.
 
 7. Setup the build phase as follows. Make sure this phase is below the **Embed Frameworks** phase.
 
-    ```bash
-    Shell /bin/sh
-
-    bash "${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework/strip-frameworks.sh"
-
-    Show environment variables in build log: Checked
-    Run script only when installing: Not checked
-
-    Input Files: Empty
-    Output Files: Empty
-    ```
+    * **Shell**: `/bin/sh`
+        ```bash
+        "${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework/strip-frameworks.sh"
+        ```
+    * **Show environment variables in build log**: Checked
+    * **Run script only when installing**: Not checked
+    * **Input Files**: Empty
+    * **Output Files**: Empty
 
 Frameworks
 1. Download the SDK from http://aws.amazon.com/mobile/sdk. The SDK is stored in a compressed
-   file archive named `aws-ios-sdk-#.#.#`, where '#.#.#' represents the version number. For version
-   2.5.0, the filename is `aws-ios-sdk-2.5.0`.
-
+file archive named `aws-ios-sdk-#.#.#`, where '#.#.#' represents the version number. E.g. for version 2.5.0, the filename is `aws-ios-sdk-2.5.0`.
 
 2. With your project open in Xcode, choose your **Target**. Under the **General** tab, find
    **Embedded Binaries** and then choose the **+** button.
 
-3. Choose **Add Other**. Navigate to the ``AWS<#ServiceName#>.framework`` files
-   and select ``AWSCore.framework`` and the other service frameworks you require. Select
-   the **Destination: Copy items if needed** check box when prompted.
+3. Choose **Add Other**. Navigate to the ``AWS<#ServiceName#>.framework`` files and select ``AWSCore.framework`` and the other service frameworks you require. Select the **Destination: Copy items if needed** check box when prompted.
 
-    * :code:`AWSAuth`
-    * :code:`AWSAuthCore`
-    * :code:`AWSAuthUI`
-    * :code:`AWSAutoScaling`
-    * :code:`AWSCloudWatch`
-    * :code:`AWSCognito`
-    * :code:`AWSCognitoAuth`
-    * :code:`AWSCognitoIdentityProvider`
-    * :code:`AWSCognitoIdentityProviderASF`
-    * :code:`AWSCore`
-    * :code:`AWSDynamoDB`
-    * :code:`AWSEC2`
-    * :code:`AWSElasticLoadBalancing`
-    * :code:`AWSFacebookSignIn`
-    * :code:`AWSGoogleSignIn`
-    * :code:`AWSIoT`
-    * :code:`AWSKMS`
-    * :code:`AWSKinesis`
-    * :code:`AWSLambda`
-    * :code:`AWSLex`
-    * :code:`AWSLogs`
-    * :code:`AWSMachineLearning`
-    * :code:`AWSMobileAnalytics`
-    * :code:`AWSMobileClient`
-    * :code:`AWSPinpoint`
-    * :code:`AWSPolly`
-    * :code:`AWSRekognition`
-    * :code:`AWSS3`
-    * :code:`AWSSES`
-    * :code:`AWSSNS`
-    * :code:`AWSSQS`
-    * :code:`AWSSimpleDB`
-    * :code:`AWSUserPoolsSignIn`
+    * `AWSAuth`
+    * `AWSAuthCore`
+    * `AWSAuthUI`
+    * `AWSAutoScaling`
+    * `AWSCloudWatch`
+    * `AWSCognito`
+    * `AWSCognitoAuth`
+    * `AWSCognitoIdentityProvider`
+    * `AWSCognitoIdentityProviderASF`
+    * `AWSCore`
+    * `AWSDynamoDB`
+    * `AWSEC2`
+    * `AWSElasticLoadBalancing`
+    * `AWSFacebookSignIn`
+    * `AWSGoogleSignIn`
+    * `AWSIoT`
+    * `AWSKMS`
+    * `AWSKinesis`
+    * `AWSLambda`
+    * `AWSLex`
+    * `AWSLogs`
+    * `AWSMachineLearning`
+    * `AWSMobileAnalytics`
+    * `AWSMobileClient`
+    * `AWSPinpoint`
+    * `AWSPolly`
+    * `AWSRekognition`
+    * `AWSS3`
+    * `AWSSES`
+    * `AWSSNS`
+    * `AWSSQS`
+    * `AWSSimpleDB`
+    * `AWSUserPoolsSignIn`
 
 4. Under the **Build Phases** tab in your **Target**, click the **+** button on the top left and then select **New Run Script Phase**.
 
 5. Setup the build phase as follows. Make sure this phase is below the `Embed Frameworks` phase.
 
-```bash
-        Shell /bin/sh
-
-        bash "${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework/strip-frameworks.sh"
-
-        Show environment variables in build log: Checked
-        Run script only when installing: Not checked
-
-        Input Files: Empty
-        Output Files: Empty
-```
+    * **Shell**: `/bin/sh`
+        ```bash
+        "${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework/strip-frameworks.sh"
+        ```
+    * **Show environment variables in build log**: Checked
+    * **Run script only when installing**: Not checked
+    * **Input Files**: Empty
+    * **Output Files**: Empty
 
 ### Update the SDK to a Newer Version
 
 This section describes how to pick up changes when a new SDK is released.
 
-CocoaPods
+#### CocoaPods
 
 Run the following command in your project directory. CocoaPods automatically picks up the changes.
 
-  `$ pod update`
+```bash
+pod update
+```
 
-    If your pod update command fails, delete `Podfile.lock` and `Pods/`
-    and then run `pod install` to cleanly install the SDK.
+If your pod update command fails, delete `Podfile.lock` and `Pods/`
+and then run `pod install` to cleanly install the SDK.
 
-Carthage
+#### Carthage
 
-Run the following command in your project directory. Carthage automatically updates
-your frameworks with the new changes.
+Run the following command in your project directory. Carthage automatically updates your frameworks with the new changes.
 
-  `$ carthage update`
+```bash
+$ carthage update
+```
 
-Frameworks
+#### Frameworks
 
 1. In Xcode select the following frameworks in **Project Navigator** and press the **delete** key. Then select **Move to Trash**:
 
-    * :code:`AWSAuth`
-    * :code:`AWSAuthCore`
-    * :code:`AWSAuthUI`
-    * :code:`AWSAutoScaling`
-    * :code:`AWSCloudWatch`
-    * :code:`AWSCognito`
-    * :code:`AWSCognitoAuth`
-    * :code:`AWSCognitoIdentityProvider`
-    * :code:`AWSCognitoIdentityProviderASF`
-    * :code:`AWSCore`
-    * :code:`AWSDynamoDB`
-    * :code:`AWSEC2`
-    * :code:`AWSElasticLoadBalancing`
-    * :code:`AWSFacebookSignIn`
-    * :code:`AWSGoogleSignIn`
-    * :code:`AWSIoT`
-    * :code:`AWSKMS`
-    * :code:`AWSKinesis`
-    * :code:`AWSLambda`
-    * :code:`AWSLex`
-    * :code:`AWSLogs`
-    * :code:`AWSMachineLearning`
-    * :code:`AWSMobileAnalytics`
-    * :code:`AWSMobileClient`
-    * :code:`AWSPinpoint`
-    * :code:`AWSPolly`
-    * :code:`AWSRekognition`
-    * :code:`AWSS3`
-    * :code:`AWSSES`
-    * :code:`AWSSNS`
-    * :code:`AWSSQS`
-    * :code:`AWSSimpleDB`
-    * :code:`AWSUserPoolsSignIn`
+    * `AWSAuthCore`
+    * `AWSAuthUI`
+    * `AWSAuth`
+    * `AWSAutoScaling`
+    * `AWSCloudWatch`
+    * `AWSCognitoAuth`
+    * `AWSCognitoIdentityProviderASF`
+    * `AWSCognitoIdentityProvider`
+    * `AWSCognito`
+    * `AWSCore`
+    * `AWSDynamoDB`
+    * `AWSEC2`
+    * `AWSElasticLoadBalancing`
+    * `AWSFacebookSignIn`
+    * `AWSGoogleSignIn`
+    * `AWSIoT`
+    * `AWSKMS`
+    * `AWSKinesis`
+    * `AWSLambda`
+    * `AWSLex`
+    * `AWSLogs`
+    * `AWSMachineLearning`
+    * `AWSMobileAnalytics`
+    * `AWSMobileClient`
+    * `AWSPinpoint`
+    * `AWSPolly`
+    * `AWSRekognition`
+    * `AWSS3`
+    * `AWSSES`
+    * `AWSSNS`
+    * `AWSSQS`
+    * `AWSSimpleDB`
+    * `AWSUserPoolsSignIn`
 
 2. Follow the Frameworks installation steps in the previous section, to include the new version of the SDK.
 
@@ -292,18 +293,19 @@ CocoaLumberjack logging levels are additive such that when the level is set to v
 You can change the logging level to suit the phase of your development cycle by importing AWSCore and calling:
 
 ```swift
-:code:`AWSDDLog.sharedInstance().logLevel = .verbose`
+AWSDDLog.sharedInstance().logLevel = .verbose
+```
 
 The following logging level options are available:
 
-- ``.off``
-- ``.error``
-- ``.warning``
-- ``.info``
-- ``.debug``
-- ``.verbose``
-```
-We recommend setting the log level to ``.off`` before publishing to the App Store.
+- `.off`
+- `.error`
+- `.warning`
+- `.info`
+- `.debug`
+- `.verbose`
+
+We recommend setting the log level to `.off` before publishing to the App Store.
 
 
 ## Targeting Log Output
@@ -371,7 +373,9 @@ Xcode. The easiest way to install the documentation is to use the macOS terminal
 Open the macOS terminal and go to the directory containing the expanded
 archive. For example:
 
-    `$ cd ~/Downloads/aws-ios-sdk-2.5.0`
+```bash
+$ cd ~/Downloads/aws-ios-sdk-2.5.0
+```
 
 Replace `2.5.0` in the preceding example with the
 version number of the AWS Mobile SDK for iOS that you downloaded.
@@ -379,14 +383,17 @@ version number of the AWS Mobile SDK for iOS that you downloaded.
 Create a directory called
 `~/Library/Developer/Shared/Documentation/DocSets`:
 
-
-    `$ mkdir -p ~/Library/Developer/Shared/Documentation/DocSets`
+```bash
+$ mkdir -p ~/Library/Developer/Shared/Documentation/DocSets
+```
 
 Copy (or move) `documentation/com.amazon.aws.ios.docset`
 from the SDK installation files to the directory you created in the previous
 step:
 
-    `$ mv documentation/com.amazon.aws.ios.docset ~/Library/Developer/Shared/Documentation/DocSets/`
+```bash
+$ mv documentation/com.amazon.aws.ios.docset ~/Library/Developer/Shared/Documentation/DocSets/
+```
 
 If Xcode was running during this procedure, restart Xcode. To browse the
 documentation, go to `Help`, click `Documentation and API Reference`, and select `AWS Mobile SDK for iOS v2.0 Documentation`
@@ -400,4 +407,4 @@ documentation, go to `Help`, click `Documentation and API Reference`, and select
 
 - **Read the API Reference**: View the [API Reference](https://docs.aws.amazon.com/AWSiOSSDK/latest/) for the AWS Mobile SDK for Android.
 
-- **Ask questions**: Post questions on the `AWS Mobile SDK Forums <88>`.
+- **Ask questions**: Post questions on the [AWS Mobile SDK Forums](https://github.com/aws/aws-sdk-ios).

@@ -49,7 +49,7 @@ Use the following steps to connect add push notification backend services to you
     target :'YOUR-APP-NAME' do
       use_frameworks!
 
-        pod  'AWSPinpoint', '~> 2.6.13'
+        pod  'AWSPinpoint', '~> 2.6.33'
         # other pods
 
     end
