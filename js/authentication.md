@@ -563,11 +563,11 @@ export default class App extends React.Component {
 
 #### Federated with Auth0
 
-You can use `Auth0` as one of the provider of your Cognito Federated Identity Pool so that you can allow your Auth0 users to have access to your AWS resources. 
+You can use `Auth0` as one of the provider of your Cognito Federated Identity Pool. This will allow users authenticated via Auth0 have access to your AWS resources.
 
-Step 1. Learn [how to integrate Auth0 with Cognito Federated Identity Pool](https://auth0.com/docs/integrations/integrating-auth0-amazon-cognito-mobile-apps)
+Step 1. [how to integrate Auth0 with Cognito Federated Identity Pool](https://auth0.com/docs/integrations/integrating-auth0-amazon-cognito-mobile-apps)
 
-Step 2. Login with `Auth0` and then use the id token to get the AWS credentials from `Cognito Federated Idneitty Pool` by `Auth.federatedSignIn`, for example:
+Step 2. Login with `Auth0`, then use the id token returned to get AWS credentials from Cognito Federated Identity Pools using the `Auth.federatedSignIn` method:
 ```js
 const { idToken, domain, expiresIn, user } = getFromAuth0();
 
@@ -591,7 +591,7 @@ Auth.currentCredentials().then(creds => console.log(creds));
 // Unfortunately Auth.currentSession() doesn't support federated identities for now. Please store the auth0 session info manually.
 ```
 
-Step 4. If you want the credentials not to get expired, you can pass a refresh handler to the Auth module to refresh the id token from `Auth0`:
+Step 4. You can pass a refresh handler to the Auth module to refresh the id token from `Auth0`:
 ```js
 function refreshToken() {
     // refresh the token here and get the new token info
