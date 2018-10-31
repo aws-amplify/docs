@@ -12,4 +12,4 @@ By default the SignUp Component will display Username, Password, Email and Phone
 
 Fields passed into the signUpFields array without a displayOrder value will be placed after those fields with defined displayOrder values and in alphabetical order by key.
 
-{% includes table.html %}
+{% include table.html %}
