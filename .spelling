@@ -101,6 +101,13 @@ webview
 *.js
 600px
 v2.0
+SQLite
+listPosts
+getPost
+ROOT_QUERY
+ROOT_QUERY.listPosts
+ROOT_QUERY.getPost
+Pancho
 
 # js/tutorials/building-ionic-4-apps/index.md
 home.page.ts
