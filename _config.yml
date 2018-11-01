@@ -600,8 +600,7 @@ android_languages:
   - title: Kotlin
     url: '?platform=kotlin'
 
-collections_dir: doc_collections
+
 
 collections:
-  signUpFields:
-      output: true
+  - sign_up_fields
