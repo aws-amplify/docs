@@ -360,6 +360,10 @@ category_list:
           excerpt: get started excerpt
           url: '/js/start'
           icon: '/images/icons/Misc/Present.svg'
+        - title: Tutorials
+          excerpt: Tutorials
+          url: '/js/tutorials'
+          icon: '/images/icons/Misc/Present.svg'
     - category: Tutorials
       title: Framework Support
       excerpt:

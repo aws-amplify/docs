@@ -2157,6 +2157,16 @@ li {
 /***                        new stuff for docs pages                       ***/
 //=============================================================================
 
+img.icon-bullet {
+    width: 35px;
+    margin-top: -4px;
+    padding-right: 6px;
+    margin-right: 7px;
+    background: #808080ad;
+    border-radius: 4px;
+    padding: 5px;
+}
+
 .docs-page-container {
     width: 1180px;
     max-width: 90%;
@@ -2216,6 +2226,46 @@ li {
 
             ul li {
                 border: none;
+            }
+
+            // Tutorial bookmarks on the navigatin menu
+            .tutorial-page {
+                li.active {
+                    .level-3 {
+                        li.active {
+                            a {
+                                color:darkorange;
+                            }
+                        }
+                    }
+
+                    .level-2 {
+                        li {
+                            &.active {
+                                a {
+                                    color:darkorange;
+                                }
+                            }
+                        }
+                    }
+    
+                    .level-3 {
+                        li {
+                            &.active {
+                                color:darkorange;
+                            }
+                        }
+                    }
+    
+                    .level-4 {
+                        li {
+                            &.active {
+                                color:darkorange;
+                            }
+                        }
+                    }
+
+                }
             }
         }
 
@@ -2330,6 +2380,10 @@ li {
                 //transition: transform 0.5s;
                 transform: rotate(90deg);
             }
+        }
+
+        .section-with-seperator {
+            border-top:1px;
         }
 
         ul:hover {
