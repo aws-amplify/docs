@@ -235,10 +235,15 @@ import Auth, {
     FacebookProvider,
     AmazonProvider,
     DeveloperProvider,
-    GenericProvider
+    GenericProvider,
+    SessionType
 } from '@aws-amplify/auth';
 
-const { session, user, credentials } = await Auth.setSession({
+const { 
+    session, // the session is either a CognitoUserSession or a FederatedProviderSession
+    user, // The user is either CognitoUser or FederatedUser
+    credentials 
+} = await Auth.setSession({
     username: 'Alice',       // Required, user name
     attributes: {            // Optional, user attributes
         email: 'alice@gmail.com',
@@ -270,6 +275,31 @@ const { session, user, credentials } = await Auth.setSession({
     },
     credentialsDomain: 'www.example.com' // Optional, the domain used to get the credentials
 });
+
+// You can also get session, user, credentials from other methods:
+const session = await Auth.currentSession();
+const user = await Auth.currentAuthenticatedUser();
+const credentials = await Auth.currentCredentials();
+
+if (session.type && session.type === SessionType.Federated_Provider_Session) {
+    // If the session is from the federated provider
+    const {
+        idToken, // Optional, The ID token
+        accessToken, // Optional, The access token
+        refreshToken, // Optional, The refresh token
+        expires_at, // The timestamp when the token expires
+        type, // The type of the session
+        provider, // The provider of the session, i.e. Google, Facebook
+        identityId, // Optional, The specified identity ID when setting the session
+        credentialsDomain, // Optional, the domain used to get the credentials
+        credentialsToken // Optional, the token used to get the credentials
+    } = session;
+} else {
+    // If the session is from Cognito
+    const idToken = session.getIdToken();
+    const accessToken = session.getAccessToken();
+    const refreshToken = session.getRefreshToken();
+}
 ```
 
 #### Retrieve Current Authenticated User
