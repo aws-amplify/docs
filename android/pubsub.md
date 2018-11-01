@@ -84,7 +84,7 @@ try {
 
 ### Subscribe to multiple topics
 
-To subscribe for multiple topics, just call subscribeToTopic for each topic you wish to subscribe. 
+To subscribe for multiple topics, just call `subscribeToTopic()` for each topic you wish to subscribe. 
 
 ### Publish to a topic
 
