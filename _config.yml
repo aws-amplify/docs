@@ -600,7 +600,3 @@ android_languages:
   - title: Kotlin
     url: '?platform=kotlin'
 
-
-
-collections:
-  - sign_up_fields
