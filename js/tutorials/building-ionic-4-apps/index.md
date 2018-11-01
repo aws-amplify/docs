@@ -14,6 +14,8 @@ The AWS Amplify library and the Amplify CLI enables frontend developers to build
 - Manage your app's backend resources with the Amplify CLI
 - Integrate AWS services such as Amazon Cognito, Amazon DynamoDB, and AWS Lambda in your app
 
+![](images/screencap.png){: class="screencap" style="max-height:500px;"}
+
 ## Prerequisites
 
 You need to have a basic understanding of JavaScript/[TypeScript](http://www.typescriptlang.org/), [Node.js](https://nodejs.org/en/about/), and [NPM](https://www.npmjs.com/) to complete this tutorial.
