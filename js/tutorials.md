@@ -18,7 +18,7 @@ Learn how to build a 'Note Taking' mobile app with React Native and AWS Amplify.
 [Start tutorial &raquo;](building-react-native-apps/)
 <hr> -->
 
-<img src='/images/Logos/Ionic-White@2x.png' class='icon-bullet'/>**Building a 'Todo List' mobile app with AWS Amplify and Ionic 4** 
+<img src='{%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/images/Logos/Ionic-White@2x.png' class='icon-bullet'/>**Building a 'Todo List' mobile app with AWS Amplify and Ionic 4** 
 
 Learn how to build a hybrid mobile app with AWS Amplify using Ionic 4 and Angular. You will use Amplify UI components to add authentication to your app, and you will extend your app with cloud features using Amplify CLI.  
 
