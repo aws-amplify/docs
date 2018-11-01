@@ -126,10 +126,8 @@ Config:
 <amplify-sign-in v-bind:signInConfig="signInConfig"></amplify-sign-in>
 ```
 
-| Attribute | Type   | Description                             | Default   | Required |
-|-----------|--------|-----------------------------------------|-----------|----------|
-| header    | string | the component header                    | 'Sign In' | no       |
-| username  | string | the default value of the username field | ''        | no       |
+#### SignIn Attributes
+{% include sign-in-attributes.html %}
 
 Events: 
 
@@ -277,6 +275,7 @@ Usage:
 <amplify-sign-up v-bind:signUpConfig="signUpConfig"></amplify-sign-up>
 ``` 
 
+#### SignUp Field Attributes
 {% include sign-up-fields.html %}
 
 

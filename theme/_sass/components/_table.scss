@@ -20,8 +20,8 @@
 	border: 1px solid #ccc; 
 	text-align: left; 
 	font-size: 18px;
-	}
-
+}
+	
 /* 
 Max width before this PARTICULAR table gets nasty
 This query will take effect for any screen smaller than 760px
@@ -32,7 +32,7 @@ only screen and (max-width: $screen-sm-min),
 (min-device-width: 768px) and (max-device-width: 1024px)  {
 
 	.doc-table { 
-	  	width: 100%; 
+		width: 100%; 
 	}
 
 	/* Force table to not be like tables anymore */
