@@ -21,7 +21,7 @@ You will then be prompted with the following dialog. Click the *Publish* button:
 Now click the *Download JSON configuration* button to download the scene configuration JSON that will be used for configuring your scene within AWS Amplify:
 ![XR]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/xr/amplify_published_dialog.png){: class="screencap" style="max-height:600px;"}
 
-Amazon Sumerian private scenes do not support Unauthenticated access roles when using Amazon Cognito and AWS Amplify Authentication. If you are publishing a private scene, be sure to include an Authenticated Role/Policy with your Cognito Identity Pool. To understand how to configure your Authenticated Role/Policy for Sumerian scene access go to the <a href="https://docs.aws.amazon.com/sumerian/latest/userguide/sumerian-permissions.html">Amazon Sumerian Permissions</a> documentation page. <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html" target="_blank"> Learn more</a> about IAM Roles with Cognito Identity Pools.
+Be sure to include an Authenticated Role/Policy with your Cognito Identity Pool. To understand how to configure your Authenticated Role/Policy for Sumerian scene access go to the <a href="https://docs.aws.amazon.com/sumerian/latest/userguide/sumerian-permissions.html">Amazon Sumerian Permissions</a> documentation page. <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html" target="_blank"> Learn more</a> about IAM Roles with Cognito Identity Pools.
 {: .callout .callout--info}
 
 Add the following code to your application to configure the XR category:

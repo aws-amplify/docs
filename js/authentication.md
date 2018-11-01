@@ -117,7 +117,7 @@ Auth.signIn(username, password)
     .then(user => console.log(user))
     .catch(err => console.log(err));
 
-// If MFA is enabled, sign-in should be confirmed with the congirmation code
+// If MFA is enabled, sign-in should be confirmed with the confirmation code
 // `user` : Return object from Auth.signIn()
 // `code` : Confirmation code  
 // `mfaType` : MFA Type e.g. SMS, TOTP.
@@ -212,7 +212,7 @@ Either the phone number or the email address is required for account recovery. Y
 Auth.verifyCurrentUserAttributes(attr)
 .then(() => {
      console.log('a verification code is sent');
-}).catch(e) => {
+}).catch((e) => {
      console.log('failed with error', e);
 });
 
@@ -243,8 +243,11 @@ This method should be called after the Auth module is configured or the user is 
 `Auth.currentSession()` returns a `CognitoUserSession` object which contains JWT `accessToken`, `idToken`, and `refreshToken`.
 
 ```javascript
-let session = Auth.currentSession();
-// CognitoUserSession => { idToken, refreshToken, accessToken }
+import { Auth } from 'aws-amplify';
+
+Auth.currentSession()
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
 ```
 
 #### Managing Security Tokens
@@ -566,10 +569,38 @@ export default class App extends React.Component {
 You can provide custom components to the `Authenticator` as child components in React and React Native. 
 
 ```jsx
+import { Authenticator, SignUp, SignIn } from 'aws-amplify-react';
+
 <Authenticator hideDefault={true}>
   <SignIn />
-  <MyCustomSignUp />
+  <MyCustomSignUp override={SignUp}/> {/* to tell the Authenticator the SignUp component is not hidden but overrided */}
 </Authenticator>
+
+class MyCustomSignUp extends Component {
+  constructor() {
+    super();
+    this.gotoSignIn = this.gotoSignIn.bind(this);
+  }
+
+  gotoSignIn() {
+    // to switch the authState to 'signIn'
+    this.props.onStateChange('signIn',{});
+  }
+
+  render() {
+    return (
+      <div>
+        {/* only render this component when the authState is 'signUp' */}
+        { this.props.authState === 'signUp' && 
+        <div>
+          My Custom SignUp Component
+          <button onClick={this.gotoSignIn}>Goto SignIn</button>
+        </div>
+        }
+      </div>
+    );
+  }
+}
 ```
 
 You can render the custom component (or not) based on the injected `authState` within your component as well as jump to other states within your component.
