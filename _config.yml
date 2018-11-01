@@ -603,4 +603,5 @@ android_languages:
 collections_dir: doc_collections
 
 collections:
-  - signUpFields
+  signUpFields:
+      output: true
