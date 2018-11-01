@@ -277,7 +277,7 @@ Usage:
 <amplify-sign-up v-bind:signUpConfig="signUpConfig"></amplify-sign-up>
 ``` 
 
-{% include sign-up-fields.md %}
+{% include sign-up-fields.html %}
 
 
 ## API Components
