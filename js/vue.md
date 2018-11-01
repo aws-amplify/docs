@@ -126,7 +126,7 @@ Config:
 <amplify-sign-in v-bind:signInConfig="signInConfig"></amplify-sign-in>
 ```
 
-#### SignIn Attributes
+signInConfig Attributes:
 {% include sign-in-attributes.html %}
 
 Events: 
@@ -147,10 +147,8 @@ Config:
 <amplify-confirm-sign-in v-bind:confirmSignInConfig="confirmSignInConfig"></amplify-confirm-sign-in>
 ```
 
-| Attribute | Type   | Description                                         | Default   | Required |
-|-----------|--------|-----------------------------------------------------|-----------|----------|
-| header    | string | the component header                                | 'Sign In' | no       |
-| user      | object | the user who is stepping through the signin process | N/A       | yes      |
+confirmSignInConfig Attributes:
+{% include confirm-sign-in-attributes.html %}
 
 
 Events: 
@@ -170,10 +168,8 @@ Config:
 <amplify-sign-up v-bind:signUpConfig="signUpConfig"></amplify-sign-up>
 ```
 
-| Attribute    | Type   | Description                 | Default                     | Required |
-|--------------|--------|-----------------------------|-----------------------------|----------|
-| header       | string | the component header        | 'Sign Up'                   | no       |
-| signUpFields | array  | [see below](#signup-fields) | [see below](#signup-fields) | no       |
+signUpConfig Attributes:
+{% include sign-up-attributes.html %}
 
 
 Events: 
