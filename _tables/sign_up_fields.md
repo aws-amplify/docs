@@ -1,4 +1,6 @@
 ---
+name: Jane Doe
+position: Developer
 columns:
   - ATTRIBUTE
   - TYPE
