@@ -117,7 +117,7 @@ Auth.signIn(username, password)
     .then(user => console.log(user))
     .catch(err => console.log(err));
 
-// If MFA is enabled, sign-in should be confirmed with the congirmation code
+// If MFA is enabled, sign-in should be confirmed with the confirmation code
 // `user` : Return object from Auth.signIn()
 // `code` : Confirmation code  
 // `mfaType` : MFA Type e.g. SMS, TOTP.
