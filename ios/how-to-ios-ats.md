@@ -48,7 +48,7 @@ If you determine that your app is impacted by the diagnostic handshake error, yo
 
 1. Locate your ``Info.plist`` and from the context menu select **Open As** > **Source Code**.
 
-    ![Image](./media/ss1.png)
+    ![Image](./images/ss1.png)
 
 2. Copy and paste the following key as a direct child of the top level ``<dict>`` tag.
 

@@ -99,18 +99,17 @@ Set up AWS Mobile SDK components as follows:
 
 1. Add the `AWSMobileClient` pod to your `Podfile` to install the AWS Mobile SDK.
 
-```swift
+```ruby
+platform :ios, '9.0'
 
-     platform :ios, '9.0'
+target :'YOUR-APP-NAME' do
+    use_frameworks!
 
-        target :'YOUR-APP-NAME' do
-           use_frameworks!
+    pod 'AWSMobileClient', '~> 2.6.33'
 
-            pod 'AWSMobileClient', '~> 2.6.13'
+    # other pods . . .
 
-            # other pods . . .
-
-        end
+end
 ```
 
 2. Run `pod install --repo-update` in your app root folder before you continue.

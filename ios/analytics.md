@@ -6,7 +6,7 @@ Gather the data that helps improve your app's usability, monetization, and engag
 
 ### Set Up Your Backend
 
-1. Complete the [Get Started TODO link](asdf) steps before you proceed.
+1. Complete the [Get Started](start) steps before you proceed.
 
 2. Use the CLI to add analytics to your cloud-enabled backend and app.
 
@@ -50,16 +50,15 @@ Set up AWS Mobile SDK components as follows.
 
 1. The `Podfile` that you configure to install the AWS Mobile SDK must contain:
 
-```
-
+```ruby
 platform :ios, '9.0'
-target :'YourAppName' do
- use_frameworks!
+target 'YourAppName' do
+    use_frameworks!
 
-   pod 'AWSPinpoint', '~> 2.6.13'
-   pod 'AWSMobileClient', '~> 2.6.13'
+    pod 'AWSPinpoint', '~> 2.6.33'
+    pod 'AWSMobileClient', '~> 2.6.33'
 
-   # other pods
+    # other pods
 
 end
 ```
@@ -70,7 +69,7 @@ If you encounter an error message that begins `[!] Failed to connect to GitHub t
 
 2. Classes that call Amazon Pinpoint APIs must use the following import statements:
 
-    ```
+    ```swift
     /** start code copy **/
     import AWSCore
     import AWSPinpoint
@@ -78,7 +77,7 @@ If you encounter an error message that begins `[!] Failed to connect to GitHub t
     /** end code copy **/
     ```
 
-3. Replace the return statement with following code into the `application(_:didFinishLaunchingWithOptions:)` method of your app's `AppDelegate.swift`.
+3. To send events with Amazon Pinpoint, you'll instantiate a Pinpoint instance. We recommend you do this during app startup, so you can use Pinpoint to record app launch analytics. Edit the `application(_:didFinishLaunchingWithOptions:)` method of your app's `AppDelegate.swift` by adding a `pinpoint` instance property, and initializing the Pinpoint client as shown below:
 
     ```swift
     class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -137,7 +136,7 @@ func logEvent() {
    let event = pinpointAnalyticsClient.createEvent(withEventType: "EventName")
    event.addAttribute("DemoAttributeValue1", forKey: "DemoAttribute1")
    event.addAttribute("DemoAttributeValue2", forKey: "DemoAttribute2")
-   event.addMetric(NSNumber.init(value: arc4random() % 65535), forKey: "EventName")
+   event.addMetric(NSNumber.init(value: arc4random() % 65535), forKey: "EventName") // Replace with your own metrics
    pinpointAnalyticsClient.record(event)
    pinpointAnalyticsClient.submitEvents()
 
@@ -217,12 +216,20 @@ Kinesis services](http://aws.amazon.com/kinesis/).
 
 ### Integrating Amazon Kinesis and Amazon Kinesis Firehose
 
-To use the Amazon Kinesis mobile client, you'll need to integrate the SDK for iOS into your app
-and import the necessary libraries. To do so, follow these steps:
+To use the Amazon Kinesis mobile client, you'll need to integrate the SDK for
+iOS into your app and import the necessary libraries. To do so, follow these
+steps:
 
-If you haven't already done so, [download the SDK for iOS](http://aws.amazon.com/mobile/sdk/),
-unzip it, and include it in your application as described at `setup-aws-sdk-for-ios`. The
-instructions direct you to import the headers for the services you'll be
+If you haven't already done so, [download the SDK for
+iOS](http://aws.amazon.com/mobile/sdk/), unzip it, and include it in your
+application as described at `setup-aws-sdk-for-ios`. Alternately, add the
+following to your `Podfile`:
+
+```ruby
+pod 'AWSKinesis', '~> 2.6.33'
+```
+
+The instructions direct you to import the headers for the services you'll be
 using. For this example, you need the following import.
 
 ```swift
