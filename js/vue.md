@@ -126,7 +126,6 @@ Config:
 <amplify-sign-in v-bind:signInConfig="signInConfig"></amplify-sign-in>
 ```
 
-signInConfig Attributes:
 {% include sign-in-attributes.html %}
 
 Events: 
@@ -147,7 +146,6 @@ Config:
 <amplify-confirm-sign-in v-bind:confirmSignInConfig="confirmSignInConfig"></amplify-confirm-sign-in>
 ```
 
-confirmSignInConfig Attributes:
 {% include confirm-sign-in-attributes.html %}
 
 
@@ -168,7 +166,6 @@ Config:
 <amplify-sign-up v-bind:signUpConfig="signUpConfig"></amplify-sign-up>
 ```
 
-signUpConfig Attributes:
 {% include sign-up-attributes.html %}
 
 
@@ -189,10 +186,7 @@ Config:
 <amplify-sign-in v-bind:confirmSignUpConfig="confirmSignUpConfig"></amplify-sign-in>
 ```
 
-| Attribute | Type   | Description                                | Default           | Required |
-|-----------|--------|--------------------------------------------|-------------------|----------|
-| header    | string | the component header                       | 'Confirm Sign Up' | no       |
-| username  | string | the username of the user who is signing up | ''                | no       |
+{% include confirm-sign-up-attributes.html %}
 
 
 Events: 
@@ -210,9 +204,8 @@ Config:
 <amplify-forgot-password v-bind:forgotPasswordConfig="forgotPasswordConfig"></amplify-forgot-password>
 ```
 
-| Attribute | Type   | Description                               | Default           | Required |
-|-----------|--------|-------------------------------------------|-------------------|----------|
-| header    | string | the component header                      | 'Forgot Password' | no       |
+{% include forgot-password-attributes.html %}
+
 
 Events: 
 
@@ -229,10 +222,8 @@ Config:
 <amplify-sign-out v-bind:signOutConfig="signOutConfig"></amplify-sign-out>
 ```
 
-| Attribute     | Type   | Description                                 | Default    | Required |
-|---------------|--------|---------------------------------------------|------------|----------|
-| msg           | string | message displayed above the sign out button | null       | no       |
-| signOutButton | string | text that appears in the sign out button    | 'Sign Out' | no       |
+{% include sign-out-attributes.html %}
+
 
 Events: 
 
@@ -249,15 +240,8 @@ Config:
 <amplify-set-mfa v-bind:mfaConfig="mfaConfig"></amplify-set-mfa>
 ```
 
-| Attribute         | Type     | Description                                                         | Default                                                                                                        | Possible Values       | Required |
-|-------------------|----------|---------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|-----------------------|----------|
-| mfaDescription    | string   | description of MFA for your users                                   | AWS Multi-Factor Authentication (MFA) adds an extra layer of protection on top of your user name and password. | N/A                   | no       |
-| mfaTypes          | array    | an array of MFA types which will result in a radio button selection | []                                                                                                             | 'SMS', 'TOTP', 'None' | no       |
-| tokenInstructions | string   | instructions for decoding the QR code used with TOTP                | 'Scan the QR Code with your phone camera or authentication app to get the MFA code.'                           | N/A                   | no       |
-| smsDescription    | string   | label for SMS radio button                                          | 'SMS text messaging (receive a code on your mobile device)'                                                    | N/A                   | no       |
-| totpDescription   | string   | label for TOTP radio button                                         | 'One-time password (use a QR code and MFA app to save a token on your mobile device)'                          | N/A                   | no       |
-| noMfaDescription  | string   | label for 'None' radio button                                       | 'Do not enable MFA'                                                                                            | N/A                   | no       |
-| cancelHandler     | function | function called when user clicks on 'Cancel' button                 |  None                                                                                                          | N/A                   | no       |
+{% include set-mfa-attributes.html %}
+
 
 Events: None
 
