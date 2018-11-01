@@ -164,7 +164,6 @@ The `Auth.signUp` promise returns a data object of type [`ISignUpResult`](https:
 }
 ```
 
-
 **Forcing Email Uniqueness in Cognito User Pools**
 
 When your Cognito User Pool sign-in options are set to "*Username*", and "*Also allow sign in with verified email address*", *signUp()* method creates a new user account every time, without validating email uniqueness. In this case you will end up having multiple user pool identities and previously created account's attribute is changed to *email_verified : false*. 
@@ -1222,7 +1221,8 @@ export default withAuthenticator(App, false, [
   <VerifyContact/>,
   <SignUp/>,
   <ConfirmSignUp/>,
-  <ForgotPassword/>
+  <ForgotPassword/>,
+  <RequireNewPassword />
 ]);
 ```
 
