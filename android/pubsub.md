@@ -26,7 +26,7 @@ import com.amazonaws.mobileconnectors.iot.AWSIotMqttQos;
 Define your unique client ID and endpoint (incl. region) in your configuration:
 
 ```java
-// Initialize the MQTTManager with the configuration
+// Initialize the AWSIotMqttManager with the configuration
 AWSIotMqttManager mqttManager = new AWSIotMqttManager(
 	"<YOUR_CLIENT_ID>", 
 	"wss://xxxxxxxxxxxxx.iot.<YOUR-AWS-REGION>.amazonaws.com/mqtt");
@@ -43,21 +43,36 @@ Go to IoT Core and choose *Secure* from the left navigation pane. Then navigate 
 
 **Attach your policy to your Amazon Cognito Identity**
 
-The next step is attaching the policy to your *Cognito Identity*. 
-
-You can retrieve the `Cognito Identity Id` of a logged in user with AWSMobileClient:
+To attach the policy to your *Cognito Identity*, begin by retrieving the `Cognito Identity Id` from `AWSMobileClient`.
 
 ```java
 AWSMobileClient.getInstance().getIdentityId();
 ```
 
-Then, you need to send your *Cognito Identity Id* to the AWS backend and attach `myIOTPolicy`. You can do this with the following [AWS CLI](https://aws.amazon.com/cli/) command:
+Then, you need to attach the `myIOTPolicy` policy to the user's *Cognito Identity Id* with the following [AWS CLI](https://aws.amazon.com/cli/) command:
 
 ```bash
 aws iot attach-principal-policy --policy-name 'myIOTPolicy' --principal '<YOUR_COGNITO_IDENTITY_ID>'
 ```
 
 ## Working with the API
+
+### Establish Connection
+
+Before you can subscribe to a topic, you need to connect to the backend as follows;
+
+```java
+try {
+    mqttManager.connect(clientKeyStore, new AWSIotMqttClientStatusCallback() {
+        @Override
+        public void onStatusChanged(final AWSIotMqttClientStatus status, final Throwable throwable) {
+            Log.d(LOG_TAG, "Connection Status: " + String.valueOf(status));
+        }
+    });
+} catch (final Exception e) {
+    Log.e(LOG_TAG, "Connection error: ", e);
+}
+```
 
 ### Subscribe to a topic
 
@@ -110,6 +125,18 @@ try {
 }
 
 // You will no longer get messages for "myTopic"
+```
+
+### Close Connection
+
+Before you can subscribe to a topic, you need to connect to the backend as follows;
+
+```java
+try {
+    mqttManager.disconnect();
+} catch (Exception e) {
+    Log.e(LOG_TAG, "Disconnect error: ", e);
+}
 ```
 
 ### API Reference
