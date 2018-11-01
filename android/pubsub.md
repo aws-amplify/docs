@@ -13,7 +13,7 @@ When using AWS IoT your PubSub HTTP requests are automatically signed when sendi
 
 ### AWS IoT
 
-When used with `AWSIotMqttManager`, PubSub is capable of signing request according to [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). 
+In the PubSub category, `AWSIoTMqttManager` establishes a signed connection with AWS IoT according to [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). 
 
 To use in your app, import the following classes:
 
