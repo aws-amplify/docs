@@ -293,7 +293,7 @@ CocoaLumberjack logging levels are additive such that when the level is set to v
 You can change the logging level to suit the phase of your development cycle by importing AWSCore and calling:
 
 ```swift
-AWSDDLog.sharedInstance().logLevel = .verbose
+AWSDDLog.sharedInstance.logLevel = .verbose
 ```
 
 The following logging level options are available:
