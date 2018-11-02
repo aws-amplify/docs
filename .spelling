@@ -18,7 +18,6 @@ Authenticator
 aws-exports
 analytics
 backend
-Capitan
 cli
 callout
 callout--info
@@ -47,7 +46,6 @@ installable
 i.e.
 ios
 item.class.ts
-Keychain
 index.js
 lifecycle
 Multifactor
@@ -519,6 +517,11 @@ xib
 Hoc
 Provisioining
 AppStore
+Ok
+
+# ios/how-to-ios-setup-push-notifications
+Capitan
+Keychain
 
 #  ios/start.md
 xcworkspace
