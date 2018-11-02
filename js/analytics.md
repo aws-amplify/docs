@@ -168,6 +168,7 @@ The `record` method lets you add additional attributes to an event. For example,
 ```javascript
 Analytics.record({
     name: 'albumVisit', 
+    // Attribute values must be strings
     attributes: { genre: '', artist: '' }
 });
 ```
@@ -271,7 +272,7 @@ Analytics.addPluggable(new AWSKinesisProvider());
 If you did not use the CLI, ensure you have <a href="https://docs.aws.amazon.com/streams/latest/dev/learning-kinesis-module-one-iam.html" target="_blank">setup IAM permissions</a> for `PutRecords`.
 
 Example IAM policy for Amazon Kinesis:
-```javascripton
+```json
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -522,6 +523,7 @@ Analytics.autoTrack('event', {
     //        myAttr: attr
     //    }
     // }
+});
 ```
 
 For example:
