@@ -10,13 +10,6 @@ Gather the data that helps improve your app's usability, monetization, and engag
 
 2. Use the CLI to add analytics to your cloud-enabled backend and app.
 
-    In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`), and add the SDK to your app.
-
-    ```bash
-    $ cd ./YOUR_PROJECT_FOLDER
-    $ amplify add analytics
-    ```
-
     In a terminal window, navigate to your project folder (the folder contains your app `.xcodeproj` file), and add the SDK to your app.
 
     ```bash
@@ -27,7 +20,7 @@ Gather the data that helps improve your app's usability, monetization, and engag
 3. When configuration for analytics is complete, a message appears confirming that you have configured local CLI metadata for this category. You can confirm this by viewing status.
 
     ```bash
-     $ amplify status
+    $ amplify status
     | Category  | Resource name   | Operation | Provider plugin   |
     | --------- | --------------- | --------- | ----------------- |
     | Auth      | cognitoabcd0123 | Create    | awscloudformation |
@@ -93,8 +86,8 @@ If you encounter an error message that begins `[!] Failed to connect to GitHub t
 
             // Initialize Pinpoint
             /** start code copy **/
-            pinpoint = AWSPinpoint(configuration:
-                AWSPinpointConfiguration.defaultPinpointConfiguration(launchOptions: launchOptions))
+            let pinpointConfiguration = AWSPinpointConfiguration.defaultPinpointConfiguration(launchOptions: launchOptions)
+            pinpoint = AWSPinpoint(configuration: pinpointConfiguration)
 
             // Create AWSMobileClient to connect with AWS
             return AWSMobileClient.sharedInstance().interceptApplication(application, didFinishLaunchingWithOptions: launchOptions)
@@ -119,51 +112,149 @@ Build and run your app to see usage metrics in Amazon Pinpoint. When you run the
 
     [Learn more about Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html).
 
-### Enable Custom App Analytics
+## Reporting Events in Your Application
 
-Instrument your code to capture app usage event information, including attributes you define.  Use graphs of your custom usage event data  in the Amazon Pinpoint console. Visualize how your users' behavior aligns with a model you design using [Amazon Pinpoint Funnel Analytics](https://docs.aws.amazon.com/pinpoint/latest/userguide/analytics-funnels.html), or use [stream the data](https://docs.aws.amazon.com/pinpoint/latest/userguide/analytics-streaming.html) for deeper analysis.
+You can use the Pinpoint SDK to report usage data, or events, to Amazon Pinpoint. You can report events to capture information such as session times, users' purchasing behavior, sign-in attempts, or any custom event type that you need.
+
+After your application reports events, you can view analytics in the Amazon Pinpoint console. The charts on the Analytics page provide metrics for many aspects of user behavior. For more information, see [Chart Reference for Amazon Pinpoint Analytics](https://docs.aws.amazon.com/pinpoint/latest/userguide/analytics-charts.html) in the _Amazon Pinpoint User Guide_.
+
+To analyze and store your event data outside of Amazon Pinpoint, you can configure Amazon Pinpoint to stream the data to Amazon Kinesis. For more information, see [Streaming Amazon Pinpoint Events to Kinesis](https://docs.aws.amazon.com/pinpoint/latest/developerguide/analytics-streaming.html).
+
+By using the AWS Mobile SDKs and the AWS Amplify JavaScript libraries, you can call the Amazon Pinpoint API to report the following types of events:
+
+### Session events
+
+Indicate when and how often users open and close your app.
+
+After your application reports session events, use the **Analytics** page in the Amazon Pinpoint console to view charts for **Sessions, Daily active endpoints, 7-day retention rate**, and more.
+
+These are automatically recorded when you integrate your iOS app with the Pinpoint SDK as shown above.
+
+### Custom events
+
+Are nonstandard events that you define by assigning a custom event type. You can add custom attributes and metrics to a custom event.
+
+On the **Analytics** page in the console, the **Events** tab displays metrics for all custom events that are reported by your app. Use graphs of your custom usage event data in the Amazon Pinpoint console. Visualize how your users' behavior aligns with a model you design using [Amazon Pinpoint Funnel Analytics](https://docs.aws.amazon.com/pinpoint/latest/userguide/analytics-funnels.html), or use [stream the data](https://docs.aws.amazon.com/pinpoint/latest/userguide/analytics-streaming.html) for deeper analysis.
 
 Use the following steps to implement Amazon Pinpoint custom analytics for your app.
 
 ```swift
-// You can add this function in desired part of your app. It will be used to log events to the backend.
+// You can add this function in desired part of your app.
+// It will be used to log events to the backend.
 func logEvent() {
-
-   let pinpointAnalyticsClient =
-       AWSPinpoint(configuration:
-           AWSPinpointConfiguration.defaultPinpointConfiguration(launchOptions: nil)).analyticsClient
-
-   let event = pinpointAnalyticsClient.createEvent(withEventType: "EventName")
-   event.addAttribute("DemoAttributeValue1", forKey: "DemoAttribute1")
-   event.addAttribute("DemoAttributeValue2", forKey: "DemoAttribute2")
-   event.addMetric(NSNumber.init(value: arc4random() % 65535), forKey: "EventName") // Replace with your own metrics
-   pinpointAnalyticsClient.record(event)
-   pinpointAnalyticsClient.submitEvents()
-
+    if let analyticsClient = pinpoint?.analyticsClient {
+        let event = analyticsClient.createEvent(withEventType: "EventName")
+        event.addAttribute("DemoAttributeValue1", forKey: "DemoAttribute1")
+        event.addAttribute("DemoAttributeValue2", forKey: "DemoAttribute2")
+        event.addMetric(NSNumber(value: arc4random() % 65535), forKey: "EventName")
+        analyticsClient.record(event)
+        analyticsClient.submitEvents()
+    }
 }
 ```
 
 Build, run, and use your app. Then, view your custom events on the `Events` tab of the Amazon Pinpoint console (choose `Analytics`>`Events`). Look for the name of your event in the `Events` menu.
 
-### Enable Revenue Analytics
+### Monetization events
 
-Amazon Pinpoint supports the collection of monetization event data. Use the following steps to place
-and design analytics related to purchases through your app.
+Report the revenue that's generated by your application and the number of items that are purchased by users.
+
+On the **Analytics** page, the **Revenue** tab displays charts for **Revenue, Paying users, Units sold**, and more.
+
+Use the following steps to implement Amazon Pinpoint monetization analytics for your app.
 
 ```swift
-func sendMonetizationEvent()
- {
-     let pinpointClient = AWSPinpoint(configuration:
-         AWSPinpointConfiguration.defaultPinpointConfiguration(launchOptions: nil))
+func sendMonetizationEvent() {
+    if let analyticsClient = pinpoint?.analyticsClient {
+        let event = analyticsClient.createVirtualMonetizationEvent(
+            withProductId: "DEMO_PRODUCT_ID",
+            withItemPrice: 1.00,
+            withQuantity: 1,
+            withCurrency: "USD"
+        )
+        analyticsClient.record(event)
+        analyticsClient.submitEvents()
+    }
+}
+```
 
-     let pinpointAnalyticsClient = pinpointClient.analyticsClient
+### Authentication events
 
-     let event =
-         pinpointAnalyticsClient.createVirtualMonetizationEvent(withProductId:
-             "DEMO_PRODUCT_ID", withItemPrice: 1.00, withQuantity: 1, withCurrency: "USD")
-     pinpointAnalyticsClient.record(event)
-     pinpointAnalyticsClient.submitEvents()
- }
+Indicate how frequently users authenticate with your application.
+
+On the **Analytics** page, the **Users** tab displays charts for **Sign-ins, Sign-ups, and Authentication failures**.
+
+To learn how frequently users authenticate with your app, update your application code so that Amazon Pinpoint receives the following standard event types for authentication:
+
+* `_userauth.sign_in`
+* `_userauth.sign_up`
+* `_userauth.auth_fail`
+
+You can report authentication events by doing either of the following:
+
+* Managing user sign-up and sign-in with Amazon Cognito user pools.
+
+    Amazon Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Amazon Cognito reports authentication events to Amazon Pinpoint. For more information, see [Using Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html) in the _Amazon Cognito Developer Guide_.
+
+* Reporting authentication events by using the Amazon Pinpoint client that's provided by the AWS Mobile SDK for iOS or Android.
+
+    If you don't want to use Amazon Cognito user pools, you can use the Amazon Pinpoint client to record and submit authentication events, as shown in the following examples. In these examples, the event type is set to `_userauth.sign_in`, but you can substitute any authentication event type.
+
+    ```swift
+    func sendUserSignInEvent() {
+        if let analyticsClient = pinpoint?.analyticsClient {
+            let event = analyticsClient.createEventWithEventType("_userauth.sign_in")
+            analyticsClient.record(event)
+            analyticsClient.submitEvents()
+        }
+    }
+    ```
+
+## Registering Endpoints in Your Application
+
+When a user starts a session (for example, by launching your mobile app), your mobile or web application can automatically register (or update) an _endpoint_ with Amazon Pinpoint. The endpoint represents the device that the user starts the session with. It includes attributes that describe the device, and it can also include custom attributes that you define. Endpoints can also represent other methods of communicating with customers, such as email addresses or mobile phone numbers.
+
+After your application registers endpoints, you can segment your audience based on endpoint attributes. You can then engage these segments with tailored messaging campaigns. You can also use the **Analytics** page in the Amazon Pinpoint console to view charts about endpoint registration and activity, such as **New endpoints** and **Daily active endpoints**.
+
+You can assign a single user ID to multiple endpoints. A user ID represents a single user, while each endpoint that is assigned the user ID represents one of the user's devices. After you assign user IDs to your endpoints, you can view charts about user activity in the console, such as **Daily active users** and **Monthly active users**.
+
+### Adding Custom Endpoint Attributes
+
+After you initialize the Amazon Pinpoint client in your application, you can add custom attributes to endpoints.
+
+```swift
+// Add a custom attribute to the endpoint
+if let targetingClient = pinpoint?.targetingClient {
+    targetingClient.addAttribute(["science", "politics", "travel"], forKey: "interests")
+    targetingClient.updateEndpointProfile()
+    let endpointId = targetingClient.currentEndpointProfile().endpointId
+    print("Updated custom attributes for endpoint: \(endpointId)")
+}
+```
+
+### Assigning User IDs to Endpoints
+
+Assign user IDs to endpoints by doing either of the following:
+
+* Manage user sign-up and sign-in with Amazon Cognito user pools.
+* Use the Amazon Pinpoint client to assign user IDs without using Amazon Cognito user pools.
+
+Amazon Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. When the AWS Mobile SDKs for iOS and Android register an endpoint with Amazon Pinpoint, Amazon Cognito automatically assigns a user ID from the user pool. For more information, see [Using Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html) in the _Amazon Cognito Developer Guide_.
+
+If you don't want to use Amazon Cognito user pools, you can use the Amazon Pinpoint client in your application to assign user IDs to endpoints.
+
+```swift
+if let targetingClient = pinpoint?.targetingClient {
+    let endpoint = targetingClient.currentEndpointProfile()
+    // Create a user and set its userId property
+    let user = AWSPinpointEndpointProfileUser()
+    user.userId = "UserIdValue"
+    // Assign the user to the endpoint
+    endpoint.user = user
+    // Update the endpoint with the targeting client
+    targetingClient.update(endpoint)
+    print("Assigned user ID \(user.userId ?? "nil") to endpoint \(endpoint.endpointId)")
+}
 ```
 
 ## Kinesis
