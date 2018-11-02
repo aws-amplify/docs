@@ -220,7 +220,7 @@ Auth.verifyCurrentUserAttributes(attr)
 Auth.verifyCurrentUserAttributeSubmit(attr, 'the_verification_code')
 .then(() => {
      console.log('phone_number verified');
-}).catch(e) => {
+}).catch(e => {
      console.log('failed with error', e);
 });
 ```
