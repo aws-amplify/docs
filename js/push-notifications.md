@@ -179,8 +179,8 @@ Setup instructions are provided for Android and iOS, and configuration for both 
     $ cd myapp
     $ npm install
     $ npm install aws-amplify --save && npm install @aws-amplify/pushnotification --save
-    $ npm install aws-amplify-react-native --save
-    $ react-native link aws-amplify-react-native
+    $ react-native link @aws-amplify/pushnotification
+    $ react-native link amazon-cognito-identity-js # link it if you need to Sign in into Cognito user pool
     ```
     Please note that linking `aws-amplify-react-native` but not completing the rest of the configuration steps could break your build process. Please be sure that you have completed all the steps before you build your app.
     {: .callout .callout--info}
