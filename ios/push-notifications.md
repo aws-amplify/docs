@@ -97,6 +97,64 @@ Use the following steps to connect add push notification backend services to you
     }
     ```
 
+### Manual Configuration
+
+As an alternative to automatic configuration using the Amplify CLI, you can manually enter the necessary configurations. Here is a snippet of the relevant sections of the `awsconfiguration.json` file:
+
+```json
+{
+    "Version": "0.1.0",
+    "IdentityManager": {
+        "Default": {}
+    },
+    "CredentialsProvider": {
+        "CognitoIdentity": {
+            "Default": {
+                "PoolId": "COGNITO-IDENTITY-POOL-ID",
+                "Region": "COGNITO-IDENTITY-POOL-REGION"
+            }
+        }
+    },
+    "CognitoUserPool": {
+        "Default": {
+            "PoolId": "COGNITO-USER-POOL-ID",
+            "AppClientId": "COGNITO-USER-APP-CLIENT-ID",
+            "AppClientSecret": "COGNITO-USER-POOL-APP-CLIENT-SECRET",
+            "Region": "COGNITO-USER-POOL-REGION"
+        }
+    },
+    "PinpointAnalytics": {
+        "Default": {
+            "AppId": "PINPOINT-APP-ID",
+            "Region": "PINPOINT-REGION"
+        }
+    },
+    "PinpointTargeting": {
+        "Default": {
+            "Region": "PINPOINT-REGION"
+        }
+    }
+}
+```
+
+Make the following changes to the configuration file. The values are available in the [AWS Console](https://console.aws.amazon.com).
+
+* **CognitoIdentity**
+    * Replace `COGNITO-IDENTITY-POOL-ID` with the identity pool ID.
+    * Replace `COGNITO-IDENTITY-POOL-REGION` with the Region the identity pool was created in.
+* **CognitoUserPool**
+    * Replace `COGNITO-USER-POOL-ID` with the user pool ID.
+    * Replace `COGNITO-USER-POOL-REGION` with the Region the user pool was created in.
+    * Replace `COGNITO-USER-APP-CLIENT-ID` with the app client id that has access to the user pool.
+    * Replace `COGNITO-USER-POOL-APP-CLIENT-SECRET` with the app client secret for the app client id.
+    * Replace `COGNITO-USER-POOL-REGION` with the Region the user pool was created in.
+* **PinpointAnalytics**
+    * Replace `PINPOINT-APP-ID` with the Project Id of the Pinpoint project.
+    * Replace `PINPOINT-REGION` with the Region the Pinpoint project was created in.
+* **PinpointTargeting**
+    * Replace `PINPOINT-REGION` with the Region the Pinpoint project was created in.
+
+
 ## Add Amazon Pinpoint Targeted and Campaign Push Messaging
 
 The [Amazon Pinpoint console](https://console.aws.amazon.com/pinpoint/) enables you to target your app users with push messaging. You can send individual messages or configure campaigns that target a group of users that match a profile that you define.

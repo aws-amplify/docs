@@ -2,9 +2,9 @@
 
 Push notifications for iOS apps are sent using Apple Push Notification service (APNs). Before you can send push notifications to iOS devices, you must create an app ID on the Apple Developer portal, and you must create the required certificates.
 
-This section describes how to use the Apple Developer portal to obtain iOS and APNs credentials. These credentials enable you to create an iOS project in AWS Mobile Hub and launch a sample app that can receive push notifications.
+This section describes how to use the Apple Developer portal to obtain iOS and APNs credentials. These credentials enable you to create an iOS project that can receive push notifications.
 
-You do not need an existing iOS app to complete the steps in this section. After you create an iOS project in Mobile Hub, you can download and launch a working sample app. Mobile Hub automatically provisions the AWS resources that your app requires.
+You do not need an existing iOS app to complete the steps in this section. After you complete these steps, see the main [Push Notifications](push-notifications) API Guide for instructions on setting up an app to use AWS Pinpoint to receive push notifications.
 
 After completing the steps in this section, you will have the following items in your Apple Developer account:
 
