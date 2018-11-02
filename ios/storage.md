@@ -434,7 +434,7 @@ refUploadTask.cancel()
 
 ### Background Transfers
 
-All transfers performed by TransferUtility for iOS happen in the background using NSURLSession background sessions. Once a transfer is initiated, it will continue regardless of whether the initiating app moves to the foreground, moves to the background, is suspended, or is terminated by the system. Note that this doesn't apply when the app is force-closed. Transfers initiated by apps that are force-closed are terminated by the operating system at the NSURLSession level. For regular uploads and downloads, you will have to re-initiate the transfer. For multi-part uploads, the TransferUtility will resume automtatically and will continue the transfer.  
+All transfers performed by TransferUtility for iOS happen in the background using NSURLSession background sessions. Once a transfer is initiated, it will continue regardless of whether the initiating app moves to the foreground, moves to the background, is suspended, or is terminated by the system. Note that this doesn't apply when the app is force-closed. Transfers initiated by apps that are force-closed are terminated by the operating system at the NSURLSession level. For regular uploads and downloads, you will have to re-initiate the transfer. For multi-part uploads, the TransferUtility will resume automatically and will continue the transfer.  
 
 To wake an app that is suspended or in the background when a transfer it has initiated is completed, implement the handleEventsForBackgroundURLSession method in the AppDelegate and have it call the interceptApplication method of AWSS3TransferUtility as follows. 
 
@@ -449,7 +449,7 @@ func application(_ application: UIApplication, handleEventsForBackgroundURLSessi
 
 When an app that has initiated a transfer restarts (if it has been terminated by the system and not force-closed), the transfer may still be in progress or have completed. To make the restarting app aware of the status of transfers, instantiate the transfer utility using the ``AWSS3TransferUtility.s3TransferUtility(forKey: "YOUR_KEY")`` method. AWSS3TransferUtility uses the key to uniquely identify the NSURLSession of the transfers initiated by the app, so it is important to always use the same identifier. AWSS3TransferUtility will automatically reconnect to the transfers that were in progress the last time the app was running.
 
-Though it can be called anywhere in the app, we recommend that you instantiate the AWSS3TransferUtility in the ``appDidFinishLaunching`` lifecyle method. 
+Though it can be called anywhere in the app, we recommend that you instantiate the AWSS3TransferUtility in the ``appDidFinishLaunching`` lifecycle method. 
 
 ### Manage a Transfer when a Suspended App Returns to the Foreground**
 
@@ -685,7 +685,7 @@ AWSS3PreSignedURLBuilder.default().getPreSignedURL(getPreSignedURLRequest).conti
 
 ## Amazon S3 Server-Side Encryption Support in iOS
 
-The AWS Mobile SDK for iOS supports server-side encryption of Amazon S3 objects.  If you need server-side encryption for all of the objects that are stored in a bucket, use a bucket policy.To learn more about server-side
+The AWS Mobile SDK for iOS supports server-side encryption of Amazon S3 objects.  If you need server-side encryption for all of the objects that are stored in a bucket, use a bucket policy. To learn more about server-side
 encryption, see [PUT Object](http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUT.html).
 
 You can encrypt an object using AES256 server-side encryption as follows
@@ -738,7 +738,7 @@ You can encrypt an object using [AWS KMS](https://aws.amazon.com/kms/) keys as f
         })
 ```
 
-You can encyrpt an object using custom keys as follows. Note that the key has to conform to AES256 specifications, the MD5 sum must conform to [RFC 1321](https://tools.ietf.org/html/rfc1321), and both values must be base64 Encoded.
+You can encrypt an object using custom keys as follows. Note that the key has to conform to AES256 specifications, the MD5 sum must conform to [RFC 1321](https://tools.ietf.org/html/rfc1321), and both values must be base64 Encoded.
 
 ```
         let s3 = AWSS3.default()
@@ -776,5 +776,5 @@ You can encyrpt an object using custom keys as follows. Note that the key has to
 
 ## Next Steps
 
-For a sample app that demonstrate the capabilites of the TransferUtility, see [S3 TransferUtility Sample](https://github.com/awslabs/aws-sdk-ios-samples/tree/master/S3TransferUtility-Sample).
+For a sample app that demonstrate the capabilities of the TransferUtility, see [S3 TransferUtility Sample](https://github.com/awslabs/aws-sdk-ios-samples/tree/master/S3TransferUtility-Sample).
 
