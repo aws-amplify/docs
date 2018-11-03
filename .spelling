@@ -518,6 +518,15 @@ xib
 Hoc
 Provisioining
 AppStore
+Ok
+CognitoIdentity
+CognitoUserPool
+PinpointAnalytics
+PinpointTargeting
+
+# ios/how-to-ios-setup-push-notifications
+Capitan
+Keychain
 
 #  ios/start.md
 xcworkspace
