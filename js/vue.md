@@ -83,29 +83,29 @@ Options:
 
 ```javascript
 
-<amplify-authenticator v-bind:authOptions="authOptions"></amplify-authenticator>
+<amplify-authenticator v-bind:authConfig="authConfig"></amplify-authenticator>
 
-authOptions = {
-  confirmSignInOptions: {
+authConfig = {
+  confirmSignInConfig: {
     header: 'This is a label at the top of the component',  // type: string, default: 'Confirm Sign In', required: false
     user: 'The user who is attempting to log in', // type: object, default: user who completed sign in step, required: **true**
   },
-  confirmSignUpOptions: {
+  confirmSignUpConfig: {
     header: 'This is a label at the top of the component',  // type: string, default: 'Confirm Sign Up', required: false
     username: 'The username of the user who is attempting to sign up', // type: string, default: username of user who completed sign up step, required: false
   },
-  forgotPasswordOptions: {
+  forgotPasswordConfig: {
     header: 'This is a label at the top of the component',  // type: string, default: 'Forgot Password', required: false
   },
-  signInOptions: {
+  signInConfig: {
     username: 'This is the default value for the username input field', // type: string, default: '' (unless user has completed signup actions), required: false
     header: 'This is a label at the top of the component',  // type: string, default: 'Sign In', required: false
   },
-  signOutOptions: {
+  signOutConfig: {
     msg: 'This is a message that appears above the sign out button', // type: string, default: null
     signOutButton: 'This is a label on the signout button', // type: string, default: 'Sign Out', required: false
   },
-  signUpOptions: {
+  signUpConfig: {
     header: 'This is a label at the top of the component',  // type: string, default: 'Sign Up', required: false
   },
 
@@ -123,9 +123,9 @@ Usage: ```<amplify-sign-in></amplify-sign-in>```
 Options:
 
 ```javascript
-<amplify-sign-in v-bind:signInOptions="signInOptions"></amplify-sign-in>
+<amplify-sign-in v-bind:signInConfig="signInConfig"></amplify-sign-in>
 
-signInOptions = {
+signInConfig = {
   username: 'This is the default value for the username input field', // type: string, default: '', required: false
   header: 'This is a label at the top of the component'  // type: string, default: 'Sign In', required: false
 }
@@ -148,9 +148,9 @@ Options:
 
 ```javascript
 
-<amplify-sign-in v-bind:confirmSignInOptions="confirmSignInOptions"></amplify-sign-in>
+<amplify-sign-in v-bind:confirmSignInConfig="confirmSignInConfig"></amplify-sign-in>
 
-confirmSignInOptions = {
+confirmSignInConfig = {
   header: 'This is a label at the top of the component',  // type: string, default: 'Sign In', required: false
   user: 'The user who is attempting to log in', // type: object, default: {}, required: **true**
 }
@@ -170,9 +170,9 @@ Usage: ```<amplify-sign-up></amplify-sign-up>```
 Options:
 
 ```javascript
-<amplify-sign-up v-bind:signUpOptions="signUpOptions"></amplify-sign-up>
+<amplify-sign-up v-bind:signUpConfig="signUpConfig"></amplify-sign-up>
 
-signUpOptions = {
+signUpConfig = {
   header: 'This is a label at the top of the component'  // type: string, default: 'Sign Up'
 }
 ```
@@ -192,9 +192,9 @@ Usage: ```<amplify-confirm-sign-up></amplify-confirm-sign-up>```
 Options:
 
 ```javascript
-<amplify-sign-in v-bind:confirmSignUpOptions="confirmSignUpOptions"></amplify-sign-in>
+<amplify-sign-in v-bind:confirmSignUpConfig="confirmSignUpConfig"></amplify-sign-in>
 
-confirmSignUpOptions = {
+confirmSignUpConfig = {
   header: 'This is a label at the top of the component',  // type: string, default: 'Sign In', required: false
   username: 'The username of the user who is attempting to sign up', // type: string, default: '', required: false
 }
@@ -213,9 +213,9 @@ Usage: ```<amplify-forgot-password></amplify-forgot-password>```
 Options:
 
 ```javascript
-<amplify-forgot-password v-bind:forgotPasswordOptions="forgotPasswordOptions"></amplify-forgot-password>
+<amplify-forgot-password v-bind:forgotPasswordConfig="forgotPasswordConfig"></amplify-forgot-password>
 
-forgotPasswordOptions = {
+forgotPasswordConfig = {
   header: 'This is a label at the top of the component',  // type: string, default: 'Forgot Password', required: false
 }
 ```
@@ -233,9 +233,9 @@ Usage: ```<amplify-sign-out></amplify-sign-out>```
 Options:
 
 ```javascript
-<amplify-sign-out v-bind:signOutOptions="signOutOptions"></amplify-sign-out>
+<amplify-sign-out v-bind:signOutConfig="signOutConfig"></amplify-sign-out>
 
-signOutOptions = {
+signOutConfig = {
   msg: 'A message displayed above the sign out button',  // type: string, default: null, required: false
   signOutButton: 'The text that appears in the sign out button', // type: string, default: 'Sign Out', required: false
 }
@@ -254,9 +254,9 @@ Usage: ```<amplify-set-mfa></amplify-set-mfa>```
 Options:
 
 ```javascript
-<amplify-set-mfa v-bind:mfaOptions="mfaOptions"></amplify-set-mfa>
+<amplify-set-mfa v-bind:mfaConfig="mfaConfig"></amplify-set-mfa>
 
-mfaOptions = {
+mfaConfig = {
   mfaDescription: 'This is a description of MFA for your users', // type: string, default: 'AWS Multi-Factor Authentication (MFA) adds an extra layer of protection on top of your user name and password.',
   mfaTypes: ['An array of MFA types'], // type: array, default: [], possible values: 'SMS', 'TOTP', 'None'
   tokenInstructions: 'These are instructions for decoding the QR code used with TOTP', // type: string, default: 'Scan the QR Code with your phone camera or authentication app to get the MFA code',
