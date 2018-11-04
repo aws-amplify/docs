@@ -618,8 +618,8 @@ Under the hood the API category utilizes [Axios](https://github.com/axios/axios)
 let apiName = 'MyApiName';
 let path = '/path'; 
 let myInit = { // OPTIONAL
-    headers: {} // OPTIONAL
-    response: true // OPTIONAL (return the entire Axios response object instead of only response.data)
+    headers: {}, // OPTIONAL
+    response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
     queryStringParameters: {  // OPTIONAL
         name: 'param'
     }

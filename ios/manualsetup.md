@@ -14,10 +14,10 @@ pod init
 
 In your project directory (the directory where your `*.xcodeproj` file is), open the empty text file named `Podfile`. Replace `myAppName` with your app name. You can also remove pods for services that you don't use. For example, if you don't use `AWSAutoScaling`, remove or do not include the `AWSAutoScaling` pod.
 
-```bash
+```ruby
 source 'https://github.com/CocoaPods/Specs.git'
 
-platform :ios, '8.0'
+platform :ios, '9.0'
 use_frameworks!
 
 target :'YOUR-APP-NAME' do
@@ -112,7 +112,7 @@ CocoaLumberjack logging levels are additive such that when the level is set to v
 You can change the logging level to suit the phase of your development cycle by importing AWSCore and calling:
 
 ```swift
-AWSDDLog.sharedInstance().logLevel = .verbose
+AWSDDLog.sharedInstance.logLevel = .verbose
 ```
 
 The following logging level options are available:
