@@ -1,59 +1,85 @@
 # API
 
+The API category provides a solution for making HTTP requests to REST and GraphQL endpoints. It includes a [AWS Signature Version 4](http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html) signer class which automatically signs all AWS API requests for you as well as methods to use API Keys, Amazon Cognito User Pools, or 3rd party OIDC providers.
+
 ## GraphQL: Realtime and Offline
 
-AWS AppSync helps you build data-driven apps with real-time and offline capabilities. The [AppSync iOS SDK](https://github.com/awslabs/aws-mobile-appsync-sdk-ios/) enables you to integrate your app with the AWS AppSync service. The SDK supports multiple authorization models, handles subscription handshake protocols for real-time updates to data, and has built-in capabilities for offline support that makes it easy to integrate AppSync into your app.
+AWS AppSync helps you build data-driven apps with real-time and offline capabilities. The [AppSync iOS SDK](https://github.com/awslabs/aws-mobile-appsync-sdk-ios/) enables you to integrate your app with the AWS AppSync service and is based off of the Apollo project found [here](https://github.com/apollographql/apollo-ios). The SDK supports multiple authorization models, handles subscription handshake protocols for real-time updates to data, and has built-in capabilities for offline support that makes it easy to integrate into your app.
 
 You can integrate with AWS AppSync using the following steps:
 
-#. Setup the API endpoint and authentication information in the client side configuration.
-#. Generate Swift code from the API schema.
-#. Write app code to run queries, mutations and subscriptions.
+1. Setup the API endpoint and authentication information in the client side configuration.
+2. Generate Swift code from the API schema.
+3. Write app code to run queries, mutations and subscriptions.
 
-The [AWS Amplify CLI](https://aws-amplify.github.io/) provides support for AppSync that make this process easy. Using the CLI, you can configure an AWS AppSync API, download required client side configuration files, and generate client side code within minutes by running a few simple commands on the command line.
+The Amplify CLI provides support for AppSync that make this process easy. Using the CLI, you can configure an AWS AppSync API, download required client side configuration files, and generate client side code within minutes by running a few simple commands on the command line.
 
-For a step-by-step tutorial that describes how to build an iOS application, including code generation for Swift types, by using AWS AppSync, see `aws-appsync-building-a-client-app-ios`.
-
-The following section provides further details on how the AWS iOS SDKs work, and how to generate code for your AppSync application.
-
-### Application Configuration
+### Configuration
 
 The AWS SDKs support configuration through a centralized file called `awsconfiguration.json` that defines your AWS regions and service endpoints. You obtain this file in one of two ways, depending on whether you are creating your AppSync API in the AppSync console or using the Amplify CLI.
 
-* If you are creating your API in the console, navigate to the `Getting Started` page, and follow the steps in the `Integrate with your app` section. The `awsconfiguration.json` file you download is already populated for your specific API. Place the file in the root directory of your iOS project, and add it to your XCode project.
+* If you are creating your API in the console, navigate to the `Getting Started` page, and follow the steps in the `Integrate with your app` section. The `awsconfiguration.json` file you download is already populated for your specific API. Place the file in the root directory of your iOS project, and add it to your Xcode project.
 
-* If you are creating your API with the Amplify CLI (using amplify add api), the `awsconfiguration.json` file is automatically downloaded and updated each time you run amplify push to update your cloud resources. The file is placed in the root directory of your iOS project, and you need to add it to your XCode project. To learn learn more about creating APIs using the Amplify CLI, see [Native development with Amplify CLI and AWS AppSync](https://github.com/aws-amplify/amplify-cli/blob/master/native_guide.md).
+* If you are creating your API with the Amplify CLI (using `amplify add api`), the `awsconfiguration.json` file is automatically downloaded and updated each time you run `amplify push` to update your cloud resources. The file is placed in the root directory of your iOS project, and you need to add it to your Xcode project.
 
 
 ### Code Generation
 
-To execute GraphQL operations in iOS you need to run a code generation process, which requires both the GraphQL schema and the statements (for example, queries, mutations, or subscriptions) that your client defines. The Amplify CLI toolchain helps you do this by automatically pulling down your schema and generating default GraphQL queries, mutations, and subscriptions before kicking off the code generation process. If your client requirements change, you can alter these GraphQL statements. You can install the CLI with the following command:
+To execute GraphQL operations in iOS you need to run a code generation process, which requires both the GraphQL schema and the statements (for example, queries, mutations, or subscriptions) that your client defines. The Amplify CLI toolchain helps you do this by automatically pulling down your schema and generating default GraphQL queries, mutations, and subscriptions before kicking off the code generation process. If your client requirements change, you can alter these GraphQL statements and regenerate your types.
 
-#### Install the Amplify CLI
+#### AppSync APIs Created in the Console
 
-To install the Amplify CLI use npm. For more information, see [npm](https://www.npmjs.com/).
-
-```bash
-npm install -g @aws-amplify/cli
-```
-
-#### Code Generation for AppSync APIs Created in the Console
-
-Open a terminal, go to your XCode project root, and then run the following:
+After installing the Amplify CLI open a terminal, go to your Xcode project root, and then run the following:
 
 ```bash
 amplify init
 amplify add codegen --apiId XXXXXX
 ```
 
-The `XXXXXX` is the unique AppSync API identifier that you can find in the console in the root of your API's integration page. When you run this command you can accept the defaults, which create an `API.swift` file, and a `graphql` folder with your statements, in your root directory. For next steps, see [Native development with Amplify CLI and AWS AppSync](https://github.com/aws-amplify/amplify-cli/blob/master/native_guide.md).
+The `XXXXXX` is the unique AppSync API identifier that you can find in the console in the root of your API's integration page. When you run this command you can accept the defaults, which create an `API.swift` file, and a `graphql` folder with your statements, in your root directory.
 
-#### Code Generation for AppSync APIs Created Using the Amplify CLI
+#### AppSync APIs Created Using the CLI
 
-If you are creating your AppSync API using the Amplify CLI, see [Native development with Amplify CLI and AWS AppSync](https://github.com/aws-amplify/amplify-cli/blob/master/native_guide.md).
+Navigate in your terminal to an XCode project directory and run the following:
+
+```terminal
+$amplify init     ## Select iOS as your platform
+$amplify add api  ## Select GraphQL, API key, "Single object with fields Todo application"
+```
+Select *GraphQL* when prompted for service type:
+
+```terminal
+? Please select from one of the below mentioned services (Use arrow keys)
+❯ GraphQL
+  REST
+```
+
+The `add api` flow above will ask you some questions, such as if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code examples below. Later on, you can always change it.
+
+Name your GraphQL endpoint and select authorization type:
+
+```terminal
+? Please select from one of the below mentioned services GraphQL
+? Provide API name: myTodosApi
+? Choose an authorization type for the API (Use arrow keys)
+❯ API key
+  Amazon Cognito User Pool
+```
+
+AWS AppSync API keys expire seven days after creation, and using API KEY authentication is only suggested for development. To change AWS AppSync authorization type after the initial configuration, use the `$ amplify update api` command and select `GraphQL`.
+{: .callout .callout--info}
+
+When you update your backend with *push* command, you can go to [AWS AppSync Console](http://console.aws.amazon.com/appsync/home) and see that a new API is added under *APIs* menu item:
+
+```bash
+$ amplify push
+```
+
+The `amplify push` process will prompt you to enter the codegen process and walk through configuration options. Accept the defaults and it will create a file named `API.swift` in your root directory (unless you choose to name it differently) as well as a directory called `graphql` with your documents. You also will have an `awsconfiguration.json` file that the AppSync client will use for initialization. 
+
 
 ### Import SDK and Config
-To use AppSync in your XCode project, modify your Podfile with a dependency of the AWS AppSync SDK as follows:
+To use AppSync in your Xcode project, modify your Podfile with a dependency of the AWS AppSync SDK as follows:
 
 ```
 target 'PostsApp' do
@@ -62,7 +88,7 @@ target 'PostsApp' do
 end
 ```
 
-Run `pod install` from your terminal and open up the `.xcworkspace` XCode project. Add the `API.swift` and `awsconfiguration.json` files to your project **(File->Add Files to ..->Add)** and then build your project, ensuring there are no issues.
+Run `pod install` from your terminal and open up the `.xcworkspace` Xcode project. Add the `API.swift` and `awsconfiguration.json` files to your project **(File->Add Files to ..->Add)** and then build your project, ensuring there are no issues.
 
 ### Client Initialization
 
@@ -92,7 +118,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 }
 ```
 
-The AWSConfiguration represents the configuration information present in awsconfiguration.json file. By default, the information under Default section of the json is used. Next, in your application code, you reference this in an appropriate lifecycle method such as `viewDidLoad()`:
+`AWSAppSyncClientInfo` represents the configuration information present in awsconfiguration.json file. Next, in your application code, you reference this in an appropriate lifecycle method such as `viewDidLoad()`:
 
 ```swift
 import AWSAppSync
@@ -186,7 +212,7 @@ Add RESTful APIs handled by your serverless Lambda functions. The CLI deploys yo
 
 2. Use the CLI to add api to your cloud-enabled backend and app.
 
- In a terminal window, navigate to your project folder (the folder that contains your app `.xcodeproj` file), and add the SDK to your app.
+ In a terminal window, navigate to your project folder (the folder that contains your app `.Xcodeproj` file), and add the SDK to your app.
 
 	```bash
 	$ cd ./YOUR_PROJECT_FOLDER
