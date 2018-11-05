@@ -328,7 +328,7 @@ As users engage with your app, it reports information about app sessions to Amaz
 
 **Example Lifecycle Manager**
 
-The following example class, AbstractApplicationLifeCycleHelper, implements the Application.ActivityLifecycleCallbacks interface to track when the application enters the foreground or background, among other states. Add this class to your app, or use it as an example for how to update your code: 
+The following example class, `AbstractApplicationLifeCycleHelper`, implements the `Application.ActivityLifecycleCallbacks` interface to track when the application enters the foreground or background, among other states. Add this class to your app, or use it as an example for how to update your code:
 
 <div id="java" class="tab-content current">
 ```java
