@@ -41,12 +41,12 @@ pod init
 
 Open the created  `Podfile` in a text editor and add the pod for core AWS Mobile SDK components to your build.
 
-```
+```ruby
 platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSCore', '~> 2.6.13'
+    pod 'AWSCore', '~> 2.6.33'
 
     # other pods
 end
@@ -102,11 +102,12 @@ The `add api` flow above will ask you some questions, like if you already have a
 
 Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults which generate a file named `API.swift`. Drag and drop this file from you `Finder` to the Xcode project and update your Podfile to include `AWSAppSync`:
 
-```bash
-target 'MyApp' do             ##Replace MyApp with your application name
-  use_frameworks!
+```ruby
+platform :ios, '9.0'
+target :'YOUR-APP-NAME' do
+    use_frameworks!
 
-  pod 'AWSAppSync'
+    pod 'AWSAppSync'
 
 end
 ```

@@ -219,6 +219,19 @@ android_category_list:
           services:
               - title: Amazon Lex
                 url: https://aws.amazon.com/lex/
+        - title: PubSub
+          excerpt: Connect your app to message-oriented middleware on the cloud.
+          cta: Read more
+          class: aws-icon-ps-60-circular-circuit
+          url: '/android/pubsub'
+          icon: '/images/icons/Misc/Cloud.svg'
+          services:
+              - title: AWS IoT,
+                url: https://aws.amazon.com/iot/
+              - title: Generic MQTT,
+                url: https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html#mqtt
+              - title: Custom Plugin
+                url:
 
 ios_category_list:
     - category: SetupAndInstallation
@@ -254,19 +267,6 @@ ios_category_list:
           class: aws-icon-ps-60-network-nodes
           url_external: 'https://marketplace.visualstudio.com/items?itemName=aws-amplify.aws-amplify-vscode'
           icon: '/images/icons/Misc/Present.svg'
-        - title: PubSub
-          excerpt: Connect your app to message-oriented middleware on the cloud.
-          cta: Read more
-          class: aws-icon-ps-60-circular-circuit
-          url: '/android/pubsub'
-          icon: '/images/icons/Misc/Cloud.svg'
-          services:
-              - title: AWS IoT,
-                url: https://aws.amazon.com/iot/
-              - title: Generic MQTT,
-                url: https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html#mqtt
-              - title: Custom Plugin
-                url:
     - category: API Guides
       title: API Guides
       excerpt: Add cloud features to your app quickly using our toolchain and declarative APIs.
