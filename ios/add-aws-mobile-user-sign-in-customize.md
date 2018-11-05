@@ -5,8 +5,6 @@ By default, the SDK presents sign-in UI for each sign in provider you enable in 
 To override the defaults, and modify the behavior, look, and feel of the sign-in UI, create an `AuthUIConfiguration` object and set the appropriate properties.
 
 
-iOS - Swift
-
 Create and configure an `AWSAuthUIConfiguration` object and set its properties.
 
 Create and configure an `AuthUIConfiguration` object.

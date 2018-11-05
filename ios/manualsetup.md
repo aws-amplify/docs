@@ -14,10 +14,10 @@ pod init
 
 In your project directory (the directory where your `*.xcodeproj` file is), open the empty text file named `Podfile`. Replace `myAppName` with your app name. You can also remove pods for services that you don't use. For example, if you don't use `AWSAutoScaling`, remove or do not include the `AWSAutoScaling` pod.
 
-```bash
+```ruby
 source 'https://github.com/CocoaPods/Specs.git'
 
-platform :ios, '8.0'
+platform :ios, '9.0'
 use_frameworks!
 
 target :'YOUR-APP-NAME' do
@@ -61,6 +61,48 @@ Once complete, run `pod install` and open the `*.xcworkspace` with Xcode and **b
 
 Whenever a new version of the SDK is released you can update by running `pod update` and rebuilding your project to use the new features.
 
+## Direct AWS Service access
+
+You can call AWS service interface objects directly via the generated SDK clients. You can use the client credentials provided by the [AWSMobileClient](./authentication) when using the `.default()` method on a service object (e.g. `AWSSQS.default()`). This will leverage short term AWS credentials from Cognito Identity. Alternatively, you can call the constructors manually.
+
+To work with service interface objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
+{: .callout .callout--warning}
+
+For example, if you were using [Amazon Simple Queue Service (SQS)](https://aws.amazon.com/sqs/) in Swift you would first add `AWSSQS` to your `Podfile` and install the dependencies with `pod install`. Next, update your `awsconfiguration.json` like so:
+
+```json
+    "SQS" : {
+        "Default": {
+            "Region": "XX-XXXX-X"
+        }
+    }
+```
+
+**Note**: The key is `SQS` and not `AWSSQS` as the `awsconfiguration.json` file does not prefix keys with `AWS`.
+
+Next, import `AWSSQS` in your Xcode project and create the client:
+
+```swift
+import AWSSQS
+
+func addItemSQS() {
+        let sqs = AWSSQS.default()
+        let req = AWSSQSSendMessageRequest()
+        req?.queueUrl = "https://sqs.XX-XXXX-X.amazonaws.com/XXXXXXXXXXXX/MyQueue"
+        req?.messageBody = "hello world"
+        sqs.sendMessage(req!) { (result, err) in
+            if let result = result {
+                print("SQS result: \(result)")
+            }
+            if let err = err {
+                print("SQS error: \(err)")
+            }
+        }
+    }
+```
+
+You could then call `self.addItemSQS()` to invoke this action from your app.
+
 ## Logging
 
 As of version 2.5.4 of this SDK, logging utilizes [CocoaLumberjack SDK](https://github.com/CocoaLumberjack/CocoaLumberjack), a flexible, fast, open source logging framework. It supports many capabilities including the ability to set logging level per output target, for instance, concise messages logged to the console and verbose messages to a log file.
@@ -70,7 +112,7 @@ CocoaLumberjack logging levels are additive such that when the level is set to v
 You can change the logging level to suit the phase of your development cycle by importing AWSCore and calling:
 
 ```swift
-AWSDDLog.sharedInstance().logLevel = .verbose
+AWSDDLog.sharedInstance.logLevel = .verbose
 ```
 
 The following logging level options are available:

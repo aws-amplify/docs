@@ -10,7 +10,7 @@ We strongly recommend that you use the Amplify CLI for building the serverless b
 
 *  Install [Node.js](https://nodejs.org/) and npm (if they are not already installed).
 
-> Verify that you are running at least Node.js version 8.x or greater and npm version 5.x or greater by running `node -v` and `npm -v` in a terminal/console window. Older versions aren't supported and might generate errors.
+> Verify that you are running at least Node.js version 8.11.x or greater and npm version 5.x or greater by running `node -v` and `npm -v` in a terminal/console window. Older versions aren't supported and might generate errors.
 
 To install and configure the Amplify CLI globally, run the following commands in a terminal window.
 

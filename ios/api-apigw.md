@@ -81,7 +81,7 @@ The `amplify push` process will prompt you to enter the codegen process and walk
 ### Import SDK and Config
 To use AppSync in your Xcode project, modify your Podfile with a dependency of the AWS AppSync SDK as follows:
 
-```
+```ruby
 target 'PostsApp' do
     use_frameworks!
     pod 'AWSAppSync', ' ~> 2.6.20'
@@ -110,6 +110,8 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
         //AppSync configuration & client initialization
         let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(),databaseURL: databaseURL)
         appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+        // Set id as the cache key for objects. See architecture section for details
+        appSyncClient?.apolloClient?.cacheKeyForObject = { $0["id"] }
         } catch {
             print("Error initializing appsync client. \(error)")
         }
@@ -200,6 +202,264 @@ do {
 
 Subscriptions can also take input types like mutations, in which case they will be subscribing to particular events based on the input. To learn more about subscription arguments, see :ref:`Real-Time data <aws-appsync-real-time-data>`.
 
+### Client Architecture
+
+The AppSync client supports offline scenarios with a programing model that provides a "write through cache". This allows you to both render data in the UI when offline as well as add/update through an "optimistic response". The below diagram shows how the AppSync client interfaces with the network GraphQL calls, it's offline mutation queue, the Apollo cache, and your application code.
+
+**//TODO - Insert diagram**
+
+Your application code will interact with the AppSync client to perform GraphQL queries, mutations, or subscriptions. The AppSync client automatically performs the correct authorization methods when interfacing with the HTTP layer adding API Keys, tokens, or signing requests depending on how you have configured your setup. When you do a mutation, such as adding a new item (like a blog post) in your app the AppSync client adds this to a local queue (persisted to disk with SQLite) when the app is offline. When network connectivity is restored the mutations are sent to AppSync in serial allowing you to process the responses one by one. 
+
+Any data returned by a query is automatically written to the Apollo Cache (e.g. “Store”) that is persisted to disk via SQLite. The cache is structured as a key value store using a reference structure. There is a base “Root Query” where each subsequent query resides and then references their individual item results. You specify the reference key (normally “id”) in your application code. An example of the cache that has stored results from a “listPosts” query and “getPost(id:1)” query is below.
+
+| Key | Value |
+| ROOT_QUERY | [ROOT_QUERY.listPosts, ROOT_QUERY.getPost(id:1)]
+| ROOT_QUERY.listPosts | {0, 1, …,N} |
+| Post:0 |{author:"Nadia", content:"ABC"} |
+| Post:1 | {author:"Shaggy", content:"DEF"} |
+| ... | ... |
+| Post:N | {author:"Pancho", content:"XYZ"} |
+| ROOT_QUERY.getPost(id:1) |ref: $Post:1 |
+
+Notice that the cache keys are normalized where the `getPost(id:1)` query references the same element that is part of the `listPosts` query. This only happens when you define a common cache key to uniquely identify the objects. This is done when you configure the AppSync client in your AppDelegate with:
+
+```swift
+//Use something other than "id" if your GraphQL type is different
+appSyncClient?.apolloClient?.cacheKeyForObject = { $0["id"] }
+```
+
+If you are performing a mutation, you can write an “optimistic response” anytime to this cache even if you are offline. You use the AppSync client to connect by passing in the query to update, reading the items off the cache. This normally returns a single item or list of items, depending on the GraphQL response type of the query to update. At this point you would add to the list, remove, or update it as appropriate and write back the response to the store persisting it to disk. When you reconnect to the network any responses from the service will overwrite the changes as the authoritative response.
+
+#### Offline Mutations
+
+As outlined in the architecture section, all query results are automatically persisted to disc with the AppSync client. For updating data through mutations when offline you will need to use an "optimistic response" with a transaction. This is done by passing an `optimisticUpdate` in the `appSyncClient?.perform()` mutation method using a `transaction`, where you pass in a query that will be updated in the cache. Inside of this transaction, you can write to the store via `appSyncClient?.store?.withinReadWriteTransaction`.
+
+For example, the below code shows how you would update the `CreateTodoMutation` mutation from earlier by adding a `optimisticUpdate: { (transaction) in do {...} catch {...}` argument with a closure. This adds an item to the cache with `transaction?.update()` using a locally generated unique identifier. This might be enough for your app, however if the AppSync response returns a different value for `ID` (which many times is the case as best practice is generation of IDs at the service layer) then you will need to replace the value locally when a response is received. this can be done in the `resultHandler` by using `appSyncClient?.store?.withinReadWriteTransaction()` and `transaction?.update()` again.
+
+```swift
+func optimisticCreateTodo(input: CreateTodoInput, query:ListTodosQuery){
+        let createTodoInput = CreateTodoInput(name: input.name, description: input.description)
+        let createTodoMutation = CreateTodoMutation(input: createTodoInput)
+        let UUID = NSUUID().uuidString
+        
+        self.appSyncClient?.perform(mutation: createTodoMutation, optimisticUpdate: { (transaction) in
+            do {
+                try transaction?.update(query: query) { (data: inout ListTodosQuery.Data) in
+                    data.listTodos?.items?.append(ListTodosQuery.Data.ListTodo.Item.init(id: UUID, name: input.name, description: input.description!))
+                }
+            } catch {
+                print("Error updating cache with optimistic response for \(createTodoInput)")
+            }
+        }, resultHandler: { (result, error) in
+            if let result = result {
+                print("Added Todo Response from service: \(String(describing: result.data?.createTodo?.name))")
+                //Now remove the outdated entry in cache from optimistic write
+                let _ = self.appSyncClient?.store?.withinReadWriteTransaction { transaction in
+                    try transaction.update(query: ListTodosQuery())
+                    { (data: inout ListTodosQuery.Data) in
+                        var pos = -1, counter = 0
+                        for item in (data.listTodos?.items!)! {
+                            if item?.id == UUID {
+                                pos = counter
+                                continue
+                            }; counter += 1
+                        }
+                        if pos != -1 { data.listTodos?.items?.remove(at: pos) }
+                    }
+                }
+            } else if let error = error {
+                print("Error adding Todo: \(error.localizedDescription)")
+            }
+        })
+    }
+```
+
+You might add similar code in your app for updating or deleting items using an optimistic response, it would look largely similar except that you might overwrite or remove an element from the `data.listTodos?.items` array.
+
+### Authentication Modes
+
+For client authorization AppSync supports API Keys, Amazon IAM credentials (we recommend using Amazon Cognito Identity Pools for this option), Amazon Cognito User Pools, and 3rd party OIDC providers. This is inferred from the `awsconfiguration.json` when you call `AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo()`.
+
+#### API Key
+
+API Key is the easiest way to setup and prototype your application with AppSync. It's also a good option if your application is completely public. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials provided by Cognito Identity Pools, which also supports "Guest" access. See [the authentication section for more details](./authentication). For manual configuration, add the following snippet to your `awsconfiguration.json` file:
+
+```json
+{
+  "AppSync": {
+        "Default": {
+            "ApiUrl": "YOUR-GRAPHQL-ENDPOINT",
+            "Region": "us-east-1",
+            "ApiKey": "YOUR-API-KEY",
+            "AuthMode": "API_KEY"
+        }
+   }
+}
+```
+
+Add the following code to your app:
+
+```swift
+// You can choose your database location, accessible by the SDK
+let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent(database_name)
+    
+do {
+    // Initialize the AWS AppSync configuration
+    let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(), 
+                                                                databaseURL: databaseURL)
+    
+    // Initialize the AWS AppSync client
+    appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+} catch {
+    print("Error initializing appsync client. \(error)")
+}
+```
+
+#### Cognito User Pools
+
+Amazon Cognito User Pools is the most common service to use with AppSync when adding user Sign-Up and Sign-In to your application. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials with Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth` and can also automatically federate User Pools with Identity Pools. This allows you to have both User Pool credentials for AppSync and AWS credentials for S3. You can then use the `AWSMobileClient` for automatic credentials refresh [as outlined in the authentication section](./authentication). For manual configuration, add the following snippet to your `awsconfiguration.json` file:
+
+```json
+{
+  "CognitoUserPool": {
+        "Default": {
+            "PoolId": "POOL-ID",
+            "AppClientId": "APP-CLIENT-ID",
+            "AppClientSecret": "APP-CLIENT-SECRET",
+            "Region": "us-east-1"
+        }
+    },
+  "AppSync": {
+        "Default": {
+            "ApiUrl": "YOUR-GRAPHQL-ENDPOINT",
+            "Region": "us-east-1",
+            "AuthMode": "AMAZON_COGNITO_USER_POOLS"
+        }
+   }
+}
+```
+
+Add the following code to your app:
+
+```swift                                
+    func initializeAppSync() {
+        // You can choose your database location, accessible by the SDK
+        let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("todos_db")
+        
+        do {
+            // Initialize the AWS AppSync configuration
+            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(),
+                                                                  userPoolsAuthProvider: {
+                                                                    class MyCognitoUserPoolsAuthProvider : AWSCognitoUserPoolsAuthProviderAsync {
+                                                                        func getLatestAuthToken(_ callback: @escaping (String?, Error?) -> Void) {
+                                                                            AWSMobileClient.sharedInstance().getTokens { (tokens, error) in
+                                                                                if error != nil {
+                                                                                    callback(nil, error)
+                                                                                } else {
+                                                                                    callback(tokens?.idToken?.tokenString, nil)
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    return MyCognitoUserPoolsAuthProvider()}(),
+                                                                  databaseURL:databaseURL)
+            
+            // Initialize the AWS AppSync client
+            appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+        } catch {
+            print("Error initializing appsync client. \(error)")
+        }
+    }
+```
+
+#### IAM
+
+When using AWS IAM in a mobile application you should leverage Amazon Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth`. You can then use the `AWSMobileClient` for automatic credentials refresh [as outlined in the authentication section](./authentication) For manual configuration, add the following snippet to your `awsconfiguration.json` file:
+
+```json
+{
+  "CredentialsProvider": {
+      "CognitoIdentity": {
+          "Default": {
+              "PoolId": "YOUR-COGNITO-IDENTITY-POOLID",
+              "Region": "us-east-1"
+          }
+      }
+  },
+  "AppSync": {
+    "Default": {
+          "ApiUrl": "YOUR-GRAPHQL-ENDPOINT",
+          "Region": "us-east-1",
+          "AuthMode": "AWS_IAM"
+     }
+   }
+}
+```
+
+Add the following code to your app:
+
+```swift
+// Set up the Amazon Cognito CredentialsProvider
+let credentialsProvider = AWSCognitoCredentialsProvider(regionType: CognitoIdentityRegion,
+                                                        identityPoolId: CognitoIdentityPoolId)
+                                                                
+// You can choose your database location, accessible by the SDK
+let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent(database_name)
+    
+do {
+  // Initialize the AWS AppSync configuration
+            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(),
+                                                                  credentialsProvider: credentialsProvider,
+                                                                  databaseURL: databaseURL)
+    
+    // Initialize the AWS AppSync client
+    appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+} catch {
+    print("Error initializing appsync client. \(error)")
+}
+```
+
+#### OIDC
+
+If you are using a 3rd party OIDC provider you will need to configure it and manage the details of token refreshes yourself. Update the `awsconfiguration.json` file and code snippet as follows:
+
+```json
+{
+  "AppSync": {
+        "Default": {
+            "ApiUrl": "YOUR-GRAPHQL-ENDPOINT",
+            "Region": "us-east-1",
+            "AuthMode": "OPENID_CONNECT"
+        }
+   }
+}
+```
+
+Add the following code to your app:
+
+```swift
+class MyOidcProvider: AWSOIDCAuthProvider {
+    func getLatestAuthToken() -> String {
+        // Fetch the JWT token string from OIDC Identity provider
+        // after the user is successfully signed-in
+        return "token"
+    }
+}
+
+let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent(database_name)
+    
+do {
+  // Initialize the AWS AppSync configuration
+    let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(),
+                                                          oidcAuthProvider: MyOidcProvider(),
+                                                          databaseURL:databaseURL)
+    
+    appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+} catch {
+    print("Error initializing appsync client. \(error)")
+}
+```
+
 ## REST API
 
 ### Overview
@@ -260,11 +520,11 @@ Use the following steps to add Cloud Logic to your app.
 	  use_frameworks!
 
 	     # For auth
-	     pod 'AWSAuthCore', '~> 2.6.13'
-	     pod 'AWSMobileClient', '~> 2.6.13'
+	     pod 'AWSAuthCore', '~> 2.6.33'
+	     pod 'AWSMobileClient', '~> 2.6.33'
 
 	     # For API
-	     pod 'AWSAPIGateway', '~> 2.6.13'
+	     pod 'AWSAPIGateway', '~> 2.6.33'
 
 	     # other pods
 
