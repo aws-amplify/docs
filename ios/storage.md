@@ -8,13 +8,11 @@ Enable your app to store and retrieve user files from cloud storage with the per
 
 ### Storage Access
 
-The CLI configures three different access levels on the storage bucket; public, protected and private.
+The CLI configures three different access levels on the storage bucket: public, protected and private. When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool Role. If you had previously enabled user sign-in by running `amplify add auth` in your project, the policies will be connected to an `Authenticated Role` of the Identity Pool which has scoped permission to the objects in the bucket for each user identity. If you haven't configured user sign-in, then an `Unauthenticated Role` will be assigned for each unique user/device combination, which still has scoped permissions to just their objects.
 
-- Files with public access level can be accessed by all users who are using your app. In S3, they are stored under the ``public/`` path in your S3 bucket.
-
-- Files with protected access level are readable by all users but writable only by the creating user. In S3, they are stored under ``protected/{user_identity_id}/`` where the ``user_identity_id`` corresponds to a unique Amazon Cognito Identity ID for that user.
-
-- Files with private access level are only accessible for specific authenticated users only. In S3, they are stored under ``private/{user_identity_id}/`` where the ``user_identity_id`` corresponds to a unique Amazon Cognito Identity ID for that user.
+* Public: Accessable by all users of your app. Files are stored under the `public/` path in your S3 bucket.
+* Protected: Readable by all users, but writable only by the creating user. Files are stored under `protected/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
+* Private: Only accessible for the individual user. Files are stored under `private/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
 
 ### Set Up Your Backend
 
@@ -66,7 +64,7 @@ The CLI configures three different access levels on the storage bucket; public, 
 
 Use the following steps to add file storage backend services to your app.
 
-1. Add the following to the `Podfile` to install the AWS Mobile SDK:
+1. Add the `AWSS3` dependency to the `Podfile` to install the AWS Mobile SDK:
 
     ```ruby
     platform :ios, '9.0'
@@ -481,7 +479,7 @@ let multiPartUploadTasks = transferUtility.getMultiPartUploadTasks().result
 
 ### Transfer with Object Metadata
 
-The `AWSS3TransferUtilityUploadExpression` and `AWSS3TransferUtilityMultiPartUploadExpression` classes contain the method `setValue:forRequestHeader` where you can pass in metadata to Amazon S3. This example demonstrates passing in the Server-side Encryption Algorithm as a request header in uploading data to S3 using MultiPart.
+The `AWSS3TransferUtilityUploadExpression` and `AWSS3TransferUtilityMultiPartUploadExpression` classes contain the method `setValue:forRequestHeader` where you can pass in metadata to Amazon S3. This example demonstrates passing in the Server-side Encryption Algorithm as a request header in uploading data to S3 using MultiPart. See [Object Key and Metadata](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html) for more information.
 
 ```swift
 
@@ -512,7 +510,7 @@ transferUtility.uploadUsingMultiPart(data:data,
 
 ### Transfer with Access Control List
 
-To upload a file and specify permissions for it, you can use predefined grants, also known as canned ACLs. The following code shows you how to setup a file with publicRead access using the AWSS3 client.
+To upload a file and specify permissions for it, you can use predefined grants, also known as canned ACLs. The following code shows you how to setup a file with publicRead access using the AWSS3 client. See [Access Control List(ACL) Overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html) for more information.
 
 
 ```swift
@@ -538,81 +536,6 @@ s3.putObject(putObjectRequest, completionHandler: { (putObjectOutput:AWSS3PutObj
         print (error)
     }
 })
-```
-
-### Downloading to a File
-
-```swift
-let fileURL = // The file URL of the download destination.
-
-let transferUtility = AWSS3TransferUtility.default()
-transferUtility.download(
-        to: fileURL
-        bucket: S3BucketName,
-        key: S3DownloadKeyName,
-        expression: expression,
-        completionHandler: completionHandler).continueWith {
-            (task) -> AnyObject! in if let error = task.error {
-                print("Error: \(error.localizedDescription)")
-            }
-
-            if let _ = task.result {
-                // Do something with downloadTask.
-            }
-            return nil;
-        }
-```
-
-### Uploading Binary Data to a File
-
-To upload a binary data to a file, you have to make sure to set the appropriate content type in the uploadData method of the TransferUtility. In the example below, we are uploading a PNG image to S3.
-
-```swift
-
-let data: Data = Data() // The data to upload
-
-let transferUtility = AWSS3TransferUtility.default()
-transferUtility.uploadData(data,
-          bucket: S3BucketName,
-          key: S3UploadKeyName,
-          contentType: "image/png",
-          expression: expression,
-          completionHandler: completionHandler).continueWith { (task) -> AnyObject! in
-              if let error = task.error {
-                  print("Error: \(error.localizedDescription)")
-              }
-
-              if let _ = task.result {
-                  // Do something with uploadTask.
-              }
-
-              return nil;
-          }
-```
-
-### Downloading Binary Data to a File
-
-The following code shows how to download a binary file.
-
-```swift
-
-let fileURL = // The file URL of the download destination
-let transferUtility = AWSS3TransferUtility.default()
-transferUtility.downloadData(
-        fromBucket: S3BucketName,
-        key: S3DownloadKeyName,
-        expression: expression,
-        completionHandler: completionHandler).continueWith {
-            (task) -> AnyObject! in if let error = task.error {
-                print("Error: \(error.localizedDescription)")
-            }
-
-            if let _ = task.result {
-                // Do something with downloadTask.
-            }
-
-            return nil;
-        }
 ```
 
 ### Limitations
