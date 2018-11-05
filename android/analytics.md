@@ -2,7 +2,6 @@
 <div class="nav-tab create" data-group='create'>
 <ul class="tabs">
     <li class="tab-link java current" data-tab="java">Java</li>
-    <li class="tab-link kotlin" data-tab="kotlin">Kotlin</li>
 </ul>
 ## Pinpoint
 
@@ -132,83 +131,7 @@ Use the following steps to add analytics to your mobile app and monitor the resu
 	}
 	```
 </div>
-<div id="kotlin" class="tab-content">
-1. Set up AWS Mobile SDK components as follows.
 
-    1. Include the following libraries in your :file:`app/build.gradle` dependencies list.
-
-        ```groovy
-        dependencies {
-            implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.7.+'
-            implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.7.+@aar') { transitive = true }
-            // other dependencies . . .
-        }
-        ```
-        * `aws-android-sdk-pinpoint` library enables sending analytics to Amazon Pinpoint.
-        * `aws-android-sdk-mobile-client` library gives access to the AWS credentials provider and configurations.
-
-    2. Add required permissions to your app manifest.
-
-        The AWS Mobile SDK required the `INTERNET` and `ACCESS_NETWORK_STATE` permissions.  These are defined in the `AndroidManifest.xml` file.
-
-        ```xml
-        <uses-permission android:name="android.permission.INTERNET"/>
-        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-        ```
-
-2. Add calls to capture session starts and stops. A session is one use of an app by the user. A session begins when an app is launched (or brought to the foreground), and ends when the app is terminated (or goes to the background). To accommodate for brief interruptions, like a text message, an inactivity period of up to 5 seconds is not counted as a new session. Total daily sessions shows the number of sessions your app has each day. Average sessions per daily active user shows the mean number of sessions per user per day.
-
-   Three typical places to instrument your app session start and stop are:
-
-   * Start a session in the `Application.onCreate()` method.
-
-   * Start a session in the `onCreate()` method of the app's first activity.
-
-   * Start or stop a session in the [ActivityLifecycleCallbacks](https://developer.android.com/reference/android/app/Application.ActivityLifecycleCallbacks) class.
-
-   The following example shows how to start a session in the `OnCreate` event of `MainActivity`.
-
-      ```kotlin
-      import android.support.v7.app.AppCompatActivity;
-      import android.os.Bundle;
-      import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
-      import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
-      import com.amazonaws.mobile.client.AWSMobileClient;
-
-      class MainActivity : AppCompatActivity() {
-          companion object {
-              private val TAG = MainActivity.javaClass.simpleName
-              var pinpointManager: PinpointManager? = null
-          }
-
-          override fun onCreate(savedInstanceState: Bundle?) {
-              super.onCreate(savedInstanceState)
-              setContentView(R.layout.activity_main)
-
-              // Initialize the AWS Mobile client
-              AWSMobileClient.getInstance().initialize(this) { Log.d(TAG, "AWSMobileClient is instantiated and you are connected to AWS!") }.execute()
-
-              val config = PinpointConfiguration(
-                      this@MainActivity,
-                      AWSMobileClient.getInstance().credentialsProvider,
-                      AWSMobileClient.getInstance().configuration
-              )
-
-              pinpointManager = PinpointManager(config)
-              pinpointManager?.sessionClient?.startSession()
-          }
-      }
-      ```
-   To stop the session, use `stopSession()` and `submitEvents()` at the last point in the session that you want to capture. In this example, we are using a single Activity, so the session will stop when the MainActivity is destroyed. `onDestroy()` is usually called when the back button is pressed while in the activity.
-
-   ```kotlin
-    override fun onDestroy() {
-        super.onDestroy()
-        pinpointManager?.sessionClient?.stopSession()
-        pinpointManager?.analyticsClient?.submitEvents()
-    }
-  ```  
-</div>
 #### Monitor Analytics
 
 Build and run your app to see usage metrics in Amazon Pinpoint. When you run the previous code samples, the console shows a logged Session.
@@ -248,23 +171,6 @@ public void logEvent() {
 }
 ```
 </div>
-<div id="kotlin" class="tab-content">
-```kotlin
-import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsEvent;
-
-/**
- * Call this method to log a custom event to the analytics client.
- */
-fun logEvent() {
-    pinpointManager?.analyticsClient?.let {
-        val event = it.createEvent("EventName")
-            .withAttribute("DemoAttribute1", "DemoAttributeValue1")
-            .withAttribute("DemoAttribute2", "DemoAttributeValue2")
-            .withMetric("DemoMetric1", Math.random());
-        it.recordEvent(event)
-}
-```
-</div>
 Build, run, and use your app. Then, view your custom events on the `Events` tab of the Amazon Pinpoint console (choose `Analytics`>`Events`). Look for the name of your event in the `Events` menu.
 
 ### Enable Revenue Analytics
@@ -290,27 +196,6 @@ public void logMonetizationEvent() {
 }
 ```
 </div>
-<div id="kotlin" class="tab-content">
-```kotlin
-import com.amazonaws.mobileconnectors.pinpoint.analytics.monetization.AmazonMonetizationEventBuilder
-
-/**
- * Call this method to log a monetized event to the analytics client.
- */
-fun logMonetizationEvent() {
-    pinpointManager?.analyticsClient?.let {
-        val event = AmazonMonetizationEventBuilder.create(it)
-                .withCurrency("USD")
-                .withItemPrice(10.00)
-                .withProductId("DEMO_PRODUCT_ID")
-                .withQuantity(1.0)
-                .withProductId("DEMO_TRANSACTION_ID").build();
-        it.recordEvent(event)
-    }
-}
-```
-</div>
-
 
 ### Reporting Events in Your Application
 
@@ -343,22 +228,6 @@ public void logSession() {
 }
 ```
 </div>
-<div id="kotlin" class="tab-content">
-```kotlin
-import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsEvent;
-
-/**
- * Call this method to start and stop a session and submit events recorded
- * in the current session.
- */
-fun logSession() {
-        val sessionClient = pinpointManager.getSessionClient()
-        sessionClient.startSession()
-        sessionClient.stopSession()
-        pinpointManager.getAnalyticsClient().submitEvents()
-    }
-```
-</div>
 
 #### Custom events
 Are nonstandard events that you define by assigning a custom event type. You can add custom attributes and metrics to a custom event.
@@ -382,24 +251,6 @@ public void logEvent() {
            .withMetric("DemoMetric1", Math.random());
    pinpointManager.getAnalyticsClient().recordEvent(event);
    pinpointManager.getAnalyticsClient().submitEvents();
-}
-```
-</div>
-<div id="kotlin" class="tab-content">
-```kotlin
-import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsEvent;
-
-/**
- * Call this method to log a custom event to the analytics client.
- */
-fun logEvent() {
-    pinpointManager?.analyticsClient?.let {
-        val event = it.createEvent("EventName")
-            .withAttribute("DemoAttribute1", "DemoAttributeValue1")
-            .withAttribute("DemoAttribute2", "DemoAttributeValue2")
-            .withMetric("DemoMetric1", Math.random());
-        it.recordEvent(event)
-        it.submitEvents()
 }
 ```
 </div>
@@ -431,27 +282,6 @@ public void logMonetizationEvent() {
            .withProductId("DEMO_TRANSACTION_ID").build();
     pinpointManager.getAnalyticsClient().recordEvent(event);
     pinpointManager.getAnalyticsClient().submitEvents();
-}
-```
-</div>
-<div id="kotlin" class="tab-content">
-```kotlin
-import com.amazonaws.mobileconnectors.pinpoint.analytics.monetization.AmazonMonetizationEventBuilder
-
-/**
- * Call this method to log a monetized event to the analytics client.
- */
-fun logMonetizationEvent() {
-    pinpointManager?.analyticsClient?.let {
-        val event = AmazonMonetizationEventBuilder.create(it)
-                .withCurrency("USD")
-                .withItemPrice(10.00)
-                .withProductId("DEMO_PRODUCT_ID")
-                .withQuantity(1.0)
-                .withProductId("DEMO_TRANSACTION_ID").build();
-        it.recordEvent(event)
-        it.submitEvents()
-    }
 }
 ```
 </div>
@@ -491,21 +321,6 @@ public void logAuthenticationEvent() {
 }
 ```
 </div>
-<div id="kotlin" class="tab-content">
-```kotlin
-import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsEvent;
-
-/**
- * Call this method to log an authentication event to the analytics client.
- */
-fun logAuthenticationEvent() {
-    pinpointManager?.analyticsClient?.let {
-        val event = it.createEvent("_userauth.sign_in");
-        it.recordEvent(event)
-        it.submitEvents()
-}
-```
-</div>
 
 
 ### Registering Endpoints in Your Application
@@ -535,22 +350,6 @@ public void addCustomEndpointAttribute() {
 }
 ```
 </div>
-<div id="kotlin" class="tab-content">
-```kotlin
-import com.amazonaws.mobileconnectors.pinpoint.targeting.TargetingClient
-
-/**
- * Call this method to log a custom event to the analytics client.
- */
-fun addCustomEndpointAttribute() {
-    val targetingClient = pinpointManager.getTargetingClient()
-    val interests = arrayOf("science", "politics", "travel")
-    targetingClient.addAttribute("interests", Arrays.asList(interests))
-    targetingClient.updateEndpointProfile()
-    Log.d(TAG, "Updated custom attributes for endpoint: " + targetingClient.currentEndpoint().getEndpointId())
-}
-```
-</div>
 
 
 #### Assigning User IDs to Endpoints
@@ -577,24 +376,6 @@ public void assignUserIdToEndpoint() {
     targetingClient.updateEndpointProfile(endpointProfile);
     Log.d(TAG, "Assigned user ID " + endpointProfileUser.getUserId() +
             " to endpoint " + endpointProfile.getEndpointId());
-}
-```
-</div>
-<div id="kotlin" class="tab-content">
-```kotlin
-import com.amazonaws.mobileconnectors.pinpoint.targeting.TargetingClient
-import com.amazonaws.mobileconnectors.pinpoint.targeting.endpointProfile.EndpointProfileUser
-import com.amazonaws.mobileconnectors.pinpoint.targeting.endpointProfile.EndpointProfile
-
-fun assignUserIdToEndpoint() {
-      val targetingClient = pinpointManager.getTargetingClient()
-      val endpointProfile = targetingClient.currentEndpoint()
-      val endpointProfileUser = EndpointProfileUser()
-      endpointProfileUser.userId = "UserIdValue"
-      endpointProfile.setUser(endpointProfileUser)
-      targetingClient.updateEndpointProfile(endpointProfile)
-      Log.d(TAG, "Assigned user ID " + endpointProfileUser.userId +
-              " to endpoint " + endpointProfile.getEndpointId())
 }
 ```
 </div>
@@ -775,36 +556,6 @@ Long maxStorageSize = kinesisRecorderConfig.getMaxStorageSize();
 ```
 </div>
 
-<div id="kotlin" class="tab-content">
-```kotlin
-val recorder = KinesisRecorder(
-          myActivity.getDir("YOUR_UNIQUE_DIRECTORY", 0),
-          Regions.US_WEST_2,
-          credentialsProvider)
-```
-You'll use `KinesisRecorder` to save records and then send them in a batch.
-
-```kotlin
-recorder.saveRecord("MyData".getBytes(), "MyStreamName")
-recorder.submitAllRecords()
-```
-For the `saveRecord()` request above to work, you would have to have created a stream named `MyStreamName`. You can create new streams in the [Amazon Kinesis console](https://console.aws.amazon.com/kinesis).
-
-If `submitAllRecords()` is called while the app is online, requests will be sent and removed from the disk. If `submitAllRecords()` is called while the app is offline, requests will be kept on disk until `submitAllRecords()` is called while online. This applies even if you lose your internet connection midway through a submit. So if you save ten requests, call `submitAllRecords()`, send five, and then lose the Internet connection, you have five requests left on disk. These remaining five will be sent the next time `submitAllRecords()` is invoked online.
-
-To see how much space the `KinesisRecorder` client is allowed to use, you can call `getDiskByteLimit()`.
-
-```kotlin
-val byteLimit = recorder.diskByteLimit
-// Do something with byteLimit
-```
-Alternatively, you can retrieve the same information by getting the `KinesisRecorderConfig` object for the recorder and calling `getMaxStorageSize():`
-```kotlin
- val maxStorageSize = recorder.kinesisRecorderConfig.maxStorageSize
- // Do something with maxStorageSize
-```
-</div>
-
 #### Storage limits
 
 If you exceed the storage limit for `KinesisRecorder`, requests will not be saved or sent. `KinesisRecorderConfig` has a default `maxStorageSize` of 8 MiB. You can configure the maximum allowed storage via the `withMaxStorageSize()` method of `KinesisRecorderConfig`.
@@ -814,12 +565,6 @@ To check the number of bytes currently stored in the directory passed in to the 
 ```java
 Long bytesUsed = recorder.getDiskBytesUsed();
 // Do something with bytesUsed
-```
-</div>
-<div id="kotlin" class="tab-content">
-```kotlin
- val bytesUsed = recorder.diskBytesUsed
- // Do something with bytesUsed
 ```
 </div>
 
@@ -858,28 +603,6 @@ new AsyncTask<Void, Void, Void>() {
        }
    }
 }.execute();
-```
-</div>
-<div id="kotlin" class="tab-content">
-```kotlin
-val firehose = KinesisFirehoseRecorder(
-  context.getCachedDir(),     // Working directory for recorder
-  Regions.US_WEST_2,          // Region that Kinesis is provisioned in
-  credentialsProvider)        // AWS Credentials provider
-
-// Start to save data, either a String or a byte array
-firehose.saveRecord("Hello world!\n");
-firehose.saveRecord("Streaming data to Amazon S3 via Amazon Kinesis Firehose is easy.\n");
-
-// Send previously saved data to Amazon Kinesis Firehose
-// Note: submitAllRecords() makes network calls.
-thread(start = true) {
-  try {
-      firehose.submitAllRecords()
-  } catch (ex: AmazonClientException) {
-      Log.e(TAG, "Error submitting records")
-  }
-}
 ```
 </div>
 
