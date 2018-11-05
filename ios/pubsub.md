@@ -15,7 +15,7 @@ When using AWS IoT your PubSub HTTP requests are automatically signed when sendi
 
 When used with `AWSIoTDataManager`, PubSub is capable of signing request according to [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). 
 
-To use in your app, import the following namespace:
+To use in your app, import the following:
 
 ```swift
 import AWSIoT
@@ -118,7 +118,7 @@ iotDataManager.unsubscribeTopic("myTopic")
 
 ### Close Connection
 
-In order to disonncect, you need to close the connection as follows:
+In order to disconnect, you need to close the connection as follows:
 
 ```swift
 iotDataManager.disconnect()

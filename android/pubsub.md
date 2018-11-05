@@ -129,7 +129,7 @@ try {
 
 ### Close Connection
 
-In order to disonncect, you need to close the connection as follows:
+In order to disconnect, you need to close the connection as follows:
 
 ```java
 try {
