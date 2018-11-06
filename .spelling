@@ -549,6 +549,10 @@ AWSAppSyncClientConfiguration
 schema.json
 GraphQLOperations
 posts.graphql
+timeoutIntervalForResource
+handleEventsForBackgroundURLSession
+interceptApplication
+AWSStaticCredentialsProvider
 
 # android/how-to-android-sdk-setup.md
 aws-android-sdk-lex
