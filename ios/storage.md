@@ -14,6 +14,8 @@ The CLI configures three different access levels on the storage bucket: public, 
 * Protected: Readable by all users, but writable only by the creating user. Files are stored under `protected/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
 * Private: Only accessible for the individual user. Files are stored under `private/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
 
+See [Authentication](./authentication) for more information on how to get the `user_identity_id` for a signed in user.
+ 
 ### Set Up Your Backend
 
 1. Complete the [Get Started](./start) steps before you proceed.
@@ -163,17 +165,17 @@ func downloadData() {
 
 This section explains how to implement upload and download functionality and a number of additional storage use cases.
 
-Note: If you use the transfer utility multipart upload feature, take advantage of automatic cleanup features by setting up the [AbortIncompleteMultipartUpload] https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html) action in your Amazon S3 bucket life cycle configuration.
+Note: If you use the transfer utility MultiPart upload feature, take advantage of automatic cleanup features by setting up the [AbortIncompleteMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html) action in your Amazon S3 bucket life cycle configuration.
 {: .callout .callout--info}
 
 ### Transfer Utility Options
 
 You can use the `AWSS3TransferUtilityConfiguration` object to configure the operations of the `TransferUtility`.
 
-**isAccelerateModeEnabled**
-The isAccelerateModeEnabled option lets you to upload and download content from a bucket that has Transfer Acceleration enabled on it. See [Transfer Acceleration](https://docs.aws.amazon.com/AmazonS3/latest/dev/transfer-acceleration.html) for information on how to enable transfer acceleration for your bucket.
+#### isAccelerateModeEnabled
+The isAccelerateModeEnabled option lets you to upload and download content from a bucket that has Transfer Acceleration enabled on it. This option is set to false by default. See [Transfer Acceleration](https://docs.aws.amazon.com/AmazonS3/latest/dev/transfer-acceleration.html) for information on how to enable transfer acceleration for your bucket. 
 
-This option is set to false by default.
+_The code sample below manually sets up credentials for the TransferUtility. The best practice is to use the AWSMobileClient. See [Authentication](./authentication) for more details_
 
 ```swift
 //Setup credentials
@@ -198,21 +200,22 @@ AWSS3TransferUtility.register(
 let transferUtility = AWSS3TransferUtility.s3TransferUtility(forKey: "transfer-utility-with-advanced-options")
 ```
 
-**retryLimit**
+#### retryLimit
 The retryLimit option allows you to specify the number of times the TransferUtility will retry a transfer when it encounters an error during the transfer. By default, it is set to 0, which means that there will be no retries.
 
 ```swift
 tuConf.retryLimit = 5
 ```
 
-**multiPartConcurrencyLimit**
+#### multiPartConcurrencyLimit
 The multiPartConcurrencyLimit option allows you to specify the number of parts that will be uploaded in parallel for a MultiPart upload request. By default, this is set to 5.
 
 ```swift
 tuConf.multiPartConcurrencyLimit = 3
 ```
 
-**timeoutIntervalForResource** The timeoutIntervalForResource parameter allows you to specify the maximum duration the transfer can run. The default value for this parameter is 50 minutes. This value is important if you use Amazon Cognito temporary credential because it aligns with the maximum span of time that those credentials are valid.
+#### timeoutIntervalForResource 
+The timeoutIntervalForResource parameter allows you to specify the maximum duration the transfer can run. The default value for this parameter is 50 minutes. This value is important if you use Amazon Cognito temporary credential because it aligns with the maximum span of time that those credentials are valid.
 
 ```swift
 tuConf.timeoutIntervalForResource = 15*60 //15 minutes
@@ -508,37 +511,7 @@ transferUtility.uploadUsingMultiPart(data:data,
             }
 ```
 
-### Transfer with Access Control List
-
-To upload a file and specify permissions for it, you can use predefined grants, also known as canned ACLs. The following code shows you how to setup a file with publicRead access using the AWSS3 client. See [Access Control List(ACL) Overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html) for more information.
-
-
-```swift
-//Create a AWSS3PutObjectRequest object and setup the content, bucketname, key on it.
-//use the .acl method to specify the ACL for the file
-let s3: AWSS3 = AWSS3.default()
-
-let putObjectRequest: AWSS3PutObjectRequest! = AWSS3PutObjectRequest()
-let content = "testObjectData"
-putObjectRequest.acl = AWSS3ObjectCannedACL.publicRead
-putObjectRequest.bucket = "bucket name"
-putObjectRequest.key = "file name"
-putObjectRequest.body = content
-putObjectRequest.contentLength = content.count as NSNumber
-putObjectRequest.contentType = "text/plain";
-
-s3.putObject(putObjectRequest, completionHandler: { (putObjectOutput:AWSS3PutObjectOutput? , error: Error? ) in
-    if let output = putObjectOutput {
-        print (output)
-    }
-
-    if let error = error {
-        print (error)
-    }
-})
-```
-
-### Limitations
+### How it works
 
 If you expect your app to perform transfers that take longer than 50 minutes, use [AWSS3](https://docs.aws.amazon.com/AWSiOSSDK/latest/Classes/AWSS3.html) instead of [AWSS3TransferUtility](https://docs.aws.amazon.com/AWSiOSSDK/latest/Classes/AWSS3TransferUtility.html).
 
@@ -552,9 +525,11 @@ If the generated pre-signed URLs cannot last longer than the credentials, then t
 By default, all Amazon S3 resources are private. If you want your users to have access to Amazon S3 buckets
 or objects, you can assign appropriate permissions with an [IAM policy](http://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html).
 
+However, what if you wanted to provide permissions temporarily, for example: _you want to share a link to file temporarily and have the link expire after a set time_. To do this using an IAM policy would require you to first setup the policy to grant access and then at a later time remember to delete the IAM policy to revoke access. 
+
 Alternatively, you can use pre-signed URLs to give your users temporary access to Amazon S3 objects.  When you create a pre-signed URL, you must provide your security credentials, specify a bucket name, an object key, an HTTP method, and an expiration date and time. The pre-signed URL is valid only for the specified duration.
 
-### Build a Pre-Signed URL
+### Building a Pre-Signed URL
 
 The following example shows how to build a pre-signed URL to get an Amazon S3 object.
 
@@ -605,89 +580,6 @@ AWSS3PreSignedURLBuilder.default().getPreSignedURL(getPreSignedURLRequest).conti
     return nil
 }
 ```
-
-## Amazon S3 Server-Side Encryption Support in iOS
-
-The AWS Mobile SDK for iOS supports server-side encryption of Amazon S3 objects.  If you need server-side encryption for all of the objects that are stored in a bucket, use a bucket policy. To learn more about server-side
-encryption, see [PUT Object](http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUT.html).
-
-You can encrypt an object using AES256 server-side encryption as follows
-
-``` swift
-	let s3 = AWSS3.default()
-        let data = "testdata"
-        let putObjectRequest = AWSS3PutObjectRequest();
-        putObjectRequest?.serverSideEncryption = AWSS3ServerSideEncryption.AES256
-        putObjectRequest?.body = data
-        putObjectRequest?.contentLength = data.lengthOfBytes(using: .utf8) as NSNumber
-        putObjectRequest?.bucket = "YOUR_BUCKET"
-        putObjectRequest?.key = "YOUR_KEY"
-    
-        
-        s3.putObject(putObjectRequest!).continueWith(block: { (task:(AWSTask<AWSS3PutObjectOutput>)) -> Any? in
-            if let _ = task.error  {
-		//Handle error
-            }
-            if let _ = task.result {
-		//Your logic goes here
-            }
-            return nil
-        })
-```
-
-You can encrypt an object using [AWS KMS](https://aws.amazon.com/kms/) keys as follows. Note that you can also, optionally, specify the id of a key that you have setup in KMS.
-
-```
-        let s3 = AWSS3.default()
-        let data = "testdata"
-        let putObjectRequest = AWSS3PutObjectRequest();
-        
-        putObjectRequest?.serverSideEncryption = AWSS3ServerSideEncryption.awsKms
-        putObjectRequest?.ssekmsKeyId = "KEY_ID" //optionally provide a preconfigured KMS key
-        putObjectRequest?.body = data
-        putObjectRequest?.contentLength = data.lengthOfBytes(using: .utf8) as NSNumber
-	putObjectRequest?.bucket = "YOUR_BUCKET"
-        putObjectRequest?.key = "YOUR_KEY"
-
-
-        s3.putObject(putObjectRequest!).continueWith(block: { (task:(AWSTask<AWSS3PutObjectOutput>)) -> Any? in
-            if let _ = task.error  {
-                //Handle error
-            }
-            if let _ = task.result {
-                //Your logic goes here
-            }
-            return nil
-        })
-```
-
-You can encrypt an object using custom keys as follows. Note that the key has to conform to AES256 specifications, the MD5 sum must conform to [RFC 1321](https://tools.ietf.org/html/rfc1321), and both values must be base64 Encoded.
-
-```
-        let s3 = AWSS3.default()
-        let data = "AAAA"
-        let putObjectRequest = AWSS3PutObjectRequest();
-
-	putObjectRequest?.sseCustomerAlgorithm = "AES256"
-        putObjectRequest?.sseCustomerKey = "YOUR_KEY"
-        putObjectRequest?.sseCustomerKeyMD5 = "MD5_HASH_FOR_YOUR_KEY"
-        putObjectRequest?.body = data
-        putObjectRequest?.contentLength = data.lengthOfBytes(using: .utf8) as NSNumber
-        putObjectRequest?.bucket = "YOUR_BUCKET"
-        putObjectRequest?.key = "YOUR_KEY"
-
-
-        s3.putObject(putObjectRequest!).continueWith(block: { (task:(AWSTask<AWSS3PutObjectOutput>)) -> Any? in
-            if let _ = task.error  {
-                //Handle error
-            }
-            if let _ = task.result {
-                //Your logic goes here
-            }
-            return nil
-        })
-```
-
 ## Additional Resources
 
 * [Amazon Simple Storage Service Getting Started Guide](http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html)
