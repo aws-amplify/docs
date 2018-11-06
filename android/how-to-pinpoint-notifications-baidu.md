@@ -239,7 +239,7 @@ amplify console analytics
 * Click `Edit` and select `Show more push notification services` and click `Baidu Cloud Push`. 
 * Enter the `Baidu API Key` and the `Baidu Secret Key` and click `Save` at the right bottom of the page.
 
-Now `Baidu Cloud Push` is regsitered as a push notification service.
+Now `Baidu Cloud Push` is registered as a push notification service.
 
 Install your app on to a `Baidu-enabled` device and capture the generated device token.
 

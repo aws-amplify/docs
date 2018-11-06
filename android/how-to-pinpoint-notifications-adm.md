@@ -53,7 +53,7 @@ Before you begin, augment your app to display the device token after registratio
 pinpointManager.getNotificationClient().getDeviceToken()
 ```
 
-Complete the following steps using the Amplify CLI and Aamzon Pinpoint console to test ADM push notifications
+Complete the following steps using the Amplify CLI and Amazon Pinpoint console to test ADM push notifications
 
 Register ADM as a channel with your Amazon Pinpoint project. Provide the ADM client ID and the ADM client secret.
 
@@ -67,7 +67,7 @@ amplify console analytics
 * Click `Edit` and select `Show more push notification services` and click `Amazon Device Messaging`. 
 * Enter the `Client ID` and the `Client Secret` and click `Save` at the right bottom of the page.
 
-Now `ADM` is regsitered as a push notification service.
+Now `ADM` is registered as a push notification service.
 
 Install your app on a device that has ADM enabled, and capture the generated device token.
 
