@@ -30,7 +30,7 @@ You can also create Amazon Pinpoint campaigns that tie user behavior to push or 
 
 ## Connect to Your Backend
 
-Use the following steps to connect your app tp the push notification backend services.
+Use the following steps to connect your app to the push notification backend services.
 
 1. Add the following dependencies and plugin to your `app/build.gradle`:
 

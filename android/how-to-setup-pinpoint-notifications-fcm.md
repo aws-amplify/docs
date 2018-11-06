@@ -24,7 +24,7 @@ If you are new to push messaging on Android, you must create a Firebase project,
 
 To send push notifications to Android apps, you must have credentials from either Firebase Cloud Messaging (FCM) or its predecessor, Google Cloud Messaging (GCM). The credentials are an API key and a sender ID (also called project number). You get these credentials from a project that has push messaging enabled. This project could either be in the Firebase console or the Google Cloud Platform console, depending on where you created it.
 
-This topic describes how to retrieve your credentials from FCM or GCM. Use FCM for new Android apps. Use GCM only if you have a pre-existing GCM project that you have not yet updated for FCM support.
+This topic describes how to retrieve your credentials from FCM or GCM. Use FCM for new Android apps. Use GCM only if you have an existing GCM project that you have not yet updated for FCM support.
 
 **To obtain your credentials from FCM**
 

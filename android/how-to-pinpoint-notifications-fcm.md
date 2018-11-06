@@ -27,11 +27,11 @@ Begin to set up deep linking by creating an intent filter in your `AndroidManife
 </activity>
 ```
 
-The data element in the previous example registers a URL scheme, `pinpoint://`, as well as the host, deeplink. As a result, when given a URL in the form of `pinpoint://deeplink`, the manifest is prepared to execute the action.
+The data element in the previous example registers a URL scheme, `pinpoint://`, as well as the host, `deeplink`. As a result, when given a URL in the form of `pinpoint://deeplink`, the manifest is prepared to execute the action.
 
 **Handling the Intent**
 
-Next, set up an intent handler to present the screen associated with the registered URL scheme and host. Intent data is retrieved in the onCreate() method, which then can use Uri data to create an activity. The following example shows an alert and tracks an event.
+Next, set up an intent handler to present the screen associated with the registered URL scheme and host. Intent data is retrieved in the onCreate() method, which then can use `Uri` data to create an activity. The following example shows an alert and tracks an event.
 
 ```java
 public class DeeplinkActivity extends Activity {

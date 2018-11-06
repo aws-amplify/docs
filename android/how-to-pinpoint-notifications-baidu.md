@@ -132,7 +132,7 @@ Update the `AndroidManifest.xml` file with the following permissions, which are 
 
 Inside your Android application, create a `MessageReceiver` class that subclasses `com.baidu.android.pushservice.PushMessageReceiver`. The subclass should implement the following methods and perform the corresponding calls:
 
-**onBind**
+**`onBind`**
 
 Called when the device is registered with Baidu Cloud Push. Provides the Baidu user ID and channel ID that are needed to register the device with Amazon Pinpoint. Include the following call as part of this method:
 
@@ -140,11 +140,11 @@ Called when the device is registered with Baidu Cloud Push. Provides the Baidu u
 pinpointManager.getNotificationClient().registerDeviceToken(registrationId)
 ```
 
-**onUnbind**
+**`onUnbind`**
 
 Called when the device is no longer registered with Baidu Cloud Push.
 
-**onMessage**
+**`onMessage`**
 
 Called when the device receives a raw message from Baidu Cloud Push. Amazon Pinpoint transmits campaign push notifications with the Baidu Cloud Push raw message format. Include the following call as part of this method:
 
@@ -193,7 +193,7 @@ cBuilder.setNotificationSound(Uri.withAppendedPath(
 PushManager.setNotificationBuilder(this, 1, cBuilder);
 ```
 
-Remember to properly initialize your PinpointManager reference. Use a PinpointConfiguration with a ChannelType value of ChannelType.BAIDU. You can do this programmatically, as in the following example:
+Remember to properly initialize your `PinpointManager` reference. Use a `PinpointConfiguration` with a `ChannelType` value of `ChannelType.BAIDU`. You can do this programatically, as in the following example:
 
 ```java
 final PinpointConfiguration config =
@@ -205,7 +205,7 @@ final PinpointConfiguration config =
 Application.pinpointManager = new PinpointManager(config);
 ```
 
-Or, you can define a configuration file to be consumed by AWSConfiguration:
+Or, you can define a configuration file to be consumed by `AWSConfiguration`:
 
 ```
 "PinpointAnalytics": {
@@ -239,7 +239,7 @@ aws pinpoint update-baidu-channel --application-id YourPinpointAppId --baidu-cha
 }"
 ```
 
-Install your app on to a Baidu-enabled device and capture the generated device token.
+Install your app on to a `Baidu-enabled` device and capture the generated device token.
 
 Send a direct message to the device specifying the device token as the address.
 

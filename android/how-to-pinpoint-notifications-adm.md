@@ -18,7 +18,7 @@ If you are already familiar with ADM and have ADM credentials, you can follow th
 
 To integrate with Amazon Pinpoint, your subclass implementation of `com.amazon.device.messaging.ADMMessageHandlerBase` should include the following methods and perform the corresponding calls:
 
-*onRegistered*
+*`onRegistered`*
 
 Called when the device is registered with the ADM service. Provides the ADM registration ID that is needed to register the device with Amazon Pinpoint. Include the following call as part of this method:
 
@@ -26,11 +26,11 @@ Called when the device is registered with the ADM service. Provides the ADM regi
 pinpointManager.getNotificationClient().registerDeviceToken(registrationId)
 ```
 
-*onUnregistered*
+*`onUnregistered`*
 
 Called when the device is no longer registered with the ADM service.
 
-*onMessage*
+*`onMessage`*
 
 Called when the device receives a message notification from ADM. Include the following as part of this method:
 
