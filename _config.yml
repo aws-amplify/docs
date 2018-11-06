@@ -232,6 +232,16 @@ android_category_list:
                 url: https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html#mqtt
               - title: Custom Plugin
                 url:
+    - category: Manual SDK Configuration
+      title: SDK Configuration
+      excerpt: Low level config
+      base_url: '/android/manualsetup'
+      subs:
+        - title: Manual SDK Setup
+          excerpt: Setup Options for the SDK
+          cta: Read more
+          class: aws-icon-ps-60-circular-circuit
+          url: '/android/manualsetup'
 
 ios_category_list:
     - category: SetupAndInstallation
