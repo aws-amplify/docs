@@ -1200,7 +1200,7 @@ The `withAuthenticator` HOC gives you some nice default authentication screens o
 
 ```javascript
 import React, { Component } from 'react';
-import { ConfirmSignIn, ConfirmSignUp, ForgotPassword, SignIn, SignUp, VerifyContact, withAuthenticator } from 'aws-amplify-react';
+import { ConfirmSignIn, ConfirmSignUp, ForgotPassword, RequireNewPassword, SignIn, SignUp, VerifyContact, withAuthenticator } from 'aws-amplify-react';
 
 class App extends Component {
   render() {
