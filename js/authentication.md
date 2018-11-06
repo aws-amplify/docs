@@ -568,9 +568,9 @@ export default class App extends React.Component {
 
 You can use `Auth0` as one of the providers of your Cognito Federated Identity Pool. This will allow users authenticated via Auth0 have access to your AWS resources.
 
-Step 1. [how to integrate Auth0 with Cognito Federated Identity Pool](https://auth0.com/docs/integrations/integrating-auth0-amazon-cognito-mobile-apps)
+Step 1. Learn [how to integrate Auth0 with Cognito Federated Identity Pools](https://auth0.com/docs/integrations/integrating-auth0-amazon-cognito-mobile-apps)
 
-Step 2. Login with `Auth0`, then use the id token returned to get AWS credentials from Cognito Federated Identity Pools using the `Auth.federatedSignIn` method:
+Step 2. Login with `Auth0`, then use the id token returned to get AWS credentials from `Cognito Federated Identity Pools` using the `Auth.federatedSignIn` method:
 ```js
 const { idToken, domain, expiresIn, user } = getFromAuth0();
 
