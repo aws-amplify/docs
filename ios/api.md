@@ -200,7 +200,7 @@ do {
 }
 ```
 
-Subscriptions can also take input types like mutations, in which case they will be subscribing to particular events based on the input. To learn more about subscription arguments, see :ref:`Real-Time data <aws-appsync-real-time-data>`.
+Subscriptions can also take input types like mutations, in which case they will be subscribing to particular events based on the input. To learn more about subscription arguments, see [AWS AppSync Subscription Arguments](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html#using-subscription-arguments).
 
 ### Client Architecture
 
@@ -464,119 +464,77 @@ do {
 
 ### Overview
 
-Add RESTful APIs handled by your serverless Lambda functions. The CLI deploys your APIs and handlers using [Amazon API Gateway](http://docs.aws.amazon.com/apigateway/latest/developerguide/) and [AWS Lambda](http://docs.aws.amazon.com/lambda/latest/dg/).
+The Amplify CLI deploys REST APIs and handlers using [Amazon API Gateway](http://docs.aws.amazon.com/apigateway/latest/developerguide/) and [AWS Lambda](http://docs.aws.amazon.com/lambda/latest/dg/).
+
+The API category will perform SDK code generation which, when used with the `AWSMobileClient` can be used for creating signed requests for Amazon API Gateway when the service Authorization is set to `AWS_IAM` or when using a [Cognito User Pools Authorizer](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html).
+
+See [the authentication section for more details](./authentication) for using the `AWSMobileClient` in your application.
 
 ### Set Up Your Backend
 
-1. Complete the [Get Started](./get-started) steps before you proceed.
+In a terminal window, navigate to your project folder (the folder that contains your app `.Xcodeproj` file), and add the SDK to your app.
 
-2. Use the CLI to add api to your cloud-enabled backend and app.
+```terminal
+$ cd ./YOUR_PROJECT_FOLDER
+$ amplify add api
+```
 
- In a terminal window, navigate to your project folder (the folder that contains your app `.Xcodeproj` file), and add the SDK to your app.
+When prompted select the following options:
 
-	```bash
-	$ cd ./YOUR_PROJECT_FOLDER
-	$ amplify add api
-	```
+```terminal
+$ > REST
+$ > Create a new Lambda function
+$ > Serverless express function
+$ > Restrict API access? Yes
+$ > Who should have access? Authenticated and Guest users
+```
 
-3. Choose `> REST` as your API service.
+When configuration of your API is complete, the CLI displays a message confirming that you have configured local CLI metadata for this category. You can confirm this by running `amplify status`. Finally deploy your changes to the cloud:
 
-4. Choose `> Create a new Lambda function`.
+```terminal
+$ amplify push
+```
 
-5. Choose the `> Serverless express function` template.
-
-6. Restrict API access? Choose `Yes`
-
-7. Who should have access? Choose `Authenticated and Guest users`
-
-8. When configuration of your API is complete, the CLI displays a message confirming that you have configured local CLI metadata for this category. You can confirm this by viewing status.
-
-    ```bash
-    $ amplify status
-    | Category  | Resource name   | Operation | Provider plugin   |
-    | --------- | --------------- | --------- | ----------------- |
-    | Function  | lambda01234567  | Create    | awscloudformation |
-    | Api       | api012345678    | Create    | awscloudformation |
-    ```
-
-9. To create your backend AWS resources run:
-
-    ```bash
-    $ amplify push
-    ```
-
-   Use the steps in the next section to connect your app to your backend.
+Once the deployment completes a folder called `generated-src` will be added in the folder directory. This is the client SDK that you will add to your project in the next section.
 
 ### Connect to Your Backend
 
-Use the following steps to add Cloud Logic to your app.
+Add `AWSAPIGateway` to your Podfile:
 
-1. `Podfile` that you configure to install the AWS Mobile SDK must contain:
-
-	```ruby
-	platform :ios, '9.0'
+```ruby
 
 	target :'YOUR-APP-NAME' do
 	  use_frameworks!
 
-	     # For auth
-	     pod 'AWSAuthCore', '~> 2.6.33'
-	     pod 'AWSMobileClient', '~> 2.6.33'
-
 	     # For API
 	     pod 'AWSAPIGateway', '~> 2.6.33'
-
 	     # other pods
-
 	end
-	```
+```
 
-	Run `pod install --repo-update` before you continue.
+Run `pod install --repo-update` and then add the `generated-src` folder and `awsconfiguration.json` file to your project **(File->Add Files to ..->Add)** and then build your project, ensuring there are no issues.
 
-	If you encounter an error message that begins `[!] Failed to connect to GitHub to update the CocoaPods/Specs . . .`, and your internet connectivity is working, you may need to [update openssl and Ruby](https://stackoverflow.com/questions/38993527/cocoapods-failed-to-connect-to-github-to-update-the-cocoapods-specs-specs-repo/48962041#48962041).
+Next, set the bridging header for Swift in your project settings. Double-click your project name in the Xcode Project Navigator, choose the Build Settings tab and search for  `Objective-C Bridging Header`. Enter `generated-src/Bridging_Header.h`
 
-2. Classes that call |ABP| APIs must use the following import statements:
+This is needed because the AWS generated code has some Objective-C code which requires bridging to be used for Swift. If you already have a bridging header in your app, you can just append an extra line to it: `#import "AWSApiGatewayBridge.h"` instead of above step.
+{: .callout .callout--action}
 
-	```
-	import AWSAuthCore
-	import AWSCore
-	import AWSAPIGateway
-	import AWSMobileClient
-	```
+The generated files determine the name of your client when making API calls. In the `generated-src` folder, files ending with name `*Client.swift` are the names of your client (without .swift extension). The path of the client code file is: 
 
-3. Next, import files generated by CLI. The CLI generates a client code file and request-response structure file for each API you add.
+**./generated-src/YOUR_API_RESOURCE_NAME+YOUR_APP_NAME+Client.swift**
 
-4. Add those files by going to your Xcode Project Navigator project, right-click on project's name in top left corner, and select "Add Files to YOUR_APP_NAME".
-
-5. Select all the files under `generated-src` folder of your application's root folder and add them to your project.
-
-6. Next, set the bridging header for Swift in your project settings. Double-click your project name in the Xcode Project Navigator, choose the Build Settings tab and search for  `Objective-C Bridging Header`. Enter `generated-src/Bridging_Header.h`
-
-	This is needed because the AWS generated code has some Objective-C code which requires bridging to be used for Swift.
-
-	> If you already have a bridging header in your app, you can just append an extra line to it: `#import "AWSApiGatewayBridge.h"` instead of above step.
-
-7. Use the files generated by CLI to determine the client name of your API. In the `generated-src` folder, files ending with name `*Client.swift` are the names of your client (without .swift extension).
-
-	The path of the client code file is `./generated-src/YOUR_API_RESOURCE_NAME+YOUR_APP_NAME+Client.swift`.
-
-	So, for an app named `useamplify` with an API resource named `xyz123`, the path of the code file might be `./generated-src/xyz123useamplifyabcdClient.swift`. The API client name would be `xyz123useamplifyabcdClient`.
-
-	- Find the resource name of your API by running `amplify status`.
-	- Copy your API client name to use when invoking the API in the following step.
+So, for an app named `useamplify` with an API resource named `xyz123`, the path of the code file might be **./generated-src/xyz123useamplifyabcdClient.swift**. The API client name would be `xyz123useamplifyabcdClient` and you would use it in your code with `xyz123useamplifyabcdClient.registerClient()` and `xyz123useamplifyabcdClient.client()`.
 
 
-8. Invoke a Cloud Logic API.
+Find the resource name of your API by running `amplify status`. Copy your API client name to use when invoking the API in the following sections.
 
-	To invoke a Cloud Logic API, create code in the following form and substitute your API's
-	client class, model, and resource paths. Replace `YOUR_API_CLIENT_NAME` with the value you copied from the previous step.
+#### IAM authorization
 
-	```swift
-  import UIKit
-  import AWSAuthCore
-  import AWSCore
-  import AWSAPIGateway
-  import AWSMobileClient
+To invoke an API Gateway endpoint from your application, import `AWSAPIGateway` and use the generated client class, model, and resource paths as in the below example with `YOUR_API_CLIENT_NAME` replaced from the previous section. For AWS IAM authorization use the `AWSMobileClient` as outlined in [the authentication section](./authentication).
+
+```swift
+import AWSAPIGateway
+import AWSMobileClient
 
   // ViewController or application context . . .
 
@@ -605,7 +563,7 @@ Use the following steps to add Cloud Logic to your app.
 
         // Create a service configuration
         let serviceConfiguration = AWSServiceConfiguration(region: AWSRegionType.USEast1,
-              credentialsProvider: AWSMobileClient.sharedInstance().getCredentialsProvider())
+              credentialsProvider: AWSMobileClient.sharedInstance())
 
         // Initialize the API client using the service configuration
         xyz123useamplifyabcdClient.registerClient(withConfiguration: serviceConfiguration!, forKey: "CloudLogicAPIKey")
@@ -630,4 +588,34 @@ Use the following steps to add Cloud Logic to your app.
                  return nil
              }
          }
-	```
+```
+
+You can then invoke this method with `self.doInvokeAPI()` from your application code.
+
+#### Cognito User Pools authorization
+
+When invoking an API Gateway endpoint with Cognito User Pools authorizer, you can leverage the `AWSMobileClient` to dynamically refresh and pass tokens to your endpoint. Using the example from the previous section, update the `doInvokeAPI()` so that it takes an argument of `token:String`. Next, add a header of `"Authorization" : token` and set the service configuration to have `credentialsProvider: nil`. Finally, overload the `doInvokeAPI()` with a new definition that gets the Cognito User Pools token from the `AWSMobileClient` as below:
+
+```swift
+//New overloaded function that gets Cognito User Pools tokens
+func doInvokeAPI(){
+    AWSMobileClient.sharedInstance().getTokens { (tokens, err) in
+        self.doInvokeAPI(token: tokens!.idToken!.tokenString!)
+    }
+}
+
+//Updated function with arguments and code updates
+func doInvokeAPI(token:String) {
+
+    let headerParameters = [
+            //other headers
+            "Authorization" : token
+    ]
+
+    let serviceConfiguration = AWSServiceConfiguration(region: AWSRegionType.USEast1,
+                                                           credentialsProvider: nil)
+
+}
+```
+
+You can then invoke this method with `self.doInvokeAPI()` from your application code and it will pass the IdToken from Cognito User Pools as an `Authorization` header.
