@@ -257,23 +257,11 @@ const {
     },
     provider: AWSCognitoProvider.NAME, // Required, the name of the token provider
     identityId: 'xxxxxxxx', // Optional, specify the identity id from the Cognito Federated Identity Pool
-    refreshHandlers: () => {
-        // Optional, to refresh the token here and get the new token info
-        // ......
-
-        return new Promise(res, rej => {
-            const data = {
-                token, // the token from the provider, which is used to get the credentials
-                expires_at, // the timestamp for the expiration
-                identity_id, // optional, the identityId for the credentials
-            }
-            res(data);
-        });
-    },
     errorHandler: (e) => {
         // Optional, handle the error when getting credentials from Cognito Federated Identity Pool
     },
-    credentialsDomain: 'www.example.com' // Optional, the domain used to get the credentials
+    credentialsDomain: 'www.example.com', // Optional, the domain used to get the credentials
+    creentialsToken: 'xxxxxxx' // Optional, the token used to get the credentials
 });
 
 // You can also get session, user, credentials from other methods:
@@ -301,6 +289,13 @@ if (session.type && session.type === SessionType.Federated_Provider_Session) {
     const refreshToken = session.getRefreshToken();
 }
 ```
+
+There are different provider classes in the Auth module for different provider:
+`AWSCognitoProvider`: The provider class for AWS Cognito
+`GoogleProvider`: The provider class for Google login
+`FacebookProvider`: The provider class for Facebook login
+`AmazonProvider`: The provider class for Amazon login
+`GenericProvider`: The provider class for other provider, you need to specify the `credentialsDomain` and `refreshHandlers` when using this provider
 
 #### Retrieve Current Authenticated User
 
@@ -557,7 +552,13 @@ Cache.getItem('federatedInfo').then(federatedInfo => {
 
 By default, AWS Amplify will automatically refresh the tokens for Google and Facebook, so that your AWS credentials will be valid at all times. But if you are using another federated provider, you will need to provide your own token refresh method:
 ```javascript
-import { Auth } from 'aws-amplify';
+import Auth, {
+    GoogleProvider,
+    FacebookProvider,
+    AmazonProvider,
+    DeveloperProvider,
+    GenericProvider
+ } from '@aws-amplify/auth';
 
 function refreshToken() {
     // refresh the token here and get the new token info
@@ -573,10 +574,11 @@ function refreshToken() {
     });
 }
 
+const refreshHandlers = {};
+refreshHandlers[DeveloperProvider.NAME] = refreshToken;
+
 Auth.configure({
-    refreshHandlers: {
-        'developer': refreshToken
-    }
+    refreshHandlers
 })
 ```
 
