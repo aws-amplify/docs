@@ -63,7 +63,7 @@ Before you can subscribe to a topic, you need to establish a connection as follo
 
 ```java
 try {
-    mqttManager.connect(AWSMobileClient.getInstance().getCredentialsProvider(), new AWSIotMqttClientStatusCallback() {
+    mqttManager.connect(AWSMobileClient.getInstance(), new AWSIotMqttClientStatusCallback() {
         @Override
         public void onStatusChanged(final AWSIotMqttClientStatus status, final Throwable throwable) {
             Log.d(LOG_TAG, "Connection Status: " + String.valueOf(status));
