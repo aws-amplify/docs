@@ -153,19 +153,10 @@
 							</div>
 							{% endunless %}
 							{% endif %}
-							{% if page.url contains 'android' %}
-							<div class='js-library-selector-text'>
-								Select your language
-							</div>
-							<div class="android-language-selector dropdown white-text">
+							{% if page.url contains 'android' or page.url contains 'ios' %}
+							<div class="native-language-selector dropdown white-text">
 								<img id="js-library-icon" style="margin-right:0.8em;"/>
-								<button id="js-library-selector" class="dropbtn white-text" style="margin-right:0.8em;margin-bottom:0.3em;margin-top:0.3em;"></button>
-								<div class="dropdown-content">
-									{% for item in site.android_languages %}
-										<a href={{ item.url }}>{{ item.title }}</a>
-									{% endfor %}
-								</div>
-								<div class="arrows"></div>
+								<button id="js-library-selector" class="white-text" style="margin-right:0.8em;margin-bottom:0.3em;margin-top:0.3em;cursor:default;"></button>
 							</div>
 							{% endif %}
 							<div class="content">
@@ -205,7 +196,6 @@
 		</div><!-- /.js-footer-area -->
 	</body>
 	<script>
-	 console.log("TETING LOGS1");
 		if (window.innerWidth < 828)
 		{	let flag;
 			{% for category in site.category_list %}
@@ -235,37 +225,35 @@
 				view_section_box.style.backgroundPosition = "240px 5px";
 			}
 		}
-		console.log("TETING LOGS2");
 			let tabs = document.getElementsByClassName('tabs');
 			for (let i = 0; i < tabs.length; i++) {
 				tabs[i].style.display = 'none';
 			}
 			if ( $.urlParam( 'platform' )) {
-				console.log("TETING LOGS3");
 				var platform = $.urlParam('platform');
 				if (platform) {
 					let selector = document.getElementById("js-library-selector");
-					titles = {"react": "React", "react-native": "React Native", "angular": "Angular", "purejs": "JavaScript", "ionic": "Ionic", "java": "Java", "kotlin": "Kotlin"};
+					titles = {"react": "React", "react-native": "React Native", "angular": "Angular", "purejs": "JavaScript", "ionic": "Ionic", "java": "Java", "kotlin": "Kotlin", "swift": "Swift"};
 					selector.innerHTML = titles[platform];
 					let icon = document.getElementById("js-library-icon");
-					icons = {"react": "React-Small-White@1x.png", "react-native": "React-Small-White@1x.png", "angular": "Angular-Med-White@1x.png", "purejs": "JS-Small-White@1x.png", "ionic": "Ionic-Color@1x.png", "java": "os-android.png", "kotlin":"os-android.png"};
+					icons = {"react": "React-Small-White@1x.png", "react-native": "React-Small-White@1x.png", "angular": "Angular-Med-White@1x.png", "purejs": "JS-Small-White@1x.png", "ionic": "Ionic-Color@1x.png", "java": "Droid-Small-White@1x.png", "kotlin":"Droid-Small-White@1x.png", "swift":"Apple-Small-White@1x.png"};
 					icon.src = "{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/" + icons[platform];
 				}
 			}
 			else {
-				console.log("TETING LOGS4");
 				{% if page.url contains 'android' %}
 				 var platform = "java";
+				{% else if page.url contains 'ios' %}
+				 var platform = "swift";
 				{% else %}
 				 var platform = "purejs";
 				{% endif %}
 				let selector = document.getElementById("js-library-selector");
-				titles = {"react": "React", "react-native": "React Native", "angular": "Angular", "purejs": "JavaScript", "ionic": "Ionic", "java":"Java"};
+				titles = {"react": "React", "react-native": "React Native", "angular": "Angular", "purejs": "JavaScript", "ionic": "Ionic", "java":"Java", "swift": "Swift"};
 				selector.innerHTML = titles[platform];
 				let icon = document.getElementById("js-library-icon");
-				icons = {"react": "React-Small-White@1x.png", "react-native": "React-Small-White@1x.png", "angular": "Angular-Med-White@1x.png", "purejs": "JS-Small-White@1x.png", "ionic": "Ionic-Color@1x.png", "java": "os-android.png", "kotlin":"os-android.png"};
+				icons = {"react": "React-Small-White@1x.png", "react-native": "React-Small-White@1x.png", "angular": "Angular-Med-White@1x.png", "purejs": "JS-Small-White@1x.png", "ionic": "Ionic-Color@1x.png", "java": "Droid-Small-White@1x.png", "kotlin":"Droid-Small-White@1x.png", "swift":"Apple-Small-White@1x.png"};
 				icon.src = "{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/" + icons[platform];
-				console.log("TETING LOGS5");
 			}
 			let selectAddHover = function() {
 				let select_box = document.getElementsByClassName("js-library-selector")[0];
