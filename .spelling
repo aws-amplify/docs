@@ -16,9 +16,11 @@ AmplifyEventBus
 AmplifyPlugin
 Auth0
 Authenticator
+aws_bots_config.name
 aws-exports
 analytics
 backend
+botTitle
 cli
 callout
 callout--info
@@ -49,6 +51,7 @@ ios
 item.class.ts
 index.js
 lifecycle
+md
 Multifactor
 myPublicPrefix,
 myPrivatePrefix,
@@ -62,6 +65,7 @@ node.js
 onPick
 pre-signed
 pre-built
+programmatically
 repo
 src
 stylesheet
@@ -312,6 +316,30 @@ S3Object
 s3
 versionInput
 versioning
+
+# js/vue.md
+confirmSignInConfig
+confirmSignUpConfig
+forgotPasswordConfig
+signInConfig
+signUpConfig
+signUpFields
+msg
+signOutButton
+mfaDescription
+mfaTypes
+tokenInstructions
+smsDescription
+totpDescription
+noMfaDescription
+cancelHandler
+defaultName
+amplify-vue
+
+# js/sign-up-fields.md
+displayOrder
+displayOrder
+signUpConfig.signUpFields
 
 # cli/plugins.md
 walk
