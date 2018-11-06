@@ -586,3 +586,8 @@ AWSS3TransferUtility
 
 # Readme.md
 CircleCI
+
+# android/analytics.md
+_userauth.sign_in
+_userauth.sign_up
+_userauth.auth_fail

@@ -129,27 +129,30 @@ android_category_list:
     - category: Toolchain
       title: Toolchain
       excerpt: Better developer experience when building and deploying your apps.
-      base_url: '/js/cli'
+      base_url: '/cli/'
       subs:
-        - title: CLI
-          excerpt: Deploy your Web app or static website for global CDN distribution with media streaming support.
+        - title: Getting Started
+          excerpt: Setup and Configure a Project with the CLI
+          url: '/cli/init'
+          icon: '/images/icons/Misc/Present.svg'
+        - title: Architecture
+          excerpt: CLI Architecture and Overview
+          url: '/cli/concept'
+          icon: '/images/icons/Misc/Present.svg'
+        - title: Codegen
+          excerpt: Codegen for GraphQL
+          url: '/cli/codegen' 
+          icon: '/images/icons/Misc/Present.svg'
+        - title: Plugins
+          excerpt: Create a new plugin for the CLI
+          url: '/cli/plugins' 
+          icon: '/images/icons/Misc/Present.svg'
+        - title: GraphQL Transform
+          excerpt: Transform simple GraphQL schema files into full application backends.
           cta: Read more
           class: aws-icon-ps-60-network-nodes
-          url: '/js/cli'
           icon: '/images/icons/Misc/Tool.svg'
-          services:
-              - title: Amazon CloudFront
-                url: https://aws.amazon.com/cloudfront/
-        - title: UI Components
-          excerpt: UI excerpt
-          url: '/js/ui'
-          icon: '/images/icons/Misc/Present.svg'
-        - title: VS Code Extension
-          excerpt: Code snippets for AWS Amplify in Visual Studio Code.
-          cta: Read more
-          class: aws-icon-ps-60-network-nodes
-          url_external: 'https://marketplace.visualstudio.com/items?itemName=aws-amplify.aws-amplify-vscode'
-          icon: '/images/icons/Misc/Present.svg'
+          url: '/js/graphql'
     - category: API Guides
       title: API Guides
       excerpt: Add cloud features to your app quickly using our toolchain and declarative APIs.
@@ -159,7 +162,7 @@ android_category_list:
           excerpt: A simple and secure solution for making HTTP requests using REST and GraphQL, with support for real-time data.
           cta: Read more
           class: aws-icon-ps-60-database-server
-          url: '/android/api-apigw'
+          url: '/android/api'
           icon: '/images/icons/Misc/Cloud.svg'
           services:
             - title: Amazon API Gateway,
@@ -246,27 +249,30 @@ ios_category_list:
     - category: Toolchain
       title: Toolchain
       excerpt: Better developer experience when building and deploying your apps.
-      base_url: '/js/cli'
+      base_url: '/cli/'
       subs:
-        - title: CLI
-          excerpt: Deploy your Web app or static website for global CDN distribution with media streaming support.
+        - title: Getting Started
+          excerpt: Setup and Configure a Project with the CLI
+          url: '/cli/init'
+          icon: '/images/icons/Misc/Present.svg'
+        - title: Architecture
+          excerpt: CLI Architecture and Overview
+          url: '/cli/concept'
+          icon: '/images/icons/Misc/Present.svg'
+        - title: Codegen
+          excerpt: Codegen for GraphQL
+          url: '/cli/codegen' 
+          icon: '/images/icons/Misc/Present.svg'
+        - title: Plugins
+          excerpt: Create a new plugin for the CLI
+          url: '/cli/plugins' 
+          icon: '/images/icons/Misc/Present.svg'
+        - title: GraphQL Transform
+          excerpt: Transform simple GraphQL schema files into full application backends.
           cta: Read more
           class: aws-icon-ps-60-network-nodes
-          url: '/js/cli'
           icon: '/images/icons/Misc/Tool.svg'
-          services:
-              - title: Amazon CloudFront
-                url: https://aws.amazon.com/cloudfront/
-        - title: UI Components
-          excerpt: UI excerpt
-          url: '/js/ui'
-          icon: '/images/icons/Misc/Present.svg'
-        - title: VS Code Extension
-          excerpt: Code snippets for AWS Amplify in Visual Studio Code.
-          cta: Read more
-          class: aws-icon-ps-60-network-nodes
-          url_external: 'https://marketplace.visualstudio.com/items?itemName=aws-amplify.aws-amplify-vscode'
-          icon: '/images/icons/Misc/Present.svg'
+          url: '/js/graphql'
     - category: API Guides
       title: API Guides
       excerpt: Add cloud features to your app quickly using our toolchain and declarative APIs.
@@ -276,7 +282,7 @@ ios_category_list:
           excerpt: A simple and secure solution for making HTTP requests using REST and GraphQL, with support for real-time data.
           cta: Read more
           class: aws-icon-ps-60-database-server
-          url: '/ios/api-apigw'
+          url: '/ios/api'
           icon: '/images/icons/Misc/Cloud.svg'
           services:
             - title: Amazon API Gateway,
