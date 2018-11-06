@@ -1,3 +1,8 @@
+{% if jekyll.environment == 'production' %}
+  {% assign base_dir = site.amplify.docs_baseurl %}
+{% endif %}
+{% assign image_base = base_dir | append: page.dir | append: "images" %}
+
 # Push Notifications
 
 ## Overview
@@ -233,7 +238,7 @@ The following steps show how to receive push notifications targeted for your app
 
 1. In Xcode Project Navigator, choose your app name at the top, choose your app name under **Targets**, choose the **Capabilities** tab, and then turn on **Push Notifications**.
 
-    ![Image of turning on Push Notifications capabilities in Xcode](images/xcode-turn-on-push-notification.png)
+    ![Image of turning on Push Notifications capabilities in Xcode]({{image_base}}/xcode-turn-on-push-notification.png)
 
 1. Configure the app to run in the **Release** profile instead of the default **Debug** profile. Perform the following steps to get a notification to the device:
 
