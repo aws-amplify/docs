@@ -154,6 +154,16 @@ Auth.confirmSignUp(username, code, {
   .catch(err => console.log(err));
 ```
 
+The `Auth.signUp` promise returns a data object of type [`ISignUpResult`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L136-L139) with a [`CognitoUser`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L48).
+
+```js
+{
+    user: CognitoUser;
+    userConfirmed: boolean;
+    userSub: string;
+}
+```
+
 **Forcing Email Uniqueness in Cognito User Pools**
 
 When your Cognito User Pool sign-in options are set to "*Username*", and "*Also allow sign in with verified email address*", *signUp()* method creates a new user account every time, without validating email uniqueness. In this case you will end up having multiple user pool identities and previously created account's attribute is changed to *email_verified : false*. 
@@ -209,7 +219,7 @@ Auth.forgotPasswordSubmit(username, code, new_password)
 Either the phone number or the email address is required for account recovery. You can let the user verify those attributes by:
 ```javascript
 // To initiate the process of verifying the attribute like 'phone_number' or 'email'
-Auth.verifyCurrentUserAttributes(attr)
+Auth.verifyCurrentUserAttribute(attr)
 .then(() => {
      console.log('a verification code is sent');
 }).catch((e) => {
@@ -564,6 +574,115 @@ export default class App extends React.Component {
 }
 ```
 
+#### Federated with Auth0
+
+You can use `Auth0` as one of the providers of your Cognito Federated Identity Pool. This will allow users authenticated via Auth0 have access to your AWS resources.
+
+Step 1. Learn [how to integrate Auth0 with Cognito Federated Identity Pools](https://auth0.com/docs/integrations/integrating-auth0-amazon-cognito-mobile-apps)
+
+Step 2. Login with `Auth0`, then use the id token returned to get AWS credentials from `Cognito Federated Identity Pools` using the `Auth.federatedSignIn` method:
+```js
+const { idToken, domain, expiresIn, user } = getFromAuth0();
+
+Auth.federatedSignIn({
+    domain, // The Auth0 Domain,
+    {
+        token: idToken // The id token from Auth0
+        expires_at: expiresIn * 1000 + new Date().getTime() // the expiration timestamp
+    },
+    user // the user object, e.x. { name: username, email: email }
+}).then(cred => {
+    console.log(cred);
+});
+```
+
+Step 3. Now you can get the current user and current Credentials:
+```js
+Auth.currentAuthenticatedUser().then(user => console.log(user));
+Auth.currentCredentials().then(creds => console.log(creds));
+
+// Auth.currentSession() does not currently support federated identities. Please store the auth0 session info manually(for exmaple, store tokens into the local storage).
+```
+
+Step 4. You can pass a refresh handler to the Auth module to refresh the id token from `Auth0`:
+```js
+function refreshToken() {
+    // refresh the token here and get the new token info
+    // ......
+
+    return new Promise(res, rej => {
+        const data = {
+            token, // the token from the provider
+            expires_at, // the timestamp for the expiration
+            identity_id, // optional, the identityId for the credentials
+        }
+        res(data);
+    });
+}
+
+Auth.configure({
+    refreshHandlers: {
+        'your_auth0_domain': refreshToken
+    }
+})
+```
+
+This feature is also integrated into `aws-amplify-react`. For example:
+```js
+import { withAuthenticator } from 'aws-amplify-react';
+import { Auth } from 'aws-amplify';
+
+// auth0 configuration, more info in: https://auth0.com/docs/libraries/auth0js/v9#available-parameters
+Auth.configure({
+    auth0: {
+        domain: 'your auth0 domain', 
+        clientID: 'your client id',
+        redirectUri: 'your call back url',
+        audience: 'https://your_domain/userinfo',
+        responseType: 'token id_token', // for now we only support implicit grant flow
+        scope: 'openid profile email', // the scope used by your app
+        returnTo: 'your sign out url'
+    }
+});
+
+class App extends Component {
+
+}
+
+export default withAuthenticator(App);
+```
+
+Note: The code grant flow is not supported when using Auth0 with `aws-amplify-react`, according to: https://auth0.com/docs/api-auth/tutorials/authorization-code-grant#2-exchange-the-authorization-code-for-an-access-token
+
+or you can just use the `withAuth0` HOC:
+```js
+import { withAuth0 } from 'aws-amplify-react';
+import { Auth } from 'aws-amplify';
+
+Auth.configure({
+    auth0: {
+        domain: 'your auth0 domain', 
+        clientID: 'your client id',
+        redirectUri: 'your call back url',
+        audience: 'https://your_domain/userinfo',
+        responseType: 'token id_token', // for now we only support implicit grant flow
+        scope: 'openid profile email', // the scope used by your app
+        returnTo: 'your sign out url'
+    }
+});
+
+const Button = (props) => (
+    <div>
+        <img
+            onClick={props.auth0SignIn}
+            src={auth0_icon}
+        />
+    </div>
+);
+
+export default withAuth0(Button);
+```
+
 #### Customize UI
 
 You can provide custom components to the `Authenticator` as child components in React and React Native. 
@@ -692,26 +811,28 @@ To configure your application for hosted UI, you need to use *oauth* options:
 import Amplify from 'aws-amplify';
 
 const oauth = {
-    // Domain name
-    domain : 'your-domain-prefix.auth.us-east-1.amazoncognito.com', 
-    
-    // Authorized scopes
-    scope : ['phone', 'email', 'profile', 'openid','aws.cognito.signin.user.admin'], 
+    awsCognito: {
+        // Domain name
+        domain : 'your-domain-prefix.auth.us-east-1.amazoncognito.com', 
+        
+        // Authorized scopes
+        scope : ['phone', 'email', 'profile', 'openid','aws.cognito.signin.user.admin'], 
 
-    // Callback URL
-    redirectSignIn : 'http://www.example.com/signin', 
-    
-    // Sign out URL
-    redirectSignOut : 'http://www.example.com/signout',
+        // Callback URL
+        redirectSignIn : 'http://www.example.com/signin', 
+        
+        // Sign out URL
+        redirectSignOut : 'http://www.example.com/signout',
 
-    // 'code' for Authorization code grant, 
-    // 'token' for Implicit grant
-    responseType: 'code',
+        // 'code' for Authorization code grant, 
+        // 'token' for Implicit grant
+        responseType: 'code',
 
-    // optional, for Cognito hosted ui specified options
-    options: {
-        // Indicates if the data collection is enabled to support Cognito advanced security features. By default, this flag is set to true.
-        AdvancedSecurityDataCollectionFlag : true
+        // optional, for Cognito hosted ui specified options
+        options: {
+            // Indicates if the data collection is enabled to support Cognito advanced security features. By default, this flag is set to true.
+            AdvancedSecurityDataCollectionFlag : true
+        }
     }
 }
 
@@ -737,7 +858,7 @@ const {
     domain,  
     redirectSignIn, 
     redirectSignOut,
-    responseType } = config.oauth;
+    responseType } = config.oauth.awsCognito;
 
 const clientId = config.userPoolWebClientId;
 // The url of the Cognito Hosted UI
@@ -1190,7 +1311,7 @@ The `withAuthenticator` HOC gives you some nice default authentication screens o
 
 ```javascript
 import React, { Component } from 'react';
-import { ConfirmSignIn, ConfirmSignUp, ForgotPassword, SignIn, SignUp, VerifyContact, withAuthenticator } from 'aws-amplify-react';
+import { ConfirmSignIn, ConfirmSignUp, ForgotPassword, RequireNewPassword, SignIn, SignUp, VerifyContact, withAuthenticator } from 'aws-amplify-react';
 
 class App extends Component {
   render() {
@@ -1211,7 +1332,8 @@ export default withAuthenticator(App, false, [
   <VerifyContact/>,
   <SignUp/>,
   <ConfirmSignUp/>,
-  <ForgotPassword/>
+  <ForgotPassword/>,
+  <RequireNewPassword />
 ]);
 ```
 
