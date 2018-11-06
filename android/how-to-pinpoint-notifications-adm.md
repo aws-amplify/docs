@@ -53,33 +53,28 @@ Before you begin, augment your app to display the device token after registratio
 pinpointManager.getNotificationClient().getDeviceToken()
 ```
 
-Complete the following steps using the AWS CLI to test ADM push notifications
+Complete the following steps using the Amplify CLI and Aamzon Pinpoint console to test ADM push notifications
 
-* Register ADM as a channel with your Amazon Pinpoint project. Provide the ADM client ID and the ADM client secret.
+Register ADM as a channel with your Amazon Pinpoint project. Provide the ADM client ID and the ADM client secret.
 
-```bash
-aws pinpoint update-adm-channel --application-id [YourPinpointAppId] --adm-channel-request "{
-    \"ClientId\": \"ADM_CLIENT_ID",
-    \"Enabled\": true,
-    \"ClientSecret\": \"ADM_CLIENT_SECRET"
-}"
-```
-
-* Install your app on a device that has ADM enabled, and capture the generated device token.
-
-* Send a direct message to the device specifying the device token as the address.
+Run the following command to navigate to the Amazon Pinpoint console.
 
 ```bash
-aws pinpoint send-messages --application-id YourPinpointAppId --message-request "{
-  \"Addresses\": {
-      \"DeviceToken\": {
-          \"ChannelType\": \"ADM\"
-      } 
-  },
-  \"MessageConfiguration\": {
-      \"ADMMessage\": {
-          \"RawContent\":\"{'pinpoint.campaign.campaign_id':'_DIRECT','pinpoint.notification.silentPush':0,'pinpoint.openApp':true,'pinpoint.notification.title':'Hello','pinpoint.notification.body':'Hello World.'}\"
-      }
-  }
-}"
+amplify console analytics
 ```
+
+* On the left pane, select `Settings` and `Push notifications`. 
+* Click `Edit` and select `Show more push notification services` and click `Amazon Device Messaging`. 
+* Enter the `Client ID` and the `Client Secret` and click `Save` at the right bottom of the page.
+
+Now `ADM` is regsitered as a push notification service.
+
+Install your app on a device that has ADM enabled, and capture the generated device token.
+
+Send a direct message to the device specifying the device token as the address.
+
+* On the Amazon Pinpoint console, go to `Test messaging`. 
+* Select `Push notifications` as the channel. 
+* Enter the endpoint ID or the device token in the `Destinations`. 
+* Select `ADM` as the push notifications service. 
+* Create a message and click `Send message` at the bottom right corner of the page to send a direct message.

@@ -26,19 +26,19 @@ Extract the zip file and import the `pushservice-x.x.xx.jar` file from the `Baid
 
 The `Baidu-Push-SDK-Android` libs folder should also include the following folders:
 
-* arm64-v8a/
+* arm64-v8a
 
-* armeabi/
+* armeabi
 
-* armeabi-v7a/
+* armeabi-v7a
 
-* mips/
+* mips
 
-* mips64/
+* mips64
 
-* x86/
+* x86
 
-* x86_64/
+* x86_64
 
 Add each complete folder to your Android app’s `src/main/jniLibs` folder.
 
@@ -193,7 +193,7 @@ cBuilder.setNotificationSound(Uri.withAppendedPath(
 PushManager.setNotificationBuilder(this, 1, cBuilder);
 ```
 
-Remember to properly initialize your `PinpointManager` reference. Use a `PinpointConfiguration` with a `ChannelType` value of `ChannelType.BAIDU`. You can do this programatically, as in the following example:
+Remember to properly initialize your `PinpointManager` reference. Use a `PinpointConfiguration` with a `ChannelType` value of `ChannelType.BAIDU`. You can do this programmatically, as in the following example:
 
 ```java
 final PinpointConfiguration config =
@@ -227,33 +227,26 @@ Before you begin, augment your app to display the device token after registratio
 pinpointManager.getNotificationClient().getDeviceToken()
 ```
 
-Complete the following steps using the AWS CLI to test Baidu push notifications.
+Complete the following steps using the Amplify CLI and Amazon Pinpoint console to test Baidu push notifications.
 
-Register Baidu as a channel with your Amazon Pinpoint project. Provide the Baidu API key and Secret key.
+Run the following command to navigate to the Amazon Pinpoint console.
 
 ```bash
-aws pinpoint update-baidu-channel --application-id YourPinpointAppId --baidu-channel-request "{                                                                                                 
-    \"ApiKey\": \"BAIDU_API_KEY\",                                                                
-    \"Enabled\": true,                                                                             
-    \"SecretKey\": \"BAIDU_SECRET_KEY\"                                                           
-}"
+amplify console analytics
 ```
+
+* On the left pane, select `Settings` and `Push notifications`. 
+* Click `Edit` and select `Show more push notification services` and click `Baidu Cloud Push`. 
+* Enter the `Baidu API Key` and the `Baidu Secret Key` and click `Save` at the right bottom of the page.
+
+Now `Baidu Cloud Push` is regsitered as a push notification service.
 
 Install your app on to a `Baidu-enabled` device and capture the generated device token.
 
 Send a direct message to the device specifying the device token as the address.
 
-```bash
-aws pinpoint send-messages --application-id YourPinpointAppId --message-request "{
-  \"Addresses\": {
-      \"DeviceToken\": {
-          \"ChannelType\": \"BAIDU\"
-      } 
-  },
-  \"MessageConfiguration\": {
-      \"BaiduMessage\": {
-          \"RawContent\":\"{'pinpoint.campaign.campaign_id':'_DIRECT','pinpoint.notification.silentPush':0,'pinpoint.openApp':true,'pinpoint.notification.title':'Hello','pinpoint.notification.body':'Hello World.'}\"
-      }
-  }
-}"
-```
+* On the Amazon Pinpoint console, go to `Test messaging`. 
+* Select `Push notifications` as the channel. 
+* Enter the endpoint ID or the device token in the `Destinations`. 
+* Select `Baidu` as the push notifications service. 
+* Create a message and click `Send message` at the bottom right corner of the page to send a direct message.
