@@ -154,6 +154,16 @@ Auth.confirmSignUp(username, code, {
   .catch(err => console.log(err));
 ```
 
+The `Auth.signUp` promise returns a data object of type [`ISignUpResult`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L136-L139) with a [`CognitoUser`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L48).
+
+```js
+{
+    user: CognitoUser;
+    userConfirmed: boolean;
+    userSub: string;
+}
+```
+
 **Forcing Email Uniqueness in Cognito User Pools**
 
 When your Cognito User Pool sign-in options are set to "*Username*", and "*Also allow sign in with verified email address*", *signUp()* method creates a new user account every time, without validating email uniqueness. In this case you will end up having multiple user pool identities and previously created account's attribute is changed to *email_verified : false*. 
@@ -1301,7 +1311,7 @@ The `withAuthenticator` HOC gives you some nice default authentication screens o
 
 ```javascript
 import React, { Component } from 'react';
-import { ConfirmSignIn, ConfirmSignUp, ForgotPassword, SignIn, SignUp, VerifyContact, withAuthenticator } from 'aws-amplify-react';
+import { ConfirmSignIn, ConfirmSignUp, ForgotPassword, RequireNewPassword, SignIn, SignUp, VerifyContact, withAuthenticator } from 'aws-amplify-react';
 
 class App extends Component {
   render() {
@@ -1322,7 +1332,8 @@ export default withAuthenticator(App, false, [
   <VerifyContact/>,
   <SignUp/>,
   <ConfirmSignUp/>,
-  <ForgotPassword/>
+  <ForgotPassword/>,
+  <RequireNewPassword />
 ]);
 ```
 
