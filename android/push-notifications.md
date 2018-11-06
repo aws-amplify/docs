@@ -265,8 +265,8 @@ The following steps show how to receive push notifications targeted for your app
 
 ## Next Steps
 
-* [Handling FCM / GCM Push Notifications](./how-to-pinpoint-notifications-fcm.md)
+* [Handling FCM / GCM Push Notifications](how-to-pinpoint-notifications-fcm)
 
-* [Handling Amazon Device Messaging Push Notifications](./how-to-pinpoint-notifications-adm.md)
+* [Handling Amazon Device Messaging Push Notifications](how-to-pinpoint-notifications-adm)
 
-* [Handling Baidu Push Notifications](./how-to-pinpoint-notifications-baidu.md)
+* [Handling Baidu Push Notifications](how-to-pinpoint-notifications-baidu)
