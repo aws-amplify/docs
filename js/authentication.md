@@ -563,7 +563,7 @@ export default class App extends React.Component {
 
 #### Federated with Auth0
 
-You can use `Auth0` as one of the provider of your Cognito Federated Identity Pool. This will allow users authenticated via Auth0 have access to your AWS resources.
+You can use `Auth0` as one of the providers of your Cognito Federated Identity Pool. This will allow users authenticated via Auth0 have access to your AWS resources.
 
 Step 1. [how to integrate Auth0 with Cognito Federated Identity Pool](https://auth0.com/docs/integrations/integrating-auth0-amazon-cognito-mobile-apps)
 
