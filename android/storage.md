@@ -419,7 +419,7 @@ getApplicationContext().startService(new Intent(getApplicationContext(), Transfe
 
 When the network becomes offline, the in-progress transfers that are in scope of the application will be paused. When network comes back online, the transfers that are paused will be resumed.
 
-If you expect your app to perform long-running transfers in the background, initiate the transfers from a background service. For a recommended way to use a service to initate the transfer, see a [Transfer Utility sample application](https://github.com/awslabs/aws-sdk-android-samples/tree/master/S3TransferUtilitySample).
+If you expect your app to perform long-running transfers in the background, initiate the transfers from a background service. For a recommended way to use a service to initiate the transfer, see a [Transfer Utility sample application](https://github.com/awslabs/aws-sdk-android-samples/tree/master/S3TransferUtilitySample).
 
 ### Advanced Transfer Methods
 
@@ -637,7 +637,7 @@ Use the Amazon S3 console to encrypt all objects in the bucket, or to encrypt in
 
 You can also request server-side encryption for the object being uploaded using an AWS SDK. Options include:
 
-To request server-side encryption for objects you transfer using transferUtility, instantiate an `ObjectMetadata` object, set the encryption algorythm and key value in the object's header. The following code passes an objectMetadata instance to a transferUtility method, using upload as an the example. The same pattern applies to download and multi-part download.
+To request server-side encryption for objects you transfer using transferUtility, instantiate an `ObjectMetadata` object, set the encryption algorithm and key value in the object's header. The following code passes an `objectMetadata` instance to a transferUtility method, using upload as an the example. The same pattern applies to download and multi-part download.
 
 ```java
 TransferObserver observer = transferUtility.upload(
@@ -668,11 +668,11 @@ objectMetadata.setHeader(Headers.SERVER_SIDE_ENCRYPTION_KMS_KEY_ID, kmsKey);
 
 *To use your own encryption key:*
 
-* Set the algorithm to SERVER_SIDE_ENCRYPTION_CUSTOMER_ALGORITHM, which causes Amazon S3 to use AES 256 encryption with an MD5 hash key.
+* Set the algorithm to `SERVER_SIDE_ENCRYPTION_CUSTOMER_ALGORITHM`, which causes Amazon S3 to use AES 256 encryption with an MD5 hash key.
 
-* Use your custom key as the value as the value of SERVER_SIDE_ENCRYPTION_CUSTOMER_KEY.
+* Use your custom key as the value as the value of `SERVER_SIDE_ENCRYPTION_CUSTOMER_KEY`.
 
-* Use your custom MD5 hash as the value as the value of SERVER_SIDE_ENCRYPTION_CUSTOMER_KEY_MD5.
+* Use your custom MD5 hash as the value as the value of `SERVER_SIDE_ENCRYPTION_CUSTOMER_KEY_MD5`.
 
 ```java
 final ObjectMetadata objectMetadata = new ObjectMetadata();
