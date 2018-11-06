@@ -14,6 +14,7 @@ AmplifyIonicModule
 AmplifyService
 AmplifyEventBus
 AmplifyPlugin
+Auth0
 Authenticator
 aws-exports
 analytics
@@ -108,6 +109,12 @@ ROOT_QUERY
 ROOT_QUERY.listPosts
 ROOT_QUERY.getPost
 Pancho
+Authorizer
+authorizer
+xyz123useamplifyabcdClient.swift
+Client.swift
+YOUR_API_RESOURCE_NAME
+
 
 # js/tutorials/building-ionic-4-apps/index.md
 home.page.ts
