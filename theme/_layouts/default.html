@@ -243,7 +243,7 @@
 			else {
 				{% if page.url contains 'android' %}
 				 var platform = "java";
-				{% else if page.url contains 'ios' %}
+				{% elsif page.url contains 'ios' %}
 				 var platform = "swift";
 				{% else %}
 				 var platform = "purejs";
