@@ -219,7 +219,7 @@ Auth.forgotPasswordSubmit(username, code, new_password)
 Either the phone number or the email address is required for account recovery. You can let the user verify those attributes by:
 ```javascript
 // To initiate the process of verifying the attribute like 'phone_number' or 'email'
-Auth.verifyCurrentUserAttributes(attr)
+Auth.verifyCurrentUserAttribute(attr)
 .then(() => {
      console.log('a verification code is sent');
 }).catch((e) => {
@@ -230,7 +230,7 @@ Auth.verifyCurrentUserAttributes(attr)
 Auth.verifyCurrentUserAttributeSubmit(attr, 'the_verification_code')
 .then(() => {
      console.log('phone_number verified');
-}).catch(e) => {
+}).catch(e => {
      console.log('failed with error', e);
 });
 ```
@@ -1046,7 +1046,7 @@ let result = await Auth.updateUserAttributes(user, {
 console.log(result); // SUCCESS
 ```
 
-If you change the email address, the user you will receive a confirmation code. In your app, you can confirm the verification code:
+If you change the email address, the user will receive a confirmation code. In your app, you can confirm the verification code:
 
 ```javascript
 let result = await Auth.verifyCurrentUserAttributeSubmit('email', 'abc123');

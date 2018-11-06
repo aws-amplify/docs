@@ -139,6 +139,7 @@ myprivateprefix
 # js/start.md
 codegen
 8.x
+8.11.x
 5.x
 webpack
 camelCase
@@ -517,6 +518,15 @@ xib
 Hoc
 Provisioining
 AppStore
+Ok
+CognitoIdentity
+CognitoUserPool
+PinpointAnalytics
+PinpointTargeting
+
+# ios/how-to-ios-setup-push-notifications
+Capitan
+Keychain
 
 #  ios/start.md
 xcworkspace
@@ -548,3 +558,8 @@ AWSS3TransferUtility
 
 # Readme.md
 CircleCI
+
+# android/analytics.md
+_userauth.sign_in
+_userauth.sign_up
+_userauth.auth_fail
