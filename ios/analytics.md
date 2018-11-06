@@ -1,3 +1,8 @@
+{% if jekyll.environment == 'production' %}
+  {% assign base_dir = site.amplify.docs_baseurl %}
+{% endif %}
+{% assign image_base = base_dir | append: page.dir | append: "images" %}
+
 # Analytics
 
 Collecting analytics data for your app can be accomplished with [Amazon Pinpoint](#using-amazon-pinpoint) and [Amazon Kinesis](#using-amazon-kinesis).
@@ -114,7 +119,7 @@ Build and run your app to see usage metrics in Amazon Pinpoint. When you run the
 
 2. Choose `Analytics` from the icons on the left of the console, and view the graphs of your app's usage. It may take up to 15 minutes for metrics to become visible.
 
-    ![getting-started-analytics](images/getting-started-analytics.png)
+    ![getting-started-analytics]({{image_base}}/getting-started-analytics.png)
 
     [Learn more about Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html).
 

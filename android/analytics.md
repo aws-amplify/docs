@@ -2,7 +2,6 @@
 <div class="nav-tab create" data-group='create'>
 <ul class="tabs">
     <li class="tab-link java current" data-tab="java">Java</li>
-    <li class="tab-link kotlin" data-tab="kotlin">Kotlin</li>
 </ul>
 
 Collecting analytics data for your app can be accomplished with [Amazon Pinpoint](#using-amazon-pinpoint) and [Amazon Kinesis](#using-amazon-kinesis).
@@ -60,8 +59,8 @@ Use the following steps to add analytics to your mobile app and monitor the resu
 
     ```groovy
     dependencies {
-      implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.6.+'
-      implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.6.+@aar') { transitive = true }
+      implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.7.+'
+      implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.7.+@aar') { transitive = true }
     }
     ```
 
@@ -138,83 +137,7 @@ Use the following steps to add analytics to your mobile app and monitor the resu
 	}
 	```
 </div>
-<div id="kotlin" class="tab-content">
-1. Set up AWS Mobile SDK components as follows.
 
-    1. Include the following libraries in your :file:`app/build.gradle` dependencies list.
-
-        ```groovy
-        dependencies {
-            implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.6.+'
-            implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.6.+@aar') { transitive = true }
-            // other dependencies . . .
-        }
-        ```
-        * `aws-android-sdk-pinpoint` library enables sending analytics to Amazon Pinpoint.
-        * `aws-android-sdk-mobile-client` library gives access to the AWS credentials provider and configurations.
-
-    2. Add required permissions to your app manifest.
-
-        The AWS Mobile SDK required the `INTERNET` and `ACCESS_NETWORK_STATE` permissions.  These are defined in the `AndroidManifest.xml` file.
-
-        ```xml
-        <uses-permission android:name="android.permission.INTERNET"/>
-        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-        ```
-
-2. Add calls to capture session starts and stops. A session is one use of an app by the user. A session begins when an app is launched (or brought to the foreground), and ends when the app is terminated (or goes to the background). To accommodate for brief interruptions, like a text message, an inactivity period of up to 5 seconds is not counted as a new session. Total daily sessions shows the number of sessions your app has each day. Average sessions per daily active user shows the mean number of sessions per user per day.
-
-   Three typical places to instrument your app session start and stop are:
-
-   * Start a session in the `Application.onCreate()` method.
-
-   * Start a session in the `onCreate()` method of the app's first activity.
-
-   * Start or stop a session in the [ActivityLifecycleCallbacks](https://developer.android.com/reference/android/app/Application.ActivityLifecycleCallbacks) class.
-
-   The following example shows how to start a session in the `OnCreate` event of `MainActivity`.
-
-      ```kotlin
-      import android.support.v7.app.AppCompatActivity;
-      import android.os.Bundle;
-      import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
-      import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
-      import com.amazonaws.mobile.client.AWSMobileClient;
-
-      class MainActivity : AppCompatActivity() {
-          companion object {
-              private val TAG = MainActivity.javaClass.simpleName
-              var pinpointManager: PinpointManager? = null
-          }
-
-          override fun onCreate(savedInstanceState: Bundle?) {
-              super.onCreate(savedInstanceState)
-              setContentView(R.layout.activity_main)
-
-              // Initialize the AWS Mobile client
-              AWSMobileClient.getInstance().initialize(this) { Log.d(TAG, "AWSMobileClient is instantiated and you are connected to AWS!") }.execute()
-
-              val config = PinpointConfiguration(
-                      this@MainActivity,
-                      AWSMobileClient.getInstance().credentialsProvider,
-                      AWSMobileClient.getInstance().configuration
-              )
-
-              pinpointManager = PinpointManager(config)
-              pinpointManager?.sessionClient?.startSession()
-          }
-      }
-      ```
-   To stop the session, use `stopSession()` and `submitEvents()` at the last point in the session that you want to capture. In this example, we are using a single Activity, so the session will stop when the MainActivity is destroyed. `onDestroy()` is usually called when the back button is pressed while in the activity.
-
-   ```kotlin
-    override fun onDestroy() {
-        super.onDestroy()
-        pinpointManager?.sessionClient?.stopSession()
-        pinpointManager?.analyticsClient?.submitEvents()
-    }
-  ```  
-</div>
 #### Monitor Analytics
 
 Build and run your app to see usage metrics in Amazon Pinpoint. When you run the previous code samples, the console shows a logged Session.
@@ -254,23 +177,6 @@ public void logEvent() {
 }
 ```
 </div>
-<div id="kotlin" class="tab-content">
-```kotlin
-import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsEvent;
-
-/**
- * Call this method to log a custom event to the analytics client.
- */
-fun logEvent() {
-    pinpointManager?.analyticsClient?.let {
-        val event = it.createEvent("EventName")
-            .withAttribute("DemoAttribute1", "DemoAttributeValue1")
-            .withAttribute("DemoAttribute2", "DemoAttributeValue2")
-            .withMetric("DemoMetric1", Math.random());
-        it.recordEvent(event)
-}
-```
-</div>
 Build, run, and use your app. Then, view your custom events on the `Events` tab of the Amazon Pinpoint console (choose `Analytics`>`Events`). Look for the name of your event in the `Events` menu.
 
 ### Enable Revenue Analytics
@@ -292,28 +198,418 @@ public void logMonetizationEvent() {
            .withProductId("DEMO_PRODUCT_ID")
            .withQuantity(1.0)
            .withProductId("DEMO_TRANSACTION_ID").build();
-
     pinpointManager.getAnalyticsClient().recordEvent(event);
 }
 ```
 </div>
-<div id="kotlin" class="tab-content">
-```kotlin
-import com.amazonaws.mobileconnectors.pinpoint.analytics.monetization.AmazonMonetizationEventBuilder
+
+### Reporting Events in Your Application
+
+You can use the Pinpoint SDK to report usage data, or events, to Amazon Pinpoint. You can report events to capture information such as session times, users’ purchasing behavior, sign-in attempts, or any custom event type that you need.
+
+After your application reports events, you can view analytics in the Amazon Pinpoint console. The charts on the Analytics page provide metrics for many aspects of user behavior. For more information, see Chart Reference for Amazon Pinpoint Analytics in the Amazon Pinpoint User Guide.
+
+To analyze and store your event data outside of Amazon Pinpoint, you can configure Amazon Pinpoint to stream the data to Amazon Kinesis. For more information, see Streaming Amazon Pinpoint Events to Kinesis.
+
+By using the AWS Mobile SDKs and the AWS Amplify JavaScript libraries, you can call the Amazon Pinpoint API to report the following types of events:
+
+#### Session events
+Indicate when and how often users open and close your app.
+
+After your application reports session events, use the Analytics page in the Amazon Pinpoint console to view charts for Sessions, Daily active endpoints, 7-day retention rate, and more.
+
+<div id="java" class="tab-content current">
+```java
+import com.amazonaws.mobileconnectors.pinpoint.analytics.SessionClient;
 
 /**
- * Call this method to log a monetized event to the analytics client.
+ * Call this method to start and stop a session and submit events recorded
+ * in the current session.
  */
-fun logMonetizationEvent() {
-    pinpointManager?.analyticsClient?.let {
-        val event = AmazonMonetizationEventBuilder.create(it)
-                .withCurrency("USD")
-                .withItemPrice(10.00)
-                .withProductId("DEMO_PRODUCT_ID")
-                .withQuantity(1.0)
-                .withProductId("DEMO_TRANSACTION_ID").build();
-        it.recordEvent(event)
+public void logSession() {
+    SessionClient sessionClient = pinpointManager.getSessionClient();
+    sessionClient.startSession();
+    sessionClient.stopSession();
+    pinpointManager.getAnalyticsClient().submitEvents();
+}
+```
+</div>
+
+#### Custom events
+Are nonstandard events that you define by assigning a custom event type. You can add custom attributes and metrics to a custom event.
+
+On the Analytics page in the console, the Events tab displays metrics for all custom events that are reported by your app. Use graphs of your custom usage event data in the Amazon Pinpoint console. Visualize how your users’ behavior aligns with a model you design using Amazon Pinpoint Funnel Analytics, or use stream the data for deeper analysis.
+
+Use the following steps to implement Amazon Pinpoint custom analytics for your app.
+
+<div id="java" class="tab-content current">
+```java
+import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsEvent;
+
+/**
+* Call this method to log a custom event to the analytics client.
+*/
+public void logEvent() {
+   final AnalyticsEvent event =
+       pinpointManager.getAnalyticsClient().createEvent("EventName")
+           .withAttribute("DemoAttribute1", "DemoAttributeValue1")
+           .withAttribute("DemoAttribute2", "DemoAttributeValue2")
+           .withMetric("DemoMetric1", Math.random());
+   pinpointManager.getAnalyticsClient().recordEvent(event);
+   pinpointManager.getAnalyticsClient().submitEvents();
+}
+```
+</div>
+
+Build, run, and use your app. Then, view your custom events on the Events tab of the Amazon Pinpoint console (choose Analytics>Events). Look for the name of your event in the Events menu.
+
+
+#### Monetization events
+Report the revenue that’s generated by your application and the number of items that are purchased by users.
+
+On the Analytics page, the Revenue tab displays charts for Revenue, Paying users, Units sold, and more.
+
+Use the following steps to implement Amazon Pinpoint monetization analytics for your app.
+
+<div id="java" class="tab-content current">
+```java
+import com.amazonaws.mobileconnectors.pinpoint.analytics.monetization.AmazonMonetizationEventBuilder;
+
+/**
+* Call this method to log a monetized event to the analytics client.
+*/
+public void logMonetizationEvent() {
+    final AnalyticsEvent event =
+       AmazonMonetizationEventBuilder.create(pinpointManager.getAnalyticsClient())
+           .withCurrency("USD")
+           .withItemPrice(10.00)
+           .withProductId("DEMO_PRODUCT_ID")
+           .withQuantity(1.0)
+           .withProductId("DEMO_TRANSACTION_ID").build();
+    pinpointManager.getAnalyticsClient().recordEvent(event);
+    pinpointManager.getAnalyticsClient().submitEvents();
+}
+```
+</div>
+
+#### Authentication events
+Indicate how frequently users authenticate with your application.
+
+On the Analytics page, the Users tab displays charts for Sign-ins, Sign-ups, and Authentication failures.
+
+To learn how frequently users authenticate with your app, update your application code so that Amazon Pinpoint receives the following standard event types for authentication:
+
+_userauth.sign_in
+_userauth.sign_up
+_userauth.auth_fail
+You can report authentication events by doing either of the following:
+
+
+*Managing user sign-up and sign-in with Amazon Cognito user pools.*
+
+Amazon Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Amazon Cognito reports authentication events to Amazon Pinpoint. For more information, see Using Amazon Pinpoint Analytics with Amazon Cognito User Pools in the Amazon Cognito Developer Guide.
+
+*Reporting authentication events by using the Amazon Pinpoint client that’s provided by the AWS Mobile SDK for Android.*
+
+If you don’t want to use Amazon Cognito user pools, you can use the Amazon Pinpoint client to record and submit authentication events, as shown in the following examples. In these examples, the event type is set to `_userauth.sign_in`, but you can substitute any authentication event type.
+<div id="java" class="tab-content current">
+```java
+import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsEvent;
+
+/**
+* Call this method to log an authentication event to the analytics client.
+*/
+public void logAuthenticationEvent() {
+   final AnalyticsEvent event =
+       pinpointManager.getAnalyticsClient().createEvent("_userauth.sign_in");
+   pinpointManager.getAnalyticsClient().recordEvent(event);
+   pinpointManager.getAnalyticsClient().submitEvents();
+}
+```
+</div>
+
+### Managing Sessions in Your Application
+
+As users engage with your app, it reports information about app sessions to Amazon Pinpoint, such as session start times, session end times, and events that occur during sessions. To report this information from an Android application, your app must include methods that handle events as your app enters the foreground and the background on the user's Android device.
+
+**Example Lifecycle Manager**
+
+The following example class, `AbstractApplicationLifeCycleHelper`, implements the `Application.ActivityLifecycleCallbacks` interface to track when the application enters the foreground or background, among other states. Add this class to your app, or use it as an example for how to update your code:
+
+<div id="java" class="tab-content current">
+```java
+package com.amazonaws.mobile.util;
+
+import android.app.Activity;
+import android.app.Application;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.util.Log;
+
+import java.util.WeakHashMap;
+
+/**
+ * Aids in determining when your application has entered or left the foreground.
+ * The constructor registers to receive Activity lifecycle events and also registers a
+ * broadcast receiver to handle the screen being turned off.  Abstract methods are
+ * provided to handle when the application enters the background or foreground.
+ * Any activity lifecycle callbacks can easily be overriden if additional handling
+ * is needed. Just be sure to call through to the super method so that this class
+ * will still behave as intended.
+ **/
+public abstract class AbstractApplicationLifeCycleHelper implements Application.ActivityLifecycleCallbacks {
+    private static final String LOG_TAG = AbstractApplicationLifeCycleHelper.class.getSimpleName();
+    private static final String ACTION_SCREEN_OFF = "android.intent.action.SCREEN_OFF";
+    private boolean inForeground = false;
+    /** Tracks the lifecycle of activities that have not stopped (including those restarted). */
+    private WeakHashMap<Activity, String> activityLifecycleStateMap = new WeakHashMap<>();
+
+    /**
+     * Constructor. Registers to receive activity lifecycle events.
+     * @param application The Android Application class.
+     */
+    public AbstractApplicationLifeCycleHelper(final Application application) {
+        application.registerActivityLifecycleCallbacks(this);
+        final ScreenOffReceiver screenOffReceiver = new ScreenOffReceiver();
+        application.registerReceiver(screenOffReceiver, new IntentFilter(ACTION_SCREEN_OFF));
     }
+
+    @Override
+    public void onActivityCreated(final Activity activity, final Bundle bundle) {
+        Log.d(LOG_TAG, "onActivityCreated " + activity.getLocalClassName());
+        handleOnCreateOrOnStartToHandleApplicationEnteredForeground();
+        activityLifecycleStateMap.put(activity, "created");
+    }
+
+    @Override
+    public void onActivityStarted(final Activity activity) {
+        Log.d(LOG_TAG, "onActivityStarted " + activity.getLocalClassName());
+        handleOnCreateOrOnStartToHandleApplicationEnteredForeground();
+        activityLifecycleStateMap.put(activity, "started");
+    }
+
+    @Override
+    public void onActivityResumed(final Activity activity) {
+        Log.d(LOG_TAG, "onActivityResumed " + activity.getLocalClassName());
+        activityLifecycleStateMap.put(activity, "resumed");
+    }
+
+    @Override
+    public void onActivityPaused(final Activity activity) {
+        Log.d(LOG_TAG, "onActivityPaused " + activity.getLocalClassName());
+        activityLifecycleStateMap.put(activity, "paused");
+    }
+
+    @Override
+    public void onActivityStopped(final Activity activity) {
+        Log.d(LOG_TAG, "onActivityStopped " + activity.getLocalClassName());
+        // When the activity is stopped, we remove it from the lifecycle state map since we
+        // no longer consider it keeping a session alive.
+        activityLifecycleStateMap.remove(activity);
+    }
+
+    @Override
+    public void onActivitySaveInstanceState(final Activity activity, final Bundle outState) {
+        Log.d(LOG_TAG, "onActivitySaveInstanceState " + activity.getLocalClassName());
+    }
+
+    @Override
+    public void onActivityDestroyed(final Activity activity) {
+        Log.d(LOG_TAG, "onActivityDestroyed " + activity.getLocalClassName());
+        // Activity should not be in the activityLifecycleStateMap any longer.
+        if (activityLifecycleStateMap.containsKey(activity)) {
+            Log.wtf(LOG_TAG, "Destroyed activity present in activityLifecycleMap!?");
+            activityLifecycleStateMap.remove(activity);
+        }
+    }
+
+    /**
+     * Call this method when your Application trims memory.
+     * @param level the level passed through from Application.onTrimMemory().
+     */
+    public void handleOnTrimMemory(final int level) {
+        Log.d(LOG_TAG, "onTrimMemory " + level);
+        // If no activities are running and the app has gone into the background.
+        if (level >= Application.TRIM_MEMORY_UI_HIDDEN) {
+            checkForApplicationEnteredBackground();
+        }
+    }
+
+    class ScreenOffReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            checkForApplicationEnteredBackground();
+        }
+    }
+
+    /**
+     * Called back when your application enters the Foreground.
+     */
+    protected abstract void applicationEnteredForeground();
+
+    /**
+     * Called back when your application enters the Background.
+     */
+    protected abstract void applicationEnteredBackground();
+
+    /**
+     * Called from onActivityCreated and onActivityStarted to handle when the application enters
+     * the foreground.
+     */
+    private void handleOnCreateOrOnStartToHandleApplicationEnteredForeground() {
+        // if nothing is in the activity lifecycle map indicating that we are likely in the background, and the flag
+        // indicates we are indeed in the background.
+        if (activityLifecycleStateMap.size() == 0 && !inForeground) {
+            inForeground = true;
+            // Since this is called when an activity has started, we now know the app has entered the foreground.
+            applicationEnteredForeground();
+        }
+    }
+
+    private void checkForApplicationEnteredBackground() {
+        ThreadUtils.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // If the App is in the foreground and there are no longer any activities that have not been stopped.
+                if ((activityLifecycleStateMap.size() == 0) && inForeground) {
+                    inForeground = false;
+                    applicationEnteredBackground();
+                }
+            }
+        });
+    }
+}
+```
+</div>
+
+**Reporting Session Events**
+
+After you include the `AbstractApplicationLifeCycleHelper` class, implement the two abstract methods, `applicationEnteredForeground` and `applicationEnteredBackground`, in the `Application` class. These methods enable your app to report the following information to Amazon Pinpoint:
+
+1. Session start times (when the app enters the foreground).
+
+2. Session end times (when the app enters the background).
+
+3. The events that occur during the app session, such as monetization events. This information is reported when the app enters the background.
+
+The following example shows how to implement `applicationEnteredForeground` and `applicationEnteredBackground`. It also shows how to call `handleOnTrimMemory` from inside the `onTrimMemory` function of the `Application` class: 
+
+<div id="java" class="tab-content current">
+```java
+import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
+import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
+
+public class Application extends MultiDexApplication {
+    public static PinpointManager pinpointManager;
+    private AbstractApplicationLifeCycleHelper applicationLifeCycleHelper;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        // . . .
+           
+        // The Helper registers itself to receive application lifecycle events when it is constructed.
+        // A reference is kept here in order to pass through the onTrimMemory() call from
+        // the Application class to properly track when the application enters the background.
+        applicationLifeCycleHelper = new AbstractApplicationLifeCycleHelper(this) {
+            @Override
+            protected void applicationEnteredForeground() {
+                Application.pinpointManager.getSessionClient().startSession();
+                // handle any events that should occur when your app has come to the foreground...
+            }
+
+            @Override
+            protected void applicationEnteredBackground() {
+                Log.d(LOG_TAG, "Detected application has entered the background.");
+                Application.pinpointManager.getSessionClient().stopSession();
+                Application.pinpointManager.getAnalyticsClient().submitEvents();
+                // handle any events that should occur when your app has gone into the background...
+            }
+        };
+    }
+
+    private void updateGCMToken() {
+        try {
+            final String gcmToken = InstanceID.getInstance(this).getToken(
+                    "YOUR_SENDER_ID",
+                    GoogleCloudMessaging.INSTANCE_ID_SCOPE
+            );
+            Application.pinpointManager.getNotificationClient().registerGCMDeviceToken(gcmToken);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onTrimMemory(final int level) {
+        Log.d(LOG_TAG, "onTrimMemory " + level);
+        applicationLifeCycleHelper.handleOnTrimMemory(level);
+        super.onTrimMemory(level);
+    }
+
+}
+```
+</div>
+
+You've updated your Android app to report session information. Now, when users open and close your app, you can see session metrics in the Amazon Pinpoint console, including those shown by the *Sessions* and *Session heat map* charts. 
+
+### Registering Endpoints in Your Application
+
+When a user starts a session (for example, by launching your mobile app), your mobile or web application can automatically register (or update) an endpoint with Amazon Pinpoint. The endpoint represents the device that the user starts the session with. It includes attributes that describe the device, and it can also include custom attributes that you define. Endpoints can also represent other methods of communicating with customers, such as email addresses or mobile phone numbers.
+
+After your application registers endpoints, you can segment your audience based on endpoint attributes. You can then engage these segments with tailored messaging campaigns. You can also use the Analytics page in the Amazon Pinpoint console to view charts about endpoint registration and activity, such as New endpoints and Daily active endpoints.
+
+You can assign a single user ID to multiple endpoints. A user ID represents a single user, while each endpoint that is assigned the user ID represents one of the user’s devices. After you assign user IDs to your endpoints, you can view charts about user activity in the console, such as Daily active users and Monthly active users.
+
+#### Adding Custom Endpoint Attributes
+
+After you initialize the Amazon Pinpoint client in your application, you can add custom attributes to endpoints.
+
+<div id="java" class="tab-content current">
+```java
+import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsEvent;
+
+public void addCustomEndpointAttribute() {
+    // Add a custom attribute to the endpoint
+    TargetingClient targetingClient = pinpointManager.getTargetingClient();
+    String[] interests = new String[] {"science", "politics", "travel"};
+    targetingClient.addAttribute("interests", Arrays.asList(interests));
+    targetingClient.updateEndpointProfile();
+    Log.d(TAG, "Updated custom attributes for endpoint: " +
+            targetingClient.currentEndpoint().getEndpointId());
+}
+```
+</div>
+
+
+#### Assigning User IDs to Endpoints
+Assign user IDs to endpoints by doing either of the following:
+
+Manage user sign-up and sign-in with Amazon Cognito user pools.
+Use the Amazon Pinpoint client to assign user IDs without using Amazon Cognito user pools.
+Amazon Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. When the AWS Mobile SDKs for iOS and Android register an endpoint with Amazon Pinpoint, Amazon Cognito automatically assigns a user ID from the user pool. For more information, see Using Amazon Pinpoint Analytics with Amazon Cognito User Pools in the Amazon Cognito Developer Guide.
+
+If you don’t want to use Amazon Cognito user pools, you can use the Amazon Pinpoint client in your application to assign user IDs to endpoints.
+
+<div id="java" class="tab-content current">
+```java
+import com.amazonaws.mobileconnectors.pinpoint.targeting.TargetingClient;
+import com.amazonaws.mobileconnectors.pinpoint.targeting.endpointProfile.EndpointProfileUser;
+import com.amazonaws.mobileconnectors.pinpoint.targeting.endpointProfile.EndpointProfile;
+
+public void assignUserIdToEndpoint() {
+    TargetingClient targetingClient = pinpointManager.getTargetingClient();
+    EndpointProfile endpointProfile = targetingClient.currentEndpoint();
+    EndpointProfileUser endpointProfileUser = new EndpointProfileUser();
+    endpointProfileUser.setUserId("UserIdValue");
+    endpointProfile.setUser(endpointProfileUser);
+    targetingClient.updateEndpointProfile(endpointProfile);
+    Log.d(TAG, "Assigned user ID " + endpointProfileUser.getUserId() +
+            " to endpoint " + endpointProfile.getEndpointId());
 }
 ```
 </div>
