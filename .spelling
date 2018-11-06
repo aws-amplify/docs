@@ -365,6 +365,7 @@ MainActivity.java
 ActivityLifecycleCallbacks
 MainActivity
 Firehose
+KinesisRecorder
 KinesisFirehoseRecorder
 
 # android/authentication.md
@@ -464,6 +465,7 @@ mimeType
 # ios/analytics.md
 openssl
 AWSKinesisRecorder
+AWSFirehoseRecorder
 
 # ios/api-apigw.md
 YOUR_APP_NAME
@@ -569,3 +571,15 @@ CircleCI
 _userauth.sign_in
 _userauth.sign_up
 _userauth.auth_fail
+
+# android/push-notifications.md
+Baidu
+baidu
+arm64-v8a
+armeabi
+armeabi-v7a
+mips
+mips64
+x86
+x86_64
+programmatically

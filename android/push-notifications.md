@@ -26,13 +26,11 @@ You can also create Amazon Pinpoint campaigns that tie user behavior to push or 
     > FCM
     ```
 
-    - Provide your ApiKey. The FCM console refers to this value as `ServerKey`. For information on getting an FCM ApiKey, see [Setting Up Android Push Notifications](http://docs.aws.amazon.com/pinpoint/latest/developerguide/mobile-push-android.html).
-
-   Use the steps in the next section to connect your app to your backend.
+    - Provide your ApiKey. The FCM console refers to this value as `ServerKey`. For information on getting an FCM ApiKey, see the section [Setting Up Android Push Notifications using FCM](./how-to-setup-pinpoint-notifications-fcm.md). Use the steps in the next section to connect your app to your backend.
 
 ## Connect to Your Backend
 
-Use the following steps to connect add push notification backend services to your app.
+Use the following steps to connect your app to the push notification backend services.
 
 1. Add the following dependencies and plugin to your `app/build.gradle`:
 
@@ -67,7 +65,7 @@ Use the following steps to connect add push notification backend services to you
     }
 	```
 
-3. `AndroidManifest.xml` must contain the definition of the following service for PushListenerService in the application tag:
+3. `AndroidManifest.xml` must contain the definition of the following service for `PushListenerService` in the application tag:
 
 	```xml
     <service
@@ -158,11 +156,11 @@ The following steps show how to receive push notifications targeted for your app
 1. Add a push listener service to your app.
 
 	The name of the class must match the push listener service name used in the app manifest.
-	`pinpointManager` is a reference to the static PinpointManager variable declared in
-	the MainActivity shown in a previous step. Use the following steps to detect and display Push
+	`pinpointManager` is a reference to the static `PinpointManager` variable declared in
+	the `MainActivity` shown in a previous step. Use the following steps to detect and display Push
 	Notification in your app.
 
-2. The following push listener code assumes that the app's MainActivity is configured using
+2. The following push listener code assumes that the app's `MainActivity` is configured using
             the manifest setup described in a previous section.
 
 	```java
@@ -264,3 +262,11 @@ The following steps show how to receive push notifications targeted for your app
 8. Review the details on the screen, and then choose `Launch Campaign`.
 
 9. A notification should appear on the Android device. You may want to try testing your app receiving notifications when it is in the foreground and when closed.
+
+## Next Steps
+
+* [Handling FCM / GCM Push Notifications](./how-to-pinpoint-notifications-fcm.md)
+
+* [Handling Amazon Device Messaging Push Notifications](./how-to-pinpoint-notifications-adm.md)
+
+* [Handling Baidu Push Notifications](./how-to-pinpoint-notifications-baidu.md)
