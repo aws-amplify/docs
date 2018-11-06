@@ -1,4 +1,4 @@
-## Handling Amazon Device Messaging push notifications
+# Handling Amazon Device Messaging push notifications
 
 Amazon Device Messaging (ADM) is a service used to send push notifications to apps running on Amazon devices, such as Kindle Fire tablets. By integrating ADM with your app, you can use Amazon Pinpoint to send notifications to your app through the ADM mobile push channel.
 

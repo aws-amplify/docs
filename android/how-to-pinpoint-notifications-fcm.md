@@ -1,4 +1,4 @@
-## Handling FCM/GCM Push Notifications
+# Handling FCM/GCM Push Notifications
 
 You can enable your Android to receive push notifications that you send through by using Amazon Pinpoint. With Amazon Pinpoint, you can send push notifications through Firebase Cloud Messaging (FCM) or its predecessor, Google Cloud Messaging (GCM).
 

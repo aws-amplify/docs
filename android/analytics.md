@@ -219,6 +219,7 @@ Indicate when and how often users open and close your app.
 After your application reports session events, use the Analytics page in the Amazon Pinpoint console to view charts for Sessions, Daily active endpoints, 7-day retention rate, and more.
 
 <div id="java" class="tab-content current">
+
 ```java
 import com.amazonaws.mobileconnectors.pinpoint.analytics.SessionClient;
 
@@ -243,6 +244,7 @@ On the Analytics page in the console, the Events tab displays metrics for all cu
 Use the following steps to implement Amazon Pinpoint custom analytics for your app.
 
 <div id="java" class="tab-content current">
+
 ```java
 import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsEvent;
 
@@ -272,6 +274,7 @@ On the Analytics page, the Revenue tab displays charts for Revenue, Paying users
 Use the following steps to implement Amazon Pinpoint monetization analytics for your app.
 
 <div id="java" class="tab-content current">
+
 ```java
 import com.amazonaws.mobileconnectors.pinpoint.analytics.monetization.AmazonMonetizationEventBuilder;
 
@@ -312,7 +315,9 @@ Amazon Cognito user pools are user directories that make it easier to add sign-u
 *Reporting authentication events by using the Amazon Pinpoint client that’s provided by the AWS Mobile SDK for Android.*
 
 If you don’t want to use Amazon Cognito user pools, you can use the Amazon Pinpoint client to record and submit authentication events, as shown in the following examples. In these examples, the event type is set to `_userauth.sign_in`, but you can substitute any authentication event type.
+
 <div id="java" class="tab-content current">
+
 ```java
 import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsEvent;
 
@@ -337,6 +342,7 @@ As users engage with your app, it reports information about app sessions to Amaz
 The following example class, `AbstractApplicationLifeCycleHelper`, implements the `Application.ActivityLifecycleCallbacks` interface to track when the application enters the foreground or background, among other states. Add this class to your app, or use it as an example for how to update your code:
 
 <div id="java" class="tab-content current">
+
 ```java
 package com.amazonaws.mobile.util;
 
@@ -498,6 +504,7 @@ After you include the `AbstractApplicationLifeCycleHelper` class, implement the 
 The following example shows how to implement `applicationEnteredForeground` and `applicationEnteredBackground`. It also shows how to call `handleOnTrimMemory` from inside the `onTrimMemory` function of the `Application` class: 
 
 <div id="java" class="tab-content current">
+
 ```java
 import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
@@ -570,6 +577,7 @@ You can assign a single user ID to multiple endpoints. A user ID represents a si
 After you initialize the Amazon Pinpoint client in your application, you can add custom attributes to endpoints.
 
 <div id="java" class="tab-content current">
+
 ```java
 import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsEvent;
 
@@ -596,6 +604,7 @@ Amazon Cognito user pools are user directories that make it easier to add sign-u
 If you don’t want to use Amazon Cognito user pools, you can use the Amazon Pinpoint client in your application to assign user IDs to endpoints.
 
 <div id="java" class="tab-content current">
+
 ```java
 import com.amazonaws.mobileconnectors.pinpoint.targeting.TargetingClient;
 import com.amazonaws.mobileconnectors.pinpoint.targeting.endpointProfile.EndpointProfileUser;

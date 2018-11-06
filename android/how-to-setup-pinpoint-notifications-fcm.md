@@ -1,4 +1,4 @@
-## Setting up Push Notifications
+# Setting up Push Notifications
 
 This section describes how to obtain the credentials required to send push notifications to Android apps. The platform notification services you can use for push notifications on Android are Firebase Cloud Messaging (FCM) and its predecessor, Google Cloud Messaging (GCM). Your FCM or GCM credentials enable you to create an Android project and launch a sample app that can receive push notifications.
 
