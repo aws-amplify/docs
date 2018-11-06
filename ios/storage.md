@@ -511,15 +511,6 @@ transferUtility.uploadUsingMultiPart(data:data,
             }
 ```
 
-### How it works
-
-If you expect your app to perform transfers that take longer than 50 minutes, use [AWSS3](https://docs.aws.amazon.com/AWSiOSSDK/latest/Classes/AWSS3.html) instead of [AWSS3TransferUtility](https://docs.aws.amazon.com/AWSiOSSDK/latest/Classes/AWSS3TransferUtility.html).
-
-`AWSS3TransferUtility` generates Amazon S3 pre-signed URLs to use for background data transfer. Using Amazon Cognito Identity, you receive AWS temporary credentials. The credentials are valid for up to 60 minutes. At the same time, generated S3 pre-signed URLs cannot last longer than that time. Because of this limitation, the AWSS3TransferUtility enforces **50 minutes** transfer timeout, leaving a 10 minute buffer before AWS temporary credentials are regenerated. After 50 minutes, you receive a transfer failure.
-
-If the generated pre-signed URLs cannot last longer than the credentials, then transfers will run into errors. The default value of timeoutIntervalForResource is set to 50 minutes to work well with Amazon Cognito Identity. For transfers that need to run longer than 50 minutes, you can setup static credentials using AWSStaticCredentialsProvider and increase timeoutIntervalForResource ( up to a maximum value of 7 days). 
-
-
 ## Working with Pre-Signed URLS
 
 By default, all Amazon S3 resources are private. If you want your users to have access to Amazon S3 buckets
@@ -580,6 +571,14 @@ AWSS3PreSignedURLBuilder.default().getPreSignedURL(getPreSignedURLRequest).conti
     return nil
 }
 ```
+
+## A note on Transfer Utility and Pre-Signed URLS 
+
+The TransferUtility generates Amazon S3 pre-signed URLs to use for background data transfer. The best practice is to use Amazon Cognito for credentials with Transfer Utility. With Amazon Cognito Identity, you receive AWS temporary credentials that are valid for up to 60 minutes. The pre-signed URLs built using these credentials are bound by the same time limit, after which the URLs will expire. 
+
+Because of this limitation, when you use TransferUtility with AWS Cognito, the epiry on the Pre-Signed URLs generated internally is set to **50 minutes**. Transfers that run longer than the 50 minutes will fail.  If you are transferring a large enough file where this becomes a constraint, you should create static credentials using AWSStaticCredentialsProvider ( _see [Authentication](./authentication) for more details on how to do this_)  and increase the expiry time on the Pre-Signed URLs by increasing the value for the `timeoutIntervalForResource` in the Transfer Utility Options.  Note that the max allowed expiry value for a Pre-Signed URL is 7 days. 
+
+
 ## Additional Resources
 
 * [Amazon Simple Storage Service Getting Started Guide](http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html)
