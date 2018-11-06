@@ -68,7 +68,7 @@ Add the following permission to your `AndroidManifest.xml`::
 
 ## Direct AWS Service access
 
-You can call AWS service interface objects directly via the generated SDK clients. You can use the client credentials provided by the [AWSMobileClient](./authentication) by calling `AWSMobileClient.getInstance() and passing it to the service client. This will leverage short term AWS credentials from Cognito Identity. 
+You can call AWS service interface objects directly via the generated SDK clients. You can use the client credentials provided by the [AWSMobileClient](./authentication) by calling `AWSMobileClient.getInstance()` and passing it to the service client. This will leverage short term AWS credentials from Cognito Identity. 
 
 To work with service interface objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
 {: .callout .callout--warning}
