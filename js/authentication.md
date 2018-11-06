@@ -591,7 +591,7 @@ Step 3. Now you can get the current user and current Credentials:
 Auth.currentAuthenticatedUser().then(user => console.log(user));
 Auth.currentCredentials().then(creds => console.log(creds));
 
-// Unfortunately Auth.currentSession() doesn't support federated identities for now. Please store the auth0 session info manually.
+// Auth.currentSession() does not currently support federated identities. Please store the auth0 session info manually(for exmaple, store tokens into the local storage).
 ```
 
 Step 4. You can pass a refresh handler to the Auth module to refresh the id token from `Auth0`:
