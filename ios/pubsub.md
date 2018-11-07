@@ -30,7 +30,7 @@ let iotEndPoint = AWSEndpoint(
 let iotDataConfiguration = AWSServiceConfiguration(
     region: AWSRegionType.<YOUR-AWS-REGION>,
     endpoint: iotEndPoint,
-    credentialsProvider: AWSMobileClient.sharedInstance().getCredentialsProvider()
+    credentialsProvider: AWSMobileClient.sharedInstance()
 )
 
 AWSIoTDataManager.register(with: iotDataConfiguration!, forKey: ASWIoTDataManager)
