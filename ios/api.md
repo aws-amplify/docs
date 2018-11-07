@@ -398,18 +398,14 @@ When using AWS IAM in a mobile application you should leverage Amazon Cognito Id
 
 Add the following code to your app:
 
-```swift
-// Set up the Amazon Cognito CredentialsProvider
-let credentialsProvider = AWSCognitoCredentialsProvider(regionType: CognitoIdentityRegion,
-                                                        identityPoolId: CognitoIdentityPoolId)
-                                                                
+```swift         
 // You can choose your database location, accessible by the SDK
 let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent(database_name)
     
 do {
   // Initialize the AWS AppSync configuration
             let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(),
-                                                                  credentialsProvider: credentialsProvider,
+                                                                  credentialsProvider: AWSMobileClient.sharedInstance(),
                                                                   databaseURL: databaseURL)
     
     // Initialize the AWS AppSync client
