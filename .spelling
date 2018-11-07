@@ -120,7 +120,9 @@ Client.swift
 YOUR_API_RESOURCE_NAME
 enqueued
 xcodeproj
-
+png
+jpg
+UIColor
 
 # js/tutorials/building-ionic-4-apps/index.md
 home.page.ts
