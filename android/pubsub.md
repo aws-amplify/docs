@@ -59,11 +59,11 @@ aws iot attach-principal-policy --policy-name 'myIOTPolicy' --principal '<YOUR_C
 
 ### Establish Connection
 
-Before you can subscribe to a topic, you need to connect to the backend as follows;
+Before you can subscribe to a topic, you need to establish a connection as follows:
 
 ```java
 try {
-    mqttManager.connect(clientKeyStore, new AWSIotMqttClientStatusCallback() {
+    mqttManager.connect(AWSMobileClient.getInstance(), new AWSIotMqttClientStatusCallback() {
         @Override
         public void onStatusChanged(final AWSIotMqttClientStatus status, final Throwable throwable) {
             Log.d(LOG_TAG, "Connection Status: " + String.valueOf(status));
@@ -129,7 +129,7 @@ try {
 
 ### Close Connection
 
-Before you can subscribe to a topic, you need to connect to the backend as follows;
+In order to disconnect, you need to close the connection as follows:
 
 ```java
 try {
