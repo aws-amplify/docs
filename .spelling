@@ -623,3 +623,6 @@ MY_BUCKET
 OBJECT_KEY
 MY_FILE
 KMS-generated
+
+# android/auth-google-setup.md
+keystore
