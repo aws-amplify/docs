@@ -14,10 +14,13 @@ AmplifyIonicModule
 AmplifyService
 AmplifyEventBus
 AmplifyPlugin
+Auth0
 Authenticator
+aws_bots_config.name
 aws-exports
 analytics
 backend
+botTitle
 cli
 callout
 callout--info
@@ -48,6 +51,7 @@ ios
 item.class.ts
 index.js
 lifecycle
+md
 Multifactor
 myPublicPrefix,
 myPrivatePrefix,
@@ -61,6 +65,7 @@ node.js
 onPick
 pre-signed
 pre-built
+programmatically
 repo
 src
 stylesheet
@@ -108,6 +113,12 @@ ROOT_QUERY
 ROOT_QUERY.listPosts
 ROOT_QUERY.getPost
 Pancho
+Authorizer
+authorizer
+xyz123useamplifyabcdClient.swift
+Client.swift
+YOUR_API_RESOURCE_NAME
+
 
 # js/tutorials/building-ionic-4-apps/index.md
 home.page.ts
@@ -306,6 +317,30 @@ s3
 versionInput
 versioning
 
+# js/vue.md
+confirmSignInConfig
+confirmSignUpConfig
+forgotPasswordConfig
+signInConfig
+signUpConfig
+signUpFields
+msg
+signOutButton
+mfaDescription
+mfaTypes
+tokenInstructions
+smsDescription
+totpDescription
+noMfaDescription
+cancelHandler
+defaultName
+amplify-vue
+
+# js/sign-up-fields.md
+displayOrder
+displayOrder
+signUpConfig.signUpFields
+
 # cli/plugins.md
 walk
 gluegun
@@ -359,6 +394,7 @@ MainActivity.java
 ActivityLifecycleCallbacks
 MainActivity
 Firehose
+KinesisRecorder
 KinesisFirehoseRecorder
 
 # android/authentication.md
@@ -372,7 +408,7 @@ PutRecord
 enum
 MiB
 
-# android/how-to-android-sdk-setup.md
+# android/manualsetup.md
 aws-android-sdk-apigateway-core
 aar
 aws-android-sdk-auth-core
@@ -458,6 +494,7 @@ mimeType
 # ios/analytics.md
 openssl
 AWSKinesisRecorder
+AWSFirehoseRecorder
 
 # ios/api-apigw.md
 YOUR_APP_NAME
@@ -487,7 +524,7 @@ AWSS3ServerSideEncryption
 _Identity
 _Granting
 
-# ios/how-to-ios-sdk-setup.md
+# ios/manualsetup.md
 Cocoapods
 aws-sdk-ios
 CocoaLumberjack
@@ -540,6 +577,10 @@ AWSAppSyncClientConfiguration
 schema.json
 GraphQLOperations
 posts.graphql
+timeoutIntervalForResource
+handleEventsForBackgroundURLSession
+interceptApplication
+AWSStaticCredentialsProvider
 
 # android/how-to-android-sdk-setup.md
 aws-android-sdk-lex
@@ -558,3 +599,30 @@ AWSS3TransferUtility
 
 # Readme.md
 CircleCI
+
+# android/analytics.md
+_userauth.sign_in
+_userauth.sign_up
+_userauth.auth_fail
+
+# android/push-notifications.md
+Baidu
+baidu
+arm64-v8a
+armeabi
+armeabi-v7a
+mips
+mips64
+x86
+x86_64
+programmatically
+
+# android/storage.md
+TransferService
+MY_BUCKET
+OBJECT_KEY
+MY_FILE
+KMS-generated
+
+# android/auth-google-setup.md
+keystore
