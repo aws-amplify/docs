@@ -93,6 +93,27 @@ In most cases if you are offline and make a service request, and your tokens are
 
 If you are offline and make a service request, and your tokens are **NOT** valid, the service request will be blocked and notifications for `signedOutUserPoolsTokenInvalid` or `signedOutFederatedTokensInvalid` will be sent to the listener. In the case of the AppSync client this can be ignored and the queries will come from cache or mutations enqueued with credentials automatically refreshing upon reconnection. For all other services, if this happens and you are offline you should not make the service request until you come back online, at which point the `AWSMobileClient` will automatically re-enter the token refresh flow outlined above and then make the service call with the updated credentials.
 
+## Install Dependencies
+
+After initialization in your project directory with `amplify init`, edit your `Podfile` with the following:
+
+```ruby
+target 'MyApp' do             ##Replace MyApp with your application name
+  use_frameworks!
+  pod 'AWSMobileClient', '0.0.7'
+  pod 'AWSUserPoolsSignIn', '0.0.2'
+end
+```
+
+Next run the following command:
+
+```terminal
+amplify push
+pod install --repo-update
+```
+
+Open the **.xcworkspace** file of your project (close the **.xcodeproj** file if you already have it open). Drag in the `awsconfiguration.json` file from finder into your **.xcworkspace**. Finally, build your project once to ensure all frameworks are pulled in and compile correctly.
+
 ## Automated Setup
 
 Run the following command in your project's root folder:
@@ -401,7 +422,9 @@ AWSMobileClient.sharedInstance().federatedSignIn(providerName: "graph.facebook.c
 }
 ```
 
-`federatedSignIn` can be used to obtain federated "Identity ID" using external providers like Google, Facebook or Twitter. If the tokens are expired and new tokens are needed, a notification will be dispatched on the `AWSMobileClient` listener with the user state `signedOutFederationTokensInvalid`. You can give the updated tokens via the same `federatedSignIn` method. 
+`federatedSignIn()` can be used to obtain federated "Identity ID" using external providers like Google, Facebook or Twitter. If the tokens are expired and new tokens are needed, a notification will be dispatched on the `AWSMobileClient` listener with the user state `signedOutFederationTokensInvalid`. You can give the updated tokens via the same `federatedSignIn()` method. 
+
+The API calls to get AWS credentials will be asynchronously blocked until you fetch the social provider's token and give it to `AWSMobileClient`. Once you pass the tokens, the `AWSMobileClient` will fetch AWS Credentials using the new tokens and unblock all waiting calls. It will then use the new credentials.
 
 #### Facebook with Cognito Identity
 
@@ -499,7 +522,7 @@ Note that the CLI allows you to select more than one identity provider for your 
 
 To federate Google as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.sharedInstance().federatedSignIn()`. You must first register your application with Google Sign-In and then configure this with Amazon Cognito Identity Pools.
 
-The following sections detail the Google Sign-In requirements ans steps to integrate Google Sign-In for both iOS and Android apps:
+The following sections detail the Google Sign-In requirements and steps to integrate Google Sign-In for both iOS and Android apps:
 
 * [Create a Google Developers Project and OAuth Web Client ID](./auth-google-setup#project) (required for `all apps` regardless of platform)
 
@@ -551,7 +574,11 @@ Note that the CLI allows you to select more than one identity provider for your 
 	    # other pods
 	  end
 	```
-	Run `pod install --repo-update`.
+
+Run `pod install --repo-update`.
+
+Note : `AWSFacebookSignIn` is only needed for using Facebook in your app and  `AWSAuthUI` is only necessary if using the "Drop-In UI".
+{: .callout .callout--info}
 
 3. Add Facebook meta data to `Info.plist`.
 
