@@ -409,7 +409,7 @@ PutRecord
 enum
 MiB
 
-# android/how-to-android-sdk-setup.md
+# android/manualsetup.md
 aws-android-sdk-apigateway-core
 aar
 aws-android-sdk-auth-core
@@ -525,7 +525,7 @@ AWSS3ServerSideEncryption
 _Identity
 _Granting
 
-# ios/how-to-ios-sdk-setup.md
+# ios/manualsetup.md
 Cocoapods
 aws-sdk-ios
 CocoaLumberjack
@@ -624,3 +624,6 @@ MY_BUCKET
 OBJECT_KEY
 MY_FILE
 KMS-generated
+
+# android/auth-google-setup.md
+keystore
