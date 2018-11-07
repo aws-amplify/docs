@@ -261,3 +261,123 @@ Example:
   <amplify-authenticator-ionic></amplify-authenticator-ionic>
   ...
 ```
+
+## API
+Amplify CLI generates APIService to make it easier to use Appsync API. Add an GraphQL API by running add api command in your project root folder
+```bash
+$ amplify add api
+? Please select from one of the below mentioned services GraphQL
+? Provide API name: angularcodegentest
+? Choose an authorization type for the API API key
+? Do you have an annotated GraphQL schema? No
+? Do you want a guided schema creation? true
+? What best describes your project: (Use arrow keys)
+? What best describes your project: Single object with fields (e.g., “Todo” with ID, name, description)
+? Do you want to edit the schema now? (Y/n) n
+? Do you want to edit the schema now? No
+
+```
+
+Push the API to cloud by running `$amplify push`
+
+```bash
+ amplify push
+| Category | Resource name      | Operation | Provider plugin   |
+| -------- | ------------------ | --------- | ----------------- |
+| Api      | angularcodegentest | Create    | awscloudformation |
+? Are you sure you want to continue? true
+
+GraphQL schema compiled successfully. Edit your schema at /Users/yathiraj/Documents/code/angular-codegen-test/amplify/backend/api/angularcodegentest/schema.graphql
+? Do you want to generate code for your newly created GraphQL API (Y/n)
+? Do you want to generate code for your newly created GraphQL API Yes
+? Choose the code generation language target (Use arrow keys)
+? Choose the code generation language target angular
+? Enter the file name pattern of graphql queries, mutations and subscriptions (src/graphql/**/*.graphql)
+? Enter the file name pattern of graphql queries, mutations and subscriptions src/graphql/**/*.graphql
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions (Y/n)
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions Yes
+? Enter the file name for the generated code (src/app/API.service.ts)
+? Enter the file name for the generated code src/app/API.service.ts
+...
+...
+...
+...
+✔ Code generated successfully and saved in file src/app/API.service.ts
+✔ Generated GraphQL operations successfully and saved at src/graphql
+✔ All resources are updated in the cloud
+```
+
+Configure your Angular app to use the aws-exports. Rename the generated `aws-exports.js` -> `aws-exports.ts` and import it in `main.ts`
+
+```typescript
+// file: src/main.ts
+// ...
+import PubSub from '@aws-amplify/pubsub';
+import API from '@aws-amplify/api';
+import awsConfig from './aws-exports';
+
+PubSub.configure(awsConfig);
+API.configure(awsConfig);
+// ...
+```
+
+Expose the APIService from the root of your app
+
+```typescript
+// file: src/app/app.module.ts
+
+// ...
+import { AppComponent } from './app.component';
+import { APIService } from './API.service';
+// ...
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule
+  ],
+  providers: [APIService],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+```
+
+In your componet use the API service 
+```typescript
+// file: app.component.ts
+// ...
+import { APIService } from './API.service';
+
+// ...
+export class AppComponent {
+  constructor(private apiService: APIService) {}
+}
+```
+
+APIService exposes all the queries and subscription as methods
+```typescript
+// file: app.component.ts
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'angular-codegen-test';
+  constructor(private apiService: APIService) {
+    this.onNewTodo()
+  }
+  async createTodo() {
+    const response = await this.apiService.CreateTodo({description: 'foo', name: 'bar'});
+    console.log(response);
+  }
+  async onNewTodo() {
+    this.apiService.OnCreateTodoListener.subscribe((next) => {
+      console.log(next.value.OnCreateTodo);
+    });
+  }
+}
+```
