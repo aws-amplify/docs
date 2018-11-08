@@ -74,7 +74,7 @@ amplify:
             platform: for JavaScript
         nav:
             - item_name: Get Started
-              item_external_url: 'https://aws-amplify.github.io/media/get_started'
+              item_url: '/'
               id: start
             - item_name: Toolchain
               item_external_url: 'https://aws-amplify.github.io/media/toolchain'
