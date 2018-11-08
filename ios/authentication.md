@@ -256,7 +256,22 @@ IMPORTANT: The drop-in UI requires the use of a navigation controller to anchor 
 
 ### Customization
 
-**TODO**
+Currently, you can change the following properties of the drop-in UI with the `AWSMobileClient`:
+- Logo: Any image file of png or jpg
+- Background Color: Any iOS UIColor
+
+```swift
+AWSMobileClient.sharedInstance()
+    .showSignInScreen(navigationController: self.navigationController!,
+                        signInUIConfiguration: SignInUIConfiguration(
+                            canCancel: false,
+                            logoImage: UIImage(named: "MyCustomLogo"),
+                            backgroundColor: UIColor.black)) { (result, err) in
+                            //handle results and errors               
+}
+```
+
+You can also dismiss the sign in process by setting the `canCancel` property. 
 
 ## Working with the API
 
@@ -288,6 +303,19 @@ AWSMobileClient.sharedInstance().signUp(username: "your_username",
         }
         print("\(error.localizedDescription)")
     }
+}
+```
+
+### User Attributes
+
+You can provide custom user attributes in the `signUp()` method by passing them into the `userAttributes` argument as key-value pairs. For instance if you had a `nickname` or a `badge_number` in your Cognito User Pool:
+
+```swift
+AWSMobileClient.sharedInstance().signUp(
+    username: "your_username",
+    password: "Abc@123!",
+    userAttributes: ["nickname":"Johnny", "badge_number": "ABC123XYZ"]) { (signUpResult, error) in
+    //Use results as before
 }
 ```
 
@@ -366,6 +394,16 @@ AWSMobileClient.sharedInstance().confirmSignIn(code: "code_here") { (signInResul
 
 ```swift
 AWSMobileClient.sharedInstance().signOut()
+```
+
+### Utility Properties
+
+The `AWSMobileClient` provides several property "helpers" that are automatically cached locally for you to use in your application.
+
+```swift
+AWSMobileClient.sharedInstance().username       //String
+AWSMobileClient.sharedInstance().isLoggedIn     //Boolean
+AWSMobileClient.sharedInstance().identityId     //String
 ```
 
 ### Managing Security Tokens

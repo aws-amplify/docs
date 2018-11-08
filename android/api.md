@@ -56,8 +56,8 @@ Select *GraphQL* when prompted for service type:
 ? Please select from one of the below mentioned services (Use arrow keys)
 ❯ GraphQL
   REST
-```
 
+```
 The `add api` flow above will ask you some questions, such as if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code examples below. Later on, you can always change it.
 
 Name your GraphQL endpoint and select authorization type:
@@ -69,6 +69,7 @@ Name your GraphQL endpoint and select authorization type:
 ❯ API key
   Amazon Cognito User Pool
 ```
+
 
 AWS AppSync API keys expire seven days after creation, and using API KEY authentication is only suggested for development. To change AWS AppSync authorization type after the initial configuration, use the `$ amplify update api` command and select `GraphQL`.
 {: .callout .callout--info}
@@ -245,6 +246,7 @@ Subscriptions can also take input types like mutations, in which case they will 
 
 ### Background Tasks
 
+
 All GraphQL operations in the Android client are automatically run as asynchronous tasks and can be safely called from any thread. If you have a need to run GraphQL operations from a background thread you can do it with a `Runnable()` like the example below:
 
 ```java
@@ -292,7 +294,7 @@ try {
 } catch (InterruptedException iex) {
     iex.printStackTrace();
 }
-```
+
 
 ### Client Architecture
 
