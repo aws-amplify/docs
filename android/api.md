@@ -243,7 +243,7 @@ Finally, it's time to set up a subscription to real-time data. The callback is j
 
 Subscriptions can also take input types like mutations, in which case they will be subscribing to particular events based on the input. To learn more about subscription arguments, see [Real-Time data](./aws-appsync-real-time-data).
 
-## Background Tasks
+### Background Tasks
 
 All GraphQL operations in the Android client are automatically run as asynchronous tasks and can be safely called from any thread. If you have a need to run GraphQL operations from a background thread you can do it with a `Runnable()` like the example below:
 
@@ -288,10 +288,10 @@ new Thread(new Runnable() {
 }).start();
 
 try {
-        mCountDownLatch.await(60, TimeUnit.SECONDS);
-    } catch (InterruptedException iex) {
-        iex.printStackTrace();
-    }
+    mCountDownLatch.await(60, TimeUnit.SECONDS);
+} catch (InterruptedException iex) {
+    iex.printStackTrace();
+}
 ```
 
 ### Client Architecture
@@ -590,11 +590,12 @@ When configuration of your API is complete, the CLI displays a message confirmin
 $ amplify push
 ```
 
-Once the deployment completes a folder called `generated-src` will be added in the folder directory. This is the client SDK that you will add to your project in the next section.
+Once the deployment completes a folder with the name of your API's resource name will be created in `./src/main/java`. This is the client SDK with the models you will import and use in the `ApiClientFactory()` builder from your code in the following sections. 
 
 ### Connect to Your Backend
 
 Add the following to your `app/build.gradle`:
+
 
 ```groovy
 	dependencies {
@@ -604,23 +605,27 @@ Add the following to your `app/build.gradle`:
 	}
 ```
 
-2. Get your API client name.
+Build your project. Next, you will need to import the client that was generated in `./src/main/java` when you ran `amplify push`. For example, an app named `useamplify` with an API resource named `xyz123`, the path of the code file will be `./src/main/java/xyz123/useamplifyabcdClient.java`. The API client name will be `useamplifyabcdClient`. You would have the following entries in your code:
 
-    The CLI generates a client code file for each API you add. The API client name is the name of that file, without the extension.
 
-    The path of the client code file is `./src/main/java/YOUR_API_RESOURCE_NAME/YOUR_APP_NAME_XXXXClient.java`.
+```java
+import YOUR_API_RESOURCE_NAME.YOUR_APP_NAME_XXXXClient;
 
-    So, for an app named `useamplify` with an API resource named `xyz123`, the path of the code file will be `./src/main/java/xyz123/useamplifyabcdClient.java`. The API client name will be `useamplifyabcdClient`.
+private YOUR_APP_NAME_XXXXClient apiClient;
 
-    - Find the resource name of your API by running `amplify status`.
-    - Copy your API client name to use when invoking the API in the following step.
+apiClient = new ApiClientFactory()
+    .credentialsProvider(AWSMobileClient.getInstance().getCredentialsProvider())
+    .build(YOUR_API_CLIENT_NAME.class);
+```
 
-3. Invoke a Cloud Logic API.
+Find the resource name of your API by running `amplify status`. Copy your API client name to use when invoking the API in the following sections.
 
-    The following code shows how to invoke a Cloud Logic API using your API's client class,
-    model, and resource paths.
+#### IAM authorization
 
-    ```java
+To invoke an API Gateway endpoint from your application, import the generated client as outlined in the last section and use the generated client class, model, and resource paths as in the below example with `YOUR_API_RESOURCE_NAME.YOUR_APP_NAME_XXXXClient`, `YOUR_APP_NAME_XXXXClient`, and `YOUR_API_CLIENT_NAME` replaced appropriately. For AWS IAM authorization use the `AWSMobileClient` as outlined in [the authentication section](./authentication).
+
+
+```java
     import android.support.v7.app.AppCompatActivity;
     import android.os.Bundle;
     import android.util.Log;
@@ -664,13 +669,13 @@ Add the following to your `app/build.gradle`:
 
             // Create the client
             apiClient = new ApiClientFactory()
-                    .credentialsProvider(AWSMobileClient.getInstance().getCredentialsProvider())
+                    .credentialsProvider(AWSMobileClient.getInstance())
                     .build(YOUR_API_CLIENT_NAME.class);
 
-            callCloudLogic();
+            doInvokeAPI();
         }
 
-        public void callCloudLogic() {
+        public void doInvokeAPI() {
             // Create components of api request
             final String method = "GET";
             final String path = "/items";
@@ -730,107 +735,46 @@ Add the following to your `app/build.gradle`:
             }).start();
         }
       }
-    ```
-</div>
-<div id="kotlin" class="tab-content">
-1. Add the following to your `app/build.gradle`:
+```
 
-	```groovy
-	dependencies {
-		implementation 'com.amazonaws:aws-android-sdk-apigateway-core:2.6.+'
-		implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.6.+@aar') { transitive = true }
-		implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.6.+@aar') { transitive = true }
-	}
-	```
+#### Cognito User Pools authorization
 
-2. Get your API client name.
+When invoking an API Gateway endpoint with Cognito User Pools authorizer, you can leverage the `AWSMobileClient` to dynamically refresh and pass tokens to your endpoint. Using the example from the previous section, update the `doInvokeAPI()` so that it takes a "token" string argument like `doInvokeAPI(String token)`. Next, add a header for the token to be passed with `.addHeader("Authorization", token)` and set the service configuration to have `credentialsProvider(null)`. Finally, overload the `doInvokeAPI()` with a new definition that gets the Cognito User Pools token from the `AWSMobileClient` as below:
 
-    The CLI generates a client code file for each API you add. The API client name is the name of that file, without the extension.
+```java
+//Pass in null for credentialsProvider
+apiClient = new ApiClientFactory()
+    .credentialsProvider(null)
+    .build(YOUR_API_CLIENT_NAME.class);
 
-    The path of the client code file is `./src/main/java/YOUR_API_RESOURCE_NAME/YOUR_APP_NAME_XXXXClient.java`.
-
-    So, for an app named `useamplify` with an API resource named `xyz123`, the path of the code file will be `./src/main/java/xyz123/useamplifyabcdClient.java`. The API client name will be `useamplifyabcdClient`.
-
-    - Find the resource name of your API by running `amplify status`.
-    - Copy your API client name to use when invoking the API in the following step.
-
-3. Invoke a Cloud Logic API.
-
-    The following code shows how to invoke a Cloud Logic API using your API's client class,
-    model, and resource paths.
-
-    ```kotlin
-    import android.os.Bundle
-    import android.support.v7.app.AppCompatActivity
-    import android.util.Log
-    import com.amazonaws.http.HttpMethodName
-    import com.amazonaws.mobile.client.AWSMobileClient
-    import com.amazonaws.mobileconnectors.apigateway.ApiClientFactory
-    import com.amazonaws.mobileconnectors.apigateway.ApiRequest
-    import com.amazonaws.util.IOUtils
-    import com.amazonaws.util.StringUtils
-
-    // TODO Replace this with your api friendly name and client class name
-    import YOUR_API_RESOURCE_NAME.YOUR_APP_NAME_XXXXClient
-    import kotlin.concurrent.thread
-
-    class MainActivity : AppCompatActivity() {
-        companion object {
-            private val TAG = MainActivity.javaClass.simpleName
+//New overloaded function that gets Cognito User Pools tokens
+public void doInvokeAPI(){
+    AWSMobileClient.getInstance().getTokens(new Callback<Tokens>() {
+        @Override
+        public void onResult(Tokens tokens) {
+            doInvokeAPI(tokens.getIdToken().toString());
         }
 
-        // TODO Replace this with your client class name
-        private var apiClient: YOUR_APP_NAME_XXXXClient? = null
-
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            setContentView(R.layout.activity_main)
-
-            // Initialize the AWS Mobile Client
-            AWSMobileClient.getInstance().initialize(this) { Log.d(TAG, "AWSMobileClient is instantiated and you are connected to AWS!") }.execute()
-
-            // Create the client
-            apiClient = ApiClientFactory().credentialsProvider(AWSMobileClient.getInstance().credentialsProvider)
-                    // TODO Replace this with your client class name
-                    .build(YOUR_APP_NAME_XXXXClient::class.java)
-
-            callCloudLogic()
+        @Override
+        public void onError(Exception e) {
+            e.printStackTrace();
         }
+    });
+}
 
-        fun callCloudLogic() {
-            val body = ""
+//Updated function with arguments and code updates
+public void doInvokeAPI(String token) {
 
-            val parameters = mapOf("lang" to "en_US")
-            val headers = mapOf("Content-Type" to "application/json")
+ApiRequest localRequest =
+    new ApiRequest(apiClient.getClass().getSimpleName())
+        .withPath(path)
+        .withHttpMethod(HttpMethodName.valueOf(method))
+        .withHeaders(headers)
+        .addHeader("Content-Type", "application/json")
+        .addHeader("Authorization", token)              //Use JWT token
+        .withParameters(parameters);
 
-            val request = ApiRequest(apiClient?.javaClass?.simpleName)
-                    .withPath("/items")
-                    .withHttpMethod(HttpMethodName.GET)
-                    .withHeaders(headers)
-                    .withParameters(parameters)
+}
+```
 
-            if (body.isNotEmpty()) {
-                val content = body.toByteArray(StringUtils.UTF8)
-                request.addHeader("Content-Length", content.size.toString())
-                        .withBody(content)
-            }
-
-            thread(start = true) {
-                try {
-                    Log.d(TAG, "Invoking API")
-                    val response = apiClient?.execute(request)
-                    val responseContentStream = response?.getContent()
-                    if (responseContentStream != null) {
-                        val responseData = IOUtils.toString(responseContentStream)
-                        // Do something with the response data here
-                        Log.d(TAG, "Response: $responseData")
-                    }
-                } catch (ex: Exception) {
-                    Log.e(TAG, "Error invoking API")
-                }
-            }
-        }
-    }
-
-    ```
-</div>
+You can then invoke this method with `doInvokeAPI()` from your application code and it will pass the IdToken from Cognito User Pools as an `Authorization` header.
