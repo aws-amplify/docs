@@ -3,7 +3,7 @@
 
 # Storage
 
-AWS Amplify Storage module provides a simple mechanism for managing user content for your app in public, protected or private storage buckets.
+AWS Amplify Storage module provides a simple mechanism for managing user content for your app in public, protected or private storage buckets. The Storage category comes with built-in support for Amazon S3.
 
 Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start).
 {: .callout .callout--info}
@@ -61,13 +61,16 @@ Amplify.configure({
         userPoolWebClientId: 'XX-XXXX-X_abcd1234', //OPTIONAL - Amazon Cognito Web Client ID
     },
     Storage: {
-        bucket: '', //REQUIRED -  Amazon S3 bucket
-        region: 'XX-XXXX-X', //OPTIONAL -  Amazon service region
+        AWSS3: {
+            bucket: '', //REQUIRED -  Amazon S3 bucket
+            region: 'XX-XXXX-X', //OPTIONAL -  Amazon service region
+        }
     }
 });
 
 ```
 
+## Using Amazon S3
 ### Setup Amazon S3 Bucket CORS Policy
 
 To make calls to your S3 bucket from your App, you need to setup CORS Policy for your S3 bucket.
