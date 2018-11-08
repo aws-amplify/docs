@@ -596,6 +596,7 @@ Once the deployment completes a folder with the name of your API's resource name
 
 Add the following to your `app/build.gradle`:
 
+
 ```groovy
 	dependencies {
 		implementation 'com.amazonaws:aws-android-sdk-apigateway-core:2.6.+'
@@ -605,6 +606,7 @@ Add the following to your `app/build.gradle`:
 ```
 
 Build your project. Next, you will need to import the client that was generated in `./src/main/java` when you ran `amplify push`. For example, an app named `useamplify` with an API resource named `xyz123`, the path of the code file will be `./src/main/java/xyz123/useamplifyabcdClient.java`. The API client name will be `useamplifyabcdClient`. You would have the following entries in your code:
+
 
 ```java
 import YOUR_API_RESOURCE_NAME.YOUR_APP_NAME_XXXXClient;
