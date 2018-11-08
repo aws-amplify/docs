@@ -408,6 +408,6 @@ AWSTask(forCompletionOfAllTasks: tasks).continueOnSuccessWith(block: { (task:AWS
 
 To learn more about working with Amazon Kinesis, see the [Amazon Kinesis Developer Resources](http://aws.amazon.com/kinesis/developer-resources/).
 
-To learn more about the Amazon Kinesis classes, see the [class reference for AWSKinesisRecorder](https://aws.github.io/aws-sdk-ios/docs/reference/Classes/AWSKinesisRecorder.html).
+To learn more about the Amazon Kinesis classes, see the [class reference for AWSKinesisRecorder](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/Classes/AWSKinesisRecorder.html).
 
-To learn more about the Amazon Kinesis Firehose classes, see the [class reference for AWSFirehoseRecorder](https://aws.github.io/aws-sdk-ios/docs/reference/Classes/AWSFirehoseRecorder.html).
+To learn more about the Amazon Kinesis Firehose classes, see the [class reference for AWSFirehoseRecorder](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/Classes/AWSFirehoseRecorder.html).
