@@ -2159,6 +2159,10 @@ li {
     }
 }
 
+.dark{
+    background-color: #152939;
+}
+
 //=============================================================================
 /***                        new stuff for docs pages                       ***/
 //=============================================================================
@@ -2178,7 +2182,7 @@ li {
 
     ::-webkit-scrollbar {
         height: 0px; 
-        width: 2px;
+        width: 1px;
         background: transparent; 
     }
 
@@ -2615,6 +2619,28 @@ li {
                 background: none;
                 filter: brightness(0) invert(1);
                 cursor: pointer;
+            }
+        }
+
+        .native-language-selector {
+            z-index: 999;
+            background-color: #152939;
+            border-radius: 4px;
+            position: absolute;
+            top: 53px;
+            right: 27px;
+             @media (max-width: 828px) {
+                position: static;
+                margin-bottom: 20px;
+                width: 162px;
+            }
+
+            img {
+                height: 20px;
+                left: 10px;
+                position: relative;
+                vertical-align: text-bottom;
+                filter: brightness(0) invert(1);
             }
         }
 
