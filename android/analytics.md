@@ -769,6 +769,6 @@ new AsyncTask<Void, Void, Void>() {
 
 To learn more about working with Amazon Kinesis, see the [Amazon Kinesis Developer Resources](http://aws.amazon.com/kinesis/developer-resources/).
 
-To learn more about the Amazon Kinesis classes, see the [class reference for KinesisRecorder](https://aws.github.io/aws-sdk-android/docs/reference/com/amazonaws/mobileconnectors/kinesis/kinesisrecorder/KinesisRecorder.html).
+To learn more about the Amazon Kinesis classes, see the [class reference for KinesisRecorder](https://aws-amplify.github.io/aws-sdk-android/docs/reference/com/amazonaws/mobileconnectors/kinesis/kinesisrecorder/KinesisRecorder.html).
 
-To learn more about the Kinesis Firehose classes, see the [class reference for KinesisFirehoseRecorder](https://aws.github.io/aws-sdk-android/docs/reference/com/amazonaws/mobileconnectors/kinesis/kinesisrecorder/KinesisFirehoseRecorder.html).
+To learn more about the Kinesis Firehose classes, see the [class reference for KinesisFirehoseRecorder](https://aws-amplify.github.io/aws-sdk-android/docs/reference/com/amazonaws/mobileconnectors/kinesis/kinesisrecorder/KinesisFirehoseRecorder.html).
