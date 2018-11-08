@@ -4,7 +4,7 @@ Build an Android app using the AWS Amplify CLI and the AWS SDK for Android. The 
 
 ## Prerequisites
 
-[Install Android Studio](https://developer.android.com/studio/index.html#downloads) version 2.33 or higher. Install Android SDK for API level 23 (Android SDK 6.0).
+[Install Android Studio](https://developer.android.com/studio/index.html#downloads) version 2.33 or higher. Install Android SDK for API level 28 (Android SDK 9.0).
 
 Install the Amplify CLI. If you have already installed the CLI, skip ahead to [Step 2](./add-aws-mobile-sdk-basic-setup).
 
@@ -30,7 +30,7 @@ Note: These commands will install the CLI globally. If you're using Windows, the
 
 ## Step 1: Create a new app
 
-Follow [these steps](https://developer.android.com/training/basics/firstapp/creating-project) to create an Android Studio application using Java. Modify your `project/build.gradle` with the following dependency in the build script:
+Follow [these steps](https://developer.android.com/training/basics/firstapp/creating-project) to create an Android Studio application using Java. Modify your `project/build.gradle` with the following build dependency:
 
 ```groovy
 classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.6.+'
@@ -93,7 +93,7 @@ An `awsconfiguration.json` file will be created with your configuration and upda
 
 ## Step 3: How it Works
 
-Rather than configuring each service through a constructor or constants file, the AWS SDKs for Android support configuration through a centralized file called `awsconfiguration.json` which defines all the regions and service endpoints to communicate. Whenever you run `amplify push`, this file is automatically created allowing you to focus on your Swift application code. On Android projects the `awsconfiguration.json` will be placed into the `./src/main/res/raw` directory.
+Rather than configuring each service through a constructor or constants file, the AWS SDKs for Android support configuration through a centralized file called `awsconfiguration.json` which defines all the regions and service endpoints to communicate. Whenever you run `amplify push`, this file is automatically created allowing you to focus on your application code. On Android projects the `awsconfiguration.json` will be placed into the `./src/main/res/raw` directory.
 
 To verify that the CLI is set up for your app, run the following command.
 
@@ -110,7 +110,7 @@ The CLI displays a status table with no resources listed. As you add feature cat
 Add a GraphQL API to your app and automatically provision a database with the following command (accepting all defaults is OK):
 
 ```bash
-$ amplify add api     #select GraphQL
+$ amplify add api     #select GraphQL, API Key
 ```
 
 The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on you can always change it. This process creates an AWS AppSync API and connects it to an Amazon DynamoDB database.
