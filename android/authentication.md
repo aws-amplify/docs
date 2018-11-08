@@ -20,7 +20,7 @@ Ensure you have [installed and configured the Amplify CLI and library]({%if jeky
 
 ## How it works
 
-The AWSMobileClient manages your application session for authentication related tasks. The credentials it pulls in can be used by other AWS services when you call a `.default()` constructor. The Amplify category examples in this documentation use this by default, however [you can also use this with any AWS service via the generated SDK clients](manualsetup#direct-aws-service-access).
+The AWSMobileClient manages your application session for authentication related tasks. The credentials it pulls in can be used by other AWS services when you pass it into the constructor for that service object. The Amplify category examples in this documentation use this by default, however [you can also use this with any AWS service via the generated SDK clients](manualsetup#direct-aws-service-access).
 
 ### State tracking
 
@@ -118,7 +118,7 @@ implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.+'
 For the `AWSMobileClient` alone you can have a minimum SDK version of **15**, but for the drop-in UI you will need a minimum of **23** set in your `build.gradle`:
 
 ```
-minSdkVersion 23
+minSdkVersion 15
 ```
 
 Add the following permissions to the `AndroidManifest.xml` file:
@@ -246,7 +246,7 @@ Many applications have UX with "Guest" or "Unauthenticated" users. This is provi
 
 When complete run `amplify push` and your `awsconfiguration.json` will work automatically with your updated Cognito settings. The `AWSMobileClient` user session will automatically have permissions configured for Guest/Unauthenticated users upon initialization. 
 
-If you login in your app either using the [Drop-In Auth](#dropinui) or the [direct Auth APIs](#iosapis) then the `AWSMobileClient` user session will transition to an authenticated role.
+If you login in your app either using the "Drop-In Auth" or the `AWSMobileClient` APIs then the user session will transition to an authenticated role.
 
 ## Drop-In Auth
 
@@ -563,12 +563,6 @@ when configuring authentication using the AWS Amplify CLI.
 8. Choose your platform and provide information about your app that Facebook will use for
    integration during credential validation.
 
-   `For iOS:`
-
-      1. Add your app's Bundle ID. (for example, com.amazon.YourProjectName).
-
-![Image](./images/new-facebook-add-platform-ios.png)
-
 
 9. In the Facebook Developers portal, choose `Save changes`, then `Use this
    package name` if a dialog appears saying that Google Play has an issue with your package name.
@@ -726,18 +720,18 @@ public class AuthenticatorActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authenticator);
 
-        // Add a call to initialize AWSMobileClient
-        AWSMobileClient.getInstance().initialize(this, new AWSStartupHandler() {
+        AWSMobileClient.getInstance().initialize(this, new Callback<UserStateDetails>() {
             @Override
-            public void onComplete(AWSStartupResult awsStartupResult) {
-                SignInUI signin = (SignInUI) AWSMobileClient.getInstance().getClient(
-                      AuthenticatorActivity.this,
-                      SignInUI.class);
-                signin.login(
-                      AuthenticatorActivity.this,
-                      NextActivity.class).execute();
+            public void onResult(UserStateDetails userStateDetails) {
+                Log.i("INIT", userStateDetails.getUserState().toString());
+                AWSMobileClient.getInstance().showSignIn(AuthenticatorActivity.this, SignInUI.class);
             }
-        }).execute();
+
+            @Override
+            public void onError(Exception e) {
+                Log.e("INIT", e.toString());
+            }
+        });
     }
 }
 ```
@@ -799,18 +793,18 @@ public class AuthenticatorActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authenticator);
 
-        // Add a call to initialize AWSMobileClient
-        AWSMobileClient.getInstance().initialize(this, new AWSStartupHandler() {
+        AWSMobileClient.getInstance().initialize(this, new Callback<UserStateDetails>() {
             @Override
-            public void onComplete(AWSStartupResult awsStartupResult) {
-                SignInUI signin = (SignInUI) AWSMobileClient.getInstance().getClient(
-                      AuthenticatorActivity.this,
-                      SignInUI.class);
-                signin.login(
-                      AuthenticatorActivity.this,
-                      NextActivity.class).execute();
+            public void onResult(UserStateDetails userStateDetails) {
+                Log.i("INIT", userStateDetails.getUserState().toString());
+                AWSMobileClient.getInstance().showSignIn(AuthenticatorActivity.this, SignInUI.class);
             }
-        }).execute();
+
+            @Override
+            public void onError(Exception e) {
+                Log.e("INIT", e.toString());
+            }
+        });
     }
 }
 ```
