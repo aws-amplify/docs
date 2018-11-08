@@ -84,7 +84,14 @@ When you update your backend with *push* command, you can go to [AWS AppSync Con
 $ amplify push
 ```
 
-The `amplify push` process will prompt you to enter the codegen process and walk through configuration options. Accept the defaults and it will create a `./src/main.graphql` folder structure with your documents. You also will have an `awsconfiguration.json` file that the AppSync client will use for initialization. 
+The `amplify push` process will prompt you to enter the codegen process and walk through configuration options. Accept the defaults and it will create a `./src/main.graphql` folder structure with your documents. You also will have an `awsconfiguration.json` file that the AppSync client will use for initialization. At any time you can open the AWS console for your new API directly by running the following command:
+
+```terminal
+$ amplify console api
+> GraphQL               ##Select GraphQL
+```
+
+This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
 
 ### Import SDK and Config
 

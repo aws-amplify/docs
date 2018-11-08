@@ -210,7 +210,14 @@ You can also setup realtime subscriptions to data:
     }
 ```
 
-Call the `runMutation()`, `runQuery()`, and `subscribe()` methods from your app code, such as from a button click or when your app starts in `viewDidLoad()`. You will see data being stored and retrieved in your backend from the Xcode console.
+Call the `runMutation()`, `runQuery()`, and `subscribe()` methods from your app code, such as from a button click or when your app starts in `viewDidLoad()`. You will see data being stored and retrieved in your backend from the Xcode console. At any time you can open the AWS console for your new API directly by running the following command:
+
+```terminal
+$ amplify console api
+> GraphQL               ##Select GraphQL
+```
+
+This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
 
 ## Next Steps
 
