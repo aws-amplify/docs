@@ -4,10 +4,6 @@
 {% assign media_base = base_dir | append: page.dir | append: "media" %}
 
 # Analytics
-<div class="nav-tab create" data-group='create'>
-<ul class="tabs">
-    <li class="tab-link java current" data-tab="java">Java</li>
-</ul>
 
 Collecting analytics data for your app can be accomplished with [Amazon Pinpoint](#using-amazon-pinpoint) or [Amazon Kinesis](#using-amazon-kinesis). 
 
@@ -165,7 +161,7 @@ Build and run your app to see usage metrics in Amazon Pinpoint. When you run the
 
 2. Choose `Analytics` from the icons on the left of the console, and view the graphs of your app's usage. It may take up to 15 minutes for metrics to become visible.
 
-    ![getting-started-analytics]({{image_base}}/getting-started-analytics.png)
+    ![getting-started-analytics]({{media_base}}/getting-started-analytics.png)
 
 Analytics events can be grouped into segments, and you can engage your users more deeply by tying their app usage behavior to Push Notification, email, or SMS messaging campaigns. Read more about this in the [messaging section](./messaging) or [click here to learn more about Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html).
 
