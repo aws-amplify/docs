@@ -227,11 +227,12 @@ This will open the AWS AppSync console for you to run Queries, Mutations, or Sub
 
 What next? Here are some things to add to your app:
 
-* [Analytics](./analytics)
+
 * [Authentication](./authentication)
-* [Push Notification](./push-notifications)
 * [User File Storage](./storage)
 * [Serverless APIs](./api)
+* [Analytics](./analytics)
+* [Push Notification](./push-notifications)
 * [Messaging](./messaging)
 
 **Existing AWS Resources**

@@ -1,21 +1,36 @@
+{% if jekyll.environment == 'production' %}
+  {% assign base_dir = site.amplify.docs_baseurl %}
+{% endif %}
+{% assign media_base = base_dir | append: page.dir | append: "media" %}
+
 # Analytics
 <div class="nav-tab create" data-group='create'>
 <ul class="tabs">
     <li class="tab-link java current" data-tab="java">Java</li>
 </ul>
 
-Collecting analytics data for your app can be accomplished with [Amazon Pinpoint](#using-amazon-pinpoint) and [Amazon Kinesis](#using-amazon-kinesis).
+Collecting analytics data for your app can be accomplished with [Amazon Pinpoint](#using-amazon-pinpoint) or [Amazon Kinesis](#using-amazon-kinesis). 
 
-Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start).
+Ensure you have [installed and configured the Amplify CLI and library](https://aws-amplify.github.io/media/get_started).
 {: .callout .callout--info}
 
 ## Using Amazon Pinpoint
 
-Gather the data that helps improve your app's usability, monetization, and engagement with your users. The CLI deploys your analytics backend using [Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html).
+Amazon Pinpoint is a fully managed AWS service that you can use to engage with your customers across multiple messaging channels using analytics captured from the device. You can send push notifications, emails, or text messages (SMS), depending on the purpose of your campaign. Features include:
+
+**Audience Segments** - You can define dynamic segments based on data that's reported by your application, such as operating system or mobile device type. You can also import static segments that you define outside of Amazon Pinpoint.
+
+**Messaging Campaigns** - A campaign sends tailored messages on a schedule that you define. You can create campaigns that send mobile push, email, or SMS messages. To experiment with alternative campaign strategies, set up your campaign as an A/B test, and analyze the results with Amazon Pinpoint analytics.
+
+**Transactional Messages** - Keep your customers informed by sending transactional mobile push and SMS messages—such as new account activation messages, order confirmations, and password reset notifications—to specific users.
+
+**Analyze User Behavior** - You can view trends about your users' level of engagement, purchase activity, and demographics. You can monitor your message traffic with metrics for messages sent and opened. Through the Amazon Pinpoint API, your application can report custom data, which Amazon Pinpoint makes available for analysis.
+
+The Amplify CLI helps setup and configure Pinpoint within your application and connect with the AWS Mobile SDK.
 
 ### Set Up Your Backend
 
-1. Complete the [Get Started TODO link](asdf) steps before you proceed.
+1. Complete the [Get Started link](https://aws-amplify.github.io/docs/android/start) steps before you proceed.
 
 2. Use the CLI to add analytics to your cloud-enabled backend and app.
 
@@ -150,16 +165,16 @@ Build and run your app to see usage metrics in Amazon Pinpoint. When you run the
 
 2. Choose `Analytics` from the icons on the left of the console, and view the graphs of your app's usage. It may take up to 15 minutes for metrics to become visible.
 
-    ![getting-started-analytics](media/getting-started-analytics.png)
+    ![getting-started-analytics]({{image_base}}/getting-started-analytics.png)
 
-    [Learn more about Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html).
+Analytics events can be grouped into segments, and you can engage your users more deeply by tying their app usage behavior to Push Notification, email, or SMS messaging campaigns. Read more about this in the [messaging section](./messaging) or [click here to learn more about Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html).
 
 ### Enable Custom App Analytics
 
 Instrument your code to capture app usage event information, including attributes you define.  Use graphs of your custom usage event data  in the Amazon Pinpoint console. Visualize how your users' behavior aligns with a model you design using [Amazon Pinpoint Funnel Analytics](https://docs.aws.amazon.com/pinpoint/latest/userguide/analytics-funnels.html), or use [stream the data](https://docs.aws.amazon.com/pinpoint/latest/userguide/analytics-streaming.html) for deeper analysis.
 
 Use the following steps to implement Amazon Pinpoint custom analytics for your app.
-<div id="java" class="tab-content current">
+
 ```java
 import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsEvent;
 
@@ -176,14 +191,14 @@ public void logEvent() {
    pinpointManager.getAnalyticsClient().recordEvent(event);
 }
 ```
-</div>
+
 Build, run, and use your app. Then, view your custom events on the `Events` tab of the Amazon Pinpoint console (choose `Analytics`>`Events`). Look for the name of your event in the `Events` menu.
 
 ### Enable Revenue Analytics
 
 Amazon Pinpoint supports the collection of monetization event data. Use the following steps to place
 and design analytics related to purchases through your app.
-<div id="java" class="tab-content current">
+
 ```java
 import com.amazonaws.mobileconnectors.pinpoint.analytics.monetization.AmazonMonetizationEventBuilder;
 
@@ -201,7 +216,7 @@ public void logMonetizationEvent() {
     pinpointManager.getAnalyticsClient().recordEvent(event);
 }
 ```
-</div>
+
 
 ### Reporting Events in Your Application
 
@@ -214,6 +229,7 @@ To analyze and store your event data outside of Amazon Pinpoint, you can configu
 By using the AWS Mobile SDKs and the AWS Amplify JavaScript libraries, you can call the Amazon Pinpoint API to report the following types of events:
 
 #### Session events
+
 Indicate when and how often users open and close your app.
 
 After your application reports session events, use the Analytics page in the Amazon Pinpoint console to view charts for Sessions, Daily active endpoints, 7-day retention rate, and more.
@@ -237,13 +253,14 @@ public void logSession() {
 </div>
 
 #### Custom events
+
 Are nonstandard events that you define by assigning a custom event type. You can add custom attributes and metrics to a custom event.
 
 On the Analytics page in the console, the Events tab displays metrics for all custom events that are reported by your app. Use graphs of your custom usage event data in the Amazon Pinpoint console. Visualize how your users’ behavior aligns with a model you design using Amazon Pinpoint Funnel Analytics, or use stream the data for deeper analysis.
 
 Use the following steps to implement Amazon Pinpoint custom analytics for your app.
 
-<div id="java" class="tab-content current">
+
 
 ```java
 import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsEvent;
@@ -261,19 +278,17 @@ public void logEvent() {
    pinpointManager.getAnalyticsClient().submitEvents();
 }
 ```
-</div>
 
 Build, run, and use your app. Then, view your custom events on the Events tab of the Amazon Pinpoint console (choose Analytics>Events). Look for the name of your event in the Events menu.
 
 
 #### Monetization events
+
 Report the revenue that’s generated by your application and the number of items that are purchased by users.
 
 On the Analytics page, the Revenue tab displays charts for Revenue, Paying users, Units sold, and more.
 
 Use the following steps to implement Amazon Pinpoint monetization analytics for your app.
-
-<div id="java" class="tab-content current">
 
 ```java
 import com.amazonaws.mobileconnectors.pinpoint.analytics.monetization.AmazonMonetizationEventBuilder;
@@ -293,7 +308,7 @@ public void logMonetizationEvent() {
     pinpointManager.getAnalyticsClient().submitEvents();
 }
 ```
-</div>
+
 
 #### Authentication events
 Indicate how frequently users authenticate with your application.
@@ -302,21 +317,20 @@ On the Analytics page, the Users tab displays charts for Sign-ins, Sign-ups, and
 
 To learn how frequently users authenticate with your app, update your application code so that Amazon Pinpoint receives the following standard event types for authentication:
 
-_userauth.sign_in
-_userauth.sign_up
-_userauth.auth_fail
+* _userauth.sign_in
+* _userauth.sign_up
+* _userauth.auth_fail
+
 You can report authentication events by doing either of the following:
 
-
-*Managing user sign-up and sign-in with Amazon Cognito user pools.*
+**Managing user sign-up and sign-in with Amazon Cognito user pools**
 
 Amazon Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Amazon Cognito reports authentication events to Amazon Pinpoint. For more information, see Using Amazon Pinpoint Analytics with Amazon Cognito User Pools in the Amazon Cognito Developer Guide.
 
-*Reporting authentication events by using the Amazon Pinpoint client that’s provided by the AWS Mobile SDK for Android.*
+**Reporting authentication events by using the Amazon Pinpoint client that’s provided by the AWS Mobile SDK for Android.**
 
 If you don’t want to use Amazon Cognito user pools, you can use the Amazon Pinpoint client to record and submit authentication events, as shown in the following examples. In these examples, the event type is set to `_userauth.sign_in`, but you can substitute any authentication event type.
 
-<div id="java" class="tab-content current">
 
 ```java
 import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsEvent;
@@ -331,7 +345,6 @@ public void logAuthenticationEvent() {
    pinpointManager.getAnalyticsClient().submitEvents();
 }
 ```
-</div>
 
 ### Managing Sessions in Your Application
 
@@ -340,8 +353,6 @@ As users engage with your app, it reports information about app sessions to Amaz
 **Example Lifecycle Manager**
 
 The following example class, `AbstractApplicationLifeCycleHelper`, implements the `Application.ActivityLifecycleCallbacks` interface to track when the application enters the foreground or background, among other states. Add this class to your app, or use it as an example for how to update your code:
-
-<div id="java" class="tab-content current">
 
 ```java
 package com.amazonaws.mobile.util;
@@ -489,7 +500,6 @@ public abstract class AbstractApplicationLifeCycleHelper implements Application.
     }
 }
 ```
-</div>
 
 **Reporting Session Events**
 
