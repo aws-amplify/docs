@@ -3,10 +3,6 @@
 {% endif %}
 {% assign image_base = base_dir | append: page.dir | append: "images" %}
 
-**WARNING**
-
-**THIS IS PREVIEW DOCUMENTATION. NOT FOR PRODUCTION USE.**
-
 # Authentication
 
 The `AWSMobileClient` provides client APIs and building blocks for developers who want to create user authentication experiences. This includes declarative methods for performing authentication actions, a simple "drop-in auth" UI for performing common tasks, automatic token and credentials management, and state tracking with notifications for performing workflows in your application when users have authenticated.
@@ -103,8 +99,9 @@ After initialization in your project directory with `amplify init`, edit your `P
 ```ruby
 target 'MyApp' do             ##Replace MyApp with your application name
   use_frameworks!
-  pod 'AWSMobileClient', '0.0.7'
-  pod 'AWSUserPoolsSignIn', '0.0.2'
+  pod 'AWSMobileClient', '~> 2.7.0'      # Required dependency
+  pod 'AWSAuthUI', '~> 2.7.0'            # Optional dependency required to use drop-in UI
+  pod 'AWSUserPoolsSignIn', '~> 2.7.0'   # Optional dependency required to use drop-in UI
 end
 ```
 

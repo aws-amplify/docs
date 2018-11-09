@@ -261,3 +261,4 @@ Example:
   <amplify-authenticator-ionic></amplify-authenticator-ionic>
   ...
 ```
+
