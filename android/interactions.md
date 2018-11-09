@@ -65,12 +65,7 @@ Amazon Lex also supports model building APIs, which allow creation of bots, inte
 
 Both text and voice API calls require validated AWS credentials. To establish Amazon Cognito as the credentials provider,
 include the following code in the function where you initialize your Amazon Lex interaction objects.
-<div class="nav-tab create" data-group='create'>
-<ul class="tabs">
-    <li class="tab-link java current" data-tab="java">Java</li>
-    <li class="tab-link kotlin" data-tab="kotlin">Kotlin</li>
-</ul>
-<div id="java" class="tab-content current">
+
 ```java
 CognitoCredentialsProvider credentialsProvider =
   new CognitoCredentialsProvider(
@@ -78,15 +73,7 @@ CognitoCredentialsProvider credentialsProvider =
       Regions.fromName(appContext.getResources().getString(R.string.aws_region))
   );
 ```
-</div>
-<div id="kotlin" class="tab-content" >
-```kotlin
-val region = applicationContext.resources.getString(R.string.aws_region)
-val credentialsProvider = CognitoCredentialsProvider
-      applicationContext.resources.getString(R.string.identity_id_test),
-      Regions.fromName(region))
-```
-</div>
+
 ### Integrate Lex Interaction Client
 
 Perform the following tasks to implement interaction with Lex in your Android app.
