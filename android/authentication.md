@@ -26,7 +26,7 @@ The AWSMobileClient manages your application session for authentication related 
 
 `AWSMobileClient` offers on-demand querying for the "login state" of a user in the application. For instance, you can check if the user is signed-in or not and present an appropriate screen. This is done through a couple of mechanisms:
 
-- `isLoggedIn` property defined as a BOOLEAN for the most simple use cases
+- `isSignedIn` property defined as a BOOLEAN for the most simple use cases
 - `currentUserState` used for more advanced scenarios, such as determining if the user has Guest credentials, Authenticated with User Pools, has Federated credentials, or has signed out.
 
 This allows you to write workflows in your application based on the state of the user and what you would like to present on different screens. The `AWSMobileClient` also offers realtime notifications on user state changes which you can register for in your application using `.addSignInStateListener()` as in the code below.
@@ -88,7 +88,7 @@ AWSMobileClient.getInstance().addSignInStateListener(new SignInStateListener() {
 });
 ```
 
-You can register to listen for this state change anywhere in your app with `.addSignInStateListener()`, such as in `onCreate()` in the above example. If you want to cancel the re-login process, for instance if your application is shared among multiple users of the device or a user clicks "cancel" on the re-login attempt, you can call `releaseSignInWaitLock()` to terminate the call and then call a `signOut()`.
+You can register to listen for this state change anywhere in your app with `.addSignInStateListener()`, such as in `onCreate()` in the above example. If you want to cancel the re-login process, for instance if your application is shared among multiple users of the device or a user clicks "cancel" on the re-login attempt, you can call `releaseSignInWait()` to terminate the call and then call a `signOut()`.
 
 #### AWS Credentials
 
@@ -262,7 +262,7 @@ In the above code you would have created an Android Activity called `NextActivit
 
 ```java
 AWSMobileClient.getInstance().showSignIn(this, NextActivity.class, 
-    SignInUIConfiguration.builder().build(), 
+    SignInUIOptions.builder().build(), 
     new Callback<UserStateDetails>() {
 
         @Override
@@ -298,7 +298,7 @@ Currently, you can change the following properties of the drop-in UI with the `A
 
 ```java
 AWSMobileClient.getInstance().showSignIn(this, NextActivity.class, 
-    SignInUIConfiguration.builder()
+    SignInUIOptions.builder()
     .logoImage(R.id.logo)
     .backgroundColor(R.color.black)
     .canCancel(false)
@@ -471,7 +471,7 @@ The `AWSMobileClient` provides several property "helpers" that are automatically
 
 ```java
 AWSMobileClient.getInstance().getUsername()       //String
-AWSMobileClient.getInstance().isLoggedIn()        //Boolean
+AWSMobileClient.getInstance().isSignedIn()        //Boolean
 AWSMobileClient.getInstance().getIdentityId()     //String
 ```
 
