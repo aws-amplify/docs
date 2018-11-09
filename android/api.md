@@ -4,11 +4,6 @@
 {% assign media_base = base_dir | append: page.dir | append: "media" %}
 
 # API
-<div class="nav-tab create" data-group='create'>
-<ul class="tabs">
-    <li class="tab-link java current" data-tab="java">Java</li>
-    <li class="tab-link kotlin" data-tab="kotlin">Kotlin</li>
-</ul>
 
 The API category provides a solution for making HTTP requests to REST and GraphQL endpoints. It includes a [AWS Signature Version 4](http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html) signer class which automatically signs all AWS API requests for you as well as methods to use API Keys, Amazon Cognito User Pools, or 3rd party OIDC providers.
 
