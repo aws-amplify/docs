@@ -443,7 +443,7 @@ Currently, the federation feature in the AWSMobileClient supports Cognito Identi
 ### Federated Sign In
 
 ```swift
-AWSMobileClient.sharedInstance().federatedSignIn(providerName: "graph.facebook.com", token: "FACEBOOK_TOKEN_HERE") { (userState, err)  in
+AWSMobileClient.sharedInstance().federatedSignIn(providerName: IdentityProviders.facebook.rawValue, token: "FACEBOOK_TOKEN_HERE") { (userState, err)  in
     if let error = error {
         print("Federated Sign In failed: \(error.localizedDescription)")
     }
