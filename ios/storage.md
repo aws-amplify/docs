@@ -67,7 +67,7 @@ Use the following steps to add file storage backend services to your app.
     target :'YOUR-APP-NAME' do
         use_frameworks!
 
-        pod 'AWSS3', '~> 2.6.33'   # For file transfers
+        pod 'AWSS3', '~> 2.7.0'   # For file transfers
 
         # other pods . . .
     end
@@ -654,8 +654,8 @@ The AWS AppSync SDK doesn't take a direct dependency on the AWS SDK for iOS for 
 ```
   target 'PostsApp' do
     use_frameworks!
-    pod 'AWSAppSync' ~> '2.6.18'
-    pod 'AWSS3' ~> '2.6.27'
+    pod 'AWSAppSync' ~> '2.6.23'
+    pod 'AWSS3' ~> '2.7.0'
   end
 ```
 Then run `pod install` to fetch the new dependency.

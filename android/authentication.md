@@ -28,12 +28,12 @@ The AWSMobileClient manages your application session for authentication related 
 - `isSignedIn` property defined as a BOOLEAN for the most simple use cases
 - `currentUserState` used for more advanced scenarios, such as determining if the user has Guest credentials, Authenticated with User Pools, has Federated credentials, or has signed out.
 
-This allows you to write workflows in your application based on the state of the user and what you would like to present on different screens. The `AWSMobileClient` also offers realtime notifications on user state changes which you can register for in your application using `.addSignInStateListener()` as in the code below.
+This allows you to write workflows in your application based on the state of the user and what you would like to present on different screens. The `AWSMobileClient` also offers realtime notifications on user state changes which you can register for in your application using `.addUserStateListener()` as in the code below.
 
 ```java
-AWSMobileClient.getInstance().addSignInStateListener(new SignInStateListener() {
+AWSMobileClient.getInstance().addUserStateListener(new UserStateListener() {
     @Override
-    public void onSignInStateChanged(UserStateDetails userStateDetails) {
+    public void onUserStateChanged(UserStateDetails userStateDetails) {
         switch (userStateDetails.getUserState()){
             case GUEST:
                 Log.i("userState", "user is in guest mode");
@@ -65,9 +65,9 @@ The `AWSMobileClient` will return valid JWT tokens from your cache immediately i
 If the Refresh tokens have expired and you then make call to any AWS service, such as a AppSync GraphQL request or S3 upload, the `AWSMobileClient` will dispatch a state notification that a re-login is required. At this point you can choose to present the user with a login screen, call `AWSMobileClient.getInstance().signIn()`, or perform custom business logic. For example:
 
 ```java
-AWSMobileClient.getInstance().addSignInStateListener(new SignInStateListener() {
+AWSMobileClient.getInstance().addUserStateListener(new UserStateListener() {
     @Override
-    public void onSignInStateChanged(UserStateDetails userStateDetails) {
+    public void onUserStateChanged(UserStateDetails userStateDetails) {
         switch (userStateDetails.getUserState()){
             case SIGNED_OUT:
                 // user clicked signout button and signedout
@@ -87,7 +87,7 @@ AWSMobileClient.getInstance().addSignInStateListener(new SignInStateListener() {
 });
 ```
 
-You can register to listen for this state change anywhere in your app with `.addSignInStateListener()`, such as in `onCreate()` in the above example. If you want to cancel the re-login process, for instance if your application is shared among multiple users of the device or a user clicks "cancel" on the re-login attempt, you can call `releaseSignInWait()` to terminate the call and then call a `signOut()`.
+You can register to listen for this state change anywhere in your app with `.addUserStateListener()`, such as in `onCreate()` in the above example. If you want to cancel the re-login process, for instance if your application is shared among multiple users of the device or a user clicks "cancel" on the re-login attempt, you can call `releaseSignInWait()` to terminate the call and then call a `signOut()`.
 
 #### AWS Credentials
 
@@ -107,11 +107,11 @@ After initialization in your project directory with `amplify init`, update your 
 
 ```groovy
 //For AWSMobileClient only:
-implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.+'
+implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.8.+'
 
 //For the drop-in UI also:
-implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.+'
-implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.+'
+implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.8.+'
+implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.8.+'
 ```
 
 For the `AWSMobileClient` alone you can have a minimum SDK version of **15**, but for the drop-in UI you will need a minimum of **23** set in your `build.gradle`:
@@ -534,6 +534,7 @@ when configuring authentication using the AWS Amplify CLI.
 2. From `Create App`, choose `Add a New App` (note: this menu label will be
    `My Apps` if you have previously created an app.
 
+
 ![Image]({{media_base}}/new-facebook-app.png)
 
 3. If asked, choose the platform of your app that will use Facebook sign-in, and `basic
@@ -559,6 +560,7 @@ when configuring authentication using the AWS Amplify CLI.
 
 ![Image]({{media_base}}/new-facebook-add-platform.png)
 
+
 8. Choose your platform and provide information about your app that Facebook will use for
    integration during credential validation.
 
@@ -571,6 +573,7 @@ when configuring authentication using the AWS Amplify CLI.
 
     To authorize users, in the Facebook Developer portal's left hand navigation list, choose
     `Roles`, then `Add Testers`. Provide a valid Facebook ID.
+
 
 ![Image]({{media_base}}/new-facebook-add-testers.png)
 
@@ -679,15 +682,15 @@ Add the following dependencies to your `app/build.gradle` file:
 ```groovy
 dependencies {
     // Mobile Client for initializing the SDK
-    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.6.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
 
     // Facebook SignIn
     implementation 'com.android.support:support-v4:24.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-facebook:2.6.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-facebook:2.8.+@aar') { transitive = true }
 
     // Sign in UI
     implementation 'com.android.support:appcompat-v7:24.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.6.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.8.+@aar') { transitive = true }
 }
 ```
 
@@ -761,15 +764,15 @@ Add the following dependencies to your `app/build.gradle` file:
 ```groovy
 dependencies {
     // Mobile Client for initializing the SDK
-    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.6.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
 
     // Google SignIn
     implementation 'com.android.support:support-v4:24.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-google:2.6.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-google:2.8.+@aar') { transitive = true }
 
     // Sign in UI Library
     implementation 'com.android.support:appcompat-v7:24.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.6.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.8.+@aar') { transitive = true }
 }
 ```
 
