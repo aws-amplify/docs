@@ -79,7 +79,7 @@ AWSMobileClient.sharedInstance().addListener(self) { (userState, info) in
 }
 ```
 
-You can register to listen for this state change anywhere in your app with `.addListener`, such as in `viewDidLoad()` in the above example. If you want to cancel the re-login process, for instance if your application is shared among multiple users of the device or a user clicks "cancel" on the re-login attempt, you can call `releaseSignInWaitLock()` to terminate the call and then call a `signOut()`.
+You can register to listen for this state change anywhere in your app with `.addListener`, such as in `viewDidLoad()` in the above example. If you want to cancel the re-login process, for instance if your application is shared among multiple users of the device or a user clicks "cancel" on the re-login attempt, you can call `releaseSignInWait()` to terminate the call and then call a `signOut()`.
 
 #### AWS Credentials
 
@@ -263,7 +263,7 @@ Currently, you can change the following properties of the drop-in UI with the `A
 ```swift
 AWSMobileClient.sharedInstance()
     .showSignInScreen(navigationController: self.navigationController!,
-                        signInUIConfiguration: SignInUIConfiguration(
+                      signInUIOptions: SignInUIOptions(
                             canCancel: false,
                             logoImage: UIImage(named: "MyCustomLogo"),
                             backgroundColor: UIColor.black)) { (result, err) in
@@ -402,7 +402,7 @@ The `AWSMobileClient` provides several property "helpers" that are automatically
 
 ```swift
 AWSMobileClient.sharedInstance().username       //String
-AWSMobileClient.sharedInstance().isLoggedIn     //Boolean
+AWSMobileClient.sharedInstance().isSignedIn     //Boolean
 AWSMobileClient.sharedInstance().identityId     //String
 ```
 
