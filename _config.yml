@@ -360,49 +360,6 @@ ios_category_list:
           class: aws-icon-ps-60-circular-circuit
           url: '/ios/manualsetup'
 
-cli_category_list:
-  - category: Toolchain
-    title: Toolchain
-    excerpt: Better developer experience when building and deploying your apps.
-    base_url: '/cli/'
-    subs:
-      - title: Usage
-        excerpt: Setup and Configure a Project with the CLI
-        url: '/cli/init/?sdk=js'
-        icon: '/images/icons/Misc/Present.svg'
-      - title: Architecture
-        excerpt: CLI Architecture and Overview
-        url: '/cli/concept/?sdk=js'
-        icon: '/images/icons/Misc/Present.svg'
-      - title: Hosting
-        excerpt: Host your web project or static assets
-        url: '/cli/hosting/?sdk=js' 
-        icon: '/images/icons/Misc/Present.svg'
-      - title: Codegen
-        excerpt: Codegen for GraphQL
-        url: '/cli/codegen/?sdk=js' 
-        icon: '/images/icons/Misc/Present.svg'
-      - title: Plugins
-        excerpt: Create a new plugin for the CLI
-        url: '/cli/plugins/?sdk=js' 
-        icon: '/images/icons/Misc/Present.svg'
-      - title: UI Components
-        excerpt: User interface components
-        url: '/js/ui'
-        icon: '/images/icons/Misc/Present.svg'
-      - title: VS Code Extension
-        excerpt: Code snippets for AWS Amplify in Visual Studio Code.
-        cta: Read more
-        class: aws-icon-ps-60-network-nodes
-        url_external: 'https://marketplace.visualstudio.com/items?itemName=aws-amplify.aws-amplify-vscode'
-        icon: '/images/icons/Misc/Present.svg'
-      - title: GraphQL Transform
-        excerpt: Transform simple GraphQL schema files into full application backends.
-        cta: Read more
-        class: aws-icon-ps-60-network-nodes
-        icon: '/images/icons/Misc/Tool.svg'
-        url: '/js/graphql'
-
 category_list:
     - category: SetupAndInstallation
       title: Setup & Installation
