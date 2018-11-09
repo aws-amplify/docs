@@ -54,19 +54,27 @@
 			<div class="relative">
 				{% if site.amplify.header.logo.text %}
 				<div class="logo-container" id="logo-container">
+					{% if page.url contains 'cli' %}
 					<a href="{{ site.amplify.baseurl }}" class="site-header__logo">
 						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/Amplify-Logo-White.svg">
-						{% if page.url contains 'cli' %}
 						<p class="header-amplify docs-header-amplify">{{ site.amplify.header.logo.cli_text }} </p>
-						{% elsif page.url contains 'js' %}
+					{% elsif page.url contains 'js' %}
+					<a href="{{ site.amplify.baseurl }}" class="site-header__logo">
+						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/Amplify-Logo-White.svg">
 						<p class="header-amplify docs-header-amplify">{{ site.amplify.header.logo.js_text }} </p>
-						{% elsif page.url contains 'android' %}
+					{% elsif page.url contains 'android' %}
+					<a href="{{ site.amplify.baseurl }}" class="site-header__logo">
+						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/Amplify-Logo-White.svg">
 						<p class="header-amplify docs-header-amplify">{{ site.amplify.header.logo.android_text }} </p>
-						{% elsif page.url contains 'ios' %}
+					{% elsif page.url contains 'ios' %}
+					<a href="{{ site.amplify.baseurl }}" class="site-header__logo">
+						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/Amplify-Logo-White.svg">
 						<p class="header-amplify docs-header-amplify">{{ site.amplify.header.logo.ios_text }} </p>
-						{% else %}
+					{% else %}
+					<a href="{{ site.amplify.marketing_site_home }}" class="site-header__logo">
+						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/Amplify-Logo-White.svg">
 						<p class="header-amplify docs-header-amplify">{{ site.amplify.header.logo.text }} </p>
-						{% endif %}
+					{% endif %}
 					</a>
 				</div>
 				{% elsif site.amplify.header.logo.image %}
