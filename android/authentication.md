@@ -3,10 +3,6 @@
 {% endif %}
 {% assign media_base = base_dir | append: page.dir | append: "media" %}
 
-**WARNING**
-
-**THIS IS PREVIEW DOCUMENTATION. NOT FOR PRODUCTION USE.**
-
 # Authentication
 
 The `AWSMobileClient` provides client APIs and building blocks for developers who want to create user authentication experiences. This includes declarative methods for performing authentication actions, a simple "drop-in auth" UI for performing common tasks, automatic token and credentials management, and state tracking with notifications for performing workflows in your application when users have authenticated.
@@ -111,11 +107,11 @@ After initialization in your project directory with `amplify init`, update your 
 
 ```groovy
 //For AWSMobileClient only:
-implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.+'
+implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.8.+'
 
 //For the drop-in UI also:
-implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.+'
-implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.+'
+implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.8.+'
+implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.8.+'
 ```
 
 For the `AWSMobileClient` alone you can have a minimum SDK version of **15**, but for the drop-in UI you will need a minimum of **23** set in your `build.gradle`:

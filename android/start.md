@@ -43,7 +43,7 @@ apply plugin: 'com.amazonaws.appsync'
 
 dependencies {
     //Base SDK
-    implementation 'com.amazonaws:aws-android-sdk-core:2.7.+'
+    implementation 'com.amazonaws:aws-android-sdk-core:2.8.+'
     //AppSync SDK
     compile 'com.amazonaws:aws-android-sdk-appsync:2.6.+'
     compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
