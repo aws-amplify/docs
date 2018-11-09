@@ -491,6 +491,8 @@ AuthenticatorActivity
 super.onCreate
 setContentView
 R.layout.activity_authenticator
+SignInUIOptions.builder
+isSignedIn
 
 # android/how-to-android-kinesis-data-stream.md
 PutRecord
