@@ -534,7 +534,8 @@ when configuring authentication using the AWS Amplify CLI.
 2. From `Create App`, choose `Add a New App` (note: this menu label will be
    `My Apps` if you have previously created an app.
 
-![Image]({{image_base}}/new-facebook-app.png)
+
+![Image]({{media_base}}/new-facebook-app.png)
 
 3. If asked, choose the platform of your app that will use Facebook sign-in, and `basic
    setup`.
@@ -542,22 +543,23 @@ when configuring authentication using the AWS Amplify CLI.
 4. Type a display name for your app, select a category for your app from the `Category`
    drop-down list, and then choose `Create App ID`.
 
-![Image]({{image_base}}/new-facebook-app-new-app-id.png)
+![Image]({{media_base}}/new-facebook-app-new-app-id.png)
 
 
 5. Complete the `Security Check` that appears. Your new app then appears in the
    `Dashboard`.
 
-![Image]({{image_base}}/new-facebook-app-id.png)
+![Image]({{media_base}}/new-facebook-app-id.png)
 
 6. Copy the App ID and note it for later when using the Amplify CLI.
 
-![Image]({{image_base}}/facebook-app-id-console-entry.png)
+![Image]({{media_base}}/facebook-app-id-console-entry.png)
 
 7. In the Facebook Developer portal's left hand navigation list, choose `Settings`, then
    choose `+ Add Platform`.
 
-![Image]({{image_base}}/new-facebook-add-platform.png)
+![Image]({{media_base}}/new-facebook-add-platform.png)
+
 
 8. Choose your platform and provide information about your app that Facebook will use for
    integration during credential validation.
@@ -572,7 +574,8 @@ when configuring authentication using the AWS Amplify CLI.
     To authorize users, in the Facebook Developer portal's left hand navigation list, choose
     `Roles`, then `Add Testers`. Provide a valid Facebook ID.
 
-![Image]({{image_base}}/new-facebook-add-testers.png)
+
+![Image]({{media_base}}/new-facebook-add-testers.png)
 
 
 For more information about integrating with Facebook Login, see the [Facebook Getting Started Guide](https://developers.facebook.com/docs/facebook-login).
@@ -604,17 +607,26 @@ Note that the CLI allows you to select more than one identity provider for your 
 
 #### Google with Cognito Identity
 
-To federate Google as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.getInstance().federatedSignIn()`. You must first register your application with Google Sign-In and then configure this with Amazon Cognito Identity Pools.
+To federate Google as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.getInstance().federatedSignIn()`. You must first register your application with Google Sign-In in the Google Developers Console, and then configure this with Amazon Cognito Identity Pools.
 
-The following sections detail the Google Sign-In requirements and steps to integrate Google Sign-In for both iOS and Android apps:
+To implement Google Sign-in into your Android app, you need two things: 
 
-* [Create a Google Developers Project and OAuth Web Client ID](./auth-google-setup#create-a-google-developers-project-and-oauth-web-client-id) (required for `all apps` regardless of platform)
+1. OAuth Web Client ID 
+2. Android Client ID
 
-* [Create an OAuth Android Client ID](./auth-google-setup#create-an-oauth-android-client-id) (required for all Android apps)
+These Client IDs are part of your Google Developers project. The Web Client ID will be used by Cognito Identity Pools to manage the OAuth flow between Cognito and Google on the server side. The Android Client ID will be used in your Android app to authorize the OAuth flow directly with Google allowing your users to authenticate with Google using their Google login credentials.
 
-* [Create an OAuth iOS Client ID](./auth-google-setup#create-an-oauth-ios-client-id) (required for all iOS apps)
+**NOTE:** The creation and configuration steps for creating OAuth Clients for Google Sign-In is constantly changing, always refer to the official setup instructions from Google.
 
-After completing the steps above, note your **Google Client ID** for the next section.
+First, navigate to the ["start integrating" section of the Google Developer portal](https://developers.google.com/identity/sign-in/android/start-integrating) and click **CREATE AN OAUTH CLIENT ID** to get an OAuth client ID. When you select an existing or new project, this will automatically create the "Web Client ID" for you in the background fulfilling requirement #1 above.
+
+When prompted choose **Android** as the calling platform along with your Package name and certificate. Once created the **Android Client ID** will be created. Copy this as you will use it when configuring your backend with the Amplify CLI.
+
+Next, obtain your **OAuth Web Client ID** from your project credentials navigating directly to the [Credentials section of the Google Developer console](https://console.developers.google.com/apis/credentials). Select your project (you may need to click **All**) and under **OAuth 2.0 client IDs** copy the Client ID associated with the Web application type. Save it for the next step. The Android Client ID from earlier is listed here as well.
+
+![Image]({{media_base}}/Android_OAuth.png)
+
+After completing the steps above, note both of the **Google Client IDs** for usage with the Amplify CLI in the next section.
 
 **Amplify CLI Configuration - Google**
 

@@ -546,18 +546,26 @@ Note that the CLI allows you to select more than one identity provider for your 
 
 #### Google with Cognito Identity
 
-To federate Google as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.sharedInstance().federatedSignIn()`. You must first register your application with Google Sign-In and then configure this with Amazon Cognito Identity Pools.
+To federate Google as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.sharedInstance().federatedSignIn()`. You must first register your application with Google Sign-In in the Google Developers Console, and then configure this with Amazon Cognito Identity Pools.
 
-The following sections detail the Google Sign-In requirements and steps to integrate Google Sign-In for both iOS and Android apps:
+To implement Google Sign-in into your iOS app, you need two things: 
 
-* [Create a Google Developers Project and OAuth Web Client ID](./auth-google-setup#project) (required for `all apps` regardless of platform)
+1. OAuth Web Client ID 
+2. iOS Client ID
 
-* [Create an OAuth Android Client ID]() (required for all Android apps)
+These Client IDs are part of your Google Developers project. The Web Client ID will be used by Cognito Identity Pools to manage the OAuth flow between Cognito and Google on the server side. The iOS Client ID will be used in your iOS app to authorize the OAuth flow directly with Google allowing your users to authenticate with Google using their Google login credentials.
 
-* [Create an OAuth iOS Client ID]() (required for all iOS apps)
+**NOTE:** The creation and configuration steps for creating OAuth Clients for Google Sign-In is constantly changing, always refer to the official setup instructions from Google.
 
-After completing the steps above, note your **Google Client ID** for the next section.
+First, navigate to the ["start integrating" section of the Google Developer portal](https://developers.google.com/identity/sign-in/ios/start-integrating) and click **CREATE AN OAUTH CLIENT ID** to get an OAuth client ID. When you select an existing or new project, this will automatically create the "Web Client ID" for you in the background fulfilling requirement #1 above.
 
+When prompted choose **iOS** as the calling platform along with your Package name and certificate. Once created the **iOS Client ID** will be created. Copy this as you will use it when configuring your backend with the Amplify CLI.
+
+Next, obtain your **OAuth Web Client ID** from your project credentials navigating directly to the [Credentials section of the Google Developer console](https://console.developers.google.com/apis/credentials). Select your project (you may need to click **All**) and under **OAuth 2.0 client IDs** copy the Client ID associated with the Web application type. Save it for the next step. The iOS Client ID from earlier is listed here as well.
+
+![Image]({{image_base}}/iOS.png)
+
+After completing the steps above, note both of the **Google Client IDs** for usage with the Amplify CLI in the next section.
 **Amplify CLI Configuration - Google**
 
 In a terminal window, navigate to the root of your app files and add the auth category to your app. The CLI prompts you for configuration parameters. Choose **I will setup my own configuration** and **AWS IAM controls** when prompted.
