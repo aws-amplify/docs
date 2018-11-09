@@ -3,10 +3,6 @@
 {% endif %}
 {% assign image_base = base_dir | append: page.dir | append: "images" %}
 
-**WARNING**
-
-**THIS IS PREVIEW DOCUMENTATION. NOT FOR PRODUCTION USE.**
-
 # Authentication
 
 The `AWSMobileClient` provides client APIs and building blocks for developers who want to create user authentication experiences. This includes declarative methods for performing authentication actions, a simple "drop-in auth" UI for performing common tasks, automatic token and credentials management, and state tracking with notifications for performing workflows in your application when users have authenticated.

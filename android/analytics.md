@@ -65,13 +65,12 @@ The Amplify CLI helps setup and configure Pinpoint within your application and c
 Use the following steps to add analytics to your mobile app and monitor the results through Amazon Pinpoint.
 
 #### Add Analytics
-<div id="java" class="tab-content current">
 1. Set up AWS Mobile SDK components by including the following libraries in your `app/build.gradle` dependencies list.
 
     ```groovy
     dependencies {
-      implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.7.+'
-      implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.7.+@aar') { transitive = true }
+      implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.8.+'
+      implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
     }
     ```
 

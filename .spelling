@@ -647,7 +647,8 @@ AWSPinpoint
 AWSPolly 
 AWSRekognition 
 AWSSimpleDB 
-AWSUserPoolsSignIn 
+AWSUserPoolsSignIn
+v2.7
 
 # ios/how-to-transfer-files-with-transfer-utility.md
 AbortIncompleteMultipartUpload

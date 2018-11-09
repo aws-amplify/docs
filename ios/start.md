@@ -46,7 +46,7 @@ platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSCore', '~> 2.6.33'
+    pod 'AWSCore', '~> 2.7.0'
 
     # other pods
 end
