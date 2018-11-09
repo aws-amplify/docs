@@ -410,16 +410,6 @@ AWSMobileClient.sharedInstance().identityId     //String
 
 **When using Authentication with `AWSMobileClient`, you don’t need to refresh Amazon Cognito tokens manually. The tokens are automatically refreshed by the library when necessary.**
 
-```swift
-AWSMobileClient.sharedInstance().getTokens { (tokens, error) in
-    if let error = error {
-        print("Error getting token \(error.localizedDescription)")
-    } else if let tokens = tokens {
-        print(tokens.accessToken!.tokenString!)
-    }
-}
-```
-
 #### OIDC Tokens
 
 ```swift

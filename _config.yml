@@ -215,15 +215,6 @@ android_category_list:
           services:
               - title: Amazon Pinpoint
                 url: https://aws.amazon.com/pinpoint/
-        - title: Interactions
-          excerpt: Create conversational bots powered by deep learning technologies.
-          cta: Read more
-          class: aws-icon-ps-60-bubble-gear
-          url: '/android/interactions'
-          icon: '/images/icons/Misc/Cloud.svg'
-          services:
-              - title: Amazon Lex
-                url: https://aws.amazon.com/lex/
         - title: PubSub
           excerpt: Connect your app to message-oriented middleware on the cloud.
           cta: Read more
@@ -345,15 +336,6 @@ ios_category_list:
           services:
               - title: Amazon Pinpoint
                 url: https://aws.amazon.com/pinpoint/
-        - title: Interactions
-          excerpt: Create conversational bots powered by deep learning technologies.
-          cta: Read more
-          class: aws-icon-ps-60-bubble-gear
-          url: '/ios/interactions'
-          icon: '/images/icons/Misc/Cloud.svg'
-          services:
-              - title: Amazon Lex
-                url: https://aws.amazon.com/lex/
         - title: PubSub
           excerpt: Connect your app to message-oriented middleware on the cloud.
           cta: Read more
