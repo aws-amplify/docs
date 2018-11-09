@@ -286,6 +286,8 @@ async
 X-Amz-Date
 X-Api-Key
 X-Amz-Security-Token
+APIService
+Appsync
 
 # js/analytics.md
 Kinesis
