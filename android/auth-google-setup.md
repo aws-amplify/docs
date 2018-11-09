@@ -34,17 +34,17 @@ For all platforms, enable the Google+ API for and an OAuth web client ID for you
 
     ![Choosing Google+ API to enable it in the Google Developers Console]({{media_base}}/api-manager-googleplus.png)
 
-6. In the `Overview` for Google+ API, choose `Enable API`.
+6. In the `Overview` for Google+ API, choose `Enable API`. If it shows a `Manage` button, the API is already enabled and you can click the `Manage` button.
 
     ![Enabling the Google+ API for a new app in the Google Developers Console]({{media_base}}/google_enable_api.png)
 
 7. A message appears to inform you that the API is enabled but that it requires credentials before
-   you can use it. Choose `Go to Credentials`.
+   you can use it. Choose `Create Credentials`.
 
     ![Adding Credentials to the enabled Google+ API in the Google Developers Console]({{media_base}}/go-to-credentials.png)
 
-8. Your Mobile Hub sample app authenticates users through Amazon Cognito Identity, so you need an OAuth web
-   application client ID for Amazon Cognito. In `Credentials`, choose `client ID` from
+8. Your Mobile Hub sample app authenticates users through Amazon Cognito Identity, so you need an OAuth
+   client ID for Amazon Cognito. In `Credentials`, choose `client ID` from
    the links in the first step.
 
     ![Choosing to add client ID credentials for the Google+ API in the Google Developers Console]({{media_base}}/add-credentials.png)
@@ -103,7 +103,7 @@ Sign-In configuration.
 
     ![Choosing Credentials from the API Manager in the Google Developers Console]({{media_base}}/api-credentials.png)
 
-4. Choose `New credentials` and then choose `OAuth client ID`.
+4. Choose `Create credentials` and then choose `OAuth client ID`.
 
     ![Creating new OAuth client ID credentials in the Google Developers Console]({{media_base}}/new-credentials.png)
 
@@ -179,8 +179,8 @@ To enable Google Sign-In for your iOS app, create an iOS OAuth client ID in the 
 
     ![Displaying the generated client ID in the Google Developers Console]({{media_base}}/android-oauth-id.png)
 
-10. Paste the iOS client ID value into the Mobile Hub `Google iOS Client ID` field for your
-  project.
+10. Paste the iOS client ID value into the `Google iOS Client ID` field for your
+  amplify-cli command.
 
     ![Where to paste the iOS client ID value from Google into the Mobile Hub console]({{media_base}}/google-client-id-console-entry.png)
 
