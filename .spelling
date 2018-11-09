@@ -620,6 +620,30 @@ CocoaLumberjack
 AWSCore
 DocSets
 macOS
+AWSAuth 
+AWSAuthCore 
+AWSAuthUI 
+AWSAutoScaling 
+AWSCloudWatch 
+AWSCognito 
+AWSCognitoAuth 
+AWSCognitoIdentityProvider 
+AWSCognitoIdentityProviderASF 
+AWSDynamoDB 
+AWSElasticLoadBalancing 
+AWSFacebookSignIn 
+AWSGoogleSignIn 
+AWSIoT 
+AWSKinesis 
+AWSLambda 
+AWSLex 
+AWSLogs 
+AWSMachineLearning 
+AWSPinpoint 
+AWSPolly 
+AWSRekognition 
+AWSSimpleDB 
+AWSUserPoolsSignIn 
 
 # ios/how-to-transfer-files-with-transfer-utility.md
 AbortIncompleteMultipartUpload
