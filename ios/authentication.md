@@ -1,4 +1,7 @@
-
+{% if jekyll.environment == 'production' %}
+  {% assign base_dir = site.amplify.docs_baseurl %}
+{% endif %}
+{% assign image_base = base_dir | append: page.dir | append: "images" %}
 
 **WARNING**
 
@@ -472,7 +475,7 @@ when configuring authentication using the AWS Amplify CLI.
 2. From `Create App`, choose `Add a New App` (note: this menu label will be
    `My Apps` if you have previously created an app.
 
-![Image](./images/new-facebook-app.png)
+![Image]({{image_base}}/new-facebook-app.png)
 
 3. If asked, choose the platform of your app that will use Facebook sign-in, and `basic
    setup`.
@@ -480,7 +483,7 @@ when configuring authentication using the AWS Amplify CLI.
 4. Type a display name for your app, select a category for your app from the `Category`
    drop-down list, and then choose `Create App ID`.
 
-![Image](./images/new-facebook-app-new-app-id.png)
+![Image]({{image_base}}/new-facebook-app-new-app-id.png)
 
 
 5. Complete the `Security Check` that appears. Your new app then appears in the
@@ -488,12 +491,12 @@ when configuring authentication using the AWS Amplify CLI.
 
 6. Copy the App ID and note it for later when using the Amplify CLI.
 
-![Image](./images/new-facebook-app-id.png)
+![Image]({{image_base}}/new-facebook-app-id.png)
 
 7. In the Facebook Developer portal's left hand navigation list, choose `Settings`, then
    choose `+ Add Platform`.
 
-![Image](./images/new-facebook-add-platform.png)
+![Image]({{image_base}}/new-facebook-add-platform.png)
 
 8. Choose your platform and provide information about your app that Facebook will use for
    integration during credential validation.
@@ -502,7 +505,7 @@ when configuring authentication using the AWS Amplify CLI.
 
       1. Add your app's Bundle ID. (for example, com.amazon.YourProjectName).
 
-![Image](./images/new-facebook-add-platform-ios.png)
+![Image]({{image_base}}/new-facebook-add-platform-ios.png)
 
 
 9. In the Facebook Developers portal, choose `Save changes`, then `Use this
@@ -514,7 +517,7 @@ when configuring authentication using the AWS Amplify CLI.
     To authorize users, in the Facebook Developer portal's left hand navigation list, choose
     `Roles`, then `Add Testers`. Provide a valid Facebook ID.
 
-![Image](./images/new-facebook-add-testers.png)
+![Image]({{image_base}}/new-facebook-add-testers.png)
 
 
 For more information about integrating with Facebook Login, see the [Facebook Getting Started Guide](https://developers.facebook.com/docs/facebook-login).
