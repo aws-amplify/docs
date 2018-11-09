@@ -54,7 +54,7 @@
 			<div class="relative">
 				{% if site.amplify.header.logo.text %}
 				<div class="logo-container" id="logo-container">
-					<a href="{{ site.amplify.marketing_site_home }}" class="site-header__logo">
+					<a href="{{ site.amplify.baseurl }}" class="site-header__logo">
 						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/Amplify-Logo-White.svg">
 						{% if page.url contains 'cli' %}
 						<p class="header-amplify docs-header-amplify">{{ site.amplify.header.logo.cli_text }} </p>
@@ -105,7 +105,6 @@
 									<a href="https://docs.aws.amazon.com/aws-mobile/latest/developerguide/getting-started.html#android-java" target="_blank"><p>Android</p></a>
 									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/js/start?platform=purejs"><p>JavaScript</p></a>
 									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/js/start?platform=react-native"><p>React Native</p></a>
-									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/cli/init"><p>Toolchain</p></a>
 								</div>
 							</div>
 						</li>
@@ -127,6 +126,7 @@
 					<input type="text" id="search-input-xs" class="visible-xs docs-search-xs"></input>
 					<button id="collapse-search">Cancel</button>
 				{% endif %}
+				{% unless page.name contains "index.md" %}
 				<div id="docs-edit-bar" class="hidden-xs" style="padding-top:0.5em;padding-bottom:2.5em;font-size:80%;">
 					<a id="feedback-link" target="_blank" href="#">
 						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/icons/Minis/outline-feedback-24px.svg" style="height:16px;" />
@@ -141,6 +141,7 @@
 						<p>Tweet</p>
 					</a>
 				</div>
+				{% endunless %}
 			</div><!-- /.col -->
 		</div><!-- /.row -->
 		<a id="github-logo-docs" target="_blank" href="https://github.com/aws-amplify"><img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/GitHub-Mark-32px.png" /></a>

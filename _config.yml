@@ -67,11 +67,11 @@ amplify:
     api_js_url: 'https://aws-amplify.github.io/amplify-js/api/'
     header:
         logo:
-            text: Amplify
-            cli_text: 'Amplify Toolchain'
+            text: Amplify Framework
+            cli_text: 'Amplify'
             js_text: 'Amplify JavaScript'
-            android_text: 'Amplify Android'
-            ios_text: 'Amplify iOS'
+            android_text: 'Android SDK'
+            ios_text: 'iOS SDK'
             image: true
             platform: for JavaScript
         nav:
@@ -133,21 +133,21 @@ android_category_list:
       excerpt: Better developer experience when building and deploying your apps.
       base_url: '/cli/'
       subs:
-        - title: Getting Started
+        - title: Usage
           excerpt: Setup and Configure a Project with the CLI
-          url: '/cli/init'
+          url: '/cli/init?sdk=android'
           icon: '/images/icons/Misc/Present.svg'
         - title: Architecture
           excerpt: CLI Architecture and Overview
-          url: '/cli/concept'
+          url: '/cli/concept?sdk=android'
           icon: '/images/icons/Misc/Present.svg'
         - title: Codegen
           excerpt: Codegen for GraphQL
-          url: '/cli/codegen' 
+          url: '/cli/codegen?sdk=android' 
           icon: '/images/icons/Misc/Present.svg'
         - title: Plugins
           excerpt: Create a new plugin for the CLI
-          url: '/cli/plugins' 
+          url: '/cli/plugins?sdk=android' 
           icon: '/images/icons/Misc/Present.svg'
         - title: GraphQL Transform
           excerpt: Transform simple GraphQL schema files into full application backends.
@@ -263,21 +263,21 @@ ios_category_list:
       excerpt: Better developer experience when building and deploying your apps.
       base_url: '/cli/'
       subs:
-        - title: Getting Started
+        - title: Usage
           excerpt: Setup and Configure a Project with the CLI
-          url: '/cli/init'
+          url: '/cli/init/?sdk=ios'
           icon: '/images/icons/Misc/Present.svg'
         - title: Architecture
           excerpt: CLI Architecture and Overview
-          url: '/cli/concept'
+          url: '/cli/concept/?sdk=ios'
           icon: '/images/icons/Misc/Present.svg'
         - title: Codegen
           excerpt: Codegen for GraphQL
-          url: '/cli/codegen' 
+          url: '/cli/codegen/?sdk=ios' 
           icon: '/images/icons/Misc/Present.svg'
         - title: Plugins
           excerpt: Create a new plugin for the CLI
-          url: '/cli/plugins' 
+          url: '/cli/plugins/?sdk=ios' 
           icon: '/images/icons/Misc/Present.svg'
         - title: GraphQL Transform
           excerpt: Transform simple GraphQL schema files into full application backends.
@@ -377,32 +377,32 @@ ios_category_list:
           cta: Read more
           class: aws-icon-ps-60-circular-circuit
           url: '/ios/manualsetup'
-          
+
 cli_category_list:
   - category: Toolchain
-    title: Setup & Installation
+    title: Toolchain
     excerpt: Better developer experience when building and deploying your apps.
     base_url: '/cli/'
     subs:
-      - title: Getting Started
+      - title: Usage
         excerpt: Setup and Configure a Project with the CLI
-        url: '/cli/init'
+        url: '/cli/init/?sdk=js'
         icon: '/images/icons/Misc/Present.svg'
       - title: Architecture
         excerpt: CLI Architecture and Overview
-        url: '/cli/concept'
+        url: '/cli/concept/?sdk=js'
         icon: '/images/icons/Misc/Present.svg'
       - title: Hosting
         excerpt: Host your web project or static assets
-        url: '/cli/hosting' 
+        url: '/cli/hosting/?sdk=js' 
         icon: '/images/icons/Misc/Present.svg'
       - title: Codegen
         excerpt: Codegen for GraphQL
-        url: '/cli/codegen' 
+        url: '/cli/codegen/?sdk=js' 
         icon: '/images/icons/Misc/Present.svg'
       - title: Plugins
         excerpt: Create a new plugin for the CLI
-        url: '/cli/plugins' 
+        url: '/cli/plugins/?sdk=js' 
         icon: '/images/icons/Misc/Present.svg'
       - title: UI Components
         excerpt: User interface components
@@ -453,25 +453,25 @@ category_list:
       excerpt: Better developer experience when building and deploying your apps.
       base_url: '/cli/'
       subs:
-        - title: Getting Started
+        - title: Usage
           excerpt: Setup and Configure a Project with the CLI
-          url: '/cli/init'
+          url: '/cli/init/?sdk=js'
           icon: '/images/icons/Misc/Present.svg'
         - title: Architecture
           excerpt: CLI Architecture and Overview
-          url: '/cli/concept'
+          url: '/cli/concept/?sdk=js'
           icon: '/images/icons/Misc/Present.svg'
         - title: Hosting
           excerpt: Host your web project or static assets
-          url: '/cli/hosting' 
+          url: '/cli/hosting/?sdk=js' 
           icon: '/images/icons/Misc/Present.svg'
         - title: Codegen
           excerpt: Codegen for GraphQL
-          url: '/cli/codegen' 
+          url: '/cli/codegen/?sdk=js' 
           icon: '/images/icons/Misc/Present.svg'
         - title: Plugins
           excerpt: Create a new plugin for the CLI
-          url: '/cli/plugins' 
+          url: '/cli/plugins/?sdk=js' 
           icon: '/images/icons/Misc/Present.svg'
         - title: UI Components
           excerpt: User interface components
