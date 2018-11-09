@@ -32,10 +32,10 @@ The AWSMobileClient manages your application session for authentication related 
 - `isLoggedIn` property defined as a BOOLEAN for the most simple use cases
 - `currentUserState` used for more advanced scenarios, such as determining if the user has Guest credentials, Authenticated with User Pools, has Federated credentials, or has signed out.
 
-This allows you to write workflows in your application based on the state of the user and what you would like to present on different screens. The `AWSMobileClient` also offers realtime notifications on user state changes which you can register for in your application using `.addListener` as in the code below.
+This allows you to write workflows in your application based on the state of the user and what you would like to present on different screens. The `AWSMobileClient` also offers realtime notifications on user state changes which you can register for in your application using `.addUserStateListener` as in the code below.
 
 ```swift
-AWSMobileClient.sharedInstance().addListener(self) { (userState, info) in
+AWSMobileClient.sharedInstance().addUserStateListener(self) { (userState, info) in
             
             switch (userState) {
             case .guest:
@@ -64,7 +64,7 @@ The `AWSMobileClient` will return valid JWT tokens from your cache immediately i
 If the Refresh tokens have expired and you then make call to any AWS service, such as a AppSync GraphQL request or S3 upload, the `AWSMobileClient` will dispatch a state notification that a re-login is required. At this point you can choose to present the user with a login screen, call `AWSMobileClient.sharedInstance().signIn()`, or perform custom business logic. For example:
 
 ```swift
-AWSMobileClient.sharedInstance().addListener(self) { (userState, info) in
+AWSMobileClient.sharedInstance().addUserStateListener(self) { (userState, info) in
             
             switch (userState) {
             case .signedOut:
@@ -82,7 +82,7 @@ AWSMobileClient.sharedInstance().addListener(self) { (userState, info) in
 }
 ```
 
-You can register to listen for this state change anywhere in your app with `.addListener`, such as in `viewDidLoad()` in the above example. If you want to cancel the re-login process, for instance if your application is shared among multiple users of the device or a user clicks "cancel" on the re-login attempt, you can call `releaseSignInWait()` to terminate the call and then call a `signOut()`.
+You can register to listen for this state change anywhere in your app with `.addUserStateListener`, such as in `viewDidLoad()` in the above example. If you want to cancel the re-login process, for instance if your application is shared among multiple users of the device or a user clicks "cancel" on the re-login attempt, you can call `releaseSignInWait()` to terminate the call and then call a `signOut()`.
 
 #### AWS Credentials
 
