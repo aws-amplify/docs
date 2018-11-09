@@ -486,11 +486,9 @@ when configuring authentication using the AWS Amplify CLI.
 5. Complete the `Security Check` that appears. Your new app then appears in the
    `Dashboard`.
 
-![Image](./images/new-facebook-app-id.png)
-
 6. Copy the App ID and note it for later when using the Amplify CLI.
 
-![Image](./images/facebook-app-id-console-entry.png)
+![Image](./images/new-facebook-app-id.png)
 
 7. In the Facebook Developer portal's left hand navigation list, choose `Settings`, then
    choose `+ Add Platform`.
@@ -587,19 +585,20 @@ Note that the CLI allows you to select more than one identity provider for your 
 
 ### Facebook Login in Your Mobile App
 
-1. Add or update your AWS backend configuration file to incorporate your new sign-in. For details, see the last steps in the [Get Started: Set Up Your Backend](./add-aws-mobile-sdk-basic-setup) section.
-
-2. Add the following dependencies in your project's `Podfile`.
+1. Add the following dependencies in your project's `Podfile`.
 
 	```ruby
 	platform :ios, '9.0'
 	  target 'YOUR-APP-NAME' do
 	    use_frameworks!
-	    pod 'AWSMobileClient', '~> 2.6.33'
-	    pod 'AWSFacebookSignIn', '~> 2.6.33'
-	    pod 'AWSUserPoolsSignIn', '~> 2.6.33'
-	    pod 'AWSAuthUI', '~> 2.6.33'
-	    # other pods
+
+	    pod 'AWSFacebookSignIn', '~> 2.7.0'     # Add this new dependency
+	    pod 'AWSAuthUI', '~> 2.7.0'             # Add this dependency if you have not already added
+	    
+	    # Other Pod entries
+	    pod 'AWSMobileClient', '~> 2.7.0'
+	    pod 'AWSUserPoolsSignIn', '~> 2.7.0'
+	    
 	  end
 	```
 
@@ -651,6 +650,8 @@ Note : `AWSFacebookSignIn` is only needed for using Facebook in your app and  `A
   </dict>
 ```
 
+Now, your drop-in UI will show a Facebook sign in button which the users can use to sign in to your app. This uses the `federatedSignIn()` flow underneath it.
+
 ### Google Login in Your Mobile App
 
 1. Add or update your AWS backend configuration file to incorporate your new sign-in. For details, see the last steps in the [Get Started: Set Up Your Backend](./start) section.
@@ -661,15 +662,20 @@ Note : `AWSFacebookSignIn` is only needed for using Facebook in your app and  `A
 	platform :ios, '9.0'
 	target :'YOUR-APP-NAME' do
 	  use_frameworks!
-	  pod 'AWSMobileClient', '~> 2.6.33'
-	  pod 'AWSGoogleSignIn', '~> 2.6.33'
-	  pod 'AWSUserPoolsSignIn', '~> 2.6.33'
-	  pod 'AWSAuthUI', '~> 2.6.33'
-	  pod 'GoogleSignIn', '~> 4.0'
-	  # other pods
+	  pod 'AWSGoogleSignIn', '~> 2.7.0'     # Add this new dependency
+	  pod 'GoogleSignIn', '~> 4.0'          # Add this new dependency
+	  pod 'AWSAuthUI', '~> 2.7.0'           # Add this dependency if you have not already added
+	    
+	  # Other Pod entries
+	  pod 'AWSMobileClient', '~> 2.7.0'
+	  pod 'AWSUserPoolsSignIn', '~> 2.7.0'
+	  
 	end
 	```
 	Run `pod install --repo-update` before you continue.
+
+Note : `AWSGoogleSignIn` is only needed for using Google Login in your app and `AWSAuthUI` is only necessary if using the "Drop-In UI".
+{: .callout .callout--info}
 
 3. Add Google metadata to `Info.plist`.
 
@@ -694,3 +700,5 @@ Note : `AWSFacebookSignIn` is only needed for using Facebook in your app and  `A
 
 	<!-- ... -->
 	```
+
+Now, your drop-in UI will show a Google sign in button which the users can use to sign in to your app. This uses the `federatedSignIn()` flow underneath it.
