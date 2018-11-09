@@ -638,7 +638,7 @@ $ amplify add auth              ##"amplify update auth" if already configured
 
 Choose **YES** to `? Allow unauthenticated logins?` and **YES** to `? Do you want to enable 3rd party authentication providers in your identity pool?`.
 
-Choose **Google** and then provide your Google **Client IDs** as appropriate. The CLI will as you for both the **Web Client ID** and **Android Client ID** at the appropriate time.
+Choose **Google** and then provide your Google **Client IDs** as appropriate. The CLI will ask you for both the **Web Client ID** and **Android Client ID** at the appropriate time.
 When configuration for Google sign-in is complete, the CLI displays a message confirming that you have configured local CLI metadata for this category. Run the following to update your changes in the cloud:
 
 ```terminal
