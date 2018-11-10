@@ -648,6 +648,18 @@ For more information about Amazon Kinesis Firehose, see [Amazon Kinesis Firehose
 
 ### Integrating Amazon Kinesis and Amazon Kinesis Firehose
 
+Set up AWS Mobile SDK components by including the following libraries in your `app/build.gradle` dependencies list.
+
+    ```groovy
+    dependencies {
+      implementation 'com.amazonaws:aws-android-sdk-kinesis:2.8.+'
+      implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
+    }
+    ```
+
+    * `aws-android-sdk-kinesis` library enables sending analytics to Amazon Kinesis.
+    * `aws-android-sdk-mobile-client` library gives access to the AWS credentials provider and configurations.
+
 Add the following imports to the main activity of your app.
 
 ```java

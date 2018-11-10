@@ -1,5 +1,7 @@
 ---
+title: PubSub
 ---
+
 # PubSub
 
 PubSub provides connectivity with cloud-based message-oriented middleware. You can use PubSub to pass messages between your app instances and your app's backend creating real-time interactive experiences.
