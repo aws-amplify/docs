@@ -563,7 +563,7 @@ When prompted choose **iOS** as the calling platform along with your Package nam
 
 Next, obtain your **OAuth Web Client ID** from your project credentials navigating directly to the [Credentials section of the Google Developer console](https://console.developers.google.com/apis/credentials). Select your project (you may need to click **All**) and under **OAuth 2.0 client IDs** copy the Client ID associated with the Web application type. Save it for the next step. The iOS Client ID from earlier is listed here as well.
 
-![Image]({{image_base}}/iOS.png)
+![Image]({{image_base}}/iOS_OAuth.png)
 
 After completing the steps above, note both of the **Google Client IDs** for usage with the Amplify CLI in the next section.
 **Amplify CLI Configuration - Google**
@@ -572,16 +572,16 @@ In a terminal window, navigate to the root of your app files and add the auth ca
 
 ```terminal
 $ cd ./YOUR_PROJECT_FOLDER
-$ amplify add auth
+$ amplify add auth              ##"amplify update auth" if already configured
 ❯ No, I will set up my own configuration.
 ❯ User Sign-Up, Sign-In, connected with AWS IAM controls
 ```
 
 Choose **YES** to `? Allow unauthenticated logins?` and **YES** to `? Do you want to enable 3rd party authentication providers in your identity pool?`.
 
-Choose **Google** and then provide your Google **Client ID**.
+Choose **Google** and then provide your Google **Client IDs** as appropriate. The CLI will ask you for both the **Web Client ID** and **iOS Client ID** at the appropriate time.
 
-When configuration for Facebook sign-in is complete, the CLI displays a message confirming that you have configured local CLI metadata for this category. Run the following to update your changes in the cloud:
+When configuration for Google sign-in is complete, the CLI displays a message confirming that you have configured local CLI metadata for this category. Run the following to update your changes in the cloud:
 
 ```terminal
 $ amplify push

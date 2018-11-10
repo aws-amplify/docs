@@ -634,16 +634,15 @@ In a terminal window, navigate to the root of your app files and add the auth ca
 
 ```terminal
 $ cd ./YOUR_PROJECT_FOLDER
-$ amplify add auth
+$ amplify add auth              ##"amplify update auth" if already configured
 ❯ No, I will set up my own configuration.
 ❯ User Sign-Up, Sign-In, connected with AWS IAM controls
 ```
 
 Choose **YES** to `? Allow unauthenticated logins?` and **YES** to `? Do you want to enable 3rd party authentication providers in your identity pool?`.
 
-Choose **Google** and then provide your Google **Client ID**.
-
-When configuration for Facebook sign-in is complete, the CLI displays a message confirming that you have configured local CLI metadata for this category. Run the following to update your changes in the cloud:
+Choose **Google** and then provide your Google **Client IDs** as appropriate. The CLI will ask you for both the **Web Client ID** and **Android Client ID** at the appropriate time.
+When configuration for Google sign-in is complete, the CLI displays a message confirming that you have configured local CLI metadata for this category. Run the following to update your changes in the cloud:
 
 ```terminal
 $ amplify push
