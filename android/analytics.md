@@ -10,9 +10,6 @@ title: Analytics
 
 Collecting analytics data for your app can be accomplished with [Amazon Pinpoint](#using-amazon-pinpoint) or [Amazon Kinesis](#using-amazon-kinesis). 
 
-Ensure you have [installed and configured the Amplify CLI and library](https://aws-amplify.github.io/media/get_started).
-{: .callout .callout--info}
-
 ## Using Amazon Pinpoint
 
 Amazon Pinpoint is a fully managed AWS service that you can use to engage with your customers across multiple messaging channels using analytics captured from the device. You can send push notifications, emails, or text messages (SMS), depending on the purpose of your campaign. Features include:
@@ -29,9 +26,11 @@ The Amplify CLI helps setup and configure Pinpoint within your application and c
 
 ### Set Up Your Backend
 
-1. Complete the [Get Started link](https://aws-amplify.github.io/docs/android/start) steps before you proceed.
+* **Prerequisite: [Install and configure the Amplify CLI](https://aws-amplify.github.io/docs/)**
+* **Recommendation: [Complete the Getting Started guide](https://aws-amplify.github.io/docs/ios/start)**
+{: .callout .callout--info}
 
-2. Use the CLI to add analytics to your cloud-enabled backend and app.
+1. Use the CLI to add analytics to your cloud-enabled backend and app.
 
     In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`), and add the SDK to your app.
 
@@ -47,7 +46,7 @@ The Amplify CLI helps setup and configure Pinpoint within your application and c
     $ amplify add analytics
     ```
 
-3. When configuration for analytics is complete, a message appears confirming that you have configured local CLI metadata for this category. You can confirm this by viewing status.
+2. When configuration for analytics is complete, a message appears confirming that you have configured local CLI metadata for this category. You can confirm this by viewing status.
 
     ```bash
     $ amplify status
@@ -57,7 +56,7 @@ The Amplify CLI helps setup and configure Pinpoint within your application and c
     | Analytics | yourprojectname | Create    | awscloudformation |
     ```
 
-4. To create your backend AWS resources run the following:
+3. To create your backend AWS resources run the following:
 
     ```bash
     $ amplify push
