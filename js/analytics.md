@@ -7,8 +7,8 @@ The Analytics category enables you to collect analytics data for your app. The A
 
 #### Automated Setup
 
-* **Prerequisite: [Install and configure the Amplify CLI](https://aws-amplify.github.io/docs/)**
-* **Recommendation: [Complete the Getting Started guide](https://aws-amplify.github.io/docs/js/start)**
+* **Prerequisite: [Install and configure the Amplify CLI](/)**
+* **Recommendation: [Complete the Getting Started guide](./start?platform=purejs)**
 {: .callout .callout--info}
 
 Run the following command in your project's root folder:
