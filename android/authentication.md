@@ -128,6 +128,7 @@ Add the following permissions to the `AndroidManifest.xml` file:
 ```xml
 <uses-permission android:name="android.permission.INTERNET"/>
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+```
 
 Build your Android Studio project.
 
