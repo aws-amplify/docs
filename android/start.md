@@ -232,7 +232,7 @@ What next? Here are some things to add to your app:
 
 
 * [Authentication](./authentication)
-* [User File Storage](./storage)
+* [Storage](./storage)
 * [Serverless APIs](./api)
 * [Analytics](./analytics)
 * [Push Notification](./push-notifications)
