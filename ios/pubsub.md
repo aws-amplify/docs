@@ -17,7 +17,7 @@ When used with `AWSIoTDataManager`, PubSub is capable of signing request accordi
 
 The `Podfile` that you configure to install the AWS Mobile SDK must contain the `AWSIoT` pod:
 
-	```ruby
+```ruby
     platform :ios, '9.0'
 
     target :'YOUR-APP-NAME' do
@@ -27,9 +27,9 @@ The `Podfile` that you configure to install the AWS Mobile SDK must contain the 
         # other pods
 
     end
-	```
+```
 
-	Run `pod install --repo-update` before you continue.
+Run `pod install --repo-update` before you continue.
 
 To use in your app, import the following:
 
