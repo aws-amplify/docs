@@ -11,7 +11,7 @@ title: Analytics
 
 Collecting analytics data for your app can be accomplished with [Amazon Pinpoint](#using-amazon-pinpoint) and [Amazon Kinesis](#using-amazon-kinesis).
 
-Prequisite: [Install and configure the Amplify CLI](https://aws-amplify.github.io/docs/)
+Prerequisite: [Install and configure the Amplify CLI](https://aws-amplify.github.io/docs/)
 Recommendation: [Complete the Getting Started](https://aws-amplify.github.io/docs/ios/start) guide
 {: .callout .callout--info}
 
