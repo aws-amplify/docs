@@ -1,4 +1,5 @@
 ---
+title: PubSub
 ---
 # PubSub
 
@@ -14,6 +15,18 @@ When using AWS IoT your PubSub HTTP requests are automatically signed when sendi
 ### AWS IoT
 
 In the PubSub category, `AWSIoTMqttManager` establishes a signed connection with AWS IoT according to [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). 
+
+Set up AWS Mobile SDK components by including the following libraries in your `app/build.gradle` dependencies list.
+
+    ```groovy
+    dependencies {
+      implementation 'com.amazonaws:aws-android-sdk-iot:2.8.+'
+      implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
+    }
+    ```
+
+    * `aws-android-sdk-iot` library enables connecting to AWS IoT.
+    * `aws-android-sdk-mobile-client` library gives access to the AWS credentials provider and configurations.
 
 To use in your app, import the following classes:
 
