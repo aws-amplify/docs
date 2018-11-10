@@ -1,3 +1,7 @@
+---
+title: Interactions
+---
+
 # Interactions
 
 ## Overview
