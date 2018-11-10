@@ -1,3 +1,6 @@
+---
+title: Getting Started
+---
 # Getting Started
 
 Build an Android app using the AWS Amplify CLI and the AWS SDK for Android. The Amplify CLI lets you quickly add backend features to your application so that you can focus on your application code. This page guides you through setting up an initial backend and integration into your app. 
