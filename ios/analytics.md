@@ -27,8 +27,8 @@ The Amplify CLI helps setup and configure Pinpoint within your application and c
 
 ### Set Up Your Backend
 
-* **Prerequisite: [Install and configure the Amplify CLI](https://aws-amplify.github.io/docs/)**
-* **Recommendation: [Complete the Getting Started guide](https://aws-amplify.github.io/docs/ios/start)**
+* **Prerequisite: [Install and configure the Amplify CLI](/)**
+* **Recommendation: [Complete the Getting Started guide](./start)**
 {: .callout .callout--info}
 
 1. Use the CLI to add analytics to your cloud-enabled backend and app.
