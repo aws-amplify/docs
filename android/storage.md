@@ -1,3 +1,6 @@
+---
+title: Storage
+---
 # Storage
 
 ## S3
