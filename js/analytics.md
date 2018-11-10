@@ -5,10 +5,11 @@
 
 The Analytics category enables you to collect analytics data for your app. The Analytics category comes with built-in support for [Amazon Pinpoint](#using-amazon-pinpoint) and [Amazon Kinesis](#using-amazon-kinesis).
 
-Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start).
-{: .callout .callout--info}
-
 #### Automated Setup
+
+* **Prerequisite: [Install and configure the Amplify CLI](..)**
+* **Recommendation: [Complete the Getting Started guide](./start?platform=purejs)**
+{: .callout .callout--info}
 
 Run the following command in your project's root folder:
 
