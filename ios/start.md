@@ -46,7 +46,7 @@ platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSCore', '~> 2.6.33'
+    pod 'AWSCore', '~> 2.7.0'
 
     # other pods
 end
@@ -95,7 +95,7 @@ The CLI displays a status table with no resources listed. As you add feature cat
 Add a GraphQL API to your app and automatically provision a database with the following command (accepting all defaults is OK):
 
 ```bash
-$ amplify add api     #select GraphQL
+$ amplify add api     #select GraphQL, API Key
 ```
 
 The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on you can always change it. This process creates an AWS AppSync API and connects it to an Amazon DynamoDB database.
@@ -210,7 +210,14 @@ You can also setup realtime subscriptions to data:
     }
 ```
 
-Call the `runMutation()`, `runQuery()`, and `subscribe()` methods from your app code, such as from a button click or when your app starts in `viewDidLoad()`. You will see data being stored and retrieved in your backend from the Xcode console.
+Call the `runMutation()`, `runQuery()`, and `subscribe()` methods from your app code, such as from a button click or when your app starts in `viewDidLoad()`. You will see data being stored and retrieved in your backend from the Xcode console. At any time you can open the AWS console for your new API directly by running the following command:
+
+```terminal
+$ amplify console api
+> GraphQL               ##Select GraphQL
+```
+
+This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
 
 ## Next Steps
 
@@ -218,11 +225,11 @@ Call the `runMutation()`, `runQuery()`, and `subscribe()` methods from your app 
 
 What next? Here are some things to add to your app:
 
-* [Analytics](./analytics)
 * [Authentication](./authentication)
-* [Push Notification](./push-notifications)
 * [User File Storage](./storage)
 * [Serverless APIs](./api)
+* [Analytics](./analytics)
+* [Push Notification](./push-notifications)
 * [Messaging](./messaging)
 
 **Existing AWS Resources**

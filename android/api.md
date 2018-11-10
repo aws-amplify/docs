@@ -1,38 +1,92 @@
+{% if jekyll.environment == 'production' %}
+  {% assign base_dir = site.amplify.docs_baseurl %}
+{% endif %}
+{% assign media_base = base_dir | append: page.dir | append: "media" %}
+
 # API
-<div class="nav-tab create" data-group='create'>
-<ul class="tabs">
-    <li class="tab-link java current" data-tab="java">Java</li>
-    <li class="tab-link kotlin" data-tab="kotlin">Kotlin</li>
-</ul>
+
+The API category provides a solution for making HTTP requests to REST and GraphQL endpoints. It includes a [AWS Signature Version 4](http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html) signer class which automatically signs all AWS API requests for you as well as methods to use API Keys, Amazon Cognito User Pools, or 3rd party OIDC providers.
 
 ## GraphQL: Realtime and Offline
 
-AWS AppSync integrates with the [Apollo GraphQL client](https://github.com/apollographql/apollo-client) when building client applications. AWS provides plugins for offline support, authorization, and subscription handshaking to make this process easier. You can use the Apollo client directly, or with some client helpers provided in the AWS AppSync SDK when you get started.
+AWS AppSync helps you build data-driven apps with real-time and offline capabilities. The [AppSync Android SDK](https://github.com/awslabs/aws-mobile-appsync-sdk-android/) enables you to integrate your app with the AWS AppSync service and is based off of the Apollo project found [here](https://github.com/apollographql/apollo-android). The SDK supports multiple authorization models, handles subscription handshake protocols for real-time updates to data, and has built-in capabilities for offline support that makes it easy to integrate into your app.
 
-For a step-by-step tutorial describing how to build an Android application, including code generation for Java types, by using AWS AppSync see `aws-appsync-building-a-client-app-android`.
+You can integrate with AWS AppSync using the following steps:
 
-The following information gives an overview of how the AWS SDKs work as well as code generation for your GraphQL application using the [AWS Amplify toolchain](https://aws-amplify.github.io/).
+1. Setup the API endpoint and authentication information in the client side configuration.
+2. Generate Java code from the API schema.
+3. Write app code to run queries, mutations and subscriptions.
 
-### Application Configuration
+The Amplify CLI provides support for AppSync that make this process easy. Using the CLI, you can configure an AWS AppSync API, download required client side configuration files, and generate client side code within minutes by running a few simple commands on the command line.
 
-The AWS SDKs support configuration through a centralized file called `awsconfiguration.json` defining all the regions and service endpoints to communicate. When you configure categories in the Amplify CLI and run `amplify push`, this file is updated allowing you to focus on your Android application code. On Android Studio projects the `awsconfiguration.json` are placed in the `./src/main/res/raw` directory when using the CLI. If you are building an application and starting from the AWS AppSync console, choose the **Download Config** button on the **App Integration** page to download the `awsconfiguration.json` file, which is already populated for that specific API. You need to place it in the `./src/main/res/raw`.
+### Configuration
+
+The AWS SDKs support configuration through a centralized file called `awsconfiguration.json` that defines your AWS regions and service endpoints. You obtain this file in one of two ways, depending on whether you are creating your AppSync API in the AppSync console or using the Amplify CLI.
+
+* If you are creating your API in the console, navigate to the `Getting Started` page, and follow the steps in the `Integrate with your app` section. The `awsconfiguration.json` file you download is already populated for your specific API. Place the file in the `./src/main/res/raw` directory of your Android Studio project for code generation.
+
+* If you are creating your API with the Amplify CLI (using `amplify add api`), the `awsconfiguration.json` file is automatically downloaded and updated each time you run `amplify push` to update your cloud resources. The file is placed in the `./src/main/res/raw` directory of your Android Studio project.
 
 ### Code Generation
 
-To execute GraphQL operations in Android you need to run a code generation process, which requires both the GraphQL schema and the statements (for example, queries, mutations, or subscriptions) that your client defines. The Amplify CLI toolchain makes this easy for you by automatically pulling down your schema and generating default GraphQL queries, mutations, and subscriptions before kicking off the code generation process using Gradle. If your client requirements change, you can alter these GraphQL statements and kick off a Gradle build again to regenerate the types. Install the CLI with the following command:
+To execute GraphQL operations in Android you need to run a code generation process, which requires both the GraphQL schema and the statements (for example, queries, mutations, or subscriptions) that your client defines. The Amplify CLI toolchain makes this easy for you by automatically pulling down your schema and generating default GraphQL queries, mutations, and subscriptions before kicking off the code generation process using Gradle. If your client requirements change, you can alter these GraphQL statements and kick off a Gradle build again to regenerate the types.
+
+#### AppSync APIs Created in the Console
+
+After installing the Amplify CLI open a terminal, go to your Android Studio project root, and then run the following:
 
 ```bash
-    npm install -g @aws-amplify/cli
-```
-
-Next, open a terminal, go to your Android Studio project root, and then run the following:
-
-```bash
-    amplify init
-    amplify add codegen --apiId XXXXXX
+amplify init
+amplify add codegen --apiId XXXXXX
 ```
 
 The `XXXXXX` is the unique AppSync API identifier that you can find in the console in the root of your API's integration page. When you run this command you can accept the defaults, which create a `./src/main.graphql` folder structure with your statements. When you add the required Gradle dependencies later, the generated packages are automatically added to your project.
+
+#### AppSync APIs Created Using the CLI
+
+Navigate in your terminal to an Android Studio project directory and run the following:
+
+```terminal
+$amplify init     ## Select Android as your platform
+$amplify add api  ## Select GraphQL, API key, "Single object with fields Todo application"
+```
+Select *GraphQL* when prompted for service type:
+
+```terminal
+? Please select from one of the below mentioned services (Use arrow keys)
+❯ GraphQL
+  REST
+```
+
+The `add api` flow above will ask you some questions, such as if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code examples below. Later on, you can always change it.
+
+Name your GraphQL endpoint and select authorization type:
+
+```terminal
+? Please select from one of the below mentioned services GraphQL
+? Provide API name: myTodosApi
+? Choose an authorization type for the API (Use arrow keys)
+❯ API key
+  Amazon Cognito User Pool
+```
+
+AWS AppSync API keys expire seven days after creation, and using API KEY authentication is only suggested for development. To change AWS AppSync authorization type after the initial configuration, use the `$ amplify update api` command and select `GraphQL`.
+{: .callout .callout--info}
+
+When you update your backend with *push* command, you can go to [AWS AppSync Console](http://console.aws.amazon.com/appsync/home) and see that a new API is added under *APIs* menu item:
+
+```bash
+$ amplify push
+```
+
+The `amplify push` process will prompt you to enter the codegen process and walk through configuration options. Accept the defaults and it will create a `./src/main.graphql` folder structure with your documents. You also will have an `awsconfiguration.json` file that the AppSync client will use for initialization. At any time you can open the AWS console for your new API directly by running the following command:
+
+```terminal
+$ amplify console api
+> GraphQL               ##Select GraphQL
+```
+
+This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
 
 ### Import SDK and Config
 
@@ -107,7 +161,7 @@ Inside your application code, such as the `onCreate()` lifecycle method of your 
     }
 ```
 
-This reads configuration information in the `awsconfiguration.json` file. By default, the information in the `Default` section of the json file is used.
+`AWSConfiguration()` reads configuration information in the `awsconfiguration.json` file. By default, the information in the `Default` section of the json file is used.
 
 ### Run a Query
 
@@ -196,85 +250,390 @@ Finally, it's time to set up a subscription to real-time data. The callback is j
 
 Subscriptions can also take input types like mutations, in which case they will be subscribing to particular events based on the input. To learn more about subscription arguments, see [Real-Time data](./aws-appsync-real-time-data).
 
+### Background Tasks
+
+All GraphQL operations in the Android client are automatically run as asynchronous tasks and can be safely called from any thread. If you have a need to run GraphQL operations from a background thread you can do it with a `Runnable()` like the example below:
+
+```java
+final CountDownLatch mCountDownLatch = new CountDownLatch(1);
+        
+new Thread(new Runnable() {
+    @Override
+    public void run() {
+        Looper.prepare();
+
+        //Prepare GraphQL operation...
+        AddPostMutation addPostMutation = AddPostMutation.builder().input(createPostInput).build();
+
+        awsAppSyncClient
+            .mutate(addPostMutation)
+            .enqueue(new GraphQLCall.Callback<AddPostMutation.Data>() {
+                @Override
+                public void onResponse(@Nonnull final Response<AddPostMutation.Data> response) {
+                    addPostMutationResponse = response;
+                    mCountDownLatch.countDown();
+                    if (Looper.myLooper() != null) {
+                        Looper.myLooper().quit();
+                    }
+                }
+
+                @Override
+                public void onFailure(@Nonnull final ApolloException e) {
+                    e.printStackTrace();
+                    //Set to null to indicate failure
+                    addPostMutationResponse = null;
+                    mCountDownLatch.countDown();
+                    if (Looper.myLooper() != null) {
+                        Looper.myLooper().quit();
+                    }
+                }
+            });
+        
+        Looper.loop();
+
+    }
+}).start();
+
+try {
+    mCountDownLatch.await(60, TimeUnit.SECONDS);
+} catch (InterruptedException iex) {
+    iex.printStackTrace();
+}
+```
+
+### Client Architecture
+
+The AppSync client supports offline scenarios with a programing model that provides a "write through cache". This allows you to both render data in the UI when offline as well as add/update through an "optimistic response". The below diagram shows how the AppSync client interfaces with the network GraphQL calls, it's offline mutation queue, the Apollo cache, and your application code.
+
+![Image]({{media_base}}/appsync-architecture.png)
+
+
+Your application code will interact with the AppSync client to perform GraphQL queries, mutations, or subscriptions. The AppSync client automatically performs the correct authorization methods when interfacing with the HTTP layer adding API Keys, tokens, or signing requests depending on how you have configured your setup. When you do a mutation, such as adding a new item (like a blog post) in your app the AppSync client adds this to a local queue (persisted to disk with SQLite) when the app is offline. When network connectivity is restored the mutations are sent to AppSync in serial allowing you to process the responses one by one. 
+
+Any data returned by a query is automatically written to the Apollo Cache (e.g. “Store”) that is persisted to disk via SQLite. The cache is structured as a key value store using a reference structure. There is a base “Root Query” where each subsequent query resides and then references their individual item results. You specify the reference key (normally “id”) in your application code. An example of the cache that has stored results from a “listPosts” query and “getPost(id:1)” query is below.
+
+| Key | Value |
+| ROOT_QUERY | [ROOT_QUERY.listPosts, ROOT_QUERY.getPost(id:1)]
+| ROOT_QUERY.listPosts | {0, 1, …,N} |
+| Post:0 |{author:"Nadia", content:"ABC"} |
+| Post:1 | {author:"Shaggy", content:"DEF"} |
+| ... | ... |
+| Post:N | {author:"Pancho", content:"XYZ"} |
+| ROOT_QUERY.getPost(id:1) |ref: $Post:1 |
+
+Notice that the cache keys are normalized where the `getPost(id:1)` query references the same element that is part of the `listPosts` query. This happens automatically on Android by using `id` as a common cache key to uniquely identify the objects. You can choose to change the cache key with the `.resolver()` method when creating the `AWSAppSyncClient`:
+
+```java
+AWSAppSyncClient.builder()
+    .context(context)
+    .awsConfiguration(awsConfiguration)
+    .resolver(new CacheKeyResolver() {
+        @Nonnull
+        @Override
+        public CacheKey fromFieldRecordSet(@Nonnull ResponseField field, @Nonnull Map<String, Object> recordSet) {
+            return (CacheKey) recordSet.get("myKey");   //Use "mykey" instead as your cache key
+        }
+
+        @Nonnull
+        @Override
+        public CacheKey fromFieldArguments(@Nonnull ResponseField field, @Nonnull Operation.Variables variables) {
+            return (CacheKey) field.resolveArgument("id", variables);
+        }
+    })
+.build();
+```
+
+If you are performing a mutation, you can write an “optimistic response” anytime to this cache even if you are offline. You use the AppSync client to connect by passing in the query to update, reading the items off the cache. This normally returns a single item or list of items, depending on the GraphQL response type of the query to update. At this point you would add to the list, remove, or update it as appropriate and write back the response to the store persisting it to disk. When you reconnect to the network any responses from the service will overwrite the changes as the authoritative response.
+
+
+#### Offline Mutations
+
+As outlined in the architecture section, all query results are automatically persisted to disc with the AppSync client. For updating data through mutations when offline you will need to use an "optimistic response" by writing directly to the store. This is done by querying the store directly with `client.query().responseFetcher()` and passing in `AppSyncResponseFetchers.CACHE_ONLY` to pull the records for a specific query that you wish to update.
+
+For example, the below code shows how you would update the `CreateTodoMutation` mutation from earlier by creating a `optimisticWrite(CreateTodoInput createTodoInput)` helper method that has the same input. This adds an item to the cache by first adding query results to a local array with `items.addAll(response.data().listTodos().items())` followed by the individual update using `items.add()`. You commit the record with `client.getStore().write()`. This example uses a locally generated unique identifier which might be enough for your app, however if the AppSync response returns a different value for `ID` (which many times is the case as best practice is generation of IDs at the service layer) then you will need to replace the value locally when a response is received. this can be done in the `onResponse()` method of the top level mutation callback by again querying the store, removing the item and calling `client.getStore().write()`.
+
+```java
+    private void optimisticWrite(CreateTodoInput CreateTodoInput){
+        final CreateTodoMutation.CreateTodo expected =
+                new CreateTodoMutation.CreateTodo(
+                        "Pet",                          //GraphQL Type name
+                        UUID.randomUUID().toString(),
+                        createTodoInput.name(),
+                        createTodoInput.description());
+
+        final AWSAppSyncClient client = ClientFactory.appSyncClient();
+        final ListTodosQuery listTodosQuery = ListTodosQuery.builder().build();
+
+        client.query(listTodosQuery).responseFetcher(AppSyncResponseFetchers.CACHE_ONLY)
+                .enqueue(new GraphQLCall.Callback<ListTodosQuery.Data>() {
+                    @Override
+                    public void onResponse(@Nonnull Response<ListTodosQuery.Data> response) {
+                        //Populate a copy of the query in the cache
+                        List<ListTodosQuery.Item> items = new ArrayList<>();
+                        if(response.data() != null){
+                            items.addAll(response.data().listTodos().items());
+                        }
+
+                        //Add the newly created item to the cache copy
+                        items.add(new ListTodosQuery.Item(expected.__typename(),
+                                expected.id(), expected.name(), expected.description()));
+
+                        //Overwrite the cache with the new results
+                        ListTodosQuery.Data data = new ListTodosQuery.Data(new ListTodosQuery.ListTodos(
+                                "ModelPetConnection", items, null
+                        ));
+
+                            client.getStore().write(listTodosQuery, data).enqueue(null);
+                            Log.i(TAG, "Successfully added item to local store");
+                    }
+
+                    @Override
+                    public void onFailure(@Nonnull ApolloException e) {
+                        Log.e(TAG, "Failed to add item ", e);
+                    }
+                });
+    }
+```
+
+Usage in your application would be like the following:
+
+```java
+CreateTodoInput createTodoInput = CreateTodoInput.builder().
+    name("Use AppSync").
+    description("Realtime and Offline").
+    build();
+
+mAWSAppSyncClient.mutate(CreateTodoMutation.builder().input(createTodoInput).build())
+    .enqueue(mutationCallback);
+
+optimisticWrite(createTodoInput);
+```
+
+You might add similar code in your app for updating or deleting items using an optimistic response, it would look largely similar except that you might overwrite or remove an element from the `response.data().listTodos().items()` array. A recommended best practice would be to create similar overloaded methods for `optimisticWrite(UpdateTodoInput updateTodoInput)` and `optimisticWrite(DeleteTodoInput deleteTodoInput)`. 
+
+### Authentication Modes
+
+For client authorization AppSync supports API Keys, Amazon IAM credentials (we recommend using Amazon Cognito Identity Pools for this option), Amazon Cognito User Pools, and 3rd party OIDC providers. This is inferred from the `awsconfiguration.json` when you call `.awsConfiguration()` on the `AWSAppSyncClient` builder.
+
+#### API Key
+
+API Key is the easiest way to setup and prototype your application with AppSync. It's also a good option if your application is completely public. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials provided by Cognito Identity Pools, which also supports "Guest" access. See [the authentication section for more details](./authentication). For manual configuration, add the following snippet to your `awsconfiguration.json` file:
+
+```json
+{
+  "AppSync": {
+        "Default": {
+            "ApiUrl": "YOUR-GRAPHQL-ENDPOINT",
+            "Region": "us-east-1",
+            "ApiKey": "YOUR-API-KEY",
+            "AuthMode": "API_KEY"
+        }
+   }
+}
+```
+
+Add the following code to your app:
+
+```java
+private AWSAppSyncClient mAWSAppSyncClient;
+
+mAWSAppSyncClient = AWSAppSyncClient.builder()
+    .context(getApplicationContext())
+    .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+    .build();
+```
+
+#### Cognito User Pools
+
+Amazon Cognito User Pools is the most common service to use with AppSync when adding user Sign-Up and Sign-In to your application. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials with Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth` and can also automatically federate User Pools with Identity Pools. This allows you to have both User Pool credentials for AppSync and AWS credentials for S3. You can then use the `AWSMobileClient` for automatic credentials refresh [as outlined in the authentication section](./authentication). For manual configuration, add the following snippet to your `awsconfiguration.json` file:
+
+```json
+{
+  "CognitoUserPool": {
+        "Default": {
+            "PoolId": "POOL-ID",
+            "AppClientId": "APP-CLIENT-ID",
+            "AppClientSecret": "APP-CLIENT-SECRET",
+            "Region": "us-east-1"
+        }
+    },
+  "AppSync": {
+        "Default": {
+            "ApiUrl": "YOUR-GRAPHQL-ENDPOINT",
+            "Region": "us-east-1",
+            "AuthMode": "AMAZON_COGNITO_USER_POOLS"
+        }
+   }
+}
+```
+
+Add the following code to your app passing tokens from the `AWSMobileClient` to `cognitoUserPoolsAuthProvider()` like so:
+
+```java
+private AWSAppSyncClient mAWSAppSyncClient;
+
+mAWSAppSyncClient = AWSAppSyncClient.builder()
+    .context(getApplicationContext())
+    .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+    .cognitoUserPoolsAuthProvider(new CognitoUserPoolsAuthProvider() {
+        @Override
+        public String getLatestAuthToken() {
+            try {
+                return AWSMobileClient.getInstance().getTokens().getIdToken().getJWTToken();
+            } catch (Exception e){
+                Log.e("APPSYNC_ERROR", e.getLocalizedMessage());
+                return e.getLocalizedMessage();
+            }
+        }
+    }).build();
+```
+
+#### IAM
+
+When using AWS IAM in a mobile application you should leverage Amazon Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth`. You can then use the `AWSMobileClient` for automatic credentials refresh [as outlined in the authentication section](./authentication) For manual configuration, add the following snippet to your `awsconfiguration.json` file:
+
+```json
+{
+  "CredentialsProvider": {
+      "CognitoIdentity": {
+          "Default": {
+              "PoolId": "YOUR-COGNITO-IDENTITY-POOLID",
+              "Region": "us-east-1"
+          }
+      }
+  },
+  "AppSync": {
+    "Default": {
+          "ApiUrl": "YOUR-GRAPHQL-ENDPOINT",
+          "Region": "us-east-1",
+          "AuthMode": "AWS_IAM"
+     }
+   }
+}
+```
+
+Then pass the `AWSMobileClient` to `credentialsProvider()` like so:
+
+```java         
+private AWSAppSyncClient mAWSAppSyncClient;
+
+mAWSAppSyncClient = AWSAppSyncClient.builder()
+    .context(context)
+    .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+    .credentialsProvider(AWSMobileClient.getInstance())
+    .build();
+```
+
+#### OIDC
+
+If you are using a 3rd party OIDC provider you will need to configure it and manage the details of token refreshes yourself. Update the `awsconfiguration.json` file and code snippet as follows:
+
+```json
+{
+  "AppSync": {
+        "Default": {
+            "ApiUrl": "YOUR-GRAPHQL-ENDPOINT",
+            "Region": "us-east-1",
+            "AuthMode": "OPENID_CONNECT"
+        }
+   }
+}
+```
+
+Add the following code to your app (`MyOIDCAuthProvider` is just for example purposes):
+
+```java
+private AWSAppSyncClient mAWSAppSyncClient;
+
+mAWSAppSyncClient = AWSAppSyncClient.builder()
+    .context(context)
+    .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+    .oidcAuthProvider(new OidcAuthProvider() {
+        @Override
+        public String getLatestAuthToken() {
+            return MyOIDCAuthProvider();
+        }
+    })
+    .build();
+
+private static String MyOIDCAuthProvider(){
+    // Fetch the JWT token string from OIDC Identity provider
+    // after the user is successfully signed-in
+    return "token";
+}
+```
+
 ## REST API
 
 ### Overview
 
-Add RESTful APIs handled by your serverless Lambda functions. The CLI deploys your APIs and handlers using [Amazon API Gateway](http://docs.aws.amazon.com/apigateway/latest/developerguide/) and [AWS Lambda](http://docs.aws.amazon.com/lambda/latest/dg/).
+The Amplify CLI deploys REST APIs and handlers using [Amazon API Gateway](http://docs.aws.amazon.com/apigateway/latest/developerguide/) and [AWS Lambda](http://docs.aws.amazon.com/lambda/latest/dg/).
+
+The API category will perform SDK code generation which, when used with the `AWSMobileClient` can be used for creating signed requests for Amazon API Gateway when the service Authorization is set to `AWS_IAM` or when using a [Cognito User Pools Authorizer](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html).
+
+See [the authentication section for more details](./authentication) for using the `AWSMobileClient` in your application.
 
 ### Set Up Your Backend
 
-1. Complete the [Get Started](./get-started) steps before you proceed.
+In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`), and add the SDK to your app. 
 
-2. Use the CLI to add api to your cloud-enabled backend and app.
+```terminal
+$ cd ./YOUR_PROJECT_FOLDER
+$ amplify add api
+```
 
- In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`), and add the SDK to your app. Note that the friendly name that specified for the `api` category will be the package name of the generated code.
+When prompted select the following options:
 
-	```bash
-	$ cd ./YOUR_PROJECT_FOLDER
-	$ amplify add api
-	```
+```terminal
+$ > REST
+$ > Create a new Lambda function
+$ > Serverless express function
+$ > Restrict API access? Yes
+$ > Who should have access? Authenticated and Guest users
+```
 
-3. Choose `> REST` as your API service.
+When configuration of your API is complete, the CLI displays a message confirming that you have configured local CLI metadata for this category. You can confirm this by running `amplify status`. Finally deploy your changes to the cloud:
 
-4. Choose `> Create a new Lambda function`.
+```terminal
+$ amplify push
+```
 
-5. Choose the `> Serverless express function` template.
-
-6. Restrict API access? Choose `Yes`
-
-7. Who should have access? Choose `Authenticated and Guest users`
-
-8. When configuration of your API is complete, the CLI displays a message confirming that you have configured local CLI metadata for this category. You can confirm this by viewing status.
-
-    ```bash
-    $ amplify status
-    | Category  | Resource name   | Operation | Provider plugin   |
-    | --------- | --------------- | --------- | ----------------- |
-    | Function  | lambda01234567  | Create    | awscloudformation |
-    | Api       | api012345678    | Create    | awscloudformation |
-    ```
-
-9. To create your backend AWS resources run:
-
-    ```bash
-    $ amplify push
-    ```
-
-   Use the steps in the next section to connect your app to your backend.
+Once the deployment completes a folder with the name of your API's resource name will be created in `./src/main/java`. This is the client SDK with the models you will import and use in the `ApiClientFactory()` builder from your code in the following sections. 
 
 ### Connect to Your Backend
 
-Use the following steps to add Cloud Logic to your app.
+Add the following to your `app/build.gradle`:
 
-<div id="java" class="tab-content current">
-1. Add the following to your `app/build.gradle`:
 
-	```groovy
+```groovy
 	dependencies {
-		implementation 'com.amazonaws:aws-android-sdk-apigateway-core:2.6.+'
-		implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.6.+@aar') { transitive = true }
-		implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.6.+@aar') { transitive = true }
+		implementation 'com.amazonaws:aws-android-sdk-apigateway-core:2.8.+'
+		implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
+		implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.8.+@aar') { transitive = true }
 	}
-	```
+```
 
-2. Get your API client name.
+Build your project. Next, you will need to import the client that was generated in `./src/main/java` when you ran `amplify push`. For example, an app named `useamplify` with an API resource named `xyz123`, the path of the code file will be `./src/main/java/xyz123/useamplifyabcdClient.java`. The API client name will be `useamplifyabcdClient`. You would have the following entries in your code:
 
-    The CLI generates a client code file for each API you add. The API client name is the name of that file, without the extension.
 
-    The path of the client code file is `./src/main/java/YOUR_API_RESOURCE_NAME/YOUR_APP_NAME_XXXXClient.java`.
+```java
+import YOUR_API_RESOURCE_NAME.YOUR_APP_NAME_XXXXClient;
 
-    So, for an app named `useamplify` with an API resource named `xyz123`, the path of the code file will be `./src/main/java/xyz123/useamplifyabcdClient.java`. The API client name will be `useamplifyabcdClient`.
+private YOUR_APP_NAME_XXXXClient apiClient;
 
-    - Find the resource name of your API by running `amplify status`.
-    - Copy your API client name to use when invoking the API in the following step.
+apiClient = new ApiClientFactory()
+    .credentialsProvider(AWSMobileClient.getInstance().getCredentialsProvider())
+    .build(YOUR_API_CLIENT_NAME.class);
+```
 
-3. Invoke a Cloud Logic API.
+Find the resource name of your API by running `amplify status`. Copy your API client name to use when invoking the API in the following sections.
 
-    The following code shows how to invoke a Cloud Logic API using your API's client class,
-    model, and resource paths.
+#### IAM authorization
 
-    ```java
+To invoke an API Gateway endpoint from your application, import the generated client as outlined in the last section and use the generated client class, model, and resource paths as in the below example with `YOUR_API_RESOURCE_NAME.YOUR_APP_NAME_XXXXClient`, `YOUR_APP_NAME_XXXXClient`, and `YOUR_API_CLIENT_NAME` replaced appropriately. For AWS IAM authorization use the `AWSMobileClient` as outlined in [the authentication section](./authentication).
+
+
+```java
     import android.support.v7.app.AppCompatActivity;
     import android.os.Bundle;
     import android.util.Log;
@@ -318,13 +677,13 @@ Use the following steps to add Cloud Logic to your app.
 
             // Create the client
             apiClient = new ApiClientFactory()
-                    .credentialsProvider(AWSMobileClient.getInstance().getCredentialsProvider())
+                    .credentialsProvider(AWSMobileClient.getInstance())
                     .build(YOUR_API_CLIENT_NAME.class);
 
-            callCloudLogic();
+            doInvokeAPI();
         }
 
-        public void callCloudLogic() {
+        public void doInvokeAPI() {
             // Create components of api request
             final String method = "GET";
             final String path = "/items";
@@ -384,107 +743,46 @@ Use the following steps to add Cloud Logic to your app.
             }).start();
         }
       }
-    ```
-</div>
-<div id="kotlin" class="tab-content">
-1. Add the following to your `app/build.gradle`:
+```
 
-	```groovy
-	dependencies {
-		implementation 'com.amazonaws:aws-android-sdk-apigateway-core:2.6.+'
-		implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.6.+@aar') { transitive = true }
-		implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.6.+@aar') { transitive = true }
-	}
-	```
+#### Cognito User Pools authorization
 
-2. Get your API client name.
+When invoking an API Gateway endpoint with Cognito User Pools authorizer, you can leverage the `AWSMobileClient` to dynamically refresh and pass tokens to your endpoint. Using the example from the previous section, update the `doInvokeAPI()` so that it takes a "token" string argument like `doInvokeAPI(String token)`. Next, add a header for the token to be passed with `.addHeader("Authorization", token)` and set the service configuration to have `credentialsProvider(null)`. Finally, overload the `doInvokeAPI()` with a new definition that gets the Cognito User Pools token from the `AWSMobileClient` as below:
 
-    The CLI generates a client code file for each API you add. The API client name is the name of that file, without the extension.
+```java
+//Pass in null for credentialsProvider
+apiClient = new ApiClientFactory()
+    .credentialsProvider(null)
+    .build(YOUR_API_CLIENT_NAME.class);
 
-    The path of the client code file is `./src/main/java/YOUR_API_RESOURCE_NAME/YOUR_APP_NAME_XXXXClient.java`.
-
-    So, for an app named `useamplify` with an API resource named `xyz123`, the path of the code file will be `./src/main/java/xyz123/useamplifyabcdClient.java`. The API client name will be `useamplifyabcdClient`.
-
-    - Find the resource name of your API by running `amplify status`.
-    - Copy your API client name to use when invoking the API in the following step.
-
-3. Invoke a Cloud Logic API.
-
-    The following code shows how to invoke a Cloud Logic API using your API's client class,
-    model, and resource paths.
-
-    ```kotlin
-    import android.os.Bundle
-    import android.support.v7.app.AppCompatActivity
-    import android.util.Log
-    import com.amazonaws.http.HttpMethodName
-    import com.amazonaws.mobile.client.AWSMobileClient
-    import com.amazonaws.mobileconnectors.apigateway.ApiClientFactory
-    import com.amazonaws.mobileconnectors.apigateway.ApiRequest
-    import com.amazonaws.util.IOUtils
-    import com.amazonaws.util.StringUtils
-
-    // TODO Replace this with your api friendly name and client class name
-    import YOUR_API_RESOURCE_NAME.YOUR_APP_NAME_XXXXClient
-    import kotlin.concurrent.thread
-
-    class MainActivity : AppCompatActivity() {
-        companion object {
-            private val TAG = MainActivity.javaClass.simpleName
+//New overloaded function that gets Cognito User Pools tokens
+public void doInvokeAPI(){
+    AWSMobileClient.getInstance().getTokens(new Callback<Tokens>() {
+        @Override
+        public void onResult(Tokens tokens) {
+            doInvokeAPI(tokens.getIdToken().toString());
         }
 
-        // TODO Replace this with your client class name
-        private var apiClient: YOUR_APP_NAME_XXXXClient? = null
-
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            setContentView(R.layout.activity_main)
-
-            // Initialize the AWS Mobile Client
-            AWSMobileClient.getInstance().initialize(this) { Log.d(TAG, "AWSMobileClient is instantiated and you are connected to AWS!") }.execute()
-
-            // Create the client
-            apiClient = ApiClientFactory().credentialsProvider(AWSMobileClient.getInstance().credentialsProvider)
-                    // TODO Replace this with your client class name
-                    .build(YOUR_APP_NAME_XXXXClient::class.java)
-
-            callCloudLogic()
+        @Override
+        public void onError(Exception e) {
+            e.printStackTrace();
         }
+    });
+}
 
-        fun callCloudLogic() {
-            val body = ""
+//Updated function with arguments and code updates
+public void doInvokeAPI(String token) {
 
-            val parameters = mapOf("lang" to "en_US")
-            val headers = mapOf("Content-Type" to "application/json")
+ApiRequest localRequest =
+    new ApiRequest(apiClient.getClass().getSimpleName())
+        .withPath(path)
+        .withHttpMethod(HttpMethodName.valueOf(method))
+        .withHeaders(headers)
+        .addHeader("Content-Type", "application/json")
+        .addHeader("Authorization", token)              //Use JWT token
+        .withParameters(parameters);
 
-            val request = ApiRequest(apiClient?.javaClass?.simpleName)
-                    .withPath("/items")
-                    .withHttpMethod(HttpMethodName.GET)
-                    .withHeaders(headers)
-                    .withParameters(parameters)
+}
+```
 
-            if (body.isNotEmpty()) {
-                val content = body.toByteArray(StringUtils.UTF8)
-                request.addHeader("Content-Length", content.size.toString())
-                        .withBody(content)
-            }
-
-            thread(start = true) {
-                try {
-                    Log.d(TAG, "Invoking API")
-                    val response = apiClient?.execute(request)
-                    val responseContentStream = response?.getContent()
-                    if (responseContentStream != null) {
-                        val responseData = IOUtils.toString(responseContentStream)
-                        // Do something with the response data here
-                        Log.d(TAG, "Response: $responseData")
-                    }
-                } catch (ex: Exception) {
-                    Log.e(TAG, "Error invoking API")
-                }
-            }
-        }
-    }
-
-    ```
-</div>
+You can then invoke this method with `doInvokeAPI()` from your application code and it will pass the IdToken from Cognito User Pools as an `Authorization` header.

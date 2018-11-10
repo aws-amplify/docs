@@ -1,3 +1,6 @@
-<meta http-equiv="refresh" content="0; URL='https://aws-amplify.github.io/media/get_started'" />
+---
+# Page settings
+layout: index
+keywords:
 
-Redirecting to getting started...
+---

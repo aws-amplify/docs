@@ -22,13 +22,6 @@ See [Authentication](./authentication) for more information on how to get the `u
 
 2. Use the CLI to add storage to your cloud-enabled backend and app.
 
-    In a terminal window, navigate to your project folder (the folder that typically contains your project level build.gradle), and add the SDK to your app.
-
-    ```bash
-    $ cd ./YOUR_PROJECT_FOLDER
-    $ amplify add storage
-    ```
-
     In a terminal window, navigate to your project folder (the folder that contains your app `.xcodeproj` file), and add the SDK to your app.
 
     ```bash
@@ -74,7 +67,7 @@ Use the following steps to add file storage backend services to your app.
     target :'YOUR-APP-NAME' do
         use_frameworks!
 
-        pod 'AWSS3', '~> 2.6.33'   # For file transfers
+        pod 'AWSS3', '~> 2.7.0'   # For file transfers
 
         # other pods . . .
     end
@@ -379,7 +372,7 @@ When an app that has initiated a transfer restarts (if it has been terminated by
 
 Though it can be called anywhere in the app, we recommend that you instantiate the AWSS3TransferUtility in the ``appDidFinishLaunching`` lifecycle method. 
 
-### Manage a Transfer when a Suspended App Returns to the Foreground**
+### Manage a Transfer when a Suspended App Returns to the Foreground
 
 When an app that has initiated a transfer becomes suspended and then returns to the foreground, the transfer may still be in progress or may have completed. In both cases, use the following code to re-establish the progress and completion handler blocks of the app.
 
@@ -441,7 +434,7 @@ transferUtility.uploadUsingMultiPart(data:data,
 Note: Please review the documentation for [API](./api) before you proceed with the rest of this section. 
 {: .callout .callout--info}
 
-You can also upload and download Amazon S3 Objects using AWS AppSync, a GraphQL based solution to build data-driven apps with real-time and offline capabilities. Many times you might want to create logical objects that have more complex data, such as images or videos, as part of their structure.  _For example, you might create a Person type with a profile picture or a Post type that has an associated image_. You can use AWS AppSync to model these as GraphQL types. If any of your mutations have a variable with bucket, key, region, mimeType, and localUri fields, the SDK uploads the file to Amazon S3 for you.
+You can also upload and download Amazon S3 Objects using AWS AppSync, a GraphQL based solution to build data-driven apps with real-time and offline capabilities. Sometimes you might want to create logical objects that have more complex data, such as images or videos, as part of their structure.  _For example, you might create a Person type with a profile picture or a Post type that has an associated image_. You can use AWS AppSync to model these as GraphQL types. If any of your mutations have a variable with bucket, key, region, mimeType, and localUri fields, the SDK uploads the file to Amazon S3 for you.
 
 Update your schema as follows to add the S3Object and S3ObjectInput types for the file, and a new mutation named CreatePostWithFileInputMutation:
 ```
@@ -661,8 +654,8 @@ The AWS AppSync SDK doesn't take a direct dependency on the AWS SDK for iOS for 
 ```
   target 'PostsApp' do
     use_frameworks!
-    pod 'AWSAppSync' ~> '2.6.18'
-    pod 'AWSS3' ~> '2.6.27'
+    pod 'AWSAppSync' ~> '2.6.23'
+    pod 'AWSS3' ~> '2.7.0'
   end
 ```
 Then run `pod install` to fetch the new dependency.
@@ -767,7 +760,7 @@ AWSS3PreSignedURLBuilder.default().getPreSignedURL(getPreSignedURLRequest).conti
 }
 ```
 
-## A note on Transfer Utility and Pre-Signed URLS 
+## Note on Transfer Utility and Pre-Signed URLS 
 
 The TransferUtility generates Amazon S3 pre-signed URLs to use for background data transfer. The best practice is to use Amazon Cognito for credentials with Transfer Utility. With Amazon Cognito Identity, you receive AWS temporary credentials that are valid for up to 60 minutes. The pre-signed URLs built using these credentials are bound by the same time limit, after which the URLs will expire. 
 

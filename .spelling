@@ -118,7 +118,11 @@ authorizer
 xyz123useamplifyabcdClient.swift
 Client.swift
 YOUR_API_RESOURCE_NAME
-
+enqueued
+xcodeproj
+png
+jpg
+UIColor
 
 # js/tutorials/building-ionic-4-apps/index.md
 home.page.ts
@@ -282,6 +286,8 @@ async
 X-Amz-Date
 X-Api-Key
 X-Amz-Security-Token
+APIService
+Appsync
 
 # js/analytics.md
 Kinesis
@@ -402,13 +408,100 @@ appcompat
 AWSMobileClient
 app_id
 logic_protocol_scheme
+xml
+IdentityManager
+PoolId
+XX-XXXX-X
+XXXXXXXX-XXXX-1234-abcd-1234567890ab
+XX-XXXX-X_abcd1234
+AppClientId
+AppClientSecret
+AWSMobileClient.getInstance
+getApplicationContext
+onResult
+UserStateDetails
+userStateDetails
+userStateDetails.getUserState
+SIGNED_IN
+SIGNED_OUT
+runOnUiThread
+TextView
+textView
+findViewById
+R.id.text
+textView.setText
+NextActivity
+showSignIn
+NextActivity.class
+SignInUIConfiguration.builder
+logoImage
+R.id.logo
+backgroundColor
+R.color.black
+canCancel
+getInput
+R.id.signUpUsername
+R.id.signUpPassword
+HashMap
+attributes.put
+SignUpResult
+signUpResult
+signUpResult.getConfirmationState
+UserCodeDeliveryDetails
+signUpResult.getUserCodeDeliveryDetails
+makeToast
+R.id.confirmSignUpUsername
+R.id.confirmSignUpCode
+Log.d
+Log.i
+details.getDestination
+confirmSignUp
+resendSignUp
+your_username
+getDeliveryMedium
+SignInResult
+signInResult
+signInResult.GetSignInState
+SMS_MFA
+NEW_PASSWORD_REQUIRED
+getUsername
+isLoggedIn
+getIdentityId
+getTokens
+getIdToken
+getJWTToken
+getCredentials
+federatedSignIn
+IdentityProviders.FACEBOOK.toString
+FACEBOOK_TOKEN_HERE
+signInResult.getSignInState
+confirmSignIn
+signInChallengeResponse
+UserState
+userState
+savedInstanceState
+YOUR_PROJECT_FOLDER
+amazonaws
+fb1231231231232123123
+android.app.Activity
+android.os.Bundle
+com.amazonaws.mobile.auth.ui.SignInUI
+com.amazonaws.mobile.client.AWSMobileClient
+com.amazonaws.mobile.client.AWSStartupHandler
+com.amazonaws.mobile.client.AWSStartupResult
+AuthenticatorActivity
+super.onCreate
+setContentView
+R.layout.activity_authenticator
+SignInUIOptions.builder
+isSignedIn
 
 # android/how-to-android-kinesis-data-stream.md
 PutRecord
 enum
 MiB
 
-# android/how-to-android-sdk-setup.md
+# android/manualsetup.md
 aws-android-sdk-apigateway-core
 aar
 aws-android-sdk-auth-core
@@ -524,13 +617,38 @@ AWSS3ServerSideEncryption
 _Identity
 _Granting
 
-# ios/how-to-ios-sdk-setup.md
+# ios/manualsetup.md
 Cocoapods
 aws-sdk-ios
 CocoaLumberjack
 AWSCore
 DocSets
 macOS
+AWSAuth 
+AWSAuthCore 
+AWSAuthUI 
+AWSAutoScaling 
+AWSCloudWatch 
+AWSCognito 
+AWSCognitoAuth 
+AWSCognitoIdentityProvider 
+AWSCognitoIdentityProviderASF 
+AWSDynamoDB 
+AWSElasticLoadBalancing 
+AWSFacebookSignIn 
+AWSGoogleSignIn 
+AWSIoT 
+AWSKinesis 
+AWSLambda 
+AWSLex 
+AWSLogs 
+AWSMachineLearning 
+AWSPinpoint 
+AWSPolly 
+AWSRekognition 
+AWSSimpleDB 
+AWSUserPoolsSignIn
+v2.7
 
 # ios/how-to-transfer-files-with-transfer-utility.md
 AbortIncompleteMultipartUpload
@@ -623,3 +741,6 @@ MY_BUCKET
 OBJECT_KEY
 MY_FILE
 KMS-generated
+
+# android/auth-google-setup.md
+keystore

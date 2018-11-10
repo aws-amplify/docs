@@ -7,17 +7,27 @@
 
 Collecting analytics data for your app can be accomplished with [Amazon Pinpoint](#using-amazon-pinpoint) and [Amazon Kinesis](#using-amazon-kinesis).
 
-Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start).
+Ensure you have [installed and configured the Amplify CLI and library](https://aws-amplify.github.io/media/get_started).
 {: .callout .callout--info}
 
 
 ## Using Amazon Pinpoint
 
-Gather the data that helps improve your app's usability, monetization, and engagement with your users. The CLI deploys your analytics backend using [Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html).
+Amazon Pinpoint is a fully managed AWS service that you can use to engage with your customers across multiple messaging channels using analytics captured from the device. You can send push notifications, emails, or text messages (SMS), depending on the purpose of your campaign. Features include:
+
+**Audience Segments** - You can define dynamic segments based on data that's reported by your application, such as operating system or mobile device type. You can also import static segments that you define outside of Amazon Pinpoint.
+
+**Messaging Campaigns** - A campaign sends tailored messages on a schedule that you define. You can create campaigns that send mobile push, email, or SMS messages. To experiment with alternative campaign strategies, set up your campaign as an A/B test, and analyze the results with Amazon Pinpoint analytics.
+
+**Transactional Messages** - Keep your customers informed by sending transactional mobile push and SMS messages—such as new account activation messages, order confirmations, and password reset notifications—to specific users.
+
+**Analyze User Behavior** - You can view trends about your users' level of engagement, purchase activity, and demographics. You can monitor your message traffic with metrics for messages sent and opened. Through the Amazon Pinpoint API, your application can report custom data, which Amazon Pinpoint makes available for analysis.
+
+The Amplify CLI helps setup and configure Pinpoint within your application and connect with the AWS Mobile SDK.
 
 ### Set Up Your Backend
 
-1. Complete the [Get Started](start) steps before you proceed.
+1. Complete the [Get Started](https://aws-amplify.github.io/docs/ios/start) steps before you proceed.
 
 2. Use the CLI to add analytics to your cloud-enabled backend and app.
 
@@ -59,8 +69,8 @@ platform :ios, '9.0'
 target 'YourAppName' do
     use_frameworks!
 
-    pod 'AWSPinpoint', '~> 2.6.33'
-    pod 'AWSMobileClient', '~> 2.6.33'
+    pod 'AWSPinpoint', '~> 2.7.0'
+    pod 'AWSMobileClient', '~> 2.7.0'
 
     # other pods
 
@@ -121,7 +131,7 @@ Build and run your app to see usage metrics in Amazon Pinpoint. When you run the
 
     ![getting-started-analytics]({{image_base}}/getting-started-analytics.png)
 
-    [Learn more about Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html).
+Analytics events can be grouped into segments, and you can engage your users more deeply by tying their app usage behavior to Push Notification, email, or SMS messaging campaigns. Read more about this in the [messaging section](./messaging) or [click here to learn more about Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html).
 
 ## Reporting Events in Your Application
 
@@ -291,7 +301,7 @@ For more information about Amazon Kinesis Firehose, see [Amazon Kinesis Firehose
 Add the following to your `Podfile`:
 
 ```ruby
-pod 'AWSKinesis', '~> 2.6.33'
+pod 'AWSKinesis', '~> 2.7.0'
 ```
 
 The instructions direct you to import the headers for the services you'll be using. For this example, you need the following import.
@@ -408,6 +418,6 @@ AWSTask(forCompletionOfAllTasks: tasks).continueOnSuccessWith(block: { (task:AWS
 
 To learn more about working with Amazon Kinesis, see the [Amazon Kinesis Developer Resources](http://aws.amazon.com/kinesis/developer-resources/).
 
-To learn more about the Amazon Kinesis classes, see the [class reference for AWSKinesisRecorder](https://aws.github.io/aws-sdk-ios/docs/reference/Classes/AWSKinesisRecorder.html).
+To learn more about the Amazon Kinesis classes, see the [class reference for AWSKinesisRecorder](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/Classes/AWSKinesisRecorder.html).
 
-To learn more about the Amazon Kinesis Firehose classes, see the [class reference for AWSFirehoseRecorder](https://aws.github.io/aws-sdk-ios/docs/reference/Classes/AWSFirehoseRecorder.html).
+To learn more about the Amazon Kinesis Firehose classes, see the [class reference for AWSFirehoseRecorder](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/Classes/AWSFirehoseRecorder.html).
