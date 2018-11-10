@@ -12,7 +12,7 @@ Use the drop-down menu at the top right of this page to choose the framework for
 
 ## Prerequisites 
 
-[Install and configure the Amplify CLI](/)
+[Install and configure the Amplify CLI](..)
 
 ## Step 1. Create a New App
 
