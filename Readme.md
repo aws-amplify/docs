@@ -1,4 +1,4 @@
-# AWS Amplify Documentation
+# Amplify Framework Documentation
 
 [![CircleCI](https://circleci.com/gh/aws-amplify/docs.svg?style=svg)](https://circleci.com/gh/aws-amplify/docs)
 
