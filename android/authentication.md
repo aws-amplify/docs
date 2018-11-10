@@ -128,6 +128,7 @@ Add the following permissions to the `AndroidManifest.xml` file:
 ```xml
 <uses-permission android:name="android.permission.INTERNET"/>
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+```
 
 Build your Android Studio project.
 
@@ -780,7 +781,7 @@ dependencies {
 }
 ```
 
-Create an activity that will present your sign-in screen.In Android Studio, choose `File > New > Activity > Basic Activity` and type an activity name, such as `AuthenticatorActivity`. If you want to make this your starting activity, move the intent filter block containing `.LAUNCHER` to the `AuthenticatorActivity` in your app's `AndroidManifest.xml`.
+Create an activity that will present your sign-in screen. In Android Studio, choose `File > New > Activity > Basic Activity` and type an activity name, such as `AuthenticatorActivity`. If you want to make this your starting activity, move the intent filter block containing `.LAUNCHER` to the `AuthenticatorActivity` in your app's `AndroidManifest.xml`.
 
 ```xml
 <activity android:name=".AuthenticatorActivity">
