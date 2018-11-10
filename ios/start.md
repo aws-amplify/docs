@@ -10,7 +10,7 @@ Build an iOS app using the AWS Amplify CLI and the AWS SDK for iOS. The Amplify 
 
 [Install Xcode](https://developer.apple.com/xcode/downloads/) version 9.2 or later.
 
-Install the Amplify CLI. If you have already installed the CLI, skip ahead to [Step 2](./add-aws-mobile-sdk-basic-setup).
+Install the Amplify CLI. If you have already installed the CLI, skip ahead to [Step 2](#step-2-set-up-your-backend).
 
 *  [Sign up for an AWS Account](https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start).
 
