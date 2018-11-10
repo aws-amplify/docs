@@ -146,7 +146,6 @@ Use the following steps to add analytics to your mobile app and monitor the resu
 	    pinpointManager.getAnalyticsClient().submitEvents();
 	}
 	```
-</div>
 
 #### Monitor Analytics
 
