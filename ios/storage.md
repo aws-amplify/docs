@@ -658,7 +658,7 @@ The AWS AppSync SDK doesn't take a direct dependency on the AWS SDK for iOS for 
 ```
   target 'PostsApp' do
     use_frameworks!
-    pod 'AWSAppSync' ~> '2.6.23'
+    pod 'AWSAppSync' ~> '2.6.24'
     pod 'AWSS3' ~> '2.7.0'
   end
 ```
