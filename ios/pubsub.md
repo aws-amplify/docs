@@ -1,5 +1,7 @@
 ---
+title: PubSub
 ---
+
 # PubSub
 
 PubSub provides connectivity with cloud-based message-oriented middleware. You can use PubSub to pass messages between your app instances and your app's backend creating real-time interactive experiences.
@@ -14,6 +16,22 @@ When using AWS IoT your PubSub HTTP requests are automatically signed when sendi
 ### AWS IoT
 
 When used with `AWSIoTDataManager`, PubSub is capable of signing request according to [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). 
+
+The `Podfile` that you configure to install the AWS Mobile SDK must contain the `AWSIoT` pod:
+
+```ruby
+    platform :ios, '9.0'
+
+    target :'YOUR-APP-NAME' do
+      use_frameworks!
+
+        pod  'AWSIoT', '~> 2.7.0'
+        # other pods
+
+    end
+```
+
+Run `pod install --repo-update` before you continue.
 
 To use in your app, import the following:
 
