@@ -105,7 +105,7 @@ Next, add the following methods before the component's `render` method as follow
     })
   }
 
- componentDidMount() {
+  componentDidMount() {
     Analytics.record('Amplify_CLI');
   }
 ```
