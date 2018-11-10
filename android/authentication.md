@@ -1,3 +1,6 @@
+---
+title: Authentication
+---
 {% if jekyll.environment == 'production' %}
   {% assign base_dir = site.amplify.docs_baseurl %}
 {% endif %}
@@ -253,15 +256,14 @@ The `AWSMobileClient` client supports a simple "drop-in" UI for your application
 
 ```java
 // 'this' refers the the current active activity
-// NextActivity is the screen users should see after signing-in
-AWSMobileClient.getInstance().showSignIn(this, NextActivity.class);
+AWSMobileClient.getInstance().showSignIn(this);
 ```
 
-In the above code you would have created an Android Activity called `NextActivity` which would automatically be nativated to upon successful sign-up and sign-in. For testing, you can alternatively just use `MainActivity.class` after initializing:
+In the above code you would have created an Android Activity called `NextActivity` which would automatically be navigated to upon successful sign-up and sign-in. For testing, you can alternatively just use `MainActivity.class` after initializing:
 
 ```java
-AWSMobileClient.getInstance().showSignIn(this, NextActivity.class, 
-    SignInUIOptions.builder().build(), 
+AWSMobileClient.getInstance().showSignIn(this, 
+    SignInUIOptions.builder().nextActivityClass(NextActivity.class).build(), 
     new Callback<UserStateDetails>() {
 
         @Override
@@ -296,12 +298,15 @@ Currently, you can change the following properties of the drop-in UI with the `A
 - Background Color: Any color Android supported
 
 ```java
-AWSMobileClient.getInstance().showSignIn(this, NextActivity.class, 
+AWSMobileClient.getInstance().showSignIn(
+    this,
     SignInUIOptions.builder()
-    .logoImage(R.id.logo)
-    .backgroundColor(R.color.black)
-    .canCancel(false)
-    .build());
+      .nextActivityClass(NextActivity.class)
+      .logoImage(R.id.logo)
+      .backgroundColor(R.color.black)
+      .canCancel(false)
+      .build()
+);
 ```
 
 You can allow the sign in process to be dismissed by setting the `canCancel` property. 

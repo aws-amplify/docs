@@ -1,5 +1,7 @@
 ---
+title: Messaging
 ---
+
 # Messaging
 
 Engage your users more deeply by tying their app usage behavior to Push Notification, email, or SMS messaging campaigns.
