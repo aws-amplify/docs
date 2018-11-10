@@ -394,23 +394,23 @@ category_list:
       subs:
         - title: Usage
           excerpt: Setup and Configure a Project with the CLI
-          url: '/cli/init/?sdk=js'
+          url: '/cli/init?sdk=js'
           icon: '/images/icons/Misc/Present.svg'
         - title: Architecture
           excerpt: CLI Architecture and Overview
-          url: '/cli/concept/?sdk=js'
+          url: '/cli/concept?sdk=js'
           icon: '/images/icons/Misc/Present.svg'
         - title: Hosting
           excerpt: Host your web project or static assets
-          url: '/cli/hosting/?sdk=js' 
+          url: '/cli/hosting?sdk=js' 
           icon: '/images/icons/Misc/Present.svg'
         - title: Codegen
           excerpt: Codegen for GraphQL
-          url: '/cli/codegen/?sdk=js' 
+          url: '/cli/codegen?sdk=js' 
           icon: '/images/icons/Misc/Present.svg'
         - title: Plugins
           excerpt: Create a new plugin for the CLI
-          url: '/cli/plugins/?sdk=js' 
+          url: '/cli/plugins?sdk=js' 
           icon: '/images/icons/Misc/Present.svg'
         - title: UI Components
           excerpt: User interface components
