@@ -43,7 +43,7 @@ apply plugin: 'com.amazonaws.appsync'
 
 dependencies {
     //Base SDK
-    implementation 'com.amazonaws:aws-android-sdk-core:2.7.+'
+    implementation 'com.amazonaws:aws-android-sdk-core:2.8.+'
     //AppSync SDK
     compile 'com.amazonaws:aws-android-sdk-appsync:2.6.+'
     compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
@@ -227,11 +227,12 @@ This will open the AWS AppSync console for you to run Queries, Mutations, or Sub
 
 What next? Here are some things to add to your app:
 
-* [Analytics](./analytics)
+
 * [Authentication](./authentication)
-* [Push Notification](./push-notifications)
 * [User File Storage](./storage)
 * [Serverless APIs](./api)
+* [Analytics](./analytics)
+* [Push Notification](./push-notifications)
 * [Messaging](./messaging)
 
 **Existing AWS Resources**

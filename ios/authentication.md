@@ -1,8 +1,7 @@
-
-
-**WARNING**
-
-**THIS IS PREVIEW DOCUMENTATION. NOT FOR PRODUCTION USE.**
+{% if jekyll.environment == 'production' %}
+  {% assign base_dir = site.amplify.docs_baseurl %}
+{% endif %}
+{% assign image_base = base_dir | append: page.dir | append: "images" %}
 
 # Authentication
 
@@ -29,10 +28,10 @@ The AWSMobileClient manages your application session for authentication related 
 - `isLoggedIn` property defined as a BOOLEAN for the most simple use cases
 - `currentUserState` used for more advanced scenarios, such as determining if the user has Guest credentials, Authenticated with User Pools, has Federated credentials, or has signed out.
 
-This allows you to write workflows in your application based on the state of the user and what you would like to present on different screens. The `AWSMobileClient` also offers realtime notifications on user state changes which you can register for in your application using `.addListener` as in the code below.
+This allows you to write workflows in your application based on the state of the user and what you would like to present on different screens. The `AWSMobileClient` also offers realtime notifications on user state changes which you can register for in your application using `.addUserStateListener` as in the code below.
 
 ```swift
-AWSMobileClient.sharedInstance().addListener(self) { (userState, info) in
+AWSMobileClient.sharedInstance().addUserStateListener(self) { (userState, info) in
             
             switch (userState) {
             case .guest:
@@ -61,7 +60,7 @@ The `AWSMobileClient` will return valid JWT tokens from your cache immediately i
 If the Refresh tokens have expired and you then make call to any AWS service, such as a AppSync GraphQL request or S3 upload, the `AWSMobileClient` will dispatch a state notification that a re-login is required. At this point you can choose to present the user with a login screen, call `AWSMobileClient.sharedInstance().signIn()`, or perform custom business logic. For example:
 
 ```swift
-AWSMobileClient.sharedInstance().addListener(self) { (userState, info) in
+AWSMobileClient.sharedInstance().addUserStateListener(self) { (userState, info) in
             
             switch (userState) {
             case .signedOut:
@@ -79,7 +78,7 @@ AWSMobileClient.sharedInstance().addListener(self) { (userState, info) in
 }
 ```
 
-You can register to listen for this state change anywhere in your app with `.addListener`, such as in `viewDidLoad()` in the above example. If you want to cancel the re-login process, for instance if your application is shared among multiple users of the device or a user clicks "cancel" on the re-login attempt, you can call `releaseSignInWait()` to terminate the call and then call a `signOut()`.
+You can register to listen for this state change anywhere in your app with `.addUserStateListener`, such as in `viewDidLoad()` in the above example. If you want to cancel the re-login process, for instance if your application is shared among multiple users of the device or a user clicks "cancel" on the re-login attempt, you can call `releaseSignInWait()` to terminate the call and then call a `signOut()`.
 
 #### AWS Credentials
 
@@ -100,8 +99,9 @@ After initialization in your project directory with `amplify init`, edit your `P
 ```ruby
 target 'MyApp' do             ##Replace MyApp with your application name
   use_frameworks!
-  pod 'AWSMobileClient', '0.0.7'
-  pod 'AWSUserPoolsSignIn', '0.0.2'
+  pod 'AWSMobileClient', '~> 2.7.0'      # Required dependency
+  pod 'AWSAuthUI', '~> 2.7.0'            # Optional dependency required to use drop-in UI
+  pod 'AWSUserPoolsSignIn', '~> 2.7.0'   # Optional dependency required to use drop-in UI
 end
 ```
 
@@ -472,7 +472,7 @@ when configuring authentication using the AWS Amplify CLI.
 2. From `Create App`, choose `Add a New App` (note: this menu label will be
    `My Apps` if you have previously created an app.
 
-![Image](./images/new-facebook-app.png)
+![Image]({{image_base}}/new-facebook-app.png)
 
 3. If asked, choose the platform of your app that will use Facebook sign-in, and `basic
    setup`.
@@ -480,7 +480,7 @@ when configuring authentication using the AWS Amplify CLI.
 4. Type a display name for your app, select a category for your app from the `Category`
    drop-down list, and then choose `Create App ID`.
 
-![Image](./images/new-facebook-app-new-app-id.png)
+![Image]({{image_base}}/new-facebook-app-new-app-id.png)
 
 
 5. Complete the `Security Check` that appears. Your new app then appears in the
@@ -488,12 +488,12 @@ when configuring authentication using the AWS Amplify CLI.
 
 6. Copy the App ID and note it for later when using the Amplify CLI.
 
-![Image](./images/new-facebook-app-id.png)
+![Image]({{image_base}}/new-facebook-app-id.png)
 
 7. In the Facebook Developer portal's left hand navigation list, choose `Settings`, then
    choose `+ Add Platform`.
 
-![Image](./images/new-facebook-add-platform.png)
+![Image]({{image_base}}/new-facebook-add-platform.png)
 
 8. Choose your platform and provide information about your app that Facebook will use for
    integration during credential validation.
@@ -502,7 +502,7 @@ when configuring authentication using the AWS Amplify CLI.
 
       1. Add your app's Bundle ID. (for example, com.amazon.YourProjectName).
 
-![Image](./images/new-facebook-add-platform-ios.png)
+![Image]({{image_base}}/new-facebook-add-platform-ios.png)
 
 
 9. In the Facebook Developers portal, choose `Save changes`, then `Use this
@@ -514,7 +514,7 @@ when configuring authentication using the AWS Amplify CLI.
     To authorize users, in the Facebook Developer portal's left hand navigation list, choose
     `Roles`, then `Add Testers`. Provide a valid Facebook ID.
 
-![Image](./images/new-facebook-add-testers.png)
+![Image]({{image_base}}/new-facebook-add-testers.png)
 
 
 For more information about integrating with Facebook Login, see the [Facebook Getting Started Guide](https://developers.facebook.com/docs/facebook-login).

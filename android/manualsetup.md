@@ -10,51 +10,51 @@ If you are using Android Studio, add the dependency for the individual services 
 
 ```groovy
 dependencies {
-    implementation 'com.amazonaws:aws-android-sdk-ddb:2.7.+'
+    implementation 'com.amazonaws:aws-android-sdk-ddb:2.8.+'
 }
 ```
 
 A full list of dependencies are listed below. For dependencies ending in "`@aar`" use a compile statement in the following form.
 
 ```groovy
-implementation ('aws-android-sdk-mobile-client:2.7.+@aar') { transitive = true }
+implementation ('aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
 ```
 
 Dependency | Build.gradle Value
 ------------ | -------------
-"Amazon API Gateway" | "aws-android-sdk-apigateway-core:2.7.+"
-"AWS Auth Core" | "aws-android-sdk-auth-core:2.7.+@aar"
-"AWS Facebook SignIn Provider" | "aws-android-sdk-auth-facebook:2.7.+@aar"
-"AWS Google SignIn Provider" | "aws-android-sdk-auth-google:2.7.+@aar"
-"AWS Auth UI" | "aws-android-sdk-auth-ui:2.7.+@aar"
-"AWS Cognito User Pools SignIn Provider" | "aws-android-sdk-auth-userpools:2.7.+@aar"
-"Amazon Auto Scaling" | "aws-android-sdk-autoscaling:2.7.+"
-"Amazon CloudWatch" | "aws-android-sdk-cloudwatch:2.7.+"
-"Amazon Cognito Auth" | "aws-android-sdk-cognitoauth:2.7.+@aar"
-"Amazon Cognito Identity Provider" | "aws-android-sdk-cognitoidentityprovider:2.7.+"
-"AWS Core" | "aws-android-sdk-core:2.7.+"
-"Amazon DynamoDB Document Model" | "aws-android-sdk-ddb-document:2.7.+"
-"Amazon DynamoDB Object Mapper" | "aws-android-sdk-ddb-mapper:2.7.+"
-"Amazon DynamoDB" | "aws-android-sdk-ddb:2.7.+"
-"Amazon Elastic Compute Cloud" | "aws-android-sdk-ec2:2.7.+"
-"Amazon Elastic Load Balancing" | "aws-android-sdk-elb:2.7.+"
-"AWS IoT" | "aws-android-sdk-iot:2.7.+"
-"Amazon Kinesis" | "aws-android-sdk-kinesis:2.7.+"
-"Amazon Kinesis Video" | "aws-android-sdk-kinesisvideo:2.7.+@aar"
-"Amazon Key Management Service (KMS)" | "aws-android-sdk-kms:2.7.+"
-"AWS Lambda" | "aws-android-sdk-lambda:2.7.+"
-"Amazon Lex" | "aws-android-sdk-lex:2.7.+@aar"
-"Amazon CloudWatch Logs" | "aws-android-sdk-logs:2.7.+"
-"Amazon Machine Learning" | "aws-android-sdk-machinelearning:2.7.+"
-"AWS Mobile Client" | "aws-android-sdk-mobile-client:2.7.+@aar"
-"Amazon Pinpoint" | "aws-android-sdk-pinpoint:2.7.+"
-"Amazon Polly" | "aws-android-sdk-polly:2.7.+"
-"Amazon Rekognition" | "aws-android-sdk-rekognition:2.7.+"
-"Amazon Simple Storage Service (S3)" | "aws-android-sdk-s3:2.7.+"
-"Amazon Simple DB (SDB)" | "aws-android-sdk-sdb:2.7.+"
-"Amazon SES" | "aws-android-sdk-ses:2.7.+"
-"Amazon SNS" | "aws-android-sdk-sns:2.7.+"
-"Amazon SQS" | "aws-android-sdk-sqs:2.7.+"
+"Amazon API Gateway" | "aws-android-sdk-apigateway-core:2.8.+"
+"AWS Auth Core" | "aws-android-sdk-auth-core:2.8.+@aar"
+"AWS Facebook SignIn Provider" | "aws-android-sdk-auth-facebook:2.8.+@aar"
+"AWS Google SignIn Provider" | "aws-android-sdk-auth-google:2.8.+@aar"
+"AWS Auth UI" | "aws-android-sdk-auth-ui:2.8.+@aar"
+"AWS Cognito User Pools SignIn Provider" | "aws-android-sdk-auth-userpools:2.8.+@aar"
+"Amazon Auto Scaling" | "aws-android-sdk-autoscaling:2.8.+"
+"Amazon CloudWatch" | "aws-android-sdk-cloudwatch:2.8.+"
+"Amazon Cognito Auth" | "aws-android-sdk-cognitoauth:2.8.+@aar"
+"Amazon Cognito Identity Provider" | "aws-android-sdk-cognitoidentityprovider:2.8.+"
+"AWS Core" | "aws-android-sdk-core:2.8.+"
+"Amazon DynamoDB Document Model" | "aws-android-sdk-ddb-document:2.8.+"
+"Amazon DynamoDB Object Mapper" | "aws-android-sdk-ddb-mapper:2.8.+"
+"Amazon DynamoDB" | "aws-android-sdk-ddb:2.8.+"
+"Amazon Elastic Compute Cloud" | "aws-android-sdk-ec2:2.8.+"
+"Amazon Elastic Load Balancing" | "aws-android-sdk-elb:2.8.+"
+"AWS IoT" | "aws-android-sdk-iot:2.8.+"
+"Amazon Kinesis" | "aws-android-sdk-kinesis:2.8.+"
+"Amazon Kinesis Video" | "aws-android-sdk-kinesisvideo:2.8.+@aar"
+"Amazon Key Management Service (KMS)" | "aws-android-sdk-kms:2.8.+"
+"AWS Lambda" | "aws-android-sdk-lambda:2.8.+"
+"Amazon Lex" | "aws-android-sdk-lex:2.8.+@aar"
+"Amazon CloudWatch Logs" | "aws-android-sdk-logs:2.8.+"
+"Amazon Machine Learning" | "aws-android-sdk-machinelearning:2.8.+"
+"AWS Mobile Client" | "aws-android-sdk-mobile-client:2.8.+@aar"
+"Amazon Pinpoint" | "aws-android-sdk-pinpoint:2.8.+"
+"Amazon Polly" | "aws-android-sdk-polly:2.8.+"
+"Amazon Rekognition" | "aws-android-sdk-rekognition:2.8.+"
+"Amazon Simple Storage Service (S3)" | "aws-android-sdk-s3:2.8.+"
+"Amazon Simple DB (SDB)" | "aws-android-sdk-sdb:2.8.+"
+"Amazon SES" | "aws-android-sdk-ses:2.8.+"
+"Amazon SNS" | "aws-android-sdk-sns:2.8.+"
+"Amazon SQS" | "aws-android-sdk-sqs:2.8.+"
 
 Whenever a new version of the SDK is released you can update by running a Gradle Sync and rebuilding your project to use the new features.
 
@@ -73,7 +73,7 @@ You can call AWS service interface objects directly via the generated SDK client
 To work with service interface objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
 {: .callout .callout--warning}
 
-For example, if you were using [Amazon Simple Queue Service (SQS)](https://aws.amazon.com/sqs/) in your Android project you would first add `aws-android-sdk-sqs:2.7.+` to your `app/build.gradle` and install the dependencies by running a Gradle Sync. 
+For example, if you were using [Amazon Simple Queue Service (SQS)](https://aws.amazon.com/sqs/) in your Android project you would first add `aws-android-sdk-sqs:2.8.+` to your `app/build.gradle` and install the dependencies by running a Gradle Sync. 
 
 Next, import `AmazonSQS` in your Android Studio project and create the client:
 

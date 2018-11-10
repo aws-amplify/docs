@@ -286,6 +286,8 @@ async
 X-Amz-Date
 X-Api-Key
 X-Amz-Security-Token
+APIService
+Appsync
 
 # js/analytics.md
 Kinesis
@@ -645,7 +647,8 @@ AWSPinpoint
 AWSPolly 
 AWSRekognition 
 AWSSimpleDB 
-AWSUserPoolsSignIn 
+AWSUserPoolsSignIn
+v2.7
 
 # ios/how-to-transfer-files-with-transfer-utility.md
 AbortIncompleteMultipartUpload
