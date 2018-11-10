@@ -1,3 +1,7 @@
+---
+title: Setup Options for the SDK
+---
+
 # Setup Options for the SDK
 
 The AWS SDK contains [high level client interfaces](./start) for quickly adding common features and functionality to your app. You can also manually add the generated AWS service interfaces for direct interaction if you have custom or advanced requirements.
