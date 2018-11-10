@@ -7,7 +7,7 @@ Build an Android app using the AWS Amplify CLI and the AWS SDK for Android. The 
 
 ## Prerequisites
 
-[Install and configure the Amplify CLI](https://aws-amplify.github.io/docs/)
+[Install and configure the Amplify CLI](/)
 
 [Install Android Studio](https://developer.android.com/studio/index.html#downloads) version 3.1 or higher. Install Android SDK for API level 28 (Android 9.0).
 
