@@ -1,3 +1,7 @@
+---
+title: Push Notifications
+---
+
 {% if jekyll.environment == 'production' %}
   {% assign base_dir = site.amplify.docs_baseurl %}
 {% endif %}

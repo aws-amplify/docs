@@ -1,5 +1,8 @@
-# How to Integrate Your Existing Identity Pool
+---
+title: How to Integrate Your Existing Identity Pool
+---
 
+# How to Integrate Your Existing Identity Pool
 
 **Just Getting Started?** | [Use streamlined steps](./add-aws-mobile-user-sign-in) to install the SDK and integrate Amazon Cognito.
 ------------ | -------------
