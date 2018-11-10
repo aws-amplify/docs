@@ -7,7 +7,7 @@ The Analytics category enables you to collect analytics data for your app. The A
 
 #### Automated Setup
 
-* **Prerequisite: [Install and configure the Amplify CLI](/)**
+* **Prerequisite: [Install and configure the Amplify CLI](..)**
 * **Recommendation: [Complete the Getting Started guide](./start?platform=purejs)**
 {: .callout .callout--info}
 
