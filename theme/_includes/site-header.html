@@ -82,7 +82,7 @@
 						{% endfor %}
 						<li>
 							<div id="docs-select" class="dropdown">
-								<button class="dropbtn">Docs</button>
+								<a class="dropbtn" href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/">Docs</s>
 								<div class="dropdown-content">
 									<a href="https://docs.aws.amazon.com/aws-mobile/latest/developerguide/getting-started.html#ios-swift">iOS</a>
 									<a href="https://docs.aws.amazon.com/aws-mobile/latest/developerguide/getting-started.html#android-java">Android</a>
