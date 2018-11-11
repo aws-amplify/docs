@@ -198,12 +198,12 @@ AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<U
 
         @Override
         public void onResult(UserStateDetails userStateDetails) {
-            Log.i("INIT", userStateDetails.getUserState().toString());
+            Log.i("INIT", userStateDetails.getUserState());
         }
 
         @Override
         public void onError(Exception e) {
-            Log.e("INIT", e.toString());
+            Log.e("INIT", "Initialization error.", e);
         }
     }
 );
@@ -226,7 +226,13 @@ AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<U
                 });
                 break;
             case SIGNED_OUT:
-                textView.setText("Logged OUT");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView textView = (TextView) findViewById(R.id.text);
+                        textView.setText("Logged OUT");
+                    }
+                });
                 break;
             default:
                 AWSMobileClient.getInstance().signOut();
@@ -257,7 +263,7 @@ The `AWSMobileClient` client supports a simple "drop-in" UI for your application
 
 ```java
 // 'this' refers the the current active activity
-AWSMobileClient.getInstance().showSignIn(this);
+AWSMobileClient.getInstance().showSignIn(this, SignInUIOptions.builder().build());
 ```
 
 In the above code you would have created an Android Activity called `NextActivity` which would automatically be navigated to upon successful sign-up and sign-in. For testing, you can alternatively just use `MainActivity.class` after initializing:
@@ -506,7 +512,7 @@ Currently, the federation feature in the AWSMobileClient supports Cognito Identi
 ### Federated Sign In
 
 ```java
-AWSMobileClient.getInstance().federatedSignIn(IdentityProviders.FACEBOOK.toString(), “FACEBOOK_TOKEN_HERE”, new Callback<UserState>() {
+AWSMobileClient.getInstance().federatedSignIn(IdentityProvider.FACEBOOK.toString(), “FACEBOOK_TOKEN_HERE”, new Callback<UserState>() {
             @Override
             public void onResult(final UserState userState) {
                 //Handle the result
@@ -541,7 +547,7 @@ when configuring authentication using the AWS Amplify CLI.
    `My Apps` if you have previously created an app.
 
 
-![Image]({{media_base}}/new-facebook-app.png)
+  ![Image]({{media_base}}/new-facebook-app.png)
 
 3. If asked, choose the platform of your app that will use Facebook sign-in, and `basic
    setup`.
@@ -549,27 +555,23 @@ when configuring authentication using the AWS Amplify CLI.
 4. Type a display name for your app, select a category for your app from the `Category`
    drop-down list, and then choose `Create App ID`.
 
-![Image]({{media_base}}/new-facebook-app-new-app-id.png)
+  ![Image]({{media_base}}/new-facebook-app-new-app-id.png)
 
 
 5. Complete the `Security Check` that appears. Your new app then appears in the
    `Dashboard`.
 
-![Image]({{media_base}}/new-facebook-app-id.png)
+  ![Image]({{media_base}}/new-facebook-app-id.png)
 
 6. Copy the App ID and note it for later when using the Amplify CLI.
-
-![Image]({{media_base}}/facebook-app-id-console-entry.png)
 
 7. In the Facebook Developer portal's left hand navigation list, choose `Settings`, then
    choose `+ Add Platform`.
 
-![Image]({{media_base}}/new-facebook-add-platform.png)
-
+  ![Image]({{media_base}}/new-facebook-add-platform.png)
 
 8. Choose your platform and provide information about your app that Facebook will use for
    integration during credential validation.
-
 
 9. In the Facebook Developers portal, choose `Save changes`, then `Use this
    package name` if a dialog appears saying that Google Play has an issue with your package name.
@@ -580,9 +582,7 @@ when configuring authentication using the AWS Amplify CLI.
     To authorize users, in the Facebook Developer portal's left hand navigation list, choose
     `Roles`, then `Add Testers`. Provide a valid Facebook ID.
 
-
 ![Image]({{media_base}}/new-facebook-add-testers.png)
-
 
 For more information about integrating with Facebook Login, see the [Facebook Getting Started Guide](https://developers.facebook.com/docs/facebook-login).
 
@@ -624,7 +624,7 @@ These Client IDs are part of your Google Developers project. The Web Client ID w
 
 **NOTE:** The creation and configuration steps for creating OAuth Clients for Google Sign-In is constantly changing, always refer to the official setup instructions from Google.
 
-First, navigate to the ["start integrating" section of the Google Developer portal](https://developers.google.com/identity/sign-in/android/start-integrating) and click **CREATE AN OAUTH CLIENT ID** to get an OAuth client ID. When you select an existing or new project, this will automatically create the "Web Client ID" for you in the background fulfilling requirement #1 above.
+First, navigate to the [Configure a Google API Console project](https://developers.google.com/identity/sign-in/android/start-integrating) and click **Configure a Project** to get an OAuth client ID. When you select an existing or new project, this will automatically create the "Web Client ID" for you in the background fulfilling requirement #1 above.
 
 When prompted choose **Android** as the calling platform along with your Package name and certificate. Once created the **Android Client ID** will be created. Copy this as you will use it when configuring your backend with the Amplify CLI.
 
@@ -690,16 +690,16 @@ dependencies {
     implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
 
     // Facebook SignIn
-    implementation 'com.android.support:support-v4:24.+'
+    implementation 'com.android.support:support-v4:28.+'
     implementation ('com.amazonaws:aws-android-sdk-auth-facebook:2.8.+@aar') { transitive = true }
 
     // Sign in UI
-    implementation 'com.android.support:appcompat-v7:24.+'
+    implementation 'com.android.support:appcompat-v7:28.+'
     implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.8.+@aar') { transitive = true }
 }
 ```
 
-> Note: When you add the dependencies, make sure that the major version of appcompat and support libraries match. In the previous example, we're using version 24.
+> Note: When you add the dependencies, make sure that the major version of appcompat and support libraries match. In the previous example, we're using version 28.
 
 In `strings.xml`, add string definitions for your Facebook app ID and login protocol scheme. The value for app_id is your Facebook app ID and the value for logic_protocol_scheme should be your Facebook app ID prefixed with `fb`.
 
@@ -739,13 +739,18 @@ public class AuthenticatorActivity extends Activity {
         AWSMobileClient.getInstance().initialize(this, new Callback<UserStateDetails>() {
             @Override
             public void onResult(UserStateDetails userStateDetails) {
-                Log.i("INIT", userStateDetails.getUserState().toString());
-                AWSMobileClient.getInstance().showSignIn(AuthenticatorActivity.this, SignInUI.class);
+                Log.i("INIT", userStateDetails.getUserState());
+                AWSMobileClient.getInstance().showSignIn(
+                  AuthenticatorActivity.this,
+                  SignInOptions.builder()
+                    .nextActivity(NextActivity.class)
+                    .build()
+                );
             }
 
             @Override
             public void onError(Exception e) {
-                Log.e("INIT", e.toString());
+                Log.e("INIT", "Error during initialization", e);
             }
         });
     }
@@ -772,14 +777,16 @@ dependencies {
     implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
 
     // Google SignIn
-    implementation 'com.android.support:support-v4:24.+'
+    implementation 'com.android.support:support-v4:28.+'
     implementation ('com.amazonaws:aws-android-sdk-auth-google:2.8.+@aar') { transitive = true }
 
     // Sign in UI Library
-    implementation 'com.android.support:appcompat-v7:24.+'
+    implementation 'com.android.support:appcompat-v7:28.+'
     implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.8.+@aar') { transitive = true }
 }
 ```
+
+> Note: When you add the dependencies, make sure that the major version of appcompat and support libraries match. In the previous example, we're using version 28.
 
 Create an activity that will present your sign-in screen. In Android Studio, choose `File > New > Activity > Basic Activity` and type an activity name, such as `AuthenticatorActivity`. If you want to make this your starting activity, move the intent filter block containing `.LAUNCHER` to the `AuthenticatorActivity` in your app's `AndroidManifest.xml`.
 
@@ -812,13 +819,18 @@ public class AuthenticatorActivity extends Activity {
         AWSMobileClient.getInstance().initialize(this, new Callback<UserStateDetails>() {
             @Override
             public void onResult(UserStateDetails userStateDetails) {
-                Log.i("INIT", userStateDetails.getUserState().toString());
-                AWSMobileClient.getInstance().showSignIn(AuthenticatorActivity.this, SignInUI.class);
+                Log.i("INIT", userStateDetails.getUserState());
+                AWSMobileClient.getInstance().showSignIn(
+                  AuthenticatorActivity.this, 
+                  SignInOptions.builder()
+                    .nextActivity(NextActivity.class)
+                    .build()
+                );
             }
 
             @Override
             public void onError(Exception e) {
-                Log.e("INIT", e.toString());
+                Log.e("INIT", "Error during initialization", e);
             }
         });
     }
