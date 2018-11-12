@@ -374,7 +374,7 @@ For React and React Native apps, the simplest way to add authentication flows in
 Just add these two lines to your `App.js`:
 
 ```javascript
-import { withAuthenticator } from 'aws-amplify-react/dist/Auth'; // or 'aws-amplify-react-native/dist/Auth';
+import { withAuthenticator } from 'aws-amplify-react'; // or 'aws-amplify-react-native';
 ...
 export default withAuthenticator(App);
 ```
@@ -457,7 +457,7 @@ The `withAuthenticator` HOC wraps an `Authenticator` component. Using `Authentic
 This will render your App component with *Authenticator*:
 
 ```javascript
-import { Authenticator } from 'aws-amplify-react/dist/Auth'; // or 'aws-amplify-react-native/dist/Auth'
+import { Authenticator } from 'aws-amplify-react'; // or 'aws-amplify-react-native'
 ...
 
 class AppWithAuth extends Component {
@@ -622,7 +622,7 @@ Federated Sign in with Facebook Example:
 ```javascript
 import Expo from 'expo';
 import Amplify, { Auth } from 'aws-amplify';
-import { Authenticator } from 'aws-amplify-react-native/dist/Auth';
+import { Authenticator } from 'aws-amplify-react-native';
 
 export default class App extends React.Component {
   async signIn() {
@@ -813,7 +813,7 @@ To customize the UI for Federated Identities sign-in, you can use `withFederated
 > ***The withFederated and Federated components are not supported on React Native***. Use the API Auth.federatedSignIn() on React Native.
 
 ```javascript
-import { withFederated } from 'aws-amplify-react/dist/Auth/Provider';
+import { withFederated } from 'aws-amplify-react';
 
 const Buttons = (props) => (
     <div>
@@ -964,7 +964,7 @@ With React, you can use `withOAuth` HOC to launch the hosted UI experience. Just
 > ***The Hosted UI support is only available for React / Web***
 
 ```javascript
-import { withOAuth } from 'aws-amplify-react/dist/Auth/Provider';
+import { withOAuth } from 'aws-amplify-react';
 
 class MyApp extends React.Component {
     // ...
@@ -1062,7 +1062,7 @@ When working with multiple MFA Types, you can let the app user select the desire
 ```javascript
 import Amplify from 'aws-amplify';
 import amplify from './aws-exports';
-import { SelectMFAType } from 'aws-amplify-react/dist/Auth';
+import { SelectMFAType } from 'aws-amplify-react';
 
 Amplify.configure(amplify);
 
@@ -1328,7 +1328,7 @@ To customize the default auth experience even more, you can create your own auth
 The following example creates an 'Always On' Auth UI, which continuously shows the current auth state in your app.
 
 ```javascript
-import { Authenticator, SignIn, SignUp, ConfirmSignUp, Greetings } from 'aws-amplify-react/dist/Auth';
+import { Authenticator, SignIn, SignUp, ConfirmSignUp, Greetings } from 'aws-amplify-react';
 
 const AlwaysOn = (props) => {
     return (
@@ -1391,7 +1391,7 @@ The `withAuthenticator` HOC gives you some nice default authentication screens o
 
 ```javascript
 import React, { Component } from 'react';
-import { ConfirmSignIn, ConfirmSignUp, ForgotPassword, RequireNewPassword, SignIn, SignUp, VerifyContact, withAuthenticator } from 'aws-amplify-react/dist/Auth';
+import { ConfirmSignIn, ConfirmSignUp, ForgotPassword, RequireNewPassword, SignIn, SignUp, VerifyContact, withAuthenticator } from 'aws-amplify-react';
 
 class App extends Component {
   render() {

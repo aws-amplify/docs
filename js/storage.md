@@ -378,7 +378,7 @@ You can also use the track property directly on [React components](#analytics-fo
 
 Listen to `PhotoPicker` onPick event:
 ```jsx
-import { PhotoPicker } from 'aws-amplify-react/dist/Widget';
+import { PhotoPicker } from 'aws-amplify-react';
 
 render() {
     <PhotoPicker onPick={data => console.log(data)} />
@@ -402,7 +402,7 @@ You can retrieve the URL of the image by implementing `onLoad` action. In this c
 `S3Image` component renders an *Amazon S3 object key* as an image:
 
 ```jsx
-import { S3Image } from 'aws-amplify-react/dist/Storage';
+import { S3Image } from 'aws-amplify-react';
 
 render() {
     return <S3Image imgKey={key} />
@@ -418,7 +418,7 @@ return <S3Image level="private" imgKey={key} />
 To initiate an upload, set the `body` property:
 
 ```jsx
-import { S3Image } from 'aws-amplify-react/dist/Storage';
+import { S3Image } from 'aws-amplify-react';
 
 render() {
     return <S3Image imgKey={key} body={this.state.image_body} />
@@ -429,7 +429,7 @@ render() {
 To hide the image shown in the S3Image, set `hidden`:
 
 ```jsx
-import { S3Image } from 'aws-amplify-react/dist/Storage';
+import { S3Image } from 'aws-amplify-react';
 
 render() {
     return <S3Image hidden imgKey={key} />
@@ -484,7 +484,7 @@ function fileToKey(data) {
 <img src="{%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/S3Album_and_code.png" width="100%"/>
 
 ```jsx
-import { S3Album } from 'aws-amplify-react/dist/Storage';
+import { S3Album } from 'aws-amplify-react';
 
 render() {
     return <S3Album path={path} />

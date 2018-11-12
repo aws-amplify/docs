@@ -345,7 +345,7 @@ API category provides React components for working with GraphQL data.
 ```javascript
 import React from 'react';
 import Amplify, { graphqlOperation }  from "aws-amplify";
-import { Connect } from "aws-amplify-react/dist/API";
+import { Connect } from "aws-amplify-react";
 
 import * as queries from './graphql/queries';
 import * as subscriptions from './graphql/subscriptions';
