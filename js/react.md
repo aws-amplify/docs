@@ -62,7 +62,7 @@ The `./src/aws-exports.js` file that's created has all of the appropriate cloud 
 ```javascript
 import Amplify from 'aws-amplify';
 import aws_exports from './aws-exports';
-import { withAuthenticator } from 'aws-amplify-react';
+import { withAuthenticator } from 'aws-amplify-react/dist/Auth';
 Amplify.configure(aws_exports);
 ```
 
@@ -86,7 +86,8 @@ Edit your `App.js` file in the React project again and modify your imports so th
 
 ```javascript
 import Amplify, { Analytics, Storage } from 'aws-amplify';
-import { withAuthenticator, S3Album } from 'aws-amplify-react';
+import { withAuthenticator } from 'aws-amplify-react/dist/Auth';
+import { S3Album } from 'aws-amplify-react/dist/Storage';
 ```
 
 The `Analytics` category automatically tracks user session data such as sign-in events. However, you can record custom events or metrics at any time. You can also use the `Storage` category to upload files to a private user location after someone has logged in. First, add the following line after `Amplify.configure()` has been called:
