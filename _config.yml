@@ -428,7 +428,7 @@ category_list:
           cta: Read more
           class: aws-icon-ps-60-network-nodes
           icon: '/images/icons/Misc/Tool.svg'
-          url: '/cli/graphql'
+          url: '/cli/graphql?sdk=js'
     - category: Categories
       title: API Guides
       excerpt: Add cloud features to your app quickly using our toolchain and declarative APIs.
