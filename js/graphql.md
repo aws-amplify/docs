@@ -1297,7 +1297,7 @@ the necessary `<Provider />` and `<Rehydrated />` components.**
 ```javascript
 import React, { Component } from 'react';
 import Amplify, { Auth } from 'aws-amplify';
-import { withAuthenticator } from 'aws-amplify-react';
+import { withAuthenticator } from 'aws-amplify-react/dist/Auth';
 import AWSAppSyncClient from "aws-appsync";
 import { Rehydrated } from 'aws-appsync-react';
 import { ApolloProvider } from 'react-apollo';
