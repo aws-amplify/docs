@@ -17,7 +17,7 @@
 				<li>
 					{% if item.item_external_url %}
 						<a href="{{ item.item_external_url }}">
-							{{ item.item_name }}   
+							{{ item.item_name }}
 						</a>
 					{% else %}
 						<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}{{ item.item_url }}">
@@ -82,10 +82,10 @@
 						{% endfor %}
 						<li>
 							<div id="docs-select" class="dropdown">
-								<button class="dropbtn">Docs</button>
+								<a class="dropbtn" href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/">Docs</s>
 								<div class="dropdown-content">
-									<a href="https://docs.aws.amazon.com/aws-mobile/latest/developerguide/getting-started.html" target="_blank">iOS</a>
-									<a href="https://docs.aws.amazon.com/aws-mobile/latest/developerguide/getting-started.html" target="_blank">Android</a>
+									<a href="https://docs.aws.amazon.com/aws-mobile/latest/developerguide/getting-started.html#ios-swift">iOS</a>
+									<a href="https://docs.aws.amazon.com/aws-mobile/latest/developerguide/getting-started.html#android-java">Android</a>
 									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/js/start?platform=purejs">JavaScript</a>
 									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/js/start?platform=react-native">React Native</a>
 								</div>
@@ -95,8 +95,8 @@
 							<div id="api-select" class="dropdown">
 								<button class="dropbtn">API</button>
 								<div class="dropdown-content">
-									<a href="https://aws.github.io/aws-sdk-ios/docs/reference/" target="_blank">iOS</a>
-									<a href="https://aws.github.io/aws-sdk-android/docs/reference/" target="_blank">Android</a>
+									<a href="https://aws-amplify.github.io/aws-sdk-ios/docs/reference/" target="_blank">iOS</a>
+									<a href="https://aws-amplify.github.io/aws-sdk-android/docs/reference/" target="_blank">Android</a>
 									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/api/" target="_blank">JavaScript</a>
 									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/api/" target="_blank">React Native</a>
 								</div>
@@ -138,7 +138,7 @@
 	<script>
 		var setBackgroundImage = function() {
 			const search_box = document.getElementById("search-input-xs");
-			search_box.style.backgroundImage = "url('/amplify-js/images/icons/Medium/Search.svg')"; 
+			search_box.style.backgroundImage = "url('/amplify-js/images/icons/Medium/Search.svg')";
 		}
 
 		setBackgroundImage();
@@ -147,7 +147,7 @@
 	<script>
 		var setBackgroundImage = function() {
 			const search_box = document.getElementById("search-input-xs");
-			search_box.style.backgroundImage = "url('/images/icons/Medium/Search.svg')"; 
+			search_box.style.backgroundImage = "url('/images/icons/Medium/Search.svg')";
 		}
 
 		setBackgroundImage();

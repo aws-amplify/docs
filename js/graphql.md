@@ -271,6 +271,7 @@ This input schema document
 type Post @model {
     id: ID!
     title: String
+    metadata: MetaData
 }
 type MetaData {
     category: Category

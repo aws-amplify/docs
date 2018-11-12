@@ -14,10 +14,14 @@ AmplifyIonicModule
 AmplifyService
 AmplifyEventBus
 AmplifyPlugin
+Auth0
 Authenticator
+aws_bots_config.name
 aws-exports
 analytics
 backend
+botTitle
+cli
 callout
 callout--info
 dropdown
@@ -47,6 +51,7 @@ ios
 item.class.ts
 index.js
 lifecycle
+md
 Multifactor
 myPublicPrefix,
 myPrivatePrefix,
@@ -60,6 +65,7 @@ node.js
 onPick
 pre-signed
 pre-built
+programmatically
 repo
 src
 stylesheet
@@ -99,6 +105,24 @@ withAuthenticator
 webview
 *.js
 600px
+v2.0
+SQLite
+listPosts
+getPost
+ROOT_QUERY
+ROOT_QUERY.listPosts
+ROOT_QUERY.getPost
+Pancho
+Authorizer
+authorizer
+xyz123useamplifyabcdClient.swift
+Client.swift
+YOUR_API_RESOURCE_NAME
+enqueued
+xcodeproj
+png
+jpg
+UIColor
 
 # js/tutorials/building-ionic-4-apps/index.md
 home.page.ts
@@ -130,6 +154,7 @@ myprivateprefix
 # js/start.md
 codegen
 8.x
+8.11.x
 5.x
 webpack
 camelCase
@@ -261,6 +286,8 @@ async
 X-Amz-Date
 X-Api-Key
 X-Amz-Security-Token
+APIService
+Appsync
 
 # js/analytics.md
 Kinesis
@@ -295,6 +322,30 @@ S3Object
 s3
 versionInput
 versioning
+
+# js/vue.md
+confirmSignInConfig
+confirmSignUpConfig
+forgotPasswordConfig
+signInConfig
+signUpConfig
+signUpFields
+msg
+signOutButton
+mfaDescription
+mfaTypes
+tokenInstructions
+smsDescription
+totpDescription
+noMfaDescription
+cancelHandler
+defaultName
+amplify-vue
+
+# js/sign-up-fields.md
+displayOrder
+displayOrder
+signUpConfig.signUpFields
 
 # cli/plugins.md
 walk
@@ -344,3 +395,354 @@ realtime
 AppDelegate.swift
 ViewController.swift
 MainActivity.java
+
+# android/analytics.md
+ActivityLifecycleCallbacks
+MainActivity
+Firehose
+KinesisRecorder
+KinesisFirehoseRecorder
+ImageView
+
+# android/authentication.md
+appcompat
+AWSMobileClient
+app_id
+logic_protocol_scheme
+xml
+IdentityManager
+PoolId
+XX-XXXX-X
+XXXXXXXX-XXXX-1234-abcd-1234567890ab
+XX-XXXX-X_abcd1234
+AppClientId
+AppClientSecret
+AWSMobileClient.getInstance
+getApplicationContext
+onResult
+UserStateDetails
+userStateDetails
+userStateDetails.getUserState
+SIGNED_IN
+SIGNED_OUT
+runOnUiThread
+TextView
+textView
+findViewById
+R.id.text
+textView.setText
+NextActivity
+showSignIn
+NextActivity.class
+SignInUIConfiguration.builder
+logoImage
+R.id.logo
+backgroundColor
+R.color.black
+canCancel
+getInput
+R.id.signUpUsername
+R.id.signUpPassword
+HashMap
+attributes.put
+SignUpResult
+signUpResult
+signUpResult.getConfirmationState
+UserCodeDeliveryDetails
+signUpResult.getUserCodeDeliveryDetails
+makeToast
+R.id.confirmSignUpUsername
+R.id.confirmSignUpCode
+Log.d
+Log.i
+details.getDestination
+confirmSignUp
+resendSignUp
+your_username
+getDeliveryMedium
+SignInResult
+signInResult
+signInResult.GetSignInState
+SMS_MFA
+NEW_PASSWORD_REQUIRED
+getUsername
+isLoggedIn
+getIdentityId
+getTokens
+getIdToken
+getJWTToken
+getCredentials
+federatedSignIn
+IdentityProviders.FACEBOOK.toString
+FACEBOOK_TOKEN_HERE
+signInResult.getSignInState
+confirmSignIn
+signInChallengeResponse
+UserState
+userState
+savedInstanceState
+YOUR_PROJECT_FOLDER
+amazonaws
+fb1231231231232123123
+android.app.Activity
+android.os.Bundle
+com.amazonaws.mobile.auth.ui.SignInUI
+com.amazonaws.mobile.client.AWSMobileClient
+com.amazonaws.mobile.client.AWSStartupHandler
+com.amazonaws.mobile.client.AWSStartupResult
+AuthenticatorActivity
+super.onCreate
+setContentView
+R.layout.activity_authenticator
+SignInUIOptions.builder
+isSignedIn
+nextActivityClass
+
+# android/how-to-android-kinesis-data-stream.md
+PutRecord
+enum
+MiB
+
+# android/manualsetup.md
+aws-android-sdk-apigateway-core
+aar
+aws-android-sdk-auth-core
+aws-android-sdk-auth-facebook
+aws-android-sdk-auth-google
+aws-android-sdk-auth-ui
+aws-android-sdk-auth-userpools
+aws-android-sdk-autoscaling
+CloudWatch
+aws-android-sdk-cloudwatch
+aws-android-sdk-cognitoauth
+aws-android-sdk-cognitoidentityprovider
+aws-android-sdk-core
+aws-android-sdk-ddb-document
+aws-android-sdk-ddb-mapper
+aws-android-sdk-ddb
+aws-android-sdk-ec2
+aws-android-sdk-elb
+aws-android-sdk-iot
+aws-android-sdk-kinesis
+aws-android-sdk-kinesisvideo
+aws-android-sdk-kms
+aws-android-sdk-lambda
+aws-android-sdk-logs
+aws-android-sdk-machinelearning
+aws-android-sdk-mobile-client
+aws-android-sdk-mobileanalytics
+aws-android-sdk-pinpoint
+aws-android-sdk-polly
+aws-android-sdk-rekognition
+aws-android-sdk-s3
+aws-android-sdk-sdb
+aws-android-sdk-ses
+aws-android-sdk-sns
+aws-android-sdk-sqs
+pom.xml
+groupId
+artifactID
+aws-android-sdk-apigateway-core
+aws-android-sdk-s3
+aws-android-sdk-s3
+aws-android-sdk-s3
+aws-android-sdk-s3
+aws-android-sdk-s3
+aws-android-sdk-s3
+aws-android-sdk-s3
+aws-android-sdk-s3
+aws-android-sdk-s3
+aws-android-sdk-s3
+aws-android-sdk-s3
+aws-android-sdk-s3
+mdash
+
+# android/how-to-cognito-integrate-an-existing-identity-pool-android.md
+Kotlin
+
+# android/interactions.md
+quickstart
+
+# android/push-notifications.md
+APNs
+PushListenerService
+PinpointManager
+awsconfig
+
+# android/storage.md
+TransferUtility
+multipart
+AbortIncompleteMultipartUpload
+CredentialsProvider
+AWSConfiguration
+cancelAllWithType
+CannedAccessControlList
+CannedAccessControlList.PublicRead
+Permission.Read
+TransferThreadPoolSize
+TransferServiceCheckTimeInterval
+AmazonS3Client
+putPostWithPhoto
+localUri
+mimeType
+
+# ios/analytics.md
+openssl
+AWSKinesisRecorder
+AWSFirehoseRecorder
+
+# ios/api-apigw.md
+YOUR_APP_NAME
+
+# ios/authentication.md
+UINavigationController
+UserPools
+
+# ios/how-to-cognito-integrate-an-existing-identity-pool-ios.md
+AppDelegate
+uncommenting
+
+# ios/how-to-ios-asynchrounous-tasks.md
+completionHandler
+AWSTask
+AWSExecutor
+
+
+# ios/how-to-ios-s3-presigned-urls.md
+NSURLSession
+
+# ios/how-to-ios-s3-server-side-encryption.md
+SSECustomerAlgorithm
+SSECustomerKey
+SSECustomerKeyMD5
+AWSS3ServerSideEncryption
+_Identity
+_Granting
+
+# ios/manualsetup.md
+Cocoapods
+aws-sdk-ios
+CocoaLumberjack
+AWSCore
+DocSets
+macOS
+AWSAuth 
+AWSAuthCore 
+AWSAuthUI 
+AWSAutoScaling 
+AWSCloudWatch 
+AWSCognito 
+AWSCognitoAuth 
+AWSCognitoIdentityProvider 
+AWSCognitoIdentityProviderASF 
+AWSDynamoDB 
+AWSElasticLoadBalancing 
+AWSFacebookSignIn 
+AWSGoogleSignIn 
+AWSIoT 
+AWSKinesis 
+AWSLambda 
+AWSLex 
+AWSLogs 
+AWSMachineLearning 
+AWSPinpoint 
+AWSPolly 
+AWSRekognition 
+AWSSimpleDB 
+AWSUserPoolsSignIn
+v2.7
+
+# ios/how-to-transfer-files-with-transfer-utility.md
+AbortIncompleteMultipartUpload
+continueWith
+task.result
+taskIdentifier
+publicRead
+ACLs
+isAccelerateModeEnabled
+transferUtility
+AWSS3TransferUtility.s3TransferUtility
+forKey
+retryLimit
+multiPartConcurrencyLimit
+uploadData
+
+# ios/interactions.md
+UIView
+xib
+
+# ios/push-notifications.md
+Hoc
+Provisioining
+AppStore
+Ok
+CognitoIdentity
+CognitoUserPool
+PinpointAnalytics
+PinpointTargeting
+
+# ios/how-to-ios-setup-push-notifications
+Capitan
+Keychain
+
+#  ios/start.md
+xcworkspace
+
+# ios/storage.md
+S3ObjectInput
+CreatePostWithFileInputMutation
+createPostWithFile
+PostsTable
+AWSAppSyncClientConfiguration
+schema.json
+GraphQLOperations
+posts.graphql
+timeoutIntervalForResource
+handleEventsForBackgroundURLSession
+interceptApplication
+AWSStaticCredentialsProvider
+
+# android/how-to-android-sdk-setup.md
+aws-android-sdk-lex
+Rekognition
+
+# ios/analytics.md
+PutRecords
+NSData
+
+# ios/how-to-ios-sdk-setup.md
+CocoaPods
+DocSet
+
+# ios/how-to-transfer-files-with-transfer-utility.md
+AWSS3TransferUtility
+
+# Readme.md
+CircleCI
+
+# android/analytics.md
+_userauth.sign_in
+_userauth.sign_up
+_userauth.auth_fail
+
+# android/push-notifications.md
+Baidu
+baidu
+arm64-v8a
+armeabi
+armeabi-v7a
+mips
+mips64
+x86
+x86_64
+programmatically
+
+# android/storage.md
+TransferService
+MY_BUCKET
+OBJECT_KEY
+MY_FILE
+KMS-generated
+
+# android/auth-google-setup.md
+keystore

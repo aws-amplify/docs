@@ -11,8 +11,8 @@
 					{% for category in site.category_list %}
 						{% for item in category.subs %}
 							{% if page.url contains item.url %}
-								{% assign isPageInCategories = true %}	
-							{% endif %}	
+								{% assign isPageInCategories = true %}
+							{% endif %}
 						{% endfor %}
 					{% endfor %}
 				{% endif %}
@@ -21,13 +21,13 @@
 						{% if page.url contains 'tutorials' %}
 						<div class="sections-list-wrapper">
 							<div class="sections-list js-affix js-scrollspy">
-								<div class="dev-guide"> 
+								<div class="dev-guide">
 									<div class="left-nav-section" id="{{ category.category }}">
 										<div class="feature-list">
 											<div class='in-this-page js-sections'></div>
 										</div>
 									</div>
-								</div>						
+								</div>
 							</div><!-- /.sections-list -->
 						</div>
 						{% else %}
@@ -43,7 +43,9 @@
 						</div>
 						<div class="sections-list-wrapper">
 							<div class="sections-list js-affix js-scrollspy">
-								<div class="dev-guide"> 
+								<div class="dev-guide">
+									
+									<div id="nav-javascript" style="display: none;">
 									{% if site.category_list %}
 										{% for category in site.category_list %}
 										<div class="left-nav-section" id="{{ category.category }}">
@@ -56,34 +58,95 @@
 														<div class='in-this-page js-sections'></div>
 													{% else %}
 														<a href="{% if item.url_external  %}
-																		{{ item.url_external }} 
+																		{{ item.url_external }}
 																	{% endif %}
 																	{% if item.url %}
-																		{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}{{ item.url }} 
-																	{% endif %}" 
-															{% if item.url_external %} 
-																target="_blank" 
+																		{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}{{ item.url }}
+																	{% endif %}"
+															{% if item.url_external %}
+																target="_blank"
 															{% endif %}
 															class="section-head">{{ item.title }}
 														</a>
-													{% endif %}	
+													{% endif %}
 												{% endfor %}
 											</div>
 										</div>
 										{% endfor %}
 									{% endif %}
-								</div>						
+									</div>
+
+									<div id="nav-android" style="display: none;">
+										{% for category in site.android_category_list %}
+										<div class="left-nav-section" id="{{ category.category }}">
+											{% if category.title != 'Setup & Installation' %}
+												<p class="gray-section-head hidden-xs">{{ category.title }}</p>
+											{% endif %}
+											<div class="feature-list">
+												{% for item in category.subs %}
+													{% if page.url contains item.url %}
+														<div class='in-this-page js-sections'></div>
+													{% else %}
+														<a href="{% if item.url_external  %}
+																		{{ item.url_external }}
+																	{% endif %}
+																	{% if item.url %}
+																		{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}{{ item.url }}
+																	{% endif %}"
+															{% if item.url_external %}
+																target="_blank"
+															{% endif %}
+															class="section-head">{{ item.title }}
+														</a>
+													{% endif %}
+												{% endfor %}
+											</div>
+										</div>
+										{% endfor %}
+									</div>
+									
+									<div id="nav-ios" style="display: none;">
+										{% for category in site.ios_category_list %}
+										<div class="left-nav-section" id="{{ category.category }}">
+											{% if category.title != 'Setup & Installation' %}
+												<p class="gray-section-head hidden-xs">{{ category.title }}</p>
+											{% endif %}
+											<div class="feature-list">
+												{% for item in category.subs %}
+													{% if page.url contains item.url %}
+														<div class='in-this-page js-sections'></div>
+													{% else %}
+														<a href="{% if item.url_external  %}
+																		{{ item.url_external }}
+																	{% endif %}
+																	{% if item.url %}
+																		{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}{{ item.url }}
+																	{% endif %}"
+															{% if item.url_external %}
+																target="_blank"
+															{% endif %}
+															class="section-head">{{ item.title }}
+														</a>
+													{% endif %}
+												{% endfor %}
+											</div>
+										</div>
+										{% endfor %}
+									</div>
+
+								</div>
 							</div><!-- /.sections-list -->
 						</div>
 						{% endif %}
 					</div><!-- /.col -->
 						<div class="col-md-8 section-top docs-container">
 							{% if page.url contains 'start' %}
+							{% unless page.url contains 'android' or page.url contains 'ios' %}
 							<div class='js-library-selector-text'>
 								Select your framework
 							</div>
 							<div class="js-library-selector dropdown white-text">
-								<img id="js-library-icon" style="margin-right:0.8em;"/> 
+								<img id="js-library-icon"/> 
 								<button id="js-library-selector" class="dropbtn white-text" style="margin-right:0.8em;margin-bottom:0.3em;margin-top:0.3em;"></button>
 								<div class="dropdown-content">
 									{% for item in site.js_libraries %}
@@ -91,6 +154,13 @@
 									{% endfor %}
 								</div>
 								<div class="arrows"></div>
+							</div>
+							{% endunless %}
+							{% endif %}
+							{% if page.url contains 'android' or page.url contains 'ios' %}
+							<div class="native-language-selector dropdown white-text">
+								<img id="js-library-icon" style="margin-right:0.8em;"/>
+								<button id="js-library-selector" class="white-text" style="margin-right:0.8em;margin-bottom:0.3em;margin-top:0.3em;cursor:default;"></button>
 							</div>
 							{% endif %}
 							<div class="content">
@@ -130,7 +200,7 @@
 		</div><!-- /.js-footer-area -->
 	</body>
 	<script>
-		if (window.innerWidth < 828) 
+		if (window.innerWidth < 828)
 		{	let flag;
 			{% for category in site.category_list %}
 				flag = false;
@@ -149,17 +219,16 @@
 			{% endfor %}
 
 			const view_section_box = document.getElementById("section-select");
-			if (view_section_box) 
+			if (view_section_box)
 			{
 				{% if jekyll.environment == 'production' %}
-					view_section_box.style.background = "url('/amplify-js/images/icons/Minis/Arrows.svg') no-repeat"; 
+					view_section_box.style.background = "url('/amplify-js/images/icons/Minis/Arrows.svg') no-repeat";
 				{% else %}
-					view_section_box.style.background = "url('/images/icons/Minis/Arrows.svg') no-repeat"; 
+					view_section_box.style.background = "url('/images/icons/Minis/Arrows.svg') no-repeat";
 				{% endif %}
 				view_section_box.style.backgroundPosition = "240px 5px";
 			}
 		}
-		{% if page.url contains 'start' %}
 			let tabs = document.getElementsByClassName('tabs');
 			for (let i = 0; i < tabs.length; i++) {
 				tabs[i].style.display = 'none';
@@ -168,21 +237,28 @@
 				var platform = $.urlParam('platform');
 				if (platform) {
 					let selector = document.getElementById("js-library-selector");
-					titles = {"react": "React", "react-native": "React Native", "angular": "Angular", "purejs": "JavaScript", "ionic": "Ionic"};
+					titles = {"react": "React", "react-native": "React Native", "angular": "Angular", "purejs": "JavaScript", "ionic": "Ionic", "java": "Java", "kotlin": "Kotlin", "swift": "Swift"};
 					selector.innerHTML = titles[platform];
 					let icon = document.getElementById("js-library-icon");
-					icons = {"react": "React-Small-White@1x.png", "react-native": "React-Small-White@1x.png", "angular": "Angular-Med-White@1x.png", "purejs": "JS-Small-White@1x.png", "ionic": "Ionic-Color@1x.png"};
+					icons = {"react": "React-Small-White@1x.png", "react-native": "React-Small-White@1x.png", "angular": "Angular-Med-White@1x.png", "purejs": "JS-Small-White@1x.png", "ionic": "Ionic-Color@1x.png", "java": "Java-Color@1x.png", "kotlin":"Droid-Small-White@1x.png", "swift":"Swift-Color@1x.png"};
 					icon.src = "{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/" + icons[platform];
 				}
 			}
 			else {
-				var platform = "purejs";
+				{% if page.url contains 'android' %}
+				 var platform = "java";
+				{% elsif page.url contains 'ios' %}
+				 var platform = "swift";
+				{% else %}
+				 var platform = "purejs";
+				{% endif %}
+				
 				let selector = document.getElementById("js-library-selector");
-				titles = {"react": "React", "react-native": "React Native", "angular": "Angular", "purejs": "JavaScript", "ionic": "Ionic"};
-				selector.innerHTML = titles[platform];
+				titles = {"react": "React", "react-native": "React Native", "angular": "Angular", "purejs": "JavaScript", "ionic": "Ionic", "java":"Java", "swift": "Swift"};
+				if (selector) selector.innerHTML = titles[platform];
 				let icon = document.getElementById("js-library-icon");
-				icons = {"react": "React-Small-White@1x.png", "react-native": "React-Small-White@1x.png", "angular": "Angular-Med-White@1x.png", "purejs": "JS-Small-White@1x.png", "ionic": "Ionic-Color@1x.png"};
-				icon.src = "{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/" + icons[platform];
+				icons = {"react": "React-Small-White@1x.png", "react-native": "React-Small-White@1x.png", "angular": "Angular-Med-White@1x.png", "purejs": "JS-Small-White@1x.png", "ionic": "Ionic-Color@1x.png", "java": "Java-Color@1x.png", "kotlin":"Droid-Small-White@1x.png", "swift":"Swift-Color@1x.png"};
+				if (icon) icon.src = "{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/" + icons[platform];
 			}
 			let selectAddHover = function() {
 				let select_box = document.getElementsByClassName("js-library-selector")[0];
@@ -201,5 +277,30 @@
 				selector.addEventListener("mouseover", selectAddHover);
 				selector.addEventListener("mouseout", selectRemoveHover);
 			}
-		{% endif %}
+			
+			var isAndroid = (window.location.pathname.indexOf('/android/') >= 0);
+			var isIos = (window.location.pathname.indexOf('/ios/') >= 0);
+			var isJs = (window.location.pathname.indexOf('/js/') >= 0);
+			var isCLI = (window.location.pathname.indexOf('/cli/') >= 0);
+			if (isAndroid) {
+				$('#nav-android').show();
+			} else if(isIos) {
+				$('#nav-ios').show();
+			} else if(isJs) {
+				$('#nav-javascript').show();
+			} else if(isCLI) {
+				if ( $.urlParam( 'sdk' ) === 'ios' ) {
+					$('#nav-ios').show();
+					$('.header-amplify').html('iOS SDK');
+				} else if ( $.urlParam( 'sdk' ) === 'js') {
+					$('#nav-javascript').show();
+					$('.header-amplify').html('Amplify JavaScript');
+				} else if ( $.urlParam( 'sdk' ) === 'android' ) {
+					$('#nav-android').show();
+					$('.header-amplify').html('Android SDK');
+				} else {
+					$('#nav-javascript').show();
+					$('.header-amplify').html('Amplify JavaScript');
+				}
+			}
 	</script>

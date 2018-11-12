@@ -10,25 +10,9 @@ This page is a guide to quickly build a cloud-powered mobile or web app with AWS
 
 Use the drop-down menu at the top right of this page to choose the framework for your app.
 
-## Step 0. Development Environment 
+## Prerequisites 
 
-Install the Amplify CLI. If you have already installed the CLI, skip ahead to [Step 1. Create a New App](#step-1-create-a-new-app).
-
-- <a href="https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start" target="_blank">Sign up for an AWS Account</a>
-- Install <a href="https://nodejs.org/en/download/" target="_blank">Node.js®</a> and <a href="https://www.npmjs.com/get-npm" target="_blank">npm</a> if they are not already on your machine.
-
-Verify that you are running at least Node.js version 8.11+ or greater and npm version 5.x or greater by running `node -v` and `npm -v` in a terminal/console window.
-{: .callout .callout--action}
-
-- Install and configure the Amplify CLI.
-
-```bash
-$ npm install -g @aws-amplify/cli
-$ amplify configure
-```
-
-Note: These commands will install the CLI globally. If you're using Windows, the CLI currently supports <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10" target="_blank">Windows Subsystem for Linux</a>.
-{: .callout .callout--action}
+[Install and configure the Amplify CLI](..)
 
 ## Step 1. Create a New App
 
@@ -558,7 +542,7 @@ Depending on your TypeScript version you may need to rename the `aws-exports.js`
 {: .callout .callout--info}
 
 When working with underlying `aws-js-sdk`, the "node" package should be included in *types* compiler option. update your `src/tsconfig.app.json`:
-```javascripton
+```json
 "compilerOptions": {
     "types" : ["node"]
 }

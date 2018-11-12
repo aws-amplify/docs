@@ -39,6 +39,15 @@
     }
 }
 
+.inline-bash {
+    display: inline-block;
+    font-family: "Source Code Pro",monospace;
+    color: #c0341d;
+    background-color: #fcefed;
+    border-radius: .1875rem;
+    padding: .125rem .375rem .1875rem .375rem;
+}
+
 .site-header {
 	position: fixed;
 	//width: 1442px;
@@ -103,9 +112,9 @@
     }
 
     @media (max-width: 828px) {
-        display: block;
-        width: 208px;
-        margin: auto;
+        display: flex;
+        width: 64px;
+        margin: 0 auto;
     }
 }
 
@@ -151,7 +160,7 @@
         margin-top: 2px;
 
         @media (max-width: 828px) {
-            margin-top: 1px;
+            display: none;
         }
     }
 
@@ -161,69 +170,16 @@
     }
 }
 
-.col-xs-12 {
-    margin-top: 1%;
-}
-
-.dropbtn {
-    color: #828282;
-    font-family: "Amazon Ember", "Helvetica", sans-serif;
-    font-size: 16px;
-    line-height: 24px;
-    font-weight: 500;
-    border: none;
-    cursor: pointer;
-}
-
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-.dropdown-content a {
-    color: #828282;
-    font-family: "Amazon Ember", "Helvetica", sans-serif;
-    font-size: 16px;
-    height: 32px;
-    font-weight: 500;
-    padding: 4px 10px;
-    text-decoration: none;
-    display: block;
-    border-bottom: none !important;
-
-    p {
-        display: inline-block;
+@media (max-width: 828px) {
+    .site-header__logo {
+        display: block;
+        margin: 0 auto;
     }
 }
 
-.dropdown-content a:hover p {
-    border-bottom: 2px solid #FF9900;
+.col-xs-12 {
+    margin-top: 1%;
 }
-
-.dropdown-content a:hover {background-color: #f1f1f1}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.dropdown:active .dropdown-content {
-    display: block;
-}
-
-
-.dropbtn:hover {
-    border-bottom: 2px solid #FF9900;
-}
-
 
 /* ----- Navigation ----- */
 .site-header__nav {
@@ -462,6 +418,7 @@ a {
     position: absolute;
     top: 17px;
     left: 10px;
+    z-index: 1;
 
     .docs-toggle {
         span {
@@ -568,17 +525,19 @@ a {
 }
 
 #collapse-search {
-    color: #232F3E;
+    color: white;
+    font-variant: all-small-caps;
     font-family: "Amazon Ember", "Helvetica", sans-serif;
     font-size: 16px;
-    text-decoration: underline;
+    font-weight: bold;
+    text-decoration: none;
     display: none;
     border: none;
     background: none;
     float: right;
     position: absolute;
-    top: 21px;
-    right: 7px;
+    top: 12px;
+    right: 0px;
 
     @media (min-width: 828px) {
         display: none !important;
@@ -817,12 +776,22 @@ a {
     }
 }
 
+.get-started {
+    margin-top:125px !important;
+    padding-top: 0.3em !important;
+    background: none !important;
+    box-shadow: none !important;
+    h1 {
+        font-weight: 100;
+    }
+}
+
 .section-top {
     position: relative;
     
     @media (max-width: 828px) {    
         max-width: 95% !important;
-        margin-top: 10px !important;
+        margin-top: 30px !important;
 
         .container {
             margin: auto !important;
@@ -1079,7 +1048,6 @@ a {
         }
     }
 
-
     .cloud-grid-item:hover {
         border-color: #FF9900;
     }
@@ -1298,7 +1266,7 @@ a {
         font-size: 16px;
         line-height: 24px;
         margin-bottom: 10px;
-        width: 90%;
+        width: 100%;
         display: block;
     }
 }
@@ -1482,6 +1450,65 @@ body {
             font-size: 16px;
             line-height: 24px;
             display: inline-block;
+        }
+        img {
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+
+    a {
+        border: none;
+    }
+
+    // .col-xs-4 {
+    //     width: 38%;
+    // }
+    // .col-xs-8 {
+    //     width: 62%;
+    // }
+}
+
+.notification-bar-2 {
+    @media (max-width: 828px) {
+        display: none !important;
+    }
+
+    display: none;
+    position: absolute;
+    top: 4.9em;
+    width: 100%;
+    background-color: #31465F;
+
+    .close-button {
+        position: absolute;
+        right: 10px;
+        top: 9px;
+
+        i {
+            margin-right: 0;
+        }
+    }
+
+    .icon--x {
+        vertical-align: text-top;
+        color: white;
+        cursor: pointer;
+    }
+
+    .notification-content {
+        margin-top: 8px;
+        width: 95%;
+        display: inline-block;
+        text-align: center;
+
+        .notification-text {
+            color: #FFFFFF;
+            font-family: "Amazon Ember", "Helvetica", sans-serif;
+            font-size: 16px;
+            line-height: 24px;
+            display: inline-block;
+            font-size: 75%;
         }
         img {
             display: inline-block;
@@ -1840,6 +1867,10 @@ li {
     text-decoration: underline;
 }
 
+#npm-link:hover {
+    text-decoration: underline;
+}
+
 .amplify-link-box {
     margin-bottom: 20px;
 }
@@ -1875,20 +1906,77 @@ li {
     transform: rotate(-90deg);
 }
 
+.from-awsmobile {
+    display: inline-block;
+    position: relative;
+    left: 15px;
+    max-width: 1180px;
+    font-family: "Amazon Ember", "Helvetica", sans-serif;
+
+    @media (min-width: 829px) {
+        bottom: 30px;
+        width: calc(100% - 30px);
+    }
+    @media (max-width: 828px) {
+        top: 15px;
+        left: calc(2.5% + 15px);
+        width: calc(95% - 30px);
+    }
+}
+
+.video {
+    float: right;
+}
+
 .section-top-quickstart {
     margin-top: 0;
     margin-bottom: 34px;
 
     .section-code-block {
-        width: 90%;
+        width: 100%;
         padding-bottom: 25px;
 
         .highlight {
+            width: 100%;
             .highlight {
                 padding-bottom: 10px;
             }
         }
+    }
 
+    .cli-content {
+        display: inline-block;
+        width: 50%;
+
+        div {
+            float: left;
+        }
+        ul {
+            float: left;
+        }
+        p {
+            float: left;
+        }
+
+        @media (max-width: 1219px) {
+            width: 90%;
+
+            div {
+                float: none;
+            }
+            ul {
+                float: none;
+            }
+            p {
+                float: none;
+            }
+        }
+    }
+
+    .video {
+        @media (max-width: 1219px) {
+            display: none;
+        }
     }
 
     #orange-logos {
@@ -2150,6 +2238,10 @@ li {
     }
 }
 
+.dark{
+    background-color: #152939;
+}
+
 //=============================================================================
 /***                        new stuff for docs pages                       ***/
 //=============================================================================
@@ -2169,7 +2261,7 @@ li {
 
     ::-webkit-scrollbar {
         height: 0px; 
-        width: 2px;
+        width: 1px;
         background: transparent; 
     }
 
@@ -2509,6 +2601,70 @@ li {
             max-width: 100% !important;
         }
 
+        .dropbtn {
+            color: #828282;
+            font-family: "Amazon Ember", "Helvetica", sans-serif;
+            font-size: 16px;
+            line-height: 24px;
+            font-weight: 500;
+            margin: 5px 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .arrows {
+            -webkit-appearance: menulist;
+            -moz-appearance: menulist;
+            display: inline-block;
+            width: 12px;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+        
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        
+        .dropdown-content a {
+            color: #828282;
+            font-family: "Amazon Ember", "Helvetica", sans-serif;
+            font-size: 16px;
+            height: 32px;
+            font-weight: 500;
+            padding: 4px 10px;
+            text-decoration: none;
+            display: block;
+            border-bottom: none !important;
+        
+            p {
+                display: inline-block;
+            }
+        }
+        
+        .dropdown-content a:hover p {
+            border-bottom: 2px solid #FF9900;
+        }
+        
+        .dropdown-content a:hover {background-color: #f1f1f1}
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        .dropdown:active .dropdown-content {
+            display: block;
+        }
+
         .js-library-selector {
             z-index: 999;
             background-color: #FF9900;
@@ -2525,7 +2681,8 @@ li {
 
             img {
                 height: 20px;
-                left: 10px;
+                left: 4px;
+                margin-left: 5px;
                 position: relative;
                 vertical-align: text-bottom;
                 filter: brightness(0) invert(1);
@@ -2541,6 +2698,28 @@ li {
                 background: none;
                 filter: brightness(0) invert(1);
                 cursor: pointer;
+            }
+        }
+
+        .native-language-selector {
+            z-index: 999;
+            background-color: #152939;
+            border-radius: 4px;
+            position: absolute;
+            top: 53px;
+            right: 27px;
+             @media (max-width: 828px) {
+                position: static;
+                margin-bottom: 20px;
+                width: 162px;
+            }
+
+            img {
+                height: 20px;
+                left: 10px;
+                position: relative;
+                vertical-align: text-bottom;
+                filter: brightness(0) invert(1);
             }
         }
 
@@ -2703,6 +2882,10 @@ li {
         width: 60%;
         margin-bottom: 50px;
 
+        @media (max-width: 828px) {
+            width: 100%;
+        }
+
         .marketing-grid__excerpt {
             font-family: "Amazon Ember", "Helvetica", sans-serif;
             font-size: 16px;
@@ -2779,6 +2962,10 @@ li {
             bottom: 450px;
             margin-bottom: -450px;
         }
+    }
+
+    #cli-much-more:hover {
+        text-decoration: underline;
     }
 }
 

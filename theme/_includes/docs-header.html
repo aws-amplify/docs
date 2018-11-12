@@ -17,7 +17,7 @@
 			<li>
 				{% if item.item_external_url %}
 					<a href="{{ item.item_external_url }}">
-						{{ item.item_name }}   
+						{{ item.item_name }}
 					</a>
 				{% else %}
 					<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}{{ item.item_url }}">
@@ -54,9 +54,27 @@
 			<div class="relative">
 				{% if site.amplify.header.logo.text %}
 				<div class="logo-container" id="logo-container">
+					{% if page.url contains 'cli' %}
+					<a href="{{ site.amplify.baseurl }}" class="site-header__logo">
+						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/Amplify-Logo-White.svg">
+						<p class="header-amplify docs-header-amplify">{{ site.amplify.header.logo.cli_text }} </p>
+					{% elsif page.url contains 'js' %}
+					<a href="{{ site.amplify.baseurl }}" class="site-header__logo">
+						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/Amplify-Logo-White.svg">
+						<p class="header-amplify docs-header-amplify">{{ site.amplify.header.logo.js_text }} </p>
+					{% elsif page.url contains 'android' %}
+					<a href="{{ site.amplify.baseurl }}" class="site-header__logo">
+						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/Amplify-Logo-White.svg">
+						<p class="header-amplify docs-header-amplify">{{ site.amplify.header.logo.android_text }} </p>
+					{% elsif page.url contains 'ios' %}
+					<a href="{{ site.amplify.baseurl }}" class="site-header__logo">
+						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/Amplify-Logo-White.svg">
+						<p class="header-amplify docs-header-amplify">{{ site.amplify.header.logo.ios_text }} </p>
+					{% else %}
 					<a href="{{ site.amplify.marketing_site_home }}" class="site-header__logo">
 						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/Amplify-Logo-White.svg">
 						<p class="header-amplify docs-header-amplify">{{ site.amplify.header.logo.text }} </p>
+					{% endif %}
 					</a>
 				</div>
 				{% elsif site.amplify.header.logo.image %}
@@ -75,12 +93,12 @@
 					{% for item in site.amplify.header.nav %}
 						<li class="docs-nav">
 							{% if item.item_external_url %}
-								<a class="white-text" href="{{ item.item_external_url }}">
+								<a id="{{ item.id }}" class="white-text" href="{{ item.item_external_url }}">
 									{% if item.item_icon %}<i class="icon icon--{{ item.item_icon  }}"></i>{% endif %}
 									{{ item.item_name }}
 								</a>
 							{% else %}
-								<a class="white-text" href="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}{{ item.item_url }}">
+								<a id="{{ item.id }}" class="white-text" href="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}{{ item.item_url }}">
 									{% if item.item_icon %}<i class="icon icon--{{ item.item_icon  }}"></i>{% endif %}
 									{{ item.item_name }}
 								</a>
@@ -89,10 +107,10 @@
 					{% endfor %}
 						<li>
 							<div id="docs-select" class="dropdown">
-								<button class="dropbtn white-text">Docs</button>
+								<a class="dropbtn white-text" href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/">Docs</a>
 								<div class="dropdown-content">
-									<a href="https://docs.aws.amazon.com/aws-mobile/latest/developerguide/getting-started.html#ios-swift" target="_blank"><p>iOS</p></a>
-									<a href="https://docs.aws.amazon.com/aws-mobile/latest/developerguide/getting-started.html#android-java" target="_blank"><p>Android</p></a>
+									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/ios/start"><p>iOS</p></a>
+									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/android/start"><p>Android</p></a>
 									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/js/start?platform=purejs"><p>JavaScript</p></a>
 									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/js/start?platform=react-native"><p>React Native</p></a>
 								</div>
@@ -102,8 +120,8 @@
 							<div id="api-select" class="dropdown">
 								<button class="dropbtn white-text">API</button>
 								<div class="dropdown-content">
-									<a href="https://aws.github.io/aws-sdk-ios/docs/reference/" target="_blank"><p>iOS</p></a>
-									<a href="https://aws.github.io/aws-sdk-android/docs/reference/" target="_blank"><p>Android</p></a>
+									<a href="https://aws-amplify.github.io/aws-sdk-ios/docs/reference/" target="_blank"><p>iOS</p></a>
+									<a href="https://aws-amplify.github.io/aws-sdk-android/docs/reference/" target="_blank"><p>Android</p></a>
 									<a href="https://aws-amplify.github.io/amplify-js/api/" target="_blank"><p>JavaScript</p></a>
 									<a href="https://aws-amplify.github.io/amplify-js/api/" target="_blank"><p>React Native</p></a>
 								</div>
@@ -116,6 +134,7 @@
 					<input type="text" id="search-input-xs" class="visible-xs docs-search-xs"></input>
 					<button id="collapse-search">Cancel</button>
 				{% endif %}
+				{% unless page.name contains "index.md" %}
 				<div id="docs-edit-bar" class="hidden-xs" style="padding-top:0.5em;padding-bottom:2.5em;font-size:80%;">
 					<a id="feedback-link" target="_blank" href="#">
 						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/icons/Minis/outline-feedback-24px.svg" style="height:16px;" />
@@ -130,6 +149,7 @@
 						<p>Tweet</p>
 					</a>
 				</div>
+				{% endunless %}
 			</div><!-- /.col -->
 		</div><!-- /.row -->
 		<a id="github-logo-docs" target="_blank" href="https://github.com/aws-amplify"><img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/GitHub-Mark-32px.png" /></a>
@@ -138,13 +158,17 @@
 {% endif %}
 
 <script>
+	{% if page.name contains 'index.md' %}
+		document.getElementById('get_started').style.borderBottom = "2px solid white";
+	{% endif %}
+</script>
+<script>
 	// let page = window.location.href.split("/");
 	// page = page[page.length-1].split("?")[0];
 	let href = window.location.href.split("?")[0];
 	let edit_url = "https://github.com/aws-amplify/docs/edit/master/";
 	let href_path = href.substring(href.indexOf('/docs/') + 6, href.length);
 	let edit_path = edit_url + href_path + '.md';
-
 	// let page = href.split("?");
 	// page = page[0];
 	// page = page.substring(page.length, (page.indexOf('/docs') - 5));
@@ -152,7 +176,6 @@
 	const feedback_url = "https://github.com/aws-amplify/docs/issues/new/choose";
 	const tweet_url = "https://twitter.com/intent/tweet?text=Get%20started%20with%20AWS%20Amplify%20at%20https://aws-amplify.github.io/docs/js/start";
 	// const edit_url = "https://github.com/aws-amplify/docs/tree/master/";
-
 	document.getElementById("feedback-link").href = feedback_url;
 	document.getElementById("tweet-link").href = tweet_url;
 	document.getElementById("edit-link").href = edit_path;
@@ -162,7 +185,7 @@
 <script>
 	var setBackgroundImage = function() {
 		const search_box = document.getElementById("language-select");
-		search_box.style.background = "url('/amplify-js/images/icons/Minis/Arrows.svg') no-repeat"; 
+		search_box.style.background = "url('/amplify-js/images/icons/Minis/Arrows.svg') no-repeat";
 		search_box.style.backgroundPosition = "164px 6px";
 	}
 
@@ -172,7 +195,7 @@
 <script>
 	var setBackgroundImage = function() {
 		const search_box = document.getElementById("language-select");
-		search_box.style.background = "url('/images/icons/Minis/Arrows.svg') no-repeat"; 
+		search_box.style.background = "url('/images/icons/Minis/Arrows.svg') no-repeat";
 		search_box.style.backgroundPosition = "164px 6px";
 	}
 
@@ -186,7 +209,7 @@
 <script>
 	var setBackgroundImage = function() {
 		const search_box = document.getElementById("search-input-xs");
-		search_box.style.backgroundImage = "url('/amplify-js/images/layout/Search.svg')"; 
+		search_box.style.backgroundImage = "url('/amplify-js/images/layout/Search.svg')";
 	}
 
 	setBackgroundImage();
@@ -195,7 +218,7 @@
 <script>
 	var setBackgroundImage = function() {
 		const search_box = document.getElementById("search-input-xs");
-		search_box.style.backgroundImage = "url('/images/layout/Search.svg')"; 
+		search_box.style.backgroundImage = "url('/images/layout/Search.svg')";
 	}
 
 	setBackgroundImage();

@@ -49,7 +49,7 @@ Depending on your TypeScript version you may need to rename the `aws-exports.js`
 {: .callout .callout--info}
 
 When working with underlying `aws-js-sdk`, the "node" package should be included in *types* compiler option. update your `src/tsconfig.app.json`:
-```javascripton
+```json
 "compilerOptions": {
     "types" : ["node"]
 }
@@ -261,3 +261,4 @@ Example:
   <amplify-authenticator-ionic></amplify-authenticator-ionic>
   ...
 ```
+

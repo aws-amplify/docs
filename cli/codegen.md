@@ -109,7 +109,7 @@ Since you added an API the `amplify push` process will automatically prompt you 
 
 Next, modify your **Podfile** with a dependency of the AWS AppSync SDK:
 
-```bash
+```ruby
 target 'PostsApp' do
   use_frameworks!
   pod 'AWSAppSync', ' ~> 2.6.20'
@@ -225,6 +225,7 @@ do {
 
 Subscriptions can also take `input` types like mutations, in which case they will be subscribing to particular events based on the input. Learn more about Subscription arguments in AppSync [here](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html).
 
+### Complete Sample
 **AppDelegate.swift**
 
 ```swift
@@ -484,6 +485,7 @@ private AppSyncSubscriptionCall subscriptionWatcher;
 
 Subscriptions can also take `input` types like mutations, in which case they will be subscribing to particular events based on the input. Learn more about Subscription arguments in AppSync [here](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html).
 
+### Complete Sample
 **MainActivity.java**
 
 ```java
