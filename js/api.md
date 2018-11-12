@@ -368,7 +368,7 @@ class App extends React.Component {
                 {({ data: { listTodos }, loading, error }) => {
                     if (error) return (<h3>Error</h3>);
                     if (loading || !listTodos) return (<h3>Loading...</h3>)
-                    <ListView todos={listTodos.items} />
+                    return <ListView todos={listTodos.items} />
                 }}
             </Connect>
         )
@@ -394,7 +394,7 @@ Also, you can use `subscription` and `onSubscriptionMsg` attributes to enable su
     {({ data: { listTodos }, loading, error }) => {
         if (error) return (<h3>Error</h3>);
         if (loading || !listTodos) return (<h3>Loading...</h3>);
-        <ListView todos={listTodos ? listTodos.items : []} />
+        return <ListView todos={listTodos ? listTodos.items : []} />
     }
  </Connect>
 
@@ -481,7 +481,7 @@ class App extends Component {
         {({ data: { listTodos }, loading, error }) => {
           if (error) return <h3>Error</h3>;
           if (loading || !listTodos) return <h3>Loading...</h3>;
-            return <ListView todos={listTodos.items} />
+          return <ListView todos={listTodos.items} />
         }}
         </Connect>
       </div>
