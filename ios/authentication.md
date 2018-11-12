@@ -215,7 +215,7 @@ Build and run your program to see the initialized client in Xcode messages. Sinc
                             self.signInStateLabel.text = "Logged In"
                     }
                 case .signedOut:
-                    AWSMobileClient.sharedInstance().showSignInScreen(navigationController: self.navigationController!, { (userState, error) in
+                    AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigationController!, { (userState, error) in
                             if(error == nil){       //Successful signin
                                 DispatchQueue.main.async {
                                     self.signInStateLabel.text = "Logged In"
@@ -223,7 +223,7 @@ Build and run your program to see the initialized client in Xcode messages. Sinc
                             }
                         })
                 default:
-                    AWSMobileClient.sharedInstance().signOut();
+                    AWSMobileClient.sharedInstance().signOut()
                 }
                 
             } else if let error = error {
