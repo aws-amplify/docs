@@ -1,4 +1,5 @@
 ---
+redirect_from: "/js/graphql"
 ---
 # The GraphQL Transform
 
