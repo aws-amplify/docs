@@ -1,5 +1,7 @@
 ---
-redirect_from: "/js/graphql"
+redirect_from:
+  - /js/graphql
+  - /docs/js/graphql
 ---
 # GraphQL Transform
 
