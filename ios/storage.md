@@ -74,6 +74,7 @@ Use the following steps to add file storage backend services to your app.
         pod 'AWSS3', '~> 2.7.0'   # For file transfers
 
         # other pods . . .
+        pod 'AWSMobileClient', '~> 2.7.0'
     end
     ```
 
