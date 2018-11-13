@@ -156,7 +156,7 @@ end
 ```
 When you run your app, you should see no behavior change. The current user state will be logged into the console.
 
-4. To get the users identity, use `getCredentialsProvider()` to access `AWSIdentityManager`, shown here being done in a `ViewController`.
+4. To get the users identity, use `AWSMobileClient.sharedInstance()`, shown here being done in a `ViewController`.
 
 ```swift
 import UIKit
@@ -170,7 +170,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         textfield.text = "View Controller Loaded"
 
-        // Get the identity Id from the AWSIdentityManager
+        // Get the identity Id from the AWSMobileClient
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let credentialsProvider = AWSMobileClient.sharedInstance()
         let identityId = AWSMobileClient.sharedInstance().identityId
