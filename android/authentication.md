@@ -264,36 +264,49 @@ The `AWSMobileClient` client supports a simple "drop-in" UI for your application
 
 ```java
 // 'this' refers the the current active activity
-AWSMobileClient.getInstance().showSignIn(this, SignInUIOptions.builder().build());
+AWSMobileClient.getInstance().showSignIn(this, new Callback<UserStateDetails>() {
+    @Override
+    public void onResult(UserStateDetails result) {
+        Log.d(TAG, "onResult: " + result.getUserState());
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "onError: ", e);
+    }
+});
 ```
 
 In the above code you would have created an Android Activity called `NextActivity` which would automatically be navigated to upon successful sign-up and sign-in. For testing, you can alternatively just use `MainActivity.class` after initializing:
 
 ```java
-AWSMobileClient.getInstance().showSignIn(this, 
-    SignInUIOptions.builder().nextActivityClass(NextActivity.class).build(), 
-    new Callback<UserStateDetails>() {
+AWSMobileClient.getInstance().showSignIn(
+        this,
+        SignInUIOptions.builder()
+                .nextActivity(NextActivity.class)
+                .build(),
+        new Callback<UserStateDetails>() {
+            @Override
+            public void onResult(UserStateDetails result) {
+                Log.d(TAG, "onResult: " + result.getUserState());
+                switch (result.getUserState()){
+                    case SIGNED_IN:
+                        Log.i("INIT", "logged in!");
+                        break;
+                    case SIGNED_OUT:
+                        Log.i(TAG, "onResult: User did not choose to sign-in");
+                        break;
+                    default:
+                        AWSMobileClient.getInstance().signOut();
+                        break;
+                }
+            }
 
-        @Override
-        public void onResult(UserStateDetails userStateDetails) {
-            switch (userStateDetails.getUserState()){
-                case SIGNED_IN:
-                    Log.i("INIT", "logged in!");
-                    break;
-                case SIGNED_OUT:
-                    AWSMobileClient.getInstance().showSignIn(MainActivity.this, MainActivity.class);
-                    break;
-                default:
-                    AWSMobileClient.getInstance().signOut();
-                    break;
+            @Override
+            public void onError(Exception e) {
+                Log.e(TAG, "onError: ", e);
             }
         }
-
-        @Override
-        public void onError(Exception e) {
-            Log.e("INIT", e.toString());
-        }
-    }
 );
 ```
 
@@ -307,13 +320,25 @@ Currently, you can change the following properties of the drop-in UI with the `A
 
 ```java
 AWSMobileClient.getInstance().showSignIn(
-    this,
-    SignInUIOptions.builder()
-      .nextActivityClass(NextActivity.class)
-      .logoImage(R.id.logo)
-      .backgroundColor(R.color.black)
-      .canCancel(false)
-      .build()
+        this,
+        SignInUIOptions.builder()
+                .nextActivity(NextActivity.class)
+                .logo(R.id.logo)
+                .backgroundColor(R.color.black)
+                .canCancel(false)
+                .build(),
+        new Callback<UserStateDetails>() {
+            @Override
+            public void onResult(UserStateDetails result) {
+                Log.d(TAG, "onResult: " + result.getUserState());
+            }
+
+
+            @Override
+            public void onError(Exception e) {
+                Log.e(TAG, "onError: ", e);
+            }
+        }
 );
 ```
 
@@ -742,10 +767,21 @@ public class AuthenticatorActivity extends Activity {
             public void onResult(UserStateDetails userStateDetails) {
                 Log.i("INIT", userStateDetails.getUserState());
                 AWSMobileClient.getInstance().showSignIn(
-                  AuthenticatorActivity.this,
-                  SignInOptions.builder()
-                    .nextActivity(NextActivity.class)
-                    .build()
+                        AuthenticatorActivity.this,
+                        SignInUIOptions.builder()
+                                .nextActivity(NextActivity.class)
+                                .build(),
+                        new Callback<UserStateDetails>() {
+                            @Override
+                            public void onResult(UserStateDetails result) {
+                                Log.d(TAG, "onResult: " + result.getUserState());
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                Log.e(TAG, "onError: ", e);
+                            }
+                        }
                 );
             }
 
@@ -822,10 +858,21 @@ public class AuthenticatorActivity extends Activity {
             public void onResult(UserStateDetails userStateDetails) {
                 Log.i("INIT", userStateDetails.getUserState());
                 AWSMobileClient.getInstance().showSignIn(
-                  AuthenticatorActivity.this, 
-                  SignInOptions.builder()
-                    .nextActivity(NextActivity.class)
-                    .build()
+                        AuthenticatorActivity.this,
+                        SignInUIOptions.builder()
+                                .nextActivity(NextActivity.class)
+                                .build(),
+                        new Callback<UserStateDetails>() {
+                            @Override
+                            public void onResult(UserStateDetails result) {
+                                Log.d(TAG, "onResult: " + result.getUserState());
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                Log.e(TAG, "onError: ", e);
+                            }
+                        }
                 );
             }
 
