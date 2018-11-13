@@ -137,24 +137,38 @@ With your project open in Xcode, select your `Target`. Under `General` tab, find
 
 Click the `Add Other...` button, navigate to the `AWS<#ServiceName#>.framework` files and select them. Check the `Destination: Copy items if needed` checkbox when prompted.
 
-* `AWSCore.framework`
+* `AWSAuth.framework`
+* `AWSAuthCore.framework`
+* `AWSAuthUI.framework`
 * `AWSAutoScaling.framework`
 * `AWSCloudWatch.framework`
 * `AWSCognito.framework`
+* `AWSCognitoAuth.framework`
 * `AWSCognitoIdentityProvider.framework`
+* `AWSCognitoIdentityProviderASF.framework`
+* `AWSCore.framework`
 * `AWSDynamoDB.framework`
 * `AWSEC2.framework`
 * `AWSElasticLoadBalancing.framework`
+* `AWSFacebookSignIn.framework`
+* `AWSGoogleSignIn.framework`
 * `AWSIoT.framework`
+* `AWSKMS.framework`
 * `AWSKinesis.framework`
 * `AWSLambda.framework`
+* `AWSLex.framework`
+* `AWSLogs.framework`
 * `AWSMachineLearning.framework`
+* `AWSMobileClient.framework`
 * `AWSPinpoint.framework`
+* `AWSPolly.framework`
+* `AWSRekognition.framework`
 * `AWSS3.framework`
 * `AWSSES.framework`
-* `AWSSimpleDB.framework`
 * `AWSSNS.framework`
 * `AWSSQS.framework`
+* `AWSSimpleDB.framework`
+* `AWSUserPoolsSignIn.framework`
 
 Under the `Build Phases` tab in your `Target`, click the `+` button on the top left and then select `New Run Script Phase`. Then setup the build phase as follows. Make sure this phase is below the `Embed Frameworks` phase.
 
