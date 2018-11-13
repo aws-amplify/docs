@@ -402,6 +402,7 @@ MainActivity
 Firehose
 KinesisRecorder
 KinesisFirehoseRecorder
+ImageView
 
 # android/authentication.md
 appcompat

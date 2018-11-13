@@ -18,7 +18,8 @@ The `AWSMobileClient` provides client APIs and building blocks for developers wh
 
 When working together, Cognito User Pools acts as a source of user identities (identity provider) for the Cognito Federated Identities. Other sources can be OpenID, Facebook, Google, etc. AWS Amplify uses User Pools to store your user information and handle authorization, and it leverages Federated Identities to manage user access to AWS Resources, for example allowing a user to upload a file to an S3 bucket.
 
-Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start).
+<b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
+<b>Recommendation:</b> [Complete the Getting Started guide](./start)
 {: .callout .callout--info}
 
 ## How it works
@@ -214,7 +215,7 @@ Build and run your program to see the initialized client in Xcode messages. Sinc
                             self.signInStateLabel.text = "Logged In"
                     }
                 case .signedOut:
-                    AWSMobileClient.sharedInstance().showSignInScreen(navigationController: self.navigationController!, { (userState, error) in
+                    AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigationController!, { (userState, error) in
                             if(error == nil){       //Successful signin
                                 DispatchQueue.main.async {
                                     self.signInStateLabel.text = "Logged In"
@@ -222,7 +223,7 @@ Build and run your program to see the initialized client in Xcode messages. Sinc
                             }
                         })
                 default:
-                    AWSMobileClient.sharedInstance().signOut();
+                    AWSMobileClient.sharedInstance().signOut()
                 }
                 
             } else if let error = error {
