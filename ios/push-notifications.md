@@ -61,7 +61,7 @@ Use the following steps to connect add push notification backend services to you
 
         pod  'AWSPinpoint', '~> 2.7.0'
         # other pods
-
+        pod  'AWSMobileClient', '~> 2.7.0'
     end
 	```
 
@@ -74,7 +74,7 @@ Use the following steps to connect add push notification backend services to you
 	```
 	import AWSCore
 	import AWSPinpoint
-        import AWSMobileClient
+	import AWSMobileClient
 	```
 
 1. To receive push notifications with Amazon Pinpoint, you'll instantiate a Pinpoint instance and register your device token with Amazon Pinpoint. We recommend you do this during app startup, so your users can begin receiving notifications as early as possible.
