@@ -1,6 +1,9 @@
 ---
+redirect_from:
+  - /js/graphql
+  - /docs/js/graphql
 ---
-# The GraphQL Transform
+# GraphQL Transform
 
 After defining your API using the GraphQL Schema Definition Language (SDL), 
 you can then use this library to transform it into a fully descriptive 

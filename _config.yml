@@ -52,6 +52,7 @@ kramdown:
 plugins:
   - jekyll-feed
   - jekyll-sitemap
+  - jekyll-redirect-from
 future: true
 
 
@@ -154,7 +155,7 @@ android_category_list:
           cta: Read more
           class: aws-icon-ps-60-network-nodes
           icon: '/images/icons/Misc/Tool.svg'
-          url: '/js/graphql?sdk=android'
+          url: '/cli/graphql?sdk=android'
     - category: API Guides
       title: API Guides
       excerpt: Add cloud features to your app quickly using our toolchain and declarative APIs.
@@ -275,7 +276,7 @@ ios_category_list:
           cta: Read more
           class: aws-icon-ps-60-network-nodes
           icon: '/images/icons/Misc/Tool.svg'
-          url: '/js/graphql?sdk=ios'
+          url: '/cli/graphql?sdk=ios'
     - category: API Guides
       title: API Guides
       excerpt: Add cloud features to your app quickly using our toolchain and declarative APIs.
@@ -427,7 +428,7 @@ category_list:
           cta: Read more
           class: aws-icon-ps-60-network-nodes
           icon: '/images/icons/Misc/Tool.svg'
-          url: '/js/graphql'
+          url: '/cli/graphql?sdk=js'
     - category: Categories
       title: API Guides
       excerpt: Add cloud features to your app quickly using our toolchain and declarative APIs.
