@@ -74,7 +74,7 @@ Use the following steps to connect add push notification backend services to you
 	```
 	import AWSCore
 	import AWSPinpoint
-    import AWSMobileClient
+        import AWSMobileClient
 	```
 
 1. To receive push notifications with Amazon Pinpoint, you'll instantiate a Pinpoint instance and register your device token with Amazon Pinpoint. We recommend you do this during app startup, so your users can begin receiving notifications as early as possible.
@@ -95,13 +95,20 @@ Use the following steps to connect add push notification backend services to you
             // Other didFinishLaunching code...
 
             /** start code copy **/
-            // Initialize Pinpoint
+            // Create AWSMobileClient to connect with AWS
+	    AWSMobileClient.sharedInstance().initialize { (userState, error) in
+              if let error = error {
+                print("Error initializing AWSMobileClient: \(error.localizedDescription)")
+              } else if let userState = userState {
+                print("AWSMobileClient initialized. Current UserState: \(userState.rawValue)")
+              }
+            }
+	    
+	    // Initialize Pinpoint
             let pinpointConfiguration = AWSPinpointConfiguration.defaultPinpointConfiguration(launchOptions: launchOptions)
             pinpoint = AWSPinpoint(configuration: pinpointConfiguration)
-
-            // Create AWSMobileClient to connect with AWS
-            return AWSMobileClient.sharedInstance().interceptApplication(application, didFinishLaunchingWithOptions: launchOptions)
             /** end code copy **/
+	    return true
        }
     }
     ```
