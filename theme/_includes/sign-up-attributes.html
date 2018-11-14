@@ -31,12 +31,19 @@
           <td class="doc-td" data-column="Required">no</td>
       </tr>
       <tr class="doc-tr">
-        <td class="doc-td" data-column="Attribute">hideDefaults</td>
+        <td class="doc-td" data-column="Attribute">hideAllDefaults</td>
         <td class="doc-td" data-column="Type">boolean</td>
-        <td class="doc-td" data-column="Description">determines whether default signup fields are displayed</td>
+        <td class="doc-td" data-column="Description">determines whether all default signup fields are displayed; fields will not be hidden if custom signUpFields are not passed </td>
         <td class="doc-td" data-column="Default">N/A</td>
         <td class="doc-td" data-column="Required">no</td>
-    </tr>
+      </tr>
+      <tr class="doc-tr">
+        <td class="doc-td" data-column="Attribute">hiddenDefaults</td>
+        <td class="doc-td" data-column="Type">array</td>
+        <td class="doc-td" data-column="Description">determines whether individual default signup fields are displayed; allowed values are ['username', 'password', 'phone_number', 'email'] </td>
+        <td class="doc-td" data-column="Default">N/A</td>
+        <td class="doc-td" data-column="Required">no</td>
+      </tr>
     </tbody>
   </table>
   
