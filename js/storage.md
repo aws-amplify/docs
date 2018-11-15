@@ -152,7 +152,7 @@ Import *Storage* from the aws-amplify library:
 import { Storage } from 'aws-amplify';
 ```
 
-If you use `aws-exports.js` file, Storage is already configured when you call Amplify.configure(awsmobile). To configure Storage manually,
+If you use `aws-exports.js` file, Storage is already configured when you call `Amplify.configure(awsmobile)`. To configure Storage manually,
 ```javascript
 Storage.configure(
     AWSS3: {
