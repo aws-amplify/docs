@@ -142,8 +142,22 @@ import java.io.File;
 
 public class YourActivity extends Activity {
 
+    private static final String TAG = YourActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Initialize the AWSMobileClient if not initialized
+        AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+            @Override
+            public void onResult(UserStateDetails userStateDetails) {
+                Log.i(TAG, userStateDetails.getUserState());
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Log.e(TAG, "Initialization error.", e);
+            }
+        });
         uploadWithTransferUtility();
     }
 
@@ -201,7 +215,7 @@ public class YourActivity extends Activity {
 
 ### Download a File
 
-The following example shows how to use the TransferUtility to upload a file. Instantiate the TransferUtility object using the provided TransferUtility builder function. Use the `AWSMobileClient` to get the `AWSConfiguration` and `AWSCredentialsProvider` to pass into the builder. See [Authentication](authentication) for more details.  
+The following example shows how to use the TransferUtility to download a file. Instantiate the TransferUtility object using the provided TransferUtility builder function. Use the `AWSMobileClient` to get the `AWSConfiguration` and `AWSCredentialsProvider` to pass into the builder. See [Authentication](authentication) for more details.  
 
 ```java
 import android.app.Activity;
@@ -218,9 +232,22 @@ import java.io.File;
 
 public class YourActivity extends Activity {
 
+    private static final String TAG = YourActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        AWSMobileClient.getInstance().initialize(this).execute();
+        // Initialize the AWSMobileClient if not initialized
+        AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+            @Override
+            public void onResult(UserStateDetails userStateDetails) {
+                Log.i(TAG, userStateDetails.getUserState());
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Log.e(TAG, "Initialization error.", e);
+            }
+        });
         downloadWithTransferUtility();
     }
 

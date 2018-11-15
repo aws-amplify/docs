@@ -12,7 +12,8 @@ AWS Amplify Authentication module provides Authentication APIs and building bloc
 
 When working together, Cognito User Pools acts as a source of user identities (identity provider) for the Cognito Federated Identities. Other sources can be OpenID, Facebook, Google, etc. AWS Amplify uses User Pools to store your user information and handle authorization, and it leverages Federated Identities to manage user access to AWS Resources, for example allowing a user to upload a file to an S3 bucket.
 
-Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start).
+<b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
+<b>Recommendation:</b> [Complete the Getting Started guide](./start?platform=purejs)
 {: .callout .callout--info}
 
 ### Automated Setup
@@ -811,28 +812,26 @@ To configure your application for hosted UI, you need to use *oauth* options:
 import Amplify from 'aws-amplify';
 
 const oauth = {
-    awsCognito: {
-        // Domain name
-        domain : 'your-domain-prefix.auth.us-east-1.amazoncognito.com', 
-        
-        // Authorized scopes
-        scope : ['phone', 'email', 'profile', 'openid','aws.cognito.signin.user.admin'], 
+    // Domain name
+    domain : 'your-domain-prefix.auth.us-east-1.amazoncognito.com', 
 
-        // Callback URL
-        redirectSignIn : 'http://www.example.com/signin', 
-        
-        // Sign out URL
-        redirectSignOut : 'http://www.example.com/signout',
+    // Authorized scopes
+    scope : ['phone', 'email', 'profile', 'openid','aws.cognito.signin.user.admin'], 
 
-        // 'code' for Authorization code grant, 
-        // 'token' for Implicit grant
-        responseType: 'code',
+    // Callback URL
+    redirectSignIn : 'http://www.example.com/signin', 
 
-        // optional, for Cognito hosted ui specified options
-        options: {
-            // Indicates if the data collection is enabled to support Cognito advanced security features. By default, this flag is set to true.
-            AdvancedSecurityDataCollectionFlag : true
-        }
+    // Sign out URL
+    redirectSignOut : 'http://www.example.com/signout',
+
+    // 'code' for Authorization code grant, 
+    // 'token' for Implicit grant
+    responseType: 'code',
+
+    // optional, for Cognito hosted ui specified options
+    options: {
+        // Indicates if the data collection is enabled to support Cognito advanced security features. By default, this flag is set to true.
+        AdvancedSecurityDataCollectionFlag : true
     }
 }
 
