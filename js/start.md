@@ -349,7 +349,7 @@ Create the AWS backend resources and update the aws-exports.js file.
 $ amplify push
 ```
 
-> A configuration file (`aws-exports.js`) will be added to the `src/` directory.
+> A configuration file (`aws-exports.js`) will be added to the source directory. (`Source Directory Path` question during `amplify init`)
 
 ## Step 4. Integrate AWS Resources
 
