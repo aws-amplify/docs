@@ -857,7 +857,7 @@ const {
     domain,  
     redirectSignIn, 
     redirectSignOut,
-    responseType } = config.oauth.awsCognito;
+    responseType } = config.oauth;
 
 const clientId = config.userPoolWebClientId;
 // The url of the Cognito Hosted UI
