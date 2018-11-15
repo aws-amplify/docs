@@ -436,9 +436,9 @@ For React You can enable federated Identity login by specifying  *federated* opt
 const AppWithAuth = withAuthenticator(App);
 
 const federated = {
-    google_client_id: '',
-    facebook_app_id: '',
-    amazon_client_id: ''
+    google_client_id: '', // Enter your google_client_id here
+    facebook_app_id: '', // Enter your facebook_app_id here
+    amazon_client_id: '' // Enter your amazon_client_id here
 };
 
 ReactDOM.render(<AppWithAuth federated={federated}/>, document.getElementById('root'));
@@ -758,9 +758,9 @@ const Federated = withFederated(Buttons);
 ...
 
 const federated = {
-    google_client_id: '',
-    facebook_app_id: '',
-    amazon_client_id: ''
+    google_client_id: '', // Enter your google_client_id here
+    facebook_app_id: '', // Enter your facebook_app_id here   
+    amazon_client_id: '' // Enter your amazon_client_id here
 };
 
 <Federated federated={federated} onStateChange={this.handleAuthStateChange} />
