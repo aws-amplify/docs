@@ -293,9 +293,9 @@ To learn more about tokens, please visit [Amazon Cognito Developer Documentation
 
 ### Using Components in React & React Native
 
-For React and React Native apps, the simplest way to add authentication flows into your app is to use *withAuthenticator* Higher Order Component.
+For React and React Native apps, the simplest way to add authentication flows into your app is to use the `withAuthenticator` Higher Order Component.
 
-*withAuthenticator* automatically detects the authentication state and updates the UI. If the user is signed in, the underlying component (typically your app's main component) is displayed otherwise signing/signup controls is displayed.
+`withAuthenticator` automatically detects the authentication state and updates the UI. If the user is signed in, the underlying component (typically your app's main component) is displayed otherwise signin/signup controls are displayed.
 
 > The default implementation uses the Amplify UI styling, for an example of what that looks like out of the box on web and mobile, see <a href="https://aws-amplify.github.io/media/ui_library" target="_blank">here</a>.
 
@@ -812,28 +812,26 @@ To configure your application for hosted UI, you need to use *oauth* options:
 import Amplify from 'aws-amplify';
 
 const oauth = {
-    awsCognito: {
-        // Domain name
-        domain : 'your-domain-prefix.auth.us-east-1.amazoncognito.com', 
-        
-        // Authorized scopes
-        scope : ['phone', 'email', 'profile', 'openid','aws.cognito.signin.user.admin'], 
+    // Domain name
+    domain : 'your-domain-prefix.auth.us-east-1.amazoncognito.com', 
 
-        // Callback URL
-        redirectSignIn : 'http://www.example.com/signin', 
-        
-        // Sign out URL
-        redirectSignOut : 'http://www.example.com/signout',
+    // Authorized scopes
+    scope : ['phone', 'email', 'profile', 'openid','aws.cognito.signin.user.admin'], 
 
-        // 'code' for Authorization code grant, 
-        // 'token' for Implicit grant
-        responseType: 'code',
+    // Callback URL
+    redirectSignIn : 'http://www.example.com/signin', 
 
-        // optional, for Cognito hosted ui specified options
-        options: {
-            // Indicates if the data collection is enabled to support Cognito advanced security features. By default, this flag is set to true.
-            AdvancedSecurityDataCollectionFlag : true
-        }
+    // Sign out URL
+    redirectSignOut : 'http://www.example.com/signout',
+
+    // 'code' for Authorization code grant, 
+    // 'token' for Implicit grant
+    responseType: 'code',
+
+    // optional, for Cognito hosted ui specified options
+    options: {
+        // Indicates if the data collection is enabled to support Cognito advanced security features. By default, this flag is set to true.
+        AdvancedSecurityDataCollectionFlag : true
     }
 }
 

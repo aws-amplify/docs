@@ -482,7 +482,7 @@ mAWSAppSyncClient = AWSAppSyncClient.builder()
         @Override
         public String getLatestAuthToken() {
             try {
-                return AWSMobileClient.getInstance().getTokens().getIdToken().getJWTToken();
+                return AWSMobileClient.getInstance().getTokens().getIdToken().getTokenString();
             } catch (Exception e){
                 Log.e("APPSYNC_ERROR", e.getLocalizedMessage());
                 return e.getLocalizedMessage();
