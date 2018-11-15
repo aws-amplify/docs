@@ -812,28 +812,26 @@ To configure your application for hosted UI, you need to use *oauth* options:
 import Amplify from 'aws-amplify';
 
 const oauth = {
-    awsCognito: {
-        // Domain name
-        domain : 'your-domain-prefix.auth.us-east-1.amazoncognito.com', 
-        
-        // Authorized scopes
-        scope : ['phone', 'email', 'profile', 'openid','aws.cognito.signin.user.admin'], 
+    // Domain name
+    domain : 'your-domain-prefix.auth.us-east-1.amazoncognito.com', 
 
-        // Callback URL
-        redirectSignIn : 'http://www.example.com/signin', 
-        
-        // Sign out URL
-        redirectSignOut : 'http://www.example.com/signout',
+    // Authorized scopes
+    scope : ['phone', 'email', 'profile', 'openid','aws.cognito.signin.user.admin'], 
 
-        // 'code' for Authorization code grant, 
-        // 'token' for Implicit grant
-        responseType: 'code',
+    // Callback URL
+    redirectSignIn : 'http://www.example.com/signin', 
 
-        // optional, for Cognito hosted ui specified options
-        options: {
-            // Indicates if the data collection is enabled to support Cognito advanced security features. By default, this flag is set to true.
-            AdvancedSecurityDataCollectionFlag : true
-        }
+    // Sign out URL
+    redirectSignOut : 'http://www.example.com/signout',
+
+    // 'code' for Authorization code grant, 
+    // 'token' for Implicit grant
+    responseType: 'code',
+
+    // optional, for Cognito hosted ui specified options
+    options: {
+        // Indicates if the data collection is enabled to support Cognito advanced security features. By default, this flag is set to true.
+        AdvancedSecurityDataCollectionFlag : true
     }
 }
 

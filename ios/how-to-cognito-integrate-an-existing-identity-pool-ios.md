@@ -141,14 +141,22 @@ end
 
 
          // Instantiate AWSMobileClient to get AWS user credentials
-         return AWSMobileClient.sharedInstance().interceptApplication(application, didFinishLaunchingWithOptions: launchOptions)
+         AWSMobileClient.sharedInstance().initialize { (userState, error) in
+            if let error = error {
+                print("Error initializing AWSMobileClient: \(error.localizedDescription)")
+            } else if let userState = userState {
+                print("AWSMobileClient initialized. Current UserState: \(userState.rawValue)")
+            }
+        }
+         
+         return true
 
    }
  }
 ```
-When you run your app, you should see no behavior change. To verify success, turn on logging by uncommenting the lines in the preceding example, and look for the message :code:`"Welcome to AWS!"` in your the output.
+When you run your app, you should see no behavior change. The current user state will be logged into the console.
 
-4. To get the users identity, use `getCredentialsProvider()` to access `AWSIdentityManager`, shown here being done in a `ViewController`.
+4. To get the users identity, use `AWSMobileClient.sharedInstance()`, shown here being done in a `ViewController`.
 
 ```swift
 import UIKit
@@ -162,10 +170,10 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         textfield.text = "View Controller Loaded"
 
-        // Get the identity Id from the AWSIdentityManager
+        // Get the identity Id from the AWSMobileClient
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let credentialsProvider = AWSMobileClient.sharedInstance().getCredentialsProvider()
-        let identityId = AWSIdentityManager.default().identityId
+        let credentialsProvider = AWSMobileClient.sharedInstance()
+        let identityId = AWSMobileClient.sharedInstance().identityId
     }
 }
 ```

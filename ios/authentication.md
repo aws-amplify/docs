@@ -215,7 +215,7 @@ Build and run your program to see the initialized client in Xcode messages. Sinc
                             self.signInStateLabel.text = "Logged In"
                     }
                 case .signedOut:
-                    AWSMobileClient.sharedInstance().showSignInScreen(navigationController: self.navigationController!, { (userState, error) in
+                    AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigationController!, { (userState, error) in
                             if(error == nil){       //Successful signin
                                 DispatchQueue.main.async {
                                     self.signInStateLabel.text = "Logged In"
@@ -223,7 +223,7 @@ Build and run your program to see the initialized client in Xcode messages. Sinc
                             }
                         })
                 default:
-                    AWSMobileClient.sharedInstance().signOut();
+                    AWSMobileClient.sharedInstance().signOut()
                 }
                 
             } else if let error = error {
@@ -448,7 +448,7 @@ Currently, the federation feature in the AWSMobileClient supports Cognito Identi
 ### Federated Sign In
 
 ```swift
-AWSMobileClient.sharedInstance().federatedSignIn(providerName: IdentityProviders.facebook.rawValue, token: "FACEBOOK_TOKEN_HERE") { (userState, err)  in
+AWSMobileClient.sharedInstance().federatedSignIn(providerName: IdentityProvider.facebook.rawValue, token: "FACEBOOK_TOKEN_HERE") { (userState, error)  in
     if let error = error {
         print("Federated Sign In failed: \(error.localizedDescription)")
     }
