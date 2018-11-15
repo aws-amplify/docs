@@ -286,6 +286,8 @@ async
 X-Amz-Date
 X-Api-Key
 X-Amz-Security-Token
+APIService
+Appsync
 
 # js/analytics.md
 Kinesis
@@ -297,7 +299,12 @@ mouseover
 url
 webapp
 
-# js/graphql.md
+# cli/graphql.md
+redirect_to
+graphql
+sdk
+
+# cli/graphql.md
 DataSource
 onCreate
 onUpdate
@@ -400,12 +407,101 @@ MainActivity
 Firehose
 KinesisRecorder
 KinesisFirehoseRecorder
+ImageView
 
 # android/authentication.md
 appcompat
 AWSMobileClient
 app_id
 logic_protocol_scheme
+xml
+IdentityManager
+PoolId
+XX-XXXX-X
+XXXXXXXX-XXXX-1234-abcd-1234567890ab
+XX-XXXX-X_abcd1234
+AppClientId
+AppClientSecret
+AWSMobileClient.getInstance
+getApplicationContext
+onResult
+UserStateDetails
+userStateDetails
+userStateDetails.getUserState
+SIGNED_IN
+SIGNED_OUT
+runOnUiThread
+TextView
+textView
+findViewById
+R.id.text
+textView.setText
+NextActivity
+showSignIn
+NextActivity.class
+SignInUIConfiguration.builder
+logoImage
+R.id.logo
+backgroundColor
+R.color.black
+canCancel
+getInput
+R.id.signUpUsername
+R.id.signUpPassword
+HashMap
+attributes.put
+SignUpResult
+signUpResult
+signUpResult.getConfirmationState
+UserCodeDeliveryDetails
+signUpResult.getUserCodeDeliveryDetails
+makeToast
+R.id.confirmSignUpUsername
+R.id.confirmSignUpCode
+Log.d
+Log.i
+details.getDestination
+confirmSignUp
+resendSignUp
+your_username
+getDeliveryMedium
+SignInResult
+signInResult
+signInResult.GetSignInState
+SMS_MFA
+NEW_PASSWORD_REQUIRED
+getUsername
+isLoggedIn
+getIdentityId
+getTokens
+getIdToken
+getJWTToken
+getCredentials
+federatedSignIn
+IdentityProviders.FACEBOOK.toString
+FACEBOOK_TOKEN_HERE
+signInResult.getSignInState
+confirmSignIn
+signInChallengeResponse
+UserState
+userState
+savedInstanceState
+YOUR_PROJECT_FOLDER
+amazonaws
+fb1231231231232123123
+android.app.Activity
+android.os.Bundle
+com.amazonaws.mobile.auth.ui.SignInUI
+com.amazonaws.mobile.client.AWSMobileClient
+com.amazonaws.mobile.client.AWSStartupHandler
+com.amazonaws.mobile.client.AWSStartupResult
+AuthenticatorActivity
+super.onCreate
+setContentView
+R.layout.activity_authenticator
+SignInUIOptions.builder
+isSignedIn
+nextActivityClass
 
 # android/how-to-android-kinesis-data-stream.md
 PutRecord
@@ -535,6 +631,31 @@ CocoaLumberjack
 AWSCore
 DocSets
 macOS
+AWSAuth 
+AWSAuthCore 
+AWSAuthUI 
+AWSAutoScaling 
+AWSCloudWatch 
+AWSCognito 
+AWSCognitoAuth 
+AWSCognitoIdentityProvider 
+AWSCognitoIdentityProviderASF 
+AWSDynamoDB 
+AWSElasticLoadBalancing 
+AWSFacebookSignIn 
+AWSGoogleSignIn 
+AWSIoT 
+AWSKinesis 
+AWSLambda 
+AWSLex 
+AWSLogs 
+AWSMachineLearning 
+AWSPinpoint 
+AWSPolly 
+AWSRekognition 
+AWSSimpleDB 
+AWSUserPoolsSignIn
+v2.7
 
 # ios/how-to-transfer-files-with-transfer-utility.md
 AbortIncompleteMultipartUpload

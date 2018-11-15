@@ -44,7 +44,8 @@
 						<div class="sections-list-wrapper">
 							<div class="sections-list js-affix js-scrollspy">
 								<div class="dev-guide">
-									{% unless page.url contains 'android' or page.url contains 'ios' %}
+									
+									<div id="nav-javascript" style="display: none;">
 									{% if site.category_list %}
 										{% for category in site.category_list %}
 										<div class="left-nav-section" id="{{ category.category }}">
@@ -73,8 +74,9 @@
 										</div>
 										{% endfor %}
 									{% endif %}
-									{% endunless %}
-									{% if page.url contains 'android/'%}
+									</div>
+
+									<div id="nav-android" style="display: none;">
 										{% for category in site.android_category_list %}
 										<div class="left-nav-section" id="{{ category.category }}">
 											{% if category.title != 'Setup & Installation' %}
@@ -101,8 +103,9 @@
 											</div>
 										</div>
 										{% endfor %}
-									{% endif %}
-									{% if page.url contains 'ios/'%}
+									</div>
+									
+									<div id="nav-ios" style="display: none;">
 										{% for category in site.ios_category_list %}
 										<div class="left-nav-section" id="{{ category.category }}">
 											{% if category.title != 'Setup & Installation' %}
@@ -129,7 +132,8 @@
 											</div>
 										</div>
 										{% endfor %}
-									{% endif %}
+									</div>
+
 								</div>
 							</div><!-- /.sections-list -->
 						</div>
@@ -142,7 +146,7 @@
 								Select your framework
 							</div>
 							<div class="js-library-selector dropdown white-text">
-								<img id="js-library-icon" style="margin-right:0.8em;"/> 
+								<img id="js-library-icon"/> 
 								<button id="js-library-selector" class="dropbtn white-text" style="margin-right:0.8em;margin-bottom:0.3em;margin-top:0.3em;"></button>
 								<div class="dropdown-content">
 									{% for item in site.js_libraries %}
@@ -248,12 +252,13 @@
 				{% else %}
 				 var platform = "purejs";
 				{% endif %}
+				
 				let selector = document.getElementById("js-library-selector");
 				titles = {"react": "React", "react-native": "React Native", "angular": "Angular", "purejs": "JavaScript", "ionic": "Ionic", "java":"Java", "swift": "Swift"};
-				selector.innerHTML = titles[platform];
+				if (selector) selector.innerHTML = titles[platform];
 				let icon = document.getElementById("js-library-icon");
 				icons = {"react": "React-Small-White@1x.png", "react-native": "React-Small-White@1x.png", "angular": "Angular-Med-White@1x.png", "purejs": "JS-Small-White@1x.png", "ionic": "Ionic-Color@1x.png", "java": "Java-Color@1x.png", "kotlin":"Droid-Small-White@1x.png", "swift":"Swift-Color@1x.png"};
-				icon.src = "{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/" + icons[platform];
+				if (icon) icon.src = "{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/" + icons[platform];
 			}
 			let selectAddHover = function() {
 				let select_box = document.getElementsByClassName("js-library-selector")[0];
@@ -271,5 +276,31 @@
 			if (selector) {
 				selector.addEventListener("mouseover", selectAddHover);
 				selector.addEventListener("mouseout", selectRemoveHover);
+			}
+			
+			var isAndroid = (window.location.pathname.indexOf('/android/') >= 0);
+			var isIos = (window.location.pathname.indexOf('/ios/') >= 0);
+			var isJs = (window.location.pathname.indexOf('/js/') >= 0);
+			var isCLI = (window.location.pathname.indexOf('/cli/') >= 0);
+			if (isAndroid) {
+				$('#nav-android').show();
+			} else if(isIos) {
+				$('#nav-ios').show();
+			} else if(isJs) {
+				$('#nav-javascript').show();
+			} else if(isCLI) {
+				if ( $.urlParam( 'sdk' ) === 'ios' ) {
+					$('#nav-ios').show();
+					$('.header-amplify').html('iOS SDK');
+				} else if ( $.urlParam( 'sdk' ) === 'js') {
+					$('#nav-javascript').show();
+					$('.header-amplify').html('Amplify JavaScript');
+				} else if ( $.urlParam( 'sdk' ) === 'android' ) {
+					$('#nav-android').show();
+					$('.header-amplify').html('Android SDK');
+				} else {
+					$('#nav-javascript').show();
+					$('.header-amplify').html('Amplify JavaScript');
+				}
 			}
 	</script>

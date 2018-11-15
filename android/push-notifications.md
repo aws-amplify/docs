@@ -42,8 +42,8 @@ Use the following steps to connect your app to the push notification backend ser
         implementation 'com.google.firebase:firebase-core:16.0.1'
         implementation 'com.google.firebase:firebase-messaging:17.3.0'
 
-        implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.6.+'
-        implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.6.+@aar') { transitive = true }
+        implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.8.+'
+        implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
     }
 
     apply plugin: 'com.google.gms.google-services'
@@ -107,9 +107,21 @@ Use the following steps to connect your app to the push notification backend ser
 
 	    public static PinpointManager getPinpointManager(final Context applicationContext) {
 	        if (pinpointManager == null) {
+                AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+                    @Override
+                    public void onResult(UserStateDetails userStateDetails) {
+                        Log.i("INIT", userStateDetails.getUserState());
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Log.e("INIT", "Initialization error.", e);
+                    }
+                });
+
 	            PinpointConfiguration pinpointConfig = new PinpointConfiguration(
 	                    applicationContext,
-	                    AWSMobileClient.getInstance().getCredentialsProvider(),
+	                    AWSMobileClient.getInstance(),
 	                    AWSMobileClient.getInstance().getConfiguration());
 
 	            pinpointManager = new PinpointManager(pinpointConfig);
@@ -132,13 +144,18 @@ Use the following steps to connect your app to the push notification backend ser
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.activity_main);
 
-	        // Initialize the AWS Mobile Client
-	        AWSMobileClient.getInstance().initialize(this, new AWSStartupHandler() {
-	            @Override
-	            public void onComplete(AWSStartupResult awsStartupResult) {
-	                Log.d(TAG, "AWSMobileClient is instantiated and you are connected to AWS!");
-	            }
-	        }).execute();
+            // Initialize AWSMobileClient
+	        AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+                @Override
+                public void onResult(UserStateDetails userStateDetails) {
+                    Log.i("INIT", userStateDetails.getUserState());
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    Log.e("INIT", "Initialization error.", e);
+                }
+            });
 
 	        // Initialize PinpointManager
 	        getPinpointManager(getApplicationContext());
