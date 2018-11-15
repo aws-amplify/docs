@@ -299,7 +299,12 @@ mouseover
 url
 webapp
 
-# js/graphql.md
+# cli/graphql.md
+redirect_to
+graphql
+sdk
+
+# cli/graphql.md
 DataSource
 onCreate
 onUpdate
