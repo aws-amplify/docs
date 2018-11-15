@@ -225,6 +225,7 @@ do {
 
 Subscriptions can also take `input` types like mutations, in which case they will be subscribing to particular events based on the input. Learn more about Subscription arguments in AppSync [here](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html).
 
+### Complete Sample
 **AppDelegate.swift**
 
 ```swift
@@ -484,6 +485,7 @@ private AppSyncSubscriptionCall subscriptionWatcher;
 
 Subscriptions can also take `input` types like mutations, in which case they will be subscribing to particular events based on the input. Learn more about Subscription arguments in AppSync [here](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html).
 
+### Complete Sample
 **MainActivity.java**
 
 ```java

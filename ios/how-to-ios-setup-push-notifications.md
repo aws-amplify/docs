@@ -1,3 +1,12 @@
+---
+title: Setting Up iOS Push Notifications
+---
+
+{% if jekyll.environment == 'production' %}
+  {% assign base_dir = site.amplify.docs_baseurl %}
+{% endif %}
+{% assign image_base = base_dir | append: page.dir | append: "images" %}
+
 # Setting Up iOS Push Notifications
 
 Push notifications for iOS apps are sent using Apple Push Notification service (APNs). Before you can send push notifications to iOS devices, you must create an app ID on the Apple Developer portal, and you must create the required certificates.
@@ -42,29 +51,29 @@ If you already have an ID assigned to your app, you can skip this step. You can 
 
 1. Choose **Certificates, Identifiers & Profiles**.
 
-    ![Screenshot of Apple.com site](images/ios_appcert04.png)
+    ![Screenshot of Apple.com site]({{image_base}}/ios_appcert04.png)
 
 1. In the **Identifiers** section, choose **App IDs**.
 
-    ![Screenshot of Apple.com site](images/ios_appcert05.png)
+    ![Screenshot of Apple.com site]({{image_base}}/ios_appcert05.png)
 
 1. In the **iOS App IDs** pane, choose the **Add** button (+).
 
-    ![Screenshot of Apple.com site](images/ios_appcert06.png)
+    ![Screenshot of Apple.com site]({{image_base}}/ios_appcert06.png)
 
 1. In the **Registering an App ID** pane, for **Name**, type a custom name for your app ID that makes it easy to recognize later.
 
-    ![Screenshot of Apple.com site](images/ios_appcert07.png)
+    ![Screenshot of Apple.com site]({{image_base}}/ios_appcert07.png)
 
 1. Choose the default selection for an App ID Prefix.
 
 1. For **App ID Suffix**, select **Explicit App ID**, and type a bundle ID for your app. If you already have an app, use the bundle ID assigned to it. You can find this ID in the app project in Xcode on your Mac. Otherwise, take note of the bundle ID because you will assign it to your app in Xcode later.
 
-    ![Screenshot of Apple.com site](images/ios_appcert08.png)
+    ![Screenshot of Apple.com site]({{image_base}}/ios_appcert08.png)
 
 1. Under **App Services** select **Push Notifications**.
 
-    ![Screenshot of Apple.com site](images/ios_appcert09.png)
+    ![Screenshot of Apple.com site]({{image_base}}/ios_appcert09.png)
 
 1. Choose **Continue**. In the **Confirm your App ID** pane, check that all values were entered correctly. The identifier should match your app ID and bundle ID.
 
@@ -84,33 +93,33 @@ If you already have an SSL certificate for your app, you can skip this step.
 
 1. Choose **Certificates, Identifiers & Profiles**.
 
-    ![Screenshot of Apple.com site](images/ios_appcert04.png)
+    ![Screenshot of Apple.com site]({{image_base}}/ios_appcert04.png)
 
 1. In the **Identifiers** section, choose **App IDs**.
 
-    ![Screenshot of Apple.com site](images/ios_appcert05.png)
+    ![Screenshot of Apple.com site]({{image_base}}/ios_appcert05.png)
 
 1. From the list of iOS app IDs, select the app ID that you created in [Step 1: Create an App ID](#step-1-create-an-app-id).
 
 1. Choose **Edit**.
 
-    ![Screenshot of Apple.com site](images/ios_appcert11.png)
+    ![Screenshot of Apple.com site]({{image_base}}/ios_appcert11.png)
 
 1. Under **Push Notifications**, in the **Production SSL Certificate** section, choose **Create Certificate...**.
 
-    ![Screenshot of Apple.com site](images/ios_appcert12.png)
+    ![Screenshot of Apple.com site]({{image_base}}/ios_appcert12.png)
 
 1. In the **About Creating a Certificate Signing Request (CSR)** pane, follow the instructions for creating a Certificate Signing Request (CSR) file. You use the Keychain Access application on your Mac to create the request and save it on your local disk. When you are done, choose **Continue**.
 
 1. In the **Generate your certificate** pane, choose Choose **File...**, and then select the CSR file you created.
 
-    ![Screenshot of Apple.com site](images/ios_appcert13.png)
+    ![Screenshot of Apple.com site]({{image_base}}/ios_appcert13.png)
 
 1. Choose Continue.
 
 1. When the certificate is ready, choose **Download** to save the certificate to your computer.
 
-    ![Screenshot of Apple.com site](images/ios_appcert15.png)
+    ![Screenshot of Apple.com site]({{image_base}}/ios_appcert15.png)
 
 1. Double-click the downloaded certificate to install it to the Keychain on your Mac.
 
@@ -118,11 +127,11 @@ If you already have an SSL certificate for your app, you can skip this step.
 
 1. In **My Certificates**, find the certificate you just added. The certificate is named "Apple Push Services:`com.my.app.id`", where `com.my.app.id` is the app ID for which the certificate was created.
 
-    ![Screenshot of Keychain application](images/ios_appcert17.png)
+    ![Screenshot of Keychain application]({{image_base}}/ios_appcert17.png)
 
 1. Context-select the push certificate and then select **Export...** from the context menu to export a file containing the certificate.
 
-    ![Screenshot of Keychain application](images/ios_appcert18.png)
+    ![Screenshot of Keychain application]({{image_base}}/ios_appcert18.png)
 
 1. Type a name for the certificate that is easy to recognize and save it to your computer. Do not provide an export password when prompted. You need to upload this certificate when creating your app in AWS Mobile Hub.
 
@@ -140,7 +149,7 @@ If you already have a registered device, you can skip this step.
 
 1. Choose **Certificates, Identifiers & Profiles**.
 
-    ![Screenshot of Apple.com site](images/ios_appcert04.png)
+    ![Screenshot of Apple.com site]({{image_base}}/ios_appcert04.png)
 
 1. In the **Devices** section, choose the type of device that you want to add, such as **iPhone**.
 
@@ -188,7 +197,7 @@ If you already have an iOS distribution certificate, you can skip this step.
 
 1. In the **Generate your certificate** pane, choose **Choose File...**, and then select the CSR file you created.
 
-    ![Screenshot of Apple.com site](images/ios_appcert13.png)
+    ![Screenshot of Apple.com site]({{image_base}}/ios_appcert13.png)
 
 1. Choose **Continue**.
 
@@ -208,21 +217,21 @@ A provisioning profile allows your app to run on your test device. You create an
 
 1. Choose **Certificates, Identifiers & Profiles**.
 
-    ![Screenshot of Apple.com site](images/ios_appcert04.png)
+    ![Screenshot of Apple.com site]({{image_base}}/ios_appcert04.png)
 
 1. In the Provisioning Profiles section, choose Distribution.
 
 1. In the **iOS Provisioning Profiles (Distribution)** pane, choose the **Add** button (+). The **Add iOS Provisioning Profiles (Distribution)** pane is shown.
 
-    ![Screenshot of Apple.com site](images/ios_appcert20.png)
+    ![Screenshot of Apple.com site]({{image_base}}/ios_appcert20.png)
 
 1. In the **Distribution** section, select **Ad Hoc**, and then choose **Continue**.
 
-    ![Screenshot of Apple.com site](images/ios_appcert21.png)
+    ![Screenshot of Apple.com site]({{image_base}}/ios_appcert21.png)
 
 1. For **App ID**, select the app ID you created for your app, and then choose **Continue**.
 
-    ![Screenshot of Apple.com site](images/ios_appcert22.png)
+    ![Screenshot of Apple.com site]({{image_base}}/ios_appcert22.png)
 
 1. Select your iOS Development certificate and then choose **Continue**.
 

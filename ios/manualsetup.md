@@ -1,3 +1,7 @@
+---
+title: Setup Options for the SDK
+---
+
 # Setup Options for the SDK
 
 The AWS SDK contains [high level client interfaces](./start) for quickly adding common features and functionality to your app. You can also manually add the generated AWS service interfaces for direct interaction if you have custom or advanced requirements.
@@ -43,7 +47,6 @@ target :'YOUR-APP-NAME' do
     pod 'AWSLex'
     pod 'AWSLogs'
     pod 'AWSMachineLearning'
-    pod 'AWSMobileAnalytics'
     pod 'AWSMobileClient'
     pod 'AWSPinpoint'
     pod 'AWSPolly'
@@ -60,6 +63,71 @@ end
 Once complete, run `pod install` and open the `*.xcworkspace` with Xcode and **build** your project to start using the SDK. Once you have created a workspace, always use `*.xcworkspace` to open the project instead of `*.xcodeproj`.
 
 Whenever a new version of the SDK is released you can update by running `pod update` and rebuilding your project to use the new features.
+
+## Carthage setup
+
+The AWS Mobile SDK for iOS is available through [https://github.com/Carthage/Carthage](https://cocoapods.org). Install the latest version of [Carthage](https://github.com/Carthage/Carthage#installing-carthage).
+
+Add the following to your `Cartfile`:
+
+```bash
+github "aws-amplify/aws-sdk-ios"
+```
+
+Once complete, run `carthage update` and open the `*.xcworkspace` with Xcode and chose your `Target`. In the `General` tab, find `Embedded Binaries`, then choose the `+` button.
+
+Choose the `Add Other` button, navigate to the `AWS<#ServiceName#>.framework` files under `Carthage > Build > iOS` and select `AWSCore.framework` and the other service frameworks you require. Do not select the `Destination: Copy items` if needed check box when prompted.
+
+* AWSAuth
+* AWSAuthCore
+* AWSAuthUI
+* AWSAutoScaling
+* AWSCloudWatch
+* AWSCognito
+* AWSCognitoAuth
+* AWSCognitoIdentityProvider
+* AWSCognitoIdentityProviderASF
+* AWSCore
+* AWSDynamoDB
+* AWSEC2
+* AWSElasticLoadBalancing
+* AWSFacebookSignIn
+* AWSGoogleSignIn
+* AWSIoT
+* AWSKMS
+* AWSKinesis
+* AWSLambda
+* AWSLex
+* AWSLogs
+* AWSMachineLearning
+* AWSMobileClient
+* AWSPinpoint
+* AWSPolly
+* AWSRekognition
+* AWSS3
+* AWSSES
+* AWSSNS
+* AWSSQS
+* AWSSimpleDB
+* AWSUserPoolsSignIn
+
+Under the `Build Phases` tab in your `Target`, choose the `+` button on the top left and then select `New Run Script Phase`.
+
+Setup the build phase as follows. Make sure this phase is below the Embed Frameworks phase.
+
+```bash
+Shell /bin/sh
+
+bash "${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework/strip-frameworks.sh"
+
+Show environment variables in build log: Checked
+Run script only when installing: Not checked
+
+Input Files: Empty
+Output Files: Empty
+```
+
+Now **build** your project to start using the SDK. Whenever a new version of the SDK is released you can update by running `carthage update` and rebuilding your project to use the new features.
 
 ## Direct AWS Service access
 
@@ -145,10 +213,10 @@ AWSDDLog.add(AWSDDTTYLogger.sharedInstance) // TTY = Xcode console
 Open the macOS terminal and go to the directory containing the expanded archive. For example:
 
 ```bash
-$ cd ~/Downloads/aws-ios-sdk-2.5.0
+$ cd ~/Downloads/aws-ios-sdk-2.7.0
 ```
 
-**Note**: Replace 2.5.0 in the preceding example with the version number of the AWS Mobile SDK for iOS that you downloaded.
+**Note**: Replace 2.7.0 in the preceding example with the version number of the AWS Mobile SDK for iOS that you downloaded.
 
 Create a directory called `~/Library/Developer/Shared/Documentation/DocSets`:
 
@@ -162,4 +230,4 @@ Copy (or move) `documentation/com.amazon.aws.ios.docset` from the SDK installati
 $ mv documentation/com.amazon.aws.ios.docset ~/Library/Developer/Shared/Documentation/DocSets/
 ```
 
-If Xcode was running during this procedure, restart Xcode. To browse the documentation, go to **Help**, click **Documentation and API Reference**, and select **AWS Mobile SDK for iOS v2.0 Documentation** (where '2.0' is the appropriate version number).
+If Xcode was running during this procedure, restart Xcode. To browse the documentation, go to **Help**, click **Documentation and API Reference**, and select **AWS Mobile SDK for iOS v2.7 Documentation** (where '2.7' is the appropriate version number).

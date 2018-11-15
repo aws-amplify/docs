@@ -1,3 +1,7 @@
+---
+title: Set Up Facebook Authentication
+---
+
 # Set Up Facebook Authentication
 
 To use the following Facebook service configuration steps to federate Facebook as a user sign-in provider for AWS services called in your app, try the AWS Amplify [User Sign-in feature](./add-aws-mobile-user-sign-in).
