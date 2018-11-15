@@ -152,12 +152,13 @@ Import *Storage* from the aws-amplify library:
 import { Storage } from 'aws-amplify';
 ```
 
-If you use `aws-exports.js` file, Storage is already configured. To configure Storage manually,
+If you use `aws-exports.js` file, Storage is already configured when you call Amplify.configure(awsmobile). To configure Storage manually,
 ```javascript
-Storage.configure({
-    bucket: //Your bucket ARN;
-    region: //Specify the region your bucket was created in;
-    identityPoolId: //Specify your identityPoolId for Auth and Unauth access to your bucket;
+Storage.configure(
+    AWSS3: {
+        bucket: //Your bucket ARN;
+        region: //Specify the region your bucket was created in;
+        identityPoolId: //Specify your identityPoolId for Auth and Unauth access to your bucket;
 });
 ```
 
@@ -347,6 +348,69 @@ Storage.list('photos/', {level: 'private'})
 
 For the complete API documentation for Storage module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/storageclass.html)
 {: .callout .callout--info}
+
+
+## Using a Custom Plugin
+
+You can create your custom pluggable for Storage. This may be helpful if you want to integrate your app with a custom storage backend.
+
+To create a plugin implement the `StorageProvider` interface:
+
+```typescript
+import { Storage, StorageProvider } from 'aws-amplify';
+
+export default class MyStorageProvider implements StorageProvider {
+    // category and provider name
+    static category = 'Storage';
+    static providerName = 'MyStorage';
+
+    // you need to implement these seven methods
+    // configure your provider
+    configure(config: object): object;
+
+    // get object/pre-signed url from storage
+    get(key: string, options?): Promise<String|Object>
+
+    // upload storage object
+    put(key: string, object, options?): Promise<Object>
+
+    // remove object 
+    remove(key: string, options?): Promise<any>
+
+    // list objects for the path
+    list(path, options?): Promise<any>
+    
+    // return 'Storage';
+    getCategory(): string;
+    
+    // return the name of you provider
+    getProviderName(): string;
+```
+
+You can now register your pluggable:
+
+```javascript
+// add the plugin
+Storage.addPluggable(new MyStorageProvider());
+
+// get the plugin
+Storage.getPluggable(MyStorageProvider.providerName);
+
+// remove the plulgin
+Storage.removePluggable(MyStorageProvider.providerName);
+
+// send configuration into Amplify
+Storage.configure({
+    MyStorageProvider: { 
+        // My Storage provider configuration 
+    }
+});
+
+```
+
+The default provider (Amazon S3) is in use when you call `Storage.put( )` unless you specify a different provider: `Storage.put(key, object, {'MyStorageProvider'})`. 
+{: .callout .callout--info}
+
 
 ## Tracking Events
 
