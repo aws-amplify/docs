@@ -425,8 +425,7 @@ class App extends Component {
             const url = 'https://console.aws.amazon.com/pinpoint/home/?region=us-east-1#/apps/'+awsconfig.aws_mobile_analytics_app_id+'/analytics/events';
             let result = (<div>
               <p>Event Submitted.</p>
-              <p>Events sent: {this.setState({ eventsSent: this.state.eventsSent + 1})}
-              </p>
+              <p>Events sent: {this.setState({ eventsSent: this.state.eventsSent + 1})}</p>
               <a href={url} target="_blank" rel="noopener noreferrer">
                 View Events on the Amazon Pinpoint Console
               </a>
