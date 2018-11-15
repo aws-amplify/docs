@@ -520,7 +520,7 @@ AWSMobileClient.getInstance().getIdentityId()     //String
 
 ```java
 AWSMobileClient.getInstance().getTokens();
-AWSMobileClient.getInstance().getTokens().getIdToken().getJWTToken();
+AWSMobileClient.getInstance().getTokens().getIdToken().getTokenString();
 ```
 
 #### AWS Credentials
