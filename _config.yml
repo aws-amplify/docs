@@ -52,6 +52,7 @@ kramdown:
 plugins:
   - jekyll-feed
   - jekyll-sitemap
+  - jekyll-redirect-from
 future: true
 
 
@@ -67,15 +68,17 @@ amplify:
     api_js_url: 'https://aws-amplify.github.io/amplify-js/api/'
     header:
         logo:
-            text: AWS Amplify
-            android_text: 'AWS Android SDK'
-            ios_text: 'AWS iOS SDK'
+            text: Amplify Framework
+            cli_text: 'Amplify'
+            js_text: 'Amplify JavaScript'
+            android_text: 'Android SDK'
+            ios_text: 'iOS SDK'
             image: true
             platform: for JavaScript
         nav:
             - item_name: Get Started
-              item_external_url: 'https://aws-amplify.github.io/media/get_started'
-              id: start
+              item_url: '/'
+              id: get_started
             - item_name: Toolchain
               item_external_url: 'https://aws-amplify.github.io/media/toolchain'
               id: cli
@@ -131,28 +134,28 @@ android_category_list:
       excerpt: Better developer experience when building and deploying your apps.
       base_url: '/cli/'
       subs:
-        - title: Getting Started
+        - title: Usage
           excerpt: Setup and Configure a Project with the CLI
-          url: '/cli/init'
+          url: '/cli/init?sdk=android'
           icon: '/images/icons/Misc/Present.svg'
         - title: Architecture
           excerpt: CLI Architecture and Overview
-          url: '/cli/concept'
+          url: '/cli/concept?sdk=android'
           icon: '/images/icons/Misc/Present.svg'
         - title: Codegen
           excerpt: Codegen for GraphQL
-          url: '/cli/codegen' 
+          url: '/cli/codegen?sdk=android' 
           icon: '/images/icons/Misc/Present.svg'
         - title: Plugins
           excerpt: Create a new plugin for the CLI
-          url: '/cli/plugins' 
+          url: '/cli/plugins?sdk=android' 
           icon: '/images/icons/Misc/Present.svg'
         - title: GraphQL Transform
           excerpt: Transform simple GraphQL schema files into full application backends.
           cta: Read more
           class: aws-icon-ps-60-network-nodes
           icon: '/images/icons/Misc/Tool.svg'
-          url: '/js/graphql'
+          url: '/cli/graphql?sdk=android'
     - category: API Guides
       title: API Guides
       excerpt: Add cloud features to your app quickly using our toolchain and declarative APIs.
@@ -213,15 +216,6 @@ android_category_list:
           services:
               - title: Amazon Pinpoint
                 url: https://aws.amazon.com/pinpoint/
-        - title: Interactions
-          excerpt: Create conversational bots powered by deep learning technologies.
-          cta: Read more
-          class: aws-icon-ps-60-bubble-gear
-          url: '/android/interactions'
-          icon: '/images/icons/Misc/Cloud.svg'
-          services:
-              - title: Amazon Lex
-                url: https://aws.amazon.com/lex/
         - title: PubSub
           excerpt: Connect your app to message-oriented middleware on the cloud.
           cta: Read more
@@ -261,28 +255,28 @@ ios_category_list:
       excerpt: Better developer experience when building and deploying your apps.
       base_url: '/cli/'
       subs:
-        - title: Getting Started
+        - title: Usage
           excerpt: Setup and Configure a Project with the CLI
-          url: '/cli/init'
+          url: '/cli/init?sdk=ios'
           icon: '/images/icons/Misc/Present.svg'
         - title: Architecture
           excerpt: CLI Architecture and Overview
-          url: '/cli/concept'
+          url: '/cli/concept?sdk=ios'
           icon: '/images/icons/Misc/Present.svg'
         - title: Codegen
           excerpt: Codegen for GraphQL
-          url: '/cli/codegen' 
+          url: '/cli/codegen?sdk=ios' 
           icon: '/images/icons/Misc/Present.svg'
         - title: Plugins
           excerpt: Create a new plugin for the CLI
-          url: '/cli/plugins' 
+          url: '/cli/plugins?sdk=ios' 
           icon: '/images/icons/Misc/Present.svg'
         - title: GraphQL Transform
           excerpt: Transform simple GraphQL schema files into full application backends.
           cta: Read more
           class: aws-icon-ps-60-network-nodes
           icon: '/images/icons/Misc/Tool.svg'
-          url: '/js/graphql'
+          url: '/cli/graphql?sdk=ios'
     - category: API Guides
       title: API Guides
       excerpt: Add cloud features to your app quickly using our toolchain and declarative APIs.
@@ -343,15 +337,6 @@ ios_category_list:
           services:
               - title: Amazon Pinpoint
                 url: https://aws.amazon.com/pinpoint/
-        - title: Interactions
-          excerpt: Create conversational bots powered by deep learning technologies.
-          cta: Read more
-          class: aws-icon-ps-60-bubble-gear
-          url: '/ios/interactions'
-          icon: '/images/icons/Misc/Cloud.svg'
-          services:
-              - title: Amazon Lex
-                url: https://aws.amazon.com/lex/
         - title: PubSub
           excerpt: Connect your app to message-oriented middleware on the cloud.
           cta: Read more
@@ -375,7 +360,7 @@ ios_category_list:
           cta: Read more
           class: aws-icon-ps-60-circular-circuit
           url: '/ios/manualsetup'
-          
+
 category_list:
     - category: SetupAndInstallation
       title: Setup & Installation
@@ -408,25 +393,25 @@ category_list:
       excerpt: Better developer experience when building and deploying your apps.
       base_url: '/cli/'
       subs:
-        - title: Getting Started
+        - title: Usage
           excerpt: Setup and Configure a Project with the CLI
-          url: '/cli/init'
+          url: '/cli/init?sdk=js'
           icon: '/images/icons/Misc/Present.svg'
         - title: Architecture
           excerpt: CLI Architecture and Overview
-          url: '/cli/concept'
+          url: '/cli/concept?sdk=js'
           icon: '/images/icons/Misc/Present.svg'
         - title: Hosting
           excerpt: Host your web project or static assets
-          url: '/cli/hosting' 
+          url: '/cli/hosting?sdk=js' 
           icon: '/images/icons/Misc/Present.svg'
         - title: Codegen
           excerpt: Codegen for GraphQL
-          url: '/cli/codegen' 
+          url: '/cli/codegen?sdk=js' 
           icon: '/images/icons/Misc/Present.svg'
         - title: Plugins
           excerpt: Create a new plugin for the CLI
-          url: '/cli/plugins' 
+          url: '/cli/plugins?sdk=js' 
           icon: '/images/icons/Misc/Present.svg'
         - title: UI Components
           excerpt: User interface components
@@ -443,7 +428,7 @@ category_list:
           cta: Read more
           class: aws-icon-ps-60-network-nodes
           icon: '/images/icons/Misc/Tool.svg'
-          url: '/js/graphql'
+          url: '/cli/graphql?sdk=js'
     - category: Categories
       title: API Guides
       excerpt: Add cloud features to your app quickly using our toolchain and declarative APIs.

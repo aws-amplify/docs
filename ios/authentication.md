@@ -1,8 +1,11 @@
+---
+title: Authentication
+---
 
-
-**WARNING**
-
-**THIS IS PREVIEW DOCUMENTATION. NOT FOR PRODUCTION USE.**
+{% if jekyll.environment == 'production' %}
+  {% assign base_dir = site.amplify.docs_baseurl %}
+{% endif %}
+{% assign image_base = base_dir | append: page.dir | append: "images" %}
 
 # Authentication
 
@@ -15,7 +18,8 @@ The `AWSMobileClient` provides client APIs and building blocks for developers wh
 
 When working together, Cognito User Pools acts as a source of user identities (identity provider) for the Cognito Federated Identities. Other sources can be OpenID, Facebook, Google, etc. AWS Amplify uses User Pools to store your user information and handle authorization, and it leverages Federated Identities to manage user access to AWS Resources, for example allowing a user to upload a file to an S3 bucket.
 
-Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start).
+<b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
+<b>Recommendation:</b> [Complete the Getting Started guide](./start)
 {: .callout .callout--info}
 
 ## How it works
@@ -29,10 +33,10 @@ The AWSMobileClient manages your application session for authentication related 
 - `isLoggedIn` property defined as a BOOLEAN for the most simple use cases
 - `currentUserState` used for more advanced scenarios, such as determining if the user has Guest credentials, Authenticated with User Pools, has Federated credentials, or has signed out.
 
-This allows you to write workflows in your application based on the state of the user and what you would like to present on different screens. The `AWSMobileClient` also offers realtime notifications on user state changes which you can register for in your application using `.addListener` as in the code below.
+This allows you to write workflows in your application based on the state of the user and what you would like to present on different screens. The `AWSMobileClient` also offers realtime notifications on user state changes which you can register for in your application using `.addUserStateListener` as in the code below.
 
 ```swift
-AWSMobileClient.sharedInstance().addListener(self) { (userState, info) in
+AWSMobileClient.sharedInstance().addUserStateListener(self) { (userState, info) in
             
             switch (userState) {
             case .guest:
@@ -61,7 +65,7 @@ The `AWSMobileClient` will return valid JWT tokens from your cache immediately i
 If the Refresh tokens have expired and you then make call to any AWS service, such as a AppSync GraphQL request or S3 upload, the `AWSMobileClient` will dispatch a state notification that a re-login is required. At this point you can choose to present the user with a login screen, call `AWSMobileClient.sharedInstance().signIn()`, or perform custom business logic. For example:
 
 ```swift
-AWSMobileClient.sharedInstance().addListener(self) { (userState, info) in
+AWSMobileClient.sharedInstance().addUserStateListener(self) { (userState, info) in
             
             switch (userState) {
             case .signedOut:
@@ -79,7 +83,7 @@ AWSMobileClient.sharedInstance().addListener(self) { (userState, info) in
 }
 ```
 
-You can register to listen for this state change anywhere in your app with `.addListener`, such as in `viewDidLoad()` in the above example. If you want to cancel the re-login process, for instance if your application is shared among multiple users of the device or a user clicks "cancel" on the re-login attempt, you can call `releaseSignInWaitLock()` to terminate the call and then call a `signOut()`.
+You can register to listen for this state change anywhere in your app with `.addUserStateListener`, such as in `viewDidLoad()` in the above example. If you want to cancel the re-login process, for instance if your application is shared among multiple users of the device or a user clicks "cancel" on the re-login attempt, you can call `releaseSignInWait()` to terminate the call and then call a `signOut()`.
 
 #### AWS Credentials
 
@@ -100,8 +104,9 @@ After initialization in your project directory with `amplify init`, edit your `P
 ```ruby
 target 'MyApp' do             ##Replace MyApp with your application name
   use_frameworks!
-  pod 'AWSMobileClient', '0.0.7'
-  pod 'AWSUserPoolsSignIn', '0.0.2'
+  pod 'AWSMobileClient', '~> 2.7.0'      # Required dependency
+  pod 'AWSAuthUI', '~> 2.7.0'            # Optional dependency required to use drop-in UI
+  pod 'AWSUserPoolsSignIn', '~> 2.7.0'   # Optional dependency required to use drop-in UI
 end
 ```
 
@@ -210,7 +215,7 @@ Build and run your program to see the initialized client in Xcode messages. Sinc
                             self.signInStateLabel.text = "Logged In"
                     }
                 case .signedOut:
-                    AWSMobileClient.sharedInstance().showSignInScreen(navigationController: self.navigationController!, { (userState, error) in
+                    AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigationController!, { (userState, error) in
                             if(error == nil){       //Successful signin
                                 DispatchQueue.main.async {
                                     self.signInStateLabel.text = "Logged In"
@@ -218,7 +223,7 @@ Build and run your program to see the initialized client in Xcode messages. Sinc
                             }
                         })
                 default:
-                    AWSMobileClient.sharedInstance().signOut();
+                    AWSMobileClient.sharedInstance().signOut()
                 }
                 
             } else if let error = error {
@@ -263,7 +268,7 @@ Currently, you can change the following properties of the drop-in UI with the `A
 ```swift
 AWSMobileClient.sharedInstance()
     .showSignInScreen(navigationController: self.navigationController!,
-                        signInUIConfiguration: SignInUIConfiguration(
+                      signInUIOptions: SignInUIOptions(
                             canCancel: false,
                             logoImage: UIImage(named: "MyCustomLogo"),
                             backgroundColor: UIColor.black)) { (result, err) in
@@ -402,23 +407,13 @@ The `AWSMobileClient` provides several property "helpers" that are automatically
 
 ```swift
 AWSMobileClient.sharedInstance().username       //String
-AWSMobileClient.sharedInstance().isLoggedIn     //Boolean
+AWSMobileClient.sharedInstance().isSignedIn     //Boolean
 AWSMobileClient.sharedInstance().identityId     //String
 ```
 
 ### Managing Security Tokens
 
 **When using Authentication with `AWSMobileClient`, you don’t need to refresh Amazon Cognito tokens manually. The tokens are automatically refreshed by the library when necessary.**
-
-```swift
-AWSMobileClient.sharedInstance().getTokens { (tokens, error) in
-    if let error = error {
-        print("Error getting token \(error.localizedDescription)")
-    } else if let tokens = tokens {
-        print(tokens.accessToken!.tokenString!)
-    }
-}
-```
 
 #### OIDC Tokens
 
@@ -453,7 +448,7 @@ Currently, the federation feature in the AWSMobileClient supports Cognito Identi
 ### Federated Sign In
 
 ```swift
-AWSMobileClient.sharedInstance().federatedSignIn(providerName: "graph.facebook.com", token: "FACEBOOK_TOKEN_HERE") { (userState, err)  in
+AWSMobileClient.sharedInstance().federatedSignIn(providerName: IdentityProvider.facebook.rawValue, token: "FACEBOOK_TOKEN_HERE") { (userState, error)  in
     if let error = error {
         print("Federated Sign In failed: \(error.localizedDescription)")
     }
@@ -482,7 +477,7 @@ when configuring authentication using the AWS Amplify CLI.
 2. From `Create App`, choose `Add a New App` (note: this menu label will be
    `My Apps` if you have previously created an app.
 
-![Image](./images/new-facebook-app.png)
+![Image]({{image_base}}/new-facebook-app.png)
 
 3. If asked, choose the platform of your app that will use Facebook sign-in, and `basic
    setup`.
@@ -490,22 +485,20 @@ when configuring authentication using the AWS Amplify CLI.
 4. Type a display name for your app, select a category for your app from the `Category`
    drop-down list, and then choose `Create App ID`.
 
-![Image](./images/new-facebook-app-new-app-id.png)
+![Image]({{image_base}}/new-facebook-app-new-app-id.png)
 
 
 5. Complete the `Security Check` that appears. Your new app then appears in the
    `Dashboard`.
 
-![Image](./images/new-facebook-app-id.png)
-
 6. Copy the App ID and note it for later when using the Amplify CLI.
 
-![Image](./images/facebook-app-id-console-entry.png)
+![Image]({{image_base}}/new-facebook-app-id.png)
 
 7. In the Facebook Developer portal's left hand navigation list, choose `Settings`, then
    choose `+ Add Platform`.
 
-![Image](./images/new-facebook-add-platform.png)
+![Image]({{image_base}}/new-facebook-add-platform.png)
 
 8. Choose your platform and provide information about your app that Facebook will use for
    integration during credential validation.
@@ -514,7 +507,7 @@ when configuring authentication using the AWS Amplify CLI.
 
       1. Add your app's Bundle ID. (for example, com.amazon.YourProjectName).
 
-![Image](./images/new-facebook-add-platform-ios.png)
+![Image]({{image_base}}/new-facebook-add-platform-ios.png)
 
 
 9. In the Facebook Developers portal, choose `Save changes`, then `Use this
@@ -526,7 +519,7 @@ when configuring authentication using the AWS Amplify CLI.
     To authorize users, in the Facebook Developer portal's left hand navigation list, choose
     `Roles`, then `Add Testers`. Provide a valid Facebook ID.
 
-![Image](./images/new-facebook-add-testers.png)
+![Image]({{image_base}}/new-facebook-add-testers.png)
 
 
 For more information about integrating with Facebook Login, see the [Facebook Getting Started Guide](https://developers.facebook.com/docs/facebook-login).
@@ -558,34 +551,42 @@ Note that the CLI allows you to select more than one identity provider for your 
 
 #### Google with Cognito Identity
 
-To federate Google as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.sharedInstance().federatedSignIn()`. You must first register your application with Google Sign-In and then configure this with Amazon Cognito Identity Pools.
+To federate Google as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.sharedInstance().federatedSignIn()`. You must first register your application with Google Sign-In in the Google Developers Console, and then configure this with Amazon Cognito Identity Pools.
 
-The following sections detail the Google Sign-In requirements and steps to integrate Google Sign-In for both iOS and Android apps:
+To implement Google Sign-in into your iOS app, you need two things: 
 
-* [Create a Google Developers Project and OAuth Web Client ID](./auth-google-setup#project) (required for `all apps` regardless of platform)
+1. OAuth Web Client ID 
+2. iOS Client ID
 
-* [Create an OAuth Android Client ID]() (required for all Android apps)
+These Client IDs are part of your Google Developers project. The Web Client ID will be used by Cognito Identity Pools to manage the OAuth flow between Cognito and Google on the server side. The iOS Client ID will be used in your iOS app to authorize the OAuth flow directly with Google allowing your users to authenticate with Google using their Google login credentials.
 
-* [Create an OAuth iOS Client ID]() (required for all iOS apps)
+**NOTE:** The creation and configuration steps for creating OAuth Clients for Google Sign-In is constantly changing, always refer to the official setup instructions from Google.
 
-After completing the steps above, note your **Google Client ID** for the next section.
+First, navigate to the ["start integrating" section of the Google Developer portal](https://developers.google.com/identity/sign-in/ios/start-integrating) and click **CREATE AN OAUTH CLIENT ID** to get an OAuth client ID. When you select an existing or new project, this will automatically create the "Web Client ID" for you in the background fulfilling requirement #1 above.
 
+When prompted choose **iOS** as the calling platform along with your Package name and certificate. Once created the **iOS Client ID** will be created. Copy this as you will use it when configuring your backend with the Amplify CLI.
+
+Next, obtain your **OAuth Web Client ID** from your project credentials navigating directly to the [Credentials section of the Google Developer console](https://console.developers.google.com/apis/credentials). Select your project (you may need to click **All**) and under **OAuth 2.0 client IDs** copy the Client ID associated with the Web application type. Save it for the next step. The iOS Client ID from earlier is listed here as well.
+
+![Image]({{image_base}}/iOS_OAuth.png)
+
+After completing the steps above, note both of the **Google Client IDs** for usage with the Amplify CLI in the next section.
 **Amplify CLI Configuration - Google**
 
 In a terminal window, navigate to the root of your app files and add the auth category to your app. The CLI prompts you for configuration parameters. Choose **I will setup my own configuration** and **AWS IAM controls** when prompted.
 
 ```terminal
 $ cd ./YOUR_PROJECT_FOLDER
-$ amplify add auth
+$ amplify add auth              ##"amplify update auth" if already configured
 ❯ No, I will set up my own configuration.
 ❯ User Sign-Up, Sign-In, connected with AWS IAM controls
 ```
 
 Choose **YES** to `? Allow unauthenticated logins?` and **YES** to `? Do you want to enable 3rd party authentication providers in your identity pool?`.
 
-Choose **Google** and then provide your Google **Client ID**.
+Choose **Google** and then provide your Google **Client IDs** as appropriate. The CLI will ask you for both the **Web Client ID** and **iOS Client ID** at the appropriate time.
 
-When configuration for Facebook sign-in is complete, the CLI displays a message confirming that you have configured local CLI metadata for this category. Run the following to update your changes in the cloud:
+When configuration for Google sign-in is complete, the CLI displays a message confirming that you have configured local CLI metadata for this category. Run the following to update your changes in the cloud:
 
 ```terminal
 $ amplify push
@@ -597,19 +598,20 @@ Note that the CLI allows you to select more than one identity provider for your 
 
 ### Facebook Login in Your Mobile App
 
-1. Add or update your AWS backend configuration file to incorporate your new sign-in. For details, see the last steps in the [Get Started: Set Up Your Backend](./add-aws-mobile-sdk-basic-setup) section.
-
-2. Add the following dependencies in your project's `Podfile`.
+1. Add the following dependencies in your project's `Podfile`.
 
 	```ruby
 	platform :ios, '9.0'
 	  target 'YOUR-APP-NAME' do
 	    use_frameworks!
-	    pod 'AWSMobileClient', '~> 2.6.33'
-	    pod 'AWSFacebookSignIn', '~> 2.6.33'
-	    pod 'AWSUserPoolsSignIn', '~> 2.6.33'
-	    pod 'AWSAuthUI', '~> 2.6.33'
-	    # other pods
+
+	    pod 'AWSFacebookSignIn', '~> 2.7.0'     # Add this new dependency
+	    pod 'AWSAuthUI', '~> 2.7.0'             # Add this dependency if you have not already added
+	    
+	    # Other Pod entries
+	    pod 'AWSMobileClient', '~> 2.7.0'
+	    pod 'AWSUserPoolsSignIn', '~> 2.7.0'
+	    
 	  end
 	```
 
@@ -661,6 +663,8 @@ Note : `AWSFacebookSignIn` is only needed for using Facebook in your app and  `A
   </dict>
 ```
 
+Now, your drop-in UI will show a Facebook sign in button which the users can use to sign in to your app. This uses the `federatedSignIn()` flow underneath it.
+
 ### Google Login in Your Mobile App
 
 1. Add or update your AWS backend configuration file to incorporate your new sign-in. For details, see the last steps in the [Get Started: Set Up Your Backend](./start) section.
@@ -671,15 +675,20 @@ Note : `AWSFacebookSignIn` is only needed for using Facebook in your app and  `A
 	platform :ios, '9.0'
 	target :'YOUR-APP-NAME' do
 	  use_frameworks!
-	  pod 'AWSMobileClient', '~> 2.6.33'
-	  pod 'AWSGoogleSignIn', '~> 2.6.33'
-	  pod 'AWSUserPoolsSignIn', '~> 2.6.33'
-	  pod 'AWSAuthUI', '~> 2.6.33'
-	  pod 'GoogleSignIn', '~> 4.0'
-	  # other pods
+	  pod 'AWSGoogleSignIn', '~> 2.7.0'     # Add this new dependency
+	  pod 'GoogleSignIn', '~> 4.0'          # Add this new dependency
+	  pod 'AWSAuthUI', '~> 2.7.0'           # Add this dependency if you have not already added
+	    
+	  # Other Pod entries
+	  pod 'AWSMobileClient', '~> 2.7.0'
+	  pod 'AWSUserPoolsSignIn', '~> 2.7.0'
+	  
 	end
 	```
 	Run `pod install --repo-update` before you continue.
+
+Note : `AWSGoogleSignIn` is only needed for using Google Login in your app and `AWSAuthUI` is only necessary if using the "Drop-In UI".
+{: .callout .callout--info}
 
 3. Add Google metadata to `Info.plist`.
 
@@ -704,3 +713,5 @@ Note : `AWSFacebookSignIn` is only needed for using Facebook in your app and  `A
 
 	<!-- ... -->
 	```
+
+Now, your drop-in UI will show a Google sign in button which the users can use to sign in to your app. This uses the `federatedSignIn()` flow underneath it.
