@@ -408,7 +408,7 @@ Storage.removePluggable(MyStorageProvider.providerName);
 
 // send configuration into Amplify
 Storage.configure({
-    MyStorageProvider.providerName: { 
+    [MyStorageProvider.providerName]: { 
         // My Storage provider configuration 
     }
 });
