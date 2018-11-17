@@ -395,7 +395,7 @@ Also, you can use `subscription` and `onSubscriptionMsg` attributes to enable su
         if (error) return (<h3>Error</h3>);
         if (loading || !listTodos) return (<h3>Loading...</h3>);
         <ListView todos={listTodos ? listTodos.items : []} />
-    }
+    }}
  </Connect>
 
 ```
