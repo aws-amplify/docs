@@ -149,16 +149,23 @@ Storage.vault.get('welcome.png'); // Get the welcome.png belonging to current us
 
 Import *Storage* from the aws-amplify library:
 ```javascript
-import { Storage } from 'aws-amplify';
+import { Auth, Storage } from 'aws-amplify';
 ```
 
-If you use `aws-exports.js` file, Storage is already configured when you call `Amplify.configure(awsmobile)`. To configure Storage manually,
+If you use `aws-exports.js` file, Storage is already configured when you call `Amplify.configure(awsmobile)`. To configure Storage manually, you will have to configure Amplify Auth category too.  
 ```javascript
-Storage.configure(
+Auth.configure(
+    // To get the aws credentials, you need to configure 
+    // the Auth module with your Cognito Federated Identity Pool
+    identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab',
+    region: 'XX-XXXX-X',
+);
+
+Storage.configure({
     AWSS3: {
-        bucket: //Your bucket ARN;
-        region: //Specify the region your bucket was created in;
-        identityPoolId: //Specify your identityPoolId for Auth and Unauth access to your bucket;
+        bucket: '',//Your bucket ARN;
+        region: ''//Specify the region your bucket was created in;
+    }
 });
 ```
 
