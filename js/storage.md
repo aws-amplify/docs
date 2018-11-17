@@ -408,14 +408,14 @@ Storage.removePluggable(MyStorageProvider.providerName);
 
 // send configuration into Amplify
 Storage.configure({
-    MyStorageProvider: { 
+    MyStorageProvider.providerName: { 
         // My Storage provider configuration 
     }
 });
 
 ```
 
-The default provider (Amazon S3) is in use when you call `Storage.put( )` unless you specify a different provider: `Storage.put(key, object, {'MyStorageProvider'})`. 
+The default provider (Amazon S3) is in use when you call `Storage.put( )` unless you specify a different provider: `Storage.put(key, object, {provider: 'MyStorageProvider'})`. 
 {: .callout .callout--info}
 
 
