@@ -377,8 +377,56 @@ $ amplify env pull
 $ git pull origin dev
 ```
 
+### Sharing project outside the team
+If you observe the amplify/ dir file-structure, we store the team-provider-info.json file in it, which looks something like the following:
 
+```json
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "multenvtest-20181115101929-authRole",
+            "UnauthRoleArn": "arn:aws:iam::132393967379:role/multenvtest-20181115101929-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::132393967379:role/multenvtest-20181115101929-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "multenvtest-20181115101929-deployment",
+            "UnauthRoleName": "multenvtest-20181115101929-unauthRole",
+            "StackName": "multenvtest-20181115101929",
+            "StackId": "arn:aws:cloudformation:us-east-1:132393967379:stack/multenvtest-20181115101929/fc7b1010-e902-11e8-a9bd-50fae97e0835"
+        }
+    },
+    "prod": {
+        "awscloudformation": {
+            "AuthRoleName": "multenvtest-20181115102119-authRole",
+            "UnauthRoleArn": "arn:aws:iam::345090917734:role/multenvtest-20181115102119-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::345090917734:role/multenvtest-20181115102119-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "multenvtest-20181115102119-deployment",
+            "UnauthRoleName": "multenvtest-20181115102119-unauthRole",
+            "StackName": "multenvtest-20181115102119",
+            "StackId": "arn:aws:cloudformation:us-east-1:345090917734:stack/multenvtest-20181115102119/3e907b70-e903-11e8-a18b-503acac41e61"
+        }
+    }
+}
+```
 
+This file is to be shared between team members, so that they have the ability to push/provision resources to the same Cloudformation stack and that way teams can work in a push/pull way and can always be in sync with the latest state of the project in the cloud.
+
+Note: Team members would only be able to push to a stack only if they have the correct credentials (access key/secret keys) to do so.
+
+If you want to share a project publicly and open source your serverless infrastructure, you can remove or put the amplify/team-provider-info.json file in gitignore file.
+
+### Quick Tips
+* git and amplify cli should work hand in hand (ideally a CI tool should be used to automate this process - amplify CLI now provides headless support for its init/push commands. Check out https://github.com/aws-amplify/amplify-cli/tree/multienv/packages/amplify-cli/sample-headless-scripts for examples)
+* git checkout <branch-name> & amplify init (to initialize the env based on the git branch) should go hand in hand 
+* git pull & git env pull should go hand in hand
+* git push & amplify push should go hand in hand
+
+### Some other  helpful Environment related commands
+* amplify env list [--details] [--json]
+* amplify env add (to add an external CFN stack to the project)
+* amplify env remove <env-name> (to remove an existing environment locally and from the cloud)
+* amplify env get --name <env-name>
+* amplify env pull --restore (to restore the local backend  configs to the current state of the environment/resources in the cloud)
 
 
 
