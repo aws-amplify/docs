@@ -162,6 +162,14 @@ Storage.configure({
 
 Puts data into Amazon S3.
 
+It returns a `{key: S3 Object key}` object on success:
+
+```javascript
+Storage.put('test.txt', 'Hello')
+    .then (result => console.log(result)) // {key: "test.txt"}
+    .catch(err => console.log(err));
+```
+
 Public level:
 
 ```javascript
