@@ -444,7 +444,40 @@ const federated = {
 ReactDOM.render(<AppWithAuth federated={federated}/>, document.getElementById('root'));
 ```
 
-For React Native as well as web, you can also initiate a federated signin process by calling `Auth.federatedSignIn()` method with a specific identity provider in your code:  
+For React Native as well as web, you can also initiate a federated signin process by calling `Auth.federatedSignIn()` method with a specific identity provider in your code.
+
+Add a federated user to your User Pool:
+
+```javascript
+import { Auth } from 'aws-amplify';
+import awsconfig from '../aws-exports';
+
+
+// Retrieve active Google user session
+ga.signIn().then(googleUser => {
+    const { id_token, expires_at } = googleUser.getAuthResponse();
+    const profile = googleUser.getBasicProfile();
+    const user = {
+        email: profile.getEmail(),
+        name: profile.getName()
+    };
+
+    return Auth.federatedSignIn(
+      // Initiate federated sign-in with Google identity provider
+      `cognito-idp.${awsconfig.aws_project_region}.amazonaws.com/${awsconfig.aws_user_pools_id}`, {
+        // the JWT token
+        token: id_token,
+        // the expiration time
+        expires_at
+      },
+      // a user object
+      user
+    ).then(() => {
+        // ...
+    });
+});
+```
+Add a federated identity to your Cognito Identity pool:
 
 ```javascript
 import { Auth } from 'aws-amplify';
@@ -475,7 +508,6 @@ ga.signIn().then(googleUser => {
     });
 });
 ```
-
 Available identity providers are `google`, `facebook`, `amazon`, `developer` and OpenID. To use an `OpenID` provider, use the URI of your provider as the key, e.g. `accounts.your-openid-provider.com`.
 
 **Retrieving JWT Token**
