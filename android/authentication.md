@@ -156,7 +156,7 @@ After configuring your Authentication options, update your backend:
 $ amplify push
 ```
 
-A configuration file called `awsconfiguration.json` will be copied to your project `./src/main/res/raw` directory. The `AWSMobileClient` will leverage this for communicating with backend services. [Click here to learn more about this process.](./start#step-3-how-it-works)
+A configuration file called `awsconfiguration.json` will be copied to your project `./app/src/main/res/raw` directory. The `AWSMobileClient` will leverage this for communicating with backend services. [Click here to learn more about this process.](./start#step-3-how-it-works)
 
 ## Manual Setup
 
@@ -520,7 +520,7 @@ AWSMobileClient.getInstance().getIdentityId()     //String
 
 ```java
 AWSMobileClient.getInstance().getTokens();
-AWSMobileClient.getInstance().getTokens().getIdToken().getJWTToken();
+AWSMobileClient.getInstance().getTokens().getIdToken().getTokenString();
 ```
 
 #### AWS Credentials
