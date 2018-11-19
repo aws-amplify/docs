@@ -1,3 +1,7 @@
+---
+title: Push Notifications
+---
+
 # Push Notifications
 
 ## Overview
@@ -26,7 +30,7 @@ You can also create Amazon Pinpoint campaigns that tie user behavior to push or 
     > FCM
     ```
 
-    - Provide your ApiKey. The FCM console refers to this value as `ServerKey`. For information on getting an FCM ApiKey, see the section [Setting Up Android Push Notifications using FCM](./how-to-setup-pinpoint-notifications-fcm.md). Use the steps in the next section to connect your app to your backend.
+    - Provide your ApiKey. The FCM console refers to this value as `ServerKey`. For information on getting an FCM ApiKey, see the section [Setting Up FCM Guide](./push-notifications-setup-fcm). Use the steps in the next section to connect your app to your backend.
 
 ## Connect to Your Backend
 
@@ -282,8 +286,8 @@ The following steps show how to receive push notifications targeted for your app
 
 ## Next Steps
 
-* [Handling FCM / GCM Push Notifications](how-to-pinpoint-notifications-fcm)
+* [Handling FCM / GCM Push Notifications](./push-notifications-handle-fcm)
 
-* [Handling Amazon Device Messaging Push Notifications](how-to-pinpoint-notifications-adm)
+* [Handling Amazon Device Messaging Push Notifications](./push-notifications-handle-adm)
 
-* [Handling Baidu Push Notifications](how-to-pinpoint-notifications-baidu)
+* [Handling Baidu Push Notifications](./push-notifications-handle-baidu)
