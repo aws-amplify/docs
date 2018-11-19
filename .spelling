@@ -675,6 +675,8 @@ uploadData
 # ios/interactions.md
 UIView
 xib
+react-native-fs
+Info.plist
 
 # ios/push-notifications.md
 Hoc
