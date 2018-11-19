@@ -142,8 +142,28 @@ When using React, you can use *ChatBot* with following properties;
     welcomeMessage="Welcome, how can I help you today?"
     onComplete={this.handleComplete.bind(this)}
     clearOnComplete={true}
+    conversations={false}
 />
 ```
+The `conversations` props turns voice conversation mode on/off.
+
+If needed, you can also pass `config` in the props to modify the silence detection parameters, like in this example:
+
+```html
+const customVoiceConfig = {
+    silenceDetectionConfig: {
+        time: 2000,
+        amplitude: 0.2
+    }   
+}
+
+<ChatBot
+    ...
+    config={customVoiceConfig}
+/>
+
+```
+
 
 Following simple app shows how to use **ChatBot** component in a React app, with the automatic setup outlined above;
 
@@ -189,6 +209,7 @@ class App extends Component {
           welcomeMessage="Welcome, how can I help you today?"
           onComplete={this.handleComplete.bind(this)}
           clearOnComplete={true}
+          conversations={false}
         />
       </div>
     );
@@ -199,6 +220,30 @@ export default App;
 ```
 
 ### Using with React Native
+
+To support voice interaction, the React Native ChatBot component requires linking Native Modules for the dependencies [react-native-voice](https://github.com/wenkesj/react-native-voice), [react-native-sound](https://github.com/zmxv/react-native-sound), and [react-native-fs](https://github.com/itinance/react-native-fs). Run these commands:
+
+```
+react-native link react-native-voice 
+react-native link react-native-fs
+react-native link react-native-sound
+```
+
+Some configurations of Android will require requesting permissions while others will not - please to refer to the [Android docs](https://developer.android.com/training/permissions/requesting.html)
+
+iOS will require permissions for `NSMicrophoneUsageDescription` and `NSSpeechRecognitionUsageDescription`- you can add this snippet to your Info.plist file for iOS:
+```xml  
+<dict>
+  ...
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Description of why you require the use of the microphone</string>
+  <key>NSSpeechRecognitionUsageDescription</key>
+  <string>Description of why you require the use of the speech recognition</string>
+  ...
+</dict>
+```
+
+
 
 When using React Native, you can use *ChatBot* with following properties;
 
@@ -213,8 +258,11 @@ When using React Native, you can use *ChatBot* with following properties;
             color: 'red'
         }
     })}
+    conversations={false}
 />
 ```
+You can turn voice conversation mode on/off by passing boolean `conversations` in the props.
+
 
 Following simple app shows how to use **ChatBot** component in a React Native app;
 
@@ -280,6 +328,7 @@ export default class App extends React.Component {
                 color: 'red'
                 }
             })}
+            conversations={false}
             />
         </SafeAreaView>
         );
