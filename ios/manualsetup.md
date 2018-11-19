@@ -191,7 +191,7 @@ You can call AWS service interface objects directly via the generated SDK client
 To work with service interface objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
 {: .callout .callout--warning}
 
-For example, if you were using [Amazon Simple Queue Service (SQS)](https://aws.amazon.com/sqs/) in Swift you would first add `AWSSQS` to your `Podfile` and install the dependencies with `pod install` (alternatively follow the instructions for [Carthage](#carthage-setup ) or [Frameworks](#frameworks-setup)). Next, update your `awsconfiguration.json` like so:
+For example, if you were using [Amazon Simple Queue Service (SQS)](https://aws.amazon.com/sqs/) in Swift you would first add `AWSSQS` to your `Podfile` and install the dependencies with `pod install` (alternatively follow the instructions for [Carthage](#carthage-setup) or [Frameworks](#frameworks-setup)). Next, update your `awsconfiguration.json` like so:
 
 ```json
     "SQS" : {
