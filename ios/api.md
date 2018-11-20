@@ -593,66 +593,74 @@ class YourAppViewController: UIViewController {
 *Helper function to `Add` or `Update` a post:*
 
 ```swift
-      func addOrUpdatePostInQuery(id: GraphQLID, title: String, author: String, content: String, transaction: ApolloStore.ReadWriteTransaction?) {
+      func addOrUpdatePostInQuery(id: GraphQLID, title: String, author: String, content: String) {
         // Create a new object for the desired query, where the new object content should reside
         let postToAdd = ListPostsQuery.Data.ListPost(id: id,
                                                      author: author,
                                                      title: title,
                                                     content: content)
         print("App: Processing \(id) for add/ update")
-        do {
-            // Update the local store with the newly received data
-            try transaction?.update(query: ListPostsQuery()) { (data: inout ListPostsQuery.Data) in
-                guard let items = data.listPosts else {
-                    return
-                }
-                var pos = -1
-                var counter = 0
-                for post in items {
-                    if post?.id == id {
-                        pos = counter
-                        continue
+        let _ = appSyncClient?.store?.withinReadWriteTransaction({ (transaction) in
+            do {
+                // Update the local store with the newly received data
+                try transaction.update(query: ListPostsQuery()) { (data: inout ListPostsQuery.Data) in
+                    guard let items = data.listPosts else {
+                        return
                     }
-                    counter += 1
+                    var pos = -1
+                    var counter = 0
+                    for post in items {
+                        if post?.id == id {
+                            pos = counter
+                            continue
+                        }
+                        counter += 1
+                    }
+                    // Post is not present in query, add it.
+                    if pos == -1 {
+                        print("App: Adding \(id) now.")
+                        data.listPosts?.append(postToAdd)
+                    } else {
+                        // It was an update operation, post will be automatically updated in cache.
+                    }
                 }
-                // Post is not present in query, add it.
-                if pos == -1 {
-                    print("App: Adding \(id) now.")
-                    data.listPosts?.append(postToAdd)
-                } else {
-                    // It was an update operation, post will be automatically updated in cache.
-                }
+            } catch {
+                print("App: Error updating store")
             }
-            self.loadAllPostsFromCache()
-        } catch {
-            print("App: Error updating store")
-        }
+        })
+        self.loadAllPostsFromCache()
     }
 ```
 
 *Helper function to `Delete` a post:*
 
 ```swift
-      func deletePostFromCache(uniqueId: GraphQLID, transaction: ApolloStore.ReadWriteTransaction?) {
+      func deletePostFromCache(uniqueId: GraphQLID) {
         // Remove local object from cache.
         print("App: Removing \(uniqueId) from cache.")
-        try? transaction?.update(query: ListPostsQuery(), { (data: inout ListPostsQuery.Data) in
-            guard let items = data.listPosts else {
-                return
-            }
-            var pos = -1
-            var counter = 0
-            for post in items {
-                if post?.id == uniqueId {
-                    pos = counter
-                    continue
-                }
-                counter += 1
-            }
-            print("App: \(uniqueId) index: \(pos).")
-            if pos != -1 {
-                print("App: Removing now \(uniqueId)")
-                data.listPosts?.remove(at: pos)
+        let _ = appSyncClient?.store?.withinReadWriteTransaction({ (transaction) in
+            do {
+                try transaction.update(query: ListPostsQuery(), { (data: inout ListPostsQuery.Data) in
+                    guard let items = data.listPosts else {
+                        return
+                    }
+                    var pos = -1
+                    var counter = 0
+                    for post in items {
+                        if post?.id == uniqueId {
+                            pos = counter
+                            continue
+                        }
+                        counter += 1
+                    }
+                    print("App: \(uniqueId) index: \(pos).")
+                    if pos != -1 {
+                        print("App: Removing now \(uniqueId)")
+                        data.listPosts?.remove(at: pos)
+                    }
+                })
+            } catch {
+                print("App: Error updating store")
             }
         })
         self.loadAllPostsFromCache()
@@ -684,12 +692,12 @@ Now, update the `loadPostsWithSyncFeature` function with the calls to our helper
                 }
                 // If the Post is to be deleted from the cache.
                 if(result.data?.onDeltaPost?.awsDs == DeltaAction.delete) {
-                    self.deletePostFromCache(uniqueId: result.data!.onDeltaPost!.id, transaction: transaction)
+                    self.deletePostFromCache(uniqueId: result.data!.onDeltaPost!.id)
                     return
                 }
                 // Store a reference to the new object
                 let newPost = result.data!.onDeltaPost!
-                self.addOrUpdatePostInQuery(id: newPost.id, title: newPost.title, author: newPost.author, content: newPost.content, transaction: transaction)
+                self.addOrUpdatePostInQuery(id: newPost.id, title: newPost.title, author: newPost.author, content: newPost.content)
             } else if let error = error {
                 print(error.localizedDescription)
             }
@@ -705,17 +713,17 @@ Now, update the `loadPostsWithSyncFeature` function with the calls to our helper
                 for deltaPost in deltas {
                     print("App: Processing update on Post ID: \(deltaPost!.id)")
                     if deltaPost?.awsDs == DeltaAction.delete {
-                        self.deletePostFromCache(uniqueId: deltaPost!.id, transaction: transaction)
+                        self.deletePostFromCache(uniqueId: deltaPost!.id)
                         continue
                     } else {
-                        self.addOrUpdatePostInQuery(id: deltaPost!.id, title: deltaPost!.title, author: deltaPost!.author, content: deltaPost!.content, transaction: transaction)
+                        self.addOrUpdatePostInQuery(id: deltaPost!.id, title: deltaPost!.title, author: deltaPost!.author, content: deltaPost!.content)
                     }
                 }
             } else if let error = error {
                 print(error.localizedDescription)
             }
             // Set a sync configuration of 5 minutes.
-        }, syncConfiguration: SyncConfiguration(baseRefreshIntervalInSeconds: 300))   
+        }, syncConfiguration: SyncConfiguration(baseRefreshIntervalInSeconds: 300))
     }
 ```
 
