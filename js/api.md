@@ -28,10 +28,10 @@ Amplify Framework offers two client options for AppSync:
 
 - [Amplify GraphQL client](./api#amplify-graphql-client)
 
-- [AWS AppSync SDK](https://github.com/awslabs/aws-mobile-appsync-sdk-js/)
+- [AWS AppSync SDK](./api#aws-appsync-sdk)
 
 
-The [AppSync Apollo client SDK](https://github.com/awslabs/aws-mobile-appsync-sdk-js/) enables you to integrate your app with the AWS AppSync service and integrates with the Apollo client found [here](https://github.com/apollographql/apollo-client/). The SDK supports multiple authorization models, handles subscription handshake protocols for real-time updates to data, and has built-in capabilities for offline support that makes it easy to integrate into your app.
+The [AWS AppSync SDK](https://github.com/awslabs/aws-mobile-appsync-sdk-js/) enables you to integrate your app with the AWS AppSync service and integrates with the Apollo client found [here](https://github.com/apollographql/apollo-client/). The SDK supports multiple authorization models, handles subscription handshake protocols for real-time updates to data, and has built-in capabilities for offline support that makes it easy to integrate into your app.
 
 The Amplify GraphQL is a lighter weight option if you're looking for a simple way to leverage GraphQL features and do not need the offline capabilities or caching of the Apollo client. If you need those features, choose the AWS AppSync SDK.
 
@@ -516,7 +516,7 @@ class App extends Component {
 }
 ```
 
-### Apollo Client SDK
+### AWS AppSync SDK
 
 The follow documentation outlines how to use the Apollo client with AWS AppSync and important client APIs to understand. For sample code to use in your JavaScript framework such as React, Vue, etc. or to open issues with the SDK please see the [AppSync Apollo client SDK GitHub repository](https://github.com/awslabs/aws-mobile-appsync-sdk-js/).
 
