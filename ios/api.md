@@ -496,8 +496,8 @@ Finally, you might have other queries which you wish to represent in your applic
 
   // Start DeltaSync
   // Provides the ability to sync using a baseQuery, subscription, deltaQuery, and a refresh interval
-  let allPostsBaseQuery = AllPostsQuery()
-  let allPostsDeltaQuery = AllPostsDeltaQuery()
+  let allPostsBaseQuery = ListPostsQuery()
+  let allPostsDeltaQuery = ListPostsDeltaQuery()
   let postsSubscription = OnDeltaPostSubscription()
 
   deltaWatcher = appSyncClient?.sync(baseQuery: allPostsBaseQuery, baseQueryResultHandler: { (result, error) in
@@ -580,12 +580,11 @@ class YourAppViewController: UIViewController {
 
 ```swift
       func loadAllPostsFromCache() {
-        appSyncClient?.fetch(query: AllPostsQuery(), cachePolicy: .returnCacheDataDontFetch)  { (result, error) in
+        appSyncClient?.fetch(query: ListPostsQuery(), cachePolicy: .returnCacheDataDontFetch)  { (result, error) in
             if error != nil {
                 print(error?.localizedDescription ?? "")
                 return
             }
-            // Set the postList variable which updates the table view
             self.postList = result?.data?.listPosts
         }
     }
@@ -596,13 +595,14 @@ class YourAppViewController: UIViewController {
 ```swift
       func addOrUpdatePostInQuery(id: GraphQLID, title: String, author: String, content: String, transaction: ApolloStore.ReadWriteTransaction?) {
         // Create a new object for the desired query, where the new object content should reside
-        let postToAdd = AllPostsQuery.Data.ListPost(id: id,
-                                                    title: title,
-                                                    author: author,
+        let postToAdd = ListPostsQuery.Data.ListPost(id: id,
+                                                     author: author,
+                                                     title: title,
                                                     content: content)
+        print("App: Processing \(id) for add/ update")
         do {
             // Update the local store with the newly received data
-            try transaction?.update(query: AllPostsQuery()) { (data: inout AllPostsQuery.Data) in
+            try transaction?.update(query: ListPostsQuery()) { (data: inout ListPostsQuery.Data) in
                 guard let items = data.listPosts else {
                     return
                 }
@@ -617,6 +617,7 @@ class YourAppViewController: UIViewController {
                 }
                 // Post is not present in query, add it.
                 if pos == -1 {
+                    print("App: Adding \(id) now.")
                     data.listPosts?.append(postToAdd)
                 } else {
                     // It was an update operation, post will be automatically updated in cache.
@@ -624,7 +625,7 @@ class YourAppViewController: UIViewController {
             }
             self.loadAllPostsFromCache()
         } catch {
-            print("Error updating store")
+            print("App: Error updating store")
         }
     }
 ```
@@ -634,7 +635,8 @@ class YourAppViewController: UIViewController {
 ```swift
       func deletePostFromCache(uniqueId: GraphQLID, transaction: ApolloStore.ReadWriteTransaction?) {
         // Remove local object from cache.
-        try? transaction?.update(query: AllPostsQuery(), { (data: inout AllPostsQuery.Data) in
+        print("App: Removing \(uniqueId) from cache.")
+        try? transaction?.update(query: ListPostsQuery(), { (data: inout ListPostsQuery.Data) in
             guard let items = data.listPosts else {
                 return
             }
@@ -647,7 +649,9 @@ class YourAppViewController: UIViewController {
                 }
                 counter += 1
             }
+            print("App: \(uniqueId) index: \(pos).")
             if pos != -1 {
+                print("App: Removing now \(uniqueId)")
                 data.listPosts?.remove(at: pos)
             }
         })
@@ -661,10 +665,10 @@ Now, update the `loadPostsWithSyncFeature` function with the calls to our helper
 
 ```swift
     func loadPostsWithSyncFeature() {
-        let allPostsBaseQuery = AllPostsQuery()             // base query
-        let allPostsDeltaQuery = AllPostsDeltaQuery()       // delta query
-        let postsSubscription = OnDeltaPostSubscription()   // subscription
-
+        let allPostsBaseQuery = ListPostsQuery()
+        let allPostsDeltaQuery = ListPostsDeltaQuery()
+        let postsSubscription = OnDeltaPostSubscription()
+        
         deltaWatcher = appSyncClient?.sync(baseQuery: allPostsBaseQuery,
                                            baseQueryResultHandler: { (result, error) in
             if error != nil {
@@ -672,8 +676,7 @@ Now, update the `loadPostsWithSyncFeature` function with the calls to our helper
                 return
             }
             self.postList = result?.data?.listPosts
-        }, 
-        subscription: postsSubscription,    //Merge subscriptions into cache, can remove if not using subscriptions
+        }, subscription: postsSubscription,
            subscriptionResultHandler: { (result, transaction, error) in
             if let result = result {
                 guard result.data != nil, result.data?.onDeltaPost != nil else {
@@ -690,8 +693,7 @@ Now, update the `loadPostsWithSyncFeature` function with the calls to our helper
             } else if let error = error {
                 print(error.localizedDescription)
             }
-        }, 
-        deltaQuery: allPostsDeltaQuery,     //Merge delta results into cache, can remove if not using delta query
+        }, deltaQuery: allPostsDeltaQuery,
            deltaQueryResultHandler: { (result, transaction, error) in
             if let result = result {
                 guard result.data != nil, result.data?.listPostsDelta != nil else {
@@ -701,6 +703,7 @@ Now, update the `loadPostsWithSyncFeature` function with the calls to our helper
                 let deltas = result.data!.listPostsDelta!
                 
                 for deltaPost in deltas {
+                    print("App: Processing update on Post ID: \(deltaPost!.id)")
                     if deltaPost?.awsDs == DeltaAction.delete {
                         self.deletePostFromCache(uniqueId: deltaPost!.id, transaction: transaction)
                         continue
@@ -712,7 +715,7 @@ Now, update the `loadPostsWithSyncFeature` function with the calls to our helper
                 print(error.localizedDescription)
             }
             // Set a sync configuration of 5 minutes.
-        }, syncConfiguration: SyncConfiguration(baseRefreshIntervalInSeconds: 300))
+        }, syncConfiguration: SyncConfiguration(baseRefreshIntervalInSeconds: 300))   
     }
 ```
 
