@@ -30,7 +30,7 @@ You can also create Amazon Pinpoint campaigns that tie user behavior to push or 
     > FCM
     ```
 
-    - Provide your ApiKey. The FCM console refers to this value as `ServerKey`. For information on getting an FCM ApiKey, see the section [Setting Up FCM Guide](./push-notifications-setup-fcm). Use the steps in the next section to connect your app to your backend.
+    - Provide your ApiKey. The FCM console refers to this value as `ServerKey`. For information on getting an FCM ApiKey, see the section [Setting Up FCM/GCM Guide](./push-notifications-setup-fcm). Use the steps in the next section to connect your app to your backend.
 
 ## Connect to Your Backend
 
