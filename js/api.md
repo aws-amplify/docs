@@ -4,7 +4,7 @@ title: API
 {% if jekyll.environment == 'production' %}
   {% assign base_dir = site.amplify.docs_baseurl %}
 {% endif %}
-{% assign images_base = base_dir | append: page.dir | append: "images" %}
+{% assign images_base = base_dir | append: page.dir | append: re"images" %}
 
 # API
 
@@ -1153,7 +1153,7 @@ By allowing clients to separate the base hydration of the cache using one query 
 You can also use Delta Sync functionality with GraphQL subscriptions, taking advantage of both only sending changes to the clients when they switch network connectivity but also when they are online. In this case you can pass a third query called the "Subscription Query" which is a standard GraphQL subscription statement. When the device is connected, these are processed as normal and the client API simply helps make setting up realtime data easy. However, when the device transitions from offline to online, to account for high velocity writes the client will execute the resubscription along with synchronization and message processing in the following order:
 
 1. Subscribe to any queries defined and store results in an incoming queue
-2. Run the appropriate query (If `refreshIntervalInSeconds` has elapsed, run the Base Query otherwise only run the Delta Query)
+2. Run the appropriate query (If `baseRefreshIntervalInSeconds` has elapsed, run the Base Query otherwise only run the Delta Query)
 3. Update the cache with results from the appropriate query
 4. Drain the mutation queue in serial
 
@@ -1176,7 +1176,7 @@ subscription.unsubscribe();
 **baseQuery**
   - `query`: A `DocumentNode` for the base data (e.g. as returned by [`gql`](https://github.com/apollographql/graphql-tag#gql))
   - `variables` [optional]: An object with the query variables, if any.
-  - `refreshIntervalInSeconds` [optional]: Number of seconds after which the base query will be run again. Default value: `86400` (24 hrs)
+  - `baseRefreshIntervalInSeconds` [optional]: Number of seconds after which the base query will be run again. Default value: `86400` (24 hrs)
   - `update` [optional]: A function to update the cache, see: [Apollo's `update` function](https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-mutation-options-update)
 
 **subscriptionQuery**
