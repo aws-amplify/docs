@@ -899,6 +899,152 @@ class MyApp extends React.Component {
 export default withOAuth(MyApp);
 ``` 
 
+#### Make it work in your App
+
+Here is a code sample of how to integrate it in the React App:
+```js
+// App.js
+import React, { Component } from 'react';
+import logo from './logo.svg';
+import './App.css';
+import OAuthButton from './OAuthButton';
+import Amplify, {Auth, Hub} from 'aws-amplify';
+import aws_exports from './aws-exports'; // your Amplify configuration
+
+// your Cognito Hosted UI configuration
+const oauth = {
+  domain: 'your_cognito_domain',
+  scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
+  redirectSignIn: 'http://localhost:3000/',
+  redirectSignOut: 'http://localhost:3000/',
+  responseType: 'code' // or token
+};
+
+Amplify.configure(aws_exports);
+Auth.configure({ oauth });
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.onHubCapsule = this.onHubCapsule.bind(this);
+    this.signOut = this.signOut.bind(this);
+    // let the Hub module listen on Auth events
+    Hub.listen('auth', this);
+    this.state = {
+      authState: 'loading'
+    }
+  }
+
+  componentDidMount() {
+    console.log('on component mount');
+    // check the current user when the App component is loaded
+    Auth.currentAuthenticatedUser().then(user => {
+      console.log(user);
+      this.setState({authState: 'signedIn'});
+    }).catch(e => {
+      console.log(e);
+      this.setState({authState: 'signIn'});
+    });
+  }
+
+  onHubCapsule(capsule) {
+    // The Auth module will emit events when user signs in, signs out, etc
+    const { channel, payload, source } = capsule;
+    if (channel === 'auth') {
+      switch (payload.event) {
+        case 'signIn':
+          console.log('signed in');
+          this.setState({authState: 'signedIn'});
+          break;
+        case 'signIn_failure':
+          console.log('not signed in');
+          this.setState({authState: 'signIn'});
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  signOut() {
+    Auth.signOut().then(() => {
+      this.setState({authState: 'signIn'});
+    }).catch(e => {
+      console.log(e);
+    });
+  }
+
+  render() {
+    const { authState } = this.state;
+    return (
+      <div className="App">
+        {authState === 'loading' && (<div>loading...</div>)}
+        {authState === 'signIn' && <OAuthButton/>}
+        {authState === 'signedIn' && <button onClick={this.signOut}>Sign out</button>}
+      </div>
+    );
+  }
+}
+
+export default App;
+
+// OAuthButton.js
+import { withOAuth } from 'aws-amplify-react';
+import React, { Component } from 'react';
+
+class OAuthButton extends React.Component {
+  render() {
+    return (
+      <button onClick={this.props.OAuthSignIn}>
+        Sign in with AWS
+      </button>
+    )
+  }
+}
+
+export default withOAuth(OAuthButton);
+
+// CustomButton.js
+// If you dont use aws-amplify-react, you can construct your own button
+import React, { Component } from 'react';
+import { Auth } from 'aws-amplify';
+
+class CustomButton extends React.Component {
+  signIn() {
+    const config = Auth.configure();
+    const { 
+        domain,  
+        redirectSignIn, 
+        redirectSignOut,
+        responseType } = config.oauth;
+
+    const clientId = config.userPoolWebClientId;
+    // The url of the Cognito Hosted UI
+    const url = 'https://' + domain + '/login?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId;
+    // If you only want to log your users in with Google or Facebook, you can construct the url like:
+    const url_to_google = 'https://' + domain + '/oauth2/authorize?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId + '&identity_provider=Google';
+    const url_to_facebook = 'https://' + domain + '/oauth2/authorize?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId + '&identity_provider=Facebook';
+
+    // Launch hosted UI
+    window.location.assign(url);
+
+    // Launch Google/Facebook login page
+    // window.location.assign(url_to_google);
+    // window.location.assign(url_to_facebook);
+  }
+
+  render() {
+    return (
+      <button onClick={this.signIn}>
+        Customized Login
+      </button>
+    )
+  }
+}
+
+export default CustomButton;
+```
+
 #### Handling Authentication Events
 
 When using the hosted UI, you can handle authentication events by creating event listeners with the [Hub module]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/hub#listening-authentication-events).
