@@ -176,24 +176,6 @@ The Authenticator component creates an drop-in user authentication experience. A
   <amplify-authenticator></amplify-authenticator>
 ```
 
-#### Signup Configuration.
-
-The Authenticator component accepts a configuration object for the 'SignUp' component that is used to register new users in Cognito.  It can be used to control the fields that are displayed in the SignUp component so that you can populate required or custom attributes from your User Pool.
-
-```html
-  <amplify-authenticator [signUpConfig]="signUpConfig" ></amplify-authenticator>
-```
-
-This object can also be passed to the SignUp component directly if you are using it in isolation.
-
-The signUpConfig object has the following attributes:
-
-{% include sign-up-attributes.html %}
-
-The fields in the signUpFields array in turn have the following attributes:
-
-{% include sign-up-fields.html %}  
-
 ### Photo Picker
 
 The Photo Picker component will render a file upload control that will allow choosing a local image and uploading it to Amazon S3. Once an image is selected, a base64 encoded image preview will be displayed automatically. To render photo picker in an Angular view, use *amplify-photo-picker* component:
