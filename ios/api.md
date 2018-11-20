@@ -712,7 +712,7 @@ Now, update the `loadPostsWithSyncFeature` function with the calls to our helper
                 print(error.localizedDescription)
             }
             // Set a sync configuration of 5 minutes.
-        }, syncConfiguration: SyncConfiguration(seconds: 300))
+        }, syncConfiguration: SyncConfiguration(baseRefreshIntervalInSeconds: 300))
     }
 ```
 
