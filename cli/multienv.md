@@ -1,6 +1,6 @@
 # Managing multiple environments of your project and managing an Amplify Project within a team or outside a team using the Amplify CLI & Git
 
-When initializing the project using the steps method above, as a part of the `amplify init` command, you were asked to provide a name for your environment. Let's assume that you input `dev` as your environment name in the steps above. In this section, we'll walk you through the steps you need to manage another environment (we'll be creating a `prod` environment) as a part of your Amplify project.
+When initializing the project using the steps method above, as a part of the `amplify init` command, you were asked to provide a name for your environment. Let's assume that you input `dev` as your environment name. In this section, we'll walk you through the steps you need to manage another environment (we'll be creating a `prod` environment) as a part of your Amplify project.
 
 This feature is still in beta and you have to install this beta version, please use following:
 
