@@ -1,4 +1,5 @@
-## Managing multiple environments of your project and managing an Amplify Project within a team or outside a team using the Amplify CLI & Git
+# Managing multiple environments of your project and managing an Amplify Project within a team or outside a team using the Amplify CLI & Git
+
 When initializing the project using the steps method above, as a part of the `amplify init` command, you were asked to provide a name for your environment. Let's assume that you input `dev` as your environment name in the steps above. In this section, we'll walk you through the steps you need to manage another environment (we'll be creating a `prod` environment) as a part of your Amplify project.
 
 This feature is still in beta and you have to install this beta version, please use following:
@@ -7,6 +8,8 @@ This feature is still in beta and you have to install this beta version, please 
 npm install -g @aws-amplify/cli@multienv
 
 ```
+## Setting up dev/prod environments 
+
 First, you would need to create a Github/Gitlab repository for your project if you haven't already.
 We recommend managing separate Git branches for your different environments (try to have the same branch name as your environment name to avoid confusion).
 From the root of your project, execute the following commands:
@@ -29,9 +32,9 @@ $amplify init
 // Provide AWS Profile info
 ```
 
-This will set up another environment for the project in the cloud. The backend-configs and resources are cloned from the dev environment. Run `amplify push` to provision all the AWS resources for your new environment.
+This will set up another environment for the project in the cloud. The backend-configs and resources are now cloned from the dev environment. Run `amplify push` to provision all the AWS resources for your new environment (prod).
 
-Now lets first push the changes to our 'dev' branch (you would just see changes to the team-provider-info.json file which has cumulative stack information for all the environments), and then create a new git branch - 'prod' corresponding to the new environment we just created. 
+Now lets first push the changes to our 'dev' branch (you would just see changes to the team-provider-info.json file - when running a `git status` command, which has cumulative stack information for all the project environments). Then, let's create a new git branch - 'prod' corresponding to the new environment we just created and push the resources in the prod environment.
 
 ```
 $ git add .
@@ -41,7 +44,9 @@ $ git checkout -b prod
 $ git push -u origin prod
 ```
 
-### Working in a team
+## Team workflow
+
+### Sharing a project within a team
 Now, you have two independent environments (dev & prod) in the cloud and have corresponding git branches with your amplify backend infrastructure code on Github. Now, let's walk through the case when a team member wants to work on the same Amplify project and push backend related changes which you, later on, might want to pull.
 
 ```
@@ -125,13 +130,13 @@ Note: Team members would only be able to push to a stack only if they have the c
 
 If you want to share a project publicly and open source your serverless infrastructure, you can remove or put the amplify/team-provider-info.json file in gitignore file.
 
-### Quick Tips
+## Quick Tips
 * git and amplify cli should work hand in hand (ideally a CI tool should be used to automate this process - amplify CLI now provides headless support for its init/push commands. Check out https://github.com/aws-amplify/amplify-cli/tree/multienv/packages/amplify-cli/sample-headless-scripts for examples)
 * git checkout <branch-name> & amplify init (to initialize the env based on the git branch) should go hand in hand 
 * git pull & git env pull should go hand in hand
 * git push & amplify push should go hand in hand
 
-### Some other  helpful Environment related commands
+## Some other  helpful Environment related commands
 * amplify env list [--details] [--json]
 * amplify env add (to add an external CFN stack to the project)
 * amplify env remove <env-name> (to remove an existing environment locally and from the cloud)
