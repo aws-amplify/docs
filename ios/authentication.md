@@ -18,7 +18,8 @@ The `AWSMobileClient` provides client APIs and building blocks for developers wh
 
 When working together, Cognito User Pools acts as a source of user identities (identity provider) for the Cognito Federated Identities. Other sources can be OpenID, Facebook, Google, etc. AWS Amplify uses User Pools to store your user information and handle authorization, and it leverages Federated Identities to manage user access to AWS Resources, for example allowing a user to upload a file to an S3 bucket.
 
-Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start).
+<b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
+<b>Recommendation:</b> [Complete the Getting Started guide](./start)
 {: .callout .callout--info}
 
 ## How it works
@@ -214,7 +215,7 @@ Build and run your program to see the initialized client in Xcode messages. Sinc
                             self.signInStateLabel.text = "Logged In"
                     }
                 case .signedOut:
-                    AWSMobileClient.sharedInstance().showSignInScreen(navigationController: self.navigationController!, { (userState, error) in
+                    AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigationController!, { (userState, error) in
                             if(error == nil){       //Successful signin
                                 DispatchQueue.main.async {
                                     self.signInStateLabel.text = "Logged In"
@@ -222,7 +223,7 @@ Build and run your program to see the initialized client in Xcode messages. Sinc
                             }
                         })
                 default:
-                    AWSMobileClient.sharedInstance().signOut();
+                    AWSMobileClient.sharedInstance().signOut()
                 }
                 
             } else if let error = error {
@@ -247,7 +248,7 @@ If you login in your app either using the [Drop-In Auth](#dropinui) or the [dire
 The `AWSMobileClient` client supports easy "drop-in" UI for your application. You can add drop-in Auth UI like so:
 
 ```swift
-AWSMobileClient.sharedInstance().showSignInScreen(navigationController: self.navigationController!, { (signInState, error) in
+AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigationController!, { (signInState, error) in
     if let signInState = signInState {
         print("logged in!")
     } else {
@@ -266,10 +267,10 @@ Currently, you can change the following properties of the drop-in UI with the `A
 
 ```swift
 AWSMobileClient.sharedInstance()
-    .showSignInScreen(navigationController: self.navigationController!,
-                      signInUIOptions: SignInUIOptions(
-                            canCancel: false,
-                            logoImage: UIImage(named: "MyCustomLogo"),
+    .showSignIn(navigationController: self.navigationController!,
+                     signInUIOptions: SignInUIOptions(
+                           canCancel: false,
+                           logoImage: UIImage(named: "MyCustomLogo"),
                             backgroundColor: UIColor.black)) { (result, err) in
                             //handle results and errors               
 }
@@ -447,7 +448,7 @@ Currently, the federation feature in the AWSMobileClient supports Cognito Identi
 ### Federated Sign In
 
 ```swift
-AWSMobileClient.sharedInstance().federatedSignIn(providerName: IdentityProviders.facebook.rawValue, token: "FACEBOOK_TOKEN_HERE") { (userState, err)  in
+AWSMobileClient.sharedInstance().federatedSignIn(providerName: IdentityProvider.facebook.rawValue, token: "FACEBOOK_TOKEN_HERE") { (userState, error)  in
     if let error = error {
         print("Federated Sign In failed: \(error.localizedDescription)")
     }
