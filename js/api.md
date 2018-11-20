@@ -26,9 +26,9 @@ AWS AppSync helps you build data-driven apps with real-time and offline capabili
 
 Amplify Framework offers two client options for AppSync:
 
-- [Amplify GraphQL client](./api#amplify-graphql-client)
+- [Amplify GraphQL client](#amplify-graphql-client)
 
-- [AWS AppSync SDK](./api#aws-appsync-sdk)
+- [AWS AppSync SDK](#aws-appsync-sdk)
 
 
 The [AWS AppSync SDK](https://github.com/awslabs/aws-mobile-appsync-sdk-js/) enables you to integrate your app with the AWS AppSync service and integrates with the Apollo client found [here](https://github.com/apollographql/apollo-client/). The SDK supports multiple authorization models, handles subscription handshake protocols for real-time updates to data, and has built-in capabilities for offline support that makes it easy to integrate into your app.
@@ -267,7 +267,7 @@ Amplify.configure({
 });
 ```
 
-### Amplify GraphQL Client
+### <a name="amplify-graphql-client">Amplify GraphQL Client
 
 AWS Amplify API category provides a GraphQL client for working with queries, mutations, and subscriptions. This client does not support offline programming.
 
@@ -516,7 +516,7 @@ class App extends Component {
 }
 ```
 
-### AWS AppSync SDK
+### <a name="aws-appsync-sdk">AWS AppSync SDK
 
 The follow documentation outlines how to use the Apollo client with AWS AppSync and important client APIs to understand. For sample code to use in your JavaScript framework such as React, Vue, etc. or to open issues with the SDK please see the [AppSync Apollo client SDK GitHub repository](https://github.com/awslabs/aws-mobile-appsync-sdk-js/).
 
@@ -1514,14 +1514,6 @@ client.sync({
 
 ### Angular
 Amplify CLI generates APIService to make it easier to use Appsync API. Add an GraphQL API by running add api command in your project root folder
-
-<b>Prerequisite:</b>Install the Amplify JS<br>
-```bash
-$ npm install --save aws-amplify
-```
-{: .callout .callout--info}
-
-
 ```bash
 $ amplify add api
 ? Please select from one of the below mentioned services GraphQL
