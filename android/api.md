@@ -566,6 +566,278 @@ private static String MyOIDCAuthProvider(){
 }
 ```
 
+### Delta Sync
+
+DeltaSync allows you to perform automatic synchronization with an AWS AppSync GraphQL server. The client will perform reconnection, exponential backoff, and retries when network errors take place for simplified data replication to devices. It does this by taking the results of a GraphQL query and caching it in the local Apollo cache. The DeltaSync API manages writes to the Apollo cache for you, and all rendering in your app (such as from React components, Angular bindings) should be done through a read-only fetch.
+
+In the most basic form, you can use a single query with the API to replicate the state from the backend to the client. This is referred to as a "Base Query" and could be a list operation for a GraphQL type which might correspond to a DynamoDB table. For large tables where the content changes frequently and devices switch between offline and online frequently as well, pulling all changes for every network reconnect can result in poor performance on the client. In these cases you can provide the client API a second query called the "Delta Query" which will be merged into the cache. When you do this the Base Query is run an initial time to hydrate the cache with data, and on each network reconnect the Delta Query is run to just get the changed data. The Base Query is also run on a regular bases as a "catch-up" mechanism. By default this is every 24 hours however you can make it more or less frequent.
+
+By allowing clients to separate the base hydration of the cache using one query and incremental updates in another query, you can move the computation from your client application to the backend. This is substantially more efficient on the clients when regularly switching between online and offline states. This could be implemented in your AWS AppSync backend in different ways such as using a DynamoDB Query on an index along with a conditional expression. You can also leverage Pipeline Resolvers to partition your records to have the delta responses come from a second table acting as a journal. [A full sample with CloudFormation is available in the AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/tutorial-delta-sync.html). The rest of this documentation will focus on the client usage.
+
+You can also use Delta Sync functionality with GraphQL subscriptions, taking advantage of both only sending changes to the clients when they switch network connectivity but also when they are online. In this case you can pass a third query called the "Subscription Query" which is a standard GraphQL subscription statement. When the device is connected, these are processed as normal and the client API simply helps make setting up realtime data easy. However, when the device transitions from offline to online, to account for high velocity writes the client will execute the resubscription along with synchronization and message processing in the following order:
+
+1. Subscribe to any queries defined and store results in an incoming queue
+2. Run the appropriate query (If `refreshIntervalInSeconds` has elapsed, run the Base Query otherwise only run the Delta Query)
+3. Update the cache with results from the appropriate query
+4. Drain the mutation queue in serial
+
+Finally, you might have other queries which you wish to represent in your application other than the base cache hydration. For instance a `getItem(id:ID)` or other specific query. If your alternative query corresponds to items which are already in the normalized cache, you can point them at these cache entries with the `cacheUpdates` function which returns an array of queries and their variables. The DeltaSync client will then iterate through the items and populate a query entry for each item on your behalf. If you wish to use additional queries which don't correspond to items in your base query cache, you can always create another instance of the `client.sync()` process.
+
+**Usage**
+
+```java
+// Provides the ability to sync using a baseQuery, subscription, deltaQuery, and a refresh interval
+Cancelable handle = client.sync(baseQuery, baseQueryCallback, 
+			  subscription, subscriptionCallback, 
+			  deltaQuery, deltaQueryCallback, 
+			  20 * 60 );
+        
+//Stop DeltaSync
+handle.cancel();
+```
+
+**The method parameters**
+* *baseQuery* the base query to get the baseline state. (REQUIRED)
+* *baseQueryCallback* callback to handle the baseQuery results. (REQUIRED)
+* *subscription* subscription to get changes on the fly.
+* *subscriptionCallback* callback to handle the subscription messages. 
+* *deltaQuery* the catch-up query
+* *deltaQueryCallback* callback to handle the deltaQuery results. 
+* *baseRefreshIntervalInSeconds* time duration (specified in seconds) when the base query will be re-run to get an updated baseline state.
+* *returnValue* returns a `Cancelable` object that can be used later to cancel the sync operation by calling the `cancel()` method.
+
+Note that above only the `baseQuery` and `baseQueryCallback` are required parameters. You can call the API in different manners such as:
+
+```java
+client.sync(baseQuery, baseQueryCallback) //Performs sync only with base query
+client.sync(baseQuery, baseQueryCallback, deltaQuery, deltaQueryCallback) //Performs sync with delta but no subscriptions
+```
+
+**Example**
+
+The following section walks through the details of creating an app using Delta Sync. We will use a simple Posts App that has a view that displays a list of posts and keeps it synchronized using the Delta Sync functionality. We will use a Map object called `allPosts` to collect and manage the posts and a RecyclerView to power the UI.
+
+**Base Query and BaseQuery Callback**
+In the Adapter object, create the BaseQuery and the BaseQuery Callback. We will use the `listPosts` query from the sample schema as our base query.  
+```java
+//Setup the BaseQuery - we will use the ListPostsQuery as our base query
+  Query listPostsQuery = ListPostsQuery.builder().build();
+```
+
+In the `baseQueryCallback` we will receive and process the results of `listPosts`. We will update the allPosts Map object with the query results and trigger the RecyclerView to refresh the contents of the view. The `listPosts` query cache will be automatically updated by the SDK. 
+
+```java
+GraphQLCall.Callback listPostsQueryCallback = new GraphQLCall.Callback<ListPostsQuery.Data>() {
+            @Override
+            public void onResponse(@Nonnull final Response<ListPostsQuery.Data> response) {
+                if (response == null  || response.data() == null ||
+                        response.data().listPosts() == null ||
+                        response.data().listPosts() == null ) {
+                    Log.d(TAG, "List Posts returned with no data");
+                    return;
+                }
+
+                Log.d(TAG, "listPostsQuery returned data. Iterating over the data");
+                display.runOnUiThread(new Runnable() {
+                   @Override
+                   public void run() {
+                       for (ListPostsQuery.ListPost p: response.data().listPosts()) {
+                           //Populate the allPosts map with the posts returned by the query.
+                           //The allPosts map is used by the recycler view.
+
+                           if ( allPosts.get(p.id()) == null )  {
+                               mPostIDs.add(0, p.id());
+                           }
+                           allPosts.put(p.id(), new ListPostsQuery.ListPost("Post",
+                                   p.id(), p.author(), p.title(), p.content(),
+                                   p.url(),p.ups(),p.downs(),
+                                   p.createdDate(),
+                                   p.aws_ds()));
+                       }
+                       //Trigger the view to refresh by calling notifyDataSetChanged method
+                       notifyDataSetChanged();
+                   }
+               });
+            }
+
+            @Override
+            public void onFailure(@Nonnull ApolloException e) {
+                Log.e(TAG, "ListPostsQuery failed with [" + e.getLocalizedMessage() + "]");
+            }
+        };
+```
+
+**Subscription and Subscription callback**
+Next, we will create a subscription to get notified whenever a change (Add, Update or Delete) happens to a post. 
+
+```java
+  //Setup Delta Post Subscription to get notified when a change 
+  //(add, update, delete) happens on a Post
+  OnDeltaPostSubscription onDeltaPostSubscription =
+      OnDeltaPostSubscription.builder().build();
+```
+
+In the subscription callback, we will handle the change by adding, deleting or updating the allPosts Map object and trigger the RecyclerView to refresh the contents of the view. We will also add the logic to update the query cache for the `listPosts` query.
+
+```java
+AppSyncSubscriptionCall.Callback onDeltaPostSubscriptionCallback =
+    new AppSyncSubscriptionCall.Callback<OnDeltaPostSubscription.Data>() {
+        @Override
+        public void onResponse(@Nonnull Response<OnDeltaPostSubscription.Data> response) {
+            Log.d(TAG, "Delta on a post received via subscription.");
+            if (response == null  || response.data() == null
+                    || response.data().onDeltaPost() == null ) {
+                Log.d(TAG, "Delta was null!");
+                return;
+            }
+
+            Log.d(TAG, "Updating post to display");
+            final OnDeltaPostSubscription.OnDeltaPost p = response.data().onDeltaPost();
+
+            display.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    // Delete the Post if the aws_ds has the DELETE tag
+                    if ( DeltaAction.DELETE == p.aws_ds()) {
+                        mPostIDs.remove(p.id());
+                        allPosts.remove(p.id());
+                    }
+                    // Add/Update the post otherwise
+                    else {
+                        if (allPosts.get(p.id()) == null) {
+                            mPostIDs.add(0, p.id());
+                        }
+                        allPosts.put(p.id(), new ListPostsQuery.ListPost("Post",
+                                p.id(), p.author(), p.title(), p.content(),
+                                p.url(),p.ups(), p.downs(),
+                                p.createdDate(),
+                                p.aws_ds()));
+                    }
+
+                    //Update the baseQuery Cache
+                    updateListPostsQueryCache();
+
+                    //Trigger the view to refresh by calling notifyDataSetChanged method
+                    notifyDataSetChanged();
+                }
+            });
+        }
+
+        @Override
+        public void onFailure(@Nonnull ApolloException e) {
+            Log.e(TAG, "Error " + e.getLocalizedMessage());
+        }
+        
+        @Override
+        public void onCompleted() {
+            Log.d(TAG, "Received onCompleted on subscription");
+        }
+    };
+``` 
+
+The `updateListPostsQueryCache` method will update the query cache of the `listPosts` query as shown below.
+
+```java
+    private void updateListPostsQueryCache() {
+        List<ListPostsQuery.ListPost> items = new ArrayList<>();
+        items.addAll(allPosts.values());
+
+        ListPostsQuery.Data data = new ListPostsQuery.Data(items);
+        ClientFactory.getInstance(display.getApplicationContext()).getStore()
+                .write(listPostsQuery, data).enqueue(null);
+    }
+```
+
+**Delta Query and Delta Query Callback**
+Next we will setup the delta query. We will use the `listPostsDelta` query for the changes made to Posts. The SDK will keep track of when it was last run and will automatically pass in the appropriate value for `lastSync` to get the updates in an optimized manner.
+
+```java
+    //Setup the Delta Query to get changes to posts incrementally
+    Query listPostsDeltaQuery = ListPostsDeltaQuery.builder().build();
+
+```
+
+In the `listPostsDeltaQueryCallback`, we will add, update, delete the changed Posts in the allPosts Map object and trigger the RecyclerView to refresh the contents of the view. We will also add the logic to update the query cache for the `listPosts` query.
+
+```java
+GraphQLCall.Callback listPostsDeltaQueryCallback = new GraphQLCall.Callback<ListPostsDeltaQuery.Data>() {
+            @Override
+            public void onResponse(@Nonnull final Response<ListPostsDeltaQuery.Data> response) {
+                if (response == null  || response.data() == null || response.data().listPostsDelta() == null ) {
+                    Log.d(TAG, "listPostsDelta returned with no data");
+                    return;
+                }
+
+                //Add to the ListPostsQuery Cache
+                Log.d(TAG, "listPostsDelta returned data. Iterating...");
+                display.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (ListPostsDeltaQuery.ListPostsDeltum p: response.data().listPostsDelta() ) {
+                            // Delete the Post if the aws_ds has the DELETE tag
+                            if ( DeltaAction.DELETE == p.aws_ds()) {
+                                mPostIDs.remove(p.id());
+                                allPosts.remove(p.id());
+                                continue;
+                            }
+
+                            // Add or Update the post otherwise
+                            if (allPosts.get(p.id()) == null ) {
+                                mPostIDs.add(0, p.id());
+                            }
+                            allPosts.put(p.id(), new ListPostsQuery.ListPost("Post",
+                                    p.id(), p.author(), p.title(), p.content(),
+                                    p.url(),p.ups(), p.downs(),
+                                    p.createdDate(),
+                                    p.aws_ds()));
+                        }
+
+                        //Update the baseQuery Cache
+                        updateListPostsQueryCache();
+
+                        //Trigger the view to refresh by calling notifyDataSetChanged method
+                        notifyDataSetChanged();
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(@Nonnull ApolloException e) {
+                Log.e(TAG, "listPostsDelta Query failed with [" + e.getLocalizedMessage() + "]");
+            }
+        };
+```
+
+**Tying it all together**
+Once we have all of these pieces in place, we will tie it all together by invoking the Delta Sync functionality as follows.
+
+```java
+ Cancelable handle =  client.sync(listPostsQuery, listPostsQueryCallback, 
+                           onCreatePostSubscription, onCreatePostCallback, 
+			   listPostsDeltaQuery, listPostsDeltaQueryCallback, 
+                           20 * 60 );
+        
+```
+
+**Delta Sync Lifecycle**
+The delta sync process runs at various times, in response to different conditions: 
+- Runs immediately, when you make the call to `sync` as shown above. This will be initial run and it will execute the baseQuery, setup the subscription and execute the delta Query.
+- Runs when the device that is running the app transitions from offline to online. Depending on the duration for which the device was offline ( i.e., > `baseRefreshIntervalInSeconds`), either the deltaQuery or the baseQuery will be run.
+- Runs when the app transitions from background to foreground. Once again, depending on how long the app was in the background, either the deltaQuery or the baseQuery will be run. To enable this, add the `AWSAppSyncAppLifecycleObserver` to the ProcessLifeCycle owner in the `onCreate` method of your main view as follows:
+
+```java
+	import android.arch.lifecycle.ProcessLifecycleOwner;
+	import com.amazonaws.mobileconnectors.appsync.AWSAppSyncAppLifecycleObserver;
+
+	...
+	...
+
+	ProcessLifecycleOwner.get().getLifecycle().
+		addObserver(new AWSAppSyncAppLifecycleObserver());
+```
+- Runs once every `baseRefreshIntervalInSeconds` as part of a periodic catch-up. 
+
+
 ## REST API
 
 ### Overview
