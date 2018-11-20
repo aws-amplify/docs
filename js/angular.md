@@ -229,7 +229,23 @@ end of the conversation.
     (complete)="onBotComplete($event)"></amplify-interactions>
 ```
 
-See the [Interactions documentation]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/interactions) for information on creating a Lex Chatbot.
+See the [Interactions documentation]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/interactions) for information on creating an Amazon Lex Chatbot.
+
+### XR
+
+#### Sumerian Scene
+
+The `amplify-sumerian-scene` component provides you with a prebuilt UI for loading and displaying Amazon Sumerian scenes inside of your website:
+
+Note: The UI component will inherit the height and width of the direct parent DOM element. Make sure to set the width and height styling on the parent DOM element to your desired size.
+{: .callout .callout--info}
+
+```javascript
+// sceneName: the configured friendly scene you would like to load
+<amplify-sumerian-scene sceneName="scene1"></amplify-sumerian-scene>
+```
+
+See the [XR documentation]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/xr) for information on creating and publishing a Sumerian scene.
 
 ### Custom Styles
 
