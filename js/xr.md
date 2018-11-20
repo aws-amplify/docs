@@ -168,3 +168,36 @@ XR.enableAudio('scene1')
 ### API Reference
 
 For a complete XR reference visit the [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/xr.html)
+
+## UI Components
+
+### React
+
+##### Usage:
+```javascript
+import { SumerianScene } from 'aws-amplify-react';
+...
+<SumerianScene sceneName={'scene1'} /> // Use the configured friendly scene name here
+```
+
+### Angular
+
+##### Usage:
+```javascript
+<amplify-sumerian-scene sceneName='scene1'></amplify-sumerian-scene>
+```
+
+### Ionic
+
+##### Usage:
+```javascript
+<amplify-sumerian-scene sceneName='scene1' framework="Ionic"></amplify-sumerian-scene>
+```
+
+### Vue
+
+##### Usage:
+```javascript
+<amplify-sumerian-scene scene-name='scene1'></amplify-sumerian-scene>
+```
+

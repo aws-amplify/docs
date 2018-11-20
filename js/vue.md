@@ -510,3 +510,19 @@ If not in your aws-exports file, the bot can also be defined in the AWS configur
 Events:
 
 * ```AmplifyEventBus.$emit('chatComplete', this.options.botTitle)```: Emitted when a chat session has been completed (only if the clearComplete options is 'true')
+
+## XR Components
+
+### Sumerian Scene
+
+The Sumerian Scene component provides you with a prebuilt UI for loading and displaying Amazon Sumerian scenes inside of your website.
+
+Usage: ```<amplify-sumerian-scene></amplify-sumerian-scene>```
+
+Options:
+
+```javascript
+<amplify-sumerian-scene scene-name="scene1"></amplify-sumerian-scene>
+```
+
+See the [XR documentation]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/xr) for information on creating and publishing a Sumerian scene.
