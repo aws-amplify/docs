@@ -1514,6 +1514,14 @@ client.sync({
 
 ### Angular
 Amplify CLI generates APIService to make it easier to use Appsync API. Add an GraphQL API by running add api command in your project root folder
+
+<b>Prerequisite:</b>Install the Amplify JS<br>
+```bash
+$ npm install --save aws-amplify
+```
+{: .callout .callout--info}
+
+
 ```bash
 $ amplify add api
 ? Please select from one of the below mentioned services GraphQL
