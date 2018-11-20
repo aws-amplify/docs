@@ -475,7 +475,7 @@ do {
 
 DeltaSync allows you to perform automatic synchronization with an AWS AppSync GraphQL server. The client will perform reconnection, exponential backoff, and retries when network errors take place for simplified data replication to devices. It does this by taking the results of a GraphQL query and caching it in the local Apollo cache. The DeltaSync API manages writes to the Apollo cache for you, and all rendering in your app (such as from React components, Angular bindings) should be done through a read-only fetch.
 
-In the most basic form, you can use a single query with the API to replicate the state from the backend to the client. This is referred to as a "Base Query" and could be a list operation for a GraphQL type which might correspond to a DynamoDB table. For large tables where the content changes frequently and devices switch between offline and online frequently as well, pulling all changes for every network reconnect can result in poor performance on the client. In these cases you can provide the client API a second query called the "Delta Query" which will be merged into the cache. When you do this the Base Query is run an initial time to hydrate the cache with data, and on each network reconnect the Delta Query is run to just get the changed data. The Base Query is also run on a regular bases as a "catch-up" mechanism. By default this is every 24 hours however you can make it more or less frequent.
+In the most basic form, you can use a single query with the API to replicate the state from the backend to the client. This is referred to as a "Base Query" and could be a list operation for a GraphQL type which might correspond to a DynamoDB table. For large tables where the content changes frequently and devices switch between offline and online frequently as well, pulling all changes for every network reconnect can result in poor performance on the client. In these cases you can provide the client API a second query called the "Delta Query" which will be merged into the cache. When you do this the Base Query is run an initial time to hydrate the cache with data, and on each network reconnect the Delta Query is run to just get the changed data. The Base Query is also run on a regular basis as a "catch-up" mechanism. By default this is every 24 hours however you can make it more or less frequent.
 
 By allowing clients to separate the base hydration of the cache using one query and incremental updates in another query, you can move the computation from your client application to the backend. This is substantially more efficient on the clients when regularly switching between online and offline states. This could be implemented in your AWS AppSync backend in different ways such as using a DynamoDB Query on an index along with a conditional expression. You can also leverage Pipeline Resolvers to partition your records to have the delta responses come from a second table acting as a journal. [A full sample with CloudFormation is available in the AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/tutorial-delta-sync.html). The rest of this documentation will focus on the client usage.
 
@@ -522,14 +522,15 @@ Finally, you might have other queries which you wish to represent in your applic
 * *syncConfiguration* time duration (specified in seconds) when the base query will be re-run to get an updated baseline state. Defaults to 24 hours.
 * *returnValue* returns a `Cancellable` object that can be used later to cancel the sync operation by calling the `cancel()` method.
 
-Note that above only the `baseQuery` and `baseQueryResultHandler` are required parameters. You can call the API in different manners such as:
+Note that above only the `baseQuery` and `baseQueryResultHandler` are required parameters. You can call the API in different ways such as:
 
 ```swift
-appSyncClient?.sync(baseQuery: baseQuery, baseQueryResultHandler: baseQueryResultHandler) //Performs sync only with base query
-appSyncClient?.sync(baseQuery: baseQuery, baseQueryResultHandler: baseQueryResultHandler, deltaQuery: deltaQuery, deltaQueryResultHandler: deltaQueryResultHandler) //Performs sync with delta but no subscriptions
-```
+//Performs sync only with base query
+appSyncClient?.sync(baseQuery: baseQuery, baseQueryResultHandler: baseQueryResultHandler) 
 
-The following section walks through the details. We will use a simple Posts App that has a view that displays a list of posts and keeps it synchronized using the delta sync functionality. We will use a array object called `postList` to collect and manage the posts and a `UITableView` to power the UI.
+//Performs sync with delta but no subscriptions
+appSyncClient?.sync(baseQuery: baseQuery, baseQueryResultHandler: baseQueryResultHandler, deltaQuery: deltaQuery, deltaQueryResultHandler: deltaQueryResultHandler)
+```
 
 **Example**
 
@@ -720,7 +721,7 @@ Once we have all of these pieces in place, we will tie it all together by invoki
 **Delta Sync Lifecycle**
 
 The delta sync process runs at various times, in response to different conditions.
-- Runs immediately, when you make the call to `sync` as shown above. This will be initial run and it will first execute the base query from the cache, setup the subscription and execute the base or delta Query based on when it was last run. It will always run the base query if running for the first time.
+- Runs immediately, when you make the call to `sync` as shown above. This will be the initial run and it will first execute the base query from the cache, setup the subscription and execute the base or delta Query based on when it was last run. It will always run the base query if running for the first time.
 - Runs when the device that is running the app transitions from offline to online. Depending on the duration for which the device was offline, either the deltaQuery or the baseQuery will be run.
 - Runs when the app transitions from background to foreground. Once again, depending on how long the app was in the background, either the deltaQuery or the baseQuery will be run.
 - Runs once every time based on the time specified in sync configuration as part of a periodic catch-up. 
