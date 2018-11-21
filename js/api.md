@@ -4,7 +4,7 @@ title: API
 {% if jekyll.environment == 'production' %}
   {% assign base_dir = site.amplify.docs_baseurl %}
 {% endif %}
-{% assign images_base = base_dir | append: page.dir | append: re"images" %}
+{% assign images_base = base_dir | append: page.dir | append: "images" %}
 
 # API
 
