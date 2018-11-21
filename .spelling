@@ -125,6 +125,11 @@ xcodeproj
 png
 jpg
 UIColor
+jsx
+deltaRecord
+backoff
+resubscription
+backends
 
 # js/tutorials/building-ionic-4-apps/index.md
 home.page.ts
@@ -290,6 +295,15 @@ X-Api-Key
 X-Amz-Security-Token
 APIService
 Appsync
+GetPost.jsx
+AllPosts.jsx
+DeltaSync
+deltaQuery
+subscriptionQuery
+baseQuery
+buildSync
+localForage
+mutationName
 
 # js/analytics.md
 Kinesis
@@ -410,6 +424,16 @@ Firehose
 KinesisRecorder
 KinesisFirehoseRecorder
 ImageView
+
+# android/api.md
+baseQueryCallback
+subscriptionCallback
+deltaQueryCallback
+baseRefreshIntervalInSeconds
+RecyclerView
+BaseQuery
+allPosts
+ProcessLifeCycle
 
 # android/authentication.md
 appcompat
@@ -598,8 +622,14 @@ openssl
 AWSKinesisRecorder
 AWSFirehoseRecorder
 
-# ios/api-apigw.md
+# ios/api.md
 YOUR_APP_NAME
+baseQueryResultHandler
+subscriptionResultHandler
+deltaQueryResultHandler
+syncConfiguration
+returnValue
+UIViewController
 
 # ios/authentication.md
 UINavigationController
