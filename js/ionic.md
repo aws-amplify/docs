@@ -89,7 +89,7 @@ constructor(
     public amplifyService: AmplifyService,
     public modalCtrl: ModalController
 ) {
-    this.amplifyService = amplifyService;
+    
 }
 ...
 ```
@@ -108,9 +108,7 @@ import { AmplifyService }  from 'aws-amplify-angular';
 
 export class AppComponent {
   
-  constructor( public amplify:AmplifyService ) {
-      
-      this.amplifyService = amplify;
+  constructor( public amplifyService:AmplifyService ) {
       
       /** now you can access category APIs:
        *
@@ -139,8 +137,6 @@ import { AmplifyService }  from 'aws-amplify-angular';
 
   // ...
 constructor( public amplifyService: AmplifyService ) {
-
-    this.amplifyService = amplifyService;
 
     this.amplifyService.authStateChange$
         .subscribe(authState => {
