@@ -149,7 +149,7 @@ The `conversationModeOn` props turns voice conversation mode on/off.
 
 If needed, you can also pass `config` in the props to modify the silence detection parameters, like in this example:
 
-```html
+```jsx
 const customVoiceConfig = {
     silenceDetectionConfig: {
         time: 2000,
