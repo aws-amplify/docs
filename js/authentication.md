@@ -845,6 +845,8 @@ Amplify.configure({
 });
 ```
 
+Note: An ID token is only returned if openid scope is requested. The access token can be only used against Amazon Cognito User Pools if aws.cognito.signin.user.admin scope is requested. The phone, email, and profile scopes can only be requested if openid scope is also requested.
+
 #### Launching the Hosted UI
 
 To invoke the browser to display the hosted UI, you need to construct the URL in your app;
