@@ -142,10 +142,10 @@ When using React, you can use *ChatBot* with following properties;
     welcomeMessage="Welcome, how can I help you today?"
     onComplete={this.handleComplete.bind(this)}
     clearOnComplete={true}
-    conversations={false}
+    conversationModeOn={false}
 />
 ```
-The `conversations` props turns voice conversation mode on/off.
+The `conversationModeOn` props turns voice conversation mode on/off.
 
 If needed, you can also pass `config` in the props to modify the silence detection parameters, like in this example:
 
@@ -209,7 +209,7 @@ class App extends Component {
           welcomeMessage="Welcome, how can I help you today?"
           onComplete={this.handleComplete.bind(this)}
           clearOnComplete={true}
-          conversations={false}
+          conversationModeOn={false}
         />
       </div>
     );
@@ -258,10 +258,10 @@ When using React Native, you can use *ChatBot* with following properties;
             color: 'red'
         }
     })}
-    conversations={false}
+    conversationModeOn={false}
 />
 ```
-You can turn voice conversation mode on/off by passing boolean `conversations` in the props.
+You can turn voice conversation mode on/off by passing boolean `conversationModeOn` in the props.
 
 
 Following simple app shows how to use **ChatBot** component in a React Native app;
@@ -328,7 +328,7 @@ export default class App extends React.Component {
                 color: 'red'
                 }
             })}
-            conversations={false}
+            conversationModeOn={false}
             />
         </SafeAreaView>
         );
