@@ -8,7 +8,7 @@ npm install -g @aws-amplify/cli@multienv
 ```
 ## Setting up master and dev environments 
 
-First, you would need to create a Github/Gitlab repository for your project if you haven't already.
+First, you would need to create a Git repository for your project if you haven't already.
 We recommend managing separate Git branches for your different environments (try to have the same branch name as your environment name to avoid confusion).
 From the root of your project, execute the following commands:
 
