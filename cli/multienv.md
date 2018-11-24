@@ -24,7 +24,7 @@ $ git remote add origin git@github.com:<repo-name>
 $ git push -u origin master
 ```
 
-Note: When you initialize a project using the Amplify CLI, it appends(if a gitignore file exists at the root of the project) or creates one for you (if a gitignore file doesn't exist at the root of your project), with a list of recommended files to check in from the Amplify CLI generated list of files, into the GitHub repository.
+Note: When you initialize a project using the Amplify CLI, it appends(if a gitignore file exists at the root of the project) or creates one for you (if a gitignore file doesn't exist at the root of your project), with a list of recommended files to check in from the Amplify CLI generated list of files, into your Git repository.
 
 Once you have your 'master' branch setup in Git, lets set up a 'dev' environment in your Amplify project (which would be based on your 'master' environment), and then we'll walk through the steps to create a corresponding git branch for it.
 
@@ -41,7 +41,7 @@ Now lets first push the changes to our 'master' branch (you would just see chang
 
 ```
 $ git add .
-$ git commit -m "Creation of a prod amplify environment"
+$ git commit -m "Creation of a master amplify environment"
 $ git push -u origin master
 $ git checkout -b dev
 $ git push -u origin dev
@@ -70,7 +70,7 @@ $ amplify push
 $ git push -u origin mysandbox
 ```
 
-Now, let's suppose the team-member wants to move these changes to dev and prod branches. 
+Now, let's suppose the team-member wants to move these changes to dev and master environments/branches. 
 
 ```
 $ git checkout dev
@@ -111,7 +111,7 @@ $ amplify init
 ? Do you want to use an existing environment? true
 ? Choose the environment you would like to use: 
 ❯ dev 
-prod
+master
 // The rest of init steps
 // Add/update any backend configurations using amplify add/update <category>
 $ amplify push
@@ -127,7 +127,7 @@ $ $ amplify init
 ? Do you want to use an existing environment? true
 ? Choose the environment you would like to use: 
 ❯ dev 
-prod
+master
 $ amplify env pull
 $ git pull origin dev
 ```
