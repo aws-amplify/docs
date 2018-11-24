@@ -132,7 +132,7 @@ $ amplify env pull
 $ git pull origin dev
 ```
 
-### Sharing projects
+### Sharing projects outside the team
 If you observe the amplify/ dir file-structure, we store the team-provider-info.json file in it, which looks something like the following:
 
 ```json
