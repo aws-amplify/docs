@@ -101,7 +101,7 @@ $ git push -u origin master
 So in this approach, you can consider the git branches (dev & master) as the source of truth and all the team members should work off the branches and keep their workspaces in sync.
 
 #### Team-members sharing the same dev backend 
-You have two independent environments (master & dev) in the cloud and have corresponding git branches with your amplify backend infrastructure code on Github. Now, let's walk through the case when all team members want to work on the same Amplify project and push backend related changes to the dev environment to test their changes.
+You have two independent environments (master & dev) in the cloud and have corresponding git branches with your amplify backend infrastructure code on Github. Now, let's walk through the case when all team members want to work on the same Amplify project and push backend related changes to the same dev environment to test their changes.
 
 ```
 $ git clone <git-repo>
