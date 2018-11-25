@@ -12,7 +12,7 @@ npm install -g @aws-amplify/cli@multienv
 
 ## Concepts
 
-Amplify fits into the standard Git workflow where you switch between different branches using the `env` command. Similarly to how you will run `git checkout -b BRANCHNAME` you will run `amplify env checkout ENVIRONMENT_NAME`. The below diagram shows a workflow of this.
+Amplify fits into the standard Git workflow where you switch between different branches using the `env` command. Similarly to how you will run `git checkout BRANCHNAME` you will run `amplify env checkout ENVIRONMENT_NAME`. The below diagram shows a workflow of how to initialize new environments when creating new git branches.
 
 ![](images/AmplifyEnvSwitching.jpg)
 
