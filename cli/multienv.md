@@ -35,9 +35,9 @@ You can alternatively, have developers setup their own isolated replica of these
 
 This workflow can be used to share complete Amplify projects with people outside of your organization as well by commiting the project into a Git repository. If you are doing this remove (or add to the .gitignore) the **team-provider-info.json** which is located in the `amplify` directory. You can learn more about this file [HERE](#teamprovider).
 
-## Hosting
+## Continuous deployment and Hosting
 
-The Amplify CLI supports basic web application hosting with Amazon S3 and CloudFront. You can use the multi-environments feature with the Amplify Console for a fully managed web application hosting solution. For more information please [read more about this in the official documentation](LINK)
+The Amplify CLI supports basic web application hosting with Amazon S3 and CloudFront. You can use the multi-environments feature with the Amplify Console for a fully managed web application hosting and continuous deployment solution. For more information please [read more about this in the official documentation](LINK)
 
 ## Setting up master and dev environments 
 
