@@ -37,7 +37,7 @@ This workflow can be used to share complete Amplify projects with people outside
 
 ## Continuous deployment and Hosting with the Amplify Console
 
-The Amplify Console provides continuous deployment and hosting for modern web apps. You can connect your git branches in the Amplify Console to continuously deploy changes to your frontend and backend on every code commit. Changes to your frontend are deployed to an amplifyapp.com domain that is fully managed (easy custom domains with HTTPS, atomic deployments, rewrites and redirects). You can also connect the multiple environments created in the Amplify CLI to continuously deploy updates to your backend on every code commit. For more information please read the official documentation [HERE](https://docs-aws.amazon.com/amplify/latest/userguide/deploy-backend.html)
+You can use the multi-environments feature with the Amplify Console for a fully managed web application hosting and continuous deployment solution. The Amplify Console provides continuous deployment and hosting for modern web apps. You can connect your git branches in the Amplify Console to continuously deploy changes to your frontend and backend on every code commit. Changes to your frontend are deployed to an amplifyapp.com domain that is fully managed (easy custom domains with HTTPS, atomic deployments, rewrites and redirects). You can also connect the multiple environments created in the Amplify CLI to continuously deploy updates to your backend on every code commit. Get started by [connecting your git repo]( https://console.aws.amazon.com/amplify/home?#/create) or read the [official documentation](https://docs-aws.amazon.com/amplify/latest/userguide/deploy-backend.html)
 
 ## Setting up master and dev environments 
 
@@ -87,7 +87,7 @@ There are two ways to work with Amplify projects within a team:
 2. Team-members sharing the same dev backend to work on 
 
 #### Team-members working on their own sandbox environments (Recommended)
-Now you have two independent environments (master & dev) in the cloud and have corresponding git branches with your amplify backend infrastructure code on Github. Suppose a team member wants to work on the same Amplify project, add some features to it and then push changes to the dev environment to test some changes. They would perform the following steps:
+Now you have two independent environments (master & dev) in the cloud and have corresponding git branches with your amplify backend infrastructure code on Git. Suppose a team member wants to work on the same Amplify project, add some features to it and then push changes to the dev environment to test some changes. They would perform the following steps:
 
 ```
 $ git clone <git-repo>
@@ -133,7 +133,7 @@ $ git push -u origin master
 In this approach, you can consider the git branches (dev & master) as the source of truth and all the team members should work off the branches and keep their workspaces in sync.
 
 #### Team-members sharing the same dev backend 
-You have two independent environments (master & dev) in the cloud and have corresponding git branches with your amplify backend infrastructure code on Github. Suppose all team members want to work on the same Amplify project and push backend related changes to the same dev environment to test their changes. Each team member would run the following:
+You have two independent environments (master & dev) in the cloud and have corresponding git branches with your amplify backend infrastructure code on Git. Suppose all team members want to work on the same Amplify project and push backend related changes to the same dev environment to test their changes. Each team member would run the following:
 
 ```
 $ git clone <git-repo>
