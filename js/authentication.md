@@ -583,16 +583,19 @@ Step 1. Learn [how to integrate Auth0 with Cognito Federated Identity Pools](htt
 
 Step 2. Login with `Auth0`, then use the id token returned to get AWS credentials from `Cognito Federated Identity Pools` using the `Auth.federatedSignIn` method:
 ```js
-const { idToken, domain, expiresIn, user } = getFromAuth0();
+const { idToken, domain, expiresIn, name, email } = getFromAuth0(); // get the user credentials and info from auth0
 
-Auth.federatedSignIn({
+Auth.federatedSignIn(
     domain, // The Auth0 Domain,
     {
         token: idToken // The id token from Auth0
         expires_at: expiresIn * 1000 + new Date().getTime() // the expiration timestamp
     },
-    user // the user object, e.x. { name: username, email: email }
-}).then(cred => {
+    { 
+        name: name, 
+        email: email
+    } // the user object, e.x. { name: username, email: email }
+).then(cred => {
     console.log(cred);
 });
 ```
