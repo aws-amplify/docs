@@ -441,6 +441,29 @@ Note: Please review the documentation for [API](./api) before you proceed with t
 
 You can also upload and download Amazon S3 Objects using AWS AppSync, a GraphQL based solution to build data-driven apps with real-time and offline capabilities. Sometimes you might want to create logical objects that have more complex data, such as images or videos, as part of their structure.  _For example, you might create a Person type with a profile picture or a Post type that has an associated image_. You can use AWS AppSync to model these as GraphQL types. If any of your mutations have a variable with bucket, key, region, mimeType, and localUri fields, the SDK uploads the file to Amazon S3 for you.
 
+Attach the following policy to your IAM role to grant it programmatic read-write access to your bucket:
+
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["s3:ListBucket"],
+      "Resource": ["arn:aws:s3:::myBucket"]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject"
+      ],
+      "Resource": ["arn:aws:s3:::myBucket/*"]
+    }
+  ]
+}
+```
+
 Update your schema as follows to add the S3Object and S3ObjectInput types for the file, and a new mutation named CreatePostWithFileInputMutation:
 ```
   input CreatePostInput {
