@@ -30,7 +30,7 @@ To load Amazon Sumerian scenes you will need to activate the [Amplify Auth categ
 $ amplify add auth
 ```
 
-Be sure to include an Authenticated Role/Policy with your Cognito Identity Pool. To understand how to configure your Authenticated Role/Policy for Sumerian scene access go to the <a href="https://docs.aws.amazon.com/sumerian/latest/userguide/sumerian-permissions.html">Amazon Sumerian Permissions</a> documentation page. <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html" target="_blank"> Learn more</a> about IAM Roles with Cognito Identity Pools.
+Be sure to include an Authenticated Role/Policy with your Cognito Identity Pool. To understand how to configure your Authenticated Role/Policy for Sumerian scene access go to the <a href="https://docs.aws.amazon.com/sumerian/latest/userguide/sumerian-permissions.html" target="_blank">Amazon Sumerian Permissions</a> documentation page. <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html" target="_blank"> Learn more</a> about IAM Roles with Cognito Identity Pools.
 {: .callout .callout--info}
 
 ### App configuration
