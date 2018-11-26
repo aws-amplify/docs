@@ -517,8 +517,7 @@ Events:
 
 The Sumerian Scene component provides you with a prebuilt UI for loading and displaying Amazon Sumerian scenes inside of your website.
 
-Note: The UI component will inherit the height and width of the direct parent DOM element. Make sure to set the width and height styling on the parent DOM element to your desired size.
-{: .callout .callout--info}
+{% include_relative common/scene-size-note.md %}
 
 Usage: ```<amplify-sumerian-scene></amplify-sumerian-scene>```
 
