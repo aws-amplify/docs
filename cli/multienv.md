@@ -37,7 +37,7 @@ This workflow can be used to share complete Amplify projects with people outside
 
 ## Continuous deployment and Hosting with the Amplify Console
 
-The Amplify CLI supports basic web application hosting with Amazon S3 and CloudFront.The Amplify Console provides continuous deployment and hosting for modern web apps. You can connect your git branches in the Amplify Console to continuously deploy changes to your frontend and backend on every code commit. Changes to your frontend are deployed to an amplifyapp.com domain that is fully managed (easy custom domains with HTTPS, atomic deployments, rewrites and redirects). You can also connect the multiple environments created in the Amplify CLI to continuously deploy updates to your backend on every code commit. For more information please read the official documentation [HERE](https://docs-aws.amazon.com/amplify/latest/userguide/deploy-backend.html)
+The Amplify Console provides continuous deployment and hosting for modern web apps. You can connect your git branches in the Amplify Console to continuously deploy changes to your frontend and backend on every code commit. Changes to your frontend are deployed to an amplifyapp.com domain that is fully managed (easy custom domains with HTTPS, atomic deployments, rewrites and redirects). You can also connect the multiple environments created in the Amplify CLI to continuously deploy updates to your backend on every code commit. For more information please read the official documentation [HERE](https://docs-aws.amazon.com/amplify/latest/userguide/deploy-backend.html)
 
 ## Setting up master and dev environments 
 
