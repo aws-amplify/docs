@@ -588,13 +588,19 @@ const { idToken, domain, expiresIn, name, email } = getFromAuth0(); // get the u
 Auth.federatedSignIn(
     domain, // The Auth0 Domain,
     {
-        token: idToken // The id token from Auth0
+        token: idToken, // The id token from Auth0
+        // expires_at means the timstamp when the token provided expires,
+        // here we can derive it from the expiresIn parameter provided,
+        // then convert its unit from second to millisecond, and add the current timestamp
         expires_at: expiresIn * 1000 + new Date().getTime() // the expiration timestamp
     },
     { 
-        name: name, 
-        email: email
-    } // the user object, e.x. { name: username, email: email }
+        // the user object, you can put whatever property you get from the Auth0
+        // for exmaple:
+        name, // the user name
+        email, // the email address
+        phoneNumber, // the phone number
+    } 
 ).then(cred => {
     console.log(cred);
 });
@@ -617,7 +623,7 @@ function refreshToken() {
     return new Promise(res, rej => {
         const data = {
             token, // the token from the provider
-            expires_at, // the timestamp for the expiration
+            expires_at, // the timestamp when the token expires (in milliseconds)
             identity_id, // optional, the identityId for the credentials
         }
         res(data);
