@@ -103,7 +103,7 @@ The isAccelerateModeEnabled option lets you to upload and download content from 
 _The code sample below manually sets up credentials for the TransferUtility. The best practice is to use the AWSMobileClient. See [Authentication](./authentication) for more details_
 
 ```swift
-//Setup credentials
+//Setup credentials, see your awsconfiguration.json for the "YOUR-IDENTITY-POOL-ID"
 let credentialProvider = AWSCognitoCredentialsProvider(regionType: YOUR-IDENTITY-POOL-REGION, identityPoolId: "YOUR-IDENTITY-POOL-ID")
 
 //Setup the service configuration
