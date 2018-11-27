@@ -538,9 +538,9 @@ Currently, the federation feature in the AWSMobileClient supports Cognito Identi
 ### Federated Sign In
 
 ```java
-AWSMobileClient.getInstance().federatedSignIn(IdentityProvider.FACEBOOK.toString(), “FACEBOOK_TOKEN_HERE”, new Callback<UserState>() {
+AWSMobileClient.getInstance().federatedSignIn(IdentityProvider.FACEBOOK.toString(), "FACEBOOK_TOKEN_HERE", new Callback<UserStateDetails>() {
             @Override
-            public void onResult(final UserState userState) {
+            public void onResult(final UserStateDetails userStateDetails) {
                 //Handle the result
             }
 
