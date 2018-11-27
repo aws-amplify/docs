@@ -113,7 +113,6 @@ let configuration = AWSServiceConfiguration(region: .USEast1, credentialsProvide
 let tuConf = AWSS3TransferUtilityConfiguration()
 tuConf.isAccelerateModeEnabled = true
 
-
 //Register a transfer utility object
 AWSS3TransferUtility.register(
     with: configuration!,
