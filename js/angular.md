@@ -213,7 +213,7 @@ onAlbumImageSelected( event ) {
 
 ### Interactions
 
-The `amplify-interactions` component provides you with a drop-in Chat component that supports three properties:
+The `amplify-interactions` component provides you with a drop-in Chat component that supports five properties:
 
 1. `bot`:  The name of the Amazon Lex Chatbot
 
@@ -221,12 +221,26 @@ The `amplify-interactions` component provides you with a drop-in Chat component 
 end of the conversation.
 
 3. `complete`: Dispatched when the conversation is completed.
+4.  `voiceConfig`: If needed, you can also pass `voiceConfig` from your app component to modify the silence detection parameters, like in this example:
+
+```js
+customVoiceConfig = {
+    silenceDetectionConfig: {
+        time: 2000,
+        amplitude: 0.2
+    }   
+}
+
+```
+5. `conversationModeOn`: Turns voice conversation mode on/off.
 
 ```html
 <amplify-interactions 
     bot="yourBotName" 
     clearComplete="true" 
-    (complete)="onBotComplete($event)"></amplify-interactions>
+    (complete)="onBotComplete($event)">
+    [conversationModeOn]="false"
+    [voiceConfig]="customVoiceConfig"</amplify-interactions>
 ```
 
 See the [Interactions documentation]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/interactions) for information on creating a Lex Chatbot.
