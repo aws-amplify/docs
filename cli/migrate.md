@@ -856,7 +856,7 @@ This file is currently not present. Create this file with the following contents
 }
 ```
 
-* Modufy `Properties.Roles` attribute for `PolicyAPIFW<appName>auth Resource`:
+* Modify `Properties.Roles` attribute for `PolicyAPIFW<appName>auth Resource`:
 
 **Before**
 ```
