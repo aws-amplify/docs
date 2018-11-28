@@ -5,9 +5,11 @@ This section covers the steps to migrate your projects initialized using the Amp
 $ npm install -g @aws-amplify/cli@multienv
 ```
 
+ **NOTE**: We recommend backing up your Amplify project directory first before performing a migration.
+
 After installing this new version of the CLI, you can either 
 1. Auto-migrate your project (initialized using CLI version < 0.2.0), or 
-2. Manually migrate the project
+2. Manually migrate the project (For most projects, Auto-Migration is the best bet. However if you modified Cloudformation files in the ./amplify/backend/ directory, then you may need to perform Manual migration steps)
 
 ## Auto-migration
 After updating the CLI, you can use the `amplify migrate` command to migrate your projects to be compatible with the current version of the CLI being used.
