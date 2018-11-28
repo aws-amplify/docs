@@ -129,6 +129,61 @@ Output Files: Empty
 
 Now **build** your project to start using the SDK. Whenever a new version of the SDK is released you can update by running `carthage update` and rebuilding your project to use the new features.
 
+## Frameworks setup
+
+Download the [SDK](https://sdk-for-ios.amazonwebservices.com/latest/aws-ios-sdk.zip). The SDK is stored in a compressed file archive named `aws-ios-sdk-#.#.#` (where `#.#.#` represents the version number, so for version 2.7.0, the filename is `aws-ios-sdk-2.7.0`).
+
+With your project open in Xcode, select your `Target`. Under `General` tab, find `Embedded Binaries` and then click the `+` button.
+
+Click the `Add Other...` button, navigate to the `AWS<#ServiceName#>.framework` files and select them. Check the `Destination: Copy items if needed` checkbox when prompted.
+
+* `AWSAuth.framework`
+* `AWSAuthCore.framework`
+* `AWSAuthUI.framework`
+* `AWSAutoScaling.framework`
+* `AWSCloudWatch.framework`
+* `AWSCognito.framework`
+* `AWSCognitoAuth.framework`
+* `AWSCognitoIdentityProvider.framework`
+* `AWSCognitoIdentityProviderASF.framework`
+* `AWSCore.framework`
+* `AWSDynamoDB.framework`
+* `AWSEC2.framework`
+* `AWSElasticLoadBalancing.framework`
+* `AWSFacebookSignIn.framework`
+* `AWSGoogleSignIn.framework`
+* `AWSIoT.framework`
+* `AWSKMS.framework`
+* `AWSKinesis.framework`
+* `AWSLambda.framework`
+* `AWSLex.framework`
+* `AWSLogs.framework`
+* `AWSMachineLearning.framework`
+* `AWSMobileClient.framework`
+* `AWSPinpoint.framework`
+* `AWSPolly.framework`
+* `AWSRekognition.framework`
+* `AWSS3.framework`
+* `AWSSES.framework`
+* `AWSSNS.framework`
+* `AWSSQS.framework`
+* `AWSSimpleDB.framework`
+* `AWSUserPoolsSignIn.framework`
+
+Under the `Build Phases` tab in your `Target`, click the `+` button on the top left and then select `New Run Script Phase`. Then setup the build phase as follows. Make sure this phase is below the `Embed Frameworks` phase.
+
+    Shell /bin/sh
+        
+    bash "${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework/strip-frameworks.sh"
+        
+    Show environment variables in build log: Checked
+    Run script only when installing: Not checked
+        
+    Input Files: Empty
+    Output Files: Empty
+
+Now **build** your project to start using the SDK. Whenever a new version of the SDK is released you can update by selecting the previously imported AWS frameworks in `Project Navigator` in Xcode and pressing 'delete' on your keyboard. Then select `Move to Trash` and follow the installation process above to include the new version of the SDK.
+
 ## Direct AWS Service access
 
 You can call AWS service interface objects directly via the generated SDK clients. You can use the client credentials provided by the [AWSMobileClient](./authentication) when using the `.default()` method on a service object (e.g. `AWSSQS.default()`). This will leverage short term AWS credentials from Cognito Identity. Alternatively, you can call the constructors manually.
@@ -136,7 +191,7 @@ You can call AWS service interface objects directly via the generated SDK client
 To work with service interface objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
 {: .callout .callout--warning}
 
-For example, if you were using [Amazon Simple Queue Service (SQS)](https://aws.amazon.com/sqs/) in Swift you would first add `AWSSQS` to your `Podfile` and install the dependencies with `pod install`. Next, update your `awsconfiguration.json` like so:
+For example, if you were using [Amazon Simple Queue Service (SQS)](https://aws.amazon.com/sqs/) in Swift you would first add `AWSSQS` to your `Podfile` and install the dependencies with `pod install` (alternatively follow the instructions for [Carthage](#carthage-setup) or [Frameworks](#frameworks-setup)). Next, update your `awsconfiguration.json` like so:
 
 ```json
     "SQS" : {

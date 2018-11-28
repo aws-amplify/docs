@@ -1,4 +1,11 @@
-# Handling Baidu push notifications
+---
+title: Handling Baidu Push Notifications
+redirect_from:
+  - /android/how-to-pinpoint-notifications-baidu
+  - /docs/android/how-to-pinpoint-notifications-baidu
+---
+
+# Handling Baidu Push Notifications
 
 Baidu Cloud Push is the push notification service provided by Baidu, a Chinese cloud service. By integrating Baidu Cloud Push with your mobile app, you can use Amazon Pinpoint to send notifications to your app through the Baidu mobile push channel.
 
