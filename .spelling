@@ -415,6 +415,14 @@ AppDelegate.swift
 ViewController.swift
 MainActivity.java
 
+# cli/multienv.md
+multienv
+mydev
+amplifyapp.com
+backend-configs
+env
+configs
+
 # android/analytics.md
 ActivityLifecycleCallbacks
 MainActivity
