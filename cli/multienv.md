@@ -3,7 +3,7 @@
 This section outlines how you can manage multiple environments of your Amplify project (backend + frontend) as well as using a project within a team or outside a team using the Amplify CLI & Git. 
 This functionality is still work in progress and you would have to install a beta version of the CLI to check out all the features mentioned in this section.
 
-**Note**: The use of this newer version (@multienv) might cause existing projects initialized using a previous Amplify CLI version to no longer function when attempting to manage resources in the existing project, or have unexpected side effects. After updating the CLI, the CLI would propmpt you to automatically migrate your project, so that is it compatible with the new verion of the CLI. [Read more](migrate.md) 
+**Note**: The use of this newer version (@multienv) might cause existing projects initialized using a previous Amplify CLI version to no longer function when attempting to manage resources in the existing project, or have unexpected side effects. After updating the CLI, the CLI would prompt you to automatically migrate your project, so that is it compatible with the new verion of the CLI. [Read more](migrate.md) 
 
 **We recommend backing up your Amplify project directory first before performing a migration.**
 
