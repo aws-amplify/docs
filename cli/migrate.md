@@ -1,7 +1,59 @@
+# Migration
+This section covers the steps to migrate your projects initialized using the Amplify CLI version ( < 0.2.0) which doesn't support multiple environments and team workflows. Environment and team workflow support is in beta and can be installed using the following command
 
+```
+$ npm install -g @aws-amplify/cli@multienv
+```
 
+After installing this new version of the CLI, you can either 
+1. Auto-migrate your project (initialized using CLI version < 0.2.0), or 
+2. Manually migrate the project
 
+## Auto-migration
+After updating the CLI, you can use the `amplify migrate` command to migrate your projects to be compatible with the current version of the CLI being used.
 
+**Note**: The CLI would also prompt you to migrate your project when running any other amplify CLI commands on an older project after installing the new version of the cli.
+
+Please follow these instructions if you have a functions or interactions category enabled.
+### Functions
+This is valid only if you have setup a Lambda function + CRUD operations with a DynamoDB table. If this is not valid to you, you can move to the next section.
+* Open the `amplify/function/<function-name>/src/app.js` file. Modify the following contents
+
+**Before**
+```
+let tableName = <table-name>;
+```
+**After**
+
+```
+let tableName = <table-name>;
+if(process.env.ENV && process.env.ENV !== "NONE") {
+  tableName = tableName + '-' + process.env.ENV;
+}
+```
+
+Note: This would add enviornment support to your lambda function to use appropriate dynamo tables
+
+### Interactions
+* Open the `amplify/interactions/<bot-name>/src/index.js` file. modify the following contents
+
+**Before**
+```
+let botParams = {
+    "name": "BookTrip",
+    .....
+
+```
+**After**
+```
+let botName = "BookTrip";
+if(process.env.ENV && process.env.ENV !== "NONE") {
+  botName = botName + '_' + process.env.ENV;
+}
+let botParams = {
+        "name": botName,
+        .......
+```
 
 ## Manual migration
 If you're planning to manually migrate your project, here are the list of steps that you would need to follow:
@@ -1383,6 +1435,23 @@ Update the parameter.json and change auth and unauth role name to use Refs
 	]
 }
 ```
+
+* This change is valid only if you have setup a Lambda function + CRUD operations with a DynamoDB table. If this is not valid to you, you can move to the next section. Open the `amplify/function/<function-name>/src/app.js` file. Modify the following contents
+
+**Before**
+```
+let tableName = <table-name>;
+```
+**After**
+
+```
+let tableName = <table-name>;
+if(process.env.ENV && process.env.ENV !== "NONE") {
+  tableName = tableName + '-' + process.env.ENV;
+}
+```
+
+Note: This would add enviornment support to your lambda function to use appropriate dynamo tables
 
 ## Hosting
 ### amplify/backend/hosting/S3AndCloudFront/parameters.json
