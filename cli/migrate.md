@@ -1658,7 +1658,30 @@ change the “Resources.S3Bucket.Properties.BucketName” to:
 }
 ```
 
-
+### Notifications
+Carry out the following steps if Notifications is added to the proejct.
+Extract the Pinpoint project information from the mplify/backend/amplifyMeta.json file,
+Insert the Pinpoint project information into Team Provider Info’s categories node:
+ "categories": {
+            "notifications": {
+                "Pinpoint": {
+                    "Name": <Pinpoint-Project-Name>,
+                    "Id": <Pinpoint-Project-Id>,
+                    "Region": "us-east-1"
+                }
+            }
+        }
+Insert the following in the `categories` attributes of the amplify/backend/backend-config.json file
+ { 
+    "categories": {
+        "notifications": {
+           <Pinpoint-Project-Name>: {
+                "service": "Pinpoint",
+                "channels": [<Enabled Pinpoint Channels>]
+            }
+        }
+    }
+},
 
 
 
