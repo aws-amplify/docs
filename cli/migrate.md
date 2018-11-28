@@ -1278,9 +1278,9 @@ IdentityPoolName: !If [ShouldNotCreateEnvResources, '<%= props.identityPoolName 
 
 
 
-#### Update parameter.json 
+#### Update parameters.json 
 
-Update the parameter.json and change auth and unauth role name to use Refs
+Update the parameters.json and change auth and unauth role name to use Refs
 
 ```JSON
 
