@@ -520,10 +520,10 @@ Auth.configure({
 ### Federated Identities (Social Sign-in)
 
 **Availability Note**
-Currently, our federated identity components only support Google, Facebook and Amazon identities. Please see our[ Setup Guide for Federated Identities]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/federated-identity).
+Currently, our federated identity components only support Google, Facebook, Amazon and Auth0 identities. Please see our[ Setup Guide for Federated Identities]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/federated-identity).
 {: .callout .callout--info}
 
-To enable social sign-in in your app with Federated Identities, add `Google client_id`, `Facebook app_id` and/or `Amazon client_id` properties to *Authenticator* component:
+To enable social sign-in in your app with Federated Identities, add `Google client_id`, `Facebook app_id` and/or `Amazon client_id` properties to `Authenticator` component:
 
 ```javascript
 const federated = {
@@ -535,6 +535,190 @@ const federated = {
 return (
     <Authenticator federated={federated}>
 )
+```
+
+Or you can use it with `withAuthenticator`:
+```js
+const AppWithAuth = withAuthenticator(App);
+
+const federated = {
+    google_client_id: '', // Enter your google_client_id here
+    facebook_app_id: '', // Enter your facebook_app_id here
+    amazon_client_id: '' // Enter your amazon_client_id here
+};
+
+ReactDOM.render(<AppWithAuth federated={federated}/>, document.getElementById('root'));
+```
+
+If you are want to directly use `Auth.federatedSignIn()`, you need to get the token from the federated provider.
+Facebook Sample:
+```js
+import { Auth } from 'aws-amplify';
+// To federated sign in from Facebook
+class SignInWithFacebook extends React.Component {
+    constructor(props) {
+        super(props);
+        this.signIn = this.signIn.bind(this);
+    }
+
+    componentDidMount() {
+        if (!window.FB) this.createScript();
+    }
+
+    signIn() {
+        const fb = window.FB;
+        fb.getLoginStatus(response => {
+            if (response.status === 'connected') {
+                this.getAWSCredentials(response.authResponse);
+            } else {
+                fb.login(
+                    response => {
+                        if (!response || !response.authResponse) {
+                            return;
+                        }
+                        this.getAWSCredentials(response.authResponse);
+                    },
+                    {
+                        // the authorized scopes
+                        scope: 'public_profile,email'
+                    }
+                );
+            }
+        });
+    }
+
+    getAWSCredentials(response) {
+            const { accessToken, expiresIn } = response;
+            const date = new Date();
+            const expires_at = expiresIn * 1000 + date.getTime();
+            if (!accessToken) {
+                return;
+            }
+
+            const fb = window.FB;
+            fb.api('/me', { fields: 'name,email' }, response => {
+                const user = {
+                    name: response.name,
+                    email: response.email
+                };
+                
+                Auth.federatedSignIn('facebook', { token: accessToken, expires_at }, user)
+                .then(credentials => {
+                    console.log(credentials);
+                });
+            });
+        }
+
+    createScript() {
+        // load the sdk
+        window.fbAsyncInit = this.fbAsyncInit;
+        const script = document.createElement('script');
+        script.src = 'https://connect.facebook.net/en_US/sdk.js';
+        script.async = true;
+        script.onload = this.initFB;
+        document.body.appendChild(script);
+    }
+
+    initFB() {
+        const fb = window.FB;
+        console.log('FB SDK inited');
+    }
+
+    fbAsyncInit() {
+        // init the fb sdk client
+        const fb = window.FB;
+        fb.init({
+            appId   : 'your_facebook_app_id',
+            cookie  : true,
+            xfbml   : true,
+            version : 'v2.11'
+        });
+    }
+
+    render() {
+        return (
+            <div>
+                <button onClick={this.signIn}>Sign in with Facebook</button>
+            </div>
+        );
+    }
+}
+```
+
+Google Sample:
+```js
+import { Auth } from 'aws-amplify';
+// To federated sign in from Google
+class SignInWithGoogle extends React.Component {
+    constructor(props) {
+        super(props);
+        this.signIn = this.signIn.bind(this);
+    }
+
+    componentDidMount() {
+        const ga = window.gapi && window.gapi.auth2 ? 
+            window.gapi.auth2.getAuthInstance() : 
+            null;
+        if (!ga) this.createScript();
+    }
+
+    signIn() {
+        const ga = window.gapi.auth2.getAuthInstance();
+        ga.signIn().then(
+            googleUser => {
+                this.getAWSCredentials(googleUser);
+            },
+            error => {
+                console.log(error);
+            }
+        );
+    }
+
+    async getAWSCredentials(googleUser) {
+        const { id_token, expires_at } = googleUser.getAuthResponse();
+        const profile = googleUser.getBasicProfile();
+        let user = {
+            email: profile.getEmail(),
+            name: profile.getName()
+        };
+        
+        const credentials = await Auth.federatedSignIn(
+            'google',
+            { token: id_token, expires_at },
+            user
+        );
+        console.log('credentials', credentials);
+    }
+
+    createScript() {
+        // load the Google SDK
+        const script = document.createElement('script');
+        script.src = 'https://apis.google.com/js/platform.js';
+        script.async = true;
+        script.onload = this.initGapi;
+        document.body.appendChild(script);
+    }
+
+    initGapi() {
+        // init the Google SDK client
+        const g = window.gapi;
+        g.load('auth2', function() {
+            g.auth2.init({
+                client_id: 'your_google_client_id',
+                // authorized scopes
+                scope: 'profile email openid'
+            });
+        });
+    }
+
+    render() {
+        return (
+            <div>
+                <button onClick={this.signIn}>Sign in with Google</button>
+            </div>
+        );
+    }
+}
 ```
 
 For *React Native*, you can use `Auth.federatedSignIn()` to get your federated identity from Cognito. You need to provide a valid JWT token from the third provider. You can also use it with `Authenticator`, so that component automatically persists your login status.
@@ -776,31 +960,55 @@ Amazon Cognito provides a customizable user experience via the hosted UI. The ho
 
 #### Setup your Cognito App Client
 
-To start using hosted UI, you need to setup your App Client in the Amazon Cognito console.
+To start using hosted UI, you need to configure your identity providers and setup your App Client in the Amazon Cognito console. You can also check the [Cognito doc: Adding Social Identity Providers to a User Pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html).
+
+To enable the user pool domain for your hosted UI;
+- Go to [Amazon Cognito Console](https://aws.amazon.com/cognito/).
+- Click *User Pools* on the top menu to select a User Pool or create a new one.
+- On the left menu, go to  *App integration* > *Domain name*.
+- In the *Domain prefix* section, enter the prefix for the pages that will be hosted by Amazon Cognito.
+
+To configure your identity providers:
+- Go to [Amazon Cognito Console](https://aws.amazon.com/cognito/).
+- Click *User Pools* on the top menu to select a User Pool or create a new one.
+- Go to *Federation* > *Identity providers*
+- Select an *Identity provider* and enter required credentials for the identity provider. (e.g., App Id, App secret, Authorized scope)
+
+     To learn [how to register with a Social IdP](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html#cognito-user-pools-social-idp-step-1)
+
+     To learn [what's Authorized scope](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html#cognito-user-pools-social-idp-step-2)
+
+     Note: your user pool domain is something like: `domain_prefix.auth.us-east-1.amazoncognito.com`
+
+- To retrieve user attributes from your identity provider, go to *Federation* > *Attribute mapping*. Here, you can map Federation Provider attributes to corresponding User pool attributes. More info about [Attribute Mapping](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-specifying-attribute-mapping.html).
+
+If the attribute, for example *email*, is a required field in your Cognito User Pool settings, please make sure that you have selected *email* in your Authorized Scopes, and you have mapped it correctly to your User Pool attributes.
+{: .callout .callout-info}
 
 To setup App Client;
 - Go to [Amazon Cognito Console](https://aws.amazon.com/cognito/).
 - Click *User Pools* on the top menu to select a User Pool or create a new one.
 - Click *App integration*  and *App client settings* on the left menu.
-- Select *Enabled Identity Providers* and enter *Callback URL(s)* and *Sign out URL(s)* fields.
-- Under the *OAuth 2.0* section, select an OAuth Flow. *Authorization code grant* is the recommended choice for security reasons.
+- Select *Enabled Identity Providers* and enter *Callback URL(s)* and *Sign out URL(s)* fields. 
+
+For example, in *Callback URL(s)*, you can put one url for local developement, one for the production. If your app is running in `http://localhost:3000/` in local and `https://www.example.com/` in production, you can put `http://localhost:3000/,https://www.example.com/` under *Callback URL(s)*. Same as the *Signout URL(s)*.
+
+- Under the *OAuth 2.0* section, Choose OAuth Flow and OAuth scopes. [To learn more about flows and scopes.](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-idp-settings.html)
+- Select an OAuth Flow. 
+
+By using *Authorization code grant* the callback URL will contain a code after login. The code will be used to exchange for tokens from Cognito with the TOKEN Endpoint.
+
+By using *Implicit grant* the callback URL will contain tokens(access token, id token) after login.
+
+The *Client credentials* flow is used in machine-to-machine communications. With it you can request an access token to access your own resources. Use this flow when your app is requesting the token on its own behalf, not on behalf of a user.
+
+*Authorization code grant* is the recommended choice for security reasons. 
+
 - Choose item(s) from *OAuth Scopes*.
-- Click 'Save Changes'
 
-To enable the domain for your hosted UI;
+Note: `openid` is required for `phone`, `email` or `profile`. Also `openid` is required to get the id token from the Cognito authorization server.
 
-- On the left menu, go to  *App integration* > *Domain name*.
-- In the *Domain prefix* section, enter the prefix for the pages that will be hosted by Amazon Cognito.
-
-You can also enable Federated Identities for your hosted UI;  
-
-- Go to *Federation* > *Identity providers*
-- Select an *Identity provider* and enter required credentials for the identity provider. (e.g., App Id, App secret, Authorized scope)
-- In the settings page for your selected identity provider (Facebook, Google, etc.),  set *OAuth Redirected URI* to `https://your-domain-prefix.auth.us-east-1.amazoncognito.com/oauth2/idpresponse` (*your-domain-prefix* is the domain prefix you have entered in previously).
-- To retrieve user attributes from your identity provider, go to *Federation* > *Attribute mapping*. Here, you can map Federation Provider attributes to corresponding User pool attributes. 
-
-If  *email* attribute is a required field in your Cognito User Pool settings, please make sure that you have selected *email* in your Authorized Scopes, and you have mapped it correctly to your User Pool attributes.
-{: .callout .callout-info}
+- Click 'Save Changes'. 
 
 #### Configuring the Hosted UI
 
@@ -819,10 +1027,10 @@ const oauth = {
     scope : ['phone', 'email', 'profile', 'openid','aws.cognito.signin.user.admin'], 
 
     // Callback URL
-    redirectSignIn : 'http://www.example.com/signin', 
+    redirectSignIn : 'http://www.example.com/signin/', 
 
     // Sign out URL
-    redirectSignOut : 'http://www.example.com/signout',
+    redirectSignOut : 'http://www.example.com/signout/',
 
     // 'code' for Authorization code grant, 
     // 'token' for Implicit grant
