@@ -12,7 +12,11 @@ After installing this new version of the CLI, you can either
 2. Manually migrate the project (For most projects, Auto-Migration is the best bet. However if you modified Cloudformation files in the ./amplify/backend/ directory, then you may need to perform Manual migration steps)
 
 ## Auto-migration
-After updating the CLI, you can use the `amplify migrate` command to migrate your projects to be compatible with the current version of the CLI being used.
+After updating the CLI, you can use the `amplify migrate` command to migrate your projects to be compatible with the current version of the CLI being used. 
+
+```
+The CLI will migrate your current project to an environment, named as 'NONE' and thereafter you can create any number of environments after the migration based on this environment.
+```
 
 **Note**: The CLI would also prompt you to migrate your project when running any other amplify CLI commands on an older project after installing the new version of the cli.
 
@@ -58,7 +62,10 @@ let botParams = {
 ```
 
 ## Manual migration
-If you're planning to manually migrate your project, here is the list of steps that you would need to follow:
+If you're planning to manually migrate your project, here is the list of steps that you would need to follow.
+```
+We will migrate your current project to an environment, named as 'NONE' and thereafter you can create any number of environments after the migration based on this environment.
+```
 
 ### Core files
 
