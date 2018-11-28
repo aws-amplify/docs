@@ -1730,7 +1730,7 @@ change the “Resources.S3Bucket.Properties.BucketName” to:
 ```
 
 ### Notifications
-Extract the Pinpoint project information from the mplify/backend/amplifyMeta.json file,
+Extract the Pinpoint project information from the amplify/backend/amplifyMeta.json file,
 Insert the Pinpoint project information into Team Provider Info’s categories node:
 ```
  "categories": {
