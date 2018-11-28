@@ -14,9 +14,9 @@ After updating the CLI, you can use the `amplify migrate` command to migrate you
 
 **Note**: The CLI would also prompt you to migrate your project when running any other amplify CLI commands on an older project after installing the new version of the cli.
 
-Please follow these instructions if you have a functions or interactions category enabled.
+Please follow these instructions if you have functions or interactions category enabled.
 ### Functions
-This is valid only if you have setup a Lambda function + CRUD operations with a DynamoDB table. If this is not valid to you, you can move to the next section.
+This is valid only if you have set up a Lambda function + CRUD operations with a DynamoDB table. If this is not valid to you, you can move to the next section.
 * Open the `amplify/function/<function-name>/src/app.js` file. Modify the following contents
 
 **Before**
@@ -32,7 +32,7 @@ if(process.env.ENV && process.env.ENV !== "NONE") {
 }
 ```
 
-Note: This would add enviornment support to your lambda function to use appropriate dynamo tables
+Note: This would add environment support to your lambda function to use appropriate dynamo tables
 
 ### Interactions
 * Open the `amplify/interactions/<bot-name>/src/index.js` file. modify the following contents
@@ -56,7 +56,7 @@ let botParams = {
 ```
 
 ## Manual migration
-If you're planning to manually migrate your project, here are the list of steps that you would need to follow:
+If you're planning to manually migrate your project, here is the list of steps that you would need to follow:
 
 ### Core files
 
@@ -114,7 +114,7 @@ Note: You need to add an additional attribute here - `envName`
 
 ### amplify/.config/project-config.json
 
-* Remove `projectPath` and `defaultEditor` from the top level JSON object
+* Remove `projectPath` and `defaultEditor` from the top-level JSON object
 * You would also need to change the `frontendHandler` and `providers` attributes in the top level JSON.
 
 **Before**
@@ -346,7 +346,7 @@ Take a look at the categories you have as a part of your project
 }
 ```
 
-* Modify RoleName propery of the LambdaExecutionRole Resource 
+* Modify RoleName property of the LambdaExecutionRole Resource 
 
 **Before**
 ```
@@ -869,7 +869,7 @@ This file is currently not present. Create this file with the following contents
 ]
 ```
 
-* Now, if any of your Policies includes the `/Prod/*` path, you need to replace it with the following
+* Now, if any of your Policies include the `/Prod/*` path, you need to replace it with the following
 
 **Before**
 ```
@@ -993,7 +993,7 @@ basePath": {
 
 ### Auth
 
-To migrate auth CFN add the following to your cloud formation template. In a nutshell the changes are to append `env` to resource name.
+To migrate auth CFN add the following to your cloud formation template. In a nutshell, the changes are to append `env` to the resource name.
 The cloud formation file for Auth category is located at `<project-dir>/amplify/backend/auth/cognito######/cognito######-cloudformation-template.yml`. Add `env`, `authRoleName`, `unauthRoleName`, `authRoleArn` and `unauthRoleArn` to `Parameters` section of the CFN. 
 
 ```yaml
@@ -1328,30 +1328,30 @@ Update the parameter.json and change auth and unauth role name to use Refs
 **Before**
 ```
 "Parameters": {
-	"storagedynamo57a28a17Name": {
-		"Type": "String",
-		"Default": "storagedynamo57a28a17Name"
-	},
-	"storagedynamo57a28a17Arn": {
-		"Type": "String",
-		"Default": "storagedynamo57a28a17Arn"
-	}
+    "storagedynamo57a28a17Name": {
+        "Type": "String",
+        "Default": "storagedynamo57a28a17Name"
+    },
+    "storagedynamo57a28a17Arn": {
+        "Type": "String",
+        "Default": "storagedynamo57a28a17Arn"
+    }
 }
 ```
 **After**
 ```
 "Parameters": {
-	"storagedynamo57a28a17Name": {
-		"Type": "String",
-		"Default": "storagedynamo57a28a17Name"
-	},
-	"storagedynamo57a28a17Arn": {
-		"Type": "String",
-		"Default": "storagedynamo57a28a17Arn"
-	},
-	"env": {
-		"Type": "String"
-	}
+    "storagedynamo57a28a17Name": {
+        "Type": "String",
+        "Default": "storagedynamo57a28a17Name"
+    },
+    "storagedynamo57a28a17Arn": {
+        "Type": "String",
+        "Default": "storagedynamo57a28a17Arn"
+    },
+    "env": {
+        "Type": "String"
+    }
 }
 ```
 * Add Conditions block to the Cloudformation template
@@ -1377,22 +1377,22 @@ Update the parameter.json and change auth and unauth role name to use Refs
 **After**
 ```
 "FunctionName": {
-	"Fn::If": [
-		"ShouldNotCreateEnvResources",
-		"testfordoce3828825",
-		{
-			"Fn::Join": [
-				"",
-				[
-					"testfordoce3828825",
-					"-",
-					{
-						"Ref": "env"
-					}
-				]
-			]
-		}
-	]
+    "Fn::If": [
+        "ShouldNotCreateEnvResources",
+        "testfordoce3828825",
+        {
+            "Fn::Join": [
+                "",
+                [
+                    "testfordoce3828825",
+                    "-",
+                    {
+                        "Ref": "env"
+                    }
+                ]
+            ]
+        }
+    ]
 }
 ```
 
@@ -1400,11 +1400,11 @@ Update the parameter.json and change auth and unauth role name to use Refs
 
 ```
 "Environment": {
-	"Variables": {
-		"ENV": {
-			"Ref": "env"
-		}
-	}
+    "Variables": {
+        "ENV": {
+            "Ref": "env"
+        }
+    }
 }
 ```
 
@@ -1417,26 +1417,26 @@ Update the parameter.json and change auth and unauth role name to use Refs
 **After**
 ```
 "RoleName": {
-	"Fn::If": [
-		"ShouldNotCreateEnvResources",
-		"testfordocLambdaRole2cf9b47f",
-		{
-			"Fn::Join": [
-				"",
-				[
-					"testfordocLambdaRole2cf9b47f",
-					"-",
-					{
-						"Ref": "env"
-					}
-				]
-			]
-		}
-	]
+    "Fn::If": [
+        "ShouldNotCreateEnvResources",
+        "testfordocLambdaRole2cf9b47f",
+        {
+            "Fn::Join": [
+                "",
+                [
+                    "testfordocLambdaRole2cf9b47f",
+                    "-",
+                    {
+                        "Ref": "env"
+                    }
+                ]
+            ]
+        }
+    ]
 }
 ```
 
-* This change is valid only if you have setup a Lambda function + CRUD operations with a DynamoDB table. If this is not valid to you, you can move to the next section. Open the `amplify/function/<function-name>/src/app.js` file. Modify the following contents
+* This change is valid only if you have set up a Lambda function + CRUD operations with a DynamoDB table. If this is not valid to you, you can move to the next section. Open the `amplify/function/<function-name>/src/app.js` file. Modify the following contents
 
 **Before**
 ```
@@ -1451,7 +1451,7 @@ if(process.env.ENV && process.env.ENV !== "NONE") {
 }
 ```
 
-Note: This would add enviornment support to your lambda function to use appropriate dynamo tables
+Note: This would add environment support to your lambda function to use appropriate dynamo tables
 
 ## Hosting
 ### amplify/backend/hosting/S3AndCloudFront/parameters.json
@@ -1529,17 +1529,17 @@ change the “Resources.S3Bucket.Properties.BucketName” to:
 **After**
 ```
 {
-	"bucketName": "testfordoc204292c459b845b8b09bcda5719ba21a",
-	"authPolicyName": "s3_amplify_aeaffb53",
-	"unauthPolicyName": "s3_amplify_aeaffb53",
-	"authRoleName": {
-		"Ref": "AuthRoleName"
-	},
-	"unauthRoleName": {
-		"Ref": "UnauthRoleName"
-	},
-	"authPermissions": "rw",
-	"unauthPermissions": "rw"
+    "bucketName": "testfordoc204292c459b845b8b09bcda5719ba21a",
+    "authPolicyName": "s3_amplify_aeaffb53",
+    "unauthPolicyName": "s3_amplify_aeaffb53",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authPermissions": "rw",
+    "unauthPermissions": "rw"
 }
 ```
 
@@ -1549,27 +1549,27 @@ change the “Resources.S3Bucket.Properties.BucketName” to:
 **Before**
 ```
 "Parameters": {
-	"bucketName": {
-		"Type": "String"
-	},
-	"authPolicyName": {
-		"Type": "String"
-	},
-	"unauthPolicyName": {
-		"Type": "String"
-	},
-	"authRoleName": {
-		"Type": "String"
-	},
-	"unauthRoleName": {
-		"Type": "String"
-	},
-	"unauthPermissions": {
-		"Type": "String"
-	},
-	"authPermissions": {
-		"Type": "String"
-	}
+    "bucketName": {
+        "Type": "String"
+    },
+    "authPolicyName": {
+        "Type": "String"
+    },
+    "unauthPolicyName": {
+        "Type": "String"
+    },
+    "authRoleName": {
+        "Type": "String"
+    },
+    "unauthRoleName": {
+        "Type": "String"
+    },
+    "unauthPermissions": {
+        "Type": "String"
+    },
+    "authPermissions": {
+        "Type": "String"
+    }
 },
 
 ```
@@ -1577,30 +1577,30 @@ change the “Resources.S3Bucket.Properties.BucketName” to:
 
 ```
 "Parameters": {
-	"bucketName": {
-		"Type": "String"
-	},
-	"authPolicyName": {
-		"Type": "String"
-	},
-	"unauthPolicyName": {
-		"Type": "String"
-	},
-	"authRoleName": {
-		"Type": "String"
-	},
-	"unauthRoleName": {
-		"Type": "String"
-	},
-	"unauthPermissions": {
-		"Type": "String"
-	},
-	"authPermissions": {
-		"Type": "String"
-	},
-	"env": {
-		"Type": "String"
-	}
+    "bucketName": {
+        "Type": "String"
+    },
+    "authPolicyName": {
+        "Type": "String"
+    },
+    "unauthPolicyName": {
+        "Type": "String"
+    },
+    "authRoleName": {
+        "Type": "String"
+    },
+    "unauthRoleName": {
+        "Type": "String"
+    },
+    "unauthPermissions": {
+        "Type": "String"
+    },
+    "authPermissions": {
+        "Type": "String"
+    },
+    "env": {
+        "Type": "String"
+    }
 },
 
 ```
@@ -1624,33 +1624,33 @@ change the “Resources.S3Bucket.Properties.BucketName” to:
 **Before**
 ```
 "BucketName": {
-	"Ref": "bucketName"
+    "Ref": "bucketName"
 },
 
 ```
 **After**
 ```
 "BucketName": {
-	"Fn::If": [
-		"ShouldNotCreateEnvResources",
-		{
-			"Ref": "bucketName"
-		},
-		{
-			"Fn::Join": [
-				"",
-				[
-					{
-						"Ref": "bucketName"
-					},
-					"-",
-					{
-						"Ref": "env"
-					}
-				]
-			]
-		}
-	]
+    "Fn::If": [
+        "ShouldNotCreateEnvResources",
+        {
+            "Ref": "bucketName"
+        },
+        {
+            "Fn::Join": [
+                "",
+                [
+                    {
+                        "Ref": "bucketName"
+                    },
+                    "-",
+                    {
+                        "Ref": "env"
+                    }
+                ]
+            ]
+        }
+    ]
 }
 ```
 
@@ -1678,18 +1678,18 @@ change the “Resources.S3Bucket.Properties.BucketName” to:
 **After**
 ```
 "Parameters": {
-	"partitionKeyName": {
-		"Type": "String"
-	},
-	"partitionKeyType": {
-		"Type": "String"
-	},
-	"tableName": {
-		"Type": "String"
-	},
-	"env": {
-		"Type": "String"
-	}
+    "partitionKeyName": {
+        "Type": "String"
+    },
+    "partitionKeyType": {
+        "Type": "String"
+    },
+    "tableName": {
+        "Type": "String"
+    },
+    "env": {
+        "Type": "String"
+    }
 }
 ```
 
@@ -1704,26 +1704,26 @@ change the “Resources.S3Bucket.Properties.BucketName” to:
 **After**
 ```
 "TableName": {
-	"Fn::If": [
-		"ShouldNotCreateEnvResources",
-		{
-			"Ref": "tableName"
-		},
-		{
-			"Fn::Join": [
-				"",
-				[
-					{
-						"Ref": "tableName"
-					},
-					"-",
-					{
-						"Ref": "env"
-					}
-				]
-			]
-		}
-	]
+    "Fn::If": [
+        "ShouldNotCreateEnvResources",
+        {
+            "Ref": "tableName"
+        },
+        {
+            "Fn::Join": [
+                "",
+                [
+                    {
+                        "Ref": "tableName"
+                    },
+                    "-",
+                    {
+                        "Ref": "env"
+                    }
+                ]
+            ]
+        }
+    ]
 }
 ```
 
@@ -1733,11 +1733,11 @@ Insert the Pinpoint project information into Team Provider Info’s categories n
 ```
  "categories": {
     "notifications": {
-	"Pinpoint": {
-	    "Name": <Pinpoint-Project-Name>,
-	    "Id": <Pinpoint-Project-Id>,
-	    "Region": "us-east-1"
-	}
+    "Pinpoint": {
+        "Name": <Pinpoint-Project-Name>,
+        "Id": <Pinpoint-Project-Id>,
+        "Region": "us-east-1"
+    }
     }
 }
 ```
