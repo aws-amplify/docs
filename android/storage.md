@@ -150,7 +150,7 @@ public class YourActivity extends Activity {
         AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
             @Override
             public void onResult(UserStateDetails userStateDetails) {
-                Log.i(TAG, "AWSMobileClient initialized successfully. User State is " + userStateDetails.getUserState());
+                Log.i(TAG, "AWSMobileClient initialized. User State is " + userStateDetails.getUserState());
             }
 
             @Override
@@ -240,7 +240,7 @@ public class YourActivity extends Activity {
         AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
             @Override
             public void onResult(UserStateDetails userStateDetails) {
-                Log.i(TAG, "AWSMobileClient initialized successfully. User State is " + userStateDetails.getUserState());
+                Log.i(TAG, "AWSMobileClient initialized. User State is " + userStateDetails.getUserState());
             }
 
             @Override
