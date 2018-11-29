@@ -50,14 +50,16 @@ Run `amplify status` to see that status (not deployed). Next, build and deploy y
 
 ## Add Auth
 
-Now that your app is in the cloud, you can add some features like enabling users to register for your site and log in. Run `amplify add auth` and select the **Default configuration**.
+Now that your app is in the cloud, you can add some features like enabling users to register for your site and log in. Run `amplify add auth` and select the **Default configuration**. This adds the auth resource configurations locally in your `amplify/backend/auth` directory.
+
+Run `amplify push` to provision your auth resources in the cloud. The `./src/aws-exports.js` file that's created has all of the appropriate cloud resources defined for your application.
 
 Next, add the Amplify library to your application as follows:
 ```
 yarn add aws-amplify aws-amplify-react
 ```
 
-The `./src/aws-exports.js` file that's created has all of the appropriate cloud resources defined for your application. Edit `./src/App.js` to include the Amplify library, configurations, and [React HOC](https://reactjs.org/docs/higher-order-components.html). Then, initialize the library as follows:
+Edit `./src/App.js` to include the Amplify library, configurations, and [React HOC](https://reactjs.org/docs/higher-order-components.html). Then, initialize the library as follows:
 
 ```javascript
 import Amplify from 'aws-amplify';
