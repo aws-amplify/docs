@@ -199,7 +199,7 @@ AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<U
 
         @Override
         public void onResult(UserStateDetails userStateDetails) {
-            Log.i("INIT", userStateDetails.getUserState());
+            Log.i("INIT", "onResult: " + userStateDetails.getUserState());
         }
 
         @Override
