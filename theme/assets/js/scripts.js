@@ -28,7 +28,7 @@
 		}
 
 		var subpath = $(this).attr('href');
-		if(subpath === '/cli/migrate') {
+		if(subpath === '/cli/migrate' || subpath === '/docs/cli/migrate') {
 			e.preventDefault();
 			var baseURL = window.location.protocol + "//" + window.location.host + subpath;
 			var queryParms = '?sdk=' + $.urlParam('sdk');
