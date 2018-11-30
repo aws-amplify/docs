@@ -207,7 +207,7 @@ If you want to share a project publicly and open source your serverless infrastr
 ## Quick Tips
 * git and amplify cli should work hand in hand (ideally a CI tool should be used to automate this process - amplify CLI now provides headless support for its init/push commands. Check out https://github.com/aws-amplify/amplify-cli/tree/multienv/packages/amplify-cli/sample-headless-scripts for examples)
 * git checkout <branch-name> & amplify init (to initialize the env based on the git branch) should go hand in hand 
-* git pull & git env pull should go hand in hand
+* git pull & amplify env pull should go hand in hand
 * git push & amplify push should go hand in hand
 
 ## Some other  helpful Environment related commands
