@@ -75,6 +75,8 @@ SetMFA
 signout
 signin
 signup
+s3AlbumConfig
+storageOptions
 theListFunction
 todo
 todolist
