@@ -145,7 +145,10 @@ When using React, you can use *ChatBot* with following properties;
     conversationModeOn={false}
 />
 ```
-The `conversationModeOn` props turns voice conversation mode on/off.
+
+By default, the ChatBot will allow for both voice and text interaction. You can turn off text interaction by passing prop `textEnabled={false}` or you can turn off voice interaction by passing prop `voiceEnabled={false}`.
+
+The `conversationModeOn` props turns continuous conversation cycle mode on/off for voice interaction.
 
 If needed, you can also pass `voiceConfig` in the props to modify the silence detection parameters, like in this example:
 
@@ -163,6 +166,8 @@ const customVoiceConfig = {
 />
 
 ```
+
+
 
 
 Following simple app shows how to use **ChatBot** component in a React app, with the automatic setup outlined above;
@@ -261,8 +266,9 @@ When using React Native, you can use *ChatBot* with following properties;
     conversationModeOn={false}
 />
 ```
-You can turn voice conversation mode on/off by passing boolean `conversationModeOn` in the props.
+By default, the ChatBot will allow for both voice and text interaction. You can turn off text interaction by passing prop `textEnabled={false}` or you can turn off voice interaction by passing prop `voiceEnabled={false}`.
 
+The `conversationModeOn` props turns continuous conversation cycle mode on/off for voice interaction.
 
 Following simple app shows how to use **ChatBot** component in a React Native app;
 
