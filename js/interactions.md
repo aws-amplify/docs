@@ -147,7 +147,7 @@ When using React, you can use *ChatBot* with following properties;
 ```
 The `conversationModeOn` props turns voice conversation mode on/off.
 
-If needed, you can also pass `config` in the props to modify the silence detection parameters, like in this example:
+If needed, you can also pass `voiceConfig` in the props to modify the silence detection parameters, like in this example:
 
 ```jsx
 const customVoiceConfig = {
@@ -159,7 +159,7 @@ const customVoiceConfig = {
 
 <ChatBot
     ...
-    config={customVoiceConfig}
+    voiceConfig={customVoiceConfig}
 />
 
 ```
