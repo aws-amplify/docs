@@ -191,6 +191,8 @@ The Photo Picker component will render a file upload control that will allow cho
  - `(picked)` - Emitted when an image is selected. The event will contain the `File` object which can be used for upload.
  - `(loaded)` - Emitted when an image preview has been rendered and displayed.
  - `path` - An optional S3 image path (prefix).
+ - `storageOptions` - An object which is passed as the 'options' parameter to the .put request.  This can be used to set the 'level' of the objects being uploaded (i.e. 'protected', 'private', or 'public').
+
 
 ### Album
 
@@ -202,7 +204,7 @@ The Album component will display a list of images from the configured S3 Storage
     (selected)="onAlbumImageSelected($event)">
 </amplify-s3-album>
 ```
-
+- `options` - object which is passed as the 'options' parameter to the .get request.  This can be used to set the 'level' of the objects being requested (i.e. 'protected', 'private', or 'public')
 - `(selected)` - event used to retrieve the S3 signed URL of the clicked image:
 
 ```javascript
