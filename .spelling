@@ -417,6 +417,33 @@ AppDelegate.swift
 ViewController.swift
 MainActivity.java
 
+# cli/multienv.md
+multienv
+mydev
+amplifyapp.com
+backend-configs
+env
+configs
+
+# cli/migrate.md
+configLevel
+parameters.json
+RoleName
+LambdaExecutionRole
+PinpointFunctionsOutputs
+basePath
+Outputs.RootURL.Value
+parameter.json
+unauth
+S3AndCloudFront
+bucketName
+template.json
+Resources.S3Bucket.Properties.BucketName
+s3aeaffb53
+Cloudformaton
+DynamoDBTable
+amplifyMeta.json
+
 # android/analytics.md
 ActivityLifecycleCallbacks
 MainActivity
