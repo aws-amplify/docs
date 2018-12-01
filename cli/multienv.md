@@ -3,7 +3,9 @@
 This section outlines how you can manage multiple environments of your Amplify project (backend + frontend) as well as using a project within a team or outside a team using the Amplify CLI & Git. 
 This functionality is still work in progress and you would have to install a beta version of the CLI to check out all the features mentioned in this section.
 
-**Note**: The use of this newer version (@multienv) might cause existing projects initialized using a previous Amplify CLI version to no longer function when attempting to manage resources in the existing project, or have unexpected side effects. At this time only use this beta version of the CLI to initialize new projects requiring multiple environments and team workflow support as migrations are not yet supported. Migration support for existing Amplify projects is being actively working on.
+**Note**: The use of this newer version (@multienv) might cause existing projects initialized using a previous Amplify CLI version to no longer function when attempting to manage resources in the existing project, or have unexpected side effects. After updating the CLI, the CLI would prompt you to automatically migrate your project, so that is it compatible with the new version of the CLI. [Read more]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli/migrate)
+
+**We recommend backing up your Amplify project directory first before performing a migration.**
 
 Install the CLI using the following command:
 ```
@@ -205,7 +207,7 @@ If you want to share a project publicly and open source your serverless infrastr
 ## Quick Tips
 * git and amplify cli should work hand in hand (ideally a CI tool should be used to automate this process - amplify CLI now provides headless support for its init/push commands. Check out https://github.com/aws-amplify/amplify-cli/tree/multienv/packages/amplify-cli/sample-headless-scripts for examples)
 * git checkout <branch-name> & amplify init (to initialize the env based on the git branch) should go hand in hand 
-* git pull & git env pull should go hand in hand
+* git pull & amplify env pull should go hand in hand
 * git push & amplify push should go hand in hand
 
 ## Some other  helpful Environment related commands

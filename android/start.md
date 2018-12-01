@@ -29,9 +29,9 @@ dependencies {
     //Base SDK
     implementation 'com.amazonaws:aws-android-sdk-core:2.8.+'
     //AppSync SDK
-    compile 'com.amazonaws:aws-android-sdk-appsync:2.6.+'
-    compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
-    compile 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+    implementation 'com.amazonaws:aws-android-sdk-appsync:2.6.+'
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
 }
 ```
 

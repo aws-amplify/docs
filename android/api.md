@@ -99,7 +99,7 @@ To use AppSync in your Android studio project, modify the project's `build.gradl
     classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.6.+'
 ```
 
-Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `compile 'com.amazonaws:aws-android-sdk-appsync:2.6.+'`. For example:
+Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `implementation 'com.amazonaws:aws-android-sdk-appsync:2.6.+'`. For example:
 
 
 ```bash
@@ -110,9 +110,9 @@ Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws
     }
     dependencies {
         // Typical dependencies
-        compile 'com.amazonaws:aws-android-sdk-appsync:2.6.+'
-        compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
-        compile 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+        implementation 'com.amazonaws:aws-android-sdk-appsync:2.6.+'
+        implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
+        implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
     }
 ```
 
