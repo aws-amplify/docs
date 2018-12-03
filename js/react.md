@@ -82,7 +82,7 @@ You can now use `amplify publish` to build and publish your app again. This time
 The SignUp component provides your users with the ability to sign up.  It is included as part of the ```Authenticator``` component.
 
 Usage: 
-```<Authenticator signUpConfig="{signUpConfig}"/>```
+```<Authenticator signUpConfig={signUpConfig}/>```
 
 It can also be used as part of the authentication HOC:
 ```export default withAuthenticator(App, { signUpConfig });```
