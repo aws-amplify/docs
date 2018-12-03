@@ -87,7 +87,7 @@ Usage:
 It can also be used as part of the authentication HOC:
 ```export default withAuthenticator(App, { signUpConfig });```
 
-The SignUp Compponent accepts a 'signUpConfig' object which allows you to customize it.
+The SignUp Component accepts a 'signUpConfig' object which allows you to customize it.
 
 {% include sign-up-attributes.html %}
 

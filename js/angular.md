@@ -184,7 +184,7 @@ Usage:
 or
 ```<amplify-authenticator [signUpConfig]="signUpConfig"></amplify-authenticator>```
 
-The SignUp Compponent accepts a 'signUpConfig' object which allows you to customize it.
+The SignUp Component accepts a 'signUpConfig' object which allows you to customize it.
 
 {% include sign-up-attributes.html %}
 
