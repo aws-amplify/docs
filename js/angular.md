@@ -176,6 +176,23 @@ The Authenticator component creates an drop-in user authentication experience. A
   <amplify-authenticator></amplify-authenticator>
 ```
 
+#### SignUp Configuration
+The SignUp component provides your users with the ability to sign up.  It is included as part of the ```authenticator``` component, but can also be used in isolation:
+
+Usage: 
+```<amplify-auth-sign-up [signUpConfig]="signUpConfig"></amplify-auth-sign-up>```
+or
+```<amplify-authenticator [signUpConfig]="signUpConfig"></amplify-authenticator>```
+
+The SignUp Compponent accepts a 'signUpConfig' object which allows you to customize it.
+
+{% include sign-up-attributes.html %}
+
+The signUpFields array in turn consist of an array of objects, each describing a field that will appear in sign up form that your users fill out:
+
+{% include sign-up-fields.html %}
+
+
 ### Photo Picker
 
 The Photo Picker component will render a file upload control that will allow choosing a local image and uploading it to Amazon S3. Once an image is selected, a base64 encoded image preview will be displayed automatically. To render photo picker in an Angular view, use *amplify-photo-picker* component:

@@ -168,6 +168,7 @@ Config:
 
 {% include sign-up-attributes.html %}
 
+The signUpFields array in turn consist of an array of objects, each describing a field that will appear in sign up form that your users fill out (see below).
 
 Events: 
 
