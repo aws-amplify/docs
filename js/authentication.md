@@ -551,7 +551,7 @@ ReactDOM.render(<AppWithAuth federated={federated}/>, document.getElementById('r
 ```
 
 If you are want to directly use `Auth.federatedSignIn()`, you need to get the token from the federated provider.
-Facebook Sample:
+Facebook Sample in React:
 ```js
 import { Auth } from 'aws-amplify';
 // To federated sign in from Facebook
@@ -645,7 +645,7 @@ class SignInWithFacebook extends React.Component {
 }
 ```
 
-Google Sample:
+Google Sample in React:
 ```js
 import { Auth } from 'aws-amplify';
 // To federated sign in from Google
@@ -974,7 +974,7 @@ To configure your identity providers:
 - Go to *Federation* > *Identity providers*
 - Select an *Identity provider* and enter required credentials for the identity provider. (e.g., App Id, App secret, Authorized scope)
 
-     To learn [how to register with a Social IdP](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html#cognito-user-pools-social-idp-step-1)
+     To learn [how to register with a Social IdP](./cognito-hosted-ui-federated-identity.md)
 
      To learn [what's Authorized scope](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html#cognito-user-pools-social-idp-step-2)
 
