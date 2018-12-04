@@ -280,9 +280,15 @@ The `amplify-sumerian-scene` component provides you with a prebuilt UI for loadi
 
 See the [XR documentation]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/xr) for information on creating and publishing a Sumerian scene.
 
-### Custom Styles
+### Styles
+
+To use the aws-amplfiy-angular components you will need to install '@aws-amplify/ui'.
+
+Add the following to your styles.css file to use the default styles:
+```@import '~aws-amplify-angular/Theme.css';```
 
 You can use custom styling for AWS Amplify components. Just import your custom *styles.css* that overrides the default styles which can be found in `/node_modules/aws-amplify-angular/theme.css`.
+
 
 ## Angular 6 Support
 
