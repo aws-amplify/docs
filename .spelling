@@ -77,6 +77,8 @@ signin
 signup
 s3AlbumConfig
 storageOptions
+Storage.put
+Storage.get
 theListFunction
 todo
 todolist

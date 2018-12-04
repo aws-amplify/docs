@@ -194,7 +194,7 @@ The Photo Picker component will render a file upload control that will allow cho
  - `storageOptions` - An object passed within the ‘options’ property in the Storage.put request. This can be used to set the permissions ‘level’ property of the objects being uploaded i.e. ‘private’, ‘protected’, or ‘public’.
 
  [Learn more about S3 permissions.]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/storage#file-access-levels).
- 
+
 ### Album
 
 The Album component will display a list of images from the configured S3 Storage bucket. Use the *amplify-s3-album* component in your Angular view:
@@ -251,7 +251,7 @@ See the [XR documentation]({%if jekyll.environment == 'production'%}{{site.ampli
 
 ### Styles
 
-To use the aws-amplfiy-angular components you will need to install '@aws-amplify/ui'.
+To use the aws-amplify-angular components you will need to install '@aws-amplify/ui'.
 
 Add the following to your styles.css file to use the default styles:
 ```@import '~aws-amplify-angular/Theme.css';```
