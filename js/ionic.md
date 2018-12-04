@@ -205,24 +205,7 @@ The component will emit two events:
  
  [Learn more about S3 permissions.]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/storage#file-access-levels).
 
-**Uploading Image**
 
-Use  `onImagePicked(event)` to upload your photo to S3 using AWS Amplify Storage category:
-
-```javascript
-onImagePicked( file ) {
-
-    let key = `pics/${file.name}`;
-    
-    this.amplify.storage().put( key, file, {
-      'level': 'private',
-      'contentType': file.type
-    })
-    .then (result => console.log('uploaded: ', result))
-    .catch(err => console.log('upload error: ', err));
-  
-}
-```
 ### S3 Album
 
 S3 Album component display a list of images from the connected S3 bucket.
