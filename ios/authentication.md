@@ -248,7 +248,7 @@ If you login in your app either using the [Drop-In Auth](#dropinui) or the [dire
 The `AWSMobileClient` client supports easy "drop-in" UI for your application. You can add drop-in Auth UI like so:
 
 ```swift
-AWSMobileClient.sharedInstance().showSignInScreen(navigationController: self.navigationController!, { (signInState, error) in
+AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigationController!, { (signInState, error) in
     if let signInState = signInState {
         print("logged in!")
     } else {
@@ -267,10 +267,10 @@ Currently, you can change the following properties of the drop-in UI with the `A
 
 ```swift
 AWSMobileClient.sharedInstance()
-    .showSignInScreen(navigationController: self.navigationController!,
-                      signInUIOptions: SignInUIOptions(
-                            canCancel: false,
-                            logoImage: UIImage(named: "MyCustomLogo"),
+    .showSignIn(navigationController: self.navigationController!,
+                     signInUIOptions: SignInUIOptions(
+                           canCancel: false,
+                           logoImage: UIImage(named: "MyCustomLogo"),
                             backgroundColor: UIColor.black)) { (result, err) in
                             //handle results and errors               
 }

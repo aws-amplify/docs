@@ -18,7 +18,7 @@ You can also create Amazon Pinpoint campaigns that tie user behavior to push or 
 
 1. Complete the [Get Started](./start) steps before you proceed.
 
-2. Complete the [Setting Up iOS Push Notifications](how-to-ios-setup-push-notifications). This will guide you through the process of setting up an App ID, SSL certificate, provisioning profile, entitlements, distribution certificate, and provisioning profile, which are required to deliver notifications to iOS devices.
+2. Complete the [Setting Up APNS Guide](./push-notifications-setup-apns). This will guide you through the process of setting up an App ID, SSL certificate, provisioning profile, entitlements, distribution certificate, and provisioning profile, which are required to deliver notifications to iOS devices.
 
 3. Use the CLI to add notifications to your cloud-enabled backend and app.
 
