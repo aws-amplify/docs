@@ -171,7 +171,7 @@ Storage.configure({
 
 #### Put
 
-Puts data into Amazon S3.
+Creates resumable uploads and puts data into Amazon S3.
 
 Public level:
 
@@ -201,6 +201,31 @@ Storage.put('test.txt', 'Private Content', {
 })
 .then (result => console.log(result))
 .catch(err => console.log(err));
+```
+
+To track the progress of your upload, you can use the ```progressCallback```: 
+
+```javascript
+Storage.put('test.txt', 'File content'),{
+    progressCallback(progress) {
+        console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+  },
+});
+```
+
+To utilize Server-Side Encryption with AWS KMS, the following options can be passed in with the Put API like so:
+
+```javascript
+const serverSideEncryption = AES256 | aws:kms;
+const SSECustomerAlgorithm = 'string';
+const SSECustomerKey = new Buffer('...') || 'string';
+const SSECustomerKeyMD5 = 'string';
+const SSEKMSKeyId = 'string';
+Storage.put('test.txt', 'File content'),{
+    serverSideEncryption, SSECustomerAlgorithm, SSECustomerKey, SSECustomerKeyMD5, SSEKMSKeyId}  
+})
+.then (result => console.log(result))
+.catch (err => console.log(err));
 ```
 
 Upload an image in the browser:
@@ -245,7 +270,7 @@ readFile(imagePath).then(buffer => {
 });
 ```
 
-When a networking error happens during the upload, Storage module retries upload for a maximum of  4 attempts. If the upload fails after all retries, you will get an error.
+When a networking error happens during the upload, Storage module retries upload for a maximum of   attempts. If the upload fails after all retries, you will get an error.
 {: .callout .callout--info}
 
 #### Get
@@ -348,6 +373,35 @@ Private level:
 Storage.list('photos/', {level: 'private'})
     .then(result => console.log(result))
     .catch(err => console.log(err));
+```
+
+#### Pause Upload
+
+Pauses an upload started by ```Storage.put```. This API is also implicitly called when the app loses network connectivity.
+
+Private level:
+```javascript
+Storage.pauseUpload('key',{level: 'private'});
+```
+
+#### Resume Upload
+
+Resumes a paused file upload to Amazon S3. It also gets implicitly called once you have network connectivity again,if your upload paused on network loss.
+
+Private level:
+```javascript
+Storage.resumeUpload('key',{level: 'private'});
+```
+
+#### Cancel Upload
+
+Cancels an ongoing upload. 
+
+Private level:
+```javascript
+Storage.cancelUpload('key',{level: 'private'})
+    .then (data =>console.log(data);)
+    .catch (err => console.log(err);)
 ```
 
 
