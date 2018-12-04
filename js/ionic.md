@@ -200,6 +200,8 @@ The component will emit two events:
 
  - `(picked)` - Emitted when an image is selected. The event will contain the `File` object which can be used for upload.
  - `(loaded)` - Emitted when an image preview has been rendered and displayed.
+ - `path` - An optional S3 image path (prefix).
+ - `storageOptions` - An object which is passed as the 'options' parameter to the .put request.  This can be used to set the 'level' of the objects being uploaded (i.e. 'protected', 'private', or 'public').
 
 **Uploading Image**
 
@@ -237,7 +239,8 @@ To render the album, use *amplify-s3-album* component in your Angular view:
 </amplify-s3-album>
 ```
 
-`(selected)` event can be used to retrieve the URL of the clicked image on the list:
+- `options` - object which is passed as the 'options' parameter to the .get request.  This can be used to set the 'level' of the objects being requested (i.e. 'protected', 'private', or 'public'
+- `(selected)` event can be used to retrieve the URL of the clicked image on the list:
 
 ```javascript
 onAlbumImageSelected( event ) {
