@@ -191,9 +191,10 @@ The Photo Picker component will render a file upload control that will allow cho
  - `(picked)` - Emitted when an image is selected. The event will contain the `File` object which can be used for upload.
  - `(loaded)` - Emitted when an image preview has been rendered and displayed.
  - `path` - An optional S3 image path (prefix).
- - `storageOptions` - An object which is passed as the 'options' parameter to the .put request.  This can be used to set the 'level' of the objects being uploaded (i.e. 'protected', 'private', or 'public').
+ - `storageOptions` - An object passed within the ‘options’ property in the Storage.put request. This can be used to set the permissions ‘level’ property of the objects being uploaded i.e. ‘private’, ‘protected’, or ‘public’.
 
-
+ [Learn more about S3 permissions.]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/storage#file-access-levels).
+ 
 ### Album
 
 The Album component will display a list of images from the configured S3 Storage bucket. Use the *amplify-s3-album* component in your Angular view:
