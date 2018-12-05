@@ -1,9 +1,16 @@
+---
+title: Setting Up APNS for Push Notifications
+redirect_from:
+  - /ios/how-to-ios-setup-push-notifications
+  - /docs/ios/how-to-ios-setup-push-notifications
+---
+
 {% if jekyll.environment == 'production' %}
   {% assign base_dir = site.amplify.docs_baseurl %}
 {% endif %}
 {% assign image_base = base_dir | append: page.dir | append: "images" %}
 
-# Setting Up iOS Push Notifications
+# Setting Up APNS for Push Notifications
 
 Push notifications for iOS apps are sent using Apple Push Notification service (APNs). Before you can send push notifications to iOS devices, you must create an app ID on the Apple Developer portal, and you must create the required certificates.
 

@@ -1,31 +1,15 @@
+---
+title: Getting Started
+---
 # Getting Started
 
 Build an Android app using the AWS Amplify CLI and the AWS SDK for Android. The Amplify CLI lets you quickly add backend features to your application so that you can focus on your application code. This page guides you through setting up an initial backend and integration into your app. 
 
 ## Prerequisites
 
-[Install Android Studio](https://developer.android.com/studio/index.html#downloads) version 2.33 or higher. Install Android SDK for API level 28 (Android SDK 9.0).
+[Install and configure the Amplify CLI](..)
 
-Install the Amplify CLI. If you have already installed the CLI, skip ahead to [Step 2](./add-aws-mobile-sdk-basic-setup).
-
-*  [Sign up for an AWS Account](https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start).
-
-*  Install [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/get-npm) if they are not already installed.
-
-Verify that you are running at least Node.js version 8.11+ or greater and npm version 5.x or greater by running `node -v` and `npm -v` in a terminal/console window.
-{: .callout .callout--action}
-
-To install and configure the Amplify CLI globally, run the following commands in a terminal window.
-
-Install and configure the Amplify CLI.
-
-```bash
-$ npm install -g @aws-amplify/cli
-$ amplify configure
-```
-
-Note: These commands will install the CLI globally. If you're using Windows, the CLI currently supports <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10" target="_blank">Windows Subsystem for Linux</a>.
-{: .callout .callout--action}
+[Install Android Studio](https://developer.android.com/studio/index.html#downloads) version 3.1 or higher. Install Android SDK for API level 28 (Android 9.0).
 
 
 ## Step 1: Create a new app
@@ -45,9 +29,9 @@ dependencies {
     //Base SDK
     implementation 'com.amazonaws:aws-android-sdk-core:2.8.+'
     //AppSync SDK
-    compile 'com.amazonaws:aws-android-sdk-appsync:2.6.+'
-    compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
-    compile 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+    implementation 'com.amazonaws:aws-android-sdk-appsync:2.6.+'
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
 }
 ```
 
@@ -55,26 +39,26 @@ Finally, update your AndroidManifest.xml with the following:
 
 ```xml
 <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+<uses-permission android:name="android.permission.WAKE_LOCK" />
+<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
-            <!--other code-->
+        <!--other code-->
 
-        <application
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme">
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
 
-            <service android:name="org.eclipse.paho.android.service.MqttService" />
+        <service android:name="org.eclipse.paho.android.service.MqttService" />
 
-            <!--other code-->
-        </application>
+        <!--other code-->
+    </application>
 ```
 
 **Build your Android Studio project**.
@@ -89,11 +73,11 @@ $ amplify init        #accept defaults
 $ amplify push        #creates configuration file
 ```
 
-An `awsconfiguration.json` file will be created with your configuration and updated as features get added to your project by the Amplify CLI. The file is placed in the `./src/main/res/raw` directory of your Android Studio project and automatically used by the SDKs at runtime.
+An `awsconfiguration.json` file will be created with your configuration and updated as features get added to your project by the Amplify CLI. The file is placed in the `./app/src/main/res/raw` directory of your Android Studio project and automatically used by the SDKs at runtime.
 
 ## Step 3: How it Works
 
-Rather than configuring each service through a constructor or constants file, the AWS SDKs for Android support configuration through a centralized file called `awsconfiguration.json` which defines all the regions and service endpoints to communicate. Whenever you run `amplify push`, this file is automatically created allowing you to focus on your application code. On Android projects the `awsconfiguration.json` will be placed into the `./src/main/res/raw` directory.
+Rather than configuring each service through a constructor or constants file, the AWS SDKs for Android support configuration through a centralized file called `awsconfiguration.json` which defines all the regions and service endpoints to communicate. Whenever you run `amplify push`, this file is automatically created allowing you to focus on your application code. On Android projects the `awsconfiguration.json` will be placed into the `./app/src/main/res/raw` directory.
 
 To verify that the CLI is set up for your app, run the following command.
 
@@ -115,7 +99,7 @@ $ amplify add api     #select GraphQL, API Key
 
 The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on you can always change it. This process creates an AWS AppSync API and connects it to an Amazon DynamoDB database.
 
-Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults which generate a `./src/main/graphql` folder structure with your statements. Run a **Gradle Sync** and **Build** your app, at which point the generated packages are automatically added to your project.
+Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults which generate a `./app/src/main/graphql` folder structure with your statements. Run a **Gradle Sync** and **Build** your app, at which point the generated packages are automatically added to your project.
 
 ## Step 5: Integrate into your app
 
@@ -229,7 +213,7 @@ What next? Here are some things to add to your app:
 
 
 * [Authentication](./authentication)
-* [User File Storage](./storage)
+* [Storage](./storage)
 * [Serverless APIs](./api)
 * [Analytics](./analytics)
 * [Push Notification](./push-notifications)

@@ -12,7 +12,8 @@ AWS Amplify Authentication module provides Authentication APIs and building bloc
 
 When working together, Cognito User Pools acts as a source of user identities (identity provider) for the Cognito Federated Identities. Other sources can be OpenID, Facebook, Google, etc. AWS Amplify uses User Pools to store your user information and handle authorization, and it leverages Federated Identities to manage user access to AWS Resources, for example allowing a user to upload a file to an S3 bucket.
 
-Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start).
+<b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
+<b>Recommendation:</b> [Complete the Getting Started guide](./start?platform=purejs)
 {: .callout .callout--info}
 
 ### Automated Setup
@@ -292,9 +293,9 @@ To learn more about tokens, please visit [Amazon Cognito Developer Documentation
 
 ### Using Components in React & React Native
 
-For React and React Native apps, the simplest way to add authentication flows into your app is to use *withAuthenticator* Higher Order Component.
+For React and React Native apps, the simplest way to add authentication flows into your app is to use the `withAuthenticator` Higher Order Component.
 
-*withAuthenticator* automatically detects the authentication state and updates the UI. If the user is signed in, the underlying component (typically your app's main component) is displayed otherwise signing/signup controls is displayed.
+`withAuthenticator` automatically detects the authentication state and updates the UI. If the user is signed in, the underlying component (typically your app's main component) is displayed otherwise signin/signup controls are displayed.
 
 > The default implementation uses the Amplify UI styling, for an example of what that looks like out of the box on web and mobile, see <a href="https://aws-amplify.github.io/media/ui_library" target="_blank">here</a>.
 
@@ -435,9 +436,9 @@ For React You can enable federated Identity login by specifying  *federated* opt
 const AppWithAuth = withAuthenticator(App);
 
 const federated = {
-    google_client_id: '',
-    facebook_app_id: '',
-    amazon_client_id: ''
+    google_client_id: '', // Enter your google_client_id here
+    facebook_app_id: '', // Enter your facebook_app_id here
+    amazon_client_id: '' // Enter your amazon_client_id here
 };
 
 ReactDOM.render(<AppWithAuth federated={federated}/>, document.getElementById('root'));
@@ -582,16 +583,19 @@ Step 1. Learn [how to integrate Auth0 with Cognito Federated Identity Pools](htt
 
 Step 2. Login with `Auth0`, then use the id token returned to get AWS credentials from `Cognito Federated Identity Pools` using the `Auth.federatedSignIn` method:
 ```js
-const { idToken, domain, expiresIn, user } = getFromAuth0();
+const { idToken, domain, expiresIn, name, email } = getFromAuth0(); // get the user credentials and info from auth0
 
-Auth.federatedSignIn({
+Auth.federatedSignIn(
     domain, // The Auth0 Domain,
     {
         token: idToken // The id token from Auth0
         expires_at: expiresIn * 1000 + new Date().getTime() // the expiration timestamp
     },
-    user // the user object, e.x. { name: username, email: email }
-}).then(cred => {
+    { 
+        name: name, 
+        email: email
+    } // the user object, e.x. { name: username, email: email }
+).then(cred => {
     console.log(cred);
 });
 ```
@@ -757,9 +761,9 @@ const Federated = withFederated(Buttons);
 ...
 
 const federated = {
-    google_client_id: '',
-    facebook_app_id: '',
-    amazon_client_id: ''
+    google_client_id: '', // Enter your google_client_id here
+    facebook_app_id: '', // Enter your facebook_app_id here   
+    amazon_client_id: '' // Enter your amazon_client_id here
 };
 
 <Federated federated={federated} onStateChange={this.handleAuthStateChange} />
@@ -811,28 +815,26 @@ To configure your application for hosted UI, you need to use *oauth* options:
 import Amplify from 'aws-amplify';
 
 const oauth = {
-    awsCognito: {
-        // Domain name
-        domain : 'your-domain-prefix.auth.us-east-1.amazoncognito.com', 
-        
-        // Authorized scopes
-        scope : ['phone', 'email', 'profile', 'openid','aws.cognito.signin.user.admin'], 
+    // Domain name
+    domain : 'your-domain-prefix.auth.us-east-1.amazoncognito.com', 
 
-        // Callback URL
-        redirectSignIn : 'http://www.example.com/signin', 
-        
-        // Sign out URL
-        redirectSignOut : 'http://www.example.com/signout',
+    // Authorized scopes
+    scope : ['phone', 'email', 'profile', 'openid','aws.cognito.signin.user.admin'], 
 
-        // 'code' for Authorization code grant, 
-        // 'token' for Implicit grant
-        responseType: 'code',
+    // Callback URL
+    redirectSignIn : 'http://www.example.com/signin', 
 
-        // optional, for Cognito hosted ui specified options
-        options: {
-            // Indicates if the data collection is enabled to support Cognito advanced security features. By default, this flag is set to true.
-            AdvancedSecurityDataCollectionFlag : true
-        }
+    // Sign out URL
+    redirectSignOut : 'http://www.example.com/signout',
+
+    // 'code' for Authorization code grant, 
+    // 'token' for Implicit grant
+    responseType: 'code',
+
+    // optional, for Cognito hosted ui specified options
+    options: {
+        // Indicates if the data collection is enabled to support Cognito advanced security features. By default, this flag is set to true.
+        AdvancedSecurityDataCollectionFlag : true
     }
 }
 
@@ -858,7 +860,7 @@ const {
     domain,  
     redirectSignIn, 
     redirectSignOut,
-    responseType } = config.oauth.awsCognito;
+    responseType } = config.oauth;
 
 const clientId = config.userPoolWebClientId;
 // The url of the Cognito Hosted UI

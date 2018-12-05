@@ -1,31 +1,16 @@
+---
+title: Getting Started
+---
+
 # Getting Started
 
 Build an iOS app using the AWS Amplify CLI and the AWS SDK for iOS. The Amplify CLI lets you quickly add backend features to your application so that you can focus on your application code. This page guides you through setting up an initial backend and integration into your app. 
 
 ## Prerequisites
 
-[Install Xcode](https://developer.apple.com/xcode/downloads/) version 8.0 or later.
+[Install and configure the Amplify CLI](..)
 
-Install the Amplify CLI. If you have already installed the CLI, skip ahead to [Step 2](./add-aws-mobile-sdk-basic-setup).
-
-*  [Sign up for an AWS Account](https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start).
-
-*  Install [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/get-npm) if they are not already installed.
-
-Verify that you are running at least Node.js version 8.11+ or greater and npm version 5.x or greater by running `node -v` and `npm -v` in a terminal/console window.
-{: .callout .callout--action}
-
-To install and configure the Amplify CLI globally, run the following commands in a terminal window.
-
-Install and configure the Amplify CLI.
-
-```bash
-$ npm install -g @aws-amplify/cli
-$ amplify configure
-```
-
-Note: These commands will install the CLI globally. If you're using Windows, the CLI currently supports <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10" target="_blank">Windows Subsystem for Linux</a>.
-{: .callout .callout--action}
+[Install Xcode](https://developer.apple.com/xcode/downloads/) version 9.2 or later.
 
 
 ## Step 1: Create a new app
@@ -107,7 +92,7 @@ platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSAppSync'
+    pod 'AWSAppSync', '~> 2.6.24'
 
 end
 ```

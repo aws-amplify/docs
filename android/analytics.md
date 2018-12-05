@@ -1,3 +1,6 @@
+---
+title: Analytics
+---
 {% if jekyll.environment == 'production' %}
   {% assign base_dir = site.amplify.docs_baseurl %}
 {% endif %}
@@ -6,9 +9,6 @@
 # Analytics
 
 Collecting analytics data for your app can be accomplished with [Amazon Pinpoint](#using-amazon-pinpoint) or [Amazon Kinesis](#using-amazon-kinesis). 
-
-Ensure you have [installed and configured the Amplify CLI and library](https://aws-amplify.github.io/media/get_started).
-{: .callout .callout--info}
 
 ## Using Amazon Pinpoint
 
@@ -24,11 +24,13 @@ Amazon Pinpoint is a fully managed AWS service that you can use to engage with y
 
 The Amplify CLI helps setup and configure Pinpoint within your application and connect with the AWS Mobile SDK.
 
+<b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
+<b>Recommendation:</b> [Complete the Getting Started guide](./start)
+{: .callout .callout--info}
+
 ### Set Up Your Backend
 
-1. Complete the [Get Started link](https://aws-amplify.github.io/docs/android/start) steps before you proceed.
-
-2. Use the CLI to add analytics to your cloud-enabled backend and app.
+1. Use the CLI to add analytics to your cloud-enabled backend and app.
 
     In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`), and add the SDK to your app.
 
@@ -44,7 +46,7 @@ The Amplify CLI helps setup and configure Pinpoint within your application and c
     $ amplify add analytics
     ```
 
-3. When configuration for analytics is complete, a message appears confirming that you have configured local CLI metadata for this category. You can confirm this by viewing status.
+2. When configuration for analytics is complete, a message appears confirming that you have configured local CLI metadata for this category. You can confirm this by viewing status.
 
     ```bash
     $ amplify status
@@ -54,7 +56,7 @@ The Amplify CLI helps setup and configure Pinpoint within your application and c
     | Analytics | yourprojectname | Create    | awscloudformation |
     ```
 
-4. To create your backend AWS resources run the following:
+3. To create your backend AWS resources run the following:
 
     ```bash
     $ amplify push
@@ -67,15 +69,15 @@ Use the following steps to add analytics to your mobile app and monitor the resu
 #### Add Analytics
 1. Set up AWS Mobile SDK components by including the following libraries in your `app/build.gradle` dependencies list.
 
-    ```groovy
-    dependencies {
-      implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.8.+'
-      implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
-    }
-    ```
+```groovy
+dependencies {
+  implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.8.+'
+  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
+}
+```
 
-    * `aws-android-sdk-pinpoint` library enables sending analytics to Amazon Pinpoint.
-    * `aws-android-sdk-mobile-client` library gives access to the AWS credentials provider and configurations.
+* `aws-android-sdk-pinpoint` library enables sending analytics to Amazon Pinpoint.
+* `aws-android-sdk-mobile-client` library gives access to the AWS credentials provider and configurations.
 
 2. Add required permissions to your app manifest.
 
@@ -117,16 +119,21 @@ Use the following steps to add analytics to your mobile app and monitor the resu
             setContentView(R.layout.activity_main);
 
             // Initialize the AWS Mobile Client
-            AWSMobileClient.getInstance().initialize(this, new AWSStartupHandler() {
-                @Override
-                public void onComplete(AWSStartupResult awsStartupResult) {
-                    Log.d(TAG, "AWSMobileClient is instantiated and you are connected to AWS!");
-                }
-            }).execute();
+            AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+                  @Override
+                  public void onResult(UserStateDetails userStateDetails) {
+                      Log.i(TAG, userStateDetails.getUserState());
+                  }
+
+                  @Override
+                  public void onError(Exception e) {
+                      Log.e(TAG, "Initialization error.", e);
+                  }
+            });
 
             PinpointConfiguration config = new PinpointConfiguration(
                     MainActivity.this,
-                    AWSMobileClient.getInstance().getCredentialsProvider(),
+                    AWSMobileClient.getInstance(),
                     AWSMobileClient.getInstance().getConfiguration()
             );
             pinpointManager = new PinpointManager(config);
@@ -146,7 +153,6 @@ Use the following steps to add analytics to your mobile app and monitor the resu
 	    pinpointManager.getAnalyticsClient().submitEvents();
 	}
 	```
-</div>
 
 #### Monitor Analytics
 
@@ -312,9 +318,9 @@ On the Analytics page, the Users tab displays charts for Sign-ins, Sign-ups, and
 
 To learn how frequently users authenticate with your app, update your application code so that Amazon Pinpoint receives the following standard event types for authentication:
 
-* _userauth.sign_in
-* _userauth.sign_up
-* _userauth.auth_fail
+* `_userauth.sign_in`
+* `_userauth.sign_up`
+* `_userauth.auth_fail`
 
 You can report authentication events by doing either of the following:
 
@@ -648,11 +654,23 @@ For more information about Amazon Kinesis Firehose, see [Amazon Kinesis Firehose
 
 ### Integrating Amazon Kinesis and Amazon Kinesis Firehose
 
+Set up AWS Mobile SDK components by including the following libraries in your `app/build.gradle` dependencies list.
+
+```groovy
+dependencies {
+  implementation 'com.amazonaws:aws-android-sdk-kinesis:2.8.+'
+  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
+}
+```
+
+* `aws-android-sdk-kinesis` library enables sending analytics to Amazon Kinesis.
+* `aws-android-sdk-mobile-client` library gives access to the AWS credentials provider and configurations.
+
 Add the following imports to the main activity of your app.
 
 ```java
 import com.amazonaws.mobileconnectors.kinesis.kinesisrecorder.*;
-import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.regions.Regions;
 ```
 
@@ -688,6 +706,23 @@ To learn more about Amazon Kinesis Firehose policies, see [Controlling Access wi
 
 ### Working with the API
 
+You can use `AWSMobileClient` to setup the Cognito credentials that are required to authenticate your requests with Amazon Kinesis.
+
+```java
+AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+        @Override
+        public void onResult(UserStateDetails userStateDetails) {
+            Log.i("INIT", userStateDetails.getUserState());
+        }
+
+        @Override
+        public void onError(Exception e) {
+            Log.e("INIT", "Initialization error.", e);
+        }
+    }
+);
+```
+
 Once you have credentials, you can use `KinesisRecorder` with Amazon Kinesis. The following snippet creates a directory and instantiates the `KinesisRecorder` client: 
 
 ```java
@@ -695,10 +730,10 @@ String kinesisDirectory = "YOUR_UNIQUE_DIRECTORY";
 KinesisRecorder recorder = new KinesisRecorder(
     myActivity.getDir(kinesisDirectory, 0),
     Regions.<YOUR-AWS-REGION>,
-    AWSMobileClient.getInstance().getCredentialsProvider()
+    AWSMobileClient.getInstance()
 );
 
-//KinesisRecorder uses synchronous calls, so you shouldn't call KinesisRecorder methods on the main thread.
+// KinesisRecorder uses synchronous calls, so you shouldn't call KinesisRecorder methods on the main thread.
 ```
 
 To use `KinesisFirehoseRecorder`, you need to pass the object in a directory where streaming data is saved. We recommend you use an app private directory because the data is not encrypted.
@@ -707,7 +742,7 @@ To use `KinesisFirehoseRecorder`, you need to pass the object in a directory whe
 KinesisFirehoseRecorder firehoseRecorder = new KinesisFirehoseRecorder(
     context.getCachedDir(), 
     Regions.<YOUR-AWS-REGION>,
-    AWSMobileClient.getInstance().getCredentialsProvider());
+    AWSMobileClient.getInstance());
 ```
 
 Configure Kinesis:

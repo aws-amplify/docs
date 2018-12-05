@@ -75,6 +75,10 @@ SetMFA
 signout
 signin
 signup
+s3AlbumConfig
+storageOptions
+Storage.put
+Storage.get
 theListFunction
 todo
 todolist
@@ -123,6 +127,11 @@ xcodeproj
 png
 jpg
 UIColor
+jsx
+deltaRecord
+backoff
+resubscription
+backends
 
 # js/tutorials/building-ionic-4-apps/index.md
 home.page.ts
@@ -288,6 +297,15 @@ X-Api-Key
 X-Amz-Security-Token
 APIService
 Appsync
+GetPost.jsx
+AllPosts.jsx
+DeltaSync
+deltaQuery
+subscriptionQuery
+baseQuery
+buildSync
+localForage
+mutationName
 
 # js/analytics.md
 Kinesis
@@ -299,7 +317,12 @@ mouseover
 url
 webapp
 
-# js/graphql.md
+# cli/graphql.md
+redirect_to
+graphql
+sdk
+
+# cli/graphql.md
 DataSource
 onCreate
 onUpdate
@@ -396,12 +419,50 @@ AppDelegate.swift
 ViewController.swift
 MainActivity.java
 
+# cli/multienv.md
+multienv
+mydev
+amplifyapp.com
+backend-configs
+env
+configs
+
+# cli/migrate.md
+configLevel
+parameters.json
+RoleName
+LambdaExecutionRole
+PinpointFunctionsOutputs
+basePath
+Outputs.RootURL.Value
+parameter.json
+unauth
+S3AndCloudFront
+bucketName
+template.json
+Resources.S3Bucket.Properties.BucketName
+s3aeaffb53
+Cloudformaton
+DynamoDBTable
+amplifyMeta.json
+
 # android/analytics.md
 ActivityLifecycleCallbacks
 MainActivity
 Firehose
 KinesisRecorder
 KinesisFirehoseRecorder
+ImageView
+
+# android/api.md
+baseQueryCallback
+subscriptionCallback
+deltaQueryCallback
+baseRefreshIntervalInSeconds
+RecyclerView
+BaseQuery
+allPosts
+ProcessLifeCycle
 
 # android/authentication.md
 appcompat
@@ -495,6 +556,7 @@ setContentView
 R.layout.activity_authenticator
 SignInUIOptions.builder
 isSignedIn
+nextActivityClass
 
 # android/how-to-android-kinesis-data-stream.md
 PutRecord
@@ -589,8 +651,14 @@ openssl
 AWSKinesisRecorder
 AWSFirehoseRecorder
 
-# ios/api-apigw.md
+# ios/api.md
 YOUR_APP_NAME
+baseQueryResultHandler
+subscriptionResultHandler
+deltaQueryResultHandler
+syncConfiguration
+returnValue
+UIViewController
 
 # ios/authentication.md
 UINavigationController
