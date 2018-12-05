@@ -208,8 +208,9 @@ The Photo Picker component will render a file upload control that will allow cho
  - `(picked)` - Emitted when an image is selected. The event will contain the `File` object which can be used for upload.
  - `(loaded)` - Emitted when an image preview has been rendered and displayed.
  - `path` - An optional S3 image path (prefix).
- - `storageOptions` - An object which is passed as the 'options' parameter to the .put request.  This can be used to set the 'level' of the objects being uploaded (i.e. 'protected', 'private', or 'public').
+ - `storageOptions` - An object passed within the ‘options’ property in the Storage.put request. This can be used to set the permissions ‘level’ property of the objects being uploaded i.e. ‘private’, ‘protected’, or ‘public’.
 
+ [Learn more about S3 permissions.]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/storage#file-access-levels).
 
 ### Album
 
@@ -248,9 +249,29 @@ end of the conversation.
     (complete)="onBotComplete($event)"></amplify-interactions>
 ```
 
-See the [Interactions documentation]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/interactions) for information on creating a Lex Chatbot.
+See the [Interactions documentation]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/interactions) for information on creating an Amazon Lex Chatbot.
 
-### Custom Styles
+### XR
+
+#### Sumerian Scene
+
+The `amplify-sumerian-scene` component provides you with a prebuilt UI for loading and displaying Amazon Sumerian scenes inside of your website:
+
+{% include_relative common/scene-size-note.md %}
+
+```javascript
+// sceneName: the configured friendly scene you would like to load
+<amplify-sumerian-scene sceneName="scene1"></amplify-sumerian-scene>
+```
+
+See the [XR documentation]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/xr) for information on creating and publishing a Sumerian scene.
+
+### Styles
+
+To use the aws-amplify-angular components you will need to install '@aws-amplify/ui'.
+
+Add the following to your styles.css file to use the default styles:
+```@import '~aws-amplify-angular/Theme.css';```
 
 You can use custom styling for components by importing your custom *styles.css* that overrides the <a href="https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-angular/src/theme.css" target="_blank">default styles</a>.
 
