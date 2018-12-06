@@ -44,7 +44,7 @@ Define your unique client ID and endpoint (incl. region) in your configuration:
 ```swift
 // Initialize the AWSIoTDataManager with the configuration
 let iotEndPoint = AWSEndpoint(
-    urlString: "wss://xxxxxxxxxxxxx.iot.<YOUR-AWS-REGION>.amazonaws.com/mqtt")
+    urlString: "wss://xxxxxxxxxxxxx-ats.iot.<YOUR-AWS-REGION>.amazonaws.com/mqtt")
 let iotDataConfiguration = AWSServiceConfiguration(
     region: AWSRegionType.<YOUR-AWS-REGION>,
     endpoint: iotEndPoint,
@@ -54,6 +54,9 @@ let iotDataConfiguration = AWSServiceConfiguration(
 AWSIoTDataManager.register(with: iotDataConfiguration!, forKey: ASWIoTDataManager)
 AWSIoTDataManager iotDataManager = AWSIoTDataManager(forKey: ASWIoTDataManager)                                               
 ```
+
+You can get the endpoint information from the IoT Core -> Settings page on the AWS Console.  
+{: .callout .callout--info}
 
 **Create IAM policies for AWS IoT**
 
