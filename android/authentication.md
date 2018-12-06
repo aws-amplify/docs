@@ -498,9 +498,9 @@ AWSMobileClient.getInstance().confirmSignIn(signInChallengeResponse, new Callbac
 
 ### Force Change Password
 
-If a user is required to change their password on first login, there is a `NEW_PASSWORD_REQUIRED` state returned when `signIn` is called. You need to provide a new password given by the user in that case. It can be done using `confirmSignIn` with the new password.
-
-```java
+ If a user is required to change their password on first login, there is a `NEW_PASSWORD_REQUIRED` state returned when `signIn` is called. You need to provide a new password given by the user in that case. It can be done using `confirmSignIn` with the new password.
+ 
+ ```java
 AWSMobileClient.getInstance().signIn("username", "password", null, new Callback<SignInResult>() {
     @Override
     public void onResult(final SignInResult signInResult) {
@@ -522,8 +522,7 @@ AWSMobileClient.getInstance().signIn("username", "password", null, new Callback<
             }
         });
     }
-
-    @Override
+     @Override
     public void onError(Exception e) {
         Log.e(TAG, "Sign-in error", e);
     }
@@ -544,9 +543,13 @@ AWSMobileClient.getInstance().confirmSignIn("NEW_PASSWORD_HERE", new Callback<Si
                 makeToast("Unsupported sign-in confirmation: " + signInResult.getSignInState());
                 break;
         }
-        Log.e(TAG, "sign in error", e);
+    }
+     @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "Sign-in error", e);
     }
 });
+```
 
 ### Forgot Password
 
