@@ -568,7 +568,7 @@ AWSMobileClient.getInstance().forgotPassword("username", new Callback<ForgotPass
                         makeToast("Confirmation code is sent to reset password");
                     default:
                         Log.e(TAG, "un-supported forgot password state");
-                 }
+                }
             }
         });
     }
