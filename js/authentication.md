@@ -242,9 +242,10 @@ You can call `Auth.currentAuthenticatedUser()` to get the current authenticated 
 ```javascript
 import { Auth } from 'aws-amplify';
 
-Auth.currentAuthenticatedUser()
-    .then(user => console.log(user))
-    .catch(err => console.log(err));
+Auth.currentAuthenticatedUser({
+    bypassCache: false  // By default is false. If set to true, this call will send a request to Cognito to get the latest user data
+}).then(user => console.log(user))
+.catch(err => console.log(err));
 ```
 This method can be used to check if a user is logged in when the page is loaded. It will throw an error if there is no user logged in.
 This method should be called after the Auth module is configured or the user is logged in. To ensure that you can listen on the auth events `configured` or `signIn`. [Learn how to listen on auth events.]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/hub#listening-authentication-events)
