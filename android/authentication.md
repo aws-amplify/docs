@@ -544,7 +544,7 @@ AWSMobileClient.getInstance().confirmSignIn("NEW_PASSWORD_HERE", new Callback<Si
                 makeToast("Unsupported sign-in confirmation: " + signInResult.getSignInState());
                 break;
         }
-        Log.e(TAG, "forgot password error", e);
+        Log.e(TAG, "sign in error", e);
     }
 });
 
