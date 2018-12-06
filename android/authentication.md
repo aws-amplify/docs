@@ -496,6 +496,58 @@ AWSMobileClient.getInstance().confirmSignIn(signInChallengeResponse, new Callbac
 });
 ```
 
+### Forgot Password
+
+Forgot password is a 2 step process. You need to first call `forgotPassword()` method which would send a confirmation code to user via email or phone number. The details of how the code was sent are included in the response of `forgotPassword()`. Once the code is given by the user, you need to call `confirmForgotPassword()` with the confirmation code to confirm the change of password.
+
+```java
+AWSMobileClient.getInstance().forgotPassword("username", new Callback<ForgotPasswordResult>() {
+    @Override
+    public void onResult(final ForgotPasswordResult result) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "forgot password state: " + result.getState());
+                switch (result.getState()) {
+                    case CONFIRMATION_CODE:
+                        makeToast("Confirmation code is sent to reset password");
+                    default:
+                        Log.e(TAG, "un-supported forgot password state");
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "forgot password error", e);
+    }
+});
+
+AWSMobileClient.getInstance().confirmForgotPassword("NEW_PASSWORD_HERE", "CONFIRMATION_CODE", new Callback<ForgotPasswordResult>() {
+    @Override
+    public void onResult(final ForgotPasswordResult result) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "forgot password state: " + result.getState());
+                switch (result.getState()) {
+                    case DONE:
+                        makeToast("Password changed successfully");
+                    default:
+                        Log.e(TAG, "un-supported forgot password state");
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "forgot password error", e);
+    }
+});
+```
+
 ### SignOut
 
 ```java
