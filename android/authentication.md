@@ -496,6 +496,61 @@ AWSMobileClient.getInstance().confirmSignIn(signInChallengeResponse, new Callbac
 });
 ```
 
+### Force Change Password
+
+ If a user is required to change their password on first login, there is a `NEW_PASSWORD_REQUIRED` state returned when `signIn` is called. You need to provide a new password given by the user in that case. It can be done using `confirmSignIn` with the new password.
+ 
+ ```java
+AWSMobileClient.getInstance().signIn("username", "password", null, new Callback<SignInResult>() {
+    @Override
+    public void onResult(final SignInResult signInResult) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "Sign-in callback state: " + signInResult.getSignInState());
+                switch (signInResult.getSignInState()) {
+                    case DONE:
+                        makeToast("Sign-in done.");
+                        break;
+                    case NEW_PASSWORD_REQUIRED:
+                        makeToast("Please confirm sign-in with new password.");
+                        break;
+                    default:
+                        makeToast("Unsupported sign-in confirmation: " + signInResult.getSignInState());
+                        break;
+                }
+            }
+        });
+    }
+     @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "Sign-in error", e);
+    }
+});
+
+AWSMobileClient.getInstance().confirmSignIn("NEW_PASSWORD_HERE", new Callback<SignInResult>() {
+    @Override
+    public void onResult(SignInResult signInResult) {
+        Log.d(TAG, "Sign-in callback state: " + signInResult.getSignInState());
+        switch (signInResult.getSignInState()) {
+            case DONE:
+                makeToast("Sign-in done.");
+                break;
+            case SMS_MFA:
+                makeToast("Please confirm sign-in with SMS.");
+                break;
+            default:
+                makeToast("Unsupported sign-in confirmation: " + signInResult.getSignInState());
+                break;
+        }
+    }
+     @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "Sign-in error", e);
+    }
+});
+```
+
 ### Forgot Password
 
 Forgot password is a 2 step process. You need to first call `forgotPassword()` method which would send a confirmation code to user via email or phone number. The details of how the code was sent are included in the response of `forgotPassword()`. Once the code is given by the user, you need to call `confirmForgotPassword()` with the confirmation code to confirm the change of password.
