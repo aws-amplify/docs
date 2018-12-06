@@ -439,6 +439,38 @@ AWSMobileClient.sharedInstance().confirmSignIn(challengeResponse: "NEW_PASSWORD_
 AWSMobileClient.sharedInstance().signOut()
 ```
 
+### Forgot Password
+
+Forgot password is a 2 step process. You need to first call `forgotPassword()` method which would send a confirmation code to user via email or phone number. The details of how the code was sent are included in the response of `forgotPassword()`. Once the code is given by the user, you need to call `confirmForgotPassword()` with the confirmation code to confirm the change of password.
+
+```swift
+AWSMobileClient.sharedInstance().forgotPassword(username: "my_username") { (forgotPasswordResult, error) in
+    if let forgotPasswordResult = forgotPasswordResult {
+        switch(forgotPasswordResult.forgotPasswordState) {
+        case .confirmationCodeSent:
+            print("Confirmation code sent via \(forgotPasswordResult.codeDeliveryDetails!.deliveryMedium) to: \(forgotPasswordResult.codeDeliveryDetails!.destination!)")
+        default:
+            print("Error: Invalid case.")
+        }
+    } else if let error = error {
+        print("Error occurred: \(error.localizedDescription)")
+    }
+}
+
+AWSMobileClient.sharedInstance().confirmForgotPassword(username: "my_username", newPassword: "MyNewPassword123!!", confirmationCode: "ConfirmationCode") { (forgotPasswordResult, error) in
+    if let forgotPasswordResult = forgotPasswordResult {
+        switch(forgotPasswordResult.forgotPasswordState) {
+        case .done:
+            print("Password changed successfully")
+        default:
+            print("Error: Could not change password.")
+        }
+    } else if let error = error {
+        print("Error occurred: \(error.localizedDescription)")
+    }
+}
+```
+
 ### Utility Properties
 
 The `AWSMobileClient` provides several property "helpers" that are automatically cached locally for you to use in your application.
