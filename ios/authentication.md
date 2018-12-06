@@ -381,7 +381,7 @@ AWSMobileClient.sharedInstance().signIn(username: "your_username", password: "Ab
 ### Confirm SignIn
 
 ```swift
-AWSMobileClient.sharedInstance().confirmSignIn(code: "code_here") { (signInResult, error) in
+AWSMobileClient.sharedInstance().confirmSignIn(challengeResponse: "code_here") { (signInResult, error) in
     if let error = error  {
         print("\(error.localizedDescription)")
     } else if let signInResult = signInResult {
@@ -391,6 +391,44 @@ AWSMobileClient.sharedInstance().confirmSignIn(code: "code_here") { (signInResul
         default:
             print("\(signInResult.signInState.rawValue)")
         }
+    }
+}
+```
+
+### Force Change Password
+
+If a user is required to change their password on first login, there is a `newPasswordRequired` state returned when `signIn` is called. You need to provide a new password given by the user in that case. It can be done using `confirmSignIn` with the new password.
+
+```swift
+AWSMobileClient.sharedInstance().signIn(username: "abc123", password: "Abc123!@") { (signInResult, error) in
+    if let signInResult = signInResult {
+        switch(signInResult.signInState) {
+        case .signedIn:
+            print("User signed in successfully.")
+        case .smsMFA:
+            print("Code was sent via SMS to \(signInResult.codeDetails!.destination!)")
+        case .newPasswordRequired:
+            print("A change of password is needed. Please provide a new password.")
+        default:
+            print("Other signIn state: \(signInResult.signInState)")
+        }
+    } else if let error = error {
+        print("Error occurred: \(error.localizedDescription)")
+    }
+}
+
+AWSMobileClient.sharedInstance().confirmSignIn(challengeResponse: "NEW_PASSWORD_HERE") { (signInResult, error) in
+    if let signInResult = signInResult {
+        switch(signInResult.signInState) {
+        case .signedIn:
+            print("User signed in successfully.")
+        case .smsMFA:
+            print("Code was sent via SMS to \(signInResult.codeDetails!.destination!)")
+        default:
+            print("Other signIn state: \(signInResult.signInState)")
+        }
+    } else if let error = error {
+        print("Error occurred: \(error.localizedDescription)")
     }
 }
 ```
