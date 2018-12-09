@@ -180,7 +180,7 @@ During the init process, the root stack is created with three resources:
 - an IAM role for unauthenticated users
 - an IAM role for authenticated users
 - an S3 bucket, the deployment bucket, to support this provider's workflow
-<br/>
+
 The provider then logs the information of the root stack and the resources into the project metadata file <br/>
 amplify/backend/amplify-meta.json <br/>
 The root stack's template can be found in this folder: <br/>
