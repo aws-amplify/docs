@@ -121,7 +121,7 @@ amplify<br/>
 #### amplify/.config folder
 It contains files that store the configuration settings.
 #### amplify/##current-cloud-backend folder
-It contains the backend resources specifications in the cloud from the last synchronization, by the push or pull (to be implemeted) command.
+It contains the backend resources specifications in the cloud from the last synchronization, by the push or pull (to be implemented) command.
 Each plugin stores contents in its own subfolder inside this folder. 
 #### amplify/backend folder
 It contains the latest local development of the backend resources specifications to be pushed to the cloud. 
