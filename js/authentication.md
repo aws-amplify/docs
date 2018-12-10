@@ -114,6 +114,12 @@ Sign in with user credentials:
 ```javascript
 import { Auth } from 'aws-amplify';
 
+Auth.signIn(username, password)
+    .then(user => console.log(user))
+    .catch(err => console.log(err));
+
+// For advanced usage
+// You can pass an object which has the username, password and validationData which is sent to a PreAuthentication Lambda trigger
 Auth.signIn({
     username, // Required, the username
     password, // Optional, the password
