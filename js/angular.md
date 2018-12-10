@@ -242,7 +242,7 @@ customVoiceConfig = {
     clearComplete="true" 
     (complete)="onBotComplete($event)"
     [conversationModeOn]="false"
-    [voiceConfig]="customVoiceConfig"
+    [voiceConfig]="{customVoiceConfig}"
     [voiceEnabled]="true"
     [textEnabled]="true">
 </amplify-interactions>
