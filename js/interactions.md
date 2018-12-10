@@ -226,8 +226,9 @@ export default App;
 
 ### Using with React Native
 
-To support voice interaction, the React Native ChatBot component requires linking Native Modules for the dependencies [react-native-voice](https://github.com/wenkesj/react-native-voice), [react-native-sound](https://github.com/zmxv/react-native-sound), and [react-native-fs](https://github.com/itinance/react-native-fs). Run these commands:
+To support voice interaction, the React Native ChatBot component requires installation of peer dependencies and linking of Native Modules. The peer dependencies are: [react-native-voice](https://github.com/wenkesj/react-native-voice), [react-native-sound](https://github.com/zmxv/react-native-sound), and [react-native-fs](https://github.com/itinance/react-native-fs). 
 
+After installation, link the native modules by running:
 ```
 react-native link react-native-voice 
 react-native link react-native-fs
