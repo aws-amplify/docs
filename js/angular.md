@@ -235,9 +235,9 @@ customVoiceConfig = {
 }
 
 ```
-5. `voiceEnabled`: Enables voice user input
-6. `textEnabled`: Enables text user input
-7. `conversationModeOn`: Turns voice conversation mode on/off.
+5. `voiceEnabled`: Enables voice user input. Defaults to `true`
+6. `textEnabled`: Enables text user input Defaults to `true`
+7. `conversationModeOn`: Turns voice conversation mode on/off. Defaults to `off`
 
 ```html
 <amplify-interactions 
