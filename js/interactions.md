@@ -146,7 +146,7 @@ When using React, you can use *ChatBot* with following properties;
 />
 ```
 
-By default, the ChatBot will allow for both voice and text interaction. You can turn off text interaction by passing prop `textEnabled={false}` or you can turn off voice interaction by passing prop `voiceEnabled={false}`.
+By default, the ChatBot will allow for both voice and text interaction. You can turn off text interaction by passing prop `textEnabled={false}` or you can turn off voice interaction by passing prop `voiceEnabled={false}`. You should not disable both; this will cause no user inputs to be available. 
 
 The `conversationModeOn` props turns continuous conversation cycle mode on/off for voice interaction.
 
