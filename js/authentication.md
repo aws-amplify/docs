@@ -431,20 +431,22 @@ Then, in the component's constructor,  implement `showComponent(theme) {}` in li
 ### Federated Identities (Social Sign-in)
 
 **Availability Note**
-Currently, our federated identity components only support `google`, `facebook`, `amazon`, `developer` and OpenID(e.g. `auth0`). To use an `OpenID` provider, use the URI of your provider as the key, e.g. `accounts.your-openid-provider.com`. Please see our[ Setup Guide for Federated Identities]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/federated-identity).
+Currently, the federated identity components only support `google`, `facebook`, `amazon`, `developer` and OpenID(e.g. `auth0`). To use an `OpenID` provider, use the URI of your provider as the key, e.g. `accounts.your-openid-provider.com`. Please see our[ Setup Guide for Federated Identities]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/federated-identity).
 {: .callout .callout--info}
 
 #### Federated Sign In
 
-(description of the feature):
-This feature is to get the AWS credentials from Cognito Federatd Pool Service after signing in from the third provider.
+The `Auth.federatedSignIn()` is used to get AWS credentials directly from Cognito Federated Identities, which is different from Cognito User Pools. When an AWS service (such as S3) uses IAM for authorization, the request needs to be signed with AWS credentials and Cognito Federated Identities provides short term AWS credentials for performing this action using mobile or web applications. Amplify automatically refreshes these short term credentials in the background on your behalf, and when using `Auth.signIn()` you **do not** need to call  `Auth.federatedSignIn()` as this process happens automatically in the background for you. `Auth.signIn()` will also provide JWT OIDC tokens from Cognito User Pools which are federated with Cognito Federated Identities on your behalf allowing your application to interact with AWS services, which the other Amplify categories (such as Storage and API) will sign requests automatically.
+
+In general, if you are using Cognito User Pools to manage user Sign-Up and Sign-In you do not need to call `Auth.federatedSignIn()` as this happens automatically behind the scenes when your User Pool is federated with an Identity Pool. You will be able to retrieve User Pool tokens with `Auth.currentSession` and the user object (from User Pols) with `Auth.currentAuthenticatedUser`. The AWS credentials can be found with `Auth.currentCredentials`.
+
 ```js
 import { Auth } from 'aws-amplify';
 
 // To derive necessary data from the provider
 const {
     token, // the token you get from the provider
-    domainOrProviderName, // Either the domain of the provider(e.g. accounts.your-openid-provider.com) or the provider name, for now we only support 'google', 'facebook', 'amazon', 'developer'
+    domainOrProviderName, // Either the domain of the provider(e.g. accounts.your-openid-provider.com) or the provider name, for now the library only supports 'google', 'facebook', 'amazon', 'developer'
     expiresIn, // the time in ms which describes how long the token could live
     user  // the user object you defined, e.g. { username, email, phone_number }
 } = getFromProvider(); // arbitrary funcion
@@ -470,6 +472,9 @@ Auth.federatedSignIn({
 
 **Note:**
 this is not using anything from Cognito User Pool so the user you get after calling this method is not a *Cognito User*. Please do not use this method when you've already signed in from Cognito User Pool.
+{: .callout .callout--info}
+
+#### Code Samples
 
 Facebook Sample in React:
 ```js
@@ -947,7 +952,7 @@ Amazon Cognito provides a customizable user experience via the hosted UI. The ho
 
 To start using hosted UI, you need to configure your identity providers and setup your App Client in the Amazon Cognito console. You can also check the [Cognito doc: Adding Social Identity Providers to a User Pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html).
 
-To enable the user pool domain for your hosted UI;
+To enable the user pool domain for your hosted UI:
 - Go to [Amazon Cognito Console](https://aws.amazon.com/cognito/).
 - Click *User Pools* on the top menu to select a User Pool or create a new one.
 - On the left menu, go to  *App integration* > *Domain name*.
@@ -959,39 +964,48 @@ To configure your identity providers:
 - Go to *Federation* > *Identity providers*
 - Select an *Identity provider* and enter required credentials for the identity provider. (e.g., App Id, App secret, Authorized scope)
 
-     To learn [how to register with a Social IdP](./cognito-hosted-ui-federated-identity.md)
+To learn [how to register with a Social IdP](./cognito-hosted-ui-federated-identity.md)
+{: .callout .callout--info}
 
-     To learn [what's Authorized scope](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html#cognito-user-pools-social-idp-step-2)
+To learn [what's Authorized scope](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html#cognito-user-pools-social-idp-step-2)
+{: .callout .callout--info}
 
-     Note: your user pool domain is something like: `domain_prefix.auth.us-east-1.amazoncognito.com`
+Note: your user pool domain is something like: `domain_prefix.auth.us-east-1.amazoncognito.com`
+{: .callout .callout--info}
 
 - To retrieve user attributes from your identity provider, go to *Federation* > *Attribute mapping*. Here, you can map Federation Provider attributes to corresponding User pool attributes. More info about [Attribute Mapping](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-specifying-attribute-mapping.html).
 
 If the attribute, for example *email*, is a required field in your Cognito User Pool settings, please make sure that you have selected *email* in your Authorized Scopes, and you have mapped it correctly to your User Pool attributes.
 {: .callout .callout-info}
 
-To setup App Client;
+To setup App Client:
 - Go to [Amazon Cognito Console](https://aws.amazon.com/cognito/).
 - Click *User Pools* on the top menu to select a User Pool or create a new one.
 - Click *App integration*  and *App client settings* on the left menu.
 - Select *Enabled Identity Providers* and enter *Callback URL(s)* and *Sign out URL(s)* fields. 
 
 For example, in *Callback URL(s)*, you can put one url for local development, one for the production. If your app is running in `http://localhost:3000/` in local and `https://www.example.com/` in production, you can put `http://localhost:3000/,https://www.example.com/` under *Callback URL(s)*. Same as the *Signout URL(s)*.
+{: .callout .callout--info}
 
 - Under the *OAuth 2.0* section, Choose OAuth Flow and OAuth scopes. [To learn more about flows and scopes.](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-idp-settings.html)
 - Select an OAuth Flow. 
 
-By using *Authorization code grant* the callback URL will contain a code after login. The code will be used to exchange for tokens from Cognito with the TOKEN Endpoint.
+By using *Authorization code grant* the callback URL will contain a code after login. The code will be used to exchange for tokens from Cognito with the TOKEN Endpoint.
+{: .callout .callout--info}
 
 By using *Implicit grant* the callback URL will contain tokens(access token, id token) after login.
+{: .callout .callout--info}
 
 The *Client credentials* flow is used in machine-to-machine communications. With it you can request an access token to access your own resources. Use this flow when your app is requesting the token on its own behalf, not on behalf of a user.
+{: .callout .callout--info}
 
-*Authorization code grant* is the recommended choice for security reasons. 
+*Authorization code grant* is the recommended choice for security reasons.
+{: .callout .callout--info} 
 
 - Choose item(s) from *OAuth Scopes*.
 
 Note: `openid` is required for `phone`, `email` or `profile`. Also `openid` is required to get the id token from the Cognito authorization server.
+{: .callout .callout--info}
 
 - Click 'Save Changes'. 
 
@@ -1039,6 +1053,7 @@ Amplify.configure({
 ```
 
 Note: An ID token is only returned if openid scope is requested. The access token can be only used against Amazon Cognito User Pools if aws.cognito.signin.user.admin scope is requested. The phone, email, and profile scopes can only be requested if openid scope is also requested.
+{: .callout .callout--info}
 
 #### Launching the Hosted UI
 
