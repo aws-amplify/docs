@@ -242,9 +242,10 @@ You can call `Auth.currentAuthenticatedUser()` to get the current authenticated 
 ```javascript
 import { Auth } from 'aws-amplify';
 
-Auth.currentAuthenticatedUser()
-    .then(user => console.log(user))
-    .catch(err => console.log(err));
+Auth.currentAuthenticatedUser({
+    bypassCache: false  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
+}).then(user => console.log(user))
+.catch(err => console.log(err));
 ```
 This method can be used to check if a user is logged in when the page is loaded. It will throw an error if there is no user logged in.
 This method should be called after the Auth module is configured or the user is logged in. To ensure that you can listen on the auth events `configured` or `signIn`. [Learn how to listen on auth events.]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/hub#listening-authentication-events)
@@ -583,16 +584,19 @@ Step 1. Learn [how to integrate Auth0 with Cognito Federated Identity Pools](htt
 
 Step 2. Login with `Auth0`, then use the id token returned to get AWS credentials from `Cognito Federated Identity Pools` using the `Auth.federatedSignIn` method:
 ```js
-const { idToken, domain, expiresIn, user } = getFromAuth0();
+const { idToken, domain, expiresIn, name, email } = getFromAuth0(); // get the user credentials and info from auth0
 
-Auth.federatedSignIn({
+Auth.federatedSignIn(
     domain, // The Auth0 Domain,
     {
         token: idToken // The id token from Auth0
         expires_at: expiresIn * 1000 + new Date().getTime() // the expiration timestamp
     },
-    user // the user object, e.x. { name: username, email: email }
-}).then(cred => {
+    { 
+        name: name, 
+        email: email
+    } // the user object, e.x. { name: username, email: email }
+).then(cred => {
     console.log(cred);
 });
 ```
