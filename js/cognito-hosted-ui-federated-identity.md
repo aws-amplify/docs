@@ -60,7 +60,7 @@
 
     ![](./images/cognitoHostedUI/google7.png)
 
-    Note: If you saw an error message `Invalid Redirect: domain must be added to the authorized domains list before submitting.` when adding the endpoint, please go to the *authroized domains list* and add the doamin.
+    Note: If you saw an error message `Invalid Redirect: domain must be added to the authorized domains list before submitting.` when adding the endpoint, please go to the *authorized domains list* and add the domain.
 16. Click *Create* twice.
 17. Note the *OAuth client ID* and *client secret*. You will need them for the next section.
 18. Choose *OK*.
