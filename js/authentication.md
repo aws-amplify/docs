@@ -428,129 +428,49 @@ this._validAuthStates = ['signedIn'];
 
 Then, in the component's constructor,  implement `showComponent(theme) {}` in lieu of the typical `render() {}` method.
 
-#### Enabling Federated Identities
-
-For React You can enable federated Identity login by specifying  *federated* option. Here is a configuration for enabling social login with multiple providers:
-
-```javascript
-const AppWithAuth = withAuthenticator(App);
-
-const federated = {
-    google_client_id: '', // Enter your google_client_id here
-    facebook_app_id: '', // Enter your facebook_app_id here
-    amazon_client_id: '' // Enter your amazon_client_id here
-};
-
-ReactDOM.render(<AppWithAuth federated={federated}/>, document.getElementById('root'));
-```
-
-For React Native as well as web, you can also initiate a federated signin process by calling `Auth.federatedSignIn()` method with a specific identity provider in your code:  
-
-```javascript
-import { Auth } from 'aws-amplify';
-
-// Retrieve active Google user session
-const ga = window.gapi.auth2.getAuthInstance();
-ga.signIn().then(googleUser => {
-    const { id_token, expires_at } = googleUser.getAuthResponse();
-    const profile = googleUser.getBasicProfile();
-    const user = {
-        email: profile.getEmail(),
-        name: profile.getName()
-    };
-
-    return Auth.federatedSignIn(
-        // Initiate federated sign-in with Google identity provider 
-        'google',
-        { 
-            // the JWT token
-            token: id_token, 
-            // the expiration time
-            expires_at 
-        },
-        // a user object
-        user
-    ).then(() => {
-        // ...
-    });
-});
-```
-
-Available identity providers are `google`, `facebook`, `amazon`, `developer` and OpenID. To use an `OpenID` provider, use the URI of your provider as the key, e.g. `accounts.your-openid-provider.com`.
-
-**Retrieving JWT Token**
-
-After the federated login, you can retrieve related JWT token from the local cache using the *Cache* module: 
-```javascript
-import { Cache } from 'aws-amplify';
-
-// Run this after the sign-in
-Cache.getItem('federatedInfo').then(federatedInfo => {
-     const { token } = federatedInfo;
-});
-```
-
-**Refreshing JWT Tokens**
-
-By default, AWS Amplify will automatically refresh the tokens for Google and Facebook, so that your AWS credentials will be valid at all times. But if you are using another federated provider, you will need to provide your own token refresh method:
-```javascript
-import { Auth } from 'aws-amplify';
-
-function refreshToken() {
-    // refresh the token here and get the new token info
-    // ......
-
-    return new Promise(res, rej => {
-        const data = {
-            token, // the token from the provider
-            expires_at, // the timestamp for the expiration
-            identity_id, // optional, the identityId for the credentials
-        }
-        res(data);
-    });
-}
-
-Auth.configure({
-    refreshHandlers: {
-        'developer': refreshToken
-    }
-})
-```
-
 ### Federated Identities (Social Sign-in)
 
 **Availability Note**
-Currently, our federated identity components only support Google, Facebook, Amazon and Auth0 identities. Please see our[ Setup Guide for Federated Identities]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/federated-identity).
+Currently, our federated identity components only support `google`, `facebook`, `amazon`, `developer` and OpenID(e.g. `auth0`). To use an `OpenID` provider, use the URI of your provider as the key, e.g. `accounts.your-openid-provider.com`. Please see our[ Setup Guide for Federated Identities]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/federated-identity).
 {: .callout .callout--info}
 
-To enable social sign-in in your app with Federated Identities, add `Google client_id`, `Facebook app_id` and/or `Amazon client_id` properties to `Authenticator` component:
+#### Federated Sign In
 
-```javascript
-const federated = {
-    google_client_id: '',
-    facebook_app_id: '',
-    amazon_client_id: ''
-};
-
-return (
-    <Authenticator federated={federated}>
-)
-```
-
-Or you can use it with `withAuthenticator`:
+(description of the feature):
+This feature is to get the AWS credentials from Cognito Federatd Pool Service after signing in from the third provider.
 ```js
-const AppWithAuth = withAuthenticator(App);
+import { Auth } from 'aws-amplify';
 
-const federated = {
-    google_client_id: '', // Enter your google_client_id here
-    facebook_app_id: '', // Enter your facebook_app_id here
-    amazon_client_id: '' // Enter your amazon_client_id here
-};
+// To derive necessary data from the provider
+const {
+    token, // the token you get from the provider
+    domainOrProviderName, // Either the domain of the provider(e.g. accounts.your-openid-provider.com) or the provider name, for now we only support 'google', 'facebook', 'amazon', 'developer'
+    expiresIn, // the time in ms which describes how long the token could live
+    user  // the user object you defined, e.g. { username, email, phone_number }
+} = getFromProvider(); // arbitrary funcion
 
-ReactDOM.render(<AppWithAuth federated={federated}/>, document.getElementById('root'));
+Auth.federatedSignIn({
+    domain,
+    {
+        token,
+        expires_at: expiresIn * 1000 + new Date().getTime() // the expiration timestamp
+    },
+    user
+}).then(cred => {
+    // If success, you will get the AWS credentials
+    console.log(cred);
+    return Auth.currentAuthenticatedUser();
+}).then(user => {
+    // If success, the user object you passed in Auth.federatedSignIn
+    console.log(user);
+}).catch(e => {
+    console.log(e)
+});
 ```
 
-If you are want to directly use `Auth.federatedSignIn()`, you need to get the token from the federated provider.
+**Note:**
+this is not using anything from Cognito User Pool so the user you get after calling this method is not a *Cognito User*. Please do not use this method when you've already signed in from Cognito User Pool.
+
 Facebook Sample in React:
 ```js
 import { Auth } from 'aws-amplify';
@@ -721,13 +641,10 @@ class SignInWithGoogle extends React.Component {
 }
 ```
 
-For *React Native*, you can use `Auth.federatedSignIn()` to get your federated identity from Cognito. You need to provide a valid JWT token from the third provider. You can also use it with `Authenticator`, so that component automatically persists your login status.
-
-Federated Sign in with Facebook Example:
+Facebook Example in React Native, Expo:
 ```javascript
 import Expo from 'expo';
 import Amplify, { Auth } from 'aws-amplify';
-import { Authenticator } from 'aws-amplify-react-native';
 
 export default class App extends React.Component {
   async signIn() {
@@ -750,13 +667,81 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Authenticator>
-        </Authenticator>
         <Button title="FBSignIn" onPress={this.signIn.bind(this)} />
       </View>
     );
   }
 }
+```
+
+**Retrieving JWT Token**
+
+After the federated login, you can retrieve related JWT token from the local cache using the *Cache* module: 
+```javascript
+import { Cache } from 'aws-amplify';
+
+// Run this after the sign-in
+Cache.getItem('federatedInfo').then(federatedInfo => {
+     const { token } = federatedInfo;
+});
+```
+
+**Refreshing JWT Tokens**
+
+By default, AWS Amplify will automatically refresh the tokens for Google and Facebook, so that your AWS credentials will be valid at all times. But if you are using another federated provider, you will need to provide your own token refresh method:
+```javascript
+import { Auth } from 'aws-amplify';
+
+function refreshToken() {
+    // refresh the token here and get the new token info
+    // ......
+
+    return new Promise(res, rej => {
+        const data = {
+            token, // the token from the provider
+            expires_at, // the timestamp for the expiration
+            identity_id, // optional, the identityId for the credentials
+        }
+        res(data);
+    });
+}
+
+Auth.configure({
+    refreshHandlers: {
+        'developer': refreshToken // the property could be 'google', 'facebook', 'amazon', 'developer', OpenId domain
+    }
+})
+```
+
+#### Using Components from aws-amplify-react
+
+To enable social sign-in in your app with Federated Identities, add `Google client_id`, `Facebook app_id` and/or `Amazon client_id` properties to `Authenticator` component. This will create a sign in button when rendering the `Authenticator` in your app.
+
+```javascript
+import { Authenticator } from 'aws-amplify-react/dist/Auth';
+
+const federated = {
+    google_client_id: '',
+    facebook_app_id: '',
+    amazon_client_id: ''
+};
+
+return (
+    <Authenticator federated={federated}>
+)
+```
+
+Or you can use it with `withAuthenticator`:
+```js
+const AppWithAuth = withAuthenticator(App);
+
+const federated = {
+    google_client_id: '', // Enter your google_client_id here
+    facebook_app_id: '', // Enter your facebook_app_id here
+    amazon_client_id: '' // Enter your amazon_client_id here
+};
+
+ReactDOM.render(<AppWithAuth federated={federated}/>, document.getElementById('root'));
 ```
 
 #### Federated with Auth0
@@ -868,7 +853,7 @@ const Button = (props) => (
 export default withAuth0(Button);
 ```
 
-#### Customize UI
+### Customize UI
 
 You can provide custom components to the `Authenticator` as child components in React and React Native. 
 
@@ -991,7 +976,7 @@ To setup App Client;
 - Click *App integration*  and *App client settings* on the left menu.
 - Select *Enabled Identity Providers* and enter *Callback URL(s)* and *Sign out URL(s)* fields. 
 
-For example, in *Callback URL(s)*, you can put one url for local developement, one for the production. If your app is running in `http://localhost:3000/` in local and `https://www.example.com/` in production, you can put `http://localhost:3000/,https://www.example.com/` under *Callback URL(s)*. Same as the *Signout URL(s)*.
+For example, in *Callback URL(s)*, you can put one url for local development, one for the production. If your app is running in `http://localhost:3000/` in local and `https://www.example.com/` in production, you can put `http://localhost:3000/,https://www.example.com/` under *Callback URL(s)*. Same as the *Signout URL(s)*.
 
 - Under the *OAuth 2.0* section, Choose OAuth Flow and OAuth scopes. [To learn more about flows and scopes.](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-idp-settings.html)
 - Select an OAuth Flow. 
