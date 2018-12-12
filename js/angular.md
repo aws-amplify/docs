@@ -235,7 +235,7 @@ customVoiceConfig = {
 }
 
 ```
-5. `voiceEnabled`: Enables voice user input. Defaults to `true`
+5. `voiceEnabled`: Enables voice user input. Defaults to `false`
 6. `textEnabled`: Enables text user input Defaults to `true`
 7. `conversationModeOn`: Turns voice conversation mode on/off. Defaults to `off`
 
