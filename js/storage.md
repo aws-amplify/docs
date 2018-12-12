@@ -152,7 +152,7 @@ import { Storage } from 'aws-amplify';
 If you use `aws-exports.js` file, Storage is already configured. To configure Storage manually,
 ```javascript
 Storage.configure({
-    bucket: //Your bucket ARN;
+    bucket: //Your bucket Name;
     region: //Specify the region your bucket was created in;
     identityPoolId: //Specify your identityPoolId for Auth and Unauth access to your bucket;
 });
