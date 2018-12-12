@@ -968,7 +968,7 @@ To configure your identity providers:
 - Go to *Federation* > *Identity providers*
 - Select an *Identity provider* and enter required credentials for the identity provider. (e.g., App Id, App secret, Authorized scope)
 
-To learn [how to register with a Social IdP](./cognito-hosted-ui-federated-identity.md)
+To learn [how to register with a Social IdP]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/cognito-hosted-ui-federated-identity).
 {: .callout .callout--info}
 
 To learn [what's Authorized scope](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html#cognito-user-pools-social-idp-step-2)
