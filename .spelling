@@ -173,6 +173,7 @@ _new
 myangularapp
 js
 tsconfig
+myAmplifyProject
 
 # js/service-workers.md
 ServiceWorker
