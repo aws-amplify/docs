@@ -263,12 +263,14 @@ signups
 300px
 phone_number
 IdToken
+IdP
 AccessToken
 localStorage
 authState
 authData
 OAuth
 oauth
+openid
 CAPTCHAs
 unencrypted
 checkbox
@@ -279,6 +281,13 @@ customizable
 AmplifyTheme.js
 withFederated
 Auth.federatedSignIn
+aws.cognito.signin.user.admin
+
+#js/cognito-hosted-ui-federated-identity.md
+oauth2
+idpresponse
+URIs
+OAuth2.0
 
 # js/api.md
 api
