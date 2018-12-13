@@ -1674,9 +1674,9 @@ Import and load the configuration file in your app. It's recommended you add the
 
 ```javascript
 import Amplify, { API } from 'aws-amplify';
-import aws_exports from './aws-exports';
+import awsmobile from './aws-exports';
 
-Amplify.configure(aws_exports);
+Amplify.configure(awsmobile);
 ```
 
 ### Manual Setup

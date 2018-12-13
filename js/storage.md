@@ -42,8 +42,8 @@ In your app's entry point *i.e. App.js*, import and load the configuration file 
 
 ```javascript
 import Amplify, { Storage } from 'aws-amplify';
-import aws_exports from './aws-exports';
-Amplify.configure(aws_exports);
+import awsmobile from './aws-exports';
+Amplify.configure(awsmobile);
 ```
 
 ### Manual Setup
