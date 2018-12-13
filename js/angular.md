@@ -235,7 +235,13 @@ customVoiceConfig = {
 }
 
 ```
-5. `voiceEnabled`: Enables voice user input. Defaults to `false`
+5. `voiceEnabled`: Enables voice user input. Defaults to `false` 
+
+Note: In order for voice input to work with Amazon Lex, you may have to enable Output voice in the AWS Console. Under the Amazon Lex service, click on your configured Lex chatbot and go to Settings -> General and pick your desired Output voice. Then, click Build. If you have forgotten to enable Output voice, you will get an error like this:
+```
+ChatBot Error: Invalid Bot Configuration: This bot does not have a Polly voice ID associated with it. For voice interaction with the user, set a voice ID
+```
+
 6. `textEnabled`: Enables text user input Defaults to `true`
 7. `conversationModeOn`: Turns voice conversation mode on/off. Defaults to `off`
 
