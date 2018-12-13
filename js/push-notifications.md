@@ -304,7 +304,7 @@ You can also use `aws-exports.js` file in case you have set up your backend with
 import { PushNotificationIOS } from 'react-native';
 import Analytics from '@aws-amplify/analytics';
 import PushNotification from '@aws-amplify/pushnotification';
-import aws_exports from './aws_exports';
+import aws_exports from './aws-exports';
 
 // PushNotification need to work with Analytics
 Analytics.configure(aws_exports);
