@@ -73,7 +73,7 @@ What happens behind the scenes?
      - Lambda Zip files (which are used when using API Gateway & Lambda services in your project)
      - AppSync schema and resolver files
   - Auth & Unauth Role with no policies in it during the initialization phase. The policies get populated in it eventually, based on your permission/authorization selections when adding resources to your project like API, Storage, and Analytics
-  - An `amplify/` directory gets created at the root of your project with the following structure:
+- An `amplify/` directory gets created at the root of your project with the following structure:
 
 ```
 <project-root>
