@@ -129,6 +129,8 @@ Output Files: Empty
 
 Now **build** your project to start using the SDK. Whenever a new version of the SDK is released you can update by running `carthage update` and rebuilding your project to use the new features.
 
+> Note: Currently, the AWS SDK for iOS builds the Carthage binaries using Xcode 10.1.0. To consume the pre-built binaries your Xcode version needs to be the same, else you have to build the frameworks on your machine by passing `--no-use-binaries` flag to `carthage update` command.
+
 ## Frameworks setup
 
 Download the [SDK](https://sdk-for-ios.amazonwebservices.com/latest/aws-ios-sdk.zip). The SDK is stored in a compressed file archive named `aws-ios-sdk-#.#.#` (where `#.#.#` represents the version number, so for version 2.7.0, the filename is `aws-ios-sdk-2.7.0`).
