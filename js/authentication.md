@@ -118,6 +118,15 @@ Auth.signIn(username, password)
     .then(user => console.log(user))
     .catch(err => console.log(err));
 
+// For advanced usage
+// You can pass an object which has the username, password and validationData which is sent to a PreAuthentication Lambda trigger
+Auth.signIn({
+    username, // Required, the username
+    password, // Optional, the password
+    validationData, // Optional, a random key-value pair map which can contain any key and will be passed to your PreAuthentication Lambda trigger as-is. It can be used to implement additional validations around authentication
+}).then(user => console.log(user))
+.catch(err => console.log(err));
+
 // If MFA is enabled, sign-in should be confirmed with the confirmation code
 // `user` : Return object from Auth.signIn()
 // `code` : Confirmation code  
@@ -1461,7 +1470,7 @@ To initiate a custom authorization flow in your app, call `signIn` without a pas
 import { Auth } from 'aws-amplify';
 let challengeResponse = "the answer for the challenge";
 
-Auth.signIn(username)
+Auth.signIn({username: username})
     .then(user => {
         if (user.challengeName === 'CUSTOM_CHALLENGE') {
             Auth.sendCustomChallengeAnswer(user, challengeResponse)
