@@ -233,7 +233,7 @@ export default App;
 
 When using React Native, you can use *ChatBot* with following properties;
 
-```html
+```jsx
 <ChatBot
     botName={botName}
     welcomeMessage={welcomeMessage}
@@ -244,7 +244,6 @@ When using React Native, you can use *ChatBot* with following properties;
             color: 'red'
         }
     })}
-    conversationModeOn={false}
 />
 ```
 
@@ -287,6 +286,24 @@ ChatBot Error: Invalid Bot Configuration: This bot does not have a Polly voice I
 You can also configure `silenceDelay={customTime}` where `customTime` is the the silence detection time in milliseconds. The default value is 1000. 
 
 The `conversationModeOn` props turns continuous conversation cycle mode on/off for voice interaction.
+
+Here is an example of a configured ChatBot component with voice enabled and conversation mode turned on
+```jsx
+<ChatBot
+    botName={botName}
+    welcomeMessage={welcomeMessage}
+    onComplete={this.handleComplete}
+    clearOnComplete={false}
+    styles={StyleSheet.create({
+        itemMe: {
+            color: 'red'
+        }
+    })}
+    voiceEnable={true}
+    voiceLibs={voiceLibs}
+    conversationModeOn={true}
+/>
+```
 
 Following simple app shows how to use **ChatBot** component in a React Native app;
 
@@ -352,7 +369,6 @@ export default class App extends React.Component {
                 color: 'red'
                 }
             })}
-            conversationModeOn={false}
             />
         </SafeAreaView>
         );
