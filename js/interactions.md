@@ -231,31 +231,6 @@ export default App;
 
 ### Using with React Native
 
-To support voice interaction, the React Native ChatBot component requires installation of peer dependencies and linking of Native Modules. The peer dependencies are: [react-native-voice](https://github.com/wenkesj/react-native-voice), [react-native-sound](https://github.com/zmxv/react-native-sound), and [react-native-fs](https://github.com/itinance/react-native-fs). 
-
-After installation, link the native modules by running:
-```
-react-native link react-native-voice 
-react-native link react-native-fs
-react-native link react-native-sound
-```
-
-Some configurations of Android will require requesting permissions while others will not - please to refer to the [Android docs](https://developer.android.com/training/permissions/requesting.html)
-
-iOS will require permissions for `NSMicrophoneUsageDescription` and `NSSpeechRecognitionUsageDescription`- you can add this snippet to your Info.plist file for iOS:
-```xml  
-<dict>
-  ...
-  <key>NSMicrophoneUsageDescription</key>
-  <string>Description of why you require the use of the microphone</string>
-  <key>NSSpeechRecognitionUsageDescription</key>
-  <string>Description of why you require the use of the speech recognition</string>
-  ...
-</dict>
-```
-
-
-
 When using React Native, you can use *ChatBot* with following properties;
 
 ```html
@@ -272,9 +247,39 @@ When using React Native, you can use *ChatBot* with following properties;
     conversationModeOn={false}
 />
 ```
-By default, the ChatBot will allow for only text interaction. You can turn off text interaction by passing prop `textEnabled={false}` or you can turn on voice interaction by passing prop `voiceEnabled={true}`. You should not disable both; this will cause no user inputs to be available. 
 
-Note: In order for voice input to work with Amazon Lex, you may have to enable Output voice in the AWS Console. Under the Amazon Lex service, click on your configured Lex chatbot and go to Settings -> General and pick your desired Output voice. Then, click Build. If you have forgotten to enable Output voice, you will get an error like this:
+By default, the ChatBot will allow for only text interaction. You can turn off text interaction by passing prop `textEnabled={false}`.
+####Turning on voice interaction
+To support voice interaction, the React Native ChatBot component requires installation of peer dependencies and linking of Native Modules. The peer dependencies are: [react-native-voice](https://github.com/wenkesj/react-native-voice), [react-native-sound](https://github.com/zmxv/react-native-sound), and [react-native-fs](https://github.com/itinance/react-native-fs). 
+
+After installation, link the native modules by running:
+```
+react-native link react-native-voice 
+react-native link react-native-fs
+react-native link react-native-sound
+```
+
+Include this import at the top of your App.js
+```jsx
+import voiceLibs from 'aws-amplify-react-native/dist/Interactions/ReactNativeModules'
+```
+
+Some configurations of Android will require requesting permissions while others will not - please to refer to the [Android docs](https://developer.android.com/training/permissions/requesting.html)
+
+iOS will require permissions for `NSMicrophoneUsageDescription` and `NSSpeechRecognitionUsageDescription`- you can add this snippet to your Info.plist file for iOS:
+```xml  
+<dict>
+  ...
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Description of why you require the use of the microphone</string>
+  <key>NSSpeechRecognitionUsageDescription</key>
+  <string>Description of why you require the use of the speech recognition</string>
+  ...
+</dict>
+```
+Then, turn on voice interaction by passing `voiceEnabled={true}` with `voiceLibs={voiceLibs}` to Chatbot props. Remember not to disable both voice and text input (don't set both voiceEnabled={false} and textEnabled={false})
+
+In order for voice interaction to work with Amazon Lex, you may have to enable Output voice in the AWS Console. Under the Amazon Lex service, click on your configured Lex chatbot and go to Settings -> General and pick your desired Output voice. Then, click Build. If you have forgotten to enable Output voice, you will get an error like this:
 ```
 ChatBot Error: Invalid Bot Configuration: This bot does not have a Polly voice ID associated with it. For voice interaction with the user, set a voice ID
 ```
