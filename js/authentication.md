@@ -1648,7 +1648,7 @@ render() {
 
 ### Composing Your Own Authenticator
 
-`Authenticator` is designed as a container for a number of Auth components. Each component does a single job, e.g., SignIn, SignUp, etc. By default, all of this elements are visible depending on the authentication state. 
+`Authenticator` is designed as a container for a number of Auth components. Each component does a single job, e.g., SignIn, SignUp, etc. By default, all of these elements are visible depending on the authentication state. 
 
 If you want to replace some or all of the Authenticator elements, you need to set `hideDefault={true}`, so the component doesn't render its default view. Then you can pass in your own set of child components that listen to `authState` and decide what to do. 
 
@@ -1675,7 +1675,7 @@ The *Greetings* component has two states: signedIn, and signedOut. To customize 
 
 ### Customize `withAuthenticator`
 
-The `withAuthenticator` HOC gives you some nice default authentication screens out-of-box. If you want to use your own components rather then provided default components, you can pass the list of customized components to `withAuthenticator`:
+The `withAuthenticator` HOC gives you some nice default authentication screens out-of-box. If you want to use your own components rather than provided default components, you can pass the list of customized components to `withAuthenticator`:
 
 ```javascript
 import React, { Component } from 'react';

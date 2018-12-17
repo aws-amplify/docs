@@ -111,11 +111,11 @@ After initialization in your project directory with `amplify init`, update your 
 
 ```groovy
 //For AWSMobileClient only:
-implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.8.+'
+implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.9.+'
 
 //For the drop-in UI also:
-implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.8.+'
-implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.8.+'
+implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.9.+'
+implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.9.+'
 ```
 
 For the `AWSMobileClient` alone you can have a minimum SDK version of **15**, but for the drop-in UI you will need a minimum of **23** set in your `build.gradle`:
@@ -820,15 +820,15 @@ Add the following dependencies to your `app/build.gradle` file:
 ```groovy
 dependencies {
     // Mobile Client for initializing the SDK
-    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.9.+@aar') { transitive = true }
 
     // Facebook SignIn
     implementation 'com.android.support:support-v4:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-facebook:2.8.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-facebook:2.9.+@aar') { transitive = true }
 
     // Sign in UI
     implementation 'com.android.support:appcompat-v7:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.8.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.9.+@aar') { transitive = true }
 }
 ```
 
@@ -918,15 +918,15 @@ Add the following dependencies to your `app/build.gradle` file:
 ```groovy
 dependencies {
     // Mobile Client for initializing the SDK
-    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.9.+@aar') { transitive = true }
 
     // Google SignIn
     implementation 'com.android.support:support-v4:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-google:2.8.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-google:2.9.+@aar') { transitive = true }
 
     // Sign in UI Library
     implementation 'com.android.support:appcompat-v7:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.8.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.9.+@aar') { transitive = true }
 }
 ```
 
