@@ -53,7 +53,7 @@ $ amplify init
 // Add amplify categories using `amplify add <category>`
 $ git init
 $ git add <all project related files>
-$ git commit -m <commit-message>
+$ git commit -m "Creation of a master amplify environment"
 $ git remote add origin git@github.com:<repo-name>
 $ git push -u origin master
 ```
@@ -75,7 +75,7 @@ Now push the changes to the 'master' branch (you would just see changes to the t
 
 ```
 $ git add .
-$ git commit -m "Creation of a master amplify environment"
+$ git commit -m "Creation of a dev amplify environment"
 $ git push -u origin master
 $ git checkout -b dev
 $ git push -u origin dev
