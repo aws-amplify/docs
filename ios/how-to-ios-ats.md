@@ -1,3 +1,7 @@
+---
+title: "iOS: Preparing Your App to Work with ATS"
+---
+
 # iOS: Preparing Your App to Work with ATS
 
 If you use the iOS 9 SDK (or Xcode 7) or later, the Apple [App Transport Security (ATS)](https://developer.apple.com/library/prerelease/ios/technotes/App-Transport-Security-Technote/)
@@ -48,7 +52,7 @@ If you determine that your app is impacted by the diagnostic handshake error, yo
 
 1. Locate your ``Info.plist`` and from the context menu select **Open As** > **Source Code**.
 
-    ![Image](./media/ss1.png)
+    ![Image](./images/ss1.png)
 
 2. Copy and paste the following key as a direct child of the top level ``<dict>`` tag.
 

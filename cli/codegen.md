@@ -57,7 +57,7 @@ $amplify add api (select GraphQL)
 $amplify push
 ```
 
-You’ll see questions as before, but now it will also automatically ask you if you want to generate GraphQL statements and do codegen. It will also respect the `./src/main` directory for Android projects. After the AppSync deployment finishes the Swift file will be automatically generated (Android you’ll need to kick off a [Gradle Build step](#androiduse)) and you can begin using in your app immediately.
+You’ll see questions as before, but now it will also automatically ask you if you want to generate GraphQL statements and do codegen. It will also respect the `./app/src/main` directory for Android projects. After the AppSync deployment finishes the Swift file will be automatically generated (Android you’ll need to kick off a [Gradle Build step](#androiduse)) and you can begin using in your app immediately.
  
 **Flow 2: Modify GraphQL schema, push, then automatically generate code**
 
@@ -109,7 +109,7 @@ Since you added an API the `amplify push` process will automatically prompt you 
 
 Next, modify your **Podfile** with a dependency of the AWS AppSync SDK:
 
-```bash
+```ruby
 target 'PostsApp' do
   use_frameworks!
   pod 'AWSAppSync', ' ~> 2.6.20'
@@ -225,6 +225,7 @@ do {
 
 Subscriptions can also take `input` types like mutations, in which case they will be subscribing to particular events based on the input. Learn more about Subscription arguments in AppSync [here](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html).
 
+### Complete Sample
 **AppDelegate.swift**
 
 ```swift
@@ -330,14 +331,14 @@ $amplify push       ## Sets up backend and prompts you for codegen, accept the d
 
 The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on, you can always change it.
 
-Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults and it will create a file named `awsconfiguration.json` in the `./src/main/res/raw`  directory that the AppSync client will use for initialization. To finish off the build process there are Gradle and permission updates needed.
+Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults and it will create a file named `awsconfiguration.json` in the `./app/src/main/res/raw`  directory that the AppSync client will use for initialization. To finish off the build process there are Gradle and permission updates needed.
 
 First, in the project's `build.gradle`, add the following dependency in the build script:
 ```gradle
 classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.6.+'
 ```
 
-Next, in the app's `build.gradle` add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `compile 'com.amazonaws:aws-android-sdk-appsync:2.6.+'`. For example:
+Next, in the app's `build.gradle` add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `implementation 'com.amazonaws:aws-android-sdk-appsync:2.6.+'`. For example:
 
 ```gradle
 apply plugin: 'com.android.application'
@@ -347,9 +348,9 @@ android {
 }
 dependencies {
     // Typical dependencies
-    compile 'com.amazonaws:aws-android-sdk-appsync:2.6.+'
-    compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
-    compile 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+    implementation 'com.amazonaws:aws-android-sdk-appsync:2.6.+'
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
 }
 ```
 
@@ -484,6 +485,7 @@ private AppSyncSubscriptionCall subscriptionWatcher;
 
 Subscriptions can also take `input` types like mutations, in which case they will be subscribing to particular events based on the input. Learn more about Subscription arguments in AppSync [here](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html).
 
+### Complete Sample
 **MainActivity.java**
 
 ```java

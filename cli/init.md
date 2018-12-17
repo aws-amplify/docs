@@ -1,7 +1,7 @@
 ---
 ---
 
-# Getting Started
+# Usage
 
 The AWS Amplify CLI helps you set up an AWS IAM user, set up an AWS profile on your local system and then initialize Amplify powered apps with all your defined configurations. We'll also walk through steps as to how you could share the Amplify generated backend configuration between other frontend projects and re-use the same backend infrastructure in-between multiple platforms/users.
 
@@ -73,7 +73,7 @@ What happens behind the scenes?
      - Lambda Zip files (which are used when using API Gateway & Lambda services in your project)
      - AppSync schema and resolver files
   - Auth & Unauth Role with no policies in it during the initialization phase. The policies get populated in it eventually, based on your permission/authorization selections when adding resources to your project like API, Storage, and Analytics
-  - An `amplify/` directory gets created at the root of your project with the following structure:
+- An `amplify/` directory gets created at the root of your project with the following structure:
 
 ```
 <project-root>

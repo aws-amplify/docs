@@ -15,6 +15,28 @@
 	*/
 
 (function(document, history, location) {
+	
+	$(function(){
+	    $("a").click(function(e) {
+		$.urlParam = function (name) {
+		    var results = new RegExp('[\?&]' + name + '=([^&#]*)')
+				      .exec(window.location.href);
+		    if (results == null) {
+			 return 0;
+		    }
+		    return results[1] || 0;
+		}
+
+		var subpath = $(this).attr('href');
+		if(subpath === '/cli/migrate' || subpath === '/docs/cli/migrate') {
+			e.preventDefault();
+			var baseURL = window.location.protocol + "//" + window.location.host + subpath;
+			var queryParms = '?sdk=' + $.urlParam('sdk');
+			var finalPath = baseURL + queryParms;
+			window.location = finalPath;
+		}
+	    });
+	});
 
 	var HISTORY_SUPPORT = !!(history && history.pushState);
 

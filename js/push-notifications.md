@@ -178,9 +178,9 @@ Setup instructions are provided for Android and iOS, and configuration for both 
     $ react-native init myapp
     $ cd myapp
     $ npm install
-    $ npm install aws-amplify --save
-    $ npm install aws-amplify-react-native --save
-    $ react-native link aws-amplify-react-native
+    $ npm install aws-amplify --save && npm install @aws-amplify/pushnotification --save
+    $ react-native link @aws-amplify/pushnotification
+    $ react-native link amazon-cognito-identity-js # link it if you need to Sign in into Cognito user pool
     ```
     Please note that linking `aws-amplify-react-native` but not completing the rest of the configuration steps could break your build process. Please be sure that you have completed all the steps before you build your app.
     {: .callout .callout--info}
@@ -314,10 +314,10 @@ PushNotification.configure(aws_exports);
 
 ## Working with the API
 
-You can use `onNotification` and `onRegister` event handlers to work with push notifications in your app. The following code shows how you can retrieve the notification data and registration token:
+You can use `onNotification`, `onRegister` and `onNotificationOpened` event handlers to work with push notifications in your app:
 
 ```javascript
-// get the notification data
+// get the notification data when notification is received
 PushNotification.onNotification((notification) => {
   // Note that the notification object structure is different from Android and IOS
   console.log('in app notification', notification);
@@ -329,6 +329,11 @@ PushNotification.onNotification((notification) => {
 // get the registration token
 PushNotification.onRegister((token) => {
   console.log('in app registration', token);
+});
+
+// get the notification data when notification is opened
+PushNotification.onNotificationOpened((notification) => {
+    console.log('the notification is opened', notification);
 });
 ```
 

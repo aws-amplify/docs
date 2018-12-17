@@ -1,11 +1,13 @@
+---
+title: Customize the SDK Sign-In UI
+---
+
 # Customize the SDK Sign-In UI
 
 By default, the SDK presents sign-in UI for each sign in provider you enable in your Mobile Hub project (Email and Password, Facebook, Google) with a default look and feel. It knows which provider(s) you chose by reading the `awsconfiguration.json` file you integrated with your app.
 
 To override the defaults, and modify the behavior, look, and feel of the sign-in UI, create an `AuthUIConfiguration` object and set the appropriate properties.
 
-
-iOS - Swift
 
 Create and configure an `AWSAuthUIConfiguration` object and set its properties.
 

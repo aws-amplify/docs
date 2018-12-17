@@ -1,5 +1,8 @@
-# How to Integrate Your Existing Identity Pool
+---
+title: How to Integrate Your Existing Identity Pool
+---
 
+# How to Integrate Your Existing Identity Pool
 
 **Just Getting Started?** | [Use streamlined steps](./add-aws-mobile-user-sign-in) to install the SDK and integrate Amazon Cognito.
 ------------ | -------------
@@ -99,18 +102,17 @@ Set up AWS Mobile SDK components as follows:
 
 1. Add the `AWSMobileClient` pod to your `Podfile` to install the AWS Mobile SDK.
 
-```swift
+```ruby
+platform :ios, '9.0'
 
-     platform :ios, '9.0'
+target :'YOUR-APP-NAME' do
+    use_frameworks!
 
-        target :'YOUR-APP-NAME' do
-           use_frameworks!
+    pod 'AWSMobileClient', '~> 2.6.33'
 
-            pod 'AWSMobileClient', '~> 2.6.13'
+    # other pods . . .
 
-            # other pods . . .
-
-        end
+end
 ```
 
 2. Run `pod install --repo-update` in your app root folder before you continue.
@@ -139,14 +141,22 @@ Set up AWS Mobile SDK components as follows:
 
 
          // Instantiate AWSMobileClient to get AWS user credentials
-         return AWSMobileClient.sharedInstance().interceptApplication(application, didFinishLaunchingWithOptions: launchOptions)
+         AWSMobileClient.sharedInstance().initialize { (userState, error) in
+            if let error = error {
+                print("Error initializing AWSMobileClient: \(error.localizedDescription)")
+            } else if let userState = userState {
+                print("AWSMobileClient initialized. Current UserState: \(userState.rawValue)")
+            }
+        }
+         
+         return true
 
    }
  }
 ```
-When you run your app, you should see no behavior change. To verify success, turn on logging by uncommenting the lines in the preceding example, and look for the message :code:`"Welcome to AWS!"` in your the output.
+When you run your app, you should see no behavior change. The current user state will be logged into the console.
 
-4. To get the users identity, use `getCredentialsProvider()` to access `AWSIdentityManager`, shown here being done in a `ViewController`.
+4. To get the users identity, use `AWSMobileClient.sharedInstance()`, shown here being done in a `ViewController`.
 
 ```swift
 import UIKit
@@ -160,10 +170,10 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         textfield.text = "View Controller Loaded"
 
-        // Get the identity Id from the AWSIdentityManager
+        // Get the identity Id from the AWSMobileClient
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let credentialsProvider = AWSMobileClient.sharedInstance().getCredentialsProvider()
-        let identityId = AWSIdentityManager.default().identityId
+        let credentialsProvider = AWSMobileClient.sharedInstance()
+        let identityId = AWSMobileClient.sharedInstance().identityId
     }
 }
 ```
