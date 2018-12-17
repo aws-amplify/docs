@@ -270,7 +270,7 @@ See the [XR documentation]({%if jekyll.environment == 'production'%}{{site.ampli
 To use the aws-amplify-angular components you will need to install '@aws-amplify/ui'.
 
 Add the following to your styles.css file to use the default styles:
-```@import '~aws-amplify-angular/Theme.css';```
+```@import '~aws-amplify-angular/theme.css';```
 
 You can use custom styling for AWS Amplify components. Just import your custom *styles.css* that overrides the default styles which can be found in `/node_modules/aws-amplify-angular/theme.css`.
 
