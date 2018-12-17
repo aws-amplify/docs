@@ -747,6 +747,10 @@ uploadData
 UIView
 xib
 
+# ios/pubsub.md
+VeriSign
+subdomain
+
 # ios/push-notifications.md
 Hoc
 Provisioining
