@@ -70,6 +70,25 @@ Then, you need to attach the `myIOTPolicy` policy to the user's *Cognito Identit
 aws iot attach-principal-policy --policy-name 'myIOTPolicy' --principal '<YOUR_COGNITO_IDENTITY_ID>'
 ```
 
+To programmatically attach the `myIOTPolicy` policy to the user's *Cognito Identity Id*, import the following classes:
+
+```java
+import com.amazonaws.services.iot.AWSIotClient;
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.services.iot.model.AttachPolicyRequest;
+```
+
+Next, instantiate the `AttachPolicyRequest` class and attach it your IoT Client as follows:
+
+```java
+AttachPolicyRequest attachPolicyReq = new AttachPolicyRequest();
+attachPolicyReq.setPolicyName("myIOTPolicy"); // name of your IOT AWS policy
+attachPolicyReq.setTarget(AWSMobileClient.getInstance().getIdentityId());
+AWSIotClient mIotAndroidClient = new AWSIotClient(AWSMobileClient.getInstance());
+mIotAndroidClient.setRegion(Region.getRegion("<YOUR-AWS-REGION>")); // name of your IoT Region such as "us-east-1"
+mIotAndroidClient.attachPolicy(attachPolicyReq);
+```
+
 ## Working with the API
 
 ### Establish Connection
