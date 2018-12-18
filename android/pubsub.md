@@ -20,8 +20,8 @@ Set up AWS Mobile SDK components by including the following libraries in your `a
 
 ```groovy
 dependencies {
-  implementation 'com.amazonaws:aws-android-sdk-iot:2.8.+'
-  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
+  implementation 'com.amazonaws:aws-android-sdk-iot:2.9.+'
+  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.9.+@aar') { transitive = true }
 }
 ```
 
@@ -42,8 +42,10 @@ Define your unique client ID and endpoint (incl. region) in your configuration:
 // Initialize the AWSIotMqttManager with the configuration
 AWSIotMqttManager mqttManager = new AWSIotMqttManager(
 	"<YOUR_CLIENT_ID>", 
-	"wss://xxxxxxxxxxxxx.iot.<YOUR-AWS-REGION>.amazonaws.com/mqtt");
+	"wss://xxxxxxxxxxxxx-ats.iot.<YOUR-AWS-REGION>.amazonaws.com/mqtt");
 ```
+You can get the endpoint information from the IoT Core -> Settings page on the AWS Console.
+{: .callout .callout--info}
 
 **Create IAM policies for AWS IoT**
 
