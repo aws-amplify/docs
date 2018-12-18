@@ -134,7 +134,7 @@
 					<input type="text" id="search-input-xs" class="visible-xs docs-search-xs"></input>
 					<button id="collapse-search">Cancel</button>
 				{% endif %}
-				{% unless page.name contains "index.md" %}
+				{% unless page.name contains "index.md" and page.name contains '/tutorials/' %}
 				<div id="docs-edit-bar" class="hidden-xs" style="padding-top:0.5em;padding-bottom:2.5em;font-size:80%;">
 					<a id="feedback-link" target="_blank" href="#">
 						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/icons/Minis/outline-feedback-24px.svg" style="height:16px;" />
@@ -159,7 +159,8 @@
 
 <script>
 	{% if page.name contains 'index.md' %}
-		document.getElementById('get_started').style.borderBottom = "2px solid white";
+		if (document.getElementById('get_started'))
+			document.getElementById('get_started').style.borderBottom = "2px solid white";
 	{% endif %}
 </script>
 <script>

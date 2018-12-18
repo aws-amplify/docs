@@ -119,6 +119,9 @@ includes_dir: ./theme/_includes
 exclude: [ 'README.md', 'CHANGELOG.md' ]
 permalink: /:title
 
+includes:
+- common
+
 android_category_list:
     - category: SetupAndInstallation
       title: Setup & Installation

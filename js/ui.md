@@ -72,7 +72,6 @@ The Authenticator is a drop-in UI component that provides:
 
 > React (aws-amplify-react) and React native (aws-amplify-react-native) provide HOCs for Authentication via [withAuthenticator]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/authentication#using-components-in-react). Angular and Ionic provide components and service provider.
 
-
 Available for [React]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/authentication#using-components-in-react--react-native), [Angular/Ionic]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/ionic#authenticator), and [Vue]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/vue#authentication-components)
 
 ## Storage UI Components
