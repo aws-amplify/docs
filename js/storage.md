@@ -62,7 +62,7 @@ Amplify.configure({
     },
     Storage: {
         bucket: '', //REQUIRED -  Amazon S3 bucket
-        region: 'XX-XXXX-X', //OPTIONAL -  Amazon service region
+        region: 'XX-XXXX-X', //REQUIRED -  bucket region
     }
 });
 
@@ -147,15 +147,6 @@ Storage.vault.get('welcome.png'); // Get the welcome.png belonging to current us
 Import *Storage* from the aws-amplify library:
 ```javascript
 import { Storage } from 'aws-amplify';
-```
-
-If you use `aws-exports.js` file, Storage is already configured. To configure Storage manually,
-```javascript
-Storage.configure({
-    bucket: //Your bucket ARN;
-    region: //Specify the region your bucket was created in;
-    identityPoolId: //Specify your identityPoolId for Auth and Unauth access to your bucket;
-});
 ```
 
 #### Put
