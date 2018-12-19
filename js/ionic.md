@@ -35,7 +35,7 @@ Please visit [Authentication Guide]({%if jekyll.environment == 'production'%}{{s
 {: .callout .callout--info}
 
 
-A configuration file is placed inside your configured source directory. To import the configuration file to your Ionic app, you will need to rename `aws_exports.js` to `aws_exports.ts`. You can setup your `package.json` npm scripts to rename the file for you, so that any configuration changes which result in a new generated `aws_exports.js` file get changed over to the `.ts` extension.
+A configuration file is placed inside your configured source directory. To import the configuration file to your Ionic app, you will need to rename `aws-exports.js` to `aws-exports.ts`. You can setup your `package.json` npm scripts to rename the file for you, so that any configuration changes which result in a new generated `aws-exports.js` file get changed over to the `.ts` extension.
 
 ```javascript	
 "scripts": {	
@@ -200,25 +200,12 @@ The component will emit two events:
 
  - `(picked)` - Emitted when an image is selected. The event will contain the `File` object which can be used for upload.
  - `(loaded)` - Emitted when an image preview has been rendered and displayed.
+ - `path` - An optional S3 image path (prefix).
+ - `storageOptions` - An object passed within the ‘options’ property in the Storage.put request. This can be used to set the permissions ‘level’ property of the objects being uploaded i.e. ‘private’, ‘protected’, or ‘public’.  
+ 
+ [Learn more about S3 permissions.]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/storage#file-access-levels).
 
-**Uploading Image**
 
-Use  `onImagePicked(event)` to upload your photo to S3 using AWS Amplify Storage category:
-
-```javascript
-onImagePicked( file ) {
-
-    let key = `pics/${file.name}`;
-    
-    this.amplify.storage().put( key, file, {
-      'level': 'private',
-      'contentType': file.type
-    })
-    .then (result => console.log('uploaded: ', result))
-    .catch(err => console.log('upload error: ', err));
-  
-}
-```
 ### S3 Album
 
 S3 Album component display a list of images from the connected S3 bucket.
@@ -237,7 +224,8 @@ To render the album, use *amplify-s3-album* component in your Angular view:
 </amplify-s3-album>
 ```
 
-`(selected)` event can be used to retrieve the URL of the clicked image on the list:
+- `options` - object which is passed as the 'options' parameter to the .get request.  This can be used to set the 'level' of the objects being requested (i.e. 'protected', 'private', or 'public'
+- `(selected)` event can be used to retrieve the URL of the clicked image on the list:
 
 ```javascript
 onAlbumImageSelected( event ) {
@@ -262,9 +250,30 @@ end of the conversation.
 
 See the [Interactions documentation]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/interactions) for information on creating an Amazon Lex Chatbot.
 
-### Custom Styles
+### XR
+
+#### Sumerian Scene
+
+The `amplify-sumerian-scene` component provides you with a prebuilt UI for loading and displaying Amazon Sumerian scenes inside of your website:
+
+{% include_relative common/scene-size-note.md %}
+
+```javascript
+// sceneName: the configured friendly scene you would like to load
+<amplify-sumerian-scene sceneName="scene1" framework="Ionic"></amplify-sumerian-scene>
+```
+
+See the [XR documentation]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/xr) for information on creating and publishing a Sumerian scene.
+
+### Styles
+
+To use the aws-amplify-angular components you will need to install '@aws-amplify/ui'.
+
+Add the following to your styles.css file to use the default styles:
+```@import '~aws-amplify-angular/theme.css';```
 
 You can use custom styling for AWS Amplify components. Just import your custom *styles.css* that overrides the default styles which can be found in `/node_modules/aws-amplify-angular/theme.css`.
+
 
 ## Angular 6 Support
 

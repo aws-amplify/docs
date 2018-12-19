@@ -8,7 +8,7 @@ PubSub provides connectivity with cloud-based message-oriented middleware. You c
 
 PubSub is available with **AWS IoT**. 
 
-When using AWS IoT your PubSub HTTP requests are automatically signed when sending your messages.
+Starting with version 12.1.1 iOS requires that publicly-trusted Transport Layer Security (TLS) server authentication certificates issued after October 15, 2018 meet the Certificate Transparency policy to be evaluated as trusted on Apple platforms. You must explicitly request an Amazon Trust Services endpoint for each region in your account. Any existing customer endpoint you have is most likely a VeriSign endpoint. If your endpoint has `-ats` at the end of the first subdomain, then it is an Amazon Trust Services endpoint. For more details read: https://aws.amazon.com/blogs/iot/aws-iot-core-ats-endpoints/
 {: .callout .callout--info}
 
 ## Installation and Configuration
@@ -25,7 +25,7 @@ The `Podfile` that you configure to install the AWS Mobile SDK must contain the 
     target :'YOUR-APP-NAME' do
       use_frameworks!
 
-        pod  'AWSIoT', '~> 2.7.0'
+        pod  'AWSIoT', '~> 2.8.0'
         # other pods
 
     end
@@ -44,7 +44,7 @@ Define your unique client ID and endpoint (incl. region) in your configuration:
 ```swift
 // Initialize the AWSIoTDataManager with the configuration
 let iotEndPoint = AWSEndpoint(
-    urlString: "wss://xxxxxxxxxxxxx.iot.<YOUR-AWS-REGION>.amazonaws.com/mqtt")
+    urlString: "wss://xxxxxxxxxxxxx-ats.iot.<YOUR-AWS-REGION>.amazonaws.com/mqtt")
 let iotDataConfiguration = AWSServiceConfiguration(
     region: AWSRegionType.<YOUR-AWS-REGION>,
     endpoint: iotEndPoint,
@@ -54,6 +54,9 @@ let iotDataConfiguration = AWSServiceConfiguration(
 AWSIoTDataManager.register(with: iotDataConfiguration!, forKey: ASWIoTDataManager)
 AWSIoTDataManager iotDataManager = AWSIoTDataManager(forKey: ASWIoTDataManager)                                               
 ```
+
+You can get the endpoint information from the IoT Core -> Settings page on the AWS Console.  
+{: .callout .callout--info}
 
 **Create IAM policies for AWS IoT**
 

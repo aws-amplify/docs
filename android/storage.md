@@ -61,9 +61,9 @@ Use the following steps to connect add file storage backend services to your app
 
 	```groovy
 	dependencies {
-	  implementation 'com.amazonaws:aws-android-sdk-s3:2.8.+'
-	  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
-	  implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.8.+@aar') { transitive = true }
+	  implementation 'com.amazonaws:aws-android-sdk-s3:2.9.+'
+	  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.9.+@aar') { transitive = true }
+	  implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.9.+@aar') { transitive = true }
 	}
 	```
 	Perform a `Gradle Sync` to download the AWS Mobile SDK components into your app.
@@ -466,6 +466,29 @@ Note: Please review the documentation for [API](./api) before you proceed with t
 {: .callout .callout--info}
 
 You can also upload and download Amazon S3 Objects using AWS AppSync, a GraphQL based solution to build data-driven apps with real-time and offline capabilities. Sometimes you might want to create logical objects that have more complex data, such as images or videos, as part of their structure.  _For example, you might create a Person type with a profile picture or a Post type that has an associated image_. You can use AWS AppSync to model these as GraphQL types. If any of your mutations have a variable with bucket, key, region, mimeType, and localUri fields, the SDK uploads the file to Amazon S3 for you.
+
+Attach the following policy to your IAM role to grant it programmatic read-write access to your bucket:
+
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["s3:ListBucket"],
+      "Resource": ["arn:aws:s3:::myBucket"]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject"
+      ],
+      "Resource": ["arn:aws:s3:::myBucket/*"]
+    }
+  ]
+}
+```
 
 ### Schema Setup
 If any mutations have an input type `S3ObjectInput` with fields `bucket`, `key`, `region`, `mimeType` and `localUri` fields, the SDK will upload the file to S3.
