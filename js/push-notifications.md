@@ -304,7 +304,7 @@ You can also use `aws-exports.js` file in case you have set up your backend with
 import { PushNotificationIOS } from 'react-native';
 import Analytics from '@aws-amplify/analytics';
 import PushNotification from '@aws-amplify/pushnotification';
-import aws_exports from './aws_exports';
+import aws_exports from './aws-exports';
 
 // PushNotification need to work with Analytics
 Analytics.configure(aws_exports);
@@ -314,10 +314,10 @@ PushNotification.configure(aws_exports);
 
 ## Working with the API
 
-You can use `onNotification` and `onRegister` event handlers to work with push notifications in your app. The following code shows how you can retrieve the notification data and registration token:
+You can use `onNotification`, `onRegister` and `onNotificationOpened` event handlers to work with push notifications in your app:
 
 ```javascript
-// get the notification data
+// get the notification data when notification is received
 PushNotification.onNotification((notification) => {
   // Note that the notification object structure is different from Android and IOS
   console.log('in app notification', notification);
@@ -329,6 +329,11 @@ PushNotification.onNotification((notification) => {
 // get the registration token
 PushNotification.onRegister((token) => {
   console.log('in app registration', token);
+});
+
+// get the notification data when notification is opened
+PushNotification.onNotificationOpened((notification) => {
+    console.log('the notification is opened', notification);
 });
 ```
 
