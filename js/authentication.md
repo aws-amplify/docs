@@ -458,13 +458,15 @@ const {
     token, // the token you get from the provider
     domainOrProviderName, // Either the domain of the provider(e.g. accounts.your-openid-provider.com) or the provider name, for now the library only supports 'google', 'facebook', 'amazon', 'developer'
     expiresIn, // the time in ms which describes how long the token could live
-    user  // the user object you defined, e.g. { username, email, phone_number }
+    user,  // the user object you defined, e.g. { username, email, phone_number }
+    identity_id // Optional, the identity id specified by the provider
 } = getFromProvider(); // arbitrary funcion
 
 Auth.federatedSignIn({
     domain,
     {
         token,
+        identity_id, // Optional
         expires_at: expiresIn * 1000 + new Date().getTime() // the expiration timestamp
     },
     user
