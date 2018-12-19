@@ -35,7 +35,7 @@ Please visit [Authentication Guide]({%if jekyll.environment == 'production'%}{{s
 {: .callout .callout--info}
 
 
-A configuration file is placed inside your configured source directory. To import the configuration file to your Ionic app, you will need to rename `aws_exports.js` to `aws_exports.ts`. You can setup your `package.json` npm scripts to rename the file for you, so that any configuration changes which result in a new generated `aws_exports.js` file get changed over to the `.ts` extension.
+A configuration file is placed inside your configured source directory. To import the configuration file to your Ionic app, you will need to rename `aws-exports.js` to `aws-exports.ts`. You can setup your `package.json` npm scripts to rename the file for you, so that any configuration changes which result in a new generated `aws-exports.js` file get changed over to the `.ts` extension.
 
 ```javascript	
 "scripts": {	

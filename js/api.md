@@ -1022,7 +1022,7 @@ const client = new AWSAppSyncClient({
   url: awsConfig.aws_appsync_graphqlEndpoint,
   region: awsConfig.aws_appsync_region,
   auth: {
-    type: AUTH_TYPE.IAM,
+    type: AUTH_TYPE.AWS_IAM,
     credentials: () => Auth.currentCredentials(),
   },
 });
@@ -1050,7 +1050,7 @@ const client = new AWSAppSyncClient({
   url: awsConfig.aws_appsync_graphqlEndpoint,
   region: awsConfig.aws_appsync_region,
   auth: {
-    type: AUTH_TYPE.IAM,
+    type: AUTH_TYPE.AWS_IAM,
     jwtToken: () => getOIDCToken(),
   },
 });
