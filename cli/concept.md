@@ -129,8 +129,8 @@ Each plugin stores contents in its own subfolder inside this folder.
 
 ## Amplify Files
 
-### amplify/amplify-meta.json file
-Both the `backend` and `##current-cloud-backend` directories contain an amplify-meta.json file.<br/>
+### amplify-meta.json file
+Both the `amplify/backend` and `amplify/##current-cloud-backend` directories contain an amplify-meta.json file.<br/>
 The amplify-meta.json in the `backend` directory serves as the whiteboard for the CLI core and the plugins to log information for themselves, and to communicate with each other. <br/><br/>
 The CLI core provides read and write access to the file for the plugins.<br/>
 The CLI core collects the selected providers' outputs after init and logs them under the "providers" object, e.g. the awscloudformation provider outputs the information of the root stack, the deployment S3 bucket, and the authorized/unauthorized IAM roles, and they are logged under the providers.awscloudformation object<br/><br/>
