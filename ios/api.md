@@ -534,7 +534,7 @@ appSyncClient?.sync(baseQuery: baseQuery, baseQueryResultHandler: baseQueryResul
 
 **Example**
 
-The following section walks through the details of creating an app using Delta Sync. We will use a simple Posts App that has a view that displays a list of posts and keeps it synchronized using the Delta Sync functionality. We will use a Map object called `allPosts` to collect and manage the posts and a UIViewController to power the UI.
+The following section walks through the details of creating an app using Delta Sync. We will use a simple Posts App that has a view that displays a list of posts and keeps it synchronized using the Delta Sync functionality. We will use an array called `postList` to collect and manage the posts and a UIViewController to power the UI.
 
 **Create Sync Handler Function**
 
@@ -785,7 +785,7 @@ Add `AWSAPIGateway` to your Podfile:
 	  use_frameworks!
 
 	     # For API
-	     pod 'AWSAPIGateway', '~> 2.7.0'
+	     pod 'AWSAPIGateway', '~> 2.8.0'
 	     # other pods
 	end
 ```

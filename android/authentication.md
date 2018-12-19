@@ -111,11 +111,11 @@ After initialization in your project directory with `amplify init`, update your 
 
 ```groovy
 //For AWSMobileClient only:
-implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.8.+'
+implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.9.+'
 
 //For the drop-in UI also:
-implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.8.+'
-implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.8.+'
+implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.9.+'
+implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.9.+'
 ```
 
 For the `AWSMobileClient` alone you can have a minimum SDK version of **15**, but for the drop-in UI you will need a minimum of **23** set in your `build.gradle`:
@@ -199,7 +199,7 @@ AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<U
 
         @Override
         public void onResult(UserStateDetails userStateDetails) {
-            Log.i("INIT", userStateDetails.getUserState());
+            Log.i("INIT", "onResult: " + userStateDetails.getUserState());
         }
 
         @Override
@@ -496,6 +496,113 @@ AWSMobileClient.getInstance().confirmSignIn(signInChallengeResponse, new Callbac
 });
 ```
 
+### Force Change Password
+
+ If a user is required to change their password on first login, there is a `NEW_PASSWORD_REQUIRED` state returned when `signIn` is called. You need to provide a new password given by the user in that case. It can be done using `confirmSignIn` with the new password.
+ 
+ ```java
+AWSMobileClient.getInstance().signIn("username", "password", null, new Callback<SignInResult>() {
+    @Override
+    public void onResult(final SignInResult signInResult) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "Sign-in callback state: " + signInResult.getSignInState());
+                switch (signInResult.getSignInState()) {
+                    case DONE:
+                        makeToast("Sign-in done.");
+                        break;
+                    case NEW_PASSWORD_REQUIRED:
+                        makeToast("Please confirm sign-in with new password.");
+                        break;
+                    default:
+                        makeToast("Unsupported sign-in confirmation: " + signInResult.getSignInState());
+                        break;
+                }
+            }
+        });
+    }
+     @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "Sign-in error", e);
+    }
+});
+
+AWSMobileClient.getInstance().confirmSignIn("NEW_PASSWORD_HERE", new Callback<SignInResult>() {
+    @Override
+    public void onResult(SignInResult signInResult) {
+        Log.d(TAG, "Sign-in callback state: " + signInResult.getSignInState());
+        switch (signInResult.getSignInState()) {
+            case DONE:
+                makeToast("Sign-in done.");
+                break;
+            case SMS_MFA:
+                makeToast("Please confirm sign-in with SMS.");
+                break;
+            default:
+                makeToast("Unsupported sign-in confirmation: " + signInResult.getSignInState());
+                break;
+        }
+    }
+     @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "Sign-in error", e);
+    }
+});
+```
+
+### Forgot Password
+
+Forgot password is a 2 step process. You need to first call `forgotPassword()` method which would send a confirmation code to user via email or phone number. The details of how the code was sent are included in the response of `forgotPassword()`. Once the code is given by the user, you need to call `confirmForgotPassword()` with the confirmation code to confirm the change of password.
+
+```java
+AWSMobileClient.getInstance().forgotPassword("username", new Callback<ForgotPasswordResult>() {
+    @Override
+    public void onResult(final ForgotPasswordResult result) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "forgot password state: " + result.getState());
+                switch (result.getState()) {
+                    case CONFIRMATION_CODE:
+                        makeToast("Confirmation code is sent to reset password");
+                    default:
+                        Log.e(TAG, "un-supported forgot password state");
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "forgot password error", e);
+    }
+});
+
+AWSMobileClient.getInstance().confirmForgotPassword("NEW_PASSWORD_HERE", "CONFIRMATION_CODE", new Callback<ForgotPasswordResult>() {
+    @Override
+    public void onResult(final ForgotPasswordResult result) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "forgot password state: " + result.getState());
+                switch (result.getState()) {
+                    case DONE:
+                        makeToast("Password changed successfully");
+                    default:
+                        Log.e(TAG, "un-supported forgot password state");
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "forgot password error", e);
+    }
+});
+```
+
 ### SignOut
 
 ```java
@@ -713,15 +820,15 @@ Add the following dependencies to your `app/build.gradle` file:
 ```groovy
 dependencies {
     // Mobile Client for initializing the SDK
-    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.9.+@aar') { transitive = true }
 
     // Facebook SignIn
     implementation 'com.android.support:support-v4:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-facebook:2.8.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-facebook:2.9.+@aar') { transitive = true }
 
     // Sign in UI
     implementation 'com.android.support:appcompat-v7:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.8.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.9.+@aar') { transitive = true }
 }
 ```
 
@@ -811,15 +918,15 @@ Add the following dependencies to your `app/build.gradle` file:
 ```groovy
 dependencies {
     // Mobile Client for initializing the SDK
-    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.9.+@aar') { transitive = true }
 
     // Google SignIn
     implementation 'com.android.support:support-v4:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-google:2.8.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-google:2.9.+@aar') { transitive = true }
 
     // Sign in UI Library
     implementation 'com.android.support:appcompat-v7:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.8.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.9.+@aar') { transitive = true }
 }
 ```
 
