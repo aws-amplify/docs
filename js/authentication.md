@@ -118,6 +118,15 @@ Auth.signIn(username, password)
     .then(user => console.log(user))
     .catch(err => console.log(err));
 
+// For advanced usage
+// You can pass an object which has the username, password and validationData which is sent to a PreAuthentication Lambda trigger
+Auth.signIn({
+    username, // Required, the username
+    password, // Optional, the password
+    validationData, // Optional, a random key-value pair map which can contain any key and will be passed to your PreAuthentication Lambda trigger as-is. It can be used to implement additional validations around authentication
+}).then(user => console.log(user))
+.catch(err => console.log(err));
+
 // If MFA is enabled, sign-in should be confirmed with the confirmation code
 // `user` : Return object from Auth.signIn()
 // `code` : Confirmation code  
@@ -318,7 +327,7 @@ To display a sign-out button or customize other, set `includeGreetings = true` i
 ```jsx
 export default withAuthenticator(App, 
                 // Render a sign out button once logged in
-                includeGreetings = false, 
+                includeGreetings = true, 
                 // Show only certain components
                 authenticatorComponents = [MyComponents],
                 // display federation/social provider buttons 
@@ -449,13 +458,15 @@ const {
     token, // the token you get from the provider
     domainOrProviderName, // Either the domain of the provider(e.g. accounts.your-openid-provider.com) or the provider name, for now the library only supports 'google', 'facebook', 'amazon', 'developer'
     expiresIn, // the time in ms which describes how long the token could live
-    user  // the user object you defined, e.g. { username, email, phone_number }
+    user,  // the user object you defined, e.g. { username, email, phone_number }
+    identity_id // Optional, the identity id specified by the provider
 } = getFromProvider(); // arbitrary funcion
 
 Auth.federatedSignIn({
     domain,
     {
         token,
+        identity_id, // Optional
         expires_at: expiresIn * 1000 + new Date().getTime() // the expiration timestamp
     },
     user
@@ -1461,7 +1472,7 @@ To initiate a custom authorization flow in your app, call `signIn` without a pas
 import { Auth } from 'aws-amplify';
 let challengeResponse = "the answer for the challenge";
 
-Auth.signIn(username)
+Auth.signIn({username: username})
     .then(user => {
         if (user.challengeName === 'CUSTOM_CHALLENGE') {
             Auth.sendCustomChallengeAnswer(user, challengeResponse)
@@ -1639,7 +1650,7 @@ render() {
 
 ### Composing Your Own Authenticator
 
-`Authenticator` is designed as a container for a number of Auth components. Each component does a single job, e.g., SignIn, SignUp, etc. By default, all of this elements are visible depending on the authentication state. 
+`Authenticator` is designed as a container for a number of Auth components. Each component does a single job, e.g., SignIn, SignUp, etc. By default, all of these elements are visible depending on the authentication state. 
 
 If you want to replace some or all of the Authenticator elements, you need to set `hideDefault={true}`, so the component doesn't render its default view. Then you can pass in your own set of child components that listen to `authState` and decide what to do. 
 
@@ -1666,7 +1677,7 @@ The *Greetings* component has two states: signedIn, and signedOut. To customize 
 
 ### Customize `withAuthenticator`
 
-The `withAuthenticator` HOC gives you some nice default authentication screens out-of-box. If you want to use your own components rather then provided default components, you can pass the list of customized components to `withAuthenticator`:
+The `withAuthenticator` HOC gives you some nice default authentication screens out-of-box. If you want to use your own components rather than provided default components, you can pass the list of customized components to `withAuthenticator`:
 
 ```javascript
 import React, { Component } from 'react';
