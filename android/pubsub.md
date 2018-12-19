@@ -18,15 +18,15 @@ In the PubSub category, `AWSIoTMqttManager` establishes a signed connection with
 
 Set up AWS Mobile SDK components by including the following libraries in your `app/build.gradle` dependencies list.
 
-    ```groovy
-    dependencies {
-      implementation 'com.amazonaws:aws-android-sdk-iot:2.8.+'
-      implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
-    }
-    ```
+```groovy
+dependencies {
+  implementation 'com.amazonaws:aws-android-sdk-iot:2.9.+'
+  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.9.+@aar') { transitive = true }
+}
+```
 
-    * `aws-android-sdk-iot` library enables connecting to AWS IoT.
-    * `aws-android-sdk-mobile-client` library gives access to the AWS credentials provider and configurations.
+* `aws-android-sdk-iot` library enables connecting to AWS IoT.
+* `aws-android-sdk-mobile-client` library gives access to the AWS credentials provider and configurations.
 
 To use in your app, import the following classes:
 
@@ -42,8 +42,10 @@ Define your unique client ID and endpoint (incl. region) in your configuration:
 // Initialize the AWSIotMqttManager with the configuration
 AWSIotMqttManager mqttManager = new AWSIotMqttManager(
 	"<YOUR_CLIENT_ID>", 
-	"wss://xxxxxxxxxxxxx.iot.<YOUR-AWS-REGION>.amazonaws.com/mqtt");
+	"wss://xxxxxxxxxxxxx-ats.iot.<YOUR-AWS-REGION>.amazonaws.com/mqtt");
 ```
+You can get the endpoint information from the IoT Core -> Settings page on the AWS Console.
+{: .callout .callout--info}
 
 **Create IAM policies for AWS IoT**
 
@@ -66,6 +68,25 @@ Then, you need to attach the `myIOTPolicy` policy to the user's *Cognito Identit
 
 ```bash
 aws iot attach-principal-policy --policy-name 'myIOTPolicy' --principal '<YOUR_COGNITO_IDENTITY_ID>'
+```
+
+To programmatically attach the `myIOTPolicy` policy to the user's *Cognito Identity Id*, import the following classes:
+
+```java
+import com.amazonaws.services.iot.AWSIotClient;
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.services.iot.model.AttachPolicyRequest;
+```
+
+Next, instantiate the `AttachPolicyRequest` class and attach it your IoT Client as follows:
+
+```java
+AttachPolicyRequest attachPolicyReq = new AttachPolicyRequest();
+attachPolicyReq.setPolicyName("myIOTPolicy"); // name of your IOT AWS policy
+attachPolicyReq.setTarget(AWSMobileClient.getInstance().getIdentityId());
+AWSIotClient mIotAndroidClient = new AWSIotClient(AWSMobileClient.getInstance());
+mIotAndroidClient.setRegion(Region.getRegion("<YOUR-AWS-REGION>")); // name of your IoT Region such as "us-east-1"
+mIotAndroidClient.attachPolicy(attachPolicyReq);
 ```
 
 ## Working with the API

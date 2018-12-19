@@ -121,7 +121,7 @@ amplify<br/>
 #### amplify/.config folder
 It contains files that store the configuration settings.
 #### amplify/##current-cloud-backend folder
-It contains the backend resources specifications in the cloud from the last synchronization, by the push or pull command.
+It contains the backend resources specifications in the cloud from the last synchronization, by the push or pull (to be implemented) command.
 Each plugin stores contents in its own subfolder inside this folder. 
 #### amplify/backend folder
 It contains the latest local development of the backend resources specifications to be pushed to the cloud. 
@@ -129,8 +129,8 @@ Each plugin stores contents in its own subfolder inside this folder.
 
 ## Amplify Files
 
-### amplify/amplify-meta.json file
-Both the `backend` and `##current-cloud-backend` directories contain an amplify-meta.json file.<br/>
+### amplify-meta.json file
+Both the `amplify/backend` and `amplify/##current-cloud-backend` directories contain an amplify-meta.json file.<br/>
 The amplify-meta.json in the `backend` directory serves as the whiteboard for the CLI core and the plugins to log information for themselves, and to communicate with each other. <br/><br/>
 The CLI core provides read and write access to the file for the plugins.<br/>
 The CLI core collects the selected providers' outputs after init and logs them under the "providers" object, e.g. the awscloudformation provider outputs the information of the root stack, the deployment S3 bucket, and the authorized/unauthorized IAM roles, and they are logged under the providers.awscloudformation object<br/><br/>
@@ -192,4 +192,4 @@ This will place the aws cloudformation template for the resources of this catego
 
 ### amplify push
 Once the resources of the categories are done been added or updated locally, run the command `amplify push` to update the backend resources in the cloud. <br/>
-The CLI will first upload the latest versions of the categories' nested stack templates to the S3 deployment bucket, and then call the AWS CloudFormation API to create / update resources in the cloud.
+The CLI will first upload the latest versions of the categories' nested stack templates to the S3 deployment bucket, and then call the AWS CloudFormation API to create / update resources in the cloud. Based upon the resources added/updated, the `aws-exports.js` file (for JS projects) and the `awsconfiguration.json` file (for native projects) gets created/updated.

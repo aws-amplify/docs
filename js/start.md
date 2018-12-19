@@ -10,25 +10,9 @@ This page is a guide to quickly build a cloud-powered mobile or web app with AWS
 
 Use the drop-down menu at the top right of this page to choose the framework for your app.
 
-## Step 0. Development Environment 
+## Prerequisites 
 
-Install the Amplify CLI. If you have already installed the CLI, skip ahead to [Step 1. Create a New App](#step-1-create-a-new-app).
-
-- <a href="https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start" target="_blank">Sign up for an AWS Account</a>
-- Install <a href="https://nodejs.org/en/download/" target="_blank">Node.js®</a> and <a href="https://www.npmjs.com/get-npm" target="_blank">npm</a> if they are not already on your machine.
-
-Verify that you are running at least Node.js version 8.11+ or greater and npm version 5.x or greater by running `node -v` and `npm -v` in a terminal/console window.
-{: .callout .callout--action}
-
-- Install and configure the Amplify CLI.
-
-```bash
-$ npm install -g @aws-amplify/cli
-$ amplify configure
-```
-
-Note: These commands will install the CLI globally. If you're using Windows, the CLI currently supports <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10" target="_blank">Windows Subsystem for Linux</a>.
-{: .callout .callout--action}
+[Install and configure the Amplify CLI](..)
 
 ## Step 1. Create a New App
 
@@ -334,7 +318,7 @@ $ amplify init
 ```
 
 <div id="angular" class="tab-content">
-> When asked for the distribution directory (the directory that will be uploaded to S3), answer `dist/MyAngularApp`. If you did not use the name in this tutorial, change "MyAngularApp" with the name of your application. You can run an `ng build` and check your `dist` directory to see what the name is and re-run `amplify configure project` to change your dist directory setting.
+> When asked for the distribution directory (the directory that will be uploaded to S3), answer `dist/myAmplifyProject`. If you did not use the name in this tutorial, change "myAmplifyProject" with the name of your application. You can run an `ng build` and check your `dist` directory to see what the name is and re-run `amplify configure project` to change your dist directory setting.
 </div>
 
 **Create the Required AWS Backend Resources**
@@ -365,7 +349,7 @@ Create the AWS backend resources and update the aws-exports.js file.
 $ amplify push
 ```
 
-> A configuration file (`aws-exports.js`) will be added to the source directory.
+> A configuration file (`aws-exports.js`) will be added to the source directory. (`Source Directory Path` question during `amplify init`)
 
 ## Step 4. Integrate AWS Resources
 
@@ -639,7 +623,7 @@ Then, add the following to your `src/app/app.component.html` file:
 <div id="ionic" class="tab-content">
 After creating your backend, the configuration file is copied to `/amplify/#current-cloud-backend/aws-exports.js`, and the source folder you have identified in the `amplify init` command.
 
-To import the configuration file to your Ionic app, you will need to rename `aws_exports.js` to `aws_exports.ts`. You should make sure that your `package.json` scripts also rename the file upon build, so that any configuration changes which result in the download of an `aws_exports.js` from AWS Mobile Hub get changed over to the ts extension.
+To import the configuration file to your Ionic app, you will need to rename `aws-exports.js` to `aws-exports.ts`. You should make sure that your `package.json` scripts also rename the file upon build, so that any configuration changes which result in the download of an `aws-exports.js` from AWS Mobile Hub get changed over to the ts extension.
 ```javascript	
 "scripts": {	
     "start": "[ -f src/aws-exports.js ] && mv src/aws-exports.js src/aws-exports.ts || ng serve; ng serve",	

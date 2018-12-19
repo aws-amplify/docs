@@ -104,13 +104,13 @@ Note: You can restrict the access to your bucket by updating AllowedOrigin to in
 
 ### File Access Levels
 
-Storage module can manage files with three different access levels; `public`, `protected` and `private`.
+Storage module can manage files with three different access levels; `public`, `protected` and `private`. The Amplify CLI configures three different access levels on the storage bucket: public, protected and private. When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool Role. If you had previously enabled user sign-in by running `amplify add auth` in your project, the policies will be connected to an `Authenticated Role` of the Identity Pool which has scoped permission to the objects in the bucket for each user identity. If you haven't configured user sign-in, then an `Unauthenticated Role` will be assigned for each unique user/device combination, which still has scoped permissions to just their objects.
 
-Files with public access level can be accessed by all users who are using your app. In S3, they are stored under the `public/` path in your S3 bucket.
+* Public: Accessible by all users of your app. Files are stored under the `public/` path in your S3 bucket.
+* Protected: Readable by all users, but writable only by the creating user. Files are stored under `protected/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
+* Private: Only accessible for the individual user. Files are stored under `private/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
 
-Files with protected access level are readable by all users but writable only by the creating user. In S3, they are stored under `protected/{user_identity_id}/` where the **user_identity_id** corresponds to a unique Amazon Cognito Identity ID for that user.
-
-Files with private access level are only accessible for specific authenticated users only. In S3, they are stored under `private/{user_identity_id}/` where the **user_identity_id** corresponds to a unique Amazon Cognito Identity ID for that user.
+When using Auth and Storage modules together, you do not need to construct the `/{user_identity_id}/` manually as the library will use the configured Cognito Identity ID for your user/device along with the configured access level for an action. This includes UnAuthenticated access where you will first call `Auth.currentCredentials()` before a Storage action. See [Authentication](./authentication) for more information.
 
 The access level can be configured on the Storage object globally. Alternatively, the access levels can be set in individual function calls.
 

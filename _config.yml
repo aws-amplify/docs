@@ -52,6 +52,7 @@ kramdown:
 plugins:
   - jekyll-feed
   - jekyll-sitemap
+  - jekyll-redirect-from
 future: true
 
 
@@ -154,7 +155,11 @@ android_category_list:
           cta: Read more
           class: aws-icon-ps-60-network-nodes
           icon: '/images/icons/Misc/Tool.svg'
-          url: '/js/graphql?sdk=android'
+          url: '/cli/graphql?sdk=android'
+        - title: Environments & Teams (beta)
+          excerpt: Setup multiple enviornments for your app and work with teams on your app.
+          url: '/cli/multienv?sdk=android'
+          icon: '/images/icons/Misc/Present.svg'
     - category: API Guides
       title: API Guides
       excerpt: Add cloud features to your app quickly using our toolchain and declarative APIs.
@@ -275,7 +280,11 @@ ios_category_list:
           cta: Read more
           class: aws-icon-ps-60-network-nodes
           icon: '/images/icons/Misc/Tool.svg'
-          url: '/js/graphql?sdk=ios'
+          url: '/cli/graphql?sdk=ios'
+        - title: Environments & Teams (beta)
+          excerpt: Setup multiple enviornments for your app and work with teams on your app.
+          url: '/cli/multienv?sdk=ios'
+          icon: '/images/icons/Misc/Present.svg'
     - category: API Guides
       title: API Guides
       excerpt: Add cloud features to your app quickly using our toolchain and declarative APIs.
@@ -427,7 +436,11 @@ category_list:
           cta: Read more
           class: aws-icon-ps-60-network-nodes
           icon: '/images/icons/Misc/Tool.svg'
-          url: '/js/graphql'
+          url: '/cli/graphql?sdk=js'
+        - title: Environments & Teams (beta)
+          excerpt: Setup multiple enviornments for your app and work with teams on your app.
+          url: '/cli/multienv?sdk=js'
+          icon: '/images/icons/Misc/Present.svg'
     - category: Categories
       title: API Guides
       excerpt: Add cloud features to your app quickly using our toolchain and declarative APIs.
