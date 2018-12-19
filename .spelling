@@ -173,6 +173,7 @@ _new
 myangularapp
 js
 tsconfig
+myAmplifyProject
 
 # js/service-workers.md
 ServiceWorker
@@ -745,6 +746,10 @@ uploadData
 # ios/interactions.md
 UIView
 xib
+
+# ios/pubsub.md
+VeriSign
+subdomain
 
 # ios/push-notifications.md
 Hoc
