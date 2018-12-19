@@ -78,6 +78,23 @@ You can now use `amplify publish` to build and publish your app again. This time
 
 > API & property details for the `Authenticator` and `withAuthenticator` HOC are available in the [Authentication Guide](/docs/js/authentication#using-components-in-react--react-native).
 
+#### SignUp Configuration
+The SignUp component provides your users with the ability to sign up.  It is included as part of the ```Authenticator``` component.
+
+Usage: 
+```<Authenticator signUpConfig={signUpConfig}/>```
+
+It can also be used as part of the authentication HOC:
+```export default withAuthenticator(App, { signUpConfig });```
+
+The SignUp Component accepts a 'signUpConfig' object which allows you to customize it.
+
+{% include sign-up-attributes.html %}
+
+The signUpFields array in turn consist of an array of objects, each describing a field that will appear in sign up form that your users fill out:
+
+{% include sign-up-fields.html %}
+
 ## Add Analytics and Storage
 
 Next, we'll add some features, like tracking user behavior analytics and uploading/downloading images in the cloud. Start by running `amplify add analytics` in your project. You can enable analytics for authenticated users only, or for users that aren't authenticated. You would be prompted to ask whether you want to allow guests and unauthenticated users to send analytics events, so you can choose `Yes`. You can also try a new project without authentication configured to test this feature.
