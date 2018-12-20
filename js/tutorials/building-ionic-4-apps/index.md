@@ -1162,7 +1162,7 @@ $ amplify add codegen
 Run the following command to generate queries and mutations:
 
 ```bash
-amplify codegen statements  
+$ amplify codegen statements  
 ```
  
 The CLI creates and saves your generated queries/mutations under '/graphql' folder (unless you provide another when prompted).
@@ -1338,23 +1338,22 @@ You’ve added persisted your app's data using AWS AppSync and Amazon DynamoDB.
 
 ## What's next
 
-You have completed this tutorial. Here are some of ideas to improve your app even more.
+You have completed this tutorial. If you like to improve your app even more, here are some of ideas you can work on.
 
-**Using AppSync Subscriptions**
+**Use AppSync Subscriptions**
 
 In addition to queries and mutations, you can use AWS AppSync subscriptions to enable real-time data for your app. Think of a user experience which you share your todo list with your friends and all of you create/edit items at the same time. Learn more about subscriptions [here](https://aws-amplify.github.io/docs/js/api#subscriptions).
 
-**Displaying User Data**
+**Display User Data**
 
 When a user is logged in, you may like to use the user's profile information in your app, like displaying the username or picture. Learn more about User Attributes [here](https://aws-amplify.github.io/docs/js/authentication#working-with-user-attributes). 
 
-** Task Search **
+**Add Search**
 
-Imagine providing search functionality to your users. This is very easy by adding a `@searchable` directive in your GraphQL schema.  Learn more about @searchable [here](https://aws-amplify.github.io/docs/cli/graphql#searchable). 
+You can add a serarch functionality to your app. This is very easy by adding a `@searchable` directive in your GraphQL schema. Learn more about this [here](https://aws-amplify.github.io/docs/cli/graphql#searchable). 
 
-**Adding  an Image Field**
+**Add Image**
 
-You can enable an image attachment feature for todo items. This can be simply done by enabling complex object types in your GraphQL schema.   Learn more about [here](https://aws-amplify.github.io/docs/cli/graphql#s3-objects). 
-
+You can enable an image attachment feature for todo items. This can be simply done by enabling complex object types in your GraphQL schema. Learn more about [here](https://aws-amplify.github.io/docs/cli/graphql#s3-objects). 
 
  
