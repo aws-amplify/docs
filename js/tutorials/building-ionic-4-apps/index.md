@@ -7,22 +7,18 @@ Building a 'Todo List' mobile app with AWS Amplify and Ionic 4
 Overview
 --------
 
-In this tutorial, you will create an Ionic 4 ‘Todo List’ app that connects to a serverless backend via the Amplify Framework.
+In this tutorial, you will create an Ionic 4 ‘Todo List’ app that connects to a serverless backend via the Amplify Framework. The app will provide user authentication with Amazon Cognito,  in-app analytics with Amazon Pinpoint, and it will be connected to a serverless GraphQL backend with AWS AppSync.
 
-The Amplify Framwework and the Amplify CLI enable frontend developers to build apps quickly with a simplified workflow to provision and integrate backend resources.  In this tutorial, you will learn how to create a cloud-enabled web app from the scratch with Ionic and AWS Amplify.
+![](images/app-todo-final-home.png){: class="screencap" style="max-height:500px;"}
+
+The Amplify Framework enables frontend developers to build apps quickly with a simplified workflow.  In this tutorial, you will learn how to create a cloud-enabled Ionic app from scratch using the Amplify Framework.
 
 **By completing this tutorial, you will be able to:**
 - Bootstrap an Ionic 4 app with Ionic CLI, and customize the starter app 
 - Install and configure the Amplify Framework in your app
 - Create and manage your app's backend with the Amplify CLI
-- Integrate authentication to your app
-- Create and deploy a GraphQL backend for your app and use it in your app
-
-**The final app:**
-
-By the end of the tutorial, you will have an Ionic 4 app with which will have features such as user authentication (sign-in and sign-out) with Amazon Cognito, tracking in-app analytics with Amazon Pinpoint and storing application data to a serverless GraphQL backend with AWS AppSync.
-
-![](images/app-todo-final-home.png){: class="screencap" style="max-height:500px;"}
+- Add cloud-based authentication to your app
+- Create and use a GraphQL backend  
 
 ## {{site.data.concepts.prerequisites_js.header}}
 
@@ -35,38 +31,15 @@ You can directly copy and paste code snippets from the tutorial as you are follo
 ## Content
 
 Here is the sequence of the tutorial:
-- [Getting Ready: Install and Configure Amplify CLI](#install-and-configure-aws-amplify)
 - [Part 1: Creating the App](#part-1-create-an-ionic-4-app)
-- [Part 2: Adding Cloud Features](#part-2-working-with-aws-mobile-cli)
-- [Part 3: Enabling GraphQL Backend](#part-3-adding-authentication)
+- [Part 2: Adding Cloud Features](#part-2-adding-cloud-features)
+- [Part 3: Enabling GraphQL Backend](#part-3-enabling-graphql-backend)
 
-## Install Amplify CLI
-
-Amplify CLI is the command line tool that you will use to create and manage the backend for your Ionic app. Through the tutorial, you will use Amplify CLI or simplifying many operations when building your app. The CLI enables you to provision and configure you app's backend quickly, without leaving the command line!
-
-**Installing and Configuration the CLI:**
-
-To use Amplify CLI with your project, you need to install it your local machine and configure it with your AWS credentials. Configuration is a one-time effort; once you configure the CLI you can work on multiple project on your local machine. Since the CLI will create backend resources for you, it needs to utilize an AWS account with appropriate IAM permissions. During the configuration step, a new IAM role will be automatically created on your AWS account.  
-
-To install and configure Amplify CLI, run the following commands:
-```bash
-$ npm install -g @aws-amplify/cli
-$ npm amplify configure
-```
-
-**Amplify CLI and AWS Console**
-
-The backend resources that will be created by the CLI will also be available to you through the AWS Console, e.g.: you can access your Amazon Cognito User Pool on the AWS Console when new users register on your app. Nevertheless, for the purposes of this tutorial, you won't need to visit AWS Console.
-
-To learn about Amplify CLI, visit the [CLI developer documentation](../cli/init){: target='_new'}.
-{:.callout .callout--info}
+---
 
 # Part 1: Create an Ionic 4 App
 
-This section will introduce Ionic basics, and you will learn how to bootstrap a new Ionic app with the Ionic CLI. In subsequent parts of the tutorial, you will add cloud functionality to your application.
-
-The source code for this section of the tutorial can be found in *tutorial-part-1* branch of the [project Github repo](https://github.com/aws-samples/aws-amplify-ionic-sample/tree/tutorial-part-1).
-{: .callout}
+This section introduces Ionic basics. You will learn how to bootstrap a new Ionic app with the Ionic CLI. In subsequent parts of the tutorial, you will gradually add new cloud functionality to your application.
 
 ## What is Ionic?
 
@@ -74,7 +47,7 @@ Ionic is a web development framework that allows developers to create cross-plat
 
 Apache Cordova is an open source mobile development platform that runs web code (HTML, CSS, and JavaScript) in a WebView wrapped in a mobile app shell.  Since it is native code, it can be distributed on the app stores just like any other mobile app and presented as an app on mobile platforms.
 
-## Install the Ionic CLI and Create the Base Project
+## Install the Ionic CLI and Create the Template Project
 
 The easiest way to create an Ionic 4 application is with the Ionic Command Line Interface (CLI). To install the Ionic CLI, run the following command in your terminal:
 
@@ -82,12 +55,12 @@ The easiest way to create an Ionic 4 application is with the Ionic Command Line 
 $ npm install -g ionic cordova
 ```
 
-After installation, go to a location where you wish to start your new project and execute the following command to create a new Ionic app that uses a tabbed navigation template:
+After the installation, go to a location where you wish to start your new application project and execute the following command to create a new Ionic app with tabbed navigation app template:
 
 ```bash
 $ ionic start fancy-todos tabs --type=angular
 ```
-Ionic CLI will prompt some questions for you:
+Ionic CLI will prompt some questions:
 
 ```bash
 ? Integrate your new app with Cordova to target native iOS and Android?
@@ -107,7 +80,7 @@ Now, you have a new Ionic project called *fancy-todos*! You can switch to your p
 $ cd fancy-todos 
 ```
 
-Amplify Framework provides npm packages for installation. *aws-amplify* is the core package and *aws-amplify-angular* include UI components and Angular service that you can use with Ionic app. 
+Amplify Framework provides npm packages for installation. *aws-amplify* is the core package and *aws-amplify-angular* includes UI components and Angular modules that you will use when building you Ionic app. 
 
 Run the following commands to install required packages:
 ```bash
@@ -115,19 +88,19 @@ $ npm install aws-amplify
 $ npm install aws-amplify-angular
 ```
 
-Note that we have installed required packages in this step but we have not configured and backend services. 
+Note that you have installed required packages in this step, but we have not configured any backend services yet. 
 
 ## Working with Ionic
 
-Before start working with Ionic, lets take a step back and explain our app building strategy;  we will first build a fully working Ionic app (with local/mock data) and later we will connect it to the cloud. This strategy will help you better understand the building blocks of an Ionic app how we can quickly enable cloud features with Amplify for new or existing applications.
+Before start working with Ionic, let's take a step back and define our app building strategy;  we will first build a fully working Ionic app (with local/mock data), and then we will connect it to the cloud. This strategy will help you better understand the building blocks of an Ionic app, and how you can quickly enable cloud features for new or existing applications.
 
-**Angular Components:**
+**Angular Modules:**
 
 Previous versions of Ionic made use of the Angular framework, and Ionic 4 is no exception. Angular provides a component-based architecture in which the application consists of *components*, and *components* are executed in the context of a *module*.
 
-Each component typically consists of an HTML template, a module file, a component file, an SCSS (SASS stylesheet) file and a .spec file that includes tests. This file organization encourages developers to write code that is easy to understand, extend, and debug.
+Each module typically consists of an HTML template, a module file, a component file, an .scss stylesheet, and a .spec file that includes tests. This file organization encourages developers to write code that is easy to understand, extend, and debug.
 
-As an example, when we will build our HomeTab module - that will also host our auth feature - the associated folder structure will be like this:
+As an example, when we will build our HomeTab module, the  folder structure for the module will look like this:
 ```
 /src
   /app
@@ -138,37 +111,51 @@ As an example, when we will build our HomeTab module - that will also host our a
       - homeTab.page.ts
 ```
 
-Remember that you have created a ‘tabs’ starter app with Ionic CLI. So, each of our tabs will be a separate module, which in turn consists of one component each. Just check your *src/app/* folder to see what other modules are created by the Ionic CLI.
+Remember that you have created a ‘tabs’ starter app with Ionic CLI. So, each of our tabs will be a separate module, which in turn consists of one component each.  Check your *src/app/* folder to see what other modules are initially created by the Ionic CLI.
 
-**Why do you need modules?**
+**Why do we use modules and components?**
 
-Modules provide a nice abstraction for the different parts of your code, and they help you to organize your code as your application grows bigger. Through this tutorial, what you will create the following building blocks for your Ionic app:
-- **HomeTab** module where we will render Amplify Auth UI
+Modules and components provide a nice abstraction for the different parts of your code, and they help you to organize your code as your application grows bigger. 
+
+Through this tutorial,  you will create the following modules and components for your Ionic app:
+- **HomeTab** module where we will place Amplify Auth UI
 - **ListTab** module where our Todos will be listed  
 - **ListItemModal** component which will provide the UI for creating/editing todo items  
 
 **Testing your Ionic App**
 
-You can test your Ionic app in a browser by running:
+You can test your Ionic app anytime in a browser by running:
 ```
 $ ionic serve
+```
+
+To test your app in iOS simulator, run:
+```bash
+$ ionic cordova run ios -l
+```
+
+Note:  If you attempt to run your app in the iOS emulator but only see a blank screen, try running:
+
+```bash
+$ ionic cordova plugin rm cordova-plugin-ionic-webview
+$ ionic cordova plugin add cordova-plugin-ionic-webview@2.0.0-beta.1
 ```
 
 When you run your app at this stage, you will see the default view of the starter app:
 
 ![](images/ionic-starter-app.png){: class="screencap" style="max-height:500px;"}
 
-Our goal is to customize the start app's tabs, so that first tab (Home Page) will be the login screen and the second tab (Todo List) will include the list of todo items. You will be basically creating your components and replacing your components on tabs.
+Our goal is to customize the start app's tabs, so that first tab (Home Page) will be the login screen and the second tab (Todo List) will include the list of todo items. 
 
-## Code Utilities 
+## Create Utilities 
 
-Before moving on to building our modules, let's create some pieces of code that you will help us a lot in our app.
+Before moving on to our modules, let's create some common utilities that our modules will share.
 
-### Define the Data Model
+### Create the Data Model
 
-It is always a good idea to define our data model before start working with data. In our case, the main data structures are *ToDoItem* which consists of a an ID, a title, a description, and a status. Also, *ToDoList* is the collection *ToDoItem*s. 
+It is a good idea to define the data model before start working with data. In our app, the main data structures are *ToDoItem* and *ToDoList*. *ToDoItem*  consists of an ID, a title, a description, and a status. *ToDoList* is the collection of all *ToDoItem*s. 
 
-We will use class definitions to structure our data. Create a new directory *src/app/classes*, and then copy the following code into a new file *src/app/classes/item.class.ts*. The class code will define the model for the ToDo list item.
+We will use a TypeScript class to define our data. Create a new directory *src/app/classes*, and copy the following code into a new file *src/app/classes/item.class.ts*.  
 
 src/app/classes/item.class.ts
 ```javascript
@@ -201,9 +188,11 @@ export class ToDoItem {
 
 ### A Helper for the Auth State
 
-Another helpful piece of code in your app would be a class (or 'service' in Angular terminology) that returns the current user authentication state. You can use this service to control what authenticated or authenticated users can do in your application. For example, in our Todo app, all unauthenticated users will be able to access to *Home Tab*, but only authenticated users will be able to access the *Todo List* tab. 
+Another helpful piece of code would be a class (or 'service' in Angular terminology) that returns the current user authentication state. You can use this service to control what authenticated or authenticated users can do in your application. For example, in our Todo app, all unauthenticated users will access to *Home Tab*, but only authenticated users will access the *Todo List* tab. 
 
-You can provide this logic in your app in many different ways, but with Ionic, you can use *Events* service for subscribing to authentication status changes. Also, this requires the module who is responsible for the auth - this is HomeTab module - will publish *data:AuthState* messages in the first place.
+You can share the auth state in your app in many different ways, but in Ionic,  *Events* service provides a quite useful mechanism; a module can publish *data:AuthState* event messages and other modules can listen to *data:AuthState* events to take actions for state changes.
+
+Let's implement a service which subscribes to auth state changes. We will use this service in different modules to retrieve the auth state.
 
 Create the file  *src/app/services/auth-route-guard.ts* with the following code:
 
@@ -215,7 +204,7 @@ import { Events } from '@ionic/angular'
 @Injectable()
 export class AuthGuardService implements CanActivate {
 
-  signedIn: boolean = true;
+  signedIn: boolean = false;
 
   constructor(public router: Router, public events: Events) {
     this.events.subscribe('data:AuthState', async (data) => {
@@ -233,7 +222,7 @@ export class AuthGuardService implements CanActivate {
 }
 ```
 
-In order to use *AuthGuardService* in another module, you need to import it explicitly. For example, in our app, we want to disable 'Todo List' tab for unauthenticated users. To enable this, perform the following two modification in  *src/app/tabs/tabs.module.ts* file:
+To use *AuthGuardService* in other modules, you need to import it explicitly. For example, we want to disable 'Todo List' tab for unauthenticated users. To do this, perform the following two modification in  *src/app/tabs/tabs.module.ts* file:
 
   1 - Import `AuthGuardService`:
   ```javascript
@@ -258,7 +247,7 @@ In order to use *AuthGuardService* in another module, you need to import it expl
   })
 ```
 
-Now, *AuthGuardService* is available in Tabs module, we will later use the service to disable 'Todo List' tab in unauthenticated state. You’ll notice that  *AuthGuardService*'s `signedIn` property always returns *true* for now. Don't worry, we will address this later by integrating cloud based authentication with Amplify.
+Now, *AuthGuardService* is available in the *Tabs* module, we will later use the service to disable 'Todo List' tab for the unauthenticated users. 
 
 ### Add Global Shim
 
@@ -272,15 +261,15 @@ Angular 6 has removed a shim for the global object used by many NPM modules, inc
 </script>
 ```
 
-##  Create your Modules
+##  Creating Modules
 
 In this section, you will create the modules that you will use in your Ionic app. 
 
-### Create HomePage Module
+### Creating the HomeTab Module
 
-*HomePage* is the first module that you will create for our Ionic app. You will use this module to display a sign-in/sign-up form form the user in the 'Home Page' tab. In Part 2, you will replace the mock functionality we will build here, with Amplify Framework's UI component for auth to build up the actual user interface.
+*HomeTab* is the first module you will create. You will use this module to display a sign-in/sign-up form. In this section, you will create temporary login/logout buttons to mock the app functionality. In Part 2, you will replace those buttons with Amplify Framework's UI components.
 
-Remember that each module has its own folder structure. So let's start by creating the new folder *src/app/homeTab*, and create a module definition file  *src/app/homeTab/homeTab.page.ts* with the following code:
+Remember that each module has its own folder structure. So let's start with creating a new folder *src/app/homeTab*, and create a module definition file  *src/app/homeTab/homeTab.page.ts* with the following code:
 
 ```javascript
 import { Component, AfterContentInit } from '@angular/core';
@@ -290,7 +279,7 @@ import { AuthGuardService } from '../../services/auth-route-guard'
 @Component({
   selector: 'app-page-home',
   templateUrl: 'homeTab.page.html',
-  styleUrls: ['home.page.scss']
+  styleUrls: ['homeTab.page.scss']
 })
 export class HomePage implements AfterContentInit{
 
@@ -324,7 +313,7 @@ Note that our *HomePage* component has authentication methods, but those methods
 
 #### Create the Home Page View
 
-Our Home Page will display a sign-in/sign-out form. In the final app the auth UI will be generated by Amplify UI components, but for now, let's add some buttons to the Home Page view, so we can test the auth states on our apps. 
+Our Home Page will display a user sign-in/sign-up form. In the final version of the app the UI will be generated by Amplify UI components, but for now, let's add some buttons to the view so that we can change the auth state.
 
 Create the view file *src/app/homeTab/homeTab.page.html* with the following code:
 
@@ -341,11 +330,9 @@ Create the view file *src/app/homeTab/homeTab.page.html* with the following code
 </ion-content>
 ```
 
-The page will include two action buttons that will help us test the auth states.
+#### Customizing Tabbed Navigation
 
-#### Customize Tab Navigation
-
-Now, you need to add the tab buttons 'Home Page' and 'Todo List' to the tabbed navigation, so we can navigate our custom pages. 
+You need to add new tab buttons 'Home Page' and 'Todo List' to the tabbed navigation. This will enable users to navigate to our custom pages. 
 
 Replace the content of the page *src/app/tabs/tabs.page.html* with the following markup:
 ```html
@@ -363,15 +350,15 @@ Replace the content of the page *src/app/tabs/tabs.page.html* with the following
 </ion-tabs>
 ```
 
-Note that, despite we did not created the *listTab* module yet, we provide the navigation to this module with this change. The 'Todo List' tab will not be active until we created the *listTab* module and update tab routes for this module.
+Note that, although we have not created the *listTab* module yet, we replaced a tab button for it. The 'Todo List' tab will not work until we create the *listTab* module and add new tab routes for this module.
 
-#### Update Tab Routes
+#### Updating Routes
 
-To display our HomePage content in the 'Home' tab, we need to update the route configuration in the *Tabs* module.
+To display our content in the 'Home Page' tab, we need to update the route configuration in the *Tabs* module.
 
 Apply the following two modifications to *src/app/tabs/tabs.router.module* file:
 
-  1-  Import *AuthGuardService*, so we can use our custom auth logic when working with tabs(like disabling a tab when the user is not signed-in):
+  1-  Import *AuthGuardService*, so we can use our custom auth logic when working with tabs (like disabling a tab when the user is not signed-in):
   ```javascript
   //...
   import { AuthGuardService } from '../services/auth-route-guard';
@@ -398,22 +385,20 @@ Apply the following two modifications to *src/app/tabs/tabs.router.module* file:
   //...
   ```
 
-Now, your app will display your new *HomeTab* module when you click *Home Page* tab. Run you app to see how it works;
+Now, your app will display your new *HomeTab* module when you click *Home Page* tab. 
 
-```bash
-$ ionic serve 
-```
+### ListTab Module
 
-### ListPage Module
-
-We will now create the *ListTab* module the same way we have created *HomeTab* module in the previous section. *ListTab* module will render the Todo List for the user. The module will also allow users to create or edit individual Todo items through a modal UI. The user will be able to delete items and mark items as complete.
+You will now create the *ListTab* module the same way we have created *HomeTab* module in the previous section. *ListTab* module will display the Todo List. In the list, the user will able to delete items and mark items as complete. The module will also allow users to create or edit  Todo items through a modal UI. 
 
 Remember that each module has its own folder structure. 
 So, let's start a new directory *src/app/listTab* for our module.
 
-#### Create the ListPage component
+#### Creating ListTab Component
 
-To define the component, create a new file *src/app/listTab/listTab.page.ts*. This file will define the functionality of the our listing page.
+The *ListTab* component will include the functionality of our listing tab.
+
+To define the component, create a new file *src/app/listTab/listTab.page.ts*. 
 
 ```javascript
 import { Component, OnInit, Input } from '@angular/core';
@@ -531,9 +516,10 @@ export class ListPage implements OnInit {
 
 You may notice that we are using dummy data to populate our Todo list. In Part 3, we will switch it with real backend data using an AWS AppSync query.
 
-#### Create the ListPage View
+#### Creating  listTab View
 
-The ListPage component will list the todo items, so you need an HTML view for rendering the those items. 
+The *listTab* component needs an HTML template for listing todo items. 
+
 Create the file */src/app/listTab/listTab.page.html* with the following HTML markup:
 
 ```html
@@ -560,10 +546,11 @@ Create the file */src/app/listTab/listTab.page.html* with the following HTML mar
 </ion-content>
 ```
 
-**List Component styling**
+**Component styling**
 
-You can also customize the styling of the component by editing the styles in *src/app/listTab/listTab.page.scss* file. Add following styles to the file:
+You can also customize the styling of the component by editing the component styles file. 
 
+Add following styles to *src/app/listTab/listTab.page.scss* file:
 ```css
 .hover {
   cursor: pointer;
@@ -579,7 +566,8 @@ You can also customize the styling of the component by editing the styles in *sr
 #### Create a module definition
 
 A module definition exposes your components to the rest of the application. 
-To create a module definition, create a new file *src/app/listTab/listTab.module.ts* with the following content:
+
+To create the *ListTabModule* definition, create a new file *src/app/listTab/listTab.module.ts* with the following content:
 
 ```javascript
 import { IonicModule } from '@ionic/angular';
@@ -605,16 +593,15 @@ export class ListTabModule {}
 
 #### Enable Routes for ListTabModule
 
-Remember that we have updated the tabbed navigation by editing the file */app/tabs/tabs.page.html*, but we did not defined any route configurations yet. Unless we do it, our modules's content will not be displayed when the user clicks to a tab.
+Remember that we have updated the tabbed navigation by editing the file */app/tabs/tabs.page.html*, but we did not define any route configurations yet. Until we do it, our module's content will not be displayed when the user clicks to the tab.
 
 **How tab routing works?**
 
-Clicking to the 'Todo List' tab button will change your app's route to 'tabs/list'. So, you need to handle the route change, and let your module be rendered as the tab content. 
+When the user clicks to the 'Todo List' tab button your app's route will change to 'tabs/list'. So, you need to handle the route change, and let your module be rendered as the tab content. 
 
-In a tabbed Ionic app, page routing is handled by *tabs router module* with the route definitions in the *src/app/tabs/tabs.router.module* file.
+In a tabbed Ionic app, page routing is handled by *Tabs* module, and the routes are defined in *src/app/tabs/tabs.router.module* file.
 
 Add your route definition in *src/app/tabs/tabs.router.module* file as follows:
-
 ```javascript
 //...
 const routes: Routes = [
@@ -646,48 +633,29 @@ const routes: Routes = [
 //...
 ```
 
-This modification will handle the 'tabs/list' route and will load your will load your *ListTab* module on route change.
+This modification will handle the 'tabs/list' route, and will load *ListTab* module on route change.
 
-### Run and test your app
+### Test Your Tabs
 
-Now you are ready to test your app! Execute one of the following commands from your project root, and you should see your app with the ‘Home Page’ tab visible in the footer.
+Now you are ready to test your app! You should see your app with the tabs visible in the footer.
 
-To run your app in web browser :
-
-```bash
-$ ionic serve
-```
-
-To run your app in iOS simulator:
-
-```bash
-$ ionic cordova run ios -l
-```
-
-Note:  If you attempt to run your app in the iOS emulator but only see a blank screen, try running:
-
-```bash
-$ ionic cordova plugin rm cordova-plugin-ionic-webview
-$ ionic cordova plugin add cordova-plugin-ionic-webview@2.0.0-beta.1
-```
-
-You will see that our buttons on the home page simulates login and logout functionality, and the auth state is update across the app respectively. 
+You will see that our buttons on the home page simulate login and logout functionality, and the auth state is updated across the app respectively. 
 
 ![](images/mock-app-home-page.png){: class="screencap" style="max-height:500px; float:none;"}
 
-Note that 'Todo List' tab is only displayed when the user is logged in. This is intentional, because in *app/tabs/tabs.router.module.ts*, we have set `canActivate` property with *AuthGuardService*, the service responsible for sharing the auth state across the app.  
+Note that 'Todo List' tab is only displayed when you click 'Simulate Login' button. Because we have set `canActivate` property with *AuthGuardService* in *app/tabs/tabs.router.module.ts* previously. 
 
 ![](images/mock-app-list-page.png){: class="screencap" style="max-height:500px; float:none;"}
 
-Since you have not a cloud backend enabled yet, your app only lists items that are loaded statically in *ListTab* module with `getItems()` method. In the following steps, we will switch this method to work with AWS AppSync.
+Since you have not connected your app to a cloud backend enabled yet, the app only lists items that are loaded statically in *ListTab* module with `getItems()` method. In Step 3, you will switch this method to work with AWS AppSync.
 
-### Adding a Modal to Create Tasks 
+### Adding a Modal for Task Editing
 
-We have one more missing functionality in order to complete our app's UI; we need a user interface to create Todo items.
+We have one more missing functionality to complete our app's UI; we need a user interface to create and edit Todo items.
 
 #### Create a Modal
 
-To create a modal, you need to implement a component and a view for this component. Since the modal will be related to ListTab, you can create the modal as a new component in the ListTab module. This will help keep things organized...
+To create a modal, you need to implement a component and a view for this component. Since the modal will be opened from *ListTab* (when user clicks 'Add Item' button), you can create the modal as a component in the *ListTab* module to keep the code organized.
 
 First, create the file *src/app/listTab/listTab.item.modal.ts* with the following code:
 
@@ -735,7 +703,7 @@ export class ListItemModal implements OnInit {
 }
 ```
 
-And then create the view file for the modal *src/app/listTab/listTab.item.modal.html*:
+Then create the view file for the modal *src/app/listTab/listTab.item.modal.html*:
 
 ```html
 <ion-header>
@@ -761,20 +729,19 @@ And then create the view file for the modal *src/app/listTab/listTab.item.modal.
   </ion-footer>
 ```
 
-#### Define modal in your list module
+#### Using modal in ListTab Module
 
 To use your modal in ListTab module (remember, the modal will open when the user clicks 'Add Item' button in the ListTab), 
-add following code to *src/app/listTab/listTab.module.ts*:
+add following updates to *src/app/listTab/listTab.module.ts*:
 
-Import ListItemModal:
+1- Import ListItemModal:
 ```javascript
 //..
 import { ListItemModal } from './listTab.item.modal';
 //..
 ```
 
-Also, add `ListItemModal` in *declarations* and *entryComponents*:
-
+2 - Add `ListItemModal` in *declarations* and *entryComponents*:
 ```js
 @NgModule({
   imports: [
@@ -786,13 +753,13 @@ Also, add `ListItemModal` in *declarations* and *entryComponents*:
   declarations: [ListTab, ListItemModal],
   entryComponents: [ ListTab, ListItemModal ]
 })
-
 ```
 
-####  Import the modal in your list page
+####  Import the Modal in listTab Page
 
 To use your new modal in your list component, you also need to import the modal into your component in *src/app/listTab/listTab.page.ts* file.
-Just uncomment the lines marked as:
+
+Just uncomment the following lines in *src/app/listTab/listTab.page.ts*:
 ```js
 // We will un-comment this when ListItemModal is ready
 import { ListItemModal } from './list.item.modal';
@@ -801,19 +768,38 @@ import { ListItemModal } from './list.item.modal';
 component: ListItemModal,
 ```
 
-This will enable our model to be opened from our ListTab page. Remember that we have an 'Add Item' button the listTab page for this purpose.
-
 ####  Test the Modal 
 
-Now, run the app and check out the List page (as a logged-in user). The app's data will not be persistent, but you can test the UI.
+Now, run the app, click 'Simulate Logi' button on the home page. Then click 'Add Item' button to add a new item, or click on an item on the list to edit. The app's data will not be saved, but you can test the UI.
 
 ![](images/mock-app-create-page.png){: class="screencap" style="max-height:500px; float:none;"}
 
-Congratulations! You have created and Ionic app with basic functionality. In Part 2, you will start implementing cloud features for your app.
+Congratulations! You have created and Ionic app with basic functionality. In Part 2, you will be adding cloud features for your app.
 
 # Part 2: Adding Cloud Features
 
-In this section, you will cloud enable your Ionic app using the Amplify CLI. The Amplify CLI is a command line tool that enables you to provision AWS resources and connect them to your application quickly.
+In this section, you will cloud enable your Ionic app using the Amplify CLI. The Amplify CLI is a command line tool that enables you to provision AWS resources and integrate them in your app.
+
+## Install Amplify CLI
+
+Amplify CLI is the command line tool that you will use to create and manage the backend for your Ionic app. Through the tutorial, you will use Amplify CLI for simplifying various operations. The CLI enables you to create and configure your backend quickly, even without leaving the command line!
+
+**Installing and Configuration the CLI:**
+
+To use Amplify CLI with your project, you need to install it your local machine and configure it with your AWS credentials. Configuration is a one-time effort; once you configure the CLI, you can use it on multiple projects on your local machine. Because the CLI creates backend resources for you, it needs to utilize an AWS account with appropriate IAM permissions. During the configuration step, a new IAM role will be automatically created on your AWS account.  
+
+To install and configure the Amplify CLI, run the following commands:
+```bash
+$ npm install -g @aws-amplify/cli
+$ npm amplify configure
+```
+
+**Amplify CLI vs. AWS Console**
+
+The backend resources that are created by the CLI is available to you through the AWS Console, e.g., you can access your Amazon Cognito User Pool on the AWS Console after you enable auth with Amplify CLI. 
+
+To learn about Amplify CLI, visit the [CLI developer documentation](../cli/init){: target='_new'}.
+{:.callout .callout--info}
 
 ## Initialize Your Backend
 
@@ -822,7 +808,7 @@ To start working with Amplify CLI for your Ionic app, run the following command 
 $ amplify init  
 ```
 
-The CLI guides you through some options for your project. Select 'Ionic' as your framework:
+The CLI guides you through the options for your project. Select 'Ionic' as your framework when prompted:
 ```console
   Please tell us about your project
   ? What javascript framework are you using
@@ -834,32 +820,36 @@ The CLI guides you through some options for your project. Select 'Ionic' as your
     none
 ```
 
-When the CLI successfully configures your backend, your backend configuration will be saved to '/amplify' folder. You don't need to manually edit the content of this folder as it is maintained automatically by the CLI.
+When the CLI successfully configures your backend, the backend configuration files are saved to '/amplify' folder. You don't need to manually edit the content of this folder as it is maintained automatically by the CLI.
 
 ## Adding Analytics
 
-Let's add our first backend feature to our app, and this will be Analytics. Note that, adding analytics won't change the user experience in your app, but it will provide valuable metrics that you can track with Amazon Pinpoint dashboard.  
+Let's add our first backend feature to our app, Analytics. Adding Analytics won't change the user experience, but it will provide valuable metrics that you can track in Amazon Pinpoint dashboard.  
 
-While enabling analytics, you will learn how to use Amplify CLI and configure your app to work with Amplify Framework. Generally speaking, when you deploy your backend with *amplify push* command, here is what happening under the hood:
+While enabling Analytics, you will also learn how to use Amplify CLI and configure your app to work with backend services.
 
-1 - The CLI creates and provisions related resources on your account
-2 - The CLI updates your '/amplify' folder, which has all the relevant information about your backend on AWS
-2 - The CLI updates the configuration file `aws-exports.js` with latest resource credentials
+When you deploy your backend with Amplify CLI, here is what happens under the hood:
+
+1- The CLI creates and provisions related resources on your account
+2- The CLI updates your '/amplify' folder, which has all the relevant information about your backend on AWS
+2- The CLI updates the configuration file `aws-exports.js` with the latest resource credentials
 
 As a front-end developer, you only need to import the auto generated *aws-exports.js* configuration file in your Ionic app, and configure your app with *Amplify.configure()* method call.
 
-To add analytics to your application, simply run the following commands:
+So, to add analytics to your application,  run the following commands:
 
 ```bash
 $ amplify add analytics
 $ amplify push
 ```
 
+After successfully executing the *push* command, the CLI creates your configuration file *aws-exports.js* in your '/src' folder. 
+
 ### Working with The Configuration File 
 
-After successfully executing the *push* command, the CLI creates your configuration file *aws-exports.js* in your '/src' folder. The next step is to import `aws-exports.js` configuration file into your app.
+The next step is to import `aws-exports.js` configuration file into your app.
 
-Note that the file extension for the Amplify configuration file is '.js'. Since we are using TypeScript in our Ionic app, you need to change the name of the aws-exports file to *aws-exports.ts*, so you can import it. This could be a bit tricky while you are adding new cloud features; you need to rename the latest version of *aws-exports.js* every time your backend is updated. Consider using a task-runner that will make this operation for you.
+Note that the file extension for the Amplify configuration file is '.js'. Since we are using TypeScript, you need to change the file extension from '.js' to '.ts' to import the file. This can be a bit tricky when you are adding new cloud features; you need to rename the latest version of *aws-exports.js* every time your backend is updated. Consider using a task-runner that will make this operation for you.
 {: .callout .callout--info}
 
 To configure your app, open *src/main.ts* and make the following changes in code:
@@ -873,25 +863,25 @@ Amplify.configure(aws_exports);
 
 ### Monitoring App Analytics
 
-Refresh you application a couple of times and then you will be receiving usage metric in Amazon Pinpoint console. That’s it! No additional code is needed. Your application will now collect and send a default set of analytics data to Amazon Pinpoint, and you can add your custom tracking metrics as needed.
+Refresh your application a couple of times, and then you will start receiving usage metrics in Amazon Pinpoint console. 
 
 ![](images/app-analytics-console.png){: class="screencap" style="max-height:500px;"}
 
-Since your application doesn’t have much functionality at the moment, only 'session start' events are tracked. As you add more functionality to your app like authorization and storage, AWS Amplify will automatically report related analytics events to Amazon Pinpoint for you, so you will know how your users are interaction with your app.
+Since your application doesn’t have much functionality at the moment, only 'session start' events are displayed in Pinpoint Console. As you add more cloud features to your app - like authentication - Amplify will automatically report related analytics events to Amazon Pinpoint. So, you will know how your users are interacting with your app.
 
 ## Adding Authentication
 
 Now that you know how to utilize Amplify CLI to enable backend services, you can add new features to your Ionic app easily.
 
-User authentication will be the next feature you will adding to your app. Our *HomeTab* module has login/logout buttons to control the auth state. Now, you will replace them with a secure and scalable auth experience. Doing that will be very easy with Amplif Authentication category and ready-to-use UI components. 
+User authentication will be the next cloud feature you will add. Remember that our *HomeTab* module has login/logout buttons to control the auth state. Now, you will replace them with a secure and scalable auth experience. Doing that will be very easy with Amplify Authentication category and ready-to-use UI components. 
 
-If you have been following the tutorial from the start, and enabled Analytics in the previous step, *auth* is already enabled for your app (Analytics needs secure credentials for reporting metrics). In this case, you just need to run *update auth* command to create a User Pool that will store your registered users:
+If you have been following the tutorial from the start and enabled Analytics in the previous step, *auth* is already enabled for your app (analytics needs secure credentials for reporting metrics). In this case, you just need to run *update auth* command to create a User Pool that will store your registered users:
 ```bash
 $ amplify update auth
 $ amplify push
 ```
 
-If you have not enabled Analytics before, you will be using auth features for the first time.
+If you have not enabled Analytics earlier, you will be using *auth* features for the first time.
 Run the following command:
 
 ```bash
@@ -904,16 +894,16 @@ AWS Amplify's Authentication category works with Amazon Cognito, a cloud-based a
 
 ### Enable UI Components for Auth
 
-One of the best parts of working with Amplify Framework is you don't need to implement common features - like like user authentication - from the scratch. Amplify provides UI components that you can re-use in your app with just a few lines of code. 
+One of the significant benefits of working with Amplify Framework is; you don't need to implement standard features - like user authentication - from scratch. Amplify provides UI components that you can integrate into your app with just a few lines of code. 
 
 Note that UI components are bundled in *aws-amplify-angular* package, and the package should be installed beforehand.
 {:.callout .callout--info}
 
-Now, let's place the auth UI components in our home page. To do that, you need to import related modules in your *HomeTab* module.
+Now, let's put the auth UI components in our home page. To do that, you need to import some Amplify modules in your *HomeTab* module.
 
 Make the following changes in file *src/app/homeTab/homeTab.module.ts*:
 
-  1- Import UI components:
+  1- Import Amplify UI components:
   ```js
   //..
   // add necessary UI components and services 
@@ -921,7 +911,7 @@ Make the following changes in file *src/app/homeTab/homeTab.module.ts*:
   //...
   ```
 
-  2- Add *AmplifyService* provider in your Module definition:
+  2- Add *AmplifyService* in *providers* section of the Module definition:
   ```js
   @NgModule({
     imports: [
@@ -939,13 +929,13 @@ Make the following changes in file *src/app/homeTab/homeTab.module.ts*:
   export class HomePageModule {}
   ```
 
-This configuration enables your *HomeTab* module to use Amplify UI components.
+This update enables your *HomeTab* module to use Amplify UI components.
 
 ### Rendering the Auth UI
 
-Now, you can use Amplify UI components in your views. UI components render a pre-built sign-in and sign-out UI for your app with full fledged auth functionality like user registration, password reminders and Multi-factor Authentication.
+Now, you can use Amplify UI components in your views. Auth UI component renders a pre-built sign-in and sign-up UI with full-fledged auth functionality like user registration, password reminders, and Multi-factor Authentication.
 
-Previously, we have placed authentication buttons on the home page that simulates the auth states. To replace these buttons with the actual auth inputs, 
+Previously, we have replaced authentication buttons on the home page that changes the auth states. To replace these buttons with the actual auth UI, 
 open *src/app/homeTab/homeTab.page.html* and replace the content with the following markup:
 
 ```html
@@ -959,11 +949,13 @@ open *src/app/homeTab/homeTab.page.html* and replace the content with the follow
 </ion-content>
 ```
 
-The `amplify-authenticator` directive renders UI elements for auth. Now, refresh your app and visit Home tab, you will see a login form that also provide sign-up options.
+The `amplify-authenticator` directive renders UI elements for auth. Now, refresh your app and visit the Home tab, you will see a login form that also provides sign-up options.
 
 ### Enable UI Styling
 
-To change the look and feel of your UI components, you can update *src/global.scss* file which includes global style rules for your app. For now, import default styles from *aws-amplify-angular* module to make sure that your authenticator component (and other AWS Amplify UI components) are styled properly with the Amplify default theme:
+To change the look and feel of your UI components, you can update *src/global.scss* file, which includes global style rules for your app. 
+
+For now, import default styles from *aws-amplify-angular* module to make sure that your authenticator component (and other AWS Amplify UI components) are styled properly with the Amplify default theme:
 
 Add the following import statement in *src/global.scss*:
 ```javascript
@@ -972,15 +964,16 @@ Add the following import statement in *src/global.scss*:
 
 ### Updating Auth State 
 
-Do you also remember that we have modules that are listening to *data:AuthState* events? *HomePage* component will be the place where we originate *data:AuthState* messages. It will work as follows:
+Do you remember that we have modules that are listening to *data:AuthState* events? Now, it is time to publish those events accurately using Amplify auth. *HomePage* component is the place where we publish *data:AuthState* messages. 
 
-1. When the auth state changes - via Amplify auth module - , HomePage* will capture the change event and broadcast a new custom event *data:AuthState* 
-2. The other modules who listens to this *data:AuthState* event will update their states accordingly
-3. Since *AuthGuardService* is the state machine for all the modules we build, we will able to take necessary actions in the UI
+It will work as follows:
 
-*Capturing auth state changes:*
+1. When the auth state changes HomePage* will capture the event from Amplify auth and broadcast a new custom event *data:AuthState*
+2. The other modules who listen to *data:AuthState* event will update their internal states accordingly
 
-*amplifyService* provides a subscription to track auth state changes. What we need to do is the subscribe to this service and get notified every time an auth event happens; such as sign-in and sign-out. 
+*Capturing auth state changes with Amplify:*
+
+*amplifyService* provides a subscription to track auth state changes. Your code needs to subscribe to this service and get notified every time an auth event happens; such as sign-in and sign-out. 
 
 Replace the content of module *app/homeTab/homeTab.page.ts* with the following code: 
 
@@ -1026,34 +1019,25 @@ export class HomePage implements AfterContentInit{
 
 ```
 
-Since the code that listens *data:AuthState* events are already included in our modules, this update will integrate our app's auth states with Amplify auth feature. Now you can test and see that 'Todo List' tab is only accessible when the user is logged in.
+This update will integrate your app's auth states with Amplify auth feature. 
 
-## Run and Test Your Auth Flow
+## Test Your Auth Flow
 
-Now run the *serve* command to test your app in a browser.
-```bash
-ionic serve
-```
-Or, run your app in iOS emulator:
-```bash
-ionic cordova run ios -l
-```
-
-Once your application loads, click on the ‘Home’ tab, and you should see login/signup controls that use ionic-specific buttons and input fields.
+Once your application loads, on the ‘Home Page’ tab, and you will see login/signup controls.
 
 ![](images/app-login-page.png){: class="screencap" style="max-height:500px;"}
 
-Your app now authenticates users with Amazon Cognito, allowing you to control access to data and to access information about the user. Your users should now be able to sign-up and subsequently sign-in.
+Your app now authenticates users with Amazon Cognito. Your app users are now able to sign-up and subsequently sign-in.
 
-**Where are the registered users stored?**
+**Where is the user data stored?**
 
-When a new user registers through the auth UI component, it will be stored in your Cognito User Pool. You can visit your Amazon Cognito console and see the list of registered users be selecting you User Pool.
+When a new user registers through the Amplify auth UI component, the user data is stored in your Cognito User Pool. You can visit Amazon Cognito console and see the list of registered users by selecting the User Pool that is created for your app.
 
 ![](images/app-register-page.png){: class="screencap" style="max-height:500px;"}
 
 **Disabling Multi-factor Authentication**
 
-As you may noticed, Multi-factor Authentication is enabled by default for you auth flow, which requires users to validate their phone number with an SMS message. You can change this by configuring your [Amazon Cognito User Pool](https://console.aws.amazon.com/cognito/home) settings.
+As you may notice, Multi-factor Authentication is enabled by default, which requires users to validate their phone number with an SMS message. You can change this behavior by configuring your [Amazon Cognito User Pool](https://console.aws.amazon.com/cognito/home) settings.
 
 Please note that the phone numbers should be entered in the format of
 "+<country-code><area-code><phone-number>".
@@ -1066,7 +1050,7 @@ Please note that the phone numbers should be entered in the format of
 <amplify-authenticator></amplify-authenticator>
 ```
 
-After the application reloads, the login controls will have the simpler Angular look-and-feel, instead of Ionic UI:
+After the application reloads, the login controls will have the simpler Angular look-and-feel, instead of Ionic UI components:
 
 If you don’t want to use the Ionic versions of AWS Amplify's UI components, you do not need to import the *AmplifyIonicModule*.
 {: .callout .callout--info}
@@ -1075,17 +1059,16 @@ If you don’t want to use the Ionic versions of AWS Amplify's UI components, yo
 
 So far, your Todo app has the auth feature that is powered by a user registry on the cloud (Cognito User Pools), but the Todo list is not stored on the cloud yet. In this part, you will integrate your app with a GraphQL API (powered by AWS AppSync) that will store your Todo list on a NoSQL database (Amazon DynamoDB).
 
-The Amplify CLI will help you when creating the backend and you will do it quickly without leaving the command line. First, you need to create a GraphQL backend.  
+The Amplify CLI will help you when creating the GraphQL backend.  
 
 ## Create a GraphQL API
 
-In the root folder of your app, run the following command:
-
+In the root folder of your app project, run the following command:
 ```bash
 $ amplify add api
 ```
 
-and, select *GraphQL* as the service type:
+Then, select *GraphQL* as the service type:
 
 ```console
 ? Please select from one of the below mentioned services (Use arrow keys)
@@ -1093,13 +1076,12 @@ and, select *GraphQL* as the service type:
   REST
 ```
 
-API category supports GraphQL and REST endpoints. For this tutorial we will create our backend data on GraphQL, which uses AWS AppSync under the hood.
+API category supports GraphQL and REST endpoints. In this tutorial, we will create our backend data on GraphQL, which uses AWS AppSync under the hood.
 {: .callout .callout--info}
 
-When you select `GraphQL` as the service type, the CLI offers you options to create a schema. A schema is a data model description format in GraphQL. Select *Single object with fields* when prompted *What best describes your project?*. This option will create a backend data model which we can modify and use in our app:
+When you select `GraphQL` as the service type, the CLI offers you options to create a schema. A schema defines the data model for your GraphQL backend. Select *Single object with fields* when prompted *What best describes your project?*. This option will create a GraphQL backend data model which we can modify and use in our app:
 
 ```console
-? Please select from one of the below mentioned services GraphQL
 ? Provide API name: fancytodos
 ? Choose an authorization type for the API Amazon Cognito User Pool
 Use a Cognito user pool configured as a part of this project
@@ -1111,7 +1093,7 @@ Use a Cognito user pool configured as a part of this project
 ? Do you want to edit the schema now? No
 ```
 
-When CLI creates the GraphQL schema, it is copied in */amplify/backend/api/fancytodos/schema.graphql* file for you to review and edit.
+When the CLI creates the GraphQL schema, the schema file is copied in */amplify/backend/api/fancytodos/schema.graphql* file for you to review and edit.
 
 ### Editing the Data Model (GraphQL Schema)
 
@@ -1125,9 +1107,11 @@ type Todo @model {
 }
 ```
 
-If you have noticed, this schema is a bit different from our *ToDoItem* data model. Remember that we have defined our *ToDoItem* class in */app/classes/item.class.ts*.  When you check the file, you will see that we have a *title* property instead of *name*, and we have an additional *status* property.  
+If you have noticed, this schema is a bit different from our *ToDoItem* data model. Remember that we have defined our *ToDoItem* class in */app/classes/item.class.ts*.  When you check this file, you will see that we have a *title* property instead of *name*, and we have an additional *status* property for *TodoItem*.
 
-Luckily, when working with AWS AppSync, updating a schema (and thus updating your whole backend data structure!) is very easy. Just edit your local schema file which is located at */amplify/backend/api/fancytodos/schema.graphql* to match the following: 
+Luckily, when working with AWS AppSync, updating a schema (and thus updating your whole backend data infrastructure!) is very easy. 
+
+Just edit your local schema file which is located at */amplify/backend/api/fancytodos/schema.graphql* to match the following: 
 
 ```js
 type Todo @model {
@@ -1138,7 +1122,7 @@ type Todo @model {
 }
 ```
 
-Now, if you run *amplify status* you will see that your changes to the schema file is noticed by the CLI, and you have an 'Update' operation is waiting to be deployed in your next deployment (amplify push):
+Now, if you run *amplify status*, you will notice that your update to the schema file is picked up by the CLI, and you have an 'Update' operation waiting to be deployed in your next deployment (amplify push):
 
 ```console
 $ amplify Status 
@@ -1155,16 +1139,18 @@ Now, update your backend to deploy your schema changes:
 $ amplify push
 ```
 
-Again, don't forget to rename 'aws-export.js' configuration file to 'aws-export.ts' after running your *push* command, as the configuration file is update when you add services.
+Again, don't forget to rename 'aws-export.js' configuration file to 'aws-export.ts' after running your *push* command, as the configuration file is updated when you add services.
 {: .callout .callout--info}
 
-The beauty of GraphQL - and AWS AppSync - is that it gives you a simple data model to work with and you can extend it as you wish. Under the hood, our `Todo` data model is stored on Amazon DynamoDB, and when you change your schema, additional data fields will be automatically available to you! 
+The beauty of GraphQL - and AWS AppSync - is that it gives you a simple data model to work with and you can extend it as you wish. Under the hood, our `Todo` data is stored on Amazon DynamoDB, and when you change your schema, additional data fields will be automatically available to you! 
 
-You have simply extended your data model  by editing our local GraphQL schema, and deployed your backend with 'amplify push'.  
+You have extended your GraphQL data model by editing our local GraphQL schema, and deployed your backend with 'amplify push'.  
 
 ## Using Queries and Mutations
 
-When working with a GraphQL API, you pass queries - or mutations - to the endpoint. Queries are responsible for read operations, and mutations perform create or update operations. A query/mutation has a simple, JSON-like format, but you don't need to write those by yourself. Instead the Amplify CLI will auto-generate those for you.
+When working with a GraphQL API, you pass queries - or mutations - to GraphQL the endpoint. Queries are used for read operations, and mutations perform create or update operations. 
+
+A query/mutation has a simple, JSON-like format, but you don't need to write those by yourself. Instead, the Amplify CLI will auto-generate those for you.
 
 ### Auto-Generating Queries/Mutations
 
@@ -1176,10 +1162,11 @@ $ amplify add codegen
 Run the following command to generate queries and mutations:
 
 ```bash
-amplify codegen statements --nodownload
+amplify codegen statements  
 ```
  
-The CLI creates and saves your generated queries/mutations under '/graphql' folder (unless you change the folder when prompted).
+The CLI creates and saves your generated queries/mutations under '/graphql' folder (unless you provide another when prompted).
+
 Here is the *listTodos* sample query that will bring all of your todos:
 
 ```js
@@ -1200,7 +1187,7 @@ export const listTodos = `query ListTodos(
 `;
 ```
 
-When you check the */graphql* folder, you will see that the CLI has generated all the necessary queries/mutations that you will need in your Todo app. You will use them to perform CRUD (create-read-update-delete) operations on your data:
+When you check the */graphql* folder, you will see that the CLI has generated all the necessary queries/mutations that you may need in your Todo app. You will use them to perform CRUD (create-read-update-delete) operations on your data:
 
 type | operations
 --- | ---
@@ -1209,24 +1196,21 @@ mutation | createTodo , updateTodo , deleteTodo
 
 ### Running Queries/Mutations
 
-To run a query/mutation, you simply import it in your app and use Amplify API category to perform the operation:
+To run a query/mutation, you import it in your app and use Amplify API category to perform the operation:
 
 ```js
 import Amplify, { API, graphqlOperation } from "aws-amplify";
 import * as queries from './graphql/queries';
 
-
 const allTodos = await API.graphql(graphqlOperation(queries.listTodos));
 console.log(allTodos);
 ```
 
-So, in order to make our our app's data persistent, we will use the auto-generated queries and mutations in the ListTab module.
-
 ## Connecting to GraphQL Backend
 
-At that stage, your GraphQL API and related backend resources (an Amazon DynamoDB table that stores the todos data) have been deployed to the cloud. Now, you can add CRUD functionality to your application which will enable managing todo's in your app.
+Currently, your GraphQL API and related backend resources (an Amazon DynamoDB table that stores the todos data) have been deployed to the cloud. Now, you can add CRUD functionality to your app by integrating the GraphQL backend.
 
-Remember that the todo list would be displayed in *listTab* page. So, you need to bind the data from your backend data to this page, and enable basic CRUD functionality. 
+Remember that the todo list would be displayed in *listTab* page. So, you need to bind the data from your backend to the *listTab* page component.
 
 To accomplish this, you need to update *src/app/listTab/listTab.page.ts* to match the following code:
 
@@ -1339,11 +1323,11 @@ export class ListTab implements OnInit {
 }
 ```
 
-As you may noticed, you have just implemented queries and mutations with your CRUD functions. Now, you can test that your app's data is persisted using your GraphQL backend.
+You have just implemented GraphQL queries and mutations in your CRUD functions. Now, you can test your app and verify that the app is persisted using your GraphQL backend.
 
 **Inspecting a GraphQL Mutation**
 
-Let's see what is happening under the hood. Run you app and add a new item while you monitor the network traffic in your browser's developer tools. Here is what you will see for a mutation call:
+Let's see what is happening under the hood. Run your app and add a new item while you monitor the network traffic in your browser's developer tools. Here is what you will see for a mutation call:
 ![](images/app-graphql-call.png){: class="screencap" style="max-height:500px;"}
 
 When you check the request header, you will notice that the Request Payload has the todo item data in JSON format.
@@ -1354,14 +1338,23 @@ You’ve added persisted your app's data using AWS AppSync and Amazon DynamoDB.
 
 ## What's next
 
-Here are couple of ideas for you if you are willing to improve your app even more.
+You have completed this tutorial. Here are some of ideas to improve your app even more.
 
 **Using AppSync Subscriptions**
 
-You can add AWS AppSync subscriptions to enable real-time data. Think of you share you todo list with your friends and all of you creat/edit items at the same time.
+In addition to queries and mutations, you can use AWS AppSync subscriptions to enable real-time data for your app. Think of a user experience which you share your todo list with your friends and all of you create/edit items at the same time. Learn more about subscriptions [here](https://aws-amplify.github.io/docs/js/api#subscriptions).
 
-**Display User Specific Content**
+**Displaying User Data**
 
-When a user is logged in, you may like to use the user's profile information in your app - like displaying a the user name, or number of uncompleted tasks.  
+When a user is logged in, you may like to use the user's profile information in your app, like displaying the username or picture. Learn more about User Attributes [here](https://aws-amplify.github.io/docs/js/authentication#working-with-user-attributes). 
+
+** Task Search **
+
+Imagine providing search functionality to your users. This is very easy by adding a `@searchable` directive in your GraphQL schema.  Learn more about @searchable [here](https://aws-amplify.github.io/docs/cli/graphql#searchable). 
+
+**Adding  an Image Field**
+
+You can enable an image attachment feature for todo items. This can be simply done by enabling complex object types in your GraphQL schema.   Learn more about [here](https://aws-amplify.github.io/docs/cli/graphql#s3-objects). 
+
 
  
