@@ -68,8 +68,11 @@ Amplify.configure({
 
 ```
 
-If you setup your Cognito resources manually, the roles will need to be given permission to access the S3 bucket. 
-An example policy:
+If you setup your Cognito resources manually, the roles will need to be given permission to access the S3 bucket.
+
+There are two roles created by Cognito an ```Auth_Role``` that creates user-level bucket access and ```Unauth_role``` that allows unauthenticaed and public access to resources. Attach the corresponding policies to each role for proper S3 access. Replace ```{enter bucket name}``` with the correct S3 bucket.
+
+Auth_role:
 ```
 {
     "Version": "2012-10-17",
@@ -129,7 +132,65 @@ An example policy:
     ]
 }
 ```
-Also the policy template amplify CLI uses is found [here](https://github.com/aws-amplify/amplify-cli/blob/b12d20b9d85f7fc6abf7e2f7fbe11e1a108911b9/packages/amplify-category-storage/provider-utils/awscloudformation/cloudformation-templates/s3-cloudformation-template.json). Make sure to include the correct ARN of your S3 bucket and attach the policy to your Cognito's ```Auth_Role``` and ```Unauth_Role``` .
+
+Unauth_Role:
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{enter bucket name}/public/*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "s3:PutObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{enter bucket name}/uploads/*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{enter bucket name}/protected/*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Condition": {
+                "StringLike": {
+                    "s3:prefix": [
+                        "public/",
+                        "public/*",
+                        "protected/",
+                        "protected/*"
+                    ]
+                }
+            },
+            "Action": [
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{enter bucket name}"
+            ],
+            "Effect": "Allow"
+        }
+    ]
+}
+```
+
+The policy template that Amplify CLI uses is found [here](https://github.com/aws-amplify/amplify-cli/blob/b12d20b9d85f7fc6abf7e2f7fbe11e1a108911b9/packages/amplify-category-storage/provider-utils/awscloudformation/cloudformation-templates/s3-cloudformation-template.json).
 
 ### Setup Amazon S3 Bucket CORS Policy
 
