@@ -1,7 +1,7 @@
 ---
 ---
 
-Building a 'Todo List' mobile app with AWS Amplify and Ionic 4
+Building a 'Todo List' mobile app with Amplify Framework and Ionic 4
 ===========
 
 Overview
