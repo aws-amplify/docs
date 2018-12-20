@@ -68,6 +68,130 @@ Amplify.configure({
 
 ```
 
+If you setup your Cognito resources manually, the roles will need to be given permission to access the S3 bucket.
+
+There are two roles created by Cognito an ```Auth_Role``` that creates user-level bucket access and ```Unauth_role``` that allows unauthenticated and public access to resources. Attach the corresponding policies to each role for proper S3 access. Replace ```{enter bucket name}``` with the correct S3 bucket.
+
+```Auth_role```:
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{enter bucket name}/public/*",
+                "arn:aws:s3:::{enter bucket name}/protected/${cognito-identity.amazonaws.com:sub}/*",
+                "arn:aws:s3:::{enter bucket name}/private/${cognito-identity.amazonaws.com:sub}/*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "s3:PutObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{enter bucket name}/uploads/*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{enter bucket name}/protected/*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Condition": {
+                "StringLike": {
+                    "s3:prefix": [
+                        "public/",
+                        "public/*",
+                        "protected/",
+                        "protected/*",
+                        "private/${cognito-identity.amazonaws.com:sub}/",
+                        "private/${cognito-identity.amazonaws.com:sub}/*"
+                    ]
+                }
+            },
+            "Action": [
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{enter bucket name}"
+            ],
+            "Effect": "Allow"
+        }
+    ]
+}
+```
+
+```Unauth_Role```:
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{enter bucket name}/public/*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "s3:PutObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{enter bucket name}/uploads/*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{enter bucket name}/protected/*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Condition": {
+                "StringLike": {
+                    "s3:prefix": [
+                        "public/",
+                        "public/*",
+                        "protected/",
+                        "protected/*"
+                    ]
+                }
+            },
+            "Action": [
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{enter bucket name}"
+            ],
+            "Effect": "Allow"
+        }
+    ]
+}
+```
+
+The policy template that Amplify CLI uses is found [here](https://github.com/aws-amplify/amplify-cli/blob/b12d20b9d85f7fc6abf7e2f7fbe11e1a108911b9/packages/amplify-category-storage/provider-utils/awscloudformation/cloudformation-templates/s3-cloudformation-template.json).
+
 ### Setup Amazon S3 Bucket CORS Policy
 
 To make calls to your S3 bucket from your App, you need to setup CORS Policy for your S3 bucket.
