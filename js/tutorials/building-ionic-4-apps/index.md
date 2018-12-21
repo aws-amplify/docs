@@ -26,7 +26,7 @@ The Amplify Framework enables frontend developers to build apps quickly with a s
 
 ## Source Code
 
-You can directly copy and paste code snippets from the tutorial as you are following the steps. Alternatively, if you would like to get right to the source code for the final version of the tutorial's code, please visit the [Github Repo](https://github.com/mbahar/amplify-ionic-tutorial).  
+You can directly copy and paste code snippets from the tutorial as you are following the steps. Alternatively, if you would like to get right to the source code for the final version of the tutorial's code, please visit the [Github Repo](https://github.com/aws-samples/aws-amplify-ionic-sample).  
 
 ## Content
 
