@@ -115,8 +115,54 @@ Sign in with user credentials:
 import { Auth } from 'aws-amplify';
 
 Auth.signIn(username, password)
-    .then(user => console.log(user))
-    .catch(err => console.log(err));
+    .then(user => {
+        if (user.challengeName === 'SMS_MFA' || 
+            user.challengeName === 'SOFTWARE_TOKEN_MFA') {
+            // If MFA is enabled, sign-in should be confirmed with the confirmation code
+            Auth.confirmSignIn(
+                user,   // Return object from Auth.signIn()
+                code,   // Confirmation code  
+                mfaType // MFA Type e.g. SMS, TOTP.
+            ).then((loggedInUser) => {
+                // now the user is logged in
+                console.log(loggedInUser);
+            });
+        } else if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
+            const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
+            Auth.completeNewPassword(
+                user,               // the Cognito User Object
+                newPassword,       // the new password
+                // OPTIONAL, the required attributes
+                {
+                    email: 'xxxx@example.com',
+                    phone_number: '1234567890'
+                }
+            ).then(loggedInUser => {
+                // at this time the user is logged in if no MFA required
+                console.log(loggedInUser);
+            });
+        } else if (user.challengeName === 'MFA_SETUP') {
+            // This happens when the MFA method is TOTP
+            // The user needs to setup the TOTP before using it
+            // More info please check the Enabling MFA part
+            Auth.setupTOTP(user);
+        } else {
+            // The user directly signs in
+            console.log(user)；
+        } 
+    }).catch(err => {
+        if (err.code === 'UserNotConfirmedException') {
+            // The error happens if the user didn't finish the confirmation step when signing up
+            // In this case you need to resend the code and confirm the user
+            // About how to resend the code and confirm the user, please check the signUp part
+        } else if (err.code === 'PasswordResetRequiredException') {
+            // The error happens when the password is reset in the Cognito console
+            // In this case you need to call forgotPassword to reset the password
+            // Please check the Forgot Password part.
+        } else {
+            console.log(err);
+        }
+    });
 
 // For advanced usage
 // You can pass an object which has the username, password and validationData which is sent to a PreAuthentication Lambda trigger
@@ -126,14 +172,6 @@ Auth.signIn({
     validationData, // Optional, a random key-value pair map which can contain any key and will be passed to your PreAuthentication Lambda trigger as-is. It can be used to implement additional validations around authentication
 }).then(user => console.log(user))
 .catch(err => console.log(err));
-
-// If MFA is enabled, sign-in should be confirmed with the confirmation code
-// `user` : Return object from Auth.signIn()
-// `code` : Confirmation code  
-// `mfaType` : MFA Type e.g. SMS, TOTP.
-Auth.confirmSignIn(user, code, mfaType)
-    .then(data => console.log(data))
-    .catch(err => console.log(err));
 ```
 
 #### Sign Up
@@ -162,6 +200,12 @@ Auth.confirmSignUp(username, code, {
     forceAliasCreation: true    
 }).then(data => console.log(data))
   .catch(err => console.log(err));
+
+Auth.resendSignUp(username).then(() => {
+    console.log('code resent successfully');
+}).catch(e => {
+    console.log(e);
+});
 ```
 
 The `Auth.signUp` promise returns a data object of type [`ISignUpResult`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L136-L139) with a [`CognitoUser`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L48).
@@ -223,6 +267,38 @@ Auth.forgotPassword(username)
 Auth.forgotPasswordSubmit(username, code, new_password)
     .then(data => console.log(data))
     .catch(err => console.log(err));
+```
+
+#### Complete new password
+The user would be asked to provide his new password and required attributes the first time he signs in if he is created in the AWS Cognito console. In that case, you need to call this method to finish this process:
+
+```js
+import { Auth } from 'aws-amplify';
+
+Auth.signIn(username, password)
+.then(user => {
+    if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
+        const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
+        Auth.completeNewPassword(
+            user,               // the Cognito User Object
+            newPassword,       // the new password
+            // OPTIONAL, the required attributes
+            {
+              email: 'xxxx@example.com',
+              phone_number: '1234567890'
+            }
+        ).then(user => {
+            // at this time the user is logged in if no MFA required
+            console.log(user);
+        }).catch(e => {
+          console.log(e);
+        });
+    } else {
+        // other situations
+    }
+}).catch(e => {
+    console.log(e);
+});
 ```
 
 #### Verify phone_number or email address
