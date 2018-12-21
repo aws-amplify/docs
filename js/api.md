@@ -699,7 +699,7 @@ setTimeout(() => {
 
 Note that since `client.subscribe` returns an `Observable`, you can use `filter`, `map`, `forEach` and other stream related functions. When you subscribe, you'll get back a subscription object you can use to unsubscribe. 
 
-Subscriptions can also take input types like mutations, in which case they will be subscribing to particular events based on the input. To learn more about subscription arguments, see [Real-Time data](./aws-appsync-real-time-data).
+Subscriptions can also take input types like mutations, in which case they will be subscribing to particular events based on the input. To learn more about subscription arguments, see [Real-Time data](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html).
 
 
 #### Client Architecture
@@ -1022,7 +1022,7 @@ const client = new AWSAppSyncClient({
   url: awsConfig.aws_appsync_graphqlEndpoint,
   region: awsConfig.aws_appsync_region,
   auth: {
-    type: AUTH_TYPE.IAM,
+    type: AUTH_TYPE.AWS_IAM,
     credentials: () => Auth.currentCredentials(),
   },
 });
@@ -1050,7 +1050,7 @@ const client = new AWSAppSyncClient({
   url: awsConfig.aws_appsync_graphqlEndpoint,
   region: awsConfig.aws_appsync_region,
   auth: {
-    type: AUTH_TYPE.IAM,
+    type: AUTH_TYPE.AWS_IAM,
     jwtToken: () => getOIDCToken(),
   },
 });
