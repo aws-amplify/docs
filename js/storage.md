@@ -70,10 +70,11 @@ Amplify.configure({
 
 If you setup your Cognito resources manually, the roles will need to be given permission to access the S3 bucket.
 
-There are two roles created by Cognito an ```Auth_Role``` that creates user-level bucket access and ```Unauth_role``` that allows unauthenticated and public access to resources. Attach the corresponding policies to each role for proper S3 access. Replace ```{enter bucket name}``` with the correct S3 bucket.
+There are two roles created by Cognito an `Auth_Role` that creates signed-in user-level bucket access and `Unauth_role` that allows unauthenticated access to resources. Attach the corresponding policies to each role for proper S3 access. Replace ```{enter bucket name}``` with the correct S3 bucket.
 
-```Auth_role```:
-```
+Inline policy for `Auth_role`:
+
+```json
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -133,8 +134,9 @@ There are two roles created by Cognito an ```Auth_Role``` that creates user-leve
 }
 ```
 
-```Unauth_Role```:
-```
+Inline policy for `Unauth_Role`:
+
+```json
 {
     "Version": "2012-10-17",
     "Statement": [
