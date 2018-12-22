@@ -41,6 +41,9 @@ Here is the sequence of the tutorial:
 
 This section introduces Ionic basics. You will learn how to bootstrap a new Ionic app with the Ionic CLI. In subsequent parts of the tutorial, you will gradually add new cloud functionality to your application.
 
+If you want to integrate Amplify Framework into an existing Ionic application, you can skip Part 1 and start directly to [Part 2](#part-2-adding-cloud-features). Also, follow the directions that are labeled as *Existing App* to integrate a cloud feature into your app.
+{: .callout .callout--info }
+
 ## What is Ionic?
 
 Ionic is a web development framework that allows developers to create cross-platform applications that run on mobile platforms such as iOS and Android, on the desktop using Electron.js, or in the browser as a progressive web app. Ionic applications have the ‘look-and-feel’ of native apps and also offer the ability (via Apache Cordova plugins) to access mobile OS features such as cameras, contact lists, etc.
@@ -63,11 +66,10 @@ $ ionic start fancy-todos tabs --type=angular
 Ionic CLI will prompt some questions:
 
 ```bash
-? Integrate your new app with Cordova to target native iOS and Android?
 ? Install the free Ionic Pro SDK and connect your app?  
 ```
 
-If you want your application to run as an iOS or Android app as well as a browser-based one, select ‘y’ when asked for Cordova integration. You will then prompted for Ionic Pro SDK; you can select ‘y’ if you wish, but it is not necessary for this tutorial.
+You will then prompted for Ionic Pro SDK; you can select ‘y’ if you wish, but it is not necessary for this tutorial.
 
 To be sure that you're using the correct version of Ionic, navigate into the project directory and execute 'ionic info'. The Ionic Framework value should be greater than 4.
 {: .callout}
@@ -88,7 +90,7 @@ $ npm install aws-amplify
 $ npm install aws-amplify-angular
 ```
 
-Note that you have installed required packages in this step, but you have not configured any backend services yet. 
+Note that you have installed the required Amplify packages in this step. In Part 2, you will use those packages to cloud-enable your Ionic app.
 
 ## Working with Ionic
 
@@ -134,7 +136,7 @@ To test your app in iOS simulator, run:
 $ ionic cordova run ios -l
 ```
 
-Note:  If you attempt to run your app in the iOS emulator but only see a blank screen, try running:
+Note: If you attempt to run your app in the iOS emulator but only see a blank screen, try running:
 
 ```bash
 $ ionic cordova plugin rm cordova-plugin-ionic-webview
@@ -145,7 +147,11 @@ When you run your app at this stage, you will see the default view of the starte
 
 ![](images/ionic-starter-app.png){: class="screencap" style="max-height:500px;"}
 
-Our goal is to customize the start app's tabs, so that first tab (Home Page) will be the login screen and the second tab (Todo List) will include the list of todo items. 
+**Testing on a Real Device**
+Testing on the browser is fast and practical for development, but it won't deliver the same user experience with a mobile device.  You may like to consider testing on the simulator, or you can use [Ionic DevApp](https://ionicframework.com/docs/appflow/devapp/){: target="_new"} to test your app on an iOS or Android device.
+{: .callout .callout--info}
+
+Our goal is to customize the start app's tabs, so that first tab (Home Page) will be the login screen and the second tab (Todo List) will include the list of todo items.
 
 ## Creating Common Utilities 
 
@@ -155,9 +161,8 @@ Before moving on to our modules, let's create some common utilities that will be
 
 It is an excellent idea to define the data model before start working with data. In our app, the main data structures are *ToDoItem* and *ToDoList*. *ToDoItem*  consists of an ID, a title, a description, and a status. *ToDoList* is the collection of all *ToDoItem*s. We will use a TypeScript class to define our data.  
 
-Create a new directory *src/app/classes*, and copy the following code into a new file *src/app/classes/item.class.ts*.  
+Create a new folder **src/app/classes**, and create a new file **src/app/classes/item.class.ts** with the following code:
 
-src/app/classes/item.class.ts
 ```javascript
 import { v4 as uuid } from 'uuid';
 
@@ -184,17 +189,20 @@ export class ToDoItem {
     this.status = 'new';
   }
 }
+
 ```
 
 ### Creating a Helper Class for Auth State
 
 Another helpful piece of code would be a class (or 'service' in Angular terminology) that returns the user authentication state. You can use this service to control what authenticated or authenticated users can do in your application. For example, in our Todo app, all unauthenticated users will access to *Home Tab*, but only authenticated users will access the *Todo List* tab. 
 
-You can share the auth state in your app in many different ways, but in Ionic,  *Events* service provides a quite useful mechanism; a module can publish *data:AuthState* event messages and other modules can listen to *data:AuthState* events to take actions for state changes.
+**Managing Auth State**
+You can manage the auth state in your app in many different ways, but in Ionic, *Events* service provides a quite useful mechanism; a module can publish *data:AuthState* event messages and other modules can listen to *data:AuthState* events to take actions for state changes.
+{: .callout}
 
 Let's implement a service which subscribes to auth state changes. We will use this service in different modules to retrieve the auth state.
 
-Create the file  *src/app/services/auth-route-guard.ts* with the following code:
+Create a new folder **src/app/services**, and create a new file **src/app/services/auth-route-guard.ts** with the following code:
 
 ```javascript
 import { Injectable } from '@angular/core';
@@ -222,14 +230,14 @@ export class AuthGuardService implements CanActivate {
 }
 ```
 
-To use *AuthGuardService* in other modules, you need to import it explicitly. For example, we want to disable 'Todo List' tab for unauthenticated users.
+To use *AuthGuardService* in other modules, you need to import it explicitly.
 
-Perform the following two modifications in  *src/app/tabs/tabs.module.ts* file:
+In order to to disable 'Todo List' tab for unauthenticated users. Perform the following two modifications in **src/app/tabs/tabs.module.ts** file:
 
   1 - Import `AuthGuardService`:
   ```javascript
     // 1 - Importing AuthGuardService
-    import { AuthGuardService } from '../../services/auth-route-guard';
+    import { AuthGuardService } from '../services/auth-route-guard';
     //
   ```
 
@@ -249,11 +257,13 @@ Perform the following two modifications in  *src/app/tabs/tabs.module.ts* file:
   })
 ```
 
-Now, *AuthGuardService* is available in the *Tabs* module. We will later use the service to disable 'Todo List' tab for the unauthenticated users. 
+Now, *AuthGuardService* is available in the *Tabs* module. This update will disable 'Todo List' tab for the unauthenticated users.
 
-### Add Global Shim
+### Required Updates for Dependencies
 
-Angular 6 has removed a shim for the global object used by many NPM modules, including some dependencies for Amplify. To accommodate for this change, add the following to your application's <HEAD> tag in *src/index.html*:
+**Angular 6**
+
+Angular 6 has removed a shim for the global object used by many NPM modules, including some dependencies for Amplify. To accommodate for this change, add the following to your application's <head> tag in *src/index.html*:
 
 ```html
 <script>
@@ -263,27 +273,45 @@ Angular 6 has removed a shim for the global object used by many NPM modules, inc
 </script>
 ```
 
+**AWS JavaScript SDK**
+
+Amplify Framework utilizes *aws-js-sdk* as a dependency. Because of that, when using with TypeScript, the “node” package should be included in types compiler option. Add *node* as a new type in *compilerOptions* in your **src/tsconfig.app.json** file :
+
+```js
+"compilerOptions": {
+    "types" : ["node"]
+}
+```
+
 ##  Creating Modules
 
-In this section, you will create the modules that you will use in your Ionic app. 
+In this section, you will create the modules that you will use in your Ionic app. A module definition exposes your components to the rest of the application.
 
 ### Creating the HomeTab Module
 
 *HomeTab* is the first module you will create. You will use this module to display a sign-in/sign-up form. In this section, you will create temporary login/logout buttons to mock the app functionality. In Part 2, you will replace those buttons with Amplify Framework's UI components.
 
-Remember that each module has its own folder structure. Create a new folder *src/app/homeTab*, and create a new module definition file  *src/app/homeTab/homeTab.page.ts* with the following code:
+Remember that each module has its own folder structure. 
+
+Create a new folder **src/app/homeTab**.
+
+#### Creating the homeTab View Component
+
+First, you will create a component for the *homeTab* module that will be responsible for handling the logic for Auth flow.
+
+Create a new component file  **src/app/homeTab/homeTab.page.ts** with the following code:
 
 ```javascript
 import { Component, AfterContentInit } from '@angular/core';
 import { Events } from '@ionic/angular';
-import { AuthGuardService } from '../../services/auth-route-guard'
+import { AuthGuardService } from '../services/auth-route-guard';
 
 @Component({
   selector: 'app-page-home',
   templateUrl: 'homeTab.page.html',
   styleUrls: ['homeTab.page.scss']
 })
-export class HomePage implements AfterContentInit{
+export class HomeTab implements AfterContentInit{
 
   authState: any;
   // including AuthGuardService here so that it's available to listen to auth events
@@ -311,13 +339,44 @@ export class HomePage implements AfterContentInit{
 }
 ```
 
-Note that our *HomePage* component has authentication methods, but those methods do not yet provide a real authentication functionality; they just set the authentication state to *true* or *false*. In Part 2, we will replace them with Amplify Framework's high-level APIs for auth.
+#### Creating the homeTab Module Definition
+
+To create the *HomeTabModule* definition, create a new file *src/app/homeTab/homeTab.module.ts* with the following code:
+
+```javascript
+import { IonicModule } from '@ionic/angular';
+import { RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HomeTab } from './homeTab.page';
+import { AmplifyAngularModule, AmplifyIonicModule, AmplifyService } from 'aws-amplify-angular'
+
+
+@NgModule({
+  imports: [
+    IonicModule,
+    CommonModule,
+    FormsModule,
+    AmplifyAngularModule,
+    AmplifyIonicModule,
+    RouterModule.forChild([{ path: '', component: HomeTab }])
+  ],
+  declarations: [HomeTab],
+  providers: [AmplifyService]
+})
+export class HomeTabModule {}
+```
+
+Note that our *HomePage* component has authentication methods, but those methods do not yet provide a real authentication functionality; they just set the authentication state to *true* or *false*. 
+
+In Part 2, we will replace them with Amplify Framework's high-level APIs for auth.
 
 #### Creating the Home Page View
 
 Our Home Page will display a user sign-in/sign-up form. In the final version of the app the UI will be generated by Amplify UI components, but for now, let's add some buttons to the view so that we can change the auth state.
 
-Create the view file *src/app/homeTab/homeTab.page.html* with the following code:
+Create the view file **src/app/homeTab/homeTab.page.html** with the following code:
 
 ```html
 <ion-header>
@@ -326,8 +385,8 @@ Create the view file *src/app/homeTab/homeTab.page.html* with the following code
   </ion-toolbar>
 </ion-header>
 <ion-content padding>
-  <ion-button (click)="login()">Login!</ion-button>
-  <ion-button (click)="logout()">Logout!</ion-button>
+  <ion-button (click)="login()">Simulate Login</ion-button>
+  <ion-button (click)="logout()">Simulate Logout</ion-button>
   Logged In? {{authState.loggedIn}}
 </ion-content>
 ```
@@ -336,7 +395,9 @@ Create the view file *src/app/homeTab/homeTab.page.html* with the following code
 
 You need to add two new tab buttons - 'Home Page' and 'Todo List' - to the tabbed navigation. This will enable users to navigate to our custom pages.
 
-Replace the content of the page *src/app/tabs/tabs.page.html* with the following markup:
+![](images/app-tabs.png){: class="screencap" style="max-height:500px;"}
+
+Replace the content of the page **src/app/tabs/tabs.page.html** with the following markup:
 ```html
 <ion-tabs>
   <ion-tab-bar slot="bottom">
@@ -352,21 +413,21 @@ Replace the content of the page *src/app/tabs/tabs.page.html* with the following
 </ion-tabs>
 ```
 
-Note that, although we have not created the *listTab* module yet, we replaced a tab button for it. The 'Todo List' tab will not work until we create the *listTab* module, and declare new routes for this module.
+Now, check your app on the browser and you will see that the tabs are updated, but nothing happens when you click to the tabs. Tab buttons will not work until you create the route handlers for our modules *homeTab* and *listTab*.
 
 #### Updating Routes
 
 To display our content in the 'Home Page' tab, we need to update the route configuration in the *Tabs* module.
 
-Apply the following two modifications to *src/app/tabs/tabs.router.module* file:
+Apply the following two modifications to **src/app/tabs/tabs.router.module** file:
 
-  1-  Import *AuthGuardService*, so we can use our custom auth logic when working with tabs (like disabling a tab if the user is not signed in):
+  1. Import *AuthGuardService*, so we can use our custom auth logic when working with tabs (like disabling a tab if the user is not signed in):
   ```javascript
   //...
   import { AuthGuardService } from '../services/auth-route-guard';
   //...
   ```
-  2- Add a target for 'tabs/home' URL route:
+  2. Replace *routes* constant with the following code:
   ```javascript
   //...
   const routes: Routes = [
@@ -384,37 +445,47 @@ Apply the following two modifications to *src/app/tabs/tabs.router.module* file:
           ]
         },
         {
+          path: '',
+          redirectTo: '/tabs/home',
+          pathMatch: 'full'
+        }
+      ]
+    },
+    {
+      path: '',
+      redirectTo: '/tabs/home',
+      pathMatch: 'full'
+    }
+  ];
   //...
   ```
 
-Now, the app will display your new *HomeTab* module when you click *Home Page* tab. 
+Now test your app, the app will display your new *HomeTab* module when you click 'Home Page' tab.
 
 ### ListTab Module
 
 You will now create the *ListTab* module in the same way you created *HomeTab* module in the previous section. *ListTab* module will display the Todo List. In the list, the user will able to delete todo items and mark items as complete. The module will also allow users to create or edit  todo items through a modal UI.
 
-Remember that each module has its own folder structure. 
-So, let's start a new directory *src/app/listTab* for our module.
+Remember that each module has its own folder. So, create a new directory **src/app/listTab** for our module.
 
 #### Creating ListTab Component
 
-The *ListTab* component will include the logic for todo listing feature.
+The *ListTab* component will include the logic for displaying and managing todos.
 
-To define the component, create a new file *src/app/listTab/listTab.page.ts* with the following code: 
+To define the component, create a new file **src/app/listTab/listTab.page.ts** with the following code: 
 
 ```javascript
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalController, Events } from '@ionic/angular';
-// We will un-comment this when ListItemModal is ready 
-// import { ListItemModal } from './list.item.modal';
-import { ToDoItem, ToDoList } from '../../classes/item.class';
+import { ToDoItem, ToDoList } from '../classes/item.class';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-list-page',
   templateUrl: 'listTab.page.html',
   styleUrls: ['listTab.page.scss']
 })
-export class ListPage implements OnInit {
+export class ListTab implements OnInit {
 
   modal: any;
   data: any;
@@ -425,9 +496,7 @@ export class ListPage implements OnInit {
   constructor(
     public modalController: ModalController,
     events: Events
-
   ) {
-
     // Listen for changes to the AuthState in order to change item list appropriately
     events.subscribe('data:AuthState', async (data) => {
       if (data.loggedIn){
@@ -435,57 +504,31 @@ export class ListPage implements OnInit {
       } else {
         this.itemList.items = [];
       }
-    })
+    });
   }
 
   async ngOnInit(){
     this.getItems();
   }
 
-  async modify(item, i) {
-    let props = {
-      itemList: this.itemList,
-      /*
-        We pass in an item parameter only when the user clicks on an existing item
-        and therefore populate an editItem value so that our modal knows this is an edit operation.
-      */
-      editItem: item || undefined
-    };
-
-    // Create the modal
-    this.modal = await this.modalController.create({
-      // We will un-comment this when ListItemModal is ready
-      // component: ListItemModal,
-      componentProps: props
-    });
-    // Listen for the modal to be closed...
-    this.modal.onDidDismiss
-    .then((result) => {
-      if (result.data.newItem){
-        // ...and add a new item if modal passes back newItem
-        result.data.itemList.items.push(result.data.newItem)
-      } else if (result.data.editItem){
-        // ...or splice the items array if the modal passes back editItem
-        result.data.itemList.items[i] = result.data.editItem
-      }
-      this.save(result.data.itemList);
-    })
-    return this.modal.present()
-  }
-
-  delete(i){
+  delete(item,i){
     this.itemList.items.splice(i, 1);
-    // this.save(this.itemList);
   }
 
-  complete(i){
-    this.itemList.items[i].status = "complete";
-    // this.save(this.itemList);
+  complete(item,i){
+    this.itemList.items[i].status = 'complete';
   }
 
   save(list){
-    // Use AWS Amplify to save the list...
-    // this.itemList = list;
+    this.itemList = list;
+  }
+
+  create(item){
+    this.itemList.items.push(item);
+  }
+
+  edit(item){
+    // Not implemented yet
   }
 
   getItems(){
@@ -503,20 +546,17 @@ export class ListPage implements OnInit {
           title: 'Test item 2',
           description: 'my other test item',
           status: 'pending'
-        }),
-        new ToDoItem({
-          id: '3',
-          title: 'Test item 3',
-          description: 'my other test item',
-          status: 'pending'
         })
       ]
-    }
+    };
   }
+
 }
 ```
 
-You may notice that we are using dummy data to populate our todo list. In Part 3, we will switch it with real backend data using a GraphQL query with AWS AppSync.
+You may notice that we are using some dummy data to populate our todo list.
+
+In Part 3, we will switch it with real backend data using a GraphQL query with AWS AppSync.
 
 #### Creating listTab View
 
@@ -550,7 +590,7 @@ Create a new file */src/app/listTab/listTab.page.html* with the following HTML m
 
 **Component styling**
 
-You can also customize the style of the component by providing a style sheet file.
+You can also customize the style of the component by providing a style sheet file. 
 
 Create a new file *src/app/listTab/listTab.page.scss* with the following styles:
 ```css
@@ -569,7 +609,7 @@ Create a new file *src/app/listTab/listTab.page.scss* with the following styles:
 
 A module definition exposes your components to the rest of the application. 
 
-To create the *ListTabModule* definition, create a new file *src/app/listTab/listTab.module.ts* with the following code:
+To create the *ListTabModule* definition, create a new file **src/app/listTab/listTab.module.ts** with the following code:
 
 ```javascript
 import { IonicModule } from '@ionic/angular';
@@ -603,7 +643,7 @@ When the user clicks to the 'Todo List' tab button, your app's route will change
 
 In a tabbed Ionic app, page routing is handled by *Tabs* module, and the routes are defined in *src/app/tabs/tabs.router.module* file.
 
-Add your route definition in *src/app/tabs/tabs.router.module* file as follows:
+Add your route definition in **src/app/tabs/tabs.router.module** file as follows:
 ```javascript
 //...
 const routes: Routes = [
@@ -611,16 +651,7 @@ const routes: Routes = [
     path: 'tabs',
     component: TabsPage,
     children: [
-      {
-        path: 'home',
-        children: [
-          {
-            path: '',
-            loadChildren: '../homeTab/homeTab.module#HomeTabModule'
-          }
-        ]
-      },
-      // Add this part
+      // Add this node
       { 
         path: 'list',
         canActivate: [AuthGuardService],
@@ -635,7 +666,7 @@ const routes: Routes = [
 //...
 ```
 
-This modification will handle the 'tabs/list' route, and will load *ListTab* module when the route changes.
+This modification will handle the 'tabs/list' route, and will load *ListTab* module when the route changes.  
 
 ### Testing Your Modules
 
@@ -649,7 +680,9 @@ Note that 'Todo List' tab is only displayed when you click 'Simulate Login' butt
 
 ![](images/mock-app-list-page.png){: class="screencap" style="max-height:500px; float:none;"}
 
-Since you have not connected your app to a cloud backend enabled yet, the app only lists items that are loaded statically in *ListTab* module with `getItems()` method. In Step 3, you will switch this method to work with AWS AppSync.
+Since you have not connected your app to a cloud backend yet, the app only lists items that are loaded statically in *ListTab* module with `getItems()` method. 
+
+In Step 3, you will switch this method to work with AWS AppSync.
 
 ### Adding a Modal for Task Editing
 
@@ -659,7 +692,7 @@ We have one more missing part to complete our app's UI; we need a user interface
 
 To create a modal, you need to implement a component and a view for this component. Since the modal will be opened from *ListTab* (when user clicks 'Add Item' button), you can create the modal as a component in the *ListTab* module to keep the code organized.
 
-First, create the file *src/app/listTab/listTab.item.modal.ts* with the following code:
+First, create the file **src/app/listTab/listTab.item.modal.ts** with the following code:
 
 ```javascript
 import { Component, OnInit } from '@angular/core';
@@ -668,7 +701,7 @@ import { ToDoItem, ToDoList } from '../classes/item.class';
 
 @Component({
   selector: 'item-modal',
-  templateUrl: 'list.item.modal.html',
+  templateUrl: 'listTab.item.modal.html',
 })
 export class ListItemModal implements OnInit {
 
@@ -705,69 +738,95 @@ export class ListItemModal implements OnInit {
 }
 ```
 
-Then create the view file for the modal *src/app/listTab/listTab.item.modal.html*:
+Then, create the view file for the modal **src/app/listTab/listTab.item.modal.html**:
 
 ```html
 <ion-header>
     <ion-toolbar>
-      <ion-title>Edit Item</ion-title>
+        <ion-title>Edit Item</ion-title>
     </ion-toolbar>
-  </ion-header>
-  <ion-content>
+</ion-header>
+<ion-content>
     <ion-list lines="true">
-      <ion-item>
+        <ion-item>
         <ion-label color="primary">ToDo Title </ion-label>
         <ion-input placeholder="title" [(ngModel)]="item.title"></ion-input>
-      </ion-item>
-      <ion-item>
+        </ion-item>
+        <ion-item>
         <ion-label color="primary">ToDo Description </ion-label>
         <ion-input placeholder="description" [(ngModel)]="item.description"></ion-input>
-      </ion-item>
+        </ion-item>
     </ion-list>
-  </ion-content>
-  <ion-footer>
+</ion-content>
+<ion-footer>
     <ion-button class="save-btn" (click)="save()">Save</ion-button>
     <ion-button class="dismiss-btn" (click)="cancel()">Cancel</ion-button>
-  </ion-footer>
+</ion-footer>
 ```
 
-#### Using modal in ListTab Module
+#### Using the Modal in ListTab Module
 
 To use your modal in ListTab module (remember that the modal will open when the user clicks 'Add Item' button in the ListTab), 
-add make the following changes to *src/app/listTab/listTab.module.ts*:
+add make the following changes to **src/app/listTab/listTab.module.ts**:
 
-1- Import ListItemModal:
-```javascript
-//..
-import { ListItemModal } from './listTab.item.modal';
-//..
-```
+  1. Import *ListItemModal*:
+  ```javascript
+  //..
+  import { ListItemModal } from './listTab.item.modal';
+  //..
+  ```
 
-2 - Add `ListItemModal` in *declarations* and *entryComponents*:
-```js
-@NgModule({
-  imports: [
-    IonicModule,
-    CommonModule,
-    FormsModule,
-    RouterModule.forChild([{ path: '', component: ListTab }])
-  ],
-  declarations: [ListTab, ListItemModal],
-  entryComponents: [ ListTab, ListItemModal ]
-})
-```
+  2. Add `ListItemModal` in *declarations* and *entryComponents*:
+  ```js
+  @NgModule({
+    imports: [
+      IonicModule,
+      CommonModule,
+      FormsModule,
+      RouterModule.forChild([{ path: '', component: ListTab }])
+    ],
+    declarations: [ListTab, ListItemModal],
+    entryComponents: [ ListTab, ListItemModal ]
+  })
+  ```
 
 ####  Import the Modal in listTab Page
 
 To use your new modal in your list component, you also need to import the modal into your component in *src/app/listTab/listTab.page.ts* file.
 
-To achieve this, just uncomment the following lines in *src/app/listTab/listTab.page.ts*:
+Import *ListItemModal* in **src/app/listTab/listTab.page.ts**:
 ```js
-// We will un-comment this when ListItemModal is ready
-import { ListItemModal } from './list.item.modal';
+import { ListItemModal } from './listTab.item.modal';
+```
 
-// We will un-comment this when ListItemModal is ready
-component: ListItemModal,
+Add `modify` method to *ListTab* class:
+```js
+  async modify(item, i) {
+    let props = {
+      itemList: this.itemList,
+      /*
+        We pass in an item parameter only when the user clicks on an existing item
+        and therefore populate an editItem value so that our modal knows this is an edit operation.
+      */
+      editItem: item || undefined
+    };
+
+    // Create the modal
+    let modal = await this.modalController.create({
+      component: ListItemModal,
+      componentProps: props
+    });
+
+    modal.onDidDismiss()
+    .then((result) => {
+      if (result.data.newItem){
+        this.create(result.data.newItem);
+      } else if (result.data.editItem){
+        this.edit(result.data.editItem);
+      }
+    });
+    return modal.present();
+  }
 ```
 
 #### Test Your App 
@@ -836,9 +895,9 @@ When you deploy your backend with Amplify CLI, here is what happens under the ho
 
 1. The CLI creates and provisions related resources on your account
 2. The CLI updates your '/amplify' folder, which has all the relevant information about your backend on AWS
-3. The CLI updates the configuration file `aws-exports.js` with the latest resource credentials
+3. The CLI updates the configuration file *aws-exports.js* with the latest resource credentials
 
-As a front-end developer, you need to import the auto generated *aws-exports.js* configuration file in your Ionic app, and configure your app with *Amplify.configure()* method call.
+As a front-end developer, you need to import the auto generated *aws-exports.js* configuration file in your Ionic app, and configure your app with `Amplify.configure()` method call.
 
 So, to enable analytics to your application, run the following commands:
 
@@ -851,12 +910,12 @@ After successfully executing the *push* command, the CLI creates your configurat
 
 ### Working with The Configuration File 
 
-The next step is to import `aws-exports.js` configuration file into your app.
+The next step is to import *aws-exports.js* configuration file into your app.
 
-Note that the file extension for the Amplify configuration file is '.js'. Since we are using TypeScript, you need to change the file extension from '.js' to '.ts' to be able to import the file. This can be a bit tricky when you are adding new cloud features; you need to rename the latest version of *aws-exports.js* every time your backend is updated. Consider using a task-runner that will make this operation for you.
+Note that the file extension for the Amplify configuration file is '.js'. Since we are using TypeScript, you need to change the file extension from '.js' to '.ts' to be able to import the file. This can be a bit tricky when you are adding new cloud features; you need to rename the latest version of *aws-exports.js* every time your backend is updated. Consider using a task-runner that will make this operation for you. Alternatively, you can enable the [allowJs](https://www.typescriptlang.org/docs/handbook/compiler-options.html) compiler option in your tsconfig.
 {: .callout .callout--info}
 
-To configure your app, open *src/main.ts* and make the following changes in code:
+To configure your app, open **src/main.ts** file and make the following changes in code:
 
 ```javascript
 import Amplify, { Analytics } from 'aws-amplify';
@@ -907,47 +966,13 @@ AWS Amplify's Authentication category works with Amazon Cognito, a cloud-based a
 
 One of the most important benefits of Amplify Framework is; you don't need to implement standard app features - like user authentication - from scratch. Amplify provides UI components that you can integrate into your app with just a few lines of code.
 
-Note that UI components are bundled in *aws-amplify-angular* package, and the package should be installed beforehand.
-{:.callout .callout--info}
-
-Now, let's put the auth UI components in our home page. To do that, you need to import some Amplify modules in your *HomeTab* module.
-
-Make the following changes in file *src/app/homeTab/homeTab.module.ts*:
-
-  1- Import Amplify UI components:
-  ```js
-  //..
-  // add necessary UI components and services 
-  import { AmplifyAngularModule, AmplifyIonicModule, AmplifyService } from 'aws-amplify-angular'
-  //...
-  ```
-
-  2- Add *AmplifyService* in *providers* section of the Module definition:
-  ```js
-  @NgModule({
-    imports: [
-      IonicModule,
-      CommonModule,
-      FormsModule,
-      AmplifyAngularModule,
-      AmplifyIonicModule,
-      RouterModule.forChild([{ path: '', component: HomePage }])
-    ],
-    declarations: [HomePage],
-    providers: [AmplifyService] // Add this line
-    //
-  })
-  export class HomePageModule {}
-  ```
-
-This update enables your *HomeTab* module to use Amplify UI components.
-
 ### Rendering the Auth UI
 
-Now, you can use Amplify UI components in your views. Auth UI component renders a pre-built sign-in and sign-up UI with full-fledged auth functionality like user registration, password reminders, and Multi-factor Authentication.
+Now, let's put the auth UI components in our home page. Necessary Amplify modules are already included in your *HomeTab* module in  **src/app/homeTab/homeTab.module.ts** file, so you can use Amplify UI components in your views. Auth UI component renders a pre-built sign-in and sign-up UI with full-fledged auth functionality like user registration, password reminders, and Multi-factor Authentication.
 
-Previously, we have placed authentication buttons on the home page that changes the auth states. To replace these buttons with the actual auth UI, 
-open *src/app/homeTab/homeTab.page.html* and replace the existing content with the following markup:
+Previously, we have placed authentication buttons on the home page that changes the auth states. To replace these buttons with the actual auth UI, you need to update the component view template.
+
+Open **src/app/homeTab/homeTab.page.html** and replace the existing content with the following markup:
 
 ```html
 <ion-header>
@@ -968,7 +993,7 @@ To change the look and feel of your Amplify UI components, you can update *src/g
 
 Alternatively, Amplify provides a default styling theme your can use. You can import default styles from *aws-amplify-angular* module to make sure that your authenticator component (and other AWS Amplify UI components) are styled properly with the Amplify default theme.
 
-Add the following import statement in *src/global.scss*:
+Add the following import statement in **src/global.scss**:
 ```javascript
 @import '../node_modules/aws-amplify-angular/theme.css'; 
 ```
@@ -986,22 +1011,19 @@ It will work as follows:
 
 *amplifyService* provides a subscription to track auth state changes. Your code needs to subscribe to this service and get notified every time an auth event is fired; such as sign-in and sign-out. 
 
-Replace the content of module *app/homeTab/homeTab.page.ts* with the following code: 
+Replace the content of module **app/homeTab/homeTab.page.ts** with the following code: 
 
 ```js
-
 import { Component, AfterContentInit } from '@angular/core';
 import { Events } from '@ionic/angular';
-import { AuthGuardService } from '../../services/auth-route-guard'
-import { AmplifyService }  from 'aws-amplify-angular';
-
+import { AuthGuardService } from '../services/auth-route-guard';
+import { AmplifyService } from 'aws-amplify-angular';
 
 @Component({
   selector: 'app-page-home',
-  templateUrl: 'homeTab.page.html',
-  styleUrls: ['homeTab.page.scss']
+  templateUrl: 'homeTab.page.html'
 })
-export class HomePage implements AfterContentInit{
+export class HomeTab implements AfterContentInit{
 
   authState: any;
   // including AuthGuardService here so that it's available to listen to auth events
@@ -1024,27 +1046,24 @@ export class HomePage implements AfterContentInit{
   }
 
   ngAfterContentInit(){
-    this.events.publish('data:AuthState', this.authState)
+    this.events.publish('data:AuthState', this.authState);
   }
 }
-
 ```
 
-This update will integrate your app's auth states with Amplify auth feature. 
+This update will integrate your app's auth states with Amplify auth feature.
 
 ## Test Your Auth Flow
 
 Once your application loads, on the ‘Home Page’ tab, and you will see login/signup controls.
 
-![](images/app-login-page.png){: class="screencap" style="max-height:500px;"}
+![](images/app-auth-screens.png){: class="screencap" style="max-height:500px;"}
 
 Your app now authenticates users with Amazon Cognito!
 
 **Where is the user data stored?**
 
 When a new user registers through the Amplify auth UI component, the user data is stored in your Cognito User Pool. You can visit Amazon Cognito console and see the list of registered users by selecting the User Pool that is created for your app.
-
-![](images/app-register-page.png){: class="screencap" style="max-height:500px;"}
 
 **Disabling Multi-factor Authentication**
 
@@ -1055,7 +1074,7 @@ Please note that the phone numbers should be entered in the format of
 
 **Disabling Ionic UI**
 
-`<amplify-authenticator>` component enables rendering Ionic UI components when used with *framework="ionic"* attribute. You can disable this by removing *framework="ionic"* attribute in *src/app/homeTab/homeTab.page.html*:
+`<amplify-authenticator>` component enables rendering Ionic UI components when used with *framework="ionic"* attribute. You can disable this by removing *framework="ionic"* attribute in **src/app/homeTab/homeTab.page.html**:
 
 ```html
 <amplify-authenticator></amplify-authenticator>
@@ -1238,8 +1257,7 @@ import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-list-page',
-  templateUrl: 'listTab.page.html',
-  styleUrls: ['listTab.page.scss']
+  templateUrl: 'listTab.page.html'
 })
 export class ListTab implements OnInit {
 
