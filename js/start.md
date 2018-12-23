@@ -317,6 +317,10 @@ Create new AWS backend resources and pull the AWS services configuration into th
 $ amplify init
 ```
 
+<div id="react" class="tab-content">
+> When asked for the distribution directory (the directory that will be uploaded to S3), answer `dist`. If you miss this step you can run `amplify configure project` to change your dist directory setting.
+</div>
+
 <div id="angular" class="tab-content">
 > When asked for the distribution directory (the directory that will be uploaded to S3), answer `dist/myAmplifyProject`. If you did not use the name in this tutorial, change "myAmplifyProject" with the name of your application. You can run an `ng build` and check your `dist` directory to see what the name is and re-run `amplify configure project` to change your dist directory setting.
 </div>
