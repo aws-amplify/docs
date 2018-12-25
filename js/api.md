@@ -45,7 +45,7 @@ The Amplify CLI provides support for AppSync that make this process easy. Using 
 
 #### Automated Configuration with CLI
 
-After creating your AWS AppSync API, following command enables AppSync GraphQL API in your  project:
+After creating your AWS AppSync API, the following command enables AppSync GraphQL API in your  project:
 
 ```bash
 $ amplify add api
@@ -59,7 +59,7 @@ Select *GraphQL* when prompted for service type:
   REST
 ```
 
-Name your GraphQL endpoint and select authorization type:
+Name your GraphQL endpoint and select the authorization type:
 
 ```terminal
 ? Please select from one of the below mentioned services GraphQL
@@ -69,10 +69,10 @@ Name your GraphQL endpoint and select authorization type:
   Amazon Cognito User Pool
 ```
 
-AWS AppSync API keys expire seven days after creation, and using API KEY authentication is only suggested for development. To change AWS AppSync authorization type after the initial configuration, use the `$ amplify update api` command and select `GraphQL`.
+AWS AppSync API keys expire seven days after creation, and using API KEY authentication is only suggested for development. To change the AWS AppSync authorization type after the initial configuration, use the `$ amplify update api` command and select `GraphQL`.
 {: .callout .callout--info}
 
-When you update your backend with *push* command, you can go to [AWS AppSync Console](https://aws.amazon.com/appsync/) and see that a new API is added under *APIs* menu item:
+When you update your backend with the *push* command, you can go to [AWS AppSync Console](https://aws.amazon.com/appsync/) and see that a new API is added under the *APIs* menu item:
 
 ```bash
 $ amplify push
