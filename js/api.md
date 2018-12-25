@@ -37,7 +37,7 @@ The Amplify GraphQL is a lighter weight option if you're looking for a simple wa
 
 You can integrate with AWS AppSync using the following steps:
 
-1. Setup the API endpoint and authentication information in the client side configuration.
+1. Set up the API endpoint and authentication information in the client side configuration.
 2. Generate TypeScript/JavaScript code from the API schema. (optional)
 3. Write app code to run queries, mutations and subscriptions.
 
