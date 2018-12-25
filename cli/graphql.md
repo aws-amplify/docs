@@ -818,7 +818,7 @@ the generated resolvers would be protected like so:
 
 The `@connection` directive enables you to specify relationships between `@model` object types.
 Currently, this supports one-to-one, one-to-many, and many-to-one relationships. You may implement many-to-many relationships
-yourself using two one-to-many connections and joining @model type. See the usage section for details.
+yourself using two one-to-many connections and joining `@model` type. See the usage section for details.
 
 #### Definition
 
