@@ -662,7 +662,7 @@ type Draft
 }
 ```
 
-**Dynamic Group Auth**
+**Dynamic Group Authorization**
 
 ```
 # Dynamic group authorization with multiple groups
