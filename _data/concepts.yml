@@ -1,4 +1,39 @@
 
 prerequisites_js: 
   header: Prerequisites
-  html: You need to have a basic understanding of JavaScript/[TypeScript](http://www.typescriptlang.org/), [Node.js](https://nodejs.org/en/about/), and [NPM](https://www.npmjs.com/) to complete this tutorial.
+  content: You need to have a basic understanding of JavaScript/[TypeScript](http://www.typescriptlang.org/), [Node.js](https://nodejs.org/en/about/), and [NPM](https://www.npmjs.com/) to complete this tutorial.
+installing_amplify_cli: 
+  header: Installing and Configuring the CLI
+  content: To use Amplify CLI with your project, you need to install it to your local development machine and configure it with your AWS credentials. Configuration is a one-time effort; once you configure the CLI, you can use it on multiple projects on your local machine. Because the CLI creates backend resources for you, it needs to utilize an AWS account with appropriate IAM permissions. During the configuration step, a new IAM role will be automatically created on your AWS account.
+amplify_cli_vs_aws_console: 
+  header: Amplify CLI vs. AWS Console
+  content: The backend resources that are created by the CLI is available to you through the AWS Console, e.g., you can access your Amazon Cognito User Pool on the AWS Console after you enable auth with Amplify CLI.
+  link: "To learn about Amplify CLI, visit the [CLI developer documentation](../cli/init){: target='_new'}."
+how_amplify_cli_works: 
+  header: How Amplify CLI works?
+  content: > 
+      When you deploy your backend with Amplify CLI, here is what happens under the hood:
+          
+        1. The CLI creates and provisions related resources on your account
+        2. The CLI updates your '/amplify' folder, which has all the relevant information about your backend on AWS
+        3. The CLI updates the configuration file *aws-exports.js* with the latest resource credentials
+monitoring_app_analytics:
+  header: Monitoring App Analytics
+  content: > 
+        Refresh your application a couple of times, and then you will start receiving usage metrics in Amazon Pinpoint console. 
+
+        ![](images/app-analytics-console.png){: class="screencap" style="max-height:500px;"}<br/><br/>
+
+        Since your application doesn’t have much functionality at the moment, only 'session start' events are displayed in Pinpoint Console. As you add more cloud features to your app - like authentication - Amplify will automatically report related analytics events to Amazon Pinpoint. So, you will know how your users are interacting with your app.
+where_is_the_user_data_stored:
+  header: Where is the user data stored?
+  content: > 
+        When a new user registers through the Amplify auth UI component, the user data is stored in your Cognito User Pool. A user pool is a user directory in Amazon Cognito. With a user pool, your users can sign in to your app through Amazon Cognito. 
+        
+        You can visit [Amazon Cognito console](https://console.aws.amazon.com/cognito/home){: target='_new'}, and see the list of registered users by selecting the User Pool that is created for your app.
+
+what_is_graphql:
+  header: What is GraphQL?
+  content: > 
+        [GraphQL](https://graphql.org/){: target='_new'} is a modern way of building  APIs for your apps and interacting with your backend.  It has many benefits over REST -- such as using a single endpoint, powerful query syntax, data aggregation from multiple sources and a type system to describe the data --but the overall goal is to make your front-end development experience easy and more productive.
+

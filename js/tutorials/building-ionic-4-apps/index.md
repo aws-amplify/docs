@@ -22,7 +22,7 @@ The Amplify Framework enables frontend developers to build apps quickly with a s
 
 ## {{site.data.concepts.prerequisites_js.header}}
 
-{{site.data.concepts.prerequisites_js.html}}
+{{site.data.concepts.prerequisites_js.content}}
 
 ## Source Code
 
@@ -859,21 +859,21 @@ In this section, you will cloud enable your Ionic app using the Amplify CLI.
 
 Amplify CLI is the command line tool that you will use to create and manage the backend for your Ionic app. In the upcoming sections, you will use Amplify CLI to simplify various operations. The CLI enables you to create and configure your backend quickly, even without leaving the command line!
 
-**Installing and Configuring the CLI:**
+## {{site.data.concepts.installing_amplify_cli.header}}
 
-To use Amplify CLI with your Ionic project, you need to install it to your local development machine and configure it with your AWS credentials. Configuration is a one-time effort; once you configure the CLI, you can use it on multiple projects on your local machine. Because the CLI creates backend resources for you, it needs to utilize an AWS account with appropriate IAM permissions. During the configuration step, a new IAM role will be automatically created on your AWS account.  
-
+{{site.data.concepts.installing_amplify_cli.content | markdownify }}
+ 
 To install and configure the Amplify CLI, run the following commands:
 ```bash
 $ npm install -g @aws-amplify/cli
 $ npm amplify configure
 ```
 
-**Amplify CLI vs. AWS Console**
+## {{site.data.concepts.amplify_cli_vs_aws_console.header}}
 
-The backend resources that are created by the CLI is available to you through the AWS Console, e.g., you can access your Amazon Cognito User Pool on the AWS Console after you enable auth with Amplify CLI. 
+{{site.data.concepts.amplify_cli_vs_aws_console.content}}
 
-To learn about Amplify CLI, visit the [CLI developer documentation](../cli/init){: target='_new'}.
+{{site.data.concepts.amplify_cli_vs_aws_console.link}}
 {:.callout .callout--info}
 
 ## Initialize Your Backend
@@ -903,13 +903,9 @@ Let's add our first backend feature to our app, Analytics. Adding Analytics won'
 
 While enabling Analytics, you will also learn how to use Amplify CLI and configure your app to work with various backend services.
 
-**How Amplify CLI works?**
+## {{site.data.concepts.how_amplify_cli_works.header}}
 
-When you deploy your backend with Amplify CLI, here is what happens under the hood:
-
-1. The CLI creates and provisions related resources on your account
-2. The CLI updates your '/amplify' folder, which has all the relevant information about your backend on AWS
-3. The CLI updates the configuration file *aws-exports.js* with the latest resource credentials
+{{site.data.concepts.how_amplify_cli_works.content | markdownify }}
 
 As a front-end developer, you need to import the auto generated *aws-exports.js* configuration file in your Ionic app, and configure your app with `Amplify.configure()` method call.
 
@@ -938,13 +934,9 @@ import aws_exports from './aws-exports';
 Amplify.configure(aws_exports);
 ```
 
-### Monitoring App Analytics
+## {{site.data.concepts.monitoring_app_analytics.header}}
 
-Refresh your application a couple of times, and then you will start receiving usage metrics in Amazon Pinpoint console. 
-
-![](images/app-analytics-console.png){: class="screencap" style="max-height:500px;"}
-
-Since your application doesn’t have much functionality at the moment, only 'session start' events are displayed in Pinpoint Console. As you add more cloud features to your app - like authentication - Amplify will automatically report related analytics events to Amazon Pinpoint. So, you will know how your users are interacting with your app.
+{{site.data.concepts.monitoring_app_analytics.content | markdownify }}
 
 ## Adding Authentication
 
@@ -1079,9 +1071,9 @@ Once your application loads, on the ‘Home Page’ tab, and you will see login/
 
 Your app now authenticates users with Amazon Cognito!
 
-**Where is the user data stored?**
+## {{site.data.concepts.where_is_the_user_data_stored.header}}
 
-When a new user registers through the Amplify auth UI component, the user data is stored in your Cognito User Pool. You can visit Amazon Cognito console and see the list of registered users by selecting the User Pool that is created for your app.
+{{site.data.concepts.where_is_the_user_data_stored.content | markdownify }}
 
 **Disabling Multi-factor Authentication**
 
@@ -1106,6 +1098,10 @@ If you don’t want to use the Ionic versions of AWS Amplify's UI components, yo
 # Part 3: Enabling GraphQL Backend
 
 So far, your Todo app is powered by Amazon Cognito User Pools, but the todo list is not stored on the cloud yet. In this part, you will integrate your app with a GraphQL API (powered by AWS AppSync) that will store your todo list on a NoSQL database (Amazon DynamoDB).
+
+## {{site.data.concepts.what_is_graphql.header}}
+
+{{site.data.concepts.what_is_graphql.content | markdownify }}
 
 The Amplify CLI will also help you when creating the GraphQL backend.  
 
