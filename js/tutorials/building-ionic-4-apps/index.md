@@ -90,7 +90,7 @@ $ npm install aws-amplify
 $ npm install aws-amplify-angular
 ```
 
-Note that you have installed the required Amplify packages in this step. In Part 2, you will use those packages to cloud-enable your Ionic app.
+You have installed the required Amplify packages in this step. In Part 2, you will use those packages to cloud-enable your Ionic app.
 
 ## Working with Ionic
 
@@ -263,7 +263,7 @@ Now, *AuthGuardService* is available in the *Tabs* module. This update will disa
 
 **Angular 6**
 
-Angular 6 has removed a shim for the global object used by many NPM modules, including some dependencies for Amplify. To accommodate for this change, add the following to your application's <head> tag in *src/index.html*:
+Angular 6 has removed a shim for the global object used by many NPM modules, including some dependencies for Amplify. To accommodate for this change, add the following to your application's <head> tag in **src/index.html**:
 
 ```html
 <script>
@@ -275,7 +275,9 @@ Angular 6 has removed a shim for the global object used by many NPM modules, inc
 
 **AWS JavaScript SDK**
 
-Amplify Framework utilizes *aws-js-sdk* as a dependency. Because of that, when using with TypeScript, the “node” package should be included in types compiler option. Add *node* as a new type in *compilerOptions* in your **src/tsconfig.app.json** file :
+Amplify Framework utilizes *aws-js-sdk* as a dependency. Because of that, when using with TypeScript, the “node” package should be included in types compiler option. 
+
+Add *node* as a new type in *compilerOptions* in your **src/tsconfig.app.json** file :
 
 ```js
 "compilerOptions": {
@@ -308,10 +310,9 @@ import { AuthGuardService } from '../services/auth-route-guard';
 
 @Component({
   selector: 'app-page-home',
-  templateUrl: 'homeTab.page.html',
-  styleUrls: ['homeTab.page.scss']
+  templateUrl: 'homeTab.page.html'
 })
-export class HomeTab implements AfterContentInit{
+export class HomeTab implements AfterContentInit {
 
   authState: any;
   // including AuthGuardService here so that it's available to listen to auth events
@@ -322,26 +323,27 @@ export class HomeTab implements AfterContentInit{
     this.authService = guard;
   }
 
-  ngAfterContentInit(){
-    this.events.publish('data:AuthState', this.authState)
+  ngAfterContentInit() {
+    this.events.publish('data:AuthState', this.authState);
   }
 
   login() {
     this.authState.loggedIn = true;
-    this.events.publish('data:AuthState', this.authState)
+    this.events.publish('data:AuthState', this.authState);
   }
 
   logout() {
     this.authState.loggedIn = false;
-    this.events.publish('data:AuthState', this.authState)
+    this.events.publish('data:AuthState', this.authState);
   }
 
 }
+
 ```
 
 #### Creating the homeTab Module Definition
 
-To create the *HomeTabModule* definition, create a new file *src/app/homeTab/homeTab.module.ts* with the following code:
+To create the *HomeTabModule* definition, create a new file **src/app/homeTab/homeTab.module.ts** with the following code:
 
 ```javascript
 import { IonicModule } from '@ionic/angular';
@@ -387,7 +389,9 @@ Create the view file **src/app/homeTab/homeTab.page.html** with the following co
 <ion-content padding>
   <ion-button (click)="login()">Simulate Login</ion-button>
   <ion-button (click)="logout()">Simulate Logout</ion-button>
-  Logged In? {{authState.loggedIn}}
+  <ion-chip>
+      <ion-label>Logged In? {{authState.loggedIn}} </ion-label>
+    </ion-chip>
 </ion-content>
 ```
 
@@ -413,13 +417,15 @@ Replace the content of the page **src/app/tabs/tabs.page.html** with the followi
 </ion-tabs>
 ```
 
-Now, check your app on the browser and you will see that the tabs are updated, but nothing happens when you click to the tabs. Tab buttons will not work until you create the route handlers for our modules *homeTab* and *listTab*.
+Now, test your app on the browser and you will see that the tabs are updated, but nothing happens when you click to the tabs. Tab buttons will not work until you create the route handlers for our modules *homeTab* and *listTab*.
+
+![](images/app-tabs-without-routes.png){: class="screencap" style="max-height:500px; float:none;"}
 
 #### Updating Routes
 
 To display our content in the 'Home Page' tab, we need to update the route configuration in the *Tabs* module.
 
-Apply the following two modifications to **src/app/tabs/tabs.router.module** file:
+Apply the following two modifications to **src/app/tabs/tabs.router.module.ts** file:
 
   1. Import *AuthGuardService*, so we can use our custom auth logic when working with tabs (like disabling a tab if the user is not signed in):
   ```javascript
@@ -430,11 +436,11 @@ Apply the following two modifications to **src/app/tabs/tabs.router.module** fil
   2. Replace *routes* constant with the following code:
   ```javascript
   //...
-  const routes: Routes = [
-    {
-      path: 'tabs',
-      component: TabsPage,
-      children: [
+    const routes: Routes = [
+      {
+        path: 'tabs',
+        component: TabsPage,
+        children: [
         {
           path: 'home',
           children: [
@@ -449,18 +455,20 @@ Apply the following two modifications to **src/app/tabs/tabs.router.module** fil
           redirectTo: '/tabs/home',
           pathMatch: 'full'
         }
-      ]
-    },
-    {
-      path: '',
-      redirectTo: '/tabs/home',
-      pathMatch: 'full'
-    }
-  ];
-  //...
+        ]
+      },
+      {
+        path: '',
+        redirectTo: '/tabs/home',
+        pathMatch: 'full'
+      }
+    ];
+    //...
   ```
 
-Now test your app, the app will display your new *HomeTab* module when you click 'Home Page' tab.
+Now test your app; when the app launches our new *HomeTab* module will be displayed.
+
+![](images/app-home-draft.png){: class="screencap" style="max-height:500px; float:none;"}
 
 ### ListTab Module
 
@@ -558,31 +566,38 @@ You may notice that we are using some dummy data to populate our todo list.
 
 In Part 3, we will switch it with real backend data using a GraphQL query with AWS AppSync.
 
-#### Creating listTab View
+#### Creating the listTab View
 
 The *listTab* component needs an HTML template for listing todo items. 
 
-Create a new file */src/app/listTab/listTab.page.html* with the following HTML markup:
+Create a new file **/src/app/listTab/listTab.page.html** with the following HTML markup:
 
 ```html
 <ion-header>
-  <ion-toolbar>
+<ion-toolbar>
     <ion-title *ngIf="user">User</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="modify(null)">Add Item</ion-button>
+    <ion-button (click)="modify(null)">Add Item</ion-button>
     </ion-buttons>
-  </ion-toolbar>
+</ion-toolbar>
 </ion-header>
 <ion-content *ngIf="itemList">
     <ion-card *ngFor="let item of itemList.items; index as i">
-      <ion-card-title class="hover card-title" (click)="modify(item)">{{item.title}}</ion-card-title>
-      <ion-card-content>{{item.description}}</ion-card-content>
+        <ion-card-header class="hover card-title" (click)="modify(item,i)">
+            <ion-card-title >
+                {{item.title}}
+            </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            {{item.description}}
+        </ion-card-content>
         <ion-buttons slot="end">
-          <ion-button (click)="delete(item)">
-              <ion-icon name="trash" size="small"></ion-icon>Delete</ion-button>
-          <ion-button (click)="complete(item)">
-              <ion-icon name="checkmark-circle"  size="small" [ngClass]="{'complete': item.status=='complete'}"></ion-icon>Mark Complete
-          </ion-button>
+            <ion-button (click)="delete(item,i)">
+                <ion-icon name="trash" size="small"></ion-icon>Delete
+            </ion-button>
+            <ion-button (click)="complete(item,i)">
+                <ion-icon name="checkmark-circle"  size="small" [ngClass]="{'complete': item.status=='complete'}"></ion-icon>Mark Complete
+            </ion-button>
         </ion-buttons>
     </ion-card>
 </ion-content>
@@ -590,18 +605,15 @@ Create a new file */src/app/listTab/listTab.page.html* with the following HTML m
 
 **Component styling**
 
-You can also customize the style of the component by providing a style sheet file. 
+You can also customize the style of the component by providing a style sheet file. For example, the following style will change the color of the status sign for completed tasks in the todo list.
 
-Create a new file *src/app/listTab/listTab.page.scss* with the following styles:
+Create a new file **src/app/listTab/listTab.page.scss** with the following styles:
 ```css
 .hover {
   cursor: pointer;
 }
 .complete {
   color: green;
-}
-.card-title {
-  margin: 12px 0 0 12px !important;
 }
 ```
 
@@ -712,12 +724,12 @@ export class ListItemModal implements OnInit {
 
   constructor(private modalController: ModalController) {}
 
-  ngOnInit(){
+  ngOnInit() {
     /*
       If you pass in an 'editItem' property, then you create a copy to store changes to the existing item
       so that the original is not modified unless the user saves.
     */
-    this.item = this.editItem ? Object.assign({}, this.editItem) : new ToDoItem({})
+    this.item = this.editItem ? Object.assign({}, this.editItem) : new ToDoItem({});
   }
 
   save() {
@@ -730,12 +742,14 @@ export class ListItemModal implements OnInit {
       newItem: !this.editItem ? this.item : null,
       editItem: this.editItem ? this.item : null
     });
-  };
+  }
 
   cancel(){
-    this.modalController.dismiss({itemList: this.itemList})
+    this.modalController.dismiss({itemList: this.itemList});
   }
+
 }
+
 ```
 
 Then, create the view file for the modal **src/app/listTab/listTab.item.modal.html**:
@@ -912,7 +926,7 @@ After successfully executing the *push* command, the CLI creates your configurat
 
 The next step is to import *aws-exports.js* configuration file into your app.
 
-Note that the file extension for the Amplify configuration file is '.js'. Since we are using TypeScript, you need to change the file extension from '.js' to '.ts' to be able to import the file. This can be a bit tricky when you are adding new cloud features; you need to rename the latest version of *aws-exports.js* every time your backend is updated. Consider using a task-runner that will make this operation for you. Alternatively, you can enable the [allowJs](https://www.typescriptlang.org/docs/handbook/compiler-options.html) compiler option in your tsconfig.
+Note that the file extension for the Amplify configuration file is '.js'. Since we are using TypeScript, you need to change the file extension from '.js' to '.ts' to be able to import the file. This can be a bit tricky when you are adding new cloud features; you need to rename the latest version of *aws-exports.js* every time your backend is updated. Consider using a task-runner that will make this operation for you. Alternatively, you can enable the [allowJs](https://www.typescriptlang.org/docs/handbook/compiler-options.html) compiler option in your *tsconfig.app.json* file.
 {: .callout .callout--info}
 
 To configure your app, open **src/main.ts** file and make the following changes in code:
@@ -1000,7 +1014,9 @@ Add the following import statement in **src/global.scss**:
 
 ### Updating Auth State 
 
-Do you remember that we have modules that are listening to *data:AuthState* events? Now, it is time to publish those events accurately using Amplify auth. *HomePage* component is the place where we will publish *data:AuthState* messages.
+If you test your app at this stage, when you click 'Todo List' tab, the list tab will not be displayed. Because, you have not integrated Amplify auth with *data:AuthState* events.
+
+Remember that we have modules that are listening to *data:AuthState* events. Now, it is time to publish those events accurately using Amplify auth. *HomePage* component is the place where we will publish *data:AuthState* messages.
 
 It will work as follows:
 
@@ -1023,7 +1039,7 @@ import { AmplifyService } from 'aws-amplify-angular';
   selector: 'app-page-home',
   templateUrl: 'homeTab.page.html'
 })
-export class HomeTab implements AfterContentInit{
+export class HomeTab implements AfterContentInit {
 
   authState: any;
   // including AuthGuardService here so that it's available to listen to auth events
@@ -1041,14 +1057,16 @@ export class HomeTab implements AfterContentInit{
     this.amplifyService.authStateChange$
     .subscribe(authState => {
       this.authState.loggedIn = authState.state === 'signedIn';
-      this.events.publish('data:AuthState', this.authState)
+      this.events.publish('data:AuthState', this.authState);
     });
   }
 
   ngAfterContentInit(){
     this.events.publish('data:AuthState', this.authState);
   }
+
 }
+
 ```
 
 This update will integrate your app's auth states with Amplify auth feature.
@@ -1106,7 +1124,7 @@ Then, select *GraphQL* as the service type:
   REST
 ```
 
-API category supports GraphQL and REST endpoints. In this tutorial, we will create our backend on GraphQL, which uses AWS AppSync under the hood.
+API category supports GraphQL and REST endpoints. In this tutorial, we will create our backend on GraphQL, which uses AWS AppSync.
 {: .callout .callout--info}
 
 When you select `GraphQL` as the service type, the CLI offers you options to create a schema. A schema defines the data model for your GraphQL backend. 
@@ -1124,11 +1142,26 @@ Use a Cognito user pool configured as a part of this project
 ? Do you want to edit the schema now? No
 ```
 
+Deploy your GraphQL backend: 
+```bash
+$ amplify push
+```
+
+When prompted, choose *code generation language target* as *TypeScript*:
+
+```console
+? Do you want to generate code for your newly created GraphQL API: Yes
+? Choose the code generation language target: typescript
+? Enter the file name pattern of graphql queries, mutations and subscriptions: src/graphql/**/*.ts
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions: Yes
+? Enter the file name for the generated code: src/API.ts
+```
+
 When the CLI creates the GraphQL schema, the schema file is copied in */amplify/backend/api/fancytodos/schema.graphql* file for you to review and edit.
 
 ### Editing the Data Model (GraphQL Schema)
 
-The default schema created by the CLI is as follows:
+Open the GraphQL schema file that is create by the CLI in **/amplify/backend/api/fancytodos/schema.graphql**:
 
 ```js
 type Todo @model {
@@ -1142,7 +1175,7 @@ As you may notice, this schema is a bit different from our *ToDoItem* data model
 
 Luckily, when working with AWS AppSync, updating a schema (and thus updating your whole backend data infrastructure!) is very easy. 
 
-Just edit your local schema file which is located at */amplify/backend/api/fancytodos/schema.graphql* to match the following: 
+Just edit your local schema file which is located at **/amplify/backend/api/fancytodos/schema.graphql** to match the following: 
 
 ```js
 type Todo @model {
@@ -1156,7 +1189,7 @@ type Todo @model {
 Now, if you run *amplify status*, you will see that your update to the schema file is picked up by the CLI, and you have an 'Update' operation waiting to be deployed in your next deployment (amplify push):
 
 ```console
-$ amplify Status 
+$ amplify status 
 
 | Category  | Resource name   | Operation | Provider plugin   |
 | --------- | --------------- | --------- | ----------------- |
@@ -1170,14 +1203,22 @@ Now, update your backend to deploy your schema changes:
 $ amplify push
 ```
 
-Again, don't forget to rename 'aws-export.js' configuration file to 'aws-export.ts' after running the *push* command, as the configuration file is updated when you add services.
-{: .callout .callout--info}
+The CLI will ask if you want to update the generated code. Answer *Yes* for the options:
 
-The beauty of GraphQL - and AWS AppSync - is that it gives you a simple data model to work with, and you can extend it as you wish. Under the hood, our `Todo` data is stored on Amazon DynamoDB, and when you change your schema, additional data fields will be automatically available to you! 
+```console
+? Do you want to update code for your updated GraphQL API: Yes
+? Do you want to generate GraphQL statements (queries, mutations and subscription) based on your schema types? This will overwrite your current graphql queries, mutations and subscriptions: Yes
+```
+
+When the CLI finishes deploying your backend, new data types for your todo app will available on your GraphQL endpoint.
+
+**What happened under the hood?**
+
+The beauty of GraphQL - and AWS AppSync - is that you can have a simple data model to start with, and you can easily extend your model as your app has new features. Under the hood, our `Todo` data is stored on Amazon DynamoDB, and when you change your schema, additional data fields will be automatically available to you!
 
 Congratulations! You have extended your GraphQL data model by editing your local GraphQL schema, and deployed your backend with 'amplify push'.  
 
-## Using Queries and Mutations
+## Using GraphQL Queries and Mutations
 
 When working with a GraphQL API, you pass queries - or mutations - to the GraphQL endpoint. Queries are used for read operations, and mutations perform create or update operations. 
 
@@ -1185,20 +1226,12 @@ A query/mutation has a simple, JSON-like format, but you don't need to write it 
 
 ### Auto-Generating Queries/Mutations
 
-Run the following command to enable code generation for your project:
-```bash
-$ amplify add codegen
-```
+When you updated your GraphQL schema, selecting *Do you want to update code for your updated GraphQL API* option generated queries and mutations that you need. The CLI also saved your generated queries and mutations under 'src/graphql' folder.
 
-Then, run the following command to generate queries and mutations:
-
-```bash
-$ amplify codegen statements  
-```
+You can auto-generate queries and mutations anytime by running `$ amplify codegen statements` command.
+{: .callout .callout--info}
  
-The CLI creates and saves your generated queries and mutations under '/graphql' folder (unless you provide another folder when prompted).
-
-Here is the *listTodos* sample query that will bring all of your todos:
+Open **/src/graphql/queries.graphql** file to see *listTodos* query which brings all of your todo items:
 
 ```js
 export const listTodos = `query ListTodos(
@@ -1237,13 +1270,13 @@ const allTodos = await API.graphql(graphqlOperation(queries.listTodos));
 console.log(allTodos);
 ```
 
-## Connecting to GraphQL Backend
+## Connecting to the GraphQL Backend
 
 Currently, your GraphQL API and related backend resources (an Amazon DynamoDB table that stores the data) have been deployed to the cloud. Now, you can add CRUD functionality to your app by integrating the GraphQL backend.
 
 Remember that the todo list would be displayed in *listTab* page. So, you need to bind the data from your backend to the *listTab* page component.
 
-To accomplish this, you need to update *src/app/listTab/listTab.page.ts* to match the following code:
+Replace the content of **src/app/listTab/listTab.page.ts** with the following code:
 
 ```javascript
 import { Component, OnInit, Input } from '@angular/core';
@@ -1251,9 +1284,15 @@ import { ModalController, Events } from '@ionic/angular';
 import { ListItemModal } from './listTab.item.modal';
 import { ToDoItem, ToDoList } from '../classes/item.class';
 import Amplify, { API, graphqlOperation } from "aws-amplify";
-import * as queries from '../../.././graphql/queries';
-import * as mutations from '../../.././graphql/mutations';
+import * as queries from '../../graphql/queries';
+import * as mutations from '../../graphql/mutations';
 import { forEach } from '@angular/router/src/utils/collection';
+
+class GraphQLResult {
+    data?: any;
+    errors?: [any];
+    extensions?: { [key: string]: any };
+}
 
 @Component({
   selector: 'app-list-page',
@@ -1271,7 +1310,6 @@ export class ListTab implements OnInit {
     public modalController: ModalController,
     events: Events
   ) {
-
     // Listen for changes to the AuthState in order to change item list appropriately
     events.subscribe('data:AuthState', async (data) => {
       if (data.loggedIn){
@@ -1279,7 +1317,7 @@ export class ListTab implements OnInit {
       } else {
         this.itemList.items = [];
       }
-    })
+    });
   }
 
   async ngOnInit(){
@@ -1313,33 +1351,31 @@ export class ListTab implements OnInit {
     return modal.present();
   }
 
-  delete(item){
-    console.log (item)
-    API.graphql(graphqlOperation(mutations.deleteTodo, { input: { 'id': item.id } } ));
+  async delete(item){
+    await API.graphql(graphqlOperation(mutations.deleteTodo, { input: { 'id': item.id } } ));
     this.getItems();
   }
 
-  complete(item){
+  async complete(item){
+    await API.graphql(graphqlOperation(mutations.updateTodo, { input: item }));
+    this.getItems();
+  }
+
+  async create(item){
+    await API.graphql(graphqlOperation(mutations.createTodo, {input: item }));
+    this.getItems();
+  }
+
+  async edit(item){
     API.graphql(graphqlOperation(mutations.updateTodo, { input: item }));
-    this.getItems();
-  }
-
-  create(item){
-    API.graphql(graphqlOperation(mutations.createTodo, {input: item }));
-    this.getItems();
-  }
-
-  edit(item){
-    API.graphql(graphqlOperation(mutations.updateTodo, { input: item }));
-    this.getItems();
+    await this.getItems();
   }
 
   async getItems(){
-    let allItems =  await API.graphql(graphqlOperation(queries.listTodos));
-    allItems = allItems.data.listTodos.items;
+    const allItems = await API.graphql(graphqlOperation(queries.listTodos)) as GraphQLResult;
+    const result: any = allItems.data.listTodos.items;
     let items = Array();
-
-    allItems.forEach (function(value){
+    result.forEach (function(value){
       items.push (new ToDoItem(value));
     });
 
@@ -1347,10 +1383,10 @@ export class ListTab implements OnInit {
       userId: 1,
       items: items
     };
-
   }
 
 }
+
 ```
 
 You have just implemented GraphQL queries and mutations in your CRUD functions. Now, you can test your app and verify that the app data is persisted using your GraphQL backend!
@@ -1366,24 +1402,22 @@ When you check the request header, you will notice that the Request Payload has 
 
 You’ve persisted your app's data using AWS AppSync and Amazon DynamoDB.  
 
-## What's next
+## What's next?
 
-You have completed this tutorial. But, if you like to improve your app even further, here are some ideas you can work on.
+You have completed this tutorial. However, if you like to improve your app even further, here are some ideas you can consider.
+
+**Work with User Data**
+
+You may have noticed that our *Todo* GraphQL schema doesn't have a *user id* field. It means that the todo list is not personalized for your app users. To fix that, you can retrieve the user id after login, and use it when you work with data. When a user is logged in, you may also like to use the user profile information in your app, like displaying the username or profile picture. Learn more about User Attributes [here](https://aws-amplify.github.io/docs/js/authentication#working-with-user-attributes).
 
 **Use GraphQL Subscriptions**
 
 In addition to queries and mutations, you can use GraphQL subscriptions with AWS AppSync and enable real-time data in your app. Think of a user experience which you share your todo list with your friends and all of you create and edit items at the same time. Learn more about subscriptions [here](https://aws-amplify.github.io/docs/js/api#subscriptions).
 
-**Display User Data**
-
-When a user is logged in, you may like to use the user's profile information in your app, like displaying the username or picture. Learn more about User Attributes [here](https://aws-amplify.github.io/docs/js/authentication#working-with-user-attributes). 
-
 **Add Search**
 
-You can add a search functionality to your app. This is very easy by adding a `@searchable` directive in your GraphQL schema. Learn more about [here](https://aws-amplify.github.io/docs/cli/graphql#searchable). 
+You can add search functionality to your app. This will be very easy by adding a `@searchable` directive in your GraphQL schema. Learn more about [here](https://aws-amplify.github.io/docs/cli/graphql#searchable). 
 
 **Add Images**
 
 You can add an image attachment feature for todo items. This can be simply done by enabling complex object types in your GraphQL schema. Learn more about [here](https://aws-amplify.github.io/docs/cli/graphql#s3-objects). 
-
- 
