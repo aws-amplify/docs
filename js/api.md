@@ -240,7 +240,7 @@ Amplify.configure({
 
 ```
 
-#### Set Custom Request Headers for Graphql 
+#### Set Custom Request Headers for GraphQL 
 
 When working with a GraphQL endpoint, you may need to set request headers for authorization purposes. This is done by passing a `graphql_headers` function into the configuration:
 
