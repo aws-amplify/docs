@@ -8,7 +8,7 @@ CloudFormation template that implements the API's data model.
 
 For example you might create the backend for a blog like this:
 
-```
+```graphql
 type Blog @model {
   id: ID!
   name: String!
@@ -56,7 +56,7 @@ amplify add api
 
 You can leave the sample as is or try this schema.
 
-```
+```graphql
 type Blog @model {
   id: ID!
   name: String!
@@ -88,7 +88,7 @@ Go to AWS CloudFormation to view it. You can also find your project assets in th
 Once the API is finished deploying, try going to the AWS AppSync console and
 running some of these queries in your new API's query page.
 
-```
+```graphql
 # Create a blog. Remember the returned id.
 # Provide the returned id as the "blogId" variable.
 mutation CreateBlog {
@@ -190,7 +190,7 @@ query ListBlogs {
 
 If you want to update your API, open your project's `backend/api/~apiname~/schema.graphql` file (NOT the one in the `backend/api/~apiname~/build` folder) and edit it in your favorite code editor. You can compile the `backend/api/~apiname~/schema.graphql` by running:
 
-```
+```bash
 amplify api gql-compile
 ```
 
@@ -198,7 +198,7 @@ and view the compiled schema output in `backend/api/~apiname~/build/schema.graph
 
 You can then push updated changes with:
 
-```
+```bash
 amplify push
 ```
 
@@ -218,7 +218,7 @@ model type.
 The following SDL defines the `@model` directive that allows you to easily define
 top level object types in your API that are backed by Amazon DynamoDB.
 
-```
+```graphql
 directive @model(
     queries: ModelQueryMap, 
     mutations: ModelMutationMap
@@ -233,7 +233,7 @@ Define a GraphQL object type and annotate it with the `@model` directive to stor
 objects of that type in DynamoDB and automatically configure CRUDL queries and
 mutations.
 
-```
+```graphql
 type Post @model {
     id: ID! # id: ID! is a required attribute.
     title: String!
@@ -243,7 +243,7 @@ type Post @model {
 
 You may also override the names of any generated queries and mutations, or remove operations entirely.
 
-```
+```graphql
 type Post @model(queries: { get: "post" }, mutations: null) {
     id: ID!
     title: String!
@@ -267,7 +267,7 @@ A single `@model` directive configures the following AWS resources:
 
 This input schema document
 
-```
+```graphql
 type Post @model {
     id: ID!
     title: String
@@ -281,7 +281,7 @@ enum Category { comedy news }
 
 would generate the following schema parts
 
-```
+```graphql
 type Post {
   id: ID!
   title: String!
@@ -415,7 +415,7 @@ Types that are annotated with `@auth` must also be annotated with `@model`.
 
 #### Definition
 
-```
+```graphql
 # When applied to a type, augments the application with
 # owner and group-based authorization rules.
 directive @auth(rules: [AuthRule!]!) on OBJECT
@@ -437,7 +437,7 @@ enum ModelMutation { create update delete }
 
 **Owner Authorization**
 
-```
+```graphql
 # The simplest case
 type Post @model @auth(rules: [{allow: owner}]) {
   id: ID!
@@ -475,7 +475,7 @@ that stores unfinished posts for a blog. You might want to allow the **Draft's o
 read **Draft** objects. However, you might also want the **Draft's editors** to be able to update and read **Draft** objects.
 To allow for this use case you could use the following type definition:
 
-```
+```graphql
 type Draft 
     @model 
     @auth(rules: [
@@ -501,7 +501,7 @@ feature that helps with this is that it will automatically fill ownership fields
 told explicitly not to do so. To show how this works, lets look at how the create mutation
 would work for the **Draft** type above:
 
-```
+```graphql
 mutation CreateDraft {
     createDraft(input: { title: "A new draft" }) {
         id
@@ -532,7 +532,7 @@ and will fill them in be default. If you do not want the value to be automatical
 you need to do is include a value for it in your input. For example, to have the resolver
 automatically set the **owner** but not the **editors**, you would run this:
 
-```
+```graphql
 mutation CreateDraft {
     createDraft(
         input: { 
@@ -565,7 +565,7 @@ This would return:
 
 You can try do the same to **owner** but this will throw an **Unauthorized** exception because you are no longer the owner of the object you are trying to create
 
-```
+```graphql
 mutation CreateDraft {
     createDraft(
         input: { 
@@ -584,7 +584,7 @@ mutation CreateDraft {
 
 To set the owner to null with the current schema, you would still need to be in the editors list:
 
-```
+```graphql
 mutation CreateDraft {
     createDraft(
         input: { 
@@ -623,7 +623,7 @@ Static group authorization allows you to protect `@model` types by restricting a
 to a known set of groups. For example, you can allow all **Admin** users to create,
 update, delete, get, and list Salary objects.
 
-```
+```graphql
 type Salary @model @auth(rules: [{allow: groups, groups: ["Admin"]}]) {
   id: ID!
   wage: Int
@@ -640,7 +640,7 @@ section above. When we last left off, a **Draft** object could be updated and re
 and any of its editors and could be created and deleted only by its owner. Let's change it so that 
 now any member of the "Admin" group can also create, update, delete, and read a **Draft** object.
 
-```
+```graphql
 type Draft 
     @model 
     @auth(rules: [
@@ -662,9 +662,9 @@ type Draft
 }
 ```
 
-**Dynamic Group Auth**
+**Dynamic Group Authorization**
 
-```
+```graphql
 # Dynamic group authorization with multiple groups
 type Post @model @auth(rules: [{allow: groups, groupsField: "groups"}]) {
   id: ID!
@@ -694,7 +694,7 @@ access, and members of the admin group had full access to **Draft** objects. Now
 requirement where each record should be able to specify an optional list of groups that can read
 the draft. This would allow you to share an individual document with an external team, for example.
 
-```
+```graphql
 type Draft 
     @model 
     @auth(rules: [
@@ -722,7 +722,7 @@ type Draft
 
 With this setup, you could create an object that can be read by the "BizDev" group:
 
-```
+```graphql
 mutation CreateDraft {
     createDraft(input: {
         title: "A new draft",
@@ -737,7 +737,7 @@ mutation CreateDraft {
 
 And another draft that can be read by the "Marketing" group:
 
-```
+```graphql
 mutation CreateDraft {
     createDraft(input: {
         title: "Another draft",
@@ -758,7 +758,7 @@ of authorization.
 
 **Owner Authorization**
 
-```
+```graphql
 type Post @model @auth(rules: [{allow: owner}]) {
   id: ID!
   title: String!
@@ -779,7 +779,7 @@ Work in progress.
 
 **Static Group Authorization**
 
-```
+```graphql
 type Post @model @auth(rules: [{allow: groups, groups: ["Admin"]}]) {
   id: ID!
   title: String!
@@ -797,7 +797,7 @@ Static group auth is simpler than the others. The generated resolvers would be p
 
 **Dynamic Group Authorization**
 
-```
+```graphql
 type Post @model @auth(rules: [{allow: groups, groupsField: "groups"}]) {
   id: ID!
   title: String!
@@ -822,7 +822,7 @@ yourself using two one-to-many connections and joining `@model` type. See the us
 
 #### Definition
 
-```
+```graphql
 directive @connection(name: String) on FIELD_DEFINITION
 ```
 
@@ -835,7 +835,7 @@ the `@connection` directive.
 
 In the simplest case, you can define a one-to-one connection:
 
-```
+```graphql
 type Project @model {
     id: ID!
     name: String
@@ -849,7 +849,7 @@ type Team @model {
 
 After it's transformed, you can create projects with a team as follows:
 
-```
+```graphql
 mutation CreateProject {
     createProject(input: { name: "New Project", projectTeamId: "a-team-id"}) {
         id
@@ -866,7 +866,7 @@ mutation CreateProject {
 
 Likewise, you can make a simple one-to-many connection as follows:
 
-```
+```graphql
 type Post {
     id: ID!
     title: String!
@@ -880,7 +880,7 @@ type Comment {
 
 After it's transformed, you can create comments with a post as follows:
 
-```
+```graphql
 mutation CreateCommentOnPost {
     createComment(input: { content: "A comment", postCommentsId: "a-post-id"}) {
         id
@@ -901,7 +901,7 @@ For example, if you wanted your `Post.comments`
 and `Comment.post` fields to refer to opposite sides of the same relationship,
 you need to provide a name.
 
-```
+```graphql
 type Post {
     id: ID!
     title: String!
@@ -916,7 +916,7 @@ type Comment {
 
 After it's transformed, create comments with a post as follows:
 
-```
+```graphql
 mutation CreateCommentOnPost {
     createComment(input: { content: "A comment", commentPostId: "a-post-id"}) {
         id
@@ -937,7 +937,7 @@ mutation CreateCommentOnPost {
 
 You can implement many to many yourself using two 1-M @connections and a joining @model. For example:
 
-```
+```graphql
 type Post @model {
   id: ID!
   title: String!
@@ -977,7 +977,7 @@ The `@versioned` directive adds object versioning and conflict resolution to a t
 
 #### Definition
 
-```
+```graphql
 directive @versioned(versionField: String = "version", versionInput: String = "expectedVersion") on OBJECT
 ```
 
@@ -985,7 +985,7 @@ directive @versioned(versionField: String = "version", versionInput: String = "e
 
 Add `@versioned` to a type that is also annotate with `@model` to enable object versioning and conflict detection for a type.
 
-```
+```graphql
 type Post @model @versioned {
   id: ID!
   title: String!
@@ -995,7 +995,7 @@ type Post @model @versioned {
 
 **Creating a Post automatically sets the version to 1**
 
-```
+```graphql
 mutation Create {
   createPost(input:{
     title:"Conflict detection in the cloud!"
@@ -1011,7 +1011,7 @@ mutation Create {
 
 > Note: When updating an object, the version number will automatically increment.
 
-```
+```graphql
 mutation Update($postId: ID!) {
   updatePost(
     input:{
@@ -1029,7 +1029,7 @@ mutation Update($postId: ID!) {
 
 **Deleting a Post requires passing the "expectedVersion" which is the object's last saved version**
 
-```
+```graphql
 mutation Delete($postId: ID!) {
   deletePost(
     input: {
@@ -1061,7 +1061,7 @@ Amazon Elasticsearch Service and configures search resolvers that search that in
 
 #### Definition
 
-```
+```graphql
 # Streams data from DynamoDB to Elasticsearch and exposes search capabilities.
 directive @searchable(queries: SearchableQueryMap) on OBJECT
 input SearchableQueryMap { search: String }
@@ -1072,7 +1072,7 @@ input SearchableQueryMap { search: String }
 Store posts in Amazon DynamoDB and automatically stream them to Amazon ElasticSearch
 via AWS Lambda and connect a searchQueryField resolver.
 
-```
+```graphql
 type Post @model @searchable {
   id: ID!
   title: String!
@@ -1085,7 +1085,7 @@ type Post @model @searchable {
 You may then create objects in DynamoDB that will be automatically streamed to lambda
 using the normal `createPost` mutation.
 
-```
+```graphql
 mutation CreatePost {
   createPost(input: { title: "Stream me to Elasticsearch!" }) {
     id
@@ -1099,7 +1099,7 @@ mutation CreatePost {
 
 And then search for posts using a `match` query:
 
-```
+```graphql
 query SearchPosts {
   searchPost(filter: { title: { match: "Stream" }}) {
     items {
@@ -1126,7 +1126,7 @@ The `filter` parameter in the search query has a searchable type field that corr
 
 For example, you can filter using the wildcard expression to search for posts using the following `wildcard` query:
 
-```
+```graphql
 query SearchPosts {
   searchPost(filter: { title: { wildcard: "S*Elasticsearch!" }}) {
     items {
@@ -1141,7 +1141,7 @@ The above query returns all documents whose `title` begins with `S` and ends wit
 
 Moreover you can use the `filter` parameter to pass a nested `and`/`or`/`not` condition. By default, every operation in the filter properties is *AND* ed. You can use the `or` or `not` properties in the `filter` parameter of the search query to override this behavior. Each of these operators (`and`, `or`, `not` properties in the filter object) accepts an array of searchable types which are in turn joined by the corresponding operator. For example, consider the following search query:
 
-```
+```graphql
 query SearchPosts {
   searchPost(filter: {
     title: { wildcard: "S*" }
@@ -1184,7 +1184,7 @@ At a minimum the steps to add S3 Object support are as follows:
 
 **Create a GraphQL API via `amplify add api` and add the following type definition:**
 
-```
+```graphql
 type S3Object {
   bucket: String!
   region: String!
@@ -1194,7 +1194,7 @@ type S3Object {
 
 **Reference the S3Object type from some `@model` type:**
 
-```
+```graphql
 type Picture @model @auth(rules: [{allow: owner}]) {
   id: ID!
   name: String
@@ -1209,7 +1209,7 @@ The GraphQL Transform handles creating the relevant input types and will store p
 
 **Run a mutation with s3 objects from your client app:**
 
-```
+```graphql
 mutation ($input: CreatePictureInput!) {
   createPicture(input: $input) {
     id
@@ -1230,13 +1230,13 @@ mutation ($input: CreatePictureInput!) {
 
 **First create an amplify project:**
 
-```
+```bash
 amplify init
 ```
 
 **Next add the `auth` category to enable Amazon Cognito User Pools:**
 
-```
+```bash
 amplify add auth
 
 # You may use the default settings.
@@ -1244,7 +1244,7 @@ amplify add auth
 
 **Then add the `storage` category and configure an Amazon S3 bucket to store files.**
 
-```
+```bash
 amplify add storage
 
 # Select "Content (Images, audio, video, etc.)"
@@ -1253,7 +1253,7 @@ amplify add storage
 
 **Next add the `api` category and configure a GraphQL API with Amazon Cognito User Pools enabled.**
 
-```
+```bash
 amplify add api
 
 # Select the graphql option and then Amazon Cognito User Pools option.
@@ -1264,7 +1264,7 @@ amplify add api
 
 **Once your `schema.graphql` is open in your editor of choice, enter the following:**
 
-```
+```graphql
 type Picture @model @auth(rules: [{allow: owner}]) {
   id: ID!
   name: String
@@ -1288,7 +1288,7 @@ enum Visibility {
 
 **After defining your API's schema.graphql deploy it to AWS.**
 
-```
+```bash
 amplify push
 ```
 
@@ -1444,7 +1444,7 @@ export default graphql(
 
 ### Simple Todo
 
-```
+```graphql
 type Todo @model {
   id: ID!
   name: String!
@@ -1454,7 +1454,7 @@ type Todo @model {
 
 ### Blog
 
-```
+```graphql
 type Blog @model {
   id: ID!
   name: String!
@@ -1475,7 +1475,7 @@ type Comment @model {
 
 #### Blog Queries
 
-```
+```graphql
 # Create a blog. Remember the returned id.
 # Provide the returned id as the "blogId" variable.
 mutation CreateBlog {
@@ -1567,7 +1567,7 @@ query ListBlogs {
 
 **Note: To use the @auth directive, the API must be configured to use Amazon Cognito user pools.**
 
-```
+```graphql
 type Task 
   @model 
   @auth(rules: [
@@ -1591,7 +1591,7 @@ type PrivateNote
 
 #### Task Queries
 
-```
+```graphql
 # Create a task. Only allowed if a manager.
 mutation M {
   createTask(input:{
@@ -1643,7 +1643,7 @@ query ListPrivateNote {
 
 ### Conflict Detection
 
-```
+```graphql
 type Note @model @versioned {
   id: ID!
   content: String!
@@ -1653,7 +1653,7 @@ type Note @model @versioned {
 
 #### Conflict Detection Queries
 
-```
+```graphql
 mutation Create {
   createNote(input:{
     content:"A note"
@@ -1818,7 +1818,7 @@ const VERSIONED_DIRECTIVE = `
 
 Our `@versioned` directive can be applied to `OBJECT` type definitions and automatically adds object versioning and conflict detection to an APIs mutations. For example, we might write
 
-```
+```graphql
 # Any mutations that deal with the Post type will ask for an `expectedVersion`
 # input that will be checked using DynamoDB condition expressions.
 type Post @model @versioned {
