@@ -722,7 +722,7 @@ Any data returned by a query is automatically written to the Apollo Cache (e.g. 
 | Post:N | {author:"Pancho", content:"XYZ"} |
 | ROOT_QUERY.getPost(id:1) |ref: $Post:1 |
 
-Notice that the cache keys are normalized where the `getPost(id:1)` query references the same element that is part of the `listPosts` query. This happens automatically inn JavaScript applications by using `id` as a common cache key to uniquely identify the objects. You can choose to change the cache key with the `cacheOptions :{ dataIdFromObject }` method when creating the `AWSAppSyncClient`:
+Notice that the cache keys are normalized where the `getPost(id:1)` query references the same element that is part of the `listPosts` query. This happens automatically in JavaScript applications by using `id` as a common cache key to uniquely identify the objects. You can choose to change the cache key with the `cacheOptions :{ dataIdFromObject }` method when creating the `AWSAppSyncClient`:
 
 ```javascript
 const client = new AWSAppSyncClient({
