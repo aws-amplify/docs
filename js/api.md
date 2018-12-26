@@ -256,7 +256,7 @@ Amplify.configure({
 
 #### Signing Request with IAM
 
-AWS Amplify provides the ability to sign requests automatically with AWS Identity Access Management (IAM) for GraphQL requests that are processed through AWS API Gateway. Add *graphql_endpoint_iam_region* parameter to your GraphQL configuration statement to enable signing: 
+AWS Amplify provides the ability to sign requests automatically with AWS Identity Access Management (IAM) for GraphQL requests that are processed through AWS API Gateway. Add the *graphql_endpoint_iam_region* parameter to your GraphQL configuration statement to enable signing: 
 
 ```javascript
 Amplify.configure({
