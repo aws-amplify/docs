@@ -157,7 +157,7 @@ Since the team is sharing the same dev backend, periodically team members would 
 ```
 $ cd <your-project>
 $ git checkout dev
-$ $ amplify init
+$ amplify init
 ? Do you want to use an existing environment? true
 ? Choose the environment you would like to use: 
 ❯ dev 
