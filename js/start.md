@@ -383,7 +383,7 @@ let EventsSent = 0;
 AnalyticsEventButton.addEventListener('click', (evt) => {
     Analytics.record('AWS Amplify Tutorial Event')
         .then( (evt) => {
-            const url = 'https://console.aws.amazon.com/pinpoint/home/?region=us-east-1#/apps/'+awsconfig.aws_mobile_analytics_app_id+'/analytics/events';
+            const url = 'https://'+awsconfig.aws_project_region+'.console.aws.amazon.com/pinpoint/home/?region='+awsconfig.aws_project_region+'#/apps/'+awsconfig.aws_mobile_analytics_app_id+'/analytics/events';
             AnalyticsResult.innerHTML = '<p>Event Submitted.</p>';
             AnalyticsResult.innerHTML += '<p>Events sent: '+(++EventsSent)+'</p>';
             AnalyticsResult.innerHTML += '<a href="'+url+'" target="_blank">View Events on the Amazon Pinpoint Console</a>';
@@ -422,7 +422,7 @@ class App extends Component {
   handleAnalyticsClick() {
       Analytics.record('AWS Amplify Tutorial Event')
         .then( (evt) => {
-            const url = 'https://console.aws.amazon.com/pinpoint/home/?region=us-east-1#/apps/'+awsconfig.aws_mobile_analytics_app_id+'/analytics/events';
+            const url = 'https://'+awsconfig.aws_project_region+'.console.aws.amazon.com/pinpoint/home/?region='+awsconfig.aws_project_region+'#/apps/'+awsconfig.aws_mobile_analytics_app_id+'/analytics/events';
             let result = (<div>
               <p>Event Submitted.</p>
               <p>Events sent: {++this.state.eventsSent}</p>
@@ -484,7 +484,7 @@ export default class App extends React.Component {
     handleAnalyticsClick() {
       Analytics.record('AWS Amplify Tutorial Event')
         .then( (evt) => {
-            const url = 'https://console.aws.amazon.com/pinpoint/home/?region=us-east-1#/apps/'+awsconfig.aws_mobile_analytics_app_id+'/analytics/events';
+            const url = 'https://'+awsconfig.aws_project_region+'.console.aws.amazon.com/pinpoint/home/?region='+awsconfig.aws_project_region+'#/apps/'+awsconfig.aws_mobile_analytics_app_id+'/analytics/events';
             let result = (
               <View>
                 <Text>Event Submitted.</Text>
@@ -592,7 +592,8 @@ To add the analytics event recorder to your app, replace your ```AppComponent```
 ```javascript
 export class AppComponent {
   title = 'amplify-angular-app';
-  url = 'https://console.aws.amazon.com/pinpoint/home/?region=us-east-1#/apps/'
+  url = 'https://' + awsconfig.aws_project_region + '.console.aws.amazon.com/pinpoint/home/?region='
+        + awsconfig.aws_project_region + '#/apps/'
         + awsconfig.aws_mobile_analytics_app_id + '/analytics/events';
   eventsSent = 0;
   analyticsEventSent = false;
@@ -695,7 +696,8 @@ export class AppComponent {
     this.initializeApp();
   }
 
-  url = 'https://console.aws.amazon.com/pinpoint/home/?region=us-east-1#/apps/'
+  url = 'https://' + awsconfig.aws_project_region + '.console.aws.amazon.com/pinpoint/home/?region='
+        + awsconfig.aws_project_region + '#/apps/'
         + awsconfig.aws_mobile_analytics_app_id + '/analytics/events';
   eventsSent = 0;
   analyticsEventSent = false;
