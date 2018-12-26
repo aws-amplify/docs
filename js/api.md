@@ -13,9 +13,9 @@ The API category provides a solution for making HTTP requests to REST and GraphQ
 
 ## Using GraphQL Endpoints
 
-AWS Amplify API Module supports AWS AppSync or any other GraphQL backends.
+The AWS Amplify API module supports AWS AppSync or any other GraphQL backends.
 
-To learn more about GraphQL, please visit [GraphQL website](http://graphql.org/learn/).
+To learn more about GraphQL, please visit the [GraphQL website](http://graphql.org/learn/).
 {: .callout .callout--action}
 
 ### Using AWS AppSync
