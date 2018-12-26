@@ -818,7 +818,7 @@ The generated resolvers would be protected like so:
 
 The `@connection` directive enables you to specify relationships between `@model` object types.
 Currently, this supports one-to-one, one-to-many, and many-to-one relationships. You may implement many-to-many relationships
-yourself using two one-to-many connections and joining @model type. See the usage section for details.
+yourself using two one-to-many connections and joining `@model` type. See the usage section for details.
 
 #### Definition
 
@@ -889,7 +889,7 @@ mutation CreateCommentOnPost {
 }
 ```
 
-> **Note** The postCommentsId field on the input may seem unusual. In the one-to-many case without a provided `name` argument there is only partial information to work with, which results in the unusual name. To fix this, provide a value for the @connection's *name* argument and complete the bi-directional relationship by adding a corresponding @connection field to the **Comment** type.
+> **Note** The postCommentsId field on the input may seem unusual. In the one-to-many case without a provided `name` argument there is only partial information to work with, which results in the unusual name. To fix this, provide a value for the `@connection`'s *name* argument and complete the bi-directional relationship by adding a corresponding `@connection` field to the **Comment** type.
 
 **Named Connections**
 
