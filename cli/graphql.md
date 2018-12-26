@@ -765,7 +765,7 @@ type Post @model @auth(rules: [{allow: owner}]) {
 }
 ```
 
-the generated resolvers would be protected like so:
+The generated resolvers would be protected like so:
 
 - `Mutation.createX`: Verify the requesting user has a valid credential and automatically set the **owner** attribute to equal `$ctx.identity.username`.
 - `Mutation.updateX`: Update the condition expression so that the DynamoDB `UpdateItem` operation only succeeds if the record's **owner** attribute equals the caller's `$ctx.identity.username`.
@@ -805,7 +805,7 @@ type Post @model @auth(rules: [{allow: groups, groupsField: "groups"}]) {
 }
 ```
 
-the generated resolvers would be protected like so:
+The generated resolvers would be protected like so:
 
 - `Mutation.createX`: Verify the requesting user has a valid credential and that it contains a claim to at least one group passed to the query in the `$ctx.args.input.groups` argument.
 - `Mutation.updateX`: Update the condition expression so that the DynamoDB `UpdateItem` operation only succeeds if the record's **groups** attribute contains at least one of the caller's claimed groups via `ctx.identity.claims.get("cognito:groups")`.
