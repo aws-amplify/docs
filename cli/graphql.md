@@ -662,7 +662,7 @@ type Draft
 }
 ```
 
-**Dynamic Group Auth**
+**Dynamic Group Authorization**
 
 ```graphql
 # Dynamic group authorization with multiple groups
