@@ -789,11 +789,11 @@ type Post @model @auth(rules: [{allow: groups, groups: ["Admin"]}]) {
 
 Static group auth is simpler than the others. The generated resolvers would be protected like so:
 
-- `Mutation.createX`: Verify the requesting user has a valid credential and that `ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
-- `Mutation.updateX`: Verify the requesting user has a valid credential and that `ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
-- `Mutation.deleteX`: Verify the requesting user has a valid credential and that `ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
-- `Query.getX`: Verify the requesting user has a valid credential and that `ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
-- `Query.listX`: Verify the requesting user has a valid credential and that `ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
+- `Mutation.createX`: Verify the requesting user has a valid credential and that `$ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
+- `Mutation.updateX`: Verify the requesting user has a valid credential and that `$ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
+- `Mutation.deleteX`: Verify the requesting user has a valid credential and that `$ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
+- `Query.getX`: Verify the requesting user has a valid credential and that `$ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
+- `Query.listX`: Verify the requesting user has a valid credential and that `$ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
 
 **Dynamic Group Authorization**
 
@@ -808,10 +808,10 @@ type Post @model @auth(rules: [{allow: groups, groupsField: "groups"}]) {
 The generated resolvers would be protected like so:
 
 - `Mutation.createX`: Verify the requesting user has a valid credential and that it contains a claim to at least one group passed to the query in the `$ctx.args.input.groups` argument.
-- `Mutation.updateX`: Update the condition expression so that the DynamoDB `UpdateItem` operation only succeeds if the record's **groups** attribute contains at least one of the caller's claimed groups via `ctx.identity.claims.get("cognito:groups")`.
-- `Mutation.deleteX`: Update the condition expression so that the DynamoDB `DeleteItem` operation only succeeds if the record's **groups** attribute contains at least one of the caller's claimed groups via `ctx.identity.claims.get("cognito:groups")`
-- `Query.getX`: In the response mapping template verify that the result's **groups** attribute contains at least one of the caller's claimed groups via `ctx.identity.claims.get("cognito:groups")`.
-- `Query.listX`: In the response mapping template filter the result's **items** such that only items with a **groups** attribute that contains at least one of the caller's claimed groups via `ctx.identity.claims.get("cognito:groups")`.
+- `Mutation.updateX`: Update the condition expression so that the DynamoDB `UpdateItem` operation only succeeds if the record's **groups** attribute contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
+- `Mutation.deleteX`: Update the condition expression so that the DynamoDB `DeleteItem` operation only succeeds if the record's **groups** attribute contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`
+- `Query.getX`: In the response mapping template verify that the result's **groups** attribute contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
+- `Query.listX`: In the response mapping template filter the result's **items** such that only items with a **groups** attribute that contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
 
 
 ### @connection
