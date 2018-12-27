@@ -109,14 +109,72 @@ The Authentication category exposes a set of APIs to be used in any JavaScript f
 
 #### Sign In
 
-Sign in with user credentials:
+When signing in with user name and password, you will either sign in directly or be asked to pass some challenges before getting authenticated.
+
+The `user` object returned from `Auth.signIn` will contain `challengeName` and `challengeParam` if the user needs to pass those challenges. You can call corresponding functions based on those two parameters.
+
+ChallengeName:
+
+* `SMS_MFA`: The user needs to input the code received from SMS message. You can submit the code by `Auth.confirmSignIn`.
+* `SOFTWARE_TOKEN_MFA`: The user needs to input the OTP(one time password). You can submit the code by `Auth.confirmSignIn`.
+* `NEW_PASSWORD_REQUIRED`: This happens when the user account is created through the Cognito console. The user needs to input the new password and required attributes. You can submit those data by `Auth.completeNewPassword`.
+* `MFA_SETUP`: This happens when the MFA method is TOTP(the one time password) which requires the user to go through some steps to generate those passwords. You can start the setup process by `Auth.setupTOTP`.
+
+The following code is only for demonstration purpose:
 
 ```javascript
 import { Auth } from 'aws-amplify';
 
-Auth.signIn(username, password)
-    .then(user => console.log(user))
-    .catch(err => console.log(err));
+try {
+    const user = await Auth.signIn(username, password);
+    if (user.challengeName === 'SMS_MFA' || 
+        user.challengeName === 'SOFTWARE_TOKEN_MFA') {
+        // You need to get the code from the UI inputs
+        // and then trigger the following function with a button click
+        const code = getCodeFromUserInput();
+        // If MFA is enabled, sign-in should be confirmed with the confirmation code
+        const loggedUser = await Auth.confirmSignIn(
+            user,   // Return object from Auth.signIn()
+            code,   // Confirmation code  
+            mfaType // MFA Type e.g. SMS, TOTP.
+        );
+    } else if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
+        const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
+        // You need to get the new password and required attributes from the UI inputs
+        // and then trigger the following function with a button click
+        // For example, the email and phone_number are required attributes
+        const { username, email, phone_number } = getInfoFromUserInput();
+        const loggedUser = await Auth.completeNewPassword(
+            user,               // the Cognito User Object
+            newPassword,       // the new password
+            // OPTIONAL, the required attributes
+            {
+                email,
+                phone_number,
+            }
+        );
+    } else if (user.challengeName === 'MFA_SETUP') {
+        // This happens when the MFA method is TOTP
+        // The user needs to setup the TOTP before using it
+        // More info please check the Enabling MFA part
+        Auth.setupTOTP(user);
+    } else {
+        // The user directly signs in
+        console.log(user)；
+    } 
+} catch (err) {
+    if (err.code === 'UserNotConfirmedException') {
+        // The error happens if the user didn't finish the confirmation step when signing up
+        // In this case you need to resend the code and confirm the user
+        // About how to resend the code and confirm the user, please check the signUp part
+    } else if (err.code === 'PasswordResetRequiredException') {
+        // The error happens when the password is reset in the Cognito console
+        // In this case you need to call forgotPassword to reset the password
+        // Please check the Forgot Password part.
+    } else {
+        console.log(err);
+    }
+}
 
 // For advanced usage
 // You can pass an object which has the username, password and validationData which is sent to a PreAuthentication Lambda trigger
@@ -126,14 +184,6 @@ Auth.signIn({
     validationData, // Optional, a random key-value pair map which can contain any key and will be passed to your PreAuthentication Lambda trigger as-is. It can be used to implement additional validations around authentication
 }).then(user => console.log(user))
 .catch(err => console.log(err));
-
-// If MFA is enabled, sign-in should be confirmed with the confirmation code
-// `user` : Return object from Auth.signIn()
-// `code` : Confirmation code  
-// `mfaType` : MFA Type e.g. SMS, TOTP.
-Auth.confirmSignIn(user, code, mfaType)
-    .then(data => console.log(data))
-    .catch(err => console.log(err));
 ```
 
 #### Sign Up
@@ -162,6 +212,12 @@ Auth.confirmSignUp(username, code, {
     forceAliasCreation: true    
 }).then(data => console.log(data))
   .catch(err => console.log(err));
+
+Auth.resendSignUp(username).then(() => {
+    console.log('code resent successfully');
+}).catch(e => {
+    console.log(e);
+});
 ```
 
 The `Auth.signUp` promise returns a data object of type [`ISignUpResult`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L136-L139) with a [`CognitoUser`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L48).
@@ -223,6 +279,38 @@ Auth.forgotPassword(username)
 Auth.forgotPasswordSubmit(username, code, new_password)
     .then(data => console.log(data))
     .catch(err => console.log(err));
+```
+
+#### Complete new password
+The user would be asked to provide his new password and required attributes the first time he signs in if he is created in the AWS Cognito console. In that case, you need to call this method to finish this process:
+
+```js
+import { Auth } from 'aws-amplify';
+
+Auth.signIn(username, password)
+.then(user => {
+    if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
+        const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
+        Auth.completeNewPassword(
+            user,               // the Cognito User Object
+            newPassword,       // the new password
+            // OPTIONAL, the required attributes
+            {
+              email: 'xxxx@example.com',
+              phone_number: '1234567890'
+            }
+        ).then(user => {
+            // at this time the user is logged in if no MFA required
+            console.log(user);
+        }).catch(e => {
+          console.log(e);
+        });
+    } else {
+        // other situations
+    }
+}).catch(e => {
+    console.log(e);
+});
 ```
 
 #### Verify phone_number or email address

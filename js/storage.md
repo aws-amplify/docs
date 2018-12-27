@@ -68,12 +68,13 @@ Amplify.configure({
 
 ```
 
-If you setup your Cognito resources manually, the roles will need to be given permission to access the S3 bucket.
+If you set up your Cognito resources manually, the roles will need to be given permission to access the S3 bucket.
 
-There are two roles created by Cognito an ```Auth_Role``` that creates user-level bucket access and ```Unauth_role``` that allows unauthenticated and public access to resources. Attach the corresponding policies to each role for proper S3 access. Replace ```{enter bucket name}``` with the correct S3 bucket.
+There are two roles created by Cognito: an `Auth_Role` that grants signed-in-user-level bucket access and an `Unauth_Role` that allows unauthenticated access to resources. Attach the corresponding policies to each role for proper S3 access. Replace ```{enter bucket name}``` with the correct S3 bucket.
 
-```Auth_role```:
-```
+Inline policy for the `Auth_Role`:
+
+```json
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -133,8 +134,9 @@ There are two roles created by Cognito an ```Auth_Role``` that creates user-leve
 }
 ```
 
-```Unauth_Role```:
-```
+Inline policy for the `Unauth_Role`:
+
+```json
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -192,15 +194,15 @@ There are two roles created by Cognito an ```Auth_Role``` that creates user-leve
 
 The policy template that Amplify CLI uses is found [here](https://github.com/aws-amplify/amplify-cli/blob/b12d20b9d85f7fc6abf7e2f7fbe11e1a108911b9/packages/amplify-category-storage/provider-utils/awscloudformation/cloudformation-templates/s3-cloudformation-template.json).
 
-### Setup Amazon S3 Bucket CORS Policy
+### Amazon S3 Bucket CORS Policy Setup
 
-To make calls to your S3 bucket from your App, you need to setup CORS Policy for your S3 bucket.
+To make calls to your S3 bucket from your App, you need to set up a CORS Policy for your S3 bucket.
 {: .callout .callout--warning}
 
-Following steps will enable your CORS Policy: 
+The following steps will set up your CORS Policy: 
 
 1. Go to [Amazon S3 Console](https://s3.console.aws.amazon.com/s3/home?region=us-east-1) and click on your project's `userfiles` bucket, which is normally named as [Project Name]-userfiles-mobilehub-[App Id]. 
-2. Click on the **Permissions** tab for your bucket, and then click on **CORS configuration** tile.
+2. Click on the **Permissions** tab for your bucket, and then click on the **CORS configuration** tile.
 3. Update your bucket's CORS Policy to look like:
 
 ```xml
