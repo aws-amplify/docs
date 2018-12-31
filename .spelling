@@ -282,6 +282,7 @@ AmplifyTheme.js
 withFederated
 Auth.federatedSignIn
 aws.cognito.signin.user.admin
+ChallengeName
 
 #js/cognito-hosted-ui-federated-identity.md
 oauth2
