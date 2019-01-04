@@ -187,6 +187,6 @@ What happens behind the scenes?
     
 ## Assuming an IAM Role
 
-You can configure the AWS Amplify CLI to use an IAM role by defining a profile for the role in the `~/.aws/config` file, and then select that role during the process of `amplify init` or `amplify configure project`. <br/>
+You can configure the AWS Amplify CLI to use an IAM role by defining a profile for the role in the `~/.aws/config` file, and then select that profile when running through the `amplify init` or `amplify configure project` flow. <br/>
 The setup is the same as the `aws cli`, see this [doc](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html) for more information. <br/>
 Please note that the AWS Amplify CLI currently does NOT support Multi-Factor Authentication when assuming a role. 
