@@ -1215,6 +1215,26 @@ of your amplify project.
 
 > The value specified is the expiration date in seconds since Epoch
 
+### DynamoDBModelTableReadIOPS
+
+**Override the default read IOPS provisioned for each @model table**
+
+```json
+{
+  "DynamoDBModelTableReadIOPS": 5
+}
+```
+
+### DynamoDBModelTableWriteIOPS
+
+**Override the default write IOPS provisioned for each @model table**
+
+```json
+{
+  "DynamoDBModelTableWriteIOPS": 5
+}
+```
+
 ### ElasticsearchStreamingFunctionName
 
 **Override the name of the AWS Lambda searchable streaming function**
