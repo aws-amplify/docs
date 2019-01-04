@@ -2,9 +2,11 @@
 ---
 # GraphQL Transform
 
-After defining your API using the GraphQL Schema Definition Language (SDL), 
-you can then use this library to transform it into a fully descriptive 
-CloudFormation template that implements the API's data model.
+The GraphQL Transform provides a simple to use abstraction that helps you quickly
+create backends for your web and mobile applications on AWS. With the GraphQL Transform,
+you define your application's data model using the GraphQL Schema Definition Language (SDL)
+and the library handles converting your SDL definition into a set of fully descriptive
+AWS CloudFormation templates that implement your data model.
 
 For example you might create the backend for a blog like this:
 
@@ -26,8 +28,6 @@ type Comment @model {
   post: Post @connection(name: "PostComments")
 }
 ```
-
-> This is just an example. The transform defines more directives such as @auth and @searchable below.
 
 When used along with tools like the Amplify CLI, the GraphQL Transform simplifies the process of 
 developing, deploying, and maintaining GraphQL APIs. With it, you define your API using the 
@@ -1169,6 +1169,92 @@ Here is a complete list of searchable operations per GraphQL type supported as o
 | Float | `ne`, `gt`, `lt`, `gte`, `lte`, `eq`, `range`      |
 | Boolean | `eq`, `ne`      |
 
+## AWS CloudFormation Template Parameters
+
+Much of the behavior of the GraphQL Transform logic is configured by passing arguments
+to the directives in the GraphQL SDL definition but certain other things are configured
+by passing parameters to the CloudFormation template itself. You can pass values
+to these parameters by adding them to the `parameters.json` file in the API directory
+of your amplify project.
+
+### AppSyncApiName
+
+**Override the name of the generated AppSync API**
+
+```json
+{
+  "AppSyncApiName": "CustomAppSyncAPIName"
+}
+```
+
+### APIKeyExpirationEpoch
+
+**Resets the API Key to expire 1 week after the next `amplify push`**
+
+```json
+{
+  "APIKeyExpirationEpoch": "0"
+}
+```
+
+**Do not create an API key**
+
+```json
+{
+  "APIKeyExpirationEpoch": "-1"
+}
+```
+
+**Set a custom API key expiration date**
+
+```json
+{
+  "APIKeyExpirationEpoch": "1544745428"
+}
+```
+
+> The value specified is the expiration date in seconds since Epoch
+
+### ElasticsearchStreamingFunctionName
+
+**Override the name of the AWS Lambda searchable streaming function**
+
+```json
+{
+  "ElasticsearchStreamingFunctionName": "CustomFunctionName"
+}
+```
+
+### ElasticsearchInstanceCount
+
+**Override the number of instances launched into the Elasticsearch domain created by @searchable**
+
+```json
+{
+  "ElasticsearchInstanceCount": 3
+}
+```
+
+### ElasticsearchInstanceType
+
+**Override the type of instance launched into the Elasticsearch domain created by @searchable**
+
+```json
+{
+  "ElasticsearchInstanceType": "t2.small.elasticsearch"
+}
+```
+
+### ElasticsearchEBSVolumeGB
+
+**Override the amount of disk space allocated to each instance in the Elasticsearch domain created by @searchable**
+
+```json
+{
+  "ElasticsearchEBSVolumeGB": 20
+}
+```
+
 ## S3 Objects
 
 The GraphQL Transform, Amplify CLI, and Amplify Library make it simple to add complex object
@@ -1225,6 +1311,10 @@ mutation ($input: CreatePictureInput!) {
   }
 }
 ```
+
+### Handling Common Errors
+
+
 
 ### Tutorial (S3 & React)
 
