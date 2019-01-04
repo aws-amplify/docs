@@ -334,6 +334,12 @@ webapp
 redirect_to
 graphql
 sdk
+AppSyncApiName
+APIKeyExpirationEpoch
+ElasticsearchStreamingFunctionName
+ElasticsearchInstanceCount
+ElasticsearchInstanceType
+ElasticsearchEBSVolumeGB
 
 # cli/graphql.md
 DataSource
