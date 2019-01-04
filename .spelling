@@ -340,6 +340,8 @@ ElasticsearchStreamingFunctionName
 ElasticsearchInstanceCount
 ElasticsearchInstanceType
 ElasticsearchEBSVolumeGB
+DynamoDBModelTableWriteIOPS
+DynamoDBModelTableReadIOPS
 
 # cli/graphql.md
 DataSource
