@@ -406,6 +406,7 @@ amplify-provider-awscloudformation
 cloudformation
 awscloudformation
 awsconfiguration.json
+s3.amazonaws.com
 
 # cli/concept.md
 amplifyrc
