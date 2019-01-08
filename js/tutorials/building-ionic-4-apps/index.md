@@ -41,7 +41,7 @@ Here is the sequence of the tutorial:
 
 This section introduces Ionic basics. You will learn how to bootstrap a new Ionic app with the Ionic CLI. In subsequent parts of the tutorial, you will gradually add new cloud functionality to your application.
 
-If you want to integrate Amplify Framework into an existing Ionic application, you can skip Part 1 and start directly to [Part 2](#part-2-adding-cloud-features). Also, follow the directions that are labeled as *Existing App* to integrate a cloud feature into your app.
+If you want to integrate Amplify Framework into an existing Ionic application, you can skip Part 1 and start directly to [Part 2](#part-2-adding-cloud-features). 
 {: .callout .callout--info }
 
 ## What is Ionic?
