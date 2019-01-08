@@ -2,6 +2,12 @@
 ---
 
 # Hosting
+
+**NEW: Host your app using the AWS Amplify Console**
+
+The [Amplify Console](http://console.amplify.aws) is the fastest way to deploy your web app on AWS. The Amplify Console provides features such as continuous deployment, multiple environments w. feature branch deploys, custom domains with SSL, redirects/rewrites, atomic deploys, and password protection. [Learn more](https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html)
+{: .callout .callout--info}
+
 The `amplify publish` command is designed to build and publish both the backend and the front end of the project. Depending on the stage that the project is at, the command can be configured to publish either to a DEV or a PROD environment.<br/>
 In the current implementation, the frontend publish is only available for JavaScript project for static web hosting. This is accomplished by the category plugin amplify-category-hosting, using Amazon S3 and Amazon CloudFront. <br/>
 The amplify-category-hosting module uses the amplify-provider-awscloudformation to create and update the S3 and CloudFront resources.
