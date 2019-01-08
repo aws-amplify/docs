@@ -96,10 +96,10 @@ This will open the AWS AppSync console for you to run Queries, Mutations, or Sub
 To use AppSync in your Android studio project, modify the project's `build.gradle` with the following dependency in the build script:
 
 ```bash
-    classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.6.+'
+    classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.7.+'
 ```
 
-Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `implementation 'com.amazonaws:aws-android-sdk-appsync:2.6.+'`. For example:
+Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `implementation 'com.amazonaws:aws-android-sdk-appsync:2.7.+'`. For example:
 
 
 ```bash
@@ -110,7 +110,7 @@ Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws
     }
     dependencies {
         // Typical dependencies
-        implementation 'com.amazonaws:aws-android-sdk-appsync:2.6.+'
+        implementation 'com.amazonaws:aws-android-sdk-appsync:2.7.+'
         implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
         implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
     }
@@ -160,6 +160,8 @@ Inside your application code, such as the `onCreate()` lifecycle method of your 
         mAWSAppSyncClient = AWSAppSyncClient.builder()
                 .context(getApplicationContext())
                 .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+                // If you are using complex objects (S3) then uncomment
+                //.s3ObjectManager(new S3ObjectManagerImplementation(new AmazonS3Client(AWSMobileClient.getInstance())))
                 .build();
     }
 ```

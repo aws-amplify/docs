@@ -39,7 +39,7 @@ This workflow can be used to share complete Amplify projects with people outside
 
 ## Continuous deployment and Hosting
 
-The Amplify CLI supports basic web application hosting with Amazon S3 and CloudFront. You can use the multi-environments feature with the Amplify Console for a fully managed web application hosting and continuous deployment solution. For more information please learn more in the [official documentation documentation](https://docs.aws.amazon.com/amplify/latest/userguide/deploy-backend.html)
+The Amplify CLI supports basic web application hosting with Amazon S3 and CloudFront. You can use the multi-environments feature with the Amplify Console for a fully managed web application hosting and continuous deployment solution. For more information please learn more in the [official documentation](https://docs.aws.amazon.com/amplify/latest/userguide/deploy-backend.html).
 
 ## Setting up master and dev environments 
 
@@ -53,7 +53,7 @@ $ amplify init
 // Add amplify categories using `amplify add <category>`
 $ git init
 $ git add <all project related files>
-$ git commit -m <commit-message>
+$ git commit -m "Creation of a master amplify environment"
 $ git remote add origin git@github.com:<repo-name>
 $ git push -u origin master
 ```
@@ -75,7 +75,7 @@ Now push the changes to the 'master' branch (you would just see changes to the t
 
 ```
 $ git add .
-$ git commit -m "Creation of a master amplify environment"
+$ git commit -m "Creation of a dev amplify environment"
 $ git push -u origin master
 $ git checkout -b dev
 $ git push -u origin dev
@@ -157,7 +157,7 @@ Since the team is sharing the same dev backend, periodically team members would 
 ```
 $ cd <your-project>
 $ git checkout dev
-$ $ amplify init
+$ amplify init
 ? Do you want to use an existing environment? true
 ? Choose the environment you would like to use: 
 ❯ dev 
