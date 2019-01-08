@@ -734,7 +734,7 @@ Then, replace your `src/app/app.component.html` code with the following:
 ## Step 5. Host your App
 
 **NEW: Host your app using the AWS Amplify Console**
-The [Amplify Console](http://console.amplify.aws) is the fastest way to deploy your web app on AWS. The Amplify Console provides features such as continuous deployment, multiple environments w. feature branch deploys, custom domains with SSL, redirects/rewrites, atomic deploys, and password protection.
+The [Amplify Console](http://console.amplify.aws) is the fastest way to deploy your web app on AWS. The Amplify Console provides features such as continuous deployment, multiple environments w. feature branch deploys, custom domains with SSL, redirects/rewrites, atomic deploys, and password protection. [Learn more](https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html)
 {: .callout .callout--info}
 
 Enable static web hosting for the app on Amazon S3. In a terminal window, change to the root directory of your app and run the following command:
