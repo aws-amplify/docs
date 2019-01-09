@@ -99,6 +99,9 @@ Amplify.configure({
         authenticationFlowType: 'USER_PASSWORD_AUTH'
     }
 });
+
+// You can get the current config object
+const currentConfig = Auth.configure();
 ```
 
 ## Working with the API
@@ -368,6 +371,8 @@ Security Tokens like *IdToken* or *AccessToken* are stored in *localStorage* for
 For example:
 ```ts
 class MyStorage {
+    // the promise returned from sync function
+    static syncPromise = null;
     // set item with the key
     static setItem(key: string, value: string): string;
     // get item with the key
@@ -378,7 +383,12 @@ class MyStorage {
     static clear(): void;
     // If the storage operations are async(i.e AsyncStorage)
     // Then you need to sync those items into the memory in this method
-    static sync(): Promise<void>;
+    static sync(): Promise<void> {
+        if (!MyStorage.syncPromise) {
+            MyStorage.syncPromise = new Promise((res, rej) => {});
+        }
+        return MyStorage.syncPromise;
+    }
 }
 
 // tell Auth to use your storage object
@@ -401,7 +411,14 @@ Just add these two lines to your `App.js`:
 
 ```javascript
 import { withAuthenticator } from 'aws-amplify-react'; // or 'aws-amplify-react-native';
-...
+import Amplify from 'aws-amplify';
+// Get the aws resources configuration parameters
+import aws_exports from './aws-exports'; // if you are using Amplify CLI
+
+Amplify.configure(aws_exports);
+
+// ...
+
 export default withAuthenticator(App);
 ```
 Now, your app has complete flows for user sign-in and registration. Since you have wrapped your **App** with `withAuthenticator`, only signed in users can access your app. The routing for login pages and giving access to your **App** Component will be managed automatically.
@@ -857,7 +874,8 @@ Step 1. Learn [how to integrate Auth0 with Cognito Federated Identity Pools](htt
 
 Step 2. Login with `Auth0`, then use the id token returned to get AWS credentials from `Cognito Federated Identity Pools` using the `Auth.federatedSignIn` method:
 ```js
-const { idToken, domain, expiresIn, name, email } = getFromAuth0(); // get the user credentials and info from auth0
+const { idToken, domain, name, email, phoneNumber } = getFromAuth0(); // get the user credentials and info from auth0
+const { exp } = decodeJWTToken(idToken); // Please decode the id token in order to get the expiration time
 
 Auth.federatedSignIn(
     domain, // The Auth0 Domain,
@@ -866,14 +884,14 @@ Auth.federatedSignIn(
         // expires_at means the timstamp when the token provided expires,
         // here we can derive it from the expiresIn parameter provided,
         // then convert its unit from second to millisecond, and add the current timestamp
-        expires_at: expiresIn * 1000 + new Date().getTime() // the expiration timestamp
+        expires_at: exp * 1000 // the expiration timestamp
     },
     { 
         // the user object, you can put whatever property you get from the Auth0
         // for exmaple:
         name, // the user name
-        email, // the email address
-        phoneNumber, // the phone number
+        email, // Optional, the email address
+        phoneNumber, // Optional, the phone number
     } 
 ).then(cred => {
     console.log(cred);
