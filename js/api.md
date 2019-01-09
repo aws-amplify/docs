@@ -1834,6 +1834,18 @@ API.get('sampleCloudApi', '/items?q=test');
 To learn more about Lambda Proxy Integration, please visit [Amazon API Gateway Developer Guide](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-create-api-as-simple-proxy-for-lambda.html).
 {: .callout .callout--info}
 
+**Custom Response Type**
+
+By default, calling an API with AWS Amplify parses a JSON response. You can specify a custom response type using the `responseType` parameter in your method call:
+
+```javascript
+let file = await API.get('myCloudApi', '/items', {
+  'responseType': 'blob'
+});
+```
+
+Allowed values for `responseType` are 'arraybuffer', 'blob', 'document', 'json', 'text', 'stream'; and it defaults to 'json' if not specified. See the documentation for [Axios](https://github.com/axios/axios) for more information.
+
 #### **POST**
 
 Posts data to the API endpoint:
