@@ -1836,7 +1836,7 @@ To learn more about Lambda Proxy Integration, please visit [Amazon API Gateway D
 
 **Custom Response Type**
 
-By default, calling an API with AWS Amplify parses a JSON response. You can specify a custom response type using the `responseType` parameter in your method call:
+By default, calling an API with AWS Amplify parses a JSON response. If you have a REST API endpoint which returns, for example, a file in Blob format, you can specify a custom response type using the `responseType` parameter in your method call:
 
 ```javascript
 let file = await API.get('myCloudApi', '/items', {
@@ -1844,7 +1844,7 @@ let file = await API.get('myCloudApi', '/items', {
 });
 ```
 
-Allowed values for `responseType` are 'arraybuffer', 'blob', 'document', 'json', 'text', 'stream'; and it defaults to 'json' if not specified. See the documentation for [Axios](https://github.com/axios/axios) for more information.
+Allowed values for `responseType` are "arraybuffer", "blob", "document", "json", "text", or "stream"; and it defaults to "json" if not specified. See the documentation for [Axios](https://github.com/axios/axios) for more information.
 
 #### **POST**
 
