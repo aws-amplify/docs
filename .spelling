@@ -227,6 +227,8 @@ Alexa
 chatbox
 onComplete
 theming
+voiceEnabled
+textEnabled
 
 js/i18n.md
 I18n
