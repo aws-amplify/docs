@@ -11,7 +11,7 @@
   },
   "scripts": {
     "test": "mdspell -r -n -a --en-us '**/*.md' '!**/node_modules/**/*.md'",
-    "grammer": "write-good **/*.md --parse --no-passive --no-adverb --no-tooWordy --no-cliches",
+    "grammar": "write-good **/*.md --parse --no-passive --no-adverb --no-tooWordy --no-cliches",
     "links": "blc https://aws-amplify.github.io/docs/js/start"
   },
   "repository": {

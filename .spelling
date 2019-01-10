@@ -282,6 +282,7 @@ AmplifyTheme.js
 withFederated
 Auth.federatedSignIn
 aws.cognito.signin.user.admin
+ChallengeName
 
 #js/cognito-hosted-ui-federated-identity.md
 oauth2
@@ -405,6 +406,7 @@ amplify-provider-awscloudformation
 cloudformation
 awscloudformation
 awsconfiguration.json
+s3.amazonaws.com
 
 # cli/concept.md
 amplifyrc
@@ -748,6 +750,10 @@ UIView
 xib
 react-native-fs
 Info.plist
+
+# ios/pubsub.md
+VeriSign
+subdomain
 
 # ios/push-notifications.md
 Hoc

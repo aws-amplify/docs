@@ -99,7 +99,7 @@ To use AppSync in your Xcode project, modify your Podfile with a dependency of t
 ```ruby
 target 'PostsApp' do
     use_frameworks!
-    pod 'AWSAppSync', ' ~> 2.6.24'
+    pod 'AWSAppSync', ' ~> 2.8.0'
 end
 ```
 
@@ -785,7 +785,7 @@ Add `AWSAPIGateway` to your Podfile:
 	  use_frameworks!
 
 	     # For API
-	     pod 'AWSAPIGateway', '~> 2.7.0'
+	     pod 'AWSAPIGateway', '~> 2.8.0'
 	     # other pods
 	end
 ```

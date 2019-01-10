@@ -81,6 +81,7 @@ Amplify.configure({
         mandatorySignIn: false,
 
         // OPTIONAL - Configuration for cookie storage
+        // Note: if the secure flag is set to true, then the cookie transmission requires a secure protocol
         cookieStorage: {
         // REQUIRED - Cookie domain (only required if cookieStorage is provided)
             domain: '.yourdomain.com',
@@ -89,6 +90,7 @@ Amplify.configure({
         // OPTIONAL - Cookie expiration in days
             expires: 365,
         // OPTIONAL - Cookie secure flag
+        // Either true or false, indicating if the cookie transmission requires a secure protocol (https).
             secure: true
         },
 
@@ -109,14 +111,72 @@ The Authentication category exposes a set of APIs to be used in any JavaScript f
 
 #### Sign In
 
-Sign in with user credentials:
+When signing in with user name and password, you will either sign in directly or be asked to pass some challenges before getting authenticated.
+
+The `user` object returned from `Auth.signIn` will contain `challengeName` and `challengeParam` if the user needs to pass those challenges. You can call corresponding functions based on those two parameters.
+
+ChallengeName:
+
+* `SMS_MFA`: The user needs to input the code received from SMS message. You can submit the code by `Auth.confirmSignIn`.
+* `SOFTWARE_TOKEN_MFA`: The user needs to input the OTP(one time password). You can submit the code by `Auth.confirmSignIn`.
+* `NEW_PASSWORD_REQUIRED`: This happens when the user account is created through the Cognito console. The user needs to input the new password and required attributes. You can submit those data by `Auth.completeNewPassword`.
+* `MFA_SETUP`: This happens when the MFA method is TOTP(the one time password) which requires the user to go through some steps to generate those passwords. You can start the setup process by `Auth.setupTOTP`.
+
+The following code is only for demonstration purpose:
 
 ```javascript
 import { Auth } from 'aws-amplify';
 
-Auth.signIn(username, password)
-    .then(user => console.log(user))
-    .catch(err => console.log(err));
+try {
+    const user = await Auth.signIn(username, password);
+    if (user.challengeName === 'SMS_MFA' || 
+        user.challengeName === 'SOFTWARE_TOKEN_MFA') {
+        // You need to get the code from the UI inputs
+        // and then trigger the following function with a button click
+        const code = getCodeFromUserInput();
+        // If MFA is enabled, sign-in should be confirmed with the confirmation code
+        const loggedUser = await Auth.confirmSignIn(
+            user,   // Return object from Auth.signIn()
+            code,   // Confirmation code  
+            mfaType // MFA Type e.g. SMS, TOTP.
+        );
+    } else if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
+        const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
+        // You need to get the new password and required attributes from the UI inputs
+        // and then trigger the following function with a button click
+        // For example, the email and phone_number are required attributes
+        const { username, email, phone_number } = getInfoFromUserInput();
+        const loggedUser = await Auth.completeNewPassword(
+            user,               // the Cognito User Object
+            newPassword,       // the new password
+            // OPTIONAL, the required attributes
+            {
+                email,
+                phone_number,
+            }
+        );
+    } else if (user.challengeName === 'MFA_SETUP') {
+        // This happens when the MFA method is TOTP
+        // The user needs to setup the TOTP before using it
+        // More info please check the Enabling MFA part
+        Auth.setupTOTP(user);
+    } else {
+        // The user directly signs in
+        console.log(user)；
+    } 
+} catch (err) {
+    if (err.code === 'UserNotConfirmedException') {
+        // The error happens if the user didn't finish the confirmation step when signing up
+        // In this case you need to resend the code and confirm the user
+        // About how to resend the code and confirm the user, please check the signUp part
+    } else if (err.code === 'PasswordResetRequiredException') {
+        // The error happens when the password is reset in the Cognito console
+        // In this case you need to call forgotPassword to reset the password
+        // Please check the Forgot Password part.
+    } else {
+        console.log(err);
+    }
+}
 
 // For advanced usage
 // You can pass an object which has the username, password and validationData which is sent to a PreAuthentication Lambda trigger
@@ -126,14 +186,6 @@ Auth.signIn({
     validationData, // Optional, a random key-value pair map which can contain any key and will be passed to your PreAuthentication Lambda trigger as-is. It can be used to implement additional validations around authentication
 }).then(user => console.log(user))
 .catch(err => console.log(err));
-
-// If MFA is enabled, sign-in should be confirmed with the confirmation code
-// `user` : Return object from Auth.signIn()
-// `code` : Confirmation code  
-// `mfaType` : MFA Type e.g. SMS, TOTP.
-Auth.confirmSignIn(user, code, mfaType)
-    .then(data => console.log(data))
-    .catch(err => console.log(err));
 ```
 
 #### Sign Up
@@ -162,6 +214,12 @@ Auth.confirmSignUp(username, code, {
     forceAliasCreation: true    
 }).then(data => console.log(data))
   .catch(err => console.log(err));
+
+Auth.resendSignUp(username).then(() => {
+    console.log('code resent successfully');
+}).catch(e => {
+    console.log(e);
+});
 ```
 
 The `Auth.signUp` promise returns a data object of type [`ISignUpResult`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L136-L139) with a [`CognitoUser`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L48).
@@ -223,6 +281,38 @@ Auth.forgotPassword(username)
 Auth.forgotPasswordSubmit(username, code, new_password)
     .then(data => console.log(data))
     .catch(err => console.log(err));
+```
+
+#### Complete new password
+The user would be asked to provide his new password and required attributes the first time he signs in if he is created in the AWS Cognito console. In that case, you need to call this method to finish this process:
+
+```js
+import { Auth } from 'aws-amplify';
+
+Auth.signIn(username, password)
+.then(user => {
+    if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
+        const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
+        Auth.completeNewPassword(
+            user,               // the Cognito User Object
+            newPassword,       // the new password
+            // OPTIONAL, the required attributes
+            {
+              email: 'xxxx@example.com',
+              phone_number: '1234567890'
+            }
+        ).then(user => {
+            // at this time the user is logged in if no MFA required
+            console.log(user);
+        }).catch(e => {
+          console.log(e);
+        });
+    } else {
+        // other situations
+    }
+}).catch(e => {
+    console.log(e);
+});
 ```
 
 #### Verify phone_number or email address
@@ -458,13 +548,15 @@ const {
     token, // the token you get from the provider
     domainOrProviderName, // Either the domain of the provider(e.g. accounts.your-openid-provider.com) or the provider name, for now the library only supports 'google', 'facebook', 'amazon', 'developer'
     expiresIn, // the time in ms which describes how long the token could live
-    user  // the user object you defined, e.g. { username, email, phone_number }
+    user,  // the user object you defined, e.g. { username, email, phone_number }
+    identity_id // Optional, the identity id specified by the provider
 } = getFromProvider(); // arbitrary funcion
 
 Auth.federatedSignIn({
     domain,
     {
         token,
+        identity_id, // Optional
         expires_at: expiresIn * 1000 + new Date().getTime() // the expiration timestamp
     },
     user
@@ -772,13 +864,19 @@ const { idToken, domain, expiresIn, name, email } = getFromAuth0(); // get the u
 Auth.federatedSignIn(
     domain, // The Auth0 Domain,
     {
-        token: idToken // The id token from Auth0
+        token: idToken, // The id token from Auth0
+        // expires_at means the timstamp when the token provided expires,
+        // here we can derive it from the expiresIn parameter provided,
+        // then convert its unit from second to millisecond, and add the current timestamp
         expires_at: expiresIn * 1000 + new Date().getTime() // the expiration timestamp
     },
     { 
-        name: name, 
-        email: email
-    } // the user object, e.x. { name: username, email: email }
+        // the user object, you can put whatever property you get from the Auth0
+        // for exmaple:
+        name, // the user name
+        email, // the email address
+        phoneNumber, // the phone number
+    } 
 ).then(cred => {
     console.log(cred);
 });
@@ -801,7 +899,7 @@ function refreshToken() {
     return new Promise(res, rej => {
         const data = {
             token, // the token from the provider
-            expires_at, // the timestamp for the expiration
+            expires_at, // the timestamp when the token expires (in milliseconds)
             identity_id, // optional, the identityId for the credentials
         }
         res(data);
@@ -880,7 +978,7 @@ import { Authenticator, SignUp, SignIn } from 'aws-amplify-react';
 
 <Authenticator hideDefault={true}>
   <SignIn />
-  <MyCustomSignUp override={SignUp}/> {/* to tell the Authenticator the SignUp component is not hidden but overrided */}
+  <MyCustomSignUp override={SignUp}/> {/* to tell the Authenticator the SignUp component is not hidden but overridden */}
 </Authenticator>
 
 class MyCustomSignUp extends Component {
@@ -1648,7 +1746,7 @@ render() {
 
 ### Composing Your Own Authenticator
 
-`Authenticator` is designed as a container for a number of Auth components. Each component does a single job, e.g., SignIn, SignUp, etc. By default, all of this elements are visible depending on the authentication state. 
+`Authenticator` is designed as a container for a number of Auth components. Each component does a single job, e.g., SignIn, SignUp, etc. By default, all of these elements are visible depending on the authentication state. 
 
 If you want to replace some or all of the Authenticator elements, you need to set `hideDefault={true}`, so the component doesn't render its default view. Then you can pass in your own set of child components that listen to `authState` and decide what to do. 
 
@@ -1675,7 +1773,7 @@ The *Greetings* component has two states: signedIn, and signedOut. To customize 
 
 ### Customize `withAuthenticator`
 
-The `withAuthenticator` HOC gives you some nice default authentication screens out-of-box. If you want to use your own components rather then provided default components, you can pass the list of customized components to `withAuthenticator`:
+The `withAuthenticator` HOC gives you some nice default authentication screens out-of-box. If you want to use your own components rather than provided default components, you can pass the list of customized components to `withAuthenticator`:
 
 ```javascript
 import React, { Component } from 'react';

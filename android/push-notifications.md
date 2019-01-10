@@ -46,8 +46,8 @@ Use the following steps to connect your app to the push notification backend ser
         implementation 'com.google.firebase:firebase-core:16.0.1'
         implementation 'com.google.firebase:firebase-messaging:17.3.0'
 
-        implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.8.+'
-        implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
+        implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.9.+'
+        implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.9.+@aar') { transitive = true }
     }
 
     apply plugin: 'com.google.gms.google-services'
@@ -111,22 +111,23 @@ Use the following steps to connect your app to the push notification backend ser
 
 	    public static PinpointManager getPinpointManager(final Context applicationContext) {
 	        if (pinpointManager == null) {
-                AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
-                    @Override
-                    public void onResult(UserStateDetails userStateDetails) {
-                        Log.i("INIT", userStateDetails.getUserState());
-                    }
+	            final AWSConfiguration awsConfig = new AWSConfiguration(applicationContext);
+	            AWSMobileClient.getInstance().initialize(applicationContext, awsConfig, new Callback<UserStateDetails>() {
+	                @Override
+	                public void onResult(UserStateDetails userStateDetails) {
+	                    Log.i("INIT", userStateDetails.getUserState());
+	                }
 
-                    @Override
-                    public void onError(Exception e) {
-                        Log.e("INIT", "Initialization error.", e);
-                    }
-                });
+	                @Override
+	                public void onError(Exception e) {
+	                    Log.e("INIT", "Initialization error.", e);
+	                }
+	            });
 
 	            PinpointConfiguration pinpointConfig = new PinpointConfiguration(
 	                    applicationContext,
 	                    AWSMobileClient.getInstance(),
-	                    AWSMobileClient.getInstance().getConfiguration());
+	                    awsConfig);
 
 	            pinpointManager = new PinpointManager(pinpointConfig);
 
@@ -147,19 +148,6 @@ Use the following steps to connect your app to the push notification backend ser
 	    protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.activity_main);
-
-            // Initialize AWSMobileClient
-	        AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
-                @Override
-                public void onResult(UserStateDetails userStateDetails) {
-                    Log.i("INIT", userStateDetails.getUserState());
-                }
-
-                @Override
-                public void onError(Exception e) {
-                    Log.e("INIT", "Initialization error.", e);
-                }
-            });
 
 	        // Initialize PinpointManager
 	        getPinpointManager(getApplicationContext());
