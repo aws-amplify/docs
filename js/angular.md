@@ -233,7 +233,7 @@ onAlbumImageSelected( event ) {
 
 ### Interactions
 
-The `amplify-interactions` component provides you with a drop-in Chat component that supports three properties:
+The `amplify-interactions` component provides you with a drop-in Chat component that supports seven properties:
 
 1. `bot`:  The name of the Amazon Lex Chatbot
 
@@ -241,12 +241,37 @@ The `amplify-interactions` component provides you with a drop-in Chat component 
 end of the conversation.
 
 3. `complete`: Dispatched when the conversation is completed.
+4.  `voiceConfig`: If needed, you can also pass `voiceConfig` from your app component to modify the silence detection parameters, like in this example:
+
+```js
+customVoiceConfig = {
+    silenceDetectionConfig: {
+        time: 2000,
+        amplitude: 0.2
+    }   
+}
+
+```
+5. `voiceEnabled`: Enables voice user input. Defaults to `false` 
+
+Note: In order for voice input to work with Amazon Lex, you may have to enable Output voice in the AWS Console. Under the Amazon Lex service, click on your configured Lex chatbot and go to Settings -> General and pick your desired Output voice. Then, click Build. If you have forgotten to enable Output voice, you will get an error like this:
+```
+ChatBot Error: Invalid Bot Configuration: This bot does not have a Polly voice ID associated with it. For voice interaction with the user, set a voice ID
+```
+
+6. `textEnabled`: Enables text user input Defaults to `true`
+7. `conversationModeOn`: Turns voice conversation mode on/off. Defaults to `off`
 
 ```html
 <amplify-interactions 
     bot="yourBotName" 
     clearComplete="true" 
-    (complete)="onBotComplete($event)"></amplify-interactions>
+    (complete)="onBotComplete($event)"
+    [conversationModeOn]="false"
+    [voiceConfig]="{customVoiceConfig}"
+    [voiceEnabled]="true"
+    [textEnabled]="true">
+</amplify-interactions>
 ```
 
 See the [Interactions documentation]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/interactions) for information on creating an Amazon Lex Chatbot.
