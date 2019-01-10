@@ -82,7 +82,7 @@ Now, you have a new Ionic project called *fancy-todos*! You can switch to your p
 $ cd fancy-todos 
 ```
 
-Amplify Framework provides npm packages for installation. *aws-amplify* is the core package and *aws-amplify-angular* includes UI components and Angular modules that you will use when building you Ionic app. 
+Amplify Framework provides npm packages for installation. *aws-amplify* is the core package and *aws-amplify-angular* includes UI components and Angular modules that you will use when building your Ionic app. 
 
 Run the following commands to install required packages:
 ```bash
@@ -194,7 +194,7 @@ export class ToDoItem {
 
 ### Creating a Helper Class for Auth State
 
-Another helpful piece of code would be a class (or 'service' in Angular terminology) that returns the user authentication state. You can use this service to control what authenticated or authenticated users can do in your application. For example, in our Todo app, all unauthenticated users will access to *Home Tab*, but only authenticated users will access the *Todo List* tab. 
+Another helpful piece of code would be a class (or 'service' in Angular terminology) that returns the user authentication state. You can use this service to control what authenticated or unauthenticated users can do in your application. For example, in our Todo app, all unauthenticated users will access to *Home Tab*, but only authenticated users will access the *Todo List* tab.
 
 **Managing Auth State**
 You can manage the auth state in your app in many different ways, but in Ionic, *Events* service provides a quite useful mechanism; a module can publish *data:AuthState* event messages and other modules can listen to *data:AuthState* events to take actions for state changes.
@@ -568,7 +568,7 @@ In Part 3, we will switch it with real backend data using a GraphQL query with A
 
 #### Creating the listTab View
 
-The *listTab* component needs an HTML template for listing todo items. 
+The *listTab* component needs an HTML template for listing todo items.
 
 Create a new file **/src/app/listTab/listTab.page.html** with the following HTML markup:
 
@@ -585,11 +585,11 @@ Create a new file **/src/app/listTab/listTab.page.html** with the following HTML
     <ion-card *ngFor="let item of itemList.items; index as i">
         <ion-card-header class="hover card-title" (click)="modify(item,i)">
             <ion-card-title >
-                {{item.title}}
+              {%raw%}{{item.title}}{%endraw%}
             </ion-card-title>
         </ion-card-header>
         <ion-card-content>
-            {{item.description}}
+              {%raw%}{{item.description}}{%endraw%}
         </ion-card-content>
         <ion-buttons slot="end">
             <ion-button (click)="delete(item,i)">
@@ -849,7 +849,7 @@ Now, run the app, click 'Simulate Login' button on the home page. Then click 'Ad
 
 ![](images/mock-app-create-page.png){: class="screencap" style="max-height:500px; float:none;"}
 
-Congratulations! You have created and Ionic app with basic functionality. In Part 2, you will be adding cloud features to your app.
+Congratulations! You have created an Ionic app with basic functionality. In Part 2, you will be adding cloud features to your app.
 
 # Part 2: Adding Cloud Features
 
@@ -866,7 +866,7 @@ Amplify CLI is the command line tool that you will use to create and manage the 
 To install and configure the Amplify CLI, run the following commands:
 ```bash
 $ npm install -g @aws-amplify/cli
-$ npm amplify configure
+$ amplify configure
 ```
 
 ## {{site.data.concepts.amplify_cli_vs_aws_console.header}}
@@ -895,7 +895,7 @@ The CLI guides you through the options for your project. Select 'Ionic' as your 
     none
 ```
 
-When the CLI successfully configures your backend, the backend configuration files are saved to '/amplify' folder. You don't need to manually edit the content of this folder as it is maintained by the CLI.
+When the CLI successfully configures your backend, the backend configuration files are saved to 'amplify' folder. You don't need to manually edit the content of this folder as it is maintained by the CLI.
 
 ## Adding Analytics
 
@@ -1075,9 +1075,9 @@ Your app now authenticates users with Amazon Cognito!
 
 {{site.data.concepts.where_is_the_user_data_stored.content | markdownify }}
 
-**Disabling Multi-factor Authentication**
+**Multi-factor Authentication**
 
-As you may notice, Multi-factor Authentication is enabled by default, which requires users to validate their phone number with an SMS message. You can change this behavior by configuring your [Amazon Cognito User Pool](https://console.aws.amazon.com/cognito/home) settings.
+If you like, you can enable Multi-factor Authentication (MFA) which requires users to validate their phone number with an SMS message. You can change MFA configuration in your [Amazon Cognito User Pool](https://console.aws.amazon.com/cognito/home) settings.
 
 Please note that the phone numbers should be entered in the format of
 "+<country-code><area-code><phone-number>".
@@ -1206,7 +1206,7 @@ The CLI will ask if you want to update the generated code. Answer *Yes* for the 
 ? Do you want to generate GraphQL statements (queries, mutations and subscription) based on your schema types? This will overwrite your current graphql queries, mutations and subscriptions: Yes
 ```
 
-When the CLI finishes deploying your backend, new data types for your todo app will available on your GraphQL endpoint.
+When the CLI finishes deploying your backend, new data types for your todo app will be available on your GraphQL endpoint.
 
 **What happened under the hood?**
 
