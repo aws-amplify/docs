@@ -13,9 +13,9 @@ The API category provides a solution for making HTTP requests to REST and GraphQ
 
 ## Using GraphQL Endpoints
 
-AWS Amplify API Module supports AWS AppSync or any other GraphQL backends.
+The AWS Amplify API module supports AWS AppSync or any other GraphQL backends.
 
-To learn more about GraphQL, please visit [GraphQL website](http://graphql.org/learn/).
+To learn more about GraphQL, please visit the [GraphQL website](http://graphql.org/learn/).
 {: .callout .callout--action}
 
 ### Using AWS AppSync
@@ -24,7 +24,7 @@ AWS AppSync helps you build data-driven apps with real-time and offline capabili
 {: .callout .callout--action}
 
 
-Amplify Framework offers two client options for AppSync:
+The Amplify Framework offers two client options for AppSync:
 
 - [Amplify GraphQL client](#amplify-graphql-client)
 
@@ -37,7 +37,7 @@ The Amplify GraphQL is a lighter weight option if you're looking for a simple wa
 
 You can integrate with AWS AppSync using the following steps:
 
-1. Setup the API endpoint and authentication information in the client side configuration.
+1. Set up the API endpoint and authentication information in the client side configuration.
 2. Generate TypeScript/JavaScript code from the API schema. (optional)
 3. Write app code to run queries, mutations and subscriptions.
 
@@ -45,7 +45,7 @@ The Amplify CLI provides support for AppSync that make this process easy. Using 
 
 #### Automated Configuration with CLI
 
-After creating your AWS AppSync API, following command enables AppSync GraphQL API in your  project:
+After creating your AWS AppSync API, the following command enables AppSync GraphQL API in your  project:
 
 ```bash
 $ amplify add api
@@ -59,7 +59,7 @@ Select *GraphQL* when prompted for service type:
   REST
 ```
 
-Name your GraphQL endpoint and select authorization type:
+Name your GraphQL endpoint and select the authorization type:
 
 ```terminal
 ? Please select from one of the below mentioned services GraphQL
@@ -69,10 +69,10 @@ Name your GraphQL endpoint and select authorization type:
   Amazon Cognito User Pool
 ```
 
-AWS AppSync API keys expire seven days after creation, and using API KEY authentication is only suggested for development. To change AWS AppSync authorization type after the initial configuration, use the `$ amplify update api` command and select `GraphQL`.
+AWS AppSync API keys expire seven days after creation, and using API KEY authentication is only suggested for development. To change the AWS AppSync authorization type after the initial configuration, use the `$ amplify update api` command and select `GraphQL`.
 {: .callout .callout--info}
 
-When you update your backend with *push* command, you can go to [AWS AppSync Console](https://aws.amazon.com/appsync/) and see that a new API is added under *APIs* menu item:
+When you update your backend with the *push* command, you can go to [AWS AppSync Console](https://aws.amazon.com/appsync/) and see that a new API is added under the *APIs* menu item:
 
 ```bash
 $ amplify push
@@ -240,7 +240,7 @@ Amplify.configure({
 
 ```
 
-#### Set Custom Request Headers for Graphql 
+#### Set Custom Request Headers for GraphQL 
 
 When working with a GraphQL endpoint, you may need to set request headers for authorization purposes. This is done by passing a `graphql_headers` function into the configuration:
 
@@ -256,7 +256,7 @@ Amplify.configure({
 
 #### Signing Request with IAM
 
-AWS Amplify provides the ability to sign requests automatically with AWS Identity Access Management (IAM) for GraphQL requests that are processed through AWS API Gateway. Add *graphql_endpoint_iam_region* parameter to your GraphQL configuration statement to enable signing: 
+AWS Amplify provides the ability to sign requests automatically with AWS Identity Access Management (IAM) for GraphQL requests that are processed through AWS API Gateway. Add the *graphql_endpoint_iam_region* parameter to your GraphQL configuration statement to enable signing: 
 
 ```javascript
 Amplify.configure({
@@ -269,12 +269,11 @@ Amplify.configure({
 
 ### <a name="amplify-graphql-client">Amplify GraphQL Client
 
-AWS Amplify API category provides a GraphQL client for working with queries, mutations, and subscriptions. This client does not support offline programming.
+The API category provides a GraphQL client for working with queries, mutations, and subscriptions. This client does not support offline programming.
 
 #### Query Declarations
 
-
-The Amplify cli codegen automatically generates all possible GraphQL statements (queries, mutations and subscriptions) and for JavaScript applications saves it in `src/graphql` folder
+The Amplify CLI codegen automatically generates all possible GraphQL statements (queries, mutations and subscriptions) and for JavaScript applications saves it in `src/graphql` folder
 
 ```javascript
 import * as queries from './graphql/queries';
@@ -361,11 +360,11 @@ Amplify.configure({
 
 ### React Components
 
-API category provides React components for working with GraphQL data using the Amplify GraphQL client. 
+The API category provides React components for working with GraphQL data using the Amplify GraphQL client. 
 
 #### Connect
 
-`<Connect/>` component is used to execute a GraphQL query or mutation. You can execute GraphQL queries by passing your queries in `query` or `mutation` attributes:
+The `<Connect/>` component is used to execute a GraphQL query or mutation. You can execute GraphQL queries by passing your queries in `query` or `mutation` attributes:
 
 ```javascript
 import React from 'react';
@@ -404,7 +403,7 @@ export default App;
 
 ```
 
-Also, you can use `subscription` and `onSubscriptionMsg` attributes to enable subscriptions:
+Also, you can use the `subscription` and `onSubscriptionMsg` attributes to enable subscriptions:
 
 ```javascript
 
@@ -722,7 +721,7 @@ Any data returned by a query is automatically written to the Apollo Cache (e.g. 
 | Post:N | {author:"Pancho", content:"XYZ"} |
 | ROOT_QUERY.getPost(id:1) |ref: $Post:1 |
 
-Notice that the cache keys are normalized where the `getPost(id:1)` query references the same element that is part of the `listPosts` query. This happens automatically inn JavaScript applications by using `id` as a common cache key to uniquely identify the objects. You can choose to change the cache key with the `cacheOptions :{ dataIdFromObject }` method when creating the `AWSAppSyncClient`:
+Notice that the cache keys are normalized where the `getPost(id:1)` query references the same element that is part of the `listPosts` query. This happens automatically in JavaScript applications by using `id` as a common cache key to uniquely identify the objects. You can choose to change the cache key with the `cacheOptions :{ dataIdFromObject }` method when creating the `AWSAppSyncClient`:
 
 ```javascript
 const client = new AWSAppSyncClient({
@@ -879,7 +878,7 @@ const client = new AWSAppSyncClient({
 
 #### Offline Mutations
 
-As outlined in the architecture section, all query results are automatically persisted to disc with the AppSync client. For updating data through mutations when offline you will need to use an "optimistic response" by writing directly to the store. This is done by querying the store directly with `cache.readQuery({query: someQuery})` to pull the records for a specific query that you wish to update. You can do this manually with `update` functions or use the `buildMutation` and `buildSubscription` built-in helpers that are part of the AppSync SDK (we strongly recommended using these helpers).
+As outlined in the architecture section, all query results are automatically persisted to disk with the AppSync client. For updating data through mutations when offline you will need to use an "optimistic response" by writing directly to the store. This is done by querying the store directly with `cache.readQuery({query: someQuery})` to pull the records for a specific query that you wish to update. You can do this manually with `update` functions or use the `buildMutation` and `buildSubscription` built-in helpers that are part of the AppSync SDK (we strongly recommended using these helpers).
 
 You can find the [Offline Helpers documentation here](https://github.com/awslabs/aws-mobile-appsync-sdk-js/blob/master/OFFLINE_HELPERS.md).
 
@@ -965,11 +964,11 @@ You might add similar code in your app for updating or deleting items using an o
 
 **Authentication Modes**
 
-For client authorization AppSync supports API Keys, Amazon IAM credentials (we recommend using Amazon Cognito Identity Pools for this option), Amazon Cognito User Pools, and 3rd party OIDC providers. This is inferred from the `aws-exports.js` when you call `.awsConfiguration()` on the `AWSAppSyncClient` builder.
+For client authorization, AppSync supports API Keys, Amazon IAM credentials (we recommend using Amazon Cognito Identity Pools for this option), Amazon Cognito User Pools, and 3rd party OIDC providers. This is inferred from the `aws-exports.js` when you call `.awsConfiguration()` on the `AWSAppSyncClient` builder.
 
 ##### API Key Auth
 
-API Key is the easiest way to setup and prototype your application with AppSync. It's also a good option if your application is completely public. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials provided by Cognito Identity Pools, which also supports "Guest" access. See [the authentication section for more details](./authentication). For manual configuration, add the following snippet to your `aws-exports.js` file:
+API Key is the easiest way to set up and prototype your application with AppSync. It's also a good option if your application is completely public. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials provided by Cognito Identity Pools, which also supports "Guest" access. See [the authentication section for more details](./authentication). For manual configuration, add the following snippet to your `aws-exports.js` file:
 
 ```javascript
 const client = new AWSAppSyncClient({
@@ -1022,7 +1021,7 @@ const client = new AWSAppSyncClient({
   url: awsConfig.aws_appsync_graphqlEndpoint,
   region: awsConfig.aws_appsync_region,
   auth: {
-    type: AUTH_TYPE.IAM,
+    type: AUTH_TYPE.AWS_IAM,
     credentials: () => Auth.currentCredentials(),
   },
 });
@@ -1050,7 +1049,7 @@ const client = new AWSAppSyncClient({
   url: awsConfig.aws_appsync_graphqlEndpoint,
   region: awsConfig.aws_appsync_region,
   auth: {
-    type: AUTH_TYPE.IAM,
+    type: AUTH_TYPE.AWS_IAM,
     jwtToken: () => getOIDCToken(),
   },
 });
