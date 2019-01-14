@@ -92,7 +92,7 @@ platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSAppSync', '~> 2.8.0'
+    pod 'AWSAppSync', '~> 2.9.0'
 
 end
 ```
