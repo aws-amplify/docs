@@ -183,7 +183,7 @@ export class ToDoItem {
   status: any;
 
   constructor(params){
-    this.id = uuid();
+    this.id = params.id || uuid();
     this.title = params.title;
     this.description = params.description;
     this.status = 'new';
@@ -1363,7 +1363,7 @@ export class ListTab implements OnInit {
   }
 
   async edit(item){
-    API.graphql(graphqlOperation(mutations.updateTodo, { input: item }));
+    await API.graphql(graphqlOperation(mutations.updateTodo, { input: item }));
     await this.getItems();
   }
 
