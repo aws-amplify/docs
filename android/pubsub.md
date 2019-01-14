@@ -95,6 +95,8 @@ mIotAndroidClient.attachPolicy(attachPolicyReq);
 
 Before you can subscribe to a topic, you need to establish a connection as follows:
 
+#### Connect using cognito credentials provider
+
 ```java
 try {
     mqttManager.connect(AWSMobileClient.getInstance(), new AWSIotMqttClientStatusCallback() {
@@ -106,6 +108,37 @@ try {
 } catch (final Exception e) {
     Log.e(LOG_TAG, "Connection error: ", e);
 }
+```
+
+#### Connect using custom authentication token
+
+```java
+        try {
+            String tokenKeyName = <TOKEN_KEY_NAME>;
+            String token = <TOKEN>;
+            String tokenSignature = <TOKEN_SIGNATURE>;
+            String customAuthorizerName = <AUTHORIZER_NAME>;
+            mqttManager.connect(customAuthorizerName,
+                    token, tokenKeyName, tokenSignature,
+                    new AWSIotMqttClientStatusCallback() {
+                        @Override
+                        public void onStatusChanged(final AWSIotMqttClientStatus status,
+                                                    final Throwable throwable) {
+                            Log.d(LOG_TAG, "Status = " + String.valueOf(status));
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (throwable != null) {
+                                        Log.e(LOG_TAG, "Connection error.", throwable);
+                                    }
+                                }
+                            });
+                        }
+                    });
+        } catch (final Exception e) {
+            Log.e(LOG_TAG, "Connection error.", e);
+        }
 ```
 
 ### Subscribe to a topic
