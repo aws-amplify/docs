@@ -200,10 +200,10 @@ To add data you need to run a GraphQL mutation. The syntax of the callback is `G
 
 ```java
     public void mutation(){
-        CreateTodoInput createTodoInput = CreateTodoInput.builder().
-            name("Use AppSync").
-            description("Realtime and Offline").
-            build();
+        CreateTodoInput createTodoInput = CreateTodoInput.builder()
+            .name("Use AppSync")
+            .description("Realtime and Offline")
+            .build();
 
         mAWSAppSyncClient.mutate(CreateTodoMutation.builder().input(createTodoInput).build())
             .enqueue(mutationCallback);
