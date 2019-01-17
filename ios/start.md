@@ -31,7 +31,7 @@ platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSCore', '~> 2.7.0'
+    pod 'AWSCore', '~> 2.8.0'
 
     # other pods
 end
@@ -92,7 +92,7 @@ platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSAppSync', '~> 2.6.24'
+    pod 'AWSAppSync', '~> 2.9.0'
 
 end
 ```
@@ -111,7 +111,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
    var appSyncClient: AWSAppSyncClient?
 
-   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
       //You can choose your database location
       let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("database_name")
         
@@ -165,7 +165,7 @@ Next, query the data:
 
 ```swift
     func runQuery(){
-        appSyncClient?.fetch(query: ListTodosQuery()) {(result, error) in
+        appSyncClient?.fetch(query: ListTodosQuery(), cachePolicy: .returnCacheDataAndFetch) {(result, error) in
             if error != nil {
                 print(error?.localizedDescription ?? "")
                 return

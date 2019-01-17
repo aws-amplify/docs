@@ -1,3 +1,7 @@
+---
+title: Push Notifications
+---
+
 # Push Notifications
 
 ## Overview
@@ -26,7 +30,7 @@ You can also create Amazon Pinpoint campaigns that tie user behavior to push or 
     > FCM
     ```
 
-    - Provide your ApiKey. The FCM console refers to this value as `ServerKey`. For information on getting an FCM ApiKey, see the section [Setting Up Android Push Notifications using FCM](./how-to-setup-pinpoint-notifications-fcm.md). Use the steps in the next section to connect your app to your backend.
+    - Provide your ApiKey. The FCM console refers to this value as `ServerKey`. For information on getting an FCM ApiKey, see the section [Setting Up FCM/GCM Guide](./push-notifications-setup-fcm). Use the steps in the next section to connect your app to your backend.
 
 ## Connect to Your Backend
 
@@ -42,8 +46,8 @@ Use the following steps to connect your app to the push notification backend ser
         implementation 'com.google.firebase:firebase-core:16.0.1'
         implementation 'com.google.firebase:firebase-messaging:17.3.0'
 
-        implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.8.+'
-        implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
+        implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.11.+'
+        implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.11.+@aar') { transitive = true }
     }
 
     apply plugin: 'com.google.gms.google-services'
@@ -107,10 +111,23 @@ Use the following steps to connect your app to the push notification backend ser
 
 	    public static PinpointManager getPinpointManager(final Context applicationContext) {
 	        if (pinpointManager == null) {
+	            final AWSConfiguration awsConfig = new AWSConfiguration(applicationContext);
+	            AWSMobileClient.getInstance().initialize(applicationContext, awsConfig, new Callback<UserStateDetails>() {
+	                @Override
+	                public void onResult(UserStateDetails userStateDetails) {
+	                    Log.i("INIT", userStateDetails.getUserState());
+	                }
+
+	                @Override
+	                public void onError(Exception e) {
+	                    Log.e("INIT", "Initialization error.", e);
+	                }
+	            });
+
 	            PinpointConfiguration pinpointConfig = new PinpointConfiguration(
 	                    applicationContext,
-	                    AWSMobileClient.getInstance().getCredentialsProvider(),
-	                    AWSMobileClient.getInstance().getConfiguration());
+	                    AWSMobileClient.getInstance(),
+	                    awsConfig);
 
 	            pinpointManager = new PinpointManager(pinpointConfig);
 
@@ -131,14 +148,6 @@ Use the following steps to connect your app to the push notification backend ser
 	    protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.activity_main);
-
-	        // Initialize the AWS Mobile Client
-	        AWSMobileClient.getInstance().initialize(this, new AWSStartupHandler() {
-	            @Override
-	            public void onComplete(AWSStartupResult awsStartupResult) {
-	                Log.d(TAG, "AWSMobileClient is instantiated and you are connected to AWS!");
-	            }
-	        }).execute();
 
 	        // Initialize PinpointManager
 	        getPinpointManager(getApplicationContext());
@@ -265,8 +274,8 @@ The following steps show how to receive push notifications targeted for your app
 
 ## Next Steps
 
-* [Handling FCM / GCM Push Notifications](how-to-pinpoint-notifications-fcm)
+* [Handling FCM / GCM Push Notifications](./push-notifications-handle-fcm)
 
-* [Handling Amazon Device Messaging Push Notifications](how-to-pinpoint-notifications-adm)
+* [Handling Amazon Device Messaging Push Notifications](./push-notifications-handle-adm)
 
-* [Handling Baidu Push Notifications](how-to-pinpoint-notifications-baidu)
+* [Handling Baidu Push Notifications](./push-notifications-handle-baidu)

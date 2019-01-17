@@ -73,7 +73,7 @@ What happens behind the scenes?
      - Lambda Zip files (which are used when using API Gateway & Lambda services in your project)
      - AppSync schema and resolver files
   - Auth & Unauth Role with no policies in it during the initialization phase. The policies get populated in it eventually, based on your permission/authorization selections when adding resources to your project like API, Storage, and Analytics
-  - An `amplify/` directory gets created at the root of your project with the following structure:
+- An `amplify/` directory gets created at the root of your project with the following structure:
 
 ```
 <project-root>
@@ -184,3 +184,9 @@ The command should be used in the following cases:
 
 What happens behind the scenes?
   - The `.config/` directory is generated in the `amplify/` directory if not already present and the `aws-info.json` and `project-info.json` files are configured to reflect the selections made as a part of the `amplify configure project` command.
+    
+## Assuming an IAM Role
+
+You can configure the AWS Amplify CLI to use an IAM role by defining a profile for the role in the `~/.aws/config` file, and then select that profile when running through the `amplify init` or `amplify configure project` flow. <br/>
+The setup is the same as the `aws cli`, see this [doc](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html) for more information. <br/>
+Please note that the AWS Amplify CLI currently does NOT support Multi-Factor Authentication when assuming a role. 

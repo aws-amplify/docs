@@ -99,7 +99,7 @@ To use AppSync in your Xcode project, modify your Podfile with a dependency of t
 ```ruby
 target 'PostsApp' do
     use_frameworks!
-    pod 'AWSAppSync', ' ~> 2.6.24'
+    pod 'AWSAppSync', ' ~> 2.9.0'
 end
 ```
 
@@ -471,6 +471,273 @@ do {
 }
 ```
 
+### Delta Sync
+
+DeltaSync allows you to perform automatic synchronization with an AWS AppSync GraphQL server. The client will perform reconnection, exponential backoff, and retries when network errors take place for simplified data replication to devices. It does this by taking the results of a GraphQL query and caching it in the local Apollo cache.
+
+In the most basic form, you can use a single query with the API to replicate the state from the backend to the client. This is referred to as a "Base Query" and could be a list operation for a GraphQL type which might correspond to a DynamoDB table. For large tables where the content changes frequently and devices switch between offline and online frequently as well, pulling all changes for every network reconnect can result in poor performance on the client. In these cases you can provide the client API a second query called the "Delta Query" which will be merged into the cache. When you do this the Base Query is run an initial time to hydrate the cache with data, and on each network reconnect the Delta Query is run to just get the changed data. The Base Query is also run on a regular basis as a "catch-up" mechanism. By default this is every 24 hours however you can make it more or less frequent.
+
+By allowing clients to separate the base hydration of the cache using one query and incremental updates in another query, you can move the computation from your client application to the backend. This is substantially more efficient on the clients when regularly switching between online and offline states. This could be implemented in your AWS AppSync backend in different ways such as using a DynamoDB Query on an index along with a conditional expression. You can also leverage Pipeline Resolvers to partition your records to have the delta responses come from a second table acting as a journal. [A full sample with CloudFormation is available in the AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/tutorial-delta-sync.html). The rest of this documentation will focus on the client usage.
+
+You can also use Delta Sync functionality with GraphQL subscriptions, taking advantage of both only sending changes to the clients when they switch network connectivity but also when they are online. In this case you can pass a third query called the "Subscription Query" which is a standard GraphQL subscription statement. When the device is connected, these are processed as normal and the client API simply helps make setting up realtime data easy. However, when the device transitions from offline to online, to account for high velocity writes the client will execute the resubscription along with synchronization and message processing in the following order:
+
+1. Subscribe to any queries defined and store results in an incoming queue
+2. Run the appropriate query (If `baseRefreshIntervalInSeconds` has elapsed, run the Base Query otherwise only run the Delta Query)
+3. Update the cache with results from the appropriate query
+4. Drain the mutation queue in serial
+
+Finally, you might have other queries which you wish to represent in your application other than the base cache hydration. For instance a `getItem(id:ID)` or other specific query. If your alternative query corresponds to items which are already in the normalized cache, you can point them at these cache entries with the `cacheUpdates` function which returns an array of queries and their variables. The DeltaSync client will then iterate through the items and populate a query entry for each item on your behalf. If you wish to use additional queries which don't correspond to items in your base query cache, you can always create another instance of the `appSyncClient?.sync()` process.
+
+**Usage**
+
+```swift
+  // instance variable in your view controller
+  var deltaWatcher: Cancellable?
+
+  // Start DeltaSync
+  // Provides the ability to sync using a baseQuery, subscription, deltaQuery, and a refresh interval
+  let allPostsBaseQuery = ListPostsQuery()
+  let allPostsDeltaQuery = ListPostsDeltaQuery()
+  let postsSubscription = OnDeltaPostSubscription()
+
+  deltaWatcher = appSyncClient?.sync(baseQuery: allPostsBaseQuery, baseQueryResultHandler: { (result, error) in
+    
+  }, subscription: postsSubscription, subscriptionResultHandler: { (result, transaction, error) in
+    
+  }, deltaQuery: allPostsDeltaQuery, deltaQueryResultHandler: { (result, transaction, error) in
+    
+  })
+        
+  //Stop DeltaSync
+  deltaWatcher.cancel();
+```
+
+**The method parameters**
+* *baseQuery* the base query to get the baseline state. (REQUIRED)
+* *baseQueryResultHandler* callback to handle the baseQuery results. (REQUIRED)
+* *subscription* subscription to get changes on the fly.
+* *subscriptionResultHandler* callback to handle the subscription messages. 
+* *deltaQuery* the catch-up query
+* *deltaQueryResultHandler* callback to handle the deltaQuery results. 
+* *syncConfiguration* time duration (specified in seconds) when the base query will be re-run to get an updated baseline state. Defaults to 24 hours.
+* *returnValue* returns a `Cancellable` object that can be used later to cancel the sync operation by calling the `cancel()` method.
+
+Note that above only the `baseQuery` and `baseQueryResultHandler` are required parameters. You can call the API in different ways such as:
+
+```swift
+//Performs sync only with base query
+appSyncClient?.sync(baseQuery: baseQuery, baseQueryResultHandler: baseQueryResultHandler) 
+
+//Performs sync with delta but no subscriptions
+appSyncClient?.sync(baseQuery: baseQuery, baseQueryResultHandler: baseQueryResultHandler, deltaQuery: deltaQuery, deltaQueryResultHandler: deltaQueryResultHandler)
+```
+
+**Example**
+
+The following section walks through the details of creating an app using Delta Sync. We will use a simple Posts App that has a view that displays a list of posts and keeps it synchronized using the Delta Sync functionality. We will use an array called `postList` to collect and manage the posts and a UIViewController to power the UI.
+
+**Create Sync Handler Function**
+
+Create a new method named `loadPostsWithSyncFeature` which will be called from the `viewDidLoad()` method of your view controller.
+
+```swift
+class YourAppViewController: UIViewController {
+
+    var appSyncClient: AWSAppSyncClient?
+    var deltaWatcher: Cancellable?
+    
+    @IBOutlet weak var tableView: UITableView!
+    var postList: [ListPostsQuery.Data.ListPost?]? = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+
+    override func viewDidLoad() {
+      super.viewDidLoad()
+      
+      // Fetch AppSync client from AppDelegate or from the place where it was initialized.
+      let appDelegate = UIApplication.shared.delegate as! AppDelegate
+      appSyncClient = appDelegate.appSyncClient
+      
+      // Set table view delegate
+      self.tableView.dataSource = self
+      self.tableView.delegate = self
+      
+      // Call the new method which we just added.
+      loadPostsWithSyncFeature()
+    }
+
+    func loadPostsWithSyncFeature() {
+        // Sync operation will be added here.
+    }
+}
+```
+
+**Create Helpers to Add/ Update/ Delete Posts in Cache**
+
+*Helper function to load posts from cache:*
+
+```swift
+      func loadAllPostsFromCache() {
+        appSyncClient?.fetch(query: ListPostsQuery(), cachePolicy: .returnCacheDataDontFetch)  { (result, error) in
+            if error != nil {
+                print(error?.localizedDescription ?? "")
+                return
+            }
+            self.postList = result?.data?.listPosts
+        }
+    }
+```
+
+*Helper function to `Add` or `Update` a post:*
+
+```swift
+      func addOrUpdatePostInQuery(id: GraphQLID, title: String, author: String, content: String) {
+        // Create a new object for the desired query, where the new object content should reside
+        let postToAdd = ListPostsQuery.Data.ListPost(id: id,
+                                                     author: author,
+                                                     title: title,
+                                                    content: content)
+        print("App: Processing \(id) for add/ update")
+        let _ = appSyncClient?.store?.withinReadWriteTransaction({ (transaction) in
+            do {
+                // Update the local store with the newly received data
+                try transaction.update(query: ListPostsQuery()) { (data: inout ListPostsQuery.Data) in
+                    guard let items = data.listPosts else {
+                        return
+                    }
+                    var pos = -1
+                    var counter = 0
+                    for post in items {
+                        if post?.id == id {
+                            pos = counter
+                            continue
+                        }
+                        counter += 1
+                    }
+                    // Post is not present in query, add it.
+                    if pos == -1 {
+                        print("App: Adding \(id) now.")
+                        data.listPosts?.append(postToAdd)
+                    } else {
+                        // It was an update operation, post will be automatically updated in cache.
+                    }
+                }
+            } catch {
+                print("App: Error updating store")
+            }
+        })
+        self.loadAllPostsFromCache()
+    }
+```
+
+*Helper function to `Delete` a post:*
+
+```swift
+      func deletePostFromCache(uniqueId: GraphQLID) {
+        // Remove local object from cache.
+        print("App: Removing \(uniqueId) from cache.")
+        let _ = appSyncClient?.store?.withinReadWriteTransaction({ (transaction) in
+            do {
+                try transaction.update(query: ListPostsQuery(), { (data: inout ListPostsQuery.Data) in
+                    guard let items = data.listPosts else {
+                        return
+                    }
+                    var pos = -1
+                    var counter = 0
+                    for post in items {
+                        if post?.id == uniqueId {
+                            pos = counter
+                            continue
+                        }
+                        counter += 1
+                    }
+                    print("App: \(uniqueId) index: \(pos).")
+                    if pos != -1 {
+                        print("App: Removing now \(uniqueId)")
+                        data.listPosts?.remove(at: pos)
+                    }
+                })
+            } catch {
+                print("App: Error updating store")
+            }
+        })
+        self.loadAllPostsFromCache()
+    }
+```
+
+**Implement the new sync function**
+
+Now, update the `loadPostsWithSyncFeature` function with the calls to our helper methods to make sure all changes are updated in the UI.
+
+```swift
+    func loadPostsWithSyncFeature() {
+        let allPostsBaseQuery = ListPostsQuery()
+        let allPostsDeltaQuery = ListPostsDeltaQuery()
+        let postsSubscription = OnDeltaPostSubscription()
+        
+        deltaWatcher = appSyncClient?.sync(baseQuery: allPostsBaseQuery,
+                                           baseQueryResultHandler: { (result, error) in
+            if error != nil {
+                print(error?.localizedDescription ?? "")
+                return
+            }
+            self.postList = result?.data?.listPosts
+        }, subscription: postsSubscription,
+           subscriptionResultHandler: { (result, transaction, error) in
+            if let result = result {
+                guard result.data != nil, result.data?.onDeltaPost != nil else {
+                    return
+                }
+                // If the Post is to be deleted from the cache.
+                if(result.data?.onDeltaPost?.awsDs == DeltaAction.delete) {
+                    self.deletePostFromCache(uniqueId: result.data!.onDeltaPost!.id)
+                    return
+                }
+                // Store a reference to the new object
+                let newPost = result.data!.onDeltaPost!
+                self.addOrUpdatePostInQuery(id: newPost.id, title: newPost.title, author: newPost.author, content: newPost.content)
+            } else if let error = error {
+                print(error.localizedDescription)
+            }
+        }, deltaQuery: allPostsDeltaQuery,
+           deltaQueryResultHandler: { (result, transaction, error) in
+            if let result = result {
+                guard result.data != nil, result.data?.listPostsDelta != nil else {
+                    return
+                }
+                // Store a reference to the new updates
+                let deltas = result.data!.listPostsDelta!
+                
+                for deltaPost in deltas {
+                    print("App: Processing update on Post ID: \(deltaPost!.id)")
+                    if deltaPost?.awsDs == DeltaAction.delete {
+                        self.deletePostFromCache(uniqueId: deltaPost!.id)
+                        continue
+                    } else {
+                        self.addOrUpdatePostInQuery(id: deltaPost!.id, title: deltaPost!.title, author: deltaPost!.author, content: deltaPost!.content)
+                    }
+                }
+            } else if let error = error {
+                print(error.localizedDescription)
+            }
+            // Set a sync configuration of 5 minutes.
+        }, syncConfiguration: SyncConfiguration(baseRefreshIntervalInSeconds: 300))
+    }
+```
+
+Once we have all of these pieces in place, we will tie it all together by invoking the Delta Sync functionality as follows.
+
+**Delta Sync Lifecycle**
+
+The delta sync process runs at various times, in response to different conditions.
+- Runs immediately, when you make the call to `sync` as shown above. This will be the initial run and it will first execute the base query from the cache, setup the subscription and execute the base or delta Query based on when it was last run. It will always run the base query if running for the first time.
+- Runs when the device that is running the app transitions from offline to online. Depending on the duration for which the device was offline, either the deltaQuery or the baseQuery will be run.
+- Runs when the app transitions from background to foreground. Once again, depending on how long the app was in the background, either the deltaQuery or the baseQuery will be run.
+- Runs once every time based on the time specified in sync configuration as part of a periodic catch-up. 
+
+
 ## REST API
 
 ### Overview
@@ -518,7 +785,7 @@ Add `AWSAPIGateway` to your Podfile:
 	  use_frameworks!
 
 	     # For API
-	     pod 'AWSAPIGateway', '~> 2.7.0'
+	     pod 'AWSAPIGateway', '~> 2.8.0'
 	     # other pods
 	end
 ```

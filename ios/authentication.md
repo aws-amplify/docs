@@ -104,9 +104,9 @@ After initialization in your project directory with `amplify init`, edit your `P
 ```ruby
 target 'MyApp' do             ##Replace MyApp with your application name
   use_frameworks!
-  pod 'AWSMobileClient', '~> 2.7.0'      # Required dependency
-  pod 'AWSAuthUI', '~> 2.7.0'            # Optional dependency required to use drop-in UI
-  pod 'AWSUserPoolsSignIn', '~> 2.7.0'   # Optional dependency required to use drop-in UI
+  pod 'AWSMobileClient', '~> 2.8.0'      # Required dependency
+  pod 'AWSAuthUI', '~> 2.8.0'            # Optional dependency required to use drop-in UI
+  pod 'AWSUserPoolsSignIn', '~> 2.8.0'   # Optional dependency required to use drop-in UI
 end
 ```
 
@@ -248,7 +248,7 @@ If you login in your app either using the [Drop-In Auth](#dropinui) or the [dire
 The `AWSMobileClient` client supports easy "drop-in" UI for your application. You can add drop-in Auth UI like so:
 
 ```swift
-AWSMobileClient.sharedInstance().showSignInScreen(navigationController: self.navigationController!, { (signInState, error) in
+AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigationController!, { (signInState, error) in
     if let signInState = signInState {
         print("logged in!")
     } else {
@@ -267,10 +267,10 @@ Currently, you can change the following properties of the drop-in UI with the `A
 
 ```swift
 AWSMobileClient.sharedInstance()
-    .showSignInScreen(navigationController: self.navigationController!,
-                      signInUIOptions: SignInUIOptions(
-                            canCancel: false,
-                            logoImage: UIImage(named: "MyCustomLogo"),
+    .showSignIn(navigationController: self.navigationController!,
+                     signInUIOptions: SignInUIOptions(
+                           canCancel: false,
+                           logoImage: UIImage(named: "MyCustomLogo"),
                             backgroundColor: UIColor.black)) { (result, err) in
                             //handle results and errors               
 }
@@ -381,7 +381,7 @@ AWSMobileClient.sharedInstance().signIn(username: "your_username", password: "Ab
 ### Confirm SignIn
 
 ```swift
-AWSMobileClient.sharedInstance().confirmSignIn(code: "code_here") { (signInResult, error) in
+AWSMobileClient.sharedInstance().confirmSignIn(challengeResponse: "code_here") { (signInResult, error) in
     if let error = error  {
         print("\(error.localizedDescription)")
     } else if let signInResult = signInResult {
@@ -395,10 +395,80 @@ AWSMobileClient.sharedInstance().confirmSignIn(code: "code_here") { (signInResul
 }
 ```
 
+### Force Change Password
+
+If a user is required to change their password on first login, there is a `newPasswordRequired` state returned when `signIn` is called. You need to provide a new password given by the user in that case. It can be done using `confirmSignIn` with the new password.
+
+```swift
+AWSMobileClient.sharedInstance().signIn(username: "abc123", password: "Abc123!@") { (signInResult, error) in
+    if let signInResult = signInResult {
+        switch(signInResult.signInState) {
+        case .signedIn:
+            print("User signed in successfully.")
+        case .smsMFA:
+            print("Code was sent via SMS to \(signInResult.codeDetails!.destination!)")
+        case .newPasswordRequired:
+            print("A change of password is needed. Please provide a new password.")
+        default:
+            print("Other signIn state: \(signInResult.signInState)")
+        }
+    } else if let error = error {
+        print("Error occurred: \(error.localizedDescription)")
+    }
+}
+
+AWSMobileClient.sharedInstance().confirmSignIn(challengeResponse: "NEW_PASSWORD_HERE") { (signInResult, error) in
+    if let signInResult = signInResult {
+        switch(signInResult.signInState) {
+        case .signedIn:
+            print("User signed in successfully.")
+        case .smsMFA:
+            print("Code was sent via SMS to \(signInResult.codeDetails!.destination!)")
+        default:
+            print("Other signIn state: \(signInResult.signInState)")
+        }
+    } else if let error = error {
+        print("Error occurred: \(error.localizedDescription)")
+    }
+}
+```
+
 ### SignOut
 
 ```swift
 AWSMobileClient.sharedInstance().signOut()
+```
+
+### Forgot Password
+
+Forgot password is a 2 step process. You need to first call `forgotPassword()` method which would send a confirmation code to user via email or phone number. The details of how the code was sent are included in the response of `forgotPassword()`. Once the code is given by the user, you need to call `confirmForgotPassword()` with the confirmation code to confirm the change of password.
+
+```swift
+AWSMobileClient.sharedInstance().forgotPassword(username: "my_username") { (forgotPasswordResult, error) in
+    if let forgotPasswordResult = forgotPasswordResult {
+        switch(forgotPasswordResult.forgotPasswordState) {
+        case .confirmationCodeSent:
+            print("Confirmation code sent via \(forgotPasswordResult.codeDeliveryDetails!.deliveryMedium) to: \(forgotPasswordResult.codeDeliveryDetails!.destination!)")
+        default:
+            print("Error: Invalid case.")
+        }
+    } else if let error = error {
+        print("Error occurred: \(error.localizedDescription)")
+    }
+}
+
+AWSMobileClient.sharedInstance().confirmForgotPassword(username: "my_username", newPassword: "MyNewPassword123!!", confirmationCode: "ConfirmationCode") { (forgotPasswordResult, error) in
+    if let forgotPasswordResult = forgotPasswordResult {
+        switch(forgotPasswordResult.forgotPasswordState) {
+        case .done:
+            print("Password changed successfully")
+        default:
+            print("Error: Could not change password.")
+        }
+    } else if let error = error {
+        print("Error occurred: \(error.localizedDescription)")
+    }
+}
 ```
 
 ### Utility Properties
@@ -448,7 +518,7 @@ Currently, the federation feature in the AWSMobileClient supports Cognito Identi
 ### Federated Sign In
 
 ```swift
-AWSMobileClient.sharedInstance().federatedSignIn(providerName: IdentityProviders.facebook.rawValue, token: "FACEBOOK_TOKEN_HERE") { (userState, err)  in
+AWSMobileClient.sharedInstance().federatedSignIn(providerName: IdentityProvider.facebook.rawValue, token: "FACEBOOK_TOKEN_HERE") { (userState, error)  in
     if let error = error {
         print("Federated Sign In failed: \(error.localizedDescription)")
     }
@@ -605,12 +675,12 @@ Note that the CLI allows you to select more than one identity provider for your 
 	  target 'YOUR-APP-NAME' do
 	    use_frameworks!
 
-	    pod 'AWSFacebookSignIn', '~> 2.7.0'     # Add this new dependency
-	    pod 'AWSAuthUI', '~> 2.7.0'             # Add this dependency if you have not already added
+	    pod 'AWSFacebookSignIn', '~> 2.8.0'     # Add this new dependency
+	    pod 'AWSAuthUI', '~> 2.8.0'             # Add this dependency if you have not already added
 	    
 	    # Other Pod entries
-	    pod 'AWSMobileClient', '~> 2.7.0'
-	    pod 'AWSUserPoolsSignIn', '~> 2.7.0'
+	    pod 'AWSMobileClient', '~> 2.8.0'
+	    pod 'AWSUserPoolsSignIn', '~> 2.8.0'
 	    
 	  end
 	```
@@ -675,13 +745,13 @@ Now, your drop-in UI will show a Facebook sign in button which the users can use
 	platform :ios, '9.0'
 	target :'YOUR-APP-NAME' do
 	  use_frameworks!
-	  pod 'AWSGoogleSignIn', '~> 2.7.0'     # Add this new dependency
+	  pod 'AWSGoogleSignIn', '~> 2.8.0'     # Add this new dependency
 	  pod 'GoogleSignIn', '~> 4.0'          # Add this new dependency
-	  pod 'AWSAuthUI', '~> 2.7.0'           # Add this dependency if you have not already added
+	  pod 'AWSAuthUI', '~> 2.8.0'           # Add this dependency if you have not already added
 	    
 	  # Other Pod entries
-	  pod 'AWSMobileClient', '~> 2.7.0'
-	  pod 'AWSUserPoolsSignIn', '~> 2.7.0'
+	  pod 'AWSMobileClient', '~> 2.8.0'
+	  pod 'AWSUserPoolsSignIn', '~> 2.8.0'
 	  
 	end
 	```

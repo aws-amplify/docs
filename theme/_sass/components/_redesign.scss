@@ -338,6 +338,9 @@
     #search-input:focus {
         outline: none;
     }
+    .algolia-docsearch-suggestion {
+        height: inherit;
+    }
 }
 
 @media (max-width: 1084px) {
