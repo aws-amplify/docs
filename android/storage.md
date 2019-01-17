@@ -455,7 +455,7 @@ getApplicationContext().startForegroundService(tsIntent);
 
 **List Objects**
   
-* When a S3 bucket contans objects with key names containing characters that require special handling, and since the SDK has an XML parser,  (XML 1.0 parser) which cannot parse some characters, the SDK is required to request that Amazon S3 encode the keys in the response. This can be done by passing in `url` as `encodingType` in the `ListObjectsRequest`.
+* When a S3 bucket contains objects with key names containing characters that require special handling, and since the SDK has an XML parser,  (XML 1.0 parser) which cannot parse some characters, the SDK is required to request that Amazon S3 encode the keys in the response. This can be done by passing in `url` as `encodingType` in the `ListObjectsRequest`.
 
 ```java
 AmazonS3Client s3 = new AmazonS3Client(credentials);
