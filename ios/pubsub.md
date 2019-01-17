@@ -85,7 +85,7 @@ aws iot attach-principal-policy --policy-name 'myIOTPolicy' --principal '<YOUR_C
 
 ### Establish Connection
 
-Before you can publish/subscribe to a topic, you need to establish a connection. You can do that using one of the following mehtods provided by the SDK.
+Before you can publish/subscribe to a topic, you need to establish a connection. You can do that using one of the following methods provided by the SDK.
 
 #### Certificate based mutual authentication
 
@@ -105,7 +105,7 @@ You can take a look at the [API Reference](https://aws-amplify.github.io/aws-sdk
 
 #### AWS Credentials based Authentication
 
-Thie method uses AWS Signature Version 4 Credentials to sign the request to connect to the AWS IoT endpoint.
+This method uses AWS Signature Version 4 Credentials to sign the request to connect to the AWS IoT endpoint.
 
 ```swift
 func mqttEventCallback(_ status: AWSIoTMQTTStatus ) {
