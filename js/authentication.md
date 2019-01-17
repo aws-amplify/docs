@@ -339,20 +339,12 @@ Auth.verifyCurrentUserAttributeSubmit(attr, 'the_verification_code')
 
 You can manually set the user session by:
 ```js
-import Auth, {
-    AWSCognitoProvider, 
-    GoogleProvider,
-    FacebookProvider,
-    AmazonProvider,
-    DeveloperProvider,
-    GenericProvider,
-    SessionType
-} from '@aws-amplify/auth';
+import Auth from '@aws-amplify/auth';
 
 const { 
     session, // the session is either a CognitoUserSession or a FederatedProviderSession
     user, // The user is either CognitoUser or FederatedUser
-    credentials 
+    credentials // The AWS credentials returned when using Cognito Identity Pool Service
 } = await Auth.setSession({
     username: 'Alice',       // Required, user name
     attributes: {            // Optional, user attributes
@@ -363,34 +355,46 @@ const {
         idToken: 'xxxxxxx',  // Optional, the id token
         accessToken: 'xxxxxxx', // Optional, the access token
         refreshToken: 'xxxxxxx', // Optional, the refresh token
-        expires_at: 1540857110755, // Required, the timestamp when the token expires
     },
-    provider: AWSCognitoProvider.NAME, // Required, the name of the token provider
-    identityId: 'xxxxxxxx', // Optional, specify the identity id from the Cognito Federated Identity Pool
-    errorHandler: (e) => {
-        // Optional, handle the error when getting credentials from Cognito Federated Identity Pool
-    },
-    credentialsDomain: 'www.example.com', // Optional, the domain used to get the credentials
-    creentialsToken: 'xxxxxxx' // Optional, the token used to get the credentials
+    expires_at: 1234567890 // The timestamp of the expiration of the session. Required when the provider is NOT AWSCognito, 
+    provider: 'AWSCognito', // Required, the name of the token provider
+    federateWithIDP: { // These options are to get the AWS Credentials from the Cognito Identity Pool Service
+        token: 'id_token' | 'access_token' // Optional, indicating which token will be used to federate with Cognito Identity Pool
+        domain: 'www.example.com', // Optional, the domain used to get the AWS Credentials
+        identityId: 'xxxxxxxx', // Optional, specify the identity id from the Cognito Federated Identity Pool
+        errorHandler: (e) => {
+            // Optional, handle the error when getting credentials from Cognito Federated Identity Pool
+        },
+    }
 });
+```
 
+The provider could be `AWSCognito`, `Amazon`, `Google`, `Facebook`, `Developer` and `Generic`.
+
+`AWSCognito`: after the user signs in via the Cognito User Pool or Cognito Hosted UI, you can use the tokens returned to construct a valid user session. If the User Pool is federated with a Cognito Identity Pool, then an AWS Credentials will also be returned.
+
+`Amazon`, `Google`, `Facebook`, `Developer`: if you are using external identities as the providers of your Cognito Identity Pool, then you can use this method to construct a user session and to get the AWS Credentials from the Cognito Identity Pool. For these four providers, you don't need to specify the token type or domain in the `federatedWithIDP` as they are preconfigured in the library.
+
+`Generic`: for any other external identites, you need to use this provider and specify the token type and domain in the `federatedWithIDP`.
+
+For more info, please visit [the Cognito doc](https://docs.aws.amazon.com/cognito/latest/developerguide/external-identity-providers.html)
+{: .callout .callout--info}
+
+After the user session is set:
+```js
 // You can also get session, user, credentials from other methods:
 const session = await Auth.currentSession();
 const user = await Auth.currentAuthenticatedUser();
 const credentials = await Auth.currentCredentials();
 
-if (session.type && session.type === SessionType.Federated_Provider_Session) {
+if (session.type && session.type === SessionType.FederatedProviderSession) {
     // If the session is from the federated provider
     const {
-        idToken, // Optional, The ID token
-        accessToken, // Optional, The access token
-        refreshToken, // Optional, The refresh token
-        expires_at, // The timestamp when the token expires
-        type, // The type of the session
-        provider, // The provider of the session, i.e. Google, Facebook
-        identityId, // Optional, The specified identity ID when setting the session
-        credentialsDomain, // Optional, the domain used to get the credentials
-        credentialsToken // Optional, the token used to get the credentials
+        tokens, // the tokens in the user session
+        expires_at, // The timestamp of the expiration of the session. Required when the provider is NOT AWSCognito, 
+        provider, // the name of the token provider
+        type, // the type of the session
+        federateWithIDP // These options are to get the AWS Credentials from the Cognito Identity Pool Service   
     } = session;
 } else {
     // If the session is from Cognito
@@ -400,12 +404,33 @@ if (session.type && session.type === SessionType.Federated_Provider_Session) {
 }
 ```
 
-There are different provider classes in the Auth module for different provider:
-`AWSCognitoProvider`: The provider class for AWS Cognito
-`GoogleProvider`: The provider class for Google login
-`FacebookProvider`: The provider class for Facebook login
-`AmazonProvider`: The provider class for Amazon login
-`GenericProvider`: The provider class for other provider, you need to specify the `credentialsDomain` and `refreshHandlers` when using this provider
+**Refreshing JWT Tokens**
+
+You need to provide handlers to refresh the tokens so that the library can keep the AWS Credentials valid with those valid tokens:
+```javascript
+
+function refreshToken() {
+    // refresh the token here and get the new token info
+    // ......
+
+    return new Promise(res, rej => {
+        const data = {
+            token, // the token from the provider
+            expires_at, // the timestamp for the expiration
+            identity_id, // optional, the identityId for the credentials
+        }
+        res(data);
+    });
+}
+
+const refreshHandlers = {};
+// the key could be: 'Google', 'Facebook', 'Developer', 'Amazon' or the domain of other providers
+refreshHandlers['Google'] = refreshToken;
+
+Auth.configure({
+    refreshHandlers
+})
+```
 
 #### Retrieve Current Authenticated User
 
@@ -611,6 +636,10 @@ Currently, the federated identity components only support `google`, `facebook`, 
 The `Auth.federatedSignIn()` is used to get AWS credentials directly from Cognito Federated Identities, which is different from Cognito User Pools. When an AWS service (such as S3) uses IAM for authorization, the request needs to be signed with AWS credentials and Cognito Federated Identities provides short term AWS credentials for performing this action using mobile or web applications. Amplify automatically refreshes these short term credentials in the background on your behalf, and when using `Auth.signIn()` you **do not** need to call  `Auth.federatedSignIn()` as this process happens automatically in the background for you. `Auth.signIn()` will also provide JWT OIDC tokens from Cognito User Pools which are federated with Cognito Federated Identities on your behalf allowing your application to interact with AWS services, which the other Amplify categories (such as Storage and API) will sign requests automatically.
 
 In general, if you are using Cognito User Pools to manage user Sign-Up and Sign-In you do not need to call `Auth.federatedSignIn()` as this happens automatically behind the scenes when your User Pool is federated with an Identity Pool. You will be able to retrieve User Pool tokens with `Auth.currentSession` and the user object (from User Pols) with `Auth.currentAuthenticatedUser`. The AWS credentials can be found with `Auth.currentCredentials`.
+
+**Note:**
+Now you can also use `Auth.setSession()` to get signed in using federated identities.
+{: .callout .callout--info}
 
 ```js
 import { Auth } from 'aws-amplify';
@@ -851,54 +880,6 @@ export default class App extends React.Component {
     );
   }
 }
-```
-
-**Retrieving JWT Token**
-
-After the federated login, you can retrieve related JWT token from the local cache using the *Cache* module: 
-```javascript
-import { Cache } from 'aws-amplify';
-
-// Run this after the sign-in
-Cache.getItem('federatedInfo').then(federatedInfo => {
-     const { token } = federatedInfo;
-});
-```
-
-**Refreshing JWT Tokens**
-
-By default, AWS Amplify will automatically refresh the tokens for Google and Facebook, so that your AWS credentials will be valid at all times. But if you are using another federated provider, you will need to provide your own token refresh method:
-```javascript
-import Auth, {
-    GoogleProvider,
-    FacebookProvider,
-    AmazonProvider,
-    DeveloperProvider,
-    GenericProvider
- } from '@aws-amplify/auth';
-
-function refreshToken() {
-    // refresh the token here and get the new token info
-    // ......
-
-    return new Promise(res, rej => {
-        const data = {
-            token, // the token from the provider
-            expires_at, // the timestamp for the expiration
-            identity_id, // optional, the identityId for the credentials
-        }
-        res(data);
-    });
-}
-
-const refreshHandlers = {};
-refreshHandlers[DeveloperProvider.NAME] = refreshToken;
-
-Auth.configure({
-    refreshHandlers: {
-        'developer': refreshToken // the property could be 'google', 'facebook', 'amazon', 'developer', OpenId domain
-    }
-})
 ```
 
 #### Using Components from aws-amplify-react
