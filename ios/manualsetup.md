@@ -66,7 +66,7 @@ Whenever a new version of the SDK is released you can update by running `pod upd
 
 ## Carthage setup
 
-The AWS Mobile SDK for iOS is available through [https://github.com/Carthage/Carthage](https://cocoapods.org). Install the latest version of [Carthage](https://github.com/Carthage/Carthage#installing-carthage).
+The AWS Mobile SDK for iOS is available through [Carthage](https://github.com/Carthage/Carthage). Install the latest version of [Carthage](https://github.com/Carthage/Carthage#installing-carthage).
 
 Add the following to your `Cartfile`:
 
@@ -74,7 +74,7 @@ Add the following to your `Cartfile`:
 github "aws-amplify/aws-sdk-ios"
 ```
 
-Once complete, run `carthage update` and open the `*.xcworkspace` with Xcode and chose your `Target`. In the `General` tab, find `Embedded Binaries`, then choose the `+` button.
+Once complete, run `carthage update` and open the `*.xcworkspace` or `*.xcodeproj` file with Xcode and chose your `Target`. In the `General` tab, find `Embedded Binaries`, then choose the `+` button.
 
 Choose the `Add Other` button, navigate to the `AWS<#ServiceName#>.framework` files under `Carthage > Build > iOS` and select `AWSCore.framework` and the other service frameworks you require. Do not select the `Destination: Copy items` if needed check box when prompted.
 
