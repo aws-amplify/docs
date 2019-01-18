@@ -832,3 +832,6 @@ KMS-generated
 
 # android/auth-google-setup.md
 keystore
+
+# ios/pubsub.md
+authorizers
