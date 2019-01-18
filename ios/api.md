@@ -117,13 +117,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 var appSyncClient: AWSAppSyncClient?
 
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     //You can choose your database location
     let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("database_name")
 
     do {
         //AppSync configuration & client initialization
-        let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(),databaseURL: databaseURL)
+        let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(), databaseURL: databaseURL)
         appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
         // Set id as the cache key for objects. See architecture section for details
         appSyncClient?.apolloClient?.cacheKeyForObject = { $0["id"] }
