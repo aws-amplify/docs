@@ -175,6 +175,18 @@ Next, query the data:
     }
 ```
 
+> Note: The AppSync API is asynchronous, which means that simply invoking `runMutation` and `runQuery` back-to-back may not work as expected, because the mutation will not complete before the query is sent. If you want to ensure that a mutation is complete before issuing a query, use the mutation's callback to trigger the query, as in:
+
+```swift
+func runMutation(){
+    let mutationInput = CreateTodoInput(name: "Use AppSync", description:"Realtime and Offline")
+    appSyncClient?.perform(mutation: CreateTodoMutation(input: mutationInput)) { [weak self] (result, error) in
+        // ... do whatever error checking or processing you wish here
+        self?.runQuery()
+    }
+}
+```
+
 You can also setup realtime subscriptions to data:
 
 ```swift
