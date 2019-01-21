@@ -227,6 +227,8 @@ Alexa
 chatbox
 onComplete
 theming
+voiceEnabled
+textEnabled
 
 js/i18n.md
 I18n
@@ -748,6 +750,8 @@ uploadData
 # ios/interactions.md
 UIView
 xib
+react-native-fs
+Info.plist
 
 # ios/pubsub.md
 VeriSign
@@ -828,3 +832,6 @@ KMS-generated
 
 # android/auth-google-setup.md
 keystore
+
+# ios/pubsub.md
+authorizers

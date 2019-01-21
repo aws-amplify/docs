@@ -113,7 +113,7 @@ Set up AWS Mobile SDK components as follows:
 
 ```ruby
      dependencies {
-        implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.9.+@aar') { transitive = true }
+        implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.11.+@aar') { transitive = true }
 
         // other dependencies . . .
      }
@@ -178,7 +178,7 @@ Set up AWS Mobile SDK components as follows:
 
 ```ruby
 dependencies {
-  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.9.+@aar') { transitive = true }
+  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.11.+@aar') { transitive = true }
 
   // other dependencies . . .
 }
