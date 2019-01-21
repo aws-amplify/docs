@@ -641,7 +641,7 @@ public class AddPostActivity extends AppCompatActivity {
     // Photo selector application code.
     private static int RESULT_LOAD_IMAGE = 1;
     private String photoPath;
-    public void choosePhoto(View view) {
+    public void choosePhoto() {
         Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(i, RESULT_LOAD_IMAGE);
     }
