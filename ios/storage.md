@@ -113,14 +113,18 @@ let configuration = AWSServiceConfiguration(region: .USEast1, credentialsProvide
 let tuConf = AWSS3TransferUtilityConfiguration()
 tuConf.isAccelerateModeEnabled = true
 
-//Register a transfer utility object
+//Register a transfer utility object asynchronously
 AWSS3TransferUtility.register(
     with: configuration!,
     transferUtilityConfiguration: tuConf,
     forKey: "transfer-utility-with-advanced-options"
-)
+)  { (error) in
+     // Register complete, handle any errors. 
+     // NOTE: An error here, if ignored, could cause subsequent calls to `s3TransferUtility:forKey` to return `nil`.
+   }
 
-//Look up the transfer utility object from the registry to use for your transfers.
+// Look up the transfer utility object from the registry to use for your transfers.
+// CAUTION: This method can return a nullable instance, but is not defined as nullable. The compiler is going to treat the return value as non-optional, when it is in fact optional. 
 let transferUtility = AWSS3TransferUtility.s3TransferUtility(forKey: "transfer-utility-with-advanced-options")
 ```
 
