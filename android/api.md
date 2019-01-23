@@ -877,9 +877,9 @@ Add the following to your `app/build.gradle`:
 
 ```groovy
 	dependencies {
-		implementation 'com.amazonaws:aws-android-sdk-apigateway-core:2.11.+'
-		implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.11.+@aar') { transitive = true }
-		implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.11.+@aar') { transitive = true }
+		implementation 'com.amazonaws:aws-android-sdk-apigateway-core:2.10.+'
+		implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.10.+@aar') { transitive = true }
+		implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.10.+@aar') { transitive = true }
 	}
 ```
 

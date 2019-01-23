@@ -43,7 +43,7 @@ permissions.
   Make sure the following Gradle build dependency is declared in the `app/build.gradle` file.
 
   ```groovy
-  implementation 'com.amazonaws:aws-android-sdk-lex:2.11.+@aar'
+  implementation 'com.amazonaws:aws-android-sdk-lex:2.10.+@aar'
   ```
 
 ### Set IAM Permissions for Amazon Lex
