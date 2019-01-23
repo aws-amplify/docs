@@ -202,24 +202,25 @@ The setup has three parts, we are going to use an example to explain it.<br/>
 Let's say Biz Corp has decided to hire Dev Corp to develop its inventory management web portal, and the Dev Corp is using the Amplify CLI to speed up it development process. <br/>
 
 #### Part #1: Setup the role (Biz Corp)
-1. Sign in to the AWS Management Console and open the [IAM](https://console.aws.amazon.com/iam/) console. 
-2. In the navigation pane of the console, choose `Roles` and then choose `Create role`.
-3. Choose the `Another AWS account` role type.
-4. For Account ID, type the AWS account ID of the Dev Corp (i.e. to which the aws resources are granted access to).
-5. Although optional, it is recommended to select `Require external ID` and enter the external id given to you by the Dev Corp. (click [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html) for more details on external ID).
-6. If you want to restrict the role to users who sign in with multi-factor authentication (MFA), select `Require MFA`(click [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa.html) for more details on MFA). 
-7. Choose `Next: Permissions`.
-8. Select permissions policies that you want the developers from the Dev Corp to have when the role is assumed.
-9. Choose `Next: Tagging`, attach tags if you want (optional).
-10. Choose `Next: Review`, type a name for your role, and optionally add the role description.
-11. choose `Create role`. 
-12. Give the Role Arn to Dev Corp.
+1. Sign in to the AWS Management Console and open the [IAM](https://console.aws.amazon.com/iam/) console
+2. In the navigation pane of the console, choose `Roles` and then choose `Create role`
+3. Choose the `Another AWS account` role type
+4. For Account ID, type the AWS account ID of the Dev Corp (account ID of the entity you want to grant access to your AWS resources)
+5. Although optional, it is recommended to select `Require external ID` and enter the external id given to you by the Dev Corp. (click [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html) for more details on external ID)
+6. If you want to restrict the role to users who sign in with multi-factor authentication (MFA), select `Require MFA`(click [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa.html) for more details on MFA)
+7. Choose `Next: Permissions`
+8. Select permissions policies that you want the developers from the Dev Corp to have when the role is assumed
+9. Choose `Next: Tagging`, attach tags if you want (optional)
+10. Choose `Next: Review`, type a name for your role, and optionally add the role description
+11. Enter the required fields such as the "Role name"
+11. choose `Create role`
+12. Give the Role Arn to Dev Corp
 
 #### Part #2: Setup the user to assume the role (Dev Corp)
-##### 2.1 Create policy that has permission to assume the above created above. 
-1. Get the Role Arn from Biz Corp. 
-2. Sign in to the AWS Management Console and open the [IAM](https://console.aws.amazon.com/iam/) console. 
-3. In the navigation pane of the console, choose `Policies` and then choose `Create policy`.
+##### 2.1 Create policy that has permission to assume the role created above by Biz corp. 
+1. Get the Role Arn from Biz Corp
+2. Sign in to the AWS Management Console and open the [IAM](https://console.aws.amazon.com/iam/) console. (Assuming Dev corp has a separate AWS account)
+3. In the navigation pane of the console, choose `Policies` and then choose `Create policy`
 4. Select the 'JSON' tab and paste the following contents in the pane
 ```json
 {
@@ -237,27 +238,29 @@ Let's say Biz Corp has decided to hire Dev Corp to develop its inventory managem
 4. Type in the policy Name, and optionally add the policy description. 
 5. Choose `Create policy`.
 ##### 2.2 Attach the policy to the user
-1. Sign in to the AWS Management Console and open the [IAM](https://console.aws.amazon.com/iam/) console. 
-2. In the navigation pane of the console, choose `Users` and then choose `Add user`.
-3. Type the `User name` for the new user. 
-4. Select Programmatic access for `Access type`.
-5. Choose `Next: Permissions`.
-6. On the Set Permissions Page, select `Attach existing policies directly`. 
+1. Sign in to the AWS Management Console and open the [IAM](https://console.aws.amazon.com/iam/) console
+2. In the navigation pane of the console, choose `Users` and then choose `Add user`
+3. Type the `User name` for the new user
+4. Select Programmatic access for `Access type`
+5. Choose `Next: Permissions`
+6. On the Set Permissions Page, select `Attach existing policies directly`
 7. Select the policy created in 2.1
-9. Choose `Next: Tagging`, attach tags if you want (optional).
-10. Choose `Next: Review`.
-11. Choose `Create User`. 
-12. Click `Download .csv` to download a copy of the credentials, which will be used in part 3. 
-##### 2.3 Assign MFA device 
-This must be setup if the Biz Corp selected to `Require MFA` when creating the role.<br/>
-We are using virtual MFA device, such as	Google Authenticator, in this example. 
+9. Choose `Next: Tagging`, attach tags if you want (optional)
+10. Choose `Next: Review`
+11. Choose `Create User` 
+12. Click `Download .csv` to download a copy of the credentials. You can optionally copy paste the Access key ID and Secret Access Key and store it in a safe location. These credentials would be used in a later section
+
+##### 2.3 Assign MFA device (Optional)
+This must be setup if the Biz Corp selected to `Require MFA` when creating the role. This needs to be setup by the Dev Corp users and in their respective AWS account.<br/>
+We are using virtual MFA device, such as	the Google Authenticator app, in this example.
+
 1. Sign in to the AWS Management Console and open the [IAM](https://console.aws.amazon.com/iam/) console. 
-2. In the navigation pane of the console, choose `Users` and select the user created in 2.2
-3. Select the `Security credentials` tab.
-4. Next to `Assigned MFA device`, choose `Manage`.
+2. In the navigation pane of the console, choose `Users` and select the user created above in 2.2
+3. Select the `Security credentials` tab
+4. Next to `Assigned MFA device` label, choose the `Manage` option
 5. In the Manage MFA Device wizard, choose `Virtual MFA device`, and then choose `Continue`.
-7. Choose `Show QR code` if the MFA app support QR code, and scan the QR code, if not, choose `Show secret key` and type it into the MFA app.
-8. In the MFA code 1 box, type the one-time password that currently appears in the virtual MFA device. Wait up to 30 seconds for the device to generate a new one-time password. Then type the second one-time password into the MFA code 2 box. Choose Assign MFA.
+7. Choose `Show QR code` if the MFA app supports QR code, and scan the QR code from your virtual device(Google Authenticator app in our case), if not, choose `Show secret key` and type it into the MFA app.
+8. In the MFA code 1 box, type the one-time password that currently appears in the virtual MFA device. Wait for the device to generate a new one-time password. Then type the second one-time password into the MFA code 2 box. Then choose Assign MFA.
 9. Copy the MFA device arn next to `Assigned MFA device`, which will be used in part 3.
 
 #### Part #3: Setup the local development environment (Dev Corp)
