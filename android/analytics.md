@@ -71,8 +71,8 @@ Use the following steps to add analytics to your mobile app and monitor the resu
 
 ```groovy
 dependencies {
-  implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.11.+'
-  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.11.+@aar') { transitive = true }
+  implementation 'com.amazonaws:aws-android-sdk-pinpoint:3.12.+'
+  implementation ('com.amazonaws:aws-android-sdk-mobile-client:3.12.+@aar') { transitive = true }
 }
 ```
 
@@ -666,8 +666,8 @@ Set up AWS Mobile SDK components by including the following libraries in your `a
 
 ```groovy
 dependencies {
-  implementation 'com.amazonaws:aws-android-sdk-kinesis:2.11.+'
-  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.11.+@aar') { transitive = true }
+  implementation 'com.amazonaws:aws-android-sdk-kinesis:3.12.+'
+  implementation ('com.amazonaws:aws-android-sdk-mobile-client:3.12.+@aar') { transitive = true }
 }
 ```
 
