@@ -270,10 +270,10 @@ We are using virtual MFA device, such as	the Google Authenticator app, in this e
 2. Insert the following contents into the `~/.aws/config` file
 ```ini
 [profile bizcorprole]
-role_arn = <role_arn_from_part#1>
-source_profile = devcorpuser
-mfa_serial = <mfa_serial_from_part_2.3>
-external_id = <external_id_as_mentioned_in_part#1>
+role_arn=<role_arn_from_part#1>
+source_profile=devcorpuser
+mfa_serial=<mfa_serial_from_part_2.3---optional>
+external_id=<external_id_as_mentioned_in_part#1--optional>
 region=us-east-1
 
 [profile devcorpuser]
