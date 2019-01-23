@@ -195,7 +195,7 @@ The Amplify CLI has its own mechanism of caching temp credentials, it does NOT u
 If you only want to remove the cached temp credentials associated with a particular project, execute `amplify awscloudformation reset-cache` or its alias `amplify aws reset-catch` on the project. <br/>
 
 ### Step by step guide to create and assume an IAM role
-The following is a step by step guide on how to to create an IAM role and make it available for the Amplify CLI or the aws cli. Check the the documents of the [AWS IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user.html) and the [aws cli](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html) for more details on IAM role and its usage.<br/>
+The following is a step by step guide on how to to create an IAM role and make it available for the Amplify CLI.
 
 The setup has three parts, we are going to use an example to explain it.<br/>
 
@@ -284,3 +284,5 @@ region=us-east-1
 aws_access_key_id=<key_id_from_part_2.2>
 aws_secret_access_key=<secret_access_key_from_part_2.2>
 ```
+
+You can take a look at [AWS IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user.html) and the [aws cli] (https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html) documentation for more details on IAM role and its usage.<br/>
