@@ -96,10 +96,10 @@ This will open the AWS AppSync console for you to run Queries, Mutations, or Sub
 To use AppSync in your Android studio project, modify the project's `build.gradle` with the following dependency in the build script:
 
 ```bash
-    classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.7.+'
+    classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.10.+'
 ```
 
-Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `implementation 'com.amazonaws:aws-android-sdk-appsync:2.7.+'`. For example:
+Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `implementation 'com.amazonaws:aws-android-sdk-appsync:2.10.+'`. For example:
 
 
 ```bash
@@ -110,7 +110,7 @@ Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws
     }
     dependencies {
         // Typical dependencies
-        implementation 'com.amazonaws:aws-android-sdk-appsync:2.7.+'
+        implementation 'com.amazonaws:aws-android-sdk-appsync:2.10.+'
         implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
         implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
     }
@@ -877,9 +877,9 @@ Add the following to your `app/build.gradle`:
 
 ```groovy
 	dependencies {
-		implementation 'com.amazonaws:aws-android-sdk-apigateway-core:2.11.+'
-		implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.11.+@aar') { transitive = true }
-		implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.11.+@aar') { transitive = true }
+		implementation 'com.amazonaws:aws-android-sdk-apigateway-core:2.10.+'
+		implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.10.+@aar') { transitive = true }
+		implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.10.+@aar') { transitive = true }
 	}
 ```
 
