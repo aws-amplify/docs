@@ -578,6 +578,7 @@ enum
 MiB
 
 # android/manualsetup.md
+com.amazonaws
 aws-android-sdk-apigateway-core
 aar
 aws-android-sdk-auth-core
