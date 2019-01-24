@@ -287,7 +287,7 @@ region=us-east-1
 aws_access_key_id=<key_id_from_part_2.2>
 aws_secret_access_key=<secret_access_key_from_part_2.2>
 ```
-Now, when Dev Corp is trying to initialize the an Amplify Project the next time, the user can select the `devcorpuser` AWS profile configured above and based on the authentication method setup, the user would be prompted with corresponding questions, after which the user would be able to successfully deploy/manage AWS resources in Biz corps account (based on the access policies set by the Biz corp).
+Now, when Dev Corp is trying to initialize the an Amplify Project the next time, the user can select the `bizcorprole` AWS profile configured above and based on the authentication method setup, the user would be prompted with corresponding questions, after which the user would be able to successfully deploy/manage AWS resources in Biz corps account (based on the access policies set by the Biz corp).
 
 
 You can take a look at [AWS IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user.html) and the [aws cli] (https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html) documentation for more details on IAM role and its usage.<br/>
