@@ -399,6 +399,7 @@ config
 Unauth
 frontends
 metadata
+Cloudfront
 
 # cli/hosting.md
 gitignore
