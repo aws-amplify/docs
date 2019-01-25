@@ -1030,7 +1030,7 @@ public void doInvokeAPI(){
     AWSMobileClient.getInstance().getTokens(new Callback<Tokens>() {
         @Override
         public void onResult(Tokens tokens) {
-            doInvokeAPI(tokens.getIdToken().toString());
+            doInvokeAPI(tokens.getIdToken().getTokenString());
         }
 
         @Override

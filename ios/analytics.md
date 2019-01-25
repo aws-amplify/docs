@@ -103,7 +103,7 @@ If you encounter an error message that begins `[!] Failed to connect to GitHub t
        /** end code copy **/
 
        func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions:
-       [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+       [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
             //. . .
 
