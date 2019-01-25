@@ -280,6 +280,7 @@ We are using virtual MFA device, such as	the Google Authenticator app, in this e
   `~/.aws/config`<br/>
   `~/.aws/credentials`<br/>
 2. Insert the following contents into the `~/.aws/config` file:
+
 ```ini
 [profile bizcorprole]
 role_arn=<role_arn_from_part#1>
@@ -291,6 +292,7 @@ region=us-east-1
 [profile devcorpuser]
 region=us-east-1
 ```
+
 `mfa_serial` and `external_id` are optional, leave them out if they are not configured.
 
 3. Insert the following contents into the `~/.aws/credentials` file:
@@ -302,4 +304,4 @@ aws_secret_access_key=<secret_access_key_from_part_2.2>
 Now, when Dev Corp is trying to initialize an Amplify Project, the user can select the `bizcorprole` profile configured above, and based on the authentication method setup the user would be prompted with corresponding questions such as MFA codes. After this the user would be able to successfully deploy/manage AWS resources in Biz corps account (based on the access policies set by the Biz corp).
 
 
-You can take a look at [AWS IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user.html) and the [aws cli] (https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html) documentation for more details on IAM role and its usage.<br/>
+You can take a look at [AWS IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user.html) and the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html) documentation for more details on IAM role and its usage.<br/>
