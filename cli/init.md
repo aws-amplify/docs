@@ -210,6 +210,18 @@ Assume Biz Corp has decided to hire Dev Corp to develop its inventory management
 6. If you want to restrict the role to users who sign in with multi-factor authentication (MFA), select `Require MFA`(click [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa.html) for more details on MFA).
 7. Choose `Next: Permissions`.
 8. Select permissions policies that you want the developers from the Dev Corp to have when the role is assumed.
+Note:You MUST grant the role permissions to perform Cloudformation actions and create associated resources (depending on categories you use in your project) such as:
+- Cognito User and Identity Pools
+- S3 buckets
+- DynamoDB tabls
+- AppSync APIs
+- API Gateway APIs
+- Pinpoint endpoints
+- Cloudfornt distributions
+- IAM roles
+- Lambda functions
+- Lex bots
+
 9. Choose `Next: Tagging`, attach tags if you want (optional).
 10. Choose `Next: Review`, type a name for your role, and optionally add the role description.
 11. Enter the required fields such as the "Role name".
