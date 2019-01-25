@@ -185,7 +185,7 @@ The command should be used in the following cases:
 What happens behind the scenes?
   - The `.config/` directory is generated in the `amplify/` directory if not already present and the `aws-info.json` and `project-info.json` files are configured to reflect the selections made as a part of the `amplify configure project` command.
     
-## Assume an IAM Role
+## Assuming an IAM Role
 
 You can configure the AWS Amplify CLI to use an IAM role by defining a profile for the role in the shared `~/.aws/config` file. This is similar to how the [AWS CLI](https://aws.amazon.com/cli/) functions.<br/>
 

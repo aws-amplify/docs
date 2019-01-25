@@ -227,6 +227,8 @@ Alexa
 chatbox
 onComplete
 theming
+voiceEnabled
+textEnabled
 
 js/i18n.md
 I18n
@@ -408,6 +410,7 @@ amplify-provider-awscloudformation
 cloudformation
 awscloudformation
 awsconfiguration.json
+s3.amazonaws.com
 
 # cli/concept.md
 amplifyrc
@@ -577,6 +580,7 @@ enum
 MiB
 
 # android/manualsetup.md
+com.amazonaws
 aws-android-sdk-apigateway-core
 aar
 aws-android-sdk-auth-core
@@ -749,6 +753,8 @@ uploadData
 # ios/interactions.md
 UIView
 xib
+react-native-fs
+Info.plist
 
 # ios/pubsub.md
 VeriSign
@@ -829,3 +835,6 @@ KMS-generated
 
 # android/auth-google-setup.md
 keystore
+
+# ios/pubsub.md
+authorizers
