@@ -213,11 +213,11 @@ Assume Biz Corp has decided to hire Dev Corp to develop its inventory management
 Note:You MUST grant the role permissions to perform Cloudformation actions and create associated resources (depending on categories you use in your project) such as:
 - Cognito User and Identity Pools
 - S3 buckets
-- DynamoDB tabls
+- DynamoDB tables
 - AppSync APIs
 - API Gateway APIs
 - Pinpoint endpoints
-- Cloudfornt distributions
+- Cloudfront distributions
 - IAM roles
 - Lambda functions
 - Lex bots
