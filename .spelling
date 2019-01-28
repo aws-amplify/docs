@@ -396,10 +396,12 @@ secretKey
 accesskey
 secretkey
 aws
+arn
 config
 Unauth
 frontends
 metadata
+Cloudfront
 
 # cli/hosting.md
 gitignore
