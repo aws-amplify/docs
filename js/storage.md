@@ -3,7 +3,7 @@
 
 # Storage
 
-AWS Amplify Storage module provides a simple mechanism for managing user content for your app in public, protected or private storage buckets.
+AWS Amplify Storage module provides a simple mechanism for managing user content for your app in public, protected or private storage buckets. The Storage category comes with built-in support for Amazon S3.
 
 Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start).
 {: .callout .callout--info}
@@ -61,12 +61,16 @@ Amplify.configure({
         userPoolWebClientId: 'XX-XXXX-X_abcd1234', //OPTIONAL - Amazon Cognito Web Client ID
     },
     Storage: {
-        bucket: '', //REQUIRED -  Amazon S3 bucket
-        region: 'XX-XXXX-X', //REQUIRED -  bucket region
+        AWSS3: {
+            bucket: '', //REQUIRED -  Amazon S3 bucket
+            region: 'XX-XXXX-X', //OPTIONAL -  Amazon service region
+        }
     }
 });
 
 ```
+
+## Using Amazon S3
 
 If you set up your Cognito resources manually, the roles will need to be given permission to access the S3 bucket.
 
@@ -272,8 +276,27 @@ Storage.vault.get('welcome.png'); // Get the welcome.png belonging to current us
 
 Import *Storage* from the aws-amplify library:
 ```javascript
-import { Storage } from 'aws-amplify';
+import { Auth, Storage } from 'aws-amplify';
 ```
+
+If you use `aws-exports.js` file, Storage is already configured when you call `Amplify.configure(awsmobile)`. To configure Storage manually, you will have to configure Amplify Auth category too.  
+```javascript
+Auth.configure(
+    // To get the aws credentials, you need to configure 
+    // the Auth module with your Cognito Federated Identity Pool
+    identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab',
+    region: 'XX-XXXX-X',
+);
+
+Storage.configure({
+    AWSS3: {
+        bucket: '',//Your bucket ARN;
+        region: ''//Specify the region your bucket was created in;
+    }
+});
+```
+
+=======
 
 #### Put
 
@@ -315,6 +338,31 @@ Storage.put('test.txt', 'Private Content', {
 })
 .then (result => console.log(result))
 .catch(err => console.log(err));
+```
+
+To track the progress of your upload, you can use the ```progressCallback```: 
+
+```javascript
+Storage.put('test.txt', 'File content'),{
+    progressCallback(progress) {
+        console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+  },
+});
+```
+
+To utilize Server-Side Encryption with AWS KMS, the following options can be passed in with the Put API like so:
+
+```javascript
+const serverSideEncryption = AES256 | aws:kms;
+const SSECustomerAlgorithm = 'string';
+const SSECustomerKey = new Buffer('...') || 'string';
+const SSECustomerKeyMD5 = 'string';
+const SSEKMSKeyId = 'string';
+Storage.put('test.txt', 'File content'),{
+    serverSideEncryption, SSECustomerAlgorithm, SSECustomerKey, SSECustomerKeyMD5, SSEKMSKeyId}  
+})
+.then (result => console.log(result))
+.catch (err => console.log(err));
 ```
 
 Upload an image in the browser:
@@ -359,7 +407,7 @@ readFile(imagePath).then(buffer => {
 });
 ```
 
-When a networking error happens during the upload, Storage module retries upload for a maximum of  4 attempts. If the upload fails after all retries, you will get an error.
+When a networking error happens during the upload, Storage module retries upload for a maximum of 4 attempts. If the upload fails after all retries, you will get an error.
 {: .callout .callout--info}
 
 #### Get
@@ -464,11 +512,73 @@ Storage.list('photos/', {level: 'private'})
     .catch(err => console.log(err));
 ```
 
-
 #### API Reference
 
 For the complete API documentation for Storage module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/storageclass.html)
 {: .callout .callout--info}
+
+
+## Using a Custom Plugin
+
+You can create your custom pluggable for Storage. This may be helpful if you want to integrate your app with a custom storage backend.
+
+To create a plugin implement the `StorageProvider` interface:
+
+```typescript
+import { Storage, StorageProvider } from 'aws-amplify';
+
+export default class MyStorageProvider implements StorageProvider {
+    // category and provider name
+    static category = 'Storage';
+    static providerName = 'MyStorage';
+
+    // you need to implement these seven methods
+    // configure your provider
+    configure(config: object): object;
+
+    // get object/pre-signed url from storage
+    get(key: string, options?): Promise<String|Object>
+
+    // upload storage object
+    put(key: string, object, options?): Promise<Object>
+
+    // remove object 
+    remove(key: string, options?): Promise<any>
+
+    // list objects for the path
+    list(path, options?): Promise<any>
+    
+    // return 'Storage';
+    getCategory(): string;
+    
+    // return the name of you provider
+    getProviderName(): string;
+```
+
+You can now register your pluggable:
+
+```javascript
+// add the plugin
+Storage.addPluggable(new MyStorageProvider());
+
+// get the plugin
+Storage.getPluggable(MyStorageProvider.providerName);
+
+// remove the plulgin
+Storage.removePluggable(MyStorageProvider.providerName);
+
+// send configuration into Amplify
+Storage.configure({
+    [MyStorageProvider.providerName]: { 
+        // My Storage provider configuration 
+    }
+});
+
+```
+
+The default provider (Amazon S3) is in use when you call `Storage.put( )` unless you specify a different provider: `Storage.put(key, object, {provider: 'MyStorageProvider'})`. 
+{: .callout .callout--info}
+
 
 ## Tracking Events
 
