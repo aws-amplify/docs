@@ -421,7 +421,7 @@ Also, you can use the `subscription` and `onSubscriptionMsg` attributes to enabl
         if (loading || !listTodos) return (<h3>Loading...</h3>);
 
         return <ListView todos={listTodos ? listTodos.items : []} />
-    }
+    }}
  </Connect>
 
 ```
