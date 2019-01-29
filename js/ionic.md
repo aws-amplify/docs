@@ -108,7 +108,7 @@ import { AmplifyService }  from 'aws-amplify-angular';
 
 export class AppComponent {
   
-  constructor( public amplifyService:AmplifyService ) {
+  constructor( private amplifyService:AmplifyService ) {
       
       /** now you can access category APIs:
        *
@@ -136,7 +136,7 @@ Import AmplifyService into your component and listen for auth state changes:
 import { AmplifyService }  from 'aws-amplify-angular';
 
   // ...
-constructor( public amplifyService: AmplifyService ) {
+constructor( private amplifyService: AmplifyService ) {
 
     this.amplifyService.authStateChange$
         .subscribe(authState => {
