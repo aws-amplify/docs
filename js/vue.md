@@ -168,6 +168,7 @@ Config:
 
 {% include sign-up-attributes.html %}
 
+The signUpFields array in turn consist of an array of objects, each describing a field that will appear in sign up form that your users fill out (see below).
 
 Events: 
 
@@ -446,6 +447,7 @@ Config:
 
 {% include photo-picker-attributes.html %}
 
+The storageOptions prop object is passed as the 'options' parameter to the .put request.  This can be used to set the 'level' of the objects being uploaded (i.e. 'protected', 'private', or 'public').
 
 Events:
 
@@ -460,7 +462,8 @@ Usage: ```<amplify-s3-album path="uploads"></amplify-s3-album>```
 
 Props:
 
-The S3Album component does not have a config object like most other amplify-vue components. Instead it receives the S3 directory path as a string.  The path is required. 
+The S3Album component accepts a 'path' prop (mandatory). It can also accept a s3AlbumConfig prop object which is passed as the 'options' parameter to the .get request.  This can be used to set the 'level' of the objects being requested (i.e. 'protected', 'private', or 'public').
+
 
 
 Events: None
@@ -492,6 +495,11 @@ Config:
 
 {% include interactions-attributes.html %}
 
+Note: In order for voice input to work with Amazon Lex, you may have to enable Output voice in the AWS Console. Under the Amazon Lex service, click on your configured Lex chatbot and go to Settings -> General and pick your desired Output voice. Then, click Build. If you have forgotten to enable Output voice, you will get an error like this:
+```
+ChatBot Error: Invalid Bot Configuration: This bot does not have a Polly voice ID associated with it. For voice interaction with the user, set a voice ID
+```
+
 
 
 If not in your aws-exports file, the bot can also be defined in the AWS configure method:
@@ -510,3 +518,22 @@ If not in your aws-exports file, the bot can also be defined in the AWS configur
 Events:
 
 * ```AmplifyEventBus.$emit('chatComplete', this.options.botTitle)```: Emitted when a chat session has been completed (only if the clearComplete options is 'true')
+
+## XR Components
+
+### Sumerian Scene
+
+The Sumerian Scene component provides you with a prebuilt UI for loading and displaying Amazon Sumerian scenes inside of your website.
+
+{% include_relative common/scene-size-note.md %}
+
+Usage: ```<amplify-sumerian-scene></amplify-sumerian-scene>```
+
+Options:
+
+```javascript
+// scene-name: the configured friendly scene you would like to load
+<amplify-sumerian-scene scene-name="scene1"></amplify-sumerian-scene>
+```
+
+See the [XR documentation]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/xr) for information on creating and publishing a Sumerian scene.

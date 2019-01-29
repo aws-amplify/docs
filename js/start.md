@@ -318,7 +318,7 @@ $ amplify init
 ```
 
 <div id="angular" class="tab-content">
-> When asked for the distribution directory (the directory that will be uploaded to S3), answer `dist/MyAngularApp`. If you did not use the name in this tutorial, change "MyAngularApp" with the name of your application. You can run an `ng build` and check your `dist` directory to see what the name is and re-run `amplify configure project` to change your dist directory setting.
+> When asked for the distribution directory (the directory that will be uploaded to S3), answer `dist/myAmplifyProject`. If you did not use the name in this tutorial, change "myAmplifyProject" with the name of your application. You can run an `ng build` and check your `dist` directory to see what the name is and re-run `amplify configure project` to change your dist directory setting.
 </div>
 
 **Create the Required AWS Backend Resources**
@@ -383,7 +383,7 @@ let EventsSent = 0;
 AnalyticsEventButton.addEventListener('click', (evt) => {
     Analytics.record('AWS Amplify Tutorial Event')
         .then( (evt) => {
-            const url = 'https://console.aws.amazon.com/pinpoint/home/?region=us-east-1#/apps/'+awsconfig.aws_mobile_analytics_app_id+'/analytics/events';
+            const url = 'https://'+awsconfig.aws_project_region+'.console.aws.amazon.com/pinpoint/home/?region='+awsconfig.aws_project_region+'#/apps/'+awsconfig.aws_mobile_analytics_app_id+'/analytics/events';
             AnalyticsResult.innerHTML = '<p>Event Submitted.</p>';
             AnalyticsResult.innerHTML += '<p>Events sent: '+(++EventsSent)+'</p>';
             AnalyticsResult.innerHTML += '<a href="'+url+'" target="_blank">View Events on the Amazon Pinpoint Console</a>';
@@ -422,7 +422,7 @@ class App extends Component {
   handleAnalyticsClick() {
       Analytics.record('AWS Amplify Tutorial Event')
         .then( (evt) => {
-            const url = 'https://console.aws.amazon.com/pinpoint/home/?region=us-east-1#/apps/'+awsconfig.aws_mobile_analytics_app_id+'/analytics/events';
+            const url = 'https://'+awsconfig.aws_project_region+'.console.aws.amazon.com/pinpoint/home/?region='+awsconfig.aws_project_region+'#/apps/'+awsconfig.aws_mobile_analytics_app_id+'/analytics/events';
             let result = (<div>
               <p>Event Submitted.</p>
               <p>Events sent: {++this.state.eventsSent}</p>
@@ -484,7 +484,7 @@ export default class App extends React.Component {
     handleAnalyticsClick() {
       Analytics.record('AWS Amplify Tutorial Event')
         .then( (evt) => {
-            const url = 'https://console.aws.amazon.com/pinpoint/home/?region=us-east-1#/apps/'+awsconfig.aws_mobile_analytics_app_id+'/analytics/events';
+            const url = 'https://'+awsconfig.aws_project_region+'.console.aws.amazon.com/pinpoint/home/?region='+awsconfig.aws_project_region+'#/apps/'+awsconfig.aws_mobile_analytics_app_id+'/analytics/events';
             let result = (
               <View>
                 <Text>Event Submitted.</Text>
@@ -592,7 +592,8 @@ To add the analytics event recorder to your app, replace your ```AppComponent```
 ```javascript
 export class AppComponent {
   title = 'amplify-angular-app';
-  url = 'https://console.aws.amazon.com/pinpoint/home/?region=us-east-1#/apps/'
+  url = 'https://' + awsconfig.aws_project_region + '.console.aws.amazon.com/pinpoint/home/?region='
+        + awsconfig.aws_project_region + '#/apps/'
         + awsconfig.aws_mobile_analytics_app_id + '/analytics/events';
   eventsSent = 0;
   analyticsEventSent = false;
@@ -623,7 +624,7 @@ Then, add the following to your `src/app/app.component.html` file:
 <div id="ionic" class="tab-content">
 After creating your backend, the configuration file is copied to `/amplify/#current-cloud-backend/aws-exports.js`, and the source folder you have identified in the `amplify init` command.
 
-To import the configuration file to your Ionic app, you will need to rename `aws_exports.js` to `aws_exports.ts`. You should make sure that your `package.json` scripts also rename the file upon build, so that any configuration changes which result in the download of an `aws_exports.js` from AWS Mobile Hub get changed over to the ts extension.
+To import the configuration file to your Ionic app, you will need to rename `aws-exports.js` to `aws-exports.ts`. You should make sure that your `package.json` scripts also rename the file upon build, so that any configuration changes which result in the download of an `aws-exports.js` from AWS Mobile Hub get changed over to the ts extension.
 ```javascript	
 "scripts": {	
     "start": "[ -f src/aws-exports.js ] && mv src/aws-exports.js src/aws-exports.ts || ng serve; ng serve",	
@@ -695,7 +696,8 @@ export class AppComponent {
     this.initializeApp();
   }
 
-  url = 'https://console.aws.amazon.com/pinpoint/home/?region=us-east-1#/apps/'
+  url = 'https://' + awsconfig.aws_project_region + '.console.aws.amazon.com/pinpoint/home/?region='
+        + awsconfig.aws_project_region + '#/apps/'
         + awsconfig.aws_mobile_analytics_app_id + '/analytics/events';
   eventsSent = 0;
   analyticsEventSent = false;

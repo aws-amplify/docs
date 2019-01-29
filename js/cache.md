@@ -28,7 +28,7 @@ After the import, you can invoke the appropriate methods within your application
 Cache.setItem(key, value, [options]);
 ```
 
-You can set *number*, *string*, *boolean* or *object* values to the cache. You can also specify options along with the call such as the priority or expiration time.
+You can set *number*, *string*, *boolean*, *array* or *object* values to the cache. You can also specify options along with the call such as the priority or expiration time.
 
 ```javascript
 // Standard case
