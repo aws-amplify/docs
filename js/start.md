@@ -335,7 +335,7 @@ $ amplify init
 
 **Create the Required AWS Backend Resources**
 
-Add one or more cloud services to the app using the `amplify add <category-name>` command. Run `amplify` in the terminal to list available categories (services are organized in categories).
+Add one or more cloud services to the app using the `amplify <category> add` command. Run `amplify` in the terminal to list available categories (services are organized in categories).
 
 ```terminal
 | Category      |
@@ -352,7 +352,7 @@ Add one or more cloud services to the app using the `amplify add <category-name>
 Add analytics to the app with the following command (accepting all defaults is OK):
 
 ```bash
-$ amplify add analytics
+$ amplify analytics add
 ```
 
 Create the AWS backend resources and update the aws-exports.js file.
