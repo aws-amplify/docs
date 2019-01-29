@@ -396,10 +396,12 @@ secretKey
 accesskey
 secretkey
 aws
+arn
 config
 Unauth
 frontends
 metadata
+Cloudfront
 
 # cli/hosting.md
 gitignore
@@ -578,6 +580,7 @@ enum
 MiB
 
 # android/manualsetup.md
+com.amazonaws
 aws-android-sdk-apigateway-core
 aar
 aws-android-sdk-auth-core
@@ -832,3 +835,6 @@ KMS-generated
 
 # android/auth-google-setup.md
 keystore
+
+# ios/pubsub.md
+authorizers

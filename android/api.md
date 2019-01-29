@@ -200,10 +200,10 @@ To add data you need to run a GraphQL mutation. The syntax of the callback is `G
 
 ```java
     public void mutation(){
-        CreateTodoInput createTodoInput = CreateTodoInput.builder().
-            name("Use AppSync").
-            description("Realtime and Offline").
-            build();
+        CreateTodoInput createTodoInput = CreateTodoInput.builder()
+            .name("Use AppSync")
+            .description("Realtime and Offline")
+            .build();
 
         mAWSAppSyncClient.mutate(CreateTodoMutation.builder().input(createTodoInput).build())
             .enqueue(mutationCallback);
@@ -877,9 +877,9 @@ Add the following to your `app/build.gradle`:
 
 ```groovy
 	dependencies {
-		implementation 'com.amazonaws:aws-android-sdk-apigateway-core:2.9.+'
-		implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.9.+@aar') { transitive = true }
-		implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.9.+@aar') { transitive = true }
+		implementation 'com.amazonaws:aws-android-sdk-apigateway-core:2.11.+'
+		implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.11.+@aar') { transitive = true }
+		implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.11.+@aar') { transitive = true }
 	}
 ```
 
@@ -1030,7 +1030,7 @@ public void doInvokeAPI(){
     AWSMobileClient.getInstance().getTokens(new Callback<Tokens>() {
         @Override
         public void onResult(Tokens tokens) {
-            doInvokeAPI(tokens.getIdToken().toString());
+            doInvokeAPI(tokens.getIdToken().getTokenString());
         }
 
         @Override

@@ -279,6 +279,14 @@ import { Storage } from 'aws-amplify';
 
 Puts data into Amazon S3.
 
+It returns a `{key: S3 Object key}` object on success:
+
+```javascript
+Storage.put('test.txt', 'Hello')
+    .then (result => console.log(result)) // {key: "test.txt"}
+    .catch(err => console.log(err));
+```
+
 Public level:
 
 ```javascript
@@ -532,6 +540,12 @@ For private images, supply the `level` property:
 return <S3Image level="private" imgKey={key} />
 ```
 
+To show another user's protected image, supply that user's `identityId` property as well:
+
+```jsx
+return <S3Image level="protected" identityId={identityId} imgKey={key} />
+```
+
 To initiate an upload, set the `body` property:
 
 ```jsx
@@ -607,10 +621,16 @@ render() {
     return <S3Album path={path} />
 ```
 
-For display private objects, supply the `level` property:
+To display private objects, supply the `level` property:
 
 ```jsx
 return <S3Album level="private" path={path} />
+```
+
+To display another user's protected objects, supply that user's `identityId` property as well:
+
+```jsx
+return <S3Album level="protected" identityId={identityId} path={path} />
 ```
 
 You can use `filter` property customize the path for your album:
