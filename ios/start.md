@@ -92,7 +92,7 @@ platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSAppSync', '~> 2.8.0'
+    pod 'AWSAppSync', '~> 2.9.0'
 
 end
 ```
@@ -111,7 +111,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
    var appSyncClient: AWSAppSyncClient?
 
-   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
       //You can choose your database location
       let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("database_name")
         
@@ -165,7 +165,7 @@ Next, query the data:
 
 ```swift
     func runQuery(){
-        appSyncClient?.fetch(query: ListTodosQuery()) {(result, error) in
+        appSyncClient?.fetch(query: ListTodosQuery(), cachePolicy: .returnCacheDataAndFetch) {(result, error) in
             if error != nil {
                 print(error?.localizedDescription ?? "")
                 return
@@ -173,6 +173,18 @@ Next, query the data:
             result?.data?.listTodos?.items!.forEach { print(($0?.name)! + " " + ($0?.description)!) }
         }
     }
+```
+
+> Note: The AppSync API is asynchronous, which means that simply invoking `runMutation` and `runQuery` back-to-back may not work as expected, because the mutation will not complete before the query is sent. If you want to ensure that a mutation is complete before issuing a query, use the mutation's callback to trigger the query, as in:
+
+```swift
+func runMutation(){
+    let mutationInput = CreateTodoInput(name: "Use AppSync", description:"Realtime and Offline")
+    appSyncClient?.perform(mutation: CreateTodoMutation(input: mutationInput)) { [weak self] (result, error) in
+        // ... do whatever error checking or processing you wish here
+        self?.runQuery()
+    }
+}
 ```
 
 You can also setup realtime subscriptions to data:

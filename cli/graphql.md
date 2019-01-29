@@ -489,7 +489,7 @@ type Draft
     id: ID!
     title: String!
     content: String
-    owner: String!
+    owner: String
     editors: [String]!
 }
 ```
@@ -657,7 +657,7 @@ type Draft
     id: ID!
     title: String!
     content: String
-    owner: String!
+    owner: String
     editors: [String]!
 }
 ```
@@ -714,7 +714,7 @@ type Draft
     id: ID!
     title: String!
     content: String
-    owner: String!
+    owner: String
     editors: [String]!
     groupsCanAccess: [String]!
 }
