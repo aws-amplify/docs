@@ -176,6 +176,23 @@ The Authenticator component creates an drop-in user authentication experience. A
   <amplify-authenticator></amplify-authenticator>
 ```
 
+#### SignUp Configuration
+The SignUp component provides your users with the ability to sign up.  It is included as part of the ```authenticator``` component, but can also be used in isolation:
+
+Usage: 
+```<amplify-auth-sign-up [signUpConfig]="signUpConfig"></amplify-auth-sign-up>```
+or
+```<amplify-authenticator [signUpConfig]="signUpConfig"></amplify-authenticator>```
+
+The SignUp Component accepts a 'signUpConfig' object which allows you to customize it.
+
+{% include sign-up-attributes.html %}
+
+The signUpFields array in turn consist of an array of objects, each describing a field that will appear in sign up form that your users fill out:
+
+{% include sign-up-fields.html %}
+
+
 ### Photo Picker
 
 The Photo Picker component will render a file upload control that will allow choosing a local image and uploading it to Amazon S3. Once an image is selected, a base64 encoded image preview will be displayed automatically. To render photo picker in an Angular view, use *amplify-photo-picker* component:
@@ -191,8 +208,9 @@ The Photo Picker component will render a file upload control that will allow cho
  - `(picked)` - Emitted when an image is selected. The event will contain the `File` object which can be used for upload.
  - `(loaded)` - Emitted when an image preview has been rendered and displayed.
  - `path` - An optional S3 image path (prefix).
- - `storageOptions` - An object which is passed as the 'options' parameter to the .put request.  This can be used to set the 'level' of the objects being uploaded (i.e. 'protected', 'private', or 'public').
+ - `storageOptions` - An object passed within the ‘options’ property in the Storage.put request. This can be used to set the permissions ‘level’ property of the objects being uploaded i.e. ‘private’, ‘protected’, or ‘public’.
 
+ [Learn more about S3 permissions.]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/storage#file-access-levels).
 
 ### Album
 
@@ -215,7 +233,7 @@ onAlbumImageSelected( event ) {
 
 ### Interactions
 
-The `amplify-interactions` component provides you with a drop-in Chat component that supports three properties:
+The `amplify-interactions` component provides you with a drop-in Chat component that supports seven properties:
 
 1. `bot`:  The name of the Amazon Lex Chatbot
 
@@ -223,12 +241,37 @@ The `amplify-interactions` component provides you with a drop-in Chat component 
 end of the conversation.
 
 3. `complete`: Dispatched when the conversation is completed.
+4.  `voiceConfig`: If needed, you can also pass `voiceConfig` from your app component to modify the silence detection parameters, like in this example:
+
+```js
+customVoiceConfig = {
+    silenceDetectionConfig: {
+        time: 2000,
+        amplitude: 0.2
+    }   
+}
+
+```
+5. `voiceEnabled`: Enables voice user input. Defaults to `false` 
+
+Note: In order for voice input to work with Amazon Lex, you may have to enable Output voice in the AWS Console. Under the Amazon Lex service, click on your configured Lex chatbot and go to Settings -> General and pick your desired Output voice. Then, click Build. If you have forgotten to enable Output voice, you will get an error like this:
+```
+ChatBot Error: Invalid Bot Configuration: This bot does not have a Polly voice ID associated with it. For voice interaction with the user, set a voice ID
+```
+
+6. `textEnabled`: Enables text user input Defaults to `true`
+7. `conversationModeOn`: Turns voice conversation mode on/off. Defaults to `off`
 
 ```html
 <amplify-interactions 
     bot="yourBotName" 
     clearComplete="true" 
-    (complete)="onBotComplete($event)"></amplify-interactions>
+    (complete)="onBotComplete($event)"
+    [conversationModeOn]="false"
+    [voiceConfig]="{customVoiceConfig}"
+    [voiceEnabled]="true"
+    [textEnabled]="true">
+</amplify-interactions>
 ```
 
 See the [Interactions documentation]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/interactions) for information on creating an Amazon Lex Chatbot.
@@ -248,7 +291,12 @@ The `amplify-sumerian-scene` component provides you with a prebuilt UI for loadi
 
 See the [XR documentation]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/xr) for information on creating and publishing a Sumerian scene.
 
-### Custom Styles
+### Styles
+
+To use the aws-amplify-angular components you will need to install '@aws-amplify/ui'.
+
+Add the following to your styles.css file to use the default styles:
+```@import '~aws-amplify-angular/Theme.css';```
 
 You can use custom styling for components by importing your custom *styles.css* that overrides the <a href="https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-angular/src/theme.css" target="_blank">default styles</a>.
 

@@ -71,8 +71,8 @@ Use the following steps to add analytics to your mobile app and monitor the resu
 
 ```groovy
 dependencies {
-  implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.8.+'
-  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
+  implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.11.+'
+  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.11.+@aar') { transitive = true }
 }
 ```
 
@@ -113,30 +113,38 @@ dependencies {
 
         public static PinpointManager pinpointManager;
 
+        public static PinpointManager getPinpointManager(final Context applicationContext) {
+            if (pinpointManager == null) {
+                // Initialize the AWS Mobile Client
+                final AWSConfiguration awsConfig = new AWSConfiguration(applicationContext);
+                AWSMobileClient.getInstance().initialize(applicationContext, awsConfig, new Callback<UserStateDetails>() {
+                    @Override
+                    public void onResult(UserStateDetails userStateDetails) {
+                        Log.i("INIT", userStateDetails.getUserState());
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Log.e("INIT", "Initialization error.", e);
+                    }
+                });
+
+                PinpointConfiguration pinpointConfig = new PinpointConfiguration(
+                        applicationContext,
+                        AWSMobileClient.getInstance(),
+                        awsConfig);
+
+                pinpointManager = new PinpointManager(pinpointConfig);
+            }
+            return pinpointManager;
+        }
+
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
-            // Initialize the AWS Mobile Client
-            AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
-                  @Override
-                  public void onResult(UserStateDetails userStateDetails) {
-                      Log.i(TAG, userStateDetails.getUserState());
-                  }
-
-                  @Override
-                  public void onError(Exception e) {
-                      Log.e(TAG, "Initialization error.", e);
-                  }
-            });
-
-            PinpointConfiguration config = new PinpointConfiguration(
-                    MainActivity.this,
-                    AWSMobileClient.getInstance(),
-                    AWSMobileClient.getInstance().getConfiguration()
-            );
-            pinpointManager = new PinpointManager(config);
+            final PinpointManager pinpointManager = getPinpointManager(getApplicationContext());
             pinpointManager.getSessionClient().startSession();
         }
     }
@@ -658,8 +666,8 @@ Set up AWS Mobile SDK components by including the following libraries in your `a
 
 ```groovy
 dependencies {
-  implementation 'com.amazonaws:aws-android-sdk-kinesis:2.8.+'
-  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
+  implementation 'com.amazonaws:aws-android-sdk-kinesis:2.11.+'
+  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.11.+@aar') { transitive = true }
 }
 ```
 

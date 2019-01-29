@@ -42,8 +42,8 @@ In your app's entry point *i.e. App.js*, import and load the configuration file 
 
 ```javascript
 import Amplify, { Storage } from 'aws-amplify';
-import aws_exports from './aws-exports';
-Amplify.configure(aws_exports);
+import awsmobile from './aws-exports';
+Amplify.configure(awsmobile);
 ```
 
 ### Manual Setup
@@ -71,15 +71,142 @@ Amplify.configure({
 ```
 
 ## Using Amazon S3
-### Setup Amazon S3 Bucket CORS Policy
 
-To make calls to your S3 bucket from your App, you need to setup CORS Policy for your S3 bucket.
+If you set up your Cognito resources manually, the roles will need to be given permission to access the S3 bucket.
+
+There are two roles created by Cognito: an `Auth_Role` that grants signed-in-user-level bucket access and an `Unauth_Role` that allows unauthenticated access to resources. Attach the corresponding policies to each role for proper S3 access. Replace ```{enter bucket name}``` with the correct S3 bucket.
+
+Inline policy for the `Auth_Role`:
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{enter bucket name}/public/*",
+                "arn:aws:s3:::{enter bucket name}/protected/${cognito-identity.amazonaws.com:sub}/*",
+                "arn:aws:s3:::{enter bucket name}/private/${cognito-identity.amazonaws.com:sub}/*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "s3:PutObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{enter bucket name}/uploads/*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{enter bucket name}/protected/*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Condition": {
+                "StringLike": {
+                    "s3:prefix": [
+                        "public/",
+                        "public/*",
+                        "protected/",
+                        "protected/*",
+                        "private/${cognito-identity.amazonaws.com:sub}/",
+                        "private/${cognito-identity.amazonaws.com:sub}/*"
+                    ]
+                }
+            },
+            "Action": [
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{enter bucket name}"
+            ],
+            "Effect": "Allow"
+        }
+    ]
+}
+```
+
+Inline policy for the `Unauth_Role`:
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{enter bucket name}/public/*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "s3:PutObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{enter bucket name}/uploads/*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{enter bucket name}/protected/*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Condition": {
+                "StringLike": {
+                    "s3:prefix": [
+                        "public/",
+                        "public/*",
+                        "protected/",
+                        "protected/*"
+                    ]
+                }
+            },
+            "Action": [
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{enter bucket name}"
+            ],
+            "Effect": "Allow"
+        }
+    ]
+}
+```
+
+The policy template that Amplify CLI uses is found [here](https://github.com/aws-amplify/amplify-cli/blob/b12d20b9d85f7fc6abf7e2f7fbe11e1a108911b9/packages/amplify-category-storage/provider-utils/awscloudformation/cloudformation-templates/s3-cloudformation-template.json).
+
+### Amazon S3 Bucket CORS Policy Setup
+
+To make calls to your S3 bucket from your App, you need to set up a CORS Policy for your S3 bucket.
 {: .callout .callout--warning}
 
-Following steps will enable your CORS Policy: 
+The following steps will set up your CORS Policy: 
 
 1. Go to [Amazon S3 Console](https://s3.console.aws.amazon.com/s3/home?region=us-east-1) and click on your project's `userfiles` bucket, which is normally named as [Project Name]-userfiles-mobilehub-[App Id]. 
-2. Click on the **Permissions** tab for your bucket, and then click on **CORS configuration** tile.
+2. Click on the **Permissions** tab for your bucket, and then click on the **CORS configuration** tile.
 3. Update your bucket's CORS Policy to look like:
 
 ```xml
@@ -107,13 +234,13 @@ Note: You can restrict the access to your bucket by updating AllowedOrigin to in
 
 ### File Access Levels
 
-Storage module can manage files with three different access levels; `public`, `protected` and `private`.
+Storage module can manage files with three different access levels; `public`, `protected` and `private`. The Amplify CLI configures three different access levels on the storage bucket: public, protected and private. When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool Role. If you had previously enabled user sign-in by running `amplify add auth` in your project, the policies will be connected to an `Authenticated Role` of the Identity Pool which has scoped permission to the objects in the bucket for each user identity. If you haven't configured user sign-in, then an `Unauthenticated Role` will be assigned for each unique user/device combination, which still has scoped permissions to just their objects.
 
-Files with public access level can be accessed by all users who are using your app. In S3, they are stored under the `public/` path in your S3 bucket.
+* Public: Accessible by all users of your app. Files are stored under the `public/` path in your S3 bucket.
+* Protected: Readable by all users, but writable only by the creating user. Files are stored under `protected/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
+* Private: Only accessible for the individual user. Files are stored under `private/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
 
-Files with protected access level are readable by all users but writable only by the creating user. In S3, they are stored under `protected/{user_identity_id}/` where the **user_identity_id** corresponds to a unique Amazon Cognito Identity ID for that user.
-
-Files with private access level are only accessible for specific authenticated users only. In S3, they are stored under `private/{user_identity_id}/` where the **user_identity_id** corresponds to a unique Amazon Cognito Identity ID for that user.
+When using Auth and Storage modules together, you do not need to construct the `/{user_identity_id}/` manually as the library will use the configured Cognito Identity ID for your user/device along with the configured access level for an action. This includes UnAuthenticated access where you will first call `Auth.currentCredentials()` before a Storage action. See [Authentication](./authentication) for more information.
 
 The access level can be configured on the Storage object globally. Alternatively, the access levels can be set in individual function calls.
 
@@ -169,9 +296,19 @@ Storage.configure({
 });
 ```
 
+=======
+
 #### Put
 
 Creates resumable uploads and puts data into Amazon S3.
+
+It returns a `{key: S3 Object key}` object on success:
+
+```javascript
+Storage.put('test.txt', 'Hello')
+    .then (result => console.log(result)) // {key: "test.txt"}
+    .catch(err => console.log(err));
+```
 
 Public level:
 
@@ -270,7 +407,7 @@ readFile(imagePath).then(buffer => {
 });
 ```
 
-When a networking error happens during the upload, Storage module retries upload for a maximum of   attempts. If the upload fails after all retries, you will get an error.
+When a networking error happens during the upload, Storage module retries upload for a maximum of 4 attempts. If the upload fails after all retries, you will get an error.
 {: .callout .callout--info}
 
 #### Get
@@ -374,36 +511,6 @@ Storage.list('photos/', {level: 'private'})
     .then(result => console.log(result))
     .catch(err => console.log(err));
 ```
-
-#### Pause Upload
-
-Pauses an upload started by ```Storage.put```. This API is also implicitly called when the app loses network connectivity.
-
-Private level:
-```javascript
-Storage.pauseUpload('key',{level: 'private'});
-```
-
-#### Resume Upload
-
-Resumes a paused file upload to Amazon S3. It also gets implicitly called once you have network connectivity again,if your upload paused on network loss.
-
-Private level:
-```javascript
-Storage.resumeUpload('key',{level: 'private'});
-```
-
-#### Cancel Upload
-
-Cancels an ongoing upload. 
-
-Private level:
-```javascript
-Storage.cancelUpload('key',{level: 'private'})
-    .then (data =>console.log(data);)
-    .catch (err => console.log(err);)
-```
-
 
 #### API Reference
 
@@ -543,6 +650,12 @@ For private images, supply the `level` property:
 return <S3Image level="private" imgKey={key} />
 ```
 
+To show another user's protected image, supply that user's `identityId` property as well:
+
+```jsx
+return <S3Image level="protected" identityId={identityId} imgKey={key} />
+```
+
 To initiate an upload, set the `body` property:
 
 ```jsx
@@ -618,10 +731,16 @@ render() {
     return <S3Album path={path} />
 ```
 
-For display private objects, supply the `level` property:
+To display private objects, supply the `level` property:
 
 ```jsx
 return <S3Album level="private" path={path} />
+```
+
+To display another user's protected objects, supply that user's `identityId` property as well:
+
+```jsx
+return <S3Album level="protected" identityId={identityId} path={path} />
 ```
 
 You can use `filter` property customize the path for your album:
