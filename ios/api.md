@@ -99,7 +99,7 @@ To use AppSync in your Xcode project, modify your Podfile with a dependency of t
 ```ruby
 target 'PostsApp' do
     use_frameworks!
-    pod 'AWSAppSync', ' ~> 2.6.24'
+    pod 'AWSAppSync', ' ~> 2.9.0'
 end
 ```
 
@@ -117,25 +117,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 var appSyncClient: AWSAppSyncClient?
 
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     //You can choose your database location
     let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("database_name")
 
     do {
         //AppSync configuration & client initialization
-        let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(),databaseURL: databaseURL)
+        let appSyncServiceConfig = try AWSAppSyncServiceConfig()
+        let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: appSyncServiceConfig, databaseURL: databaseURL)
         appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
         // Set id as the cache key for objects. See architecture section for details
         appSyncClient?.apolloClient?.cacheKeyForObject = { $0["id"] }
-        } catch {
-            print("Error initializing appsync client. \(error)")
-        }
-        //other methods
-        return true
+    } catch {
+        print("Error initializing appsync client. \(error)")
+    }
+    //other methods
+    return true
 }
 ```
 
-`AWSAppSyncClientInfo` represents the configuration information present in awsconfiguration.json file. Next, in your application code, you reference this in an appropriate lifecycle method such as `viewDidLoad()`:
+`AWSAppSyncServiceConfig` represents the configuration information present in your `awsconfiguration.json` file.
+
+Next, in your application code, you reference this in an appropriate lifecycle method such as `viewDidLoad()`:
 
 ```swift
 import AWSAppSync
@@ -293,7 +296,7 @@ You might add similar code in your app for updating or deleting items using an o
 
 ### Authentication Modes
 
-For client authorization AppSync supports API Keys, Amazon IAM credentials (we recommend using Amazon Cognito Identity Pools for this option), Amazon Cognito User Pools, and 3rd party OIDC providers. This is inferred from the `awsconfiguration.json` when you call `AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo()`.
+For client authorization AppSync supports API Keys, Amazon IAM credentials (we recommend using Amazon Cognito Identity Pools for this option), Amazon Cognito User Pools, and 3rd party OIDC providers. This is inferred from the `awsconfiguration.json` file when you call `AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig()`.
 
 #### API Key
 
@@ -320,8 +323,8 @@ let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathCompo
     
 do {
     // Initialize the AWS AppSync configuration
-    let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(), 
-                                                                databaseURL: databaseURL)
+    let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(), 
+                                                          databaseURL: databaseURL)
     
     // Initialize the AWS AppSync client
     appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
@@ -363,7 +366,7 @@ Add the following code to your app:
         
         do {
             // Initialize the AWS AppSync configuration
-            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(),
+            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
                                                                   userPoolsAuthProvider: {
                                                                     class MyCognitoUserPoolsAuthProvider : AWSCognitoUserPoolsAuthProviderAsync {
                                                                         func getLatestAuthToken(_ callback: @escaping (String?, Error?) -> Void) {
@@ -377,7 +380,7 @@ Add the following code to your app:
                                                                         }
                                                                     }
                                                                     return MyCognitoUserPoolsAuthProvider()}(),
-                                                                  databaseURL:databaseURL)
+                                                                  databaseURL: databaseURL)
             
             // Initialize the AWS AppSync client
             appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
@@ -419,7 +422,7 @@ let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathCompo
     
 do {
   // Initialize the AWS AppSync configuration
-            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(),
+            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
                                                                   credentialsProvider: AWSMobileClient.sharedInstance(),
                                                                   databaseURL: databaseURL)
     
@@ -461,9 +464,9 @@ let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathCompo
     
 do {
   // Initialize the AWS AppSync configuration
-    let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(),
+    let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
                                                           oidcAuthProvider: MyOidcProvider(),
-                                                          databaseURL:databaseURL)
+                                                          databaseURL: databaseURL)
     
     appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
 } catch {
@@ -534,7 +537,7 @@ appSyncClient?.sync(baseQuery: baseQuery, baseQueryResultHandler: baseQueryResul
 
 **Example**
 
-The following section walks through the details of creating an app using Delta Sync. We will use a simple Posts App that has a view that displays a list of posts and keeps it synchronized using the Delta Sync functionality. We will use a Map object called `allPosts` to collect and manage the posts and a UIViewController to power the UI.
+The following section walks through the details of creating an app using Delta Sync. We will use a simple Posts App that has a view that displays a list of posts and keeps it synchronized using the Delta Sync functionality. We will use an array called `postList` to collect and manage the posts and a UIViewController to power the UI.
 
 **Create Sync Handler Function**
 
@@ -785,7 +788,7 @@ Add `AWSAPIGateway` to your Podfile:
 	  use_frameworks!
 
 	     # For API
-	     pod 'AWSAPIGateway', '~> 2.7.0'
+	     pod 'AWSAPIGateway', '~> 2.8.0'
 	     # other pods
 	end
 ```

@@ -29,10 +29,11 @@ Configures the CloudFront content delivery network (CDN), the user can configure
 Configures the publish ignore patterns (just like what's in the .gitignore) for the publish command, the publish command will ignore directories and files in the distribution folder that have names matching the patterns. 
 
 ## Stages
-For the amplify-category-hosting implementation, this is the default
+For the amplify-category-hosting implementation, there are two stages you can select from:
 - DEV: only S3 static web hosting
 - PROD: S3 and CloudFront
 
-CloudFront can be added or removed in your project at any time by the `amplify hosting configure` command. <br/>
-It can take time to create and replicate a CloudFront Distribution across the global CDN footprint, in some cases 15 minutes or more. Therefore the Amplify CLI provides a DEV configuration with an S3 static site only when prototyping your application and a PROD configuration when you are ready to deploy in production. Note that the DEV stage using S3 static sites does not have full HTTPS end to end so it is only recommended for prototyping your app.
-
+It can take time to create and replicate a CloudFront Distribution across the global CDN footprint, in some cases 15 minutes or more. Therefore the Amplify CLI provides a DEV configuration with an S3 static site only when prototyping your application; and a PROD configuration when you are ready to deploy in production. Note that the DEV stage using S3 static sites does not have full HTTPS end to end so it is only recommended for prototyping your app. <br/>
+You will be prompted to select a stage when you add hosting. <br/>
+CloudFront can also be added or removed in your project afterwards by the `amplify hosting configure` command. <br/>
+Note that if the hosting S3 bucket is newly created in regions other than us-east-1, you might get the `HTTP 307 Temporary Redirect` error in the beginning when you access your published application through CloudFront. This is because CloudFront forwards requests to the default S3 endpoint (s3.amazonaws.com), which is in the us-east-1 region, and it can take up to 24 hours for the new hosting bucket name to propagate globally. 

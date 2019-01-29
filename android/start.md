@@ -17,7 +17,7 @@ Build an Android app using the AWS Amplify CLI and the AWS SDK for Android. The 
 Follow [these steps](https://developer.android.com/training/basics/firstapp/creating-project) to create an Android Studio application using Java. Modify your `project/build.gradle` with the following build dependency:
 
 ```groovy
-classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.6.+'
+classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.7.+'
 ```
 
 Next, add dependencies to your `app/build.gradle`, and then choose Sync Now on the upper-right side of Android Studio.
@@ -27,11 +27,11 @@ apply plugin: 'com.amazonaws.appsync'
 
 dependencies {
     //Base SDK
-    implementation 'com.amazonaws:aws-android-sdk-core:2.8.+'
+    implementation 'com.amazonaws:aws-android-sdk-core:2.11.+'
     //AppSync SDK
-    compile 'com.amazonaws:aws-android-sdk-appsync:2.6.+'
-    compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
-    compile 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+    implementation 'com.amazonaws:aws-android-sdk-appsync:2.7.+'
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
 }
 ```
 

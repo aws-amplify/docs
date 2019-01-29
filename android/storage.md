@@ -61,9 +61,9 @@ Use the following steps to connect add file storage backend services to your app
 
 	```groovy
 	dependencies {
-	  implementation 'com.amazonaws:aws-android-sdk-s3:2.8.+'
-	  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.8.+@aar') { transitive = true }
-	  implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.8.+@aar') { transitive = true }
+	  implementation 'com.amazonaws:aws-android-sdk-s3:2.11.+'
+	  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.11.+@aar') { transitive = true }
+	  implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.11.+@aar') { transitive = true }
 	}
 	```
 	Perform a `Gradle Sync` to download the AWS Mobile SDK components into your app.
@@ -150,7 +150,7 @@ public class YourActivity extends Activity {
         AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
             @Override
             public void onResult(UserStateDetails userStateDetails) {
-                Log.i(TAG, userStateDetails.getUserState());
+                Log.i(TAG, "AWSMobileClient initialized. User State is " + userStateDetails.getUserState());
             }
 
             @Override
@@ -240,7 +240,7 @@ public class YourActivity extends Activity {
         AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
             @Override
             public void onResult(UserStateDetails userStateDetails) {
-                Log.i(TAG, userStateDetails.getUserState());
+                Log.i(TAG, "AWSMobileClient initialized. User State is " + userStateDetails.getUserState());
             }
 
             @Override
@@ -429,6 +429,46 @@ The SDK uploads and downloads objects from Amazon S3 using background threads. T
 
 When you want your app to perform long-running transfers in the background, you can initiate the transfers from a background service that you can implement within your app. A recommended way to use a service to initiate the transfer is demonstrated in the [Transfer Utility sample application](https://github.com/awslabs/aws-sdk-android-samples/tree/master/S3TransferUtilitySample).
 
+### Supporting TransferService on Oreo and above
+
+`TransferNetworkLossHandler`, a broadcast receiver that listens for network connectivity changes is introduced in `2.11.0`. `TransferNetworkLossHandler` pauses the on-going transfers when the network goes offline and resumes the transfers that were paused when the network comes back online. `TransferService` registers the `TransferNetworkLossHandler` when the service is created and de-registers the handler when the service is destroyed.
+
+* `TransferService` will be moved to the foreground state when the device is running Android Oreo (API Level 26) and above. 
+  * Transitioning to the foreground state requires a valid on-going `Notification` object, identifier for on-going notification and the flag that determines the ability to remove the on-going notification when the service transitions out of foreground state. If a valid notification object is not passed in, the service will not be transitioned into the foreground state.
+  * The `TransferService` can now be started using `startForegroundService` method to move the service to foreground state. The service can be invoked in the following way to transition the service to foreground state.
+ 
+```java
+Intent tsIntent = new Intent(getApplicationContext(), TransferService.class);
+tsIntent.putExtra(TransferService.INTENT_KEY_NOTIFICATION, <notification-object>);
+tsIntent.putExtra(TransferService.INTENT_KEY_NOTIFICATION_ID, <notification-id>);
+tsIntent.putExtra(TransferService.INTENT_KEY_REMOVE_NOTIFICATION, <remove-notification-when-service-stops-foreground>);
+getApplicationContext().startForegroundService(tsIntent);
+```
+
+### Supporting Unicode characters in key-names
+
+**Upload/download objects**
+
+* Since `2.4.0` version of the SDK, the key name containing characters that require special handling are URL encoded and escaped `( space, %2A, ~, /, :, ', (, ), !, [, ] )` by the `AmazonS3Client`, after which the AWS Android Core Runtime encodes the URL resulting in double encoding of the key name.
+
+* Starting `2.11.0`, the additional layer of encoding and escaping done by `AmazonS3Client` is removed. The key name will not be encoded and escaped by `AmazonS3Client`. Now, the key name that is given to `AmazonS3Client` or `TransferUtility` will appear on the Amazon S3 console as is.
+
+**List Objects**
+  
+* When a S3 bucket contains objects with key names containing characters that require special handling, and since the SDK has an XML parser,  (XML 1.0 parser) which cannot parse some characters, the SDK is required to request that Amazon S3 encode the keys in the response. This can be done by passing in `url` as `encodingType` in the `ListObjectsRequest`.
+
+```java
+AmazonS3Client s3 = new AmazonS3Client(credentials);
+final ObjectListing objectListing = s3.listObjects(
+                new ListObjectsRequest(bucketName, prefix, null, null, null)
+                    .withEncodingType(Constants.URL_ENCODING));
+```
+ 
+* Since `2.4.0`, there was a bug where the SDK did not decode the key names which are encoded by S3 when `url` is requested as the `encodingType`. This is fixed in `2.11.0`, where the SDK will decode the key names in the `ListObjectsResponse` sent by S3.
+
+* If you have objects in S3 bucket that has a key name containing characters that require special handling, you need to pass the `encodingType` as `url` in the `ListObjectsRequest`.
+
+
 ### Transfer with Object Metadata
 
 
@@ -466,6 +506,29 @@ Note: Please review the documentation for [API](./api) before you proceed with t
 {: .callout .callout--info}
 
 You can also upload and download Amazon S3 Objects using AWS AppSync, a GraphQL based solution to build data-driven apps with real-time and offline capabilities. Sometimes you might want to create logical objects that have more complex data, such as images or videos, as part of their structure.  _For example, you might create a Person type with a profile picture or a Post type that has an associated image_. You can use AWS AppSync to model these as GraphQL types. If any of your mutations have a variable with bucket, key, region, mimeType, and localUri fields, the SDK uploads the file to Amazon S3 for you.
+
+Attach the following policy to your IAM role to grant it programmatic read-write access to your bucket:
+
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["s3:ListBucket"],
+      "Resource": ["arn:aws:s3:::myBucket"]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject"
+      ],
+      "Resource": ["arn:aws:s3:::myBucket/*"]
+    }
+  ]
+}
+```
 
 ### Schema Setup
 If any mutations have an input type `S3ObjectInput` with fields `bucket`, `key`, `region`, `mimeType` and `localUri` fields, the SDK will upload the file to S3.
@@ -578,7 +641,7 @@ public class AddPostActivity extends AppCompatActivity {
     // Photo selector application code.
     private static int RESULT_LOAD_IMAGE = 1;
     private String photoPath;
-    public void choosePhoto(View view) {
+    public void choosePhoto() {
         Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(i, RESULT_LOAD_IMAGE);
     }

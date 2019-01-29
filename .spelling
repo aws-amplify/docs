@@ -75,6 +75,10 @@ SetMFA
 signout
 signin
 signup
+s3AlbumConfig
+storageOptions
+Storage.put
+Storage.get
 theListFunction
 todo
 todolist
@@ -169,6 +173,7 @@ _new
 myangularapp
 js
 tsconfig
+myAmplifyProject
 
 # js/service-workers.md
 ServiceWorker
@@ -222,6 +227,8 @@ Alexa
 chatbox
 onComplete
 theming
+voiceEnabled
+textEnabled
 
 js/i18n.md
 I18n
@@ -258,12 +265,14 @@ signups
 300px
 phone_number
 IdToken
+IdP
 AccessToken
 localStorage
 authState
 authData
 OAuth
 oauth
+openid
 CAPTCHAs
 unencrypted
 checkbox
@@ -274,6 +283,14 @@ customizable
 AmplifyTheme.js
 withFederated
 Auth.federatedSignIn
+aws.cognito.signin.user.admin
+ChallengeName
+
+#js/cognito-hosted-ui-federated-identity.md
+oauth2
+idpresponse
+URIs
+OAuth2.0
 
 # js/api.md
 api
@@ -379,10 +396,12 @@ secretKey
 accesskey
 secretkey
 aws
+arn
 config
 Unauth
 frontends
 metadata
+Cloudfront
 
 # cli/hosting.md
 gitignore
@@ -391,6 +410,7 @@ amplify-provider-awscloudformation
 cloudformation
 awscloudformation
 awsconfiguration.json
+s3.amazonaws.com
 
 # cli/concept.md
 amplifyrc
@@ -414,6 +434,33 @@ realtime
 AppDelegate.swift
 ViewController.swift
 MainActivity.java
+
+# cli/multienv.md
+multienv
+mydev
+amplifyapp.com
+backend-configs
+env
+configs
+
+# cli/migrate.md
+configLevel
+parameters.json
+RoleName
+LambdaExecutionRole
+PinpointFunctionsOutputs
+basePath
+Outputs.RootURL.Value
+parameter.json
+unauth
+S3AndCloudFront
+bucketName
+template.json
+Resources.S3Bucket.Properties.BucketName
+s3aeaffb53
+Cloudformaton
+DynamoDBTable
+amplifyMeta.json
 
 # android/analytics.md
 ActivityLifecycleCallbacks
@@ -533,6 +580,7 @@ enum
 MiB
 
 # android/manualsetup.md
+com.amazonaws
 aws-android-sdk-apigateway-core
 aar
 aws-android-sdk-auth-core
@@ -705,6 +753,12 @@ uploadData
 # ios/interactions.md
 UIView
 xib
+react-native-fs
+Info.plist
+
+# ios/pubsub.md
+VeriSign
+subdomain
 
 # ios/push-notifications.md
 Hoc
@@ -781,3 +835,6 @@ KMS-generated
 
 # android/auth-google-setup.md
 keystore
+
+# ios/pubsub.md
+authorizers

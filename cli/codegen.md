@@ -112,7 +112,7 @@ Next, modify your **Podfile** with a dependency of the AWS AppSync SDK:
 ```ruby
 target 'PostsApp' do
   use_frameworks!
-  pod 'AWSAppSync', ' ~> 2.6.20'
+  pod 'AWSAppSync', ' ~> 2.9.0'
 end
 ```
 
@@ -338,7 +338,7 @@ First, in the project's `build.gradle`, add the following dependency in the buil
 classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.6.+'
 ```
 
-Next, in the app's `build.gradle` add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `compile 'com.amazonaws:aws-android-sdk-appsync:2.6.+'`. For example:
+Next, in the app's `build.gradle` add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `implementation 'com.amazonaws:aws-android-sdk-appsync:2.6.+'`. For example:
 
 ```gradle
 apply plugin: 'com.android.application'
@@ -348,9 +348,9 @@ android {
 }
 dependencies {
     // Typical dependencies
-    compile 'com.amazonaws:aws-android-sdk-appsync:2.6.+'
-    compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
-    compile 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+    implementation 'com.amazonaws:aws-android-sdk-appsync:2.6.+'
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
 }
 ```
 
