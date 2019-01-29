@@ -47,8 +47,8 @@ In your app's entry point i.e. App.js, import and load the configuration file:
 
 ```javascript
 import Amplify, { Auth } from 'aws-amplify';
-import aws_exports from './aws-exports';
-Amplify.configure(aws_exports);
+import awsmobile from './aws-exports';
+Amplify.configure(awsmobile);
 ```
 
 ### Manual Setup
@@ -1230,7 +1230,7 @@ import logo from './logo.svg';
 import './App.css';
 import OAuthButton from './OAuthButton';
 import Amplify, {Auth, Hub} from 'aws-amplify';
-import aws_exports from './aws-exports'; // your Amplify configuration
+import awsmobile from './aws-exports'; // your Amplify configuration
 
 // your Cognito Hosted UI configuration
 const oauth = {
@@ -1241,7 +1241,7 @@ const oauth = {
   responseType: 'code' // or token
 };
 
-Amplify.configure(aws_exports);
+Amplify.configure(awsmobile);
 Auth.configure({ oauth });
 
 class App extends Component {

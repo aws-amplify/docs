@@ -169,8 +169,8 @@ import.
 
 ```javascript
 import Amplify, { API } from 'aws-amplify';
-import aws_exports from './aws-exports';
-Amplify.configure(aws_exports);
+import awsmobile from './aws-exports';
+Amplify.configure(awsmobile);
 ```
 
 Then add this to the component that calls your API.
@@ -316,8 +316,8 @@ The required DynamoDB tables, API Gateway endpoints, and Lambda functions will n
 
     ```javascript
     import Amplify, { API } from 'aws-amplify';
-    import aws_exports from 'path_to_your_aws-exports';
-    Amplify.configure(aws_exports);
+    import awsmobile from 'path_to_your_aws-exports';
+    Amplify.configure(awsmobile);
     ```
 
 2.  Add the following `state` to your component.
