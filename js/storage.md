@@ -300,7 +300,7 @@ Storage.configure({
 
 #### Put
 
-Creates resumable uploads and puts data into Amazon S3.
+Puts data into Amazon S3.
 
 It returns a `{key: S3 Object key}` object on success:
 
