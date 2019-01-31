@@ -64,7 +64,6 @@ Add the following to the `package.json` file:
     "build": "webpack"
   }
 }
-
 ```
 
 Install local development dependencies:
@@ -187,8 +186,10 @@ Then run your app:
 ```bash
 $ react-native run-ios  # or run-android
 ```
+
 </div>
 <div id="angular" class="tab-content">
+
 If you have an existing Angular application you can skip this section. Otherwise, you can use the [angular-cli](https://github.com/angular/angular-cli) to bootstrap a new Angular app:
 
 ```bash
@@ -196,8 +197,10 @@ $ npm install -g @angular/cli
 $ ng new myAmplifyProject
 $ cd myAmplifyProject
 ```
+
 </div>
 <div id="ionic" class="tab-content">
+
 If you have an existing Ionic application you can skip this section. Otherwise, you can use the Ionic CLI to bootstrap a new Ionic app:
 
 ```bash
@@ -205,6 +208,7 @@ $ npm install -g ionic
 $ ionic start myAmplifyProject tabs --type=angular 
 $ cd myAmplifyProject
 ```
+
 </div>
 </div>
 
@@ -238,11 +242,14 @@ To install React specific components, run the following command:
 ```bash
 $ npm install --save aws-amplify-react
 ```
+
 </div>
 <div id="react-native" class="tab-content">
+
 ```bash
 $ npm install --save aws-amplify
 ```
+
 To install React Native specific components, run the following command:
 
 ```bash
@@ -266,6 +273,7 @@ $ react-native link
 
 </div>
 <div id="angular" class="tab-content">
+
 ```bash
 $ npm install --save aws-amplify
 ```
@@ -281,6 +289,7 @@ See the [Angular Guide](https://aws-amplify.github.io/amplify-js/media/angular_g
 
 </div>
 <div id="ionic" class="tab-content">
+
 ```bash
 $ npm install --save aws-amplify
 ```
@@ -289,6 +298,7 @@ In addition to `aws-amplify` core, you can install our angular and ionic modules
 
 </div>
 <div id="ionic" class="tab-content">
+
 ```bash
 $ npm install --save aws-amplify-angular
 $ npm install --save ionic-angular
@@ -318,7 +328,9 @@ $ amplify init
 ```
 
 <div id="angular" class="tab-content">
+
 > When asked for the distribution directory (the directory that will be uploaded to S3), answer `dist/myAmplifyProject`. If you did not use the name in this tutorial, change "myAmplifyProject" with the name of your application. You can run an `ng build` and check your `dist` directory to see what the name is and re-run `amplify configure project` to change your dist directory setting.
+
 </div>
 
 **Create the Required AWS Backend Resources**
@@ -394,8 +406,8 @@ AnalyticsEventButton.addEventListener('click', (evt) => {
 > The code above imports only the Auth and Analytics categories. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
 
 </div>
-
 <div id="react" class="tab-content">
+
 Change your `src/App.js` file to the following:
 
 ```javascript
@@ -456,9 +468,10 @@ export default App;
 ```
 
 > The code above imports only the Auth and Analytics categories. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
-</div>
 
+</div>
 <div id="react-native" class="tab-content">
+
 Change your `src/App.js` file to the following:
 
 ```javascript
@@ -525,9 +538,10 @@ const styles = StyleSheet.create({
 ```
 
 > The code above imports only the Auth and Analytics categories. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
-</div>
 
+</div>
 <div id="angular" class="tab-content">
+
 After creating your backend a configuration file will be generated in your configured source directory you identified in the `amplify init` command.
 
 Import the configuration file and load it in `main.ts`: 
@@ -542,6 +556,7 @@ Depending on your TypeScript version you may need to rename the `aws-exports.js`
 {: .callout .callout--info}
 
 When working with underlying `aws-js-sdk`, the "node" package should be included in *types* compiler option. update your `src/tsconfig.app.json`:
+
 ```json
 "compilerOptions": {
     "types" : ["node"]
@@ -589,6 +604,7 @@ import awsconfig from '../aws-exports';
 ```
 
 To add the analytics event recorder to your app, replace your ```AppComponent``` class with the following:
+
 ```javascript
 export class AppComponent {
   title = 'amplify-angular-app';
@@ -611,6 +627,7 @@ export class AppComponent {
 ```
 
 Then, add the following to your `src/app/app.component.html` file:
+
 ```html
 <button (click)="handleAnalyticsClick()">Generate Analytics Event</button>
 <div *ngIf="analyticsEventSent">
@@ -619,12 +636,14 @@ Then, add the following to your `src/app/app.component.html` file:
   <a href="{% raw %}{{ url }}{% endraw %}" target="_blank">View Events on the Amazon Pinpoint Console</a>
 </div>
 ```
-</div>
 
+</div>
 <div id="ionic" class="tab-content">
+
 After creating your backend, the configuration file is copied to `/amplify/#current-cloud-backend/aws-exports.js`, and the source folder you have identified in the `amplify init` command.
 
 To import the configuration file to your Ionic app, you will need to rename `aws-exports.js` to `aws-exports.ts`. You should make sure that your `package.json` scripts also rename the file upon build, so that any configuration changes which result in the download of an `aws-exports.js` from AWS Mobile Hub get changed over to the ts extension.
+
 ```javascript	
 "scripts": {	
     "start": "[ -f src/aws-exports.js ] && mv src/aws-exports.js src/aws-exports.ts || ng serve; ng serve",	
@@ -684,6 +703,7 @@ import awsconfig from '../aws-exports';
 ```
 
 To add the analytics event recorder to your app, replace your ```AppComponent``` class with the following:
+
 ```javascript
 export class AppComponent {
   constructor(
@@ -717,10 +737,10 @@ export class AppComponent {
     });
   }
 }
-
 ```
 
 Then, replace your `src/app/app.component.html` code with the following:
+
 ```html
 <ion-button (click)="handleAnalyticsClick()">Generate Analytics Event</ion-button>
 <div *ngIf="analyticsEventSent">
@@ -729,6 +749,7 @@ Then, replace your `src/app/app.component.html` code with the following:
   <a href="{{ url }}" target="_blank">View Events on the Amazon Pinpoint Console</a>
 </div>
 ```
+
 </div>
 
 ## Step 5. Host your App
@@ -759,7 +780,6 @@ What next? Here are some things to add to your app:
  - Add [Authentication]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/authentication)
  - Add [Data]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/api) with serverless GraphQL
 
-
 **Existing AWS Resources**
 
 If you want to use your existing AWS resources with your app you will need to **manually configure** your app with your current credentials in your code, for example:
@@ -780,6 +800,7 @@ Amplify.configure({
     }
 });
 ```
+
 In the configuration above, you are required to pass in an Amazon Cognito identity pool ID so that AWS Amplify can retrieve base credentials for a user even in an unauthenticated state. 
 
 **Configuration Parameters for existing AWS resources**
@@ -789,7 +810,6 @@ To see the configuration parameters for existing AWS resources, see the *Existin
 [Amazon Pinpoint]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/analytics#manual-setup),
 [Amazon API Gateway]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/api#manual-setup)
 {: .callout .callout--info}
-
 
 **AWS SDK Interfaces**
 

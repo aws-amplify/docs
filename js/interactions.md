@@ -43,9 +43,9 @@ Import and load the configuration file in your app. It's recommended you add the
 
 ```javascript
 import Amplify, { Interactions } from 'aws-amplify';
-import aws_exports from './aws-exports';
+import awsmobile from './aws-exports';
 
-Amplify.configure(aws_exports);
+Amplify.configure(awsmobile);
 ```
 
 Click [HERE](#WorkingWithAPI) for usage in your app
@@ -181,9 +181,9 @@ Following simple app shows how to use **ChatBot** component in a React app, with
 import React, { Component } from 'react';
 import Amplify, { Interactions } from 'aws-amplify';
 import { ChatBot, AmplifyTheme } from 'aws-amplify-react';
-import aws_exports from './aws-exports';
+import awsmobile from './aws-exports';
 
-Amplify.configure(aws_exports);
+Amplify.configure(awsmobile);
 
 // Imported default theme can be customized by overloading attributes
 const myTheme = {
@@ -313,9 +313,9 @@ import { StyleSheet, Text, SafeAreaView, Alert, StatusBar } from 'react-native';
 import Amplify from 'aws-amplify';
 import { ChatBot } from 'aws-amplify-react-native';
 
-import aws_exports from './aws-exports';
+import awsmobile from './aws-exports';
 
-Amplify.configure(aws_exports);
+Amplify.configure(awsmobile);
 
 const styles = StyleSheet.create({
   container: {
