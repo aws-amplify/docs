@@ -343,7 +343,7 @@ Storage.put('test.txt', 'Private Content', {
 To track the progress of your upload, you can use the ```progressCallback```: 
 
 ```javascript
-Storage.put('test.txt', 'File content'),{
+Storage.put('test.txt', 'File content', {
     progressCallback(progress) {
         console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
   },
