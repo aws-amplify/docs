@@ -132,10 +132,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
       //You can choose your database location
       let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("database_name")
-        
+
       do {
         //AppSync configuration & client initialization
-        let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(),databaseURL: databaseURL)
+        let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(), databaseURL: databaseURL)
         appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
         } catch {
             print("Error initializing appsync client. \(error)")
@@ -243,7 +243,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("database_name")
         do {
             //AppSync configuration & client initialization
-            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(),databaseURL: databaseURL)
+            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(), databaseURL: databaseURL)
             appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
         } catch {
             print("Error initializing appsync client. \(error)")
