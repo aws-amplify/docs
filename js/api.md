@@ -1114,7 +1114,10 @@ const client = new AWSAppSyncClient({
 
     const bucket = aws_config.aws_user_files_s3_bucket;
     const region = aws_config.aws_user_files_s3_bucket_region;
-    const key = [uuid(), extension].filter(x => !!x).join('.');
+    const visibility = 'private';
+    const { identityId } = await Auth.currentCredentials();
+    
+    const key = `${visibility}/${identityId}/${uuid()}${extension && '.'}${extension}`;
 
     file = {
       bucket,
