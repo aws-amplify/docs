@@ -32,7 +32,7 @@ Multiple developers on a team can also share and manipulate the environment as w
 
 You can alternatively, have developers setup their own isolated replica of these environments in different AWS account. To do this simply:
 1. Clone the existing project
-2. Run `amplify init` and setup a new environment (e.g. "mydev") with that developer's account and AWS profile
+2. Run `amplify init` and set up a new environment (e.g. "mydev") with that developer's account and AWS profile
 3. Deploy with `amplify push`
 
 This workflow can be used to share complete Amplify projects with people outside of your organization as well by committing the project into a Git repository. If you are doing this remove (or add to the .gitignore) the **team-provider-info.json** which is located in the `amplify` directory. You can learn more about this file [HERE](#teamprovider).
