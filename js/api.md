@@ -1009,7 +1009,7 @@ export default withAuthenticator(App);
 
 ##### IAM Auth
 
-When using AWS IAM in a mobile application you should leverage Amazon Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth`. You can then use the `Auth` category for automatic credentials refresh [as outlined in the authentication section](./authentication) For manual configuration, add the following snippet to your `aws-exports.js` file:
+When using AWS IAM in a mobile application you should leverage Amazon Cognito Identity Pools. The Amplify CLI will automatically configure this for you when running `amplify add auth`. You can then use the `Auth` category for automatic credentials refresh [as outlined in the authentication section](./authentication) For manual configuration, add the following snippet to your `aws-exports.js` file:
 
 ```javascript
 import Amplify, { Auth } from 'aws-amplify';
