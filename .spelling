@@ -487,6 +487,23 @@ RecyclerView
 BaseQuery
 allPosts
 ProcessLifeCycle
+Query.getTodo
+Query.listTodos
+Query.getComment
+Query.listComments
+Todo.comments
+Comment.todo
+Query.getTodo.comments
+Query.commentsForTodo
+echofunction
+Query.echo.req.vtl
+Query.echo.res.vtl
+Query.searchTodos
+geo_point
+kibana
+Mutation.createTodo
+Query.nearbyTodos
+geolocation
 
 # android/authentication.md
 appcompat

@@ -207,7 +207,7 @@ type Comment @model {
 }
 ```
 
-This schema will generate resolvers for *Query.getTodo*, *Query.listTodos*, *Query.getComment*, and *Query.listComments* at the top level as well as for *Todo.comments*, and *Comment.todo* to implement the *@connection*. Under the hood, the transform will create a GlobalSecondaryIndex on the Comment table in DynamoDB but it will not generate a top level query field that queries the GSI because you can fetch the comments for a given todo object via the *Query.getTodo.comments* query path. If you want to fetch all comments for a todo object via a top level query field i.e. *Query.commentsForTodo* then do the following:
+This schema will generate resolvers for *Query.getTodo*, *Query.listTodos*, *Query.getComment*, and *Query.listComments* at the top level as well as for *Todo.comments*, and *Comment.todo* to implement the *@connection*. Under the hood, the transform will create a global secondary index on the Comment table in DynamoDB but it will not generate a top level query field that queries the GSI because you can fetch the comments for a given todo object via the *Query.getTodo.comments* query path. If you want to fetch all comments for a todo object via a top level query field i.e. *Query.commentsForTodo* then do the following:
 
 1. Add the desired field to your *schema.graphql*.
 
@@ -471,9 +471,9 @@ query {
 }
 ```
 
-###### Add a custom geo search resolver that targets an Elasticsearch domain created by @searchable
+###### Add a custom geolocation search resolver that targets an Elasticsearch domain created by @searchable
 
-To add a geo search capabilities to an API add the *@searchable* directive to an *@model* type.
+To add a geolocation search capabilities to an API add the *@searchable* directive to an *@model* type.
 
 ```
 type Todo @model @searchable {
@@ -606,9 +606,9 @@ Amazon Elasticsearch domains can take a while to deploy. Take this time to read 
 
 [Getting Started with Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started.html)
 
-4. After the update is comples but before creating any objects, update your Elasticsearch index mapping.
+4. After the update is compiles but before creating any objects, update your Elasticsearch index mapping.
 
-An index mapping tells elasticsearch how it should treat the data that you are trying to store. By default if we create an object with field `"location": { "lat": 40, "lon": -40 }`, Elasticsearch will treat that data as an *object* type when in reality we want it to be treated as a *geo_point*. You use the mapping APIs to tell Elasticsearch how to do this.
+An index mapping tells Elasticsearch how it should treat the data that you are trying to store. By default if we create an object with field `"location": { "lat": 40, "lon": -40 }`, Elasticsearch will treat that data as an *object* type when in reality we want it to be treated as a *geo_point*. You use the mapping APIs to tell Elasticsearch how to do this.
 
 Make sure you tell Elasticsearch that your location field is a *geo_point* before creating objects in the index because otherwise you will need delete the index and try again. Go to the [Amazon Elasticsearch Console](https://console.aws.amazon.com/es/home) and find the Elasticsearch domain that contains this environment's GraphQL API ID. Click on it and open the kibana link. To get kibana to show up you need to install a browser extension such as [AWS Agent](https://addons.mozilla.org/en-US/firefox/addon/aws-agent/) and configure it with your AWS profile's public key and secret so the browser can sign your requests to kibana for security reasons. Once you have kibana open, click the "Dev Tools" tab on the left and run the commands below using the in browser console.
 

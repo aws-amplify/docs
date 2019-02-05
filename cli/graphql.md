@@ -934,7 +934,7 @@ mutation CreateCommentOnPost {
 }
 ```
 
-When you query the connection, the comments will return sorted by their `createdAt` timestamp.
+When you query the connection, the comments will return sorted by their `createdAt` field.
 
 ```
 query GetPostAndComments {
