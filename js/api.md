@@ -185,7 +185,7 @@ type Todo @model {
 }
 ```
 
-and you want to change the behavior of request mapping template of the the *Query.getTodo* resolver that will be generated when the project compiles. To do this you would create a file named `Query.getTodo.req.vtl` in the *resolvers* directory of your API project. The next time you run `amplify push` or `amplify api gql-compile`, your resolver template will be used instead of the auto-generated template. You may similarly create a `Query.getTodo.res.vtl` file to change the behavior of the resolver's response mapping template.
+and you want to change the behavior of request mapping template for the *Query.getTodo* resolver that will be generated when the project compiles. To do this you would create a file named `Query.getTodo.req.vtl` in the *resolvers* directory of your API project. The next time you run `amplify push` or `amplify api gql-compile`, your resolver template will be used instead of the auto-generated template. You may similarly create a `Query.getTodo.res.vtl` file to change the behavior of the resolver's response mapping template.
 
 **Add a custom resolver that targets a DynamoDB table from @model**
 
@@ -510,46 +510,42 @@ type Query {
 2. Create the resolver record in the stack's *Resources* block.
 
 ```json
-{
-  "Resources": {
-    "QueryNearbyTodos": {
-        "Type": "AWS::AppSync::Resolver",
-        "Properties": {
-            "ApiId": {
-                "Ref": "AppSyncApiId"
-            },
-            "DataSourceName": "ElasticsearchDomain",
-            "TypeName": "Query",
-            "FieldName": "nearbyTodos",
-            "RequestMappingTemplateS3Location": {
-                "Fn::Sub": [
-                    "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.nearbyTodos.req.vtl",
-                    {
-                        "S3DeploymentBucket": {
-                            "Ref": "S3DeploymentBucket"
-                        },
-                        "S3DeploymentRootKey": {
-                            "Ref": "S3DeploymentRootKey"
-                        }
+"QueryNearbyTodos": {
+    "Type": "AWS::AppSync::Resolver",
+    "Properties": {
+        "ApiId": {
+            "Ref": "AppSyncApiId"
+        },
+        "DataSourceName": "ElasticsearchDomain",
+        "TypeName": "Query",
+        "FieldName": "nearbyTodos",
+        "RequestMappingTemplateS3Location": {
+            "Fn::Sub": [
+                "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.nearbyTodos.req.vtl",
+                {
+                    "S3DeploymentBucket": {
+                        "Ref": "S3DeploymentBucket"
+                    },
+                    "S3DeploymentRootKey": {
+                        "Ref": "S3DeploymentRootKey"
                     }
-                ]
-            },
-            "ResponseMappingTemplateS3Location": {
-                "Fn::Sub": [
-                    "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.nearbyTodos.res.vtl",
-                    {
-                        "S3DeploymentBucket": {
-                            "Ref": "S3DeploymentBucket"
-                        },
-                        "S3DeploymentRootKey": {
-                            "Ref": "S3DeploymentRootKey"
-                        }
+                }
+            ]
+        },
+        "ResponseMappingTemplateS3Location": {
+            "Fn::Sub": [
+                "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.nearbyTodos.res.vtl",
+                {
+                    "S3DeploymentBucket": {
+                        "Ref": "S3DeploymentBucket"
+                    },
+                    "S3DeploymentRootKey": {
+                        "Ref": "S3DeploymentRootKey"
                     }
-                ]
-            }
+                }
+            ]
         }
     }
-  }
 }
 ```
 
