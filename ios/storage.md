@@ -678,13 +678,15 @@ After you have a resolver for the mutation, to ensure that our S3 Complex Object
   $util.toJson($util.dynamodb.fromS3ObjectJson($context.source.file))
 ```
 The AWS AppSync SDK doesn't take a direct dependency on the AWS SDK for iOS for Amazon S3, but takes in :code:`AWSS3TransferUtility` and :code:`AWSS3PresignedURLClient` clients as part of AWSAppSyncClientConfiguration. The code generator used above for generating the API generates the Amazon S3 wrappers required to use the previous clients in the client code. To generate the wrappers, pass the :code:`--add-s3-wrapper` flag while running the code generator tool. You also need to take a dependency on the AWSS3 SDK. You can do that by updating your Podfile to the following:
-```
-  target 'PostsApp' do
+ 
+  ```ruby
+  target: 'PostsApp' do
     use_frameworks!
-    pod 'AWSAppSync' ~> '2.9.0'
-    pod 'AWSS3' ~> '2.8.0'
+    pod 'AWSAppSync', ~> '2.9.0'
+    pod 'AWSS3', ~> '2.8.0'
   end
-```
+  ```
+
 Then run `pod install` to fetch the new dependency.
 Download the updated schema.json from the and put it in the GraphQLOperations folder in the root of the app.
 Next, you have to add the new mutation, which is used to perform S3 uploads as part of mutation. Add the following mutation operation in your posts.graphql file:
