@@ -1098,7 +1098,7 @@ To setup App Client:
 For example, in *Callback URL(s)*, you can put one url for local development, one for the production. If your app is running in `http://localhost:3000/` in local and `https://www.example.com/` in production, you can put `http://localhost:3000/,https://www.example.com/` under *Callback URL(s)*. Same as the *Signout URL(s)*.
 {: .callout .callout--info}
 
-For React Native applications, you can put one url for local development, one for production. Your urls could look, for example, like this: `exp://127.0.0.1:19000/--/` (generated using [Expo's `Linking` class](https://docs.expo.io/versions/latest/sdk/linking/#linkingmakeurlpath-queryparams)) or this: `myapp://` (See [React Native Linking Docs](https://facebook.github.io/react-native/docs/linking) for more information.).
+For React Native applications, you can put one url for local development, one for production. Your URLs could look, for example, like this: `exp://127.0.0.1:19000/--/` (generated using [Expo's `Linking` class](https://docs.expo.io/versions/latest/sdk/linking/#linkingmakeurlpath-queryparams)) or this: `myapp://` (See [React Native Linking Docs](https://facebook.github.io/react-native/docs/linking) for more information.).
 {: .callout .callout--info}
 
 - Under the *OAuth 2.0* section, Choose OAuth Flow and OAuth scopes. [To learn more about flows and scopes.](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-idp-settings.html)
