@@ -1055,9 +1055,9 @@ There is also `withGoogle`, `withFacebook`, `withAmazon` components, in case you
 
 ### Using Amazon Cognito Hosted UI
 
-Amazon Cognito provides a customizable user experience via the hosted UI. The hosted UI supports OAuth 2.0 and Federated Identities with Facebook, Amazon, Google, and SAML providers. To learn more about Amazon Cognito Hosted UI, please visit [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-configuring-app-integration.html).
+Amazon Cognito provides a customizable user experience via the hosted UI. The hosted UI supports OAuth 2.0 and Federated Identities with Facebook, Amazon, Google, OIDC and SAML providers. To learn more about Amazon Cognito Hosted UI, please visit [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-configuring-app-integration.html).
 
-> ***The Hosted UI support is only available for React / Web***
+> ***The Hosted UI support is only available for React / React Native / Web***
 
 #### Setup your Cognito App Client
 
@@ -1098,6 +1098,9 @@ To setup App Client:
 For example, in *Callback URL(s)*, you can put one url for local development, one for the production. If your app is running in `http://localhost:3000/` in local and `https://www.example.com/` in production, you can put `http://localhost:3000/,https://www.example.com/` under *Callback URL(s)*. Same as the *Signout URL(s)*.
 {: .callout .callout--info}
 
+For React Native applications, you can put one url for local development, one for production. Your urls could look, for example, like this: `exp://127.0.0.1:19000/--/` (generated using [Expo's `Linking` class](https://docs.expo.io/versions/latest/sdk/linking/#linkingmakeurlpath-queryparams)) or this: `myapp://` (See [React Native Linking Docs](https://facebook.github.io/react-native/docs/linking) for more information.).
+{: .callout .callout--info}
+
 - Under the *OAuth 2.0* section, Choose OAuth Flow and OAuth scopes. [To learn more about flows and scopes.](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-idp-settings.html)
 - Select an OAuth Flow. 
 
@@ -1124,7 +1127,7 @@ Note: `openid` is required for `phone`, `email` or `profile`. Also `openid` is r
 
 To configure your application for hosted UI, you need to use *oauth* options:
 
-> ***The Hosted UI support is only available for React / Web***
+> ***The Hosted UI support is only available for React / React Native / Web***
 
 ```javascript
 import Amplify from 'aws-amplify';
@@ -1137,10 +1140,10 @@ const oauth = {
     scope : ['phone', 'email', 'profile', 'openid','aws.cognito.signin.user.admin'], 
 
     // Callback URL
-    redirectSignIn : 'http://www.example.com/signin/', 
+    redirectSignIn : 'http://www.example.com/signin/', // or Linking.makeUrl('/') (expo) or Linking.getInitialURL() (react native)
 
     // Sign out URL
-    redirectSignOut : 'http://www.example.com/signout/',
+    redirectSignOut : 'http://www.example.com/signout/', // or Linking.makeUrl('/') (expo) or Linking.getInitialURL() (react native)
 
     // 'code' for Authorization code grant, 
     // 'token' for Implicit grant
@@ -1170,7 +1173,7 @@ Note: An ID token is only returned if openid scope is requested. The access toke
 
 To invoke the browser to display the hosted UI, you need to construct the URL in your app;
 
-> ***The Hosted UI support is only available for React / Web***
+> ***The Hosted UI support is only available for React / React Native / Web***
 
 ```javascript
 const config = Auth.configure();
@@ -1201,7 +1204,7 @@ window.location.assign(url_to_facebook);
 
 With React, you can use `withOAuth` HOC to launch the hosted UI experience. Just wrap your app's main component with our HOC:
 
-> ***The Hosted UI support is only available for React / Web***
+> ***The Hosted UI support is only available for React/ React Native / Web***
 
 ```javascript
 import { withOAuth } from 'aws-amplify-react';
@@ -1222,7 +1225,7 @@ export default withOAuth(MyApp);
 
 #### Make it work in your App
 
-Here is a code sample of how to integrate it in the React App:
+Here is a code sample of how to integrate it in the React App: (Web)
 ```js
 // App.js
 import React, { Component } from 'react';
@@ -1365,6 +1368,49 @@ class CustomButton extends React.Component {
 
 export default CustomButton;
 ```
+
+#### Launching the Hosted UI in React Native 
+
+With React Native, you can use `withOAuth` HOC to launch the hosted UI experience. Just wrap your app's main component with our HOC:
+
+> ***The Hosted UI support is only available for React/ React Native / Web***
+
+```javascript
+import { withOAuth } from 'aws-amplify-react-native';
+
+class App extends React.Component {
+  render() {
+    const {
+      oAuthUser: user,
+      oAuthError: error,
+      hostedUISignIn,
+      facebookSignIn,
+      googleSignIn,
+      amazonSignIn,
+      customProviderSignIn,
+      signOut,
+    } = this.props;
+
+    return (
+      <SafeAreaView style={styles.safeArea}>
+        {user && <Button title="Sign Out" onPress={signOut} icon='logout' />}
+        <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+          <Text>{JSON.stringify({ user, error, }, null, 2)}</Text>
+          {!user && <React.Fragment>
+            <Button title="Cognito" onPress={hostedUISignIn} />
+            <Button title="Facebook" onPress={facebookSignIn} />
+            <Button title="Google" onPress={googleSignIn}  />
+            <Button title="Amazon" onPress={amazonSignIn} />
+            <Button title="Yahoo" onPress={() => customProviderSignIn('Yahoo')} /> {/* e.g. for OIDC providers */}
+          </React.Fragment>}
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
+}
+
+export default withOAuth(App);
+``` 
 
 #### Handling Authentication Events
 
