@@ -327,6 +327,7 @@ type Query {
       "Ref": "AppSyncApiId"
     },
     "Name": "EchoFunction",
+    "Type": "AWS_LAMBDA",
     "ServiceRoleArn": {
       "Fn::GetAtt": [
         "EchoLambdaDataSourceRole",

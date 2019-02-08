@@ -340,6 +340,8 @@ ElasticsearchStreamingFunctionName
 ElasticsearchInstanceCount
 ElasticsearchInstanceType
 ElasticsearchEBSVolumeGB
+DynamoDBBillingMode
+PAY_PER_REQUEST
 DynamoDBModelTableWriteIOPS
 DynamoDBModelTableReadIOPS
 

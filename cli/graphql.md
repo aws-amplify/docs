@@ -823,13 +823,12 @@ yourself using two one-to-many connections and joining `@model` type. See the us
 #### Definition
 
 ```
-directive @connection(name: String, sortField: String) on FIELD_DEFINITION
+directive @connection(name: String, keyField: String, sortField: String) on FIELD_DEFINITION
 ```
 
 #### Usage
 
-Relationships are specified by annotating fields on an `@model` object type with
-the `@connection` directive. You can use the `sortField` argument to specify which field, the connection should be sorted by.
+Relationships between data are specified by annotating fields on an `@model` object type with the `@connection` directive. You can use the `keyField` to specify what field should be used to partition the elements within the index and the `sortField` argument to specify how the records should be sorted.
 
 **Unnamed Connections**
 
@@ -1202,7 +1201,7 @@ of your amplify project.
 
 ```json
 {
-  "AppSyncApiName": "CustomAppSyncAPIName"
+  "AppSyncApiName": "AppSyncAPI"
 }
 ```
 
@@ -1234,11 +1233,21 @@ of your amplify project.
 
 > The value specified is the expiration date in seconds since Epoch
 
-### DynamoDBModelTableReadIOPS (deprecated)
+### DynamoDBBillingMode
+
+**Set the DynamoDB billing mode for the API. One of "PROVISIONED" or "PAY_PER_REQUEST".**
+
+```json
+{
+  "DynamoDBBillingMode": "PAY_PER_REQUEST"
+}
+```
+
+### DynamoDBModelTableReadIOPS
 
 **Override the default read IOPS provisioned for each @model table**
 
-**Deprecated: @model tables are now configured to use per request billing**
+**Only valid if the "DynamoDBBillingMode" is set to "PROVISIONED"**
 
 ```json
 {
@@ -1246,11 +1255,11 @@ of your amplify project.
 }
 ```
 
-### DynamoDBModelTableWriteIOPS (deprecated)
+### DynamoDBModelTableWriteIOPS
 
 **Override the default write IOPS provisioned for each @model table**
 
-**Deprecated: @model tables are now configured to use per request billing**
+**Only valid if the "DynamoDBBillingMode" is set to "PROVISIONED"**
 
 ```json
 {
@@ -1274,7 +1283,7 @@ of your amplify project.
 
 ```json
 {
-  "ElasticsearchInstanceCount": 3
+  "ElasticsearchInstanceCount": 1
 }
 ```
 
@@ -1294,7 +1303,7 @@ of your amplify project.
 
 ```json
 {
-  "ElasticsearchEBSVolumeGB": 20
+  "ElasticsearchEBSVolumeGB": 10
 }
 ```
 
