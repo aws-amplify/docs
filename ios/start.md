@@ -117,7 +117,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
       do {
         //AppSync configuration & client initialization
-        let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(),databaseURL: databaseURL)
+        let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(), databaseURL: databaseURL)
         appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
         } catch {
             print("Error initializing appsync client. \(error)")
