@@ -974,11 +974,11 @@ export default withAuth0(Button);
 You can provide custom components to the `Authenticator` as child components in React and React Native. 
 
 ```jsx
-import { Authenticator, SignUp, SignIn } from 'aws-amplify-react';
+import { Authenticator, SignIn } from 'aws-amplify-react';
 
 <Authenticator hideDefault={true}>
   <SignIn />
-  <MyCustomSignUp override={SignUp}/> {/* to tell the Authenticator the SignUp component is not hidden but overridden */}
+  <MyCustomSignUp override={'SignUp'}/> {/* to tell the Authenticator the SignUp component is not hidden but overridden */}
 </Authenticator>
 
 class MyCustomSignUp extends Component {
