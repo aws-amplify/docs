@@ -62,6 +62,7 @@ yarn add aws-amplify aws-amplify-react
 If integrating with a React Native app, use:
 ```
 yarn add aws-amplify aws-amplify-react-native
+react-native link amazon-cognito-identity-js
 ```
 
 Edit `./src/App.js` to include the Amplify library, configurations, and [React HOC](https://reactjs.org/docs/higher-order-components.html). Then, initialize the library as follows:
