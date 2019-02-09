@@ -81,46 +81,27 @@ What happens behind the scenes?
     |_ #current-cloud-backend/
         |_ amplify-meta.json
     |_ .config
-        |_ aws-info.json
+        |_ local-aws-info.json
+        |_ local-env-info.json
         |_ project-config.json
     |_ backend/
         |_amplify-meta.json
-    |_.amplifyrc
+    |_team-provider-info.json
 ```
 
-- The `amplify/backend` directory contains all the local changes to your backend configurations--such as the CloudFormation templates--when you add resources to your project using the `amplify add <category>` command. It also contains the `amplify-meta.json` file which contains all the metadata tied to your resources which you add via the Amplify CLI. This file has the following format after you first initialize your project:
+- The `amplify/backend` directory contains all the local changes to your backend configurations--such as the CloudFormation templates--when you add resources to your project using the `amplify add <category>` command. It contains the `backend-config.json` file which is a structure to represent your backend infrastructure and certain CLI runtime files like the `amplify-meta.json` file which contains all the metadata tied to your resources which you add via the Amplify CLI.
 
-```
-{
-"providers": {
-    "awscloudformation": {
-        "AuthRoleName": "test890-xxxxxxx-authRole",
-        "UnauthRoleArn": "arn:aws:iam::132393967379:role/test890-xxxxx-unauthRole",
-        "AuthRoleArn": "arn:aws:iam::132393967379:role/test890-xxxxxxxx-authRole",
-        "Region": "us-east-1",
-        "DeploymentBucketName": "test890-xxxxxxx-deployment",
-        "UnauthRoleName": "test890-xxxxxx-unauthRole",
-        "StackName": "test890-xxxxxxxxx",
-        "StackId": "arn:aws:cloudformation:us-east-1:132393967379:stack/test890-20181006145850/fe8b16d0-xxxxxxxxxxx"
-    }
-}
-}
-```
 
-- The `#current-cloud-backend` directory has exactly a similar structure to the `backend` directory. The only differences between it and the `backend` directory are that it has the configurations that reflect what resources were deployed in the cloud with your last `amplify push` command and it helps the CLI diff between the configuration of the resources already provisioned in the cloud and what is currently in your local `backend` directory (which reflects your local changes).
+- The `#current-cloud-backend` directory has a similar structure to the `backend` directory. The only differences between it and the `backend` directory are that it has the configurations that reflect what resources were deployed in the cloud with your last `amplify push` command and it helps the CLI diff between the configuration of the resources already provisioned in the cloud and what is currently in your local `backend` directory (which reflects your local changes).
 
-- The `.config` directory consists of the metadata files tied to your project. The `project-config.json` file has the following format:
+- The `.config` directory consists of the metadata files tied to your project. 
+The `project-config.json` file (this file could be safely checked into a version control system) has the following format which represents information specific to the app you're building, for example the framework you're using for your app:
 
 ```
 {
-    "projectName": "test890",
-    "projectPath": "/Users/kaustavg/test890",
-    "defaultEditor": "sublime",
-    "frontendHandler": {
-        "javascript": "/Users/xxxxx/aws-amplify-cli/amplify-cli/packages/amplify-cli/node_modules/amplify-frontend-javascript"
-    },
+    "projectName": "testapp",
     "javascript": {
-        "framework": "none",
+        "framework": "react",
         "config": {
             "SourceDir": "src",
             "DistributionDir": "dist",
@@ -128,37 +109,70 @@ What happens behind the scenes?
             "StartCommand": "npm run-script start"
         }
     },
-    "providers": {
-        "awscloudformation": "/Users/xxxxx/aws-amplify-cli/amplify-cli/packages/amplify-cli/node_modules/amplify-provider-awscloudformation"
+    "providers": [
+        "awscloudformation"
+    ],
+    "frontend": "javascript",
+    "version": "1.0"
+}
+```
+
+
+The `.config` directory also has a `local-aws-info.json` file (this file should not be checked into version control since it has information specific to a system on which the CLI is running on) which lets the CLI know which AWS profile/accesskey-secret key pair to use when adding AWS resources to your project. If you're using an AWS profile to initialize your project, the format should be the following: :
+
+```
+{
+    "dev": {
+        "configLevel": "project",
+        "useProfile": true,
+        "profileName": "devprofile"
+    },
+    "prod": {
+        "configLevel": "project",
+        "useProfile": true,
+        "profileName": "prodprofile"
     }
 }
 ```
 
-Note: The `project-config.json` file has your local system-specific paths and shouldn't be checked in to your source control if sharing the project with another team member working on another system.
-
-The `.config` directory also has a `aws-info.json` file which lets the CLI know which AWS profile/accesskey-secret key pair to use when adding AWS resources to your project. If you're using an AWS profile to initialize your project, the format should be the following:
+The `local-env-info.json` file (this file should not be checked into version control since it has information specific to a system on which the CLI is running on) present in the `.config` directory lets the CLI store user/system preferences which the user inputs when initializing the Amplify project in his/her system. These configurations could be later changed using the `amplify configure project` command. This file has the following format:
 
 ```
 {
-    "useProfile": true,
-    "profileName": "amplifyprofile"
+    "projectPath": "/Users/kaustavg/migtest",
+    "defaultEditor": "sublime",
+    "envName": "dev"
 }
 ```
 
-- The `.amplifyrc` file consists of deployment-related information which is not currently used but would be used in the future for CI/CD workflows. It should have the following format:
+
+
+- The `team-provider-info.json` file consists of deployment-related information for all the environments tied to a project which is specifically useful and should be checked into a version control system when sharing your environments and backend infrastructure within a team. This file isn't required to be shared if you're publicly sharing your app infrastructure. For more information, please refer to [Sharing project within a team](https://aws-amplify.github.io/docs/cli/multienv#sharing-a-project-within-a-team). This file has the following format:
 
 ```json
 {
-    "providers": {
+    "dev": {
         "awscloudformation": {
-            "AuthRoleName": "test890-xxxxxxx-authRole",
-            "UnauthRoleArn": "arn:aws:iam::132393967379:role/test890-xxxxx-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::132393967379:role/test890-xxxxxxxx-authRole",
+            "AuthRoleName": "multenvtest-20181115101929-authRole",
+            "UnauthRoleArn": "arn:aws:iam::132393967379:role/multenvtest-20181115101929-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::132393967379:role/multenvtest-20181115101929-authRole",
             "Region": "us-east-1",
-            "DeploymentBucketName": "test890-xxxxxxx-deployment",
-            "UnauthRoleName": "test890-xxxxxx-unauthRole",
-            "StackName": "test890-xxxxxxxxx",
-            "StackId": "arn:aws:cloudformation:us-east-1:132393967379:stack/test890-20181006145850/fe8b16d0-xxxxxxxxxxx"
+            "DeploymentBucketName": "multenvtest-20181115101929-deployment",
+            "UnauthRoleName": "multenvtest-20181115101929-unauthRole",
+            "StackName": "multenvtest-20181115101929",
+            "StackId": "arn:aws:cloudformation:us-east-1:132393967379:stack/multenvtest-20181115101929/fc7b1010-e902-11e8-a9bd-50fae97e0835"
+        }
+    },
+    "prod": {
+        "awscloudformation": {
+            "AuthRoleName": "multenvtest-20181115102119-authRole",
+            "UnauthRoleArn": "arn:aws:iam::345090917734:role/multenvtest-20181115102119-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::345090917734:role/multenvtest-20181115102119-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "multenvtest-20181115102119-deployment",
+            "UnauthRoleName": "multenvtest-20181115102119-unauthRole",
+            "StackName": "multenvtest-20181115102119",
+            "StackId": "arn:aws:cloudformation:us-east-1:345090917734:stack/multenvtest-20181115102119/3e907b70-e903-11e8-a18b-503acac41e61"
         }
     }
 }
@@ -174,7 +188,6 @@ The `amplify configure project` command is an advanced command and not commonly 
 The command should be used in the following cases:
   - When wanting to modify the project and AWS configurations set during the `amplify init` step
   - When sharing your backend infrastructure code with multiple frontends
-  - When sharing your backend infrastructure code with multiple team members working on different machines
   
   Note:  When sharing your backend infrastructure between multiple frontend projects or between different machines, you will need to first manually copy the `amplify/` directory from your current project to the other project's root directory and then run the `amplify configure project` command.
 
@@ -183,7 +196,7 @@ The command should be used in the following cases:
   - If you re-configure the frontend framework of your project it creates the corresponding configuration files required by your frontend code. For example, if you want to change your frontend from a javascript-based react app to an android app it generates a corresponding `awsconfiguration.json` file which could be fed into the AWS Mobile SDK APIs.
 
 What happens behind the scenes?
-  - The `.config/` directory is generated in the `amplify/` directory if not already present and the `aws-info.json` and `project-info.json` files are configured to reflect the selections made as a part of the `amplify configure project` command.
+  - The `.config/` directory is generated in the `amplify/` directory if not already present and the `local-aws-info.json`, `local-env-info.json` and `project-info.json` files are configured to reflect the selections made as a part of the `amplify configure project` command.
     
 ## Assuming an IAM Role
 
@@ -192,10 +205,10 @@ You can configure the AWS Amplify CLI to use an IAM role by defining a profile f
 When prompted during the execution of `amplify init` or the `amplify configure project` command, you will select a configured profile for the role, and the Amplify CLI will handle the logic to retrieve, cache and refresh the temp credentials. If Multi-Factor Authentication (MFA) is enabled, the CLI will prompt you to enter the MFA token code when it needs to retrieve or refresh temporary credentials. <br/>
 
 The Amplify CLI has its own mechanism of caching temp credentials, it does NOT use the same cache of the AWS CLI. The temporary credentials are cached at `~/.amplify/awscloudformation/cache.json`. You can remove all cached credentials by removing this file.<br/>
-If you only want to remove the cached temp credentials associated with a particular project, execute `amplify awscloudformation reset-cache` or its alias `amplify aws reset-catch` in the project. <br/>
+If you only want to remove the cached temp credentials associated with a particular project, execute `amplify awscloudformation reset-cache` or it's alias `amplify aws reset-catch` in the project. <br/>
 
 ### Step by step guide to create and assume an IAM role
-The following is a step by step guide on how to to create an IAM role and make it available for the Amplify CLI.
+The following is a step by step guide on how to create an IAM role and make it available for the Amplify CLI.
 
 The setup has three parts, we will use an example to demonstrate this capability.<br/>
 
@@ -210,7 +223,7 @@ Assume Biz Corp has decided to hire Dev Corp to develop its inventory management
 6. If you want to restrict the role to users who sign in with multi-factor authentication (MFA), select `Require MFA`(click [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa.html) for more details on MFA).
 7. Choose `Next: Permissions`.
 8. Select permissions policies that you want the developers from the Dev Corp to have when the role is assumed.
-Note:You MUST grant the role permissions to perform Cloudformation actions and create associated resources (depending on categories you use in your project) such as:
+Note: You MUST grant the role permissions to perform Cloudformation actions and create associated resources (depending on categories you use in your project) such as:
 - Cognito User and Identity Pools
 - S3 buckets
 - DynamoDB tables
@@ -218,7 +231,7 @@ Note:You MUST grant the role permissions to perform Cloudformation actions and c
 - API Gateway APIs
 - Pinpoint endpoints
 - Cloudfront distributions
-- IAM roles
+- IAM Roles
 - Lambda functions
 - Lex bots
 
@@ -229,7 +242,7 @@ Note:You MUST grant the role permissions to perform Cloudformation actions and c
 12. Give the Role Arn to Dev Corp.
 
 #### Part #2: Setup the user to assume the role (Dev Corp)
-##### 2.1 Create policy that has permission to assume the role created above by Biz corp. 
+##### 2.1 Create a policy that has permission to assume the role created above by Biz corp. 
 1. Get the Role Arn from Biz Corp.
 2. Sign in to the AWS Management Console and open the [IAM](https://console.aws.amazon.com/iam/) console. (Assuming Dev corp has a separate AWS account).
 3. In the navigation pane of the console, choose `Policies` and then choose `Create policy`.
@@ -246,7 +259,7 @@ Note:You MUST grant the role permissions to perform Cloudformation actions and c
     ]
 }
 ```
-3. Choose `Reivew policy`.
+3. Choose `Review policy`.
 4. Type in the policy Name, and optionally add the policy description. 
 5. Choose `Create policy`.
 ##### 2.2 Attach the policy to the user
@@ -260,16 +273,16 @@ Note:You MUST grant the role permissions to perform Cloudformation actions and c
 9. Choose `Next: Tagging`, attach tags if you wish (optional).
 10. Choose `Next: Review`.
 11. Choose `Create User`.
-12. Click `Download .csv` to download a copy of the credentials. You can optionally copy paste the Access key ID and Secret Access Key and store it in a safe location. These credentials would be used in a later section.
+12. Click `Download .csv` to download a copy of the credentials. You can optionally copy paste the Access Key ID and Secret Access Key and store it in a safe location. These credentials would be used in a later section.
 
 ##### 2.3 Assign MFA device (Optional)
-This must be setup if the Biz Corp selected to `Require MFA` when creating the role. This needs to be setup by the Dev Corp users and in their respective AWS account.<br/>
-We are using virtual MFA device, such as	the Google Authenticator app, in this example.
+This must be set up if the Biz Corp selected to `Require MFA` when creating the role. This needs to be set up by the Dev Corp users and in their respective AWS account.<br/>
+We are using a virtual MFA device, such as the Google Authenticator app, in this example.
 
 1. Sign in to the AWS Management Console and open the [IAM](https://console.aws.amazon.com/iam/) console. 
 2. In the navigation pane of the console, choose `Users` and select the user created above in 2.2.
-3. Select the `Security credentials` tab.
-4. Next to `Assigned MFA device` label, choose the `Manage` option.
+3. Select the `Security Credentials` tab.
+4. Next to the `Assigned MFA device` label, choose the `Manage` option.
 5. In the Manage MFA Device wizard, choose `Virtual MFA device`, and then choose `Continue`.
 7. Choose `Show QR code` if the MFA app supports QR code, and scan the QR code from your virtual device(Google Authenticator app in our case), if not, choose `Show secret key` and type it into the MFA app.
 8. In the MFA code 1 box, type the one-time password that currently appears in the virtual MFA device. Wait for the device to generate a new one-time password. Then type the second one-time password into the MFA code 2 box. Then choose Assign MFA.
@@ -301,7 +314,7 @@ region=us-east-1
 aws_access_key_id=<key_id_from_part_2.2>
 aws_secret_access_key=<secret_access_key_from_part_2.2>
 ```
-Now, when Dev Corp is trying to initialize an Amplify Project, the user can select the `bizcorprole` profile configured above, and based on the authentication method setup the user would be prompted with corresponding questions such as MFA codes. After this the user would be able to successfully deploy/manage AWS resources in Biz corps account (based on the access policies set by the Biz corp).
+Now, when Dev Corp is trying to initialize an Amplify Project, the user can select the `bizcorprole` profile configured above, and based on the authentication method set up the user would be prompted with corresponding questions such as MFA codes. After this, the user would be able to successfully deploy/manage AWS resources in Biz corps account (based on the access policies set by the Biz corp).
 
 
 You can take a look at [AWS IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user.html) and the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html) documentation for more details on IAM role and its usage.<br/>
