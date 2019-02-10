@@ -233,7 +233,7 @@ AWS_CONFIG="{\
 }"
 
 amplify env import \
---name dev5 \
+--name dev \
 --config $PROVIDER_CONFIG \
 --awsInfo $AWS_CONFIG \
 --yes
