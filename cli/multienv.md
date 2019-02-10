@@ -193,9 +193,17 @@ If you want to share a project publicly and open source your serverless infrastr
 * git push & amplify push should go hand in hand
 
 ## Environment related commands
-* amplify env add
+* amplify env add <br>
 Adds a new environment to your Amplify Project 
-* amplify env import
+* amplify env list [--details] [--json] <br>
+Displays a list of all the environments in your Amplify project 
+* amplify env remove <env-name> <br>
+Removes an environment from the Amplify project
+* amplify env get --name <env-name> <br>
+Displays the details of the environment specified in the command 
+* amplify env pull --restore <br>
+Pulls your environment with the current cloud environment. Use the restore flag to overwrite your local backend configs with that in the cloud.
+* amplify env import<br>
 Imports an already existing Amplify project environment stack to your local backend. Here's a sample usage of the same
 
 ```json
@@ -234,11 +242,3 @@ amplify env import \
 
 You can get the `AWSCLOUDFORMATIONCONFIG` from the `team-provider-info.json` file from your existing Amplify project.
 
-* amplify env list [--details] [--json]
-Displays a list of all the environments in your Amplify project 
-* amplify env remove <env-name> (to remove an existing environment locally and from the cloud)
- Removes an environment from the Amplify project
-* amplify env get --name <env-name>
- Displays the details of the environment specified in the command 
-* amplify env pull --restore
- Pulls your environment with the current cloud environment. Use the restore flag to overwrite your local backend configs with that in the cloud.
