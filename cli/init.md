@@ -207,10 +207,10 @@ What happens behind the scenes?
 ## Headless usage of the CLI
 
 Several commands in the Amplify CLI take command line parameters which could potentially be used in your CI/CD flows. <br/>
-The Amplify CLI command line parameters are not simple strings, but complex JSON objects containing information that the CLI would otherwise gather through prompts. The CLI will not prompt for input (work non-interactively), if the information it seeks is provided by a command line parameter. <br/>
-The command line parameters are used mostly for scripting, so that the command execution flow is not interrupted by prompts. Some examples for the same could be found [here](https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-cli/sample-headless-scripts)
+The Amplify CLI command line parameters are not simple strings, but complex JSON objects containing information that the CLI would otherwise gather through prompts. The CLI will not prompt for input (work non-interactively) if the information it seeks is provided by a command line parameter. <br/>
+The command line parameters are used mostly for scripting so that the command execution flow is not interrupted by prompts. Some examples for the same could be found [here](https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-cli/sample-headless-scripts)
 
-## The `--yes` flag
+### `--yes` flag
 The `--yes` flag, or its alias `-y`, suppresses command line prompts if defaults are available, and uses the defaults in command execution.<br/>
 The following commands take the `--yes` flag: 
 - `amplify init`
@@ -218,20 +218,20 @@ The following commands take the `--yes` flag:
 - `amplify push`
 - `amplify publish`
 
-## The `amplify init` parameters
+#### `amplify init` parameters
 The `ampify init` command takes these parameters: 
 - `--amplify`
 - `--frontend`
 - `--providers`
 - `--yes`
 
-### `--amplify`
+#### `--amplify`
 Contains basic information of the project, it has these keys: 
 - `projectName`: the name of the project under development
 - `envName`: the name of your first environment
 - `defaultEditor`: your default code editor 
 
-### `--frontend`
+#### `--frontend`
 Contains information for the CLI's frontend plugin, it has these keys:
 - `frontend`: the name of the chosen frontend plugin (without the `amplify-frontend-` prefix).
 - `framework`: the frontend framework used in the project, such as `react`. Only the `javascript` frontend handler takes it.
@@ -254,7 +254,7 @@ The start command for the project, used for local testing. The CLI invokes the s
 #### `config` for `ios`
 The `ios` frontend handler does NOT take the `config` object.
 
-### `--providers`
+#### `--providers`
 Contains configuration settings for provider plugins. <br/>
 The key is the name of the provider plugin (without the `amplify-provider-` prefix), and the value is its configuration.<br/>
 Provider plugins contained in this object will be initialized, and able to provide functionalities for creation and maintenance of the cloud resources. <br/>
@@ -317,8 +317,8 @@ amplify init \
 --yes
 ```
 
-## The `amplify configure project` parameters
-The `ampify configure project` command allows the user to change the configuration settings that were first set by `amplify init`, and it takes the same parameters as the `amplify inti` command: 
+### The `amplify configure project` parameters
+The `amplify configure project` command allows the user to change the configuration settings that were first set by `amplify init`, and it takes the same parameters as the `amplify init` command: 
 - `--amplify`
 - `--frontend`
 - `--providers`
@@ -364,8 +364,8 @@ amplify configure project \
 --yes
 ```
 
-## The `amplify push/publish` parameters
-The `ampify push` command takes the following parameters, because `amplify publish` internally executes `amplify push` first, it also takes the same parameters for the `push` part. 
+### The `amplify push/publish` parameters
+The `amplify push` command takes the following parameters, because `amplify publish` internally executes `amplify push` first, it also takes the same parameters for the `push` part. 
 - `--codegen`
 - `--yes`
 
