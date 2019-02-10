@@ -1,4 +1,4 @@
-# Multiple environments and team workflows (beta)
+# Multiple environments and team workflows
 
 This section outlines how you can manage multiple environments of your Amplify project (backend + frontend) as well as using a project within a team or outside a team using the Amplify CLI & Git. 
 This functionality is still work in progress and you would have to install a beta version of the CLI to check out all the features mentioned in this section.
