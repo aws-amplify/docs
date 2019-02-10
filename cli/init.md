@@ -25,7 +25,7 @@ Verify that you are running at least Node.js version 8.11+ or greater and npm ve
 $ npm install -g @aws-amplify/cli
 ```
 
-**Note**: The use of this CLI version >= 1.0, might cause existing projects initialized using a previous Amplify CLI version (< 1.0) to no longer function when attempting to manage resources in the existing project, or have unexpected side effects. After updating the CLI to >= 1.0, the CLI would prompt you to automatically migrate your project, so that is it compatible with the new version of the CLI. [Read more]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli/migrate). CLI version >=1.0 supports multiple enviornments anf team workflows. [Read more]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli/multienv)
+**Note**: The use of this CLI version >= 1.0, might cause existing projects initialized using a previous Amplify CLI version (< 1.0) to no longer function when attempting to manage resources in the existing project, or have unexpected side effects. After updating the CLI to >= 1.0, the CLI would prompt you to automatically migrate your project, so that is it compatible with the new version of the CLI. [Read more]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli/migrate). CLI version >=1.0 supports multiple enviornments and team workflows. [Read more]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli/multienv)
 
 **We recommend backing up your Amplify project directory first before performing a migration.**
 
@@ -100,7 +100,7 @@ What happens behind the scenes?
 - The `#current-cloud-backend` directory has a similar structure to the `backend` directory. The only differences between it and the `backend` directory are that it has the configurations that reflect what resources were deployed in the cloud with your last `amplify push` command and it helps the CLI diff between the configuration of the resources already provisioned in the cloud and what is currently in your local `backend` directory (which reflects your local changes).
 
 - The `.config` directory consists of the metadata files tied to your project. 
-The `project-config.json` file (this file could be safely checked into a version control system) has the following format which represents information specific to the app you're building, for example the framework you're using for your app:
+The `project-config.json` file, which can be safely checked into a version control system, represents information specific to the app you're building. For e.g. a sample format shown below reflects the framework you're using for your app:
 
 ```
 {
@@ -123,7 +123,9 @@ The `project-config.json` file (this file could be safely checked into a version
 ```
 
 
-The `.config` directory also has a `local-aws-info.json` file (this file should not be checked into version control since it has information specific to a system on which the CLI is running on) which lets the CLI know which AWS profile/accesskey-secret key pair to use when adding AWS resources to your project. If you're using an AWS profile to initialize your project, the format should be the following: :
+The `.config` directory also has a `local-aws-info.json` file that lets the CLI know which AWS profile/accesskey-secret key pair to use when adding AWS resources to your project.<br>
+Note: This file should not be checked into version control since it has information specific to a system on which the CLI is running on. <br>
+If you're using an AWS profile to initialize your project, the format should be the following:
 
 ```
 {
@@ -140,7 +142,9 @@ The `.config` directory also has a `local-aws-info.json` file (this file should 
 }
 ```
 
-The `local-env-info.json` file (this file should not be checked into version control since it has information specific to a system on which the CLI is running on) present in the `.config` directory lets the CLI store user/system preferences which the user inputs when initializing the Amplify project in his/her system. These configurations could be later changed using the `amplify configure project` command. This file has the following format:
+The `local-env-info.json` file present in the `.config` directory lets the CLI store user/system preferences which the user inputs when initializing the Amplify project in his/her system. These configurations could be later changed using the `amplify configure project` command. <br>
+Note: This file should not be checked into version control since it has information specific to a system on which the CLI is running on. <br>
+This file has the following format:
 
 ```
 {
@@ -208,7 +212,7 @@ What happens behind the scenes?
 
 Several commands in the Amplify CLI take command line parameters which could potentially be used in your CI/CD flows. <br/>
 The Amplify CLI command line parameters are not simple strings, but complex JSON objects containing information that the CLI would otherwise gather through prompts. The CLI will not prompt for input (work non-interactively) if the information it seeks is provided by a command line parameter. <br/>
-The command line parameters are used mostly for scripting so that the command execution flow is not interrupted by prompts. Some examples for the same could be found [here](https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-cli/sample-headless-scripts)
+The command line parameters are used mostly for scripting so that the command execution flow is not interrupted by prompts. Examples for this could be found [here](https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-cli/sample-headless-scripts)
 
 ### `--yes` flag
 The `--yes` flag, or its alias `-y`, suppresses command line prompts if defaults are available, and uses the defaults in command execution.<br/>
@@ -263,8 +267,8 @@ Currently there is only one official provider plugin: `amplify-provider-awscloud
 - `configLevel`: <br/> 
 The configuration level is either `project` or `general`.<br/>
 Unless explicitly set to `general`, the `project` level is chosen. <br/>
-`general` level means the CLI will not manage configuration at the project level, it instead relies on the aws sdk to resolve aws credentials and region. For how it works, check the aws sdk's documents on [credentials](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/setting-credentials-node.html) and [region](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/setting-region.html).<br/>
-`project` level means the configuration is managed at the project level by the CLI, each project get its own independent configuration. The following attributes are used only when the configuration is at project level<br/>
+`general` level means the CLI will not manage configuration at the project level, it instead relies on the AWS SDK to resolve aws credentials and region. To learn how it works, check the AWS SDK's documents on [credentials](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/setting-credentials-node.html) and [region](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/setting-region.html).<br/>
+`project` level means the configuration is managed at the project level by the CLI, each project gets its own independent configuration. The following attributes are used only when the configuration is at project level<br/>
 - `useProfile`: <br/> 
 A boolean indicating weather to use a profile defined in the shared config file (`~/.aws/config`) and credentials file (`~/.aws/credentials`). <br/>
 - `profileName`: <br/> 
@@ -364,8 +368,8 @@ amplify configure project \
 --yes
 ```
 
-### The `amplify push/publish` parameters
-The `amplify push` command takes the following parameters, because `amplify publish` internally executes `amplify push` first, it also takes the same parameters for the `push` part. 
+### The `amplify push/publish` parameters 
+The `amplify publish` command internally executes `amplify push` so it takes the same parameters as push command. The `amplify push` command takes the following parameters
 - `--codegen`
 - `--yes`
 
@@ -376,11 +380,11 @@ A boolean indicating if to generate code for your GraphQL API.<br/>
 - `codeLanguage`: <br/>
 The targeted language of the generated code, such as `javascript`.<br/>
 - `fileNamePattern`:  <br/>
-The file name pattern of graphql queries, mutations and subscriptions.<br/>
+The file name pattern of GraphQL queries, mutations and subscriptions.<br/>
 - `generatedFileName`:  <br/>
 The file name for the generated code.<br/>
 - `generateDocs`:  <br/>
-A boolean indicating if to generate GraphQL statements (queries, mutations and subscription) based on GraphQL schema types. The generated version will overwrite the current graphql queries, mutations and subscriptions.<br/>
+A boolean indicating whether to generate GraphQL statements (queries, mutations and subscription) based on the GraphQL schema types. The generated version will overwrite the current GraphQL queries, mutations and subscriptions.<br/>
 
 ### Sample script
 ```bash
@@ -476,7 +480,7 @@ Note: You MUST grant the role permissions to perform Cloudformation actions and 
 9. Choose `Next: Tagging`, attach tags if you wish (optional).
 10. Choose `Next: Review`.
 11. Choose `Create User`.
-12. Click `Download .csv` to download a copy of the credentials. You can optionally copy paste the Access Key ID and Secret Access Key and store it in a safe location. These credentials would be used in a later section.
+12. Click `Download .csv` to download a copy of the credentials. You can, optionally, copy paste the Access Key ID and Secret Access Key and store it in a safe location. These credentials would be used in a later section.
 
 ##### 2.3 Assign MFA device (Optional)
 This must be set up if the Biz Corp selected to `Require MFA` when creating the role. This needs to be set up by the Dev Corp users and in their respective AWS account.<br/>
