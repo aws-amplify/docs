@@ -136,7 +136,7 @@ What happens behind the scenes?
 
 Note: The `project-config.json` file has your local system-specific paths and shouldn't be checked in to your source control if sharing the project with another team member working on another system.
 
-The `.config` directory also has a `aws-info.json` file which lets the CLI know which AWS profile/accesskey-secret key pair to use when adding AWS resources to your project. If you're using an AWS profile to initialize your project, the format should be the following:
+The `.config` directory also has an `aws-info.json` file which lets the CLI know which AWS profile/accesskey-secret key pair to use when adding AWS resources to your project. If you're using an AWS profile to initialize your project, the format should be the following:
 
 ```
 {
@@ -199,18 +199,18 @@ The following is a step by step guide on how to to create an IAM role and make i
 
 The setup has three parts, we will use an example to demonstrate this capability.<br/>
 
-Assume Biz Corp has decided to hire Dev Corp to develop its inventory management web portal, and the Dev Corp is using the Amplify CLI to speed up the development process. <br/>
+Assume Biz Corp has decided to hire Dev Corp to develop its inventory management web portal, and Dev Corp is using the Amplify CLI to speed up the development process. <br/>
 
-#### Part #1: Setup the role (Biz Corp)
+#### Part #1: Set up the role (Biz Corp)
 1. Sign in to the AWS Management Console and open the [IAM](https://console.aws.amazon.com/iam/) console.
 2. In the navigation pane of the console, choose `Roles` and then choose `Create role`.
 3. Choose the `Another AWS account` role type.
-4. For Account ID, type the AWS account ID of the Dev Corp (account ID of the entity you want to grant access to your AWS resources).
-5. Although optional, it is recommended to select `Require external ID` and enter the external id given to you by the Dev Corp. (click [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html) for more details on external ID).
+4. For Account ID, type Dev Corp's AWS account ID (the account ID of the entity you want to grant access to your AWS resources).
+5. Although optional, it is recommended to select `Require external ID` and enter the external id given to you by Dev Corp. (click [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html) for more details on external IDs).
 6. If you want to restrict the role to users who sign in with multi-factor authentication (MFA), select `Require MFA`(click [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa.html) for more details on MFA).
 7. Choose `Next: Permissions`.
-8. Select permissions policies that you want the developers from the Dev Corp to have when the role is assumed.
-Note:You MUST grant the role permissions to perform Cloudformation actions and create associated resources (depending on categories you use in your project) such as:
+8. Select permissions policies that you want the developers from Dev Corp to have when the role is assumed.
+Note:You MUST grant the role permissions to perform CloudFormation actions and create associated resources (depending on the categories you use in your project) such as:
 - Cognito User and Identity Pools
 - S3 buckets
 - DynamoDB tables
@@ -228,7 +228,7 @@ Note:You MUST grant the role permissions to perform Cloudformation actions and c
 11. Choose `Create role`.
 12. Give the Role Arn to Dev Corp.
 
-#### Part #2: Setup the user to assume the role (Dev Corp)
+#### Part #2: Set up the user to assume the role (Dev Corp)
 ##### 2.1 Create policy that has permission to assume the role created above by Biz corp. 
 1. Get the Role Arn from Biz Corp.
 2. Sign in to the AWS Management Console and open the [IAM](https://console.aws.amazon.com/iam/) console. (Assuming Dev corp has a separate AWS account).
@@ -263,7 +263,7 @@ Note:You MUST grant the role permissions to perform Cloudformation actions and c
 12. Click `Download .csv` to download a copy of the credentials. You can optionally copy paste the Access key ID and Secret Access Key and store it in a safe location. These credentials would be used in a later section.
 
 ##### 2.3 Assign MFA device (Optional)
-This must be setup if the Biz Corp selected to `Require MFA` when creating the role. This needs to be setup by the Dev Corp users and in their respective AWS account.<br/>
+This must be set up if the Biz Corp selected to `Require MFA` when creating the role. This needs to be set up by Dev Corp users and in their respective AWS account.<br/>
 We are using virtual MFA device, such as	the Google Authenticator app, in this example.
 
 1. Sign in to the AWS Management Console and open the [IAM](https://console.aws.amazon.com/iam/) console. 
@@ -275,7 +275,7 @@ We are using virtual MFA device, such as	the Google Authenticator app, in this e
 8. In the MFA code 1 box, type the one-time password that currently appears in the virtual MFA device. Wait for the device to generate a new one-time password. Then type the second one-time password into the MFA code 2 box. Then choose Assign MFA.
 9. Copy the MFA device arn next to `Assigned MFA device`, which will be used in part 3.
 
-#### Part #3: Setup the local development environment (Dev Corp)
+#### Part #3: Set up the local development environment (Dev Corp)
 1. On the local development system, create the following two files if they do not exist.<br/>
   `~/.aws/config`<br/>
   `~/.aws/credentials`<br/>
