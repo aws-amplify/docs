@@ -222,7 +222,7 @@ The following commands take the `--yes` flag:
 - `amplify push`
 - `amplify publish`
 
-##### `amplify init` parameters
+#### `amplify init` parameters
 The `ampify init` command takes these parameters: 
 - `--amplify`
 - `--frontend`
@@ -280,7 +280,7 @@ The aws secret access key if `useProfile` is set to false. <br/>
 - `region`: <br/> 
 The aws region if `useProfile` is set to false. <br/>
 
-### Sample script
+##### Sample script
 ```bash
 #!/bin/bash
 set -e
@@ -321,14 +321,14 @@ amplify init \
 --yes
 ```
 
-### The `amplify configure project` parameters
+#### `amplify configure project` parameters
 The `amplify configure project` command allows the user to change the configuration settings that were first set by `amplify init`, and it takes the same parameters as the `amplify init` command: 
 - `--amplify`
 - `--frontend`
 - `--providers`
 - `--yes`
 
-### Sample script
+##### Sample script
 ```bash
 #!/bin/bash
 set -e
@@ -368,12 +368,12 @@ amplify configure project \
 --yes
 ```
 
-### The `amplify push/publish` parameters 
+#### `amplify push/publish` parameters 
 The `amplify publish` command internally executes `amplify push` so it takes the same parameters as push command. The `amplify push` command takes the following parameters
 - `--codegen`
 - `--yes`
 
-### `--codegen`
+##### `--codegen`
 Contains configuration for AppSync [codegen](https://aws-amplify.github.io/docs/cli/codegen?sdk=js), the following are the specifications:
 - `generateCode`: <br/>
 A boolean indicating if to generate code for your GraphQL API.<br/>
@@ -386,7 +386,7 @@ The file name for the generated code.<br/>
 - `generateDocs`:  <br/>
 A boolean indicating whether to generate GraphQL statements (queries, mutations and subscription) based on the GraphQL schema types. The generated version will overwrite the current GraphQL queries, mutations and subscriptions.<br/>
 
-### Sample script
+##### Sample script
 ```bash
 #!/bin/bash
 set -e
