@@ -32,7 +32,7 @@ Multiple developers on a team can also share and manipulate the environment as w
 
 You can alternatively, have developers setup their own isolated replica of these environments in different AWS account. To do this simply:
 1. Clone the existing project
-2. Run `amplify init` and setup a new environment (e.g. "mydev") with that developer's account and AWS profile
+2. Run `amplify init` and set up a new environment (e.g. "mydev") with that developer's account and AWS profile
 3. Deploy with `amplify push`
 
 This workflow can be used to share complete Amplify projects with people outside of your organization as well by committing the project into a Git repository. If you are doing this remove (or add to the .gitignore) the **team-provider-info.json** which is located in the `amplify` directory. You can learn more about this file [HERE](#teamprovider).
@@ -205,7 +205,7 @@ Note: Team members would only be able to push to a stack only if they have the c
 If you want to share a project publicly and open source your serverless infrastructure, you should remove or put the amplify/team-provider-info.json file in gitignore file.
 
 ## Quick Tips
-* git and amplify cli should work hand in hand (ideally a CI tool should be used to automate this process - amplify CLI now provides headless support for its init/push commands. Check out https://github.com/aws-amplify/amplify-cli/tree/multienv/packages/amplify-cli/sample-headless-scripts for examples)
+* git and amplify cli should work hand in hand (ideally a CI tool should be used to automate this process - amplify CLI now provides headless support for its init/push commands. Check out <https://github.com/aws-amplify/amplify-cli/tree/multienv/packages/amplify-cli/sample-headless-scripts> for examples)
 * git checkout <branch-name> & amplify init (to initialize the env based on the git branch) should go hand in hand 
 * git pull & amplify env pull should go hand in hand
 * git push & amplify push should go hand in hand
