@@ -469,6 +469,7 @@ Firehose
 KinesisRecorder
 KinesisFirehoseRecorder
 ImageView
+PutRecordBatch
 
 # android/api.md
 baseQueryCallback
