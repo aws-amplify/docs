@@ -415,15 +415,15 @@ Now, your app has complete flows for user sign-in and registration. Since you ha
 To display a sign-out button or customize other, set `includeGreetings = true` in the parameter object. It displays a *greetings section* on top of your app, and a sign-out button is displayed in the authenticated state. Other customization options are also available as properties to the HOC:
 
 ```jsx
-export default withAuthenticator(App, 
+export default withAuthenticator(App, {
                 // Render a sign out button once logged in
-                includeGreetings = true, 
+                includeGreetings: true, 
                 // Show only certain components
-                authenticatorComponents = [MyComponents],
+                authenticatorComponents: [MyComponents],
                 // display federation/social provider buttons 
-                federated = {myFederatedConfig}, 
+                federated: {myFederatedConfig}, 
                 // customize the UI/styling
-                theme = {myCustomTheme});
+                theme: {myCustomTheme}});
 ```
 
 ### Using the Authenticator Component Directly
