@@ -246,7 +246,7 @@ Note:You MUST grant the role permissions to perform Cloudformation actions and c
     ]
 }
 ```
-3. Choose `Reivew policy`.
+3. Choose `Review policy`.
 4. Type in the policy Name, and optionally add the policy description. 
 5. Choose `Create policy`.
 ##### 2.2 Attach the policy to the user
