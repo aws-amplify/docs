@@ -206,7 +206,7 @@ Pulls your environment with the current cloud environment. Use the restore flag 
 * amplify env import<br>
 Imports an already existing Amplify project environment stack to your local backend. Here's a sample usage of the same
 
-```json
+```
 #!/bin/bash
 set -e
 IFS='|'
