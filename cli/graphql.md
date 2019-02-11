@@ -2,13 +2,15 @@
 ---
 # GraphQL Transform
 
-After defining your API using the GraphQL Schema Definition Language (SDL), 
-you can then use this library to transform it into a fully descriptive 
-CloudFormation template that implements the API's data model.
+The GraphQL Transform provides a simple to use abstraction that helps you quickly
+create backends for your web and mobile applications on AWS. With the GraphQL Transform,
+you define your application's data model using the GraphQL Schema Definition Language (SDL)
+and the library handles converting your SDL definition into a set of fully descriptive
+AWS CloudFormation templates that implement your data model.
 
 For example you might create the backend for a blog like this:
 
-```graphql
+```
 type Blog @model {
   id: ID!
   name: String!
@@ -26,8 +28,6 @@ type Comment @model {
   post: Post @connection(name: "PostComments")
 }
 ```
-
-> This is just an example. The transform defines more directives such as @auth and @searchable below.
 
 When used along with tools like the Amplify CLI, the GraphQL Transform simplifies the process of 
 developing, deploying, and maintaining GraphQL APIs. With it, you define your API using the 
@@ -56,7 +56,7 @@ amplify add api
 
 You can leave the sample as is or try this schema.
 
-```graphql
+```
 type Blog @model {
   id: ID!
   name: String!
@@ -88,7 +88,7 @@ Go to AWS CloudFormation to view it. You can also find your project assets in th
 Once the API is finished deploying, try going to the AWS AppSync console and
 running some of these queries in your new API's query page.
 
-```graphql
+```
 # Create a blog. Remember the returned id.
 # Provide the returned id as the "blogId" variable.
 mutation CreateBlog {
@@ -218,7 +218,7 @@ model type.
 The following SDL defines the `@model` directive that allows you to easily define
 top level object types in your API that are backed by Amazon DynamoDB.
 
-```graphql
+```
 directive @model(
     queries: ModelQueryMap, 
     mutations: ModelMutationMap
@@ -233,7 +233,7 @@ Define a GraphQL object type and annotate it with the `@model` directive to stor
 objects of that type in DynamoDB and automatically configure CRUDL queries and
 mutations.
 
-```graphql
+```
 type Post @model {
     id: ID! # id: ID! is a required attribute.
     title: String!
@@ -243,7 +243,7 @@ type Post @model {
 
 You may also override the names of any generated queries and mutations, or remove operations entirely.
 
-```graphql
+```
 type Post @model(queries: { get: "post" }, mutations: null) {
     id: ID!
     title: String!
@@ -267,7 +267,7 @@ A single `@model` directive configures the following AWS resources:
 
 This input schema document
 
-```graphql
+```
 type Post @model {
     id: ID!
     title: String
@@ -281,7 +281,7 @@ enum Category { comedy news }
 
 would generate the following schema parts
 
-```graphql
+```
 type Post {
   id: ID!
   title: String!
@@ -415,7 +415,7 @@ Types that are annotated with `@auth` must also be annotated with `@model`.
 
 #### Definition
 
-```graphql
+```
 # When applied to a type, augments the application with
 # owner and group-based authorization rules.
 directive @auth(rules: [AuthRule!]!) on OBJECT
@@ -437,7 +437,7 @@ enum ModelMutation { create update delete }
 
 **Owner Authorization**
 
-```graphql
+```
 # The simplest case
 type Post @model @auth(rules: [{allow: owner}]) {
   id: ID!
@@ -475,7 +475,7 @@ that stores unfinished posts for a blog. You might want to allow the **Draft's o
 read **Draft** objects. However, you might also want the **Draft's editors** to be able to update and read **Draft** objects.
 To allow for this use case you could use the following type definition:
 
-```graphql
+```
 type Draft 
     @model 
     @auth(rules: [
@@ -501,7 +501,7 @@ feature that helps with this is that it will automatically fill ownership fields
 told explicitly not to do so. To show how this works, lets look at how the create mutation
 would work for the **Draft** type above:
 
-```graphql
+```
 mutation CreateDraft {
     createDraft(input: { title: "A new draft" }) {
         id
@@ -532,7 +532,7 @@ and will fill them in be default. If you do not want the value to be automatical
 you need to do is include a value for it in your input. For example, to have the resolver
 automatically set the **owner** but not the **editors**, you would run this:
 
-```graphql
+```
 mutation CreateDraft {
     createDraft(
         input: { 
@@ -565,7 +565,7 @@ This would return:
 
 You can try do the same to **owner** but this will throw an **Unauthorized** exception because you are no longer the owner of the object you are trying to create
 
-```graphql
+```
 mutation CreateDraft {
     createDraft(
         input: { 
@@ -584,7 +584,7 @@ mutation CreateDraft {
 
 To set the owner to null with the current schema, you would still need to be in the editors list:
 
-```graphql
+```
 mutation CreateDraft {
     createDraft(
         input: { 
@@ -623,7 +623,7 @@ Static group authorization allows you to protect `@model` types by restricting a
 to a known set of groups. For example, you can allow all **Admin** users to create,
 update, delete, get, and list Salary objects.
 
-```graphql
+```
 type Salary @model @auth(rules: [{allow: groups, groups: ["Admin"]}]) {
   id: ID!
   wage: Int
@@ -640,7 +640,7 @@ section above. When we last left off, a **Draft** object could be updated and re
 and any of its editors and could be created and deleted only by its owner. Let's change it so that 
 now any member of the "Admin" group can also create, update, delete, and read a **Draft** object.
 
-```graphql
+```
 type Draft 
     @model 
     @auth(rules: [
@@ -664,7 +664,7 @@ type Draft
 
 **Dynamic Group Authorization**
 
-```graphql
+```
 # Dynamic group authorization with multiple groups
 type Post @model @auth(rules: [{allow: groups, groupsField: "groups"}]) {
   id: ID!
@@ -694,7 +694,7 @@ access, and members of the admin group had full access to **Draft** objects. Now
 requirement where each record should be able to specify an optional list of groups that can read
 the draft. This would allow you to share an individual document with an external team, for example.
 
-```graphql
+```
 type Draft 
     @model 
     @auth(rules: [
@@ -722,7 +722,7 @@ type Draft
 
 With this setup, you could create an object that can be read by the "BizDev" group:
 
-```graphql
+```
 mutation CreateDraft {
     createDraft(input: {
         title: "A new draft",
@@ -737,7 +737,7 @@ mutation CreateDraft {
 
 And another draft that can be read by the "Marketing" group:
 
-```graphql
+```
 mutation CreateDraft {
     createDraft(input: {
         title: "Another draft",
@@ -758,7 +758,7 @@ of authorization.
 
 **Owner Authorization**
 
-```graphql
+```
 type Post @model @auth(rules: [{allow: owner}]) {
   id: ID!
   title: String!
@@ -779,7 +779,7 @@ Work in progress.
 
 **Static Group Authorization**
 
-```graphql
+```
 type Post @model @auth(rules: [{allow: groups, groups: ["Admin"]}]) {
   id: ID!
   title: String!
@@ -797,7 +797,7 @@ Static group auth is simpler than the others. The generated resolvers would be p
 
 **Dynamic Group Authorization**
 
-```graphql
+```
 type Post @model @auth(rules: [{allow: groups, groupsField: "groups"}]) {
   id: ID!
   title: String!
@@ -822,20 +822,19 @@ yourself using two one-to-many connections and joining `@model` type. See the us
 
 #### Definition
 
-```graphql
-directive @connection(name: String) on FIELD_DEFINITION
+```
+directive @connection(name: String, keyField: String, sortField: String) on FIELD_DEFINITION
 ```
 
 #### Usage
 
-Relationships are specified by annotating fields on an `@model` object type with
-the `@connection` directive. 
+Relationships between data are specified by annotating fields on an `@model` object type with the `@connection` directive. You can use the `keyField` to specify what field should be used to partition the elements within the index and the `sortField` argument to specify how the records should be sorted.
 
 **Unnamed Connections**
 
 In the simplest case, you can define a one-to-one connection:
 
-```graphql
+```
 type Project @model {
     id: ID!
     name: String
@@ -849,7 +848,7 @@ type Team @model {
 
 After it's transformed, you can create projects with a team as follows:
 
-```graphql
+```
 mutation CreateProject {
     createProject(input: { name: "New Project", projectTeamId: "a-team-id"}) {
         id
@@ -866,7 +865,7 @@ mutation CreateProject {
 
 Likewise, you can make a simple one-to-many connection as follows:
 
-```graphql
+```
 type Post {
     id: ID!
     title: String!
@@ -880,7 +879,7 @@ type Comment {
 
 After it's transformed, you can create comments with a post as follows:
 
-```graphql
+```
 mutation CreateCommentOnPost {
     createComment(input: { content: "A comment", postCommentsId: "a-post-id"}) {
         id
@@ -901,22 +900,23 @@ For example, if you wanted your `Post.comments`
 and `Comment.post` fields to refer to opposite sides of the same relationship,
 you need to provide a name.
 
-```graphql
+```
 type Post {
     id: ID!
     title: String!
-    comments: [Comment] @connection(name: "PostComments")
+    comments: [Comment] @connection(name: "PostComments", sortField: "createdAt")
 }
 type Comment {
     id: ID!
     content: String!
-    post: Post @connection(name: "PostComments")
+    post: Post @connection(name: "PostComments", sortField: "createdAt")
+    createdAt: String
 }
 ```
 
 After it's transformed, create comments with a post as follows:
 
-```graphql
+```
 mutation CreateCommentOnPost {
     createComment(input: { content: "A comment", commentPostId: "a-post-id"}) {
         id
@@ -933,11 +933,29 @@ mutation CreateCommentOnPost {
 }
 ```
 
+When you query the connection, the comments will return sorted by their `createdAt` field.
+
+```
+query GetPostAndComments {
+    getPost(id: "...") {
+        id
+        title
+        comments {
+          items {
+            content
+            createdAt
+          }
+        }
+    }
+}
+```
+
+
 **Many-To-Many Connections**
 
 You can implement many to many yourself using two 1-M @connections and a joining @model. For example:
 
-```graphql
+```
 type Post @model {
   id: ID!
   title: String!
@@ -977,7 +995,7 @@ The `@versioned` directive adds object versioning and conflict resolution to a t
 
 #### Definition
 
-```graphql
+```
 directive @versioned(versionField: String = "version", versionInput: String = "expectedVersion") on OBJECT
 ```
 
@@ -985,7 +1003,7 @@ directive @versioned(versionField: String = "version", versionInput: String = "e
 
 Add `@versioned` to a type that is also annotate with `@model` to enable object versioning and conflict detection for a type.
 
-```graphql
+```
 type Post @model @versioned {
   id: ID!
   title: String!
@@ -995,7 +1013,7 @@ type Post @model @versioned {
 
 **Creating a Post automatically sets the version to 1**
 
-```graphql
+```
 mutation Create {
   createPost(input:{
     title:"Conflict detection in the cloud!"
@@ -1011,7 +1029,7 @@ mutation Create {
 
 > Note: When updating an object, the version number will automatically increment.
 
-```graphql
+```
 mutation Update($postId: ID!) {
   updatePost(
     input:{
@@ -1029,7 +1047,7 @@ mutation Update($postId: ID!) {
 
 **Deleting a Post requires passing the "expectedVersion" which is the object's last saved version**
 
-```graphql
+```
 mutation Delete($postId: ID!) {
   deletePost(
     input: {
@@ -1061,7 +1079,7 @@ Amazon Elasticsearch Service and configures search resolvers that search that in
 
 #### Definition
 
-```graphql
+```
 # Streams data from DynamoDB to Elasticsearch and exposes search capabilities.
 directive @searchable(queries: SearchableQueryMap) on OBJECT
 input SearchableQueryMap { search: String }
@@ -1072,7 +1090,7 @@ input SearchableQueryMap { search: String }
 Store posts in Amazon DynamoDB and automatically stream them to Amazon ElasticSearch
 via AWS Lambda and connect a searchQueryField resolver.
 
-```graphql
+```
 type Post @model @searchable {
   id: ID!
   title: String!
@@ -1085,7 +1103,7 @@ type Post @model @searchable {
 You may then create objects in DynamoDB that will be automatically streamed to lambda
 using the normal `createPost` mutation.
 
-```graphql
+```
 mutation CreatePost {
   createPost(input: { title: "Stream me to Elasticsearch!" }) {
     id
@@ -1099,7 +1117,7 @@ mutation CreatePost {
 
 And then search for posts using a `match` query:
 
-```graphql
+```
 query SearchPosts {
   searchPost(filter: { title: { match: "Stream" }}) {
     items {
@@ -1126,7 +1144,7 @@ The `filter` parameter in the search query has a searchable type field that corr
 
 For example, you can filter using the wildcard expression to search for posts using the following `wildcard` query:
 
-```graphql
+```
 query SearchPosts {
   searchPost(filter: { title: { wildcard: "S*Elasticsearch!" }}) {
     items {
@@ -1141,7 +1159,7 @@ The above query returns all documents whose `title` begins with `S` and ends wit
 
 Moreover you can use the `filter` parameter to pass a nested `and`/`or`/`not` condition. By default, every operation in the filter properties is *AND* ed. You can use the `or` or `not` properties in the `filter` parameter of the search query to override this behavior. Each of these operators (`and`, `or`, `not` properties in the filter object) accepts an array of searchable types which are in turn joined by the corresponding operator. For example, consider the following search query:
 
-```graphql
+```
 query SearchPosts {
   searchPost(filter: {
     title: { wildcard: "S*" }
@@ -1169,6 +1187,652 @@ Here is a complete list of searchable operations per GraphQL type supported as o
 | Float | `ne`, `gt`, `lt`, `gte`, `lte`, `eq`, `range`      |
 | Boolean | `eq`, `ne`      |
 
+## API Category Project Structure
+
+At a high level, the transform libraries take a schema defined in the GraphQL Schema Definition Language (SDL) and converts it into a set of AWS CloudFormation templates and other assets that are deployed as part of `amplify push`. The full set of assets uploaded can be found at *amplify/backend/api/YOUR-API-NAME/build*.
+
+When creating APIs, you will make changes to the other files and directories in the *amplify/backend/api/YOUR-API-NAME/* directory but you should not manually change anything in the *build* directory. The build directory will be overwritten the next time you run `amplify push` or `amplify api gql-compile`. Here is an overview of the API directory:
+
+```terminal
+- resolvers/ 
+| # Store any resolver templates written in vtl here. E.G.
+|-- Query.ping.req.vtl
+|-- Query.ping.res.vtl
+|
+- stacks/
+| # Create custom resources with CloudFormation stacks that will be deployed as part of `amplify push`.
+|-- CustomResources.json
+|
+- parameters.json
+| # Tweak certain behaviors with custom CloudFormation parameters.
+|
+- schema.graphql
+| # Write your GraphQL schema in SDL
+- schema/
+| # Optionally break up your schema into many files. You must remove schema.graphql to use this.
+|-- Query.graphql
+|-- Post.graphql
+```
+
+### Common Patterns for the API Category
+
+The Amplify CLI exposes the GraphQL Transform libraries to help create APIs with common
+patterns and best practices baked in but it also provides number of escape hatches for
+those situations where you might need a bit more control. Here are a few common use cases
+you might find useful.
+
+#### Overwrite a resolver generated by the GraphQL Transform
+
+Let's say you have a simple *schema.graphql*...
+
+```
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
+```
+
+and you want to change the behavior of request mapping template for the *Query.getTodo* resolver that will be generated when the project compiles. To do this you would create a file named `Query.getTodo.req.vtl` in the *resolvers* directory of your API project. The next time you run `amplify push` or `amplify api gql-compile`, your resolver template will be used instead of the auto-generated template. You may similarly create a `Query.getTodo.res.vtl` file to change the behavior of the resolver's response mapping template.
+
+#### Add a custom resolver that targets a DynamoDB table from @model
+
+This is useful if you want to write a more specific query against a DynamoDB table that was created by *@model*. For example, assume you had this schema with two *@model* types and a pair of *@connection* directives.
+
+```
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+  comments: [Todo] @connection(name: "TodoComments")
+}
+type Comment @model {
+  id: ID!
+  content: String
+  todo: Todo @connection(name: "TodoComments")
+}
+```
+
+This schema will generate resolvers for *Query.getTodo*, *Query.listTodos*, *Query.getComment*, and *Query.listComments* at the top level as well as for *Todo.comments*, and *Comment.todo* to implement the *@connection*. Under the hood, the transform will create a global secondary index on the Comment table in DynamoDB but it will not generate a top level query field that queries the GSI because you can fetch the comments for a given todo object via the *Query.getTodo.comments* query path. If you want to fetch all comments for a todo object via a top level query field i.e. *Query.commentsForTodo* then do the following:
+
+1. Add the desired field to your *schema.graphql*.
+
+```
+// ... Todo and Comment types from above
+
+type CommentConnection {
+  items: [Comment]
+  nextToken: String
+}
+type Query {
+  commentsForTodo(todoId: ID!, limit: Int, nextToken: String): CommentConnection
+}
+```
+
+2. Add a resolver resource to a stack in the *stacks/* directory.
+
+```json
+{
+  // ... The rest of the template
+  "Resources": {
+    "QueryCommentsForTodoResolver": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Ref": "AppSyncApiId"
+        },
+        "DataSourceName": "CommentTable",
+        "TypeName": "Query",
+        "FieldName": "commentsForTodo",
+        "RequestMappingTemplateS3Location": {
+          "Fn::Sub": [
+            "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.commentsForTodo.req.vtl",
+            {
+              "S3DeploymentBucket": {
+                "Ref": "S3DeploymentBucket"
+              },
+              "S3DeploymentRootKey": {
+                "Ref": "S3DeploymentRootKey"
+              }
+            }
+          ]
+        },
+        "ResponseMappingTemplateS3Location": {
+          "Fn::Sub": [
+            "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.commentsForTodo.res.vtl",
+            {
+              "S3DeploymentBucket": {
+                "Ref": "S3DeploymentBucket"
+              },
+              "S3DeploymentRootKey": {
+                "Ref": "S3DeploymentRootKey"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+```
+
+3. Write the resolver templates.
+
+```vtl
+## Query.commentsForTodo.req.vtl **
+
+#set( $limit = $util.defaultIfNull($context.args.limit, 10) )
+{
+  "version": "2017-02-28",
+  "operation": "Query",
+  "query": {
+    "expression": "#connectionAttribute = :connectionAttribute",
+    "expressionNames": {
+        "#connectionAttribute": "commentTodoId"
+    },
+    "expressionValues": {
+        ":connectionAttribute": {
+            "S": "$context.args.todoId"
+        }
+    }
+  },
+  "scanIndexForward": true,
+  "limit": $limit,
+  "nextToken": #if( $context.args.nextToken ) "$context.args.nextToken" #else null #end,
+  "index": "gsi-TodoComments"
+}
+```
+
+```vtl
+## Query.commentsForTodo.res.vtl **
+
+$util.toJson($ctx.result)
+```
+
+#### Add a custom resolver that targets an AWS Lambda function
+
+Velocity is useful as a fast, secure environment to run arbitrary code but when it comes to writing complex business logic you can just as easily call out to an AWS lambda function. Here is how:
+
+1. First create a function by running `amplify add function`. The rest of the example assumes you created a function named "echofunction" via the `amplify add function` command. If you already have a function then you may skip this step.
+
+2. Add a field to your schema.graphql that will invoke the AWS Lambda function.
+
+```
+type Query {
+  echo(msg: String): String
+}
+```
+
+3. Add the function as an AppSync data source in the stack's *Resources* block.
+
+```json
+"EchoLambdaDataSource": {
+  "Type": "AWS::AppSync::DataSource",
+  "Properties": {
+    "ApiId": {
+      "Ref": "AppSyncApiId"
+    },
+    "Name": "EchoFunction",
+    "Type": "AWS_LAMBDA",
+    "ServiceRoleArn": {
+      "Fn::GetAtt": [
+        "EchoLambdaDataSourceRole",
+        "Arn"
+      ]
+    },
+    "LambdaConfig": {
+      "LambdaFunctionArn": {
+        "Fn::Sub": [
+          "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:echofunction-${env}",
+          { "env": { "Ref": "env" } }
+        ]
+      }
+    }
+  }
+}
+```
+
+4. Create an AWS IAM role that allows AppSync to invoke the lambda function on your behalf to the stack's *Resources* block.
+
+```json
+"EchoLambdaDataSourceRole": {
+  "Type": "AWS::IAM::Role",
+  "Properties": {
+    "RoleName": "EchoLambdaDataSourceRole",
+    "AssumeRolePolicyDocument": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Principal": {
+            "Service": "appsync.amazonaws.com"
+          },
+          "Action": "sts:AssumeRole"
+        }
+      ]
+    },
+    "Policies": [
+      {
+        "PolicyName": "InvokeLambdaFunction",
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "lambda:invokeFunction"
+              ],
+              "Resource": [
+                {
+                  "Fn::Sub": [
+                    "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:echofunction-${env}",
+                    { "env": { "Ref": "env" } }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+5. Create an AppSync resolver in the stack's *Resources* block.
+
+```json
+"QueryEchoResolver": {
+  "Type": "AWS::AppSync::Resolver",
+  "Properties": {
+    "ApiId": {
+      "Ref": "AppSyncApiId"
+    },
+    "DataSourceName": {
+      "Fn::GetAtt": [
+        "EchoLambdaDataSource",
+        "Name"
+      ]
+    },
+    "TypeName": "Query",
+    "FieldName": "echo",
+    "RequestMappingTemplateS3Location": {
+      "Fn::Sub": [
+        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.echo.req.vtl",
+        {
+          "S3DeploymentBucket": {
+            "Ref": "S3DeploymentBucket"
+          },
+          "S3DeploymentRootKey": {
+            "Ref": "S3DeploymentRootKey"
+          }
+        }
+      ]
+    },
+    "ResponseMappingTemplateS3Location": {
+      "Fn::Sub": [
+        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.echo.res.vtl",
+        {
+          "S3DeploymentBucket": {
+            "Ref": "S3DeploymentBucket"
+          },
+          "S3DeploymentRootKey": {
+            "Ref": "S3DeploymentRootKey"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+6. Create the resolver templates in the project's *resolvers* directory.
+
+**resolvers/Query.echo.req.vtl**
+
+```
+{
+    "version": "2017-02-28",
+    "operation": "Invoke",
+    "payload": {
+        "type": "Query",
+        "field": "echo",
+        "arguments": $utils.toJson($context.arguments),
+        "identity": $utils.toJson($context.identity),
+        "source": $utils.toJson($context.source)
+    }
+}
+```
+
+**resolvers/Query.echo.res.vtl**
+
+```
+$util.toJson($ctx.result)
+```
+
+After running `amplify push` open the AppSync console with `amplify api console` and test your API with this simple query:
+
+```
+query {
+  echo(msg:"Hello, world!")
+}
+```
+
+#### Add a custom geolocation search resolver that targets an Elasticsearch domain created by @searchable
+
+To add a geolocation search capabilities to an API add the *@searchable* directive to an *@model* type.
+
+```
+type Todo @model @searchable {
+  id: ID!
+  name: String!
+  description: String
+  comments: [Todo] @connection(name: "TodoComments")
+}
+```
+
+The next time you run `amplify push`, an Amazon Elasticsearch domain will be created and configured such that data automatically streams from DynamoDB into Elasticsearch. The *@searchable* directive on the Todo type will generate a *Query.searchTodos* query field and resolver but it is not uncommon to want more specific search capabilities. You can write a custom search resolver by following these steps:
+
+1. Add the relevant location and search fields to the schema.
+
+```
+type Location {
+  lat: Float
+  lon: Float
+}
+input LocationInput {
+  lat: Float
+  lon: Float
+}
+type Todo @model @searchable {
+  id: ID!
+  name: String!
+  description: String
+  comments: [Todo] @connection(name: "TodoComments")
+  location: Location
+}
+type Query {
+  nearbyTodos(location: LocationInput!, km: Int): TodoConnection
+}
+```
+
+2. Create the resolver record in the stack's *Resources* block.
+
+```json
+"QueryNearbyTodos": {
+    "Type": "AWS::AppSync::Resolver",
+    "Properties": {
+        "ApiId": {
+            "Ref": "AppSyncApiId"
+        },
+        "DataSourceName": "ElasticsearchDomain",
+        "TypeName": "Query",
+        "FieldName": "nearbyTodos",
+        "RequestMappingTemplateS3Location": {
+            "Fn::Sub": [
+                "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.nearbyTodos.req.vtl",
+                {
+                    "S3DeploymentBucket": {
+                        "Ref": "S3DeploymentBucket"
+                    },
+                    "S3DeploymentRootKey": {
+                        "Ref": "S3DeploymentRootKey"
+                    }
+                }
+            ]
+        },
+        "ResponseMappingTemplateS3Location": {
+            "Fn::Sub": [
+                "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.nearbyTodos.res.vtl",
+                {
+                    "S3DeploymentBucket": {
+                        "Ref": "S3DeploymentBucket"
+                    },
+                    "S3DeploymentRootKey": {
+                        "Ref": "S3DeploymentRootKey"
+                    }
+                }
+            ]
+        }
+    }
+}
+```
+
+3. Write the resolver templates.
+
+```
+## Query.nearbyTodos.req.vtl
+## Objects of type Todo will be stored in the /todo index
+
+#set( $indexPath = "/todo/doc/_search" )
+#set( $distance = $util.defaultIfNull($ctx.args.km, 200) )
+{
+    "version": "2017-02-28",
+    "operation": "GET",
+    "path": "$indexPath.toLowerCase()",
+    "params": {
+        "body": {
+            "query": {
+                "bool" : {
+                    "must" : {
+                        "match_all" : {}
+                    },
+                    "filter" : {
+                        "geo_distance" : {
+                            "distance" : "${distance}km",
+                            "location" : $util.toJson($ctx.args.location)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+```
+## Query.nearbyTodos.res.vtl
+
+#set( $items = [] )
+#foreach( $entry in $context.result.hits.hits )
+  #if( !$foreach.hasNext )
+    #set( $nextToken = "$entry.sort.get(0)" )
+  #end
+  $util.qr($items.add($entry.get("_source")))
+#end
+$util.toJson({
+  "items": $items,
+  "total": $ctx.result.hits.total,
+  "nextToken": $nextToken
+})
+```
+
+4. Run `ampify push`
+
+Amazon Elasticsearch domains can take a while to deploy. Take this time to read up on Elasticsearch to see what capabilities you are about to unlock.
+
+[Getting Started with Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started.html)
+
+4. After the update is complete but before creating any objects, update your Elasticsearch index mapping.
+
+An index mapping tells Elasticsearch how it should treat the data that you are trying to store. By default, if we create an object with field `"location": { "lat": 40, "lon": -40 }`, Elasticsearch will treat that data as an *object* type when in reality we want it to be treated as a *geo_point*. You use the mapping APIs to tell Elasticsearch how to do this.
+
+Make sure you tell Elasticsearch that your location field is a *geo_point* before creating objects in the index because otherwise you will need delete the index and try again. Go to the [Amazon Elasticsearch Console](https://console.aws.amazon.com/es/home) and find the Elasticsearch domain that contains this environment's GraphQL API ID. Click on it and open the kibana link. To get kibana to show up you need to install a browser extension such as [AWS Agent](https://addons.mozilla.org/en-US/firefox/addon/aws-agent/) and configure it with your AWS profile's public key and secret so the browser can sign your requests to kibana for security reasons. Once you have kibana open, click the "Dev Tools" tab on the left and run the commands below using the in browser console.
+
+```json
+# Create the /todo index if it does not exist
+PUT /todo
+
+# Tell Elasticsearch that the location field is a geo_point
+PUT /todo/_mapping/doc
+{
+    "properties": {
+        "location": {
+            "type": "geo_point"
+        }
+    }
+}
+```
+
+5. Use your API to create objects and immediately search them.
+
+After updating the Elasticsearch index mapping, open the AWS AppSync console with `amplify api console` and try out these queries.
+
+```
+mutation CreateTodo {
+  createTodo(input:{
+    name: "Todo 1",
+    description: "The first thing to do",
+    location: {
+      lat:43.476446,
+      lon:-110.767786
+    }
+  }) {
+    id
+    name
+    location {
+      lat
+      lon
+    }
+    description
+  }
+}
+
+query NearbyTodos {
+  nearbyTodos(location: {
+    lat: 43.476546,
+    lon: -110.768786
+  }, km: 200) {
+    items {
+      id
+      name
+      location {
+        lat
+        lon
+      }
+    }
+  }
+}
+```
+
+When you run *Mutation.createTodo*, the data will automatically be streamed via AWS Lambda into Elasticsearch such that it nearly immediately available via *Query.nearbyTodos*.
+
+## AWS CloudFormation Template Parameters
+
+Much of the behavior of the GraphQL Transform logic is configured by passing arguments to the directives in the GraphQL SDL definition. However, certain other things are configured by passing parameters to the CloudFormation template itself. This provides escape hatches without leaking too many implementation details into the SDL definition. You can pass values to these parameters by adding them to the `parameters.json` file in the API directory of your amplify project.
+
+### AppSyncApiName
+
+**Override the name of the generated AppSync API**
+
+```json
+{
+  "AppSyncApiName": "AppSyncAPI"
+}
+```
+
+### APIKeyExpirationEpoch
+
+**Resets the API Key to expire 1 week after the next `amplify push`**
+
+```json
+{
+  "APIKeyExpirationEpoch": "0"
+}
+```
+
+**Do not create an API key**
+
+```json
+{
+  "APIKeyExpirationEpoch": "-1"
+}
+```
+
+**Set a custom API key expiration date**
+
+```json
+{
+  "APIKeyExpirationEpoch": "1544745428"
+}
+```
+
+> The value specified is the expiration date in seconds since Epoch
+
+### DynamoDBBillingMode
+
+**Set the DynamoDB billing mode for the API. One of "PROVISIONED" or "PAY_PER_REQUEST".**
+
+```json
+{
+  "DynamoDBBillingMode": "PAY_PER_REQUEST"
+}
+```
+
+### DynamoDBModelTableReadIOPS
+
+**Override the default read IOPS provisioned for each @model table**
+
+**Only valid if the "DynamoDBBillingMode" is set to "PROVISIONED"**
+
+```json
+{
+  "DynamoDBModelTableReadIOPS": 5
+}
+```
+
+### DynamoDBModelTableWriteIOPS
+
+**Override the default write IOPS provisioned for each @model table**
+
+**Only valid if the "DynamoDBBillingMode" is set to "PROVISIONED"**
+
+```json
+{
+  "DynamoDBModelTableWriteIOPS": 5
+}
+```
+
+### ElasticsearchStreamingFunctionName
+
+**Override the name of the AWS Lambda searchable streaming function**
+
+```json
+{
+  "ElasticsearchStreamingFunctionName": "CustomFunctionName"
+}
+```
+
+### ElasticsearchInstanceCount
+
+**Override the number of instances launched into the Elasticsearch domain created by @searchable**
+
+```json
+{
+  "ElasticsearchInstanceCount": 1
+}
+```
+
+### ElasticsearchInstanceType
+
+**Override the type of instance launched into the Elasticsearch domain created by @searchable**
+
+```json
+{
+  "ElasticsearchInstanceType": "t2.small.elasticsearch"
+}
+```
+
+### ElasticsearchEBSVolumeGB
+
+**Override the amount of disk space allocated to each instance in the Elasticsearch domain created by @searchable**
+
+```json
+{
+  "ElasticsearchEBSVolumeGB": 10
+}
+```
+
 ## S3 Objects
 
 The GraphQL Transform, Amplify CLI, and Amplify Library make it simple to add complex object
@@ -1184,7 +1848,7 @@ At a minimum the steps to add S3 Object support are as follows:
 
 **Create a GraphQL API via `amplify add api` and add the following type definition:**
 
-```graphql
+```
 type S3Object {
   bucket: String!
   region: String!
@@ -1194,7 +1858,7 @@ type S3Object {
 
 **Reference the S3Object type from some `@model` type:**
 
-```graphql
+```
 type Picture @model @auth(rules: [{allow: owner}]) {
   id: ID!
   name: String
@@ -1209,7 +1873,7 @@ The GraphQL Transform handles creating the relevant input types and will store p
 
 **Run a mutation with s3 objects from your client app:**
 
-```graphql
+```
 mutation ($input: CreatePictureInput!) {
   createPicture(input: $input) {
     id
@@ -1225,6 +1889,10 @@ mutation ($input: CreatePictureInput!) {
   }
 }
 ```
+
+### Handling Common Errors
+
+
 
 ### Tutorial (S3 & React)
 
@@ -1264,7 +1932,7 @@ amplify add api
 
 **Once your `schema.graphql` is open in your editor of choice, enter the following:**
 
-```graphql
+```
 type Picture @model @auth(rules: [{allow: owner}]) {
   id: ID!
   name: String
@@ -1444,7 +2112,7 @@ export default graphql(
 
 ### Simple Todo
 
-```graphql
+```
 type Todo @model {
   id: ID!
   name: String!
@@ -1454,7 +2122,7 @@ type Todo @model {
 
 ### Blog
 
-```graphql
+```
 type Blog @model {
   id: ID!
   name: String!
@@ -1475,7 +2143,7 @@ type Comment @model {
 
 #### Blog Queries
 
-```graphql
+```
 # Create a blog. Remember the returned id.
 # Provide the returned id as the "blogId" variable.
 mutation CreateBlog {
@@ -1567,7 +2235,7 @@ query ListBlogs {
 
 **Note: To use the @auth directive, the API must be configured to use Amazon Cognito user pools.**
 
-```graphql
+```
 type Task 
   @model 
   @auth(rules: [
@@ -1591,7 +2259,7 @@ type PrivateNote
 
 #### Task Queries
 
-```graphql
+```
 # Create a task. Only allowed if a manager.
 mutation M {
   createTask(input:{
@@ -1643,7 +2311,7 @@ query ListPrivateNote {
 
 ### Conflict Detection
 
-```graphql
+```
 type Note @model @versioned {
   id: ID!
   content: String!
@@ -1653,7 +2321,7 @@ type Note @model @versioned {
 
 #### Conflict Detection Queries
 
-```graphql
+```
 mutation Create {
   createNote(input:{
     content:"A note"
@@ -1818,7 +2486,7 @@ const VERSIONED_DIRECTIVE = `
 
 Our `@versioned` directive can be applied to `OBJECT` type definitions and automatically adds object versioning and conflict detection to an APIs mutations. For example, we might write
 
-```graphql
+```
 # Any mutations that deal with the Post type will ask for an `expectedVersion`
 # input that will be checked using DynamoDB condition expressions.
 type Post @model @versioned {
