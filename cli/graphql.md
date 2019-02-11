@@ -1653,7 +1653,7 @@ Amazon Elasticsearch domains can take a while to deploy. Take this time to read 
 
 [Getting Started with Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started.html)
 
-4. After the update is compiles but before creating any objects, update your Elasticsearch index mapping.
+4. After the update is complete but before creating any objects, update your Elasticsearch index mapping.
 
 An index mapping tells Elasticsearch how it should treat the data that you are trying to store. By default, if we create an object with field `"location": { "lat": 40, "lon": -40 }`, Elasticsearch will treat that data as an *object* type when in reality we want it to be treated as a *geo_point*. You use the mapping APIs to tell Elasticsearch how to do this.
 
