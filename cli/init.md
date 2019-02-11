@@ -5,7 +5,7 @@
 
 The AWS Amplify CLI helps you set up an AWS IAM user, set up an AWS profile on your local system and then initialize Amplify powered apps with all your defined configurations. We'll also walk through steps as to how you could share the Amplify generated backend configuration between other frontend projects and re-use the same backend infrastructure in-between multiple platforms/users.
 
-In this tutorial, we'll walk through setting up an Amplify-enabled project and go into detail as to what happens behind the scenes when doing so. We'll go over the following commands
+In this tutorial, we'll walk through setting up an Amplify-enabled project and go into detail as to what happens behind the scenes when doing so. We'll go over the following commands:
 * [amplify configure](#amplify-configure)
 * [amplify init](#amplify-init)
 * [amplify configure project](#amplify-configure-project)
@@ -246,9 +246,10 @@ Note:You MUST grant the role permissions to perform Cloudformation actions and c
     ]
 }
 ```
-3. Choose `Reivew policy`.
+3. Choose `Review policy`.
 4. Type in the policy Name, and optionally add the policy description. 
 5. Choose `Create policy`.
+
 ##### 2.2 Attach the policy to the user
 1. Sign in to the AWS Management Console and open the [IAM](https://console.aws.amazon.com/iam/) console.
 2. In the navigation pane of the console, choose `Users` and then choose `Add user`.
