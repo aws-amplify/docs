@@ -1812,7 +1812,7 @@ exports.handler = function(event, context, callback) {
 }
 ```
 
-Alternatively, you can update your backend file which is locates at `amplifyjs/backend/cloud-api/[your-lambda-function]/app.js` with the middleware:
+Alternatively, you can update your backend file which is located at `amplifyjs/backend/cloud-api/[your-lambda-function]/app.js` with the middleware:
 
 ```javascript
 var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
