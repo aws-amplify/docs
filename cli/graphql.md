@@ -1244,7 +1244,7 @@ type Todo @model {
   id: ID!
   name: String!
   description: String
-  comments: [Todo] @connection(name: "TodoComments")
+  comments: [Comment] @connection(name: "TodoComments")
 }
 type Comment @model {
   id: ID!
