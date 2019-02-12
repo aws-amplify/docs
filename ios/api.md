@@ -118,20 +118,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 var appSyncClient: AWSAppSyncClient?
 
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    //You can choose your database location
-    let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("database_name")
-
     do {
-        //AppSync configuration & client initialization
-        let appSyncServiceConfig = try AWSAppSyncServiceConfig()
-        let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: appSyncServiceConfig, databaseURL: databaseURL)
+	// You can choose the directory in which AppSync stores its persistent cache databases
+	let cacheConfiguration = try AWSAppSyncCacheConfiguration()
+
+	// AppSync configuration & client initialization
+	let appSyncServiceConfig = try AWSAppSyncServiceConfig()
+        let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: appSyncServiceConfig,
+	                                                      cacheConfiguration: cacheConfiguration)
         appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
         // Set id as the cache key for objects. See architecture section for details
         appSyncClient?.apolloClient?.cacheKeyForObject = { $0["id"] }
     } catch {
         print("Error initializing appsync client. \(error)")
     }
-    //other methods
+    // other methods
     return true
 }
 ```
@@ -318,13 +319,10 @@ API Key is the easiest way to setup and prototype your application with AppSync.
 Add the following code to your app:
 
 ```swift
-// You can choose your database location, accessible by the SDK
-let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent(database_name)
-    
 do {
     // Initialize the AWS AppSync configuration
     let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(), 
-                                                          databaseURL: databaseURL)
+                                                          cacheConfiguration: AWSAppSyncCacheConfiguration())
     
     // Initialize the AWS AppSync client
     appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
@@ -361,10 +359,10 @@ Add the following code to your app:
 
 ```swift                                
     func initializeAppSync() {
-        // You can choose your database location, accessible by the SDK
-        let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("todos_db")
-        
         do {
+            // You can choose the directory in which AppSync stores its persistent cache databases
+	    let cacheConfiguration = try AWSAppSyncCacheConfiguration()
+
             // Initialize the AWS AppSync configuration
             let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
                                                                   userPoolsAuthProvider: {
@@ -380,7 +378,7 @@ Add the following code to your app:
                                                                         }
                                                                     }
                                                                     return MyCognitoUserPoolsAuthProvider()}(),
-                                                                  databaseURL: databaseURL)
+                                                                  cacheConfiguration: cacheConfiguration)
             
             // Initialize the AWS AppSync client
             appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
@@ -417,14 +415,11 @@ When using AWS IAM in a mobile application you should leverage Amazon Cognito Id
 Add the following code to your app:
 
 ```swift         
-// You can choose your database location, accessible by the SDK
-let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent(database_name)
-    
 do {
-  // Initialize the AWS AppSync configuration
-            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
-                                                                  credentialsProvider: AWSMobileClient.sharedInstance(),
-                                                                  databaseURL: databaseURL)
+    // Initialize the AWS AppSync configuration
+    let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
+							  credentialsProvider: AWSMobileClient.sharedInstance(),
+							  cacheConfiguration: AWSAppSyncCacheConfiguration())
     
     // Initialize the AWS AppSync client
     appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
@@ -460,13 +455,11 @@ class MyOidcProvider: AWSOIDCAuthProvider {
     }
 }
 
-let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent(database_name)
-    
 do {
-  // Initialize the AWS AppSync configuration
+    // Initialize the AWS AppSync configuration
     let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
                                                           oidcAuthProvider: MyOidcProvider(),
-                                                          databaseURL: databaseURL)
+                                                          cacheConfiguration: AWSAppSyncCacheConfiguration())
     
     appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
 } catch {
