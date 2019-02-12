@@ -208,7 +208,7 @@ Auth.signUp({
     .then(data => console.log(data))
     .catch(err => console.log(err));
 
-// After retrieveing the confirmation code from the user
+// After retrieving the confirmation code from the user
 Auth.confirmSignUp(username, code, {
     // Optional. Force user confirmation irrespective of existing alias. By default set to True.
     forceAliasCreation: true    
