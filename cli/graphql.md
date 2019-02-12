@@ -1271,7 +1271,7 @@ type Query {
 
 2. Add a resolver resource to a stack in the *stacks/* directory.
 
-```json
+```
 {
   // ... The rest of the template
   "Resources": {
@@ -1318,7 +1318,7 @@ type Query {
 
 3. Write the resolver templates.
 
-```vtl
+```
 ## Query.commentsForTodo.req.vtl **
 
 #set( $limit = $util.defaultIfNull($context.args.limit, 10) )
@@ -1343,7 +1343,7 @@ type Query {
 }
 ```
 
-```vtl
+```
 ## Query.commentsForTodo.res.vtl **
 
 $util.toJson($ctx.result)
@@ -1365,7 +1365,7 @@ type Query {
 
 3. Add the function as an AppSync data source in the stack's *Resources* block.
 
-```json
+```
 "EchoLambdaDataSource": {
   "Type": "AWS::AppSync::DataSource",
   "Properties": {
@@ -1394,7 +1394,7 @@ type Query {
 
 4. Create an AWS IAM role that allows AppSync to invoke the lambda function on your behalf to the stack's *Resources* block.
 
-```json
+```
 "EchoLambdaDataSourceRole": {
   "Type": "AWS::IAM::Role",
   "Properties": {
@@ -1441,7 +1441,7 @@ type Query {
 
 5. Create an AppSync resolver in the stack's *Resources* block.
 
-```json
+```
 "QueryEchoResolver": {
   "Type": "AWS::AppSync::Resolver",
   "Properties": {
@@ -1558,7 +1558,7 @@ type Query {
 
 2. Create the resolver record in the stack's *Resources* block.
 
-```json
+```
 "QueryNearbyTodos": {
     "Type": "AWS::AppSync::Resolver",
     "Properties": {
@@ -1659,7 +1659,7 @@ An index mapping tells Elasticsearch how it should treat the data that you are t
 
 Make sure you tell Elasticsearch that your location field is a *geo_point* before creating objects in the index because otherwise you will need delete the index and try again. Go to the [Amazon Elasticsearch Console](https://console.aws.amazon.com/es/home) and find the Elasticsearch domain that contains this environment's GraphQL API ID. Click on it and open the kibana link. To get kibana to show up you need to install a browser extension such as [AWS Agent](https://addons.mozilla.org/en-US/firefox/addon/aws-agent/) and configure it with your AWS profile's public key and secret so the browser can sign your requests to kibana for security reasons. Once you have kibana open, click the "Dev Tools" tab on the left and run the commands below using the in browser console.
 
-```json
+```
 # Create the /todo index if it does not exist
 PUT /todo
 
@@ -1725,7 +1725,7 @@ Much of the behavior of the GraphQL Transform logic is configured by passing arg
 
 **Override the name of the generated AppSync API**
 
-```json
+```
 {
   "AppSyncApiName": "AppSyncAPI"
 }
@@ -1735,7 +1735,7 @@ Much of the behavior of the GraphQL Transform logic is configured by passing arg
 
 **Resets the API Key to expire 1 week after the next `amplify push`**
 
-```json
+```
 {
   "APIKeyExpirationEpoch": "0"
 }
@@ -1743,7 +1743,7 @@ Much of the behavior of the GraphQL Transform logic is configured by passing arg
 
 **Do not create an API key**
 
-```json
+```
 {
   "APIKeyExpirationEpoch": "-1"
 }
@@ -1751,7 +1751,7 @@ Much of the behavior of the GraphQL Transform logic is configured by passing arg
 
 **Set a custom API key expiration date**
 
-```json
+```
 {
   "APIKeyExpirationEpoch": "1544745428"
 }
@@ -1763,7 +1763,7 @@ Much of the behavior of the GraphQL Transform logic is configured by passing arg
 
 **Set the DynamoDB billing mode for the API. One of "PROVISIONED" or "PAY_PER_REQUEST".**
 
-```json
+```
 {
   "DynamoDBBillingMode": "PAY_PER_REQUEST"
 }
@@ -1775,7 +1775,7 @@ Much of the behavior of the GraphQL Transform logic is configured by passing arg
 
 **Only valid if the "DynamoDBBillingMode" is set to "PROVISIONED"**
 
-```json
+```
 {
   "DynamoDBModelTableReadIOPS": 5
 }
@@ -1787,7 +1787,7 @@ Much of the behavior of the GraphQL Transform logic is configured by passing arg
 
 **Only valid if the "DynamoDBBillingMode" is set to "PROVISIONED"**
 
-```json
+```
 {
   "DynamoDBModelTableWriteIOPS": 5
 }
@@ -1797,7 +1797,7 @@ Much of the behavior of the GraphQL Transform logic is configured by passing arg
 
 **Override the name of the AWS Lambda searchable streaming function**
 
-```json
+```
 {
   "ElasticsearchStreamingFunctionName": "CustomFunctionName"
 }
@@ -1807,7 +1807,7 @@ Much of the behavior of the GraphQL Transform logic is configured by passing arg
 
 **Override the number of instances launched into the Elasticsearch domain created by @searchable**
 
-```json
+```
 {
   "ElasticsearchInstanceCount": 1
 }
@@ -1817,7 +1817,7 @@ Much of the behavior of the GraphQL Transform logic is configured by passing arg
 
 **Override the type of instance launched into the Elasticsearch domain created by @searchable**
 
-```json
+```
 {
   "ElasticsearchInstanceType": "t2.small.elasticsearch"
 }
@@ -1827,7 +1827,7 @@ Much of the behavior of the GraphQL Transform logic is configured by passing arg
 
 **Override the amount of disk space allocated to each instance in the Elasticsearch domain created by @searchable**
 
-```json
+```
 {
   "ElasticsearchEBSVolumeGB": 10
 }

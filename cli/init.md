@@ -214,7 +214,7 @@ Several commands in the Amplify CLI take command line parameters which could pot
 The Amplify CLI command line parameters are not simple strings, but complex JSON objects containing information that the CLI would otherwise gather through prompts. The CLI will not prompt for input (work non-interactively) if the information it seeks is provided by a command line parameter. <br/>
 The command line parameters are used mostly for scripting so that the command execution flow is not interrupted by prompts. Examples for this could be found [here](https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-cli/sample-headless-scripts)
 
-### `--yes` flag
+##### `--yes` flag
 The `--yes` flag, or its alias `-y`, suppresses command line prompts if defaults are available, and uses the defaults in command execution.<br/>
 The following commands take the `--yes` flag: 
 - `amplify init`
@@ -229,20 +229,20 @@ The `ampify init` command takes these parameters:
 - `--providers`
 - `--yes`
 
-#### `--amplify`
+##### `--amplify`
 Contains basic information of the project, it has these keys: 
 - `projectName`: the name of the project under development
 - `envName`: the name of your first environment
 - `defaultEditor`: your default code editor 
 
-#### `--frontend`
+##### `--frontend`
 Contains information for the CLI's frontend plugin, it has these keys:
 - `frontend`: the name of the chosen frontend plugin (without the `amplify-frontend-` prefix).
 - `framework`: the frontend framework used in the project, such as `react`. Only the `javascript` frontend handler takes it.
 - `config`: the configuration settings for the frontend plugin. 
 
 There are currently three official frontend plugins, and the following are the specifications of their respective `config` object: 
-#### `config` for `javascript`
+##### `config` for `javascript`
 - `SourceDir`: <br/>
 The project's source directory. The CLI will place and update the `aws-exports.js` file in it, the `aws-exports.js` file is used to configure the `Amplify JS` library. 
 - `DistributionDir`: <br/>
@@ -252,13 +252,13 @@ The build command for the project. The CLI invokes the build command before uplo
 - `StartCommand`: <br/>
 The start command for the project, used for local testing. The CLI invokes the start command after it has pushed the latest development of the backend to the cloud in the execution of the `amplify run` command.
 
-#### `config` for `android`
+##### `config` for `android`
 - `ResDir`: The Android project's resource directory, such as `app/src/main/res`.
 
-#### `config` for `ios`
+##### `config` for `ios`
 The `ios` frontend handler does NOT take the `config` object.
 
-#### `--providers`
+##### `--providers`
 Contains configuration settings for provider plugins. <br/>
 The key is the name of the provider plugin (without the `amplify-provider-` prefix), and the value is its configuration.<br/>
 Provider plugins contained in this object will be initialized, and able to provide functionalities for creation and maintenance of the cloud resources. <br/>
@@ -280,7 +280,7 @@ The aws secret access key if `useProfile` is set to false. <br/>
 - `region`: <br/> 
 The aws region if `useProfile` is set to false. <br/>
 
-### Sample script
+##### Sample script
 ```bash
 #!/bin/bash
 set -e
@@ -321,14 +321,14 @@ amplify init \
 --yes
 ```
 
-### The `amplify configure project` parameters
+#### `amplify configure project` parameters
 The `amplify configure project` command allows the user to change the configuration settings that were first set by `amplify init`, and it takes the same parameters as the `amplify init` command: 
 - `--amplify`
 - `--frontend`
 - `--providers`
 - `--yes`
 
-### Sample script
+##### Sample script
 ```bash
 #!/bin/bash
 set -e
@@ -368,12 +368,12 @@ amplify configure project \
 --yes
 ```
 
-### The `amplify push/publish` parameters 
+#### `amplify push/publish` parameters 
 The `amplify publish` command internally executes `amplify push` so it takes the same parameters as push command. The `amplify push` command takes the following parameters
 - `--codegen`
 - `--yes`
 
-### `--codegen`
+##### `--codegen`
 Contains configuration for AppSync [codegen](https://aws-amplify.github.io/docs/cli/codegen?sdk=js), the following are the specifications:
 - `generateCode`: <br/>
 A boolean indicating if to generate code for your GraphQL API.<br/>
@@ -386,7 +386,7 @@ The file name for the generated code.<br/>
 - `generateDocs`:  <br/>
 A boolean indicating whether to generate GraphQL statements (queries, mutations and subscription) based on the GraphQL schema types. The generated version will overwrite the current GraphQL queries, mutations and subscriptions.<br/>
 
-### Sample script
+##### Sample script
 ```bash
 #!/bin/bash
 set -e
