@@ -11,7 +11,7 @@ When a project is configured to generate code with codegen, it stores all the co
 
 ## Statement depth<a name="codegen-statement-depth"></a>
 
-In the below schema there are connections between `Comment` -> `Post` -> `Blog` -> `Post` -> `Comments`. When generating statements codegen limits the depth it traverses to 2. But if you need to go deeper than 2 levels you can change the max-depth parameter either when setting up your codegen or by passing  `--max-depth` parameter to `codegen`
+In the below schema there are connections between `Comment` -> `Post` -> `Blog` -> `Post` -> `Comments`. When generating statements codegen has a default limit of 2 for depth traversal. But if you need to go deeper than 2 levels you can change the max-depth parameter either when setting up your codegen or by passing  `--max-depth` parameter to `codegen`
 
 ```graphql
 type Blog @model {
