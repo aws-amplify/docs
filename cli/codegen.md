@@ -177,7 +177,7 @@ end
 Run `pod install` from your terminal and open up the `*.xcworkspace` XCode project. Add the `API.swift` and `awsconfiguration.json` files to your project (_File->Add Files to ..->Add_) and then build your project ensuring there are no issues.
 
 #### Initialize the AppSync client
-Inside your application delegate is the best place to initialize the AppSync client. The `AWSConfiguration` represents the configuration information present in awsconfiguration.json file. By default, the information under the Default section will be used. You will need to create an `AWSAppSyncClientConfiguration` and `AWSAppSyncClient` like below:
+Inside your application delegate is the best place to initialize the AppSync client. The `AWSAppSyncServiceConfig` represents the configuration information present in awsconfiguration.json file. By default, the information under the `Default` section will be used. You will need to create an `AWSAppSyncClientConfiguration` and `AWSAppSyncClient` like below:
 
 ```swift
 import AWSAppSync
@@ -185,22 +185,23 @@ import AWSAppSync
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-   var appSyncClient: AWSAppSyncClient?
+    var appSyncClient: AWSAppSyncClient?
 
-   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-      //You can choose your database location
-      let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("database_name")
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-      do {
-        //AppSync configuration & client initialization
-        let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(), databaseURL: databaseURL)
-        appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+        do {
+            // You can choose your database location if you wish, or use the default
+            let cacheConfiguration = try AWSAppSyncCacheConfiguration()
+
+            // AppSync configuration & client initialization
+            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(), cacheConfiguration: cacheConfiguration)
+            appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
         } catch {
             print("Error initializing appsync client. \(error)")
         }
-        //other methods
+        // other methods
         return true
-}
+  }
 ```
 
 Next, in your application code where you wish to use the AppSync client, such in a `Todos` class which is bound to your View Controller, you need to reference this in the `viewDidLoad()` lifecycle method:
@@ -264,12 +265,12 @@ appSyncClient?.perform(mutation: CreateTodoMutation(input: mutationInput)) { (re
 Finally it's time to setup a subscription to realtime data. The syntax `appSyncClient?.subscribe(subscription: <NAME>Subscription() {(result, transaction, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen types` created.
 
 ```swift
-//Set a variable to discard at the class level
-var discard: Cancellable?
+// Subscription notifications will only be delivered as long as this is retained
+var subscriptionWatcher: Cancellable?
 
 //In your app code
 do {
-  discard = try appSyncClient?.subscribe(subscription: OnCreateTodoSubscription(), resultHandler: { (result, transaction, error) in
+  subscriptionWatcher = try appSyncClient?.subscribe(subscription: OnCreateTodoSubscription(), resultHandler: { (result, transaction, error) in
     if let result = result {
       print(result.data!.onCreateTodo!.name + " " + result.data!.onCreateTodo!.description!)
     } else if let error = error {
@@ -297,11 +298,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var appSyncClient: AWSAppSyncClient?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("database_name")
         do {
-            //AppSync configuration & client initialization
-            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(), databaseURL: databaseURL)
+            // You can choose your database location if you wish, or use the default
+            let cacheConfiguration = try AWSAppSyncCacheConfiguration()
+
+            // AppSync configuration & client initialization
+            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(), cacheConfiguration: cacheConfiguration)
             appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
         } catch {
             print("Error initializing appsync client. \(error)")
@@ -320,30 +322,39 @@ import AWSAppSync
 class ViewController: UIViewController {
     
     var appSyncClient: AWSAppSyncClient?
-    var discard: Cancellable?
+
+    // Subscription notifications will only be delivered as long as this is retained
+    var subscriptionWatcher: Cancellable?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appSyncClient = appDelegate.appSyncClient
+
+        // Note: each of these are asynchronous calls. Attempting to query the results of `runMutation` immediately
+        // after calling it probably won't work--instead, invoke the query in the mutation's result handler
         runMutation()
         runQuery()
         subscribe()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
     func subscribe() {
         do {
-            discard = try appSyncClient?.subscribe(subscription: OnCreateTodoSubscription(), resultHandler: { (result, transaction, error) in
+            subscriptionWatcher = try appSyncClient?.subscribe(subscription: OnCreateTodoSubscription()) {
+                // The subscription watcher's result block retains a strong reference to the result handler block. 
+                // Make sure to capture `self` weakly if you use it
+                // [weak self]
+                (result, transaction, error) in
                 if let result = result {
                     print(result.data!.onCreateTodo!.name + " " + result.data!.onCreateTodo!.description!)
+                    // Update the UI, as in:
+                    //    self?.doSomethingInTheUIWithSubscriptionResults(result)
+                    // By default, `subscribe` will invoke its subscription callbacks on the main queue, so there
+                    // is no need to dispatch to the main queue.
                 } else if let error = error {
                     print(error.localizedDescription)
                 }
-            })
+            }
         } catch {
             print("Error starting subscription.")
         }
@@ -359,6 +370,7 @@ class ViewController: UIViewController {
                 print("Error saving the item on server: \(resultError)")
                 return
             }
+            // The server and the local cache are now updated with the results of the mutation
         }
     }
 
