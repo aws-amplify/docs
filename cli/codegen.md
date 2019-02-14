@@ -9,6 +9,64 @@ Codegen `add` workflow triggers automatically when an AppSync API is pushed to t
 
 When a project is configured to generate code with codegen, it stores all the configuration `.graphqlconfig.yml` file in the root folder of your project. When generating types, codegen uses GraphQL statements as input. It will generate only the types that are being used in the GraphQL statements.
 
+## Statement depth<a name="codegen-statement-depth"></a>
+
+In the below schema there are connections between `Comment` -> `Post` -> `Blog` -> `Post` -> `Comments`. When generating statements codegen has a default limit of 2 for depth traversal. But if you need to go deeper than 2 levels you can change the max-depth parameter either when setting up your codegen or by passing  `--max-depth` parameter to `codegen`
+
+```graphql
+type Blog @model {
+  id: ID!
+  name: String!
+  posts: [Post] @connection(name: "BlogPosts")
+}
+type Post @model {
+  id: ID!
+  title: String!
+  blog: Blog @connection(name: "BlogPosts")
+  comments: [Comment] @connection(name: "PostComments")
+}
+type Comment @model {
+  id: ID!
+  content: String
+  post: Post @connection(name: "PostComments")
+}
+``` 
+
+```graphql
+query GetComment($id: ID!) {
+  getComment(id: $id) { # depth level 1
+    id
+    content
+    post { # depth level 2
+      id
+      title
+      blog { # depth level 3
+        id
+        name
+        posts { # depth level 4
+          items { # depth level 5
+            id
+            title
+          }
+          nextToken
+        }
+      }
+      comments { # depth level 3
+        items { # depth level 4
+          id
+          content
+          post { # depth level 5
+            id
+            title
+          }
+        }
+        nextToken
+      }
+    }
+  }
+}
+```
+
 ## General Usage
 
 ### amplify add codegen <a name="codegen-add"></a>
@@ -27,7 +85,7 @@ The `amplify configure codegen` command allows you to update the codegen configu
 
 ### amplify codegen statements <a name="codegen-statements"></a>
 ```bash
-$ amplify codegen statements [--nodownload]
+$ amplify codegen statements [--nodownload] [--max-depth <int>]
 ```
 The `amplify codegen statements` command  generates GraphQL statements(queries, mutation and subscription) based on your GraphQL schema. This command downloads introspection schema every time it is run but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag
 
@@ -40,7 +98,7 @@ The `amplify codegen types [--nodownload]` command generates GraphQL `types` for
 
 ### amplify codegen <a name="codegen-types-and-statements"></a>
 ```bash
-$ amplify codegen
+$ amplify codegen [--max-depth <int>]
 ```
 The `amplify codegen [--nodownload]` generates GraphQL `statements` and `types`. This command downloads introspection schema every time it is run but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag
 
