@@ -9,7 +9,9 @@ Codegen `add` workflow triggers automatically when an AppSync API is pushed to t
 
 When a project is configured to generate code with codegen, it stores all the configuration `.graphqlconfig.yml` file in the root folder of your project. When generating types, codegen uses GraphQL statements as input. It will generate only the types that are being used in the GraphQL statements.
 
-When a schema has nested query, codegen generates statements that are 2 level deep. This is to prevent infinite depth when a schema has recursive types. In the below schema the are connections between `Comment` -> `Post` -> `Blog` -> `Post` -> `Comments`. So when generating statements codegen limits the depth it traverses to 2. But if you need to go deeper than 2 levels you can change the max-depth parameter either when setting up your codegen or by passing  `--max-depth` parameter to `codegen`
+## Statement depth<a name="codegen-statement-depth"></a>
+
+In the below schema there are connections between `Comment` -> `Post` -> `Blog` -> `Post` -> `Comments`. When generating statements codegen limits the depth it traverses to 2. But if you need to go deeper than 2 levels you can change the max-depth parameter either when setting up your codegen or by passing  `--max-depth` parameter to `codegen`
 
 ```graphql
 type Blog @model {
