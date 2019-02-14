@@ -47,6 +47,7 @@ Recognized by the `amplify-` prefix, without a plugin type decoration, in the pa
 - amplify-category-hosting
 - amplify-category-notifications
 - amplify-category-storage
+- amplify-category-interactions
 - amplify-codegen
 - amplify-frontend-javascript
 - amplify-frontend-android
@@ -64,7 +65,8 @@ Click [here](plugins) for more details on how to author new plugins.
 ## CLI Commands
 
 ### Official CLI commands
-- `amplify categories`
+- `amplify <category> <subcommand>`
+- `amplify env <subcommand>`
 - `amplify configure`
 - `amplify console`
 - `amplify delete`
@@ -77,11 +79,9 @@ Click [here](plugins) for more details on how to author new plugins.
 - `amplify status`
 
 ### Most plugins also have these commands
-- `amplify <plugin> configure`
 - `amplify <category> add`
 - `amplify <category> remove`
 - `amplify <category> push`
-- `amplify <category> pull` (to be implemented)
 
 ## Typical CLI workflow
 The following command should be executed inside the user project's root directory: 
@@ -98,8 +98,7 @@ The `init` command goes through these steps to setup things:
 - If there are multiple provider plugins, prompts the user to selected the provider plugins that will provide accesses to backend cloud resources. 
 - Carries out, in sequence, the initialization logic of the selected provider plugin(s). 
 - Insert amplify folder structure into the project's root directory, with the initial project configuration information written in it. 
-- Generate the project metadata file, amplify-meta.json, with the outputs of the above-selected frontend plugin and provider plugin(s). The amplify-meta.json file is inside the amplify folder structure.
-- Generate the .amplifyrc file, it is written to the root directory or the project, outside of the amplify folder structure. 
+- Generate the project metadata files, with the outputs of the above-selected frontend plugin and provider plugin(s)
 
 #### Configuration
 
@@ -119,9 +118,9 @@ amplify<br/>
 &nbsp;&nbsp;#current-cloud-backend<br/>
 &nbsp;&nbsp;backend<br/>
 #### amplify/.config folder
-It contains files that store the configuration settings.
+It contains files that store cloud configuration and user settings/preferences
 #### amplify/#current-cloud-backend folder
-It contains the backend resources specifications in the cloud from the last synchronization, by the push or pull (to be implemented) command.
+It contains the backend resources specifications in the cloud from the last synchronization, by the amplify push or amplify env pull command.
 Each plugin stores contents in its own subfolder inside this folder. 
 #### amplify/backend folder
 It contains the latest local development of the backend resources specifications to be pushed to the cloud. 
@@ -151,9 +150,6 @@ Because one category might create multiple services within one project (e.g. the
 The metadata for each service is first logged into the meta file after the `amplify <category> add` command is executed, containing some general information that indicates one service of the category has been added locally. <br/>
 Then, on the successful execution of the `amplify push` command, the `output` object will be added/updated in the service's metadata with information that describes the actual cloud resources that have been created or updated.
 
-### .amplifyrc file
-The CLI places the `.amplifyrc`  file at the root directory of the user project in the init process:
-It is the amplify-CLI run control, this file is checked into code repo, it facilitates collaborations between team members and outside contributors of the user project.
 
 ### aws-exports.js file
 This file is generated only for JavaScript projects.<br/>

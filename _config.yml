@@ -156,7 +156,7 @@ android_category_list:
           class: aws-icon-ps-60-network-nodes
           icon: '/images/icons/Misc/Tool.svg'
           url: '/cli/graphql?sdk=android'
-        - title: Environments & Teams (beta)
+        - title: Environments & Teams
           excerpt: Setup multiple enviornments for your app and work with teams on your app.
           url: '/cli/multienv?sdk=android'
           icon: '/images/icons/Misc/Present.svg'
@@ -281,7 +281,7 @@ ios_category_list:
           class: aws-icon-ps-60-network-nodes
           icon: '/images/icons/Misc/Tool.svg'
           url: '/cli/graphql?sdk=ios'
-        - title: Environments & Teams (beta)
+        - title: Environments & Teams
           excerpt: Setup multiple enviornments for your app and work with teams on your app.
           url: '/cli/multienv?sdk=ios'
           icon: '/images/icons/Misc/Present.svg'
@@ -437,7 +437,7 @@ category_list:
           class: aws-icon-ps-60-network-nodes
           icon: '/images/icons/Misc/Tool.svg'
           url: '/cli/graphql?sdk=js'
-        - title: Environments & Teams (beta)
+        - title: Environments & Teams
           excerpt: Setup multiple enviornments for your app and work with teams on your app.
           url: '/cli/multienv?sdk=js'
           icon: '/images/icons/Misc/Present.svg'
