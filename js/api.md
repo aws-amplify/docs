@@ -1844,7 +1844,7 @@ let file = await API.get('myCloudApi', '/items', {
 });
 ```
 
-Allowed values for `responseType` are "arraybuffer", "blob", "document", "json", "text", or "stream"; and it defaults to "json" if not specified. See the documentation for [Axios](https://github.com/axios/axios) for more information.
+Allowed values for `responseType` are "arraybuffer", "blob", "document", "json" or "text"; and it defaults to "json" if not specified. See the documentation https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/responseType for more information.
 
 #### **POST**
 
