@@ -1000,7 +1000,7 @@ const client = new AWSAppSyncClient({
   region: awsConfig.aws_appsync_region,
   auth: {
     type: AUTH_TYPE.AMAZON_COGNITO_USER_POOLS,
-    jwtToken: async () => (await Auth.currentSession()).idToken.jwtToken
+    jwtToken: async () => (await Auth.currentSession()).getIdToken().getJwtToken(),
   },
 });
 ```
