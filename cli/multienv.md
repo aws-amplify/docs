@@ -25,7 +25,7 @@ You can alternatively, have developers setup their own isolated replica of these
 2. Run `amplify env add` and set up a new environment (e.g. "mydev") with that developer's account and AWS profile
 3. Deploy with `amplify push`
 
-This workflow can be used to share complete Amplify projects with people outside of your organization as well by committing the project into a Git repository. If you are doing this remove (or add to the .gitignore) the **team-provider-info.json** which is located in the `amplify` directory. You can learn more about this file [HERE](#teamprovider).
+This workflow can be used to share complete Amplify projects with people outside of your organization as well by committing the project into a Git repository. If you are doing this remove (or add to the .gitignore) the **team-provider-info.json** which is located in the `amplify` directory. You can learn more about this file [here](#teamprovider).
 
 ## Continuous deployment and Hosting
 
@@ -48,7 +48,7 @@ $ git remote add origin git@github.com:<repo-name>
 $ git push -u origin master
 ```
 
-**Note**: When you initialize a project using the Amplify CLI, it appends(if a gitignore file exists at the root of the project) or creates one for you (if a gitignore file doesn't exist at the root of your project), with a list of recommended files to check in from the Amplify CLI generated list of files, into your Git repository.
+**Note**: When you initialize a project using the Amplify CLI, it appends (if a gitignore file exists at the root of the project) or creates one for you (if a gitignore file doesn't exist at the root of your project), with a list of recommended files to check in from the Amplify CLI generated list of files, into your Git repository.
 
 Once you have your 'master' branch setup in Git, set up a 'dev' environment in your Amplify project (which would be based on your 'master' environment), and then walk through the following steps to create a corresponding git branch for it.
 
