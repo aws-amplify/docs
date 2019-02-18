@@ -8,7 +8,7 @@ Amplify fits into the standard Git workflow where you switch between different b
 
 ![](images/AmplifyEnvSwitching.jpg)
 
-You can independently add features to each environment allowing you to develop and test before moving them to different stages. This is contingent on which branch you ran a checkout from using Git. Using the same example above of **Dev** being the base which **Test** and **Prod** were derived, you could add (or remove) features and merge & deploy accordingly once you are comfortable with your setup.
+You can independently add features to each environment which allows you to develop and test before moving them to different stages. This is contingent on which branch you ran a checkout from using Git. Using the same example above of **Dev** being the base which **Test** and **Prod** were derived, you could add (or remove) features and merge & deploy accordingly once you are comfortable with your setup.
 
 ![](images/AmplifyEnvAddDeploy.jpg)
 
