@@ -241,10 +241,10 @@ type Post @model {
 }
 ```
 
-You may also override the names of any generated queries and mutations, or remove operations entirely.
+You may also override the names of any generated queries, mutations and subscriptions, or remove operations entirely.
 
 ```
-type Post @model(queries: { get: "post" }, mutations: null) {
+type Post @model(queries: { get: "post" }, mutations: null, subscriptions: null) {
     id: ID!
     title: String!
     tags: [String!]!
@@ -261,7 +261,7 @@ A single `@model` directive configures the following AWS resources:
 - An Amazon DynamoDB table with 5 read/write units.
 - An AWS AppSync DataSource configured to access the table above.
 - An AWS IAM role attached to the DataSource that allows AWS AppSync to call the above table on your behalf.
-- Up to 8 resolvers (create, update, delete, get, list, onCreate, onUpdate, onDelete) but this is configurable via the `query`, `mutation`, and `subscription` arguments on the `@model` directive.
+- Up to 8 resolvers (create, update, delete, get, list, onCreate, onUpdate, onDelete) but this is configurable via the `queries`, `mutations`, and `subscriptions` arguments on the `@model` directive.
 - Input objects for create, update, and delete mutations.
 - Filter input objects that allow you to filter objects in list queries and connection fields.
 
