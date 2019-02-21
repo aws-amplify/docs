@@ -1813,7 +1813,7 @@ change the “Resources.S3Bucket.Properties.BucketName” to:
 }
 ```
 
-* Modify the `TableNmae` property of the "DynamoDBTable" resource
+* Modify the `TableName` property of the "DynamoDBTable" resource
 **Before**
 ```
  "TableName": {
