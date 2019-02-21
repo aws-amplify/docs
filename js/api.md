@@ -137,7 +137,7 @@ The following directives are available to be used when defining your schema:
 | @auth on Object | Define authorization strategies for your API. | 
 | @connection on Field | Specify relationships between @model object types. |
 | @searchable on Object | Stream data of an @model object type to Amazon Elasticsearch Service. |
-| @versioned one Object | Add object versioning and conflict detection to a @model. | 
+| @versioned on Object | Add object versioning and conflict detection to a @model. | 
 
 You may also write your own transformers to implement reproducible patterns that you find useful. To learn more about the GraphQL Transform libraries see [GraphQL Transform Documentation](https://aws-amplify.github.io/docs/cli/graphql?sdk=js).
 
