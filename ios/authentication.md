@@ -690,7 +690,7 @@ Run `pod install --repo-update`.
 Note : `AWSFacebookSignIn` is only needed for using Facebook in your app and  `AWSAuthUI` is only necessary if using the "Drop-In UI".
 {: .callout .callout--info}
 
-3. Add Facebook meta data to `Info.plist`.
+2. Add Facebook meta data to `Info.plist`.
 
 	To configure your Xcode project to use Facebook Login, right-choose `Info.plist` and then choose `Open As > Source Code`.
 
@@ -760,7 +760,7 @@ Now, your drop-in UI will show a Facebook sign in button which the users can use
 Note : `AWSGoogleSignIn` is only needed for using Google Login in your app and `AWSAuthUI` is only necessary if using the "Drop-In UI".
 {: .callout .callout--info}
 
-3. Add Google metadata to `Info.plist`.
+2. Add Google metadata to `Info.plist`.
 
 	To configure your Xcode project to use Google Login, open its `Info.plist` file using **Right-click > Open As > Source Code.** Add the following entry. Substitute your project name for the placeholder string.
 
