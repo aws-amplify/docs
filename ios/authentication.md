@@ -690,7 +690,7 @@ Run `pod install --repo-update`.
 Note : `AWSFacebookSignIn` is only needed for using Facebook in your app and  `AWSAuthUI` is only necessary if using the "Drop-In UI".
 {: .callout .callout--info}
 
-3. Add Facebook meta data to `Info.plist`.
+2. Add Facebook meta data to `Info.plist`.
 
 	To configure your Xcode project to use Facebook Login, right-choose `Info.plist` and then choose `Open As > Source Code`.
 
