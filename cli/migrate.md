@@ -1,5 +1,5 @@
 # Migration
-This section covers the steps to migrate your projects initialized using the Amplify CLI version (< 1.0.0) which doesn't support multiple environments and team workflows. Environment and team workflow support is now supported in as a part of the latest Amplify CLI version (>= 1.0.0) and can be installed using the following command:
+This section covers the steps to migrate your projects initialized using the older Amplify CLI versions (< 1.0.0) which doesn't support multiple environments and team workflows. Environment and team workflow support is supported in Amplify CLI version (>= 1.0.0) and can be installed using the following command:
 
 ```
 $ npm install -g @aws-amplify/cli
@@ -7,8 +7,8 @@ $ npm install -g @aws-amplify/cli
 
  **NOTE**: We recommend backing up your Amplify project directory first before performing a migration.
 
-After installing this new version of the CLI, you can either 
-1. Auto-migrate your project (initialized using CLI version < 1.0.0), or 
+After installing this new version of the Amplify CLI, you can either 
+1. Auto-migrate your project (initialized using Amplify CLI version < 1.0.0), or 
 2. Manually migrate the project (For most projects, Auto-Migration is the best bet. However if you modified Cloudformation files in the ./amplify/backend/ directory, then you may need to perform Manual migration steps)
 
 ## Auto-migration
