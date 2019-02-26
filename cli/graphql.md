@@ -1717,6 +1717,43 @@ query NearbyTodos {
 
 When you run *Mutation.createTodo*, the data will automatically be streamed via AWS Lambda into Elasticsearch such that it nearly immediately available via *Query.nearbyTodos*.
 
+## Import an existing data source to your API
+
+Let's say you already have an existing data store, and you'd like to generate a GraphQL API in front of it. You can easily do so with the `amplify api add-graphql-datasource` command, and select your preferred data source type. Currently only Aurora Serverless is supported, so the following steps will show how to import an Aurora Serverless MySQL database as a data source.
+
+```terminal
+$ amplify api add-datasource
+Using datasource: Aurora Serverless, provided by: awscloudformation
+```
+
+1. To import an Aurora Serverless MySQL database, you first have to select the region in which it exists. This will only provide the regions in which the Aurora Serverless data API is available.
+
+```terminal
+? Provide the region your Cluster is located: (Use arrow keys)
+❯ us-east-1
+```
+
+2. Next, select the appropriate cluster identifier from the list the CLI will provide.
+
+```terminal
+? Select the RDS cluster that will be used as the data source for you API (Use arrow keys)
+❯ animals
+  owners
+```
+
+3. Next, the CLI will attempt to determine the appropriate secret store arn to use automatically. If it is unable, it will present you with a list to select from.
+
+4. Finally, the CLI will provide a list of all of the databases active inside the selected cluster (this could take a few seconds). Select the database you'd like to import.
+
+```terminal
+? Select the Database to use as the datasource: (Use arrow keys)
+❯ Animals
+```
+
+At this point, the command will execute and will create an AWS CloudFormation template with a schema defined by the database it just parsed, as well as pre-generated resolvers for basic operations. If the schema generation conflicts with resources that might already exist in your API schema or if the schema generated is invalid, the process will fail and give an appropriate error message. Otherwise, the schema will be output in the *amplify/backend/api/YOUR-API-NAME/* directory, and the template will be in the *amplify/backend/api/YOUR-API-NAME/stacks* directory. Once the schema and resolvers look sufficient, run `amplify push` to build the template.
+
+
+
 ## AWS CloudFormation Template Parameters
 
 Much of the behavior of the GraphQL Transform logic is configured by passing arguments to the directives in the GraphQL SDL definition. However, certain other things are configured by passing parameters to the CloudFormation template itself. This provides escape hatches without leaking too many implementation details into the SDL definition. You can pass values to these parameters by adding them to the `parameters.json` file in the API directory of your amplify project.
