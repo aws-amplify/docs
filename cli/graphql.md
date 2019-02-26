@@ -1722,21 +1722,21 @@ When you run *Mutation.createTodo*, the data will automatically be streamed via 
 Let's say you already have an existing data store, and you'd like to generate a GraphQL API in front of it. You can easily do so with the `amplify api add-graphql-datasource` command, and select your preferred data source type. Currently only Aurora Serverless is supported, so the following steps will show how to import an Aurora Serverless MySQL database as a data source.
 
 ```terminal
-$ amplify api add-datasource
+$ amplify api add-graphql-datasource
 Using datasource: Aurora Serverless, provided by: awscloudformation
 ```
 
 1. To import an Aurora Serverless MySQL database, you first have to select the region in which it exists. This will only provide the regions in which the Aurora Serverless data API is available.
 
 ```terminal
-? Provide the region your Cluster is located: (Use arrow keys)
+? Provide the region your cluster is located: (Use arrow keys)
 ❯ us-east-1
 ```
 
 2. Next, select the appropriate cluster identifier from the list the CLI will provide.
 
 ```terminal
-? Select the RDS cluster that will be used as the data source for you API (Use arrow keys)
+? Select the Aurora Serverless cluster that will be used as the data source for you API (Use arrow keys)
 ❯ animals
   owners
 ```
@@ -1746,7 +1746,7 @@ Using datasource: Aurora Serverless, provided by: awscloudformation
 4. Finally, the CLI will provide a list of all of the databases active inside the selected cluster (this could take a few seconds). Select the database you'd like to import.
 
 ```terminal
-? Select the Database to use as the datasource: (Use arrow keys)
+? Select the database to use as the data source: (Use arrow keys)
 ❯ Animals
 ```
 
