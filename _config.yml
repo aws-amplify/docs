@@ -606,6 +606,8 @@ js_libraries:
     url: '?platform=ionic'
   - title: JavaScript
     url: '?platform=purejs'
+  - title: Vue
+    url: '?platform=vue'
 
 android_languages:
   - title: Java
