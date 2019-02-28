@@ -237,10 +237,29 @@
 				var platform = $.urlParam('platform');
 				if (platform) {
 					let selector = document.getElementById("js-library-selector");
-					titles = {"react": "React", "react-native": "React Native", "angular": "Angular", "purejs": "JavaScript", "ionic": "Ionic", "java": "Java", "kotlin": "Kotlin", "swift": "Swift"};
+					titles = {
+						"react": "React",
+						"react-native": "React Native",
+						"angular": "Angular",
+						"purejs": "JavaScript",
+						"ionic": "Ionic",
+						"vue": "Vue",
+						"java": "Java",
+						"kotlin": "Kotlin",
+						"swift": "Swift"
+					};
 					selector.innerHTML = titles[platform];
 					let icon = document.getElementById("js-library-icon");
-					icons = {"react": "React-Small-White@1x.png", "react-native": "React-Small-White@1x.png", "angular": "Angular-Med-White@1x.png", "purejs": "JS-Small-White@1x.png", "ionic": "Ionic-Color@1x.png", "java": "Java-Color@1x.png", "kotlin":"Droid-Small-White@1x.png", "swift":"Swift-Color@1x.png"};
+					icons = {
+						"react": "React-Small-White@1x.png",
+						"react-native": "React-Small-White@1x.png",
+						"angular": "Angular-Med-White@1x.png",
+						"purejs": "JS-Small-White@1x.png",
+						"vue": "Vue-Color@1x.png",
+						"ionic": "Ionic-Color@1x.png",
+						"java": "Java-Color@1x.png",
+						"kotlin":"Droid-Small-White@1x.png",
+						"swift":"Swift-Color@1x.png"};
 					icon.src = "{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/" + icons[platform];
 				}
 			}

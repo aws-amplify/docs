@@ -3,11 +3,9 @@
 
 # Angular
 
-AWS Amplify helps developers to create high-quality Angular apps quickly by handling the heavy lifting of configuring and integrating cloud services behind the scenes. It also provides a powerful high-level API and ready-to-use security best practices.
+The `aws-amplify-angular` package is a set of Angular components and an Angular provider which helps integrate your application with the AWS-Amplify library.  It supports Angular 5.0 or above.  It also includes a [supplemental module](#ionic-4-components) for Ionic-specific components.
 
 ## Installation
-
-UI Components and service provider available via the [aws-amplify-angular](https://www.npmjs.com/package/aws-amplify-angular) npm module.
 
 Install `aws-amplify` and `aws-amplify-angular` npm packages into your Angular app.
 
@@ -326,4 +324,6 @@ Example:
   <amplify-authenticator-ionic></amplify-authenticator-ionic>
   ...
 ```
+
+
 
