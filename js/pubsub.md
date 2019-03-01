@@ -32,6 +32,8 @@ Amplify.addPluggable(new AWSIoTProvider({
    }));
 ```
 
+Find your `aws_pubsub_endpoint` by logging onto your **AWS Console**, choose **IoT Core** from the list of services, then choose *Settings* from the left navigation pane.
+
 **Create IAM policies for AWS IoT**
 
 To use PubSub with AWS IoT, you will need to create the necessary IAM policies in the AWS IoT Console, and attach them to your Amazon Cognito Identity. 

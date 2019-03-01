@@ -99,7 +99,7 @@ To use AppSync in your Xcode project, modify your Podfile with a dependency of t
 ```ruby
 target 'PostsApp' do
     use_frameworks!
-    pod 'AWSAppSync', ' ~> 2.6.24'
+    pod 'AWSAppSync', ' ~> 2.10.0'
 end
 ```
 
@@ -117,25 +117,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 var appSyncClient: AWSAppSyncClient?
 
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-    //You can choose your database location
-    let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("database_name")
-
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     do {
-        //AppSync configuration & client initialization
-        let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(),databaseURL: databaseURL)
+	// You can choose the directory in which AppSync stores its persistent cache databases
+	let cacheConfiguration = try AWSAppSyncCacheConfiguration()
+
+	// AppSync configuration & client initialization
+	let appSyncServiceConfig = try AWSAppSyncServiceConfig()
+        let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: appSyncServiceConfig,
+	                                                      cacheConfiguration: cacheConfiguration)
         appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
         // Set id as the cache key for objects. See architecture section for details
         appSyncClient?.apolloClient?.cacheKeyForObject = { $0["id"] }
-        } catch {
-            print("Error initializing appsync client. \(error)")
-        }
-        //other methods
-        return true
+    } catch {
+        print("Error initializing appsync client. \(error)")
+    }
+    // other methods
+    return true
 }
 ```
 
-`AWSAppSyncClientInfo` represents the configuration information present in awsconfiguration.json file. Next, in your application code, you reference this in an appropriate lifecycle method such as `viewDidLoad()`:
+`AWSAppSyncServiceConfig` represents the configuration information present in your `awsconfiguration.json` file.
+
+Next, in your application code, you reference this in an appropriate lifecycle method such as `viewDidLoad()`:
 
 ```swift
 import AWSAppSync
@@ -293,7 +297,7 @@ You might add similar code in your app for updating or deleting items using an o
 
 ### Authentication Modes
 
-For client authorization AppSync supports API Keys, Amazon IAM credentials (we recommend using Amazon Cognito Identity Pools for this option), Amazon Cognito User Pools, and 3rd party OIDC providers. This is inferred from the `awsconfiguration.json` when you call `AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo()`.
+For client authorization AppSync supports API Keys, Amazon IAM credentials (we recommend using Amazon Cognito Identity Pools for this option), Amazon Cognito User Pools, and 3rd party OIDC providers. This is inferred from the `awsconfiguration.json` file when you call `AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig()`.
 
 #### API Key
 
@@ -315,13 +319,10 @@ API Key is the easiest way to setup and prototype your application with AppSync.
 Add the following code to your app:
 
 ```swift
-// You can choose your database location, accessible by the SDK
-let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent(database_name)
-    
 do {
     // Initialize the AWS AppSync configuration
-    let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(), 
-                                                                databaseURL: databaseURL)
+    let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(), 
+                                                          cacheConfiguration: AWSAppSyncCacheConfiguration())
     
     // Initialize the AWS AppSync client
     appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
@@ -358,12 +359,12 @@ Add the following code to your app:
 
 ```swift                                
     func initializeAppSync() {
-        // You can choose your database location, accessible by the SDK
-        let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("todos_db")
-        
         do {
+            // You can choose the directory in which AppSync stores its persistent cache databases
+	    let cacheConfiguration = try AWSAppSyncCacheConfiguration()
+
             // Initialize the AWS AppSync configuration
-            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(),
+            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
                                                                   userPoolsAuthProvider: {
                                                                     class MyCognitoUserPoolsAuthProvider : AWSCognitoUserPoolsAuthProviderAsync {
                                                                         func getLatestAuthToken(_ callback: @escaping (String?, Error?) -> Void) {
@@ -377,7 +378,7 @@ Add the following code to your app:
                                                                         }
                                                                     }
                                                                     return MyCognitoUserPoolsAuthProvider()}(),
-                                                                  databaseURL:databaseURL)
+                                                                  cacheConfiguration: cacheConfiguration)
             
             // Initialize the AWS AppSync client
             appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
@@ -414,14 +415,11 @@ When using AWS IAM in a mobile application you should leverage Amazon Cognito Id
 Add the following code to your app:
 
 ```swift         
-// You can choose your database location, accessible by the SDK
-let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent(database_name)
-    
 do {
-  // Initialize the AWS AppSync configuration
-            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(),
-                                                                  credentialsProvider: AWSMobileClient.sharedInstance(),
-                                                                  databaseURL: databaseURL)
+    // Initialize the AWS AppSync configuration
+    let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
+							  credentialsProvider: AWSMobileClient.sharedInstance(),
+							  cacheConfiguration: AWSAppSyncCacheConfiguration())
     
     // Initialize the AWS AppSync client
     appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
@@ -457,13 +455,11 @@ class MyOidcProvider: AWSOIDCAuthProvider {
     }
 }
 
-let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent(database_name)
-    
 do {
-  // Initialize the AWS AppSync configuration
-    let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(),
+    // Initialize the AWS AppSync configuration
+    let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
                                                           oidcAuthProvider: MyOidcProvider(),
-                                                          databaseURL:databaseURL)
+                                                          cacheConfiguration: AWSAppSyncCacheConfiguration())
     
     appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
 } catch {
@@ -785,7 +781,7 @@ Add `AWSAPIGateway` to your Podfile:
 	  use_frameworks!
 
 	     # For API
-	     pod 'AWSAPIGateway', '~> 2.8.0'
+	     pod 'AWSAPIGateway', '~> 2.9.0'
 	     # other pods
 	end
 ```
