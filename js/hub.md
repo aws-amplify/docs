@@ -43,7 +43,7 @@ class MyClass {
     }
 
     onAuthEvent(payload) {
-        ...
+        // ... your implementation
     }
 }
 ```
