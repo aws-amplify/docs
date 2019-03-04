@@ -3,7 +3,7 @@
 
 # Getting Started
 
-This page is a guide to quickly build a cloud-powered web or React Native application with AWS Amplify. AWS Amplify includes:
+This page is a guide to quickly build a cloud-powered web or React Native application with AWS Amplify. 
 
 ## What Does AWS Amplify Include?
 
