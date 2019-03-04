@@ -439,6 +439,16 @@ AWSMobileClient.sharedInstance().confirmSignIn(challengeResponse: "NEW_PASSWORD_
 AWSMobileClient.sharedInstance().signOut()
 ```
 
+### Global SignOut
+
+Using global signout, you can signout a user from all active login sessions. By doing this, you are revoking all the OIDC tokens(id token, access token and refresh token) which means the user is signed out from all the devices. However, although the tokens are revoked, the AWS credentials will remain valid until they expire (which by default is 1 hour).
+
+```swift
+AWSMobileClient.sharedInstance().signOut(options: SignOutOptions(signOutGlobally: true)) { (error) in
+    print("Error: \(error.debugDescription)")
+}
+```
+
 ### Forgot Password
 
 Forgot password is a 2 step process. You need to first call `forgotPassword()` method which would send a confirmation code to user via email or phone number. The details of how the code was sent are included in the response of `forgotPassword()`. Once the code is given by the user, you need to call `confirmForgotPassword()` with the confirmation code to confirm the change of password.
@@ -456,7 +466,10 @@ AWSMobileClient.sharedInstance().forgotPassword(username: "my_username") { (forg
         print("Error occurred: \(error.localizedDescription)")
     }
 }
+}
+```
 
+```swift
 AWSMobileClient.sharedInstance().confirmForgotPassword(username: "my_username", newPassword: "MyNewPassword123!!", confirmationCode: "ConfirmationCode") { (forgotPasswordResult, error) in
     if let forgotPasswordResult = forgotPasswordResult {
         switch(forgotPasswordResult.forgotPasswordState) {
@@ -528,6 +541,30 @@ AWSMobileClient.sharedInstance().federatedSignIn(providerName: IdentityProvider.
 `federatedSignIn()` can be used to obtain federated "Identity ID" using external providers like Google, Facebook or Twitter. If the tokens are expired and new tokens are needed, a notification will be dispatched on the `AWSMobileClient` listener with the user state `signedOutFederationTokensInvalid`. You can give the updated tokens via the same `federatedSignIn()` method. 
 
 The API calls to get AWS credentials will be asynchronously blocked until you fetch the social provider's token and give it to `AWSMobileClient`. Once you pass the tokens, the `AWSMobileClient` will fetch AWS Credentials using the new tokens and unblock all waiting calls. It will then use the new credentials.
+
+#### SAML with Cognito Identity
+
+To federate your SAML sign-in provider as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.sharedInstance().federatedSignIn()`. 
+You must first register your SAML application with AWS IAM by using the the following [instructions](https://docs.aws.amazon.com/cognito/latest/developerguide/saml-identity-provider.html). 
+
+Once you retrieve the SAML tokens from your login, you can call the `federatedSignIn` API in `AWSMobileClient`:
+
+```swift
+// Perform SAML token federation
+AWSMobileClient.sharedInstance().federatedSignIn(providerName: "YOUR_SAML_PROVIDER_NAME",
+                                                    token: "YOUR_SAML_TOKEN") { (userState, error) in
+    if let error = error as? AWSMobileClientError {
+        print(error.localizedDescription)
+    }
+    if let userState = userState {
+        print("Status: \(userState.rawValue)")
+    }
+}
+
+```
+**Availability Note**
+Currently, the SAML federation feature only supports SAML assertion tokens which have 1 Role ARN. If the assertion token has more than 1 Role ARN, it will result into an error.
+{: .callout .callout--info}
 
 #### Facebook with Cognito Identity
 
@@ -785,3 +822,395 @@ Note : `AWSGoogleSignIn` is only needed for using Google Login in your app and `
 	```
 
 Now, your drop-in UI will show a Google sign in button which the users can use to sign in to your app. This uses the `federatedSignIn()` flow underneath it.
+
+## Using Hosted UI for Authentication
+
+### Using Amazon Cognito Hosted UI 
+
+Amazon Cognito provides a customizable user experience via the hosted UI. The hosted UI supports OAuth 2.0 and Federated Identities with Facebook, Amazon, Google, and SAML providers. To learn more about Amazon Cognito Hosted UI, please visit [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-configuring-app-integration.html).
+
+#### Setup your Cognito App Client
+
+To start using hosted UI, you need to configure your identity providers and setup your App Client in the Amazon Cognito console. You can also check the [Cognito doc: Adding Social Identity Providers to a User Pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html).
+
+To enable the user pool domain for your hosted UI:
+- Go to [Amazon Cognito Console](https://aws.amazon.com/cognito/).
+- Click *User Pools* on the top menu to select a User Pool or create a new one.
+- On the left menu, go to  *App integration* > *Domain name*.
+- In the *Domain prefix* section, enter the prefix for the pages that will be hosted by Amazon Cognito.
+
+To configure your identity providers:
+- Go to [Amazon Cognito Console](https://aws.amazon.com/cognito/).
+- Click *User Pools* on the top menu to select a User Pool or create a new one.
+- Go to *Federation* > *Identity providers*
+- Select an *Identity provider* and enter required credentials for the identity provider. (e.g., App Id, App secret, Authorized scope)
+
+To learn [how to register with a Social IdP]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/cognito-hosted-ui-federated-identity).
+{: .callout .callout--info}
+
+To learn [what's Authorized scope](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html#cognito-user-pools-social-idp-step-2)
+{: .callout .callout--info}
+
+Note: your user pool domain is something like: `domain_prefix.auth.us-east-1.amazoncognito.com`
+{: .callout .callout--info}
+
+- To retrieve user attributes from your identity provider, go to *Federation* > *Attribute mapping*. Here, you can map Federation Provider attributes to corresponding User pool attributes. More info about [Attribute Mapping](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-specifying-attribute-mapping.html).
+
+If the attribute, for example *email*, is a required field in your Cognito User Pool settings, please make sure that you have selected *email* in your Authorized Scopes, and you have mapped it correctly to your User Pool attributes.
+{: .callout .callout-info}
+
+To setup App Client:
+- Go to [Amazon Cognito Console](https://aws.amazon.com/cognito/).
+- Click *User Pools* on the top menu to select a User Pool or create a new one.
+- Click *App integration*  and *App client settings* on the left menu.
+- Select *Enabled Identity Providers* and enter *Callback URL(s)* and *Sign out URL(s)* fields. 
+
+In *Callback URL(s)*, for both *Signin URL(s)* and *Signout URL(s)*, enter `myapp://`.
+{: .callout .callout--info}
+
+- Under the *OAuth 2.0* section, Choose OAuth Flow and OAuth scopes. [To learn more about flows and scopes.](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-idp-settings.html)
+- Select an OAuth Flow. 
+
+By using *Authorization code grant* the callback URL will contain a code after login. The code will be used to exchange for tokens from Cognito with the TOKEN Endpoint.
+{: .callout .callout--info}
+
+*Authorization code grant* is the recommended choice for security reasons.
+{: .callout .callout--info} 
+
+- Choose item(s) from *OAuth Scopes*.
+
+Note: `openid` is required for `phone`, `email` or `profile`. Also `openid` is required to get the id token from the Cognito authorization server.
+{: .callout .callout--info}
+
+- Click 'Save Changes'. 
+
+#### Setup Amazon Cognito Hosted UI in iOS App
+
+1. To configure your application for hosted UI, you need to use *HostedUI* options. Update your `awsconfiguration.json` file to add a new configuration for `Auth`. The configuration should look like this:
+
+    ```json
+    {
+        "IdentityManager": {
+            ...
+        },
+        "CredentialsProvider": {
+            ...
+        },
+        "CognitoUserPool": {
+            ...
+        },
+        "Auth": {
+            "Default": {
+                "OAuth": {
+                    "WebDomain": "https://YOUR_AUTH_DOMAIN.auth.us-west-2.amazoncognito.com",
+                    "AppClientId": "YOUR_APP_CLIENT_ID",
+                    "AppClientSecret": "YOUR_APP_CLIENT_SECRET",
+                    "SignInRedirectURI": "myapp://",
+                    "SignOutRedirectURI": "myapp://",
+                    "Scopes": ["openid", "email"]
+                }
+            }
+        }
+    }
+    ```
+
+1. Add `myapp://` to your app's URL schemes:
+
+    Right-click Info.plist and then choose Open As > Source Code.
+
+    Add the following entry in URL scheme:
+
+    ```xml
+        <plist version="1.0">
+
+        <dict>
+        <!-- YOUR OTHER PLIST ENTRIES HERE -->
+
+        <!-- ADD AN ENTRY TO CFBundleURLTypes for Cognito Auth -->
+        <!-- IF YOU DO NOT HAVE CFBundleURLTypes, YOU CAN COPY THE WHOLE BLOCK BELOW -->
+        <key>CFBundleURLTypes</key>
+        <array>
+            <dict>
+                <key>CFBundleURLSchemes</key>
+                <array>
+                    <string>myapp</string>
+                </array>
+            </dict>
+        </array>
+
+        <!-- ... -->
+        </dict>
+    ```
+
+#### Launching the Hosted UI
+
+To launch the Hosted UI from from your application, you can use the `showSignIn` API of `AWSMobileClient.sharedInstance()`:
+
+```swift
+// Optionally override the scopes based on the usecase.
+let hostedUIOptions = HostedUIOptions(scopes: ["openid", "email"])
+
+// Present the Hosted UI sign in.
+AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigationController!, hostedUIOptions: hostedUIOptions) { (userState, error) in
+    if let error = error as? AWSMobileClientError {
+        print(error.localizedDescription)
+    }
+    if let userState = userState {
+        print("Status: \(userState.rawValue)")
+    }
+}
+```
+
+> Optional: If your app deployment target is < iOS 11, add the following callback in your App Delegate's `application:open url` method. This callback is required, because `SFSafariViewController` is used in < iOS 11 to integrate with the Hosted UI.
+
+```swift
+func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+    return AWSMobileClient.sharedInstance().interceptApplication(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+}
+```
+
+Note: By default, the Hosted UI will show all login options; the username-password flow as well as any social providers which are configured. If you wish to bypass the extra sign-in screen showing all the provider options and launch your desired social provider login directly, you can set the `HostedUIOptions` as shown in the next section.
+{: .callout .callout--info}
+
+#### Configuring Hosted UI to launch Facebook/ Google/ SAML sign in directly
+
+```swift
+// Option to launch Google sign in directly
+let hostedUIOptions = HostedUIOptions(scopes: ["openid", "email"], identityProvider: "Google")
+//  OR
+// Option to launch Facebook sign in directly
+let hostedUIOptions = HostedUIOptions(scopes: ["openid", "email"], identityProvider: "Facebook")
+
+// Present the Hosted UI sign in.
+AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigationController!, hostedUIOptions: hostedUIOptions) { (userState, error) in
+    if let error = error as? AWSMobileClientError {
+        print(error.localizedDescription)
+    }
+    if let userState = userState {
+        print("Status: \(userState.rawValue)")
+    }
+}
+```
+
+#### Sign Out from HostedUI
+
+```swift
+// Setting invalidateTokens: true will make sure the tokens are invalidated
+AWSMobileClient.sharedInstance().signOut(options: SignOutOptions(invalidateTokens: true)) { (error) in
+    print("Error: \(error.debugDescription)")
+}
+```
+
+If you want to sign out locally by just deleting tokens, you can call `signOut` method:
+
+```swift
+AWSMobileClient.sharedInstance().signOut()
+```
+
+### Using Auth0 Hosted UI 
+
+You can use `AWSMobileClient` to use `Auth0` as `OAuth 2.0`  provider. 
+You can use `Auth0` as one of the providers of your Cognito Federated Identity Pool. 
+This will allow users authenticated via Auth0 have access to your AWS resources. Learn [how to integrate Auth0 with Cognito Federated Identity Pools](https://auth0.com/docs/integrations/integrating-auth0-amazon-cognito-mobile-apps)
+
+#### Setup Auth0 Hosted UI in iOS App
+
+#### Setup Amazon Cognito Hosted UI in iOS App
+
+1. To configure your application for hosted UI, you need to use *HostedUI* options. Update your `awsconfiguration.json` file to add a new configuration for `Auth`. The configuration should look like this:
+
+    ```json
+    {
+        "IdentityManager": {
+            ...
+        },
+        "CredentialsProvider": {
+            ...
+        },
+        "CognitoUserPool": {
+            ...
+        },
+        "Auth": {
+            "Default": {
+                "OAuth": {
+                    "AppClientId": "YOUR_AUTH0_APP_CLIENT_ID",
+                    "WebDomain": "https://YOUR_AUTH0_DOMAIN.auth0.com",
+                    "TokenURI": "https://YOUR_AUTH0_DOMAIN.auth0.com/oauth/token",
+                    "SignInURI": "https://YOUR_AUTH0_DOMAIN.auth0.com/authorize",
+                    "SignInRedirectURI": "com.your.bundle.configured.in.auth0://YOUR_AUTH0_DOMAIN.auth0.com/ios/com.your.bundle/callback",
+                    "SignOutURI": "https://YOUR_AUTH0_DOMAIN.auth0.com/v2/logout",
+                    "SignOutURIQueryParameters": {
+                        "client_id" : "YOUR_AUTH0_APP_CLIENT_ID",
+                        "returnTo" : "com.your.bundle.configured.in.auth0://yourserver.auth0.com/ios/com.amazonaws.AWSAuthSDKTestApp/callback"
+                    },
+                    "Scopes": ["openid", "email"]
+                }
+            }
+        }
+    }
+    ```
+
+1. Add the signin and signout redirect URIs to your app's URL schemes:
+
+    Right-click Info.plist and then choose Open As > Source Code.
+
+    Add the following entry in URL scheme:
+
+    ```xml
+        <plist version="1.0">
+
+        <dict>
+        <!-- YOUR OTHER PLIST ENTRIES HERE -->
+
+        <!-- ADD AN ENTRY TO CFBundleURLTypes for Auth0 -->
+        <!-- IF YOU DO NOT HAVE CFBundleURLTypes, YOU CAN COPY THE WHOLE BLOCK BELOW -->
+        <key>CFBundleURLTypes</key>
+        <array>
+            <dict>
+                <key>CFBundleURLSchemes</key>
+                <array>
+                    <string>com.your.bundle.configured.in.auth0://yourserver.auth0.com/ios/com.amazonaws.AWSAuthSDKTestApp/callback</string>
+                </array>
+            </dict>
+        </array>
+
+        <!-- ... -->
+        </dict>
+    ```
+
+#### Launching the Hosted UI for Auth0
+
+To launch the Hosted UI from from your application, you can use the `showSignIn` API of `AWSMobileClient.sharedInstance()`:
+
+```swift
+// Specify the scopes and federation provider name.
+ let hostedUIOptions = HostedUIOptions(scopes: ["openid", "email"], federationProviderName: "YOUR_AUTH0_DOMAIN.auth0.com")
+
+// Present the Hosted UI sign in.
+AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigationController!, hostedUIOptions: hostedUIOptions) { (userState, error) in
+    if let error = error as? AWSMobileClientError {
+        print(error.localizedDescription)
+    }
+    if let userState = userState {
+        print("Status: \(userState.rawValue)")
+    }
+}
+
+// Present the Hosted UI sign in.
+AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigationController!, hostedUIOptions: hostedUIOptions) { (userState, error) in
+    if let error = error as? AWSMobileClientError {
+        print(error.localizedDescription)
+    }
+    if let userState = userState {
+        print("Status: \(userState.rawValue)")
+    }
+}
+```
+
+> Optional: If your app deployment target is < iOS 11, add the following callback in your App Delegate's `application:open url` method. This callback is required, because `SFSafariViewController` is used in < iOS 11 to integrate with the Hosted UI.
+
+```swift
+func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+    return AWSMobileClient.sharedInstance().interceptApplication(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+}
+```
+
+#### Sign Out from HostedUI
+
+```swift
+// Setting invalidateTokens: true will make sure the tokens are invalidated
+AWSMobileClient.sharedInstance().signOut(options: SignOutOptions(invalidateTokens: true)) { (error) in
+    print("Error: \(error.debugDescription)")
+}
+```
+
+If you want to sign out locally by just deleting tokens, you can call `signOut` method:
+
+```swift
+AWSMobileClient.sharedInstance().signOut()
+```
+
+## Using Device Features
+
+You can use the device related features of Amazon Cognito UserPools by enabling the `Devices` features. Go to your Cognito UserPool, click on `Devices` in Left Navigation Menu and chose one of `User Opt In` or `Always`. 
+
+If you chose `Always` every device used by your application’s users is remembered.
+
+You can read more about the device features in the following [blog](https://aws.amazon.com/blogs/mobile/tracking-and-remembering-devices-using-amazon-cognito-your-user-pools/).
+
+### Terminology
+
+* *Tracked*
+
+When devices are tracked, a set of device credentials consisting of a key and secret key pair is assigned to every device. You can view all tracked devices for a specific user from the Amazon Cognito console device browser, which you can view by choosing a user from the Users panel. In addition, you can see some metadata (whether it is remembered, time it began being tracked, last authenticated time, etc.) associated with the device and its usage.
+ 
+
+* *Remembered*
+
+Remembered devices are also tracked. During user authentication, the key and secret pair assigned to a remembered device is used to authenticate the device to verify that it is the same device that the user previously used to sign in to the application. You can also see remembered devices from the Amazon Cognito console.
+ 
+
+* *Not Remembered*
+
+A not-remembered device is the flipside of being remembered, though the device is still tracked. The device is treated as if it was never used during the user authentication flow. This means that the device credentials are not used to authenticate the device. The new APIs in the AWS Mobile SDK do not expose these devices, but you can see them in the Amazon Cognito console.
+
+### Remember Device
+
+This option will mark the tracked device as `remembered`
+
+```swift
+AWSMobileClient.sharedInstance().deviceOperations.updateStatus(remembered: true) { (result, error) in
+    // ...
+}
+```
+
+### Update Device
+
+This option will mark the tracked device as `not remembered`.
+
+```swift
+AWSMobileClient.sharedInstance().deviceOperations.updateStatus(remembered: false) { (result, error) in
+    // ...
+}
+```
+
+### Forget Device
+
+This option will stop tracking the device altogether.
+
+```swift
+AWSMobileClient.sharedInstance().deviceOperations.forget({ (error) in
+    // ...
+})
+```
+
+> Note: Once you call `forget`, you can update the status of the device in the same auth session. The end user will have to sign in again to remember the device.
+
+### Get Device Details
+
+```swift
+AWSMobileClient.sharedInstance().deviceOperations.get { (device, error) in
+    guard error == nil else {
+        print(error!.localizedDescription)
+        return
+    }
+    
+    print(device!.createDate!)
+    print(device!.deviceKey!)
+    
+}
+```
+
+### List Devices
+
+```swift
+AWSMobileClient.sharedInstance().deviceOperations.list(limit: 60) { (result, error) in
+    guard error == nil else {
+        print(error!.localizedDescription)
+        return
+    }
+    // Number of devices that are remembered
+    print(result!.devices!.count)
+    
+}
+```
