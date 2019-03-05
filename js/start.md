@@ -23,7 +23,7 @@ The Amplify Library then reads the JSON in this file when you pass it to the `Am
 
 Finally, the Amplify UI components can then use the Amplify library to automatically perform tasks such as authentication, S3 uploads, etc.
 
-You can use the Amplify CLI and the Amplify Library/UI Components separetely, but they are most powerful when used together. 
+You can use the Amplify CLI and the Amplify Library/UI Components separately, but they are most powerful when used together. 
 
 
 ## Prerequisites 
