@@ -14,6 +14,12 @@ $ npm install --save aws-amplify
 $ npm install --save aws-amplify-angular 
 ```
 
+### Angular 6 Support
+
+Currently, the newest version of Angular (6.x) does not provide the shim for the  `global` object which was provided in previous versions.
+
+Add the following to the top of your `polyfills.ts` file: ```(window as any).global = window;```.
+
 ### Setup
 
 Create a backend configuration with the Amplify CLI and import the generated configuration file. 
@@ -297,12 +303,6 @@ Add the following to your styles.css file to use the default styles:
 ```@import '~aws-amplify-angular/Theme.css';```
 
 You can use custom styling for components by importing your custom *styles.css* that overrides the <a href="https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-angular/src/theme.css" target="_blank">default styles</a>.
-
-## Angular 6 Support
-
-Currently, the newest version of Angular (6.x) does not provide the shim for the  `global` object which was provided in previous versions.
-
-Add the following to the top of your `polyfills.ts` file: ```(window as any).global = window;```.
 
 ## Ionic 4 Components
 The Angular components included in this library can optionally be presented with Ionic-specific styling.  To do so, simply include the ```AmplifyIonicModule``` alongside the ```AmplifyAngularModule```.  Then, pass in ```framework="Ionic"``` into the component.  
