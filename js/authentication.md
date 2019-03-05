@@ -1480,6 +1480,60 @@ const styles = StyleSheet.create({
 export default withOAuth(App);
 ``` 
 
+#### A note for expo users
+
+It is possible to use expo's `WebBrowser.openAuthSessionAsync` function to launch the hosted UI pages. To do this, you can provide a `urlOpener` function as below when configuring OAuth in Apmlify:
+
+```javascript
+import Amplify from 'aws-amplify';
+
+const oauth = {
+    // Domain name
+    domain : 'your-domain-prefix.auth.us-east-1.amazoncognito.com', 
+
+    // Authorized scopes
+    scope : ['phone', 'email', 'profile', 'openid','aws.cognito.signin.user.admin'], 
+
+    // Callback URL
+    redirectSignIn : 'http://www.example.com/signin/', // or 'exp://127.0.0.1:19000/--/', 'myapp://main/'
+
+    // Sign out URL
+    redirectSignOut : 'http://www.example.com/signout/', // or 'exp://127.0.0.1:19000/--/', 'myapp://main/'
+
+    // 'code' for Authorization code grant, 
+    // 'token' for Implicit grant
+    responseType: 'code',
+
+    // optional, for Cognito hosted ui specified options
+    options: {
+        // Indicates if the data collection is enabled to support Cognito advanced security features. By default, this flag is set to true.
+        AdvancedSecurityDataCollectionFlag : true
+    },
+
+    // On expo, use WebBrowser.openAuthSessionAsync to open the Hosted UI pages.
+    urlOpener: async (url, redirectUrl) => {
+        const { type, url: newUrl } = await WebBrowser.openAuthSessionAsync(url, redirectUrl);
+
+        if (type === 'success') {
+          await WebBrowser.dismissBrowser();
+
+          if (Platform.OS === 'ios') {
+            return Linking.openURL(newUrl);
+          }
+        }
+    }
+}
+
+Amplify.configure({
+    Auth: {
+        // other configurations...
+        // ....
+        oauth: oauth
+    },
+    // ...
+});
+```
+
 #### Handling Authentication Events
 
 When using the hosted UI, you can handle authentication events by creating event listeners with the [Hub module]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/hub#listening-authentication-events).
