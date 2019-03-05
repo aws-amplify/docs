@@ -1098,7 +1098,24 @@ To setup App Client:
 For example, in *Callback URL(s)*, you can put one url for local development, one for the production. If your app is running in `http://localhost:3000/` in local and `https://www.example.com/` in production, you can put `http://localhost:3000/,https://www.example.com/` under *Callback URL(s)*. Same as the *Signout URL(s)*.
 {: .callout .callout--info}
 
-For React Native applications, you can put one url for local development, one for production. Your URLs could look, for example, like this: `exp://127.0.0.1:19000/--/` (generated using [Expo's `Linking` class](https://docs.expo.io/versions/latest/sdk/linking/#linkingmakeurlpath-queryparams)) or this: `myapp://` (See [React Native Linking Docs](https://facebook.github.io/react-native/docs/linking) for more information.).
+<div>
+For React Native applications, you can put one url for local development, one for production.
+
+You need to define a custom URL scheme for your application before testing locally or publishing to the app store. This is different for Expo or vanilla React Native. Follow the steps at the [React Native Linking docs](https://facebook.github.io/react-native/docs/linking) or [Expo Linking docs](https://docs.expo.io/versions/latest/workflow/linking/) for more information. This [medium post](https://medium.com/react-native-training/deep-linking-your-react-native-app-d87c39a1ad5e) can be helpful too.
+
+After completing those steps, assuming you are using "myapp" as the name of your URL Scheme (or whatever friendly name you have choosen), you will use this URL in the Cognito Hosted UI domain URL.
+
+Your URLs could look like any of these:
+
+- `myapp://`
+- `exp://127.0.0.1:19000/--/` (Local development if your app is running [in the expo client](https://docs.expo.io/versions/latest/workflow/linking/#linking-to-your-app).
+One way to get your app URL when using expo, is doing this:
+```js
+import { Linking } from 'expo';
+
+console.log('url', Linking.makeUrl('/'));
+```
+</div>
 {: .callout .callout--info}
 
 - Under the *OAuth 2.0* section, Choose OAuth Flow and OAuth scopes. [To learn more about flows and scopes.](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-idp-settings.html)
@@ -1140,10 +1157,10 @@ const oauth = {
     scope : ['phone', 'email', 'profile', 'openid','aws.cognito.signin.user.admin'], 
 
     // Callback URL
-    redirectSignIn : 'http://www.example.com/signin/', // or Linking.makeUrl('/') (expo) or Linking.getInitialURL() (react native)
+    redirectSignIn : 'http://www.example.com/signin/', // or 'exp://127.0.0.1:19000/--/', 'myapp://main/'
 
     // Sign out URL
-    redirectSignOut : 'http://www.example.com/signout/', // or Linking.makeUrl('/') (expo) or Linking.getInitialURL() (react native)
+    redirectSignOut : 'http://www.example.com/signout/', // or 'exp://127.0.0.1:19000/--/', 'myapp://main/'
 
     // 'code' for Authorization code grant, 
     // 'token' for Implicit grant
