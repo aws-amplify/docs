@@ -1482,7 +1482,7 @@ export default withOAuth(App);
 
 #### A note for expo users
 
-It is possible to use expo's `WebBrowser.openAuthSessionAsync` function to launch the hosted UI pages. To do this, you can provide a `urlOpener` function as below when configuring OAuth in Apmlify:
+It is possible to use expo's `WebBrowser.openAuthSessionAsync` function to launch the hosted UI pages. To do this, you can provide a `urlOpener` function as below when configuring OAuth in Amplify:
 
 ```javascript
 import Amplify from 'aws-amplify';
