@@ -1103,7 +1103,7 @@ For React Native applications, you can put one url for local development, one fo
 
 You need to define a custom URL scheme for your application before testing locally or publishing to the app store. This is different for Expo or vanilla React Native. Follow the steps at the [React Native Linking docs](https://facebook.github.io/react-native/docs/linking) or [Expo Linking docs](https://docs.expo.io/versions/latest/workflow/linking/) for more information. This [medium post](https://medium.com/react-native-training/deep-linking-your-react-native-app-d87c39a1ad5e) can be helpful too.
 
-After completing those steps, assuming you are using "myapp" as the name of your URL Scheme (or whatever friendly name you have choosen), you will use this URL in the Cognito Hosted UI domain URL.
+After completing those steps, assuming you are using "myapp" as the name of your URL Scheme (or whatever friendly name you have chosen), you will use this URL in the Cognito Hosted UI domain URL.
 
 Your URLs could look like any of these:
 
