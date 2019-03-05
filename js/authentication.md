@@ -1409,6 +1409,14 @@ The following `props` are used for building a custom UI with buttons if you do n
 - `amazonSignIn`: A callback function to trigger the hosted UI sign in flow for LoginWithAmazon, this will show the LoginWithAmazon login page.
 - `customProviderSignIn`: A callback function to trigger the hosted UI sign in flow for an OIDC provider, this will show the OIDC provider login page. This function expects a string with the **provider name** specified when [adding the OIDC  IdP to your User Pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-oidc-idp.html#cognito-user-pools-oidc-idp-step-2).
 
+To use `withOAuth` in your React Native application first install the appropriate dependencies:
+
+```bash
+
+yarn add aws-amplify-react-native aws-amplify 
+# npm install aws-amplify-react-native aws-amplify
+```
+
 The following code snippet shows an example of its possible usage:
 
 ```javascript
