@@ -1110,11 +1110,13 @@ Your URLs could look like any of these:
 - `myapp://`
 - `exp://127.0.0.1:19000/--/` (Local development if your app is running [in the expo client](https://docs.expo.io/versions/latest/workflow/linking/#linking-to-your-app).
 One way to get your app URL when using expo, is doing this:
+
 ```js
 import { Linking } from 'expo';
 
 console.log('url', Linking.makeUrl('/'));
 ```
+
 </div>
 {: .callout .callout--info}
 
@@ -1388,12 +1390,43 @@ export default CustomButton;
 
 #### Launching the Hosted UI in React Native 
 
-With React Native, you can use `withOAuth` HOC to launch the hosted UI experience. Just wrap your app's main component with our HOC:
-
 > ***The Hosted UI support is only available for React/ React Native / Web***
 
+With React Native, you can use `withOAuth` HOC to launch the hosted UI experience. Just wrap your app's main component with our HOC. Doing so, will pass the following `props` available to your component:
+
+- `oAuthUser`: If the sign was successful, this object will have the user from the user pool.
+- `oAuthError`: In case of an error, the string with the error as given by the Cognito Hosted UI.
+
+- `hostedUISignIn`: A callback function to trigger the hosted UI sign in flow, this will show the Cognito Hosted UI.
+
+- `signOut`: A callback function to trigger the hosted UI sign out flow.
+
+The following `props` are used for building a custom UI with buttons if you do not want to show the Cognito UI, however it will still create a User Pool entry once the OAuth flow has completed.
+{: .callout .callout--info}
+
+- `facebookSignIn`: A callback function to trigger the hosted UI sign in flow for Facebook, this will show the Facebook login page.
+- `googleSignIn`: A callback function to trigger the hosted UI sign in flow for Google, this will show the Google login page.
+- `amazonSignIn`: A callback function to trigger the hosted UI sign in flow for LoginWithAmazon, this will show the LoginWithAmazon login page.
+- `customProviderSignIn`: A callback function to trigger the hosted UI sign in flow for an OIDC provider, this will show the OIDC provider login page. This function expects a string with the **provider name** specified when [adding the OIDC  IdP to your User Pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-oidc-idp.html#cognito-user-pools-oidc-idp-step-2).
+
+The following code snippet shows an example of its possible usage:
+
 ```javascript
-import { withOAuth } from 'aws-amplify-react-native';
+import { StyleSheet, Text, ScrollView, SafeAreaView, StatusBar, Button } from 'react-native';
+import { default as Amplify } from "aws-amplify";
+import { withOAuth } from "aws-amplify-react-native";
+import { default as awsConfig } from "./aws-exports";
+
+Amplify.configure(awsConfig);
+
+Amplify.configure({
+    Auth: {
+        oauth: {
+            // OAuth config...
+        }
+    },
+});
+
 
 class App extends React.Component {
   render() {
@@ -1414,17 +1447,35 @@ class App extends React.Component {
         <ScrollView contentContainerStyle={styles.scrollViewContainer}>
           <Text>{JSON.stringify({ user, error, }, null, 2)}</Text>
           {!user && <React.Fragment>
+            {/* Go to the Cognito Hosted UI */}
             <Button title="Cognito" onPress={hostedUISignIn} />
+
+            {/* Go directly to a configured identity provider */}
             <Button title="Facebook" onPress={facebookSignIn} />
             <Button title="Google" onPress={googleSignIn}  />
             <Button title="Amazon" onPress={amazonSignIn} />
-            <Button title="Yahoo" onPress={() => customProviderSignIn('Yahoo')} /> {/* e.g. for OIDC providers */}
+
+            {/* e.g. for OIDC providers */}
+            <Button title="Yahoo" onPress={() => customProviderSignIn('Yahoo')} />
           </React.Fragment>}
         </ScrollView>
       </SafeAreaView>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flexGrow: 1,
+    paddingTop: StatusBar.currentHeight,
+    backgroundColor: '#FFFFFF',
+  },
+  scrollViewContainer: {
+    flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+});
 
 export default withOAuth(App);
 ``` 
