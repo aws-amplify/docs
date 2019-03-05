@@ -229,7 +229,7 @@ In *global.scss*:
 // sceneName: the configured friendly scene you would like to load
 <amplify-sumerian-scene sceneName="scene1" framework="Ionic"></amplify-sumerian-scene> 
 ```
-See [Ionic configuration]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/ionic#configuration) for additional configuration details.
+See [Ionic configuration]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/angular#configuration) for additional configuration details.
 
 #### Vue
 **Installation**
