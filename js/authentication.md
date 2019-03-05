@@ -1101,15 +1101,15 @@ For example, in *Callback URL(s)*, you can put one url for local development, on
 <div>
 For React Native applications, you can put one url for local development, one for production.
 
-You need to define a custom URL scheme for your application before testing locally or publishing to the app store. This is different for Expo or vanilla React Native. Follow the steps at the [React Native Linking docs](https://facebook.github.io/react-native/docs/linking) or [Expo Linking docs](https://docs.expo.io/versions/latest/workflow/linking/) for more information. This [medium post](https://medium.com/react-native-training/deep-linking-your-react-native-app-d87c39a1ad5e) can be helpful too.
+You need to define a custom URL scheme for your application before testing locally or publishing to the app store. This is different for Expo or vanilla React Native. Follow the steps at the [React Native Linking docs](https://facebook.github.io/react-native/docs/linking) or [Expo Linking docs](https://docs.expo.io/versions/latest/workflow/linking/) for more information.
 
 After completing those steps, assuming you are using "myapp" as the name of your URL Scheme (or whatever friendly name you have chosen), you will use this URL in the Cognito Hosted UI domain URL.
 
 Your URLs could look like any of these:
 
 - `myapp://`
-- `exp://127.0.0.1:19000/--/` (Local development if your app is running [in the expo client](https://docs.expo.io/versions/latest/workflow/linking/#linking-to-your-app).
-One way to get your app URL when using expo, is doing this:
+- `exp://127.0.0.1:19000/--/` (Local development if your app is running [in the Expo client](https://docs.expo.io/versions/latest/workflow/linking/#linking-to-your-app)).
+One way to get your app URL when using Expo, is doing this:
 
 ```js
 import { Linking } from 'expo';
@@ -1480,12 +1480,25 @@ const styles = StyleSheet.create({
 export default withOAuth(App);
 ``` 
 
-#### A note for expo users
+#### A note for Expo users
 
-It is possible to use expo's `WebBrowser.openAuthSessionAsync` function to launch the hosted UI pages. To do this, you can provide a `urlOpener` function as below when configuring OAuth in Amplify:
+It is possible to use Expo's `WebBrowser.openAuthSessionAsync` function to launch the hosted UI pages. To do this, you can provide a `urlOpener` function as below when configuring OAuth in Amplify:
 
 ```javascript
 import Amplify from 'aws-amplify';
+
+const urlOpener = async (url, redirectUrl) => {
+    // On Expo, use WebBrowser.openAuthSessionAsync to open the Hosted UI pages.
+    const { type, url: newUrl } = await WebBrowser.openAuthSessionAsync(url, redirectUrl);
+
+    if (type === 'success') {
+        await WebBrowser.dismissBrowser();
+
+        if (Platform.OS === 'ios') {
+        return Linking.openURL(newUrl);
+        }
+    }
+};
 
 const oauth = {
     // Domain name
@@ -1510,18 +1523,7 @@ const oauth = {
         AdvancedSecurityDataCollectionFlag : true
     },
 
-    // On expo, use WebBrowser.openAuthSessionAsync to open the Hosted UI pages.
-    urlOpener: async (url, redirectUrl) => {
-        const { type, url: newUrl } = await WebBrowser.openAuthSessionAsync(url, redirectUrl);
-
-        if (type === 'success') {
-          await WebBrowser.dismissBrowser();
-
-          if (Platform.OS === 'ios') {
-            return Linking.openURL(newUrl);
-          }
-        }
-    }
+    urlOpener: urlOpener
 }
 
 Amplify.configure({
