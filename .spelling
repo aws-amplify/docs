@@ -285,6 +285,8 @@ withFederated
 Auth.federatedSignIn
 aws.cognito.signin.user.admin
 ChallengeName
+myapp
+LoginWithAmazon
 
 #js/cognito-hosted-ui-federated-identity.md
 oauth2
