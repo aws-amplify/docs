@@ -1192,8 +1192,6 @@ Note: An ID token is only returned if openid scope is requested. The access toke
 
 To invoke the browser to display the hosted UI, you need to construct the URL in your app;
 
-> ***The Hosted UI support is only available for React / React Native / Web***
-
 ```javascript
 const config = Auth.configure();
 const { 
@@ -1222,8 +1220,6 @@ window.location.assign(url_to_facebook);
 #### Launching the Hosted UI in React 
 
 With React, you can use `withOAuth` HOC to launch the hosted UI experience. Just wrap your app's main component with our HOC:
-
-> ***The Hosted UI support is only available for React/ React Native / Web***
 
 ```javascript
 import { withOAuth } from 'aws-amplify-react';
@@ -1389,8 +1385,6 @@ export default CustomButton;
 ```
 
 #### Launching the Hosted UI in React Native 
-
-> ***The Hosted UI support is only available for React/ React Native / Web***
 
 With React Native, you can use `withOAuth` HOC to launch the hosted UI experience. Just wrap your app's main component with our HOC. Doing so, will pass the following `props` available to your component:
 
