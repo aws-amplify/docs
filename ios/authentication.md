@@ -716,7 +716,7 @@ Then, once the end-user has authenticated with you, the app should receive a Cog
 The app will federate your sign-in with Cognito Identity to receive AWS credentials by making the following call.
 
 ```swift
-AWSMobileClient.sharedInstance().federatedSignIn(providerName: IdentityProvider.facebook.rawValue,
+AWSMobileClient.sharedInstance().federatedSignIn(providerName: IdentityProvider.developer.rawValue,
                                                         token: "YOUR_TOKEN",
                                        federatedSignInOptions: FederatedSignInOptions(cognitoIdentityId: identityId!)) { (userState, error) in
     if let error = error as? AWSMobileClientError {
