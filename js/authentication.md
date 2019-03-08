@@ -1804,7 +1804,7 @@ Auth.signIn(username, password)
 
 Here is the sample for creating a CAPTCHA challenge with a Lambda Trigger.
 
-The `Define Auth Challenge Lambda Trigger` creates a CAPTCHA as a challenge to the user. The URL for the CAPTCHA image and  the expected answer is added to the private challenge parameters:
+The `Create Auth Challenge Lambda Trigger` creates a CAPTCHA as a challenge to the user. The URL for the CAPTCHA image and  the expected answer is added to the private challenge parameters:
 
 ```javascript
 export const handler = async (event) => {
@@ -1821,7 +1821,7 @@ export const handler = async (event) => {
 };
 ```
 
-This `Create Auth Challenge Lambda Trigger` defines a custom challenge:
+This `Define Auth Challenge Lambda Trigger` defines a custom challenge:
 
 ```javascript
 export const handler = async (event) => {
