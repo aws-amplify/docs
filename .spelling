@@ -39,6 +39,7 @@ EventBus
 electron
 electron.js
 ForgotPassword
+FederatedSignIn
 frontend
 GraphQL
 global.scss

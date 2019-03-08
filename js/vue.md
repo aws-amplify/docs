@@ -135,6 +135,23 @@ Events:
 * ```AmplifyEventBus.$emit('authState', 'forgotPassword')```: Emitted when a user clicks the 'Forgot Password' button.
 * ```AmplifyEventBus.$emit('authState', 'signUp')```: Emitted when a user clicks 'Back to Sign Up'.
 
+### FederatedSignIn
+
+The FederatedSignIn component provides your users with the ability to sign in using social providers.  
+
+Usage: ```<amplify-federated-sign-in></amplify-federated-sign-in>```
+
+Config:
+```
+<amplify-federated-sign-in v-bind:federatedSignInConfig="federatedSignInConfig"></amplify-federated-sign-in>
+```
+
+{% include federated-sign-in-attributes.html %}
+
+Events: 
+
+* ```AmplifyEventBus.$emit('authState', 'signedIn')```: Emitted when a user successfully signs in without answering an MFA challenge.
+
 ### ConfirmSignIn
 
 The ConfirmSignIn component provides your users with the ability to answer an MFA challenge.  
