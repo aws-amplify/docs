@@ -5,8 +5,8 @@
 
 There are multiple ways to deploy and host your Amplify app. Two options are listed below:
 
-<a href="#hosting-with-the-aws-amplify-console">AWS Amplify Console</a><br/>
-<a href="#hosting-with-the-amplify-cli">Amplify CLI</a>
+<a href="#using-the-aws-amplify-console">AWS Amplify Console</a><br/>
+<a href="#using-the-amplify-cli">Amplify CLI</a>
 
 ## Using the AWS Amplify Console
 
