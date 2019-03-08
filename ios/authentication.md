@@ -703,6 +703,31 @@ You can now [configure Google in your mobile app](./authentication#google-login-
 
 Note that the CLI allows you to select more than one identity provider for your app. You can also run `amplify auth update` to add an identity provider to an existing auth configuration.
 
+#### Developer Authenticated Identities with Cognito Identity
+
+In some cases, the developer has the means to authenticate the end-user. This means that the developer is the identity provider.
+
+Begin by registering yourself with Cognito Identity in the console.
+
+![Image]({{media_base}}/dev-auth-ids-console-settings.png)
+
+Then, once the end-user has authenticated with you, the app should receive a Cognito identity id and token confirming the sign-in with you from your servers.
+
+The app will federate your sign-in with Cognito Identity to receive AWS credentials by making the following call.
+
+```swift
+AWSMobileClient.sharedInstance().federatedSignIn(providerName: IdentityProvider.facebook.rawValue,
+                                                        token: "YOUR_TOKEN",
+                                       federatedSignInOptions: FederatedSignInOptions(cognitoIdentityId: identityId!)) { (userState, error) in
+    if let error = error as? AWSMobileClientError {
+        print(error.localizedDescription)
+    }
+    if let userState = userState {
+        print("Status: \(userState.rawValue)")
+    }
+}
+```
+
 ### Facebook Login in Your Mobile App
 
 1. Add the following dependencies in your project's `Podfile`.
