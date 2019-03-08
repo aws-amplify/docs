@@ -143,7 +143,11 @@ Usage: ```<amplify-federated-sign-in></amplify-federated-sign-in>```
 
 Config:
 ```
-<amplify-federated-sign-in v-bind:federatedSignInConfig="federatedSignInConfig"></amplify-federated-sign-in>
+<amplify-federated-sign-in 
+  v-bind:google_client_id="google_client_id" 
+  v-bind:facebook_app_id="facebook_app_id" 
+  v-bind:amazon_client_id="amazon_client_id">
+</amplify-federated-sign-in>
 ```
 
 {% include federated-sign-in-attributes.html %}
