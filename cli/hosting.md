@@ -5,16 +5,9 @@
 
 There are multiple ways to deploy and host your Amplify app. Two options are listed below:
 
-<a href="#using-the-aws-amplify-console">AWS Amplify Console</a><br/>
-<a href="#using-the-amplify-cli">Amplify CLI</a>
 
-## Using the AWS Amplify Console
-
-The AWS Amplify Console is a continuous deployment and hosting service for Amplify web apps. [Learn more](http://console.amplify.aws){: .target='new'}.
-{: .callout .callout--action}
-
-The AWS Amplify Console provides a Git-based workflow for building, deploying, and hosting your Amplify web app — both the frontend and backend — from source control. Once you connect a feature branch, all code commits are automatically deployed to an `amplifyapp.com` subdomain or your custom domain. **[Get started >>](https://docs.aws.amazon.com/amplify/latest/userguide/getting-started.html)**
-
+<a href="#using-the-amplify-cli">Amplify CLI</a><br/>
+<a href="#using-the-aws-amplify-console">AWS Amplify Console</a>
 
 ## Using the Amplify CLI
 
@@ -53,3 +46,12 @@ It can take time to create and replicate a CloudFront Distribution across the gl
 You will be prompted to select a stage when you add hosting. <br/>
 CloudFront can also be added or removed in your project afterwards by the `amplify hosting configure` command. <br/>
 Note that if the hosting S3 bucket is newly created in regions other than us-east-1, you might get the `HTTP 307 Temporary Redirect` error in the beginning when you access your published application through CloudFront. This is because CloudFront forwards requests to the default S3 endpoint (s3.amazonaws.com), which is in the us-east-1 region, and it can take up to 24 hours for the new hosting bucket name to propagate globally.
+
+
+## Using the AWS Amplify Console
+
+The AWS Amplify Console is a continuous deployment and hosting service for Amplify web apps. [Learn more](http://console.amplify.aws){: .target='new'}.
+{: .callout .callout--action}
+
+The AWS Amplify Console provides a Git-based workflow for building, deploying, and hosting your Amplify web app — both the frontend and backend — from source control. Once you connect a feature branch, all code commits are automatically deployed to an `amplifyapp.com` subdomain or your custom domain. **[Get started >>](https://docs.aws.amazon.com/amplify/latest/userguide/getting-started.html)**
+
