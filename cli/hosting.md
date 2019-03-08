@@ -13,7 +13,7 @@ There are multiple ways to deploy and host your Amplify app. Two options are lis
 The AWS Amplify Console is a continuous deployment and hosting service for Amplify web apps. [Learn more](http://console.amplify.aws){: .target='new'}.
 {: .callout .callout--action}
 
-The AWS Amplify Console provides a Git-based workflow for building, deploying, and hosting your Amplify web app — both the frontend and backend — from source control. Once you connect a feature branch, all code commits are automatically deployed to an `amplifyapp.com` subdomain or your custom domain. [Get started](https://docs.aws.amazon.com/amplify/latest/userguide/getting-started.html)
+The AWS Amplify Console provides a Git-based workflow for building, deploying, and hosting your Amplify web app — both the frontend and backend — from source control. Once you connect a feature branch, all code commits are automatically deployed to an `amplifyapp.com` subdomain or your custom domain. **[Get started >>](https://docs.aws.amazon.com/amplify/latest/userguide/getting-started.html)**
 
 
 ## Using the Amplify CLI
