@@ -35,9 +35,9 @@ You can alternatively, have developers setup their own isolated replica of these
 
 This workflow can be used to share complete Amplify projects with people outside of your organization as well by committing the project into a Git repository. If you are doing this remove (or add to the .gitignore) the **team-provider-info.json** which is located in the `amplify` directory. You can learn more about this file [here](#teamprovider).
 
-## Continuous deployment with feature branches
+## Continuous deployment and Hosting
 
-You can use the Amplify CLI's multi-environment feature with the AWS Amplify Console to automatically deploy changes to your frontend and backend in a single workflow. Connect branches in your repository to set up your production, test, and development websites. For more information please visit the [official documentation](https://docs.aws.amazon.com/amplify/latest/userguide/multi-environments.html).
+The Amplify CLI supports basic web application hosting with Amazon S3 and CloudFront. You can use the multi-environments feature with the Amplify Console for a fully managed web application hosting and continuous deployment solution. For more information please learn more in the [official documentation](https://docs.aws.amazon.com/amplify/latest/userguide/multi-environments.html).
 
 ## Setting up master and dev environments 
 

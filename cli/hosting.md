@@ -10,15 +10,15 @@ There are multiple ways to deploy and host your Amplify app. Two options are lis
 
 ## Using the AWS Amplify Console
 
-AWS Amplify Console provides a continous workflow for developing and releasing your Amplify app. [Learn more](http://console.amplify.aws){: .target='new'}.
+The AWS Amplify Console is a continuous deployment and hosting service for Amplify web apps. [Learn more](http://console.amplify.aws){: .target='new'}.
 {: .callout .callout--action}
 
-The AWS Amplify Console leverages a Git-based workflow to create feature branch deployments when you connect a branch in your repository to the service. All code commits are automatically deployed to an `amplifyapp.com` domain or your custom domain. [Get started](https://docs.aws.amazon.com/amplify/latest/userguide/getting-started.html)
+The AWS Amplify Console provides a Git-based workflow for building, deploying, and hosting your Amplify web app — both the frontend and backend — from source control. Once you connect a feature branch, all code commits are automatically deployed to an `amplifyapp.com` subdomain or your custom domain. [Get started](https://docs.aws.amazon.com/amplify/latest/userguide/getting-started.html)
 
 
 ## Using the Amplify CLI
 
-The Amplify CLI supports basic web application hosting with Amazon S3 and CloudFront. The `amplify publish` command is designed to build and publish both the backend and the front end of the project. Depending on the stage that the project is at, the command can be configured to publish either to a DEV or a PROD environment.<br/>
+The `amplify publish` command is designed to build and publish both the backend and the front end of the project. Depending on the stage that the project is at, the command can be configured to publish either to a DEV or a PROD environment.<br/>
 In the current implementation, the frontend publish is only available for JavaScript project for static web hosting. This is accomplished by the category plugin amplify-category-hosting, using Amazon S3 and Amazon CloudFront. <br/>
 The amplify-category-hosting module uses the amplify-provider-awscloudformation to create and update the S3 and CloudFront resources.
 For more  information of the Amazon S3 and Amazon CloudFront, check their docs:<br/>
