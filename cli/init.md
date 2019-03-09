@@ -270,7 +270,7 @@ Unless explicitly set to `general`, the `project` level is chosen. <br/>
 `general` level means the CLI will not manage configuration at the project level, it instead relies on the AWS SDK to resolve aws credentials and region. To learn how it works, check the AWS SDK's documents on [credentials](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/setting-credentials-node.html) and [region](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/setting-region.html).<br/>
 `project` level means the configuration is managed at the project level by the CLI, each project gets its own independent configuration. The following attributes are used only when the configuration is at project level<br/>
 - `useProfile`: <br/> 
-A boolean indicating weather to use a profile defined in the shared config file (`~/.aws/config`) and credentials file (`~/.aws/credentials`). <br/>
+A boolean indicating whether to use a profile defined in the shared config file (`~/.aws/config`) and credentials file (`~/.aws/credentials`). <br/>
 - `profileName`: <br/> 
 The name of the profile if `useProfile` is set to true. <br/>
 - `accessKeyId`: <br/> 
