@@ -133,7 +133,7 @@ Now **build** your project to start using the SDK. Whenever a new version of the
 
 ## Frameworks setup
 
-Download the [SDK](https://sdk-for-ios.amazonwebservices.com/latest/aws-ios-sdk.zip). The SDK is stored in a compressed file archive named `aws-ios-sdk-#.#.#` (where `#.#.#` represents the version number, so for version 2.8.0, the filename is `aws-ios-sdk-2.8.0`).
+Download the [SDK](https://sdk-for-ios.amazonwebservices.com/latest/aws-ios-sdk.zip). The SDK is stored in a compressed file archive named `aws-ios-sdk-#.#.#` (where `#.#.#` represents the version number, so for version 2.9.0, the filename is `aws-ios-sdk-2.9.0`).
 
 With your project open in Xcode, select your `Target`. Under `General` tab, find `Embedded Binaries` and then click the `+` button.
 
@@ -270,10 +270,10 @@ AWSDDLog.add(AWSDDTTYLogger.sharedInstance) // TTY = Xcode console
 Open the macOS terminal and go to the directory containing the expanded archive. For example:
 
 ```bash
-$ cd ~/Downloads/aws-ios-sdk-2.8.0
+$ cd ~/Downloads/aws-ios-sdk-2.9.0
 ```
 
-**Note**: Replace 2.8.0 in the preceding example with the version number of the AWS Mobile SDK for iOS that you downloaded.
+**Note**: Replace 2.9.0 in the preceding example with the version number of the AWS Mobile SDK for iOS that you downloaded.
 
 Create a directory called `~/Library/Developer/Shared/Documentation/DocSets`:
 

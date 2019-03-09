@@ -1,3 +1,11 @@
+---
+title: Multienv
+---
+{% if jekyll.environment == 'production' %}
+  {% assign base_dir = site.amplify.docs_baseurl %}
+{% endif %}
+{% assign media_base = base_dir | append: page.dir | append: "images" %}
+
 # Multiple environments and team workflows
 
 This section outlines how you can manage multiple environments of your Amplify project (backend + frontend) as well as using a project within a team or outside a team using the Amplify CLI & Git. 
@@ -6,19 +14,19 @@ This section outlines how you can manage multiple environments of your Amplify p
 
 Amplify fits into the standard Git workflow where you switch between different branches using the `env` command. Similarly to how you will run `git checkout BRANCHNAME` you will run `amplify env checkout ENVIRONMENT_NAME`. The below diagram shows a workflow of how to initialize new environments when creating new git branches.
 
-![](images/AmplifyEnvSwitching.jpg)
+![Image]({{media_base}}/AmplifyEnvSwitching.jpg)
 
-You can independently add features to each environment allowing you to develop and test before moving them to different stages. This is contingent on which branch you ran a checkout from using Git. Using the same example above of **Dev** being the base which **Test** and **Prod** were derived, you could add (or remove) features and merge & deploy accordingly once you are comfortable with your setup.
+You can independently add features to each environment which allows you to develop and test before moving them to different stages. This is contingent on which branch you ran a checkout from using Git. Using the same example above of **Dev** being the base which **Test** and **Prod** were derived, you could add (or remove) features and merge & deploy accordingly once you are comfortable with your setup.
 
-![](images/AmplifyEnvAddDeploy.jpg)
+![Image]({{media_base}}/AmplifyEnvAddDeploy.jpg)
 
 This can be done in an iterative manner as you work through your deployment pipeline:
 
-![](images/AmplifyEnvAddDeploySwitching.jpg)
+![Image]({{media_base}}/AmplifyEnvAddDeploySwitching.jpg)
 
 Multiple developers on a team can also share and manipulate the environment as well by using the credentials in the account. For instance suppose they wanted to test a change to the API without impacting the **Test** or **Prod** deployments. This will allow them to test the configured resources and, if they have been granted appropriate CloudFormation permissions, they can push resources as well to the backend with `amplify push`.
 
-![](images/AmplifyEnvMultDevelopers.jpg)
+![Image]({{media_base}}/AmplifyEnvMultDevelopers.jpg)
 
 You can alternatively, have developers setup their own isolated replica of these environments in different AWS account. To do this simply:
 1. Clone the existing project
@@ -29,7 +37,7 @@ This workflow can be used to share complete Amplify projects with people outside
 
 ## Continuous deployment and Hosting
 
-The Amplify CLI supports basic web application hosting with Amazon S3 and CloudFront. You can use the multi-environments feature with the Amplify Console for a fully managed web application hosting and continuous deployment solution. For more information please learn more in the [official documentation](https://docs.aws.amazon.com/amplify/latest/userguide/deploy-backend.html).
+The Amplify CLI supports basic web application hosting with Amazon S3 and CloudFront. You can use the multi-environments feature with the Amplify Console for a fully managed web application hosting and continuous deployment solution. For more information please learn more in the [official documentation](https://docs.aws.amazon.com/amplify/latest/userguide/multi-environments.html).
 
 ## Setting up master and dev environments 
 

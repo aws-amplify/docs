@@ -137,7 +137,7 @@ The following directives are available to be used when defining your schema:
 | @auth on Object | Define authorization strategies for your API. | 
 | @connection on Field | Specify relationships between @model object types. |
 | @searchable on Object | Stream data of an @model object type to Amazon Elasticsearch Service. |
-| @versioned one Object | Add object versioning and conflict detection to a @model. | 
+| @versioned on Object | Add object versioning and conflict detection to a @model. | 
 
 You may also write your own transformers to implement reproducible patterns that you find useful. To learn more about the GraphQL Transform libraries see [GraphQL Transform Documentation](https://aws-amplify.github.io/docs/cli/graphql?sdk=js).
 
@@ -1161,7 +1161,7 @@ You can also use Delta Sync functionality with GraphQL subscriptions, taking adv
 1. Subscribe to any queries defined and store results in an incoming queue
 2. Run the appropriate query (If `baseRefreshIntervalInSeconds` has elapsed, run the Base Query otherwise only run the Delta Query)
 3. Update the cache with results from the appropriate query
-4. Drain the mutation queue in serial
+4. Drain the subscription queue and continue processing as normal
 
 Finally, you might have other queries which you wish to represent in your application other than the base cache hydration. For instance a `getItem(id:ID)` or other specific query. If your alternative query corresponds to items which are already in the normalized cache, you can point them at these cache entries with the `cacheUpdates` function which returns an array of queries and their variables. The DeltaSync client will then iterate through the items and populate a query entry for each item on your behalf. If you wish to use additional queries which don't correspond to items in your base query cache, you can always create another instance of the `client.sync()` process.
 
