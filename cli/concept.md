@@ -1,5 +1,10 @@
 ---
+title: Architecture
 ---
+{% if jekyll.environment == 'production' %}
+  {% assign base_dir = site.amplify.docs_baseurl %}
+{% endif %}
+{% assign media_base = base_dir | append: page.dir | append: "images" %}
 
 # Architecture
 The AWS Amplify CLI toolchain enables front-end developers to easily set up the backend resources in the cloud.
@@ -8,7 +13,7 @@ The Amplify CLI is written in Node.js. It has a pluggable architecture and can b
 Click [here](plugins) for more details.
 
 ## Overview
-![](images/AmplifyCliConcept.jpg)
+![Image]({{media_base}}/AmplifyCliConcept.jpg)
 ### CLI core and plugins
 The Amplify CLI uses <a href="https://github.com/infinitered/gluegun##readme" target="_blank">gluegun</a>. It is highly modularized.  <br/>
 The CLI core provides the pluggable platform, and most of the CLI category functions are implemented as plugins. <br/> 
