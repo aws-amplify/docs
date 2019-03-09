@@ -390,7 +390,7 @@ category_list:
           icon: '/images/icons/Misc/Present.svg'
         - title: Angular & Ionic
           excerpt: #"Learn to build a cloud enabled 'Notes App' with Ionic 4 and AWS Amplify <br/><b>45 min to complete</b>"
-          url: '/js/ionic'
+          url: '/js/angular'
           icon: '/images/icons/Misc/Present.svg'
         - title: Vue
           excerpt: #"Learn to build a cloud enabled App with Vue.js and AWS Amplify <br/><b>45 min to complete</b>"
@@ -606,6 +606,8 @@ js_libraries:
     url: '?platform=ionic'
   - title: JavaScript
     url: '?platform=purejs'
+  - title: Vue
+    url: '?platform=vue'
 
 android_languages:
   - title: Java
