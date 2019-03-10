@@ -173,6 +173,10 @@ try {
         // The error happens when the password is reset in the Cognito console
         // In this case you need to call forgotPassword to reset the password
         // Please check the Forgot Password part.
+    } else if (err.code === 'NotAuthorizedException') {
+        // The error happens when the incorrect password is provided
+    } else if (err.code === 'UserNotFoundException') {
+        // The error happens when the supplied username/email does not exist in the Cognito user pool
     } else {
         console.log(err);
     }
@@ -538,7 +542,7 @@ Currently, the federated identity components only support `google`, `facebook`, 
 
 The `Auth.federatedSignIn()` is used to get AWS credentials directly from Cognito Federated Identities, which is different from Cognito User Pools. When an AWS service (such as S3) uses IAM for authorization, the request needs to be signed with AWS credentials and Cognito Federated Identities provides short term AWS credentials for performing this action using mobile or web applications. Amplify automatically refreshes these short term credentials in the background on your behalf, and when using `Auth.signIn()` you **do not** need to call  `Auth.federatedSignIn()` as this process happens automatically in the background for you. `Auth.signIn()` will also provide JWT OIDC tokens from Cognito User Pools which are federated with Cognito Federated Identities on your behalf allowing your application to interact with AWS services, which the other Amplify categories (such as Storage and API) will sign requests automatically.
 
-In general, if you are using Cognito User Pools to manage user Sign-Up and Sign-In you do not need to call `Auth.federatedSignIn()` as this happens automatically behind the scenes when your User Pool is federated with an Identity Pool. You will be able to retrieve User Pool tokens with `Auth.currentSession` and the user object (from User Pols) with `Auth.currentAuthenticatedUser`. The AWS credentials can be found with `Auth.currentCredentials`.
+In general, if you are using Cognito User Pools to manage user Sign-Up and Sign-In you do not need to call `Auth.federatedSignIn()` as this happens automatically behind the scenes when your User Pool is federated with an Identity Pool. You will be able to retrieve User Pool tokens with `Auth.currentSession` and the user object (from User Pools) with `Auth.currentAuthenticatedUser`. The AWS credentials can be found with `Auth.currentCredentials`.
 
 ```js
 import { Auth } from 'aws-amplify';
@@ -1804,7 +1808,7 @@ Auth.signIn(username, password)
 
 Here is the sample for creating a CAPTCHA challenge with a Lambda Trigger.
 
-The `Define Auth Challenge Lambda Trigger` creates a CAPTCHA as a challenge to the user. The URL for the CAPTCHA image and  the expected answer is added to the private challenge parameters:
+The `Create Auth Challenge Lambda Trigger` creates a CAPTCHA as a challenge to the user. The URL for the CAPTCHA image and  the expected answer is added to the private challenge parameters:
 
 ```javascript
 export const handler = async (event) => {
@@ -1821,7 +1825,7 @@ export const handler = async (event) => {
 };
 ```
 
-This `Create Auth Challenge Lambda Trigger` defines a custom challenge:
+This `Define Auth Challenge Lambda Trigger` defines a custom challenge:
 
 ```javascript
 export const handler = async (event) => {
