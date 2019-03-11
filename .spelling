@@ -213,7 +213,7 @@ middleware
 IoT
 WebSocket
 
-# js/ionic.md
+# js/angular.md
 html
 base64
 amplify-s3-album
@@ -285,6 +285,8 @@ withFederated
 Auth.federatedSignIn
 aws.cognito.signin.user.admin
 ChallengeName
+myapp
+LoginWithAmazon
 
 #js/cognito-hosted-ui-federated-identity.md
 oauth2
