@@ -344,6 +344,8 @@ DynamoDBBillingMode
 PAY_PER_REQUEST
 DynamoDBModelTableWriteIOPS
 DynamoDBModelTableReadIOPS
+MySQL
+pre-generated
 
 # cli/graphql.md
 DataSource
