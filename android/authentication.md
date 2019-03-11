@@ -1192,7 +1192,7 @@ Note: The User Pool OIDC JWT token obtained from a successful sign-in will be fe
         Intent activityIntent = getIntent();
         if (activityIntent.getData() != null &&
                 "myapp".equals(activityIntent.getData().getScheme())) {
-            AWSMobileClient.getInstance().handleIntent(activityIntent);
+            AWSMobileClient.getInstance().handleAuthResponse(activityIntent);
         }
     }
     ```
@@ -1360,7 +1360,7 @@ This will allow users authenticated via Auth0 have access to your AWS resources.
         Intent activityIntent = getIntent();
         if (activityIntent.getData() != null &&
                 "myapp".equals(activityIntent.getData().getScheme())) {
-            AWSMobileClient.getInstance().handleIntent(activityIntent);
+            AWSMobileClient.getInstance().handleAuthResponse(activityIntent);
         }
     }
     ```
