@@ -705,7 +705,7 @@ Note that the CLI allows you to select more than one identity provider for your 
 
 #### Developer Authenticated Identities with Cognito Identity
 
-In some cases, the developer has the means to authenticate the end-user. This means that the developer is the identity provider.
+With developer authenticated identities, you can register and authenticate users via your own existing authentication process, while still using Amazon Cognito to access AWS resources. Using developer authenticated identities involves interaction between the end user device, your backend for authentication, and Amazon Cognito.
 
 Begin by registering yourself with Cognito Identity in the console.
 
@@ -852,7 +852,7 @@ Now, your drop-in UI will show a Google sign in button which the users can use t
 
 ### Using Amazon Cognito Hosted UI 
 
-Amazon Cognito provides a customizable user experience via the hosted UI. The hosted UI supports OAuth 2.0 and Federated Identities with Facebook, Amazon, Google, and SAML providers. To learn more about Amazon Cognito Hosted UI, please visit [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-configuring-app-integration.html).
+Amazon Cognito provides a customizable user experience via the Hosted UI. The Hosted UI is an OAuth 2.0 flow that allows you to launch a login screen without embedding an SDK for Cognito or a social provider into your application. The Hosted UI allows end-users to sign-in directly to your user pool through Facebook, Amazon, and Google, as well as through OpenID Connect (OIDC) and SAML identity providers. To learn more about Amazon Cognito Hosted UI, please visit [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-configuring-app-integration.html).
 
 #### Setup your Cognito App Client
 
@@ -938,6 +938,8 @@ Note: `openid` is required for `phone`, `email` or `profile`. Also `openid` is r
         }
     }
     ```
+
+Note: The User Pool OIDC JWT token obtained from a successful sign-in will be federated into a configured Cognito Identity pool in the `awsconfiguration.json` and the SDK will automatically exchange this with Cognito Identity to also retrieve AWS credentials.
 
 1. Add `myapp://` to your app's URL schemes:
 
