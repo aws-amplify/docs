@@ -3,11 +3,9 @@
 
 # Angular
 
-AWS Amplify helps developers to create high-quality Angular apps quickly by handling the heavy lifting of configuring and integrating cloud services behind the scenes. It also provides a powerful high-level API and ready-to-use security best practices.
+The `aws-amplify-angular` package is a set of Angular components and an Angular provider which helps integrate your application with the AWS-Amplify library.  It supports Angular 5.0 or above.  It also includes a [supplemental module](#ionic-4-components) for Ionic-specific components.
 
 ## Installation
-
-UI Components and service provider available via the [aws-amplify-angular](https://www.npmjs.com/package/aws-amplify-angular) npm module.
 
 Install `aws-amplify` and `aws-amplify-angular` npm packages into your Angular app.
 
@@ -15,6 +13,12 @@ Install `aws-amplify` and `aws-amplify-angular` npm packages into your Angular a
 $ npm install --save aws-amplify 
 $ npm install --save aws-amplify-angular 
 ```
+
+### Angular 6+ Support
+
+Currently, the newest versions of Angular (6+) do not provide the shim for the  `global` object which was provided in previous versions.
+
+Add the following to the top of your `polyfills.ts` file: ```(window as any).global = window;``` to recreate it.
 
 ### Setup
 
@@ -144,23 +148,22 @@ import { AmplifyService }  from 'aws-amplify-angular';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-constructor( private amplifyService: AmplifyService ) {
-    
+export class AppComponent {
     signedIn: boolean;
     user: any;
     greeting: string;
-
-    this.amplifyService.authStateChange$
-        .subscribe(authState => {
-            this.signedIn = authState.state === 'signedIn';
-            if (!authState.user) {
-                this.user = null;
-            } else {
-                this.user = authState.user;
-                this.greeting = "Hello " + this.user.username;
-            }
-    });
-
+    constructor( private amplifyService: AmplifyService ) {
+        this.amplifyService.authStateChange$
+            .subscribe(authState => {
+                this.signedIn = authState.state === 'signedIn';
+                if (!authState.user) {
+                    this.user = null;
+                } else {
+                    this.user = authState.user;
+                    this.greeting = "Hello " + this.user.username;
+                }
+        });
+    }
 }
 ```
 
@@ -300,12 +303,6 @@ Add the following to your styles.css file to use the default styles:
 
 You can use custom styling for components by importing your custom *styles.css* that overrides the <a href="https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-angular/src/theme.css" target="_blank">default styles</a>.
 
-## Angular 6 Support
-
-Currently, the newest version of Angular (6.x) does not provide the shim for the  `global` object which was provided in previous versions.
-
-Add the following to the top of your `polyfills.ts` file: ```(window as any).global = window;```.
-
 ## Ionic 4 Components
 The Angular components included in this library can optionally be presented with Ionic-specific styling.  To do so, simply include the ```AmplifyIonicModule``` alongside the ```AmplifyAngularModule```.  Then, pass in ```framework="Ionic"``` into the component.  
 
@@ -326,4 +323,6 @@ Example:
   <amplify-authenticator-ionic></amplify-authenticator-ionic>
   ...
 ```
+
+
 

@@ -99,7 +99,7 @@ To use AppSync in your Xcode project, modify your Podfile with a dependency of t
 ```ruby
 target 'PostsApp' do
     use_frameworks!
-    pod 'AWSAppSync', ' ~> 2.9.0'
+    pod 'AWSAppSync', ' ~> 2.10.0'
 end
 ```
 
@@ -118,20 +118,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 var appSyncClient: AWSAppSyncClient?
 
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    //You can choose your database location
-    let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("database_name")
-
     do {
-        //AppSync configuration & client initialization
-        let appSyncServiceConfig = try AWSAppSyncServiceConfig()
-        let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: appSyncServiceConfig, databaseURL: databaseURL)
+	// You can choose the directory in which AppSync stores its persistent cache databases
+	let cacheConfiguration = try AWSAppSyncCacheConfiguration()
+
+	// AppSync configuration & client initialization
+	let appSyncServiceConfig = try AWSAppSyncServiceConfig()
+        let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: appSyncServiceConfig,
+	                                                      cacheConfiguration: cacheConfiguration)
         appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
         // Set id as the cache key for objects. See architecture section for details
         appSyncClient?.apolloClient?.cacheKeyForObject = { $0["id"] }
     } catch {
         print("Error initializing appsync client. \(error)")
     }
-    //other methods
+    // other methods
     return true
 }
 ```
@@ -218,11 +219,11 @@ do {
 }
 ```
 
-Subscriptions can also take input types like mutations, in which case they will be subscribing to particular events based on the input. To learn more about subscription arguments, see [AWS AppSync Subscription Arguments](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html#using-subscription-arguments).
+Like mutations, subscriptions can also take input types, in which case they will be subscribing to particular events based on the input. To learn more about subscription arguments, see [AWS AppSync Subscription Arguments](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html#using-subscription-arguments).
 
 ### Client Architecture
 
-The AppSync client supports offline scenarios with a programing model that provides a "write through cache". This allows you to both render data in the UI when offline as well as add/update through an "optimistic response". The below diagram shows how the AppSync client interfaces with the network GraphQL calls, it's offline mutation queue, the Apollo cache, and your application code.
+The AppSync client supports offline scenarios with a programing model that provides a "write through cache". This allows you to both render data in the UI when offline as well as add/update through an "optimistic response". The below diagram shows how the AppSync client interfaces with the network GraphQL calls, its offline mutation queue, the Apollo cache, and your application code.
 
 ![Image]({{image_base}}/appsync-architecture.png)
 
@@ -318,13 +319,10 @@ API Key is the easiest way to setup and prototype your application with AppSync.
 Add the following code to your app:
 
 ```swift
-// You can choose your database location, accessible by the SDK
-let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent(database_name)
-    
 do {
     // Initialize the AWS AppSync configuration
     let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(), 
-                                                          databaseURL: databaseURL)
+                                                          cacheConfiguration: AWSAppSyncCacheConfiguration())
     
     // Initialize the AWS AppSync client
     appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
@@ -361,10 +359,10 @@ Add the following code to your app:
 
 ```swift                                
     func initializeAppSync() {
-        // You can choose your database location, accessible by the SDK
-        let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("todos_db")
-        
         do {
+            // You can choose the directory in which AppSync stores its persistent cache databases
+	    let cacheConfiguration = try AWSAppSyncCacheConfiguration()
+
             // Initialize the AWS AppSync configuration
             let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
                                                                   userPoolsAuthProvider: {
@@ -380,7 +378,7 @@ Add the following code to your app:
                                                                         }
                                                                     }
                                                                     return MyCognitoUserPoolsAuthProvider()}(),
-                                                                  databaseURL: databaseURL)
+                                                                  cacheConfiguration: cacheConfiguration)
             
             // Initialize the AWS AppSync client
             appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
@@ -417,14 +415,11 @@ When using AWS IAM in a mobile application you should leverage Amazon Cognito Id
 Add the following code to your app:
 
 ```swift         
-// You can choose your database location, accessible by the SDK
-let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent(database_name)
-    
 do {
-  // Initialize the AWS AppSync configuration
-            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
-                                                                  credentialsProvider: AWSMobileClient.sharedInstance(),
-                                                                  databaseURL: databaseURL)
+    // Initialize the AWS AppSync configuration
+    let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
+							  credentialsProvider: AWSMobileClient.sharedInstance(),
+							  cacheConfiguration: AWSAppSyncCacheConfiguration())
     
     // Initialize the AWS AppSync client
     appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
@@ -460,13 +455,11 @@ class MyOidcProvider: AWSOIDCAuthProvider {
     }
 }
 
-let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent(database_name)
-    
 do {
-  // Initialize the AWS AppSync configuration
+    // Initialize the AWS AppSync configuration
     let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
                                                           oidcAuthProvider: MyOidcProvider(),
-                                                          databaseURL: databaseURL)
+                                                          cacheConfiguration: AWSAppSyncCacheConfiguration())
     
     appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
 } catch {
@@ -487,7 +480,7 @@ You can also use Delta Sync functionality with GraphQL subscriptions, taking adv
 1. Subscribe to any queries defined and store results in an incoming queue
 2. Run the appropriate query (If `baseRefreshIntervalInSeconds` has elapsed, run the Base Query otherwise only run the Delta Query)
 3. Update the cache with results from the appropriate query
-4. Drain the mutation queue in serial
+4. Drain the subscription queue and continue processing as normal
 
 Finally, you might have other queries which you wish to represent in your application other than the base cache hydration. For instance a `getItem(id:ID)` or other specific query. If your alternative query corresponds to items which are already in the normalized cache, you can point them at these cache entries with the `cacheUpdates` function which returns an array of queries and their variables. The DeltaSync client will then iterate through the items and populate a query entry for each item on your behalf. If you wish to use additional queries which don't correspond to items in your base query cache, you can always create another instance of the `appSyncClient?.sync()` process.
 
@@ -788,7 +781,7 @@ Add `AWSAPIGateway` to your Podfile:
 	  use_frameworks!
 
 	     # For API
-	     pod 'AWSAPIGateway', '~> 2.8.0'
+	     pod 'AWSAPIGateway', '~> 2.9.0'
 	     # other pods
 	end
 ```
