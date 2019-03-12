@@ -110,7 +110,7 @@ mqttManager.connect(<YOUR_KEYSTORE>, new AWSIotMqttClientStatusCallback() {
 The AWS IoT Core service also allows you to connect devices using MQTT with certificate based mutual authentication on port 443. You can do this using the `connectWithALPN` API as shown below. See [MQTT with TLS client authentication on port 443](https://aws.amazon.com/blogs/iot/mqtt-with-tls-client-authentication-on-port-443-why-it-is-useful-and-how-it-works/) for more information.
 
 ```java
-mqttManager.connectWithALPN(<YOUR_KEYSTORE>, new AWSIotMqttClientStatusCallback() {
+mqttManager.connectUsingALPN(<YOUR_KEYSTORE>, new AWSIotMqttClientStatusCallback() {
     @Override
     public void onStatusChanged(AWSIotMqttClientStatus status, Throwable throwable) {
         Log.d(LOG_TAG, "Status = " + String.valueOf(status));
