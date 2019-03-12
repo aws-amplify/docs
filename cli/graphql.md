@@ -1647,7 +1647,7 @@ $util.toJson({
 })
 ```
 
-4. Run `ampify push`
+4. Run `amplify push`
 
 Amazon Elasticsearch domains can take a while to deploy. Take this time to read up on Elasticsearch to see what capabilities you are about to unlock.
 
