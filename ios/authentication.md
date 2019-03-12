@@ -104,9 +104,9 @@ After initialization in your project directory with `amplify init`, edit your `P
 ```ruby
 target 'MyApp' do             ##Replace MyApp with your application name
   use_frameworks!
-  pod 'AWSMobileClient', '~> 2.8.0'      # Required dependency
-  pod 'AWSAuthUI', '~> 2.8.0'            # Optional dependency required to use drop-in UI
-  pod 'AWSUserPoolsSignIn', '~> 2.8.0'   # Optional dependency required to use drop-in UI
+  pod 'AWSMobileClient', '~> 2.9.0'      # Required dependency
+  pod 'AWSAuthUI', '~> 2.9.0'            # Optional dependency required to use drop-in UI
+  pod 'AWSUserPoolsSignIn', '~> 2.9.0'   # Optional dependency required to use drop-in UI
 end
 ```
 
@@ -142,7 +142,7 @@ After configuring your Authentication options, update your backend:
 $ amplify push
 ```
 
-A configuration file called `awsconfiguration.json` will be copied to your project source directory. In the Finder, drag the file into Xcode under the top Project Navigator folder. When the `Options` dialog box that appears, do the following:
+A configuration file called `awsconfiguration.json` will be copied to your project source directory. In the Finder, drag the file into Xcode under the top Project Navigator folder. When the `Options` dialog box appears, do the following:
 
 * Clear the `Copy items if needed` check box.
 * Choose `Create groups`, and then choose `Next`.
@@ -632,7 +632,7 @@ These Client IDs are part of your Google Developers project. The Web Client ID w
 
 **NOTE:** The creation and configuration steps for creating OAuth Clients for Google Sign-In is constantly changing, always refer to the official setup instructions from Google.
 
-First, navigate to the ["start integrating" section of the Google Developer portal](https://developers.google.com/identity/sign-in/ios/start-integrating) and click **CREATE AN OAUTH CLIENT ID** to get an OAuth client ID. When you select an existing or new project, this will automatically create the "Web Client ID" for you in the background fulfilling requirement #1 above.
+First, navigate to the ["Start Integrating" section of the Google Developer portal](https://developers.google.com/identity/sign-in/ios/start-integrating) and click **CREATE AN OAUTH CLIENT ID** to get an OAuth client ID. When you select an existing or new project, this will automatically create the "Web Client ID" for you in the background fulfilling requirement #1 above.
 
 When prompted choose **iOS** as the calling platform along with your Package name and certificate. Once created the **iOS Client ID** will be created. Copy this as you will use it when configuring your backend with the Amplify CLI.
 
@@ -675,12 +675,12 @@ Note that the CLI allows you to select more than one identity provider for your 
 	  target 'YOUR-APP-NAME' do
 	    use_frameworks!
 
-	    pod 'AWSFacebookSignIn', '~> 2.8.0'     # Add this new dependency
-	    pod 'AWSAuthUI', '~> 2.8.0'             # Add this dependency if you have not already added
+	    pod 'AWSFacebookSignIn', '~> 2.9.0'     # Add this new dependency
+	    pod 'AWSAuthUI', '~> 2.9.0'             # Add this dependency if you have not already added
 	    
 	    # Other Pod entries
-	    pod 'AWSMobileClient', '~> 2.8.0'
-	    pod 'AWSUserPoolsSignIn', '~> 2.8.0'
+	    pod 'AWSMobileClient', '~> 2.9.0'
+	    pod 'AWSUserPoolsSignIn', '~> 2.9.0'
 	    
 	  end
 	```
@@ -690,7 +690,7 @@ Run `pod install --repo-update`.
 Note : `AWSFacebookSignIn` is only needed for using Facebook in your app and  `AWSAuthUI` is only necessary if using the "Drop-In UI".
 {: .callout .callout--info}
 
-3. Add Facebook meta data to `Info.plist`.
+2. Add Facebook meta data to `Info.plist`.
 
 	To configure your Xcode project to use Facebook Login, right-choose `Info.plist` and then choose `Open As > Source Code`.
 
@@ -745,13 +745,13 @@ Now, your drop-in UI will show a Facebook sign in button which the users can use
 	platform :ios, '9.0'
 	target :'YOUR-APP-NAME' do
 	  use_frameworks!
-	  pod 'AWSGoogleSignIn', '~> 2.8.0'     # Add this new dependency
+	  pod 'AWSGoogleSignIn', '~> 2.9.0'     # Add this new dependency
 	  pod 'GoogleSignIn', '~> 4.0'          # Add this new dependency
-	  pod 'AWSAuthUI', '~> 2.8.0'           # Add this dependency if you have not already added
+	  pod 'AWSAuthUI', '~> 2.9.0'           # Add this dependency if you have not already added
 	    
 	  # Other Pod entries
-	  pod 'AWSMobileClient', '~> 2.8.0'
-	  pod 'AWSUserPoolsSignIn', '~> 2.8.0'
+	  pod 'AWSMobileClient', '~> 2.9.0'
+	  pod 'AWSUserPoolsSignIn', '~> 2.9.0'
 	  
 	end
 	```
@@ -760,7 +760,7 @@ Now, your drop-in UI will show a Facebook sign in button which the users can use
 Note : `AWSGoogleSignIn` is only needed for using Google Login in your app and `AWSAuthUI` is only necessary if using the "Drop-In UI".
 {: .callout .callout--info}
 
-3. Add Google metadata to `Info.plist`.
+2. Add Google metadata to `Info.plist`.
 
 	To configure your Xcode project to use Google Login, open its `Info.plist` file using **Right-click > Open As > Source Code.** Add the following entry. Substitute your project name for the placeholder string.
 

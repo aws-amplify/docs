@@ -31,7 +31,7 @@ platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSCore', '~> 2.8.0'
+    pod 'AWSCore', '~> 2.9.0'
 
     # other pods
 end
@@ -92,7 +92,7 @@ platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSAppSync', '~> 2.9.0'
+    pod 'AWSAppSync', '~> 2.10.0'
 
 end
 ```
@@ -109,22 +109,24 @@ import AWSAppSync
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-   var appSyncClient: AWSAppSyncClient?
+    var appSyncClient: AWSAppSyncClient?
 
-   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-      //You can choose your database location
-      let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("database_name")
-        
-      do {
-        //AppSync configuration & client initialization
-        let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(),databaseURL: databaseURL)
-        appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        do {
+            // You can choose the directory in which AppSync stores its persistent cache databases
+            let cacheConfiguration = try AWSAppSyncCacheConfiguration()
+
+            // AppSync configuration & client initialization
+            let appSyncServiceConfig = try AWSAppSyncServiceConfig()
+            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: appSyncServiceConfig,
+                                                                  cacheConfiguration: cacheConfiguration)
+            appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
         } catch {
             print("Error initializing appsync client. \(error)")
         }
-        //other methods
+        // other methods
         return true
-}
+    }
 ```
 
 Next, in your application code where you wish to use the AppSync client (like your View Controller) reference this in the `viewDidLoad()` lifecycle method:
@@ -173,6 +175,18 @@ Next, query the data:
             result?.data?.listTodos?.items!.forEach { print(($0?.name)! + " " + ($0?.description)!) }
         }
     }
+```
+
+> Note: The AppSync API is asynchronous, which means that simply invoking `runMutation` and `runQuery` back-to-back may not work as expected, because the mutation will not complete before the query is sent. If you want to ensure that a mutation is complete before issuing a query, use the mutation's callback to trigger the query, as in:
+
+```swift
+func runMutation(){
+    let mutationInput = CreateTodoInput(name: "Use AppSync", description:"Realtime and Offline")
+    appSyncClient?.perform(mutation: CreateTodoMutation(input: mutationInput)) { [weak self] (result, error) in
+        // ... do whatever error checking or processing you wish here
+        self?.runQuery()
+    }
+}
 ```
 
 You can also setup realtime subscriptions to data:

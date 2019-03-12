@@ -43,9 +43,9 @@ Import and load the configuration file in your app. It's recommended you add the
 
 ```javascript
 import Amplify, { Interactions } from 'aws-amplify';
-import aws_exports from './aws-exports';
+import awsmobile from './aws-exports';
 
-Amplify.configure(aws_exports);
+Amplify.configure(awsmobile);
 ```
 
 Click [HERE](#WorkingWithAPI) for usage in your app
@@ -81,7 +81,7 @@ Amplify.configure({
 });
 ```
 
-##<a name="WorkingWithAPI"></a> Working with the Interactions API
+## <a name="WorkingWithAPI"></a> Working with the Interactions API
 
 You can import *Interactions* module from 'aws-amplify' package to work with the API.
 
@@ -181,9 +181,9 @@ Following simple app shows how to use **ChatBot** component in a React app, with
 import React, { Component } from 'react';
 import Amplify, { Interactions } from 'aws-amplify';
 import { ChatBot, AmplifyTheme } from 'aws-amplify-react';
-import aws_exports from './aws-exports';
+import awsmobile from './aws-exports';
 
-Amplify.configure(aws_exports);
+Amplify.configure(awsmobile);
 
 // Imported default theme can be customized by overloading attributes
 const myTheme = {
@@ -248,7 +248,7 @@ When using React Native, you can use *ChatBot* with following properties;
 ```
 
 By default, the ChatBot will allow for only text interaction. You can turn off text interaction by passing prop `textEnabled={false}`.
-####Turning on voice interaction
+#### Turning on voice interaction
 To support voice interaction, the React Native ChatBot component requires installation of peer dependencies and linking of Native Modules. The peer dependencies are: [react-native-voice](https://github.com/wenkesj/react-native-voice), [react-native-sound](https://github.com/zmxv/react-native-sound), and [react-native-fs](https://github.com/itinance/react-native-fs). 
 
 After installation, link the native modules by running:
@@ -313,9 +313,9 @@ import { StyleSheet, Text, SafeAreaView, Alert, StatusBar } from 'react-native';
 import Amplify from 'aws-amplify';
 import { ChatBot } from 'aws-amplify-react-native';
 
-import aws_exports from './aws-exports';
+import awsmobile from './aws-exports';
 
-Amplify.configure(aws_exports);
+Amplify.configure(awsmobile);
 
 const styles = StyleSheet.create({
   container: {
@@ -379,7 +379,7 @@ export default class App extends React.Component {
  
 ### Using with Angular and Ionic
 
-Please see [Angular]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/angular#interactions) and [Ionic]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/ionic#interactions) documentation for Interactions UI components.
+Please see [Angular]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/angular#interactions) and [Ionic]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/angular#interactions) documentation for Interactions UI components.
 
 ### API Reference
 

@@ -61,9 +61,9 @@ Use the following steps to connect add file storage backend services to your app
 
 	```groovy
 	dependencies {
-	  implementation 'com.amazonaws:aws-android-sdk-s3:2.11.+'
-	  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.11.+@aar') { transitive = true }
-	  implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.11.+@aar') { transitive = true }
+	  implementation 'com.amazonaws:aws-android-sdk-s3:2.12.+'
+	  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.12.+@aar') { transitive = true }
+	  implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.12.+@aar') { transitive = true }
 	}
 	```
 	Perform a `Gradle Sync` to download the AWS Mobile SDK components into your app.
@@ -641,7 +641,7 @@ public class AddPostActivity extends AppCompatActivity {
     // Photo selector application code.
     private static int RESULT_LOAD_IMAGE = 1;
     private String photoPath;
-    public void choosePhoto(View view) {
+    public void choosePhoto() {
         Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(i, RESULT_LOAD_IMAGE);
     }

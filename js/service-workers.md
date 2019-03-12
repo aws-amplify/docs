@@ -14,7 +14,7 @@ After registering the service worker, the ServiceWorker module will listen and a
 Import *ServiceWorker* and instantiate a new instance (you can have multiple workers on different scopes):
 ```javascript
 import { ServiceWorker } from 'aws-amplify';
-const myServiceWorker = new ServiceWorker();
+const serviceWorker = new ServiceWorker();
 ```
 
 ## Working with the API
@@ -29,13 +29,13 @@ Make sure that worker script is included with your build and provide a script pa
 
 ```javascript
 // Register the service worker with `service-worker.js` with service worker scope `/`.
-myServiceWorker = await this.serviceWorker.register('/service-worker.js', '/');
+registeredServiceWorker = await serviceWorker.register('/service-worker.js', '/');
 ```
 
 This method will enable web push notifications for your app. If your app is not previously subscribed to the push service to receive notifications, a new subscription will be created with the provided *public key*. 
 
 ```javascript
-    myServiceWorker.enablePush('BLx__NGvdasMNkjd6VYPdzQJVBkb2qafh')
+    registeredServiceWorker.enablePush('BLx__NGvdasMNkjd6VYPdzQJVBkb2qafh')
 ```
 
 You need a web push service provider to generate the public key, and sending the actual push notifications. To test push messages with a non-production environment, you can follow [this tutorial](https://developers.google.com/web/fundamentals/codelabs/push-notifications/).
@@ -89,7 +89,7 @@ This is useful when you want to control your service worker logic from your app,
 
 ```javascript
 
-    myServiceWorker.send({
+    registeredServiceWorker.send({
       'message': 'CleanAllCache'
     });
 

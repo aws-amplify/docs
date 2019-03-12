@@ -36,9 +36,9 @@ Import and load the configuration file in your app. It's recommended you add the
 
 ```javascript
 import Amplify, { Analytics } from 'aws-amplify';
-import aws_exports from './aws-exports';
+import awsmobile from './aws-exports';
 
-Amplify.configure(aws_exports);
+Amplify.configure(awsmobile);
 ```
 
 #### Manual Setup
@@ -174,6 +174,8 @@ Analytics.record({
 });
 ```
 
+Attribute values must have the type `String` or be an array of strings.
+
 #### Record Engagement Metrics
 
 Data can also be added to an event:
@@ -185,6 +187,8 @@ Analytics.record({
     metrics: { minutesListened: 30 }
 });
 ```
+
+Metric values must be a `Number` type such as a float or integer.
 
 #### Disable Analytics
 

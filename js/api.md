@@ -33,7 +33,7 @@ The Amplify Framework offers two client options for AppSync:
 
 The [AWS AppSync SDK](https://github.com/awslabs/aws-mobile-appsync-sdk-js/) enables you to integrate your app with the AWS AppSync service and integrates with the Apollo client found [here](https://github.com/apollographql/apollo-client/). The SDK supports multiple authorization models, handles subscription handshake protocols for real-time updates to data, and has built-in capabilities for offline support that makes it easy to integrate into your app.
 
-The Amplify GraphQL is a lighter weight option if you're looking for a simple way to leverage GraphQL features and do not need the offline capabilities or caching of the Apollo client. If you need those features, choose the AWS AppSync SDK.
+The Amplify GraphQL client is a lighter weight option if you're looking for a simple way to leverage GraphQL features and do not need the offline capabilities or caching of the Apollo client. If you need those features, choose the AWS AppSync SDK.
 
 You can integrate with AWS AppSync using the following steps:
 
@@ -80,13 +80,16 @@ $ amplify push
 
 ##### Updating Your GraphQL Schema
 
-When you create a GraphQL backend with the CLI, the schema definition for your backend data structure is saved in *amplify/backend/api/YOUR-API-NAME/schema.graphql* file. 
+When you create a GraphQL backend with the CLI, the schema definition for your backend data structure is saved in one of two places:
 
-Once your API is deployed, updating the schema is easy with the CLI. You can edit the schema file and run *amplify push* command to update your GraphQL backend.
+1. By default, schemas are saved in *amplify/backend/api/YOUR-API-NAME/schema.graphql*. If the `schema.graphql` file exists, it will take precedence over option 2.
+2. Optionally, schemas may be saved as a set of `.graphql` files stored in the *amplify/backend/api/YOUR-API-NAME/schema/* directory. E.g. you might have files `Query.graphql`, `User.graphql`, and `Post.graphql`.
+
+Once your API is deployed, updating the schema is easy with the CLI. You can edit the schema file(s) and run *amplify push* command to update your GraphQL backend.
 
 For example, a sample GraphQL schema will look like this:
 
-```graphql
+```
 type Todo @model {
   id: ID!
   name: String!
@@ -94,14 +97,14 @@ type Todo @model {
 }
 ```
 
-Add a new  *Model* type to your schema:
+Add a *priority* field to your Todo type:
 
-```graphql
+```
 type Todo @model {
   id: ID!
   name: String!
   description: String
-  model: String
+  priority: String
 }
 ```
 
@@ -124,20 +127,21 @@ When the update is complete, you can see the changes on your backend by visiting
 
 ##### Using GraphQL Transformers
 
-As you can notice in the sample schema file above, the schema has a `@model` directive. This tells Amplify CLI that the related types should be stored in an Amazon DynamoDB table. When you create or update your backend with *push* command, the CLI will automatically create the necessary data sources for you, behind the scenes.
+As you can notice in the sample schema file above, the schema has a `@model` directive. The `@model` directive leverages a set of libraries that can help simplify the process of bootstrapping highly scalable, serverless GraphQL APIs on AWS. The `@model` directive tells the GraphQL Transform that we would like to store Todo objects in an Amazon DynamoDB table and configure CRUD operations for it. When you create or update your backend with *push* command, the CLI will automatically create and configure a new DynamoDB table that works with your AppSync API. The `@model` directive is just one of multiple transformers that can be used by annotating your *schema.graphql*. 
 
-The resource creation is based on AWS CloudFormation templates that you can find under *amplify/backend/api/YOUR-API-NAME/cloudformation-template.json* 
-
-The following transformers are available to be used with AWS AppSync when defining your schema:  
+The following directives are available to be used when defining your schema:  
 
 | Directive | Description |
 | --- | --- |
-| @model | Used for storing types in Amazon DynamoDB. |
-| @auth | Used to define different authorization strategies. | 
-| @connection | Used for specifying relationships between @model object types. |
-| @searchable | Used for streaming the data of an @model object type to Amazon Elasticsearch Service. |
+| @model on Object | Store objects in DynamoDB and configure CRUD resolvers. |
+| @auth on Object | Define authorization strategies for your API. | 
+| @connection on Field | Specify relationships between @model object types. |
+| @searchable on Object | Stream data of an @model object type to Amazon Elasticsearch Service. |
+| @versioned on Object | Add object versioning and conflict detection to a @model. | 
 
-##### Type Generation using GraphQL Schemas
+You may also write your own transformers to implement reproducible patterns that you find useful. To learn more about the GraphQL Transform libraries see [GraphQL Transform Documentation](https://aws-amplify.github.io/docs/cli/graphql?sdk=js).
+
+##### Generate client types from a GraphQL schema
 
 When working with GraphQL data it is useful to import types from your schema for type safety. You can do this with the Amplify CLI's automated code generation feature. The CLI automatically downloads GraphQL Introspection Schemas from the defined GraphQL endpoint and generates TypeScript or Flow classes for you. Every time you push your GraphQL API, the CLI will provide you the option to generate types and statements.
 
@@ -619,7 +623,7 @@ const client = new AWSAppSyncClient({
 
 #### Run a Query
 
-Now that the client is configured, you can run a GraphQL query. The syntax is `client.query({ query: QUERY})` which returns a `Promise` you can optionally `await` on. The `QUERY` is a GraphQL document you can write yourself use use the statements which `amplify codegen` created automatically. For example, if you have a `ListTodos` query, your code will look like the following:
+Now that the client is configured, you can run a GraphQL query. The syntax is `client.query({ query: QUERY})` which returns a `Promise` you can optionally `await` on. The `QUERY` is a GraphQL document you can write yourself or use the statements which `amplify codegen` created automatically. For example, if you have a `ListTodos` query, your code will look like the following:
 
 ```javascript
 import { listTodos } from './graphql/queries';
@@ -983,7 +987,7 @@ const client = new AWSAppSyncClient({
 
 ##### Cognito User Pools Auth
 
-Amazon Cognito User Pools is the most common service to use with AppSync when adding user Sign-Up and Sign-In to your application. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials with Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth` and can also automatically federate User Pools with Identity Pools. This allows you to have both User Pool credentials for AppSync and AWS credentials for S3. You can then use the `AWSMobileClient` for automatic credentials refresh [as outlined in the authentication section](./authentication). For manual configuration, add the following snippet to your `aws-exports.js` file:
+Amazon Cognito User Pools is the most common service to use with AppSync when adding user Sign-Up and Sign-In to your application. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials with Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth` and can also automatically federate User Pools with Identity Pools. This allows you to have both User Pool credentials for AppSync and AWS credentials for S3. You can then use the `Auth` category for automatic credentials refresh [as outlined in the authentication section](./authentication). For manual configuration, add the following snippet to your `aws-exports.js` file:
 
 ```javascript
 import Amplify, { Auth } from 'aws-amplify';
@@ -996,7 +1000,7 @@ const client = new AWSAppSyncClient({
   region: awsConfig.aws_appsync_region,
   auth: {
     type: AUTH_TYPE.AMAZON_COGNITO_USER_POOLS,
-    jwtToken: async () => (await Auth.currentSession()).idToken.jwtToken
+    jwtToken: async () => (await Auth.currentSession()).getIdToken().getJwtToken(),
   },
 });
 ```
@@ -1009,7 +1013,7 @@ export default withAuthenticator(App);
 
 ##### IAM Auth
 
-When using AWS IAM in a mobile application you should leverage Amazon Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth`. You can then use the `AWSMobileClient` for automatic credentials refresh [as outlined in the authentication section](./authentication) For manual configuration, add the following snippet to your `aws-exports.js` file:
+When using AWS IAM in a mobile application you should leverage Amazon Cognito Identity Pools. The Amplify CLI will automatically configure this for you when running `amplify add auth`. You can then use the `Auth` category for automatic credentials refresh [as outlined in the authentication section](./authentication) For manual configuration, add the following snippet to your `aws-exports.js` file:
 
 ```javascript
 import Amplify, { Auth } from 'aws-amplify';
@@ -1071,7 +1075,7 @@ amplify add api         #Select Cognito User Pool for authorization type
 
 When prompted, use the following schema:
 
-```graphql
+```
 type Todo @model {
     id: ID!
     name: String!
@@ -1114,7 +1118,10 @@ const client = new AWSAppSyncClient({
 
     const bucket = aws_config.aws_user_files_s3_bucket;
     const region = aws_config.aws_user_files_s3_bucket_region;
-    const key = [uuid(), extension].filter(x => !!x).join('.');
+    const visibility = 'private';
+    const { identityId } = await Auth.currentCredentials();
+    
+    const key = `${visibility}/${identityId}/${uuid()}${extension && '.'}${extension}`;
 
     file = {
       bucket,
@@ -1154,7 +1161,7 @@ You can also use Delta Sync functionality with GraphQL subscriptions, taking adv
 1. Subscribe to any queries defined and store results in an incoming queue
 2. Run the appropriate query (If `baseRefreshIntervalInSeconds` has elapsed, run the Base Query otherwise only run the Delta Query)
 3. Update the cache with results from the appropriate query
-4. Drain the mutation queue in serial
+4. Drain the subscription queue and continue processing as normal
 
 Finally, you might have other queries which you wish to represent in your application other than the base cache hydration. For instance a `getItem(id:ID)` or other specific query. If your alternative query corresponds to items which are already in the normalized cache, you can point them at these cache entries with the `cacheUpdates` function which returns an array of queries and their variables. The DeltaSync client will then iterate through the items and populate a query entry for each item on your behalf. If you wish to use additional queries which don't correspond to items in your base query cache, you can always create another instance of the `client.sync()` process.
 
@@ -1228,7 +1235,7 @@ Example:
 
 The schema for this sample is below. [A full sample with CloudFormation is available in the AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/tutorial-delta-sync.html).
 
-```graphql
+```
 input CreatePostInput {
 	author: String!
 	title: String!
@@ -1290,7 +1297,7 @@ schema {
 
 **Sample queries**
 
-```graphql
+```
 query Base {
   listPosts {
     id
@@ -1673,9 +1680,9 @@ Import and load the configuration file in your app. It's recommended you add the
 
 ```javascript
 import Amplify, { API } from 'aws-amplify';
-import aws_exports from './aws-exports';
+import awsmobile from './aws-exports';
 
-Amplify.configure(aws_exports);
+Amplify.configure(awsmobile);
 ```
 
 ### Manual Setup
@@ -1809,7 +1816,7 @@ exports.handler = function(event, context, callback) {
 }
 ```
 
-Alternatively, you can update your backend file which is locates at `amplifyjs/backend/cloud-api/[your-lambda-function]/app.js` with the middleware:
+Alternatively, you can update your backend file which is located at `amplifyjs/backend/cloud-api/[your-lambda-function]/app.js` with the middleware:
 
 ```javascript
 var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')

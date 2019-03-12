@@ -1,14 +1,14 @@
 # Migration
-This section covers the steps to migrate your projects initialized using the Amplify CLI version ( < 0.2.0) which doesn't support multiple environments and team workflows. Environment and team workflow support is in beta and can be installed using the following command
+This section covers the steps to migrate your projects initialized using the older Amplify CLI versions (< 1.0.0) which doesn't support multiple environments and team workflows. Environment and team workflow support is supported in Amplify CLI version (>= 1.0.0) and can be installed using the following command:
 
 ```
-$ npm install -g @aws-amplify/cli@multienv
+$ npm install -g @aws-amplify/cli
 ```
 
  **NOTE**: We recommend backing up your Amplify project directory first before performing a migration.
 
-After installing this new version of the CLI, you can either 
-1. Auto-migrate your project (initialized using CLI version < 0.2.0), or 
+After installing this new version of the Amplify CLI, you can either 
+1. Auto-migrate your project (initialized using Amplify CLI version < 1.0.0), or 
 2. Manually migrate the project (For most projects, Auto-Migration is the best bet. However if you modified Cloudformation files in the ./amplify/backend/ directory, then you may need to perform Manual migration steps)
 
 ## Auto-migration
@@ -792,7 +792,118 @@ Take a look at the categories you have as a part of your project
 ```
 
 ### API (AppSync)
-For AppSync, just run `amplify api gql-compile` to generate the Cloudformation file and resolvers based off your annotated schema.
+
+If you have an existing AppSync API configured via the API category, it will also be migrated when you run `amplify migrate`. If you created your project using the multienv branch of the Amplify CLI while it was in beta, the API will ask you to migrate the first time you try to compile the project (e.g. via `amplify api gql-compile` or `amplify push`).
+
+The main purpose of the API migration is to restructure the API category such that it has its own set of stacks nested under the root Amplify stack. The new nested stacks structure is necessary to allow users to configure larger, more complex, and more customizable APIs using the Amplify CLI. After running the API migration you will see a new file `transform.conf.json` in your amplify API project directory. In this file, you will see something like this:
+
+```
+{
+    "Migration": {
+        "V1": {
+            "Resources": [
+                "TodoTable"
+            ];
+        }
+    };
+}
+```
+
+This file tells the CLI which resources existed before the migration so that any new project structures do not try to recreate those resources. You **should never change the "Migration" section of the transform.conf.json**. In the future, this file may be used for additional configuration but, for now, is strictly scoped to migration information.
+
+The API migration occurs in two steps. It will do an intermediate stack update to prepare the existing deployment for the new structure while still retaining any resources that contain data (e.g. Amazon DynamoDB tables). After the intermediate deployment, the CLI will compile the new project structure and deploy the new nested structure. The migration will take a few minutes so please be patient and do not exit out of the migration script.
+
+#### amplify/backend/api/<api-name>/parameters.json
+
+After migration, you will see a new parameter:
+
+```json
+{
+    "DynamoDBBillingMode": "PROVISIONED"
+}
+```
+
+You may change the value of *DynamoDBBillingMode* to **PAY_PER_REQUEST** to change the billing mode of any DynamoDB tables created by *@model*.
+
+#### amplify/backend/api/<api-name>/schema or amplify/backend/api/<api-name>/schema.graphql
+
+You may now break up your schema into multiple files by replacing your *schema.graphql* with a *schema/* directory. Any *.graphql* files stored under the *schema/* directory will be included when you compile the project with `amplify api gql-compile` or `amplify push`. If you prefer, you may also continue to use a single *schema.graphql* file to configure your API.
+
+#### amplify/backend/api/<api-name>/stacks
+
+You may use this directory to deploy custom AWS CloudFormation stacks as part of your Amplify project. These stacks will be deployed as a child of the API category stack. The templates in the *stacks/* directory can expect a default set of parameters. When you init a new project, a blank stack will be placed in the *stacks/* directory for you to work off of. The migration process does not create this default stack, but to do this yourself, you can copy the stack below.
+
+```json
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+	"Description": "An auto-generated nested stack.",
+	"Metadata": {},
+	"Parameters": {
+		"AppSyncApiId": {
+			"Type": "String",
+			"Description": "The id of the AppSync API associated with this project."
+		},
+		"AppSyncApiName": {
+			"Type": "String",
+			"Description": "The name of the AppSync API",
+			"Default": "AppSyncSimpleTransform"
+		},
+		"env": {
+			"Type": "String",
+			"Description": "The environment name. e.g. Dev, Test, or Production",
+			"Default": "NONE"
+		},
+		"S3DeploymentBucket": {
+			"Type": "String",
+			"Description": "The S3 bucket containing all deployment assets for the project."
+		},
+		"S3DeploymentRootKey": {
+			"Type": "String",
+			"Description": "An S3 key relative to the S3DeploymentBucket that points to the root\nof the deployment directory."
+		}
+	},
+	"Resources": {
+		"EmptyResource": {
+			"Type": "Custom::EmptyResource",
+			"Condition": "AlwaysFalse"
+		}
+	},
+	"Conditions": {
+		"HasEnvironmentParameter": {
+			"Fn::Not": [
+				{
+					"Fn::Equals": [
+						{
+							"Ref": "env"
+						},
+						"NONE"
+					]
+				}
+			]
+		},
+		"AlwaysFalse": {
+			"Fn::Equals": [
+				"true",
+				"false"
+			]
+		}
+	},
+	"Outputs": {
+		"EmptyOutput": {
+			"Description": "An empty output. You may delete this if you have at least one resource above.",
+			"Value": ""
+		}
+	}
+}
+```
+
+#### amplify/backend/api/<api-name>/resolvers
+
+Any files placed here will be deployed as part of the amplify project and made available such that you can reference them from custom stacks. You can also use this directory to overwrite the default behavior of any resolvers generated for you by the GraphQL Transform. For example, if you wanted to implement custom behavior for the request mapping template of the `Query.getPost` resolver created by an *@model*, you would write your own velocity logic in a file `Query.getPost.req.vtl`. At build time, this template will be used instead of the default.
+
+#### amplify/backend/api/<api-name>/build
+
+The API category will no longer overwrite anything outside of the *build* directory. When you run `amplify api gql-compile`, this directory will be overwritten with new deployment assets.
 
 ### API (API GW)
 
@@ -1702,7 +1813,7 @@ change the “Resources.S3Bucket.Properties.BucketName” to:
 }
 ```
 
-* Modify the `TableNmae` property of the "DynamoDBTable" resource
+* Modify the `TableName` property of the "DynamoDBTable" resource
 **Before**
 ```
  "TableName": {
