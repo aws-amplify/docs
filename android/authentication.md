@@ -1204,23 +1204,23 @@ To launch the Hosted UI from from your application, you can use the `showSignIn`
 ```java
 // No options are being specified, only the config will be used
 HostedUIOptions hostedUIOptions = HostedUIOptions.builder()
-    .scopes("openid", "email")
-    .build();
+        .scopes("openid", "email")
+        .build();
 SignInUIOptions signInUIOptions = SignInUIOptions.builder()
-    .hostedUIOptions(hostedUIOptions)
-    .build();
+        .hostedUIOptions(hostedUIOptions)
+        .build();
 // 'this' refers to the current active Activity
-AWSMobileClient.getInstance().showSignIn(this, signInUIOptions, new Callback<UserStateDetails() {
+AWSMobileClient.getInstance().showSignIn(this, signInUIOptions, new Callback<UserStateDetails>() {
     @Override
     public void onResult(UserStateDetails details) {
-        Log.d(TAG, "onResult: " + result.getUserState());
+        Log.d(TAG, "onResult: " + details.getUserState());
     }
 
     @Override
     public void onError(Exception e) {
         Log.e(TAG, "onError: ", e);
     }
-})
+});
 ```
 
 Note: By default, the Hosted UI will show all sign-in options; the username-password flow as well as any social providers which are configured. If you wish to bypass the extra sign-in screen showing all the provider options and launch your desired social provider login directly, you can set the `HostedUIOptions` as shown in the next section.
@@ -1245,17 +1245,17 @@ SignInUIOptions signInUIOptions = SignInUIOptions.builder()
     .hostedUIOptions(hostedUIOptions)
     .build();
 // 'this' refers to the current active Activity
-AWSMobileClient.getInstance().showSignIn(this, signInUIOptions, new Callback<UserStateDetails() {
+AWSMobileClient.getInstance().showSignIn(this, signInUIOptions, new Callback<UserStateDetails>() {
     @Override
     public void onResult(UserStateDetails details) {
-        Log.d(TAG, "onResult: " + result.getUserState());
+        Log.d(TAG, "onResult: " + details.getUserState());
     }
 
     @Override
     public void onError(Exception e) {
         Log.e(TAG, "onError: ", e);
     }
-})
+});
 ```
 
 #### Sign Out from HostedUI
@@ -1376,7 +1376,8 @@ final HostedUIOptions hostedUIOptions = HostedUIOptions.builder()
 final SignInUIOptions signInUIOptions = SignInUIOptions.builder()
         .hostedUIOptions(hostedUIOptions)
         .build();
-AWSMobileClient.getInstance().showSignIn(mActivityTestRule.getActivity(), signInUIOptions, new Callback<UserStateDetails>() {
+// 'this' refers to the current active Activity
+AWSMobileClient.getInstance().showSignIn(this, signInUIOptions, new Callback<UserStateDetails>() {
     @Override
     public void onResult(UserStateDetails result) {
         Log.d(TAG, "onResult: " + result.getUserState());
@@ -1504,7 +1505,7 @@ AWSMobileClient.getInstance().getDeviceOperations().get(new Callback<Device>() {
     public void onError(Exception e) {
         Log.e(TAG, "onError: ", e);
     }
-})
+});
 ```
 
 ### List Devices
@@ -1520,5 +1521,5 @@ AWSMobileClient.getInstance().getDeviceOperations().list(new Callback<ListDevice
     public void onError(Exception e) {
         Log.e(TAG, "onError: ", e);
     }
-})
+});
 ```
