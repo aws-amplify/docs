@@ -257,7 +257,7 @@ Next, for the API security type questions, choose **Yes** when prompted for Rest
 In the React project, edit your `App.js` file again and modify your imports so that the `API` category is included so that you can make API calls from the app.
 
 ```javascript
-import Amplify, { Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
+import Amplify, { Analytics, Storage, API } from 'aws-amplify';
 ```
 
 

@@ -1,45 +1,43 @@
-# Multiple environments and team workflows (beta)
+---
+title: Multienv
+---
+{% if jekyll.environment == 'production' %}
+  {% assign base_dir = site.amplify.docs_baseurl %}
+{% endif %}
+{% assign media_base = base_dir | append: page.dir | append: "images" %}
+
+# Multiple environments and team workflows
 
 This section outlines how you can manage multiple environments of your Amplify project (backend + frontend) as well as using a project within a team or outside a team using the Amplify CLI & Git. 
-This functionality is still work in progress and you would have to install a beta version of the CLI to check out all the features mentioned in this section.
-
-**Note**: The use of this newer version (@multienv) might cause existing projects initialized using a previous Amplify CLI version to no longer function when attempting to manage resources in the existing project, or have unexpected side effects. After updating the CLI, the CLI would prompt you to automatically migrate your project, so that is it compatible with the new version of the CLI. [Read more]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli/migrate)
-
-**We recommend backing up your Amplify project directory first before performing a migration.**
-
-Install the CLI using the following command:
-```
-npm install -g @aws-amplify/cli@multienv
-```
 
 ## Concepts
 
 Amplify fits into the standard Git workflow where you switch between different branches using the `env` command. Similarly to how you will run `git checkout BRANCHNAME` you will run `amplify env checkout ENVIRONMENT_NAME`. The below diagram shows a workflow of how to initialize new environments when creating new git branches.
 
-![](images/AmplifyEnvSwitching.jpg)
+![Image]({{media_base}}/AmplifyEnvSwitching.jpg)
 
-You can independently add features to each environment allowing you to develop and test before moving them to different stages. This is contingent on which branch you ran a checkout from using Git. Using the same example above of **Dev** being the base which **Test** and **Prod** were derived, you could add (or remove) features and merge & deploy accordingly once you are comfortable with your setup.
+You can independently add features to each environment which allows you to develop and test before moving them to different stages. This is contingent on which branch you ran a checkout from using Git. Using the same example above of **Dev** being the base which **Test** and **Prod** were derived, you could add (or remove) features and merge & deploy accordingly once you are comfortable with your setup.
 
-![](images/AmplifyEnvAddDeploy.jpg)
+![Image]({{media_base}}/AmplifyEnvAddDeploy.jpg)
 
 This can be done in an iterative manner as you work through your deployment pipeline:
 
-![](images/AmplifyEnvAddDeploySwitching.jpg)
+![Image]({{media_base}}/AmplifyEnvAddDeploySwitching.jpg)
 
 Multiple developers on a team can also share and manipulate the environment as well by using the credentials in the account. For instance suppose they wanted to test a change to the API without impacting the **Test** or **Prod** deployments. This will allow them to test the configured resources and, if they have been granted appropriate CloudFormation permissions, they can push resources as well to the backend with `amplify push`.
 
-![](images/AmplifyEnvMultDevelopers.jpg)
+![Image]({{media_base}}/AmplifyEnvMultDevelopers.jpg)
 
 You can alternatively, have developers setup their own isolated replica of these environments in different AWS account. To do this simply:
 1. Clone the existing project
-2. Run `amplify init` and set up a new environment (e.g. "mydev") with that developer's account and AWS profile
+2. Run `amplify env add` and set up a new environment (e.g. "mydev") with that developer's account and AWS profile
 3. Deploy with `amplify push`
 
-This workflow can be used to share complete Amplify projects with people outside of your organization as well by committing the project into a Git repository. If you are doing this remove (or add to the .gitignore) the **team-provider-info.json** which is located in the `amplify` directory. You can learn more about this file [HERE](#teamprovider).
+This workflow can be used to share complete Amplify projects with people outside of your organization as well by committing the project into a Git repository. If you are doing this remove (or add to the .gitignore) the **team-provider-info.json** which is located in the `amplify` directory. You can learn more about this file [here](#teamprovider).
 
 ## Continuous deployment and Hosting
 
-The Amplify CLI supports basic web application hosting with Amazon S3 and CloudFront. You can use the multi-environments feature with the Amplify Console for a fully managed web application hosting and continuous deployment solution. For more information please learn more in the [official documentation](https://docs.aws.amazon.com/amplify/latest/userguide/deploy-backend.html).
+The Amplify CLI supports basic web application hosting with Amazon S3 and CloudFront. You can use the multi-environments feature with the Amplify Console for a fully managed web application hosting and continuous deployment solution. For more information please learn more in the [official documentation](https://docs.aws.amazon.com/amplify/latest/userguide/multi-environments.html).
 
 ## Setting up master and dev environments 
 
@@ -58,12 +56,12 @@ $ git remote add origin git@github.com:<repo-name>
 $ git push -u origin master
 ```
 
-**Note**: When you initialize a project using the Amplify CLI, it appends(if a gitignore file exists at the root of the project) or creates one for you (if a gitignore file doesn't exist at the root of your project), with a list of recommended files to check in from the Amplify CLI generated list of files, into your Git repository.
+**Note**: When you initialize a project using the Amplify CLI, it appends (if a gitignore file exists at the root of the project) or creates one for you (if a gitignore file doesn't exist at the root of your project), with a list of recommended files to check in from the Amplify CLI generated list of files, into your Git repository.
 
 Once you have your 'master' branch setup in Git, set up a 'dev' environment in your Amplify project (which would be based on your 'master' environment), and then walk through the following steps to create a corresponding git branch for it.
 
 ```
-$ amplify init
+$ amplify env add
 ? Do you want to use an existing environment? No
 ? Enter a name for the environment dev
 // Provide AWS Profile info
@@ -95,7 +93,7 @@ Now you have two independent environments (master & dev) in the cloud and have c
 $ git clone <git-repo>
 $ cd <project-dir>
 $ git checkout -b mysandbox
-$ amplify init
+$ amplify env add
 ? Do you want to use an existing environment? No
 ? Enter a name for the environment mysandbox
 // Rest of init steps
@@ -108,11 +106,7 @@ Next, suppose the team-member wants to move these changes to dev and master envi
 
 ```
 $ git checkout dev
-$ amplify init
-? Do you want to use an existing environment? true
-? Choose the environment you would like to use: 
-❯ dev 
- master
+$ amplify env checkout dev
 $ git merge mysandbox
 $ amplify push
 $ git push -u origin dev
@@ -122,11 +116,7 @@ After testing that everything works fine in the dev stage, you could now merge d
 
 ```
 $ git checkout master
-$ amplify init
-? Do you want to use an existing environment? true
-? Choose the environment you would like to use: 
- dev 
-❯ master
+$ amplify env checkout master
 $ git merge dev
 $ amplify push
 $ git push -u origin master
@@ -142,7 +132,7 @@ $ git clone <git-repo>
 $ cd <project-dir>
 $ git checkout dev
 $ amplify init
-? Do you want to use an existing environment? true
+? Do you want to use an existing environment? Yes
 ? Choose the environment you would like to use: 
 ❯ dev 
 master
@@ -158,7 +148,7 @@ Since the team is sharing the same dev backend, periodically team members would 
 $ cd <your-project>
 $ git checkout dev
 $ amplify init
-? Do you want to use an existing environment? true
+? Do you want to use an existing environment? Yes
 ? Choose the environment you would like to use: 
 ❯ dev 
 master
@@ -210,9 +200,53 @@ If you want to share a project publicly and open source your serverless infrastr
 * git pull & amplify env pull should go hand in hand
 * git push & amplify push should go hand in hand
 
-## Some other  helpful Environment related commands
-* amplify env list [--details] [--json]
-* amplify env add (to add an external CFN stack to the project)
-* amplify env remove <env-name> (to remove an existing environment locally and from the cloud)
-* amplify env get --name <env-name>
-* amplify env pull --restore (to restore the local backend  configs to the current state of the environment/resources in the cloud)
+## Environment related commands
+* amplify env add <br>
+Adds a new environment to your Amplify Project 
+* amplify env list [--details] [--json] <br>
+Displays a list of all the environments in your Amplify project 
+* amplify env remove <env-name> <br>
+Removes an environment from the Amplify project
+* amplify env get --name <env-name> <br>
+Displays the details of the environment specified in the command 
+* amplify env pull --restore <br>
+Pulls your environment with the current cloud environment. Use the restore flag to overwrite your local backend configs with that in the cloud.
+* amplify env import<br>
+Imports an already existing Amplify project environment stack to your local backend. Here's a sample usage of the same
+
+```
+#!/bin/bash
+set -e
+IFS='|'
+
+AWSCLOUDFORMATIONCONFIG="{\
+\"Region\": \"us-east-1\",\
+\"DeploymentBucketName\": \"mytestproject-20181106123241-deployment\",\
+\"UnauthRoleName\": \"mytestproject-20181106123241-unauthRole\",\
+\"StackName\": \"mytestproject-20181106123241\",\
+\"StackId\": \"arn:aws:cloudformation:us-east-1:132393967379:stack/mytestproject67-20181106123241/1c03a3e0-e203-11e8-bea9-500c20ff1436\",\
+\"AuthRoleName\": \"mytestproject67-20181106123241-authRole\",\
+\"UnauthRoleArn\": \"arn:aws:iam::132393967379:role/mytestproject67-20181106123241-unauthRole\",\
+\"AuthRoleArn\": \"arn:aws:iam::132393967379:role/mytestproject67-20181106123241-authRole\"\
+}"
+PROVIDER_CONFIG="{\
+\"awscloudformation\":$AWSCLOUDFORMATIONCONFIG\
+}"
+
+
+AWS_CONFIG="{\
+\"configLevel\":\"project\",\
+\"useProfile\":true,\
+\"profileName\":\"default\"\
+}"
+
+amplify env import \
+--name dev \
+--config $PROVIDER_CONFIG \
+--awsInfo $AWS_CONFIG \
+--yes
+
+```
+
+You can get the `AWSCLOUDFORMATIONCONFIG` from the `team-provider-info.json` file from your existing Amplify project.
+

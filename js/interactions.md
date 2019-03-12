@@ -81,7 +81,7 @@ Amplify.configure({
 });
 ```
 
-##<a name="WorkingWithAPI"></a> Working with the Interactions API
+## <a name="WorkingWithAPI"></a> Working with the Interactions API
 
 You can import *Interactions* module from 'aws-amplify' package to work with the API.
 
@@ -248,7 +248,7 @@ When using React Native, you can use *ChatBot* with following properties;
 ```
 
 By default, the ChatBot will allow for only text interaction. You can turn off text interaction by passing prop `textEnabled={false}`.
-####Turning on voice interaction
+#### Turning on voice interaction
 To support voice interaction, the React Native ChatBot component requires installation of peer dependencies and linking of Native Modules. The peer dependencies are: [react-native-voice](https://github.com/wenkesj/react-native-voice), [react-native-sound](https://github.com/zmxv/react-native-sound), and [react-native-fs](https://github.com/itinance/react-native-fs). 
 
 After installation, link the native modules by running:
@@ -379,7 +379,7 @@ export default class App extends React.Component {
  
 ### Using with Angular and Ionic
 
-Please see [Angular]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/angular#interactions) and [Ionic]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/ionic#interactions) documentation for Interactions UI components.
+Please see [Angular]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/angular#interactions) and [Ionic]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/angular#interactions) documentation for Interactions UI components.
 
 ### API Reference
 
