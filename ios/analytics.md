@@ -71,8 +71,8 @@ platform :ios, '9.0'
 target 'YourAppName' do
     use_frameworks!
 
-    pod 'AWSPinpoint', '~> 2.8.0'
-    pod 'AWSMobileClient', '~> 2.8.0'
+    pod 'AWSPinpoint', '~> 2.9.0'
+    pod 'AWSMobileClient', '~> 2.9.0'
 
     # other pods
 
@@ -103,7 +103,7 @@ If you encounter an error message that begins `[!] Failed to connect to GitHub t
        /** end code copy **/
 
        func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions:
-       [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+       [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
             //. . .
 
@@ -303,7 +303,7 @@ For more information about Amazon Kinesis Firehose, see [Amazon Kinesis Firehose
 Add the following to your `Podfile`:
 
 ```ruby
-pod 'AWSKinesis', '~> 2.8.0'
+pod 'AWSKinesis', '~> 2.9.0'
 ```
 
 The instructions direct you to import the headers for the services you'll be using. For this example, you need the following import.

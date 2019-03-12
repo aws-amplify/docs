@@ -3,11 +3,9 @@
 
 # Angular
 
-AWS Amplify helps developers to create high-quality Angular apps quickly by handling the heavy lifting of configuring and integrating cloud services behind the scenes. It also provides a powerful high-level API and ready-to-use security best practices.
+The `aws-amplify-angular` package is a set of Angular components and an Angular provider which helps integrate your application with the AWS-Amplify library.  It supports Angular 5.0 or above.  It also includes a [supplemental module](#ionic-4-components) for Ionic-specific components.
 
 ## Installation
-
-UI Components and service provider available via the [aws-amplify-angular](https://www.npmjs.com/package/aws-amplify-angular) npm module.
 
 Install `aws-amplify` and `aws-amplify-angular` npm packages into your Angular app.
 
@@ -15,6 +13,12 @@ Install `aws-amplify` and `aws-amplify-angular` npm packages into your Angular a
 $ npm install --save aws-amplify 
 $ npm install --save aws-amplify-angular 
 ```
+
+### Angular 6+ Support
+
+Currently, the newest versions of Angular (6+) do not provide the shim for the  `global` object which was provided in previous versions.
+
+Add the following to the top of your `polyfills.ts` file: ```(window as any).global = window;``` to recreate it.
 
 ### Setup
 
@@ -144,23 +148,22 @@ import { AmplifyService }  from 'aws-amplify-angular';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-constructor( private amplifyService: AmplifyService ) {
-    
+export class AppComponent {
     signedIn: boolean;
     user: any;
     greeting: string;
-
-    this.amplifyService.authStateChange$
-        .subscribe(authState => {
-            this.signedIn = authState.state === 'signedIn';
-            if (!authState.user) {
-                this.user = null;
-            } else {
-                this.user = authState.user;
-                this.greeting = "Hello " + this.user.username;
-            }
-    });
-
+    constructor( private amplifyService: AmplifyService ) {
+        this.amplifyService.authStateChange$
+            .subscribe(authState => {
+                this.signedIn = authState.state === 'signedIn';
+                if (!authState.user) {
+                    this.user = null;
+                } else {
+                    this.user = authState.user;
+                    this.greeting = "Hello " + this.user.username;
+                }
+        });
+    }
 }
 ```
 
@@ -233,7 +236,7 @@ onAlbumImageSelected( event ) {
 
 ### Interactions
 
-The `amplify-interactions` component provides you with a drop-in Chat component that supports three properties:
+The `amplify-interactions` component provides you with a drop-in Chat component that supports seven properties:
 
 1. `bot`:  The name of the Amazon Lex Chatbot
 
@@ -241,12 +244,37 @@ The `amplify-interactions` component provides you with a drop-in Chat component 
 end of the conversation.
 
 3. `complete`: Dispatched when the conversation is completed.
+4.  `voiceConfig`: If needed, you can also pass `voiceConfig` from your app component to modify the silence detection parameters, like in this example:
+
+```js
+customVoiceConfig = {
+    silenceDetectionConfig: {
+        time: 2000,
+        amplitude: 0.2
+    }   
+}
+
+```
+5. `voiceEnabled`: Enables voice user input. Defaults to `false` 
+
+Note: In order for voice input to work with Amazon Lex, you may have to enable Output voice in the AWS Console. Under the Amazon Lex service, click on your configured Lex chatbot and go to Settings -> General and pick your desired Output voice. Then, click Build. If you have forgotten to enable Output voice, you will get an error like this:
+```
+ChatBot Error: Invalid Bot Configuration: This bot does not have a Polly voice ID associated with it. For voice interaction with the user, set a voice ID
+```
+
+6. `textEnabled`: Enables text user input Defaults to `true`
+7. `conversationModeOn`: Turns voice conversation mode on/off. Defaults to `off`
 
 ```html
 <amplify-interactions 
     bot="yourBotName" 
     clearComplete="true" 
-    (complete)="onBotComplete($event)"></amplify-interactions>
+    (complete)="onBotComplete($event)"
+    [conversationModeOn]="false"
+    [voiceConfig]="{customVoiceConfig}"
+    [voiceEnabled]="true"
+    [textEnabled]="true">
+</amplify-interactions>
 ```
 
 See the [Interactions documentation]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/interactions) for information on creating an Amazon Lex Chatbot.
@@ -275,12 +303,6 @@ Add the following to your styles.css file to use the default styles:
 
 You can use custom styling for components by importing your custom *styles.css* that overrides the <a href="https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-angular/src/theme.css" target="_blank">default styles</a>.
 
-## Angular 6 Support
-
-Currently, the newest version of Angular (6.x) does not provide the shim for the  `global` object which was provided in previous versions.
-
-Add the following to the top of your `polyfills.ts` file: ```(window as any).global = window;```.
-
 ## Ionic 4 Components
 The Angular components included in this library can optionally be presented with Ionic-specific styling.  To do so, simply include the ```AmplifyIonicModule``` alongside the ```AmplifyAngularModule```.  Then, pass in ```framework="Ionic"``` into the component.  
 
@@ -301,4 +323,6 @@ Example:
   <amplify-authenticator-ionic></amplify-authenticator-ionic>
   ...
 ```
+
+
 

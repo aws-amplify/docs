@@ -213,7 +213,7 @@ middleware
 IoT
 WebSocket
 
-# js/ionic.md
+# js/angular.md
 html
 base64
 amplify-s3-album
@@ -227,6 +227,8 @@ Alexa
 chatbox
 onComplete
 theming
+voiceEnabled
+textEnabled
 
 js/i18n.md
 I18n
@@ -283,6 +285,8 @@ withFederated
 Auth.federatedSignIn
 aws.cognito.signin.user.admin
 ChallengeName
+myapp
+LoginWithAmazon
 
 #js/cognito-hosted-ui-federated-identity.md
 oauth2
@@ -332,6 +336,16 @@ webapp
 redirect_to
 graphql
 sdk
+AppSyncApiName
+APIKeyExpirationEpoch
+ElasticsearchStreamingFunctionName
+ElasticsearchInstanceCount
+ElasticsearchInstanceType
+ElasticsearchEBSVolumeGB
+DynamoDBBillingMode
+PAY_PER_REQUEST
+DynamoDBModelTableWriteIOPS
+DynamoDBModelTableReadIOPS
 
 # cli/graphql.md
 DataSource
@@ -394,10 +408,12 @@ secretKey
 accesskey
 secretkey
 aws
+arn
 config
 Unauth
 frontends
 metadata
+Cloudfront
 
 # cli/hosting.md
 gitignore
@@ -457,6 +473,7 @@ s3aeaffb53
 Cloudformaton
 DynamoDBTable
 amplifyMeta.json
+transform.conf.json
 
 # android/analytics.md
 ActivityLifecycleCallbacks
@@ -465,6 +482,7 @@ Firehose
 KinesisRecorder
 KinesisFirehoseRecorder
 ImageView
+PutRecordBatch
 
 # android/api.md
 baseQueryCallback
@@ -475,6 +493,23 @@ RecyclerView
 BaseQuery
 allPosts
 ProcessLifeCycle
+Query.getTodo
+Query.listTodos
+Query.getComment
+Query.listComments
+Todo.comments
+Comment.todo
+Query.getTodo.comments
+Query.commentsForTodo
+echofunction
+Query.echo.req.vtl
+Query.echo.res.vtl
+Query.searchTodos
+geo_point
+kibana
+Mutation.createTodo
+Query.nearbyTodos
+geolocation
 
 # android/authentication.md
 appcompat
@@ -576,6 +611,7 @@ enum
 MiB
 
 # android/manualsetup.md
+com.amazonaws
 aws-android-sdk-apigateway-core
 aar
 aws-android-sdk-auth-core
@@ -748,6 +784,8 @@ uploadData
 # ios/interactions.md
 UIView
 xib
+react-native-fs
+Info.plist
 
 # ios/pubsub.md
 VeriSign
@@ -828,3 +866,6 @@ KMS-generated
 
 # android/auth-google-setup.md
 keystore
+
+# ios/pubsub.md
+authorizers

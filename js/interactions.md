@@ -43,9 +43,9 @@ Import and load the configuration file in your app. It's recommended you add the
 
 ```javascript
 import Amplify, { Interactions } from 'aws-amplify';
-import aws_exports from './aws-exports';
+import awsmobile from './aws-exports';
 
-Amplify.configure(aws_exports);
+Amplify.configure(awsmobile);
 ```
 
 Click [HERE](#WorkingWithAPI) for usage in your app
@@ -81,7 +81,7 @@ Amplify.configure({
 });
 ```
 
-##<a name="WorkingWithAPI"></a> Working with the Interactions API
+## <a name="WorkingWithAPI"></a> Working with the Interactions API
 
 You can import *Interactions* module from 'aws-amplify' package to work with the API.
 
@@ -142,8 +142,38 @@ When using React, you can use *ChatBot* with following properties;
     welcomeMessage="Welcome, how can I help you today?"
     onComplete={this.handleComplete.bind(this)}
     clearOnComplete={true}
+    conversationModeOn={false}
 />
 ```
+
+By default, the ChatBot will allow for only text interaction. You can turn off text interaction by passing prop `textEnabled={false}` or you can turn on voice interaction by passing prop `voiceEnabled={true}`. You should not disable both; this will cause no user inputs to be available. 
+
+Note: In order for voice input to work with Amazon Lex, you may have to enable Output voice in the AWS Console. Under the Amazon Lex service, click on your configured Lex chatbot and go to Settings -> General and pick your desired Output voice. Then, click Build. If you have forgotten to enable Output voice, you will get an error like this:
+```
+ChatBot Error: Invalid Bot Configuration: This bot does not have a Polly voice ID associated with it. For voice interaction with the user, set a voice ID
+```
+
+The `conversationModeOn` props turns continuous conversation cycle mode on/off for voice interaction. In continuous conversation mode, the user will only have to click the microphone button once to complete a chatbot conversation. This means that the component will detect when the user is done speaking to stop recording, and then send data to interactions provider, and then start recording again when a response is received from the interactions provider. The cycle will stop when the conversation is finished. 
+
+If needed, you can also pass `voiceConfig` in the props to modify the silence detection parameters, like in this example:
+
+```jsx
+const customVoiceConfig = {
+    silenceDetectionConfig: {
+        time: 2000,
+        amplitude: 0.2
+    }   
+}
+
+<ChatBot
+    ...
+    voiceConfig={customVoiceConfig}
+/>
+
+```
+
+
+
 
 Following simple app shows how to use **ChatBot** component in a React app, with the automatic setup outlined above;
 
@@ -151,9 +181,9 @@ Following simple app shows how to use **ChatBot** component in a React app, with
 import React, { Component } from 'react';
 import Amplify, { Interactions } from 'aws-amplify';
 import { ChatBot, AmplifyTheme } from 'aws-amplify-react';
-import aws_exports from './aws-exports';
+import awsmobile from './aws-exports';
 
-Amplify.configure(aws_exports);
+Amplify.configure(awsmobile);
 
 // Imported default theme can be customized by overloading attributes
 const myTheme = {
@@ -189,6 +219,7 @@ class App extends Component {
           welcomeMessage="Welcome, how can I help you today?"
           onComplete={this.handleComplete.bind(this)}
           clearOnComplete={true}
+          conversationModeOn={false}
         />
       </div>
     );
@@ -202,7 +233,7 @@ export default App;
 
 When using React Native, you can use *ChatBot* with following properties;
 
-```html
+```jsx
 <ChatBot
     botName={botName}
     welcomeMessage={welcomeMessage}
@@ -216,6 +247,64 @@ When using React Native, you can use *ChatBot* with following properties;
 />
 ```
 
+By default, the ChatBot will allow for only text interaction. You can turn off text interaction by passing prop `textEnabled={false}`.
+#### Turning on voice interaction
+To support voice interaction, the React Native ChatBot component requires installation of peer dependencies and linking of Native Modules. The peer dependencies are: [react-native-voice](https://github.com/wenkesj/react-native-voice), [react-native-sound](https://github.com/zmxv/react-native-sound), and [react-native-fs](https://github.com/itinance/react-native-fs). 
+
+After installation, link the native modules by running:
+```
+react-native link react-native-voice 
+react-native link react-native-fs
+react-native link react-native-sound
+```
+
+Include this import at the top of your App.js
+```jsx
+import voiceLibs from 'aws-amplify-react-native/dist/Interactions/ReactNativeModules'
+```
+
+Some configurations of Android will require requesting permissions while others will not - please to refer to the [Android docs](https://developer.android.com/training/permissions/requesting.html)
+
+iOS will require permissions for `NSMicrophoneUsageDescription` and `NSSpeechRecognitionUsageDescription`- you can add this snippet to your Info.plist file for iOS:
+```xml  
+<dict>
+  ...
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Description of why you require the use of the microphone</string>
+  <key>NSSpeechRecognitionUsageDescription</key>
+  <string>Description of why you require the use of the speech recognition</string>
+  ...
+</dict>
+```
+Then, turn on voice interaction by passing `voiceEnabled={true}` with `voiceLibs={voiceLibs}` to Chatbot props. Remember not to disable both voice and text input (don't set both voiceEnabled={false} and textEnabled={false})
+
+In order for voice interaction to work with Amazon Lex, you may have to enable Output voice in the AWS Console. Under the Amazon Lex service, click on your configured Lex chatbot and go to Settings -> General and pick your desired Output voice. Then, click Build. If you have forgotten to enable Output voice, you will get an error like this:
+```
+ChatBot Error: Invalid Bot Configuration: This bot does not have a Polly voice ID associated with it. For voice interaction with the user, set a voice ID
+```
+
+You can also configure `silenceDelay={customTime}` where `customTime` is the the silence detection time in milliseconds. The default value is 1000. 
+
+The `conversationModeOn` props turns continuous conversation cycle mode on/off for voice interaction.
+
+Here is an example of a configured ChatBot component with voice enabled and conversation mode turned on
+```jsx
+<ChatBot
+    botName={botName}
+    welcomeMessage={welcomeMessage}
+    onComplete={this.handleComplete}
+    clearOnComplete={false}
+    styles={StyleSheet.create({
+        itemMe: {
+            color: 'red'
+        }
+    })}
+    voiceEnable={true}
+    voiceLibs={voiceLibs}
+    conversationModeOn={true}
+/>
+```
+
 Following simple app shows how to use **ChatBot** component in a React Native app;
 
  ```javascript
@@ -224,9 +313,9 @@ import { StyleSheet, Text, SafeAreaView, Alert, StatusBar } from 'react-native';
 import Amplify from 'aws-amplify';
 import { ChatBot } from 'aws-amplify-react-native';
 
-import aws_exports from './aws-exports';
+import awsmobile from './aws-exports';
 
-Amplify.configure(aws_exports);
+Amplify.configure(awsmobile);
 
 const styles = StyleSheet.create({
   container: {
@@ -290,7 +379,7 @@ export default class App extends React.Component {
  
 ### Using with Angular and Ionic
 
-Please see [Angular]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/angular#interactions) and [Ionic]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/ionic#interactions) documentation for Interactions UI components.
+Please see [Angular]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/angular#interactions) and [Ionic]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/angular#interactions) documentation for Interactions UI components.
 
 ### API Reference
 
