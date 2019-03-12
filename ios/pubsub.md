@@ -99,7 +99,7 @@ func mqttEventCallback(_ status: AWSIoTMQTTStatus ) {
 iotDataManager.connect(withClientId: "<YOUR_CLIENT_ID>",
                        cleanSession: true,
                        certificateId: "<YOUR_CERTIFICATE_ID>",
-                       statusCallback: mqttEventCallback
+                       statusCallback: mqttEventCallback)
 ```
 
 The AWS IoT Core service also allows you to connect devices using MQTT with certificate based mutual authentication on port 443. You can do this using the `connectUsingALPN` API as shown below. See [MQTT with TLS client authentication on port 443](https://aws.amazon.com/blogs/iot/mqtt-with-tls-client-authentication-on-port-443-why-it-is-useful-and-how-it-works/) for more information.
@@ -112,7 +112,7 @@ func mqttEventCallback(_ status: AWSIoTMQTTStatus ) {
 iotDataManager.connectUsingALPN(withClientId: "<YOUR_CLIENT_ID>",
                        cleanSession: true,
                        certificateId: "<YOUR_CERTIFICATE_ID>",
-                       statusCallback: mqttEventCallback
+                       statusCallback: mqttEventCallback)
 ```
 
 You can take a look at the [API Reference](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/Classes/AWSIoTDataManager.html#//api/name/connectWithClientId:cleanSession:certificateId:statusCallback:
