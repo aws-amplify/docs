@@ -623,7 +623,7 @@ const client = new AWSAppSyncClient({
 
 #### Run a Query
 
-Now that the client is configured, you can run a GraphQL query. The syntax is `client.query({ query: QUERY})` which returns a `Promise` you can optionally `await` on. The `QUERY` is a GraphQL document you can write yourself use use the statements which `amplify codegen` created automatically. For example, if you have a `ListTodos` query, your code will look like the following:
+Now that the client is configured, you can run a GraphQL query. The syntax is `client.query({ query: QUERY})` which returns a `Promise` you can optionally `await` on. The `QUERY` is a GraphQL document you can write yourself or use the statements which `amplify codegen` created automatically. For example, if you have a `ListTodos` query, your code will look like the following:
 
 ```javascript
 import { listTodos } from './graphql/queries';
@@ -1001,7 +1001,7 @@ const client = new AWSAppSyncClient({
   region: awsConfig.aws_appsync_region,
   auth: {
     type: AUTH_TYPE.AMAZON_COGNITO_USER_POOLS,
-    jwtToken: async () => (await Auth.currentSession()).idToken.jwtToken
+    jwtToken: async () => (await Auth.currentSession()).getIdToken().getJwtToken(),
   },
 });
 ```
@@ -1162,7 +1162,7 @@ You can also use Delta Sync functionality with GraphQL subscriptions, taking adv
 1. Subscribe to any queries defined and store results in an incoming queue
 2. Run the appropriate query (If `baseRefreshIntervalInSeconds` has elapsed, run the Base Query otherwise only run the Delta Query)
 3. Update the cache with results from the appropriate query
-4. Drain the mutation queue in serial
+4. Drain the subscription queue and continue processing as normal
 
 Finally, you might have other queries which you wish to represent in your application other than the base cache hydration. For instance a `getItem(id:ID)` or other specific query. If your alternative query corresponds to items which are already in the normalized cache, you can point them at these cache entries with the `cacheUpdates` function which returns an array of queries and their variables. The DeltaSync client will then iterate through the items and populate a query entry for each item on your behalf. If you wish to use additional queries which don't correspond to items in your base query cache, you can always create another instance of the `client.sync()` process.
 

@@ -39,7 +39,11 @@ class MyClass {
     // Default handler for listening events
     onHubCapsule(capsule) {
         const { channel, payload } = capsule;
-        if (channel === 'auth') { onAuthEvent(payload); }
+        if (channel === 'auth') { this.onAuthEvent(payload); }
+    }
+
+    onAuthEvent(payload) {
+        // ... your implementation
     }
 }
 ```
