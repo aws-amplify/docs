@@ -895,7 +895,7 @@ For example, the below code shows how you would update the `CreateTodoMutation` 
 An example of using the `buildMutation` helper to add an item to the cache:
 
 ```javascript
-import { buildMutation } from 'aws-appsync/lib/helpers/offline';
+import { buildMutation } from 'aws-appsync';
 import { listTodos } from './graphql/queries';
 import { createTodo, CreateTodoInput } from './graphql/mutations';
 
