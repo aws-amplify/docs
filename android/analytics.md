@@ -109,7 +109,7 @@ dependencies {
     import com.amazonaws.mobile.client.AWSMobileClient;
     import com.amazonaws.mobile.config.AWSConfiguration;
     import com.amazonaws.mobile.client.UserStateDetails;
-    import android.view.SurfaceHolder.Callback;
+    import com.amazonaws.mobile.client.Callback;
     import android.content.Context;
 
     public class MainActivity extends AppCompatActivity {
