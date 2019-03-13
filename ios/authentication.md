@@ -927,7 +927,7 @@ Note: `openid` is required for `phone`, `email` or `profile`. Also `openid` is r
         "Auth": {
             "Default": {
                 "OAuth": {
-                    "WebDomain": "https://YOUR_AUTH_DOMAIN.auth.us-west-2.amazoncognito.com",
+                    "WebDomain": "YOUR_AUTH_DOMAIN.auth.us-west-2.amazoncognito.com",
                     "AppClientId": "YOUR_APP_CLIENT_ID",
                     "AppClientSecret": "YOUR_APP_CLIENT_SECRET",
                     "SignInRedirectURI": "myapp://",
@@ -1061,7 +1061,7 @@ This will allow users authenticated via Auth0 have access to your AWS resources.
             "Default": {
                 "OAuth": {
                     "AppClientId": "YOUR_AUTH0_APP_CLIENT_ID",
-                    "WebDomain": "https://YOUR_AUTH0_DOMAIN.auth0.com",
+                    "WebDomain": "YOUR_AUTH0_DOMAIN.auth0.com",
                     "TokenURI": "https://YOUR_AUTH0_DOMAIN.auth0.com/oauth/token",
                     "SignInURI": "https://YOUR_AUTH0_DOMAIN.auth0.com/authorize",
                     "SignInRedirectURI": "com.your.bundle.configured.in.auth0://YOUR_AUTH0_DOMAIN.auth0.com/ios/com.your.bundle/callback",
