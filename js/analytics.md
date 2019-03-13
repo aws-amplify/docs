@@ -259,7 +259,6 @@ Analytics.updateEndpoint({
 For a complete API reference visit the [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/analyticsclass.html)
 {: .callout .callout--info}
 
-
 ## Using Amazon Kinesis
 
 The Amazon Kinesis analytics provider allows you to send analytics data to an [Amazon Kinesis](https://aws.amazon.com/kinesis) stream for real-time processing.
@@ -335,6 +334,58 @@ Analytics.record({
     partitionKey: 'myPartitionKey', 
     streamName: 'myKinesisStream'
 }, 'AWSKinesis');
+```
+
+## Using Amazon Kinesis Firehose
+
+The Amazon Kinesis firehose analytics provider allows you to send analytics data to an [Amazon Kinesis Firehose](https://aws.amazon.com/kinesis/data-firehose) stream for reliably storing data.
+
+### Installation and Configuration
+
+Register the *AWSKinesisFirehoseProvider* with the Analytics category: 
+
+```javascript
+import { Analytics, AWSKinesisFirehoseProvider } from 'aws-amplify';
+Analytics.addPluggable(new AWSKinesisProvider());
+
+```
+
+Ensure you have <a href="https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html" target="_blank">setup IAM permissions</a> for `PutRecordBatch`.
+
+Example IAM policy for Amazon Kinesis:
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "firehose:PutRecord",
+                "firehose:PutRecordBatch"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+```
+
+For more information visit [Amazon Kinesis Developer Documentation](https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html).
+
+Configure Kinesis Firehose:
+
+Kinesis Firehose uses the same configuration options as the AWS Kinesis Provider. To see how to configure, please visit [Amazon Kinesis Installation & Configuration](https://aws-amplify.github.io/docs/js/analytics#installation-and-configuration).
+
+### Working with the API
+
+You can send a data to a Kinesis Firehose stream with the standard *record()* method. Any data is acceptable and streamName is required:
+
+```javascript
+Analytics.record({
+    data: { 
+        // The data blob to put into the record
+    },
+    streamName: 'myKinesisStream'
+}, 'AWSKinesisFirehose');
 ```
 
 ## Using a Custom Plugin
