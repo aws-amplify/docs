@@ -107,6 +107,10 @@ dependencies {
     import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
     import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
     import com.amazonaws.mobile.client.AWSMobileClient;
+    import com.amazonaws.mobile.config.AWSConfiguration;
+    import com.amazonaws.mobile.client.UserStateDetails;
+    import android.view.SurfaceHolder.Callback;
+    import android.content.Context;
 
     public class MainActivity extends AppCompatActivity {
         private static final String TAG = MainActivity.class.getSimpleName();
