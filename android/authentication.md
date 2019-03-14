@@ -701,7 +701,7 @@ AWSMobileClient.getInstance().federatedSignIn("YOUR_SAML_PROVIDER_NAME", "YOUR_S
 ```
 
 **Note**
-If the SAML token contains more than one Role ARN, you will need to specify which role will be assumed when federating. If the assertion token has more than one Role ARN and a `customRoleARN` is not specified, it will result into an error.
+If the SAML token contains more than one Role ARN, you will need to specify which role will be assumed when federating. If the SAML token has more than one Role ARN and a `customRoleARN` is not specified, it will result in an error.
 {: .callout .callout--info}
 
 ```java
