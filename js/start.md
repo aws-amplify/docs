@@ -417,7 +417,7 @@ You'll notice that the Amplify CLI is also creating an Auth resource for you (th
 
 **If You Change Your Mind**
 
-You can update a service by running `amplify update <category-name>`. If you no longer want to use a service you can delete it with `amplify remove <category-name>`. Lastly, you can wipe out the whole project by runnig `amplify delete` (Warning: This will attempt to delete everything locally and in the cloud and reset your project as if you never ran `amplify init`).
+You can update a service by running `amplify update <category-name>`. If you no longer want to use a service you can delete it with `amplify remove <category-name>`. Lastly, you can wipe out the whole project by running `amplify delete` (Warning: This will attempt to delete everything locally and in the cloud and reset your project as if you never ran `amplify init`).
 
 ## Step 4. Integrate AWS Resources
 
