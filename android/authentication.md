@@ -700,9 +700,27 @@ AWSMobileClient.getInstance().federatedSignIn("YOUR_SAML_PROVIDER_NAME", "YOUR_S
 });
 ```
 
-**Availability Note**
-Currently, the SAML federation feature only supports SAML assertion tokens which have 1 Role ARN. If the assertion token has more than 1 Role ARN, it will result into an error.
+**Note**
+If the SAML token contains more than one Role ARN, you will need to specify which role will be assumed when federating. If the assertion token has more than one Role ARN and a `customRoleARN` is not specified, it will result into an error.
 {: .callout .callout--info}
+
+```java
+// Choose one of the roles available in the token
+FederatedSignInOptions options = FederatedSignInOptions.builder()
+                                     .customRoleARN("choose-one")
+                                     .build();
+// Perform SAML token federation
+AWSMobileClient.getInstance().federatedSignIn("YOUR_SAML_PROVIDER_NAME", "YOUR_SAML_TOKEN", options, new Callback<UserStateDetails>() {
+    @Override
+    public void onResult(final UserStateDetails userStateDetails) {
+        //Handle the result
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "sign-in error", e);
+});
+```
 
 #### Facebook with Cognito Identity
 
