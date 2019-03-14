@@ -549,7 +549,7 @@ this._validAuthStates = ['signedIn'];
 
 Then, in the component's constructor,  implement `showComponent(theme) {}` in lieu of the typical `render() {}` method.
 
-### Federated Identities (Social Sign-in)
+### Federated with Cognito Identities
 
 **Availability Note**
 Currently, the federated identity components only support `google`, `facebook`, `amazon`, `developer` and OpenID(e.g. `auth0`). To use an `OpenID` provider, use the URI of your provider as the key, e.g. `accounts.your-openid-provider.com`. Please see our[ Setup Guide for Federated Identities]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/federated-identity).
@@ -1075,9 +1075,9 @@ const federated = {
 
 There is also `withGoogle`, `withFacebook`, `withAmazon` components, in case you need to customize a single provider.
 
-### Using Amazon Cognito Hosted UI
+### Federated with Cognito User Pool Service
 
-Amazon Cognito provides a customizable user experience via the hosted UI. The hosted UI supports OAuth 2.0 and Federated Identities with Facebook, Amazon, Google, OIDC and SAML providers. To learn more about Amazon Cognito Hosted UI, please visit [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-configuring-app-integration.html).
+Amazon Cognito User Pool Service provides a customizable user experience via the hosted UI which supports OAuth 2.0 and Federated Identities with Facebook, Amazon, Google, OIDC and SAML providers. To learn more about Amazon Cognito Hosted UI, please visit [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-configuring-app-integration.html).
 
 > ***The Hosted UI support is only available for React / React Native / Web***
 
