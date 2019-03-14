@@ -986,9 +986,6 @@ global secondary indexes (GSIs) on the generated tables on your behalf. In the f
 are investigating using adjacency lists along side GSIs for different use cases that are
 connection heavy.
 
-TODO: Finish docs
-
-
 ### @versioned
 
 The `@versioned` directive adds object versioning and conflict resolution to a type.
