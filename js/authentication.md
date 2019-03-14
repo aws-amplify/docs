@@ -358,7 +358,10 @@ This method should be called after the Auth module is configured or the user is 
 
 #### Retrieve Current Session
 
-`Auth.currentSession()` returns a `CognitoUserSession` object which contains JWT `accessToken`, `idToken`, and `refreshToken`.
+`Auth.currentSession()` returns a `CognitoUserSession` object which contains JWT `accessToken`, `idToken`, and `refreshToken`. 
+
+This method will automatically refresh the `accessToken` and `idToken` if tokens are expired and a valid `refreshToken` presented. So you can use this method to refresh the session if needed. 
+
 
 ```javascript
 import { Auth } from 'aws-amplify';
@@ -455,7 +458,7 @@ The `withAuthenticator` HOC wraps an `Authenticator` component. Using `Authentic
 
 <Authenticator 
     // Optionally hard-code an initial state
-    authState="signIn",
+    authState="signIn"
     // Pass in an already authenticated CognitoUser or FederatedUser object
     authData={CognitoUser | 'username'} 
     // Fired when Authentication State changes
@@ -478,7 +481,8 @@ The `withAuthenticator` HOC wraps an `Authenticator` component. Using `Authentic
             ConfirmSignUp,
             VerifyContact,
             ForgotPassword,
-            TOTPSetup
+            TOTPSetup,
+            Loading
         ]
     }
     // or hide all the default components
@@ -499,6 +503,7 @@ The `withAuthenticator` HOC wraps an `Authenticator` component. Using `Authentic
     <VerifyContact/>
     <ForgotPassword/>
     <TOTPSetup/>
+    <Loading/>
 </Authenticator>
 ```
 

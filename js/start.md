@@ -448,7 +448,7 @@ let EventsSent = 0;
 AnalyticsEventButton.addEventListener('click', (evt) => {
     Analytics.record('AWS Amplify Tutorial Event')
         .then( (evt) => {
-            const url = 'https://'+awsconfig.aws_project_region+'.console.aws.amazon.com/pinpoint/home/?region='+awsconfig.aws_project_region+'#/apps/'+awsconfig.aws_mobile_analytics_app_id+'/analytics/events';
+            const url = 'https://'+awsconfig.aws_mobile_analytics_app_region+'.console.aws.amazon.com/pinpoint/home/?region='+awsconfig.aws_mobile_analytics_app_region+'#/apps/'+awsconfig.aws_mobile_analytics_app_id+'/analytics/events';
             AnalyticsResult.innerHTML = '<p>Event Submitted.</p>';
             AnalyticsResult.innerHTML += '<p>Events sent: '+(++EventsSent)+'</p>';
             AnalyticsResult.innerHTML += '<a href="'+url+'" target="_blank">View Events on the Amazon Pinpoint Console</a>';
