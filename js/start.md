@@ -415,6 +415,8 @@ You'll notice that the Amplify CLI is also creating an Auth resource for you (th
 
 > After your analytics resource has been successfully created, the Amplify configuration file (`aws-exports.js`) will be added to the source directory. (The 'src' directory for your project is defined by your answer to the `Source Directory Path` question during `amplify init`.)
 
+You can update a service by running `amplify update <category-name>`. If you no longer want to use a service you can delete it with `amplify remove <category-name>`. Lastly, you can wipe out the whole project by runnig `amplify delete` (Warning: This will attempt to delete everything and reset your project as if you never ran `amplify init`).
+
 ## Step 4. Integrate AWS Resources
 
 <div class="nav-tab install" data-group='install'>
