@@ -257,7 +257,7 @@ public class YourActivity extends Activity {
             TransferUtility.builder()
                     .context(getApplicationContext())
                     .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
-                    .s3Client(new AmazonS3Client(AWSMobileClient.getInstance())
+                    .s3Client(new AmazonS3Client(AWSMobileClient.getInstance()))
                     .build();
 
         TransferObserver downloadObserver =
