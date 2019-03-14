@@ -458,7 +458,7 @@ The `withAuthenticator` HOC wraps an `Authenticator` component. Using `Authentic
 
 <Authenticator 
     // Optionally hard-code an initial state
-    authState="signIn",
+    authState="signIn"
     // Pass in an already authenticated CognitoUser or FederatedUser object
     authData={CognitoUser | 'username'} 
     // Fired when Authentication State changes
@@ -480,7 +480,8 @@ The `withAuthenticator` HOC wraps an `Authenticator` component. Using `Authentic
             ConfirmSignUp,
             VerifyContact,
             ForgotPassword,
-            TOTPSetup
+            TOTPSetup,
+            Loading
         ]
     }
     // or hide all the default components
@@ -501,6 +502,7 @@ The `withAuthenticator` HOC wraps an `Authenticator` component. Using `Authentic
     <VerifyContact/>
     <ForgotPassword/>
     <TOTPSetup/>
+    <Loading/>
 </Authenticator>
 ```
 
