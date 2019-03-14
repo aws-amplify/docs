@@ -850,7 +850,7 @@ Now, your drop-in UI will show a Google sign in button which the users can use t
 
 ## Using Hosted UI for Authentication
 
-### Using Amazon Cognito Hosted UI 
+### Using Amazon Cognito Hosted UI
 
 Amazon Cognito provides a customizable user experience via the Hosted UI. The Hosted UI is an OAuth 2.0 flow that allows you to launch a login screen without embedding an SDK for Cognito or a social provider into your application. The Hosted UI allows end-users to sign-in directly to your user pool through Facebook, Amazon, and Google, as well as through OpenID Connect (OIDC) and SAML identity providers. To learn more about Amazon Cognito Hosted UI, please visit [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-configuring-app-integration.html).
 
@@ -927,7 +927,7 @@ Note: `openid` is required for `phone`, `email` or `profile`. Also `openid` is r
         "Auth": {
             "Default": {
                 "OAuth": {
-                    "WebDomain": "YOUR_AUTH_DOMAIN.auth.us-west-2.amazoncognito.com",
+                    "WebDomain": "YOUR_AUTH_DOMAIN.auth.us-west-2.amazoncognito.com", // Do not include the https:// prefix
                     "AppClientId": "YOUR_APP_CLIENT_ID",
                     "AppClientSecret": "YOUR_APP_CLIENT_SECRET",
                     "SignInRedirectURI": "myapp://",
@@ -1061,7 +1061,7 @@ This will allow users authenticated via Auth0 have access to your AWS resources.
             "Default": {
                 "OAuth": {
                     "AppClientId": "YOUR_AUTH0_APP_CLIENT_ID",
-                    "WebDomain": "YOUR_AUTH0_DOMAIN.auth0.com",
+                    "WebDomain": "YOUR_AUTH0_DOMAIN.auth0.com", // Do not include the https:// prefix
                     "TokenURI": "https://YOUR_AUTH0_DOMAIN.auth0.com/oauth/token",
                     "SignInURI": "https://YOUR_AUTH0_DOMAIN.auth0.com/authorize",
                     "SignInRedirectURI": "com.your.bundle.configured.in.auth0://YOUR_AUTH0_DOMAIN.auth0.com/ios/com.your.bundle/callback",
