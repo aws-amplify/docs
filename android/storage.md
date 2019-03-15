@@ -500,7 +500,7 @@ TransferUtility transferUtility = TransferUtility.builder()
     .build();
 ```
 
-By specifying `TransferNetworkConnectionType.WIFI` you are restricting the data to be transferred to and from S3 only when there is a WiFi connection that is available.
+By specifying `TransferNetworkConnectionType.WIFI` , data transfers to and from S3 will only happen when the device is on a WiFi connection
 
 ## Usage with GraphQL APIs (Complex Objects)
 Note: Please review the documentation for [API](./api) before you proceed with the rest of this section. 
