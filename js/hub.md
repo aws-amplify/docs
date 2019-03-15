@@ -2,7 +2,7 @@
 ---
 # Hub
 
-Amplify has a local eventing systen called Hub. It is a lightweight implementation of Publisher-Subscriber pattern, and is used to share data between modules and components in your app. Amplify uses Hub for different categories to communicate with one another when specific events occur, such as authentication events like a user sign-in or notification of a file download.
+Amplify has a local eventing system called Hub. It is a lightweight implementation of Publisher-Subscriber pattern, and is used to share data between modules and components in your app. Amplify uses Hub for different categories to communicate with one another when specific events occur, such as authentication events like a user sign-in or notification of a file download.
 
 ## Installation
 ```javascript
@@ -77,7 +77,7 @@ The `event` field is recommended to be a small string without spaces such as `si
 
 ### Stop Listening
 
-Hub provides a way to stop listening for messages with `Hub.remove(channel: string | RegExp, listener: callback)`. This may be useful if you no longer need to recieve messages in your application flow, as well as to avoid any memory leaks on low powered devices when you are sending large amounts of data through Hub on multiple channels.
+Hub provides a way to stop listening for messages with `Hub.remove(channel: string | RegExp, listener: callback)`. This may be useful if you no longer need to receive messages in your application flow, as well as to avoid any memory leaks on low powered devices when you are sending large amounts of data through Hub on multiple channels.
 
 
 ### Channels
