@@ -358,7 +358,7 @@ const SSECustomerAlgorithm = 'string';
 const SSECustomerKey = new Buffer('...') || 'string';
 const SSECustomerKeyMD5 = 'string';
 const SSEKMSKeyId = 'string';
-Storage.put('test.txt', 'File content'),{
+Storage.put('test.txt', 'File content', {
     serverSideEncryption, SSECustomerAlgorithm, SSECustomerKey, SSECustomerKeyMD5, SSEKMSKeyId}  
 })
 .then (result => console.log(result))
