@@ -103,7 +103,7 @@ import { Hub, Logger } from 'aws-amplify';
 
 const logger = new Logger('My-Logger');
 
-logger.listener = (capsule) => {
+const listener = (capsule) => {
 
     switch (capsule.payload.event) {
     
