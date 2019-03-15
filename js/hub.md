@@ -24,8 +24,8 @@ import { Hub } from 'aws-amplify';
 class MyClass {
     constructor() {
         Hub.listen('auth', (data) => {
-            const { channel, payload } = data;
-            if (channel === 'auth') { this.onAuthEvent(payload); }            
+            const { payload } = data;
+            this.onAuthEvent(payload);           
             console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event);
         })
     }
