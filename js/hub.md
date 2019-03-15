@@ -101,26 +101,26 @@ Amplify's `Auth` category publishes in the `auth` channel when 'signIn', 'signUp
 ```javascript
 import { Hub, Logger } from 'aws-amplify';
 
-const alex = new Logger('My-Logger');
+const logger = new Logger('My-Logger');
 
-const listener = (capsule) => {
+const listener = (data) => {
 
-    switch (capsule.payload.event) {
+    switch (data.payload.event) {
     
         case 'signIn':
-            alex.error('user signed in'); //[ERROR] My-Logger - user signed in
+            logger.error('user signed in'); //[ERROR] My-Logger - user signed in
             break;
         case 'signUp':
-            alex.error('user signed up');
+            logger.error('user signed up');
             break;
         case 'signOut':
-            alex.error('user signed out');
+            logger.error('user signed out');
             break;
         case 'signIn_failure':
-            alex.error('user sign in failed');
+            logger.error('user sign in failed');
             break;
         case 'configured':
-            alex.error('the Auth module is configured');
+            logger.error('the Auth module is configured');
             
     }
 }
