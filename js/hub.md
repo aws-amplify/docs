@@ -158,7 +158,7 @@ Hub.listen(/user ([^ ]+) ([^ ]+) (.*)/, (data) => {
 
 ### State Management
 
-Hub can be used as part of a state management system such as [Redux](https://redux.js.org/) or [Mobx](https://github.com/mobxjs/mobx) by updating the store when an event is seen by one or more listeners. You could also construct your own local store. For example, suppose you have the following in a React application's top level component:
+Hub can be used as part of a state management system such as [Redux](https://redux.js.org/) or [MobX](https://github.com/mobxjs/mobx) by updating the store when an event is seen by one or more listeners. You could also construct your own local store. For example, suppose you have the following in a React application's top level component:
 
 ```javascript
 const store = (() => {
@@ -209,7 +209,7 @@ class App extends Component {
 }
 ```
 
-This naive sample (which is for example purposes and not production readdy) creates a `store` that is updated when events are recieved by `Hub.listen()` if there is a message present in the payload. We then create these messages with `Hub.dispatch()` upon a button click and pass the store down to two components called `<DogAlerts />` and `<DogStatus />`.  The first is a very simple stateless component that renders the current store value from props:
+This naive sample (which is for example purposes and not production ready) creates a `store` that is updated when events are received by `Hub.listen()` if there is a message present in the payload. We then create these messages with `Hub.dispatch()` upon a button click and pass the store down to two components called `<DogAlerts />` and `<DogStatus />`.  The first is a very simple stateless component that renders the current store value from props:
 
 ```javascript
 const DogAlerts = (props) => {
