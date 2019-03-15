@@ -373,7 +373,30 @@ For more information visit [Amazon Kinesis Developer Documentation](https://docs
 
 Configure Kinesis Firehose:
 
-Kinesis Firehose uses the same configuration options as the AWS Kinesis Provider. To see how to configure, please visit [Amazon Kinesis Installation & Configuration](https://aws-amplify.github.io/docs/js/analytics#installation-and-configuration).
+```javascript
+
+// Configure the plugin after adding it to the Analytics module
+Analytics.configure({
+    AWSKinesisFirehose: {
+
+        // OPTIONAL -  Amazon Kinesis Firehose service region
+        region: 'XX-XXXX-X',
+        
+        // OPTIONAL - The buffer size for events in number of items.
+        bufferSize: 1000,
+        
+        // OPTIONAL - The number of events to be deleted from the buffer when flushed.
+        flushSize: 100,
+        
+        // OPTIONAL - The interval in milliseconds to perform a buffer check and flush if necessary.
+        flushInterval: 5000, // 5s
+        
+        // OPTIONAL - The limit for failed recording retries.
+        resendLimit: 5
+    } 
+});
+
+```
 
 ### Working with the API
 
