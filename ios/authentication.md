@@ -727,7 +727,7 @@ With developer authenticated identities, you can register and authenticate users
 
 Begin by registering yourself with Cognito Identity in the console.
 
-![Image]({{media_base}}/dev-auth-ids-console-settings.png)
+![Image]({{image_base}}/dev-auth-ids-console-settings.png)
 
 Then, once the end-user has authenticated with you, the app should receive a Cognito identity id and token confirming the sign-in with you from your servers.
 

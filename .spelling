@@ -175,6 +175,12 @@ js
 tsconfig
 myAmplifyProject
 
+# js/hub.md
+onHubCapsule
+pubsub
+xr
+MobX
+
 # js/service-workers.md
 ServiceWorker
 postMessage
