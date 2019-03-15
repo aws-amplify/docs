@@ -101,7 +101,7 @@ Amplify's `Auth` category publishes in the `auth` channel when 'signIn', 'signUp
 ```javascript
 import { Hub, Logger } from 'aws-amplify';
 
-const logger = new Logger('My-Logger');
+const alex = new Logger('My-Logger');
 
 const listener = (capsule) => {
 
