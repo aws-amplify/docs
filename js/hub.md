@@ -125,7 +125,7 @@ const listener = (capsule) => {
     }
 }
 
-Hub.listen('auth', logger.listener);
+Hub.listen('auth', listener);
 ```
 
 ### Listening for Regular Expressions
