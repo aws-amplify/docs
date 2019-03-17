@@ -411,7 +411,7 @@ You can configure the AWS Amplify CLI to use an IAM role by defining a profile f
 When prompted during the execution of `amplify init` or the `amplify configure project` command, you will select a configured profile for the role, and the Amplify CLI will handle the logic to retrieve, cache and refresh the temp credentials. If Multi-Factor Authentication (MFA) is enabled, the CLI will prompt you to enter the MFA token code when it needs to retrieve or refresh temporary credentials. <br/>
 
 The Amplify CLI has its own mechanism of caching temp credentials, it does NOT use the same cache of the AWS CLI. The temporary credentials are cached at `~/.amplify/awscloudformation/cache.json`. You can remove all cached credentials by removing this file.<br/>
-If you only want to remove the cached temp credentials associated with a particular project, execute `amplify awscloudformation reset-cache` or it's alias `amplify aws reset-catch` in the project. <br/>
+If you only want to remove the cached temp credentials associated with a particular project, execute `amplify awscloudformation reset-cache` or it's alias `amplify aws reset-cache` in the project. <br/>
 
 ### Step by step guide to create and assume an IAM role
 The following is a step by step guide on how to create an IAM role and make it available for the Amplify CLI.
