@@ -1562,7 +1562,7 @@ type Query {
         "ApiId": {
             "Ref": "AppSyncApiId"
         },
-        "DataSourceName": "ElasticsearchDomain",
+        "DataSourceName": "ElasticSearchDomain",
         "TypeName": "Query",
         "FieldName": "nearbyTodos",
         "RequestMappingTemplateS3Location": {
