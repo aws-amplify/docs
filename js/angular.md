@@ -194,6 +194,22 @@ The signUpFields array in turn consist of an array of objects, each describing a
 
 {% include sign-up-fields.html %}
 
+#### SignIn Configuration
+The SignIn component provides your users with the ability to sign in with a user pool or with social providers. It is included as part of the ```authenticator``` component, but can also be used in isolation:
+
+Usage: 
+```<amplify-auth-sign-in [signInConfig]="signInConfig"></amplify-auth-sign-in>```
+or
+```<amplify-authenticator [signInConfig]="signInConfig"></amplify-authenticator>```
+
+The SignIn Component accepts a 'signInConfig' object which allows you to customize it.
+
+{% include angular-sign-in-attributes.html %}
+
+The federatedSignInConfig object in turn consist the Application Ids to the social provider(s):
+
+{% include federated-sign-in-fields.html %}
+
 
 ### Photo Picker
 
