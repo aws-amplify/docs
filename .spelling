@@ -226,6 +226,8 @@ amplify-s3-album
 styles.css
 6.x
 polyfills.ts
+federatedSignInConfig
+signInConfig
 
 # js/interactions.md
 chatbots
