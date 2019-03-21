@@ -899,9 +899,8 @@ After the federated login, you can retrieve related JWT token from the local cac
 import { Cache } from 'aws-amplify';
 
 // Run this after the sign-in
-Cache.getItem('federatedInfo').then(federatedInfo => {
-     const { token } = federatedInfo;
-});
+const federatedInfo = Cache.getItem('federatedInfo');
+const { token } = federatedInfo;
 ```
 
 **Refreshing JWT Tokens**
