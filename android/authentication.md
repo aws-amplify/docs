@@ -1279,7 +1279,7 @@ AWSMobileClient.getInstance().showSignIn(this, signInUIOptions, new Callback<Use
 #### Sign Out from HostedUI
 
 ```java
-auth.signOut(SignOutOptions.builder().invalidateTokens(true).build(), new Callback<Void>() {
+AWSMobileClient.getInstance().signOut(SignOutOptions.builder().invalidateTokens(true).build(), new Callback<Void>() {
     @Override
     public void onResult(Void result) {
         Log.d(TAG, "onResult: ");
