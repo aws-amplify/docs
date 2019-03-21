@@ -9,9 +9,9 @@ Use the drop-down menu at the top right of this page to choose the framework for
 
 ## What Does AWS Amplify Include?
 
-- the Amplify CLI with support for creating and managing the serverless backend, web hosting, and codegen 
-- the Amplify JavaScript library which allows your application to more easily access your AWS resources
-- framework-specific UI component libraries for React, React Native, Angular/Ionic and Vue.
+- The Amplify CLI with support for creating and managing the serverless backend, web hosting, and codegen 
+- The Amplify JavaScript library which allows your application to more easily access your AWS resources
+- Framework-specific UI component libraries for React, React Native, Angular/Ionic and Vue.
 
 AWS Amplify also includes support for [iOS]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/ios/start) and [Android]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/android/start) development.
 
