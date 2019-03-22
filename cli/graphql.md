@@ -563,7 +563,7 @@ This would return:
 }
 ```
 
-You can try do the same to **owner** but this will throw an **Unauthorized** exception because you are no longer the owner of the object you are trying to create
+You can try to do the same to **owner** but this will throw an **Unauthorized** exception because you are no longer the owner of the object you are trying to create
 
 ```
 mutation CreateDraft {
