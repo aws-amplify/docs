@@ -365,6 +365,20 @@ Storage.put('test.txt', 'File content'),{
 .catch (err => console.log(err));
 ```
 
+Other options available are:
+
+```javascript
+Storage.put('test.txt', 'My Content', {
+    cacheControl: '', // (String) Specifies caching behavior along the request/reply chain
+    contentDisposition: '', // (String) Specifies presentational information for the object
+    expires: new Date().now() + 60 * 60 * 24 * 7, // (Date) The date and time at which the object is no longer cacheable. ISO-8601 string, or a UNIX timestamp in seconds
+    metadata: { key: 'value' }, // (map<String>) A map of metadata to store with the object in S3.
+})
+.then (result => console.log(result))
+.catch(err => console.log(err));
+```
+
+
 Upload an image in the browser:
 
 ```javascript
