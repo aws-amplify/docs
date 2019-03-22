@@ -290,13 +290,13 @@ Auth.configure(
 
 Storage.configure({
     AWSS3: {
-        bucket: '',//Your bucket ARN;
+        bucket: '',//Your bucket name;
         region: ''//Specify the region your bucket was created in;
     }
 });
 ```
 
-=======
+---
 
 #### Put
 
