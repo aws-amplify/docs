@@ -175,6 +175,12 @@ js
 tsconfig
 myAmplifyProject
 
+# js/hub.md
+onHubCapsule
+pubsub
+xr
+MobX
+
 # js/service-workers.md
 ServiceWorker
 postMessage
@@ -213,7 +219,7 @@ middleware
 IoT
 WebSocket
 
-# js/ionic.md
+# js/angular.md
 html
 base64
 amplify-s3-album
@@ -285,6 +291,8 @@ withFederated
 Auth.federatedSignIn
 aws.cognito.signin.user.admin
 ChallengeName
+myapp
+LoginWithAmazon
 
 #js/cognito-hosted-ui-federated-identity.md
 oauth2
@@ -709,6 +717,10 @@ UIViewController
 # ios/authentication.md
 UINavigationController
 UserPools
+HostedUI
+UserPool
+flipside
+ARNs
 
 # ios/how-to-cognito-integrate-an-existing-identity-pool-ios.md
 AppDelegate
@@ -861,6 +873,7 @@ MY_BUCKET
 OBJECT_KEY
 MY_FILE
 KMS-generated
+TransferNetworkConnectionType
 
 # android/auth-google-setup.md
 keystore

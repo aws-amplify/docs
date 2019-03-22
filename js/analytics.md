@@ -49,7 +49,7 @@ The manual setup enables you to use your existing Amazon Pinpoint resource in yo
 import Amplify from 'aws-amplify';
 
 Amplify.configure({
-    // To get the aws credentials, you need to configure 
+    // To get the AWS Credentials, you need to configure 
     // the Auth module with your Cognito Federated Identity Pool
     Auth: {
         identityPoolId: 'us-east-1:xxx-xxx-xxx-xxx-xxx',
@@ -174,6 +174,8 @@ Analytics.record({
 });
 ```
 
+Attribute values must have the type `String` or be an array of strings.
+
 #### Record Engagement Metrics
 
 Data can also be added to an event:
@@ -185,6 +187,8 @@ Analytics.record({
     metrics: { minutesListened: 30 }
 });
 ```
+
+Metric values must be a `Number` type such as a float or integer.
 
 #### Disable Analytics
 
@@ -371,7 +375,7 @@ Analytics.addPluggable(new MyAnalyticsProvider());
 // get the plugin
 Analytics.getPluggable(MyAnalyticsProvider.providerName);
 
-// remove the plulgin
+// remove the plugin
 Analytics.removePluggable(MyAnalyticsProvider.providerName);
 
 // send configuration into Amplify

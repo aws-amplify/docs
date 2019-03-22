@@ -31,7 +31,7 @@ platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSCore', '~> 2.8.0'
+    pod 'AWSCore', '~> 2.9.0'
 
     # other pods
 end
@@ -85,14 +85,14 @@ $ amplify add api     #select GraphQL, API Key
 
 The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on you can always change it. This process creates an AWS AppSync API and connects it to an Amazon DynamoDB database.
 
-Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults which generate a file named `API.swift`. Drag and drop this file from you `Finder` to the Xcode project and update your Podfile to include `AWSAppSync`:
+Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults which generate a file named `API.swift`. Drag and drop this file from your `Finder` to the Xcode project and update your Podfile to include `AWSAppSync`:
 
 ```ruby
 platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSAppSync', '~> 2.9.0'
+    pod 'AWSAppSync', '~> 2.10.0'
 
 end
 ```

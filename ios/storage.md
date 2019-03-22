@@ -71,10 +71,10 @@ Use the following steps to add file storage backend services to your app.
     target :'YOUR-APP-NAME' do
         use_frameworks!
 
-        pod 'AWSS3', '~> 2.8.0'   # For file transfers
+        pod 'AWSS3', '~> 2.9.0'   # For file transfers
 
         # other pods . . .
-        pod 'AWSMobileClient', '~> 2.8.0'
+        pod 'AWSMobileClient', '~> 2.9.0'
     end
     ```
 
@@ -113,15 +113,19 @@ let configuration = AWSServiceConfiguration(region: .USEast1, credentialsProvide
 let tuConf = AWSS3TransferUtilityConfiguration()
 tuConf.isAccelerateModeEnabled = true
 
-//Register a transfer utility object
+//Register a transfer utility object asynchronously
 AWSS3TransferUtility.register(
     with: configuration!,
     transferUtilityConfiguration: tuConf,
     forKey: "transfer-utility-with-advanced-options"
-)
+) { (error) in
+     if let error = error {
+         //Handle registration error.
+     }
+}
 
 //Look up the transfer utility object from the registry to use for your transfers.
-let transferUtility = AWSS3TransferUtility.s3TransferUtility(forKey: "transfer-utility-with-advanced-options")
+let transferUtility:(AWSS3TransferUtility?) = AWSS3TransferUtility.s3TransferUtility(forKey: "transfer-utility-with-advanced-options")
 ```
 
 #### retryLimit
@@ -683,7 +687,7 @@ The AWS AppSync SDK doesn't take a direct dependency on the AWS SDK for iOS for 
   target: 'PostsApp' do
     use_frameworks!
     pod 'AWSAppSync', ~> '2.9.0'
-    pod 'AWSS3', ~> '2.8.0'
+    pod 'AWSS3', ~> '2.9.0'
   end
   ```
 
