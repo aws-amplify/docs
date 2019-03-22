@@ -895,11 +895,23 @@ export default class App extends React.Component {
 **Retrieving JWT Token**
 
 After the federated login, you can retrieve related JWT token from the local cache using the *Cache* module: 
+
+In the browser:
 ```javascript
 import { Cache } from 'aws-amplify';
 
 // Run this after the sign-in
 const federatedInfo = Cache.getItem('federatedInfo');
+const { token } = federatedInfo;
+```
+
+In React Native: 
+```javascript
+import { Cache } from 'aws-amplify';
+
+// inside an async function
+// Run this after the sign-in
+const federatedInfo = await Cache.getItem('federatedInfo');
 const { token } = federatedInfo;
 ```
 
