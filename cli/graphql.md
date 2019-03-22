@@ -33,7 +33,7 @@ When used along with tools like the Amplify CLI, the GraphQL Transform simplifie
 developing, deploying, and maintaining GraphQL APIs. With it, you define your API using the 
 [GraphQL Schema Definition Language (SDL)](https://facebook.github.io/graphql/June2018/) and can then use automation to transform it into a fully 
 descriptive cloudformation template that implements the spec. The transform also provides a framework
-through which you can define you own transformers as `@directives` for custom workflows.
+through which you can define your own transformers as `@directives` for custom workflows.
 
 ## Quick Start
 
