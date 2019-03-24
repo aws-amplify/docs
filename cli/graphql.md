@@ -1395,7 +1395,12 @@ type Query {
 "EchoLambdaDataSourceRole": {
   "Type": "AWS::IAM::Role",
   "Properties": {
-    "RoleName": "EchoLambdaDataSourceRole",
+    "RoleName": {
+      "Fn::Sub": [
+        "EchoLambdaDataSourceRole-${env}",
+        { "env": { "Ref": "env" } }
+      ]
+    },
     "AssumeRolePolicyDocument": {
       "Version": "2012-10-17",
       "Statement": [
