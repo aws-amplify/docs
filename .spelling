@@ -337,6 +337,13 @@ pluggable
 mouseover
 url
 webapp
+dataset
+AmazonPersonalizeProvider
+eventType
+iframe
+MediaAutoTrack
+TimeWatched
+eventValue
 
 # cli/graphql.md
 redirect_to
