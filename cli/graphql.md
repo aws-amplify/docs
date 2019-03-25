@@ -2498,7 +2498,7 @@ type Post @model @versioned {
 }
 ```
 
-> Note: @versioned depends on @model so we must pass `new new DynamoDBModelTransformer()` before `new new VersionedModelTransformer()`. Also note that `new AppSyncTransformer()` must go first for now. In the future we can add a dependency mechanism and topologically sort it ourselves.
+> Note: @versioned depends on @model so we must pass `new DynamoDBModelTransformer()` before `new VersionedModelTransformer()`. Also note that `new AppSyncTransformer()` must go first for now. In the future we can add a dependency mechanism and topologically sort it ourselves.
 
 The next step after defining the directive is to implement the transformer's business logic. The `graphql-transformer-core` package makes this a little easier
 by exporting a common class through which we may define transformers. User's extend the `Transformer` class and implement the required functions.
@@ -2561,7 +2561,7 @@ export class VersionedModelTransformer extends Transformer {
         // @versioned may only be used on types that are also @model
         const modelDirective = def.directives.find((dir) => dir.name.value === 'model')
         if (!modelDirective) {
-            throw new InvalidDirectiveError('Types annotated with @auth must also be annotated with @model.')
+            throw new InvalidDirectiveError('Types annotated with @versioned must also be annotated with @model.')
         }
 
         const isArg = (s: string) => (arg: ArgumentNode) => arg.name.value === s
