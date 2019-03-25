@@ -290,13 +290,13 @@ Auth.configure(
 
 Storage.configure({
     AWSS3: {
-        bucket: '',//Your bucket ARN;
+        bucket: '',//Your bucket name;
         region: ''//Specify the region your bucket was created in;
     }
 });
 ```
 
-=======
+---
 
 #### Put
 
@@ -358,8 +358,8 @@ const SSECustomerAlgorithm = 'string';
 const SSECustomerKey = new Buffer('...') || 'string';
 const SSECustomerKeyMD5 = 'string';
 const SSEKMSKeyId = 'string';
-Storage.put('test.txt', 'File content'),{
-    serverSideEncryption, SSECustomerAlgorithm, SSECustomerKey, SSECustomerKeyMD5, SSEKMSKeyId}  
+Storage.put('test.txt', 'File content', {
+    serverSideEncryption, SSECustomerAlgorithm, SSECustomerKey, SSECustomerKeyMD5, SSEKMSKeyId
 })
 .then (result => console.log(result))
 .catch (err => console.log(err));

@@ -113,15 +113,19 @@ let configuration = AWSServiceConfiguration(region: .USEast1, credentialsProvide
 let tuConf = AWSS3TransferUtilityConfiguration()
 tuConf.isAccelerateModeEnabled = true
 
-//Register a transfer utility object
+//Register a transfer utility object asynchronously
 AWSS3TransferUtility.register(
     with: configuration!,
     transferUtilityConfiguration: tuConf,
     forKey: "transfer-utility-with-advanced-options"
-)
+) { (error) in
+     if let error = error {
+         //Handle registration error.
+     }
+}
 
 //Look up the transfer utility object from the registry to use for your transfers.
-let transferUtility = AWSS3TransferUtility.s3TransferUtility(forKey: "transfer-utility-with-advanced-options")
+let transferUtility:(AWSS3TransferUtility?) = AWSS3TransferUtility.s3TransferUtility(forKey: "transfer-utility-with-advanced-options")
 ```
 
 #### retryLimit
