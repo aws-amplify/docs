@@ -1,3 +1,9 @@
+{% if jekyll.environment == 'production' %}
+  {% assign base_dir = site.amplify.docs_baseurl %}
+{% endif %}
+{% assign image_base = base_dir | append: page.dir | append: "images" %}
+
+
 # Adding Social Identity Providers to a User Pool
 
 ## Facebook
@@ -5,7 +11,7 @@
 1. Create a [developer account with Facebook](https://developers.facebook.com/docs/facebook-login)
 2. [Sign In](https://developers.facebook.com/) with your Facebook credentials.
 3. From the *My Apps* menu, choose *Add New App*.
-![](./images/cognitoHostedUI/facebook1.png)
+![Image]({{image_base}}/cognitoHostedUI/facebook1.png)
 4. Give your Facebook app a name and choose *Create App ID*.
 ![](./images/cognitoHostedUI/facebook2.png)
 5. On the left navigation bar, choose *Settings* and then *Basic*.
