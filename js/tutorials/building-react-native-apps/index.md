@@ -244,7 +244,7 @@ You are creating a table in a [NoSQL database](http://docs.aws.amazon.com/amazon
 
 2.  When prompted to `? Add another column`, type Y and then choose enter. Repeat the steps to create *NoteTitle* and *NoteContent* columns.
 
-3.  Select `team` as the primary key.
+3.  Select `NoteId` as the primary key.
 
     ```terminal
     ? Please choose partition key for the table:
