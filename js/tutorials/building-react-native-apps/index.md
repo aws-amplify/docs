@@ -13,13 +13,13 @@ The AWS Amplify and the CLI provides a developer experience that allows frontend
 
 ## Create a new React App
 
-Use [Create React Native App](https://github.com/react-community/create-react-native-app) to create a new React Native application. Through the tutorial, you will add cloud features to this application using Amplify CLI and Amplify JavaScript library.
+Use [Expo CLI](https://expo.io) to create a new React Native application. Through the tutorial, you will add cloud features to this application using Amplify CLI and Amplify JavaScript library.
 
 ```bash
-$ npm install -g create-react-native-app
-$ create-react-native-app my-app
+$ npm install expo-cli --global
+$ expo init my-app
 $ cd my-app
-$ npm start
+$ expo start
 ```
 
 ## Install and Configure AWS Amplify 
@@ -55,14 +55,10 @@ Your app, which for now consists of a default blank home page, is now ready to l
 
 **To launch your app locally**
 
-Use following commands to open your app in the Create React Native App tooling:
+Use following commands to open your app with Expo:
 
 ```bash
-npm run android
-
-# OR
-
-npm run ios
+expo start
 ```
 
 ## Add Auth / User Sign-in
