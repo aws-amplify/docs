@@ -645,7 +645,7 @@ Then, in the component's constructor,  implement `showComponent(theme) {}` in li
 Currently, the federated identity components only support `google`, `facebook`, `amazon`, `developer` and OpenID(e.g. `auth0`). To use an `OpenID` provider, use the URI of your provider as the key, e.g. `accounts.your-openid-provider.com`. Please see our[ Setup Guide for Federated Identities]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/federated-identity).
 {: .callout .callout--info}
 
-#### Federated Sign In
+#### Federate with Cognito Identity Pools
 
 The `Auth.federatedSignIn()` is used to get AWS credentials directly from Cognito Federated Identities, which is different from Cognito User Pools. When an AWS service (such as S3) uses IAM for authorization, the request needs to be signed with AWS credentials and Cognito Federated Identities provides short term AWS credentials for performing this action using mobile or web applications. Amplify automatically refreshes these short term credentials in the background on your behalf, and when using `Auth.signIn()` you **do not** need to call  `Auth.federatedSignIn()` as this process happens automatically in the background for you. `Auth.signIn()` will also provide JWT OIDC tokens from Cognito User Pools which are federated with Cognito Federated Identities on your behalf allowing your application to interact with AWS services, which the other Amplify categories (such as Storage and API) will sign requests automatically.
 
@@ -1092,9 +1092,11 @@ const Button = (props) => (
 export default withAuth0(Button);
 ```
 
-### Using Amazon Cognito Hosted UI
+### Federate with Cognito User Pools
 
-Amazon Cognito User Pool Service provides a customizable user experience via the hosted UI which supports OAuth 2.0 and Federated Identities with Facebook, Amazon, Google, OIDC and SAML providers. To learn more about Amazon Cognito Hosted UI, please visit [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-configuring-app-integration.html).
+Amazon Cognito User Pools provides a customizable user experience via a Hosted UI which supports OAuth 2.0 and federation with Facebook, Amazon, Google, OIDC and SAML providers. To learn more about Amazon Cognito Hosted UI, please visit [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-configuring-app-integration.html).
+
+Alternatively, when enabling a domain in User Pools, you can interact directly with the OAuth 2.0 endpoints from a client application instead of showing the Hosted UI in your application. Please see the [examples of using the endpoints in your app](https://aws-amplify.github.io/docs/js/authentication#launching-the-hosted-ui) and learn more in the [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-userpools-server-contract-reference.html).
 
 > ***The Hosted UI support is only available for React / React Native / Web***
 
