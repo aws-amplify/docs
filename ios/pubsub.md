@@ -51,8 +51,8 @@ let iotDataConfiguration = AWSServiceConfiguration(
     credentialsProvider: AWSMobileClient.sharedInstance()
 )
 
-AWSIoTDataManager.register(with: iotDataConfiguration!, forKey: AWSIoTDataManager)
-AWSIoTDataManager iotDataManager = AWSIoTDataManager(forKey: AWSIoTDataManager)
+AWSIoTDataManager.register(with: iotDataConfiguration!, forKey: "MyAWSIoTDataManager")
+AWSIoTDataManager iotDataManager = AWSIoTDataManager(forKey: "MyAWSIoTDataManager")
 ```
 
 You can get the endpoint information from the IoT Core -> Settings page on the AWS Console.  
