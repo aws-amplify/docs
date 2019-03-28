@@ -291,7 +291,7 @@ Auth.forgotPasswordSubmit(username, code, new_password)
 ```
 
 #### Complete new password
-The user would be asked to provide his new password and required attributes the first time he signs in if he is created in the AWS Cognito console. In that case, you need to call this method to finish this process:
+The user would be asked to provide the new password and required attributes during the first sign-in attempt if a valid user directory is created in Amazon Cognito. During this scenario, the following method can be called to process the new password entered by the user.
 
 ```js
 import { Auth } from 'aws-amplify';
@@ -358,7 +358,10 @@ This method should be called after the Auth module is configured or the user is 
 
 #### Retrieve Current Session
 
-`Auth.currentSession()` returns a `CognitoUserSession` object which contains JWT `accessToken`, `idToken`, and `refreshToken`.
+`Auth.currentSession()` returns a `CognitoUserSession` object which contains JWT `accessToken`, `idToken`, and `refreshToken`. 
+
+This method will automatically refresh the `accessToken` and `idToken` if tokens are expired and a valid `refreshToken` presented. So you can use this method to refresh the session if needed. 
+
 
 ```javascript
 import { Auth } from 'aws-amplify';
@@ -405,7 +408,9 @@ Auth.configure({
 
 To learn more about tokens, please visit [Amazon Cognito Developer Documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-with-identity-providers.html).
 
-### Using Components in React & React Native
+### Using Auth Components in React & React Native
+
+#### Using withAuthenticator HOC
 
 For React and React Native apps, the simplest way to add authentication flows into your app is to use the `withAuthenticator` Higher Order Component.
 
@@ -429,8 +434,6 @@ export default withAuthenticator(App);
 ```
 Now, your app has complete flows for user sign-in and registration. Since you have wrapped your **App** with `withAuthenticator`, only signed in users can access your app. The routing for login pages and giving access to your **App** Component will be managed automatically.
 
-#### Props
-
 `withAuthenticator` component renders your App component after a successful user signed in, and it prevents non-sign-in uses to interact with your app. In this case, we need to display a *sign-out* button to trigger the related process.
 
 To display a sign-out button or customize other, set `includeGreetings = true` in the parameter object. It displays a *greetings section* on top of your app, and a sign-out button is displayed in the authenticated state. Other customization options are also available as properties to the HOC:
@@ -447,7 +450,7 @@ export default withAuthenticator(App, {
                 theme: {myCustomTheme}});
 ```
 
-### Using the Authenticator Component Directly
+#### Using the Authenticator Component
 
 The `withAuthenticator` HOC wraps an `Authenticator` component. Using `Authenticator` directly gives you more customization options for your UI.
 
@@ -455,12 +458,13 @@ The `withAuthenticator` HOC wraps an `Authenticator` component. Using `Authentic
 
 <Authenticator 
     // Optionally hard-code an initial state
-    authState="signIn",
+    authState="signIn"
     // Pass in an already authenticated CognitoUser or FederatedUser object
     authData={CognitoUser | 'username'} 
     // Fired when Authentication State changes
     onStateChange={(authState) => console.log(authState)} 
     // An object referencing federation and/or social providers 
+    // The federation here means federation with the Cognito Identity Pool Service
     // *** Only supported on React/Web (Not React Native) ***
     // For React Native use the API Auth.federatedSignIn()
     federated={myFederatedConfig}
@@ -477,13 +481,14 @@ The `withAuthenticator` HOC wraps an `Authenticator` component. Using `Authentic
             ConfirmSignUp,
             VerifyContact,
             ForgotPassword,
-            TOTPSetup
+            TOTPSetup,
+            Loading
         ]
     }
     // or hide all the default components
     hideDefault={true}
     // Pass in an aws-exports configuration
-    amplifyConfig={myAWSExports}, 
+    amplifyConfig={myAWSExports}
     // Pass in a message map for error strings
     errorMessage={myMessageMap}
 >
@@ -498,8 +503,93 @@ The `withAuthenticator` HOC wraps an `Authenticator` component. Using `Authentic
     <VerifyContact/>
     <ForgotPassword/>
     <TOTPSetup/>
+    <Loading/>
 </Authenticator>
 ```
+
+#### Customize your own components
+
+You can provide custom components to the `Authenticator` as child components in React and React Native. 
+
+```jsx
+import { Authenticator, SignIn } from 'aws-amplify-react';
+
+<Authenticator hideDefault={true}>
+  <SignIn />
+  <MyCustomSignUp override={'SignUp'}/> {/* to tell the Authenticator the SignUp component is not hidden but overridden */}
+</Authenticator>
+
+class MyCustomSignUp extends Component {
+  constructor() {
+    super();
+    this.gotoSignIn = this.gotoSignIn.bind(this);
+  }
+
+  gotoSignIn() {
+    // to switch the authState to 'signIn'
+    this.props.onStateChange('signIn',{});
+  }
+
+  render() {
+    return (
+      <div>
+        {/* only render this component when the authState is 'signUp' */}
+        { this.props.authState === 'signUp' && 
+        <div>
+          My Custom SignUp Component
+          <button onClick={this.gotoSignIn}>Goto SignIn</button>
+        </div>
+        }
+      </div>
+    );
+  }
+}
+```
+
+You can render the custom component (or not) based on the injected `authState` within your component as well as jump to other states within your component.
+
+```jsx
+if (props.onStateChange) props.onStateChange(state, data);
+```
+
+To customize the UI for Federated Identities sign-in, you can use `withFederated` component. The following code shows how you customize the login buttons and the layout for social sign-in.
+
+> ***The withFederated and Federated components are not supported on React Native***. Use the API Auth.federatedSignIn() on React Native.
+
+```javascript
+import { withFederated } from 'aws-amplify-react';
+
+const Buttons = (props) => (
+    <div>
+        <img
+            onClick={props.googleSignIn}
+            src={google_icon}
+        />
+        <img
+            onClick={props.facebookSignIn}
+            src={facebook_icon}
+        />
+        <img
+            onClick={props.amazonSignIn}
+            src={amazon_icon}
+        />
+    </div>
+)
+
+const Federated = withFederated(Buttons);
+
+...
+
+const federated = {
+    google_client_id: '', // Enter your google_client_id here
+    facebook_app_id: '', // Enter your facebook_app_id here   
+    amazon_client_id: '' // Enter your amazon_client_id here
+};
+
+<Federated federated={federated} onStateChange={this.handleAuthStateChange} />
+```
+
+There is also `withGoogle`, `withFacebook`, `withAmazon` components, in case you need to customize a single provider.
 
 #### Wrapping your Component
 
@@ -805,13 +895,24 @@ export default class App extends React.Component {
 **Retrieving JWT Token**
 
 After the federated login, you can retrieve related JWT token from the local cache using the *Cache* module: 
+
+In the browser:
 ```javascript
 import { Cache } from 'aws-amplify';
 
 // Run this after the sign-in
-Cache.getItem('federatedInfo').then(federatedInfo => {
-     const { token } = federatedInfo;
-});
+const federatedInfo = Cache.getItem('federatedInfo');
+const { token } = federatedInfo;
+```
+
+In React Native: 
+```javascript
+import { Cache } from 'aws-amplify';
+
+// inside an async function
+// Run this after the sign-in
+const federatedInfo = await Cache.getItem('federatedInfo');
+const { token } = federatedInfo;
 ```
 
 **Refreshing JWT Tokens**
@@ -991,91 +1092,7 @@ const Button = (props) => (
 export default withAuth0(Button);
 ```
 
-### Customize UI
-
-You can provide custom components to the `Authenticator` as child components in React and React Native. 
-
-```jsx
-import { Authenticator, SignIn } from 'aws-amplify-react';
-
-<Authenticator hideDefault={true}>
-  <SignIn />
-  <MyCustomSignUp override={'SignUp'}/> {/* to tell the Authenticator the SignUp component is not hidden but overridden */}
-</Authenticator>
-
-class MyCustomSignUp extends Component {
-  constructor() {
-    super();
-    this.gotoSignIn = this.gotoSignIn.bind(this);
-  }
-
-  gotoSignIn() {
-    // to switch the authState to 'signIn'
-    this.props.onStateChange('signIn',{});
-  }
-
-  render() {
-    return (
-      <div>
-        {/* only render this component when the authState is 'signUp' */}
-        { this.props.authState === 'signUp' && 
-        <div>
-          My Custom SignUp Component
-          <button onClick={this.gotoSignIn}>Goto SignIn</button>
-        </div>
-        }
-      </div>
-    );
-  }
-}
-```
-
-You can render the custom component (or not) based on the injected `authState` within your component as well as jump to other states within your component.
-
-```jsx
-if (props.onStateChange) props.onStateChange(state, data);
-```
-
-To customize the UI for Federated Identities sign-in, you can use `withFederated` component. The following code shows how you customize the login buttons and the layout for social sign-in.
-
-> ***The withFederated and Federated components are not supported on React Native***. Use the API Auth.federatedSignIn() on React Native.
-
-```javascript
-import { withFederated } from 'aws-amplify-react';
-
-const Buttons = (props) => (
-    <div>
-        <img
-            onClick={props.googleSignIn}
-            src={google_icon}
-        />
-        <img
-            onClick={props.facebookSignIn}
-            src={facebook_icon}
-        />
-        <img
-            onClick={props.amazonSignIn}
-            src={amazon_icon}
-        />
-    </div>
-)
-
-const Federated = withFederated(Buttons);
-
-...
-
-const federated = {
-    google_client_id: '', // Enter your google_client_id here
-    facebook_app_id: '', // Enter your facebook_app_id here   
-    amazon_client_id: '' // Enter your amazon_client_id here
-};
-
-<Federated federated={federated} onStateChange={this.handleAuthStateChange} />
-```
-
-There is also `withGoogle`, `withFacebook`, `withAmazon` components, in case you need to customize a single provider.
-
-### Federated with Cognito User Pool Service
+### Using Amazon Cognito Hosted UI
 
 Amazon Cognito User Pool Service provides a customizable user experience via the hosted UI which supports OAuth 2.0 and Federated Identities with Facebook, Amazon, Google, OIDC and SAML providers. To learn more about Amazon Cognito Hosted UI, please visit [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-configuring-app-integration.html).
 
