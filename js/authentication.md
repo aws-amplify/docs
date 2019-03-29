@@ -639,7 +639,7 @@ this._validAuthStates = ['signedIn'];
 
 Then, in the component's constructor,  implement `showComponent(theme) {}` in lieu of the typical `render() {}` method.
 
-### Federated Identities (Social Sign-in)
+### Federate with Cognito Identity Pools
 
 **Availability Note**
 Currently, the federated identity components only support `google`, `facebook`, `amazon`, `developer` and OpenID(e.g. `auth0`). To use an `OpenID` provider, use the URI of your provider as the key, e.g. `accounts.your-openid-provider.com`. Please see our[ Setup Guide for Federated Identities]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/federated-identity).
@@ -1092,9 +1092,11 @@ const Button = (props) => (
 export default withAuth0(Button);
 ```
 
-### Using Amazon Cognito Hosted UI
+### Federate with Cognito User Pools
 
-Amazon Cognito provides a customizable user experience via the hosted UI. The hosted UI supports OAuth 2.0 and Federated Identities with Facebook, Amazon, Google, OIDC and SAML providers. To learn more about Amazon Cognito Hosted UI, please visit [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-configuring-app-integration.html).
+Amazon Cognito User Pools provides a customizable user experience via a Hosted UI which supports OAuth 2.0 and federation with Facebook, Amazon, Google, OIDC and SAML providers. To learn more about Amazon Cognito Hosted UI, please visit [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-configuring-app-integration.html).
+
+Alternatively, when enabling a domain in User Pools, you can interact directly with the OAuth 2.0 endpoints from a client application instead of showing the Hosted UI in your application. Please see the [examples of using the endpoints in your app](https://aws-amplify.github.io/docs/js/authentication#launching-the-hosted-ui) and learn more in the [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-userpools-server-contract-reference.html).
 
 > ***The Hosted UI support is only available for React / React Native / Web***
 
