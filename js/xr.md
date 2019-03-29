@@ -40,7 +40,7 @@ After configuring your XR options, update your backend with:
 ```
 $ amplify push
 ```
-XR resources shown during `amplify push` represent the IAM policy being created for the scene. This will not change the scene shown in the Sumerian console.
+XR resources shown during `amplify push` represent the IAM policy being created for the scene. This will not change the scene shown in the Sumerian console. To learn more about Sumerian scene authorization visit <a href="https://docs.aws.amazon.com/sumerian/latest/userguide/sumerian-permissions.html" target="_blank">Amazon Sumerian Permissions</a>
 {: .callout .callout--info}
 
 A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`. This file will contain a list of all scenes that you configure.
@@ -52,6 +52,8 @@ import awsmobile from './aws-exports';
 
 Amplify.configure(awsmobile);
 ```
+
+For more infomation about using `amplify xr` in the Amplify CLI type `amplify xr help` in your Amplify project.
 
 ### Manual setup
 
