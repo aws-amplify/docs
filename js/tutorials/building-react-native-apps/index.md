@@ -35,7 +35,7 @@ When you have installed AWS Amplify packages and initialized your project with *
 
 **To connect the app to your configured AWS features**
 
-In index.js (or in other code that runs at launch-time), add the
+In App.js (or in other code that runs at launch-time), add the
 following imports.
 
 ```javascript
