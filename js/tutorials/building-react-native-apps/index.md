@@ -192,7 +192,7 @@ component's `render()` method.
 </View>
 ```
 
-To test, save the changes, run `npm run android` or `npm run ios` to launch your app. Then try the UI element that calls your API.
+To test, save the changes, run `expo start` to launch your app. Then try the UI element that calls your API.
 
 Learn more about the AWS Amplify API feature uses [Amazon API Gateway](http://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html) and [AWS Lambda](http://docs.aws.amazon.com/lambda/latest/dg/welcome.html).
 {: .callout .callout--info}
@@ -562,11 +562,7 @@ When you enable analytics and launch your app, session and device demographics d
 Launch your app locally by running:
 
 ```bash
-npm run android
-
-# Or
-
-npm run ios
+expo start
 ```
 
 When you use your app the [Amazon
