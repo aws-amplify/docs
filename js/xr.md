@@ -53,7 +53,7 @@ import awsmobile from './aws-exports';
 Amplify.configure(awsmobile);
 ```
 
-For more infomation about using `amplify xr` in the Amplify CLI type `amplify xr help` in your Amplify project.
+For more information about using `amplify xr` in the Amplify CLI type `amplify xr help` in your Amplify project.
 
 ### Manual setup
 
