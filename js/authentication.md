@@ -1229,11 +1229,15 @@ Amplify.configure({
 Note: An ID token is only returned if openid scope is requested. The access token can be only used against Amazon Cognito User Pools if aws.cognito.signin.user.admin scope is requested. The phone, email, and profile scopes can only be requested if openid scope is also requested.
 {: .callout .callout--info}
 
-#### Launching the Hosted UI
+#### Using Hosted UI in Web Environment
+
+##### Launching the Hosted UI Page
 
 To invoke the browser to display the hosted UI, you need to construct the URL in your app;
 
 ```javascript
+import { Auth } from 'aws-amplify';
+
 const config = Auth.configure();
 const { 
     domain,  
@@ -1244,23 +1248,33 @@ const {
 const clientId = config.userPoolWebClientId;
 // The url of the Cognito Hosted UI
 const url = 'https://' + domain + '/login?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId;
-// If you only want to log your users in with Google or Facebook, you can construct the url like:
-const url_to_google = 'https://' + domain + '/oauth2/authorize?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId + '&identity_provider=Google';
-const url_to_facebook = 'https://' + domain + '/oauth2/authorize?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId + '&identity_provider=Facebook';
 
 // Launch hosted UI
 window.location.assign(url);
+```
+
+If you want to interact directly with the OAuth 2.0 endpoints from a client application instead of showing the Hosted UI in your application, you can explicitly set the identity provider in the url. For example:
+```javascript
+import { Auth } from 'aws-amplify';
+
+const config = Auth.configure();
+const { 
+    domain,  
+    redirectSignIn, 
+    redirectSignOut,
+    responseType } = config.oauth;
+
+const clientId = config.userPoolWebClientId;
+
+const url_to_google = 'https://' + domain + '/oauth2/authorize?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId + '&identity_provider=Google';
+const url_to_facebook = 'https://' + domain + '/oauth2/authorize?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId + '&identity_provider=Facebook';
 
 // Launch Google/Facebook login page
 window.location.assign(url_to_google);
 window.location.assign(url_to_facebook);
 ```
 
-
-
-#### Launching the Hosted UI in React 
-
-With React, you can use `withOAuth` HOC to launch the hosted UI experience. Just wrap your app's main component with our HOC:
+When using React, you can use `withOAuth` HOC to launch the hosted UI experience. Just wrap your app's main component with our HOC:
 
 ```javascript
 import { withOAuth } from 'aws-amplify-react';
@@ -1279,7 +1293,7 @@ class MyApp extends React.Component {
 export default withOAuth(MyApp);
 ``` 
 
-#### Make it work in your App
+##### Using Hub module after redirected back
 
 Here is a code sample of how to integrate it in the React App: (Web)
 ```js
