@@ -1118,7 +1118,6 @@ You would now need to [configure your identity providers](https://docs.aws.amazo
 7. Choose *OK*.
 
 
-
 Run the following command in your project’s root folder:
 
 ```terminal
@@ -1138,45 +1137,43 @@ After going through the CLI flow, run the following command to deploy the config
 ```terminal
 $ amplify push
 ```
-After running the `amplify push command`, you will find a domain-name provisioned by the CLI for the hosted UI. You can find that information anytime later using the `amplify status` command as well.
+After running the `amplify push command`, you will find a domain-name provisioned by the CLI for the hosted UI as an output in the terminal. You can find that information anytime later using the `amplify status` command as well.
 
 Note: your user pool domain is something like: `domain_prefix-<env-name>.auth.<region>.amazoncognito.com`
 {: .callout .callout--info}. If you've setup federation through third party providers, you would need to update the providers with the CLI provisioned domain-name.
 
 ##### Setting up Hosted UI Domain With Facebook
 
-1. Create a [developer account with Facebook](https://developers.facebook.com/docs/facebook-login)
-2. [Sign In](https://developers.facebook.com/) with your Facebook credentials.
-3. From the *My Apps* menu, choose *Your App*.
+1. [Sign In](https://developers.facebook.com/) with your Facebook credentials.
+2. From the *My Apps* menu, choose *Your App*.
 ![Image]({{image_base}}/cognitoHostedUI/facebook1.png)
-4. On the left navigation bar, choose *Settings* and then *Basic*.
+3. On the left navigation bar, choose *Settings* and then *Basic*.
 ![Image]({{image_base}}/cognitoHostedUI/facebook3.png)
-5. Choose *+ Add Platform* from the bottom of the page and then choose *Website*.
+4. Choose *+ Add Platform* from the bottom of the page and then choose *Website*.
 ![Image]({{image_base}}/cognitoHostedUI/facebook4.png)
-6. Under Website, type your user pool domain with the /oauth2/idpresponse endpoint into *Site URL*
+5. Under Website, type your user pool domain with the /oauth2/idpresponse endpoint into *Site URL*
 
     ```https://<your-user-pool-domain>/oauth2/idpresponse```
 
     ![Image]({{image_base}}/cognitoHostedUI/facebook5.png)
-7. Save changes.
-8. Type your user pool domain into *App Domains*:
+6. Save changes.
+7. Type your user pool domain into *App Domains*:
 
     ```https://<your-user-pool-domain>```
     
     ![Image]({{image_base}}/cognitoHostedUI/facebook6.png)
-9. Save changes.
-10. From the navigation bar choose *Products* and then *Set up* from *Facebook Login*.
+8. Save changes.
+9. From the navigation bar choose *Products* and then *Set up* from *Facebook Login*.
 ![Image]({{image_base}}/cognitoHostedUI/facebook7.png)
-11. From the navigation bar choose *Facebook Login* and then *Settings*.
-12. Type your redirect URL into *Valid OAuth Redirect URIs*. It will consist of your user pool domain with the /oauth2/idpresponse endpoint.
+10. From the navigation bar choose *Facebook Login* and then *Settings*.
+11. Type your redirect URL into *Valid OAuth Redirect URIs*. It will consist of your user pool domain with the /oauth2/idpresponse endpoint.
 
     ```https://<your-user-pool-domain>/oauth2/idpresponse```
 
     ![Image]({{image_base}}/cognitoHostedUI/facebook8.png)
-13. Save changes.
+12. Save changes.
 
 ##### Setting up Hosted UI Domain with Google
-
 
 1. Go to [Google Developer Console](https://developers.google.com/identity/sign-in/web/sign-in)
 2. Click *CONFIGURURE A PROJECT*
@@ -1199,8 +1196,6 @@ Note: your user pool domain is something like: `domain_prefix-<env-name>.auth.<r
 
     Note: If you saw an error message `Invalid Redirect: domain must be added to the authorized domains list before submitting.` when adding the endpoint, please go to the *authorized domains list* and add the domain.
 13. Click *Save*.
-
-You would now need to [configure your identity providers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html)(Google, Facebook or Login with Amazon)
 
 #### Manual Setup
 
