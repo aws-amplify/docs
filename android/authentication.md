@@ -1088,64 +1088,80 @@ public class AuthenticatorActivity extends Activity {
 
 Amazon Cognito provides a customizable user experience via the Hosted UI. The Hosted UI is an OAuth 2.0 flow that allows you to launch a login screen without embedding an SDK for Cognito or a social provider into your application. The Hosted UI allows end-users to sign-in directly to your user pool through Facebook, Amazon, and Google, as well as through OpenID Connect (OIDC) and SAML identity providers. To learn more about Amazon Cognito Hosted UI, please visit [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-configuring-app-integration.html).
 
-#### Setup your Cognito App Client
+#### Automated Setup with CLI
 
-To start using hosted UI, you need to configure your identity providers and setup your App Client in the Amazon Cognito console. You can also check the [Cognito doc: Adding Social Identity Providers to a User Pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html).
 
-To enable the user pool domain for your hosted UI:
-- Go to [Amazon Cognito Console](https://aws.amazon.com/cognito/).
-- Click *User Pools* on the top menu to select a User Pool or create a new one.
-- On the left menu, go to  *App integration* > *Domain name*.
-- In the *Domain prefix* section, enter the prefix for the pages that will be hosted by Amazon Cognito.
+You would now need to [configure your identity providers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html)(Google, Facebook or Login with Amazon) which you would like to use
+##### Setting Up OAuth With Facebook
 
-To configure your identity providers:
-- Go to [Amazon Cognito Console](https://aws.amazon.com/cognito/).
-- Click *User Pools* on the top menu to select a User Pool or create a new one.
-- Go to *Federation* > *Identity providers*
-- Select an *Identity provider* and enter required credentials for the identity provider. (e.g., App Id, App secret, Authorized scope)
+1. Create a [developer account with Facebook](https://developers.facebook.com/docs/facebook-login)
+2. [Sign In](https://developers.facebook.com/) with your Facebook credentials.
+3. From the *My Apps* menu, choose *Add New App*.
+![Image]({{image_base}}/cognitoHostedUI/facebook1.png)
+4. Give your Facebook app a name and choose *Create App ID*.
+![Image]({{image_base}}/cognitoHostedUI/facebook2.png)
+5. On the left navigation bar, choose *Settings* and then *Basic*.
+![Image]({{image_base}}/cognitoHostedUI/facebook3.png)
+6. Note the *App ID* and the *App Secret*. You will use them in the next section in the CLI flow.
 
-To learn [how to register with a Social IdP]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/cognito-hosted-ui-federated-identity).
+##### Setting up OAuth with Google
+
+1. Go to [Google Developer Console](https://developers.google.com/identity/sign-in/web/sign-in)
+2. Click *CONFIGURURE A PROJECT*
+![Image]({{image_base}}/cognitoHostedUI/google1.png)
+3. Type in a project name and choose *NEXT*.
+![Image]({{image_base}}/cognitoHostedUI/google2.png)
+4. Type in your product name and choose *NEXT*.
+5. Choose *Web browser* from the *Where are you calling from?* drop-down list.
+![Image]({{image_base}}/cognitoHostedUI/google3.png)
+6. Click *CREATE*. You will NOT use the *Client ID* and *CLient Secret* from this step.
+7. Click Done.
+8. Go to the [Google developer console](https://console.developers.google.com).
+9. On the left navigation bar, choose *Credentials*.
+![Image]({{image_base}}/cognitoHostedUI/google5.png)
+10. Create your OAuth2.0 credentials by choosing *OAuth client ID* from the *Create credentials* drop-down list.
+![Image]({{image_base}}/cognitoHostedUI/google6.png)
+11. Choose *Web application*.
+12. Click *Create* twice.
+13. Note the *OAuth client ID* and *client secret*. You will need them for the next section in the CLI flow.
+14. Choose *OK*.
+
+##### Setting up OAuth with Amazon
+
+
+
+
+Run the following command in your project’s root folder:
+
+```terminal
+$ amplify add auth
+```
+Select Default configuration with Social Provider (Federation):
+
+```terminal
+Do you want to use the default authentication and security configuration? 
+  Default configuration 
+❯ Default configuration with Social Provider (Federation) 
+  Manual configuration 
+  I want to learn more.
+```
+
+After going through the CLI flow, run the following command to deploy the configured resources to the cloud:
+```terminal
+$ amplify push
+```
+After running the `amplify push command`, you will find a domain-name provisioned by the CLI for the hosted UI. You can find that information anytime later using the `amplify status` command as well.
+
+Note: your user pool domain is something like: `domain_prefix-<env-name>.auth.<region>.amazoncognito.com`
 {: .callout .callout--info}
 
-To learn [what's Authorized scope](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html#cognito-user-pools-social-idp-step-2)
-{: .callout .callout--info}
 
-Note: your user pool domain is something like: `domain_prefix.auth.us-east-1.amazoncognito.com`
-{: .callout .callout--info}
+You would now need to [configure your identity providers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html)(Google, Facebook or Login with Amazon)
 
-- To retrieve user attributes from your identity provider, go to *Federation* > *Attribute mapping*. Here, you can map Federation Provider attributes to corresponding User pool attributes. More info about [Attribute Mapping](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-specifying-attribute-mapping.html).
 
-If the attribute, for example *email*, is a required field in your Cognito User Pool settings, please make sure that you have selected *email* in your Authorized Scopes, and you have mapped it correctly to your User Pool attributes.
-{: .callout .callout-info}
+#### Manual Setup
 
-To setup App Client:
-- Go to [Amazon Cognito Console](https://aws.amazon.com/cognito/).
-- Click *User Pools* on the top menu to select a User Pool or create a new one.
-- Click *App integration*  and *App client settings* on the left menu.
-- Select *Enabled Identity Providers* and enter *Callback URL(s)* and *Sign out URL(s)* fields.
-
-In *Callback URL(s)*, for both *Signin URL(s)* and *Signout URL(s)*, enter `myapp://`.
-{: .callout .callout--info}
-
-- Under the *OAuth 2.0* section, Choose OAuth Flow and OAuth scopes. [To learn more about flows and scopes.](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-idp-settings.html)
-- Select an OAuth Flow.
-
-By using *Authorization code grant* the callback URL will contain a code after login. The code will be used to exchange for tokens from Cognito with the TOKEN Endpoint.
-{: .callout .callout--info}
-
-*Authorization code grant* is the recommended choice for security reasons.
-{: .callout .callout--info}
-
-- Choose item(s) from *OAuth Scopes*.
-
-Note: `openid` is required for `phone`, `email` or `profile`. Also `openid` is required to get the id token from the Cognito authorization server.
-{: .callout .callout--info}
-
-- Click 'Save Changes'.
-
-#### Setup Amazon Cognito Hosted UI in Android App
-
-1. To configure your application for hosted UI, you need to use *HostedUI* options. Update your `awsconfiguration.json` file to add a new configuration for `Auth`. The configuration should look like this:
+To configure your application for hosted UI, you need to use *HostedUI* options. Update your `awsconfiguration.json` file to add a new configuration for `Auth`. The configuration should look like this:
 
     ```json
     {
@@ -1173,6 +1189,8 @@ Note: `openid` is required for `phone`, `email` or `profile`. Also `openid` is r
     ```
 
 Note: The User Pool OIDC JWT token obtained from a successful sign-in will be federated into a configured Cognito Identity pool in the `awsconfiguration.json` and the SDK will automatically exchange this with Cognito Identity to also retrieve AWS credentials.
+
+#### Setup Amazon Cognito Hosted UI in Android App
 
 1. Add `myapp://` to your app's Intent filters located in `AndroidManifest.xml`. The `your.package.YourAuthIntentHandlingActivity` will be referenced in the next step.
 
