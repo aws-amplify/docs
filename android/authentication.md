@@ -5,6 +5,7 @@ title: Authentication
   {% assign base_dir = site.amplify.docs_baseurl %}
 {% endif %}
 {% assign media_base = base_dir | append: page.dir | append: "media" %}
+{% assign common_media = base_dir | append: "images" %}
 
 # Authentication
 
@@ -1090,7 +1091,6 @@ Amazon Cognito provides a customizable user experience via the Hosted UI. The Ho
 
 #### Automated Setup with CLI
 
-
 You would now need to [configure your identity providers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html)(Google, Facebook or Login with Amazon) which you would like to use
 
 ##### Setting Up OAuth With Facebook
@@ -1098,25 +1098,32 @@ You would now need to [configure your identity providers](https://docs.aws.amazo
 1. Create a [developer account with Facebook](https://developers.facebook.com/docs/facebook-login)
 2. [Sign In](https://developers.facebook.com/) with your Facebook credentials.
 3. From the *My Apps* menu, choose *Add New App*.
-![Image]({{image_base}}/cognitoHostedUI/facebook1.png)
+![Image]({{common_media}}/cognitoHostedUI/facebook1.png)
 4. Give your Facebook app a name and choose *Create App ID*.
-![Image]({{image_base}}/cognitoHostedUI/facebook2.png)
+![Image]({{common_media}}/cognitoHostedUI/facebook2.png)
 5. On the left navigation bar, choose *Settings* and then *Basic*.
-![Image]({{image_base}}/cognitoHostedUI/facebook3.png)
+![Image]({{common_media}}/cognitoHostedUI/facebook3.png)
 6. Note the *App ID* and the *App Secret*. You will use them in the next section in the CLI flow.
 
 ##### Setting up OAuth with Google
 
 1. Go to the [Google developer console](https://console.developers.google.com).
 2. On the left navigation bar, choose *Credentials*.
-![Image]({{image_base}}/cognitoHostedUI/google5.png)
+![Image]({{common_media}}/cognitoHostedUI/google5.png)
 3. Create your OAuth2.0 credentials by choosing *OAuth client ID* from the *Create credentials* drop-down list.
-![Image]({{image_base}}/cognitoHostedUI/google6.png)
+![Image]({{common_media}}/cognitoHostedUI/google6.png)
 4. Choose *Web application*.
 5. Click *Create* twice.
 6. Note the *OAuth client ID* and *client secret*. You will need them for the next section in the CLI flow.
 7. Choose *OK*.
 
+##### Setting up OAuth with Login with Amazon
+1. Create a [developer account with Amazon](https://developer.amazon.com/login-with-amazon).
+2. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
+3. You need to create an Amazon security profile to receive the Amazon client ID and client secret. Choose Create a Security Profile.
+4. Type in a Security Profile Name, a Security Profile Description, and a Consent Privacy Notice URL.
+5. Choose Save.
+6. Choose Client ID and Client Secret to show the client ID and secret. You will need them for the next section in the CLI flow.
 
 Run the following command in your project’s root folder:
 
@@ -1146,31 +1153,31 @@ Note: your user pool domain is something like: `domain_prefix-<env-name>.auth.<r
 
 1. [Sign In](https://developers.facebook.com/) with your Facebook credentials.
 2. From the *My Apps* menu, choose *Your App*.
-![Image]({{image_base}}/cognitoHostedUI/facebook1.png)
+![Image]({{common_media}}/cognitoHostedUI/facebook1.png)
 3. On the left navigation bar, choose *Settings* and then *Basic*.
-![Image]({{image_base}}/cognitoHostedUI/facebook3.png)
+![Image]({{common_media}}/cognitoHostedUI/facebook3.png)
 4. Choose *+ Add Platform* from the bottom of the page and then choose *Website*.
-![Image]({{image_base}}/cognitoHostedUI/facebook4.png)
+![Image]({{common_media}}/cognitoHostedUI/facebook4.png)
 5. Under Website, type your user pool domain with the /oauth2/idpresponse endpoint into *Site URL*
 
     ```https://<your-user-pool-domain>/oauth2/idpresponse```
 
-    ![Image]({{image_base}}/cognitoHostedUI/facebook5.png)
+    ![Image]({{common_media}}/cognitoHostedUI/facebook5.png)
 6. Save changes.
 7. Type your user pool domain into *App Domains*:
 
     ```https://<your-user-pool-domain>```
     
-    ![Image]({{image_base}}/cognitoHostedUI/facebook6.png)
+    ![Image]({{common_media}}/cognitoHostedUI/facebook6.png)
 8. Save changes.
 9. From the navigation bar choose *Products* and then *Set up* from *Facebook Login*.
-![Image]({{image_base}}/cognitoHostedUI/facebook7.png)
+![Image]({{common_media}}/cognitoHostedUI/facebook7.png)
 10. From the navigation bar choose *Facebook Login* and then *Settings*.
 11. Type your redirect URL into *Valid OAuth Redirect URIs*. It will consist of your user pool domain with the /oauth2/idpresponse endpoint.
 
     ```https://<your-user-pool-domain>/oauth2/idpresponse```
 
-    ![Image]({{image_base}}/cognitoHostedUI/facebook8.png)
+    ![Image]({{common_media}}/cognitoHostedUI/facebook8.png)
 12. Save changes.
 
 ##### Setting up Hosted UI Domain with Google
@@ -1196,6 +1203,14 @@ Note: your user pool domain is something like: `domain_prefix-<env-name>.auth.<r
 
     Note: If you saw an error message `Invalid Redirect: domain must be added to the authorized domains list before submitting.` when adding the endpoint, please go to the *authorized domains list* and add the domain.
 13. Click *Save*.
+
+##### Setting up Hosted UI Domain with Login with Amazon
+
+1. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
+2. Hover over the gear and choose Web Settings associated with the security profile you created in the previous step, and then choose Edit.
+3. Type your user pool domain into Allowed Origins.
+4. Type your user pool domain with the /oauth2/idpresponse endpoint into Allowed Return URLs.
+5. Choose Save.
 
 #### Manual Setup
 
