@@ -1121,9 +1121,12 @@ You would now need to [configure your identity providers](https://docs.aws.amazo
 1. Create a [developer account with Amazon](https://developer.amazon.com/login-with-amazon).
 2. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
 3. You need to create an Amazon security profile to receive the Amazon client ID and client secret. Choose Create a Security Profile.
+![Image]({{common_media}}/cognitoHostedUI/amazon1.png)
 4. Type in a Security Profile Name, a Security Profile Description, and a Consent Privacy Notice URL.
+![Image]({{common_media}}/cognitoHostedUI/amazon2.png)
 5. Choose Save.
 6. Choose Client ID and Client Secret to show the client ID and secret. You will need them for the next section in the CLI flow.
+![Image]({{common_media}}/cognitoHostedUI/amazon3.png)
 
 Run the following command in your project’s root folder:
 
@@ -1208,8 +1211,9 @@ Note: your user pool domain is something like: `domain_prefix-<env-name>.auth.<r
 
 1. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
 2. Hover over the gear and choose Web Settings associated with the security profile you created in the previous step, and then choose Edit.
-3. Type your user pool domain into Allowed Origins.
-4. Type your user pool domain with the /oauth2/idpresponse endpoint into Allowed Return URLs.
+![Image]({{common_media}}/cognitoHostedUI/amazon4.png)
+3. Type your user pool domain into Allowed Origins and type your user pool domain with the /oauth2/idpresponse endpoint into Allowed Return URLs.
+![Image]({{common_media}}/cognitoHostedUI/amazon5.png)
 5. Choose Save.
 
 #### Manual Setup
