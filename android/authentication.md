@@ -787,8 +787,8 @@ In a terminal window, navigate to the root of your app files and add the auth ca
 
 ```terminal
 $ cd ./YOUR_PROJECT_FOLDER
-$ amplify add auth
-❯ No, I will set up my own configuration.
+$ amplify add auth              ##"amplify update auth" if already configured
+❯ Manual Configuration
 ❯ User Sign-Up, Sign-In, connected with AWS IAM controls
 ```
 
@@ -836,7 +836,7 @@ In a terminal window, navigate to the root of your app files and add the auth ca
 ```terminal
 $ cd ./YOUR_PROJECT_FOLDER
 $ amplify add auth              ##"amplify update auth" if already configured
-❯ No, I will set up my own configuration.
+❯ Manual Configuration
 ❯ User Sign-Up, Sign-In, connected with AWS IAM controls
 ```
 
@@ -1131,7 +1131,7 @@ You would now need to [configure your identity providers](https://docs.aws.amazo
 Run the following command in your project’s root folder:
 
 ```terminal
-$ amplify add auth
+$ amplify add auth     ##"amplify update auth" if already configured
 ```
 Select Default configuration with Social Provider (Federation):
 
