@@ -1091,7 +1091,7 @@ Amazon Cognito provides a customizable user experience via the Hosted UI. The Ho
 
 #### Automated Setup with CLI
 
-You would now need to [configure your identity providers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html)(Google, Facebook or Login with Amazon) which you would like to use
+You would now need to configure your identity providers(Google, Facebook or Login with Amazon) which you would like to use.
 
 ##### Setting Up OAuth With Facebook
 
@@ -1147,7 +1147,7 @@ After going through the CLI flow, run the following command to deploy the config
 ```terminal
 $ amplify push
 ```
-After running the `amplify push command`, you will find a domain-name provisioned by the CLI for the hosted UI as an output in the terminal. You can find that information anytime later using the `amplify status` command as well.
+After running the `amplify push` command, you will find a domain-name provisioned by the CLI for the hosted UI as an output in the terminal. You can find that information anytime later using the `amplify status` command.
 
 Note: your user pool domain is something like: `domain_prefix-<env-name>.auth.<region>.amazoncognito.com`
 {: .callout .callout--info}. If you've setup federation through third party providers, you would need to update the providers with the CLI provisioned domain-name.
