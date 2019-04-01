@@ -1109,7 +1109,7 @@ Alternatively, when enabling a domain in User Pools, you can interact directly w
 #### Automated Setup with the CLI
 
 
-You would now need to configure your identity providers(Google, Facebook or Login with Amazon) which you would like to use.
+You need to configure your identity providers(Google, Facebook or Login with Amazon) which you would like to use.
 
 ##### Setting Up OAuth With Facebook
 
@@ -1229,7 +1229,7 @@ Note: your user pool domain is something like: `domain_prefix-<env-name>.auth.<r
 
 ##### Setting up Hosted UI Domain with Google
 
-1. Go to [Google Developer Console](https://developers.google.com/identity/sign-in/web/sign-in)
+1. Go to [Google Developer Console](https://developers.google.com/identity/sign-in/web/sign-in).
 2. Click *CONFIGURURE A PROJECT*
 ![Image]({{image_base}}/cognitoHostedUI/google1.png)
 3. Type in a project name and choose *NEXT*.
@@ -1259,7 +1259,6 @@ Note: your user pool domain is something like: `domain_prefix-<env-name>.auth.<r
 3. Type your user pool domain into Allowed Origins and type your user pool domain with the /oauth2/idpresponse endpoint into Allowed Return URLs.
 ![Image]({{common_media}}/cognitoHostedUI/amazon5.png)
 5. Choose Save.
-
 
 #### Manual Setup
 
