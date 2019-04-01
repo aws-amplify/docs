@@ -1091,11 +1091,11 @@ Amazon Cognito provides a customizable user experience via the Hosted UI. The Ho
 
 #### Automated Setup with CLI
 
-You would now need to configure your identity providers(Google, Facebook or Login with Amazon) which you would like to use.
+You need to configure your identity providers(Google, Facebook or Login with Amazon) which you would like to use.
 
 ##### Setting Up OAuth With Facebook
 
-1. Create a [developer account with Facebook](https://developers.facebook.com/docs/facebook-login)
+1. Create a [developer account with Facebook](https://developers.facebook.com/docs/facebook-login).
 2. [Sign In](https://developers.facebook.com/) with your Facebook credentials.
 3. From the *My Apps* menu, choose *Add New App*.
 ![Image]({{common_media}}/cognitoHostedUI/facebook1.png)
@@ -1111,9 +1111,9 @@ You would now need to configure your identity providers(Google, Facebook or Logi
 2. On the left navigation bar, choose *Credentials*.
 ![Image]({{common_media}}/cognitoHostedUI/google5.png)
 3. Create your OAuth2.0 credentials by choosing *OAuth client ID* from the *Create credentials* drop-down list.
-![Image]({{common_media}}/cognitoHostedUI/google6.png)
+![Image]({{common_media}}/cognitoHostedUI/google6.png).
 4. Choose *Web application*.
-5. Click *Create* twice.
+5. Click *Create*.
 6. Note the *OAuth client ID* and *client secret*. You will need them for the next section in the CLI flow.
 7. Choose *OK*.
 
@@ -1198,7 +1198,7 @@ Note: your user pool domain is something like: `domain_prefix-<env-name>.auth.<r
 8. Go to the [Google developer console](https://console.developers.google.com).
 9. On the left navigation bar, choose *Credentials*.
 ![Image]({{image_base}}/cognitoHostedUI/google5.png)
-10. Select the client you created in the first step and choose the edit option
+10. Select the client you created in the first step and choose the edit option.
 11. Type your user pool domain into Authorized Javascript origins.
 12. Type your user pool domain with the `/oauth2/idpresponse` endpoint into *Authorized Redirect URIs*.
 
