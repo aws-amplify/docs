@@ -875,11 +875,11 @@ Amazon Cognito provides a customizable user experience via the Hosted UI. The Ho
 
 #### Automated Setup with CLI
 
-You would now need to configure your identity providers(Google, Facebook or Login with Amazon) which you would like to use.
+You need to configure your identity providers(Google, Facebook or Login with Amazon) which you would like to use.
 
 ##### Setting Up OAuth With Facebook
 
-1. Create a [developer account with Facebook](https://developers.facebook.com/docs/facebook-login)
+1. Create a [developer account with Facebook](https://developers.facebook.com/docs/facebook-login).
 2. [Sign In](https://developers.facebook.com/) with your Facebook credentials.
 3. From the *My Apps* menu, choose *Add New App*.
 ![Image]({{common_media}}/cognitoHostedUI/facebook1.png)
@@ -897,7 +897,7 @@ You would now need to configure your identity providers(Google, Facebook or Logi
 3. Create your OAuth2.0 credentials by choosing *OAuth client ID* from the *Create credentials* drop-down list.
 ![Image]({{common_media}}/cognitoHostedUI/google6.png)
 4. Choose *Web application*.
-5. Click *Create* twice.
+5. Click *Create*.
 6. Note the *OAuth client ID* and *client secret*. You will need them for the next section in the CLI flow.
 7. Choose *OK*.
 
