@@ -1306,7 +1306,7 @@ Amplify.configure({
 Note: An ID token is only returned if openid scope is requested. The access token can be only used against Amazon Cognito User Pools if aws.cognito.signin.user.admin scope is requested. The phone, email, and profile scopes can only be requested if openid scope is also requested.
 {: .callout .callout--info}
 
-#### Using Hosted UI in Web Environment
+#### OAuth and Hosted UI in Web Environment
 
 ##### Launching the Hosted UI Page
 
@@ -1498,7 +1498,7 @@ class OAuthButton extends React.Component {
 export default withOAuth(OAuthButton);
 ```
 
-#### Using Hosted UI in React Native 
+#### OAuth and Hosted UI in React Native
 
 With React Native, you can use `withOAuth` HOC to launch the hosted UI experience. Just wrap your app's main component with our HOC. Doing so, will pass the following `props` available to your component:
 
