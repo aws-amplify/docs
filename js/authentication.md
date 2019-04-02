@@ -1246,7 +1246,7 @@ Note: your user pool domain is something like: `domain_prefix-<env-name>.auth.<r
 11. Type your user pool domain into Authorized Javascript origins.
 12. Type your user pool domain with the `/oauth2/idpresponse` endpoint into *Authorized Redirect URIs*.
 
-    ![Image]({{image_base}}/cognitoHostedUI/google7.png)
+    ![Image]({{common_media}}/cognitoHostedUI/google7.png)
 
     Note: If you saw an error message `Invalid Redirect: domain must be added to the authorized domains list before submitting.` when adding the endpoint, please go to the *authorized domains list* and add the domain.
 13. Click *Save*.
