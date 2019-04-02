@@ -22,18 +22,40 @@ You will then be prompted with the following dialog. Click the *Publish* button:
 Now click the *Download JSON configuration* button to download the scene configuration JSON that will be used for configuring your scene within AWS Amplify:
 ![XR]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/xr/amplify_published_dialog.png){: class="screencap" style="max-height:600px;"}
 
-### Scene authorization
-
-To load Amazon Sumerian scenes you will need to activate the [Amplify Auth category]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/authentication).
-
-```
-$ amplify add auth
-```
-
-Be sure to include an Authenticated Role/Policy with your Cognito Identity Pool. To understand how to configure your Authenticated Role/Policy for Sumerian scene access go to the <a href="https://docs.aws.amazon.com/sumerian/latest/userguide/sumerian-permissions.html" target="_blank">Amazon Sumerian Permissions</a> documentation page. <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html" target="_blank"> Learn more</a> about IAM Roles with Cognito Identity Pools.
+### Automatic setup using Amplify CLI
+<b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
 {: .callout .callout--info}
 
-### App configuration
+```
+$ amplify add xr
+```
+The CLI will prompt configuration options for the XR category such as a scene name identifier and a Sumerian scene json configuration file.
+
+The XR category will set up and utilize the Authentication category to setup scene authorization.
+{: .callout .callout--info}
+
+Take note of the scene name you provide in the CLI prompt. This value will be used as an identifier for the scene when using the XR category in the framework.
+{: .callout .callout--warning}
+After configuring your XR options, update your backend with:
+```
+$ amplify push
+```
+XR resources shown during `amplify push` represent the IAM policy being created for the scene. This will not change the scene shown in the Sumerian console. To learn more about Sumerian scene authorization visit <a href="https://docs.aws.amazon.com/sumerian/latest/userguide/sumerian-permissions.html" target="_blank">Amazon Sumerian Permissions</a>
+{: .callout .callout--info}
+
+A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`. This file will contain a list of all scenes that you configure.
+
+##### Configure Your App
+```javascript
+import Amplify, { XR } from 'aws-amplify';
+import awsmobile from './aws-exports';
+
+Amplify.configure(awsmobile);
+```
+
+For more information about using `amplify xr` in the Amplify CLI type `amplify xr help` in your Amplify project.
+
+### Manual setup
 
 Add the following code to your application to configure the XR category:
 ```javascript
