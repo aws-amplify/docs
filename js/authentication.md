@@ -5,7 +5,7 @@ title: Authentication
   {% assign base_dir = site.amplify.docs_baseurl %}
 {% endif %}
 {% assign media_base = base_dir | append: page.dir | append: "media" %}
-{% assign common_media = base_dir | append: "images" %}
+{% assign common_media = base_dir | append: "/images" %}
 
 # Authentication
 
