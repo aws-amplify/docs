@@ -1231,17 +1231,17 @@ Note: your user pool domain is something like: `domain_prefix-<env-name>.auth.<r
 
 1. Go to [Google Developer Console](https://developers.google.com/identity/sign-in/web/sign-in).
 2. Click *CONFIGURURE A PROJECT*
-![Image]({{image_base}}/cognitoHostedUI/google1.png)
+![Image]({{common_media}}/cognitoHostedUI/google1.png)
 3. Type in a project name and choose *NEXT*.
-![Image]({{image_base}}/cognitoHostedUI/google2.png)
+![Image]({{common_media}}/cognitoHostedUI/google2.png)
 4. Type in your product name and choose *NEXT*.
 5. Choose *Web browser* from the *Where are you calling from?* drop-down list.
-![Image]({{image_base}}/cognitoHostedUI/google3.png)
+![Image]({{common_media}}/cognitoHostedUI/google3.png)
 6. Click *CREATE*. You will NOT use the *Client ID* and *CLient Secret* from this step.
 7. Click Done.
 8. Go to the [Google developer console](https://console.developers.google.com).
 9. On the left navigation bar, choose *Credentials*.
-![Image]({{image_base}}/cognitoHostedUI/google5.png)
+![Image]({{common_media}}/cognitoHostedUI/google5.png)
 10. Select the client you created in the first step and choose the edit option
 11. Type your user pool domain into Authorized Javascript origins.
 12. Type your user pool domain with the `/oauth2/idpresponse` endpoint into *Authorized Redirect URIs*.
