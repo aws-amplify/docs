@@ -1,5 +1,11 @@
 ---
+title: Authentication
 ---
+{% if jekyll.environment == 'production' %}
+  {% assign base_dir = site.amplify.docs_baseurl %}
+{% endif %}
+{% assign media_base = base_dir | append: page.dir | append: "media" %}
+{% assign common_media = base_dir | append: "/images" %}
 
 # Authentication
 
@@ -639,7 +645,7 @@ this._validAuthStates = ['signedIn'];
 
 Then, in the component's constructor,  implement `showComponent(theme) {}` in lieu of the typical `render() {}` method.
 
-### Federated Identities (Social Sign-in)
+### Federate with Cognito Identity Pools
 
 **Availability Note**
 Currently, the federated identity components only support `google`, `facebook`, `amazon`, `developer` and OpenID(e.g. `auth0`). To use an `OpenID` provider, use the URI of your provider as the key, e.g. `accounts.your-openid-provider.com`. Please see our[ Setup Guide for Federated Identities]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/federated-identity).
@@ -1092,63 +1098,83 @@ const Button = (props) => (
 export default withAuth0(Button);
 ```
 
-### Using Amazon Cognito Hosted UI
+### Federate with Cognito User Pools
 
-Amazon Cognito provides a customizable user experience via the hosted UI. The hosted UI supports OAuth 2.0 and Federated Identities with Facebook, Amazon, Google, OIDC and SAML providers. To learn more about Amazon Cognito Hosted UI, please visit [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-configuring-app-integration.html).
+Amazon Cognito User Pools provides a customizable user experience via a Hosted UI which supports OAuth 2.0 and federation with Facebook, Amazon, Google, OIDC and SAML providers. To learn more about Amazon Cognito Hosted UI, please visit [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-configuring-app-integration.html).
+
+Alternatively, when enabling a domain in User Pools, you can interact directly with the OAuth 2.0 endpoints from a client application instead of showing the Hosted UI in your application. Please see the [examples of using the endpoints in your app](https://aws-amplify.github.io/docs/js/authentication#launching-the-hosted-ui) and learn more in the [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-userpools-server-contract-reference.html).
 
 > ***The Hosted UI support is only available for React / React Native / Web***
 
-#### Setup your Cognito App Client
+#### Automated Setup with the CLI
 
-To start using hosted UI, you need to configure your identity providers and setup your App Client in the Amazon Cognito console. You can also check the [Cognito doc: Adding Social Identity Providers to a User Pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html).
 
-To enable the user pool domain for your hosted UI:
-- Go to [Amazon Cognito Console](https://aws.amazon.com/cognito/).
-- Click *User Pools* on the top menu to select a User Pool or create a new one.
-- On the left menu, go to  *App integration* > *Domain name*.
-- In the *Domain prefix* section, enter the prefix for the pages that will be hosted by Amazon Cognito.
+You need to configure your identity providers(Google, Facebook or Login with Amazon) which you would like to use.
 
-To configure your identity providers:
-- Go to [Amazon Cognito Console](https://aws.amazon.com/cognito/).
-- Click *User Pools* on the top menu to select a User Pool or create a new one.
-- Go to *Federation* > *Identity providers*
-- Select an *Identity provider* and enter required credentials for the identity provider. (e.g., App Id, App secret, Authorized scope)
+##### Setting Up OAuth With Facebook
 
-To learn [how to register with a Social IdP]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/cognito-hosted-ui-federated-identity).
-{: .callout .callout--info}
+1. Create a [developer account with Facebook](https://developers.facebook.com/docs/facebook-login)
+2. [Sign In](https://developers.facebook.com/) with your Facebook credentials.
+3. From the *My Apps* menu, choose *Add New App*.
+![Image]({{common_media}}/cognitoHostedUI/facebook1.png)
+4. Give your Facebook app a name and choose *Create App ID*.
+![Image]({{common_media}}/cognitoHostedUI/facebook2.png)
+5. On the left navigation bar, choose *Settings* and then *Basic*.
+![Image]({{common_media}}/cognitoHostedUI/facebook3.png)
+6. Note the *App ID* and the *App Secret*. You will use them in the next section in the CLI flow.
 
-To learn [what's Authorized scope](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html#cognito-user-pools-social-idp-step-2)
-{: .callout .callout--info}
+##### Setting up OAuth with Google
 
-Note: your user pool domain is something like: `domain_prefix.auth.us-east-1.amazoncognito.com`
-{: .callout .callout--info}
+1. Go to the [Google developer console](https://console.developers.google.com).
+2. On the left navigation bar, choose *Credentials*.
+![Image]({{common_media}}/cognitoHostedUI/google5.png)
+3. Create your OAuth2.0 credentials by choosing *OAuth client ID* from the *Create credentials* drop-down list.
+![Image]({{common_media}}/cognitoHostedUI/google6.png)
+4. Choose *Web application*.
+5. Click *Create* twice.
+6. Note the *OAuth client ID* and *client secret*. You will need them for the next section in the CLI flow.
+7. Choose *OK*.
 
-- To retrieve user attributes from your identity provider, go to *Federation* > *Attribute mapping*. Here, you can map Federation Provider attributes to corresponding User pool attributes. More info about [Attribute Mapping](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-specifying-attribute-mapping.html).
+##### Setting up OAuth with Login with Amazon
+1. Create a [developer account with Amazon](https://developer.amazon.com/login-with-amazon).
+2. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
+3. You need to create an Amazon security profile to receive the Amazon client ID and client secret. Choose Create a Security Profile.
+![Image]({{common_media}}/cognitoHostedUI/amazon1.png)
+4. Type in a Security Profile Name, a Security Profile Description, and a Consent Privacy Notice URL.
+![Image]({{common_media}}/cognitoHostedUI/amazon2.png)
+5. Choose Save.
+6. Choose Client ID and Client Secret to show the client ID and secret. You will need them for the next section in the CLI flow.
+![Image]({{common_media}}/cognitoHostedUI/amazon3.png)
 
-If the attribute, for example *email*, is a required field in your Cognito User Pool settings, please make sure that you have selected *email* in your Authorized Scopes, and you have mapped it correctly to your User Pool attributes.
-{: .callout .callout-info}
+Run the following command in your project’s root folder:
 
-To setup App Client:
-- Go to [Amazon Cognito Console](https://aws.amazon.com/cognito/).
-- Click *User Pools* on the top menu to select a User Pool or create a new one.
-- Click *App integration*  and *App client settings* on the left menu.
-- Select *Enabled Identity Providers* and enter *Callback URL(s)* and *Sign out URL(s)* fields. 
+```terminal
+$ amplify add auth     ##"amplify update auth" if already configured
+```
+Select Default configuration with Social Provider (Federation):
 
-For example, in *Callback URL(s)*, you can put one url for local development, one for the production. If your app is running in `http://localhost:3000/` in local and `https://www.example.com/` in production, you can put `http://localhost:3000/,https://www.example.com/` under *Callback URL(s)*. Same as the *Signout URL(s)*.
+```terminal
+Do you want to use the default authentication and security configuration? 
+  Default configuration 
+❯ Default configuration with Social Provider (Federation) 
+  Manual configuration 
+  I want to learn more.
+```
+Note: For *Sign in Redirect URI(s)* inputs in the CLI flow, you can put one URI for local development and one for the production. If your app is running in `http://localhost:3000/` in local and `https://www.example.com/` in production, you can put input both of them as a part of the CLI flow. Same is true for *Sign out redirect URI(s)*.
 {: .callout .callout--info}
 
 <div>
-For React Native applications, you can put one url for local development, one for production.
+For React Native applications, you can put one URI for local development, one for production.
 
 You need to define a custom URL scheme for your application before testing locally or publishing to the app store. This is different for Expo or vanilla React Native. Follow the steps at the [React Native Linking docs](https://facebook.github.io/react-native/docs/linking) or [Expo Linking docs](https://docs.expo.io/versions/latest/workflow/linking/) for more information.
 
 After completing those steps, assuming you are using "myapp" as the name of your URL Scheme (or whatever friendly name you have chosen), you will use this URL in the Cognito Hosted UI domain URL.
 
-Your URLs could look like any of these:
+Your URIs could look like any of these:
 
 - `myapp://`
 - `exp://127.0.0.1:19000/--/` (Local development if your app is running [in the Expo client](https://docs.expo.io/versions/latest/workflow/linking/#linking-to-your-app)).
-One way to get your app URL when using Expo, is doing this:
+One way to get your app URI when using Expo, is doing this:
 
 ```js
 import { Linking } from 'expo';
@@ -1159,29 +1185,82 @@ console.log('url', Linking.makeUrl('/'));
 </div>
 {: .callout .callout--info}
 
-- Under the *OAuth 2.0* section, Choose OAuth Flow and OAuth scopes. [To learn more about flows and scopes.](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-idp-settings.html)
-- Select an OAuth Flow. 
 
-By using *Authorization code grant* the callback URL will contain a code after login. The code will be used to exchange for tokens from Cognito with the TOKEN Endpoint.
-{: .callout .callout--info}
+After going through the CLI flow, run the following command to deploy the configured resources to the cloud:
+```terminal
+$ amplify push
+```
 
-By using *Implicit grant* the callback URL will contain tokens(access token, id token) after login.
-{: .callout .callout--info}
+After running the `amplify push` command, you will find a domain-name provisioned by the CLI for the hosted UI as an output in the terminal. You can find that information anytime later using the `amplify status` command.
 
-The *Client credentials* flow is used in machine-to-machine communications. With it you can request an access token to access your own resources. Use this flow when your app is requesting the token on its own behalf, not on behalf of a user.
-{: .callout .callout--info}
+Note: your user pool domain is something like: `domain_prefix-<env-name>.auth.<region>.amazoncognito.com`
+{: .callout .callout--info}. If you've setup federation through third party providers, you would need to update the providers with the CLI provisioned domain-name.
 
-*Authorization code grant* is the recommended choice for security reasons.
-{: .callout .callout--info} 
+##### Setting up Hosted UI Domain With Facebook
 
-- Choose item(s) from *OAuth Scopes*.
+1. [Sign In](https://developers.facebook.com/) with your Facebook credentials.
+2. From the *My Apps* menu, choose *Your App*.
+![Image]({{common_media}}/cognitoHostedUI/facebook1.png)
+3. On the left navigation bar, choose *Settings* and then *Basic*.
+![Image]({{common_media}}/cognitoHostedUI/facebook3.png)
+4. Choose *+ Add Platform* from the bottom of the page and then choose *Website*.
+![Image]({{common_media}}/cognitoHostedUI/facebook4.png)
+5. Under Website, type your user pool domain with the /oauth2/idpresponse endpoint into *Site URL*
 
-Note: `openid` is required for `phone`, `email` or `profile`. Also `openid` is required to get the id token from the Cognito authorization server.
-{: .callout .callout--info}
+    ```https://<your-user-pool-domain>/oauth2/idpresponse```
 
-- Click 'Save Changes'. 
+    ![Image]({{common_media}}/cognitoHostedUI/facebook5.png)
+6. Save changes.
+7. Type your user pool domain into *App Domains*:
 
-#### Configuring the Hosted UI
+    ```https://<your-user-pool-domain>```
+    
+    ![Image]({{common_media}}/cognitoHostedUI/facebook6.png)
+8. Save changes.
+9. From the navigation bar choose *Products* and then *Set up* from *Facebook Login*.
+![Image]({{common_media}}/cognitoHostedUI/facebook7.png)
+10. From the navigation bar choose *Facebook Login* and then *Settings*.
+11. Type your redirect URL into *Valid OAuth Redirect URIs*. It will consist of your user pool domain with the /oauth2/idpresponse endpoint.
+
+    ```https://<your-user-pool-domain>/oauth2/idpresponse```
+
+    ![Image]({{common_media}}/cognitoHostedUI/facebook8.png)
+12. Save changes.
+
+##### Setting up Hosted UI Domain with Google
+
+1. Go to [Google Developer Console](https://developers.google.com/identity/sign-in/web/sign-in).
+2. Click *CONFIGURURE A PROJECT*
+![Image]({{common_media}}/cognitoHostedUI/google1.png)
+3. Type in a project name and choose *NEXT*.
+![Image]({{common_media}}/cognitoHostedUI/google2.png)
+4. Type in your product name and choose *NEXT*.
+5. Choose *Web browser* from the *Where are you calling from?* drop-down list.
+![Image]({{common_media}}/cognitoHostedUI/google3.png)
+6. Click *CREATE*. You will NOT use the *Client ID* and *CLient Secret* from this step.
+7. Click Done.
+8. Go to the [Google developer console](https://console.developers.google.com).
+9. On the left navigation bar, choose *Credentials*.
+![Image]({{common_media}}/cognitoHostedUI/google5.png)
+10. Select the client you created in the first step and choose the edit option
+11. Type your user pool domain into Authorized Javascript origins.
+12. Type your user pool domain with the `/oauth2/idpresponse` endpoint into *Authorized Redirect URIs*.
+
+    ![Image]({{common_media}}/cognitoHostedUI/google7.png)
+
+    Note: If you saw an error message `Invalid Redirect: domain must be added to the authorized domains list before submitting.` when adding the endpoint, please go to the *authorized domains list* and add the domain.
+13. Click *Save*.
+
+##### Setting up Hosted UI Domain with Login with Amazon
+
+1. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
+2. Hover over the gear and choose Web Settings associated with the security profile you created in the previous step, and then choose Edit.
+![Image]({{common_media}}/cognitoHostedUI/amazon4.png)
+3. Type your user pool domain into Allowed Origins and type your user pool domain with the /oauth2/idpresponse endpoint into Allowed Return URLs.
+![Image]({{common_media}}/cognitoHostedUI/amazon5.png)
+5. Choose Save.
+
+#### Manual Setup
 
 To configure your application for hosted UI, you need to use *oauth* options:
 
@@ -1227,11 +1306,15 @@ Amplify.configure({
 Note: An ID token is only returned if openid scope is requested. The access token can be only used against Amazon Cognito User Pools if aws.cognito.signin.user.admin scope is requested. The phone, email, and profile scopes can only be requested if openid scope is also requested.
 {: .callout .callout--info}
 
-#### Launching the Hosted UI
+#### OAuth and Hosted UI in Web Environment
+
+##### Launching the Hosted UI Page
 
 To invoke the browser to display the hosted UI, you need to construct the URL in your app;
 
 ```javascript
+import { Auth } from 'aws-amplify';
+
 const config = Auth.configure();
 const { 
     domain,  
@@ -1242,23 +1325,33 @@ const {
 const clientId = config.userPoolWebClientId;
 // The url of the Cognito Hosted UI
 const url = 'https://' + domain + '/login?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId;
-// If you only want to log your users in with Google or Facebook, you can construct the url like:
-const url_to_google = 'https://' + domain + '/oauth2/authorize?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId + '&identity_provider=Google';
-const url_to_facebook = 'https://' + domain + '/oauth2/authorize?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId + '&identity_provider=Facebook';
 
 // Launch hosted UI
 window.location.assign(url);
+```
+
+If you want to interact directly with the OAuth 2.0 endpoints from a client application instead of showing the Hosted UI in your application, you can explicitly set the identity provider in the url. For example:
+```javascript
+import { Auth } from 'aws-amplify';
+
+const config = Auth.configure();
+const { 
+    domain,  
+    redirectSignIn, 
+    redirectSignOut,
+    responseType } = config.oauth;
+
+const clientId = config.userPoolWebClientId;
+
+const url_to_google = 'https://' + domain + '/oauth2/authorize?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId + '&identity_provider=Google';
+const url_to_facebook = 'https://' + domain + '/oauth2/authorize?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId + '&identity_provider=Facebook';
 
 // Launch Google/Facebook login page
 window.location.assign(url_to_google);
 window.location.assign(url_to_facebook);
 ```
 
-
-
-#### Launching the Hosted UI in React 
-
-With React, you can use `withOAuth` HOC to launch the hosted UI experience. Just wrap your app's main component with our HOC:
+When using React, you can use `withOAuth` HOC to launch the hosted UI experience. Just wrap your app's main component with our HOC:
 
 ```javascript
 import { withOAuth } from 'aws-amplify-react';
@@ -1275,11 +1368,37 @@ class MyApp extends React.Component {
 }
 
 export default withOAuth(MyApp);
-``` 
+```
 
-#### Make it work in your App
+##### Using Hub module after being redirected back
 
-Here is a code sample of how to integrate it in the React App: (Web)
+The [Hub module]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/hub#listening-authentication-events) is a local eventing system which helps detecting whether the user is signed in or not.
+
+```javascript
+import Amplify, { Hub } from 'aws-amplify';
+
+// in your redirected sign in page
+// when the page is loaded, run the following function
+Hub.listen('auth', (data) => {
+    switch (data.payload.event) {
+        case 'signIn':
+            console.log('now the user is signed in');
+            const user = data.payload.data;
+            break;
+        case 'signIn_failure':
+            console.log('the user failed to sign in');
+            console.log('the error is', data.payload.data);
+            break;
+        default:
+            break;
+    }
+});
+```
+
+##### Putting pieces together
+
+This is a React sample app.
+
 ```js
 // App.js
 import React, { Component } from 'react';
@@ -1304,12 +1423,27 @@ Auth.configure({ oauth });
 class App extends Component {
   constructor(props) {
     super(props);
-    this.onHubCapsule = this.onHubCapsule.bind(this);
     this.signOut = this.signOut.bind(this);
     // let the Hub module listen on Auth events
-    Hub.listen('auth', this);
+    Hub.listen('auth', (data) => {
+        switch (data.payload.event) {
+            case 'signIn':
+                this.setState({authState: 'signedIn'});
+                this.setState({authData: data.payload.data});
+                break;
+            case 'signIn_failure':
+                this.setState({authState: 'signIn'});
+                this.setState({authData: null});
+                this.setState({authError: data.payload.data});
+                break;
+            default:
+                break;
+        }
+    });
     this.state = {
-      authState: 'loading'
+      authState: 'loading',
+      authData: null,
+      authError: null
     }
   }
 
@@ -1323,25 +1457,6 @@ class App extends Component {
       console.log(e);
       this.setState({authState: 'signIn'});
     });
-  }
-
-  onHubCapsule(capsule) {
-    // The Auth module will emit events when user signs in, signs out, etc
-    const { channel, payload, source } = capsule;
-    if (channel === 'auth') {
-      switch (payload.event) {
-        case 'signIn':
-          console.log('signed in');
-          this.setState({authState: 'signedIn'});
-          break;
-        case 'signIn_failure':
-          console.log('not signed in');
-          this.setState({authState: 'signIn'});
-          break;
-        default:
-          break;
-      }
-    }
   }
 
   signOut() {
@@ -1381,49 +1496,9 @@ class OAuthButton extends React.Component {
 }
 
 export default withOAuth(OAuthButton);
-
-// CustomButton.js
-// If you dont use aws-amplify-react, you can construct your own button
-import React, { Component } from 'react';
-import { Auth } from 'aws-amplify';
-
-class CustomButton extends React.Component {
-  signIn() {
-    const config = Auth.configure();
-    const { 
-        domain,  
-        redirectSignIn, 
-        redirectSignOut,
-        responseType } = config.oauth;
-
-    const clientId = config.userPoolWebClientId;
-    // The url of the Cognito Hosted UI
-    const url = 'https://' + domain + '/login?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId;
-    // If you only want to log your users in with Google or Facebook, you can construct the url like:
-    const url_to_google = 'https://' + domain + '/oauth2/authorize?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId + '&identity_provider=Google';
-    const url_to_facebook = 'https://' + domain + '/oauth2/authorize?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId + '&identity_provider=Facebook';
-
-    // Launch hosted UI
-    window.location.assign(url);
-
-    // Launch Google/Facebook login page
-    // window.location.assign(url_to_google);
-    // window.location.assign(url_to_facebook);
-  }
-
-  render() {
-    return (
-      <button onClick={this.signIn}>
-        Customized Login
-      </button>
-    )
-  }
-}
-
-export default CustomButton;
 ```
 
-#### Launching the Hosted UI in React Native 
+#### OAuth and Hosted UI in React Native
 
 With React Native, you can use `withOAuth` HOC to launch the hosted UI experience. Just wrap your app's main component with our HOC. Doing so, will pass the following `props` available to your component:
 
@@ -1576,10 +1651,6 @@ Amplify.configure({
     // ...
 });
 ```
-
-#### Handling Authentication Events
-
-When using the hosted UI, you can handle authentication events by creating event listeners with the [Hub module]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/hub#listening-authentication-events).
     
 ### Enabling MFA
 
