@@ -38,7 +38,7 @@ Dependency | Build.gradle Value
 "Amazon DynamoDB" | "com.amazonaws:aws-android-sdk-ddb:2.13.+"
 "Amazon Elastic Compute Cloud" | "com.amazonaws:aws-android-sdk-ec2:2.13.+"
 "Amazon Elastic Load Balancing" | "com.amazonaws:aws-android-sdk-elb:2.13.+"
-"AWS IoT" | "com.amazonaws:aws-android-sdk-iot:2.13.+"
+"AWS IoT" | "com.amazonaws:aws-android-sdk-iot:2.13.+@aar"
 "Amazon Kinesis" | "com.amazonaws:aws-android-sdk-kinesis:2.13.+"
 "Amazon Kinesis Video" | "com.amazonaws:aws-android-sdk-kinesisvideo:2.13.+@aar"
 "Amazon Key Management Service (KMS)" | "com.amazonaws:aws-android-sdk-kms:2.13.+"
