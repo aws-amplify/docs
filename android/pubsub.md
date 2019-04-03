@@ -112,7 +112,8 @@ The AWS IoT Core service also allows you to connect devices using MQTT with cert
 ```java
 mqttManager.connectUsingALPN(<YOUR_KEYSTORE>, new AWSIotMqttClientStatusCallback() {
     @Override
-    public void onStatusChanged(AWSIotMqttClientStatus status, Throwable throwable) {
+    public void onStatusChanged(final AWSIotMqttClientStatus status,
+                                final Throwable throwable) {
         Log.d(LOG_TAG, "Status = " + String.valueOf(status));
     }
 });
