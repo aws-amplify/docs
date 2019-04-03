@@ -159,6 +159,7 @@ a_b
 filename
 mypublicprefix
 myprivateprefix
+CRUD
 
 # js/start.md
 codegen
@@ -174,6 +175,12 @@ myangularapp
 js
 tsconfig
 myAmplifyProject
+
+# js/hub.md
+onHubCapsule
+pubsub
+xr
+MobX
 
 # js/service-workers.md
 ServiceWorker
@@ -711,6 +718,10 @@ UIViewController
 # ios/authentication.md
 UINavigationController
 UserPools
+HostedUI
+UserPool
+flipside
+ARNs
 
 # ios/how-to-cognito-integrate-an-existing-identity-pool-ios.md
 AppDelegate
@@ -821,6 +832,7 @@ timeoutIntervalForResource
 handleEventsForBackgroundURLSession
 interceptApplication
 AWSStaticCredentialsProvider
+CRUD
 
 # android/how-to-android-sdk-setup.md
 aws-android-sdk-lex
@@ -863,6 +875,8 @@ MY_BUCKET
 OBJECT_KEY
 MY_FILE
 KMS-generated
+TransferNetworkConnectionType
+CRUD
 
 # android/auth-google-setup.md
 keystore
