@@ -24,6 +24,7 @@ Now click the *Download JSON configuration* button to download the scene configu
 
 ### Automatic setup using Amplify CLI
 <b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
+<b>Requires:</b> Amplify CLI version >= 1.4.0
 {: .callout .callout--info}
 
 ```
