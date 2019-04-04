@@ -1085,7 +1085,8 @@ AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigatio
 
 ```swift
 func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-    return AWSMobileClient.sharedInstance().handleAuthResponse(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+    AWSMobileClient.sharedInstance().handleAuthResponse(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+    return true
 }
 ```
 
