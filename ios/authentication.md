@@ -467,7 +467,6 @@ AWSMobileClient.sharedInstance().forgotPassword(username: "my_username") { (forg
         print("Error occurred: \(error.localizedDescription)")
     }
 }
-}
 ```
 
 ```swift
