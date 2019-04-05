@@ -10,8 +10,7 @@ The `aws-amplify-angular` package is a set of Angular components and an Angular 
 Install `aws-amplify` and `aws-amplify-angular` npm packages into your Angular app.
 
 ```bash
-$ npm install --save aws-amplify 
-$ npm install --save aws-amplify-angular 
+$ npm install --save aws-amplify aws-amplify-angular 
 ```
 
 ### Angular 6+ Support

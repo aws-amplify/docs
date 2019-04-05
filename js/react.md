@@ -16,7 +16,7 @@ If you're using Windows, we recommend the [Windows Subsystem for Linux](https://
 
 - Ensure you have [Create React App](https://github.com/facebook/create-react-app) installed. 
 - Create a new project as follows:<br>
-  `yarn create react-app myapp`<br>
+  `yarn create-react-app myapp`<br>
   `cd myapp`<br>
   **Note** This example uses `yarn`, but you can use `npm` instead.
 
@@ -54,9 +54,15 @@ Now that your app is in the cloud, you can add some features like enabling users
 
 Run `amplify push` to provision your auth resources in the cloud. The `./src/aws-exports.js` file that's created has all of the appropriate cloud resources defined for your application.
 
-Next, add the Amplify library to your application as follows:
+Next, add the Amplify library to your web application as follows:
 ```
 yarn add aws-amplify aws-amplify-react
+```
+
+If integrating with a React Native app, use:
+```
+yarn add aws-amplify aws-amplify-react-native
+react-native link amazon-cognito-identity-js
 ```
 
 Edit `./src/App.js` to include the Amplify library, configurations, and [React HOC](https://reactjs.org/docs/higher-order-components.html). Then, initialize the library as follows:
@@ -64,7 +70,8 @@ Edit `./src/App.js` to include the Amplify library, configurations, and [React H
 ```javascript
 import Amplify from 'aws-amplify';
 import awsmobile from './aws-exports';
-import { withAuthenticator } from 'aws-amplify-react';
+import { withAuthenticator } from 'aws-amplify-react'; // or 'aws-amplify-react-native';
+
 Amplify.configure(awsmobile);
 ```
 
@@ -250,7 +257,7 @@ Next, for the API security type questions, choose **Yes** when prompted for Rest
 In the React project, edit your `App.js` file again and modify your imports so that the `API` category is included so that you can make API calls from the app.
 
 ```javascript
-import Amplify, { Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
+import Amplify, { Analytics, Storage, API } from 'aws-amplify';
 ```
 
 

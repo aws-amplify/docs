@@ -33,7 +33,7 @@ When used along with tools like the Amplify CLI, the GraphQL Transform simplifie
 developing, deploying, and maintaining GraphQL APIs. With it, you define your API using the 
 [GraphQL Schema Definition Language (SDL)](https://facebook.github.io/graphql/June2018/) and can then use automation to transform it into a fully 
 descriptive cloudformation template that implements the spec. The transform also provides a framework
-through which you can define you own transformers as `@directives` for custom workflows.
+through which you can define your own transformers as `@directives` for custom workflows.
 
 ## Quick Start
 
@@ -241,10 +241,10 @@ type Post @model {
 }
 ```
 
-You may also override the names of any generated queries and mutations, or remove operations entirely.
+You may also override the names of any generated queries, mutations and subscriptions, or remove operations entirely.
 
 ```
-type Post @model(queries: { get: "post" }, mutations: null) {
+type Post @model(queries: { get: "post" }, mutations: null, subscriptions: null) {
     id: ID!
     title: String!
     tags: [String!]!
@@ -261,7 +261,7 @@ A single `@model` directive configures the following AWS resources:
 - An Amazon DynamoDB table with 5 read/write units.
 - An AWS AppSync DataSource configured to access the table above.
 - An AWS IAM role attached to the DataSource that allows AWS AppSync to call the above table on your behalf.
-- Up to 8 resolvers (create, update, delete, get, list, onCreate, onUpdate, onDelete) but this is configurable via the `query`, `mutation`, and `subscription` arguments on the `@model` directive.
+- Up to 8 resolvers (create, update, delete, get, list, onCreate, onUpdate, onDelete) but this is configurable via the `queries`, `mutations`, and `subscriptions` arguments on the `@model` directive.
 - Input objects for create, update, and delete mutations.
 - Filter input objects that allow you to filter objects in list queries and connection fields.
 
@@ -563,7 +563,7 @@ This would return:
 }
 ```
 
-You can try do the same to **owner** but this will throw an **Unauthorized** exception because you are no longer the owner of the object you are trying to create
+You can try to do the same to **owner** but this will throw an **Unauthorized** exception because you are no longer the owner of the object you are trying to create
 
 ```
 mutation CreateDraft {
@@ -986,9 +986,6 @@ global secondary indexes (GSIs) on the generated tables on your behalf. In the f
 are investigating using adjacency lists along side GSIs for different use cases that are
 connection heavy.
 
-TODO: Finish docs
-
-
 ### @versioned
 
 The `@versioned` directive adds object versioning and conflict resolution to a type.
@@ -1398,7 +1395,12 @@ type Query {
 "EchoLambdaDataSourceRole": {
   "Type": "AWS::IAM::Role",
   "Properties": {
-    "RoleName": "EchoLambdaDataSourceRole",
+    "RoleName": {
+      "Fn::Sub": [
+        "EchoLambdaDataSourceRole-${env}",
+        { "env": { "Ref": "env" } }
+      ]
+    },
     "AssumeRolePolicyDocument": {
       "Version": "2012-10-17",
       "Statement": [
@@ -1565,7 +1567,7 @@ type Query {
         "ApiId": {
             "Ref": "AppSyncApiId"
         },
-        "DataSourceName": "ElasticsearchDomain",
+        "DataSourceName": "ElasticSearchDomain",
         "TypeName": "Query",
         "FieldName": "nearbyTodos",
         "RequestMappingTemplateS3Location": {
@@ -1647,7 +1649,7 @@ $util.toJson({
 })
 ```
 
-4. Run `ampify push`
+4. Run `amplify push`
 
 Amazon Elasticsearch domains can take a while to deploy. Take this time to read up on Elasticsearch to see what capabilities you are about to unlock.
 

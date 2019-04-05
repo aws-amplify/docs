@@ -1026,7 +1026,7 @@ export class ListPage implements OnInit {
     });
 
     // Listen for the modal to be closed...
-    this.modal.onDidDismiss((result) => {
+    this.modal.onDidDismiss().then((result) => {
       if (result.data.newItem){
         // ...and add a new item if modal passes back newItem
         result.data.itemList.items.push(result.data.newItem)

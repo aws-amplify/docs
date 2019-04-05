@@ -11,7 +11,9 @@ Enable your app to store and retrieve user files from cloud storage with the per
 
 ### Storage Access
 
-The CLI configures three different access levels on the storage bucket: public, protected and private. When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool Role. If you had previously enabled user sign-in by running `amplify add auth` in your project, the policies will be connected to an `Authenticated Role` of the Identity Pool which has scoped permission to the objects in the bucket for each user identity. If you haven't configured user sign-in, then an `Unauthenticated Role` will be assigned for each unique user/device combination, which still has scoped permissions to just their objects.
+The CLI configures three different access levels on the storage bucket: public, protected and private. When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool Role. You will have the option of adding CRUD (Create/Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels.
+
+If you had previously enabled user sign-in by running `amplify add auth` in your project, the policies will be connected to an `Authenticated Role` of the Identity Pool which has scoped permission to the objects in the bucket for each user identity. If you haven't configured user sign-in, then an `Unauthenticated Role` will be assigned for each unique user/device combination, which still has scoped permissions to just their objects.
 
 * Public: Accessible by all users of your app. Files are stored under the `public/` path in your S3 bucket.
 * Protected: Readable by all users, but writable only by the creating user. Files are stored under `protected/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
@@ -61,9 +63,9 @@ Use the following steps to connect add file storage backend services to your app
 
 	```groovy
 	dependencies {
-	  implementation 'com.amazonaws:aws-android-sdk-s3:2.12.+'
-	  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.12.+@aar') { transitive = true }
-	  implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.12.+@aar') { transitive = true }
+	  implementation 'com.amazonaws:aws-android-sdk-s3:2.13.+'
+	  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.13.+@aar') { transitive = true }
+	  implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.13.+@aar') { transitive = true }
 	}
 	```
 	Perform a `Gradle Sync` to download the AWS Mobile SDK components into your app.
@@ -91,36 +93,6 @@ This section explains how to implement upload and download functionality and a n
 Note: If you use the transfer utility MultiPart upload feature, take advantage of automatic cleanup features by setting up the [AbortIncompleteMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html) action in your Amazon S3 bucket life cycle configuration.
 {: .callout .callout--info}
 
-### Transfer Utility Options
-
-You can use the `TransferUtilityOptions` object to customize the operations of the TransferUtility.
-
-#### TransferThreadPoolSize
-This parameter allows you to specify the number of transfers that can run in parallel. By increasing the number of threads, you will be able to increase the number of parts of a multi-part upload that will be uploaded in parallel. By default, this is set to 2 * (N + 1), where N is the number of available processors on the mobile device. The minimum allowed value is 2.
-
-```java
-TransferUtilityOptions options = new TransferUtilityOptions();
-options.setTransferThreadPoolSize(8);
-
-TransferUtility transferUtility = TransferUtility.builder()
-    // Pass-in S3Client, Context, AWSConfiguration/DefaultBucket Name
-    .transferUtilityOptions(options)
-    .build();
-```
-
-#### TransferServiceCheckTimeInterval
-The TransferUtility monitors each on-going transfer by checking its status periodically. If a stalled transfer is detected, it will be automatically resumed by the TransferUtility. The TransferServiceCheckTimeInterval option allows you to set the time interval
-between the status checks. It is specified in milliseconds and set to 60,000 by default.
-
-```java
-TransferUtilityOptions options = new TransferUtilityOptions();
-options.setTransferServiceCheckTimeInterval(2 * 60 * 1000); // 2-minutes
-
-TransferUtility transferUtility = TransferUtility.builder()
-    // Pass-in S3Client, Context, AWSConfiguration/DefaultBucket Name
-    .transferUtilityOptions(options)
-    .build();
-```
 ### Upload a File
 
 The following example shows how to use the TransferUtility to upload a file. Instantiate the TransferUtility object using the provided TransferUtility builder function. Use the `AWSMobileClient` to get the `AWSConfiguration` and `AWSCredentialsProvider` to pass into the builder. See [Authentication](authentication) for more details.  
@@ -257,7 +229,7 @@ public class YourActivity extends Activity {
             TransferUtility.builder()
                     .context(getApplicationContext())
                     .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
-                    .s3Client(new AmazonS3Client(AWSMobileClient.getInstance())
+                    .s3Client(new AmazonS3Client(AWSMobileClient.getInstance()))
                     .build();
 
         TransferObserver downloadObserver =
@@ -500,6 +472,37 @@ TransferObserver observer = transferUtility.upload(
 ```
 
 To download the metadata, use the S3 `getObjectMetadata` method. See the [API Reference](http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/services/s3/AmazonS3Client.html#getObjectMetadata%28com.amazonaws.services.s3.model.GetObjectMetadataRequest%29) and [Object Key and Metadata](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html) for more information.
+
+### Transfer Utility Options
+
+You can use the `TransferUtilityOptions` object to customize the operations of the TransferUtility.
+
+#### TransferThreadPoolSize
+This parameter allows you to specify the number of transfers that can run in parallel. By increasing the number of threads, you will be able to increase the number of parts of a multi-part upload that will be uploaded in parallel. By default, this is set to 2 * (N + 1), where N is the number of available processors on the mobile device. The minimum allowed value is 2.
+
+```java
+TransferUtilityOptions options = new TransferUtilityOptions();
+options.setTransferThreadPoolSize(8);
+
+TransferUtility transferUtility = TransferUtility.builder()
+    // Pass-in S3Client, Context, AWSConfiguration/DefaultBucket Name
+    .transferUtilityOptions(options)
+    .build();
+```
+
+#### TransferNetworkConnectionType
+The `TransferNetworkConnectionType` option allows you to restrict the type of network connection (WiFi / Mobile / ANY) over which the data can be transferred to Amazon S3.
+
+```java
+TransferUtilityOptions options = new TransferUtilityOptions(10, TransferNetworkConnectionType.WIFI);
+
+TransferUtility transferUtility = TransferUtility.builder()
+    // Pass-in S3Client, Context, AWSConfiguration/DefaultBucket Name
+    .transferUtilityOptions(options)
+    .build();
+```
+
+By specifying `TransferNetworkConnectionType.WIFI` , data transfers to and from S3 will only happen when the device is on a WiFi connection
 
 ## Usage with GraphQL APIs (Complex Objects)
 Note: Please review the documentation for [API](./api) before you proceed with the rest of this section. 
