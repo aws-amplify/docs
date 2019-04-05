@@ -101,7 +101,6 @@ import amplify from './aws-exports';
 Amplify.configure(amplify);
 ```
 
-
 In your [app module](https://angular.io/guide/bootstrapping) `src/app/app.module.ts` import the Amplify Module, Service, and Amplify Modules helper.  Additionally, import the amplify modules that you want to access via your Amplify provider.
 
 These modules will then be passed into the AmplifyModules helper.
@@ -133,7 +132,7 @@ import Storage from '@aws-amplify/storage';
   ],
   ...
 });
-
+```
 
 ## Using Amplify Service
 
