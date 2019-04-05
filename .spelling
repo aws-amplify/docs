@@ -159,6 +159,7 @@ a_b
 filename
 mypublicprefix
 myprivateprefix
+CRUD
 
 # js/start.md
 codegen
@@ -831,6 +832,7 @@ timeoutIntervalForResource
 handleEventsForBackgroundURLSession
 interceptApplication
 AWSStaticCredentialsProvider
+CRUD
 
 # android/how-to-android-sdk-setup.md
 aws-android-sdk-lex
@@ -874,6 +876,7 @@ OBJECT_KEY
 MY_FILE
 KMS-generated
 TransferNetworkConnectionType
+CRUD
 
 # android/auth-google-setup.md
 keystore

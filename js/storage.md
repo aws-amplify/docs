@@ -234,7 +234,9 @@ Note: You can restrict the access to your bucket by updating AllowedOrigin to in
 
 ### File Access Levels
 
-Storage module can manage files with three different access levels; `public`, `protected` and `private`. The Amplify CLI configures three different access levels on the storage bucket: public, protected and private. When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool Role. If you had previously enabled user sign-in by running `amplify add auth` in your project, the policies will be connected to an `Authenticated Role` of the Identity Pool which has scoped permission to the objects in the bucket for each user identity. If you haven't configured user sign-in, then an `Unauthenticated Role` will be assigned for each unique user/device combination, which still has scoped permissions to just their objects.
+Storage module can manage files with three different access levels; `public`, `protected` and `private`. The Amplify CLI configures three different access levels on the storage bucket: public, protected and private. When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool Role. You will have the option of adding CRUD (Create/Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels.
+
+If you had previously enabled user sign-in by running `amplify add auth` in your project, the policies will be connected to an `Authenticated Role` of the Identity Pool which has scoped permission to the objects in the bucket for each user identity. If you haven't configured user sign-in, then an `Unauthenticated Role` will be assigned for each unique user/device combination, which still has scoped permissions to just their objects.
 
 * Public: Accessible by all users of your app. Files are stored under the `public/` path in your S3 bucket.
 * Protected: Readable by all users, but writable only by the creating user. Files are stored under `protected/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
@@ -364,6 +366,20 @@ Storage.put('test.txt', 'File content', {
 .then (result => console.log(result))
 .catch (err => console.log(err));
 ```
+
+Other options available are:
+
+```javascript
+Storage.put('test.txt', 'My Content', {
+    cacheControl: '', // (String) Specifies caching behavior along the request/reply chain
+    contentDisposition: '', // (String) Specifies presentational information for the object
+    expires: new Date().now() + 60 * 60 * 24 * 7, // (Date) The date and time at which the object is no longer cacheable. ISO-8601 string, or a UNIX timestamp in seconds
+    metadata: { key: 'value' }, // (map<String>) A map of metadata to store with the object in S3.
+})
+.then (result => console.log(result))
+.catch(err => console.log(err));
+```
+
 
 Upload an image in the browser:
 
