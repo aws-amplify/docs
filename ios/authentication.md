@@ -495,7 +495,7 @@ AWSMobileClient.sharedInstance().isSignedIn     //Boolean
 AWSMobileClient.sharedInstance().identityId     //String
 ```
 
-> Note: The property `username` is available only when using username-password based auth. The property `identityId` is avilable only when federation is enabled in `CognitoIdentityPool`.
+> Note: The property `username` is available only when using username-password based auth. The property `identityId` is available only when federation is enabled in `CognitoIdentityPool`.
 
 ### Managing Security Tokens
 
