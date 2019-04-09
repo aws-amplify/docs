@@ -23,22 +23,22 @@ Amplify interfaces with User Pools to store your user information, including fed
 
 ### Concepts
 	
-Authentication is a process to validate **who you are** (abreviated as **AuthN**). The system which does this validation is referred to as an **Identity Provider** or **IdP**. This can be your own self-hosted IdP or a cloud service. Oftentimes, this IdP is a social provider such as Facebook, Google, or Amazon (*"Social Sign-In"*).
+Authentication is a process to validate **who you are** (abbreviated as **AuthN**). The system which does this validation is referred to as an **Identity Provider** or **IdP**. This can be your own self-hosted IdP or a cloud service. Oftentimes, this IdP is a social provider such as Facebook, Google, or Amazon (*"Social Sign-In"*).
 	
-Authorization is the process of validating **what you can access** (abreviated as **AuthZ**). This is sometimes done by looking at tokens with custom logic, predefined rules, or signed requests with policies.
+Authorization is the process of validating **what you can access** (abbreviated as **AuthZ**). This is sometimes done by looking at tokens with custom logic, predefined rules, or signed requests with policies.
 	
 In the Amplify ecosystem, the most common Authentication method is either using Cognito User Pools independently or with a social provider to validate the identity of the user (known as **Federation**). Authorization is often done in one of two ways:
 	
 1. Clients pass the tokens to the backend that perform custom logic to allow or deny actions
 1. Clients sign the requests and the backend validates the signature, allowing or denying actions depending on predefined policy
 	
-The first method is common with REST or GraphQL APIs, however you can also use the second for these services as well (AWS AppSync and Amazon API Gateway). The second method is necessary for services such as S3, Pinpoint, Summerian, and others. The predefined rules are known as [IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html) policies and automatically configured by the Amplify CLI.
+The first method is common with REST or GraphQL APIs, however you can also use the second for these services as well (AWS AppSync and Amazon API Gateway). The second method is necessary for services such as S3, Pinpoint, Sumerian, and others. The predefined rules are known as [IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html) policies and automatically configured by the Amplify CLI.
 	
 Below are the 3 most common architectures using the Amplify Framework.
 	
 #### Simple Auth
 	
-For many apps, user sign-up and sign-in is all that is required. Once authenticated the capp can talk to an API such as AWS AppSync or API Gateway. In this case, you can simply create a User Pool by running `amplify add auth` using the Amplify CLI and selecting the default setup. In your application you can use [`Auth.signUp`](#sign-up)  and [`Auth.signIn`](#sign-in) (or an Amplify UI component) to complete this process and retrieve tokens. The Amplify client will refresh them at the appropriate time. 
+For many apps, user sign-up and sign-in is all that is required. Once authenticated the app can talk to an API such as AWS AppSync or API Gateway. In this case, you can simply create a User Pool by running `amplify add auth` using the Amplify CLI and selecting the default setup. In your application you can use [`Auth.signUp`](#sign-up)  and [`Auth.signIn`](#sign-in) (or an Amplify UI component) to complete this process and retrieve tokens. The Amplify client will refresh them at the appropriate time. 
 	
 ![Image]({{common_media}}/SimpleAuthZ.png)
 
