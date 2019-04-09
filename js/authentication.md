@@ -32,7 +32,7 @@ In the Amplify ecosystem, the most common Authentication method is either using 
 1. Clients pass the tokens to the backend that perform custom logic to allow or deny actions
 1. Clients sign the requests and the backend validates the signature, allowing or denying actions depending on predefined policy
 	
-The first method is common with REST or GraphQL APIs, however you can also use the second for these services as well (AWS AppSync and Amazon API Gateway). The second method is necessary for services such as S3, Pinpoint, Summerian, and others. The predefined rules are known as [IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html) policies and automatically configured by the Amplify CLI.
+The first method is common with REST or GraphQL APIs, however you can also use the second for these services as well (AWS AppSync and Amazon API Gateway). The second method is necessary for services such as S3, Pinpoint, Sumerian, and others. The predefined rules are known as [IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html) policies and automatically configured by the Amplify CLI.
 	
 Below are the 3 most common architectures using the Amplify Framework.
 	
