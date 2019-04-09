@@ -23,9 +23,9 @@ Amplify interfaces with User Pools to store your user information, including fed
 
 ### Concepts
 	
-Authentication is a process to validate **who you are** (abreviated as **AuthN**). The system which does this validation is referred to as an **Identity Provider** or **IdP**. This can be your own self-hosted IdP or a cloud service. Oftentimes, this IdP is a social provider such as Facebook, Google, or Amazon (*"Social Sign-In"*).
+Authentication is a process to validate **who you are** (abbreviated as **AuthN**). The system which does this validation is referred to as an **Identity Provider** or **IdP**. This can be your own self-hosted IdP or a cloud service. Oftentimes, this IdP is a social provider such as Facebook, Google, or Amazon (*"Social Sign-In"*).
 	
-Authorization is the process of validating **what you can access** (abreviated as **AuthZ**). This is sometimes done by looking at tokens with custom logic, predefined rules, or signed requests with policies.
+Authorization is the process of validating **what you can access** (abbreviated as **AuthZ**). This is sometimes done by looking at tokens with custom logic, predefined rules, or signed requests with policies.
 	
 In the Amplify ecosystem, the most common Authentication method is either using Cognito User Pools independently or with a social provider to validate the identity of the user (known as **Federation**). Authorization is often done in one of two ways:
 	
