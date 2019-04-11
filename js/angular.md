@@ -354,7 +354,7 @@ To use the aws-amplify-angular components you will need to install '@aws-amplify
 Add the following to your styles.css file to use the default styles:
 ```@import '~aws-amplify-angular/Theme.css';```
 
-You can use custom styling for components by importing your custom *styles.css* that overrides the <a href="https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-angular/src/theme.css" target="_blank">default styles</a>.
+You can use custom styling for components by importing your custom *styles.css* that overrides the <a href="https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-angular/theme.css" target="_blank">default styles</a>.
 
 ## Ionic 4 Components
 The Angular components included in this library can optionally be presented with Ionic-specific styling.  To do so, simply include the ```AmplifyIonicModule``` alongside the ```AmplifyAngularModule```.  Then, pass in ```framework="Ionic"``` into the component.  
