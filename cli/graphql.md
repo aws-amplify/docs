@@ -411,27 +411,41 @@ type Subscription {
 
 Object types that are annotated with `@auth` are protected by a set of authorization
 rules. Currently, @auth only supports APIs with Amazon Cognito User Pools enabled. 
-Types that are annotated with `@auth` must also be annotated with `@model`.
+You may use the `@auth` directive on both object type definitions and field definitions
+in your schema.graphql.
+
+When using the `@auth` directive on object type definitions that are also annotated with
+`@model`, all resolvers that return objects of that type will be protected. When using the
+`@auth` directive on a field definition, that field will be authorized based on attributes
+in the parent type.
 
 #### Definition
 
 ```
 # When applied to a type, augments the application with
 # owner and group-based authorization rules.
-directive @auth(rules: [AuthRule!]!) on OBJECT
+directive @auth(rules: [AuthRule!]!) on OBJECT, FIELD_DEFINITION
 input AuthRule {
     allow: AuthStrategy!
     ownerField: String # defaults to "owner"
     identityField: String # defaults to "username"
     groupsField: String
     groups: [String]
+    operations: [ModelOperation]
+
+    # The following arguments are deprecated. It is encouraged to use the 'operations' argument.
     queries: [ModelQuery]
     mutations: [ModelMutation]
 }
 enum AuthStrategy { owner groups }
+enum ModelOperation { create update delete read }
+
+# The following objects are deprecated. It is encouraged to use ModelOperations.
 enum ModelQuery { get list }
 enum ModelMutation { create update delete }
 ```
+
+> Note: The operations argument was added to replace the 'queries' and 'mutations' arguments. The 'queries' and 'mutations' arguments will continue to work but it is encouraged to move to 'operations'.
 
 #### Usage
 
@@ -449,7 +463,7 @@ type Post
   @model 
   @auth(
     rules: [
-      {allow: owner, ownerField: "owner", mutations: [create, update, delete], queries: [get, list]},
+      {allow: owner, ownerField: "owner", operations: [create, update, delete, read]},
     ]) 
 {
   id: ID!
@@ -462,10 +476,9 @@ Owner authorization specifies that a user can access an object. To
 do so, each object has an *ownerField* (by default "owner") that stores ownership information
 and is verified in various ways during resolver execution.
 
-You can use the *queries* and *mutations* arguments to specify which operations are augmented as follows:
+You can use the *operations* argument to specify which operations are augmented as follows:
 
-- **get**: If the record's owner is not the same as the logged in user (via `$ctx.identity.username`), throw `$util.unauthorized()`.
-- **list**: Filter `$ctx.result.items` for owned items.
+- **read**: If the record's owner is not the same as the logged in user (via `$ctx.identity.username`), throw `$util.unauthorized()` in any resolver that returns an object of this type.
 - **create**: Inject the logged in user's `$ctx.identity.username` as the *ownerField* automatically.
 - **update**: Add conditional update that checks the stored *ownerField* is the same as `$ctx.identity.username`.
 - **delete**: Add conditional update that checks the stored *ownerField* is the same as `$ctx.identity.username`.
@@ -484,7 +497,7 @@ type Draft
         { allow: owner },
 
         # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
-        { allow: owner, ownerField: "editors", mutations: [update] }
+        { allow: owner, ownerField: "editors", operations: [update] }
     ]) {
     id: ID!
     title: String!
@@ -649,7 +662,7 @@ type Draft
         { allow: owner },
         
         # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
-        { allow: owner, ownerField: "editors", mutations: [update] },
+        { allow: owner, ownerField: "editors", operations: [update] },
 
         # Admin users can access any operation.
         { allow: groups, groups: ["Admin"] }
@@ -703,13 +716,13 @@ type Draft
         { allow: owner },
         
         # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
-        { allow: owner, ownerField: "editors", mutations: [update] },
+        { allow: owner, ownerField: "editors", operations: [update] },
 
         # Admin users can access any operation.
         { allow: groups, groups: ["Admin"] }
 
         # Each record may specify which groups may read them.
-        { allow: groups, groupsField: "groupsCanAccess", mutations: [], queries: [get, list] }
+        { allow: groups, groupsField: "groupsCanAccess", operations: [read] }
     ]) {
     id: ID!
     title: String!
@@ -749,6 +762,46 @@ mutation CreateDraft {
     }
 }
 ```
+
+**Field Level Authorization**
+
+The `@auth` directive can also be used to specify that a specific field should be protected
+according to its own set of rules. This is useful in a number of situations.
+
+1. Protect access to a field that has different permissions than the parent model.
+For example, we might want to have a user model where some fields, like *username*, are a part of the
+public profile and the *ssn* field is only visible to owners.
+
+```
+type User @model {
+    id: ID!
+    username: String
+
+    ssn: String @auth(rules: [{ allow: owner, ownerField: "username" }])
+}
+```
+
+2. Protect access to a `@connection` resolver based on some attribute in the source object.
+For example, this schema will protect access to Post objects connected to a user based on an attribute
+in the User model.
+
+```
+type User @model {
+    id: ID!
+    username: String
+    
+    posts: [Post] 
+      @connection(name: "UserPosts") 
+      @auth(rules: [{ allow: owner, ownerField: "username" }])
+}
+type Post @model(queries: null) { ... }
+```
+
+The behavior of `@auth` rules when applied to field definitions is very similar to that when applied to
+object definitions. The key difference is that when `@auth` is used on a field definition, logic
+is added to that field's resolver that compares values on the `$ctx.identity` to values on `$ctx.source`. 
+When `@auth` is used on an object definition, logic is added to CRUD and `@connection` resolvers that 
+compares values on the `$ctx.identity` to values on the `$ctx.result` or values on each item in `$ctx.results.items`.
 
 #### Generates
 
