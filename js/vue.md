@@ -102,13 +102,14 @@ Config:
 <amplify-authenticator v-bind:authConfig="authConfig"></amplify-authenticator>
 ```
 
-| Attribute                               | Type   |
-|-----------------------------------------|--------|
-| [confirmSignInConfig](#confirmsignin)   | object |
-| [confirmSignUpConfig](#confirmsignup)   | object |
-| [forgotPasswordConfig](#forgotpassword) | object |
-| [signInConfig](#signinconfig)           | object |
-| [signUpConfig](#signupconfig)           | object |
+| Attribute                                                | Type   |
+|----------------------------------------------------------|--------|
+| [confirmSignInConfig](#confirmsignin)                    | object |
+| [confirmSignUpConfig](#confirmsignup)                    | object |
+| [forgotPasswordConfig](#forgotpassword)                  | object |
+| [signInConfig](#signinconfig)                            | object |
+| [signUpConfig](#signupconfig)                            | object |
+| [usernameAttributes](#Sign-up/in-with-email/phone-number)| string |
 
 &ast; The attributes above reference the config objects for the components that are nested inside Authenticator.  See the individual components for details. 
 
@@ -259,6 +260,12 @@ Usage:
 #### SignUp Field Attributes
 {% include sign-up-fields.html %}
 
+
+### Sign up/in with email/phone number
+If the user pool is set to allow email addresses/phone numbers as the username, you can then change the UI components accordingly by using `usernameAttributes`.
+
+Setting `usernameAttributes` to `email` when signing up/in with email address.
+Setting `usernameAttributes` to `phone_number` when signing up/in with phone number.
 
 ## API Components
 

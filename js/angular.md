@@ -248,6 +248,12 @@ The signUpFields array in turn consist of an array of objects, each describing a
 
 {% include sign-up-fields.html %}
 
+#### Sign up/in with email/phone number
+If the user pool is set to allow email addresses/phone numbers as the username, you can then change the UI components accordingly by using `usernameAttributes`.
+
+```<amplify-authenticator [usernameAttributes]="usernameAttributes"></amplify-authenticator>```
+
+The `usernameAttributes` should be either `email` or `phone_number` based on your user pool setting.
 
 ### Photo Picker
 
