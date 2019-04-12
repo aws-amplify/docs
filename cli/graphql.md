@@ -411,13 +411,13 @@ type Subscription {
 
 Object types that are annotated with `@auth` are protected by a set of authorization
 rules. Currently, @auth only supports APIs with Amazon Cognito User Pools enabled. 
-You may use the `@auth` directive on both object type definitions and field definitions
-in your schema.graphql.
+You may use the `@auth` directive on object type definitions and field definitions
+in your project's schema.
 
 When using the `@auth` directive on object type definitions that are also annotated with
 `@model`, all resolvers that return objects of that type will be protected. When using the
-`@auth` directive on a field definition, that field will be authorized based on attributes
-in the parent type.
+`@auth` directive on a field definition, a resolver will be added to the field that authorize access
+based on attributes found the parent type.
 
 #### Definition
 
