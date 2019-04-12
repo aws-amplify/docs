@@ -490,11 +490,14 @@ class App extends Component {
       Analytics.record('AWS Amplify Tutorial Event')
         .then( (evt) => {
             const url = 'https://'+awsconfig.aws_project_region+'.console.aws.amazon.com/pinpoint/home/?region='+awsconfig.aws_project_region+'#/apps/'+awsconfig.aws_mobile_analytics_app_id+'/analytics/events';
+            this.setState({ eventsSent: this.state.eventsSent + 1 })
+
             let result = (<div>
               <p>Event Submitted.</p>
-              <p>Events sent: {++this.state.eventsSent}</p>
-              <a href={url} target="_blank">View Events on the Amazon Pinpoint Console</a>
+              <p>Events sent: {this.state.eventsSent}</p>
+              <a href={url} target="_blank" rel="noopener noreferrer">View Events on the Amazon Pinpoint Console</a>
             </div>);
+
             this.setState({
                 'analyticsEventSent': true,
                 'resultHtml': result
