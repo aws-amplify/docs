@@ -132,6 +132,8 @@ deltaRecord
 backoff
 resubscription
 backends
+AuthN
+AuthZ
 
 # js/tutorials/building-ionic-4-apps/index.md
 home.page.ts
@@ -236,6 +238,7 @@ onComplete
 theming
 voiceEnabled
 textEnabled
+AmplifyModules
 
 js/i18n.md
 I18n
