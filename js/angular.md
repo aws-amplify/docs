@@ -40,14 +40,6 @@ Visit the [Authentication Guide]({%if jekyll.environment == 'production'%}{{site
 
 After creating your backend a configuration file will be generated in your configured source directory you identified in the `amplify init` command.
 
-Import the configuration file and load it in `main.ts`: 
-
-```javascript
-import Amplify from 'aws-amplify';
-import amplify from './aws-exports';
-Amplify.configure(amplify);
-```
-
 Depending on your TypeScript version you may need to rename the `aws-exports.js` to `aws-exports.ts` prior to importing it into your app, or enable the `allowJs` <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" target="_blank">compiler option</a> in your tsconfig. 
 {: .callout .callout--info}
 
@@ -58,7 +50,26 @@ When working with underlying `aws-js-sdk`, the "node" package should be included
 }
 ```
 
-## Importing the Angular Module
+## Importing the Amplify Angular Module and the Amplify Provider
+
+The 'aws-amplify-angular' package allows you to access the Amplify JS library as an Angular provider.  You have two options to choose from:
+
+1. Configure the provider with the entire Amplify JS library
+2. Configure the provider with only select Amplify JS library.
+
+Option 1 is appropriate when you plan to use every Amplify JS module or if you are not concerned about bundle size.  Option 2 is appropriate when bundle size is a concern.  
+
+
+### Option 1: Configuring the Amplify provider with every Amplify JS module
+
+Import the configuration file and load it in `main.ts`: 
+
+```javascript
+import Amplify from 'aws-amplify';
+import amplify from './aws-exports';
+Amplify.configure(amplify);
+```
+
 
 In your [app module](https://angular.io/guide/bootstrapping) `src/app/app.module.ts` import the Amplify Module and Service:
 
@@ -76,6 +87,49 @@ import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
     ...
     AmplifyService
   ]
+  ...
+});
+```
+
+### Option 2: Configuring the Amplify provider with specified Amplify JS modules
+
+Import the configuration file and load it in `main.ts`: 
+
+```javascript
+import Amplify from '@aws-amplify/core';
+import amplify from './aws-exports';
+Amplify.configure(amplify);
+```
+
+In your [app module](https://angular.io/guide/bootstrapping) `src/app/app.module.ts` import the Amplify Module, Service, and Amplify Modules helper.  Additionally, import the amplify modules that you want to access via your Amplify provider.
+
+These modules will then be passed into the AmplifyModules helper.
+
+```javascript
+import { AmplifyAngularModule, AmplifyService, AmplifyModules } from 'aws-amplify-angular';
+import Auth from '@aws-amplify/auth';
+import Interactions from '@aws-amplify/interactions';
+import Storage from '@aws-amplify/storage';
+
+@NgModule({
+  ...
+  imports: [
+    ...
+    AmplifyAngularModule
+  ],
+  ...
+    providers: [
+    {
+      provide: AmplifyService,
+      useFactory:  () => {
+        return AmplifyModules({
+          Auth,
+          Storage,
+          Interactions
+        });
+      }
+    }
+  ],
   ...
 });
 ```
@@ -300,7 +354,7 @@ To use the aws-amplify-angular components you will need to install '@aws-amplify
 Add the following to your styles.css file to use the default styles:
 ```@import '~aws-amplify-angular/Theme.css';```
 
-You can use custom styling for components by importing your custom *styles.css* that overrides the <a href="https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-angular/src/theme.css" target="_blank">default styles</a>.
+You can use custom styling for components by importing your custom *styles.css* that overrides the <a href="https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-angular/theme.css" target="_blank">default styles</a>.
 
 ## Ionic 4 Components
 The Angular components included in this library can optionally be presented with Ionic-specific styling.  To do so, simply include the ```AmplifyIonicModule``` alongside the ```AmplifyAngularModule```.  Then, pass in ```framework="Ionic"``` into the component.  
