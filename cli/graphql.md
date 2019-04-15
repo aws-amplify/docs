@@ -258,7 +258,7 @@ no mutation fields.
 
 A single `@model` directive configures the following AWS resources:
 
-- An Amazon DynamoDB table with 5 read/write units.
+- An Amazon DynamoDB table with PAY_PER_REQUEST billing mode enabled by default.
 - An AWS AppSync DataSource configured to access the table above.
 - An AWS IAM role attached to the DataSource that allows AWS AppSync to call the above table on your behalf.
 - Up to 8 resolvers (create, update, delete, get, list, onCreate, onUpdate, onDelete) but this is configurable via the `queries`, `mutations`, and `subscriptions` arguments on the `@model` directive.
@@ -445,7 +445,7 @@ enum ModelQuery { get list }
 enum ModelMutation { create update delete }
 ```
 
-> Note: The operations argument was added to replace the 'queries' and 'mutations' arguments. The 'queries' and 'mutations' arguments will continue to work but it is encouraged to move to 'operations'.
+> Note: The operations argument was added to replace the 'queries' and 'mutations' arguments. The 'queries' and 'mutations' arguments will continue to work but it is encouraged to move to 'operations'. If both are provided, the 'operations' argument takes precedence over 'queries'.
 
 #### Usage
 
@@ -763,14 +763,14 @@ mutation CreateDraft {
 }
 ```
 
-**Field Level Authorization**
+#### Field Level Authorization
 
-The `@auth` directive can also be used to specify that a specific field should be protected
-according to its own set of rules. This is useful in a number of situations.
+The `@auth` directive specifies that a access to a specific field should be restricted
+to according to its own set of rules. Here are a few situations where this is useful:
 
 1. Protect access to a field that has different permissions than the parent model.
 For example, we might want to have a user model where some fields, like *username*, are a part of the
-public profile and the *ssn* field is only visible to owners.
+public profile and the *ssn* field is visible to owners.
 
 ```
 type User @model {
@@ -783,7 +783,9 @@ type User @model {
 
 2. Protect access to a `@connection` resolver based on some attribute in the source object.
 For example, this schema will protect access to Post objects connected to a user based on an attribute
-in the User model.
+in the User model. You may turn off top level queries by specifying `queries: null` in the `@model`
+declaration which restricts access such that queries must go through the `@connection` resolvers
+to reach the model.
 
 ```
 type User @model {
@@ -797,11 +799,32 @@ type User @model {
 type Post @model(queries: null) { ... }
 ```
 
-The behavior of `@auth` rules when applied to field definitions is very similar to that when applied to
-object definitions. The key difference is that when `@auth` is used on a field definition, logic
-is added to that field's resolver that compares values on the `$ctx.identity` to values on `$ctx.source`. 
-When `@auth` is used on an object definition, logic is added to CRUD and `@connection` resolvers that 
-compares values on the `$ctx.identity` to values on the `$ctx.result` or values on each item in `$ctx.results.items`.
+3. Protect mutations such that certain fields can have different access rules than the parent model.
+
+When used on field definitions, `@auth` directives protect all operations by default.
+To protect read operations, a resolver is added to the protected field that implements authorization logic.
+To protect mutation operations, logic is added to existing mutations that will be run if the mutation's input
+contains the protected field. For example, here is a model where owners and admins can read employee 
+salaries but only admins may create or update them.
+
+```
+type Employee @model {
+    id: ID!
+    email: String
+
+    # Owners & members of the "Admin" group may read employee salaries.
+    # Only members of the "Admin" group may create an employee with a salary
+    # or update a salary.
+    salary: String 
+      @auth(rules: [
+        { allow: owner, ownerField: "username", operations: [read] },
+        { allow: groups, groups: ["Admin"], operations: [create, update, read] }
+      ])
+}
+```
+
+**Note** The `delete` operation, when used in @auth directives on field definitions, translates
+to protecting the update mutation such that the field cannot be set to null unless authorized.
 
 #### Generates
 
@@ -825,6 +848,7 @@ The generated resolvers would be protected like so:
 - `Mutation.deleteX`: Update the condition expression so that the DynamoDB `DeleteItem` operation only succeeds if the record's **owner** attribute equals the caller's `$ctx.identity.username`.
 - `Query.getX`: In the response mapping template verify that the result's **owner** attribute is the same as the `$ctx.identity.username`. If it is not return null.
 - `Query.listX`: In the response mapping template filter the result's **items** such that only items with an **owner** attribute that is the same as the `$ctx.identity.username` are returned.
+- `@connection` resolvers: In the response mapping template filter the result's **items** such that only items with an **owner** attribute that is the same as the `$ctx.identity.username` are returned. This is not enabled when using the `queries` argument.
 
 **Multi Owner Authorization**
 
@@ -847,6 +871,7 @@ Static group auth is simpler than the others. The generated resolvers would be p
 - `Mutation.deleteX`: Verify the requesting user has a valid credential and that `$ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
 - `Query.getX`: Verify the requesting user has a valid credential and that `$ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
 - `Query.listX`: Verify the requesting user has a valid credential and that `$ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
+- `@connection` resolvers: Verify the requesting user has a valid credential and that `$ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail. This is not enabled when using the `queries` argument.
 
 **Dynamic Group Authorization**
 
@@ -864,7 +889,10 @@ The generated resolvers would be protected like so:
 - `Mutation.updateX`: Update the condition expression so that the DynamoDB `UpdateItem` operation only succeeds if the record's **groups** attribute contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
 - `Mutation.deleteX`: Update the condition expression so that the DynamoDB `DeleteItem` operation only succeeds if the record's **groups** attribute contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`
 - `Query.getX`: In the response mapping template verify that the result's **groups** attribute contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
-- `Query.listX`: In the response mapping template filter the result's **items** such that only items with a **groups** attribute that contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
+- `Query.listX`: In the response mapping template filter the result's **items** such that only items with a 
+**groups** attribute that contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
+- `@connection` resolver: In the response mapping template filter the result's **items** such that only items with a 
+**groups** attribute that contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`. This is not enabled when using the `queries` argument.
 
 
 ### @connection

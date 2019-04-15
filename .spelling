@@ -356,6 +356,7 @@ DynamoDBBillingMode
 PAY_PER_REQUEST
 DynamoDBModelTableWriteIOPS
 DynamoDBModelTableReadIOPS
+ssn
 
 # cli/graphql.md
 DataSource
@@ -380,6 +381,7 @@ S3Object
 s3
 versionInput
 versioning
+PAY_PER_REQUEST
 
 # js/vue.md
 confirmSignInConfig
