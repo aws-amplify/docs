@@ -2514,7 +2514,7 @@ Run `amplify push` to push your project to AWS. You can then open the AppSync co
 
 **Interact with your SQL database from GraphQL**
 
-Your API is now configured to work with your serverless Amazon Aurora MySQL database. Try running a mutation to create a customer from the AppSync console and then query it from the [RDS Console](https://console.aws.amazon.com/rds/home) to double check.
+Your API is now configured to work with your serverless Amazon Aurora MySQL database. Try running a mutation to create a customer from the [AppSync Console](https://console.aws.amazon.com/appsync/home) and then query it from the [RDS Console](https://console.aws.amazon.com/rds/home) to double check.
 
 Create a customer:
 
