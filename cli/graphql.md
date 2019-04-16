@@ -258,7 +258,7 @@ no mutation fields.
 
 A single `@model` directive configures the following AWS resources:
 
-- An Amazon DynamoDB table with 5 read/write units.
+- An Amazon DynamoDB table with PAY_PER_REQUEST billing mode enabled by default.
 - An AWS AppSync DataSource configured to access the table above.
 - An AWS IAM role attached to the DataSource that allows AWS AppSync to call the above table on your behalf.
 - Up to 8 resolvers (create, update, delete, get, list, onCreate, onUpdate, onDelete) but this is configurable via the `queries`, `mutations`, and `subscriptions` arguments on the `@model` directive.
@@ -411,27 +411,41 @@ type Subscription {
 
 Object types that are annotated with `@auth` are protected by a set of authorization
 rules. Currently, @auth only supports APIs with Amazon Cognito User Pools enabled. 
-Types that are annotated with `@auth` must also be annotated with `@model`.
+You may use the `@auth` directive on object type definitions and field definitions
+in your project's schema.
+
+When using the `@auth` directive on object type definitions that are also annotated with
+`@model`, all resolvers that return objects of that type will be protected. When using the
+`@auth` directive on a field definition, a resolver will be added to the field that authorize access
+based on attributes found the parent type.
 
 #### Definition
 
 ```
 # When applied to a type, augments the application with
 # owner and group-based authorization rules.
-directive @auth(rules: [AuthRule!]!) on OBJECT
+directive @auth(rules: [AuthRule!]!) on OBJECT, FIELD_DEFINITION
 input AuthRule {
     allow: AuthStrategy!
     ownerField: String # defaults to "owner"
     identityField: String # defaults to "username"
     groupsField: String
     groups: [String]
+    operations: [ModelOperation]
+
+    # The following arguments are deprecated. It is encouraged to use the 'operations' argument.
     queries: [ModelQuery]
     mutations: [ModelMutation]
 }
 enum AuthStrategy { owner groups }
+enum ModelOperation { create update delete read }
+
+# The following objects are deprecated. It is encouraged to use ModelOperations.
 enum ModelQuery { get list }
 enum ModelMutation { create update delete }
 ```
+
+> Note: The operations argument was added to replace the 'queries' and 'mutations' arguments. The 'queries' and 'mutations' arguments will continue to work but it is encouraged to move to 'operations'. If both are provided, the 'operations' argument takes precedence over 'queries'.
 
 #### Usage
 
@@ -449,7 +463,7 @@ type Post
   @model 
   @auth(
     rules: [
-      {allow: owner, ownerField: "owner", mutations: [create, update, delete], queries: [get, list]},
+      {allow: owner, ownerField: "owner", operations: [create, update, delete, read]},
     ]) 
 {
   id: ID!
@@ -462,10 +476,9 @@ Owner authorization specifies that a user can access an object. To
 do so, each object has an *ownerField* (by default "owner") that stores ownership information
 and is verified in various ways during resolver execution.
 
-You can use the *queries* and *mutations* arguments to specify which operations are augmented as follows:
+You can use the *operations* argument to specify which operations are augmented as follows:
 
-- **get**: If the record's owner is not the same as the logged in user (via `$ctx.identity.username`), throw `$util.unauthorized()`.
-- **list**: Filter `$ctx.result.items` for owned items.
+- **read**: If the record's owner is not the same as the logged in user (via `$ctx.identity.username`), throw `$util.unauthorized()` in any resolver that returns an object of this type.
 - **create**: Inject the logged in user's `$ctx.identity.username` as the *ownerField* automatically.
 - **update**: Add conditional update that checks the stored *ownerField* is the same as `$ctx.identity.username`.
 - **delete**: Add conditional update that checks the stored *ownerField* is the same as `$ctx.identity.username`.
@@ -484,7 +497,7 @@ type Draft
         { allow: owner },
 
         # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
-        { allow: owner, ownerField: "editors", mutations: [update] }
+        { allow: owner, ownerField: "editors", operations: [update] }
     ]) {
     id: ID!
     title: String!
@@ -649,7 +662,7 @@ type Draft
         { allow: owner },
         
         # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
-        { allow: owner, ownerField: "editors", mutations: [update] },
+        { allow: owner, ownerField: "editors", operations: [update] },
 
         # Admin users can access any operation.
         { allow: groups, groups: ["Admin"] }
@@ -703,13 +716,13 @@ type Draft
         { allow: owner },
         
         # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
-        { allow: owner, ownerField: "editors", mutations: [update] },
+        { allow: owner, ownerField: "editors", operations: [update] },
 
         # Admin users can access any operation.
         { allow: groups, groups: ["Admin"] }
 
         # Each record may specify which groups may read them.
-        { allow: groups, groupsField: "groupsCanAccess", mutations: [], queries: [get, list] }
+        { allow: groups, groupsField: "groupsCanAccess", operations: [read] }
     ]) {
     id: ID!
     title: String!
@@ -750,6 +763,69 @@ mutation CreateDraft {
 }
 ```
 
+#### Field Level Authorization
+
+The `@auth` directive specifies that access to a specific field should be restricted
+ according to its own set of rules. Here are a few situations where this is useful:
+
+1. Protect access to a field that has different permissions than the parent model.
+For example, we might want to have a user model where some fields, like *username*, are a part of the
+public profile and the *ssn* field is visible to owners.
+
+```
+type User @model {
+    id: ID!
+    username: String
+
+    ssn: String @auth(rules: [{ allow: owner, ownerField: "username" }])
+}
+```
+
+2. Protect access to a `@connection` resolver based on some attribute in the source object.
+For example, this schema will protect access to Post objects connected to a user based on an attribute
+in the User model. You may turn off top level queries by specifying `queries: null` in the `@model`
+declaration which restricts access such that queries must go through the `@connection` resolvers
+to reach the model.
+
+```
+type User @model {
+    id: ID!
+    username: String
+    
+    posts: [Post] 
+      @connection(name: "UserPosts") 
+      @auth(rules: [{ allow: owner, ownerField: "username" }])
+}
+type Post @model(queries: null) { ... }
+```
+
+3. Protect mutations such that certain fields can have different access rules than the parent model.
+
+When used on field definitions, `@auth` directives protect all operations by default.
+To protect read operations, a resolver is added to the protected field that implements authorization logic.
+To protect mutation operations, logic is added to existing mutations that will be run if the mutation's input
+contains the protected field. For example, here is a model where owners and admins can read employee 
+salaries but only admins may create or update them.
+
+```
+type Employee @model {
+    id: ID!
+    email: String
+
+    # Owners & members of the "Admin" group may read employee salaries.
+    # Only members of the "Admin" group may create an employee with a salary
+    # or update a salary.
+    salary: String 
+      @auth(rules: [
+        { allow: owner, ownerField: "username", operations: [read] },
+        { allow: groups, groups: ["Admin"], operations: [create, update, read] }
+      ])
+}
+```
+
+**Note** The `delete` operation, when used in @auth directives on field definitions, translates
+to protecting the update mutation such that the field cannot be set to null unless authorized.
+
 #### Generates
 
 The `@auth` directive will add authorization snippets to any relevant resolver 
@@ -772,6 +848,7 @@ The generated resolvers would be protected like so:
 - `Mutation.deleteX`: Update the condition expression so that the DynamoDB `DeleteItem` operation only succeeds if the record's **owner** attribute equals the caller's `$ctx.identity.username`.
 - `Query.getX`: In the response mapping template verify that the result's **owner** attribute is the same as the `$ctx.identity.username`. If it is not return null.
 - `Query.listX`: In the response mapping template filter the result's **items** such that only items with an **owner** attribute that is the same as the `$ctx.identity.username` are returned.
+- `@connection` resolvers: In the response mapping template filter the result's **items** such that only items with an **owner** attribute that is the same as the `$ctx.identity.username` are returned. This is not enabled when using the `queries` argument.
 
 **Multi Owner Authorization**
 
@@ -794,6 +871,7 @@ Static group auth is simpler than the others. The generated resolvers would be p
 - `Mutation.deleteX`: Verify the requesting user has a valid credential and that `$ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
 - `Query.getX`: Verify the requesting user has a valid credential and that `$ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
 - `Query.listX`: Verify the requesting user has a valid credential and that `$ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
+- `@connection` resolvers: Verify the requesting user has a valid credential and that `$ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail. This is not enabled when using the `queries` argument.
 
 **Dynamic Group Authorization**
 
@@ -811,7 +889,10 @@ The generated resolvers would be protected like so:
 - `Mutation.updateX`: Update the condition expression so that the DynamoDB `UpdateItem` operation only succeeds if the record's **groups** attribute contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
 - `Mutation.deleteX`: Update the condition expression so that the DynamoDB `DeleteItem` operation only succeeds if the record's **groups** attribute contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`
 - `Query.getX`: In the response mapping template verify that the result's **groups** attribute contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
-- `Query.listX`: In the response mapping template filter the result's **items** such that only items with a **groups** attribute that contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
+- `Query.listX`: In the response mapping template filter the result's **items** such that only items with a 
+**groups** attribute that contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
+- `@connection` resolver: In the response mapping template filter the result's **items** such that only items with a 
+**groups** attribute that contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`. This is not enabled when using the `queries` argument.
 
 
 ### @connection
@@ -2357,6 +2438,125 @@ mutation Delete($noteId: ID!) {
   }
 }
 ```
+
+## Automatically Import Existing DataSources
+
+The Amplify CLI currently supports importing serverless Amazon Aurora MySQL 5.6 databases running in the us-east-1 region. The following instruction show how to create an Amazon Aurora Serverless database, import this database as a GraphQL data source and test it.
+
+**First, if you do not have an Amplify project with a GraphQL API create one using these simple commands.**
+
+```
+amplify init
+amplify add api
+```
+
+**Go to the AWS RDS console and click "Create database".**
+
+
+![Create cluster](images/create-database.png)
+
+
+**Select "Serverless" for the capacity type and fill in some information.**
+
+
+![Database details](images/database-details.png)
+
+
+**Click next and configure any advanced settings. Click "Create database"**
+
+
+![Database details](images/configure-database.png)
+
+
+**After creating the database, wait for the "Modify" button to become clickable. When ready, click "Modify" and scroll down to enable the "Data API"**
+
+
+![Database details](images/data-api.png)
+
+
+**Click continue, verify the changes and apply them immediately. Click "Modify cluster"**
+
+
+![Database details](images/modify-after-data-api.png)
+
+
+**Next click on "Query Editor" in the left nav bar and fill in connection information when prompted.**
+
+
+![Database details](images/connect-to-db-from-queries.png)
+
+
+**After connecting, create a database and some tables.**
+
+
+![Database details](images/create-a-database-and-schema.png)
+
+```sql
+CREATE DATABASE MarketPlace;
+USE MarketPlace;
+CREATE TABLE Customers (
+  id int(11) NOT NULL PRIMARY KEY,
+  name varchar(50) NOT NULL,
+  phone varchar(50) NOT NULL,
+  email varchar(50) NOT NULL
+);
+CREATE TABLE Orders (
+  id int(11) NOT NULL PRIMARY KEY,
+  customerId int(11) NOT NULL,
+  orderDate datetime DEFAULT CURRENT_TIMESTAMP,
+  KEY `customerId` (`customerId`),
+  CONSTRAINT `customer_orders_ibfk_1` FOREIGN KEY (`customerId`) REFERENCES `Customers` (`id`)
+);
+```
+
+
+**Return to your command line and run `amplify api add-graphql-datasource` from the root of your amplify project.**
+
+
+![Add GraphQL Data Source](images/add-graphql-datasource.png)
+
+**Push your project to AWS with `amplify push`.**
+
+Run `amplify push` to push your project to AWS. You can then open the AppSync console with `amplify api console`, to try interacting with your RDS database via your GraphQL API.
+
+**Interact with your SQL database from GraphQL**
+
+Your API is now configured to work with your serverless Amazon Aurora MySQL database. Try running a mutation to create a customer from the [AppSync Console](https://console.aws.amazon.com/appsync/home) and then query it from the [RDS Console](https://console.aws.amazon.com/rds/home) to double check.
+
+Create a customer:
+
+```
+mutation CreateCustomer {
+  createCustomers(createCustomersInput: {
+    id: 1,
+    name: "Hello",
+    phone: "111-222-3333",
+    email: "customer1@mydomain.com"
+  }) {
+    id
+    name
+    phone
+    email
+  }
+}
+```
+
+![GraphQL Results](images/graphql-results.png)
+
+Then open the RDS console and run a simple select statement to see the new customer:
+
+```sql
+USE MarketPlace;
+SELECT * FROM Customers;
+```
+
+![SQL Results](images/sql-results.png)
+
+### How does this work?
+
+The `add-graphql-datasource` will add a custom stack to your project that provides a basic set of functionality for working
+with an existing data source. You can find the new stack in the `stacks/` directory, a set of new resolvers in the `resolvers/` directory, and will also find a few additions to your `schema.graphql`. You may edit details in the custom stack and/or resolver files without worry. You may run `add-graphql-datasource` again to update your project with changes in the database but be careful as these will overwrite any existing templates in the `stacks/` or `resolvers/` directories. When using multiple environment with the Amplify CLI, you will be asked to configure the data source once per environment.
+
 
 ## Writing Custom Transformers
 
