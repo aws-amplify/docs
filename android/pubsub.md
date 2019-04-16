@@ -20,8 +20,8 @@ Set up AWS Mobile SDK components by including the following libraries in your `a
 
 ```groovy
 dependencies {
-  implementation 'com.amazonaws:aws-android-sdk-iot:2.12.+'
-  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.12.+@aar') { transitive = true }
+  implementation ('com.amazonaws:aws-android-sdk-iot:2.13.+@aar') { transitive = true }
+  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.13.+@aar') { transitive = true }
 }
 ```
 
@@ -93,7 +93,38 @@ mIotAndroidClient.attachPolicy(attachPolicyReq);
 
 ### Establish Connection
 
-Before you can subscribe to a topic, you need to establish a connection as follows:
+#### Certificate based mutual authentication
+
+To connect with the AWS IoT Core service on the standard MQTT port 8883, you can use the `connect` API as shown below.
+
+```java
+mqttManager.connect(<YOUR_KEYSTORE>, new AWSIotMqttClientStatusCallback() {
+    @Override
+    public void onStatusChanged(final AWSIotMqttClientStatus status,
+                                final Throwable throwable) {
+        Log.d(LOG_TAG, "Status = " + String.valueOf(status));
+    }
+});
+```
+
+The AWS IoT Core service also allows you to connect devices using MQTT with certificate based mutual authentication on port 443. You can do this using the `connectUsingALPN` API as shown below. See [MQTT with TLS client authentication on port 443](https://aws.amazon.com/blogs/iot/mqtt-with-tls-client-authentication-on-port-443-why-it-is-useful-and-how-it-works/) for more information.
+
+```java
+mqttManager.connectUsingALPN(<YOUR_KEYSTORE>, new AWSIotMqttClientStatusCallback() {
+    @Override
+    public void onStatusChanged(final AWSIotMqttClientStatus status,
+                                final Throwable throwable) {
+        Log.d(LOG_TAG, "Status = " + String.valueOf(status));
+    }
+});
+```
+
+You can take a look at the [API Reference](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/Classes/AWSIoTDataManager.html#//api/name/connectWithClientId:cleanSession:certificateId:statusCallback:
+) to get more information.
+
+#### AWS Credentials based Authentication
+
+This method uses AWS Signature Version 4 Credentials to sign the request to connect to the AWS IoT endpoint.
 
 ```java
 try {

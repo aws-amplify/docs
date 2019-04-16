@@ -46,8 +46,8 @@ Use the following steps to connect your app to the push notification backend ser
         implementation 'com.google.firebase:firebase-core:16.0.1'
         implementation 'com.google.firebase:firebase-messaging:17.3.0'
 
-        implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.12.+'
-        implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.12.+@aar') { transitive = true }
+        implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.13.+'
+        implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.13.+@aar') { transitive = true }
     }
 
     apply plugin: 'com.google.gms.google-services'

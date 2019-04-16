@@ -132,6 +132,8 @@ deltaRecord
 backoff
 resubscription
 backends
+AuthN
+AuthZ
 
 # js/tutorials/building-ionic-4-apps/index.md
 home.page.ts
@@ -159,6 +161,7 @@ a_b
 filename
 mypublicprefix
 myprivateprefix
+CRUD
 
 # js/start.md
 codegen
@@ -226,6 +229,9 @@ amplify-s3-album
 styles.css
 6.x
 polyfills.ts
+forgotPassword
+requireNewPassword
+amplifyService
 
 # js/interactions.md
 chatbots
@@ -235,6 +241,7 @@ onComplete
 theming
 voiceEnabled
 textEnabled
+AmplifyModules
 
 js/i18n.md
 I18n
@@ -831,6 +838,7 @@ timeoutIntervalForResource
 handleEventsForBackgroundURLSession
 interceptApplication
 AWSStaticCredentialsProvider
+CRUD
 
 # android/how-to-android-sdk-setup.md
 aws-android-sdk-lex
@@ -874,6 +882,7 @@ OBJECT_KEY
 MY_FILE
 KMS-generated
 TransferNetworkConnectionType
+CRUD
 
 # android/auth-google-setup.md
 keystore
