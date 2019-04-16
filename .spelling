@@ -229,6 +229,9 @@ amplify-s3-album
 styles.css
 6.x
 polyfills.ts
+forgotPassword
+requireNewPassword
+amplifyService
 
 # js/interactions.md
 chatbots
@@ -238,6 +241,7 @@ onComplete
 theming
 voiceEnabled
 textEnabled
+AmplifyModules
 
 js/i18n.md
 I18n
