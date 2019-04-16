@@ -1,5 +1,10 @@
 ---
 ---
+{% if jekyll.environment == 'production' %}
+  {% assign base_dir = site.amplify.docs_baseurl %}
+{% endif %}
+{% assign media_base = base_dir | append: page.dir | append: "images" %}
+
 # GraphQL Transform
 
 The GraphQL Transform provides a simple to use abstraction that helps you quickly
@@ -2445,7 +2450,7 @@ The Amplify CLI currently supports importing serverless Amazon Aurora MySQL 5.6 
 
 **First, if you do not have an Amplify project with a GraphQL API create one using these simple commands.**
 
-```
+```bash
 amplify init
 amplify add api
 ```
@@ -2453,43 +2458,43 @@ amplify add api
 **Go to the AWS RDS console and click "Create database".**
 
 
-![Create cluster](images/create-database.png)
+![Create cluster]({{media_base}}/create-database.png)
 
 
 **Select "Serverless" for the capacity type and fill in some information.**
 
 
-![Database details](images/database-details.png)
+![Database details]({{media_base}}/database-details.png)
 
 
 **Click next and configure any advanced settings. Click "Create database"**
 
 
-![Database details](images/configure-database.png)
+![Database details]({{media_base}}/configure-database.png)
 
 
 **After creating the database, wait for the "Modify" button to become clickable. When ready, click "Modify" and scroll down to enable the "Data API"**
 
 
-![Database details](images/data-api.png)
+![Database details]({{media_base}}/data-api.png)
 
 
 **Click continue, verify the changes and apply them immediately. Click "Modify cluster"**
 
 
-![Database details](images/modify-after-data-api.png)
+![Database details]({{media_base}}/modify-after-data-api.png)
 
 
 **Next click on "Query Editor" in the left nav bar and fill in connection information when prompted.**
 
 
-![Database details](images/connect-to-db-from-queries.png)
+![Database details]({{media_base}}/connect-to-db-from-queries.png)
 
 
 **After connecting, create a database and some tables.**
 
 
-![Database details](images/create-a-database-and-schema.png)
+![Database details]({{media_base}}/create-a-database-and-schema.png)
 
 ```sql
 CREATE DATABASE MarketPlace;
@@ -2513,7 +2518,7 @@ CREATE TABLE Orders (
 **Return to your command line and run `amplify api add-graphql-datasource` from the root of your amplify project.**
 
 
-![Add GraphQL Data Source](images/add-graphql-datasource.png)
+![Add GraphQL Data Source]({{media_base}}/add-graphql-datasource.png)
 
 **Push your project to AWS with `amplify push`.**
 
@@ -2541,7 +2546,7 @@ mutation CreateCustomer {
 }
 ```
 
-![GraphQL Results](images/graphql-results.png)
+![GraphQL Results]({{media_base}}/graphql-results.png)
 
 Then open the RDS console and run a simple select statement to see the new customer:
 
@@ -2550,7 +2555,7 @@ USE MarketPlace;
 SELECT * FROM Customers;
 ```
 
-![SQL Results](images/sql-results.png)
+![SQL Results]({{media_base}}/sql-results.png)
 
 ### How does this work?
 
