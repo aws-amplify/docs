@@ -2443,6 +2443,13 @@ mutation Delete($noteId: ID!) {
 
 The Amplify CLI currently supports importing serverless Amazon Aurora MySQL 5.6 databases running in the us-east-1 region. The following instruction show how to create an Amazon Aurora Serverless database, import this database as a GraphQL data source and test it.
 
+**First, if you do not have an Amplify project with a GraphQL API create one using these simple commands.**
+
+```
+amplify init
+amplify add api
+```
+
 **Go to the AWS RDS console and click "Create database".**
 
 
