@@ -360,6 +360,7 @@ ssn
 
 # cli/graphql.md
 DataSource
+DataSources
 onCreate
 onUpdate
 onDelete
@@ -382,6 +383,7 @@ s3
 versionInput
 versioning
 PAY_PER_REQUEST
+MySQL
 
 # js/vue.md
 confirmSignInConfig
