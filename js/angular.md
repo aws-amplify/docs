@@ -259,7 +259,7 @@ The signUpFields array in turn consist of an array of objects, each describing a
 {% include sign-up-fields.html %}
 
 #### Using Authentication Components Without the Authenticator
-The child components displayed within the Authenticator can be used as standalone components.  This could be useful in situations where, for example, you want to display you want to write your own components for specific pieces of the registration and authentication flow.
+The child components displayed within the Authenticator can be used as standalone components.  This could be useful in situations where, for example, you want to display your own components for specific pieces of the registration and authentication flow.
 
 These components include:
 
