@@ -166,7 +166,7 @@ export class AppComponent {
 }
 ```
 
-The authState's 'state' attribute should be a string with one of the following values:
+The authState's 'state' attribute must be a string with one of the following values:
 
 * 'confirmSignIn'
 * 'confirmSignUp'
