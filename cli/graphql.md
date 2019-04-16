@@ -765,8 +765,8 @@ mutation CreateDraft {
 
 #### Field Level Authorization
 
-The `@auth` directive specifies that a access to a specific field should be restricted
-to according to its own set of rules. Here are a few situations where this is useful:
+The `@auth` directive specifies that access to a specific field should be restricted
+ according to its own set of rules. Here are a few situations where this is useful:
 
 1. Protect access to a field that has different permissions than the parent model.
 For example, we might want to have a user model where some fields, like *username*, are a part of the
