@@ -1220,30 +1220,30 @@ Note: your user pool domain is something like: `domain_prefix-<env-name>.auth.<r
 
 To configure your application for hosted UI, you need to use *HostedUI* options. Update your `awsconfiguration.json` file to add a new configuration for `Auth`. The configuration should look like this:
 
-    ```json
-    {
-        "IdentityManager": {
-            ...
-        },
-        "CredentialsProvider": {
-            ...
-        },
-        "CognitoUserPool": {
-            ...
-        },
-        "Auth": {
-            "Default": {
-                "OAuth": {
-                    "WebDomain": "YOUR_AUTH_DOMAIN.auth.us-west-2.amazoncognito.com", // Do not include the https:// prefix
-                    "AppClientId": "YOUR_APP_CLIENT_ID",
-                    "SignInRedirectURI": "myapp://callback",
-                    "SignOutRedirectURI": "myapp://signout",
-                    "Scopes": ["openid", "email"]
-                }
+```json
+{
+    "IdentityManager": {
+        ...
+    },
+    "CredentialsProvider": {
+        ...
+    },
+    "CognitoUserPool": {
+        ...
+    },
+    "Auth": {
+        "Default": {
+            "OAuth": {
+                "WebDomain": "YOUR_AUTH_DOMAIN.auth.us-west-2.amazoncognito.com", // Do not include the https:// prefix
+                "AppClientId": "YOUR_APP_CLIENT_ID",
+                "SignInRedirectURI": "myapp://callback",
+                "SignOutRedirectURI": "myapp://signout",
+                "Scopes": ["openid", "email"]
             }
         }
     }
-    ```
+}
+```
 
 Note: The User Pool OIDC JWT token obtained from a successful sign-in will be federated into a configured Cognito Identity pool in the `awsconfiguration.json` and the SDK will automatically exchange this with Cognito Identity to also retrieve AWS credentials.
 
@@ -1354,7 +1354,7 @@ AWSMobileClient.getInstance().showSignIn(this, signInUIOptions, new Callback<Use
 #### Sign Out from HostedUI
 
 ```java
-auth.signOut(SignOutOptions.builder().invalidateTokens(true).build(), new Callback<Void>() {
+AWSMobileClient.getInstance().signOut(SignOutOptions.builder().invalidateTokens(true).build(), new Callback<Void>() {
     @Override
     public void onResult(Void result) {
         Log.d(TAG, "onResult: ");

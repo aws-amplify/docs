@@ -467,7 +467,6 @@ AWSMobileClient.sharedInstance().forgotPassword(username: "my_username") { (forg
         print("Error occurred: \(error.localizedDescription)")
     }
 }
-}
 ```
 
 ```swift
@@ -494,6 +493,8 @@ AWSMobileClient.sharedInstance().username       //String
 AWSMobileClient.sharedInstance().isSignedIn     //Boolean
 AWSMobileClient.sharedInstance().identityId     //String
 ```
+
+> Note: The property `username` is available only when using username-password based auth. The property `identityId` is available only when federation is enabled in `CognitoIdentityPool`.
 
 ### Managing Security Tokens
 
