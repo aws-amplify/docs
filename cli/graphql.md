@@ -2445,6 +2445,8 @@ The Amplify CLI currently supports importing serverless Amazon Aurora MySQL 5.6 
 
 **Go to the AWS RDS console and click "Create database".**
 
+Currently the Amplify CLI only supports serverless Aurora clusters running MySQL 5.6 in the us-east-1 region.
+
 
 ![Create cluster](images/create-database.png)
 
@@ -2514,7 +2516,7 @@ Run `amplify push` to push your project to AWS. You can then open the AppSync co
 
 **Interact with your SQL database from GraphQL**
 
-Your API is now configured to work with your serverless Amazon Aurora MySQL database. Try running a mutation to create a customer from the AppSync console and then query it from the RDS console to double check.
+Your API is now configured to work with your serverless Amazon Aurora MySQL database. Try running a mutation to create a customer from the AppSync console and then query it from the [RDS Console](https://console.aws.amazon.com/rds/home) to double check.
 
 Create a customer:
 
