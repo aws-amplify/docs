@@ -2503,7 +2503,7 @@ CREATE TABLE Orders (
 ```
 
 
-**Return to your command line and run `amplify api add-graphql-datasource`.**
+**Return to your command line and run `amplify api add-graphql-datasource` from the root of your amplify project.**
 
 
 ![Add GraphQL Data Source](images/add-graphql-datasource.png)
