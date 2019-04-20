@@ -226,10 +226,16 @@ top level object types in your API that are backed by Amazon DynamoDB.
 ```
 directive @model(
     queries: ModelQueryMap, 
-    mutations: ModelMutationMap
+    mutations: ModelMutationMap,
+    subscriptions: ModelSubscriptionMap
 ) on OBJECT
 input ModelMutationMap { create: String, update: String, delete: String }
 input ModelQueryMap { get: String, list: String }
+input ModelSubscriptionMap {
+    onCreate: [String]
+    onUpdate: [String]
+    onDelete: [String]
+}
 ```
 
 #### Usage
