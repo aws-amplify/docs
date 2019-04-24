@@ -362,6 +362,28 @@ Amplify.configure({
 });
 ```
 
+#### AWS AppSync Multi-Auth
+
+AWS AppSync can support multiple authentication modes on a single API. [LINK TO APPSYNC DOCS](http://docs). In order to use this feature with the Amplify Graphql Client the `API.graphql({...})` function would accept an optional parameter called `authMode`, its value will be one of the supported auth modes:
+
+- `API_KEY`
+- `AWS_IAM`
+- `OPENID_CONNECT`
+- `AMAZON_COGNITO_USER_POOLS`
+
+If the authMode is not provided, Amplify will use the default auth mode that was configured:
+
+```javascript
+// Creating a post is restricted to IAM 
+const createdTodo = await API.graphql({
+  query: queries.createTodo,
+  variables: {input: todoDetails},
+  authMode: AUTH_MODE.AWS_IAM
+});
+```
+
+Note: Previous examples uses `graphqlOperation` function. That function only creates an object with two attributes `query` and `variables`. In order to use `authMode` you need to pass this object as is mentioned on the previous example.
+
 ### React Components
 
 The API category provides React components for working with GraphQL data using the Amplify GraphQL client. 
