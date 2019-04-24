@@ -290,7 +290,7 @@ $ npm install --save aws-amplify-react-native
 
 If you have created your app with *expo* in previous steps, you can [**skip**](#step-3-set-up-the-app-backend) this section.
 
-Amplify provides native libraries for React Native to support Amazon Cognito sign-in process. If you are using *expo* or [Expo v25.0.0 or greater](https://blog.expo.io/expo-sdk-v25-0-0-is-now-available-714d10a8c3f7), those libraries are already included in your dependencies. Otherwise, you need to [link](https://facebook.github.io/react-native/docs/linking-libraries-ios.html) those libraries to your project.
+Amplify provides native libraries for React Native to support Amazon Cognito sign-in process. If you are using [Expo v25.0.0 or greater](https://blog.expo.io/expo-sdk-v25-0-0-is-now-available-714d10a8c3f7), those libraries are already included in your dependencies. Otherwise, you need to [link](https://facebook.github.io/react-native/docs/linking-libraries-ios.html) those libraries to your project.
 {: .callout .callout--info}
 
 Following example shows how you can link the libraries for a project that is created with *react-native init*:
