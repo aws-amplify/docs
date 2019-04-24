@@ -299,7 +299,7 @@ Here is an example of a configured ChatBot component with voice enabled and conv
             color: 'red'
         }
     })}
-    voiceEnable={true}
+    voiceEnabled={true}
     voiceLibs={voiceLibs}
     conversationModeOn={true}
 />

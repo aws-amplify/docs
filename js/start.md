@@ -665,7 +665,7 @@ To add the analytics event recorder to your app, replace your ```AppComponent```
 ```javascript
 export class AppComponent {
   title = 'amplify-angular-app';
-  url = 'https://' + awsconfig.aws_project_region + '.console.aws.amazon.com/pinpoint/home/?region='
+  url = 'https://console.aws.amazon.com/pinpoint/home/?region='
         + awsconfig.aws_project_region + '#/apps/'
         + awsconfig.aws_mobile_analytics_app_id + '/analytics/events';
   eventsSent = 0;
