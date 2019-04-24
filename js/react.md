@@ -156,6 +156,8 @@ class App2 {
 export default withAuthenticator(App2, { usernameAttributes: 'phone_number' });
 ```
 
+Note: if you are using custom signUpFields, you should set the `signUpWith` property of the corresponding field. For more info please check [SignUp Configuration]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/react#signup-configuration).
+
 ## Add Analytics and Storage
 
 Next, we'll add some features, like tracking user behavior analytics and uploading/downloading images in the cloud. Start by running `amplify add analytics` in your project. You can enable analytics for authenticated users only, or for users that aren't authenticated. You would be prompted to ask whether you want to allow guests and unauthenticated users to send analytics events, so you can choose `Yes`. You can also try a new project without authentication configured to test this feature.

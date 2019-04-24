@@ -255,6 +255,8 @@ If the user pool is set to allow email addresses/phone numbers as the username, 
 
 The `usernameAttributes` should be either `email` or `phone_number` based on your user pool setting.
 
+Note: if you are using custom signUpFields, you should set the `signUpWith` property of the corresponding field. For more info please check [SignUp Configuration]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/angular#signup-configuration).
+
 ### Photo Picker
 
 The Photo Picker component will render a file upload control that will allow choosing a local image and uploading it to Amazon S3. Once an image is selected, a base64 encoded image preview will be displayed automatically. To render photo picker in an Angular view, use *amplify-photo-picker* component:

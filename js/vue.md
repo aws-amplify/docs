@@ -267,6 +267,8 @@ If the user pool is set to allow email addresses/phone numbers as the username, 
 Setting `usernameAttributes` to `email` when signing up/in with email address.
 Setting `usernameAttributes` to `phone_number` when signing up/in with phone number.
 
+Note: if you are using custom signUpFields, you should set the `signUpWith` property of the corresponding field. For more info please check [SignUp Configuration]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/vue#signup-fields).
+
 ## API Components
 
 ### Connect
