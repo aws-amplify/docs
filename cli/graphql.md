@@ -899,6 +899,100 @@ The generated resolvers would be protected like so:
 - `@connection` resolver: In the response mapping template filter the result's **items** such that only items with a 
 **groups** attribute that contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`. This is not enabled when using the `queries` argument.
 
+### @function
+
+The `@function` directive allows you to quickly & easily configure AWS Lambda resolvers within your AWS AppSync API.
+
+#### Definition
+
+```
+directive @function(name: String!, region: String) on FIELD_DEFINITION
+```
+
+#### Usage
+
+The @function directive allows you to quickly connect lambda resolvers to an AppSync API. You may deploy the AWS Lambda functions via the Amplify CLI, AWS Lambda console, or any other tool. To connect an AWS Lambda resolver, add the `@function` directive to a field in your `schema.graphql`.
+
+Let's assume we have deployed an *echo* function with the following contents:
+
+```javascript
+exports.handler = function (event, context) {
+  context.done(null, event.arguments.msg);
+};
+```
+
+**If you deployed your function using the 'amplify function' category**
+
+The Amplify CLI provides support for maintaining multiple environments out of the box. When you deploy a function via `amplify add function`, it will automatically add the environment suffix to your Lambda function name. For example if you create a function named **echo** using `amplify add function` in the **dev** environment, the deployed function will be named **echo-dev**. The `@function` directive allows you to use `${env}` to reference the current Amplify CLI environment.
+
+```
+type Query {
+  echo(msg: String): String @function(name: "echofunction-${dev}")
+}
+```
+
+**If you deployed your function without amplify**
+
+If you deployed your API without amplify then you must provide the full Lambda function name. If we deployed the same function with the name **echofunction** then you would have:
+
+```
+type Query {
+  echo(msg: String): String @function(name: "echofunction")
+}
+```
+
+**Structure of the AWS Lambda function event**
+
+When writing lambda function's that are connected via the `@function` directive, you can expect the following structure for the AWS Lambda event object.
+
+```javascript
+exports.handler = function (event) {
+  console.log(event);
+  // {
+  //   "typeName": "Query", /* Filled dynamically based on @function usage location */
+  //   "fieldName": "echo", /* Filled dynamically based on @function usage location */
+  //   "arguments": { /* GraphQL field arguments via $ctx.arguments */ },
+  //   "identity": { /* AppSync identity object via $ctx.identity */ },
+  //   "source": { /* The object returned by the parent resolver. E.G. if resolving field 'Post.comments', the source is the Post object. */ },
+  //   "request": { /* AppSync request object. Contains things like headers. */ },
+  //   "prev": { /* If using the built-in pipeline resolver support, this contains the object returned by the previous function. */ },
+  // }
+  context.done(null, event.arguments.msg)
+};
+```
+
+**Calling functions in different regions**
+
+By default, we expect the function to be in the same region as the amplify project. If you need to call a function in a different (or static) region, you can provide the **region** argument.
+
+```
+type Query {
+  echo(msg: String): String @function(name: "echofunction", region: "us-east-1")
+}
+```
+
+Calling functions in different AWS accounts is not supported via the @function directive but is supported by AWS AppSync.
+
+**Chaining functions**
+
+The @function directive supports AWS AppSync pipeline resolvers. That means, you can chain together multiple functions such that they are invoked in series when your field's resolver is invoked. To create a pipeline resolver that calls out to multiple AWS Lambda functions in series, use multiple `@function` directives on the field.
+
+```
+type Mutation {
+  doSomeWork(msg: String): String @function(name: "worker-function") @function(name: "audit-function")
+}
+```
+
+In the example above when you run a mutation that calls the `Mutation.doSomeWork` field, the **worker-function** will be invoked first then the **audit-function** will be invoked with an event that contains the results of the **worker-function** under the **event.prev.result** key. The **audit-function** would need to return **event.prev.result** if you want the result of **worker-function** to be returned for the field.
+
+#### Generates
+
+The `@function` directive generates these resources as necessary:
+
+1. An AWS IAM role that has permission to invoke the function as well as a trust policy with AWS AppSync.
+2. An AWS AppSync data source that registers the new role and existing function with your AppSync API.
+3. An AWS AppSync pipeline function that prepares the lambda event and invokes the new data source.
+4. An AWS AppSync resolver that attaches to the GraphQL field and invokes the new pipeline functions.
 
 ### @connection
 
