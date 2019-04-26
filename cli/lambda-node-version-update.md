@@ -12,6 +12,9 @@ you will need to manually update your project to avoid Node.js runtime issues wi
 - function
 - interactions
 
+Before you make the following manual changes, thoroughly back up your project. 
+After you make the following manual changes, run `amplify push` to update the AWS Lambda functions in the cloud. 
+
 #### analytics
 In the `<project-root>/amplify/backend/analytics/<resource-name>/pinpoint-cloudformation-template.json` file
 1. replace `"Runtime": "nodejs6.10"` with `"Runtime": "nodejs8.10"`
