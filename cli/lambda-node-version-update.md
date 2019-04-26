@@ -9,7 +9,6 @@ However, if you have used previous versions of the Amplify CLI to create aws res
 you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. 
 - analytics 
 - auth
-- function
 - interactions
 
 Before you make the following manual changes, thoroughly back up your project. 
@@ -24,10 +23,6 @@ In the `<project-root>/amplify/backend/analytics/<resource-name>/pinpoint-cloudf
 #### auth
 In the `<project-root>/amplify/backend/auth/<resource-name>/xxxxxxx-cloudformation-template.json` file
 - replace `Runtime: nodejs6.10` with `Runtime: nodejs8.10`
-
-#### function
-In the `<project-root>/amplify/backend/function/<resource-name>/xxxxxxx-cloudformation-template.json` files
-- replace `"Runtime": "nodejs6.10"` with `"Runtime": "nodejs8.10"`
 
 #### interactions
 In the `<project-root>/amplify/backend/interactions/<resource-name>/pinpoint-cloudformation-template.json` file
