@@ -136,6 +136,44 @@ const sub1 = PubSub.subscribe('myTopicA').subscribe({
 sub1.unsubscribe();
 // You will no longer get messages for 'myTopicA'
 ```
+## Custom provider names
+
+If you need connect to multiple MQTT endpoints, you can specify a name when configuring your service provider:
+
+```javascript
+// Add MQTT service provider for your first endpoint
+Amplify.addPluggable(new MqttOverWSProvider({
+    aws_pubsub_endpoint: 'wss://my-custom-mqtt-endpoint/mqtt',
+    name: 'my-custom-mqtt-provider',
+}));
+
+// Add MQTT service provider for another endpoint
+Amplify.addPluggable(new MqttOverWSProvider({
+    aws_pubsub_endpoint: 'wss://another-mqtt-endpoint/mqtt',
+    name: 'another-mqtt-provider',
+}));
+```
+
+Then in your code, you can publish/subscribe to via a specific service provider:
+```javascript
+// subscribe to first MQTT endpoint
+PubSub.subscribe('myTopic1', {
+    provider: 'my-custom-mqtt-provider',
+}).subscribe({ /*...*/ });
+
+PubSub.publish('myTopic1', { /*...*/ }, {
+    provider: 'my-custom-mqtt-provider',
+});
+
+// subscribe and publish to second MQTT endpoint
+PubSub.subscribe('myTopic1', {
+    provider: 'another-mqtt-provider',
+}).subscribe({ /*...*/ });
+
+PubSub.publish('myTopic1', { /*...*/ }, {
+    provider: 'another-mqtt-provider',
+});
+```
 
 ### API Reference
 
