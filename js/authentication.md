@@ -184,7 +184,7 @@ try {
         const loggedUser = await Auth.confirmSignIn(
             user,   // Return object from Auth.signIn()
             code,   // Confirmation code  
-            mfaType // MFA Type e.g. SMS, TOTP.
+            mfaType // MFA Type e.g. SMS_MFA, SOFTWARE_TOKEN_MFA
         );
     } else if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
         const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
