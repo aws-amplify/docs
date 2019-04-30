@@ -84,6 +84,8 @@ $ amplify push
 
 A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`.
 
+**NOTE**: If your Authentication resources were created with Amplify CLI version below 1.6.5 (published on April 25, 2019), you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli/lambda-node-version-update)
+
 ##### Configure Your App
 
 In your app's entry point i.e. App.js, import and load the configuration file:

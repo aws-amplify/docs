@@ -1,4 +1,4 @@
-#### Update Node.js Version for AWS Lambda
+# Node Version Update
 AWS Lambda announced that it will deprecate its runtime support for Node.js 6.10  on April 30, 2019[[ref]](https://docs.aws.amazon.com/lambda/latest/dg/runtime-support-policy.html),
 and it has started to support Node.js 8.10 [[ref]](https://aws.amazon.com/about-aws/whats-new/2018/04/aws-lambda-supports-nodejs/).
 
@@ -15,16 +15,16 @@ Before you make the following manual changes, thoroughly back up your project.
 
 After you make the following manual changes, run `amplify push` to update the AWS Lambda functions in the cloud. 
 
-#### analytics
+### analytics
 In the `<project-root>/amplify/backend/analytics/<resource-name>/pinpoint-cloudformation-template.json` file
 1. replace `"Runtime": "nodejs6.10"` with `"Runtime": "nodejs8.10"`
 2. search for `pinpoint.createApp(params).promise()`, and if there is a `return` in front of it, remove the `return`. 
 
-#### auth
+### auth
 In the `<project-root>/amplify/backend/auth/<resource-name>/xxxxxxx-cloudformation-template.json` file
 - replace `Runtime: nodejs6.10` with `Runtime: nodejs8.10`
 
-#### interactions
+### interactions
 In the `<project-root>/amplify/backend/interactions/<resource-name>/pinpoint-cloudformation-template.json` file
 
 - replace `"Runtime": "nodejs6.10"` with `"Runtime": "nodejs8.10"`
