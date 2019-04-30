@@ -11,7 +11,7 @@ you will need to manually update your project to avoid Node.js runtime issues wi
 - auth
 - interactions
 
-Before you make the following manual changes, thoroughly back up your project. 
+Before you make the following manual changes, please make sure to back up your entire project. 
 
 After you make the following manual changes, run `amplify push` to update the AWS Lambda functions in the cloud. 
 
