@@ -21,11 +21,11 @@ In the `<project-root>/amplify/backend/analytics/<resource-name>/pinpoint-cloudf
 2. search for `pinpoint.createApp(params).promise()`, and if there is a `return` in front of it, remove the `return`. 
 
 ### auth
-In the `<project-root>/amplify/backend/auth/<resource-name>/xxxxxxx-cloudformation-template.json` file
+In the `<project-root>/amplify/backend/auth/<resource-name>/xxxxxxx-cloudformation-template.yml` file
 - replace `Runtime: nodejs6.10` with `Runtime: nodejs8.10`
 
 ### interactions
-In the `<project-root>/amplify/backend/interactions/<resource-name>/pinpoint-cloudformation-template.json` file
+In the `<project-root>/amplify/backend/interactions/<resource-name>/xxxxxxx-cloudformation-template.json` file
 
 - replace `"Runtime": "nodejs6.10"` with `"Runtime": "nodejs8.10"`
 
