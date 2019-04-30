@@ -102,6 +102,55 @@ The signUpFields array in turn consist of an array of objects, each describing a
 
 {% include sign-up-fields.html %}
 
+The following example will replace all the default sign up fields with the ones defined in the `signUpFields` array. It will also indicate that the `Email` field will be used to sign up with.
+```js
+import React, { Component } from 'react';
+import { withAuthenticator } from 'aws-amplify-react';
+
+class App extends Component {
+}
+
+const signUpConfig = {
+  header: 'My Customized Sign Up',
+  hideAllDefaults: true,
+  defaultCountryCode: '1',
+  signUpFields: [
+    {
+      label: 'Email',
+      key: 'email',
+      required: true,
+      displayOrder: 1,
+      type: 'string',
+      signUpWith: true
+    },
+    {
+      label: 'Password',
+      key: 'password',
+      required: true,
+      displayOrder: 2,
+      type: 'password'
+    },
+    {
+      label: 'PhoneNumber',
+      key: 'phone_number',
+      required: true,
+      displayOrder: 3,
+      type: 'string'
+    },
+    {
+      label: 'Custom Attribute',
+      key: 'custom_attr',
+      required: false,
+      displayOrder: 4,
+      type: 'string',
+      custom: true
+    }
+  ]
+};
+
+export default withAuthenticator(App, { signUpConfig });
+```
+
 #### Sign up/in with email/phone number
 If the user pool is set to allow email addresses/phone numbers as the username, you can then change the UI components accordingly by using `usernameAttributes`.
 
