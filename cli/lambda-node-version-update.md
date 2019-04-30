@@ -1,5 +1,5 @@
 # Node Version Update
-AWS Lambda announced that it will deprecate its runtime support for Node.js 6.10  on April 30, 2019[[ref]](https://docs.aws.amazon.com/lambda/latest/dg/runtime-support-policy.html),
+AWS Lambda deprecated its runtime support for Node.js 6.10  on April 30th, 2019[[ref]](https://docs.aws.amazon.com/lambda/latest/dg/runtime-support-policy.html),
 and it has started to support Node.js 8.10 [[ref]](https://aws.amazon.com/about-aws/whats-new/2018/04/aws-lambda-supports-nodejs/).
 
 The Amplify CLI code base has been updated to reflect this change, if you use Amplify CLI version 1.6.5 and above
