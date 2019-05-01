@@ -898,7 +898,7 @@ After restarting your app using `npm run serve`, go back to `localhost:8080` in 
 
 ## Step 5. Launch your App
 
-<div class="nav-tab install" data-group='launch'>
+<div class="nav-tab launch" data-group='launch'>
 <ul class="tabs">
     <li class="tab-link angular" data-tab="javascript-web">Angular</li>
     <li class="tab-link ionic" data-tab="javascript-web">Ionic</li>
