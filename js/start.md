@@ -896,7 +896,19 @@ export default {
 After restarting your app using `npm run serve`, go back to `localhost:8080` in your browser and click 'Generate Analytics Event'.  You'll see that your application is now submitting events to Amazon Pinpoint.
 </div>
 
-## Step 5. Host your App
+## Step 5. Launch your App
+
+<div class="nav-tab install" data-group='install'>
+<ul class="tabs">
+    <li class="tab-link angular" data-tab="javascript-web">Angular</li>
+    <li class="tab-link ionic" data-tab="javascript-web">Ionic</li>
+    <li class="tab-link purejs current" data-tab="javascript-web">JavaScript</li>
+    <li class="tab-link react" data-tab="javascript-web">React</li>
+    <li class="tab-link react-native" data-tab="react-native">React Native</li>
+    <li class="tab-link vue" data-tab="javascript-web">Vue</li>
+</ul>
+
+<div id="javascript-web" class="tab-content current">
 
 Enable static web hosting for the app on Amazon S3. In a terminal window, change to the root directory of your app and run the following command:
 
@@ -910,7 +922,7 @@ Run the following command to publish the app:
 $ amplify publish
 ```
 
-Open the app in a browser window and push the button to generate analytics events. In the Pinpoint console, open the dashboard for the app and monitor incoming events (there is a short delay before events are visible in the dashboard). 
+Open the app and push the button to generate analytics events. In the Pinpoint console, open the dashboard for the app and monitor incoming events (there is a short delay before events are visible in the dashboard). 
 
 At any time, run the following command in the app directory, to get details of all resources and resource IDs used by the app:
 
@@ -919,6 +931,23 @@ $ amplify status
 ```
 
 🎉 Congratulations! Your app is built, published, and hosted on Amazon S3.
+
+</div>
+
+<div id="react-native" class="tab-content">
+
+Open the app and push the button to generate analytics events. In the Pinpoint console, open the dashboard for the app and monitor incoming events (there is a short delay before events are visible in the dashboard). 
+
+At any time, run the following command in the app directory, to get details of all resources and resource IDs used by the app:
+
+```bash
+$ amplify status
+```
+
+🎉 Congratulations! Your app is built, published, and sending analytics events.
+
+</div>
+
 
 What next? Here are some things to add to your app:
  - Add [Authentication]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/authentication)
