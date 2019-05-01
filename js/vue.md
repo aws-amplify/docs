@@ -320,15 +320,71 @@ export default {
 </script>
 ```
 
-
 ### Sign up/in with email/phone number
 If the user pool is set to allow email addresses/phone numbers as the username, you can then change the UI components accordingly by using `usernameAttributes`.
 
 Setting `usernameAttributes` to `email` when signing up/in with email address.
 Setting `usernameAttributes` to `phone_number` when signing up/in with phone number.
 
-Note: if you are using custom signUpFields, you should set the `signUpWith` property of the corresponding field. For more info please check [SignUp Configuration]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/vue#signup-fields).
+Note: if you are using custom signUpFields to customize the `username` field, then you need to make sure either the label of that field is the same value you set in `usernameAttributes` or the key of the field is `username`.
 
+For example:
+```html
+<template>
+  <div>
+    <amplify-authenticator v-bind:authConfig="authConfig"></amplify-authenticator>
+  </div>
+</template>
+<script>
+export default {
+  name: 'MyComponent',
+  props: [],
+  data () {
+    return {
+      authConfig: {
+          usernameAttributes: 'My user name',
+          signUpConfig: {
+            header: 'My Customized Sign Up',
+            hideAllDefaults: true,
+            defaultCountryCode: '1',
+            signUpFields: [
+              {
+                label: 'My user name',
+                key: 'username',
+                required: true,
+                displayOrder: 1,
+                type: 'string',
+              },
+              {
+                label: 'Password',
+                key: 'password',
+                required: true,
+                displayOrder: 2,
+                type: 'password'
+              },
+              {
+                label: 'Phone Number',
+                key: 'phone_number',
+                required: true,
+                displayOrder: 3,
+                type: 'string'
+              },
+              {
+                label: 'Custom Attribute',
+                key: 'custom_attr',
+                required: false,
+                displayOrder: 4,
+                type: 'string',
+                custom: true
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+</script>
+```
 ## API Components
 
 ### Connect

@@ -102,7 +102,7 @@ The signUpFields array in turn consist of an array of objects, each describing a
 
 {% include sign-up-fields.html %}
 
-The following example will replace all the default sign up fields with the ones defined in the `signUpFields` array. It will also indicate that the `Email` field will be used to sign up with.
+The following example will replace all the default sign up fields with the ones defined in the `signUpFields` array.
 ```js
 import React, { Component } from 'react';
 import { withAuthenticator } from 'aws-amplify-react';
@@ -120,8 +120,7 @@ const signUpConfig = {
       key: 'email',
       required: true,
       displayOrder: 1,
-      type: 'string',
-      signUpWith: true
+      type: 'string'
     },
     {
       label: 'Password',
@@ -157,7 +156,6 @@ If the user pool is set to allow email addresses/phone numbers as the username, 
 When you are using `email` as the username:
 ```js
 import { withAuthenticator, Authenticator } from 'aws-amplfy-react';
-// import { withAuthenticator, Authenticator } from 'aws-amplify-react-native';
 
 // When using Authenticator
 class App {
@@ -183,7 +181,6 @@ export default withAuthenticator(App2, { usernameAttributes: 'email' });
 When you are using `phone number` as the username:
 ```js
 import { Authenticator, withAuthenticator } from 'aws-amplfy-react';
-// import { Authenticator, withAuthenticator } from 'aws-amplify-react-native';
 
 class App {
   // ...
@@ -205,7 +202,59 @@ class App2 {
 export default withAuthenticator(App2, { usernameAttributes: 'phone_number' });
 ```
 
-Note: if you are using custom signUpFields, you should set the `signUpWith` property of the corresponding field. For more info please check [SignUp Configuration]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/react#signup-configuration).
+Note: if you are using custom signUpFields to customize the `username` field, then you need to make sure either the label of that field is the same value you set in `usernameAttributes` or the key of the field is `username`.
+
+For example:
+```js
+import React, { Component } from 'react';
+import { withAuthenticator } from 'aws-amplify-react';
+
+class App extends Component {
+}
+
+const signUpConfig = {
+  header: 'My Customized Sign Up',
+  hideAllDefaults: true,
+  defaultCountryCode: '1',
+  signUpFields: [
+    {
+      label: 'My user name',
+      key: 'username',
+      required: true,
+      displayOrder: 1,
+      type: 'string'
+    },
+    {
+      label: 'Password',
+      key: 'password',
+      required: true,
+      displayOrder: 2,
+      type: 'password'
+    },
+    {
+      label: 'PhoneNumber',
+      key: 'phone_number',
+      required: true,
+      displayOrder: 3,
+      type: 'string'
+    },
+    {
+      label: 'Custom Attribute',
+      key: 'custom_attr',
+      required: false,
+      displayOrder: 4,
+      type: 'string',
+      custom: true
+    }
+  ]
+};
+const usernameAttributes = 'My user name';
+
+export default withAuthenticator(App, { 
+  signUpConfig, 
+  usernameAttributes
+});
+```
 
 ## Add Analytics and Storage
 
