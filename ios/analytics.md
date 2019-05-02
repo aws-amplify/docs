@@ -85,45 +85,45 @@ If you encounter an error message that begins `[!] Failed to connect to GitHub t
 
 2. Classes that call Amazon Pinpoint APIs must use the following import statements:
 
-    ```swift
-    /** start code copy **/
-    import AWSCore
-    import AWSPinpoint
-    import AWSMobileClient
-    /** end code copy **/
-    ```
+```swift
+/** start code copy **/
+import AWSCore
+import AWSPinpoint
+import AWSMobileClient
+/** end code copy **/
+```
 
 3. To send events with Amazon Pinpoint, you'll instantiate a Pinpoint instance. We recommend you do this during app startup, so you can use Pinpoint to record app launch analytics. Edit the `application(_:didFinishLaunchingWithOptions:)` method of your app's `AppDelegate.swift` by adding a `pinpoint` instance property, and initializing the Pinpoint client as shown below:
 
-    ```swift
-    class AppDelegate: UIResponder, UIApplicationDelegate {
+```swift
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
-       /** start code copy **/
-       var pinpoint: AWSPinpoint?
-       /** end code copy **/
+/** start code copy **/
+var pinpoint: AWSPinpoint?
+/** end code copy **/
 
-       func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-            // Other didFinishLaunching code...
+    // Other didFinishLaunching code...
 
-            /** start code copy **/
-            // Create AWSMobileClient to connect with AWS
-	    AWSMobileClient.sharedInstance().initialize { (userState, error) in
-              if let error = error {
-                print("Error initializing AWSMobileClient: \(error.localizedDescription)")
-              } else if let userState = userState {
-                print("AWSMobileClient initialized. Current UserState: \(userState.rawValue)")
-              }
-            }
-	    
-	    // Initialize Pinpoint
-            let pinpointConfiguration = AWSPinpointConfiguration.defaultPinpointConfiguration(launchOptions: launchOptions)
-            pinpoint = AWSPinpoint(configuration: pinpointConfiguration)
-            /** end code copy **/
-	    return true
-       }
+    /** start code copy **/
+    // Create AWSMobileClient to connect with AWS
+    AWSMobileClient.sharedInstance().initialize { (userState, error) in
+      if let error = error {
+	print("Error initializing AWSMobileClient: \(error.localizedDescription)")
+      } else if let userState = userState {
+	print("AWSMobileClient initialized. Current UserState: \(userState.rawValue)")
+      }
     }
-    ```
+
+    // Initialize Pinpoint
+    let pinpointConfiguration = AWSPinpointConfiguration.defaultPinpointConfiguration(launchOptions: launchOptions)
+    pinpoint = AWSPinpoint(configuration: pinpointConfiguration)
+    /** end code copy **/
+    return true
+}
+}
+```
 
 #### Monitor Analytics
 
@@ -131,9 +131,9 @@ Build and run your app to see usage metrics in Amazon Pinpoint. When you run the
 
 1. To see visualizations of the analytics coming from your app, open your project in the Amazon Pinpoint console by running the following:
 
-    ```bash
-    $ amplify console analytics
-    ```
+```bash
+$ amplify console analytics
+```
 
 2. Choose `Analytics` from the icons on the left of the console, and view the graphs of your app's usage. It may take up to 15 minutes for metrics to become visible.
 
