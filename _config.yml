@@ -612,5 +612,3 @@ android_languages:
   - title: Kotlin
     url: '?platform=kotlin'
 
-
-theme: jekyll-theme-cayman
