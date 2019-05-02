@@ -62,6 +62,28 @@ The Amplify CLI helps setup and configure Pinpoint within your application and c
     $ amplify push
     ```
 
+#### Update your IAM Policy:
+
+Amazon Pinpoint service requires an IAM policy in order to use the `submitEvents` API:
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "mobiletargeting:UpdateEndpoint",
+                "mobiletargeting:PutEvents"
+            ],
+            "Resource": [
+                "arn:aws:mobiletargeting:*:${accountID}:apps/${appId}*"
+            ]
+        }
+    ]
+}
+```
+
 ### Connect to Your Backend
 
 Use the following steps to add analytics to your mobile app and monitor the results through Amazon Pinpoint.
