@@ -98,30 +98,30 @@ import AWSMobileClient
 ```swift
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-/** start code copy **/
-var pinpoint: AWSPinpoint?
-/** end code copy **/
-
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-
-    // Other didFinishLaunching code...
-
     /** start code copy **/
-    // Create AWSMobileClient to connect with AWS
-    AWSMobileClient.sharedInstance().initialize { (userState, error) in
-      if let error = error {
-	print("Error initializing AWSMobileClient: \(error.localizedDescription)")
-      } else if let userState = userState {
-	print("AWSMobileClient initialized. Current UserState: \(userState.rawValue)")
-      }
-    }
-
-    // Initialize Pinpoint
-    let pinpointConfiguration = AWSPinpointConfiguration.defaultPinpointConfiguration(launchOptions: launchOptions)
-    pinpoint = AWSPinpoint(configuration: pinpointConfiguration)
+    var pinpoint: AWSPinpoint?
     /** end code copy **/
-    return true
-}
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+
+        // Other didFinishLaunching code...
+
+        /** start code copy **/
+        // Create AWSMobileClient to connect with AWS
+        AWSMobileClient.sharedInstance().initialize { (userState, error) in
+          if let error = error {
+	    print("Error initializing AWSMobileClient: \(error.localizedDescription)")
+          } else if let userState = userState {
+	    print("AWSMobileClient initialized. Current UserState: \(userState.rawValue)")
+          }
+        }
+
+        // Initialize Pinpoint
+        let pinpointConfiguration = AWSPinpointConfiguration.defaultPinpointConfiguration(launchOptions: launchOptions)
+        pinpoint = AWSPinpoint(configuration: pinpointConfiguration)
+        /** end code copy **/
+        return true
+    }
 }
 ```
 
