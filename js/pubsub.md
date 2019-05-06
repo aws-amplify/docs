@@ -134,7 +134,7 @@ await PubSub.publish('myTopic1', { msg: 'Hello to all subscribers!' });
 
 If multiple providers are defined in your app you can pass the message to a specific provider:
 ```javascript
-await PubSub.publish('myTopic1', { provider: 'AWSIoTProvider', msg: 'Hello to all subscribers!' });
+await PubSub.publish('myTopic1', { msg: 'Hello to all subscribers!' }, { provider: 'AWSIoTProvider' });
 ```
 
 You can also publish a message to multiple topics:
