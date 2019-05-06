@@ -446,10 +446,10 @@ class MyStorage {
 // tell Auth to use your storage object
 Auth.configure({
     storage: MyStorage
-});
+});em
 ```
 
-Here is the example of how to use AsyncStorage as your storage object which will show you how to sync itmes from AsyncStorage into Memory:
+Here is the example of how to use AsyncStorage as your storage object which will show you how to sync items from AsyncStorage into Memory:
 ```js
 import { AsyncStorage } from 'react-native';
 
