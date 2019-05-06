@@ -220,6 +220,16 @@ export class AppComponent {
 }
 ```
 
+The authState's 'state' attribute must be a string with one of the following values:
+
+* 'confirmSignIn'
+* 'confirmSignUp'
+* 'forgotPassword'
+* 'requireNewPassword'
+* 'signedIn'
+* 'signIn'
+* 'signUp'
+
 ## Components
 
 AWS Amplifies provides UI components that you can use in your view templates. 
@@ -248,6 +258,35 @@ The signUpFields array in turn consist of an array of objects, each describing a
 
 {% include sign-up-fields.html %}
 
+#### Replacing Authentication Components With Custom Components
+The child components displayed within the Authenticator can be hidden or replaced with custom components.
+
+Usage:
+```<amplify-authenticator [hide]="['Greetings']"></amplify-authenticator>```
+
+#### Using Authentication Components Without the Authenticator
+The child components displayed within the Authenticator can be used as standalone components.  This could be useful in situations where, for example, you want to display your own components for specific pieces of the registration and authentication flow.
+
+These components include:
+
+```javascript
+<amplify-auth-confirm-sign-in>
+<amplify-auth-confirm-sign-up>
+<amplify-auth-forgot-password>
+<amplify-auth-greetings>
+<amplify-auth-require-new-password>
+<amplify-auth-sign-in>
+<amplify-auth-sign-up>
+```
+
+Each of these components expects to receive the authState object, which consists of a 'state' string and a 'user' object.  The authState is an observable managed by the amplifyService, so make sure that your own custom components set the authState appropriately.
+
+Example:
+```javascript
+this.amplifyService.setAuthState({ state: 'confirmSignIn', user });
+```
+
+Additional details about the authState can be found in the [Subscribe to Authentication State Changes](#subscribe-to-authentication-state-changes) section.
 
 ### Photo Picker
 
