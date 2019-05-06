@@ -96,10 +96,10 @@ This will open the AWS AppSync console for you to run Queries, Mutations, or Sub
 To use AppSync in your Android studio project, modify the project's `build.gradle` with the following dependency in the build script:
 
 ```bash
-    classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.7.+'
+    classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.8.+'
 ```
 
-Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `implementation 'com.amazonaws:aws-android-sdk-appsync:2.7.+'`. For example:
+Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `implementation 'com.amazonaws:aws-android-sdk-appsync:2.8.+'`. For example:
 
 
 ```bash
@@ -110,7 +110,7 @@ Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws
     }
     dependencies {
         // Typical dependencies
-        implementation 'com.amazonaws:aws-android-sdk-appsync:2.7.+'
+        implementation 'com.amazonaws:aws-android-sdk-appsync:2.8.+'
         implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
         implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
     }
@@ -170,7 +170,7 @@ Inside your application code, such as the `onCreate()` lifecycle method of your 
 
 ### Run a Query
 
-Now that the client is configured, you can run a GraphQL query. The syntax of the callback is `GraphQLCall.Callback<{NAME>Query.Data>` where `{NAME}` comes from the GraphQL statements that `amplify codegen` created after you ran a Gradle build. You invoke this from an instance of the AppSync client with a similar syntax of `.query(<NAME>Query.builder().build())`. For example, if you have a `ListTodos` query, your code will look like the following:
+Now that the client is configured, you can run a GraphQL query. The syntax of the callback is `GraphQLCall.Callback<{NAME}>Query.Data>` where `{NAME}` comes from the GraphQL statements that `amplify codegen` created after you ran a Gradle build. You invoke this from an instance of the AppSync client with a similar syntax of `.query(<NAME>Query.builder().build())`. For example, if you have a `ListTodos` query, your code will look like the following:
 
 ```java
     public void query(){
@@ -200,10 +200,10 @@ To add data you need to run a GraphQL mutation. The syntax of the callback is `G
 
 ```java
     public void mutation(){
-        CreateTodoInput createTodoInput = CreateTodoInput.builder().
-            name("Use AppSync").
-            description("Realtime and Offline").
-            build();
+        CreateTodoInput createTodoInput = CreateTodoInput.builder()
+            .name("Use AppSync")
+            .description("Realtime and Offline")
+            .build();
 
         mAWSAppSyncClient.mutate(CreateTodoMutation.builder().input(createTodoInput).build())
             .enqueue(mutationCallback);
@@ -416,6 +416,32 @@ optimisticWrite(createTodoInput);
 
 You might add similar code in your app for updating or deleting items using an optimistic response, it would look largely similar except that you might overwrite or remove an element from the `response.data().listTodos().items()` array. A recommended best practice would be to create similar overloaded methods for `optimisticWrite(UpdateTodoInput updateTodoInput)` and `optimisticWrite(DeleteTodoInput deleteTodoInput)`. 
 
+Offline mutations work by default and are available in memory, as well as through app restarts. The `onResponse` callback in mutations is received when the network is available and will be executed as long as the app wasn't closed. However if the app was closed or crashed, the `persistentMutationsCallback` will be called in the `AWSAppSyncClient` builder which has information about the mutation type and identifier. You should use this in your client initialization routine to protect against any unknown app behaviors such as application errors or user interference:
+
+```java
+
+    private AWSAppSyncClient mAWSAppSyncClient;
+    
+    mAWSAppSyncClient = AWSAppSyncClient.builder()
+      .context(getApplicationContext())
+      .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+        .persistentMutationsCallback(new PersistentMutationsCallback() {
+          @Override
+          public void onResponse(PersistentMutationsResponse response) {
+            if (response.getMutationClassName().equals("AddPostMutation")) {
+              // perform action here add post mutation
+            }
+          }
+
+          @Override
+          public void onFailure(PersistentMutationsError error) {
+            // handle error feedback here
+          }
+        })
+      .build();
+    
+```
+
 ### Authentication Modes
 
 For client authorization AppSync supports API Keys, Amazon IAM credentials (we recommend using Amazon Cognito Identity Pools for this option), Amazon Cognito User Pools, and 3rd party OIDC providers. This is inferred from the `awsconfiguration.json` when you call `.awsConfiguration()` on the `AWSAppSyncClient` builder.
@@ -581,7 +607,7 @@ You can also use Delta Sync functionality with GraphQL subscriptions, taking adv
 1. Subscribe to any queries defined and store results in an incoming queue
 2. Run the appropriate query (If `baseRefreshIntervalInSeconds` has elapsed, run the Base Query otherwise only run the Delta Query)
 3. Update the cache with results from the appropriate query
-4. Drain the mutation queue in serial
+4. Drain the subscription queue and continue processing as normal
 
 Finally, you might have other queries which you wish to represent in your application other than the base cache hydration. For instance a `getItem(id:ID)` or other specific query. If your alternative query corresponds to items which are already in the normalized cache, you can point them at these cache entries with the `cacheUpdates` function which returns an array of queries and their variables. The DeltaSync client will then iterate through the items and populate a query entry for each item on your behalf. If you wish to use additional queries which don't correspond to items in your base query cache, you can always create another instance of the `client.sync()` process.
 
@@ -877,9 +903,9 @@ Add the following to your `app/build.gradle`:
 
 ```groovy
 	dependencies {
-		implementation 'com.amazonaws:aws-android-sdk-apigateway-core:2.9.+'
-		implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.9.+@aar') { transitive = true }
-		implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.9.+@aar') { transitive = true }
+		implementation 'com.amazonaws:aws-android-sdk-apigateway-core:2.13.+'
+		implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.13.+@aar') { transitive = true }
+		implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.13.+@aar') { transitive = true }
 	}
 ```
 
@@ -1030,7 +1056,7 @@ public void doInvokeAPI(){
     AWSMobileClient.getInstance().getTokens(new Callback<Tokens>() {
         @Override
         public void onResult(Tokens tokens) {
-            doInvokeAPI(tokens.getIdToken().toString());
+            doInvokeAPI(tokens.getIdToken().getTokenString());
         }
 
         @Override

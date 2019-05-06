@@ -30,15 +30,17 @@ $ amplify push
 
 A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`. The CLI will also print the URL for Amazon Pinpoint console to track your app events.  
 
+**NOTE**: If your Analytics resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli/lambda-node-version-update)
+
 ##### Configure Your App
 
 Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `App.js` in React or `main.ts` in Angular.
 
 ```javascript
 import Amplify, { Analytics } from 'aws-amplify';
-import aws_exports from './aws-exports';
+import awsmobile from './aws-exports';
 
-Amplify.configure(aws_exports);
+Amplify.configure(awsmobile);
 ```
 
 #### Manual Setup
@@ -49,7 +51,7 @@ The manual setup enables you to use your existing Amazon Pinpoint resource in yo
 import Amplify from 'aws-amplify';
 
 Amplify.configure({
-    // To get the aws credentials, you need to configure 
+    // To get the AWS Credentials, you need to configure 
     // the Auth module with your Cognito Federated Identity Pool
     Auth: {
         identityPoolId: 'us-east-1:xxx-xxx-xxx-xxx-xxx',
@@ -174,6 +176,8 @@ Analytics.record({
 });
 ```
 
+Attribute values must have the type `String` or be an array of strings.
+
 #### Record Engagement Metrics
 
 Data can also be added to an event:
@@ -185,6 +189,8 @@ Analytics.record({
     metrics: { minutesListened: 30 }
 });
 ```
+
+Metric values must be a `Number` type such as a float or integer.
 
 #### Disable Analytics
 
@@ -371,7 +377,7 @@ Analytics.addPluggable(new MyAnalyticsProvider());
 // get the plugin
 Analytics.getPluggable(MyAnalyticsProvider.providerName);
 
-// remove the plulgin
+// remove the plugin
 Analytics.removePluggable(MyAnalyticsProvider.providerName);
 
 // send configuration into Amplify

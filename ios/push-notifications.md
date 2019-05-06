@@ -43,7 +43,7 @@ You can also create Amazon Pinpoint campaigns that tie user behavior to push or 
         > Certificate
         ```
 
-    - Provide the path to your P12 certificate that you created in [Setting Up iOS Push Notifications](how-to-ios-setup-push-notifications).
+    - Provide the path to your P12 certificate that you created in [Setting Up iOS Push Notifications](./push-notifications-setup-apns).
 
    Use the steps in the next section to connect your app to your backend.
 
@@ -59,9 +59,9 @@ Use the following steps to connect add push notification backend services to you
     target :'YOUR-APP-NAME' do
       use_frameworks!
 
-        pod  'AWSPinpoint', '~> 2.8.0'
+        pod  'AWSPinpoint', '~> 2.9.0'
         # other pods
-        pod  'AWSMobileClient', '~> 2.8.0'
+        pod  'AWSMobileClient', '~> 2.9.0'
     end
 	```
 

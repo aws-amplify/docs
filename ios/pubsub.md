@@ -8,7 +8,7 @@ PubSub provides connectivity with cloud-based message-oriented middleware. You c
 
 PubSub is available with **AWS IoT**. 
 
-Starting with version 12.1.1 iOS requires that publicly-trusted Transport Layer Security (TLS) server authentication certificates issued after October 15, 2018 meet the Certificate Transparency policy to be evaluated as trusted on Apple platforms. You must explicitly request an Amazon Trust Services endpoint for each region in your account. Any existing customer endpoint you have is most likely a VeriSign endpoint. If your endpoint has `-ats` at the end of the first subdomain, then it is an Amazon Trust Services endpoint. For more details read: https://aws.amazon.com/blogs/iot/aws-iot-core-ats-endpoints/
+Starting with version `12.1.1`, iOS requires that publicly-trusted Transport Layer Security (TLS) server authentication certificates issued after October 15, 2018 meet the Certificate Transparency policy to be evaluated as trusted on Apple platforms. Any existing customer endpoint you have is most likely a VeriSign endpoint. If your endpoint has `-ats` at the end of the first subdomain, then it is an Amazon Trust Services endpoint. You can get an updated endpoint from the AWS console (AWS Console->IoT Core ->Settings page). For more details read: https://aws.amazon.com/blogs/iot/aws-iot-core-ats-endpoints/
 {: .callout .callout--info}
 
 ## Installation and Configuration
@@ -25,7 +25,7 @@ The `Podfile` that you configure to install the AWS Mobile SDK must contain the 
     target :'YOUR-APP-NAME' do
       use_frameworks!
 
-        pod  'AWSIoT', '~> 2.8.0'
+        pod  'AWSIoT', '~> 2.9.0'
         # other pods
 
     end
@@ -51,8 +51,8 @@ let iotDataConfiguration = AWSServiceConfiguration(
     credentialsProvider: AWSMobileClient.sharedInstance()
 )
 
-AWSIoTDataManager.register(with: iotDataConfiguration!, forKey: ASWIoTDataManager)
-AWSIoTDataManager iotDataManager = AWSIoTDataManager(forKey: ASWIoTDataManager)                                               
+AWSIoTDataManager.register(with: iotDataConfiguration!, forKey: "MyAWSIoTDataManager")
+let iotDataManager = AWSIoTDataManager(forKey: "MyAWSIoTDataManager")
 ```
 
 You can get the endpoint information from the IoT Core -> Settings page on the AWS Console.  
@@ -85,16 +85,78 @@ aws iot attach-principal-policy --policy-name 'myIOTPolicy' --principal '<YOUR_C
 
 ### Establish Connection
 
-Before you can subscribe to a topic, you need to establish a connection as follows:
+Before you can publish/subscribe to a topic, you need to establish a connection. You can do that using one of the following methods provided by the SDK.
+
+#### Certificate based mutual authentication
+
+To connect with the AWS IoT Core service on the standard MQTT port 8883, you can use the `connect` API as shown below.
 
 ```swift
-iotDataManager.connect(
-    withClientId: "<YOUR_CLIENT_ID>",
-    cleanSession: true,
-    certificateId: "<YOUR_CERTIFICATE_ID>") { (status) in
-         print("Connection Status: \(status.rawValue)")
+func mqttEventCallback(_ status: AWSIoTMQTTStatus ) {
+    print("connection status = \(status.rawValue)")
 }
+
+iotDataManager.connect(withClientId: "<YOUR_CLIENT_ID>",
+                       cleanSession: true,
+                       certificateId: "<YOUR_CERTIFICATE_ID>",
+                       statusCallback: mqttEventCallback)
 ```
+
+The AWS IoT Core service also allows you to connect devices using MQTT with certificate based mutual authentication on port 443. You can do this using the `connectUsingALPN` API as shown below. See [MQTT with TLS client authentication on port 443](https://aws.amazon.com/blogs/iot/mqtt-with-tls-client-authentication-on-port-443-why-it-is-useful-and-how-it-works/) for more information.
+
+```swift
+func mqttEventCallback(_ status: AWSIoTMQTTStatus ) {
+    print("connection status = \(status.rawValue)")
+}
+
+iotDataManager.connectUsingALPN(withClientId: "<YOUR_CLIENT_ID>",
+                       cleanSession: true,
+                       certificateId: "<YOUR_CERTIFICATE_ID>",
+                       statusCallback: mqttEventCallback)
+```
+
+You can take a look at the [API Reference](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/Classes/AWSIoTDataManager.html#//api/name/connectWithClientId:cleanSession:certificateId:statusCallback:
+) to get more information.
+
+#### AWS Credentials based Authentication
+
+This method uses AWS Signature Version 4 Credentials to sign the request to connect to the AWS IoT endpoint.
+
+```swift
+func mqttEventCallback(_ status: AWSIoTMQTTStatus ) {
+    print("connection status = \(status.rawValue)")
+}
+
+iotDataManager.connectUsingWebSocket(withClientId: "<YOUR_CLIENT_ID>",
+                                     cleanSession: true,
+                                     statusCallback: mqttEventCallback)
+```
+
+You can take a look at the [API Reference](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/Classes/AWSIoTDataManager.html#//api/name/connectUsingWebSocketWithClientId:cleanSession:statusCallback:) to know more information.
+
+#### Custom Authentication
+
+AWS IoT allows you to define custom authorizers that allow you to manage your own authentication and authorization strategy using a custom authentication service and a Lambda function. Custom authorizers allow AWS IoT to authenticate your devices and authorize operations using bearer token authentication and authorization strategies. See [AWS IoT Custom Authentication](https://docs.aws.amazon.com/iot/latest/developerguide/iot-custom-authentication.html) for more details.
+
+Please follow the steps outlined in [Setting up Custom Authentication](https://aws.amazon.com/blogs/security/how-to-use-your-own-identity-and-access-management-systems-to-control-access-to-aws-iot-resources/) to create the custom authorizer and configure the workflow with AWS IoT.
+
+Once the custom authorizer workflow is configured, you can establish a connection as follows:
+
+```swift
+func mqttEventCallback(_ status: AWSIoTMQTTStatus ) {
+    print("connection status = \(status.rawValue)")
+}
+
+iotDataManager.connectUsingWebSocket(withClientId: uuid,
+                                     cleanSession: true,
+                                     customAuthorizerName: "<name-of-the-custom-authorizer>",
+                                     tokenKeyName: "<key-name-for-the-token>",
+                                     tokenValue: "<token>",
+                                     tokenSignature: "<signature-of-the-token>",
+                                     statusCallback: mqttEventCallback)
+```
+
+You can take a look at the [API Reference](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/Classes/AWSIoTDataManager.html#//api/name/connectUsingWebSocketWithClientId:cleanSession:customAuthorizerName:tokenKeyName:tokenValue:tokenSignature:statusCallback:) to know more information. This feature is available in the AWS SDK for iOS starting from `2.8.4` version. See [AWSIoT - 2.8.4](https://github.com/aws-amplify/aws-sdk-ios/blob/master/CHANGELOG.md#284) for more details.
 
 ### Subscribe to a topic
 

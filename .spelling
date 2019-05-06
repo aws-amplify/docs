@@ -133,6 +133,8 @@ deltaRecord
 backoff
 resubscription
 backends
+AuthN
+AuthZ
 
 # js/tutorials/building-ionic-4-apps/index.md
 home.page.ts
@@ -160,6 +162,7 @@ a_b
 filename
 mypublicprefix
 myprivateprefix
+CRUD
 
 # js/start.md
 codegen
@@ -175,6 +178,12 @@ myangularapp
 js
 tsconfig
 myAmplifyProject
+
+# js/hub.md
+onHubCapsule
+pubsub
+xr
+MobX
 
 # js/service-workers.md
 ServiceWorker
@@ -214,13 +223,16 @@ middleware
 IoT
 WebSocket
 
-# js/ionic.md
+# js/angular.md
 html
 base64
 amplify-s3-album
 styles.css
 6.x
 polyfills.ts
+forgotPassword
+requireNewPassword
+amplifyService
 
 # js/interactions.md
 chatbots
@@ -228,6 +240,9 @@ Alexa
 chatbox
 onComplete
 theming
+voiceEnabled
+textEnabled
+AmplifyModules
 
 js/i18n.md
 I18n
@@ -284,6 +299,8 @@ withFederated
 Auth.federatedSignIn
 aws.cognito.signin.user.admin
 ChallengeName
+myapp
+LoginWithAmazon
 
 #js/cognito-hosted-ui-federated-identity.md
 oauth2
@@ -333,9 +350,21 @@ webapp
 redirect_to
 graphql
 sdk
+AppSyncApiName
+APIKeyExpirationEpoch
+ElasticsearchStreamingFunctionName
+ElasticsearchInstanceCount
+ElasticsearchInstanceType
+ElasticsearchEBSVolumeGB
+DynamoDBBillingMode
+PAY_PER_REQUEST
+DynamoDBModelTableWriteIOPS
+DynamoDBModelTableReadIOPS
+ssn
 
 # cli/graphql.md
 DataSource
+DataSources
 onCreate
 onUpdate
 onDelete
@@ -357,6 +386,8 @@ S3Object
 s3
 versionInput
 versioning
+PAY_PER_REQUEST
+MySQL
 
 # js/vue.md
 confirmSignInConfig
@@ -395,10 +426,12 @@ secretKey
 accesskey
 secretkey
 aws
+arn
 config
 Unauth
 frontends
 metadata
+Cloudfront
 
 # cli/hosting.md
 gitignore
@@ -458,6 +491,7 @@ s3aeaffb53
 Cloudformaton
 DynamoDBTable
 amplifyMeta.json
+transform.conf.json
 
 # android/analytics.md
 ActivityLifecycleCallbacks
@@ -466,6 +500,7 @@ Firehose
 KinesisRecorder
 KinesisFirehoseRecorder
 ImageView
+PutRecordBatch
 
 # android/api.md
 baseQueryCallback
@@ -476,6 +511,23 @@ RecyclerView
 BaseQuery
 allPosts
 ProcessLifeCycle
+Query.getTodo
+Query.listTodos
+Query.getComment
+Query.listComments
+Todo.comments
+Comment.todo
+Query.getTodo.comments
+Query.commentsForTodo
+echofunction
+Query.echo.req.vtl
+Query.echo.res.vtl
+Query.searchTodos
+geo_point
+kibana
+Mutation.createTodo
+Query.nearbyTodos
+geolocation
 
 # android/authentication.md
 appcompat
@@ -577,6 +629,7 @@ enum
 MiB
 
 # android/manualsetup.md
+com.amazonaws
 aws-android-sdk-apigateway-core
 aar
 aws-android-sdk-auth-core
@@ -676,6 +729,10 @@ UIViewController
 # ios/authentication.md
 UINavigationController
 UserPools
+HostedUI
+UserPool
+flipside
+ARNs
 
 # ios/how-to-cognito-integrate-an-existing-identity-pool-ios.md
 AppDelegate
@@ -749,6 +806,8 @@ uploadData
 # ios/interactions.md
 UIView
 xib
+react-native-fs
+Info.plist
 
 # ios/pubsub.md
 VeriSign
@@ -784,6 +843,7 @@ timeoutIntervalForResource
 handleEventsForBackgroundURLSession
 interceptApplication
 AWSStaticCredentialsProvider
+CRUD
 
 # android/how-to-android-sdk-setup.md
 aws-android-sdk-lex
@@ -826,6 +886,11 @@ MY_BUCKET
 OBJECT_KEY
 MY_FILE
 KMS-generated
+TransferNetworkConnectionType
+CRUD
 
 # android/auth-google-setup.md
 keystore
+
+# ios/pubsub.md
+authorizers
