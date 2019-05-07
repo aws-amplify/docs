@@ -1807,13 +1807,14 @@ let items = await API.get('myCloudApi', '/items', {
 });
 ```
 
-**Accessing Query Parameters in Cloud API**
+**Accessing Query Parameters & body in Cloud API**
 
-If you are using a Cloud API which is generated with Amplify CLI, your backend is created with Lambda Proxy Integration, and you can access your query parameters within your Lambda function via the *event* object:
+If you are using a Cloud API which is generated with Amplify CLI, your backend is created with Lambda Proxy Integration, and you can access your query parameters & body within your Lambda function via the *event* object:
 
 ```javascript
 exports.handler = function(event, context, callback) {
     console.log (event.queryStringParameters);
+    console.log('body: ', event.body)
 }
 ```
 
@@ -1823,6 +1824,8 @@ Alternatively, you can update your backend file which is located at `amplifyjs/b
 var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 app.use(awsServerlessExpressMiddleware.eventContext())
 ```
+
+Accessing Query Parameters
 
 In your request handler use `req.apiGateway.event`:
 
@@ -1837,6 +1840,27 @@ Then you can use query parameters in your path as follows:
 
 ```javascript
 API.get('sampleCloudApi', '/items?q=test');
+```
+
+Accessing Body
+
+In your request handler you can also access the `req.body`:
+
+```javascript
+app.get('/items', function(req, res) {
+  // req.body
+  res.json(req.body)
+});
+```
+
+Then you can use body in your path as follows:
+
+```javascript
+const params = {
+  body: { title: "Hello World" }
+}
+
+API.get('sampleCloudApi', '/items', params);
 ```
 
 To learn more about Lambda Proxy Integration, please visit [Amazon API Gateway Developer Guide](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-create-api-as-simple-proxy-for-lambda.html).
@@ -1889,6 +1913,20 @@ async function postData() {
 postData();
 ```
 
+Access body in the Lambda function
+
+```javascript
+// using a basic lambda handler
+exports.handler = (event, context) => {
+  console.log('body: ', event.body);
+}
+
+// using serverless express
+app.post('/myendpoint', function(req, res) {
+  console.log('body: ', req.body)
+});
+```
+
 #### **PUT**
 
 When used together with [Cloud API](https://docs.aws.amazon.com/aws-mobile/latest/developerguide/web-access-apis.html), PUT method can be used to create or update records. It updates the record if a matching record is found. Otherwise, a new record is created.
@@ -1934,6 +1972,20 @@ const params = {
     }
 }
 const apiResponse = await API.put('MyTableCRUD', '/manage-items', params);
+```
+
+Access body in the Lambda function
+
+```javascript
+// using a basic lambda handler
+exports.handler = (event, context) => {
+  console.log('body: ', event.body);
+}
+
+// using serverless express
+app.post('/myendpoint', function(req, res) {
+  console.log('body: ', req.body)
+});
 ```
 
 #### **DELETE**
