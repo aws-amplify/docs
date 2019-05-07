@@ -10,7 +10,7 @@ Use the drop-down menu at the top right of this page to choose the framework for
 ## What Does the Amplify Framework include?
 
 - The Amplify CLI toolchain for creating and managing a serverless backend, web hosting, and codegen 
-- JavaScript, iOS, and Android libraries for simple access your AWS resources using a category based programming model
+- JavaScript, iOS, and Android libraries for simple access to your AWS resources using a category based programming model
 - Framework-specific UI component libraries for React, React Native, Angular, Ionic and Vue.
 
 Amplify includes support for [iOS]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/ios/start) and [Android]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/android/start) development.
@@ -490,11 +490,14 @@ class App extends Component {
       Analytics.record('AWS Amplify Tutorial Event')
         .then( (evt) => {
             const url = 'https://'+awsconfig.aws_project_region+'.console.aws.amazon.com/pinpoint/home/?region='+awsconfig.aws_project_region+'#/apps/'+awsconfig.aws_mobile_analytics_app_id+'/analytics/events';
+            this.setState({ eventsSent: this.state.eventsSent + 1 })
+
             let result = (<div>
               <p>Event Submitted.</p>
-              <p>Events sent: {++this.state.eventsSent}</p>
-              <a href={url} target="_blank">View Events on the Amazon Pinpoint Console</a>
+              <p>Events sent: {this.state.eventsSent}</p>
+              <a href={url} target="_blank" rel="noopener noreferrer">View Events on the Amazon Pinpoint Console</a>
             </div>);
+
             this.setState({
                 'analyticsEventSent': true,
                 'resultHtml': result
