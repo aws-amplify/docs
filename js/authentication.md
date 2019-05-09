@@ -905,7 +905,7 @@ const oauth = {
   scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
   redirectSignIn: 'http://localhost:3000/',
   redirectSignOut: 'http://localhost:3000/',
-  responseType: 'code' // or token
+  responseType: 'code' // or 'token', note that REFRESH token will only generated when the responseType is code
 };
 
 Amplify.configure(awsmobile);
@@ -1120,6 +1120,7 @@ const oauth = {
 
     // 'code' for Authorization code grant, 
     // 'token' for Implicit grant
+    // Note that REFRESH token will only generated when the responseType is code
     responseType: 'code',
 
     // optional, for Cognito hosted ui specified options
