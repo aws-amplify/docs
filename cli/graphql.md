@@ -1007,6 +1007,23 @@ exports.handler = async (event) => {
 
 > When deploying the function make sure you supply an environment variable named COGNITO_USERPOOL_ID with the value **UserPoolId** from **amplify-meta.json**
 
+When deploying you function make sure you have provided an execution role with permission to call the Amazon Cognito User Pools admin APIs. Attaching this policy to your function execution role will give you the permissions you need.
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "cognito-idp:*",
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+```
+
 After deploying our function, we can connect it to AppSync by defining some types and using the @function directive. Add this to your schema, to connect the
 `Query.echo` and `Query.me` resolvers to our new function.
 
