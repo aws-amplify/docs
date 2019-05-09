@@ -923,7 +923,7 @@ exports.handler = function (event, context) {
 
 **If you deployed your function using the 'amplify function' category**
 
-The Amplify CLI provides support for maintaining multiple environments out of the box. When you deploy a function via `amplify add function`, it will automatically add the environment suffix to your Lambda function name. For example if you create a function named **echo** using `amplify add function` in the **dev** environment, the deployed function will be named **echo-dev**. The `@function` directive allows you to use `${env}` to reference the current Amplify CLI environment.
+The Amplify CLI provides support for maintaining multiple environments out of the box. When you deploy a function via `amplify add function`, it will automatically add the environment suffix to your Lambda function name. For example if you create a function named **echofunction** using `amplify add function` in the **dev** environment, the deployed function will be named **echofunction-dev**. The `@function` directive allows you to use `${env}` to reference the current Amplify CLI environment.
 
 ```
 type Query {
@@ -941,25 +941,150 @@ type Query {
 }
 ```
 
+**Example: Get the logged in user from Amazon Cognito User Pools**
+
+When building applications, it is often useful to fetch information for the current user. We can use the `@function` directive to quickly add a resolver that uses AppSync identity information to fetch a user from Amazon Cognito User Pools. First make sure you have added Amazon Cognito User Pools enabled via `amplify add auth` and a GraphQL API via `amplify add api` to an amplify project. Once you have created the user pool, get the **UserPoolId** from **amplify-meta.json** in the **backend/** directory of your amplify project. You will provide this value as an environment variable in a moment. Next, using the Amplify function category, AWS console, or other tool, deploy a AWS Lambda function with the following contents.
+
+For example purposes assume the function is named `GraphQLResolverFunction`:
+
+```javascript
+const { CognitoIdentityServiceProvider } = require('aws-sdk');
+const cognitoIdentityServiceProvider = new CognitoIdentityServiceProvider();
+
+/**
+ * Get user pool information from environment variables.
+ */
+const COGNITO_USERPOOL_ID = process.env.COGNITO_USERPOOL_ID;
+if (!COGNITO_USERPOOL_ID) {
+  throw new Error(`Function require environment variable: 'COGNITO_USERPOOL_ID'`);
+}
+const COGNITO_USERNAME_CLAIM_KEY = 'cognito:username';
+
+/**
+ * Using this as the entry point, you can use a single function to handle many resolvers.
+ */
+const resolvers = {
+  Query: {
+    echo: ctx => {
+      return ctx.args.msg;
+    },
+    me: async ctx => {
+      var params = {
+        UserPoolId: COGNITO_USERPOOL_ID, /* required */
+        Username: ctx.identity.claims[COGNITO_USERNAME_CLAIM_KEY], /* required */
+      };
+      try {
+        // Read more: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CognitoIdentityServiceProvider.html#adminGetUser-property
+        return await cognitoIdentityServiceProvider.adminGetUser(params).promise();
+      } catch (e) {
+        throw new Error(`NOT FOUND`);
+      }
+    }
+  },
+}
+
+// event
+// {
+//   "typeName": "Query", /* Filled dynamically based on @function usage location */
+//   "fieldName": "me", /* Filled dynamically based on @function usage location */
+//   "arguments": { /* GraphQL field arguments via $ctx.arguments */ },
+//   "identity": { /* AppSync identity object via $ctx.identity */ },
+//   "source": { /* The object returned by the parent resolver. E.G. if resolving field 'Post.comments', the source is the Post object. */ },
+//   "request": { /* AppSync request object. Contains things like headers. */ },
+//   "prev": { /* If using the built-in pipeline resolver support, this contains the object returned by the previous function. */ },
+// }
+exports.handler = async (event) => {
+  const typeHandler = resolvers[event.typeName];
+  if (typeHandler) {
+    const resolver = typeHandler[event.fieldName];
+    if (resolver) {
+      return await resolver(event);
+    }
+  }
+  throw new Error("Resolver not found.");
+};
+```
+
+> When deploying the function make sure you supply an environment variable named COGNITO_USERPOOL_ID with the value **UserPoolId** from **amplify-meta.json**
+
+After deploying our function, we can connect it to AppSync by defining some types and using the @function directive. Add this to your schema, to connect the
+`Query.echo` and `Query.me` resolvers to our new function.
+
+```
+type Query {
+  me: User @function(name: "GraphQLResolverFunction")
+  echo(msg: String): String @function(name: "GraphQLResolverFunction")
+}
+# These types derived from https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CognitoIdentityServiceProvider.html#adminGetUser-property
+type User {
+  Username: String!
+  UserAttributes: [Value]
+  UserCreateDate: String
+  UserLastModifiedDate: String
+  Enabled: Boolean
+  UserStatus: UserStatus
+  MFAOptions: [MFAOption]
+  PreferredMfaSetting: String
+  UserMFASettingList: String
+}
+type Value {
+  Name: String!
+  Value: String
+}
+type MFAOption {
+  DeliveryMedium: String
+  AttributeName: String
+}
+enum UserStatus {
+  UNCONFIRMED
+  CONFIRMED
+  ARCHIVED
+  COMPROMISED
+  UNKNOWN
+  RESET_REQUIRED
+  FORCE_CHANGE_PASSWORD
+}
+```
+
+Next run `amplify push` and wait as your project finishes deploying. To test that everything is working as expected run `amplify api console` to open the GraphiQL editor for your API. You are going to need to open the Amazon Cognito User Pools console to create a user if you do not yet have any. Once you have created a user go back to the AppSync console's query page and click "Login with User Pools". You can find the **ClientId** in **amplify-meta.json** under the key **AppClientIDWeb**. Paste that value into the modal and login using your username and password. You can know run this query:
+
+```
+query {
+  me {
+    Username
+    UserStatus
+    UserCreateDate
+    UserAttributes {
+      Name
+      Value
+    }
+    MFAOptions {
+      AttributeName
+      DeliveryMedium
+    }
+    Enabled
+    PreferredMfaSetting
+    UserMFASettingList
+    UserLastModifiedDate
+  }
+}
+```
+
+which will return user information related to the current user directly from your user pool.
+
 **Structure of the AWS Lambda function event**
 
 When writing lambda function's that are connected via the `@function` directive, you can expect the following structure for the AWS Lambda event object.
 
-```javascript
-exports.handler = function (event) {
-  console.log(event);
-  // {
-  //   "typeName": "Query", /* Filled dynamically based on @function usage location */
-  //   "fieldName": "echo", /* Filled dynamically based on @function usage location */
-  //   "arguments": { /* GraphQL field arguments via $ctx.arguments */ },
-  //   "identity": { /* AppSync identity object via $ctx.identity */ },
-  //   "source": { /* The object returned by the parent resolver. E.G. if resolving field 'Post.comments', the source is the Post object. */ },
-  //   "request": { /* AppSync request object. Contains things like headers. */ },
-  //   "prev": { /* If using the built-in pipeline resolver support, this contains the object returned by the previous function. */ },
-  // }
-  context.done(null, event.arguments.msg)
-};
-```
+| Key  | Description  |
+|---|---|
+| typeName  | The name of the parent object type of the field being resolver.  |
+| fieldName  | The name of the field being resolved.  |
+| arguments  | A map containing the arguments passed to the field being resolved.  |
+| identity  | A map containing identity information for the request. Contains a nested key 'claims' that will contains the JWT claims if they exist. |
+| source  | When resolving a nested field in a query, the source contains parent value at runtime. For example when resolving `Post.comments`, the source will be the Post object.  |
+| request   | The AppSync request object. Contains header information.  |
+| prev | When using pipeline resolvers, this contains the object returned by the previous function. You can return the previous value for auditing use cases. |
 
 **Calling functions in different regions**
 
