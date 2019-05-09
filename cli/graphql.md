@@ -956,7 +956,7 @@ const cognitoIdentityServiceProvider = new CognitoIdentityServiceProvider();
  */
 const COGNITO_USERPOOL_ID = process.env.COGNITO_USERPOOL_ID;
 if (!COGNITO_USERPOOL_ID) {
-  throw new Error(`Function require environment variable: 'COGNITO_USERPOOL_ID'`);
+  throw new Error(`Function requires environment variable: 'COGNITO_USERPOOL_ID'`);
 }
 const COGNITO_USERNAME_CLAIM_KEY = 'cognito:username';
 
