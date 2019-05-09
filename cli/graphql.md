@@ -966,7 +966,7 @@ const COGNITO_USERNAME_CLAIM_KEY = 'cognito:username';
 const resolvers = {
   Query: {
     echo: ctx => {
-      return ctx.args.msg;
+      return ctx.arguments.msg;
     },
     me: async ctx => {
       var params = {
@@ -1029,8 +1029,8 @@ After deploying our function, we can connect it to AppSync by defining some type
 
 ```
 type Query {
-  me: User @function(name: "GraphQLResolverFunction")
-  echo(msg: String): String @function(name: "GraphQLResolverFunction")
+  me: User @function(name: "ResolverFunction")
+  echo(msg: String): String @function(name: "ResolverFunction")
 }
 # These types derived from https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CognitoIdentityServiceProvider.html#adminGetUser-property
 type User {
