@@ -109,7 +109,6 @@ If you encounter an error message that begins `[!] Failed to connect to GitHub t
 
 ```swift
 /** start code copy **/
-import AWSCore
 import AWSPinpoint
 import AWSMobileClient
 /** end code copy **/
