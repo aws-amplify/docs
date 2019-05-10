@@ -1,5 +1,11 @@
 ---
+title: Authentication
 ---
+{% if jekyll.environment == 'production' %}
+  {% assign base_dir = site.amplify.docs_baseurl %}
+{% endif %}
+{% assign media_base = base_dir | append: page.dir | append: "media" %}
+{% assign common_media = base_dir | append: "/images" %}
 
 # Authentication
 
@@ -7,14 +13,49 @@ AWS Amplify Authentication module provides Authentication APIs and building bloc
 
 **Amazon Cognito**
 
-[Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html) is a full-featured user directory service to handle user registration, storage, authentication, and account recovery. Cognito User Pools returns JWT tokens to your app and does not provide temporary AWS credentials for calling authorized AWS Services.
-[Amazon Cognito Federated Identities](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-identity.html) on the other hand, is a way to authorize your users to use AWS services. With an identity pool, you can obtain temporary AWS credentials with permissions you define to access other AWS services directly or to access resources through Amazon API Gateway.
+[Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html) is a full-featured user directory service to handle user registration, authentication, and account recovery. [Amazon Cognito Federated Identities](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-identity.html) on the other hand, is a way to authorize your users to use AWS services.
 
-When working together, Cognito User Pools acts as a source of user identities (identity provider) for the Cognito Federated Identities. Other sources can be OpenID, Facebook, Google, etc. AWS Amplify uses User Pools to store your user information and handle authorization, and it leverages Federated Identities to manage user access to AWS Resources, for example allowing a user to upload a file to an S3 bucket.
+Amplify interfaces with User Pools to store your user information, including federation with other OpenID providers like Facebook & Google, and it leverages Federated Identities to manage user access to AWS Resources, for example allowing a user to upload a file to an S3 bucket. The Amplify CLI automates the [access control policies]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/storage#file-access-levels) for these AWS resources as well as provides [fine grained access controls via GraphQL]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/api#using-graphql-transformers) for protecting data in your APIs.
 
 <b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
 <b>Recommendation:</b> [Complete the Getting Started guide](./start?platform=purejs)
 {: .callout .callout--info}
+
+### Concepts
+	
+Authentication is a process to validate **who you are** (abbreviated as **AuthN**). The system which does this validation is referred to as an **Identity Provider** or **IdP**. This can be your own self-hosted IdP or a cloud service. Oftentimes, this IdP is a social provider such as Facebook, Google, or Amazon (*"Social Sign-In"*).
+	
+Authorization is the process of validating **what you can access** (abbreviated as **AuthZ**). This is sometimes done by looking at tokens with custom logic, predefined rules, or signed requests with policies.
+	
+In the Amplify ecosystem, the most common Authentication method is either using Cognito User Pools independently or with a social provider to validate the identity of the user (known as **Federation**). Authorization is often done in one of two ways:
+	
+1. Clients pass the tokens to the backend that perform custom logic to allow or deny actions
+1. Clients sign the requests and the backend validates the signature, allowing or denying actions depending on predefined policy
+	
+The first method is common with REST or GraphQL APIs, however you can also use the second for these services as well (AWS AppSync and Amazon API Gateway). The second method is necessary for services such as S3, Pinpoint, Sumerian, and others. The predefined rules are known as [IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html) policies and automatically configured by the Amplify CLI.
+	
+Below are the 3 most common Auth architectures using the Amplify Framework.
+	
+#### Simple Auth
+	
+For many apps, user sign-up and sign-in is all that is required. Once authenticated the app can talk to an API such as AWS AppSync or API Gateway. In this case, you can simply create a User Pool by running `amplify add auth` using the Amplify CLI and selecting the default setup. In your application you can use [`Auth.signUp`](#sign-up)  and [`Auth.signIn`](#sign-in) (or an Amplify UI component) to complete this process and retrieve tokens. The Amplify client will refresh them at the appropriate time. 
+	
+![Image]({{common_media}}/SimpleAuthZ.png)
+
+#### AWS Auth
+	
+Some apps need to use AWS services which require [signing requests](https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html). Examples of this would be storing images or videos on S3, or sending analytics to Pinpoint or Kinesis. Amplify automatically signs requests with short term credentials from a Cognito Identity Pool which automatically expire, rotate, and refresh by the Amplify client libraries. Setting up your backend with `amplify add auth` and calling [`Auth.signIn`](#sign-in) will automatically do this for you as well after the client authenticates. The diagram below shows how JWT tokens are returned from User Pools and AWS credentials from Identity Pools. You can access these at any time with [`Auth.currentSession()`](#retrieve-current-session) and `Auth.currentCredentials()`.
+	
+![Image]({{common_media}}/AWSAuthZ.png)
+	
+
+#### Social Provider Federation
+	
+Many apps also support login with a social provider such as Facebook, Google Sign-In, or Login With Amazon. [The preferred way to do this is via an OAuth](#oauth-and-federation-overview) redirect which lets users login using their social media account and a corresponding user is created in User Pools. With this design you do not need to include an SDK for the social provider in your app. Set this up by running `amplify add auth` and selecting the social provider  option. Upon completion you can use [`Auth.federatedSignIn()`](#oauth-and-hosted-ui) in your application to either show a pre-built "Hosted UI" or pass in a provider name (e.g. [`Auth.federatedSignIn({provider: 'Facebook'})`](#oauth-and-hosted-ui)) to interface directly and build our your own UI.
+	
+![Image]({{common_media}}/SocialAuthZ.png)
+	
+You can also get credentials directly from Identity Pools by passing tokens from a provider directly to `Auth.federatedSignIn()`. However you will have to use that providers SDK directly in your app and manage token refresh and auth flows manually.
 
 ### Automated Setup
 
@@ -31,7 +72,9 @@ The CLI prompts will help you to customize your auth flow for your app. With the
 - Customize sign-in/registration flow 
 - Customize email and SMS messages for Multi-Factor Authentication
 - Customize attributes for your users, e.g. name, email
-- Enable 3rd party authentication providers, e.g. Facebook, Twitter, Google and Amazon
+- Enable 3rd party social providers, e.g. Facebook, Twitter, Google and Amazon
+
+If you wish to federate with social providers [you will need to configure them first](#social-providers-and-federation).
 
 After configuring your Authentication options, update your backend:
 
@@ -40,6 +83,8 @@ $ amplify push
 ```
 
 A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`.
+
+**NOTE**: If your Authentication resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli/lambda-node-version-update)
 
 ##### Configure Your App
 
@@ -141,7 +186,7 @@ try {
         const loggedUser = await Auth.confirmSignIn(
             user,   // Return object from Auth.signIn()
             code,   // Confirmation code  
-            mfaType // MFA Type e.g. SMS, TOTP.
+            mfaType // MFA Type e.g. SMS_MFA, SOFTWARE_TOKEN_MFA
         );
     } else if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
         const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
@@ -291,7 +336,7 @@ Auth.forgotPasswordSubmit(username, code, new_password)
 ```
 
 #### Complete new password
-The user would be asked to provide his new password and required attributes the first time he signs in if he is created in the AWS Cognito console. In that case, you need to call this method to finish this process:
+The user would be asked to provide the new password and required attributes during the first sign-in attempt if a valid user directory is created in Amazon Cognito. During this scenario, the following method can be called to process the new password entered by the user.
 
 ```js
 import { Auth } from 'aws-amplify';
@@ -358,7 +403,10 @@ This method should be called after the Auth module is configured or the user is 
 
 #### Retrieve Current Session
 
-`Auth.currentSession()` returns a `CognitoUserSession` object which contains JWT `accessToken`, `idToken`, and `refreshToken`.
+`Auth.currentSession()` returns a `CognitoUserSession` object which contains JWT `accessToken`, `idToken`, and `refreshToken`. 
+
+This method will automatically refresh the `accessToken` and `idToken` if tokens are expired and a valid `refreshToken` presented. So you can use this method to refresh the session if needed. 
+
 
 ```javascript
 import { Auth } from 'aws-amplify';
@@ -405,7 +453,9 @@ Auth.configure({
 
 To learn more about tokens, please visit [Amazon Cognito Developer Documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-with-identity-providers.html).
 
-### Using Components in React & React Native
+### Using Auth Components in React & React Native
+
+#### Using withAuthenticator HOC
 
 For React and React Native apps, the simplest way to add authentication flows into your app is to use the `withAuthenticator` Higher Order Component.
 
@@ -429,8 +479,6 @@ export default withAuthenticator(App);
 ```
 Now, your app has complete flows for user sign-in and registration. Since you have wrapped your **App** with `withAuthenticator`, only signed in users can access your app. The routing for login pages and giving access to your **App** Component will be managed automatically.
 
-#### Props
-
 `withAuthenticator` component renders your App component after a successful user signed in, and it prevents non-sign-in uses to interact with your app. In this case, we need to display a *sign-out* button to trigger the related process.
 
 To display a sign-out button or customize other, set `includeGreetings = true` in the parameter object. It displays a *greetings section* on top of your app, and a sign-out button is displayed in the authenticated state. Other customization options are also available as properties to the HOC:
@@ -447,7 +495,7 @@ export default withAuthenticator(App, {
                 theme: {myCustomTheme}});
 ```
 
-### Using the Authenticator Component Directly
+#### Using the Authenticator Component
 
 The `withAuthenticator` HOC wraps an `Authenticator` component. Using `Authenticator` directly gives you more customization options for your UI.
 
@@ -461,6 +509,7 @@ The `withAuthenticator` HOC wraps an `Authenticator` component. Using `Authentic
     // Fired when Authentication State changes
     onStateChange={(authState) => console.log(authState)} 
     // An object referencing federation and/or social providers 
+    // The federation here means federation with the Cognito Identity Pool Service
     // *** Only supported on React/Web (Not React Native) ***
     // For React Native use the API Auth.federatedSignIn()
     federated={myFederatedConfig}
@@ -484,7 +533,7 @@ The `withAuthenticator` HOC wraps an `Authenticator` component. Using `Authentic
     // or hide all the default components
     hideDefault={true}
     // Pass in an aws-exports configuration
-    amplifyConfig={myAWSExports}, 
+    amplifyConfig={myAWSExports}
     // Pass in a message map for error strings
     errorMessage={myMessageMap}
 >
@@ -503,497 +552,7 @@ The `withAuthenticator` HOC wraps an `Authenticator` component. Using `Authentic
 </Authenticator>
 ```
 
-#### Wrapping your Component
-
-This will render your App component with *Authenticator*:
-
-```javascript
-import { Authenticator } from 'aws-amplify-react'; // or 'aws-amplify-react-native'
-...
-
-class AppWithAuth extends Component {
-  render(){
-    return (
-      <div>
-      <Authenticator>
-        <App />
-      </Authenticator>
-      </div>
-    );
-  }
-}
-
-export default AppWithAuth;
-```
-
-#### Show your App After Sign-in
-
-In the previous example, you'll see the App is rendered even before the user is signed-in. To change this behavior, you can use *Authenticator* properties. When inside `Authenticator`, the App component automatically receives those properties.
-
-**authState** is the current authentication state (a string):
-```
- - signIn
- - signUp
- - confirmSignIn
- - confirmSignUp
- - forgotPassword
- - verifyContact
- - signedIn
- ```
-
-**authData** - additional data within authState; when the state is `signedIn`, it will return a [`CognitoUser`](https://github.com/aws-amplify/amplify-js/blob/master/packages/amazon-cognito-identity-js/index.d.ts#L48) object.
-
-Using the options above, to control the condition for *Authenticator* to render App component, simply set `_validAuthStates` property:
-
-```javascript
-this._validAuthStates = ['signedIn'];
-```
-
-Then, in the component's constructor,  implement `showComponent(theme) {}` in lieu of the typical `render() {}` method.
-
-### Federated Identities (Social Sign-in)
-
-**Availability Note**
-Currently, the federated identity components only support `google`, `facebook`, `amazon`, `developer` and OpenID(e.g. `auth0`). To use an `OpenID` provider, use the URI of your provider as the key, e.g. `accounts.your-openid-provider.com`. Please see our[ Setup Guide for Federated Identities]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/federated-identity).
-{: .callout .callout--info}
-
-#### Federated Sign In
-
-The `Auth.federatedSignIn()` is used to get AWS credentials directly from Cognito Federated Identities, which is different from Cognito User Pools. When an AWS service (such as S3) uses IAM for authorization, the request needs to be signed with AWS credentials and Cognito Federated Identities provides short term AWS credentials for performing this action using mobile or web applications. Amplify automatically refreshes these short term credentials in the background on your behalf, and when using `Auth.signIn()` you **do not** need to call  `Auth.federatedSignIn()` as this process happens automatically in the background for you. `Auth.signIn()` will also provide JWT OIDC tokens from Cognito User Pools which are federated with Cognito Federated Identities on your behalf allowing your application to interact with AWS services, which the other Amplify categories (such as Storage and API) will sign requests automatically.
-
-In general, if you are using Cognito User Pools to manage user Sign-Up and Sign-In you do not need to call `Auth.federatedSignIn()` as this happens automatically behind the scenes when your User Pool is federated with an Identity Pool. You will be able to retrieve User Pool tokens with `Auth.currentSession` and the user object (from User Pools) with `Auth.currentAuthenticatedUser`. The AWS credentials can be found with `Auth.currentCredentials`.
-
-```js
-import { Auth } from 'aws-amplify';
-
-// To derive necessary data from the provider
-const {
-    token, // the token you get from the provider
-    domainOrProviderName, // Either the domain of the provider(e.g. accounts.your-openid-provider.com) or the provider name, for now the library only supports 'google', 'facebook', 'amazon', 'developer'
-    expiresIn, // the time in ms which describes how long the token could live
-    user,  // the user object you defined, e.g. { username, email, phone_number }
-    identity_id // Optional, the identity id specified by the provider
-} = getFromProvider(); // arbitrary funcion
-
-Auth.federatedSignIn({
-    domain,
-    {
-        token,
-        identity_id, // Optional
-        expires_at: expiresIn * 1000 + new Date().getTime() // the expiration timestamp
-    },
-    user
-}).then(cred => {
-    // If success, you will get the AWS credentials
-    console.log(cred);
-    return Auth.currentAuthenticatedUser();
-}).then(user => {
-    // If success, the user object you passed in Auth.federatedSignIn
-    console.log(user);
-}).catch(e => {
-    console.log(e)
-});
-```
-
-**Note:**
-this is not using anything from Cognito User Pool so the user you get after calling this method is not a *Cognito User*. Please do not use this method when you've already signed in from Cognito User Pool.
-{: .callout .callout--info}
-
-#### Code Samples
-
-Facebook Sample in React:
-```js
-import { Auth } from 'aws-amplify';
-// To federated sign in from Facebook
-class SignInWithFacebook extends React.Component {
-    constructor(props) {
-        super(props);
-        this.signIn = this.signIn.bind(this);
-    }
-
-    componentDidMount() {
-        if (!window.FB) this.createScript();
-    }
-
-    signIn() {
-        const fb = window.FB;
-        fb.getLoginStatus(response => {
-            if (response.status === 'connected') {
-                this.getAWSCredentials(response.authResponse);
-            } else {
-                fb.login(
-                    response => {
-                        if (!response || !response.authResponse) {
-                            return;
-                        }
-                        this.getAWSCredentials(response.authResponse);
-                    },
-                    {
-                        // the authorized scopes
-                        scope: 'public_profile,email'
-                    }
-                );
-            }
-        });
-    }
-
-    getAWSCredentials(response) {
-            const { accessToken, expiresIn } = response;
-            const date = new Date();
-            const expires_at = expiresIn * 1000 + date.getTime();
-            if (!accessToken) {
-                return;
-            }
-
-            const fb = window.FB;
-            fb.api('/me', { fields: 'name,email' }, response => {
-                const user = {
-                    name: response.name,
-                    email: response.email
-                };
-                
-                Auth.federatedSignIn('facebook', { token: accessToken, expires_at }, user)
-                .then(credentials => {
-                    console.log(credentials);
-                });
-            });
-        }
-
-    createScript() {
-        // load the sdk
-        window.fbAsyncInit = this.fbAsyncInit;
-        const script = document.createElement('script');
-        script.src = 'https://connect.facebook.net/en_US/sdk.js';
-        script.async = true;
-        script.onload = this.initFB;
-        document.body.appendChild(script);
-    }
-
-    initFB() {
-        const fb = window.FB;
-        console.log('FB SDK inited');
-    }
-
-    fbAsyncInit() {
-        // init the fb sdk client
-        const fb = window.FB;
-        fb.init({
-            appId   : 'your_facebook_app_id',
-            cookie  : true,
-            xfbml   : true,
-            version : 'v2.11'
-        });
-    }
-
-    render() {
-        return (
-            <div>
-                <button onClick={this.signIn}>Sign in with Facebook</button>
-            </div>
-        );
-    }
-}
-```
-
-Google Sample in React:
-```js
-import { Auth } from 'aws-amplify';
-// To federated sign in from Google
-class SignInWithGoogle extends React.Component {
-    constructor(props) {
-        super(props);
-        this.signIn = this.signIn.bind(this);
-    }
-
-    componentDidMount() {
-        const ga = window.gapi && window.gapi.auth2 ? 
-            window.gapi.auth2.getAuthInstance() : 
-            null;
-        if (!ga) this.createScript();
-    }
-
-    signIn() {
-        const ga = window.gapi.auth2.getAuthInstance();
-        ga.signIn().then(
-            googleUser => {
-                this.getAWSCredentials(googleUser);
-            },
-            error => {
-                console.log(error);
-            }
-        );
-    }
-
-    async getAWSCredentials(googleUser) {
-        const { id_token, expires_at } = googleUser.getAuthResponse();
-        const profile = googleUser.getBasicProfile();
-        let user = {
-            email: profile.getEmail(),
-            name: profile.getName()
-        };
-        
-        const credentials = await Auth.federatedSignIn(
-            'google',
-            { token: id_token, expires_at },
-            user
-        );
-        console.log('credentials', credentials);
-    }
-
-    createScript() {
-        // load the Google SDK
-        const script = document.createElement('script');
-        script.src = 'https://apis.google.com/js/platform.js';
-        script.async = true;
-        script.onload = this.initGapi;
-        document.body.appendChild(script);
-    }
-
-    initGapi() {
-        // init the Google SDK client
-        const g = window.gapi;
-        g.load('auth2', function() {
-            g.auth2.init({
-                client_id: 'your_google_client_id',
-                // authorized scopes
-                scope: 'profile email openid'
-            });
-        });
-    }
-
-    render() {
-        return (
-            <div>
-                <button onClick={this.signIn}>Sign in with Google</button>
-            </div>
-        );
-    }
-}
-```
-
-Facebook Example in React Native, Expo:
-```javascript
-import Expo from 'expo';
-import Amplify, { Auth } from 'aws-amplify';
-
-export default class App extends React.Component {
-  async signIn() {
-    const { type, token, expires } = await Expo.Facebook.logInWithReadPermissionsAsync('YOUR_FACEBOOK_APP_ID', {
-        permissions: ['public_profile'],
-      });
-    if (type === 'success') {
-      // sign in with federated identity
-      Auth.federatedSignIn('facebook', { token, expires_at: expires}, { name: 'USER_NAME' })
-        .then(credentials => {
-          console.log('get aws credentials', credentials);
-        }).catch(e => {
-          console.log(e);
-        });
-    }
-  }
-
-  // ...
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <Button title="FBSignIn" onPress={this.signIn.bind(this)} />
-      </View>
-    );
-  }
-}
-```
-
-**Retrieving JWT Token**
-
-After the federated login, you can retrieve related JWT token from the local cache using the *Cache* module: 
-```javascript
-import { Cache } from 'aws-amplify';
-
-// Run this after the sign-in
-Cache.getItem('federatedInfo').then(federatedInfo => {
-     const { token } = federatedInfo;
-});
-```
-
-**Refreshing JWT Tokens**
-
-By default, AWS Amplify will automatically refresh the tokens for Google and Facebook, so that your AWS credentials will be valid at all times. But if you are using another federated provider, you will need to provide your own token refresh method:
-```javascript
-import { Auth } from 'aws-amplify';
-
-function refreshToken() {
-    // refresh the token here and get the new token info
-    // ......
-
-    return new Promise(res, rej => {
-        const data = {
-            token, // the token from the provider
-            expires_at, // the timestamp for the expiration
-            identity_id, // optional, the identityId for the credentials
-        }
-        res(data);
-    });
-}
-
-Auth.configure({
-    refreshHandlers: {
-        'developer': refreshToken // the property could be 'google', 'facebook', 'amazon', 'developer', OpenId domain
-    }
-})
-```
-
-#### Using Components from aws-amplify-react
-
-To enable social sign-in in your app with Federated Identities, add `Google client_id`, `Facebook app_id` and/or `Amazon client_id` properties to `Authenticator` component. This will create a sign in button when rendering the `Authenticator` in your app.
-
-```javascript
-import { Authenticator } from 'aws-amplify-react/dist/Auth';
-
-const federated = {
-    google_client_id: '',
-    facebook_app_id: '',
-    amazon_client_id: ''
-};
-
-return (
-    <Authenticator federated={federated}>
-)
-```
-
-Or you can use it with `withAuthenticator`:
-```js
-const AppWithAuth = withAuthenticator(App);
-
-const federated = {
-    google_client_id: '', // Enter your google_client_id here
-    facebook_app_id: '', // Enter your facebook_app_id here
-    amazon_client_id: '' // Enter your amazon_client_id here
-};
-
-ReactDOM.render(<AppWithAuth federated={federated}/>, document.getElementById('root'));
-```
-
-#### Federated with Auth0
-
-You can use `Auth0` as one of the providers of your Cognito Federated Identity Pool. This will allow users authenticated via Auth0 have access to your AWS resources.
-
-Step 1. Learn [how to integrate Auth0 with Cognito Federated Identity Pools](https://auth0.com/docs/integrations/integrating-auth0-amazon-cognito-mobile-apps)
-
-Step 2. Login with `Auth0`, then use the id token returned to get AWS credentials from `Cognito Federated Identity Pools` using the `Auth.federatedSignIn` method:
-```js
-const { idToken, domain, name, email, phoneNumber } = getFromAuth0(); // get the user credentials and info from auth0
-const { exp } = decodeJWTToken(idToken); // Please decode the id token in order to get the expiration time
-
-Auth.federatedSignIn(
-    domain, // The Auth0 Domain,
-    {
-        token: idToken, // The id token from Auth0
-        // expires_at means the timstamp when the token provided expires,
-        // here we can derive it from the expiresIn parameter provided,
-        // then convert its unit from second to millisecond, and add the current timestamp
-        expires_at: exp * 1000 // the expiration timestamp
-    },
-    { 
-        // the user object, you can put whatever property you get from the Auth0
-        // for exmaple:
-        name, // the user name
-        email, // Optional, the email address
-        phoneNumber, // Optional, the phone number
-    } 
-).then(cred => {
-    console.log(cred);
-});
-```
-
-Step 3. Now you can get the current user and current Credentials:
-```js
-Auth.currentAuthenticatedUser().then(user => console.log(user));
-Auth.currentCredentials().then(creds => console.log(creds));
-
-// Auth.currentSession() does not currently support federated identities. Please store the auth0 session info manually(for exmaple, store tokens into the local storage).
-```
-
-Step 4. You can pass a refresh handler to the Auth module to refresh the id token from `Auth0`:
-```js
-function refreshToken() {
-    // refresh the token here and get the new token info
-    // ......
-
-    return new Promise(res, rej => {
-        const data = {
-            token, // the token from the provider
-            expires_at, // the timestamp when the token expires (in milliseconds)
-            identity_id, // optional, the identityId for the credentials
-        }
-        res(data);
-    });
-}
-
-Auth.configure({
-    refreshHandlers: {
-        'your_auth0_domain': refreshToken
-    }
-})
-```
-
-This feature is also integrated into `aws-amplify-react`. For example:
-```js
-import { withAuthenticator } from 'aws-amplify-react';
-import { Auth } from 'aws-amplify';
-
-// auth0 configuration, more info in: https://auth0.com/docs/libraries/auth0js/v9#available-parameters
-Auth.configure({
-    auth0: {
-        domain: 'your auth0 domain', 
-        clientID: 'your client id',
-        redirectUri: 'your call back url',
-        audience: 'https://your_domain/userinfo',
-        responseType: 'token id_token', // for now we only support implicit grant flow
-        scope: 'openid profile email', // the scope used by your app
-        returnTo: 'your sign out url'
-    }
-});
-
-class App extends Component {
-
-}
-
-export default withAuthenticator(App);
-```
-
-Note: The code grant flow is not supported when using Auth0 with `aws-amplify-react`, according to: https://auth0.com/docs/api-auth/tutorials/authorization-code-grant#2-exchange-the-authorization-code-for-an-access-token
-
-or you can just use the `withAuth0` HOC:
-```js
-import { withAuth0 } from 'aws-amplify-react';
-import { Auth } from 'aws-amplify';
-
-Auth.configure({
-    auth0: {
-        domain: 'your auth0 domain', 
-        clientID: 'your client id',
-        redirectUri: 'your call back url',
-        audience: 'https://your_domain/userinfo',
-        responseType: 'token id_token', // for now we only support implicit grant flow
-        scope: 'openid profile email', // the scope used by your app
-        returnTo: 'your sign out url'
-    }
-});
-
-const Button = (props) => (
-    <div>
-        <img
-            onClick={props.auth0SignIn}
-            src={auth0_icon}
-        />
-    </div>
-);
-
-export default withAuth0(Button);
-```
-
-### Customize UI
+#### Customize your own components
 
 You can provide custom components to the `Authenticator` as child components in React and React Native. 
 
@@ -1077,173 +636,157 @@ const federated = {
 
 There is also `withGoogle`, `withFacebook`, `withAmazon` components, in case you need to customize a single provider.
 
-### Using Amazon Cognito Hosted UI
+#### Wrapping your Component
 
-Amazon Cognito provides a customizable user experience via the hosted UI. The hosted UI supports OAuth 2.0 and Federated Identities with Facebook, Amazon, Google, OIDC and SAML providers. To learn more about Amazon Cognito Hosted UI, please visit [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-configuring-app-integration.html).
+This will render your App component with *Authenticator*:
 
-> ***The Hosted UI support is only available for React / React Native / Web***
+```javascript
+import { Authenticator } from 'aws-amplify-react'; // or 'aws-amplify-react-native'
+...
 
-#### Setup your Cognito App Client
+class AppWithAuth extends Component {
+  render(){
+    return (
+      <div>
+      <Authenticator>
+        <App />
+      </Authenticator>
+      </div>
+    );
+  }
+}
 
-To start using hosted UI, you need to configure your identity providers and setup your App Client in the Amazon Cognito console. You can also check the [Cognito doc: Adding Social Identity Providers to a User Pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html).
+export default AppWithAuth;
+```
 
-To enable the user pool domain for your hosted UI:
-- Go to [Amazon Cognito Console](https://aws.amazon.com/cognito/).
-- Click *User Pools* on the top menu to select a User Pool or create a new one.
-- On the left menu, go to  *App integration* > *Domain name*.
-- In the *Domain prefix* section, enter the prefix for the pages that will be hosted by Amazon Cognito.
+#### Show your App After Sign-in
 
-To configure your identity providers:
-- Go to [Amazon Cognito Console](https://aws.amazon.com/cognito/).
-- Click *User Pools* on the top menu to select a User Pool or create a new one.
-- Go to *Federation* > *Identity providers*
-- Select an *Identity provider* and enter required credentials for the identity provider. (e.g., App Id, App secret, Authorized scope)
+In the previous example, you'll see the App is rendered even before the user is signed-in. To change this behavior, you can use *Authenticator* properties. When inside `Authenticator`, the App component automatically receives those properties.
 
-To learn [how to register with a Social IdP]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/cognito-hosted-ui-federated-identity).
+**authState** is the current authentication state (a string):
+```
+ - signIn
+ - signUp
+ - confirmSignIn
+ - confirmSignUp
+ - forgotPassword
+ - verifyContact
+ - signedIn
+ ```
+
+**authData** - additional data within authState; when the state is `signedIn`, it will return a [`CognitoUser`](https://github.com/aws-amplify/amplify-js/blob/master/packages/amazon-cognito-identity-js/index.d.ts#L48) object.
+
+Using the options above, to control the condition for *Authenticator* to render App component, simply set `_validAuthStates` property:
+
+```javascript
+this._validAuthStates = ['signedIn'];
+```
+
+Then, in the component's constructor,  implement `showComponent(theme) {}` in lieu of the typical `render() {}` method.
+
+## Social Providers and Federation
+
+### Social Provider Setup
+
+Before adding a social provider to an Amplify project, you must first create go to that provider and configure an application identifier as outlined below.
+
+- [Facebook Instructions](./cognito-hosted-ui-federated-identity#facebook-instructions)
+- [Google Sign-In Instructions](./cognito-hosted-ui-federated-identity#google-sign-in-instructions)
+- [Amazon Login Instructions](./cognito-hosted-ui-federated-identity#amazon-login-instructions)
+
+### Amplify project setup
+
+Once you have the social provider configured, run the following in your project’s root folder:
+
+```terminal
+$ amplify add auth     ##"amplify update auth" if already configured
+```
+Select Default configuration with Social Provider (Federation):
+
+```terminal
+Do you want to use the default authentication and security configuration? 
+  Default configuration 
+❯ Default configuration with Social Provider (Federation) 
+  Manual configuration 
+  I want to learn more.
+```
+
+Note: For *Sign in Redirect URI(s)* inputs, you can put one URI for local development and one for production. Example: `http://localhost:3000/` in dev and `https://www.example.com/` in production. The same is true for *Sign out redirect URI(s)*.
 {: .callout .callout--info}
 
-To learn [what's Authorized scope](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html#cognito-user-pools-social-idp-step-2)
-{: .callout .callout--info}
+<div class="callout callout--info">
+For React Native applications, You need to define a custom URL scheme for your application before testing locally or publishing to the app store. This is different for Expo or vanilla React Native. Follow the steps at the [React Native Linking docs](https://facebook.github.io/react-native/docs/linking) or [Expo Linking docs](https://docs.expo.io/versions/latest/workflow/linking/) for more information.
 
-Note: your user pool domain is something like: `domain_prefix.auth.us-east-1.amazoncognito.com`
-{: .callout .callout--info}
+After completing those steps, assuming you are using "myapp" as the name of your URL Scheme (or whatever friendly name you have chosen), you will use these URLs as *Sign in Redirect URI(s)* and/or *Sign out redirect URI(s)* inputs.
 
-- To retrieve user attributes from your identity provider, go to *Federation* > *Attribute mapping*. Here, you can map Federation Provider attributes to corresponding User pool attributes. More info about [Attribute Mapping](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-specifying-attribute-mapping.html).
-
-If the attribute, for example *email*, is a required field in your Cognito User Pool settings, please make sure that you have selected *email* in your Authorized Scopes, and you have mapped it correctly to your User Pool attributes.
-{: .callout .callout-info}
-
-To setup App Client:
-- Go to [Amazon Cognito Console](https://aws.amazon.com/cognito/).
-- Click *User Pools* on the top menu to select a User Pool or create a new one.
-- Click *App integration*  and *App client settings* on the left menu.
-- Select *Enabled Identity Providers* and enter *Callback URL(s)* and *Sign out URL(s)* fields. 
-
-For example, in *Callback URL(s)*, you can put one url for local development, one for the production. If your app is running in `http://localhost:3000/` in local and `https://www.example.com/` in production, you can put `http://localhost:3000/,https://www.example.com/` under *Callback URL(s)*. Same as the *Signout URL(s)*.
-{: .callout .callout--info}
-
-<div>
-For React Native applications, you can put one url for local development, one for production.
-
-You need to define a custom URL scheme for your application before testing locally or publishing to the app store. This is different for Expo or vanilla React Native. Follow the steps at the [React Native Linking docs](https://facebook.github.io/react-native/docs/linking) or [Expo Linking docs](https://docs.expo.io/versions/latest/workflow/linking/) for more information.
-
-After completing those steps, assuming you are using "myapp" as the name of your URL Scheme (or whatever friendly name you have chosen), you will use this URL in the Cognito Hosted UI domain URL.
-
-Your URLs could look like any of these:
+Your URIs could look like any of these:
 
 - `myapp://`
 - `exp://127.0.0.1:19000/--/` (Local development if your app is running [in the Expo client](https://docs.expo.io/versions/latest/workflow/linking/#linking-to-your-app)).
-One way to get your app URL when using Expo, is doing this:
-
-```js
-import { Linking } from 'expo';
-
-console.log('url', Linking.makeUrl('/'));
-```
-
 </div>
-{: .callout .callout--info}
 
-- Under the *OAuth 2.0* section, Choose OAuth Flow and OAuth scopes. [To learn more about flows and scopes.](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-idp-settings.html)
-- Select an OAuth Flow. 
+### Finish Social Setup
 
-By using *Authorization code grant* the callback URL will contain a code after login. The code will be used to exchange for tokens from Cognito with the TOKEN Endpoint.
-{: .callout .callout--info}
+After adding your Social provider information into the Amplify project setup, the domain that was created must be added into the Social provider configuration to complete the process.
 
-By using *Implicit grant* the callback URL will contain tokens(access token, id token) after login.
-{: .callout .callout--info}
+- [Facebook Instructions](./cognito-hosted-ui-federated-identity#facebook-instructions-1)
+- [Google Sign-In Instructions](./cognito-hosted-ui-federated-identity#google-sign-in-instructions-1)
+- [Amazon Login Instructions](./cognito-hosted-ui-federated-identity#amazon-login-instructions-1)
 
-The *Client credentials* flow is used in machine-to-machine communications. With it you can request an access token to access your own resources. Use this flow when your app is requesting the token on its own behalf, not on behalf of a user.
-{: .callout .callout--info}
+### OAuth and Federation Overview
+[OAuth 2.0](https://en.wikipedia.org/wiki/OAuth) is the common Authorization framework used by web and mobile applications for getting access to user information ("scopes") in a limited manner. Common analogies you will hear in OAuth is that of boarding a plane or staying in a hotel - showing your identification is the Authentication piece (signing into an app) and using the boarding pass/hotel key is what you are Authorized to access.
 
-*Authorization code grant* is the recommended choice for security reasons.
-{: .callout .callout--info} 
+OAuth support in Amplify uses Cognito User Pools and supports federation with social providers, which will automatically create a corresponding user in the User Pool after a login. [OIDC](https://en.wikipedia.org/wiki/OpenID_Connect) tokens are available in the app after the application has completed this process.
 
-- Choose item(s) from *OAuth Scopes*.
+#### OAuth and Hosted UI
 
-Note: `openid` is required for `phone`, `email` or `profile`. Also `openid` is required to get the id token from the Cognito authorization server.
-{: .callout .callout--info}
-
-- Click 'Save Changes'. 
-
-#### Configuring the Hosted UI
-
-To configure your application for hosted UI, you need to use *oauth* options:
-
-> ***The Hosted UI support is only available for React / React Native / Web***
+After configuring the OAuth endpoints, you can use them or the Hosted UI with `Auth.federatedSignIn()`. Passing *Amazon*, *Facebook*, or *Google* will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example.
 
 ```javascript
-import Amplify from 'aws-amplify';
+import Amplify, { Auth, Hub } from 'aws-amplify';
+import awsmobile from './aws_exports';
+Amplify.configure(awsmobile);
 
-const oauth = {
-    // Domain name
-    domain : 'your-domain-prefix.auth.us-east-1.amazoncognito.com', 
 
-    // Authorized scopes
-    scope : ['phone', 'email', 'profile', 'openid','aws.cognito.signin.user.admin'], 
+class App extends Component {
+  state = { user: null };
 
-    // Callback URL
-    redirectSignIn : 'http://www.example.com/signin/', // or 'exp://127.0.0.1:19000/--/', 'myapp://main/'
+  componentDidMount() {
+    Hub.listen("auth", ({ payload: { event, data } }) => {
+      switch (event) {
+        case "signIn":
+          this.setState({ user: data });
+          break;
+        case "signOut":
+          this.setState({ user: null });
+          break;
+      }
+    });
 
-    // Sign out URL
-    redirectSignOut : 'http://www.example.com/signout/', // or 'exp://127.0.0.1:19000/--/', 'myapp://main/'
+    Auth.currentAuthenticatedUser()
+      .then(user => this.setState({ user }))
+      .catch(() => console.log("Not signed in"));
+  }
 
-    // 'code' for Authorization code grant, 
-    // 'token' for Implicit grant
-    responseType: 'code',
+  render() {
+    const { user } = this.state;
 
-    // optional, for Cognito hosted ui specified options
-    options: {
-        // Indicates if the data collection is enabled to support Cognito advanced security features. By default, this flag is set to true.
-        AdvancedSecurityDataCollectionFlag : true
-    }
+    return (
+      <div>
+      <div className="App">
+        <button onClick={() => Auth.federatedSignIn({provider: 'Facebook'})}>Open Facebook</button>
+        <button onClick={() => Auth.federatedSignIn({provider: 'Google'})}>Open Google</button>
+        <button onClick={() => Auth.federatedSignIn()}>Open Hosted UI</button>
+        <button onClick={() => Auth.signOut()}>Sign Out {user.getUsername()}</button>
+      </div>
+    );
+  }
 }
-
-Amplify.configure({
-    Auth: {
-        // other configurations...
-        // ....
-        oauth: oauth
-    },
-    // ...
-});
 ```
 
-Note: An ID token is only returned if openid scope is requested. The access token can be only used against Amazon Cognito User Pools if aws.cognito.signin.user.admin scope is requested. The phone, email, and profile scopes can only be requested if openid scope is also requested.
-{: .callout .callout--info}
+#### React Components
 
-#### Launching the Hosted UI
-
-To invoke the browser to display the hosted UI, you need to construct the URL in your app;
-
-```javascript
-const config = Auth.configure();
-const { 
-    domain,  
-    redirectSignIn, 
-    redirectSignOut,
-    responseType } = config.oauth;
-
-const clientId = config.userPoolWebClientId;
-// The url of the Cognito Hosted UI
-const url = 'https://' + domain + '/login?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId;
-// If you only want to log your users in with Google or Facebook, you can construct the url like:
-const url_to_google = 'https://' + domain + '/oauth2/authorize?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId + '&identity_provider=Google';
-const url_to_facebook = 'https://' + domain + '/oauth2/authorize?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId + '&identity_provider=Facebook';
-
-// Launch hosted UI
-window.location.assign(url);
-
-// Launch Google/Facebook login page
-window.location.assign(url_to_google);
-window.location.assign(url_to_facebook);
-```
-
-
-
-#### Launching the Hosted UI in React 
-
-With React, you can use `withOAuth` HOC to launch the hosted UI experience. Just wrap your app's main component with our HOC:
+When using React and React Native, Amplify provides a `withOAuth` Higher Order Component (HOC) to launch the Hosted UI or bypass and use the social providers directly. The HOCs differ slightly and there are specifics outlined below.
 
 ```javascript
 import { withOAuth } from 'aws-amplify-react';
@@ -1260,11 +803,33 @@ class MyApp extends React.Component {
 }
 
 export default withOAuth(MyApp);
-``` 
+```
 
-#### Make it work in your App
+After being redirected back to your app, you can use the [Hub module]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/hub#listening-authentication-events) to detect whether the user is signed in or not.
 
-Here is a code sample of how to integrate it in the React App: (Web)
+```javascript
+import Amplify, { Hub } from 'aws-amplify';
+
+// in your redirected sign in page
+// when the page is loaded, run the following function
+Hub.listen('auth', (data) => {
+    switch (data.payload.event) {
+        case 'signIn':
+            console.log('now the user is signed in');
+            const user = data.payload.data;
+            break;
+        case 'signIn_failure':
+            console.log('the user failed to sign in');
+            console.log('the error is', data.payload.data);
+            break;
+        default:
+            break;
+    }
+});
+```
+
+**Full React Sample**
+
 ```js
 // App.js
 import React, { Component } from 'react';
@@ -1289,12 +854,27 @@ Auth.configure({ oauth });
 class App extends Component {
   constructor(props) {
     super(props);
-    this.onHubCapsule = this.onHubCapsule.bind(this);
     this.signOut = this.signOut.bind(this);
     // let the Hub module listen on Auth events
-    Hub.listen('auth', this);
+    Hub.listen('auth', (data) => {
+        switch (data.payload.event) {
+            case 'signIn':
+                this.setState({authState: 'signedIn'});
+                this.setState({authData: data.payload.data});
+                break;
+            case 'signIn_failure':
+                this.setState({authState: 'signIn'});
+                this.setState({authData: null});
+                this.setState({authError: data.payload.data});
+                break;
+            default:
+                break;
+        }
+    });
     this.state = {
-      authState: 'loading'
+      authState: 'loading',
+      authData: null,
+      authError: null
     }
   }
 
@@ -1308,25 +888,6 @@ class App extends Component {
       console.log(e);
       this.setState({authState: 'signIn'});
     });
-  }
-
-  onHubCapsule(capsule) {
-    // The Auth module will emit events when user signs in, signs out, etc
-    const { channel, payload, source } = capsule;
-    if (channel === 'auth') {
-      switch (payload.event) {
-        case 'signIn':
-          console.log('signed in');
-          this.setState({authState: 'signedIn'});
-          break;
-        case 'signIn_failure':
-          console.log('not signed in');
-          this.setState({authState: 'signIn'});
-          break;
-        default:
-          break;
-      }
-    }
   }
 
   signOut() {
@@ -1366,49 +927,7 @@ class OAuthButton extends React.Component {
 }
 
 export default withOAuth(OAuthButton);
-
-// CustomButton.js
-// If you dont use aws-amplify-react, you can construct your own button
-import React, { Component } from 'react';
-import { Auth } from 'aws-amplify';
-
-class CustomButton extends React.Component {
-  signIn() {
-    const config = Auth.configure();
-    const { 
-        domain,  
-        redirectSignIn, 
-        redirectSignOut,
-        responseType } = config.oauth;
-
-    const clientId = config.userPoolWebClientId;
-    // The url of the Cognito Hosted UI
-    const url = 'https://' + domain + '/login?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId;
-    // If you only want to log your users in with Google or Facebook, you can construct the url like:
-    const url_to_google = 'https://' + domain + '/oauth2/authorize?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId + '&identity_provider=Google';
-    const url_to_facebook = 'https://' + domain + '/oauth2/authorize?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId + '&identity_provider=Facebook';
-
-    // Launch hosted UI
-    window.location.assign(url);
-
-    // Launch Google/Facebook login page
-    // window.location.assign(url_to_google);
-    // window.location.assign(url_to_facebook);
-  }
-
-  render() {
-    return (
-      <button onClick={this.signIn}>
-        Customized Login
-      </button>
-    )
-  }
-}
-
-export default CustomButton;
 ```
-
-#### Launching the Hosted UI in React Native 
 
 With React Native, you can use `withOAuth` HOC to launch the hosted UI experience. Just wrap your app's main component with our HOC. Doing so, will pass the following `props` available to your component:
 
@@ -1562,9 +1081,459 @@ Amplify.configure({
 });
 ```
 
-#### Handling Authentication Events
+### Identity Pool Federation
 
-When using the hosted UI, you can handle authentication events by creating event listeners with the [Hub module]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/hub#listening-authentication-events).
+You can alternatively use `Auth.federatedSignIn()` to get AWS credentials directly from Cognito Federated Identities and not use User Pool federation. If you have logged in with `Auth.signIn()` you **can not** call  `Auth.federatedSignIn()` as Amplify will perform this federation automatically for you in the background.
+
+In general, if you are using Cognito User Pools to manage user Sign-Up and Sign-In, you should only call `Auth.federatedSignIn()` when using OAuth flows or the Hosted UI.
+
+```js
+import { Auth } from 'aws-amplify';
+
+// To derive necessary data from the provider
+const {
+    token, // the token you get from the provider
+    domainOrProviderName, // Either the domain of the provider(e.g. accounts.your-openid-provider.com) or the provider name, for now the library only supports 'google', 'facebook', 'amazon', 'developer'
+    expiresIn, // the time in ms which describes how long the token could live
+    user,  // the user object you defined, e.g. { username, email, phone_number }
+    identity_id // Optional, the identity id specified by the provider
+} = getFromProvider(); // arbitrary funcion
+
+Auth.federatedSignIn(
+    domain,
+    {
+        token,
+        identity_id, // Optional
+        expires_at: expiresIn * 1000 + new Date().getTime() // the expiration timestamp
+    },
+    user
+).then(cred => {
+    // If success, you will get the AWS credentials
+    console.log(cred);
+    return Auth.currentAuthenticatedUser();
+}).then(user => {
+    // If success, the user object you passed in Auth.federatedSignIn
+    console.log(user);
+}).catch(e => {
+    console.log(e)
+});
+```
+
+Note that this isn't from a Cognito User Pool so the user you get after calling this method is not a *Cognito User*.
+{: .callout .callout--info}
+
+#### Code Samples
+
+##### Facebook React Sample 
+
+```js
+import { Auth } from 'aws-amplify';
+// To federated sign in from Facebook
+class SignInWithFacebook extends React.Component {
+    constructor(props) {
+        super(props);
+        this.signIn = this.signIn.bind(this);
+    }
+
+    componentDidMount() {
+        if (!window.FB) this.createScript();
+    }
+
+    signIn() {
+        const fb = window.FB;
+        fb.getLoginStatus(response => {
+            if (response.status === 'connected') {
+                this.getAWSCredentials(response.authResponse);
+            } else {
+                fb.login(
+                    response => {
+                        if (!response || !response.authResponse) {
+                            return;
+                        }
+                        this.getAWSCredentials(response.authResponse);
+                    },
+                    {
+                        // the authorized scopes
+                        scope: 'public_profile,email'
+                    }
+                );
+            }
+        });
+    }
+
+    getAWSCredentials(response) {
+            const { accessToken, expiresIn } = response;
+            const date = new Date();
+            const expires_at = expiresIn * 1000 + date.getTime();
+            if (!accessToken) {
+                return;
+            }
+
+            const fb = window.FB;
+            fb.api('/me', { fields: 'name,email' }, response => {
+                const user = {
+                    name: response.name,
+                    email: response.email
+                };
+                
+                Auth.federatedSignIn('facebook', { token: accessToken, expires_at }, user)
+                .then(credentials => {
+                    console.log(credentials);
+                });
+            });
+        }
+
+    createScript() {
+        // load the sdk
+        window.fbAsyncInit = this.fbAsyncInit;
+        const script = document.createElement('script');
+        script.src = 'https://connect.facebook.net/en_US/sdk.js';
+        script.async = true;
+        script.onload = this.initFB;
+        document.body.appendChild(script);
+    }
+
+    initFB() {
+        const fb = window.FB;
+        console.log('FB SDK inited');
+    }
+
+    fbAsyncInit() {
+        // init the fb sdk client
+        const fb = window.FB;
+        fb.init({
+            appId   : 'your_facebook_app_id',
+            cookie  : true,
+            xfbml   : true,
+            version : 'v2.11'
+        });
+    }
+
+    render() {
+        return (
+            <div>
+                <button onClick={this.signIn}>Sign in with Facebook</button>
+            </div>
+        );
+    }
+}
+```
+
+##### Google Sample in React
+
+```js
+import { Auth } from 'aws-amplify';
+// To federated sign in from Google
+class SignInWithGoogle extends React.Component {
+    constructor(props) {
+        super(props);
+        this.signIn = this.signIn.bind(this);
+    }
+
+    componentDidMount() {
+        const ga = window.gapi && window.gapi.auth2 ? 
+            window.gapi.auth2.getAuthInstance() : 
+            null;
+        if (!ga) this.createScript();
+    }
+
+    signIn() {
+        const ga = window.gapi.auth2.getAuthInstance();
+        ga.signIn().then(
+            googleUser => {
+                this.getAWSCredentials(googleUser);
+            },
+            error => {
+                console.log(error);
+            }
+        );
+    }
+
+    async getAWSCredentials(googleUser) {
+        const { id_token, expires_at } = googleUser.getAuthResponse();
+        const profile = googleUser.getBasicProfile();
+        let user = {
+            email: profile.getEmail(),
+            name: profile.getName()
+        };
+        
+        const credentials = await Auth.federatedSignIn(
+            'google',
+            { token: id_token, expires_at },
+            user
+        );
+        console.log('credentials', credentials);
+    }
+
+    createScript() {
+        // load the Google SDK
+        const script = document.createElement('script');
+        script.src = 'https://apis.google.com/js/platform.js';
+        script.async = true;
+        script.onload = this.initGapi;
+        document.body.appendChild(script);
+    }
+
+    initGapi() {
+        // init the Google SDK client
+        const g = window.gapi;
+        g.load('auth2', function() {
+            g.auth2.init({
+                client_id: 'your_google_client_id',
+                // authorized scopes
+                scope: 'profile email openid'
+            });
+        });
+    }
+
+    render() {
+        return (
+            <div>
+                <button onClick={this.signIn}>Sign in with Google</button>
+            </div>
+        );
+    }
+}
+```
+
+##### Facebook Example in React Native, Expo
+
+```javascript
+import Expo from 'expo';
+import Amplify, { Auth } from 'aws-amplify';
+
+export default class App extends React.Component {
+  async signIn() {
+    const { type, token, expires } = await Expo.Facebook.logInWithReadPermissionsAsync('YOUR_FACEBOOK_APP_ID', {
+        permissions: ['public_profile'],
+      });
+    if (type === 'success') {
+      // sign in with federated identity
+      Auth.federatedSignIn('facebook', { token, expires_at: expires}, { name: 'USER_NAME' })
+        .then(credentials => {
+          console.log('get aws credentials', credentials);
+        }).catch(e => {
+          console.log(e);
+        });
+    }
+  }
+
+  // ...
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Button title="FBSignIn" onPress={this.signIn.bind(this)} />
+      </View>
+    );
+  }
+}
+```
+
+#### Retrieve JWT Tokens
+
+After the federated login, you can retrieve related JWT tokens from the local cache using the *Cache* module:
+
+##### Browser sample
+
+```javascript
+import { Cache } from 'aws-amplify';
+
+// Run this after the sign-in
+const federatedInfo = Cache.getItem('federatedInfo');
+const { token } = federatedInfo;
+```
+
+##### React Native sample 
+
+```javascript
+import { Cache } from 'aws-amplify';
+
+// inside an async function
+// Run this after the sign-in
+const federatedInfo = await Cache.getItem('federatedInfo');
+const { token } = federatedInfo;
+```
+
+#### Token Refresh
+
+By default, Amplify will automatically refresh the tokens for Google and Facebook, so that your AWS credentials will be valid at all times. But if you are using another federated provider, you will need to provide your own token refresh method:
+
+##### JWT Token Refresh sample
+
+```javascript
+import { Auth } from 'aws-amplify';
+
+function refreshToken() {
+    // refresh the token here and get the new token info
+    // ......
+
+    return new Promise(res, rej => {
+        const data = {
+            token, // the token from the provider
+            expires_at, // the timestamp for the expiration
+            identity_id, // optional, the identityId for the credentials
+        }
+        res(data);
+    });
+}
+
+Auth.configure({
+    refreshHandlers: {
+        'developer': refreshToken // the property could be 'google', 'facebook', 'amazon', 'developer', OpenId domain
+    }
+})
+```
+
+#### Using Components from aws-amplify-react
+
+To enable social sign-in in your app with Identity Pools, add `Google client_id`, `Facebook app_id` and/or `Amazon client_id` properties to `Authenticator` component. This will create a sign in button when rendering the `Authenticator` in your app.
+
+```javascript
+import { Authenticator } from 'aws-amplify-react/dist/Auth';
+
+const federated = {
+    google_client_id: '',
+    facebook_app_id: '',
+    amazon_client_id: ''
+};
+
+return (
+    <Authenticator federated={federated}>
+)
+```
+
+Or you can use it with `withAuthenticator`:
+```js
+const AppWithAuth = withAuthenticator(App);
+
+const federated = {
+    google_client_id: '', // Enter your google_client_id here
+    facebook_app_id: '', // Enter your facebook_app_id here
+    amazon_client_id: '' // Enter your amazon_client_id here
+};
+
+ReactDOM.render(<AppWithAuth federated={federated}/>, document.getElementById('root'));
+```
+
+#### Federated with Auth0
+
+You can use `Auth0` as one of the providers of your Cognito Identity Pool. This will allow users authenticated via Auth0 have access to your AWS resources.
+
+Step 1. [Follow Auth0 integration instructions for Cognito Federated Identity Pools](https://auth0.com/docs/integrations/integrating-auth0-amazon-cognito-mobile-apps)
+
+Step 2. Login with `Auth0`, then use the id token returned to get AWS credentials from `Cognito Federated Identity Pools` using `Auth.federatedSignIn`:
+
+```js
+const { idToken, domain, name, email, phoneNumber } = getFromAuth0(); // get the user credentials and info from auth0
+const { exp } = decodeJWTToken(idToken); // Please decode the id token in order to get the expiration time
+
+Auth.federatedSignIn(
+    domain, // The Auth0 Domain,
+    {
+        token: idToken, // The id token from Auth0
+        // expires_at means the timestamp when the token provided expires,
+        // here we can derive it from the expiresIn parameter provided,
+        // then convert its unit from second to millisecond, and add the current timestamp
+        expires_at: exp * 1000 // the expiration timestamp
+    },
+    { 
+        // the user object, you can put whatever property you get from the Auth0
+        // for exmaple:
+        name, // the user name
+        email, // Optional, the email address
+        phoneNumber, // Optional, the phone number
+    } 
+).then(cred => {
+    console.log(cred);
+});
+```
+
+Step 3. Get the current user and current Credentials:
+
+```js
+Auth.currentAuthenticatedUser().then(user => console.log(user));
+Auth.currentCredentials().then(creds => console.log(creds));
+// Auth.currentSession() does not currently support federated identities. Please store the auth0 session info manually(for exmaple, store tokens into the local storage).
+```
+
+Step 4. You can pass a refresh handler to the Auth module to refresh the id token from `Auth0`:
+
+```js
+function refreshToken() {
+    // refresh the token here and get the new token info
+    // ......
+
+    return new Promise(res, rej => {
+        const data = {
+            token, // the token from the provider
+            expires_at, // the timestamp when the token expires (in milliseconds)
+            identity_id, // optional, the identityId for the credentials
+        }
+        res(data);
+    });
+}
+
+Auth.configure({
+    refreshHandlers: {
+        'your_auth0_domain': refreshToken
+    }
+})
+```
+
+This feature is also integrated into `aws-amplify-react`:
+```js
+import { withAuthenticator } from 'aws-amplify-react';
+import { Auth } from 'aws-amplify';
+
+// auth0 configuration, more info in: https://auth0.com/docs/libraries/auth0js/v9#available-parameters
+Auth.configure({
+    auth0: {
+        domain: 'your auth0 domain', 
+        clientID: 'your client id',
+        redirectUri: 'your call back url',
+        audience: 'https://your_domain/userinfo',
+        responseType: 'token id_token', // for now we only support implicit grant flow
+        scope: 'openid profile email', // the scope used by your app
+        returnTo: 'your sign out url'
+    }
+});
+
+class App extends Component { //... }
+
+export default withAuthenticator(App);
+```
+
+Note: The code grant flow is not supported when using Auth0 with `aws-amplify-react` per [Auth0 documentation](https://auth0.com/docs/api-auth/tutorials/authorization-code-grant#2-exchange-the-authorization-code-for-an-access-token).
+
+Alternatively you can use the `withAuth0` HOC:
+```js
+import { withAuth0 } from 'aws-amplify-react';
+import { Auth } from 'aws-amplify';
+
+Auth.configure({
+    auth0: {
+        domain: 'your auth0 domain', 
+        clientID: 'your client id',
+        redirectUri: 'your call back url',
+        audience: 'https://your_domain/userinfo',
+        responseType: 'token id_token', // for now we only support implicit grant flow
+        scope: 'openid profile email', // the scope used by your app
+        returnTo: 'your sign out url'
+    }
+});
+
+const Button = (props) => (
+    <div>
+        <img
+            onClick={props.auth0SignIn}
+            src={auth0_icon}
+        />
+    </div>
+);
+
+export default withAuth0(Button);
+```
     
 ### Enabling MFA
 
@@ -1632,7 +1601,12 @@ You can get current preferred MFA type in your code:
 ```javascript
 import { Auth } from 'aws-amplify';
 
-Auth.getPreferredMFA(user).then((data) => {
+// Will retrieve the current mfa type from cache
+Auth.getPreferredMFA(user,{
+    // Optional, by default is false. 
+    // If set to true, it will get the MFA type from server side instead of from local cache.
+    bypassCache: false 
+}).then((data) => {
     console.log('Current prefered MFA type is: ' + data);
 })
 ```
