@@ -927,7 +927,7 @@ The Amplify CLI provides support for maintaining multiple environments out of th
 
 ```
 type Query {
-  echo(msg: String): String @function(name: "echofunction-${dev}")
+  echo(msg: String): String @function(name: "echofunction-${env}")
 }
 ```
 
@@ -1007,7 +1007,7 @@ exports.handler = async (event) => {
 
 > When deploying the function make sure you supply an environment variable named COGNITO_USERPOOL_ID with the value defined under the key **UserPoolId** in **amplify-meta.json**
 
-When deploying you function make sure you have provided an execution role with permission to call the Amazon Cognito User Pools admin APIs. Attaching this policy to your function execution role will give you the permissions you need.
+When deploying your function make sure you have provided an execution role with permission to call the Amazon Cognito User Pools admin APIs. Attaching this policy to your function execution role will give you the permissions you need.
 
 ```json
 {
