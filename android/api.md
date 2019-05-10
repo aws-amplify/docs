@@ -96,10 +96,10 @@ This will open the AWS AppSync console for you to run Queries, Mutations, or Sub
 To use AppSync in your Android studio project, modify the project's `build.gradle` with the following dependency in the build script:
 
 ```bash
-    classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.7.+'
+    classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.8.+'
 ```
 
-Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `implementation 'com.amazonaws:aws-android-sdk-appsync:2.7.+'`. For example:
+Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `implementation 'com.amazonaws:aws-android-sdk-appsync:2.8.+'`. For example:
 
 
 ```bash
@@ -110,7 +110,7 @@ Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws
     }
     dependencies {
         // Typical dependencies
-        implementation 'com.amazonaws:aws-android-sdk-appsync:2.7.+'
+        implementation 'com.amazonaws:aws-android-sdk-appsync:2.8.+'
         implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
         implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
     }
@@ -170,7 +170,7 @@ Inside your application code, such as the `onCreate()` lifecycle method of your 
 
 ### Run a Query
 
-Now that the client is configured, you can run a GraphQL query. The syntax of the callback is `GraphQLCall.Callback<{NAME>Query.Data>` where `{NAME}` comes from the GraphQL statements that `amplify codegen` created after you ran a Gradle build. You invoke this from an instance of the AppSync client with a similar syntax of `.query(<NAME>Query.builder().build())`. For example, if you have a `ListTodos` query, your code will look like the following:
+Now that the client is configured, you can run a GraphQL query. The syntax of the callback is `GraphQLCall.Callback<{NAME}>Query.Data>` where `{NAME}` comes from the GraphQL statements that `amplify codegen` created after you ran a Gradle build. You invoke this from an instance of the AppSync client with a similar syntax of `.query(<NAME>Query.builder().build())`. For example, if you have a `ListTodos` query, your code will look like the following:
 
 ```java
     public void query(){
@@ -415,6 +415,32 @@ optimisticWrite(createTodoInput);
 ```
 
 You might add similar code in your app for updating or deleting items using an optimistic response, it would look largely similar except that you might overwrite or remove an element from the `response.data().listTodos().items()` array. A recommended best practice would be to create similar overloaded methods for `optimisticWrite(UpdateTodoInput updateTodoInput)` and `optimisticWrite(DeleteTodoInput deleteTodoInput)`. 
+
+Offline mutations work by default and are available in memory, as well as through app restarts. The `onResponse` callback in mutations is received when the network is available and will be executed as long as the app wasn't closed. However if the app was closed or crashed, the `persistentMutationsCallback` will be called in the `AWSAppSyncClient` builder which has information about the mutation type and identifier. You should use this in your client initialization routine to protect against any unknown app behaviors such as application errors or user interference:
+
+```java
+
+    private AWSAppSyncClient mAWSAppSyncClient;
+    
+    mAWSAppSyncClient = AWSAppSyncClient.builder()
+      .context(getApplicationContext())
+      .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+        .persistentMutationsCallback(new PersistentMutationsCallback() {
+          @Override
+          public void onResponse(PersistentMutationsResponse response) {
+            if (response.getMutationClassName().equals("AddPostMutation")) {
+              // perform action here add post mutation
+            }
+          }
+
+          @Override
+          public void onFailure(PersistentMutationsError error) {
+            // handle error feedback here
+          }
+        })
+      .build();
+    
+```
 
 ### Authentication Modes
 
@@ -877,9 +903,9 @@ Add the following to your `app/build.gradle`:
 
 ```groovy
 	dependencies {
-		implementation 'com.amazonaws:aws-android-sdk-apigateway-core:2.12.+'
-		implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.12.+@aar') { transitive = true }
-		implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.12.+@aar') { transitive = true }
+		implementation 'com.amazonaws:aws-android-sdk-apigateway-core:2.13.+'
+		implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.13.+@aar') { transitive = true }
+		implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.13.+@aar') { transitive = true }
 	}
 ```
 

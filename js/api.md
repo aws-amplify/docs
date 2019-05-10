@@ -1807,13 +1807,14 @@ let items = await API.get('myCloudApi', '/items', {
 });
 ```
 
-**Accessing Query Parameters in Cloud API**
+**Accessing Query Parameters & body in Cloud API**
 
-If you are using a Cloud API which is generated with Amplify CLI, your backend is created with Lambda Proxy Integration, and you can access your query parameters within your Lambda function via the *event* object:
+If you are using a Cloud API which is generated with Amplify CLI, your backend is created with Lambda Proxy Integration, and you can access your query parameters & body within your Lambda function via the *event* object:
 
 ```javascript
 exports.handler = function(event, context, callback) {
     console.log (event.queryStringParameters);
+    console.log('body: ', event.body)
 }
 ```
 
@@ -1823,6 +1824,8 @@ Alternatively, you can update your backend file which is located at `amplifyjs/b
 var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 app.use(awsServerlessExpressMiddleware.eventContext())
 ```
+
+Accessing Query Parameters
 
 In your request handler use `req.apiGateway.event`:
 
@@ -1839,8 +1842,41 @@ Then you can use query parameters in your path as follows:
 API.get('sampleCloudApi', '/items?q=test');
 ```
 
+Accessing Body
+
+In your request handler you can also access the `req.body`:
+
+```javascript
+app.get('/items', function(req, res) {
+  // req.body
+  res.json(req.body)
+});
+```
+
+Then you can use body in your path as follows:
+
+```javascript
+const params = {
+  body: { title: "Hello World" }
+}
+
+API.get('sampleCloudApi', '/items', params);
+```
+
 To learn more about Lambda Proxy Integration, please visit [Amazon API Gateway Developer Guide](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-create-api-as-simple-proxy-for-lambda.html).
 {: .callout .callout--info}
+
+**Custom Response Type**
+
+By default, calling an API with AWS Amplify parses a JSON response. If you have a REST API endpoint which returns, for example, a file in Blob format, you can specify a custom response type using the `responseType` parameter in your method call:
+
+```javascript
+let file = await API.get('myCloudApi', '/items', {
+  'responseType': 'blob'
+});
+```
+
+Allowed values for `responseType` are "arraybuffer", "blob", "document", "json" or "text"; and it defaults to "json" if not specified. See the documentation https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/responseType for more information.
 
 #### **POST**
 
@@ -1875,6 +1911,20 @@ async function postData() {
 }
 
 postData();
+```
+
+Access body in the Lambda function
+
+```javascript
+// using a basic lambda handler
+exports.handler = (event, context) => {
+  console.log('body: ', event.body);
+}
+
+// using serverless express
+app.post('/myendpoint', function(req, res) {
+  console.log('body: ', req.body)
+});
 ```
 
 #### **PUT**
@@ -1922,6 +1972,20 @@ const params = {
     }
 }
 const apiResponse = await API.put('MyTableCRUD', '/manage-items', params);
+```
+
+Access body in the Lambda function
+
+```javascript
+// using a basic lambda handler
+exports.handler = (event, context) => {
+  console.log('body: ', event.body);
+}
+
+// using serverless express
+app.post('/myendpoint', function(req, res) {
+  console.log('body: ', req.body)
+});
 ```
 
 #### **DELETE**

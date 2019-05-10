@@ -12,7 +12,9 @@ Enable your app to store and retrieve user files from cloud storage with the per
 
 ### Storage Access
 
-The CLI configures three different access levels on the storage bucket: public, protected and private. When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool Role. If you had previously enabled user sign-in by running `amplify add auth` in your project, the policies will be connected to an `Authenticated Role` of the Identity Pool which has scoped permission to the objects in the bucket for each user identity. If you haven't configured user sign-in, then an `Unauthenticated Role` will be assigned for each unique user/device combination, which still has scoped permissions to just their objects.
+The CLI configures three different access levels on the storage bucket: public, protected and private. When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool Role. You will have the option of adding CRUD (Create/Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels.
+
+If you had previously enabled user sign-in by running `amplify add auth` in your project, the policies will be connected to an `Authenticated Role` of the Identity Pool which has scoped permission to the objects in the bucket for each user identity. If you haven't configured user sign-in, then an `Unauthenticated Role` will be assigned for each unique user/device combination, which still has scoped permissions to just their objects.
 
 * Public: Accessible by all users of your app. Files are stored under the `public/` path in your S3 bucket.
 * Protected: Readable by all users, but writable only by the creating user. Files are stored under `protected/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
@@ -681,7 +683,7 @@ After you have a resolver for the mutation, to ensure that our S3 Complex Object
 ```
   $util.toJson($util.dynamodb.fromS3ObjectJson($context.source.file))
 ```
-The AWS AppSync SDK doesn't take a direct dependency on the AWS SDK for iOS for Amazon S3, but takes in :code:`AWSS3TransferUtility` and :code:`AWSS3PresignedURLClient` clients as part of AWSAppSyncClientConfiguration. The code generator used above for generating the API generates the Amazon S3 wrappers required to use the previous clients in the client code. To generate the wrappers, pass the :code:`--add-s3-wrapper` flag while running the code generator tool. You also need to take a dependency on the AWSS3 SDK. You can do that by updating your Podfile to the following:
+The AWS AppSync SDK doesn't take a direct dependency on the AWS SDK for iOS for Amazon S3, but takes in `AWSS3TransferUtility` and `AWSS3PresignedURLClient` clients as part of AWSAppSyncClientConfiguration. The code generator used above for generating the API generates the Amazon S3 wrappers required to use the previous clients in the client code. To generate the wrappers, pass the `--add-s3-wrapper` flag while running the code generator tool. You also need to take a dependency on the AWSS3 SDK. You can do that by updating your Podfile to the following:
  
   ```ruby
   target: 'PostsApp' do
@@ -721,7 +723,7 @@ After adding the new mutation in our operations file, we run the code generator 
 ```bash
   aws-appsync-codegen generate GraphQLOperations/posts.graphql --schema GraphQLOperations/schema.json --output API.swift --add-s3-wrapper
 ```
-Update the :code:`AWSAppSyncClientConfiguration` object to provide the :code:`AWSS3TransferUtility` client for managing the uploads and downloads:
+Update the `AWSAppSyncClientConfiguration` object to provide the `AWSS3TransferUtility` client for managing the uploads and downloads:
 ```swift
   let appSyncConfig = try AWSAppSyncClientConfiguration(url: AppSyncEndpointURL,
                                                       serviceRegion: AppSyncRegion,

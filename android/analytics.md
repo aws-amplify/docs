@@ -62,6 +62,28 @@ The Amplify CLI helps setup and configure Pinpoint within your application and c
     $ amplify push
     ```
 
+#### Update your IAM Policy:
+
+Amazon Pinpoint service requires an IAM policy in order to use the `submitEvents` API:
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "mobiletargeting:UpdateEndpoint",
+                "mobiletargeting:PutEvents"
+            ],
+            "Resource": [
+                "arn:aws:mobiletargeting:*:${accountID}:apps/${appId}*"
+            ]
+        }
+    ]
+}
+```
+
 ### Connect to Your Backend
 
 Use the following steps to add analytics to your mobile app and monitor the results through Amazon Pinpoint.
@@ -71,8 +93,8 @@ Use the following steps to add analytics to your mobile app and monitor the resu
 
 ```groovy
 dependencies {
-  implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.12.+'
-  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.12.+@aar') { transitive = true }
+  implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.13.+'
+  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.13.+@aar') { transitive = true }
 }
 ```
 
@@ -670,8 +692,8 @@ Set up AWS Mobile SDK components by including the following libraries in your `a
 
 ```groovy
 dependencies {
-  implementation 'com.amazonaws:aws-android-sdk-kinesis:2.12.+'
-  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.12.+@aar') { transitive = true }
+  implementation 'com.amazonaws:aws-android-sdk-kinesis:2.13.+'
+  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.13.+@aar') { transitive = true }
 }
 ```
 
