@@ -884,7 +884,7 @@ const client = new AWSAppSyncClient({
 
 **Key prefix**
 
-The `AWSAppSyncClient` persists its store data (e.g. cache) using `redux-persist`. Keys in the persisted store will be prefixed by the provided `keyPrefix`.
+The `AWSAppSyncClient` persists its cache data to support offline scenarios. Keys in the persisted cache will be prefixed by the provided `keyPrefix`.
 
 This prefix is required when offline support is enabled and you want to use more than one client in your app (e.g. by [accessing a multi-auth enabled AppSync API](#aws-appsync-multi-auth))
 
@@ -1530,7 +1530,7 @@ client.sync({
 
 #### AWS AppSync Multi-Auth
 
-AWS AppSync can support multiple authentication modes on a single API. [LINK TO APPSYNC DOCS](http://docs). In order to use this feature with the `aws-appsync` SDK, you can create multiple instances of the client where each instance uses a different auth type.
+AWS AppSync can support multiple authorization modes on a single API. [LINK TO APPSYNC DOCS](http://docs). In order to use this feature with the `aws-appsync` SDK, you can create multiple instances of the client where each instance uses a different authorization type.
 
 Using different clients is supported in the following UI bindings for Apollo: 
 
@@ -1569,7 +1569,7 @@ const client2 = new AWSAppSyncClient({
 
 **Offline capabilities enabled**
 
-Multiple clients cannot share the same `keyPrefix` since it is used to separate each client's persisted data (e.g. cache). When using multiple clients, make sure that you provide a different `keyPrefix` in the `offlineConfig` object.
+Multiple clients **cannot** share the same `keyPrefix` since it is used to separate each client's persisted data (e.g. cache). When using multiple clients, make sure that you provide a different `keyPrefix` in the `offlineConfig` object.
 {: .callout .callout--info}
 
 ```javascript
