@@ -19,6 +19,7 @@ Authenticator
 aws_bots_config.name
 aws-exports
 analytics
+arraybuffer
 backend
 botTitle
 cli
@@ -229,6 +230,9 @@ amplify-s3-album
 styles.css
 6.x
 polyfills.ts
+forgotPassword
+requireNewPassword
+amplifyService
 
 # js/interactions.md
 chatbots
@@ -356,9 +360,11 @@ DynamoDBBillingMode
 PAY_PER_REQUEST
 DynamoDBModelTableWriteIOPS
 DynamoDBModelTableReadIOPS
+ssn
 
 # cli/graphql.md
 DataSource
+DataSources
 onCreate
 onUpdate
 onDelete
@@ -380,6 +386,8 @@ S3Object
 s3
 versionInput
 versioning
+PAY_PER_REQUEST
+MySQL
 
 # js/vue.md
 confirmSignInConfig
