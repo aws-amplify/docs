@@ -371,7 +371,7 @@ AWS AppSync can support multiple authorization modes on a single API. [LINK TO A
 - `OPENID_CONNECT`
 - `AMAZON_COGNITO_USER_POOLS`
 
-This is an example of using a `AWS_IAM` as an authorization mode:
+This is an example of using `AWS_IAM` as an authorization mode:
 
 ```javascript
 // Creating a post is restricted to IAM 
