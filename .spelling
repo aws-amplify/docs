@@ -20,6 +20,7 @@ Authenticator
 aws_bots_config.name
 aws-exports
 analytics
+arraybuffer
 backend
 botTitle
 cli

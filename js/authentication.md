@@ -84,6 +84,8 @@ $ amplify push
 
 A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`.
 
+**NOTE**: If your Authentication resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli/lambda-node-version-update)
+
 ##### Configure Your App
 
 In your app's entry point i.e. App.js, import and load the configuration file:
@@ -184,7 +186,7 @@ try {
         const loggedUser = await Auth.confirmSignIn(
             user,   // Return object from Auth.signIn()
             code,   // Confirmation code  
-            mfaType // MFA Type e.g. SMS, TOTP.
+            mfaType // MFA Type e.g. SMS_MFA, SOFTWARE_TOKEN_MFA
         );
     } else if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
         const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
@@ -711,6 +713,17 @@ Do you want to use the default authentication and security configuration?
 
 Note: For *Sign in Redirect URI(s)* inputs, you can put one URI for local development and one for production. Example: `http://localhost:3000/` in dev and `https://www.example.com/` in production. The same is true for *Sign out redirect URI(s)*.
 {: .callout .callout--info}
+
+<div class="callout callout--info">
+For React Native applications, You need to define a custom URL scheme for your application before testing locally or publishing to the app store. This is different for Expo or vanilla React Native. Follow the steps at the [React Native Linking docs](https://facebook.github.io/react-native/docs/linking) or [Expo Linking docs](https://docs.expo.io/versions/latest/workflow/linking/) for more information.
+
+After completing those steps, assuming you are using "myapp" as the name of your URL Scheme (or whatever friendly name you have chosen), you will use these URLs as *Sign in Redirect URI(s)* and/or *Sign out redirect URI(s)* inputs.
+
+Your URIs could look like any of these:
+
+- `myapp://`
+- `exp://127.0.0.1:19000/--/` (Local development if your app is running [in the Expo client](https://docs.expo.io/versions/latest/workflow/linking/#linking-to-your-app)).
+</div>
 
 ### Finish Social Setup
 
@@ -1588,7 +1601,12 @@ You can get current preferred MFA type in your code:
 ```javascript
 import { Auth } from 'aws-amplify';
 
-Auth.getPreferredMFA(user).then((data) => {
+// Will retrieve the current mfa type from cache
+Auth.getPreferredMFA(user,{
+    // Optional, by default is false. 
+    // If set to true, it will get the MFA type from server side instead of from local cache.
+    bypassCache: false 
+}).then((data) => {
     console.log('Current prefered MFA type is: ' + data);
 })
 ```
