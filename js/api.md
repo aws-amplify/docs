@@ -1530,7 +1530,7 @@ client.sync({
 
 #### AWS AppSync Multi-Auth
 
-AWS AppSync can support multiple authorization modes on a single API. [LINK TO APPSYNC DOCS](http://docs). In order to use this feature with the `aws-appsync` SDK, you can create multiple instances of the client where each instance uses a different authorization type.
+AWS AppSync can support [multiple authorization modes on a single API](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes). In order to use this feature with the `aws-appsync` SDK, you can create multiple instances of the client where each instance uses a different authorization type.
 
 Using different clients is supported in the following UI bindings for Apollo: 
 
