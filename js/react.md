@@ -215,8 +215,8 @@ Now, inside the `App` component add the following two methods before the `render
       description: 'Amplify CLI rocks!'
     };
     
-    const newEvent = await API.graphql(graphqlOperation(addTodo, todoDetails));
-    alert(JSON.stringify(newEvent));
+    const newTodo = await API.graphql(graphqlOperation(addTodo, todoDetails));
+    alert(JSON.stringify(newTodo));
   }
 
   listQuery = async () => {
