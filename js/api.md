@@ -378,7 +378,7 @@ This is an example of using `AWS_IAM` as an authorization mode:
 const createdTodo = await API.graphql({
   query: queries.createTodo,
   variables: {input: todoDetails},
-  authMode: AUTH_MODE.AWS_IAM
+  authMode: 'AWS_IAM'
 });
 ```
 
