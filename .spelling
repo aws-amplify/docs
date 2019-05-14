@@ -8,6 +8,7 @@ aws-amplify-angular
 @aws-amplify/storage
 App.vue
 app.js
+authMode
 APIs
 AmplifyAngularModule
 AmplifyIonicModule
