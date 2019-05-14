@@ -826,6 +826,7 @@ When using the AWS AppSync SDK offline capabilities (e.g. `disableOffline: false
 
 - Error handling: (`callback`)
 - Custom storage engine (`storage`)
+- A key prefix for the underlying store (`keyPrefix`)
 
 **Error handling**
 
@@ -901,6 +902,14 @@ const client = new AWSAppSyncClient({
   },
 });
 ```
+
+
+**Key prefix**
+
+The `AWSAppSyncClient` persists its cache data to support offline scenarios. Keys in the persisted cache will be prefixed by the provided `keyPrefix`.
+
+This prefix is required when offline support is enabled and you want to use more than one client in your app (e.g. by [accessing a multi-auth enabled AppSync API](#aws-appsync-multi-auth))
+
 
 #### Offline Mutations
 
@@ -1539,6 +1548,78 @@ client.sync({
         }
       }
     });
+```
+
+#### AWS AppSync Multi-Auth
+
+AWS AppSync can support [multiple authorization modes on a single API](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes). In order to use this feature with the `aws-appsync` SDK, you can create multiple instances of the client where each instance uses a different authorization type.
+
+Using different clients is supported in the following UI bindings for Apollo: 
+
+- [Vue](https://vue-apollo.netlify.com/guide/multiple-clients.html)
+- [Angular](https://www.apollographql.com/docs/angular/features/multiple-clients)
+- [React](https://www.apollographql.com/docs/react/api/react-apollo#ApolloProvider)
+
+**Offline capabilities disabled** (`disableOffline: true`)
+
+```javascript
+import Amplify, { Auth } from "aws-amplify";
+import AWSAppSyncClient, { AUTH_TYPE } from "aws-appsync";
+import awsConfig from "./aws-exports";
+
+Amplify.configure(awsConfig);
+
+// Client 1 uses API_KEY as auth type
+const client1 = new AWSAppSyncClient({
+  url: awsConfig.aws_appsync_graphqlEndpoint,
+  region: awsConfig.aws_appsync_region
+  auth: { type: AUTH_TYPE.API_KEY, apiKey: awsConfig.aws_appsync_apiKey},
+  disableOffline: true,
+});
+
+// Client 2 uses AMAZON_COGNITO_USER_POOLS as auth type, leverages Amplify's token handling/refresh
+const client2 = new AWSAppSyncClient({
+  url: awsConfig.aws_appsync_graphqlEndpoint,
+  region: awsConfig.aws_appsync_region
+  auth: { 
+    type: AUTH_TYPE.AMAZON_COGNITO_USER_POOLS,
+    jwtToken: async () => (await Auth.currentSession()).getIdToken().getJwtToken(),
+    disableOffline: true,
+  }
+});
+```
+
+**Offline capabilities enabled**
+
+Multiple clients **cannot** share the same `keyPrefix` since it is used to separate each client's persisted data (e.g. cache). When using multiple clients, make sure that you provide a different `keyPrefix` in the `offlineConfig` object.
+{: .callout .callout--info}
+
+```javascript
+import Amplify, { Auth } from "aws-amplify";
+import AWSAppSyncClient, { AUTH_TYPE } from "aws-appsync";
+import awsConfig from "./aws-exports";
+
+Amplify.configure(awsConfig);
+
+// Client 1 uses API_KEY as auth type
+const client1 = new AWSAppSyncClient({
+  url: awsConfig.aws_appsync_graphqlEndpoint,
+  region: awsConfig.aws_appsync_region
+  auth: { type: AUTH_TYPE.API_KEY, apiKey: awsConfig.aws_appsync_apiKey},
+  offlineConfig: {
+    keyPrefix: 'public'
+  }
+});
+
+// Client 2 uses AWS_IAM as auth type, leverages Amplify's credentials handling/refresh
+const client2 = new AWSAppSyncClient({
+  url: awsConfig.aws_appsync_graphqlEndpoint,
+  region: awsConfig.aws_appsync_region
+  auth: { type: AUTH_TYPE.AWS_IAM, credentials: () => Auth.currentCredentials() },
+  offlineConfig: {
+    keyPrefix: 'private'
+  }
+});
 ```
 
 ### Angular
