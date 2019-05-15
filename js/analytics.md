@@ -125,7 +125,8 @@ Amplify.configure({
 
             // OPTIONAL - The limit for failed recording retries.
             resendLimit: 5
-        } 
+        }
+    }
 });
 ```
 
