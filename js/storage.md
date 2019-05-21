@@ -843,7 +843,7 @@ See the [Angular Guide](https://aws-amplify.github.io/amplify-js/media/angular_g
 You can customize your upload path by defining prefixes:
 
 ```javascript
-const customPrefix: {
+const customPrefix = {
     public: 'myPublicPrefix/',
     protected: 'myProtectedPrefix/',
     private: 'myPrivatePrefix/'
