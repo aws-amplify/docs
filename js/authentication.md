@@ -1133,7 +1133,7 @@ const oauth = {
 
     // 'code' for Authorization code grant, 
     // 'token' for Implicit grant
-    // Note that REFRESH token will only generated when the responseType is code
+    // Note that REFRESH token will only be generated when the responseType is code
     responseType: 'code',
 
     // optional, for Cognito hosted ui specified options
