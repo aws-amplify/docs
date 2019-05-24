@@ -452,7 +452,7 @@ Auth.configure({
 ```
 
 Here is the example of how to use AsyncStorage as your storage object which will show you how to sync items from AsyncStorage into Memory:
-```js
+```javascript
 import { AsyncStorage } from 'react-native';
 
 const MEMORY_KEY_PREFIX = '@MyStorage:';
