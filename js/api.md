@@ -2204,7 +2204,6 @@ Then in your code, you can import the Api module by:
 import API from '@aws-amplify/api';
 
 API.configure();
-
 ```
 
 ## API Reference   
