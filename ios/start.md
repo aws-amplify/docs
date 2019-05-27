@@ -107,7 +107,7 @@ Run `pod install` and **build your app**.
 
 ## Step 5: Integrate into your app
 
-initialize the AppSync client inside your application delegate:
+Initialize the AppSync client inside your application delegate:
 
 ```swift
 import AWSAppSync
