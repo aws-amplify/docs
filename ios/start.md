@@ -133,6 +133,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // other methods
         return true
     }
+}
 ```
 
 Next, in your application code where you wish to use the AppSync client (like your View Controller) reference this in the `viewDidLoad()` lifecycle method:
