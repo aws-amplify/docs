@@ -92,8 +92,8 @@ In your app's entry point i.e. App.js, import and load the configuration file:
 
 ```javascript
 import Amplify, { Auth } from 'aws-amplify';
-import awsmobile from './aws-exports';
-Amplify.configure(awsmobile);
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
 ```
 
 ### Manual Setup
@@ -469,9 +469,9 @@ Just add these two lines to your `App.js`:
 import { withAuthenticator } from 'aws-amplify-react'; // or 'aws-amplify-react-native';
 import Amplify from 'aws-amplify';
 // Get the aws resources configuration parameters
-import aws_exports from './aws-exports'; // if you are using Amplify CLI
+import awsconfig from './aws-exports'; // if you are using Amplify CLI
 
-Amplify.configure(aws_exports);
+Amplify.configure(awsconfig);
 
 // ...
 
@@ -670,6 +670,7 @@ In the previous example, you'll see the App is rendered even before the user is 
  - confirmSignIn
  - confirmSignUp
  - forgotPassword
+ - requireNewPassword
  - verifyContact
  - signedIn
  ```
@@ -733,8 +734,8 @@ After configuring the OAuth endpoints, you can use them or the Hosted UI with `A
 
 ```javascript
 import Amplify, { Auth, Hub } from 'aws-amplify';
-import awsmobile from './aws_exports';
-Amplify.configure(awsmobile);
+import awsconfig from './aws_exports';
+Amplify.configure(awsconfig);
 
 
 class App extends Component {
@@ -778,9 +779,10 @@ class App extends Component {
 When using React and React Native, Amplify provides a `withOAuth` Higher Order Component (HOC) to launch the Hosted UI or bypass and use the social providers directly. The HOCs differ slightly and there are specifics outlined below.
 
 ```javascript
+import React, { Component } from 'react';
 import { withOAuth } from 'aws-amplify-react';
 
-class MyApp extends React.Component {
+class MyApp extends Component {
     // ...
     render() {
         return(
@@ -820,13 +822,28 @@ Hub.listen('auth', (data) => {
 **Full React Sample**
 
 ```js
+// OAuthButton.js
+import { withOAuth } from 'aws-amplify-react';
+import React, { Component } from 'react';
+
+class OAuthButton extends Component {
+  render() {
+    return (
+      <button onClick={this.props.OAuthSignIn}>
+        Sign in with AWS
+      </button>
+    )
+  }
+}
+
+export default withOAuth(OAuthButton);
+
 // App.js
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import OAuthButton from './OAuthButton';
-import Amplify, {Auth, Hub} from 'aws-amplify';
-import awsmobile from './aws-exports'; // your Amplify configuration
+import Amplify, { Auth, Hub } from 'aws-amplify';
+import awsconfig from './aws-exports'; // your Amplify configuration
 
 // your Cognito Hosted UI configuration
 const oauth = {
@@ -837,7 +854,7 @@ const oauth = {
   responseType: 'code' // or token
 };
 
-Amplify.configure(awsmobile);
+Amplify.configure(awsconfig);
 Auth.configure({ oauth });
 
 class App extends Component {
@@ -848,13 +865,10 @@ class App extends Component {
     Hub.listen('auth', (data) => {
         switch (data.payload.event) {
             case 'signIn':
-                this.setState({authState: 'signedIn'});
-                this.setState({authData: data.payload.data});
+                this.setState({authState: 'signedIn', authData: data.payload.data});
                 break;
             case 'signIn_failure':
-                this.setState({authState: 'signIn'});
-                this.setState({authData: null});
-                this.setState({authError: data.payload.data});
+                this.setState({authState: 'signIn', authData: null, authError: data.payload.data});
                 break;
             default:
                 break;
@@ -900,22 +914,6 @@ class App extends Component {
 }
 
 export default App;
-
-// OAuthButton.js
-import { withOAuth } from 'aws-amplify-react';
-import React, { Component } from 'react';
-
-class OAuthButton extends React.Component {
-  render() {
-    return (
-      <button onClick={this.props.OAuthSignIn}>
-        Sign in with AWS
-      </button>
-    )
-  }
-}
-
-export default withOAuth(OAuthButton);
 ```
 
 With React Native, you can use `withOAuth` HOC to launch the hosted UI experience. Just wrap your app's main component with our HOC. Doing so, will pass the following `props` available to your component:
@@ -946,6 +944,7 @@ yarn add aws-amplify-react-native aws-amplify
 The following code snippet shows an example of its possible usage:
 
 ```javascript
+import React, { Component } from 'react';
 import { StyleSheet, Text, ScrollView, SafeAreaView, StatusBar, Button } from 'react-native';
 import { default as Amplify } from "aws-amplify";
 import { withOAuth } from "aws-amplify-react-native";
@@ -962,7 +961,7 @@ Amplify.configure({
 });
 
 
-class App extends React.Component {
+class App extends Component {
   render() {
     const {
       oAuthUser: user,
@@ -1116,9 +1115,10 @@ Note that this isn't from a Cognito User Pool so the user you get after calling 
 ##### Facebook React Sample 
 
 ```js
+import React, { Component } from 'react';
 import { Auth } from 'aws-amplify';
 // To federated sign in from Facebook
-class SignInWithFacebook extends React.Component {
+class SignInWithFacebook extends Component {
     constructor(props) {
         super(props);
         this.signIn = this.signIn.bind(this);
@@ -1211,9 +1211,10 @@ class SignInWithFacebook extends React.Component {
 ##### Google Sample in React
 
 ```js
+import React, { Component } from 'react';
 import { Auth } from 'aws-amplify';
 // To federated sign in from Google
-class SignInWithGoogle extends React.Component {
+class SignInWithGoogle extends Component {
     constructor(props) {
         super(props);
         this.signIn = this.signIn.bind(this);
@@ -1289,9 +1290,10 @@ class SignInWithGoogle extends React.Component {
 
 ```javascript
 import Expo from 'expo';
+import React, { Component } from 'react';
 import Amplify, { Auth } from 'aws-amplify';
 
-export default class App extends React.Component {
+export default class App extends Component {
   async signIn() {
     const { type, token, expires } = await Expo.Facebook.logInWithReadPermissionsAsync('YOUR_FACEBOOK_APP_ID', {
         permissions: ['public_profile'],
@@ -1601,10 +1603,10 @@ When working with multiple MFA Types, you can let the app user select the desire
 
 ```javascript
 import Amplify from 'aws-amplify';
-import amplify from './aws-exports';
+import awsconfig from './aws-exports';
 import { SelectMFAType } from 'aws-amplify-react';
 
-Amplify.configure(amplify);
+Amplify.configure(awsconfig);
 
 // Please have at least TWO types
 // Please make sure you set it properly according to your Cognito User pool

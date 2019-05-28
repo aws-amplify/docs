@@ -66,8 +66,8 @@ Import the configuration file and load it in `main.ts`:
 
 ```javascript
 import Amplify from 'aws-amplify';
-import amplify from './aws-exports';
-Amplify.configure(amplify);
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
 ```
 
 
@@ -97,8 +97,8 @@ Import the configuration file and load it in `main.ts`:
 
 ```javascript
 import Amplify from '@aws-amplify/core';
-import amplify from './aws-exports';
-Amplify.configure(amplify);
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
 ```
 
 In your [app module](https://angular.io/guide/bootstrapping) `src/app/app.module.ts` import the Amplify Module, Service, and Amplify Modules helper.  Additionally, import the amplify modules that you want to access via your Amplify provider.
