@@ -56,6 +56,28 @@ The Amplify CLI helps setup and configure Pinpoint within your application and c
     $ amplify push
     ```
 
+#### Update your IAM Policy:
+
+Amazon Pinpoint service requires an IAM policy in order to use the `submitEvents` API:
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "mobiletargeting:UpdateEndpoint",
+                "mobiletargeting:PutEvents"
+            ],
+            "Resource": [
+                "arn:aws:mobiletargeting:*:${accountID}:apps/${appId}*"
+            ]
+        }
+    ]
+}
+```
+
 ### Connect to Your Backend
 
 Use the following steps to add analytics to your mobile app and monitor the results through Amazon Pinpoint.
@@ -85,39 +107,44 @@ If you encounter an error message that begins `[!] Failed to connect to GitHub t
 
 2. Classes that call Amazon Pinpoint APIs must use the following import statements:
 
-    ```swift
-    /** start code copy **/
-    import AWSCore
-    import AWSPinpoint
-    import AWSMobileClient
-    /** end code copy **/
-    ```
+```swift
+/** start code copy **/
+import AWSPinpoint
+import AWSMobileClient
+/** end code copy **/
+```
 
 3. To send events with Amazon Pinpoint, you'll instantiate a Pinpoint instance. We recommend you do this during app startup, so you can use Pinpoint to record app launch analytics. Edit the `application(_:didFinishLaunchingWithOptions:)` method of your app's `AppDelegate.swift` by adding a `pinpoint` instance property, and initializing the Pinpoint client as shown below:
 
-    ```swift
-    class AppDelegate: UIResponder, UIApplicationDelegate {
+```swift
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
-       /** start code copy **/
-       var pinpoint: AWSPinpoint?
-       /** end code copy **/
+    /** start code copy **/
+    var pinpoint: AWSPinpoint?
+    /** end code copy **/
 
-       func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions:
-       [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-            //. . .
+        // Other didFinishLaunching code...
 
-            // Initialize Pinpoint
-            /** start code copy **/
-            let pinpointConfiguration = AWSPinpointConfiguration.defaultPinpointConfiguration(launchOptions: launchOptions)
-            pinpoint = AWSPinpoint(configuration: pinpointConfiguration)
+        /** start code copy **/
+        // Create AWSMobileClient to connect with AWS
+        AWSMobileClient.sharedInstance().initialize { (userState, error) in
+          if let error = error {
+	    print("Error initializing AWSMobileClient: \(error.localizedDescription)")
+          } else if let userState = userState {
+	    print("AWSMobileClient initialized. Current UserState: \(userState.rawValue)")
+          }
+        }
 
-            // Create AWSMobileClient to connect with AWS
-            return AWSMobileClient.sharedInstance().interceptApplication(application, didFinishLaunchingWithOptions: launchOptions)
-            /** end code copy **/
-       }
+        // Initialize Pinpoint
+        let pinpointConfiguration = AWSPinpointConfiguration.defaultPinpointConfiguration(launchOptions: launchOptions)
+        pinpoint = AWSPinpoint(configuration: pinpointConfiguration)
+        /** end code copy **/
+        return true
     }
-    ```
+}
+```
 
 #### Monitor Analytics
 
@@ -125,9 +152,9 @@ Build and run your app to see usage metrics in Amazon Pinpoint. When you run the
 
 1. To see visualizations of the analytics coming from your app, open your project in the Amazon Pinpoint console by running the following:
 
-    ```bash
-    $ amplify console analytics
-    ```
+```bash
+$ amplify console analytics
+```
 
 2. Choose `Analytics` from the icons on the left of the console, and view the graphs of your app's usage. It may take up to 15 minutes for metrics to become visible.
 

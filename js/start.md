@@ -10,7 +10,7 @@ Use the drop-down menu at the top right of this page to choose the framework for
 ## What Does the Amplify Framework include?
 
 - The Amplify CLI toolchain for creating and managing a serverless backend, web hosting, and codegen 
-- JavaScript, iOS, and Android libraries for simple access your AWS resources using a category based programming model
+- JavaScript, iOS, and Android libraries for simple access to your AWS resources using a category based programming model
 - Framework-specific UI component libraries for React, React Native, Angular, Ionic and Vue.
 
 Amplify includes support for [iOS]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/ios/start) and [Android]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/android/start) development.
@@ -415,6 +415,10 @@ You'll notice that the Amplify CLI is also creating an Auth resource for you (th
 
 > After your analytics resource has been successfully created, the Amplify configuration file (`aws-exports.js`) will be added to the source directory. (The 'src' directory for your project is defined by your answer to the `Source Directory Path` question during `amplify init`.)
 
+**If You Change Your Mind**
+
+You can update a service by running `amplify update <category-name>`. If you no longer want to use a service you can delete it with `amplify remove <category-name>`. Lastly, you can wipe out the whole project by running `amplify delete` (Warning: This will attempt to delete everything locally and in the cloud and reset your project as if you never ran `amplify init`).
+
 ## Step 4. Integrate AWS Resources
 
 <div class="nav-tab install" data-group='install'>
@@ -503,6 +507,7 @@ class App extends Component {
               <p>Events sent: {this.state.eventsSent + 1}</p>
               <a href={url} target="_blank" rel="noopener noreferrer">View Events on the Amazon Pinpoint Console</a>
             </div>);
+
             this.setState({
                 analyticsEventSent: true,
                 resultHtml: result,
