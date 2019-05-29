@@ -396,6 +396,18 @@ AppClientIDWeb
 typeName
 fieldName
 prev
+ge
+lt
+le
+beginsWith
+queryField
+createdAt
+customerEmail
+orderId
+status#createdAt
+IN_TRANSIT
+statusCreatedAt
+ByStatus
 
 # js/vue.md
 confirmSignInConfig
