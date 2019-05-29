@@ -1075,7 +1075,7 @@ exports.handler = async (event) => {
 You can connect this function to your AppSync API deployed via Amplify using this schema:
 
 ```
-type Mutation {
+type Query {
     posts: [Post] @function(name: "GraphQLResolverFunction")
 }
 type Post {
