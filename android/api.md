@@ -170,7 +170,7 @@ Inside your application code, such as the `onCreate()` lifecycle method of your 
 
 ### Run a Query
 
-Now that the client is configured, you can run a GraphQL query. The syntax of the callback is `GraphQLCall.Callback<{NAME}>Query.Data>` where `{NAME}` comes from the GraphQL statements that `amplify codegen` created after you ran a Gradle build. You invoke this from an instance of the AppSync client with a similar syntax of `.query(<NAME>Query.builder().build())`. For example, if you have a `ListTodos` query, your code will look like the following:
+Now that the client is configured, you can run a GraphQL query. The syntax of the callback is `GraphQLCall.Callback<{NAME}Query.Data>` where `{NAME}` comes from the GraphQL statements that `amplify codegen` created after you ran a Gradle build. You invoke this from an instance of the AppSync client with a similar syntax of `.query({NAME}Query.builder().build())`. For example, if you have a `ListTodos` query, your code will look like the following:
 
 ```java
     public void query(){
