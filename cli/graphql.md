@@ -429,7 +429,7 @@ directive @key(fields: [String!]!, name: String, queryField: String) on OBJECT
 | Argument  | Description  |
 |---|---|
 | fields  | A list of fields in the @model type that should comprise the key. The first field in the list will always be the **HASH** key. If two fields are provided the second field will be the **SORT** key. If more than two fields are provided, a single composite **SORT** key will be created from `fields[1...n]`. All generated GraphQL queries & mutations will be updated to work with custom `@key` directives. |
-| name  | When omitted, specifies that the @key is defining the primary index. When provided, specifies the name of the secondary index. You may at most have one primary key per table and therefore you may have at most one @key that does not specify a **name** per @model type.  |
+| name  | When omitted, specifies that the @key is defining the primary index. When provided, specifies the name of the secondary index. You may have at most one primary key per table and therefore you may have at most one @key that does not specify a **name** per @model type.  |
 | queryField  | When defining a secondary index (by specifying the *name* argument), specifies that a top level query field that queries the secondary index should be generated with the given name.  |
 
 #### How to use @key
