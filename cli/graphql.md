@@ -416,7 +416,7 @@ type Subscription {
 
 The `@key` directive makes it simple to configure custom index structures for `@model` types. 
 
-DynamoDB is a distributed hash table that can execute efficient range queries on extremely large data sets but doing so effectively takes a bit of forethought. DynamoDB query operations may use at most two attributes to efficiently query data. The first query argument passed to a query (the partition key) must use strict equality and the second attribute (the sort key) may use gt, ge, lt, le, eq, beginsWith, and between. Despite these restrictions, DynamoDB can effectively implement a wide variety of access patterns that are powerful enough for the majority of applications.
+Amazon DynamoDB is a key-value and document database that delivers single-digit millisecond performance at any scale but making it work for your access patterns requires a bit of forethought. DynamoDB query operations may use at most two attributes to efficiently query data. The first query argument passed to a query (the hash key) must use strict equality and the second attribute (the sort key) may use gt, ge, lt, le, eq, beginsWith, and between. DynamoDB can effectively implement a wide variety of access patterns that are powerful enough for the majority of applications.
 
 #### Definition
 
@@ -429,7 +429,7 @@ directive @key(fields: [String!]!, name: String, queryField: String) on OBJECT
 | Argument  | Description  |
 |---|---|
 | fields  | A list of fields in the @model type that should comprise the key. The first field in the list will always be the **HASH** key. If two fields are provided the second field will be the **SORT** key. If more than two fields are provided, a single composite **SORT** key will be created from `fields[1...n]`. All generated GraphQL queries & mutations will be updated to work with custom `@key` directives. |
-| name  | When omitted, specifies that the @key is defining the primary index. When provided, specifies the name of the secondary index. You may one have one @key without a name per @model type.  |
+| name  | When omitted, specifies that the @key is defining the primary index. When provided, specifies the name of the secondary index. You may have at most one primary key per table and therefore you may have at most one @key that does not specify a **name** per @model type.  |
 | queryField  | When defining a secondary index (by specifying the *name* argument), specifies that a top level query field that queries the secondary index should be generated with the given name.  |
 
 #### How to use @key
@@ -452,7 +452,7 @@ type Customer @model @key(fields: ["email"]) {
 }
 ```
 
-A @key without a *name* specifies the key for the DynamoDB table's primary index. You may only provide 1 @key without a *name* per @model type. The example above shows the simplest case where we are specifying that the table's primary primary index should have a simple key where the hash key is *email*. This allows us to get unique customers by their *email*. 
+A @key without a *name* specifies the key for the DynamoDB table's primary index. You may only provide 1 @key without a *name* per @model type. The example above shows the simplest case where we are specifying that the table's primary index should have a simple key where the hash key is *email*. This allows us to get unique customers by their *email*. 
 
 ```
 query GetCustomerById {
@@ -549,7 +549,7 @@ There are a few important things to think about when making changes to APIs usin
 1. Create a new index that enables the new or updated access pattern.
 2. If adding a @key with 3 or more fields, you will need to back-fill the new composite sort key for existing data. With a `@key(fields: ["email", "status", "date"])`, you would need to backfill the `status#date` field with composite key values made up of each object's *status* and *date* fields joined by a `#`. You do not need to backfill data for @key directives with 1 or 2 fields.
 3. Deploy your additive changes and update any downstream applications to use the new access pattern.
-4. Once you are certain that you do not need the old index, remove it's @key and deploy the API again.
+4. Once you are certain that you do not need the old index, remove its @key and deploy the API again.
 
 ### @auth
 
