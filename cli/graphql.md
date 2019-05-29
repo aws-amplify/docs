@@ -1015,13 +1015,21 @@ When building applications, it is often useful to fetch information for the curr
 For example purposes assume the function is named `GraphQLResolverFunction`:
 
 ```javascript
+/* Amplify Params - DO NOT EDIT
+You can access the following resource attributes as environment variables from your Lambda function
+var environment = process.env.ENV
+var region = process.env.REGION
+var authMyResourceNameUserPoolId = process.env.AUTH_MYRESOURCENAME_USERPOOLID
+
+Amplify Params - DO NOT EDIT */
+
 const { CognitoIdentityServiceProvider } = require('aws-sdk');
 const cognitoIdentityServiceProvider = new CognitoIdentityServiceProvider();
 
 /**
  * Get user pool information from environment variables.
  */
-const COGNITO_USERPOOL_ID = process.env.COGNITO_USERPOOL_ID;
+const COGNITO_USERPOOL_ID = process.env.AUTH_MYRESOURCENAME_USERPOOLID;
 if (!COGNITO_USERPOOL_ID) {
   throw new Error(`Function requires environment variable: 'COGNITO_USERPOOL_ID'`);
 }
@@ -1091,24 +1099,7 @@ type Comment {
 
 This simple lambda function shows how you can write your own custom logic using a language of your choosing. Try enhancing the example with your own data and logic.
 
-> When deploying the function make sure you supply an environment variable named COGNITO_USERPOOL_ID with the value defined under the key **UserPoolId** in **amplify-meta.json**
-
-When deploying your function make sure you have provided an execution role with permission to call the Amazon Cognito User Pools admin APIs. Attaching this policy to your function execution role will give you the permissions you need.
-
-```json
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "cognito-idp:*",
-            ],
-            "Resource": "*"
-        }
-    ]
-}
-```
+> When deploying the function, make sure your function has access to the auth resource. You can run the `amplify update function` command for the CLI to automatically supply an environment variable named `AUTH_<RESOURCE_NAME>_USERPOOLID` to the function and associate corresponding CRUD policies to the execution role of the function.
 
 After deploying our function, we can connect it to AppSync by defining some types and using the @function directive. Add this to your schema, to connect the
 `Query.echo` and `Query.me` resolvers to our new function.
