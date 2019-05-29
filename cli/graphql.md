@@ -412,6 +412,145 @@ type Subscription {
 }
 ```
 
+### @key
+
+The `@key` directive makes it simple to configure custom index structures for `@model` types. 
+
+DynamoDB is a distributed hash table that can execute efficient range queries on extremely large data sets but doing so effectively takes a bit of forethought. DynamoDB query operations may use at most two attributes to efficiently query data. The first query argument passed to a query (the partition key) must use strict equality and the second attribute (the sort key) may use gt, ge, lt, le, eq, beginsWith, and between. Despite these restrictions, DynamoDB can effectively implement a wide variety of access patterns that are powerful enough for the majority of applications.
+
+#### Definition
+
+```
+directive @key(fields: [String!]!, name: String, queryField: String) on OBJECT
+```
+
+**Argument**
+
+| Argument  | Description  |
+|---|---|
+| fields  | A list of fields in the @model type that should comprise the key. The first field in the list will always be the **HASH** key. If two fields are provided the second field will be the **SORT** key. If more than two fields are provided, a single composite **SORT** key will be created from `fields[1...n]`. All generated GraphQL queries & mutations will be updated to work with custom `@key` directives. |
+| name  | When omitted, specifies that the @key is defining the primary index. When provided, specifies the name of the secondary index. You may one have one @key without a name per @model type.  |
+| queryField  | When defining a secondary index (by specifying the *name* argument), specifies that a top level query field that queries the secondary index should be generated with the given name.  |
+
+#### How to use @key
+
+When designing data models using the `@key` directive, the first step should be to write down your application's expected access patterns. For example, let's say we were building an e-commerce application 
+and needed to implement access patterns like:
+
+1. Get customers by email.
+2. Get orders by customer by createdAt.
+3. Get items by order by status by createdAt.
+4. Get items by status by createdAt.
+
+When thinking about your access patterns, it is useful to lay them out using the same "by X by Y" structure. Once you have them laid out like this you can translate them directly into a @key by including the "X" and "Y" values as fields. Let's take a look at how you would define these custom keys in your `schema.graphql`.
+
+```
+# Get customers by email.
+type Customer @model @key(fields: ["email"]) {
+    email: String!
+    username: String
+}
+```
+
+A @key without a *name* specifies the key for the DynamoDB table's primary index. You may only provide 1 @key without a *name* per @model type. The example above shows the simplest case where we are specifying that the table's primary primary index should have a simple key where the hash key is *email*. This allows us to get unique customers by their *email*. 
+
+```
+query GetCustomerById {
+  getCustomer(email:"me@email.com") {
+    email
+    username
+  }
+}
+```
+
+This is great for simple lookup operations, but what if we need to perform slightly more complex queries?
+
+```
+# Get orders by customer by createdAt.
+type Order @model @key(fields: ["customerEmail", "createdAt"]) {
+    customerEmail: String!
+    createdAt: String!
+    orderId: ID!
+}
+```
+
+This @key above allows us to efficiently query *Order* objects by both a *customerEmail* and the *createdAt* time stamp. The @key above creates a DynamoDB table where the primary index's hash key is *customerEmail* and the sort key is *createdAt*. This allows us to write queries like this:
+
+```
+query ListOrdersForCustomerIn2019 {
+  listOrders(customerEmail:"me@email.com", createdAt: { beginsWith: "2019" }) {
+    items {
+      orderId
+      customerEmail
+      createdAt
+    }
+  }
+}
+```
+
+The query above shows how we can use compound key structures to implement more powerful query patterns on top of DynamoDB but we are not quite done yet. Given that DynamoDB limits you to query by at most two attributes at a time, the @key directive helps by streamlining the process of creating composite sort keys such that you can support querying by more than two attributes at a time. For example, we can implement “Get items by order, status, and createdAt” as well as “Get items by status and createdAt” for a single @model with this schema.
+
+```
+type Item @model
+    @key(fields: ["orderId", "status", "createdAt"])
+    @key(name: "ByStatus", fields: ["status", "createdAt"], queryField: "itemsByStatus")
+{
+    orderId: ID!
+    status: Status!
+    createdAt: AWSDateTime!
+    name: String!
+}
+enum Status {
+    DELIVERED
+    IN_TRANSIT
+    PENDING
+    UNKNOWN
+}
+```
+
+The primary @key with 3 fields performs a bit more magic than the 1 and 2 field variants. The first field orderId will be the **HASH** key as expected, but the **SORT** key will be a new composite key named *status#createdAt* that is made of the *status* and *createdAt* fields on the @model. The @key directive creates the table structures and also generates resolvers that inject composite key values for you during queries and mutations.
+
+Using this schema, you can query the primary index to get IN_TRANSIT items created in 2019 for a given order.
+
+```
+# Get items for order by status by createdAt.
+query ListInTransitItemsForOrder {
+  listItems(orderId:"order1", statusCreatedAt: { beginsWith: { status: IN_TRANSIT, createdAt: "2019" }}) {
+    items {
+      orderId
+      status
+      createdAt
+      name
+    }
+  }
+}
+```
+
+The query above exposes the *statusCreatedAt* argument that allows you to configure DynamoDB key condition expressions without worrying about how the composite key is formed under the hood. Using the same schema, you can get all PENDING items created in 2019 by querying the secondary index "ByStatus" via the `Query.itemsByStatus` field.
+
+```
+query ItemsByStatus {
+  itemsByStatus(status: PENDING, createdAt: {beginsWith:"2019"}) {
+    items {
+      orderId
+      status
+      createdAt
+      name
+    }
+    nextToken
+  }
+}
+```
+
+#### Evolving APIs with @key
+
+There are a few important things to think about when making changes to APIs using `@key`. When you need to enable a new access pattern or change an existing access pattern you should follow these steps.
+
+1. Create a new index that enables the new or updated access pattern.
+2. If adding a @key with 3 or more fields, you will need to back-fill the new composite sort key for existing data. With a `@key(fields: ["email", "status", "date"])`, you would need to backfill the `status#date` field with composite key values made up of each object's *status* and *date* fields joined by a `#`. You do not need to backfill data for @key directives with 1 or 2 fields.
+3. Deploy your additive changes and update any downstream applications to use the new access pattern.
+4. Once you are certain that you do not need the old index, remove it's @key and deploy the API again.
+
 ### @auth
 
 Object types that are annotated with `@auth` are protected by a set of authorization
