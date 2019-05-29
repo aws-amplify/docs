@@ -941,6 +941,73 @@ type Query {
 }
 ```
 
+**Example: Return custom data and run custom logic**
+
+You can use the `@function` directive to write custom business logic in an AWS Lambda function. To get started, use
+`amplify add function`, the AWS Lambda console, or other tool to deploy an AWS Lambda function with the following contents.
+
+For example purposes assume the function is named `GraphQLResolverFunction`:
+
+```javascript
+const POSTS = [
+    { id: 1, title: "AWS Lambda: How To Guide." },
+    { id: 2, title: "AWS Amplify Launches @function and @key directives." },
+    { id: 3, title: "Serverless 101" }
+];
+const COMMENTS = [
+    { postId: 1, content: "Great guide!" },
+    { postId: 1, content: "Thanks for sharing!" },
+    { postId: 2, content: "Can't wait to try them out!" }
+];
+
+// Get all posts. Write your own logic that reads from any data source.
+function getPosts() {
+    return POSTS;
+}
+
+// Get the comments for a single post.
+function getCommentsForPost(postId) {
+    return COMMENTS.filter(comment => comment.postId === postId);
+}
+
+/**
+ * Using this as the entry point, you can use a single function to handle many resolvers.
+ */
+const resolvers = {
+  Query: {
+    posts: ctx => {
+      return getPosts();
+    },
+  },
+  Post: {
+    comments: ctx => {
+      return getCommentsForPost(ctx.source.id);
+    },
+  },
+}
+
+// event
+// {
+//   "typeName": "Query", /* Filled dynamically based on @function usage location */
+//   "fieldName": "me", /* Filled dynamically based on @function usage location */
+//   "arguments": { /* GraphQL field arguments via $ctx.arguments */ },
+//   "identity": { /* AppSync identity object via $ctx.identity */ },
+//   "source": { /* The object returned by the parent resolver. E.G. if resolving field 'Post.comments', the source is the Post object. */ },
+//   "request": { /* AppSync request object. Contains things like headers. */ },
+//   "prev": { /* If using the built-in pipeline resolver support, this contains the object returned by the previous function. */ },
+// }
+exports.handler = async (event) => {
+  const typeHandler = resolvers[event.typeName];
+  if (typeHandler) {
+    const resolver = typeHandler[event.fieldName];
+    if (resolver) {
+      return await resolver(event);
+    }
+  }
+  throw new Error("Resolver not found.");
+};
+```
+
 **Example: Get the logged in user from Amazon Cognito User Pools**
 
 When building applications, it is often useful to fetch information for the current user. We can use the `@function` directive to quickly add a resolver that uses AppSync identity information to fetch a user from Amazon Cognito User Pools. First make sure you have added Amazon Cognito User Pools enabled via `amplify add auth` and a GraphQL API via `amplify add api` to an amplify project. Once you have created the user pool, get the **UserPoolId** from **amplify-meta.json** in the **backend/** directory of your amplify project. You will provide this value as an environment variable in a moment. Next, using the Amplify function category, AWS console, or other tool, deploy a AWS Lambda function with the following contents.
@@ -1005,6 +1072,25 @@ exports.handler = async (event) => {
 };
 ```
 
+You can connect this function to your AppSync API deployed via Amplify using this schema:
+
+```
+type Mutation {
+    posts: [Post] @function(name: "GraphQLResolverFunction")
+}
+type Post {
+    id: ID!
+    title: String!
+    comments: [Comment] @function(name: "GraphQLResolverFunction")
+}
+type Comment {
+    postId: ID!
+    content: String
+}
+```
+
+This simple lambda function shows how you can write your own custom logic using a language of your choosing. Try enhancing the example with your own data and logic.
+
 > When deploying the function make sure you supply an environment variable named COGNITO_USERPOOL_ID with the value defined under the key **UserPoolId** in **amplify-meta.json**
 
 When deploying your function make sure you have provided an execution role with permission to call the Amazon Cognito User Pools admin APIs. Attaching this policy to your function execution role will give you the permissions you need.
@@ -1063,7 +1149,7 @@ enum UserStatus {
 }
 ```
 
-Next run `amplify push` and wait as your project finishes deploying. To test that everything is working as expected run `amplify api console` to open the GraphiQL editor for your API. You are going to need to open the Amazon Cognito User Pools console to create a user if you do not yet have any. Once you have created a user go back to the AppSync console's query page and click "Login with User Pools". You can find the **ClientId** in **amplify-meta.json** under the key **AppClientIDWeb**. Paste that value into the modal and login using your username and password. You can know run this query:
+Next run `amplify push` and wait as your project finishes deploying. To test that everything is working as expected run `amplify api console` to open the GraphiQL editor for your API. You are going to need to open the Amazon Cognito User Pools console to create a user if you do not yet have any. Once you have created a user go back to the AppSync console's query page and click "Login with User Pools". You can find the **ClientId** in **amplify-meta.json** under the key **AppClientIDWeb**. Paste that value into the modal and login using your username and password. You can now run this query:
 
 ```
 query {
