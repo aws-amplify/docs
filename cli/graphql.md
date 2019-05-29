@@ -544,13 +544,11 @@ query ItemsByStatus {
 
 #### Evolving APIs with @key
 
-There are a few important things to think about when making changes to APIs using `@key`.
-
-When you face a situation where you need to enable a new access pattern or change an existing access pattern you should:
+There are a few important things to think about when making changes to APIs using `@key`. When you need to enable a new access pattern or change an existing access pattern you should follow these steps.
 
 1. Create a new index that enables the new or updated access pattern.
 2. If adding a @key with 3 or more fields, you will need to back-fill the new composite sort key for existing data. With a `@key(fields: ["email", "status", "date"])`, you would need to backfill the `status#date` field with composite key values made up of each object's *status* and *date* fields joined by a `#`. You do not need to backfill data for @key directives with 1 or 2 fields.
-3. Deploy your additive changes and update your application to use the new access pattern.
+3. Deploy your additive changes and update any downstream applications to use the new access pattern.
 4. Once you are certain that you do not need the old index, remove it's @key and deploy the API again.
 
 ### @auth
