@@ -107,7 +107,7 @@ Run `pod install` and **build your app**.
 
 ## Step 5: Integrate into your app
 
-initialize the AppSync client inside your application delegate:
+Initialize the AppSync client inside your application delegate:
 
 ```swift
 import AWSAppSync
@@ -133,6 +133,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // other methods
         return true
     }
+}
 ```
 
 Next, in your application code where you wish to use the AppSync client (like your View Controller) reference this in the `viewDidLoad()` lifecycle method:
