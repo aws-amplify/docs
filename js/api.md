@@ -477,7 +477,11 @@ class AddTodo extends Component {
       description: this.state.description
     }
     console.log(input);
-    await onCreate({input})
+    try {
+    	await onCreate({input})
+    } catch (err) {
+    	console.error(err);
+    }
   }
 
   render(){
