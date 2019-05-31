@@ -900,7 +900,7 @@ export default {
   },
   data: () => {
     return {
-      url: `https:// ${awsconfig.aws_project_region}.console.aws.amazon.com/pinpoint/home/?region=${awsconfig.aws_project_region}#/apps/${awsconfig.aws_mobile_analytics_app_id}/analytics/events`,
+      url: `https://${awsconfig.aws_project_region}.console.aws.amazon.com/pinpoint/home/?region=${awsconfig.aws_project_region}#/apps/${awsconfig.aws_mobile_analytics_app_id}/analytics/events`,
       eventsSent: 0,
       analyticsEventSent: false
     }
