@@ -387,6 +387,8 @@ Auth.verifyCurrentUserAttributeSubmit(attr, 'the_verification_code')
 });
 ```
 
+By default the verification code has consists of 6 digits.
+
 #### Retrieve Current Authenticated User
 
 You can call `Auth.currentAuthenticatedUser()` to get the current authenticated user object.
