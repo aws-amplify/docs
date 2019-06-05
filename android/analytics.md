@@ -64,7 +64,7 @@ The Amplify CLI helps setup and configure Pinpoint within your application and c
 
 #### Update your IAM Policy:
 
-Amazon Pinpoint service requires an IAM policy in order to use the `submitEvents` API:
+Amazon Pinpoint service requires an IAM policy in order to use the `submitEvents` API. If you are using long-term AWS credentials of an `Amazon IAM` user, attach the following policies to the role of the `IAM` user. If you are using temporary AWS credentials vended by `Amazon Cognito Identity Pools`, attach the following policies to the Unauthenticated and/or Authenticated `IAM` roles of your `Cognito Identity Pool`.
 
 ```json
 {
