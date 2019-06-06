@@ -451,6 +451,79 @@ Auth.configure({
 });
 ```
 
+Here is the example of how to use AsyncStorage as your storage object which will show you how to sync items from AsyncStorage into Memory:
+```javascript
+import { AsyncStorage } from 'react-native';
+
+const MEMORY_KEY_PREFIX = '@MyStorage:';
+let dataMemory = {};
+
+/** @class */
+class MyStorage {
+    static syncPromise = null;
+    /**
+     * This is used to set a specific item in storage
+     */
+    static setItem(key, value) {
+        AsyncStorage.setItem(MEMORY_KEY_PREFIX + key, value);
+        dataMemory[key] = value;
+        return dataMemory[key];
+    }
+
+    /**
+     * This is used to get a specific key from storage
+     */
+    static getItem(key) {
+        return Object.prototype.hasOwnProperty.call(dataMemory, key) ? dataMemory[key] : undefined;
+    }
+
+    /**
+     * This is used to remove an item from storage
+     */
+    static removeItem(key) {
+        AsyncStorage.removeItem(MEMORY_KEY_PREFIX + key);
+        return delete dataMemory[key];
+    }
+
+    /**
+     * This is used to clear the storage
+     */
+    static clear() {
+        dataMemory = {};
+        return dataMemory;
+    }
+
+    /**
+     * Will sync the MemoryStorage data from AsyncStorage to storageWindow MemoryStorage
+    */
+    static sync() {
+        if (!MemoryStorage.syncPromise) {
+            MemoryStorage.syncPromise =  new Promise((res, rej) => {
+                AsyncStorage.getAllKeys((errKeys, keys) => {
+                    if (errKeys) rej(errKeys);
+                    const memoryKeys = keys.filter((key) => key.startsWith(MEMORY_KEY_PREFIX));
+                    AsyncStorage.multiGet(memoryKeys, (err, stores) => {
+                        if (err) rej(err);
+                        stores.map((result, index, store) => {
+                            const key = store[index][0];
+                            const value = store[index][1];
+                            const memoryKey = key.replace(MEMORY_KEY_PREFIX, '');
+                            dataMemory[memoryKey] = value;
+                        });
+                        res();
+                    });
+                });
+            });
+        }
+        return MemoryStorage.syncPromise;
+    }
+}
+
+Auth.configure({
+    storage: MyStorage
+});
+```
+
 To learn more about tokens, please visit [Amazon Cognito Developer Documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-with-identity-providers.html).
 
 ### Using Auth Components in React & React Native
@@ -479,7 +552,7 @@ export default withAuthenticator(App);
 ```
 Now, your app has complete flows for user sign-in and registration. Since you have wrapped your **App** with `withAuthenticator`, only signed in users can access your app. The routing for login pages and giving access to your **App** Component will be managed automatically.
 
-`withAuthenticator` component renders your App component after a successful user signed in, and it prevents non-sign-in uses to interact with your app. In this case, we need to display a *sign-out* button to trigger the related process.
+`withAuthenticator` component renders your App component after a successful user signed in, and it prevents non-sign-in users to interact with your app. In this case, we need to display a *sign-out* button to trigger the related process.
 
 To display a sign-out button or customize other, set `includeGreetings = true` in the parameter object. It displays a *greetings section* on top of your app, and a sign-out button is displayed in the authenticated state. Other customization options are also available as properties to the HOC:
 
@@ -845,7 +918,7 @@ const oauth = {
   scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
   redirectSignIn: 'http://localhost:3000/',
   redirectSignOut: 'http://localhost:3000/',
-  responseType: 'code' // or token
+  responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
 };
 
 Amplify.configure(awsmobile);
@@ -1060,6 +1133,7 @@ const oauth = {
 
     // 'code' for Authorization code grant, 
     // 'token' for Implicit grant
+    // Note that REFRESH token will only be generated when the responseType is code
     responseType: 'code',
 
     // optional, for Cognito hosted ui specified options
