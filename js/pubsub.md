@@ -69,8 +69,7 @@ One way of doing this is to log to your **AWS Console**, select **CloudFormation
 Select the **Resources** tab and tap on `AuthRole` **Physical ID**.  
 The IAM console will be opened in a new tab. Once there, tap on the button **Attach Policies**, then search `AWSIoTDataAccess` and `AWSIoTConfigAccess`, select them and tap on **Attach policy**.  
   
-Failing to grant IoT related permissions to the Cognito Authenticated Role will result in errors similar to the following in your browser console
-> errorCode: 8, errorMessage: AMQJS0008I Socket closed.
+> Failing to grant IoT related permissions to the Cognito Authenticated Role will result in errors similar to the following in your browser console: `errorCode: 8, errorMessage: AMQJS0008I Socket closed.`
 
 ### Third Party MQTT Providers
 
