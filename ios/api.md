@@ -518,8 +518,8 @@ The `useClientDatabasePrefix` is added on the client builder which signals to th
 
 ```swift
 let serviceConfig = try AWSAppSyncServiceConfig()
-let cacheConfig = AWSAppSyncCacheConfiguration(useDatabasePrefix: true,
-                                            appSyncServiceConfig: serviceConfig)
+let cacheConfig = AWSAppSyncCacheConfiguration(useClientDatabasePrefix: true,
+                                                  appSyncServiceConfig: serviceConfig)
 let clientConfig = AWSAppSyncClientConfiguration(appSyncServiceConfig: serviceConfig,
                                                    cacheConfiguration: cacheConfig)
 
