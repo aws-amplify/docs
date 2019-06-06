@@ -408,19 +408,19 @@ class S3ImageUpload extends React.Component {
 Upload an image in React Native app:
 
 ```javascript
-import RNFetchBlob from 'react-native-fetch-blob';
-
-readFile(filePath) {
-    return RNFetchBlob.fs.readFile(filePath, 'base64').then(data => new Buffer(data, 'base64'));
-}
-
-readFile(imagePath).then(buffer => {
-    Storage.put(key, buffer, {
-        contentType: imageType
+uploadToStorage = async pathToImageFile => {
+  try {
+    const response = await fetch(uri)
+    
+    const blob = await response.blob()
+    
+    Storage.put('yourKeyHere.jpeg', blob, {
+      contentType: 'image/jpeg',
     })
-}).catch(e => {
-    console.log(e);
-});
+  } catch (err) {
+    console.log(err)
+  }
+}
 ```
 
 When a networking error happens during the upload, Storage module retries upload for a maximum of 4 attempts. If the upload fails after all retries, you will get an error.
