@@ -37,6 +37,8 @@ $ amplify push
 
 Upon successful execution of the push command, a configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`. 
 
+**NOTE**: If your Interactions resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli/lambda-node-version-update)
+
 ##### Configure Your App
 
 Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `App.js` in React or `main.ts` in Angular.
@@ -81,7 +83,7 @@ Amplify.configure({
 });
 ```
 
-##<a name="WorkingWithAPI"></a> Working with the Interactions API
+## <a name="WorkingWithAPI"></a> Working with the Interactions API
 
 You can import *Interactions* module from 'aws-amplify' package to work with the API.
 
@@ -248,7 +250,7 @@ When using React Native, you can use *ChatBot* with following properties;
 ```
 
 By default, the ChatBot will allow for only text interaction. You can turn off text interaction by passing prop `textEnabled={false}`.
-####Turning on voice interaction
+#### Turning on voice interaction
 To support voice interaction, the React Native ChatBot component requires installation of peer dependencies and linking of Native Modules. The peer dependencies are: [react-native-voice](https://github.com/wenkesj/react-native-voice), [react-native-sound](https://github.com/zmxv/react-native-sound), and [react-native-fs](https://github.com/itinance/react-native-fs). 
 
 After installation, link the native modules by running:
@@ -299,7 +301,7 @@ Here is an example of a configured ChatBot component with voice enabled and conv
             color: 'red'
         }
     })}
-    voiceEnable={true}
+    voiceEnabled={true}
     voiceLibs={voiceLibs}
     conversationModeOn={true}
 />
@@ -379,7 +381,7 @@ export default class App extends React.Component {
  
 ### Using with Angular and Ionic
 
-Please see [Angular]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/angular#interactions) and [Ionic]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/ionic#interactions) documentation for Interactions UI components.
+Please see [Angular]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/angular#interactions) and [Ionic]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/angular#interactions) documentation for Interactions UI components.
 
 ### API Reference
 

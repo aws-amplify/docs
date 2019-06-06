@@ -5,6 +5,7 @@ title: Authentication
   {% assign base_dir = site.amplify.docs_baseurl %}
 {% endif %}
 {% assign media_base = base_dir | append: page.dir | append: "media" %}
+{% assign common_media = base_dir | append: "/images" %}
 
 # Authentication
 
@@ -55,7 +56,7 @@ AWSMobileClient.getInstance().addUserStateListener(new UserStateListener() {
                 Log.i("userState", "user logged in via federation, but currently needs new tokens");
                 break;
             default:
-                Log.i("userState", "unsupported");
+                Log.e("userState", "unsupported");
         }
     }
 });
@@ -111,11 +112,11 @@ After initialization in your project directory with `amplify init`, update your 
 
 ```groovy
 //For AWSMobileClient only:
-implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.12.+'
+implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.13.+'
 
 //For the drop-in UI also:
-implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.12.+'
-implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.12.+'
+implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.13.+'
+implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.13.+'
 ```
 
 For the `AWSMobileClient` alone you can have a minimum SDK version of **15**, but for the drop-in UI you will need a minimum of **23** set in your `build.gradle`:
@@ -252,7 +253,7 @@ You might leverage the above workflow to perform other actions in the `SIGNED_IN
 
 ## Guest access
 
-Many applications have UX with "Guest" or "Unauthenticated" users. This is provided out of the box with `AWSMobileClient` through the initialization routine you have added. However, the Amplify CLI does not enable this by default with the `amplify add auth` flow. You can enable this by running `amplify update auth` and choosing `No, I will setup my own configuration` when prompted. Ensure you choose the **...connected with AWS IAM controls** which will allow you to select **Allow unauthenticated logins**.
+Many applications have UX with "Guest" or "Unauthenticated" users. This is provided out of the box with `AWSMobileClient` through the initialization routine you have added. However, the Amplify CLI does not enable this by default with the `amplify add auth` flow. You can enable this by running `amplify update auth` and choosing `Manual Configuration` when prompted. Ensure you choose the **...connected with AWS IAM controls** which will allow you to select **Allow unauthenticated logins**.
 
 When complete run `amplify push` and your `awsconfiguration.json` will work automatically with your updated Cognito settings. The `AWSMobileClient` user session will automatically have permissions configured for Guest/Unauthenticated users upon initialization. 
 
@@ -500,7 +501,7 @@ AWSMobileClient.getInstance().confirmSignIn(signInChallengeResponse, new Callbac
 
  If a user is required to change their password on first login, there is a `NEW_PASSWORD_REQUIRED` state returned when `signIn` is called. You need to provide a new password given by the user in that case. It can be done using `confirmSignIn` with the new password.
  
- ```java
+```java
 AWSMobileClient.getInstance().signIn("username", "password", null, new Callback<SignInResult>() {
     @Override
     public void onResult(final SignInResult signInResult) {
@@ -609,6 +610,24 @@ AWSMobileClient.getInstance().confirmForgotPassword("NEW_PASSWORD_HERE", "CONFIR
 AWSMobileClient.getInstance().signOut();
 ```
 
+### Global SignOut
+
+Using global signout, you can signout a user from all active login sessions. By doing this, you are revoking all the OIDC tokens(id token, access token and refresh token) which means the user is signed out from all the devices. However, although the tokens are revoked, the AWS credentials will remain valid until they expire (which by default is 1 hour).
+
+```java
+AWSMobileClient.getInstance().signOut(SignOutOptions.builder().signOutGlobally(true).build(), new Callback<Void>() {
+    @Override
+    public void onResult(final Void result) {
+        Log.d(TAG, "signed-out");
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "sign-out error", e);
+    }
+});
+```
+
 ### Utility Properties
 
 The `AWSMobileClient` provides several property "helpers" that are automatically cached locally for you to use in your application.
@@ -646,20 +665,63 @@ Currently, the federation feature in the AWSMobileClient supports Cognito Identi
 
 ```java
 AWSMobileClient.getInstance().federatedSignIn(IdentityProvider.FACEBOOK.toString(), "FACEBOOK_TOKEN_HERE", new Callback<UserStateDetails>() {
-            @Override
-            public void onResult(final UserStateDetails userStateDetails) {
-                //Handle the result
-            }
+    @Override
+    public void onResult(final UserStateDetails userStateDetails) {
+        //Handle the result
+    }
 
-            @Override
-            public void onError(Exception e) {
-                Log.e(TAG, "sign-in error", e);
-        });
+    @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "sign-in error", e);
+});
 ```
 
 `federatedSignIn()` can be used to obtain federated "Identity ID" using external providers like Google, Facebook or Twitter. If the tokens are expired and new tokens are needed, a notification will be dispatched on the `AWSMobileClient` listener with the user state `SIGNED_OUT_FEDERATED_TOKENS_INVALID`. You can give the updated tokens via the same `federatedSignIn()` method. 
 
 The API calls to get AWS credentials will be asynchronously blocked until you fetch the social provider's token and give it to `AWSMobileClient`. Once you pass the tokens, the `AWSMobileClient` will fetch AWS Credentials using the new tokens and unblock all waiting calls. It will then use the new credentials.
+
+#### SAML with Cognito Identity
+
+To federate your SAML sign-in provider as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.getInstance().federatedSignIn()`. 
+You must first register your SAML application with AWS IAM by using the the following [instructions](https://docs.aws.amazon.com/cognito/latest/developerguide/saml-identity-provider.html). 
+
+Once you retrieve the SAML tokens from your sign-in, you can call the `federatedSignIn` API in `AWSMobileClient`:
+
+```java
+// Perform SAML token federation
+AWSMobileClient.getInstance().federatedSignIn("YOUR_SAML_PROVIDER_NAME", "YOUR_SAML_TOKEN", new Callback<UserStateDetails>() {
+    @Override
+    public void onResult(final UserStateDetails userStateDetails) {
+        //Handle the result
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "sign-in error", e);
+});
+```
+
+**Note**
+If the SAML token contains more than one Role ARN, you will need to specify which role will be assumed when federating. If the SAML token has more than one Role ARN and a `customRoleARN` is not specified, it will result in an error.
+{: .callout .callout--info}
+
+```java
+// Choose one of the roles available in the token
+FederatedSignInOptions options = FederatedSignInOptions.builder()
+                                     .customRoleARN("choose-one")
+                                     .build();
+// Perform SAML token federation
+AWSMobileClient.getInstance().federatedSignIn("YOUR_SAML_PROVIDER_NAME", "YOUR_SAML_TOKEN", options, new Callback<UserStateDetails>() {
+    @Override
+    public void onResult(final UserStateDetails userStateDetails) {
+        //Handle the result
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "sign-in error", e);
+});
+```
 
 #### Facebook with Cognito Identity
 
@@ -725,8 +787,8 @@ In a terminal window, navigate to the root of your app files and add the auth ca
 
 ```terminal
 $ cd ./YOUR_PROJECT_FOLDER
-$ amplify add auth
-❯ No, I will set up my own configuration.
+$ amplify add auth              ##"amplify update auth" if already configured
+❯ Manual Configuration
 ❯ User Sign-Up, Sign-In, connected with AWS IAM controls
 ```
 
@@ -774,7 +836,7 @@ In a terminal window, navigate to the root of your app files and add the auth ca
 ```terminal
 $ cd ./YOUR_PROJECT_FOLDER
 $ amplify add auth              ##"amplify update auth" if already configured
-❯ No, I will set up my own configuration.
+❯ Manual Configuration
 ❯ User Sign-Up, Sign-In, connected with AWS IAM controls
 ```
 
@@ -790,6 +852,36 @@ $ amplify push
 You can now [configure Google in your mobile app](./authentication#google-login-in-your-mobile-app).
 
 Note that the CLI allows you to select more than one identity provider for your app. You can also run `amplify auth update` to add an identity provider to an existing auth configuration.
+
+#### Developer Authenticated Identities with Cognito Identity
+
+With developer authenticated identities, you can register and authenticate users via your own existing authentication process, while still using Amazon Cognito to access AWS resources. Using developer authenticated identities involves interaction between the end user device, your backend for authentication, and Amazon Cognito.
+
+Begin by registering yourself with Cognito Identity in the console.
+
+![Image]({{media_base}}/dev-auth-ids-console-settings.png)
+
+Then, once the end-user has authenticated with you, the app should receive a Cognito identity id and token confirming the sign-in with you from your servers.
+
+The app will federate your sign-in with Cognito Identity to receive AWS credentials by making the following call.
+
+```java
+FederatedSignInOptions options = FederatedSignInOptions.builder()
+                                     .cognitoIdentityId(identityId)
+                                     .build();
+
+AWSMobileClient.getInstance().federatedSignIn(IdentityProvider.DEVELOPER.toString(), token, options, new Callback<UserStateDetails>() {
+    @Override
+    public void onResult(final UserStateDetails userStateDetails) {
+        // Handle the result
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "federated sign-in error", e);
+    }
+});
+```
 
 ### Facebook Login in Your Mobile App
 
@@ -820,15 +912,15 @@ Add the following dependencies to your `app/build.gradle` file:
 ```groovy
 dependencies {
     // Mobile Client for initializing the SDK
-    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.12.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.13.+@aar') { transitive = true }
 
     // Facebook SignIn
     implementation 'com.android.support:support-v4:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-facebook:2.12.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-facebook:2.13.+@aar') { transitive = true }
 
     // Sign in UI
     implementation 'com.android.support:appcompat-v7:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.12.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.13.+@aar') { transitive = true }
 }
 ```
 
@@ -918,15 +1010,15 @@ Add the following dependencies to your `app/build.gradle` file:
 ```groovy
 dependencies {
     // Mobile Client for initializing the SDK
-    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.12.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.13.+@aar') { transitive = true }
 
     // Google SignIn
     implementation 'com.android.support:support-v4:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-google:2.12.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-google:2.13.+@aar') { transitive = true }
 
     // Sign in UI Library
     implementation 'com.android.support:appcompat-v7:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.12.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.13.+@aar') { transitive = true }
 }
 ```
 
@@ -990,4 +1082,536 @@ public class AuthenticatorActivity extends Activity {
         });
     }
 }
+```
+## Using Hosted UI for Authentication
+
+### Using Amazon Cognito Hosted UI
+
+Amazon Cognito provides a customizable user experience via the Hosted UI. The Hosted UI is an OAuth 2.0 flow that allows you to launch a login screen without embedding an SDK for Cognito or a social provider into your application. The Hosted UI allows end-users to sign-in directly to your user pool through Facebook, Amazon, and Google, as well as through OpenID Connect (OIDC) and SAML identity providers. To learn more about Amazon Cognito Hosted UI, please visit [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-configuring-app-integration.html).
+
+#### Automated Setup with CLI
+
+You need to configure your identity providers(Google, Facebook or Login with Amazon) which you would like to use.
+
+##### Setting Up OAuth With Facebook
+
+1. Create a [developer account with Facebook](https://developers.facebook.com/docs/facebook-login).
+2. [Sign In](https://developers.facebook.com/) with your Facebook credentials.
+3. From the *My Apps* menu, choose *Add New App*.
+![Image]({{common_media}}/cognitoHostedUI/facebook1.png)
+4. Give your Facebook app a name and choose *Create App ID*.
+![Image]({{common_media}}/cognitoHostedUI/facebook2.png)
+5. On the left navigation bar, choose *Settings* and then *Basic*.
+![Image]({{common_media}}/cognitoHostedUI/facebook3.png)
+6. Note the *App ID* and the *App Secret*. You will use them in the next section in the CLI flow.
+
+##### Setting up OAuth with Google
+
+1. Go to the [Google developer console](https://console.developers.google.com).
+2. On the left navigation bar, choose *Credentials*.
+![Image]({{common_media}}/cognitoHostedUI/google5.png)
+3. Create your OAuth2.0 credentials by choosing *OAuth client ID* from the *Create credentials* drop-down list.
+![Image]({{common_media}}/cognitoHostedUI/google6.png).
+4. Choose *Web application*.
+5. Click *Create*.
+6. Note the *OAuth client ID* and *client secret*. You will need them for the next section in the CLI flow.
+7. Choose *OK*.
+
+##### Setting up OAuth with Login with Amazon
+1. Create a [developer account with Amazon](https://developer.amazon.com/login-with-amazon).
+2. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
+3. You need to create an Amazon security profile to receive the Amazon client ID and client secret. Choose Create a Security Profile.
+![Image]({{common_media}}/cognitoHostedUI/amazon1.png)
+4. Type in a Security Profile Name, a Security Profile Description, and a Consent Privacy Notice URL.
+![Image]({{common_media}}/cognitoHostedUI/amazon2.png)
+5. Choose Save.
+6. Choose Client ID and Client Secret to show the client ID and secret. You will need them for the next section in the CLI flow.
+![Image]({{common_media}}/cognitoHostedUI/amazon3.png)
+
+Run the following command in your project’s root folder:
+
+```terminal
+$ amplify add auth     ##"amplify update auth" if already configured
+```
+Select Default configuration with Social Provider (Federation):
+
+```terminal
+Do you want to use the default authentication and security configuration? 
+  Default configuration 
+❯ Default configuration with Social Provider (Federation) 
+  Manual configuration 
+  I want to learn more.
+```
+
+After going through the CLI flow, run the following command to deploy the configured resources to the cloud:
+```terminal
+$ amplify push
+```
+After running the `amplify push` command, you will find a domain-name provisioned by the CLI for the hosted UI as an output in the terminal. You can find that information anytime later using the `amplify status` command.
+
+Note: your user pool domain is something like: `domain_prefix-<env-name>.auth.<region>.amazoncognito.com`
+{: .callout .callout--info}. If you've setup federation through third party providers, you would need to update the providers with the CLI provisioned domain-name.
+
+##### Setting up Hosted UI Domain With Facebook
+
+1. [Sign In](https://developers.facebook.com/) with your Facebook credentials.
+2. From the *My Apps* menu, choose *Your App*.
+![Image]({{common_media}}/cognitoHostedUI/facebook1.png)
+3. On the left navigation bar, choose *Settings* and then *Basic*.
+![Image]({{common_media}}/cognitoHostedUI/facebook3.png)
+4. Choose *+ Add Platform* from the bottom of the page and then choose *Website*.
+![Image]({{common_media}}/cognitoHostedUI/facebook4.png)
+5. Under Website, type your user pool domain with the /oauth2/idpresponse endpoint into *Site URL*
+
+    ```https://<your-user-pool-domain>/oauth2/idpresponse```
+
+    ![Image]({{common_media}}/cognitoHostedUI/facebook5.png)
+6. Save changes.
+7. Type your user pool domain into *App Domains*:
+
+    ```https://<your-user-pool-domain>```
+    
+    ![Image]({{common_media}}/cognitoHostedUI/facebook6.png)
+8. Save changes.
+9. From the navigation bar choose *Products* and then *Set up* from *Facebook Login*.
+![Image]({{common_media}}/cognitoHostedUI/facebook7.png)
+10. From the navigation bar choose *Facebook Login* and then *Settings*.
+11. Type your redirect URL into *Valid OAuth Redirect URIs*. It will consist of your user pool domain with the /oauth2/idpresponse endpoint.
+
+    ```https://<your-user-pool-domain>/oauth2/idpresponse```
+
+    ![Image]({{common_media}}/cognitoHostedUI/facebook8.png)
+12. Save changes.
+
+##### Setting up Hosted UI Domain with Google
+
+1. Go to [Google Developer Console](https://developers.google.com/identity/sign-in/web/sign-in)
+2. Click *CONFIGURURE A PROJECT*
+![Image]({{common_media}}/cognitoHostedUI/google1.png)
+3. Type in a project name and choose *NEXT*.
+![Image]({{common_media}}/cognitoHostedUI/google2.png)
+4. Type in your product name and choose *NEXT*.
+5. Choose *Web browser* from the *Where are you calling from?* drop-down list.
+![Image]({{common_media}}/cognitoHostedUI/google3.png)
+6. Click *CREATE*. You will NOT use the *Client ID* and *CLient Secret* from this step.
+7. Click Done.
+8. Go to the [Google developer console](https://console.developers.google.com).
+9. On the left navigation bar, choose *Credentials*.
+![Image]({{common_media}}/cognitoHostedUI/google5.png)
+10. Select the client you created in the first step and choose the edit option.
+11. Type your user pool domain into Authorized Javascript origins.
+12. Type your user pool domain with the `/oauth2/idpresponse` endpoint into *Authorized Redirect URIs*.
+
+    ![Image]({{common_media}}/cognitoHostedUI/google7.png)
+
+    Note: If you saw an error message `Invalid Redirect: domain must be added to the authorized domains list before submitting.` when adding the endpoint, please go to the *authorized domains list* and add the domain.
+13. Click *Save*.
+
+##### Setting up Hosted UI Domain with Login with Amazon
+
+1. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
+2. Hover over the gear and choose Web Settings associated with the security profile you created in the previous step, and then choose Edit.
+![Image]({{common_media}}/cognitoHostedUI/amazon4.png)
+3. Type your user pool domain into Allowed Origins and type your user pool domain with the /oauth2/idpresponse endpoint into Allowed Return URLs.
+![Image]({{common_media}}/cognitoHostedUI/amazon5.png)
+5. Choose Save.
+
+#### Manual Setup
+
+To configure your application for hosted UI, you need to use *HostedUI* options. Update your `awsconfiguration.json` file to add a new configuration for `Auth`. The configuration should look like this:
+
+```json
+{
+    "IdentityManager": {
+        ...
+    },
+    "CredentialsProvider": {
+        ...
+    },
+    "CognitoUserPool": {
+        ...
+    },
+    "Auth": {
+        "Default": {
+            "OAuth": {
+                "WebDomain": "YOUR_AUTH_DOMAIN.auth.us-west-2.amazoncognito.com", // Do not include the https:// prefix
+                "AppClientId": "YOUR_APP_CLIENT_ID",
+                "SignInRedirectURI": "myapp://callback",
+                "SignOutRedirectURI": "myapp://signout",
+                "Scopes": ["openid", "email"]
+            }
+        }
+    }
+}
+```
+
+Note: The User Pool OIDC JWT token obtained from a successful sign-in will be federated into a configured Cognito Identity pool in the `awsconfiguration.json` and the SDK will automatically exchange this with Cognito Identity to also retrieve AWS credentials.
+
+#### Setup Amazon Cognito Hosted UI in Android App
+
+1. Add `myapp://` to your app's Intent filters located in `AndroidManifest.xml`. The `your.package.YourAuthIntentHandlingActivity` will be referenced in the next step.
+
+    ```xml
+    <?xml version="1.0" encoding="utf-8"?>
+     <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+               xmlns:amazon="http://schemas.amazon.com/apk/res/android"
+               package="com.amazonaws.mobile.client">
+
+        <uses-permission android:name="android.permission.INTERNET"/>
+        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+        <application>
+            <activity android:name="your.package.YourAuthIntentHandlingActivity">
+                <intent-filter>
+                    <action android:name="android.intent.action.VIEW" />
+
+                    <category android:name="android.intent.category.DEFAULT" />
+                    <category android:name="android.intent.category.BROWSABLE" />
+
+                    <data android:scheme="myapp" />
+                </intent-filter>
+            </activity>
+        </application>
+
+    </manifest>
+    ```
+
+1. Attach an intent callback so that the AWSMobileClient can handle the callback and confirm sign-in or sign-out. This should be in `your.package.YourAuthIntentHandlingActivity`.
+
+    ```java
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent activityIntent = getIntent();
+        if (activityIntent.getData() != null &&
+                "myapp".equals(activityIntent.getData().getScheme())) {
+            AWSMobileClient.getInstance().handleAuthResponse(activityIntent);
+        }
+    }
+    ```
+
+#### Launching the Hosted UI
+
+To launch the Hosted UI from from your application, you can use the `showSignIn` API of `AWSMobileClient.getInstance()`:
+
+```java
+// No options are being specified, only the config will be used
+HostedUIOptions hostedUIOptions = HostedUIOptions.builder()
+        .scopes("openid", "email")
+        .build();
+SignInUIOptions signInUIOptions = SignInUIOptions.builder()
+        .hostedUIOptions(hostedUIOptions)
+        .build();
+// 'this' refers to the current active Activity
+AWSMobileClient.getInstance().showSignIn(this, signInUIOptions, new Callback<UserStateDetails>() {
+    @Override
+    public void onResult(UserStateDetails details) {
+        Log.d(TAG, "onResult: " + details.getUserState());
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "onError: ", e);
+    }
+});
+```
+
+Note: By default, the Hosted UI will show all sign-in options; the username-password flow as well as any social providers which are configured. If you wish to bypass the extra sign-in screen showing all the provider options and launch your desired social provider login directly, you can set the `HostedUIOptions` as shown in the next section.
+{: .callout .callout--info}
+
+#### Configuring Hosted UI to launch Facebook/ Google/ SAML sign in directly
+
+```java
+// For Google
+HostedUIOptions hostedUIOptions = HostedUIOptions.builder()
+    .scopes("openid", "email")
+    .identityProvider("Google")
+    .build();
+
+// For Facebook
+HostedUIOptions hostedUIOptions = HostedUIOptions.builder()
+    .scopes("openid", "email")
+    .identityProvider("Facebook")
+    .build();
+
+SignInUIOptions signInUIOptions = SignInUIOptions.builder()
+    .hostedUIOptions(hostedUIOptions)
+    .build();
+// 'this' refers to the current active Activity
+AWSMobileClient.getInstance().showSignIn(this, signInUIOptions, new Callback<UserStateDetails>() {
+    @Override
+    public void onResult(UserStateDetails details) {
+        Log.d(TAG, "onResult: " + details.getUserState());
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "onError: ", e);
+    }
+});
+```
+
+#### Sign Out from HostedUI
+
+```java
+AWSMobileClient.getInstance().signOut(SignOutOptions.builder().invalidateTokens(true).build(), new Callback<Void>() {
+    @Override
+    public void onResult(Void result) {
+        Log.d(TAG, "onResult: ");
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "onError: ", e);
+    }
+});
+```
+
+If you want to sign out locally by just deleting tokens, you can call `signOut` method:
+
+```java
+AWSMobileClient.getInstance().signOut();
+```
+
+### Using Auth0 Hosted UI
+
+You can use `AWSMobileClient` to use `Auth0` as `OAuth 2.0`  provider.
+You can use `Auth0` as one of the providers of your Cognito Federated Identity Pool.
+This will allow users authenticated via Auth0 have access to your AWS resources. Learn [how to integrate Auth0 with Cognito Federated Identity Pools](https://auth0.com/docs/integrations/integrating-auth0-amazon-cognito-mobile-apps)
+
+#### Setup Auth0 Hosted UI in Android App
+
+#### Setup Amazon Cognito Hosted UI in Android App
+
+1. To configure your application for hosted UI, you need to use *HostedUI* options. Update your `awsconfiguration.json` file to add a new configuration for `Auth`. The configuration should look like this:
+
+    ```json
+    {
+        "IdentityManager": {
+            ...
+        },
+        "CredentialsProvider": {
+            ...
+        },
+        "CognitoUserPool": {
+            ...
+        },
+        "Auth": {
+            "Default": {
+                "OAuth": {
+                    "AppClientId": "YOUR_AUTH0_APP_CLIENT_ID",
+                    "TokenURI": "https://YOUR_AUTH0_DOMAIN.auth0.com/oauth/token",
+                    "SignInURI": "https://YOUR_AUTH0_DOMAIN.auth0.com/authorize",
+                    "SignInRedirectURI": "com.your.bundle.configured.in.auth0://YOUR_AUTH0_DOMAIN.auth0.com/android/com.your.bundle/callback",
+                    "SignOutURI": "https://YOUR_AUTH0_DOMAIN.auth0.com/v2/logout",
+                    "SignOutRedirectURI": "com.your.bundle.configured.in.auth0://yourserver.auth0.com/android/com.amazonaws.AWSAuthSDKTestApp/signout",
+                    "SignOutURIQueryParameters": {
+                        "client_id" : "YOUR_AUTH0_APP_CLIENT_ID",
+                        "returnTo" : "com.your.bundle.configured.in.auth0://yourserver.auth0.com/android/com.amazonaws.AWSAuthSDKTestApp/signout"
+                    },
+                    "Scopes": ["openid", "email"]
+                }
+            }
+        }
+    }
+    ```
+
+1. Add the sign-in and sign-out redirect URIs to your app's Intent filters located in `AndroidManifest.xml`.
+
+    ```xml
+    <?xml version="1.0" encoding="utf-8"?>
+     <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+               xmlns:amazon="http://schemas.amazon.com/apk/res/android"
+               package="com.amazonaws.mobile.client">
+
+        <uses-permission android:name="android.permission.INTERNET"/>
+        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+        <application>
+            <activity android:name="your.package.YourAuthIntentHandlingActivity">
+                <intent-filter>
+                    <action android:name="android.intent.action.VIEW" />
+
+                    <category android:name="android.intent.category.DEFAULT" />
+                    <category android:name="android.intent.category.BROWSABLE" />
+
+                    <data android:scheme="com.your.bundle.configured.in.auth0" />
+                </intent-filter>
+            </activity>
+        </application>
+
+    </manifest>
+    ```
+
+1. Attach an intent callback so that the AWSMobileClient can handle the callback and confirm sign-in or sign-out. This should be in `your.package.YourAuthIntentHandlingActivity`.
+
+    ```java
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent activityIntent = getIntent();
+        if (activityIntent.getData() != null &&
+                "myapp".equals(activityIntent.getData().getScheme())) {
+            AWSMobileClient.getInstance().handleAuthResponse(activityIntent);
+        }
+    }
+    ```
+
+#### Launching the Hosted UI for Auth0
+
+To launch the Hosted UI from from your application, you can use the `showSignIn` API of `AWSMobileClient.getInstance()`:
+
+```java
+final HostedUIOptions hostedUIOptions = HostedUIOptions.builder()
+        .federationProviderName("YOUR_AUTH0_DOMAIN.auth0.com")
+        .build();
+final SignInUIOptions signInUIOptions = SignInUIOptions.builder()
+        .hostedUIOptions(hostedUIOptions)
+        .build();
+// 'this' refers to the current active Activity
+AWSMobileClient.getInstance().showSignIn(this, signInUIOptions, new Callback<UserStateDetails>() {
+    @Override
+    public void onResult(UserStateDetails result) {
+        Log.d(TAG, "onResult: " + result.getUserState());
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "onError: ", e);
+    }
+});
+```
+
+#### Sign Out from HostedUI
+
+```java
+AWSMobileClient.getInstance().signOut(SignOutOptions.builder().invalidateTokens(true).build(), new Callback<Void>() {
+    @Override
+    public void onResult(Void result) {
+        Log.d(TAG, "onResult: ");
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "onError: ", e);
+    }
+});
+```
+
+If you want to sign out locally by just deleting tokens, you can call `signOut` method:
+
+```java
+AWSMobileClient.getInstance().signOut();
+```
+
+## Using Device Features
+
+You can use the device related features of Amazon Cognito UserPools by enabling the `Devices` features. Go to your Cognito UserPool, click on `Devices` in Left Navigation Menu and chose one of `User Opt In` or `Always`.
+
+If you chose `Always` every device used by your application’s users is remembered.
+
+You can read more about the device features in the following [blog](https://aws.amazon.com/blogs/mobile/tracking-and-remembering-devices-using-amazon-cognito-your-user-pools/).
+
+### Terminology
+
+* *Tracked*
+
+When devices are tracked, a set of device credentials consisting of a key and secret key pair is assigned to every device. You can view all tracked devices for a specific user from the Amazon Cognito console device browser, which you can view by choosing a user from the Users panel. In addition, you can see some metadata (whether it is remembered, time it began being tracked, last authenticated time, etc.) associated with the device and its usage.
+
+
+* *Remembered*
+
+Remembered devices are also tracked. During user authentication, the key and secret pair assigned to a remembered device is used to authenticate the device to verify that it is the same device that the user previously used to sign in to the application. You can also see remembered devices from the Amazon Cognito console.
+
+
+* *Not Remembered*
+
+A not-remembered device is the flipside of being remembered, though the device is still tracked. The device is treated as if it was never used during the user authentication flow. This means that the device credentials are not used to authenticate the device. The new APIs in the AWS Mobile SDK do not expose these devices, but you can see them in the Amazon Cognito console.
+
+### Remember Device
+
+This option will mark the tracked device as `remembered`
+
+```java
+AWSMobileClient.getInstance().getDeviceOperations().updateStatus(true, new Callback<Void>() {
+    @Override
+    public void onResult(Void result) {
+        Log.d(TAG, "onResult: ");
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "onError: ", e);
+    }
+});
+```
+
+### Update Device
+
+This option will mark the tracked device as `not remembered`.
+
+```java
+AWSMobileClient.getInstance().getDeviceOperations().updateStatus(false, new Callback<Void>() {
+    @Override
+    public void onResult(Void result) {
+        Log.d(TAG, "onResult: ");
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "onError: ", e);
+    }
+});
+```
+
+### Forget Device
+
+This option will stop tracking the device altogether.
+
+```java
+AWSMobileClient.getInstance().getDeviceOperations().forget(new Callback<Void>() {
+    @Override
+    public void onResult(Void result) {
+        Log.d(TAG, "onResult: ");
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "onError: ", e);
+    }
+});
+```
+
+> Note: Once you call `forget`, you can update the status of the device in the same auth session. The end user will have to sign in again to remember the device.
+
+### Get Device Details
+
+```java
+AWSMobileClient.getInstance().getDeviceOperations().get(new Callback<Device>() {
+    @Override
+    public void onResult(Device result) {
+        Log.d(TAG, "onResult: ");
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "onError: ", e);
+    }
+});
+```
+
+### List Devices
+
+```java
+AWSMobileClient.getInstance().getDeviceOperations().list(new Callback<ListDevicesResult>() {
+    @Override
+    public void onResult(ListDevicesResult result) {
+        Log.d(TAG, "onResult: ");
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "onError: ", e);
+    }
+});
 ```

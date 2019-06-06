@@ -42,7 +42,7 @@ const expiration = new Date(2018, 1, 1);
 Cache.setItem('key', 'value', { expires: expiration.getTime() });
 ```
 
-When using `priority` setting, the cached item with the lower number will be expired first. The Cache module decides expiration based on the memory available to the cache. In the following example,`breakfastFoodOrder` will be expired before `mothersBirthday`.
+When using `priority` setting, the cached item with the higher number will be expired first. The Cache module decides expiration based on the memory available to the cache. In the following example,`breakfastFoodOrder` will be expired before `mothersBirthday`.
 
 
 ```javascript

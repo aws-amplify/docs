@@ -122,7 +122,6 @@ The `project-config.json` file, which can be safely checked into a version contr
 }
 ```
 
-
 The `.config` directory also has a `local-aws-info.json` file that lets the CLI know which AWS profile/accesskey-secret key pair to use when adding AWS resources to your project.<br>
 Note: This file should not be checked into version control since it has information specific to a system on which the CLI is running on. <br>
 If you're using an AWS profile to initialize your project, the format should be the following:
@@ -270,7 +269,7 @@ Unless explicitly set to `general`, the `project` level is chosen. <br/>
 `general` level means the CLI will not manage configuration at the project level, it instead relies on the AWS SDK to resolve aws credentials and region. To learn how it works, check the AWS SDK's documents on [credentials](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/setting-credentials-node.html) and [region](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/setting-region.html).<br/>
 `project` level means the configuration is managed at the project level by the CLI, each project gets its own independent configuration. The following attributes are used only when the configuration is at project level<br/>
 - `useProfile`: <br/> 
-A boolean indicating weather to use a profile defined in the shared config file (`~/.aws/config`) and credentials file (`~/.aws/credentials`). <br/>
+A boolean indicating whether to use a profile defined in the shared config file (`~/.aws/config`) and credentials file (`~/.aws/credentials`). <br/>
 - `profileName`: <br/> 
 The name of the profile if `useProfile` is set to true. <br/>
 - `accessKeyId`: <br/> 
@@ -412,25 +411,25 @@ You can configure the AWS Amplify CLI to use an IAM role by defining a profile f
 When prompted during the execution of `amplify init` or the `amplify configure project` command, you will select a configured profile for the role, and the Amplify CLI will handle the logic to retrieve, cache and refresh the temp credentials. If Multi-Factor Authentication (MFA) is enabled, the CLI will prompt you to enter the MFA token code when it needs to retrieve or refresh temporary credentials. <br/>
 
 The Amplify CLI has its own mechanism of caching temp credentials, it does NOT use the same cache of the AWS CLI. The temporary credentials are cached at `~/.amplify/awscloudformation/cache.json`. You can remove all cached credentials by removing this file.<br/>
-If you only want to remove the cached temp credentials associated with a particular project, execute `amplify awscloudformation reset-cache` or it's alias `amplify aws reset-catch` in the project. <br/>
+If you only want to remove the cached temp credentials associated with a particular project, execute `amplify awscloudformation reset-cache` or it's alias `amplify aws reset-cache` in the project. <br/>
 
 ### Step by step guide to create and assume an IAM role
 The following is a step by step guide on how to create an IAM role and make it available for the Amplify CLI.
 
 The setup has three parts, we will use an example to demonstrate this capability.<br/>
 
-Assume Biz Corp has decided to hire Dev Corp to develop its inventory management web portal, and the Dev Corp is using the Amplify CLI to speed up the development process. <br/>
+Assume Biz Corp has decided to hire Dev Corp to develop its inventory management web portal, and Dev Corp is using the Amplify CLI to speed up the development process. <br/>
 
-#### Part #1: Setup the role (Biz Corp)
+#### Part #1: Set up the role (Biz Corp)
 1. Sign in to the AWS Management Console and open the [IAM](https://console.aws.amazon.com/iam/) console.
 2. In the navigation pane of the console, choose `Roles` and then choose `Create role`.
 3. Choose the `Another AWS account` role type.
-4. For Account ID, type the AWS account ID of the Dev Corp (account ID of the entity you want to grant access to your AWS resources).
-5. Although optional, it is recommended to select `Require external ID` and enter the external id given to you by the Dev Corp. (click [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html) for more details on external ID).
+4. For Account ID, type Dev Corp's AWS account ID (the account ID of the entity you want to grant access to your AWS resources).
+5. Although optional, it is recommended to select `Require external ID` and enter the external id given to you by Dev Corp. (click [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html) for more details on external IDs).
 6. If you want to restrict the role to users who sign in with multi-factor authentication (MFA), select `Require MFA`(click [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa.html) for more details on MFA).
 7. Choose `Next: Permissions`.
-8. Select permissions policies that you want the developers from the Dev Corp to have when the role is assumed.
-Note: You MUST grant the role permissions to perform Cloudformation actions and create associated resources (depending on categories you use in your project) such as:
+8. Select permissions policies that you want the developers from Dev Corp to have when the role is assumed.
+Note: You MUST grant the role permissions to perform CloudFormation actions and create associated resources (depending on the categories you use in your project) such as:
 - Cognito User and Identity Pools
 - S3 buckets
 - DynamoDB tables
@@ -448,7 +447,7 @@ Note: You MUST grant the role permissions to perform Cloudformation actions and 
 11. Choose `Create role`.
 12. Give the Role Arn to Dev Corp.
 
-#### Part #2: Setup the user to assume the role (Dev Corp)
+#### Part #2: Set up the user to assume the role (Dev Corp)
 ##### 2.1 Create a policy that has permission to assume the role created above by Biz corp. 
 1. Get the Role Arn from Biz Corp.
 2. Sign in to the AWS Management Console and open the [IAM](https://console.aws.amazon.com/iam/) console. (Assuming Dev corp has a separate AWS account).
@@ -484,7 +483,7 @@ Note: You MUST grant the role permissions to perform Cloudformation actions and 
 12. Click `Download .csv` to download a copy of the credentials. You can, optionally, copy paste the Access Key ID and Secret Access Key and store it in a safe location. These credentials would be used in a later section.
 
 ##### 2.3 Assign MFA device (Optional)
-This must be set up if the Biz Corp selected to `Require MFA` when creating the role. This needs to be set up by the Dev Corp users and in their respective AWS account.<br/>
+This must be set up if the Biz Corp selected to `Require MFA` when creating the role. This needs to be set up by Dev Corp users and in their respective AWS account.<br/>
 We are using a virtual MFA device, such as the Google Authenticator app, in this example.
 
 1. Sign in to the AWS Management Console and open the [IAM](https://console.aws.amazon.com/iam/) console. 
@@ -496,7 +495,7 @@ We are using a virtual MFA device, such as the Google Authenticator app, in this
 8. In the MFA code 1 box, type the one-time password that currently appears in the virtual MFA device. Wait for the device to generate a new one-time password. Then type the second one-time password into the MFA code 2 box. Then choose Assign MFA.
 9. Copy the MFA device arn next to `Assigned MFA device`, which will be used in part 3.
 
-#### Part #3: Setup the local development environment (Dev Corp)
+#### Part #3: Set up the local development environment (Dev Corp)
 1. On the local development system, create the following two files if they do not exist.<br/>
   `~/.aws/config`<br/>
   `~/.aws/credentials`<br/>

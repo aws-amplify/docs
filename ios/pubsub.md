@@ -25,7 +25,7 @@ The `Podfile` that you configure to install the AWS Mobile SDK must contain the 
     target :'YOUR-APP-NAME' do
       use_frameworks!
 
-        pod  'AWSIoT', '~> 2.8.0'
+        pod  'AWSIoT', '~> 2.9.0'
         # other pods
 
     end
@@ -51,8 +51,8 @@ let iotDataConfiguration = AWSServiceConfiguration(
     credentialsProvider: AWSMobileClient.sharedInstance()
 )
 
-AWSIoTDataManager.register(with: iotDataConfiguration!, forKey: ASWIoTDataManager)
-AWSIoTDataManager iotDataManager = AWSIoTDataManager(forKey: ASWIoTDataManager)                                               
+AWSIoTDataManager.register(with: iotDataConfiguration!, forKey: "MyAWSIoTDataManager")
+let iotDataManager = AWSIoTDataManager(forKey: "MyAWSIoTDataManager")
 ```
 
 You can get the endpoint information from the IoT Core -> Settings page on the AWS Console.  
@@ -89,6 +89,8 @@ Before you can publish/subscribe to a topic, you need to establish a connection.
 
 #### Certificate based mutual authentication
 
+To connect with the AWS IoT Core service on the standard MQTT port 8883, you can use the `connect` API as shown below.
+
 ```swift
 func mqttEventCallback(_ status: AWSIoTMQTTStatus ) {
     print("connection status = \(status.rawValue)")
@@ -97,11 +99,24 @@ func mqttEventCallback(_ status: AWSIoTMQTTStatus ) {
 iotDataManager.connect(withClientId: "<YOUR_CLIENT_ID>",
                        cleanSession: true,
                        certificateId: "<YOUR_CERTIFICATE_ID>",
-                       statusCallback: mqttEventCallback
+                       statusCallback: mqttEventCallback)
+```
+
+The AWS IoT Core service also allows you to connect devices using MQTT with certificate based mutual authentication on port 443. You can do this using the `connectUsingALPN` API as shown below. See [MQTT with TLS client authentication on port 443](https://aws.amazon.com/blogs/iot/mqtt-with-tls-client-authentication-on-port-443-why-it-is-useful-and-how-it-works/) for more information.
+
+```swift
+func mqttEventCallback(_ status: AWSIoTMQTTStatus ) {
+    print("connection status = \(status.rawValue)")
+}
+
+iotDataManager.connectUsingALPN(withClientId: "<YOUR_CLIENT_ID>",
+                       cleanSession: true,
+                       certificateId: "<YOUR_CERTIFICATE_ID>",
+                       statusCallback: mqttEventCallback)
 ```
 
 You can take a look at the [API Reference](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/Classes/AWSIoTDataManager.html#//api/name/connectWithClientId:cleanSession:certificateId:statusCallback:
-) to know more information.
+) to get more information.
 
 #### AWS Credentials based Authentication
 
