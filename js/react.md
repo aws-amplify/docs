@@ -62,7 +62,7 @@ yarn add aws-amplify aws-amplify-react
 If integrating with a React Native app, use:
 ```
 yarn add aws-amplify aws-amplify-react-native
-react-native link amazon-cognito-identity-js
+react-native link amazon-cognito-identity-js # DO NOT run this when using Expo or ExpoKit
 ```
 
 Edit `./src/App.js` to include the Amplify library, configurations, and [React HOC](https://reactjs.org/docs/higher-order-components.html). Then, initialize the library as follows:
@@ -215,8 +215,8 @@ Now, inside the `App` component add the following two methods before the `render
       description: 'Amplify CLI rocks!'
     };
     
-    const newEvent = await API.graphql(graphqlOperation(addTodo, todoDetails));
-    alert(JSON.stringify(newEvent));
+    const newTodo = await API.graphql(graphqlOperation(addTodo, todoDetails));
+    alert(JSON.stringify(newTodo));
   }
 
   listQuery = async () => {
