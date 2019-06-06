@@ -228,7 +228,7 @@ func addItemSQS() {
     }
 ```
 
-You could then call `self.addItemSQS()` to invoke this action from your app.
+You could then call `self.addItemSQS()` to invoke this action from your app. To perform these tasks in an asynchronous manner in an application, please see [Working with Asynchronous Tasks](./how-to-ios-asynchrounous-tasks).
 
 ## Logging
 
