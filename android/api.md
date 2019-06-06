@@ -96,10 +96,10 @@ This will open the AWS AppSync console for you to run Queries, Mutations, or Sub
 To use AppSync in your Android studio project, modify the project's `build.gradle` with the following dependency in the build script:
 
 ```bash
-    classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.7.+'
+    classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.9.+'
 ```
 
-Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `implementation 'com.amazonaws:aws-android-sdk-appsync:2.7.+'`. For example:
+Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `implementation 'com.amazonaws:aws-android-sdk-appsync:2.9.+'`. For example:
 
 
 ```bash
@@ -110,7 +110,7 @@ Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws
     }
     dependencies {
         // Typical dependencies
-        implementation 'com.amazonaws:aws-android-sdk-appsync:2.7.+'
+        implementation 'com.amazonaws:aws-android-sdk-appsync:2.9.+'
         implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
         implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
     }
@@ -170,7 +170,7 @@ Inside your application code, such as the `onCreate()` lifecycle method of your 
 
 ### Run a Query
 
-Now that the client is configured, you can run a GraphQL query. The syntax of the callback is `GraphQLCall.Callback<{NAME}>Query.Data>` where `{NAME}` comes from the GraphQL statements that `amplify codegen` created after you ran a Gradle build. You invoke this from an instance of the AppSync client with a similar syntax of `.query(<NAME>Query.builder().build())`. For example, if you have a `ListTodos` query, your code will look like the following:
+Now that the client is configured, you can run a GraphQL query. The syntax of the callback is `GraphQLCall.Callback<{NAME}Query.Data>` where `{NAME}` comes from the GraphQL statements that `amplify codegen` created after you ran a Gradle build. You invoke this from an instance of the AppSync client with a similar syntax of `.query({NAME}Query.builder().build())`. For example, if you have a `ListTodos` query, your code will look like the following:
 
 ```java
     public void query(){
@@ -350,7 +350,6 @@ AWSAppSyncClient.builder()
 
 If you are performing a mutation, you can write an “optimistic response” anytime to this cache even if you are offline. You use the AppSync client to connect by passing in the query to update, reading the items off the cache. This normally returns a single item or list of items, depending on the GraphQL response type of the query to update. At this point you would add to the list, remove, or update it as appropriate and write back the response to the store persisting it to disk. When you reconnect to the network any responses from the service will overwrite the changes as the authoritative response.
 
-
 #### Offline Mutations
 
 As outlined in the architecture section, all query results are automatically persisted to disc with the AppSync client. For updating data through mutations when offline you will need to use an "optimistic response" by writing directly to the store. This is done by querying the store directly with `client.query().responseFetcher()` and passing in `AppSyncResponseFetchers.CACHE_ONLY` to pull the records for a specific query that you wish to update.
@@ -416,7 +415,33 @@ optimisticWrite(createTodoInput);
 
 You might add similar code in your app for updating or deleting items using an optimistic response, it would look largely similar except that you might overwrite or remove an element from the `response.data().listTodos().items()` array. A recommended best practice would be to create similar overloaded methods for `optimisticWrite(UpdateTodoInput updateTodoInput)` and `optimisticWrite(DeleteTodoInput deleteTodoInput)`. 
 
-### Authentication Modes
+Offline mutations work by default and are available in memory, as well as through app restarts. The `onResponse` callback in mutations is received when the network is available and will be executed as long as the app wasn't closed. However if the app was closed or crashed, the `persistentMutationsCallback` will be called in the `AWSAppSyncClient` builder which has information about the mutation type and identifier. You should use this in your client initialization routine to protect against any unknown app behaviors such as application errors or user interference:
+
+```java
+
+    private AWSAppSyncClient mAWSAppSyncClient;
+    
+    mAWSAppSyncClient = AWSAppSyncClient.builder()
+      .context(getApplicationContext())
+      .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+        .persistentMutationsCallback(new PersistentMutationsCallback() {
+          @Override
+          public void onResponse(PersistentMutationsResponse response) {
+            if (response.getMutationClassName().equals("AddPostMutation")) {
+              // perform action here add post mutation
+            }
+          }
+
+          @Override
+          public void onFailure(PersistentMutationsError error) {
+            // handle error feedback here
+          }
+        })
+      .build();
+    
+```
+
+### Authorization Modes
 
 For client authorization AppSync supports API Keys, Amazon IAM credentials (we recommend using Amazon Cognito Identity Pools for this option), Amazon Cognito User Pools, and 3rd party OIDC providers. This is inferred from the `awsconfiguration.json` when you call `.awsConfiguration()` on the `AWSAppSyncClient` builder.
 
@@ -565,6 +590,243 @@ private static String MyOIDCAuthProvider(){
     // Fetch the JWT token string from OIDC Identity provider
     // after the user is successfully signed-in
     return "token";
+}
+```
+
+#### Multi-Auth
+
+This section talks about the capability of AWS AppSync to configure multiple authorization modes for a single AWS AppSync endpoint and region. Follow the [AWS AppSync Multi-Auth](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes) to configure multiple authorization modes for your AWS AppSync endpoint.
+
+You can now configure a single GraphQL API to deliver private and public data. Private data requires authenticated access using authorization mechanisms such as IAM, Cognito User Pools, and OIDC. Public data does not require authenticated access and is delivered through authorization mechanisms such as API Keys. You can also configure a single GraphQL API to deliver private data using more than one authorization type. For example, you can configure your GraphQL API  to authorize some schema fields using OIDC, while other schema fields through Cognito User Pools and/or IAM.
+
+As discussed in the above linked documentation, certain fields may be protected by different authorization types. This can lead the same query, mutation, or subscription to have different responses based on the authorization sent with the request; Therefore, it is recommended to use different `AWSAppSyncClient` objects for each authorization type. Instantiation of multiple `AWSAppSyncClient` objects is enabled by passing `true` to the `useClientDatabasePrefix` flag. The `awsconfiguration.json` generated by the AWS AppSync console and Amplify CLI will add an entry called `ClientDatabasePrefix` in the "AppSync" section. This will be used to differentiate the databases used for operations such as queries, mutations, and subscriptions.
+
+**Important Note:** If you are an existing customer of AWS AppSync SDK for Android, the `useClientDatabasePrefix` has a default value of `false`. If you choose to use multiple `AWSAppSyncClient` objects, turning on `useClientDatabasePrefix` will change the location of the databases used by the client. The databases will not be automatically moved. You are responsible for migrating any data within the databases that you wish to keep and deleting the old databases on the device.
+
+The following snippets highlight the new values in the `awsconfiguration.json` and the client code configurations.
+
+**awsconfiguration.json based client instantiation**
+
+The `friendly_name` illustrated here is created from Amplify CLI prompt. There are 4 clients in this configuration that connect to the same API except that they use different `AuthMode` and `ClientDatabasePrefix`.
+
+```
+{
+  "Version": "1.0",
+  "AppSync": {
+    "Default": {
+      "ApiUrl": "https://xyz.us-west-2.amazonaws.com/graphql",
+      "Region": "us-west-2",
+      "AuthMode": "API_KEY",
+      "ApiKey": "da2-xyz",
+      "ClientDatabasePrefix": "friendly_name_API_KEY"
+    },
+    "friendly_name_AWS_IAM": {
+      "ApiUrl": "https://xyz.us-west-2.amazonaws.com/graphql",
+      "Region": "us-west-2",
+      "AuthMode": "AWS_IAM",
+      "ClientDatabasePrefix": "friendly_name_AWS_IAM"
+    },
+    "friendly_name_AMAZON_COGNITO_USER_POOLS": {
+      "ApiUrl": "https://xyz.us-west-2.amazonaws.com/graphql",
+      "Region": "us-west-2",
+      "AuthMode": "AMAZON_COGNITO_USER_POOLS",
+      "ClientDatabasePrefix": "friendly_name_AMAZON_COGNITO_USER_POOLS"
+    },
+    "friendly_name_OPENID_CONNECT": {
+      "ApiUrl": "https://xyz.us-west-2.amazonaws.com/graphql",
+      "Region": "us-west-2",
+      "AuthMode": "OPENID_CONNECT",
+      "ClientDatabasePrefix": "friendly_name_OPENID_CONNECT"
+    }
+  }
+}
+```
+
+The `useClientDatabasePrefix` is added on the client builder which signals to the builder that the `ClientDatabasePrefix` should be used from the AWSConfiguration object (*awsconfiguration.json*).
+
+```java
+AWSAppSyncClient client = AWSAppSyncClient.builder()
+                               .context(getApplicationContext())
+                               .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+                               .useClientDatabasePrefix(true)
+                               .build();
+```
+
+The following code creates a client factory to retrieve the client based on the authorization mode: public (API Key) or private (AWS IAM).
+
+```java
+// AppSyncClientMode.java
+public enum AppSyncClientMode {
+    PUBLIC,
+    PRIVATE
+}
+
+// ClientFactory.java
+public class ClientFactory {
+
+    private static Map<AWSAppSyncClient> CLIENTS;
+
+    public static AWSAppSyncClient getAppSyncClient(AppSyncClientMode choice) {
+        return CLIENTS[choice];
+    }
+
+    public static void initClients(final Context context) {
+        AWSConfiguration awsConfigPublic = new AWSConfiguration(context);
+        CLIENTS[PUBLIC] = AWSAppSyncClient.builder()
+                                  .context(context)
+                                  .awsConfiguration(awsConfigPublic)
+                                  .useClientDatabasePrefix(true)
+                                  .build();
+        
+        AWSConfiguration awsConfigPrivate = new AWSConfiguration(context);
+        awsConfigPrivate.setConfiguration("friendly_name_AWS_IAM");
+        CLIENTS[PRIVATE] = AWSAppSyncClient.builder()
+                                   .context(context)
+                                   .awsConfiguration(awsConfigPrivate)
+                                   .useClientDatabasePrefix(true)
+                                   .credentialsProvider(AWSMobileClient.getInstance())
+                                   .build();
+    }
+}
+```
+
+This is what the usage would look like.
+
+```java
+ClientFactory.getAppSyncClient(AppSyncClientMode.PRIVATE).query(fooQuery).execute();
+```
+
+The following example uses `API_KEY` as the default authorization mode and `AWS_IAM` as an additional authorization mode.
+
+```
+type Post @aws_api_key
+          @aws_iam {
+	id: ID!
+	author: String!
+	title: String
+	content: String
+	url: String @aws_iam
+	ups: Int @aws_iam
+	downs: Int @aws_iam
+	version: Int!
+}
+```
+
+1. Add a post (Mutation) through `CLIENTS[PRIVATE]` using `AWS_IAM ` authorization mode.
+
+2. Query the post through `CLIENTS[PRIVATE]` using `AWS_IAM` authorization mode.
+
+3. Query the post through `CLIENTS[PUBLIC]` using `API_KEY` authorization mode.
+
+```java
+apiKeyAppSyncClient.query(GetPostQuery.builder().id(id).build())
+        .responseFetcher(responseFetcher)
+        .enqueue(new GraphQLCall.Callback<GetPostQuery.Data>() {
+            @Override
+            public void onResponse(@Nonnull Response<GetPostQuery.Data> response) {
+                GetPost post = response.data().getPost();
+                post.id();
+                post.author();
+                post.title();
+                post.content();
+                post.version();
+                
+                post.url(); // Null - because it's not authorized
+                post.ups(); // Null - because it's not authorized
+                post.downs(); // Null - because it's not authorized
+                
+                if (response.hasErrors()) {
+	                	Log.d(TAG, response.errors().get(0).message()); // "Not Authorized to access url on type Post"
+	                	Log.d(TAG, response.errors().get(1).message()); // "Not Authorized to access ups on type Post"
+	                	Log.d(TAG, response.errors().get(2).message()); // "Not Authorized to access downs on type Post"
+                }
+            }
+
+            @Override
+            public void onFailure(@Nonnull ApolloException e) {
+                e.printStackTrace();
+            }
+        });
+```
+
+**Code based client instantiation**
+
+You can use the `AWSAppSyncClientBuilder` as an alternative to using `awsconfiguration.json`.
+
+```java
+// AppSyncClientMode.java
+public enum AppSyncClientMode {
+    PUBLIC,
+    PRIVATE
+}
+
+// ClientFactory.java
+public class ClientFactory {
+
+    private static Map<AWSAppSyncClient> CLIENTS;
+
+    public static AWSAppSyncClient getAppSyncClient(AppSyncClientMode choice) {
+        return CLIENTS[choice];
+    }
+
+    public static void initClients(final Context context) {
+        AWSConfiguration awsConfigPublic = new AWSConfiguration(context);
+        CLIENTS[PUBLIC] = AWSAppSyncClient.builder()
+                              .context(context)
+                              .apiKey(new BasicAPIKeyAuthProvider(apiKey))
+                              .serverUrl(serverUrl)
+                              .region(region)
+                              .clientDatabasePrefix("API_KEY")
+                              .useClientDatabasePrefix(true)
+                              .build();
+ 
+        CLIENTS[PRIVATE] = AWSAppSyncClient.builder()
+                               .context(context)
+                               .serverUrl(serverUrl)
+                               .region(region)
+                               .clientDatabasePrefix("AMAZON_COGNITO_USER_POOLS")
+                               .useClientDatabasePrefix(true)
+                               .cognitoUserPoolsAuthProvider(new CognitoUserPoolsAuthProvider() {
+								            @Override
+								            public String getLatestAuthToken() {
+								                try {
+								                    String idToken = AWSMobileClient.getInstance().getTokens().getIdToken().getTokenString();
+								                    return idToken;
+								                } catch (Exception e) {
+								                    e.printStackTrace();
+								                    return null;
+								                }
+								            }
+								        })
+                               .build();
+    }
+}
+```
+
+### Clear cache
+
+Clears the data cached by the `AWSAppSyncClient` object on the local device.
+
+```java
+try {
+    awsAppSyncClient.clearCaches(); // clear the queries, mutations and Delta Sync
+} catch (AWSAppSyncClientException e) {
+    e.printStackTrace();
+}
+```
+
+Selectively clears cache based on `ClearCacheOptions`.
+
+```java
+try {
+    awsAppSyncClient.clearCaches(
+    	ClearCacheOptions.builder()
+    		.clearQueries() // clear the query cache
+    		.clearMutations() // clear the mutations queue
+    		.clearSubscriptions() // clear the subscriptions metadata stored for Delta Sync
+    		.build());
+} catch (AWSAppSyncClientException e) {
+    e.printStackTrace();
 }
 ```
 
