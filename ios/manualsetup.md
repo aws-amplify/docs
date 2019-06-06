@@ -66,7 +66,7 @@ Whenever a new version of the SDK is released you can update by running `pod upd
 
 ## Carthage setup
 
-The AWS Mobile SDK for iOS is available through [https://github.com/Carthage/Carthage](https://cocoapods.org). Install the latest version of [Carthage](https://github.com/Carthage/Carthage#installing-carthage).
+The AWS Mobile SDK for iOS is available through [Carthage](https://github.com/Carthage/Carthage). Install the latest version of [Carthage](https://github.com/Carthage/Carthage#installing-carthage).
 
 Add the following to your `Cartfile`:
 
@@ -74,7 +74,7 @@ Add the following to your `Cartfile`:
 github "aws-amplify/aws-sdk-ios"
 ```
 
-Once complete, run `carthage update` and open the `*.xcworkspace` with Xcode and chose your `Target`. In the `General` tab, find `Embedded Binaries`, then choose the `+` button.
+Once complete, run `carthage update` and open the `*.xcworkspace` or `*.xcodeproj` file with Xcode and chose your `Target`. In the `General` tab, find `Embedded Binaries`, then choose the `+` button.
 
 Choose the `Add Other` button, navigate to the `AWS<#ServiceName#>.framework` files under `Carthage > Build > iOS` and select `AWSCore.framework` and the other service frameworks you require. Do not select the `Destination: Copy items` if needed check box when prompted.
 
@@ -133,7 +133,7 @@ Now **build** your project to start using the SDK. Whenever a new version of the
 
 ## Frameworks setup
 
-Download the [SDK](https://sdk-for-ios.amazonwebservices.com/latest/aws-ios-sdk.zip). The SDK is stored in a compressed file archive named `aws-ios-sdk-#.#.#` (where `#.#.#` represents the version number, so for version 2.8.0, the filename is `aws-ios-sdk-2.8.0`).
+Download the [SDK](https://sdk-for-ios.amazonwebservices.com/latest/aws-ios-sdk.zip). The SDK is stored in a compressed file archive named `aws-ios-sdk-#.#.#` (where `#.#.#` represents the version number, so for version 2.9.0, the filename is `aws-ios-sdk-2.9.0`).
 
 With your project open in Xcode, select your `Target`. Under `General` tab, find `Embedded Binaries` and then click the `+` button.
 
@@ -190,6 +190,8 @@ Now **build** your project to start using the SDK. Whenever a new version of the
 
 You can call AWS service interface objects directly via the generated SDK clients. You can use the client credentials provided by the [AWSMobileClient](./authentication) when using the `.default()` method on a service object (e.g. `AWSSQS.default()`). This will leverage short term AWS credentials from Cognito Identity. Alternatively, you can call the constructors manually.
 
+**Note:** If you are relying on the AWSMobileClient as the credentials provider, then initialize the AWSMobileClient before constructing any other service client. The AWSMobileClient will attach itself as the credentials provider for all default clients. However, if you attach a default credentials provider before initializing the AWSMobileClient, then you cannot rely on the AWSMobileClient to vend credentials used to authenticate the service client's API calls.
+
 To work with service interface objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
 {: .callout .callout--warning}
 
@@ -226,7 +228,7 @@ func addItemSQS() {
     }
 ```
 
-You could then call `self.addItemSQS()` to invoke this action from your app.
+You could then call `self.addItemSQS()` to invoke this action from your app. To perform these tasks in an asynchronous manner in an application, please see [Working with Asynchronous Tasks](./how-to-ios-asynchrounous-tasks).
 
 ## Logging
 
@@ -270,10 +272,10 @@ AWSDDLog.add(AWSDDTTYLogger.sharedInstance) // TTY = Xcode console
 Open the macOS terminal and go to the directory containing the expanded archive. For example:
 
 ```bash
-$ cd ~/Downloads/aws-ios-sdk-2.8.0
+$ cd ~/Downloads/aws-ios-sdk-2.9.0
 ```
 
-**Note**: Replace 2.8.0 in the preceding example with the version number of the AWS Mobile SDK for iOS that you downloaded.
+**Note**: Replace 2.9.0 in the preceding example with the version number of the AWS Mobile SDK for iOS that you downloaded.
 
 Create a directory called `~/Library/Developer/Shared/Documentation/DocSets`:
 

@@ -108,7 +108,7 @@ platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSMobileClient', '~> 2.6.33'
+    pod 'AWSMobileClient', '~> 2.9.0'
 
     # other pods . . .
 

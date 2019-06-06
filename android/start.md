@@ -17,7 +17,7 @@ Build an Android app using the AWS Amplify CLI and the AWS SDK for Android. The 
 Follow [these steps](https://developer.android.com/training/basics/firstapp/creating-project) to create an Android Studio application using Java. Modify your `project/build.gradle` with the following build dependency:
 
 ```groovy
-classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.6.+'
+classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.9.+'
 ```
 
 Next, add dependencies to your `app/build.gradle`, and then choose Sync Now on the upper-right side of Android Studio.
@@ -27,9 +27,9 @@ apply plugin: 'com.amazonaws.appsync'
 
 dependencies {
     //Base SDK
-    implementation 'com.amazonaws:aws-android-sdk-core:2.9.+'
+    implementation 'com.amazonaws:aws-android-sdk-core:2.13.+'
     //AppSync SDK
-    implementation 'com.amazonaws:aws-android-sdk-appsync:2.6.+'
+    implementation 'com.amazonaws:aws-android-sdk-appsync:2.8.+'
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
 }
@@ -98,6 +98,12 @@ $ amplify add api     #select GraphQL, API Key
 ```
 
 The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on you can always change it. This process creates an AWS AppSync API and connects it to an Amazon DynamoDB database.
+
+Create required backend resources for your configured api with the following command:
+
+```bash
+$ amplify push
+```
 
 Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults which generate a `./app/src/main/graphql` folder structure with your statements. Run a **Gradle Sync** and **Build** your app, at which point the generated packages are automatically added to your project.
 

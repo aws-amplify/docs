@@ -99,7 +99,7 @@ To use AppSync in your Xcode project, modify your Podfile with a dependency of t
 ```ruby
 target 'PostsApp' do
     use_frameworks!
-    pod 'AWSAppSync', ' ~> 2.6.24'
+    pod 'AWSAppSync', ' ~> 2.13.0'
 end
 ```
 
@@ -117,25 +117,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 var appSyncClient: AWSAppSyncClient?
 
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-    //You can choose your database location
-    let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("database_name")
-
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     do {
-        //AppSync configuration & client initialization
-        let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(),databaseURL: databaseURL)
+	// You can choose the directory in which AppSync stores its persistent cache databases
+	let cacheConfiguration = try AWSAppSyncCacheConfiguration()
+
+	// AppSync configuration & client initialization
+	let appSyncServiceConfig = try AWSAppSyncServiceConfig()
+        let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: appSyncServiceConfig,
+	                                                      cacheConfiguration: cacheConfiguration)
         appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
         // Set id as the cache key for objects. See architecture section for details
         appSyncClient?.apolloClient?.cacheKeyForObject = { $0["id"] }
-        } catch {
-            print("Error initializing appsync client. \(error)")
-        }
-        //other methods
-        return true
+    } catch {
+        print("Error initializing appsync client. \(error)")
+    }
+    // other methods
+    return true
 }
 ```
 
-`AWSAppSyncClientInfo` represents the configuration information present in awsconfiguration.json file. Next, in your application code, you reference this in an appropriate lifecycle method such as `viewDidLoad()`:
+`AWSAppSyncServiceConfig` represents the configuration information present in your `awsconfiguration.json` file.
+
+Next, in your application code, you reference this in an appropriate lifecycle method such as `viewDidLoad()`:
 
 ```swift
 import AWSAppSync
@@ -215,11 +219,11 @@ do {
 }
 ```
 
-Subscriptions can also take input types like mutations, in which case they will be subscribing to particular events based on the input. To learn more about subscription arguments, see [AWS AppSync Subscription Arguments](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html#using-subscription-arguments).
+Like mutations, subscriptions can also take input types, in which case they will be subscribing to particular events based on the input. To learn more about subscription arguments, see [AWS AppSync Subscription Arguments](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html#using-subscription-arguments).
 
 ### Client Architecture
 
-The AppSync client supports offline scenarios with a programing model that provides a "write through cache". This allows you to both render data in the UI when offline as well as add/update through an "optimistic response". The below diagram shows how the AppSync client interfaces with the network GraphQL calls, it's offline mutation queue, the Apollo cache, and your application code.
+The AppSync client supports offline scenarios with a programing model that provides a "write through cache". This allows you to both render data in the UI when offline as well as add/update through an "optimistic response". The below diagram shows how the AppSync client interfaces with the network GraphQL calls, its offline mutation queue, the Apollo cache, and your application code.
 
 ![Image]({{image_base}}/appsync-architecture.png)
 
@@ -291,9 +295,9 @@ func optimisticCreateTodo(input: CreateTodoInput, query:ListTodosQuery){
 
 You might add similar code in your app for updating or deleting items using an optimistic response, it would look largely similar except that you might overwrite or remove an element from the `data.listTodos?.items` array.
 
-### Authentication Modes
+### Authorization Modes
 
-For client authorization AppSync supports API Keys, Amazon IAM credentials (we recommend using Amazon Cognito Identity Pools for this option), Amazon Cognito User Pools, and 3rd party OIDC providers. This is inferred from the `awsconfiguration.json` when you call `AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo()`.
+For client authorization AppSync supports API Keys, Amazon IAM credentials (we recommend using Amazon Cognito Identity Pools for this option), Amazon Cognito User Pools, and 3rd party OIDC providers. This is inferred from the `awsconfiguration.json` file when you call `AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig()`.
 
 #### API Key
 
@@ -315,13 +319,10 @@ API Key is the easiest way to setup and prototype your application with AppSync.
 Add the following code to your app:
 
 ```swift
-// You can choose your database location, accessible by the SDK
-let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent(database_name)
-    
 do {
     // Initialize the AWS AppSync configuration
-    let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(), 
-                                                                databaseURL: databaseURL)
+    let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(), 
+                                                          cacheConfiguration: AWSAppSyncCacheConfiguration())
     
     // Initialize the AWS AppSync client
     appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
@@ -358,12 +359,12 @@ Add the following code to your app:
 
 ```swift                                
     func initializeAppSync() {
-        // You can choose your database location, accessible by the SDK
-        let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("todos_db")
-        
         do {
+            // You can choose the directory in which AppSync stores its persistent cache databases
+	    let cacheConfiguration = try AWSAppSyncCacheConfiguration()
+
             // Initialize the AWS AppSync configuration
-            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(),
+            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
                                                                   userPoolsAuthProvider: {
                                                                     class MyCognitoUserPoolsAuthProvider : AWSCognitoUserPoolsAuthProviderAsync {
                                                                         func getLatestAuthToken(_ callback: @escaping (String?, Error?) -> Void) {
@@ -377,7 +378,7 @@ Add the following code to your app:
                                                                         }
                                                                     }
                                                                     return MyCognitoUserPoolsAuthProvider()}(),
-                                                                  databaseURL:databaseURL)
+                                                                  cacheConfiguration: cacheConfiguration)
             
             // Initialize the AWS AppSync client
             appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
@@ -414,14 +415,11 @@ When using AWS IAM in a mobile application you should leverage Amazon Cognito Id
 Add the following code to your app:
 
 ```swift         
-// You can choose your database location, accessible by the SDK
-let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent(database_name)
-    
 do {
-  // Initialize the AWS AppSync configuration
-            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(),
-                                                                  credentialsProvider: AWSMobileClient.sharedInstance(),
-                                                                  databaseURL: databaseURL)
+    // Initialize the AWS AppSync configuration
+    let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
+							  credentialsProvider: AWSMobileClient.sharedInstance(),
+							  cacheConfiguration: AWSAppSyncCacheConfiguration())
     
     // Initialize the AWS AppSync client
     appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
@@ -457,18 +455,180 @@ class MyOidcProvider: AWSOIDCAuthProvider {
     }
 }
 
-let databaseURL = URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent(database_name)
-    
 do {
-  // Initialize the AWS AppSync configuration
-    let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncClientInfo: AWSAppSyncClientInfo(),
+    // Initialize the AWS AppSync configuration
+    let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
                                                           oidcAuthProvider: MyOidcProvider(),
-                                                          databaseURL:databaseURL)
+                                                          cacheConfiguration: AWSAppSyncCacheConfiguration())
     
     appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
 } catch {
     print("Error initializing appsync client. \(error)")
 }
+```
+
+#### Multi-Auth
+
+This section talks about the capability of AWS AppSync to configure multiple authorization modes for a single AWS AppSync endpoint and region. Follow the [AWS AppSync Multi-Auth](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes) to configure multiple authorization modes for your AWS AppSync endpoint.
+
+You can now configure a single GraphQL API to deliver private and public data. Private data requires authenticated access using authorization mechanisms such as IAM, Cognito User Pools, and OIDC. Public data does not require authenticated access and is delivered through authorization mechanisms such as API Keys. You can also configure a single GraphQL API to deliver private data using more than one authorization type. For example, you can configure your GraphQL API  to authorize some schema fields using OIDC, while other schema fields through Cognito User Pools and/or IAM.
+
+As discussed in the above linked documentation, certain fields may be protected by different authorization types. This can lead the same query, mutation, or subscription to have different responses based on the authorization sent with the request; Therefore, it is recommended to use different `AWSAppSyncClient` objects for each authorization type. Instantiation of multiple `AWSAppSyncClient` objects is enabled by passing `true` to the `useClientDatabasePrefix` flag. The `awsconfiguration.json` generated by the AWS AppSync console and Amplify CLI will add an entry called `ClientDatabasePrefix` in the "AppSync" section. This will be used to differentiate the databases used for operations such as queries, mutations, and subscriptions.
+
+**Important Note:** If you are an existing customer of AWS AppSync SDK for Android, the `useClientDatabasePrefix` has a default value of `false`. If you choose to use multiple `AWSAppSyncClient` objects, turning on `useClientDatabasePrefix` will change the location of the databases used by the client. The databases will not be automatically moved. You are responsible for migrating any data within the databases that you wish to keep and deleting the old databases on the device.
+
+The following snippets highlight the new values in the `awsconfiguration.json` and the client code configurations.
+
+The `friendly_name` illustrated here is created from Amplify CLI prompt. There are 4 clients in this configuration that connect to the same API except that they use different `AuthMode` and `ClientDatabasePrefix`.
+
+```
+{
+  "Version": "1.0",
+  "AppSync": {
+    "Default": {
+      "ApiUrl": "https://xyz.us-west-2.amazonaws.com/graphql",
+      "Region": "us-west-2",
+      "AuthMode": "API_KEY",
+      "ApiKey": "da2-xyz",
+      "ClientDatabasePrefix": "friendly_name_API_KEY"
+    },
+    "friendly_name_AWS_IAM": {
+      "ApiUrl": "https://xyz.us-west-2.amazonaws.com/graphql",
+      "Region": "us-west-2",
+      "AuthMode": "AWS_IAM",
+      "ClientDatabasePrefix": "friendly_name_AWS_IAM"
+    },
+    "friendly_name_AMAZON_COGNITO_USER_POOLS": {
+      "ApiUrl": "https://xyz.us-west-2.amazonaws.com/graphql",
+      "Region": "us-west-2",
+      "AuthMode": "AMAZON_COGNITO_USER_POOLS",
+      "ClientDatabasePrefix": "friendly_name_AMAZON_COGNITO_USER_POOLS"
+    },
+    "friendly_name_OPENID_CONNECT": {
+      "ApiUrl": "https://xyz.us-west-2.amazonaws.com/graphql",
+      "Region": "us-west-2",
+      "AuthMode": "OPENID_CONNECT",
+      "ClientDatabasePrefix": "friendly_name_OPENID_CONNECT"
+    }
+  }
+}
+```
+
+The `useClientDatabasePrefix` is added on the client builder which signals to the builder that the `ClientDatabasePrefix` should be used from the AWSConfiguration object (*awsconfiguration.json*).
+
+```swift
+let serviceConfig = try AWSAppSyncServiceConfig()
+let cacheConfig = AWSAppSyncCacheConfiguration(useClientDatabasePrefix: true,
+                                                  appSyncServiceConfig: serviceConfig)
+let clientConfig = AWSAppSyncClientConfiguration(appSyncServiceConfig: serviceConfig,
+                                                   cacheConfiguration: cacheConfig)
+
+let client = AWSAppSyncClient(appSyncConfig: clientConfig)
+```
+
+The following code creates a client factory to retrieve the client based on the authorization mode: public (`API_KEY`) or private (`AWS_IAM`).
+
+```swift
+public enum AppSyncClientMode {
+    case `public`
+    case `private`
+}
+
+public class ClientFactory {
+    static var clients: [AppSyncClientMode:AWSAppSyncClient] = [:]
+
+    class func getAppSyncClient(mode: AppSyncClientMode) -> AWSAppSyncClient? {
+        return clients[mode];
+    }
+
+    class func initClients() throws {
+        let serviceConfigAPIKey = try AWSAppSyncServiceConfig()
+        let cacheConfigAPIKey = try AWSAppSyncCacheConfiguration(useClientDatabasePrefix: true,
+                                                                    appSyncServiceConfig: serviceConfigAPIKey)
+        let clientConfigAPIKey = try AWSAppSyncClientConfiguration(appSyncServiceConfig: serviceConfigAPIKey,
+                                                                 cacheConfiguration: cacheConfigAPIKey)
+        clients[AppSyncClientMode.public] = try AWSAppSyncClient(appSyncConfig: clientConfigAPIKey)
+
+        let serviceConfigIAM = try AWSAppSyncServiceConfig(forKey: "friendly_name_AWS_IAM")
+        let cacheConfigIAM = try AWSAppSyncCacheConfiguration(useClientDatabasePrefix: true,
+                                                                 appSyncServiceConfig: serviceConfigIAM)
+        let clientConfigIAM = try AWSAppSyncClientConfiguration(appSyncServiceConfig: serviceConfigIAM,
+                                                                  cacheConfiguration: cacheConfigIAM)
+        clients[AppSyncClientMode.private] = try AWSAppSyncClient(appSyncConfig: clientConfigIAM)
+    }
+}
+```
+
+This is what the usage would look like.
+
+```swift
+ClientFactory.getAppSyncClient(AppSyncClientMode.private)?.fetch(query: ListPostsQuery())  { (result, error) in
+            if error != nil {
+                print(error?.localizedDescription ?? "")
+                return
+            }
+            self.postList = result?.data?.listPosts
+        };
+```
+
+The following example uses `API_KEY` as the default authorization mode and `AWS_IAM` as an additional authorization mode.
+
+```
+type Post @aws_api_key
+          @aws_iam {
+	id: ID!
+	author: String!
+	title: String
+	content: String
+	url: String @aws_iam
+	ups: Int @aws_iam
+	downs: Int @aws_iam
+	version: Int!
+}
+```
+
+1. Add a post (Mutation) through `ClientFactory.getAppSyncClient(AppSyncClientMode.private)` using `AWS_IAM` authorization mode.
+
+2. Query the post through `ClientFactory.getAppSyncClient(AppSyncClientMode.private)` using `AWS_IAM ` authorization mode.
+
+3. Query the post through `ClientFactory.getAppSyncClient(AppSyncClientMode.public)` using `API_KEY` authorization mode.
+
+```swift
+appSyncClient?.fetch(query: GetPostQuery())  { (result, error) in
+    if error != nil {
+        print(error?.localizedDescription ?? "")
+        return
+    }
+    var post = result?.data?.getPost?
+    post.id
+    post.author
+    post.title
+    post.content
+    post.version
+    post.url // Null - because it's not authorized
+    post.ups // Null - because it's not authorized
+    post.downs // Null - because it's not authorized
+    
+    result?.errors![0].message.contains("Not Authorized to access url on type Post")
+}
+```
+
+### Clear cache
+
+Clears the data cached by the `AWSAppSyncClient` object on the local device.
+
+```swift
+appSyncClient.clearCaches(); // clear the queries, mutations and delta sync cache.
+```
+
+Selectively clear caches `ClearCacheOptions`.
+
+```swift
+// Selectively clear caches, omit parameters to keep those caches
+let clearCacheOptions = ClearCacheOptions(clearQueries: true,
+                                        clearMutations: true,
+                                    clearSubscriptions: true)
+appSyncClient.clearCaches(options: clearCacheOptions)
 ```
 
 ### Delta Sync
@@ -484,7 +644,7 @@ You can also use Delta Sync functionality with GraphQL subscriptions, taking adv
 1. Subscribe to any queries defined and store results in an incoming queue
 2. Run the appropriate query (If `baseRefreshIntervalInSeconds` has elapsed, run the Base Query otherwise only run the Delta Query)
 3. Update the cache with results from the appropriate query
-4. Drain the mutation queue in serial
+4. Drain the subscription queue and continue processing as normal
 
 Finally, you might have other queries which you wish to represent in your application other than the base cache hydration. For instance a `getItem(id:ID)` or other specific query. If your alternative query corresponds to items which are already in the normalized cache, you can point them at these cache entries with the `cacheUpdates` function which returns an array of queries and their variables. The DeltaSync client will then iterate through the items and populate a query entry for each item on your behalf. If you wish to use additional queries which don't correspond to items in your base query cache, you can always create another instance of the `appSyncClient?.sync()` process.
 
@@ -785,7 +945,7 @@ Add `AWSAPIGateway` to your Podfile:
 	  use_frameworks!
 
 	     # For API
-	     pod 'AWSAPIGateway', '~> 2.8.0'
+	     pod 'AWSAPIGateway', '~> 2.9.0'
 	     # other pods
 	end
 ```

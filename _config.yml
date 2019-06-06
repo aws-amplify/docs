@@ -79,9 +79,6 @@ amplify:
             - item_name: Get Started
               item_url: '/'
               id: get_started
-            - item_name: Toolchain
-              item_external_url: 'https://aws-amplify.github.io/media/toolchain'
-              id: cli
             - item_name: Style Guide
               item_external_url: 'https://aws-amplify.github.io/media/ui_library'
               id: ui
@@ -156,7 +153,7 @@ android_category_list:
           class: aws-icon-ps-60-network-nodes
           icon: '/images/icons/Misc/Tool.svg'
           url: '/cli/graphql?sdk=android'
-        - title: Environments & Teams (beta)
+        - title: Environments & Teams
           excerpt: Setup multiple enviornments for your app and work with teams on your app.
           url: '/cli/multienv?sdk=android'
           icon: '/images/icons/Misc/Present.svg'
@@ -281,7 +278,7 @@ ios_category_list:
           class: aws-icon-ps-60-network-nodes
           icon: '/images/icons/Misc/Tool.svg'
           url: '/cli/graphql?sdk=ios'
-        - title: Environments & Teams (beta)
+        - title: Environments & Teams
           excerpt: Setup multiple enviornments for your app and work with teams on your app.
           url: '/cli/multienv?sdk=ios'
           icon: '/images/icons/Misc/Present.svg'
@@ -390,7 +387,7 @@ category_list:
           icon: '/images/icons/Misc/Present.svg'
         - title: Angular & Ionic
           excerpt: #"Learn to build a cloud enabled 'Notes App' with Ionic 4 and AWS Amplify <br/><b>45 min to complete</b>"
-          url: '/js/ionic'
+          url: '/js/angular'
           icon: '/images/icons/Misc/Present.svg'
         - title: Vue
           excerpt: #"Learn to build a cloud enabled App with Vue.js and AWS Amplify <br/><b>45 min to complete</b>"
@@ -437,7 +434,7 @@ category_list:
           class: aws-icon-ps-60-network-nodes
           icon: '/images/icons/Misc/Tool.svg'
           url: '/cli/graphql?sdk=js'
-        - title: Environments & Teams (beta)
+        - title: Environments & Teams
           excerpt: Setup multiple enviornments for your app and work with teams on your app.
           url: '/cli/multienv?sdk=js'
           icon: '/images/icons/Misc/Present.svg'
@@ -606,6 +603,8 @@ js_libraries:
     url: '?platform=ionic'
   - title: JavaScript
     url: '?platform=purejs'
+  - title: Vue
+    url: '?platform=vue'
 
 android_languages:
   - title: Java

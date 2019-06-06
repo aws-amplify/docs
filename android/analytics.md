@@ -62,6 +62,28 @@ The Amplify CLI helps setup and configure Pinpoint within your application and c
     $ amplify push
     ```
 
+#### Update your IAM Policy:
+
+The Amazon Pinpoint service requires permissions defined in an IAM policy to use the `submitEvents` API. If you are using long-term AWS credentials attached to an `Amazon IAM` user, attach the following policies to the role of that `IAM` user. If you are using temporary AWS credentials vended by `Amazon Cognito Identity Pools`, then attach the following policies to the Unauthenticated and/or Authenticated `IAM` roles of your `Cognito Identity Pool`. The role you attach the policies to depends on the scope of your application. For example, if you only want events submitted when users login, attach to the authenticated role. Similarly, if you want events submitted regardless of authentication state, attach the policy to the unauthenticated role. For more information on Cognito Identities authenticated/unauthenticated roles see <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html" target="_blank">here</a>.
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "mobiletargeting:UpdateEndpoint",
+                "mobiletargeting:PutEvents"
+            ],
+            "Resource": [
+                "arn:aws:mobiletargeting:*:${accountID}:apps/${appId}*"
+            ]
+        }
+    ]
+}
+```
+
 ### Connect to Your Backend
 
 Use the following steps to add analytics to your mobile app and monitor the results through Amazon Pinpoint.
@@ -71,8 +93,8 @@ Use the following steps to add analytics to your mobile app and monitor the resu
 
 ```groovy
 dependencies {
-  implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.9.+'
-  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.9.+@aar') { transitive = true }
+  implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.13.+'
+  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.13.+@aar') { transitive = true }
 }
 ```
 
@@ -107,36 +129,48 @@ dependencies {
     import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
     import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
     import com.amazonaws.mobile.client.AWSMobileClient;
+    import com.amazonaws.mobile.config.AWSConfiguration;
+    import com.amazonaws.mobile.client.UserStateDetails;
+    import com.amazonaws.mobile.client.Callback;
+    import android.content.Context;
 
     public class MainActivity extends AppCompatActivity {
         private static final String TAG = MainActivity.class.getSimpleName();
 
         public static PinpointManager pinpointManager;
 
+        public static PinpointManager getPinpointManager(final Context applicationContext) {
+            if (pinpointManager == null) {
+                // Initialize the AWS Mobile Client
+                final AWSConfiguration awsConfig = new AWSConfiguration(applicationContext);
+                AWSMobileClient.getInstance().initialize(applicationContext, awsConfig, new Callback<UserStateDetails>() {
+                    @Override
+                    public void onResult(UserStateDetails userStateDetails) {
+                        Log.i("INIT", userStateDetails.getUserState());
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Log.e("INIT", "Initialization error.", e);
+                    }
+                });
+
+                PinpointConfiguration pinpointConfig = new PinpointConfiguration(
+                        applicationContext,
+                        AWSMobileClient.getInstance(),
+                        awsConfig);
+
+                pinpointManager = new PinpointManager(pinpointConfig);
+            }
+            return pinpointManager;
+        }
+
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
-            // Initialize the AWS Mobile Client
-            AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
-                  @Override
-                  public void onResult(UserStateDetails userStateDetails) {
-                      Log.i(TAG, userStateDetails.getUserState());
-                  }
-
-                  @Override
-                  public void onError(Exception e) {
-                      Log.e(TAG, "Initialization error.", e);
-                  }
-            });
-
-            PinpointConfiguration config = new PinpointConfiguration(
-                    MainActivity.this,
-                    AWSMobileClient.getInstance(),
-                    AWSMobileClient.getInstance().getConfiguration()
-            );
-            pinpointManager = new PinpointManager(config);
+            final PinpointManager pinpointManager = getPinpointManager(getApplicationContext());
             pinpointManager.getSessionClient().startSession();
         }
     }
@@ -642,13 +676,13 @@ The two classes `KinesisRecorder` and `KinesisFirehoseRecorder` allow you to int
 
 [Amazon Kinesis](http://aws.amazon.com/kinesis/) is a fully managed service for real-time processing of streaming data at massive scale. Amazon Kinesis can collect and process hundreds of terabytes of data per hour from hundreds of thousands of sources, so you can write applications that process information in real-time. With Amazon Kinesis applications, you can build real-time dashboards, capture exceptions and generate alerts, drive recommendations, and make other real-time business or operational decisions. You can also easily send data to other services such as Amazon Simple Storage Service, Amazon DynamoDB, and Amazon Redshift.
 
-The Amazon Kinesis `KinesisRecorder` client lets you store [PutRecord](http://docs.aws.amazon.com/kinesis/latest/APIReference/API_PutRecord.html) requests on disk and then send them all at once. This is useful because many mobile applications that use Amazon Kinesis will create multiple `PutRecord` requests per second. Sending an individual request for each `PutRecord` action could adversely impact battery life. Moreover, the requests could be lost if the device goes offline. Thus, using the high-level Amazon Kinesis client for batching can preserve both battery life and data.
+The Amazon Kinesis `KinesisRecorder` client lets you store your Kinesis requests on disk and then send them all at once using the [PutRecords] (https://docs.aws.amazon.com/kinesis/latest/APIReference/API_PutRecords.html) API call of Kinesis. This is useful because many mobile applications that use Amazon Kinesis will create multiple requests per second. Sending an individual request under `PutRecord` action could adversely impact battery life. Moreover, the requests could be lost if the device goes offline. Thus, using the high-level Amazon Kinesis client for batching can preserve both battery life and data.
 
 ### What is Amazon Kinesis Firehose?
 
 [Amazon Kinesis Firehose](http://aws.amazon.com/kinesis/firehose/) is a fully managed service for delivering real-time streaming data to destinations such as Amazon Simple Storage Service (Amazon S3) and Amazon Redshift. With Firehose, you do not need to write any applications or manage any resources. You configure your data producers to send data to Firehose and it automatically delivers the data to the destination that you specified.
 
-The Amazon Kinesis Firehose `KinesisFirehoseRecorder` client lets you store [PutRecords](http://docs.aws.amazon.com/kinesis/latest/APIReference/API_PutRecords.html) requests on disk and then send them using Kinesis Data Firehose`PutRecordBatch`.
+The Amazon Kinesis Firehose `KinesisFirehoseRecorder` client lets you store your Kinesis Firehose requests on disk and then send them using the [PutRecordBatch] (https://docs.aws.amazon.com/firehose/latest/APIReference/API_PutRecordBatch.html) API call of Kinesis Firehose.
 
 For more information about Amazon Kinesis Firehose, see [Amazon Kinesis Firehose](http://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.html).
 
@@ -658,8 +692,8 @@ Set up AWS Mobile SDK components by including the following libraries in your `a
 
 ```groovy
 dependencies {
-  implementation 'com.amazonaws:aws-android-sdk-kinesis:2.9.+'
-  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.9.+@aar') { transitive = true }
+  implementation 'com.amazonaws:aws-android-sdk-kinesis:2.13.+'
+  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.13.+@aar') { transitive = true }
 }
 ```
 
