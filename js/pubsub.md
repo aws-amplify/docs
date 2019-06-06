@@ -62,6 +62,15 @@ Then, you need to send your *Cognito Identity Id* to the AWS backend and attach 
 aws iot attach-principal-policy --policy-name 'myIOTPolicy' --principal '<YOUR_COGNITO_IDENTITY_ID>'
 ```
 
+**Allowing your Amazon Cognito Authenticated Role to access IoT Services**
+
+For your Cognito Authenticated Role to be able to interact with **AWS IoT** it may be necessary to update its permissions, if you haven't done this before.  
+One way of doing this is to log to your **AWS Console**, select **CloudFormation** from the available services. Locate the parent stack of your solution: it is usually named `<SERVICE-NAME>-<CREATION_TIMESTAMP>`.  
+Select the **Resources** tab and tap on `AuthRole` **Physical ID**.  
+The IAM console will be opened in a new tab. Once there, tap on the button **Attach Policies**, then search `AWSIoTDataAccess` and `AWSIoTConfigAccess`, select them and tap on **Attach policy**.  
+  
+> Failing to grant IoT related permissions to the Cognito Authenticated Role will result in errors similar to the following in your browser console: `errorCode: 8, errorMessage: AMQJS0008I Socket closed.`
+
 ### Third Party MQTT Providers
 
 Import PubSub module and related service provider plugin to your app:
