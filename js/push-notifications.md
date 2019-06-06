@@ -295,8 +295,11 @@ Analytics.configure({
 
 PushNotification.configure({
     appId: 'XXXXXXXXXXabcdefghij1234567890ab',
+    requestIOSPermissions: false, // OPTIONAL, defaults to true
 });
 ```
+
+`requestIOSPermissions` is an optional boolean flag which specifies whether or not to automatically request push notifications permissions in iOS when calling `PushNotification.configure` for the first time. If not provided, it defaults to `true`. When set to `false`, you may later call the method `PushNotification.requestIOSPermissions` at the explicit point in your application flow when you want to prompt the user for permissions.
 
 You can also use `aws-exports.js` file in case you have set up your backend with Amplify CLI.
 
@@ -337,6 +340,19 @@ PushNotification.onNotificationOpened((notification) => {
 });
 ```
 
+If you have configured your application not to automatically request iOS push notification permissions, you can use the `requestIOSPermissions` method to request them explicitly:
+
+```javascript
+// request iOS push notification permissions
+PushNotification.requestIOSPermissions();
+
+// request a subset of iOS push notification permissions
+PushNotification.requestIOSPermissions({
+  alert: true,
+  badge: true,
+  sound: false,
+});
+```
 
 ## Testing Push Notifications 
 Now, you can create messaging campaigns and send push notifications to your app with Amazon Pinpoint! Just follow these instructions on [Amazon Pinpoint Developer Guide](https://docs.aws.amazon.com/pinpoint/latest/developerguide/getting-started-sampletest.html) for the next steps.
