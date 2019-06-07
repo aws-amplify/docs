@@ -85,6 +85,12 @@ $ amplify add api     #select GraphQL, API Key
 
 The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on you can always change it. This process creates an AWS AppSync API and connects it to an Amazon DynamoDB database.
 
+Create required backend resources for your configured api with the following command:
+
+```bash
+$ amplify push
+```
+
 Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults which generate a file named `API.swift`. Drag and drop this file from your `Finder` to the Xcode project and update your Podfile to include `AWSAppSync`:
 
 ```ruby
@@ -101,7 +107,7 @@ Run `pod install` and **build your app**.
 
 ## Step 5: Integrate into your app
 
-initialize the AppSync client inside your application delegate:
+Initialize the AppSync client inside your application delegate:
 
 ```swift
 import AWSAppSync
@@ -127,6 +133,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // other methods
         return true
     }
+}
 ```
 
 Next, in your application code where you wish to use the AppSync client (like your View Controller) reference this in the `viewDidLoad()` lifecycle method:

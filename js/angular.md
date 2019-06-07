@@ -40,14 +40,6 @@ Visit the [Authentication Guide]({%if jekyll.environment == 'production'%}{{site
 
 After creating your backend a configuration file will be generated in your configured source directory you identified in the `amplify init` command.
 
-Import the configuration file and load it in `main.ts`: 
-
-```javascript
-import Amplify from 'aws-amplify';
-import amplify from './aws-exports';
-Amplify.configure(amplify);
-```
-
 Depending on your TypeScript version you may need to rename the `aws-exports.js` to `aws-exports.ts` prior to importing it into your app, or enable the `allowJs` <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" target="_blank">compiler option</a> in your tsconfig. 
 {: .callout .callout--info}
 
@@ -58,7 +50,26 @@ When working with underlying `aws-js-sdk`, the "node" package should be included
 }
 ```
 
-## Importing the Angular Module
+## Importing the Amplify Angular Module and the Amplify Provider
+
+The 'aws-amplify-angular' package allows you to access the Amplify JS library as an Angular provider.  You have two options to choose from:
+
+1. Configure the provider with the entire Amplify JS library
+2. Configure the provider with only select Amplify JS library.
+
+Option 1 is appropriate when you plan to use every Amplify JS module or if you are not concerned about bundle size.  Option 2 is appropriate when bundle size is a concern.  
+
+
+### Option 1: Configuring the Amplify provider with every Amplify JS module
+
+Import the configuration file and load it in `main.ts`: 
+
+```javascript
+import Amplify from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
+```
+
 
 In your [app module](https://angular.io/guide/bootstrapping) `src/app/app.module.ts` import the Amplify Module and Service:
 
@@ -76,6 +87,49 @@ import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
     ...
     AmplifyService
   ]
+  ...
+});
+```
+
+### Option 2: Configuring the Amplify provider with specified Amplify JS modules
+
+Import the configuration file and load it in `main.ts`: 
+
+```javascript
+import Amplify from '@aws-amplify/core';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
+```
+
+In your [app module](https://angular.io/guide/bootstrapping) `src/app/app.module.ts` import the Amplify Module, Service, and Amplify Modules helper.  Additionally, import the amplify modules that you want to access via your Amplify provider.
+
+These modules will then be passed into the AmplifyModules helper.
+
+```javascript
+import { AmplifyAngularModule, AmplifyService, AmplifyModules } from 'aws-amplify-angular';
+import Auth from '@aws-amplify/auth';
+import Interactions from '@aws-amplify/interactions';
+import Storage from '@aws-amplify/storage';
+
+@NgModule({
+  ...
+  imports: [
+    ...
+    AmplifyAngularModule
+  ],
+  ...
+    providers: [
+    {
+      provide: AmplifyService,
+      useFactory:  () => {
+        return AmplifyModules({
+          Auth,
+          Storage,
+          Interactions
+        });
+      }
+    }
+  ],
   ...
 });
 ```
@@ -166,6 +220,16 @@ export class AppComponent {
 }
 ```
 
+The authState's 'state' attribute must be a string with one of the following values:
+
+* 'confirmSignIn'
+* 'confirmSignUp'
+* 'forgotPassword'
+* 'requireNewPassword'
+* 'signedIn'
+* 'signIn'
+* 'signUp'
+
 ## Components
 
 AWS Amplifies provides UI components that you can use in your view templates. 
@@ -210,6 +274,35 @@ The federatedSignInConfig object in turn consist the Application Ids to the soci
 
 {% include federated-sign-in-fields.html %}
 
+#### Replacing Authentication Components With Custom Components
+The child components displayed within the Authenticator can be hidden or replaced with custom components.
+
+Usage:
+```<amplify-authenticator [hide]="['Greetings']"></amplify-authenticator>```
+
+#### Using Authentication Components Without the Authenticator
+The child components displayed within the Authenticator can be used as standalone components.  This could be useful in situations where, for example, you want to display your own components for specific pieces of the registration and authentication flow.
+
+These components include:
+
+```javascript
+<amplify-auth-confirm-sign-in>
+<amplify-auth-confirm-sign-up>
+<amplify-auth-forgot-password>
+<amplify-auth-greetings>
+<amplify-auth-require-new-password>
+<amplify-auth-sign-in>
+<amplify-auth-sign-up>
+```
+
+Each of these components expects to receive the authState object, which consists of a 'state' string and a 'user' object.  The authState is an observable managed by the amplifyService, so make sure that your own custom components set the authState appropriately.
+
+Example:
+```javascript
+this.amplifyService.setAuthState({ state: 'confirmSignIn', user });
+```
+
+Additional details about the authState can be found in the [Subscribe to Authentication State Changes](#subscribe-to-authentication-state-changes) section.
 
 ### Photo Picker
 
@@ -316,7 +409,7 @@ To use the aws-amplify-angular components you will need to install '@aws-amplify
 Add the following to your styles.css file to use the default styles:
 ```@import '~aws-amplify-angular/Theme.css';```
 
-You can use custom styling for components by importing your custom *styles.css* that overrides the <a href="https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-angular/src/theme.css" target="_blank">default styles</a>.
+You can use custom styling for components by importing your custom *styles.css* that overrides the <a href="https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-angular/theme.css" target="_blank">default styles</a>.
 
 ## Ionic 4 Components
 The Angular components included in this library can optionally be presented with Ionic-specific styling.  To do so, simply include the ```AmplifyIonicModule``` alongside the ```AmplifyAngularModule```.  Then, pass in ```framework="Ionic"``` into the component.  
