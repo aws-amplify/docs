@@ -1,5 +1,10 @@
 ---
 ---
+{% if jekyll.environment == 'production' %}
+  {% assign base_dir = site.amplify.docs_baseurl %}
+{% endif %}
+{% assign media_base = base_dir | append: page.dir | append: "images" %}
+
 # GraphQL Transform
 
 The GraphQL Transform provides a simple to use abstraction that helps you quickly
@@ -221,10 +226,16 @@ top level object types in your API that are backed by Amazon DynamoDB.
 ```
 directive @model(
     queries: ModelQueryMap, 
-    mutations: ModelMutationMap
+    mutations: ModelMutationMap,
+    subscriptions: ModelSubscriptionMap
 ) on OBJECT
 input ModelMutationMap { create: String, update: String, delete: String }
 input ModelQueryMap { get: String, list: String }
+input ModelSubscriptionMap {
+    onCreate: [String]
+    onUpdate: [String]
+    onDelete: [String]
+}
 ```
 
 #### Usage
@@ -258,7 +269,7 @@ no mutation fields.
 
 A single `@model` directive configures the following AWS resources:
 
-- An Amazon DynamoDB table with 5 read/write units.
+- An Amazon DynamoDB table with PAY_PER_REQUEST billing mode enabled by default.
 - An AWS AppSync DataSource configured to access the table above.
 - An AWS IAM role attached to the DataSource that allows AWS AppSync to call the above table on your behalf.
 - Up to 8 resolvers (create, update, delete, get, list, onCreate, onUpdate, onDelete) but this is configurable via the `queries`, `mutations`, and `subscriptions` arguments on the `@model` directive.
@@ -407,31 +418,184 @@ type Subscription {
 }
 ```
 
+### @key
+
+The `@key` directive makes it simple to configure custom index structures for `@model` types. 
+
+Amazon DynamoDB is a key-value and document database that delivers single-digit millisecond performance at any scale but making it work for your access patterns requires a bit of forethought. DynamoDB query operations may use at most two attributes to efficiently query data. The first query argument passed to a query (the hash key) must use strict equality and the second attribute (the sort key) may use gt, ge, lt, le, eq, beginsWith, and between. DynamoDB can effectively implement a wide variety of access patterns that are powerful enough for the majority of applications.
+
+#### Definition
+
+```
+directive @key(fields: [String!]!, name: String, queryField: String) on OBJECT
+```
+
+**Argument**
+
+| Argument  | Description  |
+|---|---|
+| fields  | A list of fields in the @model type that should comprise the key. The first field in the list will always be the **HASH** key. If two fields are provided the second field will be the **SORT** key. If more than two fields are provided, a single composite **SORT** key will be created from `fields[1...n]`. All generated GraphQL queries & mutations will be updated to work with custom `@key` directives. |
+| name  | When omitted, specifies that the @key is defining the primary index. When provided, specifies the name of the secondary index. You may have at most one primary key per table and therefore you may have at most one @key that does not specify a **name** per @model type.  |
+| queryField  | When defining a secondary index (by specifying the *name* argument), specifies that a top level query field that queries the secondary index should be generated with the given name.  |
+
+#### How to use @key
+
+When designing data models using the `@key` directive, the first step should be to write down your application's expected access patterns. For example, let's say we were building an e-commerce application 
+and needed to implement access patterns like:
+
+1. Get customers by email.
+2. Get orders by customer by createdAt.
+3. Get items by order by status by createdAt.
+4. Get items by status by createdAt.
+
+When thinking about your access patterns, it is useful to lay them out using the same "by X by Y" structure. Once you have them laid out like this you can translate them directly into a @key by including the "X" and "Y" values as fields. Let's take a look at how you would define these custom keys in your `schema.graphql`.
+
+```
+# Get customers by email.
+type Customer @model @key(fields: ["email"]) {
+    email: String!
+    username: String
+}
+```
+
+A @key without a *name* specifies the key for the DynamoDB table's primary index. You may only provide 1 @key without a *name* per @model type. The example above shows the simplest case where we are specifying that the table's primary index should have a simple key where the hash key is *email*. This allows us to get unique customers by their *email*. 
+
+```
+query GetCustomerById {
+  getCustomer(email:"me@email.com") {
+    email
+    username
+  }
+}
+```
+
+This is great for simple lookup operations, but what if we need to perform slightly more complex queries?
+
+```
+# Get orders by customer by createdAt.
+type Order @model @key(fields: ["customerEmail", "createdAt"]) {
+    customerEmail: String!
+    createdAt: String!
+    orderId: ID!
+}
+```
+
+This @key above allows us to efficiently query *Order* objects by both a *customerEmail* and the *createdAt* time stamp. The @key above creates a DynamoDB table where the primary index's hash key is *customerEmail* and the sort key is *createdAt*. This allows us to write queries like this:
+
+```
+query ListOrdersForCustomerIn2019 {
+  listOrders(customerEmail:"me@email.com", createdAt: { beginsWith: "2019" }) {
+    items {
+      orderId
+      customerEmail
+      createdAt
+    }
+  }
+}
+```
+
+The query above shows how we can use compound key structures to implement more powerful query patterns on top of DynamoDB but we are not quite done yet. Given that DynamoDB limits you to query by at most two attributes at a time, the @key directive helps by streamlining the process of creating composite sort keys such that you can support querying by more than two attributes at a time. For example, we can implement “Get items by order, status, and createdAt” as well as “Get items by status and createdAt” for a single @model with this schema.
+
+```
+type Item @model
+    @key(fields: ["orderId", "status", "createdAt"])
+    @key(name: "ByStatus", fields: ["status", "createdAt"], queryField: "itemsByStatus")
+{
+    orderId: ID!
+    status: Status!
+    createdAt: AWSDateTime!
+    name: String!
+}
+enum Status {
+    DELIVERED
+    IN_TRANSIT
+    PENDING
+    UNKNOWN
+}
+```
+
+The primary @key with 3 fields performs a bit more magic than the 1 and 2 field variants. The first field orderId will be the **HASH** key as expected, but the **SORT** key will be a new composite key named *status#createdAt* that is made of the *status* and *createdAt* fields on the @model. The @key directive creates the table structures and also generates resolvers that inject composite key values for you during queries and mutations.
+
+Using this schema, you can query the primary index to get IN_TRANSIT items created in 2019 for a given order.
+
+```
+# Get items for order by status by createdAt.
+query ListInTransitItemsForOrder {
+  listItems(orderId:"order1", statusCreatedAt: { beginsWith: { status: IN_TRANSIT, createdAt: "2019" }}) {
+    items {
+      orderId
+      status
+      createdAt
+      name
+    }
+  }
+}
+```
+
+The query above exposes the *statusCreatedAt* argument that allows you to configure DynamoDB key condition expressions without worrying about how the composite key is formed under the hood. Using the same schema, you can get all PENDING items created in 2019 by querying the secondary index "ByStatus" via the `Query.itemsByStatus` field.
+
+```
+query ItemsByStatus {
+  itemsByStatus(status: PENDING, createdAt: {beginsWith:"2019"}) {
+    items {
+      orderId
+      status
+      createdAt
+      name
+    }
+    nextToken
+  }
+}
+```
+
+#### Evolving APIs with @key
+
+There are a few important things to think about when making changes to APIs using `@key`. When you need to enable a new access pattern or change an existing access pattern you should follow these steps.
+
+1. Create a new index that enables the new or updated access pattern.
+2. If adding a @key with 3 or more fields, you will need to back-fill the new composite sort key for existing data. With a `@key(fields: ["email", "status", "date"])`, you would need to backfill the `status#date` field with composite key values made up of each object's *status* and *date* fields joined by a `#`. You do not need to backfill data for @key directives with 1 or 2 fields.
+3. Deploy your additive changes and update any downstream applications to use the new access pattern.
+4. Once you are certain that you do not need the old index, remove its @key and deploy the API again.
+
 ### @auth
 
 Object types that are annotated with `@auth` are protected by a set of authorization
 rules. Currently, @auth only supports APIs with Amazon Cognito User Pools enabled. 
-Types that are annotated with `@auth` must also be annotated with `@model`.
+You may use the `@auth` directive on object type definitions and field definitions
+in your project's schema.
+
+When using the `@auth` directive on object type definitions that are also annotated with
+`@model`, all resolvers that return objects of that type will be protected. When using the
+`@auth` directive on a field definition, a resolver will be added to the field that authorize access
+based on attributes found the parent type.
 
 #### Definition
 
 ```
 # When applied to a type, augments the application with
 # owner and group-based authorization rules.
-directive @auth(rules: [AuthRule!]!) on OBJECT
+directive @auth(rules: [AuthRule!]!) on OBJECT, FIELD_DEFINITION
 input AuthRule {
     allow: AuthStrategy!
     ownerField: String # defaults to "owner"
     identityField: String # defaults to "username"
     groupsField: String
     groups: [String]
+    operations: [ModelOperation]
+
+    # The following arguments are deprecated. It is encouraged to use the 'operations' argument.
     queries: [ModelQuery]
     mutations: [ModelMutation]
 }
 enum AuthStrategy { owner groups }
+enum ModelOperation { create update delete read }
+
+# The following objects are deprecated. It is encouraged to use ModelOperations.
 enum ModelQuery { get list }
 enum ModelMutation { create update delete }
 ```
+
+> Note: The operations argument was added to replace the 'queries' and 'mutations' arguments. The 'queries' and 'mutations' arguments will continue to work but it is encouraged to move to 'operations'. If both are provided, the 'operations' argument takes precedence over 'queries'.
 
 #### Usage
 
@@ -449,7 +613,7 @@ type Post
   @model 
   @auth(
     rules: [
-      {allow: owner, ownerField: "owner", mutations: [create, update, delete], queries: [get, list]},
+      {allow: owner, ownerField: "owner", operations: [create, update, delete, read]},
     ]) 
 {
   id: ID!
@@ -462,10 +626,9 @@ Owner authorization specifies that a user can access an object. To
 do so, each object has an *ownerField* (by default "owner") that stores ownership information
 and is verified in various ways during resolver execution.
 
-You can use the *queries* and *mutations* arguments to specify which operations are augmented as follows:
+You can use the *operations* argument to specify which operations are augmented as follows:
 
-- **get**: If the record's owner is not the same as the logged in user (via `$ctx.identity.username`), throw `$util.unauthorized()`.
-- **list**: Filter `$ctx.result.items` for owned items.
+- **read**: If the record's owner is not the same as the logged in user (via `$ctx.identity.username`), throw `$util.unauthorized()` in any resolver that returns an object of this type.
 - **create**: Inject the logged in user's `$ctx.identity.username` as the *ownerField* automatically.
 - **update**: Add conditional update that checks the stored *ownerField* is the same as `$ctx.identity.username`.
 - **delete**: Add conditional update that checks the stored *ownerField* is the same as `$ctx.identity.username`.
@@ -484,7 +647,7 @@ type Draft
         { allow: owner },
 
         # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
-        { allow: owner, ownerField: "editors", mutations: [update] }
+        { allow: owner, ownerField: "editors", operations: [update] }
     ]) {
     id: ID!
     title: String!
@@ -649,7 +812,7 @@ type Draft
         { allow: owner },
         
         # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
-        { allow: owner, ownerField: "editors", mutations: [update] },
+        { allow: owner, ownerField: "editors", operations: [update] },
 
         # Admin users can access any operation.
         { allow: groups, groups: ["Admin"] }
@@ -703,13 +866,13 @@ type Draft
         { allow: owner },
         
         # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
-        { allow: owner, ownerField: "editors", mutations: [update] },
+        { allow: owner, ownerField: "editors", operations: [update] },
 
         # Admin users can access any operation.
         { allow: groups, groups: ["Admin"] }
 
         # Each record may specify which groups may read them.
-        { allow: groups, groupsField: "groupsCanAccess", mutations: [], queries: [get, list] }
+        { allow: groups, groupsField: "groupsCanAccess", operations: [read] }
     ]) {
     id: ID!
     title: String!
@@ -750,6 +913,69 @@ mutation CreateDraft {
 }
 ```
 
+#### Field Level Authorization
+
+The `@auth` directive specifies that access to a specific field should be restricted
+ according to its own set of rules. Here are a few situations where this is useful:
+
+1. Protect access to a field that has different permissions than the parent model.
+For example, we might want to have a user model where some fields, like *username*, are a part of the
+public profile and the *ssn* field is visible to owners.
+
+```
+type User @model {
+    id: ID!
+    username: String
+
+    ssn: String @auth(rules: [{ allow: owner, ownerField: "username" }])
+}
+```
+
+2. Protect access to a `@connection` resolver based on some attribute in the source object.
+For example, this schema will protect access to Post objects connected to a user based on an attribute
+in the User model. You may turn off top level queries by specifying `queries: null` in the `@model`
+declaration which restricts access such that queries must go through the `@connection` resolvers
+to reach the model.
+
+```
+type User @model {
+    id: ID!
+    username: String
+    
+    posts: [Post] 
+      @connection(name: "UserPosts") 
+      @auth(rules: [{ allow: owner, ownerField: "username" }])
+}
+type Post @model(queries: null) { ... }
+```
+
+3. Protect mutations such that certain fields can have different access rules than the parent model.
+
+When used on field definitions, `@auth` directives protect all operations by default.
+To protect read operations, a resolver is added to the protected field that implements authorization logic.
+To protect mutation operations, logic is added to existing mutations that will be run if the mutation's input
+contains the protected field. For example, here is a model where owners and admins can read employee 
+salaries but only admins may create or update them.
+
+```
+type Employee @model {
+    id: ID!
+    email: String
+
+    # Owners & members of the "Admin" group may read employee salaries.
+    # Only members of the "Admin" group may create an employee with a salary
+    # or update a salary.
+    salary: String 
+      @auth(rules: [
+        { allow: owner, ownerField: "username", operations: [read] },
+        { allow: groups, groups: ["Admin"], operations: [create, update, read] }
+      ])
+}
+```
+
+**Note** The `delete` operation, when used in @auth directives on field definitions, translates
+to protecting the update mutation such that the field cannot be set to null unless authorized.
+
 #### Generates
 
 The `@auth` directive will add authorization snippets to any relevant resolver 
@@ -772,6 +998,7 @@ The generated resolvers would be protected like so:
 - `Mutation.deleteX`: Update the condition expression so that the DynamoDB `DeleteItem` operation only succeeds if the record's **owner** attribute equals the caller's `$ctx.identity.username`.
 - `Query.getX`: In the response mapping template verify that the result's **owner** attribute is the same as the `$ctx.identity.username`. If it is not return null.
 - `Query.listX`: In the response mapping template filter the result's **items** such that only items with an **owner** attribute that is the same as the `$ctx.identity.username` are returned.
+- `@connection` resolvers: In the response mapping template filter the result's **items** such that only items with an **owner** attribute that is the same as the `$ctx.identity.username` are returned. This is not enabled when using the `queries` argument.
 
 **Multi Owner Authorization**
 
@@ -794,6 +1021,7 @@ Static group auth is simpler than the others. The generated resolvers would be p
 - `Mutation.deleteX`: Verify the requesting user has a valid credential and that `$ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
 - `Query.getX`: Verify the requesting user has a valid credential and that `$ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
 - `Query.listX`: Verify the requesting user has a valid credential and that `$ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
+- `@connection` resolvers: Verify the requesting user has a valid credential and that `$ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail. This is not enabled when using the `queries` argument.
 
 **Dynamic Group Authorization**
 
@@ -811,8 +1039,324 @@ The generated resolvers would be protected like so:
 - `Mutation.updateX`: Update the condition expression so that the DynamoDB `UpdateItem` operation only succeeds if the record's **groups** attribute contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
 - `Mutation.deleteX`: Update the condition expression so that the DynamoDB `DeleteItem` operation only succeeds if the record's **groups** attribute contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`
 - `Query.getX`: In the response mapping template verify that the result's **groups** attribute contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
-- `Query.listX`: In the response mapping template filter the result's **items** such that only items with a **groups** attribute that contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
+- `Query.listX`: In the response mapping template filter the result's **items** such that only items with a 
+**groups** attribute that contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
+- `@connection` resolver: In the response mapping template filter the result's **items** such that only items with a 
+**groups** attribute that contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`. This is not enabled when using the `queries` argument.
 
+### @function
+
+The `@function` directive allows you to quickly & easily configure AWS Lambda resolvers within your AWS AppSync API.
+
+#### Definition
+
+```
+directive @function(name: String!, region: String) on FIELD_DEFINITION
+```
+
+#### Usage
+
+The @function directive allows you to quickly connect lambda resolvers to an AppSync API. You may deploy the AWS Lambda functions via the Amplify CLI, AWS Lambda console, or any other tool. To connect an AWS Lambda resolver, add the `@function` directive to a field in your `schema.graphql`.
+
+Let's assume we have deployed an *echo* function with the following contents:
+
+```javascript
+exports.handler = function (event, context) {
+  context.done(null, event.arguments.msg);
+};
+```
+
+**If you deployed your function using the 'amplify function' category**
+
+The Amplify CLI provides support for maintaining multiple environments out of the box. When you deploy a function via `amplify add function`, it will automatically add the environment suffix to your Lambda function name. For example if you create a function named **echofunction** using `amplify add function` in the **dev** environment, the deployed function will be named **echofunction-dev**. The `@function` directive allows you to use `${env}` to reference the current Amplify CLI environment.
+
+```
+type Query {
+  echo(msg: String): String @function(name: "echofunction-${env}")
+}
+```
+
+**If you deployed your function without amplify**
+
+If you deployed your API without amplify then you must provide the full Lambda function name. If we deployed the same function with the name **echofunction** then you would have:
+
+```
+type Query {
+  echo(msg: String): String @function(name: "echofunction")
+}
+```
+
+**Example: Return custom data and run custom logic**
+
+You can use the `@function` directive to write custom business logic in an AWS Lambda function. To get started, use
+`amplify add function`, the AWS Lambda console, or other tool to deploy an AWS Lambda function with the following contents.
+
+For example purposes assume the function is named `GraphQLResolverFunction`:
+
+```javascript
+const POSTS = [
+    { id: 1, title: "AWS Lambda: How To Guide." },
+    { id: 2, title: "AWS Amplify Launches @function and @key directives." },
+    { id: 3, title: "Serverless 101" }
+];
+const COMMENTS = [
+    { postId: 1, content: "Great guide!" },
+    { postId: 1, content: "Thanks for sharing!" },
+    { postId: 2, content: "Can't wait to try them out!" }
+];
+
+// Get all posts. Write your own logic that reads from any data source.
+function getPosts() {
+    return POSTS;
+}
+
+// Get the comments for a single post.
+function getCommentsForPost(postId) {
+    return COMMENTS.filter(comment => comment.postId === postId);
+}
+
+/**
+ * Using this as the entry point, you can use a single function to handle many resolvers.
+ */
+const resolvers = {
+  Query: {
+    posts: ctx => {
+      return getPosts();
+    },
+  },
+  Post: {
+    comments: ctx => {
+      return getCommentsForPost(ctx.source.id);
+    },
+  },
+}
+
+// event
+// {
+//   "typeName": "Query", /* Filled dynamically based on @function usage location */
+//   "fieldName": "me", /* Filled dynamically based on @function usage location */
+//   "arguments": { /* GraphQL field arguments via $ctx.arguments */ },
+//   "identity": { /* AppSync identity object via $ctx.identity */ },
+//   "source": { /* The object returned by the parent resolver. E.G. if resolving field 'Post.comments', the source is the Post object. */ },
+//   "request": { /* AppSync request object. Contains things like headers. */ },
+//   "prev": { /* If using the built-in pipeline resolver support, this contains the object returned by the previous function. */ },
+// }
+exports.handler = async (event) => {
+  const typeHandler = resolvers[event.typeName];
+  if (typeHandler) {
+    const resolver = typeHandler[event.fieldName];
+    if (resolver) {
+      return await resolver(event);
+    }
+  }
+  throw new Error("Resolver not found.");
+};
+```
+
+**Example: Get the logged in user from Amazon Cognito User Pools**
+
+When building applications, it is often useful to fetch information for the current user. We can use the `@function` directive to quickly add a resolver that uses AppSync identity information to fetch a user from Amazon Cognito User Pools. First make sure you have added Amazon Cognito User Pools enabled via `amplify add auth` and a GraphQL API via `amplify add api` to an amplify project. Once you have created the user pool, get the **UserPoolId** from **amplify-meta.json** in the **backend/** directory of your amplify project. You will provide this value as an environment variable in a moment. Next, using the Amplify function category, AWS console, or other tool, deploy a AWS Lambda function with the following contents.
+
+For example purposes assume the function is named `GraphQLResolverFunction`:
+
+```javascript
+/* Amplify Params - DO NOT EDIT
+You can access the following resource attributes as environment variables from your Lambda function
+var environment = process.env.ENV
+var region = process.env.REGION
+var authMyResourceNameUserPoolId = process.env.AUTH_MYRESOURCENAME_USERPOOLID
+
+Amplify Params - DO NOT EDIT */
+
+const { CognitoIdentityServiceProvider } = require('aws-sdk');
+const cognitoIdentityServiceProvider = new CognitoIdentityServiceProvider();
+
+/**
+ * Get user pool information from environment variables.
+ */
+const COGNITO_USERPOOL_ID = process.env.AUTH_MYRESOURCENAME_USERPOOLID;
+if (!COGNITO_USERPOOL_ID) {
+  throw new Error(`Function requires environment variable: 'COGNITO_USERPOOL_ID'`);
+}
+const COGNITO_USERNAME_CLAIM_KEY = 'cognito:username';
+
+/**
+ * Using this as the entry point, you can use a single function to handle many resolvers.
+ */
+const resolvers = {
+  Query: {
+    echo: ctx => {
+      return ctx.arguments.msg;
+    },
+    me: async ctx => {
+      var params = {
+        UserPoolId: COGNITO_USERPOOL_ID, /* required */
+        Username: ctx.identity.claims[COGNITO_USERNAME_CLAIM_KEY], /* required */
+      };
+      try {
+        // Read more: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CognitoIdentityServiceProvider.html#adminGetUser-property
+        return await cognitoIdentityServiceProvider.adminGetUser(params).promise();
+      } catch (e) {
+        throw new Error(`NOT FOUND`);
+      }
+    }
+  },
+}
+
+// event
+// {
+//   "typeName": "Query", /* Filled dynamically based on @function usage location */
+//   "fieldName": "me", /* Filled dynamically based on @function usage location */
+//   "arguments": { /* GraphQL field arguments via $ctx.arguments */ },
+//   "identity": { /* AppSync identity object via $ctx.identity */ },
+//   "source": { /* The object returned by the parent resolver. E.G. if resolving field 'Post.comments', the source is the Post object. */ },
+//   "request": { /* AppSync request object. Contains things like headers. */ },
+//   "prev": { /* If using the built-in pipeline resolver support, this contains the object returned by the previous function. */ },
+// }
+exports.handler = async (event) => {
+  const typeHandler = resolvers[event.typeName];
+  if (typeHandler) {
+    const resolver = typeHandler[event.fieldName];
+    if (resolver) {
+      return await resolver(event);
+    }
+  }
+  throw new Error("Resolver not found.");
+};
+```
+
+You can connect this function to your AppSync API deployed via Amplify using this schema:
+
+```
+type Query {
+    posts: [Post] @function(name: "GraphQLResolverFunction")
+}
+type Post {
+    id: ID!
+    title: String!
+    comments: [Comment] @function(name: "GraphQLResolverFunction")
+}
+type Comment {
+    postId: ID!
+    content: String
+}
+```
+
+This simple lambda function shows how you can write your own custom logic using a language of your choosing. Try enhancing the example with your own data and logic.
+
+> When deploying the function, make sure your function has access to the auth resource. You can run the `amplify update function` command for the CLI to automatically supply an environment variable named `AUTH_<RESOURCE_NAME>_USERPOOLID` to the function and associate corresponding CRUD policies to the execution role of the function.
+
+After deploying our function, we can connect it to AppSync by defining some types and using the @function directive. Add this to your schema, to connect the
+`Query.echo` and `Query.me` resolvers to our new function.
+
+```
+type Query {
+  me: User @function(name: "ResolverFunction")
+  echo(msg: String): String @function(name: "ResolverFunction")
+}
+# These types derived from https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CognitoIdentityServiceProvider.html#adminGetUser-property
+type User {
+  Username: String!
+  UserAttributes: [Value]
+  UserCreateDate: String
+  UserLastModifiedDate: String
+  Enabled: Boolean
+  UserStatus: UserStatus
+  MFAOptions: [MFAOption]
+  PreferredMfaSetting: String
+  UserMFASettingList: String
+}
+type Value {
+  Name: String!
+  Value: String
+}
+type MFAOption {
+  DeliveryMedium: String
+  AttributeName: String
+}
+enum UserStatus {
+  UNCONFIRMED
+  CONFIRMED
+  ARCHIVED
+  COMPROMISED
+  UNKNOWN
+  RESET_REQUIRED
+  FORCE_CHANGE_PASSWORD
+}
+```
+
+Next run `amplify push` and wait as your project finishes deploying. To test that everything is working as expected run `amplify api console` to open the GraphiQL editor for your API. You are going to need to open the Amazon Cognito User Pools console to create a user if you do not yet have any. Once you have created a user go back to the AppSync console's query page and click "Login with User Pools". You can find the **ClientId** in **amplify-meta.json** under the key **AppClientIDWeb**. Paste that value into the modal and login using your username and password. You can now run this query:
+
+```
+query {
+  me {
+    Username
+    UserStatus
+    UserCreateDate
+    UserAttributes {
+      Name
+      Value
+    }
+    MFAOptions {
+      AttributeName
+      DeliveryMedium
+    }
+    Enabled
+    PreferredMfaSetting
+    UserMFASettingList
+    UserLastModifiedDate
+  }
+}
+```
+
+which will return user information related to the current user directly from your user pool.
+
+**Structure of the AWS Lambda function event**
+
+When writing lambda function's that are connected via the `@function` directive, you can expect the following structure for the AWS Lambda event object.
+
+| Key  | Description  |
+|---|---|
+| typeName  | The name of the parent object type of the field being resolver.  |
+| fieldName  | The name of the field being resolved.  |
+| arguments  | A map containing the arguments passed to the field being resolved.  |
+| identity  | A map containing identity information for the request. Contains a nested key 'claims' that will contains the JWT claims if they exist. |
+| source  | When resolving a nested field in a query, the source contains parent value at runtime. For example when resolving `Post.comments`, the source will be the Post object.  |
+| request   | The AppSync request object. Contains header information.  |
+| prev | When using pipeline resolvers, this contains the object returned by the previous function. You can return the previous value for auditing use cases. |
+
+**Calling functions in different regions**
+
+By default, we expect the function to be in the same region as the amplify project. If you need to call a function in a different (or static) region, you can provide the **region** argument.
+
+```
+type Query {
+  echo(msg: String): String @function(name: "echofunction", region: "us-east-1")
+}
+```
+
+Calling functions in different AWS accounts is not supported via the @function directive but is supported by AWS AppSync.
+
+**Chaining functions**
+
+The @function directive supports AWS AppSync pipeline resolvers. That means, you can chain together multiple functions such that they are invoked in series when your field's resolver is invoked. To create a pipeline resolver that calls out to multiple AWS Lambda functions in series, use multiple `@function` directives on the field.
+
+```
+type Mutation {
+  doSomeWork(msg: String): String @function(name: "worker-function") @function(name: "audit-function")
+}
+```
+
+In the example above when you run a mutation that calls the `Mutation.doSomeWork` field, the **worker-function** will be invoked first then the **audit-function** will be invoked with an event that contains the results of the **worker-function** under the **event.prev.result** key. The **audit-function** would need to return **event.prev.result** if you want the result of **worker-function** to be returned for the field. Under the hood, Amplify creates an `AppSync::FunctionConfiguration` for each unique instance of `@function` in a document and a pipeline resolver containing a pointer to a function for each `@function` on a given field.
+
+#### Generates
+
+The `@function` directive generates these resources as necessary:
+
+1. An AWS IAM role that has permission to invoke the function as well as a trust policy with AWS AppSync.
+2. An AWS AppSync data source that registers the new role and existing function with your AppSync API.
+3. An AWS AppSync pipeline function that prepares the lambda event and invokes the new data source.
+4. An AWS AppSync resolver that attaches to the GraphQL field and invokes the new pipeline functions.
 
 ### @connection
 
@@ -1217,6 +1761,81 @@ The Amplify CLI exposes the GraphQL Transform libraries to help create APIs with
 patterns and best practices baked in but it also provides number of escape hatches for
 those situations where you might need a bit more control. Here are a few common use cases
 you might find useful.
+
+#### Filter Subscriptions by model fields and/or relations
+
+In multi-tenant scenarios, subscribed clients may not always want to receive every change for a model type. These are useful features for limiting the objects that are returned by a client subscription. It is crucial to remember that subscriptions can only filter by what fields are returned from the mutation query. Keep in mind, these two methods can be used together to create truly robust filtering options.
+
+Consider this simple schema for our examples:
+
+```
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+  comments: [Comment] @connection(name: "TodoComments")
+}
+type Comment @model {
+  id: ID!
+  content: String
+  todo: Todo @connection(name: "TodoComments")
+}
+```
+
+##### Filtering by type fields
+
+This is the simpler method of filtering subscriptions, as it requires one less change to the model than filtering on relations.
+
+1. Add the subscriptions argument on the *@model* directive, telling Amplify to *not* generate subscriptions for your Comment type.
+
+```
+type Comment @model(subscriptions: null) {
+  id: ID!
+  content: String
+  todo: Todo @connection(name: "TodoComments")
+}
+```
+
+2. Run `amplify push` at this point, as running it after adding the Subscription type will throw an error, claiming you cannot have two Subscription definitions in your schema.
+
+3. After the push, you will need to add the Subscription type to your schema, including whichever scalar Comment fields you wish to use for filtering (content in this case):
+
+```
+type Subscription {
+  onCreateComment(content: String): Comment @aws_subscribe(mutations: "createComment")
+  onUpdateComment(id: ID, content: String): Comment @aws_subscribe(mutations: "updateComment")
+  onDeleteComment(id: ID, content: String): Comment @aws_subscribe(mutations: "deleteComment")
+}
+```
+
+##### Filtering by related (*@connection* designated) type
+
+This is useful when you need to filter by what Todo objects the Comments are connected to. You will need to augment your schema slightly to enable this.
+
+1. Add the subscriptions argument on the *@model* directive, telling Amplify to *not* generate subscriptions for your Comment type. Also, just as importantly, we will be utilizing an auto-generated column from DynamoDB by adding `commentTodoId` to our Comment model:
+
+```
+type Comment @model(subscriptions: null) {
+  id: ID!
+  content: String
+  todo: Todo @connection(name: "TodoComments")
+  commentTodoId: String # This references the commentTodoId field in DynamoDB
+}
+```
+2. You should run `amplify push` at this point, as running it after adding the Subscription type will throw an error, claiming you cannot have two Subscription definitions in your schema.
+
+3. After the push, you will need to add the Subscription type to your schema, including the `commentTodoId` as an optional argument:
+
+```
+type Subscription {
+  onCreateComment(commentTodoId: String): Comment @aws_subscribe(mutations: "createComment")
+  onUpdateComment(id: ID, commentTodoId: String): Comment @aws_subscribe(mutations: "updateComment")
+  onDeleteComment(id: ID, commentTodoId: String): Comment @aws_subscribe(mutations: "deleteComment")
+}
+```
+
+The next time you run `amplify push` or `amplify api gql-compile`, your subscriptions will allow an `id` and/or `commentTodoId` argument on a Comment subscription. As long as your mutation on the Comment type returns the specified argument field from its query, AppSync filters which subscription events will be pushed to your subscribed client.
+
 
 #### Overwrite a resolver generated by the GraphQL Transform
 
@@ -2358,6 +2977,125 @@ mutation Delete($noteId: ID!) {
 }
 ```
 
+## Automatically Import Existing DataSources
+
+The Amplify CLI currently supports importing serverless Amazon Aurora MySQL 5.6 databases running in the us-east-1 region. The following instruction show how to create an Amazon Aurora Serverless database, import this database as a GraphQL data source and test it.
+
+**First, if you do not have an Amplify project with a GraphQL API create one using these simple commands.**
+
+```bash
+amplify init
+amplify add api
+```
+
+**Go to the AWS RDS console and click "Create database".**
+
+
+![Create cluster]({{media_base}}/create-database.png)
+
+
+**Select "Serverless" for the capacity type and fill in some information.**
+
+
+![Database details]({{media_base}}/database-details.png)
+
+
+**Click next and configure any advanced settings. Click "Create database"**
+
+
+![Database details]({{media_base}}/configure-database.png)
+
+
+**After creating the database, wait for the "Modify" button to become clickable. When ready, click "Modify" and scroll down to enable the "Data API"**
+
+
+![Database details]({{media_base}}/data-api.png)
+
+
+**Click continue, verify the changes and apply them immediately. Click "Modify cluster"**
+
+
+![Database details]({{media_base}}/modify-after-data-api.png)
+
+
+**Next click on "Query Editor" in the left nav bar and fill in connection information when prompted.**
+
+
+![Database details]({{media_base}}/connect-to-db-from-queries.png)
+
+
+**After connecting, create a database and some tables.**
+
+
+![Database details]({{media_base}}/create-a-database-and-schema.png)
+
+```sql
+CREATE DATABASE MarketPlace;
+USE MarketPlace;
+CREATE TABLE Customers (
+  id int(11) NOT NULL PRIMARY KEY,
+  name varchar(50) NOT NULL,
+  phone varchar(50) NOT NULL,
+  email varchar(50) NOT NULL
+);
+CREATE TABLE Orders (
+  id int(11) NOT NULL PRIMARY KEY,
+  customerId int(11) NOT NULL,
+  orderDate datetime DEFAULT CURRENT_TIMESTAMP,
+  KEY `customerId` (`customerId`),
+  CONSTRAINT `customer_orders_ibfk_1` FOREIGN KEY (`customerId`) REFERENCES `Customers` (`id`)
+);
+```
+
+
+**Return to your command line and run `amplify api add-graphql-datasource` from the root of your amplify project.**
+
+
+![Add GraphQL Data Source]({{media_base}}/add-graphql-datasource.png)
+
+**Push your project to AWS with `amplify push`.**
+
+Run `amplify push` to push your project to AWS. You can then open the AppSync console with `amplify api console`, to try interacting with your RDS database via your GraphQL API.
+
+**Interact with your SQL database from GraphQL**
+
+Your API is now configured to work with your serverless Amazon Aurora MySQL database. Try running a mutation to create a customer from the [AppSync Console](https://console.aws.amazon.com/appsync/home) and then query it from the [RDS Console](https://console.aws.amazon.com/rds/home) to double check.
+
+Create a customer:
+
+```
+mutation CreateCustomer {
+  createCustomers(createCustomersInput: {
+    id: 1,
+    name: "Hello",
+    phone: "111-222-3333",
+    email: "customer1@mydomain.com"
+  }) {
+    id
+    name
+    phone
+    email
+  }
+}
+```
+
+![GraphQL Results]({{media_base}}/graphql-results.png)
+
+Then open the RDS console and run a simple select statement to see the new customer:
+
+```sql
+USE MarketPlace;
+SELECT * FROM Customers;
+```
+
+![SQL Results]({{media_base}}/sql-results.png)
+
+### How does this work?
+
+The `add-graphql-datasource` will add a custom stack to your project that provides a basic set of functionality for working
+with an existing data source. You can find the new stack in the `stacks/` directory, a set of new resolvers in the `resolvers/` directory, and will also find a few additions to your `schema.graphql`. You may edit details in the custom stack and/or resolver files without worry. You may run `add-graphql-datasource` again to update your project with changes in the database but be careful as these will overwrite any existing templates in the `stacks/` or `resolvers/` directories. When using multiple environment with the Amplify CLI, you will be asked to configure the data source once per environment.
+
+
 ## Writing Custom Transformers
 
 This document outlines the process of writing custom GraphQL transformers. The `graphql-transform` package serves as a lightweight framework that takes as input a GraphQL SDL document
@@ -2498,7 +3236,7 @@ type Post @model @versioned {
 }
 ```
 
-> Note: @versioned depends on @model so we must pass `new new DynamoDBModelTransformer()` before `new new VersionedModelTransformer()`. Also note that `new AppSyncTransformer()` must go first for now. In the future we can add a dependency mechanism and topologically sort it ourselves.
+> Note: @versioned depends on @model so we must pass `new DynamoDBModelTransformer()` before `new VersionedModelTransformer()`. Also note that `new AppSyncTransformer()` must go first for now. In the future we can add a dependency mechanism and topologically sort it ourselves.
 
 The next step after defining the directive is to implement the transformer's business logic. The `graphql-transformer-core` package makes this a little easier
 by exporting a common class through which we may define transformers. User's extend the `Transformer` class and implement the required functions.
@@ -2561,7 +3299,7 @@ export class VersionedModelTransformer extends Transformer {
         // @versioned may only be used on types that are also @model
         const modelDirective = def.directives.find((dir) => dir.name.value === 'model')
         if (!modelDirective) {
-            throw new InvalidDirectiveError('Types annotated with @auth must also be annotated with @model.')
+            throw new InvalidDirectiveError('Types annotated with @versioned must also be annotated with @model.')
         }
 
         const isArg = (s: string) => (arg: ArgumentNode) => arg.name.value === s
