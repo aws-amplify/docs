@@ -866,6 +866,32 @@ When using React and React Native, Amplify provides a `withOAuth` Higher Order C
 import React, { Component } from 'react';
 import { withOAuth } from 'aws-amplify-react';
 
+
+// inside an async function
+// Run this after the sign-in
+const federatedInfo = await Cache.getItem('federatedInfo');
+const { token } = federatedInfo;
+```
+
+**Refreshing JWT Tokens**
+
+By default, AWS Amplify will automatically refresh the tokens for Google and Facebook when the app is in the web environment, so that your AWS credentials will be valid at all times. But if you are using another federated provider, or the app is running in React Native, you will need to provide your own token refresh method:
+```javascript
+import { Auth } from 'aws-amplify';
+
+function refreshToken() {
+    // refresh the token here and get the new token info
+    // ......
+
+    return new Promise(res, rej => {
+        const data = {
+            token, // the token from the provider
+            expires_at, // the timestamp for the expiration
+            identity_id, // optional, the identityId for the credentials
+        }
+        res(data);
+    });
+
 class MyApp extends Component {
     // ...
     render() {
