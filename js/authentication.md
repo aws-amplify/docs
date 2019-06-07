@@ -274,7 +274,7 @@ Auth.resendSignUp(username).then(() => {
 });
 ```
 
-The `Auth.signUp` promise returns a data object of type [`ISignUpResult`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L136-L139) with a [`CognitoUser`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L48).
+The `Auth.signUp` promise returns a data object of type [`ISignUpResult`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L136-L139) with a [`CognitoUser`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L48). 
 
 ```js
 {
@@ -1756,6 +1756,8 @@ let result = await Auth.updateUserAttributes(user, {
 });
 console.log(result); // SUCCESS
 ```
+
+> You can find a <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#cognito-user-pools-standard-attributes" target="_blank">list of all custom attributes here</a>.
 
 If you change the email address, the user will receive a confirmation code. In your app, you can confirm the verification code:
 
