@@ -37,15 +37,17 @@ $ amplify push
 
 Upon successful execution of the push command, a configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`. 
 
+**NOTE**: If your Interactions resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli/lambda-node-version-update)
+
 ##### Configure Your App
 
 Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `App.js` in React or `main.ts` in Angular.
 
 ```javascript
 import Amplify, { Interactions } from 'aws-amplify';
-import awsmobile from './aws-exports';
+import awsconfig from './aws-exports';
 
-Amplify.configure(awsmobile);
+Amplify.configure(awsconfig);
 ```
 
 Click [HERE](#WorkingWithAPI) for usage in your app
@@ -111,14 +113,14 @@ You can use *onComplete()* method to register a function to catch errors or chat
 
 ```javascript
 
-var handleComplete = function (err, confirmation) {
+const handleComplete = function (err, confirmation) {
     if (err) {
-        alert('bot conversation failed')
+        alert('bot conversation failed');
         return;
     }
     alert('done: ' + JSON.stringify(confirmation, null, 2));
 
-    return 'Trip booked. Thank you! what would you like to do next?';
+    return 'Trip booked. Thank you! What would you like to do next?';
 }
 
 Interactions.onComplete(botName, handleComplete );
@@ -181,9 +183,9 @@ Following simple app shows how to use **ChatBot** component in a React app, with
 import React, { Component } from 'react';
 import Amplify, { Interactions } from 'aws-amplify';
 import { ChatBot, AmplifyTheme } from 'aws-amplify-react';
-import awsmobile from './aws-exports';
+import awsconfig from './aws-exports';
 
-Amplify.configure(awsmobile);
+Amplify.configure(awsconfig);
 
 // Imported default theme can be customized by overloading attributes
 const myTheme = {
@@ -299,7 +301,7 @@ Here is an example of a configured ChatBot component with voice enabled and conv
             color: 'red'
         }
     })}
-    voiceEnable={true}
+    voiceEnabled={true}
     voiceLibs={voiceLibs}
     conversationModeOn={true}
 />
@@ -308,14 +310,14 @@ Here is an example of a configured ChatBot component with voice enabled and conv
 Following simple app shows how to use **ChatBot** component in a React Native app;
 
  ```javascript
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, SafeAreaView, Alert, StatusBar } from 'react-native';
 import Amplify from 'aws-amplify';
 import { ChatBot } from 'aws-amplify-react-native';
 
-import awsmobile from './aws-exports';
+import awsconfig from './aws-exports';
 
-Amplify.configure(awsmobile);
+Amplify.configure(awsconfig);
 
 const styles = StyleSheet.create({
   container: {
@@ -327,7 +329,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class App extends React.Component {
+export default class App extends Component {
 
     state = {
         botName: 'BookTrip',

@@ -30,15 +30,17 @@ $ amplify push
 
 A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`. The CLI will also print the URL for Amazon Pinpoint console to track your app events.  
 
+**NOTE**: If your Analytics resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli/lambda-node-version-update)
+
 ##### Configure Your App
 
 Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `App.js` in React or `main.ts` in Angular.
 
 ```javascript
 import Amplify, { Analytics } from 'aws-amplify';
-import awsmobile from './aws-exports';
+import awsconfig from './aws-exports';
 
-Amplify.configure(awsmobile);
+Amplify.configure(awsconfig);
 ```
 
 #### Manual Setup
@@ -123,7 +125,8 @@ Amplify.configure({
 
             // OPTIONAL - The limit for failed recording retries.
             resendLimit: 5
-        } 
+        }
+    }
 });
 ```
 
@@ -151,6 +154,8 @@ Amazon Pinpoint service requires an IAM policy in order to use the `record` API:
     ]
 }
 ```
+
+If you get the error message: `Exceeded maximum endpoint per user count 10` when updating the endpoints, you can update the Policy with the Action: `mobiletargeting:GetUserEndpoints` which will allow the Analytics module to get the endpoints info and remove unused endpoints automatically.
 
 ### Working with the API 
 
