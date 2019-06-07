@@ -46,7 +46,7 @@ You can use the Amplify CLI and the Amplify Library/UI Components separately, bu
 
 Create a new ‘plain’ JavaScript <a href="https://babeljs.io/docs/en/learn/" target="_blank">ES2015</a> app with webpack. With the following commands, create the directory (`amplify-js-app`) and files for the app.
 
-```
+```bash
 $ mkdir -p amplify-js-app/src && cd amplify-js-app
 $ touch package.json index.html webpack.config.js src/app.js
 ```
@@ -92,7 +92,7 @@ $ npm install
 Add the following to the `index.html` file:
 
 ```html
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -449,15 +449,17 @@ Analytics.configure(awsconfig);
 const AnalyticsResult = document.getElementById('AnalyticsResult');
 const AnalyticsEventButton = document.getElementById('AnalyticsEventButton');
 let EventsSent = 0;
-AnalyticsEventButton.addEventListener('click', (evt) => {
-    Analytics.record('Amplify Tutorial Event')
-        .then( (evt) => {
-            const url = 'https://'+awsconfig.aws_mobile_analytics_app_region+'.console.aws.amazon.com/pinpoint/home/?region='+awsconfig.aws_mobile_analytics_app_region+'#/apps/'+awsconfig.aws_mobile_analytics_app_id+'/analytics/events';
-            AnalyticsResult.innerHTML = '<p>Event Submitted.</p>';
-            AnalyticsResult.innerHTML += '<p>Events sent: '+(++EventsSent)+'</p>';
-            AnalyticsResult.innerHTML += '<a href="'+url+'" target="_blank">View Events on the Amazon Pinpoint Console</a>';
-        });
-});
+
+AnaltyicsEventButton.addEventListener('click', (event) => {
+  const { aws_mobile_analytics_app_region, aws_mobile_analytics_app_id } = awsconfig;
+
+  Analytics.record('Amplify Tutorial Event')
+    .then((event) => {
+      const url = `https://${aws_mobile_analytics_app_region}.console.aws.amazon.com/pinpoint/home/?region=${aws_mobile_analytics_app_region}#/apps/${aws_mobile_analytics_app_id}/analytics/events`;
+      AnalyticsResult.innerHTML = '<p>Event Submitted. </p>';
+      AnalyticsResult.innerHTML += '<p>Events sent: '+(++EventsSent)+'</p>';
+      AnalyticsResult.innerHTML += '<a href="'+url+'" target="_blank">View Events on the Amazon Pinpoint Console</a>';
+    });
 ```
 
 > The code above imports only the Auth and Analytics categories. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
@@ -487,24 +489,29 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.handleAnalyticsClick = this.handleAnalyticsClick.bind(this);
-    this.state = {analyticsEventSent: false, resultHtml: "", eventsSent: 0};
+    this.state = {
+      analyticsEventSent: false,
+      resultHtml: "",
+      eventsSent: 0
+    };
   }
 
   handleAnalyticsClick() {
+    const { aws_project_region, aws_mobile_analytics_app_id } = awsconfig;
+
       Analytics.record('AWS Amplify Tutorial Event')
         .then( (evt) => {
-            const url = 'https://'+awsconfig.aws_project_region+'.console.aws.amazon.com/pinpoint/home/?region='+awsconfig.aws_project_region+'#/apps/'+awsconfig.aws_mobile_analytics_app_id+'/analytics/events';
-            this.setState({ eventsSent: this.state.eventsSent + 1 })
-
+            const url = `https://${aws_project_region}.console.aws.amazon.com/pinpoint/home/?region=${aws_project_region}#/apps/${aws_mobile_analytics_app_id}/analytics/events`;
             let result = (<div>
               <p>Event Submitted.</p>
-              <p>Events sent: {this.state.eventsSent}</p>
+              <p>Events sent: {this.state.eventsSent + 1}</p>
               <a href={url} target="_blank" rel="noopener noreferrer">View Events on the Amazon Pinpoint Console</a>
             </div>);
 
             this.setState({
-                'analyticsEventSent': true,
-                'resultHtml': result
+                analyticsEventSent: true,
+                resultHtml: result,
+                eventsSent: this.state.eventsSent + 1
             });
         });
   }
@@ -539,7 +546,7 @@ After restarting your app using `npm start`, go back to `localhost:3000` in your
 Change your `src/App.js` file to the following:
 
 ```javascript
-import React from 'react';
+import React, { Component } from 'react';
 import { Linking, Button, StyleSheet, Text, View } from 'react-native';
 import Auth from '@aws-amplify/auth';
 import Analytics from '@aws-amplify/analytics';
@@ -551,28 +558,34 @@ Auth.configure(awsconfig);
 // send analytics events to Amazon Pinpoint
 Analytics.configure(awsconfig);
 
-export default class App extends React.Component {
+export default class App extends Component {
     constructor(props) {
       super(props);
       this.handleAnalyticsClick = this.handleAnalyticsClick.bind(this);
-      this.state = {resultHtml: <Text></Text>, eventsSent: 0};
+      this.state = {
+        resultHtml: <Text></Text>,
+        eventsSent: 0
+      };
     }
 
     handleAnalyticsClick() {
+      const { aws_project_region, aws_mobile_analytics_app_id } = awsconfig;
+
       Analytics.record('AWS Amplify Tutorial Event')
         .then( (evt) => {
-            const url = 'https://'+awsconfig.aws_project_region+'.console.aws.amazon.com/pinpoint/home/?region='+awsconfig.aws_project_region+'#/apps/'+awsconfig.aws_mobile_analytics_app_id+'/analytics/events';
-            let result = (
+            const url = `https://${aws_project_region}.console.aws.amazon.com/pinpoint/home/?region=${aws_project_region}#/apps/${aws_mobile_analytics_app_id}/analytics/events`;
+            const result = (
               <View>
                 <Text>Event Submitted.</Text>
-                <Text>Events sent: {++this.state.eventsSent}</Text>
+                <Text>Events sent: {this.state.eventsSent + 1}</Text>
                 <Text style={styles.link} onPress={() => Linking.openURL(url)}>
                   View Events on the Amazon Pinpoint Console
                 </Text>
               </View>
             );
             this.setState({
-                'resultHtml': result
+                resultHtml: result,
+                eventsSent: this.state.eventsSent + 1
             });
         });
     };
@@ -612,8 +625,9 @@ Import the configuration file and load it in `main.ts`:
 
 ```javascript
 import Amplify from 'aws-amplify';
-import amplify from './aws-exports';
-Amplify.configure(amplify);
+import awsconfig from './aws-exports';
+
+Amplify.configure(awsconfig);
 ```
 
 Depending on your TypeScript version you may need to rename the `aws-exports.js` to `aws-exports.ts` prior to importing it into your app, or enable the `allowJs` <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" target="_blank">compiler option</a> in your tsconfig. 
@@ -721,8 +735,9 @@ Import the configuration file and load it in your `main.ts`, which is the entry 
 
 ```javascript
 import Amplify from 'aws-amplify';
-import amplify from './aws-exports';
-Amplify.configure(amplify);
+import awsconfig from './aws-exports';
+
+Amplify.configure(awsconfig);
 ```
 
 When working with underlying `aws-js-sdk`, the "node" package should be included in *types* compiler option. update your `src/tsconfig.app.json`:
@@ -839,8 +854,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import Amplify, * as AmplifyModules from 'aws-amplify'
 import { AmplifyPlugin } from 'aws-amplify-vue'
-import awsmobile from './aws-exports'
-Amplify.configure(awsmobile)
+import awsconfig from './aws-exports'
+
+Amplify.configure(awsconfig)
 
 Vue.use(AmplifyPlugin, AmplifyModules)
 

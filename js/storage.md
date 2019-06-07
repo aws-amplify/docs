@@ -42,8 +42,8 @@ In your app's entry point *i.e. App.js*, import and load the configuration file 
 
 ```javascript
 import Amplify, { Storage } from 'aws-amplify';
-import awsmobile from './aws-exports';
-Amplify.configure(awsmobile);
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
 ```
 
 ### Manual Setup
@@ -281,7 +281,7 @@ Import *Storage* from the aws-amplify library:
 import { Auth, Storage } from 'aws-amplify';
 ```
 
-If you use `aws-exports.js` file, Storage is already configured when you call `Amplify.configure(awsmobile)`. To configure Storage manually, you will have to configure Amplify Auth category too.  
+If you use `aws-exports.js` file, Storage is already configured when you call `Amplify.configure(awsconfig)`. To configure Storage manually, you will have to configure Amplify Auth category too.  
 ```javascript
 Auth.configure(
     // To get the aws credentials, you need to configure 
