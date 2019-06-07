@@ -410,7 +410,7 @@ Upload an image in React Native app:
 ```javascript
 uploadToStorage = async pathToImageFile => {
   try {
-    const response = await fetch(uri)
+    const response = await fetch(pathToImageFile)
     
     const blob = await response.blob()
     
