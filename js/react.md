@@ -367,6 +367,6 @@ In this case, the function runs, but it doesn't exit because this Lambda example
 
 On React Native Amplify gives you the option to use your own storage object to persist data. With this, you could write a thin wrapper around libraries like:
 
- - react-native-keychain
- - react-native-secure-storage
+ - `react-native-keychain`
+ - `react-native-secure-storage`
  - Expo's secure store
