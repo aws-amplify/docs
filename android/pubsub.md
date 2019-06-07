@@ -42,7 +42,7 @@ Define your unique client ID and endpoint (incl. region) in your configuration:
 // Initialize the AWSIotMqttManager with the configuration
 AWSIotMqttManager mqttManager = new AWSIotMqttManager(
 	"<YOUR_CLIENT_ID>", 
-	"wss://xxxxxxxxxxxxx-ats.iot.<YOUR-AWS-REGION>.amazonaws.com/mqtt");
+	"xxxxxxxxxxxxx-ats.iot.<YOUR-AWS-REGION>.amazonaws.com");
 ```
 You can get the endpoint information from the IoT Core -> Settings page on the AWS Console.
 {: .callout .callout--info}

@@ -66,8 +66,8 @@ Import the configuration file and load it in `main.ts`:
 
 ```javascript
 import Amplify from 'aws-amplify';
-import amplify from './aws-exports';
-Amplify.configure(amplify);
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
 ```
 
 
@@ -97,8 +97,8 @@ Import the configuration file and load it in `main.ts`:
 
 ```javascript
 import Amplify from '@aws-amplify/core';
-import amplify from './aws-exports';
-Amplify.configure(amplify);
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
 ```
 
 In your [app module](https://angular.io/guide/bootstrapping) `src/app/app.module.ts` import the Amplify Module, Service, and Amplify Modules helper.  Additionally, import the amplify modules that you want to access via your Amplify provider.
@@ -219,6 +219,16 @@ export class AppComponent {
     }
 }
 ```
+
+The authState's 'state' attribute must be a string with one of the following values:
+
+* 'confirmSignIn'
+* 'confirmSignUp'
+* 'forgotPassword'
+* 'requireNewPassword'
+* 'signedIn'
+* 'signIn'
+* 'signUp'
 
 ## Components
 
@@ -376,6 +386,36 @@ export class AppComponent {
     ]
   }
 ```
+=======
+#### Replacing Authentication Components With Custom Components
+The child components displayed within the Authenticator can be hidden or replaced with custom components.
+
+Usage:
+```<amplify-authenticator [hide]="['Greetings']"></amplify-authenticator>```
+
+#### Using Authentication Components Without the Authenticator
+The child components displayed within the Authenticator can be used as standalone components.  This could be useful in situations where, for example, you want to display your own components for specific pieces of the registration and authentication flow.
+
+These components include:
+
+```javascript
+<amplify-auth-confirm-sign-in>
+<amplify-auth-confirm-sign-up>
+<amplify-auth-forgot-password>
+<amplify-auth-greetings>
+<amplify-auth-require-new-password>
+<amplify-auth-sign-in>
+<amplify-auth-sign-up>
+```
+
+Each of these components expects to receive the authState object, which consists of a 'state' string and a 'user' object.  The authState is an observable managed by the amplifyService, so make sure that your own custom components set the authState appropriately.
+
+Example:
+```javascript
+this.amplifyService.setAuthState({ state: 'confirmSignIn', user });
+```
+
+Additional details about the authState can be found in the [Subscribe to Authentication State Changes](#subscribe-to-authentication-state-changes) section.
 
 ### Photo Picker
 

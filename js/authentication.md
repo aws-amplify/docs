@@ -84,14 +84,16 @@ $ amplify push
 
 A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`.
 
+**NOTE**: If your Authentication resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli/lambda-node-version-update)
+
 ##### Configure Your App
 
 In your app's entry point i.e. App.js, import and load the configuration file:
 
 ```javascript
 import Amplify, { Auth } from 'aws-amplify';
-import awsmobile from './aws-exports';
-Amplify.configure(awsmobile);
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
 ```
 
 ### Manual Setup
@@ -184,7 +186,7 @@ try {
         const loggedUser = await Auth.confirmSignIn(
             user,   // Return object from Auth.signIn()
             code,   // Confirmation code  
-            mfaType // MFA Type e.g. SMS, TOTP.
+            mfaType // MFA Type e.g. SMS_MFA, SOFTWARE_TOKEN_MFA
         );
     } else if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
         const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
@@ -272,7 +274,7 @@ Auth.resendSignUp(username).then(() => {
 });
 ```
 
-The `Auth.signUp` promise returns a data object of type [`ISignUpResult`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L136-L139) with a [`CognitoUser`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L48).
+The `Auth.signUp` promise returns a data object of type [`ISignUpResult`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L136-L139) with a [`CognitoUser`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L48). 
 
 ```js
 {
@@ -449,6 +451,79 @@ Auth.configure({
 });
 ```
 
+Here is the example of how to use AsyncStorage as your storage object which will show you how to sync items from AsyncStorage into Memory:
+```javascript
+import { AsyncStorage } from 'react-native';
+
+const MEMORY_KEY_PREFIX = '@MyStorage:';
+let dataMemory = {};
+
+/** @class */
+class MyStorage {
+    static syncPromise = null;
+    /**
+     * This is used to set a specific item in storage
+     */
+    static setItem(key, value) {
+        AsyncStorage.setItem(MEMORY_KEY_PREFIX + key, value);
+        dataMemory[key] = value;
+        return dataMemory[key];
+    }
+
+    /**
+     * This is used to get a specific key from storage
+     */
+    static getItem(key) {
+        return Object.prototype.hasOwnProperty.call(dataMemory, key) ? dataMemory[key] : undefined;
+    }
+
+    /**
+     * This is used to remove an item from storage
+     */
+    static removeItem(key) {
+        AsyncStorage.removeItem(MEMORY_KEY_PREFIX + key);
+        return delete dataMemory[key];
+    }
+
+    /**
+     * This is used to clear the storage
+     */
+    static clear() {
+        dataMemory = {};
+        return dataMemory;
+    }
+
+    /**
+     * Will sync the MemoryStorage data from AsyncStorage to storageWindow MemoryStorage
+    */
+    static sync() {
+        if (!MemoryStorage.syncPromise) {
+            MemoryStorage.syncPromise =  new Promise((res, rej) => {
+                AsyncStorage.getAllKeys((errKeys, keys) => {
+                    if (errKeys) rej(errKeys);
+                    const memoryKeys = keys.filter((key) => key.startsWith(MEMORY_KEY_PREFIX));
+                    AsyncStorage.multiGet(memoryKeys, (err, stores) => {
+                        if (err) rej(err);
+                        stores.map((result, index, store) => {
+                            const key = store[index][0];
+                            const value = store[index][1];
+                            const memoryKey = key.replace(MEMORY_KEY_PREFIX, '');
+                            dataMemory[memoryKey] = value;
+                        });
+                        res();
+                    });
+                });
+            });
+        }
+        return MemoryStorage.syncPromise;
+    }
+}
+
+Auth.configure({
+    storage: MyStorage
+});
+```
+
 To learn more about tokens, please visit [Amazon Cognito Developer Documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-with-identity-providers.html).
 
 ### Using Auth Components in React & React Native
@@ -467,9 +542,9 @@ Just add these two lines to your `App.js`:
 import { withAuthenticator } from 'aws-amplify-react'; // or 'aws-amplify-react-native';
 import Amplify from 'aws-amplify';
 // Get the aws resources configuration parameters
-import aws_exports from './aws-exports'; // if you are using Amplify CLI
+import awsconfig from './aws-exports'; // if you are using Amplify CLI
 
-Amplify.configure(aws_exports);
+Amplify.configure(awsconfig);
 
 // ...
 
@@ -477,7 +552,7 @@ export default withAuthenticator(App);
 ```
 Now, your app has complete flows for user sign-in and registration. Since you have wrapped your **App** with `withAuthenticator`, only signed in users can access your app. The routing for login pages and giving access to your **App** Component will be managed automatically.
 
-`withAuthenticator` component renders your App component after a successful user signed in, and it prevents non-sign-in uses to interact with your app. In this case, we need to display a *sign-out* button to trigger the related process.
+`withAuthenticator` component renders your App component after a successful user signed in, and it prevents non-sign-in users to interact with your app. In this case, we need to display a *sign-out* button to trigger the related process.
 
 To display a sign-out button or customize other, set `includeGreetings = true` in the parameter object. It displays a *greetings section* on top of your app, and a sign-out button is displayed in the authenticated state. Other customization options are also available as properties to the HOC:
 
@@ -668,6 +743,7 @@ In the previous example, you'll see the App is rendered even before the user is 
  - confirmSignIn
  - confirmSignUp
  - forgotPassword
+ - requireNewPassword
  - verifyContact
  - signedIn
  ```
@@ -712,6 +788,17 @@ Do you want to use the default authentication and security configuration?
 Note: For *Sign in Redirect URI(s)* inputs, you can put one URI for local development and one for production. Example: `http://localhost:3000/` in dev and `https://www.example.com/` in production. The same is true for *Sign out redirect URI(s)*.
 {: .callout .callout--info}
 
+<div class="callout callout--info">
+For React Native applications, You need to define a custom URL scheme for your application before testing locally or publishing to the app store. This is different for Expo or vanilla React Native. Follow the steps at the [React Native Linking docs](https://facebook.github.io/react-native/docs/linking) or [Expo Linking docs](https://docs.expo.io/versions/latest/workflow/linking/) for more information.
+
+After completing those steps, assuming you are using "myapp" as the name of your URL Scheme (or whatever friendly name you have chosen), you will use these URLs as *Sign in Redirect URI(s)* and/or *Sign out redirect URI(s)* inputs.
+
+Your URIs could look like any of these:
+
+- `myapp://`
+- `exp://127.0.0.1:19000/--/` (Local development if your app is running [in the Expo client](https://docs.expo.io/versions/latest/workflow/linking/#linking-to-your-app)).
+</div>
+
 ### Finish Social Setup
 
 After adding your Social provider information into the Amplify project setup, the domain that was created must be added into the Social provider configuration to complete the process.
@@ -731,8 +818,8 @@ After configuring the OAuth endpoints, you can use them or the Hosted UI with `A
 
 ```javascript
 import Amplify, { Auth, Hub } from 'aws-amplify';
-import awsmobile from './aws_exports';
-Amplify.configure(awsmobile);
+import awsconfig from './aws_exports';
+Amplify.configure(awsconfig);
 
 
 class App extends Component {
@@ -776,9 +863,10 @@ class App extends Component {
 When using React and React Native, Amplify provides a `withOAuth` Higher Order Component (HOC) to launch the Hosted UI or bypass and use the social providers directly. The HOCs differ slightly and there are specifics outlined below.
 
 ```javascript
+import React, { Component } from 'react';
 import { withOAuth } from 'aws-amplify-react';
 
-class MyApp extends React.Component {
+class MyApp extends Component {
     // ...
     render() {
         return(
@@ -818,13 +906,28 @@ Hub.listen('auth', (data) => {
 **Full React Sample**
 
 ```js
+// OAuthButton.js
+import { withOAuth } from 'aws-amplify-react';
+import React, { Component } from 'react';
+
+class OAuthButton extends Component {
+  render() {
+    return (
+      <button onClick={this.props.OAuthSignIn}>
+        Sign in with AWS
+      </button>
+    )
+  }
+}
+
+export default withOAuth(OAuthButton);
+
 // App.js
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import OAuthButton from './OAuthButton';
-import Amplify, {Auth, Hub} from 'aws-amplify';
-import awsmobile from './aws-exports'; // your Amplify configuration
+import Amplify, { Auth, Hub } from 'aws-amplify';
+import awsconfig from './aws-exports'; // your Amplify configuration
 
 // your Cognito Hosted UI configuration
 const oauth = {
@@ -832,10 +935,10 @@ const oauth = {
   scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
   redirectSignIn: 'http://localhost:3000/',
   redirectSignOut: 'http://localhost:3000/',
-  responseType: 'code' // or token
+  responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
 };
 
-Amplify.configure(awsmobile);
+Amplify.configure(awsconfig);
 Auth.configure({ oauth });
 
 class App extends Component {
@@ -846,13 +949,10 @@ class App extends Component {
     Hub.listen('auth', (data) => {
         switch (data.payload.event) {
             case 'signIn':
-                this.setState({authState: 'signedIn'});
-                this.setState({authData: data.payload.data});
+                this.setState({authState: 'signedIn', authData: data.payload.data});
                 break;
             case 'signIn_failure':
-                this.setState({authState: 'signIn'});
-                this.setState({authData: null});
-                this.setState({authError: data.payload.data});
+                this.setState({authState: 'signIn', authData: null, authError: data.payload.data});
                 break;
             default:
                 break;
@@ -898,22 +998,6 @@ class App extends Component {
 }
 
 export default App;
-
-// OAuthButton.js
-import { withOAuth } from 'aws-amplify-react';
-import React, { Component } from 'react';
-
-class OAuthButton extends React.Component {
-  render() {
-    return (
-      <button onClick={this.props.OAuthSignIn}>
-        Sign in with AWS
-      </button>
-    )
-  }
-}
-
-export default withOAuth(OAuthButton);
 ```
 
 With React Native, you can use `withOAuth` HOC to launch the hosted UI experience. Just wrap your app's main component with our HOC. Doing so, will pass the following `props` available to your component:
@@ -944,6 +1028,7 @@ yarn add aws-amplify-react-native aws-amplify
 The following code snippet shows an example of its possible usage:
 
 ```javascript
+import React, { Component } from 'react';
 import { StyleSheet, Text, ScrollView, SafeAreaView, StatusBar, Button } from 'react-native';
 import { default as Amplify } from "aws-amplify";
 import { withOAuth } from "aws-amplify-react-native";
@@ -960,7 +1045,7 @@ Amplify.configure({
 });
 
 
-class App extends React.Component {
+class App extends Component {
   render() {
     const {
       oAuthUser: user,
@@ -1047,6 +1132,7 @@ const oauth = {
 
     // 'code' for Authorization code grant, 
     // 'token' for Implicit grant
+    // Note that REFRESH token will only be generated when the responseType is code
     responseType: 'code',
 
     // optional, for Cognito hosted ui specified options
@@ -1114,9 +1200,10 @@ Note that this isn't from a Cognito User Pool so the user you get after calling 
 ##### Facebook React Sample 
 
 ```js
+import React, { Component } from 'react';
 import { Auth } from 'aws-amplify';
 // To federated sign in from Facebook
-class SignInWithFacebook extends React.Component {
+class SignInWithFacebook extends Component {
     constructor(props) {
         super(props);
         this.signIn = this.signIn.bind(this);
@@ -1209,9 +1296,10 @@ class SignInWithFacebook extends React.Component {
 ##### Google Sample in React
 
 ```js
+import React, { Component } from 'react';
 import { Auth } from 'aws-amplify';
 // To federated sign in from Google
-class SignInWithGoogle extends React.Component {
+class SignInWithGoogle extends Component {
     constructor(props) {
         super(props);
         this.signIn = this.signIn.bind(this);
@@ -1287,9 +1375,10 @@ class SignInWithGoogle extends React.Component {
 
 ```javascript
 import Expo from 'expo';
+import React, { Component } from 'react';
 import Amplify, { Auth } from 'aws-amplify';
 
-export default class App extends React.Component {
+export default class App extends Component {
   async signIn() {
     const { type, token, expires } = await Expo.Facebook.logInWithReadPermissionsAsync('YOUR_FACEBOOK_APP_ID', {
         permissions: ['public_profile'],
@@ -1588,7 +1677,12 @@ You can get current preferred MFA type in your code:
 ```javascript
 import { Auth } from 'aws-amplify';
 
-Auth.getPreferredMFA(user).then((data) => {
+// Will retrieve the current mfa type from cache
+Auth.getPreferredMFA(user,{
+    // Optional, by default is false. 
+    // If set to true, it will get the MFA type from server side instead of from local cache.
+    bypassCache: false 
+}).then((data) => {
     console.log('Current prefered MFA type is: ' + data);
 })
 ```
@@ -1599,10 +1693,10 @@ When working with multiple MFA Types, you can let the app user select the desire
 
 ```javascript
 import Amplify from 'aws-amplify';
-import amplify from './aws-exports';
+import awsconfig from './aws-exports';
 import { SelectMFAType } from 'aws-amplify-react';
 
-Amplify.configure(amplify);
+Amplify.configure(awsconfig);
 
 // Please have at least TWO types
 // Please make sure you set it properly according to your Cognito User pool
@@ -1662,6 +1756,8 @@ let result = await Auth.updateUserAttributes(user, {
 });
 console.log(result); // SUCCESS
 ```
+
+> You can find a <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#cognito-user-pools-standard-attributes" target="_blank">list of all custom attributes here</a>.
 
 If you change the email address, the user will receive a confirmation code. In your app, you can confirm the verification code:
 

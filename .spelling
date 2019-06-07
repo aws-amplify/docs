@@ -8,6 +8,7 @@ aws-amplify-angular
 @aws-amplify/storage
 App.vue
 app.js
+authMode
 APIs
 AmplifyAngularModule
 AmplifyIonicModule
@@ -19,6 +20,7 @@ Authenticator
 aws_bots_config.name
 aws-exports
 analytics
+arraybuffer
 backend
 botTitle
 cli
@@ -229,6 +231,9 @@ amplify-s3-album
 styles.css
 6.x
 polyfills.ts
+forgotPassword
+requireNewPassword
+amplifyService
 
 # js/interactions.md
 chatbots
@@ -356,9 +361,10 @@ DynamoDBBillingMode
 PAY_PER_REQUEST
 DynamoDBModelTableWriteIOPS
 DynamoDBModelTableReadIOPS
-
-# cli/graphql.md
+ssn
+event.prev.result
 DataSource
+DataSources
 onCreate
 onUpdate
 onDelete
@@ -380,6 +386,28 @@ S3Object
 s3
 versionInput
 versioning
+PAY_PER_REQUEST
+MySQL
+UserPoolId
+COGNITO_USERPOOL_ID
+GraphiQL
+ClientId
+AppClientIDWeb
+typeName
+fieldName
+prev
+ge
+lt
+le
+beginsWith
+queryField
+createdAt
+customerEmail
+orderId
+status#createdAt
+IN_TRANSIT
+statusCreatedAt
+ByStatus
 
 # js/vue.md
 confirmSignInConfig
