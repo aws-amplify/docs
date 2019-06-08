@@ -365,7 +365,7 @@ In this case, the function runs, but it doesn't exit because this Lambda example
 
 ## Note on JWT Storage
 
-Data is stored unencrypted when using standard storage adapters (LocalStorage in the browser and ASyncStorage on React Native). Amplify gives you the option to use your own storage object to persist data. With this, you could write a thin wrapper around libraries like:
+Data is stored unencrypted when using standard storage adapters (`localStorage` in the browser and `AsyncStorage` on React Native). Amplify gives you the option to use your own storage object to persist data. With this, you could write a thin wrapper around libraries like:
 
  - `react-native-keychain`
  - `react-native-secure-storage`
