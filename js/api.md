@@ -2172,7 +2172,7 @@ Amplify.configure({
         custom_header: async () => { 
           return { Authorization : 'token' } 
           // Alternatively, with Cognito User Pools use this:
-          // return { Authorization: (await Auth.currentSession()).idToken.jwtToken } 
+          // return { Authorization: `Bearer ${(await Auth.currentSession()).accessToken.jwtToken}` }
         }
       }
     ]
