@@ -2040,7 +2040,7 @@ app.post('/myendpoint', function(req, res) {
 
 #### **PUT**
 
-When used together with [Cloud API](https://docs.aws.amazon.com/aws-mobile/latest/developerguide/web-access-apis.html), PUT method can be used to create or update records. It updates the record if a matching record is found. Otherwise, a new record is created.
+When used together with a Cloud API, PUT method can be used to create or update records. It updates the record if a matching record is found. Otherwise, a new record is created.
 
 ```javascript
 let apiName = 'MyApiName'; // replace this with your api name.
@@ -2172,7 +2172,7 @@ Amplify.configure({
         custom_header: async () => { 
           return { Authorization : 'token' } 
           // Alternatively, with Cognito User Pools use this:
-          // return { Authorization: (await Auth.currentSession()).idToken.jwtToken } 
+          // return { Authorization: `Bearer ${(await Auth.currentSession()).accessToken.jwtToken}` }
         }
       }
     ]
