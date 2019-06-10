@@ -377,7 +377,7 @@ Analytics.configure({
         // REQUIRED - The trackingId to track the events 
         trackingId: '<TRACKING_ID>',
         
-        // OPTIONAL -  Amazon Kinesis service region
+        // OPTIONAL -  Amazon Personalize service region
         region: 'XX-XXXX-X',
 
         // OPTIONAL - The number of events to be deleted from the buffer when flushed.
