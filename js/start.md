@@ -185,7 +185,7 @@ $ npm start
 </div>
 <div id="react-native" class="tab-content" >
 
-If you have an existing React Native application, you can skip this section, but note that we have a [linking requirement](#linking-native-libraries-for-react-native) that may apply to your app.
+If you have an existing React Native application, you can skip this section, but note that we have a [linking requirement]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/react#add-auth) that may apply to your app.
 
 [Expo CLI](https://expo.io) is a command line utility to create React Native apps with no build configuration. Run following commands to install Expo CLI and create your app (using the defaults is sufficient for this sample project):
 
