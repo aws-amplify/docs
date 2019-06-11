@@ -383,8 +383,8 @@ public void logAuthenticationEvent() {
 
 #### Event Ingestion Limits
 
-The limits applicable to the ingestion of events using the AWS Android SDK for Pinpoint and the Amazon Pinpoint Events API.
-can be found [here](https://docs.aws.amazon.com/pinpoint/latest/developerguide/limits.html#limits-events)
+The limits applicable to the ingestion of events using the AWS Android SDK for Pinpoint and the Amazon Pinpoint Events API
+can be found [here](https://docs.aws.amazon.com/pinpoint/latest/developerguide/limits.html#limits-events).
 
 ### Managing Sessions in Your Application
 
@@ -675,8 +675,8 @@ public void assignUserIdToEndpoint() {
 
 #### Endpoint Limits
 
-The limits applicable to the endpoints using the AWS Android SDK for Pinpoint and the Amazon Pinpoint Endpoint API.
-can be found [here](https://docs.aws.amazon.com/pinpoint/latest/developerguide/limits.html#limits-endpoint)
+The limits applicable to the endpoints using the AWS Android SDK for Pinpoint and the Amazon Pinpoint Endpoint API
+can be found [here](https://docs.aws.amazon.com/pinpoint/latest/developerguide/limits.html#limits-endpoint).
 
 ## Using Amazon Kinesis
 
