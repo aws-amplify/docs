@@ -2207,13 +2207,15 @@ async function postData() {
     let apiName = 'MyApiName';
     let path = '/path';
     let myInit = { 
-        headers: {'Authorization' : Auth.currentSession().accessToken.jwtToken}
+        headers: { Authorization: `Bearer ${(await Auth.currentSession()).accessToken.jwtToken}` }
     }
     return await API.post(apiName, path, myInit);
 }
 
 postData();
 ```
+
+> Note that the header name, in the above example 'Authorization', is dependent on what you choose during your API Gateway configuration.
 
 ## Using Modular Imports
 
