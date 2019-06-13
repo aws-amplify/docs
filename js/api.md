@@ -2215,6 +2215,8 @@ async function postData() {
 postData();
 ```
 
+> Note that the header name, in the above example 'Authorization', is dependent on what you choose during your API Gateway configuration.
+
 ## Using Modular Imports
 
 If you only need to use API, you can run: `npm install @aws-amplify/api` which will only install the API module.
