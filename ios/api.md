@@ -179,6 +179,17 @@ appSyncClient?.fetch(query: ListTodosQuery(), cachePolicy: .returnCacheDataAndFe
 ```
 `returnCacheDataAndFetch` pulls results from the local cache first before retrieving data over the network. This gives a snappy UX and offline support.
 
+#### Considerations for SwiftUI
+
+When using `List` and `ForEach` for SwiftUI the structure needs to conform to `Identifiable`. The code generated for Swift does not make the structure `Identifable` but as long as you have a unique id associated with the object then you can retroactively mark a field as unique. Here is some example code for `ListTodosQuery()`
+
+```swift
+ForEach(listTodosStore.listTodos.identified(by:\.id)){ todo in
+    TodoCell(todoDetail: todo)
+}
+
+```
+
 ### Run a Mutation
 
 To add data you need to run a GraphQL mutation. The syntax is `appSyncClient?.perform(mutation: <NAME>Mutation() {(result, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen` created. However, most GraphQL schemas organize mutations with an `input` type for maintainability, which is what the AppSync console and Amplify CLI do as well. Therefore, you need to pass this as a parameter called `input`, as in the following example:
