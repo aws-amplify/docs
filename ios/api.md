@@ -181,7 +181,7 @@ appSyncClient?.fetch(query: ListTodosQuery(), cachePolicy: .returnCacheDataAndFe
 
 #### Considerations for SwiftUI
 
-When using `List` and `ForEach` for SwiftUI the stucture needs to conform to `Identifiable`. The code generated for Swift does not make the structure `Identifable` but as long as you have a unique id associated with the object then you can retroactivly mark a field as unique. Here is some example code for `ListTodosQuery()`
+When using `List` and `ForEach` for SwiftUI the structure needs to conform to `Identifiable`. The code generated for Swift does not make the structure `Identifable` but as long as you have a unique id associated with the object then you can retroactively mark a field as unique. Here is some example code for `ListTodosQuery()`
 
 ```swift
 ForEach(listTodosStore.listTodos.identified(by:\.id)){ todo in
