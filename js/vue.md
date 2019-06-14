@@ -20,8 +20,8 @@ Then, alter main.js:
 ```javascript
 import Amplify, * as AmplifyModules from 'aws-amplify'
 import { AmplifyPlugin } from 'aws-amplify-vue'
-import awsmobile from './aws-exports'
-Amplify.configure(awsmobile)
+import awsconfig from './aws-exports'
+Amplify.configure(awsconfig)
 
 Vue.use(AmplifyPlugin, AmplifyModules)
 
@@ -107,8 +107,8 @@ Config:
 | [confirmSignInConfig](#confirmsignin)   | object |
 | [confirmSignUpConfig](#confirmsignup)   | object |
 | [forgotPasswordConfig](#forgotpassword) | object |
-| [signInConfig](#signinconfig)           | object |
-| [signUpConfig](#signupconfig)           | object |
+| [signInConfig](#signin)                 | object |
+| [signUpConfig](#signup)                 | object |
 
 &ast; The attributes above reference the config objects for the components that are nested inside Authenticator.  See the individual components for details. 
 
@@ -173,7 +173,7 @@ Config:
 Events: 
 
 * ```AmplifyEventBus.$emit('authState', 'signedIn')```: Emitted when a user successfully answers their MFA challenge.
-* ```AmplifyEventBus.$emit('authState', 'signedOut');```: Emitted when a user clicks 'Back to Sign In'.
+* ```AmplifyEventBus.$emit('authState', 'signIn');```: Emitted when a user clicks 'Back to Sign In'.
 
 
 ### SignUp
@@ -194,7 +194,7 @@ The signUpFields array in turn consist of an array of objects, each describing a
 Events: 
 
 * ```AmplifyEventBus.$emit('authState', 'confirmSignUp')```: Emitted when a user successfully enters their information but has not yet completed a required verification step.
-* ```AmplifyEventBus.$emit('authState', 'signedOut')```: Emitted when a user successfully provides their information and does not need to complete a required verification step, or when they click 'Back to Sign In'.
+* ```AmplifyEventBus.$emit('authState', 'signIn')```: Emitted when a user successfully provides their information and does not need to complete a required verification step, or when they click 'Back to Sign In'.
 
 
 ### ConfirmSignUp
@@ -213,7 +213,7 @@ Config:
 
 Events: 
 
-* ```AmplifyEventBus.$emit('authState', 'signedOut')```: Emitted when a user successfully completes their verification step or clicks 'Back to Sign In'.
+* ```AmplifyEventBus.$emit('authState', 'signIn')```: Emitted when a user successfully completes their verification step or clicks 'Back to Sign In'.
 
 ### ForgotPassword
 
@@ -231,7 +231,7 @@ Config:
 
 Events: 
 
-* ```AmplifyEventBus.$emit('authState', 'signedOut')```: Emitted when a user successfully resets their password or clicks 'Back to Sign In'.
+* ```AmplifyEventBus.$emit('authState', 'signIn')```: Emitted when a user successfully resets their password or clicks 'Back to Sign In'.
 
 ### SignOut
 
@@ -287,7 +287,7 @@ Usage:
 
 The Connect component can be used to execute a GraphQL query, subscription, or mutation. You can execute GraphQL queries by passing your queries in `query` or `mutation` attributes. For example:
 
-```
+```javascript
 <template>
   <div class="home">
       <amplify-connect :query="listTodosQuery">
@@ -333,7 +333,7 @@ export default {
 
 You can also subscribe to changes in query data via the `subscription` and `onSubscriptionMsg` attributes:
 
-```
+```javascript
 <template>
   <div class="home">
       <amplify-connect :query="listTodosQuery"
@@ -400,7 +400,7 @@ export default {
 
 The Connect component also supports mutations by passing a GraphQL query and (optionally) variables via the `mutation` attribute. Call the provided `mutate` method to trigger the operation. `mutation` returns a promise that resolves with the result of the GraphQL mutation, use `@done` to listen for it to complete.
 
-```
+```javascript
 <template>
   <div>
     <amplify-connect :mutation="createTodoMutation"

@@ -62,6 +62,15 @@ Then, you need to send your *Cognito Identity Id* to the AWS backend and attach 
 aws iot attach-principal-policy --policy-name 'myIOTPolicy' --principal '<YOUR_COGNITO_IDENTITY_ID>'
 ```
 
+**Allowing your Amazon Cognito Authenticated Role to access IoT Services**
+
+For your Cognito Authenticated Role to be able to interact with **AWS IoT** it may be necessary to update its permissions, if you haven't done this before.  
+One way of doing this is to log to your **AWS Console**, select **CloudFormation** from the available services. Locate the parent stack of your solution: it is usually named `<SERVICE-NAME>-<CREATION_TIMESTAMP>`.  
+Select the **Resources** tab and tap on `AuthRole` **Physical ID**.  
+The IAM console will be opened in a new tab. Once there, tap on the button **Attach Policies**, then search `AWSIoTDataAccess` and `AWSIoTConfigAccess`, select them and tap on **Attach policy**.  
+  
+> Failing to grant IoT related permissions to the Cognito Authenticated Role will result in errors similar to the following in your browser console: `errorCode: 8, errorMessage: AMQJS0008I Socket closed.`
+
 ### Third Party MQTT Providers
 
 Import PubSub module and related service provider plugin to your app:
@@ -95,6 +104,20 @@ PubSub.subscribe('myTopic').subscribe({
 });
 ```
 
+If multiple providers are defined in your app you can include the specific provider you would like to subscribe to:
+```javascript
+PubSub.subscribe('myTopic', { provider: 'AWSIoTProvider' }).subscribe({
+    //...
+});
+
+PubSub.subscribe('myTopic', { provider: 'MqttOverWSProvider' }).subscribe({
+    //...
+});
+```
+
+Note: If you do not include a specific provider it will subscribe to all of the configured PubSub providers in your app.
+{: .callout .callout--info}
+
 Following events will be triggered with `subscribe()`
 
 Event | Description 
@@ -107,7 +130,7 @@ Event | Description
 To subscribe for multiple topics, just pass a String array including the topic names:
 ```javascript
 PubSub.subscribe(['myTopic1','myTopic1']).subscribe({
-    // ...
+    //...
 });
 ```
 
@@ -118,10 +141,18 @@ To send a message to a topic, use `publish()` method with your topic name and th
 await PubSub.publish('myTopic1', { msg: 'Hello to all subscribers!' });
 ```
 
+If multiple providers are defined in your app you can pass the message to a specific provider:
+```javascript
+await PubSub.publish('myTopic1', { msg: 'Hello to all subscribers!' }, { provider: 'AWSIoTProvider' });
+```
+
 You can also publish a message to multiple topics:
 ```javascript
 await PubSub.publish(['myTopic1','myTopic2'], { msg: 'Hello to all subscribers!' });
 ```
+
+Note: If you do not include a specific provider it will publish a message to all of the configured PubSub providers in your app.
+{: .callout .callout--info}
 
 ### Unsubscribe from a topic
 

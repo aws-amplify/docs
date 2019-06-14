@@ -8,6 +8,7 @@ aws-amplify-angular
 @aws-amplify/storage
 App.vue
 app.js
+authMode
 APIs
 AmplifyAngularModule
 AmplifyIonicModule
@@ -19,6 +20,7 @@ Authenticator
 aws_bots_config.name
 aws-exports
 analytics
+arraybuffer
 backend
 botTitle
 cli
@@ -133,6 +135,8 @@ deltaRecord
 backoff
 resubscription
 backends
+AuthN
+AuthZ
 
 # js/tutorials/building-ionic-4-apps/index.md
 home.page.ts
@@ -160,6 +164,7 @@ a_b
 filename
 mypublicprefix
 myprivateprefix
+CRUD
 
 # js/start.md
 codegen
@@ -175,6 +180,12 @@ myangularapp
 js
 tsconfig
 myAmplifyProject
+
+# js/hub.md
+onHubCapsule
+pubsub
+xr
+MobX
 
 # js/service-workers.md
 ServiceWorker
@@ -221,6 +232,9 @@ amplify-s3-album
 styles.css
 6.x
 polyfills.ts
+forgotPassword
+requireNewPassword
+amplifyService
 
 # js/interactions.md
 chatbots
@@ -230,6 +244,7 @@ onComplete
 theming
 voiceEnabled
 textEnabled
+AmplifyModules
 
 js/i18n.md
 I18n
@@ -347,9 +362,10 @@ DynamoDBBillingMode
 PAY_PER_REQUEST
 DynamoDBModelTableWriteIOPS
 DynamoDBModelTableReadIOPS
-
-# cli/graphql.md
+ssn
+event.prev.result
 DataSource
+DataSources
 onCreate
 onUpdate
 onDelete
@@ -371,6 +387,28 @@ S3Object
 s3
 versionInput
 versioning
+PAY_PER_REQUEST
+MySQL
+UserPoolId
+COGNITO_USERPOOL_ID
+GraphiQL
+ClientId
+AppClientIDWeb
+typeName
+fieldName
+prev
+ge
+lt
+le
+beginsWith
+queryField
+createdAt
+customerEmail
+orderId
+status#createdAt
+IN_TRANSIT
+statusCreatedAt
+ByStatus
 
 # js/vue.md
 confirmSignInConfig
@@ -712,6 +750,10 @@ UIViewController
 # ios/authentication.md
 UINavigationController
 UserPools
+HostedUI
+UserPool
+flipside
+ARNs
 
 # ios/how-to-cognito-integrate-an-existing-identity-pool-ios.md
 AppDelegate
@@ -822,6 +864,7 @@ timeoutIntervalForResource
 handleEventsForBackgroundURLSession
 interceptApplication
 AWSStaticCredentialsProvider
+CRUD
 
 # android/how-to-android-sdk-setup.md
 aws-android-sdk-lex
@@ -864,6 +907,8 @@ MY_BUCKET
 OBJECT_KEY
 MY_FILE
 KMS-generated
+TransferNetworkConnectionType
+CRUD
 
 # android/auth-google-setup.md
 keystore

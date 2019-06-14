@@ -31,7 +31,7 @@ platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSCore', '~> 2.9.0'
+    pod 'AWSCore', '~> 2.9.6'
 
     # other pods
 end
@@ -59,7 +59,7 @@ $ amplify push        #creates configuration file
 In the Finder, drag `awsconfiguration.json` into Xcode under the top Project Navigator folder (the folder name should match your Xcode project name). When the `Options` dialog box that appears, do the following:
 
 * Clear the `Copy items if needed` check box.
-* Choose `Create groups`, and then choose `Next`.
+* Choose `Create groups`, and then choose `Finish`.
 
 ## Step 3: How it Works
 
@@ -85,14 +85,20 @@ $ amplify add api     #select GraphQL, API Key
 
 The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on you can always change it. This process creates an AWS AppSync API and connects it to an Amazon DynamoDB database.
 
-Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults which generate a file named `API.swift`. Drag and drop this file from you `Finder` to the Xcode project and update your Podfile to include `AWSAppSync`:
+Create required backend resources for your configured api with the following command:
+
+```bash
+$ amplify push
+```
+
+Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults which generate a file named `API.swift`. Drag and drop this file from your `Finder` to the Xcode project and update your Podfile to include `AWSAppSync`:
 
 ```ruby
 platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSAppSync', '~> 2.10.0'
+    pod 'AWSAppSync', '~> 2.12.0'
 
 end
 ```
@@ -101,7 +107,7 @@ Run `pod install` and **build your app**.
 
 ## Step 5: Integrate into your app
 
-initialize the AppSync client inside your application delegate:
+Initialize the AppSync client inside your application delegate:
 
 ```swift
 import AWSAppSync
@@ -127,6 +133,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // other methods
         return true
     }
+}
 ```
 
 Next, in your application code where you wish to use the AppSync client (like your View Controller) reference this in the `viewDidLoad()` lifecycle method:

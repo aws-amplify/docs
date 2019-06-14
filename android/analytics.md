@@ -62,6 +62,28 @@ The Amplify CLI helps setup and configure Pinpoint within your application and c
     $ amplify push
     ```
 
+#### Update your IAM Policy:
+
+The Amazon Pinpoint service requires permissions defined in an IAM policy to use the `submitEvents` API. If you are using long-term AWS credentials attached to an `Amazon IAM` user, attach the following policies to the role of that `IAM` user. If you are using temporary AWS credentials vended by `Amazon Cognito Identity Pools`, then attach the following policies to the Unauthenticated and/or Authenticated `IAM` roles of your `Cognito Identity Pool`. The role you attach the policies to depends on the scope of your application. For example, if you only want events submitted when users login, attach to the authenticated role. Similarly, if you want events submitted regardless of authentication state, attach the policy to the unauthenticated role. For more information on Cognito Identities authenticated/unauthenticated roles see <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html" target="_blank">here</a>.
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "mobiletargeting:UpdateEndpoint",
+                "mobiletargeting:PutEvents"
+            ],
+            "Resource": [
+                "arn:aws:mobiletargeting:*:${accountID}:apps/${appId}*"
+            ]
+        }
+    ]
+}
+```
+
 ### Connect to Your Backend
 
 Use the following steps to add analytics to your mobile app and monitor the results through Amazon Pinpoint.
@@ -71,8 +93,8 @@ Use the following steps to add analytics to your mobile app and monitor the resu
 
 ```groovy
 dependencies {
-  implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.12.+'
-  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.12.+@aar') { transitive = true }
+  implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.13.+'
+  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.13.+@aar') { transitive = true }
 }
 ```
 
@@ -107,6 +129,10 @@ dependencies {
     import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
     import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
     import com.amazonaws.mobile.client.AWSMobileClient;
+    import com.amazonaws.mobile.config.AWSConfiguration;
+    import com.amazonaws.mobile.client.UserStateDetails;
+    import com.amazonaws.mobile.client.Callback;
+    import android.content.Context;
 
     public class MainActivity extends AppCompatActivity {
         private static final String TAG = MainActivity.class.getSimpleName();
@@ -229,13 +255,13 @@ public void logMonetizationEvent() {
 
 ### Reporting Events in Your Application
 
-You can use the Pinpoint SDK to report usage data, or events, to Amazon Pinpoint. You can report events to capture information such as session times, users’ purchasing behavior, sign-in attempts, or any custom event type that you need.
+You can use the AWS Android SDK for Pinpoint to report usage data, or events, to Amazon Pinpoint. You can report events to capture information such as session times, users’ purchasing behavior, sign-in attempts, or any custom event type that you need.
 
 After your application reports events, you can view analytics in the Amazon Pinpoint console. The charts on the Analytics page provide metrics for many aspects of user behavior. For more information, see Chart Reference for Amazon Pinpoint Analytics in the Amazon Pinpoint User Guide.
 
 To analyze and store your event data outside of Amazon Pinpoint, you can configure Amazon Pinpoint to stream the data to Amazon Kinesis. For more information, see Streaming Amazon Pinpoint Events to Kinesis.
 
-By using the AWS Mobile SDKs and the AWS Amplify JavaScript libraries, you can call the Amazon Pinpoint API to report the following types of events:
+By using the `PinpointManager` in AWS Android SDK for Pinpoint, you can call the Amazon Pinpoint API to report the following types of events:
 
 #### Session events
 
@@ -354,6 +380,11 @@ public void logAuthenticationEvent() {
    pinpointManager.getAnalyticsClient().submitEvents();
 }
 ```
+
+#### Event Ingestion Limits
+
+The limits applicable to the ingestion of events using the AWS Android SDK for Pinpoint and the Amazon Pinpoint Events API
+can be found [here](https://docs.aws.amazon.com/pinpoint/latest/developerguide/limits.html#limits-events).
 
 ### Managing Sessions in Your Application
 
@@ -642,6 +673,11 @@ public void assignUserIdToEndpoint() {
 ```
 </div>
 
+#### Endpoint Limits
+
+The limits applicable to the endpoints using the AWS Android SDK for Pinpoint and the Amazon Pinpoint Endpoint API
+can be found [here](https://docs.aws.amazon.com/pinpoint/latest/developerguide/limits.html#limits-endpoint).
+
 ## Using Amazon Kinesis
 
 The two classes `KinesisRecorder` and `KinesisFirehoseRecorder` allow you to interface with Amazon Kinesis and Amazon Kinesis Firehose to stream analytics data for real-time processing.
@@ -666,8 +702,8 @@ Set up AWS Mobile SDK components by including the following libraries in your `a
 
 ```groovy
 dependencies {
-  implementation 'com.amazonaws:aws-android-sdk-kinesis:2.12.+'
-  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.12.+@aar') { transitive = true }
+  implementation 'com.amazonaws:aws-android-sdk-kinesis:2.13.+'
+  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.13.+@aar') { transitive = true }
 }
 ```
 
