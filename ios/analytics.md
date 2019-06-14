@@ -259,6 +259,11 @@ You can report authentication events by doing either of the following:
         }
     }
     ```
+    
+#### Event Ingestion Limits
+
+The limits applicable to the ingestion of events using the AWS Android SDK for Pinpoint and the Amazon Pinpoint Events API
+can be found [here](https://docs.aws.amazon.com/pinpoint/latest/developerguide/limits.html#limits-events).
 
 ## Registering Endpoints in Your Application
 
@@ -306,6 +311,11 @@ if let targetingClient = pinpoint?.targetingClient {
     print("Assigned user ID \(user.userId ?? "nil") to endpoint \(endpoint.endpointId)")
 }
 ```
+
+#### Endpoint Limits
+
+The limits applicable to the endpoints using the AWS Android SDK for Pinpoint and the Amazon Pinpoint Endpoint API
+can be found [here](https://docs.aws.amazon.com/pinpoint/latest/developerguide/limits.html#limits-endpoint).
 
 ## Using Amazon Kinesis
 
