@@ -40,9 +40,6 @@ Visit the [Authentication Guide]({%if jekyll.environment == 'production'%}{{site
 
 After creating your backend a configuration file will be generated in your configured source directory you identified in the `amplify init` command.
 
-Depending on your TypeScript version you may need to rename the `aws-exports.js` to `aws-exports.ts` prior to importing it into your app, or enable the `allowJs` <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" target="_blank">compiler option</a> in your tsconfig. 
-{: .callout .callout--info}
-
 When working with underlying `aws-js-sdk`, the "node" package should be included in *types* compiler option. update your `src/tsconfig.app.json`:
 ```json
 "compilerOptions": {

@@ -185,7 +185,7 @@ $ npm start
 </div>
 <div id="react-native" class="tab-content" >
 
-If you have an existing React Native application, you can skip this section, but note that we have a [linking requirement](#linking-native-libraries-for-react-native) that may apply to your app.
+If you have an existing React Native application, you can skip this section, but note that we have a [linking requirement]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/react#add-auth) that may apply to your app.
 
 [Expo CLI](https://expo.io) is a command line utility to create React Native apps with no build configuration. Run following commands to install Expo CLI and create your app (using the defaults is sufficient for this sample project):
 
@@ -450,7 +450,7 @@ const AnalyticsResult = document.getElementById('AnalyticsResult');
 const AnalyticsEventButton = document.getElementById('AnalyticsEventButton');
 let EventsSent = 0;
 
-AnaltyicsEventButton.addEventListener('click', (event) => {
+AnalyticsEventButton.addEventListener('click', (event) => {
   const { aws_mobile_analytics_app_region, aws_mobile_analytics_app_id } = awsconfig;
 
   Analytics.record('Amplify Tutorial Event')
@@ -460,6 +460,7 @@ AnaltyicsEventButton.addEventListener('click', (event) => {
       AnalyticsResult.innerHTML += '<p>Events sent: '+(++EventsSent)+'</p>';
       AnalyticsResult.innerHTML += '<a href="'+url+'" target="_blank">View Events on the Amazon Pinpoint Console</a>';
     });
+});
 ```
 
 > The code above imports only the Auth and Analytics categories. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.

@@ -743,6 +743,7 @@ YOUR_APP_NAME
 baseQueryResultHandler
 subscriptionResultHandler
 deltaQueryResultHandler
+SwiftUI
 syncConfiguration
 returnValue
 UIViewController

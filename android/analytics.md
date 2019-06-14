@@ -255,13 +255,13 @@ public void logMonetizationEvent() {
 
 ### Reporting Events in Your Application
 
-You can use the Pinpoint SDK to report usage data, or events, to Amazon Pinpoint. You can report events to capture information such as session times, users’ purchasing behavior, sign-in attempts, or any custom event type that you need.
+You can use the AWS Android SDK for Pinpoint to report usage data, or events, to Amazon Pinpoint. You can report events to capture information such as session times, users’ purchasing behavior, sign-in attempts, or any custom event type that you need.
 
 After your application reports events, you can view analytics in the Amazon Pinpoint console. The charts on the Analytics page provide metrics for many aspects of user behavior. For more information, see Chart Reference for Amazon Pinpoint Analytics in the Amazon Pinpoint User Guide.
 
 To analyze and store your event data outside of Amazon Pinpoint, you can configure Amazon Pinpoint to stream the data to Amazon Kinesis. For more information, see Streaming Amazon Pinpoint Events to Kinesis.
 
-By using the AWS Mobile SDKs and the AWS Amplify JavaScript libraries, you can call the Amazon Pinpoint API to report the following types of events:
+By using the `PinpointManager` in AWS Android SDK for Pinpoint, you can call the Amazon Pinpoint API to report the following types of events:
 
 #### Session events
 
@@ -380,6 +380,11 @@ public void logAuthenticationEvent() {
    pinpointManager.getAnalyticsClient().submitEvents();
 }
 ```
+
+#### Event Ingestion Limits
+
+The limits applicable to the ingestion of events using the AWS Android SDK for Pinpoint and the Amazon Pinpoint Events API
+can be found [here](https://docs.aws.amazon.com/pinpoint/latest/developerguide/limits.html#limits-events).
 
 ### Managing Sessions in Your Application
 
@@ -667,6 +672,11 @@ public void assignUserIdToEndpoint() {
 }
 ```
 </div>
+
+#### Endpoint Limits
+
+The limits applicable to the endpoints using the AWS Android SDK for Pinpoint and the Amazon Pinpoint Endpoint API
+can be found [here](https://docs.aws.amazon.com/pinpoint/latest/developerguide/limits.html#limits-endpoint).
 
 ## Using Amazon Kinesis
 
