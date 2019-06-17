@@ -434,6 +434,7 @@ noMfaDescription
 cancelHandler
 defaultName
 amplify-vue
+usernameAttributes
 
 # js/sign-up-fields.md
 displayOrder
