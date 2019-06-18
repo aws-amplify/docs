@@ -1530,6 +1530,8 @@ global secondary indexes (GSIs) on the generated tables on your behalf. In the f
 are investigating using adjacency lists along side GSIs for different use cases that are
 connection heavy.
 
+> **Note** Because the transformer manages the creation of these GSIs, do not change existing connections. Dynamo will acknowledge two GSIs are being changed. The old GSI which no longer used and then a new GSI with a different name will be used, which causes amplify push to fail. Should you need to change a connection make sure you remove the old one first then add in the new connection.
+
 ### @versioned
 
 The `@versioned` directive adds object versioning and conflict resolution to a type.
