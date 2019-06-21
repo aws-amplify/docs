@@ -59,12 +59,15 @@ Option 1 is appropriate when you plan to use every Amplify JS module or if you a
 
 ### Option 1: Configuring the Amplify provider with every Amplify JS module
 
+In order for the Angular compiler to correctly pickup the `aws-exports.js` file, you'll need it to be in typescript format.  So make a copy of the `aws-exports.js` file but with a `ts` extension like so:
+`cp src/aws-exports.js src/aws-exports.ts`.
+
 Import the configuration file and load it in `main.ts`: 
 
 ```javascript
 import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
-Amplify.configure(awsconfig);
+import * as awsamplify from './aws-exports';
+Amplify.configure(awsamplify);
 ```
 
 
@@ -90,12 +93,15 @@ import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
 
 ### Option 2: Configuring the Amplify provider with specified Amplify JS modules
 
+IIn order for the Angular compiler to correctly pickup the `aws-exports.js` file, you'll need it to be in typescript format.  So make a copy of the `aws-exports.js` file but with a `ts` extension like so:
+`cp src/aws-exports.js src/aws-exports.ts`.
+
 Import the configuration file and load it in `main.ts`: 
 
 ```javascript
-import Amplify from '@aws-amplify/core';
-import awsconfig from './aws-exports';
-Amplify.configure(awsconfig);
+import Amplify from 'aws-amplify';
+import * as awsamplify from './aws-exports';
+Amplify.configure(awsamplify);
 ```
 
 In your [app module](https://angular.io/guide/bootstrapping) `src/app/app.module.ts` import the Amplify Module, Service, and Amplify Modules helper.  Additionally, import the amplify modules that you want to access via your Amplify provider.
