@@ -940,6 +940,12 @@ Enable static web hosting for the app on Amazon S3. In a terminal window, change
 $ amplify add hosting
 ```
 
+Run the following command to build the app:
+
+```bash
+$ npm run build
+```
+
 Run the following command to publish the app:
 
 ```bash
