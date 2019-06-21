@@ -93,7 +93,7 @@ import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
 
 ### Option 2: Configuring the Amplify provider with specified Amplify JS modules
 
-IIn order for the Angular compiler to correctly pickup the `aws-exports.js` file, you'll need it to be in typescript format.  So make a copy of the `aws-exports.js` file but with a `ts` extension like so:
+In order for the Angular compiler to correctly pickup the `aws-exports.js` file, you'll need it to be in typescript format.  So make a copy of the `aws-exports.js` file but with a `ts` extension like so:
 `cp src/aws-exports.js src/aws-exports.ts`.
 
 Import the configuration file and load it in `main.ts`: 
