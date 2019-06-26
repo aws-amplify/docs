@@ -1494,7 +1494,7 @@ In `AllPosts.jsx` you would have code like so:
 ```typescript
 const AllPosts = ({ postsList }) => (
   <div>
-    <pre style={{ textAlign: "left" }}>
+    <pre style={% raw %}{{ textAlign: "left" }}{% endraw %}>
       {JSON.stringify(postsList, null, 2)}
     </pre>
   </div>
@@ -1515,7 +1515,7 @@ In `GetPost.jsx` you would have:
 ```typescript
 const OnePost = ({ post }) => (
   <div>
-    <pre style={{ textAlign: "left" }}>{JSON.stringify(post, null, 2)}</pre>
+    <pre style={% raw %}{{ textAlign: "left" }}{% endraw %}>{JSON.stringify(post, null, 2)}</pre>
   </div>
 );
 
