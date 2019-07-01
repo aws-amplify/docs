@@ -632,7 +632,7 @@ You can provide custom components to the `Authenticator` as child components in 
 ```jsx
 import { Authenticator, SignIn } from 'aws-amplify-react';
 
-// The override props tells the Authenticator that the SignUp component is not hidden but overridden
+// The override prop tells the Authenticator that the SignUp component is not hidden but overridden
 <Authenticator hideDefault={true}>
   <SignIn />
   <MyCustomSignUp override={'SignUp'}/> 
