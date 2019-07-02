@@ -393,6 +393,29 @@ category_list:
           excerpt: #"Learn to build a cloud enabled App with Vue.js and AWS Amplify <br/><b>45 min to complete</b>"
           url: '/js/vue'
           icon: '/images/icons/Misc/Present.svg'
+        - category: Toolchain
+      title: CLI Toolchain
+      excerpt: Better developer experience when building and deploying your apps.
+      base_url: '/cli-toolchain/'
+      subs:
+        - title: Quickstart
+          excerpt: Setup and Configure a Project with the CLI
+          url: '/cli-toolchain/quickstart?sdk=js'
+          icon: '/images/icons/Misc/Present.svg'
+        - title: Usage
+          excerpt: CLI Architecture and Overview
+          url: '/cli-toolchain/usage?sdk=js'
+          icon: '/images/icons/Misc/Present.svg'
+        - title: GraphQL Transform
+          excerpt: Transform simple GraphQL schema files into full application backends.
+          cta: Read more
+          class: aws-icon-ps-60-network-nodes
+          icon: '/images/icons/Misc/Tool.svg'
+          url: '/cli-toolchain/graphql?sdk=js'
+        - title: Plugins & Extensions
+          excerpt: Create a new plugin for the CLI
+          url: '/cli-toolchain/plugins?sdk=js' 
+          icon: '/images/icons/Misc/Present.svg'
     - category: Toolchain
       title: Toolchain
       excerpt: Better developer experience when building and deploying your apps.

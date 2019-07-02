@@ -1731,6 +1731,841 @@ Here is a complete list of searchable operations per GraphQL type supported as o
 | Float | `ne`, `gt`, `lt`, `gte`, `lte`, `eq`, `range`      |
 | Boolean | `eq`, `ne`      |
 
+
+
+
+## Relational Databases
+
+The Amplify CLI currently supports importing serverless Amazon Aurora MySQL 5.6 databases running in the us-east-1 region. The following instruction show how to create an Amazon Aurora Serverless database, import this database as a GraphQL data source and test it.
+
+**First, if you do not have an Amplify project with a GraphQL API create one using these simple commands.**
+
+```bash
+amplify init
+amplify add api
+```
+
+**Go to the AWS RDS console and click "Create database".**
+
+
+![Create cluster]({{media_base}}/create-database.png)
+
+
+**Select "Serverless" for the capacity type and fill in some information.**
+
+
+![Database details]({{media_base}}/database-details.png)
+
+
+**Click next and configure any advanced settings. Click "Create database"**
+
+
+![Database details]({{media_base}}/configure-database.png)
+
+
+**After creating the database, wait for the "Modify" button to become clickable. When ready, click "Modify" and scroll down to enable the "Data API"**
+
+
+![Database details]({{media_base}}/data-api.png)
+
+
+**Click continue, verify the changes and apply them immediately. Click "Modify cluster"**
+
+
+![Database details]({{media_base}}/modify-after-data-api.png)
+
+
+**Next click on "Query Editor" in the left nav bar and fill in connection information when prompted.**
+
+
+![Database details]({{media_base}}/connect-to-db-from-queries.png)
+
+
+**After connecting, create a database and some tables.**
+
+
+![Database details]({{media_base}}/create-a-database-and-schema.png)
+
+```sql
+CREATE DATABASE MarketPlace;
+USE MarketPlace;
+CREATE TABLE Customers (
+  id int(11) NOT NULL PRIMARY KEY,
+  name varchar(50) NOT NULL,
+  phone varchar(50) NOT NULL,
+  email varchar(50) NOT NULL
+);
+CREATE TABLE Orders (
+  id int(11) NOT NULL PRIMARY KEY,
+  customerId int(11) NOT NULL,
+  orderDate datetime DEFAULT CURRENT_TIMESTAMP,
+  KEY `customerId` (`customerId`),
+  CONSTRAINT `customer_orders_ibfk_1` FOREIGN KEY (`customerId`) REFERENCES `Customers` (`id`)
+);
+```
+
+
+**Return to your command line and run `amplify api add-graphql-datasource` from the root of your amplify project.**
+
+
+![Add GraphQL Data Source]({{media_base}}/add-graphql-datasource.png)
+
+**Push your project to AWS with `amplify push`.**
+
+Run `amplify push` to push your project to AWS. You can then open the AppSync console with `amplify api console`, to try interacting with your RDS database via your GraphQL API.
+
+**Interact with your SQL database from GraphQL**
+
+Your API is now configured to work with your serverless Amazon Aurora MySQL database. Try running a mutation to create a customer from the [AppSync Console](https://console.aws.amazon.com/appsync/home) and then query it from the [RDS Console](https://console.aws.amazon.com/rds/home) to double check.
+
+Create a customer:
+
+```
+mutation CreateCustomer {
+  createCustomers(createCustomersInput: {
+    id: 1,
+    name: "Hello",
+    phone: "111-222-3333",
+    email: "customer1@mydomain.com"
+  }) {
+    id
+    name
+    phone
+    email
+  }
+}
+```
+
+![GraphQL Results]({{media_base}}/graphql-results.png)
+
+Then open the RDS console and run a simple select statement to see the new customer:
+
+```sql
+USE MarketPlace;
+SELECT * FROM Customers;
+```
+
+![SQL Results]({{media_base}}/sql-results.png)
+
+### How does this work?
+
+The `add-graphql-datasource` will add a custom stack to your project that provides a basic set of functionality for working
+with an existing data source. You can find the new stack in the `stacks/` directory, a set of new resolvers in the `resolvers/` directory, and will also find a few additions to your `schema.graphql`. You may edit details in the custom stack and/or resolver files without worry. You may run `add-graphql-datasource` again to update your project with changes in the database but be careful as these will overwrite any existing templates in the `stacks/` or `resolvers/` directories. When using multiple environment with the Amplify CLI, you will be asked to configure the data source once per environment.
+
+## S3 Objects
+
+The GraphQL Transform, Amplify CLI, and Amplify Library make it simple to add complex object
+support with Amazon S3 to an application.
+
+### Basics
+
+At a minimum the steps to add S3 Object support are as follows:
+
+**Create a Amazon S3 bucket to hold files via `amplify add storage`.**
+
+**Create a user pool in Amazon Cognito User Pools via `amplify add auth`.**
+
+**Create a GraphQL API via `amplify add api` and add the following type definition:**
+
+```
+type S3Object {
+  bucket: String!
+  region: String!
+  key: String!
+}
+```
+
+**Reference the S3Object type from some `@model` type:**
+
+```
+type Picture @model @auth(rules: [{allow: owner}]) {
+  id: ID!
+  name: String
+  owner: String
+
+  # Reference the S3Object type from a field.
+  file: S3Object
+}
+```
+
+The GraphQL Transform handles creating the relevant input types and will store pointers to S3 objects in Amazon DynamoDB. The AppSync SDKs and Amplify library handle uploading the files to S3 transparently.
+
+**Run a mutation with s3 objects from your client app:**
+
+```
+mutation ($input: CreatePictureInput!) {
+  createPicture(input: $input) {
+    id
+    name
+    visibility
+    owner
+    createdAt
+    file {
+      region
+      bucket
+      key
+    }
+  }
+}
+```
+
+## Codegen
+
+Codegen helps you generate native code for iOS and Android, as well as the generation of types for Flow and TypeScript. It can also generate GraphQL statements(queries, mutations, and subscriptions) so that you don't have to hand code them.
+
+Codegen `add` workflow triggers automatically when an AppSync API is pushed to the cloud. You will be prompted if you want to configure codegen when an AppSync API is created and if you opt-in for codegen, subsequent pushes prompt you if they want to update the generated code after changes get pushed to the cloud.
+
+When a project is configured to generate code with codegen, it stores all the configuration `.graphqlconfig.yml` file in the root folder of your project. When generating types, codegen uses GraphQL statements as input. It will generate only the types that are being used in the GraphQL statements.
+
+### Statement depth<a name="codegen-statement-depth"></a>
+
+In the below schema there are connections between `Comment` -> `Post` -> `Blog` -> `Post` -> `Comments`. When generating statements codegen has a default limit of 2 for depth traversal. But if you need to go deeper than 2 levels you can change the max-depth parameter either when setting up your codegen or by passing  `--max-depth` parameter to `codegen`
+
+```graphql
+type Blog @model {
+  id: ID!
+  name: String!
+  posts: [Post] @connection(name: "BlogPosts")
+}
+type Post @model {
+  id: ID!
+  title: String!
+  blog: Blog @connection(name: "BlogPosts")
+  comments: [Comment] @connection(name: "PostComments")
+}
+type Comment @model {
+  id: ID!
+  content: String
+  post: Post @connection(name: "PostComments")
+}
+``` 
+
+```graphql
+query GetComment($id: ID!) {
+  getComment(id: $id) { # depth level 1
+    id
+    content
+    post { # depth level 2
+      id
+      title
+      blog { # depth level 3
+        id
+        name
+        posts { # depth level 4
+          items { # depth level 5
+            id
+            title
+          }
+          nextToken
+        }
+      }
+      comments { # depth level 3
+        items { # depth level 4
+          id
+          content
+          post { # depth level 5
+            id
+            title
+          }
+        }
+        nextToken
+      }
+    }
+  }
+}
+```
+
+### General Usage
+
+#### amplify add codegen <a name="codegen-add"></a>
+```bash
+$ amplify add codegen [--apiId <api-id>]
+```
+
+The `amplify add codegen` allows you to add AppSync API created using the AWS console. If you have your API is in a different region then that of your current region, the command asks you to choose the region. 
+__Note__: If you use the --apiId flag to add an externally created AppSync API, such as one created in the AWS console, you will not be able to manage this API from the Amplify CLI with commands such as amplify api update when performing schema updates.
+
+#### amplify configure codegen <a name="codegen-configure"></a>
+```bash
+$ amplify configure codegen
+```
+The `amplify configure codegen` command allows you to update the codegen configuration after it is added to your project. 
+
+#### amplify codegen statements <a name="codegen-statements"></a>
+```bash
+$ amplify codegen statements [--nodownload] [--max-depth <int>]
+```
+The `amplify codegen statements` command  generates GraphQL statements(queries, mutation and subscription) based on your GraphQL schema. This command downloads introspection schema every time it is run but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag
+
+
+#### amplify codegen types <a name="codegen-types"></a>
+```bash
+$ amplify codegen types
+```
+The `amplify codegen types [--nodownload]` command generates GraphQL `types` for Flow and typescript and Swift class in an iOS project. This command downloads introspection schema every time it is run but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag
+
+#### amplify codegen <a name="codegen-types-and-statements"></a>
+```bash
+$ amplify codegen [--max-depth <int>]
+```
+The `amplify codegen [--nodownload]` generates GraphQL `statements` and `types`. This command downloads introspection schema every time it is run but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag
+
+
+### Workflows <a name="workflows"></a>
+
+The design of codegen functionality provides mechanisms to run at different points in your app development lifecycle, including when you create or update an API as well as independently when you want to just update the data fetching requirements of your app but leave your API alone. It additionally allows you to work in a team where the schema is updated or managed by another person. Finally, you can also include the codegen in your build process so that it runs automatically (such as from in XCode).
+
+**Flow 1: Create API then automatically generate code**
+
+```bash
+$amplify init
+$amplify add api (select GraphQL)
+$amplify push
+```
+
+You’ll see questions as before, but now it will also automatically ask you if you want to generate GraphQL statements and do codegen. It will also respect the `./app/src/main` directory for Android projects. After the AppSync deployment finishes the Swift file will be automatically generated (Android you’ll need to kick off a [Gradle Build step](#androiduse)) and you can begin using in your app immediately.
+ 
+**Flow 2: Modify GraphQL schema, push, then automatically generate code**
+
+During development, you might wish to update your GraphQL schema and generated code as part of an iterative dev/test cycle. Modify & save your schema in `./amplify/backend/api/<apiname>/schema.graphql` then run:
+
+```bash
+$amplify push
+```
+
+Each time you will be prompted to update the code in your API and also ask you if you want to run codegen again as well, including regeneration of the GraphQL statements from the new schema.
+ 
+**Flow 3: No API changes, just update GraphQL statements & generate code**
+
+One of the benefits of GraphQL is the client can define it's data fetching requirements independently of the API. Amplify codegen supports this by allowing you to modify the selection set (e.g. add/remove fields inside the curly braces) for the GraphQL statements and running type generation again. This gives you fine-grained control over the network requests that your application is making. Modify your GraphQL statements (default in the `./graphql` folder unless you changed it) then save the files and run:
+
+```bash
+$amplify codegen types
+```
+A new updated Swift file will be created (or run Gradle Build on Android for the same). You can then use the updates in your application code.
+ 
+**Flow 4: Shared schema, modified elsewhere (e.g. console or team workflows)**
+
+Suppose you are working in a team and the schema is updated either from the AWS AppSync console or on another system. Your types are now out of date because your GraphQL statement was generated off an outdated schema. The easiest way to resolve this is to regenerate your GraphQL statements, update them if necessary, and then generate your types again. Modify the schema in the console or on a separate system, then run:
+
+```bash
+$amplify codegen statements
+$amplify codegen types
+```
+You should have newly generated GraphQL statements and Swift code that matches the schema updates. If you ran the second command your types will be updated as well. Alternatively, if you run `amplify codegen` alone it will perform both of these actions.
+
+
+### iOS usage <a name="iosuse"></a>
+
+This section will walk through the steps needed to take an iOS project written in Swift and add Amplify to it along with a GraphQL API using AWS AppSync. If you are a first time user, we recommend starting with a new XCode project and a single View Controller.
+
+#### Setup
+
+After completing the [Amplify Getting Started](https://aws-amplify.github.io/media/get_started) navigate in your terminal to an XCode project directory and run the following:
+
+```bash
+$amplify init       ## Select iOS as your platform
+$amplify add api    ## Select GraphQL, API key, "Single object with fields Todo application"
+$amplify push       ## Sets up backend and prompts you for codegen, accept the defaults
+```
+
+The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on, you can always change it.
+
+Since you added an API the `amplify push` process will automatically prompt you to enter the codegen process and walk through the configuration options. Accept the defaults and it will create a file named `API.swift` in your root directory (unless you choose to name it differently) as well as a directory called `graphql` with your documents. You also will have an `awsconfiguration.json` file that the AppSync client will use for initialization. 
+
+Next, modify your **Podfile** with a dependency of the AWS AppSync SDK:
+
+```ruby
+target 'PostsApp' do
+  use_frameworks!
+  pod 'AWSAppSync', ' ~> 2.9.0'
+end
+```
+
+Run `pod install` from your terminal and open up the `*.xcworkspace` XCode project. Add the `API.swift` and `awsconfiguration.json` files to your project (_File->Add Files to ..->Add_) and then build your project ensuring there are no issues.
+
+##### Initialize the AppSync client
+Inside your application delegate is the best place to initialize the AppSync client. The `AWSAppSyncServiceConfig` represents the configuration information present in awsconfiguration.json file. By default, the information under the `Default` section will be used. You will need to create an `AWSAppSyncClientConfiguration` and `AWSAppSyncClient` like below:
+
+```swift
+import AWSAppSync
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    var appSyncClient: AWSAppSyncClient?
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
+        do {
+            // You can choose your database location if you wish, or use the default
+            let cacheConfiguration = try AWSAppSyncCacheConfiguration()
+
+            // AppSync configuration & client initialization
+            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(), cacheConfiguration: cacheConfiguration)
+            appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+        } catch {
+            print("Error initializing appsync client. \(error)")
+        }
+        // other methods
+        return true
+  }
+```
+
+Next, in your application code where you wish to use the AppSync client, such in a `Todos` class which is bound to your View Controller, you need to reference this in the `viewDidLoad()` lifecycle method:
+
+```swift
+import AWSAppSync
+
+class Todos: UIViewController{
+  //Reference AppSync client
+  var appSyncClient: AWSAppSyncClient?
+
+  override func viewDidLoad() {
+      super.viewDidLoad()
+      //Reference AppSync client from App Delegate
+      let appDelegate = UIApplication.shared.delegate as! AppDelegate
+      appSyncClient = appDelegate.appSyncClient
+  }
+}
+```
+
+##### Queries
+Now that the backend is configured, you can run a GraphQL query. The syntax is `appSyncClient?.fetch(query: <NAME>Query() {(result, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen types` created. For example, if you have a `ListTodos` query your code will look like the following:
+
+```swift
+//Run a query
+appSyncClient?.fetch(query: ListTodosQuery())  { (result, error) in
+  if error != nil {
+    print(error?.localizedDescription ?? "")
+      return
+  }
+    result?.data?.listTodos?.items!.forEach { print(($0?.name)! + " " + ($0?.description)!) }
+}
+```
+
+Optionally, you can set a cache policy on the query like so:
+
+```swift
+appSyncClient?.fetch(query: ListTodosQuery(), cachePolicy: .returnCacheDataAndFetch)  { (result, error) in
+```
+
+`returnCacheDataAndFetch` will pull results from the local cache first before retrieving data over the network. This gives a snappy UX as well as offline support.
+
+##### Mutations
+For adding data now you will need to run a GraphQL mutation. The syntax `appSyncClient?.perform(mutation: <NAME>Mutation() {(result, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen types` created. However, most GraphQL schemas organize mutations with an `input` type for maintainability, which is what the Amplify CLI does as well. Therefore you'll pass this as a parameter called `input` as in the example below:
+
+```swift
+let mutationInput = CreateTodoInput(name: "Use AppSync", description:"Realtime and Offline")
+        
+appSyncClient?.perform(mutation: CreateTodoMutation(input: mutationInput)) { (result, error) in
+  if let error = error as? AWSAppSyncClientError {
+    print("Error occurred: \(error.localizedDescription )")
+  }
+  if let resultError = result?.errors {
+    print("Error saving the item on server: \(resultError)")
+    return
+  }
+}
+```
+
+##### Subscriptions
+Finally it's time to setup a subscription to realtime data. The syntax `appSyncClient?.subscribe(subscription: <NAME>Subscription() {(result, transaction, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen types` created.
+
+```swift
+// Subscription notifications will only be delivered as long as this is retained
+var subscriptionWatcher: Cancellable?
+
+//In your app code
+do {
+  subscriptionWatcher = try appSyncClient?.subscribe(subscription: OnCreateTodoSubscription(), resultHandler: { (result, transaction, error) in
+    if let result = result {
+      print(result.data!.onCreateTodo!.name + " " + result.data!.onCreateTodo!.description!)
+    } else if let error = error {
+      print(error.localizedDescription)
+    }
+  })
+} catch {
+  print("Error starting subscription.")
+}
+```
+
+Subscriptions can also take `input` types like mutations, in which case they will be subscribing to particular events based on the input. Learn more about Subscription arguments in AppSync [here](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html).
+
+#### Complete Sample
+**AppDelegate.swift**
+
+```swift
+import UIKit
+import AWSAppSync
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    var window: UIWindow?
+    var appSyncClient: AWSAppSyncClient?
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        do {
+            // You can choose your database location if you wish, or use the default
+            let cacheConfiguration = try AWSAppSyncCacheConfiguration()
+
+            // AppSync configuration & client initialization
+            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(), cacheConfiguration: cacheConfiguration)
+            appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+        } catch {
+            print("Error initializing appsync client. \(error)")
+        }
+        return true
+    }
+}
+```
+
+**ViewController.swift**
+
+```swift
+import UIKit
+import AWSAppSync
+
+class ViewController: UIViewController {
+    
+    var appSyncClient: AWSAppSyncClient?
+
+    // Subscription notifications will only be delivered as long as this is retained
+    var subscriptionWatcher: Cancellable?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appSyncClient = appDelegate.appSyncClient
+
+        // Note: each of these are asynchronous calls. Attempting to query the results of `runMutation` immediately
+        // after calling it probably won't work--instead, invoke the query in the mutation's result handler
+        runMutation()
+        runQuery()
+        subscribe()
+    }
+
+    func subscribe() {
+        do {
+            subscriptionWatcher = try appSyncClient?.subscribe(subscription: OnCreateTodoSubscription()) {
+                // The subscription watcher's result block retains a strong reference to the result handler block. 
+                // Make sure to capture `self` weakly if you use it
+                // [weak self]
+                (result, transaction, error) in
+                if let result = result {
+                    print(result.data!.onCreateTodo!.name + " " + result.data!.onCreateTodo!.description!)
+                    // Update the UI, as in:
+                    //    self?.doSomethingInTheUIWithSubscriptionResults(result)
+                    // By default, `subscribe` will invoke its subscription callbacks on the main queue, so there
+                    // is no need to dispatch to the main queue.
+                } else if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
+        } catch {
+            print("Error starting subscription.")
+        }
+    }
+    
+    func runMutation(){
+        let mutationInput = CreateTodoInput(name: "Use AppSync", description:"Realtime and Offline")
+        appSyncClient?.perform(mutation: CreateTodoMutation(input: mutationInput)) { (result, error) in
+            if let error = error as? AWSAppSyncClientError {
+                print("Error occurred: \(error.localizedDescription )")
+            }
+            if let resultError = result?.errors {
+                print("Error saving the item on server: \(resultError)")
+                return
+            }
+            // The server and the local cache are now updated with the results of the mutation
+        }
+    }
+
+    func runQuery(){
+        appSyncClient?.fetch(query: ListTodosQuery()) {(result, error) in
+            if error != nil {
+                print(error?.localizedDescription ?? "")
+                return
+            }
+            result?.data?.listTodos?.items!.forEach { print(($0?.name)! + " " + ($0?.description)!) }
+        }
+    }
+}
+```
+
+### Android usage <a name="androiduse"></a>
+
+This section will walk through the steps needed to take an Android Studio project written in Java and add Amplify to it along with a GraphQL API using AWS AppSync. If you are a first time user, we recommend starting with a new Android Studio project and a single Activity class.
+
+#### Setup
+After completing the [Amplify Getting Started](https://aws-amplify.github.io/media/get_started) navigate in your terminal to an Android Studio project directory and run the following:
+
+```bash
+$amplify init       ## Select iOS as your platform
+$amplify add api    ## Select GraphQL, API key, "Single object with fields Todo application"
+$amplify push       ## Sets up backend and prompts you for codegen, accept the defaults
+```
+
+The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on, you can always change it.
+
+Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults and it will create a file named `awsconfiguration.json` in the `./app/src/main/res/raw`  directory that the AppSync client will use for initialization. To finish off the build process there are Gradle and permission updates needed.
+
+First, in the project's `build.gradle`, add the following dependency in the build script:
+```gradle
+classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.6.+'
+```
+
+Next, in the app's `build.gradle` add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `implementation 'com.amazonaws:aws-android-sdk-appsync:2.6.+'`. For example:
+
+```gradle
+apply plugin: 'com.android.application'
+apply plugin: 'com.amazonaws.appsync'
+android {
+    // Typical items
+}
+dependencies {
+    // Typical dependencies
+    implementation 'com.amazonaws:aws-android-sdk-appsync:2.6.+'
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+}
+```
+
+Finally, update your `AndroidManifest.xml` with updates to `<uses-permissions>`for network calls and offline state. Also add a `<service>` entry under `<application>` for `MqttService` for subscriptions:
+
+```xml
+<uses-permission android:name="android.permission.INTERNET"/>
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+<uses-permission android:name="android.permission.WAKE_LOCK" />
+<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+        <!--other code-->
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <service android:name="org.eclipse.paho.android.service.MqttService" />
+
+        <!--other code-->
+    </application>
+```
+
+Build your project ensuring there are no issues.
+
+##### Initialize the AppSync client
+Inside your application code, such as the `onCreate()` lifecycle method of your activity class, you can initialize the AppSync client using an instance of `AWSConfiguration()` in the `AWSAppSyncClient` builder. This reads configuration information present in the `awsconfiguration.json` file. By default, the information under the Default section will be used.
+
+```java
+    
+    private AWSAppSyncClient mAWSAppSyncClient;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        mAWSAppSyncClient = AWSAppSyncClient.builder()
+                .context(getApplicationContext())
+                .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+                .build();
+    }
+```
+
+##### Queries
+Now that the backend is configured, you can run a GraphQL query. The syntax of the callback is `GraphQLCall.Callback<{NAME>Query.Data>` where `{NAME}` comes from the GraphQL statements that `amplify codegen types` created. You will invoke this from an instance of the AppSync client with a similar syntax of `.query(<NAME>Query.builder().build())`. For example, if you have a `ListTodos` query your code will look like the following:
+
+```java
+    public void query(){
+        mAWSAppSyncClient.query(ListTodosQuery.builder().build())
+                .responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK)
+                .enqueue(todosCallback);
+    }
+
+    private GraphQLCall.Callback<ListTodosQuery.Data> todosCallback = new GraphQLCall.Callback<ListTodosQuery.Data>() {
+        @Override
+        public void onResponse(@Nonnull Response<ListTodosQuery.Data> response) {
+            Log.i("Results", response.data().listTodos().items().toString());
+        }
+
+        @Override
+        public void onFailure(@Nonnull ApolloException e) {
+            Log.e("ERROR", e.toString());
+        }
+    };
+```
+
+You can optionally change the cache policy on `AppSyncResponseFetchers` but we recommend leaving `CACHE_AND_NETWORK` as it will pull results from the local cache first before retrieving data over the network. This gives a snappy UX as well as offline support.
+
+##### Mutations
+For adding data now you will need to run a GraphQL mutation. The syntax of the callback is `GraphQLCall.Callback<{NAME}Mutation.Data>` where `{NAME}` comes from the GraphQL statements that `amplify codegen types` created. However, most GraphQL schemas organize mutations with an `input` type for maintainability, which is what the Amplify CLI does as well. Therefore you'll pass this as a parameter called `input` created with a second builder. You will invoke this from an instance of the AppSync client with a similar syntax of `.mutate({NAME}Mutation.builder().input({Name}Input).build())` like so:
+
+```java
+public void mutation(){
+    CreateTodoInput createTodoInput = CreateTodoInput.builder().
+        name("Use AppSync").
+        description("Realtime and Offline").
+        build();
+
+    mAWSAppSyncClient.mutate(CreateTodoMutation.builder().input(createTodoInput).build())
+        .enqueue(mutationCallback);
+}
+
+private GraphQLCall.Callback<CreateTodoMutation.Data> mutationCallback = new GraphQLCall.Callback<CreateTodoMutation.Data>() {
+    @Override
+    public void onResponse(@Nonnull Response<CreateTodoMutation.Data> response) {
+        Log.i("Results", "Added Todo");
+    }
+
+    @Override
+    public void onFailure(@Nonnull ApolloException e) {
+        Log.e("Error", e.toString());
+    }
+};
+```
+
+##### Subscriptions
+Finally, it's time to set up a subscription to real-time data. The callback is just `AppSyncSubscriptionCall.Callback` and you invoke it with a client `.subscribe()` call and pass in a builder with the syntax of `{NAME}Subscription.builder()` where `{NAME}` comes from the GraphQL statements that `amplify codegen types` created. Note that the Amplify GraphQL transformer has a common nomenclature of putting the word `On` in front of a subscription like the below example:
+
+```java
+private AppSyncSubscriptionCall subscriptionWatcher;
+
+    private void subscribe(){
+        OnCreateTodoSubscription subscription = OnCreateTodoSubscription.builder().build();
+        subscriptionWatcher = mAWSAppSyncClient.subscribe(subscription);
+        subscriptionWatcher.execute(subCallback);
+    }
+
+    private AppSyncSubscriptionCall.Callback subCallback = new AppSyncSubscriptionCall.Callback() {
+        @Override
+        public void onResponse(@Nonnull Response response) {
+            Log.i("Response", response.data().toString());
+        }
+
+        @Override
+        public void onFailure(@Nonnull ApolloException e) {
+            Log.e("Error", e.toString());
+        }
+
+        @Override
+        public void onCompleted() {
+            Log.i("Completed", "Subscription completed");
+        }
+    };
+
+```
+
+Subscriptions can also take `input` types like mutations, in which case they will be subscribing to particular events based on the input. Learn more about Subscription arguments in AppSync [here](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html).
+
+#### Complete Sample
+**MainActivity.java**
+
+```java
+import android.util.Log;
+import com.amazonaws.mobile.config.AWSConfiguration;
+import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
+import com.amazonaws.mobileconnectors.appsync.AppSyncSubscriptionCall;
+import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
+import com.apollographql.apollo.GraphQLCall;
+import com.apollographql.apollo.api.Response;
+import com.apollographql.apollo.exception.ApolloException;
+import javax.annotation.Nonnull;
+import amazonaws.demo.todo.CreateTodoMutation;
+import amazonaws.demo.todo.ListTodosQuery;
+import amazonaws.demo.todo.OnCreateTodoSubscription;
+import amazonaws.demo.todo.type.CreateTodoInput;
+
+public class MainActivity extends AppCompatActivity {
+
+    private AWSAppSyncClient mAWSAppSyncClient;
+    private AppSyncSubscriptionCall subscriptionWatcher;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        mAWSAppSyncClient = AWSAppSyncClient.builder()
+                .context(getApplicationContext())
+                .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+                .build();
+        query();
+        mutation();
+        subscribe();
+    }
+
+    private void subscribe(){
+        OnCreateTodoSubscription subscription = OnCreateTodoSubscription.builder().build();
+        subscriptionWatcher = mAWSAppSyncClient.subscribe(subscription);
+        subscriptionWatcher.execute(subCallback);
+    }
+
+    private AppSyncSubscriptionCall.Callback subCallback = new AppSyncSubscriptionCall.Callback() {
+        @Override
+        public void onResponse(@Nonnull Response response) {
+            Log.i("Response", response.data().toString());
+        }
+
+        @Override
+        public void onFailure(@Nonnull ApolloException e) {
+            Log.e("Error", e.toString());
+        }
+
+        @Override
+        public void onCompleted() {
+            Log.i("Completed", "Subscription completed");
+        }
+    };
+
+    public void query(){
+        mAWSAppSyncClient.query(ListTodosQuery.builder().build())
+                .responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK)
+                .enqueue(todosCallback);
+    }
+
+    private GraphQLCall.Callback<ListTodosQuery.Data> todosCallback = new GraphQLCall.Callback<ListTodosQuery.Data>() {
+        @Override
+        public void onResponse(@Nonnull Response<ListTodosQuery.Data> response) {
+            Log.i("Results", response.data().listTodos().items().toString());
+        }
+
+        @Override
+        public void onFailure(@Nonnull ApolloException e) {
+            Log.e("ERROR", e.toString());
+        }
+    };
+
+    public void mutation(){
+
+        CreateTodoInput createTodoInput = CreateTodoInput.builder().
+                name("Use AppSync").
+                description("Realtime and Offline").
+                build();
+
+        mAWSAppSyncClient.mutate(CreateTodoMutation.builder().input(createTodoInput).build())
+                .enqueue(mutationCallback);
+
+    }
+
+    private GraphQLCall.Callback<CreateTodoMutation.Data> mutationCallback = new GraphQLCall.Callback<CreateTodoMutation.Data>() {
+        @Override
+        public void onResponse(@Nonnull Response<CreateTodoMutation.Data> response) {
+            Log.i("Results", "Added Todo");
+        }
+
+        @Override
+        public void onFailure(@Nonnull ApolloException e) {
+            Log.e("Error", e.toString());
+        }
+    };
+}
+```
+
 ## API Category Project Structure
 
 At a high level, the transform libraries take a schema defined in the GraphQL Schema Definition Language (SDL) and converts it into a set of AWS CloudFormation templates and other assets that are deployed as part of `amplify push`. The full set of assets uploaded can be found at *amplify/backend/api/YOUR-API-NAME/build*.
@@ -1758,89 +2593,7 @@ When creating APIs, you will make changes to the other files and directories in 
 |-- Post.graphql
 ```
 
-### Common Patterns for the API Category
-
-The Amplify CLI exposes the GraphQL Transform libraries to help create APIs with common
-patterns and best practices baked in but it also provides number of escape hatches for
-those situations where you might need a bit more control. Here are a few common use cases
-you might find useful.
-
-#### Filter Subscriptions by model fields and/or relations
-
-In multi-tenant scenarios, subscribed clients may not always want to receive every change for a model type. These are useful features for limiting the objects that are returned by a client subscription. It is crucial to remember that subscriptions can only filter by what fields are returned from the mutation query. Keep in mind, these two methods can be used together to create truly robust filtering options.
-
-Consider this simple schema for our examples:
-
-```
-type Todo @model {
-  id: ID!
-  name: String!
-  description: String
-  comments: [Comment] @connection(name: "TodoComments")
-}
-type Comment @model {
-  id: ID!
-  content: String
-  todo: Todo @connection(name: "TodoComments")
-}
-```
-
-**Filtering by type fields**
-
-This is the simpler method of filtering subscriptions, as it requires one less change to the model than filtering on relations.
-
-1. Add the subscriptions argument on the *@model* directive, telling Amplify to *not* generate subscriptions for your Comment type.
-
-```
-type Comment @model(subscriptions: null) {
-  id: ID!
-  content: String
-  todo: Todo @connection(name: "TodoComments")
-}
-```
-
-2. Run `amplify push` at this point, as running it after adding the Subscription type will throw an error, claiming you cannot have two Subscription definitions in your schema.
-
-3. After the push, you will need to add the Subscription type to your schema, including whichever scalar Comment fields you wish to use for filtering (content in this case):
-
-```
-type Subscription {
-  onCreateComment(content: String): Comment @aws_subscribe(mutations: "createComment")
-  onUpdateComment(id: ID, content: String): Comment @aws_subscribe(mutations: "updateComment")
-  onDeleteComment(id: ID, content: String): Comment @aws_subscribe(mutations: "deleteComment")
-}
-```
-
-**Filtering by related (*@connection* designated) type**
-
-This is useful when you need to filter by what Todo objects the Comments are connected to. You will need to augment your schema slightly to enable this.
-
-1. Add the subscriptions argument on the *@model* directive, telling Amplify to *not* generate subscriptions for your Comment type. Also, just as importantly, we will be utilizing an auto-generated column from DynamoDB by adding `commentTodoId` to our Comment model:
-
-```
-type Comment @model(subscriptions: null) {
-  id: ID!
-  content: String
-  todo: Todo @connection(name: "TodoComments")
-  commentTodoId: String # This references the commentTodoId field in DynamoDB
-}
-```
-2. You should run `amplify push` at this point, as running it after adding the Subscription type will throw an error, claiming you cannot have two Subscription definitions in your schema.
-
-3. After the push, you will need to add the Subscription type to your schema, including the `commentTodoId` as an optional argument:
-
-```
-type Subscription {
-  onCreateComment(commentTodoId: String): Comment @aws_subscribe(mutations: "createComment")
-  onUpdateComment(id: ID, commentTodoId: String): Comment @aws_subscribe(mutations: "updateComment")
-  onDeleteComment(id: ID, commentTodoId: String): Comment @aws_subscribe(mutations: "deleteComment")
-}
-```
-
-The next time you run `amplify push` or `amplify api gql-compile`, your subscriptions will allow an `id` and/or `commentTodoId` argument on a Comment subscription. As long as your mutation on the Comment type returns the specified argument field from its query, AppSync filters which subscription events will be pushed to your subscribed client.
-
-
-#### Overwrite a resolver generated by the GraphQL Transform
+## Overwriting Resolvers
 
 Let's say you have a simple *schema.graphql*...
 
@@ -1854,7 +2607,9 @@ type Todo @model {
 
 and you want to change the behavior of request mapping template for the *Query.getTodo* resolver that will be generated when the project compiles. To do this you would create a file named `Query.getTodo.req.vtl` in the *resolvers* directory of your API project. The next time you run `amplify push` or `amplify api gql-compile`, your resolver template will be used instead of the auto-generated template. You may similarly create a `Query.getTodo.res.vtl` file to change the behavior of the resolver's response mapping template.
 
-#### Add a custom resolver that targets a DynamoDB table from @model
+## Custom Resolvers
+
+### Add a custom resolver that targets a DynamoDB table from @model
 
 This is useful if you want to write a more specific query against a DynamoDB table that was created by *@model*. For example, assume you had this schema with two *@model* types and a pair of *@connection* directives.
 
@@ -1874,7 +2629,7 @@ type Comment @model {
 
 This schema will generate resolvers for *Query.getTodo*, *Query.listTodos*, *Query.getComment*, and *Query.listComments* at the top level as well as for *Todo.comments*, and *Comment.todo* to implement the *@connection*. Under the hood, the transform will create a global secondary index on the Comment table in DynamoDB but it will not generate a top level query field that queries the GSI because you can fetch the comments for a given todo object via the *Query.getTodo.comments* query path. If you want to fetch all comments for a todo object via a top level query field i.e. *Query.commentsForTodo* then do the following:
 
-1. Add the desired field to your *schema.graphql*.
+* Add the desired field to your *schema.graphql*.
 
 ```
 // ... Todo and Comment types from above
@@ -1888,7 +2643,7 @@ type Query {
 }
 ```
 
-2. Add a resolver resource to a stack in the *stacks/* directory.
+* Add a resolver resource to a stack in the *stacks/* directory.
 
 ```
 {
@@ -1935,7 +2690,7 @@ type Query {
 }
 ```
 
-3. Write the resolver templates.
+* Write the resolver templates.
 
 ```
 ## Query.commentsForTodo.req.vtl **
@@ -1968,13 +2723,13 @@ type Query {
 $util.toJson($ctx.result)
 ```
 
-#### Add a custom resolver that targets an AWS Lambda function
+### Add a custom resolver that targets an AWS Lambda function
 
 Velocity is useful as a fast, secure environment to run arbitrary code but when it comes to writing complex business logic you can just as easily call out to an AWS lambda function. Here is how:
 
-1. First create a function by running `amplify add function`. The rest of the example assumes you created a function named "echofunction" via the `amplify add function` command. If you already have a function then you may skip this step.
+* First create a function by running `amplify add function`. The rest of the example assumes you created a function named "echofunction" via the `amplify add function` command. If you already have a function then you may skip this step.
 
-2. Add a field to your schema.graphql that will invoke the AWS Lambda function.
+* Add a field to your schema.graphql that will invoke the AWS Lambda function.
 
 ```
 type Query {
@@ -1982,7 +2737,7 @@ type Query {
 }
 ```
 
-3. Add the function as an AppSync data source in the stack's *Resources* block.
+* Add the function as an AppSync data source in the stack's *Resources* block.
 
 ```
 "EchoLambdaDataSource": {
@@ -2011,7 +2766,7 @@ type Query {
 }
 ```
 
-4. Create an AWS IAM role that allows AppSync to invoke the lambda function on your behalf to the stack's *Resources* block.
+* Create an AWS IAM role that allows AppSync to invoke the lambda function on your behalf to the stack's *Resources* block.
 
 ```
 "EchoLambdaDataSourceRole": {
@@ -2063,7 +2818,7 @@ type Query {
 }
 ```
 
-5. Create an AppSync resolver in the stack's *Resources* block.
+* Create an AppSync resolver in the stack's *Resources* block.
 
 ```
 "QueryEchoResolver": {
@@ -2110,7 +2865,7 @@ type Query {
 }
 ```
 
-6. Create the resolver templates in the project's *resolvers* directory.
+* Create the resolver templates in the project's *resolvers* directory.
 
 **resolvers/Query.echo.req.vtl**
 
@@ -2142,7 +2897,7 @@ query {
 }
 ```
 
-#### Add a custom geolocation search resolver that targets an Elasticsearch domain created by @searchable
+### Add a custom geolocation search resolver that targets an Elasticsearch domain created by @searchable
 
 To add a geolocation search capabilities to an API add the *@searchable* directive to an *@model* type.
 
@@ -2157,7 +2912,7 @@ type Todo @model @searchable {
 
 The next time you run `amplify push`, an Amazon Elasticsearch domain will be created and configured such that data automatically streams from DynamoDB into Elasticsearch. The *@searchable* directive on the Todo type will generate a *Query.searchTodos* query field and resolver but it is not uncommon to want more specific search capabilities. You can write a custom search resolver by following these steps:
 
-1. Add the relevant location and search fields to the schema.
+* Add the relevant location and search fields to the schema.
 
 ```
 type Location {
@@ -2180,7 +2935,7 @@ type Query {
 }
 ```
 
-2. Create the resolver record in the stack's *Resources* block.
+* Create the resolver record in the stack's *Resources* block.
 
 ```
 "QueryNearbyTodos": {
@@ -2222,7 +2977,7 @@ type Query {
 }
 ```
 
-3. Write the resolver templates.
+* Write the resolver templates.
 
 ```
 ## Query.nearbyTodos.req.vtl
@@ -2271,13 +3026,13 @@ $util.toJson({
 })
 ```
 
-4. Run `amplify push`
+* Run `amplify push`
 
 Amazon Elasticsearch domains can take a while to deploy. Take this time to read up on Elasticsearch to see what capabilities you are about to unlock.
 
 [Getting Started with Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started.html)
 
-4. After the update is complete but before creating any objects, update your Elasticsearch index mapping.
+* After the update is complete but before creating any objects, update your Elasticsearch index mapping.
 
 An index mapping tells Elasticsearch how it should treat the data that you are trying to store. By default, if we create an object with field `"location": { "lat": 40, "lon": -40 }`, Elasticsearch will treat that data as an *object* type when in reality we want it to be treated as a *geo_point*. You use the mapping APIs to tell Elasticsearch how to do this.
 
@@ -2298,7 +3053,7 @@ PUT /todo/_mapping/doc
 }
 ```
 
-5. Use your API to create objects and immediately search them.
+* Use your API to create objects and immediately search them.
 
 After updating the Elasticsearch index mapping, open the AWS AppSync console with `amplify api console` and try out these queries.
 
@@ -2341,7 +3096,7 @@ query NearbyTodos {
 
 When you run *Mutation.createTodo*, the data will automatically be streamed via AWS Lambda into Elasticsearch such that it nearly immediately available via *Query.nearbyTodos*.
 
-## AWS CloudFormation Template Parameters
+## Configurable Parameters
 
 Much of the behavior of the GraphQL Transform logic is configured by passing arguments to the directives in the GraphQL SDL definition. However, certain other things are configured by passing parameters to the CloudFormation template itself. This provides escape hatches without leaking too many implementation details into the SDL definition. You can pass values to these parameters by adding them to the `parameters.json` file in the API directory of your amplify project.
 
@@ -2456,282 +3211,6 @@ Much of the behavior of the GraphQL Transform logic is configured by passing arg
   "ElasticsearchEBSVolumeGB": 10
 }
 ```
-
-## S3 Objects
-
-The GraphQL Transform, Amplify CLI, and Amplify Library make it simple to add complex object
-support with Amazon S3 to an application.
-
-### Basics
-
-At a minimum the steps to add S3 Object support are as follows:
-
-**Create a Amazon S3 bucket to hold files via `amplify add storage`.**
-
-**Create a user pool in Amazon Cognito User Pools via `amplify add auth`.**
-
-**Create a GraphQL API via `amplify add api` and add the following type definition:**
-
-```
-type S3Object {
-  bucket: String!
-  region: String!
-  key: String!
-}
-```
-
-**Reference the S3Object type from some `@model` type:**
-
-```
-type Picture @model @auth(rules: [{allow: owner}]) {
-  id: ID!
-  name: String
-  owner: String
-
-  # Reference the S3Object type from a field.
-  file: S3Object
-}
-```
-
-The GraphQL Transform handles creating the relevant input types and will store pointers to S3 objects in Amazon DynamoDB. The AppSync SDKs and Amplify library handle uploading the files to S3 transparently.
-
-**Run a mutation with s3 objects from your client app:**
-
-```
-mutation ($input: CreatePictureInput!) {
-  createPicture(input: $input) {
-    id
-    name
-    visibility
-    owner
-    createdAt
-    file {
-      region
-      bucket
-      key
-    }
-  }
-}
-```
-
-### Handling Common Errors
-
-
-
-### Tutorial (S3 & React)
-
-**First create an amplify project:**
-
-```bash
-amplify init
-```
-
-**Next add the `auth` category to enable Amazon Cognito User Pools:**
-
-```bash
-amplify add auth
-
-# You may use the default settings.
-```
-
-**Then add the `storage` category and configure an Amazon S3 bucket to store files.**
-
-```bash
-amplify add storage
-
-# Select "Content (Images, audio, video, etc.)"
-# Follow the rest of the instructions and customize as necessary.
-```
-
-**Next add the `api` category and configure a GraphQL API with Amazon Cognito User Pools enabled.**
-
-```bash
-amplify add api
-
-# Select the graphql option and then Amazon Cognito User Pools option.
-# When asked if you have a schema, say No.
-# Select one of the default samples. You can change it later.
-# Choose to edit the schema and it will open your schema.graphql in your editor.
-```
-
-**Once your `schema.graphql` is open in your editor of choice, enter the following:**
-
-```
-type Picture @model @auth(rules: [{allow: owner}]) {
-  id: ID!
-  name: String
-  owner: String
-  visibility: Visibility
-  file: S3Object
-  createdAt: String
-}
-
-type S3Object {
-  bucket: String!
-  region: String!
-  key: String!
-}
-
-enum Visibility {
-  public
-  private
-}
-```
-
-**After defining your API's schema.graphql deploy it to AWS.**
-
-```bash
-amplify push
-```
-
-**In your top level `App.js` (or similar), instantiate the AppSync client and include
-the necessary `<Provider />` and `<Rehydrated />` components.**
-
-```javascript
-import React, { Component } from 'react';
-import Amplify, { Auth } from 'aws-amplify';
-import { withAuthenticator } from 'aws-amplify-react';
-import AWSAppSyncClient from "aws-appsync";
-import { Rehydrated } from 'aws-appsync-react';
-import { ApolloProvider } from 'react-apollo';
-import awsconfig from './aws-exports';
-
-// Amplify init
-Amplify.configure(awsconfig);
-
-const GRAPHQL_API_REGION = awsconfig.aws_appsync_region
-const GRAPHQL_API_ENDPOINT_URL = awsconfig.aws_appsync_graphqlEndpoint
-const S3_BUCKET_REGION = awsconfig.aws_user_files_s3_bucket_region
-const S3_BUCKET_NAME = awsconfig.aws_user_files_s3_bucket
-const AUTH_TYPE = awsconfig.aws_appsync_authenticationType
-
-// AppSync client instantiation
-const client = new AWSAppSyncClient({
-  url: GRAPHQL_API_ENDPOINT_URL,
-  region: GRAPHQL_API_REGION,
-  auth: {
-    type: AUTH_TYPE,
-    // Get the currently logged in users credential from 
-    // Amazon Cognito User Pools.
-    jwtToken: async () => (
-        await Auth.currentSession()).getAccessToken().getJwtToken(),
-  },
-  // Uses Amazon IAM credentials to authorize requests to S3.
-  complexObjectsCredentials: () => Auth.currentCredentials(),
-});
-
-// Define you root app component
-class App extends Component {
-    render() {
-        // ... your code here
-    }
-}
-
-const AppWithAuth = withAuthenticator(App, true);
-
-export default () => (
-  <ApolloProvider client={client}>
-    <Rehydrated>
-      <AppWithAuth />
-    </Rehydrated>
-  </ApolloProvider>
-);
-```
-
-**Then define a component and call a mutation to create a Picture object and upload
-a file.**
-
-```javascript
-import React, { Component } from 'react';
-import gql from 'graphql-tag';
-
-// Define your component
-class AddPhoto extends Component {
-    render() {
-        <Button onClick={async () => {
-            const visibility = 'private';
-            const { identityId } = await Auth.currentCredentials();
-            const name = 'Friendly File Name';
-            const file = {
-                bucket: this.props.s3Bucket,
-                key: `${visibility}/${identityId}/${this.state.selectedFile.name}`,
-                region,
-                mimeType,
-                
-                // This comes from an HTML file input element.
-                // <input type="file" onChange={this.updateStateOnFileSelected} />
-                localUri: this.state.selectedFile,
-            };
-            // Fires the createPicture mutation and transparently uploads the
-            // file to Amazon S3.
-            this.props.createPicture({ name, visibility, file });
-        }} />
-    }
-}
-
-// Write your mutation
-const MutationCreatePicture = gql`
-mutation ($input: CreatePictureInput!) {
-  createPicture(input: $input) {
-    id
-    name
-    visibility
-    owner
-    createdAt
-    file {
-      region
-      bucket
-      key
-    }
-  }
-}`;
-
-// Decorate your component with your mutation. 
-export default graphql(
-    MutationCreatePicture,
-    {
-        options: {
-            // Tell the SDK how to store the new "Picture" 
-            // object in the offline cache.
-            update: (proxy, { data: { createPicture } }) => {
-                const query = QueryListPictures;
-                const data = proxy.readQuery({ query });
-                data.listPictures.items = [
-                    ...data.listPictures.items,
-                    createPicture
-                ];
-                proxy.writeQuery({ query, data });
-            }
-        },
-        props: ({ ownProps, mutate }) => ({
-
-            // Add a "createPicture" prop that will trigger 
-            // our mutation from our component.
-            createPicture: photo => mutate({
-
-                // Pass our photo (NOTE: with the file object as variables)
-                // The AppSync SDK will know how to upload the file to S3.
-                variables: { input: photo },
-
-                // Optionally provide an optimistic update rule 
-                // for snappy UIs.
-                optimisticResponse: () => ({
-                    createPicture: {
-                        ...photo,
-                        id: uuid(),
-                        createdAt: new Date().toISOString(),
-                        __typename: 'Picture',
-                        file: { ...photo.file, __typename: 'S3Object' }
-                    }
-                }),
-            }),
-        }),
-    }
-)(AddPhoto);
-```
-
-> See [https://github.com/aws-samples/aws-amplify-graphql](https://github.com/aws-samples/aws-amplify-graphql) for the full code.
-
 ## Examples
 
 ### Simple Todo
@@ -2979,352 +3458,83 @@ mutation Delete($noteId: ID!) {
   }
 }
 ```
+### Common Patterns for the API Category
 
-## Automatically Import Existing DataSources
+The Amplify CLI exposes the GraphQL Transform libraries to help create APIs with common
+patterns and best practices baked in but it also provides number of escape hatches for
+those situations where you might need a bit more control. Here are a few common use cases
+you might find useful.
 
-The Amplify CLI currently supports importing serverless Amazon Aurora MySQL 5.6 databases running in the us-east-1 region. The following instruction show how to create an Amazon Aurora Serverless database, import this database as a GraphQL data source and test it.
+#### Filter Subscriptions by model fields and/or relations
 
-**First, if you do not have an Amplify project with a GraphQL API create one using these simple commands.**
+In multi-tenant scenarios, subscribed clients may not always want to receive every change for a model type. These are useful features for limiting the objects that are returned by a client subscription. It is crucial to remember that subscriptions can only filter by what fields are returned from the mutation query. Keep in mind, these two methods can be used together to create truly robust filtering options.
 
-```bash
-amplify init
-amplify add api
-```
-
-**Go to the AWS RDS console and click "Create database".**
-
-
-![Create cluster]({{media_base}}/create-database.png)
-
-
-**Select "Serverless" for the capacity type and fill in some information.**
-
-
-![Database details]({{media_base}}/database-details.png)
-
-
-**Click next and configure any advanced settings. Click "Create database"**
-
-
-![Database details]({{media_base}}/configure-database.png)
-
-
-**After creating the database, wait for the "Modify" button to become clickable. When ready, click "Modify" and scroll down to enable the "Data API"**
-
-
-![Database details]({{media_base}}/data-api.png)
-
-
-**Click continue, verify the changes and apply them immediately. Click "Modify cluster"**
-
-
-![Database details]({{media_base}}/modify-after-data-api.png)
-
-
-**Next click on "Query Editor" in the left nav bar and fill in connection information when prompted.**
-
-
-![Database details]({{media_base}}/connect-to-db-from-queries.png)
-
-
-**After connecting, create a database and some tables.**
-
-
-![Database details]({{media_base}}/create-a-database-and-schema.png)
-
-```sql
-CREATE DATABASE MarketPlace;
-USE MarketPlace;
-CREATE TABLE Customers (
-  id int(11) NOT NULL PRIMARY KEY,
-  name varchar(50) NOT NULL,
-  phone varchar(50) NOT NULL,
-  email varchar(50) NOT NULL
-);
-CREATE TABLE Orders (
-  id int(11) NOT NULL PRIMARY KEY,
-  customerId int(11) NOT NULL,
-  orderDate datetime DEFAULT CURRENT_TIMESTAMP,
-  KEY `customerId` (`customerId`),
-  CONSTRAINT `customer_orders_ibfk_1` FOREIGN KEY (`customerId`) REFERENCES `Customers` (`id`)
-);
-```
-
-
-**Return to your command line and run `amplify api add-graphql-datasource` from the root of your amplify project.**
-
-
-![Add GraphQL Data Source]({{media_base}}/add-graphql-datasource.png)
-
-**Push your project to AWS with `amplify push`.**
-
-Run `amplify push` to push your project to AWS. You can then open the AppSync console with `amplify api console`, to try interacting with your RDS database via your GraphQL API.
-
-**Interact with your SQL database from GraphQL**
-
-Your API is now configured to work with your serverless Amazon Aurora MySQL database. Try running a mutation to create a customer from the [AppSync Console](https://console.aws.amazon.com/appsync/home) and then query it from the [RDS Console](https://console.aws.amazon.com/rds/home) to double check.
-
-Create a customer:
+Consider this simple schema for our examples:
 
 ```
-mutation CreateCustomer {
-  createCustomers(createCustomersInput: {
-    id: 1,
-    name: "Hello",
-    phone: "111-222-3333",
-    email: "customer1@mydomain.com"
-  }) {
-    id
-    name
-    phone
-    email
-  }
-}
-```
-
-![GraphQL Results]({{media_base}}/graphql-results.png)
-
-Then open the RDS console and run a simple select statement to see the new customer:
-
-```sql
-USE MarketPlace;
-SELECT * FROM Customers;
-```
-
-![SQL Results]({{media_base}}/sql-results.png)
-
-### How does this work?
-
-The `add-graphql-datasource` will add a custom stack to your project that provides a basic set of functionality for working
-with an existing data source. You can find the new stack in the `stacks/` directory, a set of new resolvers in the `resolvers/` directory, and will also find a few additions to your `schema.graphql`. You may edit details in the custom stack and/or resolver files without worry. You may run `add-graphql-datasource` again to update your project with changes in the database but be careful as these will overwrite any existing templates in the `stacks/` or `resolvers/` directories. When using multiple environment with the Amplify CLI, you will be asked to configure the data source once per environment.
-
-
-## Writing Custom Transformers
-
-This document outlines the process of writing custom GraphQL transformers. The `graphql-transform` package serves as a lightweight framework that takes as input a GraphQL SDL document
-and a list of **GraphQL Transformers** and returns a cloudformation document that fully implements the data model defined by the input schema. A GraphQL Transformer is a class the defines a directive and a set of functions that manipulate a context and are called whenever that directive is found in an input schema.
-
-For example, the AWS Amplify CLI calls the GraphQL Transform like this:
-
-```javascript
-import GraphQLTransform from 'graphql-transformer-core'
-import DynamoDBModelTransformer from 'graphql-dynamodb-transformer'
-import ModelConnectionTransformer from 'graphql-connection-transformer'
-import ModelAuthTransformer from 'graphql-auth-transformer'
-import AppSyncTransformer from 'graphql-appsync-transformer'
-import VersionedModelTransformer from 'graphql-versioned-transformer'
-
-// Note: This is not exact as we are omitting the @searchable transformer.
-const transformer = new GraphQLTransform({
-    transformers: [
-        new AppSyncTransformer(),
-        new DynamoDBModelTransformer(),
-        new ModelAuthTransformer(),
-        new ModelConnectionTransformer(),
-        new VersionedModelTransformer()
-    ]
-})
-const schema = `
-type Post @model {
-    id: ID!
-    title: String!
-    comments: [Comment] @connection(name: "PostComments")
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+  comments: [Comment] @connection(name: "TodoComments")
 }
 type Comment @model {
-    id: ID!
-    content: String!
-    post: Post @connection(name: "PostComments")
-}
-`
-const cfdoc = transformer.transform(schema);
-const out = await createStack(cfdoc, name, region)
-console.log('Application creation successfully started. It may take a few minutes to finish.')
-```
-
-As shown above the `GraphQLTransform` class takes a list of transformers and later is able to transform
-GraphQL SDL documents into CloudFormation documents.
-
-### The Transform Lifecycle
-
-At a high level the `GraphQLTransform` takes the input SDL, parses it, and validates the schema
-is complete and satisfies the directive definitions. It then iterates through the list of transformers
-passed to the transform when it was created and calls `.before()` if it exists. It then walks the parsed AST 
-and calls the relevant transformer methods (e.g. `object()`, `field()`, `interface()` etc) as directive matches are found.
-In reverse order it then calls each transformer's `.after()` method if it exists, and finally returns the context's finished template.
-
-Here is pseudo code for how `const cfdoc = transformer.transform(schema);` works.
-
-```javascript
-function transform(schema: string): Template {
-    
-    // ...
-
-    for (const transformer of this.transformers) {
-        // Run the before function one time per transformer.
-        if (isFunction(transformer.before)) {
-            transformer.before(context)
-        }
-        // Transform each definition in the input document.
-        for (const def of context.inputDocument.definitions as TypeDefinitionNode[]) {
-            switch (def.kind) {
-                case 'ObjectTypeDefinition':
-                    this.transformObject(transformer, def, context)
-                    // Walk the fields and call field transformers.
-                    break
-                case 'InterfaceTypeDefinition':
-                    this.transformInterface(transformer, def, context)
-                    // Walk the fields and call field transformers.
-                    break;
-                case 'ScalarTypeDefinition':
-                    this.transformScalar(transformer, def, context)
-                    break;
-                case 'UnionTypeDefinition':
-                    this.transformUnion(transformer, def, context)
-                    break;
-                case 'EnumTypeDefinition':
-                    this.transformEnum(transformer, def, context)
-                    break;
-                case 'InputObjectTypeDefinition':
-                    this.transformInputObject(transformer, def, context)
-                    break;
-                // Note: Extension and operation definition nodes are not supported.
-                default:
-                    continue
-            }
-        }
-    }
-    // After is called in the reverse order as if they were popping off a stack.
-    let reverseThroughTransformers = this.transformers.length - 1;
-    while (reverseThroughTransformers >= 0) {
-        const transformer = this.transformers[reverseThroughTransformers]
-        if (isFunction(transformer.after)) {
-            transformer.after(context)
-        }
-        reverseThroughTransformers -= 1
-    }
-    // Return the template.
-    // In the future there will likely be a formatter concept here.
-    return context.template
+  id: ID!
+  content: String
+  todo: Todo @connection(name: "TodoComments")
 }
 ```
 
-### The Transformer Context
+**Filtering by type fields**
 
-The transformer context serves like an accumulator that is manipulated by transformers. See the code to see what methods are available
-to you.
+This is the simpler method of filtering subscriptions, as it requires one less change to the model than filtering on relations.
 
-[https://github.com/aws-amplify/amplify-cli/blob/7f0cb11915fa945ad9d518e8f9a8f74378fef5de/packages/graphql-transformer-core/src/TransformerContext.ts](https://github.com/aws-amplify/amplify-cli/blob/7f0cb11915fa945ad9d518e8f9a8f74378fef5de/packages/graphql-transformer-core/src/TransformerContext.ts)
-
-> For now, the transform only support cloudformation and uses a library called `cloudform` to create cloudformation resources in code. In the future we would like to support alternative deployment mechanisms like terraform.
-
-### Example
-
-As an example let's walk through how we implemented the @versioned transformer. The first thing to do is to define a directive for our transformer.
-
-```javascript
-const VERSIONED_DIRECTIVE = `
-    directive @versioned(versionField: String = "version", versionInput: String = "expectedVersion") on OBJECT
-`
-```
-
-Our `@versioned` directive can be applied to `OBJECT` type definitions and automatically adds object versioning and conflict detection to an APIs mutations. For example, we might write
+1. Add the subscriptions argument on the *@model* directive, telling Amplify to *not* generate subscriptions for your Comment type.
 
 ```
-# Any mutations that deal with the Post type will ask for an `expectedVersion`
-# input that will be checked using DynamoDB condition expressions.
-type Post @model @versioned {
-    id: ID!
-    title: String!
-    version: Int!
+type Comment @model(subscriptions: null) {
+  id: ID!
+  content: String
+  todo: Todo @connection(name: "TodoComments")
 }
 ```
 
-> Note: @versioned depends on @model so we must pass `new DynamoDBModelTransformer()` before `new VersionedModelTransformer()`. Also note that `new AppSyncTransformer()` must go first for now. In the future we can add a dependency mechanism and topologically sort it ourselves.
+2. Run `amplify push` at this point, as running it after adding the Subscription type will throw an error, claiming you cannot have two Subscription definitions in your schema.
 
-The next step after defining the directive is to implement the transformer's business logic. The `graphql-transformer-core` package makes this a little easier
-by exporting a common class through which we may define transformers. User's extend the `Transformer` class and implement the required functions.
+3. After the push, you will need to add the Subscription type to your schema, including whichever scalar Comment fields you wish to use for filtering (content in this case):
 
-```javascript
-export class Transformer {
-    before?: (acc: TransformerContext) => void
-    after?: (acc: TransformerContext) => void
-    object?: (definition: ObjectTypeDefinitionNode, directive: DirectiveNode, acc: TransformerContext) => void
-    interface?: (definition: InterfaceTypeDefinitionNode, directive: DirectiveNode, acc: TransformerContext) => void
-    field?: (
-        parent: ObjectTypeDefinitionNode | InterfaceTypeDefinitionNode,
-        definition: FieldDefinitionNode,
-        directive: DirectiveNode,
-        acc: TransformerContext) => void
-    argument?: (definition: InputValueDefinitionNode, directive: DirectiveNode, acc: TransformerContext) => void
-    union?: (definition: UnionTypeDefinitionNode, directive: DirectiveNode, acc: TransformerContext) => void
-    enum?: (definition: EnumTypeDefinitionNode, directive: DirectiveNode, acc: TransformerContext) => void
-    enumValue?: (definition: EnumValueDefinitionNode, directive: DirectiveNode, acc: TransformerContext) => void
-    scalar?: (definition: ScalarTypeDefinitionNode, directive: DirectiveNode, acc: TransformerContext) => void
-    input?: (definition: InputObjectTypeDefinitionNode, directive: DirectiveNode, acc: TransformerContext) => void
-    inputValue?: (definition: InputValueDefinitionNode, directive: DirectiveNode, acc: TransformerContext) => void
+```
+type Subscription {
+  onCreateComment(content: String): Comment @aws_subscribe(mutations: "createComment")
+  onUpdateComment(id: ID, content: String): Comment @aws_subscribe(mutations: "updateComment")
+  onDeleteComment(id: ID, content: String): Comment @aws_subscribe(mutations: "deleteComment")
 }
 ```
 
-Since our `VERSIONED_DIRECTIVE` only specifies `OBJECT` in its **on** condition, we only **NEED* to implement the `object` function. You may also
-implement the `before` and `after` functions which will be called once at the beginning and end respectively of the transformation process.
+**Filtering by related (*@connection* designated) type**
 
-```javascript
-/**
- * Users extend the Transformer class and implement the relevant functions.
- */
-export class VersionedModelTransformer extends Transformer {
+This is useful when you need to filter by what Todo objects the Comments are connected to. You will need to augment your schema slightly to enable this.
 
-    constructor() {
-        super(
-            'VersionedModelTransformer',
-            VERSIONED_DIRECTIVE
-        )
-    }
+1. Add the subscriptions argument on the *@model* directive, telling Amplify to *not* generate subscriptions for your Comment type. Also, just as importantly, we will be utilizing an auto-generated column from DynamoDB by adding `commentTodoId` to our Comment model:
 
-    /**
-     * When a type is annotated with @versioned enable conflict resolution for the type.
-     *
-     * Usage:
-     *
-     * type Post @model @versioned(versionField: "version", versionInput: "expectedVersion") {
-     *   id: ID!
-     *   title: String
-     *   version: Int!
-     * }
-     *
-     * Enabling conflict resolution automatically manages a "version" attribute in
-     * the @model type's DynamoDB table and injects a conditional expression into
-     * the types mutations that actually perform the conflict resolutions by
-     * checking the "version" attribute in the table with the "expectedVersion" passed
-     * by the user.
-     */
-    public object = (def: ObjectTypeDefinitionNode, directive: DirectiveNode, ctx: TransformerContext): void => {
-        // @versioned may only be used on types that are also @model
-        const modelDirective = def.directives.find((dir) => dir.name.value === 'model')
-        if (!modelDirective) {
-            throw new InvalidDirectiveError('Types annotated with @versioned must also be annotated with @model.')
-        }
-
-        const isArg = (s: string) => (arg: ArgumentNode) => arg.name.value === s
-        const getArg = (arg: string, dflt?: any) => {
-            const argument = directive.arguments.find(isArg(arg))
-            return argument ? valueFromASTUntyped(argument.value) : dflt
-        }
-
-        const versionField = getArg('versionField', "version")
-        const versionInput = getArg('versionInput', "expectedVersion")
-        const typeName = def.name.value
-
-        // Make the necessary changes to the context
-        this.augmentCreateMutation(ctx, typeName, versionField, versionInput)
-        this.augmentUpdateMutation(ctx, typeName, versionField, versionInput)
-        this.augmentDeleteMutation(ctx, typeName, versionField, versionInput)
-        this.stripCreateInputVersionedField(ctx, typeName, versionField)
-        this.addVersionedInputToDeleteInput(ctx, typeName, versionInput)
-        this.addVersionedInputToUpdateInput(ctx, typeName, versionInput)
-        this.enforceVersionedFieldOnType(ctx, typeName, versionField)
-    }
-
-    // ... Implement the functions that do the real work by calling the context methods.
+```
+type Comment @model(subscriptions: null) {
+  id: ID!
+  content: String
+  todo: Todo @connection(name: "TodoComments")
+  commentTodoId: String # This references the commentTodoId field in DynamoDB
 }
 ```
+2. You should run `amplify push` at this point, as running it after adding the Subscription type will throw an error, claiming you cannot have two Subscription definitions in your schema.
+
+3. After the push, you will need to add the Subscription type to your schema, including the `commentTodoId` as an optional argument:
+
+```
+type Subscription {
+  onCreateComment(commentTodoId: String): Comment @aws_subscribe(mutations: "createComment")
+  onUpdateComment(id: ID, commentTodoId: String): Comment @aws_subscribe(mutations: "updateComment")
+  onDeleteComment(id: ID, commentTodoId: String): Comment @aws_subscribe(mutations: "deleteComment")
+}
+```
+
+The next time you run `amplify push` or `amplify api gql-compile`, your subscriptions will allow an `id` and/or `commentTodoId` argument on a Comment subscription. As long as your mutation on the Comment type returns the specified argument field from its query, AppSync filters which subscription events will be pushed to your subscribed client.

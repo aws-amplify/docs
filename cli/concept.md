@@ -107,10 +107,12 @@ The `init` command goes through these steps to setup things:
 
 #### Configuration
 
-##### amplify configure
+**amplify configure**
+
 This command will lead the user to set up a new aws IAM user, then save the credentials locally in a named profile, which can then be used by a project for aws access. The user specifies if and what profile is used for a project in the init process and can later change it using the `amplify configure project` command.
 
-##### amplify configure project
+**amplify configure project**
+
 This command allows the user to change the project configuration set during the init process. 
 
 ## Amplify CLI Artifacts

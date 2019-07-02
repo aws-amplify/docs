@@ -54,7 +54,7 @@
 											{% endif %}
 											<div class="feature-list">
 												{% for item in category.subs %}
-													{% if page.url contains item.url %}
+													{% if item.url contains page.url %}
 														<div class='in-this-page js-sections'></div>
 													{% else %}
 														<a href="{% if item.url_external  %}
@@ -84,7 +84,7 @@
 											{% endif %}
 											<div class="feature-list">
 												{% for item in category.subs %}
-													{% if page.url contains item.url %}
+													{% if item.url contains page.url %}
 														<div class='in-this-page js-sections'></div>
 													{% else %}
 														<a href="{% if item.url_external  %}
@@ -113,7 +113,7 @@
 											{% endif %}
 											<div class="feature-list">
 												{% for item in category.subs %}
-													{% if page.url contains item.url %}
+													{% if item.url contains page.url %}
 														<div class='in-this-page js-sections'></div>
 													{% else %}
 														<a href="{% if item.url_external  %}
@@ -300,7 +300,7 @@
 			var isAndroid = (window.location.pathname.indexOf('/android/') >= 0);
 			var isIos = (window.location.pathname.indexOf('/ios/') >= 0);
 			var isJs = (window.location.pathname.indexOf('/js/') >= 0);
-			var isCLI = (window.location.pathname.indexOf('/cli/') >= 0);
+			var isCLI = (window.location.pathname.indexOf('/cli/') >= 0) || (window.location.pathname.indexOf('/cli-toolchain/') >= 0) ;
 			if (isAndroid) {
 				$('#nav-android').show();
 			} else if(isIos) {
