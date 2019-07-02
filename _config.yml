@@ -394,14 +394,10 @@ category_list:
           url: '/js/vue'
           icon: '/images/icons/Misc/Present.svg'
     - category: Toolchain
-      title: CLI Toolchain
+      title: Toolchain
       excerpt: Better developer experience when building and deploying your apps.
       base_url: '/cli/'
       subs:
-        - title: Quickstart
-          excerpt: Setup and Configure a Project with the CLI
-          url: '/cli/quickstart?sdk=js'
-          icon: '/images/icons/Misc/Present.svg'
         - title: Usage
           excerpt: Setup and Configure a Project with the CLI
           url: '/cli/init?sdk=js'
