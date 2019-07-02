@@ -4,7 +4,28 @@ Certain AWS Services can [invoke Lambda functions](https://docs.aws.amazon.com/l
 
 If you wish to modify the functionality of these templates, you are able to do so locally before pushing them.
 
+
+
 ## Auth
+
+Amazon Cognito allows you to set up one Lambda trigger for certain events.  In order to create additional flexibility when configuring Cognito triggers via the CLI, the CLI will create an index file which loops through JavaScript modules.  Each template that you configure is its own JavaScript module.  
+
+You have the opporunity to edit both the index file as well as each module.  For example, when creating a email blacklist [PreSignUp](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-sign-up.html) trigger, you will be asked
+
+```bash
+$ Do you want to edit the local PreSignUp lambda function now? (Y/n)
+
+```
+
+Selecting 'yes' will open the index file in your editor.
+
+You will then be asked if you want to edit the individual JavaScript module for the email blacklist functionality:
+
+```bash
+$ Do you want to edit your email-filter-blacklist function now?
+```
+
+### Auth Templates
 
 The CLI Auth workflow provides the following Lambda trigger templates:
 
@@ -141,7 +162,13 @@ Cognito allows you to configure your User Pool to send an email to your users wh
 
 This trigger template allows you to define an email message with a link to a static S3 bucket that you control, where the user's account will be confirmed and they can then be redirected to a URL of your choice (presumably your application). The URL will automatically contain the username as a query string parameters.
 
-Please note that this trigger template will create an S3 resource.
+Please note that this trigger template will create an S3 resource.  The files that populate the static site are available for edit in `amplify/backend/auth/<your-resource-name>CustomMessage/assets`.  They consist of:
+
+* index.html
+* spinner.js (controls the spinner that appears on the page while users are awaiting confirmation)
+* style.css
+* verify.js (the script which performs the verification request)
+
 
 The following is an example of how to configure the aws-amplify-react authenticator so that it displays a message telling the user to check their email, instead of showing the default 'ConfirmSignUp' component.
 
