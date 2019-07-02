@@ -88,11 +88,11 @@ A configuration file called `aws-exports.js` will be copied to your configured s
 
 #### Configuring Cognito Lambda Triggers
 
-The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your AWS Cognito User Pool.  These can enable you to add custom functionality to your registration and authentication flows.
+The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your AWS Cognito User Pool.  These enable you to add custom functionality to your registration and authentication flows.
 
 There are two ways to setup Lambda Triggers for your Cognito User Pool.
 
-1. In the default Auth CLI workflow, you will be presented with a list of prepared Lambda Trigger templates if you opt to configure advanced settings:
+1. In the default Auth CLI workflow, you will be presented with a list of Lambda Trigger templates if you opt to configure advanced settings:
 
 ```bash
 $ Do you want to enable any of the following capabilities?

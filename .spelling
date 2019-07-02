@@ -302,6 +302,7 @@ aws.cognito.signin.user.admin
 ChallengeName
 myapp
 LoginWithAmazon
+pre-populated
 
 #js/cognito-hosted-ui-federated-identity.md
 oauth2
@@ -448,6 +449,16 @@ gluegun
 gluegun's
 runtime
 https
+
+# cli/triggers.md
+Lambda
+reCaptcha
+captcha
+CreateAuthChallenge
+DefineAuthChallenge
+VerifyAuthChallengeResponse
+VerifyAuthChallengeResponse
+react-google-recaptcha
 
 # cli/init.md
 accessKey
