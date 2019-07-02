@@ -133,8 +133,6 @@ If your manually-configured Lambda Triggers require enhanced permissions, you ca
 
 The pre-populated templates provided by the Amplify CLI can be found [here]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli/triggers).
 
-##### Custom Auth Challenge
-
 ##### Configure Your App
 
 In your app's entry point i.e. App.js, import and load the configuration file:
