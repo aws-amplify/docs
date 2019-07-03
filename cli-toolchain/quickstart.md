@@ -231,7 +231,7 @@ $ amplify add api
 ❯ GraphQL 
   REST
 ```
-To learn more, take a look at our [GraphQL Transformer docs](https://aws-amplify.github.io/docs/cli-toolchain/graphql#quick-start)
+To learn more, take a look at our [GraphQL Transformer docs]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/graphql#quick-start)
 
 
 ### Functions Example
