@@ -21,8 +21,8 @@ The Amplify Command Line Interface (CLI) is a unified toolchain to create, integ
     ```
 
 * Installation & Configuration setup walk-through video
-
-    [![Amplify CLI](http://img.youtube.com/vi/fWbM5DLh25U/0.jpg)](http://www.youtube.com/watch?v=fWbM5DLh25U "Amplify CLI")
+<iframe width="600" height="345" src="https://www.youtube.com/embed/fWbM5DLh25U">
+</iframe>
 
 ## Concepts
 
