@@ -104,12 +104,13 @@ Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws
 
 ```bash
     apply plugin: 'com.android.application'
-    apply plugin: 'com.amazonaws.appsync'
+    apply plugin: 'com.amazonaws.appsync' // REQUIRED
+    
     android {
         // Typical items
     }
     dependencies {
-        // Typical dependencies
+        // REQUIRED: Typical dependencies
         implementation 'com.amazonaws:aws-android-sdk-appsync:2.9.+'
         implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
         implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
