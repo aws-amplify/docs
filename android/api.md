@@ -228,28 +228,28 @@ To add data you need to run a GraphQL mutation. The syntax of the callback is `G
 Finally, it's time to set up a subscription to real-time data. The callback is just `AppSyncSubscriptionCall.Callback` and you invoke it with a client `.subscribe()` call and pass in a builder with syntax of `{NAME}Subscription.builder()` where `{NAME}` comes from the GraphQL statements that `amplify codegen` and Gradle build created. Note that the AppSync console and Amplify GraphQL transformer have a common nomenclature that puts the word `On` in front of a subscription as in the following example:
 
 ```java
-    private AppSyncSubscriptionCall subscriptionWatcher;
+    private AppSyncSubscriptionCall<OnCreateTodoSubscription.Data> subscriptionWatcher;
 
-    private void subscribe(){
+    private void subscribe() {
         OnCreateTodoSubscription subscription = OnCreateTodoSubscription.builder().build();
         subscriptionWatcher = mAWSAppSyncClient.subscribe(subscription);
         subscriptionWatcher.execute(subCallback);
     }
 
-    private AppSyncSubscriptionCall.Callback subCallback = new AppSyncSubscriptionCall.Callback() {
+    private AppSyncSubscriptionCall.Callback<OnCreateTodoSubscription.Data> subCallback = new AppSyncSubscriptionCall.Callback<OnCreateTodoSubscription.Data>() {
         @Override
-        public void onResponse(@Nonnull Response response) {
-            Log.i("Response", response.data().toString());
+        public void onResponse(@Nonnull Response<OnCreateTodoSubscription.Data> response) {
+            Log.i("Subscription", response.data().toString());
         }
 
         @Override
         public void onFailure(@Nonnull ApolloException e) {
-            Log.e("Error", e.toString());
+            Log.e("Subscription", e.toString());
         }
 
         @Override
         public void onCompleted() {
-            Log.i("Completed", "Subscription completed");
+            Log.i("Subscription", "Subscription completed");
         }
     };
 ```
