@@ -53,9 +53,9 @@
 												<p class="gray-section-head hidden-xs">{{ category.title }}</p>
 											{% endif %}
 											<div class="feature-list">
-                                                {% for item in category.subs %}
-                                                    {% assign cleanItemUrl = item.url | split: '?' | first %}
-                                                    {% if page.url contains cleanItemUrl %}
+												{% for item in category.subs %}
+													{% assign cleanItemUrl = item.url | split: '?' | first %}
+													{% if page.url contains cleanItemUrl %}
 														<div class='in-this-page js-sections'></div>
 													{% else %}
 														<a href="{% if item.url_external  %}
@@ -85,8 +85,8 @@
 											{% endif %}
 											<div class="feature-list">
 												{% for item in category.subs %}
-                                                    {% assign cleanItemUrl = item.url | split: '?' | first %}
-                                                    {% if page.url contains cleanItemUrl %}
+													{% assign cleanItemUrl = item.url | split: '?' | first %}
+													{% if page.url contains cleanItemUrl %}
 														<div class='in-this-page js-sections'></div>
 													{% else %}
 														<a href="{% if item.url_external  %}
@@ -115,8 +115,8 @@
 											{% endif %}
 											<div class="feature-list">
 												{% for item in category.subs %}
-                                                    {% assign cleanItemUrl = item.url | split: '?' | first %}
-                                                    {% if page.url contains cleanItemUrl %}
+													{% assign cleanItemUrl = item.url | split: '?' | first %}
+													{% if page.url contains cleanItemUrl %}
 														<div class='in-this-page js-sections'></div>
 													{% else %}
 														<a href="{% if item.url_external  %}
