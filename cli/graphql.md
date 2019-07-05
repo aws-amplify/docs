@@ -1785,7 +1785,7 @@ type Comment @model {
 }
 ```
 
-##### Filtering by type fields
+**Filtering by type fields**
 
 This is the simpler method of filtering subscriptions, as it requires one less change to the model than filtering on relations.
 
@@ -1811,7 +1811,7 @@ type Subscription {
 }
 ```
 
-##### Filtering by related (*@connection* designated) type
+**Filtering by related (*@connection* designated) type**
 
 This is useful when you need to filter by what Todo objects the Comments are connected to. You will need to augment your schema slightly to enable this.
 
