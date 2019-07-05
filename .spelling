@@ -355,6 +355,7 @@ TimeWatched
 eventValue
 
 # cli/graphql.md
+UpdateTable
 redirect_to
 graphql
 sdk

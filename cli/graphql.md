@@ -1530,6 +1530,8 @@ global secondary indexes (GSIs) on the generated tables on your behalf. In the f
 are investigating using adjacency lists along side GSIs for different use cases that are
 connection heavy.
 
+> **Note** The `@connection` directive manages these GSIs under the hood but there are limitations to be aware of. After you have pushed a `@connection` directive you should not try to change it. If you try to change it, the DynamoDB UpdateTable operation will fail due to one of a set of service limitations around changing GSIs. Should you need to change a `@connection`, you should add a new `@connection` that implements the new access pattern, update your application to use the new `@connection`, and then delete the old `@connection` when it's no longer needed.
+
 ### @versioned
 
 The `@versioned` directive adds object versioning and conflict resolution to a type.
