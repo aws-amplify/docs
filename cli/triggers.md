@@ -37,6 +37,8 @@ This template will configure three triggers: [CreateAuthChallenge](https://docs.
 
 The first two will essentially allow the standard username/password flow to execute unimpeded, while VerifyAuthChallengeResponse will run when the `Auth.sendCustomChallenge` function is called with the data that is returned when the user interacts with the Google reCaptcha component.  The VerifyAuthChallengeResponse Lambda function will subsequently execute a POST request to Google, and will pass the success or failure of the reCaptcha interaction back to Cognito.
 
+#### React Sample
+
 The following code sample demonstrates how to create a custom ConfirmSignIn component in React using the react-google-recaptcha npm package.
 
 ```js
@@ -150,6 +152,82 @@ export default MyApp;
 
 ```
 
+#### Angular Sample
+
+The following code sample demonstrates how to create a custom ConfirmSignIn component in Angular using the ng-recaptcha npm package.
+
+Be sure to follow all instructions for [setting up an Angular application]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/angular) with aws-amplify-angular, and [configure your Amplify instance]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/authentication#switching-authentication-flow-type) to use the CUSTOM_AUTH flow.
+
+app.module.ts:
+```js
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
+import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
+import { RecaptchaModule } from 'ng-recaptcha';
+import { FormsModule } from '@angular/forms';
+
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AmplifyAngularModule,
+    FormsModule,
+    RecaptchaModule,
+  ],
+  providers: [AmplifyService],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+app.component.ts:
+```js
+import { Component } from '@angular/core';
+import { AmplifyService } from 'aws-amplify-angular';
+import Auth from '@aws-amplify/auth';
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent {
+  title = 'cli-lambda-sample';
+  confirmSignIn: boolean;
+  myRecaptcha: boolean;
+  user: any;
+  constructor( private amplifyService: AmplifyService ) {
+    this.amplifyService.authStateChange$
+        .subscribe(authState => {
+            this.confirmSignIn = authState.state === 'customConfirmSignIn';
+            if (!authState.user) {
+                this.user = null;
+            } else {
+                this.user = authState.user;
+            }
+    });
+  }
+  submitSignIn(e) {
+    Auth.sendCustomChallengeAnswer(this.user, e)
+    .then( (user) => {
+      this.amplifyService.setAuthState({ state: 'signedIn', user });
+    });
+  }
+}
+```
+
+app.component.html
+```html
+<amplify-authenticator [hide]="['ConfirmSignIn']"></amplify-authenticator>
+<div  *ngIf="confirmSignIn">
+    <re-captcha (resolved)="submitSignIn($event)" siteKey="6LdK_6UUAAAAALJ9-qgucQVtmOvpOI8CY7x2qqWg"></re-captcha>
+  <button (click)="ConfirmSignIn()">Submit</button>
+</div>
+```
+
 ### Basic Scaffolding for a Custom Auth Challenge
 
 This template will configure three triggers: [CreateAuthChallenge](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-create-auth-challenge.html), [DefineAuthChallenge](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-define-auth-challenge.html) and [VerifyAuthChallengeResponse](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-verify-auth-challenge-response.html).
@@ -169,6 +247,7 @@ Please note that this trigger template will create an S3 resource.  The files th
 * style.css
 * verify.js (the script which performs the verification request)
 
+#### React Sample
 
 The following is an example of how to configure the aws-amplify-react authenticator so that it displays a message telling the user to check their email, instead of showing the default 'ConfirmSignUp' component.
 
@@ -217,6 +296,49 @@ function MyApp() {
 }
 
 export default MyApp;
+```
+
+#### Angular Sample
+
+The following is an example of how to configure the aws-amplify-angular authenticator so that it displays a message telling the user to check their email, instead of showing the default 'ConfirmSignUp' component.
+
+Be sure to follow all instructions for [setting up an Angular application]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/angular) with aws-amplify-angular.
+
+app.component.ts:
+```js
+import { Component } from '@angular/core';
+import { AmplifyService } from 'aws-amplify-angular';
+import Auth from '@aws-amplify/auth';
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent {
+  title = 'cli-lambda-sample';
+  confirmSignUp: boolean;
+  user: any;
+  constructor( private amplifyService: AmplifyService ) {
+    this.amplifyService.authStateChange$
+        .subscribe(authState => {
+            this.confirmSignUp = authState.state === 'confirmSignUp';
+            if (!authState.user) {
+                this.user = null;
+            } else {
+                this.user = authState.user;
+            }
+    });
+  }
+}
+```
+
+app.component.html:
+```html
+<amplify-authenticator [hide]="['ConfirmSignUp']"></amplify-authenticator>
+<div  *ngIf="confirmSignUp">
+  Check your email account for a confirmation message!
+</div>
+
 ```
 
 
