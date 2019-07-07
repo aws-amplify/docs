@@ -223,9 +223,110 @@ app.component.html
 ```html
 <amplify-authenticator [hide]="['ConfirmSignIn']"></amplify-authenticator>
 <div  *ngIf="confirmSignIn">
-    <re-captcha (resolved)="submitSignIn($event)" siteKey="6LdK_6UUAAAAALJ9-qgucQVtmOvpOI8CY7x2qqWg"></re-captcha>
+    <re-captcha (resolved)="submitSignIn($event)" siteKey="your-client-side-google-recaptcha-key"></re-captcha>
   <button (click)="ConfirmSignIn()">Submit</button>
 </div>
+```
+
+#### Vue Sample
+
+The following code sample demonstrates how to create a custom ConfirmSignIn component in Vue using the vue-recaptcha npm package.
+
+App.vue
+```javascript 
+<template>
+  <div id="app">
+    <amplify-authenticator></amplify-authenticator>
+    <vue-recaptcha
+      v-if="customConfirmSignIn"
+      sitekey="your-client-side-google-recaptcha-key" @verify="onVerify"
+    ></vue-recaptcha>
+    <amplify-sign-out
+      v-if="signedIn"
+    ></amplify-sign-out>
+  </div>
+</template>
+
+<script>
+import { components } from 'aws-amplify-vue'
+import { AmplifyEventBus } from 'aws-amplify-vue';
+import VueRecaptcha from 'vue-recaptcha';
+
+
+export default {
+  name: 'app', 
+  components: {
+    VueRecaptcha,
+    ...components
+  },
+  data() {
+    return {
+      challengeResponse: '',
+      customConfirmSignIn: false,
+      signedIn: false,
+      user: {},
+    }
+  },
+  mounted: async function () {
+    await this.$Amplify.Auth.currentAuthenticatedUser()
+      .then((user) => {
+        this.user = user;
+        this.signedIn = true;
+      })
+      .catch((e) => {
+        console.log('currentUser error', e)
+      })
+    AmplifyEventBus.$on('authState', info => {
+      debugger;
+      this.customConfirmSignIn = info === 'customConfirmSignIn';
+      this.signedIn = info === 'signedIn';
+    });
+    AmplifyEventBus.$on('localUser', user => {
+      debugger;
+      this.user = user;
+    });
+  },
+  methods: {
+    onVerify: function (data) {
+      this.$Amplify.Auth.sendCustomChallengeAnswer(this.user, data)
+        .then( (user) => { 
+          AmplifyEventBus.$emit('authState', 'signedIn')
+          return AmplifyEventBus.$emit('localUser', 'user')
+        })
+        .catch(function (err) { console.log('challenge error: ', err) });
+    },           
+  }
+}
+</script>
+```
+
+main.js
+```js
+import Vue from 'vue'
+import App from './App.vue'
+import Amplify, * as AmplifyModules from 'aws-amplify'
+import { AmplifyPlugin } from 'aws-amplify-vue'
+import awsconfig from './aws-exports'
+
+Amplify.configure({
+  Auth: {
+    identityPoolId: awsconfig.aws_cognito_identity_pool_id,
+    region: awsconfig.aws_cognito_region,
+    userPoolId: awsconfig.aws_user_pools_id,
+    userPoolWebClientId: awsconfig.aws_user_pools_web_client_id,
+    authenticationFlowType: 'CUSTOM_AUTH'
+  }
+});
+Vue.use(AmplifyPlugin, AmplifyModules)
+
+new Vue({
+  render: h => h(App)
+}).$mount('#app')
+```
+
+Finally, in public/index.html add the following script:
+```html
+<script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer>
 ```
 
 ### Basic Scaffolding for a Custom Auth Challenge
@@ -341,6 +442,65 @@ app.component.html:
 
 ```
 
+#### Vue Sample
+
+The following is an example of how to configure the aws-amplify-vue authenticator components so that your app displays a message telling the user to check their email, instead of showing the default 'ConfirmSignUp' component.
+
+```javascript
+<template>
+  <div id="app">
+    <amplify-sign-up v-if="signUp"></amplify-sign-up>
+    <amplify-sign-in v-if="signIn"  v-bind:usernameAttributes="usernameAttributes"></amplify-sign-in>
+    <div v-if="confirming">Check your email for a confirmation email</div>
+    <amplify-sign-out
+      v-if="signedIn"
+    ></amplify-sign-out>
+  </div>
+</template>
+
+<script>
+import { components } from 'aws-amplify-vue'
+import { AmplifyEventBus } from 'aws-amplify-vue';
+import VueRecaptcha from 'vue-recaptcha';
+
+
+export default {
+  name: 'app', 
+  components: {
+    VueRecaptcha,
+    ...components
+  },
+  data() {
+    return {
+      signIn: true,
+      signUp: false,
+      confirming: false,
+      usernameAttributes: 'username',
+      user: {},
+    }
+  },
+  mounted: async function () {
+    await this.$Amplify.Auth.currentAuthenticatedUser()
+      .then((user) => {
+        this.user = user;
+        this.signIn = false;
+      })
+      .catch((e) => {
+        console.log('currentUser error', e)
+      })
+    AmplifyEventBus.$on('authState', info => {
+      this.signIn = info === 'signIn' || info === 'signedOut';
+      this.confirming = info === 'confirmSignUp';
+      this.signUp = info === 'signUp';
+      this.signedIn = info === 'signedIn';
+    });
+    AmplifyEventBus.$on('localUser', user => {
+      this.user = user;
+    });
+  }
+}
+</script>
+```
 
 ### Add User to Group
 
