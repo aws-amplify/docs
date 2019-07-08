@@ -277,12 +277,10 @@ export default {
         console.log('currentUser error', e)
       })
     AmplifyEventBus.$on('authState', info => {
-      debugger;
       this.customConfirmSignIn = info === 'customConfirmSignIn';
       this.signedIn = info === 'signedIn';
     });
     AmplifyEventBus.$on('localUser', user => {
-      debugger;
       this.user = user;
     });
   },
@@ -326,7 +324,7 @@ new Vue({
 
 Finally, in public/index.html add the following script:
 ```html
-<script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer>
+<script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer></script>
 ```
 
 ### Basic Scaffolding for a Custom Auth Challenge
