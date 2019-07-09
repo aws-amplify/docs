@@ -17,7 +17,7 @@ The Amplify Command Line Interface (CLI) is a unified toolchain to create, integ
 * Install and configure the Amplify CLI.
 
 ```bash
-$ npm install -g @aws-amplify/cli</code>
+$ npm install -g @aws-amplify/cli
 $ amplify configure
 ```
 
