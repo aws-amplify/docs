@@ -4,7 +4,7 @@ Certain AWS Services can [invoke Lambda functions](https://docs.aws.amazon.com/l
 
 If you wish to modify the functionality of these templates, you are able to do so locally before pushing them.  After selecting the templates via the CLI, your local copy of the templates are located in `amplify/backend/function/<function-name>/src`.
 
-Amazon Cognito allows you to set up one Lambda trigger for certain events.  In order to create additional flexibility when configuring Cognito triggers via the CLI, the CLI will create an index file which loops through JavaScript modules.  Each template that you configure is its own JavaScript module.  
+Amazon Cognito allows you to set up one Lambda trigger for certain events.  In order to create additional flexibility when configuring Cognito triggers via the CLI, the CLI will create an index file which loops through JavaScript modules.  Each template that you configure is its own JavaScript module. This allows you to attach multiple use cases and logical flows to a single lifecycle event.
 
 You have the opportunity to edit both the index file as well as each module.  For example, when creating a email blacklist [PreSignUp](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-sign-up.html) trigger, you will be asked
 
@@ -100,6 +100,8 @@ class MyCustomConfirmation extends AuthPiece {
         }
       </div>
       );
+    } else {
+      return null;
     }
   }
 }
