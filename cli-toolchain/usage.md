@@ -532,7 +532,7 @@ It contains the consolidated outputs from all the categories and is placed under
 This file is consumed by the [Amplify](https://github.com/aws-amplify/amplify-js) JavaScript library for configuration. It contains information which is non-sensitive and only required for external, unauthenticated actions from clients (such as user registration or sign-in flows in the case of Auth) or for constructing appropriate endpoint URLs after authorization has taken place. Please see the following more detailed explanations:
 
 - [Cognito security best practices for web app](https://forums.aws.amazon.com/message.jspa?messageID=757990#757990)
-- [Security / Best Practice for poolData (UserPoolId, ClientId) in a browser JS app](amazon-archives/amazon-cognito-identity-js#312)
+- [Security / Best Practice for poolData (UserPoolId, ClientId) in a browser JS app](https://github.com/amazon-archives/amazon-cognito-identity-js/issues/312)
 - [Are the Cognito User pool id and Client Id sensitive?](https://stackoverflow.com/a/47865747/194974)
 
 ##### awsconfiguration.json file
@@ -542,5 +542,5 @@ It contains the consolidated outputs from all the categories. It is updated afte
 This file is consumed by the [iOS](https://github.com/aws/aws-sdk-ios/) and [Android](https://github.com/aws/aws-sdk-android) native SDKs for configuration. It contains information which is non-sensitive and only required for external, unauthenticated actions from clients (such as user registration or sign-in flows in the case of Auth) or for constructing appropriate endpoint URLs after authorization has taken place. Please see the following more detailed explanations:
 
 - [Cognito security best practices for web app](https://forums.aws.amazon.com/message.jspa?messageID=757990#757990)
-- [Security / Best Practice for poolData (UserPoolId, ClientId) in a browser JS app](amazon-archives/amazon-cognito-identity-js#312)
+- [Security / Best Practice for poolData (UserPoolId, ClientId) in a browser JS app](https://github.com/amazon-archives/amazon-cognito-identity-js/issues/312)
 - [Are the Cognito User pool id and Client Id sensitive?](https://stackoverflow.com/a/47865747/194974)
