@@ -461,6 +461,7 @@ Unauth
 frontends
 metadata
 Cloudfront
+datasource
 
 # cli/hosting.md
 gitignore
@@ -521,6 +522,9 @@ Cloudformaton
 DynamoDBTable
 amplifyMeta.json
 transform.conf.json
+
+#cli-toolchain/usage.md
+poolData
 
 # android/analytics.md
 ActivityLifecycleCallbacks
