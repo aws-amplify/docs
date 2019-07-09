@@ -67,13 +67,12 @@ class MyCustomConfirmation extends AuthPiece {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
-    this.show = true;
+    this.state = {show: true };
   }
 
-  componentDidUpdate() {
-    checkUser()
-    Hub.listen('auth', (data) => {
-      this.show = data.payload.event === 'signedIn'
+  componentDidMount() {
+    Hub.listen('custom', (data) => {
+      this.setState({show: false})
     })
   }
   
@@ -86,14 +85,14 @@ class MyCustomConfirmation extends AuthPiece {
   }
 
   render() {
-    if (this.show) {
+    if (this.state.show) {
       return (
         <div>
         {/* only render this component when the authState is 'signUp' */}
         { this.props.authState === 'customConfirmSignIn' && 
         <div>
           <ReCAPTCHA
-          sitekey="your-client-side-google-recaptcha-key"
+          sitekey="your-google-key"
           onChange={this.onChange}
         />
         </div>
@@ -109,13 +108,15 @@ class MyCustomConfirmation extends AuthPiece {
 class Greeting extends React.Component {
   constructor(props){
     super(props);
-    this.signedIn = false;
-    Hub.listen('custom', (payload) => {
-      this.signedIn = true;
+    this.state = { show: false}
+  }
+  componentDidMount() {
+    Hub.listen('custom', (data) => {
+      this.setState({show: true})
     })
   }
   render() {
-    if (this.signedIn) {
+    if (this.state.show) {
       return <Greetings />;
     }
     return null;
