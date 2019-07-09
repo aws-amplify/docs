@@ -136,6 +136,7 @@ resubscription
 backends
 AuthN
 AuthZ
+lifecycles
 
 # js/tutorials/building-ionic-4-apps/index.md
 home.page.ts
