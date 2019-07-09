@@ -125,12 +125,12 @@ There are two ways to setup Lambda Triggers for your Cognito User Pool.
 
 ```bash
 $ Do you want to enable any of the following capabilities?
-  ❯ ◯ Custom Auth Challenge with Google reCaptcha
-    ◯ Basic scaffolding for a custom auth challenge
+  ❯ ◯ Add Google reCaptcha Challenge
     ◯ Email Verification Link with Redirect
     ◯ Add User to Group
     ◯ Email Domain Filtering (blacklist)
     ◯ Email Domain Filtering (whitelist)
+    ◯ Custom Auth Challenge Flow (basic scaffolding - not for production)
 ```
 
 2.  In the manual Auth CLI workflow, you will be given the change to select the options above, but will also be able to manually configure Lambda Trigger templates:
