@@ -278,7 +278,7 @@ You can associate a trigger to an S3 bucket managed by the Amplify CLI, by follo
 ❯ Choose an existing function from the project 
   Create a new function 
 ```
-As you can see in the prompt above, you can either choose to use an already existing Lambda function created using the CLI as a part of this project using `amplify add function` or create a new function with a base Lambda function to handle S3 events. We also auto-populate the IAM policies required by the Lambda execution role of the newly created function to access the S3 bucket.
+As you can see in the prompt above, you can either choose to use an existing Lambda function created using the CLI as a part of this project using `amplify add function` or create a new function with a base Lambda function to handle S3 events. We also auto-populate the IAM policies required by the Lambda execution role of the newly created function to access the S3 bucket.
 
 ***Note***: You can associate only one Lambda Function trigger to an S3 bucket.
 
