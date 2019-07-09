@@ -119,7 +119,7 @@ Do you want to use the default authentication and security configuration?
 
 #### Adding a Lambda Trigger
 
-Lambda triggers are useful for adding functionality during certain lifecycles of the user registration and sign-in process of your application. Amplify ships common triggers which you can enable and modify (if necessary) through a few simple questions. Alternatively, you can build your own auth challenges manually.
+Lambda triggers are useful for adding functionality during certain lifecycles of the user registration and sign-in process of your application. Amplify ships common trigger templates which you can enable and modify (if necessary) through a few simple questions. Alternatively, you can build your own auth challenges manually.
 
 There are two ways to setup Lambda Triggers for your Cognito User Pool.
 
