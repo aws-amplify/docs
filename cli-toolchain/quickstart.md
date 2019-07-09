@@ -284,7 +284,7 @@ As you can see in the prompt above, you can either choose to use an existing Lam
 
 #### DynamoDB Lambda Triggers
 
-You can associate a trigger to a DynamoDB table  managed by the Amplify CLI, by following the `amplify add/update storage` flows. When attempting to add/update a DynamoDB storage resource, you would get the following CLI prompts to add a trigger for it.
+You can associate a Lambda trigger with a DynamoDB table, managed by the Amplify CLI, using the amplify add/update storage flows. When attempting to add/update a DynamoDB storage resource, you would get the following CLI prompts to add a trigger for it.
 
 ```bash
 ? Do you want to add a Lambda Trigger for your Table? Yes
