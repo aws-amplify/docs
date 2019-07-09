@@ -529,7 +529,7 @@ Then, on the successful execution of the `amplify push` command, the `output` ob
 This file is generated only for JavaScript projects.
 It contains the consolidated outputs from all the categories and is placed under the `src` directory that the user (the developer) specified during the `init` process. It is updated after each successful execution of the `amplify push` command,  that has created or updated the cloud resources.
 
-This file is consumed by the [Amplify](https://github.com/aws-amplify/amplify-js) JavaScript library for configuration. It contains information which is non-sensitive and only required for external, unauthenticated actions from clients (such as user registration or sign-in flows in the case of Auth) or for constructing appropriate endpoint URLs after authorization has taken place. Please see the following more detailed explainations:
+This file is consumed by the [Amplify](https://github.com/aws-amplify/amplify-js) JavaScript library for configuration. It contains information which is non-sensitive and only required for external, unauthenticated actions from clients (such as user registration or sign-in flows in the case of Auth) or for constructing appropriate endpoint URLs after authorization has taken place. Please see the following more detailed explanations:
 
 - [Cognito security best practices for web app](https://forums.aws.amazon.com/message.jspa?messageID=757990#757990)
 - [Security / Best Practice for poolData (UserPoolId, ClientId) in a browser JS app](amazon-archives/amazon-cognito-identity-js#312)
@@ -539,7 +539,7 @@ This file is consumed by the [Amplify](https://github.com/aws-amplify/amplify-js
 This file is generated for Android and iOS projects.
 It contains the consolidated outputs from all the categories. It is updated after each successful execution of the `amplify push` command, that has created or updated the cloud resources.
 
-This file is consumed by the [iOS](https://github.com/aws/aws-sdk-ios/) and [Android](https://github.com/aws/aws-sdk-android) native SDKs for configuration. It contains information which is non-sensitive and only required for external, unauthenticated actions from clients (such as user registration or sign-in flows in the case of Auth) or for constructing appropriate endpoint URLs after authorization has taken place. Please see the following more detailed explainations:
+This file is consumed by the [iOS](https://github.com/aws/aws-sdk-ios/) and [Android](https://github.com/aws/aws-sdk-android) native SDKs for configuration. It contains information which is non-sensitive and only required for external, unauthenticated actions from clients (such as user registration or sign-in flows in the case of Auth) or for constructing appropriate endpoint URLs after authorization has taken place. Please see the following more detailed explanations:
 
 - [Cognito security best practices for web app](https://forums.aws.amazon.com/message.jspa?messageID=757990#757990)
 - [Security / Best Practice for poolData (UserPoolId, ClientId) in a browser JS app](amazon-archives/amazon-cognito-identity-js#312)

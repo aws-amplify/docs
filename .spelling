@@ -523,6 +523,9 @@ DynamoDBTable
 amplifyMeta.json
 transform.conf.json
 
+#cli-toolchain/usage.md
+poolData
+
 # android/analytics.md
 ActivityLifecycleCallbacks
 MainActivity
