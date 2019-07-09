@@ -6,7 +6,7 @@ If you wish to modify the functionality of these templates, you are able to do s
 
 Amazon Cognito allows you to set up one Lambda trigger for certain events.  In order to create additional flexibility when configuring Cognito triggers via the CLI, the CLI will create an index file which loops through JavaScript modules.  Each template that you configure is its own JavaScript module.  
 
-You have the opporunity to edit both the index file as well as each module.  For example, when creating a email blacklist [PreSignUp](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-sign-up.html) trigger, you will be asked
+You have the opportunity to edit both the index file as well as each module.  For example, when creating a email blacklist [PreSignUp](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-sign-up.html) trigger, you will be asked
 
 ```bash
 $ Do you want to edit the local PreSignUp lambda function now? (Y/n)

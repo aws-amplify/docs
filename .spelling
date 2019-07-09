@@ -427,6 +427,18 @@ DefineAuthChallenge
 VerifyAuthChallengeResponse
 VerifyAuthChallengeResponse
 react-google-recaptcha
+PreSignUp
+Captchas
+ng-recaptcha
+CUSTOM_AUTH
+app.module.ts
+app.component.ts
+app.component.html
+vue-recaptcha
+spinner.js
+style.css
+verify.js
+whitelist
 
 # js/vue.md
 confirmSignInConfig
