@@ -117,6 +117,50 @@ Do you want to use the default authentication and security configuration?
   I want to learn more.
 ```
 
+#### Adding a Lambda Trigger
+
+There are two ways to setup Lambda Triggers for your Cognito User Pool.
+
+1. In the default Auth CLI workflow, you will be presented with a list of Lambda Trigger templates if you opt to configure advanced settings:
+
+```bash
+$ Do you want to enable any of the following capabilities?
+  ❯ ◯ Custom Auth Challenge with Google reCaptcha
+    ◯ Basic scaffolding for a custom auth challenge
+    ◯ Email Verification Link with Redirect
+    ◯ Add User to Group
+    ◯ Email Domain Filtering (blacklist)
+    ◯ Email Domain Filtering (whitelist)
+```
+
+2.  In the manual Auth CLI workflow, you will be given the change to select the options above, but will also be able to manually configure Lambda Trigger templates:
+
+```bash
+$ Do you want to configure Lambda Triggers for Cognito? Yes
+
+$ Which triggers do you want to enable for Cognito?
+◯ Learn More
+ ──────────────
+ ◯ Create Auth Challenge
+❯◉ Custom Message
+ ◯ Define Auth Challenge
+ ◯ Post Authentication
+ ◯ Post Confirmation
+ ◯ Pre Sign-up
+ ◯ Verify Auth Challenge Response
+
+$ What functionality do you want to use for Custom Message
+ ◯ Learn More
+ ──────────────
+❯◉ Send Account Confirmation Link w/ Redirect
+ ◯ Create your own module
+```
+
+If your manually-configured Lambda Triggers require enhanced permissions, you can run `amplify function update` after they have been initially configured.
+
+##### Available Cognito Trigger Templates
+
+The pre-populated templates provided by the Amplify CLI can be found [here]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/cognito-triggers#auth-templates).
 
 ### API Examples
 #### REST
