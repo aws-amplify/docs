@@ -2,7 +2,7 @@
 
 Certain AWS Services can [invoke Lambda functions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-services.html) in response to lifecycle events. The Amplify CLI provides trigger templates for common use cases.
 
-If you wish to modify the functionality of these templates, you are able to do so locally before pushing them.
+If you wish to modify the functionality of these templates, you are able to do so locally before pushing them.  After selecting the templates via the CLI, your local copy of the templates are located in `amplify/backend/function/<function-name>/src`.
 
 Amazon Cognito allows you to set up one Lambda trigger for certain events.  In order to create additional flexibility when configuring Cognito triggers via the CLI, the CLI will create an index file which loops through JavaScript modules.  Each template that you configure is its own JavaScript module.  
 
@@ -331,7 +331,7 @@ It will not, however, provide a fully-formed custom authentication flow. Instead
 
 ### Email Verification Link with Redirect
 
-Cognito allows you to configure your User Pool to send an email to your users when they attempt to register an account. You can configure this email to contain a link to Cognito's Hosted UI where the user's account will be marked as confirmed. However, there is currently no means to redirect the user back to your app from this Hosted UI page.
+Cognito allows you to configure your User Pool to send an email to your users when they attempt to register an account. You can configure this email to contain a link to Cognito's Hosted UI where the user's account will be marked as confirmed.
 
 This trigger template allows you to define an email message with a link to a static S3 bucket that you control, where the user's account will be confirmed and they can then be redirected to a URL of your choice (presumably your application). The URL will automatically contain the username as a query string parameters.
 
@@ -500,7 +500,7 @@ export default {
 
 This trigger allows you to define a Cognito group to which a user will be added upon registration.  
 
-Please note that you will need to create the Cognito group manually.
+The trigger will check for the existence of the group in your User Pool, and will create the group if it is not present.
 
 
 ### Email Domain Filtering (blacklist) and Email Domain Filtering (whitelist)
