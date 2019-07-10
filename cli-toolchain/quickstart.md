@@ -265,6 +265,104 @@ var apiBetatestGraphQLAPIEndpointOutput = process.env.API_BETATEST_GRAPHQLAPIEND
 
 Behind the scenes, the CLI automates populating of the resource identifiers for the selected resources as Lambda environment variables which you will see in your function code as well. This process additionally configures CRUD level IAM policies on the Lambda execution role to access these resources from the Lambda function. For instance, you might grant permissions to your Lambda function to read/write to a DynamoDB table in the Amplify project by using the above flow and the appropriate IAM policy would be set on that Lambda function's execution policy which is scoped to that table only.
 
+#### GraphQL from Lambda
+
+You can use a Lambda function to call your GraphQL API, however at this time you must modify your AppSync schema after deploying the API. For example, deploy a simple `Todo` model with the following schema in the `amplify add api` flow:
+
+```
+type Todo @model {
+  id: ID!
+  name: String
+  description: String
+}
+```
+
+Next, run `amplify console` and select the GraphQL API. On the **Settings** page add an **Additional authorization provider** and select **IAM**. Next, on the **Schema** page add in the `@aws_iam` directive where appropriate per the [AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes). For example if you just want your Lambda function to have access to run a single mutation, add the directive onto that mutation (`createTodo` below) as well as the return type:
+
+```
+type Todo @aws_iam {
+	id: ID!
+	name: String
+	description: String
+}
+
+type Mutation {
+	createTodo(input: CreateLambdaGraphQLInput!): Todo
+		@aws_iam
+	updateTodo(input: UpdateLambdaGraphQLInput!): Todo
+	deleteTodo(input: DeleteLambdaGraphQLInput!): Todo
+}
+```
+Save your changes and create a Lambda function with `amplify add function` and ensure that it's execution role has been granted an IAM policy with permissions to that GraphQL endpoint [as defined in the AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#aws-iam-authorization). The following function will sign the request and use environment variables for the AppSync and Region that `amplify add function` created for you:
+
+```javascript
+const https = require('https');
+const AWS = require("aws-sdk");
+const urlParse = require("url").URL;
+const appsyncUrl = process.env.API_BACKENDGRAPHQL_GRAPHQLAPIENDPOINTOUTPUT;
+const region = process.env.REGION;
+const endpoint = new urlParse(appsyncUrl).hostname.toString();
+const graphqlQuery = require('./query.js').mutation;
+const apiKey = process.env.API_KEY;
+
+exports.handler = async (event) => {
+    const req = new AWS.HttpRequest(appsyncUrl, region);
+
+    const item = {
+        input: {
+            name: "Lambda Item",
+            description: "Item Generated from Lambda"
+        }
+    };
+
+    req.method = "POST";
+    req.headers.host = endpoint;
+    req.headers["Content-Type"] = "application/json";
+    req.body = JSON.stringify({
+        query: graphqlQuery,
+        operationName: "createLambdaGraphQL",
+        variables: item
+    });
+
+    if (apiKey) {
+        req.headers["x-api-key"] = apiKey;
+    } else {
+        const signer = new AWS.Signers.V4(req, "appsync", true);
+        signer.addAuthorization(AWS.config.credentials, AWS.util.date.getDate());
+    }
+
+    const data = await new Promise((resolve, reject) => {
+        const httpRequest = https.request({ ...req, host: endpoint }, (result) => {
+            result.on('data', (data) => {
+                resolve(JSON.parse(data.toString()));
+            });
+        });
+
+        httpRequest.write(req.body);
+        httpRequest.end();
+    });
+
+    return {
+        statusCode: 200,
+        body: data
+    };
+};
+```
+
+Finally you can define the GraphQL operation you're running, in this case the `createTodo` mutation, in a separate `query.js` file:
+
+```javascript
+module.exports = {
+    mutation: `mutation createTodo($input: CreateTodoInput!) {
+      createTodo(input: $input) {
+        id
+        name
+        description
+      }
+    }
+    `
+}
+```
 
 ### Storage Examples
 
