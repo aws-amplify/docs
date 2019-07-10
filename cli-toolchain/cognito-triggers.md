@@ -56,39 +56,27 @@ Amplify.configure({
   }
 });
 
-
 class MyCustomConfirmation extends AuthPiece {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
-    this.state = {authState: this.props.authState };
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.authState !== 'loading' && state.authState !== props.authState) {
-      if (!(props.authState === 'customConfirmSignIn' && state.authState === 'signedIn')) {
-        return { authState: props.authState}
-      }
-    }
-    return null;
-  }
-  
   onChange(data) {
     Auth.sendCustomChallengeAnswer(this.props.authData, data)
     .then( (user) => { 
       console.log('user signed in!: ', user)
-      this.setState({authState: 'signedIn'})
-      Hub.dispatch('custom', { customChallengeSuccess: true })
+      this.changeState('signedIn', user);
     })
 
   }
 
   render() {
-    if (this.state.authState === 'customConfirmSignIn') {
+    if (this.props.authState === 'customConfirmSignIn') {
       return (
         <div>
           <ReCAPTCHA
-          sitekey="your-google-key"
+          sitekey="your-client-side-google-recaptcha-key"
           onChange={this.onChange}
           />
         </div>  
@@ -96,38 +84,6 @@ class MyCustomConfirmation extends AuthPiece {
       } else {
         return null;
       }
-    }
-  }
-  
-  class Greeting extends React.Component {
-
-    constructor(props) {
-      super(props);
-      this.state = {authState: this.props.authState };
-    }
-
-    componentDidMount() {
-      Hub.listen('custom', (data) => {
-        if (data.payload.customChallengeSuccess) {
-          this.setState({authState: 'signedIn'})
-        }
-      })
-    }
-
-    static getDerivedStateFromProps(props, state) {
-      if (props.authState !== 'loading' && state.authState !== props.authState) {
-        if (!(props.authState === 'customConfirmSignIn' && state.authState === 'signedIn')) {
-          return { authState: props.authState}
-        }
-      }
-      return null;
-    }
-
-    render() {
-      if (this.state.authState === 'signedIn') {
-        return <Greetings />;
-      }
-      return null;
     }
   }
   
@@ -139,7 +95,7 @@ class MyCustomConfirmation extends AuthPiece {
             <SignIn />
             <SignUp />
             <ConfirmSignUp />
-            <Greeting />
+            <Greetings />
             <MyCustomConfirmation override={'ConfirmSignIn'}/> 
             </Authenticator>
         </div>
@@ -152,7 +108,6 @@ class MyCustomConfirmation extends AuthPiece {
   }
   
   export default MyApp;
-  
 ```
 
 #### Angular Sample
