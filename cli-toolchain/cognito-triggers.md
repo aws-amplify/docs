@@ -38,7 +38,6 @@ The first two will essentially allow the standard username/password flow to exec
 The following code sample demonstrates how to create a custom ConfirmSignIn component in React using the react-google-recaptcha npm package.
 
 ```js
-
 import React from 'react';
 import './App.css';
 import Amplify, { Auth, Hub } from 'aws-amplify';
@@ -57,98 +56,103 @@ Amplify.configure({
   }
 });
 
-function checkUser() {
-  Auth.currentAuthenticatedUser()
-    .then(user => Hub.dispatch('custom', {signedIn: true}))
-    .catch(err => console.log(err))
-};
 
 class MyCustomConfirmation extends AuthPiece {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
-    this.state = {show: true };
+    this.state = {authState: this.props.authState };
   }
 
-  componentDidMount() {
-    Hub.listen('custom', (data) => {
-      this.setState({show: false})
-    })
+  static getDerivedStateFromProps(props, state) {
+    if (props.authState !== 'loading' && state.authState !== props.authState) {
+      if (!(props.authState === 'customConfirmSignIn' && state.authState === 'signedIn')) {
+        return { authState: props.authState}
+      }
+    }
+    return null;
   }
   
   onChange(data) {
     Auth.sendCustomChallengeAnswer(this.props.authData, data)
     .then( (user) => { 
-      Hub.dispatch('custom', {signedIn: true})
+      console.log('user signed in!: ', user)
+      this.setState({authState: 'signedIn'})
+      Hub.dispatch('custom', { customChallengeSuccess: true })
     })
 
   }
 
   render() {
-    if (this.state.show) {
+    if (this.state.authState === 'customConfirmSignIn') {
       return (
-        <div>
-        {/* only render this component when the authState is 'signUp' */}
-        { this.props.authState === 'customConfirmSignIn' && 
         <div>
           <ReCAPTCHA
           sitekey="your-google-key"
           onChange={this.onChange}
-        />
-        </div>
+          />
+        </div>  
+        );
+      } else {
+        return null;
+      }
+    }
+  }
+  
+  class Greeting extends React.Component {
+
+    constructor(props) {
+      super(props);
+      this.state = {authState: this.props.authState };
+    }
+
+    componentDidMount() {
+      Hub.listen('custom', (data) => {
+        if (data.payload.customChallengeSuccess) {
+          this.setState({authState: 'signedIn'})
         }
-      </div>
-      );
-    } else {
+      })
+    }
+
+    static getDerivedStateFromProps(props, state) {
+      if (props.authState !== 'loading' && state.authState !== props.authState) {
+        if (!(props.authState === 'customConfirmSignIn' && state.authState === 'signedIn')) {
+          return { authState: props.authState}
+        }
+      }
+      return null;
+    }
+
+    render() {
+      if (this.state.authState === 'signedIn') {
+        return <Greetings />;
+      }
       return null;
     }
   }
-}
-
-class Greeting extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = { show: false}
-  }
-  componentDidMount() {
-    Hub.listen('custom', (data) => {
-      this.setState({show: true})
-    })
-  }
-  render() {
-    if (this.state.show) {
-      return <Greetings />;
+  
+  class App extends React.Component {
+    render() {
+      return (
+        <div className="App">
+          <Authenticator hideDefault={true}>
+            <SignIn />
+            <SignUp />
+            <ConfirmSignUp />
+            <Greeting />
+            <MyCustomConfirmation override={'ConfirmSignIn'}/> 
+            </Authenticator>
+        </div>
+      );
     }
-    return null;
   }
-}
-
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    checkUser();
+  
+  function MyApp() {
+    return <App />
   }
-  render() {
-    return (
-      <div className="App">
-        <Authenticator hideDefault={true}>
-          <SignIn />
-          <SignUp />
-          <ConfirmSignUp />
-          <Greeting />
-          <MyCustomConfirmation override={'ConfirmSignIn'}/> 
-          </Authenticator>
-      </div>
-    );
-  }
-}
-
-function MyApp() {
-  return <App />
-}
-
-export default MyApp;
-
+  
+  export default MyApp;
+  
 ```
 
 #### Angular Sample
