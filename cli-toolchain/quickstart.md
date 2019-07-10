@@ -320,7 +320,7 @@ exports.handler = async (event) => {
     req.headers["Content-Type"] = "application/json";
     req.body = JSON.stringify({
         query: graphqlQuery,
-        operationName: "createLambdaGraphQL",
+        operationName: "createTodo",
         variables: item
     });
 
