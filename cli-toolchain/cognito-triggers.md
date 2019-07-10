@@ -223,7 +223,6 @@ app.component.html
 <amplify-authenticator [hide]="['ConfirmSignIn']"></amplify-authenticator>
 <div  *ngIf="confirmSignIn">
     <re-captcha (resolved)="submitSignIn($event)" siteKey="your-client-side-google-recaptcha-key"></re-captcha>
-  <button (click)="ConfirmSignIn()">Submit</button>
 </div>
 ```
 
