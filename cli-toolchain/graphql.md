@@ -916,19 +916,20 @@ mutation CreateDraft {
 
 #### Authorizing Subscriptions
 
-The `@auth` directive does not yet support subscriptions out of the box. Currently you have two
-options for authorizing subscription fields.
+The `@auth` directive does not yet support subscriptions out of the box. Currently, you have two
+options for authorizing subscription fields. You may turn off subscriptions by passing `subscriptions: null` to `@model` or you may write custom authorization logic.
 
-1. Turn off subscriptions.
+A type with subscriptions disabled looks like this:
 
-You may turn off subscriptions for a type by passing `subscriptions: null` to `@model`.
-
-E.G. `type Post @model(subscriptions: null) { ... }`
-
-2. Write custom authorization logic.
+```
+type Post @model(subscriptions: null) {
+  id: ID!
+  title: String
+}
+```
 
 AppSync subscription resolvers run at connect time (i.e. when you first issue the subscription query) and provide a
-time for you to run custom authorization logic. Here are a few simple examples showing how to implement authorization.
+time for you to run custom authorization logic. Keep reading to learn how to add custom authorization logic to subscription fields.
 
 **Owner authorization with subscriptions**
 
