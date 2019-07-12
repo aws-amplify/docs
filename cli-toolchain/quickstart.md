@@ -117,6 +117,52 @@ Do you want to use the default authentication and security configuration?
   I want to learn more.
 ```
 
+#### Adding a Lambda Trigger
+
+Lambda triggers are useful for adding functionality during certain lifecycles of the user registration and sign-in process of your application. Amplify ships common trigger templates which you can enable and modify (if necessary) through a few simple questions. Alternatively, you can build your own auth challenges manually.
+
+There are two ways to setup Lambda Triggers for your Cognito User Pool.
+
+1. In the default Auth CLI workflow, you will be presented with a list of Lambda Trigger templates if you opt to configure advanced settings:
+
+```bash
+$ Do you want to enable any of the following capabilities?
+  ❯ ◯ Add Google reCaptcha Challenge
+    ◯ Email Verification Link with Redirect
+    ◯ Add User to Group
+    ◯ Email Domain Filtering (blacklist)
+    ◯ Email Domain Filtering (whitelist)
+    ◯ Custom Auth Challenge Flow (basic scaffolding - not for production)
+```
+
+2.  In the manual Auth CLI workflow, you will be given the change to select the options above, but will also be able to manually configure Lambda Trigger templates:
+
+```bash
+$ Do you want to configure Lambda Triggers for Cognito? Yes
+
+$ Which triggers do you want to enable for Cognito?
+◯ Learn More
+ ──────────────
+ ◯ Create Auth Challenge
+❯◉ Custom Message
+ ◯ Define Auth Challenge
+ ◯ Post Authentication
+ ◯ Post Confirmation
+ ◯ Pre Sign-up
+ ◯ Verify Auth Challenge Response
+
+$ What functionality do you want to use for Custom Message
+ ◯ Learn More
+ ──────────────
+❯◉ Send Account Confirmation Link w/ Redirect
+ ◯ Create your own module
+```
+
+If your manually-configured Lambda Triggers require enhanced permissions, you can run `amplify function update` after they have been initially configured.
+
+##### Available Cognito Trigger Templates
+
+The pre-populated templates provided by the Amplify CLI can be found [here]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/cognito-triggers#auth-templates).
 
 ### API Examples
 #### REST
@@ -176,7 +222,7 @@ $ amplify add api
 To learn more, take a look at the [GraphQL Transformer docs]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/graphql#quick-start).
 
 
-### Functions Example
+### Functions Examples
 
 You can add a Lambda function to your project which you can alongside a REST API or as a datasource, as a part of your GraphQL API using the @function directive. 
 ```terminal
@@ -219,6 +265,135 @@ var apiBetatestGraphQLAPIEndpointOutput = process.env.API_BETATEST_GRAPHQLAPIEND
 
 Behind the scenes, the CLI automates populating of the resource identifiers for the selected resources as Lambda environment variables which you will see in your function code as well. This process additionally configures CRUD level IAM policies on the Lambda execution role to access these resources from the Lambda function. For instance, you might grant permissions to your Lambda function to read/write to a DynamoDB table in the Amplify project by using the above flow and the appropriate IAM policy would be set on that Lambda function's execution policy which is scoped to that table only.
 
+#### GraphQL from Lambda
+
+You can use a Lambda function to call your GraphQL API, however at this time you must modify your AppSync schema after deploying the API. For example, deploy a simple `Todo` model with the following schema in the `amplify add api` flow:
+
+```
+type Todo @model {
+  id: ID!
+  name: String
+  description: String
+}
+```
+
+Next, run `amplify console` and select the GraphQL API. On the **Settings** page add an **Additional authorization provider** and select **IAM**. Next, on the **Schema** page add in the `@aws_iam` directive where appropriate per the [AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes). For example if you just want your Lambda function to have access to run a single mutation, add the directive onto that mutation (`createTodo` below) as well as the return type:
+
+```
+type Todo @aws_iam {
+	id: ID!
+	name: String
+	description: String
+}
+
+type Mutation {
+	createTodo(input: CreateLambdaGraphQLInput!): Todo
+		@aws_iam
+	updateTodo(input: UpdateLambdaGraphQLInput!): Todo
+	deleteTodo(input: DeleteLambdaGraphQLInput!): Todo
+}
+```
+Save your changes and create a Lambda function with `amplify add function` and ensure that it's execution role has been granted an IAM policy with permissions to that GraphQL endpoint [as defined in the AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#aws-iam-authorization). The following function will sign the request and use environment variables for the AppSync and Region that `amplify add function` created for you:
+
+```javascript
+const https = require('https');
+const AWS = require("aws-sdk");
+const urlParse = require("url").URL;
+const appsyncUrl = process.env.API_BACKENDGRAPHQL_GRAPHQLAPIENDPOINTOUTPUT;
+const region = process.env.REGION;
+const endpoint = new urlParse(appsyncUrl).hostname.toString();
+const graphqlQuery = require('./query.js').mutation;
+const apiKey = process.env.API_KEY;
+
+exports.handler = async (event) => {
+    const req = new AWS.HttpRequest(appsyncUrl, region);
+
+    const item = {
+        input: {
+            name: "Lambda Item",
+            description: "Item Generated from Lambda"
+        }
+    };
+
+    req.method = "POST";
+    req.headers.host = endpoint;
+    req.headers["Content-Type"] = "application/json";
+    req.body = JSON.stringify({
+        query: graphqlQuery,
+        operationName: "createTodo",
+        variables: item
+    });
+
+    if (apiKey) {
+        req.headers["x-api-key"] = apiKey;
+    } else {
+        const signer = new AWS.Signers.V4(req, "appsync", true);
+        signer.addAuthorization(AWS.config.credentials, AWS.util.date.getDate());
+    }
+
+    const data = await new Promise((resolve, reject) => {
+        const httpRequest = https.request({ ...req, host: endpoint }, (result) => {
+            result.on('data', (data) => {
+                resolve(JSON.parse(data.toString()));
+            });
+        });
+
+        httpRequest.write(req.body);
+        httpRequest.end();
+    });
+
+    return {
+        statusCode: 200,
+        body: data
+    };
+};
+```
+
+Finally you can define the GraphQL operation you're running, in this case the `createTodo` mutation, in a separate `query.js` file:
+
+```javascript
+module.exports = {
+    mutation: `mutation createTodo($input: CreateTodoInput!) {
+      createTodo(input: $input) {
+        id
+        name
+        description
+      }
+    }
+    `
+}
+```
+
+### Storage Examples
+
+#### S3 Lambda Triggers
+
+You can associate a trigger to an S3 bucket managed by the Amplify CLI, by following the `amplify add/update storage` flows. When attempting to add/update an S3 storage resource, you would get the following CLI prompts to add a trigger for it.
+
+```bash
+? Do you want to add a Lambda Trigger for your S3 Bucket? Yes
+? Select from the following options 
+❯ Choose an existing function from the project 
+  Create a new function 
+```
+As you can see in the prompt above, you can either choose to use an existing Lambda function created using the CLI as a part of this project using `amplify add function` or create a new function with a base Lambda function to handle S3 events. We also auto-populate the IAM policies required by the Lambda execution role of the newly created function to access the S3 bucket.
+
+***Note***: You can associate only one Lambda Function trigger to an S3 bucket.
+
+#### DynamoDB Lambda Triggers
+
+You can associate a Lambda trigger with a DynamoDB table, managed by the Amplify CLI, using the amplify add/update storage flows. When attempting to add/update a DynamoDB storage resource, you would get the following CLI prompts to add a trigger for it.
+
+```bash
+? Do you want to add a Lambda Trigger for your Table? Yes
+? Select from the following options (Use arrow keys)
+❯ Choose an existing function from the project 
+  Create a new function
+```
+
+As you can see in the prompt above, you can either choose to use an already existing Lambda function created using the CLI as a part of this project using `amplify add function` or create a new function with a base Lambda function handle DynamoDB events.
+
+***Note***: You can associate more than one Lambda Function trigger to a DynamoDB table.
 
 ## Multiple Frontends
 
