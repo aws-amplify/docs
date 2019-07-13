@@ -179,6 +179,9 @@ myangularapp
 js
 tsconfig
 myAmplifyProject
+_blank
+OnInit
+todos
 
 # js/hub.md
 onHubCapsule

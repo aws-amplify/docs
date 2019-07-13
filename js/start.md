@@ -11,7 +11,7 @@ Build an app using the Amplify Framework which contains:
 
 **Use the drop-down menu at the top right to choose your framework**.
 
-This page guides you through setting up a backend and integration into your web or React Native app. You will create a "Todo app" with a GraphQL API and to store and retrieve items in a cloud database, as well as recieve updates over a realtime subscription. 
+This page guides you through setting up a backend and integration into your web or React Native app. You will create a "Todo app" with a GraphQL API and to store and retrieve items in a cloud database, as well as receive updates over a realtime subscription. 
 
 [GraphQL](http://graphql.org) is a data language that was developed to enable apps to fetch data from APIs. It has a declarative, self-documenting style. In a GraphQL operation, the client specifies how to structure the data when it is returned by the server. This makes it possible for the client to query only for the data it needs, in the format that it needs it in.
 
@@ -58,7 +58,10 @@ Add the following to the `package.json` file:
   "name": "amplify-js-app",
   "version": "1.0.0",
   "description": "Amplify JavaScript Example",
-  "dependencies": {},
+  "dependencies": {
+    "@aws-amplify/api": "latest",
+    "@aws-amplify/pubsub": "latest"
+  },
   "devDependencies": {
     "webpack": "^4.17.1",
     "webpack-cli": "^3.1.0",
@@ -76,7 +79,6 @@ Install local development dependencies:
 
 ```
 $ npm install
-$ npm install --save @aws-amplify/api @aws-amplify/pubsub 
 ```
 
 Add the following to the `index.html` file:
@@ -288,8 +290,8 @@ Use the Vue CLI to bootstrap a new Vue app (selecting the defaults will work for
 
 ```bash
 $ npm install -g @vue/cli
-$ vue create myAmplifyProject 
-$ cd myAmplifyProject
+$ vue create myamplifyproject 
+$ cd myamplifyproject
 ```
 
 Inside the app directory, install Amplify and run your app:
@@ -312,10 +314,9 @@ See the [Vue Guide](https://aws-amplify.github.io/docs/js/vue){: target='_new'} 
 
 ## Step 2: Set Up Your Backend
 
-In a terminal window, navigate to your project folder and run the following command (accept defaults is OK, use 'test' environment name):
+In a terminal window, run the following command (accept defaults is OK, use 'test' environment name) from inside your project directory:
 
 ```bash
-$ cd ./YOUR_PROJECT_FOLDER
 $ amplify init        #accept defaults
 ```
 
@@ -338,7 +339,7 @@ To verify that the CLI is set up for your app, run the following command:
 
 The CLI displays a status table with no resources listed. As you add feature categories to your app and run `amplify push`, backend resources created for your app are listed in this table.
 
-You can update a category by running `amplify update <category-name>`. If you no longer want to use a service you can delete it with `amplify remove <category-name>`. Lastly, you can remove the whole project by running `amplify delete` (Warning: This will attempt to delete everything locally and in the cloud and reset your project as if you never ran `amplify init`).
+You can update a category by running `amplify update <category-name>`. If you no longer want to use a service you can delete it with `amplify remove <category-name>`. Lastly, you can remove the whole project by running `amplify delete` (Warning: This will attempt to delete your entire project, locally and in the cloud, essentially reseting your project as if you never ran `amplify init`).
 {: .callout .callout--warning}
 
 ## Step 3: Add API and Database
@@ -359,7 +360,7 @@ Create required backend resources for your configured api with the following com
 $ amplify push
 ```
 
-Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults choosing JavaScript, TypeScript, or Angular depending on your platform. 
+Since you added an API the `amplify push` process will automatically prompt for codegen (select `y` when prompted for automatic query and code generation). Accept the defaults choosing JavaScript, TypeScript, or Angular depending on your platform. 
 <div id="react" class="tab-content">
 For this tutorial choose **JavaScript**.
 </div>
@@ -440,7 +441,7 @@ async function getData() {
 getData();
 ```
 
-Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subcription with `API.graphql()` like so:
+Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subscription with `API.graphql()` like so:
 
 ```javascript
 // other imports
@@ -543,7 +544,7 @@ function App() {
 export default App
 ```
 
-Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subcription with `API.graphql()` like so:
+Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subscription with `API.graphql()` like so:
 
 ```javascript
 // other imports
@@ -641,7 +642,7 @@ export default function App() {
 }
 ```
 
-Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subcription with `API.graphql()` like so:
+Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subscription with `API.graphql()` like so:
 
 ```javascript
 // other imports
@@ -755,9 +756,11 @@ Add the following to your `src/app/app.component.html` to display any of the tod
 </ul>
 ```
 
-Finally, to subscribe to realtime data, update `ngOnInit` to setup a subscription on app start and update the `todos` array when new events are recieved:
+Finally, to subscribe to realtime data, update `ngOnInit` to setup a subscription on app start and update the `todos` array when new events are received:
 
 ```javascript
+import { Component, OnInit } from '@angular/core';
+
 export class AppComponent implements OnInit {
 
   async ngOnInit() {
@@ -866,7 +869,7 @@ Add the following to your `src/app/app.component.html` to display any of the tod
 </ion-list>
 ```
 
-Finally, to subscribe to realtime data, update `initializeApp()` to setup a subscription on app start and update the `todos` array when new events are recieved:
+Finally, to subscribe to realtime data, update `initializeApp()` to setup a subscription on app start and update the `todos` array when new events are received:
 
 ```javascript
 initializeApp() {
@@ -948,7 +951,7 @@ To display the data, update `App.vue` to list all the items in the database by i
     <button @click="createNewTodo">Add Todo</button>
     <ul>
       <li v-for="todo in todos" :key="todo.id">
-        {{ todo.name }} - {{ todo.description }}
+        {% raw %}{{item.name}}{% endraw %} - {% raw %}{{item.description}}{% endraw %}
       </li>
     </ul>
   </div>
@@ -980,7 +983,7 @@ export default {
 </script>
 ```
 
-Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subcription with `API.graphql()` like so:
+Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subscription with `API.graphql()` like so:
 
 ```html
 <script>
@@ -999,11 +1002,11 @@ export default {
     async getData(){  /* code above */ },
     subscribe(){
       API.graphql(graphqlOperation(onCreateTodo)).subscribe({
-      next: (eventData) => {
-        const todo = eventData.value.data.onCreateTodo;
-        this.todos.push(todo);
-      }
-    })
+        next: (eventData) => {
+          const todo = eventData.value.data.onCreateTodo;
+          this.todos.push(todo);
+        }
+      })
     }
   },
   created(){
