@@ -339,7 +339,7 @@ To verify that the CLI is set up for your app, run the following command:
 
 The CLI displays a status table with no resources listed. As you add feature categories to your app and run `amplify push`, backend resources created for your app are listed in this table.
 
-You can update a category by running `amplify update <category-name>`. If you no longer want to use a service you can delete it with `amplify remove <category-name>`. Lastly, you can remove the whole project by running `amplify delete` (Warning: This will attempt to delete your entire project, locally and in the cloud, essentially reseting your project as if you never ran `amplify init`).
+You can update a category by running `amplify update <category-name>`. If you no longer want to use a service you can delete it with `amplify remove <category-name>`. Lastly, you can remove the whole project by running `amplify delete` (Warning: This will attempt to delete your entire project, locally and in the cloud, essentially resetting your project as if you never ran `amplify init`).
 {: .callout .callout--warning}
 
 ## Step 3: Add API and Database
