@@ -155,7 +155,7 @@ If the user pool is set to allow email addresses/phone numbers as the username, 
 
 When you are using `email` as the username:
 ```js
-import { withAuthenticator, Authenticator } from 'aws-amplfy-react';
+import { withAuthenticator, Authenticator } from 'aws-amplify-react';
 
 // When using Authenticator
 class App {
@@ -180,7 +180,7 @@ export default withAuthenticator(App2, { usernameAttributes: 'email' });
 
 When you are using `phone number` as the username:
 ```js
-import { Authenticator, withAuthenticator } from 'aws-amplfy-react';
+import { Authenticator, withAuthenticator } from 'aws-amplify-react';
 
 class App {
   // ...
