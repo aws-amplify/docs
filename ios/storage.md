@@ -61,6 +61,9 @@ See [Authentication](./authentication) for more information on how to get the `u
 
     The CLI will create the awsconfiguration.json file in your project directory. Add it to your project using XCode.
 
+##### Lambda Triggers
+If you optionally want to enable triggers for the storage category (S3 & DynamoDB), the CLI supports associating Lambda triggers with S3 and DynamoDB events. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)
+
 ### Connect to Your Backend
 
 Use the following steps to add file storage backend services to your app.
@@ -683,7 +686,7 @@ After you have a resolver for the mutation, to ensure that our S3 Complex Object
 ```
   $util.toJson($util.dynamodb.fromS3ObjectJson($context.source.file))
 ```
-The AWS AppSync SDK doesn't take a direct dependency on the AWS SDK for iOS for Amazon S3, but takes in :code:`AWSS3TransferUtility` and :code:`AWSS3PresignedURLClient` clients as part of AWSAppSyncClientConfiguration. The code generator used above for generating the API generates the Amazon S3 wrappers required to use the previous clients in the client code. To generate the wrappers, pass the :code:`--add-s3-wrapper` flag while running the code generator tool. You also need to take a dependency on the AWSS3 SDK. You can do that by updating your Podfile to the following:
+The AWS AppSync SDK doesn't take a direct dependency on the AWS SDK for iOS for Amazon S3, but takes in `AWSS3TransferUtility` and `AWSS3PresignedURLClient` clients as part of AWSAppSyncClientConfiguration. The code generator used above for generating the API generates the Amazon S3 wrappers required to use the previous clients in the client code. To generate the wrappers, pass the `--add-s3-wrapper` flag while running the code generator tool. You also need to take a dependency on the AWSS3 SDK. You can do that by updating your Podfile to the following:
  
   ```ruby
   target: 'PostsApp' do
@@ -723,7 +726,7 @@ After adding the new mutation in our operations file, we run the code generator 
 ```bash
   aws-appsync-codegen generate GraphQLOperations/posts.graphql --schema GraphQLOperations/schema.json --output API.swift --add-s3-wrapper
 ```
-Update the :code:`AWSAppSyncClientConfiguration` object to provide the :code:`AWSS3TransferUtility` client for managing the uploads and downloads:
+Update the `AWSAppSyncClientConfiguration` object to provide the `AWSS3TransferUtility` client for managing the uploads and downloads:
 ```swift
   let appSyncConfig = try AWSAppSyncClientConfiguration(url: AppSyncEndpointURL,
                                                       serviceRegion: AppSyncRegion,

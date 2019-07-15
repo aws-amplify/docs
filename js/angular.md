@@ -40,9 +40,6 @@ Visit the [Authentication Guide]({%if jekyll.environment == 'production'%}{{site
 
 After creating your backend a configuration file will be generated in your configured source directory you identified in the `amplify init` command.
 
-Depending on your TypeScript version you may need to rename the `aws-exports.js` to `aws-exports.ts` prior to importing it into your app, or enable the `allowJs` <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" target="_blank">compiler option</a> in your tsconfig. 
-{: .callout .callout--info}
-
 When working with underlying `aws-js-sdk`, the "node" package should be included in *types* compiler option. update your `src/tsconfig.app.json`:
 ```json
 "compilerOptions": {
@@ -257,6 +254,141 @@ The SignUp Component accepts a 'signUpConfig' object which allows you to customi
 The signUpFields array in turn consist of an array of objects, each describing a field that will appear in sign up form that your users fill out:
 
 {% include sign-up-fields.html %}
+
+The following example will replace all the default sign up fields with the ones defined in the `signUpFields` array.
+In `app.component.ts`:
+```js
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  signUpConfig = {
+    header: 'My Customized Sign Up',
+    hideAllDefaults: true,
+    defaultCountryCode: '1',
+    signUpFields: [
+      {
+        label: 'Email',
+        key: 'email',
+        required: true,
+        displayOrder: 1,
+        type: 'string',
+      },
+      {
+        label: 'Password',
+        key: 'password',
+        required: true,
+        displayOrder: 2,
+        type: 'password'
+      },
+      {
+        label: 'Phone Number',
+        key: 'phone_number',
+        required: true,
+        displayOrder: 3,
+        type: 'string'
+      },
+      {
+        label: 'Custom Attribute',
+        key: 'custom_attr',
+        required: false,
+        displayOrder: 4,
+        type: 'string',
+        custom: true
+      }
+    ]
+  }
+}
+```
+
+In `app.component.html`:
+```html
+<amplify-authenticator [signUpConfig]="signUpConfig"></amplify-authenticator>
+```
+
+#### Sign up/in with email/phone number
+If the user pool is set to allow email addresses/phone numbers as the username, you can then change the UI components accordingly by using `usernameAttributes`.
+
+In `app.component.ts`:
+```js
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  usernameAttributes = "email"; 
+}
+```
+
+In `app.component.html`:
+```<amplify-authenticator [usernameAttributes]="usernameAttributes"></amplify-authenticator>```
+
+The `usernameAttributes` should be either `email` or `phone_number` based on your user pool setting.
+
+Note: if you are using custom signUpFields to customize the `username` field, then you need to make sure either the label of that field is the same value you set in `usernameAttributes` or the key of the field is `username`.
+
+For example:
+```js
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+
+export class AppComponent {
+  usernameAttributes: 'My user name',
+  signUpConfig = {
+    header: 'My Customized Sign Up',
+    hideAllDefaults: true,
+    defaultCountryCode: '1',
+    signUpFields: [
+      {
+        label: 'My user name',
+        key: 'username',
+        required: true,
+        displayOrder: 1,
+        type: 'string',
+      },
+      {
+        label: 'Password',
+        key: 'password',
+        required: true,
+        displayOrder: 2,
+        type: 'password'
+      },
+      {
+        label: 'PhoneNumber',
+        key: 'phone_number',
+        required: true,
+        displayOrder: 3,
+        type: 'string'
+      },
+      {
+        label: 'Custom Attribute',
+        key: 'custom_attr',
+        required: false,
+        displayOrder: 4,
+        type: 'string',
+        custom: true
+      }
+    ]
+  }
+```
+=======
+#### Replacing Authentication Components With Custom Components
+The child components displayed within the Authenticator can be hidden or replaced with custom components.
+
+Usage:
+```<amplify-authenticator [hide]="['Greetings']"></amplify-authenticator>```
 
 #### Using Authentication Components Without the Authenticator
 The child components displayed within the Authenticator can be used as standalone components.  This could be useful in situations where, for example, you want to display your own components for specific pieces of the registration and authentication flow.

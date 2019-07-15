@@ -1,5 +1,11 @@
 ---
+title: Storage
 ---
+{% if jekyll.environment == 'production' %}
+  {% assign base_dir = site.amplify.docs_baseurl %}
+{% endif %}
+{% assign media_base = base_dir | append: page.dir | append: "media" %}
+{% assign common_media = base_dir | append: "/images" %}
 
 # Storage
 
@@ -35,6 +41,9 @@ $ amplify push
 ```
 
 When your backend is successfully updated, your new configuration file `aws-exports.js` is copied under your source directory, e.g. '/src'.
+
+##### Lambda Triggers
+If you want to enable triggers for the storage category (S3 & DynamoDB), the CLI supports associating Lambda triggers with S3 and DynamoDB events. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)
 
 ##### Configure Your App
 
@@ -254,7 +263,7 @@ Access level configuration on the Storage object:
 ```javascript
 Storage.configure({ level: 'private' });
 
-Storage.get('welcome.png'); // Gets the welcome.png belongs to current user
+Storage.get('welcome.png'); // Gets the welcome.png belonging to current user
 ```
 
 Configuration when calling the API:
@@ -408,19 +417,19 @@ class S3ImageUpload extends React.Component {
 Upload an image in React Native app:
 
 ```javascript
-import RNFetchBlob from 'react-native-fetch-blob';
-
-readFile(filePath) {
-    return RNFetchBlob.fs.readFile(filePath, 'base64').then(data => new Buffer(data, 'base64'));
-}
-
-readFile(imagePath).then(buffer => {
-    Storage.put(key, buffer, {
-        contentType: imageType
+uploadToStorage = async pathToImageFile => {
+  try {
+    const response = await fetch(pathToImageFile)
+    
+    const blob = await response.blob()
+    
+    Storage.put('yourKeyHere.jpeg', blob, {
+      contentType: 'image/jpeg',
     })
-}).catch(e => {
-    console.log(e);
-});
+  } catch (err) {
+    console.log(err)
+  }
+}
 ```
 
 When a networking error happens during the upload, Storage module retries upload for a maximum of 4 attempts. If the upload fails after all retries, you will get an error.
@@ -843,7 +852,7 @@ See the [Angular Guide](https://aws-amplify.github.io/amplify-js/media/angular_g
 You can customize your upload path by defining prefixes:
 
 ```javascript
-const customPrefix: {
+const customPrefix = {
     public: 'myPublicPrefix/',
     protected: 'myProtectedPrefix/',
     private: 'myPrivatePrefix/'

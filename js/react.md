@@ -102,6 +102,160 @@ The signUpFields array in turn consist of an array of objects, each describing a
 
 {% include sign-up-fields.html %}
 
+The following example will replace all the default sign up fields with the ones defined in the `signUpFields` array.
+```js
+import React, { Component } from 'react';
+import { withAuthenticator } from 'aws-amplify-react';
+
+class App extends Component {
+}
+
+const signUpConfig = {
+  header: 'My Customized Sign Up',
+  hideAllDefaults: true,
+  defaultCountryCode: '1',
+  signUpFields: [
+    {
+      label: 'Email',
+      key: 'email',
+      required: true,
+      displayOrder: 1,
+      type: 'string'
+    },
+    {
+      label: 'Password',
+      key: 'password',
+      required: true,
+      displayOrder: 2,
+      type: 'password'
+    },
+    {
+      label: 'PhoneNumber',
+      key: 'phone_number',
+      required: true,
+      displayOrder: 3,
+      type: 'string'
+    },
+    {
+      label: 'Custom Attribute',
+      key: 'custom_attr',
+      required: false,
+      displayOrder: 4,
+      type: 'string',
+      custom: true
+    }
+  ]
+};
+
+export default withAuthenticator(App, { signUpConfig });
+```
+
+#### Sign up/in with email/phone number
+If the user pool is set to allow email addresses/phone numbers as the username, you can then change the UI components accordingly by using `usernameAttributes`.
+
+When you are using `email` as the username:
+```js
+import { withAuthenticator, Authenticator } from 'aws-amplify-react';
+
+// When using Authenticator
+class App {
+  // ...
+
+  render() {
+    return (
+      <Authenticator usernameAttributes='email'/>
+    );
+  }
+}
+
+export default App;
+
+// When using withAuthenticator
+class App2 {
+  // ...
+}
+
+export default withAuthenticator(App2, { usernameAttributes: 'email' });
+```
+
+When you are using `phone number` as the username:
+```js
+import { Authenticator, withAuthenticator } from 'aws-amplify-react';
+
+class App {
+  // ...
+
+  render() {
+    return (
+      <Authenticator usernameAttributes='phone_number'/>
+    );
+  }
+}
+
+export default App;
+
+// When using withAuthenticator
+class App2 {
+  // ...
+}
+
+export default withAuthenticator(App2, { usernameAttributes: 'phone_number' });
+```
+
+Note: if you are using custom signUpFields to customize the `username` field, then you need to make sure either the label of that field is the same value you set in `usernameAttributes` or the key of the field is `username`.
+
+For example:
+```js
+import React, { Component } from 'react';
+import { withAuthenticator } from 'aws-amplify-react';
+
+class App extends Component {
+}
+
+const signUpConfig = {
+  header: 'My Customized Sign Up',
+  hideAllDefaults: true,
+  defaultCountryCode: '1',
+  signUpFields: [
+    {
+      label: 'My user name',
+      key: 'username',
+      required: true,
+      displayOrder: 1,
+      type: 'string'
+    },
+    {
+      label: 'Password',
+      key: 'password',
+      required: true,
+      displayOrder: 2,
+      type: 'password'
+    },
+    {
+      label: 'PhoneNumber',
+      key: 'phone_number',
+      required: true,
+      displayOrder: 3,
+      type: 'string'
+    },
+    {
+      label: 'Custom Attribute',
+      key: 'custom_attr',
+      required: false,
+      displayOrder: 4,
+      type: 'string',
+      custom: true
+    }
+  ]
+};
+const usernameAttributes = 'My user name';
+
+export default withAuthenticator(App, { 
+  signUpConfig, 
+  usernameAttributes
+});
+```
+
 ## Add Analytics and Storage
 
 Next, we'll add some features, like tracking user behavior analytics and uploading/downloading images in the cloud. Start by running `amplify add analytics` in your project. You can enable analytics for authenticated users only, or for users that aren't authenticated. You would be prompted to ask whether you want to allow guests and unauthenticated users to send analytics events, so you can choose `Yes`. You can also try a new project without authentication configured to test this feature.
@@ -215,8 +369,8 @@ Now, inside the `App` component add the following two methods before the `render
       description: 'Amplify CLI rocks!'
     };
     
-    const newEvent = await API.graphql(graphqlOperation(addTodo, todoDetails));
-    alert(JSON.stringify(newEvent));
+    const newTodo = await API.graphql(graphqlOperation(addTodo, todoDetails));
+    alert(JSON.stringify(newTodo));
   }
 
   listQuery = async () => {
@@ -362,3 +516,11 @@ amplify function invoke <resourcename>
 ```
 
 In this case, the function runs, but it doesn't exit because this Lambda example starts an Express server which you need to manually close when testing it from the CLI. Use `ctrl-c` to close and open the `./amplify/backend/function/resourcename` directory to see the local structure that is packaged for Lambda invocation from API Gateway. The Lambda function is inside the `src` directory, along with `event.json`, which is used for the `amplify function invoke` command you just ran. `index.js` is also in this directory, which is the main entry point for the Serverless Express library that echoed out the test event and instantiated the server inside `app.js`. Since the Express routes defined in `app.js` don't have a path that's called via the test event, it responded with a 404 message. For more information, see https://github.com/awslabs/aws-serverless-express.
+
+## Note on JWT Storage
+
+Data is stored unencrypted when using standard storage adapters (`localStorage` in the browser and `AsyncStorage` on React Native). Amplify gives you the option to use your own storage object to persist data. With this, you could write a thin wrapper around libraries like:
+
+ - `react-native-keychain`
+ - `react-native-secure-storage`
+ - Expo's secure store

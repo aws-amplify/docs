@@ -362,6 +362,28 @@ Amplify.configure({
 });
 ```
 
+#### AWS AppSync Multi-Auth
+
+AWS AppSync can support [multiple authorization modes on a single API](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes). In order to use this feature with the Amplify Graphql Client the `API.graphql({...})` function would accept an optional parameter called `authMode`, its value will be one of the supported auth modes:
+
+- `API_KEY`
+- `AWS_IAM`
+- `OPENID_CONNECT`
+- `AMAZON_COGNITO_USER_POOLS`
+
+This is an example of using `AWS_IAM` as an authorization mode:
+
+```javascript
+// Creating a post is restricted to IAM 
+const createdTodo = await API.graphql({
+  query: queries.createTodo,
+  variables: {input: todoDetails},
+  authMode: 'AWS_IAM'
+});
+```
+
+Note: Previous examples uses `graphqlOperation` function. That function only creates an object with two attributes `query` and `variables`. In order to use `authMode` you need to pass this object as is mentioned on the previous example.
+
 ### React Components
 
 The API category provides React components for working with GraphQL data using the Amplify GraphQL client. 
@@ -457,7 +479,13 @@ class AddTodo extends Component {
       description: this.state.description
     }
     console.log(input);
-    await onCreate({ input })
+
+    try {
+    	await onCreate({input})
+    } catch (err) {
+    	console.error(err);
+    }
+
   }
 
   render(){
@@ -617,7 +645,7 @@ const client = new AWSAppSyncClient({
   url: awsconfig.aws_appsync_graphqlEndpoint,
   region: awsconfig.aws_appsync_region,
   auth: {
-    type: AUTH_TYPE.API_KEY,
+    type: AUTH_TYPE.API_KEY, // or type: awsconfig.aws_appsync_authenticationType,
     apiKey: awsconfig.aws_appsync_apiKey,
   }
 });
@@ -806,6 +834,7 @@ When using the AWS AppSync SDK offline capabilities (e.g. `disableOffline: false
 
 - Error handling: (`callback`)
 - Custom storage engine (`storage`)
+- A key prefix for the underlying store (`keyPrefix`)
 
 **Error handling**
 
@@ -881,6 +910,14 @@ const client = new AWSAppSyncClient({
   },
 });
 ```
+
+
+**Key prefix**
+
+The `AWSAppSyncClient` persists its cache data to support offline scenarios. Keys in the persisted cache will be prefixed by the provided `keyPrefix`.
+
+This prefix is required when offline support is enabled and you want to use more than one client in your app (e.g. by [accessing a multi-auth enabled AppSync API](#aws-appsync-multi-auth))
+
 
 #### Offline Mutations
 
@@ -1457,7 +1494,7 @@ In `AllPosts.jsx` you would have code like so:
 ```typescript
 const AllPosts = ({ postsList }) => (
   <div>
-    <pre style={{ textAlign: "left" }}>
+    <pre style={% raw %}{{ textAlign: "left" }}{% endraw %}>
       {JSON.stringify(postsList, null, 2)}
     </pre>
   </div>
@@ -1478,7 +1515,7 @@ In `GetPost.jsx` you would have:
 ```typescript
 const OnePost = ({ post }) => (
   <div>
-    <pre style={{ textAlign: "left" }}>{JSON.stringify(post, null, 2)}</pre>
+    <pre style={% raw %}{{ textAlign: "left" }}{% endraw %}>{JSON.stringify(post, null, 2)}</pre>
   </div>
 );
 
@@ -1519,6 +1556,78 @@ client.sync({
         }
       }
     });
+```
+
+#### AWS AppSync Multi-Auth
+
+AWS AppSync can support [multiple authorization modes on a single API](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes). In order to use this feature with the `aws-appsync` SDK, you can create multiple instances of the client where each instance uses a different authorization type.
+
+Using different clients is supported in the following UI bindings for Apollo: 
+
+- [Vue](https://vue-apollo.netlify.com/guide/multiple-clients.html)
+- [Angular](https://www.apollographql.com/docs/angular/features/multiple-clients)
+- [React](https://www.apollographql.com/docs/react/api/react-apollo#ApolloProvider)
+
+**Offline capabilities disabled** (`disableOffline: true`)
+
+```javascript
+import Amplify, { Auth } from "aws-amplify";
+import AWSAppSyncClient, { AUTH_TYPE } from "aws-appsync";
+import awsConfig from "./aws-exports";
+
+Amplify.configure(awsConfig);
+
+// Client 1 uses API_KEY as auth type
+const client1 = new AWSAppSyncClient({
+  url: awsConfig.aws_appsync_graphqlEndpoint,
+  region: awsConfig.aws_appsync_region
+  auth: { type: AUTH_TYPE.API_KEY, apiKey: awsConfig.aws_appsync_apiKey},
+  disableOffline: true,
+});
+
+// Client 2 uses AMAZON_COGNITO_USER_POOLS as auth type, leverages Amplify's token handling/refresh
+const client2 = new AWSAppSyncClient({
+  url: awsConfig.aws_appsync_graphqlEndpoint,
+  region: awsConfig.aws_appsync_region
+  auth: { 
+    type: AUTH_TYPE.AMAZON_COGNITO_USER_POOLS,
+    jwtToken: async () => (await Auth.currentSession()).getIdToken().getJwtToken(),
+    disableOffline: true,
+  }
+});
+```
+
+**Offline capabilities enabled**
+
+Multiple clients **cannot** share the same `keyPrefix` since it is used to separate each client's persisted data (e.g. cache). When using multiple clients, make sure that you provide a different `keyPrefix` in the `offlineConfig` object.
+{: .callout .callout--info}
+
+```javascript
+import Amplify, { Auth } from "aws-amplify";
+import AWSAppSyncClient, { AUTH_TYPE } from "aws-appsync";
+import awsConfig from "./aws-exports";
+
+Amplify.configure(awsConfig);
+
+// Client 1 uses API_KEY as auth type
+const client1 = new AWSAppSyncClient({
+  url: awsConfig.aws_appsync_graphqlEndpoint,
+  region: awsConfig.aws_appsync_region
+  auth: { type: AUTH_TYPE.API_KEY, apiKey: awsConfig.aws_appsync_apiKey},
+  offlineConfig: {
+    keyPrefix: 'public'
+  }
+});
+
+// Client 2 uses AWS_IAM as auth type, leverages Amplify's credentials handling/refresh
+const client2 = new AWSAppSyncClient({
+  url: awsConfig.aws_appsync_graphqlEndpoint,
+  region: awsConfig.aws_appsync_region
+  auth: { type: AUTH_TYPE.AWS_IAM, credentials: () => Auth.currentCredentials() },
+  offlineConfig: {
+    keyPrefix: 'private'
+  }
+});
 ```
 
 ### Angular
@@ -1809,13 +1918,14 @@ let items = await API.get('myCloudApi', '/items', {
 });
 ```
 
-**Accessing Query Parameters in Cloud API**
+**Accessing Query Parameters & body in Cloud API**
 
-If you are using a Cloud API which is generated with Amplify CLI, your backend is created with Lambda Proxy Integration, and you can access your query parameters within your Lambda function via the *event* object:
+If you are using a Cloud API which is generated with Amplify CLI, your backend is created with Lambda Proxy Integration, and you can access your query parameters & body within your Lambda function via the *event* object:
 
 ```javascript
 exports.handler = function(event, context, callback) {
     console.log (event.queryStringParameters);
+    console.log('body: ', event.body)
 }
 ```
 
@@ -1826,12 +1936,19 @@ const awsServerlessExpressMiddleware = require('aws-serverless-express/middlewar
 app.use(awsServerlessExpressMiddleware.eventContext())
 ```
 
-In your request handler use `req.apiGateway.event`:
+Accessing Query Parameters with Serverless Express
+
+In your request handler use `req.apiGateway.event` or `req.query`:
 
 ```javascript
 app.get('/items', function(req, res) {
-  // req.apiGateway.event.queryStringParameters
-  res.json(req.apiGateway.event)
+  const query = req.query
+  // or
+  // const query = req.apiGateway.event.queryStringParameters
+  res.json({
+    event: req.apiGateway.event, // to view all event data
+    query: query
+  })
 });
 ```
 
@@ -1843,6 +1960,18 @@ API.get('sampleCloudApi', '/items?q=test');
 
 To learn more about Lambda Proxy Integration, please visit [Amazon API Gateway Developer Guide](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-create-api-as-simple-proxy-for-lambda.html).
 {: .callout .callout--info}
+
+**Custom Response Type**
+
+By default, calling an API with AWS Amplify parses a JSON response. If you have a REST API endpoint which returns, for example, a file in Blob format, you can specify a custom response type using the `responseType` parameter in your method call:
+
+```javascript
+let file = await API.get('myCloudApi', '/items', {
+  'responseType': 'blob'
+});
+```
+
+Allowed values for `responseType` are "arraybuffer", "blob", "document", "json" or "text"; and it defaults to "json" if not specified. See the documentation https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/responseType for more information.
 
 #### **POST**
 
@@ -1879,9 +2008,23 @@ async function postData() {
 postData();
 ```
 
+Access body in the Lambda function
+
+```javascript
+// using a basic lambda handler
+exports.handler = (event, context) => {
+  console.log('body: ', event.body);
+}
+
+// using serverless express
+app.post('/myendpoint', function(req, res) {
+  console.log('body: ', req.body)
+});
+```
+
 #### **PUT**
 
-When used together with [Cloud API](https://docs.aws.amazon.com/aws-mobile/latest/developerguide/web-access-apis.html), PUT method can be used to create or update records. It updates the record if a matching record is found. Otherwise, a new record is created.
+When used together with a Cloud API, PUT method can be used to create or update records. It updates the record if a matching record is found. Otherwise, a new record is created.
 
 ```javascript
 let apiName = 'MyApiName'; // replace this with your api name.
@@ -1912,6 +2055,20 @@ async function putData() {
 }
 
 putData();
+```
+
+Access body in the Lambda function
+
+```javascript
+// using a basic lambda handler
+exports.handler = (event, context) => {
+  console.log('body: ', event.body);
+}
+
+// using serverless express
+app.put('/myendpoint', function(req, res) {
+  console.log('body: ', req.body)
+});
 ```
 
 Update a record:
@@ -1957,6 +2114,20 @@ async function deleteData() {
 deleteData();
 ```
 
+Access body in the Lambda function
+
+```javascript
+// using a basic lambda handler
+exports.handler = (event, context) => {
+  console.log('body: ', event.body);
+}
+
+// using serverless express
+app.delete('/myendpoint', function(req, res) {
+  console.log('body: ', req.body)
+});
+```
+
 #### **HEAD**
 
 ```javascript
@@ -1999,7 +2170,7 @@ Amplify.configure({
         custom_header: async () => { 
           return { Authorization : 'token' } 
           // Alternatively, with Cognito User Pools use this:
-          // return { Authorization: (await Auth.currentSession()).idToken.jwtToken } 
+          // return { Authorization: `Bearer ${(await Auth.currentSession()).accessToken.jwtToken}` }
         }
       }
     ]
@@ -2026,6 +2197,23 @@ If you have used Amplify CLI to create your API, you can enable custom headers b
 6. Click on 'Enable CORS and replace existing CORS headers' and confirm.
 7. Finally, similar to step 3, click the Actions drop-down menu and then select **Deploy API**. Select **Development** on deployment stage and then **Deploy**. (Deployment could take a couple of minutes).
 
+### Cognito User Pools Authorization
+You can use the JWT token provided by the Authentication API to authenticate against API Gateway directly when using a <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html" target="_blank">custom authorizer</a>. You can achieve this by retrieving the JWT token from the `Auth.currentSession().accessToken.jwtToken` API:
+
+```javascript
+async function postData() { 
+    let apiName = 'MyApiName';
+    let path = '/path';
+    let myInit = { 
+        headers: { Authorization: `Bearer ${(await Auth.currentSession()).accessToken.jwtToken}` }
+    }
+    return await API.post(apiName, path, myInit);
+}
+
+postData();
+```
+
+> Note that the header name, in the above example 'Authorization', is dependent on what you choose during your API Gateway configuration.
 
 ## Using Modular Imports
 
@@ -2036,13 +2224,18 @@ Note: if you're using Graphql, please also install `@aws-amplify/pubsub`
 Then in your code, you can import the Api module by:
 
 ```javascript
-import API from '@aws-amplify/api';
+import API, { graphqlOperation } from '@aws-amplify/api';
 
 API.configure();
-
 ```
 
 ## API Reference   
 
 For the complete API documentation for API module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/apiclass.html)
 {: .callout .callout--info}
+
+
+## Lambda Triggers
+If you optionally want to enable triggers for the storage category (S3 & DynamoDB), the CLI supports associating Lambda triggers with S3 and DynamoDB events. This can be useful if you want to invoke a Lambda function after any create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)
+
+

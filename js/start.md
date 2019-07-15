@@ -10,7 +10,7 @@ Use the drop-down menu at the top right of this page to choose the framework for
 ## What Does the Amplify Framework include?
 
 - The Amplify CLI toolchain for creating and managing a serverless backend, web hosting, and codegen 
-- JavaScript, iOS, and Android libraries for simple access your AWS resources using a category based programming model
+- JavaScript, iOS, and Android libraries for simple access to your AWS resources using a category based programming model
 - Framework-specific UI component libraries for React, React Native, Angular, Ionic and Vue.
 
 Amplify includes support for [iOS]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/ios/start) and [Android]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/android/start) development.
@@ -185,7 +185,7 @@ $ npm start
 </div>
 <div id="react-native" class="tab-content" >
 
-If you have an existing React Native application, you can skip this section, but note that we have a [linking requirement](#linking-native-libraries-for-react-native) that may apply to your app.
+If you have an existing React Native application, you can skip this section, but note that we have a [linking requirement]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/react#add-auth) that may apply to your app.
 
 [Expo CLI](https://expo.io) is a command line utility to create React Native apps with no build configuration. Run following commands to install Expo CLI and create your app (using the defaults is sufficient for this sample project):
 
@@ -415,6 +415,10 @@ You'll notice that the Amplify CLI is also creating an Auth resource for you (th
 
 > After your analytics resource has been successfully created, the Amplify configuration file (`aws-exports.js`) will be added to the source directory. (The 'src' directory for your project is defined by your answer to the `Source Directory Path` question during `amplify init`.)
 
+**If You Change Your Mind**
+
+You can update a service by running `amplify update <category-name>`. If you no longer want to use a service you can delete it with `amplify remove <category-name>`. Lastly, you can wipe out the whole project by running `amplify delete` (Warning: This will attempt to delete everything locally and in the cloud and reset your project as if you never ran `amplify init`).
+
 ## Step 4. Integrate AWS Resources
 
 <div class="nav-tab install" data-group='install'>
@@ -446,7 +450,7 @@ const AnalyticsResult = document.getElementById('AnalyticsResult');
 const AnalyticsEventButton = document.getElementById('AnalyticsEventButton');
 let EventsSent = 0;
 
-AnaltyicsEventButton.addEventListener('click', (event) => {
+AnalyticsEventButton.addEventListener('click', (event) => {
   const { aws_mobile_analytics_app_region, aws_mobile_analytics_app_id } = awsconfig;
 
   Analytics.record('Amplify Tutorial Event')
@@ -456,6 +460,7 @@ AnaltyicsEventButton.addEventListener('click', (event) => {
       AnalyticsResult.innerHTML += '<p>Events sent: '+(++EventsSent)+'</p>';
       AnalyticsResult.innerHTML += '<a href="'+url+'" target="_blank">View Events on the Amazon Pinpoint Console</a>';
     });
+});
 ```
 
 > The code above imports only the Auth and Analytics categories. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
@@ -503,6 +508,7 @@ class App extends Component {
               <p>Events sent: {this.state.eventsSent + 1}</p>
               <a href={url} target="_blank" rel="noopener noreferrer">View Events on the Amazon Pinpoint Console</a>
             </div>);
+
             this.setState({
                 analyticsEventSent: true,
                 resultHtml: result,
@@ -895,7 +901,7 @@ export default {
   },
   data: () => {
     return {
-      url: `https:// ${awsconfig.aws_project_region}.console.aws.amazon.com/pinpoint/home/?region=${awsconfig.aws_project_region}#/apps/${awsconfig.aws_mobile_analytics_app_id}/analytics/events`,
+      url: `https://${awsconfig.aws_project_region}.console.aws.amazon.com/pinpoint/home/?region=${awsconfig.aws_project_region}#/apps/${awsconfig.aws_mobile_analytics_app_id}/analytics/events`,
       eventsSent: 0,
       analyticsEventSent: false
     }

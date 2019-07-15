@@ -8,6 +8,7 @@ aws-amplify-angular
 @aws-amplify/storage
 App.vue
 app.js
+authMode
 APIs
 AmplifyAngularModule
 AmplifyIonicModule
@@ -19,6 +20,7 @@ Authenticator
 aws_bots_config.name
 aws-exports
 analytics
+arraybuffer
 backend
 botTitle
 cli
@@ -134,6 +136,7 @@ resubscription
 backends
 AuthN
 AuthZ
+lifecycles
 
 # js/tutorials/building-ionic-4-apps/index.md
 home.page.ts
@@ -300,6 +303,7 @@ aws.cognito.signin.user.admin
 ChallengeName
 myapp
 LoginWithAmazon
+pre-populated
 
 #js/cognito-hosted-ui-federated-identity.md
 oauth2
@@ -344,8 +348,16 @@ pluggable
 mouseover
 url
 webapp
+dataset
+AmazonPersonalizeProvider
+eventType
+iframe
+MediaAutoTrack
+TimeWatched
+eventValue
 
 # cli/graphql.md
+UpdateTable
 redirect_to
 graphql
 sdk
@@ -360,8 +372,7 @@ PAY_PER_REQUEST
 DynamoDBModelTableWriteIOPS
 DynamoDBModelTableReadIOPS
 ssn
-
-# cli/graphql.md
+event.prev.result
 DataSource
 DataSources
 onCreate
@@ -387,6 +398,48 @@ versionInput
 versioning
 PAY_PER_REQUEST
 MySQL
+UserPoolId
+COGNITO_USERPOOL_ID
+GraphiQL
+ClientId
+AppClientIDWeb
+typeName
+fieldName
+prev
+ge
+lt
+le
+beginsWith
+queryField
+createdAt
+customerEmail
+orderId
+status#createdAt
+IN_TRANSIT
+statusCreatedAt
+ByStatus
+
+# cli-toolchain/cognito-triggers.md
+Lambda
+reCaptcha
+captcha
+CreateAuthChallenge
+DefineAuthChallenge
+VerifyAuthChallengeResponse
+VerifyAuthChallengeResponse
+react-google-recaptcha
+PreSignUp
+Captchas
+ng-recaptcha
+CUSTOM_AUTH
+app.module.ts
+app.component.ts
+app.component.html
+vue-recaptcha
+spinner.js
+style.css
+verify.js
+whitelist
 
 # js/vue.md
 confirmSignInConfig
@@ -406,6 +459,7 @@ noMfaDescription
 cancelHandler
 defaultName
 amplify-vue
+usernameAttributes
 
 # js/sign-up-fields.md
 displayOrder
@@ -431,6 +485,7 @@ Unauth
 frontends
 metadata
 Cloudfront
+datasource
 
 # cli/hosting.md
 gitignore
@@ -491,6 +546,9 @@ Cloudformaton
 DynamoDBTable
 amplifyMeta.json
 transform.conf.json
+
+#cli-toolchain/usage.md
+poolData
 
 # android/analytics.md
 ActivityLifecycleCallbacks
@@ -721,6 +779,7 @@ YOUR_APP_NAME
 baseQueryResultHandler
 subscriptionResultHandler
 deltaQueryResultHandler
+SwiftUI
 syncConfiguration
 returnValue
 UIViewController

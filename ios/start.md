@@ -31,7 +31,7 @@ platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSCore', '~> 2.9.0'
+    pod 'AWSCore', '~> 2.9.6'
 
     # other pods
 end
@@ -59,7 +59,7 @@ $ amplify push        #creates configuration file
 In the Finder, drag `awsconfiguration.json` into Xcode under the top Project Navigator folder (the folder name should match your Xcode project name). When the `Options` dialog box that appears, do the following:
 
 * Clear the `Copy items if needed` check box.
-* Choose `Create groups`, and then choose `Next`.
+* Choose `Create groups`, and then choose `Finish`.
 
 ## Step 3: How it Works
 
@@ -98,7 +98,7 @@ platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSAppSync', '~> 2.10.0'
+    pod 'AWSAppSync', '~> 2.12.0'
 
 end
 ```
@@ -107,7 +107,7 @@ Run `pod install` and **build your app**.
 
 ## Step 5: Integrate into your app
 
-initialize the AppSync client inside your application delegate:
+Initialize the AppSync client inside your application delegate:
 
 ```swift
 import AWSAppSync
@@ -133,6 +133,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // other methods
         return true
     }
+}
 ```
 
 Next, in your application code where you wish to use the AppSync client (like your View Controller) reference this in the `viewDidLoad()` lifecycle method:

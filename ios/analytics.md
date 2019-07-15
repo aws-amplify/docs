@@ -56,6 +56,28 @@ The Amplify CLI helps setup and configure Pinpoint within your application and c
     $ amplify push
     ```
 
+#### Update your IAM Policy:
+
+The Amazon Pinpoint service requires permissions defined in an IAM policy to use the `submitEvents` API. If you are using long-term AWS credentials attached to an `Amazon IAM` user, attach the following policies to the role of that `IAM` user. If you are using temporary AWS credentials vended by `Amazon Cognito Identity Pools`, then attach the following policies to the Unauthenticated and/or Authenticated `IAM` roles of your `Cognito Identity Pool`. The role you attach the policies to depends on the scope of your application. For example, if you only want events submitted when users login, attach to the authenticated role. Similarly, if you want events submitted regardless of authentication state, attach the policy to the unauthenticated role. For more information on Cognito Identities authenticated/unauthenticated roles see <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html" target="_blank">here</a>.
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "mobiletargeting:UpdateEndpoint",
+                "mobiletargeting:PutEvents"
+            ],
+            "Resource": [
+                "arn:aws:mobiletargeting:*:${accountID}:apps/${appId}*"
+            ]
+        }
+    ]
+}
+```
+
 ### Connect to Your Backend
 
 Use the following steps to add analytics to your mobile app and monitor the results through Amazon Pinpoint.
@@ -85,39 +107,44 @@ If you encounter an error message that begins `[!] Failed to connect to GitHub t
 
 2. Classes that call Amazon Pinpoint APIs must use the following import statements:
 
-    ```swift
-    /** start code copy **/
-    import AWSCore
-    import AWSPinpoint
-    import AWSMobileClient
-    /** end code copy **/
-    ```
+```swift
+/** start code copy **/
+import AWSPinpoint
+import AWSMobileClient
+/** end code copy **/
+```
 
 3. To send events with Amazon Pinpoint, you'll instantiate a Pinpoint instance. We recommend you do this during app startup, so you can use Pinpoint to record app launch analytics. Edit the `application(_:didFinishLaunchingWithOptions:)` method of your app's `AppDelegate.swift` by adding a `pinpoint` instance property, and initializing the Pinpoint client as shown below:
 
-    ```swift
-    class AppDelegate: UIResponder, UIApplicationDelegate {
+```swift
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
-       /** start code copy **/
-       var pinpoint: AWSPinpoint?
-       /** end code copy **/
+    /** start code copy **/
+    var pinpoint: AWSPinpoint?
+    /** end code copy **/
 
-       func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions:
-       [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-            //. . .
+        // Other didFinishLaunching code...
 
-            // Initialize Pinpoint
-            /** start code copy **/
-            let pinpointConfiguration = AWSPinpointConfiguration.defaultPinpointConfiguration(launchOptions: launchOptions)
-            pinpoint = AWSPinpoint(configuration: pinpointConfiguration)
+        /** start code copy **/
+        // Create AWSMobileClient to connect with AWS
+        AWSMobileClient.sharedInstance().initialize { (userState, error) in
+          if let error = error {
+	    print("Error initializing AWSMobileClient: \(error.localizedDescription)")
+          } else if let userState = userState {
+	    print("AWSMobileClient initialized. Current UserState: \(userState.rawValue)")
+          }
+        }
 
-            // Create AWSMobileClient to connect with AWS
-            return AWSMobileClient.sharedInstance().interceptApplication(application, didFinishLaunchingWithOptions: launchOptions)
-            /** end code copy **/
-       }
+        // Initialize Pinpoint
+        let pinpointConfiguration = AWSPinpointConfiguration.defaultPinpointConfiguration(launchOptions: launchOptions)
+        pinpoint = AWSPinpoint(configuration: pinpointConfiguration)
+        /** end code copy **/
+        return true
     }
-    ```
+}
+```
 
 #### Monitor Analytics
 
@@ -125,9 +152,9 @@ Build and run your app to see usage metrics in Amazon Pinpoint. When you run the
 
 1. To see visualizations of the analytics coming from your app, open your project in the Amazon Pinpoint console by running the following:
 
-    ```bash
-    $ amplify console analytics
-    ```
+```bash
+$ amplify console analytics
+```
 
 2. Choose `Analytics` from the icons on the left of the console, and view the graphs of your app's usage. It may take up to 15 minutes for metrics to become visible.
 
@@ -217,7 +244,20 @@ You can report authentication events by doing either of the following:
 
 * Managing user sign-up and sign-in with Amazon Cognito user pools.
 
-    Amazon Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Amazon Cognito reports authentication events to Amazon Pinpoint. For more information, see [Using Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html) in the _Amazon Cognito Developer Guide_.
+    Amazon Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Amazon Cognito reports authentication events to Amazon Pinpoint. For more information, see [Using Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html) in the _Amazon Cognito Developer Guide_. Also update awsconfiguration.json by adding the `pinpoint appid` under CognitoUserPool.
+```json
+	"CognitoUserPool": {
+        "Default": {
+            "PoolId": "<poolid>",
+            "AppClientId": "<appclientid>",
+            "AppClientSecret": "<appclientsecret>",
+            "Region": "<region>",
+            "PinpointAppId": "<pinpointappid>"
+        }
+    }
+
+```
+
 
 * Reporting authentication events by using the Amazon Pinpoint client that's provided by the AWS Mobile SDK for iOS or Android.
 
@@ -232,6 +272,11 @@ You can report authentication events by doing either of the following:
         }
     }
     ```
+    
+#### Event Ingestion Limits
+
+The limits applicable to the ingestion of events using the AWS Android SDK for Pinpoint and the Amazon Pinpoint Events API
+can be found [here](https://docs.aws.amazon.com/pinpoint/latest/developerguide/limits.html#limits-events).
 
 ## Registering Endpoints in Your Application
 
@@ -279,6 +324,11 @@ if let targetingClient = pinpoint?.targetingClient {
     print("Assigned user ID \(user.userId ?? "nil") to endpoint \(endpoint.endpointId)")
 }
 ```
+
+#### Endpoint Limits
+
+The limits applicable to the endpoints using the AWS Android SDK for Pinpoint and the Amazon Pinpoint Endpoint API
+can be found [here](https://docs.aws.amazon.com/pinpoint/latest/developerguide/limits.html#limits-endpoint).
 
 ## Using Amazon Kinesis
 
