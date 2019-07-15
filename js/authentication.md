@@ -86,6 +86,11 @@ A configuration file called `aws-exports.js` will be copied to your configured s
 
 **NOTE**: If your Authentication resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli/lambda-node-version-update)
 
+#### Lambda Triggers
+
+The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your AWS Cognito User Pool.  These enable you to add custom functionality to your registration and authentication flows. [Read more]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/)
+
+
 ##### Configure Your App
 
 In your app's entry point i.e. App.js, import and load the configuration file:
@@ -632,9 +637,10 @@ You can provide custom components to the `Authenticator` as child components in 
 ```jsx
 import { Authenticator, SignIn } from 'aws-amplify-react';
 
+// The override prop tells the Authenticator that the SignUp component is not hidden but overridden
 <Authenticator hideDefault={true}>
   <SignIn />
-  <MyCustomSignUp override={'SignUp'}/> {/* to tell the Authenticator the SignUp component is not hidden but overridden */}
+  <MyCustomSignUp override={'SignUp'}/> 
 </Authenticator>
 
 class MyCustomSignUp extends Component {

@@ -316,7 +316,7 @@ export default {
         }
       }
     }
-  },
+  }
 </script>
 ```
 
@@ -382,7 +382,7 @@ export default {
         }
       }
     }
-  },
+  }
 </script>
 ```
 ## API Components
@@ -391,7 +391,7 @@ export default {
 
 The Connect component can be used to execute a GraphQL query, subscription, or mutation. You can execute GraphQL queries by passing your queries in `query` or `mutation` attributes. For example:
 
-```javascript
+```html
 <template>
   <div class="home">
       <amplify-connect :query="listTodosQuery">
@@ -437,7 +437,7 @@ export default {
 
 You can also subscribe to changes in query data via the `subscription` and `onSubscriptionMsg` attributes:
 
-```javascript
+```html
 <template>
   <div class="home">
       <amplify-connect :query="listTodosQuery"
@@ -504,7 +504,7 @@ export default {
 
 The Connect component also supports mutations by passing a GraphQL query and (optionally) variables via the `mutation` attribute. Call the provided `mutate` method to trigger the operation. `mutation` returns a promise that resolves with the result of the GraphQL mutation, use `@done` to listen for it to complete.
 
-```javascript
+```html
 <template>
   <div>
     <amplify-connect :mutation="createTodoMutation"
