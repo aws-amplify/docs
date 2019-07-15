@@ -1494,7 +1494,7 @@ In `AllPosts.jsx` you would have code like so:
 ```typescript
 const AllPosts = ({ postsList }) => (
   <div>
-    <pre style={{ textAlign: "left" }}>
+    <pre style={% raw %}{{ textAlign: "left" }}{% endraw %}>
       {JSON.stringify(postsList, null, 2)}
     </pre>
   </div>
@@ -1515,7 +1515,7 @@ In `GetPost.jsx` you would have:
 ```typescript
 const OnePost = ({ post }) => (
   <div>
-    <pre style={{ textAlign: "left" }}>{JSON.stringify(post, null, 2)}</pre>
+    <pre style={% raw %}{{ textAlign: "left" }}{% endraw %}>{JSON.stringify(post, null, 2)}</pre>
   </div>
 );
 
@@ -2235,3 +2235,9 @@ API.configure();
 
 For the complete API documentation for API module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/apiclass.html)
 {: .callout .callout--info}
+
+
+## Lambda Triggers
+If you optionally want to enable triggers for the storage category (S3 & DynamoDB), the CLI supports associating Lambda triggers with S3 and DynamoDB events. This can be useful if you want to invoke a Lambda function after any create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)
+
+
