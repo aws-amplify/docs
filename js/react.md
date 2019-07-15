@@ -180,7 +180,7 @@ export default withAuthenticator(App2, { usernameAttributes: 'email' });
 
 When you are using `phone number` as the username:
 ```js
-import { Authenticator, withAuthenticator } from 'aws-amplfy-react';
+import { Authenticator, withAuthenticator } from 'aws-amplify-react';
 
 class App {
   // ...

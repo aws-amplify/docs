@@ -1936,14 +1936,19 @@ const awsServerlessExpressMiddleware = require('aws-serverless-express/middlewar
 app.use(awsServerlessExpressMiddleware.eventContext())
 ```
 
-Accessing Query Parameters
+Accessing Query Parameters with Serverless Express
 
-In your request handler use `req.apiGateway.event`:
+In your request handler use `req.apiGateway.event` or `req.query`:
 
 ```javascript
 app.get('/items', function(req, res) {
-  // req.apiGateway.event.queryStringParameters
-  res.json(req.apiGateway.event)
+  const query = req.query
+  // or
+  // const query = req.apiGateway.event.queryStringParameters
+  res.json({
+    event: req.apiGateway.event, // to view all event data
+    query: query
+  })
 });
 ```
 
@@ -1951,27 +1956,6 @@ Then you can use query parameters in your path as follows:
 
 ```javascript
 API.get('sampleCloudApi', '/items?q=test');
-```
-
-Accessing Body
-
-In your request handler you can also access the `req.body`:
-
-```javascript
-app.get('/items', function(req, res) {
-  // req.body
-  res.json(req.body)
-});
-```
-
-Then you can use body in your path as follows:
-
-```javascript
-const params = {
-  body: { title: "Hello World" }
-}
-
-API.get('sampleCloudApi', '/items', params);
 ```
 
 To learn more about Lambda Proxy Integration, please visit [Amazon API Gateway Developer Guide](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-create-api-as-simple-proxy-for-lambda.html).
@@ -2073,6 +2057,20 @@ async function putData() {
 putData();
 ```
 
+Access body in the Lambda function
+
+```javascript
+// using a basic lambda handler
+exports.handler = (event, context) => {
+  console.log('body: ', event.body);
+}
+
+// using serverless express
+app.put('/myendpoint', function(req, res) {
+  console.log('body: ', req.body)
+});
+```
+
 Update a record:
 
 ```javascript
@@ -2083,20 +2081,6 @@ const params = {
     }
 }
 const apiResponse = await API.put('MyTableCRUD', '/manage-items', params);
-```
-
-Access body in the Lambda function
-
-```javascript
-// using a basic lambda handler
-exports.handler = (event, context) => {
-  console.log('body: ', event.body);
-}
-
-// using serverless express
-app.post('/myendpoint', function(req, res) {
-  console.log('body: ', req.body)
-});
 ```
 
 #### **DELETE**
@@ -2128,6 +2112,20 @@ async function deleteData() {
 }
 
 deleteData();
+```
+
+Access body in the Lambda function
+
+```javascript
+// using a basic lambda handler
+exports.handler = (event, context) => {
+  console.log('body: ', event.body);
+}
+
+// using serverless express
+app.delete('/myendpoint', function(req, res) {
+  console.log('body: ', req.body)
+});
 ```
 
 #### **HEAD**
@@ -2226,7 +2224,7 @@ Note: if you're using Graphql, please also install `@aws-amplify/pubsub`
 Then in your code, you can import the Api module by:
 
 ```javascript
-import API from '@aws-amplify/api';
+import API, { graphqlOperation } from '@aws-amplify/api';
 
 API.configure();
 ```
@@ -2235,3 +2233,9 @@ API.configure();
 
 For the complete API documentation for API module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/apiclass.html)
 {: .callout .callout--info}
+
+
+## Lambda Triggers
+If you optionally want to enable triggers for the storage category (S3 & DynamoDB), the CLI supports associating Lambda triggers with S3 and DynamoDB events. This can be useful if you want to invoke a Lambda function after any create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)
+
+

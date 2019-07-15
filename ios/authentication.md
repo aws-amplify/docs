@@ -38,7 +38,6 @@ This allows you to write workflows in your application based on the state of the
 
 ```swift
 AWSMobileClient.sharedInstance().addUserStateListener(self) { (userState, info) in
-            
             switch (userState) {
             case .guest:
                 print("user is in guest mode.")
@@ -150,6 +149,10 @@ A configuration file called `awsconfiguration.json` will be copied to your proje
 
 [Click here to learn more about this process.](./start#step-3-how-it-works)
 
+### Lambda Triggers
+
+The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your AWS Cognito User Pool.  These enable you to add custom functionality to your registration and authentication flows. [Read more]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/)
+
 ## Manual Setup
 
 For manual configuration without the CLI, you must have an `awsconfiguration.json` file with the following:
@@ -251,8 +254,8 @@ The `AWSMobileClient` client supports easy "drop-in" UI for your application. Yo
 ```swift
 AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigationController!, { (signInState, error) in
     if let signInState = signInState {
-        print("logged in!")
-    } else {
+        print("Sign in flow completed: \(signInState)")
+    } else if let error = error {
         print("error logging in: \(error.localizedDescription)")
     }
 })

@@ -914,6 +914,248 @@ mutation CreateDraft {
 }
 ```
 
+#### Authorizing Subscriptions
+
+The `@auth` directive does not yet support subscriptions out of the box. Currently, you have two
+options for authorizing subscription fields. You may turn off subscriptions by passing `subscriptions: null` to `@model` or you may write custom authorization logic.
+
+A type with subscriptions disabled looks like this:
+
+```
+type Post @model(subscriptions: null) {
+  id: ID!
+  title: String
+}
+```
+
+AppSync subscription resolvers run at connect time (i.e. when you first issue the subscription query) and provide a
+time for you to run custom authorization logic. Keep reading to learn how to add custom authorization logic to subscription fields.
+
+**Owner authorization with subscriptions**
+
+To implement ownership authorization, first disable the default subscriptions and add a custom subscription
+that includes a required "owner" argument.
+
+```
+type Todo @model(subscriptions: null) @auth(rules: [{ allow: owner, identityField: "sub" }]) {
+  id: ID!
+  name: String!
+  owner: String
+  description: String
+}
+type Subscription {
+  onCreateTodo(owner: String!): Todo @aws_subscribe(mutations: ["createTodo"])
+}
+```
+
+Next add a resolver record to a custom stack in the APIs project's `stacks/` directory. Here is a full example
+including a resolver on the `Subscription.onCreateTodo` field that uses a local resolver to run some logic.
+
+```
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+	"Parameters": {
+		"AppSyncApiId": {
+			"Type": "String",
+			"Description": "The id of the AppSync API associated with this project."
+		},
+		"S3DeploymentBucket": {
+			"Type": "String",
+			"Description": "The S3 bucket containing all deployment assets for the project."
+		},
+		"S3DeploymentRootKey": {
+			"Type": "String",
+			"Description": "An S3 key relative to the S3DeploymentBucket that points to the root\nof the deployment directory."
+		}
+	},
+	"Resources": {
+		"SubscriptionOnCreateTodo": {
+			"Type": "AWS::AppSync::Resolver",
+			"Properties": {
+				"ApiId": {
+                    "Ref": "AppSyncApiId"
+                },
+                "DataSourceName": "Local",
+                "FieldName": "onCreateTodo",
+                "TypeName": "Subscription",
+                "RequestMappingTemplateS3Location": {
+                    "Fn::Sub": [
+                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
+                        {
+                            "S3DeploymentBucket": {
+                                "Ref": "S3DeploymentBucket"
+                            },
+                            "S3DeploymentRootKey": {
+                                "Ref": "S3DeploymentRootKey"
+                            },
+                            "ResolverFileName": "Subscription.onCreateTodo.req.vtl"
+                        }
+                    ]
+                },
+                "ResponseMappingTemplateS3Location": {
+                    "Fn::Sub": [
+                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
+                        {
+                            "S3DeploymentBucket": {
+                                "Ref": "S3DeploymentBucket"
+                            },
+                            "S3DeploymentRootKey": {
+                                "Ref": "S3DeploymentRootKey"
+                            },
+							"ResolverFileName": "Subscription.onCreateTodo.res.vtl"
+                        }
+                    ]
+                }
+			}
+		},
+		"TodoDataSource": {
+            "Type": "AWS::AppSync::DataSource",
+            "Properties": {
+                "ApiId": {
+                    "Ref": "AppSyncApiId"
+                },
+                "Name": "Local",
+                "Type": "NONE"
+            }
+        }
+	}
+}
+```
+
+Lastly, add the resolver mapping templates to the API project's `resolvers/` directory.
+
+```
+# Subscription.onCreateTodo.req.vtl
+# The content in this file does not do much.
+{
+    "version": "2018-05-29",
+    "payload": {}
+}
+```
+
+```
+# Subscription.onCreateTodo.res.vtl
+#if ($ctx.args.owner != $ctx.identity.claims.get("sub"))
+  $util.unauthorized()
+#end
+{ "ok": true }
+```
+
+This resolver will throw an unauthorized error when the owner argument passed to the subscription
+does not match that of the identity. This will prevent unauthorized users from opening subscriptions
+that subscribe to objects where the **owner** does not match the logged in user.
+
+> Alternatively you could actually query a table to lookup authorization information and handle the result.
+
+**Admin group authorization with subscriptions**
+
+Let's walk through example using static group authorization.
+
+```
+type Salary @model(subscriptions: null) @auth(rules: [{ allow: groups, groups: ["Admin"] }]) {
+  id: ID!
+  name: String!
+  owner: String
+  description: String
+}
+type Subscription {
+  onCreateSalary: Salary @aws_subscribe(mutations: ["createTodo"])
+}
+```
+
+Then add the resolver resource for the `Subscription.onCreateSalary` field to a stack in `stacks/`.
+
+```
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+	"Parameters": {
+		"AppSyncApiId": {
+			"Type": "String",
+			"Description": "The id of the AppSync API associated with this project."
+		},
+		"S3DeploymentBucket": {
+			"Type": "String",
+			"Description": "The S3 bucket containing all deployment assets for the project."
+		},
+		"S3DeploymentRootKey": {
+			"Type": "String",
+			"Description": "An S3 key relative to the S3DeploymentBucket that points to the root\nof the deployment directory."
+		}
+	},
+	"Resources": {
+		"SubscriptionOnCreateTodo": {
+			"Type": "AWS::AppSync::Resolver",
+			"Properties": {
+				"ApiId": {
+                    "Ref": "AppSyncApiId"
+                },
+                "DataSourceName": "Local",
+                "FieldName": "onCreateSalary",
+                "TypeName": "Subscription",
+                "RequestMappingTemplateS3Location": {
+                    "Fn::Sub": [
+                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
+                        {
+                            "S3DeploymentBucket": {
+                                "Ref": "S3DeploymentBucket"
+                            },
+                            "S3DeploymentRootKey": {
+                                "Ref": "S3DeploymentRootKey"
+                            },
+                            "ResolverFileName": "Subscription.onCreateSalary.req.vtl"
+                        }
+                    ]
+                },
+                "ResponseMappingTemplateS3Location": {
+                    "Fn::Sub": [
+                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
+                        {
+                            "S3DeploymentBucket": {
+                                "Ref": "S3DeploymentBucket"
+                            },
+                            "S3DeploymentRootKey": {
+                                "Ref": "S3DeploymentRootKey"
+                            },
+                            "ResolverFileName": "Subscription.onCreateSalary.res.vtl"
+                        }
+                    ]
+                }
+			}
+		},
+		"TodoDataSource": {
+            "Type": "AWS::AppSync::DataSource",
+            "Properties": {
+                "ApiId": {
+                    "Ref": "AppSyncApiId"
+                },
+                "Name": "Local",
+                "Type": "NONE"
+            }
+        }
+	}
+}
+```
+
+Lastly, add the resolver mapping templates to the API project's `resolvers/` directory.
+
+```
+## Subscription.onCreateSalary.req.vtl
+## The content in this file does not do much.
+{
+    "version": "2018-05-29",
+    "payload": {}
+}
+```
+
+```
+#if (!$ctx.identity.claims.get("cognito:groups").contains("Admin"))
+  $util.unauthorized()
+#end
+{ "ok": true }
+```
+
+This resolver will throw an unauthorized error when the logged in user is not a member of the "Admin" group.
+
 #### Field Level Authorization
 
 The `@auth` directive specifies that access to a specific field should be restricted
