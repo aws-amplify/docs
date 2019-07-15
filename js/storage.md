@@ -263,7 +263,7 @@ Access level configuration on the Storage object:
 ```javascript
 Storage.configure({ level: 'private' });
 
-Storage.get('welcome.png'); // Gets the welcome.png belongs to current user
+Storage.get('welcome.png'); // Gets the welcome.png belonging to current user
 ```
 
 Configuration when calling the API:
