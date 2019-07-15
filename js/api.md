@@ -2224,7 +2224,7 @@ Note: if you're using Graphql, please also install `@aws-amplify/pubsub`
 Then in your code, you can import the Api module by:
 
 ```javascript
-import API from '@aws-amplify/api';
+import API, { graphqlOperation } from '@aws-amplify/api';
 
 API.configure();
 ```
@@ -2233,3 +2233,9 @@ API.configure();
 
 For the complete API documentation for API module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/apiclass.html)
 {: .callout .callout--info}
+
+
+## Lambda Triggers
+If you optionally want to enable triggers for the storage category (S3 & DynamoDB), the CLI supports associating Lambda triggers with S3 and DynamoDB events. This can be useful if you want to invoke a Lambda function after any create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)
+
+
