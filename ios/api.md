@@ -1068,3 +1068,6 @@ func doInvokeAPI(token:String) {
 ```
 
 You can then invoke this method with `self.doInvokeAPI()` from your application code and it will pass the IdToken from Cognito User Pools as an `Authorization` header.
+
+## Lambda Triggers
+If you optionally want to enable triggers for the storage category (S3 & DynamoDB), the CLI supports associating Lambda triggers with S3 and DynamoDB events. This can be useful if you want to invoke a Lambda function after any create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)
