@@ -253,10 +253,10 @@ The `AWSMobileClient` client supports easy "drop-in" UI for your application. Yo
 
 ```swift
 AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigationController!, { (signInState, error) in
-    if signInState != nil {
-	print("User is logged in!")
+    if let signInState = signInState {
+        print("Sign in flow completed: \(signInState)")
     } else if let error = error {
-	print("error logging in: \(String(describing: error?.localizedDescription))")
+        print("error logging in: \(error.localizedDescription)")
     }
 })
 ```
