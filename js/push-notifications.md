@@ -341,7 +341,7 @@ PushNotification.onNotificationOpened((notification) => {
 });
 ```
 
-Note: the `onRegister` handler will only be triggered when the token is generated or updated in the service side which means normally it will only be triggered when the app is installed and opened the first time. 
+Note: the `onRegister` handler will only be triggered once when the token is generated or updated by the push provider i.e. Apple/Google (and when the app opened the first time). 
 
 If you have configured your application not to automatically request iOS push notification permissions, you can use the `requestIOSPermissions` method to request them explicitly:
 
