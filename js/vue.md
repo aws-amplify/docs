@@ -316,7 +316,7 @@ export default {
         }
       }
     }
-  },
+  }
 </script>
 ```
 
@@ -382,7 +382,7 @@ export default {
         }
       }
     }
-  },
+  }
 </script>
 ```
 ## API Components
