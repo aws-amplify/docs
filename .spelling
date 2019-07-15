@@ -136,6 +136,7 @@ resubscription
 backends
 AuthN
 AuthZ
+lifecycles
 
 # js/tutorials/building-ionic-4-apps/index.md
 home.page.ts
@@ -302,6 +303,7 @@ aws.cognito.signin.user.admin
 ChallengeName
 myapp
 LoginWithAmazon
+pre-populated
 
 #js/cognito-hosted-ui-federated-identity.md
 oauth2
@@ -417,6 +419,28 @@ IN_TRANSIT
 statusCreatedAt
 ByStatus
 
+# cli-toolchain/cognito-triggers.md
+Lambda
+reCaptcha
+captcha
+CreateAuthChallenge
+DefineAuthChallenge
+VerifyAuthChallengeResponse
+VerifyAuthChallengeResponse
+react-google-recaptcha
+PreSignUp
+Captchas
+ng-recaptcha
+CUSTOM_AUTH
+app.module.ts
+app.component.ts
+app.component.html
+vue-recaptcha
+spinner.js
+style.css
+verify.js
+whitelist
+
 # js/vue.md
 confirmSignInConfig
 confirmSignUpConfig
@@ -461,6 +485,7 @@ Unauth
 frontends
 metadata
 Cloudfront
+datasource
 
 # cli/hosting.md
 gitignore
@@ -521,6 +546,9 @@ Cloudformaton
 DynamoDBTable
 amplifyMeta.json
 transform.conf.json
+
+#cli-toolchain/usage.md
+poolData
 
 # android/analytics.md
 ActivityLifecycleCallbacks
