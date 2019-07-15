@@ -38,7 +38,6 @@ The first two will essentially allow the standard username/password flow to exec
 The following code sample demonstrates how to create a custom ConfirmSignIn component in React using the react-google-recaptcha npm package.
 
 ```js
-
 import React from 'react';
 import './App.css';
 import Amplify, { Auth, Hub } from 'aws-amplify';
@@ -57,98 +56,58 @@ Amplify.configure({
   }
 });
 
-function checkUser() {
-  Auth.currentAuthenticatedUser()
-    .then(user => Hub.dispatch('custom', {signedIn: true}))
-    .catch(err => console.log(err))
-};
-
 class MyCustomConfirmation extends AuthPiece {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
-    this.state = {show: true };
   }
 
-  componentDidMount() {
-    Hub.listen('custom', (data) => {
-      this.setState({show: false})
-    })
-  }
-  
   onChange(data) {
     Auth.sendCustomChallengeAnswer(this.props.authData, data)
     .then( (user) => { 
-      Hub.dispatch('custom', {signedIn: true})
+      console.log('user signed in!: ', user)
+      this.changeState('signedIn', user);
     })
 
   }
 
   render() {
-    if (this.state.show) {
+    if (this.props.authState === 'customConfirmSignIn') {
       return (
         <div>
-        {/* only render this component when the authState is 'signUp' */}
-        { this.props.authState === 'customConfirmSignIn' && 
-        <div>
           <ReCAPTCHA
-          sitekey="your-google-key"
+          sitekey="your-client-side-google-recaptcha-key"
           onChange={this.onChange}
-        />
+          />
+        </div>  
+        );
+      } else {
+        return null;
+      }
+    }
+  }
+  
+  class App extends React.Component {
+    render() {
+      return (
+        <div className="App">
+          <Authenticator hideDefault={true}>
+            <SignIn />
+            <SignUp />
+            <ConfirmSignUp />
+            <Greetings />
+            <MyCustomConfirmation override={'ConfirmSignIn'}/> 
+            </Authenticator>
         </div>
-        }
-      </div>
       );
-    } else {
-      return null;
     }
   }
-}
-
-class Greeting extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = { show: false}
+  
+  function MyApp() {
+    return <App />
   }
-  componentDidMount() {
-    Hub.listen('custom', (data) => {
-      this.setState({show: true})
-    })
-  }
-  render() {
-    if (this.state.show) {
-      return <Greetings />;
-    }
-    return null;
-  }
-}
-
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    checkUser();
-  }
-  render() {
-    return (
-      <div className="App">
-        <Authenticator hideDefault={true}>
-          <SignIn />
-          <SignUp />
-          <ConfirmSignUp />
-          <Greeting />
-          <MyCustomConfirmation override={'ConfirmSignIn'}/> 
-          </Authenticator>
-      </div>
-    );
-  }
-}
-
-function MyApp() {
-  return <App />
-}
-
-export default MyApp;
-
+  
+  export default MyApp;
 ```
 
 #### Angular Sample
@@ -223,7 +182,6 @@ app.component.html
 <amplify-authenticator [hide]="['ConfirmSignIn']"></amplify-authenticator>
 <div  *ngIf="confirmSignIn">
     <re-captcha (resolved)="submitSignIn($event)" siteKey="your-client-side-google-recaptcha-key"></re-captcha>
-  <button (click)="ConfirmSignIn()">Submit</button>
 </div>
 ```
 
