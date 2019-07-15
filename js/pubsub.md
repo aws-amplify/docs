@@ -52,7 +52,7 @@ You can retrieve *Cognito Identity Id* from your `aws-exports.js` file in `aws_c
 Alternatively, you can retrieve the `Cognito Identity Id` of a logged in user with Auth Module:
 ```javascript
     Auth.currentCredentials().then((info) => {
-      const cognitoIdentityId = info.identityId;
+      const cognitoIdentityId = info.data.IdentityId;
     });
 ```
 
