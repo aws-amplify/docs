@@ -2170,7 +2170,7 @@ Amplify.configure({
         custom_header: async () => { 
           return { Authorization : 'token' } 
           // Alternatively, with Cognito User Pools use this:
-          // return { Authorization: `Bearer ${(await Auth.currentSession()).accessToken.jwtToken}` }
+          // return { Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}` }
         }
       }
     ]
@@ -2198,14 +2198,14 @@ If you have used Amplify CLI to create your API, you can enable custom headers b
 7. Finally, similar to step 3, click the Actions drop-down menu and then select **Deploy API**. Select **Development** on deployment stage and then **Deploy**. (Deployment could take a couple of minutes).
 
 ### Cognito User Pools Authorization
-You can use the JWT token provided by the Authentication API to authenticate against API Gateway directly when using a <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html" target="_blank">custom authorizer</a>. You can achieve this by retrieving the JWT token from the `Auth.currentSession().accessToken.jwtToken` API:
+You can use the JWT token provided by the Authentication API to authenticate against API Gateway directly when using a <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html" target="_blank">custom authorizer</a>. You can achieve this by retrieving the JWT token from the `(await Auth.currentSession()).getAccessToken().getJwtToken()` API:
 
 ```javascript
 async function postData() { 
     let apiName = 'MyApiName';
     let path = '/path';
     let myInit = { 
-        headers: { Authorization: `Bearer ${(await Auth.currentSession()).accessToken.jwtToken}` }
+        headers: { Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}` }
     }
     return await API.post(apiName, path, myInit);
 }
