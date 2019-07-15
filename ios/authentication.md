@@ -38,7 +38,6 @@ This allows you to write workflows in your application based on the state of the
 
 ```swift
 AWSMobileClient.sharedInstance().addUserStateListener(self) { (userState, info) in
-            
             switch (userState) {
             case .guest:
                 print("user is in guest mode.")
@@ -255,8 +254,8 @@ The `AWSMobileClient` client supports easy "drop-in" UI for your application. Yo
 ```swift
 AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigationController!, { (signInState, error) in
     if let signInState = signInState {
-        print("logged in!")
-    } else {
+        print("Sign in flow completed: \(signInState)")
+    } else if let error = error {
         print("error logging in: \(error.localizedDescription)")
     }
 })
