@@ -259,33 +259,33 @@ In a terminal window, change to the root directory of your app and run the follo
 <div id="purejs" class="tab-content current">
 
 ```bash
-$ npm install --save aws-amplify
+$ npm install aws-amplify
 ```
 
 </div>
 <div id="react" class="tab-content">
 
 ```bash
-$ npm install --save aws-amplify
+$ npm install aws-amplify
 ```
 
 To install React-specific Amplify UI components, run the following command:
 
 ```bash
-$ npm install --save aws-amplify-react
+$ npm install aws-amplify-react
 ```
 
 </div>
 <div id="react-native" class="tab-content">
 
 ```bash
-$ npm install --save aws-amplify
+$ npm install aws-amplify
 ```
 
 To install React Native-specific Amplify UI components, run the following command:
 
 ```bash
-$ npm install --save aws-amplify-react-native
+$ npm install aws-amplify-react-native
 ```
 
 If you have created your app with *expo* in previous steps, you can [**skip**](#step-3-set-up-the-app-backend) this section.
@@ -298,8 +298,8 @@ Following example shows how you can link the libraries for a project that is cre
 ```bash
 $ react-native init myReactNativeApp
 $ cd myReactNativeApp
-$ npm install --save aws-amplify
-$ npm install --save aws-amplify-react-native
+$ npm install aws-amplify
+$ npm install aws-amplify-react-native
 $ react-native link
 ```
 
@@ -307,13 +307,13 @@ $ react-native link
 <div id="angular" class="tab-content">
 
 ```bash
-$ npm install --save aws-amplify
+$ npm install aws-amplify
 ```
 
 In addition to *aws-amplify* core, you can install our angular module which provides a service provider, helpers, and components:
 
 ```bash
-$ npm install --save aws-amplify-angular
+$ npm install aws-amplify-angular
 ``` 
 
 See the [Angular Guide](https://aws-amplify.github.io/amplify-js/media/angular_guide){: target='_new'} for details and usage.
@@ -323,7 +323,7 @@ See the [Angular Guide](https://aws-amplify.github.io/amplify-js/media/angular_g
 <div id="ionic" class="tab-content">
 
 ```bash
-$ npm install --save aws-amplify
+$ npm install aws-amplify
 ```
 
 In addition to `aws-amplify` core, you can install our angular and ionic modules which provide a service provider, helpers, and components:
@@ -332,7 +332,7 @@ In addition to `aws-amplify` core, you can install our angular and ionic modules
 <div id="ionic" class="tab-content">
 
 ```bash
-$ npm install --save aws-amplify-angular
+$ npm install aws-amplify-angular
 ``` 
 
 See the [Ionic Guide](https://aws-amplify.github.io/amplify-js/media/ionic_guide){: target='_new'} for details and usage.
@@ -343,13 +343,13 @@ See the [Ionic Guide](https://aws-amplify.github.io/amplify-js/media/ionic_guide
 <div id="vue" class="tab-content">
 
 ```bash
-$ npm install --save aws-amplify
+$ npm install aws-amplify
 ```
 
 To install Vue-specific Amplify UI components and the Amplify Vue plugin, run the following command:
 
 ```bash
-$ npm install --save aws-amplify-vue
+$ npm install aws-amplify-vue
 ```
 
 See the [Vue Guide](https://aws-amplify.github.io/docs/js/vue){: target='_new'} for details and usage.
