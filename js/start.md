@@ -335,7 +335,7 @@ In addition to `aws-amplify` core, you can install our angular and ionic modules
 $ npm install --save aws-amplify-angular
 ``` 
 
-See the [Ionic Guide](https://aws-amplify.github.io/amplify-js/media/ionic_guide){: target='_new'} for details and usage.
+See the [Angular Guide](https://aws-amplify.github.io/amplify-js/media/angular_guide){: target='_new'} for details and usage.  This guide includes documentation about Ionic-specific UI components.
 {: .callout .callout--action}
 
 </div>
