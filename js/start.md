@@ -35,7 +35,7 @@ This page guides you through setting up a backend and integration into your web 
 
 Create a new ‘plain’ JavaScript <a href="https://babeljs.io/docs/en/learn/" target="_blank">ES2015</a> app with webpack. With the following commands, create the directory (`amplify-js-app`) and files for the app.
 
-```
+```bash
 $ mkdir -p amplify-js-app/src && cd amplify-js-app
 $ touch package.json index.html webpack.config.js src/app.js
 ```
@@ -84,7 +84,7 @@ $ npm install
 Add the following to the `index.html` file:
 
 ```html
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -289,6 +289,7 @@ See the [Ionic Guide](https://aws-amplify.github.io/docs/js/angular){: target='_
 Use the Vue CLI to bootstrap a new Vue app (selecting the defaults will work for this project):
 
 ```bash
+
 $ npm install -g @vue/cli
 $ vue create myamplifyproject 
 $ cd myamplifyproject

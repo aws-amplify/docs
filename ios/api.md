@@ -179,6 +179,17 @@ appSyncClient?.fetch(query: ListTodosQuery(), cachePolicy: .returnCacheDataAndFe
 ```
 `returnCacheDataAndFetch` pulls results from the local cache first before retrieving data over the network. This gives a snappy UX and offline support.
 
+#### Considerations for SwiftUI
+
+When using `List` and `ForEach` for SwiftUI the structure needs to conform to `Identifiable`. The code generated for Swift does not make the structure `Identifable` but as long as you have a unique id associated with the object then you can retroactively mark a field as unique. Here is some example code for `ListTodosQuery()`
+
+```swift
+ForEach(listTodosStore.listTodos.identified(by:\.id)){ todo in
+    TodoCell(todoDetail: todo)
+}
+
+```
+
 ### Run a Mutation
 
 To add data you need to run a GraphQL mutation. The syntax is `appSyncClient?.perform(mutation: <NAME>Mutation() {(result, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen` created. However, most GraphQL schemas organize mutations with an `input` type for maintainability, which is what the AppSync console and Amplify CLI do as well. Therefore, you need to pass this as a parameter called `input`, as in the following example:
@@ -518,8 +529,8 @@ The `useClientDatabasePrefix` is added on the client builder which signals to th
 
 ```swift
 let serviceConfig = try AWSAppSyncServiceConfig()
-let cacheConfig = AWSAppSyncCacheConfiguration(useDatabasePrefix: true,
-                                            appSyncServiceConfig: serviceConfig)
+let cacheConfig = AWSAppSyncCacheConfiguration(useClientDatabasePrefix: true,
+                                                  appSyncServiceConfig: serviceConfig)
 let clientConfig = AWSAppSyncClientConfiguration(appSyncServiceConfig: serviceConfig,
                                                    cacheConfiguration: cacheConfig)
 
@@ -945,7 +956,7 @@ Add `AWSAPIGateway` to your Podfile:
 	  use_frameworks!
 
 	     # For API
-	     pod 'AWSAPIGateway', '~> 2.9.0'
+	     pod 'AWSAPIGateway', '~> 2.10.0'
 	     # other pods
 	end
 ```
@@ -1057,3 +1068,6 @@ func doInvokeAPI(token:String) {
 ```
 
 You can then invoke this method with `self.doInvokeAPI()` from your application code and it will pass the IdToken from Cognito User Pools as an `Authorization` header.
+
+## Lambda Triggers
+If you optionally want to enable triggers for the storage category (S3 & DynamoDB), the CLI supports associating Lambda triggers with S3 and DynamoDB events. This can be useful if you want to invoke a Lambda function after any create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)

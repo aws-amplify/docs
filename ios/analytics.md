@@ -58,7 +58,7 @@ The Amplify CLI helps setup and configure Pinpoint within your application and c
 
 #### Update your IAM Policy:
 
-Amazon Pinpoint service requires an IAM policy in order to use the `submitEvents` API:
+The Amazon Pinpoint service requires permissions defined in an IAM policy to use the `submitEvents` API. If you are using long-term AWS credentials attached to an `Amazon IAM` user, attach the following policies to the role of that `IAM` user. If you are using temporary AWS credentials vended by `Amazon Cognito Identity Pools`, then attach the following policies to the Unauthenticated and/or Authenticated `IAM` roles of your `Cognito Identity Pool`. The role you attach the policies to depends on the scope of your application. For example, if you only want events submitted when users login, attach to the authenticated role. Similarly, if you want events submitted regardless of authentication state, attach the policy to the unauthenticated role. For more information on Cognito Identities authenticated/unauthenticated roles see <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html" target="_blank">here</a>.
 
 ```json
 {
@@ -93,8 +93,8 @@ platform :ios, '9.0'
 target 'YourAppName' do
     use_frameworks!
 
-    pod 'AWSPinpoint', '~> 2.9.0'
-    pod 'AWSMobileClient', '~> 2.9.0'
+    pod 'AWSPinpoint', '~> 2.10.0'
+    pod 'AWSMobileClient', '~> 2.10.0'
 
     # other pods
 
@@ -244,7 +244,20 @@ You can report authentication events by doing either of the following:
 
 * Managing user sign-up and sign-in with Amazon Cognito user pools.
 
-    Amazon Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Amazon Cognito reports authentication events to Amazon Pinpoint. For more information, see [Using Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html) in the _Amazon Cognito Developer Guide_.
+    Amazon Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Amazon Cognito reports authentication events to Amazon Pinpoint. For more information, see [Using Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html) in the _Amazon Cognito Developer Guide_. Also update awsconfiguration.json by adding the `pinpoint appid` under CognitoUserPool.
+```json
+	"CognitoUserPool": {
+        "Default": {
+            "PoolId": "<poolid>",
+            "AppClientId": "<appclientid>",
+            "AppClientSecret": "<appclientsecret>",
+            "Region": "<region>",
+            "PinpointAppId": "<pinpointappid>"
+        }
+    }
+
+```
+
 
 * Reporting authentication events by using the Amazon Pinpoint client that's provided by the AWS Mobile SDK for iOS or Android.
 
@@ -259,6 +272,11 @@ You can report authentication events by doing either of the following:
         }
     }
     ```
+    
+#### Event Ingestion Limits
+
+The limits applicable to the ingestion of events using the AWS Android SDK for Pinpoint and the Amazon Pinpoint Events API
+can be found [here](https://docs.aws.amazon.com/pinpoint/latest/developerguide/limits.html#limits-events).
 
 ## Registering Endpoints in Your Application
 
@@ -307,6 +325,11 @@ if let targetingClient = pinpoint?.targetingClient {
 }
 ```
 
+#### Endpoint Limits
+
+The limits applicable to the endpoints using the AWS Android SDK for Pinpoint and the Amazon Pinpoint Endpoint API
+can be found [here](https://docs.aws.amazon.com/pinpoint/latest/developerguide/limits.html#limits-endpoint).
+
 ## Using Amazon Kinesis
 
 The two classes `AWSKinesisRecorder` and `AWSFirehoseRecorder` allow you to interface with Amazon Kinesis and Amazon Kinesis Firehose to stream analytics data for real-time processing.
@@ -330,7 +353,7 @@ For more information about Amazon Kinesis Firehose, see [Amazon Kinesis Firehose
 Add the following to your `Podfile`:
 
 ```ruby
-pod 'AWSKinesis', '~> 2.9.0'
+pod 'AWSKinesis', '~> 2.10.0'
 ```
 
 The instructions direct you to import the headers for the services you'll be using. For this example, you need the following import.

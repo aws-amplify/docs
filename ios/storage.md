@@ -61,6 +61,9 @@ See [Authentication](./authentication) for more information on how to get the `u
 
     The CLI will create the awsconfiguration.json file in your project directory. Add it to your project using XCode.
 
+##### Lambda Triggers
+If you optionally want to enable triggers for the storage category (S3 & DynamoDB), the CLI supports associating Lambda triggers with S3 and DynamoDB events. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)
+
 ### Connect to Your Backend
 
 Use the following steps to add file storage backend services to your app.
@@ -73,10 +76,10 @@ Use the following steps to add file storage backend services to your app.
     target :'YOUR-APP-NAME' do
         use_frameworks!
 
-        pod 'AWSS3', '~> 2.9.0'   # For file transfers
+        pod 'AWSS3', '~> 2.10.0'   # For file transfers
 
         # other pods . . .
-        pod 'AWSMobileClient', '~> 2.9.0'
+        pod 'AWSMobileClient', '~> 2.10.0'
     end
     ```
 

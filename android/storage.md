@@ -55,6 +55,9 @@ See [Authentication](./authentication) for more information on how to get the `u
 
     The CLI will create the awsconfiguration.json file in your project's `res/raw` directory.
 
+##### Lambda Triggers
+If you optionally want to enable triggers for the storage category (S3 & DynamoDB), the CLI supports associating Lambda triggers with S3 and DynamoDB events. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)
+
 ### Connect to Your Backend
 
 Use the following steps to connect add file storage backend services to your app.
@@ -63,9 +66,9 @@ Use the following steps to connect add file storage backend services to your app
 
 	```groovy
 	dependencies {
-	  implementation 'com.amazonaws:aws-android-sdk-s3:2.13.+'
-	  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.13.+@aar') { transitive = true }
-	  implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.13.+@aar') { transitive = true }
+	  implementation 'com.amazonaws:aws-android-sdk-s3:2.14.+'
+	  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.14.+@aar') { transitive = true }
+	  implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.14.+@aar') { transitive = true }
 	}
 	```
 	Perform a `Gradle Sync` to download the AWS Mobile SDK components into your app.
