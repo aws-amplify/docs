@@ -298,17 +298,11 @@ $ cd myamplifyproject
 Inside the app directory, install Amplify and run your app:
 
 ```bash
-$ yarn add @aws-amplify/api @aws-amplify/pubsub
-$ yarn serve
+$ npm i --save @aws-amplify/api @aws-amplify/pubsub
+$ npm run serve
 ```
 
-To install Vue-specific Amplify UI components and the Amplify Vue plugin, run the following command:
-
-```bash
-$ yarn add aws-amplify-vue
-```
-
-See the [Vue Guide](https://aws-amplify.github.io/docs/js/vue){: target='_new'} for details and usage.
+To install Vue-specific Amplify UI components and the Amplify Vue plugin you can install the `aws-amplify-vue` package. See the [Vue Guide](https://aws-amplify.github.io/docs/js/vue){: target='_new'} for details and usage.
 {: .callout .callout--action}
 
 </div>
@@ -935,7 +929,6 @@ Next, open `App.vue` add data to your database with a mutation by using `API.gra
 <script>
 import API, {  graphqlOperation } from '@aws-amplify/api';
 // eslint-disable-next-line
-import PubSub from '@aws-amplify/pubsub';
 import { createTodo } from "./graphql/mutations";
 
 export default {
@@ -958,7 +951,7 @@ To display the data, update `App.vue` to list all the items in the database by i
     <button @click="createNewTodo">Add Todo</button>
     <ul>
       <li v-for="todo in todos" :key="todo.id">
-        {% raw %}{{item.name}}{% endraw %} - {% raw %}{{item.description}}{% endraw %}
+        {% raw %}{{todo.name}}{% endraw %} - {% raw %}{{todo.description}}{% endraw %}
       </li>
     </ul>
   </div>
