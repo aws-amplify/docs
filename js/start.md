@@ -298,17 +298,11 @@ $ cd myamplifyproject
 Inside the app directory, install Amplify and run your app:
 
 ```bash
-$ yarn add @aws-amplify/api @aws-amplify/pubsub
-$ yarn serve
+$ npm i --save @aws-amplify/api @aws-amplify/pubsub
+$ npm run serve
 ```
 
-To install Vue-specific Amplify UI components and the Amplify Vue plugin, run the following command:
-
-```bash
-$ yarn add aws-amplify-vue
-```
-
-See the [Vue Guide](https://aws-amplify.github.io/docs/js/vue){: target='_new'} for details and usage.
+To install Vue-specific Amplify UI components and the Amplify Vue plugin you can install the `aws-amplify-vue` package. See the [Vue Guide](https://aws-amplify.github.io/docs/js/vue){: target='_new'} for details and usage.
 {: .callout .callout--action}
 
 </div>
@@ -485,6 +479,7 @@ import { createTodo } from './graphql/mutations'
 
 import config from './aws-exports'
 API.configure(config)             // Configure Amplify
+PubSub.configure(config);
 
 async function createNewTodo() {
   const todo = { name: "Use AppSync" , description: "Realtime and Offline"}
@@ -589,6 +584,7 @@ import { createTodo } from './graphql/mutations'
 
 import config from './aws-exports'
 API.configure(config)             // Configure Amplify
+PubSub.configure(config)
 
 async function createNewTodo() {
   const todo = { name: "Use AppSync" , description: "Realtime and Offline"}
@@ -686,6 +682,7 @@ import API from '@aws-amplify/api';
 import awsconfig from './aws-exports';
 
 API.configure(awsconfig);
+PubSub.configure(awsconfig);
 ```
 
 Depending on your TypeScript version you may need to rename `aws-exports.js` to `aws-exports.ts` prior to importing, or enable the `allowJs` <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" target="_blank">compiler option</a> in your tsconfig. 
@@ -797,6 +794,7 @@ import API from '@aws-amplify/api';
 import awsconfig from './aws-exports';
 
 API.configure(awsconfig);
+PubSub.configure(awsconfig);
 ```
 
 When working with underlying `aws-js-sdk`, the "node" package should be included in *types* compiler option. update your `src/tsconfig.app.json`:
@@ -907,8 +905,10 @@ import Vue from 'vue'
 import App from './App.vue'
 
 import API from '@aws-amplify/api';
+import PubSub from '@aws-amplify/pubsub';
 import awsconfig from './aws-exports';
 API.configure(awsconfig);
+PubSub.configure(awsconfig);
 
 Vue.config.productionTip = false
 
@@ -929,7 +929,6 @@ Next, open `App.vue` add data to your database with a mutation by using `API.gra
 <script>
 import API, {  graphqlOperation } from '@aws-amplify/api';
 // eslint-disable-next-line
-import PubSub from '@aws-amplify/pubsub';
 import { createTodo } from "./graphql/mutations";
 
 export default {
@@ -952,7 +951,7 @@ To display the data, update `App.vue` to list all the items in the database by i
     <button @click="createNewTodo">Add Todo</button>
     <ul>
       <li v-for="todo in todos" :key="todo.id">
-        {% raw %}{{item.name}}{% endraw %} - {% raw %}{{item.description}}{% endraw %}
+        {% raw %}{{todo.name}}{% endraw %} - {% raw %}{{todo.description}}{% endraw %}
       </li>
     </ul>
   </div>
