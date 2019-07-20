@@ -468,7 +468,7 @@ This will open the AWS AppSync console for you to run Queries, Mutations, or Sub
 </div>
 <div id="react" class="tab-content current">
 
-Update your `scr/App.js` file to configure the library with `Amplify.configure()` and add data to your database with a mutation by using `API.graphql()`:
+Update your `src/App.js` file to configure the library with `Amplify.configure()` and add data to your database with a mutation by using `API.graphql()`:
 
 ```javascript
 import React, { useEffect, useReducer } from 'react'
@@ -573,7 +573,7 @@ This will open the AWS AppSync console for you to run Queries, Mutations, or Sub
 
 </div>
 <div id="react-native" class="tab-content">
-Update your `scr/App.js` file to configure the library with `Amplify.configure()` and add data to your database with a mutation by using `API.graphql()`:
+Update your `src/App.js` file to configure the library with `Amplify.configure()` and add data to your database with a mutation by using `API.graphql()`:
 
 ```javascript
 import React, { useEffect, useReducer } from 'react'
