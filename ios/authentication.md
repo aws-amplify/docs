@@ -38,7 +38,6 @@ This allows you to write workflows in your application based on the state of the
 
 ```swift
 AWSMobileClient.sharedInstance().addUserStateListener(self) { (userState, info) in
-            
             switch (userState) {
             case .guest:
                 print("user is in guest mode.")
@@ -105,9 +104,9 @@ After initialization in your project directory with `amplify init`, edit your `P
 ```ruby
 target 'MyApp' do             ##Replace MyApp with your application name
   use_frameworks!
-  pod 'AWSMobileClient', '~> 2.9.0'      # Required dependency
-  pod 'AWSAuthUI', '~> 2.9.0'            # Optional dependency required to use drop-in UI
-  pod 'AWSUserPoolsSignIn', '~> 2.9.0'   # Optional dependency required to use drop-in UI
+  pod 'AWSMobileClient', '~> 2.10.0'      # Required dependency
+  pod 'AWSAuthUI', '~> 2.10.0'            # Optional dependency required to use drop-in UI
+  pod 'AWSUserPoolsSignIn', '~> 2.10.0'   # Optional dependency required to use drop-in UI
 end
 ```
 
@@ -149,6 +148,10 @@ A configuration file called `awsconfiguration.json` will be copied to your proje
 * Choose `Create groups`, and then choose `Next`.
 
 [Click here to learn more about this process.](./start#step-3-how-it-works)
+
+### Lambda Triggers
+
+The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your AWS Cognito User Pool.  These enable you to add custom functionality to your registration and authentication flows. [Read more]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/)
 
 ## Manual Setup
 
@@ -251,8 +254,8 @@ The `AWSMobileClient` client supports easy "drop-in" UI for your application. Yo
 ```swift
 AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigationController!, { (signInState, error) in
     if let signInState = signInState {
-        print("logged in!")
-    } else {
+        print("Sign in flow completed: \(signInState)")
+    } else if let error = error {
         print("error logging in: \(error.localizedDescription)")
     }
 })
@@ -757,12 +760,12 @@ AWSMobileClient.sharedInstance().federatedSignIn(providerName: IdentityProvider.
 	  target 'YOUR-APP-NAME' do
 	    use_frameworks!
 
-	    pod 'AWSFacebookSignIn', '~> 2.9.0'     # Add this new dependency
-	    pod 'AWSAuthUI', '~> 2.9.0'             # Add this dependency if you have not already added
+	    pod 'AWSFacebookSignIn', '~> 2.10.0'     # Add this new dependency
+	    pod 'AWSAuthUI', '~> 2.10.0'             # Add this dependency if you have not already added
 	    
 	    # Other Pod entries
-	    pod 'AWSMobileClient', '~> 2.9.0'
-	    pod 'AWSUserPoolsSignIn', '~> 2.9.0'
+	    pod 'AWSMobileClient', '~> 2.10.0'
+	    pod 'AWSUserPoolsSignIn', '~> 2.10.0'
 	    
 	  end
 	```
@@ -827,13 +830,13 @@ Now, your drop-in UI will show a Facebook sign in button which the users can use
 	platform :ios, '9.0'
 	target :'YOUR-APP-NAME' do
 	  use_frameworks!
-	  pod 'AWSGoogleSignIn', '~> 2.9.0'     # Add this new dependency
+	  pod 'AWSGoogleSignIn', '~> 2.10.0'     # Add this new dependency
 	  pod 'GoogleSignIn', '~> 4.0'          # Add this new dependency
-	  pod 'AWSAuthUI', '~> 2.9.0'           # Add this dependency if you have not already added
+	  pod 'AWSAuthUI', '~> 2.10.0'           # Add this dependency if you have not already added
 	    
 	  # Other Pod entries
-	  pod 'AWSMobileClient', '~> 2.9.0'
-	  pod 'AWSUserPoolsSignIn', '~> 2.9.0'
+	  pod 'AWSMobileClient', '~> 2.10.0'
+	  pod 'AWSUserPoolsSignIn', '~> 2.10.0'
 	  
 	end
 	```
