@@ -580,7 +580,7 @@ import React, { useEffect, useReducer } from 'react'
 import { StyleSheet, Text, View, Button } from 'react-native';
 import API, { graphqlOperation } from '@aws-amplify/api'
 import PubSub from '@aws-amplify/pubsub';
-import { createTodo } from './graphql/mutations'
+import { createTodo } from './src/graphql/mutations';
 
 import config from './aws-exports'
 API.configure(config)             // Configure Amplify
@@ -604,7 +604,7 @@ Next, update `App.js` to list all the items in the database by importing `listTo
 
 ```javascript
 // other imports
-import { listTodos } from './src/graphql/queries'
+import { listTodos } from './src/graphql/queries';
 
 const initialState = {todos:[]};
 const reducer = (state, action) =>{
@@ -643,7 +643,7 @@ Now if you wish to subscribe to data, import the `onCreateTodo` subscription and
 
 ```javascript
 // other imports
-import { onCreateTodo } from './src/graphql/subscriptions'
+import { onCreateTodo } from './src/graphql/subscriptions';
 
 useEffect(() => {
   //...other code
