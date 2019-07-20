@@ -421,7 +421,7 @@ MutationButton.addEventListener('click', (evt) => {
 });
 ```
 
-After restarting your app using `npm start`, go back to `localhost:8080` in your browser and click **ADD DATA**.  You'll see that your application is now submitting events to AppSync and storing records in DynamoDB. Next, update `src/App.js` to list all the items in the database by importing `listTodos` and update the page when a query runs on app start by immediately calling the function:
+After restarting your app using `npm start` go back to your browser and click **ADD DATA**.  You'll see that your application is now submitting events to AppSync and storing records in DynamoDB. Next, update `src/App.js` to list all the items in the database by importing `listTodos` and update the page when a query runs on app start by immediately calling the function:
 
 ```javascript
 // other imports
@@ -461,7 +461,7 @@ API.graphql(graphqlOperation(onCreateTodo)).subscribe({
 The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
 {: .callout .callout--info}
 
-After restarting your app using `npm start` go back to `localhost` in your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs. At any time you can open the AWS console for your new API directly by running the following command:
+After restarting your app using `npm start` go back to your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs. At any time you can open the AWS console for your new API directly by running the following command:
 
 ```terminal
 $ amplify console api
@@ -566,7 +566,7 @@ useEffect(() => {
 The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
 {: .callout .callout--info}
 
-After restarting your app using `npm start`, go back to `localhost:3000` in your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs. At any time you can open the AWS console for your new API directly by running the following command:
+After restarting your app using `npm start` go back to your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs. At any time you can open the AWS console for your new API directly by running the following command:
 
 ```terminal
 $ amplify console api
@@ -664,7 +664,7 @@ useEffect(() => {
 The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
 {: .callout .callout--info}
 
-After restarting your app using `npm start`, go back to `localhost:3000` in your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs. At any time you can open the AWS console for your new API directly by running the following command:
+After restarting your app and running a mutation, using dev tools (developer menu tap "Debug JS Remotely) you will see data being stored and retrieved in your backend from the console logs. At any time you can open the AWS console for your new API directly by running the following command:
 
 ```terminal
 $ amplify console api
@@ -776,7 +776,7 @@ export class AppComponent implements OnInit {
 The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
 {: .callout .callout--info}
 
-After restarting your app using `ng serve`, go back to `localhost:3000` in your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs. At any time you can open the AWS console for your new API directly by running the following command:
+After restarting your app using `ng serve` go back to your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs. At any time you can open the AWS console for your new API directly by running the following command:
 
 ```terminal
 $ amplify console api
@@ -886,7 +886,7 @@ initializeApp() {
 The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
 {: .callout .callout--info}
 
-After restarting your app using `ng serve`, go back to `localhost` in your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs. At any time you can open the AWS console for your new API directly by running the following command:
+After restarting your app using `ng serve` go back to your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs. At any time you can open the AWS console for your new API directly by running the following command:
 
 ```terminal
 $ amplify console api
@@ -1020,7 +1020,7 @@ export default {
 The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
 {: .callout .callout--info}
 
-After restarting your app using `yarn serve`, go back to `localhost` in your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs. At any time you can open the AWS console for your new API directly by running the following command:
+After restarting your app using `yarn serve` go back to your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs. At any time you can open the AWS console for your new API directly by running the following command:
 
 ```terminal
 $ amplify console api
