@@ -573,7 +573,7 @@ This will open the AWS AppSync console for you to run Queries, Mutations, or Sub
 
 </div>
 <div id="react-native" class="tab-content">
-Update your `src/App.js` file to configure the library with `Amplify.configure()` and add data to your database with a mutation by using `API.graphql()`:
+Update your `App.js` file to configure the library with `Amplify.configure()` and add data to your database with a mutation by using `API.graphql()`:
 
 ```javascript
 import React, { useEffect, useReducer } from 'react'
@@ -600,7 +600,7 @@ export default function App() {
 }
 ```
 
-Next, update `src/App.js` to list all the items in the database by importing `listTodos` and then using [Hooks](https://reactjs.org/docs/hooks-intro.html) to update the page when a query runs on app start by adding initial state and a `reducer` function as well as modifying your `App` function:
+Next, update `App.js` to list all the items in the database by importing `listTodos` and then using [Hooks](https://reactjs.org/docs/hooks-intro.html) to update the page when a query runs on app start by adding initial state and a `reducer` function as well as modifying your `App` function:
 
 ```javascript
 // other imports
