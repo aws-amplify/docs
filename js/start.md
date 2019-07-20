@@ -485,6 +485,7 @@ import { createTodo } from './graphql/mutations'
 
 import config from './aws-exports'
 API.configure(config)             // Configure Amplify
+PubSub.configure(config);
 
 async function createNewTodo() {
   const todo = { name: "Use AppSync" , description: "Realtime and Offline"}
@@ -589,6 +590,7 @@ import { createTodo } from './graphql/mutations'
 
 import config from './aws-exports'
 API.configure(config)             // Configure Amplify
+PubSub.configure(config)
 
 async function createNewTodo() {
   const todo = { name: "Use AppSync" , description: "Realtime and Offline"}
@@ -686,6 +688,7 @@ import API from '@aws-amplify/api';
 import awsconfig from './aws-exports';
 
 API.configure(awsconfig);
+PubSub.configure(awsconfig);
 ```
 
 Depending on your TypeScript version you may need to rename `aws-exports.js` to `aws-exports.ts` prior to importing, or enable the `allowJs` <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" target="_blank">compiler option</a> in your tsconfig. 
@@ -797,6 +800,7 @@ import API from '@aws-amplify/api';
 import awsconfig from './aws-exports';
 
 API.configure(awsconfig);
+PubSub.configure(awsconfig);
 ```
 
 When working with underlying `aws-js-sdk`, the "node" package should be included in *types* compiler option. update your `src/tsconfig.app.json`:
@@ -907,8 +911,10 @@ import Vue from 'vue'
 import App from './App.vue'
 
 import API from '@aws-amplify/api';
+import PubSub from '@aws-amplify/pubsub';
 import awsconfig from './aws-exports';
 API.configure(awsconfig);
+PubSub.configure(awsconfig);
 
 Vue.config.productionTip = false
 
