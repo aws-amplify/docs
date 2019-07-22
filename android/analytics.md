@@ -93,8 +93,8 @@ Use the following steps to add analytics to your mobile app and monitor the resu
 
 ```groovy
 dependencies {
-  implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.13.+'
-  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.13.+@aar') { transitive = true }
+  implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.14.+'
+  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.14.+@aar') { transitive = true }
 }
 ```
 
@@ -360,7 +360,18 @@ You can report authentication events by doing either of the following:
 
 **Managing user sign-up and sign-in with Amazon Cognito user pools**
 
-Amazon Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Amazon Cognito reports authentication events to Amazon Pinpoint. For more information, see Using Amazon Pinpoint Analytics with Amazon Cognito User Pools in the Amazon Cognito Developer Guide.
+Amazon Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Amazon Cognito reports authentication events to Amazon Pinpoint. For more information, see [Using Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html) in the _Amazon Cognito Developer Guide_. Also update awsconfiguration.json by adding the `pinpoint appid` under CognitoUserPool.
+```json
+	"CognitoUserPool": {
+        "Default": {
+            "PoolId": "<poolid>",
+            "AppClientId": "<appclientid>",
+            "AppClientSecret": "<appclientsecret>",
+            "Region": "<region>",
+            "PinpointAppId": "<pinpointappid>"
+        }
+    }
+```
 
 **Reporting authentication events by using the Amazon Pinpoint client that’s provided by the AWS Mobile SDK for Android.**
 
@@ -702,8 +713,8 @@ Set up AWS Mobile SDK components by including the following libraries in your `a
 
 ```groovy
 dependencies {
-  implementation 'com.amazonaws:aws-android-sdk-kinesis:2.13.+'
-  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.13.+@aar') { transitive = true }
+  implementation 'com.amazonaws:aws-android-sdk-kinesis:2.14.+'
+  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.14.+@aar') { transitive = true }
 }
 ```
 

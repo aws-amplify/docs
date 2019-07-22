@@ -137,6 +137,7 @@ resubscription
 backends
 AuthN
 AuthZ
+lifecycles
 
 # js/tutorials/building-ionic-4-apps/index.md
 home.page.ts
@@ -180,6 +181,9 @@ myangularapp
 js
 tsconfig
 myAmplifyProject
+_blank
+OnInit
+todos
 
 # js/hub.md
 onHubCapsule
@@ -303,6 +307,7 @@ aws.cognito.signin.user.admin
 ChallengeName
 myapp
 LoginWithAmazon
+pre-populated
 
 #js/cognito-hosted-ui-federated-identity.md
 oauth2
@@ -347,8 +352,16 @@ pluggable
 mouseover
 url
 webapp
+dataset
+AmazonPersonalizeProvider
+eventType
+iframe
+MediaAutoTrack
+TimeWatched
+eventValue
 
 # cli/graphql.md
+UpdateTable
 redirect_to
 graphql
 sdk
@@ -410,6 +423,28 @@ IN_TRANSIT
 statusCreatedAt
 ByStatus
 
+# cli-toolchain/cognito-triggers.md
+Lambda
+reCaptcha
+captcha
+CreateAuthChallenge
+DefineAuthChallenge
+VerifyAuthChallengeResponse
+VerifyAuthChallengeResponse
+react-google-recaptcha
+PreSignUp
+Captchas
+ng-recaptcha
+CUSTOM_AUTH
+app.module.ts
+app.component.ts
+app.component.html
+vue-recaptcha
+spinner.js
+style.css
+verify.js
+whitelist
+
 # js/vue.md
 confirmSignInConfig
 confirmSignUpConfig
@@ -428,6 +463,7 @@ noMfaDescription
 cancelHandler
 defaultName
 amplify-vue
+usernameAttributes
 
 # js/sign-up-fields.md
 displayOrder
@@ -453,6 +489,7 @@ Unauth
 frontends
 metadata
 Cloudfront
+datasource
 
 # cli/hosting.md
 gitignore
@@ -513,6 +550,9 @@ Cloudformaton
 DynamoDBTable
 amplifyMeta.json
 transform.conf.json
+
+#cli-toolchain/usage.md
+poolData
 
 # android/analytics.md
 ActivityLifecycleCallbacks

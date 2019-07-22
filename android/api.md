@@ -104,12 +104,13 @@ Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws
 
 ```bash
     apply plugin: 'com.android.application'
-    apply plugin: 'com.amazonaws.appsync'
+    apply plugin: 'com.amazonaws.appsync' // REQUIRED
+    
     android {
         // Typical items
     }
     dependencies {
-        // Typical dependencies
+        // REQUIRED: Typical dependencies
         implementation 'com.amazonaws:aws-android-sdk-appsync:2.9.+'
         implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
         implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
@@ -227,28 +228,28 @@ To add data you need to run a GraphQL mutation. The syntax of the callback is `G
 Finally, it's time to set up a subscription to real-time data. The callback is just `AppSyncSubscriptionCall.Callback` and you invoke it with a client `.subscribe()` call and pass in a builder with syntax of `{NAME}Subscription.builder()` where `{NAME}` comes from the GraphQL statements that `amplify codegen` and Gradle build created. Note that the AppSync console and Amplify GraphQL transformer have a common nomenclature that puts the word `On` in front of a subscription as in the following example:
 
 ```java
-    private AppSyncSubscriptionCall subscriptionWatcher;
+    private AppSyncSubscriptionCall<OnCreateTodoSubscription.Data> subscriptionWatcher;
 
-    private void subscribe(){
+    private void subscribe() {
         OnCreateTodoSubscription subscription = OnCreateTodoSubscription.builder().build();
         subscriptionWatcher = mAWSAppSyncClient.subscribe(subscription);
         subscriptionWatcher.execute(subCallback);
     }
 
-    private AppSyncSubscriptionCall.Callback subCallback = new AppSyncSubscriptionCall.Callback() {
+    private AppSyncSubscriptionCall.Callback<OnCreateTodoSubscription.Data> subCallback = new AppSyncSubscriptionCall.Callback<OnCreateTodoSubscription.Data>() {
         @Override
-        public void onResponse(@Nonnull Response response) {
-            Log.i("Response", response.data().toString());
+        public void onResponse(@Nonnull Response<OnCreateTodoSubscription.Data> response) {
+            Log.i("Subscription", response.data().toString());
         }
 
         @Override
         public void onFailure(@Nonnull ApolloException e) {
-            Log.e("Error", e.toString());
+            Log.e("Subscription", e.toString());
         }
 
         @Override
         public void onCompleted() {
-            Log.i("Completed", "Subscription completed");
+            Log.i("Subscription", "Subscription completed");
         }
     };
 ```
@@ -1139,9 +1140,9 @@ Add the following to your `app/build.gradle`:
 
 ```groovy
 	dependencies {
-		implementation 'com.amazonaws:aws-android-sdk-apigateway-core:2.13.+'
-		implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.13.+@aar') { transitive = true }
-		implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.13.+@aar') { transitive = true }
+		implementation 'com.amazonaws:aws-android-sdk-apigateway-core:2.14.+'
+		implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.14.+@aar') { transitive = true }
+		implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.14.+@aar') { transitive = true }
 	}
 ```
 
@@ -1318,3 +1319,6 @@ ApiRequest localRequest =
 ```
 
 You can then invoke this method with `doInvokeAPI()` from your application code and it will pass the IdToken from Cognito User Pools as an `Authorization` header.
+
+## Lambda Triggers
+If you optionally want to enable triggers for the storage category (S3 & DynamoDB), the CLI supports associating Lambda triggers with S3 and DynamoDB events. This can be useful if you want to invoke a Lambda function after any create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)

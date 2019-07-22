@@ -1,5 +1,11 @@
 ---
+title: Storage
 ---
+{% if jekyll.environment == 'production' %}
+  {% assign base_dir = site.amplify.docs_baseurl %}
+{% endif %}
+{% assign media_base = base_dir | append: page.dir | append: "media" %}
+{% assign common_media = base_dir | append: "/images" %}
 
 # Storage
 
@@ -35,6 +41,9 @@ $ amplify push
 ```
 
 When your backend is successfully updated, your new configuration file `aws-exports.js` is copied under your source directory, e.g. '/src'.
+
+##### Lambda Triggers
+If you want to enable triggers for the storage category (S3 & DynamoDB), the CLI supports associating Lambda triggers with S3 and DynamoDB events. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)
 
 ##### Configure Your App
 
@@ -254,7 +263,7 @@ Access level configuration on the Storage object:
 ```javascript
 Storage.configure({ level: 'private' });
 
-Storage.get('welcome.png'); // Gets the welcome.png belongs to current user
+Storage.get('welcome.png'); // Gets the welcome.png belonging to current user
 ```
 
 Configuration when calling the API:

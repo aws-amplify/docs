@@ -93,8 +93,8 @@ platform :ios, '9.0'
 target 'YourAppName' do
     use_frameworks!
 
-    pod 'AWSPinpoint', '~> 2.9.0'
-    pod 'AWSMobileClient', '~> 2.9.0'
+    pod 'AWSPinpoint', '~> 2.10.0'
+    pod 'AWSMobileClient', '~> 2.10.0'
 
     # other pods
 
@@ -244,7 +244,20 @@ You can report authentication events by doing either of the following:
 
 * Managing user sign-up and sign-in with Amazon Cognito user pools.
 
-    Amazon Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Amazon Cognito reports authentication events to Amazon Pinpoint. For more information, see [Using Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html) in the _Amazon Cognito Developer Guide_.
+    Amazon Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Amazon Cognito reports authentication events to Amazon Pinpoint. For more information, see [Using Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html) in the _Amazon Cognito Developer Guide_. Also update awsconfiguration.json by adding the `pinpoint appid` under CognitoUserPool.
+```json
+	"CognitoUserPool": {
+        "Default": {
+            "PoolId": "<poolid>",
+            "AppClientId": "<appclientid>",
+            "AppClientSecret": "<appclientsecret>",
+            "Region": "<region>",
+            "PinpointAppId": "<pinpointappid>"
+        }
+    }
+
+```
+
 
 * Reporting authentication events by using the Amazon Pinpoint client that's provided by the AWS Mobile SDK for iOS or Android.
 
@@ -340,7 +353,7 @@ For more information about Amazon Kinesis Firehose, see [Amazon Kinesis Firehose
 Add the following to your `Podfile`:
 
 ```ruby
-pod 'AWSKinesis', '~> 2.9.0'
+pod 'AWSKinesis', '~> 2.10.0'
 ```
 
 The instructions direct you to import the headers for the services you'll be using. For this example, you need the following import.
