@@ -38,7 +38,7 @@ Below are the 3 most common Auth architectures using the Amplify Framework.
 	
 #### Simple Auth
 	
-For many apps, user sign-up and sign-in is all that is required. Once authenticated the app can talk to an API such as AWS AppSync or API Gateway. In this case, you can simply create a User Pool by running `amplify add auth` using the Amplify CLI and selecting the default setup. In your application you can use [`Auth.signUp`](#sign-up)  and [`Auth.signIn`](#sign-in) (or an Amplify UI component) to complete this process and retrieve tokens. The Amplify client will refresh them at the appropriate time. 
+For many apps, user sign-up and sign-in is all that is required. Once authenticated the app can talk to an API such as AWS AppSync or API Gateway. In this case, you can simply create a User Pool by running `amplify add auth` using the Amplify CLI and selecting the default setup. In your application you can use [`Auth.signUp`](#sign-up)  and [`Auth.signIn`](#sign-in) (or an Amplify UI component) to complete this process and retrieve tokens. The Amplify client will refresh the tokens calling [`Auth.currentSession`](#retrieve-current-session) if they are no longer valid. 
 	
 ![Image]({{common_media}}/SimpleAuthZ.png)
 
