@@ -180,13 +180,14 @@ The following code is only for demonstration purpose:
 ```javascript
 import { Auth } from 'aws-amplify';
 
-try {
-    const user = await Auth.signIn(username, password);
-    if (user.challengeName === 'SMS_MFA' || 
-        user.challengeName === 'SOFTWARE_TOKEN_MFA') {
-        // You need to get the code from the UI inputs
-        // and then trigger the following function with a button click
-        const code = getCodeFromUserInput();
+async function SignIn() {
+    try {
+        const user = await Auth.signIn(username, password);
+        if (user.challengeName === 'SMS_MFA' || 
+            user.challengeName === 'SOFTWARE_TOKEN_MFA') {
+            // You need to get the code from the UI inputs
+           // and then trigger the following function with a button click
+           const code = getCodeFromUserInput();
         // If MFA is enabled, sign-in should be confirmed with the confirmation code
         const loggedUser = await Auth.confirmSignIn(
             user,   // Return object from Auth.signIn()
@@ -233,8 +234,8 @@ try {
     } else {
         console.log(err);
     }
+  }
 }
-
 // For advanced usage
 // You can pass an object which has the username, password and validationData which is sent to a PreAuthentication Lambda trigger
 Auth.signIn({
