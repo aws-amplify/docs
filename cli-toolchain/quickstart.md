@@ -78,7 +78,7 @@ The provider logs the information of the root stack and the resources into the p
 The root stack's template can be found in `amplify/backend/awscloudformation`.
 
 ### amplify add
-Once init is complete, run the command `amplify add <category>` to add resources of a category to the cloud. This will place the a CloudFormation template for the resources of this category in the category's subdirectory `amplify/backend/<category>`, and insert its reference into the above-mentioned root stack as the nested child stack. 
+Once init is complete, run the command `amplify add <category>` to add resources of a category to the cloud. This will place a CloudFormation template for the resources of this category in the category's subdirectory `amplify/backend/<category>`, and insert its reference into the above-mentioned root stack as the nested child stack. 
 
 ### amplify push
 Once you have made your category updates, run the command `amplify push` to update the cloud resources. The CLI will first upload the latest versions of the category nested stack templates to the S3 deployment bucket, and then call the AWS CloudFormation API to create / update resources in the cloud. Based upon the resources added/updated, the `aws-exports.js` file (for JS projects) and the `awsconfiguration.json` file (for native projects) gets created/updated.
