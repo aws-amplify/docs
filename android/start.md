@@ -107,6 +107,8 @@ $ amplify push
 
 Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults which generate a `./app/src/main/graphql` folder structure with your statements. Run a **Gradle Sync** and **Build** your app, at which point the generated packages are automatically added to your project.
 
+> Note: It is not necessary to run `amplify codegen` for an Android project. Code generation is done by the Gradle build process.
+
 ## Step 5: Integrate into your app
 
 Initialize the AppSync client inside your application code, such as the `onCreate()` lifecycle method of your activity class:
