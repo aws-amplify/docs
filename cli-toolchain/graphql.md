@@ -3414,6 +3414,29 @@ Much of the behavior of the GraphQL Transform logic is configured by passing arg
 }
 ```
 
+### DynamoDBEnablePointInTimeRecovery
+
+**Enable Point-In-Time recovery for Amazon DynamoDB tables created by @model**
+
+```
+{
+  "DynamoDBEnablePointInTimeRecovery": true
+}
+```
+
+### DynamoDBEnableServerSideEncryption
+
+**Enable server side encryption at rest for Amazon DynamoDB tables created by @model**
+
+This value defaults to "true" in the CloudFormation template for backwards compatibility reasons
+but is set to "false" when you first initialize an environment via the Amplify CLI.
+
+```
+{
+  "DynamoDBEnableServerSideEncryption": true
+}
+```
+
 ### ElasticsearchStreamingFunctionName
 
 **Override the name of the AWS Lambda searchable streaming function**

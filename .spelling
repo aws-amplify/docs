@@ -374,6 +374,8 @@ DynamoDBBillingMode
 PAY_PER_REQUEST
 DynamoDBModelTableWriteIOPS
 DynamoDBModelTableReadIOPS
+DynamoDBEnablePointInTimeRecovery
+DynamoDBEnableServerSideEncryption
 ssn
 event.prev.result
 DataSource
