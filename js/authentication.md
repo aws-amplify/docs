@@ -106,7 +106,7 @@ Amplify.configure(awsconfig);
 For manual configuration you need to provide your AWS Resource configuration:
 
 ```javascript
-import Amplify from 'aws-amplify';
+import Amplify, { Auth } from 'aws-amplify';
 
 Amplify.configure({
     Auth: {
