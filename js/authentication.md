@@ -769,7 +769,7 @@ Then, in the component's constructor,  implement `showComponent(theme) {}` in li
 
 ### Social Provider Setup
 
-Before adding a social provider to an Amplify project, you must first create go to that provider and configure an application identifier as outlined below.
+Before adding a social provider to an Amplify project, you must first go to that provider and configure an application identifier as outlined below.
 
 - [Facebook Instructions](./cognito-hosted-ui-federated-identity#facebook-instructions)
 - [Google Sign-In Instructions](./cognito-hosted-ui-federated-identity#google-sign-in-instructions)
