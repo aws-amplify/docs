@@ -866,7 +866,6 @@ class App extends Component {
     const { user } = this.state;
 
     return (
-      <div>
       <div className="App">
         <button onClick={() => Auth.federatedSignIn({provider: 'Facebook'})}>Open Facebook</button>
         <button onClick={() => Auth.federatedSignIn({provider: 'Google'})}>Open Google</button>
