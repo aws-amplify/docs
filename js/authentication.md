@@ -93,6 +93,19 @@ The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/co
 
 ##### Configure Your App
 
+Add Amplify to your app with `yarn` or `npm`:
+
+```bash
+yarn add aws-amplify
+```
+
+For React Native applications, install `aws-amplify-react-native` and link:
+
+```bash
+yarn add aws-amplify aws-amplify-react-native
+react-native link amazon-cognito-identity-js # DO NOT run this when using Expo or ExpoKit
+```
+
 In your app's entry point i.e. App.js, import and load the configuration file:
 
 ```javascript
