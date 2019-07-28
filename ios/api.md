@@ -956,7 +956,7 @@ Add `AWSAPIGateway` to your Podfile:
 	  use_frameworks!
 
 	     # For API
-	     pod 'AWSAPIGateway', '~> 2.9.0'
+	     pod 'AWSAPIGateway', '~> 2.10.0'
 	     # other pods
 	end
 ```

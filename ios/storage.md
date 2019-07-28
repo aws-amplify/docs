@@ -76,10 +76,10 @@ Use the following steps to add file storage backend services to your app.
     target :'YOUR-APP-NAME' do
         use_frameworks!
 
-        pod 'AWSS3', '~> 2.9.0'   # For file transfers
+        pod 'AWSS3', '~> 2.10.0'   # For file transfers
 
         # other pods . . .
-        pod 'AWSMobileClient', '~> 2.9.0'
+        pod 'AWSMobileClient', '~> 2.10.0'
     end
     ```
 
