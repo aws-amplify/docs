@@ -6,6 +6,7 @@ exemptLabels:
   - feature-request
   - bug
   - to-be-triaged
+  - pending-library-publish
 staleLabel: pending-close-if-no-response
 markComment: >
   This issue has been automatically marked as stale because it has not had
