@@ -178,14 +178,14 @@ $ create-react-app myapp && cd myapp
 Inside the app directory, install Amplify and run your app:
 
 ```bash
-$ npm install --save @aws-amplify/api @aws-amplify/pubsub
+$ npm install @aws-amplify/api @aws-amplify/pubsub
 $ npm start
 ```
 
 To install React-specific Amplify UI components, run the following command:
 
 ```bash
-$ npm install --save aws-amplify-react
+$ npm install aws-amplify-react
 ```
 
 See the [React Guide](https://aws-amplify.github.io/docs/js/react){: target='_new'} for details and usage.
@@ -220,15 +220,15 @@ Linking example for a project created with *react-native init*:
 ```bash
 $ react-native init myReactNativeApp
 $ cd myReactNativeApp
-$ npm install --save aws-amplify
-$ npm install --save aws-amplify-react-native
+$ npm install aws-amplify
+$ npm install aws-amplify-react-native
 $ react-native link
 ```
 
 To install React-specific Amplify UI components, run the following command:
 
 ```bash
-$ npm install --save aws-amplify-react
+$ npm install aws-amplify-react
 ```
 
 See the [React Guide](https://aws-amplify.github.io/docs/js/react){: target='_new'} for details and usage.
@@ -248,7 +248,7 @@ $ cd myAmplifyProject
 Inside the app directory, install Amplify and run your app:
 
 ```bash
-$ npm install --save @aws-amplify/api @aws-amplify/pubsub
+$ npm install @aws-amplify/api @aws-amplify/pubsub
 $ ng serve
 ```
 
@@ -269,14 +269,14 @@ $ cd myAmplifyProject
 Inside the app directory, install Amplify and run your app:
 
 ```bash
-$ npm install --save @aws-amplify/api @aws-amplify/pubsub
+$ npm install @aws-amplify/api @aws-amplify/pubsub
 $ npm start
 ```
 
 In addition to `aws-amplify` core, you can install the Angular Ionic modules which provide a service provider, helpers, and components:
 
 ```bash
-$ npm install --save aws-amplify-angular
+$ npm install aws-amplify-angular
 ``` 
 
 See the [Ionic Guide](https://aws-amplify.github.io/docs/js/angular){: target='_new'} for details and usage.
@@ -298,7 +298,7 @@ $ cd myamplifyproject
 Inside the app directory, install Amplify and run your app:
 
 ```bash
-$ npm i --save @aws-amplify/api @aws-amplify/pubsub
+$ npm i @aws-amplify/api @aws-amplify/pubsub
 $ npm run serve
 ```
 
