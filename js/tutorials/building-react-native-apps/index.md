@@ -83,8 +83,8 @@ The Amplify React Native package enables you to integrate ready-to-use sign-up/s
 1.  In case you haven't done already, install following libraries:
 
     ```bash
-    npm install --save aws-amplify
-    npm install --save aws-amplify-react-native
+    npm install aws-amplify
+    npm install aws-amplify-react-native
     ```
 
 1.  Add the following import in App.js (or another file that runs upon app
