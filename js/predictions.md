@@ -497,7 +497,8 @@ function EntityIdentification() {
       console.log(result);
       const entities = result.entities;
       let imageId = ""
-      entities.forEach(({ boundingBox, metadata: { name, externalImageId } }) => {
+      let names = ""
+      entities.forEach(({ boundingBox, metadata: { name = "", externalImageId = "" } }) => {
         const {
           width, // ratio of overall image width
           height, // ratio of overall image height
@@ -505,6 +506,9 @@ function EntityIdentification() {
           top // top coordinate as a ratio of overall image heigth
         } = boundingBox;
         imageId = externalImageId;
+        if (name) {
+          names += name + " .";
+        }
         console.log({ name });
       })
       if (imageId) {
@@ -516,7 +520,7 @@ function EntityIdentification() {
         }).then(setSrc); // this should be better but it works
       }
       console.log({ entities });
-      setResponse(imageId);
+      setResponse(names);
     })
       .catch(err => console.log(err))
   }
