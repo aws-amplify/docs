@@ -1079,6 +1079,7 @@ Open the app and push the button to generate new items in your database.
 * [Authentication](./authentication)
 * [User File Storage](./storage)
 * [Serverless APIs](./api)
+* [AI/ML](./predictions)
 * [Analytics](./analytics)
 * [Push Notification](./push-notifications)
 * [AR/VR](./xr)
