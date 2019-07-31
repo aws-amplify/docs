@@ -711,10 +711,11 @@ function TextToSpeech() {
         // list of different options are here https://docs.aws.amazon.com/polly/latest/dg/voicelist.html
       }
     }).then(result => {
-      const audioCtx = new AudioContext();// || window.webkitAudioContext)();
-      
+      let AudioContext = window.AudioContext || window.webkitAudioContext;
+      console.log({ AudioContext });
+      const audioCtx = new AudioContext(); 
       const source = audioCtx.createBufferSource();
-      audioCtx.decodeAudioData(result.audioStream.buffer, (buffer) => {
+      audioCtx.decodeAudioData(result.audioStream, (buffer) => {
 
         source.buffer = buffer;
         source.connect(audioCtx.destination);
