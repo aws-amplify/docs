@@ -165,7 +165,7 @@ The Amplify CLI will set appropriate IAM policy for Roles in your Cognito Identi
                 "rekognition:DetectLabels",
                 "rekognition:DetectModerationLabels",
                 "rekognition:DetectText",
-                "rekognition:DetectLabel”,
+                "rekognition:DetectLabel",
                 "textract:AnalyzeDocument",
                 "textract:DetectDocumentText",
                 "textract:GetDocumentAnalysis",
@@ -699,36 +699,37 @@ function SpeechToText(props) {
 function TextToSpeech() {
   const [response, setResponse] = useState("...")
   const [textToGenerateSpeech, setTextToGenerateSpeech] = useState("write to speech");
-  const [audioStream, setAudioStream] = useState();
+
   function generateTextToSpeech() {
     setResponse('Generating audio...');
     Predictions.convert({
       textToSpeech: {
         source: {
-          text: textToGenerateSpeech
+          text: textToGenerateSpeech,
         },
         voiceId: "Amy" // default configured on aws-exports.js 
         // list of different options are here https://docs.aws.amazon.com/polly/latest/dg/voicelist.html
       }
     }).then(result => {
+      const audioCtx = new AudioContext();// || window.webkitAudioContext)();
       
-      setAudioStream(result.speech.url);
+      const source = audioCtx.createBufferSource();
+      audioCtx.decodeAudioData(result.audioStream.buffer, (buffer) => {
+
+        source.buffer = buffer;
+        source.connect(audioCtx.destination);
+        source.start(0);
+      }, (err) => console.log({err}));
+      
       setResponse(`Generation completed, press play`);
-      // document.getElementById('audioPlayback').load();
     })
-      .catch(err => setResponse(JSON.stringify(err, null, 2)))
+      .catch(err => setResponse(err))
   }
 
   function setText(event) {
     setTextToGenerateSpeech(event.target.value);
   }
 
-  function play() {
-    var audio = new Audio();
-    audio.src = audioStream;
-    audio.play();
-  }
-  
   return (
     <div className="Text">
       <div>
@@ -736,7 +737,6 @@ function TextToSpeech() {
         <input value={textToGenerateSpeech} onChange={setText}></input>
         <button onClick={generateTextToSpeech}>Text to Speech</button>
         <h3>{response}</h3>
-        <button onClick={play}>play</button>
       </div>
     </div>
   );
