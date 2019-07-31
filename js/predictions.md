@@ -545,7 +545,7 @@ function PredictionsUpload() {
   function upload(event) {
     const { target: { files } } = event;
     const [file,] = files || [];
-    Storage.put('test2.jpg', file, {
+    Storage.put(file.name, file, {
       level: 'protected',
       customPrefix: {
         protected: 'protected/predictions/index-faces/',
