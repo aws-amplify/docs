@@ -154,6 +154,15 @@ home.page.ts
 todoitems
 entryComponents
 
+# js/predictions.md
+
+Textract
+SageMaker
+websocket
+pre-defined
+urls
+checkboxes
+
 # js/storage.md
 
 userfiles-mobilehub
