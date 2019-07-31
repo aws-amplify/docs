@@ -924,7 +924,7 @@ Predictions.identify({
 
 For example the below image would return `keyValues` with "Test" or "Checked" as a key, and `true` since they are selected. The location of these elements would be returned in the `boundingBox` value.
 
-![Image]({{common_media}}/SimpleAuthZ.png)
+![Image]({{common_media}}/IdentifyTable.png)
 
 For detecting structured tables from an image
 ```javascript
