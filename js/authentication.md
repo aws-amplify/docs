@@ -106,7 +106,7 @@ yarn add aws-amplify aws-amplify-react-native
 react-native link amazon-cognito-identity-js # DO NOT run this when using Expo or ExpoKit
 ```
 
-If you are using React Native 0.60.0+, iOS and using Auth methods e.g. Auth.signIn, Auth.signUp, etc., please run the following commands instead of linking:
+If you are using React Native 0.60.0+, iOS and using Auth methods e.g. `Auth.signIn`, `Auth.signUp`, etc., please run the following commands instead of linking:
 
 ```
 yarn add amazon-cognito-identity-js
