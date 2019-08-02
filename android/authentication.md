@@ -571,8 +571,10 @@ AWSMobileClient.getInstance().forgotPassword("username", new Callback<ForgotPass
                 switch (result.getState()) {
                     case CONFIRMATION_CODE:
                         makeToast("Confirmation code is sent to reset password");
+                        break;
                     default:
                         Log.e(TAG, "un-supported forgot password state");
+                        break;
                 }
             }
         });
@@ -594,8 +596,10 @@ AWSMobileClient.getInstance().confirmForgotPassword("NEW_PASSWORD_HERE", "CONFIR
                 switch (result.getState()) {
                     case DONE:
                         makeToast("Password changed successfully");
+                        break;
                     default:
                         Log.e(TAG, "un-supported forgot password state");
+                        break;
                 }
             }
         });
