@@ -51,11 +51,11 @@ Some apps need to use AWS services which require [signing requests](https://docs
 
 #### Social Provider Federation
 	
-Many apps also support login with a social provider such as Facebook, Google Sign-In, or Login With Amazon. [The preferred way to do this is via an OAuth](#oauth-and-federation-overview) redirect which lets users login using their social media account and a corresponding user is created in User Pools. With this design you do not need to include an SDK for the social provider in your app. Set this up by running `amplify add auth` and selecting the social provider  option. Upon completion you can use [`Auth.federatedSignIn()`](#oauth-and-hosted-ui) in your application to either show a pre-built "Hosted UI" or pass in a provider name (e.g. [`Auth.federatedSignIn({provider: 'Facebook'})`](#oauth-and-hosted-ui)) to interface directly and build our your own UI.
+Many apps also support login with a social provider such as Facebook, Google Sign-In, or Login With Amazon. [The preferred way to do this is via an OAuth](#oauth-and-federation-overview) redirect which lets users login using their social media account and a corresponding user is created in User Pools. With this design you do not need to include an SDK for the social provider in your app. Set this up by running `amplify add auth` and selecting the social provider  option. Upon completion you can use [`Auth.federatedSignIn()`](#oauth-and-hosted-ui) in your application to either show a pre-built "Hosted UI" or pass in a provider name (e.g. [`Auth.federatedSignIn({provider: 'Facebook'})`](#oauth-and-hosted-ui)) to interface directly and build out your own UI.
 	
 ![Image]({{common_media}}/SocialAuthZ.png)
 	
-You can also get credentials directly from Identity Pools by passing tokens from a provider directly to `Auth.federatedSignIn()`. However you will have to use that providers SDK directly in your app and manage token refresh and auth flows manually.
+You can also get credentials directly from Identity Pools by passing tokens from a provider directly to `Auth.federatedSignIn()`. However you will have to use that provider's SDK directly in your app and manage token refresh and auth flows manually.
 
 ### Automated Setup
 
@@ -92,6 +92,19 @@ The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/co
 
 
 ##### Configure Your App
+
+Add Amplify to your app with `yarn` or `npm`:
+
+```bash
+yarn add aws-amplify
+```
+
+For React Native applications, install `aws-amplify-react-native` and link:
+
+```bash
+yarn add aws-amplify aws-amplify-react-native
+react-native link amazon-cognito-identity-js # DO NOT run this when using Expo or ExpoKit
+```
 
 In your app's entry point i.e. App.js, import and load the configuration file:
 
@@ -769,7 +782,7 @@ Then, in the component's constructor,  implement `showComponent(theme) {}` in li
 
 ### Social Provider Setup
 
-Before adding a social provider to an Amplify project, you must first create go to that provider and configure an application identifier as outlined below.
+Before adding a social provider to an Amplify project, you must first go to that provider and configure an application identifier as outlined below.
 
 - [Facebook Instructions](./cognito-hosted-ui-federated-identity#facebook-instructions)
 - [Google Sign-In Instructions](./cognito-hosted-ui-federated-identity#google-sign-in-instructions)
@@ -821,7 +834,8 @@ OAuth support in Amplify uses Cognito User Pools and supports federation with so
 
 #### OAuth and Hosted UI
 
-After configuring the OAuth endpoints, you can use them or the Hosted UI with `Auth.federatedSignIn()`. Passing *Amazon*, *Facebook*, or *Google* will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example.
+After configuring the OAuth endpoints, you can use them or the Hosted UI with `Auth.federatedSignIn()`. Passing *Amazon*, *Facebook*, or *Google* will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example. If you are looking to add a custom state, you are able to do so by passing a `string`
+(e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via Hub
 
 ```javascript
 import Amplify, { Auth, Hub } from 'aws-amplify';
@@ -830,7 +844,7 @@ Amplify.configure(awsconfig);
 
 
 class App extends Component {
-  state = { user: null };
+  state = { user: null, customState: null };
 
   componentDidMount() {
     Hub.listen("auth", ({ payload: { event, data } }) => {
@@ -841,6 +855,8 @@ class App extends Component {
         case "signOut":
           this.setState({ user: null });
           break;
+        case "customOAuthState":
+          this.setState({ customState: data });
       }
     });
 
@@ -853,7 +869,6 @@ class App extends Component {
     const { user } = this.state;
 
     return (
-      <div>
       <div className="App">
         <button onClick={() => Auth.federatedSignIn({provider: 'Facebook'})}>Open Facebook</button>
         <button onClick={() => Auth.federatedSignIn({provider: 'Google'})}>Open Google</button>

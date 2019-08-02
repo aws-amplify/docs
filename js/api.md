@@ -627,7 +627,7 @@ This will open the AWS AppSync console for you to run Queries, Mutations, or Sub
 To use AppSync in your JavaScript project, add in the following dependencies:
 
 ```bash
-npm install --save aws-appsync graphql-tag
+npm install aws-appsync graphql-tag
 # or
 yarn add aws-appsync graphql-tag
 ```

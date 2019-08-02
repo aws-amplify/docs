@@ -451,6 +451,12 @@ category_list:
           services:
               - title: Amazon Lex
                 url: https://aws.amazon.com/lex/
+        - title: Predictions
+          excerpt: Add AI and ML capabilities to your app using the cloud
+          cta: Read more
+          class: aws-icon-ps-60-circular-circuit
+          url: '/js/predictions'
+          icon: '/images/icons/Misc/Cloud.svg'
         - title: PubSub
           excerpt: Connect your app to message-oriented middleware on the cloud.
           cta: Read more
