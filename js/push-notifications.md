@@ -165,7 +165,7 @@ Setup instructions are provided for Android and iOS, and configuration for both 
 10. Run your app with `yarn` or with an appropriate run command.
 
     ```bash
-    $ expo start
+    $ npm start
     ```
 
 ### Setup for IOS
