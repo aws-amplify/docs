@@ -65,9 +65,9 @@ Finally, update your AndroidManifest.xml with the following:
 
 ### AWS SDK Version vs. Semantic Versioning
 
-The AWS SDK for iOS does not follow semantic versioning. Instead, it increments the patch-level version for both backward-compatible bugfixes *and* non-breaking changes, and increments the minor version for breaking changes. Major version changes are rare, and usually indicate a dramatically different programming model.
+The AWS SDK for iOS does not follow semantic versioning. Instead, it increments the patch-level version for both backward-compatible bug fixes *and* non-breaking changes, and increments the minor version for breaking changes. Major version changes are rare, and usually indicate a dramatically different programming model.
 
-For comparison, Semantic versioning increments the patch level for backward-compatible bugfixes, the minor version for backward-compatible new features, and the major version for breaking changes.
+For comparison, Semantic versioning increments the patch level for backward-compatible bug fixes, the minor version for backward-compatible new features, and the major version for breaking changes.
 
 ## Step 2: Set Up Your Backend
 
