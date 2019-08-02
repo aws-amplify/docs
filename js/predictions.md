@@ -22,7 +22,7 @@ The Predictions category provides a solution for using AI and ML cloud services 
 
 Predictions comes with built-in support for [Amazon Translate](https://docs.aws.amazon.com/translate/latest/dg/what-is.html){:target="_blank"}, [Amazon Polly](https://docs.aws.amazon.com/polly/latest/dg/what-is.html){:target="_blank"}, [Amazon Transcribe](https://docs.aws.amazon.com/transcribe/latest/dg/what-is-transcribe.html){:target="_blank"}, [Amazon Rekognition](https://docs.aws.amazon.com/rekognition/latest/dg/what-is.html){:target="_blank"}, [Amazon Textract](https://docs.aws.amazon.com/textract/latest/dg/what-is.html){:target="_blank"}, and [Amazon Comprehend](https://docs.aws.amazon.com/comprehend/latest/dg/what-is.html){:target="_blank"}.
 
-Additionally Predictions supports generic invocation of SageMaker Inference API from native (iOS/Android) application. 
+Additionally Predictions supports generic invocation of SageMaker Inference API from a native (iOS/Android) application. 
 
 <b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
 <b>Recommendation:</b> [Complete the Getting Started guide](./start?platform=purejs)
@@ -316,7 +316,7 @@ To add this functionality into your application choose **advanced** when prompte
 ? The CLI would be provisioning an S3 bucket to store these images please provide bucket name: mybucket
 ```
 
-Note that if you already have an S3 bucket in your project from running `amplify add storage` it would be reused. To upload images from the CLI for administrator indexing you can run `amplify predictions console` and select `identify` which will open the S3 bucket location in the AWS console for you to upload your images to train.
+Note that if you already have an S3 bucket in your project from running `amplify add storage` it would be reused. To upload images from the CLI for administrator indexing, you can run `amplify predictions console` and select `Identify` which will open the S3 bucket location in the AWS console for you to upload your images.
 
 For application users, when they upload images with `Storage.put()` they will specify a prefix which the Lambda functions perform indexing like so:
 
