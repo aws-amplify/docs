@@ -15,9 +15,8 @@ $ npm install aws-amplify aws-amplify-angular
 
 ### Angular 6+ Support
 
-Currently, the newest versions of Angular (6+) do not shims for 'global' or 'process' which were provided in previous versions.
+Currently, the newest versions of Angular (6+) do not include shims for 'global' or 'process' which were provided in previous versions. Add the following to your `polyfills.ts` file to recreate them: 
 
-Add the following to your `polyfills.ts` file to recreate them: 
 ```javascript
 (window as any).global = window;
 (window as any).process = {
