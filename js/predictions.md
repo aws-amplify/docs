@@ -22,7 +22,7 @@ The Predictions category provides a solution for using AI and ML cloud services 
 
 Predictions comes with built-in support for [Amazon Translate](https://docs.aws.amazon.com/translate/latest/dg/what-is.html){:target="_blank"}, [Amazon Polly](https://docs.aws.amazon.com/polly/latest/dg/what-is.html){:target="_blank"}, [Amazon Transcribe](https://docs.aws.amazon.com/transcribe/latest/dg/what-is-transcribe.html){:target="_blank"}, [Amazon Rekognition](https://docs.aws.amazon.com/rekognition/latest/dg/what-is.html){:target="_blank"}, [Amazon Textract](https://docs.aws.amazon.com/textract/latest/dg/what-is.html){:target="_blank"}, and [Amazon Comprehend](https://docs.aws.amazon.com/comprehend/latest/dg/what-is.html){:target="_blank"}.
 
-Additionally Predictions supports generic invocation of SageMaker Inference API from native (iOS/Android) application. 
+Additionally Predictions supports generic invocation of SageMaker Inference API from a native (iOS/Android) application. 
 
 <b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
 <b>Recommendation:</b> [Complete the Getting Started guide](./start?platform=purejs)

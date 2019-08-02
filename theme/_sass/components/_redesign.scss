@@ -2601,6 +2601,7 @@ li {
         margin-bottom: 20px;
 
         @media (max-width: 828px) {
+            z-index: 10;
             float: left;
             width: 100%;
             padding: 36px 20px;
