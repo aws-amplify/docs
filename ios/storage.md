@@ -188,7 +188,7 @@ func uploadData() {
        contentType: "text/plain",
        expression: expression,
        completionHandler: completionHandler).continueWith {
-          (task) -> AnyObject! in
+          (task) -> AnyObject? in
               if let error = task.error {
                  print("Error: \(error.localizedDescription)")
               }
