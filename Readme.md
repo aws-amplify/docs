@@ -19,8 +19,10 @@ The documentation is tested for spelling errors in CircleCI and against a custom
 When contributing to documentation:
 
 1. Fork this repository `git clone git@github.com:aws-amplify/docs`
-2. Install all the dependencies with `yarn install` (or `npm install`)
+2. Install all the dependencies
+  1. `yarn install` (or `npm install`)
+  2. `bundle install`
 3. Make your changes and verify them locally with `yarn start` (or `npm start`)
 4. Run `npm run build` locally prior to creating a pull request
   1. Fix any spelling/grammar issues and update `.spelling` as needed
-6. Create a Pull Request here
+5. Create a Pull Request here
