@@ -12,7 +12,10 @@
   "scripts": {
     "test": "mdspell -r -n -a --en-us '**/*.md' '!**/node_modules/**/*.md'",
     "grammar": "write-good **/*.md --parse --no-passive --no-adverb --no-tooWordy --no-cliches",
-    "links": "blc https://aws-amplify.github.io/docs/js/start"
+    "links": "blc https://aws-amplify.github.io/docs/js/start",
+    "postinstall": "bundle install",
+    "start": "bundle exec jekyll serve",
+    "build": "npm run test && npm run grammar && bundle exec jekyll build"
   },
   "repository": {
     "type": "git",

@@ -6,6 +6,7 @@ aws-amplify-angular
 @aws-amplify/core
 @aws-amplify/auth
 @aws-amplify/storage
+aws-mobile-appsync-sdk-ios
 App.vue
 app.js
 authMode
@@ -137,6 +138,7 @@ backends
 AuthN
 AuthZ
 lifecycles
+Bundler
 
 # js/tutorials/building-ionic-4-apps/index.md
 home.page.ts
@@ -906,6 +908,7 @@ xcworkspace
 
 # ios/storage.md
 S3ObjectInput
+S3ObjectWrapper.swift
 CreatePostWithFileInputMutation
 createPostWithFile
 PostsTable
@@ -918,6 +921,7 @@ handleEventsForBackgroundURLSession
 interceptApplication
 AWSStaticCredentialsProvider
 CRUD
+AWSAppSyncTestCommon
 
 # android/how-to-android-sdk-setup.md
 aws-android-sdk-lex
