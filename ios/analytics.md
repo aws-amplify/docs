@@ -244,20 +244,19 @@ You can report authentication events by doing either of the following:
 
 * Managing user sign-up and sign-in with Amazon Cognito user pools.
 
-    Amazon Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Amazon Cognito reports authentication events to Amazon Pinpoint. For more information, see [Using Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html) in the _Amazon Cognito Developer Guide_. Also update awsconfiguration.json by adding the `pinpoint appid` under CognitoUserPool.
-```json
-	"CognitoUserPool": {
+    Amazon Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Amazon Cognito reports authentication events to Amazon Pinpoint. For more information, see [Using Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html) in the _Amazon Cognito Developer Guide_. Also update **awsconfiguration.json** by adding the `PinpointAppId` key under `CognitoUserPool`.
+    
+    ```json
+    "CognitoUserPool": {
         "Default": {
             "PoolId": "<poolid>",
             "AppClientId": "<appclientid>",
             "AppClientSecret": "<appclientsecret>",
             "Region": "<region>",
             "PinpointAppId": "<pinpointappid>"
-        }
+       }
     }
-
-```
-
+    ```
 
 * Reporting authentication events by using the Amazon Pinpoint client that's provided by the AWS Mobile SDK for iOS or Android.
 
