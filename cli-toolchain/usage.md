@@ -432,6 +432,21 @@ In order to quickly test and debug without pushing all changes in your project t
 Java is required on your development workstation to use Local Mocking in Amplify
 {: .callout .callout--info}
 
+#### Android config
+
+When running against the local mock servers with Android you must set `android:usesClearTextTraffic="true"` in your **AndroidManifest.xml** as in the code snippet below. **Ensure you remove this once mocking is complete and you release your app**.
+
+```xml
+<application
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:theme="@style/AppTheme"
+    android:usesClearTextTraffic="true" >
+    
+    <!--other code-->
+</application>
+```
+
 ### API mocking setup
 After running `amplify init` you can immediately add a GraphQL API and begin mocking without first pushing to the cloud. REST APIs are not yet supported. For example:
 
@@ -454,21 +469,6 @@ When defining a schema you can use directives from the GraphQL Transformer in lo
 - [@function](./graphql#function)
 
 Note that `@searchable` will not be supported for initial release.
-
-#### Android config
-
-When running against the local mock GraphQL server with Android you must set `android:usesClearTextTraffic="true"` in your **AndroidManifest.xml** as in the code snippet below. **Ensure you remove this once mocking is complete and you release your app**.
-
-```xml
-<application
-    android:icon="@mipmap/ic_launcher"
-    android:label="@string/app_name"
-    android:theme="@style/AppTheme"
-    android:usesClearTextTraffic="true" >
-    
-    <!--other code-->
-</application>
-```
 
 ### Storage mocking setup
 For S3 storage mocking, after running `amplify init` you must first run through `amplify add auth`, either explicitly or implicitly if adding storage first, and then run an `amplify push`. This is because mocking storage in the libraries requires credentials for initial setup. Note however that S3 authorization rules, such as those placed on a bucket policy, are not checked by local mocking at this time. 
