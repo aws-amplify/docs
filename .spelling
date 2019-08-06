@@ -139,6 +139,8 @@ AuthN
 AuthZ
 lifecycles
 Bundler
+prepend
+prepended
 
 # js/tutorials/building-ionic-4-apps/index.md
 home.page.ts
