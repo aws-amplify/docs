@@ -415,8 +415,8 @@ class App extends Component {
 
         return (
             <Connect query={graphqlOperation(queries.listTodos)}>
-                {({ data: { listTodos }, loading, error }) => {
-                    if (error) return (<h3>Error</h3>);
+                {({ data: { listTodos }, loading, errors }) => {
+                    if (errors) return (<h3>Error</h3>);
                     if (loading || !listTodos) return (<h3>Loading...</h3>);
                     return (<ListView todos={listTodos.items} /> );
                 }}
