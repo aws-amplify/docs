@@ -464,7 +464,7 @@ Amplify supports running a local server for mocking and testing your application
 $ amplify mock
 ```
 
-Amplify libraries when configured for these categories can use the local mocked endpoints for testing your application. When a mock endpoint is running the CLI will update your `aws-exports.js` or `awsconfiguration.json` to use the mock server and once stopped they will be updated to use the cloud endpoint once you have run an `amplify push`. For more details [see the usage section](./usage#mocking-and-testing).
+Amplify libraries when configured for these categories can use the local mocked endpoints for testing your application. When a mock endpoint is running the CLI will update your `aws-exports.js` or `awsconfiguration.json` to use the mock server. After the mock server is stopped they will be updated to use the cloud endpoint after you have run an `amplify push`. For more details [see the usage section](./usage#mocking-and-testing).
 
 ## Custom Cloudformation Stacks
 

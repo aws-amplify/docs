@@ -427,10 +427,13 @@ It is highly recommended that you have completed the Getting Started section of 
 - [Android Getting Started](../android/start.md)
 - [iOS Getting Started](../ios/start.md)
 
-In order to quickly test and debug without pushing all changes in your project to the cloud, Amplify supports "local mocking" for certain categories, including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), Functions (AWS Lambda). You can use directives from the GraphQL Transformer, edit & debug resolvers (written in VTL)
+In order to quickly test and debug without pushing all changes in your project to the cloud, Amplify supports "local mocking" for certain categories, including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), Functions (AWS Lambda). You can use directives from the GraphQL Transformer, edit & debug resolvers.
+
+Java is required on your development workstation to use Local Mocking in Amplify
+{: .callout .callout--info}
 
 ### API mocking setup
-After running `amplify init` you can immediately add a GraphQL API and begin mocking without first pushing to the cloud. For example:
+After running `amplify init` you can immediately add a GraphQL API and begin mocking without first pushing to the cloud. REST APIs are not yet supported. For example:
 
 ```terminal
 $ amplify init
@@ -450,7 +453,7 @@ When defining a schema you can use directives from the GraphQL Transformer in lo
 - [@versioned](./graphql#versioned)
 - [@function](./graphql#function)
 
-Note that `@searchable` and `@http` will not be supported for initial release.
+Note that `@searchable` will not be supported for initial release.
 
 #### Android config
 
@@ -478,6 +481,8 @@ $ amplify add storage #This will prompt you to add auth
 $ amplify push
 $ amplify mock storage
 ```
+
+For DynamoDB storage, setup is automatically done when creating a GraphQL API and no action is needed on your part.
 
 #### iOS config
 
