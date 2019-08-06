@@ -450,6 +450,22 @@ What happens behind the scenes?
   You can get the `AWSCLOUDFORMATIONCONFIG` from the `team-provider-info.json` file from your existing Amplify project in the `amplify/` directory of the project.
 
 
+## Mocking and Testing
+
+It is highly recommended that you have completed the Getting Started section of Amplify setup before using local mocking.
+
+- [JavaScript Getting Started](../js/start.md)
+- [Android Getting Started](../android/start.md)
+- [iOS Getting Started](../ios/start.md)
+
+Amplify supports running a local server for mocking and testing your application before pushing to the cloud with certain categories, including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), Functions (AWS Lambda), and Hosting. After running `amplify init` you can run the following to start a mock server:
+
+```terminal
+$ amplify mock
+```
+
+Amplify libraries when configured for these categories can use the local mocked endpoints for testing your application. When a mock endpoint is running the CLI will update your `aws-exports.js` or `awsconfiguration.json` to use the mock server and once stopped they will be updated to use the cloud endpoint once you have run an `amplify push`. For more details [see the usage section](./usage#mocking-and-testing).
+
 ## Custom Cloudformation Stacks
 
 The Amplify CLI provides escape hatches for modifying the backend configurations generated in the form of Cloudformation templates by the CLI. This allows you to use the CLI for common flows but also any advanced scenarios which aren't provided in the standard category workflows.
@@ -493,7 +509,6 @@ The Amplify CLI provides escape hatches for modifying the backend configurations
   `template.json` is a cloudformation template, and `parameters.json` is a json file of parameters that will be passed to the cloudformation template. Additionally, the `env` parameter will be passed in to your cloudformation templates dynamically by the CLI.
 
 3. Run `amplify env checkout <current-env-name>` to populate the CLI runtime files and make it aware of the newly added custom resources
-
 
 
 ## Environments & Teams
