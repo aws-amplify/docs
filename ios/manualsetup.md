@@ -133,7 +133,7 @@ Now **build** your project to start using the SDK. Whenever a new version of the
 
 ## Frameworks setup
 
-Download the [SDK](https://sdk-for-ios.amazonwebservices.com/latest/aws-ios-sdk.zip). The SDK is stored in a compressed file archive named `aws-ios-sdk-#.#.#` (where `#.#.#` represents the version number, so for version 2.9.0, the filename is `aws-ios-sdk-2.9.0`).
+Download the latest [SDK](https://sdk-for-ios.amazonwebservices.com/latest/aws-ios-sdk.zip). For archived SDKs, they are stored in a compressed file archive named `aws-ios-sdk-#.#.#` (where `#.#.#` represents the version number, so for version 2.9.0, the filename is `aws-ios-sdk-2.9.0`) at https://sdk-for-ios.amazonwebservices.com/aws-ios-sdk-#.#.#.zip.
 
 With your project open in Xcode, select your `Target`. Under `General` tab, find `Embedded Binaries` and then click the `+` button.
 
