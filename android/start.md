@@ -70,7 +70,6 @@ Create new AWS backend resources and pull the AWS services configuration into th
 ```bash
 $ cd ./YOUR_PROJECT_FOLDER
 $ amplify init        #accept defaults
-$ amplify push        #creates configuration file
 ```
 
 An `awsconfiguration.json` file will be created with your configuration and updated as features get added to your project by the Amplify CLI. The file is placed in the `./app/src/main/res/raw` directory of your Android Studio project and automatically used by the SDKs at runtime.
