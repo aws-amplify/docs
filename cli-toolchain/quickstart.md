@@ -452,7 +452,7 @@ What happens behind the scenes?
 
 ## Mocking and Testing
 
-It is highly recommended that you have completed the Getting Started section of Amplify setup before using local mocking.
+It is highly recommended that you complete the Getting Started section of Amplify setup before using local mocking.
 
 - [JavaScript Getting Started](../js/start.md)
 - [Android Getting Started](../android/start.md)

@@ -421,13 +421,13 @@ You can take a look at [AWS IAM](https://docs.aws.amazon.com/IAM/latest/UserGuid
 
 ## Mocking and Testing
 
-It is highly recommended that you have completed the Getting Started section of Amplify setup before using local mocking.
+It is highly recommended that you complete the Getting Started section of Amplify setup before using local mocking.
 
 - [JavaScript Getting Started](../js/start.md)
 - [Android Getting Started](../android/start.md)
 - [iOS Getting Started](../ios/start.md)
 
-In order to quickly test and debug without pushing all changes in your project to the cloud, Amplify supports *Local Mocking and Testing* for certain categories including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), and Functions (AWS Lambda). This includes using directives from the GraphQL Transformer, editing & debug resolvers, hot reloading, JWT mocking of authorization checks, and even performing S3 operations such as uploading & downloading content.
+In order to quickly test and debug without pushing all changes in your project to the cloud, Amplify supports *Local Mocking and Testing* for certain categories including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), and Functions (AWS Lambda). This includes using directives from the GraphQL Transformer, editing & debug resolvers, hot reloading, JWT mocking of authorization checks, and even performing S3 operations such as uploading and downloading content.
 
 Java is required on your development workstation to use Local Mocking in Amplify
 {: .callout .callout--info}
@@ -456,7 +456,7 @@ When defining a schema you can use directives from the GraphQL Transformer in lo
 - [@versioned](./graphql#versioned)
 - [@function](./graphql#function)
 
-Note that `@searchable` will not be supported for initial release.
+Note that `@searchable` is not supported at this time.
 
 ### Storage mocking setup
 For S3 storage mocking, after running `amplify init` you must first run through `amplify add auth`, either explicitly or implicitly if adding storage first, and then run an `amplify push`. This is because mocking storage in client libraries requires credentials for initial setup. Note however that S3 authorization rules, such as those placed on a bucket policy, are not checked by local mocking at this time. 
@@ -472,13 +472,12 @@ $ amplify mock storage
 
 To use an iOS application with the local S3 endpoint you will need to [modify your Info.plist file](#ios-config). To use an Android application with the local S3 endpoint you will need an extra [configuration in your AndroidManifest.xml](#android-config).
 
-For DynamoDB storage, setup is automatically done when creating a GraphQL API and no action is needed on your part.
-
+For DynamoDB storage, setup is automatically done when creating a GraphQL API with no action is needed on your part. Resources for the mocked data, such as the DynamoDB Local database or objects uploaded using the local S3 endpoint, inside your project under `./amplify/mock-data`.
 
 ### Function mocking setup
 For Lambda function mocking, after running `amplify init` you can add a function to your project with `amplify add function` and either mock invoke it directly, or use the [@function](./graphql#function) directive as part of your GraphQL schema to mock the invocation as part of your API.
 
-To invoke the function with the local mock invoke:
+To invoke the function with the local mock:
 
 ```terminal
 $ amplify init
@@ -488,7 +487,7 @@ $ amplify mock function <function_name>
 
 This will take you through a few questions, such as the entry point for your Lambda function and sample event context to pass. The defaults are `index.js` and `event.json`.
 
-Note that you will need to run `yarn` or `npm install` first if your Lambda function has any external dependencies. Only Node.js functions are supported at this time.
+Note that you will need to run `yarn` or `npm install` first if your Lambda function has any external dependencies (`<project-dir>/amplify/backend/function/<function-name>/src`). Only Node.js functions are supported at this time.
 {: .callout .callout--info}
 
 #### Function mocking with GraphQL
@@ -617,7 +616,7 @@ Alternatively, you can run `amplify mock api` to only mock the API category. Whe
 
 Once the server starts it will print a URL. Open this URL in your browser (it should be `http://localhost:20002`) and the [OneGraph](https://github.com/OneGraph/graphiql-explorer) GraphQL console will open up in your browser. You can use the explorer on the left to build out a query/mutation or manually type your statements in the main window. Amplify mocking will use DynamoDB Local to persist the records on your system. If you wish, you can view these in Visual Studio code with [SQLite Explorer](https://github.com/AlexCovizzi/vscode-sqlite). Follow the instructions in that repo for connecting to local databases.
 
-When your API is configured to use Cognito User Pools, the local console provides a way to change `Username`, `Groups` and `email` of the bundled JWT token. These values are used by GraphQL transformers Auth directive. Edit them by clicking **Auth** and saving your changes, then run operations in the console to test your rules.
+When your API is configured to use Cognito User Pools, the local console provides a way to change `Username`, `Groups`, and `email` of the bundled JWT token. These values are used by GraphQL transformers Auth directive. Edit them by clicking **Auth** and saving your changes, then run operations in the console to test your rules.
 
 ### GraphQL Resolver Debugging
 
