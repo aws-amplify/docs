@@ -454,9 +454,9 @@ What happens behind the scenes?
 
 It is highly recommended that you complete the Getting Started section of Amplify setup before using local mocking.
 
-- [JavaScript Getting Started](../js/start.md)
-- [Android Getting Started](../android/start.md)
-- [iOS Getting Started](../ios/start.md)
+- [JavaScript Getting Started](../js/start)
+- [Android Getting Started](../android/start)
+- [iOS Getting Started](../ios/start)
 
 Amplify supports running a local server for mocking and testing your application before pushing to the cloud with certain categories, including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), Functions (AWS Lambda), and Hosting. After running `amplify init` you can run the following to start a mock server:
 
