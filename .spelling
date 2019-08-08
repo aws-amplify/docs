@@ -561,6 +561,10 @@ transform.conf.json
 
 #cli-toolchain/usage.md
 poolData
+cleartext
+NSAllowsLocalNetworking
+quoteOfTheDay
+OneGraph
 
 # android/analytics.md
 ActivityLifecycleCallbacks
