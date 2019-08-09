@@ -616,7 +616,7 @@ The `withAuthenticator` HOC wraps an `Authenticator` component. Using `Authentic
     // A theme object to override the UI / styling
     theme={myCustomTheme} 
     // Hide specific components within the Authenticator
-    // *** Only supported on React/Web (Not React Native) ***
+    // *** Only supported on React/Web (Not React Native)  ***
     hide={ 
         [
             Greetings,
