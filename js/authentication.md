@@ -559,7 +559,7 @@ To learn more about tokens, please visit [Amazon Cognito Developer Documentation
 
 For React and React Native apps, the simplest way to add authentication flows into your app is to use the `withAuthenticator` Higher Order Component.
 
-If you are using the `withAuthenticator` HOC with React Native, make sure to link `react-native-vector-icons` and launch your app again:
+If you are using the `withAuthenticator` HOC with React Native, make sure to link `react-native-vector-icons` and then (re)launch your app:
 
 ```bash
 react-native link react-native-vector-icons
