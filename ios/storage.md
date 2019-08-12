@@ -640,13 +640,13 @@ There is an implementation in the iOS Test Suite that can be used as a reference
 
 The mutation operation doesn't require any specific changes in method signature. It requires only an S3ObjectInput with `bucket`, `key`, `region`, `localUri`, and `mimeType`. Now when you do a mutation, it automatically uploads the specified file to Amazon S3 using the `AWSS3TransferUtility` client internally.
 
-## Working with Pre-Signed URLS
+## Working with access levels in your app code
 
 By default, all Amazon S3 resources are private. If you want your users to have access to Amazon S3 buckets or objects, you can assign appropriate permissions with an [IAM policy](http://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html).
 
-### Working with access levels in your app code
+### IAM Policy Based Permissions
 
-When you upload objects to the S3 bucket the Amplify CLI creates, you must manually prepend the appropriate access-level information to the object. The correct prefix - `public/`, `protected/` or `private/` - will depend on the access level of the object as documented in the [Storage Access section](./storage#storage-access). For example:
+When you upload objects to the S3 bucket the Amplify CLI creates, you must manually prepend the appropriate access-level information to the `key`. The correct prefix - `public/`, `protected/` or `private/` - will depend on the access level of the object as documented in the [Storage Access section](./storage#storage-access). For example:
 
 ```swift
 let s3Object = S3ObjectInput()
@@ -660,11 +660,9 @@ s3Object.key = "private/\(cognitoIdentityId)/myFile.txt"
 
 **Note:** These keys must be prepended when you are uploading the object, and the same key must be specified as part of the object's key during download.
 
-### Temporary Access
+### Temporary Permissions via Pre-signed URLs
 
 However, what if you wanted to provide permissions temporarily, for example: _you want to share a link to file temporarily and have the link expire after a set time_. To do this using an IAM policy would require you to first setup the policy to grant access and then at a later time remember to delete the IAM policy to revoke access. 
-
-### Building a Pre-Signed URL
 
 Alternatively, you can use pre-signed URLs to give your users temporary access to Amazon S3 objects. When you create a pre-signed URL, you must provide your security credentials, specify a bucket name, an object key, an HTTP method, and an expiration date and time. The pre-signed URL is valid only for the specified duration.
 
@@ -692,8 +690,7 @@ AWSS3PreSignedURLBuilder.default().getPreSignedURL(getPreSignedURLRequest).conti
 }
 ```
 
-The preceding example uses ``GET`` as the HTTP method: ``AWSHTTPMethodGET``. For an upload request to Amazon S3,
-we would need to use a PUT method.
+The preceding example uses `GET` as the HTTP method: `AWSHTTPMethodGET`. For an upload request to Amazon S3, we would need to use a PUT method.
 
 ```swift
 let getPreSignedURLRequest = AWSS3GetPreSignedURLRequest()
