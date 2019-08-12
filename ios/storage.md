@@ -649,7 +649,7 @@ By default, all Amazon S3 resources are private. If you want your users to have 
 When you upload objects to the S3 bucket the Amplify CLI creates, you must manually prepend the appropriate access-level information to the `key`. The correct prefix - `public/`, `protected/` or `private/` - will depend on the access level of the object as documented in the [Storage Access section](./storage#storage-access). For example:
 
 ```swift
-let s3Object = S3ObjectInput()
+var s3Object = S3ObjectInput()
 // Accessible by all users
 s3Object.key = "public/myFile.txt"
 // Readable by all users, but writable only by the creating user
