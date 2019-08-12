@@ -570,7 +570,7 @@ After you have a resolver for the mutation, to ensure that our S3 Complex Object
   $util.toJson($util.dynamodb.fromS3ObjectJson($context.source.file))
 ```
 The AWS AppSync SDK doesn't take a direct dependency on the AWS SDK for iOS for Amazon S3, but takes in `AWSS3TransferUtility` and `AWSS3PresignedURLClient` clients as part of AWSAppSyncClientConfiguration. The code generator used above for generating the API generates the Amazon S3 wrappers required to use the previous clients in the client code. To generate the wrappers, pass the `--add-s3-wrapper` flag while running the code generator tool. You also need to take a dependency on the AWSS3 SDK. You can do that by updating your Podfile to the following:
- 
+
 ```ruby
   target: 'PostsApp' do
     use_frameworks!
@@ -658,7 +658,7 @@ s3Object.key = "protected/\(cognitoIdentityId)/myFile.txt"
 s3Object.key = "private/\(cognitoIdentityId)/myFile.txt"
 ```
 
-**Note:** These keys must be prepended when you are uploading the object, and the same key must be specified as part of the object's key during download.
+**Note:** These keys must be prepended when you are uploading the object, and the same key must be specified as part of the object's key during download. The `cognitoIdentityId` is required for `protected` and `private` access and you can get it by using the [Authentication Utilities](./authentication#utility-properties): `AWSMobileClient.sharedInstance().identityId`.
 
 ### Temporary Permissions via Pre-signed URLs
 
