@@ -559,6 +559,13 @@ To learn more about tokens, please visit [Amazon Cognito Developer Documentation
 
 For React and React Native apps, the simplest way to add authentication flows into your app is to use the `withAuthenticator` Higher Order Component.
 
+If you are using the `withAuthenticator` HOC with React Native, make sure to link `react-native-vector-icons` and then (re)launch your app:
+
+```bash
+react-native link react-native-vector-icons
+react-native run-ios
+```
+
 `withAuthenticator` automatically detects the authentication state and updates the UI. If the user is signed in, the underlying component (typically your app's main component) is displayed otherwise signin/signup controls are displayed.
 
 > The default implementation uses the Amplify UI styling, for an example of what that looks like out of the box on web and mobile, see <a href="https://aws-amplify.github.io/media/ui_library" target="_blank">here</a>.
