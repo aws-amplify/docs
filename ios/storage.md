@@ -91,6 +91,10 @@ Run `pod install --repo-update` before you continue.
     import AWSS3
     ```
 
+### Mocking and Local Testing
+
+Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](../cli-toolchain/usage#mocking-and-testing) for more details.
+
 ## Using TransferUtility 
 
 To make it easy to upload and download objects from Amazon S3, we provide a TransferUtility component with built-in support for background transfers, progress tracking, and MultiPart uploads. This section explains how to implement upload and download functionality and a number of additional storage use cases.
@@ -188,7 +192,7 @@ func uploadData() {
        contentType: "text/plain",
        expression: expression,
        completionHandler: completionHandler).continueWith {
-          (task) -> AnyObject! in
+          (task) -> AnyObject? in
               if let error = task.error {
                  print("Error: \(error.localizedDescription)")
               }
