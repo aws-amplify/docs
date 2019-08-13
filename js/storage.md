@@ -79,6 +79,10 @@ Amplify.configure({
 
 ```
 
+### Mocking and Local Testing
+
+Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](../cli-toolchain/usage#mocking-and-testing) for more details.
+
 ## Using Amazon S3
 
 If you set up your Cognito resources manually, the roles will need to be given permission to access the S3 bucket.
