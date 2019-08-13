@@ -135,10 +135,10 @@ Use the following steps to connect your app to the push notification backend ser
 	                    .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
 	                        @Override
 	                        public void onComplete(@NonNull Task<InstanceIdResult> task) {
-				    if (!task.isSuccessful()) {
-				        Log.w(TAG, "getInstanceId failed", task.getException());
-					return;
-				    }
+                                if (!task.isSuccessful()) {
+                                    Log.w(TAG, "getInstanceId failed", task.getException());
+                                    return;
+                                }
 	                            final String token = task.getResult().getToken();
 	                            Log.d(TAG, "Registering push notifications token: " + token);
 	                            pinpointManager.getNotificationClient().registerDeviceToken(token);
