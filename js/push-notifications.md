@@ -27,7 +27,7 @@ Setup instructions are provided for Android and iOS, and configuration for both 
 
 1. Make sure you have a [Firebase Project](https://console.firebase.google.com) and app setup. 
 
-2. Get your push messaging credentials for Android in Firebase console. [Click here for instructions](Get Push Messaging Credentials for Android).
+2. Get your push messaging credentials for Android in Firebase console. [Click here for instructions]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/android/push-notifications-setup-fcm).
 
 3. Create a native link on a React Native app:
 
@@ -165,7 +165,7 @@ Setup instructions are provided for Android and iOS, and configuration for both 
 10. Run your app with `yarn` or with an appropriate run command.
 
     ```bash
-    $ expo start
+    $ npm start
     ```
 
 ### Setup for IOS
