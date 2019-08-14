@@ -423,15 +423,16 @@ You can take a look at [AWS IAM](https://docs.aws.amazon.com/IAM/latest/UserGuid
 
 It is highly recommended that you complete the Getting Started section of Amplify setup before using local mocking.
 
-- [JavaScript Getting Started](../js/start.md)
-- [Android Getting Started](../android/start.md)
-- [iOS Getting Started](../ios/start.md)
+- [JavaScript Getting Started](../js/start)
+- [Android Getting Started](../android/start)
+- [iOS Getting Started](../ios/start)
 
 In order to quickly test and debug without pushing all changes in your project to the cloud, Amplify supports *Local Mocking and Testing* for certain categories including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), and Functions (AWS Lambda). This includes using directives from the GraphQL Transformer, editing & debug resolvers, hot reloading, JWT mocking of authorization checks, and even performing S3 operations such as uploading and downloading content.
 
 Java is required on your development workstation to use Local Mocking in Amplify
 {: .callout .callout--info}
 
+[Blog walk-through with sample app](https://aws.amazon.com/blogs/mobile/amplify-framework-local-mocking/){:target="_blank"}.
 
 ### API mocking setup
 After running `amplify init` you can immediately add a GraphQL API and begin mocking without first pushing to the cloud. REST APIs are not yet supported. For example:
