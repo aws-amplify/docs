@@ -565,6 +565,9 @@ cleartext
 NSAllowsLocalNetworking
 quoteOfTheDay
 OneGraph
+transpile
+transpiling
+transpiled
 
 # android/analytics.md
 ActivityLifecycleCallbacks
