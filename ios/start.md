@@ -4,7 +4,15 @@ title: Getting Started
 
 # Getting Started
 
-Build an iOS app using the AWS Amplify CLI and the AWS SDK for iOS. The Amplify CLI lets you quickly add backend features to your application so that you can focus on your application code. This page guides you through setting up an initial backend and integration into your app. 
+Build an app using the Amplify Framework which contains:
+
+- CLI toolchain for creating and managing your serverless backend
+- JavaScript, iOS, and Android libraries to access your resources using a category based programming model
+- Framework-specific UI component libraries for React, React Native, Angular, Ionic and Vue
+
+This page guides you through setting up a backend and integration into your iOS app. You will create a "Todo app" with a GraphQL API and to store and retrieve items in a cloud database, as well as receive updates over a realtime subscription.
+
+[GraphQL](http://graphql.org){:target="_blank"} is a data language that was developed to enable apps to fetch data from APIs. It has a declarative, self-documenting style. In a GraphQL operation, the client specifies how to structure the data when it is returned by the server. This makes it possible for the client to query only for the data it needs, in the format that it needs it in.
 
 ## Prerequisites
 
@@ -75,6 +83,9 @@ To verify that the CLI is set up for your app, run the following command.
 
 The CLI displays a status table with no resources listed. As you add feature categories to your app and run `amplify push`, backend resources created for your app are listed in this table.
 
+You can update a category by running `amplify update <category-name>`. If you no longer want to use a service you can delete it with `amplify remove <category-name>`. Lastly, you can remove the whole project by running `amplify delete` (Warning: This will attempt to delete your entire project, locally and in the cloud, essentially resetting your project as if you never ran `amplify init`).
+{: .callout .callout--warning}
+
 ## Step 4: Add API and Database
 
 Add a GraphQL API to your app and automatically provision a database with the following command (accepting all defaults is OK):
@@ -84,6 +95,8 @@ $ amplify add api     #select GraphQL, API Key
 ```
 
 The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on you can always change it. This process creates an AWS AppSync API and connects it to an Amazon DynamoDB database.
+
+[Learn more about annotating GraphQL schemas and data modeling](https://aws-amplify.github.io/docs/cli-toolchain/graphql).
 
 Create required backend resources for your configured api with the following command:
 
