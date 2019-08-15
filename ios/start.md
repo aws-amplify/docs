@@ -4,7 +4,7 @@ title: Getting Started
 
 # Getting Started
 
-Build an app using the Amplify Framework which contains:
+Build an iOS app using the Amplify Framework which contains:
 
 - CLI toolchain for creating and managing your serverless backend
 - JavaScript, iOS, and Android libraries to access your resources using a category based programming model
