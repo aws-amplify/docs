@@ -52,7 +52,7 @@ A configuration file called `aws-exports.js` will be copied to your configured s
 
 ##### Configure Your App
 
-Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `App.js` in React or `main.ts` in Angular.
+Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `App.js` in React or `main.ts` in Angular or Ionic.
 
 ```javascript
 import Amplify from '@aws-amplify/core';
@@ -847,6 +847,172 @@ export default App;
 ```
 
 Now run `yarn start` and press the buttons to demo the app.
+
+### Sample Ionic app
+
+First, be sure you have the latest Ionic CLI installed, then generate a new app (for this example you can use any template, but it's simplest to start with the Blank template to start):
+
+```bash
+$ npm i -g ionic
+$ ionic start predictions blank # the first argument is your project name, the second the template
+```
+
+Update the `src/polyfills.ts` and add to the top of the file `(window as any).global = window;`. Then, update the `src/tsconfig.app.json` file and add the "node" types:
+
+```
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/app",
+    "types": ["node"]
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts"
+  ]
+}
+
+```
+
+#### `src/app/home/home.page.ts`
+
+```javascript
+import { Component } from '@angular/core';
+import Predictions from '@aws-amplify/predictions';
+import { TextToSpeechOutput } from '@aws-amplify/predictions/lib/types';
+
+@Component({
+  selector: 'app-home',
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss'],
+})
+export class HomePage {
+
+  public textToTranslate  = "Hello Amplify";
+  public translateResult  = "";
+  public srcLang          = "en";
+  public targetLang       = "de";
+  public voiceId          = "Salli";
+  public speechUrl:string;
+  public speakResult:boolean;
+
+  constructor() {}
+
+  public async translate() {
+    const result = await Predictions.convert({
+      translateText: {
+        source: {
+          text: this.textToTranslate,
+          language : this.srcLang
+        },
+        targetLanguage: this.targetLang
+      }
+    });
+    this.translateResult = result.text || "Error";
+    if (this.speakResult) {
+      this.generateSpeech(result.text);
+    }
+  }
+
+  public async generateSpeech(textToGenerateSpeech: string) {
+    const result:TextToSpeechOutput = await Predictions.convert({
+      textToSpeech: {
+        source: {
+          text: textToGenerateSpeech,
+        },
+        voiceId: this.voiceId
+      }
+    });
+    const audioCtx = new ((window as any).AudioContext || (window as any).webkitAudioContext)();
+    const source = audioCtx.createBufferSource();
+    audioCtx.decodeAudioData(result.audioStream, (buffer) => {
+      source.buffer = buffer;
+      source.connect(audioCtx.destination);
+      source.start(audioCtx.currentTime);
+    }, (err) => console.log({err}));
+  }
+
+  public selectSource(value: string) {
+    this.srcLang = value;
+  }
+
+  public selectTarget(value: string) {
+    this.targetLang = value;
+  }
+
+}
+
+```
+
+#### `src/app/home/home.page.html`
+
+```html
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Amplify Predictions
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card class="welcome-card">
+      <ion-card-header>
+        <ion-card-title>Convert</ion-card-title>
+        <ion-card-subtitle>Translate languages</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+
+        <ion-list>        
+          <ion-item>
+            <ion-label>Source Language</ion-label>
+            <ion-select #srcLang placeholder="Source Language" (ionChange)="selectSource(srcLang.value)">
+              <ion-select-option value="en" selected>English</ion-select-option>
+              <ion-select-option value="es">Spanish</ion-select-option>
+              <ion-select-option value="de">German</ion-select-option>
+              <ion-select-option value="no">Norwegian</ion-select-option>
+            </ion-select>
+          </ion-item>
+        
+          <ion-item>
+            <ion-label>Target Language</ion-label>
+            <ion-select #targetLang placeholder="Target Language" (ionChange)="selectTarget(targetLang.value)">
+              <ion-select-option value="en">English</ion-select-option>
+              <ion-select-option value="es">Spanish</ion-select-option>
+              <ion-select-option value="de" selected>German</ion-select-option>
+              <ion-select-option value="no">Norwegian</ion-select-option>
+            </ion-select>
+          </ion-item>                  
+        </ion-list>
+        
+        <ion-grid>
+          <ion-row>
+              <ion-col align-self-center>
+                  <textarea placeholder="Text to translate" [(ngModel)]="textToTranslate" rows="5" cols="30"></textarea>
+              </ion-col>
+          </ion-row>
+          <ion-row>
+              <ion-col size="6">
+                  <ion-button (click)="translate()" [disabled]="!textToTranslate">Translate</ion-button>
+              </ion-col>
+              <ion-col size="6" align-self-center>
+                <ion-checkbox color="primary" [(ngModel)]="speakResult"></ion-checkbox> &nbsp;
+                <ion-label>Speak Result</ion-label>
+              </ion-col>
+          </ion-row>
+          <ion-row>
+              <ion-col align-self-center>
+                  <textarea placeholder="Translation will display here" [value]="translateResult" rows="5" cols="30"></textarea>
+              </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </ion-card-content>
+    </ion-card>
+
+</ion-content>
+
+```
 
 ## Working with the API 
 
