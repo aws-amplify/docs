@@ -18,12 +18,12 @@ This page guides you through setting up a backend and integration into your iOS 
 
 [Install and configure the Amplify CLI](..)
 
-[Install Xcode](https://developer.apple.com/xcode/downloads/) version 9.2 or later.
+[Install Xcode](https://developer.apple.com/xcode/downloads/){:target="_blank"} version 9.2 or later.
 
 
 ## Step 1: Create a new app
 
-Follow [these steps](https://developer.apple.com/library/archive/referencelibrary/GettingStarted/DevelopiOSAppsSwift/BuildABasicUI.html) to create an iOS application using Swift.
+Follow [these steps](https://developer.apple.com/library/archive/referencelibrary/GettingStarted/DevelopiOSAppsSwift/BuildABasicUI.html){:target="_blank"} to create an iOS application using Swift.
 
 Install Cocoapods. From a terminal window navigate into your Xcode project's application directory and run the following:
 
