@@ -96,7 +96,7 @@ $ amplify add api     #select GraphQL, API Key
 
 The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on you can always change it. This process creates an AWS AppSync API and connects it to an Amazon DynamoDB database.
 
-[Learn more about annotating GraphQL schemas and data modeling](https://aws-amplify.github.io/docs/cli-toolchain/graphql).
+[Learn more about annotating GraphQL schemas and data modeling](https://aws-amplify.github.io/docs/cli-toolchain/graphql).{:target="_blank"}.
 
 Create required backend resources for your configured api with the following command:
 
