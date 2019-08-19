@@ -66,9 +66,9 @@ Use the following steps to connect add file storage backend services to your app
 
 	```groovy
 	dependencies {
-	  implementation 'com.amazonaws:aws-android-sdk-s3:2.14.+'
-	  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.14.+@aar') { transitive = true }
-	  implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.14.+@aar') { transitive = true }
+	  implementation 'com.amazonaws:aws-android-sdk-s3:2.15.+'
+	  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.15.+@aar') { transitive = true }
+	  implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.15.+@aar') { transitive = true }
 	}
 	```
 	Perform a `Gradle Sync` to download the AWS Mobile SDK components into your app.
