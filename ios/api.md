@@ -99,7 +99,7 @@ To use AppSync in your Xcode project, modify your Podfile with a dependency of t
 ```ruby
 target 'PostsApp' do
     use_frameworks!
-    pod 'AWSAppSync', ' ~> 2.13.0'
+    pod 'AWSAppSync', ' ~> 2.14.0'
 end
 ```
 
@@ -207,6 +207,10 @@ appSyncClient?.perform(mutation: CreateTodoMutation(input: mutationInput)) { (re
     }
 }
 ```
+
+#### Working with Complex Objects
+
+Sometimes you might want to create logical objects that have more complex data, such as images or videos, as part of their structure. For example, you might create a Person type with a profile picture or a Post type that has an associated image. You can use AWS AppSync to model these as GraphQL types and [automatically store them to S3](./storage#usage-with-graphql-apis-complex-objects).
 
 ### Subscribe to Data
 
