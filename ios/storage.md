@@ -515,10 +515,10 @@ Using the previous sample schema as a reference, update it as follows to add the
 +   bucket: String!
 +   key: String!
 +   region: String!
-+   localUri: String!
-+   mimeType: String!
 + }
 ```
+
+> Note: The `S3ObjectInput` has the same shape as `S3Object`, but different purposes. The `S3Object` models the return value of the uploaded object, while the `S3ObjectInput` type models data for upload. Behind the scenes, Amplify CodeGen adds additional metadata fields (`localUri` and `mimeType`) to the `S3ObjectInput` native code, which are used during the upload process. You typically wouldn't persist these fields in your data store, since they're only meaningful during the upload operation itself.
 
 Next, you need to add a resolver for createPostWithFile mutation. You can do that from the AWS AppSync console by selecting PostsTable as the data source and the following mapping templates.
 **Request Mapping Template**
