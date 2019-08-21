@@ -144,7 +144,7 @@ Inside your Android application, create a `MessageReceiver` class that subclasse
 Called when the device is registered with Baidu Cloud Push. Provides the Baidu user ID and channel ID that are needed to register the device with Amazon Pinpoint. Include the following call as part of this method:
 
 ```java
-pinpointManager.getNotificationClient().registerDeviceToken(registrationId)
+pinpointManager.getNotificationClient().registerDeviceToken(userId, channelId);
 ```
 
 **`onUnbind`**
