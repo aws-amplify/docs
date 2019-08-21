@@ -135,7 +135,7 @@ $ Do you want to enable any of the following capabilities?
     ◯ Custom Auth Challenge Flow (basic scaffolding - not for production)
 ```
 
-2.  In the manual Auth CLI workflow, you will be given the change to select the options above, but will also be able to manually configure Lambda Trigger templates:
+2.  In the manual Auth CLI workflow, you will be given the chance to select the options above, but will also be able to manually configure Lambda Trigger templates:
 
 ```bash
 $ Do you want to configure Lambda Triggers for Cognito? Yes
