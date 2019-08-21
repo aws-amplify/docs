@@ -45,6 +45,8 @@ amplify add codegen --apiId XXXXXX
 
 The `XXXXXX` is the unique AppSync API identifier that you can find in the console in the root of your API's integration page. When you run this command you can accept the defaults, which create a `./src/main.graphql` folder structure with your statements. When you add the required Gradle dependencies later, the generated packages are automatically added to your project.
 
+**Note:** It is not necessary to run the command `amplify codegen` after adding an API, as code generation is done by the Gradle build process. However, if you subsequently update your API in the AppSync Console, you will need to re-run `amplify codegen` to update the local `schema.json` and `.graphql` with the modified schema.
+
 #### AppSync APIs Created Using the CLI
 
 Navigate in your terminal to an Android Studio project directory and run the following:
