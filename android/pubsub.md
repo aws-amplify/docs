@@ -20,8 +20,8 @@ Set up AWS Mobile SDK components by including the following libraries in your `a
 
 ```groovy
 dependencies {
-  implementation ('com.amazonaws:aws-android-sdk-iot:2.14.+@aar') { transitive = true }
-  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.14.+@aar') { transitive = true }
+  implementation ('com.amazonaws:aws-android-sdk-iot:2.15.+@aar') { transitive = true }
+  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.15.+@aar') { transitive = true }
 }
 ```
 
