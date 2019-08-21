@@ -1,4 +1,8 @@
-# Setup Options for the SDK
+---
+title: SDK Setup Options
+---
+
+# SDK Setup Options
 
 The AWS SDK contains [high level client interfaces](./start) for quickly adding common features and functionality to your app. You can also manually add the generated AWS service interfaces for direct interaction if you have custom or advanced requirements.
 
@@ -57,6 +61,12 @@ Dependency | Build.gradle Value
 "Amazon SQS" | "com.amazonaws:aws-android-sdk-sqs:2.15.+"
 
 Whenever a new version of the SDK is released you can update by running a Gradle Sync and rebuilding your project to use the new features.
+
+### AWS SDK Version vs. Semantic Versioning
+
+The AWS SDK for Android does not follow semantic versioning. Instead, it increments the patch-level version for both backward-compatible bug fixes *and* non-breaking changes, and increments the minor version for breaking changes. Major version changes are rare, and usually indicate a dramatically different programming model.
+
+For comparison, Semantic versioning increments the patch level for backward-compatible bug fixes, the minor version for backward-compatible new features, and the major version for breaking changes.
 
 ## Set Permissions in Your Manifest
 
