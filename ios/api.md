@@ -208,6 +208,10 @@ appSyncClient?.perform(mutation: CreateTodoMutation(input: mutationInput)) { (re
 }
 ```
 
+#### Working with Complex Objects
+
+Sometimes you might want to create logical objects that have more complex data, such as images or videos, as part of their structure. For example, you might create a Person type with a profile picture or a Post type that has an associated image. You can use AWS AppSync to model these as GraphQL types and [automatically store them to S3](./storage#usage-with-graphql-apis-complex-objects).
+
 ### Subscribe to Data
 
 Finally, it's time to set up a subscription to real-time data. The syntax `appSyncClient?.subscribe(subscription: <NAME>Subscription() {(result, transaction, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen` created. Note that the AppSync console and Amplify GraphQL transformer have a common nomenclature that puts the word `On` in front of a subscription as in the following example:
