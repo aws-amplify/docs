@@ -99,7 +99,7 @@ To use AppSync in your Xcode project, modify your Podfile with a dependency of t
 ```ruby
 target 'PostsApp' do
     use_frameworks!
-    pod 'AWSAppSync', ' ~> 2.13.0'
+    pod 'AWSAppSync', ' ~> 2.14.0'
 end
 ```
 
@@ -208,6 +208,10 @@ appSyncClient?.perform(mutation: CreateTodoMutation(input: mutationInput)) { (re
 }
 ```
 
+#### Working with Complex Objects
+
+Sometimes you might want to create logical objects that have more complex data, such as images or videos, as part of their structure. For example, you might create a Person type with a profile picture or a Post type that has an associated image. You can use AWS AppSync to model these as GraphQL types and [automatically store them to S3](./storage#usage-with-graphql-apis-complex-objects).
+
 ### Subscribe to Data
 
 Finally, it's time to set up a subscription to real-time data. The syntax `appSyncClient?.subscribe(subscription: <NAME>Subscription() {(result, transaction, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen` created. Note that the AppSync console and Amplify GraphQL transformer have a common nomenclature that puts the word `On` in front of a subscription as in the following example:
@@ -231,6 +235,11 @@ do {
 ```
 
 Like mutations, subscriptions can also take input types, in which case they will be subscribing to particular events based on the input. To learn more about subscription arguments, see [AWS AppSync Subscription Arguments](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html#using-subscription-arguments).
+
+
+### Mocking and Local Testing
+
+Amplify supports running a local mock server for testing your application with AWS AppSync, including debugging of resolvers, before pushing to the cloud. Please see the [CLI Toolchain documentation](../cli-toolchain/usage#mocking-and-testing) for more details.
 
 ### Client Architecture
 

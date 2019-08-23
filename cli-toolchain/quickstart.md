@@ -13,7 +13,7 @@ title: Quickstart
 
 The Amplify Command Line Interface (CLI) is a unified toolchain to create, integrate, and manage the AWS cloud services for your app.
 * [Install Node.js®](https://nodejs.org/en/download/") and [NPM](https://www.npmjs.com/get-npm) if they are not already on your machine.
-* Verify that you are running at least Node.js version 8.x or greater and npm version 5.x or greater by running `node -v` and npm -v in a terminal/console window
+* Verify that you are running at least Node.js version 8.12 or greater and npm version 5.x or greater by running `node -v` and npm -v in a terminal/console window
 * Install and configure the Amplify CLI.
 
 ```bash
@@ -135,7 +135,7 @@ $ Do you want to enable any of the following capabilities?
     ◯ Custom Auth Challenge Flow (basic scaffolding - not for production)
 ```
 
-2.  In the manual Auth CLI workflow, you will be given the change to select the options above, but will also be able to manually configure Lambda Trigger templates:
+2.  In the manual Auth CLI workflow, you will be given the chance to select the options above, but will also be able to manually configure Lambda Trigger templates:
 
 ```bash
 $ Do you want to configure Lambda Triggers for Cognito? Yes
@@ -450,6 +450,22 @@ What happens behind the scenes?
   You can get the `AWSCLOUDFORMATIONCONFIG` from the `team-provider-info.json` file from your existing Amplify project in the `amplify/` directory of the project.
 
 
+## Mocking and Testing
+
+It is highly recommended that you complete the Getting Started section of Amplify setup before using local mocking.
+
+- [JavaScript Getting Started](../js/start)
+- [Android Getting Started](../android/start)
+- [iOS Getting Started](../ios/start)
+
+Amplify supports running a local server for mocking and testing your application before pushing to the cloud with certain categories, including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), Functions (AWS Lambda), and Hosting. After running `amplify init` you can run the following to start a mock server:
+
+```terminal
+$ amplify mock
+```
+
+Amplify libraries when configured for these categories can use the local mocked endpoints for testing your application. When a mock endpoint is running the CLI will update your `aws-exports.js` or `awsconfiguration.json` to use the mock server. After the mock server is stopped they will be updated to use the cloud endpoint after you have run an `amplify push`. For more details [see the usage section](./usage#mocking-and-testing).
+
 ## Custom Cloudformation Stacks
 
 The Amplify CLI provides escape hatches for modifying the backend configurations generated in the form of Cloudformation templates by the CLI. This allows you to use the CLI for common flows but also any advanced scenarios which aren't provided in the standard category workflows.
@@ -493,7 +509,6 @@ The Amplify CLI provides escape hatches for modifying the backend configurations
   `template.json` is a cloudformation template, and `parameters.json` is a json file of parameters that will be passed to the cloudformation template. Additionally, the `env` parameter will be passed in to your cloudformation templates dynamically by the CLI.
 
 3. Run `amplify env checkout <current-env-name>` to populate the CLI runtime files and make it aware of the newly added custom resources
-
 
 
 ## Environments & Teams

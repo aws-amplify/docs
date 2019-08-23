@@ -66,9 +66,9 @@ Use the following steps to connect add file storage backend services to your app
 
 	```groovy
 	dependencies {
-	  implementation 'com.amazonaws:aws-android-sdk-s3:2.14.+'
-	  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.14.+@aar') { transitive = true }
-	  implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.14.+@aar') { transitive = true }
+	  implementation 'com.amazonaws:aws-android-sdk-s3:2.15.+'
+	  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.15.+@aar') { transitive = true }
+	  implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.15.+@aar') { transitive = true }
 	}
 	```
 	Perform a `Gradle Sync` to download the AWS Mobile SDK components into your app.
@@ -79,6 +79,10 @@ Use the following steps to connect add file storage backend services to your app
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<service android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService" android:enabled="true" />
 	```
+
+### Mocking and Local Testing
+
+Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](../cli-toolchain/usage#mocking-and-testing) for more details.
 
 ## Using TransferUtility 
 
