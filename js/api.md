@@ -419,8 +419,8 @@ class App extends Component {
 
         return (
             <Connect query={graphqlOperation(queries.listTodos)}>
-                {({ data: { listTodos }, loading, error }) => {
-                    if (error) return (<h3>Error</h3>);
+                {({ data: { listTodos }, loading, errors }) => {
+                    if (errors) return (<h3>Error</h3>);
                     if (loading || !listTodos) return (<h3>Loading...</h3>);
                     return (<ListView todos={listTodos.items} /> );
                 }}
@@ -1830,12 +1830,6 @@ Amplify.configure({
                 name: "MyCustomCloudFrontApi",
                 endpoint: "https://api.my-custom-cloudfront-domain.com",
 
-            },
-            {
-                name: "MyCustomLambdaApi",
-                endpoint: "https://lambda.us-east-1.amazonaws.com/2015-03-31/functions/yourFuncName/invocations",
-                service: "lambda",
-                region: "us-east-1"
             }
         ]
     }
@@ -1844,9 +1838,7 @@ Amplify.configure({
 
 ### AWS Regional Endpoints
 
-You can also utilize regional endpoints by passing in the *service* and *region* information to the configuration. For a list of available service endpoints see [AWS Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html). 
-
-As an example, the following API configuration defines a Lambda invocation in the `us-east-1` region:  
+You can utilize regional endpoints by passing in the *service* and *region* information to the configuration. See [AWS Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html). The example below defines a [Lambda invocation](https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html) in the `us-east-1` region:
 
 ```javascript
 API: {
@@ -1861,7 +1853,7 @@ API: {
 }
 ```
 
-For more information related to invoking AWS Lambda functions, see [AWS Lambda Developer Guide](https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html).
+Note **THIS IS NOT RECOMMENDED ARCHITECTURE** and we highly recommend you leverage AWS AppSync or API Gateway as the endpoint to invoke your Lambda functions. 
 
  **Configuring Amazon Cognito Regional Endpoints** To call regional service endpoints, your Amazon Cognito role needs to be configured with appropriate access for the related service. See [AWS Cognito Documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) for more details.
  {: .callout .callout--warning}
