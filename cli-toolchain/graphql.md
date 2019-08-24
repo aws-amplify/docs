@@ -991,7 +991,7 @@ Finally, if you use both owner and group authorization then the username argumen
 
 - If you don’t pass the user in, but are a member of an allowed group, the subscription will notify you of records added.
 - If you don’t pass the user in, but are NOT a member of an allowed group, the subscription will fail to connect.
-- If you pass the user in who IS the owner but is NOT a member of a group, the subscription will will notify you of records added of which you are the owner.
+- If you pass the user in who IS the owner but is NOT a member of a group, the subscription will notify you of records added of which you are the owner.
 - If you pass the user in who is NOT the owner and is NOT a member of a group, the subscription will not notify you of anything as there are no records for which you own
 
 
