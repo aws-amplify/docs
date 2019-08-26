@@ -1788,13 +1788,13 @@ mutation PostEditor {
 
 #### Alternative Definition
 
-Although the above definition is the recommended way to create relationships since it gives you control over how the connections are made and what secondary indicies are created, there is an alternative, older parametierization of `@connection` that is still functional. (Anything that could be done with this old parameterization can now be done with the new parameterization).
+Although the above definition is the recommended way to create relationships since it gives you control over how the connections are made and what secondary indices are created, there is an alternative, older parameterization of `@connection` that is still functional. (Anything that could be done with this old parameterization can now be done with the new parameterization).
 
 ```
 directive @connection(name: String, keyField: String, sortField: String) on FIELD_DEFINITION
 ```
 
-This mostly still exists for backward compatibility purposes for users who have previously used this parameterization of `@connection` in their schemas. This parameterization is not compatible with `@key`, so you cannot choose a specific key to use for your connections. Moreover, you cannnot choose what fields will store information about connected objects. 
+This mostly still exists for backward compatibility purposes for users who have previously used this parameterization of `@connection` in their schemas. This parameterization is not compatible with `@key`, so you cannot choose a specific key to use for your connections. Moreover, you cannot choose what fields will store information about connected objects. 
 
 #### Usage
 
