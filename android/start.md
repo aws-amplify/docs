@@ -27,7 +27,7 @@ apply plugin: 'com.amazonaws.appsync'
 
 dependencies {
     //Base SDK
-    implementation 'com.amazonaws:aws-android-sdk-core:2.14.+'
+    implementation 'com.amazonaws:aws-android-sdk-core:2.15.+'
     //AppSync SDK
     implementation 'com.amazonaws:aws-android-sdk-appsync:2.8.+'
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
@@ -272,4 +272,4 @@ For working with other AWS services you can use service interface objects direct
 To work with service interface objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
 {: .callout .callout--warning}
 
-You can call methods on any AWS Service interface object supported by the AWS Android SDK by passing your credentials from the AWSMobileClient to the service call constructor. See [Manual SDK Setup](./manualsetup) for more information.
+You can call methods on any AWS Service interface object supported by the AWS Android SDK by passing your credentials from the AWSMobileClient to the service call constructor. See [SDK Setup Options](./manualsetup) for more information.

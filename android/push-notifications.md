@@ -38,7 +38,7 @@ Use the following steps to connect your app to the push notification backend ser
 
 1. Add the following dependencies and plugin to your `app/build.gradle`:
 
-	```groovy
+    ```groovy
     dependencies {
         // Overrides an auth dependency to ensure correct behavior
         implementation 'com.google.android.gms:play-services-auth:15.0.1'
@@ -46,16 +46,16 @@ Use the following steps to connect your app to the push notification backend ser
         implementation 'com.google.firebase:firebase-core:16.0.1'
         implementation 'com.google.firebase:firebase-messaging:17.3.0'
 
-        implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.14.+'
-        implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.14.+@aar') { transitive = true }
+        implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.15.+'
+        implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.15.+@aar') { transitive = true }
     }
 
     apply plugin: 'com.google.gms.google-services'
-	```
+    ```
 
 2. Add the following to your project level `build.gradle`. Make sure that you specify the `google` repository:
 
-	```groovy
+    ```groovy
     buildscript {
         dependencies {
             classpath 'com.google.gms:google-services:4.0.1'
@@ -67,93 +67,97 @@ Use the following steps to connect your app to the push notification backend ser
             google()
         }
     }
-	```
+    ```
 
 3. `AndroidManifest.xml` must contain the definition of the following service for `PushListenerService` in the application tag:
 
-	```xml
+    ```xml
     <service
         android:name=".PushListenerService">
         <intent-filter>
             <action android:name="com.google.firebase.MESSAGING_EVENT"/>
         </intent-filter>
     </service>
-	```
+    ```
 
 4. Create an Amazon Pinpoint client in the location of your push notification code.
 
-	```java
-	import android.content.BroadcastReceiver;
-	import android.content.Context;
-	import android.content.Intent;
-	import android.content.IntentFilter;
-	import android.os.Bundle;
-	import android.support.annotation.NonNull;
-	import android.support.v4.content.LocalBroadcastManager;
-	import android.support.v7.app.AlertDialog;
-	import android.support.v7.app.AppCompatActivity;
-	import android.util.Log;
+    ```java
+    import android.content.BroadcastReceiver;
+    import android.content.Context;
+    import android.content.Intent;
+    import android.content.IntentFilter;
+    import android.os.Bundle;
+    import android.support.annotation.NonNull;
+    import android.support.v4.content.LocalBroadcastManager;
+    import android.support.v7.app.AlertDialog;
+    import android.support.v7.app.AppCompatActivity;
+    import android.util.Log;
 
-	import com.amazonaws.mobile.client.AWSMobileClient;
-	import com.amazonaws.mobile.client.AWSStartupHandler;
-	import com.amazonaws.mobile.client.AWSStartupResult;
-	import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
-	import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
-	import com.google.android.gms.tasks.OnCompleteListener;
-	import com.google.android.gms.tasks.Task;
-	import com.google.firebase.iid.FirebaseInstanceId;
-	import com.google.firebase.iid.InstanceIdResult;
+    import com.amazonaws.mobile.client.AWSMobileClient;
+    import com.amazonaws.mobile.client.AWSStartupHandler;
+    import com.amazonaws.mobile.client.AWSStartupResult;
+    import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
+    import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
+    import com.google.android.gms.tasks.OnCompleteListener;
+    import com.google.android.gms.tasks.Task;
+    import com.google.firebase.iid.FirebaseInstanceId;
+    import com.google.firebase.iid.InstanceIdResult;
 
-	public class MainActivity extends AppCompatActivity {
-	    public static final String TAG = MainActivity.class.getSimpleName();
+    public class MainActivity extends AppCompatActivity {
+        public static final String TAG = MainActivity.class.getSimpleName();
 
-	    private static PinpointManager pinpointManager;
+        private static PinpointManager pinpointManager;
 
-	    public static PinpointManager getPinpointManager(final Context applicationContext) {
-	        if (pinpointManager == null) {
-	            final AWSConfiguration awsConfig = new AWSConfiguration(applicationContext);
-	            AWSMobileClient.getInstance().initialize(applicationContext, awsConfig, new Callback<UserStateDetails>() {
-	                @Override
-	                public void onResult(UserStateDetails userStateDetails) {
-	                    Log.i("INIT", userStateDetails.getUserState());
-	                }
+        public static PinpointManager getPinpointManager(final Context applicationContext) {
+            if (pinpointManager == null) {
+                final AWSConfiguration awsConfig = new AWSConfiguration(applicationContext);
+                AWSMobileClient.getInstance().initialize(applicationContext, awsConfig, new Callback<UserStateDetails>() {
+                    @Override
+                    public void onResult(UserStateDetails userStateDetails) {
+                        Log.i("INIT", userStateDetails.getUserState());
+                    }
 
-	                @Override
-	                public void onError(Exception e) {
-	                    Log.e("INIT", "Initialization error.", e);
-	                }
-	            });
+                    @Override
+                    public void onError(Exception e) {
+                        Log.e("INIT", "Initialization error.", e);
+                    }
+                });
 
-	            PinpointConfiguration pinpointConfig = new PinpointConfiguration(
-	                    applicationContext,
-	                    AWSMobileClient.getInstance(),
-	                    awsConfig);
+                PinpointConfiguration pinpointConfig = new PinpointConfiguration(
+                        applicationContext,
+                        AWSMobileClient.getInstance(),
+                        awsConfig);
 
-	            pinpointManager = new PinpointManager(pinpointConfig);
+                pinpointManager = new PinpointManager(pinpointConfig);
 
-	            FirebaseInstanceId.getInstance().getInstanceId()
-	                    .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-	                        @Override
-	                        public void onComplete(@NonNull Task<InstanceIdResult> task) {
-	                            final String token = task.getResult().getToken();
-	                            Log.d(TAG, "Registering push notifications token: " + token);
-	                            pinpointManager.getNotificationClient().registerDeviceToken(token);
-	                        }
-	                    });
-	        }
-	        return pinpointManager;
-	    }
+                FirebaseInstanceId.getInstance().getInstanceId()
+                        .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                                if (!task.isSuccessful()) {
+                                    Log.w(TAG, "getInstanceId failed", task.getException());
+                                    return;
+                                }
+                                final String token = task.getResult().getToken();
+                                Log.d(TAG, "Registering push notifications token: " + token);
+                                pinpointManager.getNotificationClient().registerDeviceToken(token);
+                            }
+                        });
+            }
+            return pinpointManager;
+        }
 
-	    @Override
-	    protected void onCreate(Bundle savedInstanceState) {
-	        super.onCreate(savedInstanceState);
-	        setContentView(R.layout.activity_main);
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
 
-	        // Initialize PinpointManager
-	        getPinpointManager(getApplicationContext());
-	    }
-	}
-	```
+            // Initialize PinpointManager
+            getPinpointManager(getApplicationContext());
+        }
+    }
+    ```
 
 ## Add Amazon Pinpoint Targeted and Campaign Push Messaging
 
@@ -164,15 +168,15 @@ The following steps show how to receive push notifications targeted for your app
 
 1. Add a push listener service to your app.
 
-	The name of the class must match the push listener service name used in the app manifest.
-	`pinpointManager` is a reference to the static `PinpointManager` variable declared in
-	the `MainActivity` shown in a previous step. Use the following steps to detect and display Push
-	Notification in your app.
+    The name of the class must match the push listener service name used in the app manifest.
+    `pinpointManager` is a reference to the static `PinpointManager` variable declared in
+    the `MainActivity` shown in a previous step. Use the following steps to detect and display Push
+    Notification in your app.
 
 2. The following push listener code assumes that the app's `MainActivity` is configured using
             the manifest setup described in a previous section.
 
-	```java
+    ```java
     import android.content.Intent;
     import android.os.Bundle;
     import android.support.v4.content.LocalBroadcastManager;
@@ -252,13 +256,13 @@ The following steps show how to receive push notifications targeted for your app
             return ((HashMap) data.get("data")).toString();
         }
     }
-	```
+    ```
 
 3. To create a new campaign to send notifications to your app from the Amazon Pinpoint console run the following command from your app project folder.
 
-	```bash
-	$ amplify notifications console
-	```
+    ```bash
+    $ amplify notifications console
+    ```
 
 4. Provide a campaign name, choose `Next`, choose `Filter by standard attributes`, and then choose `android` as the platform.
 

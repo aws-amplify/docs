@@ -1653,12 +1653,12 @@ mutation CreateProject {
 Likewise, you can make a simple one-to-many connection as follows:
 
 ```
-type Post {
+type Post @model {
     id: ID!
     title: String!
     comments: [Comment] @connection
 }
-type Comment {
+type Comment @model {
     id: ID!
     content: String!
 }
@@ -1688,12 +1688,12 @@ and `Comment.post` fields to refer to opposite sides of the same relationship,
 you need to provide a name.
 
 ```
-type Post {
+type Post @model {
     id: ID!
     title: String!
     comments: [Comment] @connection(name: "PostComments", sortField: "createdAt")
 }
-type Comment {
+type Comment @model {
     id: ID!
     content: String!
     post: Post @connection(name: "PostComments", sortField: "createdAt")

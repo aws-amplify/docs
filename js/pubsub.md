@@ -13,7 +13,7 @@ With AWS IoT, AWS Amplify's PubSub automatically signs your HTTP requests when s
 
 ### AWS IoT
 
-When used with `AwsIOTProvider`, PubSub is capable of signing request according to [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). 
+When used with `AWSIoTProvider`, PubSub is capable of signing request according to [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). 
 
 To use in your app, import `AWSIoTProvider`:
 
@@ -27,8 +27,8 @@ Define your endpoint and region in your configuration:
 ```javascript
 // Apply plugin with configuration
 Amplify.addPluggable(new AWSIoTProvider({
-     aws_pubsub_region: '<YOUR-AWS-REGION>',
-     aws_pubsub_endpoint: 'wss://xxxxxxxxxxxxx.iot.<YOUR-AWS-REGION>.amazonaws.com/mqtt',
+     aws_pubsub_region: '<YOUR-IOT-REGION>',
+     aws_pubsub_endpoint: 'wss://xxxxxxxxxxxxx.iot.<YOUR-IOT-REGION>.amazonaws.com/mqtt',
    }));
 ```
 
@@ -38,28 +38,26 @@ Find your `aws_pubsub_endpoint` by logging onto your **AWS Console**, choose **I
 
 To use PubSub with AWS IoT, you will need to create the necessary IAM policies in the AWS IoT Console, and attach them to your Amazon Cognito Identity. 
 
-Go to IoT Core and choose *Secure* from the left navigation pane. Then navigate to *Create Policy*. The following `myIOTPolicy` policy will allow full access to all the topics.
+Go to IoT Core and choose *Secure* from the left navigation pane. Then navigate to *Create Policy*. The following `myIoTPolicy` policy will allow full access to all the topics.
 
-![Alt text]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/iot_attach_policy.png?raw=true "Title")
+![Alt text]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/create-iot-policy.png?raw=true "Title")
 
 
 **Attach your policy to your Amazon Cognito Identity**
 
 The next step is attaching the policy to your *Cognito Identity*. 
 
-You can retrieve *Cognito Identity Id* from your `aws-exports.js` file in `aws_cognito_identity_pool_id` property. 
-
-Alternatively, you can retrieve the `Cognito Identity Id` of a logged in user with Auth Module:
+You can retrieve the `Cognito Identity Id` of a logged in user with Auth Module:
 ```javascript
     Auth.currentCredentials().then((info) => {
       const cognitoIdentityId = info.data.IdentityId;
     });
 ```
 
-Then, you need to send your *Cognito Identity Id* to the AWS backend and attach `myIOTPolicy`. You can do this with the following [AWS CLI](https://aws.amazon.com/cli/) command:
+Then, you need to send your *Cognito Identity Id* to the AWS backend and attach `myIoTPolicy`. You can do this with the following [AWS CLI](https://aws.amazon.com/cli/) command:
 
 ```bash
-aws iot attach-principal-policy --policy-name 'myIOTPolicy' --principal '<YOUR_COGNITO_IDENTITY_ID>'
+aws iot attach-principal-policy --policy-name 'myIoTPolicy' --principal '<YOUR_COGNITO_IDENTITY_ID>'
 ```
 
 **Allowing your Amazon Cognito Authenticated Role to access IoT Services**
