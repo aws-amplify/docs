@@ -1605,13 +1605,196 @@ The `@function` directive generates these resources as necessary:
 
 The `@connection` directive enables you to specify relationships between `@model` object types.
 Currently, this supports one-to-one, one-to-many, and many-to-one relationships. You may implement many-to-many relationships
-yourself using two one-to-many connections and joining `@model` type. See the usage section for details.
+yourself using two one-to-many connections and a joining `@model` type. See the usage section for details.
 
 #### Definition
 
 ```
+directive @connection(keyName: String, fields: [String]) on FIELD_DEFINITION
+```
+
+#### Usage
+
+Relationships between data are specified by annotating fields on an `@model` object type with the `@connection` directive. The `fields` argument must be provided and indicates which fields can be queried by to get connected objects. The `keyName` argument can optionally be used to specify the name of secondary index setup using `@key` that should be queried.
+
+**Has One/Has Many**
+
+In the simplest case, you can define a one-to-one connection where a project has one team:
+
+```
+type Project @model {
+    id: ID!
+    name: String
+    teamID: ID!
+    team: Team @connection(fields: ["teamID"])
+}
+type Team @model {
+    id: ID!
+    name: String!
+}
+```
+
+After it's transformed, you can create projects with a team as follows:
+
+```
+mutation CreateProject {
+    createProject(input: { name: "New Project", teamID: "a-team-id"}) {
+        id
+        name
+        team {
+            id
+            name
+        }
+    }
+}
+```
+
+> **Note** The **Project.team** resolver is configured to work with the defined connection.
+
+Likewise, you can make a simple one-to-many connection as follows for a post that has many comments:
+
+```
+type Post @model {
+    id: ID!
+    title: String!
+    comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
+}
+
+type Comment
+	@model
+	@key(name: "byPost", fields: ["postID", "content"])
+{
+    id: ID!
+    postID: ID!
+    content: String!
+}
+```
+
+Note how a one-to-many connection needs a @key that allows comments to be queried by the postID and the connection uses this key to get all comments whose postID is the id of the post it called on.
+After it's transformed, you can create comments with a post as follows:
+
+```
+mutation CreateCommentOnPost {
+    createComment(input: { content: "A comment", postID: "a-post-id"}) {
+        id
+        content
+    }
+}
+```
+
+And you can query a Post with its comments as follows:
+
+```
+query getPost {
+    getPost(input: { id: "a-post-id" }) {
+        id
+        title
+	comments {
+	    items {
+	        id
+		content
+	    }
+	}
+    }
+}
+```
+**Belongs To**
+
+You can make a connection bi-directional by adding a many-to-one connection to types that already have a one-to-many connection. In this case we add a connection from Comment to Post since each comment belongs to a post:
+
+```
+type Post @model {
+    id: ID!
+    title: String!
+    comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
+}
+
+type Comment
+    @model
+    @key(name: "byPost", fields: ["postID", "content"])
+{
+    id: ID!
+    postID: ID!
+    content: String!
+    
+    post: Post @connection(fields: ["postID"])
+}
+```
+After it's transformed, you can create comments with a post as follows:
+
+```
+mutation CreateCommentOnPost {
+    createComment(input: { content: "A comment", postID: "a-post-id"}) {
+        id
+        content
+	post {
+	    id
+	    title
+	    comments
+	}
+    }
+}
+```
+
+**Many-To-Many Connections**
+
+You can implement many to many yourself using two 1-M @connections and a joining @model. For example:
+
+```
+type Post @model {
+    id: ID!
+    title: String!
+    editors: [PostEditor] @connection(keyName: "byPost", fields: ["id"])
+}
+
+# Create a join model and disable queries as you don't need them
+# and can query through Post.editors and User.posts
+type PostEditor 
+    @model(queries: null)
+    @key(name: "byPost", fields: ["postID", "editorID"])
+    @key(name: "byEditor", fields: ["editorID", "postID"])
+{
+    id: ID!
+    postID: ID!
+    editorID: ID!
+    post: Post! @connection(fields: ["postID"])
+    editor: User! @connection(fields: ["editorID"])
+}
+
+type User @model {
+    id: ID!
+    username: String!
+    posts: [PostEditor] @connection(keyName: "byEditor", fields: ["byEditor"])
+}
+```
+This case is a bidirectional many-to-many which is why two `@key` calls are needed on the PostEditor model.
+You can add a connection between a post and a user as follows:
+
+```
+mutation PostEditor {
+    createPostEditor(input: { postID: "a-post-id", editorID: "a-user-id"}) {
+        id
+        post {
+	    id
+	    title
+	}
+	editor {
+	    id
+	    username
+	}
+    }
+}
+```
+
+#### Alternative Definition
+
+Although the above definition is the recommended way to create relationships since it gives you control over how the connections are made and what secondary indicies are created, there is an alternative, older parametierization of `@connection` that is still functional. (Anything that could be done with this old parameterization can now be done with the new parameterization).
+
+```
 directive @connection(name: String, keyField: String, sortField: String) on FIELD_DEFINITION
 ```
+
+This mostly still exists for backward compatibility purposes for users who have previously used this parameterization of `@connection` in their schemas. This parameterization is not compatible with `@key`, so you cannot choose a specific key to use for your connections. Moreover, you cannnot choose what fields will store information about connected objects. 
 
 #### Usage
 
