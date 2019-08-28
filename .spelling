@@ -434,6 +434,8 @@ status#createdAt
 IN_TRANSIT
 statusCreatedAt
 ByStatus
+postID
+parameterization
 
 # cli-toolchain/cognito-triggers.md
 Lambda
