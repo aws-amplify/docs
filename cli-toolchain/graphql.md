@@ -560,10 +560,9 @@ There are a few important things to think about when making changes to APIs usin
 
 ### @auth
 
-Object types that are annotated with `@auth` are protected by a set of authorization
-rules. Currently, @auth only supports APIs with Amazon Cognito User Pools enabled. 
-You may use the `@auth` directive on object type definitions and field definitions
-in your project's schema.
+Authorization is required for applications to interact with your GraphQL API. **API Keys** are best used for public APIs (or parts of your schema which you wish to be public) or prototyping, and you must specify the expiration time before deploying. **IAM** authorization uses [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html){:target="_blank"} to make request with policies attached to Roles. OIDC tokens provided by **Amazon Cognito User Pools** can also be used for authorization, and simply enabling this provides a simple access control requiring users to authenticate to be granted top level access to API actions. You can set finer grained access controls using `@auth` on your schema which leverages authorization metadata provided as part of these tokens or set on the database items themselves. 
+
+Object types that are annotated with `@auth` are protected by a set of authorization rules giving you additional controls than the top level authorization on an API. Currently, `@auth` only supports APIs with Amazon Cognito User Pools enabled. You may use the `@auth` directive on object type definitions and field definitions in your project's schema.
 
 When using the `@auth` directive on object type definitions that are also annotated with
 `@model`, all resolvers that return objects of that type will be protected. When using the
@@ -578,11 +577,12 @@ based on attributes found the parent type.
 directive @auth(rules: [AuthRule!]!) on OBJECT, FIELD_DEFINITION
 input AuthRule {
     allow: AuthStrategy!
-    ownerField: String # defaults to "owner"
-    identityField: String # defaults to "username"
-    groupsField: String
-    groups: [String]
-    operations: [ModelOperation]
+    ownerField: String # defaults to "owner" when using owner auth
+    identityClaim: String # defaults to "username" when using owner auth
+    groupClaim: String # defaults to "cognito:groups" when using Group auth
+    groups: [String]  # Required when using Static Group auth
+    groupsField: String # defaults to "groups" when using Dynamic Group auth
+    operations: [ModelOperation] # Required for finer control
 
     # The following arguments are deprecated. It is encouraged to use the 'operations' argument.
     queries: [ModelQuery]
@@ -598,9 +598,7 @@ enum ModelMutation { create update delete }
 
 > Note: The operations argument was added to replace the 'queries' and 'mutations' arguments. The 'queries' and 'mutations' arguments will continue to work but it is encouraged to move to 'operations'. If both are provided, the 'operations' argument takes precedence over 'queries'.
 
-#### Usage
-
-**Owner Authorization**
+#### Owner Authorization
 
 ```
 # The simplest case
@@ -658,7 +656,7 @@ type Draft
 }
 ```
 
-**Ownership with create mutations**
+#### Ownership with create mutations
 
 The ownership authorization rule tries to make itself as easy as possible to use. One
 feature that helps with this is that it will automatically fill ownership fields unless 
@@ -781,7 +779,7 @@ Would return:
 ```
 
 
-**Static Group Authorization**
+#### Static Group Authorization
 
 Static group authorization allows you to protect `@model` types by restricting access
 to a known set of groups. For example, you can allow all **Admin** users to create,
@@ -826,7 +824,7 @@ type Draft
 }
 ```
 
-**Dynamic Group Authorization**
+#### Dynamic Group Authorization 
 
 ```
 # Dynamic group authorization with multiple groups
@@ -914,255 +912,103 @@ mutation CreateDraft {
 }
 ```
 
+#### Custom Claims
+
+`@auth` supports using custom claims if you do not wish to use the default `username` or `cognito:groups` claims from your JWT token which are populated by Amazon Cognito. This can be helpful if you are using tokens from a 3rd party OIDC system or if you wish to populate a claim with a list of groups from an external system, such as when using a [Pre Token Generation Lambda Trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-token-generation.html) which reads from a database. To use custom claims specify `identityClaim` or `groupClaim` as appropriate like in the example below:
+
+```
+type Post @model 
+@model 
+@auth(rules: [
+	{allow: owner, identityClaim: "user_id"},
+	{allow: groups, groups: ["Moderator"], groupClaim: "user_groups"}
+])
+{
+  id: ID!
+  owner: String
+  postname: String
+  content: String
+}
+```
+
+In this example the object owner will check against a `user_id` claim. Similarly if the `user_groups` claim contains a "Moderator" string then access will be granted.
+
+Note `identityField` is being deprecated for `identityClaim`.
+{: .callout .callout--info}
+
 #### Authorizing Subscriptions
 
-The `@auth` directive does not yet support subscriptions out of the box. Currently, you have two
-options for authorizing subscription fields. You may turn off subscriptions by passing `subscriptions: null` to `@model` or you may write custom authorization logic.
+Prior to version 2.0 of the CLI, `@auth` rules did not apply to subscriptions. Instead you were required to either turn them off or use [Custom Resolvers](./graphql#custom-resolvers) to manually add authorization checks. In the latest versions `@auth` protections have been added to subscriptions, however this can introduce different behavior into existing applications: First, `owner` is now a required argument for Owner-based authorization, as shown below. Second, the selection set will set `null` on fields when mutations are invoked if per-field `@auth` is set on that field. [Read more here](./graphql#per-field-with-subscriptions). If you wish to keep the previous behavior set `level: PUBLIC` on your model as defined below.
+{: .callout .callout--warning}
 
-A type with subscriptions disabled looks like this:
+When `@auth` is used subscriptions have a few subtle behavior differences than queries and mutations based on their event based nature. When protecting a model using the owner auth strategy, each subscription request will **require** that the user is passed as an argument to the subscription request. If the user field is not passed, the subscription connection will fail. In the case where it is passed, the user will only get notified of updates to records for which they are the owner.
+
+Alternatively, when the model is protected using the static group auth strategy, the subscription request will only succeed if the user is in an allowed group. Further, the user will only get notifications of updates to records if they are in an allowed group. Note: You don't need to pass the user as an argument in the subscription request, since the resolver will instead check the contents of your JWT token.
+
+Dynamic groups have no impact to subscriptions. You will not get notified of any updates to them.
+{: .callout .callout--info}
+
+For example suppose you have the following schema:
 
 ```
-type Post @model(subscriptions: null) {
+type Post @model 
+@auth(rules: [{allow: owner}])
+{
   id: ID!
-  title: String
-}
-```
-
-AppSync subscription resolvers run at connect time (i.e. when you first issue the subscription query) and provide a
-time for you to run custom authorization logic. Keep reading to learn how to add custom authorization logic to subscription fields.
-
-**Owner authorization with subscriptions**
-
-To implement ownership authorization, first disable the default subscriptions and add a custom subscription
-that includes a required "owner" argument.
-
-```
-type Todo @model(subscriptions: null) @auth(rules: [{ allow: owner, identityField: "sub" }]) {
-  id: ID!
-  name: String!
   owner: String
-  description: String
-}
-type Subscription {
-  onCreateTodo(owner: String!): Todo @aws_subscribe(mutations: ["createTodo"])
+  postname: String
+  content: String
 }
 ```
 
-Next add a resolver record to a custom stack in the APIs project's `stacks/` directory. Here is a full example
-including a resolver on the `Subscription.onCreateTodo` field that uses a local resolver to run some logic.
+This means that the subscription must look like the following or it will fail:
+
+```javascript
+subscription onCreatePost(owner: “Bob”){
+  postname
+  content
+}
+```
+
+Note that if your type doesn’t already have an `owner` field the Transformer will automatically add this for you. Passing in the current user can be done dynamically in your code by using [Auth.currentAuthenticatedUser()](/js/authentication#retrieve-current-authenticated-user) in JavaScript, [AWSMobileClient.sharedInstance().username](/ios/authentication#utility-properties) in iOS, or [AWSMobileClient.getInstance().getUsername()](/android/authentication#utility-properties) in Android. 
+
+In the case of groups if you define the following:
 
 ```
+type Post @model 
+@model @auth(rules: [{allow: groups, groups: ["Admin"]}]) {
 {
-	"AWSTemplateFormatVersion": "2010-09-09",
-	"Parameters": {
-		"AppSyncApiId": {
-			"Type": "String",
-			"Description": "The id of the AppSync API associated with this project."
-		},
-		"S3DeploymentBucket": {
-			"Type": "String",
-			"Description": "The S3 bucket containing all deployment assets for the project."
-		},
-		"S3DeploymentRootKey": {
-			"Type": "String",
-			"Description": "An S3 key relative to the S3DeploymentBucket that points to the root\nof the deployment directory."
-		}
-	},
-	"Resources": {
-		"SubscriptionOnCreateTodo": {
-			"Type": "AWS::AppSync::Resolver",
-			"Properties": {
-				"ApiId": {
-                    "Ref": "AppSyncApiId"
-                },
-                "DataSourceName": "Local",
-                "FieldName": "onCreateTodo",
-                "TypeName": "Subscription",
-                "RequestMappingTemplateS3Location": {
-                    "Fn::Sub": [
-                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
-                        {
-                            "S3DeploymentBucket": {
-                                "Ref": "S3DeploymentBucket"
-                            },
-                            "S3DeploymentRootKey": {
-                                "Ref": "S3DeploymentRootKey"
-                            },
-                            "ResolverFileName": "Subscription.onCreateTodo.req.vtl"
-                        }
-                    ]
-                },
-                "ResponseMappingTemplateS3Location": {
-                    "Fn::Sub": [
-                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
-                        {
-                            "S3DeploymentBucket": {
-                                "Ref": "S3DeploymentBucket"
-                            },
-                            "S3DeploymentRootKey": {
-                                "Ref": "S3DeploymentRootKey"
-                            },
-							"ResolverFileName": "Subscription.onCreateTodo.res.vtl"
-                        }
-                    ]
-                }
-			}
-		},
-		"TodoDataSource": {
-            "Type": "AWS::AppSync::DataSource",
-            "Properties": {
-                "ApiId": {
-                    "Ref": "AppSyncApiId"
-                },
-                "Name": "Local",
-                "Type": "NONE"
-            }
-        }
-	}
-}
-```
-
-Lastly, add the resolver mapping templates to the API project's `resolvers/` directory.
-
-```
-# Subscription.onCreateTodo.req.vtl
-# The content in this file does not do much.
-{
-    "version": "2018-05-29",
-    "payload": {}
-}
-```
-
-```
-# Subscription.onCreateTodo.res.vtl
-#if ($ctx.args.owner != $ctx.identity.claims.get("sub"))
-  $util.unauthorized()
-#end
-{ "ok": true }
-```
-
-This resolver will throw an unauthorized error when the owner argument passed to the subscription
-does not match that of the identity. This will prevent unauthorized users from opening subscriptions
-that subscribe to objects where the **owner** does not match the logged in user.
-
-> Alternatively you could actually query a table to lookup authorization information and handle the result.
-
-**Admin group authorization with subscriptions**
-
-Let's walk through example using static group authorization.
-
-```
-type Salary @model(subscriptions: null) @auth(rules: [{ allow: groups, groups: ["Admin"] }]) {
   id: ID!
-  name: String!
   owner: String
-  description: String
-}
-type Subscription {
-  onCreateSalary: Salary @aws_subscribe(mutations: ["createTodo"])
+  postname: String
+  content: String
 }
 ```
 
-Then add the resolver resource for the `Subscription.onCreateSalary` field to a stack in `stacks/`.
+Then you don’t need to pass an argument, as the resolver will check the contents of your JWT token at subscription time and ensure you are in the “Admin” group.
+
+Finally, if you use both owner and group authorization then the username argument becomes optional. This means the following:
+
+- If you don’t pass the user in, but are a member of an allowed group, the subscription will notify you of records added.
+- If you don’t pass the user in, but are NOT a member of an allowed group, the subscription will fail to connect.
+- If you pass the user in who IS the owner but is NOT a member of a group, the subscription will notify you of records added of which you are the owner.
+- If you pass the user in who is NOT the owner and is NOT a member of a group, the subscription will not notify you of anything as there are no records for which you own
+
+
+You may disable authorization checks on subscriptions or completely turn off subscriptions as well by specifying either `PUBLIC` or `OFF` in `@model`:
 
 ```
-{
-	"AWSTemplateFormatVersion": "2010-09-09",
-	"Parameters": {
-		"AppSyncApiId": {
-			"Type": "String",
-			"Description": "The id of the AppSync API associated with this project."
-		},
-		"S3DeploymentBucket": {
-			"Type": "String",
-			"Description": "The S3 bucket containing all deployment assets for the project."
-		},
-		"S3DeploymentRootKey": {
-			"Type": "String",
-			"Description": "An S3 key relative to the S3DeploymentBucket that points to the root\nof the deployment directory."
-		}
-	},
-	"Resources": {
-		"SubscriptionOnCreateTodo": {
-			"Type": "AWS::AppSync::Resolver",
-			"Properties": {
-				"ApiId": {
-                    "Ref": "AppSyncApiId"
-                },
-                "DataSourceName": "Local",
-                "FieldName": "onCreateSalary",
-                "TypeName": "Subscription",
-                "RequestMappingTemplateS3Location": {
-                    "Fn::Sub": [
-                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
-                        {
-                            "S3DeploymentBucket": {
-                                "Ref": "S3DeploymentBucket"
-                            },
-                            "S3DeploymentRootKey": {
-                                "Ref": "S3DeploymentRootKey"
-                            },
-                            "ResolverFileName": "Subscription.onCreateSalary.req.vtl"
-                        }
-                    ]
-                },
-                "ResponseMappingTemplateS3Location": {
-                    "Fn::Sub": [
-                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
-                        {
-                            "S3DeploymentBucket": {
-                                "Ref": "S3DeploymentBucket"
-                            },
-                            "S3DeploymentRootKey": {
-                                "Ref": "S3DeploymentRootKey"
-                            },
-                            "ResolverFileName": "Subscription.onCreateSalary.res.vtl"
-                        }
-                    ]
-                }
-			}
-		},
-		"TodoDataSource": {
-            "Type": "AWS::AppSync::DataSource",
-            "Properties": {
-                "ApiId": {
-                    "Ref": "AppSyncApiId"
-                },
-                "Name": "Local",
-                "Type": "NONE"
-            }
-        }
-	}
-}
+@model (subscriptions: { level: PUBLIC })
 ```
-
-Lastly, add the resolver mapping templates to the API project's `resolvers/` directory.
-
-```
-## Subscription.onCreateSalary.req.vtl
-## The content in this file does not do much.
-{
-    "version": "2018-05-29",
-    "payload": {}
-}
-```
-
-```
-#if (!$ctx.identity.claims.get("cognito:groups").contains("Admin"))
-  $util.unauthorized()
-#end
-{ "ok": true }
-```
-
-This resolver will throw an unauthorized error when the logged in user is not a member of the "Admin" group.
 
 #### Field Level Authorization
 
 The `@auth` directive specifies that access to a specific field should be restricted
  according to its own set of rules. Here are a few situations where this is useful:
 
-1. Protect access to a field that has different permissions than the parent model.
-For example, we might want to have a user model where some fields, like *username*, are a part of the
+**Protect access to a field that has different permissions than the parent model**
+
+You might want to have a user model where some fields, like *username*, are a part of the
 public profile and the *ssn* field is visible to owners.
 
 ```
@@ -1174,8 +1020,9 @@ type User @model {
 }
 ```
 
-2. Protect access to a `@connection` resolver based on some attribute in the source object.
-For example, this schema will protect access to Post objects connected to a user based on an attribute
+**Protect access to a `@connection` resolver based on some attribute in the source object**
+
+This schema will protect access to Post objects connected to a user based on an attribute
 in the User model. You may turn off top level queries by specifying `queries: null` in the `@model`
 declaration which restricts access such that queries must go through the `@connection` resolvers
 to reach the model.
@@ -1192,7 +1039,7 @@ type User @model {
 type Post @model(queries: null) { ... }
 ```
 
-3. Protect mutations such that certain fields can have different access rules than the parent model.
+**Protect mutations such that certain fields can have different access rules than the parent model**
 
 When used on field definitions, `@auth` directives protect all operations by default.
 To protect read operations, a resolver is added to the protected field that implements authorization logic.
@@ -1219,6 +1066,43 @@ type Employee @model {
 **Note** The `delete` operation, when used in @auth directives on field definitions, translates
 to protecting the update mutation such that the field cannot be set to null unless authorized.
 
+##### Per-Field with Subscriptions
+
+When setting per-field `@auth` the Transformer will alter the response of mutations for those fields by setting them to `null` in order to prevent sensitive data from being sent over subscriptions. For example in the schema below:
+
+```
+type Employee
+@model
+@auth(rules: [
+	{allow: owner},
+	{allow: groups, groups: ["Admins"]}
+])
+{
+	id: ID!
+	name: String!
+	address: String!
+	ssn: String @auth(rules: [{allow: owner}])
+}
+```
+
+Subscribers might be a member of the "Admins" group and should get notified of the new item, however they should not get the `ssn` field. If you run the following mutation:
+
+```
+mutation {
+  createEmployee(input: {
+    name: "Nadia"
+    address: "123 First Ave"
+    ssn: "392-95-2716"
+  }){
+    title
+    content
+    ssn
+  }
+}
+```
+
+The mutation will run successfully, however `ssn` will return null in the GraphQL response. This prevents anyone in the "Admins" group who is subscribed to updates from receiving the private information. Subscribers would still receive the `name` and `address`. The data is still written and this can be verified by running a query.
+
 #### Generates
 
 The `@auth` directive will add authorization snippets to any relevant resolver 
@@ -1242,10 +1126,6 @@ The generated resolvers would be protected like so:
 - `Query.getX`: In the response mapping template verify that the result's **owner** attribute is the same as the `$ctx.identity.username`. If it is not return null.
 - `Query.listX`: In the response mapping template filter the result's **items** such that only items with an **owner** attribute that is the same as the `$ctx.identity.username` are returned.
 - `@connection` resolvers: In the response mapping template filter the result's **items** such that only items with an **owner** attribute that is the same as the `$ctx.identity.username` are returned. This is not enabled when using the `queries` argument.
-
-**Multi Owner Authorization**
-
-Work in progress.
 
 **Static Group Authorization**
 
