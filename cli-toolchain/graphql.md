@@ -1615,9 +1615,9 @@ directive @connection(keyName: String, fields: [String]) on FIELD_DEFINITION
 
 #### Usage
 
-Relationships between data are specified by annotating fields on an `@model` object type with the `@connection` directive. The `fields` argument must be provided and indicates which fields can be queried by to get connected objects. The `keyName` argument can optionally be used to specify the name of secondary index setup using `@key` that should be queried.
+Relationships between data are specified by annotating fields on an `@model` object type with the `@connection` directive. The `fields` argument must be provided and indicates which fields can be queried by to get connected objects. The `keyName` argument can optionally be used to specify the name of secondary index setup using `@key` that should be queried. If `keyName` is not provided, then @connection queries the target table's primary index.
 
-**Has One/Has Many**
+**Has One**
 
 In the simplest case, you can define a one-to-one connection where a project has one team:
 
@@ -1633,8 +1633,9 @@ type Team @model {
     name: String!
 }
 ```
+In this case, the Project type has a `teamID` field added as an identifier for the team that the project belongs to. @connection can then get the connected Team object by querying the Team table with this `teamID`.
 
-After it's transformed, you can create projects with a team as follows:
+After it's transformed, you can create projects and query the connected team as follows:
 
 ```
 mutation CreateProject {
@@ -1649,9 +1650,11 @@ mutation CreateProject {
 }
 ```
 
-> **Note** The **Project.team** resolver is configured to work with the defined connection.
+> **Note** The **Project.team** resolver is configured to work with the defined connection. This is done with a query on the Team table where `teamID` is passed in as the partition key.
 
 Likewise, you can make a simple one-to-many connection as follows for a post that has many comments:
+
+**Has Many**
 
 ```
 type Post @model {
@@ -1671,7 +1674,7 @@ type Comment
 ```
 
 Note how a one-to-many connection needs a @key that allows comments to be queried by the postID and the connection uses this key to get all comments whose postID is the id of the post it called on.
-After it's transformed, you can create comments with a post as follows:
+After it's transformed, you can create comments and query the connected Post as follows:
 
 ```
 mutation CreateCommentOnPost {
@@ -1768,7 +1771,26 @@ type User @model {
 }
 ```
 This case is a bidirectional many-to-many which is why two `@key` calls are needed on the PostEditor model.
-You can add a connection between a post and a user as follows:
+You can first create a Post and a User, and then add a connection between them with by creating a PostEditor object as follows:
+
+```
+mutation CreatePost {
+    createPost(input: { id: "a-post-id", title: "a-post-title" }) {
+        id
+        title
+    }
+}
+```
+
+```
+mutation CreateUser {
+    createUser(input: { id: "a-user-id", username: "a-username" }) {
+        id
+        username
+    }
+}
+```
+Note that neither the User type nor the Post type have any identifiers of connected objects. The connection info is held entirely inside the PostEditor objects.
 
 ```
 mutation PostEditor {
@@ -1788,13 +1810,13 @@ mutation PostEditor {
 
 #### Alternative Definition
 
-Although the above definition is the recommended way to create relationships since it gives you control over how the connections are made and what secondary indices are created, there is an alternative, older parameterization of `@connection` that is still functional. (Anything that could be done with this old parameterization can now be done with the new parameterization).
+The above definition is the recommended way to create relationships between model types in your API. This involves defining index structures using `@key` and connection resolvers using `@connection`. There is an older parameterization of @connection that creates indices and connection resolvers that is still functional for backwards compatibility reasons. It is recommended to use @key and the new @connection via the fields argument because it gives you more control and can do everything that the old @connection can do.
 
 ```
 directive @connection(name: String, keyField: String, sortField: String) on FIELD_DEFINITION
 ```
 
-This mostly still exists for backward compatibility purposes for users who have previously used this parameterization of `@connection` in their schemas. This parameterization is not compatible with `@key`, so you cannot choose a specific key to use for your connections. Moreover, you cannot choose what fields will store information about connected objects. 
+This parameterization is not compatible with `@key`. See the parameterization above to use @connection with indexes created by @key.
 
 #### Usage
 
