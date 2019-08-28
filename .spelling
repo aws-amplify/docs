@@ -434,6 +434,9 @@ status#createdAt
 IN_TRANSIT
 statusCreatedAt
 ByStatus
+Pre
+Auth.currentAuthenticatedUser
+AWSMobileClient.sharedInstance
 
 # cli-toolchain/cognito-triggers.md
 Lambda
