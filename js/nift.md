@@ -3,7 +3,7 @@
 
 
 # Nift
-This tutorial walks you through how to use AWS Amplify to build a website with [Nift](https://nift.cc). Nift is possibly the world's fastest framework for managing and generating websites ([evidence](https://hugo-vs-nift.gitlab.io/)).
+This tutorial walks you through how to use AWS Amplify to build a website with [Nift](https://nift.cc). Nift is possibly the world's fastest framework for managing and generating websites ([evidence](https://hugo-vs-nift.gitlab.io/)). For a general guide on setting up a static website using a custom domain see [here](https://docs.aws.amazon.com/AmazonS3/latest/dev/website-hosting-custom-domain-walkthrough.html).
 
 ## Installation:
 
