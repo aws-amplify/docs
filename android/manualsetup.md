@@ -1,4 +1,8 @@
-# Setup Options for the SDK
+---
+title: SDK Setup Options
+---
+
+# SDK Setup Options
 
 The AWS SDK contains [high level client interfaces](./start) for quickly adding common features and functionality to your app. You can also manually add the generated AWS service interfaces for direct interaction if you have custom or advanced requirements.
 
@@ -10,53 +14,59 @@ If you are using Android Studio, add the dependency for the individual services 
 
 ```groovy
 dependencies {
-    implementation 'com.amazonaws:aws-android-sdk-ddb:2.13.+'
+    implementation 'com.amazonaws:aws-android-sdk-ddb:2.15.+'
 }
 ```
 
 A full list of dependencies are listed below. For dependencies ending in "`@aar`" use a compile statement in the following form.
 
 ```groovy
-implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.13.+@aar') { transitive = true }
+implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.15.+@aar') { transitive = true }
 ```
 
 Dependency | Build.gradle Value
 ------------ | -------------
-"Amazon API Gateway" | "com.amazonaws:aws-android-sdk-apigateway-core:2.13.+"
-"AWS Auth Core" | "com.amazonaws:aws-android-sdk-auth-core:2.13.+@aar"
-"AWS Facebook SignIn Provider" | "com.amazonaws:aws-android-sdk-auth-facebook:2.13.+@aar"
-"AWS Google SignIn Provider" | "com.amazonaws:aws-android-sdk-auth-google:2.13.+@aar"
-"AWS Auth UI" | "com.amazonaws:aws-android-sdk-auth-ui:2.13.+@aar"
-"AWS Cognito User Pools SignIn Provider" | "com.amazonaws:aws-android-sdk-auth-userpools:2.13.+@aar"
-"Amazon Auto Scaling" | "com.amazonaws:aws-android-sdk-autoscaling:2.13.+"
-"Amazon CloudWatch" | "com.amazonaws:aws-android-sdk-cloudwatch:2.13.+"
-"Amazon Cognito Auth" | "com.amazonaws:aws-android-sdk-cognitoauth:2.13.+@aar"
-"Amazon Cognito Identity Provider" | "com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.13.+"
-"AWS Core" | "com.amazonaws:aws-android-sdk-core:2.13.+"
-"Amazon DynamoDB Document Model" | "com.amazonaws:aws-android-sdk-ddb-document:2.13.+"
-"Amazon DynamoDB Object Mapper" | "com.amazonaws:aws-android-sdk-ddb-mapper:2.13.+"
-"Amazon DynamoDB" | "com.amazonaws:aws-android-sdk-ddb:2.13.+"
-"Amazon Elastic Compute Cloud" | "com.amazonaws:aws-android-sdk-ec2:2.13.+"
-"Amazon Elastic Load Balancing" | "com.amazonaws:aws-android-sdk-elb:2.13.+"
-"AWS IoT" | "com.amazonaws:aws-android-sdk-iot:2.13.+@aar"
-"Amazon Kinesis" | "com.amazonaws:aws-android-sdk-kinesis:2.13.+"
-"Amazon Kinesis Video" | "com.amazonaws:aws-android-sdk-kinesisvideo:2.13.+@aar"
-"Amazon Key Management Service (KMS)" | "com.amazonaws:aws-android-sdk-kms:2.13.+"
-"AWS Lambda" | "com.amazonaws:aws-android-sdk-lambda:2.13.+"
-"Amazon Lex" | "com.amazonaws:aws-android-sdk-lex:2.13.+@aar"
-"Amazon CloudWatch Logs" | "com.amazonaws:aws-android-sdk-logs:2.13.+"
-"Amazon Machine Learning" | "com.amazonaws:aws-android-sdk-machinelearning:2.13.+"
-"AWS Mobile Client" | "com.amazonaws:aws-android-sdk-mobile-client:2.13.+@aar"
-"Amazon Pinpoint" | "com.amazonaws:aws-android-sdk-pinpoint:2.13.+"
-"Amazon Polly" | "com.amazonaws:aws-android-sdk-polly:2.13.+"
-"Amazon Rekognition" | "com.amazonaws:aws-android-sdk-rekognition:2.13.+"
-"Amazon Simple Storage Service (S3)" | "com.amazonaws:aws-android-sdk-s3:2.13.+"
-"Amazon Simple DB (SDB)" | "com.amazonaws:aws-android-sdk-sdb:2.13.+"
-"Amazon SES" | "com.amazonaws:aws-android-sdk-ses:2.13.+"
-"Amazon SNS" | "com.amazonaws:aws-android-sdk-sns:2.13.+"
-"Amazon SQS" | "com.amazonaws:aws-android-sdk-sqs:2.13.+"
+"Amazon API Gateway" | "com.amazonaws:aws-android-sdk-apigateway-core:2.15.+"
+"AWS Auth Core" | "com.amazonaws:aws-android-sdk-auth-core:2.15.+@aar"
+"AWS Facebook SignIn Provider" | "com.amazonaws:aws-android-sdk-auth-facebook:2.15.+@aar"
+"AWS Google SignIn Provider" | "com.amazonaws:aws-android-sdk-auth-google:2.15.+@aar"
+"AWS Auth UI" | "com.amazonaws:aws-android-sdk-auth-ui:2.15.+@aar"
+"AWS Cognito User Pools SignIn Provider" | "com.amazonaws:aws-android-sdk-auth-userpools:2.15.+@aar"
+"Amazon Auto Scaling" | "com.amazonaws:aws-android-sdk-autoscaling:2.15.+"
+"Amazon CloudWatch" | "com.amazonaws:aws-android-sdk-cloudwatch:2.15.+"
+"Amazon Cognito Auth" | "com.amazonaws:aws-android-sdk-cognitoauth:2.15.+@aar"
+"Amazon Cognito Identity Provider" | "com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.15.+"
+"AWS Core" | "com.amazonaws:aws-android-sdk-core:2.15.+"
+"Amazon DynamoDB Document Model" | "com.amazonaws:aws-android-sdk-ddb-document:2.15.+"
+"Amazon DynamoDB Object Mapper" | "com.amazonaws:aws-android-sdk-ddb-mapper:2.15.+"
+"Amazon DynamoDB" | "com.amazonaws:aws-android-sdk-ddb:2.15.+"
+"Amazon Elastic Compute Cloud" | "com.amazonaws:aws-android-sdk-ec2:2.15.+"
+"Amazon Elastic Load Balancing" | "com.amazonaws:aws-android-sdk-elb:2.15.+"
+"AWS IoT" | "com.amazonaws:aws-android-sdk-iot:2.15.+@aar"
+"Amazon Kinesis" | "com.amazonaws:aws-android-sdk-kinesis:2.15.+"
+"Amazon Kinesis Video" | "com.amazonaws:aws-android-sdk-kinesisvideo:2.15.+@aar"
+"Amazon Key Management Service (KMS)" | "com.amazonaws:aws-android-sdk-kms:2.15.+"
+"AWS Lambda" | "com.amazonaws:aws-android-sdk-lambda:2.15.+"
+"Amazon Lex" | "com.amazonaws:aws-android-sdk-lex:2.15.+@aar"
+"Amazon CloudWatch Logs" | "com.amazonaws:aws-android-sdk-logs:2.15.+"
+"Amazon Machine Learning" | "com.amazonaws:aws-android-sdk-machinelearning:2.15.+"
+"AWS Mobile Client" | "com.amazonaws:aws-android-sdk-mobile-client:2.15.+@aar"
+"Amazon Pinpoint" | "com.amazonaws:aws-android-sdk-pinpoint:2.15.+"
+"Amazon Polly" | "com.amazonaws:aws-android-sdk-polly:2.15.+"
+"Amazon Rekognition" | "com.amazonaws:aws-android-sdk-rekognition:2.15.+"
+"Amazon Simple Storage Service (S3)" | "com.amazonaws:aws-android-sdk-s3:2.15.+"
+"Amazon Simple DB (SDB)" | "com.amazonaws:aws-android-sdk-sdb:2.15.+"
+"Amazon SES" | "com.amazonaws:aws-android-sdk-ses:2.15.+"
+"Amazon SNS" | "com.amazonaws:aws-android-sdk-sns:2.15.+"
+"Amazon SQS" | "com.amazonaws:aws-android-sdk-sqs:2.15.+"
 
 Whenever a new version of the SDK is released you can update by running a Gradle Sync and rebuilding your project to use the new features.
+
+### AWS SDK Version vs. Semantic Versioning
+
+The AWS SDK for Android does not follow semantic versioning. Instead, it increments the patch-level version for both backward-compatible bug fixes *and* non-breaking changes, and increments the minor version for breaking changes. Major version changes are rare, and usually indicate a dramatically different programming model.
+
+For comparison, Semantic versioning increments the patch level for backward-compatible bug fixes, the minor version for backward-compatible new features, and the major version for breaking changes.
 
 ## Set Permissions in Your Manifest
 

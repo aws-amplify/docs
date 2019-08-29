@@ -1,5 +1,11 @@
 ---
+title: Storage
 ---
+{% if jekyll.environment == 'production' %}
+  {% assign base_dir = site.amplify.docs_baseurl %}
+{% endif %}
+{% assign media_base = base_dir | append: page.dir | append: "media" %}
+{% assign common_media = base_dir | append: "/images" %}
 
 # Storage
 
@@ -36,14 +42,17 @@ $ amplify push
 
 When your backend is successfully updated, your new configuration file `aws-exports.js` is copied under your source directory, e.g. '/src'.
 
+##### Lambda Triggers
+If you want to enable triggers for the storage category (S3 & DynamoDB), the CLI supports associating Lambda triggers with S3 and DynamoDB events. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)
+
 ##### Configure Your App
 
 In your app's entry point *i.e. App.js*, import and load the configuration file `aws-exports.js` which has been created and replaced into `/src` folder in the previous step.
 
 ```javascript
 import Amplify, { Storage } from 'aws-amplify';
-import awsmobile from './aws-exports';
-Amplify.configure(awsmobile);
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
 ```
 
 ### Manual Setup
@@ -69,6 +78,10 @@ Amplify.configure({
 });
 
 ```
+
+### Mocking and Local Testing
+
+Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](../cli-toolchain/usage#mocking-and-testing) for more details.
 
 ## Using Amazon S3
 
@@ -254,7 +267,7 @@ Access level configuration on the Storage object:
 ```javascript
 Storage.configure({ level: 'private' });
 
-Storage.get('welcome.png'); // Gets the welcome.png belongs to current user
+Storage.get('welcome.png'); // Gets the welcome.png belonging to current user
 ```
 
 Configuration when calling the API:
@@ -281,7 +294,7 @@ Import *Storage* from the aws-amplify library:
 import { Auth, Storage } from 'aws-amplify';
 ```
 
-If you use `aws-exports.js` file, Storage is already configured when you call `Amplify.configure(awsmobile)`. To configure Storage manually, you will have to configure Amplify Auth category too.  
+If you use `aws-exports.js` file, Storage is already configured when you call `Amplify.configure(awsconfig)`. To configure Storage manually, you will have to configure Amplify Auth category too.  
 ```javascript
 Auth.configure(
     // To get the aws credentials, you need to configure 
@@ -408,19 +421,19 @@ class S3ImageUpload extends React.Component {
 Upload an image in React Native app:
 
 ```javascript
-import RNFetchBlob from 'react-native-fetch-blob';
-
-readFile(filePath) {
-    return RNFetchBlob.fs.readFile(filePath, 'base64').then(data => new Buffer(data, 'base64'));
-}
-
-readFile(imagePath).then(buffer => {
-    Storage.put(key, buffer, {
-        contentType: imageType
+uploadToStorage = async pathToImageFile => {
+  try {
+    const response = await fetch(pathToImageFile)
+    
+    const blob = await response.blob()
+    
+    Storage.put('yourKeyHere.jpeg', blob, {
+      contentType: 'image/jpeg',
     })
-}).catch(e => {
-    console.log(e);
-});
+  } catch (err) {
+    console.log(err)
+  }
+}
 ```
 
 When a networking error happens during the upload, Storage module retries upload for a maximum of 4 attempts. If the upload fails after all retries, you will get an error.
@@ -843,7 +856,7 @@ See the [Angular Guide](https://aws-amplify.github.io/amplify-js/media/angular_g
 You can customize your upload path by defining prefixes:
 
 ```javascript
-const customPrefix: {
+const customPrefix = {
     public: 'myPublicPrefix/',
     protected: 'myProtectedPrefix/',
     private: 'myPrivatePrefix/'

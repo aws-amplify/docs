@@ -9,7 +9,28 @@ redirect_from:
 
 You can enable your Android to receive push notifications that you send through by using Amazon Pinpoint. With Amazon Pinpoint, you can send push notifications through Firebase Cloud Messaging (FCM) or its predecessor, Google Cloud Messaging (GCM).
 
-Amazon Pinpoint campaigns can take one of three actions when a user taps a notification. One of those possible actions is a deep link, which opens the app to a specified activity.
+Amazon Pinpoint campaigns can take one of three actions when a user taps a notification: Open your app, Go to a URL, or Open a deep link.
+
+## Open your app
+
+By specifying this action, you can open the app when the user taps on the notification.
+
+**Adding a Receiver**
+
+The SDK provides `PinpointNotificationReceiver` which handles the notification to open your app. In order to use this action, you must register this receiver in your `AndroidManifest.xml` file. For example:
+
+```xml
+<receiver
+    android:name=”com.amazonaws.mobileconnectors.pinpoint.targeting.notification.PinpointNotificationReceiver” android:exported=”false” >
+    <intent-filter>
+        <action android:name=”com.amazonaws.intent.fcm.NOTIFICATION_OPEN” />
+    </intent-filter>
+</receiver>
+```
+
+## Open a deep link
+
+This action opens the app to a specified activity.
 
 To specify a destination activity for deep links, the app must have set up deep linking. This setup requires an intent filter that registers a URL scheme the deep links will use. After the app creates an intent filter, the data provided by the intent determines the activity to render.
 

@@ -112,11 +112,11 @@ After initialization in your project directory with `amplify init`, update your 
 
 ```groovy
 //For AWSMobileClient only:
-implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.13.+'
+implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.15.+'
 
 //For the drop-in UI also:
-implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.13.+'
-implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.13.+'
+implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.15.+'
+implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.15.+'
 ```
 
 For the `AWSMobileClient` alone you can have a minimum SDK version of **15**, but for the drop-in UI you will need a minimum of **23** set in your `build.gradle`:
@@ -158,6 +158,10 @@ $ amplify push
 ```
 
 A configuration file called `awsconfiguration.json` will be copied to your project `./app/src/main/res/raw` directory. The `AWSMobileClient` will leverage this for communicating with backend services. [Click here to learn more about this process.](./start#step-3-how-it-works)
+
+### Lambda Triggers
+
+The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your Amazon Cognito User Pool.  These enable you to add custom functionality to your registration and authentication flows. [Read more]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/)
 
 ## Manual Setup
 
@@ -567,8 +571,10 @@ AWSMobileClient.getInstance().forgotPassword("username", new Callback<ForgotPass
                 switch (result.getState()) {
                     case CONFIRMATION_CODE:
                         makeToast("Confirmation code is sent to reset password");
+                        break;
                     default:
                         Log.e(TAG, "un-supported forgot password state");
+                        break;
                 }
             }
         });
@@ -590,8 +596,10 @@ AWSMobileClient.getInstance().confirmForgotPassword("NEW_PASSWORD_HERE", "CONFIR
                 switch (result.getState()) {
                     case DONE:
                         makeToast("Password changed successfully");
+                        break;
                     default:
                         Log.e(TAG, "un-supported forgot password state");
+                        break;
                 }
             }
         });
@@ -912,15 +920,15 @@ Add the following dependencies to your `app/build.gradle` file:
 ```groovy
 dependencies {
     // Mobile Client for initializing the SDK
-    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.13.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.15.+@aar') { transitive = true }
 
     // Facebook SignIn
     implementation 'com.android.support:support-v4:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-facebook:2.13.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-facebook:2.15.+@aar') { transitive = true }
 
     // Sign in UI
     implementation 'com.android.support:appcompat-v7:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.13.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.15.+@aar') { transitive = true }
 }
 ```
 
@@ -1010,15 +1018,15 @@ Add the following dependencies to your `app/build.gradle` file:
 ```groovy
 dependencies {
     // Mobile Client for initializing the SDK
-    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.13.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.15.+@aar') { transitive = true }
 
     // Google SignIn
     implementation 'com.android.support:support-v4:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-google:2.13.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-google:2.15.+@aar') { transitive = true }
 
     // Sign in UI Library
     implementation 'com.android.support:appcompat-v7:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.13.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.15.+@aar') { transitive = true }
 }
 ```
 

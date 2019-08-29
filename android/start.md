@@ -17,7 +17,7 @@ Build an Android app using the AWS Amplify CLI and the AWS SDK for Android. The 
 Follow [these steps](https://developer.android.com/training/basics/firstapp/creating-project) to create an Android Studio application using Java. Modify your `project/build.gradle` with the following build dependency:
 
 ```groovy
-classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.8.+'
+classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.9.+'
 ```
 
 Next, add dependencies to your `app/build.gradle`, and then choose Sync Now on the upper-right side of Android Studio.
@@ -27,7 +27,7 @@ apply plugin: 'com.amazonaws.appsync'
 
 dependencies {
     //Base SDK
-    implementation 'com.amazonaws:aws-android-sdk-core:2.13.+'
+    implementation 'com.amazonaws:aws-android-sdk-core:2.15.+'
     //AppSync SDK
     implementation 'com.amazonaws:aws-android-sdk-appsync:2.8.+'
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
@@ -98,6 +98,12 @@ $ amplify add api     #select GraphQL, API Key
 ```
 
 The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on you can always change it. This process creates an AWS AppSync API and connects it to an Amazon DynamoDB database.
+
+Create required backend resources for your configured api with the following command:
+
+```bash
+$ amplify push
+```
 
 Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults which generate a `./app/src/main/graphql` folder structure with your statements. Run a **Gradle Sync** and **Build** your app, at which point the generated packages are automatically added to your project.
 
@@ -266,4 +272,4 @@ For working with other AWS services you can use service interface objects direct
 To work with service interface objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
 {: .callout .callout--warning}
 
-You can call methods on any AWS Service interface object supported by the AWS Android SDK by passing your credentials from the AWSMobileClient to the service call constructor. See [Manual SDK Setup](./manualsetup) for more information.
+You can call methods on any AWS Service interface object supported by the AWS Android SDK by passing your credentials from the AWSMobileClient to the service call constructor. See [SDK Setup Options](./manualsetup) for more information.

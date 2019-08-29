@@ -13,7 +13,7 @@ With AWS IoT, AWS Amplify's PubSub automatically signs your HTTP requests when s
 
 ### AWS IoT
 
-When used with `AwsIOTProvider`, PubSub is capable of signing request according to [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). 
+When used with `AWSIoTProvider`, PubSub is capable of signing request according to [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). 
 
 To use in your app, import `AWSIoTProvider`:
 
@@ -27,8 +27,8 @@ Define your endpoint and region in your configuration:
 ```javascript
 // Apply plugin with configuration
 Amplify.addPluggable(new AWSIoTProvider({
-     aws_pubsub_region: '<YOUR-AWS-REGION>',
-     aws_pubsub_endpoint: 'wss://xxxxxxxxxxxxx.iot.<YOUR-AWS-REGION>.amazonaws.com/mqtt',
+     aws_pubsub_region: '<YOUR-IOT-REGION>',
+     aws_pubsub_endpoint: 'wss://xxxxxxxxxxxxx.iot.<YOUR-IOT-REGION>.amazonaws.com/mqtt',
    }));
 ```
 
@@ -38,29 +38,36 @@ Find your `aws_pubsub_endpoint` by logging onto your **AWS Console**, choose **I
 
 To use PubSub with AWS IoT, you will need to create the necessary IAM policies in the AWS IoT Console, and attach them to your Amazon Cognito Identity. 
 
-Go to IoT Core and choose *Secure* from the left navigation pane. Then navigate to *Create Policy*. The following `myIOTPolicy` policy will allow full access to all the topics.
+Go to IoT Core and choose *Secure* from the left navigation pane. Then navigate to *Create Policy*. The following `myIoTPolicy` policy will allow full access to all the topics.
 
-![Alt text]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/iot_attach_policy.png?raw=true "Title")
+![Alt text]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/create-iot-policy.png?raw=true "Title")
 
 
 **Attach your policy to your Amazon Cognito Identity**
 
 The next step is attaching the policy to your *Cognito Identity*. 
 
-You can retrieve *Cognito Identity Id* from your `aws-exports.js` file in `aws_cognito_identity_pool_id` property. 
-
-Alternatively, you can retrieve the `Cognito Identity Id` of a logged in user with Auth Module:
+You can retrieve the `Cognito Identity Id` of a logged in user with Auth Module:
 ```javascript
     Auth.currentCredentials().then((info) => {
-      const cognitoIdentityId = info._identityId;
+      const cognitoIdentityId = info.data.IdentityId;
     });
 ```
 
-Then, you need to send your *Cognito Identity Id* to the AWS backend and attach `myIOTPolicy`. You can do this with the following [AWS CLI](https://aws.amazon.com/cli/) command:
+Then, you need to send your *Cognito Identity Id* to the AWS backend and attach `myIoTPolicy`. You can do this with the following [AWS CLI](https://aws.amazon.com/cli/) command:
 
 ```bash
-aws iot attach-principal-policy --policy-name 'myIOTPolicy' --principal '<YOUR_COGNITO_IDENTITY_ID>'
+aws iot attach-principal-policy --policy-name 'myIoTPolicy' --principal '<YOUR_COGNITO_IDENTITY_ID>'
 ```
+
+**Allowing your Amazon Cognito Authenticated Role to access IoT Services**
+
+For your Cognito Authenticated Role to be able to interact with **AWS IoT** it may be necessary to update its permissions, if you haven't done this before.  
+One way of doing this is to log to your **AWS Console**, select **CloudFormation** from the available services. Locate the parent stack of your solution: it is usually named `<SERVICE-NAME>-<CREATION_TIMESTAMP>`.  
+Select the **Resources** tab and tap on `AuthRole` **Physical ID**.  
+The IAM console will be opened in a new tab. Once there, tap on the button **Attach Policies**, then search `AWSIoTDataAccess` and `AWSIoTConfigAccess`, select them and tap on **Attach policy**.  
+  
+> Failing to grant IoT related permissions to the Cognito Authenticated Role will result in errors similar to the following in your browser console: `errorCode: 8, errorMessage: AMQJS0008I Socket closed.`
 
 ### Third Party MQTT Providers
 
@@ -95,6 +102,20 @@ PubSub.subscribe('myTopic').subscribe({
 });
 ```
 
+If multiple providers are defined in your app you can include the specific provider you would like to subscribe to:
+```javascript
+PubSub.subscribe('myTopic', { provider: 'AWSIoTProvider' }).subscribe({
+    //...
+});
+
+PubSub.subscribe('myTopic', { provider: 'MqttOverWSProvider' }).subscribe({
+    //...
+});
+```
+
+Note: If you do not include a specific provider it will subscribe to all of the configured PubSub providers in your app.
+{: .callout .callout--info}
+
 Following events will be triggered with `subscribe()`
 
 Event | Description 
@@ -107,7 +128,7 @@ Event | Description
 To subscribe for multiple topics, just pass a String array including the topic names:
 ```javascript
 PubSub.subscribe(['myTopic1','myTopic1']).subscribe({
-    // ...
+    //...
 });
 ```
 
@@ -118,10 +139,18 @@ To send a message to a topic, use `publish()` method with your topic name and th
 await PubSub.publish('myTopic1', { msg: 'Hello to all subscribers!' });
 ```
 
+If multiple providers are defined in your app you can pass the message to a specific provider:
+```javascript
+await PubSub.publish('myTopic1', { msg: 'Hello to all subscribers!' }, { provider: 'AWSIoTProvider' });
+```
+
 You can also publish a message to multiple topics:
 ```javascript
 await PubSub.publish(['myTopic1','myTopic2'], { msg: 'Hello to all subscribers!' });
 ```
+
+Note: If you do not include a specific provider it will publish a message to all of the configured PubSub providers in your app.
+{: .callout .callout--info}
 
 ### Unsubscribe from a topic
 

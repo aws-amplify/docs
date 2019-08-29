@@ -99,7 +99,7 @@ To use AppSync in your Xcode project, modify your Podfile with a dependency of t
 ```ruby
 target 'PostsApp' do
     use_frameworks!
-    pod 'AWSAppSync', ' ~> 2.10.0'
+    pod 'AWSAppSync', ' ~> 2.14.0'
 end
 ```
 
@@ -179,6 +179,17 @@ appSyncClient?.fetch(query: ListTodosQuery(), cachePolicy: .returnCacheDataAndFe
 ```
 `returnCacheDataAndFetch` pulls results from the local cache first before retrieving data over the network. This gives a snappy UX and offline support.
 
+#### Considerations for SwiftUI
+
+When using `List` and `ForEach` for SwiftUI the structure needs to conform to `Identifiable`. The code generated for Swift does not make the structure `Identifable` but as long as you have a unique id associated with the object then you can retroactively mark a field as unique. Here is some example code for `ListTodosQuery()`
+
+```swift
+ForEach(listTodosStore.listTodos.identified(by:\.id)){ todo in
+    TodoCell(todoDetail: todo)
+}
+
+```
+
 ### Run a Mutation
 
 To add data you need to run a GraphQL mutation. The syntax is `appSyncClient?.perform(mutation: <NAME>Mutation() {(result, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen` created. However, most GraphQL schemas organize mutations with an `input` type for maintainability, which is what the AppSync console and Amplify CLI do as well. Therefore, you need to pass this as a parameter called `input`, as in the following example:
@@ -196,6 +207,10 @@ appSyncClient?.perform(mutation: CreateTodoMutation(input: mutationInput)) { (re
     }
 }
 ```
+
+#### Working with Complex Objects
+
+Sometimes you might want to create logical objects that have more complex data, such as images or videos, as part of their structure. For example, you might create a Person type with a profile picture or a Post type that has an associated image. You can use AWS AppSync to model these as GraphQL types and [automatically store them to S3](./storage#usage-with-graphql-apis-complex-objects).
 
 ### Subscribe to Data
 
@@ -220,6 +235,11 @@ do {
 ```
 
 Like mutations, subscriptions can also take input types, in which case they will be subscribing to particular events based on the input. To learn more about subscription arguments, see [AWS AppSync Subscription Arguments](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html#using-subscription-arguments).
+
+
+### Mocking and Local Testing
+
+Amplify supports running a local mock server for testing your application with AWS AppSync, including debugging of resolvers, before pushing to the cloud. Please see the [CLI Toolchain documentation](../cli-toolchain/usage#mocking-and-testing) for more details.
 
 ### Client Architecture
 
@@ -295,7 +315,7 @@ func optimisticCreateTodo(input: CreateTodoInput, query:ListTodosQuery){
 
 You might add similar code in your app for updating or deleting items using an optimistic response, it would look largely similar except that you might overwrite or remove an element from the `data.listTodos?.items` array.
 
-### Authentication Modes
+### Authorization Modes
 
 For client authorization AppSync supports API Keys, Amazon IAM credentials (we recommend using Amazon Cognito Identity Pools for this option), Amazon Cognito User Pools, and 3rd party OIDC providers. This is inferred from the `awsconfiguration.json` file when you call `AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig()`.
 
@@ -465,6 +485,170 @@ do {
 } catch {
     print("Error initializing appsync client. \(error)")
 }
+```
+
+#### Multi-Auth
+
+This section talks about the capability of AWS AppSync to configure multiple authorization modes for a single AWS AppSync endpoint and region. Follow the [AWS AppSync Multi-Auth](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes) to configure multiple authorization modes for your AWS AppSync endpoint.
+
+You can now configure a single GraphQL API to deliver private and public data. Private data requires authenticated access using authorization mechanisms such as IAM, Cognito User Pools, and OIDC. Public data does not require authenticated access and is delivered through authorization mechanisms such as API Keys. You can also configure a single GraphQL API to deliver private data using more than one authorization type. For example, you can configure your GraphQL API  to authorize some schema fields using OIDC, while other schema fields through Cognito User Pools and/or IAM.
+
+As discussed in the above linked documentation, certain fields may be protected by different authorization types. This can lead the same query, mutation, or subscription to have different responses based on the authorization sent with the request; Therefore, it is recommended to use different `AWSAppSyncClient` objects for each authorization type. Instantiation of multiple `AWSAppSyncClient` objects is enabled by passing `true` to the `useClientDatabasePrefix` flag. The `awsconfiguration.json` generated by the AWS AppSync console and Amplify CLI will add an entry called `ClientDatabasePrefix` in the "AppSync" section. This will be used to differentiate the databases used for operations such as queries, mutations, and subscriptions.
+
+**Important Note:** If you are an existing customer of AWS AppSync SDK for Android, the `useClientDatabasePrefix` has a default value of `false`. If you choose to use multiple `AWSAppSyncClient` objects, turning on `useClientDatabasePrefix` will change the location of the databases used by the client. The databases will not be automatically moved. You are responsible for migrating any data within the databases that you wish to keep and deleting the old databases on the device.
+
+The following snippets highlight the new values in the `awsconfiguration.json` and the client code configurations.
+
+The `friendly_name` illustrated here is created from Amplify CLI prompt. There are 4 clients in this configuration that connect to the same API except that they use different `AuthMode` and `ClientDatabasePrefix`.
+
+```
+{
+  "Version": "1.0",
+  "AppSync": {
+    "Default": {
+      "ApiUrl": "https://xyz.us-west-2.amazonaws.com/graphql",
+      "Region": "us-west-2",
+      "AuthMode": "API_KEY",
+      "ApiKey": "da2-xyz",
+      "ClientDatabasePrefix": "friendly_name_API_KEY"
+    },
+    "friendly_name_AWS_IAM": {
+      "ApiUrl": "https://xyz.us-west-2.amazonaws.com/graphql",
+      "Region": "us-west-2",
+      "AuthMode": "AWS_IAM",
+      "ClientDatabasePrefix": "friendly_name_AWS_IAM"
+    },
+    "friendly_name_AMAZON_COGNITO_USER_POOLS": {
+      "ApiUrl": "https://xyz.us-west-2.amazonaws.com/graphql",
+      "Region": "us-west-2",
+      "AuthMode": "AMAZON_COGNITO_USER_POOLS",
+      "ClientDatabasePrefix": "friendly_name_AMAZON_COGNITO_USER_POOLS"
+    },
+    "friendly_name_OPENID_CONNECT": {
+      "ApiUrl": "https://xyz.us-west-2.amazonaws.com/graphql",
+      "Region": "us-west-2",
+      "AuthMode": "OPENID_CONNECT",
+      "ClientDatabasePrefix": "friendly_name_OPENID_CONNECT"
+    }
+  }
+}
+```
+
+The `useClientDatabasePrefix` is added on the client builder which signals to the builder that the `ClientDatabasePrefix` should be used from the AWSConfiguration object (*awsconfiguration.json*).
+
+```swift
+let serviceConfig = try AWSAppSyncServiceConfig()
+let cacheConfig = AWSAppSyncCacheConfiguration(useClientDatabasePrefix: true,
+                                                  appSyncServiceConfig: serviceConfig)
+let clientConfig = AWSAppSyncClientConfiguration(appSyncServiceConfig: serviceConfig,
+                                                   cacheConfiguration: cacheConfig)
+
+let client = AWSAppSyncClient(appSyncConfig: clientConfig)
+```
+
+The following code creates a client factory to retrieve the client based on the authorization mode: public (`API_KEY`) or private (`AWS_IAM`).
+
+```swift
+public enum AppSyncClientMode {
+    case `public`
+    case `private`
+}
+
+public class ClientFactory {
+    static var clients: [AppSyncClientMode:AWSAppSyncClient] = [:]
+
+    class func getAppSyncClient(mode: AppSyncClientMode) -> AWSAppSyncClient? {
+        return clients[mode];
+    }
+
+    class func initClients() throws {
+        let serviceConfigAPIKey = try AWSAppSyncServiceConfig()
+        let cacheConfigAPIKey = try AWSAppSyncCacheConfiguration(useClientDatabasePrefix: true,
+                                                                    appSyncServiceConfig: serviceConfigAPIKey)
+        let clientConfigAPIKey = try AWSAppSyncClientConfiguration(appSyncServiceConfig: serviceConfigAPIKey,
+                                                                 cacheConfiguration: cacheConfigAPIKey)
+        clients[AppSyncClientMode.public] = try AWSAppSyncClient(appSyncConfig: clientConfigAPIKey)
+
+        let serviceConfigIAM = try AWSAppSyncServiceConfig(forKey: "friendly_name_AWS_IAM")
+        let cacheConfigIAM = try AWSAppSyncCacheConfiguration(useClientDatabasePrefix: true,
+                                                                 appSyncServiceConfig: serviceConfigIAM)
+        let clientConfigIAM = try AWSAppSyncClientConfiguration(appSyncServiceConfig: serviceConfigIAM,
+                                                                  cacheConfiguration: cacheConfigIAM)
+        clients[AppSyncClientMode.private] = try AWSAppSyncClient(appSyncConfig: clientConfigIAM)
+    }
+}
+```
+
+This is what the usage would look like.
+
+```swift
+ClientFactory.getAppSyncClient(AppSyncClientMode.private)?.fetch(query: ListPostsQuery())  { (result, error) in
+            if error != nil {
+                print(error?.localizedDescription ?? "")
+                return
+            }
+            self.postList = result?.data?.listPosts
+        };
+```
+
+The following example uses `API_KEY` as the default authorization mode and `AWS_IAM` as an additional authorization mode.
+
+```
+type Post @aws_api_key
+          @aws_iam {
+	id: ID!
+	author: String!
+	title: String
+	content: String
+	url: String @aws_iam
+	ups: Int @aws_iam
+	downs: Int @aws_iam
+	version: Int!
+}
+```
+
+1. Add a post (Mutation) through `ClientFactory.getAppSyncClient(AppSyncClientMode.private)` using `AWS_IAM` authorization mode.
+
+2. Query the post through `ClientFactory.getAppSyncClient(AppSyncClientMode.private)` using `AWS_IAM ` authorization mode.
+
+3. Query the post through `ClientFactory.getAppSyncClient(AppSyncClientMode.public)` using `API_KEY` authorization mode.
+
+```swift
+appSyncClient?.fetch(query: GetPostQuery())  { (result, error) in
+    if error != nil {
+        print(error?.localizedDescription ?? "")
+        return
+    }
+    var post = result?.data?.getPost?
+    post.id
+    post.author
+    post.title
+    post.content
+    post.version
+    post.url // Null - because it's not authorized
+    post.ups // Null - because it's not authorized
+    post.downs // Null - because it's not authorized
+    
+    result?.errors![0].message.contains("Not Authorized to access url on type Post")
+}
+```
+
+### Clear cache
+
+Clears the data cached by the `AWSAppSyncClient` object on the local device.
+
+```swift
+appSyncClient.clearCaches(); // clear the queries, mutations and delta sync cache.
+```
+
+Selectively clear caches `ClearCacheOptions`.
+
+```swift
+// Selectively clear caches, omit parameters to keep those caches
+let clearCacheOptions = ClearCacheOptions(clearQueries: true,
+                                        clearMutations: true,
+                                    clearSubscriptions: true)
+appSyncClient.clearCaches(options: clearCacheOptions)
 ```
 
 ### Delta Sync
@@ -781,7 +965,7 @@ Add `AWSAPIGateway` to your Podfile:
 	  use_frameworks!
 
 	     # For API
-	     pod 'AWSAPIGateway', '~> 2.9.0'
+	     pod 'AWSAPIGateway', '~> 2.10.0'
 	     # other pods
 	end
 ```
@@ -893,3 +1077,6 @@ func doInvokeAPI(token:String) {
 ```
 
 You can then invoke this method with `self.doInvokeAPI()` from your application code and it will pass the IdToken from Cognito User Pools as an `Authorization` header.
+
+## Lambda Triggers
+If you optionally want to enable triggers for the storage category (S3 & DynamoDB), the CLI supports associating Lambda triggers with S3 and DynamoDB events. This can be useful if you want to invoke a Lambda function after any create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)

@@ -1,8 +1,8 @@
 ---
-title: Setup Options for the SDK
+title: SDK Setup Options
 ---
 
-# Setup Options for the SDK
+# SDK Setup Options
 
 The AWS SDK contains [high level client interfaces](./start) for quickly adding common features and functionality to your app. You can also manually add the generated AWS service interfaces for direct interaction if you have custom or advanced requirements.
 
@@ -133,7 +133,7 @@ Now **build** your project to start using the SDK. Whenever a new version of the
 
 ## Frameworks setup
 
-Download the [SDK](https://sdk-for-ios.amazonwebservices.com/latest/aws-ios-sdk.zip). The SDK is stored in a compressed file archive named `aws-ios-sdk-#.#.#` (where `#.#.#` represents the version number, so for version 2.9.0, the filename is `aws-ios-sdk-2.9.0`).
+Download the [latest SDK](https://sdk-for-ios.amazonwebservices.com/latest/aws-ios-sdk.zip). Older SDK versions can be downloaded from `https://sdk-for-ios.amazonwebservices.com/aws-ios-sdk-#.#.#.zip`, where `#.#.#` represents the version number. So for version 2.10.2, the download link is [https://sdk-for-ios.amazonwebservices.com/aws-ios-sdk-2.10.2.zip](https://sdk-for-ios.amazonwebservices.com/aws-ios-sdk-2.10.2.zip).
 
 With your project open in Xcode, select your `Target`. Under `General` tab, find `Embedded Binaries` and then click the `+` button.
 
@@ -186,9 +186,17 @@ Under the `Build Phases` tab in your `Target`, click the `+` button on the top l
 
 Now **build** your project to start using the SDK. Whenever a new version of the SDK is released you can update by selecting the previously imported AWS frameworks in `Project Navigator` in Xcode and pressing 'delete' on your keyboard. Then select `Move to Trash` and follow the installation process above to include the new version of the SDK.
 
+## AWS SDK Version vs. Semantic Versioning
+
+The AWS SDK for iOS does not follow semantic versioning. Instead, it increments the patch-level version for both backward-compatible bug fixes *and* non-breaking changes, and increments the minor version for breaking changes. Major version changes are rare, and usually indicate a dramatically different programming model.
+
+For comparison, Semantic versioning increments the patch level for backward-compatible bug fixes, the minor version for backward-compatible new features, and the major version for breaking changes.
+
 ## Direct AWS Service access
 
 You can call AWS service interface objects directly via the generated SDK clients. You can use the client credentials provided by the [AWSMobileClient](./authentication) when using the `.default()` method on a service object (e.g. `AWSSQS.default()`). This will leverage short term AWS credentials from Cognito Identity. Alternatively, you can call the constructors manually.
+
+**Note:** If you are relying on the AWSMobileClient as the credentials provider, then initialize the AWSMobileClient before constructing any other service client. The AWSMobileClient will attach itself as the credentials provider for all default clients. However, if you attach a default credentials provider before initializing the AWSMobileClient, then you cannot rely on the AWSMobileClient to vend credentials used to authenticate the service client's API calls.
 
 To work with service interface objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
 {: .callout .callout--warning}
@@ -226,7 +234,7 @@ func addItemSQS() {
     }
 ```
 
-You could then call `self.addItemSQS()` to invoke this action from your app.
+You could then call `self.addItemSQS()` to invoke this action from your app. To perform these tasks in an asynchronous manner in an application, please see [Working with Asynchronous Tasks](./how-to-ios-asynchrounous-tasks).
 
 ## Logging
 

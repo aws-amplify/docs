@@ -6,8 +6,10 @@ aws-amplify-angular
 @aws-amplify/core
 @aws-amplify/auth
 @aws-amplify/storage
+aws-mobile-appsync-sdk-ios
 App.vue
 app.js
+authMode
 APIs
 AmplifyAngularModule
 AmplifyIonicModule
@@ -19,6 +21,7 @@ Authenticator
 aws_bots_config.name
 aws-exports
 analytics
+arraybuffer
 backend
 botTitle
 cli
@@ -134,6 +137,10 @@ resubscription
 backends
 AuthN
 AuthZ
+lifecycles
+Bundler
+prepend
+prepended
 
 # js/tutorials/building-ionic-4-apps/index.md
 home.page.ts
@@ -150,6 +157,15 @@ home.page.html
 home.page.ts
 todoitems
 entryComponents
+
+# js/predictions.md
+
+Textract
+SageMaker
+websocket
+pre-defined
+urls
+checkboxes
 
 # js/storage.md
 
@@ -177,6 +193,9 @@ myangularapp
 js
 tsconfig
 myAmplifyProject
+_blank
+OnInit
+todos
 
 # js/hub.md
 onHubCapsule
@@ -300,6 +319,7 @@ aws.cognito.signin.user.admin
 ChallengeName
 myapp
 LoginWithAmazon
+pre-populated
 
 #js/cognito-hosted-ui-federated-identity.md
 oauth2
@@ -344,8 +364,16 @@ pluggable
 mouseover
 url
 webapp
+dataset
+AmazonPersonalizeProvider
+eventType
+iframe
+MediaAutoTrack
+TimeWatched
+eventValue
 
 # cli/graphql.md
+UpdateTable
 redirect_to
 graphql
 sdk
@@ -360,8 +388,7 @@ PAY_PER_REQUEST
 DynamoDBModelTableWriteIOPS
 DynamoDBModelTableReadIOPS
 ssn
-
-# cli/graphql.md
+event.prev.result
 DataSource
 DataSources
 onCreate
@@ -387,6 +414,51 @@ versionInput
 versioning
 PAY_PER_REQUEST
 MySQL
+UserPoolId
+COGNITO_USERPOOL_ID
+GraphiQL
+ClientId
+AppClientIDWeb
+typeName
+fieldName
+prev
+ge
+lt
+le
+beginsWith
+queryField
+createdAt
+customerEmail
+orderId
+status#createdAt
+IN_TRANSIT
+statusCreatedAt
+ByStatus
+Pre
+Auth.currentAuthenticatedUser
+AWSMobileClient.sharedInstance
+
+# cli-toolchain/cognito-triggers.md
+Lambda
+reCaptcha
+captcha
+CreateAuthChallenge
+DefineAuthChallenge
+VerifyAuthChallengeResponse
+VerifyAuthChallengeResponse
+react-google-recaptcha
+PreSignUp
+Captchas
+ng-recaptcha
+CUSTOM_AUTH
+app.module.ts
+app.component.ts
+app.component.html
+vue-recaptcha
+spinner.js
+style.css
+verify.js
+whitelist
 
 # js/vue.md
 confirmSignInConfig
@@ -406,6 +478,7 @@ noMfaDescription
 cancelHandler
 defaultName
 amplify-vue
+usernameAttributes
 
 # js/sign-up-fields.md
 displayOrder
@@ -431,6 +504,7 @@ Unauth
 frontends
 metadata
 Cloudfront
+datasource
 
 # cli/hosting.md
 gitignore
@@ -491,6 +565,16 @@ Cloudformaton
 DynamoDBTable
 amplifyMeta.json
 transform.conf.json
+
+#cli-toolchain/usage.md
+poolData
+cleartext
+NSAllowsLocalNetworking
+quoteOfTheDay
+OneGraph
+transpile
+transpiling
+transpiled
 
 # android/analytics.md
 ActivityLifecycleCallbacks
@@ -721,6 +805,7 @@ YOUR_APP_NAME
 baseQueryResultHandler
 subscriptionResultHandler
 deltaQueryResultHandler
+SwiftUI
 syncConfiguration
 returnValue
 UIViewController
@@ -831,6 +916,7 @@ xcworkspace
 
 # ios/storage.md
 S3ObjectInput
+S3ObjectWrapper.swift
 CreatePostWithFileInputMutation
 createPostWithFile
 PostsTable
@@ -843,6 +929,7 @@ handleEventsForBackgroundURLSession
 interceptApplication
 AWSStaticCredentialsProvider
 CRUD
+AWSAppSyncTestCommon
 
 # android/how-to-android-sdk-setup.md
 aws-android-sdk-lex
