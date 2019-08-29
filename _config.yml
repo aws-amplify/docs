@@ -376,6 +376,10 @@ category_list:
           excerpt: #"Learn to build a cloud enabled App with Vue.js and AWS Amplify <br/><b>45 min to complete</b>"
           url: '/js/vue'
           icon: '/images/icons/Misc/Present.svg'
+        - title: Nift
+          excerpt: #"Learn to build a website with Nift and AWS Amplify <br/><b>45 min to complete</b>"
+          url: '/js/nift'
+          icon: '/images/icons/Misc/Present.svg'
     - category: CLI Toolchain
       title: CLI Toolchain
       excerpt: Better developer experience when building and deploying your apps.
@@ -572,6 +576,8 @@ js_libraries:
     url: '?platform=purejs'
   - title: Vue
     url: '?platform=vue'
+  - title: Nift
+    url: '?platform=nift'
 
 android_languages:
   - title: Java

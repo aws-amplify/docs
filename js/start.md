@@ -28,6 +28,7 @@ This page guides you through setting up a backend and integration into your web 
     <li class="tab-link angular" data-tab="angular">Angular</li>
     <li class="tab-link ionic" data-tab="ionic">Ionic</li>
     <li class="tab-link vue" data-tab="vue">Vue</li>
+	<li class="tab-link nift" data-tab="nift">Nift</li>
     <li class="tab-link purejs" data-tab="purejs">Vanilla JavaScript</li>
 </ul>
 
@@ -307,7 +308,222 @@ To install Vue-specific Amplify UI components and the Amplify Vue plugin you can
 
 </div>
 
+<div id="nift" class="tab-content">
+
+Follow any of the instructions [here](https://nift.cc/docs/installing_nift.html) to install Nift on either Linux, OSX or Windows.
+
+Create a new ‘plain’ JavaScript <a href="https://babeljs.io/docs/en/learn/" target="_blank">ES2015</a> app with webpack. With the following commands, create the directory (`amplify-js-app`), initialise managing a website with Nift and create files for the app.
+
+```bash
+$ mkdir -p amplify-js-app/site/src && cd amplify-js-app
+$ nsm init
+$ touch template/header.content
+$ cd site
+$ touch main.bundle.js package.json webpack.config.js src/app.js
+```
+
+The app directory structure should be (you can ignore the `.git` and `.siteinfo` directories):
+
+```
+- amplify-js-app
+    - /content
+        |- index.content
+    - /site
+        |- index.html
+        |- main.bundle.js
+        |- package.json
+        |- webpack.config.js
+        |- /src
+            >- app.js
+    - /template
+        |- head.content
+        |- header.content
+        |- page.template
+```
+
+Add the following to the `package.json` file:
+
+```javascript
+{
+  "name": "amplify-js-app",
+  "version": "1.0.0",
+  "description": "Amplify JavaScript Example",
+  "dependencies": {
+    "@aws-amplify/api": "latest",
+    "@aws-amplify/pubsub": "latest"
+  },
+  "devDependencies": {
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0",
+    "copy-webpack-plugin": "^4.5.2",
+    "webpack-dev-server": "^3.1.5"
+  },
+  "scripts": {
+    "start": "webpack && webpack-dev-server --mode development",
+    "build": "webpack"
+  }
+}
+```
+
+Install local development dependencies:
+
+```
+$ npm install
+```
+
+Add the following to the `template/page.template` file:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        @input(template/head.content)
+    </head>
+    <body>
+        <div class="app">
+            @input(template/header.content)
+            @inputcontent
+        </div>
+        <script src="@pathtofile(site/main.bundle.js)"></script>
+    </body>
+</html>
+```
+
+Add the following to the `template/head.content` file:
+
+```html
+<meta charset="utf-8">
+<title>Amplify Framework</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    html, body { font-family: "Amazon Ember", "Helvetica", "sans-serif"; margin: 0; }
+    a { color: #FF9900; }
+    h1 { font-weight: 300; }
+    .app { width: 100%; }
+    .app-header { color: white; text-align: center; background: linear-gradient(30deg, #f90 55%, #FFC300); width: 100%; margin: 0 0 1em 0; padding: 3em 0 3em 0; box-shadow: 1px 2px 4px rgba(0, 0, 0, .3); }
+    .app-logo { width: 126px; margin: 0 auto; }
+    .app-body { width: 400px; margin: 0 auto; text-align: center; }
+    .app-body button { background-color: #FF9900; font-size: 14px; color: white; text-transform: uppercase; padding: 1em; border: none; }
+    .app-body button:hover { opacity: 0.8; }
+</style>
+```
+
+Add the following to the `template/header.content` file:
+
+```html
+<div class="app-header">
+    <div class="app-logo">
+        <img src="https://aws-amplify.github.io/images/Logos/Amplify-Logo-White.svg" alt="AWS Amplify" />
+    </div>
+    <h1>Welcome to the Amplify Framework</h1>
+</div>
+```
+
+Add the following to the `content/index.content` file:
+
+```html
+<div class="app-body">
+    <button id="MutationEventButton">Add data</button>
+    <div id="MutationResult"></div>
+    <div id="QueryResult"></div>
+    <div id="SubscriptionResult"></div>
+</div>
+```
+
+Run `nsm build-updated` from anywhere inside the Nift project directory `amplify-js-app`.
+
+The `site/index.html` file should contain:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Amplify Framework</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            html, body { font-family: "Amazon Ember", "Helvetica", "sans-serif"; margin: 0; }
+            a { color: #FF9900; }
+            h1 { font-weight: 300; }
+            .app { width: 100%; }
+            .app-header { color: white; text-align: center; background: linear-gradient(30deg, #f90 55%, #FFC300); width: 100%; margin: 0 0 1em 0; padding: 3em 0 3em 0; box-shadow: 1px 2px 4px rgba(0, 0, 0, .3); }
+            .app-logo { width: 126px; margin: 0 auto; }
+            .app-body { width: 400px; margin: 0 auto; text-align: center; }
+            .app-body button { background-color: #FF9900; font-size: 14px; color: white; text-transform: uppercase; padding: 1em; border: none; }
+            .app-body button:hover { opacity: 0.8; }
+        </style>
+    </head>
+    <body>
+        <div class="app">
+            <div class="app-header">
+                <div class="app-logo">
+                    <img src="https://aws-amplify.github.io/images/Logos/Amplify-Logo-White.svg" alt="AWS Amplify" />
+                </div>
+                <h1>Welcome to the Amplify Framework</h1>
+            </div>
+            <div class="app-body">
+                <button id="MutationEventButton">Add data</button>
+                <div id="MutationResult"></div>
+                <div id="QueryResult"></div>
+                <div id="SubscriptionResult"></div>
+            </div>
+        </div>
+        <script src="main.bundle.js"></script>
+    </body>
+</html>
+```
+
+Add the following to the `webpack.config.js` file:
+
+```javascript
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
+const path = require('path');
+
+module.exports = {
+    mode: 'development',
+    entry: './src/app.js',
+    output: {
+        filename: '[name].bundle.js',
+        path: path.resolve(__dirname, 'dist')
+    },
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/
+            }
+        ]
+    },
+    devServer: {
+        contentBase: './dist',
+        overlay: true,
+        hot: true
+    },
+    plugins: [
+        new CopyWebpackPlugin(['index.html']),
+        new webpack.HotModuleReplacementPlugin()
+    ]
+};
+```
+
+Run the app:
+
+```bash
+$ npm start
+```
+
+Open a browser and navigate to <a href="http://localhost:8080" target="_blank">http://localhost:8080</a>. The 'Add data' button does not work yet. We'll work on that next.
+
+</div>
+
 ## Step 2: Set Up Your Backend
+
+<div id="nift" class="tab-content">
+
+When using Nift, the project directory will be the site directory.
+
+</div>
 
 In a terminal window, run the following command (accept defaults is OK, use 'test' environment name) from inside your project directory:
 
@@ -368,6 +584,9 @@ For this tutorial choose **JavaScript**.
 <div id="vue" class="tab-content">
 For this tutorial choose **JavaScript**.
 </div>
+<div id="nift" class="tab-content">
+For this tutorial choose **JavaScript**.
+</div>
 <div id="ionic" class="tab-content">
 For Ionic applications, choose **Angular** which will create an `API.service.ts` file in the app directory.
 </div>
@@ -385,6 +604,7 @@ For Angular applications, choose **Angular** which will create an `API.service.t
     <li class="tab-link react current" data-tab="react">React</li>
     <li class="tab-link react-native" data-tab="react-native">React Native</li>
     <li class="tab-link vue" data-tab="vue">Vue</li>
+	<li class="tab-link nift" data-tab="nift">Nift</li>
 </ul>
 
 <div id="purejs" class="tab-content">
@@ -1032,6 +1252,86 @@ This will open the AWS AppSync console for you to run Queries, Mutations, or Sub
 
 </div>
 
+<div id="nift" class="tab-content">
+
+Update your `site/src/app.js` file to configure the library with `Amplify.configure()` and add data to your database with a mutation by using `API.graphql()`:
+
+```javascript
+import API, { graphqlOperation } from '@aws-amplify/api'
+import PubSub from '@aws-amplify/pubsub';
+import { createTodo } from './graphql/mutations'
+
+import awsconfig from './aws-exports';
+API.configure(awsconfig);
+PubSub.configure(awsconfig);
+
+async function createNewTodo() {
+  const todo = { name: "Use AppSync" , description: "Realtime and Offline"}
+  return await API.graphql(graphqlOperation(createTodo, { input: todo }))
+}
+
+const MutationButton = document.getElementById('MutationEventButton');
+const MutationResult = document.getElementById('MutationResult');
+
+MutationButton.addEventListener('click', (evt) => {
+  MutationResult.innerHTML = `MUTATION RESULTS:`;
+  createNewTodo().then( (evt) => {
+    MutationResult.innerHTML += `<p>${evt.data.createTodo.name} - ${evt.data.createTodo.description}</p>`
+  })
+});
+```
+
+After restarting your app using `npm start` go back to your browser and click **ADD DATA**.  You'll see that your application is now submitting events to AppSync and storing records in DynamoDB. Next, update `site/src/App.js` to list all the items in the database by importing `listTodos` and update the page when a query runs on app start by immediately calling the function:
+
+```javascript
+// other imports
+import { listTodos } from './graphql/queries'
+
+const QueryResult = document.getElementById('QueryResult');
+
+async function getData() {
+  QueryResult.innerHTML = `QUERY RESULTS`;
+  API.graphql(graphqlOperation(listTodos)).then((evt) => {
+    evt.data.listTodos.items.map((todo, i) => 
+    QueryResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`
+    );
+  })
+}
+
+getData();
+```
+
+Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subscription with `API.graphql()` like so:
+
+```javascript
+// other imports
+import { onCreateTodo } from './graphql/subscriptions'
+
+const SubscriptionResult = document.getElementById('SubscriptionResult');
+
+API.graphql(graphqlOperation(onCreateTodo)).subscribe({
+  next: (evt) =>{
+    SubscriptionResult.innerHTML = `SUBSCRIPTION RESULTS`
+    const todo = evt.value.data.onCreateTodo;
+    SubscriptionResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`
+  }
+});
+```
+
+The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
+{: .callout .callout--info}
+
+After restarting your app using `npm start` go back to your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs. At any time you can open the AWS console for your new API directly by running the following command:
+
+```terminal
+$ amplify console api
+> GraphQL               ##Select GraphQL
+```
+
+This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
+
+</div>
+
 ## Step 5. Launch your App
 
 <div class="nav-tab launch" data-group='launch'>
@@ -1042,6 +1342,7 @@ This will open the AWS AppSync console for you to run Queries, Mutations, or Sub
     <li class="tab-link react current" data-tab="javascript-web">React</li>
     <li class="tab-link react-native" data-tab="react-native">React Native</li>
     <li class="tab-link vue" data-tab="javascript-web">Vue</li>
+	<li class="tab-link nift" data-tab="javascript-web">Nift</li>
 </ul>
 
 <div id="javascript-web" class="tab-content current">
@@ -1065,6 +1366,14 @@ Open the app and push the button to generate new items in your database.
 </div>
 
 <div id="react-native" class="tab-content">
+
+Open the app and push the button to generate new items in your database.
+
+🎉 Congratulations! Your app is built, published, and hosted on Amazon S3 and reading/writing realtime data with AWS AppSync and Amazon DynamoDB.
+
+</div>
+
+<div id="nift" class="tab-content">
 
 Open the app and push the button to generate new items in your database.
 
