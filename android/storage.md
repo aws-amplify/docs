@@ -36,7 +36,7 @@ See [Authentication](./authentication) for more information on how to get the `u
 
     `❯ Content (Images, audio, video, etc.)`
 
-4. The CLI walks you through the options to enable Auth (if not enabled previously), to name your S3 bucket, and to decide who should have access (select `Auth and guest users` and `read/write` for both auth and guest users).
+4. The CLI walks you through the options to enable Auth (if not enabled previously), to name your S3 bucket, and to decide who should have access (select `Auth and guest users` and `create/update` for both auth and guest users).
 
 5. Confirm that you have storage and auth set up.
 
