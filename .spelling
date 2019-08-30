@@ -446,6 +446,10 @@ byTitle
 jobTitle
 dynamoDB
 connectionWithKeyExamples.md
+Pre
+Auth.currentAuthenticatedUser
+AWSMobileClient.sharedInstance
+
 
 # cli-toolchain/cognito-triggers.md
 Lambda
