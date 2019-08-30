@@ -441,10 +441,11 @@ newHire
 byCustomerByStatusByDate
 byWarehouse
 AccountRepresentative
-byRepresentativeByDate
+byRepresentativebyDate
 byTitle
 jobTitle
 dynamoDB
+connectionWithKeyExamples.md
 
 # cli-toolchain/cognito-triggers.md
 Lambda
