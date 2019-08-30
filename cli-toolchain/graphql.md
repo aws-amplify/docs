@@ -1617,6 +1617,8 @@ directive @connection(keyName: String, fields: [String]) on FIELD_DEFINITION
 
 Relationships between data are specified by annotating fields on an `@model` object type with the `@connection` directive. The `fields` argument must be provided and indicates which fields can be queried by to get connected objects. The `keyName` argument can optionally be used to specify the name of secondary index setup using `@key` that should be queried. If `keyName` is not provided, then @connection queries the target table's primary index.
 
+One can find a full schema example for a set of 17 access patterns at [docs/cli-toolchain/connectionWithKeyExamples.md](connectionWithKeyExamples.md).
+
 **Has One**
 
 In the simplest case, you can define a one-to-one connection where a project has one team:
