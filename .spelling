@@ -436,6 +436,15 @@ statusCreatedAt
 ByStatus
 postID
 parameterization
+byname
+newHire
+byCustomerByStatusByDate
+byWarehouse
+AccountRepresentative
+byRepresentativeByDate
+byTitle
+jobTitle
+dynamoDB
 
 # cli-toolchain/cognito-triggers.md
 Lambda
