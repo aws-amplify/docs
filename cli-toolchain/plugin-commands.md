@@ -15,7 +15,7 @@ The `plugins.json` file will be created or updated in the following situations:
 * If inaccuracy is detected, e.g. a specified plugin can not be loaded, the Amplify CLI Core will scan again and update the information. 
 * After the execution of any of the `amplify plugin` commands that could change it, e.g. `amplify plugin scan`, `amplify plugin add/remove`, etc..
 
-## Plugin Commands
+## Amplify Plugin Commands
 The following is the suite of the commands under the `amplify plugin`:
 * amplify plugin configure
 * amplify plugin scan
