@@ -4,7 +4,7 @@ The Amplify CLI Core maintains a `plugins.json` file to store the plugin managem
 The Amplify CLI plugins each contains a *amplify-plugin.json*  file to manifest itself as a valid plugin.  <br/>
 The Amplify CLI Core provides a set of utility commands under `amplify plugin` for plugin management, and to facilitate the development of plugins.
 
-The Amplify CLI Core does not dynamically scan for plugins at the beginning of each command execution. Instead, information about the installed plugins are retrieved from the *plugins.json* file, and only the plugins that are needed for the execution of the command will be loaded. 
+The Amplify CLI Core does not dynamically scan for plugins at the beginning of each command execution. Instead, information about the installed plugins are retrieved from the `plugins.json` file, and only the plugins that are needed for the execution of the command will be loaded. 
 
 The `plugins.json` file is stored at path `<os.homedir>/.amplify/plugins.json`. Unless you really know what you are doing, you should NOT manually edit this file, otherwise you run the risk of corrupting your local installation of the Amplify CLI. 
 
@@ -35,7 +35,7 @@ The following is the suite of the commands under the `amplify plugin`:
 ### Amplify plugin scan
 `amplify plugin scan` will start a fresh scan for plugins in the local environment. A configurable set of directories specified in `plugin-directories`, such as the global node_modules, are scanned for plugins.<br/>
 Execution of this command will completely update the contents of the `plugins` field in the `plugins.json`.
-The `last-scan-time` field in the `plugins.json` is the timestamp of the last plugin scan.
+The `last-scan-time` field in the `plugins.json` is the time stamp of the last plugin scan.
 Note that, other than manually started by this command, a plugin scan can also be triggered by a regular amplify command execution, for example if the Amplify CLI Core noticed something is incorrect, or the last scan time has passed for longer than `max-scan-interval-in-seconds`(set to be one day by default). 
 
 ### Amplify plugin add
@@ -51,7 +51,7 @@ The actual plugin packages themselves are not removed from your computer, and th
 
 ### Amplify plugin init
 The Amplify CLI provides the utility command `amplify plugin init` (and its alias `amplify plugin new`) for the development of plugins.<br/>
-This command prompts you with a bunch of questions, and creates the skeleton of a plugin package for you to furthur develope. You can optionally add this new plugin package into the local Amplify CLI platform, so you can test it during devleopment.
+This command prompts you with a bunch of questions, and creates the skeleton of a plugin package for you to develop further. You can optionally add this new plugin package into the local Amplify CLI platform, so you can test it during development.
  
 ### Amplify plugin verify
 The Amplify CLI provides the utility command `amplify plugin verify` to verify that
