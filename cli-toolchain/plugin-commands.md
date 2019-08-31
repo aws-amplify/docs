@@ -34,13 +34,12 @@ The following is the suite of the commands under the `amplify plugin`:
 
 ### Amplify plugin scan
 `amplify plugin scan` will start a fresh scan for plugins in the local environment. A configurable set of directories specified in `plugin-directories`, such as the global node_modules, are scanned for plugins.<br/>
-Execution of this command will completely update the contents of the `plugins` field. 
+Execution of this command will completely update the contents of the `plugins` field in the `plugins.json`.
 The `last-scan-time` field in the `plugins.json` is the timestamp of the last plugin scan.
-The `plugins` field in the `plugins.json` contains the result of the last scan, the plugin manifest (the `.amplifyplugin.json` file) is copied over for all the verified plugin.<br/>
-Note that a plugin scan can also be triggered by a regular amplify command execution, for example if the Amplify CLI Core noticed something is incorrect, or the last scan time has passed for longer than `max-scan-interval-in-seconds`(set to be one day by default). 
+Note that, other than manually started by this command, a plugin scan can also be triggered by a regular amplify command execution, for example if the Amplify CLI Core noticed something is incorrect, or the last scan time has passed for longer than `max-scan-interval-in-seconds`(set to be one day by default). 
 
 ### Amplify plugin add
-`amplify plugin add` will prompt you to select a previously removed plugins (see below), or enter the full path of a package to be added as a plugin into the Amplify CLI. The Amplify CLI Core verifies the existence and validity of the plugin package in the execution of the this command. You can use this command to add a plugin that will not be found by the plugin scan process, e.g. if it is not in one of the `plugin-directories`, or its package name does not have the proper prefix as specified in the `plugin-prefixes`.
+`amplify plugin add` will prompt you to select a previously removed plugin (see below), or enter the full path of a local package to be added as a plugin into the Amplify CLI. The Amplify CLI Core verifies the existence and validity of the plugin package in the execution of the this command. You can use this command to add a plugin that will not be found by the plugin scan process, e.g. if it is not in one of the `plugin-directories`, or its package name does not have the proper prefix as specified in the `plugin-prefixes`.
 
 ### Amplify plugin remove
 `amplify plugin remove` will prompt you with the list of all the currently active plugins, and allow you to select the ones that you do not want to be included in the Amplify CLI. The Amplify CLI Core will remove the manifest of those plugins from the `plugins` field, so they will NOT be counted as active plugins anymore and will NOT be loaded during command executions.<br/>
@@ -51,7 +50,7 @@ The actual plugin packages themselves are not removed from your computer, and th
 `amplify plugin list` lists all the active plugins, along with other information of the local Amplify CLI plugin platform. 
 
 ### Amplify plugin init
-The Amplify CLI provides the utility command `amplify plugin init` (and its alias `amplify plugin new`) for the development of the plugin modules.<br/>
+The Amplify CLI provides the utility command `amplify plugin init` (and its alias `amplify plugin new`) for the development of plugins.<br/>
 This command prompts you with a bunch of questions, and creates the skeleton of a plugin package for you to furthur develope. You can optionally add this new plugin package into the local Amplify CLI platform, so you can test it during devleopment.
  
 ### Amplify plugin verify
