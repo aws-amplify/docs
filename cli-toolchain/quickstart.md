@@ -228,7 +228,7 @@ To learn more, take a look at the [GraphQL Transformer docs]({%if jekyll.environ
 
 You can add a Lambda function to your project which you can alongside a REST API or as a datasource, as a part of your GraphQL API using the @function directive. 
 ```terminal
-$ amplify add api
+$ amplify add function
 ? Provide a friendly name for your resource to be used as a label for this category in the project: lambdafunction
 ? Provide the AWS Lambda function name: lambdafunction
 ? Choose the function template that you want to use: (Use arrow keys)
