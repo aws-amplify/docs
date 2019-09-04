@@ -1512,6 +1512,167 @@ If you want to sign out locally by just deleting tokens, you can call `signOut` 
 AWSMobileClient.getInstance().signOut();
 ```
 
+## Customizing Authentication Flow
+
+Amazon Cognito User Pools supports customizing the authentication flow to enable custom challenge types, in addition to a password in order to verify the identity of users. These challenge types may include CAPTCHAs or dynamic challenge questions.
+
+To define your challenges for custom authentication flow, you need to implement three Lambda triggers for Amazon Cognito.
+
+For more information about working with Lambda Triggers for custom authentication challenges, please visit [Amazon Cognito Developer Documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
+{: .callout .callout--info}
+
+### Custom Authentication in Amplify
+
+To initiate a custom authentication flow in your app, specify `authenticationFlowType` as `CUSTOM_AUTH` and  call `signIn` with a dummy password. A custom challenge needs to be answered using the `confirmSignnIn` method as follows:
+
+```java
+// Sample awsconfiguration.json
+{
+  "CognitoUserPool": {
+    "Default": {
+      "PoolId": "XX-XXXX-X_abcd1234",
+      "AppClientId": "XXXXXXXX",
+      "AppClientSecret": "XXXXXXXXX",
+      "Region": "XX-XXXX-X"
+    }
+  },
+  "Auth": {
+  "Default": {
+    "authenticationFlowType": "CUSTOM_AUTH"
+  }
+}
+}
+
+public void signIn() {
+    AWSMobileClient.getInstance().signIn(username, password, null, new Callback<SignInResult>() {
+        @Override
+        public void onResult(final SignInResult signInResult) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d("APP", "Sign-in callback state: " + signInResult.getSignInState());
+                    switch (signInResult.getSignInState()) {
+                        case DONE:
+                            Log.d(TAG, "Sign-in done.");
+                            break;
+                        case SMS_MFA:
+                            Log.d(TAG, "Please confirm sign-in with SMS.");
+                            break;
+                        case NEW_PASSWORD_REQUIRED:
+                            Log.d(TAG, "Please confirm sign-in with new password.");
+                            break;
+                        case CUSTOM_CHALLENGE:
+                            confirmSignIn();
+                            break;
+                        default:
+                            Log.d(TAG, "Unsupported sign-in confirmation: " + signInResult.getSignInState());
+                            break;
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void onError(Exception e) {
+            Log.e(TAG, "Sign-in error", e);
+        }
+    });
+}
+
+public void confirmSignIn() {
+    Map<String, String> res = new HashMap<String, String>();
+    res.put(CognitoServiceConstants.CHLG_RESP_ANSWER, "1133");
+    AWSMobileClient.getInstance().confirmSignIn(res, new Callback<SignInResult>() {
+        @Override
+        public void onResult(final SignInResult signInResult) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG, "Sign-in callback state: " + signInResult.getSignInState());
+                    switch (signInResult.getSignInState()) {
+                        case DONE:
+                            Log.d(TAG, "Sign-in done.");
+                            break;
+                        case SMS_MFA:
+                            Log.d(TAG, "Please confirm sign-in with SMS.");
+                            break;
+                        case NEW_PASSWORD_REQUIRED:
+                            Log.d(TAG, "Please confirm sign-in with new password.");
+                            break;
+                        default:
+                            Log.d(TAG, "Unsupported sign-in confirmation: " + signInResult.getSignInState());
+                            break;
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void onError(Exception e) {
+            Log.e(TAG, "Confirm Custom auth Sign-in error", e);
+        }
+    });
+}
+```
+
+### Creating a CAPTCHA
+
+Here is the sample for creating a CAPTCHA challenge with a Lambda Trigger.
+
+The `Create Auth Challenge Lambda Trigger` creates a CAPTCHA as a challenge to the user. The URL for the CAPTCHA image and  the expected answer is added to the private challenge parameters:
+
+```javascript
+export const handler = async (event) => {
+    if (!event.request.session || event.request.session.length === 0) {
+        event.response.publicChallengeParameters = {
+            captchaUrl: "url/123.jpg",
+        };
+        event.response.privateChallengeParameters = {
+            answer: "5",
+        };
+        event.response.challengeMetadata = "CAPTCHA_CHALLENGE";
+    }
+    return event;
+};
+```
+
+This `Define Auth Challenge Lambda Trigger` defines a custom challenge:
+
+```javascript
+export const handler = async (event) => {
+    if (!event.request.session || event.request.session.length === 0) {
+        // If we don't have a session or it is empty then send a CUSTOM_CHALLENGE
+        event.response.challengeName = "CUSTOM_CHALLENGE";
+        event.response.failAuthentication = false;
+        event.response.issueTokens = false;
+    } else if (event.request.session.length === 1 && event.request.session[0].challengeResult === true) {
+        // If we passed the CUSTOM_CHALLENGE then issue token
+        event.response.failAuthentication = false;
+        event.response.issueTokens = true;
+    } else {
+        // Something is wrong. Fail authentication
+        event.response.failAuthentication = true;
+        event.response.issueTokens = false;
+    }
+
+    return event;
+};
+```
+
+The `Verify Auth Challenge Response Lambda Trigger` is used to verify a challenge answer:
+
+```javascript
+export const handler = async (event, context) => {
+    if (event.request.privateChallengeParameters.answer === event.request.challengeAnswer) {
+        event.response.answerCorrect = true;
+    } else {
+        event.response.answerCorrect = false;
+    }
+
+    return event;
+};
+```
+
 ## Using Device Features
 
 You can use the device related features of Amazon Cognito UserPools by enabling the `Devices` features. Go to your Cognito UserPool, click on `Devices` in Left Navigation Menu and chose one of `User Opt In` or `Always`.
