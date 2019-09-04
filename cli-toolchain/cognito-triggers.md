@@ -467,3 +467,9 @@ The trigger will check for the existence of the group in your User Pool, and wil
 ### Email Domain Filtering (blacklist) and Email Domain Filtering (whitelist)
 
 These two templates allow you to define email domains which are allowed or disallowed (respectively). They can be used in tandem or individually.  
+
+### Override ID Token Claims
+
+This template uses the Pre Token Generation trigger and allows you to add, override or remove claims from the [ID token](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-with-identity-providers.html#amazon-cognito-user-pools-using-the-id-token) that is returned by Cognito.
+
+You will need to manually edit the template to define the claims that you wish to manipulate. The template currently contains dummy values as examples.
