@@ -194,7 +194,8 @@ See the [React Guide](https://aws-amplify.github.io/docs/js/react){: target='_ne
 </div>
 <div id="react-native" class="tab-content" >
 
-Run following commands to install [Expo CLI](https://expo.io) to create and bootstrap your app (use defaults):
+### Option 1: Use Expo CLI (recommended if you are new to mobile development)
+Run the following commands to install [Expo CLI](https://expo.io) to create and bootstrap your app (use defaults):
 
 ```bash
 $ npm install expo-cli --global
@@ -215,7 +216,7 @@ $ yarn start
 While not needed in this getting started flow, Amplify provides React Native bridges when using the Auth category in the `aws-amplify-react-native` package. If you are using [Expo v25.0.0 or greater](https://blog.expo.io/expo-sdk-v25-0-0-is-now-available-714d10a8c3f7), those libraries are already included in your dependencies. Otherwise, you need to [link](https://facebook.github.io/react-native/docs/linking-libraries-ios.html) those libraries to your project.
 {: .callout .callout--info}
 
-Linking example for a project created with *react-native init*:
+### Option 2: Use React Native CLI (recommended if you have mobile development experience)
 
 ```bash
 $ react-native init myReactNativeApp
@@ -598,6 +599,15 @@ export default function App() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+   container: {
+     backgroundColor: '#ddeeff',
+     alignItems: 'center',
+     justifyContent: 'center',
+     flex: 1
+   }
+ });
 ```
 
 Next, update `App.js` to list all the items in the database by importing `listTodos` and then using [Hooks](https://reactjs.org/docs/hooks-intro.html) to update the page when a query runs on app start by adding initial state and a `reducer` function as well as modifying your `App` function:
