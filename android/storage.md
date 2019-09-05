@@ -40,7 +40,7 @@ See [Authentication](./authentication) for more information on how to get the `u
 
 5. The CLI walks you through the options to enable Auth (if not enabled previously), to name your S3 bucket, and to decide who should have access (select `Auth and guest users` and toggle all to select `create/update, read, and delete` access for both auth and guest users).
 
-6. Confirm that you have storage and auth set up.
+6. Confirm that you have Storage and Auth set up.
 
     ```bash
       $ amplify status
