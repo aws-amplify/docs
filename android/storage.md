@@ -226,28 +226,40 @@ The following example shows how to use the TransferUtility to download a file. I
 
 ```java
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.amazonaws.mobile.client.AWSMobileClient;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobile.client.Callback;
+import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferService;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 
-public class YourActivity extends Activity {
-
-    private static final String TAG = YourActivity.class.getSimpleName();
+public class MainActivity extends Activity {
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        getApplicationContext().startService(new Intent(getApplicationContext(), TransferService.class));
+
         // Initialize the AWSMobileClient if not initialized
         AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
             @Override
             public void onResult(UserStateDetails userStateDetails) {
                 Log.i(TAG, "AWSMobileClient initialized. User State is " + userStateDetails.getUserState());
+                downloadWithTransferUtility();
             }
 
             @Override
@@ -255,22 +267,22 @@ public class YourActivity extends Activity {
                 Log.e(TAG, "Initialization error.", e);
             }
         });
-        downloadWithTransferUtility();
+
     }
 
     private void downloadWithTransferUtility() {
 
         TransferUtility transferUtility =
-            TransferUtility.builder()
-                    .context(getApplicationContext())
-                    .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
-                    .s3Client(new AmazonS3Client(AWSMobileClient.getInstance()))
-                    .build();
+                TransferUtility.builder()
+                        .context(getApplicationContext())
+                        .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
+                        .s3Client(new AmazonS3Client(AWSMobileClient.getInstance()))
+                        .build();
 
         TransferObserver downloadObserver =
-            transferUtility.download(
-                    "public/s3Key.txt",
-                    new File("/path/to/file/localFile.txt"));
+                transferUtility.download(
+                        "public/sample.txt",
+                        new File(getApplicationContext().getFilesDir(), "download.txt"));
 
         // Attach a listener to the observer to get state update and progress notifications
         downloadObserver.setTransferListener(new TransferListener() {
@@ -284,10 +296,10 @@ public class YourActivity extends Activity {
 
             @Override
             public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
-                    float percentDonef = ((float)bytesCurrent/(float)bytesTotal) * 100;
-                    int percentDone = (int)percentDonef;
+                float percentDonef = ((float)bytesCurrent/(float)bytesTotal) * 100;
+                int percentDone = (int)percentDonef;
 
-                    Log.d("Your Activity", "   ID:" + id + "   bytesCurrent: " + bytesCurrent + "   bytesTotal: " + bytesTotal + " " + percentDone + "%");
+                Log.d("Your Activity", "   ID:" + id + "   bytesCurrent: " + bytesCurrent + "   bytesTotal: " + bytesTotal + " " + percentDone + "%");
             }
 
             @Override
