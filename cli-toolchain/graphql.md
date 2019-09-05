@@ -652,7 +652,7 @@ type Draft
     title: String!
     content: String
     owner: String
-    editors: [String]!
+    editors: [String]
 }
 ```
 
