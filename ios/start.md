@@ -111,7 +111,7 @@ platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSAppSync', '~> 2.12.0'
+    pod 'AWSAppSync', '~> 2.14.0'
 
 end
 ```
