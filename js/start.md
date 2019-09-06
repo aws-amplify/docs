@@ -472,7 +472,7 @@ This will open the AWS AppSync console for you to run Queries, Mutations, or Sub
 Update your `src/App.js` file to configure the library with `Amplify.configure()` and add data to your database with a mutation by using `API.graphql()`:
 
 ```javascript
-import React, { useEffect, useReducer } from 'react'
+import React from 'react'
 
 import API, { graphqlOperation } from '@aws-amplify/api'
 import PubSub from '@aws-amplify/pubsub';
