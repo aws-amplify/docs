@@ -1,6 +1,11 @@
 ---
 title: Storage
 ---
+{% if jekyll.environment == 'production' %}
+  {% assign base_dir = site.amplify.docs_baseurl %}
+{% endif %}
+{% assign images_base = base_dir | append: page.dir | append: "images" %}
+{% assign common_media = base_dir | append: "/images" %}
 # Storage
 
 ## S3
@@ -218,7 +223,7 @@ public class MainActivity extends Activity {
 
 If you run this code, login to your AWS console, and go to the S3 service, you'll see a bucket and file structure like this (in this example the friendly name specified was `dev` and the bucket name was `storagedemo`):
 
-![Image](/images/SampleStorageS3.png)
+![Image]({{common_media}}/SampleStorageS3.png)
 
 ### Download a File
 
