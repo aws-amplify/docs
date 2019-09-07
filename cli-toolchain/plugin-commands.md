@@ -1,5 +1,5 @@
 ## Amplify Plugin Platform
-In the new Amplify CLI plugin platform, plugins are explicitly managed. <br/>
+Plugins are explicitly managed in the Amplify CLI pluggable platform. <br/>
 The Amplify CLI Core maintains a `plugins.json` file to store the plugin management configuration settings and information of all the installed plugins.  <br/>
 The Amplify CLI plugins each contains a *amplify-plugin.json*  file to manifest itself as a valid plugin.  <br/>
 The Amplify CLI Core provides a set of utility commands under `amplify plugin` for plugin management, and to facilitate the development of plugins.
