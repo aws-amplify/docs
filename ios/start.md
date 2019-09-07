@@ -10,7 +10,7 @@ Build an iOS app using the Amplify Framework which contains:
 - JavaScript, iOS, and Android libraries to access your resources using a category based programming model
 - Framework-specific UI component libraries for React, React Native, Angular, Ionic and Vue
 
-This page guides you through setting up a backend and integration into your iOS app. You will create a "Todo app" with a GraphQL API and to store and retrieve items in a cloud database, as well as receive updates over a realtime subscription.
+This page guides you through setting up a backend and integration into your iOS app. You will create a "Todo app" with a GraphQL API to store and retrieve items in a cloud database, as well as receive updates over a realtime subscription.
 
 [GraphQL](http://graphql.org){:target="_blank"} is a data language that was developed to enable apps to fetch data from APIs. It has a declarative, self-documenting style. In a GraphQL operation, the client specifies how to structure the data when it is returned by the server. This makes it possible for the client to query only for the data it needs, in the format that it needs it in.
 
@@ -111,7 +111,7 @@ platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSAppSync', '~> 2.12.0'
+    pod 'AWSAppSync', '~> 2.14.0'
 
 end
 ```
