@@ -1,30 +1,30 @@
 # @connection With @key Use-cases
 
-Here are the 17 access patterns from https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-modeling-nosql.html that we can try and support in this example, and what the schema would look like:
+Here are the 17 access patterns from the '[First Steps for Modeling Relational Data in DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-modeling-nosql.html)' page. that we can try and support in this example, and what the schema would look like:
 
 ![alt text](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/images/AccessPatternList.png "Access Patterns")
 
-The following schema introduces the requisite keys and connections so that we can support all but the 17th access pattern depending on how one interprets the 17th pattern.
+The following schema introduces the required keys and connections so that we can support all but the 17th access pattern, because it depends on how one interprets the 17th pattern.
 
 
 ```
-type Employee 
+type Employee
   @model
   @key(name: "newHire", fields: ["newHire", "id"])
   @key(name: "byName", fields: ["name", "id"])
   @key(name: "byTitle", fields: ["jobTitle", "id"])
-  @key(name: "byWarehouse", fields: ["wareHouseID", "id"])
+  @key(name: "byWarehouse", fields: ["warehouseID", "id"])
 {
   id: ID!
   name: String!
   startDate: String!
   phoneNumber: String!
-  wareHouseID: ID!
+  warehouseID: ID!
   jobTitle: String!
-  newHire: Bool!
+  newHire: String! # We have to use String type, because Boolean types cannot be sort keys
 }
 
-type WareHouse
+type Warehouse
   @model
 {
   id: ID!
@@ -49,8 +49,8 @@ type AccountRepresentative
   id: ID!
   customers: [Customer] @connection(name: "byRepresentative", fields: ["id"])
   orders: [Order] @connection(name: "byRepresentativebyDate", fields: ["id"])
-  orderTotal: Integer!
-  salesPeriod: Integer!
+  orderTotal: Int!
+  salesPeriod: Int!
 }
 
 type Order
@@ -64,18 +64,18 @@ type Order
   accountRepresentativeID: ID!
   productID: ID!
   status: String!
-  amount: Integer!
+  amount: Int!
   date: String!
 }
 
 type Inventory
   @model
-  @key(fields: ["productID", "wareHouseID"])
+  @key(fields: ["productID", "warehouseID"])
 {
   id: ID!
   productID: ID!
-  wareHouseID: ID!
-  inventoryAmount: Integer!
+  warehouseID: ID!
+  inventoryAmount: Int!
 }
 
 type Product
@@ -103,7 +103,7 @@ query GetEmployee($id: ID!) {
 ```
 
 **2. Query employee details by employee name:**
-The @key “byName” on the Employee made makes this access-pattern feasible. One can use this query:
+The @key “byName” on the Employee makes this access-pattern feasible. One can use this query:
 
 ```
 query EmployeeByName($name: String!) {
@@ -118,13 +118,13 @@ query EmployeeByName($name: String!) {
 ```
 
 **3. Find an Employee’s phone number:**
-Either of the previous queries would work to find an employee’s phone number as long as one has their ID or name.
+Either one of the previous queries would work to find an employee’s phone number as long as one has their ID or name.
 
 **4. Find a customer’s phone number:**
 A similar query to those given above but on the Customer model would give you a customer’s phone number.
 
 **5. Get orders for a given customer within a given date range:**
-There is a one-to-many relation that lets all the orders of a customer be queried. 
+There is a one-to-many relation that lets all the orders of a customer be queried.
 
 ```
 type Customer
@@ -149,7 +149,7 @@ type Order
   accountRepresentativeID: ID!
   productID: ID!
   status: String!
-  amount: Integer!
+  amount: Int!
   date: String!
 }
 ```
@@ -214,7 +214,7 @@ type Warehouse
   employees: [Employee] @connection(keyName: "byWarehouse", fields: ["id"])
 }
 
-type Employee 
+type Employee
   @model
   @key(name: "newHire", fields: ["newHire", "id"])
   @key(name: "byName", fields: ["name", "id"])
@@ -225,9 +225,9 @@ type Employee
   name: String!
   startDate: String!
   phoneNumber: String!
-  wareHouseID: ID!
+  warehouseID: ID!
   jobTitle: String!
-  newHire: Bool!
+  newHire: String! # We have to use String type, because Boolean types cannot be sort keys
 }
 ```
 
@@ -274,7 +274,7 @@ type Order
   accountRepresentativeID: ID!
   productID: ID!
   status: String!
-  amount: Integer!
+  amount: Int!
   date: String!
 }
 ```
@@ -303,12 +303,12 @@ Since a product could be found in multiple warehouses and each warehouses could 
 ```
 type Inventory
   @model
-  @key(fields: ["productID", "wareHouseID"])
+  @key(fields: ["productID", "warehouseID"])
 {
   id: ID!
   productID: ID!
-  wareHouseID: ID!
-  inventoryAmount: Integer!
+  warehouseID: ID!
+  inventoryAmount: Int!
 }
 
 type Product
@@ -327,7 +327,7 @@ type Warehouse
 }
 ```
 
-However, since we only need to be able to get the inventories of a product at warehouses, we only need to query the connection from products to inventories and not the other way round (and we don’t need to connect all the way to the warehouses themselves). Hence there is a connection from Product to Inventories but not the other way. 
+However, since we only need to be able to get the inventories of a product at warehouses, we only need to query the connection from products to inventories and not the other way round (and we don’t need to connect all the way to the warehouses themselves). Hence there is a connection from Product to Inventories but not the other way.
 
 The query needed to get the inventories of a product in all warehouses would be:
 
@@ -367,8 +367,8 @@ type AccountRepresentative
   id: ID!
   customers: [Customer] @connection(name: "byRepresentative", fields: ["id"])
   orders: [Order] @connection(name: "byRepresentativebyDate", fields: ["id"])
-  orderTotal: Integer!
-  salesPeriod: Integer!
+  orderTotal: Int!
+  salesPeriod: Int!
 }
 ```
 
@@ -382,7 +382,7 @@ query GetAccountRepresntative($id: ID!) {
         items {
             id
             name
-            phoneNumber            
+            phoneNumber
         }
     }
   }
@@ -400,8 +400,8 @@ type AccountRepresentative
   id: ID!
   customers: [Customer] @connection(name: "byRepresentative", fields: ["id"])
   orders: [Order] @connection(name: "byRepresentativebyDate", fields: ["id"])
-  orderTotal: Integer!
-  salesPeriod: Integer!
+  orderTotal: Int!
+  salesPeriod: Int!
 }
 
 
@@ -417,7 +417,7 @@ type Order
   accountRepresentativeID: ID!
   productID: ID!
   status: String!
-  amount: Integer!
+  amount: Int!
   date: String!
 }
 ```
@@ -433,7 +433,7 @@ query GetAccountRepresntative($id: ID!) {
             id
             status
             amount
-            date          
+            date
         }
     }
   }
@@ -452,12 +452,12 @@ Here having the inventories be held in a separate model is particularly useful s
 ```
 type Inventory
   @model
-  @key(fields: ["productID", "wareHouseID"])
+  @key(fields: ["productID", "warehouseID"])
 {
   id: ID!
   productID: ID!
-  wareHouseID: ID!
-  inventoryAmount: Integer!
+  warehouseID: ID!
+  inventoryAmount: Int!
 }
 ```
 
