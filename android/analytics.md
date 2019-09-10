@@ -39,13 +39,6 @@ The Amplify CLI helps setup and configure Pinpoint within your application and c
     $ amplify add analytics
     ```
 
-    In a terminal window, navigate to your project folder (the folder contains your app `.xcodeproj` file), and add the SDK to your app.
-
-    ```bash
-    $ cd ./YOUR_PROJECT_FOLDER
-    $ amplify add analytics
-    ```
-
 2. When configuration for analytics is complete, a message appears confirming that you have configured local CLI metadata for this category. You can confirm this by viewing status.
 
     ```bash
