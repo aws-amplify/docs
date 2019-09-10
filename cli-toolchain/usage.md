@@ -703,7 +703,7 @@ The Amplify CLI has a pluggable architecture. The CLI core provides the pluggabl
 
 Plugins are explicitly managed in the Amplify CLI pluggable platform. <br/>
 The Amplify CLI Core maintains a `plugins.json` file to store the plugin management configuration settings and information of all the installed plugins.  <br/>
-The Amplify CLI plugins each contains a *amplify-plugin.json*  file to manifest itself as a valid plugin.  <br/>
+The Amplify CLI plugins each contains a `amplify-plugin.json`  file to manifest itself as a valid plugin.  <br/>
 The Amplify CLI Core provides a set of utility commands under `amplify plugin` for plugin management, and to facilitate the development of plugins.
 
 The Amplify CLI Core does not dynamically scan for plugins at the beginning of each command execution. Instead, information about the installed plugins are retrieved from the `plugins.json` file, and only the plugins that are needed for the execution of the command will be loaded. 
@@ -723,6 +723,7 @@ Plugins communicate with the CLI core, and with each other, through the project 
 
 ### Plugin types
 ![Image]({{media_base}}/AmplifyCliConcept.jpg)
+
 There are four types of plugins
 - category
 - provider
@@ -801,8 +802,8 @@ The actual plugin packages themselves are not removed from your computer, and th
 `amplify plugin list` lists all the active plugins, along with other information of the local Amplify CLI plugin platform. 
 
 #### Amplify plugin init
-The Amplify CLI provides the utility command `amplify plugin init` (and its alias `amplify plugin new`) for the development of plugins.<br/>
-This command prompts you with a bunch of questions, and creates the skeleton of a plugin package for you to develop further. You can optionally add this new plugin package into the local Amplify CLI platform, so you can test it during development.
+The Amplify CLI provides the command `amplify plugin init` (with alias `amplify plugin new`) for the development of plugins.<br/>
+This command first collects requirements, and then creates the skeleton of the plugin package for you to start the development. The newly created plugin is added to your local Amplify CLI plugin platform, so you can conveniently test its functionalities while it is being developed. It can be easily removed form the platform with the `amplify plugin remove`, and added back with the `amplify plugin add` command.
  
 #### Amplify plugin verify
 The Amplify CLI provides the utility command `amplify plugin verify` to verify that
@@ -810,7 +811,6 @@ The Amplify CLI provides the utility command `amplify plugin verify` to verify t
 * The `commands` field contains all the required commands for the type of the plugin
 `amplify plugin verify` treats the folder where it is executed as the root directory of the plugin package.
 `amplify plugin verify` can be executed manually, and its functionality is also also invoked by the `amplify plugin scan` and `amplify plugin add` commands.
-
 
 #### Amplify plugin help
 Prints out help information for the commands under `amplify plugin`.

@@ -50,8 +50,10 @@ The actual plugin packages themselves are not removed from your computer, and th
 `amplify plugin list` lists all the active plugins, along with other information of the local Amplify CLI plugin platform. 
 
 ### Amplify plugin init
-The Amplify CLI provides the utility command `amplify plugin init` (and its alias `amplify plugin new`) for the development of plugins.<br/>
-This command prompts you with a bunch of questions, and creates the skeleton of a plugin package for you to develop further. You can optionally add this new plugin package into the local Amplify CLI platform, so you can test it during development.
+The Amplify CLI provides the command `amplify plugin init` (with alias `amplify plugin new`) for the development of plugins.<br/>
+This command first collects the requirements from you, and then creates the skeleton of the plugin package for you to start the development. 
+The newly created plugin package is added to your local Amplify CLI platform, so you can conveniently test its functionalities while it is being developed. 
+If you want to, it can be easily removed form the platform with the `amplify plugin remove`, and added back with the `amplify plugin add` command.
  
 ### Amplify plugin verify
 The Amplify CLI provides the utility command `amplify plugin verify` to verify that

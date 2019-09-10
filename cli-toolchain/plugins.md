@@ -12,10 +12,12 @@ title: Plugins & Extensions
 * [amplify-category-video](https://www.npmjs.com/package/amplify-category-video)
 * [amplify-category-docs](https://www.npmjs.com/package/amplify-category-docs)
 
+
+Plugins enable you to add additional commands and functionality to existing Amplify CLI. This section goes through the steps to create, publish and consume a plugin package, and explains the folder structure and key files in the plugin package. Click [here]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/usage#architecture) for detailed explanations of the Amplify CLI plugin architecture, plugin types and plugin platform events.
+
 ## Authoring a CLI Plugin
 
-Plugins enable you to add additional commands and functionality to existing Amplify CLI. 
-This tutorial goes through the steps needed to create a utility plugin like the <a href="https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-codegen" target="_blank">`amplify-codegen`</a> plugin.
+The Amplify CLI provides the command `amplify plugin init` (with alias `amplify plugin new`) for the development of plugins. This command first collects requirements, and then creates the skeleton of the plugin package for you to start the development. The newly created plugin is added to your local Amplify CLI plugin platform, so you can conveniently test its functionalities while it is being developed. It can be easily removed form the local plugin platform with the `amplify plugin remove` command, and added back with the `amplify plugin add` command.
 
 ### Step 1: Install Amplify CLI
 
@@ -23,118 +25,117 @@ This tutorial goes through the steps needed to create a utility plugin like the 
 $ npm install -g @aws-amplify/cli
 
 ```
-### Step 2: Create the basic plugin structure
+### Step 2: Run `amplify plugin init`
+```bash
+$ amplify plugin init
+```
+You will be prompted to enter the plugin name, and then select the plugin type and event subscriptions. The CLI will then create a plugin package for you, and add it to the local Amplify CLI plugin platform.
 
-Let's create a utility plugin having add/update/remove commands. It'll be called `amplify-utility`.
+### Step 3: Test your plugin
 
-NOTE: This is the naming scheme we recommend for amplify-powered plugins -- put the name of your CLI, a dash, and then the name of your plugin. We support this naming scheme right out of the box.
+The newly created plugin package is already added to the local Amplify CLI, so you can start testing it immediately.
+Let's say you have chosen to use the default plugin name: `my-amplify-plugin`
 
 ```bash
-$ mkdir amplify-utility
-$ cd amplify-utility
-$ npm init
+$ amplify my-amplify-plugin help
+help command to be implemented.
 ```
 
-At this point, go through npm's init. It doesn't matter too much what you put here. I just hit enter on everything.
+You will see that the default help message is printed out. 
+At this point, there are only two sub commands in the plugin package, `help` and `version`, with dummy implementation. If you try to execute any other command, it will trigger the Amplify CLI plugin platform to perform a fresh plugin scan, and then after failed to find the command, it will print out the default help message again. 
 
-Lastly, add a `commands` and an `extensions` folder.
+From here, you can start to develop plugin package. See below for the detailed explanation of the package structure. 
+
+### Step 4: Publish to NPM
+
+After the completion of one development cycle and you are ready to release your plugin to the public, you can publish it to the NPM: [https://docs.npmjs.com/getting-started/publishing-npm-packages](https://docs.npmjs.com/getting-started/publishing-npm-packages)
+
+### Step 4: Install and Use
+
+Once your plugin is published to the NPM, other developers can install and use it
 
 ```bash
-$ mkdir commands extensions
+$ npm install -g my-amplify-plugin
+$ amplify plugin add my-amplify-plugin
+$ amplify my-amplify-plugin help
 ```
 
-### Step 3: Create a command
+## Plugin Package Structure
+Here's the plugin package directory structure 
+ ```
+ |_my-amplify-plugin/
+    |_commands/
+    |   |_ help.js
+    |   |_ version.js
+    |
+    |_event-handlers
+    |   |_handle-PostInit.js
+    |   |_handle-PostPush.js
+    |   |_handle-PreInit.js
+    |   |_handle-PrePush.js
+    |
+    |_amplify-plugin.json
+    |_index.js
+    |_package.json
+ ```
 
-We're going to make a command that we'll invoke with `amplify utility add` which will display the log statement `Adding Amplify utility` but should ideally consist of the entire walk through or the business logic for that command
+ ### amplify-plugin.json
+ The `amplify-plugin.json` file is the plugin's manifest file, it specifies the plugin's name, type, commands and event handlers. The Amplify CLI uses it to verify and add the plugin package into its plugin platform. 
 
-```bash
-$ mkdir commands/utility
-$ touch commands/utility/add.js
-```
+ Here's the contents of the file when it's first generated by the `amplify plugin init` command:
 
-Open this file, and put the following:
-
- ```js
-// context would have all the relevant amplify CLI info/metadata/helper functions that are needed by the plugins
-module.exports = {
-  name: 'add',
-  run: async (context) => {
-    console.log('Adding Amplify utility');
-  });
+```json
+ {
+    "name": "my-amplify-plugin",
+    "type": "util",
+    "commands": [
+        "version",
+        "help"
+    ],
+    "eventHandlers": [
+        "PreInit",
+        "PostInit",
+        "PrePush",
+        "PostPush"
+    ]
 }
 ```
 
-   
-### Step 4: Create an extension
+### index.js
+The `"main"` file specified in the `package.json`, it's the Amplify CLI's entry to invoke the plugin's functionalities specified in the manifest file `amplify-plugin.json`. 
 
-While the above is a simple command, if the logic started getting more complex, we'd probably want to move it into an extension. Let's do that here.
-
-In `extensions`, create a new file called `customprint-extension.js`:
-
-```bash
-$ touch extensions/customprint-extension.js
-```
-
-Edit this file like so:
+Here's the contents of the file when it's first generated by the `amplify plugin init` command for a util plugin.
 
 ```js
-module.exports = context => {
-  context.printMyInfo = async () => {
-    context.print.info(`My custom print statement`)
-  }
+const path = require('path');
+
+async function executeAmplifyCommand(context) {
+  const commandsDirPath = path.normalize(path.join(__dirname, 'commands'));
+  const commandPath = path.join(commandsDirPath, context.input.command);
+  const commandModule = require(commandPath);
+  await commandModule.run(context);
 }
-```
 
-This adds a new property to gluegun's awesome `context` object, called `printMyInfo`, which is a function that returns the info we need. Since all extensions are loaded automatically during the CLI runtime, it's available in our command, so let's use it in `commands/utility/add.js`:
+async function handleAmplifyEvent(context, args) {
+  const eventHandlersDirPath = path.normalize(path.join(__dirname, 'event-handlers'));
+  const eventHandlerPath = path.join(eventHandlersDirPath, `handle-${args.event}`);
+  const eventHandlerModule = require(eventHandlerPath);
+  await eventHandlerModule.run(context, args);
+}
 
-
-```js
-// context would have all the relevant amplify CLI info/metadata/helper functions that are needed by the plugins
 module.exports = {
-  name: 'add',
-  run: async (context) => {
-    console.log('Adding Amplify utility');
-    context.printMyInfo();
-  });
-}
-
+  executeAmplifyCommand,
+  handleAmplifyEvent,
+};
 ```
 
-Here's how the plugin/package directory structure should look like at the end
- ```
- |_amplify-utility/
-  |_package.json
-  |_commands/
-    |_utility/
-      |_ add.js
-      |_ update.js
-      |_ remove.js
-    |_extensions
-      |_customprint-extension.js
-      
- ```
- 
-### Step 5: Test your plugin
+### commands
+The `commands` folder contains files that implement the `commands` specified in the manifest file `amplify-plugin.json`. 
 
-Go to the root of your plugin/package and run the following commands
+### event-handlers
+The `event-handlers` folder contains files that implement the `eventHandlers` specified in the manifest file `amplify-plugin.json`. 
 
-```bash
-$ npm install -g
-$ amplify utility add
-Adding Amplify utility
-My custom print statement
-
-```
-
-### Step 6: Publish to NPM
-
-You can learn how to publish an NPM package here: [https://docs.npmjs.com/getting-started/publishing-npm-packages](https://docs.npmjs.com/getting-started/publishing-npm-packages)
-
-Once it's published, anyone can add your new plugin to their system and the Amplify CLI would pickup
-
-```bash
-$ npm install -g amplify-utility
-```
+### 
 
 ## Custom GraphQL Transformers
 
