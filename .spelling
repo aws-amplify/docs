@@ -437,6 +437,7 @@ ByStatus
 Pre
 Auth.currentAuthenticatedUser
 AWSMobileClient.sharedInstance
+AWSMobileClient.default
 
 # cli-toolchain/cognito-triggers.md
 Lambda

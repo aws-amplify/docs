@@ -658,7 +658,7 @@ s3Object.key = "protected/\(cognitoIdentityId)/myFile.txt"
 s3Object.key = "private/\(cognitoIdentityId)/myFile.txt"
 ```
 
-**Note:** These keys must be prepended when you are uploading the object, and the same key must be specified as part of the object's key during download. The `cognitoIdentityId` is required for `protected` and `private` access and you can get it by using the [Authentication Utilities](./authentication#utility-properties): `AWSMobileClient.sharedInstance().identityId`.
+**Note:** These keys must be prepended when you are uploading the object, and the same key must be specified as part of the object's key during download. The `cognitoIdentityId` is required for `protected` and `private` access and you can get it by using the [Authentication Utilities](./authentication#utility-properties): `AWSMobileClient.default().identityId`.
 
 ### Temporary Permissions via Pre-signed URLs
 
