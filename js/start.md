@@ -501,8 +501,8 @@ export default App;
 Next, update `src/App.js` to list all the items in the database by importing `listTodos` and then using [Hooks](https://reactjs.org/docs/hooks-intro.html) to update the page when a query runs on app start by adding initial state and a `reducer` function as well as modifying your `App` function:
 
 ```javascript
-import React, { useEffect, useReducer } from 'react' // using hooks
 // other imports
+import { useEffect, useReducer } from 'react' // using hooks
 import { listTodos } from './graphql/queries'
 
 const initialState = {todos:[]};
