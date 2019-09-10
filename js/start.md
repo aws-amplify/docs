@@ -168,7 +168,7 @@ Open a browser and navigate to <a href="http://localhost:8080" target="_blank">h
 
 <div id="react" class="tab-content current">
 
-Use [Create React App](https://create-react-app.dev/) to bootstrap your application.
+Use [Create React App](https://github.com/facebook/create-react-app) to bootstrap your application.
 
 ```bash
 $ npx create-react-app myapp
