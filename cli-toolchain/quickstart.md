@@ -133,6 +133,7 @@ $ Do you want to enable any of the following capabilities?
     ◯ Email Domain Filtering (blacklist)
     ◯ Email Domain Filtering (whitelist)
     ◯ Custom Auth Challenge Flow (basic scaffolding - not for production)
+    ◯ Override ID Token Claims
 ```
 
 2.  In the manual Auth CLI workflow, you will be given the chance to select the options above, but will also be able to manually configure Lambda Trigger templates:
@@ -150,6 +151,7 @@ $ Which triggers do you want to enable for Cognito?
  ◯ Post Confirmation
  ◯ Pre Sign-up
  ◯ Verify Auth Challenge Response
+ ◯ Pre Token Generation
 
 $ What functionality do you want to use for Custom Message
  ◯ Learn More
