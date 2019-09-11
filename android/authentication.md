@@ -1523,10 +1523,9 @@ For more information about working with Lambda Triggers for custom authenticatio
 
 ### Custom Authentication in Amplify
 
-To initiate a custom authentication flow in your app, specify `authenticationFlowType` as `CUSTOM_AUTH` and  call `signIn` with a dummy password. A custom challenge needs to be answered using the `confirmSignnIn` method as follows:
+To initiate a custom authentication flow in your app, specify `authenticationFlowType` as `CUSTOM_AUTH` and  call `signIn` with a dummy password. A custom challenge needs to be answered using the `confirmSignIn` method as follows:
 
-```java
-// Sample awsconfiguration.json
+```json
 {
   "CognitoUserPool": {
     "Default": {
@@ -1537,12 +1536,14 @@ To initiate a custom authentication flow in your app, specify `authenticationFlo
     }
   },
   "Auth": {
-  "Default": {
-    "authenticationFlowType": "CUSTOM_AUTH"
+    "Default": {
+      "authenticationFlowType": "CUSTOM_AUTH"
+    }
   }
 }
-}
+```
 
+```java
 public void signIn() {
     AWSMobileClient.getInstance().signIn(username, password, null, new Callback<SignInResult>() {
         @Override
@@ -1581,7 +1582,7 @@ public void signIn() {
 
 public void confirmSignIn() {
     Map<String, String> res = new HashMap<String, String>();
-    res.put(CognitoServiceConstants.CHLG_RESP_ANSWER, "1133");
+    res.put(CognitoServiceConstants.CHLG_RESP_ANSWER, "<CHALLENGE_RESPONSE>");
     AWSMobileClient.getInstance().confirmSignIn(res, new Callback<SignInResult>() {
         @Override
         public void onResult(final SignInResult signInResult) {
@@ -1619,16 +1620,16 @@ public void confirmSignIn() {
 
 Here is the sample for creating a CAPTCHA challenge with a Lambda Trigger.
 
-The `Create Auth Challenge Lambda Trigger` creates a CAPTCHA as a challenge to the user. The URL for the CAPTCHA image and  the expected answer is added to the private challenge parameters:
+The `Create Auth Challenge Lambda Trigger` creates a CAPTCHA as a challenge to the user. The URL for the CAPTCHA image and the expected answer is added to the private challenge parameters:
 
 ```javascript
 export const handler = async (event) => {
     if (!event.request.session || event.request.session.length === 0) {
         event.response.publicChallengeParameters = {
-            captchaUrl: "url/123.jpg",
+            captchaUrl: "/path/to/captchaService/image.jpeg",
         };
         event.response.privateChallengeParameters = {
-            answer: "5",
+            answer: "<CHALLENGE_RESPONSE>",
         };
         event.response.challengeMetadata = "CAPTCHA_CHALLENGE";
     }
