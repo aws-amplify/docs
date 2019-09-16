@@ -1248,6 +1248,20 @@ type Todo
 }
 ```
 
+You can also combine top-level @auth rules on the type with field level auth rules. For example, let's consider the following schema:
+
+```graphql
+type Todo
+  @model @auth(rules: [{allow: groups, groups: ["Admin"], operations:[update] }]
+{
+  id: ID! 
+  updatedAt: AWSDateTime! 
+  content: String! @auth(rules: [{ allow: owner, operations: [update] }])
+}
+```
+In the above schema users in the `Admin` group have the authorization to create, read, delete and update (except the `content` field in the object of another owner) for the type Todo.
+An `owner` of an object, has the authorization to create Todo types and read all the objects of type Todo. In addition an `owner` can perform an update operation on the Todo object, only when the `content` field is present as a part of the input.
+Any other user - who isn't an owner of an object isn't authorized to update that object.
 
 ##### Per-Field with Subscriptions
 
