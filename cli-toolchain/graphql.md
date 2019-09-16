@@ -647,8 +647,8 @@ type Todo
 }
 ```
 
-In this schema, only the owner of the object has the authorization to perform read (getTodo and listTodos) operations on the owner created object. But this does not prevent any other owner to update/delete some other owner's object. 
-Here's a truth table for the above-mentioned schema:
+In this schema, only the owner of the object has the authorization to perform read (getTodo and listTodos) operations on the owner created object. But this does not prevent any other owner (any user other than the creator or owner of the object) to update/delete some other owner's object. 
+Here's a truth table for the above-mentioned schema. In the table below `other` refers to any user other than the creator or owner of the object.
 
 |       | getTodo | listTodo | createTodo | updateTodo | deleteTodo |
 |-------|---------|----------|------------|------------|------------|
@@ -668,7 +668,7 @@ type Todo
 }
 ```
 
-Here's a truth table for the above-mentioned schema:
+Here's a truth table for the above-mentioned schema. In the table below `other` refers to any user other than the creator or owner of the object.
 
 |       | getTodo | listTodo | createTodo | updateTodo | deleteTodo |
 |-------|---------|----------|------------|------------|------------|
@@ -1236,7 +1236,7 @@ type Todo
 }
 ```
 
-In this schema, only the owner of the object has the authorization to perform update operations on the `content` field. But this does not prevent any other owner to update some other field in the object owned by another user. If you want to prevent update operations on a field, the user would need to explictly add auth rules to restrict access to that field. One of the ways would be to explictly specify @auth rules on the fields that you would want to protect like the following:
+In this schema, only the owner of the object has the authorization to perform update operations on the `content` field. But this does not prevent any other owner (any user other than the creator or owner of the object) to update some other field in the object owned by another user. If you want to prevent update operations on a field, the user would need to explictly add auth rules to restrict access to that field. One of the ways would be to explictly specify @auth rules on the fields that you would want to protect like the following:
 
 ```graphql
 type Todo 
@@ -1244,6 +1244,17 @@ type Todo
 {
   id: ID! 
   updatedAt: AWSDateTime! @auth(rules: [{ allow: owner, operations: [update] }]) // or @auth(rules: [{ allow: groups, groups: ["Admins"] }])
+  content: String! @auth(rules: [{ allow: owner, operations: [update] }])
+}
+```
+You can also provide explicit deny rules to your field like the following:
+
+```graphql
+type Todo 
+  @model
+{
+  id: ID! 
+  updatedAt: AWSDateTime! @auth(rules: [{ allow: groups, groups: ["ForbiddenGroup"] }])
   content: String! @auth(rules: [{ allow: owner, operations: [update] }])
 }
 ```
