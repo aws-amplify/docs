@@ -1228,7 +1228,7 @@ to protecting the update mutation such that the field cannot be set to null unle
 
 ```graphql
 type Todo
-  @model @auth(rules: [{allow: groups, groups: ["Admin"], operations:[update] }]
+  @model
 {
   id: ID! 
   updatedAt: AWSDateTime! 
