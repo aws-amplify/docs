@@ -650,7 +650,7 @@ type Todo
 In this schema, only the owner of the object has the authorization to perform read (getTodo and listTodos) operations on the owner created object. But this does not prevent any other owner (any user other than the creator or owner of the object) to update/delete some other owner's object. 
 Here's a truth table for the above-mentioned schema. In the table below `other` refers to any user other than the creator or owner of the object.
 
-|       | getTodo | listTodo | createTodo | updateTodo | deleteTodo |
+|       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
 |-------|---------|----------|------------|------------|------------|
 | owner |    ✅    |     ✅    |      ✅     |      ✅     |      ✅     |
 | other |    ❌    |     ❌    |      ✅     |      ✅     |      ✅     |
@@ -670,7 +670,7 @@ type Todo
 
 Here's a truth table for the above-mentioned schema. In the table below `other` refers to any user other than the creator or owner of the object.
 
-|       | getTodo | listTodo | createTodo | updateTodo | deleteTodo |
+|       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
 |-------|---------|----------|------------|------------|------------|
 | owner |    ✅    |     ✅    |      ✅     |      ✅     |      ✅     |
 | other |    ❌    |     ❌    |      ✅     |      ❌     |      ❌     |
