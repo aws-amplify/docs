@@ -72,7 +72,6 @@ Use the following steps to connect add push notification backend services to you
 1. Classes that call Amazon Pinpoint APIs must use the following import statements:
 
     ```
-    import AWSCore
     import AWSPinpoint
     import AWSMobileClient
     ```
@@ -104,11 +103,11 @@ Use the following steps to connect add push notification backend services to you
               }
             }
         
-        // Initialize Pinpoint
+            // Initialize Pinpoint
             let pinpointConfiguration = AWSPinpointConfiguration.defaultPinpointConfiguration(launchOptions: launchOptions)
             pinpoint = AWSPinpoint(configuration: pinpointConfiguration)
             /** end code copy **/
-        return true
+            return true
        }
     }
     ```
