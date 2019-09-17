@@ -102,7 +102,7 @@ Use the following steps to connect add push notification backend services to you
                 print("AWSMobileClient initialized. Current UserState: \(userState.rawValue)")
               }
             }
-        
+
             // Initialize Pinpoint
             let pinpointConfiguration = AWSPinpointConfiguration.defaultPinpointConfiguration(launchOptions: launchOptions)
             pinpoint = AWSPinpoint(configuration: pinpointConfiguration)
@@ -183,9 +183,9 @@ The following steps show how to receive push notifications targeted for your app
 
     ```swift
     import UserNotifications
- 
+
     // Other imports...
- 
+
     class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Other app delegate methods...
