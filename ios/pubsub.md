@@ -48,7 +48,7 @@ let iotEndPoint = AWSEndpoint(
 let iotDataConfiguration = AWSServiceConfiguration(
     region: AWSRegionType.<YOUR-AWS-REGION>,
     endpoint: iotEndPoint,
-    credentialsProvider: AWSMobileClient.sharedInstance()
+    credentialsProvider: AWSMobileClient.default()
 )
 
 AWSIoTDataManager.register(with: iotDataConfiguration!, forKey: "MyAWSIoTDataManager")
@@ -72,7 +72,7 @@ Go to IoT Core and choose *Secure* from the left navigation pane. Then navigate 
 To attach the policy to your *Cognito Identity*, begin by retrieving the `Cognito Identity Id` from `AWSMobileClient`.
 
 ```swift
-AWSMobileClient.sharedInstance().getIdentityId();
+AWSMobileClient.default().getIdentityId();
 ```
 
 Then, you need to attach the `myIOTPolicy` policy to the user's *Cognito Identity Id* with the following [AWS CLI](https://aws.amazon.com/cli/) command:

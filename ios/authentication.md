@@ -37,7 +37,7 @@ The AWSMobileClient manages your application session for authentication related 
 This allows you to write workflows in your application based on the state of the user and what you would like to present on different screens. The `AWSMobileClient` also offers realtime notifications on user state changes which you can register for in your application using `.addUserStateListener` as in the code below.
 
 ```swift
-AWSMobileClient.sharedInstance().addUserStateListener(self) { (userState, info) in
+AWSMobileClient.default().addUserStateListener(self) { (userState, info) in
             switch (userState) {
             case .guest:
                 print("user is in guest mode.")
@@ -62,10 +62,10 @@ AWSMobileClient.sharedInstance().addUserStateListener(self) { (userState, info) 
 #### Cognito User Pool tokens
 The `AWSMobileClient` will return valid JWT tokens from your cache immediately if they have not expired. If they have expired it will look for a **Refresh** token in the cache. If it is available and not expired it will be used to fetch a valid **IdToken** and **AccessToken** and store them in the cache.
 
-If the Refresh tokens have expired and you then make call to any AWS service, such as a AppSync GraphQL request or S3 upload, the `AWSMobileClient` will dispatch a state notification that a re-login is required. At this point you can choose to present the user with a login screen, call `AWSMobileClient.sharedInstance().signIn()`, or perform custom business logic. For example:
+If the Refresh tokens have expired and you then make call to any AWS service, such as a AppSync GraphQL request or S3 upload, the `AWSMobileClient` will dispatch a state notification that a re-login is required. At this point you can choose to present the user with a login screen, call `AWSMobileClient.default().signIn()`, or perform custom business logic. For example:
 
 ```swift
-AWSMobileClient.sharedInstance().addUserStateListener(self) { (userState, info) in
+AWSMobileClient.default().addUserStateListener(self) { (userState, info) in
             
             switch (userState) {
             case .signedOut:
@@ -73,7 +73,7 @@ AWSMobileClient.sharedInstance().addUserStateListener(self) { (userState, info) 
                 print("user signed out")
             case .signedOutUserPoolsTokenInvalid:
                 print("need to login again.")
-                AWSMobileClient.sharedInstance().signIn(username: "username", password: "password", completionHandler: { (res, err) in
+                AWSMobileClient.default().signIn(username: "username", password: "password", completionHandler: { (res, err) in
                     //...
                 });
                 //Alternatively call .showSignIn()
@@ -194,7 +194,7 @@ import AWSMobileClient
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        AWSMobileClient.sharedInstance().initialize { (userState, error) in
+        AWSMobileClient.default().initialize { (userState, error) in
             if let userState = userState {
                 print("UserState: \(userState.rawValue)")
             } else if let error = error {
@@ -211,7 +211,7 @@ Build and run your program to see the initialized client in Xcode messages. Sinc
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        AWSMobileClient.sharedInstance().initialize { (userState, error) in
+        AWSMobileClient.default().initialize { (userState, error) in
             if let userState = userState {
                 switch(userState){
                 case .signedIn:
@@ -219,7 +219,7 @@ Build and run your program to see the initialized client in Xcode messages. Sinc
                             self.signInStateLabel.text = "Logged In"
                     }
                 case .signedOut:
-                    AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigationController!, { (userState, error) in
+                    AWSMobileClient.default().showSignIn(navigationController: self.navigationController!, { (userState, error) in
                             if(error == nil){       //Successful signin
                                 DispatchQueue.main.async {
                                     self.signInStateLabel.text = "Logged In"
@@ -227,7 +227,7 @@ Build and run your program to see the initialized client in Xcode messages. Sinc
                             }
                         })
                 default:
-                    AWSMobileClient.sharedInstance().signOut()
+                    AWSMobileClient.default().signOut()
                 }
                 
             } else if let error = error {
@@ -252,7 +252,7 @@ If you login in your app either using the [Drop-In Auth](#dropinui) or the [dire
 The `AWSMobileClient` client supports easy "drop-in" UI for your application. You can add drop-in Auth UI like so:
 
 ```swift
-AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigationController!, { (signInState, error) in
+AWSMobileClient.default().showSignIn(navigationController: self.navigationController!, { (signInState, error) in
     if let signInState = signInState {
         print("Sign in flow completed: \(signInState)")
     } else if let error = error {
@@ -270,7 +270,7 @@ Currently, you can change the following properties of the drop-in UI with the `A
 - Background Color: Any iOS UIColor
 
 ```swift
-AWSMobileClient.sharedInstance()
+AWSMobileClient.default()
     .showSignIn(navigationController: self.navigationController!,
                      signInUIOptions: SignInUIOptions(
                            canCancel: false,
@@ -289,7 +289,7 @@ You can also dismiss the sign in process by setting the `canCancel` property.
 Creates a new user in your User Pool:
 
 ```swift
-AWSMobileClient.sharedInstance().signUp(username: "your_username",
+AWSMobileClient.default().signUp(username: "your_username",
                                         password: "Abc@123!",
                                         userAttributes: ["email":"john@doe.com", "phone_number": "+1973123456"]) { (signUpResult, error) in
     if let signUpResult = signUpResult {
@@ -320,7 +320,7 @@ AWSMobileClient.sharedInstance().signUp(username: "your_username",
 You can provide custom user attributes in the `signUp()` method by passing them into the `userAttributes` argument as key-value pairs. For instance if you had a `nickname` or a `badge_number` in your Cognito User Pool:
 
 ```swift
-AWSMobileClient.sharedInstance().signUp(
+AWSMobileClient.default().signUp(
     username: "your_username",
     password: "Abc@123!",
     userAttributes: ["nickname":"Johnny", "badge_number": "ABC123XYZ"]) { (signUpResult, error) in
@@ -333,7 +333,7 @@ AWSMobileClient.sharedInstance().signUp(
 Confirms a new user after signing up in a User Pool:
 
 ```swift
-AWSMobileClient.sharedInstance().confirmSignUp(username: "your_username", confirmationCode: signUpCodeTextField.text!) { (signUpResult, error) in
+AWSMobileClient.default().confirmSignUp(username: "your_username", confirmationCode: signUpCodeTextField.text!) { (signUpResult, error) in
     if let signUpResult = signUpResult {
         switch(signUpResult.signUpConfirmationState) {
         case .confirmed:
@@ -352,7 +352,7 @@ AWSMobileClient.sharedInstance().confirmSignUp(username: "your_username", confir
 ### Re-send Confirmation Code
 
 ```swift
-AWSMobileClient.sharedInstance().resendSignUpCode(username: "your_username", completionHandler: { (result, error) in
+AWSMobileClient.default().resendSignUpCode(username: "your_username", completionHandler: { (result, error) in
     if let signUpResult = result {
         print("A verification code has been sent via \(signUpResult.codeDeliveryDetails!.deliveryMedium) at \(signUpResult.codeDeliveryDetails!.destination!)")
     } else if let error = error {
@@ -366,7 +366,7 @@ AWSMobileClient.sharedInstance().resendSignUpCode(username: "your_username", com
 Sign in with user credentials:
 
 ```swift
-AWSMobileClient.sharedInstance().signIn(username: "your_username", password: "Abc@123!") { (signInResult, error) in
+AWSMobileClient.default().signIn(username: "your_username", password: "Abc@123!") { (signInResult, error) in
     if let error = error  {
         print("\(error.localizedDescription)")
     } else if let signInResult = signInResult {
@@ -385,7 +385,7 @@ AWSMobileClient.sharedInstance().signIn(username: "your_username", password: "Ab
 ### Confirm SignIn
 
 ```swift
-AWSMobileClient.sharedInstance().confirmSignIn(challengeResponse: "code_here") { (signInResult, error) in
+AWSMobileClient.default().confirmSignIn(challengeResponse: "code_here") { (signInResult, error) in
     if let error = error  {
         print("\(error.localizedDescription)")
     } else if let signInResult = signInResult {
@@ -404,7 +404,7 @@ AWSMobileClient.sharedInstance().confirmSignIn(challengeResponse: "code_here") {
 If a user is required to change their password on first login, there is a `newPasswordRequired` state returned when `signIn` is called. You need to provide a new password given by the user in that case. It can be done using `confirmSignIn` with the new password.
 
 ```swift
-AWSMobileClient.sharedInstance().signIn(username: "abc123", password: "Abc123!@") { (signInResult, error) in
+AWSMobileClient.default().signIn(username: "abc123", password: "Abc123!@") { (signInResult, error) in
     if let signInResult = signInResult {
         switch(signInResult.signInState) {
         case .signedIn:
@@ -421,7 +421,7 @@ AWSMobileClient.sharedInstance().signIn(username: "abc123", password: "Abc123!@"
     }
 }
 
-AWSMobileClient.sharedInstance().confirmSignIn(challengeResponse: "NEW_PASSWORD_HERE") { (signInResult, error) in
+AWSMobileClient.default().confirmSignIn(challengeResponse: "NEW_PASSWORD_HERE") { (signInResult, error) in
     if let signInResult = signInResult {
         switch(signInResult.signInState) {
         case .signedIn:
@@ -440,7 +440,7 @@ AWSMobileClient.sharedInstance().confirmSignIn(challengeResponse: "NEW_PASSWORD_
 ### SignOut
 
 ```swift
-AWSMobileClient.sharedInstance().signOut()
+AWSMobileClient.default().signOut()
 ```
 
 ### Global SignOut
@@ -448,7 +448,7 @@ AWSMobileClient.sharedInstance().signOut()
 Using global signout, you can signout a user from all active login sessions. By doing this, you are revoking all the OIDC tokens(id token, access token and refresh token) which means the user is signed out from all the devices. However, although the tokens are revoked, the AWS credentials will remain valid until they expire (which by default is 1 hour).
 
 ```swift
-AWSMobileClient.sharedInstance().signOut(options: SignOutOptions(signOutGlobally: true)) { (error) in
+AWSMobileClient.default().signOut(options: SignOutOptions(signOutGlobally: true)) { (error) in
     print("Error: \(error.debugDescription)")
 }
 ```
@@ -458,7 +458,7 @@ AWSMobileClient.sharedInstance().signOut(options: SignOutOptions(signOutGlobally
 Forgot password is a 2 step process. You need to first call `forgotPassword()` method which would send a confirmation code to user via email or phone number. The details of how the code was sent are included in the response of `forgotPassword()`. Once the code is given by the user, you need to call `confirmForgotPassword()` with the confirmation code to confirm the change of password.
 
 ```swift
-AWSMobileClient.sharedInstance().forgotPassword(username: "my_username") { (forgotPasswordResult, error) in
+AWSMobileClient.default().forgotPassword(username: "my_username") { (forgotPasswordResult, error) in
     if let forgotPasswordResult = forgotPasswordResult {
         switch(forgotPasswordResult.forgotPasswordState) {
         case .confirmationCodeSent:
@@ -473,7 +473,7 @@ AWSMobileClient.sharedInstance().forgotPassword(username: "my_username") { (forg
 ```
 
 ```swift
-AWSMobileClient.sharedInstance().confirmForgotPassword(username: "my_username", newPassword: "MyNewPassword123!!", confirmationCode: "ConfirmationCode") { (forgotPasswordResult, error) in
+AWSMobileClient.default().confirmForgotPassword(username: "my_username", newPassword: "MyNewPassword123!!", confirmationCode: "ConfirmationCode") { (forgotPasswordResult, error) in
     if let forgotPasswordResult = forgotPasswordResult {
         switch(forgotPasswordResult.forgotPasswordState) {
         case .done:
@@ -492,9 +492,9 @@ AWSMobileClient.sharedInstance().confirmForgotPassword(username: "my_username", 
 The `AWSMobileClient` provides several property "helpers" that are automatically cached locally for you to use in your application.
 
 ```swift
-AWSMobileClient.sharedInstance().username       //String
-AWSMobileClient.sharedInstance().isSignedIn     //Boolean
-AWSMobileClient.sharedInstance().identityId     //String
+AWSMobileClient.default().username       //String
+AWSMobileClient.default().isSignedIn     //Boolean
+AWSMobileClient.default().identityId     //String
 ```
 
 > Note: The property `username` is available only when using username-password based auth. The property `identityId` is available only when federation is enabled in `CognitoIdentityPool`.
@@ -506,7 +506,7 @@ AWSMobileClient.sharedInstance().identityId     //String
 #### OIDC Tokens
 
 ```swift
-AWSMobileClient.sharedInstance().getTokens { (tokens, error) in
+AWSMobileClient.default().getTokens { (tokens, error) in
     if let error = error {
         print("Error getting token \(error.localizedDescription)")
     } else if let tokens = tokens {
@@ -518,7 +518,7 @@ AWSMobileClient.sharedInstance().getTokens { (tokens, error) in
 #### AWS Credentials
 
 ```swift
-AWSMobileClient.sharedInstance().getAWSCredentials { (credentials, error) in
+AWSMobileClient.default().getAWSCredentials { (credentials, error) in
     if let error = error {
         print("\(error.localizedDescription)")
     } else if let credentials = credentials {
@@ -536,7 +536,7 @@ Currently, the federation feature in the AWSMobileClient supports Cognito Identi
 ### Federated Sign In
 
 ```swift
-AWSMobileClient.sharedInstance().federatedSignIn(providerName: IdentityProvider.facebook.rawValue, token: "FACEBOOK_TOKEN_HERE") { (userState, error)  in
+AWSMobileClient.default().federatedSignIn(providerName: IdentityProvider.facebook.rawValue, token: "FACEBOOK_TOKEN_HERE") { (userState, error)  in
     if let error = error {
         print("Federated Sign In failed: \(error.localizedDescription)")
     }
@@ -549,14 +549,14 @@ The API calls to get AWS credentials will be asynchronously blocked until you fe
 
 #### SAML with Cognito Identity
 
-To federate your SAML sign-in provider as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.sharedInstance().federatedSignIn()`. 
+To federate your SAML sign-in provider as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.default().federatedSignIn()`. 
 You must first register your SAML application with AWS IAM by using the the following [instructions](https://docs.aws.amazon.com/cognito/latest/developerguide/saml-identity-provider.html). 
 
 Once you retrieve the SAML tokens from your login, you can call the `federatedSignIn` API in `AWSMobileClient`:
 
 ```swift
 // Perform SAML token federation
-AWSMobileClient.sharedInstance().federatedSignIn(providerName: "YOUR_SAML_PROVIDER_NAME",
+AWSMobileClient.default().federatedSignIn(providerName: "YOUR_SAML_PROVIDER_NAME",
                                                     token: "YOUR_SAML_TOKEN") { (userState, error) in
     if let error = error as? AWSMobileClientError {
         print(error.localizedDescription)
@@ -577,7 +577,7 @@ If the SAML token contains more than one Role ARN, you will need to specify whic
 val options = FederatedSignInOptions(customRoleARN: "choose-one")
 
 // Perform SAML token federation
-AWSMobileClient.sharedInstance().federatedSignIn(providerName: "YOUR_SAML_PROVIDER_NAME",
+AWSMobileClient.default().federatedSignIn(providerName: "YOUR_SAML_PROVIDER_NAME",
                                                         token: "YOUR_SAML_TOKEN"
                                        federatedSignInOptions: options) { (userState, error) in
     if let error = error as? AWSMobileClientError {
@@ -591,7 +591,7 @@ AWSMobileClient.sharedInstance().federatedSignIn(providerName: "YOUR_SAML_PROVID
 
 #### Facebook with Cognito Identity
 
-To federate Facebook as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.sharedInstance().federatedSignIn()`. You must first register your application with Facebook by using the [Facebook Developers portal](https://developers.facebook.com/) and configure this with Amazon Cognito Identity Pools.
+To federate Facebook as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.default().federatedSignIn()`. You must first register your application with Facebook by using the [Facebook Developers portal](https://developers.facebook.com/) and configure this with Amazon Cognito Identity Pools.
 
 AWS Amplify helps set this up for you but first this topic explains how to set up Facebook as an identity provider for your app.
 
@@ -681,7 +681,7 @@ Note that the CLI allows you to select more than one identity provider for your 
 
 #### Google with Cognito Identity
 
-To federate Google as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.sharedInstance().federatedSignIn()`. You must first register your application with Google Sign-In in the Google Developers Console, and then configure this with Amazon Cognito Identity Pools.
+To federate Google as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.default().federatedSignIn()`. You must first register your application with Google Sign-In in the Google Developers Console, and then configure this with Amazon Cognito Identity Pools.
 
 To implement Google Sign-in into your iOS app, you need two things: 
 
@@ -739,7 +739,7 @@ Then, once the end-user has authenticated with you, the app should receive a Cog
 The app will federate your sign-in with Cognito Identity to receive AWS credentials by making the following call.
 
 ```swift
-AWSMobileClient.sharedInstance().federatedSignIn(providerName: IdentityProvider.developer.rawValue,
+AWSMobileClient.default().federatedSignIn(providerName: IdentityProvider.developer.rawValue,
                                                         token: "YOUR_TOKEN",
                                        federatedSignInOptions: FederatedSignInOptions(cognitoIdentityId: identityId!)) { (userState, error) in
     if let error = error as? AWSMobileClientError {
@@ -1068,14 +1068,14 @@ Note: The User Pool OIDC JWT token obtained from a successful sign-in will be fe
 
 #### Launching the Hosted UI
 
-To launch the Hosted UI from from your application, you can use the `showSignIn` API of `AWSMobileClient.sharedInstance()`:
+To launch the Hosted UI from from your application, you can use the `showSignIn` API of `AWSMobileClient.default()`:
 
 ```swift
 // Optionally override the scopes based on the usecase.
 let hostedUIOptions = HostedUIOptions(scopes: ["openid", "email"])
 
 // Present the Hosted UI sign in.
-AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigationController!, hostedUIOptions: hostedUIOptions) { (userState, error) in
+AWSMobileClient.default().showSignIn(navigationController: self.navigationController!, hostedUIOptions: hostedUIOptions) { (userState, error) in
     if let error = error as? AWSMobileClientError {
         print(error.localizedDescription)
     }
@@ -1089,7 +1089,7 @@ AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigatio
 
 ```swift
 func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-    AWSMobileClient.sharedInstance().handleAuthResponse(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+    AWSMobileClient.default().handleAuthResponse(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
     return true
 }
 ```
@@ -1107,7 +1107,7 @@ let hostedUIOptions = HostedUIOptions(scopes: ["openid", "email"], identityProvi
 let hostedUIOptions = HostedUIOptions(scopes: ["openid", "email"], identityProvider: "Facebook")
 
 // Present the Hosted UI sign in.
-AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigationController!, hostedUIOptions: hostedUIOptions) { (userState, error) in
+AWSMobileClient.default().showSignIn(navigationController: self.navigationController!, hostedUIOptions: hostedUIOptions) { (userState, error) in
     if let error = error as? AWSMobileClientError {
         print(error.localizedDescription)
     }
@@ -1121,7 +1121,7 @@ AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigatio
 
 ```swift
 // Setting invalidateTokens: true will make sure the tokens are invalidated
-AWSMobileClient.sharedInstance().signOut(options: SignOutOptions(invalidateTokens: true)) { (error) in
+AWSMobileClient.default().signOut(options: SignOutOptions(invalidateTokens: true)) { (error) in
     print("Error: \(error.debugDescription)")
 }
 ```
@@ -1129,7 +1129,7 @@ AWSMobileClient.sharedInstance().signOut(options: SignOutOptions(invalidateToken
 If you want to sign out locally by just deleting tokens, you can call `signOut` method:
 
 ```swift
-AWSMobileClient.sharedInstance().signOut()
+AWSMobileClient.default().signOut()
 ```
 
 ### Using Auth0 Hosted UI 
@@ -1205,14 +1205,14 @@ This will allow users authenticated via Auth0 have access to your AWS resources.
 
 #### Launching the Hosted UI for Auth0
 
-To launch the Hosted UI from from your application, you can use the `showSignIn` API of `AWSMobileClient.sharedInstance()`:
+To launch the Hosted UI from from your application, you can use the `showSignIn` API of `AWSMobileClient.default()`:
 
 ```swift
 // Specify the scopes and federation provider name.
  let hostedUIOptions = HostedUIOptions(scopes: ["openid", "email"], federationProviderName: "YOUR_AUTH0_DOMAIN.auth0.com")
 
 // Present the Hosted UI sign in.
-AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigationController!, hostedUIOptions: hostedUIOptions) { (userState, error) in
+AWSMobileClient.default().showSignIn(navigationController: self.navigationController!, hostedUIOptions: hostedUIOptions) { (userState, error) in
     if let error = error as? AWSMobileClientError {
         print(error.localizedDescription)
     }
@@ -1222,7 +1222,7 @@ AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigatio
 }
 
 // Present the Hosted UI sign in.
-AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigationController!, hostedUIOptions: hostedUIOptions) { (userState, error) in
+AWSMobileClient.default().showSignIn(navigationController: self.navigationController!, hostedUIOptions: hostedUIOptions) { (userState, error) in
     if let error = error as? AWSMobileClientError {
         print(error.localizedDescription)
     }
@@ -1236,7 +1236,7 @@ AWSMobileClient.sharedInstance().showSignIn(navigationController: self.navigatio
 
 ```swift
 func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-    return AWSMobileClient.sharedInstance().handleAuthResponse(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+    return AWSMobileClient.default().handleAuthResponse(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
 }
 ```
 
@@ -1244,7 +1244,7 @@ func application(_ application: UIApplication, open url: URL, sourceApplication:
 
 ```swift
 // Setting invalidateTokens: true will make sure the tokens are invalidated
-AWSMobileClient.sharedInstance().signOut(options: SignOutOptions(invalidateTokens: true)) { (error) in
+AWSMobileClient.default().signOut(options: SignOutOptions(invalidateTokens: true)) { (error) in
     print("Error: \(error.debugDescription)")
 }
 ```
@@ -1252,7 +1252,7 @@ AWSMobileClient.sharedInstance().signOut(options: SignOutOptions(invalidateToken
 If you want to sign out locally by just deleting tokens, you can call `signOut` method:
 
 ```swift
-AWSMobileClient.sharedInstance().signOut()
+AWSMobileClient.default().signOut()
 ```
 
 ## Using Device Features
@@ -1284,7 +1284,7 @@ A not-remembered device is the flipside of being remembered, though the device i
 This option will mark the tracked device as `remembered`
 
 ```swift
-AWSMobileClient.sharedInstance().deviceOperations.updateStatus(remembered: true) { (result, error) in
+AWSMobileClient.default().deviceOperations.updateStatus(remembered: true) { (result, error) in
     // ...
 }
 ```
@@ -1294,7 +1294,7 @@ AWSMobileClient.sharedInstance().deviceOperations.updateStatus(remembered: true)
 This option will mark the tracked device as `not remembered`.
 
 ```swift
-AWSMobileClient.sharedInstance().deviceOperations.updateStatus(remembered: false) { (result, error) in
+AWSMobileClient.default().deviceOperations.updateStatus(remembered: false) { (result, error) in
     // ...
 }
 ```
@@ -1304,7 +1304,7 @@ AWSMobileClient.sharedInstance().deviceOperations.updateStatus(remembered: false
 This option will stop tracking the device altogether.
 
 ```swift
-AWSMobileClient.sharedInstance().deviceOperations.forget({ (error) in
+AWSMobileClient.default().deviceOperations.forget({ (error) in
     // ...
 })
 ```
@@ -1314,7 +1314,7 @@ AWSMobileClient.sharedInstance().deviceOperations.forget({ (error) in
 ### Get Device Details
 
 ```swift
-AWSMobileClient.sharedInstance().deviceOperations.get { (device, error) in
+AWSMobileClient.default().deviceOperations.get { (device, error) in
     guard error == nil else {
         print(error!.localizedDescription)
         return
@@ -1329,7 +1329,7 @@ AWSMobileClient.sharedInstance().deviceOperations.get { (device, error) in
 ### List Devices
 
 ```swift
-AWSMobileClient.sharedInstance().deviceOperations.list(limit: 60) { (result, error) in
+AWSMobileClient.default().deviceOperations.list(limit: 60) { (result, error) in
     guard error == nil else {
         print(error!.localizedDescription)
         return

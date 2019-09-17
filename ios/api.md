@@ -388,7 +388,7 @@ Add the following code to your app:
                                                                   userPoolsAuthProvider: {
                                                                     class MyCognitoUserPoolsAuthProvider : AWSCognitoUserPoolsAuthProviderAsync {
                                                                         func getLatestAuthToken(_ callback: @escaping (String?, Error?) -> Void) {
-                                                                            AWSMobileClient.sharedInstance().getTokens { (tokens, error) in
+                                                                            AWSMobileClient.default().getTokens { (tokens, error) in
                                                                                 if error != nil {
                                                                                     callback(nil, error)
                                                                                 } else {
@@ -438,7 +438,7 @@ Add the following code to your app:
 do {
     // Initialize the AWS AppSync configuration
     let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
-							  credentialsProvider: AWSMobileClient.sharedInstance(),
+							  credentialsProvider: AWSMobileClient.default(),
 							  cacheConfiguration: AWSAppSyncCacheConfiguration())
     
     // Initialize the AWS AppSync client
@@ -1021,7 +1021,7 @@ import AWSMobileClient
 
         // Create a service configuration
         let serviceConfiguration = AWSServiceConfiguration(region: AWSRegionType.USEast1,
-              credentialsProvider: AWSMobileClient.sharedInstance())
+              credentialsProvider: AWSMobileClient.default())
 
         // Initialize the API client using the service configuration
         xyz123useamplifyabcdClient.registerClient(withConfiguration: serviceConfiguration!, forKey: "CloudLogicAPIKey")
@@ -1057,7 +1057,7 @@ When invoking an API Gateway endpoint with Cognito User Pools authorizer, you ca
 ```swift
 //New overloaded function that gets Cognito User Pools tokens
 func doInvokeAPI(){
-    AWSMobileClient.sharedInstance().getTokens { (tokens, err) in
+    AWSMobileClient.default().getTokens { (tokens, err) in
         self.doInvokeAPI(token: tokens!.idToken!.tokenString!)
     }
 }
