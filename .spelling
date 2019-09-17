@@ -441,6 +441,11 @@ ByStatus
 Pre
 Auth.currentAuthenticatedUser
 AWSMobileClient.sharedInstance
+getTodo
+listTodos
+createTodo
+updateTodo
+deleteTodo
 
 # cli-toolchain/cognito-triggers.md
 Lambda
