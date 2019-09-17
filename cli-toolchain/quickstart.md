@@ -269,7 +269,7 @@ Behind the scenes, the CLI automates populating of the resource identifiers for 
 
 #### GraphQL from Lambda
 
-You can use a Lambda function to call your GraphQL API, however at this time you must modify your AppSync schema after deploying the API. For example, deploy a simple `Todo` model with the following schema in the `amplify add api` flow:
+You can use a Lambda function to call your GraphQL API. For example, deploy a simple `Todo` model with the following schema in the `amplify add api` flow:
 
 ```
 type Todo @model @auth (

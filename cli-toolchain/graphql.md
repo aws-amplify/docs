@@ -634,6 +634,51 @@ You can use the *operations* argument to specify which operations are augmented 
 - **update**: Add conditional update that checks the stored *ownerField* is the same as `$ctx.identity.username`.
 - **delete**: Add conditional update that checks the stored *ownerField* is the same as `$ctx.identity.username`.
 
+**Note**: When specifying operations as a part of the @auth rule, the operations not included in the list are not protected by default. For example, let's say you have the following schema:
+
+```graphql
+type Todo
+  @model
+  @auth(rules: [{ allow: owner, operations: [read] }])
+{
+  id: ID!
+  updatedAt: AWSDateTime! 
+  content: String!
+}
+```
+
+In this schema, only the owner of the object has the authorization to perform read (getTodo and listTodos) operations on the owner created object. But this does not prevent any other owner (any user other than the creator or owner of the object) to update/delete some other owner's object. 
+Here's a truth table for the above-mentioned schema. In the table below `other` refers to any user other than the creator or owner of the object.
+
+|       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
+|-------|---------|----------|------------|------------|------------|
+| owner |    ✅    |     ✅    |      ✅     |      ✅     |      ✅     |
+| other |    ❌    |     ❌    |      ✅     |      ✅     |      ✅     |
+
+If you want to prevent updates and deletes operations, you would need to modify the @auth rule to explicitly include the `update` and `delete` operation and your schema should look like the following:
+
+```graphql
+type Todo
+  @model
+  @auth(rules: [{ allow: owner, operations: [read, update, delete] }])
+{
+  id: ID! 
+  updatedAt: AWSDateTime! 
+  content: String!
+}
+```
+
+Here's a truth table for the above-mentioned schema. In the table below `other` refers to any user other than the creator or owner of the object.
+
+|       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
+|-------|---------|----------|------------|------------|------------|
+| owner |    ✅    |     ✅    |      ✅     |      ✅     |      ✅     |
+| other |    ❌    |     ❌    |      ✅     |      ❌     |      ❌     |
+
+
+
+
+
 You may also apply multiple ownership rules on a single `@model` type. For example, imagine you have a type **Draft**
 that stores unfinished posts for a blog. You might want to allow the **Draft's owner** to create, update, delete, and
 read **Draft** objects. However, you might also want the **Draft's editors** to be able to update and read **Draft** objects.
@@ -657,6 +702,7 @@ type Draft
     editors: [String]!
 }
 ```
+
 
 #### Ownership with create mutations
 
@@ -1177,6 +1223,56 @@ type Employee @model {
 
 **Note** The `delete` operation, when used in @auth directives on field definitions, translates
 to protecting the update mutation such that the field cannot be set to null unless authorized.
+
+**Note**: When specifying operations as a part of the @auth rule on a field, the operations not included in the operations list are not protected by default. For example, let's say you have the following schema:
+
+```graphql
+type Todo
+  @model
+{
+  id: ID! 
+  updatedAt: AWSDateTime! 
+  content: String! @auth(rules: [{ allow: owner, operations: [update] }])
+}
+```
+
+In this schema, only the owner of the object has the authorization to perform update operations on the `content` field. But this does not prevent any other owner (any user other than the creator or owner of the object) to update some other field in the object owned by another user. If you want to prevent update operations on a field, the user would need to explicitly add auth rules to restrict access to that field. One of the ways would be to explicitly specify @auth rules on the fields that you would want to protect like the following:
+
+```graphql
+type Todo 
+  @model
+{
+  id: ID! 
+  updatedAt: AWSDateTime! @auth(rules: [{ allow: owner, operations: [update] }]) // or @auth(rules: [{ allow: groups, groups: ["Admins"] }])
+  content: String! @auth(rules: [{ allow: owner, operations: [update] }])
+}
+```
+You can also provide explicit deny rules to your field like the following:
+
+```graphql
+type Todo 
+  @model
+{
+  id: ID! 
+  updatedAt: AWSDateTime! @auth(rules: [{ allow: groups, groups: ["ForbiddenGroup"] }])
+  content: String! @auth(rules: [{ allow: owner, operations: [update] }])
+}
+```
+
+You can also combine top-level @auth rules on the type with field level auth rules. For example, let's consider the following schema:
+
+```graphql
+type Todo
+  @model @auth(rules: [{allow: groups, groups: ["Admin"], operations:[update] }]
+{
+  id: ID! 
+  updatedAt: AWSDateTime! 
+  content: String! @auth(rules: [{ allow: owner, operations: [update] }])
+}
+```
+In the above schema users in the `Admin` group have the authorization to create, read, delete and update (except the `content` field in the object of another owner) for the type Todo.
+An `owner` of an object, has the authorization to create Todo types and read all the objects of type Todo. In addition an `owner` can perform an update operation on the Todo object, only when the `content` field is present as a part of the input.
+Any other user - who isn't an owner of an object isn't authorized to update that object.
 
 ##### Per-Field with Subscriptions
 
