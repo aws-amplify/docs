@@ -2291,13 +2291,13 @@ You should have newly generated GraphQL statements and Swift code that matches t
 
 **Flow 5: Introspection Schema outside of an initialized project**
 
-If you would like to generate statements and types without initializing an amplify project, you can do so by providing your introspection schema named `schema.json` in your project directory and adding codegen from the same directory.
+If you would like to generate statements and types without initializing an amplify project, you can do so by providing your introspection schema named `schema.json` in your project directory and adding codegen from the same directory. To download your introspection schema from an AppSync api, in the AppSync console go to the schema editor and under "Export schema" choose `schema.json`.
 
 ```bash
 $amplify add codegen
 ```
 
-Once codegen has been added, you can update your introspection schema and generate statements and types again without re-entering your project information. 
+Once codegen has been added you can update your introspection schema, then generate statements and types again without re-entering your project information.
 
 ```bash
 $amplify codegen
