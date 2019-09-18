@@ -7,6 +7,7 @@ aws-amplify-angular
 @aws-amplify/auth
 @aws-amplify/storage
 aws-mobile-appsync-sdk-ios
+apiKey
 App.vue
 app.js
 authMode
@@ -50,6 +51,7 @@ github
 HOCs
 installable
 i.e.
+iam
 ios
 item.class.ts
 index.js
@@ -65,6 +67,7 @@ NoteTitle
 NoteContent
 npm
 node.js
+oidc
 onPick
 pre-signed
 pre-built
@@ -107,6 +110,7 @@ isSceneLoaded
 isMuted
 autoplay
 screencap
+userPools
 unpublish
 withAuthenticator
 webview
@@ -437,6 +441,11 @@ ByStatus
 Pre
 Auth.currentAuthenticatedUser
 AWSMobileClient.sharedInstance
+getTodo
+listTodos
+createTodo
+updateTodo
+deleteTodo
 
 # cli-toolchain/cognito-triggers.md
 Lambda
@@ -847,29 +856,29 @@ CocoaLumberjack
 AWSCore
 DocSets
 macOS
-AWSAuth 
-AWSAuthCore 
-AWSAuthUI 
-AWSAutoScaling 
-AWSCloudWatch 
-AWSCognito 
-AWSCognitoAuth 
-AWSCognitoIdentityProvider 
-AWSCognitoIdentityProviderASF 
-AWSDynamoDB 
-AWSElasticLoadBalancing 
-AWSFacebookSignIn 
-AWSGoogleSignIn 
-AWSIoT 
-AWSKinesis 
-AWSLambda 
-AWSLex 
-AWSLogs 
-AWSMachineLearning 
-AWSPinpoint 
-AWSPolly 
-AWSRekognition 
-AWSSimpleDB 
+AWSAuth
+AWSAuthCore
+AWSAuthUI
+AWSAutoScaling
+AWSCloudWatch
+AWSCognito
+AWSCognitoAuth
+AWSCognitoIdentityProvider
+AWSCognitoIdentityProviderASF
+AWSDynamoDB
+AWSElasticLoadBalancing
+AWSFacebookSignIn
+AWSGoogleSignIn
+AWSIoT
+AWSKinesis
+AWSLambda
+AWSLex
+AWSLogs
+AWSMachineLearning
+AWSPinpoint
+AWSPolly
+AWSRekognition
+AWSSimpleDB
 AWSUserPoolsSignIn
 v2.7
 
