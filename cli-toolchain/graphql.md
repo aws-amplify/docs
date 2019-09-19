@@ -634,6 +634,51 @@ You can use the *operations* argument to specify which operations are augmented 
 - **update**: Add conditional update that checks the stored *ownerField* is the same as `$ctx.identity.username`.
 - **delete**: Add conditional update that checks the stored *ownerField* is the same as `$ctx.identity.username`.
 
+**Note**: When specifying operations as a part of the @auth rule, the operations not included in the list are not protected by default. For example, let's say you have the following schema:
+
+```graphql
+type Todo
+  @model
+  @auth(rules: [{ allow: owner, operations: [read] }])
+{
+  id: ID!
+  updatedAt: AWSDateTime! 
+  content: String!
+}
+```
+
+In this schema, only the owner of the object has the authorization to perform read (getTodo and listTodos) operations on the owner created object. But this does not prevent any other owner (any user other than the creator or owner of the object) to update/delete some other owner's object. 
+Here's a truth table for the above-mentioned schema. In the table below `other` refers to any user other than the creator or owner of the object.
+
+|       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
+|-------|---------|----------|------------|------------|------------|
+| owner |    ✅    |     ✅    |      ✅     |      ✅     |      ✅     |
+| other |    ❌    |     ❌    |      ✅     |      ✅     |      ✅     |
+
+If you want to prevent updates and deletes operations, you would need to modify the @auth rule to explicitly include the `update` and `delete` operation and your schema should look like the following:
+
+```graphql
+type Todo
+  @model
+  @auth(rules: [{ allow: owner, operations: [read, update, delete] }])
+{
+  id: ID! 
+  updatedAt: AWSDateTime! 
+  content: String!
+}
+```
+
+Here's a truth table for the above-mentioned schema. In the table below `other` refers to any user other than the creator or owner of the object.
+
+|       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
+|-------|---------|----------|------------|------------|------------|
+| owner |    ✅    |     ✅    |      ✅     |      ✅     |      ✅     |
+| other |    ❌    |     ❌    |      ✅     |      ❌     |      ❌     |
+
+
+
+
+
 You may also apply multiple ownership rules on a single `@model` type. For example, imagine you have a type **Draft**
 that stores unfinished posts for a blog. You might want to allow the **Draft's owner** to create, update, delete, and
 read **Draft** objects. However, you might also want the **Draft's editors** to be able to update and read **Draft** objects.
@@ -657,6 +702,7 @@ type Draft
     editors: [String]!
 }
 ```
+
 
 #### Ownership with create mutations
 
@@ -1177,6 +1223,56 @@ type Employee @model {
 
 **Note** The `delete` operation, when used in @auth directives on field definitions, translates
 to protecting the update mutation such that the field cannot be set to null unless authorized.
+
+**Note**: When specifying operations as a part of the @auth rule on a field, the operations not included in the operations list are not protected by default. For example, let's say you have the following schema:
+
+```graphql
+type Todo
+  @model
+{
+  id: ID! 
+  updatedAt: AWSDateTime! 
+  content: String! @auth(rules: [{ allow: owner, operations: [update] }])
+}
+```
+
+In this schema, only the owner of the object has the authorization to perform update operations on the `content` field. But this does not prevent any other owner (any user other than the creator or owner of the object) to update some other field in the object owned by another user. If you want to prevent update operations on a field, the user would need to explicitly add auth rules to restrict access to that field. One of the ways would be to explicitly specify @auth rules on the fields that you would want to protect like the following:
+
+```graphql
+type Todo 
+  @model
+{
+  id: ID! 
+  updatedAt: AWSDateTime! @auth(rules: [{ allow: owner, operations: [update] }]) // or @auth(rules: [{ allow: groups, groups: ["Admins"] }])
+  content: String! @auth(rules: [{ allow: owner, operations: [update] }])
+}
+```
+You can also provide explicit deny rules to your field like the following:
+
+```graphql
+type Todo 
+  @model
+{
+  id: ID! 
+  updatedAt: AWSDateTime! @auth(rules: [{ allow: groups, groups: ["ForbiddenGroup"] }])
+  content: String! @auth(rules: [{ allow: owner, operations: [update] }])
+}
+```
+
+You can also combine top-level @auth rules on the type with field level auth rules. For example, let's consider the following schema:
+
+```graphql
+type Todo
+  @model @auth(rules: [{allow: groups, groups: ["Admin"], operations:[update] }]
+{
+  id: ID! 
+  updatedAt: AWSDateTime! 
+  content: String! @auth(rules: [{ allow: owner, operations: [update] }])
+}
+```
+In the above schema users in the `Admin` group have the authorization to create, read, delete and update (except the `content` field in the object of another owner) for the type Todo.
+An `owner` of an object, has the authorization to create Todo types and read all the objects of type Todo. In addition an `owner` can perform an update operation on the Todo object, only when the `content` field is present as a part of the input.
+Any other user - who isn't an owner of an object isn't authorized to update that object.
 
 ##### Per-Field with Subscriptions
 
@@ -2217,14 +2313,14 @@ query GetComment($id: ID!) {
 $ amplify add codegen [--apiId <api-id>]
 ```
 
-The `amplify add codegen` allows you to add AppSync API created using the AWS console. If you have your API is in a different region then that of your current region, the command asks you to choose the region.
-__Note__: If you use the --apiId flag to add an externally created AppSync API, such as one created in the AWS console, you will not be able to manage this API from the Amplify CLI with commands such as amplify api update when performing schema updates.
+The `amplify add codegen` allows you to add AppSync API created using the AWS console. If you have your API is in a different region then that of your current region, the command asks you to choose the region. If you are adding codegen outside of an initialized amplify project, provide your introspection schema named `schema.json` in the same directory that you make the add codegen call from.
+__Note__: If you use the --apiId flag to add an externally created AppSync API, such as one created in the AWS console, you will not be able to manage this API from the Amplify CLI with commands such as amplify api update when performing schema updates. You cannot add an external AppSync API when outside of an initialized project.
 
 #### amplify configure codegen <a name="codegen-configure"></a>
 ```bash
 $ amplify configure codegen
 ```
-The `amplify configure codegen` command allows you to update the codegen configuration after it is added to your project.
+The `amplify configure codegen` command allows you to update the codegen configuration after it is added to your project. When outside of an initialized project, you can use this to update your project configuration as well as the codegen configuration.
 
 #### amplify codegen statements <a name="codegen-statements"></a>
 ```bash
@@ -2243,7 +2339,7 @@ The `amplify codegen types [--nodownload]` command generates GraphQL `types` for
 ```bash
 $ amplify codegen [--max-depth <int>]
 ```
-The `amplify codegen [--nodownload]` generates GraphQL `statements` and `types`. This command downloads introspection schema every time it is run but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag
+The `amplify codegen [--nodownload]` generates GraphQL `statements` and `types`. This command downloads introspection schema every time it is run but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag. If you are running codegen outside of an initialized amplify project, the introspection schema named `schema.json` must be in the same directory that you run amplify codegen from. This command will not download the introspection schema when outside of an amplify project - it will only use the introspection schema provided.
 
 
 ### Workflows <a name="workflows"></a>
@@ -2289,6 +2385,26 @@ $amplify codegen types
 ```
 You should have newly generated GraphQL statements and Swift code that matches the schema updates. If you ran the second command your types will be updated as well. Alternatively, if you run `amplify codegen` alone it will perform both of these actions.
 
+**Flow 5: Introspection Schema outside of an initialized project**
+
+If you would like to generate statements and types without initializing an amplify project, you can do so by providing your introspection schema named `schema.json` in your project directory and adding codegen from the same directory. To download your introspection schema from an AppSync api, in the AppSync console go to the schema editor and under "Export schema" choose `schema.json`.
+
+```bash
+$amplify add codegen
+```
+
+Once codegen has been added you can update your introspection schema, then generate statements and types again without re-entering your project information.
+
+```bash
+$amplify codegen
+```
+
+You can update your project and codegen configuration if required.
+
+```bash
+$amplify configure codegen
+$amplify codegen
+```
 
 ### iOS usage <a name="iosuse"></a>
 
