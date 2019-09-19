@@ -1964,8 +1964,8 @@ input SearchableQueryMap { search: String }
 
 #### Usage
 
-Store posts in Amazon DynamoDB and automatically stream them to Amazon ElasticSearch
-via AWS Lambda and connect a searchQueryField resolver.
+
+Given the following schema an index is created for Post, if there are more types with `@searchable` the directive will create an index for it, and those posts in Amazon DynamoDB are automatically streamed to the post index in Amazon ElasticSearch via AWS Lambda and connect a searchQueryField resolver.
 
 ```
 type Post @model @searchable {
