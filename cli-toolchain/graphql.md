@@ -236,7 +236,9 @@ input ModelSubscriptionMap {
     onCreate: [String]
     onUpdate: [String]
     onDelete: [String]
+    level: ModelSubscriptionLevel
 }
+enum ModelSubscriptionLevel { off public on }
 ```
 
 #### Usage
@@ -1096,7 +1098,7 @@ Note `identityField` is being deprecated for `identityClaim`.
 
 #### Authorizing Subscriptions
 
-Prior to version 2.0 of the CLI, `@auth` rules did not apply to subscriptions. Instead you were required to either turn them off or use [Custom Resolvers](./graphql#custom-resolvers) to manually add authorization checks. In the latest versions `@auth` protections have been added to subscriptions, however this can introduce different behavior into existing applications: First, `owner` is now a required argument for Owner-based authorization, as shown below. Second, the selection set will set `null` on fields when mutations are invoked if per-field `@auth` is set on that field. [Read more here](./graphql#per-field-with-subscriptions). If you wish to keep the previous behavior set `level: PUBLIC` on your model as defined below.
+Prior to version 2.0 of the CLI, `@auth` rules did not apply to subscriptions. Instead you were required to either turn them off or use [Custom Resolvers](./graphql#custom-resolvers) to manually add authorization checks. In the latest versions `@auth` protections have been added to subscriptions, however this can introduce different behavior into existing applications: First, `owner` is now a required argument for Owner-based authorization, as shown below. Second, the selection set will set `null` on fields when mutations are invoked if per-field `@auth` is set on that field. [Read more here](./graphql#per-field-with-subscriptions). If you wish to keep the previous behavior set `level: public` on your model as defined below.
 {: .callout .callout--warning}
 
 When `@auth` is used subscriptions have a few subtle behavior differences than queries and mutations based on their event based nature. When protecting a model using the owner auth strategy, each subscription request will **require** that the user is passed as an argument to the subscription request. If the user field is not passed, the subscription connection will fail. In the case where it is passed, the user will only get notified of updates to records for which they are the owner.
@@ -1153,10 +1155,10 @@ Finally, if you use both owner and group authorization then the username argumen
 - If you pass the user in who is NOT the owner and is NOT a member of a group, the subscription will not notify you of anything as there are no records for which you own
 
 
-You may disable authorization checks on subscriptions or completely turn off subscriptions as well by specifying either `PUBLIC` or `OFF` in `@model`:
+You may disable authorization checks on subscriptions or completely turn off subscriptions as well by specifying either `public` or `off` in `@model`:
 
 ```
-@model (subscriptions: { level: PUBLIC })
+@model (subscriptions: { level: public })
 ```
 
 #### Field Level Authorization
@@ -2313,14 +2315,14 @@ query GetComment($id: ID!) {
 $ amplify add codegen [--apiId <api-id>]
 ```
 
-The `amplify add codegen` allows you to add AppSync API created using the AWS console. If you have your API is in a different region then that of your current region, the command asks you to choose the region.
-__Note__: If you use the --apiId flag to add an externally created AppSync API, such as one created in the AWS console, you will not be able to manage this API from the Amplify CLI with commands such as amplify api update when performing schema updates.
+The `amplify add codegen` allows you to add AppSync API created using the AWS console. If you have your API is in a different region then that of your current region, the command asks you to choose the region. If you are adding codegen outside of an initialized amplify project, provide your introspection schema named `schema.json` in the same directory that you make the add codegen call from.
+__Note__: If you use the --apiId flag to add an externally created AppSync API, such as one created in the AWS console, you will not be able to manage this API from the Amplify CLI with commands such as amplify api update when performing schema updates. You cannot add an external AppSync API when outside of an initialized project.
 
 #### amplify configure codegen <a name="codegen-configure"></a>
 ```bash
 $ amplify configure codegen
 ```
-The `amplify configure codegen` command allows you to update the codegen configuration after it is added to your project.
+The `amplify configure codegen` command allows you to update the codegen configuration after it is added to your project. When outside of an initialized project, you can use this to update your project configuration as well as the codegen configuration.
 
 #### amplify codegen statements <a name="codegen-statements"></a>
 ```bash
@@ -2339,7 +2341,7 @@ The `amplify codegen types [--nodownload]` command generates GraphQL `types` for
 ```bash
 $ amplify codegen [--max-depth <int>]
 ```
-The `amplify codegen [--nodownload]` generates GraphQL `statements` and `types`. This command downloads introspection schema every time it is run but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag
+The `amplify codegen [--nodownload]` generates GraphQL `statements` and `types`. This command downloads introspection schema every time it is run but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag. If you are running codegen outside of an initialized amplify project, the introspection schema named `schema.json` must be in the same directory that you run amplify codegen from. This command will not download the introspection schema when outside of an amplify project - it will only use the introspection schema provided.
 
 
 ### Workflows <a name="workflows"></a>
@@ -2385,6 +2387,26 @@ $amplify codegen types
 ```
 You should have newly generated GraphQL statements and Swift code that matches the schema updates. If you ran the second command your types will be updated as well. Alternatively, if you run `amplify codegen` alone it will perform both of these actions.
 
+**Flow 5: Introspection Schema outside of an initialized project**
+
+If you would like to generate statements and types without initializing an amplify project, you can do so by providing your introspection schema named `schema.json` in your project directory and adding codegen from the same directory. To download your introspection schema from an AppSync api, in the AppSync console go to the schema editor and under "Export schema" choose `schema.json`.
+
+```bash
+$amplify add codegen
+```
+
+Once codegen has been added you can update your introspection schema, then generate statements and types again without re-entering your project information.
+
+```bash
+$amplify codegen
+```
+
+You can update your project and codegen configuration if required.
+
+```bash
+$amplify configure codegen
+$amplify codegen
+```
 
 ### iOS usage <a name="iosuse"></a>
 
