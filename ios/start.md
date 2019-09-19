@@ -39,7 +39,7 @@ platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSCore', '~> 2.10.0'
+    pod 'AWSCore', '~> 2.11.0'
 
     # other pods
 end
@@ -111,7 +111,7 @@ platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSAppSync', '~> 2.14.0'
+    pod 'AWSAppSync', '~> 2.14.2'
 
 end
 ```
