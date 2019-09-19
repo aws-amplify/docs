@@ -35,9 +35,9 @@ type Comment @model {
 }
 ```
 
-When used along with tools like the Amplify CLI, the GraphQL Transform simplifies the process of 
-developing, deploying, and maintaining GraphQL APIs. With it, you define your API using the 
-[GraphQL Schema Definition Language (SDL)](https://facebook.github.io/graphql/June2018/) and can then use automation to transform it into a fully 
+When used along with tools like the Amplify CLI, the GraphQL Transform simplifies the process of
+developing, deploying, and maintaining GraphQL APIs. With it, you define your API using the
+[GraphQL Schema Definition Language (SDL)](https://facebook.github.io/graphql/June2018/) and can then use automation to transform it into a fully
 descriptive cloudformation template that implements the spec. The transform also provides a framework
 through which you can define your own transformers as `@directives` for custom workflows.
 
@@ -54,7 +54,7 @@ Follow the wizard to create a new app. After finishing the wizard run:
 ```bash
 amplify add api
 
-# Select the graphql option and when asked if you 
+# Select the graphql option and when asked if you
 # have a schema, say No.
 # Select one of the default samples. You can change it later.
 # Choose to edit the schema and it will open your schema.graphql in your editor.
@@ -82,7 +82,7 @@ type Comment @model {
 ```
 
 Once you are happy with your schema, save the file and click enter in your
-terminal window. if no error messages are thrown this means the transformation 
+terminal window. if no error messages are thrown this means the transformation
 was successful and you can deploy your new API.
 
 ```bash
@@ -119,7 +119,7 @@ mutation CreatePost($blogId:ID!) {
   }
 }
 
-# Provide the returned id from the CreateBlog mutation as the "blogId" variable 
+# Provide the returned id from the CreateBlog mutation as the "blogId" variable
 # in the "variables" pane (bottom left pane) of the query editor:
 {
   "blogId": "returned-id-goes-here"
@@ -141,7 +141,7 @@ mutation CreateComment($postId:ID!) {
   }
 }
 
-# Provide the returned id from the CreatePost mutation as the "postId" variable 
+# Provide the returned id from the CreatePost mutation as the "postId" variable
 # in the "variables" pane (bottom left pane) of the query editor:
 {
   "postId": "returned-id-goes-here"
@@ -226,7 +226,7 @@ top level object types in your API that are backed by Amazon DynamoDB.
 
 ```
 directive @model(
-    queries: ModelQueryMap, 
+    queries: ModelQueryMap,
     mutations: ModelMutationMap,
     subscriptions: ModelSubscriptionMap
 ) on OBJECT
@@ -423,7 +423,7 @@ type Subscription {
 
 ### @key
 
-The `@key` directive makes it simple to configure custom index structures for `@model` types. 
+The `@key` directive makes it simple to configure custom index structures for `@model` types.
 
 Amazon DynamoDB is a key-value and document database that delivers single-digit millisecond performance at any scale but making it work for your access patterns requires a bit of forethought. DynamoDB query operations may use at most two attributes to efficiently query data. The first query argument passed to a query (the hash key) must use strict equality and the second attribute (the sort key) may use gt, ge, lt, le, eq, beginsWith, and between. DynamoDB can effectively implement a wide variety of access patterns that are powerful enough for the majority of applications.
 
@@ -443,7 +443,7 @@ directive @key(fields: [String!]!, name: String, queryField: String) on OBJECT
 
 #### How to use @key
 
-When designing data models using the `@key` directive, the first step should be to write down your application's expected access patterns. For example, let's say we were building an e-commerce application 
+When designing data models using the `@key` directive, the first step should be to write down your application's expected access patterns. For example, let's say we were building an e-commerce application
 and needed to implement access patterns like:
 
 1. Get customers by email.
@@ -461,7 +461,7 @@ type Customer @model @key(fields: ["email"]) {
 }
 ```
 
-A @key without a *name* specifies the key for the DynamoDB table's primary index. You may only provide 1 @key without a *name* per @model type. The example above shows the simplest case where we are specifying that the table's primary index should have a simple key where the hash key is *email*. This allows us to get unique customers by their *email*. 
+A @key without a *name* specifies the key for the DynamoDB table's primary index. You may only provide 1 @key without a *name* per @model type. The example above shows the simplest case where we are specifying that the table's primary index should have a simple key where the hash key is *email*. This allows us to get unique customers by their *email*.
 
 ```
 query GetCustomerById {
@@ -562,9 +562,9 @@ There are a few important things to think about when making changes to APIs usin
 
 ### @auth
 
-Authorization is required for applications to interact with your GraphQL API. **API Keys** are best used for public APIs (or parts of your schema which you wish to be public) or prototyping, and you must specify the expiration time before deploying. **IAM** authorization uses [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html){:target="_blank"} to make request with policies attached to Roles. OIDC tokens provided by **Amazon Cognito User Pools** can also be used for authorization, and simply enabling this provides a simple access control requiring users to authenticate to be granted top level access to API actions. You can set finer grained access controls using `@auth` on your schema which leverages authorization metadata provided as part of these tokens or set on the database items themselves. 
+Authorization is required for applications to interact with your GraphQL API. **API Keys** are best used for public APIs (or parts of your schema which you wish to be public) or prototyping, and you must specify the expiration time before deploying. **IAM** authorization uses [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html){:target="_blank"} to make request with policies attached to Roles. OIDC tokens provided by **Amazon Cognito User Pools** or 3rd party OpenID Connect providers can also be used for authorization, and simply enabling this provides a simple access control requiring users to authenticate to be granted top level access to API actions. You can set finer grained access controls using `@auth` on your schema which leverages authorization metadata provided as part of these tokens or set on the database items themselves.
 
-`@auth` object types that are annotated with `@auth` are protected by a set of authorization rules giving you additional controls than the top level authorization on an API. Currently, `@auth` only supports APIs with Amazon Cognito User Pools enabled. You may use the `@auth` directive on object type definitions and field definitions in your project's schema.
+`@auth` object types that are annotated with `@auth` are protected by a set of authorization rules giving you additional controls than the top level authorization on an API. You may use the `@auth` directive on object type definitions and field definitions in your project's schema.
 
 When using the `@auth` directive on object type definitions that are also annotated with
 `@model`, all resolvers that return objects of that type will be protected. When using the
@@ -579,6 +579,7 @@ based on attributes found the parent type.
 directive @auth(rules: [AuthRule!]!) on OBJECT, FIELD_DEFINITION
 input AuthRule {
     allow: AuthStrategy!
+    provider: AuthProvider
     ownerField: String # defaults to "owner" when using owner auth
     identityClaim: String # defaults to "username" when using owner auth
     groupClaim: String # defaults to "cognito:groups" when using Group auth
@@ -590,7 +591,8 @@ input AuthRule {
     queries: [ModelQuery]
     mutations: [ModelMutation]
 }
-enum AuthStrategy { owner groups }
+enum AuthStrategy { owner groups private public }
+enum AuthProvider { apiKey iam oidc userPools }
 enum ModelOperation { create update delete read }
 
 # The following objects are deprecated. It is encouraged to use ModelOperations.
@@ -610,12 +612,12 @@ type Post @model @auth(rules: [{allow: owner}]) {
 }
 
 # The long form way
-type Post 
-  @model 
+type Post
+  @model
   @auth(
     rules: [
       {allow: owner, ownerField: "owner", operations: [create, update, delete, read]},
-    ]) 
+    ])
 {
   id: ID!
   title: String!
@@ -634,14 +636,59 @@ You can use the *operations* argument to specify which operations are augmented 
 - **update**: Add conditional update that checks the stored *ownerField* is the same as `$ctx.identity.username`.
 - **delete**: Add conditional update that checks the stored *ownerField* is the same as `$ctx.identity.username`.
 
+**Note**: When specifying operations as a part of the @auth rule, the operations not included in the list are not protected by default. For example, let's say you have the following schema:
+
+```graphql
+type Todo
+  @model
+  @auth(rules: [{ allow: owner, operations: [read] }])
+{
+  id: ID!
+  updatedAt: AWSDateTime! 
+  content: String!
+}
+```
+
+In this schema, only the owner of the object has the authorization to perform read (getTodo and listTodos) operations on the owner created object. But this does not prevent any other owner (any user other than the creator or owner of the object) to update/delete some other owner's object. 
+Here's a truth table for the above-mentioned schema. In the table below `other` refers to any user other than the creator or owner of the object.
+
+|       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
+|-------|---------|----------|------------|------------|------------|
+| owner |    ✅    |     ✅    |      ✅     |      ✅     |      ✅     |
+| other |    ❌    |     ❌    |      ✅     |      ✅     |      ✅     |
+
+If you want to prevent updates and deletes operations, you would need to modify the @auth rule to explicitly include the `update` and `delete` operation and your schema should look like the following:
+
+```graphql
+type Todo
+  @model
+  @auth(rules: [{ allow: owner, operations: [read, update, delete] }])
+{
+  id: ID! 
+  updatedAt: AWSDateTime! 
+  content: String!
+}
+```
+
+Here's a truth table for the above-mentioned schema. In the table below `other` refers to any user other than the creator or owner of the object.
+
+|       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
+|-------|---------|----------|------------|------------|------------|
+| owner |    ✅    |     ✅    |      ✅     |      ✅     |      ✅     |
+| other |    ❌    |     ❌    |      ✅     |      ❌     |      ❌     |
+
+
+
+
+
 You may also apply multiple ownership rules on a single `@model` type. For example, imagine you have a type **Draft**
 that stores unfinished posts for a blog. You might want to allow the **Draft's owner** to create, update, delete, and
 read **Draft** objects. However, you might also want the **Draft's editors** to be able to update and read **Draft** objects.
 To allow for this use case you could use the following type definition:
 
 ```
-type Draft 
-    @model 
+type Draft
+    @model
     @auth(rules: [
 
         # Defaults to use the "owner" field.
@@ -658,10 +705,11 @@ type Draft
 }
 ```
 
+
 #### Ownership with create mutations
 
 The ownership authorization rule tries to make itself as easy as possible to use. One
-feature that helps with this is that it will automatically fill ownership fields unless 
+feature that helps with this is that it will automatically fill ownership fields unless
 told explicitly not to do so. To show how this works, lets look at how the create mutation
 would work for the **Draft** type above:
 
@@ -699,9 +747,9 @@ automatically set the **owner** but not the **editors**, you would run this:
 ```
 mutation CreateDraft {
     createDraft(
-        input: { 
-            title: "A new draft", 
-            editors: [] 
+        input: {
+            title: "A new draft",
+            editors: []
         }
     ) {
         id
@@ -732,8 +780,8 @@ You can try to do the same to **owner** but this will throw an **Unauthorized** 
 ```
 mutation CreateDraft {
     createDraft(
-        input: { 
-            title: "A new draft", 
+        input: {
+            title: "A new draft",
             editors: [],
             owner: null
         }
@@ -751,8 +799,8 @@ To set the owner to null with the current schema, you would still need to be in 
 ```
 mutation CreateDraft {
     createDraft(
-        input: { 
-            title: "A new draft", 
+        input: {
+            title: "A new draft",
             editors: ["someuser@my-domain.com"],
             owner: null
         }
@@ -801,17 +849,17 @@ enrolled in the *Admin* group, the operation will fail.
 To enable advanced authorization use cases, you can layer auth rules to provide specialized functionality.
 To show how we might do that, let's expand the **Draft** example we started in the **Owner Authorization**
 section above. When we last left off, a **Draft** object could be updated and read by both its owner
-and any of its editors and could be created and deleted only by its owner. Let's change it so that 
+and any of its editors and could be created and deleted only by its owner. Let's change it so that
 now any member of the "Admin" group can also create, update, delete, and read a **Draft** object.
 
 ```
-type Draft 
-    @model 
+type Draft
+    @model
     @auth(rules: [
-        
+
         # Defaults to use the "owner" field.
         { allow: owner },
-        
+
         # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
         { allow: owner, ownerField: "editors", operations: [update] },
 
@@ -826,7 +874,7 @@ type Draft
 }
 ```
 
-#### Dynamic Group Authorization 
+#### Dynamic Group Authorization
 
 ```
 # Dynamic group authorization with multiple groups
@@ -859,13 +907,13 @@ requirement where each record should be able to specify an optional list of grou
 the draft. This would allow you to share an individual document with an external team, for example.
 
 ```
-type Draft 
-    @model 
+type Draft
+    @model
     @auth(rules: [
-        
+
         # Defaults to use the "owner" field.
         { allow: owner },
-        
+
         # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
         { allow: owner, ownerField: "editors", operations: [update] },
 
@@ -914,13 +962,123 @@ mutation CreateDraft {
 }
 ```
 
+#### `public` Authorization
+
+```
+# The simplest case
+type Post @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  title: String!
+}
+```
+
+The `public` authorization specifies that everyone will be allowed to access the API, behind the scenes the API will be protected with an API Key. To be able to use `public` the API must have API Key configured.
+
+```
+# public authorization with provider override
+type Post @model @auth(rules: [{allow: public, provider: iam}]) {
+  id: ID!
+  title: String!
+}
+```
+
+The @auth directive allows the override of the default provider for a given authorization mode. In the sample above iam is specified as the provider which allows you to use an "UnAuthenticated Role" from Cognito Identity Pools for public access, instead of an API Key. When used in conjunction with amplify add auth the CLI generates scoped down IAM policies for the "UnAuthenticated" role automatically.
+
+#### `private` Authorization
+
+```
+# The simplest case
+type Post @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  title: String!
+}
+```
+
+The `private` authorization specifies that everyone will be allowed to access the API with a valid JWT token from the configured Cognito User Pool. To be able to use `private` the API must have Cognito User Pool configured.
+
+```
+# private authorization with provider override
+type Post @model @auth(rules: [{allow: private, provider: iam}]) {
+  id: ID!
+  title: String!
+}
+```
+
+The @auth directive allows the override of the default provider for a given authorization mode. In the sample above iam is specified as the provider which allows you to use an "Authenticated Role" from Cognito Identity Pools for private access. When used in conjunction with amplify add auth the CLI generates scoped down IAM policies for the "Authenticated" role automatically.
+
+#### Authorization Using an `oidc` Provider
+
+```
+# private authorization with provider override
+type Post @model @auth(rules: [{allow: private, provider: oidc}]) {
+  id: ID!
+  title: String!
+}
+
+# owner authorization with provider override
+type Profile @model @auth(rules: [{allow: owner, provider: oidc, identityClaim: "sub"}]) {
+  id: ID!
+  displayNAme: String!
+}
+```
+
+By using a configured `oidc` provider for the API, it is possible to authenticate the users against it to perform operations on the `Post` type, and `owner` authorization is also possible.
+
+
+#### Combining Authorization Rules
+
+The objects and fields in the GraphQL schema can have rules with different authorization providers assigned.
+
+```
+type Post @model
+@auth (
+    rules: [
+        { allow: owner },
+        { allow: private, provider: iam, operations: [read] }
+    ]
+)
+{
+    id: ID!
+    title: String
+    owner: String
+}
+```
+
+In the example above the model is protected by Cognito User Pools by default and the `owner` can perform any operation on the `Post` type, but a Lambda function through the configured IAM policies can only call the ```getPost``` and ```listPosts``` query.
+
+```
+type Post @model @auth (rules: [{ allow: private }])
+{
+    id: ID!
+    title: String
+    owner: String
+    secret: String
+      @auth (rules: [{ allow: private, provider: iam, operations: [create, update] }])
+}
+```
+
+In the example above the model is protected by Cognito User Pools by default and anyone with a valid JWT token can perform any operation on the `Post` type, but cannot update the `secret` field. The `secret` field can only be modified through the configured IAM policies, from a Lambda function for example.
+
+#### Allowed Authorization Mode vs. Provider Combinations
+
+The following table shows the allowed combinations of authorization modes and providers.
+
+|           | owner | groups | public | private |
+|:----------|:-----:|:------:|:------:|:-------:|
+| userPools |✅|✅||✅|
+| oidc|✅||||
+| apiKey|||✅||
+| iam|||✅|✅|
+
+Please note that `groups` is leveraging Cognito User Pools but no provider assignment needed/possible.
+
 #### Custom Claims
 
 `@auth` supports using custom claims if you do not wish to use the default `username` or `cognito:groups` claims from your JWT token which are populated by Amazon Cognito. This can be helpful if you are using tokens from a 3rd party OIDC system or if you wish to populate a claim with a list of groups from an external system, such as when using a [Pre Token Generation Lambda Trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-token-generation.html) which reads from a database. To use custom claims specify `identityClaim` or `groupClaim` as appropriate like in the example below:
 
 ```
-type Post @model 
-@model 
+type Post @model
+@model
 @auth(rules: [
 	{allow: owner, identityClaim: "user_id"},
 	{allow: groups, groups: ["Moderator"], groupClaim: "user_groups"}
@@ -953,7 +1111,7 @@ Dynamic groups have no impact to subscriptions. You will not get notified of any
 For example suppose you have the following schema:
 
 ```
-type Post @model 
+type Post @model
 @auth(rules: [{allow: owner}])
 {
   id: ID!
@@ -972,12 +1130,12 @@ subscription onCreatePost(owner: “Bob”){
 }
 ```
 
-Note that if your type doesn’t already have an `owner` field the Transformer will automatically add this for you. Passing in the current user can be done dynamically in your code by using [Auth.currentAuthenticatedUser()](/js/authentication#retrieve-current-authenticated-user) in JavaScript, [AWSMobileClient.sharedInstance().username](/ios/authentication#utility-properties) in iOS, or [AWSMobileClient.getInstance().getUsername()](/android/authentication#utility-properties) in Android. 
+Note that if your type doesn’t already have an `owner` field the Transformer will automatically add this for you. Passing in the current user can be done dynamically in your code by using [Auth.currentAuthenticatedUser()](/js/authentication#retrieve-current-authenticated-user) in JavaScript, [AWSMobileClient.sharedInstance().username](/ios/authentication#utility-properties) in iOS, or [AWSMobileClient.getInstance().getUsername()](/android/authentication#utility-properties) in Android.
 
 In the case of groups if you define the following:
 
 ```
-type Post @model 
+type Post @model
 @model @auth(rules: [{allow: groups, groups: ["Admin"]}]) {
 {
   id: ID!
@@ -1033,9 +1191,9 @@ to reach the model.
 type User @model {
     id: ID!
     username: String
-    
-    posts: [Post] 
-      @connection(name: "UserPosts") 
+
+    posts: [Post]
+      @connection(name: "UserPosts")
       @auth(rules: [{ allow: owner, ownerField: "username" }])
 }
 type Post @model(queries: null) { ... }
@@ -1046,7 +1204,7 @@ type Post @model(queries: null) { ... }
 When used on field definitions, `@auth` directives protect all operations by default.
 To protect read operations, a resolver is added to the protected field that implements authorization logic.
 To protect mutation operations, logic is added to existing mutations that will be run if the mutation's input
-contains the protected field. For example, here is a model where owners and admins can read employee 
+contains the protected field. For example, here is a model where owners and admins can read employee
 salaries but only admins may create or update them.
 
 ```
@@ -1057,7 +1215,7 @@ type Employee @model {
     # Owners & members of the "Admin" group may read employee salaries.
     # Only members of the "Admin" group may create an employee with a salary
     # or update a salary.
-    salary: String 
+    salary: String
       @auth(rules: [
         { allow: owner, ownerField: "username", operations: [read] },
         { allow: groups, groups: ["Admin"], operations: [create, update, read] }
@@ -1067,6 +1225,56 @@ type Employee @model {
 
 **Note** The `delete` operation, when used in @auth directives on field definitions, translates
 to protecting the update mutation such that the field cannot be set to null unless authorized.
+
+**Note**: When specifying operations as a part of the @auth rule on a field, the operations not included in the operations list are not protected by default. For example, let's say you have the following schema:
+
+```graphql
+type Todo
+  @model
+{
+  id: ID! 
+  updatedAt: AWSDateTime! 
+  content: String! @auth(rules: [{ allow: owner, operations: [update] }])
+}
+```
+
+In this schema, only the owner of the object has the authorization to perform update operations on the `content` field. But this does not prevent any other owner (any user other than the creator or owner of the object) to update some other field in the object owned by another user. If you want to prevent update operations on a field, the user would need to explicitly add auth rules to restrict access to that field. One of the ways would be to explicitly specify @auth rules on the fields that you would want to protect like the following:
+
+```graphql
+type Todo 
+  @model
+{
+  id: ID! 
+  updatedAt: AWSDateTime! @auth(rules: [{ allow: owner, operations: [update] }]) // or @auth(rules: [{ allow: groups, groups: ["Admins"] }])
+  content: String! @auth(rules: [{ allow: owner, operations: [update] }])
+}
+```
+You can also provide explicit deny rules to your field like the following:
+
+```graphql
+type Todo 
+  @model
+{
+  id: ID! 
+  updatedAt: AWSDateTime! @auth(rules: [{ allow: groups, groups: ["ForbiddenGroup"] }])
+  content: String! @auth(rules: [{ allow: owner, operations: [update] }])
+}
+```
+
+You can also combine top-level @auth rules on the type with field level auth rules. For example, let's consider the following schema:
+
+```graphql
+type Todo
+  @model @auth(rules: [{allow: groups, groups: ["Admin"], operations:[update] }]
+{
+  id: ID! 
+  updatedAt: AWSDateTime! 
+  content: String! @auth(rules: [{ allow: owner, operations: [update] }])
+}
+```
+In the above schema users in the `Admin` group have the authorization to create, read, delete and update (except the `content` field in the object of another owner) for the type Todo.
+An `owner` of an object, has the authorization to create Todo types and read all the objects of type Todo. In addition an `owner` can perform an update operation on the Todo object, only when the `content` field is present as a part of the input.
+Any other user - who isn't an owner of an object isn't authorized to update that object.
 
 ##### Per-Field with Subscriptions
 
@@ -1107,7 +1315,7 @@ The mutation will run successfully, however `ssn` will return null in the GraphQ
 
 #### Generates
 
-The `@auth` directive will add authorization snippets to any relevant resolver 
+The `@auth` directive will add authorization snippets to any relevant resolver
 mapping templates at compile time. Different operations use different methods
 of authorization.
 
@@ -1135,7 +1343,7 @@ The generated resolvers would be protected like so:
 type Post @model @auth(rules: [{allow: groups, groups: ["Admin"]}]) {
   id: ID!
   title: String!
-  groups: String 
+  groups: String
 }
 ```
 
@@ -1154,7 +1362,7 @@ Static group auth is simpler than the others. The generated resolvers would be p
 type Post @model @auth(rules: [{allow: groups, groupsField: "groups"}]) {
   id: ID!
   title: String!
-  groups: String 
+  groups: String
 }
 ```
 
@@ -1164,10 +1372,11 @@ The generated resolvers would be protected like so:
 - `Mutation.updateX`: Update the condition expression so that the DynamoDB `UpdateItem` operation only succeeds if the record's **groups** attribute contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
 - `Mutation.deleteX`: Update the condition expression so that the DynamoDB `DeleteItem` operation only succeeds if the record's **groups** attribute contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`
 - `Query.getX`: In the response mapping template verify that the result's **groups** attribute contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
-- `Query.listX`: In the response mapping template filter the result's **items** such that only items with a 
+- `Query.listX`: In the response mapping template filter the result's **items** such that only items with a
 **groups** attribute that contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
-- `@connection` resolver: In the response mapping template filter the result's **items** such that only items with a 
+- `@connection` resolver: In the response mapping template filter the result's **items** such that only items with a
 **groups** attribute that contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`. This is not enabled when using the `queries` argument.
+
 
 ### @function
 
@@ -1563,7 +1772,7 @@ mutation CreateCommentOnPost {
 
 The **name** argument specifies a name for the
 connection and it's used to create bi-directional relationships that reference
-the same underlying foreign key. 
+the same underlying foreign key.
 
 For example, if you wanted your `Post.comments`
 and `Comment.post` fields to refer to opposite sides of the same relationship,
@@ -2062,7 +2271,7 @@ type Comment @model {
   content: String
   post: Post @connection(name: "PostComments")
 }
-``` 
+```
 
 ```graphql
 query GetComment($id: ID!) {
@@ -2106,14 +2315,14 @@ query GetComment($id: ID!) {
 $ amplify add codegen [--apiId <api-id>]
 ```
 
-The `amplify add codegen` allows you to add AppSync API created using the AWS console. If you have your API is in a different region then that of your current region, the command asks you to choose the region. 
-__Note__: If you use the --apiId flag to add an externally created AppSync API, such as one created in the AWS console, you will not be able to manage this API from the Amplify CLI with commands such as amplify api update when performing schema updates.
+The `amplify add codegen` allows you to add AppSync API created using the AWS console. If you have your API is in a different region then that of your current region, the command asks you to choose the region. If you are adding codegen outside of an initialized amplify project, provide your introspection schema named `schema.json` in the same directory that you make the add codegen call from.
+__Note__: If you use the --apiId flag to add an externally created AppSync API, such as one created in the AWS console, you will not be able to manage this API from the Amplify CLI with commands such as amplify api update when performing schema updates. You cannot add an external AppSync API when outside of an initialized project.
 
 #### amplify configure codegen <a name="codegen-configure"></a>
 ```bash
 $ amplify configure codegen
 ```
-The `amplify configure codegen` command allows you to update the codegen configuration after it is added to your project. 
+The `amplify configure codegen` command allows you to update the codegen configuration after it is added to your project. When outside of an initialized project, you can use this to update your project configuration as well as the codegen configuration.
 
 #### amplify codegen statements <a name="codegen-statements"></a>
 ```bash
@@ -2132,7 +2341,7 @@ The `amplify codegen types [--nodownload]` command generates GraphQL `types` for
 ```bash
 $ amplify codegen [--max-depth <int>]
 ```
-The `amplify codegen [--nodownload]` generates GraphQL `statements` and `types`. This command downloads introspection schema every time it is run but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag
+The `amplify codegen [--nodownload]` generates GraphQL `statements` and `types`. This command downloads introspection schema every time it is run but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag. If you are running codegen outside of an initialized amplify project, the introspection schema named `schema.json` must be in the same directory that you run amplify codegen from. This command will not download the introspection schema when outside of an amplify project - it will only use the introspection schema provided.
 
 
 ### Workflows <a name="workflows"></a>
@@ -2148,7 +2357,7 @@ $amplify push
 ```
 
 You’ll see questions as before, but now it will also automatically ask you if you want to generate GraphQL statements and do codegen. It will also respect the `./app/src/main` directory for Android projects. After the AppSync deployment finishes the Swift file will be automatically generated (Android you’ll need to kick off a [Gradle Build step](#androiduse)) and you can begin using in your app immediately.
- 
+
 **Flow 2: Modify GraphQL schema, push, then automatically generate code**
 
 During development, you might wish to update your GraphQL schema and generated code as part of an iterative dev/test cycle. Modify & save your schema in `./amplify/backend/api/<apiname>/schema.graphql` then run:
@@ -2158,7 +2367,7 @@ $amplify push
 ```
 
 Each time you will be prompted to update the code in your API and also ask you if you want to run codegen again as well, including regeneration of the GraphQL statements from the new schema.
- 
+
 **Flow 3: No API changes, just update GraphQL statements & generate code**
 
 One of the benefits of GraphQL is the client can define it's data fetching requirements independently of the API. Amplify codegen supports this by allowing you to modify the selection set (e.g. add/remove fields inside the curly braces) for the GraphQL statements and running type generation again. This gives you fine-grained control over the network requests that your application is making. Modify your GraphQL statements (default in the `./graphql` folder unless you changed it) then save the files and run:
@@ -2167,7 +2376,7 @@ One of the benefits of GraphQL is the client can define it's data fetching requi
 $amplify codegen types
 ```
 A new updated Swift file will be created (or run Gradle Build on Android for the same). You can then use the updates in your application code.
- 
+
 **Flow 4: Shared schema, modified elsewhere (e.g. console or team workflows)**
 
 Suppose you are working in a team and the schema is updated either from the AWS AppSync console or on another system. Your types are now out of date because your GraphQL statement was generated off an outdated schema. The easiest way to resolve this is to regenerate your GraphQL statements, update them if necessary, and then generate your types again. Modify the schema in the console or on a separate system, then run:
@@ -2178,6 +2387,26 @@ $amplify codegen types
 ```
 You should have newly generated GraphQL statements and Swift code that matches the schema updates. If you ran the second command your types will be updated as well. Alternatively, if you run `amplify codegen` alone it will perform both of these actions.
 
+**Flow 5: Introspection Schema outside of an initialized project**
+
+If you would like to generate statements and types without initializing an amplify project, you can do so by providing your introspection schema named `schema.json` in your project directory and adding codegen from the same directory. To download your introspection schema from an AppSync api, in the AppSync console go to the schema editor and under "Export schema" choose `schema.json`.
+
+```bash
+$amplify add codegen
+```
+
+Once codegen has been added you can update your introspection schema, then generate statements and types again without re-entering your project information.
+
+```bash
+$amplify codegen
+```
+
+You can update your project and codegen configuration if required.
+
+```bash
+$amplify configure codegen
+$amplify codegen
+```
 
 ### iOS usage <a name="iosuse"></a>
 
@@ -2195,7 +2424,7 @@ $amplify push       ## Sets up backend and prompts you for codegen, accept the d
 
 The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on, you can always change it.
 
-Since you added an API the `amplify push` process will automatically prompt you to enter the codegen process and walk through the configuration options. Accept the defaults and it will create a file named `API.swift` in your root directory (unless you choose to name it differently) as well as a directory called `graphql` with your documents. You also will have an `awsconfiguration.json` file that the AppSync client will use for initialization. 
+Since you added an API the `amplify push` process will automatically prompt you to enter the codegen process and walk through the configuration options. Accept the defaults and it will create a file named `API.swift` in your root directory (unless you choose to name it differently) as well as a directory called `graphql` with your documents. You also will have an `awsconfiguration.json` file that the AppSync client will use for initialization.
 
 Next, modify your **Podfile** with a dependency of the AWS AppSync SDK:
 
@@ -2281,7 +2510,7 @@ For adding data now you will need to run a GraphQL mutation. The syntax `appSync
 
 ```swift
 let mutationInput = CreateTodoInput(name: "Use AppSync", description:"Realtime and Offline")
-        
+
 appSyncClient?.perform(mutation: CreateTodoMutation(input: mutationInput)) { (result, error) in
   if let error = error as? AWSAppSyncClientError {
     print("Error occurred: \(error.localizedDescription )")
@@ -2352,12 +2581,12 @@ import UIKit
 import AWSAppSync
 
 class ViewController: UIViewController {
-    
+
     var appSyncClient: AWSAppSyncClient?
 
     // Subscription notifications will only be delivered as long as this is retained
     var subscriptionWatcher: Cancellable?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -2373,7 +2602,7 @@ class ViewController: UIViewController {
     func subscribe() {
         do {
             subscriptionWatcher = try appSyncClient?.subscribe(subscription: OnCreateTodoSubscription()) {
-                // The subscription watcher's result block retains a strong reference to the result handler block. 
+                // The subscription watcher's result block retains a strong reference to the result handler block.
                 // Make sure to capture `self` weakly if you use it
                 // [weak self]
                 (result, transaction, error) in
@@ -2391,7 +2620,7 @@ class ViewController: UIViewController {
             print("Error starting subscription.")
         }
     }
-    
+
     func runMutation(){
         let mutationInput = CreateTodoInput(name: "Use AppSync", description:"Realtime and Offline")
         appSyncClient?.perform(mutation: CreateTodoMutation(input: mutationInput)) { (result, error) in
@@ -2488,7 +2717,7 @@ Build your project ensuring there are no issues.
 Inside your application code, such as the `onCreate()` lifecycle method of your activity class, you can initialize the AppSync client using an instance of `AWSConfiguration()` in the `AWSAppSyncClient` builder. This reads configuration information present in the `awsconfiguration.json` file. By default, the information under the Default section will be used.
 
 ```java
-    
+
     private AWSAppSyncClient mAWSAppSyncClient;
 
     @Override
@@ -2697,7 +2926,7 @@ At a high level, the transform libraries take a schema defined in the GraphQL Sc
 When creating APIs, you will make changes to the other files and directories in the *amplify/backend/api/YOUR-API-NAME/* directory but you should not manually change anything in the *build* directory. The build directory will be overwritten the next time you run `amplify push` or `amplify api gql-compile`. Here is an overview of the API directory:
 
 ```terminal
-- resolvers/ 
+- resolvers/
 | # Store any resolver templates written in vtl here. E.G.
 |-- Query.ping.req.vtl
 |-- Query.ping.res.vtl
@@ -3463,8 +3692,8 @@ query ListBlogs {
 **Note: To use the @auth directive, the API must be configured to use Amazon Cognito user pools.**
 
 ```
-type Task 
-  @model 
+type Task
+  @model
   @auth(rules: [
       {allow: groups, groups: ["Managers"], mutations: [create, update, delete], queries: null},
       {allow: groups, groups: ["Employees"], mutations: null, queries: [get, list]}
