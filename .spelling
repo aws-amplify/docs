@@ -6,6 +6,8 @@ aws-amplify-angular
 @aws-amplify/core
 @aws-amplify/auth
 @aws-amplify/storage
+aws-mobile-appsync-sdk-ios
+apiKey
 App.vue
 app.js
 authMode
@@ -49,6 +51,7 @@ github
 HOCs
 installable
 i.e.
+iam
 ios
 item.class.ts
 index.js
@@ -64,6 +67,7 @@ NoteTitle
 NoteContent
 npm
 node.js
+oidc
 onPick
 pre-signed
 pre-built
@@ -106,6 +110,7 @@ isSceneLoaded
 isMuted
 autoplay
 screencap
+userPools
 unpublish
 withAuthenticator
 webview
@@ -137,6 +142,9 @@ backends
 AuthN
 AuthZ
 lifecycles
+Bundler
+prepend
+prepended
 
 # js/tutorials/building-ionic-4-apps/index.md
 home.page.ts
@@ -430,6 +438,14 @@ status#createdAt
 IN_TRANSIT
 statusCreatedAt
 ByStatus
+Pre
+Auth.currentAuthenticatedUser
+AWSMobileClient.sharedInstance
+getTodo
+listTodos
+createTodo
+updateTodo
+deleteTodo
 
 # cli-toolchain/cognito-triggers.md
 Lambda
@@ -565,6 +581,9 @@ cleartext
 NSAllowsLocalNetworking
 quoteOfTheDay
 OneGraph
+transpile
+transpiling
+transpiled
 
 # android/analytics.md
 ActivityLifecycleCallbacks
@@ -836,29 +855,29 @@ CocoaLumberjack
 AWSCore
 DocSets
 macOS
-AWSAuth 
-AWSAuthCore 
-AWSAuthUI 
-AWSAutoScaling 
-AWSCloudWatch 
-AWSCognito 
-AWSCognitoAuth 
-AWSCognitoIdentityProvider 
-AWSCognitoIdentityProviderASF 
-AWSDynamoDB 
-AWSElasticLoadBalancing 
-AWSFacebookSignIn 
-AWSGoogleSignIn 
-AWSIoT 
-AWSKinesis 
-AWSLambda 
-AWSLex 
-AWSLogs 
-AWSMachineLearning 
-AWSPinpoint 
-AWSPolly 
-AWSRekognition 
-AWSSimpleDB 
+AWSAuth
+AWSAuthCore
+AWSAuthUI
+AWSAutoScaling
+AWSCloudWatch
+AWSCognito
+AWSCognitoAuth
+AWSCognitoIdentityProvider
+AWSCognitoIdentityProviderASF
+AWSDynamoDB
+AWSElasticLoadBalancing
+AWSFacebookSignIn
+AWSGoogleSignIn
+AWSIoT
+AWSKinesis
+AWSLambda
+AWSLex
+AWSLogs
+AWSMachineLearning
+AWSPinpoint
+AWSPolly
+AWSRekognition
+AWSSimpleDB
 AWSUserPoolsSignIn
 v2.7
 
@@ -906,6 +925,7 @@ xcworkspace
 
 # ios/storage.md
 S3ObjectInput
+S3ObjectWrapper.swift
 CreatePostWithFileInputMutation
 createPostWithFile
 PostsTable
@@ -918,6 +938,7 @@ handleEventsForBackgroundURLSession
 interceptApplication
 AWSStaticCredentialsProvider
 CRUD
+AWSAppSyncTestCommon
 
 # android/how-to-android-sdk-setup.md
 aws-android-sdk-lex

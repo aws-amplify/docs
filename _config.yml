@@ -24,12 +24,12 @@ github:
 
 show_downloads: "true"
 include:
-- api
-- api/assets
-- api/classes
-- api/enums
-- api/interfaces
-- api/modules
+  - api
+  - api/assets
+  - api/classes
+  - api/enums
+  - api/interfaces
+  - api/modules
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
@@ -37,18 +37,18 @@ include:
 exclude:
   - Gemfile
   - Gemfile.lock
-  - node_modules
+  - node_modules/
   - vendor/bundle/
   - vendor/cache/
   - vendor/gems/
   - vendor/ruby/
-  - node_modules
-
+  - Readme.md
 
 # Build settings
 markdown: kramdown
 kramdown:
   parse_block_html: true
+  syntax_highlighter: rouge
 plugins:
   - jekyll-feed
   - jekyll-sitemap
@@ -113,7 +113,6 @@ sass:
 # Jekyll settings
 layouts_dir: ./theme/_layouts
 includes_dir: ./theme/_includes
-exclude: [ 'README.md', 'CHANGELOG.md' ]
 permalink: /:title
 
 android_category_list:
@@ -227,7 +226,7 @@ android_category_list:
       excerpt: Low level config
       base_url: '/android/manualsetup'
       subs:
-        - title: Manual SDK Setup
+        - title: SDK Setup Options
           excerpt: Setup Options for the SDK
           cta: Read more
           class: aws-icon-ps-60-circular-circuit
@@ -344,7 +343,7 @@ ios_category_list:
       excerpt: Low level config
       base_url: '/ios/manualsetup'
       subs:
-        - title: Manual SDK Setup
+        - title: SDK Setup Options
           excerpt: Setup Options for the SDK
           cta: Read more
           class: aws-icon-ps-60-circular-circuit

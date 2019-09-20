@@ -1,6 +1,11 @@
 ---
 title: Storage
 ---
+{% if jekyll.environment == 'production' %}
+  {% assign base_dir = site.amplify.docs_baseurl %}
+{% endif %}
+{% assign images_base = base_dir | append: page.dir | append: "images" %}
+{% assign common_media = base_dir | append: "/images" %}
 # Storage
 
 ## S3
@@ -32,13 +37,15 @@ See [Authentication](./authentication) for more information on how to get the `u
     $ cd ./YOUR_PROJECT_FOLDER
     $ amplify add storage
     ```
-3.  Choose `Content` as your storage service.
+3. Choose `Content` as your storage service.
 
     `❯ Content (Images, audio, video, etc.)`
 
-4. The CLI walks you through the options to enable Auth (if not enabled previously), to name your S3 bucket, and to decide who should have access (select `Auth and guest users` and `read/write` for both auth and guest users).
+4. The combination of friendly name and bucket name must be globally unique. If another S3 user has specified the same values for both of these as you, the amplify push step below will fail.
 
-5. Confirm that you have storage and auth set up.
+5. The CLI walks you through the options to enable Auth (if not enabled previously), to name your S3 bucket, and to decide who should have access (select `Auth and guest users` and toggle all to select `create/update, read, and delete` access for both auth and guest users).
+
+6. Confirm that you have Storage and Auth set up.
 
     ```bash
       $ amplify status
@@ -47,7 +54,7 @@ See [Authentication](./authentication) for more information on how to get the `u
       | Auth      | cognito2e202b09 | Create    | awscloudformation |
       | Storage   | sabc0123de      | Create    | awscloudformation |
       ```
-6. To create your backend run:
+7. To create your backend run:
 
     ```bash
     $ amplify push
@@ -56,7 +63,7 @@ See [Authentication](./authentication) for more information on how to get the `u
     The CLI will create the awsconfiguration.json file in your project's `res/raw` directory.
 
 ##### Lambda Triggers
-If you optionally want to enable triggers for the storage category (S3 & DynamoDB), the CLI supports associating Lambda triggers with S3 and DynamoDB events. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)
+If you want to enable triggers for the storage category with Amazon S3 & Amazon DynamoDB as providers, the CLI supports associating Lambda triggers with S3 and DynamoDB events. For example, this can be useful for a use case where you want to invoke a Lambda function after a create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)
 
 ### Connect to Your Backend
 
@@ -66,9 +73,9 @@ Use the following steps to connect add file storage backend services to your app
 
 	```groovy
 	dependencies {
-	  implementation 'com.amazonaws:aws-android-sdk-s3:2.14.+'
-	  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.14.+@aar') { transitive = true }
-	  implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.14.+@aar') { transitive = true }
+	  implementation 'com.amazonaws:aws-android-sdk-s3:2.15.+'
+	  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.15.+@aar') { transitive = true }
+	  implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.15.+@aar') { transitive = true }
 	}
 	```
 	Perform a `Gradle Sync` to download the AWS Mobile SDK components into your app.
@@ -108,28 +115,40 @@ The TransferUtility checks the size of the file being uploaded and automatically
 
 ```java
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.amazonaws.mobile.client.AWSMobileClient;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobile.client.Callback;
+import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferService;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 
-public class YourActivity extends Activity {
-
-    private static final String TAG = YourActivity.class.getSimpleName();
+public class MainActivity extends Activity {
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        getApplicationContext().startService(new Intent(getApplicationContext(), TransferService.class));
+
         // Initialize the AWSMobileClient if not initialized
         AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
             @Override
             public void onResult(UserStateDetails userStateDetails) {
                 Log.i(TAG, "AWSMobileClient initialized. User State is " + userStateDetails.getUserState());
+                uploadWithTransferUtility();
             }
 
             @Override
@@ -137,22 +156,32 @@ public class YourActivity extends Activity {
                 Log.e(TAG, "Initialization error.", e);
             }
         });
-        uploadWithTransferUtility();
+
     }
 
     public void uploadWithTransferUtility() {
 
         TransferUtility transferUtility =
-            TransferUtility.builder()
-                .context(getApplicationContext())
-                .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
-                .s3Client(new AmazonS3Client(AWSMobileClient.getInstance()))
-                .build();
+                TransferUtility.builder()
+                        .context(getApplicationContext())
+                        .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
+                        .s3Client(new AmazonS3Client(AWSMobileClient.getInstance()))
+                        .build();
+
+        File file = new File(getApplicationContext().getFilesDir(), "sample.txt");
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.append("Howdy World!");
+            writer.close();
+        }
+        catch(Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
 
         TransferObserver uploadObserver =
-            transferUtility.upload(
-                "public/s3Key.txt",
-                new File("/path/to/file/localFile.txt"));
+                transferUtility.upload(
+                        "public/sample.txt",
+                        new File(getApplicationContext().getFilesDir(),"sample.txt"));
 
         // Attach a listener to the observer to get state update and progress notifications
         uploadObserver.setTransferListener(new TransferListener() {
@@ -169,7 +198,7 @@ public class YourActivity extends Activity {
                 float percentDonef = ((float) bytesCurrent / (float) bytesTotal) * 100;
                 int percentDone = (int)percentDonef;
 
-                Log.d("YourActivity", "ID:" + id + " bytesCurrent: " + bytesCurrent
+                Log.d(TAG, "ID:" + id + " bytesCurrent: " + bytesCurrent
                         + " bytesTotal: " + bytesTotal + " " + percentDone + "%");
             }
 
@@ -186,11 +215,15 @@ public class YourActivity extends Activity {
             // Handle a completed upload.
         }
 
-        Log.d("YourActivity", "Bytes Transferred: " + uploadObserver.getBytesTransferred());
-        Log.d("YourActivity", "Bytes Total: " + uploadObserver.getBytesTotal());
-  }
+        Log.d(TAG, "Bytes Transferred: " + uploadObserver.getBytesTransferred());
+        Log.d(TAG, "Bytes Total: " + uploadObserver.getBytesTotal());
+    }
 }
 ```
+
+If you run this code, login to your AWS console, and go to the S3 service, you'll see a bucket and file structure like this (in this example the friendly name specified was `dev` and the bucket name was `storagedemo`):
+
+![Image]({{common_media}}/SampleStorageS3.png)
 
 ### Download a File
 
@@ -198,28 +231,40 @@ The following example shows how to use the TransferUtility to download a file. I
 
 ```java
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.amazonaws.mobile.client.AWSMobileClient;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobile.client.Callback;
+import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferService;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 
-public class YourActivity extends Activity {
-
-    private static final String TAG = YourActivity.class.getSimpleName();
+public class MainActivity extends Activity {
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        getApplicationContext().startService(new Intent(getApplicationContext(), TransferService.class));
+
         // Initialize the AWSMobileClient if not initialized
         AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
             @Override
             public void onResult(UserStateDetails userStateDetails) {
                 Log.i(TAG, "AWSMobileClient initialized. User State is " + userStateDetails.getUserState());
+                downloadWithTransferUtility();
             }
 
             @Override
@@ -227,22 +272,22 @@ public class YourActivity extends Activity {
                 Log.e(TAG, "Initialization error.", e);
             }
         });
-        downloadWithTransferUtility();
+
     }
 
     private void downloadWithTransferUtility() {
 
         TransferUtility transferUtility =
-            TransferUtility.builder()
-                    .context(getApplicationContext())
-                    .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
-                    .s3Client(new AmazonS3Client(AWSMobileClient.getInstance()))
-                    .build();
+                TransferUtility.builder()
+                        .context(getApplicationContext())
+                        .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
+                        .s3Client(new AmazonS3Client(AWSMobileClient.getInstance()))
+                        .build();
 
         TransferObserver downloadObserver =
-            transferUtility.download(
-                    "public/s3Key.txt",
-                    new File("/path/to/file/localFile.txt"));
+                transferUtility.download(
+                        "public/sample.txt",
+                        new File(getApplicationContext().getFilesDir(), "download.txt"));
 
         // Attach a listener to the observer to get state update and progress notifications
         downloadObserver.setTransferListener(new TransferListener() {
@@ -256,10 +301,10 @@ public class YourActivity extends Activity {
 
             @Override
             public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
-                    float percentDonef = ((float)bytesCurrent/(float)bytesTotal) * 100;
-                    int percentDone = (int)percentDonef;
+                float percentDonef = ((float)bytesCurrent/(float)bytesTotal) * 100;
+                int percentDone = (int)percentDonef;
 
-                    Log.d("Your Activity", "   ID:" + id + "   bytesCurrent: " + bytesCurrent + "   bytesTotal: " + bytesTotal + " " + percentDone + "%");
+                Log.d("Your Activity", "   ID:" + id + "   bytesCurrent: " + bytesCurrent + "   bytesTotal: " + bytesTotal + " " + percentDone + "%");
             }
 
             @Override

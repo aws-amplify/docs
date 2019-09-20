@@ -39,13 +39,6 @@ The Amplify CLI helps setup and configure Pinpoint within your application and c
     $ amplify add analytics
     ```
 
-    In a terminal window, navigate to your project folder (the folder contains your app `.xcodeproj` file), and add the SDK to your app.
-
-    ```bash
-    $ cd ./YOUR_PROJECT_FOLDER
-    $ amplify add analytics
-    ```
-
 2. When configuration for analytics is complete, a message appears confirming that you have configured local CLI metadata for this category. You can confirm this by viewing status.
 
     ```bash
@@ -93,8 +86,8 @@ Use the following steps to add analytics to your mobile app and monitor the resu
 
 ```groovy
 dependencies {
-  implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.14.+'
-  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.14.+@aar') { transitive = true }
+  implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.15.+'
+  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.15.+@aar') { transitive = true }
 }
 ```
 
@@ -146,7 +139,7 @@ dependencies {
                 AWSMobileClient.getInstance().initialize(applicationContext, awsConfig, new Callback<UserStateDetails>() {
                     @Override
                     public void onResult(UserStateDetails userStateDetails) {
-                        Log.i("INIT", userStateDetails.getUserState());
+                        Log.i("INIT", userStateDetails.getUserState().toString());
                     }
 
                     @Override
@@ -713,8 +706,8 @@ Set up AWS Mobile SDK components by including the following libraries in your `a
 
 ```groovy
 dependencies {
-  implementation 'com.amazonaws:aws-android-sdk-kinesis:2.14.+'
-  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.14.+@aar') { transitive = true }
+  implementation 'com.amazonaws:aws-android-sdk-kinesis:2.15.+'
+  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.15.+@aar') { transitive = true }
 }
 ```
 
@@ -767,7 +760,7 @@ You can use `AWSMobileClient` to setup the Cognito credentials that are required
 AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
         @Override
         public void onResult(UserStateDetails userStateDetails) {
-            Log.i("INIT", userStateDetails.getUserState());
+            Log.i("INIT", userStateDetails.getUserState().toString());
         }
 
         @Override
