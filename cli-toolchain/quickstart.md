@@ -133,6 +133,7 @@ $ Do you want to enable any of the following capabilities?
     ◯ Email Domain Filtering (blacklist)
     ◯ Email Domain Filtering (whitelist)
     ◯ Custom Auth Challenge Flow (basic scaffolding - not for production)
+    ◯ Override ID Token Claims
 ```
 
 2.  In the manual Auth CLI workflow, you will be given the chance to select the options above, but will also be able to manually configure Lambda Trigger templates:
@@ -150,6 +151,7 @@ $ Which triggers do you want to enable for Cognito?
  ◯ Post Confirmation
  ◯ Pre Sign-up
  ◯ Verify Auth Challenge Response
+ ◯ Pre Token Generation
 
 $ What functionality do you want to use for Custom Message
  ◯ Learn More
@@ -267,33 +269,23 @@ Behind the scenes, the CLI automates populating of the resource identifiers for 
 
 #### GraphQL from Lambda
 
-You can use a Lambda function to call your GraphQL API, however at this time you must modify your AppSync schema after deploying the API. For example, deploy a simple `Todo` model with the following schema in the `amplify add api` flow:
+You can use a Lambda function to call your GraphQL API. For example, deploy a simple `Todo` model with the following schema in the `amplify add api` flow:
 
 ```
-type Todo @model {
+type Todo @model @auth (
+    rules: [
+        { allow: private, provider: iam, operations: [create] }
+    ]
+) {
   id: ID!
   name: String
   description: String
 }
 ```
 
-Next, run `amplify console` and select the GraphQL API. On the **Settings** page add an **Additional authorization provider** and select **IAM**. Next, on the **Schema** page add in the `@aws_iam` directive where appropriate per the [AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes). For example if you just want your Lambda function to have access to run a single mutation, add the directive onto that mutation (`createTodo` below) as well as the return type:
+In the above example we want your Lambda function to have access to run a single mutation (`createTodo`) and hence we explicitly mention `create` in the `operations` list. To grant access for application users to perform other actions, you can add `read`, `update` or `delete` to the `operations` list along with `create`.
 
-```
-type Todo @aws_iam {
-	id: ID!
-	name: String
-	description: String
-}
-
-type Mutation {
-	createTodo(input: CreateLambdaGraphQLInput!): Todo
-		@aws_iam
-	updateTodo(input: UpdateLambdaGraphQLInput!): Todo
-	deleteTodo(input: DeleteLambdaGraphQLInput!): Todo
-}
-```
-Save your changes and create a Lambda function with `amplify add function` and ensure that it's execution role has been granted an IAM policy with permissions to that GraphQL endpoint [as defined in the AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#aws-iam-authorization). The following function will sign the request and use environment variables for the AppSync and Region that `amplify add function` created for you:
+Save your changes and create a Lambda function with `amplify add function` and make sure to add access for your GraphQL API when prompted for in the `amplify add function` flow. The CLI would automatically configure the Lambda execution IAM role required by the Lambda function to call the GraphQL API. The following function will sign the request and use environment variables for the AppSync and Region that `amplify add function` created for you.
 
 ```javascript
 const https = require('https');
