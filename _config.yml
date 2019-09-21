@@ -226,7 +226,7 @@ android_category_list:
       excerpt: Low level config
       base_url: '/android/manualsetup'
       subs:
-        - title: Manual SDK Setup
+        - title: SDK Setup Options
           excerpt: Setup Options for the SDK
           cta: Read more
           class: aws-icon-ps-60-circular-circuit
@@ -343,7 +343,7 @@ ios_category_list:
       excerpt: Low level config
       base_url: '/ios/manualsetup'
       subs:
-        - title: Manual SDK Setup
+        - title: SDK Setup Options
           excerpt: Setup Options for the SDK
           cta: Read more
           class: aws-icon-ps-60-circular-circuit

@@ -1,8 +1,8 @@
 ---
-title: Setup Options for the SDK
+title: SDK Setup Options
 ---
 
-# Setup Options for the SDK
+# SDK Setup Options
 
 The AWS SDK contains [high level client interfaces](./start) for quickly adding common features and functionality to your app. You can also manually add the generated AWS service interfaces for direct interaction if you have custom or advanced requirements.
 
@@ -133,7 +133,7 @@ Now **build** your project to start using the SDK. Whenever a new version of the
 
 ## Frameworks setup
 
-Download the [SDK](https://sdk-for-ios.amazonwebservices.com/latest/aws-ios-sdk.zip). The SDK is stored in a compressed file archive named `aws-ios-sdk-#.#.#` (where `#.#.#` represents the version number, so for version 2.9.0, the filename is `aws-ios-sdk-2.9.0`).
+Download the [latest SDK](https://sdk-for-ios.amazonwebservices.com/latest/aws-ios-sdk.zip). Older SDK versions can be downloaded from `https://sdk-for-ios.amazonwebservices.com/aws-ios-sdk-#.#.#.zip`, where `#.#.#` represents the version number. So for version 2.10.2, the download link is [https://sdk-for-ios.amazonwebservices.com/aws-ios-sdk-2.10.2.zip](https://sdk-for-ios.amazonwebservices.com/aws-ios-sdk-2.10.2.zip).
 
 With your project open in Xcode, select your `Target`. Under `General` tab, find `Embedded Binaries` and then click the `+` button.
 
@@ -185,6 +185,12 @@ Under the `Build Phases` tab in your `Target`, click the `+` button on the top l
     Output Files: Empty
 
 Now **build** your project to start using the SDK. Whenever a new version of the SDK is released you can update by selecting the previously imported AWS frameworks in `Project Navigator` in Xcode and pressing 'delete' on your keyboard. Then select `Move to Trash` and follow the installation process above to include the new version of the SDK.
+
+## AWS SDK Version vs. Semantic Versioning
+
+The AWS SDK for iOS does not follow semantic versioning. Instead, it increments the patch-level version for both backward-compatible bug fixes *and* non-breaking changes, and increments the minor version for breaking changes. Major version changes are rare, and usually indicate a dramatically different programming model.
+
+For comparison, Semantic versioning increments the patch level for backward-compatible bug fixes, the minor version for backward-compatible new features, and the major version for breaking changes.
 
 ## Direct AWS Service access
 

@@ -70,7 +70,6 @@ Create new AWS backend resources and pull the AWS services configuration into th
 ```bash
 $ cd ./YOUR_PROJECT_FOLDER
 $ amplify init        #accept defaults
-$ amplify push        #creates configuration file
 ```
 
 An `awsconfiguration.json` file will be created with your configuration and updated as features get added to your project by the Amplify CLI. The file is placed in the `./app/src/main/res/raw` directory of your Android Studio project and automatically used by the SDKs at runtime.
@@ -272,4 +271,4 @@ For working with other AWS services you can use service interface objects direct
 To work with service interface objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
 {: .callout .callout--warning}
 
-You can call methods on any AWS Service interface object supported by the AWS Android SDK by passing your credentials from the AWSMobileClient to the service call constructor. See [Manual SDK Setup](./manualsetup) for more information.
+You can call methods on any AWS Service interface object supported by the AWS Android SDK by passing your credentials from the AWSMobileClient to the service call constructor. See [SDK Setup Options](./manualsetup) for more information.
