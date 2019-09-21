@@ -3858,9 +3858,9 @@ type Comment @model(subscriptions: null) {
 
 ```
 type Subscription {
-  onCreateComment(content: String): Comment @aws_subscribe(mutations: "createComment")
-  onUpdateComment(id: ID, content: String): Comment @aws_subscribe(mutations: "updateComment")
-  onDeleteComment(id: ID, content: String): Comment @aws_subscribe(mutations: "deleteComment")
+  onCreateComment(content: String): Comment @aws_subscribe(mutations: ["createComment"])
+  onUpdateComment(id: ID, content: String): Comment @aws_subscribe(mutations: ["updateComment"])
+  onDeleteComment(id: ID, content: String): Comment @aws_subscribe(mutations: ["deleteComment"])
 }
 ```
 
