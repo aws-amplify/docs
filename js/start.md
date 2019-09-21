@@ -168,11 +168,11 @@ Open a browser and navigate to <a href="http://localhost:8080" target="_blank">h
 
 <div id="react" class="tab-content current">
 
-Use [Create React App](https://github.com/facebookincubator/create-react-app) to bootstrap your application.
+Use [Create React App](https://github.com/facebook/create-react-app) to bootstrap your application.
 
 ```bash
-$ npm install -g create-react-app
-$ create-react-app myapp && cd myapp
+$ npx create-react-app myapp
+$ cd myapp
 ```
 
 Inside the app directory, install Amplify and run your app:
@@ -472,7 +472,7 @@ This will open the AWS AppSync console for you to run Queries, Mutations, or Sub
 Update your `src/App.js` file to configure the library with `Amplify.configure()` and add data to your database with a mutation by using `API.graphql()`:
 
 ```javascript
-import React, { useEffect, useReducer } from 'react'
+import React from 'react'
 
 import API, { graphqlOperation } from '@aws-amplify/api'
 import PubSub from '@aws-amplify/pubsub';
@@ -502,6 +502,7 @@ Next, update `src/App.js` to list all the items in the database by importing `li
 
 ```javascript
 // other imports
+import { useEffect, useReducer } from 'react' // using hooks
 import { listTodos } from './graphql/queries'
 
 const initialState = {todos:[]};
