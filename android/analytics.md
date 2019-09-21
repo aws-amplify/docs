@@ -139,7 +139,7 @@ dependencies {
                 AWSMobileClient.getInstance().initialize(applicationContext, awsConfig, new Callback<UserStateDetails>() {
                     @Override
                     public void onResult(UserStateDetails userStateDetails) {
-                        Log.i("INIT", userStateDetails.getUserState());
+                        Log.i("INIT", userStateDetails.getUserState().toString());
                     }
 
                     @Override
@@ -760,7 +760,7 @@ You can use `AWSMobileClient` to setup the Cognito credentials that are required
 AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
         @Override
         public void onResult(UserStateDetails userStateDetails) {
-            Log.i("INIT", userStateDetails.getUserState());
+            Log.i("INIT", userStateDetails.getUserState().toString());
         }
 
         @Override
