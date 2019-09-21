@@ -2004,7 +2004,7 @@ export const handler = async (event, context) => {
 
 For React, you can create your own theme and use it to render Amplify components:
 
-Your custom theme must use the selectors from the following [template](https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-react/src/Amplify-UI/Amplify-UI-Theme.jsx)
+Your custom theme must use the selectors from the following [template](https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-react/src/Amplify-UI/Amplify-UI-Theme.tsx)
 {: .callout .callout--info}
 
 ```javascript
