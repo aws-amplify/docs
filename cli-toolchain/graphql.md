@@ -701,7 +701,7 @@ type Draft
     title: String!
     content: String
     owner: String
-    editors: [String]!
+    editors: [String]
 }
 ```
 
@@ -1130,7 +1130,7 @@ subscription onCreatePost(owner: “Bob”){
 }
 ```
 
-Note that if your type doesn’t already have an `owner` field the Transformer will automatically add this for you. Passing in the current user can be done dynamically in your code by using [Auth.currentAuthenticatedUser()](/js/authentication#retrieve-current-authenticated-user) in JavaScript, [AWSMobileClient.sharedInstance().username](/ios/authentication#utility-properties) in iOS, or [AWSMobileClient.getInstance().getUsername()](/android/authentication#utility-properties) in Android.
+Note that if your type doesn’t already have an `owner` field the Transformer will automatically add this for you. Passing in the current user can be done dynamically in your code by using [Auth.currentAuthenticatedUser()](/js/authentication#retrieve-current-authenticated-user) in JavaScript, [AWSMobileClient.default().username](/ios/authentication#utility-properties) in iOS, or [AWSMobileClient.getInstance().getUsername()](/android/authentication#utility-properties) in Android. 
 
 In the case of groups if you define the following:
 
@@ -3858,9 +3858,9 @@ type Comment @model(subscriptions: null) {
 
 ```
 type Subscription {
-  onCreateComment(content: String): Comment @aws_subscribe(mutations: "createComment")
-  onUpdateComment(id: ID, content: String): Comment @aws_subscribe(mutations: "updateComment")
-  onDeleteComment(id: ID, content: String): Comment @aws_subscribe(mutations: "deleteComment")
+  onCreateComment(content: String): Comment @aws_subscribe(mutations: ["createComment"])
+  onUpdateComment(id: ID, content: String): Comment @aws_subscribe(mutations: ["updateComment"])
+  onDeleteComment(id: ID, content: String): Comment @aws_subscribe(mutations: ["deleteComment"])
 }
 ```
 
