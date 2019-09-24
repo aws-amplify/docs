@@ -96,7 +96,7 @@ Use the following steps to connect add push notification backend services to you
 
             /** start code copy **/
             // Create AWSMobileClient to connect with AWS
-	    AWSMobileClient.sharedInstance().initialize { (userState, error) in
+	    AWSMobileClient.default().initialize { (userState, error) in
               if let error = error {
                 print("Error initializing AWSMobileClient: \(error.localizedDescription)")
               } else if let userState = userState {

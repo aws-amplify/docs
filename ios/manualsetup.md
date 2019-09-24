@@ -273,6 +273,35 @@ AWSDDLog.add(fileLogger)
 AWSDDLog.add(AWSDDTTYLogger.sharedInstance) // TTY = Xcode console
 ```
 
+## Configure using an in-memory object
+
+As an alternative to the `awsconfiguration.json` file, since version `2.11.0` a configuration object can also be used for configuring the client. This approach can be useful for resolving configuration in runtime instead of the pre-defined JSON file:
+
+```swift
+let configuration: [String: Any] = [
+    "IdentityManager": [
+        "Default": [:]
+    ],
+    "Auth": [
+        "Default": [
+            "OAuth": [
+                "AppClientId": "APP_CLIENT_ID",
+                "AppClientSecret": "APP_CLIENT_SECRET",
+                "Scopes": ["email"]
+            ]
+        ]
+    ]
+]
+
+let mobileClient = AWSMobileClient(configuration: configuration)
+mobileClient.initialize { (userState, error) in
+    // initialization logic
+}
+```
+
+Please note that creating multiple instances of `AWSMobileClient` <b>is not supported</b>. The configuration cannot be reset and/or re-initialized. Therefore, even though you can instantiate `AWSMobileClient` multiple times, all instances will have the same configuration reference.
+{: .callout .callout--warning}
+
 ## DocSet for Xcode
 
 Open the macOS terminal and go to the directory containing the expanded archive. For example:
