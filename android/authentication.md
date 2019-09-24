@@ -1616,63 +1616,7 @@ public void confirmSignIn() {
 }
 ```
 
-### Creating a CAPTCHA
-
-Here is the sample for creating a CAPTCHA challenge with a Lambda Trigger.
-
-The `Create Auth Challenge Lambda Trigger` creates a CAPTCHA as a challenge to the user. The URL for the CAPTCHA image and the expected answer is added to the private challenge parameters:
-
-```javascript
-export const handler = async (event) => {
-    if (!event.request.session || event.request.session.length === 0) {
-        event.response.publicChallengeParameters = {
-            captchaUrl: "/path/to/captchaService/image.jpeg",
-        };
-        event.response.privateChallengeParameters = {
-            answer: "<CHALLENGE_RESPONSE>",
-        };
-        event.response.challengeMetadata = "CAPTCHA_CHALLENGE";
-    }
-    return event;
-};
-```
-
-This `Define Auth Challenge Lambda Trigger` defines a custom challenge:
-
-```javascript
-export const handler = async (event) => {
-    if (!event.request.session || event.request.session.length === 0) {
-        // If we don't have a session or it is empty then send a CUSTOM_CHALLENGE
-        event.response.challengeName = "CUSTOM_CHALLENGE";
-        event.response.failAuthentication = false;
-        event.response.issueTokens = false;
-    } else if (event.request.session.length === 1 && event.request.session[0].challengeResult === true) {
-        // If we passed the CUSTOM_CHALLENGE then issue token
-        event.response.failAuthentication = false;
-        event.response.issueTokens = true;
-    } else {
-        // Something is wrong. Fail authentication
-        event.response.failAuthentication = true;
-        event.response.issueTokens = false;
-    }
-
-    return event;
-};
-```
-
-The `Verify Auth Challenge Response Lambda Trigger` is used to verify a challenge answer:
-
-```javascript
-export const handler = async (event, context) => {
-    if (event.request.privateChallengeParameters.answer === event.request.challengeAnswer) {
-        event.response.answerCorrect = true;
-    } else {
-        event.response.answerCorrect = false;
-    }
-
-    return event;
-};
-```
+Amplify CLI can be used generate lambda triggers required to add captcha to your application. 
 
 ## Using Device Features
 
