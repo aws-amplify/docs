@@ -14,7 +14,7 @@ You may also register identity providers in *Amazon Cognito* console by selectin
 ## Google
 
 * [AWS Developer Guide](http://docs.aws.amazon.com/cognito/latest/developerguide/google.html)
-* [Google Developer Guide](https://developers.google.com/+/web/signin/)
+* [Google Developer Guide](https://developers.google.com/identity/sign-in/web)
 
 ## Facebook
 

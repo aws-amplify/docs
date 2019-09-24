@@ -62,7 +62,7 @@ See [Authentication](./authentication) for more information on how to get the `u
     The CLI will create the awsconfiguration.json file in your project directory. Add it to your project using XCode.
 
 ##### Lambda Triggers
-If you optionally want to enable triggers for the storage category (S3 & DynamoDB), the CLI supports associating Lambda triggers with S3 and DynamoDB events. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)
+If you want to enable triggers for the storage category with Amazon S3 & Amazon DynamoDB as providers, the CLI supports associating Lambda triggers with S3 and DynamoDB events. For example, this can be useful for a use case where you want to invoke a Lambda function after a create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)
 
 ### Connect to Your Backend
 
@@ -574,8 +574,8 @@ The AWS AppSync SDK doesn't take a direct dependency on the AWS SDK for iOS for 
 ```ruby
   target: 'PostsApp' do
     use_frameworks!
-    pod 'AWSAppSync', ~> '2.14.1'
-    pod 'AWSS3', ~> '2.10.2'
+    pod 'AWSAppSync', ~> '2.14.2'
+    pod 'AWSS3', ~> '2.11.0'
   end
 ```
 

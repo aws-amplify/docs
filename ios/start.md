@@ -18,7 +18,7 @@ This page guides you through setting up a backend and integration into your iOS 
 
 [Install and configure the Amplify CLI](..)
 
-[Install Xcode](https://developer.apple.com/xcode/downloads/){:target="_blank"} version 9.2 or later.
+[Install Xcode](https://developer.apple.com/xcode/downloads/){:target="_blank"} version 10.2 or later.
 
 
 ## Step 1: Create a new app
@@ -35,7 +35,6 @@ pod init
 Open the created  `Podfile` in a text editor and add the pod for core AWS Mobile SDK components to your build.
 
 ```ruby
-platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
@@ -61,10 +60,9 @@ Create new AWS backend resources and pull the AWS services configuration into th
 ```bash
 $ cd ./YOUR_PROJECT_FOLDER
 $ amplify init        #accept defaults
-$ amplify push        #creates configuration file
 ```
 
-In the Finder, drag `awsconfiguration.json` into Xcode under the top Project Navigator folder (the folder name should match your Xcode project name). When the `Options` dialog box that appears, do the following:
+The `awsconfiguration.json` configuration file should be created in the root directory. In the Finder, drag `awsconfiguration.json` into Xcode under the top Project Navigator folder (the folder name should match your Xcode project name). When the `Options` dialog box that appears, do the following:
 
 * Clear the `Copy items if needed` check box.
 * Choose `Create groups`, and then choose `Finish`.
@@ -81,7 +79,7 @@ To verify that the CLI is set up for your app, run the following command.
   | -------- | ------------- | --------- | --------------- |
 ```
 
-The CLI displays a status table with no resources listed. As you add feature categories to your app and run `amplify push`, backend resources created for your app are listed in this table.
+The CLI displays a status table with no resources listed. As you add feature categories to your app and run `amplify push`, backend resources are created and will be listed in the table.
 
 You can update a category by running `amplify update <category-name>`. If you no longer want to use a service you can delete it with `amplify remove <category-name>`. Lastly, you can remove the whole project by running `amplify delete` (Warning: This will attempt to delete your entire project, locally and in the cloud, essentially resetting your project as if you never ran `amplify init`).
 {: .callout .callout--warning}
@@ -91,7 +89,7 @@ You can update a category by running `amplify update <category-name>`. If you no
 Add a GraphQL API to your app and automatically provision a database with the following command (accepting all defaults is OK):
 
 ```bash
-$ amplify add api     #select GraphQL, API Key
+$ amplify add api     #select 'GraphQL' service, and 'API Key' for the authorization type
 ```
 
 The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on you can always change it. This process creates an AWS AppSync API and connects it to an Amazon DynamoDB database.
@@ -107,11 +105,10 @@ $ amplify push
 Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults which generate a file named `API.swift`. Drag and drop this file from your `Finder` to the Xcode project and update your Podfile to include `AWSAppSync`:
 
 ```ruby
-platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSAppSync', '~> 2.14.0'
+    pod 'AWSAppSync', '~> 2.14.2'
 
 end
 ```
@@ -140,6 +137,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: appSyncServiceConfig,
                                                                   cacheConfiguration: cacheConfiguration)
             appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+            print("Initialized appsync client.")
         } catch {
             print("Error initializing appsync client. \(error)")
         }
@@ -179,6 +177,7 @@ You can now add data to your database with a mutation:
                 print("Error saving the item on server: \(resultError)")
                 return
             }
+            print("Mutation complete.")
         }
     }
 ```
@@ -192,6 +191,7 @@ Next, query the data:
                 print(error?.localizedDescription ?? "")
                 return
             }
+            print("Query complete.")
             result?.data?.listTodos?.items!.forEach { print(($0?.name)! + " " + ($0?.description)!) }
         }
     }
@@ -218,11 +218,12 @@ You can also setup realtime subscriptions to data:
         do {
             discard = try appSyncClient?.subscribe(subscription: OnCreateTodoSubscription(), resultHandler: { (result, transaction, error) in
                 if let result = result {
-                    print(result.data!.onCreateTodo!.name + " " + result.data!.onCreateTodo!.description!)
+                    print("CreateTodo subscription data:" +result.data!.onCreateTodo!.name + " " + result.data!.onCreateTodo!.description!)
                 } else if let error = error {
                     print(error.localizedDescription)
                 }
             })
+            print("Subscribed to CreateTodo Mutations.")
         } catch {
             print("Error starting subscription.")
         }
