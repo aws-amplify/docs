@@ -1523,7 +1523,7 @@ For more information about working with Lambda Triggers for custom authenticatio
 
 ### Custom Authentication in Amplify
 
-To initiate a custom authentication flow in your app, specify `authenticationFlowType` as `CUSTOM_AUTH` and  call `signIn` with a dummy password. A custom challenge needs to be answered using the `confirmSignIn` method as follows:
+To initiate a custom authentication flow in your app, specify `authenticationFlowType` as `CUSTOM_AUTH` in the awsconfiguration.json file. Note that is not currently supported by the CLI and developers must manually update the awsconfiguration.json to specify `authenticationFlowType` as follows : 
 
 ```json
 {
@@ -1542,6 +1542,8 @@ To initiate a custom authentication flow in your app, specify `authenticationFlo
   }
 }
 ```
+
+Next, in the app code  call `signIn` with a dummy password. Any custom challenges needs to be answered using the `confirmSignIn` method as follows:
 
 ```java
 public void signIn() {
