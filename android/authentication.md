@@ -1618,7 +1618,7 @@ public void confirmSignIn() {
 }
 ```
 
-Amplify CLI can be used generate lambda triggers required to add captcha to your application. 
+Amplify CLI can be used generate lambda triggers required to by custom authentication flow. See [documentation](https://aws-amplify.github.io/docs/cli-toolchain/cognito-triggers) for details. 
 
 ## Using Device Features
 
