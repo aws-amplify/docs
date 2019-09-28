@@ -30,6 +30,7 @@ The `ampify init` command takes these parameters:
 - `--frontend`
 - `--providers`
 - `--yes`
+- `--app`
 
 ##### `--amplify`
 Contains basic information of the project, it has these keys: 
@@ -82,6 +83,20 @@ The aws access key id if `useProfile` is set to false.
 The aws secret access key if `useProfile` is set to false.
 - `region`: 
 The aws region if `useProfile` is set to false.
+
+##### `--app <github url>`
+Installs, initializes and provisions resources for a sample amplify application from the provided github repository url. This option must be executed in an empty directory. The sample repository must have an amplify folder, including the following:
+
+- `project-config.json` in .config folder
+- `backend-config.json` in backend folder
+- The necessary cloudformation files in the backend folder
+    - e.g. stacks, `schema.graphql` for api
+    - e.g. cloudformation template for auth
+
+
+- local files local-env.json and local-aws-info.json are *NOT* required
+
+If the repository contains a `yarn.lock` and/or `package.json` file, the sample will be installed with the corresponding package manager and started after resources have been provisioned.
 
 ##### Sample script
 ```bash
