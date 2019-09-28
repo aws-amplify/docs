@@ -84,7 +84,7 @@ The aws secret access key if `useProfile` is set to false.
 - `region`: 
 The aws region if `useProfile` is set to false.
 
-##### `--app <github url>`
+##### `--app`
 Installs, initializes and provisions resources for a sample amplify application from the provided github repository url. This option must be executed in an empty directory. The sample repository must have an amplify folder, including the following:
 
 - `project-config.json` in .config folder
