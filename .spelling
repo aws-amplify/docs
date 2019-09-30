@@ -453,6 +453,7 @@ connectionWithKeyExamples.md
 Pre
 Auth.currentAuthenticatedUser
 AWSMobileClient.sharedInstance
+AWSMobileClient.default
 getTodo
 listTodos
 createTodo
