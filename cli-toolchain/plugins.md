@@ -7,9 +7,7 @@ title: Plugins & Extensions
 {% assign media_base = base_dir | append: page.dir | append: "images" %}
 # Plugins
 
-## Concepts
-
-### Amplify Plugin Platform
+## Amplify Plugin Platform
 Plugins are explicitly managed in the Amplify CLI pluggable platform. <br/>
 The Amplify CLI Core maintains a `plugins.json` file to store the plugin management configuration settings and information of all the installed plugins.  <br/>
 Each Amplify CLI plugin contains a *amplify-plugin.json*  file to manifest itself as a valid plugin.  <br/>
@@ -26,7 +24,7 @@ The `plugins.json` file will be created or updated in the following situations:
 * If inaccuracy is detected, e.g. a specified plugin can not be loaded, the Amplify CLI Core will scan again and update the information. 
 * After the execution of any of the `amplify plugin` commands that could change it, e.g. `amplify plugin scan`, `amplify plugin add/remove`
 
-### Amplify Plugin Commands
+## Amplify Plugin Commands
 The following is the suite of the commands under the `amplify plugin`:
 * amplify plugin configure
 * amplify plugin scan
