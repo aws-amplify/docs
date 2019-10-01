@@ -728,7 +728,7 @@ The `plugins.json` file is stored at path `<os.homedir>/.amplify/plugins.json`. 
 The `plugins.json` file will be created or updated in the following situations: 
 
 * If the `plugins.json` file is not found when the Amplify CLI Core tries to access it, the Amplify CLI Core will create this file and scan the local environment for plugins, and then store the information in the file.
-* If  the last scan time was more than one day (configurable) ago, the Amplify CLI Core will scan again and update the information. 
+* If the last scan time was more than one day (configurable) ago, the Amplify CLI Core will scan again and update the information. 
 * If inaccuracy is detected, e.g. a specified plugin can not be loaded, the Amplify CLI Core will scan again and update the information. 
 * After the execution of any of the `amplify plugin` commands that could change it, e.g. `amplify plugin scan`, `amplify plugin add/remove`.
 

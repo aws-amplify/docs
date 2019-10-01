@@ -51,7 +51,7 @@ The actual plugin packages themselves are not removed from your computer, and th
 
 ### Amplify plugin init
 The Amplify CLI provides the command `amplify plugin init` (with alias `amplify plugin new`) for the development of plugins.<br/>
-This command first collects the requirements from you, and then creates the skeleton of the plugin package for you to start the development. 
+This command first collects the requirements from you and then creates the skeleton of the plugin package for you to start the development. 
 The newly created plugin package is added to your local Amplify CLI platform, so you can conveniently test its functionalities while it is being developed. 
 It can be easily removed from the platform with the `amplify plugin remove` command and added back with the `amplify plugin add` command.
  
