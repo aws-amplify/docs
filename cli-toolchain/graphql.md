@@ -236,7 +236,9 @@ input ModelSubscriptionMap {
     onCreate: [String]
     onUpdate: [String]
     onDelete: [String]
+    level: ModelSubscriptionLevel
 }
+enum ModelSubscriptionLevel { off public on }
 ```
 
 #### Usage
@@ -699,7 +701,7 @@ type Draft
     title: String!
     content: String
     owner: String
-    editors: [String]!
+    editors: [String]
 }
 ```
 
@@ -1096,7 +1098,7 @@ Note `identityField` is being deprecated for `identityClaim`.
 
 #### Authorizing Subscriptions
 
-Prior to version 2.0 of the CLI, `@auth` rules did not apply to subscriptions. Instead you were required to either turn them off or use [Custom Resolvers](./graphql#custom-resolvers) to manually add authorization checks. In the latest versions `@auth` protections have been added to subscriptions, however this can introduce different behavior into existing applications: First, `owner` is now a required argument for Owner-based authorization, as shown below. Second, the selection set will set `null` on fields when mutations are invoked if per-field `@auth` is set on that field. [Read more here](./graphql#per-field-with-subscriptions). If you wish to keep the previous behavior set `level: PUBLIC` on your model as defined below.
+Prior to version 2.0 of the CLI, `@auth` rules did not apply to subscriptions. Instead you were required to either turn them off or use [Custom Resolvers](./graphql#custom-resolvers) to manually add authorization checks. In the latest versions `@auth` protections have been added to subscriptions, however this can introduce different behavior into existing applications: First, `owner` is now a required argument for Owner-based authorization, as shown below. Second, the selection set will set `null` on fields when mutations are invoked if per-field `@auth` is set on that field. [Read more here](./graphql#per-field-with-subscriptions). If you wish to keep the previous behavior set `level: public` on your model as defined below.
 {: .callout .callout--warning}
 
 When `@auth` is used subscriptions have a few subtle behavior differences than queries and mutations based on their event based nature. When protecting a model using the owner auth strategy, each subscription request will **require** that the user is passed as an argument to the subscription request. If the user field is not passed, the subscription connection will fail. In the case where it is passed, the user will only get notified of updates to records for which they are the owner.
@@ -1128,7 +1130,7 @@ subscription onCreatePost(owner: “Bob”){
 }
 ```
 
-Note that if your type doesn’t already have an `owner` field the Transformer will automatically add this for you. Passing in the current user can be done dynamically in your code by using [Auth.currentAuthenticatedUser()](/js/authentication#retrieve-current-authenticated-user) in JavaScript, [AWSMobileClient.sharedInstance().username](/ios/authentication#utility-properties) in iOS, or [AWSMobileClient.getInstance().getUsername()](/android/authentication#utility-properties) in Android.
+Note that if your type doesn’t already have an `owner` field the Transformer will automatically add this for you. Passing in the current user can be done dynamically in your code by using [Auth.currentAuthenticatedUser()](/js/authentication#retrieve-current-authenticated-user) in JavaScript, [AWSMobileClient.default().username](/ios/authentication#utility-properties) in iOS, or [AWSMobileClient.getInstance().getUsername()](/android/authentication#utility-properties) in Android. 
 
 In the case of groups if you define the following:
 
@@ -1153,10 +1155,10 @@ Finally, if you use both owner and group authorization then the username argumen
 - If you pass the user in who is NOT the owner and is NOT a member of a group, the subscription will not notify you of anything as there are no records for which you own
 
 
-You may disable authorization checks on subscriptions or completely turn off subscriptions as well by specifying either `PUBLIC` or `OFF` in `@model`:
+You may disable authorization checks on subscriptions or completely turn off subscriptions as well by specifying either `public` or `off` in `@model`:
 
 ```
-@model (subscriptions: { level: PUBLIC })
+@model (subscriptions: { level: public })
 ```
 
 #### Field Level Authorization
@@ -1962,8 +1964,8 @@ input SearchableQueryMap { search: String }
 
 #### Usage
 
-Store posts in Amazon DynamoDB and automatically stream them to Amazon ElasticSearch
-via AWS Lambda and connect a searchQueryField resolver.
+
+Given the following schema an index is created for Post, if there are more types with `@searchable` the directive will create an index for it, and those posts in Amazon DynamoDB are automatically streamed to the post index in Amazon ElasticSearch via AWS Lambda and connect a searchQueryField resolver.
 
 ```
 type Post @model @searchable {
@@ -3856,9 +3858,9 @@ type Comment @model(subscriptions: null) {
 
 ```
 type Subscription {
-  onCreateComment(content: String): Comment @aws_subscribe(mutations: "createComment")
-  onUpdateComment(id: ID, content: String): Comment @aws_subscribe(mutations: "updateComment")
-  onDeleteComment(id: ID, content: String): Comment @aws_subscribe(mutations: "deleteComment")
+  onCreateComment(content: String): Comment @aws_subscribe(mutations: ["createComment"])
+  onUpdateComment(id: ID, content: String): Comment @aws_subscribe(mutations: ["updateComment"])
+  onDeleteComment(id: ID, content: String): Comment @aws_subscribe(mutations: ["deleteComment"])
 }
 ```
 

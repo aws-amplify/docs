@@ -1512,6 +1512,114 @@ If you want to sign out locally by just deleting tokens, you can call `signOut` 
 AWSMobileClient.getInstance().signOut();
 ```
 
+## Customizing Authentication Flow
+
+Amazon Cognito User Pools supports customizing the authentication flow to enable custom challenge types, in addition to a password in order to verify the identity of users. These challenge types may include CAPTCHAs or dynamic challenge questions.
+
+To define your challenges for custom authentication flow, you need to implement three Lambda triggers for Amazon Cognito.
+
+For more information about working with Lambda Triggers for custom authentication challenges, please visit [Amazon Cognito Developer Documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
+{: .callout .callout--info}
+
+### Custom Authentication in Amplify
+
+To initiate a custom authentication flow in your app, specify `authenticationFlowType` as `CUSTOM_AUTH` in the awsconfiguration.json file. Note that is not currently supported by the CLI and developers must manually update the awsconfiguration.json to specify `authenticationFlowType` as follows : 
+
+```json
+{
+  "CognitoUserPool": {
+    "Default": {
+      "PoolId": "XX-XXXX-X_abcd1234",
+      "AppClientId": "XXXXXXXX",
+      "AppClientSecret": "XXXXXXXXX",
+      "Region": "XX-XXXX-X"
+    }
+  },
+  "Auth": {
+    "Default": {
+      "authenticationFlowType": "CUSTOM_AUTH"
+    }
+  }
+}
+```
+
+Next, in the app code  call `signIn` with a dummy password. Any custom challenges needs to be answered using the `confirmSignIn` method as follows:
+
+```java
+public void signIn() {
+    AWSMobileClient.getInstance().signIn(username, password, null, new Callback<SignInResult>() {
+        @Override
+        public void onResult(final SignInResult signInResult) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d("APP", "Sign-in callback state: " + signInResult.getSignInState());
+                    switch (signInResult.getSignInState()) {
+                        case DONE:
+                            Log.d(TAG, "Sign-in done.");
+                            break;
+                        case SMS_MFA:
+                            Log.d(TAG, "Please confirm sign-in with SMS.");
+                            break;
+                        case NEW_PASSWORD_REQUIRED:
+                            Log.d(TAG, "Please confirm sign-in with new password.");
+                            break;
+                        case CUSTOM_CHALLENGE:
+                            confirmSignIn();
+                            break;
+                        default:
+                            Log.d(TAG, "Unsupported sign-in confirmation: " + signInResult.getSignInState());
+                            break;
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void onError(Exception e) {
+            Log.e(TAG, "Sign-in error", e);
+        }
+    });
+}
+
+public void confirmSignIn() {
+    Map<String, String> res = new HashMap<String, String>();
+    res.put(CognitoServiceConstants.CHLG_RESP_ANSWER, "<CHALLENGE_RESPONSE>");
+    AWSMobileClient.getInstance().confirmSignIn(res, new Callback<SignInResult>() {
+        @Override
+        public void onResult(final SignInResult signInResult) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG, "Sign-in callback state: " + signInResult.getSignInState());
+                    switch (signInResult.getSignInState()) {
+                        case DONE:
+                            Log.d(TAG, "Sign-in done.");
+                            break;
+                        case SMS_MFA:
+                            Log.d(TAG, "Please confirm sign-in with SMS.");
+                            break;
+                        case NEW_PASSWORD_REQUIRED:
+                            Log.d(TAG, "Please confirm sign-in with new password.");
+                            break;
+                        default:
+                            Log.d(TAG, "Unsupported sign-in confirmation: " + signInResult.getSignInState());
+                            break;
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void onError(Exception e) {
+            Log.e(TAG, "Confirm Custom auth Sign-in error", e);
+        }
+    });
+}
+```
+
+Amplify CLI can be used generate lambda triggers required to by custom authentication flow. See [documentation](https://aws-amplify.github.io/docs/cli-toolchain/cognito-triggers) for details. 
+
 ## Using Device Features
 
 You can use the device related features of Amazon Cognito UserPools by enabling the `Devices` features. Go to your Cognito UserPool, click on `Devices` in Left Navigation Menu and chose one of `User Opt In` or `Always`.
