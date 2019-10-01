@@ -19,7 +19,8 @@ If you're using Windows, we recommend the [Windows Subsystem for Linux](https://
   `npx create-react-app myapp`<br>
   `cd myapp`<br>
 
-**_Getting Started with the CLI_**
+***Getting Started with the CLI*** 
+
 To get started, initialize your project in the new directory:
 
 ```
@@ -30,7 +31,7 @@ After you answer the provided questions, you can use `amplify help` at any time 
 
 The Amplify CLI uses AWS CloudFormation, and you can add or modify configurations locally before you push them for execution in your account. To see the status of the deployment at any time, run `amplify status`.
 
-**_Publishing Your Web App_**
+***Publishing Your Web App***
 
 Without making any changes to your React application, add web hosting as follows:
 
@@ -92,7 +93,7 @@ You can now use `amplify publish` to build and publish your app again. This time
 The SignUp component provides your users with the ability to sign up. It is included as part of the `Authenticator` component.
 
 Usage:
-`<Authenticator signUpConfig={signUpConfig}/>`
+`<Authenticator signUpConfig={ signUpConfig }/>`
 
 It can also be used as part of the authentication HOC:
 `export default withAuthenticator(App, { signUpConfig });`
@@ -120,7 +121,7 @@ const signUpConfig = {
       displayOrder: 1,
       type: 'string'
     },
-    ...
+    ... // and other custom attributes
   ]
 };
 
@@ -182,14 +183,17 @@ class App2 {
 export default withAuthenticator(App2, { usernameAttributes: 'phone_number' });
 ```
 
-**Note:** if you are using custom signUpFields to customize the `username` field, then you need to make sure either the label of that field is the same value you set in `usernameAttributes` or the key of the field is `username`.
+**Note:** If you are using custom signUpFields to customize the `username` field, then you need to make sure either the label of that field is the same value you set in `usernameAttributes` or the key of the field is `username`.
 
 For example:
 
 ```js
 import React, { Component } from 'react';
+import Amplify from 'aws-amplify';
+import awsconfig from './aws-exports';
 import { withAuthenticator } from 'aws-amplify-react';
-//make sure to configure aws amplify
+
+Amplify.configure(awsconfig);
 
 class App extends Component {}
 
@@ -240,7 +244,9 @@ export default withAuthenticator(App, {
 
 Next, we'll add some features, like tracking user behavior analytics and uploading/downloading images in the cloud.
 
-Before starting, to enable analytics in amplify, we need to associate user to an identity pool. Run `amplify add auth` and configure authentication with using manual configuration. Then, Start by running `amplify add analytics` in your project. You can enable analytics for authenticated users only, or for users that aren't authenticated. You would be prompted to ask whether you want to allow guests and unauthenticated users to send analytics events, so you can choose `Yes`. You can also try a new project without authentication configured to test this feature.
+Before starting, to enable analytics in amplify, we need to associate user to an identity pool. Run `amplify add auth` and configure authentication with using manual configuration. 
+
+Start by running `amplify add analytics` in your project. You can enable analytics for authenticated users only, or for users that aren't authenticated. You would be prompted to ask whether you want to allow guests and unauthenticated users to send analytics events, so you can choose `Yes`. You can also try a new project without authentication configured to test this feature.
 
 Run `amplify add storage` and then select **Content (Images, audio, video, etc.)**. You'll then be prompted for authorization related questions. Choose **Auth and guest users** to give both authorized and guest users access. In the next prompts, based on your previous selection you would be asked to configure read/write permissions for the authorized and guest users. When complete, run `amplify push` to create the cloud resources.
 
@@ -314,12 +320,7 @@ This is the GraphQL schema that you'll deploy to AWS AppSync. If you're familiar
 After the deployment is complete, open your `App.js` again and update the import to include both the `API` category and `graphqlOperation` method as follows:
 
 ```javascript
-import Amplify, {
-  Analytics,
-  Storage,
-  API,
-  graphqlOperation
-} from 'aws-amplify';
+import Amplify, { Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 ```
 
 Add the following query and mutations in your code, _before_ the `class App extends Component {...}` definition as follows:
