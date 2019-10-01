@@ -522,4 +522,5 @@ Data is stored unencrypted when using standard storage adapters (`localStorage` 
 
  - `react-native-keychain`
  - `react-native-secure-storage`
+ - `rn-secure-storage`
  - Expo's secure store
