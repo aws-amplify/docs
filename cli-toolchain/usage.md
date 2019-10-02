@@ -711,58 +711,88 @@ Babel needs to be configured properly so that the transpiled code can be run on 
 Once you run `amplify push`, the `amplify:generateReport` script will be executed, either by `yarn` or by `npm` depending on the existence of a `yarn.lock` file in the project root directory.
 
 ## Architecture
+The Amplify CLI has a pluggable architecture. The CLI core provides the pluggable platform, and most of the CLI category functions are implemented as plugins. 
+
+### Amplify Plugin Platform
+![Image]({{media_base}}/plugin-platform.png)
+
+Plugins are explicitly managed in the Amplify CLI pluggable platform. <br/>
+The Amplify CLI Core maintains a `plugins.json` file to store the plugin management configuration settings and information of all the installed plugins.  <br/>
+The Amplify CLI plugins each contains a `amplify-plugin.json` file to manifest itself as a valid plugin.  <br/>
+The Amplify CLI Core provides a set of utility commands under `amplify plugin` for plugin management and to facilitate the development of plugins.
+
+The Amplify CLI Core does not dynamically scan for plugins at the beginning of each command execution. Instead, information about the installed plugins are retrieved from the `plugins.json` file and only the plugins that are needed for the execution of the command will be loaded. 
+
+The `plugins.json` file is stored at path `<os.homedir>/.amplify/plugins.json`. Unless you really know what you are doing, you should NOT manually edit this file, otherwise you run the risk of corrupting your local installation of the Amplify CLI. 
+
+The `plugins.json` file will be created or updated in the following situations: 
+
+* If the `plugins.json` file is not found when the Amplify CLI Core tries to access it, the Amplify CLI Core will create this file and scan the local environment for plugins, and then store the information in the file.
+* If the last scan time was more than one day (configurable) ago, the Amplify CLI Core will scan again and update the information. 
+* If inaccuracy is detected, e.g. a specified plugin can not be loaded, the Amplify CLI Core will scan again and update the information. 
+* After the execution of any of the `amplify plugin` commands that could change it, e.g. `amplify plugin scan`, `amplify plugin add/remove`.
+
+By default, the CLI core searches for plugins in its parent directory, its local `node_modules` directory, and the global `node_modules` directory. Plugins are recognized by the `amplify-` prefix in the package names.
+
+Plugins communicate with the CLI core and with each other through the project metadata. The CLI core provides the read and write access to the project metadata for the plugins. The project metadata is stored in file `amplify/backend/amplify-meta.json` in the user project. 
+
+### Plugin types
 ![Image]({{media_base}}/AmplifyCliConcept.jpg)
 
-
-The Amplify CLI uses <a href="https://github.com/infinitered/gluegun##readme" target="_blank">gluegun</a>. The CLI core provides the pluggable platform, and most of the CLI category functions are implemented as plugins. The CLI core searches for plugins in the global `node_modules` directory, and its own `node_modules` directory. Plugins are recognized by the `amplify-` prefix in the package names.
-
-Plugins communicate with the CLI core, and with each other, through the project metadata. The CLI core provides the read and write access to the project metadata for the plugins. The project metadata is stored in file `amplify/backend/amplify-meta.json` in the user project, see [below](##meta) for more details of the meta data file. 
-
-#### Plugin types
 There are four types of plugins
 - category
 - provider
 - frontend
-- general purpose
+- util
 
 #### Category plugin
-Recognized by the `amplify-category-` prefix in the package name, a category plugin wraps up the logic to create and manage one category of backend resources in the cloud. It defines the "shape" of the cloud resources based on user (the developer) input, constructs parameters to CRUD cloud resource, and exports relevant cloud resource information to the project metadata.
+Amplify maintained category plugins are recognized by the `amplify-category-` prefix in the package name.<br/>
+A category plugin wraps up the logic to create and manage one category of backend resources in the cloud. It defines the "shape" of the cloud resources based on user (the developer) input, constructs parameters to CRUD cloud resource, and exports relevant cloud resource information to the project metadata.
 
 Categories are managed by AWS and are a functional use case that a client engineer is building as part of their UX, rather than service implementations.
 
 #### Provider plugin
-Recognized by the `amplify-provider-` prefix in the package name, a provider plugin abstracts the actual cloud resource provider. It wraps up communication details such as access credentials, api invoke and wait logic, and response data parsing etc. and exposes simple interface methods for the category plugins to CRUD cloud resource. 
+Amplify maintained provider plugins are recognized by the `amplify-provider-` prefix in the package name.<br/>
+A provider plugin abstracts the actual cloud resource provider. It wraps up communication details such as access credentials, api invoke and wait logic, and response data parsing. It also exposes simple interface methods for the category plugins to CRUD cloud resource. 
 
 #### Frontend plugin
-Recognized by the `amplify-frontend-` prefix in the package name, a frontend plugin handles a specific type of frontend projects, such as Javascript, Android or iOS projects. Among other things, it provides these functionalities:
+Amplify maintained frontend plugins are recognized by the `amplify-frontend-` prefix in the package name.<br/>
+A frontend plugin handles a specific type of frontend projects, such as Javascript, Android or iOS projects. Among other things, it provides the following functionalities:
 - Formats the cloud resource information and writes it to a file at the right location so it can be recognized and consumed by the frontend project 
 - Builds and serves the frontend application locally with backend hot-wired to the cloud resources
 - Builds and publishes the application (frontend and backend) to its intended users
 
-#### General purpose plugin
-Recognized by the `amplify-` prefix, without a plugin type decoration, in the package name, a general purpose plugin does not manage any backend resources in the cloud, but provides certain CLI commands and/or certain functionalities for the CLI core, and other plugins.
+#### util plugin
+Official util plugins are recognized by the `amplify-` prefix, without a plugin type decoration in the package name, a util purpose plugin does not manage any backend resources in the cloud, but provides certain CLI commands and/or certain functionalities for the CLI core, and other plugins.
 
-#### Official plugins
+#### Official category, frontend and provider plugins
 - amplify-category-analytics
 - amplify-category-api
 - amplify-category-auth
 - amplify-category-function
 - amplify-category-hosting
-- amplify-category-notifications
-- amplify-category-storage
 - amplify-category-interactions
+- amplify-category-notifications
+- amplify-category-predictions
+- amplify-category-storage
+- amplify-category-xr
 - amplify-codegen
 - amplify-frontend-javascript
 - amplify-frontend-android
 - amplify-frontend-ios
 - amplify-provider-awscloudformation
 
-#### Third party plugin setup
+### Third party plugin setup
 You can add a 3rd party plugin to the Amplify CLI with the following steps:
-1. The plugin author names the plugin package according to the naming convention outlined above and publishes it to the npm registry.
-2. The plugin user executes `npm install -g <plugin>` and installs the plugin to the global node_modules directory.
+- If the plugin author named the plugin package according to the naming convention outlined above.
+1. Run `npm install -g <plugin>` and install the plugin to the global node_modules directory.<br/>
+2. Run `amplify plugin scan` so the Amplify CLI plugin platform will pick up the newly added plugin.
 
-The plugin is then picked up by the CLI core and used the same as the official plugins. 
+- If the plugin author did NOT named the plugin package according to the naming convention outlined above.
+1. Run `npm install -g <plugin>` and install the plugin to the global node_modules directory.<br/>
+2. Run `amplify plugin add` and provide the path to the plugin to explicitly add the plugin package into the Amplify CLI plugin platform.
+
+
 Click [here](plugins) for more details on how to author new plugins.
 
 ### AWS CloudFormation
