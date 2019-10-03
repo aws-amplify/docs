@@ -931,6 +931,12 @@ Do you want to use the default authentication and security configuration?
   I want to learn more.
 ```
 
+When prompted to set up the redirect signin and signout URI, enter `myapp://`. You can also update these values later with `amplify update auth`
+```
+Enter your redirect signin URI: myapp://
+Enter your redirect signout URI: myapp://
+```
+
 After going through the CLI flow, run the following command to deploy the configured resources to the cloud:
 ```terminal
 $ amplify push
