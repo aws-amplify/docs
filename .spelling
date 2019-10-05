@@ -200,6 +200,7 @@ myAmplifyProject
 _blank
 OnInit
 todos
+autolinking
 
 # js/hub.md
 onHubCapsule
