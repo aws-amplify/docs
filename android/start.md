@@ -26,7 +26,7 @@ This page guides you through setting up a backend and integration into your iOS 
 
 ## Step 1: Configure your app
 
-You can use an existing Android app or create a new Android app usin Java as per the steps in prerequisite section.
+You can use an existing Android app or create a new Android app using Java as per the steps in prerequisite section.
 
 Modify your `project/build.gradle` with the following build dependency:
 
