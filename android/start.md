@@ -24,9 +24,11 @@ This page guides you through setting up a backend and integration into your iOS 
 * This guide assumes that you are familiar with Android development and tools. If you are new to Android development, you can follow [these steps](https://developer.android.com/training/basics/firstapp/creating-project){:target="_blank"} to create your first Android application using Java. 
 
 
-## Step 1: Create a new app
+## Step 1: Configure your app
 
-Follow [these steps](https://developer.android.com/training/basics/firstapp/creating-project) to create an Android Studio application using Java. Modify your `project/build.gradle` with the following build dependency:
+You can use an existing Android app or create a new Android app usin Java as per the steps in prerequisite section.
+
+Modify your `project/build.gradle` with the following build dependency:
 
 ```groovy
 classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.9.+'
