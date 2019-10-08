@@ -49,6 +49,12 @@ The `init` command goes through the following steps:
 - Insert amplify folder structure into the project's root directory, with the initial project configuration
 - Generate the project metadata files, with the outputs of the above-selected plugin(s)
 
+### Samples workflow
+To set up a sample amplify project, execute the following command inside an empty directory:
+
+`amplify init --app <github url>`
+
+where the github url is a valid sample amplify project repository. Click [here](https://aws-amplify.github.io/docs/cli-toolchain/usage#--app) for more details.
 
 ### Common CLI commands
 - `amplify <category> <subcommand>`
