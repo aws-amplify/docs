@@ -225,7 +225,7 @@ $ npm install aws-amplify
 $ npm install aws-amplify-react-native
 ```
 
-If you are using React Native 0.60 and above, [autolinking](https://github.com/react-native-community/cli/blob/master/docs/autolinking.md) is enabled, but for iOS you would need to run the following step:
+If you are using React Native 0.60 and above, [autolinking](https://github.com/react-native-community/cli/blob/master/docs/autolinking.md) is enabled. Run the following commands for iOS:
 
 ```bash
 $ cd ios && pod install && cd ..
