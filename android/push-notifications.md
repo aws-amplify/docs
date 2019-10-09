@@ -82,6 +82,8 @@ Use the following steps to connect your app to the push notification backend ser
 
 4. Create an Amazon Pinpoint client in the location of your push notification code.
 
+Java:
+
     ```java
     import android.content.BroadcastReceiver;
     import android.content.Context;
@@ -159,6 +161,77 @@ Use the following steps to connect your app to the push notification backend ser
     }
     ```
 
+    Kotlin:
+
+    ```kotlin
+    // ...
+
+    public class MainActivity extends AppCompatActivity {
+      // ...
+      private val mPinpoint: PinpointManager by lazy { pinpoint }
+
+      override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val token = task?.result?.token
+                Log.d("INIT", "Registering push notifications token: ${token}")
+                token?.let { mPinpoint.notificationClient.registerDeviceToken(token) }
+            } else {
+                Log.w("INIT", "getInstanceId failed", task.exception)
+            }
+        }
+    }
+
+    val Context.pinpoint: PinpointManager
+        get() {
+            val awsConfig = AWSConfiguration(this)
+            return PinpointManager(PinpointConfiguration(
+                    this,
+                    AWSMobileClient.getInstance().initialize(this, awsConfig) {
+                        onResult {
+                            Log.d(TAG, "initialized: ${it.userState}")
+                        }
+                        onError { e ->
+                            Log.e(TAG, "initialized: error")
+                            e.printStackTrace()
+                        }
+                    },
+                    awsConfig))
+        }
+
+    fun AWSMobileClient.initialize(context: Context,
+                                   config: AWSConfiguration,
+                                   init: Callbacks<UserStateDetails>.() -> Unit): AWSMobileClient {
+      val callbacks = Callbacks<UserStateDetails>()
+      callbacks.init()
+      this.initialize(context, config, callbacks)
+      return this
+    }
+
+    class Callbacks<T> : com.amazonaws.mobile.client.Callback<T> {
+      var onResultFunc: (T) -> Unit = {}
+      var onErrorFunc: (Throwable) -> Unit = {}
+
+      override fun onResult(result: T) {
+          onResultFunc(result)
+      }
+
+      fun onResult(onResult: (T) -> Unit) {
+          this.onResultFunc = onResult
+      }
+
+      override fun onError(e: Exception?) {
+          onErrorFunc(e ?: Exception())
+      }
+
+      fun onError(onError: (Throwable) -> Unit) {
+          this.onErrorFunc = onError
+      }
+    }
+    ```
+
 ## Add Amazon Pinpoint Targeted and Campaign Push Messaging
 
 The [Amazon Pinpoint console](https://console.aws.amazon.com/pinpoint/) enables you to target your app users with push messaging. You can send individual messages or configure campaigns that target a group of users that match a profile that you define.
@@ -175,6 +248,8 @@ The following steps show how to receive push notifications targeted for your app
 
 2. The following push listener code assumes that the app's `MainActivity` is configured using
             the manifest setup described in a previous section.
+
+    Java:
 
     ```java
     import android.content.Intent;
@@ -254,6 +329,58 @@ The following steps show how to receive push notifications targeted for your app
          */
         public static String getMessage(Bundle data) {
             return ((HashMap) data.get("data")).toString();
+        }
+    }
+    ```
+
+    Kotlin:
+
+    ```kotlin
+    class PushListenerService : FirebaseMessagingService() {
+        companion object {
+            const val ACTION_PUSH_NOTIFICATION = "push-notification"
+        }
+
+        private val mPinpoint: PinpointManager by lazy { pinpoint }
+
+        override fun onNewToken(token: String) {
+            super.onNewToken(token)
+
+            Log.d(TAG, "Registering push notifications token: ${token}")
+            mPinpoint.notificationClient.registerDeviceToken(token)
+        }
+
+        override fun onMessageReceived(remoteMessage: RemoteMessage) {
+            super.onMessageReceived(remoteMessage)
+
+            val pushResult = mPinpoint.notificationClient.handleCampaignPush(NotificationDetails.builder()
+                    .from(remoteMessage.from)
+                    .mapData(remoteMessage.data)
+                    .intentAction(NotificationClient.FCM_INTENT_ACTION)
+                    .build())
+
+            if (NotificationClient.CampaignPushResult.NOT_HANDLED != pushResult) {
+                /**
+                 * The push message was due to a Pinpoint campaign.
+                 * If the app was in the background, a local notification was added
+                 * in the notification center. If the app was in the foreground, an
+                 * event was recorded indicating the app was in the foreground,
+                 * for the demo, we will broadcast the notification to let the main
+                 * activity display it in a dialog.
+                 */
+                if (NotificationClient.CampaignPushResult.APP_IN_FOREGROUND == pushResult) {
+                    Log.d(TAG, "Pinpoint Handled in foreground")
+                    /* Create a message that will display the raw data of the campaign push in a dialog. */
+                    broadcast(remoteMessage.from, HashMap(remoteMessage.data))
+                }
+            }
+        }
+
+        private fun broadcast(from: String?, dataMap: HashMap<String, String>) {
+            LocalBroadcastManager.getInstance(this).sendBroadcast(Intent(ACTION_PUSH_NOTIFICATION).apply {
+                putExtra(NotificationClient.INTENT_SNS_NOTIFICATION_FROM, from)
+                putExtra(NotificationClient.INTENT_SNS_NOTIFICATION_DATA, dataMap)
+            })
         }
     }
     ```
