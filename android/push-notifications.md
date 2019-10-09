@@ -82,7 +82,7 @@ Use the following steps to connect your app to the push notification backend ser
 
 4. Create an Amazon Pinpoint client in the location of your push notification code.
 
-Java:
+    Java:
 
     ```java
     import android.content.BroadcastReceiver;
@@ -167,19 +167,22 @@ Java:
     // ...
 
     public class MainActivity extends AppCompatActivity {
-      // ...
-      private val mPinpoint: PinpointManager by lazy { pinpoint }
+        // ...
+        companion object {
+            val Pinpoint by lazy { Singleton<Context, PinpointManager> { it.pinpoint } }
+        }
 
-      override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
 
-        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val token = task?.result?.token
-                Log.d("INIT", "Registering push notifications token: ${token}")
-                token?.let { mPinpoint.notificationClient.registerDeviceToken(token) }
-            } else {
-                Log.w("INIT", "getInstanceId failed", task.exception)
+            FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val token = task.result?.token
+                    Log.d("INIT", "Registering push notifications token: ${token}")
+                    token?.let { Pinpoint.of(this).notificationClient.registerDeviceToken(token) }
+                } else {
+                    Log.w("INIT", "getInstanceId failed", task.exception)
+                }
             }
         }
     }
@@ -191,15 +194,31 @@ Java:
                     this,
                     AWSMobileClient.getInstance().initialize(this, awsConfig) {
                         onResult {
-                            Log.d(TAG, "initialized: ${it.userState}")
+                            Log.d("INIT", "${it.userState}")
                         }
                         onError { e ->
-                            Log.e(TAG, "initialized: error")
-                            e.printStackTrace()
+                            Log.e("INIT", "Initialization error.", e)
                         }
                     },
                     awsConfig))
         }
+
+    open class Singleton<in T, out R>(private val creator: (T) -> R) {
+        @Volatile private var instance: R? = null
+
+        fun of(context: T): R {
+            return instance ?: synchronized(this) {
+                val i = instance
+                if (i != null) {
+                    i
+                } else {
+                    val i2 = creator(context)
+                    instance = i2
+                    i2
+                }
+            }
+        }
+    }
 
     fun AWSMobileClient.initialize(context: Context,
                                    config: AWSConfiguration,
@@ -341,19 +360,17 @@ The following steps show how to receive push notifications targeted for your app
             const val ACTION_PUSH_NOTIFICATION = "push-notification"
         }
 
-        private val mPinpoint: PinpointManager by lazy { pinpoint }
-
         override fun onNewToken(token: String) {
             super.onNewToken(token)
 
             Log.d(TAG, "Registering push notifications token: ${token}")
-            mPinpoint.notificationClient.registerDeviceToken(token)
+            MainActivity.Pinpoint.of(this).notificationClient.registerDeviceToken(token)
         }
 
         override fun onMessageReceived(remoteMessage: RemoteMessage) {
             super.onMessageReceived(remoteMessage)
 
-            val pushResult = mPinpoint.notificationClient.handleCampaignPush(NotificationDetails.builder()
+            val pushResult = MainActivity.Pinpoint.of(this).notificationClient.handleCampaignPush(NotificationDetails.builder()
                     .from(remoteMessage.from)
                     .mapData(remoteMessage.data)
                     .intentAction(NotificationClient.FCM_INTENT_ACTION)

@@ -115,6 +115,8 @@ dependencies {
 
    The following example shows how to start a session in the `OnCreate` event of `MainActivity`.
 
+    Java:
+
     ```java
     import android.support.v7.app.AppCompatActivity;
     import android.os.Bundle;
@@ -168,6 +170,89 @@ dependencies {
         }
     }
     ```
+
+    Kotlin:
+
+    ```kotlin
+    // ...
+
+    public class MainActivity extends AppCompatActivity {
+        // ...
+        companion object {
+            val Pinpoint by lazy { Singleton<Context, PinpointManager> { it.pinpoint } }
+        }
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+
+            Pinpoint.of(this).sessionClient.startSession()
+        }
+    }
+
+    val Context.pinpoint: PinpointManager
+        get() {
+            val awsConfig = AWSConfiguration(this)
+            return PinpointManager(PinpointConfiguration(
+                    this,
+                    AWSMobileClient.getInstance().initialize(this, awsConfig) {
+                        onResult {
+                            Log.d("INIT", "${it.userState}")
+                        }
+                        onError { e ->
+                            Log.e("INIT", "Initialization error.", e)
+                        }
+                    },
+                    awsConfig))
+        }
+
+    open class Singleton<in T, out R>(private val creator: (T) -> R) {
+        @Volatile private var instance: R? = null
+
+        fun of(context: T): R {
+            return instance ?: synchronized(this) {
+                val i = instance
+                if (i != null) {
+                    i
+                } else {
+                    val i2 = creator(context)
+                    instance = i2
+                    i2
+                }
+            }
+        }
+    }
+
+    fun AWSMobileClient.initialize(context: Context,
+                                   config: AWSConfiguration,
+                                   init: Callbacks<UserStateDetails>.() -> Unit): AWSMobileClient {
+      val callbacks = Callbacks<UserStateDetails>()
+      callbacks.init()
+      this.initialize(context, config, callbacks)
+      return this
+    }
+
+    class Callbacks<T> : com.amazonaws.mobile.client.Callback<T> {
+      var onResultFunc: (T) -> Unit = {}
+      var onErrorFunc: (Throwable) -> Unit = {}
+
+      override fun onResult(result: T) {
+          onResultFunc(result)
+      }
+
+      fun onResult(onResult: (T) -> Unit) {
+          this.onResultFunc = onResult
+      }
+
+      override fun onError(e: Exception?) {
+          onErrorFunc(e ?: Exception())
+      }
+
+      fun onError(onError: (Throwable) -> Unit) {
+          this.onErrorFunc = onError
+      }
+    }
+    ```
+
 
 	To stop the session, use `stopSession()` and `submitEvents()` at the last point in the session you want to capture. In this example, we are using a single Activity, so the session will stop when the MainActivity is destroyed. `onDestroy()` is usually called when the back button is pressed while in the activity.
 
