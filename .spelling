@@ -200,6 +200,7 @@ myAmplifyProject
 _blank
 OnInit
 todos
+autolinking
 
 # js/hub.md
 onHubCapsule
@@ -585,6 +586,7 @@ OneGraph
 transpile
 transpiling
 transpiled
+util
 
 # android/analytics.md
 ActivityLifecycleCallbacks
