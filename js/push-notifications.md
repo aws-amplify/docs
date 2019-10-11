@@ -13,6 +13,9 @@ This guide provides a step-by-step introduction to start working with push notif
 Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start).
 {: .callout .callout--info}
 
+<b>Pricing:</b> [Amazon Pinpoint](https://aws.amazon.com/pinpoint/pricing/)
+{: .callout .callout--info}
+
 ## Installation and Configuration
 
 Setup instructions are provided for Android and iOS, and configuration for both platforms can be included on the same React Native project. 

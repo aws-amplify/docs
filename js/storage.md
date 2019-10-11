@@ -14,6 +14,9 @@ AWS Amplify Storage module provides a simple mechanism for managing user content
 Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start).
 {: .callout .callout--info}
 
+<b>Pricing:</b> [AWS S3](https://aws.amazon.com/s3/pricing/),[DynamoDB](https://aws.amazon.com/dynamodb/pricing/)
+{: .callout .callout--info}
+
 ### Automated Setup
 
 AWS Mobile CLI helps you to create and configure the storage buckets for your app. The default implementation of the Storage module leverages [Amazon S3](https://aws.amazon.com/s3).

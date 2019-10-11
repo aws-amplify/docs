@@ -10,6 +10,46 @@ title: API
 
 The API category provides a solution for making HTTP requests to REST and GraphQL endpoints. It includes a [AWS Signature Version 4](http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html) signer class which automatically signs all AWS API requests for you as well as methods to use API Keys, Amazon Cognito User Pools, or 3rd party OIDC providers.
 
+<div class='callout callout--info'>
+<b>Pricing:</b> There are several ways an API can be configured. As such, your pricing model will vary depending on which service(s) are implemented.  However, unless your application is expecting to receive large traffic, most services are free or offer free tiers. Below are links to their respective pricing pages.<br/><br/>
+<table>
+
+<th>Service</th>
+<th>Description</th>
+
+<tbody>
+<tr>
+  <td><a href="https://aws.amazon.com/appsync/pricing/">AWS AppSync</a></td>
+  <td>AWS managed GraphQL layer</td>
+</tr>
+<tr>
+  <td><a href="https://aws.amazon.com/elasticsearch-service/pricing/">Amazon ElasticSearch</a></td>
+  <td>EC2-based service used for creating rich queries. See also: <a href='https://aws-amplify.github.io/docs/cli-toolchain/graphql#searchable'>@searchable directive</a> </td>
+</tr>
+<tr>
+  <td><a href="https://aws.amazon.com/cloudfront/pricing/">Amazon Cloudfront</a></td>
+  <td>AWS managed CDN, commonly used with AWS Lambda to create REST APIs</td>
+</tr>
+<tr>
+  <td><a href="https://aws.amazon.com/lambda/pricing/">AWS Lambda</a></td>
+  <td>general purpose cloud functions</td>
+</tr>
+<tr>
+  <td><a href='https://aws.amazon.com/dynamodb/pricing/'>DynamoDB</a></td>
+  <td>scalable NOSQL database</td>
+</tr>
+<tr>
+  <td><a href='https://aws.amazon.com/cognito/pricing/'>AWS Cognito</a></td>
+  <td>identity management, commonly used for user authorization</td>
+</tr>
+<tr>
+  <td><a href='https://aws.amazon.com/cognito/pricing/'>Amazon SNS </a></td>
+  <td>Push/text notifications, commonly used for account verification/password resets. See also: <a href="https://aws.amazon.com/ses/pricing/">SES</a> for email</td>
+</tr>
+
+</tbody>
+</table>
+</div>
 
 ## Using GraphQL Endpoints
 

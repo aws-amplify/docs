@@ -9,6 +9,9 @@ PubSub is available with **AWS IoT** and **Generic MQTT Over WebSocket Providers
 With AWS IoT, AWS Amplify's PubSub automatically signs your HTTP requests when sending your messages.
 {: .callout .callout--info}
 
+<b>Pricing:</b> [Amazon IoT](https://aws.amazon.com/iot-core/pricing/)
+{: .callout .callout--info}
+
 ## Installation and Configuration
 
 ### AWS IoT

@@ -9,24 +9,52 @@ title: Predictions
 
 # Predictions
 
-The Predictions category provides a solution for using AI and ML cloud services to enhance your application. Some supported use cases:
-
-- Translating text from one language to another
-- Converting text to speech
-- Text recognition from image
-- Entities recognition
-- Label real world objects
-- Interpretation of text
-- Uploading images for automatic training
-- Transcribing text
-
-Predictions comes with built-in support for [Amazon Translate](https://docs.aws.amazon.com/translate/latest/dg/what-is.html){:target="_blank"}, [Amazon Polly](https://docs.aws.amazon.com/polly/latest/dg/what-is.html){:target="_blank"}, [Amazon Transcribe](https://docs.aws.amazon.com/transcribe/latest/dg/what-is-transcribe.html){:target="_blank"}, [Amazon Rekognition](https://docs.aws.amazon.com/rekognition/latest/dg/what-is.html){:target="_blank"}, [Amazon Textract](https://docs.aws.amazon.com/textract/latest/dg/what-is.html){:target="_blank"}, and [Amazon Comprehend](https://docs.aws.amazon.com/comprehend/latest/dg/what-is.html){:target="_blank"}.
-
-Additionally Predictions supports generic invocation of SageMaker Inference API from a native (iOS/Android) application. 
+The Predictions category provides a solution for using AI and ML cloud services to enhance your application. [See below](#sample-react-app) for an example on how to use these services together in an application.
 
 <b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
 <b>Recommendation:</b> [Complete the Getting Started guide](./start?platform=purejs)
 {: .callout .callout--info}
+
+<div class='callout callout--info'>
+<b>Pricing:</b> There are several ways to add AI and ML services into your application. As such, your pricing model will vary depending on which service(s) are implemented.  Below are links to their respective pricing pages, which will also note if there are free tiers available.<br/><br/>
+<table>
+
+<th>Service</th>
+<th>Description</th>
+
+<tbody>
+<tr>
+  <td><a href="https://aws.amazon.com/translate/pricing/">Amazon Translate</a></td>
+  <td>text-translation service</td>
+</tr>
+<tr>
+  <td><a href="https://aws.amazon.com/polly/pricing/">Amazon Polly</a></td>
+  <td>convert text to speech (audio) or speech markup</td>
+</tr>
+<tr>
+  <td><a href="https://aws.amazon.com/transcribe/pricing/">Amazon Transcribe</a></td>
+  <td>convert audio to text</td>
+</tr>
+<tr>
+  <td><a href="https://aws.amazon.com/rekognition/pricing/">Amazon Rekognition</a></td>
+  <td>use machine-learning to provide insight into images/video</td>
+</tr>
+<tr>
+  <td><a href='https://aws.amazon.com/textract/pricing/'>Amazon Textract</a></td>
+  <td>Detect and/or analyze data from text-based documents, pages, and forms</td>
+</tr>
+<tr>
+  <td><a href='https://aws.amazon.com/comprehend/pricing/'>Amazon Comprehend</a></td>
+  <td>AWS Managed Machine Learning service to discover relationships and insights in text based documents</td>
+</tr>
+<tr>
+  <td><a href='https://aws.amazon.com/sagemaker/pricing/'>Amazon Comprehend</a></td>
+  <td>AWS Managed Machine Learning service to discover relationships, and train models for any type of data</td>
+</tr>
+
+</tbody>
+</table>
+</div>
 
 #### Automated Setup
 

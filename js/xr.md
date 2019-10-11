@@ -5,6 +5,9 @@
 
 The XR category enables you to work with augmented reality (AR) and virtual reality (VR) content within your applications. The XR category has built-in support for Amazon Sumerian.
 
+<b>Pricing:</b> [Amazon Sumerian](https://aws.amazon.com/sumerian/pricing/)
+{: .callout .callout--info}
+
 ## Configuration
 
 ### Publishing a scene

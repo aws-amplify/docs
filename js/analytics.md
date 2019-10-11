@@ -6,6 +6,7 @@
 The Analytics category enables you to collect analytics data for your app. The Analytics category comes with built-in support for [Amazon Pinpoint](#using-amazon-pinpoint) and [Amazon Kinesis](#using-amazon-kinesis).
 
 <b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
+<b>Pricing:</b> [Amazon Pinpoint](https://aws.amazon.com/pinpoint/pricing/), [Amazon Kinesis](https://aws.amazon.com/kinesis/data-streams/pricing/)<br>
 <b>Recommendation:</b> [Complete the Getting Started guide](./start?platform=purejs)
 {: .callout .callout--info}
 

@@ -21,6 +21,9 @@ Amplify interfaces with User Pools to store your user information, including fed
 <b>Recommendation:</b> [Complete the Getting Started guide](./start?platform=purejs)
 {: .callout .callout--info}
 
+<b>Pricing:</b> [Amazon Cognito](https://aws.amazon.com/cognito/pricing/),[AWS Lambda](https://aws.amazon.com/lambda/pricing/)
+{: .callout .callout--info}
+
 ### Concepts
 	
 Authentication is a process to validate **who you are** (abbreviated as **AuthN**). The system which does this validation is referred to as an **Identity Provider** or **IdP**. This can be your own self-hosted IdP or a cloud service. Oftentimes, this IdP is a social provider such as Facebook, Google, or Amazon (*"Social Sign-In"*).

@@ -8,6 +8,9 @@ AWS Amplify Interactions category enables AI-powered chatbots in your web or mob
 Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start).
 {: .callout .callout--info}
 
+<b>Pricing:</b> [Amazon Lex](https://aws.amazon.com/lex/pricing/)
+{: .callout .callout--info}
+
 **Amazon Lex**
 
 AWS Amplify implements [Amazon Lex](https://aws.amazon.com/lex) as the default chatbots service. Amazon Lex supports creating conversational bots with the same deep learning technologies that power Amazon Alexa.
