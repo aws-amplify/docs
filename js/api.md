@@ -24,7 +24,7 @@ The API category provides a solution for making HTTP requests to REST and GraphQ
 </tr>
 <tr>
   <td><a href="https://aws.amazon.com/elasticsearch-service/pricing/">Amazon ElasticSearch</a></td>
-  <td>EC2-based service used for creating rich queries. See also: <a href='https://aws-amplify.github.io/docs/cli-toolchain/graphql#searchable'>@searchable directive</a> </td>
+  <td>EC2 based service used for creating rich queries. See also: <a href='https://aws-amplify.github.io/docs/cli-toolchain/graphql#searchable'>@searchable directive</a> </td>
 </tr>
 <tr>
   <td><a href="https://aws.amazon.com/cloudfront/pricing/">Amazon Cloudfront</a></td>
