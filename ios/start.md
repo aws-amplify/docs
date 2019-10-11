@@ -109,7 +109,7 @@ The codegen process generates a file named `API.swift` in your application root 
 
 **What is API.swift?**
 
-`API.swift` (or an alternate name choosen by you in CLI flow) contains the generated code for GraphQL statements such as queries, mutation, and subscriptions. This saves you time as you don't have to hand author them.
+`API.swift` (or an alternate name chosen by you in CLI flow) contains the generated code for GraphQL statements such as queries, mutation, and subscriptions. This saves you time as you don't have to hand author them.
 
 
 From the Finder window, drag and drop the generated `API.shift` to the Xcode project under the top Project Navigator folder whose name matches your Xcode project name. When the `Options` dialog box appears, do the following:
