@@ -39,7 +39,7 @@ Open the created  `Podfile` in a text editor and add the pod for core AWS Mobile
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSCore', '~> 2.11.0'
+    pod 'AWSCore', '~> 2.12.0'
 
     # other pods
 end
