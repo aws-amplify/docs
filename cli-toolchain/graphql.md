@@ -3385,7 +3385,7 @@ type Query {
 #set( $items = [] )
 #foreach( $entry in $context.result.hits.hits )
   #if( !$foreach.hasNext )
-    #set( $nextToken = "$entry.sort.get(0)" )
+    #set( $nextToken = $entry.sort.get(0) )
   #end
   $util.qr($items.add($entry.get("_source")))
 #end
