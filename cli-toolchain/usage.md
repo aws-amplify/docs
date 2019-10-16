@@ -236,7 +236,7 @@ The Amplify CLI requires the below IAM policies for performing actions across al
             "Effect": "Allow",
             "Action": [
                 "appsync:*",
-                 "apigateway:POST",
+                "apigateway:POST",
                 "apigateway:DELETE",
                 "apigateway:PATCH",
                 "apigateway:PUT",
