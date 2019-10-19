@@ -1,0 +1,24 @@
+{
+  "extends": [
+    "tslint:latest",
+    "tslint-config-prettier",
+    "tslint-plugin-prettier"
+  ],
+  "rules": {
+    "curly": [true, "as-needed"],
+    "interface-name": [true, "never-prefix"],
+    "max-classes-per-file": false,
+    "member-access": false,
+    "member-ordering": false,
+    "no-bitwise": false,
+    "no-console": false,
+    "no-empty": false,
+    "no-implicit-dependencies": [false, "dev"],
+    "no-shadowed-variable": false,
+    "no-submodule-imports": false,
+    "no-this-assignment": false,
+    "no-unused-expression": false,
+    "object-literal-sort-keys": false,
+    "prettier": true
+  }
+}
