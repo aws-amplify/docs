@@ -26,7 +26,7 @@ This page guides you through setting up a backend and integration into your iOS 
 ## Step 1: Configure your app
 You can use an existing iOS app or create a new iOS app in Swift as per the steps in prerequisite section. 
 
-Install Cocoapods. From a terminal window navigate into your Xcode project's application directory and run the following:
+Install Cocoapods: From a terminal window navigate into your Xcode project's application directory and run the following:
 
 ```bash
 $ sudo gem install cocoapods
@@ -40,6 +40,7 @@ target :'YOUR-APP-NAME' do
     use_frameworks!
 
     pod 'AWSCore', '~> 2.11.0'
+    pod 'AWSAppSync', '~> 2.14.2'
 
     # other pods
 end
@@ -54,9 +55,9 @@ pod install --repo-update
 Close your Xcode project and reopen it using `./YOUR-PROJECT-NAME.xcworkspace` file. Remember to always use `./YOUR-PROJECT-NAME.xcworkspace` to open your Xcode project from now on. Build your Xcode project.
 
 
-## Step 2: Set Up Your Backend
+## Step 2: Initialize your project
 
-Create new AWS backend resources and pull the AWS services configuration into the app. In a terminal window, navigate to your project folder (the folder that contains your `xcodeproj` file), and run the following command (for this app, accepting all defaults is OK):
+In a terminal window, navigate to your project folder (the folder that contains your `xcodeproj` file), and run the following command (for this app, accepting all defaults is OK):
 
 ```bash
 $ cd ./YOUR_PROJECT_FOLDER
@@ -64,6 +65,8 @@ $ amplify init        #accept defaults
 ```
 
 The `awsconfiguration.json` configuration file should be created in the root directory. 
+
+## Step 3: Add awsconfiguration.json to your project
 
 **What is awsconfiguration.json?**
 
@@ -74,7 +77,7 @@ In the Finder, drag `awsconfiguration.json` into Xcode under the top Project Nav
 * Clear the `Copy items if needed` check box.
 * Choose `Create groups`, and then choose `Finish`.
 
-## Step 3: Add API and Database
+## Step 4: Add API and Database
 
 Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the the following command from the root of your application directory (accepting all defaults is OK):
 
@@ -100,22 +103,12 @@ $ amplify add api
 
 [Learn more](https://aws-amplify.github.io/docs/cli-toolchain/graphql){:target="_blank"} about annotating GraphQL schemas and data modeling.
 
-## Step 3: Push changes
+## Step 5: Push changes
 
 Create the required backend resources for your configured API using the `amplify push` command.
 Since you added an API, the `amplify push` process will automatically enter the [codegen process](https://aws-amplify.github.io/docs/cli-toolchain/graphql#codegen) and prompt you for configuration. Accept the defaults.
 
 The codegen process generates a file named `API.swift` in your application root directory after the completion of `amplify push` command.
-
-**What is API.swift?**
-
-`API.swift` (or an alternate name chosen by you in CLI flow) contains the generated code for GraphQL statements such as queries, mutation, and subscriptions. This saves you time as you don't have to hand author them.
-
-
-From the Finder window, drag and drop the generated `API.shift` to the Xcode project under the top Project Navigator folder whose name matches your Xcode project name. When the `Options` dialog box appears, do the following:
-
-* Clear the `Copy items if needed` check box.
-* Choose `Create groups`, and then choose `Finish`.
 
 The CLI flow for push command is shown below:
 
@@ -129,20 +122,18 @@ $ amplify push
 ? Enter the file name for the generated code: API.swift
 ```
 
-Next, update your Podfile to include `AWSAppSync`:
+## Step 6: Add generated code to your project
 
-```ruby
-target :'YOUR-APP-NAME' do
-    use_frameworks!
+**What is API.swift?**
 
-    pod 'AWSAppSync', '~> 2.14.2'
+`API.swift` (or an alternate name chosen by you in CLI flow) contains the generated code for GraphQL statements such as queries, mutation, and subscriptions. This saves you time as you don't have to hand author them.
 
-end
-```
+From the Finder window, drag and drop the generated `API.shift` to the Xcode project under the top Project Navigator folder whose name matches your Xcode project name. When the `Options` dialog box appears, do the following:
 
-Run `pod install` and **build your app**.
+* Clear the `Copy items if needed` check box.
+* Choose `Create groups`, and then choose `Finish`.
 
-## Step 4: Integrate into your app
+## Step 7: Integrate into your app
 
 Initialize the AppSync client inside your application delegate:
 
