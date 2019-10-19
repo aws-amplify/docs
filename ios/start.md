@@ -29,6 +29,7 @@ You can use an existing iOS app or create a new iOS app in Swift as per the step
 Install Cocoapods: From a terminal window navigate into your Xcode project's application directory and run the following:
 
 ```bash
+$ cd ./YOUR_PROJECT_FOLDER
 $ sudo gem install cocoapods
 $ pod init
 ```
