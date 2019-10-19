@@ -1,9 +1,33 @@
 {
   "name": "aws-amplify-documentation",
+  "private": true,
   "version": "1.0.0",
-  "description": "AWS Amplify Documentation",
-  "main": "index.md",
+  "license": "Apache-2.0",
+  "description": "AWS Amplify Documentation Content",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aws-amplify/docs.git"
+  },
+  "homepage": "https://github.com/aws-amplify/docs#readme",
+  "bugs": {
+    "url": "https://github.com/aws-amplify/docs/issues"
+  },
   "devDependencies": {
+    "@types/fs-extra": "^8.0.1",
+    "@types/js-yaml": "^3.12.1",
+    "@types/node": "^12.11.1",
+    "@types/rimraf": "^2.0.2",
+    "fast-glob": "^3.1.0",
+    "fs-extra": "^8.1.0",
+    "js-yaml": "^3.13.1",
+    "liquidjs": "^9.1.1",
+    "prettier": "^1.18.2",
+    "rimraf": "^3.0.0",
+    "ts-node": "^8.4.1",
+    "tslint": "^5.20.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "typescript": "^3.6.4",
     "write-good": "^0.13.1"
   },
   "scripts": {
@@ -12,16 +36,5 @@
     "links": "blc https://aws-amplify.github.io/docs/js/start",
     "start": "bundle exec jekyll serve",
     "build": "npm run test && npm run grammar && bundle exec jekyll build"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/aws-amplify/docs.git"
-  },
-  "keywords": ["aws-ampilfy"],
-  "author": "AWS",
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/aws-amplify/docs/issues"
-  },
-  "homepage": "https://github.com/aws-amplify/docs#readme"
+  }
 }
