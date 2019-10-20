@@ -196,10 +196,10 @@ For comparison, Semantic versioning increments the patch level for backward-comp
 
 You can call AWS service interface objects directly via the generated SDK clients. You can use the client credentials provided by the [AWSMobileClient](./authentication) when using the `.default()` method on a service object (e.g. `AWSSQS.default()`). This will leverage short term AWS credentials from Cognito Identity. Alternatively, you can call the constructors manually.
 
+<p class="callout callout--warning">
 **Note:** If you are relying on the AWSMobileClient as the credentials provider, then initialize the AWSMobileClient before constructing any other service client. The AWSMobileClient will attach itself as the credentials provider for all default clients. However, if you attach a default credentials provider before initializing the AWSMobileClient, then you cannot rely on the AWSMobileClient to vend credentials used to authenticate the service client's API calls.
-
 To work with service interface objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
-{: .callout .callout--warning}
+</p>
 
 For example, if you were using [Amazon Simple Queue Service (SQS)](https://aws.amazon.com/sqs/) in Swift you would first add `AWSSQS` to your `Podfile` and install the dependencies with `pod install` (alternatively follow the instructions for [Carthage](#carthage-setup) or [Frameworks](#frameworks-setup)). Next, update your `awsconfiguration.json` like so:
 
@@ -299,8 +299,9 @@ mobileClient.initialize { (userState, error) in
 }
 ```
 
+<p class="callout callout--warning">
 Please note that creating multiple instances of `AWSMobileClient` <b>is not supported</b>. The configuration cannot be reset and/or re-initialized. Therefore, even though you can instantiate `AWSMobileClient` multiple times, all instances will have the same configuration reference.
-{: .callout .callout--warning}
+</p>
 
 ## DocSet for Xcode
 

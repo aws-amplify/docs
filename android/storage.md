@@ -104,8 +104,9 @@ getApplicationContext().startService(new Intent(getApplicationContext(), Transfe
 
 This section explains how to implement upload and download functionality and a number of additional storage use cases.
 
+<p class="callout callout--info">
 Note: If you use the transfer utility MultiPart upload feature, take advantage of automatic cleanup features by setting up the [AbortIncompleteMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html) action in your Amazon S3 bucket life cycle configuration.
-{: .callout .callout--info}
+</p>
 
 ### Upload a File
 
@@ -556,9 +557,10 @@ TransferUtility transferUtility = TransferUtility.builder()
 
 By specifying `TransferNetworkConnectionType.WIFI` , data transfers to and from S3 will only happen when the device is on a WiFi connection
 
+<p class="callout callout--info">
 ## Usage with GraphQL APIs (Complex Objects)
 Note: Please review the documentation for [API](./api) before you proceed with the rest of this section. 
-{: .callout .callout--info}
+</p>
 
 You can also upload and download Amazon S3 Objects using AWS AppSync, a GraphQL based solution to build data-driven apps with real-time and offline capabilities. Sometimes you might want to create logical objects that have more complex data, such as images or videos, as part of their structure.  _For example, you might create a Person type with a profile picture or a Post type that has an associated image_. You can use AWS AppSync to model these as GraphQL types. If any of your mutations have a variable with bucket, key, region, mimeType, and localUri fields, the SDK uploads the file to Amazon S3 for you.
 

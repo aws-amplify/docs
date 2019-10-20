@@ -5,13 +5,15 @@
 
 AWS Amplify Push Notifications module allows you to integrate push notifications in your app with Amazon Pinpoint targeting and campaign management support.
 
+<p class="callout callout--info">
 Push Notifications are currently supported only for *React Native*. For handling Web Push Notification with Service Workers, visit our [Service Workers Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/service-workers#handling-a-push-notification).
-{: .callout .callout--info}
+</p>
 
 This guide provides a step-by-step introduction to start working with push notifications in React Native with Amazon Pinpoint. Amazon Pinpoint helps you to monitor your app's usage, create messaging campaigns targeted to specific user segments or demographics, and collect interaction metrics with push notifications. 
 
+<p class="callout callout--info">
 Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start).
-{: .callout .callout--info}
+</p>
 
 ## Installation and Configuration
 
@@ -63,8 +65,9 @@ Setup instructions are provided for Android and iOS, and configuration for both 
 
     The CLI will prompt for your *Firebase credentials*, enter them respectively.
 
+    <p class="callout callout--action">
     Alternatively you can set up Android push notifications in Amazon Pinpoint Console. [Click here for instructions](https://docs.aws.amazon.com/pinpoint/latest/developerguide/mobile-push-android.html).
-    {: .callout .callout--action}
+    </p>
 
 5. Enable your app in Firebase. To do that, follow those steps:
 
@@ -182,8 +185,9 @@ Setup instructions are provided for Android and iOS, and configuration for both 
     $ react-native link @aws-amplify/pushnotification
     $ react-native link amazon-cognito-identity-js # link it if you need to Sign in into Cognito user pool
     ```
+    <p class="callout callout--info">
     Please note that linking `aws-amplify-react-native` but not completing the rest of the configuration steps could break your build process. Please be sure that you have completed all the steps before you build your app.
-    {: .callout .callout--info}
+    </p>
 
 4. Enable notifications and add your p12 certificate with Amplify CLI by using the following commands:
 
@@ -278,8 +282,9 @@ Setup instructions are provided for Android and iOS, and configuration for both 
 
 Push Notification module is integrated with `Analytics` module to be able to track notifications. Make sure that you have configured the Analytics module in your app before configuring Push Notification module.  
 
+<p class="callout callout--info">
 If you don't have Analytics already enabled, see our [Analytics Developer Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/analytics) to add Analytics to your app.
-{: .callout .callout--info}
+</p>
 
 First, import `PushNotification` module and configure it with `PushNotification.configure()`.
 

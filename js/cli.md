@@ -6,8 +6,9 @@ The Amplify CLI simplifies adding sophisticated serverless cloud features to you
 
 - Install [Node.js®](https://nodejs.org/en/download/) and [npm](https://www.npmjs.com/get-npm) if they are not already on your machine.
 
+<p class="callout callout--action">
 Verify that you are running at least Node.js version 8.11.x or greater and npm version 5.x or greater by running `node -v` and `npm -v` in a terminal/console window.
-{: .callout .callout--action}
+</p>
 
 - Install and configure the Amplify CLI.
 

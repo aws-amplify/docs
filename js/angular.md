@@ -32,8 +32,9 @@ Create a backend configuration with the Amplify CLI and import the generated con
 
 In this example we will enable Authentication with Amazon Cognito User Pools as well as Amazon S3 Storage. This will create an `aws-exports.js` configuration file under your projects `src` directory. 
 
+<p class="callout callout--info">
 Ensure you have <a href="https://github.com/aws-amplify/amplify-cli" target="_blank">installed and configured the Amplify CLI</a>.
-{: .callout .callout--info}
+</p>
 
 ```bash
 $ amplify init
@@ -42,8 +43,9 @@ $ amplify add storage
 $ amplify push
 ```
 
+<p class="callout callout--info">
 Visit the [Authentication Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/authentication) and [Storage Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/storage) to learn more about enabling and configuring these categories.
-{: .callout .callout--info}
+</p>
 
 After creating your backend a configuration file will be generated in your configured source directory you identified in the `amplify init` command.
 

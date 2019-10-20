@@ -7,8 +7,9 @@ PubSub provides connectivity with cloud-based message-oriented middleware. You c
 
 PubSub is available with **AWS IoT**. 
 
+<p class="callout callout--info">
 When using AWS IoT your PubSub HTTP requests are automatically signed when sending your messages.
-{: .callout .callout--info}
+</p>
 
 ## Installation and Configuration
 
@@ -44,8 +45,10 @@ AWSIotMqttManager mqttManager = new AWSIotMqttManager(
 	"<YOUR_CLIENT_ID>", 
 	"xxxxxxxxxxxxx-ats.iot.<YOUR-AWS-REGION>.amazonaws.com");
 ```
+
+<p class="callout callout--info">
 You can get the endpoint information from the IoT Core -> Settings page on the AWS Console.
-{: .callout .callout--info}
+</p>
 
 **Create IAM policies for AWS IoT**
 
@@ -206,5 +209,6 @@ try {
 
 ### API Reference
 
+<p class="callout callout--info">
 For the complete API documentation for AWS IoT, visit our [API reference](https://aws-amplify.github.io/aws-sdk-android/docs/reference/com/amazonaws/mobileconnectors/iot/package-frame.html)
-{: .callout .callout--info}
+</p>

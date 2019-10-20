@@ -188,8 +188,9 @@ To install React-specific Amplify UI components, run the following command:
 $ npm install aws-amplify-react
 ```
 
+<p class="callout callout--action">
 See the [React Guide](https://aws-amplify.github.io/docs/js/react) for details and usage.
-{: .callout .callout--action}
+</p>
 
 </div>
 <div id="react-native" class="tab-content" >
@@ -203,8 +204,9 @@ $ expo init myAmplifyProject
 $ cd myAmplifyProject
 ```
 
+<p class="callout callout--info">
 The project name is in camelCase to avoid problems when testing on a physical iOS phone.
-{: .callout .callout--info}
+</p>
 
 Inside the app directory, install Amplify and run your app:
 
@@ -213,8 +215,9 @@ $ yarn add @aws-amplify/api @aws-amplify/pubsub
 $ yarn start
 ```
 
+<p class="callout callout--info">
 While not needed in this getting started flow, Amplify provides React Native bridges when using the Auth category in the `aws-amplify-react-native` package. If you are using [Expo v25.0.0 or greater](https://blog.expo.io/expo-sdk-v25-0-0-is-now-available-714d10a8c3f7), those libraries are already included in your dependencies. Otherwise, you need to [link](https://facebook.github.io/react-native/docs/linking-libraries-ios.html) those libraries to your project.
-{: .callout .callout--info}
+</p>
 
 ### Option 2: Use React Native CLI (recommended if you have mobile development experience)
 
@@ -241,8 +244,9 @@ To install React-specific Amplify UI components, run the following command:
 $ npm install aws-amplify-react
 ```
 
+<p class="callout callout--action">
 See the [React Guide](https://aws-amplify.github.io/docs/js/react) for details and usage.
-{: .callout .callout--action}
+</p>
 
 </div>
 <div id="angular" class="tab-content">
@@ -262,8 +266,9 @@ $ npm install @aws-amplify/api @aws-amplify/pubsub
 $ ng serve
 ```
 
+<p class="callout callout--action">
 See the [Angular Guide](https://aws-amplify.github.io/amplify-js/media/angular_guide) for details and usage.
-{: .callout .callout--action}
+</p>
 
 </div>
 <div id="ionic" class="tab-content">
@@ -289,8 +294,9 @@ In addition to `aws-amplify` core, you can install the Angular Ionic modules whi
 $ npm install aws-amplify-angular
 ``` 
 
+<p class="callout callout--action">
 See the [Ionic Guide](https://aws-amplify.github.io/docs/js/angular) for details and usage.
-{: .callout .callout--action}
+</p>
 
 </div>
 
@@ -312,8 +318,9 @@ $ npm i @aws-amplify/api @aws-amplify/pubsub
 $ npm run serve
 ```
 
+<p class="callout callout--action">
 To install Vue-specific Amplify UI components and the Amplify Vue plugin you can install the `aws-amplify-vue` package. See the [Vue Guide](https://aws-amplify.github.io/docs/js/vue) for details and usage.
-{: .callout .callout--action}
+</p>
 
 </div>
 
@@ -327,8 +334,9 @@ $ amplify init        #accept defaults
 
 <div id="angular" class="tab-content">
 
+<p class="callout callout--info">
 When asked for the distribution directory, answer `dist/myAmplifyProject`. If you did not use the name in this tutorial, change "myAmplifyProject" with the name of your application. You can run an `ng build` and check your `dist` directory to see what the name is and re-run `amplify configure project` to change your dist directory setting.
-{: .callout .callout--info}
+</p>
 
 </div>
 
@@ -344,8 +352,9 @@ To verify that the CLI is set up for your app, run the following command:
 
 The CLI displays a status table with no resources listed. As you add feature categories to your app and run `amplify push`, backend resources created for your app are listed in this table.
 
+<p class="callout callout--warning">
 You can update a category by running `amplify update <category-name>`. If you no longer want to use a service you can delete it with `amplify remove <category-name>`. Lastly, you can remove the whole project by running `amplify delete` (Warning: This will attempt to delete your entire project, locally and in the cloud, essentially resetting your project as if you never ran `amplify init`).
-{: .callout .callout--warning}
+</p>
 
 ## Step 3: Add API and Database
 
@@ -463,8 +472,9 @@ API.graphql(graphqlOperation(onCreateTodo)).subscribe({
 });
 ```
 
+<p class="callout callout--info">
 The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
-{: .callout .callout--info}
+</p>
 
 After restarting your app using `npm start` go back to your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs. At any time you can open the AWS console for your new API directly by running the following command:
 
@@ -570,8 +580,9 @@ useEffect(() => {
 }, [])
 ```
 
+<p class="callout callout--info">
 The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
-{: .callout .callout--info}
+</p>
 
 After restarting your app using `npm start` go back to your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs. At any time you can open the AWS console for your new API directly by running the following command:
 
@@ -678,8 +689,9 @@ useEffect(() => {
 }, [])
 ```
 
+<p class="callout callout--info">
 The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
-{: .callout .callout--info}
+</p>
 
 After restarting your app and running a mutation, using dev tools (developer menu tap "Debug JS Remotely) you will see data being stored and retrieved in your backend from the console logs. At any time you can open the AWS console for your new API directly by running the following command:
 
@@ -705,8 +717,9 @@ API.configure(awsconfig);
 PubSub.configure(awsconfig);
 ```
 
+<p class="callout callout--info">
 Depending on your TypeScript version you may need to rename `aws-exports.js` to `aws-exports.ts` prior to importing, or enable the `allowJs` <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" target="_blank">compiler option</a> in your tsconfig. 
-{: .callout .callout--info}
+</p>
 
 Update `src/tsconfig.app.json` to include the "node" compiler option in *types*:
 
@@ -716,6 +729,7 @@ Update `src/tsconfig.app.json` to include the "node" compiler option in *types*:
 }
 ```
 
+<p class="callout callout--info">
 Note: If you are using Angular 6 or above, you may need to add the following to the top of your `src/polyfills.ts` file: 
 ```
 (window as any).global = window;
@@ -724,7 +738,7 @@ Note: If you are using Angular 6 or above, you may need to add the following to 
   env: { DEBUG: undefined },
 };
 ```
-{: .callout .callout--info}
+</p>
 
 In your `src/app/app.component.ts` file, add the following imports and modifications to your class to to add data to your database with a mutation by using the `API.service` file which was generated when you ran `amplify add api`:
 
@@ -791,8 +805,9 @@ export class AppComponent implements OnInit {
   }
 ```
 
+<p class="callout callout--info">
 The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
-{: .callout .callout--info}
+</p>
 
 After restarting your app using `ng serve` go back to your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs. At any time you can open the AWS console for your new API directly by running the following command:
 
@@ -825,6 +840,7 @@ When working with underlying `aws-js-sdk`, the "node" package should be included
 }
 ```
 
+<p class="callout callout--info">
 Note: If you are using Angular 6 or above or above, you may need to add the following to the top of your `src/polyfills.ts` file: 
 ```
 (window as any).global = window;
@@ -833,7 +849,7 @@ Note: If you are using Angular 6 or above or above, you may need to add the foll
   env: { DEBUG: undefined },
 };
 ```
-{: .callout .callout--info}
+</p>
 
 In your `src/app/app.component.ts` file, add the following imports and modifications to your class to to add data to your database with a mutation by using the `API.service` file which was generated when you ran `amplify add api`:
 
@@ -902,8 +918,9 @@ initializeApp() {
 }
 ```
 
+<p class="callout callout--info">
 The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
-{: .callout .callout--info}
+</p>
 
 After restarting your app using `ng serve` go back to your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs. At any time you can open the AWS console for your new API directly by running the following command:
 
@@ -1037,8 +1054,9 @@ export default {
 </script>
 ```
 
+<p class="callout callout--info">
 The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
-{: .callout .callout--info}
+</p>
 
 After restarting your app using `yarn serve` go back to your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs. At any time you can open the AWS console for your new API directly by running the following command:
 
@@ -1127,20 +1145,22 @@ Amplify.configure({
 
 In the configuration above, you are required to pass in an Amazon Cognito identity pool ID so that Amplify can retrieve base credentials for a user even in an unauthenticated state. 
 
+<p class="callout callout--info">
 **Configuration Parameters for existing AWS resources**
 To see the configuration parameters for existing AWS resources, see the *Existing AWS Resources* section in the Amplify Developer Guide for each individual service:
 [Amazon Cognito]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/authentication#manual-setup),
 [Amazon S3]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/storage#manual-setup),
 [Amazon Pinpoint]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/analytics#manual-setup),
 [Amazon API Gateway]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/api#manual-setup)
-{: .callout .callout--info}
+</p>
 
 **AWS SDK Interfaces**
 
 For working with other AWS services you can use service interface objects directly via the JavaScript SDK clients. 
 
+<p class="callout callout--warning">
 To work with service interface objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
-{: .callout .callout--warning}
+</p>
 
 You can call methods on any AWS Service interface object supported by the <a href="https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/_index.html" target="_blank">AWS JavaScript SDK</a> by passing your credentials from *Auth* to the service call constructor. For example, to use Amazon Route53 in your app:
 

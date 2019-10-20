@@ -36,8 +36,9 @@ class MyClass {
 }
 ```
 
+<p class="callout callout--info">
 **A note about onHubCapsule** In previous versions of Amplify capturing updates required you to implement an `onHubCapsule` handler function in your class and pass in `this` to the listen method. While still possible, this is no longer considered best practice and we have begun deprecating the method. Please define an explicit callback and pass it into the listen function (e.g. `Hub.listen('auth', this.myCallback)`) or use an anonymous function such as in the above example.
-{: .callout .callout--info}
+</p>
 
 ### Sending messages
 
@@ -83,6 +84,7 @@ Hub provides a way to stop listening for messages with `Hub.remove(channel: stri
 ### Channels
 A channel is a logical group name that you use to organize messages and listen on. These are strings and completely up to you as the developer to define for dispatching or listening. However, while you can dispatch to any channel, ***Amplify protects certain channels*** and will flag a warning as sending unexpected payloads could have undesirable side effects (such as impacting authentication flows). The protected channels are currently:
 
+<p class="callout callout--info">
 - core
 - auth
 - api
@@ -91,7 +93,7 @@ A channel is a logical group name that you use to organize messages and listen o
 - pubsub
 - storage
 - xr
-{: .callout .callout--info}
+</p>
 
 
 ### Authentication Events
@@ -240,5 +242,6 @@ Now when the store is updated the `<DogStatus />` component re-renders on the sc
 
 ### API Reference
 
+<p class="callout callout--info">
 For the complete API documentation for Hub module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/hubclass.html)
-{: .callout .callout--info}
+</p>

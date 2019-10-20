@@ -74,8 +74,9 @@ Name your GraphQL endpoint and select authorization type:
   Amazon Cognito User Pool
 ```
 
+<p class="callout callout--info">
 AWS AppSync API keys expire seven days after creation, and using API KEY authentication is only suggested for development. To change AWS AppSync authorization type after the initial configuration, use the `$ amplify update api` command and select `GraphQL`.
-{: .callout .callout--info}
+</p>
 
 When you update your backend with *push* command, you can go to [AWS AppSync Console](http://console.aws.amazon.com/appsync/home) and see that a new API is added under *APIs* menu item:
 
@@ -977,8 +978,9 @@ Run `pod install --repo-update` and then add the `generated-src` folder and `aws
 
 Next, set the bridging header for Swift in your project settings. Double-click your project name in the Xcode Project Navigator, choose the Build Settings tab and search for  `Objective-C Bridging Header`. Enter `generated-src/Bridging_Header.h`
 
+<p class="callout callout--action">
 This is needed because the AWS generated code has some Objective-C code which requires bridging to be used for Swift. If you already have a bridging header in your app, you can just append an extra line to it: `#import "AWSApiGatewayBridge.h"` instead of above step.
-{: .callout .callout--action}
+</p>
 
 The generated files determine the name of your client when making API calls. In the `generated-src` folder, files ending with name `*Client.swift` are the names of your client (without .swift extension). The path of the client code file is: 
 

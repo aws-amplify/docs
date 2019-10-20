@@ -37,8 +37,9 @@ Here is the sequence of the tutorial:
 
 This section will introduce Ionic basics and you will learn how to bootstrap a new Ionic app with the Ionic CLI. In subsequent parts of the tutorial, you will add cloud functionality to the application that you will create in this section.
 
+<p class="callout">
 The source code for this section of the tutorial can be found in *tutorial-part-1* branch of the [project Github repo](https://github.com/aws-samples/aws-amplify-ionic-sample/tree/tutorial-part-1).
-{: .callout}
+</p>
 
 ## What is Ionic?
 
@@ -67,8 +68,9 @@ Ionic CLI will prompt some questions for you:
 ```
 If you want your application to run as an iOS or Android application as well as a browser-based one, select ‘y’ when asked if you want to integrate with Cordova. You will then be asked if you want to install the Ionic Pro SDK; you can select ‘y’ if you wish, but it is not necessary for this tutorial.
 
+<p class="callout">
 To confirm that you're using the correct version of Ionic, navigate into the project directory and execute 'ionic info'. The Ionic Framework value should be greater than 4.
-{: .callout}
+</p>
 
 ## Angular Modules in Ionic
 
@@ -90,8 +92,9 @@ To being this process, create a directory called *src/app/pages/list*.
 
 First, create a new directory under *src/app* called `classes`.  Then copy the following code into a new file *src/app/classes/item.class.ts*, this will define the model for the ToDo list item.
 
+<p class="callout callout--info">
 The base Ionic project uses TypeScript, which will later be compiled into JavaScript.
-{:  .callout .callout--info}
+</p>
 
 ```javascript
 import { v4 as uuid } from 'uuid';
@@ -617,8 +620,9 @@ This section will introduce you to Amplify CLI and you'll learn how to create ba
 
 ## Install and Configure AWS Amplify
 
+<p class="callout callout--action">
 Before start, please be sure that you have installed the Amplify CLI and client libraries by visiting [AWS Amplify JavaScript Installation Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start?platform=angular&ref_url=/amplify-js/media/tutorials/building-ionic-4-apps&ref_content={{"Tutorial: Building Ionic 4 apps with AWS Amplify" | uri_escape }}&ref_content_section=creating-aws-resources-with-the-cli).
-{: .callout .callout--action}
+</p>
 
 **When you are done with the installation**, you can continue with the next step in the tutorial.
 
@@ -631,8 +635,9 @@ $ npm install aws-amplify-angular
 
 ## Creating AWS Resources with the CLI
 
+<p class="callout callout--info">
 Since we are using TypeScript, change the name of the aws-exports file to *aws-exports.ts*.
-{: .callout .callout--info}
+</p>
 
 AWS resources for your application can be generated using:
 ```bash
@@ -685,9 +690,9 @@ You’ve just given your application the ability to interact with an AWS resourc
 
 In this section, you will create a signin/signup flow for your Ionic app. AWS Amplify makes this process very simple with Authentication category. AWS Amplify's Authentication category works with Amazon Cognito.
 
+<p class="callout">
 The source code for this section of the tutorial can be found in *tutorial-part-3* branch of the [project Github repo](https://github.com/aws-samples/aws-amplify-ionic-sample/tree/tutorial-part-3).
-{: .callout}
-
+</p>
 
 **What is Amazon Cognito?**
 
@@ -833,8 +838,9 @@ After the application reloads, the login controls will have the simpler Angular 
 
 ![](images/browser-login-screen-default.jpg)
 
+<p class="callout callout--info">
 If you don’t want to use the Ionic versions of AWS Amplify's UI components, you do not need to import the *AmplifyIonicModule*.
-{: .callout .callout--info}
+</p>
 
 In the next part of the tutorial, you’ll learn how to persist data with Amazon DynamoDB and AWS Lambda.
 
@@ -842,8 +848,9 @@ In the next part of the tutorial, you’ll learn how to persist data with Amazon
 
 So far, your todo app enables user sign-in and has a UI that is working with dummy data. In this section, you will create a cloud database and a cloud API to access your database.
 
+<p class="callout">
 The source code for this section of the tutorial can be found in *tutorial-part-4* branch of the [project Github repo](https://github.com/aws-samples/aws-amplify-ionic-sample/tree/tutorial-part-4).
-{: .callout}
+</p>
 
 ## Enable Cloud Database
 
@@ -910,8 +917,9 @@ You are creating a table in a [NoSQL database](http://docs.aws.amazon.com/amazon
 
     The `ToDoItems` table is now created.
 
+<p class="callout callout--info">
 You have created a very simple DynamoDB data model for your app. For more information on how to configure a production-grade DynamoDB implementation, see [Amazon DynamoDB documentation](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/best-practices.html).
-{: .callout .callout--info}
+</p>
 
 ## Enable Cloud API
 
@@ -955,8 +963,9 @@ The required DynamoDB tables, API Gateway endpoints, and Lambda functions will n
 
 After running this command, the CLI creates the  `amplify/backend/api/ToDoItems/` directory which includes the boilerplate code for your API backend. This folder will be deployed to AWS and it will run on AWS Lambda when you update your backend with `amplify push` command.
 
+<p class="callout callout--info">
 [AWS Lambda](https://aws.amazon.com/lambda/) is a ‘serverless’ service that allows you to run code without a provisioned server. Your app will utilize AWS Lambda to access your database.
-{: .callout .callout--info}
+</p>
 
 ## Adding CRUD Functionality to Your App
 

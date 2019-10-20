@@ -11,8 +11,9 @@ title: Storage
 
 AWS Amplify Storage module provides a simple mechanism for managing user content for your app in public, protected or private storage buckets. The Storage category comes with built-in support for Amazon S3.
 
+<p class="callout callout--info">
 Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start).
-{: .callout .callout--info}
+</p>
 
 ### Automated Setup
 
@@ -213,8 +214,9 @@ The policy template that Amplify CLI uses is found [here](https://github.com/aws
 
 ### Amazon S3 Bucket CORS Policy Setup
 
+<p class="callout callout--warning">
 To make calls to your S3 bucket from your App, you need to set up a CORS Policy for your S3 bucket.
-{: .callout .callout--warning}
+</p>
 
 The following steps will set up your CORS Policy: 
 
@@ -242,8 +244,9 @@ The following steps will set up your CORS Policy:
 </CORSConfiguration>
 ```
 
+<p class="callout callout--info">
 Note: You can restrict the access to your bucket by updating AllowedOrigin to include individual domains.
-{: .callout .callout--info}
+</p>
 
 ### File Access Levels
 
@@ -259,8 +262,9 @@ When using Auth and Storage modules together, you do not need to construct the `
 
 The access level can be configured on the Storage object globally. Alternatively, the access levels can be set in individual function calls.
 
+<p class="callout callout--info">
 Default access level for Storage module is `public`. Unless you configure Storage otherwise, all uploaded files will be publicly available for all users.
-{: .callout .callout--info}
+</p>
 
 Access level configuration on the Storage object:
 
@@ -436,8 +440,9 @@ uploadToStorage = async pathToImageFile => {
 }
 ```
 
+<p class="callout callout--info">
 When a networking error happens during the upload, Storage module retries upload for a maximum of 4 attempts. If the upload fails after all retries, you will get an error.
-{: .callout .callout--info}
+</p>
 
 #### Get
 
@@ -543,9 +548,9 @@ Storage.list('photos/', {level: 'private'})
 
 #### API Reference
 
+<p class="callout callout--info">
 For the complete API documentation for Storage module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/storageclass.html)
-{: .callout .callout--info}
-
+</p>
 
 ## Using a Custom Plugin
 
@@ -605,9 +610,9 @@ Storage.configure({
 
 ```
 
+<p class="callout callout--info">
 The default provider (Amazon S3) is in use when you call `Storage.put( )` unless you specify a different provider: `Storage.put(key, object, {provider: 'MyStorageProvider'})`. 
-{: .callout .callout--info}
-
+</p>
 
 ## Tracking Events
 
@@ -740,8 +745,9 @@ function fileToKey(data) {
 <S3Image path={path} picker fileToKey={fileToKey} />
 ```
 
+<p class="callout callout--info">
 `S3Image` will escape all spaces in key values to underscore. For example, 'a b' will be converted to 'a_b'.
-{: .callout .callout--info}
+</p>
 
 ### S3Text
 
@@ -804,8 +810,9 @@ function fileToKey(data) {
     <S3Album path={path} picker fileToKey={fileToKey} />
 ```
 
+<p class="callout callout--info">
 `S3Album` will escape all spaces in key value to underscore. For example, 'a b' will be converted to 'a_b'.
-{: .callout .callout--info}
+</p>
 
 ### Tracking Events for UI Components
 

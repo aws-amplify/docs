@@ -15,13 +15,15 @@ The API category provides a solution for making HTTP requests to REST and GraphQ
 
 The AWS Amplify API module supports AWS AppSync or any other GraphQL backends.
 
+<p class="callout callout--action">
 To learn more about GraphQL, please visit the [GraphQL website](http://graphql.org/learn/).
-{: .callout .callout--action}
+</p>
 
 ### Using AWS AppSync
 
+<p class="callout callout--action">
 AWS AppSync helps you build data-driven apps with real-time and offline capabilities. Learn more about [AWS AppSync](https://aws.amazon.com/appsync/) by visiting [AWS AppSync Developer Guide](https://docs.aws.amazon.com/appsync/latest/devguide/welcome.html).
-{: .callout .callout--action}
+</p>
 
 
 The Amplify Framework offers two client options for AppSync:
@@ -69,8 +71,9 @@ Name your GraphQL endpoint and select the authorization type:
   Amazon Cognito User Pool
 ```
 
+<p class="callout callout--info">
 AWS AppSync API keys expire seven days after creation, and using API KEY authentication is only suggested for development. To change the AWS AppSync authorization type after the initial configuration, use the `$ amplify update api` command and select `GraphQL`.
-{: .callout .callout--info}
+</p>
 
 When you update your backend with the *push* command, you can go to [AWS AppSync Console](https://aws.amazon.com/appsync/) and see that a new API is added under the *APIs* menu item:
 
@@ -608,8 +611,9 @@ Name your GraphQL endpoint and select authorization type:
   Amazon Cognito User Pool
 ```
 
+<p class="callout callout--info">
 AWS AppSync API keys expire seven days after creation, and using API KEY authentication is only suggested for development. To change AWS AppSync authorization type after the initial configuration, use the `$ amplify update api` command and select `GraphQL`.
-{: .callout .callout--info}
+</p>
 
 When you update your backend with *push* command, you can go to [AWS AppSync Console](http://console.aws.amazon.com/appsync/home) and see that a new API is added under *APIs* menu item:
 
@@ -1603,8 +1607,9 @@ const client2 = new AWSAppSyncClient({
 
 **Offline capabilities enabled**
 
+<p class="callout callout--info">
 Multiple clients **cannot** share the same `keyPrefix` since it is used to separate each client's persisted data (e.g. cache). When using multiple clients, make sure that you provide a different `keyPrefix` in the `offlineConfig` object.
-{: .callout .callout--info}
+</p>
 
 ```javascript
 import Amplify, { Auth } from "aws-amplify";
@@ -1759,8 +1764,9 @@ export class AppComponent {
 
 The API category can be used for creating signed requests against Amazon API Gateway when the API Gateway Authorization is set to `AWS_IAM`. 
 
+<p class="callout callout--info">
 Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start).
-{: .callout .callout--info}
+</p>
 
 ### Automated Setup
 
@@ -1853,10 +1859,10 @@ API: {
 }
 ```
 
-Note **THIS IS NOT RECOMMENDED ARCHITECTURE** and we highly recommend you leverage AWS AppSync or API Gateway as the endpoint to invoke your Lambda functions. 
-
- **Configuring Amazon Cognito Regional Endpoints** To call regional service endpoints, your Amazon Cognito role needs to be configured with appropriate access for the related service. See [AWS Cognito Documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) for more details.
- {: .callout .callout--warning}
+<p class="callout callout--warning">
+Note **THIS IS NOT RECOMMENDED ARCHITECTURE** and we highly recommend you leverage AWS AppSync or API Gateway as the endpoint to invoke your Lambda functions.
+**Configuring Amazon Cognito Regional Endpoints** To call regional service endpoints, your Amazon Cognito role needs to be configured with appropriate access for the related service. See [AWS Cognito Documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) for more details.
+</p>
 
 ### Using the API Client
 
@@ -1954,8 +1960,9 @@ Then you can use query parameters in your path as follows:
 API.get('sampleCloudApi', '/items?q=test');
 ```
 
+<p class="callout callout--info">
 To learn more about Lambda Proxy Integration, please visit [Amazon API Gateway Developer Guide](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-create-api-as-simple-proxy-for-lambda.html).
-{: .callout .callout--info}
+</p>
 
 **Custom Response Type**
 
@@ -2227,5 +2234,6 @@ API.configure();
 
 ## API Reference   
 
+<p class="callout callout--info">
 For the complete API documentation for API module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/apiclass.html)
-{: .callout .callout--info}
+</p>

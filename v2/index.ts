@@ -83,13 +83,6 @@ const injectConfigVars = (contents: string) =>
             (async () => {
               let contents = (await readFile(path)).toString();
 
-              // {: .callout .callout--info}
-              // {: .callout .callout--warning}
-              // {: .callout .callout--action}
-
-              // {: target='_new'}
-              // {: target='_blank'}
-
               contents = contents.replace(
                 /{%+ include_relative .*}/g,
                 `<connection to="common/scene-size-note.md" />`,

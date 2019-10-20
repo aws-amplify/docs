@@ -60,10 +60,11 @@ Adjust the options for `Default message type`, `Account spend limit`, and `Defau
 
 For information about sending SMS messages from Amazon Pinpoint, see [Sending an SMS Message](https://docs.aws.amazon.com/pinpoint/latest/userguide/messages.html#messages-sms).
 
+<p class="callout callout--info">
 **Note**
 We bill you for each SMS message that you send. The price that you pay for each message depends on the recipient's country or region. To view the price for sending messages to a specific country or region, see [Amazon Pinpoint Pricing](https://aws.amazon.com/pinpoint/pricing/#SMS_Text_Messages).
 
 By default, all accounts have a spending limit of $1.00 (USD) per month. This limit means that you can send messages until the amount that you spend sending messages in the current month reaches $1.00. For example, we bill you $0.00645 for each message that you send to recipients in the United States. If you only send messages to recipients in the United States, you can send about 155 messages each month before you reach this limit.
 
 You can request an increase to this monthly spending limit to fit your use case. For procedures and more information, see [Requesting Increases to Your Monthly SMS Spend Threshold for Amazon Pinpoint](https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-sms-awssupport-spend-threshold.html).
-{: .callout .callout--info}
+</p>

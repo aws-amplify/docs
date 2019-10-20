@@ -18,9 +18,10 @@ The `AWSMobileClient` provides client APIs and building blocks for developers wh
 
 When working together, Cognito User Pools acts as a source of user identities (identity provider) for the Cognito Federated Identities. Other sources can be OpenID, Facebook, Google, etc. AWS Amplify uses User Pools to store your user information and handle authorization, and it leverages Federated Identities to manage user access to AWS Resources, for example allowing a user to upload a file to an S3 bucket.
 
+<p class="callout callout--info">
 <b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
 <b>Recommendation:</b> [Complete the Getting Started guide](./start)
-{: .callout .callout--info}
+</p>
 
 ## How it works
 
@@ -142,8 +143,9 @@ Run the following command in your project's root folder:
 $ amplify add auth
 ```
 
+<p class="callout callout--info">
 If you have previously enabled an Amplify category that uses Auth behind the scenes, e.g. API category, you may already have an Auth configuration. In such a case, run `amplify auth update` command to edit your configuration.
-{: .callout .callout--info}
+</p>
 
 The CLI prompts will help you to customize your auth flow for your app. With the provided options, you can:
 - Customize sign-in/registration flow 
@@ -665,9 +667,10 @@ AWSMobileClient.getInstance().getCredentials();
 
 ## Federated Identities (Social Sign-in)
 
+<p class="callout callout--info">
 **Availability Note**
 Currently, the federation feature in the AWSMobileClient supports Cognito Identity Pools only.
-{: .callout .callout--info}
+</p>
 
 ### Federated Sign In
 
@@ -709,9 +712,10 @@ AWSMobileClient.getInstance().federatedSignIn("YOUR_SAML_PROVIDER_NAME", "YOUR_S
 });
 ```
 
+<p class="callout callout--info">
 **Note**
 If the SAML token contains more than one Role ARN, you will need to specify which role will be assumed when federating. If the SAML token has more than one Role ARN and a `customRoleARN` is not specified, it will result in an error.
-{: .callout .callout--info}
+</p>
 
 ```java
 // Choose one of the roles available in the token
@@ -737,9 +741,10 @@ To federate Facebook as a user sign-in provider for AWS services called in your 
 
 AWS Amplify helps set this up for you but first this topic explains how to set up Facebook as an identity provider for your app.
 
+<p class="callout callout--info">
 If you already have a Facebook app ID, you can copy and paste it into the `Facebook App ID` field
 when configuring authentication using the AWS Amplify CLI.
-{: .callout .callout--info}
+</p>
 
 **To get a Facebook app ID**
 
@@ -1157,8 +1162,9 @@ $ amplify push
 ```
 After running the `amplify push` command, you will find a domain-name provisioned by the CLI for the hosted UI as an output in the terminal. You can find that information anytime later using the `amplify status` command.
 
-Note: your user pool domain is something like: `domain_prefix-<env-name>.auth.<region>.amazoncognito.com`
-{: .callout .callout--info}. If you've setup federation through third party providers, you would need to update the providers with the CLI provisioned domain-name.
+<p class="callout callout--info">
+Note: your user pool domain is something like: `domain_prefix-<env-name>.auth.<region>.amazoncognito.com`. If you've setup federation through third party providers, you would need to update the providers with the CLI provisioned domain-name.
+</p>
 
 ##### Setting up Hosted UI Domain With Facebook
 
@@ -1324,8 +1330,9 @@ AWSMobileClient.getInstance().showSignIn(this, signInUIOptions, new Callback<Use
 });
 ```
 
+<p class="callout callout--info">
 Note: By default, the Hosted UI will show all sign-in options; the username-password flow as well as any social providers which are configured. If you wish to bypass the extra sign-in screen showing all the provider options and launch your desired social provider login directly, you can set the `HostedUIOptions` as shown in the next section.
-{: .callout .callout--info}
+</p>
 
 #### Configuring Hosted UI to launch Facebook/ Google/ SAML sign in directly
 
@@ -1518,8 +1525,9 @@ Amazon Cognito User Pools supports customizing the authentication flow to enable
 
 To define your challenges for custom authentication flow, you need to implement three Lambda triggers for Amazon Cognito.
 
+<p class="callout callout--info">
 For more information about working with Lambda Triggers for custom authentication challenges, please visit [Amazon Cognito Developer Documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
-{: .callout .callout--info}
+</p>
 
 ### Custom Authentication in Amplify
 

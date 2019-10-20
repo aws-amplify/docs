@@ -24,9 +24,10 @@ Predictions comes with built-in support for [Amazon Translate](https://docs.aws.
 
 Additionally Predictions supports generic invocation of SageMaker Inference API from a native (iOS/Android) application. 
 
+<p class="callout callout--info">
 <b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
 <b>Recommendation:</b> [Complete the Getting Started guide](./start?platform=purejs)
-{: .callout .callout--info}
+</p>
 
 #### Automated Setup
 
@@ -39,8 +40,9 @@ $ amplify add predictions
 
 The CLI will prompt configuration options for the Predictions category such as what type of use case you have (identifying objects from an image, translating text, etc) and default or advanced settings.
 
+<p class="callout callout--info">
 The Predictions category utilizes the Auth category behind the scenes to authorize your app to perform AI/ML actions.
-{: .callout .callout--info}
+</p>
 
 The `add` command automatically creates the backend configuration. Once all your configuration is complete run the following:
 

@@ -17,9 +17,10 @@ AWS Amplify Authentication module provides Authentication APIs and building bloc
 
 Amplify interfaces with User Pools to store your user information, including federation with other OpenID providers like Facebook & Google, and it leverages Federated Identities to manage user access to AWS Resources, for example allowing a user to upload a file to an S3 bucket. The Amplify CLI automates the [access control policies]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/storage#file-access-levels) for these AWS resources as well as provides [fine grained access controls via GraphQL]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/api#using-graphql-transformers) for protecting data in your APIs.
 
+<p class="callout callout--info">
 <b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
 <b>Recommendation:</b> [Complete the Getting Started guide](./start?platform=purejs)
-{: .callout .callout--info}
+</p>
 
 ### Concepts
 	
@@ -65,8 +66,9 @@ Run the following command in your project's root folder:
 $ amplify add auth
 ```
 
+<p class="callout callout--info">
 If you have previously enabled an Amplify category that uses Auth behind the scenes, e.g. API category, you may already have an Auth configuration. In such a case, run `amplify auth update` command to edit your configuration.
-{: .callout .callout--info}
+</p>
 
 The CLI prompts will help you to customize your auth flow for your app. With the provided options, you can:
 - Customize sign-in/registration flow 
@@ -823,8 +825,9 @@ Do you want to use the default authentication and security configuration?
   I want to learn more.
 ```
 
+<p class="callout callout--info">
 Note: For *Sign in Redirect URI(s)* inputs, you can put one URI for local development and one for production. Example: `http://localhost:3000/` in dev and `https://www.example.com/` in production. The same is true for *Sign out redirect URI(s)*.
-{: .callout .callout--info}
+</p>
 
 <div class="callout callout--info">
 For React Native applications, You need to define a custom URL scheme for your application before testing locally or publishing to the app store. This is different for Expo or vanilla React Native. Follow the steps at the [React Native Linking docs](https://facebook.github.io/react-native/docs/linking) or [Expo Linking docs](https://docs.expo.io/versions/latest/workflow/linking/) for more information.
@@ -1075,8 +1078,9 @@ With React Native, you can use `withOAuth` HOC to launch the hosted UI experienc
 
 - `signOut`: A callback function to trigger the hosted UI sign out flow.
 
+<p class="callout callout--info">
 The following `props` are used for building a custom UI with buttons if you do not want to show the Cognito UI, however it will still create a User Pool entry once the OAuth flow has completed.
-{: .callout .callout--info}
+</p>
 
 - `facebookSignIn`: A callback function to trigger the hosted UI sign in flow for Facebook, this will show the Facebook login page.
 - `googleSignIn`: A callback function to trigger the hosted UI sign in flow for Google, this will show the Google login page.
@@ -1258,8 +1262,9 @@ Auth.federatedSignIn(
 });
 ```
 
+<p class="callout callout--info">
 Note that this isn't from a Cognito User Pool so the user you get after calling this method is not a *Cognito User*.
-{: .callout .callout--info}
+</p>
 
 #### Code Samples
 
@@ -1857,14 +1862,16 @@ Auth.currentCredentials()
 
 Full API Documentation for Service Interface Objects is available [here](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/_index.html).
 
+<p class="callout callout--warning">
 Note: To work with Service Interface Objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
-{: .callout .callout--warning}
+</p>
 
 
 ### API Reference
 
+<p class="callout callout--info">
 For the complete API documentation for Authentication module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html)
-{: .callout .callout--info}
+</p>
 
 
 ## Switching Authentication Flow Type
@@ -1877,8 +1884,9 @@ For client side authentication there are three different flows:
 
 3. `CUSTOM_AUTH`: The `CUSTOM_AUTH` flow is used to allow for a series of challenge and response cycles that can be customized to meet different requirements.
 
+<p class="callout callout--info">
 For more information about authentication flows, please visit [AWS Cognito developer documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow.html#amazon-cognito-user-pools-custom-authentication-flow)
-{: .callout .callout--info}
+</p>
 
 To configure `Auth` to use the different flows:
 
@@ -1910,8 +1918,9 @@ Amazon Cognito User Pools supports customizing the authentication flow to enable
 
 To define your challenges for custom authentication flow, you need to implement three Lambda triggers for Amazon Cognito.
 
+<p class="callout callout--info">
 For more information about working with Lambda Triggers for custom authentication challenges, please visit [Amazon Cognito Developer Documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
-{: .callout .callout--info}
+</p>
 
 #### Custom Authentication in Amplify
 
@@ -2006,8 +2015,9 @@ export const handler = async (event, context) => {
 
 For React, you can create your own theme and use it to render Amplify components:
 
+<p class="callout callout--info">
 Your custom theme must use the selectors from the following [template](https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-react/src/Amplify-UI/Amplify-UI-Theme.tsx)
-{: .callout .callout--info}
+</p>
 
 ```javascript
 import MyTheme from './MyTheme';

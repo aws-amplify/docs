@@ -24,9 +24,10 @@ Amazon Pinpoint is a fully managed AWS service that you can use to engage with y
 
 The Amplify CLI helps setup and configure Pinpoint within your application and connect with the AWS Mobile SDK.
 
+<p class="callout callout--info">
 <b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
 <b>Recommendation:</b> [Complete the Getting Started guide](./start)
-{: .callout .callout--info}
+</p>
 
 ### Set Up Your Backend
 

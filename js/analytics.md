@@ -5,9 +5,10 @@
 
 The Analytics category enables you to collect analytics data for your app. The Analytics category comes with built-in support for [Amazon Pinpoint](#using-amazon-pinpoint) and [Amazon Kinesis](#using-amazon-kinesis).
 
+<p class="callout callout--info">
 <b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
 <b>Recommendation:</b> [Complete the Getting Started guide](./start?platform=purejs)
-{: .callout .callout--info}
+</p>
 
 #### Automated Setup
 
@@ -19,8 +20,9 @@ $ amplify add analytics
 
 The CLI will prompt configuration options for the Analytics category such as Amazon Pinpoint resource name and analytics event settings.
 
+<p class="callout callout--info">
 {The Analytics category utilizes the Authentication category behind the scenes to authorize your app to send analytics events.}
-{: .callout .callout--info}
+</p>
 
 The `add` command automatically creates a backend configuration locally. To update your backend run:
 
@@ -130,8 +132,9 @@ Amplify.configure({
 });
 ```
 
+<p class="callout callout--info">
 User session data is automatically collected unless you disabled analytics. To see the results visit the [Amazon Pinpoint console](https://console.aws.amazon.com/pinpoint/home/).
-{: .callout .callout--info}
+</p>
 
 #### Update your IAM Policy:
 
@@ -261,8 +264,9 @@ Analytics.updateEndpoint({
 
 #### API Reference
 
+<p class="callout callout--info">
 For a complete API reference visit the [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/analyticsclass.html)
-{: .callout .callout--info}
+</p>
 
 
 ## Using Amazon Kinesis
@@ -483,8 +487,9 @@ Analytics.configure({
 
 ```
 
+<p class="callout callout--info">
 The default provider (Amazon Pinpoint) is in use when you call `Analytics.record()` unless you specify a different provider: `Analytics.record({..},'MyAnalyticsProvider')`. 
-{: .callout .callout--info}
+</p>
 
 ## Using Modular Imports
 

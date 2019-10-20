@@ -80,8 +80,9 @@ Add the following permission to your `AndroidManifest.xml`::
 
 You can call AWS service interface objects directly via the generated SDK clients. You can use the client credentials provided by the [AWSMobileClient](./authentication) by calling `AWSMobileClient.getInstance()` and passing it to the service client. This will leverage short term AWS credentials from Cognito Identity. 
 
+<p class="callout callout--warning">
 To work with service interface objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
-{: .callout .callout--warning}
+</p>
 
 For example, if you were using [Amazon Simple Queue Service (SQS)](https://aws.amazon.com/sqs/) in your Android project you would first add `aws-android-sdk-sqs:2.11.+` to your `app/build.gradle` and install the dependencies by running a Gradle Sync. 
 

@@ -5,8 +5,9 @@
 
 AWS Amplify Interactions category enables AI-powered chatbots in your web or mobile apps. You can use *Interactions* to configure your backend chatbot provider and to integrate a chatbot UI into your app with just a single line of code.
 
+<p class="callout callout--info">
 Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start).
-{: .callout .callout--info}
+</p>
 
 **Amazon Lex**
 
@@ -26,8 +27,9 @@ You can choose to start from a sample chatbot or start from scratch.  If you cho
 
 You are allowed to run the `amplify add interactions` command multiple times to add multiple chatbots into your project.
 
+<p class="callout callout--info">
 {The Interactions category utilizes the Authentication category behind the scenes to authorize your app to send analytics events.}
-{: .callout .callout--info}
+</p>
 
 The `add` command automatically creates a backend configuration locally. To update your backend in the cloud, run:
 
@@ -386,5 +388,6 @@ Please see [Angular]({%if jekyll.environment == 'production'%}{{site.amplify.doc
 
 ### API Reference
 
+<p class="callout callout--info">
 For the complete API documentation for Interactions module, visit our [API Reference]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/api/classes/interactions.html)
-{: .callout .callout--info}
+</p>

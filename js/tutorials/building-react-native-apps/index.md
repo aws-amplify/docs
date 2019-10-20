@@ -24,8 +24,9 @@ $ expo start
 
 ## Install and Configure AWS Amplify 
 
+<p class="callout callout--action">
 Before start, please be sure that you have installed the Amplify CLI and client libraries by visiting [AWS Amplify JavaScript Installation Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start?platform=react-native&ref_url=/amplify-js/media/tutorials/building-react-native-apps&ref_content={{"Tutorial: Building React Native Apps with AWS Amplify" | uri_escape }}&ref_content_section=configure-your-app).
-{: .callout .callout--action}
+</p>
 
 **When you are done with the installation**, you can continue with the next step in the tutorial.
 
@@ -194,8 +195,9 @@ component's `render()` method.
 
 To test, save the changes, run `expo start` to launch your app. Then try the UI element that calls your API.
 
+<p class="callout callout--info">
 Learn more about the AWS Amplify API feature uses [Amazon API Gateway](http://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html) and [AWS Lambda](http://docs.aws.amazon.com/lambda/latest/dg/welcome.html).
-{: .callout .callout--info}
+</p>
 
 ## Add Cloud Database
 
@@ -367,8 +369,9 @@ To use the command line to see your saved items in the database run:
 $ amplify function invoke NotesCRUD GET /Notes/object/${noteId}
 ```
 
+<p class="callout callout--info">
 The CLI utilizes [AWS Serverless Express](https://github.com/awslabs/aws-serverless-express) to invoke your backend APIs locally. When you run an *invoke* command, the CLI starts an Express server which you need to manually close after testing your API (Use Ctrl-c to close the server).
-{: .callout .callout--info}
+</p>
 
 ### Get a specific item
 
@@ -444,8 +447,9 @@ const styles = StyleSheet.create({
 });
 ```
 
+<p class="callout callout--info">
 Learn more about the AWS Mobile NoSQL Database feature, which uses [Amazon DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html).
-{: .callout .callout--info}
+</p>
 
 ## Add Cloud Storage
 

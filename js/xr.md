@@ -10,8 +10,9 @@ The XR category enables you to work with augmented reality (AR) and virtual real
 ### Publishing a scene
 To download the required scene configuration for your Sumerian scene, visit <a href="https://console.aws.amazon.com/sumerian/home" target="_blank">Amazon Sumerian console</a>, create or open the scene you would like to use with AWS Amplify, click *Publish* dropdown from the top right corner of the Sumerian console, then click *Host privately*:
 
+<p class="callout callout--info">
 If your scene was already published publicly, you will need to unpublish then publish again using the instructions below.
-{: .callout .callout--info}
+</p>
 
 <div class="screencap" style="max-height:600px;">
 ![XR]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/xr/sumerian_host_privately_button.png)
@@ -28,26 +29,32 @@ Now click the *Download JSON configuration* button to download the scene configu
 </div>
 
 ### Automatic setup using Amplify CLI
+
+<p class="callout callout--info">
 <b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
 <b>Requires:</b> Amplify CLI version >= 1.4.0
-{: .callout .callout--info}
+</p>
 
 ```
 $ amplify add xr
 ```
 The CLI will prompt configuration options for the XR category such as a scene name identifier and a Sumerian scene json configuration file.
 
+<p class="callout callout--info">
 The XR category will set up and utilize the Authentication category to setup scene authorization.
-{: .callout .callout--info}
+</p>
 
+<p class="callout callout--info">
 Take note of the scene name you provide in the CLI prompt. This value will be used as an identifier for the scene when using the XR category in the framework.
-{: .callout .callout--warning}
+</p>
+
 After configuring your XR options, update your backend with:
 ```
 $ amplify push
 ```
+<p class="callout callout--info">
 XR resources shown during `amplify push` represent the IAM policy being created for the scene. This will not change the scene shown in the Sumerian console. To learn more about Sumerian scene authorization visit <a href="https://docs.aws.amazon.com/sumerian/latest/userguide/sumerian-permissions.html" target="_blank">Amazon Sumerian Permissions</a>
-{: .callout .callout--info}
+</p>
 
 A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`. This file will contain a list of all scenes that you configure.
 
@@ -151,8 +158,9 @@ if (XR.isSceneLoaded('scene1')) {
 
 For compatible devices, you can enable VR mode for your scene. When a user enters VR mode with a controller attached, the VR controller component tracks its location in 3D space. 
 
+<p class="callout callout--info">
 Entering VR requires user input i.e. button press or similar.
-{: .callout .callout--info}
+</p>
 
 ```javascript
 if (XR.isSceneLoaded('scene1')) {
@@ -179,8 +187,9 @@ XR.onSceneEvent('scene1', 'AudioDisabled', () => console.log ('Audio is disabled
 
 In some browsers, playback of audio is disabled until the user provides input. To reliably enable audio in your scene, wait until the user's first input, such as a mouse click or screen touch, and then call the `enableAudio()` method with the scene name.
 
+<p class="callout callout--info">
 If the browser is blocking autoplay, the Audio Disabled event will get thrown the first time the scene attempts to PLAY audio, if no user input has been given
-{: .callout .callout--info}
+</p>
 
 ```javascript
 XR.enableAudio('scene1')
@@ -194,8 +203,9 @@ For a complete XR reference visit the [API Reference](https://aws-amplify.github
 ### Sumerian Scene
 After you have [published and configured your Sumerian scene]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/xr#configuration) you can use a Sumerian Scene UI component in one of the following supported frameworks
 
+<p class="callout callout--info">
 Note: Each of the following UI components will inherit the height and width of the direct parent DOM element. Make sure to set the width and height styling on the parent DOM element to your desired size.
-{: .callout .callout--info}
+</p>
 
 #### React
 **Installation**
