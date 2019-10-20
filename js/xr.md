@@ -13,14 +13,19 @@ To download the required scene configuration for your Sumerian scene, visit <a h
 If your scene was already published publicly, you will need to unpublish then publish again using the instructions below.
 {: .callout .callout--info}
 
-![XR]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/xr/sumerian_host_privately_button.png){: class="screencap" style="max-height:600px;"}
+<div class="screencap" style="max-height:600px;">
+![XR]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/xr/sumerian_host_privately_button.png)
+</div>
 
-
+<div class="screencap" style="max-height:600px;">
 You will then be prompted with the following dialog. Click the *Publish* button:
-![XR]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/xr/sumerian_publish_button.png){: class="screencap" style="max-height:600px;"}
+![XR]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/xr/sumerian_publish_button.png)
+</div>
 
+<div class="screencap" style="max-height:600px;">
 Now click the *Download JSON configuration* button to download the scene configuration JSON that will be used for configuring your scene within AWS Amplify:
-![XR]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/xr/amplify_published_dialog.png){: class="screencap" style="max-height:600px;"}
+![XR]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/xr/amplify_published_dialog.png)
+</div>
 
 ### Automatic setup using Amplify CLI
 <b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>

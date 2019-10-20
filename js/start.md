@@ -13,7 +13,7 @@ Build an app using the Amplify Framework which contains:
 
 This page guides you through setting up a backend and integration into your web or React Native app. You will create a "Todo app" with a GraphQL API and to store and retrieve items in a cloud database, as well as receive updates over a realtime subscription. 
 
-[GraphQL](http://graphql.org){:target="_blank"} is a data language that was developed to enable apps to fetch data from APIs. It has a declarative, self-documenting style. In a GraphQL operation, the client specifies how to structure the data when it is returned by the server. This makes it possible for the client to query only for the data it needs, in the format that it needs it in.
+[GraphQL](http://graphql.org) is a data language that was developed to enable apps to fetch data from APIs. It has a declarative, self-documenting style. In a GraphQL operation, the client specifies how to structure the data when it is returned by the server. This makes it possible for the client to query only for the data it needs, in the format that it needs it in.
 
 ## Prerequisites 
 
@@ -188,7 +188,7 @@ To install React-specific Amplify UI components, run the following command:
 $ npm install aws-amplify-react
 ```
 
-See the [React Guide](https://aws-amplify.github.io/docs/js/react){: target='_new'} for details and usage.
+See the [React Guide](https://aws-amplify.github.io/docs/js/react) for details and usage.
 {: .callout .callout--action}
 
 </div>
@@ -241,7 +241,7 @@ To install React-specific Amplify UI components, run the following command:
 $ npm install aws-amplify-react
 ```
 
-See the [React Guide](https://aws-amplify.github.io/docs/js/react){: target='_new'} for details and usage.
+See the [React Guide](https://aws-amplify.github.io/docs/js/react) for details and usage.
 {: .callout .callout--action}
 
 </div>
@@ -262,7 +262,7 @@ $ npm install @aws-amplify/api @aws-amplify/pubsub
 $ ng serve
 ```
 
-See the [Angular Guide](https://aws-amplify.github.io/amplify-js/media/angular_guide){: target='_new'} for details and usage.
+See the [Angular Guide](https://aws-amplify.github.io/amplify-js/media/angular_guide) for details and usage.
 {: .callout .callout--action}
 
 </div>
@@ -289,7 +289,7 @@ In addition to `aws-amplify` core, you can install the Angular Ionic modules whi
 $ npm install aws-amplify-angular
 ``` 
 
-See the [Ionic Guide](https://aws-amplify.github.io/docs/js/angular){: target='_new'} for details and usage.
+See the [Ionic Guide](https://aws-amplify.github.io/docs/js/angular) for details and usage.
 {: .callout .callout--action}
 
 </div>
@@ -312,7 +312,7 @@ $ npm i @aws-amplify/api @aws-amplify/pubsub
 $ npm run serve
 ```
 
-To install Vue-specific Amplify UI components and the Amplify Vue plugin you can install the `aws-amplify-vue` package. See the [Vue Guide](https://aws-amplify.github.io/docs/js/vue){: target='_new'} for details and usage.
+To install Vue-specific Amplify UI components and the Amplify Vue plugin you can install the `aws-amplify-vue` package. See the [Vue Guide](https://aws-amplify.github.io/docs/js/vue) for details and usage.
 {: .callout .callout--action}
 
 </div>
@@ -357,7 +357,7 @@ $ amplify add api     #select GraphQL, API Key
 
 The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on you can always change it. This process creates an AWS AppSync API and connects it to an Amazon DynamoDB database.
 
-[Learn more about annotating GraphQL schemas and data modeling](https://aws-amplify.github.io/docs/cli-toolchain/graphql){:target="_blank"}.
+[Learn more about annotating GraphQL schemas and data modeling](https://aws-amplify.github.io/docs/cli-toolchain/graphql).
 
 Create required backend resources for your configured api with the following command:
 

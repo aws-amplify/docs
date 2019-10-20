@@ -58,8 +58,9 @@ Click [HERE](#WorkingWithAPI) for usage in your app
 
 You can create Amazon Lex chatbox in Amazon Lex console. To create your bot, follow the steps shown in [Amazon Lex Developer Guide](https://docs.aws.amazon.com/lex/latest/dg/getting-started.html).
  
-![Interactions]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/interactions_lex_console_edit_bot.jpg){: class="screencap" style="max-height:600px;"}
-
+ <div class="screencap" style="max-height:600px;">
+![Interactions]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/interactions_lex_console_edit_bot.jpg)
+</div>
 
 With manual setup, you need to provide your auth credentials and bot details to configure your app:
 

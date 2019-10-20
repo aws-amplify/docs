@@ -12,15 +12,15 @@ Build an iOS app using the Amplify Framework which contains:
 
 This page guides you through setting up a backend and integration into your iOS app. You will create a "Todo app" with a GraphQL API to store and retrieve items in a cloud database, as well as receive updates over a realtime subscription.
 
-[GraphQL](http://graphql.org){:target="_blank"} is a data language that was developed to enable apps to fetch data from APIs. It has a declarative, self-documenting style. In a GraphQL operation, the client specifies how to structure the data when it is returned by the server. This makes it possible for the client to query only for the data it needs, in the format that it needs it in.
+[GraphQL](http://graphql.org) is a data language that was developed to enable apps to fetch data from APIs. It has a declarative, self-documenting style. In a GraphQL operation, the client specifies how to structure the data when it is returned by the server. This makes it possible for the client to query only for the data it needs, in the format that it needs it in.
 
 ## Prerequisites
 
 * [Install and configure the Amplify CLI](..)
 
-* [Install Xcode](https://developer.apple.com/xcode/downloads/){:target="_blank"} version 10.2 or later.
+* [Install Xcode](https://developer.apple.com/xcode/downloads/) version 10.2 or later.
 
-* This guide assumes that you are familiar with iOS development and tools. If you are new to iOS development, you can follow [these steps](https://developer.apple.com/library/archive/referencelibrary/GettingStarted/DevelopiOSAppsSwift/BuildABasicUI.html){:target="_blank"} to create your first iOS application using Swift. 
+* This guide assumes that you are familiar with iOS development and tools. If you are new to iOS development, you can follow [these steps](https://developer.apple.com/library/archive/referencelibrary/GettingStarted/DevelopiOSAppsSwift/BuildABasicUI.html) to create your first iOS application using Swift. 
 
 
 ## Step 1: Configure your app
@@ -98,7 +98,7 @@ $ amplify add api
 ? Do you want to edit the schema now? No
 ```
 
-[Learn more](https://aws-amplify.github.io/docs/cli-toolchain/graphql){:target="_blank"} about annotating GraphQL schemas and data modeling.
+[Learn more](https://aws-amplify.github.io/docs/cli-toolchain/graphql) about annotating GraphQL schemas and data modeling.
 
 Create required backend resources for your configured API with the following command:
 
