@@ -628,6 +628,10 @@ geolocation
 appcompat
 AWSMobileClient
 app_id
+unsanitized
+ClientMetadata
+clientMetadata
+validationData
 logic_protocol_scheme
 xml
 IdentityManager

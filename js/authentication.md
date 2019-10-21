@@ -103,10 +103,9 @@ Many Cognito Lambda Triggers accept unsanitized key/value pairs in the form of a
 - `Auth.signIn`
 - `Auth.signUp`
 - `Auth.updateUserAttributes`
-- `Auth.verifyTotpToken`
 - `Auth.verifyUserAttribute`
 
-Please note that some of triggers which accept a 'validationData' atttribute will use clientMetadata as the value for validationData.  Exercise caution with using clientMetadata when you are relying on validationData.
+Please note that some of triggers which accept a 'validationData' attribute will use clientMetadata as the value for validationData.  Exercise caution with using clientMetadata when you are relying on validationData.
 
 ##### Configure Your App
 
