@@ -67,7 +67,7 @@ $ amplify init        #accept defaults
 
 The `awsconfiguration.json` configuration file should be created in the root directory. 
 
-## Step 3: Add awsconfiguration.json to your project
+## Step 3: Add config
 
 **What is awsconfiguration.json?**
 
@@ -123,7 +123,7 @@ $ amplify push
 ? Enter the file name for the generated code: API.swift
 ```
 
-## Step 6: Add generated code to your project
+## Step 6: Add generated code
 
 **What is API.swift?**
 
