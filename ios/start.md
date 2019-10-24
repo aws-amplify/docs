@@ -26,9 +26,10 @@ This page guides you through setting up a backend and integration into your iOS 
 ## Step 1: Configure your app
 You can use an existing iOS app or create a new iOS app in Swift as per the steps in prerequisite section. 
 
-Install Cocoapods. From a terminal window navigate into your Xcode project's application directory and run the following:
+Install Cocoapods: From a terminal window navigate into your Xcode project's application directory and run the following:
 
 ```bash
+$ cd ./YOUR_PROJECT_FOLDER
 $ sudo gem install cocoapods
 $ pod init
 ```
@@ -40,6 +41,7 @@ target :'YOUR-APP-NAME' do
     use_frameworks!
 
     pod 'AWSCore', '~> 2.12.0'
+    pod 'AWSAppSync', '~> 2.14.2'
 
     # other pods
 end
@@ -54,9 +56,9 @@ pod install --repo-update
 Close your Xcode project and reopen it using `./YOUR-PROJECT-NAME.xcworkspace` file. Remember to always use `./YOUR-PROJECT-NAME.xcworkspace` to open your Xcode project from now on. Build your Xcode project.
 
 
-## Step 2: Set Up Your Backend
+## Step 2: Initialize your project
 
-Create new AWS backend resources and pull the AWS services configuration into the app. In a terminal window, navigate to your project folder (the folder that contains your `xcodeproj` file), and run the following command (for this app, accepting all defaults is OK):
+In a terminal window, navigate to your project folder (the folder that contains your `xcodeproj` file), and run the following command (for this app, accepting all defaults is OK):
 
 ```bash
 $ cd ./YOUR_PROJECT_FOLDER
@@ -65,24 +67,26 @@ $ amplify init        #accept defaults
 
 The `awsconfiguration.json` configuration file should be created in the root directory. 
 
+## Step 3: Add awsconfiguration.json to your project
+
 **What is awsconfiguration.json?**
 
 Rather than configuring each service through a constructor or constants file, the AWS SDKs for iOS support configuration through a centralized file called `awsconfiguration.json` which defines all the regions and service endpoints to communicate. Whenever you run `amplify push`, this file is automatically created allowing you to focus on your Swift application code. On iOS projects the `awsconfiguration.json` will be placed into the root directory and you will need to add it to your XCode project.
 
-In the Finder, drag `awsconfiguration.json` into Xcode under the top Project Navigator folder (the folder name should match your Xcode project name). When the `Options` dialog box that appears, do the following:
+In the Finder, drag `awsconfiguration.json` into Xcode under the top Project Navigator folder (the folder name should match your Xcode project name). When the `Options` dialog box appears, do the following:
 
 * Clear the `Copy items if needed` check box.
 * Choose `Create groups`, and then choose `Finish`.
 
-## Step 3: Add API and Database
+## Step 4: Add API and Database
 
-Add a GraphQL API to your app and automatically provision a database by running the the following command from the root of your application directory (accepting all defaults is OK):
+Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the the following command from the root of your application directory (accepting all defaults is OK):
 
 ```bash
 $ amplify add api     #select 'GraphQL' service, and 'API Key' for the authorization type
 ```
 
-The `add api` flow  will ask you simple questions. If this is your first time using the CLI select **No** for the question "Do you have an annotated GraphQL schema". The CLI then guides you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. You can always change the schema as needed. This process creates an AWS AppSync API and connects it to an Amazon DynamoDB database. The CLI flow looks will look similar to below:
+The `add api` flow  will ask you simple questions. If this is your first time using the CLI select **No** for the question "Do you have an annotated GraphQL schema". The CLI then guides you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. You can always change the schema as needed. This process creates an AWS AppSync API and connects it to an Amazon DynamoDB database. The CLI flow will look like below:
 
 ```bash
 $ amplify add api
@@ -100,29 +104,37 @@ $ amplify add api
 
 [Learn more](https://aws-amplify.github.io/docs/cli-toolchain/graphql){:target="_blank"} about annotating GraphQL schemas and data modeling.
 
-Create required backend resources for your configured API with the following command:
+## Step 5: Push changes
+
+Create the required backend resources for your configured API using the `amplify push` command.
+Since you added an API, the `amplify push` process will automatically enter the [codegen process](https://aws-amplify.github.io/docs/cli-toolchain/graphql#codegen) and prompt you for configuration. Accept the defaults.
+
+The codegen process generates a file named `API.swift` in your application root directory after the completion of `amplify push` command.
+
+The CLI flow for push command is shown below:
 
 ```bash
 $ amplify push
+? Are you sure you want to continue?: Yes
+? Do you want to generate code for your newly created GraphQL API: Yes
+? Enter the file name pattern of graphql queries, mutations and subscriptions: graphql/**/*.graphql
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions: Yes
+? Enter maximum statement depth [increase from default if your schema is deeply nested]: 2
+? Enter the file name for the generated code: API.swift
 ```
 
-Since you added an API, the `amplify push` process will automatically enter the [codegen process](https://aws-amplify.github.io/docs/cli-toolchain/graphql?sdk=js) and prompt you for configuration. Accept the defaults.
+## Step 6: Add generated code to your project
 
-The codegen process generates a file named `API.swift` in your root directory.
-Drag and drop this file from your `Finder` to the Xcode project (under the top Project Navigator folder whose name matches your Xcode project name) and update your Podfile to include `AWSAppSync`:
+**What is API.swift?**
 
-```ruby
-target :'YOUR-APP-NAME' do
-    use_frameworks!
+`API.swift` (or an alternate name chosen by you in CLI flow) contains the generated code for GraphQL statements such as queries, mutation, and subscriptions. This saves you time as you don't have to hand author them.
 
-    pod 'AWSAppSync', '~> 2.14.2'
+From the Finder window, drag and drop the generated `API.shift` to the Xcode project under the top Project Navigator folder whose name matches your Xcode project name. When the `Options` dialog box appears, do the following:
 
-end
-```
+* Clear the `Copy items if needed` check box.
+* Choose `Create groups`, and then choose `Finish`.
 
-Run `pod install` and **build your app**.
-
-## Step 4: Integrate into your app
+## Step 7: Integrate into your app
 
 Initialize the AppSync client inside your application delegate:
 
