@@ -28,7 +28,9 @@
 		}
 
 		var subpath = $(this).attr('href');
-		if(subpath === '/cli/migrate' || subpath === '/docs/cli/migrate') {
+		if(subpath === '/cli/migrate' || subpath === '/docs/cli/migrate' ||
+			subpath === '/cli/lambda-node-version-update' || 
+			subpath === '/docs/cli/lambda-node-version-update' ) {
 			e.preventDefault();
 			var baseURL = window.location.protocol + "//" + window.location.host + subpath;
 			var queryParms = '?sdk=' + $.urlParam('sdk');

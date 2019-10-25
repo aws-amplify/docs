@@ -24,12 +24,12 @@ github:
 
 show_downloads: "true"
 include:
-- api
-- api/assets
-- api/classes
-- api/enums
-- api/interfaces
-- api/modules
+  - api
+  - api/assets
+  - api/classes
+  - api/enums
+  - api/interfaces
+  - api/modules
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
@@ -37,18 +37,18 @@ include:
 exclude:
   - Gemfile
   - Gemfile.lock
-  - node_modules
+  - node_modules/
   - vendor/bundle/
   - vendor/cache/
   - vendor/gems/
   - vendor/ruby/
-  - node_modules
-
+  - Readme.md
 
 # Build settings
 markdown: kramdown
 kramdown:
   parse_block_html: true
+  syntax_highlighter: rouge
 plugins:
   - jekyll-feed
   - jekyll-sitemap
@@ -79,9 +79,6 @@ amplify:
             - item_name: Get Started
               item_url: '/'
               id: get_started
-            - item_name: Toolchain
-              item_external_url: 'https://aws-amplify.github.io/media/toolchain'
-              id: cli
             - item_name: Style Guide
               item_external_url: 'https://aws-amplify.github.io/media/ui_library'
               id: ui
@@ -116,7 +113,6 @@ sass:
 # Jekyll settings
 layouts_dir: ./theme/_layouts
 includes_dir: ./theme/_includes
-exclude: [ 'README.md', 'CHANGELOG.md' ]
 permalink: /:title
 
 android_category_list:
@@ -129,36 +125,28 @@ android_category_list:
           excerpt: get started excerpt
           url: '/android/start'
           icon: '/images/icons/Misc/Present.svg'
-    - category: Toolchain
-      title: Toolchain
+    - category: CLI Toolchain
+      title: CLI Toolchain
       excerpt: Better developer experience when building and deploying your apps.
-      base_url: '/cli/'
+      base_url: '/cli-toolchain/'
       subs:
-        - title: Usage
+        - title: Quickstart
           excerpt: Setup and Configure a Project with the CLI
-          url: '/cli/init?sdk=android'
+          url: '/cli-toolchain/quickstart?sdk=js'
           icon: '/images/icons/Misc/Present.svg'
-        - title: Architecture
+        - title: Usage
           excerpt: CLI Architecture and Overview
-          url: '/cli/concept?sdk=android'
-          icon: '/images/icons/Misc/Present.svg'
-        - title: Codegen
-          excerpt: Codegen for GraphQL
-          url: '/cli/codegen?sdk=android' 
-          icon: '/images/icons/Misc/Present.svg'
-        - title: Plugins
-          excerpt: Create a new plugin for the CLI
-          url: '/cli/plugins?sdk=android' 
+          url: '/cli-toolchain/usage?sdk=js'
           icon: '/images/icons/Misc/Present.svg'
         - title: GraphQL Transform
           excerpt: Transform simple GraphQL schema files into full application backends.
           cta: Read more
           class: aws-icon-ps-60-network-nodes
           icon: '/images/icons/Misc/Tool.svg'
-          url: '/cli/graphql?sdk=android'
-        - title: Environments & Teams
-          excerpt: Setup multiple enviornments for your app and work with teams on your app.
-          url: '/cli/multienv?sdk=android'
+          url: '/cli-toolchain/graphql?sdk=js'
+        - title: Plugins & Extensions
+          excerpt: Create a new plugin for the CLI
+          url: '/cli-toolchain/plugins?sdk=js' 
           icon: '/images/icons/Misc/Present.svg'
     - category: API Guides
       title: API Guides
@@ -238,7 +226,7 @@ android_category_list:
       excerpt: Low level config
       base_url: '/android/manualsetup'
       subs:
-        - title: Manual SDK Setup
+        - title: SDK Setup Options
           excerpt: Setup Options for the SDK
           cta: Read more
           class: aws-icon-ps-60-circular-circuit
@@ -254,36 +242,28 @@ ios_category_list:
           excerpt: get started excerpt
           url: '/ios/start'
           icon: '/images/icons/Misc/Present.svg'
-    - category: Toolchain
-      title: Toolchain
+    - category: CLI Toolchain
+      title: CLI Toolchain
       excerpt: Better developer experience when building and deploying your apps.
-      base_url: '/cli/'
+      base_url: '/cli-toolchain/'
       subs:
-        - title: Usage
+        - title: Quickstart
           excerpt: Setup and Configure a Project with the CLI
-          url: '/cli/init?sdk=ios'
+          url: '/cli-toolchain/quickstart?sdk=js'
           icon: '/images/icons/Misc/Present.svg'
-        - title: Architecture
+        - title: Usage
           excerpt: CLI Architecture and Overview
-          url: '/cli/concept?sdk=ios'
-          icon: '/images/icons/Misc/Present.svg'
-        - title: Codegen
-          excerpt: Codegen for GraphQL
-          url: '/cli/codegen?sdk=ios' 
-          icon: '/images/icons/Misc/Present.svg'
-        - title: Plugins
-          excerpt: Create a new plugin for the CLI
-          url: '/cli/plugins?sdk=ios' 
+          url: '/cli-toolchain/usage?sdk=js'
           icon: '/images/icons/Misc/Present.svg'
         - title: GraphQL Transform
           excerpt: Transform simple GraphQL schema files into full application backends.
           cta: Read more
           class: aws-icon-ps-60-network-nodes
           icon: '/images/icons/Misc/Tool.svg'
-          url: '/cli/graphql?sdk=ios'
-        - title: Environments & Teams
-          excerpt: Setup multiple enviornments for your app and work with teams on your app.
-          url: '/cli/multienv?sdk=ios'
+          url: '/cli-toolchain/graphql?sdk=js'
+        - title: Plugins & Extensions
+          excerpt: Create a new plugin for the CLI
+          url: '/cli-toolchain/plugins?sdk=js' 
           icon: '/images/icons/Misc/Present.svg'
     - category: API Guides
       title: API Guides
@@ -363,7 +343,7 @@ ios_category_list:
       excerpt: Low level config
       base_url: '/ios/manualsetup'
       subs:
-        - title: Manual SDK Setup
+        - title: SDK Setup Options
           excerpt: Setup Options for the SDK
           cta: Read more
           class: aws-icon-ps-60-circular-circuit
@@ -396,50 +376,28 @@ category_list:
           excerpt: #"Learn to build a cloud enabled App with Vue.js and AWS Amplify <br/><b>45 min to complete</b>"
           url: '/js/vue'
           icon: '/images/icons/Misc/Present.svg'
-    - category: Toolchain
-      title: Toolchain
+    - category: CLI Toolchain
+      title: CLI Toolchain
       excerpt: Better developer experience when building and deploying your apps.
-      base_url: '/cli/'
+      base_url: '/cli-toolchain/'
       subs:
-        - title: Usage
+        - title: Quickstart
           excerpt: Setup and Configure a Project with the CLI
-          url: '/cli/init?sdk=js'
+          url: '/cli-toolchain/quickstart?sdk=js'
           icon: '/images/icons/Misc/Present.svg'
-        - title: Architecture
+        - title: Usage
           excerpt: CLI Architecture and Overview
-          url: '/cli/concept?sdk=js'
-          icon: '/images/icons/Misc/Present.svg'
-        - title: Hosting
-          excerpt: Host your web project or static assets
-          url: '/cli/hosting?sdk=js' 
-          icon: '/images/icons/Misc/Present.svg'
-        - title: Codegen
-          excerpt: Codegen for GraphQL
-          url: '/cli/codegen?sdk=js' 
-          icon: '/images/icons/Misc/Present.svg'
-        - title: Plugins
-          excerpt: Create a new plugin for the CLI
-          url: '/cli/plugins?sdk=js' 
-          icon: '/images/icons/Misc/Present.svg'
-        - title: UI Components
-          excerpt: User interface components
-          url: '/js/ui'
-          icon: '/images/icons/Misc/Present.svg'
-        - title: VS Code Extension
-          excerpt: Code snippets for AWS Amplify in Visual Studio Code.
-          cta: Read more
-          class: aws-icon-ps-60-network-nodes
-          url_external: 'https://marketplace.visualstudio.com/items?itemName=aws-amplify.aws-amplify-vscode'
+          url: '/cli-toolchain/usage?sdk=js'
           icon: '/images/icons/Misc/Present.svg'
         - title: GraphQL Transform
           excerpt: Transform simple GraphQL schema files into full application backends.
           cta: Read more
           class: aws-icon-ps-60-network-nodes
           icon: '/images/icons/Misc/Tool.svg'
-          url: '/cli/graphql?sdk=js'
-        - title: Environments & Teams
-          excerpt: Setup multiple enviornments for your app and work with teams on your app.
-          url: '/cli/multienv?sdk=js'
+          url: '/cli-toolchain/graphql?sdk=js'
+        - title: Plugins & Extensions
+          excerpt: Create a new plugin for the CLI
+          url: '/cli-toolchain/plugins?sdk=js' 
           icon: '/images/icons/Misc/Present.svg'
     - category: Categories
       title: API Guides
@@ -492,6 +450,12 @@ category_list:
           services:
               - title: Amazon Lex
                 url: https://aws.amazon.com/lex/
+        - title: Predictions
+          excerpt: Add AI and ML capabilities to your app using the cloud
+          cta: Read more
+          class: aws-icon-ps-60-circular-circuit
+          url: '/js/predictions'
+          icon: '/images/icons/Misc/Cloud.svg'
         - title: PubSub
           excerpt: Connect your app to message-oriented middleware on the cloud.
           cta: Read more

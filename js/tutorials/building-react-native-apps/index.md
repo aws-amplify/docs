@@ -13,13 +13,13 @@ The AWS Amplify and the CLI provides a developer experience that allows frontend
 
 ## Create a new React App
 
-Use [Create React Native App](https://github.com/react-community/create-react-native-app) to create a new React Native application. Through the tutorial, you will add cloud features to this application using Amplify CLI and Amplify JavaScript library.
+Use [Expo CLI](https://expo.io) to create a new React Native application. Through the tutorial, you will add cloud features to this application using Amplify CLI and Amplify JavaScript library.
 
 ```bash
-$ npm install -g create-react-native-app
-$ create-react-native-app my-app
+$ npm install expo-cli --global
+$ expo init my-app
 $ cd my-app
-$ npm start
+$ expo start
 ```
 
 ## Install and Configure AWS Amplify 
@@ -35,7 +35,7 @@ When you have installed AWS Amplify packages and initialized your project with *
 
 **To connect the app to your configured AWS features**
 
-In index.js (or in other code that runs at launch-time), add the
+In App.js (or in other code that runs at launch-time), add the
 following imports.
 
 ```javascript
@@ -55,14 +55,10 @@ Your app, which for now consists of a default blank home page, is now ready to l
 
 **To launch your app locally**
 
-Use following commands to open your app in the Create React Native App tooling:
+Use following commands to open your app in the Expo CLI:
 
 ```bash
-npm run android
-
-# OR
-
-npm run ios
+expo start
 ```
 
 ## Add Auth / User Sign-in
@@ -87,8 +83,8 @@ The Amplify React Native package enables you to integrate ready-to-use sign-up/s
 1.  In case you haven't done already, install following libraries:
 
     ```bash
-    npm install --save aws-amplify
-    npm install --save aws-amplify-react-native
+    npm install aws-amplify
+    npm install aws-amplify-react-native
     ```
 
 1.  Add the following import in App.js (or another file that runs upon app
@@ -196,7 +192,7 @@ component's `render()` method.
 </View>
 ```
 
-To test, save the changes, run `npm run android` or `npm run ios` to launch your app. Then try the UI element that calls your API.
+To test, save the changes, run `expo start` to launch your app. Then try the UI element that calls your API.
 
 Learn more about the AWS Amplify API feature uses [Amazon API Gateway](http://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html) and [AWS Lambda](http://docs.aws.amazon.com/lambda/latest/dg/welcome.html).
 {: .callout .callout--info}
@@ -244,7 +240,7 @@ You are creating a table in a [NoSQL database](http://docs.aws.amazon.com/amazon
 
 2.  When prompted to `? Add another column`, type Y and then choose enter. Repeat the steps to create *NoteTitle* and *NoteContent* columns.
 
-3.  Select `team` as the primary key.
+3.  Select `NoteId` as the primary key.
 
     ```terminal
     ? Please choose partition key for the table:
@@ -566,11 +562,7 @@ When you enable analytics and launch your app, session and device demographics d
 Launch your app locally by running:
 
 ```bash
-npm run android
-
-# Or
-
-npm run ios
+expo start
 ```
 
 When you use your app the [Amazon

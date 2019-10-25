@@ -6,8 +6,11 @@ aws-amplify-angular
 @aws-amplify/core
 @aws-amplify/auth
 @aws-amplify/storage
+aws-mobile-appsync-sdk-ios
+apiKey
 App.vue
 app.js
+authMode
 APIs
 AmplifyAngularModule
 AmplifyIonicModule
@@ -19,6 +22,7 @@ Authenticator
 aws_bots_config.name
 aws-exports
 analytics
+arraybuffer
 backend
 botTitle
 cli
@@ -47,6 +51,7 @@ github
 HOCs
 installable
 i.e.
+iam
 ios
 item.class.ts
 index.js
@@ -62,6 +67,7 @@ NoteTitle
 NoteContent
 npm
 node.js
+oidc
 onPick
 pre-signed
 pre-built
@@ -104,6 +110,7 @@ isSceneLoaded
 isMuted
 autoplay
 screencap
+userPools
 unpublish
 withAuthenticator
 webview
@@ -132,6 +139,12 @@ deltaRecord
 backoff
 resubscription
 backends
+AuthN
+AuthZ
+lifecycles
+Bundler
+prepend
+prepended
 
 # js/tutorials/building-ionic-4-apps/index.md
 home.page.ts
@@ -149,6 +162,15 @@ home.page.ts
 todoitems
 entryComponents
 
+# js/predictions.md
+
+Textract
+SageMaker
+websocket
+pre-defined
+urls
+checkboxes
+
 # js/storage.md
 
 userfiles-mobilehub
@@ -159,6 +181,7 @@ a_b
 filename
 mypublicprefix
 myprivateprefix
+CRUD
 
 # js/start.md
 codegen
@@ -174,6 +197,16 @@ myangularapp
 js
 tsconfig
 myAmplifyProject
+_blank
+OnInit
+todos
+autolinking
+
+# js/hub.md
+onHubCapsule
+pubsub
+xr
+MobX
 
 # js/service-workers.md
 ServiceWorker
@@ -220,6 +253,9 @@ amplify-s3-album
 styles.css
 6.x
 polyfills.ts
+forgotPassword
+requireNewPassword
+amplifyService
 
 # js/interactions.md
 chatbots
@@ -229,6 +265,7 @@ onComplete
 theming
 voiceEnabled
 textEnabled
+AmplifyModules
 
 js/i18n.md
 I18n
@@ -287,6 +324,7 @@ aws.cognito.signin.user.admin
 ChallengeName
 myapp
 LoginWithAmazon
+pre-populated
 
 #js/cognito-hosted-ui-federated-identity.md
 oauth2
@@ -331,8 +369,16 @@ pluggable
 mouseover
 url
 webapp
+dataset
+AmazonPersonalizeProvider
+eventType
+iframe
+MediaAutoTrack
+TimeWatched
+eventValue
 
 # cli/graphql.md
+UpdateTable
 redirect_to
 graphql
 sdk
@@ -346,9 +392,10 @@ DynamoDBBillingMode
 PAY_PER_REQUEST
 DynamoDBModelTableWriteIOPS
 DynamoDBModelTableReadIOPS
-
-# cli/graphql.md
+ssn
+event.prev.result
 DataSource
+DataSources
 onCreate
 onUpdate
 onDelete
@@ -370,6 +417,59 @@ S3Object
 s3
 versionInput
 versioning
+PAY_PER_REQUEST
+MySQL
+UserPoolId
+COGNITO_USERPOOL_ID
+GraphiQL
+ClientId
+AppClientIDWeb
+typeName
+fieldName
+prev
+ge
+lt
+le
+beginsWith
+queryField
+createdAt
+customerEmail
+orderId
+status#createdAt
+IN_TRANSIT
+statusCreatedAt
+ByStatus
+Pre
+Auth.currentAuthenticatedUser
+AWSMobileClient.sharedInstance
+AWSMobileClient.default
+getTodo
+listTodos
+createTodo
+updateTodo
+deleteTodo
+
+# cli-toolchain/cognito-triggers.md
+Lambda
+reCaptcha
+captcha
+CreateAuthChallenge
+DefineAuthChallenge
+VerifyAuthChallengeResponse
+VerifyAuthChallengeResponse
+react-google-recaptcha
+PreSignUp
+Captchas
+ng-recaptcha
+CUSTOM_AUTH
+app.module.ts
+app.component.ts
+app.component.html
+vue-recaptcha
+spinner.js
+style.css
+verify.js
+whitelist
 
 # js/vue.md
 confirmSignInConfig
@@ -389,6 +489,7 @@ noMfaDescription
 cancelHandler
 defaultName
 amplify-vue
+usernameAttributes
 
 # js/sign-up-fields.md
 displayOrder
@@ -414,6 +515,7 @@ Unauth
 frontends
 metadata
 Cloudfront
+datasource
 
 # cli/hosting.md
 gitignore
@@ -474,6 +576,17 @@ Cloudformaton
 DynamoDBTable
 amplifyMeta.json
 transform.conf.json
+
+#cli-toolchain/usage.md
+poolData
+cleartext
+NSAllowsLocalNetworking
+quoteOfTheDay
+OneGraph
+transpile
+transpiling
+transpiled
+util
 
 # android/analytics.md
 ActivityLifecycleCallbacks
@@ -704,6 +817,7 @@ YOUR_APP_NAME
 baseQueryResultHandler
 subscriptionResultHandler
 deltaQueryResultHandler
+SwiftUI
 syncConfiguration
 returnValue
 UIViewController
@@ -711,6 +825,10 @@ UIViewController
 # ios/authentication.md
 UINavigationController
 UserPools
+HostedUI
+UserPool
+flipside
+ARNs
 
 # ios/how-to-cognito-integrate-an-existing-identity-pool-ios.md
 AppDelegate
@@ -740,29 +858,29 @@ CocoaLumberjack
 AWSCore
 DocSets
 macOS
-AWSAuth 
-AWSAuthCore 
-AWSAuthUI 
-AWSAutoScaling 
-AWSCloudWatch 
-AWSCognito 
-AWSCognitoAuth 
-AWSCognitoIdentityProvider 
-AWSCognitoIdentityProviderASF 
-AWSDynamoDB 
-AWSElasticLoadBalancing 
-AWSFacebookSignIn 
-AWSGoogleSignIn 
-AWSIoT 
-AWSKinesis 
-AWSLambda 
-AWSLex 
-AWSLogs 
-AWSMachineLearning 
-AWSPinpoint 
-AWSPolly 
-AWSRekognition 
-AWSSimpleDB 
+AWSAuth
+AWSAuthCore
+AWSAuthUI
+AWSAutoScaling
+AWSCloudWatch
+AWSCognito
+AWSCognitoAuth
+AWSCognitoIdentityProvider
+AWSCognitoIdentityProviderASF
+AWSDynamoDB
+AWSElasticLoadBalancing
+AWSFacebookSignIn
+AWSGoogleSignIn
+AWSIoT
+AWSKinesis
+AWSLambda
+AWSLex
+AWSLogs
+AWSMachineLearning
+AWSPinpoint
+AWSPolly
+AWSRekognition
+AWSSimpleDB
 AWSUserPoolsSignIn
 v2.7
 
@@ -807,9 +925,11 @@ Keychain
 
 #  ios/start.md
 xcworkspace
+API.swift
 
 # ios/storage.md
 S3ObjectInput
+S3ObjectWrapper.swift
 CreatePostWithFileInputMutation
 createPostWithFile
 PostsTable
@@ -821,6 +941,8 @@ timeoutIntervalForResource
 handleEventsForBackgroundURLSession
 interceptApplication
 AWSStaticCredentialsProvider
+CRUD
+AWSAppSyncTestCommon
 
 # android/how-to-android-sdk-setup.md
 aws-android-sdk-lex
@@ -863,6 +985,8 @@ MY_BUCKET
 OBJECT_KEY
 MY_FILE
 KMS-generated
+TransferNetworkConnectionType
+CRUD
 
 # android/auth-google-setup.md
 keystore

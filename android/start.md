@@ -3,21 +3,35 @@ title: Getting Started
 ---
 # Getting Started
 
-Build an Android app using the AWS Amplify CLI and the AWS SDK for Android. The Amplify CLI lets you quickly add backend features to your application so that you can focus on your application code. This page guides you through setting up an initial backend and integration into your app. 
+Build an Android app using the Amplify Framework which contains:
+
+- CLI toolchain for creating and managing your serverless backend.
+- Android, iOS, and JavaScript libraries to access your resources using a category based programming model.
+- Framework-specific UI component libraries for React, React Native, Angular, Ionic and Vue.
+
+This page guides you through setting up a backend and integration into your Android app. You will create a "Todo app" with a GraphQL API to store and retrieve items in a cloud database, as well as receive updates over a realtime subscription.
+
+[GraphQL](http://graphql.org){:target="_blank"} is a data language that was developed to enable apps to fetch data from APIs. It has a declarative, self-documenting style. In a GraphQL operation, the client specifies how to structure the data when it is returned by the server. This makes it possible for the client to query only for the data it needs, in the format that it needs it in.
 
 ## Prerequisites
 
-[Install and configure the Amplify CLI](..)
+* [Install and configure the Amplify CLI](..)
 
-[Install Android Studio](https://developer.android.com/studio/index.html#downloads) version 3.1 or higher. Install Android SDK for API level 28 (Android 9.0).
+* [Install Android Studio](https://developer.android.com/studio/index.html#downloads) version 3.1 or higher. 
+
+* [Install Android SDK for API level 28 (Android 9.0).](https://developer.android.com/studio/releases/platforms)
+
+* This guide assumes that you are familiar with Android development and tools. If you are new to Android development, you can follow [these steps](https://developer.android.com/training/basics/firstapp/creating-project){:target="_blank"} to create your first Android application using Java. 
 
 
-## Step 1: Create a new app
+## Step 1: Configure your app
 
-Follow [these steps](https://developer.android.com/training/basics/firstapp/creating-project) to create an Android Studio application using Java. Modify your `project/build.gradle` with the following build dependency:
+You can use an existing Android app or create a new Android app using Java as per the steps in prerequisite section.
+
+Modify your `project/build.gradle` with the following build dependency:
 
 ```groovy
-classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.7.+'
+classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.9.+'
 ```
 
 Next, add dependencies to your `app/build.gradle`, and then choose Sync Now on the upper-right side of Android Studio.
@@ -27,9 +41,9 @@ apply plugin: 'com.amazonaws.appsync'
 
 dependencies {
     //Base SDK
-    implementation 'com.amazonaws:aws-android-sdk-core:2.12.+'
+    implementation 'com.amazonaws:aws-android-sdk-core:2.15.+'
     //AppSync SDK
-    implementation 'com.amazonaws:aws-android-sdk-appsync:2.7.+'
+    implementation 'com.amazonaws:aws-android-sdk-appsync:2.8.+'
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
 }
@@ -70,7 +84,6 @@ Create new AWS backend resources and pull the AWS services configuration into th
 ```bash
 $ cd ./YOUR_PROJECT_FOLDER
 $ amplify init        #accept defaults
-$ amplify push        #creates configuration file
 ```
 
 An `awsconfiguration.json` file will be created with your configuration and updated as features get added to your project by the Amplify CLI. The file is placed in the `./app/src/main/res/raw` directory of your Android Studio project and automatically used by the SDKs at runtime.
@@ -98,6 +111,12 @@ $ amplify add api     #select GraphQL, API Key
 ```
 
 The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on you can always change it. This process creates an AWS AppSync API and connects it to an Amazon DynamoDB database.
+
+Create required backend resources for your configured api with the following command:
+
+```bash
+$ amplify push
+```
 
 Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults which generate a `./app/src/main/graphql` folder structure with your statements. Run a **Gradle Sync** and **Build** your app, at which point the generated packages are automatically added to your project.
 
@@ -266,4 +285,4 @@ For working with other AWS services you can use service interface objects direct
 To work with service interface objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
 {: .callout .callout--warning}
 
-You can call methods on any AWS Service interface object supported by the AWS Android SDK by passing your credentials from the AWSMobileClient to the service call constructor. See [Manual SDK Setup](./manualsetup) for more information.
+You can call methods on any AWS Service interface object supported by the AWS Android SDK by passing your credentials from the AWSMobileClient to the service call constructor. See [SDK Setup Options](./manualsetup) for more information.

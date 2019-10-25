@@ -1,6 +1,11 @@
 ---
 title: Storage
 ---
+{% if jekyll.environment == 'production' %}
+  {% assign base_dir = site.amplify.docs_baseurl %}
+{% endif %}
+{% assign images_base = base_dir | append: page.dir | append: "images" %}
+{% assign common_media = base_dir | append: "/images" %}
 # Storage
 
 ## S3
@@ -11,7 +16,9 @@ Enable your app to store and retrieve user files from cloud storage with the per
 
 ### Storage Access
 
-The CLI configures three different access levels on the storage bucket: public, protected and private. When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool Role. If you had previously enabled user sign-in by running `amplify add auth` in your project, the policies will be connected to an `Authenticated Role` of the Identity Pool which has scoped permission to the objects in the bucket for each user identity. If you haven't configured user sign-in, then an `Unauthenticated Role` will be assigned for each unique user/device combination, which still has scoped permissions to just their objects.
+The CLI configures three different access levels on the storage bucket: public, protected and private. When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool Role. You will have the option of adding CRUD (Create/Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels.
+
+If you had previously enabled user sign-in by running `amplify add auth` in your project, the policies will be connected to an `Authenticated Role` of the Identity Pool which has scoped permission to the objects in the bucket for each user identity. If you haven't configured user sign-in, then an `Unauthenticated Role` will be assigned for each unique user/device combination, which still has scoped permissions to just their objects.
 
 * Public: Accessible by all users of your app. Files are stored under the `public/` path in your S3 bucket.
 * Protected: Readable by all users, but writable only by the creating user. Files are stored under `protected/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
@@ -30,13 +37,15 @@ See [Authentication](./authentication) for more information on how to get the `u
     $ cd ./YOUR_PROJECT_FOLDER
     $ amplify add storage
     ```
-3.  Choose `Content` as your storage service.
+3. Choose `Content` as your storage service.
 
     `❯ Content (Images, audio, video, etc.)`
 
-4. The CLI walks you through the options to enable Auth (if not enabled previously), to name your S3 bucket, and to decide who should have access (select `Auth and guest users` and `read/write` for both auth and guest users).
+4. The combination of friendly name and bucket name must be globally unique. If another S3 user has specified the same values for both of these as you, the amplify push step below will fail.
 
-5. Confirm that you have storage and auth set up.
+5. The CLI walks you through the options to enable Auth (if not enabled previously), to name your S3 bucket, and to decide who should have access (select `Auth and guest users` and toggle all to select `create/update, read, and delete` access for both auth and guest users).
+
+6. Confirm that you have Storage and Auth set up.
 
     ```bash
       $ amplify status
@@ -45,13 +54,16 @@ See [Authentication](./authentication) for more information on how to get the `u
       | Auth      | cognito2e202b09 | Create    | awscloudformation |
       | Storage   | sabc0123de      | Create    | awscloudformation |
       ```
-6. To create your backend run:
+7. To create your backend run:
 
     ```bash
     $ amplify push
     ```
 
     The CLI will create the awsconfiguration.json file in your project's `res/raw` directory.
+
+##### Lambda Triggers
+If you want to enable triggers for the storage category with Amazon S3 & Amazon DynamoDB as providers, the CLI supports associating Lambda triggers with S3 and DynamoDB events. For example, this can be useful for a use case where you want to invoke a Lambda function after a create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)
 
 ### Connect to Your Backend
 
@@ -61,9 +73,9 @@ Use the following steps to connect add file storage backend services to your app
 
 	```groovy
 	dependencies {
-	  implementation 'com.amazonaws:aws-android-sdk-s3:2.12.+'
-	  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.12.+@aar') { transitive = true }
-	  implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.12.+@aar') { transitive = true }
+	  implementation 'com.amazonaws:aws-android-sdk-s3:2.15.+'
+	  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.15.+@aar') { transitive = true }
+	  implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.15.+@aar') { transitive = true }
 	}
 	```
 	Perform a `Gradle Sync` to download the AWS Mobile SDK components into your app.
@@ -74,6 +86,10 @@ Use the following steps to connect add file storage backend services to your app
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<service android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService" android:enabled="true" />
 	```
+
+### Mocking and Local Testing
+
+Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](../cli-toolchain/usage#mocking-and-testing) for more details.
 
 ## Using TransferUtility 
 
@@ -91,36 +107,6 @@ This section explains how to implement upload and download functionality and a n
 Note: If you use the transfer utility MultiPart upload feature, take advantage of automatic cleanup features by setting up the [AbortIncompleteMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html) action in your Amazon S3 bucket life cycle configuration.
 {: .callout .callout--info}
 
-### Transfer Utility Options
-
-You can use the `TransferUtilityOptions` object to customize the operations of the TransferUtility.
-
-#### TransferThreadPoolSize
-This parameter allows you to specify the number of transfers that can run in parallel. By increasing the number of threads, you will be able to increase the number of parts of a multi-part upload that will be uploaded in parallel. By default, this is set to 2 * (N + 1), where N is the number of available processors on the mobile device. The minimum allowed value is 2.
-
-```java
-TransferUtilityOptions options = new TransferUtilityOptions();
-options.setTransferThreadPoolSize(8);
-
-TransferUtility transferUtility = TransferUtility.builder()
-    // Pass-in S3Client, Context, AWSConfiguration/DefaultBucket Name
-    .transferUtilityOptions(options)
-    .build();
-```
-
-#### TransferServiceCheckTimeInterval
-The TransferUtility monitors each on-going transfer by checking its status periodically. If a stalled transfer is detected, it will be automatically resumed by the TransferUtility. The TransferServiceCheckTimeInterval option allows you to set the time interval
-between the status checks. It is specified in milliseconds and set to 60,000 by default.
-
-```java
-TransferUtilityOptions options = new TransferUtilityOptions();
-options.setTransferServiceCheckTimeInterval(2 * 60 * 1000); // 2-minutes
-
-TransferUtility transferUtility = TransferUtility.builder()
-    // Pass-in S3Client, Context, AWSConfiguration/DefaultBucket Name
-    .transferUtilityOptions(options)
-    .build();
-```
 ### Upload a File
 
 The following example shows how to use the TransferUtility to upload a file. Instantiate the TransferUtility object using the provided TransferUtility builder function. Use the `AWSMobileClient` to get the `AWSConfiguration` and `AWSCredentialsProvider` to pass into the builder. See [Authentication](authentication) for more details.  
@@ -129,28 +115,40 @@ The TransferUtility checks the size of the file being uploaded and automatically
 
 ```java
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.amazonaws.mobile.client.AWSMobileClient;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobile.client.Callback;
+import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferService;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 
-public class YourActivity extends Activity {
-
-    private static final String TAG = YourActivity.class.getSimpleName();
+public class MainActivity extends Activity {
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        getApplicationContext().startService(new Intent(getApplicationContext(), TransferService.class));
+
         // Initialize the AWSMobileClient if not initialized
         AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
             @Override
             public void onResult(UserStateDetails userStateDetails) {
                 Log.i(TAG, "AWSMobileClient initialized. User State is " + userStateDetails.getUserState());
+                uploadWithTransferUtility();
             }
 
             @Override
@@ -158,22 +156,32 @@ public class YourActivity extends Activity {
                 Log.e(TAG, "Initialization error.", e);
             }
         });
-        uploadWithTransferUtility();
+
     }
 
     public void uploadWithTransferUtility() {
 
         TransferUtility transferUtility =
-            TransferUtility.builder()
-                .context(getApplicationContext())
-                .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
-                .s3Client(new AmazonS3Client(AWSMobileClient.getInstance()))
-                .build();
+                TransferUtility.builder()
+                        .context(getApplicationContext())
+                        .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
+                        .s3Client(new AmazonS3Client(AWSMobileClient.getInstance()))
+                        .build();
+
+        File file = new File(getApplicationContext().getFilesDir(), "sample.txt");
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.append("Howdy World!");
+            writer.close();
+        }
+        catch(Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
 
         TransferObserver uploadObserver =
-            transferUtility.upload(
-                "public/s3Key.txt",
-                new File("/path/to/file/localFile.txt"));
+                transferUtility.upload(
+                        "public/sample.txt",
+                        new File(getApplicationContext().getFilesDir(),"sample.txt"));
 
         // Attach a listener to the observer to get state update and progress notifications
         uploadObserver.setTransferListener(new TransferListener() {
@@ -190,7 +198,7 @@ public class YourActivity extends Activity {
                 float percentDonef = ((float) bytesCurrent / (float) bytesTotal) * 100;
                 int percentDone = (int)percentDonef;
 
-                Log.d("YourActivity", "ID:" + id + " bytesCurrent: " + bytesCurrent
+                Log.d(TAG, "ID:" + id + " bytesCurrent: " + bytesCurrent
                         + " bytesTotal: " + bytesTotal + " " + percentDone + "%");
             }
 
@@ -207,11 +215,15 @@ public class YourActivity extends Activity {
             // Handle a completed upload.
         }
 
-        Log.d("YourActivity", "Bytes Transferred: " + uploadObserver.getBytesTransferred());
-        Log.d("YourActivity", "Bytes Total: " + uploadObserver.getBytesTotal());
-  }
+        Log.d(TAG, "Bytes Transferred: " + uploadObserver.getBytesTransferred());
+        Log.d(TAG, "Bytes Total: " + uploadObserver.getBytesTotal());
+    }
 }
 ```
+
+If you run this code, login to your AWS console, and go to the S3 service, you'll see a bucket and file structure like this (in this example the friendly name specified was `dev` and the bucket name was `storagedemo`):
+
+![Image]({{common_media}}/SampleStorageS3.png)
 
 ### Download a File
 
@@ -219,28 +231,40 @@ The following example shows how to use the TransferUtility to download a file. I
 
 ```java
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.amazonaws.mobile.client.AWSMobileClient;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobile.client.Callback;
+import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferService;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 
-public class YourActivity extends Activity {
-
-    private static final String TAG = YourActivity.class.getSimpleName();
+public class MainActivity extends Activity {
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        getApplicationContext().startService(new Intent(getApplicationContext(), TransferService.class));
+
         // Initialize the AWSMobileClient if not initialized
         AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
             @Override
             public void onResult(UserStateDetails userStateDetails) {
                 Log.i(TAG, "AWSMobileClient initialized. User State is " + userStateDetails.getUserState());
+                downloadWithTransferUtility();
             }
 
             @Override
@@ -248,22 +272,22 @@ public class YourActivity extends Activity {
                 Log.e(TAG, "Initialization error.", e);
             }
         });
-        downloadWithTransferUtility();
+
     }
 
     private void downloadWithTransferUtility() {
 
         TransferUtility transferUtility =
-            TransferUtility.builder()
-                    .context(getApplicationContext())
-                    .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
-                    .s3Client(new AmazonS3Client(AWSMobileClient.getInstance()))
-                    .build();
+                TransferUtility.builder()
+                        .context(getApplicationContext())
+                        .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
+                        .s3Client(new AmazonS3Client(AWSMobileClient.getInstance()))
+                        .build();
 
         TransferObserver downloadObserver =
-            transferUtility.download(
-                    "public/s3Key.txt",
-                    new File("/path/to/file/localFile.txt"));
+                transferUtility.download(
+                        "public/sample.txt",
+                        new File(getApplicationContext().getFilesDir(), "download.txt"));
 
         // Attach a listener to the observer to get state update and progress notifications
         downloadObserver.setTransferListener(new TransferListener() {
@@ -277,10 +301,10 @@ public class YourActivity extends Activity {
 
             @Override
             public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
-                    float percentDonef = ((float)bytesCurrent/(float)bytesTotal) * 100;
-                    int percentDone = (int)percentDonef;
+                float percentDonef = ((float)bytesCurrent/(float)bytesTotal) * 100;
+                int percentDone = (int)percentDonef;
 
-                    Log.d("Your Activity", "   ID:" + id + "   bytesCurrent: " + bytesCurrent + "   bytesTotal: " + bytesTotal + " " + percentDone + "%");
+                Log.d("Your Activity", "   ID:" + id + "   bytesCurrent: " + bytesCurrent + "   bytesTotal: " + bytesTotal + " " + percentDone + "%");
             }
 
             @Override
@@ -500,6 +524,37 @@ TransferObserver observer = transferUtility.upload(
 ```
 
 To download the metadata, use the S3 `getObjectMetadata` method. See the [API Reference](http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/services/s3/AmazonS3Client.html#getObjectMetadata%28com.amazonaws.services.s3.model.GetObjectMetadataRequest%29) and [Object Key and Metadata](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html) for more information.
+
+### Transfer Utility Options
+
+You can use the `TransferUtilityOptions` object to customize the operations of the TransferUtility.
+
+#### TransferThreadPoolSize
+This parameter allows you to specify the number of transfers that can run in parallel. By increasing the number of threads, you will be able to increase the number of parts of a multi-part upload that will be uploaded in parallel. By default, this is set to 2 * (N + 1), where N is the number of available processors on the mobile device. The minimum allowed value is 2.
+
+```java
+TransferUtilityOptions options = new TransferUtilityOptions();
+options.setTransferThreadPoolSize(8);
+
+TransferUtility transferUtility = TransferUtility.builder()
+    // Pass-in S3Client, Context, AWSConfiguration/DefaultBucket Name
+    .transferUtilityOptions(options)
+    .build();
+```
+
+#### TransferNetworkConnectionType
+The `TransferNetworkConnectionType` option allows you to restrict the type of network connection (WiFi / Mobile / ANY) over which the data can be transferred to Amazon S3.
+
+```java
+TransferUtilityOptions options = new TransferUtilityOptions(10, TransferNetworkConnectionType.WIFI);
+
+TransferUtility transferUtility = TransferUtility.builder()
+    // Pass-in S3Client, Context, AWSConfiguration/DefaultBucket Name
+    .transferUtilityOptions(options)
+    .build();
+```
+
+By specifying `TransferNetworkConnectionType.WIFI` , data transfers to and from S3 will only happen when the device is on a WiFi connection
 
 ## Usage with GraphQL APIs (Complex Objects)
 Note: Please review the documentation for [API](./api) before you proceed with the rest of this section. 

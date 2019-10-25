@@ -25,7 +25,7 @@ The `Podfile` that you configure to install the AWS Mobile SDK must contain the 
     target :'YOUR-APP-NAME' do
       use_frameworks!
 
-        pod  'AWSIoT', '~> 2.9.0'
+        pod  'AWSIoT', '~> 2.12.0'
         # other pods
 
     end
@@ -48,11 +48,11 @@ let iotEndPoint = AWSEndpoint(
 let iotDataConfiguration = AWSServiceConfiguration(
     region: AWSRegionType.<YOUR-AWS-REGION>,
     endpoint: iotEndPoint,
-    credentialsProvider: AWSMobileClient.sharedInstance()
+    credentialsProvider: AWSMobileClient.default()
 )
 
-AWSIoTDataManager.register(with: iotDataConfiguration!, forKey: ASWIoTDataManager)
-AWSIoTDataManager iotDataManager = AWSIoTDataManager(forKey: ASWIoTDataManager)                                               
+AWSIoTDataManager.register(with: iotDataConfiguration!, forKey: "MyAWSIoTDataManager")
+let iotDataManager = AWSIoTDataManager(forKey: "MyAWSIoTDataManager")
 ```
 
 You can get the endpoint information from the IoT Core -> Settings page on the AWS Console.  
@@ -72,7 +72,7 @@ Go to IoT Core and choose *Secure* from the left navigation pane. Then navigate 
 To attach the policy to your *Cognito Identity*, begin by retrieving the `Cognito Identity Id` from `AWSMobileClient`.
 
 ```swift
-AWSMobileClient.sharedInstance().getIdentityId();
+AWSMobileClient.default().getIdentityId();
 ```
 
 Then, you need to attach the `myIOTPolicy` policy to the user's *Cognito Identity Id* with the following [AWS CLI](https://aws.amazon.com/cli/) command:

@@ -27,14 +27,14 @@ Setup instructions are provided for Android and iOS, and configuration for both 
 
 1. Make sure you have a [Firebase Project](https://console.firebase.google.com) and app setup. 
 
-2. Get your push messaging credentials for Android in Firebase console. [Click here for instructions](Get Push Messaging Credentials for Android).
+2. Get your push messaging credentials for Android in Firebase console. [Click here for instructions]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/android/push-notifications-setup-fcm).
 
 3. Create a native link on a React Native app:
 
     ```bash
     $ react-native init myapp
     $ cd myapp
-    $ npm install aws-amplify --save && npm install @aws-amplify/pushnotification --save
+    $ npm install aws-amplify && npm install @aws-amplify/pushnotification
     $ react-native link @aws-amplify/pushnotification
     $ react-native link amazon-cognito-identity-js # link it if you need to Sign in into Cognito user pool
     ```
@@ -165,7 +165,7 @@ Setup instructions are provided for Android and iOS, and configuration for both 
 10. Run your app with `yarn` or with an appropriate run command.
 
     ```bash
-    $ yarn/npm run android
+    $ npm start
     ```
 
 ### Setup for IOS
@@ -178,7 +178,7 @@ Setup instructions are provided for Android and iOS, and configuration for both 
     $ react-native init myapp
     $ cd myapp
     $ npm install
-    $ npm install aws-amplify --save && npm install @aws-amplify/pushnotification --save
+    $ npm install aws-amplify && npm install @aws-amplify/pushnotification
     $ react-native link @aws-amplify/pushnotification
     $ react-native link amazon-cognito-identity-js # link it if you need to Sign in into Cognito user pool
     ```
@@ -295,8 +295,11 @@ Analytics.configure({
 
 PushNotification.configure({
     appId: 'XXXXXXXXXXabcdefghij1234567890ab',
+    requestIOSPermissions: false, // OPTIONAL, defaults to true
 });
 ```
+
+`requestIOSPermissions` is an optional boolean flag which specifies whether or not to automatically request push notifications permissions in iOS when calling `PushNotification.configure` for the first time. If not provided, it defaults to `true`. When set to `false`, you may later call the method `PushNotification.requestIOSPermissions` at the explicit point in your application flow when you want to prompt the user for permissions.
 
 You can also use `aws-exports.js` file in case you have set up your backend with Amplify CLI.
 
@@ -327,6 +330,7 @@ PushNotification.onNotification((notification) => {
 });
 
 // get the registration token
+// This will only be triggered when the token is generated or updated.
 PushNotification.onRegister((token) => {
   console.log('in app registration', token);
 });
@@ -337,6 +341,21 @@ PushNotification.onNotificationOpened((notification) => {
 });
 ```
 
+Note: the `onRegister` handler will only be triggered once when the token is generated or updated by the push provider i.e. Apple/Google (and when the app opened the first time). 
+
+If you have configured your application not to automatically request iOS push notification permissions, you can use the `requestIOSPermissions` method to request them explicitly:
+
+```javascript
+// request iOS push notification permissions
+PushNotification.requestIOSPermissions();
+
+// request a subset of iOS push notification permissions
+PushNotification.requestIOSPermissions({
+  alert: true,
+  badge: true,
+  sound: false,
+});
+```
 
 ## Testing Push Notifications 
 Now, you can create messaging campaigns and send push notifications to your app with Amazon Pinpoint! Just follow these instructions on [Amazon Pinpoint Developer Guide](https://docs.aws.amazon.com/pinpoint/latest/developerguide/getting-started-sampletest.html) for the next steps.

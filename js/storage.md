@@ -1,5 +1,11 @@
 ---
+title: Storage
 ---
+{% if jekyll.environment == 'production' %}
+  {% assign base_dir = site.amplify.docs_baseurl %}
+{% endif %}
+{% assign media_base = base_dir | append: page.dir | append: "media" %}
+{% assign common_media = base_dir | append: "/images" %}
 
 # Storage
 
@@ -36,14 +42,17 @@ $ amplify push
 
 When your backend is successfully updated, your new configuration file `aws-exports.js` is copied under your source directory, e.g. '/src'.
 
+##### Lambda Triggers
+If you want to enable triggers for the storage category with Amazon S3 & Amazon DynamoDB as providers, the CLI supports associating Lambda triggers with S3 and DynamoDB events. For example, this can be useful for a use case where you want to invoke a Lambda function after a create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)
+
 ##### Configure Your App
 
 In your app's entry point *i.e. App.js*, import and load the configuration file `aws-exports.js` which has been created and replaced into `/src` folder in the previous step.
 
 ```javascript
 import Amplify, { Storage } from 'aws-amplify';
-import awsmobile from './aws-exports';
-Amplify.configure(awsmobile);
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
 ```
 
 ### Manual Setup
@@ -69,6 +78,10 @@ Amplify.configure({
 });
 
 ```
+
+### Mocking and Local Testing
+
+Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](../cli-toolchain/usage#mocking-and-testing) for more details.
 
 ## Using Amazon S3
 
@@ -234,7 +247,9 @@ Note: You can restrict the access to your bucket by updating AllowedOrigin to in
 
 ### File Access Levels
 
-Storage module can manage files with three different access levels; `public`, `protected` and `private`. The Amplify CLI configures three different access levels on the storage bucket: public, protected and private. When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool Role. If you had previously enabled user sign-in by running `amplify add auth` in your project, the policies will be connected to an `Authenticated Role` of the Identity Pool which has scoped permission to the objects in the bucket for each user identity. If you haven't configured user sign-in, then an `Unauthenticated Role` will be assigned for each unique user/device combination, which still has scoped permissions to just their objects.
+Storage module can manage files with three different access levels; `public`, `protected` and `private`. The Amplify CLI configures three different access levels on the storage bucket: public, protected and private. When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool Role. You will have the option of adding CRUD (Create/Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels.
+
+If you had previously enabled user sign-in by running `amplify add auth` in your project, the policies will be connected to an `Authenticated Role` of the Identity Pool which has scoped permission to the objects in the bucket for each user identity. If you haven't configured user sign-in, then an `Unauthenticated Role` will be assigned for each unique user/device combination, which still has scoped permissions to just their objects.
 
 * Public: Accessible by all users of your app. Files are stored under the `public/` path in your S3 bucket.
 * Protected: Readable by all users, but writable only by the creating user. Files are stored under `protected/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
@@ -252,7 +267,7 @@ Access level configuration on the Storage object:
 ```javascript
 Storage.configure({ level: 'private' });
 
-Storage.get('welcome.png'); // Gets the welcome.png belongs to current user
+Storage.get('welcome.png'); // Gets the welcome.png belonging to current user
 ```
 
 Configuration when calling the API:
@@ -279,7 +294,7 @@ Import *Storage* from the aws-amplify library:
 import { Auth, Storage } from 'aws-amplify';
 ```
 
-If you use `aws-exports.js` file, Storage is already configured when you call `Amplify.configure(awsmobile)`. To configure Storage manually, you will have to configure Amplify Auth category too.  
+If you use `aws-exports.js` file, Storage is already configured when you call `Amplify.configure(awsconfig)`. To configure Storage manually, you will have to configure Amplify Auth category too.  
 ```javascript
 Auth.configure(
     // To get the aws credentials, you need to configure 
@@ -290,13 +305,13 @@ Auth.configure(
 
 Storage.configure({
     AWSS3: {
-        bucket: '',//Your bucket ARN;
+        bucket: '',//Your bucket name;
         region: ''//Specify the region your bucket was created in;
     }
 });
 ```
 
-=======
+---
 
 #### Put
 
@@ -358,12 +373,26 @@ const SSECustomerAlgorithm = 'string';
 const SSECustomerKey = new Buffer('...') || 'string';
 const SSECustomerKeyMD5 = 'string';
 const SSEKMSKeyId = 'string';
-Storage.put('test.txt', 'File content'),{
-    serverSideEncryption, SSECustomerAlgorithm, SSECustomerKey, SSECustomerKeyMD5, SSEKMSKeyId}  
+Storage.put('test.txt', 'File content', {
+    serverSideEncryption, SSECustomerAlgorithm, SSECustomerKey, SSECustomerKeyMD5, SSEKMSKeyId
 })
 .then (result => console.log(result))
 .catch (err => console.log(err));
 ```
+
+Other options available are:
+
+```javascript
+Storage.put('test.txt', 'My Content', {
+    cacheControl: '', // (String) Specifies caching behavior along the request/reply chain
+    contentDisposition: '', // (String) Specifies presentational information for the object
+    expires: new Date().now() + 60 * 60 * 24 * 7, // (Date) The date and time at which the object is no longer cacheable. ISO-8601 string, or a UNIX timestamp in seconds
+    metadata: { key: 'value' }, // (map<String>) A map of metadata to store with the object in S3.
+})
+.then (result => console.log(result))
+.catch(err => console.log(err));
+```
+
 
 Upload an image in the browser:
 
@@ -392,19 +421,19 @@ class S3ImageUpload extends React.Component {
 Upload an image in React Native app:
 
 ```javascript
-import RNFetchBlob from 'react-native-fetch-blob';
-
-readFile(filePath) {
-    return RNFetchBlob.fs.readFile(filePath, 'base64').then(data => new Buffer(data, 'base64'));
-}
-
-readFile(imagePath).then(buffer => {
-    Storage.put(key, buffer, {
-        contentType: imageType
+uploadToStorage = async pathToImageFile => {
+  try {
+    const response = await fetch(pathToImageFile)
+    
+    const blob = await response.blob()
+    
+    Storage.put('yourKeyHere.jpeg', blob, {
+      contentType: 'image/jpeg',
     })
-}).catch(e => {
-    console.log(e);
-});
+  } catch (err) {
+    console.log(err)
+  }
+}
 ```
 
 When a networking error happens during the upload, Storage module retries upload for a maximum of 4 attempts. If the upload fails after all retries, you will get an error.
@@ -827,7 +856,7 @@ See the [Angular Guide](https://aws-amplify.github.io/amplify-js/media/angular_g
 You can customize your upload path by defining prefixes:
 
 ```javascript
-const customPrefix: {
+const customPrefix = {
     public: 'myPublicPrefix/',
     protected: 'myProtectedPrefix/',
     private: 'myPrivatePrefix/'

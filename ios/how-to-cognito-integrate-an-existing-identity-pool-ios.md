@@ -108,7 +108,7 @@ platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSMobileClient', '~> 2.9.0'
+    pod 'AWSMobileClient', '~> 2.12.0'
 
     # other pods . . .
 
@@ -141,7 +141,7 @@ end
 
 
          // Instantiate AWSMobileClient to get AWS user credentials
-         AWSMobileClient.sharedInstance().initialize { (userState, error) in
+         AWSMobileClient.default().initialize { (userState, error) in
             if let error = error {
                 print("Error initializing AWSMobileClient: \(error.localizedDescription)")
             } else if let userState = userState {
@@ -156,7 +156,7 @@ end
 ```
 When you run your app, you should see no behavior change. The current user state will be logged into the console.
 
-4. To get the users identity, use `AWSMobileClient.sharedInstance()`, shown here being done in a `ViewController`.
+4. To get the users identity, use `AWSMobileClient.default()`, shown here being done in a `ViewController`.
 
 ```swift
 import UIKit
@@ -172,8 +172,8 @@ class ViewController: UIViewController {
 
         // Get the identity Id from the AWSMobileClient
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let credentialsProvider = AWSMobileClient.sharedInstance()
-        let identityId = AWSMobileClient.sharedInstance().identityId
+        let credentialsProvider = AWSMobileClient.default()
+        let identityId = AWSMobileClient.default().identityId
     }
 }
 ```
