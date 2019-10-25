@@ -929,6 +929,7 @@ Keychain
 
 #  ios/start.md
 xcworkspace
+API.swift
 
 # ios/storage.md
 S3ObjectInput
