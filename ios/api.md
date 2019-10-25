@@ -217,20 +217,23 @@ Sometimes you might want to create logical objects that have more complex data, 
 Finally, it's time to set up a subscription to real-time data. The syntax `appSyncClient?.subscribe(subscription: <NAME>Subscription() {(result, transaction, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen` created. Note that the AppSync console and Amplify GraphQL transformer have a common nomenclature that puts the word `On` in front of a subscription as in the following example:
 
 ```swift
-//Set a variable to discard at the class level
-var discard: Cancellable?
+// Set a variable to hold the subscription. E.g., this can be an instance variable on your view controller, or
+// a member variable in your AppSync setup code. Once you release this watcher, the subscription may be cancelled,
+// and your `resultHandler` will no longer be updated. If you wish to explicitly cancel the subscription, you can
+// invoke `subscriptionWatcher.cancel()`
+var subscriptionWatcher: Cancellable?
 
-//In your app code
+// In your app code
 do {
-    discard = try appSyncClient?.subscribe(subscription: OnCreateTodoSubscription(), resultHandler: { (result, transaction, error) in
-        if let result = result {
-        print(result.data!.onCreateTodo!.name + " " + result.data!.onCreateTodo!.description!)
+    subscriptionWatcher = try appSyncClient?.subscribe(subscription: OnCreateTodoSubscription()) { result, transaction, error in
+        if let onCreateTodo = result?.data?.onCreateTodo,  {
+            print(onCreateTodo.name + " " + onCreateTodo.description)
         } else if let error = error {
-        print(error.localizedDescription)
+            print(error.localizedDescription)
         }
-    })
-    } catch {
-    print("Error starting subscription.")
+    }
+} catch {
+    print("Error starting subscription: \(error.localizedDescription)")
 }
 ```
 
@@ -388,7 +391,7 @@ Add the following code to your app:
                                                                   userPoolsAuthProvider: {
                                                                     class MyCognitoUserPoolsAuthProvider : AWSCognitoUserPoolsAuthProviderAsync {
                                                                         func getLatestAuthToken(_ callback: @escaping (String?, Error?) -> Void) {
-                                                                            AWSMobileClient.sharedInstance().getTokens { (tokens, error) in
+                                                                            AWSMobileClient.default().getTokens { (tokens, error) in
                                                                                 if error != nil {
                                                                                     callback(nil, error)
                                                                                 } else {
@@ -438,7 +441,7 @@ Add the following code to your app:
 do {
     // Initialize the AWS AppSync configuration
     let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
-							  credentialsProvider: AWSMobileClient.sharedInstance(),
+							  credentialsProvider: AWSMobileClient.default(),
 							  cacheConfiguration: AWSAppSyncCacheConfiguration())
     
     // Initialize the AWS AppSync client
@@ -965,7 +968,7 @@ Add `AWSAPIGateway` to your Podfile:
 	  use_frameworks!
 
 	     # For API
-	     pod 'AWSAPIGateway', '~> 2.11.0'
+	     pod 'AWSAPIGateway', '~> 2.12.0'
 	     # other pods
 	end
 ```
@@ -1021,7 +1024,7 @@ import AWSMobileClient
 
         // Create a service configuration
         let serviceConfiguration = AWSServiceConfiguration(region: AWSRegionType.USEast1,
-              credentialsProvider: AWSMobileClient.sharedInstance())
+              credentialsProvider: AWSMobileClient.default())
 
         // Initialize the API client using the service configuration
         xyz123useamplifyabcdClient.registerClient(withConfiguration: serviceConfiguration!, forKey: "CloudLogicAPIKey")
@@ -1057,7 +1060,7 @@ When invoking an API Gateway endpoint with Cognito User Pools authorizer, you ca
 ```swift
 //New overloaded function that gets Cognito User Pools tokens
 func doInvokeAPI(){
-    AWSMobileClient.sharedInstance().getTokens { (tokens, err) in
+    AWSMobileClient.default().getTokens { (tokens, err) in
         self.doInvokeAPI(token: tokens!.idToken!.tokenString!)
     }
 }

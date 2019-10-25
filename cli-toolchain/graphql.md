@@ -701,7 +701,7 @@ type Draft
     title: String!
     content: String
     owner: String
-    editors: [String]!
+    editors: [String]
 }
 ```
 
@@ -1130,7 +1130,7 @@ subscription onCreatePost(owner: “Bob”){
 }
 ```
 
-Note that if your type doesn’t already have an `owner` field the Transformer will automatically add this for you. Passing in the current user can be done dynamically in your code by using [Auth.currentAuthenticatedUser()](/js/authentication#retrieve-current-authenticated-user) in JavaScript, [AWSMobileClient.sharedInstance().username](/ios/authentication#utility-properties) in iOS, or [AWSMobileClient.getInstance().getUsername()](/android/authentication#utility-properties) in Android.
+Note that if your type doesn’t already have an `owner` field the Transformer will automatically add this for you. Passing in the current user can be done dynamically in your code by using [Auth.currentAuthenticatedUser()](/js/authentication#retrieve-current-authenticated-user) in JavaScript, [AWSMobileClient.default().username](/ios/authentication#utility-properties) in iOS, or [AWSMobileClient.getInstance().getUsername()](/android/authentication#utility-properties) in Android. 
 
 In the case of groups if you define the following:
 
@@ -1701,7 +1701,7 @@ yourself using two one-to-many connections and joining `@model` type. See the us
 #### Definition
 
 ```
-directive @connection(name: String, keyField: String, sortField: String) on FIELD_DEFINITION
+directive @connection(name: String, keyField: String, sortField: String, limit: Int) on FIELD_DEFINITION
 ```
 
 #### Usage
@@ -1856,6 +1856,23 @@ type User @model {
 ```
 
 You can then create Posts & Users independently and join them in a many-to-many by creating PostEditor objects. In the future we will support more native support for many to many out of the box. The issue is being [tracked on github here](https://github.com/aws-amplify/amplify-cli/issues/91).
+
+
+**Limit**
+
+The default number of nested objects is 10. You can override this behavior by setting the **limit** argument. For example:
+
+```
+type Post {
+    id: ID!
+    title: String!
+    comments: [Comment] @connection(limit: 50)
+}
+type Comment {
+    id: ID!
+    content: String!
+}
+```
 
 #### Generates
 
@@ -3858,9 +3875,9 @@ type Comment @model(subscriptions: null) {
 
 ```
 type Subscription {
-  onCreateComment(content: String): Comment @aws_subscribe(mutations: "createComment")
-  onUpdateComment(id: ID, content: String): Comment @aws_subscribe(mutations: "updateComment")
-  onDeleteComment(id: ID, content: String): Comment @aws_subscribe(mutations: "deleteComment")
+  onCreateComment(content: String): Comment @aws_subscribe(mutations: ["createComment"])
+  onUpdateComment(id: ID, content: String): Comment @aws_subscribe(mutations: ["updateComment"])
+  onDeleteComment(id: ID, content: String): Comment @aws_subscribe(mutations: ["deleteComment"])
 }
 ```
 

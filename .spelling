@@ -200,6 +200,7 @@ myAmplifyProject
 _blank
 OnInit
 todos
+autolinking
 
 # js/hub.md
 onHubCapsule
@@ -441,6 +442,7 @@ ByStatus
 Pre
 Auth.currentAuthenticatedUser
 AWSMobileClient.sharedInstance
+AWSMobileClient.default
 getTodo
 listTodos
 createTodo
@@ -584,6 +586,7 @@ OneGraph
 transpile
 transpiling
 transpiled
+util
 
 # android/analytics.md
 ActivityLifecycleCallbacks
@@ -922,6 +925,7 @@ Keychain
 
 #  ios/start.md
 xcworkspace
+API.swift
 
 # ios/storage.md
 S3ObjectInput

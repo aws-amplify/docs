@@ -223,9 +223,18 @@ $ react-native init myReactNativeApp
 $ cd myReactNativeApp
 $ npm install aws-amplify
 $ npm install aws-amplify-react-native
-$ react-native link
 ```
 
+If you are using React Native 0.60 and above, [autolinking](https://github.com/react-native-community/cli/blob/master/docs/autolinking.md) is enabled. Run the following commands for iOS:
+
+```bash
+$ cd ios && pod install && cd ..
+```
+If you are using a version of React Native below 0.60 , you would need to link your dependencies by running the following command:
+
+```bash
+$ react-native link
+```
 To install React-specific Amplify UI components, run the following command:
 
 ```bash
