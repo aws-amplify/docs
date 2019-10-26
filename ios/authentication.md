@@ -104,9 +104,9 @@ After initialization in your project directory with `amplify init`, edit your `P
 ```ruby
 target 'MyApp' do             ##Replace MyApp with your application name
   use_frameworks!
-  pod 'AWSMobileClient', '~> 2.12.0'      # Required dependency
-  pod 'AWSAuthUI', '~> 2.12.0'            # Optional dependency required to use drop-in UI
-  pod 'AWSUserPoolsSignIn', '~> 2.12.0'   # Optional dependency required to use drop-in UI
+  pod 'AWSMobileClient', '~> 2.12.1'      # Required dependency
+  pod 'AWSAuthUI', '~> 2.12.1'            # Optional dependency required to use drop-in UI
+  pod 'AWSUserPoolsSignIn', '~> 2.12.1'   # Optional dependency required to use drop-in UI
 end
 ```
 
@@ -760,12 +760,12 @@ AWSMobileClient.default().federatedSignIn(providerName: IdentityProvider.develop
 	  target 'YOUR-APP-NAME' do
 	    use_frameworks!
 
-	    pod 'AWSFacebookSignIn', '~> 2.12.0'     # Add this new dependency
-	    pod 'AWSAuthUI', '~> 2.12.0'             # Add this dependency if you have not already added
+	    pod 'AWSFacebookSignIn', '~> 2.12.1'     # Add this new dependency
+	    pod 'AWSAuthUI', '~> 2.12.1'             # Add this dependency if you have not already added
 	    
 	    # Other Pod entries
-	    pod 'AWSMobileClient', '~> 2.12.0'
-	    pod 'AWSUserPoolsSignIn', '~> 2.12.0'
+	    pod 'AWSMobileClient', '~> 2.12.1'
+	    pod 'AWSUserPoolsSignIn', '~> 2.12.1'
 	    
 	  end
 	```
@@ -830,13 +830,13 @@ Now, your drop-in UI will show a Facebook sign in button which the users can use
 	platform :ios, '9.0'
 	target :'YOUR-APP-NAME' do
 	  use_frameworks!
-	  pod 'AWSGoogleSignIn', '~> 2.12.0'     # Add this new dependency
+	  pod 'AWSGoogleSignIn', '~> 2.12.1'     # Add this new dependency
 	  pod 'GoogleSignIn', '~> 4.0'          # Add this new dependency
-	  pod 'AWSAuthUI', '~> 2.12.0'           # Add this dependency if you have not already added
+	  pod 'AWSAuthUI', '~> 2.12.1'           # Add this dependency if you have not already added
 	    
 	  # Other Pod entries
-	  pod 'AWSMobileClient', '~> 2.12.0'
-	  pod 'AWSUserPoolsSignIn', '~> 2.12.0'
+	  pod 'AWSMobileClient', '~> 2.12.1'
+	  pod 'AWSUserPoolsSignIn', '~> 2.12.1'
 	  
 	end
 	```
