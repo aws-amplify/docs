@@ -1,6 +1,7 @@
 ---
 title: API
 ---
+
 {% if jekyll.environment == 'production' %}
   {% assign base_dir = site.amplify.docs_baseurl %}
 {% endif %}
@@ -23,13 +24,10 @@ To learn more about GraphQL, please visit the [GraphQL website](http://graphql.o
 AWS AppSync helps you build data-driven apps with real-time and offline capabilities. Learn more about [AWS AppSync](https://aws.amazon.com/appsync/) by visiting [AWS AppSync Developer Guide](https://docs.aws.amazon.com/appsync/latest/devguide/welcome.html){: .target='new'}.
 {: .callout .callout--action}
 
-
 The Amplify Framework offers two client options for AppSync:
 
-- [Amplify GraphQL client](#amplify-graphql-client)
-
-- [AWS AppSync SDK](#aws-appsync-sdk)
-
+* [Amplify GraphQL client](#amplify-graphql-client)
+* [AWS AppSync SDK](#aws-appsync-sdk)
 
 The [AWS AppSync SDK](https://github.com/awslabs/aws-mobile-appsync-sdk-js/) enables you to integrate your app with the AWS AppSync service and integrates with the Apollo client found [here](https://github.com/apollographql/apollo-client/). The SDK supports multiple authorization models, handles subscription handshake protocols for real-time updates to data, and has built-in capabilities for offline support that makes it easy to integrate into your app.
 
@@ -114,7 +112,7 @@ Save your schema file and update your GraphQL backend:
 $ amplify push
 ```
 
-When you run the *push* command, you will notice that your schema change is automatically detected, and your backend will be updated respectively. 
+When you run the *push* command, you will notice that your schema change is automatically detected, and your backend will be updated respectively.
 
 ```terminal
 | Category | Resource name   | Operation | Provider plugin   |
@@ -127,17 +125,17 @@ When the update is complete, you can see the changes on your backend by visiting
 
 ##### Using GraphQL Transformers
 
-As you can notice in the sample schema file above, the schema has a `@model` directive. The `@model` directive leverages a set of libraries that can help simplify the process of bootstrapping highly scalable, serverless GraphQL APIs on AWS. The `@model` directive tells the GraphQL Transform that we would like to store Todo objects in an Amazon DynamoDB table and configure CRUD operations for it. When you create or update your backend with *push* command, the CLI will automatically create and configure a new DynamoDB table that works with your AppSync API. The `@model` directive is just one of multiple transformers that can be used by annotating your *schema.graphql*. 
+As you can notice in the sample schema file above, the schema has a `@model` directive. The `@model` directive leverages a set of libraries that can help simplify the process of bootstrapping highly scalable, serverless GraphQL APIs on AWS. The `@model` directive tells the GraphQL Transform that we would like to store Todo objects in an Amazon DynamoDB table and configure CRUD operations for it. When you create or update your backend with *push* command, the CLI will automatically create and configure a new DynamoDB table that works with your AppSync API. The `@model` directive is just one of multiple transformers that can be used by annotating your *schema.graphql*.
 
-The following directives are available to be used when defining your schema:  
+The following directives are available to be used when defining your schema:
 
 | Directive | Description |
 | --- | --- |
 | @model on Object | Store objects in DynamoDB and configure CRUD resolvers. |
-| @auth on Object | Define authorization strategies for your API. | 
+| @auth on Object | Define authorization strategies for your API. |
 | @connection on Field | Specify relationships between @model object types. |
 | @searchable on Object | Stream data of an @model object type to Amazon Elasticsearch Service. |
-| @versioned on Object | Add object versioning and conflict detection to a @model. | 
+| @versioned on Object | Add object versioning and conflict detection to a @model. |
 
 You may also write your own transformers to implement reproducible patterns that you find useful. To learn more about the GraphQL Transform libraries see [GraphQL Transform Documentation](https://aws-amplify.github.io/docs/cli/graphql?sdk=js).
 
@@ -155,15 +153,15 @@ If you want to generate your GraphQL statements and types, run:
 $ amplify codegen
 ```
 
-A TypeScript or Flow type definition file will be generated in your target folder.  
+A TypeScript or Flow type definition file will be generated in your target folder.
 
 ##### Using the Configuration File in Your Code
 
 Import your auto-generated `aws-exports.js` file to configure your app to work with your AWS AppSync GraphQL backend:
 
 ```javascript
-import awsconfig from './aws-exports';
-Amplify.configure(awsconfig);
+import awsconfig from './aws-exports'
+Amplify.configure(awsconfig)
 ```
 
 #### Manual Configuration
@@ -174,57 +172,57 @@ As an alternative to automatic configuration, you can manually enter AWS AppSync
 
 ```javascript
 const myAppConfig = {
-    // ...
-    'aws_appsync_graphqlEndpoint': 'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
-    'aws_appsync_region': 'us-east-1',
-    'aws_appsync_authenticationType': 'API_KEY',
-    'aws_appsync_apiKey': 'da2-xxxxxxxxxxxxxxxxxxxxxxxxxx',
-    // ...
+  // ...
+  'aws_appsync_graphqlEndpoint': 'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
+  'aws_appsync_region': 'us-east-1',
+  'aws_appsync_authenticationType': 'API_KEY',
+  'aws_appsync_apiKey': 'da2-xxxxxxxxxxxxxxxxxxxxxxxxxx'
+  // ...
 }
 
-Amplify.configure(myAppConfig);
+Amplify.configure(myAppConfig)
 ```
 
 ##### Using AWS_IAM
 
 ```javascript
 const myAppConfig = {
-    // ...
-    'aws_appsync_graphqlEndpoint': 'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
-    'aws_appsync_region': 'us-east-1',
-    'aws_appsync_authenticationType': 'AWS_IAM',
-    // ...
+  // ...
+  'aws_appsync_graphqlEndpoint': 'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
+  'aws_appsync_region': 'us-east-1',
+  'aws_appsync_authenticationType': 'AWS_IAM'
+  // ...
 }
 
-Amplify.configure(myAppConfig);
+Amplify.configure(myAppConfig)
 ```
 
 ##### Using AMAZON_COGNITO_USER_POOLS
 
 ```javascript
 const myAppConfig = {
-    // ...
-    'aws_appsync_graphqlEndpoint': 'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
-    'aws_appsync_region': 'us-east-1',
-    'aws_appsync_authenticationType': 'AMAZON_COGNITO_USER_POOLS', // You have configured Auth with Amazon Cognito User Pool ID and Web Client Id
-    // ...
+  // ...
+  'aws_appsync_graphqlEndpoint': 'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
+  'aws_appsync_region': 'us-east-1',
+  'aws_appsync_authenticationType': 'AMAZON_COGNITO_USER_POOLS' // You have configured Auth with Amazon Cognito User Pool ID and Web Client Id
+  // ...
 }
 
-Amplify.configure(myAppConfig);
+Amplify.configure(myAppConfig)
 ```
 
 ##### Using OPENID_CONNECT
 
 ```javascript
 const myAppConfig = {
-    // ...
-    'aws_appsync_graphqlEndpoint': 'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
-    'aws_appsync_region': 'us-east-1',
-    'aws_appsync_authenticationType': 'OPENID_CONNECT', // Before calling API.graphql(...) is required to do Auth.federatedSignIn(...) check authentication guide for details.
-    // ...
+  // ...
+  'aws_appsync_graphqlEndpoint': 'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
+  'aws_appsync_region': 'us-east-1',
+  'aws_appsync_authenticationType': 'OPENID_CONNECT' // Before calling API.graphql(...) is required to do Auth.federatedSignIn(...) check authentication guide for details.
+  // ...
 }
 
-Amplify.configure(myAppConfig);
+Amplify.configure(myAppConfig)
 ```
 
 ### Using a GraphQL Server
@@ -232,23 +230,22 @@ Amplify.configure(myAppConfig);
 To access a GraphQL API with your app, you need to configure the endpoint URL in your app's configuration. Add the following line to your setup:
 
 ```javascript
+import Amplify, { API } from 'aws-amplify'
+import awsconfig from './aws-exports'
 
-import Amplify, { API } from 'aws-amplify';
-import awsconfig from './aws-exports';
- 
-// Considering you have an existing aws-exports.js configuration file 
-Amplify.configure(awsconfig);
+// Considering you have an existing aws-exports.js configuration file
+Amplify.configure(awsconfig)
 
 // Configure a custom GraphQL endpoint
 Amplify.configure({
   API: {
     graphql_endpoint: 'https:/www.example.com/my-graphql-endpoint'
   }
-});
+})
 
 ```
 
-#### Set Custom Request Headers for GraphQL 
+#### Set Custom Request Headers for GraphQL
 
 When working with a GraphQL endpoint, you may need to set request headers for authorization purposes. This is done by passing a `graphql_headers` function into the configuration:
 
@@ -256,15 +253,15 @@ When working with a GraphQL endpoint, you may need to set request headers for au
 Amplify.configure({
   API: {
     graphql_headers: async () => ({
-        'My-Custom-Header': 'my value'
+      'My-Custom-Header': 'my value'
     })
   }
-});
+})
 ```
 
 #### Signing Request with IAM
 
-AWS Amplify provides the ability to sign requests automatically with AWS Identity Access Management (IAM) for GraphQL requests that are processed through AWS API Gateway. Add the *graphql_endpoint_iam_region* parameter to your GraphQL configuration statement to enable signing: 
+AWS Amplify provides the ability to sign requests automatically with AWS Identity Access Management (IAM) for GraphQL requests that are processed through AWS API Gateway. Add the *graphql_endpoint_iam_region* parameter to your GraphQL configuration statement to enable signing:
 
 ```javascript
 Amplify.configure({
@@ -272,7 +269,7 @@ Amplify.configure({
     graphql_endpoint: 'https://www.example.com/my-graphql-endpoint',
     graphql_endpoint_iam_region: 'my_graphql_apigateway_region'
   }
-});
+})
 ```
 
 ### <a name="amplify-graphql-client">Amplify GraphQL Client
@@ -284,9 +281,9 @@ The API category provides a GraphQL client for working with queries, mutations, 
 The Amplify CLI codegen automatically generates all possible GraphQL statements (queries, mutations and subscriptions) and for JavaScript applications saves it in `src/graphql` folder
 
 ```javascript
-import * as queries from './graphql/queries';
-import * as mutations from './graphql/mutations';
-import * as subscriptions from './graphql/subscriptions';
+import * as queries from './graphql/queries'
+import * as mutations from './graphql/mutations'
+import * as subscriptions from './graphql/subscriptions'
 ```
 
 #### Simple Query
@@ -294,18 +291,16 @@ import * as subscriptions from './graphql/subscriptions';
 Running a GraphQL query is simple. Import the generated query and execute it with `API.graphql`:
 
 ```javascript
-import Amplify, { API, graphqlOperation } from 'aws-amplify';
-import * as queries from './graphql/queries';
-
+import Amplify, { API, graphqlOperation } from 'aws-amplify'
+import * as queries from './graphql/queries'
 
 // Simple query
-const allTodos = await API.graphql(graphqlOperation(queries.listTodos));
-console.log(allTodos);
+const allTodos = await API.graphql(graphqlOperation(queries.listTodos))
+console.log(allTodos)
 
 // Query using a parameter
-const oneTodo = await API.graphql(graphqlOperation(queries.getTodo, { id: 'some id' }));
-console.log(oneTodo);
-
+const oneTodo = await API.graphql(graphqlOperation(queries.getTodo, { id: 'some id' }))
+console.log(oneTodo)
 ```
 
 #### Mutations
@@ -313,40 +308,39 @@ console.log(oneTodo);
 Mutations are used to create or update data with GraphQL. A sample mutation query to create a new *Todo* looks like this:
 
 ```javascript
-import Amplify, { API, graphqlOperation } from "aws-amplify";
+import Amplify, { API, graphqlOperation } from 'aws-amplify';
 import * as mutations from './graphql/mutations';
 
 // Mutation
 const todoDetails = {
-    name: 'Todo 1',
-    description: 'Learn AWS AppSync'
+  name: 'Todo 1',
+  description: 'Learn AWS AppSync'
 };
 
-const newTodo = await API.graphql(graphqlOperation(mutations.createTodo, {input: todoDetails}));
-console.log(newTodo);
+const newTodo = await API.graphql(graphqlOperation(mutations.createTodo, { input: todoDetails }))
+console.log(newTodo)
 ```
 
 #### Subscriptions
 
-Subscriptions is a GraphQL feature allowing the server to send data to its clients when a specific event happens. You can enable real-time data integration in your app with a subscription. 
+Subscriptions is a GraphQL feature allowing the server to send data to its clients when a specific event happens. You can enable real-time data integration in your app with a subscription.
 
 ```javascript
-import Amplify, { API, graphqlOperation } from 'aws-amplify';
-import * as subscriptions from './graphql/subscriptions';
+import Amplify, { API, graphqlOperation } from 'aws-amplify'
+import * as subscriptions from './graphql/subscriptions'
 
 // Subscribe to creation of Todo
 const subscription = API.graphql(
-    graphqlOperation(subscriptions.onCreateTodo)
+  graphqlOperation(subscriptions.onCreateTodo)
 ).subscribe({
-    next: (todoData) => console.log(todoData)
-});
+  next: (todoData) => console.log(todoData)
+})
 
 // Stop receiving data updates from the subscription
-subscription.unsubscribe();
-
+subscription.unsubscribe()
 ```
 
-When using **AWS AppSync** subscriptions, be sure that your AppSync configuration is at the root of the configuration object, instead of being under API: 
+When using **AWS AppSync** subscriptions, be sure that your AppSync configuration is at the root of the configuration object, instead of being under API:
 
 ```javascript
 Amplify.configure({
@@ -363,165 +357,156 @@ Amplify.configure({
   aws_appsync_region: 'xxxx',
   aws_appsync_authenticationType: 'xxxx',
   aws_appsync_apiKey: 'xxxx'
-});
+})
 ```
 
 #### AWS AppSync Multi-Auth
 
 AWS AppSync can support [multiple authorization modes on a single API](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes). In order to use this feature with the Amplify Graphql Client the `API.graphql({...})` function would accept an optional parameter called `authMode`, its value will be one of the supported auth modes:
 
-- `API_KEY`
-- `AWS_IAM`
-- `OPENID_CONNECT`
-- `AMAZON_COGNITO_USER_POOLS`
+* `API_KEY`
+* `AWS_IAM`
+* `OPENID_CONNECT`
+* `AMAZON_COGNITO_USER_POOLS`
 
 This is an example of using `AWS_IAM` as an authorization mode:
 
 ```javascript
-// Creating a post is restricted to IAM 
+// Creating a post is restricted to IAM
 const createdTodo = await API.graphql({
   query: queries.createTodo,
-  variables: {input: todoDetails},
+  variables: { input: todoDetails },
   authMode: 'AWS_IAM'
-});
+})
 ```
 
 Note: Previous examples uses `graphqlOperation` function. That function only creates an object with two attributes `query` and `variables`. In order to use `authMode` you need to pass this object as is mentioned on the previous example.
 
 ### React Components
 
-The API category provides React components for working with GraphQL data using the Amplify GraphQL client. 
+The API category provides React components for working with GraphQL data using the Amplify GraphQL client.
 
 #### Connect
 
 The `<Connect/>` component is used to execute a GraphQL query or mutation. You can execute GraphQL queries by passing your queries in `query` or `mutation` attributes:
 
 ```javascript
-import React, { Component } from 'react';
-import Amplify, { graphqlOperation }  from "aws-amplify";
-import { Connect } from "aws-amplify-react";
+import React, { Component } from 'react'
+import Amplify, { graphqlOperation } from 'aws-amplify'
+import { Connect } from 'aws-amplify-react'
 
-import * as queries from './graphql/queries';
-import * as subscriptions from './graphql/subscriptions';
+import * as queries from './graphql/queries'
+import * as subscriptions from './graphql/subscriptions'
 
 class App extends Component {
+  render() {
+    const ListView = ({ todos }) => (
+      <div>
+        <h3>All Todos</h3>
+        <ul>
+          {todos.map(todo => <li key={todo.id}>{todo.name} ({todo.id})</li>)}
+        </ul>
+      </div>
+    )
 
-    render() {
+    return (
+      <Connect query={graphqlOperation(queries.listTodos)}>
+        {({ data: { listTodos }, loading, errors }) => {
+          if (errors) return <h3>Error</h3>
+          if (loading || !listTodos) return <h3>Loading...</h3>
+          return <ListView todos={listTodos.items} />
+        }}
+      </Connect>
+    )
+  }
+}
 
-        const ListView = ({ todos }) => (
-            <div>
-                <h3>All Todos</h3>
-                <ul>
-                    {todos.map(todo => <li key={todo.id}>{todo.name} ({todo.id})</li>)}
-                </ul>
-            </div>
-        );
-
-        return (
-            <Connect query={graphqlOperation(queries.listTodos)}>
-                {({ data: { listTodos }, loading, errors }) => {
-                    if (errors) return (<h3>Error</h3>);
-                    if (loading || !listTodos) return (<h3>Loading...</h3>);
-                    return (<ListView todos={listTodos.items} /> );
-                }}
-            </Connect>
-        )
-    }
-} 
-
-export default App;
-
+export default App
 ```
 
 Also, you can use the `subscription` and `onSubscriptionMsg` attributes to enable subscriptions:
 
 ```javascript
-
 <Connect
-    query={graphqlOperation(queries.listTodos)}
-    subscription={graphqlOperation(subscriptions.onCreateTodo)}
-    onSubscriptionMsg={(prev, { onCreateTodo }) => {
-        console.log ( onCreateTodo );
-        return prev; 
-    }}
+  query={graphqlOperation(queries.listTodos)}
+  subscription={graphqlOperation(subscriptions.onCreateTodo)}
+  onSubscriptionMsg={(prev, { onCreateTodo }) => {
+    console.log ( onCreateTodo )
+    return prev
+  }}
 >
-    {({ data: { listTodos }, loading, error }) => {
-        if (error) return (<h3>Error</h3>);
-        if (loading || !listTodos) return (<h3>Loading...</h3>);
-        return (<ListView todos={listTodos ? listTodos.items : []} />);
-    }}
+  {({ data: { listTodos }, loading, error }) => {
+    if (error) return <h3>Error</h3>
+    if (loading || !listTodos) return <h3>Loading...</h3>
+    return <ListView todos={listTodos ? listTodos.items : []} />
+  }}
  </Connect>
-
 ```
 
 For mutations, a `mutation` function needs to be provided with the `Connect` component. A `mutation` returns a promise that resolves with the result of the GraphQL mutation.
 
 ```jsx
-import React, { Component } from 'react';
-import * as mutations from './graphql/mutations';
-import * as queries from './graphql/queries';
-import * as subscriptions from './graphql/subscriptions';
+import React, { Component } from 'react'
+import * as mutations from './graphql/mutations'
+import * as queries from './graphql/queries'
+import * as subscriptions from './graphql/subscriptions'
 
 class AddTodo extends Component {
   constructor(props) {
     super(props);
-    this.submit = this.submit.bind(this);
+    this.submit = this.submit.bind(this)
     this.state = {
         name: '',
-        description: '',
-    };
+        description: ''
+    }
   }
 
   handleChange(name, event) {
-      this.setState({ [name]: event.target.value });
+    this.setState({ [name]: event.target.value })
   }
 
   async submit() {
-    const { onCreate } = this.props;
+    const { onCreate } = this.props
     const input = {
       name: this.state.name,
       description: this.state.description
     }
-    console.log(input);
+    console.log(input)
 
     try {
-    	await onCreate({input})
+      await onCreate({ input })
     } catch (err) {
-    	console.error(err);
+      console.error(err)
     }
-
   }
 
-  render(){
+  render() {
     return (
-        <div>
-            <input
-                name="name"
-                placeholder="name"
-                onChange={(event) => { this.handleChange('name', event)}}
-            />
-            <input
-                name="description"
-                placeholder="description"
-                onChange={(event) => { this.handleChange('description', event)}}
-            />
-            <button onClick={this.submit}>
-                Add
-            </button>
-        </div>
-    );
+      <div>
+        <input
+          name="name"
+          placeholder="name"
+          onChange={(event) => { this.handleChange('name', event) }}
+        />
+        <input
+          name="description"
+          placeholder="description"
+          onChange={(event) => { this.handleChange('description', event) }}
+        />
+        <button onClick={this.submit}>Add</button>
+      </div>
+    )
   }
 }
 
 class App extends Component {
   render() {
-
     const ListView = ({ todos }) => (
       <div>
-          <h3>All Todos</h3>
-          <ul>
-            {todos.map(todo => <li key={todo.id}>{todo.name}</li>)}
-          </ul>
+        <h3>All Todos</h3>
+        <ul>
+          {todos.map(todo => <li key={todo.id}>{todo.name}</li>)}
+        </ul>
       </div>
     )
 
@@ -537,18 +522,18 @@ class App extends Component {
           subscription={graphqlOperation(subscriptions.onCreateTodo)}
           onSubscriptionMsg={(prev, {onCreateTodo}) => {
               console.log('Subscription data:', onCreateTodo)
-              return prev;
+              return prev
             }
-          }>
-        {({ data: { listTodos }, loading, error }) => {
-          if (error) return <h3>Error</h3>;
-          if (loading || !listTodos) return <h3>Loading...</h3>;
-            return (<ListView todos={listTodos.items} />);
-        }}
+          }
+        >
+          {({ data: { listTodos }, loading, error }) => {
+            if (error) return <h3>Error</h3>
+            if (loading || !listTodos) return <h3>Loading...</h3>
+            return <ListView todos={listTodos.items} />
+          }}
         </Connect>
       </div>
-
-    );
+    )
   }
 }
 ```
@@ -574,8 +559,8 @@ To execute GraphQL operations in JavaScript you need to have GraphQL statements 
 After installing the Amplify CLI open a terminal, go to your JavaScript project root, and then run the following:
 
 ```bash
-amplify init
-amplify add codegen --apiId XXXXXX
+$ amplify init
+$ amplify add codegen --apiId XXXXXX
 ```
 
 The `XXXXXX` is the unique AppSync API identifier that you can find in the console in the root of your API's integration page. When you run this command you can accept the defaults, which create a `./src/graphql` folder structure with your statements.
@@ -585,8 +570,8 @@ The `XXXXXX` is the unique AppSync API identifier that you can find in the conso
 Navigate in your terminal to a JavaScript project directory and run the following:
 
 ```terminal
-$amplify init     ## Select JavaScript as your platform
-$amplify add api  ## Select GraphQL, API key, "Single object with fields Todo application"
+$ amplify init     ## Select JavaScript as your platform
+$ amplify add api  ## Select GraphQL, API key, "Single object with fields Todo application"
 ```
 Select *GraphQL* when prompted for service type:
 
@@ -631,9 +616,9 @@ This will open the AWS AppSync console for you to run Queries, Mutations, or Sub
 To use AppSync in your JavaScript project, add in the following dependencies:
 
 ```bash
-npm install aws-appsync graphql-tag
+$ npm install aws-appsync graphql-tag
 # or
-yarn add aws-appsync graphql-tag
+$ yarn add aws-appsync graphql-tag
 ```
 
 #### Client Initialization
@@ -641,18 +626,18 @@ yarn add aws-appsync graphql-tag
 In your app's entry point, import the AWS AppSync Client and instantiate it.
 
 ```javascript
-import gql from 'graphql-tag';
-import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
-import awsconfig from './aws-exports';
+import gql from 'graphql-tag'
+import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync'
+import awsconfig from './aws-exports'
 
 const client = new AWSAppSyncClient({
   url: awsconfig.aws_appsync_graphqlEndpoint,
   region: awsconfig.aws_appsync_region,
   auth: {
     type: AUTH_TYPE.API_KEY, // or type: awsconfig.aws_appsync_authenticationType,
-    apiKey: awsconfig.aws_appsync_apiKey,
+    apiKey: awsconfig.aws_appsync_apiKey
   }
-});
+})
 ```
 
 #### Run a Query
@@ -660,29 +645,29 @@ const client = new AWSAppSyncClient({
 Now that the client is configured, you can run a GraphQL query. The syntax is `client.query({ query: QUERY})` which returns a `Promise` you can optionally `await` on. The `QUERY` is a GraphQL document you can write yourself or use the statements which `amplify codegen` created automatically. For example, if you have a `ListTodos` query, your code will look like the following:
 
 ```javascript
-import { listTodos } from './graphql/queries';
+import { listTodos } from './graphql/queries'
 
 client.query({
   query: gql(listTodos)
 }).then(({ data: { listTodos } }) => {
-  console.log(listTodos.items);
-});
+  console.log(listTodos.items)
+})
 ```
 
 If you want to change the `fetchPolicy` to something like `cache-only` and not retrieve data over the network, you need to wait for the cache to be hydrated (instantiate an in-memory object from storage for the Apollo cache to use).
 
 ```javascript
-import { listTodos } from './graphql/queries';
+import { listTodos } from './graphql/queries'
 
-(async () => { 
-  await client.hydrated();
+(async () => {
+  await client.hydrated()
 
   const result = await client.query({
     query: gql(listTodos),
-    fetchPolicy: 'cache-only',
-  });
-  console.log(result.data.listTodos.items);
-})();
+    fetchPolicy: 'cache-only'
+  })
+  console.log(result.data.listTodos.items)
+})()
 ```
 
 We recommend leaving the default of `fetchPolicy: 'cache-and-network` for usage with AppSync.
@@ -692,7 +677,7 @@ We recommend leaving the default of `fetchPolicy: 'cache-and-network` for usage 
 To add data you need to run a GraphQL mutation. The syntax is `client.mutate({ mutation:MUTATION, variables: vars})` which like a query returns a `Promise`. The `MUTATION` is a GraphQL document you can write yourself use use the statements which `amplify codegen` created automatically. `variables` are an optional object if the mutation requires arguments. For example, if you have a `createTodo` mutation, your code will look like the following (using `async/await` in this example):
 
 ```javascript
-import { createTodo } from './graphql/mutations';
+import { createTodo } from './graphql/mutations'
 
 (async () => {
   const result = await client.mutate({
@@ -700,12 +685,12 @@ import { createTodo } from './graphql/mutations';
     variables: {
       input: {
         name: 'Use AppSync',
-        description: 'Realtime and Offline',
+        description: 'Realtime and Offline'
       }
     }
-  });
-  console.log(result.data.createTodo);
-})();
+  })
+  console.log(result.data.createTodo)
+})()
 ```
 
 #### Subscribe to Data
@@ -713,31 +698,30 @@ import { createTodo } from './graphql/mutations';
 Finally, it's time to set up a subscription to real-time data. The syntax is `client.subscribe({ query: SUBSCRIPTION })` which returns an `Observable` that you can subscribe to with `.subscribe()` as well as `.unsubscribe()` when the data is no longer necessary in your application. For example, if you have a `onCreateTodo` subscription, your code might look like the following:
 
 ```javascript
-import { onCreateTodo } from './graphql/subscriptions';
+import { onCreateTodo } from './graphql/subscriptions'
 
-let subscription;
+let subscription
 
 (async () => {
   subscription = client.subscribe({ query: gql(onCreateTodo) }).subscribe({
     next: data => {
-      console.log(data.data.onCreateTodo);
+      console.log(data.data.onCreateTodo)
     },
     error: error => {
-      console.warn(error);
+      console.warn(error)
     }
-  });
-})();
+  })
+})()
 
 // Unsubscribe after 10 secs
 setTimeout(() => {
-  subscription.unsubscribe();
-}, 10000);
+  subscription.unsubscribe()
+}, 10000)
 ```
 
-Note that since `client.subscribe` returns an `Observable`, you can use `filter`, `map`, `forEach` and other stream related functions. When you subscribe, you'll get back a subscription object you can use to unsubscribe. 
+Note that since `client.subscribe` returns an `Observable`, you can use `filter`, `map`, `forEach` and other stream related functions. When you subscribe, you'll get back a subscription object you can use to unsubscribe.
 
 Subscriptions can also take input types like mutations, in which case they will be subscribing to particular events based on the input. To learn more about subscription arguments, see [Real-Time data](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html).
-
 
 #### Client Architecture
 
@@ -745,8 +729,7 @@ The AppSync client supports offline scenarios with a programing model that provi
 
 ![Image]({{images_base}}/appsync-architecture.png)
 
-
-Your application code will interact with the AppSync client to perform GraphQL queries, mutations, or subscriptions. The AppSync client automatically performs the correct authorization methods when interfacing with the HTTP layer adding API Keys, tokens, or signing requests depending on how you have configured your setup. When you do a mutation, such as adding a new item (like a blog post) in your app the AppSync client adds this to a local queue (persisted to disk with Local Storage, AsyncStorage, or other mediums depending on your JavaScript platform configuration) when the app is offline. When network connectivity is restored the mutations are sent to AppSync in serial allowing you to process the responses one by one. 
+Your application code will interact with the AppSync client to perform GraphQL queries, mutations, or subscriptions. The AppSync client automatically performs the correct authorization methods when interfacing with the HTTP layer adding API Keys, tokens, or signing requests depending on how you have configured your setup. When you do a mutation, such as adding a new item (like a blog post) in your app the AppSync client adds this to a local queue (persisted to disk with Local Storage, AsyncStorage, or other mediums depending on your JavaScript platform configuration) when the app is offline. When network connectivity is restored the mutations are sent to AppSync in serial allowing you to process the responses one by one.
 
 Any data returned by a query is automatically written to the Apollo Cache (e.g. “Store”) that is persisted to the configured medium. The cache is structured as a key value store using a reference structure. There is a base “Root Query” where each subsequent query resides and then references their individual item results. You specify the reference key (normally “id”) in your application code. An example of the cache that has stored results from a “listPosts” query and “getPost(id:1)” query is below.
 
@@ -767,12 +750,12 @@ const client = new AWSAppSyncClient({
   region: awsconfig.aws_appsync_region,
   auth: {
     type: AUTH_TYPE.API_KEY,
-    apiKey: awsconfig.aws_appsync_apiKey,
+    apiKey: awsconfig.aws_appsync_apiKey
   },
   cacheOptions: {
     dataIdFromObject: (obj) => `${obj.__typename}:${obj.myKey}`
   }
-});
+})
 ```
 
 If you are performing a mutation, you can write an “optimistic response” anytime to this cache even if you are offline. You use the AppSync client to connect by passing in the query to update, reading the items off the cache. This normally returns a single item or list of items, depending on the GraphQL response type of the query to update. At this point you would add to the list, remove, or update it as appropriate and write back the response to the store persisting it to disk. When you reconnect to the network any responses from the service will overwrite the changes as the authoritative response. We'll give some examples of that in [Offline mutations](./api#offline-mutations).
@@ -787,34 +770,34 @@ const client = new AWSAppSyncClient({
   region: awsconfig.aws_appsync_region,
   auth: {
     type: AUTH_TYPE.API_KEY,
-    apiKey: awsconfig.aws_appsync_apiKey,
+    apiKey: awsconfig.aws_appsync_apiKey
   },
   disableOffline: true
-});
+})
 ```
 
-`conflictResolver`: 
+`conflictResolver`:
 When clients make a mutation, either online or offline, they can send a version number with the payload (named `expectedVersion`) for AWS AppSync to check before writing to Amazon DynamoDB. A DynamoDB resolver mapping template can be configured to perform conflict resolution in the cloud, which you can learn about in the [AppSync Resolver Mapping Template Reference for DynamoDB](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference-dynamodb.html#aws-appsync-resolver-mapping-template-reference-dynamodb-condition-expressions). If the service determines it needs to reject the mutation, data is sent to the client and you can optionally run a "custom conflict resolvers" to perform client-side conflict resolution.
 
-- **mutation**: GraphQL statement of a mutation
-- **mutationName**: Optional if a name of a mutation is set on a GraphQL statement
-- **variables**: Input parameters of the mutation
-- **data**: Response from AWS AppSync of actual data in DynamoDB
-- **retries**: Number of times a mutation has been retried
+* **mutation**: GraphQL statement of a mutation
+* **mutationName**: Optional if a name of a mutation is set on a GraphQL statement
+* **variables**: Input parameters of the mutation
+* **data**: Response from AWS AppSync of actual data in DynamoDB
+* **retries**: Number of times a mutation has been retried
 
 An example below of passing a `conflictResolver` to the `AWSAppSyncClient` object:
 
 ```javascript
 const conflictResolver = ({ mutation, mutationName, variables, data, retries }) => {
-    switch (mutationName) {
-        case 'UpdatePostMutation':
-            return {
-                ...variables,
-                expectedVersion: data.version,
-            };
-        default:
-            return false;
-    }
+  switch (mutationName) {
+    case 'UpdatePostMutation':
+      return {
+        ...variables,
+        expectedVersion: data.version
+      };
+    default:
+      return false
+  }
 }
 
 const client = new AWSAppSyncClient({
@@ -822,10 +805,10 @@ const client = new AWSAppSyncClient({
   region: awsconfig.aws_appsync_region,
   auth: {
     type: AUTH_TYPE.API_KEY,
-    apiKey: awsconfig.aws_appsync_apiKey,
+    apiKey: awsconfig.aws_appsync_apiKey
   },
   conflictResolver: conflictResolver
-});
+})
 ```
 
 In the previous example, you could do a logical check on the mutationName. If you return an object with variables for the mutation, this will automatically rerun the mutation with the correct version that AWS AppSync returned.
@@ -836,9 +819,9 @@ In the previous example, you could do a logical check on the mutationName. If yo
 
 When using the AWS AppSync SDK offline capabilities (e.g. `disableOffline: false`), you can provide configurations in the `offlineConfig` key:
 
-- Error handling: (`callback`)
-- Custom storage engine (`storage`)
-- A key prefix for the underlying store (`keyPrefix`)
+* Error handling: (`callback`)
+* Custom storage engine (`storage`)
+* A key prefix for the underlying store (`keyPrefix`)
 
 **Error handling**
 
@@ -850,22 +833,20 @@ const client = new AWSAppSyncClient({
   region: awsconfig.aws_appsync_region,
   auth: {
     type: AUTH_TYPE.API_KEY,
-    apiKey: awsconfig.aws_appsync_apiKey,
+    apiKey: awsconfig.aws_appsync_apiKey
   },
   offlineConfig: {
     callback: (err, succ) => {
-      if(err) {
-        const { mutation, variables } = err;
-
-        console.warn(`ERROR for ${mutation}`, err);
+      if (err) {
+        const { mutation, variables } = err
+        console.warn(`ERROR for ${mutation}`, err)
       } else {
-        const { mutation, variables } = succ;
-
-        console.info(`SUCCESS for ${mutation}`, succ);
+        const { mutation, variables } = succ
+        console.info(`SUCCESS for ${mutation}`, succ)
       }
-    },
-  },
-});
+    }
+  }
+})
 ```
 
 **NOTE** If the app was closed and you re-opened it and there were errors this would be represented in the error callback above. However, if you're doing a mutation and the app is still online and the server rejects the write, you will need to handle it with a standard `try/catch`:
@@ -874,21 +855,21 @@ const client = new AWSAppSyncClient({
 (async () => {
   const variables = {
     input: {
-        name: 'Use AppSync',
-        description: 'Realtime and Offline',
+      name: 'Use AppSync',
+      description: 'Realtime and Offline'
     }
-  };
+  }
 
   try {
     const result = await client.mutate({
       mutation: gql(createTodo),
       variables: variables
-    });
+    })
   } catch (e) {
-    console.warn('Error sending mutation: ',  e);
-    console.warn(variables); // Do something with the data
+    console.warn('Error sending mutation: ', e)
+    console.warn(variables) // Do something with the data
   }
-})();
+})()
 ```
 
 **NOTE** The SDK will automatically retry for standard network errors, however access errors or other unrelated errors you will need to handle them yourself.
@@ -900,28 +881,26 @@ You can use any custom storage engine from the [redux-persist supported engines]
 Configuration is done as follows: (localForage shown in the example)
 
 ```javascript
-import * as localForage from "localforage";
+import * as localForage from 'localforage'
 
 const client = new AWSAppSyncClient({
   url: awsconfig.aws_appsync_graphqlEndpoint,
   region: awsconfig.aws_appsync_region,
   auth: {
     type: AUTH_TYPE.API_KEY,
-    apiKey: awsconfig.aws_appsync_apiKey,
+    apiKey: awsconfig.aws_appsync_apiKey
   },
   offlineConfig: {
-    storage: localForage,
-  },
-});
+    storage: localForage
+  }
+})
 ```
-
 
 **Key prefix**
 
 The `AWSAppSyncClient` persists its cache data to support offline scenarios. Keys in the persisted cache will be prefixed by the provided `keyPrefix`.
 
-This prefix is required when offline support is enabled and you want to use more than one client in your app (e.g. by [accessing a multi-auth enabled AppSync API](#aws-appsync-multi-auth))
-
+This prefix is required when offline support is enabled and you want to use more than one client in your app (e.g. by [accessing a multi-auth enabled AppSync API](#aws-appsync-multi-auth)).
 
 #### Offline Mutations
 
@@ -938,9 +917,9 @@ For example, the below code shows how you would update the `CreateTodoMutation` 
 An example of using the `buildMutation` helper to add an item to the cache:
 
 ```javascript
-import { buildMutation } from 'aws-appsync';
-import { listTodos } from './graphql/queries';
-import { createTodo, CreateTodoInput } from './graphql/mutations';
+import { buildMutation } from 'aws-appsync'
+import { listTodos } from './graphql/queries'
+import { createTodo, CreateTodoInput } from './graphql/mutations'
 
 (async () => {
   const result = await client.mutate(buildMutation(client,
@@ -950,15 +929,16 @@ import { createTodo, CreateTodoInput } from './graphql/mutations';
       variables: {
         input: {
           name: 'Use AppSync',
-          description: 'Realtime and Offline',
+          description: 'Realtime and Offline'
         }
       }
     },
     (_variables) => [ gql(listTodos) ],
-    'Todo'));
+    'Todo'
+  ))
 
-  console.log(result);
-})();
+  console.log(result)
+})()
 ```
 
 **Without helper**
@@ -966,9 +946,9 @@ import { createTodo, CreateTodoInput } from './graphql/mutations';
 An example of writing an `update` function manually to add an item to the cache:
 
 ```javascript
-import { v4 as uuid } from 'uuid';
-import { listTodos } from './graphql/queries';
-import { createTodo } from './graphql/mutations';
+import { v4 as uuid } from 'uuid'
+import { listTodos } from './graphql/queries'
+import { createTodo } from './graphql/mutations'
 
 (async () => {
   const result = await client.mutate({
@@ -976,7 +956,7 @@ import { createTodo } from './graphql/mutations';
     variables: {
       input: {
         name: 'Use AppSync',
-        description: 'Realtime and Offline',
+        description: 'Realtime and Offline'
       }
     },
     optimisticResponse: () => ({
@@ -984,31 +964,31 @@ import { createTodo } from './graphql/mutations';
         __typename: 'Todo', // This type must match the return type of the query below (listTodos)
         id: uuid(),
         name: 'Use AppSync',
-        description: 'Realtime and Offline',
+        description: 'Realtime and Offline'
       }
     }),
     update: (cache, { data: { createTodo } }) => {
-      const query = gql(listTodos);
+      const query = gql(listTodos)
 
       // Read query from cache
-      const data = cache.readQuery({ query });
+      const data = cache.readQuery({ query })
 
       // Add newly created item to the cache copy
       data.listTodos.items = [
         ...data.listTodos.items.filter(item => item.id !== createTodo.id),
         createTodo
-      ];
+      ]
 
       //Overwrite the cache with the new results
-      cache.writeQuery({ query, data });
+      cache.writeQuery({ query, data })
     }
-  });
+  })
 
-  console.warn(result);
+  console.warn(result)
 })();
 ```
 
-You might add similar code in your app for updating or deleting items using an optimistic response, it would look largely similar except that you might overwrite or remove an element from the `data.listTodos.items` array. 
+You might add similar code in your app for updating or deleting items using an optimistic response, it would look largely similar except that you might overwrite or remove an element from the `data.listTodos.items` array.
 
 **Authentication Modes**
 
@@ -1024,9 +1004,9 @@ const client = new AWSAppSyncClient({
   region: awsconfig.aws_appsync_region,
   auth: {
     type: AUTH_TYPE.API_KEY,
-    apiKey: awsconfig.aws_appsync_apiKey,
-  },
-});
+    apiKey: awsconfig.aws_appsync_apiKey
+  }
+})
 ```
 
 ##### Cognito User Pools Auth
@@ -1034,25 +1014,27 @@ const client = new AWSAppSyncClient({
 Amazon Cognito User Pools is the most common service to use with AppSync when adding user Sign-Up and Sign-In to your application. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials with Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth` and can also automatically federate User Pools with Identity Pools. This allows you to have both User Pool credentials for AppSync and AWS credentials for S3. You can then use the `Auth` category for automatic credentials refresh [as outlined in the authentication section](./authentication). For manual configuration, add the following snippet to your `aws-exports.js` file:
 
 ```javascript
-import Amplify, { Auth } from 'aws-amplify';
-import awsconfig from './aws-exports';
+import Amplify, { Auth } from 'aws-amplify'
+import awsconfig from './aws-exports'
 
-Amplify.configure(awsconfig);
+Amplify.configure(awsconfig)
 
 const client = new AWSAppSyncClient({
   url: awsconfig.aws_appsync_graphqlEndpoint,
   region: awsconfig.aws_appsync_region,
   auth: {
     type: AUTH_TYPE.AMAZON_COGNITO_USER_POOLS,
-    jwtToken: async () => (await Auth.currentSession()).getIdToken().getJwtToken(),
-  },
-});
+    jwtToken: async () => (await Auth.currentSession()).getIdToken().getJwtToken()
+  }
+})
 ```
-**NOTE** In React, you can use amplify's withAuthenticator:
-```jsx
-import { withAuthenticator } from 'aws-amplify-react';
 
-export default withAuthenticator(App);
+**NOTE** In React, you can use amplify's withAuthenticator:
+
+```jsx
+import { withAuthenticator } from 'aws-amplify-react'
+
+export default withAuthenticator(App)
 ```
 
 ##### IAM Auth
@@ -1060,25 +1042,27 @@ export default withAuthenticator(App);
 When using AWS IAM in a mobile application you should leverage Amazon Cognito Identity Pools. The Amplify CLI will automatically configure this for you when running `amplify add auth`. You can then use the `Auth` category for automatic credentials refresh [as outlined in the authentication section](./authentication) For manual configuration, add the following snippet to your `aws-exports.js` file:
 
 ```javascript
-import Amplify, { Auth } from 'aws-amplify';
-import awsconfig from './aws-exports';
+import Amplify, { Auth } from 'aws-amplify'
+import awsconfig from './aws-exports'
 
-Amplify.configure(awsconfig);
+Amplify.configure(awsconfig)
 
 const client = new AWSAppSyncClient({
   url: awsconfig.aws_appsync_graphqlEndpoint,
   region: awsconfig.aws_appsync_region,
   auth: {
     type: AUTH_TYPE.AWS_IAM,
-    credentials: () => Auth.currentCredentials(),
-  },
-});
+    credentials: () => Auth.currentCredentials()
+  }
+})
 ```
-**NOTE** In React, you can use amplify's withAuthenticator:
-```jsx
-import { withAuthenticator } from 'aws-amplify-react';
 
-export default withAuthenticator(App);
+**NOTE** In React, you can use amplify's withAuthenticator:
+
+```jsx
+import { withAuthenticator } from 'aws-amplify-react'
+
+export default withAuthenticator(App)
 ```
 
 ##### OIDC Auth
@@ -1086,28 +1070,28 @@ export default withAuthenticator(App);
 If you are using a 3rd party OIDC provider you will need to configure it and manage the details of token refreshes yourself. Update the `aws-exports.js` file and code snippet as follows:
 
 ```javascript
-import Amplify, { Auth } from 'aws-amplify';
-import awsconfig from './aws-exports';
+import Amplify, { Auth } from 'aws-amplify'
+import awsconfig from './aws-exports'
 
-Amplify.configure(awsconfig);
+Amplify.configure(awsconfig)
 
-const getOIDCToken = async () => await 'token'; // Should be an async function that handles token refresh
+const getOIDCToken = async () => await 'token' // Should be an async function that handles token refresh
 
 const client = new AWSAppSyncClient({
   url: awsconfig.aws_appsync_graphqlEndpoint,
-  region: awsconfig.aws_appsync_region,
+  region: awsconfig.aws_appsync_region
   auth: {
     type: AUTH_TYPE.OPENID_CONNECT,
-    jwtToken: () => getOIDCToken(),
-  },
-});
+    jwtToken: () => getOIDCToken()
+  }
+})
 ```
 
 ##### Complex objects
 
 Many times you might want to create logical objects that have more complex data, such as images or videos, as part of their structure. For example, you might create a Person type with a profile picture or a Post type that has an associated image. With AWS AppSync, you can model these as GraphQL types, referred to as complex objects. If any of your mutations have a variable with bucket, key, region, mimeType and localUri fields, the SDK uploads the file to Amazon S3 for you.
 
-For a complete working example of this feature, see [aws-amplify-graphql](https://github.com/aws-samples/aws-amplify-graphql) on GitHub. 
+For a complete working example of this feature, see [aws-amplify-graphql](https://github.com/aws-samples/aws-amplify-graphql) on GitHub.
 
 The GraphQL transformer will configure your resolvers to write to DynamoDB and point at S3 objects when using the `S3Object` type. For example, run the following in an Amplify project:
 
@@ -1121,16 +1105,16 @@ When prompted, use the following schema:
 
 ```graphql
 type Todo @model {
-    id: ID!
-    name: String!
-    description: String!
-    file: S3Object
+  id: ID!
+  name: String!
+  description: String!
+  file: S3Object
 }
 
 type S3Object {
-    bucket: String!
-    key: String!
-    region: String!
+  bucket: String!
+  key: String!
+  region: String!
 }
 
 input CreateTodoInput {
@@ -1147,33 +1131,33 @@ To use complex objects you need AWS Identity and Access Management credentials f
 
 ```javascript
 const client = new AWSAppSyncClient({
-    url: ENDPOINT,
-    region: REGION,
-    auth: { ... },   //Can be User Pools or API Key
-    complexObjectsCredentials: () => Auth.currentCredentials(),
+  url: ENDPOINT,
+  region: REGION,
+  auth: { ... }, //Can be User Pools or API Key
+  complexObjectsCredentials: () => Auth.currentCredentials()
 });
 
 (async () => {
-  let file;
+  let file
 
   if (selectedFile) { // selectedFile is the file to be uploaded, typically comes from an <input type="file" />
-    const { name, type: mimeType } = selectedFile;
-    const [, , , extension] = /([^.]+)(\.(\w+))?$/.exec(name);
+    const { name, type: mimeType } = selectedFile
+    const [, , , extension] = /([^.]+)(\.(\w+))?$/.exec(name)
 
-    const bucket = aws_config.aws_user_files_s3_bucket;
-    const region = aws_config.aws_user_files_s3_bucket_region;
-    const visibility = 'private';
-    const { identityId } = await Auth.currentCredentials();
-    
-    const key = `${visibility}/${identityId}/${uuid()}${extension && '.'}${extension}`;
+    const bucket = aws_config.aws_user_files_s3_bucket
+    const region = aws_config.aws_user_files_s3_bucket_region
+    const visibility = 'private'
+    const { identityId } = await Auth.currentCredentials()
+
+    const key = `${visibility}/${identityId}/${uuid()}${extension && '.'}${extension}`
 
     file = {
       bucket,
       key,
       region,
       mimeType,
-      localUri: selectedFile,
-    };
+      localUri: selectedFile
+    }
   }
 
   const result = await client.mutate({
@@ -1182,12 +1166,11 @@ const client = new AWSAppSyncClient({
       input: {
         name: 'Upload file',
         description: 'Uses complex objects to upload',
-        file: file,
+        file
       }
     }
-  });
-
-})();
+  })
+})()
 ```
 
 When you run the above mutation a record will be in a DynamoDB table for your AppSync API as well as the corresponding file in an S3 bucket.
@@ -1218,26 +1201,29 @@ const subscription = client.sync(options)
 Under the covers, this is actually an Observable<T> that the AppSync client automatically subscribes to for you, so the returned object is a "subscription". This means that you can automatically stop the syncronization process like so:
 */
 // Stop DeltaSync
-subscription.unsubscribe();
+subscription.unsubscribe()
 ```
 
 **The `options` object**
 
 **baseQuery**
-  - `query`: A `DocumentNode` for the base data (e.g. as returned by [`gql`](https://github.com/apollographql/graphql-tag#gql))
-  - `variables` [optional]: An object with the query variables, if any.
-  - `baseRefreshIntervalInSeconds` [optional]: Number of seconds after which the base query will be run again. Default value: `86400` (24 hrs)
-  - `update` [optional]: A function to update the cache, see: [Apollo's `update` function](https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-mutation-options-update)
+
+* `query`: A `DocumentNode` for the base data (e.g. as returned by [`gql`](https://github.com/apollographql/graphql-tag#gql))
+* `variables` [optional]: An object with the query variables, if any.
+* `baseRefreshIntervalInSeconds` [optional]: Number of seconds after which the base query will be run again. Default value: `86400` (24 hrs)
+* `update` [optional]: A function to update the cache, see: [Apollo's `update` function](https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-mutation-options-update)
 
 **subscriptionQuery**
-  - `query`: A `DocumentNode` for the subscription (e.g. as returned by [`gql`](https://github.com/apollographql/graphql-tag#gql))
-  - `variables` [optional]: An object with the query variables, if any.
-  - `update` [optional]: A function to update the cache, see: [Apollo's `update` function](https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-mutation-options-update)
+
+* `query`: A `DocumentNode` for the subscription (e.g. as returned by [`gql`](https://github.com/apollographql/graphql-tag#gql))
+* `variables` [optional]: An object with the query variables, if any.
+* `update` [optional]: A function to update the cache, see: [Apollo's `update` function](https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-mutation-options-update)
 
 **deltaQuery**
-  - `query`: A `DocumentNode` for the deltas (e.g. as returned by [`gql`](https://github.com/apollographql/graphql-tag#gql))
-  - `variables` [optional]: An object with the query variables, if any.
-  - `update` [optional]: A function to update the cache, see: [Apollo's `update` function](https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-mutation-options-update)
+
+* `query`: A `DocumentNode` for the deltas (e.g. as returned by [`gql`](https://github.com/apollographql/graphql-tag#gql))
+* `variables` [optional]: An object with the query variables, if any.
+* `update` [optional]: A function to update the cache, see: [Apollo's `update` function](https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-mutation-options-update)
 
 **The buildSync helper**
 
@@ -1246,34 +1232,35 @@ The quickest way to get started with the DeltaSync feature is by using the `buil
 The first argument you need to pass is the GraphQL `__typename` for your base query. The second argument is the `options` object from the previous section (without the `update` keys, since those will be generated for you by this helper function).
 
 You can **optionally** pass a `cacheUpdates` parameter to the second argument with the following structure:
-- **deltaRecord**: A function which receives a `deltaRecord` (e.g. an individual item in the cache populated by the base/delta/subscription query) and returns an array of GraphQL queries and it's variables to be written to the cache.
+* **deltaRecord**: A function which receives a `deltaRecord` (e.g. an individual item in the cache populated by the base/delta/subscription query) and returns an array of GraphQL queries and it's variables to be written to the cache.
 
 Example:
 
 ```typescript
-  client.sync(
-    buildSync("Post", {
-      baseQuery: {
-        query: DeltaSync.BaseQuery
-      },
-      subscriptionQuery: {
-        query: DeltaSync.Subscription
-      },
-      deltaQuery: {
-        query: DeltaSync.DeltaSync
-      },
-      cacheUpdates: ( deltaRecord  ) => {
-        const id = deltaRecord.id;
-        return [{ query: DeltaSync.GetItem, variables: { id: id } }];
-      }
-    })
-  )
+client.sync(
+  buildSync("Post", {
+    baseQuery: {
+      query: DeltaSync.BaseQuery
+    },
+    subscriptionQuery: {
+      query: DeltaSync.Subscription
+    },
+    deltaQuery: {
+      query: DeltaSync.DeltaSync
+    },
+    cacheUpdates: ( deltaRecord  ) => {
+      const id = deltaRecord.id
+      return [{ query: DeltaSync.GetItem, variables: { id: id } }]
+    }
+  })
+)
 ```
 
 **Requirements for helper function**
-- Your `baseQuery` returns a list, not a nested type
-- Your `deltaQuery` expects a parameter called `lastSync` of type `AWSTimestamp` and returns a list with the same fields as your `baseQuery` (an optionally, an `aws_ds` field with a value of `'DELETE'` for deletions, any other value for insert/update)
-- The mutations that trigger the subscription in your `subscriptionQuery` should return a single record with the same fields as the items from your `baseQuery`, (an optionally, an `aws_ds` field with a value of `'DELETE'` for deletions, any other value for insert/update)
+
+* Your `baseQuery` returns a list, not a nested type
+* Your `deltaQuery` expects a parameter called `lastSync` of type `AWSTimestamp` and returns a list with the same fields as your `baseQuery` (an optionally, an `aws_ds` field with a value of `'DELETE'` for deletions, any other value for insert/update)
+* The mutations that trigger the subscription in your `subscriptionQuery` should return a single record with the same fields as the items from your `baseQuery`, (an optionally, an `aws_ds` field with a value of `'DELETE'` for deletions, any other value for insert/update)
 
 **Example**
 
@@ -1281,61 +1268,61 @@ The schema for this sample is below. [A full sample with CloudFormation is avail
 
 ```graphql
 input CreatePostInput {
-	author: String!
-	title: String!
-	content: String!
-	url: String
-	ups: Int
-	downs: Int
+  author: String!
+  title: String!
+  content: String!
+  url: String
+  ups: Int
+  downs: Int
 }
 
 enum DeltaAction {
-	DELETE
+DE  LETE
 }
 
 type Mutation {
-	createPost(input: CreatePostInput!): Post
-	updatePost(input: UpdatePostInput!): Post
-	deletePost(id: ID!): Post
+  createPost(input: CreatePostInput!): Post
+  updatePost(input: UpdatePostInput!): Post
+  deletePost(id: ID!): Post
 }
 
 type Post {
-	id: ID!
-	author: String!
-	title: String!
-	content: String!
-	url: AWSURL
-	ups: Int
-	downs: Int
-	createdDate: String
-	aws_ds: DeltaAction
+  id: ID!
+  author: String!
+  title: String!
+  content: String!
+  url: AWSURL
+  ups: Int
+  downs: Int
+  createdDate: String
+  aws_ds: DeltaAction
 }
 
 type Query {
-	getPost(id: ID!): Post
-	listPosts: [Post]
-	listPostsDelta(lastSync: AWSTimestamp): [Post]
+  getPost(id: ID!): Post
+  listPosts: [Post]
+  listPostsDelta(lastSync: AWSTimestamp): [Post]
 }
 
 type Subscription {
-	onDeltaPost: Post
-		@aws_subscribe(mutations: ["createPost","updatePost","deletePost"])
+  onDeltaPost: Post
+    @aws_subscribe(mutations: ["createPost","updatePost","deletePost"])
 }
 
 input UpdatePostInput {
-	id: ID!
-	author: String
-	title: String
-	content: String
-	url: String
-	ups: Int
-	downs: Int
+  id: ID!
+  author: String
+  title: String
+  content: String
+  url: String
+  ups: Int
+  downs: Int
 }
 
 schema {
-	query: Query
-	mutation: Mutation
-	subscription: Subscription
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
 }
 ```
 
@@ -1374,29 +1361,28 @@ subscription Subscription {
 }
 ```
 
-
 Define the queries from above in a `./graphql/DeltaSync.js` file to import in your app:
 
 ```javascript
-import gql from "graphql-tag";
+import gql from 'graphql-tag'
 
-export const BaseQuery = gql`query Base{
+export const BaseQuery = gql`query Base {
   listPosts {
     id
     title
     author
     content
   }
-}`;
+}`
 
-export const GetItem = gql`query GetItem($id: ID!){
+export const GetItem = gql`query GetItem($id: ID!) {
   getPost(id: $id) {
     id
     title
     author
     content
   }
-}`;
+}`
 
 export const Subscription = gql`subscription Subscription {
   onDeltaPost {
@@ -1405,7 +1391,7 @@ export const Subscription = gql`subscription Subscription {
     author
     content
   }
-}`;
+}`
 
 export const DeltaSync = gql`query Delta($lastSync: AWSTimestamp!) {
   listPostsDelta(
@@ -1417,17 +1403,16 @@ export const DeltaSync = gql`query Delta($lastSync: AWSTimestamp!) {
     content
     aws_ds
   }
-}`;
+}`
 ```
 
-
 ```typescript
-import { AWSAppSyncClient, buildSync } from "aws-appsync";
-import * as DeltaSync from "./graphql/DeltaSync";
+import { AWSAppSyncClient, buildSync } from 'aws-appsync'
+import * as DeltaSync from './graphql/DeltaSync'
 
 const client = new AWSAppSyncClient({
   // ...
-});
+})
 
 const subscription = client.sync(
   buildSync('Post', {
@@ -1436,18 +1421,18 @@ const subscription = client.sync(
     deltaQuery: { query: DeltaSync.DeltaSync },
     cacheUpdates : ({id}) => [{query: DeltaSync.getItem, variables: {id}]
   })
-);
+)
 ```
 
 **React example**
 
 Suppose you have an app created with [Create React App](https://github.com/facebook/create-react-app) with the following structure:
 
-- App.js
-  - Sets up `AWSAppSyncClient` and `client.sync` as above
-  - Renders `<AllPosts />` and `<SinglePost item={2}>`
-- AllPosts.jsx exports `<AllPosts />`
-- GetPost.jsx exports `<SinglePost item={id}>`
+* App.js
+  * Sets up `AWSAppSyncClient` and `client.sync` as above
+  * Renders `<AllPosts />` and `<SinglePost item={2}>`
+* AllPosts.jsx exports `<AllPosts />`
+* GetPost.jsx exports `<SinglePost item={id}>`
 
 `App.js`
 
@@ -1459,11 +1444,11 @@ const client = new AWSAppSyncClient({
     type: awsconfig.aws_appsync_authenticationType,
     apiKey: awsconfig.aws_appsync_apiKey
   }
-});
+})
 
 client.hydrated().then(() =>
   client.sync(
-    buildSync("Post", {
+    buildSync('Post', {
       baseQuery: {
         query: DeltaSync.BaseQuery
       },
@@ -1478,7 +1463,7 @@ client.hydrated().then(() =>
       ]
     })
   )
-);
+)
 
 const App = () => (
   <ApolloProvider client={client}>
@@ -1490,7 +1475,7 @@ const App = () => (
       </div>
     </Rehydrated>
   </ApolloProvider>
-);
+)
 ```
 
 In `AllPosts.jsx` you would have code like so:
@@ -1498,20 +1483,20 @@ In `AllPosts.jsx` you would have code like so:
 ```typescript
 const AllPosts = ({ postsList }) => (
   <div>
-    <pre style={% raw %}{{ textAlign: "left" }}{% endraw %}>
+    <pre style={% raw %}{{ textAlign: 'left' }}{% endraw %}>
       {JSON.stringify(postsList, null, 2)}
     </pre>
   </div>
-);
+)
 
 export default graphql(DeltaSync.BaseQuery, {
   options: {
-    fetchPolicy: "cache-only"
+    fetchPolicy: 'cache-only'
   },
   props: ({ data }) => ({
     postsList: data.listPosts || []
   })
-})(AllPosts);
+})(AllPosts)
 ```
 
 In `GetPost.jsx` you would have:
@@ -1519,19 +1504,19 @@ In `GetPost.jsx` you would have:
 ```typescript
 const OnePost = ({ post }) => (
   <div>
-    <pre style={% raw %}{{ textAlign: "left" }}{% endraw %}>{JSON.stringify(post, null, 2)}</pre>
+    <pre style={% raw %}{{ textAlign: 'left' }}{% endraw %}>{JSON.stringify(post, null, 2)}</pre>
   </div>
-);
+)
 
 export default graphql(DeltaSync.GetItem, {
   options: ({ id }) => ({
     variables: { id },
-    fetchPolicy: "cache-only"
+    fetchPolicy: 'cache-only'
   }),
   props: ({ data: { getPost } }) => ({
     post: getPost
   })
-})(OnePost);
+})(OnePost)
 ```
 
 **Note**: The `fetchPolicy` is `cache-only` as all of the network requests are handled automatically by the `client.sync()` operation. You should use this if using different queries in other components as the `client.sync()` API manages the cache lifecycle. If you use another `fetch-policy` such as `cache-and-network` then extra network requests may take place negating the Delta Sync benefits.
@@ -1542,63 +1527,63 @@ If you do not want to use the `buildSync` helper then you are responsible for ma
 
 ```javascript
 client.sync({
-      baseQuery: { query: DeltaSyncQueries.BaseQuery },
-      deltaQuery: {
-        query: DeltaSyncQueries.DeltaSync,
-        update: (cache, { data: { listPostsDelta } }) => {
-          const query = DeltaSyncQueries.GetItem;
+  baseQuery: { query: DeltaSyncQueries.BaseQuery },
+  deltaQuery: {
+    query: DeltaSyncQueries.DeltaSync,
+    update: (cache, { data: { listPostsDelta } }) => {
+      const query = DeltaSyncQueries.GetItem
 
-          listPostsDelta.forEach(deltaRecord => {
-            const variables = { id: deltaRecord.id };
+      listPostsDelta.forEach(deltaRecord => {
+        const variables = { id: deltaRecord.id }
 
-            cache.writeQuery({
-              query,
-              variables,
-              data: { getPost: { ...deltaRecord, __typename: 'Post' } }
-            });
-          });
-        }
-      }
-    });
+        cache.writeQuery({
+          query,
+          variables,
+          data: { getPost: { ...deltaRecord, __typename: 'Post' } }
+        })
+      })
+    }
+  }
+})
 ```
 
 #### AWS AppSync Multi-Auth
 
 AWS AppSync can support [multiple authorization modes on a single API](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes). In order to use this feature with the `aws-appsync` SDK, you can create multiple instances of the client where each instance uses a different authorization type.
 
-Using different clients is supported in the following UI bindings for Apollo: 
+Using different clients is supported in the following UI bindings for Apollo:
 
-- [Vue](https://vue-apollo.netlify.com/guide/multiple-clients.html)
-- [Angular](https://www.apollographql.com/docs/angular/features/multiple-clients)
-- [React](https://www.apollographql.com/docs/react/api/react-apollo#ApolloProvider)
+* [Vue](https://vue-apollo.netlify.com/guide/multiple-clients.html)
+* [Angular](https://www.apollographql.com/docs/angular/features/multiple-clients)
+* [React](https://www.apollographql.com/docs/react/api/react-apollo#ApolloProvider)
 
 **Offline capabilities disabled** (`disableOffline: true`)
 
 ```javascript
-import Amplify, { Auth } from "aws-amplify";
-import AWSAppSyncClient, { AUTH_TYPE } from "aws-appsync";
-import awsConfig from "./aws-exports";
+import Amplify, { Auth } from 'aws-amplify'
+import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync'
+import awsConfig from './aws-exports'
 
-Amplify.configure(awsConfig);
+Amplify.configure(awsConfig)
 
 // Client 1 uses API_KEY as auth type
 const client1 = new AWSAppSyncClient({
   url: awsConfig.aws_appsync_graphqlEndpoint,
   region: awsConfig.aws_appsync_region
-  auth: { type: AUTH_TYPE.API_KEY, apiKey: awsConfig.aws_appsync_apiKey},
-  disableOffline: true,
-});
+  auth: { type: AUTH_TYPE.API_KEY, apiKey: awsConfig.aws_appsync_apiKey },
+  disableOffline: true
+})
 
 // Client 2 uses AMAZON_COGNITO_USER_POOLS as auth type, leverages Amplify's token handling/refresh
 const client2 = new AWSAppSyncClient({
   url: awsConfig.aws_appsync_graphqlEndpoint,
   region: awsConfig.aws_appsync_region
-  auth: { 
+  auth: {
     type: AUTH_TYPE.AMAZON_COGNITO_USER_POOLS,
     jwtToken: async () => (await Auth.currentSession()).getIdToken().getJwtToken(),
-    disableOffline: true,
+    disableOffline: true
   }
-});
+})
 ```
 
 **Offline capabilities enabled**
@@ -1607,21 +1592,21 @@ Multiple clients **cannot** share the same `keyPrefix` since it is used to separ
 {: .callout .callout--info}
 
 ```javascript
-import Amplify, { Auth } from "aws-amplify";
-import AWSAppSyncClient, { AUTH_TYPE } from "aws-appsync";
-import awsConfig from "./aws-exports";
+import Amplify, { Auth } from 'aws-amplify'
+import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync'
+import awsConfig from './aws-exports'
 
-Amplify.configure(awsConfig);
+Amplify.configure(awsConfig)
 
 // Client 1 uses API_KEY as auth type
 const client1 = new AWSAppSyncClient({
   url: awsConfig.aws_appsync_graphqlEndpoint,
   region: awsConfig.aws_appsync_region
-  auth: { type: AUTH_TYPE.API_KEY, apiKey: awsConfig.aws_appsync_apiKey},
+  auth: { type: AUTH_TYPE.API_KEY, apiKey: awsConfig.aws_appsync_apiKey },
   offlineConfig: {
     keyPrefix: 'public'
   }
-});
+})
 
 // Client 2 uses AWS_IAM as auth type, leverages Amplify's credentials handling/refresh
 const client2 = new AWSAppSyncClient({
@@ -1631,11 +1616,13 @@ const client2 = new AWSAppSyncClient({
   offlineConfig: {
     keyPrefix: 'private'
   }
-});
+})
 ```
 
 ### Angular
+
 Amplify CLI generates APIService to make it easier to use Appsync API. Add an GraphQL API by running add api command in your project root folder
+
 ```bash
 $ amplify add api
 ? Please select from one of the below mentioned services GraphQL
@@ -1647,13 +1634,13 @@ $ amplify add api
 ? What best describes your project: Single object with fields (e.g., “Todo” with ID, name, description)
 ? Do you want to edit the schema now? (Y/n) n
 ? Do you want to edit the schema now? No
-
 ```
 
-Push the API to cloud by running `$amplify push`
+Push the API to cloud by running `$ amplify push`
 
 ```bash
- amplify push
+$ amplify push
+
 | Category | Resource name      | Operation | Provider plugin   |
 | -------- | ------------------ | --------- | ----------------- |
 | Api      | angularcodegentest | Create    | awscloudformation |
@@ -1684,12 +1671,12 @@ Configure your Angular app to use the aws-exports. Rename the generated `aws-exp
 ```typescript
 // file: src/main.ts
 // ...
-import PubSub from '@aws-amplify/pubsub';
-import API from '@aws-amplify/api';
-import awsconfig from './aws-exports';
+import PubSub from '@aws-amplify/pubsub'
+import API from '@aws-amplify/api'
+import awsconfig from './aws-exports'
 
-PubSub.configure(awsconfig);
-API.configure(awsconfig);
+PubSub.configure(awsconfig)
+API.configure(awsconfig)
 // ...
 ```
 
@@ -1699,8 +1686,8 @@ Expose the APIService from the root of your app
 // file: src/app/app.module.ts
 
 // ...
-import { AppComponent } from './app.component';
-import { APIService } from './API.service';
+import { AppComponent } from './app.component'
+import { APIService } from './API.service'
 // ...
 
 @NgModule({
@@ -1713,11 +1700,11 @@ import { APIService } from './API.service';
   providers: [APIService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
-
+export class AppModule {}
 ```
 
-In your component use the API service 
+In your component use the API service
+
 ```typescript
 // file: app.component.ts
 // ...
@@ -1743,21 +1730,20 @@ export class AppComponent {
     this.onNewTodo()
   }
   async createTodo() {
-    const response = await this.apiService.CreateTodo({description: 'foo', name: 'bar'});
-    console.log(response);
+    const response = await this.apiService.CreateTodo({ description: 'foo', name: 'bar' })
+    console.log(response)
   }
   async onNewTodo() {
     this.apiService.OnCreateTodoListener.subscribe((next) => {
-      console.log(next.value.OnCreateTodo);
-    });
+      console.log(next.value.OnCreateTodo)
+    })
   }
 }
 ```
 
-
 ## Using REST
 
-The API category can be used for creating signed requests against Amazon API Gateway when the API Gateway Authorization is set to `AWS_IAM`. 
+The API category can be used for creating signed requests against Amazon API Gateway when the API Gateway Authorization is set to `AWS_IAM`.
 
 Ensure you have [installed and configured the Amplify CLI and library]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/start).
 {: .callout .callout--info}
@@ -1779,8 +1765,8 @@ Select `REST` as the service type.
 ```
 
 The CLI will prompt several options to create your resources. With the provided options you can create:
-- REST endpoints that triggers Lambda functions
-- REST endpoints which enables CRUD operations on an Amazon DynamoDB table
+* REST endpoints that triggers Lambda functions
+* REST endpoints which enables CRUD operations on an Amazon DynamoDB table
 
 During setup you can use existing Lambda functions and DynamoDB tables or create new ones by following the CLI prompts. After your resources have been created update your backend with the `push` command:
 
@@ -1795,10 +1781,10 @@ A configuration file called `aws-exports.js` will be copied to your configured s
 Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `App.js` in React or `main.ts` in Angular.
 
 ```javascript
-import Amplify, { API } from 'aws-amplify';
-import awsconfig from './aws-exports';
+import Amplify, { API } from 'aws-amplify'
+import awsconfig from './aws-exports'
 
-Amplify.configure(awsconfig);
+Amplify.configure(awsconfig)
 ```
 
 ### Manual Setup
@@ -1806,34 +1792,33 @@ Amplify.configure(awsconfig);
 For manual configuration you need to provide your AWS Resource configuration and optionally configure authentication.
 
 ```javascript
-import Amplify, { API } from 'aws-amplify';
+import Amplify, { API } from 'aws-amplify'
 
 Amplify.configure({
-    // OPTIONAL - if your API requires authentication 
-    Auth: {
-        // REQUIRED - Amazon Cognito Identity Pool ID
-        identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab',
-        // REQUIRED - Amazon Cognito Region
-        region: 'XX-XXXX-X', 
-        // OPTIONAL - Amazon Cognito User Pool ID
-        userPoolId: 'XX-XXXX-X_abcd1234', 
-        // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
-        userPoolWebClientId: 'a1b2c3d4e5f6g7h8i9j0k1l2m3',
-    },
-    API: {
-        endpoints: [
-            {
-                name: "MyAPIGatewayAPI",
-                endpoint: "https://1234567890-abcdefgh.amazonaws.com"
-            },
-            {
-                name: "MyCustomCloudFrontApi",
-                endpoint: "https://api.my-custom-cloudfront-domain.com",
-
-            }
-        ]
-    }
-});
+  // OPTIONAL - if your API requires authentication
+  Auth: {
+    // REQUIRED - Amazon Cognito Identity Pool ID
+    identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab',
+    // REQUIRED - Amazon Cognito Region
+    region: 'XX-XXXX-X',
+    // OPTIONAL - Amazon Cognito User Pool ID
+    userPoolId: 'XX-XXXX-X_abcd1234',
+    // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
+    userPoolWebClientId: 'a1b2c3d4e5f6g7h8i9j0k1l2m3'
+  },
+  API: {
+    endpoints: [
+      {
+        name: 'MyAPIGatewayAPI',
+        endpoint: 'https://1234567890-abcdefgh.amazonaws.com'
+      },
+      {
+        name: 'MyCustomCloudFrontApi',
+        endpoint: 'https://api.my-custom-cloudfront-domain.com'
+      }
+    ]
+  }
+})
 ```
 
 ### AWS Regional Endpoints
@@ -1842,25 +1827,25 @@ You can utilize regional endpoints by passing in the *service* and *region* info
 
 ```javascript
 API: {
-    endpoints: [
-        {
-            name: "MyCustomLambda",
-            endpoint: "https://lambda.us-east-1.amazonaws.com/2015-03-31/functions/yourFuncName/invocations",
-            service: "lambda",
-            region: "us-east-1"
-        }
-    ]
+  endpoints: [
+    {
+      name: 'MyCustomLambda',
+      endpoint: 'https://lambda.us-east-1.amazonaws.com/2015-03-31/functions/yourFuncName/invocations',
+      service: 'lambda',
+      region: 'us-east-1'
+    }
+  ]
 }
 ```
 
-Note **THIS IS NOT RECOMMENDED ARCHITECTURE** and we highly recommend you leverage AWS AppSync or API Gateway as the endpoint to invoke your Lambda functions. 
+Note **THIS IS NOT RECOMMENDED ARCHITECTURE** and we highly recommend you leverage AWS AppSync or API Gateway as the endpoint to invoke your Lambda functions.
 
  **Configuring Amazon Cognito Regional Endpoints** To call regional service endpoints, your Amazon Cognito role needs to be configured with appropriate access for the related service. See [AWS Cognito Documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) for more details.
  {: .callout .callout--warning}
 
 ### Using the API Client
 
-To invoke a REST API, you need the name for the related endpoint. If you manually configure the API, you already have a name for the endpoint. If you use Automated Setup,  you can find the API name in your local configuration file. 
+To invoke a REST API, you need the name for the related endpoint. If you manually configure the API, you already have a name for the endpoint. If you use Automated Setup,  you can find the API name in your local configuration file.
 
 The following code sample assumes that you have used Automated Setup.
 
@@ -1871,32 +1856,32 @@ Under the hood the API category utilizes [Axios](https://github.com/axios/axios)
 #### **GET**
 
 ```javascript
-let apiName = 'MyApiName';
-let path = '/path'; 
-let myInit = { // OPTIONAL
-    headers: {}, // OPTIONAL
-    response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
-    queryStringParameters: {  // OPTIONAL
-        name: 'param'
-    }
+const apiName = 'MyApiName'
+const path = '/path'
+const myInit = { // OPTIONAL
+  headers: {}, // OPTIONAL
+  response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
+  queryStringParameters: { // OPTIONAL
+    name: 'param'
+  }
 }
 API.get(apiName, path, myInit).then(response => {
-    // Add your code here
-}).catch(error => {
-    console.log(error.response)
-});
+  // Add your code here
+}).catch(err => {
+  console.log(err.response)
+})
 ```
 
 Example with async/await
 
 ```javascript
-async getData() { 
-    let apiName = 'MyApiName';
-    let path = '/path';
-    let myInit = { // OPTIONAL
-        headers: {} // OPTIONAL
-    }
-    return await API.get(apiName, path, myInit);
+async getData() {
+  const apiName = 'MyApiName';
+  const path = '/path';
+  const myInit = { // OPTIONAL
+    headers: {} // OPTIONAL
+  }
+  return await API.get(apiName, path, myInit);
 }
 
 getData();
@@ -1907,11 +1892,11 @@ getData();
 To use query parameters with *get* method, you can pass them in `queryStringParameters` parameter in your method call:
 
 ```javascript
-let items = await API.get('myCloudApi', '/items', {
-  'queryStringParameters': {
-    'order': 'byPrice'
+const items = await API.get('myCloudApi', '/items', {
+  queryStringParameters: {
+    order: 'byPrice'
   }
-});
+})
 ```
 
 **Accessing Query Parameters & body in Cloud API**
@@ -1920,15 +1905,15 @@ If you are using a Cloud API which is generated with Amplify CLI, your backend i
 
 ```javascript
 exports.handler = function(event, context, callback) {
-    console.log (event.queryStringParameters);
-    console.log('body: ', event.body)
+  console.log (event.queryStringParameters);
+  console.log('body: ', event.body)
 }
 ```
 
 Alternatively, you can update your backend file which is located at `amplifyjs/backend/cloud-api/[your-lambda-function]/app.js` with the middleware:
 
 ```javascript
-const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
+const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 app.use(awsServerlessExpressMiddleware.eventContext())
 ```
 
@@ -1945,13 +1930,13 @@ app.get('/items', function(req, res) {
     event: req.apiGateway.event, // to view all event data
     query: query
   })
-});
+})
 ```
 
 Then you can use query parameters in your path as follows:
 
 ```javascript
-API.get('sampleCloudApi', '/items?q=test');
+API.get('sampleCloudApi', '/items?q=test')
 ```
 
 To learn more about Lambda Proxy Integration, please visit [Amazon API Gateway Developer Guide](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-create-api-as-simple-proxy-for-lambda.html).
@@ -1962,9 +1947,9 @@ To learn more about Lambda Proxy Integration, please visit [Amazon API Gateway D
 By default, calling an API with AWS Amplify parses a JSON response. If you have a REST API endpoint which returns, for example, a file in Blob format, you can specify a custom response type using the `responseType` parameter in your method call:
 
 ```javascript
-let file = await API.get('myCloudApi', '/items', {
+const file = await API.get('myCloudApi', '/items', {
   'responseType': 'blob'
-});
+})
 ```
 
 Allowed values for `responseType` are "arraybuffer", "blob", "document", "json" or "text"; and it defaults to "json" if not specified. See the documentation https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/responseType for more information.
@@ -1974,34 +1959,34 @@ Allowed values for `responseType` are "arraybuffer", "blob", "document", "json" 
 Posts data to the API endpoint:
 
 ```javascript
-let apiName = 'MyApiName'; // replace this with your api name.
-let path = '/path'; //replace this with the path you have configured on your API
-let myInit = {
-    body: {}, // replace this with attributes you need
-    headers: {} // OPTIONAL
+const apiName = 'MyApiName'; // replace this with your api name.
+const path = '/path'; //replace this with the path you have configured on your API
+const myInit = {
+  body: {}, // replace this with attributes you need
+  headers: {} // OPTIONAL
 }
 
 API.post(apiName, path, myInit).then(response => {
-    // Add your code here
-}).catch(error => {
-    console.log(error.response)
-});
+  // Add your code here
+}).catch(err => {
+  console.log(err.response)
+})
 ```
 
 Example with async/await
 
 ```javascript
-async function postData() { 
-    let apiName = 'MyApiName';
-    let path = '/path';
-    let myInit = { // OPTIONAL
-        body: {}, // replace this with attributes you need
-        headers: {} // OPTIONAL
-    }
-    return await API.post(apiName, path, myInit);
+async function postData() {
+  const apiName = 'MyApiName'
+  const path = '/path'
+  const myInit = { // OPTIONAL
+    body: {}, // replace this with attributes you need
+    headers: {} // OPTIONAL
+  }
+  return await API.post(apiName, path, myInit)
 }
 
-postData();
+postData()
 ```
 
 Access body in the Lambda function
@@ -2009,13 +1994,13 @@ Access body in the Lambda function
 ```javascript
 // using a basic lambda handler
 exports.handler = (event, context) => {
-  console.log('body: ', event.body);
+  console.log('body: ', event.body)
 }
 
 // using serverless express
 app.post('/myendpoint', function(req, res) {
   console.log('body: ', req.body)
-});
+})
 ```
 
 #### **PUT**
@@ -2023,34 +2008,34 @@ app.post('/myendpoint', function(req, res) {
 When used together with a Cloud API, PUT method can be used to create or update records. It updates the record if a matching record is found. Otherwise, a new record is created.
 
 ```javascript
-let apiName = 'MyApiName'; // replace this with your api name.
-let path = '/path'; // replace this with the path you have configured on your API
-let myInit = {
-    body: {}, // replace this with attributes you need
-    headers: {} // OPTIONAL
+const apiName = 'MyApiName' // replace this with your api name.
+const path = '/path' // replace this with the path you have configured on your API
+const myInit = {
+  body: {}, // replace this with attributes you need
+  headers: {} // OPTIONAL
 }
 
 API.put(apiName, path, myInit).then(response => {
-    // Add your code here
-}).catch(error => {
-    console.log(error.response)
+  // Add your code here
+}).catch(err => {
+  console.log(err.response)
 });
 ```
 
 Example with async/await:
 
 ```javascript
-async function putData() { 
-    let apiName = 'MyApiName';
-    let path = '/path';
-    let myInit = { // OPTIONAL
-        body: {}, // replace this with attributes you need
-        headers: {} // OPTIONAL
-    }
-    return await API.put(apiName, path, myInit);
+async function putData() {
+  const apiName = 'MyApiName'
+  const path = '/path'
+  const myInit = { // OPTIONAL
+    body: {}, // replace this with attributes you need
+    headers: {} // OPTIONAL
+  }
+  return await API.put(apiName, path, myInit)
 }
 
-putData();
+putData()
 ```
 
 Access body in the Lambda function
@@ -2058,56 +2043,56 @@ Access body in the Lambda function
 ```javascript
 // using a basic lambda handler
 exports.handler = (event, context) => {
-  console.log('body: ', event.body);
+  console.log('body: ', event.body)
 }
 
 // using serverless express
 app.put('/myendpoint', function(req, res) {
   console.log('body: ', req.body)
-});
+})
 ```
 
 Update a record:
 
 ```javascript
 const params = {
-    body: {
-        itemId: '12345',
-        itemDesc: ' update description'
-    }
+  body: {
+    itemId: '12345',
+    itemDesc: ' update description'
+  }
 }
-const apiResponse = await API.put('MyTableCRUD', '/manage-items', params);
+const apiResponse = await API.put('MyTableCRUD', '/manage-items', params)
 ```
 
 #### **DELETE**
 
 ```javascript
-let apiName = 'MyApiName'; // replace this with your api name.
-let path = '/path'; //replace this with the path you have configured on your API
-let myInit = { // OPTIONAL
-    headers: {} // OPTIONAL
+const apiName = 'MyApiName' // replace this with your api name.
+const path = '/path' // replace this with the path you have configured on your API
+const myInit = { // OPTIONAL
+  headers: {} // OPTIONAL
 }
 
 API.del(apiName, path, myInit).then(response => {
-    // Add your code here
-}).catch(error => {
-    console.log(error.response)
+  // Add your code here
+}).catch(err => {
+  console.log(err.response)
 });
 ```
 
 Example with async/await
 
 ```javascript
-async function deleteData() { 
-    let apiName = 'MyApiName';
-    let path = '/path';
-    let myInit = { // OPTIONAL
-        headers: {} // OPTIONAL
-    }
-    return await API.del(apiName, path, myInit);
+async function deleteData() {
+  const apiName = 'MyApiName'
+  const path = '/path'
+  const myInit = { // OPTIONAL
+    headers: {} // OPTIONAL
+  }
+  return await API.del(apiName, path, myInit)
 }
 
-deleteData();
+deleteData()
 ```
 
 Access body in the Lambda function
@@ -2115,41 +2100,41 @@ Access body in the Lambda function
 ```javascript
 // using a basic lambda handler
 exports.handler = (event, context) => {
-  console.log('body: ', event.body);
+  console.log('body: ', event.body)
 }
 
 // using serverless express
 app.delete('/myendpoint', function(req, res) {
   console.log('body: ', req.body)
-});
+})
 ```
 
 #### **HEAD**
 
 ```javascript
-let apiName = 'MyApiName'; // replace this with your api name.
-let path = '/path'; //replace this with the path you have configured on your API
-let myInit = { // OPTIONAL
-    headers: {} // OPTIONAL
+const apiName = 'MyApiName' // replace this with your api name.
+const path = '/path' // replace this with the path you have configured on your API
+const myInit = { // OPTIONAL
+  headers: {} // OPTIONAL
 }
 API.head(apiName, path, myInit).then(response => {
-    // Add your code here
-});
+  // Add your code here
+})
 ```
 
 Example with async/await:
 
 ```javascript
-async function head() { 
-    let apiName = 'MyApiName';
-    let path = '/path';
-    let myInit = { // OPTIONAL
-        headers: {} // OPTIONAL
-    }
-    return await API.head(apiName, path, myInit);
+async function head() {
+  const apiName = 'MyApiName'
+  const path = '/path'
+  const myInit = { // OPTIONAL
+    headers: {} // OPTIONAL
+  }
+  return await API.head(apiName, path, myInit)
 }
 
-head();
+head()
 ```
 
 ### Custom Request Headers
@@ -2161,10 +2146,10 @@ Amplify.configure({
   API: {
     endpoints: [
       {
-        name: "sampleCloudApi",
-        endpoint: "https://xyz.execute-api.us-east-1.amazonaws.com/Development",
-        custom_header: async () => { 
-          return { Authorization : 'token' } 
+        name: 'sampleCloudApi',
+        endpoint: 'https://xyz.execute-api.us-east-1.amazonaws.com/Development',
+        custom_header: async () => {
+          return { Authorization : 'token' }
           // Alternatively, with Cognito User Pools use this:
           // return { Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}` }
         }
@@ -2184,7 +2169,7 @@ You can use the API category to access API Gateway endpoints that don't require 
 
 To use custom headers on your HTTP request, you need to add these to Amazon API Gateway first. For more info about configuring headers, please visit [Amazon API Gateway Developer Guide](http://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-cors.html)
 
-If you have used Amplify CLI to create your API, you can enable custom headers by following above steps:  
+If you have used Amplify CLI to create your API, you can enable custom headers by following above steps:
 
 1. Visit [Amazon API Gateway console](https://aws.amazon.com/api-gateway/).
 3. On Amazon API Gateway console, click on the path you want to configure (e.g. /{proxy+})
@@ -2197,16 +2182,16 @@ If you have used Amplify CLI to create your API, you can enable custom headers b
 You can use the JWT token provided by the Authentication API to authenticate against API Gateway directly when using a <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html" target="_blank">custom authorizer</a>. You can achieve this by retrieving the JWT token from the `(await Auth.currentSession()).getAccessToken().getJwtToken()` API:
 
 ```javascript
-async function postData() { 
-    let apiName = 'MyApiName';
-    let path = '/path';
-    let myInit = { 
-        headers: { Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}` }
-    }
-    return await API.post(apiName, path, myInit);
+async function postData() {
+  const apiName = 'MyApiName'
+  const path = '/path'
+  const myInit = {
+      headers: { Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}` }
+  }
+  return await API.post(apiName, path, myInit)
 }
 
-postData();
+postData()
 ```
 
 > Note that the header name, in the above example 'Authorization', is dependent on what you choose during your API Gateway configuration.
@@ -2220,12 +2205,12 @@ Note: if you're using Graphql, please also install `@aws-amplify/pubsub`
 Then in your code, you can import the Api module by:
 
 ```javascript
-import API, { graphqlOperation } from '@aws-amplify/api';
+import API, { graphqlOperation } from '@aws-amplify/api'
 
-API.configure();
+API.configure()
 ```
 
-## API Reference   
+## API Reference
 
 For the complete API documentation for API module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/apiclass.html)
 {: .callout .callout--info}

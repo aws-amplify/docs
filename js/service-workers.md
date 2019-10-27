@@ -1,8 +1,9 @@
 ---
 ---
+
 # Service Workers
 
-AWS Amplify *ServiceWorker* class enables registering a service worker in the browser and communicating with it via *postMessage* events, so that you can create rich offline experiences with [Push APIs](https://developer.mozilla.org/en-US/docs/Web/API/Push_API) and analytics. 
+AWS Amplify *ServiceWorker* class enables registering a service worker in the browser and communicating with it via *postMessage* events, so that you can create rich offline experiences with [Push APIs](https://developer.mozilla.org/en-US/docs/Web/API/Push_API) and analytics.
 
 After registering the service worker, the ServiceWorker module will listen and attempt to dispatch messages on state changes, and it will record analytics events based on the service worker's lifecycle.
 
@@ -12,30 +13,31 @@ After registering the service worker, the ServiceWorker module will listen and a
 ## Installation
 
 Import *ServiceWorker* and instantiate a new instance (you can have multiple workers on different scopes):
+
 ```javascript
-import { ServiceWorker } from 'aws-amplify';
-const serviceWorker = new ServiceWorker();
+import { ServiceWorker } from 'aws-amplify'
+const serviceWorker = new ServiceWorker()
 ```
 
 ## Working with the API
 
 ### register()
 
-You can register a service worker for the browser with `register` method. 
+You can register a service worker for the browser with `register` method.
 
-First, you need to create a service worker script **service-worker.js**. Your service worker script includes cache settings for offline access and event handlers for related lifecycle events. [Click to see a sample service worker script]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/service-workers) for your app. 
+First, you need to create a service worker script **service-worker.js**. Your service worker script includes cache settings for offline access and event handlers for related lifecycle events. [Click to see a sample service worker script]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/service-workers) for your app.
 
 Make sure that worker script is included with your build and provide a script path relative to the source directory when registering:
 
 ```javascript
 // Register the service worker with `service-worker.js` with service worker scope `/`.
-registeredServiceWorker = await serviceWorker.register('/service-worker.js', '/');
+registeredServiceWorker = await serviceWorker.register('/service-worker.js', '/')
 ```
 
-This method will enable web push notifications for your app. If your app is not previously subscribed to the push service to receive notifications, a new subscription will be created with the provided *public key*. 
+This method will enable web push notifications for your app. If your app is not previously subscribed to the push service to receive notifications, a new subscription will be created with the provided *public key*.
 
 ```javascript
-    serviceWorker.enablePush('BLx__NGvdasMNkjd6VYPdzQJVBkb2qafh')
+serviceWorker.enablePush('BLx__NGvdasMNkjd6VYPdzQJVBkb2qafh')
 ```
 
 You need a web push service provider to generate the public key, and sending the actual push notifications. To test push messages with a non-production environment, you can follow [this tutorial](https://developers.google.com/web/fundamentals/codelabs/push-notifications/).
@@ -53,30 +55,31 @@ In your *service-worker.js* file, add following event listener:
  */
 
 addEventListener('push', (event) => {
-    var data = {};
-    console.log('[Service Worker] Push Received.');
-    console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
+  console.log('[Service Worker] Push Received.')
+  console.log(`[Service Worker] Push had this data: "${event.data.text()}"`)
 
-    if (!(self.Notification && self.Notification.permission === 'granted')) 
-        return;
-    
-    if (event.data) 
-        data = event.data.json();
-    
-    // Customize the UI for the message box 
-    var title = data.title || "Web Push Notification";
-    var message = data.message || "New Push Notification Received";
-    var icon = "images/notification-icon.png";
-    var badge = 'images/notification-badge.png';
-    var options = {
-        body: message,
-        icon: icon,
-        badge: badge
-    };
+  if (!(self.Notification && self.Notification.permission === 'granted')) {
+    return
+  }
 
-    event.waitUntil(self.registration.showNotification(title,options));
+  let data = {}
+  if (event.data) {
+    data = event.data.json()
+  }
 
-});
+  // Customize the UI for the message box
+  const title = data.title || 'Web Push Notification'
+  const body = data.message || 'New Push Notification Received'
+  const icon = 'images/notification-icon.png'
+  const badge = 'images/notification-badge.png'
+  const options = {
+    body,
+    icon,
+    badge
+  }
+
+  event.waitUntil(self.registration.showNotification(title,options))
+})
 ```
 
 For more information about Notifications API, please visit [here](https://developer.mozilla.org/en-US/docs/Web/API/notification).
@@ -88,33 +91,30 @@ For more information about Notifications API, please visit [here](https://develo
 This is useful when you want to control your service worker logic from your app, such as cleaning the service worker cache:
 
 ```javascript
-
-    registeredServiceWorker.send({
-      'message': 'CleanAllCache'
-    });
-
+registeredServiceWorker.send({
+  message: 'CleanAllCache'
+})
 ```
 
 For more information about Message API, please visit [here](https://developer.mozilla.org/en-US/docs/Web/Events/message_(ServiceWorker)).
 
 
-#### Receiving Messages 
+#### Receiving Messages
 
 To receive the messages in your service worker, you need to add an event handler for **message** event.
 
 In your *service-worker.js* file, add the following event listener:
 
 ```javascript
-    /**
-     * The message will receive messages sent from the application.
-     * This can be useful for updating a service worker or messaging
-     * other clients (browser restrictions currently exist)
-     * https://developer.mozilla.org/en-US/docs/Web/API/Client/postMessage
-     */
-    addEventListener('message', (event) => {
-        console.log('[Service Worker] Message Event: ', event.data)
-    })
-    
+/**
+  * The message will receive messages sent from the application.
+  * This can be useful for updating a service worker or messaging
+  * other clients (browser restrictions currently exist)
+  * https://developer.mozilla.org/en-US/docs/Web/API/Client/postMessage
+  */
+addEventListener('message', (event) => {
+  console.log('[Service Worker] Message Event: ', event.data)
+})
 ```
 
 ### Monitoring Lifecycle Events
@@ -133,33 +133,34 @@ For the complete API documentation for ServiceWorker module, visit our [API Refe
 If you only need to use ServiceWorker, you can do: `npm install @aws-amplify/core` which will only install the Core module which contains the ServiceWorker module.
 
 Then in your code, you can import the Analytics module by:
-```javascript
-import { ServiceWorker } from '@aws-amplify/core';
 
+```javascript
+import { ServiceWorker } from '@aws-amplify/core'
 ```
 
 ## Example Service Worker
 
 ```javascript
-var appCacheFiles = [
-	'/',
-	'/index.html'
-], 
+const appCacheFiles = [
+  '/',
+  '/index.html'
+]
+
 // The name of the Cache Storage
-appCache = 'aws-amplify-v1';
+appCache = 'aws-amplify-v1'
 
 /**
- * The install event is fired when the service worker 
+ * The install event is fired when the service worker
  * is installed.
  * https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API
  */
 addEventListener('install', (event) => {
-	console.log('[Service Worker] Install Event', event)
-	event.waitUntil(
-    	caches.open(appCache).then(function(cache) {
-	      return cache.addAll(appCacheFiles);
-    	})
-  	);
+  console.log('[Service Worker] Install Event', event)
+  event.waitUntil(
+    caches.open(appCache).then((cache) => {
+      return cache.addAll(appCacheFiles)
+    })
+  )
 })
 
 /**
@@ -168,7 +169,7 @@ addEventListener('install', (event) => {
  * https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API
  */
 addEventListener('activate', (event) => {
-	console.log('[Service Worker] Activate Event ', event)
+  console.log('[Service Worker] Activate Event ', event)
 })
 
 /**
@@ -176,24 +177,25 @@ addEventListener('activate', (event) => {
  * on the scope of which your service worker was registered.
  * https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API
  */
-addEventListener('fetch', function(event) {
-	//return fetch(event.request);
-  console.log('[Service Worker] Fetch: ', event);
-	let url = new URL(event.request.url);
-	//url.pathname
+addEventListener('fetch', (event) => {
+  // return fetch(event.request)
+  console.log('[Service Worker] Fetch: ', event)
+  const url = new URL(event.request.url)
+  // url.pathname
   event.respondWith(
-    caches.match(event.request).then(function(resp) {
-      return resp || fetch(event.request).then(function(response) {
-        return caches.open(appCache).then(function(cache) {
+    caches.match(event.request).then((resp) => {
+      return resp || fetch(event.request).then((response) => {
+        return caches.open(appCache).then((cache) => {
           if (event.request.method === 'GET') {
-          	cache.put(event.request, response.clone());
-      	  }
-          return response;
-        });
-      });
+            cache.put(event.request, response.clone())
+          }
+          return response
+        })
+      })
     })
-	);
-});
+  )
+})
+
 /**
  * The message will receive messages sent from the application.
  * This can be useful for updating a service worker or messaging
@@ -201,43 +203,46 @@ addEventListener('fetch', function(event) {
  * https://developer.mozilla.org/en-US/docs/Web/API/Client/postMessage
  */
 addEventListener('message', (event) => {
-	console.log('[Service Worker] Message Event: ', event.data)
+  console.log('[Service Worker] Message Event: ', event.data)
 })
 
 /**
  * Listen for incoming Push events
  */
 addEventListener('push', (event) => {
-	console.log('[Service Worker] Push Received.');
-	console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
+  console.log('[Service Worker] Push Received.')
+  console.log(`[Service Worker] Push had this data: "${event.data.text()}"`)
 
-	if (!(self.Notification && self.Notification.permission === 'granted'))
-		return;
-		
-	var data = {};
-  if (event.data)
-    data = event.data.json();
+  if (!(self.Notification && self.Notification.permission === 'granted')) {
+    return
+  }
 
-	var title = data.title || "Web Push Notification";
-	var message = data.message || "New Push Notification Received";
-	var icon = "images/notification-icon.png";
-	var badge = 'images/notification-badge.png';
-	var options = {
-		body: message,
-		icon: icon,
-		badge: badge
-	};
-	event.waitUntil(self.registration.showNotification(title,options));
-});
+  const data = {}
+  if (event.data) {
+    data = event.data.json()
+  }
+
+  const title = data.title || 'Web Push Notification'
+  const body = data.message || 'New Push Notification Received'
+  const icon = 'images/notification-icon.png'
+  const badge = 'images/notification-badge.png'
+  const options = {
+    body,
+    icon,
+    badge
+  }
+
+  event.waitUntil(self.registration.showNotification(title,options))
+})
 
 /**
  * Handle a notification click
  */
 addEventListener('notificationclick', (event) => {
-	console.log('[Service Worker] Notification click: ', event);
-	event.notification.close();
-	event.waitUntil(
-		clients.openWindow('https://aws-amplify.github.io/amplify-js')
-	);
-});
+  console.log('[Service Worker] Notification click: ', event)
+  event.notification.close()
+  event.waitUntil(
+    clients.openWindow('https://aws-amplify.github.io/amplify-js')
+  )
+})
 ```

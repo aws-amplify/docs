@@ -11,18 +11,18 @@ title: Predictions
 
 The Predictions category provides a solution for using AI and ML cloud services to enhance your application. Some supported use cases:
 
-- Translating text from one language to another
-- Converting text to speech
-- Text recognition from image
-- Entities recognition
-- Label real world objects
-- Interpretation of text
-- Uploading images for automatic training
-- Transcribing text
+* Translating text from one language to another
+* Converting text to speech
+* Text recognition from image
+* Entities recognition
+* Label real world objects
+* Interpretation of text
+* Uploading images for automatic training
+* Transcribing text
 
 Predictions comes with built-in support for [Amazon Translate](https://docs.aws.amazon.com/translate/latest/dg/what-is.html){:target="_blank"}, [Amazon Polly](https://docs.aws.amazon.com/polly/latest/dg/what-is.html){:target="_blank"}, [Amazon Transcribe](https://docs.aws.amazon.com/transcribe/latest/dg/what-is-transcribe.html){:target="_blank"}, [Amazon Rekognition](https://docs.aws.amazon.com/rekognition/latest/dg/what-is.html){:target="_blank"}, [Amazon Textract](https://docs.aws.amazon.com/textract/latest/dg/what-is.html){:target="_blank"}, and [Amazon Comprehend](https://docs.aws.amazon.com/comprehend/latest/dg/what-is.html){:target="_blank"}.
 
-Additionally Predictions supports generic invocation of SageMaker Inference API from a native (iOS/Android) application. 
+Additionally Predictions supports generic invocation of SageMaker Inference API from a native (iOS/Android) application.
 
 <b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
 <b>Recommendation:</b> [Complete the Getting Started guide](./start?platform=purejs)
@@ -55,12 +55,12 @@ A configuration file called `aws-exports.js` will be copied to your configured s
 Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `App.js` in React or `main.ts` in Angular or Ionic.
 
 ```javascript
-import Amplify from '@aws-amplify/core';
-import Predictions, { AmazonAIPredictionsProvider } from '@aws-amplify/predictions';
-import awsconfig from './aws-exports';
+import Amplify from '@aws-amplify/core'
+import Predictions, { AmazonAIPredictionsProvider } from '@aws-amplify/predictions'
+import awsconfig from './aws-exports'
 
-Amplify.configure(awsconfig);
-Amplify.addPluggable(new AmazonAIPredictionsProvider());
+Amplify.configure(awsconfig)
+Amplify.addPluggable(new AmazonAIPredictionsProvider())
 ```
 
 #### Manual Setup
@@ -68,77 +68,77 @@ Amplify.addPluggable(new AmazonAIPredictionsProvider());
 The manual setup enables you to use your existing Amazon AI and ML resources in your app.
 
 ```javascript
-import Amplify from 'aws-amplify';
+import Amplify from 'aws-amplify'
 
 Amplify.configure({
-    // To get the AWS Credentials, you need to configure 
-    // the Auth module with your Cognito Federated Identity Pool
-    "Auth": {
-        "identityPoolId": "us-east-1:xxx-xxx-xxx-xxx-xxx",
-        "region": "us-east-1"
-    },
-    "predictions": {
-        "convert": {
-            "translateText": {
-                "region": "us-east-1",
-                "proxy": false,
-                "defaults": {
-                    "sourceLanguage": "en",
-                    "targetLanguage": "zh"
-                }
-            },
-            "speechGenerator": {
-                "region": "us-east-1",
-                "proxy": false,
-                "defaults": {
-                    "VoiceId": "Ivy",
-                    "LanguageCode": "en-US"
-                }
-            },
-            "transcription": {
-                "region": "us-east-1",
-                "proxy": false,
-                "defaults": {
-                    "language": "en-US"
-                }
-            }
-        },
-        "identify": {
-            "identifyText": {
-                "proxy": false,
-                "region": "us-east-1",
-                "defaults": {
-                    "format": "PLAIN"
-                }
-            },
-            "identifyEntities": {
-                "proxy": false,
-                "region": "us-east-1",
-                "celebrityDetectionEnabled": true,
-                "defaults": {
-                    "collectionId": "identifyEntities8b89c648-test",
-                    "maxEntities": 50
-                }
-            },
-            "identifyLabels": {
-                "proxy": false,
-                "region": "us-east-1",
-                "defaults": {
-                    "type": "LABELS"
-                }
-            }
-        },
-        "interpret": {
-            "interpretText": {
-                "region": "us-east-1",
-                "proxy": false,
-                "defaults": {
-                    "type": "ALL"
-                }
-            }
+  // To get the AWS Credentials, you need to configure
+  // the Auth module with your Cognito Federated Identity Pool
+  Auth: {
+    identityPoolId: 'us-east-1:xxx-xxx-xxx-xxx-xxx',
+    region: 'us-east-1'
+  },
+  predictions: {
+    convert: {
+      translateText: {
+        region: 'us-east-1',
+        proxy: false,
+        defaults: {
+          sourceLanguage: 'en',
+          targetLanguage: 'zh'
         }
+      },
+      speechGenerator: {
+        region: 'us-east-1',
+        proxy: false,
+        defaults: {
+          VoiceId: 'Ivy',
+          LanguageCode: 'en-US'
+        }
+      },
+      transcription: {
+        region: 'us-east-1',
+        proxy: false,
+        defaults: {
+          language: 'en-US'
+        }
+      }
+    },
+    identify: {
+      identifyText: {
+        proxy: false,
+        region: 'us-east-1',
+        defaults: {
+          format: 'PLAIN'
+        }
+      },
+      identifyEntities: {
+        proxy: false,
+        region: 'us-east-1',
+        celebrityDetectionEnabled: true,
+        defaults: {
+          collectionId: 'identifyEntities8b89c648-test',
+          maxEntities: 50
+        }
+      },
+      identifyLabels: {
+        proxy: false,
+        region: 'us-east-1',
+        defaults: {
+          type: 'LABELS'
+        }
+      }
+    },
+    interpret: {
+      interpretText: {
+        region: 'us-east-1',
+        proxy: false,
+        defaults: {
+          type: 'ALL'
+        }
+      }
     }
-});
+  }
+})
 ```
 
 #### IAM Policy
@@ -147,37 +147,37 @@ The Amplify CLI will set appropriate IAM policy for Roles in your Cognito Identi
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "translate:TranslateText",
-                "polly:SynthesizeSpeech",
-                "transcribe:StartStreamTranscriptionWebSocket",
-                "comprehend:DetectSentiment",
-                "comprehend:DetectEntities",
-                "comprehend:DetectDominantLanguage",
-                "comprehend:DetectSyntax",
-                "comprehend:DetectKeyPhrases",
-                "rekognition:DetectFaces",
-                "rekognition:RecognizeCelebrities"
-                "rekognition:DetectLabels",
-                "rekognition:DetectModerationLabels",
-                "rekognition:DetectText",
-                "rekognition:DetectLabel",
-                "textract:AnalyzeDocument",
-                "textract:DetectDocumentText",
-                "textract:GetDocumentAnalysis",
-                "textract:StartDocumentAnalysis",
-                "textract:StartDocumentTextDetection",
-                "rekognition:SearchFacesByImage"
-            ],
-            "Resource": [
-                "*"
-            ]
-        }
-    ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "translate:TranslateText",
+        "polly:SynthesizeSpeech",
+        "transcribe:StartStreamTranscriptionWebSocket",
+        "comprehend:DetectSentiment",
+        "comprehend:DetectEntities",
+        "comprehend:DetectDominantLanguage",
+        "comprehend:DetectSyntax",
+        "comprehend:DetectKeyPhrases",
+        "rekognition:DetectFaces",
+        "rekognition:RecognizeCelebrities"
+        "rekognition:DetectLabels",
+        "rekognition:DetectModerationLabels",
+        "rekognition:DetectText",
+        "rekognition:DetectLabel",
+        "textract:AnalyzeDocument",
+        "textract:DetectDocumentText",
+        "textract:GetDocumentAnalysis",
+        "textract:StartDocumentAnalysis",
+        "textract:StartDocumentTextDetection",
+        "rekognition:SearchFacesByImage"
+      ],
+      "Resource": [
+        "*"
+      ]
+    }
+  ]
 }
 ```
 
@@ -199,10 +199,10 @@ Run `amplify add predictions` and select **Convert**. Then use the following ans
 
 ```terminal
 ? What would you like to convert? (Use arrow keys)
-❯ Convert text into a different language 
-  Convert text to speech 
-  Convert speech to text 
-  Learn More 
+❯ Convert text into a different language
+  Convert text to speech
+  Convert speech to text
+  Learn More
 
 ? Who should have access? Auth and Guest users
 ```
@@ -218,12 +218,12 @@ If you haven't already done so, run `amplify init` inside your project and then 
 Run `amplify add predictions` and select **Convert**. Then use the following answers:
 
 ```terminal
-? What would you like to convert? 
-  Convert text into a different language 
-❯ Convert text to speech 
-  Convert speech to text 
-  Learn More 
-  
+? What would you like to convert?
+  Convert text into a different language
+❯ Convert text to speech
+  Convert speech to text
+  Learn More
+
 ? Who should have access? Auth and Guest users
 ```
 
@@ -238,11 +238,11 @@ If you haven't already done so, run `amplify init` inside your project and then 
 Run `amplify add predictions` and select **Convert**. Then use the following answers:
 
 ```terminal
-? What would you like to convert? 
-  Convert text into a different language 
-  Convert text to speech 
-❯ Convert speech to text 
-  Learn More 
+? What would you like to convert?
+  Convert text into a different language
+  Convert text to speech
+❯ Convert speech to text
+  Learn More
 
 ? Who should have access? Auth and Guest users
 ```
@@ -259,10 +259,10 @@ Run `amplify add predictions` and select **Identify**. Then use the following an
 
 ```terminal
 ? What would you like to identify? (Use arrow keys)
-❯ Identify Text 
-  Identify Entities 
-  Identify Labels 
-  Learn More 
+❯ Identify Text
+  Identify Entities
+  Identify Labels
+  Learn More
 
 ? Would you also like to identify documents? Yes
 ? Who should have access? Auth and Guest users
@@ -280,11 +280,11 @@ If you haven't already done so, run `amplify init` inside your project and then 
 Run `amplify add predictions` and select **Identify**. Then use the following answers:
 
 ```terminal
-? What would you like to identify? 
-  Identify Text 
-❯ Identify Entities 
-  Identify Labels 
-  Learn More 
+? What would you like to identify?
+  Identify Text
+❯ Identify Entities
+  Identify Labels
+  Learn More
 
 ? Would you like use the default configuration? Default Configuration
 
@@ -298,6 +298,7 @@ Services used: Amazon Rekognition
 **Advanced configuration**
 
 You can enhance your application's ability to identify entities by performing [indexing against a pre-defined collection of images and providing them to Amazon Rekognition](https://docs.aws.amazon.com/rekognition/latest/dg/API_IndexFaces.html){:target="_blank"}. This can be done in one of two ways:
+
 1. Administrators provide images to be indexed from an S3 bucket
 2. Application users upload files to an S3 bucket which are indexed
 
@@ -321,13 +322,12 @@ Note that if you already have an S3 bucket in your project from running `amplify
 For application users, when they upload images with `Storage.put()` they will specify a prefix which the Lambda functions perform indexing like so:
 
 ```javascript
-Storage.put('test.jpg', file, 
-  {
-    level: 'protected',
-    customPrefix: {
-      protected: 'protected/predictions/index-faces/',
-    }
-});
+Storage.put('test.jpg', file, {
+  level: 'protected',
+  customPrefix: {
+    protected: 'protected/predictions/index-faces/',
+  }
+})
 ```
 
 In the sample React application code below, you will see that to use this functionality you will need to set `collection:true` when calling `Predictions.identify()` and remove `celebrityDetection: true`. The flow is that you will first upload an image to S3 with the `PredictionsUpload` function (which is connected to a button in the app) and after a few seconds you can send this same image to `Predictions.identify()` and it will check if that image has been indexed in the Collection.
@@ -339,15 +339,15 @@ If you haven't already done so, run `amplify init` inside your project and then 
 Run `amplify add predictions` and select **Identify**. Then use the following answers:
 
 ```terminal
-? What would you like to identify? 
-  Identify Text 
-  Identify Entities 
-❯ Identify Labels 
-  Learn More 
+? What would you like to identify?
+  Identify Text
+  Identify Entities
+❯ Identify Labels
+  Learn More
 
 ? Would you like use the default configuration? (Use arrow keys)
-❯ Default Configuration 
-  Advanced Configuration 
+❯ Default Configuration
+  Advanced Configuration
 
 ? Who should have access? Auth and Guest users
 ```
@@ -366,16 +366,16 @@ Run `amplify add predictions` and select **Interpret**. Then use the following a
 
 ```terminal
 ? What would you like to interpret? (Use arrow keys)
-❯ Interpret Text 
-  Learn More 
+❯ Interpret Text
+  Learn More
 
-? What kind of interpretation would you like? 
-  Language 
-  Entity 
-  Keyphrase 
-  Sentiment 
-  Syntax 
-❯ All 
+? What kind of interpretation would you like?
+  Language
+  Entity
+  Keyphrase
+  Sentiment
+  Syntax
+❯ All
 
 ? Who should have access? Auth and Guest users
 ```
@@ -390,69 +390,70 @@ A sample React application with all of the Predictions features is provided belo
 
 To use `Predictions.convert()` with Amazon Transcribe you will need to install the following dependency in your app first:
 
-```terminal
-yarn add microphone-stream
+```bash
+$ yarn add microphone-stream
 ```
 
 The components in the app code below are rendered according to the scenarios above like so:
 
 ```javascript
-  return (
-    <div className="App">
-      <TextTranslation />
-      <br/>
-      <TextToSpeech />
-      <br/>
-      <SpeechToText />
-      <br/>
-      <TextIdentification />
-      <br/>
-      <EntityIdentification />
-      <br/>
-      <PredictionsUpload />
-      <br/>
-      <LabelsIdentification />
-      <br/>
-      <TextInterpretation />
-    </div>
-  );
+return (
+  <div className="App">
+    <TextTranslation />
+    <br/>
+    <TextToSpeech />
+    <br/>
+    <SpeechToText />
+    <br/>
+    <TextIdentification />
+    <br/>
+    <EntityIdentification />
+    <br/>
+    <PredictionsUpload />
+    <br/>
+    <LabelsIdentification />
+    <br/>
+    <TextInterpretation />
+  </div>
+)
 ```
 
 **React app code**
 
 ```javascript
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
-import './App.css';
-import Amplify, { Storage, Predictions } from 'aws-amplify';
-import { AmazonAIPredictionsProvider } from '@aws-amplify/predictions';
+import './App.css'
+import Amplify, { Storage, Predictions } from 'aws-amplify'
+import { AmazonAIPredictionsProvider } from '@aws-amplify/predictions'
 
-import awsconfig from './aws-exports';
+import awsconfig from './aws-exports'
 
-import mic from 'microphone-stream';
+import mic from 'microphone-stream'
 
-Amplify.configure(awsconfig);
-Amplify.addPluggable(new AmazonAIPredictionsProvider());
+Amplify.configure(awsconfig)
+Amplify.addPluggable(new AmazonAIPredictionsProvider())
 
 function TextIdentification() {
-  const [response, setResponse] = useState("You can add a photo by uploading direcly from the app ")
+  const [response, setResponse] = useState('You can add a photo by uploading direcly from the app')
 
   function identifyFromFile(event) {
-    setResponse('identifiying text...');
-    const { target: { files } } = event;
-    const [file,] = files || [];
+    setResponse('identifiying text...')
+    const { target: { files } } = event
+    const [file,] = files || []
 
     if (!file) {
-      return;
+      return
     }
+
     Predictions.identify({
       text: {
         source: {
-          file,
+          file
         },
-        format: "PLAIN", // Available options "PLAIN", "FORM", "TABLE", "ALL"
+        format: 'PLAIN', // Available options 'PLAIN', 'FORM', 'TABLE', 'ALL'
       }
-    }).then(({text: { fullText }}) => {
+    }).then(({ text: { fullText } }) => {
       setResponse(fullText)
     })
       .catch(err => setResponse(JSON.stringify(err, null, 2)))
@@ -466,26 +467,27 @@ function TextIdentification() {
         <p>{response}</p>
       </div>
     </div>
-  );
+  )
 }
 
 function EntityIdentification() {
-  const [response, setResponse] = useState("Click upload for test ")
-  const [src, setSrc] = useState("");
+  const [response, setResponse] = useState('Click upload for test')
+  const [src, setSrc] = useState('')
 
   function identifyFromFile(event) {
-    setResponse('searching...');
-    
-    const { target: { files } } = event;
-    const [file,] = files || [];
+    setResponse('searching...')
+
+    const { target: { files } } = event
+    const [file,] = files || []
 
     if (!file) {
-      return;
+      return
     }
+
     Predictions.identify({
       entities: {
         source: {
-          file,
+          file
         },
         /**For using the Identify Entities advanced features, enable collection:true and comment out celebrityDetection
          * Then after you upload a face with PredictionsUpload you'll be able to run this again
@@ -494,11 +496,11 @@ function EntityIdentification() {
         celebrityDetection: true
       }
     }).then(result => {
-      console.log(result);
-      const entities = result.entities;
-      let imageId = ""
-      let names = ""
-      entities.forEach(({ boundingBox, metadata: { name = "", externalImageId = "" } }) => {
+      console.log(result)
+      const entities = result.entities
+      let imageId = ''
+      let names = ''
+      entities.forEach(({ boundingBox, metadata: { name = '', externalImageId = '' } }) => {
         const {
           width, // ratio of overall image width
           height, // ratio of overall image height
@@ -507,20 +509,20 @@ function EntityIdentification() {
         } = boundingBox;
         imageId = externalImageId;
         if (name) {
-          names += name + " .";
+          names += name + ' .';
         }
         console.log({ name });
       })
       if (imageId) {
-        Storage.get("", {
+        Storage.get('', {
           customPrefix: {
             public: imageId
           },
-          level: "public",
-        }).then(setSrc); // this should be better but it works
+          level: 'public',
+        }).then(setSrc) // this should be better but it works
       }
-      console.log({ entities });
-      setResponse(names);
+      console.log({ entities })
+      setResponse(names)
     })
       .catch(err => console.log(err))
   }
@@ -534,7 +536,7 @@ function EntityIdentification() {
         { src && <img src={src}></img>}
       </div>
     </div>
-  );
+  )
 }
 
 function PredictionsUpload() {
@@ -543,14 +545,14 @@ function PredictionsUpload() {
    * and a Lambda trigger will automatically perform indexing
    */
   function upload(event) {
-    const { target: { files } } = event;
-    const [file,] = files || [];
+    const { target: { files } } = event
+    const [file,] = files || []
     Storage.put(file.name, file, {
       level: 'protected',
       customPrefix: {
-        protected: 'protected/predictions/index-faces/',
+        protected: 'protected/predictions/index-faces/'
       }
-    });
+    })
   }
 
   return (
@@ -560,25 +562,26 @@ function PredictionsUpload() {
         <input type="file" onChange={upload}></input>
       </div>
     </div>
-  );
+  )
 }
 
 function LabelsIdentification() {
-  const [response, setResponse] = useState("Click upload for test ")
+  const [response, setResponse] = useState('Click upload for test')
 
   function identifyFromFile(event) {
-    const { target: { files } } = event;
-    const [file,] = files || [];
+    const { target: { files } } = event
+    const [file,] = files || []
 
     if (!file) {
-      return;
+      return
     }
+
     Predictions.identify({
       labels: {
         source: {
-          file,
+          file
         },
-        type: "ALL" // "LABELS" will detect objects , "UNSAFE" will detect if content is not safe, "ALL" will do both default on aws-exports.js
+        type: 'ALL' // 'LABELS' will detect objects , 'UNSAFE' will detect if content is not safe, 'ALL' will do both default on aws-exports.js
       }
     }).then(result => setResponse(JSON.stringify(result, null, 2)))
       .catch(err => setResponse(JSON.stringify(err, null, 2)))
@@ -592,77 +595,75 @@ function LabelsIdentification() {
         <p>{response}</p>
       </div>
     </div>
-  );
+  )
 }
 
 function SpeechToText(props) {
-  const [response, setResponse] = useState("Press 'start recording' to begin your transcription. Press STOP recording once you finish speaking.")
-  
+  const [response, setResponse] = useState('Press "start recording" to begin your transcription. Press STOP recording once you finish speaking.')
+
   function AudioRecorder(props) {
-    const [recording, setRecording] = useState(false);
-    const [micStream, setMicStream] = useState();
+    const [recording, setRecording] = useState(false)
+    const [micStream, setMicStream] = useState()
     const [audioBuffer] = useState(
       (function() {
-        let buffer = [];
+        let buffer = []
         function add(raw) {
-          buffer = buffer.concat(...raw);
-          return buffer;
+          buffer = buffer.concat(...raw)
+          return buffer
         }
         function newBuffer() {
-          console.log("reseting buffer");
-          buffer = [];
+          console.log('reseting buffer')
+          buffer = []
         }
- 
+
         return {
           reset: function() {
-            newBuffer();
+            newBuffer()
           },
           addData: function(raw) {
-            return add(raw);
+            return add(raw)
           },
           getData: function() {
-            return buffer;
+            return buffer
           }
-        };
+        }
       })()
-    );
+    )
 
     async function startRecording() {
-      console.log('start recording');
-      audioBuffer.reset();
+      console.log('start recording')
+      audioBuffer.reset()
 
       window.navigator.mediaDevices.getUserMedia({ video: false, audio: true }).then((stream) => {
-        const startMic = new mic();
+        const startMic = new mic()
 
-        startMic.setStream(stream);
+        startMic.setStream(stream)
         startMic.on('data', (chunk) => {
-          var raw = mic.toRaw(chunk);
+          var raw = mic.toRaw(chunk)
           if (raw == null) {
-            return;
+            return
           }
-          audioBuffer.addData(raw);
+          audioBuffer.addData(raw)
+        })
 
-        });
-
-        setRecording(true);
-        setMicStream(startMic);
-      });
+        setRecording(true)
+        setMicStream(startMic)
+      })
     }
 
     async function stopRecording() {
-      console.log('stop recording');
-      const { finishRecording } = props;
+      console.log('stop recording')
+      const { finishRecording } = props
 
-      micStream.stop();
-      setMicStream(null);
-      setRecording(false);
+      micStream.stop()
+      setMicStream(null)
+      setRecording(false)
 
-      const resultBuffer = audioBuffer.getData();
+      const resultBuffer = audioBuffer.getData()
 
-      if (typeof finishRecording === "function") {
-        finishRecording(resultBuffer);
+      if (typeof finishRecording === 'function') {
+        finishRecording(resultBuffer)
       }
-
     }
 
     return (
@@ -672,19 +673,19 @@ function SpeechToText(props) {
           {!recording && <button onClick={startRecording}>Start recording</button>}
         </div>
       </div>
-    );
+    )
   }
 
   function convertFromBuffer(bytes) {
-    setResponse('Converting text...');
-    
+    setResponse('Converting text...')
+
     Predictions.convert({
       transcription: {
         source: {
           bytes
         },
-        // language: "en-US", // other options are "en-GB", "fr-FR", "fr-CA", "es-US"
-      },
+        // language: 'en-US', // other options are 'en-GB', 'fr-FR', 'fr-CA', 'es-US'
+      }
     }).then(({ transcription: { fullText } }) => setResponse(fullText))
       .catch(err => setResponse(JSON.stringify(err, null, 2)))
   }
@@ -701,38 +702,38 @@ function SpeechToText(props) {
 }
 
 function TextToSpeech() {
-  const [response, setResponse] = useState("...")
-  const [textToGenerateSpeech, setTextToGenerateSpeech] = useState("write to speech");
+  const [response, setResponse] = useState('...')
+  const [textToGenerateSpeech, setTextToGenerateSpeech] = useState('write to speech')
 
   function generateTextToSpeech() {
-    setResponse('Generating audio...');
+    setResponse('Generating audio...')
     Predictions.convert({
       textToSpeech: {
         source: {
-          text: textToGenerateSpeech,
+          text: textToGenerateSpeech
         },
-        voiceId: "Amy" // default configured on aws-exports.js 
+        voiceId: 'Amy' // default configured on aws-exports.js
         // list of different options are here https://docs.aws.amazon.com/polly/latest/dg/voicelist.html
       }
     }).then(result => {
-      let AudioContext = window.AudioContext || window.webkitAudioContext;
-      console.log({ AudioContext });
-      const audioCtx = new AudioContext(); 
-      const source = audioCtx.createBufferSource();
+      let AudioContext = window.AudioContext || window.webkitAudioContext
+      console.log({ AudioContext })
+      const audioCtx = new AudioContext()
+      const source = audioCtx.createBufferSource()
       audioCtx.decodeAudioData(result.audioStream, (buffer) => {
 
-        source.buffer = buffer;
-        source.connect(audioCtx.destination);
-        source.start(0);
-      }, (err) => console.log({err}));
-      
-      setResponse(`Generation completed, press play`);
+        source.buffer = buffer
+        source.connect(audioCtx.destination)
+        source.start(0)
+      }, (err) => console.log({ err }))
+
+      setResponse('Generation completed, press play');
     })
       .catch(err => setResponse(err))
   }
 
   function setText(event) {
-    setTextToGenerateSpeech(event.target.value);
+    setTextToGenerateSpeech(event.target.value)
   }
 
   return (
@@ -748,25 +749,25 @@ function TextToSpeech() {
 }
 
 function TextTranslation() {
-  const [response, setResponse] = useState("Input some text and click enter to test")
-  const [textToTranslate, setTextToTranslate] = useState("write to translate");
+  const [response, setResponse] = useState('Input some text and click enter to test')
+  const [textToTranslate, setTextToTranslate] = useState('write to translate')
 
   function translate() {
     Predictions.convert({
       translateText: {
         source: {
           text: textToTranslate,
-          // language : "es" // defaults configured on aws-exports.js
+          // language : 'es' // defaults configured on aws-exports.js
           // supported languages https://docs.aws.amazon.com/translate/latest/dg/how-it-works.html#how-it-works-language-codes
         },
-        // targetLanguage: "en"
+        // targetLanguage: 'en'
       }
     }).then(result => setResponse(JSON.stringify(result, null, 2)))
       .catch(err => setResponse(JSON.stringify(err, null, 2)))
   }
 
   function setText(event) {
-    setTextToTranslate(event.target.value);
+    setTextToTranslate(event.target.value)
   }
 
   return (
@@ -778,20 +779,20 @@ function TextTranslation() {
         <p>{response}</p>
       </div>
     </div>
-  );
+  )
 }
 
 function TextInterpretation() {
-  const [response, setResponse] = useState("Input some text and click enter to test")
-  const [textToInterpret, setTextToInterpret] = useState("write some text here to interpret");
+  const [response, setResponse] = useState('Input some text and click enter to test')
+  const [textToInterpret, setTextToInterpret] = useState('write some text here to interpret')
 
   function interpretFromPredictions() {
     Predictions.interpret({
       text: {
         source: {
-          text: textToInterpret,
+          text: textToInterpret
         },
-        type: "ALL"
+        type: 'ALL'
       }
     }).then(result => setResponse(JSON.stringify(result, null, 2)))
       .catch(err => setResponse(JSON.stringify(err, null, 2)))
@@ -810,7 +811,7 @@ function TextInterpretation() {
         <p>{response}</p>
       </div>
     </div>
-  );
+  )
 }
 
 function App() {
@@ -840,10 +841,10 @@ function App() {
       Text Interpretation
       <TextInterpretation />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
 ```
 
 Now run `yarn start` and press the buttons to demo the app.
@@ -859,7 +860,7 @@ $ ionic start predictions blank # the first argument is your project name, the s
 
 Update the `src/polyfills.ts` and add to the top of the file `(window as any).global = window;`. Then, update the `src/tsconfig.app.json` file and add the "node" types:
 
-```
+```json
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
@@ -871,30 +872,29 @@ Update the `src/polyfills.ts` and add to the top of the file `(window as any).gl
     "**/*.spec.ts"
   ]
 }
-
 ```
 
 #### `src/app/home/home.page.ts`
 
 ```javascript
-import { Component } from '@angular/core';
-import Predictions from '@aws-amplify/predictions';
-import { TextToSpeechOutput } from '@aws-amplify/predictions/lib/types';
+import { Component } from '@angular/core'
+import Predictions from '@aws-amplify/predictions'
+import { TextToSpeechOutput } from '@aws-amplify/predictions/lib/types'
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  styleUrls: ['home.page.scss']
 })
-export class HomePage {
 
-  public textToTranslate  = "Hello Amplify";
-  public translateResult  = "";
-  public srcLang          = "en";
-  public targetLang       = "de";
-  public voiceId          = "Salli";
-  public speechUrl:string;
-  public speakResult:boolean;
+export class HomePage {
+  public textToTranslate  = 'Hello Amplify'
+  public translateResult  = ''
+  public srcLang          = 'en'
+  public targetLang       = 'de'
+  public voiceId          = 'Salli'
+  public speechUrl:string
+  public speakResult:boolean
 
   constructor() {}
 
@@ -907,10 +907,10 @@ export class HomePage {
         },
         targetLanguage: this.targetLang
       }
-    });
-    this.translateResult = result.text || "Error";
+    })
+    this.translateResult = result.text || 'Error'
     if (this.speakResult) {
-      this.generateSpeech(result.text);
+      this.generateSpeech(result.text)
     }
   }
 
@@ -918,30 +918,28 @@ export class HomePage {
     const result:TextToSpeechOutput = await Predictions.convert({
       textToSpeech: {
         source: {
-          text: textToGenerateSpeech,
+          text: textToGenerateSpeech
         },
         voiceId: this.voiceId
       }
-    });
-    const audioCtx = new ((window as any).AudioContext || (window as any).webkitAudioContext)();
-    const source = audioCtx.createBufferSource();
+    })
+    const audioCtx = new ((window as any).AudioContext || (window as any).webkitAudioContext)()
+    const source = audioCtx.createBufferSource()
     audioCtx.decodeAudioData(result.audioStream, (buffer) => {
-      source.buffer = buffer;
-      source.connect(audioCtx.destination);
-      source.start(audioCtx.currentTime);
-    }, (err) => console.log({err}));
+      source.buffer = buffer
+      source.connect(audioCtx.destination)
+      source.start(audioCtx.currentTime)
+    }, (err) => console.log({ err }))
   }
 
   public selectSource(value: string) {
-    this.srcLang = value;
+    this.srcLang = value
   }
 
   public selectTarget(value: string) {
-    this.targetLang = value;
+    this.targetLang = value
   }
-
 }
-
 ```
 
 #### `src/app/home/home.page.html`
@@ -956,65 +954,63 @@ export class HomePage {
 </ion-header>
 
 <ion-content>
-    <ion-card class="welcome-card">
-      <ion-card-header>
-        <ion-card-title>Convert</ion-card-title>
-        <ion-card-subtitle>Translate languages</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
+  <ion-card class="welcome-card">
+    <ion-card-header>
+      <ion-card-title>Convert</ion-card-title>
+      <ion-card-subtitle>Translate languages</ion-card-subtitle>
+    </ion-card-header>
 
-        <ion-list>        
-          <ion-item>
-            <ion-label>Source Language</ion-label>
-            <ion-select #srcLang placeholder="Source Language" (ionChange)="selectSource(srcLang.value)">
-              <ion-select-option value="en" selected>English</ion-select-option>
-              <ion-select-option value="es">Spanish</ion-select-option>
-              <ion-select-option value="de">German</ion-select-option>
-              <ion-select-option value="no">Norwegian</ion-select-option>
-            </ion-select>
-          </ion-item>
-        
-          <ion-item>
-            <ion-label>Target Language</ion-label>
-            <ion-select #targetLang placeholder="Target Language" (ionChange)="selectTarget(targetLang.value)">
-              <ion-select-option value="en">English</ion-select-option>
-              <ion-select-option value="es">Spanish</ion-select-option>
-              <ion-select-option value="de" selected>German</ion-select-option>
-              <ion-select-option value="no">Norwegian</ion-select-option>
-            </ion-select>
-          </ion-item>                  
-        </ion-list>
-        
-        <ion-grid>
-          <ion-row>
-              <ion-col align-self-center>
-                  <textarea placeholder="Text to translate" [(ngModel)]="textToTranslate" rows="5" cols="30"></textarea>
-              </ion-col>
-          </ion-row>
-          <ion-row>
-              <ion-col size="6">
-                  <ion-button (click)="translate()" [disabled]="!textToTranslate">Translate</ion-button>
-              </ion-col>
-              <ion-col size="6" align-self-center>
-                <ion-checkbox color="primary" [(ngModel)]="speakResult"></ion-checkbox> &nbsp;
-                <ion-label>Speak Result</ion-label>
-              </ion-col>
-          </ion-row>
-          <ion-row>
-              <ion-col align-self-center>
-                  <textarea placeholder="Translation will display here" [value]="translateResult" rows="5" cols="30"></textarea>
-              </ion-col>
-          </ion-row>
-        </ion-grid>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label>Source Language</ion-label>
+          <ion-select #srcLang placeholder="Source Language" (ionChange)="selectSource(srcLang.value)">
+            <ion-select-option value="en" selected>English</ion-select-option>
+            <ion-select-option value="es">Spanish</ion-select-option>
+            <ion-select-option value="de">German</ion-select-option>
+            <ion-select-option value="no">Norwegian</ion-select-option>
+          </ion-select>
+        </ion-item>
 
-      </ion-card-content>
-    </ion-card>
+        <ion-item>
+          <ion-label>Target Language</ion-label>
+          <ion-select #targetLang placeholder="Target Language" (ionChange)="selectTarget(targetLang.value)">
+            <ion-select-option value="en">English</ion-select-option>
+            <ion-select-option value="es">Spanish</ion-select-option>
+            <ion-select-option value="de" selected>German</ion-select-option>
+            <ion-select-option value="no">Norwegian</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
 
+      <ion-grid>
+        <ion-row>
+          <ion-col align-self-center>
+            <textarea placeholder="Text to translate" [(ngModel)]="textToTranslate" rows="5" cols="30"></textarea>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-button (click)="translate()" [disabled]="!textToTranslate">Translate</ion-button>
+          </ion-col>
+          <ion-col size="6" align-self-center>
+            <ion-checkbox color="primary" [(ngModel)]="speakResult"></ion-checkbox> &nbsp;
+            <ion-label>Speak Result</ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col align-self-center>
+            <textarea placeholder="Translation will display here" [value]="translateResult" rows="5" cols="30"></textarea>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
 
 ```
 
-## Working with the API 
+## Working with the API
 
 ### Identify text in images
 
@@ -1022,9 +1018,9 @@ Detect text in an input image. Input can be sent directly from the browser or an
 
 ```javascript
 Predictions.identify({
-    text: {
-        source: file
-    }
+  text: {
+    source: file
+  }
 }).then((response) => {...})
 ```
 
@@ -1032,12 +1028,12 @@ Predictions.identify({
 
 ```javascript
 Predictions.identify({
-    text: {
-        source: {
-            key: pathToPhoto,
-            level?: 'public | private | protected', //optional, default is the configured on Storage category
-        }
+  text: {
+    source: {
+      key: pathToPhoto,
+      level?: 'public | private | protected' //optional, default is the configured on Storage category
     }
+  }
 }).then((response) => {...})
 ```
 
@@ -1047,50 +1043,52 @@ For detecting plain text, you can see the whole detected text, the lines detecte
 
 ```javascript
 Predictions.identify({
-    text: {
-        source: {
-            file
-        },
-        format: "PLAIN", 
-    }
+  text: {
+    source: {
+      file
+    },
+    format: 'PLAIN'
+  }
 }).then(({
-    { text: 
-        { fullText, // String
-        lines // Array of String ordered from top to bottom
-        linesDetailed: {
-            text, // String
-            boundingBox: {
-                width, // ratio of overall image width
-                height, // ratio of overall image height
-                left, // left coordinate as a ratio of overall image width
-                top // top coordinate as a ratio of overall image heigth
-            },
-            polygon // Array of { x, y } coordinates as a ratio of overall image width and height
-        },  
-        words // Array of objects that contains { text, boundingBox, polygon} 
-    } 
-}) => {...});
+  {
+    text: {
+      fullText, // String
+      lines, // Array of String ordered from top to bottom
+      linesDetailed: {
+        text, // String
+        boundingBox: {
+          width, // ratio of overall image width
+          height, // ratio of overall image height
+          left, // left coordinate as a ratio of overall image width
+          top // top coordinate as a ratio of overall image heigth
+        },
+        polygon // Array of { x, y } coordinates as a ratio of overall image width and height
+      },
+      words // Array of objects that contains { text, boundingBox, polygon }
+    }
+  }
+}) => {...})
 ```
 
 For detecting structured forms (documents, tables, etc.) from an image, `keyValues` will return a string of the entity found in the image as well as metadata such as selected checkboxes or the relative location in the image using a `boundingBox`.
 
 ```javascript
 Predictions.identify({
-    text: {
-        source: {
-            file
-        },
-        format: "FORM", 
-    }
+  text: {
+    source: {
+      file
+    },
+    format: 'FORM'
+  }
 }).then(({
-    { text: 
-        { 
-            // same as PLAIN +
-            keyValues 
-                // Array of { key (String), value: { text (String), selected (boolean)}, polygon, boundingBox } 
-        }   
-    } 
-}) => {...});
+  {
+    text: {
+      // same as PLAIN +
+      keyValues
+      // Array of { key (String), value: { text (String), selected (boolean)}, polygon, boundingBox }
+    }
+  }
+}) => {...})
 ```
 
 For example the below image would return `keyValues` with "Test" or "Checked" as a key, and `true` since they are selected. The location of these elements would be returned in the `boundingBox` value.
@@ -1100,48 +1098,48 @@ For example the below image would return `keyValues` with "Test" or "Checked" as
 For detecting structured tables from an image
 ```javascript
 Predictions.identify({
-    text: {
-        source: {
-            file
-        },
-        format: "TABLE", 
-    }
+  text: {
+    source: {
+        file
+    },
+    format: 'TABLE'
+  }
 }).then(({
-    { text: 
-        { 
-            // same as PLAIN +
-            tables : {
-                size: { rows, columns }, 
-                table // Matrix Array[ Array ] of size rows
-                    // each element of the array contains { text, boundingBox, polygon, selected, rowSpan, columnSpan}
-            }
-        }   
-    } 
-}) => {...});
+  {
+    text: {
+      // same as PLAIN +
+      tables : {
+        size: { rows, columns },
+        table // Matrix Array[ Array ] of size rows
+            // each element of the array contains { text, boundingBox, polygon, selected, rowSpan, columnSpan}
+      }
+    }
+  }
+}) => {...})
 ```
 
 For detecting tables and forms on the image just select format "ALL"
 ```javascript
 Predictions.identify({
-    text: {
-        source: {
-            file
-        },
-        format: "TABLE", 
-    }
+  text: {
+    source: {
+      file
+    },
+    format: 'TABLE'
+  }
 }).then(({
-    { text: 
-        { 
-            // same as PLAIN + FORM + TABLE
-        }   
-    } 
-}) => {...});
+  {
+    text: {
+      // same as PLAIN + FORM + TABLE
+    }
+  }
+}) => {...})
 ```
 
 ### Identify entities in images
 
 `Predictions.identify({entities: {...}}) => Promise<>`
-Detects entities from an image and potentially related information such as position, faces, and landmarks. Can also identify celebrities and entities that were previously added. This function returns a Promise that returns an object with the entities that was identified.  
+Detects entities from an image and potentially related information such as position, faces, and landmarks. Can also identify celebrities and entities that were previously added. This function returns a Promise that returns an object with the entities that was identified.
 
 Input can be sent directly from the browser or an Amazon S3 key from project bucket.
 
@@ -1149,119 +1147,117 @@ Detect entities directly from image uploaded from the browser. (File object)
 
 ```javascript
 Predictions.identify({
-      entities: {
-        source: {
-          file,
-        },
-      }
-    }).then((response) => {...})
-      .catch(err => {...})
+  entities: {
+    source: {
+      file
+    }
   }
+}).then((response) => {...})
+  .catch(err => {...})
 ```
 
 From Amazon S3 key
+
 ```javascript
 Predictions.identify({
-      entities: {
-        source: {
-          key: pathToPhoto,
-          level?: 'public | private | protected', //optional, default is the configured on Storage category
-        },
-      }
-    }).then((response) => {...})
-      .catch(err => {...})
+  entities: {
+    source: {
+      key: pathToPhoto,
+      level?: 'public | private | protected' //optional, default is the configured on Storage category
+    }
+  }
+}).then((response) => {...})
+  .catch(err => {...})
 ```
 
-The following options are independent of which `source` is specified. For demonstration purposes it will be used `file` but it can be used S3 Key as well. 
+The following options are independent of which `source` is specified. For demonstration purposes it will be used `file` but it can be used S3 Key as well.
 
 Detecting bounding box of faces from an image with its landmarks (eyes, mouth, nose).
 
 ```javascript
 Predictions.identify({
-      entities: {
-        source: {
-          file,
-        },
-      }
-    }).then(({ entities }) => {
-        entities.forEach(({boundingBox, landmarks}) => {
-          const { 
-            width, // ratio of overall image width
-            height, // ratio of overall image height
-            left, // left coordinate as a ratio of overall image width
-            top // top coordinate as a ratio of overall image heigth
-          } = boundingBox;
-          
-          landmarks.forEach(landmark => {
-              const {
-                  type, // string "eyeLeft", "eyeRight", "mouthLeft", "mouthRight", "nose"
-                  x, // ratio of overall image width
-                  y // ratio of overall image height
-              } = landmark;
-          })
-        })
-        .catch(err => {...})
+  entities: {
+    source: {
+      file
+    }
   }
+}).then(({ entities }) => {
+  entities.forEach(({boundingBox, landmarks}) => {
+    const {
+      width, // ratio of overall image width
+      height, // ratio of overall image height
+      left, // left coordinate as a ratio of overall image width
+      top // top coordinate as a ratio of overall image heigth
+    } = boundingBox
+
+    landmarks.forEach(landmark => {
+      const {
+        type, // string 'eyeLeft', 'eyeRight', 'mouthLeft', 'mouthRight', 'nose'
+        x, // ratio of overall image width
+        y // ratio of overall image height
+      } = landmark
+    })
+  })
+})
+.catch(err => {...})
 ```
 
 Detecting celebrities on an image. It will return only celebrities the name and urls with related information.
 
 ```javascript
 Predictions.identify({
-      entities: {
-        source: {
-          file,
-        },
-        celebrityDetection: true // boolean. It will only show detected celebreties 
-      }
-    }).then(({ entities }) => {
-      
-      entities.forEach(({ boundingBox, landmarks, metadata }) => {
-        const { 
-            name,
-            urls 
-        } = metadata; // celebrity info
-        
-        // ...
-      })
-    })
-      .catch(err => setResponse(JSON.stringify(err, null, 2)))
+  entities: {
+    source: {
+      file
+    },
+    celebrityDetection: true // boolean. It will only show detected celebreties
+  }
+}).then(({ entities }) => {
+  entities.forEach(({ boundingBox, landmarks, metadata }) => {
+    const {
+      name,
+      urls
+    } = metadata // celebrity info
+
+    // ...
+  })
+})
+.catch(err => setResponse(JSON.stringify(err, null, 2)))
 ```
 
 Detecting entities from previously uploaded images (e.g. Advanced Configuration for Identify Entities)
 
 ```javascript
 Predictions.identify({
-      entities: {
-        source: {
-          file,
-        },
-        collection: true
-      }
-    }).then({entities} => {
-      entities.forEach(({ boundingBox, metadata: { externalImageId } }) => {
-        const {
-          width, // ratio of overall image width
-          height, // ratio of overall image height
-          left, // left coordinate as a ratio of overall image width
-          top // top coordinate as a ratio of overall image heigth
-        } = boundingBox;
-        console.log({externalImageId}); // this is the object key on S3 from the original image!
-        
-        Storage.get("", {
-            customPrefix: {
-            public: externalImageId
-            },
-            level: "public",
-        }).then(src => {...}); // this could be improve but 
-      })
-    })
-      .catch(err => console.log(err))
+  entities: {
+    source: {
+      file
+    },
+    collection: true
   }
+}).then({ entities } => {
+  entities.forEach(({ boundingBox, metadata: { externalImageId } }) => {
+    const {
+      width, // ratio of overall image width
+      height, // ratio of overall image height
+      left, // left coordinate as a ratio of overall image width
+      top // top coordinate as a ratio of overall image heigth
+    } = boundingBox
+    console.log({ externalImageId }) // this is the object key on S3 from the original image!
+
+    Storage.get('', {
+        customPrefix: {
+          public: externalImageId
+        },
+        level: 'public',
+    }).then(src => {...}) // this could be improve but
+  })
+})
+.catch(err => console.log(err))
 ```
 ### Identify objects in images
 
-Detects real world objects or unsafe content from an image. This function returns a Promise that returns an object with the objects labeled that was identified.  
+Detects real world objects or unsafe content from an image. This function returns a Promise that returns an object with the objects labeled that was identified.
 
 #### Labels only
 
@@ -1269,51 +1265,52 @@ Detect labels, such if an image has a desk or a chair in it
 
 ```javascript
 Predictions.identify({
-    labels: {
-    source: {
-        file,
-    },
-    type: "LABELS"
-    }
+  labels: {
+  source: {
+    file
+  },
+  type: 'LABELS'
+}
 }).then(response => {
-    const { labels } = response;
-    labels.forEach(object => {
-        const { name, boundingBoxes } = object
-    });
-});
+  const { labels } = response
+  labels.forEach(object => {
+    const { name, boundingBoxes } = object
+  })
+})
 ```
 
 Detect unsafe content in an image
 
 ```javascript
 Predictions.identify({
-    labels: {
+  labels: {
     source: {
-        file,
+      file
     },
-    type: "UNSAFE"
-    }
+    type: 'UNSAFE'
+  }
 }).then(response => {
-    const { unsafe } = response; // boolean 
-});
+  const { unsafe } = response // boolean
+})
 ```
 
 for both labels and unsafe content
+
 ```javascript
 Predictions.identify({
-    labels: {
+  labels: {
     source: {
-        file,
+      file
     },
-    type: "ALL"
-    }
+    type: 'ALL'
+  }
 }).then(response => {
-    const { labels } = response;
-    const { unsafe } = response; // boolean 
-    labels.forEach(object => {
-        const { name, boundingBoxes } = object
-    });
-});
+  const { labels } = response
+  const { unsafe } = response // boolean
+  labels.forEach(object => {
+    const { name, boundingBoxes } = object
+  })
+})
 ```
 
 ### Transcribing audio
@@ -1321,16 +1318,18 @@ Predictions.identify({
 You can transcribe a PCM Audio byte buffer to Text, such as a recording from microphone.
 
 ```javascript
-    Predictions.convert({
-      transcription: {
-        source: {
-          bytes
-        },
-        // language: "en-US", // other options are "en-GB", "fr-FR", "fr-CA", "es-US"
-      },
-    }).then(({ transcription: { fullText } }) => console.log(fullText))
-      .catch(err => console.log(JSON.stringify(err, null, 2)))
+Predictions.convert({
+  transcription: {
+    source: {
+      bytes
+    }
+    // language: 'en-US', // other options are 'en-GB', 'fr-FR', 'fr-CA', 'es-US'
   }
+}).then(({ transcription: { fullText } }) => {
+  console.log(fullText)
+})
+.catch(err => console.log(JSON.stringify(err, null, 2)))
+}
 ```
 
 ### Text to Speech
@@ -1338,19 +1337,18 @@ You can transcribe a PCM Audio byte buffer to Text, such as a recording from mic
 Generate an audio buffer for playback from a text input.
 
 ```javascript
-    Predictions.convert({
-      textToSpeech: {
-        source: {
-          text: textToGenerateSpeech
-        },
-        voiceId: "Amy" // default configured on aws-exports.js 
-        // list of different options are here https://docs.aws.amazon.com/polly/latest/dg/voicelist.html
-      }
-    }).then(result => {
-      
-    })
-      .catch(err => console.log(JSON.stringify(err, null, 2)))
+Predictions.convert({
+  textToSpeech: {
+    source: {
+      text: textToGenerateSpeech
+    },
+    voiceId: 'Amy' // default configured on aws-exports.js
+    // list of different options are here https://docs.aws.amazon.com/polly/latest/dg/voicelist.html
   }
+}).then(result => {
+  console.log(result)
+})
+.catch(err => console.log(JSON.stringify(err, null, 2)))
 ```
 
 ### Translation of text
@@ -1358,17 +1356,17 @@ Generate an audio buffer for playback from a text input.
 Translate text from one source language to a destination language.
 
 ```javascript
-    Predictions.convert({
-      translateText: {
-        source: {
-          text: textToTranslate,
-          // language : "es" // defaults configured on aws-exports.js
-          // supported languages https://docs.aws.amazon.com/translate/latest/dg/how-it-works.html#how-it-works-language-codes
-        },
-        // targetLanguage: "en"
-      }
-    }).then(result => console.log(JSON.stringify(result, null, 2)))
-      .catch(err => console.log(JSON.stringify(err, null, 2)))
+Predictions.convert({
+  translateText: {
+    source: {
+      text: textToTranslate
+      // language : 'es' // defaults configured on aws-exports.js
+      // supported languages https://docs.aws.amazon.com/translate/latest/dg/how-it-works.html#how-it-works-language-codes
+    },
+    // targetLanguage: 'en'
+  }
+}).then(result => console.log(JSON.stringify(result, null, 2)))
+  .catch(err => console.log(JSON.stringify(err, null, 2)))
 ```
 
 ### Analyze Text
@@ -1376,14 +1374,13 @@ Translate text from one source language to a destination language.
 Analyze text to find key phrases, sentiment (positive, negative, neutral), or the syntax (pronouns, verbs, etc.). You can also find entities in the text such as names or places, or perform language detection.
 
 ```javascript
-    Predictions.interpret({
-      text: {
-        source: {
-          text: textToInterpret,
-        },
-        type: "ALL"
-      }
-    }).then(result => console.log(JSON.stringify(result, null, 2)))
-      .catch(err => console.log(JSON.stringify(err, null, 2)))
+Predictions.interpret({
+  text: {
+    source: {
+      text: textToInterpret,
+    },
+    type: 'ALL'
+  }
+}).then(result => console.log(JSON.stringify(result, null, 2)))
+  .catch(err => console.log(JSON.stringify(err, null, 2)))
 ```
-

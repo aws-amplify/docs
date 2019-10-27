@@ -1,12 +1,12 @@
 ---
 ---
 
-# Vue 
+# Vue
 [![npm version](https://badge.fury.io/js/aws-amplify-vue.svg)](https://badge.fury.io/js/aws-amplify-vue)
 
-The ```aws-amplify-vue``` package is a set of Vue components which integrates your Vue application with the AWS-Amplify library. The package supports Vue applications using version 2.5 or above, and was created using the Vue 3.0 CLI.
+The `aws-amplify-vue` package is a set of Vue components which integrates your Vue application with the AWS-Amplify library. The package supports Vue applications using version 2.5 or above, and was created using the Vue 3.0 CLI.
 
-## Configuration 
+## Configuration
 
 In your Vue app, install the following:
 
@@ -29,25 +29,23 @@ Vue.use(AmplifyPlugin, AmplifyModules)
 
 new Vue({
   render: h => h(App)
-}).$mount('#app')
-
+}).$mount('#app');
 ```
 
 In App.vue:
 
-```
+```html
 <script>
 import { components } from 'aws-amplify-vue'
 
 export default {
-  name: 'app', 
+  name: 'app',
   components: {
     ...<yourOtherComponents>,
     ...components
   }
 }
 </script>
-
 ```
 
 ## AmplifyEventBus
@@ -57,7 +55,7 @@ The aws-amplify-vue package implements a Vue EventBus for emitted and listening 
 To listen to these events within one of your components, import the EventBus:
 
 ```javascript
-import { AmplifyEventBus } from 'aws-amplify-vue';
+import { AmplifyEventBus } from 'aws-amplify-vue'
 ```
 
 Then, register an event listener (potentially within a lifecycle hook):
@@ -65,21 +63,22 @@ Then, register an event listener (potentially within a lifecycle hook):
 ```javascript
 AmplifyEventBus.$on('authState', info => {
   console.log(`Here is the auth event that was just emitted by an Amplify component: ${info}`)
-});
+})
 ```
 
 ## AmplifyPlugin
 
-The aws-amplify-vue package provides a Vue plugin to access the Amplify library.  You installed the plugin when you set up your application:
+The aws-amplify-vue package provides a Vue plugin to access the Amplify library. You installed the plugin when you set up your application:
 
-```Vue.use(AmplifyVue.plugins.amplifyPlugin, {AmplifyModules})```
+```javascript
+Vue.use(AmplifyVue.plugins.amplifyPlugin, { AmplifyModules })
+```
 
-This makes the Amplify library available to the aws-amplify-vue components as well as your application. Please note that you can restrict the modules that are made available to the plugin by passing only specific modules in the second argument of ```Vue.use``` call.
+This makes the Amplify library available to the aws-amplify-vue components as well as your application. Please note that you can restrict the modules that are made available to the plugin by passing only specific modules in the second argument of `Vue.use` call.
 
 ### Using the AmplifyPlugin
 
-To call the Amplify library, simply use ``this.$Amplify.`` followed by whichever module you wish to use.
-
+To call the Amplify library, simply use `this.$Amplify.` followed by whichever module you wish to use.
 
 ## Authentication Components
 
@@ -93,12 +92,11 @@ The Authenticator component provides basic login/logout functionality for your a
 * ConfirmSignUp
 * ForgotPassword
 
+Usage: `<amplify-authenticator></amplify-authenticator>`
 
-Usage: ```<amplify-authenticator></amplify-authenticator>```
+Config:
 
-Config: 
-
-```
+```html
 <amplify-authenticator v-bind:authConfig="authConfig"></amplify-authenticator>
 ```
 
@@ -111,59 +109,60 @@ Config:
 | [signUpConfig](#signupconfig)                            | object |
 | [usernameAttributes](#Sign-up/in-with-email/phone-number)| string |
 
-&ast; The attributes above reference the config objects for the components that are nested inside Authenticator.  See the individual components for details. 
-
+&ast; The attributes above reference the config objects for the components that are nested inside Authenticator. See the individual components for details.
 
 Events: None
 
 ### SignIn
 
-The SignIn component provides your users with the ability to sign in.  
+The SignIn component provides your users with the ability to sign in.
 
-Usage: ```<amplify-sign-in></amplify-sign-in>```
+Usage: `<amplify-sign-in></amplify-sign-in>`
 
 Config:
-```
+
+```html
 <amplify-sign-in v-bind:signInConfig="signInConfig"></amplify-sign-in>
 ```
 
 {% include sign-in-attributes.html %}
 
-Events: 
+Events:
 
-* ```AmplifyEventBus.$emit('authState', 'signedIn')```: Emitted when a user successfully signs in without answering an MFA challenge.
-* ```AmplifyEventBus.$emit('authState', 'confirmSignIn')```: Emitted when a user successfully provides their credentials but is then asked to answer and MFA challenge.
-* ```AmplifyEventBus.$emit('authState', 'forgotPassword')```: Emitted when a user clicks the 'Forgot Password' button.
-* ```AmplifyEventBus.$emit('authState', 'signUp')```: Emitted when a user clicks 'Back to Sign Up'.
+* `AmplifyEventBus.$emit('authState', 'signedIn')`: Emitted when a user successfully signs in without answering an MFA challenge.
+* `AmplifyEventBus.$emit('authState', 'confirmSignIn')`: Emitted when a user successfully provides their credentials but is then asked to answer and MFA challenge.
+* `AmplifyEventBus.$emit('authState', 'forgotPassword')`: Emitted when a user clicks the 'Forgot Password' button.
+* `AmplifyEventBus.$emit('authState', 'signUp')`: Emitted when a user clicks 'Back to Sign Up'.
 
 ### ConfirmSignIn
 
-The ConfirmSignIn component provides your users with the ability to answer an MFA challenge.  
+The ConfirmSignIn component provides your users with the ability to answer an MFA challenge.
 
-Usage: ```<amplify-confirm-sign-in></amplify-confirm-sign-in>```
+Usage: `<amplify-confirm-sign-in></amplify-confirm-sign-in>`
 
 Config:
-```
+
+```html
 <amplify-confirm-sign-in v-bind:confirmSignInConfig="confirmSignInConfig"></amplify-confirm-sign-in>
 ```
 
 {% include confirm-sign-in-attributes.html %}
 
+Events:
 
-Events: 
-
-* ```AmplifyEventBus.$emit('authState', 'signedIn')```: Emitted when a user successfully answers their MFA challenge.
-* ```AmplifyEventBus.$emit('authState', 'signIn');```: Emitted when a user clicks 'Back to Sign In'.
+* `AmplifyEventBus.$emit('authState', 'signedIn')`: Emitted when a user successfully answers their MFA challenge.
+* `AmplifyEventBus.$emit('authState', 'signIn');`: Emitted when a user clicks 'Back to Sign In'.
 
 
 ### SignUp
 
-The SignUp component provides your users with the ability to sign up.  
+The SignUp component provides your users with the ability to sign up.
 
-Usage: ```<amplify-sign-up></amplify-sign-up>```
+Usage: `<amplify-sign-up></amplify-sign-up>`
 
 Config:
-```
+
+```html
 <amplify-sign-up v-bind:signUpConfig="signUpConfig"></amplify-sign-up>
 ```
 
@@ -171,79 +170,79 @@ Config:
 
 The signUpFields array in turn consist of an array of objects, each describing a field that will appear in sign up form that your users fill out (see below).
 
-Events: 
+Events:
 
-* ```AmplifyEventBus.$emit('authState', 'confirmSignUp')```: Emitted when a user successfully enters their information but has not yet completed a required verification step.
-* ```AmplifyEventBus.$emit('authState', 'signIn')```: Emitted when a user successfully provides their information and does not need to complete a required verification step, or when they click 'Back to Sign In'.
+* `AmplifyEventBus.$emit('authState', 'confirmSignUp')`: Emitted when a user successfully enters their information but has not yet completed a required verification step.
+* `AmplifyEventBus.$emit('authState', 'signIn')`: Emitted when a user successfully provides their information and does not need to complete a required verification step, or when they click 'Back to Sign In'.
 
 
 ### ConfirmSignUp
 
-The ConfirmSignUp component provides your users with the ability to verify their identity.  
+The ConfirmSignUp component provides your users with the ability to verify their identity.
 
-Usage: ```<amplify-confirm-sign-up></amplify-confirm-sign-up>```
+Usage: `<amplify-confirm-sign-up></amplify-confirm-sign-up>`
 
 Config:
-```
+
+```html
 <amplify-sign-in v-bind:confirmSignUpConfig="confirmSignUpConfig"></amplify-sign-in>
 ```
 
 {% include confirm-sign-up-attributes.html %}
 
+Events:
 
-Events: 
-
-* ```AmplifyEventBus.$emit('authState', 'signIn')```: Emitted when a user successfully completes their verification step or clicks 'Back to Sign In'.
+* `AmplifyEventBus.$emit('authState', 'signIn')`: Emitted when a user successfully completes their verification step or clicks 'Back to Sign In'.
 
 ### ForgotPassword
 
-The ForgotPassword component provides your users with the ability to reset their password.  
+The ForgotPassword component provides your users with the ability to reset their password.
 
-Usage: ```<amplify-forgot-password></amplify-forgot-password>```
+Usage: `<amplify-forgot-password></amplify-forgot-password>`
 
 Config:
-```
+
+```html
 <amplify-forgot-password v-bind:forgotPasswordConfig="forgotPasswordConfig"></amplify-forgot-password>
 ```
 
 {% include forgot-password-attributes.html %}
 
+Events:
 
-Events: 
-
-* ```AmplifyEventBus.$emit('authState', 'signIn')```: Emitted when a user successfully resets their password or clicks 'Back to Sign In'.
+* `AmplifyEventBus.$emit('authState', 'signIn')`: Emitted when a user successfully resets their password or clicks 'Back to Sign In'.
 
 ### SignOut
 
-The SignOut component provides your users with the ability to sign out.  
+The SignOut component provides your users with the ability to sign out.
 
-Usage: ```<amplify-sign-out></amplify-sign-out>```
+Usage: `<amplify-sign-out></amplify-sign-out>`
 
 Config:
-```
+
+```html
 <amplify-sign-out v-bind:signOutConfig="signOutConfig"></amplify-sign-out>
 ```
 
 {% include sign-out-attributes.html %}
 
+Events:
 
-Events: 
-
-* ```AmplifyEventBus.$emit('authState', 'signedOut')```: Emitted when a user successfully signs out.
+* `AmplifyEventBus.$emit('authState', 'signedOut')`: Emitted when a user successfully signs out.
 
 ### SetMFA
 
 The SetMFA component provides your users with the ability to set their preferred Multifactor Authentication (MFA) method.  It has the ability to show three options - SMS Text Message, TOTP, or None (depending on the options that you pass into it).
 
-Usage: ```<amplify-set-mfa></amplify-set-mfa>```
+Usage: `<amplify-set-mfa></amplify-set-mfa>`
 
 Config:
-```
+
+```html
 <amplify-set-mfa v-bind:mfaConfig="mfaConfig"></amplify-set-mfa>
 ```
 
 {% include set-mfa-attributes.html %}
-
 
 Events: None
 
@@ -251,18 +250,20 @@ Events: None
 
 The `aws-amplify-vue` SignUp component allows you to programmatically define the user input fields that are displayed to the user. Information entered into these fields will populate the user's record in your User Pool.
 
-Usage: 
+Usage:
 
-```
+```html
 <amplify-sign-up v-bind:signUpConfig="signUpConfig"></amplify-sign-up>
-``` 
+```
 
 #### SignUp Field Attributes
+
 {% include sign-up-fields.html %}
 
 The following example will replace all the default sign up fields with the ones defined in the `signUpFields` array. It will also indicate that the `Email` field will be used to sign up with.
 
 `MyComponent.vue`:
+
 ```html
 <template>
   <div>
@@ -321,6 +322,7 @@ export default {
 ```
 
 ### Sign up/in with email/phone number
+
 If the user pool is set to allow email addresses/phone numbers as the username, you can then change the UI components accordingly by using `usernameAttributes`.
 
 Setting `usernameAttributes` to `email` when signing up/in with email address.
@@ -329,6 +331,7 @@ Setting `usernameAttributes` to `phone_number` when signing up/in with phone num
 Note: if you are using custom signUpFields to customize the `username` field, then you need to make sure either the label of that field is the same value you set in `usernameAttributes` or the key of the field is `username`.
 
 For example:
+
 ```html
 <template>
   <div>
@@ -385,6 +388,7 @@ export default {
   }
 </script>
 ```
+
 ## API Components
 
 ### Connect
@@ -409,8 +413,8 @@ The Connect component can be used to execute a GraphQL query, subscription, or m
 </template>
 
 <script>
-import { components } from 'aws-amplify-vue';
-import TodoList from '@/components/TodoList.vue';
+import { components } from 'aws-amplify-vue'
+import TodoList from '@/components/TodoList.vue'
 
 const ListTodosQuery = `query ListTodos {
     listTodos {
@@ -419,7 +423,7 @@ const ListTodosQuery = `query ListTodos {
         name
       }
     }
-  }`;
+  }`
 
 export default {
   components: {
@@ -428,7 +432,7 @@ export default {
   },
   computed: {
     listTodosQuery() {
-      return this.$Amplify.graphqlOperation(ListTodosQuery);
+      return this.$Amplify.graphqlOperation(ListTodosQuery)
     }
   }
 }
@@ -457,8 +461,8 @@ You can also subscribe to changes in query data via the `subscription` and `onSu
 </template>
 
 <script>
-import { components } from 'aws-amplify-vue';
-import TodoList from '@/components/TodoList.vue';
+import { components } from 'aws-amplify-vue'
+import TodoList from '@/components/TodoList.vue'
 
 const ListTodosQuery = `query ListTodos {
     listTodos {
@@ -467,14 +471,14 @@ const ListTodosQuery = `query ListTodos {
         name
       }
     }
-  }`;
+  }`
 
   const OnCreateTodoSubscription = `subscription OnCreateTodo {
       onCreateTodo {
         id
         name
       }
-    }`;
+    }`
 
 export default {
   name: 'home',
@@ -484,18 +488,18 @@ export default {
   },
   computed: {
     listTodosQuery() {
-      return this.$Amplify.graphqlOperation(ListTodosQuery);
+      return this.$Amplify.graphqlOperation(ListTodosQuery)
     },
     createTodoSubscription() {
-      return this.$Amplify.graphqlOperation(OnCreateTodoSubscription);
+      return this.$Amplify.graphqlOperation(OnCreateTodoSubscription)
     }
   },
   methods: {
     onCreateTodo(prevData, newData) {
-      console.log('New todo from subscription...');
+      console.log('New todo from subscription...')
       const newTodo = newData.onCreateTodo;
-      prevData.data.listTodos.items.push(newTodo);
-      return prevData.data;
+      prevData.data.listTodos.items.push(newTodo)
+      return prevData.data
     }
   }
 }
@@ -519,14 +523,14 @@ The Connect component also supports mutations by passing a GraphQL query and (op
 </template>
 
 <script>
-import { components } from 'aws-amplify-vue';
+import { components } from 'aws-amplify-vue'
 
 const CreateTodoMutation = `mutation CreateTodo($name: String!, $description: String) {
     createTodo(input: { name: $name, description: $description }) {
       id
       name
     }
-  }`;
+  }`
 
 export default {
   name: 'NewTodo',
@@ -542,20 +546,17 @@ export default {
   computed: {
     createTodoMutation() {
       return this.$Amplify.graphqlOperation(CreateTodoMutation,
-        { name: this.name, description: this.description });
+        { name: this.name, description: this.description })
     }
   },
   methods: {
     onCreateFinished() {
-      console.log('Todo created!');
+      console.log('Todo created!')
     }
   }
 }
 </script>
 ```
-
-
-
 
 ## Storage Components
 
@@ -563,10 +564,11 @@ export default {
 
 The PhotoPicker component provides your users to select and preview a file for upload to S3.
 
-Usage: ```<amplify-photo-picker></amplify-photo-picker>```
+Usage: `<amplify-photo-picker></amplify-photo-picker>`
 
 Config:
-```
+
+```html
 <amplify-photo-picker v-bind:photoPickerConfig="photoPickerConfig"></amplify-photo-picker>
 ```
 
@@ -576,20 +578,17 @@ The storageOptions prop object is passed as the 'options' parameter to the .put 
 
 Events:
 
-* ```AmplifyEventBus.$emit('fileUpload', img)```: Emitted when a file is uploaded (includes the image path)
-
+* `AmplifyEventBus.$emit('fileUpload', img)`: Emitted when a file is uploaded (includes the image path)
 
 ### S3Album
 
 The S3Album component displays the image files from the provided S3 path.
 
-Usage: ```<amplify-s3-album path="uploads"></amplify-s3-album>```
+Usage: `<amplify-s3-album path="uploads"></amplify-s3-album>`
 
 Props:
 
-The S3Album component accepts a 'path' prop (mandatory). It can also accept a s3AlbumConfig prop object which is passed as the 'options' parameter to the .get request.  This can be used to set the 'level' of the objects being requested (i.e. 'protected', 'private', or 'public').
-
-
+The S3Album component accepts a `path` prop (mandatory). It can also accept a `s3AlbumConfig` prop object which is passed as the `options` parameter to the .get request.  This can be used to set the `level` of the objects being requested (i.e. `protected`, `private`, or `public`).
 
 Events: None
 
@@ -597,11 +596,11 @@ Events: None
 
 The S3Image component displays a single image from the provided path.
 
-Usage: ```<amplify-s3-image imagePath="path"></amplify-s3-image>```
+Usage: `<amplify-s3-image imagePath="path"></amplify-s3-image>`
 
 Props:
 
-The S3Image component does not have a config object like most other amplify-vue components. Instead it receives the S3 image path as a string.  The path is required. 
+The S3Image component does not have a config object like most other amplify-vue components. Instead it receives the S3 image path as a string.  The path is required.
 
 Events: None
 
@@ -611,38 +610,39 @@ Events: None
 
 The Chatbot component allows your users to interact with an Amazon Lex chatbot.
 
-Usage: ```<amplify-chatbot></amplify-chatbot>```
+Usage: `<amplify-chatbot></amplify-chatbot>`
 
 Config:
-```
+
+```html
 <amplify-chatbot v-bind:chatbotConfig="chatbotConfig"></amplify-chatbot>
 ```
 
 {% include interactions-attributes.html %}
 
 Note: In order for voice input to work with Amazon Lex, you may have to enable Output voice in the AWS Console. Under the Amazon Lex service, click on your configured Lex chatbot and go to Settings -> General and pick your desired Output voice. Then, click Build. If you have forgotten to enable Output voice, you will get an error like this:
+
 ```
 ChatBot Error: Invalid Bot Configuration: This bot does not have a Polly voice ID associated with it. For voice interaction with the user, set a voice ID
 ```
 
-
-
 If not in your aws-exports file, the bot can also be defined in the AWS configure method:
-```
- Interactions: {
-    bots: {
-      "BookTrip": {
-        "name": "BookTrip",
-        "alias": "$LATEST",
-        "region": "us-east-1",
-      },
+
+```json
+Interactions: {
+  bots: {
+    "BookTrip": {
+      "name": "BookTrip",
+      "alias": "$LATEST",
+      "region": "us-east-1"
     }
   }
+}
 ```
 
 Events:
 
-* ```AmplifyEventBus.$emit('chatComplete', this.options.botTitle)```: Emitted when a chat session has been completed (only if the clearComplete options is 'true')
+* `mplifyEventBus.$emit('chatComplete', this.options.botTitle)`: Emitted when a chat session has been completed (only if the clearComplete options is `true`)
 
 ## XR Components
 
@@ -652,12 +652,12 @@ The Sumerian Scene component provides you with a prebuilt UI for loading and dis
 
 {% include_relative common/scene-size-note.md %}
 
-Usage: ```<amplify-sumerian-scene></amplify-sumerian-scene>```
+Usage: `<amplify-sumerian-scene></amplify-sumerian-scene>`
 
 Options:
 
-```javascript
-// scene-name: the configured friendly scene you would like to load
+```html
+<!-- scene-name: the configured friendly scene you would like to load -->
 <amplify-sumerian-scene scene-name="scene1"></amplify-sumerian-scene>
 ```
 

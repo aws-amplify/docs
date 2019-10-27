@@ -61,14 +61,14 @@ After adding your Social provider information into the Amplify project setup, th
 ![Image]({{common_media}}/cognitoHostedUI/facebook4.png)
 5. Under Website, type your user pool domain with the /oauth2/idpresponse endpoint into *Site URL*
 
-    ```https://<your-user-pool-domain>/oauth2/idpresponse```
+    `https://<your-user-pool-domain>/oauth2/idpresponse`
 
     ![Image]({{common_media}}/cognitoHostedUI/facebook5.png)
 6. Save changes.
 7. Type your user pool domain into *App Domains*:
 
-    ```https://<your-user-pool-domain>```
-    
+    `https://<your-user-pool-domain>`
+
     ![Image]({{common_media}}/cognitoHostedUI/facebook6.png)
 8. Save changes.
 9. From the navigation bar choose *Products* and then *Set up* from *Facebook Login*.
@@ -76,7 +76,7 @@ After adding your Social provider information into the Amplify project setup, th
 10. From the navigation bar choose *Facebook Login* and then *Settings*.
 11. Type your redirect URL into *Valid OAuth Redirect URIs*. It will consist of your user pool domain with the /oauth2/idpresponse endpoint.
 
-    ```https://<your-user-pool-domain>/oauth2/idpresponse```
+    `https://<your-user-pool-domain>/oauth2/idpresponse`
 
     ![Image]({{common_media}}/cognitoHostedUI/facebook8.png)
 12. Save changes.

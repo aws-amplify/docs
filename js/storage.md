@@ -1,6 +1,7 @@
 ---
 title: Storage
 ---
+
 {% if jekyll.environment == 'production' %}
   {% assign base_dir = site.amplify.docs_baseurl %}
 {% endif %}
@@ -43,6 +44,7 @@ $ amplify push
 When your backend is successfully updated, your new configuration file `aws-exports.js` is copied under your source directory, e.g. '/src'.
 
 ##### Lambda Triggers
+
 If you want to enable triggers for the storage category with Amazon S3 & Amazon DynamoDB as providers, the CLI supports associating Lambda triggers with S3 and DynamoDB events. For example, this can be useful for a use case where you want to invoke a Lambda function after a create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)
 
 ##### Configure Your App
@@ -50,9 +52,9 @@ If you want to enable triggers for the storage category with Amazon S3 & Amazon 
 In your app's entry point *i.e. App.js*, import and load the configuration file `aws-exports.js` which has been created and replaced into `/src` folder in the previous step.
 
 ```javascript
-import Amplify, { Storage } from 'aws-amplify';
-import awsconfig from './aws-exports';
-Amplify.configure(awsconfig);
+import Amplify, { Storage } from 'aws-amplify'
+import awsconfig from './aws-exports'
+Amplify.configure(awsconfig)
 ```
 
 ### Manual Setup
@@ -60,23 +62,22 @@ Amplify.configure(awsconfig);
 Manual setup enables you to use your existing Amazon Cognito and Amazon S3 credentials in your app:
 
 ```javascript
-import Amplify from 'aws-amplify';
+import Amplify from 'aws-amplify'
 
 Amplify.configure({
-    Auth: {
-        identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab', //REQUIRED - Amazon Cognito Identity Pool ID
-        region: 'XX-XXXX-X', // REQUIRED - Amazon Cognito Region
-        userPoolId: 'XX-XXXX-X_abcd1234', //OPTIONAL - Amazon Cognito User Pool ID
-        userPoolWebClientId: 'XX-XXXX-X_abcd1234', //OPTIONAL - Amazon Cognito Web Client ID
-    },
-    Storage: {
-        AWSS3: {
-            bucket: '', //REQUIRED -  Amazon S3 bucket
-            region: 'XX-XXXX-X', //OPTIONAL -  Amazon service region
-        }
+  Auth: {
+    identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab', //REQUIRED - Amazon Cognito Identity Pool ID
+    region: 'XX-XXXX-X', // REQUIRED - Amazon Cognito Region
+    userPoolId: 'XX-XXXX-X_abcd1234', //OPTIONAL - Amazon Cognito User Pool ID
+    userPoolWebClientId: 'XX-XXXX-X_abcd1234' //OPTIONAL - Amazon Cognito Web Client ID
+  },
+  Storage: {
+    AWSS3: {
+      bucket: '', //REQUIRED -  Amazon S3 bucket
+      region: 'XX-XXXX-X' //OPTIONAL -  Amazon service region
     }
-});
-
+  }
+})
 ```
 
 ### Mocking and Local Testing
@@ -87,67 +88,67 @@ Amplify supports running a local mock server for testing your application with S
 
 If you set up your Cognito resources manually, the roles will need to be given permission to access the S3 bucket.
 
-There are two roles created by Cognito: an `Auth_Role` that grants signed-in-user-level bucket access and an `Unauth_Role` that allows unauthenticated access to resources. Attach the corresponding policies to each role for proper S3 access. Replace ```{enter bucket name}``` with the correct S3 bucket.
+There are two roles created by Cognito: an `Auth_Role` that grants signed-in-user-level bucket access and an `Unauth_Role` that allows unauthenticated access to resources. Attach the corresponding policies to each role for proper S3 access. Replace `{enter bucket name}` with the correct S3 bucket.
 
 Inline policy for the `Auth_Role`:
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Action": [
-                "s3:GetObject",
-                "s3:PutObject",
-                "s3:DeleteObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::{enter bucket name}/public/*",
-                "arn:aws:s3:::{enter bucket name}/protected/${cognito-identity.amazonaws.com:sub}/*",
-                "arn:aws:s3:::{enter bucket name}/private/${cognito-identity.amazonaws.com:sub}/*"
-            ],
-            "Effect": "Allow"
-        },
-        {
-            "Action": [
-                "s3:PutObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::{enter bucket name}/uploads/*"
-            ],
-            "Effect": "Allow"
-        },
-        {
-            "Action": [
-                "s3:GetObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::{enter bucket name}/protected/*"
-            ],
-            "Effect": "Allow"
-        },
-        {
-            "Condition": {
-                "StringLike": {
-                    "s3:prefix": [
-                        "public/",
-                        "public/*",
-                        "protected/",
-                        "protected/*",
-                        "private/${cognito-identity.amazonaws.com:sub}/",
-                        "private/${cognito-identity.amazonaws.com:sub}/*"
-                    ]
-                }
-            },
-            "Action": [
-                "s3:ListBucket"
-            ],
-            "Resource": [
-                "arn:aws:s3:::{enter bucket name}"
-            ],
-            "Effect": "Allow"
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::{enter bucket name}/public/*",
+        "arn:aws:s3:::{enter bucket name}/protected/${cognito-identity.amazonaws.com:sub}/*",
+        "arn:aws:s3:::{enter bucket name}/private/${cognito-identity.amazonaws.com:sub}/*"
+      ],
+      "Effect": "Allow"
+    },
+    {
+      "Action": [
+        "s3:PutObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::{enter bucket name}/uploads/*"
+      ],
+      "Effect": "Allow"
+    },
+    {
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::{enter bucket name}/protected/*"
+      ],
+      "Effect": "Allow"
+    },
+    {
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": [
+            "public/",
+            "public/*",
+            "protected/",
+            "protected/*",
+            "private/${cognito-identity.amazonaws.com:sub}/",
+            "private/${cognito-identity.amazonaws.com:sub}/*"
+          ]
         }
-    ]
+      },
+      "Action": [
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::{enter bucket name}"
+      ],
+      "Effect": "Allow"
+    }
+  ]
 }
 ```
 
@@ -155,57 +156,57 @@ Inline policy for the `Unauth_Role`:
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Action": [
-                "s3:GetObject",
-                "s3:PutObject",
-                "s3:DeleteObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::{enter bucket name}/public/*"
-            ],
-            "Effect": "Allow"
-        },
-        {
-            "Action": [
-                "s3:PutObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::{enter bucket name}/uploads/*"
-            ],
-            "Effect": "Allow"
-        },
-        {
-            "Action": [
-                "s3:GetObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::{enter bucket name}/protected/*"
-            ],
-            "Effect": "Allow"
-        },
-        {
-            "Condition": {
-                "StringLike": {
-                    "s3:prefix": [
-                        "public/",
-                        "public/*",
-                        "protected/",
-                        "protected/*"
-                    ]
-                }
-            },
-            "Action": [
-                "s3:ListBucket"
-            ],
-            "Resource": [
-                "arn:aws:s3:::{enter bucket name}"
-            ],
-            "Effect": "Allow"
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::{enter bucket name}/public/*"
+      ],
+      "Effect": "Allow"
+    },
+    {
+      "Action": [
+        "s3:PutObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::{enter bucket name}/uploads/*"
+      ],
+      "Effect": "Allow"
+    },
+    {
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::{enter bucket name}/protected/*"
+      ],
+      "Effect": "Allow"
+    },
+    {
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": [
+            "public/",
+            "public/*",
+            "protected/",
+            "protected/*"
+          ]
         }
-    ]
+      },
+      "Action": [
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::{enter bucket name}"
+      ],
+      "Effect": "Allow"
+    }
+  ]
 }
 ```
 
@@ -216,16 +217,16 @@ The policy template that Amplify CLI uses is found [here](https://github.com/aws
 To make calls to your S3 bucket from your App, you need to set up a CORS Policy for your S3 bucket.
 {: .callout .callout--warning}
 
-The following steps will set up your CORS Policy: 
+The following steps will set up your CORS Policy:
 
-1. Go to [Amazon S3 Console](https://s3.console.aws.amazon.com/s3/home?region=us-east-1) and click on your project's `userfiles` bucket, which is normally named as [Project Name]-userfiles-mobilehub-[App Id]. 
+1. Go to [Amazon S3 Console](https://s3.console.aws.amazon.com/s3/home?region=us-east-1) and click on your project's `userfiles` bucket, which is normally named as [Project Name]-userfiles-mobilehub-[App Id].
 2. Click on the **Permissions** tab for your bucket, and then click on the **CORS configuration** tile.
 3. Update your bucket's CORS Policy to look like:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
-<CORSRule>
+  <CORSRule>
     <AllowedOrigin>*</AllowedOrigin>
     <AllowedMethod>HEAD</AllowedMethod>
     <AllowedMethod>GET</AllowedMethod>
@@ -238,7 +239,7 @@ The following steps will set up your CORS Policy:
     <ExposeHeader>x-amz-id-2</ExposeHeader>
     <ExposeHeader>ETag</ExposeHeader>
     <AllowedHeader>*</AllowedHeader>
-</CORSRule>
+  </CORSRule>
 </CORSConfiguration>
 ```
 
@@ -265,50 +266,52 @@ Default access level for Storage module is `public`. Unless you configure Storag
 Access level configuration on the Storage object:
 
 ```javascript
-Storage.configure({ level: 'private' });
+Storage.configure({ level: 'private' })
 
-Storage.get('welcome.png'); // Gets the welcome.png belonging to current user
+Storage.get('welcome.png') // Gets the welcome.png belonging to current user
 ```
 
 Configuration when calling the API:
 
 ```javascript
-Storage.get('welcome.png', { level: 'public' }); // Gets welcome.png in public space
+Storage.get('welcome.png', { level: 'public' }) // Gets welcome.png in public space
 ```
 
 The default access level is `public`:
 ```javascript
-Storage.get('welcome.png'); // Get welcome.png in public space
+Storage.get('welcome.png') // Get welcome.png in public space
 ```
 
 There is also a shortcut `vault`, which is merely a Storage instance with `private` level set:
 
 ```javascript
-Storage.vault.get('welcome.png'); // Get the welcome.png belonging to current user
+Storage.vault.get('welcome.png') // Get the welcome.png belonging to current user
 ```
 
 ## Working with the API
 
 Import *Storage* from the aws-amplify library:
+
 ```javascript
-import { Auth, Storage } from 'aws-amplify';
+import { Auth, Storage } from 'aws-amplify'
 ```
 
-If you use `aws-exports.js` file, Storage is already configured when you call `Amplify.configure(awsconfig)`. To configure Storage manually, you will have to configure Amplify Auth category too.  
+If you use `aws-exports.js` file, Storage is already configured when you call `Amplify.configure(awsconfig)`. To configure Storage manually, you will have to configure Amplify Auth category too.
+
 ```javascript
 Auth.configure(
-    // To get the aws credentials, you need to configure 
-    // the Auth module with your Cognito Federated Identity Pool
-    identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab',
-    region: 'XX-XXXX-X',
+  // To get the aws credentials, you need to configure
+  // the Auth module with your Cognito Federated Identity Pool
+  identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab',
+  region: 'XX-XXXX-X'
 );
 
 Storage.configure({
-    AWSS3: {
-        bucket: '',//Your bucket name;
-        region: ''//Specify the region your bucket was created in;
-    }
-});
+  AWSS3: {
+    bucket: '', // Your bucket name;
+    region: '' // Specify the region your bucket was created in;
+  }
+})
 ```
 
 ---
@@ -321,63 +324,63 @@ It returns a `{key: S3 Object key}` object on success:
 
 ```javascript
 Storage.put('test.txt', 'Hello')
-    .then (result => console.log(result)) // {key: "test.txt"}
-    .catch(err => console.log(err));
+  .then (result => console.log(result)) // {key: "test.txt"}
+  .catch(err => console.log(err))
 ```
 
 Public level:
 
 ```javascript
 Storage.put('test.txt', 'Hello')
-    .then (result => console.log(result))
-    .catch(err => console.log(err));
+  .then (result => console.log(result))
+  .catch(err => console.log(err))
 ```
 
 Protected level:
 
 ```javascript
 Storage.put('test.txt', 'Protected Content', {
-    level: 'protected',
-    contentType: 'text/plain'
+  level: 'protected',
+  contentType: 'text/plain'
 })
 .then (result => console.log(result))
-.catch(err => console.log(err));
+.catch(err => console.log(err))
 ```
 
 Private level:
 
 ```javascript
 Storage.put('test.txt', 'Private Content', {
-    level: 'private',
-    contentType: 'text/plain'
+  level: 'private',
+  contentType: 'text/plain'
 })
 .then (result => console.log(result))
-.catch(err => console.log(err));
+.catch(err => console.log(err))
 ```
 
-To track the progress of your upload, you can use the ```progressCallback```: 
+To track the progress of your upload, you can use the `progressCallback`:
 
 ```javascript
 Storage.put('test.txt', 'File content', {
-    progressCallback(progress) {
-        console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
-  },
-});
+  progressCallback(progress) {
+    console.log(`Uploaded: ${progress.loaded}/${progress.total}`)
+  }
+})
 ```
 
 To utilize Server-Side Encryption with AWS KMS, the following options can be passed in with the Put API like so:
 
 ```javascript
-const serverSideEncryption = AES256 | aws:kms;
-const SSECustomerAlgorithm = 'string';
-const SSECustomerKey = new Buffer('...') || 'string';
-const SSECustomerKeyMD5 = 'string';
-const SSEKMSKeyId = 'string';
+const serverSideEncryption = AES256 | aws:kms
+const SSECustomerAlgorithm = 'string'
+const SSECustomerKey = new Buffer('...') || 'string'
+const SSECustomerKeyMD5 = 'string'
+const SSEKMSKeyId = 'string'
 Storage.put('test.txt', 'File content', {
-    serverSideEncryption, SSECustomerAlgorithm, SSECustomerKey, SSECustomerKeyMD5, SSEKMSKeyId
+  serverSideEncryption, SSECustomerAlgorithm, SSECustomerKey, SSECustomerKeyMD5, SSEKMSKeyId
 })
 .then (result => console.log(result))
-.catch (err => console.log(err));
+.catch (err => console.log(err))
 ```
 
 Other options available are:
@@ -387,33 +390,33 @@ Storage.put('test.txt', 'My Content', {
     cacheControl: '', // (String) Specifies caching behavior along the request/reply chain
     contentDisposition: '', // (String) Specifies presentational information for the object
     expires: new Date().now() + 60 * 60 * 24 * 7, // (Date) The date and time at which the object is no longer cacheable. ISO-8601 string, or a UNIX timestamp in seconds
-    metadata: { key: 'value' }, // (map<String>) A map of metadata to store with the object in S3.
+    metadata: { key: 'value' } // (map<String>) A map of metadata to store with the object in S3.
 })
 .then (result => console.log(result))
-.catch(err => console.log(err));
+.catch(err => console.log(err))
 ```
-
 
 Upload an image in the browser:
 
 ```javascript
 class S3ImageUpload extends React.Component {
   onChange(e) {
-      const file = e.target.files[0];
-      Storage.put('example.png', file, {
-          contentType: 'image/png'
-      })
-      .then (result => console.log(result))
-      .catch(err => console.log(err));
+    const file = e.target.files[0];
+    Storage.put('example.png', file, {
+      contentType: 'image/png'
+    })
+    .then (result => console.log(result))
+    .catch(err => console.log(err))
   }
 
   render() {
-      return (
-          <input
-              type="file" accept='image/png'
-              onChange={(e) => this.onChange(e)}
-          />
-      )
+    return (
+      <input
+        type='file'
+        accept='image/png'
+        onChange={(e) => this.onChange(e)}
+      />
+    )
   }
 }
 ```
@@ -424,11 +427,11 @@ Upload an image in React Native app:
 uploadToStorage = async pathToImageFile => {
   try {
     const response = await fetch(pathToImageFile)
-    
+
     const blob = await response.blob()
-    
+
     Storage.put('yourKeyHere.jpeg', blob, {
-      contentType: 'image/jpeg',
+      contentType: 'image/jpeg'
     })
   } catch (err) {
     console.log(err)
@@ -444,66 +447,74 @@ When a networking error happens during the upload, Storage module retries upload
 Retrieves a publicly accessible URL for data stored.
 
 Public level:
+
 ```javascript
 Storage.get('test.txt')
-    .then(result => console.log(result))
-    .catch(err => console.log(err));
+  .then(result => console.log(result))
+  .catch(err => console.log(err))
 ```
 
 Protected level:
 To get current user's objects
+
 ```javascript
 Storage.get('test.txt', { level: 'protected' })
-    .then(result => console.log(result))
-    .catch(err => console.log(err));
+  .then(result => console.log(result))
+  .catch(err => console.log(err))
 ```
+
 To get other users' objects
+
 ```javascript
-Storage.get('test.txt', { 
-    level: 'protected', 
-    identityId: 'xxxxxxx' // the identityId of that user
+Storage.get('test.txt', {
+  level: 'protected',
+  identityId: 'xxxxxxx' // the identityId of that user
 })
 .then(result => console.log(result))
-.catch(err => console.log(err));
+.catch(err => console.log(err))
 ```
 
 Private level:
+
 ```javascript
-Storage.get('test.txt', {level: 'private'})
-    .then(result => console.log(result))
-    .catch(err => console.log(err));
+Storage.get('test.txt', { level: 'private' })
+  .then(result => console.log(result))
+  .catch(err => console.log(err))
 ```
 
 You can use `expires` option to limit the availability of your URLs. This configuration returns the pre-signed URL that expires in 60 seconds:
+
 ```javascript
-Storage.get('test.txt', {expires: 60})
-    .then(result => console.log(result))
-    .catch(err => console.log(err));
+Storage.get('test.txt', { expires: 60 })
+  .then(result => console.log(result))
+  .catch(err => console.log(err))
 ```
 
 #### Remove
 
 Delete stored data from the storage bucket.
 
-Public level: 
+Public level:
+
 ```javascript
 Storage.remove('test.txt')
-    .then(result => console.log(result))
-    .catch(err => console.log(err));
+  .then(result => console.log(result))
+  .catch(err => console.log(err))
 ```
 
-Protected level: 
+Protected level:
+
 ```javascript
-Storage.remove('test.txt', {level: 'protected'})
-    .then(result => console.log(result))
-    .catch(err => console.log(err));
+Storage.remove('test.txt', { level: 'protected' })
+  .then(result => console.log(result))
+  .catch(err => console.log(err))
 ```
 
 Private level:
 ```javascript
-Storage.remove('test.txt', {level: 'private'})
-    .then(result => console.log(result))
-    .catch(err => console.log(err));
+Storage.remove('test.txt', { level: 'private' })
+  .then(result => console.log(result))
+  .catch(err => console.log(err))
 ```
 
 #### List keys
@@ -511,41 +522,45 @@ Storage.remove('test.txt', {level: 'private'})
 List keys under path specified.
 
 Public level:
+
 ```javascript
 Storage.list('photos/')
-    .then(result => console.log(result))
-    .catch(err => console.log(err));
+  .then(result => console.log(result))
+  .catch(err => console.log(err))
 ```
 
 Protected level:
 To list current user's objects
+
 ```javascript
 Storage.list('photos/', { level: 'protected' })
-    .then(result => console.log(result))
-    .catch(err => console.log(err));
+  .then(result => console.log(result))
+  .catch(err => console.log(err))
 ```
+
 To get other users' objects
+
 ```javascript
-Storage.list('photos/', { 
-    level: 'protected', 
-    identityId: 'xxxxxxx' // the identityId of that user
+Storage.list('photos/', {
+  level: 'protected',
+  identityId: 'xxxxxxx' // the identityId of that user
 })
 .then(result => console.log(result))
-.catch(err => console.log(err));
+.catch(err => console.log(err))
 ```
 
 Private level:
+
 ```javascript
-Storage.list('photos/', {level: 'private'})
-    .then(result => console.log(result))
-    .catch(err => console.log(err));
+Storage.list('photos/', { level: 'private' })
+  .then(result => console.log(result))
+  .catch(err => console.log(err))
 ```
 
 #### API Reference
 
 For the complete API documentation for Storage module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/storageclass.html)
 {: .callout .callout--info}
-
 
 ## Using a Custom Plugin
 
@@ -554,64 +569,62 @@ You can create your custom pluggable for Storage. This may be helpful if you wan
 To create a plugin implement the `StorageProvider` interface:
 
 ```typescript
-import { Storage, StorageProvider } from 'aws-amplify';
+import { Storage, StorageProvider } from 'aws-amplify'
 
 export default class MyStorageProvider implements StorageProvider {
-    // category and provider name
-    static category = 'Storage';
-    static providerName = 'MyStorage';
+  // category and provider name
+  static category = 'Storage'
+  static providerName = 'MyStorage'
 
-    // you need to implement these seven methods
-    // configure your provider
-    configure(config: object): object;
+  // you need to implement these seven methods
+  // configure your provider
+  configure(config: object): object
 
-    // get object/pre-signed url from storage
-    get(key: string, options?): Promise<String|Object>
+  // get object/pre-signed url from storage
+  get(key: string, options?): Promise<String|Object>
 
-    // upload storage object
-    put(key: string, object, options?): Promise<Object>
+  // upload storage object
+  put(key: string, object, options?): Promise<Object>
 
-    // remove object 
-    remove(key: string, options?): Promise<any>
+  // remove object
+  remove(key: string, options?): Promise<any>
 
-    // list objects for the path
-    list(path, options?): Promise<any>
-    
-    // return 'Storage';
-    getCategory(): string;
-    
-    // return the name of you provider
-    getProviderName(): string;
+  // list objects for the path
+  list(path, options?): Promise<any>
+
+  // return 'Storage';
+  getCategory(): string
+
+  // return the name of you provider
+  getProviderName(): string
 ```
 
 You can now register your pluggable:
 
 ```javascript
 // add the plugin
-Storage.addPluggable(new MyStorageProvider());
+Storage.addPluggable(new MyStorageProvider()
 
 // get the plugin
-Storage.getPluggable(MyStorageProvider.providerName);
+Storage.getPluggable(MyStorageProvider.providerName)
 
 // remove the plulgin
-Storage.removePluggable(MyStorageProvider.providerName);
+Storage.removePluggable(MyStorageProvider.providerName)
 
 // send configuration into Amplify
 Storage.configure({
-    [MyStorageProvider.providerName]: { 
-        // My Storage provider configuration 
-    }
-});
-
+  [MyStorageProvider.providerName]: {
+      // My Storage provider configuration
+  }
+})
 ```
 
-The default provider (Amazon S3) is in use when you call `Storage.put( )` unless you specify a different provider: `Storage.put(key, object, {provider: 'MyStorageProvider'})`. 
+The default provider (Amazon S3) is in use when you call `Storage.put()` unless you specify a different provider: `Storage.put(key, object, { provider: 'MyStorageProvider' })`.
 {: .callout .callout--info}
-
 
 ## Tracking Events
 
-You can enable automatic tracking of storage events such as uploads and downloads, by setting `{ track: true }` when calling the Storage API. 
+You can enable automatic tracking of storage events such as uploads and downloads, by setting `{ track: true }` when calling the Storage API.
 
 (Note: this option is currently only supported in aws-amplify). Enabling this will automatically send Storage events to Amazon Pinpoint and you will be able to see them within the AWS Pinpoint console under Custom Events. The event name will be 'Storage' and in *Event Attributes*, you can see details about the event, e.g. *Storage > Method > Put*.
 
@@ -624,15 +637,14 @@ Storage.configure({ track: true })
 Track a specific storage action:
 
 ```javascript
-Storage.get('welcome.png', { track: true });
+Storage.get('welcome.png', { track: true })
 ```
 
 You can also use the track property directly on [React components](#analytics-for-s3-components).
 
-
 ## UI Components for React
 
-`aws-amplify-react` package provides React UI components for common use cases such as picking a file and image previews. 
+`aws-amplify-react` package provides React UI components for common use cases such as picking a file and image previews.
 
 ### Picker
 
@@ -641,11 +653,12 @@ You can also use the track property directly on [React components](#analytics-fo
 <img src="{%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/photo_picker_and_code.png" width="100%"/>
 
 Listen to `PhotoPicker` onPick event:
-```jsx
+
+```js
 import { PhotoPicker } from 'aws-amplify-react';
 
 render() {
-    <PhotoPicker onPick={data => console.log(data)} />
+  <PhotoPicker onPick={data => console.log(data)} />
 }
 ```
 
@@ -655,7 +668,7 @@ To display a preview, you can use `preview` directive:
 <PhotoPicker preview onLoad={dataURL => console.log(dataURL)} />
 ```
 
-You can retrieve the URL of the image by implementing `onLoad` action. In this case, you may also want to hide the preview:  
+You can retrieve the URL of the image by implementing `onLoad` action. In this case, you may also want to hide the preview:
 
 ```jsx
 <PhotoPicker preview="hidden" onLoad={dataURL => console.log(dataURL)} />
@@ -666,10 +679,10 @@ You can retrieve the URL of the image by implementing `onLoad` action. In this c
 `S3Image` component renders an *Amazon S3 object key* as an image:
 
 ```jsx
-import { S3Image } from 'aws-amplify-react';
+import { S3Image } from 'aws-amplify-react'
 
 render() {
-    return <S3Image imgKey={key} />
+  return <S3Image imgKey={key} />
 }
 ```
 
@@ -691,18 +704,17 @@ To initiate an upload, set the `body` property:
 import { S3Image } from 'aws-amplify-react';
 
 render() {
-    return <S3Image imgKey={key} body={this.state.image_body} />
+  return <S3Image imgKey={key} body={this.state.image_body} />
 }
-
 ```
 
 To hide the image shown in the S3Image, set `hidden`:
 
 ```jsx
-import { S3Image } from 'aws-amplify-react';
+import { S3Image } from 'aws-amplify-react'
 
 render() {
-    return <S3Image hidden imgKey={key} />
+  return <S3Image hidden imgKey={key} />
 }
 ```
 
@@ -732,8 +744,8 @@ To generate a custom key value, you can provide a callback:
 
 ```jsx
 function fileToKey(data) {
-    const { name, size, type } = data;
-    return 'test_' + name;
+  const { name, size, type } = data
+  return 'test_' + name
 }
 
 ...
@@ -754,10 +766,10 @@ function fileToKey(data) {
 <img src="{%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/S3Album_and_code.png" width="100%"/>
 
 ```jsx
-import { S3Album } from 'aws-amplify-react';
+import { S3Album } from 'aws-amplify-react'
 
 render() {
-    return <S3Album path={path} />
+  return <S3Album path={path} />
 ```
 
 To display private objects, supply the `level` property:
@@ -776,17 +788,17 @@ You can use `filter` property customize the path for your album:
 
 ```jsx
 return (
-    <S3Album
-        level="private"
-        path={path}
-        filter={(item) => /jpg/i.test(item.path)}
-    />
+  <S3Album
+    level="private"
+    path={path}
+    filter={(item) => /jpg/i.test(item.path)}
+  />
 );
 ```
 
 **Picker**
 
-Set `picker` property to true on `S3Album`. A `Picker` let user select photos or text files from the device. The selected files will be automatically uploaded to the `path`. 
+Set `picker` property to true on `S3Album`. A `Picker` let user select photos or text files from the device. The selected files will be automatically uploaded to the `path`.
 
 ```jsx
 <S3Album path={path} picker />
@@ -796,12 +808,11 @@ By default, photo picker saves images on S3 with filename as the key. To have cu
 
 ```jsx
 function fileToKey(data) {
-    const { name, size, type } = data;
-    return 'test_' + name;
+  const { name, size, type } = data;
+  return 'test_' + name;
 }
 
-...
-    <S3Album path={path} picker fileToKey={fileToKey} />
+return <S3Album path={path} picker fileToKey={fileToKey} />
 ```
 
 `S3Album` will escape all spaces in key value to underscore. For example, 'a b' will be converted to 'a_b'.
@@ -826,12 +837,10 @@ Enabling tracking will automatically send 'Storage' events to Amazon Pinpoint, a
 Add a photo picker to your components template:
 
 ```html
-
-<amplify-photo-picker 
-    (loaded)="onImagePreviewLoaded($event)"
-    (picked)="onImageSelected($event)">
+<amplify-photo-picker
+  (loaded)="onImagePreviewLoaded($event)"
+  (picked)="onImageSelected($event)">
 </amplify-photo-picker>
-
 ```
 
 ### S3 Album
@@ -839,69 +848,67 @@ Add a photo picker to your components template:
 Add an S3 album component to your template:
 
 ```html
-
-<amplify-s3-album 
-    path="{{s3ListPath}}"
-    (selected)="onAlbumImageSelected($event)">  			
+<amplify-s3-album
+  path="{{s3ListPath}}"
+  (selected)="onAlbumImageSelected($event)">
 </amplify-s3-album>
-
 ```
 
 See the [Angular Guide](https://aws-amplify.github.io/amplify-js/media/angular_guide) for usage.
 
-## Customization 
+## Customization
 
-### Customize Upload Path 
+### Customize Upload Path
 
 You can customize your upload path by defining prefixes:
 
 ```javascript
 const customPrefix = {
-    public: 'myPublicPrefix/',
-    protected: 'myProtectedPrefix/',
-    private: 'myPrivatePrefix/'
+  public: 'myPublicPrefix/',
+  protected: 'myProtectedPrefix/',
+  private: 'myPrivatePrefix/'
 };
 
 Storage.put('test.txt', 'Hello', {
-    customPrefix: customPrefix,
-    // ...
+  customPrefix: customPrefix,
+  // ...
 })
 .then (result => console.log(result))
-.catch(err => console.log(err));
+.catch(err => console.log(err))
 ```
 
 For example, if you want to enable read, write and delete operation for all the objects under path *myPublicPrefix/*,  declare it in your IAM policy:
 
 ```xml
 "Statement": [
-    {
-        "Effect": "Allow",
-        "Action": [
-            "s3:GetObject",
-            "s3:PutObject",
-            "s3:DeleteObject"
-        ],
-        "Resource": [
-            "arn:aws:s3:::your-s3-bucket/myPublicPrefix/*",
-        ]
-    }
+  {
+    "Effect": "Allow",
+    "Action": [
+      "s3:GetObject",
+      "s3:PutObject",
+      "s3:DeleteObject"
+    ],
+    "Resource": [
+      "arn:aws:s3:::your-s3-bucket/myPublicPrefix/*",
+    ]
+  }
 ]
 ```
 
 If you want to have custom *private* path prefix like *myPrivatePrefix/*, you need to add it into your IAM policy:
 ```xml
 "Statement": [
-    {
-        "Effect": "Allow",
-        "Action": [
-            "s3:GetObject",
-            "s3:PutObject",
-            "s3:DeleteObject"
-        ],
-        "Resource": [
-            "arn:aws:s3:::your-s3-bucket/myPrivatePrefix/${cognito-identity.amazonaws.com:sub}/*"
-        ]
-    }
+  {
+    "Effect": "Allow",
+    "Action": [
+      "s3:GetObject",
+      "s3:PutObject",
+      "s3:DeleteObject"
+    ],
+    "Resource": [
+      "arn:aws:s3:::your-s3-bucket/myPrivatePrefix/${cognito-identity.amazonaws.com:sub}/*"
+    ]
+  }
 ]
 ```
 This ensures only the authenticated users has the access to the objects under the path.
@@ -913,8 +920,7 @@ Note: if you're using Cognito Federated Identity Pool to get AWS credentials, pl
 
 Then in your code, you can import the Storage module by:
 ```javascript
-import Storage from '@aws-amplify/storage';
+import Storage from '@aws-amplify/storage'
 
-Storage.configure();
-
+Storage.configure()
 ```

@@ -6,12 +6,12 @@
 AWS Amplify helps mobile developers to create cloud-powered React Native apps quickly by handling the heavy lifting of configuring and integrating cloud services. It provides a powerful API and React Native components to speed-up your development.
 
 For React Native developers, AWS Amplify provides following main benefits:
-- Easy integration with cloud operations using a declarative API
-- CLI support for bootstrapping your app backend quickly
-- Local configuration and deployment of your app’s backend logic
-- Security best-practices with out-of-the-box implementations
-- React Native UI components for common operations such as authorization and storage
-- Monitoring app usage and engaging users with campaign analytics
+* Easy integration with cloud operations using a declarative API
+* CLI support for bootstrapping your app backend quickly
+* Local configuration and deployment of your app’s backend logic
+* Security best-practices with out-of-the-box implementations
+* React Native UI components for common operations such as authorization and storage
+* Monitoring app usage and engaging users with campaign analytics
 
 ## Installation and Configuration
 
@@ -28,5 +28,3 @@ $ npm install aws-amplify-react-native
 ### Setup
 
 Follow setup and configuration steps in our [Get Started Guide](https://aws-amplify.github.io/docs/js/start?platform=react-native).
-
- 

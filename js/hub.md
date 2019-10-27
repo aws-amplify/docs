@@ -1,15 +1,15 @@
 ---
 ---
+
 # Hub
 
 Amplify has a local eventing system called Hub. It is a lightweight implementation of Publisher-Subscriber pattern, and is used to share data between modules and components in your app. Amplify uses Hub for different categories to communicate with one another when specific events occur, such as authentication events like a user sign-in or notification of a file download.
 
 ## Installation
 ```javascript
-import { Hub } from 'aws-amplify';
-
+import { Hub } from 'aws-amplify'
 // or
-import { Hub } from '@aws-amplify/core';
+import { Hub } from '@aws-amplify/core'
 ```
 
 ## Working with the API
@@ -19,20 +19,20 @@ import { Hub } from '@aws-amplify/core';
 `Hub.listen(channel: string | RegExp, callback)` is used to listen for messages that have been dispatched. You must provide either a named `channel` or a regular expression, along with a callback. In the case of a regular expression only dispatches which contain a `message` in their payload will be matched against your pattern. You can add multiple listeners to your application for different channels or patterns to listen for, or trap generic events and perform your own filtering.
 
 ```javascript
-import { Hub } from 'aws-amplify';
+import { Hub } from 'aws-amplify'
 
 class MyClass {
-    constructor() {
-        Hub.listen('auth', (data) => {
-            const { payload } = data;
-            this.onAuthEvent(payload);           
-            console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event);
-        })
-    }
+  constructor() {
+    Hub.listen('auth', (data) => {
+      const { payload } = data
+      this.onAuthEvent(payload)
+      console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event)
+    })
+  }
 
-    onAuthEvent(payload) {
-        // ... your implementation
-    }
+  onAuthEvent(payload) {
+    // ... your implementation
+  }
 }
 ```
 
@@ -42,35 +42,39 @@ class MyClass {
 ### Sending messages
 
 Sending events to different channels is done with the `dispatch` function:
+
 ```javascript
 Hub.dispatch(
-    'DogsChannel', 
-    { 
-        event: 'buttonClick', 
-        data: {color:'blue'}, 
-        message:'' 
-});
+  'DogsChannel',
+  {
+    event: 'buttonClick',
+    data: { color:'blue' },
+    message: ''
+  }
+)
 
 setTimeout(() => {
   Hub.dispatch(
-      'CatsChannel', 
-      { 
-            event: 'drinkMilk', 
-            data: { 
-                breed: 'Persian',
-                age: 5
-            },
-            message: `The cat ${cat.name} has finished her milk`
-        });
+    'CatsChannel',
+    {
+      event: 'drinkMilk',
+      data: {
+        breed: 'Persian',
+        age: 5
+      },
+      message: `The cat ${cat.name} has finished her milk`
+    })
 }, 5000)
 ```
+
 `Hub.dispatch(channel: string, payload: HubPayload)` can be used to dispatch a `HubPayload` to a `channel`. The `channel` is a logical grouping for your organization while the `HubPayload` is a type defined as:
+
 ```javascript
 export type HubPayload = {
-    event: string,
-    data?: any,
-    message?: string
-};
+  event: string,
+  data?: any,
+  message?: string
+}
 ```
 
 The `event` field is recommended to be a small string without spaces such as `signIn` or `hang_up` as it's useful for checking payload groupings. The `data` field is a freeform structure which many times is used for larger JSON objects or custom data types. Finally while `message` is optional, we encourage you to use it as it is required when using a `RegExp` filtering with `Hub.listen()`.
@@ -79,18 +83,17 @@ The `event` field is recommended to be a small string without spaces such as `si
 
 Hub provides a way to stop listening for messages with `Hub.remove(channel: string | RegExp, listener: callback)`. This may be useful if you no longer need to receive messages in your application flow, as well as to avoid any memory leaks on low powered devices when you are sending large amounts of data through Hub on multiple channels.
 
-
 ### Channels
 A channel is a logical group name that you use to organize messages and listen on. These are strings and completely up to you as the developer to define for dispatching or listening. However, while you can dispatch to any channel, ***Amplify protects certain channels*** and will flag a warning as sending unexpected payloads could have undesirable side effects (such as impacting authentication flows). The protected channels are currently:
 
-- core
-- auth
-- api
-- analytics
-- interactions
-- pubsub
-- storage
-- xr
+* core
+* auth
+* api
+* analytics
+* interactions
+* pubsub
+* storage
+* xr
 {: .callout .callout--info}
 
 
@@ -99,33 +102,31 @@ A channel is a logical group name that you use to organize messages and listen o
 Amplify's `Auth` category publishes in the `auth` channel when 'signIn', 'signUp', and 'signOut' events happen. You can listen and act upon those event notifications.
 
 ```javascript
-import { Hub, Logger } from 'aws-amplify';
+import { Hub, Logger } from 'aws-amplify'
 
-const logger = new Logger('My-Logger');
+const logger = new Logger('My-Logger')
 
 const listener = (data) => {
-
-    switch (data.payload.event) {
-    
-        case 'signIn':
-            logger.error('user signed in'); //[ERROR] My-Logger - user signed in
-            break;
-        case 'signUp':
-            logger.error('user signed up');
-            break;
-        case 'signOut':
-            logger.error('user signed out');
-            break;
-        case 'signIn_failure':
-            logger.error('user sign in failed');
-            break;
-        case 'configured':
-            logger.error('the Auth module is configured');
-            
-    }
+  switch (data.payload.event) {
+    case 'signIn':
+      logger.error('user signed in') // [ERROR] My-Logger - user signed in
+      break
+    case 'signUp':
+      logger.error('user signed up')
+      break
+    case 'signOut':
+      logger.error('user signed out')
+      break
+    case 'signIn_failure':
+      logger.error('user sign in failed')
+      break
+    case 'configured':
+      logger.error('the Auth module is configured')
+      break
+  }
 }
 
-Hub.listen('auth', listener);
+Hub.listen('auth', listener)
 ```
 
 ### Listening for Regular Expressions
@@ -142,8 +143,8 @@ When using a "Capturing Group" (e.g. parenthesis grouping regular expressions) a
 
 ```javascript
 Hub.listen(/user(.*)/, (data) => {
-  console.log('A USER event has been found matching the pattern: ', data.payload.message);
-  console.log('patternInfo:', data.patternInfo);
+  console.log('A USER event has been found matching the pattern: ', data.payload.message)
+  console.log('patternInfo:', data.patternInfo)
 })
 ```
 
@@ -151,8 +152,8 @@ For example, this can be useful if you want to extract the text before and/or af
 
 ```javascript
 Hub.listen(/user ([^ ]+) ([^ ]+) (.*)/, (data) => {
-  console.log('A USER event has been found matching the pattern: ', data.payload.message);
-  console.log('patternInfo:', data.patternInfo);
+  console.log('A USER event has been found matching the pattern:', data.payload.message)
+  console.log('patternInfo:', data.patternInfo)
 })
 ```
 
@@ -162,38 +163,37 @@ Hub can be used as part of a state management system such as [Redux](https://red
 
 ```javascript
 const store = (() => {
-  const listeners = [];
+  const listeners = []
 
   const theStore = {
-      subscribe(listener) {
-          listeners.push(listener);
-      }
-  };
+    subscribe(listener) {
+      listeners.push(listener)
+    }
+  }
 
   return new Proxy(theStore, {
-      set(_obj, _prop, _value) {
-          listeners.forEach(l => l());
-          return Reflect.set(...arguments);
-      }
-  });
-})();
+    set(_obj, _prop, _value) {
+      listeners.forEach(l => l())
+      return Reflect.set(...arguments)
+    }
+  })
+})()
 
 Hub.listen(/.*/, (data) => {
   console.log('Listening for all messages: ', data.payload.data)
-  if (data.payload.message){
+  if (data.payload.message) {
     store['message-' + Math.floor(Math.random() * 100)] = data.payload.message
   }
 })
 
 class App extends Component {
-
   addItem = () => {
     Hub.dispatch('MyGroup', {
-      data : { a: 1},
+      data : { a: 1 },
       event: 'clicked',
       message: 'A user clicked a button'
     })
-    console.log(store);
+    console.log(store)
   }
 
   render() {
@@ -221,17 +221,19 @@ While this is nice functionality, when the button is clicked the component will 
 
 ```javascript
 class DogStatus extends Component {
-  componentDidMount(){
-    this.props.store.subscribe(()=>{
-      this.forceUpdate();
+  componentDidMount() {
+    this.props.store.subscribe(() => {
+      this.forceUpdate()
     })
   }
 
-  render(){
-    return(<div>
-      <pre>Dog Status</pre>
-      <pre>{JSON.stringify(this.props, null, 2)}</pre>
-    </div>)
+  render() {
+    return(
+      <div>
+        <pre>Dog Status</pre>
+        <pre>{JSON.stringify(this.props, null, 2)}</pre>
+      </div>
+    )
   }
 }
 ```

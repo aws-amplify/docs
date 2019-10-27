@@ -5,17 +5,17 @@
 
 Build an app using the Amplify Framework which contains:
 
-- CLI toolchain for creating and managing your serverless backend
-- JavaScript, iOS, and Android libraries to access your resources using a category based programming model
-- Framework-specific UI component libraries for React, React Native, Angular, Ionic and Vue
+* CLI toolchain for creating and managing your serverless backend
+* JavaScript, iOS, and Android libraries to access your resources using a category based programming model
+* Framework-specific UI component libraries for React, React Native, Angular, Ionic and Vue
 
 **Use the drop-down menu at the top right to choose your framework**.
 
-This page guides you through setting up a backend and integration into your web or React Native app. You will create a "Todo app" with a GraphQL API and to store and retrieve items in a cloud database, as well as receive updates over a realtime subscription. 
+This page guides you through setting up a backend and integration into your web or React Native app. You will create a "Todo app" with a GraphQL API and to store and retrieve items in a cloud database, as well as receive updates over a realtime subscription.
 
 [GraphQL](http://graphql.org){:target="_blank"} is a data language that was developed to enable apps to fetch data from APIs. It has a declarative, self-documenting style. In a GraphQL operation, the client specifies how to structure the data when it is returned by the server. This makes it possible for the client to query only for the data it needs, in the format that it needs it in.
 
-## Prerequisites 
+## Prerequisites
 
 [Install and configure the Amplify CLI](..)
 
@@ -23,12 +23,12 @@ This page guides you through setting up a backend and integration into your web 
 
 <div class="nav-tab create" data-group='create'>
 <ul class="tabs">
-    <li class="tab-link react current" data-tab="react">React</li>
-    <li class="tab-link react-native" data-tab="react-native">React Native</li>
-    <li class="tab-link angular" data-tab="angular">Angular</li>
-    <li class="tab-link ionic" data-tab="ionic">Ionic</li>
-    <li class="tab-link vue" data-tab="vue">Vue</li>
-    <li class="tab-link purejs" data-tab="purejs">Vanilla JavaScript</li>
+  <li class="tab-link react current" data-tab="react">React</li>
+  <li class="tab-link react-native" data-tab="react-native">React Native</li>
+  <li class="tab-link angular" data-tab="angular">Angular</li>
+  <li class="tab-link ionic" data-tab="ionic">Ionic</li>
+  <li class="tab-link vue" data-tab="vue">Vue</li>
+  <li class="tab-link purejs" data-tab="purejs">Vanilla JavaScript</li>
 </ul>
 
 <div id="purejs" class="tab-content">
@@ -86,74 +86,74 @@ Add the following to the `index.html` file:
 ```html
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Amplify Framework</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-            html, body { font-family: "Amazon Ember", "Helvetica", "sans-serif"; margin: 0; }
-            a { color: #FF9900; }
-            h1 { font-weight: 300; }
-            .app { width: 100%; }
-            .app-header { color: white; text-align: center; background: linear-gradient(30deg, #f90 55%, #FFC300); width: 100%; margin: 0 0 1em 0; padding: 3em 0 3em 0; box-shadow: 1px 2px 4px rgba(0, 0, 0, .3); }
-            .app-logo { width: 126px; margin: 0 auto; }
-            .app-body { width: 400px; margin: 0 auto; text-align: center; }
-            .app-body button { background-color: #FF9900; font-size: 14px; color: white; text-transform: uppercase; padding: 1em; border: none; }
-            .app-body button:hover { opacity: 0.8; }
-        </style>
-    </head>
-    <body>
-        <div class="app">
-            <div class="app-header">
-                <div class="app-logo">
-                    <img src="https://aws-amplify.github.io/images/Logos/Amplify-Logo-White.svg" alt="AWS Amplify" />
-                </div>
-                <h1>Welcome to the Amplify Framework</h1>
-            </div>
-            <div class="app-body">
-                <button id="MutationEventButton">Add data</button>
-                <div id="MutationResult"></div>
-                <div id="QueryResult"></div>
-                <div id="SubscriptionResult"></div>
-            </div>
+  <head>
+    <meta charset="utf-8">
+    <title>Amplify Framework</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      html, body { font-family: "Amazon Ember", "Helvetica", "sans-serif"; margin: 0; }
+      a { color: #FF9900; }
+      h1 { font-weight: 300; }
+      .app { width: 100%; }
+      .app-header { color: white; text-align: center; background: linear-gradient(30deg, #f90 55%, #FFC300); width: 100%; margin: 0 0 1em 0; padding: 3em 0 3em 0; box-shadow: 1px 2px 4px rgba(0, 0, 0, .3); }
+      .app-logo { width: 126px; margin: 0 auto; }
+      .app-body { width: 400px; margin: 0 auto; text-align: center; }
+      .app-body button { background-color: #FF9900; font-size: 14px; color: white; text-transform: uppercase; padding: 1em; border: none; }
+      .app-body button:hover { opacity: 0.8; }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="app-header">
+        <div class="app-logo">
+          <img src="https://aws-amplify.github.io/images/Logos/Amplify-Logo-White.svg" alt="AWS Amplify" />
         </div>
-        <script src="main.bundle.js"></script>
-    </body>
+        <h1>Welcome to the Amplify Framework</h1>
+      </div>
+      <div class="app-body">
+        <button id="MutationEventButton">Add data</button>
+        <div id="MutationResult"></div>
+        <div id="QueryResult"></div>
+        <div id="SubscriptionResult"></div>
+      </div>
+    </div>
+    <script src="main.bundle.js"></script>
+  </body>
 </html>
 ```
 
 Add the following to the `webpack.config.js` file:
 
 ```javascript
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const webpack = require('webpack');
-const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const webpack = require('webpack')
+const path = require('path')
 
 module.exports = {
-    mode: 'development',
-    entry: './src/app.js',
-    output: {
-        filename: '[name].bundle.js',
-        path: path.resolve(__dirname, 'dist')
-    },
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/
-            }
-        ]
-    },
-    devServer: {
-        contentBase: './dist',
-        overlay: true,
-        hot: true
-    },
-    plugins: [
-        new CopyWebpackPlugin(['index.html']),
-        new webpack.HotModuleReplacementPlugin()
+  mode: 'development',
+  entry: './src/app.js',
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist')
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/
+      }
     ]
-};
+  },
+  devServer: {
+    contentBase: './dist',
+    overlay: true,
+    hot: true
+  },
+  plugins: [
+    new CopyWebpackPlugin(['index.html']),
+    new webpack.HotModuleReplacementPlugin()
+  ]
+}
 ```
 
 Run the app:
@@ -272,7 +272,7 @@ Use the Ionic CLI to bootstrap a new Ionic app:
 
 ```bash
 $ npm install -g ionic
-$ ionic start myAmplifyProject blank --type=angular 
+$ ionic start myAmplifyProject blank --type=angular
 $ cd myAmplifyProject
 ```
 
@@ -287,7 +287,7 @@ In addition to `aws-amplify` core, you can install the Angular Ionic modules whi
 
 ```bash
 $ npm install aws-amplify-angular
-``` 
+```
 
 See the [Ionic Guide](https://aws-amplify.github.io/docs/js/angular){: target='_new'} for details and usage.
 {: .callout .callout--action}
@@ -301,7 +301,7 @@ Use the Vue CLI to bootstrap a new Vue app (selecting the defaults will work for
 ```bash
 
 $ npm install -g @vue/cli
-$ vue create myamplifyproject 
+$ vue create myamplifyproject
 $ cd myamplifyproject
 ```
 
@@ -352,7 +352,7 @@ You can update a category by running `amplify update <category-name>`. If you no
 Add a GraphQL API to your app and automatically provision a database with the following command (accepting all defaults is OK):
 
 ```bash
-$ amplify add api     #select GraphQL, API Key
+$ amplify add api     # select GraphQL, API Key
 ```
 
 The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on you can always change it. This process creates an AWS AppSync API and connects it to an Amazon DynamoDB database.
@@ -365,7 +365,7 @@ Create required backend resources for your configured api with the following com
 $ amplify push
 ```
 
-Since you added an API the `amplify push` process will automatically prompt for codegen (select `y` when prompted for automatic query and code generation). Accept the defaults choosing JavaScript, TypeScript, or Angular depending on your platform. 
+Since you added an API the `amplify push` process will automatically prompt for codegen (select `y` when prompted for automatic query and code generation). Accept the defaults choosing JavaScript, TypeScript, or Angular depending on your platform.
 <div id="react" class="tab-content">
 For this tutorial choose **JavaScript**.
 </div>
@@ -389,12 +389,12 @@ For Angular applications, choose **Angular** which will create an `API.service.t
 
 <div class="nav-tab install" data-group='install'>
 <ul class="tabs">
-    <li class="tab-link angular" data-tab="angular">Angular</li>
-    <li class="tab-link ionic" data-tab="ionic">Ionic</li>
-    <li class="tab-link purejs" data-tab="purejs">Vanilla JavaScript</li>
-    <li class="tab-link react current" data-tab="react">React</li>
-    <li class="tab-link react-native" data-tab="react-native">React Native</li>
-    <li class="tab-link vue" data-tab="vue">Vue</li>
+  <li class="tab-link angular" data-tab="angular">Angular</li>
+  <li class="tab-link ionic" data-tab="ionic">Ionic</li>
+  <li class="tab-link purejs" data-tab="purejs">Vanilla JavaScript</li>
+  <li class="tab-link react current" data-tab="react">React</li>
+  <li class="tab-link react-native" data-tab="react-native">React Native</li>
+  <li class="tab-link vue" data-tab="vue">Vue</li>
 </ul>
 
 <div id="purejs" class="tab-content">
@@ -406,24 +406,27 @@ import API, { graphqlOperation } from '@aws-amplify/api'
 import PubSub from '@aws-amplify/pubsub';
 import { createTodo } from './graphql/mutations'
 
-import awsconfig from './aws-exports';
-API.configure(awsconfig);
-PubSub.configure(awsconfig);
+import awsconfig from './aws-exports'
+API.configure(awsconfig)
+PubSub.configure(awsconfig)
 
 async function createNewTodo() {
-  const todo = { name: "Use AppSync" , description: "Realtime and Offline"}
+  const todo = {
+    name: 'Use AppSync',
+    description: 'Realtime and Offline'
+  }
   return await API.graphql(graphqlOperation(createTodo, { input: todo }))
 }
 
-const MutationButton = document.getElementById('MutationEventButton');
-const MutationResult = document.getElementById('MutationResult');
+const MutationButton = document.getElementById('MutationEventButton')
+const MutationResult = document.getElementById('MutationResult')
 
 MutationButton.addEventListener('click', (evt) => {
-  MutationResult.innerHTML = `MUTATION RESULTS:`;
+  MutationResult.innerHTML = `MUTATION RESULTS:`
   createNewTodo().then( (evt) => {
     MutationResult.innerHTML += `<p>${evt.data.createTodo.name} - ${evt.data.createTodo.description}</p>`
   })
-});
+})
 ```
 
 After restarting your app using `npm start` go back to your browser and click **ADD DATA**.  You'll see that your application is now submitting events to AppSync and storing records in DynamoDB. Next, update `src/App.js` to list all the items in the database by importing `listTodos` and update the page when a query runs on app start by immediately calling the function:
@@ -432,18 +435,18 @@ After restarting your app using `npm start` go back to your browser and click **
 // other imports
 import { listTodos } from './graphql/queries'
 
-const QueryResult = document.getElementById('QueryResult');
+const QueryResult = document.getElementById('QueryResult')
 
 async function getData() {
   QueryResult.innerHTML = `QUERY RESULTS`;
   API.graphql(graphqlOperation(listTodos)).then((evt) => {
-    evt.data.listTodos.items.map((todo, i) => 
+    evt.data.listTodos.items.map((todo, i) =>
     QueryResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`
-    );
+    )
   })
 }
 
-getData();
+getData()
 ```
 
 Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subscription with `API.graphql()` like so:
@@ -452,7 +455,7 @@ Now if you wish to subscribe to data, import the `onCreateTodo` subscription and
 // other imports
 import { onCreateTodo } from './graphql/subscriptions'
 
-const SubscriptionResult = document.getElementById('SubscriptionResult');
+const SubscriptionResult = document.getElementById('SubscriptionResult')
 
 API.graphql(graphqlOperation(onCreateTodo)).subscribe({
   next: (evt) =>{
@@ -460,7 +463,7 @@ API.graphql(graphqlOperation(onCreateTodo)).subscribe({
     const todo = evt.value.data.onCreateTodo;
     SubscriptionResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`
   }
-});
+})
 ```
 
 The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
@@ -489,10 +492,13 @@ import { createTodo } from './graphql/mutations'
 
 import config from './aws-exports'
 API.configure(config)             // Configure Amplify
-PubSub.configure(config);
+PubSub.configure(config)
 
 async function createNewTodo() {
-  const todo = { name: "Use AppSync" , description: "Realtime and Offline"}
+  const todo = {
+    name: 'Use AppSync',
+    description: 'Realtime and Offline'
+  }
   await API.graphql(graphqlOperation(createTodo, { input: todo }))
 }
 
@@ -501,10 +507,10 @@ function App() {
     <div className="App">
       <button onClick={createNewTodo}>Add Todo</button>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
 ```
 
 Next, update `src/App.js` to list all the items in the database by importing `listTodos` and then using [Hooks](https://reactjs.org/docs/hooks-intro.html) to update the page when a query runs on app start by adding initial state and a `reducer` function as well as modifying your `App` function:
@@ -514,13 +520,19 @@ Next, update `src/App.js` to list all the items in the database by importing `li
 import { useEffect, useReducer } from 'react' // using hooks
 import { listTodos } from './graphql/queries'
 
-const initialState = {todos:[]};
+const initialState = { todos:[] }
 const reducer = (state, action) =>{
-  switch(action.type){
+  switch(action.type) {
     case 'QUERY':
-      return {...state, todos:action.todos}
+      return {
+        ...state,
+        todos:action.todos
+      }
     case 'SUBSCRIPTION':
-      return {...state, todos:[...state.todos, action.todo]}
+      return {
+        ...state,
+        todos:[...state.todos, action.todo]
+      }
     default:
       return state
   }
@@ -535,17 +547,20 @@ function App() {
 
   async function getData() {
     const todoData = await API.graphql(graphqlOperation(listTodos))
-    dispatch({type:'QUERY', todos: todoData.data.listTodos.items});
+    dispatch({
+      type:'QUERY',
+      todos: todoData.data.listTodos.items
+    })
   }
 
   return (
-    <div>
-    <div className="App">
-      <button onClick={createNewTodo}>Add Todo</button>
-    </div>
-    <div>{ state.todos.map((todo, i) => <p key={todo.id}>{todo.name} : {todo.description}</p>) }</div>
-  </div>
-  );
+    <>
+      <div className="App">
+        <button onClick={createNewTodo}>Add Todo</button>
+      </div>
+      <div>{ state.todos.map((todo, i) => <p key={todo.id}>{todo.name} : {todo.description}</p>) }</div>
+    </>
+  )
 }
 
 export default App
@@ -561,10 +576,10 @@ useEffect(() => {
   //...other code
 
   const subscription = API.graphql(graphqlOperation(onCreateTodo)).subscribe({
-      next: (eventData) => {
-        const todo = eventData.value.data.onCreateTodo;
-        dispatch({type:'SUBSCRIPTION', todo})
-      }
+    next: (eventData) => {
+      const todo = eventData.value.data.onCreateTodo;
+      dispatch({ type:'SUBSCRIPTION', todo })
+    }
   })
   return () => subscription.unsubscribe()
 }, [])
@@ -588,17 +603,20 @@ Update your `App.js` file to configure the library with `Amplify.configure()` an
 
 ```javascript
 import React, { useEffect, useReducer } from 'react'
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native'
 import API, { graphqlOperation } from '@aws-amplify/api'
-import PubSub from '@aws-amplify/pubsub';
-import { createTodo } from './src/graphql/mutations';
+import PubSub from '@aws-amplify/pubsub'
+import { createTodo } from './src/graphql/mutations'
 
 import config from './aws-exports'
 API.configure(config)             // Configure Amplify
 PubSub.configure(config)
 
 async function createNewTodo() {
-  const todo = { name: "Use AppSync" , description: "Realtime and Offline"}
+  const todo = {
+    name: 'Use AppSync',
+    description: 'Realtime and Offline'
+  }
   await API.graphql(graphqlOperation(createTodo, { input: todo }))
 }
 
@@ -607,7 +625,7 @@ export default function App() {
     <View style={styles.container}>
       <Button onPress={createNewTodo} title='Create Todo' />
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -617,22 +635,25 @@ const styles = StyleSheet.create({
      justifyContent: 'center',
      flex: 1
    }
- });
+ })
 ```
 
 Next, update `App.js` to list all the items in the database by importing `listTodos` and then using [Hooks](https://reactjs.org/docs/hooks-intro.html) to update the page when a query runs on app start by adding initial state and a `reducer` function as well as modifying your `App` function:
 
 ```javascript
 // other imports
-import { listTodos } from './src/graphql/queries';
+import { listTodos } from './src/graphql/queries'
 
-const initialState = {todos:[]};
+const initialState = { todos:[] }
 const reducer = (state, action) =>{
-  switch(action.type){
+  switch(action.type) {
     case 'QUERY':
       return {...state, todos:action.todos}
-    case 'SUBSCRIPTION':
-      return {...state, todos:[...state.todos, action.todo]}
+    case 'SUBSCRIPTION'
+      return {
+        ...state,
+        todos:[...state.todos, action.todo]
+      }
     default:
       return state
   }
@@ -647,7 +668,10 @@ export default function App() {
 
   async function getData() {
     const todoData = await API.graphql(graphqlOperation(listTodos))
-    dispatch({type:'QUERY', todos: todoData.data.listTodos.items});
+    dispatch({
+      type:'QUERY',
+      todos: todoData.data.listTodos.items
+    })
   }
 
   return (
@@ -655,7 +679,7 @@ export default function App() {
       <Button onPress={createNewTodo} title='Create Todo' />
       { state.todos.map((todo, i) => <Text key={todo.id}>{todo.name} : {todo.description}</Text>) }
     </View>
-  );
+  )
 }
 ```
 
@@ -663,16 +687,16 @@ Now if you wish to subscribe to data, import the `onCreateTodo` subscription and
 
 ```javascript
 // other imports
-import { onCreateTodo } from './src/graphql/subscriptions';
+import { onCreateTodo } from './src/graphql/subscriptions'
 
 useEffect(() => {
   //...other code
 
   const subscription = API.graphql(graphqlOperation(onCreateTodo)).subscribe({
-      next: (eventData) => {
-        const todo = eventData.value.data.onCreateTodo;
-        dispatch({type:'SUBSCRIPTION', todo})
-      }
+    next: (eventData) => {
+      const todo = eventData.value.data.onCreateTodo;
+      dispatch({type:'SUBSCRIPTION', todo})
+    }
   })
   return () => subscription.unsubscribe()
 }, [])
@@ -697,15 +721,15 @@ This will open the AWS AppSync console for you to run Queries, Mutations, or Sub
 Update your `main.ts` to configure the library with `Amplify.configure()`:
 
 ```javascript
-import PubSub from '@aws-amplify/pubsub';
-import API from '@aws-amplify/api';
-import awsconfig from './aws-exports';
+import PubSub from '@aws-amplify/pubsub'
+import API from '@aws-amplify/api'
+import awsconfig from './aws-exports'
 
-API.configure(awsconfig);
-PubSub.configure(awsconfig);
+API.configure(awsconfig)
+PubSub.configure(awsconfig)
 ```
 
-Depending on your TypeScript version you may need to rename `aws-exports.js` to `aws-exports.ts` prior to importing, or enable the `allowJs` <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" target="_blank">compiler option</a> in your tsconfig. 
+Depending on your TypeScript version you may need to rename `aws-exports.js` to `aws-exports.ts` prior to importing, or enable the `allowJs` <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" target="_blank">compiler option</a> in your tsconfig.
 {: .callout .callout--info}
 
 Update `src/tsconfig.app.json` to include the "node" compiler option in *types*:
@@ -716,7 +740,7 @@ Update `src/tsconfig.app.json` to include the "node" compiler option in *types*:
 }
 ```
 
-Note: If you are using Angular 6 or above, you may need to add the following to the top of your `src/polyfills.ts` file: 
+Note: If you are using Angular 6 or above, you may need to add the following to the top of your `src/polyfills.ts` file:
 ```
 (window as any).global = window;
 
@@ -729,17 +753,16 @@ Note: If you are using Angular 6 or above, you may need to add the following to 
 In your `src/app/app.component.ts` file, add the following imports and modifications to your class to to add data to your database with a mutation by using the `API.service` file which was generated when you ran `amplify add api`:
 
 ```javascript
-import { APIService } from './API.service';
+import { APIService } from './API.service'
 
 export class AppComponent {
-
   constructor(private apiService: APIService) {}
 
   createTodo() {
     this.apiService.CreateTodo({
-        name: 'Angular',
-        description: 'testing'
-    });
+      name: 'Angular',
+      description: 'testing'
+    })
   }
 }
 ```
@@ -753,16 +776,15 @@ Add the following to your `src/app/app.component.html` to add a button which cal
 Next, update the class to list all items in the database by running a `ListTodos` query when the app starts by implementing [OnInit](https://angular.io/api/core/OnInit) and storing the items in an array:
 
 ```javascript
-
 export class AppComponent implements OnInit {
-  todos: Array<any>;
+  todos: Array<any>
 
   async ngOnInit() {
     this.apiService.ListTodos().then((evt) => {
-      this.todos = evt.items;
-    });
+      this.todos = evt.items
+    })
   }
-  //Other code....
+  // Other code....
 }
 ```
 
@@ -777,18 +799,18 @@ Add the following to your `src/app/app.component.html` to display any of the tod
 Finally, to subscribe to realtime data, update `ngOnInit` to setup a subscription on app start and update the `todos` array when new events are received:
 
 ```javascript
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
 export class AppComponent implements OnInit {
-
   async ngOnInit() {
-    //Other code...
+    // Other code...
 
     this.apiService.OnCreateTodoListener.subscribe((evt) => {
-      const data = (evt as any).value.data.onCreateTodo;
-      this.todos = [...this.todos, data];
-    });
+      const data = (evt as any).value.data.onCreateTodo
+      this.todos = [...this.todos, data]
+    })
   }
+}
 ```
 
 The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
@@ -809,23 +831,23 @@ This will open the AWS AppSync console for you to run Queries, Mutations, or Sub
 Update your main.ts to configure the library:
 
 ```javascript
-import PubSub from '@aws-amplify/pubsub';
-import API from '@aws-amplify/api';
-import awsconfig from './aws-exports';
+import PubSub from '@aws-amplify/pubsub'
+import API from '@aws-amplify/api'
+import awsconfig from './aws-exports'
 
-API.configure(awsconfig);
-PubSub.configure(awsconfig);
+API.configure(awsconfig)
+PubSub.configure(awsconfig)
 ```
 
 When working with underlying `aws-js-sdk`, the "node" package should be included in *types* compiler option. update your `src/tsconfig.app.json`:
 
 ```json
 "compilerOptions": {
-    "types" : ["node"]
+  "types" : ["node"]
 }
 ```
 
-Note: If you are using Angular 6 or above or above, you may need to add the following to the top of your `src/polyfills.ts` file: 
+Note: If you are using Angular 6 or above or above, you may need to add the following to the top of your `src/polyfills.ts` file:
 ```
 (window as any).global = window;
 
@@ -838,21 +860,21 @@ Note: If you are using Angular 6 or above or above, you may need to add the foll
 In your `src/app/app.component.ts` file, add the following imports and modifications to your class to to add data to your database with a mutation by using the `API.service` file which was generated when you ran `amplify add api`:
 
 ```javascript
-import { APIService } from './API.service';
+import { APIService } from './API.service'
 
 constructor(
-    //other variables
-    private apiService: APIService
-  ){  
-    this.initializeApp();
-  } 
+  // other variables
+  private apiService: APIService
+) {
+  this.initializeApp()
+}
 
-  createTodo() {
-    this.apiService.CreateTodo({
-        name: 'ionic',
-        description: 'testing'
-    });
-  }
+createTodo() {
+  this.apiService.CreateTodo({
+    name: 'ionic',
+    description: 'testing'
+  })
+}
 ```
 
 Then, replace your `src/app/app.component.html` code with a button to add data:
@@ -865,15 +887,15 @@ Next, update `initializeApp()` in `src/app/app.component.ts` to list all items i
 
 ```javascript
 export class AppComponent {
-  todos: Array<any>;
+  todos: Array<any>
 
   initializeApp() {
     this.platform.ready().then(() => {
-      //other code
+      // other code
       this.apiService.ListTodos().then((evt) => {
-        this.todos = evt.items;
-      });
-    });
+        this.todos = evt.items
+      })
+    })
   }
 }
 ```
@@ -893,10 +915,10 @@ Finally, to subscribe to realtime data, update `initializeApp()` to setup a subs
 ```javascript
 initializeApp() {
   this.platform.ready().then(() => {
-    //other code
+    // other code
     this.apiService.OnCreateTodoListener.subscribe((evt) => {
-      const data = (evt as any).value.data.onCreateTodo;
-      this.todos = [...this.todos, data];
+      const data = (evt as any).value.data.onCreateTodo
+      this.todos = [...this.todos, data]
     });
   }
 }
@@ -924,11 +946,11 @@ Update your `main.js` file to configure the library with `Amplify.configure()` l
 import Vue from 'vue'
 import App from './App.vue'
 
-import API from '@aws-amplify/api';
-import PubSub from '@aws-amplify/pubsub';
-import awsconfig from './aws-exports';
-API.configure(awsconfig);
-PubSub.configure(awsconfig);
+import API from '@aws-amplify/api'
+import PubSub from '@aws-amplify/pubsub'
+import awsconfig from './aws-exports'
+API.configure(awsconfig)
+PubSub.configure(awsconfig)
 
 Vue.config.productionTip = false
 
@@ -947,15 +969,17 @@ Next, open `App.vue` add data to your database with a mutation by using `API.gra
 </template>
 
 <script>
-import API, {  graphqlOperation } from '@aws-amplify/api';
-// eslint-disable-next-line
-import { createTodo } from "./graphql/mutations";
+import API, { graphqlOperation } from '@aws-amplify/api'
+import { createTodo } from './graphql/mutations'
 
 export default {
   name: 'app',
   methods :{
     async createNewTodo(){
-      const todo = { name: "Use AppSync" , description: "Realtime and Offline"}
+      const todo = {
+        name: 'Use AppSync',
+        description: 'Realtime and Offline'
+      }
       await API.graphql(graphqlOperation(createTodo, { input: todo }))
     }
   }
@@ -983,19 +1007,19 @@ import { listTodos } from './graphql/queries'
 
 export default {
   name: 'app',
-  data(){
+  data() {
     return {
       todos: []
     }
   },
-  methods :{
-    async createNewTodo(){ /* code above */}, 
-    async getData(){
+  methods: {
+    async createNewTodo() { /* code above */},
+    async getData() {
       const todoData = await API.graphql(graphqlOperation(listTodos))
-      this.todos.push(...this.todos, ...todoData.data.listTodos.items);
+      this.todos.push(...this.todos, ...todoData.data.listTodos.items)
     }
   },
-  created(){
+  created() {
     this.getData()
   }
 };
@@ -1018,18 +1042,18 @@ export default {
     }
   },
   methods :{
-    async createNewTodo(){  /* code above */ }, 
-    async getData(){  /* code above */ },
-    subscribe(){
+    async createNewTodo() { /* code above */ },
+    async getData() { /* code above */ },
+    subscribe() {
       API.graphql(graphqlOperation(onCreateTodo)).subscribe({
         next: (eventData) => {
           const todo = eventData.value.data.onCreateTodo;
-          this.todos.push(todo);
+          this.todos.push(todo)
         }
       })
     }
   },
-  created(){
+  created() {
     this.getData()
     this.subscribe()
   }
@@ -1109,25 +1133,26 @@ Open the app and push the button to generate new items in your database.
 If you want to use your existing AWS resources with your app you will need to **manually configure** your app with your current credentials in your code, for example:
 
 ```javascript
-import Amplify from 'aws-amplify';
+import Amplify from 'aws-amplify'
 
 Amplify.configure({
-    Auth: {
-        // REQUIRED - Amazon Cognito Identity Pool ID
-        identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab', 
-        // REQUIRED - Amazon Cognito Region
-        region: 'XX-XXXX-X', 
-        // OPTIONAL - Amazon Cognito User Pool ID
-        userPoolId: 'XX-XXXX-X_abcd1234',
-        // OPTIONAL - Amazon Cognito Web Client ID
-        userPoolWebClientId: 'XX-XXXX-X_abcd1234', 
-    }
-});
+  Auth: {
+    // REQUIRED - Amazon Cognito Identity Pool ID
+    identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab',
+    // REQUIRED - Amazon Cognito Region
+    region: 'XX-XXXX-X',
+    // OPTIONAL - Amazon Cognito User Pool ID
+    userPoolId: 'XX-XXXX-X_abcd1234',
+    // OPTIONAL - Amazon Cognito Web Client ID
+    userPoolWebClientId: 'XX-XXXX-X_abcd1234'
+  }
+})
 ```
 
-In the configuration above, you are required to pass in an Amazon Cognito identity pool ID so that Amplify can retrieve base credentials for a user even in an unauthenticated state. 
+In the configuration above, you are required to pass in an Amazon Cognito identity pool ID so that Amplify can retrieve base credentials for a user even in an unauthenticated state.
 
 **Configuration Parameters for existing AWS resources**
+
 To see the configuration parameters for existing AWS resources, see the *Existing AWS Resources* section in the Amplify Developer Guide for each individual service:
 [Amazon Cognito]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/authentication#manual-setup),
 [Amazon S3]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/storage#manual-setup),
@@ -1137,7 +1162,7 @@ To see the configuration parameters for existing AWS resources, see the *Existin
 
 **AWS SDK Interfaces**
 
-For working with other AWS services you can use service interface objects directly via the JavaScript SDK clients. 
+For working with other AWS services you can use service interface objects directly via the JavaScript SDK clients.
 
 To work with service interface objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
 {: .callout .callout--warning}
@@ -1145,7 +1170,7 @@ To work with service interface objects, your Amazon Cognito users' [IAM role](ht
 You can call methods on any AWS Service interface object supported by the <a href="https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/_index.html" target="_blank">AWS JavaScript SDK</a> by passing your credentials from *Auth* to the service call constructor. For example, to use Amazon Route53 in your app:
 
 ```javascript
-import Route53 from 'aws-sdk/clients/route53';
+import Route53 from 'aws-sdk/clients/route53'
 
 ...
 
@@ -1154,7 +1179,7 @@ Auth.currentCredentials()
     const route53 = new Route53({
       apiVersion: '2013-04-01',
       credentials: Auth.essentialCredentials(credentials)
-    });
+    })
 
     // more code working with route53 object
     // route53.changeResourceRecordSets();
