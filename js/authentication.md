@@ -96,7 +96,6 @@ Many Cognito Lambda Triggers accept unsanitized key/value pairs in the form of a
 - `Auth.completeNewPassword`
 - `Auth.confirmSignIn`
 - `Auth.confirmSignUp`
-- `Auth.forgotPassword`
 - `Auth.forgotPasswordSubmit`
 - `Auth.resendSignUp`
 - `Auth.sendCustomChallengeAnswer`
