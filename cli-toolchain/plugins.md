@@ -436,7 +436,7 @@ export class VersionedModelTransformer extends Transformer {
 
 ### Adding Custom GraphQL Transformers to the Project
 
-To add a custom GraphQL transformer to the list of transformers, they need to be registered within the project. This registration can be done by adding an entry to ```transform.conf.json``` file which can be found in the ```amplify/backend/api/<api-name>``` folder. A transformer can be registered by adding a file uri to the JavaScript file that implements the transformer or by specifying the npm package name. The transformer modules will be dynamically imported during the transform process.
+To add a custom GraphQL transformer to the list of transformers, they need to be registered within the project. This registration can be done by adding an entry to ```transform.conf.json``` file which can be found in the ```amplify/backend/api/<api-name>``` folder. A transformer can be registered by adding a file URI to the JavaScript file that implements the transformer or by specifying the npm package name. The transformer modules will be dynamically imported during the transform process.
 
 #### Example transform.conf.json file
 
