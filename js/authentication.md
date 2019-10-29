@@ -90,7 +90,7 @@ A configuration file called `aws-exports.js` will be copied to your configured s
 
 The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your AWS Cognito User Pool.  These enable you to add custom functionality to your registration and authentication flows. [Read more]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/)
 
-Many Cognito Lambda Triggers accept unsanitized key/value pairs in the form of a 'ClientMetadata' attribute.  To configure a static set of key/value pairs, you can define a define a `clientMetadata` key in the `Auth.configure` function.  You can also pass a `clientMetadata` parameter to the various `Auth` functions which result in Cognito Lambda Trigger execution.   These functions include:
+Many Cognito Lambda Triggers accept unsanitized key/value pairs in the form of a 'ClientMetadata' attribute.  To configure a static set of key/value pairs, you can define a `clientMetadata` key in the `Auth.configure` function.  You can also pass a `clientMetadata` parameter to the various `Auth` functions which result in Cognito Lambda Trigger execution.   These functions include:
 
 - `Auth.changePassword`
 - `Auth.completeNewPassword`
