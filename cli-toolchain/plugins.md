@@ -318,7 +318,9 @@ function transform(schema: string): Template {
 ### The Transformer Context
 
 The transformer context serves like an accumulator that is manipulated by transformers. See the code to see what methods are available
-to you: [TransformerContext.ts](https://github.com/aws-amplify/amplify-cli/blob/master/packages/graphql-transformer-core/src/TransformerContext.ts)
+to you.
+
+[https://github.com/aws-amplify/amplify-cli/blob/master/packages/graphql-transformer-core/src/TransformerContext.ts](https://github.com/aws-amplify/amplify-cli/blob/master/packages/graphql-transformer-core/src/TransformerContext.ts)
 
 > For now, the transform only support cloudformation and uses a library called `cloudform` to create cloudformation resources in code. In the future we would like to support alternative deployment mechanisms like terraform.
 
