@@ -13,15 +13,15 @@ The Amplify CLI Core maintains a `plugins.json` file to store the plugin managem
 Each Amplify CLI plugin contains a *amplify-plugin.json*  file to manifest itself as a valid plugin.  <br/>
 The Amplify CLI Core provides a set of utility commands under `amplify plugin` for plugin management, and to facilitate the development of plugins.
 
-The Amplify CLI Core does not dynamically scan for plugins at the beginning of each command execution. Instead, information about the installed plugins are retrieved from the `plugins.json` file and only the plugins that are needed for the execution of the command will be loaded. 
+The Amplify CLI Core does not dynamically scan for plugins at the beginning of each command execution. Instead, information about the installed plugins are retrieved from the `plugins.json` file and only the plugins that are needed for the execution of the command will be loaded.
 
-The `plugins.json` file is stored at path `<os.homedir>/.amplify/plugins.json`. Unless you really know what you are doing, you should NOT manually edit this file, otherwise you run the risk of corrupting your local installation of the Amplify CLI. 
+The `plugins.json` file is stored at path `<os.homedir>/.amplify/plugins.json`. Unless you really know what you are doing, you should NOT manually edit this file, otherwise you run the risk of corrupting your local installation of the Amplify CLI.
 
-The `plugins.json` file will be created or updated in the following situations: 
+The `plugins.json` file will be created or updated in the following situations:
 
 * If the `plugins.json` file is not found when the Amplify CLI Core tries to access it, the Amplify CLI Core will create this file and scan the local environment for plugins, and then store the information in the file.
-* If the last scan time was more than one day (configurable) ago, the Amplify CLI Core will scan again and update the information. 
-* If inaccuracy is detected, e.g. a specified plugin can not be loaded, the Amplify CLI Core will scan again and update the information. 
+* If the last scan time was more than one day (configurable) ago, the Amplify CLI Core will scan again and update the information.
+* If inaccuracy is detected, e.g. a specified plugin can not be loaded, the Amplify CLI Core will scan again and update the information.
 * After the execution of any of the `amplify plugin` commands that could change it, e.g. `amplify plugin scan`, `amplify plugin add/remove`
 
 ## Plugin Commands
@@ -37,33 +37,33 @@ The following is the suite of the commands under the `amplify plugin`:
 
 ### configure
 `amplify plugin configure` is used to configure the following settings in the `plugins.json` file: <br/>
-* `plugin-directories` : contains the directories that plugin packages are searched for during a plugin scan. 
-* `plugin-prefixes`: contains the plugin package name prefixes. A package named with such prefix is considered a plugin candidate and checked during a plugin scan. If `plugin-prefixes` is empty, all packages inside the scanned directories will be checked. 
+* `plugin-directories` : contains the directories that plugin packages are searched for during a plugin scan.
+* `plugin-prefixes`: contains the plugin package name prefixes. A package named with such prefix is considered a plugin candidate and checked during a plugin scan. If `plugin-prefixes` is empty, all packages inside the scanned directories will be checked.
 * `max-scan-interval-in-seconds` : the Amplify CLI Core will scan again if the last scan time has passed for longer than `max-scan-interval-in-seconds`. Setting this value to 0 will result in fresh scan at the beginning of each Amplify CLI command execution. The default value is 1 day.
 
 ### scan
 `amplify plugin scan` will start a fresh scan for plugins in the local environment. A configurable set of directories specified in `plugin-directories`, such as the global node_modules, are scanned for plugins.<br/>
 Execution of this command will completely update the contents of the `plugins` field in the `plugins.json`.
 The `last-scan-time` field in the `plugins.json` is the time stamp of the last plugin scan.
-Note that, other than manually started by this command, a plugin scan can also be triggered by a regular amplify command execution, for example if the Amplify CLI Core noticed something is incorrect, or the last scan time has passed for longer than `max-scan-interval-in-seconds`(set to be one day by default). 
+Note that, other than manually started by this command, a plugin scan can also be triggered by a regular amplify command execution, for example if the Amplify CLI Core noticed something is incorrect, or the last scan time has passed for longer than `max-scan-interval-in-seconds`(set to be one day by default).
 
 ### add
 `amplify plugin add` will prompt you to select a previously removed plugin (see below), or enter the full path of a local package to be added as a plugin into the Amplify CLI. The Amplify CLI Core verifies the existence and validity of the plugin package during execution of the this command. You can use this command to add a plugin that will not be found by the plugin scan process, e.g. if it is not in one of the `plugin-directories`, or its package name does not have the proper prefix as specified in the `plugin-prefixes`.
 
 ### remove
 `amplify plugin remove` will prompt you with the list of all the currently active plugins, and allow you to select the ones that you do not want to be included in the Amplify CLI. The Amplify CLI Core will remove the manifest of those plugins from the `plugins` field, so they will NOT be counted as active plugins anymore and will NOT be loaded during command executions.<br/>
-If a removed plugin is in one of the directories specified in the `plugin-directories`, and its package name has the prefix as specified in the `plugin-prefixes`, it is then inserted in the `excluded` field of the `plugins.json` file. This will not be inserted back to the `plugins` field in the next plugin scan. 
+If a removed plugin is in one of the directories specified in the `plugin-directories`, and its package name has the prefix as specified in the `plugin-prefixes`, it is then inserted in the `excluded` field of the `plugins.json` file. This will not be inserted back to the `plugins` field in the next plugin scan.
 The actual plugin packages themselves are not removed from your computer, and they can be added back as active plugins by `amplify plugin add`.
 
 ### list
-`amplify plugin list` lists all the active plugins, along with other information of the local Amplify CLI plugin platform. 
+`amplify plugin list` lists all the active plugins, along with other information of the local Amplify CLI plugin platform.
 
 ### init
 The Amplify CLI provides the command `amplify plugin init` (with alias `amplify plugin new`) for the development of plugins.<br/>
-This command first collects the requirements from you and then creates the skeleton of the plugin package for you to start the development. 
-The newly created plugin package is added to your local Amplify CLI platform, so you can conveniently test its functionalities while it is being developed. 
+This command first collects the requirements from you and then creates the skeleton of the plugin package for you to start the development.
+The newly created plugin package is added to your local Amplify CLI platform, so you can conveniently test its functionalities while it is being developed.
 It can be easily removed from the platform with the `amplify plugin remove` command and added back with the `amplify plugin add` command.
- 
+
 ### verify
 The Amplify CLI provides the utility command `amplify plugin verify` to verify that:
 * The package implements the required interface methods for plugins.
@@ -73,7 +73,7 @@ The Amplify CLI provides the utility command `amplify plugin verify` to verify t
 
 ### help
 Prints out help information for the commands under `amplify plugin`.
- 
+
 
 ## List of existing 3rd party CLI Plugins
 
@@ -110,10 +110,10 @@ $ amplify my-amplify-plugin help
 help command to be implemented.
 ```
 
-You will see that the default help message is printed out. 
-At this point, there are only two sub commands in the plugin package, `help` and `version`, with dummy implementations. If you try to execute any other command, it will trigger the Amplify CLI plugin platform to perform a fresh scan, and then after it failed to find the command, it will print out the default help message. 
+You will see that the default help message is printed out.
+At this point, there are only two sub commands in the plugin package, `help` and `version`, with dummy implementations. If you try to execute any other command, it will trigger the Amplify CLI plugin platform to perform a fresh scan, and then after it failed to find the command, it will print out the default help message.
 
-From here, you can start to develop the plugin package. See below for the detailed explanation of the package structure. 
+From here, you can start to develop the plugin package. See below for the detailed explanation of the package structure.
 
 ### Step 4: Publish to NPM
 
@@ -130,7 +130,7 @@ $ amplify my-amplify-plugin help
 ```
 
 ## Plugin Package Structure
-Here's the plugin package directory structure 
+Here's the plugin package directory structure
  ```
  |_my-amplify-plugin/
     |_commands/
@@ -150,7 +150,7 @@ Here's the plugin package directory structure
 
  ### amplify-plugin.json
 
- The `amplify-plugin.json` file is the plugin's manifest file, it specifies the plugin's name, type, commands and event handlers. The Amplify CLI uses it to verify and add the plugin package into its plugin platform. 
+ The `amplify-plugin.json` file is the plugin's manifest file, it specifies the plugin's name, type, commands and event handlers. The Amplify CLI uses it to verify and add the plugin package into its plugin platform.
 
  Here's the contents of the file when it's first generated by the `amplify plugin init` command for a util plugin.
 
@@ -200,10 +200,10 @@ module.exports = {
 ```
 
 ### commands
-The `commands` folder contains files that implement the `commands` specified in the manifest file `amplify-plugin.json`. 
+The `commands` folder contains files that implement the `commands` specified in the manifest file `amplify-plugin.json`.
 
 ### event-handlers
-The `event-handlers` folder contains files that implement the `eventHandlers` specified in the manifest file `amplify-plugin.json`. 
+The `event-handlers` folder contains files that implement the `eventHandlers` specified in the manifest file `amplify-plugin.json`.
 
 
 ## Custom GraphQL Transformers
@@ -255,7 +255,7 @@ GraphQL SDL documents into CloudFormation documents.
 
 At a high level the `GraphQLTransform` takes the input SDL, parses it, and validates the schema
 is complete and satisfies the directive definitions. It then iterates through the list of transformers
-passed to the transform when it was created and calls `.before()` if it exists. It then walks the parsed AST 
+passed to the transform when it was created and calls `.before()` if it exists. It then walks the parsed AST
 and calls the relevant transformer methods (e.g. `object()`, `field()`, `interface()` etc) as directive matches are found.
 In reverse order it then calls each transformer's `.after()` method if it exists, and finally returns the context's finished template.
 
@@ -263,7 +263,7 @@ Here is pseudo code for how `const cfdoc = transformer.transform(schema);` works
 
 ```javascript
 function transform(schema: string): Template {
-    
+
     // ...
 
     for (const transformer of this.transformers) {
@@ -318,9 +318,7 @@ function transform(schema: string): Template {
 ### The Transformer Context
 
 The transformer context serves like an accumulator that is manipulated by transformers. See the code to see what methods are available
-to you.
-
-[https://github.com/aws-amplify/amplify-cli/blob/7f0cb11915fa945ad9d518e8f9a8f74378fef5de/packages/graphql-transformer-core/src/TransformerContext.ts](https://github.com/aws-amplify/amplify-cli/blob/7f0cb11915fa945ad9d518e8f9a8f74378fef5de/packages/graphql-transformer-core/src/TransformerContext.ts)
+to you: [TransformerContext.ts](https://github.com/aws-amplify/amplify-cli/blob/master/packages/graphql-transformer-core/src/TransformerContext.ts)
 
 > For now, the transform only support cloudformation and uses a library called `cloudform` to create cloudformation resources in code. In the future we would like to support alternative deployment mechanisms like terraform.
 
@@ -433,6 +431,21 @@ export class VersionedModelTransformer extends Transformer {
     }
 
     // ... Implement the functions that do the real work by calling the context methods.
+}
+```
+
+### Adding Custom GraphQL Transformers to the Project
+
+To add a custom GraphQL transformer to the list of transformers, they need to be registered within the project. This registration can be done by adding an entry to ```transform.conf.json``` file which can be found in the ```amplify/backend/api/<api-name>``` folder. A transformer can be registered by adding a file uri to the JavaScript file that implements the transformer or by specifying the npm package name. The transformer modules will be dynamically imported during the transform process.
+
+#### Example transform.conf.json file
+
+```json
+{
+  "transformers": [
+    "some-transformer-via-npm",
+    "file:///some/absolute/local/module"
+  ]
 }
 ```
 
