@@ -97,7 +97,7 @@ The Amplify CLI supports configuring many different Authentication and Authoriza
 
 #### Configuring auth without social providers
 
-The easiest way to get up and running if you're just starting is to leverage the Default configuration which is optimized with the most common use cases and choices.
+The easiest way to get started is to leverage the default configuration which is optimized for the most common use cases and choices.
 
 ```terminal
 $ amplify add auth     ##"amplify update auth" if already configured
@@ -111,7 +111,7 @@ Do you want to use the default authentication and security configuration?
 
 #### Configuring auth with social providers
 
-Once you have your User Pool functioning, you can choose to add in more configurations such as Federation with Facebook, Google Sign-In, or Login with Amazon. You can also configure more advanced settings by selecting *Manual Configuration*.
+Once your User Pool is functioning, you can enable more configurations such as federation with Facebook, Google, or Login with Amazon. You can also configure more advanced settings by selecting *Manual Configuration*.
 
 ```terminal
 $ amplify add auth     ##"amplify update auth" if already configured
@@ -149,7 +149,7 @@ Do you want to add User Pool Groups? (Use arrow keys)
 When asked as in the example above, you can press `Shift` on your keyboard along with the **LEFT** and **RIGHT** arrows to move a Group higher or lower in precedence. Once complete you can open `./amplify/backend/auth/userPoolGroups/user-pool-group-precidence.json` to manually set the precedence.
 
 #### Group access controls
-For certain Amplify categories you can choose to restrict access with CRUD permissions, setting different access controls for authenticated users vs Guests (e.g. Authenticated users can read & write to S3 buckets while Guests can only read). You can further restrict this to apply different permissions conditionally depending on if a logged-in user is part of a specific User Pool Group.
+For certain Amplify categories you can restrict access with CRUD (Create, Read, Update, and Delete) permissions, setting different access controls for authenticated users vs Guests (e.g. Authenticated users can read & write to S3 buckets while Guests can only read). You can further restrict this to apply different permissions conditionally depending on if a logged-in user is part of a specific User Pool Group.
 
 ```terminal
 $amplify add storage  # Select content
@@ -178,7 +178,7 @@ What kind of access do you want for Admins users?
 
 The above example uses a combination of permissions where users in the "Admins" Group have full access, Guest users can only read, and users whom are not a member of any specific Group are part of the "Authenticated" users whom have create, update, and read access. Amplify will configure the corresponding IAM policy on your behalf. Advanced users can additionally set permissions by adding a `Policy` key to `./amplify/backend/auth/userPoolGroups/user-pool-group-precidence.json` with custom IAM policy for a Group. This will attach an inline policy on the IAM role associated to this Group during deployment. **Note**  this is an advanced feature and only suitable if you have an understanding of AWS resources. For instance perhaps you wanted users in the "Admins" group to have the ability to Create an S3 bucket:
 
-```json
+```javascript
 [
     {
         "groupName": "Admins",
@@ -239,6 +239,7 @@ The default routes and their functions, HTTP methods, and expected parameters ar
 To leverage this functionality in your app you would call the appropriate route in your [JavaScript]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/api#using-rest), [iOS]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/ios/api#cognito-user-pools-authorization), or [Android]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}http://127.0.0.1:4000/android/api#cognito-user-pools-authorization) application after signing in. For example to add a user "richard" to the Editors Group and then list all members of the Editors Group with a pagination limit of 10 you could use the following React code below:
 
 ```jsx
+import React from 'react'
 import Amplify, { Auth, API } from 'aws-amplify';
 import { withAuthenticator } from 'aws-amplify-react';
 import awsconfig from './aws-exports';
