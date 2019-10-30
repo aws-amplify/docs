@@ -176,14 +176,16 @@ What kind of access do you want for Admins users?
 ❯ create/update, read, delete
 ```
 
-The above example uses a combination of permissions where users in the "Admins" Group have full access, Guest users can only read, and users whom are not a member of any specific Group are part of the "Authenticated" users whom have create, update, and read access. Amplify will configure the corresponding IAM policy on your behalf. Advanced users can additionally set permissions by adding a `Policy` key to `./amplify/backend/auth/userPoolGroups/user-pool-group-precidence.json` with custom IAM policy for a Group. This will attach an inline policy on the IAM role associated to this Group during deployment. **Note**  this is an advanced feature and only suitable if you have an understanding of AWS resources. For instance perhaps you wanted users in the "Admins" group to have the ability to Create an S3 bucket:
+The above example uses a combination of permissions where users in the "Admins" Group have full access, Guest users can only read, and users whom are not a member of any specific Group are part of the "Authenticated" users whom have create, update, and read access. Amplify will configure the corresponding IAM policy on your behalf. Advanced users can additionally set permissions by adding a `customPolicies` key to `./amplify/backend/auth/userPoolGroups/user-pool-group-precidence.json` with custom IAM policy for a Group. This will attach an inline policy on the IAM role associated to this Group during deployment. **Note**  this is an advanced feature and only suitable if you have an understanding of AWS resources. For instance perhaps you wanted users in the "Admins" group to have the ability to Create an S3 bucket:
 
 ```javascript
 [
     {
         "groupName": "Admins",
         "precedence": 1,
-        "policy" : {
+        "customPolicies": [{
+        	"PolicyName": "admin-group-policy",
+        	"PolicyDocument": {
             "Version":"2012-10-17",
             "Statement":[
                 {
@@ -196,9 +198,15 @@ The above example uses a combination of permissions where users in the "Admins" 
                       "arn:aws:s3:::*"
                   ]
                 }
-              ]
-          }
+             ]
+         	}
+        }]
     },
+    {
+        "groupName": "Editors",
+        "precedence": 2
+    }
+]
 ```
 
 #### Administrative Actions
