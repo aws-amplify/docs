@@ -217,20 +217,23 @@ Sometimes you might want to create logical objects that have more complex data, 
 Finally, it's time to set up a subscription to real-time data. The syntax `appSyncClient?.subscribe(subscription: <NAME>Subscription() {(result, transaction, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen` created. Note that the AppSync console and Amplify GraphQL transformer have a common nomenclature that puts the word `On` in front of a subscription as in the following example:
 
 ```swift
-//Set a variable to discard at the class level
-var discard: Cancellable?
+// Set a variable to hold the subscription. E.g., this can be an instance variable on your view controller, or
+// a member variable in your AppSync setup code. Once you release this watcher, the subscription may be cancelled,
+// and your `resultHandler` will no longer be updated. If you wish to explicitly cancel the subscription, you can
+// invoke `subscriptionWatcher.cancel()`
+var subscriptionWatcher: Cancellable?
 
-//In your app code
+// In your app code
 do {
-    discard = try appSyncClient?.subscribe(subscription: OnCreateTodoSubscription(), resultHandler: { (result, transaction, error) in
-        if let result = result {
-        print(result.data!.onCreateTodo!.name + " " + result.data!.onCreateTodo!.description!)
+    subscriptionWatcher = try appSyncClient?.subscribe(subscription: OnCreateTodoSubscription()) { result, transaction, error in
+        if let onCreateTodo = result?.data?.onCreateTodo,  {
+            print(onCreateTodo.name + " " + onCreateTodo.description)
         } else if let error = error {
-        print(error.localizedDescription)
+            print(error.localizedDescription)
         }
-    })
-    } catch {
-    print("Error starting subscription.")
+    }
+} catch {
+    print("Error starting subscription: \(error.localizedDescription)")
 }
 ```
 
