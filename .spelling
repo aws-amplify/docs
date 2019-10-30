@@ -631,6 +631,10 @@ geolocation
 appcompat
 AWSMobileClient
 app_id
+unsanitized
+ClientMetadata
+clientMetadata
+validationData
 logic_protocol_scheme
 xml
 IdentityManager
@@ -928,6 +932,7 @@ Keychain
 
 #  ios/start.md
 xcworkspace
+API.swift
 
 # ios/storage.md
 S3ObjectInput
