@@ -213,7 +213,7 @@ The above example uses a combination of permissions where users in the "Admins" 
 
 In some scenarios you may wish to expose Administrative actions to your end user applications. For example, the ability to list all users in a Cognito User Pool may provide useful for the administrative panel of an app if the logged-in user is a member of a specific Group called "Admins". 
 
-This is an advanced feature that is not recommended without an understanding of the underlying architecture. The associated infrastructure which is created is an base designed for you to customize for your specific business needs. We recommend removing any functionality which your app does not require.
+This is an advanced feature that is not recommended without an understanding of the underlying architecture. The associated infrastructure which is created is a base designed for you to customize for your specific business needs. We recommend removing any functionality which your app does not require.
 {: .callout .callout--warning}
 
 The Amplify CLi can setup a REST endpoint with secure access to a Lambda function running with limited permissions to the User Pool if you wish to have these capabilities in your application, and you can choose to expose the actions to all users with a valid account or restrict to a specific User Pool Group.
