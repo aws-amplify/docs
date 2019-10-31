@@ -93,14 +93,15 @@ Once you have made your category updates, run the command `amplify push` to upda
 
 ### Auth Examples
 
+The Amplify CLI supports configuring many different Authentication and Authorization workflows, including simple and advanced configurations of the login options, triggering Lambda functions during different lifecycle events, and administrative actions which you can optionally expose to your applications.
+
 #### Configuring auth without social providers
+
+The easiest way to get started is to leverage the default configuration which is optimized for the most common use cases and choices.
 
 ```terminal
 $ amplify add auth     ##"amplify update auth" if already configured
-```
-Select Default configuration:
 
-```terminal
 Do you want to use the default authentication and security configuration? 
 ❯ Default configuration 
   Default configuration with Social Provider (Federation) 
@@ -109,6 +110,8 @@ Do you want to use the default authentication and security configuration?
 ```
 
 #### Configuring auth with social providers
+
+Once your User Pool is functioning, you can enable more configurations such as federation with Facebook, Google, or Login with Amazon. You can also configure more advanced settings by selecting *Manual Configuration*.
 
 ```terminal
 $ amplify add auth     ##"amplify update auth" if already configured
@@ -121,6 +124,183 @@ Do you want to use the default authentication and security configuration?
 ❯ Default configuration with Social Provider (Federation) 
   Manual configuration 
   I want to learn more.
+```
+
+#### Group management
+
+You can create logical Groups in Cognito User Pools and assign permissions to access resources in Amplify categories with the CLI, as well as define the relative precedence of one group to another. This can be useful for defining which users should be part of "Admins" vs "Editors", and if the users in a Group should be able to just write or write & read to a resource (AppSync, API Gateway, S3 bucket, etc). [You can also use these with `@auth` Static Groups in the GraphQL Transformer]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/graphql#static-group-authorization). Precedence helps remove any ambiguity on permissions if a user is in multiple Groups.
+
+```terminal
+$ amplify add auth
+❯ Manual configuration
+
+Do you want to add User Pool Groups? (Use arrow keys)
+❯ Yes
+
+? Provide a name for your user pool group: Admins
+? Do you want to add another User Pool Group Yes
+? Provide a name for your user pool group: Editors
+? Do you want to add another User Pool Group No
+? Sort the user pool groups in order of preference …  (Use <shift>+<right/left> to change the order)
+  Admins
+  Editors
+```
+
+When asked as in the example above, you can press `Shift` on your keyboard along with the **LEFT** and **RIGHT** arrows to move a Group higher or lower in precedence. Once complete you can open `./amplify/backend/auth/userPoolGroups/user-pool-group-precidence.json` to manually set the precedence.
+
+#### Group access controls
+For certain Amplify categories you can restrict access with CRUD (Create, Read, Update, and Delete) permissions, setting different access controls for authenticated users vs Guests (e.g. Authenticated users can read & write to S3 buckets while Guests can only read). You can further restrict this to apply different permissions conditionally depending on if a logged-in user is part of a specific User Pool Group.
+
+```terminal
+$amplify add storage  # Select content
+
+? Restrict access by? (Use arrow keys)
+  Auth/Guest Users 
+  Individual Groups 
+❯ Both 
+  Learn more 
+
+Who should have access?
+❯ Auth and guest users
+
+What kind of access do you want for Authenticated users? 
+❯ create/update, read
+
+What kind of access do you want for Guest users? 
+❯ read
+
+Select groups: 
+❯ Admins
+
+What kind of access do you want for Admins users? 
+❯ create/update, read, delete
+```
+
+The above example uses a combination of permissions where users in the "Admins" Group have full access, Guest users can only read, and users whom are not a member of any specific Group are part of the "Authenticated" users whom have create, update, and read access. Amplify will configure the corresponding IAM policy on your behalf. Advanced users can additionally set permissions by adding a `customPolicies` key to `./amplify/backend/auth/userPoolGroups/user-pool-group-precidence.json` with custom IAM policy for a Group. This will attach an inline policy on the IAM role associated to this Group during deployment. **Note**  this is an advanced feature and only suitable if you have an understanding of AWS resources. For instance perhaps you wanted users in the "Admins" group to have the ability to Create an S3 bucket:
+
+```javascript
+[
+    {
+        "groupName": "Admins",
+        "precedence": 1,
+        "customPolicies": [{
+        	"PolicyName": "admin-group-policy",
+        	"PolicyDocument": {
+            "Version":"2012-10-17",
+            "Statement":[
+                {
+                  "Sid":"statement1",
+                  "Effect":"Allow",
+                  "Action":[
+                      "s3:CreateBucket"
+                  ],
+                  "Resource":[
+                      "arn:aws:s3:::*"
+                  ]
+                }
+             ]
+         	}
+        }]
+    },
+    {
+        "groupName": "Editors",
+        "precedence": 2
+    }
+]
+```
+
+#### Administrative Actions
+
+In some scenarios you may wish to expose Administrative actions to your end user applications. For example, the ability to list all users in a Cognito User Pool may provide useful for the administrative panel of an app if the logged-in user is a member of a specific Group called "Admins". 
+
+This is an advanced feature that is not recommended without an understanding of the underlying architecture. The associated infrastructure which is created is an base designed for you to customize for your specific business needs. We recommend removing any functionality which your app does not require.
+{: .callout .callout--warning}
+
+The Amplify CLi can setup a REST endpoint with secure access to a Lambda function running with limited permissions to the User Pool if you wish to have these capabilities in your application, and you can choose to expose the actions to all users with a valid account or restrict to a specific User Pool Group.
+
+```terminal
+$ amplify add auth
+# Choose default or manual
+
+? Do you want to add an admin queries API? Yes
+? Do you want to restrict access to a specific Group Yes
+? Select the group to restrict access with: (Use arrow keys)
+❯ Admins 
+  Editors 
+  Enter a custom group 
+```
+
+This will configure an API Gateway endpoint with a Cognito Authorizer that accepts an Access Token, which is used by a Lambda function to perform actions against the User Pool. The function is example code which you can use to remove, add, or alter functionality based on your business case by editing it in the `./amplify/backend/function/AdminQueriesXXX/src` directory and running an `amplify push` to deploy your changes. If you choose to restrict actions to a specific Group, custom middleware in the function will prevent any actions unless the user is a member of that Group.
+
+The default routes and their functions, HTTP methods, and expected parameters are below
+- `addUserToGroup`: Adds a user to a specific Group. Expects `username` and `groupname` in the POST body.
+- `removeUserFromGroup`: Adds a user to a specific Group. Expects `username` and `groupname` in the POST body.
+- `confirmUserSignUp`: Adds a user to a specific Group. Expects `username` in the POST body.
+- `disableUser`: Adds a user to a specific Group. Expects `username` in the POST body.
+- `enableUser`: Adds a user to a specific Group. Expects `username` in the POST body.
+- `getUser`: Adds a user to a specific Group. Expects `username` as a GET query string.
+- `listUsers`: Adds a user to a specific Group. You can provide an OPTIONAL `limit` as a GET query string, which returns a `NextToken` that can be provided as a `token` query string for pagination.
+- `listGroupsForUser`: Adds a user to a specific Group. Expects `username` as a GET query string. You can provide an OPTIONAL `limit` as a GET query string, which returns a `NextToken` that can be provided as a `token` query string for pagination.
+- `listUsersInGroup`: Adds a user to a specific Group. Expects `groupname` as a GET query string. You can provide an OPTIONAL `limit` as a GET query string, which returns a `NextToken` that can be provided as a `token` query string for pagination.
+- `signUserOut`: Signs a user out from User Pools, but only if the call is originating from that user. Expects `username` in the POST body.
+
+To leverage this functionality in your app you would call the appropriate route in your [JavaScript]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/api#using-rest), [iOS]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/ios/api#cognito-user-pools-authorization), or [Android]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}http://127.0.0.1:4000/android/api#cognito-user-pools-authorization) application after signing in. For example to add a user "richard" to the Editors Group and then list all members of the Editors Group with a pagination limit of 10 you could use the following React code below:
+
+```jsx
+import React from 'react'
+import Amplify, { Auth, API } from 'aws-amplify';
+import { withAuthenticator } from 'aws-amplify-react';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
+
+async function addToGroup() { 
+  let apiName = 'AdminQueries';
+  let path = '/addUserToGroup';
+  let myInit = {
+      body: {
+        "username" : "richard",
+        "groupname": "Editors"
+      }, 
+      headers: {
+        'Content-Type' : 'application/json',
+        Authorization: `${(await Auth.currentSession()).getAccessToken().getJwtToken()}`
+      } 
+  }
+  return await API.post(apiName, path, myInit);
+}
+
+
+let nextToken;
+
+async function listEditors(limit){
+  let apiName = 'AdminQueries';
+  let path = '/listUsersInGroup';
+  let myInit = { 
+      queryStringParameters: {
+        "groupname": "Editors",
+        "limit": limit,
+        "token": nextToken
+      },
+      headers: {
+        'Content-Type' : 'application/json',
+        Authorization: `${(await Auth.currentSession()).getAccessToken().getJwtToken()}`
+      }
+  }
+  const { NextToken, ...rest } =  await API.get(apiName, path, myInit);
+  nextToken = NextToken;
+  return rest;
+}
+
+function App() {
+  return (
+    <div className="App">
+      <button onClick={addToGroup}>Add to Group</button>
+      <button onClick={() => listEditors(10)}>List Editors</button>
+    </div>
+  );
+}
+
+export default withAuthenticator(App, true);
 ```
 
 #### Adding a Lambda Trigger
