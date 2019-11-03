@@ -309,6 +309,65 @@ The Amplify CLI requires the below IAM policies for performing actions across al
     ]
 }
 ```
+
+#### Authentication module
+This policy is a sample policy to perform actions for any possible configuration in the [Authentication](https://aws-amplify.github.io/docs/js/authentication) module. You can restrict the permission according to your usage of the module. For example, if you are not using admin queries, you can remove all lines starting with `apigateway`.
+
+```terminal
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "apigateway:DELETE",
+                "apigateway:GET",
+                "apigateway:PATCH",
+                "apigateway:POST",
+                "apigateway:PUT",
+                "cognito-identity:CreateIdentityPool",
+                "cognito-identity:DeleteIdentityPool",
+                "cognito-identity:DescribeIdentityPool",
+                "cognito-identity:GetIdentityPoolRoles",
+                "cognito-identity:ListTagsForResource",
+                "cognito-identity:SetIdentityPoolRoles",
+                "cognito-identity:TagResource",
+                "cognito-identity:UntagResource",
+                "cognito-identity:UpdateIdentityPool",
+                "cognito-idp:CreateUserPool",
+                "cognito-idp:CreateUserPoolClient",
+                "cognito-idp:DeleteUserPool",
+                "cognito-idp:DeleteUserPoolClient",
+                "cognito-idp:DescribeUserPool",
+                "cognito-idp:DescribeUserPoolClient",
+                "cognito-idp:ListTagsForResource",
+                "cognito-idp:TagResource",
+                "cognito-idp:UntagResource",
+                "cognito-idp:UpdateUserPool",
+                "cognito-idp:UpdateUserPoolClient",
+                "lambda:AddPermission",
+                "lambda:CreateFunction",
+                "lambda:DeleteFunction",
+                "lambda:GetFunction",
+                "lambda:GetFunctionConfiguration",
+                "lambda:InvokeAsync",
+                "lambda:InvokeFunction",
+                "lambda:RemovePermission",
+                "lambda:UpdateFunctionCode",
+                "lambda:UpdateFunctionConfiguration",
+                "s3:DeleteBucketWebsite",
+                "s3:GetBucketCORS",
+                "s3:GetBucketWebsite",
+                "s3:PutBucketCORS",
+                "s3:PutBucketWebsite"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+```
+
 ## IAM Roles & MFA
 
 You can optionally configure the Amplify CLI to assume an IAM role by defining a profile for the role in the shared `~/.aws/config` file. This is similar to how the [AWS CLI](https://aws.amazon.com/cli/) functions, including short term credentials. This can be useful when you have multiple developers using one or more AWS accounts, including team workflows where you want to restrict the category updates they might be permitted to make.
