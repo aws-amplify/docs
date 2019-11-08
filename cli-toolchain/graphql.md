@@ -1726,6 +1726,7 @@ type Team @model {
     name: String!
 }
 ```
+
 In this case, the Project type has a `teamID` field added as an identifier for the team that the project belongs to. @connection can then get the connected Team object by querying the Team table with this `teamID`.
 
 After it's transformed, you can create projects and query the connected team as follows:
@@ -1770,8 +1771,15 @@ Note how a one-to-many connection needs a @key that allows comments to be querie
 After it's transformed, you can create comments and query the connected Post as follows:
 
 ```
+mutation CreatePost {
+    createPost(input: { id: "a-post-id", title: "Post Title" } ) {
+        id
+        title
+    }
+}
+
 mutation CreateCommentOnPost {
-    createComment(input: { content: "A comment", postID: "a-post-id"}) {
+    createComment(input: { id: "a-comment-id", content: "A comment", postID: "a-post-id"}) {
         id
         content
     }
@@ -1782,7 +1790,7 @@ And you can query a Post with its comments as follows:
 
 ```
 query getPost {
-    getPost(input: { id: "a-post-id" }) {
+    getPost(id: "a-post-id") {
         id
         title
         comments {
@@ -1794,6 +1802,7 @@ query getPost {
     }
 }
 ```
+
 **Belongs To**
 
 You can make a connection bi-directional by adding a many-to-one connection to types that already have a one-to-many connection. In this case we add a connection from Comment to Post since each comment belongs to a post:
@@ -1816,17 +1825,48 @@ type Comment
     post: Post @connection(fields: ["postID"])
 }
 ```
+
 After it's transformed, you can create comments with a post as follows:
 
 ```
-mutation CreateCommentOnPost {
-    createComment(input: { content: "A comment", postID: "a-post-id"}) {
+mutation CreatePost {
+    createPost(input: { id: "a-post-id", title: "Post Title" } ) {
+        id
+        title
+    }
+}
+
+mutation CreateCommentOnPost1 {
+    createComment(input: { id: "a-comment-id-1", content: "A comment #1", postID: "a-post-id"}) {
+        id
+        content
+    }
+}
+
+mutation CreateCommentOnPost2 {
+    createComment(input: { id: "a-comment-id-2", content: "A comment #2", postID: "a-post-id"}) {
+        id
+        content
+    }
+}
+```
+
+And you can query a Comment with its Post, then all Comments of that Post by navigating the connection:
+
+```
+query GetCommentWithPostAndComments {
+    getComment( id: "a-comment-id-1" ) {
         id
         content
         post {
             id
             title
-            comments
+            comments {
+                items {
+                    id
+                    content
+                }
+            }
         }
     }
 }
@@ -1837,7 +1877,7 @@ mutation CreateCommentOnPost {
 You can implement many to many yourself using two 1-M @connections and a joining @model. For example:
 
 ```
-type Post @model {
+ type Post @model {
     id: ID!
     title: String!
     editors: [PostEditor] @connection(keyName: "byPost", fields: ["id"])
@@ -1860,43 +1900,83 @@ type PostEditor
 type User @model {
     id: ID!
     username: String!
-    posts: [PostEditor] @connection(keyName: "byEditor", fields: ["byEditor"])
+    posts: [PostEditor] @connection(keyName: "byEditor", fields: ["id"])
 }
 ```
+
 This case is a bidirectional many-to-many which is why two `@key` calls are needed on the PostEditor model.
 You can first create a Post and a User, and then add a connection between them with by creating a PostEditor object as follows:
 
 ```
-mutation CreatePost {
-    createPost(input: { id: "a-post-id", title: "a-post-title" }) {
+mutation CreateData {
+    p1: createPost(input: { id: "P1", title: "Post 1" }) {
         id
-        title
+    }
+    p2: createPost(input: { id: "P2", title: "Post 2" }) {
+        id
+    }
+    u1: createUser(input: { id: "U1", username: "user1" }) {
+        id
+    }   
+    u2: createUser(input: { id: "U2", username: "user2" }) {
+        id
+    }
+}
+
+mutation CreateLinks {
+    p1u1: createPostEditor(input: { id: "P1U1", postID: "P1", editorID: "U1" }) {
+        id
+    }   
+    p1u2: createPostEditor(input: { id: "P1U2", postID: "P1", editorID: "U2" }) {
+        id
+    }
+    p2u1: createPostEditor(input: { id: "P2U1", postID: "P2", editorID: "U1" }) {
+        id
     }
 }
 ```
 
-```
-mutation CreateUser {
-    createUser(input: { id: "a-user-id", username: "a-username" }) {
-        id
-        username
-    }
-}
-```
 Note that neither the User type nor the Post type have any identifiers of connected objects. The connection info is held entirely inside the PostEditor objects.
 
+You can query a given user with their posts:
+
 ```
-mutation PostEditor {
-    createPostEditor(input: { postID: "a-post-id", editorID: "a-user-id"}) {
+query GetUserWithPosts {
+    getUser(id: "U1") {
         id
-        post {
-      id
-      title
-  }
-  editor {
-      id
-      username
-  }
+        username
+        posts {
+            items {
+                post {
+                    title
+                }
+            }
+        }
+    }
+}
+```
+
+Also you can query a given post with the editors of that post and can list the posts of those editors, all in a single query:
+
+```
+query GetPostWithEditorsWithPosts {
+    getPost(id: "P1") {
+        id
+        title
+        editors {
+            items {
+                editor {
+                    username
+                    posts {
+                        items {
+                            post {
+                                title
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 ```
@@ -1906,7 +1986,7 @@ mutation PostEditor {
 The above definition is the recommended way to create relationships between model types in your API. This involves defining index structures using `@key` and connection resolvers using `@connection`. There is an older parameterization of @connection that creates indices and connection resolvers that is still functional for backwards compatibility reasons. It is recommended to use @key and the new @connection via the fields argument because it gives you more control and can do everything that the old @connection can do.
 
 ```
-directive @connection(name: String, keyField: String, sortField: String) on FIELD_DEFINITION
+directive @connection(name: String, keyField: String, sortField: String, limit: Int) on FIELD_DEFINITION
 ```
 
 This parameterization is not compatible with `@key`. See the parameterization above to use @connection with indexes created by @key.
@@ -2035,7 +2115,6 @@ query GetPostAndComments {
 }
 ```
 
-
 **Many-To-Many Connections**
 
 You can implement many to many yourself using two 1-M @connections and a joining @model. For example:
@@ -2063,6 +2142,23 @@ type User @model {
 ```
 
 You can then create Posts & Users independently and join them in a many-to-many by creating PostEditor objects. In the future we will support more native support for many to many out of the box. The issue is being [tracked on github here](https://github.com/aws-amplify/amplify-cli/issues/91).
+
+
+**Limit**
+
+The default number of nested objects is 10. You can override this behavior by setting the **limit** argument. For example:
+
+```
+type Post {
+    id: ID!
+    title: String!
+    comments: [Comment] @connection(limit: 50)
+}
+type Comment {
+    id: ID!
+    content: String!
+}
+```
 
 #### Generates
 

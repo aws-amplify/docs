@@ -200,6 +200,7 @@ myAmplifyProject
 _blank
 OnInit
 todos
+autolinking
 
 # js/hub.md
 onHubCapsule
@@ -589,6 +590,9 @@ DynamoDBTable
 amplifyMeta.json
 transform.conf.json
 
+#cli-toolchain/quickstart.md
+richard
+
 #cli-toolchain/usage.md
 poolData
 cleartext
@@ -640,6 +644,10 @@ geolocation
 appcompat
 AWSMobileClient
 app_id
+unsanitized
+ClientMetadata
+clientMetadata
+validationData
 logic_protocol_scheme
 xml
 IdentityManager
@@ -937,6 +945,7 @@ Keychain
 
 #  ios/start.md
 xcworkspace
+API.swift
 
 # ios/storage.md
 S3ObjectInput
