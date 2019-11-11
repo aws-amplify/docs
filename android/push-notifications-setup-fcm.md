@@ -17,7 +17,7 @@ If you are new to push messaging on Android, you must create a Firebase project,
 
 **To create a Firebase project**
 
-* Go to the Firebase console at https://console.firebase.google.com/. If you are not signed in to Google, the link takes you to a sign-in page. After you sign in, you see the Firebase console.
+* Go to the Firebase console at [https://console.firebase.google.com/](https://console.firebase.google.com/). If you are not signed in to Google, the link takes you to a sign-in page. After you sign in, you see the Firebase console.
 
 * Choose Create New Project.
 
@@ -35,7 +35,7 @@ This topic describes how to retrieve your credentials from FCM or GCM. Use FCM f
 
 **To obtain your credentials from FCM**
 
-* Go to the Firebase console at https://console.firebase.google.com/ and open your project.
+* Go to the Firebase console at [https://console.firebase.google.com/](https://console.firebase.google.com/) and open your project.
 
 * In the left pane, to the right of your project name, choose the gear icon, and then choose Project Settings.
 
@@ -49,7 +49,7 @@ This topic describes how to retrieve your credentials from FCM or GCM. Use FCM f
 
 **To obtain your credentials from GCM**
 
-* Go to the Google API Console at https://console.developers.google.com.
+* Go to the Google API Console at [https://console.developers.google.com](https://console.developers.google.com).
 
 * In the left pane, choose `Credentials`.
 
@@ -67,7 +67,7 @@ This topic describes how to retrieve your credentials from FCM or GCM. Use FCM f
 
     ![alt text](media/push-gcm-credentials-api-key-display.png "Credentials")
 
-* To retrieve your sender ID (also called project number), go to the Google Cloud Platform console at https://console.cloud.google.com/. Select your project from the Project menu. Then, choose the arrow next to the project name.
+* To retrieve your sender ID (also called project number), go to the Google Cloud Platform console at[https://console.cloud.google.com/](https://console.cloud.google.com/). Select your project from the Project menu. Then, choose the arrow next to the project name.
 
 ![alt text](media/push-gcm-credentials-expand-project.png "Credentials")
 
