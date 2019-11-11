@@ -17,7 +17,7 @@ If you are new to push messaging on Android, you must create a Firebase project,
 
 **To create a Firebase project**
 
-* Go to the Firebase console at https://console.firebase.google.com/. If you are not signed in to Google, the link takes you to a sign-in page. After you sign in, you see the Firebase console.
+* Go to the Firebase console at [https://console.firebase.google.com/](https://console.firebase.google.com/). If you are not signed in to Google, the link takes you to a sign-in page. After you sign in, you see the Firebase console.
 
 * Choose Create New Project.
 
