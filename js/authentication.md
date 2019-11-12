@@ -169,7 +169,16 @@ Amplify.configure({
         storage: new MyStorage(),
         
         // OPTIONAL - Manually set the authentication flow type. Default is 'USER_SRP_AUTH'
-        authenticationFlowType: 'USER_PASSWORD_AUTH'
+        authenticationFlowType: 'USER_PASSWORD_AUTH',
+
+        // OPTIONAL - Hosted UI configuration
+        oauth: {
+            domain: 'your_cognito_domain',
+            scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
+            redirectSignIn: 'http://localhost:3000/',
+            redirectSignOut: 'http://localhost:3000/',
+            responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
+        }
     }
 });
 
