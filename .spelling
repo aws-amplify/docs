@@ -577,6 +577,9 @@ DynamoDBTable
 amplifyMeta.json
 transform.conf.json
 
+#cli-toolchain/quickstart.md
+richard
+
 #cli-toolchain/usage.md
 poolData
 cleartext
@@ -628,6 +631,10 @@ geolocation
 appcompat
 AWSMobileClient
 app_id
+unsanitized
+ClientMetadata
+clientMetadata
+validationData
 logic_protocol_scheme
 xml
 IdentityManager
