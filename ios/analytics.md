@@ -93,8 +93,8 @@ platform :ios, '9.0'
 target 'YourAppName' do
     use_frameworks!
 
-    pod 'AWSPinpoint', '~> 2.12.0'
-    pod 'AWSMobileClient', '~> 2.12.0'
+    pod 'AWSPinpoint', '~> 2.12.1' 
+    pod 'AWSMobileClient', '~> 2.12.1' 
 
     # other pods
 
@@ -352,7 +352,7 @@ For more information about Amazon Kinesis Firehose, see [Amazon Kinesis Firehose
 Add the following to your `Podfile`:
 
 ```ruby
-pod 'AWSKinesis', '~> 2.12.0'
+pod 'AWSKinesis', '~> 2.12.1' 
 ```
 
 The instructions direct you to import the headers for the services you'll be using. For this example, you need the following import.
