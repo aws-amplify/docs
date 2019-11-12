@@ -187,7 +187,16 @@ Amplify.configure({
         authenticationFlowType: 'USER_PASSWORD_AUTH',
 
         // OPTIONAL - Manually set key value pairs that can be passed to Cognito Lambda Triggers
-        clientMetadata: { myCustomKey: 'myCustomValue' }
+        clientMetadata: { myCustomKey: 'myCustomValue' },
+
+         // OPTIONAL - Hosted UI configuration
+        oauth: {
+            domain: 'your_cognito_domain',
+            scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
+            redirectSignIn: 'http://localhost:3000/',
+            redirectSignOut: 'http://localhost:3000/',
+            responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
+        }
     }
 });
 
