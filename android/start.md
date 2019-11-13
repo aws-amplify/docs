@@ -75,34 +75,23 @@ Finally, update your AndroidManifest.xml with the following:
     </application>
 ```
 
-**Build your Android Studio project**.
+**Build** your Android Studio project.
 
-## Step 2: Set Up Your Backend
+## Step 2: Initialize your project
 
-Create new AWS backend resources and pull the AWS services configuration into the app. In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`), and run the following command (for this app, accepting all defaults is OK):
+In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`) and run the following command (for this app, accepting all defaults is OK):
 
 ```bash
 $ cd ./YOUR_PROJECT_FOLDER
 $ amplify init        #accept defaults
 ```
-
 An `awsconfiguration.json` file will be created with your configuration and updated as features get added to your project by the Amplify CLI. The file is placed in the `./app/src/main/res/raw` directory of your Android Studio project and automatically used by the SDKs at runtime.
 
-## Step 3: How it Works
+**What is awsconfiguration.json?**
 
-Rather than configuring each service through a constructor or constants file, the AWS SDKs for Android support configuration through a centralized file called `awsconfiguration.json` which defines all the regions and service endpoints to communicate. Whenever you run `amplify push`, this file is automatically created allowing you to focus on your application code. On Android projects the `awsconfiguration.json` will be placed into the `./app/src/main/res/raw` directory.
+Rather than configuring each service through a constructor or constants file, the AWS SDKs for Android support configuration through a centralized file called `awsconfiguration.json` which defines all the regions and service endpoints to communicate. Whenever you run `amplify push`, this file is automatically created allowing you to focus on your application code. On Android projects, the `awsconfiguration.json` will be placed into the `./app/src/main/res/raw` directory.
 
-To verify that the CLI is set up for your app, run the following command.
-
-```bash
-  $ amplify status
-  | Category | Resource name | Operation | Provider plugin |
-  | -------- | ------------- | --------- | --------------- |
-```
-
-The CLI displays a status table with no resources listed. As you add feature categories to your app and run `amplify push`, backend resources created for your app are listed in this table.
-
-## Step 4: Add API and Database
+## Step 3: Add API and Database
 
 Add a GraphQL API to your app and automatically provision a database with the following command (accepting all defaults is OK):
 
@@ -110,15 +99,33 @@ Add a GraphQL API to your app and automatically provision a database with the fo
 $ amplify add api     #select GraphQL, API Key
 ```
 
-The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on you can always change it. This process creates an AWS AppSync API and connects it to an Amazon DynamoDB database.
+The `add api` flow  will ask you simple questions. If this is your first time using the CLI select **No** for the question "Do you have an annotated GraphQL schema". The CLI then guides you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. You can always change the schema as needed. This process creates an AWS AppSync API and connects it to an Amazon DynamoDB database. The CLI flow will look like below:
 
-Create required backend resources for your configured api with the following command:
+```bash
+$ amplify add api
+? Please select from one of the below mentioned services: GraphQL
+? Provide API name: todo
+? Choose the default authorization type for the API: API key
+? Enter a description for the API key: ToDo description
+? After how many days from now the API key should expire (1-365): 180
+? Do you want to configure advanced settings for the GraphQL API: No, I am done.
+? Do you have an annotated GraphQL schema? No
+? Do you want a guided schema creation? Yes
+? What best describes your project: Single object with fields (e.g., “Todo” with ID, name, description)
+? Do you want to edit the schema now? No
+```
+
+## Step 4: Push changes
+
+Create required backend resources for your configured API with the following command:
 
 ```bash
 $ amplify push
 ```
 
-Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults which generate a `./app/src/main/graphql` folder structure with your statements. Run a **Gradle Sync** and **Build** your app, at which point the generated packages are automatically added to your project.
+Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults which generate a `./app/src/main/graphql` folder structure with your statements.
+
+Run a **Gradle Sync** and **Build** your app. The generated packages are automatically added to your project.
 
 ## Step 5: Integrate into your app
 
@@ -141,78 +148,78 @@ protected void onCreate(Bundle savedInstanceState) {
 You can now add data to your database with a mutation:
 
 ```java
-    public void runMutation(){
-        CreateTodoInput createTodoInput = CreateTodoInput.builder().
-            name("Use AppSync").
-            description("Realtime and Offline").
-            build();
+public void runMutation(){
+    CreateTodoInput createTodoInput = CreateTodoInput.builder().
+        name("Use AppSync").
+        description("Realtime and Offline").
+        build();
 
-        mAWSAppSyncClient.mutate(CreateTodoMutation.builder().input(createTodoInput).build())
-            .enqueue(mutationCallback);
+    mAWSAppSyncClient.mutate(CreateTodoMutation.builder().input(createTodoInput).build())
+        .enqueue(mutationCallback);
+}
+
+private GraphQLCall.Callback<CreateTodoMutation.Data> mutationCallback = new GraphQLCall.Callback<CreateTodoMutation.Data>() {
+    @Override
+    public void onResponse(@Nonnull Response<CreateTodoMutation.Data> response) {
+        Log.i("Results", "Added Todo");
     }
 
-    private GraphQLCall.Callback<CreateTodoMutation.Data> mutationCallback = new GraphQLCall.Callback<CreateTodoMutation.Data>() {
-        @Override
-        public void onResponse(@Nonnull Response<CreateTodoMutation.Data> response) {
-            Log.i("Results", "Added Todo");
-        }
-
-        @Override
-        public void onFailure(@Nonnull ApolloException e) {
-            Log.e("Error", e.toString());
-        }
-    };
+    @Override
+    public void onFailure(@Nonnull ApolloException e) {
+        Log.e("Error", e.toString());
+    }
+};
 ```
 
 Next, query the data:
 
 ```java
-    public void runQuery(){
-        mAWSAppSyncClient.query(ListTodosQuery.builder().build())
-                .responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK)
-                .enqueue(todosCallback);
+public void runQuery(){
+    mAWSAppSyncClient.query(ListTodosQuery.builder().build())
+        .responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK)
+        .enqueue(todosCallback);
+}
+
+private GraphQLCall.Callback<ListTodosQuery.Data> todosCallback = new GraphQLCall.Callback<ListTodosQuery.Data>() {
+    @Override
+    public void onResponse(@Nonnull Response<ListTodosQuery.Data> response) {
+        Log.i("Results", response.data().listTodos().items().toString());
     }
 
-    private GraphQLCall.Callback<ListTodosQuery.Data> todosCallback = new GraphQLCall.Callback<ListTodosQuery.Data>() {
-        @Override
-        public void onResponse(@Nonnull Response<ListTodosQuery.Data> response) {
-            Log.i("Results", response.data().listTodos().items().toString());
-        }
-
-        @Override
-        public void onFailure(@Nonnull ApolloException e) {
-            Log.e("ERROR", e.toString());
-        }
-    };
+    @Override
+    public void onFailure(@Nonnull ApolloException e) {
+        Log.e("ERROR", e.toString());
+    }
+};
 ```
 
 You can also setup realtime subscriptions to data:
 
 ```java
-    private AppSyncSubscriptionCall subscriptionWatcher;
+private AppSyncSubscriptionCall subscriptionWatcher;
 
-    private void subscribe(){
-        OnCreateTodoSubscription subscription = OnCreateTodoSubscription.builder().build();
-        subscriptionWatcher = mAWSAppSyncClient.subscribe(subscription);
-        subscriptionWatcher.execute(subCallback);
+private void subscribe(){
+    OnCreateTodoSubscription subscription = OnCreateTodoSubscription.builder().build();
+    subscriptionWatcher = mAWSAppSyncClient.subscribe(subscription);
+    subscriptionWatcher.execute(subCallback);
+}
+
+private AppSyncSubscriptionCall.Callback subCallback = new AppSyncSubscriptionCall.Callback() {
+    @Override
+    public void onResponse(@Nonnull Response response) {
+        Log.i("Response", response.data().toString());
     }
 
-    private AppSyncSubscriptionCall.Callback subCallback = new AppSyncSubscriptionCall.Callback() {
-        @Override
-        public void onResponse(@Nonnull Response response) {
-            Log.i("Response", response.data().toString());
-        }
+    @Override
+    public void onFailure(@Nonnull ApolloException e) {
+        Log.e("Error", e.toString());
+    }
 
-        @Override
-        public void onFailure(@Nonnull ApolloException e) {
-            Log.e("Error", e.toString());
-        }
-
-        @Override
-        public void onCompleted() {
-            Log.i("Completed", "Subscription completed");
-        }
-    };
+    @Override
+    public void onCompleted() {
+        Log.i("Completed", "Subscription completed");
+    }
+};
 ```
 
 Call the `runMutation()`, `runQuery()`, and `subscribe()` methods from your app code, such as from a button click or when your app starts in `onCreate()`. You will see data being stored and retrieved in your backend from the Android Studio console. At any time you can open the AWS console for your new API directly by running the following command:
