@@ -146,7 +146,7 @@ android_category_list:
           url: '/cli-toolchain/graphql?sdk=js'
         - title: Plugins & Extensions
           excerpt: Create a new plugin for the CLI
-          url: '/cli-toolchain/plugins?sdk=js' 
+          url: '/cli-toolchain/plugins?sdk=js'
           icon: '/images/icons/Misc/Present.svg'
     - category: API Guides
       title: API Guides
@@ -263,7 +263,7 @@ ios_category_list:
           url: '/cli-toolchain/graphql?sdk=js'
         - title: Plugins & Extensions
           excerpt: Create a new plugin for the CLI
-          url: '/cli-toolchain/plugins?sdk=js' 
+          url: '/cli-toolchain/plugins?sdk=js'
           icon: '/images/icons/Misc/Present.svg'
     - category: API Guides
       title: API Guides
@@ -359,7 +359,7 @@ category_list:
           excerpt: get started excerpt
           url: '/js/start'
           icon: '/images/icons/Misc/Present.svg'
-    - category: Tutorials
+    - category: FrameworkSupport
       title: Framework Support
       excerpt:
       base_url: '/js/react'
@@ -397,7 +397,7 @@ category_list:
           url: '/cli-toolchain/graphql?sdk=js'
         - title: Plugins & Extensions
           excerpt: Create a new plugin for the CLI
-          url: '/cli-toolchain/plugins?sdk=js' 
+          url: '/cli-toolchain/plugins?sdk=js'
           icon: '/images/icons/Misc/Present.svg'
     - category: Categories
       title: API Guides
