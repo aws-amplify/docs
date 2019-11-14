@@ -376,6 +376,12 @@ category_list:
           excerpt: #"Learn to build a cloud enabled App with Vue.js and AWS Amplify <br/><b>45 min to complete</b>"
           url: '/js/vue'
           icon: '/images/icons/Misc/Present.svg'
+    - category: Tutorials
+      title: Tutorials
+      base_url: '/js/tutorials'
+      subs:
+        - title: Photo Albums Web App in React
+          url: '/js/tutorials/photo-albums-in-react'
     - category: CLI Toolchain
       title: CLI Toolchain
       excerpt: Better developer experience when building and deploying your apps.
