@@ -1,4 +1,5 @@
-+++ b/Users/ecclemm/Projects/ericclemmons/docs/js/tutorials/photo-albums-in-react/_steps/src/App.js/p2s3.js
+--- a/src/App.js
++++ b/src/App.js
 @@ -3,6 +3,8 @@ import { BrowserRouter, Route } from 'react-router-dom';
  import { Grid } from 'semantic-ui-react';
  import 'semantic-ui-css/semantic.min.css';

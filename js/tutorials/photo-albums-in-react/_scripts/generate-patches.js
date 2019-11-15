@@ -18,7 +18,8 @@ if (!fs.existsSync(srcDir)) {
   throw new Error(`${srcDir} does not exist`);
 }
 
-const relative = (dir, cwd = process.cwd()) => dir.replace(cwd + '/', '');
+const relative = (dir, cwd = process.cwd(), instead = '') =>
+  dir.replace(cwd + '/', instead);
 
 const ignore = [
   '**/#current-cloud-backend',
@@ -29,22 +30,22 @@ const ignore = [
   'serviceWorker.js'
 ];
 const onlyFiles = true;
-const stepDir = path.resolve(__dirname, '../_steps');
+const stepsDir = path.resolve(__dirname, '../_steps');
 
 const patchFiles = globby.sync('**.patch', {
-  cwd: stepDir
+  cwd: stepsDir
 });
 
 if (patchFiles.length) {
   console.info(`Cleaning up ${patchFiles.length} .patch files...`);
 
   patchFiles.forEach(patchFile =>
-    fs.unlinkSync(path.resolve(stepDir, patchFile))
+    fs.unlinkSync(path.resolve(stepsDir, patchFile))
   );
 }
 
-console.info(`Cleaning up ${relative(stepDir)}...`);
-deleteEmpty.sync(stepDir);
+console.info(`Cleaning up ${relative(stepsDir)}...`);
+deleteEmpty.sync(stepsDir);
 
 const masterFiles = globby.sync(
   ['**/*.js', '**/package.json', '**/schema.graphql'],
@@ -58,13 +59,15 @@ const masterFiles = globby.sync(
 masterFiles.map(async masterFile => {
   const masterPath = path.resolve(srcDir, masterFile);
   const stepFiles = globby.sync(`${masterFile}/*.*`, {
-    cwd: stepDir,
+    cwd: stepsDir,
     ignore,
     onlyFiles
   });
 
   if (!stepFiles.length) {
-    console.warn(`Expected step files in ${relative(stepDir)}/${masterFile}/*`);
+    console.warn(
+      `Expected step files in ${relative(stepsDir)}/${masterFile}/*`
+    );
 
     return;
   }
@@ -72,7 +75,7 @@ masterFiles.map(async masterFile => {
   let previousPath = '/dev/null';
 
   for (const stepFile of stepFiles) {
-    const nextPath = path.resolve(stepDir, stepFile);
+    const nextPath = path.resolve(stepsDir, stepFile);
     const patchFile = path.resolve(`${nextPath}.patch`);
 
     const subprocess = await execa('git', [
@@ -84,8 +87,10 @@ masterFiles.map(async masterFile => {
       nextPath
     ]).catch(error => error);
 
-    const [, , , a, b, ...lines] = subprocess.stdout.split('\n');
-    const diff = [a, b.replace(process.cwd(), ''), ...lines].join('\n');
+    const [, , , , ...lines] = subprocess.stdout.split('\n');
+    const diff = [`--- a/${masterFile}`, `+++ b/${masterFile}`, ...lines].join(
+      '\n'
+    );
 
     fs.mkdirSync(path.dirname(patchFile), { recursive: true });
     fs.writeFileSync(patchFile, diff, 'utf8');
