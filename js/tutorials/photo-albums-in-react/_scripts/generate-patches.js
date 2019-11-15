@@ -37,14 +37,14 @@ const patchFiles = globby.sync('**.patch', {
 });
 
 if (patchFiles.length) {
-  console.info(`Cleaning up ${patchFiles.length} .patch files...`);
+  console.info(`🗑  Cleaning up ${patchFiles.length} .patch files...`);
 
   patchFiles.forEach(patchFile =>
     fs.unlinkSync(path.resolve(stepsDir, patchFile))
   );
 }
 
-console.info(`Cleaning up ${relative(stepsDir)}...`);
+console.info(`🗑  Cleaning up ${relative(stepsDir)}...`);
 deleteEmpty.sync(stepsDir);
 
 const masterFiles = globby.sync(
@@ -66,7 +66,7 @@ masterFiles.map(async masterFile => {
 
   if (!stepFiles.length) {
     console.warn(
-      `Expected step files in ${relative(stepsDir)}/${masterFile}/*`
+      `⚠️  No steps for ${masterFile} in ${relative(stepsDir)}/${masterFile}/`
     );
 
     return;
@@ -94,7 +94,7 @@ masterFiles.map(async masterFile => {
 
     fs.mkdirSync(path.dirname(patchFile), { recursive: true });
     fs.writeFileSync(patchFile, diff, 'utf8');
-    console.info('Created', relative(patchFile));
+    console.info('✅ Created', relative(patchFile));
 
     previousPath = nextPath;
   }
