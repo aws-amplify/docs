@@ -67,7 +67,7 @@ This topic describes how to retrieve your credentials from FCM or GCM. Use FCM f
 
     ![alt text](media/push-gcm-credentials-api-key-display.png "Credentials")
 
-* To retrieve your sender ID (also called project number), go to the Google Cloud Platform console at[https://console.cloud.google.com/](https://console.cloud.google.com/). Select your project from the Project menu. Then, choose the arrow next to the project name.
+* To retrieve your sender ID (also called project number), go to the Google Cloud Platform console at [https://console.cloud.google.com/](https://console.cloud.google.com/). Select your project from the Project menu. Then, choose the arrow next to the project name.
 
 ![alt text](media/push-gcm-credentials-expand-project.png "Credentials")
 
