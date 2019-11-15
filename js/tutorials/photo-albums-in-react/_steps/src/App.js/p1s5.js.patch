@@ -1,5 +1,5 @@
 --- /dev/null
-+++ b/_patches/src/App.js/p1s5.js
++++ b/_steps/src/App.js/p1s5.js
 @@ -0,0 +1,19 @@
 +import React from 'react';
 +import { BrowserRouter, Route } from 'react-router-dom';

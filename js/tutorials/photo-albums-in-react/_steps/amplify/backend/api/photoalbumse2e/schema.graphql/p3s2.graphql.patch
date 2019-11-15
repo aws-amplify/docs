@@ -1,5 +1,5 @@
 --- /dev/null
-+++ b/_patches/amplify/backend/api/photoalbumse2e/schema.graphql/p3s2.graphql
++++ b/_steps/amplify/backend/api/photoalbumse2e/schema.graphql/p3s2.graphql
 @@ -0,0 +1,44 @@
 +type Album
 +  @auth(

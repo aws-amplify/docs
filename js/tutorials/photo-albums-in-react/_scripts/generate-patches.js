@@ -29,22 +29,22 @@ const ignore = [
   'serviceWorker.js'
 ];
 const onlyFiles = true;
-const patchDir = path.resolve(__dirname, '../_patches');
+const stepDir = path.resolve(__dirname, '../_steps');
 
 const patchFiles = globby.sync('**.patch', {
-  cwd: patchDir
+  cwd: stepDir
 });
 
 if (patchFiles.length) {
   console.info(`Cleaning up ${patchFiles.length} .patch files...`);
 
   patchFiles.forEach(patchFile =>
-    fs.unlinkSync(path.resolve(patchDir, patchFile))
+    fs.unlinkSync(path.resolve(stepDir, patchFile))
   );
 }
 
-console.info(`Cleaning up ${relative(patchDir)}...`);
-deleteEmpty.sync(patchDir);
+console.info(`Cleaning up ${relative(stepDir)}...`);
+deleteEmpty.sync(stepDir);
 
 const masterFiles = globby.sync(
   ['**/*.js', '**/package.json', '**/schema.graphql'],
@@ -58,15 +58,13 @@ const masterFiles = globby.sync(
 masterFiles.map(async masterFile => {
   const masterPath = path.resolve(srcDir, masterFile);
   const stepFiles = globby.sync(`${masterFile}/*.*`, {
-    cwd: patchDir,
+    cwd: stepDir,
     ignore,
     onlyFiles
   });
 
   if (!stepFiles.length) {
-    console.warn(
-      `Expected step files in ${relative(patchDir)}/${masterFile}/*`
-    );
+    console.warn(`Expected step files in ${relative(stepDir)}/${masterFile}/*`);
 
     return;
   }
@@ -74,7 +72,7 @@ masterFiles.map(async masterFile => {
   let previousPath = '/dev/null';
 
   for (const stepFile of stepFiles) {
-    const nextPath = path.resolve(patchDir, stepFile);
+    const nextPath = path.resolve(stepDir, stepFile);
     const patchFile = path.resolve(`${nextPath}.patch`);
 
     const subprocess = await execa('git', [
