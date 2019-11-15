@@ -72,13 +72,28 @@ Please tell us about your project
 ? Start Command: npm run-script start
 ```
 
+## Step 5. Tutorial Dependencies
+
 Inside your app directory, install Amplify JavaScript:
 
 ```shell
 npm install aws-amplify
 ```
 
-Finally, run your project:
+For this tutorial, we'll use `react-router-dom` for routing & `semantic-ui-react`
+for reducing styling boilerplate:
+
+```shell
+npm install react-router-dom semantic-ui-react
+```
+
+Next, replace `src/App.js` with:
+
+```jsx
+{% include_relative _patches/src/App.js/p1s5.js %}
+```
+
+Finally, run your project & we're ready to start adding in features!
 
 ```shell
 npm start
@@ -181,50 +196,7 @@ Please edit the file in your editor: /Users/ecclemm/Projects/aws-amplify/amplify
 At this point, copy/paste this into `schema.graphql`:
 
 ```graphql
-type Album
-  @auth(
-    rules: [
-      # Owners can do anything
-      { allow: owner }
-      # Unauthenticated users can only read (IAM + Cognito User Pools required)
-      { allow: public, provider: iam, operations: [read] }
-    ]
-  )
-  @model
-  @versioned {
-  id: ID!
-  name: String!
-  photos: [Photo] @connection(name: "AlbumPhotos")
-}
-
-type Photo
-  # Needed for the Album.photos @connection to work
-  @auth(
-    rules: [
-      # Owners can do anything
-      { allow: owner }
-      # Unauthenticated users can only read (IAM + Cognito User Pools required)
-      { allow: public, provider: iam, operations: [read] }
-    ]
-  )
-  @model
-  @versioned {
-  id: ID!
-  album: Album @connection(name: "AlbumPhotos")
-  bucket: String!
-  fullsize: PhotoS3Info!
-  labels: [String!]!
-  description: String
-}
-
-type PhotoS3Info
-  # Needed to access Photo.fullsize
-  @aws_iam
-  @aws_cognito_user_pools {
-  key: String!
-  width: Int!
-  height: Int!
-}
+{% include_relative _patches/amplify/backend/api/photoalbumse2e/schema.graphql/p3s2.graphql %}
 ```
 
 Next, provision our GraphQL API:
@@ -293,37 +265,37 @@ Successfully added resource S3Triggerebe09ed6 locally
 For the contents of `amplify/backend/function/S3TriggerXXXXXX`:
 
 ```js
-const aws = require("aws-sdk");
-const Jimp = require("jimp");
+const aws = require('aws-sdk');
+const Jimp = require('jimp');
 
 // S3 Trigger Events:
-const S3PUT = "ObjectCreated:Put";
-const S3DELETE = "ObjectRemoved:Delete";
+const S3PUT = 'ObjectCreated:Put';
+const S3DELETE = 'ObjectRemoved:Delete';
 
 // Support `amplify mock`
 const s3 = new aws.S3(
   process.env.AWS_EXECUTION_ENV
     ? undefined
     : {
-        endpoint: "http://localhost:20005",
+        endpoint: 'http://localhost:20005',
         s3BucketEndpoint: true,
         s3ForcePathStyle: true
       }
 );
 
-const THUMBNAIL_FOLDER = "thumbnails";
+const THUMBNAIL_FOLDER = 'thumbnails';
 
 exports.handler = async function(event) {
   const [record] = event.Records;
   const { eventName } = record;
   const Bucket = record.s3.bucket.name;
   const Key = record.s3.object.key;
-  const parts = Key.split("/");
+  const parts = Key.split('/');
   const basename = parts[parts.length - 1];
 
   // Prefix original image path with THUMBNAIL_FOLDER
   const thumbnailKey = [...parts.slice(0, -1), THUMBNAIL_FOLDER, basename].join(
-    "/"
+    '/'
   );
 
   if (Key.includes(THUMBNAIL_FOLDER)) {

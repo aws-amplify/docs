@@ -1,0 +1,21 @@
++++ b/Users/ecclemm/Projects/ericclemmons/docs/js/tutorials/photo-albums-in-react/_patches/src/App.js/p2s3.js
+@@ -3,6 +3,8 @@ import { BrowserRouter, Route } from 'react-router-dom';
+ import { Grid } from 'semantic-ui-react';
+ import 'semantic-ui-css/semantic.min.css';
+ 
++import Login from './components/Login';
++
+ import Amplify from 'aws-amplify';
+ import awsconfig from './aws-exports';
+ 
+@@ -11,6 +13,10 @@ Amplify.configure(awsconfig);
+ export default function App(props) {
+   return (
+     <BrowserRouter>
++      <Navigation />
++
++      <Route component={Login} path="/login" />
++
+       <Grid padded>
+         <Grid.Column>...</Grid.Column>
+       </Grid>

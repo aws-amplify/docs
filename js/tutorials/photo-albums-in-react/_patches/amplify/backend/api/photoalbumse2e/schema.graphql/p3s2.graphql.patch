@@ -1,0 +1,47 @@
+--- /dev/null
++++ b/_patches/amplify/backend/api/photoalbumse2e/schema.graphql/p3s2.graphql
+@@ -0,0 +1,44 @@
++type Album
++  @auth(
++    rules: [
++      # Owners can do anything
++      { allow: owner }
++      # Unauthenticated users can only read (IAM + Cognito User Pools required)
++      { allow: public, provider: iam, operations: [read] }
++    ]
++  )
++  @model
++  @versioned {
++  id: ID!
++  name: String!
++  photos: [Photo] @connection(name: "AlbumPhotos")
++}
++
++type Photo
++  # Needed for the Album.photos @connection to work
++  @auth(
++    rules: [
++      # Owners can do anything
++      { allow: owner }
++      # Unauthenticated users can only read (IAM + Cognito User Pools required)
++      { allow: public, provider: iam, operations: [read] }
++    ]
++  )
++  @model
++  @versioned {
++  id: ID!
++  album: Album @connection(name: "AlbumPhotos")
++  bucket: String!
++  fullsize: PhotoS3Info!
++  labels: [String!]!
++  description: String
++}
++
++type PhotoS3Info
++  # Needed to access Photo.fullsize
++  @aws_iam
++  @aws_cognito_user_pools {
++  key: String!
++  width: Int!
++  height: Int!
++}
