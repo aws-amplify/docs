@@ -90,7 +90,7 @@ npm install react-router-dom semantic-ui-react
 Next, replace `src/App.js` with:
 
 ```jsx
-{% include_relative _patches/src/App.js/p1s5.js %}
+{% include_relative _steps/src/App.js/p1s5.js %}
 ```
 
 Finally, run your project & we're ready to start adding in features!
@@ -161,13 +161,41 @@ Hosted UI Endpoint: https://•••••••••••••.auth.us-east
 Test Your Hosted UI Endpoint: https://•••••••••••••.auth.us-east-1.amazoncognito.com/login?response_type=code&client_id=•••••••••••••&redirect_uri=http://localhost:3000/
 ```
 
+## Step 3. Finish Social Providers Setup
+
 Finally, finish configuring the Social Providers with your authorized domain:
 
-> https://aws-amplify.github.io/docs/js/authentication#finish-social-setup
+> <https://aws-amplify.github.io/docs/js/authentication#finish-social-setup>
 
-## Step 3. Create the Login Screen
+## Step 4. Create the Login Screen
 
 ![Picture of login screen](2-auth.png)
+
+Update `src/App.js` to include `Login` & `Navigation` components:
+
+```diff
+{% include_relative _steps/src/App.js/p2s4.js.patch %}
+```
+
+Create `src/components/Login.js`:
+
+```jsx
+{% include_relative _steps/src/components/Login.js/p2s4.js %}
+```
+
+Create `src/components/Navigation.js`:
+
+```jsx
+{% include_relative _steps/src/components/Navigation.js/p2s4.js %}
+```
+
+Create `src/useAuth.js`:
+
+```jsx
+{% include_relative _steps/src/useAuth.js/p2s4.js %}
+```
+
+The `useAuth` custom hook will help simplify some of our GraphQL calls in the future.
 
 # Part 3. Adding a GraphQL API
 
@@ -188,7 +216,7 @@ Use a Cognito user pool configured as a part of this project.
 ? Do you want a guided schema creation? Yes
 ? What best describes your project: Single object with fields (e.g., “Todo” with ID, name, description)
 ? Do you want to edit the schema now? Yes
-Please edit the file in your editor: /Users/ecclemm/Projects/aws-amplify/amplify-js-samples-staging/samples/react/multi-category/photo-albums-e2e/amplify/backend/api/photoalbumse2e/schema.graphql
+Please edit the file in your editor: .../amplify/backend/api/photoalbumse2e/schema.graphql
 ```
 
 ## Step 2. Create the Schema
@@ -196,7 +224,7 @@ Please edit the file in your editor: /Users/ecclemm/Projects/aws-amplify/amplify
 At this point, copy/paste this into `schema.graphql`:
 
 ```graphql
-{% include_relative _patches/amplify/backend/api/photoalbumse2e/schema.graphql/p3s2.graphql %}
+{% include_relative _steps/amplify/backend/api/photoalbumse2e/schema.graphql/p3s2.graphql %}
 ```
 
 Next, provision our GraphQL API:
@@ -225,19 +253,94 @@ Test Your Hosted UI Endpoint: https://•••••••••••••.au
 
 ## Step 1. Creating an Album
 
-TODO
+Update `src/App.js` to include `NewAlbum`:
+
+```diff
+{% include_relative _steps/src/App.js/p4s1.js.patch %}
+```
+
+Create `src/components/NewAlbum.js`:
+
+```js
+{% include_relative _steps/src/components/NewAlbum.js/p4s1.js %}
+```
 
 ## Step 2. Listing Albums
 
-TODO
+Update `src/App.js` to include `AlbumList`:
+
+```diff
+{% include_relative _steps/src/App.js/p4s2.js.patch %}
+```
+
+Create `src/components/AlbumList.js`:
+
+```js
+{% include_relative _steps/src/components/AlbumList.js/p4s2.js %}
+```
 
 ## Step 3. Album Pagination
 
-TODO
+By querying `listAlbums(nextToken: String)`, we can add pagination when there
+are more albums than the `limit` default.
+
+```diff
+{% include_relative _steps/src/components/AlbumList.js/p4s3.js.patch %}
+```
 
 ## Step 4. Showing an Album
 
-TODO
+Update `src/App.js` to include `AlbumDetails`:
+
+```diff
+{% include_relative _steps/src/App.js/p4s4.js.patch %}
+```
+
+Create `src/components/AlbumDetails.js`:
+
+```js
+{% include_relative _steps/src/components/AlbumDetails.js/p4s4.js %}
+```
+
+Create `src/components/PhotoList.js`:
+
+```js
+{% include_relative _steps/src/components/PhotoList.js/p4s4.js %}
+```
+
+Create `src/components/PhotoDetails.js`:
+
+```js
+{% include_relative _steps/src/components/PhotoDetails.js/p4s4.js %}
+```
+
+Create `src/components/PhotoBox.js`:
+
+```js
+{% include_relative _steps/src/components/PhotoBox.js/p4s4.js %}
+```
+
+## Step 5. Deleting an Album
+
+Update `src/components/AlbumDetails.js` to include `DeleteAlbum`:
+
+```diff
+{% include_relative _steps/src/components/AlbumDetails.js/p4s5.js.patch %}
+```
+
+Create `src/components/DeleteAlbum.js`:
+
+```js
+{% include_relative _steps/src/components/DeleteAlbum.js/p4s5.js %}
+```
+
+## Step 6. Editing an Album
+
+Update `src/components/AlbumDetails` to call the `updateAlbum` mutation:
+
+```diff
+{% include_relative _steps/src/components/AlbumDetails.js/p4s6.js.patch %}
+```
 
 # Part 5. Adding Photo Storage
 
@@ -262,101 +365,35 @@ Successfully added resource S3Triggerebe09ed6 locally
 
 ## Step 2. Customize the Lambda Trigger
 
-For the contents of `amplify/backend/function/S3TriggerXXXXXX`:
+Copy & paste these contents into your editor for `amplify/backend/function/S3TriggerXXXXXXX/src/index.js`
 
 ```js
-const aws = require('aws-sdk');
-const Jimp = require('jimp');
-
-// S3 Trigger Events:
-const S3PUT = 'ObjectCreated:Put';
-const S3DELETE = 'ObjectRemoved:Delete';
-
-// Support `amplify mock`
-const s3 = new aws.S3(
-  process.env.AWS_EXECUTION_ENV
-    ? undefined
-    : {
-        endpoint: 'http://localhost:20005',
-        s3BucketEndpoint: true,
-        s3ForcePathStyle: true
-      }
-);
-
-const THUMBNAIL_FOLDER = 'thumbnails';
-
-exports.handler = async function(event) {
-  const [record] = event.Records;
-  const { eventName } = record;
-  const Bucket = record.s3.bucket.name;
-  const Key = record.s3.object.key;
-  const parts = Key.split('/');
-  const basename = parts[parts.length - 1];
-
-  // Prefix original image path with THUMBNAIL_FOLDER
-  const thumbnailKey = [...parts.slice(0, -1), THUMBNAIL_FOLDER, basename].join(
-    '/'
-  );
-
-  if (Key.includes(THUMBNAIL_FOLDER)) {
-    return;
-  }
-
-  if (eventName === S3DELETE) {
-    await s3.deleteObject({ Bucket, Key: thumbnailKey });
-    return;
-  }
-
-  const photoResponse = await s3.getObject({ Bucket, Key }).promise();
-  const thumbnail = await Jimp.read(photoResponse.Body);
-  await thumbnail.resize(Jimp.AUTO, Math.min(thumbnail.bitmap.height, 210));
-  const thumbnailBuffer = await thumbnail.getBufferAsync(Jimp.AUTO);
-
-  await s3
-    .putObject({
-      Body: thumbnailBuffer,
-      Bucket,
-      Key: thumbnailKey
-    })
-    .promise();
-
-  return `Resized ${Key} to ${thumbnailKey}`;
-};
+{% include_relative _steps/amplify/backend/function/S3Trigger93fd9546/src/index.js/p5s1.js %}
 ```
 
-Also, update `amplify/backend/function/S3TriggerXXXX/package.json` with:
+Update `amplify/backend/function/S3TriggerXXXX/package.json` with:
 
-```json
-"dependencies": {
-  "jimp": "^0.8.4"
-}
-```
-
-Alternatively, `cd` into `amplify/backend/function/S3TriggerXXXXX`:
-
-```shell
-npm i --save jimp
+```diff
+{% include_relative _steps/amplify/backend/function/S3Trigger93fd9546/src/package.json/p5s1.json.patch %}
 ```
 
 ## Step 3. Increase Lambda's Memory
 
 Lastly, resizing images is a memory-intensive operation. Update
-`S3Trigger93fd9546-cloudformation-template.json` with `"MemorySize": 1028` (or more),
+`S3TriggerXXXXXXX-cloudformation-template.json` with `"MemorySize": 1028` (or more),
 per https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html.
 
 ```diff
-diff --git a/samples/react/multi-category/photo-albums-e2e/amplify/backend/function/S3Trigger93fd9546/S3Trigger93fd9546-cloudformation-template.json b/samples/react/multi-category/photo-albums-e2e/amplify/backend/function/S3Trigger93fd9546/S3Trigger93fd9546-cloudformation-template.json
-index 2c7cfe8..ca7e0d1 100644
---- a/samples/react/multi-category/photo-albums-e2e/amplify/backend/function/S3Trigger93fd9546/S3Trigger93fd9546-cloudformation-template.json
-+++ b/samples/react/multi-category/photo-albums-e2e/amplify/backend/function/S3Trigger93fd9546/S3Trigger93fd9546-cloudformation-template.json
+--- a/amplify/backend/function/S3TriggerXXXXXXX/S3TriggerXXXXXXX-cloudformation-template.json
++++ b/amplify/backend/function/S3TriggerXXXXXXX/S3TriggerXXXXXXX-cloudformation-template.json
 @@ -50,6 +50,7 @@
-                                                }
-                                        }
-                                },
-+                               "MemorySize": 1028,
-                                "Role": {
-                                        "Fn::GetAtt": [
-                                                "LambdaExecutionRole",
+                  }
+          }
+  },
++ "MemorySize": 1028,
+  "Role": {
+          "Fn::GetAtt": [
+                  "LambdaExecutionRole",
 ```
 
 ## Step 4. Provision Storage
@@ -371,13 +408,23 @@ amplify push
 
 ## Step 1. Uploading Photos
 
+Update `src/components/AlbumDetails.js` to include `PhotosUploader`:
+
+```diff
+{% include_relative _steps/src/components/AlbumDetails.js/p6s1.js.patch %}
+```
+
+Create `src/components/PhotosUploader.js`:
+
+```js
+{% include_relative _steps/src/components/PhotosUploader.js/p6s1.js %}
+```
+
+## Step 2. Editing Photos
+
 TODO
 
-## Step 2. Deleting Photos
-
-TODO
-
-## Step 3. Editing Photos
+## Step 4. Deleting Photos
 
 TODO
 
@@ -523,11 +570,11 @@ Current Environment: dev
 
 | Category    | Resource name          | Operation | Provider plugin   |
 | ----------- | ---------------------- | --------- | ----------------- |
-| Auth        | photoalbumse2e4be2009e | No Change | awscloudformation |
+| Auth        | photoalbumseXXXXXXX    | No Change | awscloudformation |
 | Api         | photoalbumse2e         | No Change | awscloudformation |
-| Function    | S3Trigger93fd9546      | No Change | awscloudformation |
+| Function    | S3TriggerXXXXXXX       | No Change | awscloudformation |
 | Storage     | photoalbumse2e         | No Change | awscloudformation |
-| Predictions | identifyLabelsaf2608df | No Change | awscloudformation |
+| Predictions | identifyLabelsXXXXXXX  | No Change | awscloudformation |
 | Hosting     | S3AndCloudFront        | No Change | awscloudformation |
 
 GraphQL endpoint: https://•••••••••••••.appsync-api.us-east-1.amazonaws.com/graphql

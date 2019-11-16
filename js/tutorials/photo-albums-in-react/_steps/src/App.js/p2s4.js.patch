@@ -1,15 +1,16 @@
 --- a/src/App.js
 +++ b/src/App.js
-@@ -3,6 +3,8 @@ import { BrowserRouter, Route } from 'react-router-dom';
+@@ -3,6 +3,9 @@ import { BrowserRouter, Route } from 'react-router-dom';
  import { Grid } from 'semantic-ui-react';
  import 'semantic-ui-css/semantic.min.css';
  
 +import Login from './components/Login';
++import Navigation from './components/Navigation';
 +
  import Amplify from 'aws-amplify';
  import awsconfig from './aws-exports';
  
-@@ -11,6 +13,10 @@ Amplify.configure(awsconfig);
+@@ -11,6 +14,10 @@ Amplify.configure(awsconfig);
  export default function App(props) {
    return (
      <BrowserRouter>
