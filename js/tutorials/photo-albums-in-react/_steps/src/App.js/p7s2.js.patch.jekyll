@@ -1,0 +1,16 @@
+```diff
+{% raw %}--- a/src/App.js
++++ b/src/App.js
+@@ -11,9 +11,11 @@ import NewAlbum from './components/NewAlbum';
+ import PhotoBox from './components/PhotoBox';
+ 
+ import Amplify from 'aws-amplify';
++import { AmazonAIPredictionsProvider } from '@aws-amplify/predictions';
+ import awsconfig from './aws-exports';
+ 
+ Amplify.configure(awsconfig);
++Amplify.addPluggable(new AmazonAIPredictionsProvider());
+ 
+ export default function App(props) {
+   return ({% endraw %}
+```

@@ -1,4 +1,5 @@
-import React from 'react';
+```js
+{% raw %}import React from 'react';
 import { Card, Label } from 'semantic-ui-react';
 
 export default function PhotoDetails({ photo }) {
@@ -32,3 +33,5 @@ export default function PhotoDetails({ photo }) {
     </Card>
   );
 }
+{% endraw %}
+```

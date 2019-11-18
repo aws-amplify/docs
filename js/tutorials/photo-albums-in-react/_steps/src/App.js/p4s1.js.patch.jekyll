@@ -1,0 +1,36 @@
+```diff
+{% raw %}--- a/src/App.js
++++ b/src/App.js
+@@ -1,10 +1,11 @@
+ import React from 'react';
+-import { BrowserRouter, Route } from 'react-router-dom';
++import { BrowserRouter, NavLink, Route } from 'react-router-dom';
+ import { Grid } from 'semantic-ui-react';
+ import 'semantic-ui-css/semantic.min.css';
+ 
+ import Login from './components/Login';
+ import Navigation from './components/Navigation';
++import NewAlbum from './components/NewAlbum';
+ 
+ import Amplify from 'aws-amplify';
+ import awsconfig from './aws-exports';
+@@ -19,7 +20,17 @@ export default function App(props) {
+       <Route component={Login} path="/login" />
+ 
+       <Grid padded>
+-        <Grid.Column>...</Grid.Column>
++        <Grid.Column>
++          <Route component={NewAlbum} exact path="/" />
++          <Route
++            path="/albums/:albumId"
++            render={() => (
++              <div>
++                <NavLink to="/">Back to Albums list</NavLink>
++              </div>
++            )}
++          />
++        </Grid.Column>
+       </Grid>
+     </BrowserRouter>
+   );{% endraw %}
+```

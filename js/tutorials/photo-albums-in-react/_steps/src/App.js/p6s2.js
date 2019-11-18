@@ -8,6 +8,7 @@ import AlbumDetails from './components/AlbumDetails';
 import Login from './components/Login';
 import Navigation from './components/Navigation';
 import NewAlbum from './components/NewAlbum';
+import PhotoBox from './components/PhotoBox';
 
 import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
@@ -38,6 +39,8 @@ export default function App(props) {
             path="/albums/:albumId"
             render={props => <AlbumDetails id={props.match.params.albumId} />}
           />
+
+          <Route component={PhotoBox} path="/albums/:albumId/photos/:photoId" />
         </Grid.Column>
       </Grid>
     </BrowserRouter>

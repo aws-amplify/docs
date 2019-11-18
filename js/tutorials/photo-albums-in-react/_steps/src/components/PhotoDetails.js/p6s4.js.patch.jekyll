@@ -1,0 +1,70 @@
+```diff
+{% raw %}--- a/src/components/PhotoDetails.js
++++ b/src/components/PhotoDetails.js
+@@ -1,10 +1,11 @@
+ import { API } from 'aws-amplify';
+ import React, { useState } from 'react';
+ import { Link, useParams } from 'react-router-dom';
+-import { Button, Card, Label, Form, TextArea } from 'semantic-ui-react';
++import { Button, Card, Icon, Label, Form, TextArea } from 'semantic-ui-react';
++
+ import Photo from './Photo';
+ 
+-import { updatePhoto } from '../graphql/mutations';
++import { deletePhoto, updatePhoto } from '../graphql/mutations';
+ import useAuth from '../useAuth';
+ 
+ export default function PhotoDetails({ photo }) {
+@@ -14,6 +15,7 @@ export default function PhotoDetails({ photo }) {
+   const [isUpdating, setIsUpdating] = useState(false);
+   const [description, setDescription] = useState(photo.description);
+   const [labels, setLabels] = useState(photo.labels);
++  const [isDeleting, setIsDeleting] = useState(false);
+ 
+   const reset = () => {
+     setDescription(photo.description);
+@@ -45,6 +47,21 @@ export default function PhotoDetails({ photo }) {
+     setIsEditing(false);
+   };
+ 
++  const handleDeletePhoto = async () => {
++    setIsDeleting(true);
++
++    await API.graphql({
++      authMode: owner ? 'AMAZON_COGNITO_USER_POOLS' : 'AWS_IAM',
++      query: deletePhoto,
++      variables: {
++        input: {
++          expectedVersion: photo.version,
++          id: photo.id
++        }
++      }
++    });
++  };
++
+   return (
+     <Card data-test="photo-card" raised>
+       <Link
+@@ -127,6 +144,21 @@ export default function PhotoDetails({ photo }) {
+               onClick={reset}
+             />
+           )}
++
++          {isEditing && (
++            <Button
++              aria-label="Delete"
++              basic
++              circular
++              compact
++              disabled={isDeleting}
++              floated="right"
++              icon="trash"
++              loading={isDeleting}
++              negative
++              onClick={handleDeletePhoto}
++            />
++          )}
+         </Card.Content>
+       )}
+     </Card>{% endraw %}
+```

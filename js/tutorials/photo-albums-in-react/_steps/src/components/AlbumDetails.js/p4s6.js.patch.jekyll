@@ -1,0 +1,82 @@
+```diff
+{% raw %}--- a/src/components/AlbumDetails.js
++++ b/src/components/AlbumDetails.js
+@@ -20,10 +20,13 @@ import {
+ import DeleteAlbum from './DeleteAlbum';
+ import PhotoList from './PhotoList';
+ import { getAlbum } from '../graphql/queries';
++import { updateAlbum } from '../graphql/mutations';
+ import useAuth from '../useAuth';
+ 
+ function AlbumDetails({ album }) {
+   const { owner } = useAuth();
++  const [isEditing, setIsEditing] = useState(false);
++  const [isUpdating, setIsUpdating] = useState(false);
+   const [photos, setPhotos] = useState(album.photos.items);
+ 
+   useEffect(() => {
+@@ -82,19 +85,60 @@ function AlbumDetails({ album }) {
+     return () => subscription.unsubscribe();
+   }, [owner]);
+ 
++  const handleCancel = () => {
++    setIsEditing(!isEditing);
++    setIsUpdating(false);
++  };
++
++  const handleSave = event => {
++    const updatedName = event.target.albumName.value.trim();
++
++    setIsUpdating(true);
++
++    API.graphql({
++      query: updateAlbum,
++      variables: {
++        input: {
++          id: album.id,
++          expectedVersion: album.version,
++          name: updatedName
++        }
++      }
++    });
++  };
++
+   return (
+     <Segment.Group>
+       <Segment clearing>
+         <Header data-test="album-header" floated="left" size="huge">
+-          <Header.Content>album.name</Header.Content>
++          <Header.Content>
++            {isEditing ? (
++              <Form onSubmit={handleSave}>
++                <Form.Input
++                  action={{
++                    color: 'green',
++                    disabled: isUpdating,
++                    loading: isUpdating,
++                    icon: 'check'
++                  }}
++                  autoFocus
++                  defaultValue={album.name}
++                  name="albumName"
++                />
++              </Form>
++            ) : (
++              album.name
++            )}
++          </Header.Content>
+ 
+           {owner && (
+             <Header.Subheader>
+               <Button
+                 basic
+                 circular
+-                content="Edit"
+-                icon="pencil"
++                content={isEditing ? 'Cancel' : 'Edit'}
++                icon={isEditing ? 'close' : 'pencil'}
++                onClick={handleCancel}
+                 size="mini"
+                 style={{ position: 'relative', top: '0.5em' }}
+               />{% endraw %}
+```

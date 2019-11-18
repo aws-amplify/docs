@@ -32,12 +32,12 @@ const ignore = [
 const onlyFiles = true;
 const stepsDir = path.resolve(__dirname, '../_steps');
 
-const patchFiles = globby.sync('**.patch', {
+const patchFiles = globby.sync(['**.patch', '**.jekyll'], {
   cwd: stepsDir
 });
 
 if (patchFiles.length) {
-  console.info(`🗑  Cleaning up ${patchFiles.length} .patch files...`);
+  console.info(`🗑  Cleaning up ${patchFiles.length} .patch & .jekyll files...`);
 
   patchFiles.forEach(patchFile =>
     fs.unlinkSync(path.resolve(stepsDir, patchFile))
@@ -58,6 +58,7 @@ const masterFiles = globby.sync(
 
 masterFiles.map(async masterFile => {
   const masterPath = path.resolve(srcDir, masterFile);
+  const ext = masterPath.split('.').pop();
   const stepFiles = globby.sync(`${masterFile}/*.*`, {
     cwd: stepsDir,
     ignore,
@@ -76,7 +77,7 @@ masterFiles.map(async masterFile => {
 
   for (const stepFile of stepFiles) {
     const nextPath = path.resolve(stepsDir, stepFile);
-    const patchFile = path.resolve(`${nextPath}.patch`);
+    const patchFile = path.resolve(`${nextPath}.patch.jekyll`);
 
     const subprocess = await execa('git', [
       'diff',
@@ -93,8 +94,23 @@ masterFiles.map(async masterFile => {
     );
 
     fs.mkdirSync(path.dirname(patchFile), { recursive: true });
-    fs.writeFileSync(patchFile, diff, 'utf8');
-    console.info('✅ Created', relative(patchFile));
+    fs.writeFileSync(
+      patchFile,
+      `\`\`\`diff\n{% raw %}${diff}{% endraw %}\n\`\`\``,
+      'utf8'
+    );
+    console.info('✅ Created Jekyll-friendly patch', relative(patchFile));
+
+    const jekyllFile = `${nextPath}.jekyll`;
+    fs.writeFileSync(
+      jekyllFile,
+      `\`\`\`${ext}\n{% raw %}${fs.readFileSync(
+        nextPath,
+        'utf8'
+      )}{% endraw %}\n\`\`\``,
+      'utf8'
+    );
+    console.info('✅ Created Jekyll-friendly step:', relative(jekyllFile));
 
     previousPath = nextPath;
   }

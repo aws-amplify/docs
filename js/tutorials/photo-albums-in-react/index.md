@@ -89,9 +89,7 @@ npm install react-router-dom semantic-ui-react
 
 Next, replace `src/App.js` with:
 
-```jsx
-{% include_relative _steps/src/App.js/p1s5.js %}
-```
+{% include_relative _steps/src/App.js/p1s5.js.jekyll %}
 
 Finally, run your project & we're ready to start adding in features!
 
@@ -173,27 +171,19 @@ Finally, finish configuring the Social Providers with your authorized domain:
 
 Update `src/App.js` to include `Login` & `Navigation` components:
 
-```diff
-{% include_relative _steps/src/App.js/p2s4.js.patch %}
-```
+{% include_relative _steps/src/App.js/p2s4.js.patch.jekyll %}
 
 Create `src/components/Login.js`:
 
-```jsx
-{% include_relative _steps/src/components/Login.js/p2s4.js %}
-```
+{% include_relative _steps/src/components/Login.js/p2s4.js.jekyll %}
 
 Create `src/components/Navigation.js`:
 
-```jsx
-{% include_relative _steps/src/components/Navigation.js/p2s4.js %}
-```
+{% include_relative _steps/src/components/Navigation.js/p2s4.js.jekyll %}
 
 Create `src/useAuth.js`:
 
-```jsx
-{% include_relative _steps/src/useAuth.js/p2s4.js %}
-```
+{% include_relative _steps/src/useAuth.js/p2s4.js.jekyll %}
 
 The `useAuth` custom hook will help simplify some of our GraphQL calls in the future.
 
@@ -223,9 +213,7 @@ Please edit the file in your editor: .../amplify/backend/api/photoalbumse2e/sche
 
 At this point, copy/paste this into `schema.graphql`:
 
-```graphql
-{% include_relative _steps/amplify/backend/api/photoalbumse2e/schema.graphql/p3s2.graphql %}
-```
+{% include_relative _steps/amplify/backend/api/photoalbumse2e/schema.graphql/p3s2.graphql.jekyll %}
 
 Next, provision our GraphQL API:
 
@@ -255,92 +243,62 @@ Test Your Hosted UI Endpoint: https://•••••••••••••.au
 
 Update `src/App.js` to include `NewAlbum`:
 
-```diff
-{% include_relative _steps/src/App.js/p4s1.js.patch %}
-```
+{% include_relative _steps/src/App.js/p4s1.js.patch.jekyll %}
 
 Create `src/components/NewAlbum.js`:
 
-```js
-{% include_relative _steps/src/components/NewAlbum.js/p4s1.js %}
-```
+{% include_relative _steps/src/components/NewAlbum.js/p4s1.js.jekyll %}
 
 ## Step 2. Listing Albums
 
 Update `src/App.js` to include `AlbumList`:
 
-```diff
-{% include_relative _steps/src/App.js/p4s2.js.patch %}
-```
+{% include_relative _steps/src/App.js/p4s2.js.patch.jekyll %}
 
 Create `src/components/AlbumList.js`:
 
-```js
-{% include_relative _steps/src/components/AlbumList.js/p4s2.js %}
-```
+{% include_relative _steps/src/components/AlbumList.js/p4s2.js.jekyll %}
 
 ## Step 3. Album Pagination
 
 By querying `listAlbums(nextToken: String)`, we can add pagination when there
 are more albums than the `limit` default.
 
-```diff
-{% include_relative _steps/src/components/AlbumList.js/p4s3.js.patch %}
-```
+{% include_relative _steps/src/components/AlbumList.js/p4s3.js.patch.jekyll %}
 
 ## Step 4. Showing an Album
 
 Update `src/App.js` to include `AlbumDetails`:
 
-```diff
-{% include_relative _steps/src/App.js/p4s4.js.patch %}
-```
+{% include_relative _steps/src/App.js/p4s4.js.patch.jekyll %}
 
 Create `src/components/AlbumDetails.js`:
 
-```js
-{% include_relative _steps/src/components/AlbumDetails.js/p4s4.js %}
-```
+{% include_relative _steps/src/components/AlbumDetails.js/p4s4.js.jekyll %}
 
 Create `src/components/PhotoList.js`:
 
-```js
-{% include_relative _steps/src/components/PhotoList.js/p4s4.js %}
-```
+{% include_relative _steps/src/components/PhotoList.js/p4s4.js.jekyll %}
 
 Create `src/components/PhotoDetails.js`:
 
-```js
-{% include_relative _steps/src/components/PhotoDetails.js/p4s4.js %}
-```
-
-Create `src/components/PhotoBox.js`:
-
-```js
-{% include_relative _steps/src/components/PhotoBox.js/p4s4.js %}
-```
+{% include_relative _steps/src/components/PhotoDetails.js/p4s4.js.jekyll %}
 
 ## Step 5. Deleting an Album
 
 Update `src/components/AlbumDetails.js` to include `DeleteAlbum`:
 
-```diff
-{% include_relative _steps/src/components/AlbumDetails.js/p4s5.js.patch %}
-```
+{% include_relative _steps/src/components/AlbumDetails.js/p4s5.js.patch.jekyll %}
 
 Create `src/components/DeleteAlbum.js`:
 
-```js
-{% include_relative _steps/src/components/DeleteAlbum.js/p4s5.js %}
-```
+{% include_relative _steps/src/components/DeleteAlbum.js/p4s5.js.jekyll %}
 
 ## Step 6. Editing an Album
 
 Update `src/components/AlbumDetails` to call the `updateAlbum` mutation:
 
-```diff
-{% include_relative _steps/src/components/AlbumDetails.js/p4s6.js.patch %}
-```
+{% include_relative _steps/src/components/AlbumDetails.js/p4s6.js.patch.jekyll %}
 
 # Part 5. Adding Photo Storage
 
@@ -367,15 +325,11 @@ Successfully added resource S3Triggerebe09ed6 locally
 
 Copy & paste these contents into your editor for `amplify/backend/function/S3TriggerXXXXXXX/src/index.js`
 
-```js
-{% include_relative _steps/amplify/backend/function/S3Trigger93fd9546/src/index.js/p5s1.js %}
-```
+{% include_relative _steps/amplify/backend/function/S3Trigger93fd9546/src/index.js/p5s1.js.jekyll %}
 
 Update `amplify/backend/function/S3TriggerXXXX/package.json` with:
 
-```diff
-{% include_relative _steps/amplify/backend/function/S3Trigger93fd9546/src/package.json/p5s1.json.patch %}
-```
+{% include_relative _steps/amplify/backend/function/S3Trigger93fd9546/src/package.json/p5s1.json.patch.jekyll %}
 
 ## Step 3. Increase Lambda's Memory
 
@@ -410,23 +364,39 @@ amplify push
 
 Update `src/components/AlbumDetails.js` to include `PhotosUploader`:
 
-```diff
-{% include_relative _steps/src/components/AlbumDetails.js/p6s1.js.patch %}
-```
+{% include_relative _steps/src/components/AlbumDetails.js/p6s1.js.patch.jekyll %}
 
 Create `src/components/PhotosUploader.js`:
 
-```js
-{% include_relative _steps/src/components/PhotosUploader.js/p6s1.js %}
-```
+{% include_relative _steps/src/components/PhotosUploader.js/p6s1.js.jekyll %}
 
-## Step 2. Editing Photos
+## Step 2. Showing Photos
 
-TODO
+Update `App.js` with a `/albums/:albumId/photos/:photoId` route:
+
+Create `src/components/PhotoBox.js`:
+
+{% include_relative _steps/src/App.js/p6s2.js.patch.jekyll %}
+
+Create `src/components/PhotoBox.js`:
+
+{% include_relative _steps/src/components/PhotoBox.js/p6s2.js.jekyll %}
+
+Update `src/components/PhotoDetails.js` with a `<Link>` to the new route:
+
+{% include_relative _steps/src/components/PhotoDetails.js/p6s2.js.patch.jekyll %}
+
+## Step 3. Editing Photos
+
+Update `src/components/PhotoDetails.js` with:
+
+{% include_relative _steps/src/components/PhotoDetails.js/p6s3.js.patch.jekyll %}
 
 ## Step 4. Deleting Photos
 
-TODO
+Update `src/components/PhotoDetails.js` with:
+
+{% include_relative _steps/src/components/PhotoDetails.js/p6s4.js.patch.jekyll %}
 
 # Part 7. Adding AI Labels to Photos
 
@@ -450,19 +420,27 @@ amplify push
 
 ## Step 2. Create Labels on Upload
 
-TODO
+Update `src/components/PhotosUploader.js` with:
+
+{% include_relative _steps/src/components/PhotosUploader.js/p7s2.js.patch.jekyll %}
 
 ## Step 3. Add Labels
 
-TODO
+Update `src/components/PhotoDetails.js` with:
+
+{% include_relative _steps/src/components/PhotoDetails.js/p7s3.js.patch.jekyll %}
 
 ## Step 4. Edit Labels
 
-TODO
+Update `src/components/PhotoDetails.js` with:
 
-## Step 4. Remove Labels
+{% include_relative _steps/src/components/PhotoDetails.js/p7s4.js.patch.jekyll %}
 
-TODO
+## Step 5. Deleting Labels
+
+Update `src/components/PhotoDetails.js` with:
+
+{% include_relative _steps/src/components/PhotoDetails.js/p7s5.js.patch.jekyll %}
 
 # Part 8. Deploying
 

@@ -1,4 +1,5 @@
-import React from 'react';
+```js
+{% raw %}import React from 'react';
 import { BrowserRouter, NavLink, Route } from 'react-router-dom';
 import { Grid } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
@@ -8,11 +9,14 @@ import AlbumDetails from './components/AlbumDetails';
 import Login from './components/Login';
 import Navigation from './components/Navigation';
 import NewAlbum from './components/NewAlbum';
+import PhotoBox from './components/PhotoBox';
 
 import Amplify from 'aws-amplify';
+import { AmazonAIPredictionsProvider } from '@aws-amplify/predictions';
 import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
+Amplify.addPluggable(new AmazonAIPredictionsProvider());
 
 export default function App(props) {
   return (
@@ -38,8 +42,12 @@ export default function App(props) {
             path="/albums/:albumId"
             render={props => <AlbumDetails id={props.match.params.albumId} />}
           />
+
+          <Route component={PhotoBox} path="/albums/:albumId/photos/:photoId" />
         </Grid.Column>
       </Grid>
     </BrowserRouter>
   );
 }
+{% endraw %}
+```

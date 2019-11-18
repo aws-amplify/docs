@@ -1,4 +1,5 @@
-import { API } from 'aws-amplify';
+```js
+{% raw %}import { API } from 'aws-amplify';
 import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Button, Card, Label, Form, TextArea } from 'semantic-ui-react';
@@ -187,3 +188,5 @@ export default function PhotoDetails({ photo }) {
     </Card>
   );
 }
+{% endraw %}
+```

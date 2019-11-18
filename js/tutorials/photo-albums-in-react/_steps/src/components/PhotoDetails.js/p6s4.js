@@ -1,7 +1,7 @@
 import { API } from 'aws-amplify';
 import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Button, Card, Label, Form, TextArea } from 'semantic-ui-react';
+import { Button, Card, Icon, Label, Form, TextArea } from 'semantic-ui-react';
 
 import Photo from './Photo';
 
@@ -15,21 +15,12 @@ export default function PhotoDetails({ photo }) {
   const [isUpdating, setIsUpdating] = useState(false);
   const [description, setDescription] = useState(photo.description);
   const [labels, setLabels] = useState(photo.labels);
-  const [newLabel, setNewLabel] = useState();
   const [isDeleting, setIsDeleting] = useState(false);
 
   const reset = () => {
     setDescription(photo.description);
     setLabels(photo.labels);
     setIsEditing(false);
-  };
-
-  const handleNewLabel = event => {
-    if (newLabel) {
-      setLabels(prevLabels => [...prevLabels, newLabel]);
-    }
-
-    setNewLabel();
   };
 
   const handleUpdatePhoto = async () => {
@@ -112,20 +103,6 @@ export default function PhotoDetails({ photo }) {
                   {label}
                 </Label>
               ))}
-
-              {isEditing && (
-                <Form onSubmit={handleNewLabel} size="tiny">
-                  <Form.Input
-                    action={{ icon: 'plus' }}
-                    onChange={event => {
-                      setNewLabel(event.target.value.trim().toLowerCase());
-                    }}
-                    name="label"
-                    placeholder="New label"
-                    value={newLabel || ''}
-                  />
-                </Form>
-              )}
             </Label.Group>
           </Card.Description>
         </Card.Content>

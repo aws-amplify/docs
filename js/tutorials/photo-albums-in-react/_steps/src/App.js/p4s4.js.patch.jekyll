@@ -1,0 +1,24 @@
+```diff
+{% raw %}--- a/src/App.js
++++ b/src/App.js
+@@ -4,6 +4,7 @@ import { Grid } from 'semantic-ui-react';
+ import 'semantic-ui-css/semantic.min.css';
+ 
+ import AlbumList from './components/AlbumList';
++import AlbumDetails from './components/AlbumDetails';
+ import Login from './components/Login';
+ import Navigation from './components/Navigation';
+ import NewAlbum from './components/NewAlbum';
+@@ -32,6 +33,11 @@ export default function App(props) {
+               </div>
+             )}
+           />
++
++          <Route
++            path="/albums/:albumId"
++            render={props => <AlbumDetails id={props.match.params.albumId} />}
++          />
+         </Grid.Column>
+       </Grid>
+     </BrowserRouter>{% endraw %}
+```

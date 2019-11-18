@@ -1,7 +1,7 @@
 import { API } from 'aws-amplify';
 import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Button, Card, Label, Form, TextArea } from 'semantic-ui-react';
+import { Button, Card, Icon, Label, Form, TextArea } from 'semantic-ui-react';
 
 import Photo from './Photo';
 
@@ -108,8 +108,20 @@ export default function PhotoDetails({ photo }) {
           <Card.Description>
             <Label.Group>
               {labels.map(label => (
-                <Label key={label} size="tiny">
+                <Label
+                  as={isEditing ? 'a' : null}
+                  key={label}
+                  onClick={
+                    isEditing
+                      ? () => {
+                          setLabels(labels.filter(name => name !== label));
+                        }
+                      : undefined
+                  }
+                  size="tiny"
+                >
                   {label}
+                  {isEditing && <Icon name="delete" />}
                 </Label>
               ))}
 

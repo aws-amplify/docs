@@ -1,0 +1,20 @@
+```diff
+{% raw %}--- a/src/App.js
++++ b/src/App.js
+@@ -3,6 +3,7 @@ import { BrowserRouter, NavLink, Route } from 'react-router-dom';
+ import { Grid } from 'semantic-ui-react';
+ import 'semantic-ui-css/semantic.min.css';
+ 
++import AlbumList from './components/AlbumList';
+ import Login from './components/Login';
+ import Navigation from './components/Navigation';
+ import NewAlbum from './components/NewAlbum';
+@@ -22,6 +23,7 @@ export default function App(props) {
+       <Grid padded>
+         <Grid.Column>
+           <Route component={NewAlbum} exact path="/" />
++          <Route component={AlbumList} exact path="/" />
+           <Route
+             path="/albums/:albumId"
+             render={() => ({% endraw %}
+```

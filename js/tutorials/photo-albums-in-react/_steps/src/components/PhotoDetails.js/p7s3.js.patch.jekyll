@@ -1,0 +1,14 @@
+```diff
+{% raw %}--- a/src/components/PhotoDetails.js
++++ b/src/components/PhotoDetails.js
+@@ -1,8 +1,7 @@
+ import { API } from 'aws-amplify';
+ import React, { useState } from 'react';
+ import { Link, useParams } from 'react-router-dom';
+-import { Button, Card, Icon, Label, Form, TextArea } from 'semantic-ui-react';
+-
++import { Button, Card, Label, Form, TextArea } from 'semantic-ui-react';
+ import Photo from './Photo';
+ 
+ import { deletePhoto, updatePhoto } from '../graphql/mutations';{% endraw %}
+```

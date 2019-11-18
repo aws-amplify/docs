@@ -1,10 +1,10 @@
-import React from 'react';
+```js
+{% raw %}import React from 'react';
 import { BrowserRouter, NavLink, Route } from 'react-router-dom';
 import { Grid } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
 import AlbumList from './components/AlbumList';
-import AlbumDetails from './components/AlbumDetails';
 import Login from './components/Login';
 import Navigation from './components/Navigation';
 import NewAlbum from './components/NewAlbum';
@@ -33,13 +33,10 @@ export default function App(props) {
               </div>
             )}
           />
-
-          <Route
-            path="/albums/:albumId"
-            render={props => <AlbumDetails id={props.match.params.albumId} />}
-          />
         </Grid.Column>
       </Grid>
     </BrowserRouter>
   );
 }
+{% endraw %}
+```
