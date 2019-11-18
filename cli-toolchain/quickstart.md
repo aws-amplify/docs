@@ -426,7 +426,7 @@ $ amplify add api
 * The `Hello World function` would create a basic hello world Lambda function
 * The `CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB)` function would add a predefined [serverless-express](https://github.com/awslabs/aws-serverless-express) Lambda function template for CRUD operations to DynamoDB tables (which you can create by following the CLI prompts or use the tables which you've already configured using the `amplify add storage` command)
 * The `Serverless express function (Integration with Amazon API Gateway) ` would add a predefined [serverless-express](https://github.com/awslabs/aws-serverless-express) Lambda function template with routing enabled for your REST API paths.
-* Lambda trigger would add a function that will be invoked when new data is pushed to either an AWS Kinesis stream or AWS DynamoDB stream (when dynamoDB table gets updated) 
+* Lambda trigger would add a function that will be invoked when new data is pushed to either an AWS Kinesis stream or AWS DynamoDB stream (when DynamoDB table gets updated) 
 
 You can update the Lambda execution role policies for your function to access other resources generated and maintained by the CLI, using the CLI
 
@@ -455,7 +455,7 @@ var apiBetatestGraphQLAPIEndpointOutput = process.env.API_BETATEST_GRAPHQLAPIEND
 
 ```
 
-Behind the scenes, the CLI automates populating of the resource identifiers for the selected resources as Lambda environment variables which you will see in your function code as well. This process additionally configures CRUD level IAM policies on the Lambda execution role to access these resources from the Lambda function. For instance, you might grant permissions to your Lambda function to read/write to a DynamoDB table in the Amplify project by using the above flow and the appropriate IAM policy would be set on that Lambda function's execution policy which is scoped to that table only. In context of api category, selecting `Yes` when prompted `Do you want to restrict the access to specific appsync @model(s)?` will allow restricting the access to only a specific @model backed dynamoDB table.
+Behind the scenes, the CLI automates populating of the resource identifiers for the selected resources as Lambda environment variables which you will see in your function code as well. This process additionally configures CRUD level IAM policies on the Lambda execution role to access these resources from the Lambda function. For instance, you might grant permissions to your Lambda function to read/write to a DynamoDB table in the Amplify project by using the above flow and the appropriate IAM policy would be set on that Lambda function's execution policy which is scoped to that table only. In context of api category, selecting `Yes` when prompted `Do you want to restrict the access to specific appsync @model(s)?` will allow restricting the access to only a specific @model backed DynamoDB table.
 
 #### GraphQL from Lambda
 
@@ -579,15 +579,15 @@ As you can see in the prompt above, you can either choose to use an already exis
 
 ### Lambda Trigger Examples
 
-#### AppSynch API @model Triggers
+#### AppSync API @model Triggers
 
-You can also associated a Lambda trigger with an AppSync schema's DynamoDB backed @models. GraphQL mutatations that result in dynamoDB item changes will in turn result in change records published to dynamoDB streams that can trigger a lambda function. To create such a function, start with adding a new lambda function with:
+You can also associated a Lambda trigger with an AppSync schema's DynamoDB backed @models. GraphQL mutations that result in DynamoDB item changes will in turn result in change records published to DynamoDB streams that can trigger a lambda function. To create such a function, start with adding a new lambda function with:
 
 ```bash
 $ amplify add function
 ```
 
-Proceeed by providing a name and selecting a Lambda Trigger template:
+Proceed by providing a name and selecting a Lambda Trigger template:
 
 ```bash
 ? Provide a friendly name for your resource to be used as a label for this category in the project: testtrigger
@@ -637,8 +637,8 @@ exports.handler = function (event, context) {
 };
 ```
 
-`record.dynamodb` will contain a dynamoDB change json describing the item changed in dynamoDB table.
-Please note that it does not represent an original and new item as stored in dynamoDB table. To retrieve a original and new item you need to convert a dynamoDB json to original form:
+`record.dynamodb` will contain a DynamoDB change json describing the item changed in DynamoDB table.
+Please note that it does not represent an original and new item as stored in DynamoDB table. To retrieve a original and new item you need to convert a DynamoDB json to original form:
 
 ```js
 const AWS = require('aws-sdk');
@@ -650,13 +650,13 @@ const records = event.Records.map(record => ({
 
 #### Kinesis Stream Trigger
 
-Amplify Analytics category kinesis stream reasource can be also used as an event source for lambda triggers. Event published to kinesis stream will trigger a lambda function. To create such a function, start with adding a new lambda function with:
+Amplify Analytics category Kinesis stream resource can be also used as an event source for lambda triggers. Event published to Kinesis stream will trigger a lambda function. To create such a function, start with adding a new lambda function with:
 
 ```bash
 $ amplify add function
 ```
 
-Proceeed by providing a name and selecting a Lambda Trigger template:
+Proceed by providing a name and selecting a Lambda Trigger template:
 
 ```bash
 ? Provide a friendly name for your resource to be used as a label for this category in the project: testtrigger
@@ -682,7 +682,7 @@ Resource selection will follow:
 ? Please select an Analytics resource Kinesis stream to associate with: yourkinesisreasource
 ```
 
-As a result, lambda function will be created when a new event is pushed to a kinesis stream. Please refer to [Working with the API](/docs/js/analytics#working-with-the-api-1) to learn more about publishing your events to kinesis stream.
+As a result, lambda function will be created when a new event is pushed to a Kinesis stream. Please refer to [Working with the API](/docs/js/analytics#working-with-the-api-1) to learn more about publishing your events to Kinesis stream.
 
 
 ## Multiple Frontends
