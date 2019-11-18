@@ -1,4 +1,4 @@
-```js
+```jsx
 {% raw %}import { API, Storage } from 'aws-amplify';
 import React, { useEffect, useState } from 'react';
 import { Image, Loader, Segment } from 'semantic-ui-react';

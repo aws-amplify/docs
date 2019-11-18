@@ -1,4 +1,4 @@
-```js
+```jsx
 {% raw %}import React from 'react';
 import { BrowserRouter, NavLink, Route } from 'react-router-dom';
 import { Grid } from 'semantic-ui-react';

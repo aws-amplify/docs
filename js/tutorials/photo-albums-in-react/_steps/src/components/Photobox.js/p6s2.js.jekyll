@@ -1,4 +1,4 @@
-```js
+```jsx
 {% raw %}import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Modal } from 'semantic-ui-react';

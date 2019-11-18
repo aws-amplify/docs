@@ -1,4 +1,4 @@
-```js
+```jsx
 {% raw %}import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Header, Image, Menu } from 'semantic-ui-react';

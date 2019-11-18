@@ -1,4 +1,4 @@
-```js
+```jsx
 {% raw %}import { API, Auth, Storage } from 'aws-amplify';
 import nanoid from 'nanoid';
 import React, { createRef, useState } from 'react';

@@ -102,9 +102,10 @@ masterFiles.map(async masterFile => {
     console.info('✅ Created Jekyll-friendly patch', relative(patchFile));
 
     const jekyllFile = `${nextPath}.jekyll`;
+    const lang = ext === 'js' ? 'jsx' : ext; // TSX is conventional, but JSX is not.
     fs.writeFileSync(
       jekyllFile,
-      `\`\`\`${ext}\n{% raw %}${fs.readFileSync(
+      `\`\`\`${lang}\n{% raw %}${fs.readFileSync(
         nextPath,
         'utf8'
       )}{% endraw %}\n\`\`\``,
