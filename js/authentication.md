@@ -90,6 +90,21 @@ A configuration file called `aws-exports.js` will be copied to your configured s
 
 The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your AWS Cognito User Pool.  These enable you to add custom functionality to your registration and authentication flows. [Read more]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/)
 
+Many Cognito Lambda Triggers accept unsanitized key/value pairs in the form of a 'ClientMetadata' attribute.  To configure a static set of key/value pairs, you can define a `clientMetadata` key in the `Auth.configure` function.  You can also pass a `clientMetadata` parameter to the various `Auth` functions which result in Cognito Lambda Trigger execution.   These functions include:
+
+- `Auth.changePassword`
+- `Auth.completeNewPassword`
+- `Auth.confirmSignIn`
+- `Auth.confirmSignUp`
+- `Auth.forgotPasswordSubmit`
+- `Auth.resendSignUp`
+- `Auth.sendCustomChallengeAnswer`
+- `Auth.signIn`
+- `Auth.signUp`
+- `Auth.updateUserAttributes`
+- `Auth.verifyUserAttribute`
+
+Please note that some of triggers which accept a 'validationData' attribute will use clientMetadata as the value for validationData.  Exercise caution with using clientMetadata when you are relying on validationData.
 
 ##### Configure Your App
 
@@ -169,7 +184,19 @@ Amplify.configure({
         storage: new MyStorage(),
         
         // OPTIONAL - Manually set the authentication flow type. Default is 'USER_SRP_AUTH'
-        authenticationFlowType: 'USER_PASSWORD_AUTH'
+        authenticationFlowType: 'USER_PASSWORD_AUTH',
+
+        // OPTIONAL - Manually set key value pairs that can be passed to Cognito Lambda Triggers
+        clientMetadata: { myCustomKey: 'myCustomValue' },
+
+         // OPTIONAL - Hosted UI configuration
+        oauth: {
+            domain: 'your_cognito_domain',
+            scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
+            redirectSignIn: 'http://localhost:3000/',
+            redirectSignOut: 'http://localhost:3000/',
+            responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
+        }
     }
 });
 
@@ -204,58 +231,58 @@ import { Auth } from 'aws-amplify';
 async function SignIn() {
     try {
         const user = await Auth.signIn(username, password);
-        if (user.challengeName === 'SMS_MFA' || 
+        if (user.challengeName === 'SMS_MFA' ||
             user.challengeName === 'SOFTWARE_TOKEN_MFA') {
             // You need to get the code from the UI inputs
-           // and then trigger the following function with a button click
-           const code = getCodeFromUserInput();
-        // If MFA is enabled, sign-in should be confirmed with the confirmation code
-        const loggedUser = await Auth.confirmSignIn(
-            user,   // Return object from Auth.signIn()
-            code,   // Confirmation code  
-            mfaType // MFA Type e.g. SMS_MFA, SOFTWARE_TOKEN_MFA
-        );
-    } else if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
-        const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
-        // You need to get the new password and required attributes from the UI inputs
-        // and then trigger the following function with a button click
-        // For example, the email and phone_number are required attributes
-        const { username, email, phone_number } = getInfoFromUserInput();
-        const loggedUser = await Auth.completeNewPassword(
-            user,               // the Cognito User Object
-            newPassword,       // the new password
-            // OPTIONAL, the required attributes
-            {
-                email,
-                phone_number,
-            }
-        );
-    } else if (user.challengeName === 'MFA_SETUP') {
-        // This happens when the MFA method is TOTP
-        // The user needs to setup the TOTP before using it
-        // More info please check the Enabling MFA part
-        Auth.setupTOTP(user);
-    } else {
-        // The user directly signs in
-        console.log(user)；
-    } 
-} catch (err) {
-    if (err.code === 'UserNotConfirmedException') {
-        // The error happens if the user didn't finish the confirmation step when signing up
-        // In this case you need to resend the code and confirm the user
-        // About how to resend the code and confirm the user, please check the signUp part
-    } else if (err.code === 'PasswordResetRequiredException') {
-        // The error happens when the password is reset in the Cognito console
-        // In this case you need to call forgotPassword to reset the password
-        // Please check the Forgot Password part.
-    } else if (err.code === 'NotAuthorizedException') {
-        // The error happens when the incorrect password is provided
-    } else if (err.code === 'UserNotFoundException') {
-        // The error happens when the supplied username/email does not exist in the Cognito user pool
-    } else {
-        console.log(err);
+            // and then trigger the following function with a button click
+            const code = getCodeFromUserInput();
+            // If MFA is enabled, sign-in should be confirmed with the confirmation code
+            const loggedUser = await Auth.confirmSignIn(
+                user,   // Return object from Auth.signIn()
+                code,   // Confirmation code  
+                mfaType // MFA Type e.g. SMS_MFA, SOFTWARE_TOKEN_MFA
+            );
+        } else if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
+            const {requiredAttributes} = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
+            // You need to get the new password and required attributes from the UI inputs
+            // and then trigger the following function with a button click
+            // For example, the email and phone_number are required attributes
+            const {username, email, phone_number} = getInfoFromUserInput();
+            const loggedUser = await Auth.completeNewPassword(
+                user,              // the Cognito User Object
+                newPassword,       // the new password
+                // OPTIONAL, the required attributes
+                {
+                    email,
+                    phone_number,
+                }
+            );
+        } else if (user.challengeName === 'MFA_SETUP') {
+            // This happens when the MFA method is TOTP
+            // The user needs to setup the TOTP before using it
+            // More info please check the Enabling MFA part
+            Auth.setupTOTP(user);
+        } else {
+            // The user directly signs in
+            console.log(user);
+        }
+    } catch (err) {
+        if (err.code === 'UserNotConfirmedException') {
+            // The error happens if the user didn't finish the confirmation step when signing up
+            // In this case you need to resend the code and confirm the user
+            // About how to resend the code and confirm the user, please check the signUp part
+        } else if (err.code === 'PasswordResetRequiredException') {
+            // The error happens when the password is reset in the Cognito console
+            // In this case you need to call forgotPassword to reset the password
+            // Please check the Forgot Password part.
+        } else if (err.code === 'NotAuthorizedException') {
+            // The error happens when the incorrect password is provided
+        } else if (err.code === 'UserNotFoundException') {
+            // The error happens when the supplied username/email does not exist in the Cognito user pool
+        } else {
+            console.log(err);
+        }
     }
-  }
 }
 // For advanced usage
 // You can pass an object which has the username, password and validationData which is sent to a PreAuthentication Lambda trigger
@@ -313,7 +340,7 @@ The `Auth.signUp` promise returns a data object of type [`ISignUpResult`](https:
 
 **Forcing Email Uniqueness in Cognito User Pools**
 
-When your Cognito User Pool sign-in options are set to "*Username*", and "*Also allow sign in with verified email address*", *signUp()* method creates a new user account every time, without validating email uniqueness. In this case you will end up having multiple user pool identities and previously created account's attribute is changed to *email_verified : false*. 
+When your Cognito User Pool sign-in options are set to "*Username*", and "*Also allow sign in with verified email address*", the *signUp()* method creates a new user account every time it's called, without validating email uniqueness. In this case you will end up having multiple user pool identities and all previously created accounts will have their *email_verified* attribute changed to *false*. 
 
 To enforce Cognito User Pool signups with a unique email, you need to change your User Pool's *Attributes* setting in [Amazon Cognito console](https://console.aws.amazon.com/cognito) as the following:
 
@@ -559,6 +586,13 @@ To learn more about tokens, please visit [Amazon Cognito Developer Documentation
 
 For React and React Native apps, the simplest way to add authentication flows into your app is to use the `withAuthenticator` Higher Order Component.
 
+If you are using the `withAuthenticator` HOC with React Native, make sure to link `react-native-vector-icons` and then (re)launch your app:
+
+```bash
+react-native link react-native-vector-icons
+react-native run-ios
+```
+
 `withAuthenticator` automatically detects the authentication state and updates the UI. If the user is signed in, the underlying component (typically your app's main component) is displayed otherwise signin/signup controls are displayed.
 
 > The default implementation uses the Amplify UI styling, for an example of what that looks like out of the box on web and mobile, see <a href="https://aws-amplify.github.io/media/ui_library" target="_blank">here</a>.
@@ -616,6 +650,7 @@ The `withAuthenticator` HOC wraps an `Authenticator` component. Using `Authentic
     // A theme object to override the UI / styling
     theme={myCustomTheme} 
     // Hide specific components within the Authenticator
+    // *** Only supported on React/Web (Not React Native)  ***
     hide={ 
         [
             Greetings,
@@ -1996,7 +2031,7 @@ export const handler = async (event, context) => {
 
 For React, you can create your own theme and use it to render Amplify components:
 
-Your custom theme must use the selectors from the following [template](https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-react/src/Amplify-UI/Amplify-UI-Theme.jsx)
+Your custom theme must use the selectors from the following [template](https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-react/src/Amplify-UI/Amplify-UI-Theme.tsx)
 {: .callout .callout--info}
 
 ```javascript

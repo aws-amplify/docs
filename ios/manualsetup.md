@@ -1,8 +1,8 @@
 ---
-title: Setup Options for the SDK
+title: SDK Setup Options
 ---
 
-# Setup Options for the SDK
+# SDK Setup Options
 
 The AWS SDK contains [high level client interfaces](./start) for quickly adding common features and functionality to your app. You can also manually add the generated AWS service interfaces for direct interaction if you have custom or advanced requirements.
 
@@ -18,6 +18,8 @@ pod init
 
 In your project directory (the directory where your `*.xcodeproj` file is), open the empty text file named `Podfile`. Replace `myAppName` with your app name. You can also remove pods for services that you don't use. For example, if you don't use `AWSAutoScaling`, remove or do not include the `AWSAutoScaling` pod.
 
+Note that the list below **does not include** the pods necessary for authentication. Please see [Authentication](./authentication) for authentication setup instructions.
+
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
 
@@ -25,29 +27,24 @@ platform :ios, '9.0'
 use_frameworks!
 
 target :'YOUR-APP-NAME' do
-    pod 'AWSAuth'
-    pod 'AWSAuthCore'
-    pod 'AWSAuthUI'
+    pod 'AWSAPIGateway'
     pod 'AWSAutoScaling'
     pod 'AWSCloudWatch'
-    pod 'AWSCognito'
-    pod 'AWSCognitoAuth'
-    pod 'AWSCognitoIdentityProvider'
-    pod 'AWSCognitoIdentityProviderASF'
+    pod 'AWSComprehend'
+    pod 'AWSConnect'
     pod 'AWSCore'
     pod 'AWSDynamoDB'
     pod 'AWSEC2'
     pod 'AWSElasticLoadBalancing'
-    pod 'AWSFacebookSignIn'
-    pod 'AWSGoogleSignIn'
     pod 'AWSIoT'
     pod 'AWSKMS'
     pod 'AWSKinesis'
+    pod 'AWSKinesisVideo'
+    pod 'AWSKinesisVideoArchivedMedia'
     pod 'AWSLambda'
     pod 'AWSLex'
     pod 'AWSLogs'
     pod 'AWSMachineLearning'
-    pod 'AWSMobileClient'
     pod 'AWSPinpoint'
     pod 'AWSPolly'
     pod 'AWSRekognition'
@@ -55,8 +52,12 @@ target :'YOUR-APP-NAME' do
     pod 'AWSSES'
     pod 'AWSSNS'
     pod 'AWSSQS'
+    pod 'AWSSageMakerRuntime'
     pod 'AWSSimpleDB'
-    pod 'AWSUserPoolsSignIn'
+    pod 'AWSTextract'
+    pod 'AWSTranscribe'
+    pod 'AWSTranscribeStreaming'
+    pod 'AWSTranslate'
 end
 ```
 
@@ -78,29 +79,26 @@ Once complete, run `carthage update` and open the `*.xcworkspace` or `*.xcodepro
 
 Choose the `Add Other` button, navigate to the `AWS<#ServiceName#>.framework` files under `Carthage > Build > iOS` and select `AWSCore.framework` and the other service frameworks you require. Do not select the `Destination: Copy items` if needed check box when prompted.
 
-* AWSAuth
-* AWSAuthCore
-* AWSAuthUI
+Note that the list below **does not include** the frameworks necessary for authentication. Please see [Authentication](./authentication) for authentication setup instructions. Those instructions are for CocoaPods, but each pod has a corresponding framework produced by Carthage.
+
+* AWSAPIGateway
 * AWSAutoScaling
 * AWSCloudWatch
-* AWSCognito
-* AWSCognitoAuth
-* AWSCognitoIdentityProvider
-* AWSCognitoIdentityProviderASF
+* AWSComprehend
+* AWSConnect
 * AWSCore
 * AWSDynamoDB
 * AWSEC2
 * AWSElasticLoadBalancing
-* AWSFacebookSignIn
-* AWSGoogleSignIn
 * AWSIoT
 * AWSKMS
 * AWSKinesis
+* AWSKinesisVideo
+* AWSKinesisVideoArchivedMedia
 * AWSLambda
 * AWSLex
 * AWSLogs
 * AWSMachineLearning
-* AWSMobileClient
 * AWSPinpoint
 * AWSPolly
 * AWSRekognition
@@ -108,8 +106,12 @@ Choose the `Add Other` button, navigate to the `AWS<#ServiceName#>.framework` fi
 * AWSSES
 * AWSSNS
 * AWSSQS
+* AWSSageMakerRuntime
 * AWSSimpleDB
-* AWSUserPoolsSignIn
+* AWSTextract
+* AWSTranscribe
+* AWSTranscribeStreaming
+* AWSTranslate
 
 Under the `Build Phases` tab in your `Target`, choose the `+` button on the top left and then select `New Run Script Phase`.
 
@@ -133,35 +135,32 @@ Now **build** your project to start using the SDK. Whenever a new version of the
 
 ## Frameworks setup
 
-Download the [SDK](https://sdk-for-ios.amazonwebservices.com/latest/aws-ios-sdk.zip). The SDK is stored in a compressed file archive named `aws-ios-sdk-#.#.#` (where `#.#.#` represents the version number, so for version 2.9.0, the filename is `aws-ios-sdk-2.9.0`).
+Download the [latest SDK](https://sdk-for-ios.amazonwebservices.com/latest/aws-ios-sdk.zip). Older SDK versions can be downloaded from `https://sdk-for-ios.amazonwebservices.com/aws-ios-sdk-#.#.#.zip`, where `#.#.#` represents the version number. So for version 2.10.2, the download link is [https://sdk-for-ios.amazonwebservices.com/aws-ios-sdk-2.10.2.zip](https://sdk-for-ios.amazonwebservices.com/aws-ios-sdk-2.10.2.zip).
 
 With your project open in Xcode, select your `Target`. Under `General` tab, find `Embedded Binaries` and then click the `+` button.
 
 Click the `Add Other...` button, navigate to the `AWS<#ServiceName#>.framework` files and select them. Check the `Destination: Copy items if needed` checkbox when prompted.
 
-* `AWSAuth.framework`
-* `AWSAuthCore.framework`
-* `AWSAuthUI.framework`
+Note that the list below **does not include** the frameworks necessary for authentication. Please see [Authentication](./authentication) for authentication setup instructions. Those instructions are for CocoaPods, but each pod has a corresponding framework in the downloaded archive.
+
+* `AWSAPIGateway.framework`
 * `AWSAutoScaling.framework`
 * `AWSCloudWatch.framework`
-* `AWSCognito.framework`
-* `AWSCognitoAuth.framework`
-* `AWSCognitoIdentityProvider.framework`
-* `AWSCognitoIdentityProviderASF.framework`
+* `AWSComprehend.framework`
+* `AWSConnect.framework`
 * `AWSCore.framework`
 * `AWSDynamoDB.framework`
 * `AWSEC2.framework`
 * `AWSElasticLoadBalancing.framework`
-* `AWSFacebookSignIn.framework`
-* `AWSGoogleSignIn.framework`
 * `AWSIoT.framework`
 * `AWSKMS.framework`
 * `AWSKinesis.framework`
+* `AWSKinesisVideo.framework`
+* `AWSKinesisVideoArchivedMedia.framework`
 * `AWSLambda.framework`
 * `AWSLex.framework`
 * `AWSLogs.framework`
 * `AWSMachineLearning.framework`
-* `AWSMobileClient.framework`
 * `AWSPinpoint.framework`
 * `AWSPolly.framework`
 * `AWSRekognition.framework`
@@ -169,8 +168,12 @@ Click the `Add Other...` button, navigate to the `AWS<#ServiceName#>.framework` 
 * `AWSSES.framework`
 * `AWSSNS.framework`
 * `AWSSQS.framework`
+* `AWSSageMakerRuntime.framework`
 * `AWSSimpleDB.framework`
-* `AWSUserPoolsSignIn.framework`
+* `AWSTextract.framework`
+* `AWSTranscribe.framework`
+* `AWSTranscribeStreaming.framework`
+* `AWSTranslate.framework`
 
 Under the `Build Phases` tab in your `Target`, click the `+` button on the top left and then select `New Run Script Phase`. Then setup the build phase as follows. Make sure this phase is below the `Embed Frameworks` phase.
 
@@ -185,6 +188,12 @@ Under the `Build Phases` tab in your `Target`, click the `+` button on the top l
     Output Files: Empty
 
 Now **build** your project to start using the SDK. Whenever a new version of the SDK is released you can update by selecting the previously imported AWS frameworks in `Project Navigator` in Xcode and pressing 'delete' on your keyboard. Then select `Move to Trash` and follow the installation process above to include the new version of the SDK.
+
+## AWS SDK Version vs. Semantic Versioning
+
+The AWS SDK for iOS does not follow semantic versioning. Instead, it increments the patch-level version for both backward-compatible bug fixes *and* non-breaking changes, and increments the minor version for breaking changes. Major version changes are rare, and usually indicate a dramatically different programming model.
+
+For comparison, Semantic versioning increments the patch level for backward-compatible bug fixes, the minor version for backward-compatible new features, and the major version for breaking changes.
 
 ## Direct AWS Service access
 
@@ -266,6 +275,35 @@ AWSDDLog.add(fileLogger)
 //Console example
 AWSDDLog.add(AWSDDTTYLogger.sharedInstance) // TTY = Xcode console
 ```
+
+## Configure using an in-memory object
+
+As an alternative to the `awsconfiguration.json` file, since version `2.11.0` a configuration object can also be used for configuring the client. This approach can be useful for resolving configuration in runtime instead of the pre-defined JSON file:
+
+```swift
+let configuration: [String: Any] = [
+    "IdentityManager": [
+        "Default": [:]
+    ],
+    "Auth": [
+        "Default": [
+            "OAuth": [
+                "AppClientId": "APP_CLIENT_ID",
+                "AppClientSecret": "APP_CLIENT_SECRET",
+                "Scopes": ["email"]
+            ]
+        ]
+    ]
+]
+
+let mobileClient = AWSMobileClient(configuration: configuration)
+mobileClient.initialize { (userState, error) in
+    // initialization logic
+}
+```
+
+Please note that creating multiple instances of `AWSMobileClient` <b>is not supported</b>. The configuration cannot be reset and/or re-initialized. Therefore, even though you can instantiate `AWSMobileClient` multiple times, all instances will have the same configuration reference.
+{: .callout .callout--warning}
 
 ## DocSet for Xcode
 

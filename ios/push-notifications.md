@@ -53,29 +53,28 @@ Use the following steps to connect add push notification backend services to you
 
 1. The `Podfile` that you configure to install the AWS Mobile SDK must contain the `AWSPinpoint` pod:
 
-	```ruby
+    ```ruby
     platform :ios, '9.0'
 
     target :'YOUR-APP-NAME' do
       use_frameworks!
 
-        pod  'AWSPinpoint', '~> 2.10.0'
+        pod  'AWSPinpoint', '~> 2.12.0'
         # other pods
-        pod  'AWSMobileClient', '~> 2.10.0'
+        pod  'AWSMobileClient', '~> 2.12.0'
     end
-	```
+    ```
 
-	Run `pod install --repo-update` before you continue.
+    Run `pod install --repo-update` before you continue.
 
-	If you encounter an error message that begins `[!] Failed to connect to GitHub to update the CocoaPods/Specs...`, and your internet connectivity is working, you may need to [update openssl and Ruby](https://stackoverflow.com/questions/38993527/cocoapods-failed-to-connect-to-github-to-update-the-cocoapods-specs-specs-repo/48962041#48962041).
+    If you encounter an error message that begins `[!] Failed to connect to GitHub to update the CocoaPods/Specs...`, and your internet connectivity is working, you may need to [update openssl and Ruby](https://stackoverflow.com/questions/38993527/cocoapods-failed-to-connect-to-github-to-update-the-cocoapods-specs-specs-repo/48962041#48962041).
 
 1. Classes that call Amazon Pinpoint APIs must use the following import statements:
 
-	```
-	import AWSCore
-	import AWSPinpoint
-	import AWSMobileClient
-	```
+    ```
+    import AWSPinpoint
+    import AWSMobileClient
+    ```
 
 1. To receive push notifications with Amazon Pinpoint, you'll instantiate a Pinpoint instance and register your device token with Amazon Pinpoint. We recommend you do this during app startup, so your users can begin receiving notifications as early as possible.
 
@@ -96,19 +95,19 @@ Use the following steps to connect add push notification backend services to you
 
             /** start code copy **/
             // Create AWSMobileClient to connect with AWS
-	    AWSMobileClient.sharedInstance().initialize { (userState, error) in
+	          AWSMobileClient.default().initialize { (userState, error) in
               if let error = error {
                 print("Error initializing AWSMobileClient: \(error.localizedDescription)")
               } else if let userState = userState {
                 print("AWSMobileClient initialized. Current UserState: \(userState.rawValue)")
               }
             }
-	    
-	    // Initialize Pinpoint
+
+            // Initialize Pinpoint
             let pinpointConfiguration = AWSPinpointConfiguration.defaultPinpointConfiguration(launchOptions: launchOptions)
             pinpoint = AWSPinpoint(configuration: pinpointConfiguration)
             /** end code copy **/
-	    return true
+            return true
        }
     }
     ```
@@ -184,9 +183,9 @@ The following steps show how to receive push notifications targeted for your app
 
     ```swift
     import UserNotifications
- 
+
     // Other imports...
- 
+
     class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Other app delegate methods...

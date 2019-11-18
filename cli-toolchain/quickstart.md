@@ -13,7 +13,7 @@ title: Quickstart
 
 The Amplify Command Line Interface (CLI) is a unified toolchain to create, integrate, and manage the AWS cloud services for your app.
 * [Install Node.js®](https://nodejs.org/en/download/") and [NPM](https://www.npmjs.com/get-npm) if they are not already on your machine.
-* Verify that you are running at least Node.js version 8.x or greater and npm version 5.x or greater by running `node -v` and npm -v in a terminal/console window
+* Verify that you are running at least Node.js version 8.12 or greater and npm version 5.x or greater by running `node -v` and npm -v in a terminal/console window
 * Install and configure the Amplify CLI.
 
 ```bash
@@ -49,6 +49,12 @@ The `init` command goes through the following steps:
 - Insert amplify folder structure into the project's root directory, with the initial project configuration
 - Generate the project metadata files, with the outputs of the above-selected plugin(s)
 
+### Samples workflow
+To set up a sample amplify project, execute the following command inside an empty directory:
+
+`amplify init --app <github url>`
+
+where the github url is a valid sample amplify project repository. Click [here](https://aws-amplify.github.io/docs/cli-toolchain/usage#--app) for more details.
 
 ### Common CLI commands
 - `amplify <category> <subcommand>`
@@ -87,14 +93,15 @@ Once you have made your category updates, run the command `amplify push` to upda
 
 ### Auth Examples
 
+The Amplify CLI supports configuring many different Authentication and Authorization workflows, including simple and advanced configurations of the login options, triggering Lambda functions during different lifecycle events, and administrative actions which you can optionally expose to your applications.
+
 #### Configuring auth without social providers
+
+The easiest way to get started is to leverage the default configuration which is optimized for the most common use cases and choices.
 
 ```terminal
 $ amplify add auth     ##"amplify update auth" if already configured
-```
-Select Default configuration:
 
-```terminal
 Do you want to use the default authentication and security configuration? 
 ❯ Default configuration 
   Default configuration with Social Provider (Federation) 
@@ -103,6 +110,8 @@ Do you want to use the default authentication and security configuration?
 ```
 
 #### Configuring auth with social providers
+
+Once your User Pool is functioning, you can enable more configurations such as federation with Facebook, Google, or Login with Amazon. You can also configure more advanced settings by selecting *Manual Configuration*.
 
 ```terminal
 $ amplify add auth     ##"amplify update auth" if already configured
@@ -115,6 +124,183 @@ Do you want to use the default authentication and security configuration?
 ❯ Default configuration with Social Provider (Federation) 
   Manual configuration 
   I want to learn more.
+```
+
+#### Group management
+
+You can create logical Groups in Cognito User Pools and assign permissions to access resources in Amplify categories with the CLI, as well as define the relative precedence of one group to another. This can be useful for defining which users should be part of "Admins" vs "Editors", and if the users in a Group should be able to just write or write & read to a resource (AppSync, API Gateway, S3 bucket, etc). [You can also use these with `@auth` Static Groups in the GraphQL Transformer]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/graphql#static-group-authorization). Precedence helps remove any ambiguity on permissions if a user is in multiple Groups.
+
+```terminal
+$ amplify add auth
+❯ Manual configuration
+
+Do you want to add User Pool Groups? (Use arrow keys)
+❯ Yes
+
+? Provide a name for your user pool group: Admins
+? Do you want to add another User Pool Group Yes
+? Provide a name for your user pool group: Editors
+? Do you want to add another User Pool Group No
+? Sort the user pool groups in order of preference …  (Use <shift>+<right/left> to change the order)
+  Admins
+  Editors
+```
+
+When asked as in the example above, you can press `Shift` on your keyboard along with the **LEFT** and **RIGHT** arrows to move a Group higher or lower in precedence. Once complete you can open `./amplify/backend/auth/userPoolGroups/user-pool-group-precidence.json` to manually set the precedence.
+
+#### Group access controls
+For certain Amplify categories you can restrict access with CRUD (Create, Read, Update, and Delete) permissions, setting different access controls for authenticated users vs Guests (e.g. Authenticated users can read & write to S3 buckets while Guests can only read). You can further restrict this to apply different permissions conditionally depending on if a logged-in user is part of a specific User Pool Group.
+
+```terminal
+$amplify add storage  # Select content
+
+? Restrict access by? (Use arrow keys)
+  Auth/Guest Users 
+  Individual Groups 
+❯ Both 
+  Learn more 
+
+Who should have access?
+❯ Auth and guest users
+
+What kind of access do you want for Authenticated users? 
+❯ create/update, read
+
+What kind of access do you want for Guest users? 
+❯ read
+
+Select groups: 
+❯ Admins
+
+What kind of access do you want for Admins users? 
+❯ create/update, read, delete
+```
+
+The above example uses a combination of permissions where users in the "Admins" Group have full access, Guest users can only read, and users whom are not a member of any specific Group are part of the "Authenticated" users whom have create, update, and read access. Amplify will configure the corresponding IAM policy on your behalf. Advanced users can additionally set permissions by adding a `customPolicies` key to `./amplify/backend/auth/userPoolGroups/user-pool-group-precidence.json` with custom IAM policy for a Group. This will attach an inline policy on the IAM role associated to this Group during deployment. **Note**  this is an advanced feature and only suitable if you have an understanding of AWS resources. For instance perhaps you wanted users in the "Admins" group to have the ability to Create an S3 bucket:
+
+```json
+[
+    {
+        "groupName": "Admins",
+        "precedence": 1,
+        "customPolicies": [{
+          "PolicyName": "admin-group-policy",
+        	"PolicyDocument": {
+            "Version":"2012-10-17",
+            "Statement":[
+                {
+                  "Sid":"statement1",
+                  "Effect":"Allow",
+                  "Action":[
+                      "s3:CreateBucket"
+                  ],
+                  "Resource":[
+                      "arn:aws:s3:::*"
+                  ]
+                }
+             ]
+         	}
+        }]
+    },
+    {
+        "groupName": "Editors",
+        "precedence": 2
+    }
+]
+```
+
+#### Administrative Actions
+
+In some scenarios you may wish to expose Administrative actions to your end user applications. For example, the ability to list all users in a Cognito User Pool may provide useful for the administrative panel of an app if the logged-in user is a member of a specific Group called "Admins". 
+
+This is an advanced feature that is not recommended without an understanding of the underlying architecture. The associated infrastructure which is created is a base designed for you to customize for your specific business needs. We recommend removing any functionality which your app does not require.
+{: .callout .callout--warning}
+
+The Amplify CLi can setup a REST endpoint with secure access to a Lambda function running with limited permissions to the User Pool if you wish to have these capabilities in your application, and you can choose to expose the actions to all users with a valid account or restrict to a specific User Pool Group.
+
+```terminal
+$ amplify add auth
+# Choose default or manual
+
+? Do you want to add an admin queries API? Yes
+? Do you want to restrict access to a specific Group Yes
+? Select the group to restrict access with: (Use arrow keys)
+❯ Admins 
+  Editors 
+  Enter a custom group 
+```
+
+This will configure an API Gateway endpoint with a Cognito Authorizer that accepts an Access Token, which is used by a Lambda function to perform actions against the User Pool. The function is example code which you can use to remove, add, or alter functionality based on your business case by editing it in the `./amplify/backend/function/AdminQueriesXXX/src` directory and running an `amplify push` to deploy your changes. If you choose to restrict actions to a specific Group, custom middleware in the function will prevent any actions unless the user is a member of that Group.
+
+The default routes and their functions, HTTP methods, and expected parameters are below
+- `addUserToGroup`: Adds a user to a specific Group. Expects `username` and `groupname` in the POST body.
+- `removeUserFromGroup`: Adds a user to a specific Group. Expects `username` and `groupname` in the POST body.
+- `confirmUserSignUp`: Adds a user to a specific Group. Expects `username` in the POST body.
+- `disableUser`: Adds a user to a specific Group. Expects `username` in the POST body.
+- `enableUser`: Adds a user to a specific Group. Expects `username` in the POST body.
+- `getUser`: Adds a user to a specific Group. Expects `username` as a GET query string.
+- `listUsers`: Adds a user to a specific Group. You can provide an OPTIONAL `limit` as a GET query string, which returns a `NextToken` that can be provided as a `token` query string for pagination.
+- `listGroupsForUser`: Adds a user to a specific Group. Expects `username` as a GET query string. You can provide an OPTIONAL `limit` as a GET query string, which returns a `NextToken` that can be provided as a `token` query string for pagination.
+- `listUsersInGroup`: Adds a user to a specific Group. Expects `groupname` as a GET query string. You can provide an OPTIONAL `limit` as a GET query string, which returns a `NextToken` that can be provided as a `token` query string for pagination.
+- `signUserOut`: Signs a user out from User Pools, but only if the call is originating from that user. Expects `username` in the POST body.
+
+To leverage this functionality in your app you would call the appropriate route in your [JavaScript]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/api#using-rest), [iOS]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/ios/api#cognito-user-pools-authorization), or [Android]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}http://127.0.0.1:4000/android/api#cognito-user-pools-authorization) application after signing in. For example to add a user "richard" to the Editors Group and then list all members of the Editors Group with a pagination limit of 10 you could use the following React code below:
+
+```jsx
+import React from 'react'
+import Amplify, { Auth, API } from 'aws-amplify';
+import { withAuthenticator } from 'aws-amplify-react';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
+
+async function addToGroup() { 
+  let apiName = 'AdminQueries';
+  let path = '/addUserToGroup';
+  let myInit = {
+      body: {
+        "username" : "richard",
+        "groupname": "Editors"
+      }, 
+      headers: {
+        'Content-Type' : 'application/json',
+        Authorization: `${(await Auth.currentSession()).getAccessToken().getJwtToken()}`
+      } 
+  }
+  return await API.post(apiName, path, myInit);
+}
+
+
+let nextToken;
+
+async function listEditors(limit){
+  let apiName = 'AdminQueries';
+  let path = '/listUsersInGroup';
+  let myInit = { 
+      queryStringParameters: {
+        "groupname": "Editors",
+        "limit": limit,
+        "token": nextToken
+      },
+      headers: {
+        'Content-Type' : 'application/json',
+        Authorization: `${(await Auth.currentSession()).getAccessToken().getJwtToken()}`
+      }
+  }
+  const { NextToken, ...rest } =  await API.get(apiName, path, myInit);
+  nextToken = NextToken;
+  return rest;
+}
+
+function App() {
+  return (
+    <div className="App">
+      <button onClick={addToGroup}>Add to Group</button>
+      <button onClick={() => listEditors(10)}>List Editors</button>
+    </div>
+  );
+}
+
+export default withAuthenticator(App, true);
 ```
 
 #### Adding a Lambda Trigger
@@ -133,9 +319,10 @@ $ Do you want to enable any of the following capabilities?
     ◯ Email Domain Filtering (blacklist)
     ◯ Email Domain Filtering (whitelist)
     ◯ Custom Auth Challenge Flow (basic scaffolding - not for production)
+    ◯ Override ID Token Claims
 ```
 
-2.  In the manual Auth CLI workflow, you will be given the change to select the options above, but will also be able to manually configure Lambda Trigger templates:
+2.  In the manual Auth CLI workflow, you will be given the chance to select the options above, but will also be able to manually configure Lambda Trigger templates:
 
 ```bash
 $ Do you want to configure Lambda Triggers for Cognito? Yes
@@ -150,6 +337,7 @@ $ Which triggers do you want to enable for Cognito?
  ◯ Post Confirmation
  ◯ Pre Sign-up
  ◯ Verify Auth Challenge Response
+ ◯ Pre Token Generation
 
 $ What functionality do you want to use for Custom Message
  ◯ Learn More
@@ -267,33 +455,23 @@ Behind the scenes, the CLI automates populating of the resource identifiers for 
 
 #### GraphQL from Lambda
 
-You can use a Lambda function to call your GraphQL API, however at this time you must modify your AppSync schema after deploying the API. For example, deploy a simple `Todo` model with the following schema in the `amplify add api` flow:
+You can use a Lambda function to call your GraphQL API. For example, deploy a simple `Todo` model with the following schema in the `amplify add api` flow:
 
 ```
-type Todo @model {
+type Todo @model @auth (
+    rules: [
+        { allow: private, provider: iam, operations: [create] }
+    ]
+) {
   id: ID!
   name: String
   description: String
 }
 ```
 
-Next, run `amplify console` and select the GraphQL API. On the **Settings** page add an **Additional authorization provider** and select **IAM**. Next, on the **Schema** page add in the `@aws_iam` directive where appropriate per the [AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes). For example if you just want your Lambda function to have access to run a single mutation, add the directive onto that mutation (`createTodo` below) as well as the return type:
+In the above example we want your Lambda function to have access to run a single mutation (`createTodo`) and hence we explicitly mention `create` in the `operations` list. To grant access for application users to perform other actions, you can add `read`, `update` or `delete` to the `operations` list along with `create`.
 
-```
-type Todo @aws_iam {
-	id: ID!
-	name: String
-	description: String
-}
-
-type Mutation {
-	createTodo(input: CreateLambdaGraphQLInput!): Todo
-		@aws_iam
-	updateTodo(input: UpdateLambdaGraphQLInput!): Todo
-	deleteTodo(input: DeleteLambdaGraphQLInput!): Todo
-}
-```
-Save your changes and create a Lambda function with `amplify add function` and ensure that it's execution role has been granted an IAM policy with permissions to that GraphQL endpoint [as defined in the AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#aws-iam-authorization). The following function will sign the request and use environment variables for the AppSync and Region that `amplify add function` created for you:
+Save your changes and create a Lambda function with `amplify add function` and make sure to add access for your GraphQL API when prompted for in the `amplify add function` flow. The CLI would automatically configure the Lambda execution IAM role required by the Lambda function to call the GraphQL API. The following function will sign the request and use environment variables for the AppSync and Region that `amplify add function` created for you.
 
 ```javascript
 const https = require('https');
@@ -450,6 +628,22 @@ What happens behind the scenes?
   You can get the `AWSCLOUDFORMATIONCONFIG` from the `team-provider-info.json` file from your existing Amplify project in the `amplify/` directory of the project.
 
 
+## Mocking and Testing
+
+It is highly recommended that you complete the Getting Started section of Amplify setup before using local mocking.
+
+- [JavaScript Getting Started](../js/start)
+- [Android Getting Started](../android/start)
+- [iOS Getting Started](../ios/start)
+
+Amplify supports running a local server for mocking and testing your application before pushing to the cloud with certain categories, including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), Functions (AWS Lambda), and Hosting. After running `amplify init` you can run the following to start a mock server:
+
+```terminal
+$ amplify mock
+```
+
+Amplify libraries when configured for these categories can use the local mocked endpoints for testing your application. When a mock endpoint is running the CLI will update your `aws-exports.js` or `awsconfiguration.json` to use the mock server. After the mock server is stopped they will be updated to use the cloud endpoint after you have run an `amplify push`. For more details [see the usage section](./usage#mocking-and-testing).
+
 ## Custom Cloudformation Stacks
 
 The Amplify CLI provides escape hatches for modifying the backend configurations generated in the form of Cloudformation templates by the CLI. This allows you to use the CLI for common flows but also any advanced scenarios which aren't provided in the standard category workflows.
@@ -478,6 +672,48 @@ The Amplify CLI provides escape hatches for modifying the backend configurations
 }
 ```
 
+Note: You can also reference an output value from any other Amplify managed category cloudformation stack. For example, if you want to use the Amazon Cognito `userpool ID` generated by the `auth` category stack in your custom cloudformation stack, you would need to add the `dependsOn` block in the `backend-config.json` file, The above `backend-config.json` file would look like the following:
+
+```javascript
+{
+  "<custom-category-name>": {
+    "<custom-resource-name>": {
+      "service": <custom-aws-service-name>,
+      "providerPlugin": "awscloudformation"
+    },
+    "dependsOn": [
+				{
+         "category": "auth",
+				 "resourceName": "mycognitoresource", // check `amplify status` to find resource name
+				 "attributes": [
+				  "UserPoolId" // Check Output Value of the resource specific cloudformation file to find available attributes
+					]
+				}
+		 ]
+  },
+  "hosting": {
+    "S3AndCloudFront": {
+      "service": "S3AndCloudFront",
+      "providerPlugin": "awscloudformation"
+    }
+  }
+}
+```
+
+To use the above mentioned attribute `UserPoolId` from the auth category in your custom cloudformation stack, you would need to construct the following input parameter. The CLI will be passing this input automatically from the other nested stack.
+
+```javascript
+"Parameters": {
+  // Rest of the paramters
+ 
+  "authmycognitoresourceUserPoolId": { // The format out here is `<category><resource-name><attribute-name>` - we have defined all of these in the `backend-config.json` file above
+	 "Type": "String"
+ }
+},
+```
+
+
+
 2. Under `amplify/backend` folder, make a folder structure like the following:
   ```
   amplify
@@ -493,7 +729,6 @@ The Amplify CLI provides escape hatches for modifying the backend configurations
   `template.json` is a cloudformation template, and `parameters.json` is a json file of parameters that will be passed to the cloudformation template. Additionally, the `env` parameter will be passed in to your cloudformation templates dynamically by the CLI.
 
 3. Run `amplify env checkout <current-env-name>` to populate the CLI runtime files and make it aware of the newly added custom resources
-
 
 
 ## Environments & Teams

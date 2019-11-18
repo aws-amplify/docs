@@ -62,7 +62,7 @@ See [Authentication](./authentication) for more information on how to get the `u
     The CLI will create the awsconfiguration.json file in your project directory. Add it to your project using XCode.
 
 ##### Lambda Triggers
-If you optionally want to enable triggers for the storage category (S3 & DynamoDB), the CLI supports associating Lambda triggers with S3 and DynamoDB events. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)
+If you want to enable triggers for the storage category with Amazon S3 & Amazon DynamoDB as providers, the CLI supports associating Lambda triggers with S3 and DynamoDB events. For example, this can be useful for a use case where you want to invoke a Lambda function after a create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)
 
 ### Connect to Your Backend
 
@@ -76,10 +76,10 @@ Use the following steps to add file storage backend services to your app.
     target :'YOUR-APP-NAME' do
         use_frameworks!
 
-        pod 'AWSS3', '~> 2.10.0'   # For file transfers
+        pod 'AWSS3', '~> 2.12.0'   # For file transfers
 
         # other pods . . .
-        pod 'AWSMobileClient', '~> 2.10.0'
+        pod 'AWSMobileClient', '~> 2.12.0'
     end
     ```
 
@@ -90,6 +90,10 @@ Run `pod install --repo-update` before you continue.
     ```swift
     import AWSS3
     ```
+
+### Mocking and Local Testing
+
+Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](../cli-toolchain/usage#mocking-and-testing) for more details.
 
 ## Using TransferUtility 
 
@@ -188,7 +192,7 @@ func uploadData() {
        contentType: "text/plain",
        expression: expression,
        completionHandler: completionHandler).continueWith {
-          (task) -> AnyObject! in
+          (task) -> AnyObject? in
               if let error = task.error {
                  print("Error: \(error.localizedDescription)")
               }
@@ -447,11 +451,11 @@ transferUtility.uploadUsingMultiPart(data:data,
 Note: Please review the documentation for [API](./api) before you proceed with the rest of this section. 
 {: .callout .callout--info}
 
-You can also upload and download Amazon S3 Objects using AWS AppSync, a GraphQL based solution to build data-driven apps with real-time and offline capabilities. Sometimes you might want to create logical objects that have more complex data, such as images or videos, as part of their structure.  _For example, you might create a Person type with a profile picture or a Post type that has an associated image_. You can use AWS AppSync to model these as GraphQL types. If any of your mutations have a variable with bucket, key, region, mimeType, and localUri fields, the SDK uploads the file to Amazon S3 for you.
+You can also upload and download Amazon S3 Objects using AWS AppSync, a GraphQL based solution to build data-driven apps with real-time and offline capabilities. Sometimes you might want to create logical objects that have more complex data, such as images or videos, as part of their structure.  _For example, you might create a Person type with a profile picture or a Post type that has an associated image_. You can use AWS AppSync to model these as GraphQL types. If any of your mutations have a variable with `bucket`, `key`, `region`, `mimeType`, and `localUri` fields, the SDK uploads the file to Amazon S3 for you.
 
 Attach the following policy to your IAM role to grant it programmatic read-write access to your bucket:
 
-```
+```json
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -472,171 +476,50 @@ Attach the following policy to your IAM role to grant it programmatic read-write
 }
 ```
 
-Update your schema as follows to add the S3Object and S3ObjectInput types for the file, and a new mutation named CreatePostWithFileInputMutation:
-```
-  input CreatePostInput {
-          author: String!
-          title: String
-          content: String
-          url: String
-          ups: Int
-          downs: Int
-          version: Int!
-  }
-  input CreatePostWithFileInput {
-          author: String!
-          title: String
-          content: String
-          url: String
-          ups: Int
-          downs: Int
-          file: S3ObjectInput!
-          version: Int!
-  }
-  input DeletePostInput {
-          id: ID!
-  }
+Using the previous sample schema as a reference, update it as follows to add the `S3Object` and `S3ObjectInput` types for the file, and a new mutation named `createPostWithFile`:
+
+```diff
++ input CreatePostWithFileInput {
++   author: String!
++   title: String
++   content: String
++   url: String
++   ups: Int
++   downs: Int
++   file: S3ObjectInput!
++   version: Int!
++ }
   type Mutation {
-          createPost(input: CreatePostInput!): Post
-          createPostWithFile(input: CreatePostWithFileInput!): Post
-          updatePost(input: UpdatePostInput!): Post
-          deletePost(input: DeletePostInput!): Post
+    createPost(input: CreatePostInput!): Post
++   createPostWithFile(input: CreatePostWithFileInput!): Post
+    updatePost(input: UpdatePostInput!): Post
+    deletePost(input: DeletePostInput!): Post
   }
   type Post {
-          id: ID!
-          author: String!
-          title: String
-          content: String
-          url: String
-          ups: Int
-          downs: Int
-          file: S3Object
-          version: Int!
+    id: ID!
+    author: String!
+    title: String
+    content: String
+    url: String
+    ups: Int
+    downs: Int
++   file: S3Object
+    version: Int!
   }
-  type PostConnection {
-          items: [Post]
-          nextToken: String
-  }
-  type Query {
-          singlePost(id: ID!): Post
-          getPost(id: ID!): Post
-          listPosts(filter: TablePostFilterInput, limit: Int, nextToken: String): PostConnection
-  }
-  type S3Object {
-          bucket: String!
-          key: String!
-          region: String!
-  }
-  input S3ObjectInput {
-          bucket: String!
-          key: String!
-          region: String!
-          localUri: String!
-          mimeType: String!
-  }
-  type Subscription {
-          onCreatePost(
-                  id: ID,
-                  author: String,
-                  title: String,
-                  content: String,
-                  url: String
-          ): Post
-                  @aws_subscribe(mutations: ["createPost"])
-          onUpdatePost(
-                  id: ID,
-                  author: String,
-                  title: String,
-                  content: String,
-                  url: String
-          ): Post
-                  @aws_subscribe(mutations: ["updatePost"])
-          onDeletePost(
-                  id: ID,
-                  author: String,
-                  title: String,
-                  content: String,
-                  url: String
-          ): Post
-                  @aws_subscribe(mutations: ["deletePost"])
-  }
-  input TableBooleanFilterInput {
-          ne: Boolean
-          eq: Boolean
-  }
-  input TableFloatFilterInput {
-          ne: Float
-          eq: Float
-          le: Float
-          lt: Float
-          ge: Float
-          gt: Float
-          contains: Float
-          notContains: Float
-          between: [Float]
-  }
-  input TableIDFilterInput {
-          ne: ID
-          eq: ID
-          le: ID
-          lt: ID
-          ge: ID
-          gt: ID
-          contains: ID
-          notContains: ID
-          between: [ID]
-          beginsWith: ID
-  }
-  input TableIntFilterInput {
-          ne: Int
-          eq: Int
-          le: Int
-          lt: Int
-          ge: Int
-          gt: Int
-          contains: Int
-          notContains: Int
-          between: [Int]
-  }
-  input TablePostFilterInput {
-          id: TableIDFilterInput
-          author: TableStringFilterInput
-          title: TableStringFilterInput
-          content: TableStringFilterInput
-          url: TableStringFilterInput
-          ups: TableIntFilterInput
-          downs: TableIntFilterInput
-          version: TableIntFilterInput
-  }
-  input TableStringFilterInput {
-          ne: String
-          eq: String
-          le: String
-          lt: String
-          ge: String
-          gt: String
-          contains: String
-          notContains: String
-          between: [String]
-          beginsWith: String
-  }
-  input UpdatePostInput {
-          id: ID!
-          author: String
-          title: String
-          content: String
-          url: String
-          ups: Int
-          downs: Int
-          version: Int
-  }
-  schema {
-          query: Query
-          mutation: Mutation
-          subscription: Subscription
-  }
++ type S3Object {
++   bucket: String!
++   key: String!
++   region: String!
++ }
++ input S3ObjectInput {
++   bucket: String!
++   key: String!
++   region: String!
++   localUri: String!
++   mimeType: String!
++ }
 ```
-**Note:** If you're using the sample schema specified at the start of this documentation, you can replace your schema with the previous schema.
+
 Next, you need to add a resolver for createPostWithFile mutation. You can do that from the AWS AppSync console by selecting PostsTable as the data source and the following mapping templates.
 **Request Mapping Template**
 ```
@@ -687,17 +570,17 @@ After you have a resolver for the mutation, to ensure that our S3 Complex Object
   $util.toJson($util.dynamodb.fromS3ObjectJson($context.source.file))
 ```
 The AWS AppSync SDK doesn't take a direct dependency on the AWS SDK for iOS for Amazon S3, but takes in `AWSS3TransferUtility` and `AWSS3PresignedURLClient` clients as part of AWSAppSyncClientConfiguration. The code generator used above for generating the API generates the Amazon S3 wrappers required to use the previous clients in the client code. To generate the wrappers, pass the `--add-s3-wrapper` flag while running the code generator tool. You also need to take a dependency on the AWSS3 SDK. You can do that by updating your Podfile to the following:
- 
-  ```ruby
+
+```ruby
   target: 'PostsApp' do
     use_frameworks!
-    pod 'AWSAppSync', ~> '2.9.0'
-    pod 'AWSS3', ~> '2.9.0'
+    pod 'AWSAppSync', ~> '2.14.2'
+    pod 'AWSS3', ~> '2.11.0'
   end
-  ```
+```
 
 Then run `pod install` to fetch the new dependency.
-Download the updated schema.json from the and put it in the GraphQLOperations folder in the root of the app.
+Download the updated `schema.json` from the and put it in the `GraphQLOperations` folder in the root of the app.
 Next, you have to add the new mutation, which is used to perform S3 uploads as part of mutation. Add the following mutation operation in your posts.graphql file:
 ```
   mutation AddPostWithFile($input: CreatePostWithFileInput!) {
@@ -728,25 +611,60 @@ After adding the new mutation in our operations file, we run the code generator 
 ```
 Update the `AWSAppSyncClientConfiguration` object to provide the `AWSS3TransferUtility` client for managing the uploads and downloads:
 ```swift
-  let appSyncConfig = try AWSAppSyncClientConfiguration(url: AppSyncEndpointURL,
+let appSyncConfig = try AWSAppSyncClientConfiguration(url: AppSyncEndpointURL,
                                                       serviceRegion: AppSyncRegion,
                                                       credentialsProvider: credentialsProvider,
                                                       databaseURL:databaseURL,
                                                       s3ObjectManager: AWSS3TransferUtility.default())
 ```
-The mutation operation doesn't require any specific changes in method signature. It requires only an S3ObjectInput with bucket, key, region, localUri, and mimeType. Now when you do a mutation, it automatically uploads the specified file to Amazon S3 using the `AWSS3TransferUtility` client internally.
 
+**The `AWSS3ObjectManager` integration** 
 
-## Working with Pre-Signed URLS
+In order to use `AWSS3TransferUtility` as the `s3ObjectManager` the consumer needs to provide an integration layer between the base types (`S3ObjectInput`, `AWSS3TransferUtility`) and the required protocols: `AWSS3ObjectProtocol`, `AWSS3InputObjectProtocol` and `AWSS3ObjectManager`.
 
-By default, all Amazon S3 resources are private. If you want your users to have access to Amazon S3 buckets
-or objects, you can assign appropriate permissions with an [IAM policy](http://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html).
+```swift
+extension S3ObjectInput: AWSS3ObjectProtocol, AWSS3InputObjectProtocol {
+    // ...
+}
+
+extension AWSS3PreSignedURLBuilder: AWSS3ObjectPresignedURLGenerator  {
+    // ...
+}
+
+extension AWSS3TransferUtility: AWSS3ObjectManager {
+    // ...
+}
+```
+
+There is an implementation in the iOS Test Suite that can be used as a reference: [aws-mobile-appsync-sdk-ios/AWSAppSyncTestCommon/S3ObjectWrapper.swift](https://github.com/awslabs/aws-mobile-appsync-sdk-ios/blob/master/AWSAppSyncTestCommon/S3ObjectWrapper.swift). That code can be used as drop-in implementation for most use cases.
+
+The mutation operation doesn't require any specific changes in method signature. It requires only an S3ObjectInput with `bucket`, `key`, `region`, `localUri`, and `mimeType`. Now when you do a mutation, it automatically uploads the specified file to Amazon S3 using the `AWSS3TransferUtility` client internally.
+
+## Working with access levels in your app code
+
+By default, all Amazon S3 resources are private. If you want your users to have access to Amazon S3 buckets or objects, you can assign appropriate permissions with an [IAM policy](http://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html).
+
+### IAM Policy Based Permissions
+
+When you upload objects to the S3 bucket the Amplify CLI creates, you must manually prepend the appropriate access-level information to the `key`. The correct prefix - `public/`, `protected/` or `private/` - will depend on the access level of the object as documented in the [Storage Access section](./storage#storage-access). For example:
+
+```swift
+var s3Object = S3ObjectInput()
+// Accessible by all users
+s3Object.key = "public/myFile.txt"
+// Readable by all users, but writable only by the creating user
+s3Object.key = "protected/\(cognitoIdentityId)/myFile.txt"
+// Only accessible for the individual user
+s3Object.key = "private/\(cognitoIdentityId)/myFile.txt"
+```
+
+**Note:** These keys must be prepended when you are uploading the object, and the same key must be specified as part of the object's key during download. The `cognitoIdentityId` is required for `protected` and `private` access and you can get it by using the [Authentication Utilities](./authentication#utility-properties): `AWSMobileClient.default().identityId`.
+
+### Temporary Permissions via Pre-signed URLs
 
 However, what if you wanted to provide permissions temporarily, for example: _you want to share a link to file temporarily and have the link expire after a set time_. To do this using an IAM policy would require you to first setup the policy to grant access and then at a later time remember to delete the IAM policy to revoke access. 
 
-Alternatively, you can use pre-signed URLs to give your users temporary access to Amazon S3 objects.  When you create a pre-signed URL, you must provide your security credentials, specify a bucket name, an object key, an HTTP method, and an expiration date and time. The pre-signed URL is valid only for the specified duration.
-
-### Building a Pre-Signed URL
+Alternatively, you can use pre-signed URLs to give your users temporary access to Amazon S3 objects. When you create a pre-signed URL, you must provide your security credentials, specify a bucket name, an object key, an HTTP method, and an expiration date and time. The pre-signed URL is valid only for the specified duration.
 
 The following example shows how to build a pre-signed URL to get an Amazon S3 object.
 
@@ -772,8 +690,7 @@ AWSS3PreSignedURLBuilder.default().getPreSignedURL(getPreSignedURLRequest).conti
 }
 ```
 
-The preceding example uses ``GET`` as the HTTP method: ``AWSHTTPMethodGET``. For an upload request to Amazon S3,
-we would need to use a PUT method.
+The preceding example uses `GET` as the HTTP method: `AWSHTTPMethodGET`. For an upload request to Amazon S3, we would need to use a PUT method.
 
 ```swift
 let getPreSignedURLRequest = AWSS3GetPreSignedURLRequest()

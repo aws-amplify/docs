@@ -35,7 +35,7 @@ registeredServiceWorker = await serviceWorker.register('/service-worker.js', '/'
 This method will enable web push notifications for your app. If your app is not previously subscribed to the push service to receive notifications, a new subscription will be created with the provided *public key*. 
 
 ```javascript
-    registeredServiceWorker.enablePush('BLx__NGvdasMNkjd6VYPdzQJVBkb2qafh')
+    serviceWorker.enablePush('BLx__NGvdasMNkjd6VYPdzQJVBkb2qafh')
 ```
 
 You need a web push service provider to generate the public key, and sending the actual push notifications. To test push messages with a non-production environment, you can follow [this tutorial](https://developers.google.com/web/fundamentals/codelabs/push-notifications/).

@@ -6,6 +6,8 @@ aws-amplify-angular
 @aws-amplify/core
 @aws-amplify/auth
 @aws-amplify/storage
+aws-mobile-appsync-sdk-ios
+apiKey
 App.vue
 app.js
 authMode
@@ -49,6 +51,7 @@ github
 HOCs
 installable
 i.e.
+iam
 ios
 item.class.ts
 index.js
@@ -64,6 +67,7 @@ NoteTitle
 NoteContent
 npm
 node.js
+oidc
 onPick
 pre-signed
 pre-built
@@ -106,6 +110,7 @@ isSceneLoaded
 isMuted
 autoplay
 screencap
+userPools
 unpublish
 withAuthenticator
 webview
@@ -137,6 +142,9 @@ backends
 AuthN
 AuthZ
 lifecycles
+Bundler
+prepend
+prepended
 
 # js/tutorials/building-ionic-4-apps/index.md
 home.page.ts
@@ -192,6 +200,7 @@ myAmplifyProject
 _blank
 OnInit
 todos
+autolinking
 
 # js/hub.md
 onHubCapsule
@@ -430,6 +439,15 @@ status#createdAt
 IN_TRANSIT
 statusCreatedAt
 ByStatus
+Pre
+Auth.currentAuthenticatedUser
+AWSMobileClient.sharedInstance
+AWSMobileClient.default
+getTodo
+listTodos
+createTodo
+updateTodo
+deleteTodo
 
 # cli-toolchain/cognito-triggers.md
 Lambda
@@ -559,8 +577,19 @@ DynamoDBTable
 amplifyMeta.json
 transform.conf.json
 
+#cli-toolchain/quickstart.md
+richard
+
 #cli-toolchain/usage.md
 poolData
+cleartext
+NSAllowsLocalNetworking
+quoteOfTheDay
+OneGraph
+transpile
+transpiling
+transpiled
+util
 
 # android/analytics.md
 ActivityLifecycleCallbacks
@@ -602,6 +631,10 @@ geolocation
 appcompat
 AWSMobileClient
 app_id
+unsanitized
+ClientMetadata
+clientMetadata
+validationData
 logic_protocol_scheme
 xml
 IdentityManager
@@ -826,36 +859,46 @@ _Identity
 _Granting
 
 # ios/manualsetup.md
-Cocoapods
-aws-sdk-ios
-CocoaLumberjack
+AWSAPIGateway
+AWSAuth
+AWSAuthCore
+AWSAuthUI
+AWSAutoScaling
+AWSCloudWatch
+AWSCognito
+AWSCognitoAuth
+AWSCognitoIdentityProvider
+AWSCognitoIdentityProviderASF
+AWSComprehend
+AWSConnect
 AWSCore
-DocSets
-macOS
-AWSAuth 
-AWSAuthCore 
-AWSAuthUI 
-AWSAutoScaling 
-AWSCloudWatch 
-AWSCognito 
-AWSCognitoAuth 
-AWSCognitoIdentityProvider 
-AWSCognitoIdentityProviderASF 
-AWSDynamoDB 
-AWSElasticLoadBalancing 
-AWSFacebookSignIn 
-AWSGoogleSignIn 
-AWSIoT 
-AWSKinesis 
-AWSLambda 
-AWSLex 
-AWSLogs 
-AWSMachineLearning 
-AWSPinpoint 
-AWSPolly 
-AWSRekognition 
-AWSSimpleDB 
+AWSDynamoDB
+AWSElasticLoadBalancing
+AWSFacebookSignIn
+AWSGoogleSignIn
+AWSIoT
+AWSKinesis
+AWSKinesisVideo
+AWSKinesisVideoArchivedMedia
+AWSLambda
+AWSLex
+AWSLogs
+AWSMachineLearning
+AWSPinpoint
+AWSPolly
+AWSRekognition
+AWSSageMakerRuntime
+AWSSimpleDB
+AWSTextract
+AWSTranscribe
+AWSTranscribeStreaming
+AWSTranslate
 AWSUserPoolsSignIn
+CocoaLumberjack
+Cocoapods
+DocSets
+aws-sdk-ios
+macOS
 v2.7
 
 # ios/how-to-transfer-files-with-transfer-utility.md
@@ -899,9 +942,11 @@ Keychain
 
 #  ios/start.md
 xcworkspace
+API.swift
 
 # ios/storage.md
 S3ObjectInput
+S3ObjectWrapper.swift
 CreatePostWithFileInputMutation
 createPostWithFile
 PostsTable
@@ -914,6 +959,7 @@ handleEventsForBackgroundURLSession
 interceptApplication
 AWSStaticCredentialsProvider
 CRUD
+AWSAppSyncTestCommon
 
 # android/how-to-android-sdk-setup.md
 aws-android-sdk-lex

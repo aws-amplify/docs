@@ -99,7 +99,7 @@ To use AppSync in your Xcode project, modify your Podfile with a dependency of t
 ```ruby
 target 'PostsApp' do
     use_frameworks!
-    pod 'AWSAppSync', ' ~> 2.13.0'
+    pod 'AWSAppSync', ' ~> 2.14.2'
 end
 ```
 
@@ -208,29 +208,41 @@ appSyncClient?.perform(mutation: CreateTodoMutation(input: mutationInput)) { (re
 }
 ```
 
+#### Working with Complex Objects
+
+Sometimes you might want to create logical objects that have more complex data, such as images or videos, as part of their structure. For example, you might create a Person type with a profile picture or a Post type that has an associated image. You can use AWS AppSync to model these as GraphQL types and [automatically store them to S3](./storage#usage-with-graphql-apis-complex-objects).
+
 ### Subscribe to Data
 
 Finally, it's time to set up a subscription to real-time data. The syntax `appSyncClient?.subscribe(subscription: <NAME>Subscription() {(result, transaction, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen` created. Note that the AppSync console and Amplify GraphQL transformer have a common nomenclature that puts the word `On` in front of a subscription as in the following example:
 
 ```swift
-//Set a variable to discard at the class level
-var discard: Cancellable?
+// Set a variable to hold the subscription. E.g., this can be an instance variable on your view controller, or
+// a member variable in your AppSync setup code. Once you release this watcher, the subscription may be cancelled,
+// and your `resultHandler` will no longer be updated. If you wish to explicitly cancel the subscription, you can
+// invoke `subscriptionWatcher.cancel()`
+var subscriptionWatcher: Cancellable?
 
-//In your app code
+// In your app code
 do {
-    discard = try appSyncClient?.subscribe(subscription: OnCreateTodoSubscription(), resultHandler: { (result, transaction, error) in
-        if let result = result {
-        print(result.data!.onCreateTodo!.name + " " + result.data!.onCreateTodo!.description!)
+    subscriptionWatcher = try appSyncClient?.subscribe(subscription: OnCreateTodoSubscription()) { result, transaction, error in
+        if let onCreateTodo = result?.data?.onCreateTodo,  {
+            print(onCreateTodo.name + " " + onCreateTodo.description)
         } else if let error = error {
-        print(error.localizedDescription)
+            print(error.localizedDescription)
         }
-    })
-    } catch {
-    print("Error starting subscription.")
+    }
+} catch {
+    print("Error starting subscription: \(error.localizedDescription)")
 }
 ```
 
 Like mutations, subscriptions can also take input types, in which case they will be subscribing to particular events based on the input. To learn more about subscription arguments, see [AWS AppSync Subscription Arguments](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html#using-subscription-arguments).
+
+
+### Mocking and Local Testing
+
+Amplify supports running a local mock server for testing your application with AWS AppSync, including debugging of resolvers, before pushing to the cloud. Please see the [CLI Toolchain documentation](../cli-toolchain/usage#mocking-and-testing) for more details.
 
 ### Client Architecture
 
@@ -379,7 +391,7 @@ Add the following code to your app:
                                                                   userPoolsAuthProvider: {
                                                                     class MyCognitoUserPoolsAuthProvider : AWSCognitoUserPoolsAuthProviderAsync {
                                                                         func getLatestAuthToken(_ callback: @escaping (String?, Error?) -> Void) {
-                                                                            AWSMobileClient.sharedInstance().getTokens { (tokens, error) in
+                                                                            AWSMobileClient.default().getTokens { (tokens, error) in
                                                                                 if error != nil {
                                                                                     callback(nil, error)
                                                                                 } else {
@@ -429,7 +441,7 @@ Add the following code to your app:
 do {
     // Initialize the AWS AppSync configuration
     let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
-							  credentialsProvider: AWSMobileClient.sharedInstance(),
+							  credentialsProvider: AWSMobileClient.default(),
 							  cacheConfiguration: AWSAppSyncCacheConfiguration())
     
     // Initialize the AWS AppSync client
@@ -956,7 +968,7 @@ Add `AWSAPIGateway` to your Podfile:
 	  use_frameworks!
 
 	     # For API
-	     pod 'AWSAPIGateway', '~> 2.10.0'
+	     pod 'AWSAPIGateway', '~> 2.12.0'
 	     # other pods
 	end
 ```
@@ -1012,7 +1024,7 @@ import AWSMobileClient
 
         // Create a service configuration
         let serviceConfiguration = AWSServiceConfiguration(region: AWSRegionType.USEast1,
-              credentialsProvider: AWSMobileClient.sharedInstance())
+              credentialsProvider: AWSMobileClient.default())
 
         // Initialize the API client using the service configuration
         xyz123useamplifyabcdClient.registerClient(withConfiguration: serviceConfiguration!, forKey: "CloudLogicAPIKey")
@@ -1048,7 +1060,7 @@ When invoking an API Gateway endpoint with Cognito User Pools authorizer, you ca
 ```swift
 //New overloaded function that gets Cognito User Pools tokens
 func doInvokeAPI(){
-    AWSMobileClient.sharedInstance().getTokens { (tokens, err) in
+    AWSMobileClient.default().getTokens { (tokens, err) in
         self.doInvokeAPI(token: tokens!.idToken!.tokenString!)
     }
 }
@@ -1068,6 +1080,3 @@ func doInvokeAPI(token:String) {
 ```
 
 You can then invoke this method with `self.doInvokeAPI()` from your application code and it will pass the IdToken from Cognito User Pools as an `Authorization` header.
-
-## Lambda Triggers
-If you optionally want to enable triggers for the storage category (S3 & DynamoDB), the CLI supports associating Lambda triggers with S3 and DynamoDB events. This can be useful if you want to invoke a Lambda function after any create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)

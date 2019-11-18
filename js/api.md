@@ -141,6 +141,10 @@ The following directives are available to be used when defining your schema:
 
 You may also write your own transformers to implement reproducible patterns that you find useful. To learn more about the GraphQL Transform libraries see [GraphQL Transform Documentation](https://aws-amplify.github.io/docs/cli/graphql?sdk=js).
 
+##### Mocking and Local Testing
+
+Amplify supports running a local mock server for testing your application with AWS AppSync, including debugging of resolvers, before pushing to the cloud. Please see the [CLI Toolchain documentation](../cli-toolchain/usage#mocking-and-testing) for more details.
+
 ##### Generate client types from a GraphQL schema
 
 When working with GraphQL data it is useful to import types from your schema for type safety. You can do this with the Amplify CLI's automated code generation feature. The CLI automatically downloads GraphQL Introspection Schemas from the defined GraphQL endpoint and generates TypeScript or Flow classes for you. Every time you push your GraphQL API, the CLI will provide you the option to generate types and statements.
@@ -415,8 +419,8 @@ class App extends Component {
 
         return (
             <Connect query={graphqlOperation(queries.listTodos)}>
-                {({ data: { listTodos }, loading, error }) => {
-                    if (error) return (<h3>Error</h3>);
+                {({ data: { listTodos }, loading, errors }) => {
+                    if (errors) return (<h3>Error</h3>);
                     if (loading || !listTodos) return (<h3>Loading...</h3>);
                     return (<ListView todos={listTodos.items} /> );
                 }}
@@ -551,7 +555,7 @@ class App extends Component {
 
 ### <a name="aws-appsync-sdk">AWS AppSync SDK
 
-The follow documentation outlines how to use the Apollo client with AWS AppSync and important client APIs to understand. For sample code to use in your JavaScript framework such as React, Vue, etc. or to open issues with the SDK please see the [AppSync Apollo client SDK GitHub repository](https://github.com/awslabs/aws-mobile-appsync-sdk-js/).
+The following documentation outlines how to use the Apollo client with AWS AppSync and important client APIs to understand. For sample code to use in your JavaScript framework such as React, Vue, etc. or to open issues with the SDK please see the [AppSync Apollo client SDK GitHub repository](https://github.com/awslabs/aws-mobile-appsync-sdk-js/).
 
 **Configuration**
 
@@ -1093,7 +1097,7 @@ const client = new AWSAppSyncClient({
   url: awsconfig.aws_appsync_graphqlEndpoint,
   region: awsconfig.aws_appsync_region,
   auth: {
-    type: AUTH_TYPE.AWS_IAM,
+    type: AUTH_TYPE.OPENID_CONNECT,
     jwtToken: () => getOIDCToken(),
   },
 });
@@ -1826,12 +1830,6 @@ Amplify.configure({
                 name: "MyCustomCloudFrontApi",
                 endpoint: "https://api.my-custom-cloudfront-domain.com",
 
-            },
-            {
-                name: "MyCustomLambdaApi",
-                endpoint: "https://lambda.us-east-1.amazonaws.com/2015-03-31/functions/yourFuncName/invocations",
-                service: "lambda",
-                region: "us-east-1"
             }
         ]
     }
@@ -1840,9 +1838,7 @@ Amplify.configure({
 
 ### AWS Regional Endpoints
 
-You can also utilize regional endpoints by passing in the *service* and *region* information to the configuration. For a list of available service endpoints see [AWS Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html). 
-
-As an example, the following API configuration defines a Lambda invocation in the `us-east-1` region:  
+You can utilize regional endpoints by passing in the *service* and *region* information to the configuration. See [AWS Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html). The example below defines a [Lambda invocation](https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html) in the `us-east-1` region:
 
 ```javascript
 API: {
@@ -1857,7 +1853,7 @@ API: {
 }
 ```
 
-For more information related to invoking AWS Lambda functions, see [AWS Lambda Developer Guide](https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html).
+Note **THIS IS NOT RECOMMENDED ARCHITECTURE** and we highly recommend you leverage AWS AppSync or API Gateway as the endpoint to invoke your Lambda functions. 
 
  **Configuring Amazon Cognito Regional Endpoints** To call regional service endpoints, your Amazon Cognito role needs to be configured with appropriate access for the related service. See [AWS Cognito Documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) for more details.
  {: .callout .callout--warning}
@@ -2233,9 +2229,3 @@ API.configure();
 
 For the complete API documentation for API module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/apiclass.html)
 {: .callout .callout--info}
-
-
-## Lambda Triggers
-If you optionally want to enable triggers for the storage category (S3 & DynamoDB), the CLI supports associating Lambda triggers with S3 and DynamoDB events. This can be useful if you want to invoke a Lambda function after any create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)
-
-

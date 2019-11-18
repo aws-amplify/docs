@@ -65,7 +65,7 @@ Amplify.addPluggable(new AmazonAIPredictionsProvider());
 
 #### Manual Setup
 
-The manual setup enables you to use your existing Amazon Pinpoint resource in your app.
+The manual setup enables you to use your existing Amazon AI and ML resources in your app.
 
 ```javascript
 import Amplify from 'aws-amplify';

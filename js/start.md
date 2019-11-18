@@ -168,11 +168,11 @@ Open a browser and navigate to <a href="http://localhost:8080" target="_blank">h
 
 <div id="react" class="tab-content current">
 
-Use [Create React App](https://github.com/facebookincubator/create-react-app) to bootstrap your application.
+Use [Create React App](https://github.com/facebook/create-react-app) to bootstrap your application.
 
 ```bash
-$ npm install -g create-react-app
-$ create-react-app myapp && cd myapp
+$ npx create-react-app myapp
+$ cd myapp
 ```
 
 Inside the app directory, install Amplify and run your app:
@@ -194,7 +194,8 @@ See the [React Guide](https://aws-amplify.github.io/docs/js/react){: target='_ne
 </div>
 <div id="react-native" class="tab-content" >
 
-Run following commands to install [Expo CLI](https://expo.io) to create and bootstrap your app (use defaults):
+### Option 1: Use Expo CLI (recommended if you are new to mobile development)
+Run the following commands to install [Expo CLI](https://expo.io) to create and bootstrap your app (use defaults):
 
 ```bash
 $ npm install expo-cli --global
@@ -215,16 +216,25 @@ $ yarn start
 While not needed in this getting started flow, Amplify provides React Native bridges when using the Auth category in the `aws-amplify-react-native` package. If you are using [Expo v25.0.0 or greater](https://blog.expo.io/expo-sdk-v25-0-0-is-now-available-714d10a8c3f7), those libraries are already included in your dependencies. Otherwise, you need to [link](https://facebook.github.io/react-native/docs/linking-libraries-ios.html) those libraries to your project.
 {: .callout .callout--info}
 
-Linking example for a project created with *react-native init*:
+### Option 2: Use React Native CLI (recommended if you have mobile development experience)
 
 ```bash
 $ react-native init myReactNativeApp
 $ cd myReactNativeApp
 $ npm install aws-amplify
 $ npm install aws-amplify-react-native
-$ react-native link
 ```
 
+If you are using React Native 0.60 and above, [autolinking](https://github.com/react-native-community/cli/blob/master/docs/autolinking.md) is enabled. Run the following commands for iOS:
+
+```bash
+$ cd ios && pod install && cd ..
+```
+If you are using a version of React Native below 0.60 , you would need to link your dependencies by running the following command:
+
+```bash
+$ react-native link
+```
 To install React-specific Amplify UI components, run the following command:
 
 ```bash
@@ -471,7 +481,7 @@ This will open the AWS AppSync console for you to run Queries, Mutations, or Sub
 Update your `src/App.js` file to configure the library with `Amplify.configure()` and add data to your database with a mutation by using `API.graphql()`:
 
 ```javascript
-import React, { useEffect, useReducer } from 'react'
+import React from 'react'
 
 import API, { graphqlOperation } from '@aws-amplify/api'
 import PubSub from '@aws-amplify/pubsub';
@@ -501,6 +511,7 @@ Next, update `src/App.js` to list all the items in the database by importing `li
 
 ```javascript
 // other imports
+import { useEffect, useReducer } from 'react' // using hooks
 import { listTodos } from './graphql/queries'
 
 const initialState = {todos:[]};
@@ -598,6 +609,15 @@ export default function App() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+   container: {
+     backgroundColor: '#ddeeff',
+     alignItems: 'center',
+     justifyContent: 'center',
+     flex: 1
+   }
+ });
 ```
 
 Next, update `App.js` to list all the items in the database by importing `listTodos` and then using [Hooks](https://reactjs.org/docs/hooks-intro.html) to update the page when a query runs on app start by adding initial state and a `reducer` function as well as modifying your `App` function:
