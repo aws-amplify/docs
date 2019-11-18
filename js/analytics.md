@@ -17,7 +17,15 @@ Run the following command in your project's root folder:
 $ amplify add analytics
 ```
 
-The CLI will prompt configuration options for the Analytics category such as Amazon Pinpoint resource name and analytics event settings.
+The CLI will prompt to select resource type for Analytics category:
+
+```bash
+? Select an Analytics provider (Use arrow keys)
+❯ Amazon Pinpoint (Default) 
+  Amazon Kinesis Streams 
+```
+
+which will be followed by selection of configuration options for the Analytics category, such as Amazon Pinpoint resource name and analytics event settings for pinpoint type or Amazon Kinesis Stream name and shards count for Kinesis type.
 
 {The Analytics category utilizes the Authentication category behind the scenes to authorize your app to send analytics events.}
 {: .callout .callout--info}
