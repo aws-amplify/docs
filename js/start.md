@@ -617,7 +617,7 @@ import { listTodos } from './graphql/queries';
 import { onCreateTodo } from './graphql/subscriptions';
 
 import awsconfig from './aws-exports';
-import "./App.css";
+import './App.css';
 
 API.configure(awsconfig);
 PubSub.configure(awsconfig);
