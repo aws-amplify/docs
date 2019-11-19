@@ -489,7 +489,7 @@ import PubSub from '@aws-amplify/pubsub';
 import { createTodo } from './graphql/mutations';
 
 import awsconfig from './aws-exports';
-import "./App.css";
+import './App.css';
 
 // Configure Amplify
 API.configure(awsconfig);
