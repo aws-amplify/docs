@@ -726,7 +726,7 @@ Note: You can also reference an output value from any other Amplify managed cate
 },
 ```
 
-4. Place one parameter in `parameters.json` named `authmycognitoresourceUserPoolId` with a cloudformation Fn::GetAtt that connects the output of one nested template to your custom template.
+4. Place one parameter in `parameters.json` named `authmycognitoresourceUserPoolId` with a cloudformation `Fn::GetAtt` that connects the output of one nested template to your custom template.
 
   ```
   	{
