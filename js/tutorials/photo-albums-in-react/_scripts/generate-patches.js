@@ -48,7 +48,7 @@ console.info(`🗑  Cleaning up ${relative(stepsDir)}...`);
 deleteEmpty.sync(stepsDir);
 
 const masterFiles = globby.sync(
-  ['**/*.js', '**/package.json', '**/schema.graphql'],
+  ['**/*.js', '**/*.json', '**/package.json', '**/schema.graphql'],
   {
     cwd: srcDir,
     ignore,
