@@ -481,19 +481,23 @@ This will open the AWS AppSync console for you to run Queries, Mutations, or Sub
 Update your `src/App.js` file to configure the library with `Amplify.configure()` and add data to your database with a mutation by using `API.graphql()`:
 
 ```javascript
-import React from 'react'
+import React from 'react';
 
-import API, { graphqlOperation } from '@aws-amplify/api'
+import API, { graphqlOperation } from '@aws-amplify/api';
 import PubSub from '@aws-amplify/pubsub';
-import { createTodo } from './graphql/mutations'
 
-import config from './aws-exports'
-API.configure(config)             // Configure Amplify
-PubSub.configure(config);
+import { createTodo } from './graphql/mutations';
+
+import awsconfig from './aws-exports';
+import './App.css';
+
+// Configure Amplify
+API.configure(awsconfig);
+PubSub.configure(awsconfig);
 
 async function createNewTodo() {
-  const todo = { name: "Use AppSync" , description: "Realtime and Offline"}
-  await API.graphql(graphqlOperation(createTodo, { input: todo }))
+  const todo = { name: "Use AWS AppSync" , description: "Realtime and Offline" };
+  await API.graphql(graphqlOperation(createTodo, { input: todo }));
 }
 
 function App() {
@@ -510,64 +514,172 @@ export default App;
 Next, update `src/App.js` to list all the items in the database by importing `listTodos` and then using [Hooks](https://reactjs.org/docs/hooks-intro.html) to update the page when a query runs on app start by adding initial state and a `reducer` function as well as modifying your `App` function:
 
 ```javascript
-// other imports
-import { useEffect, useReducer } from 'react' // using hooks
-import { listTodos } from './graphql/queries'
+import React, { useEffect, useReducer } from 'react';
+// ...
 
-const initialState = {todos:[]};
-const reducer = (state, action) =>{
-  switch(action.type){
-    case 'QUERY':
-      return {...state, todos:action.todos}
-    case 'SUBSCRIPTION':
-      return {...state, todos:[...state.todos, action.todo]}
+import { createTodo } from './graphql/mutations';
+import { listTodos } from './graphql/queries';
+
+// ...
+
+// Action Types
+const QUERY = 'QUERY';
+
+const initialState = {
+  todos: [],
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case QUERY:
+      return {...state, todos: action.todos};
     default:
-      return state
+      return state;
   }
-}
+};
+
+// ...
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    getData()
-  }, [])
-
-  async function getData() {
-    const todoData = await API.graphql(graphqlOperation(listTodos))
-    dispatch({type:'QUERY', todos: todoData.data.listTodos.items});
-  }
+    async function getData() {
+      const todoData = await API.graphql(graphqlOperation(listTodos));
+      dispatch({ type: QUERY, todos: todoData.data.listTodos.items });
+    }
+    getData();
+  }, []);
 
   return (
     <div>
     <div className="App">
       <button onClick={createNewTodo}>Add Todo</button>
     </div>
-    <div>{ state.todos.map((todo, i) => <p key={todo.id}>{todo.name} : {todo.description}</p>) }</div>
+    <div>
+      {state.todos.length > 0 ? 
+        state.todos.map((todo) => <p key={todo.id}>{todo.name} : {todo.description}</p>) :
+        <p>Add some todos!</p> 
+      }
+    </div>
   </div>
   );
 }
 
-export default App
+export default App;
 ```
 
 Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subscription with `API.graphql()` like so:
 
 ```javascript
-// other imports
-import { onCreateTodo } from './graphql/subscriptions'
+// ...
+import { createTodo } from './graphql/mutations';
+import { listTodos } from './graphql/queries';
+import { onCreateTodo } from './graphql/subscriptions';
+
+// Action Types
+// ...
+const SUBSCRIPTION = 'SUBSCRIPTION';
+
+// ...
+const reducer = (state, action) => {
+  switch (action.type) {
+    // ...
+    case SUBSCRIPTION:
+      return {...state, todos:[...state.todos, action.todo]};
+    // ...
+  }
+};
 
 useEffect(() => {
-  //...other code
-
+  // ...
   const subscription = API.graphql(graphqlOperation(onCreateTodo)).subscribe({
       next: (eventData) => {
         const todo = eventData.value.data.onCreateTodo;
-        dispatch({type:'SUBSCRIPTION', todo})
+        dispatch({ type: SUBSCRIPTION, todo });
       }
-  })
-  return () => subscription.unsubscribe()
-}, [])
+    });
+
+  return () => subscription.unsubscribe();
+}, []);
+```
+
+Below is the full sample code for this Getting Started section:
+
+```javascript
+import React, { useEffect, useReducer } from 'react';
+
+import API, { graphqlOperation } from '@aws-amplify/api';
+import PubSub from '@aws-amplify/pubsub';
+
+import { createTodo } from './graphql/mutations';
+import { listTodos } from './graphql/queries';
+import { onCreateTodo } from './graphql/subscriptions';
+
+import awsconfig from './aws-exports';
+import "./App.css";
+
+API.configure(awsconfig);
+PubSub.configure(awsconfig);
+
+// Action Types
+const QUERY = 'QUERY';
+const SUBSCRIPTION = 'SUBSCRIPTION';
+
+const initialState = {
+  todos: [],
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case QUERY:
+      return {...state, todos: action.todos};
+    case SUBSCRIPTION:
+      return {...state, todos:[...state.todos, action.todo]}
+    default:
+      return state;
+  }
+};
+
+async function createNewTodo() {
+  const todo = { name: "Use AWS AppSync", description: "RealTime and Offline" };
+  await API.graphql(graphqlOperation(createTodo, { input: todo }));
+}
+
+function App() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    async function getData() {
+      const todoData = await API.graphql(graphqlOperation(listTodos));
+      dispatch({ type: QUERY, todos: todoData.data.listTodos.items });
+    }
+    getData();
+
+    const subscription = API.graphql(graphqlOperation(onCreateTodo)).subscribe({
+      next: (eventData) => {
+        const todo = eventData.value.data.onCreateTodo;
+        dispatch({ type: SUBSCRIPTION, todo });
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  return (
+    <div className="App">
+      <button onClick={createNewTodo}>Add Todo</button>
+      <div>
+        {state.todos.length > 0 ? 
+          state.todos.map((todo) => <p key={todo.id}>{todo.name} : {todo.description}</p>) :
+          <p>Add some todos!</p> 
+        }
+      </div>
+    </div>
+  );
+}
+
+export default App;
 ```
 
 The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
