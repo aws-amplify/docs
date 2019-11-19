@@ -1,5 +1,4 @@
-```jsx
-{% raw %}import { API } from 'aws-amplify';
+import { API } from 'aws-amplify';
 import React, { useEffect, useState } from 'react';
 import {
   Button,
@@ -11,10 +10,15 @@ import {
   Form
 } from 'semantic-ui-react';
 
-import { onUpdateAlbum } from '../graphql/subscriptions';
+import {
+  onCreatePhoto,
+  onUpdateAlbum,
+  onUpdatePhoto
+} from '../graphql/subscriptions';
 
 import DeleteAlbum from './DeleteAlbum';
 import PhotoList from './PhotoList';
+import PhotosUploader from './PhotosUploader';
 import { getAlbum } from '../graphql/queries';
 import { updateAlbum } from '../graphql/mutations';
 import useAuth from '../useAuth';
@@ -23,7 +27,43 @@ function AlbumDetails({ album }) {
   const { owner } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  const photos = album.photos.items;
+  const [photos, setPhotos] = useState(album.photos.items);
+
+  useEffect(() => {
+    const subscription = API.graphql({
+      authMode: owner ? 'AMAZON_COGNITO_USER_POOLS' : 'AWS_IAM',
+      query: onCreatePhoto,
+      variables: { owner }
+    }).subscribe({
+      next(payload) {
+        const photo = payload.value.data.onCreatePhoto;
+
+        setPhotos(prevPhotos => [photo, ...prevPhotos]);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [owner]);
+
+  useEffect(() => {
+    const subscription = API.graphql({
+      authMode: owner ? 'AMAZON_COGNITO_USER_POOLS' : 'AWS_IAM',
+      query: onUpdatePhoto,
+      variables: { owner }
+    }).subscribe({
+      next(payload) {
+        const photo = payload.value.data.onUpdatePhoto;
+
+        setPhotos(prevPhotos => {
+          return prevPhotos.map(prevPhoto => {
+            return prevPhoto.id === photo.id ? photo : prevPhoto;
+          });
+        });
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [owner]);
 
   const handleCancel = () => {
     setIsEditing(!isEditing);
@@ -85,6 +125,7 @@ function AlbumDetails({ album }) {
             </Header.Subheader>
           )}
         </Header>
+        <PhotosUploader album={album} />
       </Segment>
 
       <Segment data-test="album-content" tertiary>
@@ -150,5 +191,3 @@ export default function AlbumDetailsLoader(props) {
 
   return <AlbumDetails album={album} key={`${album.id}-${album.version}`} />;
 }
-{% endraw %}
-```

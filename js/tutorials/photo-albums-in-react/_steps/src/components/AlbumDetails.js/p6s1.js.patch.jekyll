@@ -1,7 +1,7 @@
 ```diff
 {% raw %}--- a/src/components/AlbumDetails.js
 +++ b/src/components/AlbumDetails.js
-@@ -19,6 +19,7 @@ import {
+@@ -14,6 +14,7 @@ import { onUpdateAlbum } from '../graphql/subscriptions';
  
  import DeleteAlbum from './DeleteAlbum';
  import PhotoList from './PhotoList';
@@ -9,7 +9,7 @@
  import { getAlbum } from '../graphql/queries';
  import { updateAlbum } from '../graphql/mutations';
  import useAuth from '../useAuth';
-@@ -145,6 +146,7 @@ function AlbumDetails({ album }) {
+@@ -84,6 +85,7 @@ function AlbumDetails({ album }) {
              </Header.Subheader>
            )}
          </Header>

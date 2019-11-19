@@ -2,8 +2,8 @@ import { API } from 'aws-amplify';
 import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Button, Card, Label, Form, TextArea } from 'semantic-ui-react';
-import Photo from './Photo';
 
+import Photo from './Photo';
 import { deletePhoto, updatePhoto } from '../graphql/mutations';
 import useAuth from '../useAuth';
 
@@ -83,11 +83,7 @@ export default function PhotoDetails({ photo }) {
             />
           </Form>
         ) : (
-          <Card.Meta
-            style={{
-              whiteSpace: 'pre-line'
-            }}
-          >
+          <Card.Meta style={{ whiteSpace: 'pre-line' }}>
             {description}
           </Card.Meta>
         )}

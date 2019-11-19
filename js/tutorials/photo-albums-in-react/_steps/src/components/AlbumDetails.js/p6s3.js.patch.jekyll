@@ -1,0 +1,44 @@
+```diff
+{% raw %}--- a/src/components/AlbumDetails.js
++++ b/src/components/AlbumDetails.js
+@@ -10,7 +10,11 @@ import {
+   Form
+ } from 'semantic-ui-react';
+ 
+-import { onCreatePhoto, onUpdateAlbum } from '../graphql/subscriptions';
++import {
++  onCreatePhoto,
++  onUpdateAlbum,
++  onUpdatePhoto
++} from '../graphql/subscriptions';
+ 
+ import DeleteAlbum from './DeleteAlbum';
+ import PhotoList from './PhotoList';
+@@ -41,6 +45,26 @@ function AlbumDetails({ album }) {
+     return () => subscription.unsubscribe();
+   }, [owner]);
+ 
++  useEffect(() => {
++    const subscription = API.graphql({
++      authMode: owner ? 'AMAZON_COGNITO_USER_POOLS' : 'AWS_IAM',
++      query: onUpdatePhoto,
++      variables: { owner }
++    }).subscribe({
++      next(payload) {
++        const photo = payload.value.data.onUpdatePhoto;
++
++        setPhotos(prevPhotos => {
++          return prevPhotos.map(prevPhoto => {
++            return prevPhoto.id === photo.id ? photo : prevPhoto;
++          });
++        });
++      }
++    });
++
++    return () => subscription.unsubscribe();
++  }, [owner]);
++
+   const handleCancel = () => {
+     setIsEditing(!isEditing);
+     setIsUpdating(false);{% endraw %}
+```

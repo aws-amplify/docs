@@ -2,44 +2,23 @@
 {% raw %}--- a/src/components/AlbumDetails.js
 +++ b/src/components/AlbumDetails.js
 +++ b/Users/ecclemm/Projects/ericclemmons/docs/js/tutorials/photo-albums-in-react/_steps/src/components/AlbumDetails.js/p4s4.js
-@@ -0,0 +1,85 @@
+@@ -0,0 +1,64 @@
 +import { API } from 'aws-amplify';
 +import React, { useEffect, useState } from 'react';
-+import {
-+  Button,
-+  Dimmer,
-+  Header,
-+  Loader,
-+  Message,
-+  Segment
-+} from 'semantic-ui-react';
++import { Dimmer, Header, Loader, Message, Segment } from 'semantic-ui-react';
 +
 +import PhotoList from './PhotoList';
 +import { getAlbum } from '../graphql/queries';
 +import useAuth from '../useAuth';
 +
 +function AlbumDetails({ album }) {
-+  const { owner } = useAuth();
 +  const photos = album.photos.items;
 +
 +  return (
 +    <Segment.Group>
 +      <Segment clearing>
 +        <Header data-test="album-header" floated="left" size="huge">
-+          <Header.Content>album.name</Header.Content>
-+
-+          {owner && (
-+            <Header.Subheader>
-+              <Button
-+                basic
-+                circular
-+                content="Edit"
-+                icon="pencil"
-+                size="mini"
-+                style={{ position: 'relative', top: '0.5em' }}
-+              />
-+            </Header.Subheader>
-+          )}
++          <Header.Content>{album.name}</Header.Content>
 +        </Header>
 +      </Segment>
 +
@@ -86,6 +65,6 @@
 +    );
 +  }
 +
-+  return <AlbumDetails album={album} key={`${album.id}-${album.version}`} />;
++  return <AlbumDetails album={album} />;
 +}{% endraw %}
 ```

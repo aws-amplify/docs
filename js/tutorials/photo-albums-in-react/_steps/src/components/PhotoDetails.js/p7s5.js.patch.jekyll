@@ -9,8 +9,8 @@
 +import { Button, Card, Icon, Label, Form, TextArea } from 'semantic-ui-react';
  
  import Photo from './Photo';
- 
-@@ -108,8 +108,20 @@ export default function PhotoDetails({ photo }) {
+ import { deletePhoto, updatePhoto } from '../graphql/mutations';
+@@ -103,8 +103,20 @@ export default function PhotoDetails({ photo }) {
            <Card.Description>
              <Label.Group>
                {labels.map(label => (

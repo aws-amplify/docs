@@ -2,10 +2,9 @@
 {% raw %}import { API } from 'aws-amplify';
 import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Button, Card, Icon, Label, Form, TextArea } from 'semantic-ui-react';
+import { Button, Card, Form, TextArea } from 'semantic-ui-react';
 
 import Photo from './Photo';
-
 import { deletePhoto, updatePhoto } from '../graphql/mutations';
 import useAuth from '../useAuth';
 
@@ -15,12 +14,10 @@ export default function PhotoDetails({ photo }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [description, setDescription] = useState(photo.description);
-  const [labels, setLabels] = useState(photo.labels);
   const [isDeleting, setIsDeleting] = useState(false);
 
   const reset = () => {
     setDescription(photo.description);
-    setLabels(photo.labels);
     setIsEditing(false);
   };
 
@@ -35,8 +32,7 @@ export default function PhotoDetails({ photo }) {
           input: {
             expectedVersion: photo.version,
             id: photo.id,
-            description,
-            labels
+            description
           }
         }
       });
@@ -85,29 +81,11 @@ export default function PhotoDetails({ photo }) {
             />
           </Form>
         ) : (
-          <Card.Meta
-            style={{
-              whiteSpace: 'pre-line'
-            }}
-          >
+          <Card.Meta style={{ whiteSpace: 'pre-line' }}>
             {description}
           </Card.Meta>
         )}
       </Card.Content>
-
-      {labels.length ? (
-        <Card.Content extra>
-          <Card.Description>
-            <Label.Group>
-              {labels.map(label => (
-                <Label key={label} size="tiny">
-                  {label}
-                </Label>
-              ))}
-            </Label.Group>
-          </Card.Description>
-        </Card.Content>
-      ) : null}
 
       {owner && (
         <Card.Content extra>

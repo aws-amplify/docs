@@ -1,15 +1,7 @@
 ```diff
 {% raw %}--- a/src/components/PhotoDetails.js
 +++ b/src/components/PhotoDetails.js
-@@ -2,6 +2,7 @@ import { API } from 'aws-amplify';
- import React, { useState } from 'react';
- import { Link, useParams } from 'react-router-dom';
- import { Button, Card, Label, Form, TextArea } from 'semantic-ui-react';
-+
- import Photo from './Photo';
- 
- import { deletePhoto, updatePhoto } from '../graphql/mutations';
-@@ -14,6 +15,7 @@ export default function PhotoDetails({ photo }) {
+@@ -14,6 +14,7 @@ export default function PhotoDetails({ photo }) {
    const [isUpdating, setIsUpdating] = useState(false);
    const [description, setDescription] = useState(photo.description);
    const [labels, setLabels] = useState(photo.labels);
@@ -17,7 +9,7 @@
    const [isDeleting, setIsDeleting] = useState(false);
  
    const reset = () => {
-@@ -22,6 +24,14 @@ export default function PhotoDetails({ photo }) {
+@@ -22,6 +23,14 @@ export default function PhotoDetails({ photo }) {
      setIsEditing(false);
    };
  
@@ -32,7 +24,7 @@
    const handleUpdatePhoto = async () => {
      setIsUpdating(true);
  
-@@ -102,6 +112,20 @@ export default function PhotoDetails({ photo }) {
+@@ -98,6 +107,20 @@ export default function PhotoDetails({ photo }) {
                    {label}
                  </Label>
                ))}

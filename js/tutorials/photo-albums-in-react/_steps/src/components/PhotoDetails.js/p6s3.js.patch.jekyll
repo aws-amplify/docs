@@ -1,23 +1,22 @@
 ```diff
 {% raw %}--- a/src/components/PhotoDetails.js
 +++ b/src/components/PhotoDetails.js
-@@ -1,23 +1,80 @@
+@@ -1,12 +1,49 @@
 -import React from 'react';
--import { Card, Label } from 'semantic-ui-react';
--
 +import { API } from 'aws-amplify';
 +import React, { useState } from 'react';
-+import { Link, useParams } from 'react-router-dom';
+ import { Link, useParams } from 'react-router-dom';
+-import { Card, Label } from 'semantic-ui-react';
 +import { Button, Card, Label, Form, TextArea } from 'semantic-ui-react';
- import Photo from './Photo';
  
+ import Photo from './Photo';
 +import { updatePhoto } from '../graphql/mutations';
 +import useAuth from '../useAuth';
-+
+ 
  export default function PhotoDetails({ photo }) {
--  const [description, labels] = photo;
 +  const { owner } = useAuth();
-+  const { albumId } = useParams();
+   const { albumId } = useParams();
+-  const [description, labels] = photo;
 +  const [isEditing, setIsEditing] = useState(false);
 +  const [isUpdating, setIsUpdating] = useState(false);
 +  const [description, setDescription] = useState(photo.description);
@@ -55,23 +54,11 @@
  
    return (
      <Card data-test="photo-card" raised>
--      <Photo photo={photo} thumbnail />
-+      <Link
-+        data-test="photo-card-thumbnail"
-+        style={{ background: 'black' }}
-+        to={`/albums/${albumId}/photos/${photo.id}`}
-+      >
-+        <Photo photo={photo} thumbnail />
-+      </Link>
+@@ -19,7 +56,21 @@ export default function PhotoDetails({ photo }) {
+       </Link>
  
        <Card.Content data-test="photo-card-description">
--        <Card.Meta
--          style={{
--            whiteSpace: 'pre-line'
--          }}
--        >
--          {description}
--        </Card.Meta>
+-        <Card.Meta style={{ whiteSpace: 'pre-line' }}>{description}</Card.Meta>
 +        {isEditing ? (
 +          <Form style={{ height: '100%' }}>
 +            <TextArea
@@ -83,18 +70,14 @@
 +            />
 +          </Form>
 +        ) : (
-+          <Card.Meta
-+            style={{
-+              whiteSpace: 'pre-line'
-+            }}
-+          >
++          <Card.Meta style={{ whiteSpace: 'pre-line' }}>
 +            {description}
 +          </Card.Meta>
 +        )}
        </Card.Content>
  
        {labels.length ? (
-@@ -33,6 +90,45 @@ export default function PhotoDetails({ photo }) {
+@@ -35,6 +86,45 @@ export default function PhotoDetails({ photo }) {
            </Card.Description>
          </Card.Content>
        ) : null}

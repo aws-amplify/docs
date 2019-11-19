@@ -1,0 +1,45 @@
+```diff
+{% raw %}--- a/src/components/AlbumDetails.js
++++ b/src/components/AlbumDetails.js
+@@ -1,4 +1,4 @@
+-import { API } from 'aws-amplify';
++import { API, Storage } from 'aws-amplify';
+ import React, { useEffect, useState } from 'react';
+ import {
+   Button,
+@@ -12,6 +12,7 @@ import {
+ 
+ import {
+   onCreatePhoto,
++  onDeletePhoto,
+   onUpdateAlbum,
+   onUpdatePhoto
+ } from '../graphql/subscriptions';
+@@ -45,6 +46,26 @@ function AlbumDetails({ album }) {
+     return () => subscription.unsubscribe();
+   }, [owner]);
+ 
++  useEffect(() => {
++    const subscription = API.graphql({
++      authMode: owner ? 'AMAZON_COGNITO_USER_POOLS' : 'AWS_IAM',
++      query: onDeletePhoto,
++      variables: { owner }
++    }).subscribe({
++      next(payload) {
++        const photo = payload.value.data.onDeletePhoto;
++
++        Storage.remove(photo.fullsize.key);
++
++        setPhotos(prevPhotos => {
++          return prevPhotos.filter(prevPhoto => prevPhoto.id !== photo.id);
++        });
++      }
++    });
++
++    return () => subscription.unsubscribe();
++  }, [owner]);
++
+   useEffect(() => {
+     const subscription = API.graphql({
+       authMode: owner ? 'AMAZON_COGNITO_USER_POOLS' : 'AWS_IAM',{% endraw %}
+```

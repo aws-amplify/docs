@@ -2,7 +2,7 @@
 {% raw %}--- a/src/components/PhotoDetails.js
 +++ b/src/components/PhotoDetails.js
 +++ b/Users/ecclemm/Projects/ericclemmons/docs/js/tutorials/photo-albums-in-react/_steps/src/components/PhotoDetails.js/p4s4.js
-@@ -0,0 +1,34 @@
+@@ -0,0 +1,28 @@
 +import React from 'react';
 +import { Card, Label } from 'semantic-ui-react';
 +
@@ -12,13 +12,7 @@
 +  return (
 +    <Card data-test="photo-card" raised>
 +      <Card.Content data-test="photo-card-description">
-+        <Card.Meta
-+          style={{
-+            whiteSpace: 'pre-line'
-+          }}
-+        >
-+          {description}
-+        </Card.Meta>
++        <Card.Meta style={{ whiteSpace: 'pre-line' }}>{description}</Card.Meta>
 +      </Card.Content>
 +
 +      {labels.length ? (

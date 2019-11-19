@@ -1,14 +1,57 @@
 ```diff
 {% raw %}--- a/src/components/PhotoDetails.js
 +++ b/src/components/PhotoDetails.js
-@@ -1,8 +1,7 @@
+@@ -1,7 +1,7 @@
  import { API } from 'aws-amplify';
  import React, { useState } from 'react';
  import { Link, useParams } from 'react-router-dom';
--import { Button, Card, Icon, Label, Form, TextArea } from 'semantic-ui-react';
--
+-import { Button, Card, Form, TextArea } from 'semantic-ui-react';
 +import { Button, Card, Label, Form, TextArea } from 'semantic-ui-react';
- import Photo from './Photo';
  
- import { deletePhoto, updatePhoto } from '../graphql/mutations';{% endraw %}
+ import Photo from './Photo';
+ import { deletePhoto, updatePhoto } from '../graphql/mutations';
+@@ -13,10 +13,12 @@ export default function PhotoDetails({ photo }) {
+   const [isEditing, setIsEditing] = useState(false);
+   const [isUpdating, setIsUpdating] = useState(false);
+   const [description, setDescription] = useState(photo.description);
++  const [labels, setLabels] = useState(photo.labels);
+   const [isDeleting, setIsDeleting] = useState(false);
+ 
+   const reset = () => {
+     setDescription(photo.description);
++    setLabels(photo.labels);
+     setIsEditing(false);
+   };
+ 
+@@ -31,7 +33,8 @@ export default function PhotoDetails({ photo }) {
+           input: {
+             expectedVersion: photo.version,
+             id: photo.id,
+-            description
++            description,
++            labels
+           }
+         }
+       });
+@@ -86,6 +89,20 @@ export default function PhotoDetails({ photo }) {
+         )}
+       </Card.Content>
+ 
++      {labels.length ? (
++        <Card.Content extra>
++          <Card.Description>
++            <Label.Group>
++              {labels.map(label => (
++                <Label key={label} size="tiny">
++                  {label}
++                </Label>
++              ))}
++            </Label.Group>
++          </Card.Description>
++        </Card.Content>
++      ) : null}
++
+       {owner && (
+         <Card.Content extra>
+           {!isEditing && ({% endraw %}
 ```

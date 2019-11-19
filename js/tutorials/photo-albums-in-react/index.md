@@ -24,6 +24,8 @@ We'll use AWS Amplify and the Amplify CLI to quickly provision resources & conne
 
 # Part 1. Getting Started
 
+TODO Describe what this section will create, why, and how it fits into Amplify's value set.
+
 ## Step 1. Sign up for an AWS account
 
 There are no upfront charges or any term commitments to create an AWS account and signing up gives you immediate access to the AWS Free Tier.
@@ -99,6 +101,8 @@ npm start
 
 # Part 2. Adding Authentication
 
+TODO Describe what this section will create, why, and how it fits into Amplify's value set.
+
 ## Step 1. Setup Social Providers
 
 Before adding a social provider to an Amplify project, you must first go to that provider and configure an application identifier as outlined below.
@@ -173,6 +177,12 @@ Update `src/App.js` to include `Login` & `Navigation` components:
 
 {% include_relative _steps/src/App.js/p2s4.js.patch.jekyll %}
 
+Create `src/useAuth.js`:
+
+{% include_relative _steps/src/useAuth.js/p2s4.js.jekyll %}
+
+`useAuth.js` is custom hook that will reduce boilerplate code for API & authentication calls.
+
 Create `src/components/Login.js`:
 
 {% include_relative _steps/src/components/Login.js/p2s4.js.jekyll %}
@@ -181,13 +191,9 @@ Create `src/components/Navigation.js`:
 
 {% include_relative _steps/src/components/Navigation.js/p2s4.js.jekyll %}
 
-Create `src/useAuth.js`:
-
-{% include_relative _steps/src/useAuth.js/p2s4.js.jekyll %}
-
-The `useAuth` custom hook will help simplify some of our GraphQL calls in the future.
-
 # Part 3. Adding a GraphQL API
+
+TODO Describe what this section will create, why, and how it fits into Amplify's value set.
 
 ## Step 1. Add API
 
@@ -236,6 +242,8 @@ Test Your Hosted UI Endpoint: https://•••••••••••••.au
 ```
 
 # Part 4. Managing Albums
+
+TODO Describe what this section will create, why, and how it fits into Amplify's value set.
 
 ![Picture of album list](3-auth-home.png)
 
@@ -302,6 +310,8 @@ Update `src/components/AlbumDetails` to call the `updateAlbum` mutation:
 
 # Part 5. Adding Photo Storage
 
+TODO Describe what this section will create, why, and how it fits into Amplify's value set.
+
 ## Step 1. Add Storage
 
 ```shell
@@ -358,6 +368,8 @@ amplify push
 
 # Part 6. Managing Photos
 
+TODO Describe what this section will create, why, and how it fits into Amplify's value set.
+
 ![Picture of photos](3b-auth-edit.png)
 
 ## Step 1. Uploading Photos
@@ -374,19 +386,29 @@ Create `src/components/PhotosUploader.js`:
 
 Update `App.js` with a `/albums/:albumId/photos/:photoId` route:
 
-Create `src/components/PhotoBox.js`:
-
 {% include_relative _steps/src/App.js/p6s2.js.patch.jekyll %}
-
-Create `src/components/PhotoBox.js`:
-
-{% include_relative _steps/src/components/PhotoBox.js/p6s2.js.jekyll %}
 
 Update `src/components/PhotoDetails.js` with a `<Link>` to the new route:
 
 {% include_relative _steps/src/components/PhotoDetails.js/p6s2.js.patch.jekyll %}
 
+Create `src/components/PhotoBox.js`:
+
+{% include_relative _steps/src/components/PhotoBox.js/p6s2.js.jekyll %}
+
+Create `src/components/Photo.js`:
+
+{% include_relative _steps/src/components/Photo.js/p6s2.js.jekyll %}
+
+Lastly, update `src/components/AlbumDetails.js` to pick display any new photos:
+
+{% include_relative _steps/src/components/AlbumDetails.js/p6s2.js.patch.jekyll %}
+
 ## Step 3. Editing Photos
+
+Update `src/components/AlbumDetails.js` with:
+
+{% include_relative _steps/src/components/AlbumDetails.js/p6s3.js.patch.jekyll %}
 
 Update `src/components/PhotoDetails.js` with:
 
@@ -394,11 +416,17 @@ Update `src/components/PhotoDetails.js` with:
 
 ## Step 4. Deleting Photos
 
+Update `src/components/AlbumDetails.js` with:
+
+{% include_relative _steps/src/components/AlbumDetails.js/p6s4.js.patch.jekyll %}
+
 Update `src/components/PhotoDetails.js` with:
 
 {% include_relative _steps/src/components/PhotoDetails.js/p6s4.js.patch.jekyll %}
 
 # Part 7. Adding AI Labels to Photos
+
+TODO Describe what this section will create, why, and how it fits into Amplify's value set.
 
 ## Step 1. Add Predictions
 
@@ -517,7 +545,7 @@ Do you want to add redirect signout URIs? No
 
 ## Step 5. Update Social Providers
 
-> https://aws-amplify.github.io/docs/js/authentication#finish-social-setup
+> <https://aws-amplify.github.io/docs/js/authentication#finish-social-setup>
 
 ## Step 6. Publish
 

@@ -8,13 +8,7 @@ export default function PhotoDetails({ photo }) {
   return (
     <Card data-test="photo-card" raised>
       <Card.Content data-test="photo-card-description">
-        <Card.Meta
-          style={{
-            whiteSpace: 'pre-line'
-          }}
-        >
-          {description}
-        </Card.Meta>
+        <Card.Meta style={{ whiteSpace: 'pre-line' }}>{description}</Card.Meta>
       </Card.Content>
 
       {labels.length ? (
