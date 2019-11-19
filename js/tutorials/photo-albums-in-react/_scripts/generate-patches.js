@@ -81,6 +81,7 @@ masterFiles.map(async masterFile => {
 
     const subprocess = await execa('git', [
       'diff',
+      '--diff-algorithm=minimal',
       '--exit-code', // Disable pagination
       '--no-index', // Ignore any git history & just compare files
       `--relative="${srcDir}"`, // If the paths can be shortened, do so
