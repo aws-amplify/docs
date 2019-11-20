@@ -36,7 +36,7 @@ There are no upfront charges or any term commitments to create an AWS account an
 
 The Amplify Command Line Interface (CLI) is a unified toolchain to create, integrate, and manage the AWS cloud services for your app.
 
-Install [Node.js (v8.x or greater)](https://nodejs.org/en/download/)
+Install [Node.js](https://nodejs.org/en/download/)
 and
 [npm](https://www.npmjs.com/get-npm), if they are not already on your machine.
 
