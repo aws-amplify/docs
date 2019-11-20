@@ -394,7 +394,7 @@ Update `src/components/PhotoDetails.js` with a `<Link>` to the new route:
 
 Create `src/components/PhotoBox.js`:
 
-{% include_relative _steps/src/components/PhotoBox.js/p6s2.js.jekyll %}
+<!-- {include_relative _steps/src/components/PhotoBox.js/p6s2.js.jekyll} -->
 
 Create `src/components/Photo.js`:
 
