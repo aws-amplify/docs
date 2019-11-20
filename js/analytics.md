@@ -434,7 +434,7 @@ Analytics.record({
 
 ## Using Amazon Kinesis Firehose
 
-The Amazon Kinesis firehose analytics provider allows you to send analytics data to an [Amazon Kinesis Firehose](https://aws.amazon.com/kinesis/data-firehose) stream for reliably storing data.
+The Amazon Kinesis Firehose analytics provider allows you to send analytics data to an [Amazon Kinesis Firehose](https://aws.amazon.com/kinesis/data-firehose) stream for reliably storing data.
 
 ### Installation and Configuration
 
@@ -496,7 +496,7 @@ Analytics.configure({
 
 ### Working with the API
 
-You can send a data to a Kinesis Firehose stream with the standard *record()* method. Any data is acceptable and streamName is required:
+You can send a data to a Kinesis Firehose stream with the standard *record()* method. Any data is acceptable and `streamName` is required:
 
 ```javascript
 Analytics.record({
