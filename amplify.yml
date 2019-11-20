@@ -1,0 +1,14 @@
+version: 0.1
+frontend:
+  phases:
+    build:
+      commands:
+        - bundle install
+        - yarn install
+        - yarn build
+  artifacts:
+    baseDirectory: _site
+    files:
+      - "**/*"
+  cache:
+    paths: []
