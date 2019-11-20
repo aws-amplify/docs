@@ -1030,7 +1030,9 @@ const oauth = {
 };
 
 Amplify.configure(awsconfig);
-Auth.configure({ oauth });
+// Calling `Auth.configure()` when you have already called `Amplify.configure()` 
+// with an oauth section defined in `awsconfig` will cause unexpected behaviour
+Auth.configure({ oauth }); 
 
 class App extends Component {
   constructor(props) {
