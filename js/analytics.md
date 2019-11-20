@@ -448,7 +448,7 @@ Analytics.addPluggable(new AWSKinesisProvider());
 
 Ensure you have <a href="https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html" target="_blank">setup IAM permissions</a> for `PutRecordBatch`.
 
-Example IAM policy for Amazon Kinesis:
+Example IAM policy for Amazon Kinesis Firehose:
 ```json
 {
     "Version": "2012-10-17",
