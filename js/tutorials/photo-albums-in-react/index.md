@@ -47,7 +47,7 @@ amplify configure
 
 ## Step 3. Create a new app
 
-We're using [Create React App](https://create-react-app.dev/), the de-facto starting point for React single-page apps.
+We're using [Create React App](https://create-react-app.dev/), a popular starting point for React single-page apps.
 
 ```shell
 npx create-react-app photo-albums
