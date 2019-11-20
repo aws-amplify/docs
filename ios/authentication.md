@@ -104,9 +104,9 @@ After initialization in your project directory with `amplify init`, edit your `P
 ```ruby
 target 'MyApp' do             ##Replace MyApp with your application name
   use_frameworks!
-  pod 'AWSMobileClient', '~> 2.11.0'      # Required dependency
-  pod 'AWSAuthUI', '~> 2.11.0'            # Optional dependency required to use drop-in UI
-  pod 'AWSUserPoolsSignIn', '~> 2.11.0'   # Optional dependency required to use drop-in UI
+  pod 'AWSMobileClient', '~> 2.12.0'      # Required dependency
+  pod 'AWSAuthUI', '~> 2.12.0'            # Optional dependency required to use drop-in UI
+  pod 'AWSUserPoolsSignIn', '~> 2.12.0'   # Optional dependency required to use drop-in UI
 end
 ```
 
@@ -760,12 +760,12 @@ AWSMobileClient.default().federatedSignIn(providerName: IdentityProvider.develop
 	  target 'YOUR-APP-NAME' do
 	    use_frameworks!
 
-	    pod 'AWSFacebookSignIn', '~> 2.11.0'     # Add this new dependency
-	    pod 'AWSAuthUI', '~> 2.11.0'             # Add this dependency if you have not already added
+	    pod 'AWSFacebookSignIn', '~> 2.12.0'     # Add this new dependency
+	    pod 'AWSAuthUI', '~> 2.12.0'             # Add this dependency if you have not already added
 	    
 	    # Other Pod entries
-	    pod 'AWSMobileClient', '~> 2.11.0'
-	    pod 'AWSUserPoolsSignIn', '~> 2.11.0'
+	    pod 'AWSMobileClient', '~> 2.12.0'
+	    pod 'AWSUserPoolsSignIn', '~> 2.12.0'
 	    
 	  end
 	```
@@ -830,13 +830,13 @@ Now, your drop-in UI will show a Facebook sign in button which the users can use
 	platform :ios, '9.0'
 	target :'YOUR-APP-NAME' do
 	  use_frameworks!
-	  pod 'AWSGoogleSignIn', '~> 2.11.0'     # Add this new dependency
+	  pod 'AWSGoogleSignIn', '~> 2.12.0'     # Add this new dependency
 	  pod 'GoogleSignIn', '~> 4.0'          # Add this new dependency
-	  pod 'AWSAuthUI', '~> 2.11.0'           # Add this dependency if you have not already added
+	  pod 'AWSAuthUI', '~> 2.12.0'           # Add this dependency if you have not already added
 	    
 	  # Other Pod entries
-	  pod 'AWSMobileClient', '~> 2.11.0'
-	  pod 'AWSUserPoolsSignIn', '~> 2.11.0'
+	  pod 'AWSMobileClient', '~> 2.12.0'
+	  pod 'AWSUserPoolsSignIn', '~> 2.12.0'
 	  
 	end
 	```
@@ -1254,6 +1254,68 @@ If you want to sign out locally by just deleting tokens, you can call `signOut` 
 ```swift
 AWSMobileClient.default().signOut()
 ```
+
+## Customizing Authentication Flow
+
+Amazon Cognito User Pools supports customizing the authentication flow to enable custom challenge types, in addition to a password in order to verify the identity of users. These challenge types may include CAPTCHAs or dynamic challenge questions.
+
+To define your challenges for custom authentication flow, you need to implement three Lambda triggers for Amazon Cognito.
+
+For more information about working with Lambda Triggers for custom authentication challenges, please visit [Amazon Cognito Developer Documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
+{: .callout .callout--info}
+
+### Custom Authentication in Amplify
+
+To initiate a custom authentication flow in your app, specify `authenticationFlowType` as `CUSTOM_AUTH` in the awsconfiguration.json file. Note that is not currently supported by the CLI and developers must manually update the awsconfiguration.json to specify `authenticationFlowType` as follows : 
+
+```json
+{
+  "CognitoUserPool": {
+    "Default": {
+      "PoolId": "XX-XXXX-X_abcd1234",
+      "AppClientId": "XXXXXXXX",
+      "AppClientSecret": "XXXXXXXXX",
+      "Region": "XX-XXXX-X"
+    }
+  },
+  "Auth": {
+    "Default": {
+      "authenticationFlowType": "CUSTOM_AUTH"
+    }
+  }
+}
+```
+
+Next, in the app code  call `signIn` with a dummy password. Any custom challenges needs to be answered using the `confirmSignIn` method as follows:
+
+```swift
+AWSMobileClient.default().signIn(username: username, password: "dummyPassword") { (signInResult, error) in
+            
+    if let signInResult = signInResult {
+        if (signInResult.signInState == .customChallenge) {
+            // Get challenge details from customer and then call confirmSignIn.
+        }
+    }
+            
+}
+
+AWSMobileClient.default().confirmSignIn(challengeResponse: "<Challenge Response>",
+                                                completionHandler: { (signInResult, error) in
+    if let error = error  {
+        print("\(error.localizedDescription)")
+    } else if let signInResult = signInResult {
+        switch (signInResult.signInState) {
+        case .signedIn:
+            print("User is signed in.")
+        default:
+            print("\(signInResult.signInState.rawValue)")
+        }
+    }
+                                                    
+})
+```
+
+Amplify CLI can be used generate lambda triggers required to by custom authentication flow. See [documentation](https://aws-amplify.github.io/docs/cli-toolchain/cognito-triggers) for details. 
 
 ## Using Device Features
 

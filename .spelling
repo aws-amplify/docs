@@ -200,6 +200,7 @@ myAmplifyProject
 _blank
 OnInit
 todos
+autolinking
 
 # js/hub.md
 onHubCapsule
@@ -576,6 +577,9 @@ DynamoDBTable
 amplifyMeta.json
 transform.conf.json
 
+#cli-toolchain/quickstart.md
+richard
+
 #cli-toolchain/usage.md
 poolData
 cleartext
@@ -627,6 +631,10 @@ geolocation
 appcompat
 AWSMobileClient
 app_id
+unsanitized
+ClientMetadata
+clientMetadata
+validationData
 logic_protocol_scheme
 xml
 IdentityManager
@@ -851,12 +859,7 @@ _Identity
 _Granting
 
 # ios/manualsetup.md
-Cocoapods
-aws-sdk-ios
-CocoaLumberjack
-AWSCore
-DocSets
-macOS
+AWSAPIGateway
 AWSAuth
 AWSAuthCore
 AWSAuthUI
@@ -866,12 +869,17 @@ AWSCognito
 AWSCognitoAuth
 AWSCognitoIdentityProvider
 AWSCognitoIdentityProviderASF
+AWSComprehend
+AWSConnect
+AWSCore
 AWSDynamoDB
 AWSElasticLoadBalancing
 AWSFacebookSignIn
 AWSGoogleSignIn
 AWSIoT
 AWSKinesis
+AWSKinesisVideo
+AWSKinesisVideoArchivedMedia
 AWSLambda
 AWSLex
 AWSLogs
@@ -879,8 +887,18 @@ AWSMachineLearning
 AWSPinpoint
 AWSPolly
 AWSRekognition
+AWSSageMakerRuntime
 AWSSimpleDB
+AWSTextract
+AWSTranscribe
+AWSTranscribeStreaming
+AWSTranslate
 AWSUserPoolsSignIn
+CocoaLumberjack
+Cocoapods
+DocSets
+aws-sdk-ios
+macOS
 v2.7
 
 # ios/how-to-transfer-files-with-transfer-utility.md
@@ -924,6 +942,7 @@ Keychain
 
 #  ios/start.md
 xcworkspace
+API.swift
 
 # ios/storage.md
 S3ObjectInput
