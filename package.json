@@ -17,7 +17,7 @@
     "grammar": "write-good **/*.md --parse --no-passive --no-adverb --no-tooWordy --no-cliches",
     "links": "blc https://aws-amplify.github.io/docs/js/start",
     "start": "bundle exec jekyll serve",
-    "build": "npm run test && npm run grammar && bundle exec jekyll build"
+    "build": "bundle exec jekyll build && npm run test && npm run grammar"
   },
   "repository": {
     "type": "git",
