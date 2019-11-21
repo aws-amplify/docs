@@ -427,7 +427,7 @@ The `@key` directive makes it simple to configure custom index structures for `@
 
 Amazon DynamoDB is a key-value and document database that delivers single-digit millisecond performance at any scale but making it work for your access patterns requires a bit of forethought. DynamoDB query operations may use at most two attributes to efficiently query data. The first query argument passed to a query (the hash key) must use strict equality and the second attribute (the sort key) may use gt, ge, lt, le, eq, beginsWith, and between. DynamoDB can effectively implement a wide variety of access patterns that are powerful enough for the majority of applications.
 
-One can find a full schema example for a set of 17 access patterns at [docs/cli-toolchain/graphql#17-data-access-patterns](#17-data-access-patterns).
+When modeling your data during schema design there are common patterns that you may need to leverage. [We provide a fully working schema with 17 patterns related to relational designs](#data-access-patterns).
 
 #### Definition
 
@@ -2379,7 +2379,7 @@ Here is a complete list of searchable operations per GraphQL type supported as o
 | Boolean | `eq`, `ne`      |
 
 
-## 17 Data Access Patterns
+## Data Access Patterns
 
 In the [DynamoDB documentation for modeling relational data in a NoSQL database](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-modeling-nosql.html), there is an in depth example of 17 access patterns from the [First Steps for Modeling Relational Data in DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-modeling-nosql.html) page.
 
