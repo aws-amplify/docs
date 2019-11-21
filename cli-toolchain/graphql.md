@@ -1688,7 +1688,7 @@ The `@function` directive generates these resources as necessary:
 
 The `@connection` directive enables you to specify relationships between `@model` types. Currently, this supports one-to-one, one-to-many, and many-to-one relationships. You may implement many-to-many relationships using two one-to-many connections and a joining `@model` type. See the usage section for details.
 
-One can find a full schema example for a set of 17 access patterns at [docs/cli-toolchain/graphql#17-data-access-patterns](#17-data-access-patterns).
+[We also provide a fully working schema with 17 patterns related to relational designs](#data-access-patterns).
 
 #### Definition
 
