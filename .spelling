@@ -365,6 +365,7 @@ Kinesis
 javascript
 albumVisit
 AWSKinesisProvider
+AWSKinesisFirehoseProvider
 pluggable
 mouseover
 url
@@ -376,6 +377,7 @@ iframe
 MediaAutoTrack
 TimeWatched
 eventValue
+streamName
 
 # cli/graphql.md
 UpdateTable
@@ -439,6 +441,19 @@ status#createdAt
 IN_TRANSIT
 statusCreatedAt
 ByStatus
+graphql#17-data-access-patterns
+postID
+parameterization
+byname
+newHire
+byCustomerByStatusByDate
+byWarehouse
+AccountRepresentative
+byRepresentativebyDate
+byTitle
+jobTitle
+dynamoDB
+connectionWithKeyExamples.md
 Pre
 Auth.currentAuthenticatedUser
 AWSMobileClient.sharedInstance
