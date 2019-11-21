@@ -1686,7 +1686,7 @@ The `@function` directive generates these resources as necessary:
 
 ### @connection
 
-The `@connection` directive enables you to specify relationships between `@model` types. Currently, this supports one-to-one, one-to-many, and many-to-one relationships. You may implement many-to-many relationships yourself using two one-to-many connections and a joining `@model` type. See the usage section for details.
+The `@connection` directive enables you to specify relationships between `@model` types. Currently, this supports one-to-one, one-to-many, and many-to-one relationships. You may implement many-to-many relationships using two one-to-many connections and a joining `@model` type. See the usage section for details.
 
 One can find a full schema example for a set of 17 access patterns at [docs/cli-toolchain/graphql#17-data-access-patterns](#17-data-access-patterns).
 
@@ -1754,7 +1754,7 @@ mutation CreateProject {
 }
 ```
 
-> **Note** The **Project.team** resolver is configured to work with the defined connection. This is done with a query on the Team table where `teamID` is passed in as the partition key.
+> **Note** The **Project.team** resolver is configured to work with the defined connection. This is done with a query on the Team table where `teamID` is passed in as an argument to the mutation.
 
 Likewise, you can make a simple one-to-many connection as follows for a post that has many comments:
 
@@ -1879,10 +1879,10 @@ query GetCommentWithPostAndComments {
 
 **Many-To-Many Connections**
 
-You can implement many to many yourself using two 1-M @connections and a joining @model. For example:
+You can implement many to many using two 1-M @connections, an @key, and a joining @model. For example:
 
 ```graphql
- type Post @model {
+type Post @model {
   id: ID!
   title: String!
   editors: [PostEditor] @connection(keyName: "byPost", fields: ["id"])
@@ -1987,7 +1987,7 @@ query GetPostWithEditorsWithPosts {
 
 #### Alternative Definition
 
-The above definition is the recommended way to create relationships between model types in your API. This involves defining index structures using `@key` and connection resolvers using `@connection`. There is an older parameterization of @connection that creates indices and connection resolvers that is still functional for backwards compatibility reasons. It is recommended to use @key and the new @connection via the fields argument because it gives you more control and can do everything that the old @connection can do.
+The above definition is the recommended way to create relationships between model types in your API. This involves defining index structures using `@key` and connection resolvers using `@connection`. There is an older parameterization of @connection that creates indices and connection resolvers that is still functional for backwards compatibility reasons. It is recommended to use @key and the new @connection via the fields argument.
 
 ```
 directive @connection(name: String, keyField: String, sortField: String, limit: Int) on FIELD_DEFINITION
@@ -2123,7 +2123,7 @@ query GetPostAndComments {
 
 **Many-To-Many Connections**
 
-You can implement many to many yourself using two 1-M @connections and a joining @model. For example:
+You can implement many to many using two 1-M @connections, an @key, and a joining @model. For example:
 
 ```graphql
 type Post @model {
@@ -2147,33 +2147,38 @@ type User @model {
 }
 ```
 
-You can then create Posts & Users independently and join them in a many-to-many by creating PostEditor objects. In the future we will support more native support for many to many out of the box. The issue is being [tracked on github here](https://github.com/aws-amplify/amplify-cli/issues/91).
-
+You can then create Posts & Users independently and join them in a many-to-many by creating PostEditor objects.
 
 **Limit**
 
 The default number of nested objects is 10. You can override this behavior by setting the **limit** argument. For example:
 
 ```graphql
-type Post {
-    id: ID!
-    title: String!
-    comments: [Comment] @connection(limit: 50)
+type Post @model {
+  id: ID!
+  title: String!
+  comments: [Comment] @connection(limit: 50)
 }
-type Comment {
-    id: ID!
-    content: String!
+
+type Comment @model {
+  id: ID!
+  content: String!
 }
 ```
 
 #### Generates
 
-In order to keep connection queries fast and efficient, the GraphQL transform manages
-global secondary indexes (GSIs) on the generated tables on your behalf. In the future we
-are investigating using adjacency lists along side GSIs for different use cases that are
-connection heavy.
+In order to keep connection queries fast and efficient, the GraphQL transform
+manages global secondary indexes (GSIs) on the generated tables on your behalf.
+In the future we are investigating using adjacency lists along side GSIs for
+different use cases that are connection heavy.
 
-> **Note** The `@connection` directive manages these GSIs under the hood but there are limitations to be aware of. After you have pushed a `@connection` directive you should not try to change it. If you try to change it, the DynamoDB UpdateTable operation will fail due to one of a set of service limitations around changing GSIs. Should you need to change a `@connection`, you should add a new `@connection` that implements the new access pattern, update your application to use the new `@connection`, and then delete the old `@connection` when it's no longer needed.
+> **Note** After you have pushed a `@connection` directive you should not try to
+change it. If you try to change it, the DynamoDB
+UpdateTable operation will fail. Should you need to change a `@connection`, you should add a new
+`@connection` that implements the new access pattern, update your application
+to use the new `@connection`, and then delete the old `@connection` when it's no
+longer needed.
 
 ### @versioned
 
