@@ -231,6 +231,23 @@ android_category_list:
           cta: Read more
           class: aws-icon-ps-60-circular-circuit
           url: '/android/manualsetup'
+    - category: Docs version
+      title: Docs version
+      excerpt: Version of the docs
+      version: amplify2.0
+      subs:
+        - title: Amplify Android
+          excerpt: Version of the docs
+          cta: Read more
+          class: aws-icon-ps-60-circular-circuit
+          url: '/android/start'
+        - title: Android SDK 2.0 Docs
+          excerpt: Version of the docs
+          cta: Read more
+          class: aws-icon-ps-60-circular-circuit
+          url: '/sdk/android/start'
+
+
 
 ios_category_list:
     - category: SetupAndInstallation
