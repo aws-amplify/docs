@@ -365,6 +365,7 @@ Kinesis
 javascript
 albumVisit
 AWSKinesisProvider
+AWSKinesisFirehoseProvider
 pluggable
 mouseover
 url
@@ -376,6 +377,7 @@ iframe
 MediaAutoTrack
 TimeWatched
 eventValue
+streamName
 
 # cli/graphql.md
 UpdateTable
