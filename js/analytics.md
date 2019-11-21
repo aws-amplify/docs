@@ -442,7 +442,7 @@ Register the *AWSKinesisFirehoseProvider* with the Analytics category:
 
 ```javascript
 import { Analytics, AWSKinesisFirehoseProvider } from 'aws-amplify';
-Analytics.addPluggable(new AWSKinesisProvider());
+Analytics.addPluggable(new AWSKinesisFirehoseProvider());
 
 ```
 
@@ -464,8 +464,6 @@ Example IAM policy for Amazon Kinesis Firehose:
     ]
 }
 ```
-
-For more information visit [Amazon Kinesis Developer Documentation](https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html).
 
 Configure Kinesis Firehose:
 
