@@ -2,13 +2,6 @@
 title: Getting Started
 ---
 
-<br />
-
-**Note** 
-We strongly recommend all customers to use Amplify iOS for building their mobile apps. 
-[Click here](../../sdk/ios/start) to access the old iOS SDK 2.0 docs.
-{: .callout .callout--warning}
-
 # Getting Started
 
 Build an iOS app using the Amplify Framework which contains:
