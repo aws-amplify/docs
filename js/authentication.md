@@ -877,7 +877,7 @@ OAuth support in Amplify uses Cognito User Pools and supports federation with so
 
 #### OAuth and Hosted UI
 
-After configuring the OAuth endpoints, you can use them or the Hosted UI with `Auth.federatedSignIn()`. Passing *Amazon*, *Facebook*, or *Google* will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example. If you are looking to add a custom state, you are able to do so by passing a `string`
+After configuring the OAuth endpoints, you can use them or the Hosted UI with `Auth.federatedSignIn()`. Passing *LoginWithAmazon*, *Facebook*, or *Google* will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example. If you are looking to add a custom state, you are able to do so by passing a `string`
 (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via Hub
 
 ```javascript
