@@ -340,7 +340,7 @@ android_category_list_sdk:
           excerpt: Setup Options for the SDK
           cta: Read more
           class: aws-icon-ps-60-circular-circuit
-          url: '/sdk/android/manualsetup'
+          url: '/android/manualsetup'
     - category: Docs version
       title: Docs version
       excerpt: Version of the docs
