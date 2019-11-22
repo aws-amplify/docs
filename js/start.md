@@ -426,7 +426,7 @@ MutationButton.addEventListener('click', (evt) => {
 });
 ```
 
-After restarting your app using `npm start` go back to your browser and click **ADD DATA**.  You'll see that your application is now submitting events to AppSync and storing records in DynamoDB. Next, update `src/App.js` to list all the items in the database by importing `listTodos` and update the page when a query runs on app start by immediately calling the function:
+After restarting your app using `npm start` go back to your browser and click **ADD DATA**.  You'll see that your application is now submitting events to AppSync and storing records in DynamoDB. Next, update `src/app.js` to list all the items in the database by importing `listTodos` and update the page when a query runs on app start by immediately calling the function:
 
 ```javascript
 // other imports
