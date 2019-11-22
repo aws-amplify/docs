@@ -5,7 +5,7 @@ title: Getting Started
 
 **Note** 
 We strongly recommend all customers to use Amplify Android for building their mobile apps. 
-[Click here](../../sdk/android/start) to access the old Android SDK 2.0 docs.
+[Click here](../sdk/android/start) to access the old Android SDK 2.0 docs.
 {: .callout .callout--warning}
 
 # Getting Started
