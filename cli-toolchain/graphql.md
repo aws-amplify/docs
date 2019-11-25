@@ -2436,38 +2436,11 @@ query SpeakTranslatedImageText($input: SpeakTranslatedImageTextInput!) {
   })
 }
 ```
-
-There are multiple actions types generated in the schema, based on the actions used in said Query operation. Action has the following input types
-
-```
-translateText: {
-  sourceLanguage: String!
-  targetLanguage: String!
-  text: String # required if this is the first action
-}
-```
-
-- Language codes are accessbile here: [Amazon Translate Supported Languages and Language Codes](https://docs.aws.amazon.com/translate/latest/dg/what-is.html#what-is-languages)
-
-```
-convertTextToSpeech {
-  voiceID: String!
-}
-```
-
-- Voice IDs are accessbile here: [Voices in Amazon Poly](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html)
+#### Action Resources
+- [`translateText` Supported Language Codes](https://docs.aws.amazon.com/translate/latest/dg/what-is.html#what-is-languages)
+- [`convertTextToSpeech` Supported Voice IDs](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html)
 
 
-```
-identifyText {
-  key: String
-}
-identifyLabels {
-  key: String
-}
-```
-
-- Both identify actions only require a key a name for the image.
 
 ## Data Access Patterns
 
