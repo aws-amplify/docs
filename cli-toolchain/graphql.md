@@ -2379,6 +2379,96 @@ Here is a complete list of searchable operations per GraphQL type supported as o
 | Boolean | `eq`, `ne`      |
 
 
+
+### @predictions
+
+The `@predictions` directive allows one to query an orchestration of AI/ML services such as Amazon Rekognition, Amazon Translate, and/or Amazon Polly.
+
+> Note: Support for adding the `@predictions` directive uses the s3 storage bucket which is configured via the CLI. At the moment this directive works only with objects located within `public/`.
+
+#### Definition
+The supported actions in this directive are included in the definition.
+
+```
+# where the parent this field is defined on is a query type
+        directive @predictions(actions: [PredictionsActions!]!) on FIELD_DEFINITION
+        enum PredictionsActions {
+          identifyText
+          identifyLabels
+          convertTextToSpeech
+          translateText
+```
+
+#### Usage
+
+
+Given the following schema a query operation is defined which will do the following with the provided image.
+
+
+- Identify text from the image
+- Translate the text from that image
+- Synthesize speech from the translated text.
+
+```graphql
+type Query {
+  speakTranslatedImageText: String @predictions(actions: [
+    identifyText
+    translateText
+    convertTextToSpeech
+  ])
+}
+```
+An example of that query will look like:
+
+```graphql
+query SpeakTranslatedImageText($input: SpeakTranslatedImageTextInput!) {
+  speakTranslatedImageText(input: {
+    identifyText: {
+      key: "myimage.jpg"
+    }
+    translateText: {
+      sourceLanguage: "en"
+      targetLanguage: "es"
+    }
+    convertTextToSpeech: {
+      voiceID: "Conchita"
+    }
+  })
+}
+```
+
+There are multiple actions types generated in the schema, based on the actions used in said Query operation. Action has the following input types
+
+```
+translateText: {
+  sourceLanguage: String!
+  targetLanguage: String!
+  text: String # required if this is the first action
+}
+```
+
+- Language codes are accessbile here: [Amazon Translate Supported Languages and Language Codes](https://docs.aws.amazon.com/translate/latest/dg/what-is.html#what-is-languages)
+
+```
+convertTextToSpeech {
+  voiceID: String!
+}
+```
+
+- Voice IDs are accessbile here: [Voices in Amazon Poly](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html)
+
+
+```
+identifyText {
+  key: String
+}
+identifyLabels {
+  key: String
+}
+```
+
+- Both identify actions only require a key a name for the image.
+
 ## Data Access Patterns
 
 In the [DynamoDB documentation for modeling relational data in a NoSQL database](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-modeling-nosql.html), there is an in depth example of 17 access patterns from the [First Steps for Modeling Relational Data in DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-modeling-nosql.html) page.
