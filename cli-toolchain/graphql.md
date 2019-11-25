@@ -2397,13 +2397,13 @@ The supported actions in this directive are included in the definition.
           identifyLabels
           convertTextToSpeech
           translateText
+        }
 ```
 
 #### Usage
 
 
 Given the following schema a query operation is defined which will do the following with the provided image.
-
 
 - Identify text from the image
 - Translate the text from that image
@@ -2418,6 +2418,7 @@ type Query {
   ])
 }
 ```
+
 An example of that query will look like:
 
 ```graphql
@@ -2436,6 +2437,93 @@ query SpeakTranslatedImageText($input: SpeakTranslatedImageTextInput!) {
   })
 }
 ```
+
+A code example of this using the JS Library:
+```js
+import React, { useState } from 'react';
+import './App.css';
+import API, { graphqlOperation } from '@aws-amplify/api';
+import Amplify, { Storage } from 'aws-amplify';
+import awsconfig from './aws-exports';
+import { speakTranslatedImageText,speakLabels } from './graphql/queries';
+
+/* Configure Exports */
+Amplify.configure(awsconfig);
+
+function SpeakTranslatedImage() {
+  const [ src, setSrc ] = useState("");
+  const [ img, setImg ] = useState("");
+  
+  function putS3Image(event) {
+    const file = event.target.files[0];
+    Storage.put(file.name, file)
+    .then (async (result) => {
+      setSrc(await speakTranslatedImageTextOP(result.key))
+      setImg(await Storage.get(result.key));
+    })
+    .catch(err => console.log(err));
+  }
+
+
+  return (
+    <div className="Text">
+      <div>
+        <h3>Upload Image</h3>
+        <input
+              type = "file" accept='image/jpeg'
+              onChange = {(event) => {
+                putS3Image(event)
+              }}
+          />
+        <br />
+        { img && <img src = {img}></img>}
+        { src && <div> <audio id="audioPlayback" controls>
+        <source id="audioSource" type="audio/mp3" src = {src} />
+      </audio> </div> }
+      </div>
+    </div>
+  );
+}
+
+async function speakTranslatedImageTextOP(key) {
+  const inputObj = { translateText: { sourceLanguage: "en", targetLanguage: "es" }, identifyText: { key }, convertTextToSpeech: { voiceID: "Conchita" } };
+  const response = await API.graphql(graphqlOperation(speakTranslatedImageText, { input: inputObj }));
+  return response.data.speakTranslatedImageText;
+}
+function App() {
+  return (
+    <div className="App">
+        <h1>Speak Translated Image</h1>
+        < SpeakTranslatedImage />
+        <h1>Speak Labels</h1>
+        < SpeakLabels />
+    </div>
+  );
+}
+export default App;
+```
+
+#### What happens in the backend
+
+From the provided schema above the action list `[ identifyText translateText convertTextToSpeech ]`. The following resources are created to communicate with Amazon Rekognition, Translate and Polly.
+
+- IAM Policy for each service
+  - e.g. Amazon Rekognition `detectText` Policy
+- An AppSync Function for each action
+- A datasource for each action
+
+Finally a resolver is created for `speakTranslatedImageText` which is a pipeline resolver composed of AppSync functions which are defined by the action list provided in the directive.
+
+#### Allowed Actions
+Valid Actions allowed in predictions are as follows:
+
+- `identifyText -> translateText? -> convertTextToSpeech?`
+- `identifyLabels -> translateText? -> convertTextToSpeech?`
+- `translateText -> convertTextToSpeech?`
+- `convertTextToSpeech`
+
+<sub>Each action can be called individually as well</sub>
+
 #### Action Resources
 - [`translateText` Supported Language Codes](https://docs.aws.amazon.com/translate/latest/dg/what-is.html#what-is-languages)
 - [`convertTextToSpeech` Supported Voice IDs](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html)
