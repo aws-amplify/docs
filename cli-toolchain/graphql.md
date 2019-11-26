@@ -2382,7 +2382,7 @@ Here is a complete list of searchable operations per GraphQL type supported as o
 
 ### @predictions
 
-The `@predictions` directive allows one to query an orchestration of AI/ML services such as Amazon Rekognition, Amazon Translate, and/or Amazon Polly.
+The `@predictions` directive allows you to query an orchestration of AI/ML services such as Amazon Rekognition, Amazon Translate, and/or Amazon Polly.
 
 > Note: Support for adding the `@predictions` directive uses the s3 storage bucket which is configured via the CLI. At the moment this directive works only with objects located within `public/`.
 
@@ -2390,14 +2390,13 @@ The `@predictions` directive allows one to query an orchestration of AI/ML servi
 The supported actions in this directive are included in the definition.
 
 ```
-# where the parent this field is defined on is a query type
-        directive @predictions(actions: [PredictionsActions!]!) on FIELD_DEFINITION
-        enum PredictionsActions {
-          identifyText # uses Amazon Rekognition to detect text
-          identifyLabels # uses Amazon Rekognition to detect labels
-          convertTextToSpeech # uses Amazon Polly in a lambda to output a presigned url to synthesized speech
-          translateText # uses Amazon Translate to translate text from source to target langauge
-        }
+  directive @predictions(actions: [PredictionsActions!]!) on FIELD_DEFINITION
+  enum PredictionsActions {
+    identifyText # uses Amazon Rekognition to detect text
+    identifyLabels # uses Amazon Rekognition to detect labels
+    convertTextToSpeech # uses Amazon Polly in a lambda to output a presigned url to synthesized speech
+    translateText # uses Amazon Translate to translate text from source to target langauge
+  }
 ```
 
 #### Usage
