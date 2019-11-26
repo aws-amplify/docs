@@ -2393,10 +2393,10 @@ The supported actions in this directive are included in the definition.
 # where the parent this field is defined on is a query type
         directive @predictions(actions: [PredictionsActions!]!) on FIELD_DEFINITION
         enum PredictionsActions {
-          identifyText
-          identifyLabels
-          convertTextToSpeech
-          translateText
+          identifyText # uses Amazon Rekognition to detect text
+          identifyLabels # uses Amazon Rekognition to detect labels
+          convertTextToSpeech # uses Amazon Polly in a lambda to output a presigned url to synthesized speech
+          translateText # uses Amazon Translate to translate text from source to target langauge
         }
 ```
 
@@ -2507,18 +2507,17 @@ function App() {
 export default App;
 ```
 
-#### What happens in the backend
+#### How it works
+From example schema above, `@predictions` will create resources to communicate with Amazon Rekognition, Translate and Polly.
+For each action the following is created: 
 
-From the provided schema above the action list `[ identifyText translateText convertTextToSpeech ]`. The following resources are created to communicate with Amazon Rekognition, Translate and Polly.
-
-- IAM Policy for each service
-  - e.g. Amazon Rekognition `detectText` Policy
-- An AppSync Function for each action
-- A datasource for each action
+- IAM Policy for each service (e.g. Amazon Rekognition `detectText` Policy)
+- An AppSync VTL function
+- An AppSync DataSource
 
 Finally a resolver is created for `speakTranslatedImageText` which is a pipeline resolver composed of AppSync functions which are defined by the action list provided in the directive.
 
-#### Allowed Actions
+#### Actions
 Valid Actions allowed in predictions are as follows:
 
 - `identifyText -> translateText? -> convertTextToSpeech?`
