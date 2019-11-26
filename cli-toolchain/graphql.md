@@ -2518,14 +2518,12 @@ For each action the following is created:
 Finally a resolver is created for `speakTranslatedImageText` which is a pipeline resolver composed of AppSync functions which are defined by the action list provided in the directive.
 
 #### Actions
-Valid Actions allowed in predictions are as follows:
+Each of the actions described in the @predictions definition section can be used individually, as well as in a sequence. Sequence of actions supported today are as follows:
 
-- `identifyText -> translateText? -> convertTextToSpeech?`
-- `identifyLabels -> translateText? -> convertTextToSpeech?`
-- `translateText -> convertTextToSpeech?`
-- `convertTextToSpeech`
+- `identifyText -> translateText -> convertTextToSpeech`
+- `identifyLabels -> translateText -> convertTextToSpeech`
+- `translateText -> convertTextToSpeech`
 
-<sub>Each action can be called individually as well</sub>
 
 #### Action Resources
 - [`translateText` Supported Language Codes](https://docs.aws.amazon.com/translate/latest/dg/what-is.html#what-is-languages)
