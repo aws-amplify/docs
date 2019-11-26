@@ -2441,11 +2441,10 @@ query SpeakTranslatedImageText($input: SpeakTranslatedImageTextInput!) {
 A code example of this using the JS Library:
 ```js
 import React, { useState } from 'react';
-import './App.css';
 import API, { graphqlOperation } from '@aws-amplify/api';
 import Amplify, { Storage } from 'aws-amplify';
 import awsconfig from './aws-exports';
-import { speakTranslatedImageText,speakLabels } from './graphql/queries';
+import { speakTranslatedImageText } from './graphql/queries';
 
 /* Configure Exports */
 Amplify.configure(awsconfig);
@@ -2464,7 +2463,6 @@ function SpeakTranslatedImage() {
     .catch(err => console.log(err));
   }
 
-
   return (
     <div className="Text">
       <div>
@@ -2477,17 +2475,25 @@ function SpeakTranslatedImage() {
           />
         <br />
         { img && <img src = {img}></img>}
-        { src && <div> <audio id="audioPlayback" controls>
-        <source id="audioSource" type="audio/mp3" src = {src} />
-      </audio> </div> }
+        { src && 
+          <div> <audio id="audioPlayback" controls>
+              <source id="audioSource" type="audio/mp3" src = {src}/>
+          </audio> </div>
+        }
       </div>
     </div>
   );
 }
 
 async function speakTranslatedImageTextOP(key) {
-  const inputObj = { translateText: { sourceLanguage: "en", targetLanguage: "es" }, identifyText: { key }, convertTextToSpeech: { voiceID: "Conchita" } };
-  const response = await API.graphql(graphqlOperation(speakTranslatedImageText, { input: inputObj }));
+  const inputObj = { 
+    translateText: { 
+      sourceLanguage: "en", targetLanguage: "es" }, 
+    identifyText: { key },
+    convertTextToSpeech: { voiceID: "Conchita" } 
+  };
+  const response = await API.graphql(
+    graphqlOperation(speakTranslatedImageText, { input: inputObj }));
   return response.data.speakTranslatedImageText;
 }
 function App() {
@@ -2495,8 +2501,6 @@ function App() {
     <div className="App">
         <h1>Speak Translated Image</h1>
         < SpeakTranslatedImage />
-        <h1>Speak Labels</h1>
-        < SpeakLabels />
     </div>
   );
 }
