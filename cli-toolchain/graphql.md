@@ -980,7 +980,7 @@ type Post @model @auth(rules: [{allow: public, provider: iam}]) {
 }
 ```
 
-The @auth directive allows the override of the default provider for a given authorization mode. In the sample above iam is specified as the provider which allows you to use an "UnAuthenticated Role" from Cognito Identity Pools for public access, instead of an API Key. When used in conjunction with amplify add auth the CLI generates scoped down IAM policies for the "UnAuthenticated" role automatically.
+The @auth directive allows the override of the default provider for a given authorization mode. In the sample above iam is specified as the provider which allows you to use an "UnAuthenticated Role" from Cognito Identity Pools for public access, instead of an API Key. When used in conjunction with amplify add auth the CLI generates scoped down IAM policies for the "UnAuthenticated" role automatically. Note that you must add the IAM authentication mode to your GraphQL API. 
 
 #### `private` Authorization
 
