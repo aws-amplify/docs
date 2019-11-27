@@ -1,7 +1,7 @@
 ```diff
 {% raw %}--- a/src/components/AlbumDetails.js
 +++ b/src/components/AlbumDetails.js
-@@ -1,20 +1,88 @@
+@@ -1,20 +1,87 @@
  import { API } from 'aws-amplify';
  import React, { useEffect, useState } from 'react';
 -import { Dimmer, Header, Loader, Message, Segment } from 'semantic-ui-react';
@@ -14,13 +14,12 @@
 +  Segment,
 +  Form
 +} from 'semantic-ui-react';
-+
-+import { onUpdateAlbum } from '../graphql/subscriptions';
  
  import DeleteAlbum from './DeleteAlbum';
  import PhotoList from './PhotoList';
  import { getAlbum } from '../graphql/queries';
 +import { updateAlbum } from '../graphql/mutations';
++import { onUpdateAlbum } from '../graphql/subscriptions';
  import useAuth from '../useAuth';
  
  function AlbumDetails({ album }) {
@@ -92,7 +91,7 @@
          </Header>
        </Segment>
  
-@@ -49,6 +117,20 @@ export default function AlbumDetailsLoader(props) {
+@@ -49,6 +116,20 @@ export default function AlbumDetailsLoader(props) {
      });
    }, [id, owner]);
  
@@ -113,7 +112,7 @@
    if (isLoading) {
      return (
        <Dimmer active inverted page>
-@@ -65,5 +147,5 @@ export default function AlbumDetailsLoader(props) {
+@@ -65,5 +146,5 @@ export default function AlbumDetailsLoader(props) {
      );
    }
  

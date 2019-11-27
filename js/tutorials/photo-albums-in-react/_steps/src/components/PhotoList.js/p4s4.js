@@ -3,7 +3,7 @@ import { Card, Header, Segment } from 'semantic-ui-react';
 
 import PhotoDetails from './PhotoDetails';
 
-export default function PhotoList({ album, photos }) {
+export default function PhotoList({ photos }) {
   if (!photos.length) {
     return (
       <Segment placeholder>

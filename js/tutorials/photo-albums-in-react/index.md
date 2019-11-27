@@ -12,7 +12,7 @@ We'll use AWS Amplify and the Amplify CLI to quickly provision resources & conne
 **By completing this tutorial, you will be able to**:
 
 - Rapidly create & provisioning cloud services via [Amplify CLI](https://aws-amplify.github.io/docs/js/cli).
-- Authenticate users via Amazon, Facebook, & Google via Amazon Cognito.
+- Authenticate users via Amazon, Facebook, & Google with Amazon Cognito.
 - Create a GraphQL API that uses Amazon DynamoDB as a data source.
 - Handle API & HTTP errors.
 - Create, read, update, & delete albums & photos via Amplify JS.
@@ -62,7 +62,7 @@ amplify init
 
 ```console
 Note: It is recommended to run this command from the root of your app directory
-? Enter a name for the project photo-albums-e2e
+? Enter a name for the project photo-albums
 ? Enter a name for the environment dev
 ? Choose your default editor: Visual Studio Code
 ? Choose the type of app that you're building javascript
@@ -86,7 +86,7 @@ For this tutorial, we'll use `react-router-dom` for routing & `semantic-ui-react
 for reducing styling boilerplate:
 
 ```shell
-npm install react-router-dom semantic-ui-react
+npm install react-router-dom semantic-ui-react semantic-ui-css
 ```
 
 Next, replace `src/App.js` with:
@@ -157,15 +157,14 @@ amplify push
 
 ```console
 ...
-GraphQL endpoint: https://•••••••••••••.appsync-api.us-east-1.amazonaws.com/graphql
-Hosting endpoint: https://•••••••••••••.cloudfront.net
-Hosted UI Endpoint: https://•••••••••••••.auth.us-east-1.amazoncognito.com/
-Test Your Hosted UI Endpoint: https://•••••••••••••.auth.us-east-1.amazoncognito.com/login?response_type=code&client_id=•••••••••••••&redirect_uri=http://localhost:3000/
+Hosted UI Endpoint: https://•••••••••••••-dev.auth.us-east-1.amazoncognito.com/
+Test Your Hosted UI Endpoint: https://•••••••••••••-dev.auth.us-east-1.amazoncognito.com/login?response_type=code&client_id=•••••••••••••&redirect_uri=http://localhost:3000/
+
 ```
 
 ## Step 3. Finish Social Providers Setup
 
-Finally, finish configuring the Social Providers with your authorized domain:
+Finally, finish configuring the Social Providers with your Hosted UI Endpoint:
 
 > <https://aws-amplify.github.io/docs/js/authentication#finish-social-setup>
 
@@ -191,6 +190,9 @@ Create `src/components/Navigation.js`:
 
 {% include_relative _steps/src/components/Navigation.js/p2s4.js.jekyll %}
 
+Now, you should be able to click _Sign In_ in the navigation,
+authenticate with one of your social providers, get redirected back to <http://localhost:3000/> authenticated, then be able to _Sign Out_ once again.
+
 # Part 3. Adding a GraphQL API
 
 TODO Describe what this section will create, why, and how it fits into Amplify's value set.
@@ -202,17 +204,19 @@ amplify add api
 ```
 
 ```console
-? Please select from one of the below mentioned services GraphQL
-? Provide API name: photoalbumse2e
+? Please select from one of the below mentioned services: GraphQL
+? Provide API name: photoalbums
 ? Choose the default authorization type for the API Amazon Cognito User Pool
 Use a Cognito user pool configured as a part of this project.
 ? Do you want to configure advanced settings for the GraphQL API Yes, I want to make some additional changes.
+? Configure additional auth types? Yes
 ? Choose the additional authorization types you want to configure for the API IAM
 ? Do you have an annotated GraphQL schema? No
 ? Do you want a guided schema creation? Yes
-? What best describes your project: Single object with fields (e.g., “Todo” with ID, name, description)
+? What best describes your project: Objects with fine-grained access control (e.g., a project management app with owner-based authorization)
 ? Do you want to edit the schema now? Yes
-Please edit the file in your editor: .../amplify/backend/api/photoalbumse2e/schema.graphql
+Please edit the file in your editor: .../amplify/backend/api/photoalbums/schema.graphql
+? Press enter to continue
 ```
 
 ## Step 2. Create the Schema
@@ -257,6 +261,8 @@ Create `src/components/NewAlbum.js`:
 
 {% include_relative _steps/src/components/NewAlbum.js/p4s1.js.jekyll %}
 
+Now, you should be able to create an album, get redirected to <http:///localhost:3000/albums/...>, and click _Back to Albums_.
+
 ## Step 2. Listing Albums
 
 Update `src/App.js` to include `AlbumList`:
@@ -266,6 +272,8 @@ Update `src/App.js` to include `AlbumList`:
 Create `src/components/AlbumList.js`:
 
 {% include_relative _steps/src/components/AlbumList.js/p4s2.js.jekyll %}
+
+Now, you should be able to see a list of albums.
 
 ## Step 3. Album Pagination
 
@@ -292,6 +300,8 @@ Create `src/components/PhotoDetails.js`:
 
 {% include_relative _steps/src/components/PhotoDetails.js/p4s4.js.jekyll %}
 
+Now, you should be able to click an album name in the list & see a placeholder for the photos.
+
 ## Step 5. Deleting an Album
 
 Update `src/components/AlbumDetails.js` to include `DeleteAlbum`:
@@ -301,6 +311,8 @@ Update `src/components/AlbumDetails.js` to include `DeleteAlbum`:
 Create `src/components/DeleteAlbum.js`:
 
 {% include_relative _steps/src/components/DeleteAlbum.js/p4s5.js.jekyll %}
+
+Now, you should be to click _Delete_ on an album to remove it.
 
 ## Step 6. Editing an Album
 
@@ -321,7 +333,7 @@ amplify add storage
 ```console
 ? Please select from one of the below mentioned services Content (Images, audio, video, etc.)
 ? Please provide a friendly name for your resource that will be used to label this category in the project: photoalbumse2e
-? Please provide bucket name: photo-albums-e2e3e1979a24a04462f821a8090e45c0661
+? Please provide bucket name: photo-albums3e1979a24a04462f821a8090e45c0661
 ? Who should have access: Auth and guest users
 ? What kind of access do you want for Authenticated users? (Press <space> to select, <a> to toggle all, <i> to invert selection)create/update, read, delete
 ? What kind of access do you want for Guest users? read
@@ -516,7 +528,7 @@ amplify add hosting
 
 ```console
 ? Select the environment setup: PROD (S3 with CloudFront using HTTPS)
-? hosting bucket name photo-albums-e2e-20190920211653-hostingbucket
+? hosting bucket name photo-albums-20190920211653-hostingbucket
 ? index doc for the website index.html
 ? error doc for the website index.html
 ```

@@ -1,15 +1,22 @@
 ```diff
 {% raw %}--- a/src/components/AlbumDetails.js
 +++ b/src/components/AlbumDetails.js
-@@ -14,6 +14,7 @@ import { onUpdateAlbum } from '../graphql/subscriptions';
+@@ -10,11 +10,13 @@ import {
+   Form
+ } from 'semantic-ui-react';
  
++import { onUpdateAlbum } from '../graphql/subscriptions';
++
  import DeleteAlbum from './DeleteAlbum';
  import PhotoList from './PhotoList';
 +import PhotosUploader from './PhotosUploader';
  import { getAlbum } from '../graphql/queries';
  import { updateAlbum } from '../graphql/mutations';
+-import { onUpdateAlbum } from '../graphql/subscriptions';
  import useAuth from '../useAuth';
-@@ -84,6 +85,7 @@ function AlbumDetails({ album }) {
+ 
+ function AlbumDetails({ album }) {
+@@ -83,6 +85,7 @@ function AlbumDetails({ album }) {
              </Header.Subheader>
            )}
          </Header>

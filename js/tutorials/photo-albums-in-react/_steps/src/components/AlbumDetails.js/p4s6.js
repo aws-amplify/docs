@@ -10,12 +10,11 @@ import {
   Form
 } from 'semantic-ui-react';
 
-import { onUpdateAlbum } from '../graphql/subscriptions';
-
 import DeleteAlbum from './DeleteAlbum';
 import PhotoList from './PhotoList';
 import { getAlbum } from '../graphql/queries';
 import { updateAlbum } from '../graphql/mutations';
+import { onUpdateAlbum } from '../graphql/subscriptions';
 import useAuth from '../useAuth';
 
 function AlbumDetails({ album }) {

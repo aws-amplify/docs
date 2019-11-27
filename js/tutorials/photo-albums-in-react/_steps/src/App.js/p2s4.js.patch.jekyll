@@ -1,7 +1,10 @@
 ```diff
 {% raw %}--- a/src/App.js
 +++ b/src/App.js
-@@ -3,6 +3,9 @@ import { BrowserRouter, Route } from 'react-router-dom';
+@@ -1,8 +1,11 @@
+ import React from 'react';
+-import { BrowserRouter } from 'react-router-dom';
++import { BrowserRouter, Route } from 'react-router-dom';
  import { Grid } from 'semantic-ui-react';
  import 'semantic-ui-css/semantic.min.css';
  
