@@ -389,7 +389,7 @@ DataStore.configure({
 				return newModel;
 			}
 
-			return DISCARD;
+			return DataStore.DISCARD;
 		},
 		// maxRecordsToSync: 30000,
 		fullSyncInterval: 60,        //minutes
@@ -398,7 +398,7 @@ DataStore.configure({
 
 # Conflict Resolution
 
-When syncing with AWS AppSync, DataStore updates from multiple clients will converge by tracking object versions and adhiere to different conflict resolution strategies. The default strategy is called *Automerge* where GraphQL type information on an object is inspected at runtime to perform merge operations. You can read more about this behavior and alternatives such as *Optimistic Concurrency* Control and *custom Lambda functions* in the [AWS AppSync documentation](). To update the conflict resolution strategies navigate into your project from a terminal and run `amplify update api` choosing *Yes* when prompted to change the conflict detection and conflict resolution strategies:
+When syncing with AWS AppSync, DataStore updates from multiple clients will converge by tracking object versions and adhere to different conflict resolution strategies. The default strategy is called *Automerge* where GraphQL type information on an object is inspected at runtime to perform merge operations. You can read more about this behavior and alternatives such as *Optimistic Concurrency* Control and *custom Lambda functions* in the [AWS AppSync documentation](). To update the conflict resolution strategies navigate into your project from a terminal and run `amplify update api` choosing *Yes* when prompted to change the conflict detection and conflict resolution strategies:
 
 ```sh
 amplify update api #Select GraphQL
@@ -455,7 +455,7 @@ All items (or "objects") are versioned by *Sync Enabled Resolvers* in AppSync us
 
 When multiple clients send concurrent updates using the same version and conflict resolution is configured, a strategy for conflict resolution will be entered. The default strategy for clients is Automerge where the GraphQL type information is used to inspect the update and compare it to the current item that has been written to your table. Any non-conflicting fields are merged with the item and any lists will have values appended, with the service updating the item version as appropriate. You can change this default to apply version checks to the entire object with *Optimistic Concurrency* where the latest written item to your database will be used with a version check against the incoming record, or alternatively you can use a Lambda function and apply any custom business logic you wish to the process when merging or rejecting updates. In all cases the service controls the versions. For more information on how these conflict resolution rules work please [see the AWS AppSync documentation]().
 
-## Writing data from the AppSync console
+## Writing data from the AppSync Console
 
 DataStore is designed primarily for developers to not have to focus on the backend and let your application code and workflow create everything. However there will be some use cases where you will use the AppSync console, a Lambda function, or other out of band processes to write data (such as batch actions or data migrations) and you might send GraphQL operations without the DataStore client.
 
