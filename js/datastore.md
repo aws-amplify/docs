@@ -189,7 +189,7 @@ Conditional updates can only be applied to single items and not lists. If you wi
 To delete an item simply pass in an instance:
 
 ```javascript
-const todelete = await DataStore.query(Post, "123");
+const todelete = await DataStore.query(Post, "1234567");
 DataStore.delete(todelete);
 ```
 
