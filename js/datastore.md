@@ -390,7 +390,7 @@ DataStore.configure({
 				return newModel;
 			}
 
-			return DataStore.DISCARD;
+			return DISCARD;
 		},
 		// maxRecordsToSync: 30000,
 		fullSyncInterval: 60,        //minutes
