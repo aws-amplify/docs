@@ -60,7 +60,7 @@ npm i -g @aws-amplify/cli@latest
 The Amplify CLI can generate models at any time with the following command:
 
 ```
-amplify codegen models
+npm run amplify-modelgen
 ```
 
 ### Schema updates
@@ -232,13 +232,13 @@ DataStore can connect to an existing AppSync backend that has been deployed from
 
 For more information on this workflow please see the [Multiple Frontends documentation](https://aws-amplify.github.io/docs/cli-toolchain/quickstart#multiple-frontends){:target="_blank"}.
 
+If you do not already have a local AWS profile with credentials you can automatically setup with the Amplify CLI by running `amplify configure` {: .callout .callout--info}
+
 ## Use NPX
 ```
 npm run amplify-push
 ```
 
-If you do not already have a local AWS profile with credentials (automatically setup with the Amplify CLI) you will be prompted to do this on the first push. 
-{: .callout .callout--info}
 
 ## Use Amplify CLI
 ```
@@ -250,8 +250,8 @@ amplify push
 Once the push finishes an `aws-exports.js` file will be created in your project which you can import and configure your project:
 
 ```javascript
-import awsConfig from "./aws-exports";
-Amplify.configure(awsConfig);
+import awsconfig from "./aws-exports";
+Amplify.configure(awsconfig);
 ```
 
 Once configured, restart your app and it will connect with your backend using GraphQL queries, mutations, and subscriptions.
@@ -494,8 +494,8 @@ import { DataStore, Predicates } from "@aws-amplify/datastore";
 import { Post, PostStatus } from "./models";
 
 //Use next two lines only if syncing with the cloud
-import awsConfig from "./aws-exports";
-Amplify.configure(awsConfig);
+import awsconfig from "./aws-exports";
+Amplify.configure(awsconfig);
 
 function onCreate() {
   DataStore.save(
