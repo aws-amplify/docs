@@ -1025,3 +1025,14 @@ keystore
 
 # ios/pubsub.md
 authorizers
+
+# js/datastore.md
+DataStore
+Automerge
+IndexedDB
+modelgen
+npx
+synchronizes
+adhiere
+queueing
+deserialize
