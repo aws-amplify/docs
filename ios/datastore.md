@@ -138,7 +138,7 @@ You can apply predicate filters against the DataStore using the fields defined o
 
 **Lists:** `contains | notContains`
 
-This is done via `Amplify.DataStore.query(<Model>, where:{})`. The `where` statement is a closure which accepts predicates compatable with the operators listed above. For example if you wanted all of the Posts with rating greater than 4:
+This is done via `Amplify.DataStore.query(<Model>, where:{})`. The `where` statement is a closure which accepts predicates compatible with the operators listed above. For example if you wanted all of the Posts with rating greater than 4:
 
 ```swift
 let p = Post.keys
@@ -287,7 +287,7 @@ amplify push
 
 ## Connect your app
 
-Once the push finishes an `amplifyconfiguration.json` file will be created in your project which will be used to configure the DataStore with the cloud. Restart your app and it will connect with your backend using GraphQL queries, mutattions, and subscriptions.
+Once the push finishes an `amplifyconfiguration.json` file will be created in your project which will be used to configure the DataStore with the cloud. Restart your app and it will connect with your backend using GraphQL queries, mutations, and subscriptions.
 
 # Relational Models
 

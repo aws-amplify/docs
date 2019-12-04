@@ -82,7 +82,7 @@ end
 
 Close out of the existing Xcode project if you have it open.
 
-Install the dependencies via cocoapods
+Install the dependencies via CocoaPods
 ```ruby
 pod install --repo-update
 ```
@@ -321,7 +321,7 @@ func getEscapeHatch() {
 
 ### Restrict Access
 
-Create an options object with the protected access level to retrict access for certain objects.
+Create an options object with the protected access level to restrict access for certain objects.
 
 ```swift
 let options = StorageDownloadDataRequest.Options(accessLevel: .protected)

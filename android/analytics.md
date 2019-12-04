@@ -78,7 +78,7 @@ implementation 'com.amplifyframework:core:0.9.0'
 implementation 'com.amplifyframework:aws-analytics-pinpoint:0.9.0'
 ```
 
-Sync the project with Maven and then ensure it built sucessfully.
+Sync the project with Maven and then ensure it built successfully.
 
 ## Initialize Amplify
 

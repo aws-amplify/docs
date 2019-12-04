@@ -94,7 +94,7 @@ end
 
 Close out of the existing Xcode project if you have it open.
 
-Install the dependencies via cocoapods
+Install the dependencies via CocoaPods
 ```ruby
 pod install --repo-update
 ```
@@ -144,7 +144,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
     ```ruby
     modelgen=true
     ```
-2. Build (`CMD+B`). This will generate the Model files to be used with `Amplify.API` to query, muate, and subscribe to you AppSync service. After build completes, the model files will be generated under `amplify/generated/models`. When you edit the schema under `amplify/backend/api/<APINAME>/schema.graphql` and build, it will regenerate the Model files.
+2. Build (`CMD+B`). This will generate the Model files to be used with `Amplify.API` to query, mutate, and subscribe to you AppSync service. After build completes, the model files will be generated under `amplify/generated/models`. When you edit the schema under `amplify/backend/api/<APINAME>/schema.graphql` and build, it will regenerate the Model files.
 
 3. Alternatively, you can run `amplify codegen models` using Amplify CLI. Make sure you set `modelgen=false` if you are using the CLI instead of Amplify Tools.
 

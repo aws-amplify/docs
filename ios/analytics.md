@@ -73,7 +73,7 @@ If this is a new project, run `pod init` to create the `Podfile` to use CocoaPod
 
 Close out of the existing Xcode project if you have it open.
 
-Install the dependencies via cocoapods
+Install the dependencies via CocoaPods
 ```ruby
 $ pod install --repo-update
 ```
@@ -140,7 +140,7 @@ The following examples assumes you have followed the steps to initialize Amplify
 
 ### Identify User
 
-This call sends information that you have specified about the user to Pinpoint. This could be an unauthenticated or an authenticated user. AWSMobileClient assigns all users an identityId that can be used to call `Amplify.Analytics.identifyUser` with. If you have asked for location access and got the user's location information, you can also provide that in `AnalyticsUserProfile.Location`.
+This call sends information that you have specified about the user to Pinpoint. This could be an unauthenticated or an authenticated user. AWSMobileClient assigns all users an `identityId` that can be used to call `Amplify.Analytics.identifyUser` with. If you have asked for location access and got the user's location information, you can also provide that in `AnalyticsUserProfile.Location`.
 
 
 ```swift

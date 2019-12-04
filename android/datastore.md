@@ -50,7 +50,7 @@ implementation 'com.amplifyframework:core:0.9.0'
 implementation 'com.amplifyframework:aws-datastore:0.9.0'
 ```
 
-Sync the project with Maven and then ensure it built sucessfully. Switch to **Project** view in Android Studio and open the schema file at `amplify/backend/api/amplifyDatasource/schema.graphql`. [Learn more](https://aws-amplify.github.io/docs/cli-toolchain/graphql){:target="_blank"} about annotating GraphQL schemas and data modeling.
+Sync the project with Maven and then ensure it built successfully. Switch to **Project** view in Android Studio and open the schema file at `amplify/backend/api/amplifyDatasource/schema.graphql`. [Learn more](https://aws-amplify.github.io/docs/cli-toolchain/graphql){:target="_blank"} about annotating GraphQL schemas and data modeling.
 
 ```graphql
 enum PostStatus {
@@ -315,7 +315,7 @@ amplify push
 
 # Relational Models
 
-DataStore has the capability to handle relationships between Models, sucha as `Has One`, `Has Many`, `Belongs To`, and `Many To Many`. In GraphQL this is done with `@connection` as defined in the [GraphQL Transformer documentation](https://aws-amplify.github.io/docs/cli-toolchain/graphql#connection){:target="_ blank"}. For the examples below with DataStore use the following schema:
+DataStore has the capability to handle relationships between Models, such as `Has One`, `Has Many`, `Belongs To`, and `Many To Many`. In GraphQL this is done with `@connection` as defined in the [GraphQL Transformer documentation](https://aws-amplify.github.io/docs/cli-toolchain/graphql#connection){:target="_ blank"}. For the examples below with DataStore use the following schema:
 
 ```graphql
 enum PostStatus {
@@ -409,7 +409,7 @@ Amplify.DataStore.query(Comment.class, Post.ID.eq("123"), new ResultListener<Ite
 
 ## Deleting relations
 
-When you delete a parent object in a one to many relationship, the children will also be removed from the DataStore and mutations for this deletion will be sent over the network. For example the following operation would remove *myPost* as well as any related comments:
+When you delete a parent object in a one to many relationship, the children will also be removed from the DataStore and mutations for this deletion will be sent over the network. For example the following operation would remove `myPost` as well as any related comments:
 
 ```java
 Amplify.DataStore.delete(myPost, new ResultListener<DataStoreItemChange<Post>>() {
@@ -515,7 +515,7 @@ When multiple clients send concurrent updates using the same version and conflic
 
 ## Writing data from the AppSync console
 
-DataStore is designed primarily for developers to not have to focus on the backend and let your application code and workflow create everything. However there will be some use casese where you will use the AppSync console, a Lambda function, or other out of band processes to write data (such as batch actions or data migrations) and you might send GraphQL operations without the DataStore client.
+DataStore is designed primarily for developers to not have to focus on the backend and let your application code and workflow create everything. However, there will be some use cases where you will use the AppSync console, a Lambda function, or other out of band processes to write data (such as batch actions or data migrations) and you might send GraphQL operations without the DataStore client.
 
 In these cases it's important that the selection set of your GraphQL mutation includes the fields `_lastChangedAt`, `_version`, and `_deleted` so that the DataStore clients can react to these updates. You will also need to send the **current** object version in the mutation input argument as `_input` so that the service can act accordingly. If you do not send this information the clients will still eventually catch up during the global sync process, but you will not see realtime updates to the client DataStore repositories. An example mutation:
 

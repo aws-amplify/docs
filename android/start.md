@@ -54,7 +54,7 @@ buildscript {
 apply plugin: 'com.amplifyframework.amplifytools'
 ```
 
-b. Next, add the following dependencies to your **app** `build.gradle` and compileOptions to work with the Java 8 features used:
+b. Next, add the following dependencies to your **app** `build.gradle` and `compileOptions` to work with the Java 8 features used:
 
 ```gradle
 android {
@@ -74,7 +74,7 @@ c. Sync the project and ensure it built successfully after the sync.
 
 d. Run 'Make Project'
 
-When the build is successful, it will add two gradle tasks to you project - modelgen and amplifyPush (these can be found in the dropdown menu which currently would display app if it's a new project, up where you would run your project)
+When the build is successful, it will add two gradle tasks to you project - `modelgen` and `amplifyPush` (these can be found in the dropdown menu which currently would display app if it's a new project, up where you would run your project)
 
 ## Step 2: Generate your Model files
 

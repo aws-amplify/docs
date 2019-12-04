@@ -160,7 +160,7 @@ To upload to S3 from a data object, specify the key and the data object to be up
 
 ### Download
 
-If you uploaded the data at key `myUploadedFileName.txt` like in the previous example, you can retrieve the data using `Amplify.Storage.downloadFile` - you can replace the call to uploadFile after Amplify.configure with a call to this method to try it out:
+If you uploaded the data at key `myUploadedFileName.txt` like in the previous example, you can retrieve the data using `Amplify.Storage.downloadFile` - you can replace the call to `uploadFile` after `Amplify.configure` with a call to this method to try it out:
 
 ```java
   private void downloadFile() {
@@ -233,7 +233,7 @@ Delete an object uploaded to S3 by using `Amplify.Storage.remove` and specify th
 
 For advanced use cases where Amplify does not provide the functionality, you can retrieve the escape hatch to access the AWSS3 instance.
 
-After the Amplify.configure call put these two lines:
+After the `Amplify.configure` call put these two lines:
 
 ```java
     AmazonS3Client client = ((AWSS3StoragePlugin) Amplify.Storage.getPlugin("awsS3StoragePlugin")).getEscapeHatch();
