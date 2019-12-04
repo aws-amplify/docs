@@ -711,6 +711,15 @@ category_list:
               url: https://aws.amazon.com/cognito/
             - title: Custom Plugin
               url:
+        - title: DataStore
+          excerpt:  persistent on-device storage repository for you to write, read, and observe changes to data if you are online or offline
+          cta: Read more
+          class: aws-icon-ps-60-shield-circle
+          url: '/js/datastore'
+          icon: '/images/icons/Misc/Cloud.svg'
+          services:
+            - title: AWS AppSync
+              url: https://aws.amazon.com/appsync
         - title: Interactions
           excerpt: Create conversational bots powered by deep learning technologies.
           cta: Read more
