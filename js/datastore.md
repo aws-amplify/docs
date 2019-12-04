@@ -23,7 +23,7 @@ Modeling your data and *generating models* which are used by DataStore is the fi
 The fastest way to get started is using the `amplify-app` npx script such as with [Create React app](https://create-react-app.dev):
 
 ```sh
-npx create-react-app amplify-DataStore --use-npm
+npx create-react-app amplify-datastore --use-npm
 cd amplify-DataStore
 npx amplify-app
 ```
