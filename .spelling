@@ -1036,3 +1036,42 @@ synchronizes
 adhere
 queueing
 deserialize
+
+# android/analytics.md
+AWSPinpointAnalyticsPlugin
+
+# android/api.md
+BelongsTo
+HasMany
+Logcat
+QueryField
+
+# android/datastore.md
+queryField
+RxJava
+amplifyPush
+_
+syncMode
+
+# android/start.md
+gradle
+
+# android/storage.md
+
+# ios/api.md
+AWSAPIPlugin
+
+# ios/analytics.md
+unregister
+
+# ios/datastore.md
+AnyPublisher
+
+# ios/predictions.md
+CoreML
+pre-created
+
+# ios/started.md
+amplifyconfiguration.json
+amplifyxc.config
+
