@@ -199,6 +199,12 @@ android_category_list:
               url: https://aws.amazon.com/kinesis/
             - title: Custom Plugin
               url: https://aws-amplify.github.io/amplify-js/media/analytics_guide#using-a-custom-plugin
+        - title: DataStore
+          excerpt: On-device persistent storage.
+          cta: Read more
+          class: aws-icon-ps-60-file-box
+          url: '/android/datastore'
+          icon: '/images/icons/Misc/Cloud.svg'
     - category: Manual SDK Configuration
       title: SDK Configuration
       excerpt: Low level config
@@ -441,6 +447,12 @@ ios_category_list:
               url: https://aws.amazon.com/kinesis/
             - title: Custom Plugin
               url: https://aws-amplify.github.io/amplify-js/media/analytics_guide#using-a-custom-plugin
+        - title: DataStore
+          excerpt: On-device persistent storage.
+          cta: Read more
+          class: aws-icon-ps-60-file-box
+          url: '/ios/datastore'
+          icon: '/images/icons/Misc/Cloud.svg'
         - title: Predictions
           excerpt: Add AI/ML capabilities to your app powered by cloud services.
           cta: Read more
