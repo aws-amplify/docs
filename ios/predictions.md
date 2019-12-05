@@ -131,10 +131,7 @@ Add the dependencies to the `Podfile`:
 ```ruby
 target :'YOUR-APP-NAME' do
 	use_frameworks!
-
-	pod 'Amplify', '~> 1.0.0'
-	pod 'AmplifyPlugins/AWSPluginsCore', '~> 1.0.0'  # pod 'AWSPluginsCore', '~> 1.0.0
-	pod 'AmplifyPlugins/AWSPredictionsPlugin', '~> 1.0.0'
+	pod 'AWSPredictionsPlugin'
 	pod 'AWSMobileClient', '~> 2.12.0'
 end
 ```
