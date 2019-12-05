@@ -34,7 +34,6 @@ use_frameworks!
 
 target 'DataStoreApp' do
   pod 'amplify-tools'
-  pod 'Amplify'
   pod 'AmplifyPlugins/AWSDataStorePlugin'
 end
 ```

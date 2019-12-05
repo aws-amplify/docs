@@ -63,9 +63,6 @@ If this is a new project, run `pod init` to create the `Podfile` to use CocoaPod
 ```ruby
     target :'YOUR-APP-NAME' do
         use_frameworks!
-
-        pod 'Amplify'
-        pod 'AWSPluginsCore'
         pod 'AmplifyPlugins/AWSPinpointAnalyticsPlugin'
         pod 'AWSMobileClient', '~> 2.12.0'
     end
