@@ -237,7 +237,7 @@ If you do not already have a local AWS profile with credentials you can automati
 
 ## Use NPX
 ```
-npm run amplify-push
+npx amplify-push
 ```
 
 
