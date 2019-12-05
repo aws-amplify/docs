@@ -72,9 +72,6 @@ If this is a new project, run `pod init` from the root of your application folde
 ```ruby
 target :'YOUR-APP-NAME' do
 use_frameworks!
-
-    pod 'Amplify'
-    pod 'AWSPluginsCore'
     pod 'AmplifyPlugins/AWSS3StoragePlugin'
     pod 'AWSMobileClient', '~> 2.12.0'
 end

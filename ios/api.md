@@ -85,8 +85,6 @@ If this is a new project, run `pod init` to create the `Podfile` to use CocoaPod
 ```ruby
 target :'YOUR-APP-NAME' do
     use_frameworks!
-    pod 'Amplify'
-    pod 'AWSPluginsCore'
     pod 'AmplifyPlugins/AWSAPIPlugin'
     pod 'amplify-tools'
 end
