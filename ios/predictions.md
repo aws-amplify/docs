@@ -133,8 +133,8 @@ target :'YOUR-APP-NAME' do
 	use_frameworks!
 
 	pod 'Amplify', '~> 1.0.0'
-	pod 'AmplifyPlugins/AWSPluginsCore', '~> 1.0.0'  # pod 'AWSPluginsCore', '~> 1.0.0
-	pod 'AmplifyPlugins/AWSPredictionsPlugin', '~> 1.0.0'
+	pod 'AWSPluginsCore', '~> 1.0.0'  # pod 'AWSPluginsCore', '~> 1.0.0
+	pod 'AWSPredictionsPlugin', '~> 1.0.0'
 	pod 'AWSMobileClient', '~> 2.12.0'
 end
 ```
