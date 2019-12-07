@@ -33,7 +33,7 @@ This page guides you through setting up a backend and integration into your Andr
 
 * This guide assumes that you are familiar with Android development and tools. If you are new to Android development, you can follow [these steps](https://developer.android.com/training/basics/firstapp/creating-project) to create your first Android application using Java.
 
-* If you had previously installed Amplify CLI, update to the latest version by running:
+* If you had previously installed Amplify CLI (< v4.5.0), update to the latest version by running:
 
 ```terminal
 $ npm install -g @aws-amplify/cli
@@ -77,13 +77,13 @@ dependencies {
 }
 ```
 
-**Note**
-If you get the following error message, "ERROR: Process 'command 'npx'' finished with non-zero exit value 1” this may be due to your user not having permissions to the node_modules folder on your machine. Follow the steps [at this link](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally) to resolve it.
-{: .callout .callout--warning}
-
 c. Run 'Make Project'
 
 When the build is successful, it will add two gradle tasks to you project - `modelgen` and `amplifyPush` (these can be found in the dropdown menu which currently would display app if it's a new project, up where you would run your project)
+
+**Note**
+If you get the following error message: "ERROR: Process 'command 'npx'' finished with non-zero exit value 1”, this may be due to the logged in user on your machine having insufficient permissions to access the node_modules folder on your machine. Follow the steps [at this link](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally) to resolve it.
+{: .callout .callout--warning}
 
 ## Step 2: Generate your Model files
 
@@ -111,15 +111,14 @@ b. To generate the Java classes for these models, click the Gradle Task dropdown
 
 a. Run `amplify configure` in Terminal from the root of your application folder to set up Amplify with your AWS account.
 
-    - Browser will pop up prompting you to sign in / create new account
-    - Once done, return to terminal and press Enter
+    - Your default browser will open a tab prompting you to sign in / create a new AWS account
+    - Once done, return to the terminal and press Enter
     - Choose a region
     - Choose a username (can use default)
-    - Browser will popup again to finish creating that user - you can use all default properties.
-    - Leave the page open on the finish step and return to Terminal
+    - Your default browser will open a tab prompting you to walkthrough the process of creating an IAM user. At the end of the process. Save the Access ID and Secret key and return to the terminal.
     - Press Enter
-    - It will then ask you to enter the access key ID from the finish page of the browser. Make sure to backspace the default <ACCESS KEY ID> and paste in the key from the browser
-    - Do the same for <YOUR SECRET ACCESS KEY> in the next step, pressing the “Show” link in the browser to reveal it
+    - It will then ask you to enter the access key ID from the finish page of the browser. Make sure to backspace the default and copy-paste the key for the IAM user you just created.
+    - Do the same for <YOUR SECRET ACCESS KEY> in the next step
     - Hit Enter to go with default as the profile name
 
 b. Click the Gradle Task dropdown in your Android Studio toolbar, select **amplifyPush**, and run the task.
