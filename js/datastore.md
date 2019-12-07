@@ -60,7 +60,7 @@ npm i -g @aws-amplify/cli@latest
 The Amplify CLI can generate models at any time with the following command:
 
 ```
-npm run amplify-modelgen
+amplify codegen model
 ```
 
 ### Schema updates
@@ -228,7 +228,7 @@ const subscription = DataStore.observe(Post).subscribe(msg => {
 
 Once you're happy with your application, you can start syncing with the cloud by provisioning a backend from your project. This can be done using the `amplify-app` npx script or with the Amplify CLI. Provisioning will also create a project in the [AWS Amplify Console](https://aws.amazon.com/amplify/console/) to store metadata (such as the GraphQL schema) which you can pull down to generate models on other platforms.
 
-DataStore can connect to an existing AppSync backend that has been deployed from another JavaScript project or even it was originally deployed by iOS or Android. In these workflows it is best to work with the CLI directly by running an `amplify pull` command from your terminal and then generating models, either using `npm run amplify-modelgen` from the NPX script or with `amplify codegen models` using the Amplify CLI.
+DataStore can connect to an existing AppSync backend that has been deployed from another JavaScript project or even it was originally deployed by iOS or Android. In these workflows it is best to work with the CLI directly by running an `amplify pull` command from your terminal and then generating models, either using `npm run amplify-modelgen` from the NPX script or with `amplify codegen model` using the Amplify CLI.
 
 For more information on this workflow please see the [Multiple Frontends documentation](https://aws-amplify.github.io/docs/cli-toolchain/quickstart#multiple-frontends){:target="_blank"}.
 
