@@ -33,7 +33,7 @@ This page guides you through setting up a backend and integration into your Andr
 
 * This guide assumes that you are familiar with Android development and tools. If you are new to Android development, you can follow [these steps](https://developer.android.com/training/basics/firstapp/creating-project) to create your first Android application using Java.
 
-* If you had previously installed Amplify CLI (< v4.5.0), update to the latest version by running:
+* If you had previously installed Amplify CLI (< 4.5.0), update to the latest version by running:
 
 ```terminal
 $ npm install -g @aws-amplify/cli
