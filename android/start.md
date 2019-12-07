@@ -23,6 +23,8 @@ This page guides you through setting up a backend and integration into your Andr
 
 ## Prerequisites
 
+* These steps currently only work on Mac. If you have a Windows machine, follow the steps on one of our categories such as [API here](./api).
+
 * [Install Node](https://nodejs.org/en/)
 
 * [Install Android Studio](https://developer.android.com/studio/index.html#downloads) version 3.1 or higher.
@@ -31,13 +33,18 @@ This page guides you through setting up a backend and integration into your Andr
 
 * This guide assumes that you are familiar with Android development and tools. If you are new to Android development, you can follow [these steps](https://developer.android.com/training/basics/firstapp/creating-project) to create your first Android application using Java.
 
+* If you had previously installed Amplify CLI (< 4.5.0), update to the latest version by running:
+
+```terminal
+$ npm install -g @aws-amplify/cli
+```
 
 ## Step 1: Configure your app
 You can use an existing Android app or create a new Android app in Java as per the steps in prerequisite section.
 
 a. Open your **project** `build.gradle` and add the following:
 * `mavenCentral()` as a repository
-* `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.1.0'` as a dependency
+* `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.0'` as a dependency
 * A plugin `'com.amplifyframework.amplifytools'` as shown in the example below:
 
 ```gradle
@@ -70,11 +77,13 @@ dependencies {
 }
 ```
 
-c. Sync the project and ensure it built successfully after the sync.
-
-d. Run 'Make Project'
+c. Run 'Make Project'
 
 When the build is successful, it will add two gradle tasks to you project - `modelgen` and `amplifyPush` (these can be found in the dropdown menu which currently would display app if it's a new project, up where you would run your project)
+
+**Note**
+If you get the following error message: "ERROR: Process 'command 'npx'' finished with non-zero exit value 1”, this may be due to the logged in user on your machine having insufficient permissions to access the node_modules folder on your machine. Follow the steps [at this link](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally) to resolve it.
+{: .callout .callout--warning}
 
 ## Step 2: Generate your Model files
 
@@ -100,19 +109,29 @@ b. To generate the Java classes for these models, click the Gradle Task dropdown
 
 ## Step 3: Add API and Database
 
-a. Run `amplify configure` from the root of your application folder to set up Amplify with your AWS account.
+a. Run `amplify configure` in Terminal from the root of your application folder to set up Amplify with your AWS account.
 
-b. Click the Gradle Task dropdown in your Android Studio toolbar, select **amplifyPush**, and run the task. If you haven't configured your AWS credentials yet it will prompt you to do so. Configure an account and enter the appropriate keys into your terminal after copying them from the AWS console. If it's your first time configuring an account perform this task and then run the Gradle Task again.
+    - Your default browser will open a tab prompting you to sign in / create a new AWS account
+    - Once done, return to the terminal and press Enter
+    - Choose a region
+    - Choose a username (can use default)
+    - Your default browser will open a tab prompting you to walkthrough the process of creating an IAM user. At the end of the process. Save the Access ID and Secret key and return to the terminal.
+    - Press Enter
+    - It will then ask you to enter the access key ID from the finish page of the browser. Make sure to backspace the default and copy-paste the key for the IAM user you just created.
+    - Do the same for <YOUR SECRET ACCESS KEY> in the next step
+    - Hit Enter to go with default as the profile name
 
-Once this is successful, you will see three generated files under `src/main/res/raw`:
+b. Click the Gradle Task dropdown in your Android Studio toolbar, select **amplifyPush**, and run the task.
 
-* **amplifyconfiguration.json** and **awsconfiguration.json**
+Once this is successful, you will see three generated files:
+
+* **amplifyconfiguration.json** and **awsconfiguration.json** under `src/main/res/raw`
 
 Rather than configuring each service through a constructor or constants file, the Amplify Framework for Android supports configuration through centralized files called amplifyconfiguration.json and awsconfiguration.json which define all the regions and service endpoints to communicate. On Android projects these two files will be placed into the root directory.
 
 You can also manually update them if you have existing AWS resources which you manage outside of the Amplify deployment process. Additionally, if you ever decide to run Amplify CLI commands from a terminal inside your Android Studio project these configurations will be automatically updated.
 
-* **amplify-gradle-config.json**: This file is used to configure modelgen and push to cloud actions.
+* **amplify-gradle-config.json** under the root directory: This file is used to configure modelgen and push to cloud actions.
 
 c. After the deployment has completed you can open the `amplifyconfiguration.json` and you should see the `api` section containing your backend like the following:
 ```json
@@ -182,13 +201,8 @@ Amplify.API.query(Task.class, new ResultListener<GraphQLResponse<Iterable<Task>>
     }
 });
 ```
-d. Now listen to any realtime updates by subscribing to changes. Add RxJava to your app `build.gradle`:
 
-```gradle
-implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-```
-
-e. Finally, you can listen to the Subscription with a `StreamListener` using the `onNext` callback:
+d. Finally, you can listen to the Subscription with a `StreamListener` using the `onNext` callback:
 
 ```java
 Amplify.API.subscribe(
