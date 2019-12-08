@@ -185,7 +185,7 @@ Usage: ```<amplify-confirm-sign-up></amplify-confirm-sign-up>```
 
 Config:
 ```
-<amplify-sign-in v-bind:confirmSignUpConfig="confirmSignUpConfig"></amplify-sign-in>
+<amplify-confirm-sign-up v-bind:confirmSignUpConfig="confirmSignUpConfig"></amplify-confirm-sign-up>
 ```
 
 {% include confirm-sign-up-attributes.html %}
