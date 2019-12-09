@@ -48,7 +48,7 @@ The `XXXXXX` is the unique AppSync API identifier that you can find in the conso
 
 #### AppSync APIs Created Using the CLI
 
-Navigate in your terminal to an XCode project directory and run the following:
+Navigate in your terminal to an Xcode project directory and run the following:
 
 ```terminal
 $amplify init     ## Select iOS as your platform
