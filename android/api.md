@@ -163,7 +163,7 @@ apply plugin: 'com.amplifyframework.amplifytools'
 
 2 - Run 'Make Project'
 
-When the build is successful, it will add two gradle tasks to you project - `modelgen` and `amplifyPush` (these can be found in the dropdown menu which currently would display app if it's a new project, up where you would run your project). Whenever you update your schema (found at `amplify/backend/api/amplifyDatasource/schema.graphql`) run the `modelgen` task followed by `amplifyPush` to update your online resources and local Java models.
+When the build is successful, it adds two gradle tasks to you project - `modelgen` and `amplifyPush`. These can be found in the configuration dropdown menu which currently would display app if it's a new project, up where you would run your project. Whenever you update your schema (found at `amplify/backend/api/amplifyDatasource/schema.graphql`) run the `modelgen` task followed by `amplifyPush` to update your online resources and local Java models.
 
 ### Initialize Amplify
 
