@@ -235,7 +235,7 @@ For more information on this workflow please see the [Multiple Frontends documen
 If you do not already have a local AWS profile with credentials you can automatically setup with the Amplify CLI by running `amplify configure` 
 {: .callout .callout--info}
 
-## Use NPX
+## Use NPM
 ```
 npm run amplify-push
 ```
