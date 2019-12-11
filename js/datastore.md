@@ -25,7 +25,7 @@ The fastest way to get started is using the `amplify-app` npx script such as wit
 ```sh
 npx create-react-app amplify-datastore --use-npm
 cd amplify-datastore
-npx amplify-app
+npx amplify-app@latest
 ```
 
 Once this completes open the GraphQL schema in the `amplify/backend/api/<datasourcename>/schema.graphql`. You can use the sample or the one below that will be used in this documentation:
@@ -60,7 +60,7 @@ npm i -g @aws-amplify/cli@latest
 The Amplify CLI can generate models at any time with the following command:
 
 ```
-npm run amplify-modelgen
+amplify codegen models
 ```
 
 ### Schema updates
@@ -235,7 +235,7 @@ For more information on this workflow please see the [Multiple Frontends documen
 If you do not already have a local AWS profile with credentials you can automatically setup with the Amplify CLI by running `amplify configure` 
 {: .callout .callout--info}
 
-## Use NPX
+## Use NPM
 ```
 npm run amplify-push
 ```

@@ -627,7 +627,7 @@ category_list:
       subs:
         - title: Getting Started
           excerpt: get started excerpt
-          url: '/js/start'
+          url: '/js/start?platform=purejs'
           icon: '/images/icons/Misc/Present.svg'
     - category: Tutorials
       title: Framework Support
