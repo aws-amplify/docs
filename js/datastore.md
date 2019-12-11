@@ -25,7 +25,7 @@ The fastest way to get started is using the `amplify-app` npx script such as wit
 ```sh
 npx create-react-app amplify-datastore --use-npm
 cd amplify-datastore
-npx amplify-app
+npx amplify-app@latest
 ```
 
 Once this completes open the GraphQL schema in the `amplify/backend/api/<datasourcename>/schema.graphql`. You can use the sample or the one below that will be used in this documentation:
