@@ -60,7 +60,7 @@ npm i -g @aws-amplify/cli@latest
 The Amplify CLI can generate models at any time with the following command:
 
 ```
-npm run amplify-modelgen
+amplify codegen models
 ```
 
 ### Schema updates
