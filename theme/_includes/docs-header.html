@@ -68,14 +68,22 @@
 					<a href="{{ site.amplify.baseurl }}" class="site-header__logo">
 						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/Amplify-Logo-White.svg">
 						<p class="header-amplify docs-header-amplify">{{ site.amplify.header.logo.js_text }} </p>
-					{% elsif page.url contains 'android' %}
+					{% elsif page.url contains 'docs/android' %}
 					<a href="{{ site.amplify.baseurl }}" class="site-header__logo">
 						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/Amplify-Logo-White.svg">
-						<p class="header-amplify docs-header-amplify">{{ site.amplify.header.logo.android_text }} </p>
-					{% elsif page.url contains 'ios' %}
+						<p class="header-amplify docs-header-amplify">Amplify Android</p>
+					{% elsif page.url contains '/sdk/android' %}
 					<a href="{{ site.amplify.baseurl }}" class="site-header__logo">
 						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/Amplify-Logo-White.svg">
-						<p class="header-amplify docs-header-amplify">{{ site.amplify.header.logo.ios_text }} </p>
+						<p class="header-amplify docs-header-amplify">Android SDK</p>	
+					{% elsif page.url contains 'docs/ios' %}
+					<a href="{{ site.amplify.baseurl }}" class="site-header__logo">
+						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/Amplify-Logo-White.svg">
+						<p class="header-amplify docs-header-amplify">Amplify iOS </p>
+					{% elsif page.url contains '/sdk/ios' %}
+					<a href="{{ site.amplify.baseurl }}" class="site-header__logo">
+						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/Amplify-Logo-White.svg">
+						<p class="header-amplify docs-header-amplify">iOS SDK</p>	
 					{% else %}
 					<a href="{{ site.amplify.marketing_site_home }}" class="site-header__logo">
 						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Logos/Amplify-Logo-White.svg">

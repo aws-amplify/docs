@@ -1,5 +1,5 @@
 ---
-title: API
+title: DataStore
 ---
 {% if jekyll.environment == 'production' %}
   {% assign base_dir = site.amplify.docs_baseurl %}
@@ -23,9 +23,9 @@ Modeling your data and *generating models* which are used by DataStore is the fi
 The fastest way to get started is using the `amplify-app` npx script such as with [Create React app](https://create-react-app.dev):
 
 ```sh
-npx create-react-app amplify-DataStore --use-npm
-cd amplify-DataStore
-npx amplify-app
+npx create-react-app amplify-datastore --use-npm
+cd amplify-datastore
+npx amplify-app@latest
 ```
 
 Once this completes open the GraphQL schema in the `amplify/backend/api/<datasourcename>/schema.graphql`. You can use the sample or the one below that will be used in this documentation:
@@ -60,7 +60,7 @@ npm i -g @aws-amplify/cli@latest
 The Amplify CLI can generate models at any time with the following command:
 
 ```
-npm run amplify-modelgen
+amplify codegen models
 ```
 
 ### Schema updates
@@ -189,7 +189,7 @@ Conditional updates can only be applied to single items and not lists. If you wi
 To delete an item simply pass in an instance:
 
 ```javascript
-const todelete = await DataStore.query(Post, "123");
+const todelete = await DataStore.query(Post, "1234567");
 DataStore.delete(todelete);
 ```
 
@@ -226,7 +226,7 @@ const subscription = DataStore.observe(Post).subscribe(msg => {
 
 # Sync with the cloud
 
-Once you're happy with your application, you can start syncing with the cloud by provisioning a backend from your project. This can be done using the `amplify-app` npx script or with the Amplify CLI. Provisioning will also create a project in the [AWS Amplify Console](https://aws.amazon.com/amplify/console/) to store metadata (such as the GraphQL schema) which you can pull down to generate models on other platforms.
+Once you're happy with your application, you can start syncing with the cloud by provisioning a backend from your project. This can be done using the `amplify-app` npx script by running `npm run amplify-push`, or with the Amplify CLI by running `amplify push` directly. Provisioning will also create a project in the [AWS Amplify Console](https://aws.amazon.com/amplify/console/) to store metadata (such as the GraphQL schema) which you can pull down to generate models on other platforms.
 
 DataStore can connect to an existing AppSync backend that has been deployed from another JavaScript project or even it was originally deployed by iOS or Android. In these workflows it is best to work with the CLI directly by running an `amplify pull` command from your terminal and then generating models, either using `npm run amplify-modelgen` from the NPX script or with `amplify codegen models` using the Amplify CLI.
 
@@ -235,7 +235,7 @@ For more information on this workflow please see the [Multiple Frontends documen
 If you do not already have a local AWS profile with credentials you can automatically setup with the Amplify CLI by running `amplify configure` 
 {: .callout .callout--info}
 
-## Use NPX
+## Use NPM
 ```
 npm run amplify-push
 ```
@@ -399,7 +399,7 @@ DataStore.configure({
 
 # Conflict Resolution
 
-When syncing with AWS AppSync, DataStore updates from multiple clients will converge by tracking object versions and adhere to different conflict resolution strategies. The default strategy is called *Automerge* where GraphQL type information on an object is inspected at runtime to perform merge operations. You can read more about this behavior and alternatives such as *Optimistic Concurrency* Control and *custom Lambda functions* in the [AWS AppSync documentation](). To update the conflict resolution strategies navigate into your project from a terminal and run `amplify update api` choosing *Yes* when prompted to change the conflict detection and conflict resolution strategies:
+When syncing with AWS AppSync, DataStore updates from multiple clients will converge by tracking object versions and adhere to different conflict resolution strategies. The default strategy is called *Automerge* where GraphQL type information on an object is inspected at runtime to perform merge operations. You can read more about this behavior and alternatives such as *Optimistic Concurrency* Control and *custom Lambda functions* in the [AWS AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/conflict-detection-and-sync.html){:target="_blank"}. To update the conflict resolution strategies navigate into your project from a terminal and run `amplify update api` choosing *Yes* when prompted to change the conflict detection and conflict resolution strategies:
 
 ```sh
 amplify update api #Select GraphQL
@@ -432,6 +432,9 @@ Note that this flow will also allow you to change the strategy on each individua
 
 # How it Works
 
+<iframe width="600" height="345" src="https://www.youtube.com/embed/KcYl6_We0EU">
+</iframe>
+
 Amplify DataStore is an on device persistent repository for interacting with your local data while it synchronizes with the cloud. The core idea is to focus on your data modeling in your application with GraphQL, adding any authorization rules or business logic into your application when needed. This can be done using Amplify CLI project functionality (`amplify add auth` or `amplify add function`) as well as the [GraphQL Transformer](https://aws-amplify.github.io/docs/cli-toolchain/graphql){:target="_blank"}.
 
 Starting with GraphQL schema (with or without an AWS account) a code generation process creates *Models* which are domain native constructs for a programming platform (TypeScript, Java, Swift classes). This "modelgen" process happens using the Amplify CLI which is either done manually in your terminal or using build tools that will invoke the CLI process (NPX scripts, Gradle, Xcode build phase).
@@ -454,7 +457,7 @@ The Sync Engine will run a GraphQL query on first start that hydrates the Storag
 
 All items (or "objects") are versioned by *Sync Enabled Resolvers* in AppSync using monotonically increasing counters. Clients never update versions, only the service controls versions. The Sync Engine receives new items or updates from GraphQL operations and applies them with their versions to the Storage Engine. When items are updated by application code they are always written to a queue and the Sync Engine sends them to AppSync using the currently known version as an argument (`_version`) in the mutation. 
 
-When multiple clients send concurrent updates using the same version and conflict resolution is configured, a strategy for conflict resolution will be entered. The default strategy for clients is Automerge where the GraphQL type information is used to inspect the update and compare it to the current item that has been written to your table. Any non-conflicting fields are merged with the item and any lists will have values appended, with the service updating the item version as appropriate. You can change this default to apply version checks to the entire object with *Optimistic Concurrency* where the latest written item to your database will be used with a version check against the incoming record, or alternatively you can use a Lambda function and apply any custom business logic you wish to the process when merging or rejecting updates. In all cases the service controls the versions. For more information on how these conflict resolution rules work please [see the AWS AppSync documentation]().
+When multiple clients send concurrent updates using the same version and conflict resolution is configured, a strategy for conflict resolution will be entered. The default strategy for clients is Automerge where the GraphQL type information is used to inspect the update and compare it to the current item that has been written to your table. Any non-conflicting fields are merged with the item and any lists will have values appended, with the service updating the item version as appropriate. You can change this default to apply version checks to the entire object with *Optimistic Concurrency* where the latest written item to your database will be used with a version check against the incoming record, or alternatively you can use a Lambda function and apply any custom business logic you wish to the process when merging or rejecting updates. In all cases the service controls the versions. For more information on how these conflict resolution rules work please [see the AWS AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/conflict-detection-and-sync.html){:target="_blank"}.
 
 ## Writing data from the AppSync Console
 
