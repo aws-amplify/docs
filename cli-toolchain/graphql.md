@@ -1132,7 +1132,7 @@ In the case of groups if you define the following:
 
 ```graphql
 type Post @model
-@model @auth(rules: [{allow: groups, groups: ["Admin"]}]) {
+@auth(rules: [{allow: groups, groups: ["Admin"]}]) {
 {
   id: ID!
   owner: String
