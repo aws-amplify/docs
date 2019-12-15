@@ -102,7 +102,7 @@ AmplifyModels.swift
 Note.swift
 Note+Schema.swift
 Task.swift
-Task.Schema.swift
+Task+Schema.swift
 ```
 d. Drag the `models` directory over to your project, click on each file, and on the right panel, under `Target Membership`, check your app target to add it.  
 
@@ -268,6 +268,7 @@ This will open the AWS AppSync console for you to run Queries, Mutations, or Sub
 What next? Here are some things to add to your app:
 
 * [Authentication](./authentication)
+* [DataStore](./datastore)
 * [Storage](./storage)
 * [API](./api)
 * [Analytics](./analytics)

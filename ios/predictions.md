@@ -120,7 +120,7 @@ Copy the contents over and update the values for the specific predictions method
     }
 }
 ```
-Add both the `amplifyconfiguration.json` and the `awsconfiguration.json` to your project using XCode.
+Add both the `amplifyconfiguration.json` and the `awsconfiguration.json` to your project using Xcode.
 
 ## Connect to Your Backend
 
