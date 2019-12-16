@@ -376,7 +376,7 @@ AWSMobileClient.default().signIn(username: "your_username", password: "Abc@123!"
         case .smsMFA:
             print("SMS message sent to \(signInResult.codeDetails!.destination!)")
         default:
-            print("Sign In needs info which is not et supported.")
+            print("Sign In needs info which is not yet supported.")
         }
     }
 }
