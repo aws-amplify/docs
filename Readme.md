@@ -24,5 +24,5 @@ When contributing to documentation:
   2. `bundle install`
 3. Make your changes and verify them locally with `yarn start` (or `npm start`)
 4. Run `npm run build` locally prior to creating a pull request
-  1. Fix any spelling/grammar issues and update `.spelling` as needed
+  1. Fix any spelling/grammar issues and update `.spelling` as needed.
 5. Create a Pull Request here

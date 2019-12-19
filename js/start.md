@@ -1209,6 +1209,7 @@ Open the app and push the button to generate new items in your database.
  What next? Here are some things to add to your app:
 
 * [Authentication](./authentication)
+* [DataStore](./datastore)
 * [User File Storage](./storage)
 * [Serverless APIs](./api)
 * [AI/ML](./predictions)
