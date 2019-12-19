@@ -27,7 +27,7 @@ We'll use AWS Amplify and the Amplify CLI to quickly provision resources & conne
 
 # Part 1. Getting Started
 
-TODO Describe what this section will create, why, and how it fits into Amplify's value set.
+In this section, you will create the project foundation by creating an AWS account, configuring the Amplify CLI, and adding required dependencies.
 
 ## Step 1. Sign up for an AWS account
 
@@ -104,7 +104,7 @@ npm start
 
 # Part 2. Adding Authentication
 
-TODO Describe what this section will create, why, and how it fits into Amplify's value set.
+In this section, you will add Authentication using social providers such as Amazon, Facebook, and Google to restrict routes & data from anonymous users.
 
 ## Step 1. Setup Social Providers
 
@@ -198,7 +198,7 @@ authenticate with one of your social providers, get redirected back to <http://l
 
 # Part 3. Adding a GraphQL API
 
-TODO Describe what this section will create, why, and how it fits into Amplify's value set.
+In this section, you will add a GraphQL API to track album & photo details. Later, you will connect this UI to the real-time GraphQL API.
 
 ## Step 1. Add API
 
@@ -250,7 +250,7 @@ Test Your Hosted UI Endpoint: https://•••••••••••••.au
 
 # Part 4. Managing Albums
 
-TODO Describe what this section will create, why, and how it fits into Amplify's value set.
+In this section, you will add support for creating, reading, updating, and deleting albums via the GraphQL API.
 
 ![Picture of album list](3-auth-home.png)
 
@@ -325,7 +325,7 @@ Update `src/components/AlbumDetails` to call the `updateAlbum` mutation:
 
 # Part 5. Adding Photo Storage
 
-TODO Describe what this section will create, why, and how it fits into Amplify's value set.
+In this section, you will add storage for photos and a lambda to automatically create thumbnails.
 
 ## Step 1. Add Storage
 
@@ -383,7 +383,7 @@ amplify push
 
 # Part 6. Managing Photos
 
-TODO Describe what this section will create, why, and how it fits into Amplify's value set.
+In this section, you will update the UI to upload, show, and delete photos, as well editing photo descriptions & labels.
 
 ![Picture of photos](3b-auth-edit.png)
 
@@ -441,7 +441,7 @@ Update `src/components/PhotoDetails.js` with:
 
 # Part 7. Adding AI Labels to Photos
 
-TODO Describe what this section will create, why, and how it fits into Amplify's value set.
+In this section, you will add AI to automatically add labels to photos upon upload.
 
 ## Step 1. Add Predictions
 
@@ -487,11 +487,13 @@ Update `src/components/PhotoDetails.js` with:
 
 # Part 8. Deploying
 
+In this section, you will add HTTPS support by deploying to a production hosting environment using Amazon Cloudfront.
+
+## Step 1. Save Current `dev` Environment
+
 This project started locally, but for OAUth to work in production we need to differentiate our environments.
 
 [`amplify env`](https://aws-amplify.github.io/docs/cli-toolchain/quickstart#setting-up-master-and-dev-environments) solves this.
-
-## Step 1. Save Current `dev` Environment
 
 ```shell
 amplify env add
@@ -577,6 +579,8 @@ https://•••••••••••••.cloudfront.net
 ```
 
 # Part 9. Cleaning Up
+
+In this section, you will learn how to inventory & delete your cloud resources, as well as remove local artifacts created by the Amplify CLI.
 
 ## Step 1. List Current Resources
 
