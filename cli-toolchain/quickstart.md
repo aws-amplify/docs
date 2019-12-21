@@ -12,7 +12,7 @@ title: Quickstart
 ## Installation
 
 The Amplify Command Line Interface (CLI) is a unified toolchain to create, integrate, and manage the AWS cloud services for your app.
-* [Install Node.js®](https://nodejs.org/en/download/") and [NPM](https://www.npmjs.com/get-npm) if they are not already on your machine.
+* [Install Node.js®](https://nodejs.org/en/download/) and [NPM](https://www.npmjs.com/get-npm) if they are not already on your machine.
 * Verify that you are running at least Node.js version 8.12 or greater and npm version 5.x or greater by running `node -v` and npm -v in a terminal/console window
 * Install and configure the Amplify CLI.
 
