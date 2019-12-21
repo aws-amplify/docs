@@ -483,6 +483,8 @@ type Todo @model @auth (
 
 In the above example we want your Lambda function to have access to run a single mutation (`createTodo`) and hence we explicitly mention `create` in the `operations` list. To grant access for application users to perform other actions, you can add `read`, `update` or `delete` to the `operations` list along with `create`.
 
+If you are using a Cognito Identity Pool as a part of the Amplify configuration, please keep in mind the `allow: private, provider: iam` permissions also apply to authenticated users that are not part of any Cognito group and get assigned the default authenticated role by the Identity Pool. GraphQL queries performed with the `authMode: 'AWS_IAM'` will be allowed for the same declated operations. To prevent this from happening and grant AppSync permissions only to the lambda function, make sure that every Cognito user is a part of some group; that way distinct group-based IAM roles will be assigned to authenticated users by the Identity Pool.
+
 Save your changes and create a Lambda function with `amplify add function` and make sure to add access for your GraphQL API when prompted for in the `amplify add function` flow. The CLI would automatically configure the Lambda execution IAM role required by the Lambda function to call the GraphQL API. The following function will sign the request and use environment variables for the AppSync and Region that `amplify add function` created for you.
 
 ```javascript
