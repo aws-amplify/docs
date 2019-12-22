@@ -1860,23 +1860,28 @@ Note **THIS IS NOT RECOMMENDED ARCHITECTURE** and we highly recommend you levera
 
 ### Using the API Client
 
-To invoke a REST API, you need the name for the related endpoint. If you manually configure the API, you already have a name for the endpoint. If you use Automated Setup,  you can find the API name in your local configuration file. 
+To invoke a REST API, you need the name for the related endpoint. If you manually configure the API, you already have a name for the endpoint. If you use Automated Setup, you can find the API name in your local configuration file.
 
 The following code sample assumes that you have used Automated Setup.
 
-To invoke an endpoint, you need to set `apiName`, `path` and `headers` parameters, and each method returns a Promise.
+To invoke an endpoint, you need to set `apiName`, `path` and `init` parameters. Each method returns a Promise.
 
 Under the hood the API category utilizes [Axios](https://github.com/axios/axios) to execute the HTTP requests. API status code response > 299 are thrown as an exception. If you need to handle errors managed by your API, work with the `error.response` object.
 
 #### **GET**
 
 ```javascript
-let apiName = 'MyApiName';
-let path = '/path'; 
+import API from '@aws-amplify/api';
+// or
+import { API } from 'aws-amplify';
+
+
+const apiName = 'MyApiName';
+const path = '/path'; 
 let myInit = { // OPTIONAL
     headers: {}, // OPTIONAL
     response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
-    queryStringParameters: {  // OPTIONAL
+    queryStringParameters: { // OPTIONAL
         name: 'param'
     }
 }
@@ -1927,7 +1932,7 @@ exports.handler = function(event, context, callback) {
 
 Alternatively, you can update your backend file which is located at `amplifyjs/backend/cloud-api/[your-lambda-function]/app.js` with the middleware:
 
-```javascript
+```javascrip
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
 app.use(awsServerlessExpressMiddleware.eventContext())
 ```
@@ -1938,7 +1943,7 @@ In your request handler use `req.apiGateway.event` or `req.query`:
 
 ```javascript
 app.get('/items', function(req, res) {
-  const query = req.query
+  const { query } = req;
   // or
   // const query = req.apiGateway.event.queryStringParameters
   res.json({
