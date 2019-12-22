@@ -1875,7 +1875,6 @@ import API from '@aws-amplify/api';
 // or
 import { API } from 'aws-amplify';
 
-
 const apiName = 'MyApiName';
 const path = '/path'; 
 let myInit = { // OPTIONAL
@@ -1932,7 +1931,7 @@ exports.handler = function(event, context, callback) {
 
 Alternatively, you can update your backend file which is located at `amplifyjs/backend/cloud-api/[your-lambda-function]/app.js` with the middleware:
 
-```javascrip
+```javascript
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
 app.use(awsServerlessExpressMiddleware.eventContext())
 ```
