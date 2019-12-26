@@ -188,7 +188,7 @@ Amplify.DataStore.query(Post.class, Post.RATING.gt(4), new ResultListener<Iterat
 });
 ```
 
-Note: when constructing predicates, static `QueryField` instances such as `Post.RATING` do not own any information about the model to which the field belongs. In order to avoid any ambiguity between field names which are used accross multiple models, it is recommended to construct a custom instance of `QueryField` in the form of  `QueryField.field("{model-name}.{field-name}")` (i.e. `QueryField.field("Post.rating")`).
+Note: when constructing predicates, static `QueryField` instances such as `Post.RATING` do not own any information about the model to which the field belongs. In order to avoid any ambiguity between field names which are used across multiple models, it is recommended to construct a custom instance of `QueryField` in the form of  `QueryField.field("{model-name}.{field-name}")` (i.e. `QueryField.field("Post.rating")`).
 {: .callout .callout--info}
 
 Multiple conditions can be chained together by using `and | or | not`:
@@ -289,7 +289,7 @@ Amplify.DataStore.query(Post.class, Post.ID.eq("123"), new ResultListener<Iterat
 
 You can subscribe to changes on your Models by using the DataStore's `observe` method. This method reacts dynamically to all changes in local storage. These changes could be the result of local modifications, or the result of changes observed on your GraphQL endpoint, if using remote synchronization.
 
-The `AWSDataStorePlugin.observe()` method returns an `io.reactivex.Observable<DataStoreItemChange<? extends Model>>`. You can subscribe to this Rx Observable to get notifications whenver any model is created, updated, or deleted. To use a method in this family, you must make Rx available at runtime by adding `implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'` to your module's `build.gradle`.
+The `AWSDataStorePlugin.observe()` method returns an `io.reactivex.Observable<DataStoreItemChange<? extends Model>>`. You can subscribe to this Rx Observable to get notifications whenever any model is created, updated, or deleted. To use a method in this family, you must make Rx available at runtime by adding `implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'` to your module's `build.gradle`.
 {: .callout .callout--info}
 
 ```java
@@ -413,7 +413,7 @@ Amplify.DataStore.query(
 
 ## Deleting relations
 
-When you delete a parent object in a one-to-many relationship, the children will also be removed from the DataStore. These deletions will also be dispatched for syncrhonization over the network. For example, the following operation would remove `myPost` as well as any related comments:
+When you delete a parent object in a one-to-many relationship, the children will also be removed from the DataStore. These deletions will also be dispatched for synchronization over the network. For example, the following operation would remove `myPost` as well as any related comments:
 
 ```java
 Amplify.DataStore.delete(myPost, new ResultListener<DataStoreItemChange<Post>>() {
