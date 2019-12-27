@@ -114,7 +114,7 @@ const posts = await DataStore.query(Post, null, {
 });
 ```
 
-The second object is a condition, described in the next section. The `page` and `limt` are optional.
+The second object is a condition, described in the next section. The `page` and `limit` are optional.
 
 ### Query with Predicates
 
