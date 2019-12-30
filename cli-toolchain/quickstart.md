@@ -636,17 +636,17 @@ Note: You can also reference an output value from any other Amplify managed cate
   "<custom-category-name>": {
     "<custom-resource-name>": {
       "service": <custom-aws-service-name>,
-      "providerPlugin": "awscloudformation"
-    },
-    "dependsOn": [
-				{
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+	{
          "category": "auth",
-				 "resourceName": "mycognitoresource", // check `amplify status` to find resource name
-				 "attributes": [
-				  "UserPoolId" // Check Output Value of the resource specific cloudformation file to find available attributes
-					]
-				}
-		 ]
+	 "resourceName": "mycognitoresource", // check `amplify status` to find resource name
+	 "attributes": [
+	    "UserPoolId" // Check Output Value of the resource specific cloudformation file to find available attributes
+	  ]
+	}
+     ]
+    }
   },
   "hosting": {
     "S3AndCloudFront": {
