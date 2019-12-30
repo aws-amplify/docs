@@ -26,7 +26,7 @@ Modeling your data and *generating models* which are used by DataStore is the fi
 
 ## Using CocoaPods
 
-The fastest way to get started is adding the `amplify:tools` dependency to your `Podfile`:
+The fastest way to get started is adding the `amplify-tools` dependency to your `Podfile`:
 
 ```ruby
 platform :ios, '13.0'
