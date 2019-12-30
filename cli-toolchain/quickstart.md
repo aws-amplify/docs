@@ -424,7 +424,7 @@ To learn more, take a look at the [GraphQL Transformer docs]({%if jekyll.environ
 
 ### Functions Examples
 
-You can add a Lambda function to your project which you can alongside a REST API or as a datasource, as a part of your GraphQL API using the @function directive. 
+You can add a Lambda function to your project which you can use alongside a REST API or as a datasource, as a part of your GraphQL API using the @function directive. 
 ```terminal
 $ amplify add api
 ? Provide a friendly name for your resource to be used as a label for this category in the project: lambdafunction
@@ -636,17 +636,17 @@ Note: You can also reference an output value from any other Amplify managed cate
   "<custom-category-name>": {
     "<custom-resource-name>": {
       "service": <custom-aws-service-name>,
-      "providerPlugin": "awscloudformation"
-    },
-    "dependsOn": [
-				{
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+	{
          "category": "auth",
-				 "resourceName": "mycognitoresource", // check `amplify status` to find resource name
-				 "attributes": [
-				  "UserPoolId" // Check Output Value of the resource specific cloudformation file to find available attributes
-					]
-				}
-		 ]
+	 "resourceName": "mycognitoresource", // check `amplify status` to find resource name
+	 "attributes": [
+	    "UserPoolId" // Check Output Value of the resource specific cloudformation file to find available attributes
+	  ]
+	}
+     ]
+    }
   },
   "hosting": {
     "S3AndCloudFront": {
@@ -656,20 +656,6 @@ Note: You can also reference an output value from any other Amplify managed cate
   }
 }
 ```
-
-To use the above mentioned attribute `UserPoolId` from the auth category in your custom cloudformation stack, you would need to construct the following input parameter. The CLI will be passing this input automatically from the other nested stack.
-
-```javascript
-"Parameters": {
-  // Rest of the paramters
- 
-  "authmycognitoresourceUserPoolId": { // The format out here is `<category><resource-name><attribute-name>` - we have defined all of these in the `backend-config.json` file above
-	 "Type": "String"
- }
-},
-```
-
-
 
 2. Under `amplify/backend` folder, make a folder structure like the following:
   ```
@@ -685,7 +671,32 @@ To use the above mentioned attribute `UserPoolId` from the auth category in your
   ```
   `template.json` is a cloudformation template, and `parameters.json` is a json file of parameters that will be passed to the cloudformation template. Additionally, the `env` parameter will be passed in to your cloudformation templates dynamically by the CLI.
 
-3. Run `amplify env checkout <current-env-name>` to populate the CLI runtime files and make it aware of the newly added custom resources
+3. To use the above mentioned attribute `UserPoolId` from the auth category in your custom cloudformation stack, you would need to construct the following input parameter in the `template.json` file. The CLI will be passing this input automatically from the other nested stack.
+
+```javascript
+"Parameters": {
+  // Rest of the paramters
+ 
+  "authmycognitoresourceUserPoolId": { // The format out here is `<category><resource-name><attribute-name>` - we have defined all of these in the `backend-config.json` file above
+	 "Type": "String"
+ }
+},
+```
+
+4. Place one parameter in `parameters.json` named `authmycognitoresourceUserPoolId` with a cloudformation `Fn::GetAtt` that connects the output of one nested template to your custom template.
+
+  ```
+  	{
+    	   "authmycognitoresourceUserPoolId": {  // The format out here is `<category><resource-name><attribute-name>` - we have defined all of these in the `backend-config.json` file above
+              "Fn::GetAtt": [
+            	 "authmycognitoresource",  // check `amplify status` to find resource name in the category auth
+            	 "Outputs.UserPoolId"
+              ]
+    	   }
+	}
+  ```
+
+5. Run `amplify env checkout <current-env-name>` to populate the CLI runtime files and make it aware of the newly added custom resources
 
 
 ## Multiple Frontends
