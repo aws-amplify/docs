@@ -12,7 +12,7 @@ title: Quickstart
 ## Installation
 
 The Amplify Command Line Interface (CLI) is a unified toolchain to create, integrate, and manage the AWS cloud services for your app.
-* [Install Node.js®](https://nodejs.org/en/download/") and [NPM](https://www.npmjs.com/get-npm) if they are not already on your machine.
+* [Install Node.js®](https://nodejs.org/en/download/) and [NPM](https://www.npmjs.com/get-npm) if they are not already on your machine.
 * Verify that you are running at least Node.js version 8.12 or greater and npm version 5.x or greater by running `node -v` and npm -v in a terminal/console window
 * Install and configure the Amplify CLI.
 
@@ -424,7 +424,7 @@ To learn more, take a look at the [GraphQL Transformer docs]({%if jekyll.environ
 
 ### Functions Examples
 
-You can add a Lambda function to your project which you can alongside a REST API or as a datasource, as a part of your GraphQL API using the @function directive. 
+You can add a Lambda function to your project which you can use alongside a REST API or as a datasource, as a part of your GraphQL API using the @function directive. 
 ```terminal
 $ amplify add api
 ? Provide a friendly name for your resource to be used as a label for this category in the project: lambdafunction
