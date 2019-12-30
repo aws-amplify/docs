@@ -36,6 +36,7 @@ The following commands should be executed inside your project root directory:
 1. `amplify init`
 2. `amplify <category> add/remove`
 3. `amplify push`
+4. `amplify pull`
 
 #### The init process
 `$ amplify init` <br/>
@@ -48,6 +49,7 @@ The `init` command goes through the following steps:
 - Carries out, in sequence, the initialization logic of the selected plugin(s) 
 - Insert amplify folder structure into the project's root directory, with the initial project configuration
 - Generate the project metadata files, with the outputs of the above-selected plugin(s)
+- Creates a cloud project in the [AWS Amplify Console](https://console.aws.amazon.com/amplify) to view and manage resources for all backend environments.
 
 ### Samples workflow
 To set up a sample amplify project, execute the following command inside an empty directory:
@@ -58,6 +60,8 @@ where the github url is a valid sample amplify project repository. Click [here](
 
 ### Common CLI commands
 - `amplify <category> <subcommand>`
+- `amplify push`
+- `amplify pull`
 - `amplify env <subcommand>`
 - `amplify configure`
 - `amplify console`
@@ -65,7 +69,6 @@ where the github url is a valid sample amplify project repository. Click [here](
 - `amplify help`
 - `amplify init`
 - `amplify publish`
-- `amplify push`
 - `amplify run`
 - `amplify status`
 
@@ -84,10 +87,19 @@ The provider logs the information of the root stack and the resources into the p
 The root stack's template can be found in `amplify/backend/awscloudformation`.
 
 ### amplify add
-Once init is complete, run the command `amplify add <category>` to add resources of a category to the cloud. This will place a CloudFormation template for the resources of this category in the category's subdirectory `amplify/backend/<category>`, and insert its reference into the above-mentioned root stack as the nested child stack. 
+Once init is complete, run the command `amplify add <category>` to add resources of a category to the cloud. This will place a CloudFormation template for the resources of this category in the category's subdirectory `amplify/backend/<category>` and insert its reference into the above-mentioned root stack as the nested child stack. When working in teams, it is good practice to run an `amplify pull` before modifying the backend categories.
 
 ### amplify push
 Once you have made your category updates, run the command `amplify push` to update the cloud resources. The CLI will first upload the latest versions of the category nested stack templates to the S3 deployment bucket, and then call the AWS CloudFormation API to create / update resources in the cloud. Based upon the resources added/updated, the `aws-exports.js` file (for JS projects) and the `awsconfiguration.json` file (for native projects) gets created/updated.
+
+### amplify pull
+The `amplify pull` command operates similar to a *git pull*, fetching upstream backend environment definition changes from the cloud and updating the local environment to match that definition. The command is particularly helpful in team scenarios when multiple team members are editing the same backend, pulling a backend into a new project, or when connecting to [multiple frontend projects](#multiple-frontends) that share the same Amplify backend environment.
+
+### amplify console
+The `amplify console` command launches the browser directing you to your cloud project in the AWS Amplify Console. The Amplify Console provides a central location for development teams to view and manage their backend environments, status of the backend deployment, deep-links to the backend resources by Amplify category, and instructions on how to pull, clone, update, or delete environments.
+
+### amplify configure project
+The `amplify configure project` command is an advanced command and not commonly used for getting started or individual development projects. The command should be used to modify the project configuration present in the `.config/` directory and re-configuring AWS credentials (based on profile on your local machine) set up during the `amplify init` step. The `.config/` directory is generated in the `amplify/` directory, if not already present, and the `local-aws-info.json`, `local-env-info.json` and `project-info.json` files are configured to reflect the selections made as a part of the `amplify configure project` command.
 
 ## Category usage
 
@@ -573,61 +585,6 @@ As you can see in the prompt above, you can either choose to use an already exis
 
 ***Note***: You can associate more than one Lambda Function trigger to a DynamoDB table.
 
-## Multiple Frontends
-
-The `amplify configure project` command is an advanced command and not commonly used for getting started or individual development projects. 
-The command should be used in the following cases:
-  - When wanting to modify the project and AWS configurations set during the `amplify init` step
-  - When sharing the same cloud backend across multiple frontends (JavaScript, iOS, Android)
-  
-  Note:  When sharing your backend infrastructure between multiple frontend projects or between different machines, you will need to first manually copy the `amplify/` directory from your current project to the other project's root directory and then run the `amplify configure project` command.
-
- The `amplify configure project` command helps you with the following:
-  - Modifying the existing configurations present in the `.config/` directory tied to your project and re-configuring your AWS credentials as well (based on profile on your local machine).
-  - If you re-configure the frontend framework of your project it creates the corresponding configuration files required by your frontend code. For example, if you want to change your frontend from a javascript-based react app to an android app it generates a corresponding `awsconfiguration.json` file which could be fed into the AWS Mobile SDK APIs.
-
-What happens behind the scenes?
-  - The `.config/` directory is generated in the `amplify/` directory if not already present and the `local-aws-info.json`, `local-env-info.json` and `project-info.json` files are configured to reflect the selections made as a part of the `amplify configure project` command.
-
-  Alternatively, you could use the `amplify env import` command to pull in an environment from another project. Here's a sample usage of the same
-
-  ```
-  #!/bin/bash
-  set -e
-  IFS='|'
-
-  AWSCLOUDFORMATIONCONFIG="{\
-  \"Region\": \"us-east-1\",\
-  \"DeploymentBucketName\": \"mytestproject-20181106123241-deployment\",\
-  \"UnauthRoleName\": \"mytestproject-20181106123241-unauthRole\",\
-  \"StackName\": \"mytestproject-20181106123241\",\
-  \"StackId\": \"arn:aws:cloudformation:us-east-1:132393967379:stack/mytestproject67-20181106123241/1c03a3e0-e203-11e8-bea9-500c20ff1436\",\
-  \"AuthRoleName\": \"mytestproject67-20181106123241-authRole\",\
-  \"UnauthRoleArn\": \"arn:aws:iam::132393967379:role/mytestproject67-20181106123241-unauthRole\",\
-  \"AuthRoleArn\": \"arn:aws:iam::132393967379:role/mytestproject67-20181106123241-authRole\"\
-  }"
-  PROVIDER_CONFIG="{\
-  \"awscloudformation\":$AWSCLOUDFORMATIONCONFIG\
-  }"
-
-
-  AWS_CONFIG="{\
-  \"configLevel\":\"project\",\
-  \"useProfile\":true,\
-  \"profileName\":\"default\"\
-  }"
-
-  amplify env import \
-  --name dev \
-  --config $PROVIDER_CONFIG \
-  --awsInfo $AWS_CONFIG \
-  --yes
-
-  ```
-
-  You can get the `AWSCLOUDFORMATIONCONFIG` from the `team-provider-info.json` file from your existing Amplify project in the `amplify/` directory of the project.
-
-
 ## Mocking and Testing
 
 It is highly recommended that you complete the Getting Started section of Amplify setup before using local mocking.
@@ -679,17 +636,17 @@ Note: You can also reference an output value from any other Amplify managed cate
   "<custom-category-name>": {
     "<custom-resource-name>": {
       "service": <custom-aws-service-name>,
-      "providerPlugin": "awscloudformation"
-    },
-    "dependsOn": [
-				{
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+	{
          "category": "auth",
-				 "resourceName": "mycognitoresource", // check `amplify status` to find resource name
-				 "attributes": [
-				  "UserPoolId" // Check Output Value of the resource specific cloudformation file to find available attributes
-					]
-				}
-		 ]
+	 "resourceName": "mycognitoresource", // check `amplify status` to find resource name
+	 "attributes": [
+	    "UserPoolId" // Check Output Value of the resource specific cloudformation file to find available attributes
+	  ]
+	}
+     ]
+    }
   },
   "hosting": {
     "S3AndCloudFront": {
@@ -742,14 +699,52 @@ Note: You can also reference an output value from any other Amplify managed cate
 5. Run `amplify env checkout <current-env-name>` to populate the CLI runtime files and make it aware of the newly added custom resources
 
 
-## Environments & Teams
+## Multiple Frontends
+
+Use the `amplify pull` command to share the same Amplify backend across multiple frontends (e.g, a React and Android app). Users have an option to pull the entire backend definition (infrastructure templates and metadata) or only the metadata (e.g. the `aws-exports.js` or `amplifyconfiguration.json` file) required to connect to the backend. If you’re building a mobile and web app in separate repositories, the recommended workflow is to keep the backend definition (the amplify folder) in only one of the repositories and pull the metadata (the `aws-exports` or `amplifyconfiguration.json` file) in the second repository to connect to the same backend.
+
+### Workflow
+
+This workflow outlines the steps required to share a backend across two (or more) frontends. This example scenario is for a team building an Android and React app.
+
+![Image]({{media_base}}/multiple-frontends.png)
+
+1. Initialize a backend for your React app. This will create an Amplify project and backend environment that is accessible in the Amplify Console (by running `amplify console`). 
+
+    ```bash
+    $ cd my-react-app
+    $ amplify init
+        ? Enter a name for the project: ecommerce
+        ? Choose the type of app that you're building: react
+    $ amplify add api
+    $ amplify push
+    ```
+2. Make your frontend changes and commit the code to Git. Your Git repository now stores the `amplify` folder which contains the definition of your infrastructure.
+
+3. Reference the backend from your Android app using the `amplify pull` command. Choose 'No' when asked if you want to modify or add new categories to your backend. This will put the `amplifyconfiguration` to your src folder only. Choosing 'Yes' will work, however your backend definition will now be stored in two separate repositories leading to unintended consequences with multiple sources of truth. 
+
+    ```bash
+    $ cd my-android-app
+    $ amplify pull
+        ? Which app are you working on?
+          > ecommerce
+            mysecretproject
+        ? Choose the type of app that you're building: android
+        ? Do you plan on modifying this backend?: n
+      Successfully pulled backend environment dev from the cloud.
+      Run 'amplify pull' to sync upstream changes.
+    ```
+
+## Environments and Teams
 ### Concepts
 
-Amplify fits into the standard Git workflow where you switch between different branches using the `env` command. Similarly to how you will run `git checkout BRANCHNAME` you will run `amplify env checkout ENVIRONMENT_NAME`. The below diagram shows a workflow of how to initialize new environments when creating new git branches.
+When you initialize a project, you create an Amplify backend environment. Every Amplify backend environment is a container for the categories added to your project. To deploy updates to an environment, run `amplify push`. In teams where multiple members are working on the same backend, it is good practice to run `amplify pull` to fetch changes from upstream before beginning work on new backend features. View the list of backend environments in your cloud project by visiting the [Amplify Console](https://console.aws.amazon.com/amplify).
+
+For multiple environments, Amplify matches the standard Git workflow where you switch between different branches using the `env checkout` command - similar to running `git checkout BRANCHNAME`, run `amplify env checkout ENVIRONMENT_NAME` to switch between environments. The diagram below shows a workflow of how to initialize new environments when creating new git branches.
 
 ![Image]({{media_base}}/AmplifyEnvSwitching.jpg)
 
-You can independently add features to each environment which allows you to develop and test before moving them to different stages. This is contingent on which branch you ran a checkout from using Git. Using the same example above of **Dev** being the base which **Test** and **Prod** were derived, you could add (or remove) features and merge & deploy accordingly once you are comfortable with your setup.
+You can independently add features to each environment which allows you to develop and test before moving them to different stages. Using the same example above of **Dev** being the base which **Test** and **Prod** were derived, you could add (or remove) features and merge & deploy accordingly once you are comfortable with your setup.
 
 ![Image]({{media_base}}/AmplifyEnvAddDeploy.jpg)
 
@@ -814,8 +809,8 @@ $ git push -u origin dev
 
 ### Team workflow
 
-#### Sharing a project within a team
-There are two ways to work with Amplify projects within a team:
+#### Sharing a backend environment within a team
+There are two ways to work with Amplify backend environments within a team:
 1. Team members working on their own sandbox environments (Recommended)
 2. Team-members sharing the same dev backend to work on 
 
@@ -885,7 +880,7 @@ $ amplify init
 ? Choose the environment you would like to use: 
 ❯ dev 
 master
-$ amplify env pull
+$ amplify pull
 $ git pull origin dev
 ```
 
@@ -928,9 +923,9 @@ Note: Team members would only be able to push to a stack only if they have the c
 If you want to share a project publicly and open source your serverless infrastructure, you should remove or put the amplify/team-provider-info.json file in gitignore file.
 
 ### Quick Tips
-* git and Amplify CLI should work hand in hand (ideally a CI tool should be used to automate this process - amplify CLI now provides headless support for its init/push commands. Check out <https://github.com/aws-amplify/amplify-cli/tree/multienv/packages/amplify-cli/sample-headless-scripts> for examples)
+* git and Amplify CLI work well hand in hand (ideally a CI tool should be used to automate this process - amplify CLI now provides headless support for its init/push commands. Check out <https://github.com/aws-amplify/amplify-cli/tree/multienv/packages/amplify-cli/sample-headless-scripts> for examples)
 * git checkout <branch-name> & amplify init (to initialize the env based on the git branch) should go hand in hand 
-* git pull & amplify env pull should go hand in hand
+* git pull & amplify pull should go hand in hand
 * git push & amplify push should go hand in hand
 
 ### Environment related commands
@@ -942,8 +937,8 @@ Displays a list of all the environments in your Amplify project
 Removes an environment from the Amplify project
 * amplify env get --name <env-name> <br>
 Displays the details of the environment specified in the command 
-* amplify env pull --restore <br>
-Pulls your environment with the current cloud environment. Use the restore flag to overwrite your local backend configs with that in the cloud.
+* amplify env pull <br>
+Pulls your environment from the cloud without impacting any local backend edits. Add the `--restore` flag to overwrite your local backend edits  (operates like the `amplify pull` command).
 * amplify env import<br>
 Imports an already existing Amplify project environment stack to your local backend. Here's a sample usage of the same
 
