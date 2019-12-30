@@ -16,7 +16,7 @@ AWS CloudFormation templates that implement your data model.
 
 For example you might create the backend for a blog like this:
 
-```
+```graphql
 type Blog @model {
   id: ID!
   name: String!
@@ -62,7 +62,7 @@ amplify add api
 
 You can leave the sample as is or try this schema.
 
-```
+```graphql
 type Blog @model {
   id: ID!
   name: String!
@@ -94,7 +94,7 @@ Go to AWS CloudFormation to view it. You can also find your project assets in th
 Once the API is finished deploying, try going to the AWS AppSync console and
 running some of these queries in your new API's query page.
 
-```
+```graphql
 # Create a blog. Remember the returned id.
 # Provide the returned id as the "blogId" variable.
 mutation CreateBlog {
@@ -226,17 +226,17 @@ top level object types in your API that are backed by Amazon DynamoDB.
 
 ```
 directive @model(
-    queries: ModelQueryMap,
-    mutations: ModelMutationMap,
-    subscriptions: ModelSubscriptionMap
+  queries: ModelQueryMap,
+  mutations: ModelMutationMap,
+  subscriptions: ModelSubscriptionMap
 ) on OBJECT
 input ModelMutationMap { create: String, update: String, delete: String }
 input ModelQueryMap { get: String, list: String }
 input ModelSubscriptionMap {
-    onCreate: [String]
-    onUpdate: [String]
-    onDelete: [String]
-    level: ModelSubscriptionLevel
+  onCreate: [String]
+  onUpdate: [String]
+  onDelete: [String]
+  level: ModelSubscriptionLevel
 }
 enum ModelSubscriptionLevel { off public on }
 ```
@@ -247,21 +247,21 @@ Define a GraphQL object type and annotate it with the `@model` directive to stor
 objects of that type in DynamoDB and automatically configure CRUDL queries and
 mutations.
 
-```
+```graphql
 type Post @model {
-    id: ID! # id: ID! is a required attribute.
-    title: String!
-    tags: [String!]!
+  id: ID! # id: ID! is a required attribute.
+  title: String!
+  tags: [String!]!
 }
 ```
 
 You may also override the names of any generated queries, mutations and subscriptions, or remove operations entirely.
 
-```
+```graphql
 type Post @model(queries: { get: "post" }, mutations: null, subscriptions: null) {
-    id: ID!
-    title: String!
-    tags: [String!]!
+  id: ID!
+  title: String!
+  tags: [String!]!
 }
 ```
 
@@ -281,21 +281,21 @@ A single `@model` directive configures the following AWS resources:
 
 This input schema document
 
-```
+```graphql
 type Post @model {
-    id: ID!
-    title: String
-    metadata: MetaData
+  id: ID!
+  title: String
+  metadata: MetaData
 }
 type MetaData {
-    category: Category
+  category: Category
 }
 enum Category { comedy news }
 ```
 
 would generate the following schema parts
 
-```
+```graphql
 type Post {
   id: ID!
   title: String!
@@ -427,6 +427,8 @@ The `@key` directive makes it simple to configure custom index structures for `@
 
 Amazon DynamoDB is a key-value and document database that delivers single-digit millisecond performance at any scale but making it work for your access patterns requires a bit of forethought. DynamoDB query operations may use at most two attributes to efficiently query data. The first query argument passed to a query (the hash key) must use strict equality and the second attribute (the sort key) may use gt, ge, lt, le, eq, beginsWith, and between. DynamoDB can effectively implement a wide variety of access patterns that are powerful enough for the majority of applications.
 
+When modeling your data during schema design there are common patterns that you may need to leverage. [We provide a fully working schema with 17 patterns related to relational designs](#data-access-patterns).
+
 #### Definition
 
 ```
@@ -437,9 +439,9 @@ directive @key(fields: [String!]!, name: String, queryField: String) on OBJECT
 
 | Argument  | Description  |
 |---|---|
-| fields  | A list of fields in the @model type that should comprise the key. The first field in the list will always be the **HASH** key. If two fields are provided the second field will be the **SORT** key. If more than two fields are provided, a single composite **SORT** key will be created from `fields[1...n]`. All generated GraphQL queries & mutations will be updated to work with custom `@key` directives. |
-| name  | When omitted, specifies that the @key is defining the primary index. When provided, specifies the name of the secondary index. You may have at most one primary key per table and therefore you may have at most one @key that does not specify a **name** per @model type.  |
-| queryField  | When defining a secondary index (by specifying the *name* argument), specifies that a top level query field that queries the secondary index should be generated with the given name.  |
+| fields  | A list of fields that should comprise the @key, used in conjunction with an @model type. The first field in the list will always be the **HASH** key. If two fields are provided the second field will be the **SORT** key. If more than two fields are provided, a single composite **SORT** key will be created from a combination of `fields[1...n]`. All generated GraphQL queries & mutations will be updated to work with custom `@key` directives. |
+| name  | When provided, specifies the name of the secondary index. When omitted, specifies that the @key is defining the primary index. You may have at most one primary key per table and therefore you may have at most one @key that does not specify a **name** per @model type.  |
+| queryField  | When defining a secondary index (by specifying the *name* argument), this specifies that a new top level query field that queries the secondary index should be generated with the given name.  |
 
 #### How to use @key
 
@@ -451,19 +453,19 @@ and needed to implement access patterns like:
 3. Get items by order by status by createdAt.
 4. Get items by status by createdAt.
 
-When thinking about your access patterns, it is useful to lay them out using the same "by X by Y" structure. Once you have them laid out like this you can translate them directly into a @key by including the "X" and "Y" values as fields. Let's take a look at how you would define these custom keys in your `schema.graphql`.
+Let's take a look at how you would define custom keys to implement these access patterns in your `schema.graphql`.
 
-```
+```graphql
 # Get customers by email.
 type Customer @model @key(fields: ["email"]) {
-    email: String!
-    username: String
+  email: String!
+  username: String
 }
 ```
 
 A @key without a *name* specifies the key for the DynamoDB table's primary index. You may only provide 1 @key without a *name* per @model type. The example above shows the simplest case where we are specifying that the table's primary index should have a simple key where the hash key is *email*. This allows us to get unique customers by their *email*.
 
-```
+```graphql
 query GetCustomerById {
   getCustomer(email:"me@email.com") {
     email
@@ -474,7 +476,7 @@ query GetCustomerById {
 
 This is great for simple lookup operations, but what if we need to perform slightly more complex queries?
 
-```
+```graphql
 # Get orders by customer by createdAt.
 type Order @model @key(fields: ["customerEmail", "createdAt"]) {
     customerEmail: String!
@@ -485,7 +487,7 @@ type Order @model @key(fields: ["customerEmail", "createdAt"]) {
 
 This @key above allows us to efficiently query *Order* objects by both a *customerEmail* and the *createdAt* time stamp. The @key above creates a DynamoDB table where the primary index's hash key is *customerEmail* and the sort key is *createdAt*. This allows us to write queries like this:
 
-```
+```graphql
 query ListOrdersForCustomerIn2019 {
   listOrders(customerEmail:"me@email.com", createdAt: { beginsWith: "2019" }) {
     items {
@@ -499,21 +501,20 @@ query ListOrdersForCustomerIn2019 {
 
 The query above shows how we can use compound key structures to implement more powerful query patterns on top of DynamoDB but we are not quite done yet. Given that DynamoDB limits you to query by at most two attributes at a time, the @key directive helps by streamlining the process of creating composite sort keys such that you can support querying by more than two attributes at a time. For example, we can implement “Get items by order, status, and createdAt” as well as “Get items by status and createdAt” for a single @model with this schema.
 
-```
+```graphql
 type Item @model
-    @key(fields: ["orderId", "status", "createdAt"])
-    @key(name: "ByStatus", fields: ["status", "createdAt"], queryField: "itemsByStatus")
-{
-    orderId: ID!
-    status: Status!
-    createdAt: AWSDateTime!
-    name: String!
+  @key(fields: ["orderId", "status", "createdAt"])
+  @key(name: "ByStatus", fields: ["status", "createdAt"], queryField: "itemsByStatus") {
+  orderId: ID!
+  status: Status!
+  createdAt: AWSDateTime!
+  name: String!
 }
 enum Status {
-    DELIVERED
-    IN_TRANSIT
-    PENDING
-    UNKNOWN
+  DELIVERED
+  IN_TRANSIT
+  PENDING
+  UNKNOWN
 }
 ```
 
@@ -521,7 +522,7 @@ The primary @key with 3 fields performs a bit more magic than the 1 and 2 field 
 
 Using this schema, you can query the primary index to get IN_TRANSIT items created in 2019 for a given order.
 
-```
+```graphql
 # Get items for order by status by createdAt.
 query ListInTransitItemsForOrder {
   listItems(orderId:"order1", statusCreatedAt: { beginsWith: { status: IN_TRANSIT, createdAt: "2019" }}) {
@@ -537,7 +538,7 @@ query ListInTransitItemsForOrder {
 
 The query above exposes the *statusCreatedAt* argument that allows you to configure DynamoDB key condition expressions without worrying about how the composite key is formed under the hood. Using the same schema, you can get all PENDING items created in 2019 by querying the secondary index "ByStatus" via the `Query.itemsByStatus` field.
 
-```
+```graphql
 query ItemsByStatus {
   itemsByStatus(status: PENDING, createdAt: {beginsWith:"2019"}) {
     items {
@@ -560,6 +561,10 @@ There are a few important things to think about when making changes to APIs usin
 3. Deploy your additive changes and update any downstream applications to use the new access pattern.
 4. Once you are certain that you do not need the old index, remove its @key and deploy the API again.
 
+#### Combining @key with @connection
+
+Secondary indexes created with the `@key` directive can be used to resolve connections when creating relationships between types. To learn how this works, check out [the documentation for @connection](#connection).
+
 ### @auth
 
 Authorization is required for applications to interact with your GraphQL API. **API Keys** are best used for public APIs (or parts of your schema which you wish to be public) or prototyping, and you must specify the expiration time before deploying. **IAM** authorization uses [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html){:target="_blank"} to make request with policies attached to Roles. OIDC tokens provided by **Amazon Cognito User Pools** or 3rd party OpenID Connect providers can also be used for authorization, and simply enabling this provides a simple access control requiring users to authenticate to be granted top level access to API actions. You can set finer grained access controls using `@auth` on your schema which leverages authorization metadata provided as part of these tokens or set on the database items themselves.
@@ -578,18 +583,18 @@ based on attributes found the parent type.
 # owner and group-based authorization rules.
 directive @auth(rules: [AuthRule!]!) on OBJECT, FIELD_DEFINITION
 input AuthRule {
-    allow: AuthStrategy!
-    provider: AuthProvider
-    ownerField: String # defaults to "owner" when using owner auth
-    identityClaim: String # defaults to "username" when using owner auth
-    groupClaim: String # defaults to "cognito:groups" when using Group auth
-    groups: [String]  # Required when using Static Group auth
-    groupsField: String # defaults to "groups" when using Dynamic Group auth
-    operations: [ModelOperation] # Required for finer control
+  allow: AuthStrategy!
+  provider: AuthProvider
+  ownerField: String # defaults to "owner" when using owner auth
+  identityClaim: String # defaults to "username" when using owner auth
+  groupClaim: String # defaults to "cognito:groups" when using Group auth
+  groups: [String]  # Required when using Static Group auth
+  groupsField: String # defaults to "groups" when using Dynamic Group auth
+  operations: [ModelOperation] # Required for finer control
 
-    # The following arguments are deprecated. It is encouraged to use the 'operations' argument.
-    queries: [ModelQuery]
-    mutations: [ModelMutation]
+  # The following arguments are deprecated. It is encouraged to use the 'operations' argument.
+  queries: [ModelQuery]
+  mutations: [ModelMutation]
 }
 enum AuthStrategy { owner groups private public }
 enum AuthProvider { apiKey iam oidc userPools }
@@ -604,7 +609,7 @@ enum ModelMutation { create update delete }
 
 #### Owner Authorization
 
-```
+```graphql
 # The simplest case
 type Post @model @auth(rules: [{allow: owner}]) {
   id: ID!
@@ -639,10 +644,8 @@ You can use the *operations* argument to specify which operations are augmented 
 **Note**: When specifying operations as a part of the @auth rule, the operations not included in the list are not protected by default. For example, let's say you have the following schema:
 
 ```graphql
-type Todo
-  @model
-  @auth(rules: [{ allow: owner, operations: [read] }])
-{
+type Todo @model
+  @auth(rules: [{ allow: owner, operations: [read] }]) {
   id: ID!
   updatedAt: AWSDateTime! 
   content: String!
@@ -660,10 +663,8 @@ Here's a truth table for the above-mentioned schema. In the table below `other` 
 If you want to prevent updates and deletes operations, you would need to modify the @auth rule to explicitly include the `update` and `delete` operation and your schema should look like the following:
 
 ```graphql
-type Todo
-  @model
-  @auth(rules: [{ allow: owner, operations: [read, update, delete] }])
-{
+type Todo @model
+  @auth(rules: [{ allow: owner, operations: [read, update, delete] }]) {
   id: ID! 
   updatedAt: AWSDateTime! 
   content: String!
@@ -686,22 +687,21 @@ that stores unfinished posts for a blog. You might want to allow the **Draft's o
 read **Draft** objects. However, you might also want the **Draft's editors** to be able to update and read **Draft** objects.
 To allow for this use case you could use the following type definition:
 
-```
-type Draft
-    @model
-    @auth(rules: [
+```graphql
+type Draft @model
+  @auth(rules: [
 
-        # Defaults to use the "owner" field.
-        { allow: owner },
+    # Defaults to use the "owner" field.
+    { allow: owner },
 
-        # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
-        { allow: owner, ownerField: "editors", operations: [update] }
-    ]) {
-    id: ID!
-    title: String!
-    content: String
-    owner: String
-    editors: [String]
+    # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
+    { allow: owner, ownerField: "editors", operations: [update] }
+  ]) {
+  id: ID!
+  title: String!
+  content: String
+  owner: String
+  editors: [String]
 }
 ```
 
@@ -713,14 +713,14 @@ feature that helps with this is that it will automatically fill ownership fields
 told explicitly not to do so. To show how this works, lets look at how the create mutation
 would work for the **Draft** type above:
 
-```
+```graphql
 mutation CreateDraft {
-    createDraft(input: { title: "A new draft" }) {
-        id
-        title
-        owner
-        editors
-    }
+  createDraft(input: { title: "A new draft" }) {
+    id
+    title
+    owner
+    editors
+  }
 }
 ```
 
@@ -744,19 +744,19 @@ and will fill them in be default. If you do not want the value to be automatical
 you need to do is include a value for it in your input. For example, to have the resolver
 automatically set the **owner** but not the **editors**, you would run this:
 
-```
+```graphql
 mutation CreateDraft {
-    createDraft(
-        input: {
-            title: "A new draft",
-            editors: []
-        }
-    ) {
-        id
-        title
-        owner
-        editors
+  createDraft(
+    input: {
+      title: "A new draft",
+      editors: []
     }
+  ) {
+    id
+    title
+    owner
+    editors
+  }
 }
 ```
 
@@ -777,39 +777,39 @@ This would return:
 
 You can try to do the same to **owner** but this will throw an **Unauthorized** exception because you are no longer the owner of the object you are trying to create
 
-```
+```graphql
 mutation CreateDraft {
-    createDraft(
-        input: {
-            title: "A new draft",
-            editors: [],
-            owner: null
-        }
-    ) {
-        id
-        title
-        owner
-        editors
+  createDraft(
+    input: {
+      title: "A new draft",
+      editors: [],
+      owner: null
     }
+  ) {
+    id
+    title
+    owner
+    editors
+  }
 }
 ```
 
 To set the owner to null with the current schema, you would still need to be in the editors list:
 
-```
+```graphql
 mutation CreateDraft {
-    createDraft(
-        input: {
-            title: "A new draft",
-            editors: ["someuser@my-domain.com"],
-            owner: null
-        }
-    ) {
-        id
-        title
-        owner
-        editors
+  createDraft(
+    input: {
+      title: "A new draft",
+      editors: ["someuser@my-domain.com"],
+      owner: null
     }
+  ) {
+    id
+    title
+    owner
+    editors
+  }
 }
 ```
 
@@ -835,7 +835,7 @@ Static group authorization allows you to protect `@model` types by restricting a
 to a known set of groups. For example, you can allow all **Admin** users to create,
 update, delete, get, and list Salary objects.
 
-```
+```graphql
 type Salary @model @auth(rules: [{allow: groups, groups: ["Admin"]}]) {
   id: ID!
   wage: Int
@@ -852,31 +852,30 @@ section above. When we last left off, a **Draft** object could be updated and re
 and any of its editors and could be created and deleted only by its owner. Let's change it so that
 now any member of the "Admin" group can also create, update, delete, and read a **Draft** object.
 
-```
-type Draft
-    @model
-    @auth(rules: [
+```graphql
+type Draft @model
+  @auth(rules: [
 
-        # Defaults to use the "owner" field.
-        { allow: owner },
+    # Defaults to use the "owner" field.
+    { allow: owner },
 
-        # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
-        { allow: owner, ownerField: "editors", operations: [update] },
+    # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
+    { allow: owner, ownerField: "editors", operations: [update] },
 
-        # Admin users can access any operation.
-        { allow: groups, groups: ["Admin"] }
-    ]) {
-    id: ID!
-    title: String!
-    content: String
-    owner: String
-    editors: [String]!
+    # Admin users can access any operation.
+    { allow: groups, groups: ["Admin"] }
+  ]) {
+  id: ID!
+  title: String!
+  content: String
+  owner: String
+  editors: [String]!
 }
 ```
 
 #### Dynamic Group Authorization
 
-```
+```graphql
 # Dynamic group authorization with multiple groups
 type Post @model @auth(rules: [{allow: groups, groupsField: "groups"}]) {
   id: ID!
@@ -906,65 +905,64 @@ access, and members of the admin group had full access to **Draft** objects. Now
 requirement where each record should be able to specify an optional list of groups that can read
 the draft. This would allow you to share an individual document with an external team, for example.
 
-```
-type Draft
-    @model
-    @auth(rules: [
+```graphql
+type Draft @model
+  @auth(rules: [
 
-        # Defaults to use the "owner" field.
-        { allow: owner },
+    # Defaults to use the "owner" field.
+    { allow: owner },
 
-        # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
-        { allow: owner, ownerField: "editors", operations: [update] },
+    # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
+    { allow: owner, ownerField: "editors", operations: [update] },
 
-        # Admin users can access any operation.
-        { allow: groups, groups: ["Admin"] }
+    # Admin users can access any operation.
+    { allow: groups, groups: ["Admin"] }
 
-        # Each record may specify which groups may read them.
-        { allow: groups, groupsField: "groupsCanAccess", operations: [read] }
-    ]) {
-    id: ID!
-    title: String!
-    content: String
-    owner: String
-    editors: [String]!
-    groupsCanAccess: [String]!
+    # Each record may specify which groups may read them.
+    { allow: groups, groupsField: "groupsCanAccess", operations: [read] }
+  ]) {
+  id: ID!
+  title: String!
+  content: String
+  owner: String
+  editors: [String]!
+  groupsCanAccess: [String]!
 }
 ```
 
 With this setup, you could create an object that can be read by the "BizDev" group:
 
-```
+```graphql
 mutation CreateDraft {
-    createDraft(input: {
-        title: "A new draft",
-        editors: [],
-        groupsCanAccess: ["BizDev"]
-    }) {
-        id
-        groupsCanAccess
-    }
+  createDraft(input: {
+    title: "A new draft",
+    editors: [],
+    groupsCanAccess: ["BizDev"]
+  }) {
+    id
+    groupsCanAccess
+  }
 }
 ```
 
 And another draft that can be read by the "Marketing" group:
 
-```
+```graphql
 mutation CreateDraft {
-    createDraft(input: {
-        title: "Another draft",
-        editors: [],
-        groupsCanAccess: ["Marketing"]
-    }) {
-        id
-        groupsCanAccess
-    }
+  createDraft(input: {
+    title: "Another draft",
+    editors: [],
+    groupsCanAccess: ["Marketing"]
+  }) {
+    id
+    groupsCanAccess
+  }
 }
 ```
 
 #### `public` Authorization
 
-```
+```graphql
 # The simplest case
 type Post @model @auth(rules: [{allow: public}]) {
   id: ID!
@@ -974,7 +972,7 @@ type Post @model @auth(rules: [{allow: public}]) {
 
 The `public` authorization specifies that everyone will be allowed to access the API, behind the scenes the API will be protected with an API Key. To be able to use `public` the API must have API Key configured.
 
-```
+```graphql
 # public authorization with provider override
 type Post @model @auth(rules: [{allow: public, provider: iam}]) {
   id: ID!
@@ -986,7 +984,7 @@ The @auth directive allows the override of the default provider for a given auth
 
 #### `private` Authorization
 
-```
+```graphql
 # The simplest case
 type Post @model @auth(rules: [{allow: private}]) {
   id: ID!
@@ -996,7 +994,7 @@ type Post @model @auth(rules: [{allow: private}]) {
 
 The `private` authorization specifies that everyone will be allowed to access the API with a valid JWT token from the configured Cognito User Pool. To be able to use `private` the API must have Cognito User Pool configured.
 
-```
+```graphql
 # private authorization with provider override
 type Post @model @auth(rules: [{allow: private, provider: iam}]) {
   id: ID!
@@ -1008,7 +1006,7 @@ The @auth directive allows the override of the default provider for a given auth
 
 #### Authorization Using an `oidc` Provider
 
-```
+```graphql
 # private authorization with provider override
 type Post @model @auth(rules: [{allow: private, provider: oidc}]) {
   id: ID!
@@ -1029,31 +1027,29 @@ By using a configured `oidc` provider for the API, it is possible to authenticat
 
 The objects and fields in the GraphQL schema can have rules with different authorization providers assigned.
 
-```
+```graphql
 type Post @model
-@auth (
+  @auth (
     rules: [
-        { allow: owner },
-        { allow: private, provider: iam, operations: [read] }
+      { allow: owner },
+      { allow: private, provider: iam, operations: [read] }
     ]
-)
-{
-    id: ID!
-    title: String
-    owner: String
+  ) {
+  id: ID!
+  title: String
+  owner: String
 }
 ```
 
 In the example above the model is protected by Cognito User Pools by default and the `owner` can perform any operation on the `Post` type, but a Lambda function through the configured IAM policies can only call the ```getPost``` and ```listPosts``` query.
 
-```
-type Post @model @auth (rules: [{ allow: private }])
-{
-    id: ID!
-    title: String
-    owner: String
-    secret: String
-      @auth (rules: [{ allow: private, provider: iam, operations: [create, update] }])
+```graphql
+type Post @model @auth (rules: [{ allow: private }]) {
+  id: ID!
+  title: String
+  owner: String
+  secret: String
+    @auth (rules: [{ allow: private, provider: iam, operations: [create, update] }])
 }
 ```
 
@@ -1076,7 +1072,7 @@ Please note that `groups` is leveraging Cognito User Pools but no provider assig
 
 `@auth` supports using custom claims if you do not wish to use the default `username` or `cognito:groups` claims from your JWT token which are populated by Amazon Cognito. This can be helpful if you are using tokens from a 3rd party OIDC system or if you wish to populate a claim with a list of groups from an external system, such as when using a [Pre Token Generation Lambda Trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-token-generation.html) which reads from a database. To use custom claims specify `identityClaim` or `groupClaim` as appropriate like in the example below:
 
-```
+```graphql
 type Post @model
 @model
 @auth(rules: [
@@ -1134,7 +1130,7 @@ Note that if your type doesn’t already have an `owner` field the Transformer w
 
 In the case of groups if you define the following:
 
-```
+```graphql
 type Post @model
 @model @auth(rules: [{allow: groups, groups: ["Admin"]}]) {
 {
@@ -1171,12 +1167,11 @@ The `@auth` directive specifies that access to a specific field should be restri
 You might want to have a user model where some fields, like *username*, are a part of the
 public profile and the *ssn* field is visible to owners.
 
-```
+```graphql
 type User @model {
-    id: ID!
-    username: String
-
-    ssn: String @auth(rules: [{ allow: owner, ownerField: "username" }])
+  id: ID!
+  username: String
+  ssn: String @auth(rules: [{ allow: owner, ownerField: "username" }])
 }
 ```
 
@@ -1187,14 +1182,13 @@ in the User model. You may turn off top level queries by specifying `queries: nu
 declaration which restricts access such that queries must go through the `@connection` resolvers
 to reach the model.
 
-```
+```graphql
 type User @model {
-    id: ID!
-    username: String
-
-    posts: [Post]
-      @connection(name: "UserPosts")
-      @auth(rules: [{ allow: owner, ownerField: "username" }])
+  id: ID!
+  username: String
+  posts: [Post]
+    @connection(name: "UserPosts")
+    @auth(rules: [{ allow: owner, ownerField: "username" }])
 }
 type Post @model(queries: null) { ... }
 ```
@@ -1207,19 +1201,19 @@ To protect mutation operations, logic is added to existing mutations that will b
 contains the protected field. For example, here is a model where owners and admins can read employee
 salaries but only admins may create or update them.
 
-```
+```graphql
 type Employee @model {
-    id: ID!
-    email: String
+  id: ID!
+  email: String
 
-    # Owners & members of the "Admin" group may read employee salaries.
-    # Only members of the "Admin" group may create an employee with a salary
-    # or update a salary.
-    salary: String
-      @auth(rules: [
-        { allow: owner, ownerField: "username", operations: [read] },
-        { allow: groups, groups: ["Admin"], operations: [create, update, read] }
-      ])
+  # Owners & members of the "Admin" group may read employee salaries.
+  # Only members of the "Admin" group may create an employee with a salary
+  # or update a salary.
+  salary: String
+    @auth(rules: [
+      { allow: owner, ownerField: "username", operations: [read] },
+      { allow: groups, groups: ["Admin"], operations: [create, update, read] }
+    ])
 }
 ```
 
@@ -1280,14 +1274,12 @@ Any other user - who isn't an owner of an object isn't authorized to update that
 
 When setting per-field `@auth` the Transformer will alter the response of mutations for those fields by setting them to `null` in order to prevent sensitive data from being sent over subscriptions. For example in the schema below:
 
-```
-type Employee
-@model
-@auth(rules: [
-	{allow: owner},
-	{allow: groups, groups: ["Admins"]}
-])
-{
+```graphql
+type Employee @model
+  @auth(rules: [
+	  { allow: owner },
+	  { allow: groups, groups: ["Admins"] }
+  ]) {
 	id: ID!
 	name: String!
 	address: String!
@@ -1297,7 +1289,7 @@ type Employee
 
 Subscribers might be a member of the "Admins" group and should get notified of the new item, however they should not get the `ssn` field. If you run the following mutation:
 
-```
+```graphql
 mutation {
   createEmployee(input: {
     name: "Nadia"
@@ -1321,7 +1313,7 @@ of authorization.
 
 **Owner Authorization**
 
-```
+```graphql
 type Post @model @auth(rules: [{allow: owner}]) {
   id: ID!
   title: String!
@@ -1339,7 +1331,7 @@ The generated resolvers would be protected like so:
 
 **Static Group Authorization**
 
-```
+```graphql
 type Post @model @auth(rules: [{allow: groups, groups: ["Admin"]}]) {
   id: ID!
   title: String!
@@ -1358,7 +1350,7 @@ Static group auth is simpler than the others. The generated resolvers would be p
 
 **Dynamic Group Authorization**
 
-```
+```graphql
 type Post @model @auth(rules: [{allow: groups, groupsField: "groups"}]) {
   id: ID!
   title: String!
@@ -1561,7 +1553,7 @@ exports.handler = async (event) => {
 
 You can connect this function to your AppSync API deployed via Amplify using this schema:
 
-```
+```graphql
 type Query {
     posts: [Post] @function(name: "GraphQLResolverFunction")
 }
@@ -1583,7 +1575,7 @@ This simple lambda function shows how you can write your own custom logic using 
 After deploying our function, we can connect it to AppSync by defining some types and using the @function directive. Add this to your schema, to connect the
 `Query.echo` and `Query.me` resolvers to our new function.
 
-```
+```graphql
 type Query {
   me: User @function(name: "ResolverFunction")
   echo(msg: String): String @function(name: "ResolverFunction")
@@ -1621,7 +1613,7 @@ enum UserStatus {
 
 Next run `amplify push` and wait as your project finishes deploying. To test that everything is working as expected run `amplify api console` to open the GraphiQL editor for your API. You are going to need to open the Amazon Cognito User Pools console to create a user if you do not yet have any. Once you have created a user go back to the AppSync console's query page and click "Login with User Pools". You can find the **ClientId** in **amplify-meta.json** under the key **AppClientIDWeb**. Paste that value into the modal and login using your username and password. You can now run this query:
 
-```
+```graphql
 query {
   me {
     Username
@@ -1663,7 +1655,7 @@ When writing lambda function's that are connected via the `@function` directive,
 
 By default, we expect the function to be in the same region as the amplify project. If you need to call a function in a different (or static) region, you can provide the **region** argument.
 
-```
+```graphql
 type Query {
   echo(msg: String): String @function(name: "echofunction", region: "us-east-1")
 }
@@ -1675,7 +1667,7 @@ Calling functions in different AWS accounts is not supported via the @function d
 
 The @function directive supports AWS AppSync pipeline resolvers. That means, you can chain together multiple functions such that they are invoked in series when your field's resolver is invoked. To create a pipeline resolver that calls out to multiple AWS Lambda functions in series, use multiple `@function` directives on the field.
 
-```
+```graphql
 type Mutation {
   doSomeWork(msg: String): String @function(name: "worker-function") @function(name: "audit-function")
 }
@@ -1694,25 +1686,325 @@ The `@function` directive generates these resources as necessary:
 
 ### @connection
 
-The `@connection` directive enables you to specify relationships between `@model` object types.
-Currently, this supports one-to-one, one-to-many, and many-to-one relationships. You may implement many-to-many relationships
-yourself using two one-to-many connections and joining `@model` type. See the usage section for details.
+The `@connection` directive enables you to specify relationships between `@model` types. Currently, this supports one-to-one, one-to-many, and many-to-one relationships. You may implement many-to-many relationships using two one-to-many connections and a joining `@model` type. See the usage section for details.
+
+[We also provide a fully working schema with 17 patterns related to relational designs](#data-access-patterns).
 
 #### Definition
+
+```
+directive @connection(keyName: String, fields: [String!]) on FIELD_DEFINITION
+```
+
+#### Usage
+
+Relationships between types are specified by annotating fields on an `@model` object type with the `@connection` directive.
+
+The `fields` argument can be provided and indicates which fields can be queried by to get connected objects. The `keyName` argument can optionally be used to specify the name of secondary index (an index that was set up using `@key`) that should be queried from the other type in the relationship.
+
+When specifying a `keyName`, the `fields` argument should be provided to indicate which field(s) will be used to get connected objects. If `keyName` is not provided, then `@connection` queries the target table's primary index.
+
+**Has One**
+
+In the simplest case, you can define a one-to-one connection where a project has one team:
+
+```graphql
+type Project @model {
+  id: ID!
+  name: String
+  team: Team @connection
+}
+
+type Team @model {
+  id: ID!
+  name: String!
+}
+```
+
+You can also define the field you would like to use for the connection by populating the first argument to the fields array and matching it to a field on the type:
+
+```graphql
+type Project @model {
+  id: ID!
+  name: String
+  teamID: ID!
+  team: Team @connection(fields: ["teamID"])
+}
+
+type Team @model {
+  id: ID!
+  name: String!
+}
+```
+
+In this case, the Project type has a `teamID` field added as an identifier for the team that the project belongs to. @connection can then get the connected Team object by querying the Team table with this `teamID`.
+
+After it's transformed, you can create projects and query the connected team as follows:
+
+```graphql
+mutation CreateProject {
+    createProject(input: { name: "New Project", teamID: "a-team-id"}) {
+        id
+        name
+        team {
+            id
+            name
+        }
+    }
+}
+```
+
+> **Note** The **Project.team** resolver is configured to work with the defined connection. This is done with a query on the Team table where `teamID` is passed in as an argument to the mutation.
+
+Likewise, you can make a simple one-to-many connection as follows for a post that has many comments:
+
+**Has Many**
+
+```graphql
+type Post @model {
+  id: ID!
+  title: String!
+  comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
+}
+
+type Comment @model
+  @key(name: "byPost", fields: ["postID", "content"]) {
+  id: ID!
+  postID: ID!
+  content: String!
+}
+```
+
+Note how a one-to-many connection needs a @key that allows comments to be queried by the postID and the connection uses this key to get all comments whose postID is the id of the post was called on.
+After it's transformed, you can create comments and query the connected Post as follows:
+
+```graphql
+mutation CreatePost {
+  createPost(input: { id: "a-post-id", title: "Post Title" } ) {
+    id
+    title
+  }
+}
+
+mutation CreateCommentOnPost {
+  createComment(input: { id: "a-comment-id", content: "A comment", postID: "a-post-id"}) {
+    id
+    content
+  }
+}
+```
+
+And you can query a Post with its comments as follows:
+
+```graphql
+query getPost {
+  getPost(id: "a-post-id") {
+    id
+    title
+    comments {
+      items {
+        id
+        content
+      }
+    }
+  }
+}
+```
+
+**Belongs To**
+
+You can make a connection bi-directional by adding a many-to-one connection to types that already have a one-to-many connection. In this case we add a connection from Comment to Post since each comment belongs to a post:
+
+```graphql
+type Post @model {
+  id: ID!
+  title: String!
+  comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
+}
+
+type Comment @model
+  @key(name: "byPost", fields: ["postID", "content"]) {
+  id: ID!
+  postID: ID!
+  content: String!
+  post: Post @connection(fields: ["postID"])
+}
+```
+
+After it's transformed, you can create comments with a post as follows:
+
+```graphql
+mutation CreatePost {
+  createPost(input: { id: "a-post-id", title: "Post Title" } ) {
+    id
+    title
+  }
+}
+
+mutation CreateCommentOnPost1 {
+  createComment(input: { id: "a-comment-id-1", content: "A comment #1", postID: "a-post-id"}) {
+    id
+    content
+  }
+}
+
+mutation CreateCommentOnPost2 {
+  createComment(input: { id: "a-comment-id-2", content: "A comment #2", postID: "a-post-id"}) {
+    id
+    content
+  }
+}
+```
+
+And you can query a Comment with its Post, then all Comments of that Post by navigating the connection:
+
+```graphql
+query GetCommentWithPostAndComments {
+  getComment( id: "a-comment-id-1" ) {
+    id
+    content
+    post {
+      id
+      title
+      comments {
+        items {
+          id
+          content
+        }
+      }
+    }
+  }
+}
+```
+
+**Many-To-Many Connections**
+
+You can implement many to many using two 1-M @connections, an @key, and a joining @model. For example:
+
+```graphql
+type Post @model {
+  id: ID!
+  title: String!
+  editors: [PostEditor] @connection(keyName: "byPost", fields: ["id"])
+}
+
+# Create a join model and disable queries as you don't need them
+# and can query through Post.editors and User.posts
+type PostEditor
+  @model(queries: null)
+  @key(name: "byPost", fields: ["postID", "editorID"])
+  @key(name: "byEditor", fields: ["editorID", "postID"]) {
+  id: ID!
+  postID: ID!
+  editorID: ID!
+  post: Post! @connection(fields: ["postID"])
+  editor: User! @connection(fields: ["editorID"])
+}
+
+type User @model {
+  id: ID!
+  username: String!
+  posts: [PostEditor] @connection(keyName: "byEditor", fields: ["id"])
+}
+```
+
+This case is a bidirectional many-to-many which is why two `@key` calls are needed on the PostEditor model.
+You can first create a Post and a User, and then add a connection between them with by creating a PostEditor object as follows:
+
+```graphql
+mutation CreateData {
+    p1: createPost(input: { id: "P1", title: "Post 1" }) {
+        id
+    }
+    p2: createPost(input: { id: "P2", title: "Post 2" }) {
+        id
+    }
+    u1: createUser(input: { id: "U1", username: "user1" }) {
+        id
+    }   
+    u2: createUser(input: { id: "U2", username: "user2" }) {
+        id
+    }
+}
+
+mutation CreateLinks {
+    p1u1: createPostEditor(input: { id: "P1U1", postID: "P1", editorID: "U1" }) {
+        id
+    }   
+    p1u2: createPostEditor(input: { id: "P1U2", postID: "P1", editorID: "U2" }) {
+        id
+    }
+    p2u1: createPostEditor(input: { id: "P2U1", postID: "P2", editorID: "U1" }) {
+        id
+    }
+}
+```
+
+Note that neither the User type nor the Post type have any identifiers of connected objects. The connection info is held entirely inside the PostEditor objects.
+
+You can query a given user with their posts:
+
+```graphql
+query GetUserWithPosts {
+    getUser(id: "U1") {
+        id
+        username
+        posts {
+            items {
+                post {
+                    title
+                }
+            }
+        }
+    }
+}
+```
+
+Also you can query a given post with the editors of that post and can list the posts of those editors, all in a single query:
+
+```graphql
+query GetPostWithEditorsWithPosts {
+    getPost(id: "P1") {
+        id
+        title
+        editors {
+            items {
+                editor {
+                    username
+                    posts {
+                        items {
+                            post {
+                                title
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+#### Alternative Definition
+
+The above definition is the recommended way to create relationships between model types in your API. This involves defining index structures using `@key` and connection resolvers using `@connection`. There is an older parameterization of @connection that creates indices and connection resolvers that is still functional for backwards compatibility reasons. It is recommended to use @key and the new @connection via the fields argument.
 
 ```
 directive @connection(name: String, keyField: String, sortField: String, limit: Int) on FIELD_DEFINITION
 ```
 
+This parameterization is not compatible with `@key`. See the parameterization above to use @connection with indexes created by @key.
+
 #### Usage
 
 Relationships between data are specified by annotating fields on an `@model` object type with the `@connection` directive. You can use the `keyField` to specify what field should be used to partition the elements within the index and the `sortField` argument to specify how the records should be sorted.
+
 
 **Unnamed Connections**
 
 In the simplest case, you can define a one-to-one connection:
 
-```
+```graphql
 type Project @model {
     id: ID!
     name: String
@@ -1726,7 +2018,7 @@ type Team @model {
 
 After it's transformed, you can create projects with a team as follows:
 
-```
+```graphql
 mutation CreateProject {
     createProject(input: { name: "New Project", projectTeamId: "a-team-id"}) {
         id
@@ -1743,7 +2035,7 @@ mutation CreateProject {
 
 Likewise, you can make a simple one-to-many connection as follows:
 
-```
+```graphql
 type Post @model {
     id: ID!
     title: String!
@@ -1757,12 +2049,12 @@ type Comment @model {
 
 After it's transformed, you can create comments with a post as follows:
 
-```
+```graphql
 mutation CreateCommentOnPost {
-    createComment(input: { content: "A comment", postCommentsId: "a-post-id"}) {
-        id
-        content
-    }
+  createComment(input: { content: "A comment", postCommentsId: "a-post-id"}) {
+    id
+    content
+  }
 }
 ```
 
@@ -1778,62 +2070,62 @@ For example, if you wanted your `Post.comments`
 and `Comment.post` fields to refer to opposite sides of the same relationship,
 you need to provide a name.
 
-```
+```graphql
 type Post @model {
-    id: ID!
-    title: String!
-    comments: [Comment] @connection(name: "PostComments", sortField: "createdAt")
+  id: ID!
+  title: String!
+  comments: [Comment] @connection(name: "PostComments", sortField: "createdAt")
 }
 type Comment @model {
-    id: ID!
-    content: String!
-    post: Post @connection(name: "PostComments", sortField: "createdAt")
-    createdAt: String
+  id: ID!
+  content: String!
+  post: Post @connection(name: "PostComments", sortField: "createdAt")
+  createdAt: String
 }
 ```
 
 After it's transformed, create comments with a post as follows:
 
-```
+```graphql
 mutation CreateCommentOnPost {
-    createComment(input: { content: "A comment", commentPostId: "a-post-id"}) {
+  createComment(input: { content: "A comment", commentPostId: "a-post-id"}) {
+    id
+    content
+    post {
+      id
+      title
+      comments {
         id
-        content
-        post {
-            id
-            title
-            comments {
-                id
-                # and so on...
-            }
-        }
+        # and so on...
+      }
     }
+  }
 }
 ```
 
 When you query the connection, the comments will return sorted by their `createdAt` field.
 
-```
+```graphql
 query GetPostAndComments {
-    getPost(id: "...") {
-        id
-        title
-        comments {
-          items {
-            content
-            createdAt
-          }
-        }
+  getPost(id: "...") {
+    id
+    title
+    comments {
+      items {
+        content
+        createdAt
+      }
     }
+  }
 }
 ```
 
 
 **Many-To-Many Connections**
 
-You can implement many to many yourself using two 1-M @connections and a joining @model. For example:
+You can implement many to many using two 1-M @connections, an @key, and a joining @model. For example:
 
-```
+```graphql
 type Post @model {
   id: ID!
   title: String!
@@ -1855,33 +2147,38 @@ type User @model {
 }
 ```
 
-You can then create Posts & Users independently and join them in a many-to-many by creating PostEditor objects. In the future we will support more native support for many to many out of the box. The issue is being [tracked on github here](https://github.com/aws-amplify/amplify-cli/issues/91).
-
+You can then create Posts & Users independently and join them in a many-to-many by creating PostEditor objects.
 
 **Limit**
 
 The default number of nested objects is 10. You can override this behavior by setting the **limit** argument. For example:
 
-```
-type Post {
-    id: ID!
-    title: String!
-    comments: [Comment] @connection(limit: 50)
+```graphql
+type Post @model {
+  id: ID!
+  title: String!
+  comments: [Comment] @connection(limit: 50)
 }
-type Comment {
-    id: ID!
-    content: String!
+
+type Comment @model {
+  id: ID!
+  content: String!
 }
 ```
 
 #### Generates
 
-In order to keep connection queries fast and efficient, the GraphQL transform manages
-global secondary indexes (GSIs) on the generated tables on your behalf. In the future we
-are investigating using adjacency lists along side GSIs for different use cases that are
-connection heavy.
+In order to keep connection queries fast and efficient, the GraphQL transform
+manages global secondary indexes (GSIs) on the generated tables on your behalf.
+In the future we are investigating using adjacency lists along side GSIs for
+different use cases that are connection heavy.
 
-> **Note** The `@connection` directive manages these GSIs under the hood but there are limitations to be aware of. After you have pushed a `@connection` directive you should not try to change it. If you try to change it, the DynamoDB UpdateTable operation will fail due to one of a set of service limitations around changing GSIs. Should you need to change a `@connection`, you should add a new `@connection` that implements the new access pattern, update your application to use the new `@connection`, and then delete the old `@connection` when it's no longer needed.
+> **Note** After you have pushed a `@connection` directive you should not try to
+change it. If you try to change it, the DynamoDB
+UpdateTable operation will fail. Should you need to change a `@connection`, you should add a new
+`@connection` that implements the new access pattern, update your application
+to use the new `@connection`, and then delete the old `@connection` when it's no
+longer needed.
 
 ### @versioned
 
@@ -1897,7 +2194,7 @@ directive @versioned(versionField: String = "version", versionInput: String = "e
 
 Add `@versioned` to a type that is also annotate with `@model` to enable object versioning and conflict detection for a type.
 
-```
+```graphql
 type Post @model @versioned {
   id: ID!
   title: String!
@@ -1907,7 +2204,7 @@ type Post @model @versioned {
 
 **Creating a Post automatically sets the version to 1**
 
-```
+```graphql
 mutation Create {
   createPost(input:{
     title:"Conflict detection in the cloud!"
@@ -1923,7 +2220,7 @@ mutation Create {
 
 > Note: When updating an object, the version number will automatically increment.
 
-```
+```graphql
 mutation Update($postId: ID!) {
   updatePost(
     input:{
@@ -1941,7 +2238,7 @@ mutation Update($postId: ID!) {
 
 **Deleting a Post requires passing the "expectedVersion" which is the object's last saved version**
 
-```
+```graphql
 mutation Delete($postId: ID!) {
   deletePost(
     input: {
@@ -1984,7 +2281,7 @@ input SearchableQueryMap { search: String }
 
 Given the following schema an index is created for Post, if there are more types with `@searchable` the directive will create an index for it, and those posts in Amazon DynamoDB are automatically streamed to the post index in Amazon ElasticSearch via AWS Lambda and connect a searchQueryField resolver.
 
-```
+```graphql
 type Post @model @searchable {
   id: ID!
   title: String!
@@ -1997,7 +2294,7 @@ type Post @model @searchable {
 You may then create objects in DynamoDB that will be automatically streamed to lambda
 using the normal `createPost` mutation.
 
-```
+```graphql
 mutation CreatePost {
   createPost(input: { title: "Stream me to Elasticsearch!" }) {
     id
@@ -2011,7 +2308,7 @@ mutation CreatePost {
 
 And then search for posts using a `match` query:
 
-```
+```graphql
 query SearchPosts {
   searchPost(filter: { title: { match: "Stream" }}) {
     items {
@@ -2038,7 +2335,7 @@ The `filter` parameter in the search query has a searchable type field that corr
 
 For example, you can filter using the wildcard expression to search for posts using the following `wildcard` query:
 
-```
+```graphql
 query SearchPosts {
   searchPost(filter: { title: { wildcard: "S*Elasticsearch!" }}) {
     items {
@@ -2053,7 +2350,7 @@ The above query returns all documents whose `title` begins with `S` and ends wit
 
 Moreover you can use the `filter` parameter to pass a nested `and`/`or`/`not` condition. By default, every operation in the filter properties is *AND* ed. You can use the `or` or `not` properties in the `filter` parameter of the search query to override this behavior. Each of these operators (`and`, `or`, `not` properties in the filter object) accepts an array of searchable types which are in turn joined by the corresponding operator. For example, consider the following search query:
 
-```
+```graphql
 query SearchPosts {
   searchPost(filter: {
     title: { wildcard: "S*" }
@@ -2083,6 +2380,682 @@ Here is a complete list of searchable operations per GraphQL type supported as o
 
 
 
+### @predictions
+
+The `@predictions` directive allows you to query an orchestration of AI/ML services such as Amazon Rekognition, Amazon Translate, and/or Amazon Polly.
+
+> Note: Support for adding the `@predictions` directive uses the s3 storage bucket which is configured via the CLI. At the moment this directive works only with objects located within `public/`.
+
+#### Definition
+The supported actions in this directive are included in the definition.
+
+```
+  directive @predictions(actions: [PredictionsActions!]!) on FIELD_DEFINITION
+  enum PredictionsActions {
+    identifyText # uses Amazon Rekognition to detect text
+    identifyLabels # uses Amazon Rekognition to detect labels
+    convertTextToSpeech # uses Amazon Polly in a lambda to output a presigned url to synthesized speech
+    translateText # uses Amazon Translate to translate text from source to target langauge
+  }
+```
+
+#### Usage
+
+
+Given the following schema a query operation is defined which will do the following with the provided image.
+
+- Identify text from the image
+- Translate the text from that image
+- Synthesize speech from the translated text.
+
+```graphql
+type Query {
+  speakTranslatedImageText: String @predictions(actions: [
+    identifyText
+    translateText
+    convertTextToSpeech
+  ])
+}
+```
+
+An example of that query will look like:
+
+```graphql
+query SpeakTranslatedImageText($input: SpeakTranslatedImageTextInput!) {
+  speakTranslatedImageText(input: {
+    identifyText: {
+      key: "myimage.jpg"
+    }
+    translateText: {
+      sourceLanguage: "en"
+      targetLanguage: "es"
+    }
+    convertTextToSpeech: {
+      voiceID: "Conchita"
+    }
+  })
+}
+```
+
+A code example of this using the JS Library:
+```js
+import React, { useState } from 'react';
+import API, { graphqlOperation } from '@aws-amplify/api';
+import Amplify, { Storage } from 'aws-amplify';
+import awsconfig from './aws-exports';
+import { speakTranslatedImageText } from './graphql/queries';
+
+/* Configure Exports */
+Amplify.configure(awsconfig);
+
+function SpeakTranslatedImage() {
+  const [ src, setSrc ] = useState("");
+  const [ img, setImg ] = useState("");
+  
+  function putS3Image(event) {
+    const file = event.target.files[0];
+    Storage.put(file.name, file)
+    .then (async (result) => {
+      setSrc(await speakTranslatedImageTextOP(result.key))
+      setImg(await Storage.get(result.key));
+    })
+    .catch(err => console.log(err));
+  }
+
+  return (
+    <div className="Text">
+      <div>
+        <h3>Upload Image</h3>
+        <input
+              type = "file" accept='image/jpeg'
+              onChange = {(event) => {
+                putS3Image(event)
+              }}
+          />
+        <br />
+        { img && <img src = {img}></img>}
+        { src && 
+          <div> <audio id="audioPlayback" controls>
+              <source id="audioSource" type="audio/mp3" src = {src}/>
+          </audio> </div>
+        }
+      </div>
+    </div>
+  );
+}
+
+async function speakTranslatedImageTextOP(key) {
+  const inputObj = { 
+    translateText: { 
+      sourceLanguage: "en", targetLanguage: "es" }, 
+    identifyText: { key },
+    convertTextToSpeech: { voiceID: "Conchita" } 
+  };
+  const response = await API.graphql(
+    graphqlOperation(speakTranslatedImageText, { input: inputObj }));
+  return response.data.speakTranslatedImageText;
+}
+function App() {
+  return (
+    <div className="App">
+        <h1>Speak Translated Image</h1>
+        < SpeakTranslatedImage />
+    </div>
+  );
+}
+export default App;
+```
+
+#### How it works
+From example schema above, `@predictions` will create resources to communicate with Amazon Rekognition, Translate and Polly.
+For each action the following is created: 
+
+- IAM Policy for each service (e.g. Amazon Rekognition `detectText` Policy)
+- An AppSync VTL function
+- An AppSync DataSource
+
+Finally a resolver is created for `speakTranslatedImageText` which is a pipeline resolver composed of AppSync functions which are defined by the action list provided in the directive.
+
+#### Actions
+Each of the actions described in the @predictions definition section can be used individually, as well as in a sequence. Sequence of actions supported today are as follows:
+
+- `identifyText -> translateText -> convertTextToSpeech`
+- `identifyLabels -> translateText -> convertTextToSpeech`
+- `translateText -> convertTextToSpeech`
+
+
+#### Action Resources
+- [`translateText` Supported Language Codes](https://docs.aws.amazon.com/translate/latest/dg/what-is.html#what-is-languages)
+- [`convertTextToSpeech` Supported Voice IDs](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html)
+
+
+
+## Data Access Patterns
+
+In the [DynamoDB documentation for modeling relational data in a NoSQL database](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-modeling-nosql.html), there is an in depth example of 17 access patterns from the [First Steps for Modeling Relational Data in DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-modeling-nosql.html) page.
+
+![17 Data Access Patterns](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/images/AccessPatternList.png "Access Patterns")
+
+In this example, you will learn how to support these data access patterns using GraphQL, AWS Amplify, and the GraphQL Transform library.
+
+This example has the following types:
+
+- Warehouse
+- Product
+- Inventory
+- Employee
+- AccountRepresentative
+- Customer
+- Product
+
+Let's have a look at the access patterns that we'll be implementing in this tutorial:
+
+1. Look up employee details by employee ID
+2. Query employee details by employee name
+3. Find an employee's phone number(s)
+4. Fine a customer's phone number(s)
+5. Get orders for a given customer within a given date range
+6. Show all open orders within a given date range across all customers
+7. See all employees recently hired
+8. Find all employees working in a given warehouse
+9. Get all items on order for a given product
+10. Get current inventories for a given product at all warehouses
+11. Get customers by account representative
+12. Get orders by account representative and date
+13. Get all items on order for a given product
+14. Get all employees with a given job title
+15. Get inventory by product and warehouse
+16. Get total product inventory
+17. Get account representatives ranked by order total and sales period
+
+
+The [following schema](https://gist.github.com/dabit3/e0af16db09b6e206292d1c5cfc0d0a07) introduces the required keys and connections so that we can support these access patterns:
+
+
+```graphql
+type Order @model
+  @key(name: "byCustomerByStatusByDate", fields: ["customerID", "status", "date"])
+  @key(name: "byCustomerByDate", fields: ["customerID", "date"])
+  @key(name: "byRepresentativebyDate", fields: ["accountRepresentativeID", "date"])
+  @key(name: "byProduct", fields: ["productID", "id"])
+{
+  id: ID!
+  customerID: ID!
+  accountRepresentativeID: ID!
+  productID: ID!
+  status: String!
+  amount: Int!
+  date: String!
+}
+
+type Customer @model
+  @key(name: "byRepresentative", fields: ["accountRepresentativeID", "id"]) {
+  id: ID!
+  name: String!
+  phoneNumber: String
+  accountRepresentativeID: ID!
+  ordersByDate: [Order] @connection(keyName: "byCustomerByDate", fields: ["id"])
+  ordersByStatusDate: [Order] @connection(keyName: "byCustomerByStatusByDate", fields: ["id"])
+}
+
+type Employee @model
+  @key(name: "newHire", fields: ["newHire", "id"], queryField: "employeesNewHire")
+  @key(name: "newHireByStartDate", fields: ["newHire", "startDate"], queryField: "employeesNewHireByStartDate")
+  @key(name: "byName", fields: ["name", "id"], queryField: "employeeByName")
+  @key(name: "byTitle", fields: ["jobTitle", "id"], queryField: "employeesByJobTitle")
+  @key(name: "byWarehouse", fields: ["warehouseID", "id"]) {
+  id: ID!
+  name: String!
+  startDate: String!
+  phoneNumber: String!
+  warehouseID: ID!
+  jobTitle: String!
+  newHire: String! # We have to use String type, because Boolean types cannot be sort keys
+}
+
+type Warehouse @model {
+  id: ID!
+  employees: [Employee] @connection(keyName: "byWarehouse", fields: ["id"])
+}
+
+type AccountRepresentative @model
+  @key(name: "bySalesPeriodByOrderTotal", fields: ["salesPeriod", "orderTotal"], queryField: "repsByPeriodAndTotal") {
+  id: ID!
+  customers: [Customer] @connection(keyName: "byRepresentative", fields: ["id"])
+  orders: [Order] @connection(keyName: "byRepresentativebyDate", fields: ["id"])
+  orderTotal: Int
+  salesPeriod: String
+}
+
+type Inventory @model
+  @key(name: "byWarehouseID", fields: ["warehouseID"], queryField: "itemsByWarehouseID")
+  @key(fields: ["productID", "warehouseID"]) {
+  productID: ID!
+  warehouseID: ID!
+  inventoryAmount: Int!
+}
+
+type Product @model {
+  id: ID!
+  name: String!
+  orders: [Order] @connection(keyName: "byProduct", fields: ["id"])
+  inventories: [Inventory] @connection(fields: ["id"])
+}
+```
+
+Now that we have the schema created, let's create the items in the database that we will be operating against:
+
+```graphql
+# first
+mutation createWarehouse {
+  createWarehouse(input: {id: "1"}) {
+    id
+  }
+}
+
+# second
+mutation createEmployee {
+  createEmployee(input: {
+    id: "amanda"
+    name: "Amanda",
+    startDate: "2018-05-22",
+    phoneNumber: "6015555555",
+    warehouseID: "1",
+    jobTitle: "Manager",
+    newHire: "true"}
+  ) {
+    id
+    jobTitle
+    name
+    newHire
+    phoneNumber
+    startDate
+    warehouseID
+  }
+}
+
+# third
+mutation createAccountRepresentative {
+  createAccountRepresentative(input: {
+    id: "dabit"
+    orderTotal: 400000
+    salesPeriod: "January 2019"
+  }) {
+    id
+    orderTotal
+    salesPeriod
+  }
+}
+
+# fourth
+mutation createCustomer {
+  createCustomer(input: {
+    id: "jennifer_thomas"
+    accountRepresentativeID: "dabit"
+    name: "Jennifer Thomas"
+    phoneNumber: "+16015555555"
+  }) {
+    id
+    name
+    accountRepresentativeID
+    phoneNumber
+  }
+}
+
+# fifth
+mutation createProduct {
+  createProduct(input: {
+    id: "yeezyboost"
+    name: "Yeezy Boost"
+  }) {
+    id
+    name
+  }
+}
+
+# sixth
+mutation createInventory {
+  createInventory(input: {
+    productID: "yeezyboost"
+    warehouseID: "1"
+    inventoryAmount: 300
+  }) {
+    productID
+    inventoryAmount
+    warehouseID
+  }
+}
+
+# seventh
+mutation createOrder {
+  createOrder(input: {
+    amount: 300
+    date: "2018-07-12"
+    status: "pending"
+    accountRepresentativeID: "dabit"
+    customerID: "jennifer_thomas"
+    productID: "yeezyboost"
+  }) {
+    id
+    customerID
+    accountRepresentativeID
+    amount
+    date
+    customerID
+    productID
+  }
+}
+```
+
+**1. Look up employee details by employee ID:**
+This can simply be done by querying the employee model with an employee ID, no `@key` or `@connection` is needed to make this work.
+
+```graphql
+query getEmployee($id: ID!) {
+  getEmployee(id: $id) {
+    id
+    name
+    phoneNumber
+    startDate
+    jobTitle
+  }
+}
+```
+
+**2. Query employee details by employee name:**
+The `@key` `byName` on the `Employee` type makes this access-pattern feasible because under the covers an index is created and a query is used to match against the name field. We can use this query:
+
+```graphql
+query employeeByName($name: String!) {
+  employeeByName(name: $name) {
+    items {
+      id
+      name
+      phoneNumber
+      startDate
+      jobTitle
+    }
+  }
+}
+```
+
+**3. Find an Employee’s phone number:**
+Either one of the previous queries would work to find an employee’s phone number as long as one has their ID or name.
+
+**4. Find a customer’s phone number:**
+A similar query to those given above but on the Customer model would give you a customer’s phone number.
+
+```graphql
+query getCustomer($customerID: ID!) {
+  getCustomer(id: $customerID) {
+    phoneNumber
+  }
+}
+```
+
+**5. Get orders for a given customer within a given date range:**
+There is a one-to-many relation that lets all the orders of a customer be queried.
+
+This relationship is created by having the `@key` name `byCustomerByDate` on the Order model that is queried by the connection on the orders field of the Customer model.
+
+A sort key with the date is used. What this means is that the GraphQL resolver can use predicates like `Between` to efficiently search the date range rather than scanning all records in the database and then filtering them out.
+
+The query one would need to get the orders to a customer within a date range would be:
+
+```graphql
+query getCustomerWithOrdersByDate($customerID: ID!) {
+  getCustomer(id: $customerID) {
+    ordersByDate(date: {
+      between: [ "2018-01-22", "2020-10-11" ]
+    }) {
+      items {
+        id
+        amount
+        productID
+      }
+    }
+  }
+}
+```
+
+**6. Show all open orders within a given date range across all customers:**
+The `@key` `byCustomerByStatusByDate` enables you to run a query that would work for this access pattern.
+
+In this example, a composite sort key (combination of two or more keys) with the `status` and `date` is used. What this means is that the unique identifier of a record in the database is created by concatenating these two fields (status and date) together, and then the GraphQL resolver can use predicates like `Between` or `Contains` to efficiently search the unique identifier for matches rather than scanning all records in the database and then filtering them out.
+
+```graphql
+query getCustomerWithOrdersByStatusDate($customerID: ID!) {
+  getCustomer(id: $customerID) {
+    ordersByStatusDate (statusDate: {
+      between: [
+        { status: "pending" date:  "2018-01-22" },
+        { status: "pending", date: "2020-10-11"}
+      ]}) {
+        items {
+            id
+            amount
+            date
+        }
+    }
+  }
+}
+```
+
+**7. See all employees hired recently:**
+Having ‘@key(name: "newHire", fields: ["newHire", "id"])’ on the `Employee` model allows one to query by whether an employee has been hired recently. 
+
+```graphql
+query employeesNewHire {
+  employeesNewHire(newHire: "true") {
+    items {
+      id
+      name
+      phoneNumber
+      startDate
+      jobTitle
+    }
+  }
+}
+```
+
+We can also query and have the results returned by start date by using the `employeesNewHireByStartDate` query:
+
+```graphql
+query employeesNewHireByDate {
+  employeesNewHireByStartDate(newHire: "true") {
+    items {
+      id
+      name
+      phoneNumber
+      startDate
+      jobTitle
+    }
+  }
+}
+```
+
+**8. Find all employees working in a given warehouse:**
+This needs a one to many relationship from warehouses to employees. As can be seen from the @connection in the `Warehouse` model, this connection uses the `byWarehouse` key on the `Employee` model. The relevant query would look like this:
+
+```graphql
+query getWarehouse($warehouseID: ID!) {
+  getWarehouse(id: $warehouseID) {
+    id
+    employees{
+      items {
+        id
+        name
+        startDate
+        phoneNumber
+        jobTitle
+      }
+    }
+  }
+}
+```
+
+**9. Get all items on order for a given product:**
+This access-pattern would use a one-to-many relation from products to orders. With this query we can get all orders of a given product:
+
+```graphql
+query getProductOrders($productID: ID!) {
+  getProduct(id: $productID) {
+    id
+    orders {
+      items {
+        id
+        status
+        amount
+        date
+      }
+    }
+  }
+}
+```
+
+**10. Get current inventories for a product at all warehouses:**
+
+The query needed to get the inventories of a product in all warehouses would be:
+
+```graphql
+query getProductInventoryInfo($productID: ID!) {
+  getProduct(id: $productID) {
+    id
+    inventories {
+      items {
+        warehouseID
+        inventoryAmount
+      }
+    }
+  }
+}
+```
+
+**11. Get customers by account representative:**
+This uses a one-to-many connection between account representatives and customers:
+
+The query needed would look like this:
+
+```graphql
+query getCustomersForAccountRepresentative($representativeId: ID!) {
+  getAccountRepresentative(id: $representativeId) {
+    customers {
+      items {
+        id
+        name
+        phoneNumber
+      }
+    }
+  }
+}
+```
+
+**12. Get orders by account representative and date:**
+
+
+As can be seen in the AccountRepresentative model this connection uses the `byRepresentativebyDate` field on the `Order` model to create the connection needed. The query needed would look like this:
+
+```graphql
+query getOrdersForAccountRepresentative($representativeId: ID!) {
+  getAccountRepresentative(id: $representativeId) {
+    id
+    orders(date: {
+      between: [
+         "2010-01-22", "2020-10-11"
+      ]
+    }) {
+        items {
+          id
+          status
+          amount
+          date
+        }
+    }
+  }
+}
+```
+
+**13. Get all items on order for a given product:**
+This is the same as number 9.
+
+**14. Get all employees with a given job title:**
+Using the `byTitle` `@key` makes this access pattern quite easy.
+
+```graphql
+query employeesByJobTitle {
+  employeesByJobTitle(jobTitle: "Manager") {
+    items {
+      id
+      name
+      phoneNumber
+      jobTitle
+    }
+  }
+}
+```
+
+**15. Get inventory by product by warehouse:**
+Here having the inventories be held in a separate model is particularly useful since this model can have its own partition key and sort key such that the inventories themselves can be queried as is needed for this access-pattern.
+
+A query on this model would look like this:
+
+```graphql
+query inventoryByProductAndWarehouse($productID: ID!, $warehouseID: ID!) {
+  getInventory(productID: $productID, warehouseID: $warehouseID) {
+    productID
+    warehouseID
+    inventoryAmount
+  }
+}
+
+```
+
+We can also get all inventory from an individual warehouse by using the `itemsByWarehouseID` query created by the `byWarehouseID` key:
+
+```graphql
+query byWarehouseId($warehouseID: ID!) {
+  itemsByWarehouseID(warehouseID: $warehouseID) {
+    items {
+      inventoryAmount
+      productID
+    }
+  }
+}
+```
+
+**16. Get total product inventory:**
+How this would be done depends on the use case. If one just wants a list of all inventories in all warehouses, one could just run a list inventories on the Inventory model:
+
+```graphql
+query listInventorys {
+  listInventorys {
+    items {
+      productID
+      warehouseID
+      inventoryAmount
+    }
+  }
+}
+```
+
+**17. Get sales representatives ranked by order total and sales period:**
+It's uncertain exactly what this means. My take is that the sales period is either a date range or maybe even a month or week. Therefore we can set the sales period as a string and query using the combination of `salesPeriod` and `orderTotal`. We can also set the `sortDirection` in order to get the return values from largest to smallest:
+
+```graphql
+query repsByPeriodAndTotal {
+  repsByPeriodAndTotal(
+    sortDirection: DESC,
+    salesPeriod: "January 2019",
+    orderTotal: {
+      ge: 1000
+    }) {
+    items {
+      id
+      orderTotal
+    }
+  }
+}
+```
 
 ## Relational Databases
 
@@ -2363,7 +3336,7 @@ The `amplify codegen [--nodownload]` generates GraphQL `statements` and `types`.
 
 ### Workflows <a name="workflows"></a>
 
-The design of codegen functionality provides mechanisms to run at different points in your app development lifecycle, including when you create or update an API as well as independently when you want to just update the data fetching requirements of your app but leave your API alone. It additionally allows you to work in a team where the schema is updated or managed by another person. Finally, you can also include the codegen in your build process so that it runs automatically (such as from in XCode).
+The design of codegen functionality provides mechanisms to run at different points in your app development lifecycle, including when you create or update an API as well as independently when you want to just update the data fetching requirements of your app but leave your API alone. It additionally allows you to work in a team where the schema is updated or managed by another person. Finally, you can also include the codegen in your build process so that it runs automatically (such as from in Xcode).
 
 **Flow 1: Create API then automatically generate code**
 
@@ -2427,11 +3400,11 @@ $amplify codegen
 
 ### iOS usage <a name="iosuse"></a>
 
-This section will walk through the steps needed to take an iOS project written in Swift and add Amplify to it along with a GraphQL API using AWS AppSync. If you are a first time user, we recommend starting with a new XCode project and a single View Controller.
+This section will walk through the steps needed to take an iOS project written in Swift and add Amplify to it along with a GraphQL API using AWS AppSync. If you are a first time user, we recommend starting with a new Xcode project and a single View Controller.
 
 #### Setup
 
-After completing the [Amplify Getting Started](https://aws-amplify.github.io/media/get_started) navigate in your terminal to an XCode project directory and run the following:
+After completing the [Amplify Getting Started](https://aws-amplify.github.io/media/get_started) navigate in your terminal to an Xcode project directory and run the following:
 
 ```bash
 $amplify init       ## Select iOS as your platform
@@ -2452,7 +3425,7 @@ target 'PostsApp' do
 end
 ```
 
-Run `pod install` from your terminal and open up the `*.xcworkspace` XCode project. Add the `API.swift` and `awsconfiguration.json` files to your project (_File->Add Files to ..->Add_) and then build your project ensuring there are no issues.
+Run `pod install` from your terminal and open up the `*.xcworkspace` Xcode project. Add the `API.swift` and `awsconfiguration.json` files to your project (_File->Add Files to ..->Add_) and then build your project ensuring there are no issues.
 
 ##### Initialize the AppSync client
 Inside your application delegate is the best place to initialize the AppSync client. The `AWSAppSyncServiceConfig` represents the configuration information present in awsconfiguration.json file. By default, the information under the `Default` section will be used. You will need to create an `AWSAppSyncClientConfiguration` and `AWSAppSyncClient` like below:
@@ -2967,7 +3940,7 @@ When creating APIs, you will make changes to the other files and directories in 
 
 Let's say you have a simple *schema.graphql*...
 
-```
+```graphql
 type Todo @model {
   id: ID!
   name: String!
@@ -2983,7 +3956,7 @@ and you want to change the behavior of request mapping template for the *Query.g
 
 This is useful if you want to write a more specific query against a DynamoDB table that was created by *@model*. For example, assume you had this schema with two *@model* types and a pair of *@connection* directives.
 
-```
+```graphql
 type Todo @model {
   id: ID!
   name: String!
@@ -3001,7 +3974,7 @@ This schema will generate resolvers for *Query.getTodo*, *Query.listTodos*, *Que
 
 * Add the desired field to your *schema.graphql*.
 
-```
+```graphql
 // ... Todo and Comment types from above
 
 type CommentConnection {
@@ -3101,7 +4074,7 @@ Velocity is useful as a fast, secure environment to run arbitrary code but when 
 
 * Add a field to your schema.graphql that will invoke the AWS Lambda function.
 
-```
+```graphql
 type Query {
   echo(msg: String): String
 }
@@ -3271,7 +4244,7 @@ query {
 
 To add a geolocation search capabilities to an API add the *@searchable* directive to an *@model* type.
 
-```
+```graphql
 type Todo @model @searchable {
   id: ID!
   name: String!
@@ -3284,7 +4257,7 @@ The next time you run `amplify push`, an Amazon Elasticsearch domain will be cre
 
 * Add the relevant location and search fields to the schema.
 
-```
+```graphql
 type Location {
   lat: Float
   lon: Float
@@ -3427,7 +4400,7 @@ PUT /todo/_mapping/doc
 
 After updating the Elasticsearch index mapping, open the AWS AppSync console with `amplify api console` and try out these queries.
 
-```
+```graphql
 mutation CreateTodo {
   createTodo(input:{
     name: "Todo 1",
@@ -3585,7 +4558,7 @@ Much of the behavior of the GraphQL Transform logic is configured by passing arg
 
 ### Simple Todo
 
-```
+```graphql
 type Todo @model {
   id: ID!
   name: String!
@@ -3595,7 +4568,7 @@ type Todo @model {
 
 ### Blog
 
-```
+```graphql
 type Blog @model {
   id: ID!
   name: String!
@@ -3616,7 +4589,7 @@ type Comment @model {
 
 #### Blog Queries
 
-```
+```graphql
 # Create a blog. Remember the returned id.
 # Provide the returned id as the "blogId" variable.
 mutation CreateBlog {
@@ -3708,7 +4681,7 @@ query ListBlogs {
 
 **Note: To use the @auth directive, the API must be configured to use Amazon Cognito user pools.**
 
-```
+```graphql
 type Task
   @model
   @auth(rules: [
@@ -3732,9 +4705,9 @@ type PrivateNote
 
 #### Task Queries
 
-```
+```graphql
 # Create a task. Only allowed if a manager.
-mutation M {
+mutation CreateTask {
   createTask(input:{
     title:"A task",
     description:"A task description",
@@ -3794,7 +4767,7 @@ type Note @model @versioned {
 
 #### Conflict Detection Queries
 
-```
+```graphql
 mutation Create {
   createNote(input:{
     content:"A note"
@@ -3841,7 +4814,7 @@ In multi-tenant scenarios, subscribed clients may not always want to receive eve
 
 Consider this simple schema for our examples:
 
-```
+```graphql
 type Todo @model {
   id: ID!
   name: String!
@@ -3861,7 +4834,7 @@ This is the simpler method of filtering subscriptions, as it requires one less c
 
 1. Add the subscriptions argument on the *@model* directive, telling Amplify to *not* generate subscriptions for your Comment type.
 
-```
+```graphql
 type Comment @model(subscriptions: null) {
   id: ID!
   content: String
@@ -3873,7 +4846,7 @@ type Comment @model(subscriptions: null) {
 
 3. After the push, you will need to add the Subscription type to your schema, including whichever scalar Comment fields you wish to use for filtering (content in this case):
 
-```
+```graphql
 type Subscription {
   onCreateComment(content: String): Comment @aws_subscribe(mutations: ["createComment"])
   onUpdateComment(id: ID, content: String): Comment @aws_subscribe(mutations: ["updateComment"])
@@ -3887,7 +4860,7 @@ This is useful when you need to filter by what Todo objects the Comments are con
 
 1. Add the subscriptions argument on the *@model* directive, telling Amplify to *not* generate subscriptions for your Comment type. Also, just as importantly, we will be utilizing an auto-generated column from DynamoDB by adding `commentTodoId` to our Comment model:
 
-```
+```graphql
 type Comment @model(subscriptions: null) {
   id: ID!
   content: String
@@ -3899,7 +4872,7 @@ type Comment @model(subscriptions: null) {
 
 3. After the push, you will need to add the Subscription type to your schema, including the `commentTodoId` as an optional argument:
 
-```
+```graphql
 type Subscription {
   onCreateComment(commentTodoId: String): Comment @aws_subscribe(mutations: "createComment")
   onUpdateComment(id: ID, commentTodoId: String): Comment @aws_subscribe(mutations: "updateComment")
