@@ -564,6 +564,13 @@ AppDelegate.swift
 ViewController.swift
 MainActivity.java
 
+# cli/lambda-node-version-update.md
+10.x
+NodeJS
+cognito
+PostAuthentication
+PostConfirmation
+
 # cli/multienv.md
 multienv
 mydev
