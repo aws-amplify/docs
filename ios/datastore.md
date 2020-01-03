@@ -26,7 +26,7 @@ Modeling your data and *generating models* which are used by DataStore is the fi
 
 ## Using CocoaPods
 
-The fastest way to get started is adding the `amplify:tools` dependency to your `Podfile`:
+The fastest way to get started is adding the `amplify-tools` dependency to your `Podfile`:
 
 ```ruby
 platform :ios, '13.0'
@@ -40,7 +40,7 @@ end
 
 Then run `pod install` and open the `.xcworkspace` file to build your app.
 
-Once this completes open the GraphQL schema in the `amplify/backend/api/schema.graphql`. You can use the sample or the one below that will be used in this documentation:
+Once this completes open the GraphQL schema in the `amplify/backend/api/amplifyDatasource/schema.graphql`. You can use the sample or the one below that will be used in this documentation:
 
 ```graphql
 type Post @model {
