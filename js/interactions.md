@@ -385,5 +385,5 @@ Please see [Angular]({%if jekyll.environment == 'production'%}{{site.amplify.doc
 
 ### API Reference
 
-For the complete API documentation for Interactions module, visit our [API Reference]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/api/classes/interactions.html)
+For the complete API documentation for Interactions module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/interactions.html)
 {: .callout .callout--info}
