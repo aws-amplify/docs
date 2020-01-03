@@ -1,221 +1,235 @@
 ---
 title: Getting Started
 ---
+
+<br />
+
+**Note**
+Amplify Android is in preview mode and not intended for production usage at this time. We welcome feedback to improve your experience in using Amplify Android.
+[Click here](../sdk/android/start) to access the Getting Started guide for Android SDK 2.0 docs.
+{: .callout .callout--warning}
+
 # Getting Started
 
 Build an Android app using the Amplify Framework which contains:
 
-- CLI toolchain for creating and managing your serverless backend.
+- Amplify Tools - CLI toolchain for creating and managing your serverless backend.
 - Android, iOS, and JavaScript libraries to access your resources using a category based programming model.
 - Framework-specific UI component libraries for React, React Native, Angular, Ionic and Vue.
 
-This page guides you through setting up a backend and integration into your Android app. You will create a "Todo app" with a GraphQL API to store and retrieve items in a cloud database, as well as receive updates over a realtime subscription.
+This page guides you through setting up a backend and integration into your Android app. You will create a "Note app" with a GraphQL API to store and retrieve items in a cloud database, as well as receive updates over a realtime subscription.
 
-[GraphQL](http://graphql.org){:target="_blank"} is a data language that was developed to enable apps to fetch data from APIs. It has a declarative, self-documenting style. In a GraphQL operation, the client specifies how to structure the data when it is returned by the server. This makes it possible for the client to query only for the data it needs, in the format that it needs it in.
+[GraphQL](http://graphql.org) is a data language that was developed to enable apps to fetch data from APIs. It has a declarative, self-documenting style. In a GraphQL operation, the client specifies how to structure the data when it is returned by the server. This makes it possible for the client to query only for the data it needs, in the format that it needs it in.
 
 ## Prerequisites
 
-* [Install and configure the Amplify CLI](..)
+* These steps currently only work on Mac. If you have a Windows machine, follow the steps on one of our categories such as [API here](./api).
 
-* [Install Android Studio](https://developer.android.com/studio/index.html#downloads) version 3.1 or higher. 
+* [Install Node](https://nodejs.org/en/)
 
-* [Install Android SDK for API level 28 (Android 9.0).](https://developer.android.com/studio/releases/platforms)
+* [Install Android Studio](https://developer.android.com/studio/index.html#downloads) version 3.1 or higher.
 
-* This guide assumes that you are familiar with Android development and tools. If you are new to Android development, you can follow [these steps](https://developer.android.com/training/basics/firstapp/creating-project){:target="_blank"} to create your first Android application using Java. 
+* [Install Android SDK with a minimum API level of 15 (Ice Cream Sandwich).](https://developer.android.com/studio/releases/platforms)
 
+* This guide assumes that you are familiar with Android development and tools. If you are new to Android development, you can follow [these steps](https://developer.android.com/training/basics/firstapp/creating-project) to create your first Android application using Java.
+
+* If you had previously installed Amplify CLI (< 4.5.0), update to the latest version by running:
+
+```terminal
+$ npm install -g @aws-amplify/cli
+```
 
 ## Step 1: Configure your app
+You can use an existing Android app or create a new Android app in Java as per the steps in prerequisite section.
 
-You can use an existing Android app or create a new Android app using Java as per the steps in prerequisite section.
+a. Open your **project** `build.gradle` and add the following:
+* `mavenCentral()` as a repository
+* `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.0'` as a dependency
+* A plugin `'com.amplifyframework.amplifytools'` as shown in the example below:
 
-Modify your `project/build.gradle` with the following build dependency:
+```gradle
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.1.0'
+    }
+}
 
-```groovy
-classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.9.+'
+apply plugin: 'com.amplifyframework.amplifytools'
 ```
 
-Next, add dependencies to your `app/build.gradle`, and then choose Sync Now on the upper-right side of Android Studio.
+b. Next, add the following dependencies to your **app** `build.gradle` and `compileOptions` to work with the Java 8 features used:
 
-```groovy
-apply plugin: 'com.amazonaws.appsync'
+```gradle
+android {
+  compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+}
 
 dependencies {
-    //Base SDK
-    implementation 'com.amazonaws:aws-android-sdk-core:2.15.+'
-    //AppSync SDK
-    implementation 'com.amazonaws:aws-android-sdk-appsync:2.8.+'
-    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
-    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+  implementation 'com.amplifyframework:core:0.9.0'
+  implementation 'com.amplifyframework:aws-api:0.9.0'
 }
 ```
 
-Finally, update your AndroidManifest.xml with the following:
+c. Run 'Make Project'
 
-```xml
-<uses-permission android:name="android.permission.INTERNET"/>
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-<uses-permission android:name="android.permission.WAKE_LOCK" />
-<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+When the build is successful, it will add two gradle tasks to you project - `modelgen` and `amplifyPush` (these can be found in the dropdown menu which currently would display app if it's a new project, up where you would run your project)
 
-        <!--other code-->
+**Note**
+If you get the following error message: "ERROR: Process 'command 'npx'' finished with non-zero exit value 1”, this may be due to the logged in user on your machine having insufficient permissions to access the node_modules folder on your machine. Follow the steps [at this link](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally) to resolve it.
+{: .callout .callout--warning}
 
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+## Step 2: Generate your Model files
 
-        <service android:name="org.eclipse.paho.android.service.MqttService" />
+a. Switch to **Project** view in Android Studio and open the schema file at `amplify/backend/api/amplifyDatasource/schema.graphql`.  
+[Learn more](https://aws-amplify.github.io/docs/cli-toolchain/graphql) about annotating GraphQL schemas and data modeling.
 
-        <!--other code-->
-    </application>
+In this guide, use the default schema included:
+
 ```
-
-**Build your Android Studio project**.
-
-## Step 2: Set Up Your Backend
-
-Create new AWS backend resources and pull the AWS services configuration into the app. In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`), and run the following command (for this app, accepting all defaults is OK):
-
-```bash
-$ cd ./YOUR_PROJECT_FOLDER
-$ amplify init        #accept defaults
-```
-
-An `awsconfiguration.json` file will be created with your configuration and updated as features get added to your project by the Amplify CLI. The file is placed in the `./app/src/main/res/raw` directory of your Android Studio project and automatically used by the SDKs at runtime.
-
-## Step 3: How it Works
-
-Rather than configuring each service through a constructor or constants file, the AWS SDKs for Android support configuration through a centralized file called `awsconfiguration.json` which defines all the regions and service endpoints to communicate. Whenever you run `amplify push`, this file is automatically created allowing you to focus on your application code. On Android projects the `awsconfiguration.json` will be placed into the `./app/src/main/res/raw` directory.
-
-To verify that the CLI is set up for your app, run the following command.
-
-```bash
-  $ amplify status
-  | Category | Resource name | Operation | Provider plugin |
-  | -------- | ------------- | --------- | --------------- |
-```
-
-The CLI displays a status table with no resources listed. As you add feature categories to your app and run `amplify push`, backend resources created for your app are listed in this table.
-
-## Step 4: Add API and Database
-
-Add a GraphQL API to your app and automatically provision a database with the following command (accepting all defaults is OK):
-
-```bash
-$ amplify add api     #select GraphQL, API Key
-```
-
-The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on you can always change it. This process creates an AWS AppSync API and connects it to an Amazon DynamoDB database.
-
-Create required backend resources for your configured api with the following command:
-
-```bash
-$ amplify push
-```
-
-Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults which generate a `./app/src/main/graphql` folder structure with your statements. Run a **Gradle Sync** and **Build** your app, at which point the generated packages are automatically added to your project.
-
-## Step 5: Integrate into your app
-
-Initialize the AppSync client inside your application code, such as the `onCreate()` lifecycle method of your activity class:
-
-```java
-private AWSAppSyncClient mAWSAppSyncClient;
-
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-    mAWSAppSyncClient = AWSAppSyncClient.builder()
-        .context(getApplicationContext())
-        .awsConfiguration(new AWSConfiguration(getApplicationContext()))
-        .build();
+type Task @model {
+    id: ID!
+    title: String!
+    description: String
+    status: String
+}
+type Note @model {
+    id: ID!
+    content: String!
 }
 ```
 
-You can now add data to your database with a mutation:
+b. To generate the Java classes for these models, click the Gradle Task dropdown in the toolbar and select **modelgen** and run the task. Once it completes you should have generated Java classes under `app/src/main/java/com/amplifyframework.datastore.generated.model`.
 
-```java
-    public void runMutation(){
-        CreateTodoInput createTodoInput = CreateTodoInput.builder().
-            name("Use AppSync").
-            description("Realtime and Offline").
-            build();
+## Step 3: Add API and Database
 
-        mAWSAppSyncClient.mutate(CreateTodoMutation.builder().input(createTodoInput).build())
-            .enqueue(mutationCallback);
+a. Run `amplify configure` in Terminal from the root of your application folder to set up Amplify with your AWS account.
+
+    - Your default browser will open a tab prompting you to sign in / create a new AWS account
+    - Once done, return to the terminal and press Enter
+    - Choose a region
+    - Choose a username (can use default)
+    - Your default browser will open a tab prompting you to walkthrough the process of creating an IAM user. At the end of the process. Save the Access ID and Secret key and return to the terminal.
+    - Press Enter
+    - It will then ask you to enter the access key ID from the finish page of the browser. Make sure to backspace the default and copy-paste the key for the IAM user you just created.
+    - Do the same for <YOUR SECRET ACCESS KEY> in the next step
+    - Hit Enter to go with default as the profile name
+
+b. Click the Gradle Task dropdown in your Android Studio toolbar, select **amplifyPush**, and run the task.
+
+Once this is successful, you will see three generated files:
+
+* **amplifyconfiguration.json** and **awsconfiguration.json** under `src/main/res/raw`
+
+Rather than configuring each service through a constructor or constants file, the Amplify Framework for Android supports configuration through centralized files called amplifyconfiguration.json and awsconfiguration.json which define all the regions and service endpoints to communicate. On Android projects these two files will be placed into the root directory.
+
+You can also manually update them if you have existing AWS resources which you manage outside of the Amplify deployment process. Additionally, if you ever decide to run Amplify CLI commands from a terminal inside your Android Studio project these configurations will be automatically updated.
+
+* **amplify-gradle-config.json** under the root directory: This file is used to configure modelgen and push to cloud actions.
+
+c. After the deployment has completed you can open the `amplifyconfiguration.json` and you should see the `api` section containing your backend like the following:
+```json
+{
+    "api": {
+        "plugins": {
+            "awsAPIPlugin": {
+                "amplifyDatasource": {
+                    "endpointType": "GraphQL",
+                    "endpoint": "https://<YOUR-GRAPHQL-ENDPOINT>.appsync-api.us-west-2.amazonaws.com/graphql",
+                    "region": "us-west-2",
+                    "authorizationType": "API_KEY",
+                    "apiKey": "<YOUR API KEY>"
+                }
+            }
+        }
     }
-
-    private GraphQLCall.Callback<CreateTodoMutation.Data> mutationCallback = new GraphQLCall.Callback<CreateTodoMutation.Data>() {
-        @Override
-        public void onResponse(@Nonnull Response<CreateTodoMutation.Data> response) {
-            Log.i("Results", "Added Todo");
-        }
-
-        @Override
-        public void onFailure(@Nonnull ApolloException e) {
-            Log.e("Error", e.toString());
-        }
-    };
+}
 ```
 
-Next, query the data:
+## Step 4: Integrate into your app
+
+a. Initialize Amplify in your app's entry point, such as in the `onCreate` method of MainActivity:
 
 ```java
-    public void runQuery(){
-        mAWSAppSyncClient.query(ListTodosQuery.builder().build())
-                .responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK)
-                .enqueue(todosCallback);
-    }
-
-    private GraphQLCall.Callback<ListTodosQuery.Data> todosCallback = new GraphQLCall.Callback<ListTodosQuery.Data>() {
-        @Override
-        public void onResponse(@Nonnull Response<ListTodosQuery.Data> response) {
-            Log.i("Results", response.data().listTodos().items().toString());
-        }
-
-        @Override
-        public void onFailure(@Nonnull ApolloException e) {
-            Log.e("ERROR", e.toString());
-        }
-    };
+try {
+    Amplify.addPlugin(new AWSApiPlugin());
+    Amplify.configure(getApplicationContext());
+    Log.i("AmplifyGetStarted", "Amplify is all setup and ready to go!");
+} catch (AmplifyException exception) {
+    Log.e("AmplifyGetStarted", exception.getMessage());
+}
 ```
 
-You can also setup realtime subscriptions to data:
+b. First add some data to your backend:
 
 ```java
-    private AppSyncSubscriptionCall subscriptionWatcher;
+Task task = Task.builder().title("My first task").description("Get started with Amplify").build();
 
-    private void subscribe(){
-        OnCreateTodoSubscription subscription = OnCreateTodoSubscription.builder().build();
-        subscriptionWatcher = mAWSAppSyncClient.subscribe(subscription);
-        subscriptionWatcher.execute(subCallback);
+Amplify.API.mutate(task, MutationType.CREATE, new ResultListener<GraphQLResponse<Task>>() {
+    @Override
+    public void onResult(GraphQLResponse<Task> taskGraphQLResponse) {
+        Log.i("AmplifyGetStarted", "Added task with id: " + taskGraphQLResponse.getData().getId());
     }
 
-    private AppSyncSubscriptionCall.Callback subCallback = new AppSyncSubscriptionCall.Callback() {
-        @Override
-        public void onResponse(@Nonnull Response response) {
-            Log.i("Response", response.data().toString());
-        }
-
-        @Override
-        public void onFailure(@Nonnull ApolloException e) {
-            Log.e("Error", e.toString());
-        }
-
-        @Override
-        public void onCompleted() {
-            Log.i("Completed", "Subscription completed");
-        }
-    };
+    @Override
+    public void onError(Throwable throwable) {
+        Log.e("AmplifyGetStarted", throwable.toString());
+    }
+});
 ```
 
-Call the `runMutation()`, `runQuery()`, and `subscribe()` methods from your app code, such as from a button click or when your app starts in `onCreate()`. You will see data being stored and retrieved in your backend from the Android Studio console. At any time you can open the AWS console for your new API directly by running the following command:
+c. Next query the results from your API:
+
+```java
+Amplify.API.query(Task.class, new ResultListener<GraphQLResponse<Iterable<Task>>>() {
+    @Override
+    public void onResult(GraphQLResponse<Iterable<Task>> iterableGraphQLResponse) {
+        for(Task task : iterableGraphQLResponse.getData()) {
+            Log.i("AmplifyGetStarted", "Task : " + task.getTitle());
+        }
+    }
+
+    @Override
+    public void onError(Throwable throwable) {
+        Log.e("AmplifyGetStarted", throwable.toString());
+    }
+});
+```
+
+d. Finally, you can listen to the Subscription with a `StreamListener` using the `onNext` callback:
+
+```java
+Amplify.API.subscribe(
+    Task.class,
+    SubscriptionType.ON_CREATE,
+    new StreamListener<GraphQLResponse<Task>>() {
+        @Override
+        public void onNext(GraphQLResponse<Task> taskGraphQLResponse) {
+            Log.i("AmplifyGetStarted", "Subscription detected a create: " +
+                    taskGraphQLResponse.getData().getTitle());
+        }
+
+        @Override
+        public void onComplete() {
+            // Whatever you want it to do on completing
+        }
+
+        @Override
+        public void onError(Throwable throwable) {
+            Log.e("AmplifyGetStarted", throwable.toString());
+        }
+    }
+);
+```
+
+**Testing your API**
+You can open the AWS console for you to run Queries, Mutation, or Subscription against you new API at any time directly by running the following command:
 
 ```terminal
 $ amplify console api
@@ -230,59 +244,90 @@ This will open the AWS AppSync console for you to run Queries, Mutations, or Sub
 
 What next? Here are some things to add to your app:
 
-
 * [Authentication](./authentication)
+* [DataStore](./datastore)
 * [Storage](./storage)
-* [Serverless APIs](./api)
+* [API](./api)
 * [Analytics](./analytics)
-* [Push Notification](./push-notifications)
-* [Messaging](./messaging)
 
 **Existing AWS Resources**
 
-If you want to use your existing AWS resources with your app you will need to **manually configure** your app with an `awsconfiguration.json` file in your code. For example, if you were using Amazon Cognito Identity, Cognito User Pools, AWS AppSync, or Amazon S3:
+If you want to use your existing AWS resources with your app you will need to **manually configure** your app with an `amplifyconfiguration.json` file in your code.
 
-```xml
+```json
 {
-    "CredentialsProvider": {
-        "CognitoIdentity": {
-            "Default": {
-                "PoolId": "XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab",
-                "Region": "XX-XXXX-X"
-            }
-        }
-    },
-    "CognitoUserPool": {
-        "Default": {
-            "PoolId": "XX-XXXX-X_abcd1234",
-            "AppClientId": "XXXXXXXX",
-            "AppClientSecret": "XXXXXXXXX",
-            "Region": "XX-XXXX-X"
-        }
-    },
-    "AppSync": {
-        "Default": {
-            "ApiUrl": "https://XXXXXX.appsync-api.XX-XXXX-X.amazonaws.com/graphql",
-            "Region": "XX-XXXX-X",
-            "AuthMode": "AMAZON_COGNITO_USER_POOLS"
-        }
-    },
-    "S3TransferUtility": {
-        "Default": {
-            "Bucket": "BUCKET_NAME",
-            "Region": "XX-XXXX-X"
-        }
+  "UserAgent": "aws-amplify-cli/2.0",
+  "Version": "1.0",
+  "storage": {
+    "plugins": {
+      "awsS3StoragePlugin": {
+         "bucket": "my-s3-bucket",
+         "region": "us-west-2",
+         "defaultAccessLevel": "guest"
+      }
     }
+  },
+  "analytics": {
+    "plugins": {
+      "awsPinpointAnalyticsPlugin": {
+        "pinpointAnalytics": {
+          "appId": "xxxx123xxxx23423bf24234",
+          "region": "us-east-1"
+        },
+        "pinpointTargeting": {
+           "region": "us-east-1",
+        }
+      }
+    }
+  },
+  "api": {
+    "plugins": {
+      "awsAPIPlugin": {
+        "uniqueApiname123": {
+          "endpoint": "http://api-gw-endpoint-1",
+          "region": "us-east-1"
+          "authorizationType": "AWS_IAM",
+          "endpointType": "REST"
+        },
+        "graphqlEndpoint123UserPools": {
+          "endpoint": "http://graphql-endpoint-1",
+          "region": "us-east-1",
+          "authorizationType": "AMAZON_COGNITO_USER_POOLS",
+          "endpointType": "GraphQL"
+        },
+        "graphqlEndpoint234APIKEy": {
+          "endpoint": "http://graphql-endpoint-1",
+          "region": "us-east-1",
+          "authorizationType": "API_KEY",
+          "apiKey": "apikey12sudksjdfnskjd",
+          "endpointType": "GraphQL"
+        },
+        "graphqlEndpoint345IAM": {
+          "endpoint": "http://graphql-endpoint-1",
+          "region": "us-east-1",
+          "authorizationType": "AWS_IAM",
+          "endpointType": "GraphQL"
+        }
+
+      }
+    }
+  },
+"predictions":{
+  "plugins": {
+     "awsPredictionsPlugin": {
+        "identify": {
+           "collectionId": "TestCollection",
+           "region": "us-east-1",
+           "maxEntities": 50
+         },
+        "convert": {
+           "voiceId": "Ivy",
+           "region": "us-east-1"
+        }
+      }
+    }
+  }
 }
 ```
 
 In the configuration above, you would need to set the appropriate values such as `Region`, `Bucket`, etc.
-
-**AWS SDK Interfaces**
-
-For working with other AWS services you can use service interface objects directly via the generated SDK clients. 
-
-To work with service interface objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
-{: .callout .callout--warning}
-
-You can call methods on any AWS Service interface object supported by the AWS Android SDK by passing your credentials from the AWSMobileClient to the service call constructor. See [SDK Setup Options](./manualsetup) for more information.
