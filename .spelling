@@ -252,6 +252,9 @@ base64
 amplify-s3-album
 styles.css
 6.x
+10.x
+12.x
+13.x
 polyfills.ts
 forgotPassword
 requireNewPassword
