@@ -18,14 +18,14 @@ Arguments are used mostly for scripting so that the command execution flow is no
 **`--yes` flag**
 
 The `--yes` flag, or its alias `-y`, suppresses command line prompts if defaults are available, and uses the defaults in command execution.
-The following commands take the `--yes` flag: 
+The following commands take the `--yes` flag:
 - `amplify init`
 - `amplify configure project`
 - `amplify push`
 - `amplify publish`
 
 #### `amplify init` parameters
-The `ampify init` command takes these parameters: 
+The `ampify init` command takes these parameters:
 - `--amplify`
 - `--frontend`
 - `--providers`
@@ -33,26 +33,26 @@ The `ampify init` command takes these parameters:
 - `--app`
 
 ##### `--amplify`
-Contains basic information of the project, it has these keys: 
+Contains basic information of the project, it has these keys:
 - `projectName`: the name of the project under development
 - `envName`: the name of your first environment
-- `defaultEditor`: your default code editor 
+- `defaultEditor`: your default code editor
 
 ##### `--frontend`
 Contains information for the CLI's frontend plugin, it has these keys:
 - `frontend`: the name of the chosen frontend plugin (without the `amplify-frontend-` prefix).
 - `framework`: the frontend framework used in the project, such as `react`. Only the `javascript` frontend handler takes it.
-- `config`: the configuration settings for the frontend plugin. 
+- `config`: the configuration settings for the frontend plugin.
 
-There are currently three official frontend plugins, and the following are the specifications of their respective `config` object: 
+There are currently three official frontend plugins, and the following are the specifications of their respective `config` object:
 **`config` for `javascript`**
 
 - `SourceDir`:
-The project's source directory. The CLI will place and update the `aws-exports.js` file in it, the `aws-exports.js` file is used to configure the `Amplify JS` library. 
+The project's source directory. The CLI will place and update the `aws-exports.js` file in it, the `aws-exports.js` file is used to configure the `Amplify JS` library.
 - `DistributionDir`:
-The project's distribution directory, where the build artifacts are stored. The CLI will upload the contents inside this directory to the S3 hosting buckets in the execution of the `amplify publish` command. 
+The project's distribution directory, where the build artifacts are stored. The CLI will upload the contents inside this directory to the S3 hosting buckets in the execution of the `amplify publish` command.
 - `BuildCommand`:
-The build command for the project. The CLI invokes the build command before uploading the contents in the distribution directory in the execution of the `amplify publish` command. 
+The build command for the project. The CLI invokes the build command before uploading the contents in the distribution directory in the execution of the `amplify publish` command.
 - `StartCommand`:
 The start command for the project, used for local testing. The CLI invokes the start command after it has pushed the latest development of the backend to the cloud in the execution of the `amplify run` command.
 
@@ -67,10 +67,10 @@ The `ios` frontend handler does NOT take the `config` object.
 ##### `--providers`
 Contains configuration settings for provider plugins. The key is the name of the provider plugin (without the `amplify-provider-` prefix), and the value is its configuration. Provider plugins contained in this object will be initialized, and able to provide functionalities for creation and maintenance of the cloud resources.
 
-Currently there is only one official provider plugin: `amplify-provider-awscloudformation`, its configuration is for the CLI to resolve aws credentials and region, the following are the specifications: 
+Currently there is only one official provider plugin: `amplify-provider-awscloudformation`, its configuration is for the CLI to resolve aws credentials and region, the following are the specifications:
 
 - `configLevel`:
-The configuration level is either `project` or `general`. Unless explicitly set to `general`, the `project` level is chosen. 
+The configuration level is either `project` or `general`. Unless explicitly set to `general`, the `project` level is chosen.
 `general` level means the CLI will not manage configuration at the project level, it instead relies on the AWS SDK to resolve aws credentials and region. To learn how it works, check the AWS SDK's documents on [credentials](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/setting-credentials-node.html) and [region](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/setting-region.html).
 `project` level means the configuration is managed at the project level by the CLI, each project gets its own independent configuration. The following attributes are used only when the configuration is at project level
 - `useProfile`:
@@ -79,9 +79,9 @@ A boolean indicating whether to use a profile defined in the shared config file 
 The name of the profile if `useProfile` is set to true.
 - `accessKeyId`:
 The aws access key id if `useProfile` is set to false.
-- `secretAccessKey`: 
+- `secretAccessKey`:
 The aws secret access key if `useProfile` is set to false.
-- `region`: 
+- `region`:
 The aws region if `useProfile` is set to false.
 
 ##### `--app`
@@ -140,7 +140,7 @@ amplify init \
 ```
 
 #### `amplify configure project` parameters
-The `amplify configure project` command allows the user to change the configuration settings that were first set by `amplify init`, and it takes the same parameters as the `amplify init` command: 
+The `amplify configure project` command allows the user to change the configuration settings that were first set by `amplify init`, and it takes the same parameters as the `amplify init` command:
 - `--amplify`
 - `--frontend`
 - `--providers`
@@ -186,7 +186,7 @@ amplify configure project \
 --yes
 ```
 
-#### `amplify push/publish` parameters 
+#### `amplify push/publish` parameters
 The `amplify publish` command internally executes `amplify push` so it takes the same parameters as push command. The `amplify push` command takes the following parameters
 - `--codegen`
 - `--yes`
@@ -372,7 +372,7 @@ Note: You MUST grant the role permissions to perform CloudFormation actions and 
 }
 ```
 3. Choose `Review policy`.
-4. Type in the policy Name, and optionally add the policy description. 
+4. Type in the policy Name, and optionally add the policy description.
 5. Choose `Create policy`.
 
 **2.2 Attach the policy to the user**
@@ -394,7 +394,7 @@ Note: You MUST grant the role permissions to perform CloudFormation actions and 
 This must be set up if the Biz Corp selected to `Require MFA` when creating the role. This needs to be set up by Dev Corp users and in their respective AWS account.<br/>
 We are using a virtual MFA device, such as the Google Authenticator app, in this example.
 
-1. Sign in to the AWS Management Console and open the [IAM](https://console.aws.amazon.com/iam/) console. 
+1. Sign in to the AWS Management Console and open the [IAM](https://console.aws.amazon.com/iam/) console.
 2. In the navigation pane of the console, choose `Users` and select the user created above in 2.2.
 3. Select the `Security Credentials` tab.
 4. Next to the `Assigned MFA device` label, choose the `Manage` option.
@@ -475,7 +475,7 @@ When defining a schema you can use directives from the GraphQL Transformer in lo
 Note that `@searchable` is not supported at this time.
 
 ### Storage mocking setup
-For S3 storage mocking, after running `amplify init` you must first run through `amplify add auth`, either explicitly or implicitly if adding storage first, and then run an `amplify push`. This is because mocking storage in client libraries requires credentials for initial setup. Note however that S3 authorization rules, such as those placed on a bucket policy, are not checked by local mocking at this time. 
+For S3 storage mocking, after running `amplify init` you must first run through `amplify add auth`, either explicitly or implicitly if adding storage first, and then run an `amplify push`. This is because mocking storage in client libraries requires credentials for initial setup. Note however that S3 authorization rules, such as those placed on a bucket policy, are not checked by local mocking at this time.
 
 Once you have done an initial push you can run the mock server and hit the local endpoint:
 
@@ -615,7 +615,7 @@ Alternatively, if you are running a non-production application and do not want t
     android:label="@string/app_name"
     android:theme="@style/AppTheme"
     android:usesClearTextTraffic="true" >
-    
+
     <!--other code-->
 </application>
 ```
@@ -695,7 +695,7 @@ Babel needs to be configured properly so that the transpiled code can be run on 
       {
         "exclude": ["transform-regenerator"],
         "targets": {
-          "node": "8.10"
+          "node": "10.18"
         }
       }
     ]
@@ -711,7 +711,7 @@ Babel needs to be configured properly so that the transpiled code can be run on 
 Once you run `amplify push`, the `amplify:generateReport` script will be executed, either by `yarn` or by `npm` depending on the existence of a `yarn.lock` file in the project root directory.
 
 ## Architecture
-The Amplify CLI has a pluggable architecture. The CLI core provides the pluggable platform, and most of the CLI category functions are implemented as plugins. 
+The Amplify CLI has a pluggable architecture. The CLI core provides the pluggable platform, and most of the CLI category functions are implemented as plugins.
 
 ### Amplify Plugin Platform
 ![Image]({{media_base}}/plugin-platform.png)
@@ -721,20 +721,20 @@ The Amplify CLI Core maintains a `plugins.json` file to store the plugin managem
 The Amplify CLI plugins each contains a `amplify-plugin.json` file to manifest itself as a valid plugin.  <br/>
 The Amplify CLI Core provides a set of utility commands under `amplify plugin` for plugin management and to facilitate the development of plugins.
 
-The Amplify CLI Core does not dynamically scan for plugins at the beginning of each command execution. Instead, information about the installed plugins are retrieved from the `plugins.json` file and only the plugins that are needed for the execution of the command will be loaded. 
+The Amplify CLI Core does not dynamically scan for plugins at the beginning of each command execution. Instead, information about the installed plugins are retrieved from the `plugins.json` file and only the plugins that are needed for the execution of the command will be loaded.
 
-The `plugins.json` file is stored at path `<os.homedir>/.amplify/plugins.json`. Unless you really know what you are doing, you should NOT manually edit this file, otherwise you run the risk of corrupting your local installation of the Amplify CLI. 
+The `plugins.json` file is stored at path `<os.homedir>/.amplify/plugins.json`. Unless you really know what you are doing, you should NOT manually edit this file, otherwise you run the risk of corrupting your local installation of the Amplify CLI.
 
-The `plugins.json` file will be created or updated in the following situations: 
+The `plugins.json` file will be created or updated in the following situations:
 
 * If the `plugins.json` file is not found when the Amplify CLI Core tries to access it, the Amplify CLI Core will create this file and scan the local environment for plugins, and then store the information in the file.
-* If the last scan time was more than one day (configurable) ago, the Amplify CLI Core will scan again and update the information. 
-* If inaccuracy is detected, e.g. a specified plugin can not be loaded, the Amplify CLI Core will scan again and update the information. 
+* If the last scan time was more than one day (configurable) ago, the Amplify CLI Core will scan again and update the information.
+* If inaccuracy is detected, e.g. a specified plugin can not be loaded, the Amplify CLI Core will scan again and update the information.
 * After the execution of any of the `amplify plugin` commands that could change it, e.g. `amplify plugin scan`, `amplify plugin add/remove`.
 
 By default, the CLI core searches for plugins in its parent directory, its local `node_modules` directory, and the global `node_modules` directory. Plugins are recognized by the `amplify-` prefix in the package names.
 
-Plugins communicate with the CLI core and with each other through the project metadata. The CLI core provides the read and write access to the project metadata for the plugins. The project metadata is stored in file `amplify/backend/amplify-meta.json` in the user project. 
+Plugins communicate with the CLI core and with each other through the project metadata. The CLI core provides the read and write access to the project metadata for the plugins. The project metadata is stored in file `amplify/backend/amplify-meta.json` in the user project.
 
 ### Plugin types
 ![Image]({{media_base}}/AmplifyCliConcept.jpg)
@@ -753,12 +753,12 @@ Categories are managed by AWS and are a functional use case that a client engine
 
 #### Provider plugin
 Amplify maintained provider plugins are recognized by the `amplify-provider-` prefix in the package name.<br/>
-A provider plugin abstracts the actual cloud resource provider. It wraps up communication details such as access credentials, api invoke and wait logic, and response data parsing. It also exposes simple interface methods for the category plugins to CRUD cloud resource. 
+A provider plugin abstracts the actual cloud resource provider. It wraps up communication details such as access credentials, api invoke and wait logic, and response data parsing. It also exposes simple interface methods for the category plugins to CRUD cloud resource.
 
 #### Frontend plugin
 Amplify maintained frontend plugins are recognized by the `amplify-frontend-` prefix in the package name.<br/>
 A frontend plugin handles a specific type of frontend projects, such as Javascript, Android or iOS projects. Among other things, it provides the following functionalities:
-- Formats the cloud resource information and writes it to a file at the right location so it can be recognized and consumed by the frontend project 
+- Formats the cloud resource information and writes it to a file at the right location so it can be recognized and consumed by the frontend project
 - Builds and serves the frontend application locally with backend hot-wired to the cloud resources
 - Builds and publishes the application (frontend and backend) to its intended users
 
@@ -796,12 +796,12 @@ You can add a 3rd party plugin to the Amplify CLI with the following steps:
 Click [here](plugins) for more details on how to author new plugins.
 
 ### AWS CloudFormation
-Currently, the only official provider plugin, amplify-provider-awscloudformation, uses the AWS CloudFormation to form and update the backend resources in the AWS for the amplify categories. For more information about  AWS CloudFormation, check its user guide: 
+Currently, the only official provider plugin, amplify-provider-awscloudformation, uses the AWS CloudFormation to form and update the backend resources in the AWS for the amplify categories. For more information about  AWS CloudFormation, check its user guide:
 [AWS CloudFormation User Guide](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html)
 
 #### How the CLI works
-The amplify-provider-awscloudformation uses 
-[nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html) 
+The amplify-provider-awscloudformation uses
+[nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html)
 
 ### Amplify CLI Artifacts
 
@@ -816,10 +816,10 @@ amplify
 Contains files that store cloud configuration and user settings/preferences
 #### amplify/#current-cloud-backend folder
 Contains backend resources specifications in the cloud from the last synchronization, by the amplify push or amplify env pull command.
-Each plugin stores contents in its own subfolder inside this folder. 
+Each plugin stores contents in its own subfolder inside this folder.
 #### amplify/backend folder
-It contains the latest local development of the backend resources specifications to be pushed to the cloud. 
-Each plugin stores contents in its own subfolder inside this folder. 
+It contains the latest local development of the backend resources specifications to be pushed to the cloud.
+Each plugin stores contents in its own subfolder inside this folder.
 
 #### Amplify Files
 
@@ -842,7 +842,7 @@ Because one category might create multiple services within one project (e.g. the
     }
 }
 ```
-The metadata for each service is first logged into the meta file after the `amplify <category> add` command is executed, containing some general information that indicates one service of the category has been added locally. 
+The metadata for each service is first logged into the meta file after the `amplify <category> add` command is executed, containing some general information that indicates one service of the category has been added locally.
 Then, on the successful execution of the `amplify push` command, the `output` object will be added/updated in the service's metadata with information that describes the actual cloud resources that have been created or updated.
 
 
