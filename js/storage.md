@@ -16,7 +16,7 @@ Ensure you have [installed and configured the Amplify CLI and library]({%if jeky
 
 ### Automated Setup
 
-AWS Mobile CLI helps you to create and configure the storage buckets for your app. The default implementation of the Storage module leverages [Amazon S3](https://aws.amazon.com/s3).
+Amplify CLI helps you to create and configure the storage buckets for your app. The default implementation of the Storage module leverages [Amazon S3](https://aws.amazon.com/s3).
 
 ##### Create Your Backend with the CLI
 

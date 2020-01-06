@@ -36,6 +36,7 @@ The following commands should be executed inside your project root directory:
 1. `amplify init`
 2. `amplify <category> add/remove`
 3. `amplify push`
+4. `amplify pull`
 
 #### The init process
 `$ amplify init` <br/>
@@ -48,6 +49,7 @@ The `init` command goes through the following steps:
 - Carries out, in sequence, the initialization logic of the selected plugin(s)
 - Insert amplify folder structure into the project's root directory, with the initial project configuration
 - Generate the project metadata files, with the outputs of the above-selected plugin(s)
+- Creates a cloud project in the [AWS Amplify Console](https://console.aws.amazon.com/amplify) to view and manage resources for all backend environments.
 
 ### Samples workflow
 To set up a sample amplify project, execute the following command inside an empty directory:
@@ -58,6 +60,8 @@ where the github url is a valid sample amplify project repository. Click [here](
 
 ### Common CLI commands
 - `amplify <category> <subcommand>`
+- `amplify push`
+- `amplify pull`
 - `amplify env <subcommand>`
 - `amplify configure`
 - `amplify console`
@@ -65,7 +69,6 @@ where the github url is a valid sample amplify project repository. Click [here](
 - `amplify help`
 - `amplify init`
 - `amplify publish`
-- `amplify push`
 - `amplify run`
 - `amplify status`
 
@@ -84,31 +87,43 @@ The provider logs the information of the root stack and the resources into the p
 The root stack's template can be found in `amplify/backend/awscloudformation`.
 
 ### amplify add
-Once init is complete, run the command `amplify add <category>` to add resources of a category to the cloud. This will place a CloudFormation template for the resources of this category in the category's subdirectory `amplify/backend/<category>`, and insert its reference into the above-mentioned root stack as the nested child stack.
+Once init is complete, run the command `amplify add <category>` to add resources of a category to the cloud. This will place a CloudFormation template for the resources of this category in the category's subdirectory `amplify/backend/<category>` and insert its reference into the above-mentioned root stack as the nested child stack. When working in teams, it is good practice to run an `amplify pull` before modifying the backend categories.
 
 ### amplify push
 Once you have made your category updates, run the command `amplify push` to update the cloud resources. The CLI will first upload the latest versions of the category nested stack templates to the S3 deployment bucket, and then call the AWS CloudFormation API to create / update resources in the cloud. Based upon the resources added/updated, the `aws-exports.js` file (for JS projects) and the `awsconfiguration.json` file (for native projects) gets created/updated.
+
+### amplify pull
+The `amplify pull` command operates similar to a *git pull*, fetching upstream backend environment definition changes from the cloud and updating the local environment to match that definition. The command is particularly helpful in team scenarios when multiple team members are editing the same backend, pulling a backend into a new project, or when connecting to [multiple frontend projects](#multiple-frontends) that share the same Amplify backend environment.
+
+### amplify console
+The `amplify console` command launches the browser directing you to your cloud project in the AWS Amplify Console. The Amplify Console provides a central location for development teams to view and manage their backend environments, status of the backend deployment, deep-links to the backend resources by Amplify category, and instructions on how to pull, clone, update, or delete environments.
+
+### amplify configure project
+The `amplify configure project` command is an advanced command and not commonly used for getting started or individual development projects. The command should be used to modify the project configuration present in the `.config/` directory and re-configuring AWS credentials (based on profile on your local machine) set up during the `amplify init` step. The `.config/` directory is generated in the `amplify/` directory, if not already present, and the `local-aws-info.json`, `local-env-info.json` and `project-info.json` files are configured to reflect the selections made as a part of the `amplify configure project` command.
 
 ## Category usage
 
 ### Auth Examples
 
+The Amplify CLI supports configuring many different Authentication and Authorization workflows, including simple and advanced configurations of the login options, triggering Lambda functions during different lifecycle events, and administrative actions which you can optionally expose to your applications.
+
 #### Configuring auth without social providers
+
+The easiest way to get started is to leverage the default configuration which is optimized for the most common use cases and choices.
 
 ```terminal
 $ amplify add auth     ##"amplify update auth" if already configured
-```
-Select Default configuration:
 
-```terminal
-Do you want to use the default authentication and security configuration?
-❯ Default configuration
-  Default configuration with Social Provider (Federation)
-  Manual configuration
+Do you want to use the default authentication and security configuration? 
+❯ Default configuration 
+  Default configuration with Social Provider (Federation) 
+  Manual configuration 
   I want to learn more.
 ```
 
 #### Configuring auth with social providers
+
+Once your User Pool is functioning, you can enable more configurations such as federation with Facebook, Google, or Login with Amazon. You can also configure more advanced settings by selecting *Manual Configuration*.
 
 ```terminal
 $ amplify add auth     ##"amplify update auth" if already configured
@@ -121,6 +136,183 @@ Do you want to use the default authentication and security configuration?
 ❯ Default configuration with Social Provider (Federation)
   Manual configuration
   I want to learn more.
+```
+
+#### Group management
+
+You can create logical Groups in Cognito User Pools and assign permissions to access resources in Amplify categories with the CLI, as well as define the relative precedence of one group to another. This can be useful for defining which users should be part of "Admins" vs "Editors", and if the users in a Group should be able to just write or write & read to a resource (AppSync, API Gateway, S3 bucket, etc). [You can also use these with `@auth` Static Groups in the GraphQL Transformer]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/graphql#static-group-authorization). Precedence helps remove any ambiguity on permissions if a user is in multiple Groups.
+
+```terminal
+$ amplify add auth
+❯ Manual configuration
+
+Do you want to add User Pool Groups? (Use arrow keys)
+❯ Yes
+
+? Provide a name for your user pool group: Admins
+? Do you want to add another User Pool Group Yes
+? Provide a name for your user pool group: Editors
+? Do you want to add another User Pool Group No
+? Sort the user pool groups in order of preference …  (Use <shift>+<right/left> to change the order)
+  Admins
+  Editors
+```
+
+When asked as in the example above, you can press `Shift` on your keyboard along with the **LEFT** and **RIGHT** arrows to move a Group higher or lower in precedence. Once complete you can open `./amplify/backend/auth/userPoolGroups/user-pool-group-precidence.json` to manually set the precedence.
+
+#### Group access controls
+For certain Amplify categories you can restrict access with CRUD (Create, Read, Update, and Delete) permissions, setting different access controls for authenticated users vs Guests (e.g. Authenticated users can read & write to S3 buckets while Guests can only read). You can further restrict this to apply different permissions conditionally depending on if a logged-in user is part of a specific User Pool Group.
+
+```terminal
+$amplify add storage  # Select content
+
+? Restrict access by? (Use arrow keys)
+  Auth/Guest Users 
+  Individual Groups 
+❯ Both 
+  Learn more 
+
+Who should have access?
+❯ Auth and guest users
+
+What kind of access do you want for Authenticated users? 
+❯ create/update, read
+
+What kind of access do you want for Guest users? 
+❯ read
+
+Select groups: 
+❯ Admins
+
+What kind of access do you want for Admins users? 
+❯ create/update, read, delete
+```
+
+The above example uses a combination of permissions where users in the "Admins" Group have full access, Guest users can only read, and users whom are not a member of any specific Group are part of the "Authenticated" users whom have create, update, and read access. Amplify will configure the corresponding IAM policy on your behalf. Advanced users can additionally set permissions by adding a `customPolicies` key to `./amplify/backend/auth/userPoolGroups/user-pool-group-precidence.json` with custom IAM policy for a Group. This will attach an inline policy on the IAM role associated to this Group during deployment. **Note**  this is an advanced feature and only suitable if you have an understanding of AWS resources. For instance perhaps you wanted users in the "Admins" group to have the ability to Create an S3 bucket:
+
+```json
+[
+    {
+        "groupName": "Admins",
+        "precedence": 1,
+        "customPolicies": [{
+          "PolicyName": "admin-group-policy",
+        	"PolicyDocument": {
+            "Version":"2012-10-17",
+            "Statement":[
+                {
+                  "Sid":"statement1",
+                  "Effect":"Allow",
+                  "Action":[
+                      "s3:CreateBucket"
+                  ],
+                  "Resource":[
+                      "arn:aws:s3:::*"
+                  ]
+                }
+             ]
+         	}
+        }]
+    },
+    {
+        "groupName": "Editors",
+        "precedence": 2
+    }
+]
+```
+
+#### Administrative Actions
+
+In some scenarios you may wish to expose Administrative actions to your end user applications. For example, the ability to list all users in a Cognito User Pool may provide useful for the administrative panel of an app if the logged-in user is a member of a specific Group called "Admins". 
+
+This is an advanced feature that is not recommended without an understanding of the underlying architecture. The associated infrastructure which is created is a base designed for you to customize for your specific business needs. We recommend removing any functionality which your app does not require.
+{: .callout .callout--warning}
+
+The Amplify CLi can setup a REST endpoint with secure access to a Lambda function running with limited permissions to the User Pool if you wish to have these capabilities in your application, and you can choose to expose the actions to all users with a valid account or restrict to a specific User Pool Group.
+
+```terminal
+$ amplify add auth
+# Choose default or manual
+
+? Do you want to add an admin queries API? Yes
+? Do you want to restrict access to a specific Group Yes
+? Select the group to restrict access with: (Use arrow keys)
+❯ Admins 
+  Editors 
+  Enter a custom group 
+```
+
+This will configure an API Gateway endpoint with a Cognito Authorizer that accepts an Access Token, which is used by a Lambda function to perform actions against the User Pool. The function is example code which you can use to remove, add, or alter functionality based on your business case by editing it in the `./amplify/backend/function/AdminQueriesXXX/src` directory and running an `amplify push` to deploy your changes. If you choose to restrict actions to a specific Group, custom middleware in the function will prevent any actions unless the user is a member of that Group.
+
+The default routes and their functions, HTTP methods, and expected parameters are below
+- `addUserToGroup`: Adds a user to a specific Group. Expects `username` and `groupname` in the POST body.
+- `removeUserFromGroup`: Adds a user to a specific Group. Expects `username` and `groupname` in the POST body.
+- `confirmUserSignUp`: Adds a user to a specific Group. Expects `username` in the POST body.
+- `disableUser`: Adds a user to a specific Group. Expects `username` in the POST body.
+- `enableUser`: Adds a user to a specific Group. Expects `username` in the POST body.
+- `getUser`: Adds a user to a specific Group. Expects `username` as a GET query string.
+- `listUsers`: Adds a user to a specific Group. You can provide an OPTIONAL `limit` as a GET query string, which returns a `NextToken` that can be provided as a `token` query string for pagination.
+- `listGroupsForUser`: Adds a user to a specific Group. Expects `username` as a GET query string. You can provide an OPTIONAL `limit` as a GET query string, which returns a `NextToken` that can be provided as a `token` query string for pagination.
+- `listUsersInGroup`: Adds a user to a specific Group. Expects `groupname` as a GET query string. You can provide an OPTIONAL `limit` as a GET query string, which returns a `NextToken` that can be provided as a `token` query string for pagination.
+- `signUserOut`: Signs a user out from User Pools, but only if the call is originating from that user. Expects `username` in the POST body.
+
+To leverage this functionality in your app you would call the appropriate route in your [JavaScript]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/api#using-rest), [iOS]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/ios/api#cognito-user-pools-authorization), or [Android]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}http://127.0.0.1:4000/android/api#cognito-user-pools-authorization) application after signing in. For example to add a user "richard" to the Editors Group and then list all members of the Editors Group with a pagination limit of 10 you could use the following React code below:
+
+```jsx
+import React from 'react'
+import Amplify, { Auth, API } from 'aws-amplify';
+import { withAuthenticator } from 'aws-amplify-react';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
+
+async function addToGroup() { 
+  let apiName = 'AdminQueries';
+  let path = '/addUserToGroup';
+  let myInit = {
+      body: {
+        "username" : "richard",
+        "groupname": "Editors"
+      }, 
+      headers: {
+        'Content-Type' : 'application/json',
+        Authorization: `${(await Auth.currentSession()).getAccessToken().getJwtToken()}`
+      } 
+  }
+  return await API.post(apiName, path, myInit);
+}
+
+
+let nextToken;
+
+async function listEditors(limit){
+  let apiName = 'AdminQueries';
+  let path = '/listUsersInGroup';
+  let myInit = { 
+      queryStringParameters: {
+        "groupname": "Editors",
+        "limit": limit,
+        "token": nextToken
+      },
+      headers: {
+        'Content-Type' : 'application/json',
+        Authorization: `${(await Auth.currentSession()).getAccessToken().getJwtToken()}`
+      }
+  }
+  const { NextToken, ...rest } =  await API.get(apiName, path, myInit);
+  nextToken = NextToken;
+  return rest;
+}
+
+function App() {
+  return (
+    <div className="App">
+      <button onClick={addToGroup}>Add to Group</button>
+      <button onClick={() => listEditors(10)}>List Editors</button>
+    </div>
+  );
+}
+
+export default withAuthenticator(App, true);
 ```
 
 #### Adding a Lambda Trigger
@@ -232,7 +424,7 @@ To learn more, take a look at the [GraphQL Transformer docs]({%if jekyll.environ
 
 ### Functions Examples
 
-You can add a Lambda function to your project which you can alongside a REST API or as a datasource, as a part of your GraphQL API using the @function directive.
+You can add a Lambda function to your project which you can use alongside a REST API or as a datasource, as a part of your GraphQL API using the @function directive. 
 ```terminal
 $ amplify add api
 ? Provide a friendly name for your resource to be used as a label for this category in the project: lambdafunction
@@ -393,61 +585,6 @@ As you can see in the prompt above, you can either choose to use an already exis
 
 ***Note***: You can associate more than one Lambda Function trigger to a DynamoDB table.
 
-## Multiple Frontends
-
-The `amplify configure project` command is an advanced command and not commonly used for getting started or individual development projects.
-The command should be used in the following cases:
-  - When wanting to modify the project and AWS configurations set during the `amplify init` step
-  - When sharing the same cloud backend across multiple frontends (JavaScript, iOS, Android)
-
-  Note:  When sharing your backend infrastructure between multiple frontend projects or between different machines, you will need to first manually copy the `amplify/` directory from your current project to the other project's root directory and then run the `amplify configure project` command.
-
- The `amplify configure project` command helps you with the following:
-  - Modifying the existing configurations present in the `.config/` directory tied to your project and re-configuring your AWS credentials as well (based on profile on your local machine).
-  - If you re-configure the frontend framework of your project it creates the corresponding configuration files required by your frontend code. For example, if you want to change your frontend from a javascript-based react app to an android app it generates a corresponding `awsconfiguration.json` file which could be fed into the AWS Mobile SDK APIs.
-
-What happens behind the scenes?
-  - The `.config/` directory is generated in the `amplify/` directory if not already present and the `local-aws-info.json`, `local-env-info.json` and `project-info.json` files are configured to reflect the selections made as a part of the `amplify configure project` command.
-
-  Alternatively, you could use the `amplify env import` command to pull in an environment from another project. Here's a sample usage of the same
-
-  ```
-  #!/bin/bash
-  set -e
-  IFS='|'
-
-  AWSCLOUDFORMATIONCONFIG="{\
-  \"Region\": \"us-east-1\",\
-  \"DeploymentBucketName\": \"mytestproject-20181106123241-deployment\",\
-  \"UnauthRoleName\": \"mytestproject-20181106123241-unauthRole\",\
-  \"StackName\": \"mytestproject-20181106123241\",\
-  \"StackId\": \"arn:aws:cloudformation:us-east-1:132393967379:stack/mytestproject67-20181106123241/1c03a3e0-e203-11e8-bea9-500c20ff1436\",\
-  \"AuthRoleName\": \"mytestproject67-20181106123241-authRole\",\
-  \"UnauthRoleArn\": \"arn:aws:iam::132393967379:role/mytestproject67-20181106123241-unauthRole\",\
-  \"AuthRoleArn\": \"arn:aws:iam::132393967379:role/mytestproject67-20181106123241-authRole\"\
-  }"
-  PROVIDER_CONFIG="{\
-  \"awscloudformation\":$AWSCLOUDFORMATIONCONFIG\
-  }"
-
-
-  AWS_CONFIG="{\
-  \"configLevel\":\"project\",\
-  \"useProfile\":true,\
-  \"profileName\":\"default\"\
-  }"
-
-  amplify env import \
-  --name dev \
-  --config $PROVIDER_CONFIG \
-  --awsInfo $AWS_CONFIG \
-  --yes
-
-  ```
-
-  You can get the `AWSCLOUDFORMATIONCONFIG` from the `team-provider-info.json` file from your existing Amplify project in the `amplify/` directory of the project.
-
-
 ## Mocking and Testing
 
 It is highly recommended that you complete the Getting Started section of Amplify setup before using local mocking.
@@ -492,6 +629,34 @@ The Amplify CLI provides escape hatches for modifying the backend configurations
 }
 ```
 
+Note: You can also reference an output value from any other Amplify managed category cloudformation stack. For example, if you want to use the Amazon Cognito `userpool ID` generated by the `auth` category stack in your custom cloudformation stack, you would need to add the `dependsOn` block in the `backend-config.json` file, The above `backend-config.json` file would look like the following:
+
+```javascript
+{
+  "<custom-category-name>": {
+    "<custom-resource-name>": {
+      "service": <custom-aws-service-name>,
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+	{
+         "category": "auth",
+	 "resourceName": "mycognitoresource", // check `amplify status` to find resource name
+	 "attributes": [
+	    "UserPoolId" // Check Output Value of the resource specific cloudformation file to find available attributes
+	  ]
+	}
+     ]
+    }
+  },
+  "hosting": {
+    "S3AndCloudFront": {
+      "service": "S3AndCloudFront",
+      "providerPlugin": "awscloudformation"
+    }
+  }
+}
+```
+
 2. Under `amplify/backend` folder, make a folder structure like the following:
   ```
   amplify
@@ -506,17 +671,80 @@ The Amplify CLI provides escape hatches for modifying the backend configurations
   ```
   `template.json` is a cloudformation template, and `parameters.json` is a json file of parameters that will be passed to the cloudformation template. Additionally, the `env` parameter will be passed in to your cloudformation templates dynamically by the CLI.
 
-3. Run `amplify env checkout <current-env-name>` to populate the CLI runtime files and make it aware of the newly added custom resources
+3. To use the above mentioned attribute `UserPoolId` from the auth category in your custom cloudformation stack, you would need to construct the following input parameter in the `template.json` file. The CLI will be passing this input automatically from the other nested stack.
+
+```javascript
+"Parameters": {
+  // Rest of the paramters
+ 
+  "authmycognitoresourceUserPoolId": { // The format out here is `<category><resource-name><attribute-name>` - we have defined all of these in the `backend-config.json` file above
+	 "Type": "String"
+ }
+},
+```
+
+4. Place one parameter in `parameters.json` named `authmycognitoresourceUserPoolId` with a cloudformation `Fn::GetAtt` that connects the output of one nested template to your custom template.
+
+  ```
+  	{
+    	   "authmycognitoresourceUserPoolId": {  // The format out here is `<category><resource-name><attribute-name>` - we have defined all of these in the `backend-config.json` file above
+              "Fn::GetAtt": [
+            	 "authmycognitoresource",  // check `amplify status` to find resource name in the category auth
+            	 "Outputs.UserPoolId"
+              ]
+    	   }
+	}
+  ```
+
+5. Run `amplify env checkout <current-env-name>` to populate the CLI runtime files and make it aware of the newly added custom resources
 
 
-## Environments & Teams
+## Multiple Frontends
+
+Use the `amplify pull` command to share the same Amplify backend across multiple frontends (e.g, a React and Android app). Users have an option to pull the entire backend definition (infrastructure templates and metadata) or only the metadata (e.g. the `aws-exports.js` or `amplifyconfiguration.json` file) required to connect to the backend. If you’re building a mobile and web app in separate repositories, the recommended workflow is to keep the backend definition (the amplify folder) in only one of the repositories and pull the metadata (the `aws-exports` or `amplifyconfiguration.json` file) in the second repository to connect to the same backend.
+
+### Workflow
+
+This workflow outlines the steps required to share a backend across two (or more) frontends. This example scenario is for a team building an Android and React app.
+
+![Image]({{media_base}}/multiple-frontends.png)
+
+1. Initialize a backend for your React app. This will create an Amplify project and backend environment that is accessible in the Amplify Console (by running `amplify console`). 
+
+    ```bash
+    $ cd my-react-app
+    $ amplify init
+        ? Enter a name for the project: ecommerce
+        ? Choose the type of app that you're building: react
+    $ amplify add api
+    $ amplify push
+    ```
+2. Make your frontend changes and commit the code to Git. Your Git repository now stores the `amplify` folder which contains the definition of your infrastructure.
+
+3. Reference the backend from your Android app using the `amplify pull` command. Choose 'No' when asked if you want to modify or add new categories to your backend. This will put the `amplifyconfiguration` to your src folder only. Choosing 'Yes' will work, however your backend definition will now be stored in two separate repositories leading to unintended consequences with multiple sources of truth. 
+
+    ```bash
+    $ cd my-android-app
+    $ amplify pull
+        ? Which app are you working on?
+          > ecommerce
+            mysecretproject
+        ? Choose the type of app that you're building: android
+        ? Do you plan on modifying this backend?: n
+      Successfully pulled backend environment dev from the cloud.
+      Run 'amplify pull' to sync upstream changes.
+    ```
+
+## Environments and Teams
 ### Concepts
 
-Amplify fits into the standard Git workflow where you switch between different branches using the `env` command. Similarly to how you will run `git checkout BRANCHNAME` you will run `amplify env checkout ENVIRONMENT_NAME`. The below diagram shows a workflow of how to initialize new environments when creating new git branches.
+When you initialize a project, you create an Amplify backend environment. Every Amplify backend environment is a container for the categories added to your project. To deploy updates to an environment, run `amplify push`. In teams where multiple members are working on the same backend, it is good practice to run `amplify pull` to fetch changes from upstream before beginning work on new backend features. View the list of backend environments in your cloud project by visiting the [Amplify Console](https://console.aws.amazon.com/amplify).
+
+For multiple environments, Amplify matches the standard Git workflow where you switch between different branches using the `env checkout` command - similar to running `git checkout BRANCHNAME`, run `amplify env checkout ENVIRONMENT_NAME` to switch between environments. The diagram below shows a workflow of how to initialize new environments when creating new git branches.
 
 ![Image]({{media_base}}/AmplifyEnvSwitching.jpg)
 
-You can independently add features to each environment which allows you to develop and test before moving them to different stages. This is contingent on which branch you ran a checkout from using Git. Using the same example above of **Dev** being the base which **Test** and **Prod** were derived, you could add (or remove) features and merge & deploy accordingly once you are comfortable with your setup.
+You can independently add features to each environment which allows you to develop and test before moving them to different stages. Using the same example above of **Dev** being the base which **Test** and **Prod** were derived, you could add (or remove) features and merge & deploy accordingly once you are comfortable with your setup.
 
 ![Image]({{media_base}}/AmplifyEnvAddDeploy.jpg)
 
@@ -581,8 +809,8 @@ $ git push -u origin dev
 
 ### Team workflow
 
-#### Sharing a project within a team
-There are two ways to work with Amplify projects within a team:
+#### Sharing a backend environment within a team
+There are two ways to work with Amplify backend environments within a team:
 1. Team members working on their own sandbox environments (Recommended)
 2. Team-members sharing the same dev backend to work on
 
@@ -652,7 +880,7 @@ $ amplify init
 ? Choose the environment you would like to use:
 ❯ dev
 master
-$ amplify env pull
+$ amplify pull
 $ git pull origin dev
 ```
 
@@ -695,9 +923,9 @@ Note: Team members would only be able to push to a stack only if they have the c
 If you want to share a project publicly and open source your serverless infrastructure, you should remove or put the amplify/team-provider-info.json file in gitignore file.
 
 ### Quick Tips
-* git and Amplify CLI should work hand in hand (ideally a CI tool should be used to automate this process - amplify CLI now provides headless support for its init/push commands. Check out <https://github.com/aws-amplify/amplify-cli/tree/multienv/packages/amplify-cli/sample-headless-scripts> for examples)
-* git checkout <branch-name> & amplify init (to initialize the env based on the git branch) should go hand in hand
-* git pull & amplify env pull should go hand in hand
+* git and Amplify CLI work well hand in hand (ideally a CI tool should be used to automate this process - amplify CLI now provides headless support for its init/push commands. Check out <https://github.com/aws-amplify/amplify-cli/tree/multienv/packages/amplify-cli/sample-headless-scripts> for examples)
+* git checkout <branch-name> & amplify init (to initialize the env based on the git branch) should go hand in hand 
+* git pull & amplify pull should go hand in hand
 * git push & amplify push should go hand in hand
 
 ### Environment related commands
@@ -708,9 +936,9 @@ Displays a list of all the environments in your Amplify project
 * amplify env remove <env-name> <br>
 Removes an environment from the Amplify project
 * amplify env get --name <env-name> <br>
-Displays the details of the environment specified in the command
-* amplify env pull --restore <br>
-Pulls your environment with the current cloud environment. Use the restore flag to overwrite your local backend configs with that in the cloud.
+Displays the details of the environment specified in the command 
+* amplify env pull <br>
+Pulls your environment from the cloud without impacting any local backend edits. Add the `--restore` flag to overwrite your local backend edits  (operates like the `amplify pull` command).
 * amplify env import<br>
 Imports an already existing Amplify project environment stack to your local backend. Here's a sample usage of the same
 

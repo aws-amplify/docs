@@ -90,6 +90,21 @@ A configuration file called `aws-exports.js` will be copied to your configured s
 
 The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your AWS Cognito User Pool.  These enable you to add custom functionality to your registration and authentication flows. [Read more]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/)
 
+Many Cognito Lambda Triggers accept unsanitized key/value pairs in the form of a 'ClientMetadata' attribute.  To configure a static set of key/value pairs, you can define a `clientMetadata` key in the `Auth.configure` function.  You can also pass a `clientMetadata` parameter to the various `Auth` functions which result in Cognito Lambda Trigger execution.   These functions include:
+
+- `Auth.changePassword`
+- `Auth.completeNewPassword`
+- `Auth.confirmSignIn`
+- `Auth.confirmSignUp`
+- `Auth.forgotPasswordSubmit`
+- `Auth.resendSignUp`
+- `Auth.sendCustomChallengeAnswer`
+- `Auth.signIn`
+- `Auth.signUp`
+- `Auth.updateUserAttributes`
+- `Auth.verifyUserAttribute`
+
+Please note that some of triggers which accept a 'validationData' attribute will use clientMetadata as the value for validationData.  Exercise caution with using clientMetadata when you are relying on validationData.
 
 ##### Configure Your App
 
@@ -169,7 +184,19 @@ Amplify.configure({
         storage: new MyStorage(),
         
         // OPTIONAL - Manually set the authentication flow type. Default is 'USER_SRP_AUTH'
-        authenticationFlowType: 'USER_PASSWORD_AUTH'
+        authenticationFlowType: 'USER_PASSWORD_AUTH',
+
+        // OPTIONAL - Manually set key value pairs that can be passed to Cognito Lambda Triggers
+        clientMetadata: { myCustomKey: 'myCustomValue' },
+
+         // OPTIONAL - Hosted UI configuration
+        oauth: {
+            domain: 'your_cognito_domain',
+            scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
+            redirectSignIn: 'http://localhost:3000/',
+            redirectSignOut: 'http://localhost:3000/',
+            responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
+        }
     }
 });
 
@@ -850,7 +877,7 @@ OAuth support in Amplify uses Cognito User Pools and supports federation with so
 
 #### OAuth and Hosted UI
 
-After configuring the OAuth endpoints, you can use them or the Hosted UI with `Auth.federatedSignIn()`. Passing *Amazon*, *Facebook*, or *Google* will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example. If you are looking to add a custom state, you are able to do so by passing a `string`
+After configuring the OAuth endpoints, you can use them or the Hosted UI with `Auth.federatedSignIn()`. Passing *LoginWithAmazon*, *Facebook*, or *Google* will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example. If you are looking to add a custom state, you are able to do so by passing a `string`
 (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via Hub
 
 ```javascript
