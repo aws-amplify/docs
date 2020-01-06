@@ -340,12 +340,12 @@ const comments = (await DataStore.query(Comment)).filter(c => c.post.id === post
 
 ## Observing relations
 
-When subscribing to changes in relational models, you can filter by the related model id. For example, on receiving updates to Comment data, you can filter by the id of the related Post before performing updates to the user interface. The received data includes the updated Model (`.element`) as well as the operation type (`.opType`).
+When subscribing to changes in relational models, you can filter by the related model id. For example, on receiving updates to Comment data, you can filter by the id of the related Post before performing updates to the user interface. The received data includes the updated Model (`.element`) as well as the operation type (`.opType`). In the example schema above, you could observe changes to Comments related to a particular Post as shown below:
 
 ```javascript
 const subscription = DataStore.observe(Comment)
   .subscribe(msg => {
-    if(msg.element.post.id === "123") {
+    if(msg.element.commentPostId === "123") {
       console.log(msg.model, msg.opType, msg.element);
     }
   });
