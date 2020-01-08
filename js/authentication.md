@@ -328,16 +328,6 @@ Auth.resendSignUp(username).then(() => {
 });
 ```
 
-The `Auth.signUp` promise returns a data object of type [`ISignUpResult`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L136-L139) with a [`CognitoUser`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L48). 
-
-```js
-{
-    user: CognitoUser;
-    userConfirmed: boolean;
-    userSub: string;
-}
-```
-
 **Forcing Email Uniqueness in Cognito User Pools**
 
 When your Cognito User Pool sign-in options are set to "*Username*", and "*Also allow sign in with verified email address*", the *signUp()* method creates a new user account every time it's called, without validating email uniqueness. In this case you will end up having multiple user pool identities and all previously created accounts will have their *email_verified* attribute changed to *false*. 
