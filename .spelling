@@ -861,6 +861,7 @@ HostedUI
 UserPool
 flipside
 ARNs
+passwordless
 
 # ios/how-to-cognito-integrate-an-existing-identity-pool-ios.md
 AppDelegate

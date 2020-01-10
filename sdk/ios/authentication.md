@@ -1315,7 +1315,33 @@ AWSMobileClient.default().confirmSignIn(challengeResponse: "<Challenge Response>
 })
 ```
 
-Amplify CLI can be used generate lambda triggers required to by custom authentication flow. See [documentation](https://aws-amplify.github.io/docs/cli-toolchain/cognito-triggers) for details. 
+#### Lambda trigger setup
+
+Amplify CLI can be used generate lambda triggers required by a custom authentication flow. See [documentation](https://aws-amplify.github.io/docs/cli-toolchain/cognito-triggers) for details. Amplify CLI creates a custom auth flow skeleton that you can manually edit. More information on each of the triggers can be found in [Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
+
+`AWSMobileClient` assumes that custom auth flows start with username and password. If you want a passwordless custom authentication flow, modify your `Define Auth Challenge` Lambda trigger to bypass the initial username/password verification and proceed to the custom challenge, as in the code below.
+
+```javascript
+exports.handler = (event, context) => {
+  if (event.request.session.length === 1 && 
+    event.request.session[0].challengeName === 'SRP_A') {
+    event.response.issueTokens = false;
+    event.response.failAuthentication = false;
+    event.response.challengeName = 'CUSTOM_CHALLENGE';
+  } else if (
+    event.request.session.length === 2 &&
+    event.request.session[1].challengeName === 'CUSTOM_CHALLENGE' &&
+    event.request.session[1].challengeResult === true
+  ) {
+    event.response.issueTokens = true;
+    event.response.failAuthentication = false;
+  } else {
+    event.response.issueTokens = false;
+    event.response.failAuthentication = true;
+  }
+  context.done(null, event);
+};
+```
 
 ## Using Device Features
 
