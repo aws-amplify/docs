@@ -255,3 +255,5 @@ When a user receives an notification and taps on it, the AWS Pinpoint SDK will s
 `_campaign.received_foreground` when the app is received while it is in the foreground
 
 `_campaign.received_background` when the notification is tapped on recieved while the app is in the background 
+
+If the developer never taps on the notification even though it was received on the device, the App will not submit an event for that since there is no way for the App to know that the notification was received by the device.
