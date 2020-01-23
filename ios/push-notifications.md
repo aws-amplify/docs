@@ -14,47 +14,40 @@ title: Push Notifications
 Enable your users to receive mobile push messages sent from the Apple (APNs) and Google (FCM/GCM) platforms. The CLI deploys your push notification backend using [Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/).
 You can also create Amazon Pinpoint campaigns that tie user behavior to push or other forms of messaging.
 
-## Set Up Your Backend
+## Pre-requisite
+
+- Enrolled in the Apple Developer Program
+- Actual device to run the app on
 
 1. Complete the [Get Started](./start) steps before you proceed.
 
-2. Complete the [Setting Up APNS Guide](./push-notifications-setup-apns). This will guide you through the process of setting up an App ID, SSL certificate, provisioning profile, entitlements, distribution certificate, and provisioning profile, which are required to deliver notifications to iOS devices.
+2. Under the target, select "Signing & Capabilities", make sure the `Bundle Identifier` is unique. Make sure `Automatically manage signing` is enabled and your apple developer team is chosen.
 
-3. Use the CLI to add notifications to your cloud-enabled backend and app.
+3. Plug in the device and make sure it is registered and there are no errors on this page provisioning the profile.
 
-    In a terminal window, navigate to your project folder (the folder that typically contains your project level `xcodeproj` file), and add the SDK to your app.
+4. On this page, click on `+ Capability`, and add `Push Notification` and `Background Modes`. For `Background Modes`, have `Remote notifications` checked.
 
-    ```bash
-    $ cd ./YOUR_PROJECT_FOLDER
-    $ amplify add notifications
-    ```
+## Set Up Your Backend
 
-4. Set up your backend to support receiving push notifications:
+1. Add analytics to your app and allow guests and unauthenticated users send analytics events.
+```
+amplify add analytics
+```
 
-    - Choose Apple Push Notification Service (APNs).
+2. Provision the backend
+```
+amplify push
+```
 
-        ```
-        > APNS
-        ```
-
-    - Choose Certificate as your authentication method.
-
-        ```
-        > Certificate
-        ```
-
-    - Provide the path to your P12 certificate that you created in [Setting Up iOS Push Notifications](./push-notifications-setup-apns).
-
-   Use the steps in the next section to connect your app to your backend.
+3. Drag `awsconfiguration.json` into your project if haven't done so already from a previous set up, with `copy as needed` checked.
 
 ## Connect to Your Backend
 
-Use the following steps to connect add push notification backend services to your app.
+Use the following steps to connect push notification backend services to your app.
 
 1. The `Podfile` that you configure to install the AWS Mobile SDK must contain the `AWSPinpoint` pod:
 
     ```ruby
-    platform :ios, '9.0'
 
     target :'YOUR-APP-NAME' do
       use_frameworks!
@@ -67,50 +60,107 @@ Use the following steps to connect add push notification backend services to you
 
     Run `pod install --repo-update` before you continue.
 
-    If you encounter an error message that begins `[!] Failed to connect to GitHub to update the CocoaPods/Specs...`, and your internet connectivity is working, you may need to [update openssl and Ruby](https://stackoverflow.com/questions/38993527/cocoapods-failed-to-connect-to-github-to-update-the-cocoapods-specs-specs-repo/48962041#48962041).
-
-1. Classes that call Amazon Pinpoint APIs must use the following import statements:
+1. Add the following import statements:
 
     ```
+    import UserNotifications
     import AWSPinpoint
-    import AWSMobileClient
     ```
 
-1. To receive push notifications with Amazon Pinpoint, you'll instantiate a Pinpoint instance and register your device token with Amazon Pinpoint. We recommend you do this during app startup, so your users can begin receiving notifications as early as possible.
+1. To receive push notifications, we recommend you request for authorization from the user during app startup, so your users can begin receiving notifications as early as possible.
 
-    **Note**: If you have already integrated `Analytics`, you can skip this step.
+```swift
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    Edit the `application(_:didFinishLaunchingWithOptions:)` method of your app's `AppDelegate.swift` by adding a `pinpoint` instance property, and initializing the Pinpoint client as shown below:
+    var pinpoint: AWSPinpoint?
 
-    ```swift
-    class AppDelegate: UIResponder, UIApplicationDelegate {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-       /** start code copy **/
-       var pinpoint: AWSPinpoint?
-       /** end code copy **/
+        // Instantiate Pinpoint
+        let pinpointConfiguration = AWSPinpointConfiguration.defaultPinpointConfiguration(launchOptions: launchOptions)
+        pinpointConfiguration.debug = true // Make sure to set debug mode to use APNS sandbox
+        pinpoint = AWSPinpoint(configuration: pinpointConfiguration)
 
-       func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-
-            // Other didFinishLaunching code...
-
-            /** start code copy **/
-            // Create AWSMobileClient to connect with AWS
-	          AWSMobileClient.default().initialize { (userState, error) in
-              if let error = error {
-                print("Error initializing AWSMobileClient: \(error.localizedDescription)")
-              } else if let userState = userState {
-                print("AWSMobileClient initialized. Current UserState: \(userState.rawValue)")
-              }
-            }
-
-            // Initialize Pinpoint
-            let pinpointConfiguration = AWSPinpointConfiguration.defaultPinpointConfiguration(launchOptions: launchOptions)
-            pinpoint = AWSPinpoint(configuration: pinpointConfiguration)
-            /** end code copy **/
-            return true
-       }
+        // Present the user with a request to authorize push notifications
+        registerForPushNotifications()
+        
+        return true
     }
-    ```
+
+    // MARK: Push Notification methods
+
+    func registerForPushNotifications() {
+        UNUserNotificationCenter.current()
+            .requestAuthorization(options:[.alert, .sound, .badge]) {[weak self] granted, error in
+                print("Permission granted: \(granted)")
+                guard granted else { return }
+
+                // Only get the notification settings if user has granted permissions
+                self?.getNotificationSettings()
+        }
+
+    }
+
+    func getNotificationSettings() {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            print("Notification settings: \(settings)")
+            guard settings.authorizationStatus == .authorized else { return }
+
+            DispatchQueue.main.async {
+                // Register with Apple Push Notification service
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+        }
+    }
+}
+```
+
+2. Add the AppDelegate lifecycle methods to register the device token with AWS pinpoint, and handle push notifications from the foreground and background.
+```swift
+// MARK: Remote Notifications Lifecycle
+func application(_ application: UIApplication,
+    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
+    let token = tokenParts.joined()
+    print("Device Token: \(token)")
+
+    // Register the device token with Pinpoint as the endpoint for this user
+    pinpoint!.notificationManager.interceptDidRegisterForRemoteNotifications(withDeviceToken: deviceToken)
+}
+
+func application(_ application: UIApplication,
+    didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    print("Failed to register: \(error)")
+}
+
+func application(_ application: UIApplication,
+                    didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                    fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+
+    if (application.applicationState == .active) {
+        let alert = UIAlertController(title: "Notification Received",
+                                        message: userInfo.description,
+                                        preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+
+        UIApplication.shared.keyWindow?.rootViewController?.present(
+            alert, animated: true, completion:nil)
+    }
+
+    pinpoint!.notificationManager.interceptDidReceiveRemoteNotification(
+        userInfo, fetchCompletionHandler: completionHandler)
+}
+```
+
+3. Build and run the app. Allow notifications when prompted, and you should see the device token printed out. 
+
+4. Enable verbose logging for AWSPinpoint SDK, re-run the app, and you should be able to find the `endpointId` that is registered with AWSPinpoint. 
+```
+AWSDDLog.sharedInstance.logLevel = .verbose
+AWSDDLog.add(AWSDDTTYLogger.sharedInstance)
+```
+
+This will be used later when testing a Pinpoint Campaign to send notifications to this endpoint. 
 
 ### Manual Configuration
 
@@ -175,110 +225,33 @@ Make the following changes to the configuration file. The values are available i
 The [Amazon Pinpoint console](https://console.aws.amazon.com/pinpoint/) enables you to target your app users with push messaging. You can send individual messages or configure campaigns that target a group of users that match a profile that you define.
 For instance, you could email users that have not used the app in 30 days, or send an SMS to those that frequently use a given feature of your app.
 
-The following steps show how to receive push notifications targeted for your app.
+The following steps show how to send push notifications targeted for your app.
 
-1. To receive Amazon Pinpoint push notification to your app, you'll use `pinpoint.notificationManager` to intercept the registration of the app for notifications in the `application(_:didRegisterForRemoteNotificationsWithDeviceToken:)` application call back in AppDelegate.
+1. Go to https://developer.apple.com/account/ 
 
-    Then add and call a function like `registerForPushNotifications()` to prompt permission from the user for the app to use notifications. The following example uses the `UNUserNotification` framework, which is available in iOS 10.0+. Choose the right location in your app to prompt the user for permissions. In the following example the call is implemented in the `application(_:didFinishLaunchingWithOptions:)` event in AppDelegate. This causes the prompt to appear when the app launches.
+2. Under "Certificates, Identifiers & Profiles", on the left side click on "Keys", click +, type in a name like "Push Notification Key", check off Apple Push Notification Service (APNs). Register and download the file. It should be in the format of `AuthKey_<Key ID>.p8`
 
-    ```swift
-    import UserNotifications
+2. Go to your Membership details page to get the TeamID
 
-    // Other imports...
+3. Open the AWS Pinpoint console with `amplify console analytics`
 
-    class AppDelegate: UIResponder, UIApplicationDelegate {
+4. Go to Settings, enable push notifications for APNS, select Key certificate, and add the Team ID, Key ID, the unique bundle identifier of your app, and select the `AuthKey_<Key ID>.p8` file
 
-        // Other app delegate methods...
-        func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-            // Other didFinishLaunching code, including Pinpoint initialization...
+5. Go to Campaign, provide a campaign name, and click next.
 
-            registerForPushNotifications()
+6. In the segement section, select `Create a new segment` and you should see 1 device as a targeted endpoint, which is the app we are running on the device. Choose this option and then choose **Next Step**.
 
-            // Other didFinishLaunching code...
-        }
+7. Provide text for a sample title and body for push notification, click on Test message. Enter the `endpointID` retrieved from the app in the earlier step to send a push notification to the device. 
 
-        func application(
-            _ application: UIApplication,
-            didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+8. A notification should appear on the iPhone device. You may want to try testing your app receiving notifications when it is in the foreground and when closed.
 
-            pinpoint!.notificationManager.interceptDidRegisterForRemoteNotifications(
-                withDeviceToken: deviceToken)
-        }
 
-        func application(
-            _ application: UIApplication,
-            didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-                                        fetchCompletionHandler completionHandler:
-            @escaping (UIBackgroundFetchResult) -> Void) {
+## Campaign Push messaging events
 
-            pinpoint!.notificationManager.interceptDidReceiveRemoteNotification(
-                userInfo, fetchCompletionHandler: completionHandler)
+When a user receives an notification and taps on it, the AWS Pinpoint SDK will send a corresponding event that you can filter on in the AWS Pinpoint console.
 
-            if (application.applicationState == .active) {
-                let alert = UIAlertController(title: "Notification Received",
-                                            message: userInfo.description,
-                                            preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+`_campaign.opened_notification` event will be sent when the notification is opened from an app Inactive or Terminated state.
 
-                UIApplication.shared.keyWindow?.rootViewController?.present(
-                    alert, animated: true, completion:nil)
-            }
-        }
+`_campaign.received_foreground` when the app is received while it is in the foreground
 
-        // Request user to grant permissions for the app to use notifications
-        func registerForPushNotifications() {
-            UNUserNotificationCenter.current().delegate = self
-            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) {
-                (granted, error) in
-                print("Permission granted: \(granted)")
-                // 1. Check if permission granted
-                guard granted else { return }
-                // 2. Attempt registration for remote notifications on the main thread
-                DispatchQueue.main.async {
-                    UIApplication.shared.registerForRemoteNotifications()
-                }
-            }
-        }
-
-        // Other app delegate methods...
-    }
-    ```
-
-    **Note**: If you already have push notification delegate methods, you can just add the `interceptDidRegisterForRemoteNotifications` and `interceptDidReceiveRemoteNotification` callbacks to Pinpoint client.
-
-1. In Xcode Project Navigator, choose your app name at the top, choose your app name under **Targets**, choose the **Capabilities** tab, and then turn on **Push Notifications**.
-
-    ![Image of turning on Push Notifications capabilities in Xcode]({{image_base}}/xcode-turn-on-push-notification.png)
-
-1. Configure the app to run in the **Release** profile instead of the default **Debug** profile. Perform the following steps to get a notification to the device:
-
-    1. For your app target, go to the **General** tab of project configuration and make sure **Automatically Manage Signing** check box is not selected.
-
-    1. In the **Signing (Release)** section, choose the production provisioning profile you created on Apple developer console. For testing push notifications on a device, you will need an [Ad Hoc Provisioning Profile](https://help.apple.com/xcode/mac/current/#/dev4335bfd3d) configured with a Production AppStore and Ad Hoc certificate, and with the device(s) to be used for testing.
-
-    1. In the top left corner of Xcode (where your app name is displayed next to the current build target device), choose on your app name and then select **Edit Scheme**, and then set **Build configuration** to **Release**
-
-        **Note**: Run your app on an iPhone device to test. Push notifications are not supported on simulators.
-
-    1. Xcode will give an error that it could not run the app, this is due to production profile apps not being allowed to debug. Click **Ok** and launch the app directly from the device.
-
-    1. When prompted, chose to allow notifications for the device.
-
-    1. To create a new campaign to send notifications to your app from the Amazon Pinpoint console run the following command from your app project folder.
-
-        ```bash
-        $ cd YOUR_APP_PROJECT_FOLDER
-        $ amplify notifications console
-        ```
-
-    1. Provide a campaign name, choose **Next**, choose **Filter by standard attributes**, and then choose iOS as the platform.
-
-    1. You should see 1 device as a targeted endpoint, which is the app we are running on the iPhone device. Choose the option and then choose **Next Step**.
-
-    1. Provide text for a sample title and body for push notification, and then choose **Next Step**.
-
-    1. Choose **Immediate**, and then choose **Next Step**.
-
-    1. Review the details on the screen, and then choose **Launch Campaign**.
-
-    1. A notification should appear on the iPhone device. You may want to try testing your app receiving notifications when it is in the foreground and when closed.
+`_campaign.received_background` when the notification is tapped on recieved while the app is in the background 
