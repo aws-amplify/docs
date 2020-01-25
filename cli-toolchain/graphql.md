@@ -1061,10 +1061,10 @@ The following table shows the allowed combinations of authorization modes and pr
 
 |           | owner | groups | public | private |
 |:----------|:-----:|:------:|:------:|:-------:|
-| userPools |✅|✅||✅|
-| oidc|✅||||
-| apiKey|||✅||
-| iam|||✅|✅|
+| userPools |✅     |      ✅|        |       ✅|
+| oidc      |✅     |      ✅|        |         |
+| apiKey    |       |        |      ✅|         |
+| iam       |       |        |      ✅|       ✅|
 
 Please note that `groups` is leveraging Cognito User Pools but no provider assignment needed/possible.
 
