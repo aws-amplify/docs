@@ -334,6 +334,9 @@ When asked for the distribution directory, answer `dist/myAmplifyProject`. If yo
 
 **How it Works**: Rather than configuring each service through a constructor or constants file, Amplify supports configuration through a centralized file called `aws-exports.js` which defines all the regions and service endpoints to communicate. Whenever you run `amplify push`, this file is automatically created allowing you to focus on your application code. The Amplify CLI will place this file in the appropriate source directory configured with `amplify init`.
 
+Regarding the prompts, accessKeyId and secretAccessKey, after entering `amplify init`, check [Understanding and Getting Your Security Credentials](https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html){:target='_new'} for more information.
+{: .callout .callout--action}
+
 To verify that the CLI is set up for your app, run the following command:
 
 ```bash
