@@ -108,7 +108,7 @@ const posts = await DataStore.query(Post);
 This will return a list of the first 100 items, you can optionally pass in a limit and page:
 
 ```javascript
-const posts = await DataStore.query(Post, null, {
+const posts = await DataStore.query(Post, Predicates.ALL, {
   page: 0,
   limit: 100
 });
