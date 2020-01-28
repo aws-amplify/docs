@@ -14,6 +14,10 @@ title: Storage
 
 Enable your app to store and retrieve user files from cloud storage with the permissions model that suits your purpose. The CLI deploys and configures cloud storage buckets using [Amazon Simple Storage Service](http://docs.aws.amazon.com/AmazonS3/latest/dev/).
 
+**_Note_**
+
+This guide specifically uses `TransferUtility`, which is a high-level wrapper over `AmazonS3Client`. [`TransferUtility`](https://aws-amplify.github.io/aws-sdk-android/docs/reference/com/amazonaws/mobileconnectors/s3/transferutility/TransferUtility.html) is a tool that simplifies asynchronous _transfer_ management (i.e. upload and download), and it may not contain all of the features available in Amazon S3 service. To access low-level features such as bucket manipulation and object deletion, please refer to the documentation for [`AmazonS3Client`](https://aws-amplify.github.io/aws-sdk-android/docs/reference/com/amazonaws/services/s3/AmazonS3Client.html).
+
 ### Storage Access
 
 The CLI configures three different access levels on the storage bucket: public, protected and private. When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool Role. You will have the option of adding CRUD (Create/Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels.
