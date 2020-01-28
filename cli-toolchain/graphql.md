@@ -4874,9 +4874,9 @@ type Comment @model(subscriptions: null) {
 
 ```graphql
 type Subscription {
-  onCreateComment(commentTodoId: String): Comment @aws_subscribe(mutations: "createComment")
-  onUpdateComment(id: ID, commentTodoId: String): Comment @aws_subscribe(mutations: "updateComment")
-  onDeleteComment(id: ID, commentTodoId: String): Comment @aws_subscribe(mutations: "deleteComment")
+  onCreateComment(commentTodoId: String): Comment @aws_subscribe(mutations: ["createComment"])
+  onUpdateComment(id: ID, commentTodoId: String): Comment @aws_subscribe(mutations: ["updateComment"])
+  onDeleteComment(id: ID, commentTodoId: String): Comment @aws_subscribe(mutations: ["deleteComment"])
 }
 ```
 
