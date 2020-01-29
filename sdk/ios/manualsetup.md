@@ -299,7 +299,7 @@ mobileClient.initialize { (userState, error) in
 }
 ```
 
-Please note that creating multiple instances of `AWSMobileClient` <b>is not supported</b>. The configuration cannot be reset and/or re-initialized. Therefore, even though you can instantiate `AWSMobileClient` multiple times, all instances will have the same configuration reference.
+Please note that creating multiple instances of `AWSMobileClient` <b>is not supported</b>. The configuration cannot be reset and/or re-initialized. Therefore, even though you can instantiate `AWSMobileClient` multiple times, all instances will have the same configuration reference. If you configure `AWSMobileClient` as shown above, make sure to use the initialized in memory object of mobileClient instead of the singleton object of `AWSMobileClient`.
 {: .callout .callout--warning}
 
 ## DocSet for Xcode
