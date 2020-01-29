@@ -254,17 +254,7 @@ func getURL() {
 }
 ```
 
-<<<<<<< HEAD
-```ruby
-  target: 'PostsApp' do
-    use_frameworks!
-    pod 'AWSAppSync', ~> '2.14.2'
-    pod 'AWSS3', ~> '~> 2.12.1' 
-  end
-```
-=======
 ### List
->>>>>>> master
 
 You can list all of the objects uploaded.
 ```swift
