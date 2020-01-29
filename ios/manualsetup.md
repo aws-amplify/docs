@@ -18,6 +18,8 @@ pod init
 
 In your project directory (the directory where your `*.xcodeproj` file is), open the empty text file named `Podfile`. Replace `myAppName` with your app name. You can also remove pods for services that you don't use. For example, if you don't use `AWSAutoScaling`, remove or do not include the `AWSAutoScaling` pod.
 
+Note that the list below **does not include** the pods necessary for authentication. Please see [Authentication](./authentication) for authentication setup instructions.
+
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
 
@@ -25,29 +27,24 @@ platform :ios, '9.0'
 use_frameworks!
 
 target :'YOUR-APP-NAME' do
-    pod 'AWSAuth'
-    pod 'AWSAuthCore'
-    pod 'AWSAuthUI'
+    pod 'AWSAPIGateway'
     pod 'AWSAutoScaling'
     pod 'AWSCloudWatch'
-    pod 'AWSCognito'
-    pod 'AWSCognitoAuth'
-    pod 'AWSCognitoIdentityProvider'
-    pod 'AWSCognitoIdentityProviderASF'
+    pod 'AWSComprehend'
+    pod 'AWSConnect'
     pod 'AWSCore'
     pod 'AWSDynamoDB'
     pod 'AWSEC2'
     pod 'AWSElasticLoadBalancing'
-    pod 'AWSFacebookSignIn'
-    pod 'AWSGoogleSignIn'
     pod 'AWSIoT'
     pod 'AWSKMS'
     pod 'AWSKinesis'
+    pod 'AWSKinesisVideo'
+    pod 'AWSKinesisVideoArchivedMedia'
     pod 'AWSLambda'
     pod 'AWSLex'
     pod 'AWSLogs'
     pod 'AWSMachineLearning'
-    pod 'AWSMobileClient'
     pod 'AWSPinpoint'
     pod 'AWSPolly'
     pod 'AWSRekognition'
@@ -55,8 +52,12 @@ target :'YOUR-APP-NAME' do
     pod 'AWSSES'
     pod 'AWSSNS'
     pod 'AWSSQS'
+    pod 'AWSSageMakerRuntime'
     pod 'AWSSimpleDB'
-    pod 'AWSUserPoolsSignIn'
+    pod 'AWSTextract'
+    pod 'AWSTranscribe'
+    pod 'AWSTranscribeStreaming'
+    pod 'AWSTranslate'
 end
 ```
 
@@ -78,29 +79,26 @@ Once complete, run `carthage update` and open the `*.xcworkspace` or `*.xcodepro
 
 Choose the `Add Other` button, navigate to the `AWS<#ServiceName#>.framework` files under `Carthage > Build > iOS` and select `AWSCore.framework` and the other service frameworks you require. Do not select the `Destination: Copy items` if needed check box when prompted.
 
-* AWSAuth
-* AWSAuthCore
-* AWSAuthUI
+Note that the list below **does not include** the frameworks necessary for authentication. Please see [Authentication](./authentication) for authentication setup instructions. Those instructions are for CocoaPods, but each pod has a corresponding framework produced by Carthage.
+
+* AWSAPIGateway
 * AWSAutoScaling
 * AWSCloudWatch
-* AWSCognito
-* AWSCognitoAuth
-* AWSCognitoIdentityProvider
-* AWSCognitoIdentityProviderASF
+* AWSComprehend
+* AWSConnect
 * AWSCore
 * AWSDynamoDB
 * AWSEC2
 * AWSElasticLoadBalancing
-* AWSFacebookSignIn
-* AWSGoogleSignIn
 * AWSIoT
 * AWSKMS
 * AWSKinesis
+* AWSKinesisVideo
+* AWSKinesisVideoArchivedMedia
 * AWSLambda
 * AWSLex
 * AWSLogs
 * AWSMachineLearning
-* AWSMobileClient
 * AWSPinpoint
 * AWSPolly
 * AWSRekognition
@@ -108,8 +106,12 @@ Choose the `Add Other` button, navigate to the `AWS<#ServiceName#>.framework` fi
 * AWSSES
 * AWSSNS
 * AWSSQS
+* AWSSageMakerRuntime
 * AWSSimpleDB
-* AWSUserPoolsSignIn
+* AWSTextract
+* AWSTranscribe
+* AWSTranscribeStreaming
+* AWSTranslate
 
 Under the `Build Phases` tab in your `Target`, choose the `+` button on the top left and then select `New Run Script Phase`.
 
@@ -139,29 +141,26 @@ With your project open in Xcode, select your `Target`. Under `General` tab, find
 
 Click the `Add Other...` button, navigate to the `AWS<#ServiceName#>.framework` files and select them. Check the `Destination: Copy items if needed` checkbox when prompted.
 
-* `AWSAuth.framework`
-* `AWSAuthCore.framework`
-* `AWSAuthUI.framework`
+Note that the list below **does not include** the frameworks necessary for authentication. Please see [Authentication](./authentication) for authentication setup instructions. Those instructions are for CocoaPods, but each pod has a corresponding framework in the downloaded archive.
+
+* `AWSAPIGateway.framework`
 * `AWSAutoScaling.framework`
 * `AWSCloudWatch.framework`
-* `AWSCognito.framework`
-* `AWSCognitoAuth.framework`
-* `AWSCognitoIdentityProvider.framework`
-* `AWSCognitoIdentityProviderASF.framework`
+* `AWSComprehend.framework`
+* `AWSConnect.framework`
 * `AWSCore.framework`
 * `AWSDynamoDB.framework`
 * `AWSEC2.framework`
 * `AWSElasticLoadBalancing.framework`
-* `AWSFacebookSignIn.framework`
-* `AWSGoogleSignIn.framework`
 * `AWSIoT.framework`
 * `AWSKMS.framework`
 * `AWSKinesis.framework`
+* `AWSKinesisVideo.framework`
+* `AWSKinesisVideoArchivedMedia.framework`
 * `AWSLambda.framework`
 * `AWSLex.framework`
 * `AWSLogs.framework`
 * `AWSMachineLearning.framework`
-* `AWSMobileClient.framework`
 * `AWSPinpoint.framework`
 * `AWSPolly.framework`
 * `AWSRekognition.framework`
@@ -169,8 +168,12 @@ Click the `Add Other...` button, navigate to the `AWS<#ServiceName#>.framework` 
 * `AWSSES.framework`
 * `AWSSNS.framework`
 * `AWSSQS.framework`
+* `AWSSageMakerRuntime.framework`
 * `AWSSimpleDB.framework`
-* `AWSUserPoolsSignIn.framework`
+* `AWSTextract.framework`
+* `AWSTranscribe.framework`
+* `AWSTranscribeStreaming.framework`
+* `AWSTranslate.framework`
 
 Under the `Build Phases` tab in your `Target`, click the `+` button on the top left and then select `New Run Script Phase`. Then setup the build phase as follows. Make sure this phase is below the `Embed Frameworks` phase.
 
@@ -299,7 +302,7 @@ mobileClient.initialize { (userState, error) in
 }
 ```
 
-Please note that creating multiple instances of `AWSMobileClient` <b>is not supported</b>. The configuration cannot be reset and/or re-initialized. Therefore, even though you can instantiate `AWSMobileClient` multiple times, all instances will have the same configuration reference.
+Please note that creating multiple instances of `AWSMobileClient` <b>is not supported</b>. The configuration cannot be reset and/or re-initialized. Therefore, even though you can instantiate `AWSMobileClient` multiple times, all instances will have the same configuration reference. If you configure `AWSMobileClient` as shown above, make sure to use the initialized in memory object of mobileClient instead of the singleton object of `AWSMobileClient`.
 {: .callout .callout--warning}
 
 ## DocSet for Xcode
