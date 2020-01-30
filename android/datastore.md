@@ -15,7 +15,7 @@ Amplify Android is in preview mode and is not intended for production usage at t
 
 # DataStore
 
-Amplify DataStore provides a persistent on-device storage repository for you to write, read, and observe changes to your application data. DataStore works both online and offline. When online, DataStore seamlessly synchronizes data with the cloud, and across devices. You model your application data by defining types in the GraphQL schema definition language (SDL). This schema is automatically converted to Java-language **Model** classes that you can code into your business logic. You can use DataStore for offline use cases in a "local only" mode. In local-only mode, you do not need an AWS account, nor do you need to provision any AppSync or DynamoDB resources. DataStore enables lightweight synchronization and flexible conflict resolution strategies when paired with AWS AppSync.
+Amplify DataStore provides a persistent on-device storage repository for you to write, read, and observe changes to your application data. DataStore works both online and offline. When online, DataStore seamlessly synchronizes data with the cloud, and across devices. You model your application data by defining types in the GraphQL schema definition language (SDL). This schema is automatically converted to Java-language **Model** classes that you can code into your business logic. You can use DataStore for offline use cases in a "local only" mode. In local-only mode, you do not need an AWS account, nor do you need to provision any AppSync or DynamoDB resources. When paired with AWS AppSync, DataStore enables lightweight *Delta Sync* synchronization and flexible conflict resolution strategies.
 
 # Getting Started
 
@@ -112,7 +112,7 @@ If you do not have any configuration file at `app/src/main/res/raw/amplifyconfig
 
 # Save Data
 
-To write any data to the DataStore, you can pass an instance of a Model to `DataStore.save()` and it will be persisted in offline storage. The offline storage supports standard storage operations like querying, updating and deleting. If you choose to connect to the cloud at a later time, the local items will be synchronized using GraphQL mutations. Any other systems connected to the same backend can then run queries or mutations on your DataStore items, or observe changes to them via GraphQL subscriptions.
+To write any data to the DataStore, you can pass an instance of a Model to `DataStore.save()` and it will be persisted in offline storage. The DataStore supports standard storage operations like querying, updating and deleting. If you choose to connect to the cloud at a later time, the local items will be synchronized using GraphQL mutations. Any other systems connected to the same backend can then run queries or mutations on your DataStore items, or observe changes to them via GraphQL subscriptions.
 
 ```java
 Post post = Post.builder()
@@ -289,7 +289,7 @@ Amplify.DataStore.query(Post.class, Post.ID.eq("123"), new ResultListener<Iterat
 
 You can subscribe to changes on your Models by using the DataStore's `observe` method. This method reacts dynamically to all changes in local storage. These changes could be the result of local modifications, or the result of changes observed on your GraphQL endpoint, if using remote synchronization.
 
-The `AWSDataStorePlugin.observe()` method returns an `io.reactivex.Observable<DataStoreItemChange<? extends Model>>`. You can subscribe to this Rx Observable to get notifications whenever any model is created, updated, or deleted. To use a method in this family, you must make Rx available at runtime by adding `implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'` to your module's `build.gradle`.
+The `AWSDataStorePlugin.observe()` method returns an `io.reactivex.Observable<DataStoreItemChange<? extends Model>>`. You can subscribe to this Rx Observable to get notifications whenever any model is created, updated, or deleted. To use a method in this family, you must make Rx available at runtime by adding `implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'` to your module's `build.gradle`. [Read more about RxJava, here](https://github.com/ReactiveX/RxJava/blob/v2.2.17/README.md#rxjava-reactive-extensions-for-the-jvm).
 {: .callout .callout--info}
 
 ```java
