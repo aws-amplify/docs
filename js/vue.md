@@ -52,7 +52,7 @@ export default {
 
 ## AmplifyEventBus
 
-The aws-amplify-vue package implements a Vue EventBus for emitted and listening to events within it's components.  The events emitted by the components are listed within the documentation for each individual component.
+The aws-amplify-vue package implements a Vue EventBus for emitted and listening to events within its components. The events emitted by the components are listed within the documentation for each individual component.
 
 To listen to these events within one of your components, import the EventBus:
 
@@ -70,7 +70,7 @@ AmplifyEventBus.$on('authState', info => {
 
 ## AmplifyPlugin
 
-The aws-amplify-vue package provides a Vue plugin to access the Amplify library.  You installed the plugin when you set up your application:
+The aws-amplify-vue package provides a Vue plugin to access the Amplify library. You installed the plugin when you set up your application:
 
 ```Vue.use(AmplifyPlugin, AmplifyModules)```
 
@@ -185,7 +185,7 @@ Usage: ```<amplify-confirm-sign-up></amplify-confirm-sign-up>```
 
 Config:
 ```
-<amplify-sign-in v-bind:confirmSignUpConfig="confirmSignUpConfig"></amplify-sign-in>
+<amplify-confirm-sign-up v-bind:confirmSignUpConfig="confirmSignUpConfig"></amplify-confirm-sign-up>
 ```
 
 {% include confirm-sign-up-attributes.html %}

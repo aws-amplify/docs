@@ -13,7 +13,7 @@ title: Quickstart
 
 The Amplify Command Line Interface (CLI) is a unified toolchain to create, integrate, and manage the AWS cloud services for your app.
 * [Install Node.js®](https://nodejs.org/en/download/") and [NPM](https://www.npmjs.com/get-npm) if they are not already on your machine.
-* Verify that you are running at least Node.js version 8.12 or greater and npm version 5.x or greater by running `node -v` and npm -v in a terminal/console window
+* Verify that you are running at least Node.js version 10.x and npm version 6.x or greater by running `node -v` and npm -v in a terminal/console window
 * Install and configure the Amplify CLI.
 
 ```bash
@@ -32,7 +32,7 @@ Click [here](plugins) for more details.
 
 
 ### Typical CLI workflow
-The following commands should be executed inside your project root directory: 
+The following commands should be executed inside your project root directory:
 1. `amplify init`
 2. `amplify <category> add/remove`
 3. `amplify push`
@@ -41,12 +41,12 @@ The following commands should be executed inside your project root directory:
 #### The init process
 `$ amplify init` <br/>
 
-The `init` command must be executed at the root directory of a project to initialize the project for the Amplify CLI to work with. 
-The `init` command goes through the following steps: 
+The `init` command must be executed at the root directory of a project to initialize the project for the Amplify CLI to work with.
+The `init` command goes through the following steps:
 - Analyzes the project and confirms the frontend settings
 - Carries out the initialization logic of the selected frontend
 - If there are multiple provider plugins, prompts to select the plugins that will provide accesses to cloud resources
-- Carries out, in sequence, the initialization logic of the selected plugin(s) 
+- Carries out, in sequence, the initialization logic of the selected plugin(s)
 - Insert amplify folder structure into the project's root directory, with the initial project configuration
 - Generate the project metadata files, with the outputs of the above-selected plugin(s)
 - Creates a cloud project in the [AWS Amplify Console](https://console.aws.amazon.com/amplify) to view and manage resources for all backend environments.
@@ -78,7 +78,7 @@ where the github url is a valid sample amplify project repository. Click [here](
 - `amplify <category> push`
 
 ### amplify init
-During the init process, the root stack is created with three resources: 
+During the init process, the root stack is created with three resources:
 - IAM role for unauthenticated users
 - IAM role for authenticated users
 - S3 bucket, the deployment bucket, to support this provider's workflow
@@ -131,10 +131,10 @@ $ amplify add auth     ##"amplify update auth" if already configured
 Select Default configuration with Social Provider (Federation):
 
 ```terminal
-Do you want to use the default authentication and security configuration? 
-  Default configuration 
-❯ Default configuration with Social Provider (Federation) 
-  Manual configuration 
+Do you want to use the default authentication and security configuration?
+  Default configuration
+❯ Default configuration with Social Provider (Federation)
+  Manual configuration
   I want to learn more.
 ```
 
@@ -378,9 +378,9 @@ $ amplify add api
 ? Choose a Lambda source Create a new Lambda function
 ? Provide a friendly name for your resource to be used as a label for this category in the project: betatest1d2654ef
 ? Provide the AWS Lambda function name: betatest1d2654ef
-? Choose the function template that you want to use: 
-❯ CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB) 
-  Serverless express function (Integration with Amazon API Gateway) 
+? Choose the function template that you want to use:
+❯ CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB)
+  Serverless express function (Integration with Amazon API Gateway)
 ```
 
 **REST endpoints that triggers Lambda functions with a predefined simple serverless-express template** <br />
@@ -394,9 +394,9 @@ $ amplify add api
 ? Choose a Lambda source Create a new Lambda function
 ? Provide a friendly name for your resource to be used as a label for this category in the project: betatest1d2654ef
 ? Provide the AWS Lambda function name: betatest1d2654ef
-? Choose the function template that you want to use: 
-  CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB) 
-❯ Serverless express function (Integration with Amazon API Gateway) 
+? Choose the function template that you want to use:
+  CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB)
+❯ Serverless express function (Integration with Amazon API Gateway)
 ```
 
 **REST endpoints backed up by custom lambda function present in the current Amplify project** <br />
@@ -407,16 +407,16 @@ $ amplify add api
 ? Please select from one of the below mentioned services REST
 ? Provide a friendly name for your resource to be used as a label for this category in the project: myRESTAPI
 ? Provide a path (e.g., /items) /items
-? Choose a Lambda source 
-  Create a new Lambda function 
-❯ Use a Lambda function already added in the current Amplify project 
+? Choose a Lambda source
+  Create a new Lambda function
+❯ Use a Lambda function already added in the current Amplify project
 ```
-#### GraphQL 
+#### GraphQL
 You can spin up a GraphQL API via the Amplify CLI with the following flow:
 ```terminal
 $ amplify add api
 ? Please select from one of the below mentioned services (Use arrow keys)
-❯ GraphQL 
+❯ GraphQL
   REST
 ```
 To learn more, take a look at the [GraphQL Transformer docs]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/graphql#quick-start).
@@ -424,15 +424,15 @@ To learn more, take a look at the [GraphQL Transformer docs]({%if jekyll.environ
 
 ### Functions Examples
 
-You can add a Lambda function to your project which you can alongside a REST API or as a datasource, as a part of your GraphQL API using the @function directive. 
+You can add a Lambda function to your project which you can use alongside a REST API or as a datasource, as a part of your GraphQL API using the @function directive. 
 ```terminal
 $ amplify add api
 ? Provide a friendly name for your resource to be used as a label for this category in the project: lambdafunction
 ? Provide the AWS Lambda function name: lambdafunction
 ? Choose the function template that you want to use: (Use arrow keys)
-❯ Hello world function 
-  CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB) 
-  Serverless express function (Integration with Amazon API Gateway) 
+❯ Hello world function
+  CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB)
+  Serverless express function (Integration with Amazon API Gateway)
 ```
 * The `Hello World function` would create a basic hello world Lambda function
 * The `CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB)` function would add a predefined [serverless-express](https://github.com/awslabs/aws-serverless-express) Lambda function template for CRUD operations to DynamoDB tables (which you can create by following the CLI prompts or use the tables which you've already configured using the `amplify add storage` command)
@@ -562,9 +562,9 @@ You can associate a trigger to an S3 bucket managed by the Amplify CLI, by follo
 
 ```bash
 ? Do you want to add a Lambda Trigger for your S3 Bucket? Yes
-? Select from the following options 
-❯ Choose an existing function from the project 
-  Create a new function 
+? Select from the following options
+❯ Choose an existing function from the project
+  Create a new function
 ```
 As you can see in the prompt above, you can either choose to use an existing Lambda function created using the CLI as a part of this project using `amplify add function` or create a new function with a base Lambda function to handle S3 events. We also auto-populate the IAM policies required by the Lambda execution role of the newly created function to access the S3 bucket.
 
@@ -577,7 +577,7 @@ You can associate a Lambda trigger with a DynamoDB table, managed by the Amplify
 ```bash
 ? Do you want to add a Lambda Trigger for your Table? Yes
 ? Select from the following options (Use arrow keys)
-❯ Choose an existing function from the project 
+❯ Choose an existing function from the project
   Create a new function
 ```
 
@@ -605,7 +605,7 @@ Amplify libraries when configured for these categories can use the local mocked 
 
 The Amplify CLI provides escape hatches for modifying the backend configurations generated in the form of Cloudformation templates by the CLI. This allows you to use the CLI for common flows but also any advanced scenarios which aren't provided in the standard category workflows.
 
-* For your GraphQL API generated by the Amplify CLI, you have the ability to [override resolvers]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/graphql#overwriting-resolvers) as well as add your own [custom resolvers]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/graphql#overwriting-resolvers) to add on to the CLI generated Cloudformation stacks. 
+* For your GraphQL API generated by the Amplify CLI, you have the ability to [override resolvers]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/graphql#overwriting-resolvers) as well as add your own [custom resolvers]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/graphql#overwriting-resolvers) to add on to the CLI generated Cloudformation stacks.
 
 * For majority of the other categories, you can locally edit and manage the Cloudformation file generated by the CLI in the `amplify/backend/<category>/<cloudformation-template.json/yml>` location. [Read more about Cloudformation](https://aws.amazon.com/cloudformation/)
 
@@ -636,17 +636,17 @@ Note: You can also reference an output value from any other Amplify managed cate
   "<custom-category-name>": {
     "<custom-resource-name>": {
       "service": <custom-aws-service-name>,
-      "providerPlugin": "awscloudformation"
-    },
-    "dependsOn": [
-				{
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+	{
          "category": "auth",
-				 "resourceName": "mycognitoresource", // check `amplify status` to find resource name
-				 "attributes": [
-				  "UserPoolId" // Check Output Value of the resource specific cloudformation file to find available attributes
-					]
-				}
-		 ]
+	 "resourceName": "mycognitoresource", // check `amplify status` to find resource name
+	 "attributes": [
+	    "UserPoolId" // Check Output Value of the resource specific cloudformation file to find available attributes
+	  ]
+	}
+     ]
+    }
   },
   "hosting": {
     "S3AndCloudFront": {
@@ -656,20 +656,6 @@ Note: You can also reference an output value from any other Amplify managed cate
   }
 }
 ```
-
-To use the above mentioned attribute `UserPoolId` from the auth category in your custom cloudformation stack, you would need to construct the following input parameter. The CLI will be passing this input automatically from the other nested stack.
-
-```javascript
-"Parameters": {
-  // Rest of the paramters
- 
-  "authmycognitoresourceUserPoolId": { // The format out here is `<category><resource-name><attribute-name>` - we have defined all of these in the `backend-config.json` file above
-	 "Type": "String"
- }
-},
-```
-
-
 
 2. Under `amplify/backend` folder, make a folder structure like the following:
   ```
@@ -685,7 +671,32 @@ To use the above mentioned attribute `UserPoolId` from the auth category in your
   ```
   `template.json` is a cloudformation template, and `parameters.json` is a json file of parameters that will be passed to the cloudformation template. Additionally, the `env` parameter will be passed in to your cloudformation templates dynamically by the CLI.
 
-3. Run `amplify env checkout <current-env-name>` to populate the CLI runtime files and make it aware of the newly added custom resources
+3. To use the above mentioned attribute `UserPoolId` from the auth category in your custom cloudformation stack, you would need to construct the following input parameter in the `template.json` file. The CLI will be passing this input automatically from the other nested stack.
+
+```javascript
+"Parameters": {
+  // Rest of the paramters
+ 
+  "authmycognitoresourceUserPoolId": { // The format out here is `<category><resource-name><attribute-name>` - we have defined all of these in the `backend-config.json` file above
+	 "Type": "String"
+ }
+},
+```
+
+4. Place one parameter in `parameters.json` named `authmycognitoresourceUserPoolId` with a cloudformation `Fn::GetAtt` that connects the output of one nested template to your custom template.
+
+  ```
+  	{
+    	   "authmycognitoresourceUserPoolId": {  // The format out here is `<category><resource-name><attribute-name>` - we have defined all of these in the `backend-config.json` file above
+              "Fn::GetAtt": [
+            	 "authmycognitoresource",  // check `amplify status` to find resource name in the category auth
+            	 "Outputs.UserPoolId"
+              ]
+    	   }
+	}
+  ```
+
+5. Run `amplify env checkout <current-env-name>` to populate the CLI runtime files and make it aware of the newly added custom resources
 
 
 ## Multiple Frontends
@@ -756,7 +767,7 @@ This workflow can be used to share complete Amplify projects with people outside
 
 The Amplify CLI supports basic web application hosting with Amazon S3 and CloudFront. You can use the multi-environments feature with the Amplify Console for a fully managed web application hosting and continuous deployment solution. For more information please learn more in the [official documentation](https://docs.aws.amazon.com/amplify/latest/userguide/multi-environments.html).
 
-### Setting up master and dev environments 
+### Setting up master and dev environments
 
 Create a Git repository for your project if you haven't already. It is recommended managing separate Git branches for different environments (try to have the same branch name as your environment name to avoid confusion).
 From the root of your project, execute the following commands:
@@ -801,7 +812,7 @@ $ git push -u origin dev
 #### Sharing a backend environment within a team
 There are two ways to work with Amplify backend environments within a team:
 1. Team members working on their own sandbox environments (Recommended)
-2. Team-members sharing the same dev backend to work on 
+2. Team-members sharing the same dev backend to work on
 
 ##### Team-members working on their own sandbox environments (Recommended)
 Now you have two independent environments (master & dev) in the cloud and have corresponding git branches with your amplify backend infrastructure code on Git. Suppose a team member wants to work on the same Amplify project, add some features to it and then push changes to the dev environment to test some changes. They would perform the following steps:
@@ -819,7 +830,7 @@ $ amplify push
 $ git push -u origin mysandbox
 ```
 
-Next, suppose the team-member wants to move these changes to dev and master environments/branches: 
+Next, suppose the team-member wants to move these changes to dev and master environments/branches:
 
 ```
 $ git checkout dev
@@ -841,7 +852,7 @@ $ git push -u origin master
 
 In this approach, you can consider the git branches (dev & master) as the source of truth and all the team members should work off the branches and keep their workspaces in sync.
 
-##### Team-members sharing the same dev backend 
+##### Team-members sharing the same dev backend
 You have two independent environments (master & dev) in the cloud and have corresponding git branches with your amplify backend infrastructure code on Git. Suppose all team members want to work on the same Amplify project and push backend related changes to the same dev environment to test their changes. Each team member would run the following:
 
 ```
@@ -850,8 +861,8 @@ $ cd <project-dir>
 $ git checkout dev
 $ amplify init
 ? Do you want to use an existing environment? Yes
-? Choose the environment you would like to use: 
-❯ dev 
+? Choose the environment you would like to use:
+❯ dev
 master
 // The rest of init steps
 // Add/update any backend configurations using amplify add/update <category>
@@ -866,8 +877,8 @@ $ cd <your-project>
 $ git checkout dev
 $ amplify init
 ? Do you want to use an existing environment? Yes
-? Choose the environment you would like to use: 
-❯ dev 
+? Choose the environment you would like to use:
+❯ dev
 master
 $ amplify pull
 $ git pull origin dev
@@ -919,9 +930,9 @@ If you want to share a project publicly and open source your serverless infrastr
 
 ### Environment related commands
 * amplify env add <br>
-Adds a new environment to your Amplify Project 
+Adds a new environment to your Amplify Project
 * amplify env list [--details] [--json] <br>
-Displays a list of all the environments in your Amplify project 
+Displays a list of all the environments in your Amplify project
 * amplify env remove <env-name> <br>
 Removes an environment from the Amplify project
 * amplify env get --name <env-name> <br>
@@ -990,17 +1001,17 @@ This adds the hosting resources to the backend. The command will first prompt fo
 This command walks through the steps to configure the different sections of the resources used in hosting, including S3, CloudFront, and publish ignore. See below for more details.<br/><br/>
 - `amplify publish`<br/>
 This command first builds and pushes the update of backend resources to the cloud (including the resources used in hosting), and then builds and publishes the frontend.<br/>
-For the amplify-category-hosting implementation, the frontend build artifacts will be uploaded to the S3 hosting bucket, and then if the CloudFront is used and the command is executed with the `--invalidateCloudFront` or `-c` flag, an invalidation request will be sent to the CloudFront to invalidate its cache. 
+For the amplify-category-hosting implementation, the frontend build artifacts will be uploaded to the S3 hosting bucket, and then if the CloudFront is used and the command is executed with the `--invalidateCloudFront` or `-c` flag, an invalidation request will be sent to the CloudFront to invalidate its cache.
 
 
 #### Configuration
-The command `amplify hosting configure` walks through the steps to configure the different sections of the resources used in hosting. 
+The command `amplify hosting configure` walks through the steps to configure the different sections of the resources used in hosting.
 - `Website`<br/>
 Configures the S3 bucket for static web hosting, the user can set the index doc and error doc, both are set to be `index.html` by default.<br/><br/>
 - `CloudFront`<br/>
 Configures the CloudFront content delivery network (CDN), the user can configure TTLs (Time To Live) for the default cache behavior, and configure custom error responses.<br/><br/>
 - `Publish`<br/>
-Configures the publish ignore patterns (just like what's in the .gitignore) for the publish command, the publish command will ignore directories and files in the distribution folder that have names matching the patterns. 
+Configures the publish ignore patterns (just like what's in the .gitignore) for the publish command, the publish command will ignore directories and files in the distribution folder that have names matching the patterns.
 
 #### Stages
 For the amplify-category-hosting implementation, there are two stages you can select from:
