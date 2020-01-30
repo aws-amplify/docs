@@ -147,7 +147,7 @@ Amplify.DataStore.query(Post.class, new ResultListener<Iterator<Post>>() {
             Log.i("DataStore", "Title: " + post.getTitle());
             Log.i("DataStore", "Rating: " + post.getRating());
             Log.i("DataStore", "Status: " + post.getStatus());
-	}
+        }
     }
 
     @Override
@@ -242,7 +242,7 @@ Amplify.DataStore.query(Post.class, Post.ID.eq("123"), new ResultListener<Iterat
                 .title("New Title")
                 .build();
             Amplify.DataStore.save(edited, updateListener);
-	}
+        }
     }
 
     @Override
