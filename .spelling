@@ -862,6 +862,7 @@ UserPool
 flipside
 ARNs
 passwordless
+mobileClient
 
 # ios/how-to-cognito-integrate-an-existing-identity-pool-ios.md
 AppDelegate
