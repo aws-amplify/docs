@@ -566,5 +566,5 @@ export default App;
 
 ## API Reference   
 
-For the complete API documentation for DataStore, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/DataStoreclass.html)
+For the complete API documentation for DataStore, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/datastore.html)
 {: .callout .callout--info}
