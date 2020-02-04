@@ -4453,13 +4453,39 @@ Much of the behavior of the GraphQL Transform logic is configured by passing arg
 }
 ```
 
+### CreateAPIKey
+
+`CreateAPIKey` takes value of either `1` or `0`. 
+
+It give you the mechanism to rotate the API Key, in scenarios such as to handle API Key expiration. 
+
+Follow these two steps when you need to rotate an API Key
+- Delete the existing API key by setting `CreateAPIKey` to `0` in the `amplify/backend/api/<apiName>/parameters.json` file and execute `amplify push`. 
+- Create a new API key by setting `CreateAPIKey` to `1` in the `amplify/backend/api/<apiName>/parameters.json` file and execute `amplify push`. 
+
+**Delete the existing API Key**
+
+```
+{
+  "CreateAPIKey": 0
+}
+```
+
+**Create new API Key**
+
+```
+{
+  "CreateAPIKey": 1
+}
+```
+
 ### APIKeyExpirationEpoch
 
 **Resets the API Key to expire 1 week after the next `amplify push`**
 
 ```
 {
-  "APIKeyExpirationEpoch": "0"
+  "APIKeyExpirationEpoch": 0
 }
 ```
 
@@ -4467,7 +4493,7 @@ Much of the behavior of the GraphQL Transform logic is configured by passing arg
 
 ```
 {
-  "APIKeyExpirationEpoch": "-1"
+  "APIKeyExpirationEpoch": -1
 }
 ```
 
@@ -4475,7 +4501,7 @@ Much of the behavior of the GraphQL Transform logic is configured by passing arg
 
 ```
 {
-  "APIKeyExpirationEpoch": "1544745428"
+  "APIKeyExpirationEpoch": 1544745428
 }
 ```
 
