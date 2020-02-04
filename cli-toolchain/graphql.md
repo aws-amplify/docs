@@ -574,7 +574,7 @@ Authorization is required for applications to interact with your GraphQL API. **
 When using the `@auth` directive on object type definitions that are also annotated with
 `@model`, all resolvers that return objects of that type will be protected. When using the
 `@auth` directive on a field definition, a resolver will be added to the field that authorize access
-based on attributes found the parent type.
+based on attributes found in the parent type.
 
 #### Definition
 
