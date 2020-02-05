@@ -73,7 +73,7 @@ Copy the contents over and update the values for the specific predictions method
 {
     "UserAgent": "aws-amplify-cli/2.0",
     "Version": "1.0",
-    "Storage": {
+    "Predictions": {
         "plugins": {
             "awsPredictionsPlugin": {
                 "defaultRegion": "us-west-2",
