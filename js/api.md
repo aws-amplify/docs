@@ -2201,7 +2201,7 @@ async function postData() {
     let apiName = 'MyApiName';
     let path = '/path';
     let myInit = { 
-        headers: { Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}` }
+        headers: { Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
     }
     return await API.post(apiName, path, myInit);
 }
