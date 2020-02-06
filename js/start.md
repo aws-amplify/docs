@@ -406,9 +406,9 @@ import API, { graphqlOperation } from '@aws-amplify/api'
 import PubSub from '@aws-amplify/pubsub';
 import { createTodo } from './graphql/mutations'
 
-import awsconfig from './aws-exports';
-API.configure(awsconfig);
-PubSub.configure(awsconfig);
+import awsmobile from './aws-exports';
+API.configure(awsmobile);
+PubSub.configure(awsmobile);
 
 async function createNewTodo() {
   const todo = { name: "Use AppSync" , description: "Realtime and Offline"}
@@ -488,12 +488,12 @@ import PubSub from '@aws-amplify/pubsub';
 
 import { createTodo } from './graphql/mutations';
 
-import awsconfig from './aws-exports';
+import awsmobile from './aws-exports';
 import './App.css';
 
 // Configure Amplify
-API.configure(awsconfig);
-PubSub.configure(awsconfig);
+API.configure(awsmobile);
+PubSub.configure(awsmobile);
 
 async function createNewTodo() {
   const todo = { name: "Use AWS AppSync" , description: "Realtime and Offline" };
@@ -616,11 +616,11 @@ import { createTodo } from './graphql/mutations';
 import { listTodos } from './graphql/queries';
 import { onCreateTodo } from './graphql/subscriptions';
 
-import awsconfig from './aws-exports';
+import awsmobile from './aws-exports';
 import './App.css';
 
-API.configure(awsconfig);
-PubSub.configure(awsconfig);
+API.configure(awsmobile);
+PubSub.configure(awsmobile);
 
 // Action Types
 const QUERY = 'QUERY';
@@ -705,9 +705,9 @@ import API, { graphqlOperation } from '@aws-amplify/api'
 import PubSub from '@aws-amplify/pubsub';
 import { createTodo } from './src/graphql/mutations';
 
-import config from './aws-exports'
-API.configure(config)             // Configure Amplify
-PubSub.configure(config)
+import awsmobile from './aws-exports'
+API.configure(awsmobile)             // Configure Amplify
+PubSub.configure(awsmobile)
 
 async function createNewTodo() {
   const todo = { name: "Use AppSync" , description: "Realtime and Offline"}
@@ -811,10 +811,10 @@ Update your `main.ts` to configure the library with `Amplify.configure()`:
 ```javascript
 import PubSub from '@aws-amplify/pubsub';
 import API from '@aws-amplify/api';
-import awsconfig from './aws-exports';
+import awsmobile from './aws-exports';
 
-API.configure(awsconfig);
-PubSub.configure(awsconfig);
+API.configure(awsmobile);
+PubSub.configure(awsmobile);
 ```
 
 Depending on your TypeScript version you may need to rename `aws-exports.js` to `aws-exports.ts` prior to importing, or enable the `allowJs` <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" target="_blank">compiler option</a> in your tsconfig. 
@@ -923,10 +923,10 @@ Update your main.ts to configure the library:
 ```javascript
 import PubSub from '@aws-amplify/pubsub';
 import API from '@aws-amplify/api';
-import awsconfig from './aws-exports';
+import awsmobile from './aws-exports';
 
-API.configure(awsconfig);
-PubSub.configure(awsconfig);
+API.configure(awsmobile);
+PubSub.configure(awsmobile);
 ```
 
 When working with underlying `aws-js-sdk`, the "node" package should be included in *types* compiler option. update your `src/tsconfig.app.json`:
@@ -1038,9 +1038,9 @@ import App from './App.vue'
 
 import API from '@aws-amplify/api';
 import PubSub from '@aws-amplify/pubsub';
-import awsconfig from './aws-exports';
-API.configure(awsconfig);
-PubSub.configure(awsconfig);
+import awsmobile from './aws-exports';
+API.configure(awsmobile);
+PubSub.configure(awsmobile);
 
 Vue.config.productionTip = false
 
