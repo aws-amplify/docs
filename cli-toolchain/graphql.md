@@ -1479,6 +1479,25 @@ exports.handler = async (event) => {
 };
 ```
 
+You can connect this function to your AppSync API deployed via Amplify using this schema:
+
+```graphql
+type Query {
+    posts: [Post] @function(name: "GraphQLResolverFunction")
+}
+type Post {
+    id: ID!
+    title: String!
+    comments: [Comment] @function(name: "GraphQLResolverFunction")
+}
+type Comment {
+    postId: ID!
+    content: String
+}
+```
+
+This simple lambda function shows how you can write your own custom logic using a language of your choosing. Try enhancing the example with your own data and logic.
+
 **Example: Get the logged in user from Amazon Cognito User Pools**
 
 When building applications, it is often useful to fetch information for the current user. We can use the `@function` directive to quickly add a resolver that uses AppSync identity information to fetch a user from Amazon Cognito User Pools. First make sure you have added Amazon Cognito User Pools enabled via `amplify add auth` and a GraphQL API via `amplify add api` to an amplify project. Once you have created the user pool, get the **UserPoolId** from **amplify-meta.json** in the **backend/** directory of your amplify project. You will provide this value as an environment variable in a moment. Next, using the Amplify function category, AWS console, or other tool, deploy a AWS Lambda function with the following contents.
@@ -1550,25 +1569,6 @@ exports.handler = async (event) => {
   throw new Error("Resolver not found.");
 };
 ```
-
-You can connect this function to your AppSync API deployed via Amplify using this schema:
-
-```graphql
-type Query {
-    posts: [Post] @function(name: "GraphQLResolverFunction")
-}
-type Post {
-    id: ID!
-    title: String!
-    comments: [Comment] @function(name: "GraphQLResolverFunction")
-}
-type Comment {
-    postId: ID!
-    content: String
-}
-```
-
-This simple lambda function shows how you can write your own custom logic using a language of your choosing. Try enhancing the example with your own data and logic.
 
 > When deploying the function, make sure your function has access to the auth resource. You can run the `amplify update function` command for the CLI to automatically supply an environment variable named `AUTH_<RESOURCE_NAME>_USERPOOLID` to the function and associate corresponding CRUD policies to the execution role of the function.
 
