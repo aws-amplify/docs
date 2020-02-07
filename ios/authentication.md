@@ -104,9 +104,9 @@ After initialization in your project directory with `amplify init`, edit your `P
 ```ruby
 target 'MyApp' do             ##Replace MyApp with your application name
   use_frameworks!
-  pod 'AWSMobileClient', '~> 2.12.0'      # Required dependency
-  pod 'AWSAuthUI', '~> 2.12.0'            # Optional dependency required to use drop-in UI
-  pod 'AWSUserPoolsSignIn', '~> 2.12.0'   # Optional dependency required to use drop-in UI
+  pod 'AWSMobileClient', '~> 2.12.1'      # Required dependency
+  pod 'AWSAuthUI', '~> 2.12.1'            # Optional dependency required to use drop-in UI
+  pod 'AWSUserPoolsSignIn', '~> 2.12.1'   # Optional dependency required to use drop-in UI
 end
 ```
 
@@ -246,6 +246,8 @@ Many applications have UX with "Guest" or "Unauthenticated" users. This is provi
 When complete run `amplify push` and your `awsconfiguration.json` will work automatically with your updated Cognito settings. The `AWSMobileClient` user session will automatically have permissions configured for Guest/Unauthenticated users upon initialization. 
 
 If you login in your app either using the [Drop-In Auth](#dropinui) or the [direct Auth APIs](#iosapis) then the `AWSMobileClient` user session will transition to an authenticated role.
+
+> Note: If initialize is giving you the state as ‘signedOut’, try calling `AWSMobileClient.default().getCredentials`. With a fresh install, `AWSMobileClient.default().initialize` will return you `.signedOut` as the state.
 
 ## Drop-In Auth
 
@@ -760,12 +762,12 @@ AWSMobileClient.default().federatedSignIn(providerName: IdentityProvider.develop
 	  target 'YOUR-APP-NAME' do
 	    use_frameworks!
 
-	    pod 'AWSFacebookSignIn', '~> 2.12.0'     # Add this new dependency
-	    pod 'AWSAuthUI', '~> 2.12.0'             # Add this dependency if you have not already added
+	    pod 'AWSFacebookSignIn', '~> 2.12.1'     # Add this new dependency
+	    pod 'AWSAuthUI', '~> 2.12.1'             # Add this dependency if you have not already added
 	    
 	    # Other Pod entries
-	    pod 'AWSMobileClient', '~> 2.12.0'
-	    pod 'AWSUserPoolsSignIn', '~> 2.12.0'
+	    pod 'AWSMobileClient', '~> 2.12.1'
+	    pod 'AWSUserPoolsSignIn', '~> 2.12.1'
 	    
 	  end
 	```
@@ -830,13 +832,13 @@ Now, your drop-in UI will show a Facebook sign in button which the users can use
 	platform :ios, '9.0'
 	target :'YOUR-APP-NAME' do
 	  use_frameworks!
-	  pod 'AWSGoogleSignIn', '~> 2.12.0'     # Add this new dependency
+	  pod 'AWSGoogleSignIn', '~> 2.12.1'     # Add this new dependency
 	  pod 'GoogleSignIn', '~> 4.0'          # Add this new dependency
-	  pod 'AWSAuthUI', '~> 2.12.0'           # Add this dependency if you have not already added
+	  pod 'AWSAuthUI', '~> 2.12.1'           # Add this dependency if you have not already added
 	    
 	  # Other Pod entries
-	  pod 'AWSMobileClient', '~> 2.12.0'
-	  pod 'AWSUserPoolsSignIn', '~> 2.12.0'
+	  pod 'AWSMobileClient', '~> 2.12.1'
+	  pod 'AWSUserPoolsSignIn', '~> 2.12.1'
 	  
 	end
 	```
@@ -1315,7 +1317,33 @@ AWSMobileClient.default().confirmSignIn(challengeResponse: "<Challenge Response>
 })
 ```
 
-Amplify CLI can be used generate lambda triggers required to by custom authentication flow. See [documentation](https://aws-amplify.github.io/docs/cli-toolchain/cognito-triggers) for details. 
+#### Lambda trigger setup
+
+Amplify CLI can be used generate lambda triggers required by a custom authentication flow. See [documentation](https://aws-amplify.github.io/docs/cli-toolchain/cognito-triggers) for details. Amplify CLI creates a custom auth flow skeleton that you can manually edit. More information on each of the triggers can be found in [Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
+
+`AWSMobileClient` assumes that custom auth flows start with username and password. If you want a passwordless custom authentication flow, modify your `Define Auth Challenge` Lambda trigger to bypass the initial username/password verification and proceed to the custom challenge, as in the code below.
+
+```javascript
+exports.handler = (event, context) => {
+  if (event.request.session.length === 1 && 
+    event.request.session[0].challengeName === 'SRP_A') {
+    event.response.issueTokens = false;
+    event.response.failAuthentication = false;
+    event.response.challengeName = 'CUSTOM_CHALLENGE';
+  } else if (
+    event.request.session.length === 2 &&
+    event.request.session[1].challengeName === 'CUSTOM_CHALLENGE' &&
+    event.request.session[1].challengeResult === true
+  ) {
+    event.response.issueTokens = true;
+    event.response.failAuthentication = false;
+  } else {
+    event.response.issueTokens = false;
+    event.response.failAuthentication = true;
+  }
+  context.done(null, event);
+};
+```
 
 ## Using Device Features
 
