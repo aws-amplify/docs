@@ -10,9 +10,9 @@ The documentation is tested for spelling errors in CircleCI and against a custom
 
 ### Prerequisites
 
-- Node.js `10.x` or greater: check with `node --version`
+- [Node.js](https://nodejs.org/en/download/) `10.x` or greater: check with `node --version`
 - NPM or Yarn: check with `npm --version` or `yarn --version`
-- Ruby and Bundler: `bundle --version`
+- [Ruby](https://www.ruby-lang.org/en/downloads/) and [Bundler](https://bundler.io/): `bundle --version`
 
 ### Step-by-step
 
