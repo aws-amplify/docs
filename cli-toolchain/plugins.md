@@ -147,20 +147,20 @@ $ amplify my-amplify-plugin help
 Here's the plugin package directory structure
 
 ```md
- | _my-amplify-plugin/  |                     |
- | _commands/           |                     |
- |                      | _ help.js           |
- |                      | _ version.js        |
- |                      |                     |
- | _event-handlers      |                     |
- |                      | _handle-PostInit.js |
- |                      | _handle-PostPush.js |
- |                      | _handle-PreInit.js  |
- |                      | _handle-PrePush.js  |
- |                      |                     |
- | _amplify-plugin.json |                     |
- | _index.js            |                     |
- | _package.json        |                     |
+ |_my-amplify-plugin/
+    |_commands/
+    |   |_ help.js
+    |   |_ version.js
+    |
+    |_event-handlers
+    |   |_handle-PostInit.js
+    |   |_handle-PostPush.js
+    |   |_handle-PreInit.js
+    |   |_handle-PrePush.js
+    |
+    |_amplify-plugin.json
+    |_index.js
+    |_package.json
 ```
 
 ### amplify-plugin.json
