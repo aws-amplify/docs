@@ -252,6 +252,9 @@ base64
 amplify-s3-album
 styles.css
 6.x
+10.x
+12.x
+13.x
 polyfills.ts
 forgotPassword
 requireNewPassword
@@ -365,6 +368,7 @@ Kinesis
 javascript
 albumVisit
 AWSKinesisProvider
+AWSKinesisFirehoseProvider
 pluggable
 mouseover
 url
@@ -376,6 +380,7 @@ iframe
 MediaAutoTrack
 TimeWatched
 eventValue
+streamName
 
 # cli/graphql.md
 UpdateTable
@@ -383,6 +388,7 @@ redirect_to
 graphql
 sdk
 AppSyncApiName
+CreateAPIKey
 APIKeyExpirationEpoch
 ElasticsearchStreamingFunctionName
 ElasticsearchInstanceCount
@@ -439,6 +445,19 @@ status#createdAt
 IN_TRANSIT
 statusCreatedAt
 ByStatus
+graphql#17-data-access-patterns
+postID
+parameterization
+byname
+newHire
+byCustomerByStatusByDate
+byWarehouse
+AccountRepresentative
+byRepresentativebyDate
+byTitle
+jobTitle
+dynamoDB
+connectionWithKeyExamples.md
 Pre
 Auth.currentAuthenticatedUser
 AWSMobileClient.sharedInstance
@@ -540,7 +559,7 @@ subfolder
 
 # cli/codegen.md
 apiId
-XCode
+Xcode
 Gradle
 dev
 Podfile
@@ -548,6 +567,13 @@ realtime
 AppDelegate.swift
 ViewController.swift
 MainActivity.java
+
+# cli/lambda-node-version-update.md
+10.x
+NodeJS
+cognito
+PostAuthentication
+PostConfirmation
 
 # cli/multienv.md
 multienv
@@ -836,6 +862,8 @@ HostedUI
 UserPool
 flipside
 ARNs
+passwordless
+mobileClient
 
 # ios/how-to-cognito-integrate-an-existing-identity-pool-ios.md
 AppDelegate
@@ -1010,3 +1038,53 @@ keystore
 
 # ios/pubsub.md
 authorizers
+
+# js/datastore.md
+DataStore
+Automerge
+IndexedDB
+modelgen
+npx
+synchronizes
+adhere
+queueing
+deserialize
+
+# android/analytics.md
+AWSPinpointAnalyticsPlugin
+
+# android/api.md
+BelongsTo
+HasMany
+Logcat
+QueryField
+
+# android/datastore.md
+queryField
+RxJava
+amplifyPush
+_
+syncMode
+
+# android/start.md
+gradle
+
+# android/storage.md
+
+# ios/api.md
+AWSAPIPlugin
+
+# ios/analytics.md
+unregister
+
+# ios/datastore.md
+AnyPublisher
+
+# ios/predictions.md
+CoreML
+pre-created
+
+# ios/started.md
+amplifyconfiguration.json
+amplifyxc.config
+
