@@ -2369,14 +2369,17 @@ query SearchPosts {
 
 Assuming you used the `createPost` mutation to create new posts with `title`, `createdAt` and `updatedAt` values, the above search query will return you a list of all `Posts`, whose `title` starts with `S` _and_ have `createdAt` _or_ `updatedAt` value as `08/20/2018`.
 
-Here is a complete list of searchable operations per GraphQL type supported as of today:
+Here is a complete list of searchable operations per type supported as of today:
 
-| GraphQL Type        | Searchable Operation           |
+|  Type        | Searchable Operation           |
 |-------------:|:-------------|
 | String      | `ne`, `eq`, `match`, `matchPhrase`, `matchPhrasePrefix`, `multiMatch`, `exists`, `wildcard`, `regexp` |
+| Date*     | `ne`, `gt`, `lt`, `gte`, `lte`, `eq`, `exists`, `range`      |
 | Int     | `ne`, `gt`, `lt`, `gte`, `lte`, `eq`, `range`      |
 | Float | `ne`, `gt`, `lt`, `gte`, `lte`, `eq`, `range`      |
 | Boolean | `eq`, `ne`      |
+
+* Elasticsearch will refer to date specific scalars (e.g. AWSDate and AWSDateTime in AWS AppSync) thus the supprted operations for date as listed.
 
 
 
