@@ -342,6 +342,9 @@ cloudformation-template
 searchable
 API_KEY
 AWS_IAM
+AWSDate
+AWSDateTime
+datetype
 AMAZON_COGNITO_USER_POOLS
 OPENID_CONNECT
 Graphql
