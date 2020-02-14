@@ -2379,7 +2379,7 @@ Here is a complete list of searchable operations per type supported as of today:
 | Float | `ne`, `gt`, `lt`, `gte`, `lte`, `eq`, `range`      |
 | Boolean | `eq`, `ne`      |
 
-* Elasticsearch will refer to date specific scalars (e.g. AWSDate and AWSDateTime in AWS AppSync) thus the supprted operations for date as listed.
+> \* Elasticsearch will refer to date specific scalars (e.g. AWSDate and AWSDateTime in AWS AppSync) as [Date datetype](https://www.elastic.co/guide/en/elasticsearch/reference/6.2/date.html).
 
 
 
