@@ -15,13 +15,15 @@ $ amplify configure
 If you're using Windows, we recommend the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
 
 - Ensure you have [Create React App](https://github.com/facebook/create-react-app) installed.
-- Create a new project as follows:<br>
+- Option 1: Create a new project and cd into it as follows:<br>
   `npx create-react-app myapp`<br>
   `cd myapp`<br>
+  
+- Option 2: If you are integrating Amplify into an existing Creact React App project just cd into that existing app directory
 
 ***Getting Started with the CLI*** 
 
-To get started, initialize your project in the new directory:
+To get started, initialize your project in the directory:
 
 ```
 amplify init
