@@ -441,7 +441,7 @@ $ amplify add api
 You can update the Lambda execution role policies for your function to access other resources generated and maintained by the CLI, using the CLI
 
 ```terminal
-$ amplify update api
+$ amplify update function
 Please select the Lambda Function you would want to update: lambdafunction
 ? Do you want to update permissions granted to this Lambda function to perform on other resources in your project? Yes
 ? Select the category (Press <space> to select, <a> to toggle all, <i> to invert selection)
