@@ -120,17 +120,16 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
             return
         }
         print("AWSMobileClient initialized, userstate: \(userState)")
+        
+        let storagePlugin = AWSS3StoragePlugin()
+        do {
+            try Amplify.add(plugin: storagePlugin)
+            try Amplify.configure()
+            print("Amplify configured with storage plugin")
+        } catch {
+            print("Failed to initialize Amplify with \(error)")
+        }
     }
-
-    let storagePlugin = AWSS3StoragePlugin()
-    do {
-        try Amplify.add(plugin: storagePlugin)
-        try Amplify.configure()
-        print("Amplify configured with storage plugin")
-    } catch {
-        print("Failed to initialize Amplify with \(error)")
-    }
-
     return true
 }
 ```
