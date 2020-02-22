@@ -147,14 +147,14 @@ If you would like your models to easily update both locally and on the server wh
 
 1 - Add the following dependencies to your **project** `build.gradle`:
 
-* `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.0'` as a dependency
+* `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'` as a dependency
 * A plugin of `'com.amplifyframework.amplifytools'` as in the example below:
 
 ```gradle
 buildscript {
   dependencies {
       classpath 'com.android.tools.build:gradle:3.5.0'
-      classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.0'
+      classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'
   }
 }
 

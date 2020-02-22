@@ -44,7 +44,7 @@ You can use an existing Android app or create a new Android app in Java as per t
 
 a. Open your **project** `build.gradle` and add the following:
 * `mavenCentral()` as a repository
-* `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.0'` as a dependency
+* `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'` as a dependency
 * A plugin `'com.amplifyframework.amplifytools'` as shown in the example below:
 
 ```gradle
@@ -54,7 +54,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
-        classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.1.0'
+        classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'
     }
 }
 
