@@ -616,6 +616,7 @@ transpile
 transpiling
 transpiled
 util
+mock.json
 
 # android/analytics.md
 ActivityLifecycleCallbacks

@@ -644,6 +644,8 @@ query {
 
 When performing operations against the local mock endpoint, the Amplify CLI will automatically update your `aws-exports.js` and `awsconfiguration.json` with the local endpoints, fake values where necessary (e.g. fake API key), and disable SSL with an explicit value (`DangerouslyConnectToHTTPEndpointForTesting`) to indicate the functionality is only for local mocking and testing. This happens automatically when you run `amplify mock` and the server is running. Once you stop the mock server the config files are updated with the correct cloud endpoints for your project and `DangerouslyConnectToHTTPEndpointForTesting` is removed from the config file.
 
+Additionally, if `amplify/mock.json` exists, its contents will be used to configure mocking.
+
 #### aws-exports.js example
 
 ```javascript
@@ -684,6 +686,14 @@ const awsmobile = {
             "DangerouslyConnectToHTTPEndpointForTesting": true
         }
     }
+```
+
+#### mock.json example
+
+```javascript
+{
+  javaOpts: "-Xms512M -Xmx2G"
+}
 ```
 
 ### iOS config
