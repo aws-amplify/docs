@@ -25,7 +25,7 @@ The first step to integrate DataStore into your app is to model your data with a
 
 ## Using Gradle
 
-Open your project `build.gradle` and add `mavenCentral()` as a repository, `classpath 'com.amplifyframework:amplify-tools-gradle-plugin-beta:0.1.0'` as a dependency, and `'com.amplifyframework.amplifytools'` as a plugin:
+Open your project `build.gradle` and add `mavenCentral()` as a repository, `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'` as a dependency, and `'com.amplifyframework.amplifytools'` as a plugin:
 
 
 ```gradle
