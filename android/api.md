@@ -154,7 +154,7 @@ If you would like your models to easily update both locally and on the server wh
 buildscript {
   dependencies {
       classpath 'com.android.tools.build:gradle:3.5.0'
-      classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.0'
+      classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'
   }
 }
 
