@@ -113,7 +113,7 @@ import Amplify
 import AmplifyPlugins
 ```
 
-Add the follow code to your AppDelegate's `application:didFinishLaunchingWithOptions` method
+Add the following code to your AppDelegate's `application:didFinishLaunchingWithOptions` method
 ```swift
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     let apiPlugin = AWSAPIPlugin(modelRegistration: AmplifyModels())
@@ -476,7 +476,9 @@ do {
 
 #### Multi-Auth
 
-This section talks about the capability of AWS AppSync to configure multiple authorization modes for a single AWS AppSync endpoint and region. Follow the [AWS AppSync Multi-Auth](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes) to configure multiple authorization modes for your AWS AppSync endpoint.
+This section talks about the capability of AWS AppSync to configure multiple authorization modes for a single AWS AppSync endpoint and region. 
+
+the [AWS AppSync Multi-Auth](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes) to configure multiple authorization modes for your AWS AppSync endpoint.
 
 You can now configure a single GraphQL API to deliver private and public data. Private data requires authenticated access using authorization mechanisms such as IAM, Cognito User Pools, and OIDC. Public data does not require authenticated access and is delivered through authorization mechanisms such as API Keys. You can also configure a single GraphQL API to deliver private data using more than one authorization type. For example, you can configure your GraphQL API  to authorize some schema fields using OIDC, while other schema fields through Cognito User Pools and/or IAM.
 
