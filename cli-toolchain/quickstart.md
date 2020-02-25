@@ -164,7 +164,7 @@ When asked as in the example above, you can press `Shift` on your keyboard along
 For certain Amplify categories you can restrict access with CRUD (Create, Read, Update, and Delete) permissions, setting different access controls for authenticated users vs Guests (e.g. Authenticated users can read & write to S3 buckets while Guests can only read). You can further restrict this to apply different permissions conditionally depending on if a logged-in user is part of a specific User Pool Group.
 
 ```terminal
-$amplify add storage  # Select content
+$ amplify add storage  # Select content
 
 ? Restrict access by? (Use arrow keys)
   Auth/Guest Users 
@@ -426,7 +426,7 @@ To learn more, take a look at the [GraphQL Transformer docs]({%if jekyll.environ
 
 You can add a Lambda function to your project which you can use alongside a REST API or as a datasource, as a part of your GraphQL API using the @function directive. 
 ```terminal
-$ amplify add api
+$ amplify add function
 ? Provide a friendly name for your resource to be used as a label for this category in the project: lambdafunction
 ? Provide the AWS Lambda function name: lambdafunction
 ? Choose the function template that you want to use: (Use arrow keys)
@@ -441,7 +441,7 @@ $ amplify add api
 You can update the Lambda execution role policies for your function to access other resources generated and maintained by the CLI, using the CLI
 
 ```terminal
-$ amplify update api
+$ amplify update function
 Please select the Lambda Function you would want to update: lambdafunction
 ? Do you want to update permissions granted to this Lambda function to perform on other resources in your project? Yes
 ? Select the category (Press <space> to select, <a> to toggle all, <i> to invert selection)

@@ -54,7 +54,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
-        classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.1.0'
+        classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'
     }
 }
 
@@ -72,8 +72,8 @@ android {
 }
 
 dependencies {
-  implementation 'com.amplifyframework:core:0.9.0'
-  implementation 'com.amplifyframework:aws-api:0.9.0'
+  implementation 'com.amplifyframework:core:0.9.1'
+  implementation 'com.amplifyframework:aws-api:0.9.1'
 }
 ```
 

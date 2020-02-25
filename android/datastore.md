@@ -25,7 +25,7 @@ The first step to integrate DataStore into your app is to model your data with a
 
 ## Using Gradle
 
-Open your project `build.gradle` and add `mavenCentral()` as a repository, `classpath 'com.amplifyframework:amplify-tools-gradle-plugin-beta:0.1.0'` as a dependency, and `'com.amplifyframework.amplifytools'` as a plugin:
+Open your project `build.gradle` and add `mavenCentral()` as a repository, `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'` as a dependency, and `'com.amplifyframework.amplifytools'` as a plugin:
 
 
 ```gradle
@@ -35,7 +35,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
-        classpath 'com.amplifyframework:amplify-tools-gradle-plugin-beta:0.1.0'
+        classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'
     }
 }
 
@@ -45,8 +45,8 @@ apply plugin: 'com.amplifyframework.amplifytools'
 Next, add the following dependencies to your app `build.gradle`:
 
 ```gradle
-implementation 'com.amplifyframework:core:0.9.0'
-implementation 'com.amplifyframework:aws-datastore:0.9.0'
+implementation 'com.amplifyframework:core:0.9.1'
+implementation 'com.amplifyframework:aws-datastore:0.9.1'
 ```
 
 Sync the project and ensure that it built successfully. Switch to the **Project** view in Android Studio and open the schema file at `amplify/backend/api/amplifyDatasource/schema.graphql`. For this guide, edit this file so that it contains the schema definition below. [Learn more](https://aws-amplify.github.io/docs/cli-toolchain/graphql){:target="_blank"} about annotating GraphQL schemas and data modeling.
