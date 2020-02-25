@@ -93,7 +93,7 @@ Use the following steps to connect add file storage backend services to your app
 
 ### Mocking and Local Testing
 
-Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](../cli-toolchain/usage#mocking-and-testing) for more details.
+Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](../../cli-toolchain/usage#mocking-and-testing) for more details.
 
 ## Using TransferUtility 
 
