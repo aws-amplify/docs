@@ -2182,7 +2182,7 @@ longer needed.
 
 ### @versioned
 
-The `@versioned` directive adds object versioning and conflict resolution to a type.
+The `@versioned` directive adds object versioning and conflict resolution to a type. Do not use this directive when leveraging DataStore as the conflict detection and resolution features are automatically handled inside AppSync and are incompatible with the `@versioned` directive.
 
 #### Definition
 
