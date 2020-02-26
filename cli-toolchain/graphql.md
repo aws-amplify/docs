@@ -1074,7 +1074,6 @@ Please note that `groups` is leveraging Cognito User Pools but no provider assig
 
 ```graphql
 type Post @model
-@model
 @auth(rules: [
 	{allow: owner, identityClaim: "user_id"},
 	{allow: groups, groups: ["Moderator"], groupClaim: "user_groups"}
