@@ -108,13 +108,13 @@ const posts = await DataStore.query(Post);
 This will return a list of the first 100 items, you can optionally pass in a limit and page:
 
 ```javascript
-const posts = await DataStore.query(Post, null, {
+const posts = await DataStore.query(Post, Predicates.ALL, {
   page: 0,
   limit: 100
 });
 ```
 
-The second object is a condition, described in the next section. The `page` and `limt` are optional.
+The second object is a condition, described in the next section. The `page` and `limit` are optional.
 
 ### Query with Predicates
 
@@ -463,7 +463,7 @@ When multiple clients send concurrent updates using the same version and conflic
 
 DataStore is designed primarily for developers to not have to focus on the backend and let your application code and workflow create everything. However there will be some use cases where you will use the AppSync console, a Lambda function, or other out of band processes to write data (such as batch actions or data migrations) and you might send GraphQL operations without the DataStore client.
 
-In these cases it's important that the selection set of your GraphQL mutation includes the fields `_lastChangedAt`, `_version`, and `_deleted` so that the DataStore clients can react to these updates. You will also need to send the **current** object version in the mutation input argument as `_input` so that the service can act accordingly. If you do not send this information the clients will still eventually catch up during the global sync process, but you will not see realtime updates to the client DataStore repositories. An example mutation:
+In these cases it's important that the selection set of your GraphQL mutation includes the fields `_lastChangedAt`, `_version`, and `_deleted` so that the DataStore clients can react to these updates. You will also need to send the **current** object version in the mutation input argument as `_version` so that the service can act accordingly. If you do not send this information the clients will still eventually catch up during the global sync process, but you will not see realtime updates to the client DataStore repositories. An example mutation:
 
 ```graphql
 mutation UpdatePost {
@@ -566,5 +566,5 @@ export default App;
 
 ## API Reference   
 
-For the complete API documentation for DataStore, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/DataStoreclass.html)
+For the complete API documentation for DataStore, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/datastore.html)
 {: .callout .callout--info}

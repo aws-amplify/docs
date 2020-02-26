@@ -16,7 +16,7 @@ Ensure you have [installed and configured the Amplify CLI and library]({%if jeky
 
 ### Automated Setup
 
-AWS Mobile CLI helps you to create and configure the storage buckets for your app. The default implementation of the Storage module leverages [Amazon S3](https://aws.amazon.com/s3).
+Amplify CLI helps you to create and configure the storage buckets for your app. The default implementation of the Storage module leverages [Amazon S3](https://aws.amazon.com/s3).
 
 ##### Create Your Backend with the CLI
 
@@ -213,7 +213,7 @@ The policy template that Amplify CLI uses is found [here](https://github.com/aws
 
 ### Amazon S3 Bucket CORS Policy Setup
 
-To make calls to your S3 bucket from your App, you need to set up a CORS Policy for your S3 bucket.
+To make calls to your S3 bucket from your App, you need to set up a CORS Policy for your S3 bucket. This callout is only for manual configuration of your S3 bucket, CORS Policy configuration is done automatically via Amplify CLI when running `amplify add storage`.
 {: .callout .callout--warning}
 
 The following steps will set up your CORS Policy: 

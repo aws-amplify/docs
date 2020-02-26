@@ -252,6 +252,9 @@ base64
 amplify-s3-album
 styles.css
 6.x
+10.x
+12.x
+13.x
 polyfills.ts
 forgotPassword
 requireNewPassword
@@ -385,6 +388,7 @@ redirect_to
 graphql
 sdk
 AppSyncApiName
+CreateAPIKey
 APIKeyExpirationEpoch
 ElasticsearchStreamingFunctionName
 ElasticsearchInstanceCount
@@ -563,6 +567,13 @@ realtime
 AppDelegate.swift
 ViewController.swift
 MainActivity.java
+
+# cli/lambda-node-version-update.md
+10.x
+NodeJS
+cognito
+PostAuthentication
+PostConfirmation
 
 # cli/multienv.md
 multienv
@@ -851,6 +862,8 @@ HostedUI
 UserPool
 flipside
 ARNs
+passwordless
+mobileClient
 
 # ios/how-to-cognito-integrate-an-existing-identity-pool-ios.md
 AppDelegate

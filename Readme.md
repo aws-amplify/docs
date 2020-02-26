@@ -3,16 +3,16 @@
 [![CircleCI](https://circleci.com/gh/aws-amplify/docs.svg?style=svg)](https://circleci.com/gh/aws-amplify/docs)
 
 This is the main documentation repository for the Amplify Framework. The documentation is new. We welcome [feedback](https://github.com/aws-amplify/docs/issues/new) and contributions. [Get Started >>](https://aws-amplify.github.io/docs)
- 
+
 ## Contributing
- 
+
 The documentation is tested for spelling errors in CircleCI and against a custom dictionary [.spelling](https://github.com/aws-amplify/docs/blob/master/.spelling). Add the words here e.g. service names etc. that should be bypassed by the checker. The spelling is checked via the `npm test` command during the build. You can see failing builds / errors by clicking on the build badge above. There is also a grammar check that should be run locally via `npm run grammar`.
 
 ### Prerequisites
 
-- Node.js `8.x` or greater: check with `node --version`
+- [Node.js](https://nodejs.org/en/download/) `10.x` or greater: check with `node --version`
 - NPM or Yarn: check with `npm --version` or `yarn --version`
-- Ruby and Bundler: `bundle --version`
+- [Ruby](https://www.ruby-lang.org/en/downloads/) and [Bundler](https://bundler.io/): `bundle --version`
 
 ### Step-by-step
 
