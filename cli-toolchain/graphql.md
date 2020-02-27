@@ -1074,7 +1074,6 @@ Please note that `groups` is leveraging Cognito User Pools but no provider assig
 
 ```graphql
 type Post @model
-@model
 @auth(rules: [
 	{allow: owner, identityClaim: "user_id"},
 	{allow: groups, groups: ["Moderator"], groupClaim: "user_groups"}
@@ -1132,7 +1131,7 @@ In the case of groups if you define the following:
 
 ```graphql
 type Post @model
-@model @auth(rules: [{allow: groups, groups: ["Admin"]}]) {
+@auth(rules: [{allow: groups, groups: ["Admin"]}]) {
 {
   id: ID!
   owner: String
@@ -2182,7 +2181,7 @@ longer needed.
 
 ### @versioned
 
-The `@versioned` directive adds object versioning and conflict resolution to a type.
+The `@versioned` directive adds object versioning and conflict resolution to a type. Do not use this directive when leveraging DataStore as the conflict detection and resolution features are automatically handled inside AppSync and are incompatible with the `@versioned` directive.
 
 #### Definition
 
