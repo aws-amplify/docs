@@ -1576,8 +1576,8 @@ After deploying our function, we can connect it to AppSync by defining some type
 
 ```graphql
 type Query {
-  me: User @function(name: "ResolverFunction")
-  echo(msg: String): String @function(name: "ResolverFunction")
+  me: User @function(name: "GraphQLResolverFunction")
+  echo(msg: String): String @function(name: "GraphQLResolverFunction")
 }
 # These types derived from https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CognitoIdentityServiceProvider.html#adminGetUser-property
 type User {
