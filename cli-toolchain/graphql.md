@@ -645,7 +645,7 @@ You can use the *operations* argument to specify which operations are augmented 
 
 ```graphql
 type Todo @model
-  @auth(rules: [{ allow: owner, operations: [read] }]) {
+  @auth(rules: [{ allow: owner, operations: [create, read] }]) {
   id: ID!
   updatedAt: AWSDateTime! 
   content: String!
@@ -664,7 +664,7 @@ If you want to prevent updates and deletes operations, you would need to modify 
 
 ```graphql
 type Todo @model
-  @auth(rules: [{ allow: owner, operations: [read, update, delete] }]) {
+  @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }]) {
   id: ID! 
   updatedAt: AWSDateTime! 
   content: String!
@@ -678,6 +678,7 @@ Here's a truth table for the above-mentioned schema. In the table below `other` 
 | owner |    ✅    |     ✅    |      ✅     |      ✅     |      ✅     |
 | other |    ❌    |     ❌    |      ✅     |      ❌     |      ❌     |
 
+**Note**: Specifying `@auth(rules: [{ allow: owner, operations: [create]}])` still allows anyone who has access to your API to create records (as shown in the above truth table). However, including this is necessary when specifying other owner auth rules to ensure that the owner is stored with the record so it can be verified on subsequent requests.
 
 
 
