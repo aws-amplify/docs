@@ -1075,7 +1075,6 @@ Please note that `groups` is leveraging Cognito User Pools but no provider assig
 
 ```graphql
 type Post @model
-@model
 @auth(rules: [
 	{allow: owner, identityClaim: "user_id"},
 	{allow: groups, groups: ["Moderator"], groupClaim: "user_groups"}
@@ -1133,7 +1132,7 @@ In the case of groups if you define the following:
 
 ```graphql
 type Post @model
-@model @auth(rules: [{allow: groups, groups: ["Admin"]}]) {
+@auth(rules: [{allow: groups, groups: ["Admin"]}]) {
 {
   id: ID!
   owner: String
@@ -1578,8 +1577,8 @@ After deploying our function, we can connect it to AppSync by defining some type
 
 ```graphql
 type Query {
-  me: User @function(name: "ResolverFunction")
-  echo(msg: String): String @function(name: "ResolverFunction")
+  me: User @function(name: "GraphQLResolverFunction")
+  echo(msg: String): String @function(name: "GraphQLResolverFunction")
 }
 # These types derived from https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CognitoIdentityServiceProvider.html#adminGetUser-property
 type User {

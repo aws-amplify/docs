@@ -90,6 +90,14 @@ Use the following steps to connect add file storage backend services to your app
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<service android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService" android:enabled="true" />
 	```
+	
+3. **For Android Q (API 29)**: API 29 enforces scoped storage access for Android apps. To gain access to legacy external storage, enable the following application property inside `AndroidManifest.xml`:
+	
+	```xml
+	<application>
+	    android:requestLegacyExternalStorage="true"
+	</application>
+	```
 
 ### Mocking and Local Testing
 
