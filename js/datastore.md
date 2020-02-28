@@ -686,7 +686,7 @@ class App extends Component {
 
   render() {
     return (
-    <ScrollView style={{paddingTop: 40, flex:1}} contentContainerStyle={{alignItems: 'center'}}>
+    <ScrollView style={styles.scrollview} contentContainerStyle={styles.container}>
       <Text style={styles.text} onPress={this.onCreatePost}>Create Post</Text>
       <Text style={styles.text} onPress={this.onCreatePostAndComments}>Create Post & Comments</Text>
       <Text style={styles.text} onPress={this.onQuery}>Query Posts</Text>
@@ -698,11 +698,12 @@ class App extends Component {
 }
 
 const styles = StyleSheet.create({
+  scrollview: {
+    paddingTop: 40,
+    flex:1
+  },
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    alignItems: 'center'
   },
   text: {
     fontSize: 20,
