@@ -92,7 +92,7 @@ Install NetInfo with expo
 ```sh
 expo install @react-native-community/netinfo
 ```  
-Thats all for Expo managed apps. Move directly to the [next step](https://aws-amplify.github.io/docs/js/datastore#import-generated-models)
+That is all for Expo managed apps. Move directly to the [next step](https://aws-amplify.github.io/docs/js/datastore#import-generated-models)
 
 #### For Apps created with React Native CLI: 
 Install NetInfo through npm
