@@ -765,7 +765,7 @@ This workflow can be used to share complete Amplify projects with people outside
 
 ### Continuous deployment and Hosting
 
-The Amplify CLI supports basic web application hosting with AWS Amplify Conosle as well as Amazon S3 and CloudFront. 
+The Amplify CLI supports basic web application hosting with AWS Amplify Console as well as Amazon S3 and CloudFront. 
 You can use the multi-environments feature of the Amplify CLI with the Amplify Console for a fully managed continuous deployment solution. Learn more in the [official documentation](https://docs.aws.amazon.com/amplify/latest/userguide/multi-environments.html).
 
 ### Setting up master and dev environments
@@ -1018,7 +1018,7 @@ If you select Amplify Console for hosting your Amplify App in the `amplify add h
 The `amplify configure hosting` command for the Amplify Console option, opens up the AWS Amplify Console browser tab for you where you can configure advanced settings such as rewrite/redirect URL's, basic auth, custom domain. 
 These advanced settings do not get replicated or cloned  between environments and you'd have to configure them on a per-environment basis.
 
-**Note**: Amplify Console automatically handles cache invalidations and there is no aditional configurations or commands/command-line parameters required for it.
+**Note**: Amplify Console automatically handles cache invalidation and there is no additional configurations or commands/command-line parameters required for it.
 
 ### Amazon S3 & Amazon Cloudfront
 
