@@ -987,13 +987,14 @@ There are multiple ways to deploy and host your Amplify app. Two options are lis
 
 
 ### Workflow
-- `amplify hosting add`<br/>
+- `amplify add hosting`<br/>
 This adds the hosting resources to the backend. The command will first prompt for environment selection, either DEV or PROD. Upon completion, the CloudFormation template for the resources is placed in the amplify/backend/hosting directory. <br/><br/>
-- `amplify hosting configure`<br/>
+- `amplify configure hosting`<br/>
 This command walks through the steps to configure the different sections of the resources used in hosting, including S3, CloudFront, and publish ignore. See below for more details.<br/><br/>
 - `amplify publish`<br/>
 The `amplify publish` command is designed to build and publish both the backend and the frontend of the project. In the current implementation, the frontend publish functionality is only available for a JavaScript project for static web hosting.<br/>
-
+- `amplify remove hosting`<br/>
+This removes the hosting resources locally from the backend. On your next `amplify push` the provisioned hosting resources will get removed from the cloud. <br/><br/>
 
 ### AWS Amplify Console
 
@@ -1013,7 +1014,7 @@ If you select Amplify Console for hosting your Amplify App in the `amplify add h
 
 #### Advanced Configurations
 
-The `amplify hosting configure` command for the Amplify Console option, opens up the AWS Amplify Console browser tab for you where you can configure advanced settings such as rewrite/redirect URL's, basic auth, custom domain. 
+The `amplify configure hosting` command for the Amplify Console option, opens up the AWS Amplify Console browser tab for you where you can configure advanced settings such as rewrite/redirect URL's, basic auth, custom domain. 
 **Note**: These advanced settings do not get replicated or cloned  between environments and you'd have to configure them on a per-environment basis.
 
 
@@ -1038,7 +1039,7 @@ For more  information of the Amazon S3 and Amazon CloudFront, check their docs:
 If you select Amazon S3 & Amazon Cloudfront for hosting your Amplify App in the `amplify add hosting` flow, the frontend build artifacts will be uploaded to the S3 hosting bucket, and then if Amazon CloudFront is enabled along with it, the `amplify publish` command executed with the `--invalidateCloudFront` or `-c` flag will send an invalidation request to the Amazon CloudFront service to invalidate its cache.
 
 #### Advanced Configurations
-The `amplify hosting configure` command walks through the steps to configure the different sections of the resources used when hosting through Amazon S3 & Amazon Cloudfront. Following are the available configurable options:
+The `amplify configure hosting` command walks through the steps to configure the different sections of the resources used when hosting through Amazon S3 & Amazon Cloudfront. Following are the available configurable options:
 - `Website`<br/>
 Configures the S3 bucket for static web hosting. You can set the index doc and error doc references by configuring this option. Both are set to be `index.html` by default.<br/><br/>
 - `CloudFront`<br/>
