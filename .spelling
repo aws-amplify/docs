@@ -605,6 +605,9 @@ transform.conf.json
 
 #cli-toolchain/quickstart.md
 richard
+Bitbucket
+GitLab
+CodeCommit
 
 #cli-toolchain/usage.md
 poolData
