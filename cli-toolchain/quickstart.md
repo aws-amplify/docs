@@ -1004,8 +1004,17 @@ The AWS Amplify Console provides a Git-based workflow for building, deploying, a
 
 Following are the concepts you would encounter when adding Amplify console as a hosting option for your Amplify app.
 
+#### Type of deployments
 
+If you select Amplify Console for hosting your Amplify App in the `amplify add hosting` flow, there are two stages you can select from as a part of the flow:
 
+- **Manual deployment** option allows you to publish your web app to the Amplify Console without connecting a Git provider. If you select this option, after making every frontend and backend changes locally, you'll have to run the `amplify publish` command for your changes to reflect on the cloud.
+- **Continuous deployment** option allows you to publish changes on every code commit by connecting your GitHub, Bitbucket, GitLab, or AWS CodeCommit repositories. Selecting this option would open up your AWS Amplify console where you can connect your Git based repository. If you select this option, after making every frontend and backend changes locally, you'll have to run the `git push` command for your changes to reflect on the cloud.
+
+#### Advanced Configurations
+
+The `amplify hosting configure` command for the Amplify Console option, opens up the AWS Amplify Console browser tab for you where you can configure advanced settings such as rewrite/redirect URL's, basic auth, custom domain. 
+**Note**: These advanced settings do not get replicated or cloned  between environments and you'd have to configure them on a per-environment basis.
 
 
 ### Amazon S3 & Amazon Cloudfront
@@ -1028,10 +1037,8 @@ For more  information of the Amazon S3 and Amazon CloudFront, check their docs:
 #### Cache Invalidation
 If you select Amazon S3 & Amazon Cloudfront for hosting your Amplify App in the `amplify add hosting` flow, the frontend build artifacts will be uploaded to the S3 hosting bucket, and then if Amazon CloudFront is enabled along with it, the `amplify publish` command executed with the `--invalidateCloudFront` or `-c` flag will send an invalidation request to the Amazon CloudFront service to invalidate its cache.
 
-
-
-#### Configuration
-The command `amplify hosting configure` walks through the steps to configure the different sections of the resources used when hosting through Amazon S3 & Amazon Cloudfront. Following are the available configurable options:
+#### Advanced Configurations
+The `amplify hosting configure` command walks through the steps to configure the different sections of the resources used when hosting through Amazon S3 & Amazon Cloudfront. Following are the available configurable options:
 - `Website`<br/>
 Configures the S3 bucket for static web hosting. You can set the index doc and error doc references by configuring this option. Both are set to be `index.html` by default.<br/><br/>
 - `CloudFront`<br/>
