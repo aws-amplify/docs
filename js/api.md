@@ -30,10 +30,9 @@ The Amplify Framework offers two client options for AppSync:
 
 - [AWS AppSync SDK](#aws-appsync-sdk)
 
+The Amplify GraphQL client is a light weight option if you're looking for a simple way to leverage GraphQL features and do not need the offline capabilities or caching. If you need those features, please look at [Amplify DataStore](https://aws-amplify.github.io/docs/js/datastore).
 
-The [AWS AppSync SDK](https://github.com/awslabs/aws-mobile-appsync-sdk-js/) enables you to integrate your app with the AWS AppSync service and integrates with the Apollo client found [here](https://github.com/apollographql/apollo-client/). The SDK supports multiple authorization models, handles subscription handshake protocols for real-time updates to data, and has built-in capabilities for offline support that makes it easy to integrate into your app.
-
-The Amplify GraphQL client is a lighter weight option if you're looking for a simple way to leverage GraphQL features and do not need the offline capabilities or caching of the Apollo client. If you need those features, choose the AWS AppSync SDK.
+Alternatively the [AWS AppSync SDK](https://github.com/awslabs/aws-mobile-appsync-sdk-js/) enables you to integrate your app with the AWS AppSync service and integrates with the Apollo client found [here](https://github.com/apollographql/apollo-client/).
 
 You can integrate with AWS AppSync using the following steps:
 
@@ -2194,14 +2193,14 @@ If you have used Amplify CLI to create your API, you can enable custom headers b
 7. Finally, similar to step 3, click the Actions drop-down menu and then select **Deploy API**. Select **Development** on deployment stage and then **Deploy**. (Deployment could take a couple of minutes).
 
 ### Cognito User Pools Authorization
-You can use the JWT token provided by the Authentication API to authenticate against API Gateway directly when using a <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html" target="_blank">custom authorizer</a>. You can achieve this by retrieving the JWT token from the `(await Auth.currentSession()).getAccessToken().getJwtToken()` API:
+You can use the JWT token provided by the Authentication API to authenticate against API Gateway directly when using a <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html" target="_blank">custom authorizer</a>. You can achieve this by retrieving the JWT token from the `(await Auth.currentSession()).getIdToken().getJwtToken()` API:
 
 ```javascript
 async function postData() { 
     let apiName = 'MyApiName';
     let path = '/path';
     let myInit = { 
-        headers: { Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}` }
+        headers: { Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
     }
     return await API.post(apiName, path, myInit);
 }

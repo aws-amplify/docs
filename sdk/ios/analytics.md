@@ -277,6 +277,9 @@ You can report authentication events by doing either of the following:
 The limits applicable to the ingestion of events using the AWS Android SDK for Pinpoint and the Amazon Pinpoint Events API
 can be found [here](https://docs.aws.amazon.com/pinpoint/latest/developerguide/limits.html#limits-events).
 
+> Note: Cognito User Pools only supports sending events to Amazon Pinpoint projects in the US East (N. Virginia) us-east-1 Region, regardless of the region in which the user pool resides.
+
+
 ## Registering Endpoints in Your Application
 
 When a user starts a session (for example, by launching your mobile app), your mobile or web application can automatically register (or update) an _endpoint_ with Amazon Pinpoint. The endpoint represents the device that the user starts the session with. It includes attributes that describe the device, and it can also include custom attributes that you define. Endpoints can also represent other methods of communicating with customers, such as email addresses or mobile phone numbers.

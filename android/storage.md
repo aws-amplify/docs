@@ -71,8 +71,8 @@ Add the following dependencies to your app build.gradle file and click "Sync Now
 
 ```java
 dependencies {
-    implementation 'com.amplifyframework:core:0.9.0'
-    implementation 'com.amplifyframework:aws-storage-s3:0.9.0'
+    implementation 'com.amplifyframework:core:0.9.1'
+    implementation 'com.amplifyframework:aws-storage-s3:0.9.1'
     implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.16.+'
 }
 ```

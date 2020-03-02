@@ -388,6 +388,7 @@ redirect_to
 graphql
 sdk
 AppSyncApiName
+CreateAPIKey
 APIKeyExpirationEpoch
 ElasticsearchStreamingFunctionName
 ElasticsearchInstanceCount
@@ -1048,6 +1049,7 @@ synchronizes
 adhere
 queueing
 deserialize
+netinfo
 
 # android/analytics.md
 AWSPinpointAnalyticsPlugin

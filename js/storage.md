@@ -213,7 +213,7 @@ The policy template that Amplify CLI uses is found [here](https://github.com/aws
 
 ### Amazon S3 Bucket CORS Policy Setup
 
-To make calls to your S3 bucket from your App, you need to set up a CORS Policy for your S3 bucket.
+To make calls to your S3 bucket from your App, you need to set up a CORS Policy for your S3 bucket. This callout is only for manual configuration of your S3 bucket, CORS Policy configuration is done automatically via Amplify CLI when running `amplify add storage`.
 {: .callout .callout--warning}
 
 The following steps will set up your CORS Policy: 
