@@ -381,6 +381,7 @@ $ amplify add api
 ? Choose the function template that you want to use:
 ❯ CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB)
   Serverless express function (Integration with Amazon API Gateway)
+  Lambda trigger
 ```
 
 **REST endpoints that triggers Lambda functions with a predefined simple serverless-express template** <br />
@@ -397,6 +398,7 @@ $ amplify add api
 ? Choose the function template that you want to use:
   CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB)
 ❯ Serverless express function (Integration with Amazon API Gateway)
+  Lambda trigger
 ```
 
 **REST endpoints backed up by custom lambda function present in the current Amplify project** <br />
@@ -433,10 +435,12 @@ $ amplify add function
 ❯ Hello world function
   CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB)
   Serverless express function (Integration with Amazon API Gateway)
+  Lambda trigger
 ```
 * The `Hello World function` would create a basic hello world Lambda function
 * The `CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB)` function would add a predefined [serverless-express](https://github.com/awslabs/aws-serverless-express) Lambda function template for CRUD operations to DynamoDB tables (which you can create by following the CLI prompts or use the tables which you've already configured using the `amplify add storage` command)
 * The `Serverless express function (Integration with Amazon API Gateway) ` would add a predefined [serverless-express](https://github.com/awslabs/aws-serverless-express) Lambda function template with routing enabled for your REST API paths.
+* Lambda trigger would add a function that will be invoked when new data is pushed to either an AWS Kinesis stream or AWS DynamoDB stream (when DynamoDB table gets updated)
 
 You can update the Lambda execution role policies for your function to access other resources generated and maintained by the CLI, using the CLI
 
@@ -572,7 +576,15 @@ As you can see in the prompt above, you can either choose to use an existing Lam
 
 #### DynamoDB Lambda Triggers
 
-You can associate a Lambda trigger with a DynamoDB table, managed by the Amplify CLI, using the amplify add/update storage flows. When attempting to add/update a DynamoDB storage resource, you would get the following CLI prompts to add a trigger for it.
+You can associate a Lambda trigger with a DynamoDB table, managed by the Amplify CLI. There are two ways by which DynamoDB is provisioned by the Amplify CLI
+
+- As a part of the Storage category
+- As a part of the GraphQL API (types with @model annotation)
+
+
+##### As a part of the Storage category
+
+You can add and manage a DynamoDB table to your Amplify project using the amplify add/update storage flows. When attempting to add/update a DynamoDB storage resource, you would get the following CLI prompts to add a trigger for it.
 
 ```bash
 ? Do you want to add a Lambda Trigger for your Table? Yes
@@ -584,6 +596,104 @@ You can associate a Lambda trigger with a DynamoDB table, managed by the Amplify
 As you can see in the prompt above, you can either choose to use an already existing Lambda function created using the CLI as a part of this project using `amplify add function` or create a new function with a base Lambda function handle DynamoDB events.
 
 ***Note***: You can associate more than one Lambda Function trigger to a DynamoDB table.
+
+##### As a part of the GraphQL API (types with @model annotation)
+
+You can also associated a Lambda trigger with an AppSync schema's DynamoDB backed @models. GraphQL mutations that result in DynamoDB item changes will in turn result in change records published to DynamoDB streams that can trigger a lambda function. To create such a function, start with adding a new lambda function with:
+
+```bash
+$ amplify add function
+```
+
+Proceed by providing a name and selecting a Lambda Trigger template:
+
+```bash
+? Provide a friendly name for your resource to be used as a label for this category in the project: testtrigger
+? Provide the AWS Lambda function name: mytrigger
+? Choose the function template that you want to use: 
+  Hello world function 
+  CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB) 
+  Serverless express function (Integration with Amazon API Gateway) 
+❯ Lambda Trigger
+```
+
+Then select `Amazon DynamoDB Stream` when prompted with event source question.
+
+```bash
+? What event source do you want to associate with Lambda trigger (Use arrow keys)
+❯ Amazon DynamoDB Stream 
+  Amazon Kinesis Stream
+```
+
+Now select `API category graphql @model backed DynamoDB table`.
+
+```
+?
+> Use API category graphql @model backed DynamoDB table(s) in the current Amplify project
+  Use storage category DynamoDB table configured in the current Amplify project 
+  Provide the ARN of DynamoDB stream directly 
+```
+After the above question, you can select one of the types annotated by @model for which you want to add a trigger for.
+
+On completion of the above mentioned flow, a boilerplate lambda function trigger will be created in your `amplify/backend/function` directory with the following template:
+
+```js
+exports.handler = function (event, context) {
+  console.log(JSON.stringify(event, null, 2));
+  event.Records.forEach((record) => {
+    console.log(record.eventID);
+    console.log(record.eventName);
+    console.log('DynamoDB Record: %j', record.dynamodb);
+  });
+  context.done(null, 'Successfully processed DynamoDB record');
+};
+```
+
+`record.dynamodb` will contain a DynamoDB change json describing the item changed in DynamoDB table.
+Please note that it does not represent an original and new item as stored in DynamoDB table. To retrieve a original and new item you need to convert a DynamoDB json to original form:
+
+```js
+const AWS = require('aws-sdk');
+const records = event.Records.map(record => ({
+  new: AWS.DynamoDB.Converter.unmarshall(record.dynamodb.NewImage),
+  old: AWS.DynamoDB.Converter.unmarshall(record.dynamodb.OldImage)
+}));
+```
+
+#### Kinesis Stream Trigger
+
+Amplify Analytics category Kinesis stream resource can be also used as an event source for Lambda triggers. Event published to Kinesis stream will trigger a lambda function. You can add a Kinesis stream to your Amplify project by going through the `amplify add analytics` flow. To create a Lambda trigger for the Kinesis Stream, start with adding a new lambda function:
+
+```bash
+$ amplify add function
+```
+
+Proceed by providing a name and selecting a Lambda Trigger template:
+
+```bash
+? Provide a friendly name for your resource to be used as a label for this category in the project: testtrigger
+? Provide the AWS Lambda function name: mytrigger
+? Choose the function template that you want to use: 
+  Hello world function 
+  CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB) 
+  Serverless express function (Integration with Amazon API Gateway) 
+❯ Lambda Trigger
+```
+
+Then select `Amazon Kinesis Stream` when prompted with event source question and select the resource.
+
+```bash
+? What event source do you want to associate with Lambda trigger (Use arrow keys)
+  Amazon DynamoDB Stream 
+❯ Amazon Kinesis Stream
+? Choose a Kinesis event source option (Use arrow keys)
+❯ Use Analytics category kinesis stream in the current Amplify project 
+  Provide the ARN of Kinesis stream directly 
+```
+
+
+After the completion of the above flow, a Lambda function will be created in your `amplify/backend/function` directory and will be invoked when a new event is pushed to a Kinesis stream. Please refer to [Working with the API](/docs/js/analytics#working-with-the-api-1) to learn more about publishing your events to Kinesis stream.
+
 
 ## Mocking and Testing
 
