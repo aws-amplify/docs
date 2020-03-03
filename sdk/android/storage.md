@@ -6,6 +6,12 @@ title: Storage
 {% endif %}
 {% assign images_base = base_dir | append: page.dir | append: "images" %}
 {% assign common_media = base_dir | append: "/images" %}
+
+**Note**
+This guide shows how to build an app using AWS Mobile SDK for Android and the Amplify CLI toolchain.
+To use our new, preview developer experience with new Amplify Libraries for Android, [click here.](../../android/storage)
+{: .callout .callout--warning}
+
 # Storage
 
 ## S3

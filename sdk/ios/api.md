@@ -6,6 +6,11 @@ title: API
 {% endif %}
 {% assign image_base = base_dir | append: page.dir | append: "images" %}
 
+**Note**
+This guide shows how to build an app using AWS Mobile SDK for iOS and the Amplify CLI toolchain.
+To use our new, preview developer experience with new Amplify Libraries for iOS, [click here.](../../ios/api)
+{: .callout .callout--warning}
+
 # API
 
 The API category provides a solution for making HTTP requests to REST and GraphQL endpoints. It includes a [AWS Signature Version 4](http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html) signer class which automatically signs all AWS API requests for you as well as methods to use API Keys, Amazon Cognito User Pools, or 3rd party OIDC providers.

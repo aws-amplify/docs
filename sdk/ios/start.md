@@ -2,6 +2,12 @@
 title: Getting Started
 ---
 
+
+**Note**
+This guide shows how to build an app using AWS Mobile SDK for iOS and the Amplify CLI toolchain.
+To use our new, preview developer experience with new Amplify Libraries for iOS, [click here.](../../ios/start)
+{: .callout .callout--warning}
+
 # Getting Started
 
 Build an iOS app using the Amplify Framework which contains:
