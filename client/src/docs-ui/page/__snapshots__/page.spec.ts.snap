@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`docs-page Render logic should render 1`] = `
+<docs-page class="css-mg8ajq">
+  <docs-universal-nav brand-icon="/assets/logo-light.svg" brand-icon-blend="/assets/logo-dark.svg" heading="Amplify Docs"></docs-universal-nav>
+  <docs-secondary-nav></docs-secondary-nav>
+  <div class="css-1hg4kji">
+    <amplify-toc-provider>
+      <amplify-sidebar-layout>
+        <amplify-sidebar-layout-main class="css-1j9n6qe" slot="main">
+          <amplify-toc-contents></amplify-toc-contents>
+          <amplify-sidebar-layout-toggle class="css-tlw73z three-dee-effect" in-view-class="in-view">
+            <img src="/assets/burger.svg">
+          </amplify-sidebar-layout-toggle>
+        </amplify-sidebar-layout-main>
+        <div class="css-1tmqkba" slot="toc">
+          <div>
+            <amplify-toc></amplify-toc>
+          </div>
+        </div>
+      </amplify-sidebar-layout>
+    </amplify-toc-provider>
+  </div>
+  <docs-footer></docs-footer>
+  <docs-chat-button></docs-chat-button>
+</docs-page>
+`;

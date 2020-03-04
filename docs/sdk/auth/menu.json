@@ -1,0 +1,14 @@
+{
+	"title": "Authentication",
+	"items": [
+		"how-it-works",
+		"getting-started",
+		"guest-access",
+		"working-with-api",
+		"drop-in-auth",
+		"federated-identities",
+		"hosted-ui",
+		"custom-auth-flow",
+		"device-features"
+    ]
+}

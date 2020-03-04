@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`docs-card Render logic should render 1`] = `
+<docs-card>
+  <!---->
+  <amplify-card containertag="docs-internal-link">
+  </amplify-card>
+</docs-card>
+`;

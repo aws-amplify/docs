@@ -1,0 +1,20 @@
+{
+    "appName": "docsv2",
+    "roleName": "pinpointLambdaRole35c25162",
+    "cloudWatchPolicyName": "cloudWatchPolicy35c25162",
+    "pinpointPolicyName": "pinpointPolicy35c25162",
+    "authPolicyName": "pinpoint_amplify_35c25162",
+    "unauthPolicyName": "pinpoint_amplify_35c25162",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}

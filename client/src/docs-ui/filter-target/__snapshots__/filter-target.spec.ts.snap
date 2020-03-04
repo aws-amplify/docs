@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`docs-filter-target Render logic should render 1`] = `
+<docs-filter-target style="display: initial;">
+  <!---->
+</docs-filter-target>
+`;

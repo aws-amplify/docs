@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`amplify-sidebar-layout-toggle Render logic should render 1`] = `
+<amplify-sidebar-layout-toggle class="css-124v1ot">
+  <!---->
+</amplify-sidebar-layout-toggle>
+`;

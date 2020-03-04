@@ -1,0 +1,12 @@
+{
+  "title": "Analytics",
+  "items": [
+    "start",
+    "record",
+    "autotrack",
+    "identifyuser",
+    "streaming",
+    "storing",
+    "personalize"
+  ]
+}

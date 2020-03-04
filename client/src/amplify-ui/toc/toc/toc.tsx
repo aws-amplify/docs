@@ -1,0 +1,86 @@
+import {Component, Host, Listen, Prop, State, h} from "@stencil/core";
+import {tocContext} from "../toc.context";
+import {tocStyle, h2AnchorStyle, h3AnchorStyle, headerStyle} from "./toc.style";
+
+const headingStyleByTagName = {
+  H2: h2AnchorStyle,
+  H3: h3AnchorStyle,
+};
+
+@Component({tag: "amplify-toc", shadow: false})
+export class AmplifyTOC {
+  /**
+   * A list of `h2` and/or `h3` nodes, provided by either of 2 means:
+   * 1. User-provided (`<amplify-toc elements={[...h2h3DomNodes]} />`)
+   * 2. Provider-injected (within parent `amplify-toc-provider`, sibling
+   * an `amplify-toc-content` instance)
+   */
+  @Prop() readonly elements?: HTMLElement[];
+  /*** the title of the page on which this TOC is being rendered */
+  @Prop() readonly pageTitle?: string;
+  /*** offset the active item (useful when combatting sticky header) */
+  @Prop() readonly stickyHeaderHeight = 54;
+
+  @State() activeLinkI?: number;
+  previous?: number;
+
+  @Listen("scroll", {target: "window"})
+  @Listen("resize", {target: "window"})
+  setActiveLink() {
+    if (this.elements) {
+      let i = this.elements.findIndex(
+        (e) => e.offsetTop - this.stickyHeaderHeight - 2 > window.scrollY,
+      );
+      if (i === -1) {
+        i = this.elements.length;
+      }
+      this.activeLinkI = i - 1;
+      if (this.activeLinkI !== this.previous) {
+        this.previous = this.activeLinkI;
+        if (this.activeLinkI >= 0) {
+          const activeElement = this.elements[this.activeLinkI];
+          if (activeElement) {
+            history.replaceState(
+              undefined,
+              document.title,
+              `#${activeElement.id}`,
+            );
+          }
+        } else {
+          history.replaceState(
+            undefined,
+            document.title,
+            window.location.href.split("#")[0],
+          );
+        }
+      }
+    }
+  }
+
+  render() {
+    return (
+      <Host class={tocStyle}>
+        {this.elements && this.elements.length > 0 && (
+          <h4 class={headerStyle}>{this.pageTitle || "Contents"}</h4>
+        )}
+        {this.elements &&
+          this.elements.map((e, i) => {
+            const headingAnchorClass = headingStyleByTagName[e.tagName];
+            return (
+              <docs-in-page-link
+                targetId={e.id}
+                class={{
+                  active: i === this.activeLinkI,
+                  [headingAnchorClass]: true,
+                }}
+              >
+                {e.innerHTML}
+              </docs-in-page-link>
+            );
+          })}
+      </Host>
+    );
+  }
+}
+
+tocContext.injectProps(AmplifyTOC, ["elements"]);

@@ -1,0 +1,13 @@
+{
+  "title": "API (GraphQL)",
+  "items": [
+    "overview",
+    "start",
+    "authz",
+    "query-data",
+    "mutate-data",
+    "subscribe-data",
+    "offline",
+    "delta-sync"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "items": [
+    "categories",
+    "graphql-transformer",
+    "auth",
+    "teams",
+    "usage"
+  ]
+}

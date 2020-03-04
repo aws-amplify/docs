@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`docs-universal-nav Render logic should render 1`] = `
+<docs-universal-nav class="css-1c42ddj">
+  <amplify-container class="background-color-orange-hv">
+    <div class="css-5pgrup">
+      <stencil-route-link anchortitle="Amplify Docs" class="css-zuqcbb" url="/">
+        <img>
+        <span></span>
+      </stencil-route-link>
+      <div class="css-1ynba5z">
+        <amplify-external-link anchortitle="Amplify Community" href="https://amplify.aws/community/" redirect="">
+          <span>
+            Community
+          </span>
+        </amplify-external-link>
+        <amplify-external-link anchortitle="Amplify GitHub" href="https://github.com/aws-amplify">
+          <span>
+            Open Source
+          </span>
+        </amplify-external-link>
+        <amplify-external-link anchortitle="Amplify AWS Homepage" graphic="white" href="https://aws.amazon.com/amplify/">
+          <span>
+            About Amplify
+          </span>
+        </amplify-external-link>
+      </div>
+    </div>
+  </amplify-container>
+</docs-universal-nav>
+`;

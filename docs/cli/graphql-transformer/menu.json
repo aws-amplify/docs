@@ -1,0 +1,14 @@
+{
+  "title": "GraphQL transform",
+  "items": [
+    "overview",
+    "directives",
+    "dataaccess",
+    "storage",
+    "relational",
+    "codegen",
+    "resolvers",
+    "examples",
+    "configparam"
+  ]
+}

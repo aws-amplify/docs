@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`docs-repo-actions Render logic should render 1`] = `
+<docs-repo-actions class="css-1bbh6oj">
+  <amplify-external-link href="https://github.com/aws-amplify/docs-v2/issues/new?title=Feedback+On+Documentation&amp;body=**Page**:%20%5B%60http://testing.stenciljs.com/%60%5D(http://testing.stenciljs.com/)%0A%0A**Feedback**:%20%3C!--%20your%20feedback%20here%20--%3E%0A">
+    <img alt="Feedback" src="/assets/flag.svg">
+    Feedback
+  </amplify-external-link>
+  <amplify-external-link href="https://github.com/aws-amplify/docs-v2/edit/master/docs/undefined">
+    <img alt="Edit" src="/assets/github.svg">
+    Edit
+  </amplify-external-link>
+</docs-repo-actions>
+`;

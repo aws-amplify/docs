@@ -1,0 +1,6 @@
+<svg class="external-icon" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect fill="rgba(255, 255, 255, 0.125)" y="2" width="8" height="8" rx="1.5" class="external-icon__background"></rect>
+  <path fill="#fff" fill-rule="evenodd" clip-rule="evenodd" d="M2 6.64648L8 0.646484L8.70711 1.35359L2.70711 7.35359L2 6.64648Z" class="external-icon__foreground"></path>
+  <path fill="#fff" d="M4.35352 0H9.35352V1H4.35352V0Z" class="external-icon__foreground"></path>
+  <path fill="#fff" d="M9.35352 0L9.35352 5L8.35352 5L8.35352 -4.37114e-08L9.35352 0Z" class="external-icon__foreground"></path>
+</svg>

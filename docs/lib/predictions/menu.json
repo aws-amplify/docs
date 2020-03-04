@@ -1,0 +1,17 @@
+{
+  "title": "Predictions",
+  "items": [
+    "intro",
+    "start",
+    "text-speech",
+    "transcribe",
+    "translate",
+    "identify-text",
+    "identify-entity",
+    "label-image",
+    "interpret",
+    "identify-celebrity",
+    "escapehatch",
+    "sample"
+  ]
+}

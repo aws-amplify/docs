@@ -1,0 +1,10 @@
+{
+    "items": [
+        "api",
+        "analytics",
+        "auth",
+        "push-notifications",
+        "pubsub",
+        "storage"
+    ]
+}

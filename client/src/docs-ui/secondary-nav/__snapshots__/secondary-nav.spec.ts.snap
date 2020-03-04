@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`docs-secondary-nav Render logic should render 1`] = `
+<docs-secondary-nav class="css-1lq1nae">
+  <amplify-container>
+    <div class="css-7p1hnv">
+      <div>
+        <div>
+          <docs-internal-link childactiveclass="css-1o0ukka" href="/start">
+            <span>
+              Getting Started
+            </span>
+          </docs-internal-link>
+          <docs-internal-link childactiveclass="css-1o0ukka" href="/lib">
+            <span>
+              Libraries
+            </span>
+          </docs-internal-link>
+          <docs-internal-link childactiveclass="css-1o0ukka" href="/cli">
+            <span>
+              CLI
+            </span>
+          </docs-internal-link>
+          <amplify-external-link graphic="black" href="https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html">
+            <span>
+              Console
+            </span>
+          </amplify-external-link>
+          <docs-internal-link childactiveclass="css-1o0ukka" href="/reference">
+            <span>
+              API Reference
+            </span>
+          </docs-internal-link>
+        </div>
+        <div class="css-e3ae45">
+          <div>
+            <input class="three-dee-effect" placeholder="Search" type="search">
+            <img alt="search" src="/assets/search.svg">
+          </div>
+        </div>
+      </div>
+    </div>
+  </amplify-container>
+</docs-secondary-nav>
+`;

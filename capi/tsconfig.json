@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "es2018", "es2018.AsyncIterable"],
+    "outDir": "lib",
+    "typeRoots": ["node_modules/@types", "../node_modules/@types"],
+    "downlevelIteration": true
+  },
+  "extends": "../tsconfig.base.json",
+  "include": ["src"]
+}

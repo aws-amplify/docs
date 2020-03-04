@@ -1,0 +1,55 @@
+---
+title: Docs
+description: Amplify
+noTemplate: true
+disableLinkification: true
+---
+
+<amplify-hero>
+  <h1 slot="heading" class="font-weight-300">
+    Amplify Documentation
+  </h1>
+  <p slot="subheading" class="font-weight-300">
+    Learn how to use Amplify to develop and deploy cloud-powered mobile
+    and web apps
+  </p>
+  <docs-landing-hero-cta slot="cta" />
+</amplify-hero>
+<amplify-container
+  class="background-color-off-white"
+  inner-class="padding-top-lg padding-bottom-lg padding-horizontal-md">
+  <amplify-responsive-grid class="margin-top-lg">
+    <docs-card url="~/lib/lib.md" class="three-dee-effect border-radius">
+      <img slot="graphic" src="~/assets/lib.png" />
+      <h4 slot="heading">Amplify Libraries</h4>
+      <p slot="description">
+        An open source library and UI components for adding
+        cloud-powered functionality
+      </p>
+    </docs-card>
+    <amplify-card url="~/cli/cli.md" class="three-dee-effect border-radius">
+      <img slot="graphic" src="~/assets/cli.png" />
+      <h4 slot="heading">Amplify CLI</h4>
+      <p slot="description">
+        Interactive toolchain to create and manage a serverless backend
+        for your apps
+      </p>
+    </amplify-card>
+    <amplify-card external url="https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html" class="three-dee-effect border-radius" >
+      <img slot="graphic" src="~/assets/console.png" />
+      <h4 slot="heading">Amplify Console</h4>
+      <p slot="description">
+        Deploy and host fullstack serverless web applications
+      </p>
+    </amplify-card>
+  </amplify-responsive-grid>
+</amplify-container>
+<amplify-container
+  class="background-color-off-white"
+  inner-class="padding-bottom-lg padding-horizontal-md"
+>
+  <h2 class="text-align-center">Explore Features</h2>
+  <inline-fragment src="~/fragments/features-grid.md"></inline-fragment>
+</amplify-container>
+<docs-link-banner></docs-link-banner>
+<docs-footer></docs-footer>

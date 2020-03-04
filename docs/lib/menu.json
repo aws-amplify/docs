@@ -1,0 +1,17 @@
+{
+  "items": [
+    "getting-started",
+    "analytics",
+    "graphqlapi",
+    "restapi",
+    "auth",
+    "datastore",
+    "interactions",
+    "predictions",
+    "pubsub",
+    "push-notifications",
+    "storage",
+    "xr",
+    "utilities"
+  ]
+}

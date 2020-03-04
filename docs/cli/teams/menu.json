@@ -1,0 +1,11 @@
+{
+  "title": "Team workflows",
+  "items": [
+    "overview",
+    "shared",
+    "sandbox",
+    "multi-frontend",
+    "cicd",
+    "commands"
+  ]
+}
