@@ -8,6 +8,14 @@ title: Authentication
 {% assign image_base = base_dir | append: page.dir | append: "images" %}
 {% assign common_media = base_dir | append: "/images" %}
 
+<br />
+
+**Note**
+This guide shows how to add Auth using the existing AWS Mobile SDK for iOS and the Amplify CLI toolchain.
+Currently, this is our supported way of using Auth with Amplify Libraries for iOS (preview).
+{: .callout .callout--warning}
+
+
 # Authentication
 
 The `AWSMobileClient` provides client APIs and building blocks for developers who want to create user authentication experiences. This includes declarative methods for performing authentication actions, a simple "drop-in auth" UI for performing common tasks, automatic token and credentials management, and state tracking with notifications for performing workflows in your application when users have authenticated.

@@ -6,7 +6,7 @@ title: Getting Started
 
 **Note**
 This guide shows how to build an app using our Amplify Libraries for Android (Preview) and the Amplify CLI toolchain.
-To use the existing AWS Mobile SDK for Android instead, [click here.](/sdk/android/start)
+To use the existing AWS Mobile SDK for Android instead, [click here.](../sdk/android/start)
 {: .callout .callout--warning}
 
 # Getting Started
