@@ -1465,13 +1465,15 @@ class SignInWithGoogle extends Component {
 ##### Facebook Example in React Native, Expo
 
 ```javascript
-import Expo from 'expo';
+import * as Facebook from 'expo-facebook';
 import React, { Component } from 'react';
 import Amplify, { Auth } from 'aws-amplify';
 
+Facebook.initializeAsync('YOUR_FACEBOOK_APP_ID');
+
 export default class App extends Component {
   async signIn() {
-    const { type, token, expires } = await Expo.Facebook.logInWithReadPermissionsAsync('YOUR_FACEBOOK_APP_ID', {
+    const { type, token, expires } = await Facebook.logInWithReadPermissionsAsync({
         permissions: ['public_profile'],
       });
     if (type === 'success') {
