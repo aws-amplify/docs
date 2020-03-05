@@ -599,7 +599,7 @@ As you can see in the prompt above, you can either choose to use an already exis
 
 ##### As a part of the GraphQL API (types with @model annotation)
 
-You can also associated a Lambda trigger with an AppSync schema's DynamoDB backed @models. GraphQL mutations that result in DynamoDB item changes will in turn result in change records published to DynamoDB streams that can trigger a lambda function. To create such a function, start with adding a new lambda function with:
+You can also associated a Lambda trigger with any of the GraphQL transformer schema's DynamoDB backed @models which you can add via `amplify add api`. GraphQL mutations that result in DynamoDB item changes will in turn result in change records published to DynamoDB streams that can trigger a Lambda function. To create such a function, start with adding a new lambda function with:
 
 ```bash
 $ amplify add function
