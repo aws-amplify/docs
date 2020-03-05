@@ -11,7 +11,7 @@ The open-source Amplify Framework provides a set of libraries, UI components, an
 - Amplify Libraries - Use case-centric open source libraries in the Amplify Framework to build cloud powered mobile and web apps.
 - Amplify CLI - Open source toolchain in the Amplify Framework to create, integrate, and manage the backend of your app.
 - Amplify UI component libraries for React, React Native, Angular, Ionic and Vue.
-- Amplify Console (accesible in the AWS Console) is an AWS service that provides a git-based workflow for continuous deployment and hosting of fullstack web apps. You can also use the Console to acces cloud resources created by the Amplify CLI.
+- Amplify Console (accessible in the AWS Console) is an AWS service that provides a git-based workflow for continuous deployment and hosting of fullstack web apps. You can also use the Console to access cloud resources created by the Amplify CLI.
 
 <inline-fragment integration="react" src="~/fragments/react.md"></inline-fragment>
 <inline-fragment integration="react-native" src="~/fragments/reactnative.md"></inline-fragment>

@@ -22,7 +22,7 @@ You are now ready to initialize a new Amplify project. To do so, use the Amplify
 $ amplify init
 
 ? Enter a name for the project: rnamplify
-? Enter a name for the environment: amplifydemo
+? Enter a name for the environment: demo
 ? Choose your default editor: <Your favorite text editor>
 ? Choose the type of app that youre building: javascript
 ? What javascript framework are you using: react-native
