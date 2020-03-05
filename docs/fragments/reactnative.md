@@ -9,4 +9,4 @@ The first thing you should do is initialize a new [React Native application](htt
 1. Expo CLI - Easier for new React Native developers
 2. React Native CLI - If you are already familiar with mobile development, enables you to build native code into your project.
 
-This tutorial will covering both, so use what's best for you.
+This tutorial will cover both, so use what's best for you.

@@ -32,7 +32,7 @@ type Todo @model {
 }
 ```
 
-The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. this directive is part of the GraphQL transform library of Amplify.
+The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. This directive is part of the GraphQL transform library of Amplify.
 
 A type decorated with this directive will scaffold out the database table for the type (Todo table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
 
