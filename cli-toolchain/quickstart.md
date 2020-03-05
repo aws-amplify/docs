@@ -579,7 +579,7 @@ As you can see in the prompt above, you can either choose to use an existing Lam
 You can associate a Lambda trigger with a DynamoDB table, managed by the Amplify CLI. There are two ways by which DynamoDB is provisioned by the Amplify CLI
 
 - As a part of the Storage category
-- As a part of the GraphQL API (types with @model annotation)
+- As a part of the [GraphQL API (types with @model annotation)](({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/graphql))
 
 
 ##### As a part of the Storage category
