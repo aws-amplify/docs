@@ -4,9 +4,23 @@ The Amplify CLI supports creating and interacting with two types of Storage cate
 
 The Storage example you will be creating in this step is an image upload and viewing app using Amazon S3.
 
-## React Native Image Picker native module
+## Displaying an image picker
 
-If you are __not using Expo__, you must first install and configure the [React Native Image Picker native module](https://github.com/react-native-community/react-native-image-picker) in order to retrieve images from the camera roll.
+In order to retrieve images from the camera roll, you'll need to install an image picker UI component.
+
+### With Expo
+Install [Expo ImagePicker](https://docs.expo.io/versions/latest/sdk/imagepicker/) by running the following command.
+
+```sh
+$ npm install expo-image-picker
+
+# or
+
+$ yarn add expo-image-picker
+```
+
+### With React Native CLI
+Install and configure the [React Native Image Picker native module](https://github.com/react-native-community/react-native-image-picker) by running the following commands.
 
 
 ```sh
