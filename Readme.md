@@ -161,6 +161,6 @@ title: Authentication Setup
 description: how to configure auth
 ---
 
-<inline-fragment platform="iOS" src="~/docs/lib/auth/setup/fragments/ios/automated.md"></inline-fragment>
-<inline-fragment platform="Web" src="~/docs/lib/auth/setup/fragments/web/automated.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/docs/lib/auth/setup/fragments/ios/automated.md"></inline-fragment>
+<inline-fragment platform="web" src="~/docs/lib/auth/setup/fragments/web/automated.md"></inline-fragment>
 ```
