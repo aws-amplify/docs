@@ -119,11 +119,13 @@ const App = () => {
         onChangeText={val => setInput('name', val)}
         style={styles.input}
         value={formState.name} 
+        placeholder="Name"
       />
       <TextInput
         onChangeText={val => setInput('description', val)}
         style={styles.input}
         value={formState.description}
+        placeholder="Description"
       />
       <Button title="Create Todo" onPress={addTodo} />
       {
