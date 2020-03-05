@@ -54,21 +54,21 @@ Next, install the local Amplify dependencies. The directions here will depend on
 With Expo, you only have to install the dependencies and then move on to the next step.
 
 ```sh
-$ npm install aws-amplify aws-amplify-react-native amazon-cognito-identity-js react-native-vector-icons
+$ npm install aws-amplify aws-amplify-react-native amazon-cognito-identity-js react-native-vector-icons @react-native-community/netinfo
 
 # or
 
-$ yarn add aws-amplify aws-amplify-react-native amazon-cognito-identity-js react-native-vector-icons
+$ yarn add aws-amplify aws-amplify-react-native amazon-cognito-identity-js react-native-vector-icons @react-native-community/netinfo
 ```
 
 ### React Native
 
 ```sh
-$ npm install aws-amplify aws-amplify-react-native amazon-cognito-identity-js react-native-vector-icons
+$ npm install aws-amplify aws-amplify-react-native amazon-cognito-identity-js react-native-vector-icons @react-native-community/netinfo
 
 # or
 
-$ yarn add aws-amplify aws-amplify-react-native amazon-cognito-identity-js react-native-vector-icons
+$ yarn add aws-amplify aws-amplify-react-native amazon-cognito-identity-js react-native-vector-icons @react-native-community/netinfo
 ```
 
 You will next need to change into the the ios directory and install the pod dependencies:
