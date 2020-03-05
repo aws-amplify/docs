@@ -61,11 +61,34 @@ Next, add the Amplify library to your web application as follows:
 yarn add aws-amplify aws-amplify-react
 ```
 
-If integrating with a React Native app, use:
+#### React Native specific steps
+
+For this step, there are different instructions for Expo apps vs React Native CLI based apps. Follow the steps that are relevant for your setup:
+
+***For Expo Managed Apps***
 
 ```
 yarn add aws-amplify aws-amplify-react-native
-react-native link amazon-cognito-identity-js # DO NOT run this when using Expo or ExpoKit
+expo install @react-native-community/netinfo
+```
+
+***For Apps created with React Native CLI***
+
+```
+yarn add aws-amplify aws-amplify-react-native @react-native-community/netinfo
+```
+
+_If you are using React Native 0.60.0+, please run the following command for iOS:_
+
+```
+cd ios && pod install && cd ..
+```
+
+_If you are using React Native < 0.60, please run the following commands:_
+
+```
+react-native link amazon-cognito-identity-js
+react-native link @react-native-community/netinfo
 ```
 
 Edit `./src/App.js` to include the Amplify library, configurations, and [React HOC](https://reactjs.org/docs/higher-order-components.html). Then, initialize the library as follows:
