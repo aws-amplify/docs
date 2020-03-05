@@ -33,6 +33,12 @@ $ amplify add storage
 ? Do you want to add a Lambda Trigger for your S3 Bucket? N
 ```
 
+Deploy the service by running the following command:
+
+```sh
+$ amplify push
+```
+
 To view the Amazon S3 bucket at any time, you can open the Amplify console and click on __File storage__:
 
 ```sh
