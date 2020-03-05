@@ -19,7 +19,7 @@ $ npx react-native init RNAmplify
 You are now ready to initialize a new Amplify project. To do so, change into the project directory
 
 ```sh
-cd RNAmplify
+$ cd RNAmplify
 ```
 
 and use the Amplify CLI:
