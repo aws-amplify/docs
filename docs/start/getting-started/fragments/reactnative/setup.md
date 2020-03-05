@@ -1,6 +1,6 @@
 ##  Create a new React Native app
 
-To get started, initialize a new React Native project and change into the new directory.
+To get started, initialize a new React Native project.
 
  ###  Using Expo
 ```sh
@@ -16,7 +16,13 @@ $ npx react-native init RNAmplify
 
 ## Initialize a new backend
 
-You are now ready to initialize a new Amplify project. To do so, use the Amplify CLI:
+You are now ready to initialize a new Amplify project. To do so, change into the project directory
+
+```sh
+$ cd RNAmplify
+```
+
+and use the Amplify CLI:
 
 ```sh
 $ amplify init

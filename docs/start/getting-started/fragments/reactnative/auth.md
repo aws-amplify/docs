@@ -22,7 +22,7 @@ $ amplify push
 ? Are you sure you want to continue? Y
 ```
 
-Now, the authentication service has been deployed and you can start using it. To view the amplify dashboard to view the services deployed in your project at any time, run the following command:
+Now, the authentication service has been deployed and you can start using it. To view the deployed services in your project at any time, go to Amplify Console by running the following command:
 
 ```sh
 $ amplify console
