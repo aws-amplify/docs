@@ -765,7 +765,7 @@ This workflow can be used to share complete Amplify projects with people outside
 
 ### Continuous deployment and Hosting
 
-The Amplify CLI supports basic web application hosting with AWS Amplify Console as well as Amazon S3 and CloudFront. 
+The Amplify CLI supports continuous deployment and hosting with AWS Amplify Console as well as Amazon S3 and CloudFront. 
 You can use the multi-environments feature of the Amplify CLI with the Amplify Console for a fully managed continuous deployment solution. Learn more in the [official documentation](https://docs.aws.amazon.com/amplify/latest/userguide/multi-environments.html).
 
 ### Setting up master and dev environments
@@ -1010,13 +1010,13 @@ Following are the concepts you would encounter when adding Amplify console as a 
 
 If you select Amplify Console for hosting your Amplify App in the `amplify add hosting` flow, there are two stages you can select from as a part of the flow:
 
-- **Manual deployment** option allows you to publish your web app to the Amplify Console without connecting a Git provider. If you select this option, after making every frontend and backend changes locally, you'll have to run the `amplify publish` command for your changes to reflect on the cloud.
-- **Continuous deployment** option allows you to publish changes on every code commit by connecting your GitHub, Bitbucket, GitLab, or AWS CodeCommit repositories. Selecting this option would open up your AWS Amplify console where you can connect your Git based repository. If you select this option, after making every frontend and backend changes locally, you'll have to run the `git push` command for your changes to reflect on the cloud.
+- **Continuous deployment** allows you to publish changes on every code commit by connecting your GitHub, Bitbucket, GitLab, or AWS CodeCommit repositories. Selecting this option would open up your AWS Amplify console where you can connect your Git  repository. Once your repository is connected, run `git push` to deploy changes to both your backend and frontend in a single workflow.
+- **Manual deployment** allows you to publish your web app to the Amplify Console without connecting a Git provider. If you select this option, you will have to run the `amplify publish` command every time you would like to see your changes reflected in the cloud.
 
-#### Advanced Configurations
+#### Custom domain, redirects, and more
 
-The `amplify configure hosting` command for the Amplify Console option, opens up the AWS Amplify Console browser tab for you where you can configure advanced settings such as rewrite/redirect URL's, basic auth, custom domain. 
-These advanced settings do not get replicated or cloned  between environments and you'd have to configure them on a per-environment basis.
+The `amplify configure hosting` command for the Amplify Console option, opens up the AWS Amplify Console browser tab for you where you can configure settings such as rewrite/redirect URL's, password protection, custom domain. 
+These settings do not get replicated or cloned between environments and you'd have to configure them on a per-environment basis.
 
 **Note**: Amplify Console automatically handles cache invalidation and there is no additional configurations or commands/command-line parameters required for it.
 
