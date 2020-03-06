@@ -17,7 +17,7 @@ target :'YOUR-APP-NAME' do
     use_frameworks!
 
     pod 'AWSCore', '~> 2.12.0'
-    pod 'AWSAppSync', '~> 2.14.2'
+    pod 'AWSAppSync', '~> 3.0.2'
 
     # other pods
 end
