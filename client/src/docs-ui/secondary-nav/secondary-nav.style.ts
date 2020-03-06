@@ -67,6 +67,7 @@ export const hostStyle = css`
 
 export const searchStyle = css`
   padding: 0 1rem;
+  margin-left: 0.5rem;
 
   > div {
     display: flex;

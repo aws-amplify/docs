@@ -91,6 +91,10 @@ export const injectFilteredVersionRoutes = (ctx: t.Ctx): void => {
             });
           }
 
+          if (page.route.includes("/sdk")) {
+            versions.js = `/lib?platform=js`;
+          }
+
           // attach the `versions` and `filterKey` to the page
           page.versions = versions;
           if (srcPath !== productRootPagePath) {
