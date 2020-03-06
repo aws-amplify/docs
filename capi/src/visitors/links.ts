@@ -48,16 +48,14 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
     if (props) {
       // eslint-disable-next-line
       // @ts-ignore
-      const url = props.href || props.url;
-      const urlOverrideForMobileFilter =
-        props["url-override-for-mobile-filter"];
-      const transformedURL = getTransformedURL(url as string, transformerProps);
+      const url = (props.href || props.url) as string;
+      const urlOverrideForMobileFilter = props[
+        "url-override-for-mobile-filter"
+      ] as string | undefined;
+      const transformedURL = getTransformedURL(url, transformerProps);
       const urlOverrideForMobileFilterTransformer =
         urlOverrideForMobileFilter &&
-        getTransformedURL(
-          urlOverrideForMobileFilter as string,
-          transformerProps,
-        );
+        getTransformedURL(urlOverrideForMobileFilter, transformerProps);
       if (transformedURL) {
         lexicalScope.update([
           tag === "a" ? "docs-internal-link" : tag,
@@ -70,6 +68,18 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
                 }
               : {}),
           },
+          ...children,
+        ]);
+      } else if (url && url.startsWith("#")) {
+        lexicalScope.update([
+          "docs-in-page-link",
+          {targetId: url.substr(1)},
+          ...children,
+        ]);
+      } else if (url && tag === "a" && IS_URL_REGEX.test(url)) {
+        lexicalScope.update([
+          "amplify-external-link",
+          {href: url},
           ...children,
         ]);
       }

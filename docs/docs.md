@@ -27,21 +27,21 @@ disableLinkification: true
         cloud-powered functionality
       </p>
     </docs-card>
-    <amplify-card url="~/cli/cli.md" class="three-dee-effect border-radius">
+    <docs-card url="~/cli/cli.md" class="three-dee-effect border-radius">
       <img slot="graphic" src="~/assets/cli.png" />
       <h4 slot="heading">Amplify CLI</h4>
       <p slot="description">
         Interactive toolchain to create and manage a serverless backend
         for your apps
       </p>
-    </amplify-card>
-    <amplify-card external url="https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html" class="three-dee-effect border-radius" >
+    </docs-card>
+    <docs-card external url="https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html" class="three-dee-effect border-radius" container-tag="amplify-external-link">
       <img slot="graphic" src="~/assets/console.png" />
       <h4 slot="heading">Amplify Console</h4>
       <p slot="description">
         Deploy and host fullstack serverless web applications
       </p>
-    </amplify-card>
+    </docs-card>
   </amplify-responsive-grid>
 </amplify-container>
 <amplify-container

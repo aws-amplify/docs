@@ -166,6 +166,14 @@ export namespace Components {
   interface Docs404Page {}
   interface DocsCard {
     /**
+    * * what container tag to use
+    */
+    'containerTag': "docs-internal-link";
+    /**
+    * * whether it's an external link
+    */
+    'external'?: boolean;
+    /**
     * * the global filter state
     */
     'selectedFilters'?: SelectedFilters;
@@ -794,6 +802,14 @@ declare namespace LocalJSX {
   interface AmplifyTocStory {}
   interface Docs404Page {}
   interface DocsCard {
+    /**
+    * * what container tag to use
+    */
+    'containerTag'?: "docs-internal-link";
+    /**
+    * * whether it's an external link
+    */
+    'external'?: boolean;
     /**
     * * the global filter state
     */
