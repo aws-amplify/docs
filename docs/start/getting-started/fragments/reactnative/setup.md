@@ -1,6 +1,6 @@
 ##  Create a new React Native app
 
-To get started, initialize a new React Native project and change into the new directory.
+To get started, initialize a new React Native project.
 
  ###  Using Expo
 ```sh
@@ -16,7 +16,13 @@ $ npx react-native init RNAmplify
 
 ## Initialize a new backend
 
-You are now ready to initialize a new Amplify project. To do so, use the Amplify CLI:
+You are now ready to initialize a new Amplify project. To do so, change into the project directory
+
+```sh
+$ cd RNAmplify
+```
+
+and use the Amplify CLI:
 
 ```sh
 $ amplify init
@@ -48,21 +54,21 @@ Next, install the local Amplify dependencies. The directions here will depend on
 With Expo, you only have to install the dependencies and then move on to the next step.
 
 ```sh
-$ npm install aws-amplify aws-amplify-react-native amazon-cognito-identity-js react-native-vector-icons
+$ npm install aws-amplify aws-amplify-react-native amazon-cognito-identity-js react-native-vector-icons @react-native-community/netinfo
 
 # or
 
-$ yarn add aws-amplify aws-amplify-react-native amazon-cognito-identity-js react-native-vector-icons
+$ yarn add aws-amplify aws-amplify-react-native amazon-cognito-identity-js react-native-vector-icons @react-native-community/netinfo
 ```
 
 ### React Native
 
 ```sh
-$ npm install aws-amplify aws-amplify-react-native amazon-cognito-identity-js react-native-vector-icons
+$ npm install aws-amplify aws-amplify-react-native amazon-cognito-identity-js react-native-vector-icons @react-native-community/netinfo
 
 # or
 
-$ yarn add aws-amplify aws-amplify-react-native amazon-cognito-identity-js react-native-vector-icons
+$ yarn add aws-amplify aws-amplify-react-native amazon-cognito-identity-js react-native-vector-icons @react-native-community/netinfo
 ```
 
 You will next need to change into the the ios directory and install the pod dependencies:
