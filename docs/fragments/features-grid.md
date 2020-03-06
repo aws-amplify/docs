@@ -1,10 +1,10 @@
 <amplify-responsive-grid grid-gap="2" columns="2" class="margin-top-lg">
-  <docs-card url="~/lib/auth/overview.md" class="three-dee-effect border-radius">
+  <docs-card url="~/lib/auth/overview.md" url-override-for-mobile-filter="~/sdk/auth/getting-started.md" class="three-dee-effect border-radius">
     <img slot="graphic" src="~/assets/features/auth.svg" />
     <h4 slot="heading">Authentication</h4>
     <p slot="description">Manage user identity</p>
   </docs-card>
-  <docs-card url="~/lib/storage/overview.md" class="three-dee-effect border-radius">
+  <docs-card url="~/lib/storage/start.md" class="three-dee-effect border-radius">
     <img slot="graphic" src="~/assets/features/storage.svg" />
     <h4 slot="heading">Storage</h4>
     <p slot="description">Persist and retrieve files</p>

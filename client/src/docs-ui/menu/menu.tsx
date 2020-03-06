@@ -31,7 +31,7 @@ export class DocsMenu {
       <Host class={menuStyle}>
         {this.page?.filterKey && <docs-select-anchor page={this.page} />}
         {this.page?.productRootLink && [
-          (this.page.productRootLink.title === "Library" ||
+          (this.page.productRootLink.title === "Libraries" ||
             this.page.productRootLink.title === "SDK") &&
             this.selectedFilters?.platform !== "js" && (
               <div class={libSDKSwitcherStyle}>
