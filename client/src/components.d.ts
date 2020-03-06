@@ -316,7 +316,12 @@ export namespace Components {
     'page'?: Page;
   }
   interface DocsRouter {}
-  interface DocsSecondaryNav {}
+  interface DocsSecondaryNav {
+    /**
+    * * the current filter state
+    */
+    'selectedFilters': SelectedFilters;
+  }
   interface DocsSelectAnchor {
     /**
     * the current page's data
@@ -953,7 +958,12 @@ declare namespace LocalJSX {
     'page'?: Page;
   }
   interface DocsRouter {}
-  interface DocsSecondaryNav {}
+  interface DocsSecondaryNav {
+    /**
+    * * the current filter state
+    */
+    'selectedFilters'?: SelectedFilters;
+  }
   interface DocsSelectAnchor {
     /**
     * the current page's data
