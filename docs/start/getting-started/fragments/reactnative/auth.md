@@ -1,13 +1,13 @@
-Now that you've created and configured a React Native project and initialized a new React Native app, you can add a feature. The first feature you will add is authentication.
+The next feature you will be adding is authentication.
 
 ## Authentication with Amplify
 
 The Amplify Framework uses [Amazon Cognito](https://aws.amazon.com/cognito/) as the main authentication provider. Amazon Cognito is a robust user directory service that handles user registration, authentication, account recovery & other operations. In this tutorial, you'll learn how to add authentication to your application using Amazon Cognito and username/password login.
 
-## Create authentication backend
+## Create authentication service
 
 ```sh
-$ amplify add auth
+amplify add auth
 
 ? Do you want to use the default authentication and security configuration? Default configuration
 ? How do you want users to be able to sign in? Username
@@ -17,7 +17,7 @@ $ amplify add auth
 To deploy the service, run the `push` command:
 
 ```sh
-$ amplify push
+amplify push
 
 ? Are you sure you want to continue? Y
 ```
@@ -25,12 +25,12 @@ $ amplify push
 Now, the authentication service has been deployed and you can start using it. To view the deployed services in your project at any time, go to Amplify Console by running the following command:
 
 ```sh
-$ amplify console
+amplify console
 ```
 
 ## Create login UI
 
-Now that we have our authentication service deployed to AWS, it's time to add authentication to our React app. Creating the login flow can be quite difficult and time consuming to get right. Luckily Amplify Framework has an authentication UI component we can use that will provide the entire authentication flow for us, using our configuration specified in our `aws-exports.js` file.
+Now that we have our authentication service deployed to AWS, it's time to add authentication to our React app. Creating the login flow can be quite difficult and time consuming to get right. Luckily Amplify Framework has an authentication UI component we can use that will provide the entire authentication flow for us, using our configuration specified in our __aws-exports.js__ file.
 
 Open __App.js__ and make the following changes:
 
@@ -51,13 +51,17 @@ Run the app to see the new Authentication flow protecting the app:
 ### With Expo
 
 ```sh
-$ expo start
+expo start
 ```
 
 ### With the React Native CLI
 
 ```sh
-$ npx react-native run-ios
+npx react-native run-ios
+
+# or
+
+npx react-native run-android
 ```
 
 Now you should see the app load with an authentication flow allowing users to sign up and sign in.
@@ -69,5 +73,3 @@ You can also customize this component to add or remove fields, update styling, o
 In addition to the `withAuthenticator` you can build custom authentication flows using the `Auth` class.
 
 `Auth` has over 30 methods including `signUp`, `signIn`, `forgotPasword`, and `signOut` that allow you full control over all aspects of the user authentication flow. Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html)
-
-In the next section, you'll add an API and NoSQL database using Amazon DynamoDB and AWS AppSync.
