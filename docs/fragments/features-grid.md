@@ -45,7 +45,7 @@
   </docs-card>
   <docs-card url="~/lib/pubsub/getting-started.md" url-override-for-mobile-filter="~/sdk/pubsub/getting-started.md" class="three-dee-effect border-radius">
     <img slot="graphic" src="~/assets/features/pubsub.svg" />
-    <h4 slot="heading">Pub + Sub</h4>
+    <h4 slot="heading">PubSub</h4>
     <p slot="description">
       Manage cloud-based message-oriented middleware
     </p>
