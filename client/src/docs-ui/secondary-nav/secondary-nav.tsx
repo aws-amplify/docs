@@ -40,23 +40,27 @@ export class DocsSecondaryNav {
                       "https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html",
                     external: true,
                   },
-                  {
-                    label: "API Reference",
-                    url: (() => {
-                      switch (this.selectedFilters?.platform) {
-                        case "ios": {
-                          return "https://aws-amplify.github.io/aws-sdk-ios/docs/reference/";
-                        }
-                        case "android": {
-                          return "https://aws-amplify.github.io/aws-sdk-android/docs/reference/";
-                        }
-                        case "js": {
-                          return "https://aws-amplify.github.io/amplify-js/api/";
-                        }
-                      }
-                    })(),
-                    external: true,
-                  },
+                  ...(this.selectedFilters?.platform
+                    ? [
+                        {
+                          label: "API Reference",
+                          url: (() => {
+                            switch (this.selectedFilters.platform) {
+                              case "ios": {
+                                return "https://aws-amplify.github.io/aws-sdk-ios/docs/reference/";
+                              }
+                              case "android": {
+                                return "https://aws-amplify.github.io/aws-sdk-android/docs/reference/";
+                              }
+                              case "js": {
+                                return "https://aws-amplify.github.io/amplify-js/api/";
+                              }
+                            }
+                          })(),
+                          external: true,
+                        },
+                      ]
+                    : []),
                 ].map(({url, label, external}) =>
                   createVNodeFromHyperscriptNode([
                     external ? "amplify-external-link" : "docs-internal-link",

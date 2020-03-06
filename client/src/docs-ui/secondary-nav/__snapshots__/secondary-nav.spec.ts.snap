@@ -26,11 +26,6 @@ exports[`docs-secondary-nav Render logic should render 1`] = `
               Console
             </span>
           </amplify-external-link>
-          <amplify-external-link graphic="black">
-            <span>
-              API Reference
-            </span>
-          </amplify-external-link>
         </div>
         <div class="css-1oycgbp">
           <div>
