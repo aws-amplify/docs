@@ -2,7 +2,7 @@
 
 **Note**
 This guide shows how to build an app using our Amplify Libraries for Android (Preview) and the Amplify CLI toolchain.
-To use the existing AWS Mobile SDK for iOS instead, [click here.](../sdk/android/analytics)
+To use the existing AWS Mobile SDK for Android instead, [click here.](../sdk/android/analytics)
 {: .callout .callout--warning}
 
 # Analytics
