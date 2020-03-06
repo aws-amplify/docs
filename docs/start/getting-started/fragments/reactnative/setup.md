@@ -1,3 +1,5 @@
+To start off, you'll need a React Native project. If you have an existing project, you can skip to [initialize a new backend](#initialize-a-new-backend).
+
 ##  Create a new React Native app
 
 To get started, initialize a new React Native project.
