@@ -1,5 +1,5 @@
 ---
-title: Amplify Libraries
+title: Libraries
 description: Feature offerings
 disableTOC: true
 filterKey: platform

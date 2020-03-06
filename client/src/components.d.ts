@@ -17,15 +17,15 @@ import {
   SetContent,
 } from './amplify-ui/toc/toc.types';
 import {
+  SelectedFilters,
+} from './docs-ui/page/page.types';
+import {
   SetCurrentPath,
 } from './docs-ui/internal-link/internal-link.types';
 import {
   MenuGroup,
   Page,
 } from './api';
-import {
-  SelectedFilters,
-} from './docs-ui/page/page.types';
 import {
   MatchResults,
 } from '@stencil/router';
@@ -166,9 +166,17 @@ export namespace Components {
   interface Docs404Page {}
   interface DocsCard {
     /**
+    * * the global filter state
+    */
+    'selectedFilters'?: SelectedFilters;
+    /**
     * * url
     */
     'url'?: string;
+    /**
+    * * add a different url when mobile selected
+    */
+    'urlOverrideForMobileFilter'?: string;
     /**
     * * if true, the thumbnail gets rendered to the left of the detail (not above)
     */
@@ -787,9 +795,17 @@ declare namespace LocalJSX {
   interface Docs404Page {}
   interface DocsCard {
     /**
+    * * the global filter state
+    */
+    'selectedFilters'?: SelectedFilters;
+    /**
     * * url
     */
     'url'?: string;
+    /**
+    * * add a different url when mobile selected
+    */
+    'urlOverrideForMobileFilter'?: string;
     /**
     * * if true, the thumbnail gets rendered to the left of the detail (not above)
     */
