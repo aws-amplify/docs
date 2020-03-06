@@ -21,16 +21,21 @@ export class DocsCard {
   @Prop() readonly url?: string;
   /*** add a different url when mobile selected */
   @Prop() readonly urlOverrideForMobileFilter?: string;
+  /*** what container tag to use */
+  @Prop() readonly containerTag = "docs-internal-link";
+  /*** whether it's an external link */
+  @Prop() readonly external?: boolean;
 
   render() {
     const {vertical, url, urlOverrideForMobileFilter} = this;
     return (
       <Host>
         <amplify-card
-          containerTag="docs-internal-link"
+          containerTag={this.containerTag}
+          external={this.external}
           {...{vertical}}
           url={
-            isMobileSelected(this.selectedFilters)
+            isMobileSelected(this.selectedFilters) && urlOverrideForMobileFilter
               ? urlOverrideForMobileFilter
               : url
           }
