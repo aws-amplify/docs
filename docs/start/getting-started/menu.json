@@ -3,9 +3,8 @@
     "items": [
         "installation",
         "setup",
-        "auth",
         "data-model",
-        "storage",
+        "auth",
         "hosting",
         "nextsteps"
     ]
