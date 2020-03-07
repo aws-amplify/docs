@@ -27,8 +27,9 @@ This page guides you through setting up a backend and integration into your iOS 
 
 * [Install Xcode](https://developer.apple.com/xcode/downloads/){:target="_blank"} version 10.2 or later.
 
-* This guide assumes that you are familiar with iOS development and tools. If you are new to iOS development, you can follow [these steps](https://developer.apple.com/library/archive/referencelibrary/GettingStarted/DevelopiOSAppsSwift/BuildABasicUI.html){:target="_blank"} to create your first iOS application using Swift. 
+* This guide assumes that you are familiar with iOS development and tools. If you are new to iOS development, you can follow [these steps](https://developer.apple.com/library/archive/referencelibrary/GettingStarted/DevelopiOSAppsSwift/BuildABasicUI.html){:target="_blank"} to create your first iOS application using Swift.
 
+**Note:** This guide is designed for a *Storyboard* iOS application. Ensure that you select *Storyboard* in the *User Interface* dropdown when creating a new project. ![image](images/storyboard-selection.png) 
 
 ## Step 1: Configure your app
 You can use an existing iOS app or create a new iOS app in Swift as per the steps in prerequisite section. 
@@ -48,7 +49,7 @@ target :'YOUR-APP-NAME' do
     use_frameworks!
 
     pod 'AWSCore', '~> 2.12.0'
-    pod 'AWSAppSync', '~> 2.14.2'
+    pod 'AWSAppSync', '~> 3.0.2'
 
     # other pods
 end
