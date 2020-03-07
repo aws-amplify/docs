@@ -243,7 +243,7 @@ Setup instructions are provided for Android and iOS, and configuration for both 
 9. Setup capabilities on your App and enable **Push Notifications** and **Background Modes**. On Background Modes select **Remote notifications**.
 
     *Following screencast shows the required app settings in Xcode:*
-    <img src="{%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/capabilities.gif" style="display: block;height: auto;width: 100%;"/>
+    <img src="{%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/capabilities.gif" />
 
 10. Configure Push Notification module for your app as shown in [Configure your App](#configure-your-app) section.
 
@@ -255,7 +255,7 @@ Setup instructions are provided for Android and iOS, and configuration for both 
     - In case the build fails, try cleaning the project with *shift + command + k*.
 
     *Following screencast shows the required app settings in Xcode:*
-    <img src="{%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/runningApp.gif" style="display: block;height: auto;width: 100%;"/>
+    <img src="{%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/runningApp.gif" />
 
 ## Configure your App
 

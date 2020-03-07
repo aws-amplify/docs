@@ -28,16 +28,20 @@ const Attrs = (attrs: HTMLAttr[]): Record<string, unknown> | null => {
 const Hyperscript = (
   node: HTMLNode,
   attributes: t.Page,
+  srcPath: string,
 ): t.HyperscriptNode | t.Falsy => {
   if (node.nodeName === "#text") {
     return node.value as string;
   }
   const props = node.attrs ? Attrs(node.attrs) : null;
+  if (props?.style) {
+    throw new Error(`'style' attribute used in "${srcPath}"`);
+  }
   const children =
     node.childNodes && node.childNodes.length > 0
       ? // eslint-disable-next-line
       node.childNodes.reduce((acc: any, childNode: any) => {
-          const hyperscriptNode = Hyperscript(childNode, attributes);
+          const hyperscriptNode = Hyperscript(childNode, attributes, srcPath);
           switch (hyperscriptNode) {
             case undefined:
             case null:
@@ -81,5 +85,7 @@ export const htmlToHyperscript = (
     throw new Error(`Markdown files cannot be empty ("${srcPath}")`);
   return parse5
     .parseFragment(html, {scriptingEnabled: true})
-    .childNodes?.map((node: HTMLNode) => Hyperscript(node, attributes));
+    .childNodes?.map((node: HTMLNode) =>
+      Hyperscript(node, attributes, srcPath),
+    );
 };
