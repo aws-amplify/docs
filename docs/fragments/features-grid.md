@@ -62,4 +62,11 @@
       Enhance your app with common AI and ML functionality
     </p>
   </docs-card>
+  <docs-card url="~/lib/datastore/intro.md" class="three-dee-effect border-radius">
+    <img slot="graphic" src="~/assets/features/datastore.svg" />
+    <h4 slot="heading">DataStore</h4>
+    <p slot="description">
+      Persist and synchronize online & offline data
+    </p>
+  </docs-card>
 </amplify-responsive-grid>
