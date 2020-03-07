@@ -29,7 +29,7 @@ This page guides you through setting up a backend and integration into your iOS 
 
 * This guide assumes that you are familiar with iOS development and tools. If you are new to iOS development, you can follow [these steps](https://developer.apple.com/library/archive/referencelibrary/GettingStarted/DevelopiOSAppsSwift/BuildABasicUI.html){:target="_blank"} to create your first iOS application using Swift.
 
-**Note:** This guide is designed for a *Storyboard* iOS application. Ensure that you select *Storyboard* in the *User Interface* dropdown when creating a new project. ![image](images/storyboard-selection.png) 
+**Note:** This guide is designed for a *Storyboard* iOS application. Ensure that you select *Storyboard* in the *User Interface* dropdown when creating a new project. ![image]({{image_base}}/storyboard-selection.png)
 
 ## Step 1: Configure your app
 You can use an existing iOS app or create a new iOS app in Swift as per the steps in prerequisite section. 
