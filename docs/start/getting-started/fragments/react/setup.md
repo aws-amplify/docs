@@ -4,11 +4,11 @@
 To set up the project, we'll first create a new React app with [create-react-app](https://reactjs.org/docs/create-a-new-react-app.html), a CLI tool used to bootstrap a React app using current best practices. We'll then add Amplify and initialize a new project. From your projects directory, run the following commands:
 
 ```bash
-npx create-react-app photo-share
-cd photo-share
+npx create-react-app react-amplified
+cd react-amplified
 ```
 
-This creates a new React app in a directory called `photo-share` and then switches us into that new directory. Now that we're in the root of the project, we can run the app by using the following command:
+This creates a new React app in a directory called `react-amplified` and then switches us into that new directory. Now that we're in the root of the project, we can run the app by using the following command:
 
 ```bash
 npm start
@@ -27,7 +27,7 @@ amplify init
 When you initialize Amplify you'll be prompted for some information about the app:
 
 ```bash
-Enter a name for the project (photo-share)
+Enter a name for the project (react-amplified)
 
 # All AWS services you provision for your app are grouped into an "environment"
 # A common naming convention is dev, staging, and production
@@ -37,7 +37,7 @@ Enter a name for the environment (dev)
 Choose your default editor
 
 # Amplify supports JavaScript (Web & React Native), iOS, and Android apps
-Choose the type of app that you're building (javascript)
+Choose the type of app that youre building (javascript)
 
 What JavaScript framework are you using (react)
 
@@ -53,11 +53,11 @@ Start command (npm start)
 Do you want to use an AWS profile
 ```
 
-> Where possible the CLI will infer the proper configuration based on the type of project Amplify is being initialzed in. In this case it knew we are using CRA and provided the proper configuration for type of app, framework, source, distribution, build, and start options.
+> Where possible the CLI will infer the proper configuration based on the type of project Amplify is being initialized in. In this case it knew we are using Create React App and provided the proper configuration for type of app, framework, source, distribution, build, and start options.
 
 When you initialize a new Amplify project, a few things happen:
 
-- It creates a top level directory called `amplify` that stores your backend definition. During the tutorial you'll add capabilities such as authentication, GraphQL API, storage, and set up authorization rules for the API. As you add features, the `amplify` folder will grow with infrastructure-as-code templates that define your backend stack. Infrastructure-as-code is a best practice way to create a replicable backend stack.
+- It creates a top level directory called `amplify` that stores your backend definition. During the tutorial you'll add capabilities such as a GraphQL API and authentication. As you add features, the `amplify` folder will grow with infrastructure-as-code templates that define your backend stack. Infrastructure-as-code is a best practice way to create a replicable backend stack.
 - It creates a file called `aws-exports.js` in the `src` directory that holds all the configuration for the services you create with Amplify. This is how the Amplify client is able to get the necessary information about your backend services.
 - It modifies the `.gitignore` file, adding some generated files to the ignore list
 - A cloud project is created for you in the AWS Amplify Console that can be accessed by running `amplify console`. The Console provides a list of backend environments, deep links to provisioned resources per Amplify category, status of recent deployments, and instructions on how to promote, clone, pull, and delete backend resources
@@ -74,46 +74,17 @@ The `aws-amplify` package is the main library for working with Amplify in your a
 
 ## Set up frontend
 
-Next, we need to configure Amplify so that we can use the lib to interact with our backend services. Open up `src/index.js` and add replace it with the following:
+Next, we need to configure Amplify so that we can use the lib to interact with our backend services. Open up __src/index.js__ and add the following code below the last import:
 
 ```javascript
-import React from "react";
-import ReactDOM from "react-dom";
 import Amplify from "aws-amplify";
-import "./index.css";
-import App from "./App";
-import * as serviceWorker from "./serviceWorker";
 import awsExports from "./aws-exports";
-
 Amplify.configure(awsExports);
-
-ReactDOM.render(<App />, document.getElementById("root"));
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
 ```
 
-And that's all it takes to configure Amplify. As you add or remove categories and make updates to your backend configuration, the configuration in `aws-exports.js` will update automatically.
+And that's all it takes to configure Amplify. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in __aws-exports.js__ will update automatically.
 
-### Clean Up boilerplate
-
-First we'll remove some files we won't be using so we can focus on the parts of the app we'll want to update. To clean up the project a bit, remove the following files:
-
-- `src/App.test.js`
-- `src/setupTests.js`
-- `src/logo.svg`
-
-Next, in `src/App.js` remove the import for `logo.svg` and the `img` tag in the header.
-
-```javascript
-import logo from './logo.svg'
-...
-<img src={logo} className="App-logo" alt="logo" />
-```
-
-After removing the image, run the following command:
+Next, run the following command:
 
 ```bash
 amplify status
@@ -126,7 +97,6 @@ Current Environment: dev
 
 | Category | Resource name | Operation | Provider plugin |
 | -------- | ------------- | --------- | --------------- |
-
 ```
 
-Now that our React app is set up and Amplify is initialized, we're ready to add authentication in the next step.
+Now that our React app is set up and Amplify is initialized, we're ready to add an API in the next step.
