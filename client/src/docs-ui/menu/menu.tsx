@@ -40,12 +40,14 @@ export class DocsMenu {
                   childActiveClass={activeSwitchStyle}
                 >
                   Library
+                  <span>(preview)</span>
                 </docs-internal-link>
                 <docs-internal-link
                   href="/sdk"
                   childActiveClass={activeSwitchStyle}
                 >
                   SDK
+                  <span>(stable)</span>
                 </docs-internal-link>
               </div>
             ),
