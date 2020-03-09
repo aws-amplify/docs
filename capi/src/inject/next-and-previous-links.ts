@@ -40,6 +40,43 @@ const findNearestSiblingWithFilter = (
  * gives us the potentially-filter-specific next & previous `PageLink`s for each page
  */
 export const injectNextAndPreviousLinks = (ctx: t.Ctx): void => {
+  // get product page source paths (`~/start.md`, for instance)
+  const productPagePaths = getPathsOfDepth(
+    ctx.pageSrcPaths,
+    ctx.contentDirDepth + 2,
+  );
+
+  productPagePaths
+    .filter((path) => path.includes("start/start.md"))
+    .forEach((path) => {
+      const currentProductPage = ctx.pageBySrcPath.get(path);
+      if (currentProductPage) {
+        const filterKey = currentProductPage.filterKey;
+        const filters = filterKey && ctx.config.filters[filterKey];
+        const [firstMenuGroup] = currentProductPage.menu;
+
+        if (filters && filterKey) {
+          const links: Record<string, t.PageLink> = Object.assign(
+            {},
+            ...filters.map((option) => {
+              return {
+                [option]: findNearestSiblingWithFilter(
+                  firstMenuGroup.items,
+                  0,
+                  filterKey,
+                  option,
+                  "next",
+                ),
+              };
+            }),
+          );
+          currentProductPage.next = links;
+        } else {
+          currentProductPage.next = firstMenuGroup.items[0];
+        }
+      }
+    });
+
   // get product subpage source paths (`~/lib/auth/overview.md`, for instance)
   const productSubpagePaths = getPathsOfDepth(
     ctx.pageSrcPaths,
@@ -49,13 +86,13 @@ export const injectNextAndPreviousLinks = (ctx: t.Ctx): void => {
   // for each of 'em...
   productSubpagePaths.forEach((path) => {
     // get access to all the page data
-    const currentProductPage = ctx.pageBySrcPath.get(path);
-    if (currentProductPage) {
+    const currentProductSubpage = ctx.pageBySrcPath.get(path);
+    if (currentProductSubpage) {
       /**
        * if the current product section has filters enabled, we'll need to get
        * next & previous links for each filter respectively
        */
-      const filterKey = currentProductPage.filterKey;
+      const filterKey = currentProductSubpage.filterKey;
       const filters = filterKey && ctx.config.filters[filterKey];
 
       /**
@@ -63,7 +100,7 @@ export const injectNextAndPreviousLinks = (ctx: t.Ctx): void => {
        * as we iterate through, looking for the point of reference, from which
        * we get the next and previous items
        */
-      const {route, menu} = currentProductPage;
+      const {route, menu} = currentProductSubpage;
       if (menu) {
         for (const menuGroupI in menu) {
           const menuGroup = menu[menuGroupI];
@@ -105,10 +142,10 @@ export const injectNextAndPreviousLinks = (ctx: t.Ctx): void => {
                     }),
                   );
                   if (Object.values(links).filter(Boolean).length > 0) {
-                    currentProductPage[direction] = links;
+                    currentProductSubpage[direction] = links;
                   }
                 } else if (items[startI]) {
-                  currentProductPage[direction] = items[startI];
+                  currentProductSubpage[direction] = items[startI];
                 }
               });
             }

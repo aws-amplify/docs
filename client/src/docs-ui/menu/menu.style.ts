@@ -77,8 +77,21 @@ export const libSDKSwitcherStyle = css`
       }
 
       > a {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        align-items: center;
         padding: 0.25rem;
         border-radius: 0.25rem;
+        line-height: 1.25rem;
+
+        &:hover {
+          background-color: var(--color-grey-lt);
+        }
+
+        span {
+          font-size: 0.875rem;
+        }
       }
     }
   }
