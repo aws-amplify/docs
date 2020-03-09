@@ -10,9 +10,9 @@ export class DocsLandingHeroCTA {
   render() {
     return (
       <Host>
-        <docs-internal-link class={buttonStyle} href="/start">
-          Get Started
-        </docs-internal-link>
+        <docs-internal-link-button class={buttonStyle} href="/start">
+          <span slot="text">Get Started</span>
+        </docs-internal-link-button>
         <div class={platformsGroupStyle}>
           <docs-internal-link
             href="/start?integration=js"
