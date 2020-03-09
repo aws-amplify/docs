@@ -259,6 +259,12 @@ export namespace Components {
     */
     'setCurrentPath'?: SetCurrentPath;
   }
+  interface DocsInternalLinkButton {
+    /**
+    * * the path to redirect to (internal only!)
+    */
+    'href'?: string;
+  }
   interface DocsLandingHeroCta {}
   interface DocsLinkBanner {}
   interface DocsMenu {
@@ -547,6 +553,12 @@ declare global {
     new (): HTMLDocsInternalLinkElement;
   };
 
+  interface HTMLDocsInternalLinkButtonElement extends Components.DocsInternalLinkButton, HTMLStencilElement {}
+  var HTMLDocsInternalLinkButtonElement: {
+    prototype: HTMLDocsInternalLinkButtonElement;
+    new (): HTMLDocsInternalLinkButtonElement;
+  };
+
   interface HTMLDocsLandingHeroCtaElement extends Components.DocsLandingHeroCta, HTMLStencilElement {}
   var HTMLDocsLandingHeroCtaElement: {
     prototype: HTMLDocsLandingHeroCtaElement;
@@ -656,6 +668,7 @@ declare global {
     'docs-global-styles-story': HTMLDocsGlobalStylesStoryElement;
     'docs-in-page-link': HTMLDocsInPageLinkElement;
     'docs-internal-link': HTMLDocsInternalLinkElement;
+    'docs-internal-link-button': HTMLDocsInternalLinkButtonElement;
     'docs-landing-hero-cta': HTMLDocsLandingHeroCtaElement;
     'docs-link-banner': HTMLDocsLinkBannerElement;
     'docs-menu': HTMLDocsMenuElement;
@@ -901,6 +914,12 @@ declare namespace LocalJSX {
     */
     'setCurrentPath'?: SetCurrentPath;
   }
+  interface DocsInternalLinkButton {
+    /**
+    * * the path to redirect to (internal only!)
+    */
+    'href'?: string;
+  }
   interface DocsLandingHeroCta {}
   interface DocsLinkBanner {}
   interface DocsMenu {
@@ -1031,6 +1050,7 @@ declare namespace LocalJSX {
     'docs-global-styles-story': DocsGlobalStylesStory;
     'docs-in-page-link': DocsInPageLink;
     'docs-internal-link': DocsInternalLink;
+    'docs-internal-link-button': DocsInternalLinkButton;
     'docs-landing-hero-cta': DocsLandingHeroCta;
     'docs-link-banner': DocsLinkBanner;
     'docs-menu': DocsMenu;
@@ -1084,6 +1104,7 @@ declare module "@stencil/core" {
       'docs-global-styles-story': LocalJSX.DocsGlobalStylesStory & JSXBase.HTMLAttributes<HTMLDocsGlobalStylesStoryElement>;
       'docs-in-page-link': LocalJSX.DocsInPageLink & JSXBase.HTMLAttributes<HTMLDocsInPageLinkElement>;
       'docs-internal-link': LocalJSX.DocsInternalLink & JSXBase.HTMLAttributes<HTMLDocsInternalLinkElement>;
+      'docs-internal-link-button': LocalJSX.DocsInternalLinkButton & JSXBase.HTMLAttributes<HTMLDocsInternalLinkButtonElement>;
       'docs-landing-hero-cta': LocalJSX.DocsLandingHeroCta & JSXBase.HTMLAttributes<HTMLDocsLandingHeroCtaElement>;
       'docs-link-banner': LocalJSX.DocsLinkBanner & JSXBase.HTMLAttributes<HTMLDocsLinkBannerElement>;
       'docs-menu': LocalJSX.DocsMenu & JSXBase.HTMLAttributes<HTMLDocsMenuElement>;

@@ -7,6 +7,7 @@ const linkTags = {
   a: true,
   "amplify-card": true,
   "docs-card": true,
+  "docs-internal-link-button": true,
 };
 
 const getTransformedURL = (
@@ -61,7 +62,9 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
           tag === "a" ? "docs-internal-link" : tag,
           {
             ...props,
-            ...(tag === "a" ? {href: transformedURL} : {url: transformedURL}),
+            ...(tag === "a" || tag === "docs-internal-link-button"
+              ? {href: transformedURL}
+              : {url: transformedURL}),
             ...(urlOverrideForMobileFilterTransformer
               ? {
                   "url-override-for-mobile-filter": urlOverrideForMobileFilterTransformer,

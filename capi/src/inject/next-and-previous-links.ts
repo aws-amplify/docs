@@ -1,5 +1,5 @@
 import * as t from "../types";
-import {getPathsOfDepth} from "../utils";
+import {getPathsOfDepth, createPageLink} from "../utils";
 
 const operationByDirection = {
   previous: (i: number): number => (i -= 1),
@@ -40,42 +40,12 @@ const findNearestSiblingWithFilter = (
  * gives us the potentially-filter-specific next & previous `PageLink`s for each page
  */
 export const injectNextAndPreviousLinks = (ctx: t.Ctx): void => {
-  // get product page source paths (`~/start.md`, for instance)
-  const productPagePaths = getPathsOfDepth(
+  // get start section root page
+  const [startRootPath] = getPathsOfDepth(
     ctx.pageSrcPaths,
     ctx.contentDirDepth + 2,
-  );
-
-  productPagePaths
-    .filter((path) => path.includes("start/start.md"))
-    .forEach((path) => {
-      const currentProductPage = ctx.pageBySrcPath.get(path);
-      if (currentProductPage) {
-        const filterKey = currentProductPage.filterKey;
-        const filters = filterKey && ctx.config.filters[filterKey];
-        const [firstMenuGroup] = currentProductPage.menu;
-
-        if (filters && filterKey) {
-          const links: Record<string, t.PageLink> = Object.assign(
-            {},
-            ...filters.map((option) => {
-              return {
-                [option]: findNearestSiblingWithFilter(
-                  firstMenuGroup.items,
-                  0,
-                  filterKey,
-                  option,
-                  "next",
-                ),
-              };
-            }),
-          );
-          currentProductPage.next = links;
-        } else {
-          currentProductPage.next = firstMenuGroup.items[0];
-        }
-      }
-    });
+  ).filter((path) => path.includes("start"));
+  const startPage = ctx.pageBySrcPath.get(startRootPath);
 
   // get product subpage source paths (`~/lib/auth/overview.md`, for instance)
   const productSubpagePaths = getPathsOfDepth(
@@ -88,6 +58,15 @@ export const injectNextAndPreviousLinks = (ctx: t.Ctx): void => {
     // get access to all the page data
     const currentProductSubpage = ctx.pageBySrcPath.get(path);
     if (currentProductSubpage) {
+      if (
+        startPage &&
+        currentProductSubpage.route.includes(
+          "start/getting-started/installation",
+        )
+      ) {
+        currentProductSubpage.previous = createPageLink(startPage);
+      }
+
       /**
        * if the current product section has filters enabled, we'll need to get
        * next & previous links for each filter respectively

@@ -5,7 +5,13 @@ disableTOC: true
 filterKey: integration
 ---
 
+<docs-internal-link-button href="~/start/getting-started/installation.md">
+  <img slot="graphic" src="~/assets/play.svg" />
+  <span slot="text">Start the Tutorial</span>
+</docs-internal-link-button>
+
 Welcome! 🎸 <br/>
+
 The open-source Amplify Framework provides a set of libraries, UI components, and a command line interface to build fullstack iOS, Android, Web, and React Native apps. The Amplify CLI allows you to configure all the services needed to power your backend through a simple command line interface. The Amplify libraries makes it easy to integrate your app code with a backend backend using declarative interfaces and simple UI components. Amplify has the following products:
 
 - Amplify Libraries - Use case-centric open source libraries in the Amplify Framework to build cloud powered mobile and web apps.
