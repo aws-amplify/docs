@@ -114,8 +114,10 @@ After initialization in your project directory with `amplify init`, update your 
 //For AWSMobileClient only:
 implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.15.+'
 
-//For the drop-in UI also:
+//Cognito UserPool for SignIn:
 implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.15.+'
+
+//For the drop-in UI also:
 implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.15.+'
 ```
 
