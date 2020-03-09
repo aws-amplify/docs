@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`docs-internal-link-button Render logic should render 1`] = `
-<docs-internal-link-button class="css-8oh0oh">
+<docs-internal-link-button class="css-fx7q5a">
   <!---->
   <docs-internal-link class="css-1sws8af">
     <div class="css-8odve0"></div>

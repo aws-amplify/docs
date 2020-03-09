@@ -2,7 +2,7 @@ import {css} from "emotion";
 
 export const hostStyle = css`
   display: block;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 `;
 
 export const containerStyle = css`
