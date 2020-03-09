@@ -3,7 +3,6 @@ title: Connect API and database to app
 description: Data model description
 filterKey: integration
 ---
-## API
 
 <inline-fragment integration="react" src="~/start/getting-started/fragments/react/api.md"></inline-fragment>
 <inline-fragment integration="react-native" src="~/start/getting-started/fragments/reactnative/api.md"></inline-fragment>

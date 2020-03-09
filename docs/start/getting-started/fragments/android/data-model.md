@@ -1,145 +1,103 @@
-### Model the data with GraphQL transform
+## Integrate into your app
 
-Switch to **Project** view in Android Studio and open the schema file at `amplify/backend/api/amplifyDatasource/schema.graphql`.  
-[Learn more](https://aws-amplify.github.io/docs/cli-toolchain/graphql) about annotating GraphQL schemas and data modeling.
+Initialize the AppSync client inside your application code, such as the `onCreate()` lifecycle method of your activity class:
 
-In this guide, use the default schema included:
+```java
+private AWSAppSyncClient mAWSAppSyncClient;
 
-```
-type Task @model {
-    id: ID!
-    title: String!
-    description: String
-    status: String
-}
-type Note @model {
-    id: ID!
-    content: String!
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    mAWSAppSyncClient = AWSAppSyncClient.builder()
+        .context(getApplicationContext())
+        .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+        .build();
 }
 ```
 
-To generate the Java classes for these models, click the Gradle Task dropdown in the toolbar and select **modelgen** and run the task. Once it completes you should have generated Java classes under `app/src/main/java/com/amplifyframework.datastore.generated.model`.
+You can now add data to your database with a mutation:
 
-## Create the API with database
+```java
+public void runMutation(){
+    CreateTodoInput createTodoInput = CreateTodoInput.builder().
+        name("Use AppSync").
+        description("Realtime and Offline").
+        build();
 
-1. Run `amplify configure` in Terminal from the root of your application folder to set up Amplify with your AWS account.
+    mAWSAppSyncClient.mutate(CreateTodoMutation.builder().input(createTodoInput).build())
+        .enqueue(mutationCallback);
+}
 
-    - Your default browser will open a tab prompting you to sign in / create a new AWS account
-    - Once done, return to the terminal and press Enter
-    - Choose a region
-    - Choose a username (can use default)
-    - Your default browser will open a tab prompting you to walkthrough the process of creating an IAM user. At the end of the process. Save the Access ID and Secret key and return to the terminal.
-    - Press Enter
-    - It will then ask you to enter the access key ID from the finish page of the browser. Make sure to backspace the default and copy-paste the key for the IAM user you just created.
-    - Do the same for <YOUR SECRET ACCESS KEY> in the next step
-    - Hit Enter to go with default as the profile name
-
-2. Click the Gradle Task dropdown in your Android Studio toolbar, select **amplifyPush**, and run the task.Once this is successful, you will see three generated files:
-
-- **amplifyconfiguration.json** and **awsconfiguration.json** under `src/main/res/raw`: Rather than configuring each service through a constructor or constants file, the Amplify Framework for Android supports configuration through centralized files called amplifyconfiguration.json and awsconfiguration.json which define all the regions and service endpoints to communicate. On Android projects these two files will be placed into the root directory. You can also manually update them if you have existing AWS resources which you manage outside of the Amplify deployment process. Additionally, if you ever decide to run Amplify CLI commands from a terminal inside your Android Studio project these configurations will be automatically updated.
-- **amplify-gradle-config.json** under the root directory: This file is used to configure modelgen and push to cloud actions.
-
-3. After the deployment has completed you can open the `amplifyconfiguration.json` and you should see the `api` section containing your backend like the following:
-```json
-{
-    "api": {
-        "plugins": {
-            "awsAPIPlugin": {
-                "amplifyDatasource": {
-                    "endpointType": "GraphQL",
-                    "endpoint": "https://<YOUR-GRAPHQL-ENDPOINT>.appsync-api.us-west-2.amazonaws.com/graphql",
-                    "region": "us-west-2",
-                    "authorizationType": "API_KEY",
-                    "apiKey": "<YOUR API KEY>"
-                }
-            }
-        }
+private GraphQLCall.Callback<CreateTodoMutation.Data> mutationCallback = new GraphQLCall.Callback<CreateTodoMutation.Data>() {
+    @Override
+    public void onResponse(@Nonnull Response<CreateTodoMutation.Data> response) {
+        Log.i("Results", "Added Todo");
     }
-}
+
+    @Override
+    public void onFailure(@Nonnull ApolloException e) {
+        Log.e("Error", e.toString());
+    }
+};
 ```
 
-### Testing your API
-You can open the AWS console for you to run Queries, Mutation, or Subscription against you new API at any time directly by running the following command:
+Next, query the data:
 
-```bash
+```java
+public void runQuery(){
+    mAWSAppSyncClient.query(ListTodosQuery.builder().build())
+        .responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK)
+        .enqueue(todosCallback);
+}
+
+private GraphQLCall.Callback<ListTodosQuery.Data> todosCallback = new GraphQLCall.Callback<ListTodosQuery.Data>() {
+    @Override
+    public void onResponse(@Nonnull Response<ListTodosQuery.Data> response) {
+        Log.i("Results", response.data().listTodos().items().toString());
+    }
+
+    @Override
+    public void onFailure(@Nonnull ApolloException e) {
+        Log.e("ERROR", e.toString());
+    }
+};
+```
+
+You can also setup realtime subscriptions to data:
+
+```java
+private AppSyncSubscriptionCall subscriptionWatcher;
+
+private void subscribe(){
+    OnCreateTodoSubscription subscription = OnCreateTodoSubscription.builder().build();
+    subscriptionWatcher = mAWSAppSyncClient.subscribe(subscription);
+    subscriptionWatcher.execute(subCallback);
+}
+
+private AppSyncSubscriptionCall.Callback subCallback = new AppSyncSubscriptionCall.Callback() {
+    @Override
+    public void onResponse(@Nonnull Response response) {
+        Log.i("Response", response.data().toString());
+    }
+
+    @Override
+    public void onFailure(@Nonnull ApolloException e) {
+        Log.e("Error", e.toString());
+    }
+
+    @Override
+    public void onCompleted() {
+        Log.i("Completed", "Subscription completed");
+    }
+};
+```
+
+Call the `runMutation()`, `runQuery()`, and `subscribe()` methods from your app code, such as from a button click or when your app starts in `onCreate()`. You will see data being stored and retrieved in your backend from the Android Studio console. At any time you can open the AWS console for your new API directly by running the following command:
+
+```terminal
 $ amplify console api
 > GraphQL               ##Select GraphQL
 ```
 
 This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
-
-## Integrate into your app
-
-1. Initialize Amplify in your app's entry point, such as in the `onCreate` method of MainActivity:
-
-```java
-try {
-    Amplify.addPlugin(new AWSApiPlugin());
-    Amplify.configure(getApplicationContext());
-    Log.i("AmplifyGetStarted", "Amplify is all setup and ready to go!");
-} catch (AmplifyException exception) {
-    Log.e("AmplifyGetStarted", exception.getMessage());
-}
-```
-
-2. First add some data to your backend:
-
-```java
-Task task = Task.builder().title("My first task").description("Get started with Amplify").build();
-
-Amplify.API.mutate(task, MutationType.CREATE, new ResultListener<GraphQLResponse<Task>>() {
-    @Override
-    public void onResult(GraphQLResponse<Task> taskGraphQLResponse) {
-        Log.i("AmplifyGetStarted", "Added task with id: " + taskGraphQLResponse.getData().getId());
-    }
-
-    @Override
-    public void onError(Throwable throwable) {
-        Log.e("AmplifyGetStarted", throwable.toString());
-    }
-});
-```
-
-3. Next query the results from your API:
-
-```java
-Amplify.API.query(Task.class, new ResultListener<GraphQLResponse<Iterable<Task>>>() {
-    @Override
-    public void onResult(GraphQLResponse<Iterable<Task>> iterableGraphQLResponse) {
-        for(Task task : iterableGraphQLResponse.getData()) {
-            Log.i("AmplifyGetStarted", "Task : " + task.getTitle());
-        }
-    }
-
-    @Override
-    public void onError(Throwable throwable) {
-        Log.e("AmplifyGetStarted", throwable.toString());
-    }
-});
-```
-
-4. Finally, you can listen to the Subscription with a `StreamListener` using the `onNext` callback:
-
-```java
-Amplify.API.subscribe(
-    Task.class,
-    SubscriptionType.ON_CREATE,
-    new StreamListener<GraphQLResponse<Task>>() {
-        @Override
-        public void onNext(GraphQLResponse<Task> taskGraphQLResponse) {
-            Log.i("AmplifyGetStarted", "Subscription detected a create: " +
-                    taskGraphQLResponse.getData().getTitle());
-        }
-
-        @Override
-        public void onComplete() {
-            // Whatever you want it to do on completing
-        }
-
-        @Override
-        public void onError(Throwable throwable) {
-            Log.e("AmplifyGetStarted", throwable.toString());
-        }
-    }
-);
-```
