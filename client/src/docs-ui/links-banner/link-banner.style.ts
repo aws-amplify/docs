@@ -2,7 +2,7 @@ import {css} from "emotion";
 import {MQLaptop} from "../../amplify-ui/styles/media";
 
 export const containerOuterStyle = css`
-  padding: 2rem 4rem;
+  padding: 2rem 1rem;
   background-color: var(--color-ink-md);
 `;
 
@@ -33,11 +33,18 @@ export const containerInnerStyle = css`
     flex-direction: row;
     color: var(--font-color);
     padding: 1rem 0;
+    border-radius: 0.25rem;
+
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.5);
+
+    &:hover {
+      box-shadow: 0 0.125rem 0.25rem var(--color-black);
+    }
   }
 `;
 
 export const logoStyle = css`
-  max-height: 2rem;
-  max-width: 2rem;
+  max-height: 1.5rem;
+  max-width: 1.5rem;
   margin-right: 0.5rem;
 `;

@@ -6,7 +6,7 @@ export const footerContainerStyle = css`
 `;
 
 export const footerStyle = css`
-  padding: 2rem 4rem;
+  padding: 4rem 2rem;
   text-align: center;
   color: var(--color-white);
   display: flex;
@@ -35,7 +35,7 @@ export const leftLinkContainerStyle = css`
   > div {
     display: flex;
     flex-direction: column;
-    margin-right: 4rem;
+    margin-right: 2rem;
     align-items: flex-start;
 
     a {

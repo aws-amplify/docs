@@ -361,7 +361,6 @@ export namespace Components {
     */
     'heading'?: string;
   }
-  interface DocsUniversalNavStory {}
 }
 
 declare global {
@@ -630,12 +629,6 @@ declare global {
     prototype: HTMLDocsUniversalNavElement;
     new (): HTMLDocsUniversalNavElement;
   };
-
-  interface HTMLDocsUniversalNavStoryElement extends Components.DocsUniversalNavStory, HTMLStencilElement {}
-  var HTMLDocsUniversalNavStoryElement: {
-    prototype: HTMLDocsUniversalNavStoryElement;
-    new (): HTMLDocsUniversalNavStoryElement;
-  };
   interface HTMLElementTagNameMap {
     'amplify-callout': HTMLAmplifyCalloutElement;
     'amplify-card': HTMLAmplifyCardElement;
@@ -681,7 +674,6 @@ declare global {
     'docs-select-anchor': HTMLDocsSelectAnchorElement;
     'docs-story-page': HTMLDocsStoryPageElement;
     'docs-universal-nav': HTMLDocsUniversalNavElement;
-    'docs-universal-nav-story': HTMLDocsUniversalNavStoryElement;
   }
 }
 
@@ -1016,7 +1008,6 @@ declare namespace LocalJSX {
     */
     'heading'?: string;
   }
-  interface DocsUniversalNavStory {}
 
   interface IntrinsicElements {
     'amplify-callout': AmplifyCallout;
@@ -1063,7 +1054,6 @@ declare namespace LocalJSX {
     'docs-select-anchor': DocsSelectAnchor;
     'docs-story-page': DocsStoryPage;
     'docs-universal-nav': DocsUniversalNav;
-    'docs-universal-nav-story': DocsUniversalNavStory;
   }
 }
 
@@ -1117,7 +1107,6 @@ declare module "@stencil/core" {
       'docs-select-anchor': LocalJSX.DocsSelectAnchor & JSXBase.HTMLAttributes<HTMLDocsSelectAnchorElement>;
       'docs-story-page': LocalJSX.DocsStoryPage & JSXBase.HTMLAttributes<HTMLDocsStoryPageElement>;
       'docs-universal-nav': LocalJSX.DocsUniversalNav & JSXBase.HTMLAttributes<HTMLDocsUniversalNavElement>;
-      'docs-universal-nav-story': LocalJSX.DocsUniversalNavStory & JSXBase.HTMLAttributes<HTMLDocsUniversalNavStoryElement>;
     }
   }
 }

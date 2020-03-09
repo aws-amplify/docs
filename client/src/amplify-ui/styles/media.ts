@@ -1,4 +1,5 @@
 export enum Breakpoint {
+  MOBILE = 28,
   FABLET = 36,
   TABLET = 48,
   LAPTOP = 64,
@@ -12,6 +13,7 @@ export const createMQ = (device: number) =>
 export const createDeviceMQ = (device: Breakpoint) =>
   `@media screen and (min-width: ${String(device)}rem)`;
 
+export const MQMobile = createDeviceMQ(Breakpoint.MOBILE);
 export const MQFablet = createDeviceMQ(Breakpoint.FABLET);
 export const MQTablet = createDeviceMQ(Breakpoint.TABLET);
 export const MQLaptop = createDeviceMQ(Breakpoint.LAPTOP);
