@@ -39,8 +39,10 @@ AWSIotMqttManager mqttManager = new AWSIotMqttManager(
 	"<YOUR_CLIENT_ID>", 
 	"xxxxxxxxxxxxx-ats.iot.<YOUR-AWS-REGION>.amazonaws.com");
 ```
+
+<amplify-callout>
 You can get the endpoint information from the IoT Core -> Settings page on the AWS Console.
-{: .callout .callout--info}
+</amplify-callout>
 
 **Create IAM policies for AWS IoT**
 

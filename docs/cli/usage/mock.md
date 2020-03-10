@@ -11,8 +11,9 @@ It is highly recommended that you complete the Getting Started section of Amplif
 
 In order to quickly test and debug without pushing all changes in your project to the cloud, Amplify supports *Local Mocking and Testing* for certain categories including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), and Functions (AWS Lambda). This includes using directives from the GraphQL Transformer, editing & debug resolvers, hot reloading, JWT mocking of authorization checks, and even performing S3 operations such as uploading and downloading content.
 
+<amplify-callout>
 Java is required on your development workstation to use Local Mocking in Amplify
-{: .callout .callout--info}
+</amplify-callout>
 
 [Blog walk-through with sample app](https://aws.amazon.com/blogs/mobile/amplify-framework-local-mocking/){:target="_blank"}.
 
@@ -70,8 +71,9 @@ $ amplify mock function <function_name>
 
 This will take you through a few questions, such as the entry point for your Lambda function and sample event context to pass. The defaults are `index.js` and `event.json`.
 
+<amplify-callout>
 Note that you will need to run `yarn` or `npm install` first if your Lambda function has any external dependencies (`<project-dir>/amplify/backend/function/<function-name>/src`). Only Node.js functions are supported at this time.
-{: .callout .callout--info}
+</amplify-callout>
 
 #### Function mocking with GraphQL
 

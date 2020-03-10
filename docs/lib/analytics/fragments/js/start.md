@@ -116,8 +116,9 @@ Analytics.configure();
 
 ## API Reference
 
+<amplify-callout>
 For a complete API reference visit the [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/analyticsclass.html)
-{: .callout .callout--info}
+</amplify-callout>
 
 ## Using a Custom Plugin
 

@@ -125,4 +125,3 @@ iotDataManager.disconnect()
 ## API Reference
 
 For the complete API documentation for AWS IoT, visit our [API reference](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/Classes/AWSIoTDataManager.html)
-{: .callout .callout--info}

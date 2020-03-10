@@ -46,8 +46,8 @@ API.configure(awsconfig);
 PubSub.configure(awsconfig);
 ```
 
-> Depending on your TypeScript version you may need to rename `aws-exports.js` to `aws-exports.ts` prior to importing, or enable the `allowJs` <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" target="_blank">compiler option</a> in your tsconfig. 
-{: .callout .callout--info}
+<amplify-callout>Depending on your TypeScript version you may need to rename `aws-exports.js` to `aws-exports.ts` prior to importing, or enable the `allowJs` <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" target="_blank">compiler option</a> in your tsconfig. 
+</amplify-callout>
 
 Update `src/tsconfig.app.json` to include the "node" compiler option in *types*:
 
@@ -122,7 +122,7 @@ export class AppComponent implements OnInit {
   }
 ```
 
-The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
-{: .callout .callout--info}
+<amplify-callout>The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
+</amplify-callout>
 
 After restarting your app using `ng serve` go back to your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs. 

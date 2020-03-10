@@ -2,5 +2,6 @@ The AWS Amplify PubSub category provides connectivity with cloud-based message-o
 
 PubSub is available with **AWS IoT** and **Generic MQTT Over WebSocket Providers**. 
 
+<amplify-callout>
 With AWS IoT, AWS Amplify's PubSub automatically signs your HTTP requests when sending your messages.
-{: .callout .callout--info}
+</amplify-callout>

@@ -63,8 +63,8 @@ $ amplify push
 ```
 After running the `amplify push` command, you will find a domain-name provisioned by the CLI for the hosted UI as an output in the terminal. You can find that information anytime later using the `amplify status` command.
 
-Note: your user pool domain is something like: `domain_prefix-<env-name>.auth.<region>.amazoncognito.com`
-{: .callout .callout--info}. If you've setup federation through third party providers, you would need to update the providers with the CLI provisioned domain-name.
+**Note:** your user pool domain is something like: `domain_prefix-<env-name>.auth.<region>.amazoncognito.com`. 
+If you've setup federation through third party providers, you would need to update the providers with the CLI provisioned domain-name.
 
 ### Setting up Hosted UI Domain With Facebook
 
@@ -230,8 +230,7 @@ AWSMobileClient.getInstance().showSignIn(this, signInUIOptions, new Callback<Use
 });
 ```
 
-Note: By default, the Hosted UI will show all sign-in options; the username-password flow as well as any social providers which are configured. If you wish to bypass the extra sign-in screen showing all the provider options and launch your desired social provider login directly, you can set the `HostedUIOptions` as shown in the next section.
-{: .callout .callout--info}
+**Note:** By default, the Hosted UI will show all sign-in options; the username-password flow as well as any social providers which are configured. If you wish to bypass the extra sign-in screen showing all the provider options and launch your desired social provider login directly, you can set the `HostedUIOptions` as shown in the next section.
 
 ### Configuring Hosted UI to launch Facebook/ Google/ SAML sign in directly
 

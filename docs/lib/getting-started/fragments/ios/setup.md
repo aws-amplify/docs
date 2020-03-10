@@ -1,8 +1,3 @@
-
-Amplify iOS is in preview mode and not intended for production usage at this time. We welcome feedback to improve your experience in using Amplify iOS.
-[Click here](../sdk/ios/start) to access the Getting Started guide for iOS SDK 2.0 docs.
-{: .callout .callout--warning}
-
 ## Getting Started
 
 Build an iOS app using the Amplify Framework which contains:

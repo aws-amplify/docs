@@ -1,6 +1,6 @@
-**Availability Note**
+<amplify-callout>
 Currently, the federation feature in the AWSMobileClient supports Cognito Identity Pools only.
-{: .callout .callout--info}
+</amplify-callout>
 
 ## Federated Sign In
 
@@ -37,9 +37,7 @@ AWSMobileClient.default().federatedSignIn(providerName: "YOUR_SAML_PROVIDER_NAME
 
 ```
 
-**Note**
-If the SAML token contains more than one Role ARN, you will need to specify which role will be assumed when federating. If the SAML token has more than one Role ARN and a `customRoleARN` is not specified, it will result in an error.
-{: .callout .callout--info}
+**Note:** If the SAML token contains more than one Role ARN, you will need to specify which role will be assumed when federating. If the SAML token has more than one Role ARN and a `customRoleARN` is not specified, it will result in an error.
 
 ```swift
 // Choose one of the roles available in the token
@@ -66,7 +64,6 @@ AWS Amplify helps set this up for you but first this topic explains how to set u
 
 If you already have a Facebook app ID, you can copy and paste it into the `Facebook App ID` field
 when configuring authentication using the AWS Amplify CLI.
-{: .callout .callout--info}
 
 **To get a Facebook app ID**
 
@@ -241,10 +238,9 @@ AWSMobileClient.default().federatedSignIn(providerName: IdentityProvider.develop
 
 Run `pod install --repo-update`.
 
-Note : `AWSFacebookSignIn` is only needed for using Facebook in your app and  `AWSAuthUI` is only necessary if using the "Drop-In UI".
-{: .callout .callout--info}
+**Note:** `AWSFacebookSignIn` is only needed for using Facebook in your app and  `AWSAuthUI` is only necessary if using the "Drop-In UI".
 
-2. Add Facebook meta data to `Info.plist`.
+1. Add Facebook meta data to `Info.plist`.
 
 	To configure your Xcode project to use Facebook Login, right-choose `Info.plist` and then choose `Open As > Source Code`.
 
@@ -311,10 +307,9 @@ Now, your drop-in UI will show a Facebook sign in button which the users can use
 	```
 	Run `pod install --repo-update` before you continue.
 
-Note : `AWSGoogleSignIn` is only needed for using Google Login in your app and `AWSAuthUI` is only necessary if using the "Drop-In UI".
-{: .callout .callout--info}
+**Note:** `AWSGoogleSignIn` is only needed for using Google Login in your app and `AWSAuthUI` is only necessary if using the "Drop-In UI".
 
-2. Add Google metadata to `Info.plist`.
+1. Add Google metadata to `Info.plist`.
 
 	To configure your Xcode project to use Google Login, open its `Info.plist` file using **Right-click > Open As > Source Code.** Add the following entry. Substitute your project name for the placeholder string.
 

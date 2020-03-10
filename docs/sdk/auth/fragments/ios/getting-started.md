@@ -29,7 +29,6 @@ $ amplify add auth
 ```
 
 If you have previously enabled an Amplify category that uses Auth behind the scenes, e.g. API category, you may already have an Auth configuration. In such a case, run `amplify auth update` command to edit your configuration.
-{: .callout .callout--info}
 
 The CLI prompts will help you to customize your auth flow for your app. With the provided options, you can:
 - Customize sign-in/registration flow 

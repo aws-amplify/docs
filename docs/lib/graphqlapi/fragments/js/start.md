@@ -1,13 +1,12 @@
 The AWS Amplify API module supports AWS AppSync or any other GraphQL backends.
 
+<amplify-callout>
 To learn more about GraphQL, please visit the [GraphQL website](http://graphql.org/learn/).
-{: .callout .callout--action}
+</amplify-callout>
 
 ## Using AWS AppSync
 
 AWS AppSync helps you build data-driven apps with real-time and offline capabilities. Learn more about [AWS AppSync](https://aws.amazon.com/appsync/) by visiting [AWS AppSync Developer Guide](https://docs.aws.amazon.com/appsync/latest/devguide/welcome.html){: .target='new'}.
-{: .callout .callout--action}
-
 
 The Amplify Framework offers two client options for AppSync:
 
@@ -53,8 +52,9 @@ Name your GraphQL endpoint and select the authorization type:
   Amazon Cognito User Pool
 ```
 
+<amplify-callout>
 AWS AppSync API keys expire seven days after creation, and using API KEY authentication is only suggested for development. To change the AWS AppSync authorization type after the initial configuration, use the `$ amplify update api` command and select `GraphQL`.
-{: .callout .callout--info}
+</amplify-callout>
 
 When you update your backend with the *push* command, you can go to [AWS AppSync Console](https://aws.amazon.com/appsync/) and see that a new API is added under the *APIs* menu item:
 

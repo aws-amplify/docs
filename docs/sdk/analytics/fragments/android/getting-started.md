@@ -14,7 +14,6 @@ The Amplify CLI helps setup and configure Pinpoint within your application and c
 
 <b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
 <b>Recommendation:</b> [Complete the Getting Started guide](./start)
-{: .callout .callout--info}
 
 ## Set Up Your Backend
 

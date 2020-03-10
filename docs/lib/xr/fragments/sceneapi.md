@@ -36,8 +36,9 @@ if (XR.isSceneLoaded('scene1')) {
 
 For compatible devices, you can enable VR mode for your scene. When a user enters VR mode with a controller attached, the VR controller component tracks its location in 3D space. 
 
+<amplify-callout>
 Entering VR requires user input i.e. button press or similar.
-{: .callout .callout--info}
+</amplify-callout>
 
 ```javascript
 if (XR.isSceneLoaded('scene1')) {
@@ -64,8 +65,9 @@ XR.onSceneEvent('scene1', 'AudioDisabled', () => console.log ('Audio is disabled
 
 In some browsers, playback of audio is disabled until the user provides input. To reliably enable audio in your scene, wait until the user's first input, such as a mouse click or screen touch, and then call the `enableAudio()` method with the scene name.
 
+<amplify-callout>
 If the browser is blocking autoplay, the Audio Disabled event will get thrown the first time the scene attempts to PLAY audio, if no user input has been given
-{: .callout .callout--info}
+</amplify-callout>
 
 ```javascript
 XR.enableAudio('scene1')
@@ -75,8 +77,7 @@ XR.enableAudio('scene1')
 ### Sumerian Scene
 After you have [published and configured your Sumerian scene]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/xr#configuration) you can use a Sumerian Scene UI component in one of the following supported frameworks
 
-Note: Each of the following UI components will inherit the height and width of the direct parent DOM element. Make sure to set the width and height styling on the parent DOM element to your desired size.
-{: .callout .callout--info}
+**Note:** Each of the following UI components will inherit the height and width of the direct parent DOM element. Make sure to set the width and height styling on the parent DOM element to your desired size.
 
 #### React
 **Installation**

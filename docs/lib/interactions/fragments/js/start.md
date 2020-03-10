@@ -14,8 +14,9 @@ You can choose to start from a sample chatbot or start from scratch.  If you cho
 
 You are allowed to run the `amplify add interactions` command multiple times to add multiple chatbots into your project.
 
-{The Interactions category utilizes the Authentication category behind the scenes to authorize your app to send analytics events.}
-{: .callout .callout--info}
+<amplify-callout>
+The Interactions category utilizes the Authentication category behind the scenes to authorize your app to send analytics events.
+</amplify-callout>
 
 The `add` command automatically creates a backend configuration locally. To update your backend in the cloud, run:
 

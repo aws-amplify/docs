@@ -46,8 +46,7 @@ Setup instructions are provided for Android and iOS, and configuration for both 
 
     The CLI will prompt for your *Firebase credentials*, enter them respectively.
 
-    Alternatively you can set up Android push notifications in Amazon Pinpoint Console. [Click here for instructions](https://docs.aws.amazon.com/pinpoint/latest/developerguide/mobile-push-android.html).
-    {: .callout .callout--action}
+    Alternatively, you can set up Android push notifications in Amazon Pinpoint Console. [Click here for instructions](https://docs.aws.amazon.com/pinpoint/latest/developerguide/mobile-push-android.html).
 
 5. Enable your app in Firebase. To do that, follow those steps:
 
@@ -165,8 +164,9 @@ Setup instructions are provided for Android and iOS, and configuration for both 
     $ react-native link @aws-amplify/pushnotification
     $ react-native link amazon-cognito-identity-js # link it if you need to Sign in into Cognito user pool
     ```
+    <amplify-callout>
     Please note that linking `aws-amplify-react-native` but not completing the rest of the configuration steps could break your build process. Please be sure that you have completed all the steps before you build your app.
-    {: .callout .callout--info}
+    </amplify-callout>
 
 4. Enable notifications and add your p12 certificate with Amplify CLI by using the following commands:
 
@@ -261,8 +261,9 @@ Setup instructions are provided for Android and iOS, and configuration for both 
 
 Push Notification module is integrated with `Analytics` module to be able to track notifications. Make sure that you have configured the Analytics module in your app before configuring Push Notification module.  
 
+<amplify-callout>
 If you don't have Analytics already enabled, see our [Analytics Developer Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/analytics) to add Analytics to your app.
-{: .callout .callout--info}
+</amplify-callout>
 
 First, import `PushNotification` module and configure it with `PushNotification.configure()`.
 
