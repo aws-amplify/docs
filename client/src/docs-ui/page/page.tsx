@@ -1,4 +1,4 @@
-import {Component, Host, h, Prop, State, Watch} from "@stencil/core";
+import {Component, Host, h, Prop, State, Watch, Listen} from "@stencil/core";
 import {
   sidebarLayoutStyle,
   pageStyle,
@@ -20,6 +20,7 @@ import {internalLinkContext} from "../internal-link/internal-link.context";
 import {SetSelectedFilters} from "./page.types";
 import {pageContext} from "./page.context";
 import {track, AnalyticsEventType} from "../../utils/track";
+import {Breakpoint} from "../../amplify-ui/styles/media";
 
 const cache = new Map<string, Promise<Page>>();
 const getPageCached = (route: string) => {
@@ -40,6 +41,7 @@ export class DocsPage {
 
   @State() data?: Page;
   @State() blendUniversalNav?: boolean;
+  @State() sidebarStickyTop = this.setSidebarStickyTop();
 
   @State() selectedFilters: Record<string, string | undefined> = {};
 
@@ -74,11 +76,21 @@ export class DocsPage {
     }
   }
 
+  @Listen("resize", {target: "window"})
+  setSidebarStickyTop(): number {
+    const sidebarStickyTop = innerWidth > Breakpoint.TAPTOP * 16 ? 3 : 6.25;
+    this.sidebarStickyTop = sidebarStickyTop;
+    console.log(sidebarStickyTop);
+    return sidebarStickyTop;
+  }
+
   async componentWillLoad() {
     track({
       type: AnalyticsEventType.PAGE_VISIT,
       attributes: {url: location.href},
     });
+
+    this.setSidebarStickyTop();
 
     if (this.match) {
       const {path} = this.match;
@@ -141,7 +153,10 @@ export class DocsPage {
                   <amplify-toc-provider>
                     <amplify-sidebar-layout>
                       {this.showMenu() && (
-                        <amplify-sidebar-layout-sidebar slot="sidebar" top={3}>
+                        <amplify-sidebar-layout-sidebar
+                          slot="sidebar"
+                          top={this.sidebarStickyTop}
+                        >
                           <docs-menu page={this.data} />
                         </amplify-sidebar-layout-sidebar>
                       )}

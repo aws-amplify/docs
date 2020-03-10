@@ -1,22 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`docs-secondary-nav Render logic should render 1`] = `
-<docs-secondary-nav class="css-1lq1nae">
+<docs-secondary-nav class="css-p1ocbg">
   <amplify-container>
-    <div class="css-7p1hnv">
+    <div class="css-gj5aw0">
       <div>
         <div>
-          <docs-internal-link childactiveclass="css-1o0ukka" href="/start">
+          <docs-internal-link childactiveclass="css-dmxdka" href="/start">
             <span>
               Getting Started
             </span>
           </docs-internal-link>
-          <docs-internal-link childactiveclass="css-1o0ukka" href="/lib">
+          <docs-internal-link childactiveclass="css-dmxdka" href="/lib">
             <span>
               Libraries
             </span>
           </docs-internal-link>
-          <docs-internal-link childactiveclass="css-1o0ukka" href="/cli">
+          <docs-internal-link childactiveclass="css-dmxdka" href="/cli">
             <span>
               CLI
             </span>
@@ -27,7 +27,9 @@ exports[`docs-secondary-nav Render logic should render 1`] = `
             </span>
           </amplify-external-link>
         </div>
-        <div class="css-1oycgbp">
+      </div>
+      <div class="css-u65s5j">
+        <div>
           <div>
             <input class="three-dee-effect" placeholder="Search" type="search">
             <img alt="search" src="/assets/search.svg">

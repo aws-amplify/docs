@@ -2,21 +2,21 @@
 
 exports[`docs-link-banner Render logic should render 1`] = `
 <docs-link-banner>
-  <amplify-container class="css-1x4ye7t" innerclass="css-1884oay">
+  <amplify-container class="css-1gfnuqu" innerclass="css-1ym5me9">
     <amplify-external-link graphic="black" href="https://github.com/aws-amplify">
-      <img class="css-1w4x7rl" src="/assets/github.svg">
+      <img class="css-14cx9l" src="/assets/github.svg">
       Amplify GitHub
     </amplify-external-link>
     <amplify-external-link graphic="black" href="https://gitter.im/AWS-Amplify/Lobby">
-      <img class="css-1w4x7rl" src="/assets/gitter-dark.svg">
+      <img class="css-14cx9l" src="/assets/gitter-dark.svg">
       Amplify on Gitter
     </amplify-external-link>
     <amplify-external-link graphic="black" href="https://aws.amazon.com/amplify/framework/">
-      <img class="css-1w4x7rl" src="/assets/aws-dark.svg">
+      <img class="css-14cx9l" src="/assets/aws-dark.svg">
       Amplify Resources
     </amplify-external-link>
     <amplify-external-link graphic="black" href="https://amplify.aws/community/">
-      <img class="css-1w4x7rl" src="/assets/logo-dark.svg">
+      <img class="css-14cx9l" src="/assets/logo-dark.svg">
       Amplify Community
     </amplify-external-link>
   </amplify-container>
