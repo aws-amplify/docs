@@ -12,10 +12,6 @@ export const codeBlockStyle = css`
   color: var(--code-font-color);
   margin-top: 1rem;
 
-  &:hover button {
-    display: block;
-  }
-
   .highlight {
     padding: 0 1rem 0 0;
     overflow: auto;
@@ -44,8 +40,8 @@ export const oneLineStyle = css`
 export const copyButtonStyle = css`
   position: sticky;
   height: 1rem;
-  top: 0rem;
-  right: 1.25rem;
+  top: 0;
+  right: 0.25rem;
   opacity: 0.75;
   background-color: transparent;
   appearance: none;
@@ -53,7 +49,6 @@ export const copyButtonStyle = css`
   span {
     position: relative;
     top: -1rem;
-    left: 1rem;
     color: var(--color-white);
     cursor: pointer;
   }

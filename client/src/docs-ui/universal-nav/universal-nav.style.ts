@@ -1,4 +1,5 @@
 import {css} from "emotion";
+import {MQFablet, MQMobile} from "../../amplify-ui/styles/media";
 
 export const universalNavStyle = css`
   display: block;
@@ -15,7 +16,6 @@ export const universalNavContentStyle = css`
   width: 100%;
   transition: 0.25s ease all;
   padding: 0 0rem 0 1.5rem;
-  overflow-x: auto;
 
   span {
     color: var(--color-white);
@@ -42,13 +42,21 @@ export const brandStyle = css`
     align-items: center;
 
     > img {
-      height: 1.25rem;
+      height: 1rem;
       margin-right: 0.125rem;
+
+      ${MQFablet} {
+        height: 1.25rem;
+      }
     }
 
     > span {
       margin-left: 0.25rem;
-      font-size: 1.25rem;
+      font-size: 1rem;
+
+      ${MQFablet} {
+        font-size: 1.25rem;
+      }
     }
   }
 `;
@@ -68,5 +76,21 @@ export const linksStyle = css`
     &:last-child {
       padding-right: 0;
     }
+  }
+`;
+
+export const hideAboutLinkStyle = css`
+  display: none;
+
+  ${MQFablet} {
+    display: initial;
+  }
+`;
+
+export const hideOpenSourceLinkStyle = css`
+  display: none;
+
+  ${MQMobile} {
+    display: initial;
   }
 `;

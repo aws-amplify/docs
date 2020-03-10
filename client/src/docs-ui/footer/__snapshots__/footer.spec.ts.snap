@@ -3,8 +3,8 @@
 exports[`docs-footer Render logic should render 1`] = `
 <docs-footer>
   <amplify-container class="css-y7udmp">
-    <div class="css-ure9e2">
-      <div class="css-ftrmx0">
+    <div class="css-ens8oe">
+      <div class="css-1yxcpri">
         <img src="/assets/logo-light.svg">
         <div>
           <h3>

@@ -75,7 +75,9 @@ export class DocsSecondaryNav {
                   ]),
                 )}
               </div>
-              <div class={searchStyle}>
+            </div>
+            <div class={searchStyle}>
+              <div>
                 <div>
                   <input
                     type="search"

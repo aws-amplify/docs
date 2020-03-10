@@ -4,6 +4,8 @@ import {
   universalNavContentStyle,
   brandStyle,
   linksStyle,
+  hideAboutLinkStyle,
+  hideOpenSourceLinkStyle,
 } from "./universal-nav.style";
 
 @Component({tag: "docs-universal-nav", shadow: false})
@@ -52,6 +54,7 @@ export class DocsUniversalNav {
               <amplify-external-link
                 href="https://github.com/aws-amplify"
                 anchorTitle="Amplify GitHub"
+                class={hideOpenSourceLinkStyle}
               >
                 <span>Open Source</span>
               </amplify-external-link>
@@ -60,7 +63,9 @@ export class DocsUniversalNav {
                 anchorTitle="Amplify AWS Homepage"
                 graphic={this.blend ? "black" : "white"}
               >
-                <span>About Amplify</span>
+                <span>
+                  About<span class={hideAboutLinkStyle}>{` Amplify`}</span>
+                </span>
               </amplify-external-link>
             </div>
           </div>

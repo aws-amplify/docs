@@ -3,8 +3,8 @@
 exports[`docs-universal-nav Render logic should render 1`] = `
 <docs-universal-nav class="css-1c42ddj">
   <amplify-container class="background-color-orange-hv">
-    <div class="css-5pgrup">
-      <stencil-route-link anchortitle="Amplify Docs" class="css-zuqcbb" url="/">
+    <div class="css-euo4me">
+      <stencil-route-link anchortitle="Amplify Docs" class="css-1h3u7ac" url="/">
         <img>
         <span></span>
       </stencil-route-link>
@@ -14,14 +14,17 @@ exports[`docs-universal-nav Render logic should render 1`] = `
             Community
           </span>
         </amplify-external-link>
-        <amplify-external-link anchortitle="Amplify GitHub" href="https://github.com/aws-amplify">
+        <amplify-external-link anchortitle="Amplify GitHub" class="css-1s6v51f" href="https://github.com/aws-amplify">
           <span>
             Open Source
           </span>
         </amplify-external-link>
         <amplify-external-link anchortitle="Amplify AWS Homepage" graphic="white" href="https://aws.amazon.com/amplify/">
           <span>
-            About Amplify
+            About
+            <span class="css-ecbrz7">
+              Amplify
+            </span>
           </span>
         </amplify-external-link>
       </div>
