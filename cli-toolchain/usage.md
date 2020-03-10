@@ -332,7 +332,7 @@ amplify pull \
 ```
 
 ## Upgrading the CLI
-The Amplify CLI team continuously pushes new features, enhancements and security improvements and it is recommended to update your Amplify CLI you or your team is using to the latest version. You can keep track of the latest releases of the Amplify CLI on npm - https://www.npmjs.com/package/@aws-amplify/cli
+The Amplify CLI team continuously pushes new features, enhancements and security improvements and it is recommended to update the Amplify CLI version which you or your team is using to the latest version. You can keep track of the latest releases of the Amplify CLI on npm - https://www.npmjs.com/package/@aws-amplify/cli
 Follow the steps below to update to the latest version of the CLI:
 
 1. Enter the following command in your terminal: <npm install -g @aws-amplify/cli>.
