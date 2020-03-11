@@ -102,6 +102,11 @@ export const searchStyle = css`
       align-items: center;
       position: relative;
 
+      .algolia-autocomplete {
+        display: block;
+        width: 100%;
+      }
+
       input {
         position: relative;
         display: flex;
@@ -111,8 +116,8 @@ export const searchStyle = css`
         border-radius: 0.25rem !important;
         padding: 0 1.75rem 0 0.75rem;
         min-width: 15rem;
-        appearance: none;
         -webkit-appearance: none;
+        appearance: none;
       }
 
       img {
