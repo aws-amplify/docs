@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 ```
 
-Next, in your application code where you wish to use the AppSync client (like your View Controller) reference this in the `viewDidLoad()` lifecycle method:
+Next, in your application code where you wish to use the AppSync client (like your View Controller) reference this in the `viewDidLoad()` lifecycle method or in the instantiation of your view when using SwiftUI views:
 
 ```swift
 import AWSAppSync
@@ -55,6 +55,22 @@ class Todos: UIViewController{
       let appDelegate = UIApplication.shared.delegate as! AppDelegate
       appSyncClient = appDelegate.appSyncClient
   }
+}
+```
+
+or SwiftUI View
+```swift
+import AWSAppSync
+struct TodoView: View {
+    // Reference AppSync client
+    var appSyncClient: AWSAppSyncClient?
+    init() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appSyncClient = appDelegate.appSyncClient
+    }
+    var body: some View {
+        Text("Todos")
+    }
 }
 ```
 
