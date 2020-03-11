@@ -82,6 +82,7 @@ export const hostStyle = css`
   }
 `;
 
+// we use !important to override webkit's imposed border-radius
 export const searchStyle = css`
   width: 100%;
 
@@ -107,7 +108,7 @@ export const searchStyle = css`
         flex: 1;
         width: 100%;
         height: 2rem;
-        border-radius: 0.25rem;
+        border-radius: 0.25rem !important;
         padding: 0 1.75rem 0 0.75rem;
         min-width: 15rem;
       }
