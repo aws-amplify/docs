@@ -1,8 +1,8 @@
 <br />
 
 **Note**
-Amplify iOS is in preview mode and not intended for production usage at this time. We welcome feedback to improve your experience in using Amplify iOS.
-[Click here](../sdk/ios/api) to access the API category iOS SDK 2.0 docs.
+This guide shows how to build an app using our Amplify Libraries for iOS (Preview) and the Amplify CLI toolchain.
+To use the existing AWS Mobile SDK for iOS instead, [click here.](../sdk/ios/api)
 {: .callout .callout--warning}
 
 # API
@@ -312,7 +312,7 @@ public struct Post: Model {
 
 ### Authorization Modes
 
-For client authorization AppSync supports API Keys, Amazon IAM credentials, Amazon Cognito User Pools, and 3rd party OIDC providers. This is inferred from the `amplifyconfiguration.json` file when you call `Amplify.congifure()`.
+For client authorization AppSync supports API Keys, Amazon IAM credentials, Amazon Cognito User Pools, and 3rd party OIDC providers. This is inferred from the `amplifyconfiguration.json` file when you call `Amplify.configure()`.
 
 #### API Key
 

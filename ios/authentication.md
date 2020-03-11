@@ -8,6 +8,14 @@ title: Authentication
 {% assign image_base = base_dir | append: page.dir | append: "images" %}
 {% assign common_media = base_dir | append: "/images" %}
 
+<br />
+
+**Note**
+This guide shows how to add Auth using the existing AWS Mobile SDK for iOS and the Amplify CLI toolchain.
+Currently, this is our supported way of using Auth with Amplify Libraries for iOS (preview).
+{: .callout .callout--warning}
+
+
 # Authentication
 
 The `AWSMobileClient` provides client APIs and building blocks for developers who want to create user authentication experiences. This includes declarative methods for performing authentication actions, a simple "drop-in auth" UI for performing common tasks, automatic token and credentials management, and state tracking with notifications for performing workflows in your application when users have authenticated.
@@ -104,9 +112,9 @@ After initialization in your project directory with `amplify init`, edit your `P
 ```ruby
 target 'MyApp' do             ##Replace MyApp with your application name
   use_frameworks!
-  pod 'AWSMobileClient', '~> 2.12.1'      # Required dependency
-  pod 'AWSAuthUI', '~> 2.12.1'            # Optional dependency required to use drop-in UI
-  pod 'AWSUserPoolsSignIn', '~> 2.12.1'   # Optional dependency required to use drop-in UI
+  pod 'AWSMobileClient', '~> 2.13.0'      # Required dependency
+  pod 'AWSAuthUI', '~> 2.13.0'            # Optional dependency required to use drop-in UI
+  pod 'AWSUserPoolsSignIn', '~> 2.13.0'   # Optional dependency required to use drop-in UI
 end
 ```
 
@@ -762,12 +770,12 @@ AWSMobileClient.default().federatedSignIn(providerName: IdentityProvider.develop
 	  target 'YOUR-APP-NAME' do
 	    use_frameworks!
 
-	    pod 'AWSFacebookSignIn', '~> 2.12.1'     # Add this new dependency
-	    pod 'AWSAuthUI', '~> 2.12.1'             # Add this dependency if you have not already added
+	    pod 'AWSFacebookSignIn', '~> 2.13.0'     # Add this new dependency
+	    pod 'AWSAuthUI', '~> 2.13.0'             # Add this dependency if you have not already added
 	    
 	    # Other Pod entries
-	    pod 'AWSMobileClient', '~> 2.12.1'
-	    pod 'AWSUserPoolsSignIn', '~> 2.12.1'
+	    pod 'AWSMobileClient', '~> 2.13.0'
+	    pod 'AWSUserPoolsSignIn', '~> 2.13.0'
 	    
 	  end
 	```
@@ -832,13 +840,13 @@ Now, your drop-in UI will show a Facebook sign in button which the users can use
 	platform :ios, '9.0'
 	target :'YOUR-APP-NAME' do
 	  use_frameworks!
-	  pod 'AWSGoogleSignIn', '~> 2.12.1'     # Add this new dependency
+	  pod 'AWSGoogleSignIn', '~> 2.13.0'     # Add this new dependency
 	  pod 'GoogleSignIn', '~> 4.0'          # Add this new dependency
-	  pod 'AWSAuthUI', '~> 2.12.1'           # Add this dependency if you have not already added
+	  pod 'AWSAuthUI', '~> 2.13.0'           # Add this dependency if you have not already added
 	    
 	  # Other Pod entries
-	  pod 'AWSMobileClient', '~> 2.12.1'
-	  pod 'AWSUserPoolsSignIn', '~> 2.12.1'
+	  pod 'AWSMobileClient', '~> 2.13.0'
+	  pod 'AWSUserPoolsSignIn', '~> 2.13.0'
 	  
 	end
 	```

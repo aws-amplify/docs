@@ -1,8 +1,8 @@
 <br />
 
 **Note**
-Amplify Android is in preview mode and not intended for production usage at this time. We welcome feedback to improve your experience in using Amplify Android.
-[Click here](../sdk/android/analytics) to access the Analytics category guide for Android SDK 2.0 docs.
+This guide shows how to build an app using our Amplify Libraries for Android (Preview) and the Amplify CLI toolchain.
+To use the existing AWS Mobile SDK for Android instead, [click here.](../sdk/android/analytics)
 {: .callout .callout--warning}
 
 # Analytics
@@ -74,8 +74,8 @@ buildscript {
 Next add the following dependencies to your app `build.gradle`:
 
 ```gradle
-implementation 'com.amplifyframework:core:0.9.0'
-implementation 'com.amplifyframework:aws-analytics-pinpoint:0.9.0'
+implementation 'com.amplifyframework:core:0.9.1'
+implementation 'com.amplifyframework:aws-analytics-pinpoint:0.9.1'
 ```
 
 Sync the project with Maven and then ensure it built successfully.

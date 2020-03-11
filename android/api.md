@@ -1,10 +1,9 @@
 <br />
 
 **Note**
-Amplify Android is in preview mode and not intended for production usage at this time. We welcome feedback to improve your experience in using Amplify Android.
-[Click here](../sdk/android/api) to access the API category Android SDK 2.0 docs.
+This guide shows how to build an app using our Amplify Libraries for Android (Preview) and the Amplify CLI toolchain.
+To use the existing AWS Mobile SDK for Android instead, [click here.](../sdk/android/start)
 {: .callout .callout--warning}
-
 # API
 
 The API category provides a solution for making HTTP requests to REST and GraphQL endpoints.
@@ -134,8 +133,8 @@ android {
 }
 
 dependencies {
-  implementation 'com.amplifyframework:core:0.9.0'
-  implementation 'com.amplifyframework:aws-api:0.9.0'
+  implementation 'com.amplifyframework:core:0.9.1'
+  implementation 'com.amplifyframework:aws-api:0.9.1'
 }
 ```
 
@@ -154,7 +153,7 @@ If you would like your models to easily update both locally and on the server wh
 buildscript {
   dependencies {
       classpath 'com.android.tools.build:gradle:3.5.0'
-      classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.0'
+      classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'
   }
 }
 
