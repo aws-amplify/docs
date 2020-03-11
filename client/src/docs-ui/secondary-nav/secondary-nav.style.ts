@@ -1,5 +1,5 @@
 import {css} from "emotion";
-import {MQTaptop, MQTablet} from "../../amplify-ui/styles/media";
+import {MQTaptop} from "../../amplify-ui/styles/media";
 
 export const secondaryNavStyle = css`
   display: flex;
