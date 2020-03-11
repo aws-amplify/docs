@@ -80,9 +80,22 @@ export class DocsPage {
   setSidebarStickyTop(): number {
     const sidebarStickyTop = innerWidth > Breakpoint.TAPTOP * 16 ? 3 : 6.25;
     this.sidebarStickyTop = sidebarStickyTop;
-    console.log(sidebarStickyTop);
     return sidebarStickyTop;
   }
+
+  ensureMenuScrolledIntoViewOnMobileMenuOpen = () => {
+    const footer = document.querySelector("docs-footer");
+    const documentHeight = document.body.getBoundingClientRect().height;
+    if (footer && innerWidth <= Breakpoint.TABLET * 16) {
+      const footerHeight = footer.getBoundingClientRect().height;
+      if (scrollY > documentHeight - innerHeight - footerHeight) {
+        if (scrollY > documentHeight - innerHeight - footerHeight) {
+          const targetOffsetTop = documentHeight - (footerHeight + innerHeight);
+          scrollTo({top: targetOffsetTop});
+        }
+      }
+    }
+  };
 
   async componentWillLoad() {
     track({
@@ -188,6 +201,9 @@ export class DocsPage {
                               ]}
                             </amplify-toc-contents>
                             <amplify-sidebar-layout-toggle
+                              onClick={
+                                this.ensureMenuScrolledIntoViewOnMobileMenuOpen
+                              }
                               in-view-class="in-view"
                               class={{
                                 "three-dee-effect": true,
