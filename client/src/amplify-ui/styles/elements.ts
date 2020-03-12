@@ -246,4 +246,10 @@ export const elementsStyle = css`
       border-radius: 0.25rem;
     }
   }
+
+  iframe {
+    width: 100% !important;
+    height: 61.81vh !important;
+    max-height: 37.5rem !important;
+  }
 `;

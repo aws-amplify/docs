@@ -1,4 +1,4 @@
-import {Component, Host, h, Prop} from "@stencil/core";
+import {Component, Host, h, Prop, Build} from "@stencil/core";
 import {
   secondaryNavStyle,
   hostStyle,
@@ -13,6 +13,18 @@ import {SelectedFilters} from "../page/page.types";
 export class DocsSecondaryNav {
   /*** the current filter state */
   @Prop() readonly selectedFilters: SelectedFilters;
+
+  componentDidRender() {
+    if (Build.isBrowser) {
+      // @ts-ignore
+      docsearch({
+        apiKey: "25626fae796133dc1e734c6bcaaeac3c",
+        indexName: "docsearch",
+        inputSelector: "#amplify-docs-search-input",
+        debug: false,
+      });
+    }
+  }
 
   render() {
     return (
@@ -80,6 +92,7 @@ export class DocsSecondaryNav {
               <div>
                 <div>
                   <input
+                    id="amplify-docs-search-input"
                     type="search"
                     placeholder="Search"
                     class="three-dee-effect"

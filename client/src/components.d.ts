@@ -126,7 +126,6 @@ export namespace Components {
     */
     'top'?: number;
   }
-  interface AmplifySidebarLayoutStory {}
   interface AmplifySidebarLayoutToggle {
     /**
     * * whether or not the sidebar is in view, provided by `sidebar-layout`
@@ -456,12 +455,6 @@ declare global {
     new (): HTMLAmplifySidebarLayoutSidebarElement;
   };
 
-  interface HTMLAmplifySidebarLayoutStoryElement extends Components.AmplifySidebarLayoutStory, HTMLStencilElement {}
-  var HTMLAmplifySidebarLayoutStoryElement: {
-    prototype: HTMLAmplifySidebarLayoutStoryElement;
-    new (): HTMLAmplifySidebarLayoutStoryElement;
-  };
-
   interface HTMLAmplifySidebarLayoutToggleElement extends Components.AmplifySidebarLayoutToggle, HTMLStencilElement {}
   var HTMLAmplifySidebarLayoutToggleElement: {
     prototype: HTMLAmplifySidebarLayoutToggleElement;
@@ -645,7 +638,6 @@ declare global {
     'amplify-sidebar-layout': HTMLAmplifySidebarLayoutElement;
     'amplify-sidebar-layout-main': HTMLAmplifySidebarLayoutMainElement;
     'amplify-sidebar-layout-sidebar': HTMLAmplifySidebarLayoutSidebarElement;
-    'amplify-sidebar-layout-story': HTMLAmplifySidebarLayoutStoryElement;
     'amplify-sidebar-layout-toggle': HTMLAmplifySidebarLayoutToggleElement;
     'amplify-toc': HTMLAmplifyTocElement;
     'amplify-toc-contents': HTMLAmplifyTocContentsElement;
@@ -773,7 +765,6 @@ declare namespace LocalJSX {
     */
     'top'?: number;
   }
-  interface AmplifySidebarLayoutStory {}
   interface AmplifySidebarLayoutToggle {
     /**
     * * whether or not the sidebar is in view, provided by `sidebar-layout`
@@ -1025,7 +1016,6 @@ declare namespace LocalJSX {
     'amplify-sidebar-layout': AmplifySidebarLayout;
     'amplify-sidebar-layout-main': AmplifySidebarLayoutMain;
     'amplify-sidebar-layout-sidebar': AmplifySidebarLayoutSidebar;
-    'amplify-sidebar-layout-story': AmplifySidebarLayoutStory;
     'amplify-sidebar-layout-toggle': AmplifySidebarLayoutToggle;
     'amplify-toc': AmplifyToc;
     'amplify-toc-contents': AmplifyTocContents;
@@ -1078,7 +1068,6 @@ declare module "@stencil/core" {
       'amplify-sidebar-layout': LocalJSX.AmplifySidebarLayout & JSXBase.HTMLAttributes<HTMLAmplifySidebarLayoutElement>;
       'amplify-sidebar-layout-main': LocalJSX.AmplifySidebarLayoutMain & JSXBase.HTMLAttributes<HTMLAmplifySidebarLayoutMainElement>;
       'amplify-sidebar-layout-sidebar': LocalJSX.AmplifySidebarLayoutSidebar & JSXBase.HTMLAttributes<HTMLAmplifySidebarLayoutSidebarElement>;
-      'amplify-sidebar-layout-story': LocalJSX.AmplifySidebarLayoutStory & JSXBase.HTMLAttributes<HTMLAmplifySidebarLayoutStoryElement>;
       'amplify-sidebar-layout-toggle': LocalJSX.AmplifySidebarLayoutToggle & JSXBase.HTMLAttributes<HTMLAmplifySidebarLayoutToggleElement>;
       'amplify-toc': LocalJSX.AmplifyToc & JSXBase.HTMLAttributes<HTMLAmplifyTocElement>;
       'amplify-toc-contents': LocalJSX.AmplifyTocContents & JSXBase.HTMLAttributes<HTMLAmplifyTocContentsElement>;
