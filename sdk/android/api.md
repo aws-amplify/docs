@@ -1,10 +1,18 @@
 ---
 title: API
 ---
+
 {% if jekyll.environment == 'production' %}
   {% assign base_dir = site.amplify.docs_baseurl %}
 {% endif %}
 {% assign media_base = base_dir | append: page.dir | append: "media" %}
+
+<br />
+
+**Note**
+This guide shows how to build an app using AWS Mobile SDK for Android and the Amplify CLI toolchain.
+To use our new, preview developer experience with new Amplify Libraries for Android, [click here.](../../android/api)
+{: .callout .callout--warning}
 
 # API
 

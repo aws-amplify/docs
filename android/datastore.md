@@ -10,7 +10,7 @@ title: DataStore
 <br />
 
 **Note**
-Amplify Android is in preview mode and is not intended for production usage at this time. We welcome feedback to improve your experience in using Amplify Android.
+This guide shows how to build an app using our Amplify Libraries for Android (Preview) and the Amplify CLI toolchain.
 {: .callout .callout--warning}
 
 # DataStore
