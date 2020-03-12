@@ -28,10 +28,10 @@ exports[`docs-secondary-nav Render logic should render 1`] = `
           </amplify-external-link>
         </div>
       </div>
-      <div class="css-u65s5j">
+      <div class="css-gw5aib">
         <div>
           <div>
-            <input class="three-dee-effect" placeholder="Search" type="search">
+            <input class="three-dee-effect" id="amplify-docs-search-input" placeholder="Search" type="search">
             <img alt="search" src="/assets/search.svg">
           </div>
         </div>

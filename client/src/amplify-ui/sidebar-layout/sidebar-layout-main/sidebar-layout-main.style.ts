@@ -19,10 +19,11 @@ export const sidebarLayoutMainStyle = css`
 
   > div {
     min-width: 100vw;
-    padding: 0 3rem;
+    padding: 0 1rem;
 
     ${MQFablet} {
       min-width: initial;
+      padding: 0 3rem;
     }
   }
 `;
