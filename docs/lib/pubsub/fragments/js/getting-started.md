@@ -74,7 +74,6 @@ Amplify.addPluggable(new MqttOverWSProvider({
 ```
 
 You can integrate any MQTT Over WebSocket provider with your app. Click [here](https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html#mqtt-ws) to learn more about MQTT Over WebSocket.
-{: .callout .callout--info}
 
 ## Using Modular Imports
 

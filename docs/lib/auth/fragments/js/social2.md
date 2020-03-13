@@ -36,8 +36,9 @@ Auth.federatedSignIn(
 });
 ```
 
+<amplify-callout>
 Note that this isn't from a Cognito User Pool so the user you get after calling this method is not a *Cognito User*.
-{: .callout .callout--info}
+</amplify-callout>
 
 ### Facebook sign-in (React)
 

@@ -13,5 +13,6 @@ You can also publish a message to multiple topics:
 await PubSub.publish(['myTopic1','myTopic2'], { msg: 'Hello to all subscribers!' });
 ```
 
+<amplify-callout>
 Note: If you do not include a specific provider it will publish a message to all of the configured PubSub providers in your app.
-{: .callout .callout--info}
+</amplify-callout>

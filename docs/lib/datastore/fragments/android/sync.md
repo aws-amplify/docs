@@ -8,8 +8,9 @@ DataStore can connect to an existing AppSync backend that has been deployed from
 
 If you have installed the Gradle tools for Amplify, select the Gradle dropdown in the toolbar and click **amplifyPush** then run the task.
 
+<amplify-callout>
 If you do not already have a local AWS profile with credentials (automatically setup with the Amplify CLI) you will be prompted to do this on the first push.
-{: .callout .callout--info}
+</amplify-callout>
 
 ## Use Amplify CLI
 ```

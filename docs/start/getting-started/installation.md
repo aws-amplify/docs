@@ -1,16 +1,19 @@
 ---
-title: Install the Amplify CLI
+title: Prerequisites
 description: Introduction
 filterKey: integration
 ---
-
-## System requirements
 
 Before we begin, make sure you have the following installed:
 
 - [Node.js](https://nodejs.org/) v8.x or later
 - [npm](https://www.npmjs.com/) v5.x or later
 - [git](https://git-scm.com/) v2.14.1 or later
+
+<inline-fragment integration="ios" src="~/start/getting-started/fragments/ios/prereq.md"></inline-fragment>
+<inline-fragment integration="android" src="~/start/getting-started/fragments/android/prereq.md"></inline-fragment>
+<inline-fragment integration="react" src="~/start/getting-started/fragments/react/prereq.md"></inline-fragment>
+<inline-fragment integration="react-native" src="~/start/getting-started/fragments/reactnative/prereq.md"></inline-fragment>
 
 ## Sign up for an AWS account
 
@@ -20,7 +23,7 @@ If you don't already have an AWS account, you'll need to create one in order to 
 
 > There are no upfront charges or any term commitments to create an AWS account and signing up gives you immediate access to the AWS Free Tier.
 
-## Install and setup the Amplify CLI
+## Install the Amplify CLI
 
 The Amplify Command Line Interface (CLI) is a unified toolchain to create AWS cloud services for your app.
 

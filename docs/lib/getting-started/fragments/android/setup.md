@@ -1,8 +1,3 @@
-
-Amplify Android is in preview mode and not intended for production usage at this time. We welcome feedback to improve your experience in using Amplify Android.
-[Click here](../sdk/android/start) to access the Getting Started guide for Android SDK 2.0 docs.
-{: .callout .callout--warning}
-
 # Getting Started
 
 Build an Android app using the Amplify Framework which contains:
@@ -75,6 +70,7 @@ c. Run 'Make Project'
 
 When the build is successful, it will add two gradle tasks to you project - `modelgen` and `amplifyPush` (these can be found in the dropdown menu which currently would display app if it's a new project, up where you would run your project)
 
+<amplify-callout warning>
 **Note**
 If you get the following error message: "ERROR: Process 'command 'npx'' finished with non-zero exit value 1”, this may be due to the logged in user on your machine having insufficient permissions to access the node_modules folder on your machine. Follow the steps [at this link](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally) to resolve it.
-{: .callout .callout--warning}
+</amplify-callout>
