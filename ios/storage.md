@@ -1,8 +1,8 @@
 <br />
 
 **Note**
-Amplify iOS is in preview mode and not intended for production usage at this time. We welcome feedback to improve your experience in using Amplify iOS.
-[Click here](../sdk/ios/storage) to access the Storage category guide for iOS SDK 2.0 docs.
+This guide shows how to build an app using our Amplify Libraries for iOS (Preview) and the Amplify CLI toolchain.
+To use the existing AWS Mobile SDK for iOS instead, [click here.](../sdk/ios/storage)
 {: .callout .callout--warning}
 
 # Storage
@@ -73,7 +73,7 @@ If this is a new project, run `pod init` from the root of your application folde
 target :'YOUR-APP-NAME' do
 use_frameworks!
     pod 'AmplifyPlugins/AWSS3StoragePlugin'
-    pod 'AWSMobileClient', '~> 2.12.0'
+    pod 'AWSMobileClient', '~> 2.13.0'
 end
 ```
 
@@ -101,37 +101,43 @@ open <YOURAPP>.xcworkspace
 Initialize `AWSMobileClient`, `Amplify`, and `AWSS3StoragePlugin`.
 
 Add the following imports to the top of your `AppDelegate.swift` file
-    ```swift
-    import Amplify
-    import AWSMobileClient
-    import AmplifyPlugins
-    ```
+
+```swift
+import Amplify
+import AWSMobileClient
+import AmplifyPlugins
+```
+    
 Add the following code to your AppDelegate's `application:didFinishLaunchingWithOptions` method
 
-    ```swift
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+```swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    // Override point for customization after application launch.
 
-        AWSMobileClient.default().initialize { (userState, error) in
-            guard error == nil else {
-                print("Error initializing AWSMobileClient. Error: \(error!.localizedDescription)")
-                return
-            }
-            print("AWSMobileClient initialized, userstate: \(userState)")
+    AWSMobileClient.default().initialize { (userState, error) in
+        guard error == nil else {
+            print("Error initializing AWSMobileClient. Error: \(error!.localizedDescription)")
+            return
         }
-
-        let storagePlugin = AWSS3StoragePlugin()
-        do {
-            try Amplify.add(plugin: storagePlugin)
-            try Amplify.configure()
-            print("Amplify configured with storage plugin")
-        } catch {
-            print("Failed to initialize Amplify with \(error)")
-        }
-
-        return true
+        print("AWSMobileClient initialized, userstate: \(userState)")
+        
+        configureAmplifyWithStorage()
+        
     }
-    ```
+    return true
+}
+
+func configureAmplifyWithStorage() {
+    let storagePlugin = AWSS3StoragePlugin()
+    do {
+        try Amplify.add(plugin: storagePlugin)
+        try Amplify.configure()
+        print("Amplify configured with storage plugin")
+    } catch {
+        print("Failed to initialize Amplify with \(error)")
+    }
+}
+```
 
 ## Use cases
 
@@ -245,8 +251,6 @@ func getURL() {
           print("Completed: \(data)")
       case .failed(let storageError):
           print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
-      case .inProcess(let progress):
-          print("Progress: \(progress)")
       default:
           break
       }
@@ -268,8 +272,6 @@ func list() {
           }
       case .failed(let storageError):
           print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
-      case .inProcess(let progress):
-          print("Progress: \(progress)")
       default:
           break
       }
@@ -288,8 +290,6 @@ func remove() {
           print("Completed: Deleted \(data)")
       case .failed(let storageError):
           print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
-      case .inProcess(let progress):
-          print("Progress: \(progress)")
       default:
           break
       }

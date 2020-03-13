@@ -6,6 +6,14 @@ title: Storage
 {% endif %}
 {% assign images_base = base_dir | append: page.dir | append: "images" %}
 {% assign common_media = base_dir | append: "/images" %}
+
+<br />
+
+**Note**
+This guide shows how to build an app using AWS Mobile SDK for Android and the Amplify CLI toolchain.
+To use our new, preview developer experience with new Amplify Libraries for Android, [click here.](../../android/storage)
+{: .callout .callout--warning}
+
 # Storage
 
 ## S3
@@ -90,10 +98,18 @@ Use the following steps to connect add file storage backend services to your app
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<service android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService" android:enabled="true" />
 	```
+	
+3. **For Android Q (API 29)**: API 29 enforces scoped storage access for Android apps. To gain access to legacy external storage, enable the following application property inside `AndroidManifest.xml`:
+	
+	```xml
+	<application>
+	    android:requestLegacyExternalStorage="true"
+	</application>
+	```
 
 ### Mocking and Local Testing
 
-Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](../cli-toolchain/usage#mocking-and-testing) for more details.
+Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](../../cli-toolchain/usage#mocking-and-testing) for more details.
 
 ## Using TransferUtility 
 
