@@ -879,7 +879,7 @@ Update the `src/polyfills.ts` and add to the top of the file `(window as any).gl
 ```javascript
 import { Component } from '@angular/core';
 import Predictions from '@aws-amplify/predictions';
-import { TextToSpeechOutput } from '@aws-amplify/predictions/lib/types';
+import { TextToSpeechOutput } from '@aws-amplify/predictions';
 
 @Component({
   selector: 'app-home',
@@ -1386,4 +1386,3 @@ Analyze text to find key phrases, sentiment (positive, negative, neutral), or th
     }).then(result => console.log(JSON.stringify(result, null, 2)))
       .catch(err => console.log(JSON.stringify(err, null, 2)))
 ```
-

@@ -19,7 +19,7 @@ To use in your app, import `AWSIoTProvider`:
 
 ```javascript
 import Amplify, { PubSub } from 'aws-amplify';
-import { AWSIoTProvider } from '@aws-amplify/pubsub/lib/Providers';
+import { AWSIoTProvider } from '@aws-amplify/pubsub';
 ```
 
 Define your endpoint and region in your configuration:
@@ -75,7 +75,7 @@ Import PubSub module and related service provider plugin to your app:
 
 ```javascript
 import { PubSub } from 'aws-amplify';
-import { MqttOverWSProvider } from "@aws-amplify/pubsub/lib/Providers";
+import { MqttOverWSProvider } from "@aws-amplify/pubsub";
 ```
 
 To configure your service provider with a service endpoint, add following code:
