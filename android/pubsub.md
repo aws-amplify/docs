@@ -148,37 +148,37 @@ Please follow the steps outlined in [Setting up Custom Authentication](https://a
 Once the custom authorizer workflow is configured, you can establish a connection as follows:
 
 ```java
-        try {
-            String tokenKeyName = <TOKEN_KEY_NAME>;
-            String token = <TOKEN>;
-            String tokenSignature = <TOKEN_SIGNATURE>;
-            String customAuthorizerName = <AUTHORIZER_NAME>;
-            mqttManager.connect(
-	            tokenKeyName,
-                    token,
-		    tokenSignature,
-		    customAuthorizerName,
-                    new AWSIotMqttClientStatusCallback() {
+try {
+    String tokenKeyName = <TOKEN_KEY_NAME>;
+    String token = <TOKEN>;
+    String tokenSignature = <TOKEN_SIGNATURE>;
+    String customAuthorizerName = <AUTHORIZER_NAME>;
+    mqttManager.connect(
+            tokenKeyName,
+            token,
+            tokenSignature,
+            customAuthorizerName,
+            new AWSIotMqttClientStatusCallback() {
+                @Override
+                public void onStatusChanged(final AWSIotMqttClientStatus status,
+					    final Throwable throwable) {
+                    Log.d(LOG_TAG, "Status = " + String.valueOf(status));
+                    runOnUiThread(new Runnable() {
                         @Override
-                        public void onStatusChanged(final AWSIotMqttClientStatus status,
-                                                    final Throwable throwable) {
-                            Log.d(LOG_TAG, "Status = " + String.valueOf(status));
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (throwable != null) {
-                                        Log.e(LOG_TAG, "Connection error.", throwable);
-                                    }
-                                }
-                            });
+                        public void run() {
+                            if (throwable != null) {
+                                Log.e(LOG_TAG, "Connection error.", throwable);
+                            }
                         }
                     });
-        } catch (final Exception e) {
-            Log.e(LOG_TAG, "Connection error.", e);
-        }
+                }
+            });
+} catch (final Exception e) {
+    Log.e(LOG_TAG, "Connection error.", e);
+}
 ```
 
-This feature is available in the AWS SDK for iOS starting from `2.16.48` version. See [AWSIoT - 2.16.8](https://github.com/aws/aws-sdk-android/releases/tag/release_v2.16.8) for more details.
+This feature is available in the AWS SDK for Android starting from `2.16.8` version. See [AWSIoT - 2.16.8](https://github.com/aws/aws-sdk-android/releases/tag/release_v2.16.8) for more details.
 
 ### Subscribe to a topic
 
