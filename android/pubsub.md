@@ -139,6 +139,47 @@ try {
 }
 ```
 
+#### Custom Authentication
+
+AWS IoT allows you to define custom authorizers that allow you to manage your own authentication and authorization strategy using a custom authentication service and a Lambda function. Custom authorizers allow AWS IoT to authenticate your devices and authorize operations using bearer token authentication and authorization strategies. See [AWS IoT Custom Authentication](https://docs.aws.amazon.com/iot/latest/developerguide/custom-authentication.html) for more details.
+
+Please follow the steps outlined in [Setting up Custom Authentication](https://aws.amazon.com/blogs/security/how-to-use-your-own-identity-and-access-management-systems-to-control-access-to-aws-iot-resources/) to create the custom authorizer and configure the workflow with AWS IoT.
+
+Once the custom authorizer workflow is configured, you can establish a connection as follows:
+
+```java
+try {
+    String tokenKeyName = <TOKEN_KEY_NAME>;
+    String token = <TOKEN>;
+    String tokenSignature = <TOKEN_SIGNATURE>;
+    String customAuthorizerName = <AUTHORIZER_NAME>;
+    mqttManager.connect(
+            tokenKeyName,
+            token,
+            tokenSignature,
+            customAuthorizerName,
+            new AWSIotMqttClientStatusCallback() {
+                @Override
+                public void onStatusChanged(final AWSIotMqttClientStatus status,
+					    final Throwable throwable) {
+                    Log.d(LOG_TAG, "Status = " + String.valueOf(status));
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (throwable != null) {
+                                Log.e(LOG_TAG, "Connection error.", throwable);
+                            }
+                        }
+                    });
+                }
+            });
+} catch (final Exception e) {
+    Log.e(LOG_TAG, "Connection error.", e);
+}
+```
+
+This feature is available in the AWS SDK for Android starting from version `2.16.8`. See [AWSIoT - 2.16.8](https://github.com/aws/aws-sdk-android/releases/tag/release_v2.16.8) for more details.
+
 ### Subscribe to a topic
 
 In order to start receiving messages from your provider, you need to subscribe to a topic as follows;
