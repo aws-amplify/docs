@@ -5,6 +5,9 @@
 
 The `aws-amplify-angular` package is a set of Angular components and an Angular provider which helps integrate your application with the AWS-Amplify library.  It supports Angular 5.0 or above.  It also includes a [supplemental module](#ionic-4-components) for Ionic-specific components.
 
+Currently, Angular 9 is not supported as this is a newer version of Angular that has come out recently. We are tracking this internally in order to investigate adding support.
+{: .callout .callout--info}
+
 ## Installation
 
 Install `aws-amplify` and `aws-amplify-angular` npm packages into your Angular app.
@@ -13,7 +16,7 @@ Install `aws-amplify` and `aws-amplify-angular` npm packages into your Angular a
 $ npm install aws-amplify aws-amplify-angular 
 ```
 
-### Angular 6+ Support
+### Angular 6-8 Support
 
 Currently, the newest versions of Angular (6+) do not include shims for 'global' or 'process' which were provided in previous versions. Add the following to your `polyfills.ts` file to recreate them: 
 
@@ -390,7 +393,9 @@ export class AppComponent {
     ]
   }
 ```
-=======
+
+---
+
 #### Replacing Authentication Components With Custom Components
 The child components displayed within the Authenticator can be hidden or replaced with custom components.
 

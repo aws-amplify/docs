@@ -20,13 +20,23 @@ Modeling your data and *generating models* which are used by DataStore is the fi
 
 ## Using NPX
 
-The fastest way to get started is using the `amplify-app` npx script such as with [Create React app](https://create-react-app.dev):
+The fastest way to get started is using the `amplify-app` npx script. 
+### For Web:   
+Such as with [Create React app](https://create-react-app.dev):
 
 ```sh
 npx create-react-app amplify-datastore --use-npm
 cd amplify-datastore
 npx amplify-app@latest
+```  
+### For React Native:  
+Such as with the [React Native CLI](https://reactnative.dev/docs/getting-started):
+```sh
+npx react-native init AmplifyDatastoreRN
+cd AmplifyDatastoreRN
+npx amplify-app@latest
 ```
+
 
 Once this completes open the GraphQL schema in the `amplify/backend/api/<datasourcename>/schema.graphql`. You can use the sample or the one below that will be used in this documentation:
 
@@ -69,12 +79,33 @@ When a schema changes and Model generation re-runs, it will evaluate the changes
 
 ## Setup
 
-Install dependencies:
+### Install dependencies:
 
 ```sh
 npm i @aws-amplify/core @aws-amplify/datastore
 ```
+### React Native specific steps:
+For this step, there are different instructions for Expo apps vs React Native CLI based apps. Follow the steps that are relevant for your setup:
 
+#### For Expo Managed Apps: 
+Install NetInfo with expo
+```sh
+expo install @react-native-community/netinfo
+```  
+That is all for Expo managed apps. Move directly to the [next step](https://aws-amplify.github.io/docs/js/datastore#import-generated-models)
+
+#### For Apps created with React Native CLI: 
+Install NetInfo through npm
+```sh
+npm install @react-native-community/netinfo
+```
+If using React Native > 0.60, run the following command for iOS:
+```sh
+cd ios && pod install && cd ..
+```  
+If you are using React Native <0.60 and need to link manually, refer to the react-native-community/netinfo [getting started guide](https://github.com/react-native-community/react-native-netinfo#getting-started) 
+
+## Import generated models
 In addition to importing `Amplify`, `DataStore`, and `Predicates` into your application you must also import the generated Models. They will be named imports from the `./models` directory which match up to any GraphQL `type` or `enum` definitions from your schema:
 
 ```javascript
@@ -463,7 +494,7 @@ When multiple clients send concurrent updates using the same version and conflic
 
 DataStore is designed primarily for developers to not have to focus on the backend and let your application code and workflow create everything. However there will be some use cases where you will use the AppSync console, a Lambda function, or other out of band processes to write data (such as batch actions or data migrations) and you might send GraphQL operations without the DataStore client.
 
-In these cases it's important that the selection set of your GraphQL mutation includes the fields `_lastChangedAt`, `_version`, and `_deleted` so that the DataStore clients can react to these updates. You will also need to send the **current** object version in the mutation input argument as `_input` so that the service can act accordingly. If you do not send this information the clients will still eventually catch up during the global sync process, but you will not see realtime updates to the client DataStore repositories. An example mutation:
+In these cases it's important that the selection set of your GraphQL mutation includes the fields `_lastChangedAt`, `_version`, and `_deleted` so that the DataStore clients can react to these updates. You will also need to send the **current** object version in the mutation input argument as `_version` so that the service can act accordingly. If you do not send this information the clients will still eventually catch up during the global sync process, but you will not see realtime updates to the client DataStore repositories. An example mutation:
 
 ```graphql
 mutation UpdatePost {
@@ -562,9 +593,129 @@ function App() {
 export default App;
 
 ```
+# Example React Native application  
 
+`App.js`
+```jsx
+/**
+ * React Native DataStore Sample App
+ */
+
+import React, {Component} from 'react';
+import {
+  Text,
+  StyleSheet,
+  ScrollView
+} from 'react-native';
+
+import Amplify from "@aws-amplify/core";
+import { DataStore, Predicates } from "@aws-amplify/datastore";
+import { Post, PostStatus, Comment } from "./src/models";
+
+import awsConfig from "./aws-exports";
+Amplify.configure(awsConfig);
+let subscription;
+
+class App extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      posts:[]
+    }
+  }
+
+  componentDidMount() {
+    this.onQuery();
+    subscription = DataStore.observe(Post).subscribe(msg => {
+      console.log('SUBSCRIPTION_UPDATE', msg);
+      this.onQuery();
+    });
+  }
+
+  componentWillUnmount() {
+    subscription.unsubscribe();
+  }
+
+  onCreatePost() {
+    DataStore.save(
+      new Post({
+        title: `New Post ${Date.now()}`,
+        rating: (function getRandomInt(min, max) {
+          min = Math.ceil(min);
+          max = Math.floor(max);
+          return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+        })(5, 10),
+        status: PostStatus.ACTIVE
+      })
+    );
+  }
+
+  async onCreatePostAndComments() {
+    const post =  new Post({
+      title: `New Post with comments ${Date.now()}`,
+      rating: 5,
+      status: PostStatus.ACTIVE
+    });
+    
+    await DataStore.save(
+      post
+    );
+    
+    for(let i=0; i<2; i++) {
+      DataStore.save(
+        new Comment({
+          content: `New comment ${Date.now()}`,
+          post
+        })
+      );
+      };
+    }
+
+  onQuery = async () => {
+    const posts = await DataStore.query(Post, c => c.rating("gt", 2));
+    console.log('QUERY_POSTS_RESULT', posts);
+    const comments = await DataStore.query(Comment);
+    this.setState({posts})
+    console.log('QUERY_COMMENTS_RESULT', comments);
+  }
+
+  onDelete = async () => {
+    const deletedPosts = await DataStore.delete(Post, Predicates.ALL);
+    console.log('DELETE_RESULT', deletedPosts);
+  }
+
+  render() {
+    return (
+    <ScrollView style={styles.scrollview} contentContainerStyle={styles.container}>
+      <Text style={styles.text} onPress={this.onCreatePost}>Create Post</Text>
+      <Text style={styles.text} onPress={this.onCreatePostAndComments}>Create Post & Comments</Text>
+      <Text style={styles.text} onPress={this.onQuery}>Query Posts</Text>
+      <Text style={styles.text} onPress={this.onDelete}>Delete All Posts</Text>
+      {this.state.posts.map((post, i)=><Text key={i}>{`${post.title} ${post.rating}`}</Text>)}
+    </ScrollView>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  scrollview: {
+    paddingTop: 40,
+    flex:1
+  },
+  container: {
+    alignItems: 'center'
+  },
+  text: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  }
+});
+
+export default App;
+```
 
 ## API Reference   
 
-For the complete API documentation for DataStore, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/DataStoreclass.html)
+For the complete API documentation for DataStore, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/datastore.html)
 {: .callout .callout--info}

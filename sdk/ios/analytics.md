@@ -7,6 +7,13 @@ title: Analytics
 {% endif %}
 {% assign image_base = base_dir | append: page.dir | append: "images" %}
 
+<br />
+
+**Note**
+This guide shows how to build an app using AWS Mobile SDK for iOS and the Amplify CLI toolchain.
+To use our new, preview developer experience with new Amplify Libraries for iOS, [click here.](../../ios/analytics)
+{: .callout .callout--warning}
+
 # Analytics
 
 Collecting analytics data for your app can be accomplished with [Amazon Pinpoint](#using-amazon-pinpoint) and [Amazon Kinesis](#using-amazon-kinesis).
@@ -276,6 +283,9 @@ You can report authentication events by doing either of the following:
 
 The limits applicable to the ingestion of events using the AWS Android SDK for Pinpoint and the Amazon Pinpoint Events API
 can be found [here](https://docs.aws.amazon.com/pinpoint/latest/developerguide/limits.html#limits-events).
+
+> Note: Cognito User Pools only supports sending events to Amazon Pinpoint projects in the US East (N. Virginia) us-east-1 Region, regardless of the region in which the user pool resides.
+
 
 ## Registering Endpoints in Your Application
 

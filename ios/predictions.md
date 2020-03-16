@@ -1,7 +1,7 @@
 <br />
 
 **Note**
-Amplify iOS is in preview mode and not intended for production usage at this time. We welcome feedback to improve your experience in using Amplify iOS.
+This guide shows how to build an app using our Amplify Libraries for iOS (Preview) and the Amplify CLI toolchain.
 {: .callout .callout--warning}
 
 # Predictions
@@ -73,7 +73,7 @@ Copy the contents over and update the values for the specific predictions method
 {
     "UserAgent": "aws-amplify-cli/2.0",
     "Version": "1.0",
-    "Storage": {
+    "Predictions": {
         "plugins": {
             "awsPredictionsPlugin": {
                 "defaultRegion": "us-west-2",
@@ -131,6 +131,10 @@ Add the dependencies to the `Podfile`:
 ```ruby
 target :'YOUR-APP-NAME' do
 	use_frameworks!
+	pod 'Amplify'
+     	pod 'AmplifyPlugins'
+	pod 'AWSPluginsCore'
+	pod 'CoreMLPredictionsPlugin'
 	pod 'AWSPredictionsPlugin'
 	pod 'AWSMobileClient', '~> 2.12.0'
 end
@@ -143,7 +147,7 @@ Add the following code to your AppDelegate:
 ```swift
 import Amplify
 import AWSMobileClient
-import AmplifyPlugins
+import AWSPredictionsPlugin
 
 // Inside  AppDelegate's application method
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -166,8 +170,6 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 	try! Amplify.configure()
 	print("Amplify initialized")
 
-	window = UIWindow()
-	window?.rootViewController  = MainTabBarController()
 	return true
 }
 ```
@@ -407,6 +409,42 @@ func textToSpeech(text: String) {
 	})
 }
 ```
+
+### Convert Speech to Text
+
+If you haven't already done so, run `amplify init` inside your project and then `amplify add auth` (we recommend selecting the *default configuration*).
+
+Run `amplify add predictions` and select **Convert**. Then use the following answers:
+
+```terminal
+? What would you like to convert?
+  Convert text into a different language
+  Convert text to speech
+❯ Convert speech to text
+  Learn More
+
+? Who should have access? Auth and Guest users
+```
+
+Here is an example of converting speech to text. In order to override any choices you made while adding this resource using the Amplify CLI, you can pass in a language in the options object as shown below.
+
+```swift
+    func speechToText(speech: URL) {
+        let options = PredictionsSpeechToTextRequest.Options(defaultNetworkPolicy: .auto, language: .usEnglish, pluginOptions: nil)
+        _ = Amplify.Predictions.convert(speechToText: speech, options: options, listener: { (event) in
+            
+            switch event {
+            case .completed(let result):
+                print(result.transcription)
+            default:
+                print("")
+                
+                
+            }
+        })
+    }
+```
+
 
 ### Convert - Translate Text
 

@@ -388,6 +388,7 @@ redirect_to
 graphql
 sdk
 AppSyncApiName
+CreateAPIKey
 APIKeyExpirationEpoch
 ElasticsearchStreamingFunctionName
 ElasticsearchInstanceCount
@@ -604,6 +605,9 @@ transform.conf.json
 
 #cli-toolchain/quickstart.md
 richard
+Bitbucket
+GitLab
+CodeCommit
 
 #cli-toolchain/usage.md
 poolData
@@ -862,6 +866,7 @@ UserPool
 flipside
 ARNs
 passwordless
+mobileClient
 
 # ios/how-to-cognito-integrate-an-existing-identity-pool-ios.md
 AppDelegate
@@ -1047,6 +1052,7 @@ synchronizes
 adhere
 queueing
 deserialize
+netinfo
 
 # android/analytics.md
 AWSPinpointAnalyticsPlugin

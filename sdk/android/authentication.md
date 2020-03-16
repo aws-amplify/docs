@@ -112,11 +112,14 @@ After initialization in your project directory with `amplify init`, update your 
 
 ```groovy
 //For AWSMobileClient only:
-implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.15.+'
+implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.16.+'
 
 //For the drop-in UI also:
-implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.15.+'
-implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.15.+'
+implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.16.+'
+implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.16.+'
+
+//For hosted UI also:
+implementation 'com.amazonaws:aws-android-sdk-cognitoauth:2.16.+'
 ```
 
 For the `AWSMobileClient` alone you can have a minimum SDK version of **15**, but for the drop-in UI you will need a minimum of **23** set in your `build.gradle`:
@@ -262,6 +265,8 @@ Many applications have UX with "Guest" or "Unauthenticated" users. This is provi
 When complete run `amplify push` and your `awsconfiguration.json` will work automatically with your updated Cognito settings. The `AWSMobileClient` user session will automatically have permissions configured for Guest/Unauthenticated users upon initialization. 
 
 If you login in your app either using the "Drop-In Auth" or the `AWSMobileClient` APIs then the user session will transition to an authenticated role.
+
+Note: If initialize is giving you the state as ‘SIGNED_OUT’, try calling `AWSMobileClient.getInstance().getCredentials()` and then calling initialize again. 
 
 ## Drop-In Auth
 
@@ -920,15 +925,15 @@ Add the following dependencies to your `app/build.gradle` file:
 ```groovy
 dependencies {
     // Mobile Client for initializing the SDK
-    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.15.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.16.+@aar') { transitive = true }
 
     // Facebook SignIn
     implementation 'com.android.support:support-v4:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-facebook:2.15.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-facebook:2.16.+@aar') { transitive = true }
 
     // Sign in UI
     implementation 'com.android.support:appcompat-v7:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.15.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.16.+@aar') { transitive = true }
 }
 ```
 
@@ -1018,15 +1023,15 @@ Add the following dependencies to your `app/build.gradle` file:
 ```groovy
 dependencies {
     // Mobile Client for initializing the SDK
-    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.15.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.16.+@aar') { transitive = true }
 
     // Google SignIn
     implementation 'com.android.support:support-v4:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-google:2.15.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-google:2.16.+@aar') { transitive = true }
 
     // Sign in UI Library
     implementation 'com.android.support:appcompat-v7:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.15.+@aar') { transitive = true }
+    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.16.+@aar') { transitive = true }
 }
 ```
 
@@ -1618,7 +1623,33 @@ public void confirmSignIn() {
 }
 ```
 
-Amplify CLI can be used generate lambda triggers required to by custom authentication flow. See [documentation](https://aws-amplify.github.io/docs/cli-toolchain/cognito-triggers) for details. 
+#### Lambda trigger setup
+
+Amplify CLI can be used generate lambda triggers required by a custom authentication flow. See [documentation](https://aws-amplify.github.io/docs/cli-toolchain/cognito-triggers) for details. Amplify CLI creates a custom auth flow skeleton that you can manually edit. More information on each of the triggers can be found in [Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
+
+`AWSMobileClient` assumes that custom auth flows start with username and password. If you want a passwordless custom authentication flow, modify your `Define Auth Challenge` Lambda trigger to bypass the initial username/password verification and proceed to the custom challenge, as in the code below.
+
+```javascript
+exports.handler = (event, context) => {
+  if (event.request.session.length === 1 && 
+    event.request.session[0].challengeName === 'SRP_A') {
+    event.response.issueTokens = false;
+    event.response.failAuthentication = false;
+    event.response.challengeName = 'CUSTOM_CHALLENGE';
+  } else if (
+    event.request.session.length === 2 &&
+    event.request.session[1].challengeName === 'CUSTOM_CHALLENGE' &&
+    event.request.session[1].challengeResult === true
+  ) {
+    event.response.issueTokens = true;
+    event.response.failAuthentication = false;
+  } else {
+    event.response.issueTokens = false;
+    event.response.failAuthentication = true;
+  }
+  context.done(null, event);
+};
+``` 
 
 ## Using Device Features
 

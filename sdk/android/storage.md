@@ -6,6 +6,14 @@ title: Storage
 {% endif %}
 {% assign images_base = base_dir | append: page.dir | append: "images" %}
 {% assign common_media = base_dir | append: "/images" %}
+
+<br />
+
+**Note**
+This guide shows how to build an app using AWS Mobile SDK for Android and the Amplify CLI toolchain.
+To use our new, preview developer experience with new Amplify Libraries for Android, [click here.](../../android/storage)
+{: .callout .callout--warning}
+
 # Storage
 
 ## S3
@@ -13,6 +21,10 @@ title: Storage
 ### Overview
 
 Enable your app to store and retrieve user files from cloud storage with the permissions model that suits your purpose. The CLI deploys and configures cloud storage buckets using [Amazon Simple Storage Service](http://docs.aws.amazon.com/AmazonS3/latest/dev/).
+
+**_Note_**
+
+This guide specifically uses `TransferUtility`, which is a high-level wrapper over `AmazonS3Client`. [`TransferUtility`](https://aws-amplify.github.io/aws-sdk-android/docs/reference/com/amazonaws/mobileconnectors/s3/transferutility/TransferUtility.html) is a tool that simplifies asynchronous _transfer_ management (i.e. upload and download), and it may not contain all of the features available in Amazon S3 service. To access low-level features such as bucket manipulation and object deletion, please refer to the documentation for [`AmazonS3Client`](https://aws-amplify.github.io/aws-sdk-android/docs/reference/com/amazonaws/services/s3/AmazonS3Client.html).
 
 ### Storage Access
 
@@ -86,10 +98,18 @@ Use the following steps to connect add file storage backend services to your app
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<service android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService" android:enabled="true" />
 	```
+	
+3. **For Android Q (API 29)**: API 29 enforces scoped storage access for Android apps. To gain access to legacy external storage, enable the following application property inside `AndroidManifest.xml`:
+	
+	```xml
+	<application>
+	    android:requestLegacyExternalStorage="true"
+	</application>
+	```
 
 ### Mocking and Local Testing
 
-Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](../cli-toolchain/usage#mocking-and-testing) for more details.
+Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](../../cli-toolchain/usage#mocking-and-testing) for more details.
 
 ## Using TransferUtility 
 
