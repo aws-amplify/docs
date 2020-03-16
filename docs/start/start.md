@@ -25,7 +25,6 @@ The open-source Amplify Framework provides a set of libraries, UI components, an
 
 <br />
 <docs-internal-link-button href="~/start/getting-started/installation.md">
-  <img slot="graphic" src="~/assets/play.svg" />
   <span slot="text">Start the Tutorial</span>
 </docs-internal-link-button>
 
