@@ -1,10 +1,12 @@
-- [Authentication](../../sdk/auth/how-it-works.md)
+- [Authentication](../../lib/auth/overview.md)
 - [DataStore](../../lib/datastore/intro.md)
-- [User File Storage](../../sdk/storage/getting-started.md)
-- [Serverless APIs](../../sdk/api/graphql.md)
-- [Analytics](../../sdk/analytics/getting-started.md)
-- [Push Notification](../../sdk/push-notifications/getting-started.md)
-- [PubSub](../../sdk/pubsub/getting-started.md)
+- [User File Storage](../../lib/storage/start.md)
+- [Serverless APIs](../../lib/graphqlapi/start.md)
+- [Analytics](../../lib/analytics/start.md)
+- [AI/ML](../../lib/predictions/intro.md) 
+- [Push Notification](../../lib/push-notifications/overview.md)
+- [PubSub](../../lib/pubsub/overview.md)
+- [AR/VR](../../lib/xr/start.md)
 
 ## Existing AWS Resources
 
@@ -53,4 +55,4 @@ For working with other AWS services you can use service interface objects direct
 <amplify-callout>To work with service interface objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
 </amplify-callout>
 
-You can call methods on any AWS Service interface object supported by the AWS iOS SDK by passing your credentials from the AWSMobileClient to the service call constructor. See [SDK Setup Options](./manualsetup) for more information.
+You can call methods on any AWS Service interface object supported by the AWS Android SDK by passing your credentials from the AWSMobileClient to the service call constructor. See [SDK Setup Options](./manualsetup) for more information.

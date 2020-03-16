@@ -1,4 +1,12 @@
-**Existing AWS Resources**
+- [Authentication](../../sdk/auth/how-it-works.md)
+- [DataStore](../../lib/datastore/intro.md)
+- [User File Storage](../../sdk/storage/getting-started.md)
+- [Serverless APIs](../../sdk/api/graphql.md)
+- [Analytics](../../sdk/analytics/getting-started.md)
+- [Push Notification](../../sdk/push-notifications/getting-started.md)
+- [PubSub](../../sdk/pubsub/getting-started.md)
+
+## Existing AWS Resources
 
 If you want to use your existing AWS resources with your app you will need to **manually configure** your app with an `awsconfiguration.json` file in your code. For example, if you were using Amazon Cognito Identity, Cognito User Pools, AWS AppSync, or Amazon S3:
 
@@ -38,7 +46,7 @@ If you want to use your existing AWS resources with your app you will need to **
 
 In the configuration above, you would need to set the appropriate values such as `Region`, `Bucket`, etc.
 
-**AWS SDK Interfaces**
+## AWS SDK Interfaces
 
 For working with other AWS services you can use service interface objects directly via the generated SDK clients. 
 
