@@ -2224,7 +2224,13 @@ import RestAPI from '@aws-amplify/api-rest';
 RestAPI.configure();
 ```
 
-Similarly to use only Graphql API you can run: `npm install @aws-amplify/api-graphql`
+Similarly to use only Graphql API you can run: `npm install @aws-amplify/api-graphql` and then in your code
+
+```javascript
+import GraphqlAPI, { graphqlOperation } from '@aws-amplify/api-graphql';
+ 
+GraphqlAPI.configure();
+```
 
 Note: if you're using Cognito Federated Identity Pool to get AWS credentials, please also install `@aws-amplify/auth`.
 Note: if you're using Graphql, please also install `@aws-amplify/pubsub`
