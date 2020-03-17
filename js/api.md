@@ -2212,17 +2212,22 @@ postData();
 
 ## Using Modular Imports
 
-If you only need to use API, you can run: `npm install @aws-amplify/api` which will only install the API module.
-Note: if you're using Cognito Federated Identity Pool to get AWS credentials, please also install `@aws-amplify/auth`.
-Note: if you're using Graphql, please also install `@aws-amplify/pubsub`
+Amplify V3 now supports Rest and Graphql modular imports such as if you only need to use Rest API,
+you can run: `npm install @aws-amplify/api-rest` which will only install the Rest API module and
+reduce you application bundle size by not including any graphql related modules.
 
-Then in your code, you can import the Api module by:
+Then in your code, you can import this module by:
 
 ```javascript
-import API, { graphqlOperation } from '@aws-amplify/api';
+import RestAPI from '@aws-amplify/api-rest';
 
-API.configure();
+RestAPI.configure();
 ```
+
+Similarly to use only Graphql API you can run: `npm install @aws-amplify/api-graphql`
+
+Note: if you're using Cognito Federated Identity Pool to get AWS credentials, please also install `@aws-amplify/auth`.
+Note: if you're using Graphql, please also install `@aws-amplify/pubsub`
 
 ## API Reference   
 
