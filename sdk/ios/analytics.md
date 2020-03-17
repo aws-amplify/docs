@@ -7,6 +7,13 @@ title: Analytics
 {% endif %}
 {% assign image_base = base_dir | append: page.dir | append: "images" %}
 
+<br />
+
+**Note**
+This guide shows how to build an app using AWS Mobile SDK for iOS and the Amplify CLI toolchain.
+To use our new, preview developer experience with new Amplify Libraries for iOS, [click here.](../../ios/analytics)
+{: .callout .callout--warning}
+
 # Analytics
 
 Collecting analytics data for your app can be accomplished with [Amazon Pinpoint](#using-amazon-pinpoint) and [Amazon Kinesis](#using-amazon-kinesis).
