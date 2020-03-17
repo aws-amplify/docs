@@ -1,5 +1,5 @@
 ---
-title: Connect API and database to app
+title: Connect API and database to the app
 description: Data model description
 filterKey: integration
 ---

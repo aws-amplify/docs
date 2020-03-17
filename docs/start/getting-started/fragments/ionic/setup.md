@@ -1,6 +1,8 @@
 ## Create a new Ionic app
 
-To set up the project, we'll first create a new Ionic app with the Ionic CLI. We'll then add Amplify and initialize a new project. From your projects directory, run the following commands:
+To set up the project, we'll first create a new Ionic app with the Ionic CLI. We'll then add Amplify and initialize a new project.
+
+From your projects directory, run the following commands:
 
 ```
 $ npm install -g ionic
