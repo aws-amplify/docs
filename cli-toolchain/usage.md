@@ -396,6 +396,7 @@ The Amplify CLI requires the below IAM policies for performing actions across al
                 "cognito-idp:DeleteGroup",
                 "cognito-idp:DeleteUserPool",
                 "cognito-idp:DeleteUserPoolClient",
+                "cognito-idp:DescribeUserPool",
                 "cognito-idp:ListTagsForResource",
                 "cognito-idp:UpdateUserPool",
                 "cognito-idp:UpdateUserPoolClient",
