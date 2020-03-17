@@ -436,10 +436,6 @@ The Amplify CLI requires the below IAM policies for performing actions across al
                 "lambda:RemovePermission",
                 "lambda:UpdateFunctionCode",
                 "lambda:UpdateFunctionConfiguration",
-                "lex:GetBot",
-                "lex:GetBuiltinIntent",
-                "lex:GetBuiltinIntents",
-                "lex:GetBuiltinSlotTypes",
                 "rekognition:DescribeCollection",
                 "s3:*"
             ],
