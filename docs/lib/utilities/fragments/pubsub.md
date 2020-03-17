@@ -3,7 +3,6 @@ The AWS Amplify PubSub category provides connectivity with cloud-based message-o
 PubSub is available with **AWS IoT** and **Generic MQTT Over WebSocket Providers**. 
 
 With AWS IoT, AWS Amplify's PubSub automatically signs your HTTP requests when sending your messages.
-{: .callout .callout--info}
 
 ## Installation and Configuration
 
@@ -83,7 +82,6 @@ Amplify.addPluggable(new MqttOverWSProvider({
 ```
 
 You can integrate any MQTT Over WebSocket provider with your app. Click [here](https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html#mqtt-ws) to learn more about MQTT Over WebSocket.
-{: .callout .callout--info}
 
 ## Working with the API
 
@@ -109,8 +107,9 @@ PubSub.subscribe('myTopic', { provider: 'MqttOverWSProvider' }).subscribe({
 });
 ```
 
+<amplify-callout>
 Note: If you do not include a specific provider it will subscribe to all of the configured PubSub providers in your app.
-{: .callout .callout--info}
+</amplify-callout>
 
 Following events will be triggered with `subscribe()`
 
@@ -145,8 +144,7 @@ You can also publish a message to multiple topics:
 await PubSub.publish(['myTopic1','myTopic2'], { msg: 'Hello to all subscribers!' });
 ```
 
-Note: If you do not include a specific provider it will publish a message to all of the configured PubSub providers in your app.
-{: .callout .callout--info}
+**Note**: If you do not include a specific provider it will publish a message to all of the configured PubSub providers in your app.
 
 ### Unsubscribe from a topic
 
@@ -165,7 +163,6 @@ sub1.unsubscribe();
 ### API Reference
 
 For the complete API documentation for PubSub module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/pubsub.html)
-{: .callout .callout--info}
 
 ## Using Modular Imports
 

@@ -114,4 +114,3 @@ try {
 ## API Reference
 
 For the complete API documentation for AWS IoT, visit our [API reference](https://aws-amplify.github.io/aws-sdk-android/docs/reference/com/amazonaws/mobileconnectors/iot/package-frame.html)
-{: .callout .callout--info}

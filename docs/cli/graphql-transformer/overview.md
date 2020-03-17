@@ -544,20 +544,23 @@ type Post @model
 
 In this example the object owner will check against a `user_id` claim. Similarly if the `user_groups` claim contains a "Moderator" string then access will be granted.
 
+<amplify-callout>
 Note `identityField` is being deprecated for `identityClaim`.
-{: .callout .callout--info}
+</amplify-callout>
 
 #### Authorizing Subscriptions
 
+<amplify-callout warning>
 Prior to version 2.0 of the CLI, `@auth` rules did not apply to subscriptions. Instead you were required to either turn them off or use [Custom Resolvers](./graphql#custom-resolvers) to manually add authorization checks. In the latest versions `@auth` protections have been added to subscriptions, however this can introduce different behavior into existing applications: First, `owner` is now a required argument for Owner-based authorization, as shown below. Second, the selection set will set `null` on fields when mutations are invoked if per-field `@auth` is set on that field. [Read more here](./graphql#per-field-with-subscriptions). If you wish to keep the previous behavior set `level: public` on your model as defined below.
-{: .callout .callout--warning}
+</amplify-callout>
 
 When `@auth` is used subscriptions have a few subtle behavior differences than queries and mutations based on their event based nature. When protecting a model using the owner auth strategy, each subscription request will **require** that the user is passed as an argument to the subscription request. If the user field is not passed, the subscription connection will fail. In the case where it is passed, the user will only get notified of updates to records for which they are the owner.
 
 Alternatively, when the model is protected using the static group auth strategy, the subscription request will only succeed if the user is in an allowed group. Further, the user will only get notifications of updates to records if they are in an allowed group. Note: You don't need to pass the user as an argument in the subscription request, since the resolver will instead check the contents of your JWT token.
 
+<amplify-callout>
 Dynamic groups have no impact to subscriptions. You will not get notified of any updates to them.
-{: .callout .callout--info}
+</amplify-callout>
 
 For example suppose you have the following schema:
 

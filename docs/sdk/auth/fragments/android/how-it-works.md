@@ -9,7 +9,6 @@ When working together, Cognito User Pools acts as a source of user identities (i
 
 <b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
 <b>Recommendation:</b> [Complete the Getting Started guide](./start)
-{: .callout .callout--info}
 
 ## How it works
 

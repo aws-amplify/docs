@@ -11,20 +11,21 @@ AWS AppSync helps you build data-driven apps with real-time and offline capabili
 
 The AWS Amplify API module supports AWS AppSync or any other GraphQL backends.
 
+<amplify-callout>
 To learn more about GraphQL, please visit the [GraphQL website](http://graphql.org/learn/).
-{: .callout .callout--action}
+</amplify-callout>
 
 ## Using AWS AppSync
 
 AWS AppSync helps you build data-driven apps with real-time and offline capabilities. Learn more about [AWS AppSync](https://aws.amazon.com/appsync/) by visiting [AWS AppSync Developer Guide](https://docs.aws.amazon.com/appsync/latest/devguide/welcome.html){: .target='new'}.
-{: .callout .callout--action}
 
 
 The Amplify Framework offers two client options for AppSync:
 
 - [Amplify GraphQL client](#amplify-graphql-client)
 
-- [AWS AppSync SDK](#aws-appsync-sdk)
+- [GraphQL](#graphql)
+- [Using AWS AppSync](#using-aws-appsync)
 
 The Amplify GraphQL client is a light weight option if you're looking for a simple way to leverage GraphQL features and do not need the offline capabilities or caching. If you need those features, please look at [Amplify DataStore](https://aws-amplify.github.io/docs/js/datastore).
 

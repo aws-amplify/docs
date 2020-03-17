@@ -3,8 +3,9 @@ The XR category enables you to work with augmented reality (AR) and virtual real
 ## Publishing a scene
 To download the required scene configuration for your Sumerian scene, visit <a href="https://console.aws.amazon.com/sumerian/home" target="_blank">Amazon Sumerian console</a>, create or open the scene you would like to use with AWS Amplify, click *Publish* dropdown from the top right corner of the Sumerian console, then click *Host privately*:
 
+<amplify-callout>
 If your scene was already published publicly, you will need to unpublish then publish again using the instructions below.
-{: .callout .callout--info}
+</amplify-callout>
 
 ![XR]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/xr/sumerian_host_privately_button.png){: class="screencap" style="max-height:600px;"}
  
@@ -25,16 +26,14 @@ $ amplify add xr
 The CLI will prompt configuration options for the XR category such as a scene name identifier and a Sumerian scene json configuration file.
 
 The XR category will set up and utilize the Authentication category to setup scene authorization.
-{: .callout .callout--info}
 
 Take note of the scene name you provide in the CLI prompt. This value will be used as an identifier for the scene when using the XR category in the framework.
-{: .callout .callout--warning}
+
 After configuring your XR options, update your backend with:
 ```
 $ amplify push
 ```
 XR resources shown during `amplify push` represent the IAM policy being created for the scene. This will not change the scene shown in the Sumerian console. To learn more about Sumerian scene authorization visit <a href="https://docs.aws.amazon.com/sumerian/latest/userguide/sumerian-permissions.html" target="_blank">Amazon Sumerian Permissions</a>
-{: .callout .callout--info}
 
 A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`. This file will contain a list of all scenes that you configure.
 

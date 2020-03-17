@@ -25,12 +25,14 @@ export const sidebarLayoutStyle = css`
     position: fixed;
     right: 1rem;
     bottom: 1rem;
-    background-color: var(--color-blue-hv);
+    background-color: var(--color-orange-hv);
     border-radius: 50%;
+    width: 3.5rem;
+    height: 3.5rem;
 
     img {
-      width: 1.75rem;
-      height: 1.75rem;
+      width: 1.5rem;
+      height: 1.5rem;
     }
   }
 `;

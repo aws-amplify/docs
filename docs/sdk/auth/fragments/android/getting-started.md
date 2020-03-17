@@ -3,7 +3,6 @@ PubSub provides connectivity with cloud-based message-oriented middleware. You c
 PubSub is available with **AWS IoT**. 
 
 When using AWS IoT your PubSub HTTP requests are automatically signed when sending your messages.
-{: .callout .callout--info}
 
 ## Installation and Configuration
 
@@ -40,7 +39,6 @@ AWSIotMqttManager mqttManager = new AWSIotMqttManager(
 	"xxxxxxxxxxxxx-ats.iot.<YOUR-AWS-REGION>.amazonaws.com");
 ```
 You can get the endpoint information from the IoT Core -> Settings page on the AWS Console.
-{: .callout .callout--info}
 
 **Create IAM policies for AWS IoT**
 
