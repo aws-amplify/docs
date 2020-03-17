@@ -78,7 +78,7 @@ $ amplify add api
 ? Do you want to edit the schema now? No
 ```
 
-[Learn more](https://aws-amplify.github.io/docs/cli-toolchain/graphql){:target="_blank"} about annotating GraphQL schemas and data modeling.
+[Learn more](https://aws-amplify.github.io/docs/cli-toolchain/graphql) about annotating GraphQL schemas and data modeling.
 
 ## Step 5: Push changes
 
