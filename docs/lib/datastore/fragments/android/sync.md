@@ -2,7 +2,7 @@ Once you're happy with your application, you can start syncing with the cloud by
 
 DataStore can connect to an existing AppSync backend that has been deployed from another project. In these workflows, it is best to work with the CLI directly. Run the `amplify pull` command from your terminal, then generate models as discussed earlier in this guide.
 
-> For more information on this workflow please see the [Multiple Frontends documentation](https://aws-amplify.github.io/docs/cli-toolchain/quickstart#multiple-frontends){:target="_blank"}.
+> For more information on this workflow please see the [Multiple Frontends documentation](https://aws-amplify.github.io/docs/cli-toolchain/quickstart#multiple-frontends).
 
 ## Use Gradle
 
