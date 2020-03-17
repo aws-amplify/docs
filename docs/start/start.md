@@ -9,7 +9,7 @@ The open-source Amplify Framework provides a set of libraries, UI components, an
 
 Amplify has the following products:
 - **Amplify [CLI](../cli)** - Configure all the services needed to power your backend through a simple command line interface.
-- **Amplify [Libraries](../lib)** - Use case-centric libraries to integrate your app code with a backend using declarative interfaces.
+- **Amplify [Libraries](../lib)** - Use case-centric client libraries to integrate your app code with a backend using declarative interfaces.
 - **Amplify UI components** - UI libraries for React, React Native, Angular, Ionic and Vue.
 - **Amplify [Console](https://console.aws.amazon.com/amplify)** - an AWS service that provides a git-based workflow for continuous deployment & hosting of fullstack web apps and, access to cloud resources created by the Amplify CLI.
 
