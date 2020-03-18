@@ -865,6 +865,7 @@ Add the following to your `src/app/app.component.html` to add a button which cal
 Next, update the class to list all items in the database by running a `ListTodos` query when the app starts by implementing [OnInit](https://angular.io/api/core/OnInit) and storing the items in an array:
 
 ```javascript
+import { Component, OnInit } from '@angular/core';
 
 export class AppComponent implements OnInit {
   todos: Array<any>;
