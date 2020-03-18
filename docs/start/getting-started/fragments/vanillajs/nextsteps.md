@@ -12,7 +12,7 @@
 
 If you want to use your existing AWS resources with your app you will need to **manually configure** your app with an `awsconfiguration.json` file in your code. For example, if you were using Amazon Cognito Identity, Cognito User Pools, AWS AppSync, or Amazon S3:
 
-```xml
+```json
 {
     "CredentialsProvider": {
         "CognitoIdentity": {
