@@ -20,7 +20,7 @@ Before we begin, make sure you have the following installed:
   </div>
   <div>
     <iframe
-      src="https://www.youtube.com/embed/fWbM5DLh25U?start=29"
+      src="https://www.youtube.com/embed/fWbM5DLh25U"
     ></iframe>
   </div>
 </amplify-responsive-grid>
