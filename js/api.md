@@ -2233,7 +2233,7 @@ GraphqlAPI.configure();
 ```
 
 Note: if you're using Cognito Federated Identity Pool to get AWS credentials, please also install `@aws-amplify/auth`.
-Note: if you're using Graphql, please also install `@aws-amplify/pubsub`
+Note: if you're using GraphQL, please also install `@aws-amplify/pubsub`
 
 ## API Reference   
 
