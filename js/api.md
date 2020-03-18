@@ -2213,7 +2213,7 @@ postData();
 ## Using Modular Imports
 
 Amplify V3 now supports REST and GraphQL modular imports such as if you only need to use REST API,
-you can run: `npm install @aws-amplify/api-rest` which will only install the Rest API module and
+you can run: `npm install @aws-amplify/api-rest` which will only install the REST API module and
 reduce you application bundle size by not including any graphql related modules.
 
 Then in your code, you can import this module by:
