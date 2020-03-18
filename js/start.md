@@ -820,7 +820,7 @@ PubSub.configure(awsconfig);
 Depending on your TypeScript version you may need to rename `aws-exports.js` to `aws-exports.ts` prior to importing, or enable the `allowJs` <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" target="_blank">compiler option</a> in your tsconfig. 
 {: .callout .callout--info}
 
-Update `src/tsconfig.app.json` to include the "node" compiler option in *types*:
+Update `tsconfig.app.json` to include the "node" compiler option in *types*:
 
 ```json
 "compilerOptions": {
