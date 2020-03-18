@@ -23,8 +23,9 @@ amplify add api
 ? Do you want to edit the schema now? Y
 ```
 
-The CLI should open this schema in your text editor (__amplify/backend/api/myapi/schema.graphql
-__).
+The CLI should open this schema in your text editor.
+
+__amplify/backend/api/myapi/schema.graphql__
 
 ```graphql
 type Todo @model {
@@ -44,7 +45,9 @@ From the command line, press __enter__ to accept the schema and continue to the 
 
 ### Test your API 
 
-To test this out locally, you can run the `mock` command:
+To test this out locally, you can run the `mock` command.
+
+> If you'd like to go ahead and deploy the API, you can [jump to the next step](#deploying-the-api).
 
 ```sh
 amplify mock api
@@ -99,7 +102,7 @@ amplify push
 ? Enter maximum statement depth [increase from default if your schema is deeply nested]: 2
 ```
 
-Now the API and database have been deployed and you can start interacting with it.
+Now the API is live and you can start interacting with it!
 
 The API you have deployed is for a Todo app, including operations for creating, reading, updating, deleting, and listing todos.
 

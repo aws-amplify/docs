@@ -14,6 +14,6 @@ Predictions is broadly organized into 3 key use cases - Identify, Convert, and I
 
 Some common use cases are listed below, as well as an advanced workflow which allows you to perform dynamic image indexing from your client application.
 
-Predictions comes with built-in support for [Amazon Translate](https://docs.aws.amazon.com/translate/latest/dg/what-is.html){:target="_blank"}, [Amazon Polly](https://docs.aws.amazon.com/polly/latest/dg/what-is.html){:target="_blank"}, [Amazon Transcribe](https://docs.aws.amazon.com/transcribe/latest/dg/what-is-transcribe.html){:target="_blank"}, [Amazon Rekognition](https://docs.aws.amazon.com/rekognition/latest/dg/what-is.html){:target="_blank"}, [Amazon Textract](https://docs.aws.amazon.com/textract/latest/dg/what-is.html){:target="_blank"}, and [Amazon Comprehend](https://docs.aws.amazon.com/comprehend/latest/dg/what-is.html){:target="_blank"}.
+Predictions comes with built-in support for [Amazon Translate](https://docs.aws.amazon.com/translate/latest/dg/what-is.html), [Amazon Polly](https://docs.aws.amazon.com/polly/latest/dg/what-is.html), [Amazon Transcribe](https://docs.aws.amazon.com/transcribe/latest/dg/what-is-transcribe.html), [Amazon Rekognition](https://docs.aws.amazon.com/rekognition/latest/dg/what-is.html), [Amazon Textract](https://docs.aws.amazon.com/textract/latest/dg/what-is.html), and [Amazon Comprehend](https://docs.aws.amazon.com/comprehend/latest/dg/what-is.html).
 
 Additionally Predictions supports generic invocation of SageMaker Inference API from a native (iOS/Android) application.
