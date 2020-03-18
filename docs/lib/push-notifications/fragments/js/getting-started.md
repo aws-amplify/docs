@@ -262,7 +262,9 @@ Setup instructions are provided for Android and iOS, and configuration for both 
 Push Notification module is integrated with `Analytics` module to be able to track notifications. Make sure that you have configured the Analytics module in your app before configuring Push Notification module.  
 
 <amplify-callout>
-If you don't have Analytics already enabled, see our [Analytics Developer Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/analytics) to add Analytics to your app.
+
+If you don't have Analytics already enabled, see our [Analytics Developer Guide](~/lib/analytics/start.md) to add Analytics to your app.
+
 </amplify-callout>
 
 First, import `PushNotification` module and configure it with `PushNotification.configure()`.
