@@ -1014,7 +1014,7 @@ Note: your user pool domain is something like: `domain_prefix-<env-name>.auth.<r
 ![Image]({{common_media}}/cognitoHostedUI/amazon5.png)
 5. Choose Save.
 
-##### Setting up Hosted UI Domain with Apple
+##### Setting up Hosted UI Domain for Sign In with Apple
 
 1. The easiest way to get HostedUI configuration in your app is through automated set up with CLI. Choose a supported identity provider in your set up (Google and/or Facebook, or Login with Amazon) you would like to use. 
 
