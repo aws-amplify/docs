@@ -71,6 +71,7 @@ export class DocsMenu {
         )}
         <hr class={menuBreakStyle} />
         <docs-repo-actions page={this.page} />
+        <docs-feedback-callout />
       </Host>
     );
   }
