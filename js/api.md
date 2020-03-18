@@ -2229,7 +2229,7 @@ Similarly to use only the GraphQL API you can run: `npm install @aws-amplify/api
 ```javascript
 import GraphQLAPI, { graphqlOperation } from '@aws-amplify/api-graphql';
  
-GraphqlAPI.configure();
+GraphQLAPI.configure();
 ```
 
 Note: if you're using Cognito Federated Identity Pool to get AWS credentials, please also install `@aws-amplify/auth`.
