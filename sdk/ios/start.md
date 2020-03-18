@@ -178,7 +178,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 ```
 
-Next, in your application code where you wish to use the AppSync client (like your View Controller) reference this in the `viewDidLoad()` lifecycle method or in the instantiation of your view when using SwiftUI views.
+Next, reference the AppSync client that you initialized in the AppDelegate, above. You could do so inside of your `viewDidLoad()` lifecycle method, or while instantiating a SwiftUI View. See the examples below.
 
 In your View Controller
 ```swift
