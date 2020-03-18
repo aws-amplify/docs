@@ -28,7 +28,7 @@ implementation 'com.amplifyframework:core:0.9.1'
 implementation 'com.amplifyframework:aws-datastore:0.9.1'
 ```
 
-Sync the project and ensure that it built successfully. Switch to the **Project** view in Android Studio and open the schema file at `amplify/backend/api/amplifyDatasource/schema.graphql`. For this guide, edit this file so that it contains the schema definition below. [Learn more](https://aws-amplify.github.io/docs/cli-toolchain/graphql){:target="_blank"} about annotating GraphQL schemas and data modeling.
+Sync the project and ensure that it built successfully. Switch to the **Project** view in Android Studio and open the schema file at `amplify/backend/api/amplifyDatasource/schema.graphql`. For this guide, edit this file so that it contains the schema definition below. [Learn more](https://aws-amplify.github.io/docs/cli-toolchain/graphql) about annotating GraphQL schemas and data modeling.
 
 ```graphql
 enum PostStatus {
