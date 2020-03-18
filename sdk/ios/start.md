@@ -54,7 +54,7 @@ Open the created  `Podfile` in a text editor and add the pod for core AWS Mobile
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSAppSync', '~> 3.0.2'
+    pod 'AWSAppSync', '~> 3.1.0'
 
     # other pods
 end
