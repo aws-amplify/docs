@@ -2227,7 +2227,7 @@ RestAPI.configure();
 Similarly to use only the GraphQL API you can run: `npm install @aws-amplify/api-graphql` and then in your code:
 
 ```javascript
-import GraphqlAPI, { graphqlOperation } from '@aws-amplify/api-graphql';
+import GraphQLAPI, { graphqlOperation } from '@aws-amplify/api-graphql';
  
 GraphqlAPI.configure();
 ```
