@@ -121,6 +121,12 @@ If you've setup federation through third party providers, you would need to upda
     Note: If you saw an error message `Invalid Redirect: domain must be added to the authorized domains list before submitting.` when adding the endpoint, please go to the *authorized domains list* and add the domain.
 13. Click *Save*.
 
+### Setting up Hosted UI Domain for Sign In with Apple
+1. The easiest way to get HostedUI configuration in your app is through automated set up with CLI. Choose a supported identity provider in your set up (Google and/or Facebook, or Login with Amazon) you would like to use. 
+2. Run `amplify console auth` and choose User Pools to navigate to your Cognito User Pools over in the AWS Console. 
+3. Learn more about [How to set up Sign in with Apple for Amazon Cognito](https://aws.amazon.com/blogs/security/how-to-set-up-sign-in-with-apple-for-amazon-cognito/).
+4. Use `AWSMobileClient` to launch the HostedUI directly to sign in with Apple by specifying `HostedUIOptions(identityProvider: "SignInWithApple")`
+
 ### Setting up Hosted UI Domain with Login with Amazon
 
 1. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
@@ -230,6 +236,9 @@ let hostedUIOptions = HostedUIOptions(scopes: ["openid", "email"], identityProvi
 //  OR
 // Option to launch Facebook sign in directly
 let hostedUIOptions = HostedUIOptions(scopes: ["openid", "email"], identityProvider: "Facebook")
+//  OR
+// Option to launch Apple sign in directly
+let hostedUIOptions = HostedUIOptions(identityProvider: "SignInWithApple")
 
 // Present the Hosted UI sign in.
 AWSMobileClient.default().showSignIn(navigationController: self.navigationController!, hostedUIOptions: hostedUIOptions) { (userState, error) in
