@@ -78,7 +78,7 @@ import { withAuthenticator } from 'aws-amplify-react'; // or 'aws-amplify-react-
 Amplify.configure(awsconfig);
 ```
 
-By default, the Authenticator is not styled. To include default styling in JavaScript, add this line before `Amplify.configure`:
+As of `aws-amplify-react@4.x.x`, the Authenticator is not styled. To include default styling in JavaScript, add this line before `Amplify.configure`:
 
 ```javascript
 import '@aws-amplify/ui/dist/style.css';
