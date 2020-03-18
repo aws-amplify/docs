@@ -29,7 +29,7 @@ This page guides you through setting up a backend and integration into your iOS 
 
 ## Prerequisites
 
-* [Install and configure the Amplify CLI](..)
+* [Install and configure the Amplify CLI](../..)
 
 * [Install Xcode](https://developer.apple.com/xcode/downloads/){:target="_blank"} version 10.2 or later.
 
