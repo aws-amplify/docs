@@ -266,6 +266,8 @@ When complete run `amplify push` and your `awsconfiguration.json` will work auto
 
 If you login in your app either using the "Drop-In Auth" or the `AWSMobileClient` APIs then the user session will transition to an authenticated role.
 
+Note: If initialize is giving you the state as ‘SIGNED_OUT’, try calling `AWSMobileClient.getInstance().getCredentials()` and then calling initialize again. 
+
 ## Drop-In Auth
 
 The `AWSMobileClient` client supports a simple "drop-in" UI for your application. You can add drop-in Auth UI like so:
