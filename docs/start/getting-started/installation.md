@@ -52,9 +52,22 @@ amplify configure
 
 `amplify configure` will ask you to sign into the AWS Console.
 
-Once you're signed in, Amplify CLI will ask you to create an IAM user. Amplify requires a user with `AdministratorAccess` to your account to provision AWS resources for you like AppSync, Cognito etc.
-
+Once you're signed in, Amplify CLI will ask you to create an IAM user.
 > Amazon IAM (Identity and Access Management) enables you to manage users and user permissions in AWS. You can learn more about Amazon IAM [here](https://aws.amazon.com/iam/).
+
+```bash
+Specify the AWS Region
+? region:  # Your preferred region
+Specify the username of the new IAM user:
+? user name:  # User name for Amplify IAM user
+Complete the user creation using the AWS console
+```
+
+Amplify requires a user with `AdministratorAccess` to your account to provision AWS resources for you like AppSync, Cognito etc.
+
+![image](../../images/user-creation.gif)
+
+Once the user is created, Amplify CLI will ask you to provide the `accessKeyId` and the `secretAccessKey` to connect Amplify CLI with your newly created IAM user.
 
 ```bash
 Enter the access key of the newly created user:
@@ -65,7 +78,5 @@ This would update/create the AWS Profile in your local machine
 
 Successfully set up the new user.
 ```
-
-Once the user is created, Amplify CLI will ask you to provide the `accessKeyId` and the `secretAccessKey` to connect Amplify CLI with your newly created IAM user.
 
 Next, we'll set up the app and initialize Amplify!
