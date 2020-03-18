@@ -5,7 +5,7 @@ filterKey: integration
 ---
 
 <amplify-responsive-grid grid-gap="2" columns="2" class="margin-top-lg">
-  <div class="">
+  <div>
 
 Before we begin, make sure you have the following installed:
 
