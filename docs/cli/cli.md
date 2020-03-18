@@ -23,7 +23,7 @@ amplify configure
 ```
 The video below demonstrates how to install and configure the Amplify CLI.
 
-<iframe width="600" height="345" src="https://www.youtube.com/embed/fWbM5DLh25U">
+<iframe allowfullscreen src="https://www.youtube.com/embed/fWbM5DLh25U">
 </iframe>
 
 ### Work within your frontend project
