@@ -1,5 +1,5 @@
 ---
-title: Mocking and Testing
+title: Mocking and testing
 description: Landing page for the Amplify CLI
 ---  
 

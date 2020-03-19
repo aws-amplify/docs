@@ -1,11 +1,11 @@
 ---
-title: IAM Policy for the CLI
+title: IAM Policy
 description: Landing page for the Amplify CLI
 --- 
 
 The Amplify CLI requires the below IAM policies for performing actions across all categories. You can grant or restrict category permissions by including or removing items from the `Action` section as appropriate. For example, if you wish to restrict operations on the `Auth` category you can remove any of the lines starting with `cognito`.
 
-```bash
+```
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -88,6 +88,7 @@ The Amplify CLI requires the below IAM policies for performing actions across al
     ]
 }
 ```
+
 ## IAM Roles & MFA
 
 You can optionally configure the Amplify CLI to assume an IAM role by defining a profile for the role in the shared `~/.aws/config` file. This is similar to how the [AWS CLI](https://aws.amazon.com/cli/) functions, including short term credentials. This can be useful when you have multiple developers using one or more AWS accounts, including team workflows where you want to restrict the category updates they might be permitted to make.
@@ -132,13 +133,14 @@ Note: You MUST grant the role permissions to perform CloudFormation actions and 
 12. Give the Role Arn to Dev Corp.
 
 #### Part #2: Set up the user to assume the role (Dev Corp)
+
 **2.1 Create a policy that has permission to assume the role created above by Biz corp.**
 
 1. Get the Role Arn from Biz Corp.
 2. Sign in to the AWS Management Console and open the [IAM](https://console.aws.amazon.com/iam/) console. (Assuming Dev corp has a separate AWS account).
 3. In the navigation pane of the console, choose `Policies` and then choose `Create policy`.
 4. Select the 'JSON' tab and paste the following contents in the pane, replacing `<biz_corp_rol_arn>` with the value previously noted.
-```json
+```
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -208,6 +210,7 @@ region=us-east-1
 aws_access_key_id=<key_id_from_part_2.2>
 aws_secret_access_key=<secret_access_key_from_part_2.2>
 ```
+
 Now, when Dev Corp is trying to initialize an Amplify Project, the user can select the `bizcorprole` profile configured above, and based on the authentication method set up the user would be prompted with corresponding questions such as MFA codes. After this, the user would be able to successfully deploy/manage AWS resources in Biz corps account (based on the access policies set by the Biz corp).
 
 
