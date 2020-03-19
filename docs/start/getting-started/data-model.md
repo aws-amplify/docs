@@ -13,4 +13,4 @@ filterKey: integration
 <inline-fragment integration="js" src="~/start/getting-started/fragments/vanillajs/data-model.md"></inline-fragment>
 <inline-fragment integration="vue" src="~/start/getting-started/fragments/vanillajs/data-model.md"></inline-fragment>
 
-🙌 Great job! You have successfully deployed your API and connected it with an app!
+🙌 Great job! You have successfully deployed your API and connected it with your app!
