@@ -46,7 +46,10 @@ API.configure(awsconfig);
 PubSub.configure(awsconfig);
 ```
 
-<amplify-callout>Depending on your TypeScript version you may need to rename `aws-exports.js` to `aws-exports.ts` prior to importing, or enable the `allowJs` <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" target="_blank">compiler option</a> in your tsconfig. 
+<amplify-callout>
+
+Depending on your TypeScript version you may need to rename `aws-exports.js` to `aws-exports.ts` prior to importing, or enable the `allowJs` <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" target="_blank">compiler option</a> in your tsconfig. 
+
 </amplify-callout>
 
 Update `src/tsconfig.app.json` to include the "node" compiler option in *types*:

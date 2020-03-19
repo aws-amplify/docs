@@ -3,8 +3,8 @@ Setup instructions are provided for Android and iOS, and configuration for both 
 ## Requirements
 1. In order to use Amazon Pinpoint you need to setup credentials (keys or certificates) for your targeted mobile platform; e.g.:Android and/or iOS.
 2. Testing Push Notifications requires a physical device, because simulators or emulators wont' be able to handle push notifications.
-3. Push Notification module is integrated with [AWS Amplify Analytics module]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/analytics) to be able to track notifications. Make sure that you have configured the Analytics module in your app before configuring Push Notification module.
-3. For setting up iOS push notifications, you need to download and install Xcode from [Apple Developer Center](https://developer.apple.com/xcode/).
+3. Push Notification module is integrated with [AWS Amplify Analytics module](../../lib/analytics/start.md) to be able to track notifications. Make sure that you have configured the Analytics module in your app before configuring Push Notification module.
+4. For setting up iOS push notifications, you need to download and install Xcode from [Apple Developer Center](https://developer.apple.com/xcode/).
 
 ## Setup for Android
 
@@ -238,12 +238,12 @@ Setup instructions are provided for Android and iOS, and configuration for both 
     - On Signing (Debug, Release) set the provisioning profile (created on your Apple Developer Account)
  
     *Following screencast shows the required app settings in Xcode:*
-    <img src="/images/identifiers.gif"/>
+    <img src="~/images/identifiers.gif"/>
 
 9. Setup capabilities on your App and enable **Push Notifications** and **Background Modes**. On Background Modes select **Remote notifications**.
 
     *Following screencast shows the required app settings in Xcode:*
-    <img src="{%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/capabilities.gif" />
+    <img src="~/images/capabilities.gif" />
 
 10. Configure Push Notification module for your app as shown in [Configure your App](#configure-your-app) section.
 
@@ -255,14 +255,16 @@ Setup instructions are provided for Android and iOS, and configuration for both 
     - In case the build fails, try cleaning the project with *shift + command + k*.
 
     *Following screencast shows the required app settings in Xcode:*
-    <img src="{%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/runningApp.gif" />
+    <img src="~/images/runningApp.gif" />
 
 ## Configure your App
 
 Push Notification module is integrated with `Analytics` module to be able to track notifications. Make sure that you have configured the Analytics module in your app before configuring Push Notification module.  
 
 <amplify-callout>
-If you don't have Analytics already enabled, see our [Analytics Developer Guide]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/analytics) to add Analytics to your app.
+
+If you don't have Analytics already enabled, see our [Analytics Developer Guide](~/lib/analytics/start.md) to add Analytics to your app.
+
 </amplify-callout>
 
 First, import `PushNotification` module and configure it with `PushNotification.configure()`.

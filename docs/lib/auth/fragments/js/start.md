@@ -204,7 +204,9 @@ Auth.currentCredentials()
 Full API Documentation for Service Interface Objects is available [here](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/_index.html).
 
 <amplify-callout warning>
+
 Note: To work with Service Interface Objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
+
 </amplify-callout>
 
 
