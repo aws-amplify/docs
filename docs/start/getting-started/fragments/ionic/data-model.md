@@ -1,14 +1,54 @@
 ### Model the data with GraphQL transform
 
-Add a GraphQL API to your app and automatically provision a database with the following command (accepting all defaults is OK):
+Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the the following command from the root of your application directory:
 
 ```bash
-$ amplify add api     #select GraphQL, API Key
+amplify add api #accept defaults
 ```
 
-The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on you can always change it. This process creates an AWS AppSync API and connects it to an Amazon DynamoDB database.
+The default values are highlighted below.
+```bash
+? Please select from one of the below mentioned services:
+# GraphQL
+? Provide API name:
+# myapi
+? Choose the default authorization type for the API:
+# API Key
+? Enter a description for the API key:
+# demo
+? After how many days from now the API key should expire:
+# 7 (or your preferred expiration)
+? Do you want to configure advanced settings for the GraphQL API:
+# No
+? Do you have an annotated GraphQL schema? 
+# No
+? Do you want a guided schema creation? 
+# Yes
+? What best describes your project: 
+# Single object with fields
+? Do you want to edit the schema now? 
+# Yes
+```
 
-[Learn more about annotating GraphQL schemas and data modeling](https://aws-amplify.github.io/docs/cli-toolchain/graphql).
+The CLI should open this GraphQL schema in your text editor.
+
+__amplify/backend/api/myapi/schema.graphql__
+
+```graphql
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
+```
+
+The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. This directive is part of the [GraphQL transform](/cli/graphql-transformer/directives) library of Amplify. 
+
+The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.
+
+A type decorated with the `@model` directive will scaffold out the database table for the type (Todo table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
+
+From the command line, press __enter__ to accept the schema and continue to the next steps.
 
 ## Create GraphQL API and database
 
