@@ -20,6 +20,7 @@ export const nextPreviousLinkStyle = css`
   h4,
   span {
     color: var(--font-color);
+    text-align: right;
   }
 
   span {
@@ -32,9 +33,16 @@ export const nextPreviousLinkStyle = css`
     width: 0.5rem;
   }
 
-  &:first-child img {
-    margin-left: 0;
-    margin-right: 1rem;
+  &:first-child {
+    img {
+      margin-left: 0;
+      margin-right: 1rem;
+    }
+
+    h4,
+    span {
+      text-align: left;
+    }
   }
 `;
 
