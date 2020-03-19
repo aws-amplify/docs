@@ -210,7 +210,9 @@ The following steps will set up your CORS Policy:
 ```
 
 <amplify-callout>
-Note: You can restrict the access to your bucket by updating AllowedOrigin to include individual domains.
+
+**Note:** You can restrict the access to your bucket by updating AllowedOrigin to include individual domains.
+
 </amplify-callout>
 
 ## Configure frontend

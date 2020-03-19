@@ -1,7 +1,9 @@
 The AWS Amplify API module supports AWS AppSync or any other GraphQL backends.
 
 <amplify-callout>
+
 To learn more about GraphQL, please visit the [GraphQL website](http://graphql.org/learn/).
+
 </amplify-callout>
 
 ## Using AWS AppSync

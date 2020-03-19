@@ -108,7 +108,9 @@ PubSub.subscribe('myTopic', { provider: 'MqttOverWSProvider' }).subscribe({
 ```
 
 <amplify-callout>
-Note: If you do not include a specific provider it will subscribe to all of the configured PubSub providers in your app.
+
+**Note:** If you do not include a specific provider it will subscribe to all of the configured PubSub providers in your app.
+
 </amplify-callout>
 
 Following events will be triggered with `subscribe()`

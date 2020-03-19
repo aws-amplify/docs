@@ -3,7 +3,9 @@ Amazon Cognito User Pools supports customizing the authentication flow to enable
 To define your challenges for custom authentication flow, you need to implement three Lambda triggers for Amazon Cognito.
 
 <amplify-callout>
+
 For more information about working with Lambda Triggers for custom authentication challenges, please visit [Amazon Cognito Developer Documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
+
 </amplify-callout>
 
 ## Custom authentication flow
