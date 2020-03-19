@@ -92,19 +92,4 @@ Amplify.configure(awsExports);
 
 And that's all it takes to configure Amplify. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in __aws-exports.js__ will update automatically.
 
-Next, run the following command:
-
-```bash
-amplify status
-```
-
-This will give us the current status of the Amplify project, including the current environment, any categories that have been created (we'll learn about these soon!), and what state those categories are in. It should look similar to this:
-
-```bash
-Current Environment: dev
-
-| Category | Resource name | Operation | Provider plugin |
-| -------- | ------------- | --------- | --------------- |
-```
-
 Now that our React app is set up and Amplify is initialized, we're ready to add an API in the next step.

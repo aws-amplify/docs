@@ -130,3 +130,18 @@ amplify push
 ? Enter the file name for the generated code:
 # API.swift
 ```
+
+Next, run the following command to check Amplify's status:
+
+```bash
+amplify status
+```
+
+This will give us the current status of the Amplify project, including the current environment, any categories that have been created, and what state those categories are in. It should look similar to this:
+
+```bash
+Current Environment: dev
+
+| Category | Resource name | Operation | Provider plugin |
+| -------- | ------------- | --------- | --------------- |
+```

@@ -62,6 +62,21 @@ $ amplify push
 
 Since you added an API the `amplify push` process will automatically prompt for codegen (select `y` when prompted for automatic query and code generation). Choose **Angular** which will create an `API.service.ts` file in the app directory.
 
+Next, run the following command to check Amplify's status:
+
+```bash
+amplify status
+```
+
+This will give us the current status of the Amplify project, including the current environment, any categories that have been created, and what state those categories are in. It should look similar to this:
+
+```bash
+Current Environment: dev
+
+| Category | Resource name | Operation | Provider plugin |
+| -------- | ------------- | --------- | --------------- |
+```
+
 ### Testing your API
 
 You can open the AWS console to run Queries, Mutation, or Subscription against you new API at any time directly by running the following command:
