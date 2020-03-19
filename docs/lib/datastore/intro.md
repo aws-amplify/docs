@@ -7,7 +7,7 @@ Amplify DataStore provides a persistent on-device storage repository for you to 
 
 ## How it Works
 
-<iframe width="600" height="345" src="https://www.youtube.com/embed/KcYl6_We0EU">
+<iframe allowfullscreen src="https://www.youtube.com/embed/KcYl6_We0EU">
 </iframe>
 
 Amplify DataStore is an on device persistent repository for interacting with your local data while it synchronizes with the cloud. The core idea is to focus on your data modeling in your application with GraphQL, adding any authorization rules or business logic into your application when needed. This can be done using Amplify CLI project functionality (`amplify add auth` or `amplify add function`) as well as the [GraphQL Transformer](https://aws-amplify.github.io/docs/cli-toolchain/graphql).
