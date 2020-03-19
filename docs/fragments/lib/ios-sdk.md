@@ -7,3 +7,7 @@ For a complete list of supported AWS services, visit the [GitHub link](https://g
 
 **Changelog**  
 The changelog for AWS mobile SDK For iOS can be found [here](https://github.com/aws-amplify/aws-sdk-ios/blob/master/CHANGELOG.md).
+
+<docs-internal-link-button href="~/sdk/api/graphql.md">
+  <span slot="text">Explore categories</span>
+</docs-internal-link-button>
