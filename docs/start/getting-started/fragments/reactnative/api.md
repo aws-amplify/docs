@@ -6,6 +6,7 @@ The API you will be creating in this step is a GraphQL API using AWS AppSync (a 
 
 ## Create a GraphQL API and database
 
+
 Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the the following command from the root of your application directory:
 
 ```bash
@@ -17,7 +18,7 @@ The default values are highlighted below.
 ? Please select from one of the below mentioned services:
 # GraphQL
 ? Provide API name:
-# myapi
+# (amplify-api)
 ? Choose the default authorization type for the API:
 # API Key
 ? Enter a description for the API key:
