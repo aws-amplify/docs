@@ -61,7 +61,7 @@ Specify the username of the new IAM user:
 Complete the user creation using the AWS console
 ```
 
-Create a user with `AdministratorAccess` in your account to provision AWS resources for you like AppSync, Cognito etc.
+Create a user with `AdministratorAccess` to your account to provision AWS resources for you like AppSync, Cognito etc.
 
 ![image](../../images/user-creation.gif)
 
