@@ -171,7 +171,7 @@ Services used: Amazon Rekognition
 
 **Advanced configuration**
 
-You can enhance your application's ability to identify entities by performing [indexing against a pre-defined collection of images and providing them to Amazon Rekognition](https://docs.aws.amazon.com/rekognition/latest/dg/API_IndexFaces.html){:target="_blank"}. This can be done in one of two ways:
+You can enhance your application's ability to identify entities by performing [indexing against a pre-defined collection of images and providing them to Amazon Rekognition](https://docs.aws.amazon.com/rekognition/latest/dg/API_IndexFaces.html). This can be done in one of two ways:
 1. Administrators provide images to be indexed from an S3 bucket
 2. Application users upload files to an S3 bucket which are indexed
 

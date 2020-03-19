@@ -6,25 +6,39 @@ The API you will be creating in this step is a GraphQL API using AWS AppSync (a 
 
 ## Create a GraphQL API and database
 
-To add the API, run the following command.
+Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the the following command from the root of your application directory:
 
-```sh
-amplify add api
-
-? Please select from one of the below mentioned services: GraphQL
-? Provide API name: myapi
-? Choose the default authorization type for the API: API Key
-? Enter a description for the API key: demo
-? After how many days from now the API key should expire: 7 (or your preferred expiration)
-? Do you want to configure advanced settings for the GraphQL API: N
-? Do you have an annotated GraphQL schema? N
-? Do you want a guided schema creation? Y
-? What best describes your project: Single object with fields
-? Do you want to edit the schema now? Y
+```bash
+amplify add api #accept defaults
 ```
 
-The CLI should open this schema in your text editor (__amplify/backend/api/myapi/schema.graphql
-__).
+The default values are highlighted below.
+```bash
+? Please select from one of the below mentioned services:
+# GraphQL
+? Provide API name:
+# myapi
+? Choose the default authorization type for the API:
+# API Key
+? Enter a description for the API key:
+# demo
+? After how many days from now the API key should expire:
+# 7 (or your preferred expiration)
+? Do you want to configure advanced settings for the GraphQL API:
+# No
+? Do you have an annotated GraphQL schema? 
+# No
+? Do you want a guided schema creation? 
+# Yes
+? What best describes your project: 
+# Single object with fields
+? Do you want to edit the schema now? 
+# Yes
+```
+
+The CLI should open this GraphQL schema in your text editor.
+
+__amplify/backend/api/myapi/schema.graphql__
 
 ```graphql
 type Todo @model {
@@ -42,9 +56,11 @@ A type decorated with the `@model` directive will scaffold out the database tabl
 
 From the command line, press __enter__ to accept the schema and continue to the next steps.
 
-### Test your API 
+### (Optional) Test your API 
 
-To test this out locally, you can run the `mock` command:
+To test this out locally, you can run the `mock` command.
+
+> If you'd like to go ahead and deploy the API, you can [jump to the next step](#deploying-the-api).
 
 ```sh
 amplify mock api
@@ -99,7 +115,7 @@ amplify push
 ? Enter maximum statement depth [increase from default if your schema is deeply nested]: 2
 ```
 
-Now the API and database have been deployed and you can start interacting with it.
+Now the API is live and you can start interacting with it!
 
 The API you have deployed is for a Todo app, including operations for creating, reading, updating, deleting, and listing todos.
 

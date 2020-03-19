@@ -54,9 +54,9 @@ npm start
 
 Now you should see the app load with an authentication flow allowing users to sign up and sign in.
 
-In this example, you used the React Native UI library and the `withAuthenticator` to quickly get up and running with a real-world authentication flow.
+In this example, you used the Amplify React UI library and the `withAuthenticator` component to quickly get up and running with a real-world authentication flow.
 
-You can also customize this component to add or remove fields, update styling, or other configurations. To configure this component, check out the documentation [here]().
+You can also customize this component to add or remove fields, update styling, or other configurations.
 
 In addition to the `withAuthenticator` you can build custom authentication flows using the `Auth` class.
 

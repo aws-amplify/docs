@@ -6,19 +6,19 @@ Build an iOS app using the Amplify Framework which contains:
 - iOS, Android, and JavaScript libraries to access your resources using a category based programming model.
 - Framework-specific UI component libraries for React, React Native, Angular, Ionic and Vue.
 
-This page guides you through setting up a backend and integrating the Amplify libraries in your iOS app. You will create a "Note app" with a GraphQL API and to store and retrieve items in a cloud database, as well as receive updates over a realtime subscription using the [API category](https://aws-amplify.github.io/docs/ios/api){:target="_blank"}. Alternatively the [DataStore category](https://aws-amplify.github.io/docs/ios/datastore){:target="_blank"} can be used for local-first programming, offline access, and object sync with GraphQL.
+This page guides you through setting up a backend and integrating the Amplify libraries in your iOS app. You will create a "Note app" with a GraphQL API and to store and retrieve items in a cloud database, as well as receive updates over a realtime subscription using the [API category](https://aws-amplify.github.io/docs/ios/api). Alternatively the [DataStore category](https://aws-amplify.github.io/docs/ios/datastore) can be used for local-first programming, offline access, and object sync with GraphQL.
 
-[GraphQL](http://graphql.org){:target="_blank"} is a data language that was developed to enable apps to fetch data from APIs. It has a declarative, self-documenting style. In a GraphQL operation, the client specifies how to structure the data when it is returned by the server. This makes it possible for the client to query only for the data it needs, in the format that it needs it in.
+[GraphQL](http://graphql.org) is a data language that was developed to enable apps to fetch data from APIs. It has a declarative, self-documenting style. In a GraphQL operation, the client specifies how to structure the data when it is returned by the server. This makes it possible for the client to query only for the data it needs, in the format that it needs it in.
 
 ## Prerequisites
 
-* [Install Xcode](https://developer.apple.com/xcode/downloads/){:target="_blank"} version 10.2 or later.
+* [Install Xcode](https://developer.apple.com/xcode/downloads/) version 10.2 or later.
 
 * [Install CocoaPods](https://cocoapods.org/)
 
 * [Install Node](https://nodejs.org/en/)
 
-* This guide assumes that you are familiar with iOS development and tools. If you are new to iOS development, you can follow [these steps](https://developer.apple.com/library/archive/referencelibrary/GettingStarted/DevelopiOSAppsSwift/BuildABasicUI.html){:target="_blank"} to create your first iOS application using Swift. 
+* This guide assumes that you are familiar with iOS development and tools. If you are new to iOS development, you can follow [these steps](https://developer.apple.com/library/archive/referencelibrary/GettingStarted/DevelopiOSAppsSwift/BuildABasicUI.html) to create your first iOS application using Swift. 
 
 
 ## Configure your app

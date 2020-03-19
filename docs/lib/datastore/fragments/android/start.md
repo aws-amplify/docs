@@ -28,7 +28,7 @@ implementation 'com.amplifyframework:core:0.9.1'
 implementation 'com.amplifyframework:aws-datastore:0.9.1'
 ```
 
-Sync the project and ensure that it built successfully. Switch to the **Project** view in Android Studio and open the schema file at `amplify/backend/api/amplifyDatasource/schema.graphql`. For this guide, edit this file so that it contains the schema definition below. [Learn more](https://aws-amplify.github.io/docs/cli-toolchain/graphql){:target="_blank"} about annotating GraphQL schemas and data modeling.
+Sync the project and ensure that it built successfully. Switch to the **Project** view in Android Studio and open the schema file at `amplify/backend/api/amplifyDatasource/schema.graphql`. For this guide, edit this file so that it contains the schema definition below. [Learn more](https://aws-amplify.github.io/docs/cli-toolchain/graphql) about annotating GraphQL schemas and data modeling.
 
 ```graphql
 enum PostStatus {
@@ -49,7 +49,9 @@ Gradle tasks will generate model files to be used in your API calls, and will pr
 After saving your `schema.graphql` file, click the Gradle Task dropdown in the toolbar and select **modelgen** and run the task. Once it completes you should have generated Java classes under `app/src/main/java/com/amplifyframework/datastore/generated/model`.
 
 <amplify-callout>
-You do not need an AWS account to complete these steps, nor if you are using DataStore without a backend. However, if you wish to sync with the cloud, it is recommended that you [Install and configure the Amplify CLI](..)
+
+You do not need an AWS account to complete these steps, nor if you are using DataStore without a backend. However, if you wish to sync with the cloud, it is recommended that you [Install and configure the Amplify CLI](../../../start/getting-started/installation.md)
+
 </amplify-callout>
 
 ## Manual Model Generation
