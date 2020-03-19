@@ -26,9 +26,9 @@ If you don't already have an AWS account, you'll need to create one in order to 
 
 The Amplify Command Line Interface (CLI) is a unified toolchain to create AWS cloud services for your app. Let's go ahead and install the Amplify CLI.
 
-Watch the video below to learn how to install and configure the Amplify CLI or skip to the next section to read through the step-by-step instructions.
-
 ### Option 1: Watch the video guide
+
+Watch the video below to learn how to install and configure the Amplify CLI or skip to the next section to read through the step-by-step instructions.
 
 <iframe
   allowfullscreen
