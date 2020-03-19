@@ -20,6 +20,7 @@ export class AmplifyTOCProvider {
       this.content.querySelectorAll("h2, h3"),
     ).filter((e) => headingIsVisible(e)) as HTMLElement[]);
 
+  // @ts-ignore
   @Watch("content")
   bindToContent() {
     this.setElements();

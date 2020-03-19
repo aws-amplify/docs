@@ -12,7 +12,7 @@ export async function stencilRenderer(config: t.Config): Promise<void> {
  */
     
 import {h} from "@stencil/core";
-import {VNode} from "@stencil/core/dist/declarations";
+import {VNode} from "@stencil/core";
 import {OrText, HyperscriptNode, Props} from "./types";
 
 export type HyperscriptResult = OrText<VNode>;
