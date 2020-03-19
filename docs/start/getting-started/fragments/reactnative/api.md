@@ -57,7 +57,7 @@ A type decorated with the `@model` directive will scaffold out the database tabl
 
 From the command line, press __enter__ to accept the schema and continue to the next steps.
 
-### Test your API 
+### (Optional) Test your API 
 
 To test this out locally, you can run the `mock` command.
 
