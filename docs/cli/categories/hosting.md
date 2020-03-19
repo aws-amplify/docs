@@ -18,6 +18,7 @@ The amplify-category-hosting module uses the amplify-provider-awscloudformation 
 [CloudFront DEV Guide](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html)
 
 #### Workflow
+
 - `amplify hosting add`<br/>
 This adds the hosting resources to the backend. The command will first prompt for environment selection, either DEV or PROD. Upon completion, the CloudFormation template for the resources is placed in the amplify/backend/hosting directory. <br/><br/>
 - `amplify hosting configure`<br/>
@@ -28,6 +29,7 @@ For the amplify-category-hosting implementation, the frontend build artifacts wi
 
 
 #### Configuration
+
 The command `amplify hosting configure` walks through the steps to configure the different sections of the resources used in hosting.
 - `Website`<br/>
 Configures the S3 bucket for static web hosting, the user can set the index doc and error doc, both are set to be `index.html` by default.<br/><br/>
@@ -37,6 +39,7 @@ Configures the CloudFront content delivery network (CDN), the user can configure
 Configures the publish ignore patterns (just like what's in the .gitignore) for the publish command, the publish command will ignore directories and files in the distribution folder that have names matching the patterns.
 
 #### Stages
+
 For the amplify-category-hosting implementation, there are two stages you can select from:
 - DEV:  S3 static web hosting
 - PROD: S3 and CloudFront
@@ -47,9 +50,11 @@ CloudFront can also be added or removed in your project afterwards by the `ampli
 
 
 ### Using the AWS Amplify Console
+
 <amplify-callout>
-The AWS Amplify Console is a continuous deployment and hosting service for Amplify web apps. [Learn more](http://
-console.amplify.aws){: .target='new'}.
+
+The AWS Amplify Console is a continuous deployment and hosting service for Amplify web apps. [Learn more](https://console.amplify.aws).
+
 </amplify-callout>
 
 The AWS Amplify Console provides a Git-based workflow for building, deploying, and hosting your Amplify web app — both the frontend and backend — from source control. Once you connect a feature branch, all code commits are automatically deployed to an `amplifyapp.com` subdomain or your custom domain. **[Get started >>](https://docs.aws.amazon.com/amplify/latest/userguide/getting-started.html)**

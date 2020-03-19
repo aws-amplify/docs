@@ -15,7 +15,7 @@ In order to quickly test and debug without pushing all changes in your project t
 Java is required on your development workstation to use Local Mocking in Amplify
 </amplify-callout>
 
-[Blog walk-through with sample app](https://aws.amazon.com/blogs/mobile/amplify-framework-local-mocking/){:target="_blank"}.
+[Blog walk-through with sample app](https://aws.amazon.com/blogs/mobile/amplify-framework-local-mocking/).
 
 ### API mocking setup
 After running `amplify init` you can immediately add a GraphQL API and begin mocking without first pushing to the cloud. REST APIs are not yet supported. For example:
