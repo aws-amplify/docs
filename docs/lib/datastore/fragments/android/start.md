@@ -49,7 +49,9 @@ Gradle tasks will generate model files to be used in your API calls, and will pr
 After saving your `schema.graphql` file, click the Gradle Task dropdown in the toolbar and select **modelgen** and run the task. Once it completes you should have generated Java classes under `app/src/main/java/com/amplifyframework/datastore/generated/model`.
 
 <amplify-callout>
-You do not need an AWS account to complete these steps, nor if you are using DataStore without a backend. However, if you wish to sync with the cloud, it is recommended that you [Install and configure the Amplify CLI](..)
+
+You do not need an AWS account to complete these steps, nor if you are using DataStore without a backend. However, if you wish to sync with the cloud, it is recommended that you [Install and configure the Amplify CLI](../../../start/getting-started/installation.md)
+
 </amplify-callout>
 
 ## Manual Model Generation

@@ -3,7 +3,9 @@ PubSub provides connectivity with cloud-based message-oriented middleware. You c
 PubSub is available with **AWS IoT**. 
 
 <amplify-callout>
+
 Starting with version `12.1.1`, iOS requires that publicly-trusted Transport Layer Security (TLS) server authentication certificates issued after October 15, 2018 meet the Certificate Transparency policy to be evaluated as trusted on Apple platforms. Any existing customer endpoint you have is most likely a VeriSign endpoint. If your endpoint has `-ats` at the end of the first subdomain, then it is an Amazon Trust Services endpoint. You can get an updated endpoint from the AWS console (AWS Console->IoT Core ->Settings page). For more details read: https://aws.amazon.com/blogs/iot/aws-iot-core-ats-endpoints/
+
 </amplify-callout>
 
 ## Installation and Configuration
