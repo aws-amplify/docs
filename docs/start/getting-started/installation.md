@@ -24,23 +24,23 @@ If you don't already have an AWS account, you'll need to create one in order to 
 
 ## Install and configure the Amplify CLI
 
-<amplify-responsive-grid grid-gap="2" columns="2" class="margin-top-lg">
-  <div>
-The Amplify Command Line Interface (CLI) is a unified toolchain to create AWS cloud services for your app.
+The Amplify Command Line Interface (CLI) is a unified toolchain to create AWS cloud services for your app. Let's go ahead and install the Amplify CLI.
 
+### Option 1: Watch the video guide
+
+Watch the video below to learn how to install and configure the Amplify CLI or skip to the next section to read through the step-by-step instructions.
+
+<iframe
+  allowfullscreen
+  src="https://www.youtube.com/embed/fWbM5DLh25U"
+></iframe>
+
+### Option 2: Read through the instructions
 ```bash
 npm install -g @aws-amplify/cli
 ```
 > Because we're installing the Amplify CLI globally, you might need to run the command above with `sudo`.
 
-  </div>
-  <div>
-    <iframe
-      allowfullscreen
-      src="https://www.youtube.com/embed/fWbM5DLh25U"
-    ></iframe>
-  </div>
-</amplify-responsive-grid>
 
 Now it's time to setup the Amplify CLI. Configure Amplify by running the following command:
 
