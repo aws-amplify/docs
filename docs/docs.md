@@ -23,8 +23,8 @@ disableLinkification: true
       <img slot="graphic" src="~/assets/lib.png" />
       <h4 slot="heading">Amplify Libraries</h4>
       <p slot="description">
-        An open source library and UI components for adding
-        cloud-powered functionality
+        Open source libraries and UI components for adding
+        cloud-powered functionality.
       </p>
     </docs-card>
     <docs-card url="~/cli/cli.md" class="three-dee-effect border-radius">
