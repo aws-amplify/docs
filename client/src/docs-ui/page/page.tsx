@@ -22,7 +22,7 @@ import {pageContext} from "./page.context";
 import {track, AnalyticsEventType} from "../../utils/track";
 import {Breakpoint} from "../../amplify-ui/styles/media";
 
-const cache = new Map<string, Promise<Page>>();
+const cache = new Map<string, Promise<Page> | undefined>();
 const getPageCached = (route: string) => {
   let promise = cache.get(route);
   if (!promise) {
@@ -60,6 +60,7 @@ export class DocsPage {
   filterKey?: string;
   filterValue?: string;
 
+  // @ts-ignore
   @Watch("currentPath")
   computeFilter() {
     if (this.filterKey) {
@@ -76,6 +77,7 @@ export class DocsPage {
     }
   }
 
+  // @ts-ignore
   @Listen("resize", {target: "window"})
   setSidebarStickyTop(): number {
     const sidebarStickyTop = innerWidth > Breakpoint.TAPTOP * 16 ? 3 : 6.25;

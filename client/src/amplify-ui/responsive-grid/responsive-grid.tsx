@@ -17,6 +17,7 @@ export class AmplifyResponsiveGrid {
 
   @State() computedStyle?: string;
 
+  // @ts-ignore
   @Watch("columnCountByBreakpoint")
   computeStyle() {
     this.computedStyle = cx(

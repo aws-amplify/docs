@@ -38,7 +38,7 @@
         "watch": "multiline"
       }
     ],
-    "@stencil/element-type": 2,
+    "@stencil/element-type": 0,
     "@stencil/host-data-deprecated": 2,
     "@stencil/methods-must-be-public": 2,
     "@stencil/no-unused-watch": 2,

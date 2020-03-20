@@ -26,6 +26,7 @@ export class DocsInternalLink {
   @State() isActive?: boolean;
   @State() isChildActive?: boolean;
 
+  // @ts-ignore
   @Watch("selectedFilters")
   computeURL() {
     if (this.href) {
@@ -56,7 +57,9 @@ export class DocsInternalLink {
     }
   }
 
+  // @ts-ignore
   @Watch("selectedFilters")
+  // @ts-ignore
   @Watch("currentPath")
   computeMatch() {
     if (this.currentPath && this.url) {
