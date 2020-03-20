@@ -1,10 +1,10 @@
-## Getting Started
-
 Build an iOS app using the Amplify Framework which contains:
 
 - Amplify Tools - CLI toolchain for creating and managing your serverless backend.
 - iOS, Android, and JavaScript libraries to access your resources using a category based programming model.
-- Framework-specific UI component libraries for React, React Native, Angular, Ionic and Vue.
+- Framework-specific UI component libraries for React, React Native, Angular, Ionic and Vue.  
+
+<br />
 
 This page guides you through setting up a backend and integrating the Amplify libraries in your iOS app. You will create a "Note app" with a GraphQL API and to store and retrieve items in a cloud database, as well as receive updates over a realtime subscription using the [API category](https://aws-amplify.github.io/docs/ios/api). Alternatively the [DataStore category](https://aws-amplify.github.io/docs/ios/datastore) can be used for local-first programming, offline access, and object sync with GraphQL.
 
