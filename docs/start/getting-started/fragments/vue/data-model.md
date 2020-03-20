@@ -116,8 +116,9 @@ This will give us the current status of the Amplify project, including the curre
 ```bash
 Current Environment: dev
 
-| Category | Resource name | Operation | Provider plugin |
-| -------- | ------------- | --------- | --------------- |
+| Category | Resource name | Operation | Provider plugin   |
+| -------- | ------------- | --------- | ----------------- |
+| Api      | myapi         | No Change | awscloudformation |
 ```
 
 ### Testing your API

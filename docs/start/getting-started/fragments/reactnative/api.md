@@ -88,8 +88,9 @@ This will give us the current status of the Amplify project, including the curre
 ```bash
 Current Environment: dev
 
-| Category | Resource name | Operation | Provider plugin |
-| -------- | ------------- | --------- | --------------- |
+| Category | Resource name | Operation | Provider plugin   |
+| -------- | ------------- | --------- | ----------------- |
+| Api      | myapi         | No Change | awscloudformation |
 ```
 
 To view the GraphQL API in the AppSync console at any time, run the following command:
