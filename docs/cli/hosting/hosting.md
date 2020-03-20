@@ -3,11 +3,7 @@ title: Overview
 description: hosting
 ---
 
-There are multiple ways to deploy and host your Amplify app. Two options are listed below:
-
-<a href="#using-the-aws-amplify-console">AWS Amplify Console</a>
-<a href="#using-the-amplify-cli">Amazon S3 & Amazon Cloudfront</a><br/>
-
+Deploy and host your app using either Amplify Console or Amazon CloudFront/S3. The Amplify Console offers fully managed hosting with features such as instant cache invalidation and atomic deploys. For more control with setting up a CDN and hosting buckets, use CloudFront and S3.
 
 ## Workflow
 
@@ -26,7 +22,7 @@ This removes the hosting resources locally from the backend. On your next `ampli
 The AWS Amplify Console is a continuous deployment and hosting service for Amplify web apps. [Learn more](https://console.amplify.aws).
 </amplify-callout>
 
-The AWS Amplify Console provides a Git-based workflow for building, deploying, and hosting your Amplify web app — both the frontend and backend — from source control. Once you connect a feature branch, all code commits are automatically deployed to an `amplifyapp.com` subdomain or your custom domain. **[Get started >>](https://docs.aws.amazon.com/amplify/latest/userguide/getting-started.html)**
+The AWS Amplify Console provides a Git-based workflow for building, deploying, and hosting your Amplify web app — both the frontend and backend — from source control. Once you connect a feature branch, all code commits are automatically deployed to an `amplifyapp.com` subdomain or your custom domain.
 
 Following are the concepts you would encounter when adding Amplify console as a hosting option for your Amplify app.
 
@@ -44,7 +40,7 @@ These settings do not get replicated or cloned between environments and you'd ha
 
 **Note**: Amplify Console automatically handles cache invalidation and there is no additional configurations or commands/command-line parameters required for it.
 
-### Amazon S3 & Amazon Cloudfront
+## Amazon S3 and Amazon Cloudfront
 
 The Amplify CLI provides you the option to manage the hosting of your static website using Amazon S3 and Amazon Cloudfront directly as well. Following are the concepts you would encounter when adding S3 & Cloudfront as a hosting option for your Amplify app.
 
