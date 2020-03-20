@@ -14,12 +14,7 @@ exports[`docs-universal-nav Render logic should render 1`] = `
             Community
           </span>
         </amplify-external-link>
-        <amplify-external-link anchortitle="Amplify GitHub" class="css-1s6v51f" href="https://github.com/aws-amplify">
-          <span>
-            Open Source
-          </span>
-        </amplify-external-link>
-        <amplify-external-link anchortitle="Amplify AWS Homepage" graphic="white" href="https://aws.amazon.com/amplify/">
+        <amplify-external-link anchortitle="AWS Amplify Homepage" graphic="white" href="https://aws.amazon.com/amplify/">
           <span>
             About
             <span class="css-ecbrz7">
