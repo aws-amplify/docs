@@ -210,6 +210,7 @@ export namespace Components {
     */
     'setCurrentPath'?: SetCurrentPath;
   }
+  interface DocsFeedbackCallout {}
   interface DocsFilterTarget {
     /**
     * * the conditions off of which to style the host visible vs. hidden
@@ -515,6 +516,12 @@ declare global {
     new (): HTMLDocsChooseIntegrationAnchorElement;
   };
 
+  interface HTMLDocsFeedbackCalloutElement extends Components.DocsFeedbackCallout, HTMLStencilElement {}
+  var HTMLDocsFeedbackCalloutElement: {
+    prototype: HTMLDocsFeedbackCalloutElement;
+    new (): HTMLDocsFeedbackCalloutElement;
+  };
+
   interface HTMLDocsFilterTargetElement extends Components.DocsFilterTarget, HTMLStencilElement {}
   var HTMLDocsFilterTargetElement: {
     prototype: HTMLDocsFilterTargetElement;
@@ -648,6 +655,7 @@ declare global {
     'docs-chat-button': HTMLDocsChatButtonElement;
     'docs-choose-anchor': HTMLDocsChooseAnchorElement;
     'docs-choose-integration-anchor': HTMLDocsChooseIntegrationAnchorElement;
+    'docs-feedback-callout': HTMLDocsFeedbackCalloutElement;
     'docs-filter-target': HTMLDocsFilterTargetElement;
     'docs-footer': HTMLDocsFooterElement;
     'docs-global-styles-story': HTMLDocsGlobalStylesStoryElement;
@@ -849,6 +857,7 @@ declare namespace LocalJSX {
     */
     'setCurrentPath'?: SetCurrentPath;
   }
+  interface DocsFeedbackCallout {}
   interface DocsFilterTarget {
     /**
     * * the conditions off of which to style the host visible vs. hidden
@@ -1026,6 +1035,7 @@ declare namespace LocalJSX {
     'docs-chat-button': DocsChatButton;
     'docs-choose-anchor': DocsChooseAnchor;
     'docs-choose-integration-anchor': DocsChooseIntegrationAnchor;
+    'docs-feedback-callout': DocsFeedbackCallout;
     'docs-filter-target': DocsFilterTarget;
     'docs-footer': DocsFooter;
     'docs-global-styles-story': DocsGlobalStylesStory;
@@ -1078,6 +1088,7 @@ declare module "@stencil/core" {
       'docs-chat-button': LocalJSX.DocsChatButton & JSXBase.HTMLAttributes<HTMLDocsChatButtonElement>;
       'docs-choose-anchor': LocalJSX.DocsChooseAnchor & JSXBase.HTMLAttributes<HTMLDocsChooseAnchorElement>;
       'docs-choose-integration-anchor': LocalJSX.DocsChooseIntegrationAnchor & JSXBase.HTMLAttributes<HTMLDocsChooseIntegrationAnchorElement>;
+      'docs-feedback-callout': LocalJSX.DocsFeedbackCallout & JSXBase.HTMLAttributes<HTMLDocsFeedbackCalloutElement>;
       'docs-filter-target': LocalJSX.DocsFilterTarget & JSXBase.HTMLAttributes<HTMLDocsFilterTargetElement>;
       'docs-footer': LocalJSX.DocsFooter & JSXBase.HTMLAttributes<HTMLDocsFooterElement>;
       'docs-global-styles-story': LocalJSX.DocsGlobalStylesStory & JSXBase.HTMLAttributes<HTMLDocsGlobalStylesStoryElement>;
