@@ -1,10 +1,10 @@
-# Getting Started
-
 Build an Android app using the Amplify Framework which contains:
 
 - Amplify Tools - CLI toolchain for creating and managing your serverless backend.
 - Android, iOS, and JavaScript libraries to access your resources using a category based programming model.
-- Framework-specific UI component libraries for React, React Native, Angular, Ionic and Vue.
+- Framework-specific UI component libraries for React, React Native, Angular, Ionic and Vue.  
+
+<br />
 
 This page guides you through setting up a backend and integration into your Android app. You will create a "Note app" with a GraphQL API to store and retrieve items in a cloud database, as well as receive updates over a realtime subscription.
 
