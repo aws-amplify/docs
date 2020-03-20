@@ -2,6 +2,10 @@
 This guide shows how to build an app using our Amplify Libraries for iOS (Preview) and the Amplify CLI toolchain.  
 To use the existing AWS Mobile SDK for iOS instead, [click here](../sdk/sdk.md).
 
+<docs-internal-link-button href="~/lib/getting-started/setup.md">
+  <span slot="text">Get Started 🚀</span>
+</docs-internal-link-button>
+
 ## FAQs
 
 ### How are these different from the AWS Mobile SDK for iOS?
@@ -12,6 +16,3 @@ The Amplify iOS client libraries are use-case centric whereas the AWS Mobile SDK
 ### Do I have to use the AWS Mobile SDK when using the Amplify Libraries for iOS?
 No. The AWS Mobile SDK for iOS is not a dependency to use Amplify Libraries for iOS. 
 
-<docs-internal-link-button href="~/lib/getting-started/setup.md">
-  <span slot="text">Get Started 🚀</span>
-</docs-internal-link-button>
