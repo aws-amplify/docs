@@ -31,15 +31,14 @@ disableLinkification: true
       <img slot="graphic" src="~/assets/cli.png" />
       <h4 slot="heading">Amplify CLI</h4>
       <p slot="description">
-        Interactive toolchain to create and manage a serverless backend
-        for your apps
+        An open source interactive toolchain to create and manage a backend for your apps.
       </p>
     </docs-card>
     <docs-card external url="https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html" class="three-dee-effect border-radius" container-tag="amplify-external-link">
       <img slot="graphic" src="~/assets/console.png" />
       <h4 slot="heading">Amplify Console</h4>
       <p slot="description">
-        Deploy and host fullstack serverless web applications
+        An AWS service to deploy and host fullstack serverless web applications.
       </p>
     </docs-card>
   </amplify-responsive-grid>
