@@ -1,6 +1,6 @@
 ---
-title: Functions
-description: auth
+title: Overview
+description: function
 ---
 
 ## Set up a function
