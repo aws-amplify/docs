@@ -1,6 +1,6 @@
 ---
-title: Overview
-description: auth
+title: Typical workflow
+description: Quickstart
 ---
 
 ## Initialize new project

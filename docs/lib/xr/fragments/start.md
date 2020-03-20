@@ -4,21 +4,24 @@ The XR category enables you to work with augmented reality (AR) and virtual real
 To download the required scene configuration for your Sumerian scene, visit <a href="https://console.aws.amazon.com/sumerian/home" target="_blank">Amazon Sumerian console</a>, create or open the scene you would like to use with AWS Amplify, click *Publish* dropdown from the top right corner of the Sumerian console, then click *Host privately*:
 
 <amplify-callout>
+
 If your scene was already published publicly, you will need to unpublish then publish again using the instructions below.
+
 </amplify-callout>
 
-![XR]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/xr/sumerian_host_privately_button.png){: class="screencap" style="max-height:600px;"}
- 
+<br />
 
+![XR](~/images/xr/sumerian_host_privately_button.png)
+ 
 You will then be prompted with the following dialog. Click the *Publish* button:
-![XR]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/xr/sumerian_publish_button.png){: class="screencap" style="max-height:600px;"}
+![XR](~/images/xr/sumerian_publish_button.png)
 
 Now click the *Download JSON configuration* button to download the scene configuration JSON that will be used for configuring your scene within AWS Amplify:
-![XR]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/xr/amplify_published_dialog.png){: class="screencap" style="max-height:600px;"}
+![XR](~/images/xr/amplify_published_dialog.png)
 
 ## Setup backend
 
-> Ensure you have [installed and configured the Amplify CLI and library](tbd)
+> Ensure you have [installed and configured the Amplify CLI and library](../../start/getting-started/installation.md)
 
 ```
 $ amplify add xr
@@ -97,7 +100,7 @@ async loadAndStartScene() {
 <div id="sumerian-scene-dom-id"></div>
 ```
 
-Additionally, you can use the [Sumerian Scene UI components]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/xr#sumerian-scene) for an out-of-the-box UI solution.
+Additionally, you can use the [Sumerian Scene UI components](/lib/xr/sceneapi#ui-components) for an out-of-the-box UI solution.
 
 ## API Reference
 
