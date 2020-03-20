@@ -250,9 +250,19 @@ The following steps show how to send push notifications targeted for your app.
 
 2. Go to your Membership details page to get the Team ID
 
-3. Open the AWS Pinpoint console with `amplify console analytics`
+3. Run `amplify notifications add`
 
-4. Go to Settings, enable push notifications for APNS, select Key Credentials, and add the Team ID, Key ID, the unique bundle identifier of your app, and select the `AuthKey_<Key ID>.p8` file
+```
+? Choose the push notification channel to enable. `APNS`
+? Choose authentication method used for APNs `Key`
+? The bundle id used for APNs Tokens:  <Your App's BundleID like com.yourname.projectname>
+? The team id used for APNs Tokens:  `XXXXXXXXX`
+? The key id used for APNs Tokens:  `ABCDEXXXXX`
+? The key file path (.p8):  `AuthKey_ABCDEXXXXX.p8`
+✔ The APNS channel has been successfully enabled.
+```
+
+4. Open the AWS Pinpoint console with `amplify console analytics`
 
 5. Go to Campaign, click Create Campaign, provide a campaign name, and select Push Notifications as the channel, and click next.
 
