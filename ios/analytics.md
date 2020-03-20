@@ -1,9 +1,10 @@
 <br />
 
 **Note**
-Amplify iOS is in preview mode and not intended for production usage at this time. We welcome feedback to improve your experience in using Amplify iOS.
-[Click here](../sdk/ios/analytics) to access the Analytics category iOS SDK 2.0 docs.
+This guide shows how to build an app using our Amplify Libraries for iOS (Preview) and the Amplify CLI toolchain.
+To use the existing AWS Mobile SDK for iOS instead, [click here.](../sdk/ios/analytics)
 {: .callout .callout--warning}
+
 
 # Analytics
 
@@ -64,7 +65,7 @@ If this is a new project, run `pod init` to create the `Podfile` to use CocoaPod
     target :'YOUR-APP-NAME' do
         use_frameworks!
         pod 'AmplifyPlugins/AWSPinpointAnalyticsPlugin'
-        pod 'AWSMobileClient', '~> 2.12.0'
+        pod 'AWSMobileClient', '~> 2.13.0'
     end
 ```
 

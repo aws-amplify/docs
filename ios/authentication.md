@@ -8,6 +8,14 @@ title: Authentication
 {% assign image_base = base_dir | append: page.dir | append: "images" %}
 {% assign common_media = base_dir | append: "/images" %}
 
+<br />
+
+**Note**
+This guide shows how to add Auth using the existing AWS Mobile SDK for iOS and the Amplify CLI toolchain.
+Currently, this is our supported way of using Auth with Amplify Libraries for iOS (preview).
+{: .callout .callout--warning}
+
+
 # Authentication
 
 The `AWSMobileClient` provides client APIs and building blocks for developers who want to create user authentication experiences. This includes declarative methods for performing authentication actions, a simple "drop-in auth" UI for performing common tasks, automatic token and credentials management, and state tracking with notifications for performing workflows in your application when users have authenticated.
@@ -104,9 +112,9 @@ After initialization in your project directory with `amplify init`, edit your `P
 ```ruby
 target 'MyApp' do             ##Replace MyApp with your application name
   use_frameworks!
-  pod 'AWSMobileClient', '~> 2.12.1'      # Required dependency
-  pod 'AWSAuthUI', '~> 2.12.1'            # Optional dependency required to use drop-in UI
-  pod 'AWSUserPoolsSignIn', '~> 2.12.1'   # Optional dependency required to use drop-in UI
+  pod 'AWSMobileClient', '~> 2.13.0'      # Required dependency
+  pod 'AWSAuthUI', '~> 2.13.0'            # Optional dependency required to use drop-in UI
+  pod 'AWSUserPoolsSignIn', '~> 2.13.0'   # Optional dependency required to use drop-in UI
 end
 ```
 
@@ -762,12 +770,12 @@ AWSMobileClient.default().federatedSignIn(providerName: IdentityProvider.develop
 	  target 'YOUR-APP-NAME' do
 	    use_frameworks!
 
-	    pod 'AWSFacebookSignIn', '~> 2.12.1'     # Add this new dependency
-	    pod 'AWSAuthUI', '~> 2.12.1'             # Add this dependency if you have not already added
+	    pod 'AWSFacebookSignIn', '~> 2.13.0'     # Add this new dependency
+	    pod 'AWSAuthUI', '~> 2.13.0'             # Add this dependency if you have not already added
 	    
 	    # Other Pod entries
-	    pod 'AWSMobileClient', '~> 2.12.1'
-	    pod 'AWSUserPoolsSignIn', '~> 2.12.1'
+	    pod 'AWSMobileClient', '~> 2.13.0'
+	    pod 'AWSUserPoolsSignIn', '~> 2.13.0'
 	    
 	  end
 	```
@@ -832,13 +840,13 @@ Now, your drop-in UI will show a Facebook sign in button which the users can use
 	platform :ios, '9.0'
 	target :'YOUR-APP-NAME' do
 	  use_frameworks!
-	  pod 'AWSGoogleSignIn', '~> 2.12.1'     # Add this new dependency
+	  pod 'AWSGoogleSignIn', '~> 2.13.0'     # Add this new dependency
 	  pod 'GoogleSignIn', '~> 4.0'          # Add this new dependency
-	  pod 'AWSAuthUI', '~> 2.12.1'           # Add this dependency if you have not already added
+	  pod 'AWSAuthUI', '~> 2.13.0'           # Add this dependency if you have not already added
 	    
 	  # Other Pod entries
-	  pod 'AWSMobileClient', '~> 2.12.1'
-	  pod 'AWSUserPoolsSignIn', '~> 2.12.1'
+	  pod 'AWSMobileClient', '~> 2.13.0'
+	  pod 'AWSUserPoolsSignIn', '~> 2.13.0'
 	  
 	end
 	```
@@ -1006,6 +1014,16 @@ Note: your user pool domain is something like: `domain_prefix-<env-name>.auth.<r
 ![Image]({{common_media}}/cognitoHostedUI/amazon5.png)
 5. Choose Save.
 
+##### Setting up Hosted UI Domain for Sign In with Apple
+
+1. The easiest way to get HostedUI configuration in your app is through automated set up with CLI. Choose a supported identity provider in your set up (Google and/or Facebook, or Login with Amazon) you would like to use. 
+
+2. Run `amplify console auth` and choose User Pools to navigate to your Cognito User Pools over in the AWS Console. 
+
+3. Learn more about [How to set up Sign in with Apple for Amazon Cognito](https://aws.amazon.com/blogs/security/how-to-set-up-sign-in-with-apple-for-amazon-cognito/).
+
+4. Use `AWSMobileClient` to launch the HostedUI directly to sign in with Apple by specifying `HostedUIOptions(identityProvider: "SignInWithApple")`
+
 #### Manual Setup
 
 To configure your application for hosted UI, you need to use *HostedUI* options. Update your `awsconfiguration.json` file to add a new configuration for `Auth`. The configuration should look like this:
@@ -1107,6 +1125,9 @@ let hostedUIOptions = HostedUIOptions(scopes: ["openid", "email"], identityProvi
 //  OR
 // Option to launch Facebook sign in directly
 let hostedUIOptions = HostedUIOptions(scopes: ["openid", "email"], identityProvider: "Facebook")
+//  OR
+// Option to launch Apple sign in directly
+let hostedUIOptions = HostedUIOptions(identityProvider: "SignInWithApple")
 
 // Present the Hosted UI sign in.
 AWSMobileClient.default().showSignIn(navigationController: self.navigationController!, hostedUIOptions: hostedUIOptions) { (userState, error) in

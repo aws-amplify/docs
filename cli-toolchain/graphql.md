@@ -645,7 +645,7 @@ You can use the *operations* argument to specify which operations are augmented 
 
 ```graphql
 type Todo @model
-  @auth(rules: [{ allow: owner, operations: [read] }]) {
+  @auth(rules: [{ allow: owner, operations: [create, read] }]) {
   id: ID!
   updatedAt: AWSDateTime! 
   content: String!
@@ -664,7 +664,7 @@ If you want to prevent updates and deletes operations, you would need to modify 
 
 ```graphql
 type Todo @model
-  @auth(rules: [{ allow: owner, operations: [read, update, delete] }]) {
+  @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }]) {
   id: ID! 
   updatedAt: AWSDateTime! 
   content: String!
@@ -678,6 +678,7 @@ Here's a truth table for the above-mentioned schema. In the table below `other` 
 | owner |    ✅    |     ✅    |      ✅     |      ✅     |      ✅     |
 | other |    ❌    |     ❌    |      ✅     |      ❌     |      ❌     |
 
+**Note**: Specifying `@auth(rules: [{ allow: owner, operations: [create]}])` still allows anyone who has access to your API to create records (as shown in the above truth table). However, including this is necessary when specifying other owner auth rules to ensure that the owner is stored with the record so it can be verified on subsequent requests.
 
 
 
@@ -1074,7 +1075,6 @@ Please note that `groups` is leveraging Cognito User Pools but no provider assig
 
 ```graphql
 type Post @model
-@model
 @auth(rules: [
 	{allow: owner, identityClaim: "user_id"},
 	{allow: groups, groups: ["Moderator"], groupClaim: "user_groups"}
@@ -1132,7 +1132,7 @@ In the case of groups if you define the following:
 
 ```graphql
 type Post @model
-@model @auth(rules: [{allow: groups, groups: ["Admin"]}]) {
+@auth(rules: [{allow: groups, groups: ["Admin"]}]) {
 {
   id: ID!
   owner: String
@@ -1577,8 +1577,8 @@ After deploying our function, we can connect it to AppSync by defining some type
 
 ```graphql
 type Query {
-  me: User @function(name: "ResolverFunction")
-  echo(msg: String): String @function(name: "ResolverFunction")
+  me: User @function(name: "GraphQLResolverFunction")
+  echo(msg: String): String @function(name: "GraphQLResolverFunction")
 }
 # These types derived from https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CognitoIdentityServiceProvider.html#adminGetUser-property
 type User {
@@ -2182,7 +2182,7 @@ longer needed.
 
 ### @versioned
 
-The `@versioned` directive adds object versioning and conflict resolution to a type.
+The `@versioned` directive adds object versioning and conflict resolution to a type. Do not use this directive when leveraging DataStore as the conflict detection and resolution features are automatically handled inside AppSync and are incompatible with the `@versioned` directive.
 
 #### Definition
 

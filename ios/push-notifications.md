@@ -55,9 +55,9 @@ Use the following steps to connect push notification backend services to your ap
     target :'YOUR-APP-NAME' do
       use_frameworks!
 
-        pod  'AWSPinpoint', '~> 2.12.1' 
+        pod  'AWSPinpoint', '~> 2.13.0' 
         # other pods
-        pod  'AWSMobileClient', '~> 2.12.1' 
+        pod  'AWSMobileClient', '~> 2.13.0' 
     end
     ```
 

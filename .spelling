@@ -605,6 +605,9 @@ transform.conf.json
 
 #cli-toolchain/quickstart.md
 richard
+Bitbucket
+GitLab
+CodeCommit
 
 #cli-toolchain/usage.md
 poolData
@@ -1050,6 +1053,7 @@ synchronizes
 adhere
 queueing
 deserialize
+netinfo
 
 # android/analytics.md
 AWSPinpointAnalyticsPlugin
@@ -1088,4 +1092,3 @@ pre-created
 # ios/started.md
 amplifyconfiguration.json
 amplifyxc.config
-
