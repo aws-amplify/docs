@@ -1,3 +1,5 @@
+🚨This branch currently refers to the v1 docs. If wanting the v2 docs (currently in preview), please refer to its [specific branch](https://github.com/aws-amplify/docs/tree/v2-preview).
+
 # Amplify Framework Documentation
 
 [![CircleCI](https://circleci.com/gh/aws-amplify/docs.svg?style=svg)](https://circleci.com/gh/aws-amplify/docs)
