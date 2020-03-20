@@ -179,7 +179,9 @@ Amplify.DataStore.query(Post.class, Post.ID.eq("123"), new ResultListener<Iterat
 You can subscribe to changes on your Models by using the DataStore's `observe` method. This method reacts dynamically to all changes in local storage. These changes could be the result of local modifications, or the result of changes observed on your GraphQL endpoint, if using remote synchronization.
 
 <amplify-callout>
+
 The `AWSDataStorePlugin.observe()` method returns an `io.reactivex.Observable<DataStoreItemChange<? extends Model>>`. You can subscribe to this Rx Observable to get notifications whenever any model is created, updated, or deleted. To use a method in this family, you must make Rx available at runtime by adding `implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'` to your module's `build.gradle`. [Read more about RxJava, here](https://github.com/ReactiveX/RxJava/blob/v2.2.17/README.md#rxjava-reactive-extensions-for-the-jvm).
+
 </amplify-callout>
 
 ```java
