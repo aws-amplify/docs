@@ -22,7 +22,7 @@ export class DocsRepoActions {
           Feedback
         </amplify-external-link>
         <amplify-external-link
-          href={`https://github.com/aws-amplify/docs/edit/master/docs/${this.page?.relativeToContentDir}`}
+          href={`https://github.com/aws-amplify/docs/edit/v2-preview/docs/${this.page?.relativeToContentDir}`}
         >
           <img src="/assets/github.svg" alt="Edit" />
           Edit
