@@ -6,9 +6,9 @@ import marked from "marked";
 import fm from "front-matter";
 import * as prism from "prismjs";
 import loadLanguages from "prismjs/components/";
-import {XmlEntities} from "html-entities";
+import {Html5Entities} from "html-entities";
 
-const entities = new XmlEntities();
+const entities = new Html5Entities();
 
 const supportedLanguages = [
   "markup",
@@ -53,12 +53,11 @@ const highlight = (code: string, language: string): string => {
 
     highlighted = prism.highlight(code, prism.languages[language], language);
   } else {
-    // @ts-ignore
     highlighted = entities.encode(code);
   }
 
   const c = `<div class="highlight highlight-source${
-    languageIsSet ? `-{language}` : ""
+    languageIsSet ? `-${language}` : ""
   }">${highlighted}</div>`;
 
   return `<amplify-code-block line-count="${String(
