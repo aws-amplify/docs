@@ -39,7 +39,7 @@ export class DocsMenu {
                   href="/lib"
                   childActiveClass={activeSwitchStyle}
                 >
-                  Library
+                  Libraries
                   <span>(preview)</span>
                 </docs-internal-link>
                 <docs-internal-link
