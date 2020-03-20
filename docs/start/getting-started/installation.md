@@ -28,14 +28,14 @@ The Amplify Command Line Interface (CLI) is a unified toolchain to create AWS cl
 
 ### Option 1: Watch the video guide
 
-Watch the video below to learn how to install and configure the Amplify CLI or skip to the next section to read through the step-by-step instructions.
+Watch the video below to learn how to install and configure the Amplify CLI or skip to the next section to follow the step-by-step instructions.
 
 <iframe
   allowfullscreen
   src="https://www.youtube.com/embed/fWbM5DLh25U"
 ></iframe>
 
-### Option 2: Read through the instructions
+### Option 2: Follow the instructions
 ```bash
 npm install -g @aws-amplify/cli
 ```
@@ -61,7 +61,7 @@ Specify the username of the new IAM user:
 Complete the user creation using the AWS console
 ```
 
-Amplify requires a user with `AdministratorAccess` to your account to provision AWS resources for you like AppSync, Cognito etc.
+Create a user with `AdministratorAccess` to your account to provision AWS resources for you like AppSync, Cognito etc.
 
 ![image](../../images/user-creation.gif)
 
