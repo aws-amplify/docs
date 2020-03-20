@@ -1,5 +1,4 @@
 - [Authentication](../../sdk/auth/how-it-works.md)
-- [DataStore](../../lib/datastore/intro.md)
 - [User File Storage](../../sdk/storage/getting-started.md)
 - [Serverless APIs](../../sdk/api/graphql.md)
 - [Analytics](../../sdk/analytics/getting-started.md)
