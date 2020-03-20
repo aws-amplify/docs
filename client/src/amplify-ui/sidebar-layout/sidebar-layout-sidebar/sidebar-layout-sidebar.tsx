@@ -15,7 +15,9 @@ export class AmplifySidebarLayoutSidebar {
   ref?: HTMLElement | null;
   setRef = (ref: HTMLElement | null) => (this.ref = ref);
 
+  // @ts-ignore
   @Listen("mousedown", {target: "window"})
+  // @ts-ignore
   @Listen("touchstart", {target: "window"})
   clickListener(e: Event) {
     if (this.inView) {

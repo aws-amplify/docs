@@ -92,8 +92,11 @@ export class DocsMenuGroup {
     );
   };
 
+  // @ts-ignore
   @Watch("currentPath")
+  // @ts-ignore
   @Watch("menuGroup")
+  // @ts-ignore
   @Watch("selectedFilters")
   setItemsToDisplay() {
     this.itemsToDisplay = this.menuGroup?.items.filter(this.shouldDisplay);
