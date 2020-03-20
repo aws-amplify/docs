@@ -5,33 +5,22 @@ description: auth
 
 You have two independent environments (master & dev) in the cloud and have corresponding git branches with your amplify backend infrastructure code on Git. Suppose all team members want to work on the same Amplify project and push backend related changes to the same dev environment to test their changes. Each team member would run the following:
 
-```
-$ git clone <git-repo>
-$ cd <project-dir>
-$ git checkout dev
-$ amplify init
-? Do you want to use an existing environment? Yes
-? Choose the environment you would like to use:
+```bash
+cd <project-dir>
+amplify init
+Do you want to use an existing environment? Yes
+Choose the environment you would like to use:
 ❯ dev
 master
-// The rest of init steps
-// Add/update any backend configurations using amplify add/update <category>
-$ amplify push
-$ git push -u origin dev
+# The rest of init steps
+# amplify add/update 
+amplify push
 ```
 
 Since the team is sharing the same dev backend, periodically team members would need to pull in changes which their team members pushed for the dev environment to be in sync. Let's pull in the changes from the dev branch & environment.
 
-```
-$ cd <your-project>
-$ git checkout dev
-$ amplify init
-? Do you want to use an existing environment? Yes
-? Choose the environment you would like to use:
-❯ dev
-master
-$ amplify pull
-$ git pull origin dev
+```bash
+amplify pull
 ```
 
 ## Sharing projects outside the team
