@@ -6,6 +6,9 @@ import marked from "marked";
 import fm from "front-matter";
 import * as prism from "prismjs";
 import loadLanguages from "prismjs/components/";
+import {XmlEntities} from "html-entities";
+
+const entities = new XmlEntities();
 
 const supportedLanguages = [
   "markup",
@@ -38,21 +41,30 @@ const supportedLanguages = [
 loadLanguages(supportedLanguages);
 
 const highlight = (code: string, language: string): string => {
-  let highlighted = code;
-  if (language && language !== "" && prism.languages[language]) {
+  let highlighted = "";
+  const languageIsSet = !!(language && language.trim().length > 0);
+
+  if (languageIsSet && prism.languages[language]) {
     if (!supportedLanguages.includes(language)) {
       throw new Error(
         `No support for ${language} syntax highlighting. Contact Amplify JS team to request support.`,
       );
     }
 
-    highlighted = prism.highlight(
-      code,
-      prism.languages[language || "markup"],
-      language,
-    );
+    highlighted = prism.highlight(code, prism.languages[language], language);
+  } else {
+    // @ts-ignore
+    highlighted = entities.encode(code);
   }
-  const c = `<div class="highlight highlight-source-${language}">${highlighted}</div>`;
+
+  const c = `<div class="highlight highlight-source${
+    languageIsSet ? `-{language}` : ""
+  }">${highlighted}</div>`;
+
+  if (code.includes("[profile bizcorprole]")) {
+    console.log(c);
+  }
+
   return `<amplify-code-block line-count="${String(
     c.split(/\r\n|\r|\n/).length,
   )}">${c}</amplify-code-block>`;
