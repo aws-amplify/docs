@@ -10,7 +10,7 @@
 
 If you want to use your existing AWS resources with your app you will need to **manually configure** your app with an `awsconfiguration.json` file in your code. For example, if you were using Amazon Cognito Identity, Cognito User Pools, AWS AppSync, or Amazon S3:
 
-```xml
+```json
 {
     "CredentialsProvider": {
         "CognitoIdentity": {
@@ -50,7 +50,10 @@ In the configuration above, you would need to set the appropriate values such as
 
 For working with other AWS services you can use service interface objects directly via the generated SDK clients. 
 
-<amplify-callout>To work with service interface objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
+<amplify-callout>
+
+To work with service interface objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
+
 </amplify-callout>
 
 You can call methods on any AWS Service interface object supported by the AWS iOS SDK by passing your credentials from the AWSMobileClient to the service call constructor. See [SDK Setup Options](./manualsetup) for more information.

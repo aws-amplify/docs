@@ -67,6 +67,8 @@ yarn add aws-amplify aws-amplify-react-native amazon-cognito-identity-js react-n
 
 ### React Native
 
+If you've created the project using the React Native CLI, install these dependencies:
+
 ```sh
 npm install aws-amplify aws-amplify-react-native amazon-cognito-identity-js react-native-vector-icons @react-native-community/netinfo
 

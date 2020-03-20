@@ -9,6 +9,8 @@ export const menuGroupHeaderStyle = css`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  appearance: none;
+  background-color: transparent;
 
   h4 {
     cursor: pointer;
@@ -16,6 +18,10 @@ export const menuGroupHeaderStyle = css`
 
   &:hover {
     background-color: var(--bg-color-hover);
+  }
+
+  &:active {
+    color: var(--font-color);
   }
 `;
 

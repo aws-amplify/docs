@@ -8,7 +8,6 @@ From the root of your project, run the following command and select the **bolded
 amplify add hosting
 ? Select the plugin module to execute: # Hosting with Amplify Console (Managed hosting with custom domains, Continuous deployment)
 ? Choose a type: # Manual Deployment
-? hosting bucket name: # (Accept default)
 ```
 
 ## Publish your app

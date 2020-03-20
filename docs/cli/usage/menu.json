@@ -1,7 +1,8 @@
 {
-  "title": "Usage",
+  "title": "Adanced workflows",
   "items": [
     "mock",
+    "customcf",
     "iam",
     "files",
     "headless",
