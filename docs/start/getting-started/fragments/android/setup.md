@@ -128,3 +128,19 @@ $ amplify push
 Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults which generate a `./app/src/main/graphql` folder structure with your statements.
 
 Run a **Gradle Sync** and **Build** your app. The generated packages are automatically added to your project.
+
+Next, run the following command to check Amplify's status:
+
+```bash
+amplify status
+```
+
+This will give us the current status of the Amplify project, including the current environment, any categories that have been created, and what state those categories are in. It should look similar to this:
+
+```bash
+Current Environment: dev
+
+| Category | Resource name | Operation | Provider plugin   |
+| -------- | ------------- | --------- | ----------------- |
+| Api      | myapi         | No Change | awscloudformation |
+```

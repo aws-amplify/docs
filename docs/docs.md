@@ -7,7 +7,7 @@ disableLinkification: true
 
 <amplify-hero>
   <h1 slot="heading" class="font-weight-300">
-    Amplify Documentation
+    Amplify Framework Documentation
   </h1>
   <p slot="subheading" class="font-weight-300">
     Learn how to use Amplify to develop and deploy cloud-powered mobile

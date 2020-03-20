@@ -31,8 +31,8 @@ export class DocsMenu {
       <Host class={menuStyle}>
         {this.page?.filterKey && <docs-select-anchor page={this.page} />}
         {this.page?.productRootLink && [
-          (this.page.productRootLink.title === "Libraries" ||
-            this.page.productRootLink.title === "SDK") &&
+          (this.page.productRootLink.title === "Amplify Libraries" ||
+            this.page.productRootLink.title === "AWS Mobile SDK") &&
             this.selectedFilters?.platform !== "js" && (
               <div class={libSDKSwitcherStyle}>
                 <docs-internal-link
@@ -71,6 +71,7 @@ export class DocsMenu {
         )}
         <hr class={menuBreakStyle} />
         <docs-repo-actions page={this.page} />
+        <docs-feedback-callout />
       </Host>
     );
   }

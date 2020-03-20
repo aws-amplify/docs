@@ -14,8 +14,10 @@ export class DocsInPageLink {
 
   target?: HTMLElement;
 
+  // @ts-ignore
   @Watch("selectedFilters")
-  @Watch("target")
+  // @ts-ignore
+  @Watch("targetId")
   componentDidRender() {
     if (this.targetId) {
       const targets = Array.from(

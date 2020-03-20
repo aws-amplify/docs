@@ -4,5 +4,6 @@ exports[`docs-menu Render logic should render 1`] = `
 <docs-menu class="css-1bi3yoa">
   <hr class="css-7zkaum">
   <docs-repo-actions></docs-repo-actions>
+  <docs-feedback-callout></docs-feedback-callout>
 </docs-menu>
 `;

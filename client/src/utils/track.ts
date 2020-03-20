@@ -1,6 +1,7 @@
 import Auth from "@aws-amplify/auth";
 import Analytics from "@aws-amplify/analytics";
 import awsexports from "../aws-exports";
+import {Build} from "@stencil/core";
 
 let configured = false;
 if (!configured) {
@@ -53,5 +54,8 @@ type AnalyticsEvent =
   | AnalyticsEventExternalLinkClick
   | AnalyticsEventPageDataFetchException;
 
-export const track = (event: AnalyticsEvent): Promise<unknown> =>
-  Analytics.record(event.type, event.attributes);
+export const track = (event: AnalyticsEvent): Promise<unknown> | undefined => {
+  if (Build.isBrowser) {
+    return Analytics.record(event.type, event.attributes);
+  }
+};
