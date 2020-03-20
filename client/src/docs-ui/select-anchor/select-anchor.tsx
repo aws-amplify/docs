@@ -18,7 +18,7 @@ import {SetCurrentPath} from "../internal-link/internal-link.types";
 
 @Component({tag: "docs-select-anchor"})
 export class DocsSelectAnchor {
-  @Element() element: HTMLDocsSelectAnchorElement;
+  @Element() element: HTMLElement;
   /*** the globally-selected filter state */
   @Prop() readonly selectedFilters?: SelectedFilters;
   /*** method to update the globally-provided page route */
@@ -46,6 +46,7 @@ export class DocsSelectAnchor {
     }
   }
 
+  // @ts-ignore
   @Listen("click", {target: "window"})
   closeOnOuterClick(e: Event) {
     if (!(e && this.element.contains(e.target as HTMLElement))) {

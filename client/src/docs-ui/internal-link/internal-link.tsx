@@ -6,6 +6,7 @@ import {internalLinkContext} from "./internal-link.context";
 import {SetCurrentPath} from "./internal-link.types";
 import Url from "url-parse";
 import {track, AnalyticsEventType} from "../../utils/track";
+import {getPage} from "../../cache";
 
 @Component({tag: "docs-internal-link"})
 export class DocsInternalLink {
@@ -26,6 +27,7 @@ export class DocsInternalLink {
   @State() isActive?: boolean;
   @State() isChildActive?: boolean;
 
+  // @ts-ignore
   @Watch("selectedFilters")
   computeURL() {
     if (this.href) {
@@ -56,7 +58,9 @@ export class DocsInternalLink {
     }
   }
 
+  // @ts-ignore
   @Watch("selectedFilters")
+  // @ts-ignore
   @Watch("currentPath")
   computeMatch() {
     if (this.currentPath && this.url) {
@@ -72,6 +76,12 @@ export class DocsInternalLink {
   componentWillLoad() {
     this.computeURL();
     this.computeMatch();
+  }
+
+  componentDidRender() {
+    if (this.href) {
+      getPage(this.href);
+    }
   }
 
   onClick = () => {

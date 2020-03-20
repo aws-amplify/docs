@@ -105,6 +105,22 @@ Do you want to generate/update all possible GraphQL operations - queries, mutati
 Enter maximum statement depth [increase from default if your schema is deeply nested] (2)
 ```
 
+Next, run the following command to check Amplify's status:
+
+```bash
+amplify status
+```
+
+This will give us the current status of the Amplify project, including the current environment, any categories that have been created, and what state those categories are in. It should look similar to this:
+
+```bash
+Current Environment: dev
+
+| Category | Resource name | Operation | Provider plugin   |
+| -------- | ------------- | --------- | ----------------- |
+| Api      | myapi         | No Change | awscloudformation |
+```
+
 ### Testing your API
 
 You can open the AWS console to run Queries, Mutation, or Subscription against you new API at any time directly by running the following command:
