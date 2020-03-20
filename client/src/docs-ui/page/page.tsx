@@ -7,7 +7,7 @@ import {
   mainStyle,
 } from "./page.style";
 import {MatchResults} from "@stencil/router";
-import {getPage, Page, createVNodesFromHyperscriptNodes} from "../../api";
+import {Page, createVNodesFromHyperscriptNodes} from "../../api";
 import {updateDocumentHead} from "../../utils/update-document-head";
 import Url from "url-parse";
 import {
@@ -21,16 +21,7 @@ import {SetSelectedFilters} from "./page.types";
 import {pageContext} from "./page.context";
 import {track, AnalyticsEventType} from "../../utils/track";
 import {Breakpoint} from "../../amplify-ui/styles/media";
-
-const cache = new Map<string, Promise<Page> | undefined>();
-const getPageCached = (route: string) => {
-  let promise = cache.get(route);
-  if (!promise) {
-    promise = getPage(route);
-    cache.set(route, promise);
-  }
-  return promise;
-};
+import {getPage} from "../../cache";
 
 @Component({tag: "docs-page", shadow: false})
 export class DocsPage {
@@ -111,7 +102,7 @@ export class DocsPage {
       const {path} = this.match;
       this.blendUniversalNav = path === "/";
       try {
-        this.data = await getPageCached(path);
+        this.data = await getPage(path);
         if (this.data) {
           updateDocumentHead(this.data);
           this.filterKey = getFilterKeyFromPage(this.data);
