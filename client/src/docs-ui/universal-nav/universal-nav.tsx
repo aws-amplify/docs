@@ -52,15 +52,8 @@ export class DocsUniversalNav {
                 <span>Community</span>
               </amplify-external-link>
               <amplify-external-link
-                href="https://github.com/aws-amplify"
-                anchorTitle="Amplify GitHub"
-                class={hideOpenSourceLinkStyle}
-              >
-                <span>Open Source</span>
-              </amplify-external-link>
-              <amplify-external-link
                 href="https://aws.amazon.com/amplify/"
-                anchorTitle="Amplify AWS Homepage"
+                anchorTitle="AWS Amplify Homepage"
                 graphic={this.blend ? "black" : "white"}
               >
                 <span>
