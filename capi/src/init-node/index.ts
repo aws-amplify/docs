@@ -61,10 +61,6 @@ const highlight = (code: string, language: string): string => {
     languageIsSet ? `-{language}` : ""
   }">${highlighted}</div>`;
 
-  if (code.includes("[profile bizcorprole]")) {
-    console.log(c);
-  }
-
   return `<amplify-code-block line-count="${String(
     c.split(/\r\n|\r|\n/).length,
   )}">${c}</amplify-code-block>`;
