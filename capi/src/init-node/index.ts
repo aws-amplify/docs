@@ -67,7 +67,6 @@ const highlight = (code: string, language: string): string => {
 
 marked.setOptions({
   highlight,
-  renderer: new marked.Renderer(),
   pedantic: false,
   gfm: true,
   breaks: false,
