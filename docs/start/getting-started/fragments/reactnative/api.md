@@ -57,6 +57,54 @@ A type decorated with the `@model` directive will scaffold out the database tabl
 
 From the command line, press __enter__ to accept the schema and continue to the next steps.
 
+### Deploying the API
+
+To deploy this backend, run the `push` command:
+
+```sh
+amplify push
+
+? Are you sure you want to continue? Y
+
+# If you did not mock the API, you will be walked through the following questions for GraphQL code generation
+? Do you want to generate code for your newly created GraphQL API? Y
+? Choose the code generation language target: javascript
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions? Y
+? Enter maximum statement depth [increase from default if your schema is deeply nested]: 2
+```
+
+Now the API is live and you can start interacting with it!
+
+The API you have deployed is for a Todo app, including operations for creating, reading, updating, deleting, and listing todos.
+
+Next, run the following command to check Amplify's status:
+
+```bash
+amplify status
+```
+
+This will give us the current status of the Amplify project, including the current environment, any categories that have been created, and what state those categories are in. It should look similar to this:
+
+```bash
+Current Environment: dev
+
+| Category | Resource name | Operation | Provider plugin   |
+| -------- | ------------- | --------- | ----------------- |
+| Api      | myapi         | No Change | awscloudformation |
+```
+
+To view the GraphQL API in the AppSync console at any time, run the following command:
+
+```sh
+amplify console api
+```
+
+To view your entire app in the Amplify console at any time, run the following command:
+
+```sh
+amplify console
+```
+
 ### (Optional) Test your API 
 
 To test this out locally, you can run the `mock` command.
@@ -98,38 +146,6 @@ query listTodos {
     }
   }
 }
-```
-
-### Deploying the API
-
-To deploy this backend, run the `push` command:
-
-```sh
-amplify push
-
-? Are you sure you want to continue? Y
-
-# If you did not mock the API, you will be walked through the following questions for GraphQL code generation
-? Do you want to generate code for your newly created GraphQL API? Y
-? Choose the code generation language target: javascript
-? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions? Y
-? Enter maximum statement depth [increase from default if your schema is deeply nested]: 2
-```
-
-Now the API is live and you can start interacting with it!
-
-The API you have deployed is for a Todo app, including operations for creating, reading, updating, deleting, and listing todos.
-
-To view the GraphQL API in the AppSync console at any time, run the following command:
-
-```sh
-amplify console api
-```
-
-To view your entire app in the Amplify console at any time, run the following command:
-
-```sh
-amplify console
 ```
 
 ## Connect frontend to API
