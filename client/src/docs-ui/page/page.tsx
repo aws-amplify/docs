@@ -203,7 +203,11 @@ export class DocsPage {
                                 [sidebarToggleClass]: true,
                               }}
                             >
-                              <img src="/assets/burger.svg" />
+                              <img
+                                class="burger-graphic"
+                                src="/assets/burger.svg"
+                              />
+                              <img class="ex-graphic" src="/assets/close.svg" />
                             </amplify-sidebar-layout-toggle>
                           </amplify-sidebar-layout-main>,
                           !this.data?.disableTOC && (

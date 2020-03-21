@@ -88,7 +88,16 @@ export const sidebarToggleClass = css`
   justify-content: center;
   align-items: center;
 
-  &.in-view {
+  .ex-graphic {
     display: none;
+  }
+
+  &.in-view {
+    .burger-graphic {
+      display: none;
+    }
+    .ex-graphic {
+      display: initial;
+    }
   }
 `;

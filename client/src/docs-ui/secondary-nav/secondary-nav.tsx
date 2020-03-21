@@ -40,7 +40,8 @@ export class DocsSecondaryNav {
                   },
                   {
                     label: "Libraries",
-                    url: "/lib",
+                    url:
+                      this.selectedFilters?.platform === "js" ? "/lib" : "/sdk",
                   },
                   {
                     label: "CLI",
