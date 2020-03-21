@@ -10,3 +10,4 @@ description: Bootstrap a React app and initialize a new Amplify project
 <inline-fragment integration="angular" src="~/start/getting-started/fragments/angular/setup.md"></inline-fragment>
 <inline-fragment integration="ionic" src="~/start/getting-started/fragments/ionic/setup.md"></inline-fragment>
 <inline-fragment integration="js" src="~/start/getting-started/fragments/vanillajs/setup.md"></inline-fragment>
+<inline-fragment integration="vue" src="~/start/getting-started/fragments/vue/setup.md"></inline-fragment>
