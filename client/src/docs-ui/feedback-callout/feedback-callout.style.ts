@@ -9,16 +9,12 @@ export const hostStyle = css`
     top: 0.25rem;
     right: 0.25rem;
     appearance: none;
-    border-radius: 50%;
-    width: 1rem;
-    height: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    cursor: pointer;
+    background-color: transparent;
 
-    span {
-      margin-bottom: 0.0625rem;
-      cursor: pointer;
+    img {
+      min-width: 0.75rem;
+      min-height: 0.75rem;
     }
   }
 
