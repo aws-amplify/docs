@@ -1,6 +1,9 @@
 import {Component, Host, Prop, h} from "@stencil/core";
 import {sidebarLayoutContext} from "../sidebar-layout.context";
-import {sidebarLayoutSidebarToggleStyle} from "./sidebar-layout-toggle.style";
+import {
+  sidebarLayoutSidebarToggleStyle,
+  unclickableStyle,
+} from "./sidebar-layout-toggle.style";
 import {ToggleInView} from "../sidebar-layout.types";
 
 @Component({tag: "amplify-sidebar-layout-toggle", shadow: false})
@@ -21,6 +24,7 @@ export class AmplifySidebarLayoutToggle {
    */
   getClass = () => {
     return {
+      [unclickableStyle]: !!this.inView,
       [sidebarLayoutSidebarToggleStyle]: true,
       ...(this.inViewClass ? {[this.inViewClass]: !!this.inView} : {}),
     };
