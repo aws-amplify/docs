@@ -2268,7 +2268,7 @@ Amazon Elasticsearch Service and configures search resolvers that search that in
 
 > Note: Support for adding the `@searchable` directive does not yet provide automatic indexing for any existing data to Elasticsearch. View the feature request [here](https://github.com/aws-amplify/amplify-cli/issues/98).
 
-If you have duplicate records on search operations and used a CLI version between 4.14.1 and 4.16.1, please use [this python script]() to remove the duplicate records. [This script]() indexes data from your DynamoDB Table to your Elasticsearch Cluster. View an example of how to call the script with the following parameters [here](./graphql.md#example-of-calling-the-script)
+If you have duplicate records on search operations and used a CLI version between 4.14.1 and 4.16.1, please use this python [script](https://github.com/aws-amplify/amplify-cli/blob/master/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) to remove the duplicate records. [This script](https://github.com/aws-amplify/amplify-cli/blob/master/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) indexes data from your DynamoDB Table to your Elasticsearch Cluster. View an example of how to call the script with the following parameters [here](./graphql.md#example-of-calling-the-script)
 {: .callout .callout--info}
 
 #### Definition
@@ -2384,7 +2384,7 @@ Here is a complete list of searchable operations per GraphQL type supported as o
 
 #### Backfill your Elasticsearch Index from your DynamoDB Table
 
-The following Python [script]() creates an event stream of your DynamoDB records and sends them to your Elasticsearch Index. This will help you backfill your data should you choose to add `@searchable` to your `@model` types at a later time.
+The following Python [script](https://github.com/aws-amplify/amplify-cli/blob/master/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) creates an event stream of your DynamoDB records and sends them to your Elasticsearch Index. This will help you backfill your data should you choose to add `@searchable` to your `@model` types at a later time.
 
 ##### Example of calling the script
 
