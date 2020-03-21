@@ -2268,7 +2268,7 @@ Amazon Elasticsearch Service and configures search resolvers that search that in
 
 > Note: Support for adding the `@searchable` directive does not yet provide automatic indexing for any existing data to Elasticsearch. View the feature request [here](https://github.com/aws-amplify/amplify-cli/issues/98).
 
-#### Migration warning
+#### Migration Warning
 If you deployed your GraphQL schema using a CLI version less than 4.14.1 and have recently updated your CLI version between 4.14.1 and 4.16.1 and have thereafter updated your schema and deployed the changes, you might notice duplicate records on search operations. To avoid seeing this duplicate data, we advise looking at this python [script](https://github.com/aws-amplify/amplify-cli/blob/master/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) to remove the duplicate records from your Elasticsearch cluster. [This script](https://github.com/aws-amplify/amplify-cli/blob/master/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) indexes data from your DynamoDB Table to your Elasticsearch Cluster. View an example of how to call the script with the following parameters [here](./graphql.md#example-of-calling-the-script)
 {: .callout .callout--info}
 
