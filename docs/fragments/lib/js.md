@@ -1,5 +1,5 @@
 ## Amplify JavaScript 
-The Amplify JavaScript libraries are supported for different web and mobile frameworks including React, React Native, Angular, Ionic, and Vue. It is recommended that you first complete the [Getting Started](../../start/start.md) guide for Amplify JavaScript.
+The Amplify JavaScript libraries are supported for different web and mobile frameworks including React, React Native, Angular, Ionic, and Vue. It is recommended that you first complete the [Getting Started](~/start/start.md) guide for Amplify JavaScript.
 
 What's next? Here are some things you can add to your app: 
 
