@@ -2268,6 +2268,14 @@ Amazon Elasticsearch Service and configures search resolvers that search that in
 
 > Note: Support for adding the `@searchable` directive does not yet provide automatic indexing for any existing data to Elasticsearch. View the feature request [here](https://github.com/aws-amplify/amplify-cli/issues/98).
 
+#### Migration Warning
+
+You might observe **duplicate records on search operations**, if you deployed your GraphQL schema using CLI version older than 4.14.1 and have thereafter updated your schema & deployed the changes with a CLI version between 4.14.1 - 4.16.1.
+
+Please use this Python [script](https://github.com/aws-amplify/amplify-cli/blob/master/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) to remove the duplicate records from your Elasticsearch cluster. [This script](https://github.com/aws-amplify/amplify-cli/blob/master/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) indexes data from your DynamoDB Table to your Elasticsearch Cluster. View an example of how to call the script with the following parameters [here](./graphql.md#example-of-calling-the-script).
+
+{: .callout .callout--info}
+
 #### Definition
 
 ```
@@ -2318,6 +2326,7 @@ query SearchPosts {
   }
 }
 ```
+#### Searchable Types
 
 There are multiple `SearchableTypes` generated in the schema, based on the datatype of the fields you specify in the Post type.
 
@@ -2378,7 +2387,24 @@ Here is a complete list of searchable operations per GraphQL type supported as o
 | Float | `ne`, `gt`, `lt`, `gte`, `lte`, `eq`, `range`      |
 | Boolean | `eq`, `ne`      |
 
+#### Backfill your Elasticsearch Index from your DynamoDB Table
 
+The following Python [script](https://github.com/aws-amplify/amplify-cli/blob/master/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) creates an event stream of your DynamoDB records and sends them to your Elasticsearch Index. This will help you backfill your data should you choose to add `@searchable` to your `@model` types at a later time.
+
+##### Example of calling the script
+
+```bash
+py ddb_to_ess.py
+  # please use the region your table and elasticsearch domain reside in
+  --rn 'us-west-2'
+  # table name
+  --tn 'Post-XXXX-dev'
+  # lambda function arn
+  --lf 'arn:aws:lambda:us-west-2:123456789xxx:function:DdbToEsFn-<api__id>-dev'
+  # event source arn
+  --esarn 'arn:aws:dynamodb:us-west-2:123456789xxx:table/Post-<api__id>-
+  dev/stream/2019-20-03T00:00:00.350'
+```
 
 ### @predictions
 
