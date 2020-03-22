@@ -18,7 +18,37 @@ The app directory structure should be:
         |- app.js
 ```
 
-Add the following to the `package.json` file:
+Intitalize a new `package.json` file using the following command:
+```
+npm init -y
+```
+
+We'll need to install dev dependencies 
+
+```
+npm i \
+  webpack 
+  webpack-cli \
+  copy-webpack-plugin \
+  webpack-dev-server \
+  --save-dev
+```
+We'll need to install amplify dependencies
+
+```
+npm install @aws-amplify/api dependencies --save
+```
+
+We'll need to add the following scripts to our package.json.
+
+```
+  "scripts": {
+    "start": "webpack && webpack-dev-server --mode development",
+    "build": "webpack"
+  }
+```
+
+Your final `package.json` should something similar to this:
 
 ```javascript
 {
@@ -41,6 +71,7 @@ Add the following to the `package.json` file:
   }
 }
 ```
+
 
 ### Install local development dependencies
 
@@ -112,6 +143,8 @@ module.exports = {
         ]
     },
     devServer: {
+        host: '127.0.0.0',
+        port: 8080,
         contentBase: './dist',
         overlay: true,
         hot: true
@@ -122,6 +155,8 @@ module.exports = {
     ]
 };
 ```
+
+By default `webpack-dev-server` will start on port `8080`. You may need to change devServer host to `0.0.0.0` if you are running your web-server in a Cloud IDE such as AWS Cloud9.
 
 Run the app:
 
