@@ -2394,7 +2394,7 @@ The following Python [script](https://github.com/aws-amplify/amplify-cli/blob/ma
 ##### Example of calling the script
 
 ```bash
-py ddb_to_ess.py
+python3 ddb_to_ess.py
   # please use the region your table and elasticsearch domain reside in
   --rn 'us-west-2'
   # table name
