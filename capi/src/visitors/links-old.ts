@@ -1,7 +1,7 @@
 import * as t from "../types";
 import * as path from "path";
 
-const IS_URL_REGEX = /^https?:\/\//i;
+const IS_ABSOLUTE_REGEX = /^https?:\/\//i;
 
 const linkTags = {
   a: true,
@@ -16,7 +16,7 @@ const getTransformedURL = (
 ): string | undefined => {
   if (
     typeof url === "string" &&
-    !IS_URL_REGEX.test(url) &&
+    !IS_ABSOLUTE_REGEX.test(url) &&
     !url.includes("?") &&
     !url.includes("#")
   ) {
@@ -79,7 +79,7 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
           {targetId: url.substr(1)},
           ...children,
         ]);
-      } else if (url && tag === "a" && IS_URL_REGEX.test(url)) {
+      } else if (url && tag === "a" && IS_ABSOLUTE_REGEX.test(url)) {
         lexicalScope.update([
           "amplify-external-link",
           {href: url},
