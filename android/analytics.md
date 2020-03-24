@@ -156,6 +156,54 @@ The AWSPinpointAnalyticsPlugin provides APIs do the following
 
 The following examples assumes you have followed the steps to initialize Amplify and configure it with Analytics. 
 
+### Identify User
+
+This call sends information that you have specified about the user to Pinpoint. This could be an unauthenticated or an authenticated user. AWSMobileClient assigns all users an `identityId` that can be used to call `Amplify.Analytics.identifyUser` with. If you have asked for location access and got the user's location information, you can also provide that in `AnalyticsUserProfile.Location`.
+
+
+```java
+public void testIdentifyUser() {
+    UserProfile.Location location = UserProfile.Location.builder()
+            .latitude(47.6154086)
+            .longitude(-122.3349685)
+            .postalCode("98122")
+            .city("Seattle")
+            .region("WA")
+            .country("USA")
+            .build();
+    PinpointProperties pinpointProperties = PinpointProperties.builder()
+            .add("TestStringProperty", "TestStringValue")
+            .add("TestDoubleProperty", 1.0)
+            .build();
+    UserProfile userProfile = UserProfile.builder()
+            .name("test-user")
+            .email("user@test.com")
+            .plan("test-plan")
+            .location(location)
+            .customProperties(pinpointProperties)
+            .build();
+
+    Amplify.Analytics.identifyUser("userId", userProfile);
+    return null;
+}
+```
+
+### App Session Tracking
+
+The Amplify analytics plugin records when an application opens and closes. This session information can be viewed either from your local computer's terminal or the AWS Console for Pinpoint.
+
+To view this information in the terminal, run:
+
+```ruby
+amplify console analytics
+```
+
+To view this from the AWS Console for pinpoint:
+
+1. Navigate to the AWS Console for Pinpoint.
+2. Under Analytics, click on Events. 
+3. Enable filters, you can select `Session Start` and `Session Stop` events to filter on session events.
+
 ### Record event
 
 The Amplify analytics plugin also makes it easy to record custom events within the app. The plugin handles retry logic in the event the device looses network connectivity and automatically batches requests to reduce network bandwidth.
