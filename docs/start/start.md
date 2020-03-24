@@ -5,9 +5,6 @@ disableTOC: true
 filterKey: integration
 ---
 
-[nosearch](~/start/getting-started/auth.md)
-[hash](~/start/getting-started/auth.md#hash)
-
 The open-source Amplify Framework provides the following products to build fullstack iOS, Android, Web, and React Native apps:
 - **Amplify [CLI](../cli)** - Configure all the services needed to power your backend through a simple command line interface.
 - **Amplify [Libraries](../lib)** - Use case-centric client libraries to integrate your app code with a backend using declarative interfaces.
