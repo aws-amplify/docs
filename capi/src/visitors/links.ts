@@ -116,19 +116,3 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
     }
   }
 };
-
-// lexicalScope.update([
-//   tag === "a" ? "docs-internal-link" : tag,
-//   {
-//     ...props,
-//     ...(tag === "a" || tag === "docs-internal-link-button"
-//       ? {href: transformedURL}
-//       : {url: transformedURL}),
-//     ...(urlOverrideForMobileFilterTransformer
-//       ? {
-//           "url-override-for-mobile-filter": urlOverrideForMobileFilterTransformer,
-//         }
-//       : {}),
-//   },
-//   ...children,
-// ]);
