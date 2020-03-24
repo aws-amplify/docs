@@ -44,6 +44,10 @@ export class DocsSecondaryNav {
                       this.selectedFilters?.platform === "js" ? "/lib" : "/sdk",
                   },
                   {
+                    label: "UI Components",
+                    url: "/ui",
+                  },
+                  {
                     label: "CLI",
                     url: "/cli",
                   },

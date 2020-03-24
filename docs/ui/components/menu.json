@@ -1,0 +1,7 @@
+{
+    "title": "Auth",
+    "items": [
+        "components",
+        "authenticator"
+    ]
+}

@@ -361,6 +361,12 @@ export namespace Components {
          */
         "heading"?: string;
     }
+    interface UiComponentPage {
+        /**
+          * * component tag for documented component page
+         */
+        "tag": string;
+    }
 }
 declare global {
     interface HTMLAmplifyCalloutElement extends Components.AmplifyCallout, HTMLStencilElement {
@@ -627,6 +633,12 @@ declare global {
         prototype: HTMLDocsUniversalNavElement;
         new (): HTMLDocsUniversalNavElement;
     };
+    interface HTMLUiComponentPageElement extends Components.UiComponentPage, HTMLStencilElement {
+    }
+    var HTMLUiComponentPageElement: {
+        prototype: HTMLUiComponentPageElement;
+        new (): HTMLUiComponentPageElement;
+    };
     interface HTMLElementTagNameMap {
         "amplify-callout": HTMLAmplifyCalloutElement;
         "amplify-card": HTMLAmplifyCardElement;
@@ -672,6 +684,7 @@ declare global {
         "docs-select-anchor": HTMLDocsSelectAnchorElement;
         "docs-story-page": HTMLDocsStoryPageElement;
         "docs-universal-nav": HTMLDocsUniversalNavElement;
+        "ui-component-page": HTMLUiComponentPageElement;
     }
 }
 declare namespace LocalJSX {
@@ -1023,6 +1036,12 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
     }
+    interface UiComponentPage {
+        /**
+          * * component tag for documented component page
+         */
+        "tag"?: string;
+    }
     interface IntrinsicElements {
         "amplify-callout": AmplifyCallout;
         "amplify-card": AmplifyCard;
@@ -1068,6 +1087,7 @@ declare namespace LocalJSX {
         "docs-select-anchor": DocsSelectAnchor;
         "docs-story-page": DocsStoryPage;
         "docs-universal-nav": DocsUniversalNav;
+        "ui-component-page": UiComponentPage;
     }
 }
 export { LocalJSX as JSX };
@@ -1118,6 +1138,7 @@ declare module "@stencil/core" {
             "docs-select-anchor": LocalJSX.DocsSelectAnchor & JSXBase.HTMLAttributes<HTMLDocsSelectAnchorElement>;
             "docs-story-page": LocalJSX.DocsStoryPage & JSXBase.HTMLAttributes<HTMLDocsStoryPageElement>;
             "docs-universal-nav": LocalJSX.DocsUniversalNav & JSXBase.HTMLAttributes<HTMLDocsUniversalNavElement>;
+            "ui-component-page": LocalJSX.UiComponentPage & JSXBase.HTMLAttributes<HTMLUiComponentPageElement>;
         }
     }
 }
