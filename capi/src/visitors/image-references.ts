@@ -1,6 +1,6 @@
 import * as t from "../types";
 
-const IS_URL_REGEX = /^https?:\/\//i;
+const IS_ABSOLUTE_REGEX = /^https?:\/\//i;
 
 export const imageReferences: t.Transformer = ({
   node,
@@ -14,7 +14,7 @@ export const imageReferences: t.Transformer = ({
     // @ts-ignore
     const {src} = props;
 
-    if (src && !IS_URL_REGEX.test(src)) {
+    if (src && !IS_ABSOLUTE_REGEX.test(src)) {
       let uri: string | undefined;
 
       try {
