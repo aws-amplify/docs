@@ -34,7 +34,7 @@ export class DocsInternalLink {
   computeURL() {
     if (this.href) {
       const parsed = new Url(this.href, true);
-      const {query, pathname, origin} = parsed;
+      const {query, pathname, origin, hash} = parsed;
 
       if (Object.keys(query).length === 0) {
         const filters = filtersByRoute.get(pathname);
@@ -49,6 +49,7 @@ export class DocsInternalLink {
             filterValues.includes(selectedFilterValue)
           ) {
             parsed.set("query", {[filterKey]: selectedFilterValue});
+            parsed.set("hash", hash);
           }
         }
       }
