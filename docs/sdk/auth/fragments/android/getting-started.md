@@ -1,83 +1,151 @@
-PubSub provides connectivity with cloud-based message-oriented middleware. You can use PubSub to pass messages between your app instances and your app's backend creating real-time interactive experiences.
+## Install Dependencies
 
-PubSub is available with **AWS IoT**. 
-
-When using AWS IoT your PubSub HTTP requests are automatically signed when sending your messages.
-
-## Installation and Configuration
-
-### AWS IoT
-
-In the PubSub category, `AWSIoTMqttManager` establishes a signed connection with AWS IoT according to [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). 
-
-Set up AWS Mobile SDK components by including the following libraries in your `app/build.gradle` dependencies list.
+After initialization in your project directory with `amplify init`, update your **App** `build.gradle` with the below:
 
 ```groovy
-dependencies {
-  implementation ('com.amazonaws:aws-android-sdk-iot:2.15.+@aar') { transitive = true }
-  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.15.+@aar') { transitive = true }
-}
+//For AWSMobileClient only:
+implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.16.+'
+
+//For the drop-in UI also:
+implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.16.+'
+implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.16.+'
+
+//For hosted UI also:
+implementation 'com.amazonaws:aws-android-sdk-cognitoauth:2.16.+'
 ```
 
-* `aws-android-sdk-iot` library enables connecting to AWS IoT.
-* `aws-android-sdk-mobile-client` library gives access to the AWS credentials provider and configurations.
+For the `AWSMobileClient` alone you can have a minimum SDK version of **15**, but for the drop-in UI you will need a minimum of **23** set in your `build.gradle`:
 
-To use in your app, import the following classes:
-
-```java
-import com.amazonaws.mobileconnectors.iot.AWSIotMqttManager;
-import com.amazonaws.mobileconnectors.iot.AWSIotMqttNewMessageCallback;
-import com.amazonaws.mobileconnectors.iot.AWSIotMqttQos;
+```
+minSdkVersion 15
 ```
 
-Define your unique client ID and endpoint (incl. region) in your configuration:
+Add the following permissions to the `AndroidManifest.xml` file:
 
-```java
-// Initialize the AWSIotMqttManager with the configuration
-AWSIotMqttManager mqttManager = new AWSIotMqttManager(
-	"<YOUR_CLIENT_ID>", 
-	"xxxxxxxxxxxxx-ats.iot.<YOUR-AWS-REGION>.amazonaws.com");
-```
-You can get the endpoint information from the IoT Core -> Settings page on the AWS Console.
-
-**Create IAM policies for AWS IoT**
-
-To use PubSub with AWS IoT, you will need to create the necessary IAM policies in the AWS IoT Console, and attach them to your Amazon Cognito Identity. 
-
-Go to IoT Core and choose *Secure* from the left navigation pane. Then navigate to *Create Policy*. The following `myIOTPolicy` policy will allow full access to all the topics.
-
-![Alt text]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/iot_attach_policy.png?raw=true "Title")
-
-
-**Attach your policy to your Amazon Cognito Identity**
-
-To attach the policy to your *Cognito Identity*, begin by retrieving the `Cognito Identity Id` from `AWSMobileClient`.
-
-```java
-AWSMobileClient.getInstance().getIdentityId();
+```xml
+<uses-permission android:name="android.permission.INTERNET"/>
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 ```
 
-Then, you need to attach the `myIOTPolicy` policy to the user's *Cognito Identity Id* with the following [AWS CLI](https://aws.amazon.com/cli/) command:
+Build your Android Studio project.
+
+## Automated Setup
+
+Run the following command in your project's root folder:
 
 ```bash
-aws iot attach-principal-policy --policy-name 'myIOTPolicy' --principal '<YOUR_COGNITO_IDENTITY_ID>'
+$ amplify add auth
 ```
 
-To programmatically attach the `myIOTPolicy` policy to the user's *Cognito Identity Id*, import the following classes:
+If you have previously enabled an Amplify category that uses Auth behind the scenes, e.g. API category, you may already have an Auth configuration. In such a case, run `amplify auth update` command to edit your configuration.
+{: .callout .callout--info}
+
+The CLI prompts will help you to customize your auth flow for your app. With the provided options, you can:
+- Customize sign-in/registration flow 
+- Customize email and SMS messages for Multi-Factor Authentication
+- Customize attributes for your users, e.g. name, email
+- Enable 3rd party authentication providers, e.g. Facebook, Twitter, Google and Amazon
+
+After configuring your Authentication options, update your backend:
+
+```bash
+$ amplify push
+```
+
+A configuration file called `awsconfiguration.json` will be copied to your project `./app/src/main/res/raw` directory. The `AWSMobileClient` will leverage this for communicating with backend services. [Click here to learn more about this process.](./start#step-3-how-it-works)
+
+### Lambda Triggers
+
+The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your Amazon Cognito User Pool.  These enable you to add custom functionality to your registration and authentication flows. [Read more]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/)
+
+## Manual Setup
+
+For manual configuration without the CLI, you must have an `awsconfiguration.json` file with the following:
+- Cognito User Pools: `CognitoUserPool : { Default: ...}`
+- Cognito Identity Pools: `IdentityManager` and `CredentialsProvider: {CognitoIdentity: ...}`
+
+```xml
+    {
+        "IdentityManager": {
+            "Default": {}
+        },
+        "CredentialsProvider": {
+            "CognitoIdentity": {
+                "Default": {
+                    "PoolId": "XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab",
+                    "Region": "XX-XXXX-X"
+                }
+            }
+        },
+        "CognitoUserPool": {
+            "Default": {
+                "PoolId": "XX-XXXX-X_abcd1234",
+                "AppClientId": "XXXXXXXX",
+                "AppClientSecret": "XXXXXXXXX",
+                "Region": "XX-XXXX-X"
+            }
+        }
+    }
+```
+
+If you are using both Cognito User Pools and Identity Pools, such as in Federated scenarios, you will need all of the keys mentioned above.
+
+### Initialization
+
+Go to your MainActivity and inside the `onCreate()` run the `initialize()` routine:
 
 ```java
-import com.amazonaws.services.iot.AWSIotClient;
-import com.amazonaws.mobile.client.AWSMobileClient;
-import com.amazonaws.services.iot.model.AttachPolicyRequest;
+AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+
+        @Override
+        public void onResult(UserStateDetails userStateDetails) {
+            Log.i("INIT", "onResult: " + userStateDetails.getUserState());
+        }
+
+        @Override
+        public void onError(Exception e) {
+            Log.e("INIT", "Initialization error.", e);
+        }
+    }
+);
 ```
 
-Next, instantiate the `AttachPolicyRequest` class and attach it your IoT Client as follows:
+Build and run your program to see the initialized client in LOGCAT messages. Since you haven't logged in yet it will print a state of `SIGNED_OUT`. The `getUserState()` function returns an ENUM which you can perform different actions in your workflow. For example:
 
 ```java
-AttachPolicyRequest attachPolicyReq = new AttachPolicyRequest();
-attachPolicyReq.setPolicyName("myIOTPolicy"); // name of your IOT AWS policy
-attachPolicyReq.setTarget(AWSMobileClient.getInstance().getIdentityId());
-AWSIotClient mIotAndroidClient = new AWSIotClient(AWSMobileClient.getInstance());
-mIotAndroidClient.setRegion(Region.getRegion("<YOUR-AWS-REGION>")); // name of your IoT Region such as "us-east-1"
-mIotAndroidClient.attachPolicy(attachPolicyReq);
+AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+     @Override
+    public void onResult(UserStateDetails userStateDetails) {
+        switch (userStateDetails.getUserState()){
+            case SIGNED_IN:
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView textView = (TextView) findViewById(R.id.text);
+                        textView.setText("Logged IN");
+                    }
+                });
+                break;
+            case SIGNED_OUT:
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView textView = (TextView) findViewById(R.id.text);
+                        textView.setText("Logged OUT");
+                    }
+                });
+                break;
+            default:
+                AWSMobileClient.getInstance().signOut();
+                break;
+        }
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Log.e("INIT", e.toString());
+    }
+});
 ```
+
+You might leverage the above workflow to perform other actions in the `SIGNED_IN` case, such as calling [GraphQL or REST APIs with AWS AppSync and Amazon API Gateway](./api) or uploading content with [Amazon S3](./storage).
