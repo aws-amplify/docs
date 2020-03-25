@@ -68,7 +68,7 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
 
       // others
       else {
-        const isURLExternal = IS_ABSOLUTE_REGEX.test(url);
+        const isURLExternal = IS_URL_ABSOLUTE_REGEX.test(url);
         const route = isURLExternal ? url : getRoute(url, transformerProps);
 
         let finalTagName = tagName;
@@ -93,7 +93,7 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
             ] as string | undefined;
             const urlOverrideForMobileFilterIsExternal =
               urlOverrideForMobileFilter &&
-              !IS_ABSOLUTE_REGEX.test(urlOverrideForMobileFilter);
+              !IS_URL_ABSOLUTE_REGEX.test(urlOverrideForMobileFilter);
             const routeOverrideForMobileFilter = urlOverrideForMobileFilterIsExternal
               ? urlOverrideForMobileFilter
               : getRoute(url, transformerProps);

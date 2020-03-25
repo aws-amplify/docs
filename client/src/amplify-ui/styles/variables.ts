@@ -42,6 +42,7 @@ export const variablesStyle = css`
     --border-color: var(--color-grey-md);
     --code-bg-color: var(--color-ink-hv);
     --code-font-color: var(--color-white);
+    --font-color-contrast: var(--color-white);
 
     --breakpoint-fablet: ${Breakpoint.FABLET};
     --breakpoint-tablet: ${Breakpoint.TABLET};

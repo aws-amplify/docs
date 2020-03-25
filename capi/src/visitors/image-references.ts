@@ -14,7 +14,7 @@ export const imageReferences: t.Transformer = ({
     // @ts-ignore
     const {src} = props;
 
-    if (src && !IS_ABSOLUTE_REGEX.test(src)) {
+    if (src && !IS_URL_ABSOLUTE_REGEX.test(src)) {
       let uri: string | undefined;
 
       try {

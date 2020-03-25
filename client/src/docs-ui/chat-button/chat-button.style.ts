@@ -25,6 +25,6 @@ export const gitterChatStyle = css`
   }
 
   a {
-    color: var(--color-white);
+    color: var(--font-color-contrast);
   }
 `;
