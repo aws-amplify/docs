@@ -25,8 +25,8 @@ export class DocsMenu {
 
   renderVersionSwitch() {
     if (
-      (this.page?.productRootLink?.title === "Amplify Libraries" ||
-        this.page?.productRootLink?.title === "AWS Mobile SDK") &&
+      (this.page?.productRootLink?.route === "/lib" ||
+        this.page?.productRootLink?.route === "/sdk") &&
       this.selectedFilters?.platform !== "js"
     ) {
       return (
@@ -44,8 +44,8 @@ export class DocsMenu {
         />
       );
     } else if (
-      this.page?.productRootLink?.title === "Amplify UI Components" ||
-      this.page?.productRootLink?.title === "Amplify UI"
+      this.page?.productRootLink?.route === "/ui" ||
+      this.page?.productRootLink?.route === "/ui-legacy"
     ) {
       return (
         <docs-version-switch
