@@ -2,7 +2,7 @@ import * as t from "../types";
 import * as path from "path";
 import {parse} from "url";
 
-const IS_ABSOLUTE_REGEX = /^https?:\/\//i;
+const IS_URL_ABSOLUTE_REGEX = /^https?:\/\//i;
 
 const linkTags = {
   a: true,
