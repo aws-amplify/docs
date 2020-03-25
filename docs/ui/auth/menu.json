@@ -1,5 +1,5 @@
 {
-    "title": "Auth",
+    "title": "Authentication",
     "items": [
         "authenticator",
         "sign-in",

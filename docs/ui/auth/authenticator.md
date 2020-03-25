@@ -12,9 +12,9 @@ filterKey: framework
 
 ## Usage
 
-<inline-fragment framework="react" src="~/ui/components/fragments/react/usage.md"></inline-fragment>
-<inline-fragment framework="angular" src="~/ui/components/fragments/angular/usage.md"></inline-fragment>
-<inline-fragment framework="vue" src="~/ui/components/fragments/vue/usage.md"></inline-fragment>
+<inline-fragment framework="react" src="~/ui/auth/fragments/react/usage.md"></inline-fragment>
+<inline-fragment framework="angular" src="~/ui/auth/fragments/angular/usage.md"></inline-fragment>
+<inline-fragment framework="vue" src="~/ui/auth/fragments/vue/usage.md"></inline-fragment>
 
 <ui-component-props tag="amplify-authenticator"></ui-component-props>
 
