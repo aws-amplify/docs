@@ -8,7 +8,7 @@ export class DocsChatButton {
       <amplify-external-link
         href="https://gitter.im/AWS-Amplify/Lobby"
         class={gitterChatStyle}
-        graphic="black"
+        graphic="white"
       >
         Open Chat
       </amplify-external-link>
