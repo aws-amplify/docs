@@ -1,4 +1,5 @@
-## Automated configuration
+## Create new authentication resource
+
 If you have previously enabled an Amplify category that uses Auth behind the scenes, e.g. API category, you may already have an Auth configuration. In such a case, run `amplify auth update` command to edit your configuration. To start from a scratch, run the following command in your project's root folder:
 
 ```bash
@@ -11,7 +12,7 @@ The CLI prompts will help you to customize your auth flow for your app. With the
 - Customize attributes for your users, e.g. name, email
 - Enable 3rd party social providers, e.g. Facebook, Twitter, Google and Amazon
 
-## Manual configuration
+## Re-use existing authentication resource
 
 If you want to re-use an existing authentication resource from AWS (e.g. Amazon Cognito UserPool or Identity Pool), update `Amplify.configure()` method with the following information.
 
