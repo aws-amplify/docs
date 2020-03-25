@@ -1,5 +1,5 @@
 ---
-title: Download files
+title: Upload files
 description: Get started with Storage category in Amplify
 ---
 
