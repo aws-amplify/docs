@@ -1,6 +1,6 @@
 ---
-title: CSS Variables
-description: CSS variable theming for Amplify UI Components
+title: Theming
+description: Theming UI Components
 filterKey: framework
 ---
 

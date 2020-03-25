@@ -16,6 +16,11 @@ exports[`docs-secondary-nav Render logic should render 1`] = `
               Libraries
             </span>
           </docs-internal-link>
+          <docs-internal-link childactiveclass="css-dmxdka" href="/ui">
+            <span>
+              UI Components
+            </span>
+          </docs-internal-link>
           <docs-internal-link childactiveclass="css-dmxdka" href="/cli">
             <span>
               CLI

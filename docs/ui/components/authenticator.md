@@ -4,22 +4,31 @@ description: authenticator
 filterKey: framework
 ---
 
-## Example
-
 <amplify-authenticator></amplify-authenticator>
+
+<inline-fragment framework="react" src="~/ui/fragments/react/installation.md"></inline-fragment>
+<inline-fragment framework="angular" src="~/ui/fragments/angular/installation.md"></inline-fragment>
+<inline-fragment framework="vue" src="~/ui/fragments/vue/installation.md"></inline-fragment>
 
 ## Usage
 
-<inline-fragment framework="react" src="~/ui/components/fragments/react/authenticator.md"></inline-fragment>
-<inline-fragment framework="angular" src="~/ui/components/fragments/angular/authenticator.md"></inline-fragment>
-<inline-fragment framework="vue" src="~/ui/components/fragments/vue/authenticator.md"></inline-fragment>
+<inline-fragment framework="react" src="~/ui/components/fragments/react/usage.md"></inline-fragment>
+<inline-fragment framework="angular" src="~/ui/components/fragments/angular/usage.md"></inline-fragment>
+<inline-fragment framework="vue" src="~/ui/components/fragments/vue/usage.md"></inline-fragment>
 
-## Properties
+<ui-component-props tag="amplify-authenticator"></ui-component-props>
 
-| Property           | Attribute            | Description                                                                                                                     | Type                                      | Default            |
-| ------------------ | -------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- | ------------------ |
-| `federated`        | --                   | Federated credentials & configuration.                                                                                          | `FederatedConfig`                         | `undefined`        |
-| `initialAuthState` | `initial-auth-state` | Initial starting state of the Authenticator component. E.g. If `signup` is passed the default component is set to AmplifySignUp | `AuthState.SignIn \| AuthState.SignUp`    | `AuthState.SignIn` |
-| `usernameAlias`    | `username-alias`     | Username Alias is used to setup authentication with `username`, `email` or `phone_number`                                       | `"email" \| "phone_number" \| "username"` | `undefined`        |
+## Slots
 
+| Name                     | Description                                                                                                            |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| `sign-in`              | Content placed inside of the sign in workflow for when a user wants to sign into their account                         |
+| `confirm-sign-in`      | Content placed inside of the confirm sign in workflow for when a user needs to confirm the account they signed in with |
+| `sign-up`              | Content placed inside of the sign up workflow for when a user wants to register a new account                          |
+| `confirm-sign-up`      | Content placed inside of the confirm sign up workflow for when a user needs to confirm the account they signed up with |
+| `forgot-password`      | Content placed inside of the forgot password workflow for when a user wants to reset their password                    |
+| `require-new-password` | Content placed inside of the require new password workflow for when a user is required to update their password        |
+| `verify-contact`       | Content placed inside of the verify-contact workflow for when a user must verify their contact information             |
+| `totp-setup`           | Content placed inside of the totp-setup workflow for when a user opts to use TOTP MFA                                  |
+| `greetings`            | Content placed inside of the greetings navigation for when a user is signed in                                         |
 

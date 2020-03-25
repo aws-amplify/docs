@@ -198,10 +198,6 @@ export const elementsStyle = css`
       border-top: 0.0625rem solid var(--color-grey-md);
       background-color: var(--bg-color);
     }
-
-    tr:nth-child(2n) {
-      background-color: var(--color-grey-lt);
-    }
   }
 
   img {
@@ -228,6 +224,7 @@ export const elementsStyle = css`
   }
 
   table,
+  td,
   blockquote,
   li,
   p,
