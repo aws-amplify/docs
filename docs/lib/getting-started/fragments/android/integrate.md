@@ -14,61 +14,31 @@ b. First add some data to your backend:
 
 ```java
 Task task = Task.builder().title("My first task").description("Get started with Amplify").build();
-
-Amplify.API.mutate(task, MutationType.CREATE, new ResultListener<GraphQLResponse<Task>>() {
-    @Override
-    public void onResult(GraphQLResponse<Task> taskGraphQLResponse) {
-        Log.i("AmplifyGetStarted", "Added task with id: " + taskGraphQLResponse.getData().getId());
-    }
-
-    @Override
-    public void onError(Throwable throwable) {
-        Log.e("AmplifyGetStarted", throwable.toString());
-    }
-});
+    Amplify.API.mutate(task,
+    MutationType.CREATE,
+    taskGraphQLResponse -> Log.i("AmplifyGetStarted", "Added task with id: " + taskGraphQLResponse.getData().getId()),
+    throwable -> Log.e("AmplifyGetStarted", throwable.toString())
+);
 ```
 
 c. Next query the results from your API:
 
 ```java
-Amplify.API.query(Task.class, new ResultListener<GraphQLResponse<Iterable<Task>>>() {
-    @Override
-    public void onResult(GraphQLResponse<Iterable<Task>> iterableGraphQLResponse) {
-        for(Task task : iterableGraphQLResponse.getData()) {
-            Log.i("AmplifyGetStarted", "Task : " + task.getTitle());
-        }
-    }
-
-    @Override
-    public void onError(Throwable throwable) {
-        Log.e("AmplifyGetStarted", throwable.toString());
-    }
-});
+Amplify.API.query(Task.class,
+    result -> result.getData().forEach(task -> Log.i("AmplifyGetStarted", task.getTitle())),
+    throwable -> Log.e("AmplifyGetStarted", throwable.toString())
+);
 ```
 
 d. Finally, you can listen to the Subscription with a `StreamListener` using the `onNext` callback:
 
 ```java
-Amplify.API.subscribe(
-    Task.class,
+Amplify.API.subscribe(Task.class,
     SubscriptionType.ON_CREATE,
-    new StreamListener<GraphQLResponse<Task>>() {
-        @Override
-        public void onNext(GraphQLResponse<Task> taskGraphQLResponse) {
-            Log.i("AmplifyGetStarted", "Subscription detected a create: " +
-                    taskGraphQLResponse.getData().getTitle());
-        }
-
-        @Override
-        public void onComplete() {
-            // Whatever you want it to do on completing
-        }
-
-        @Override
-        public void onError(Throwable throwable) {
-            Log.e("AmplifyGetStarted", throwable.toString());
-        }
-    }
+    establishedMessage -> Log.i("AmplifyGetStarted", "Subscription established: "+establishedMessage),
+    response -> Log.i("AmplifyGetStarted", "Task created: "+response.getData().getTitle()),
+    throwable -> Log.e("AmplifyGetStarted", throwable.toString()),
+    () -> Log.i("AmplifyGetStarted", "Subscription completed.")
 );
 ```
 
