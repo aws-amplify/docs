@@ -12,7 +12,7 @@ The open-source Amplify Framework provides the following products to build fulls
 
 <p />
 
-The **Amplify [Console](https://console.aws.amazon.com/amplify)** is an AWS service that provides a git-based workflow for continuous deployment & hosting of fullstack web apps. Cloud resources created by the Amplify CLI are also visible in the Amplify Console.
+The **Amplify [Console](https://aws.amazon.com/amplify/console/)** is an AWS service that provides a git-based workflow for continuous deployment & hosting of fullstack web apps. Cloud resources created by the Amplify CLI are also visible in the Amplify Console.
 
 <inline-fragment integration="ios" src="~/start/getting-started/fragments/ios/build.md"></inline-fragment>
 <inline-fragment integration="android" src="~/start/getting-started/fragments/android/build.md"></inline-fragment>

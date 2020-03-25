@@ -9,3 +9,7 @@ export const sidebarLayoutSidebarToggleStyle = css`
     display: none;
   }
 `;
+
+export const unclickableStyle = css`
+  pointer-events: none;
+`;
