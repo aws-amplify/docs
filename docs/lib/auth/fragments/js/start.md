@@ -1,14 +1,10 @@
-> Prerequisite: [Install and configure](/link) the Amplify CLI
-
-## Create new auth backend
-
-Run the following command in your project's root folder:
+If you have previously enabled an Amplify category that uses Auth behind the scenes, e.g. API category, you may already have an Auth configuration. In such a case, run `amplify auth update` command to edit your configuration. To start from a scratch, run the following command in your project's root folder:
 
 ```bash
-$ amplify add auth
+amplify add auth
 ```
 
-If you have previously enabled an Amplify category that uses Auth behind the scenes, e.g. API category, you may already have an Auth configuration. In such a case, run `amplify auth update` command to edit your configuration.
+## Additional authentication configurations
 
 The CLI prompts will help you to customize your auth flow for your app. With the provided options, you can:
 - Customize sign-in/registration flow 
@@ -81,39 +77,6 @@ Amplify.configure({
 
 // You can get the current config object
 const currentConfig = Auth.configure();
-```
-
-## Setup frontend
-
-Add the Amplify library to your app with `yarn` or `npm`:
-
-```bash
-yarn add aws-amplify
-```
-
-In your app's entry point i.e. App.js, import and load the configuration file:
-
-```javascript
-import Amplify, { Auth } from 'aws-amplify';
-import awsconfig from './aws-exports';
-Amplify.configure(awsconfig);
-```
-
-### React Native
-
-For React Native applications, install `aws-amplify-react-native` and link:
-
-```bash
-yarn add aws-amplify aws-amplify-react-native
-react-native link amazon-cognito-identity-js # DO NOT run this when using Expo or ExpoKit
-```
-
-If you are using React Native 0.60.0+, iOS and using Auth methods e.g. `Auth.signIn`, `Auth.signUp`, etc., please run the following commands instead of linking:
-
-```
-yarn add amazon-cognito-identity-js
-cd ios
-pod install --repo-update
 ```
 
 ## Working with AWS service objects

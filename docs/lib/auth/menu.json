@@ -1,6 +1,7 @@
 {
   "title": "Authentication",
   "items": [
+		"getting-started",
     "overview",
     "start",
     "emailpassword",
@@ -12,9 +13,7 @@
     "migrate",
     "challenge",
     "customui",
-    
     "how-it-works",
-		"getting-started",
 		"guest-access",
 		"working-with-api",
 		"drop-in-auth",
