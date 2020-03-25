@@ -12,6 +12,7 @@ import { SelectedFilters, } from "./docs-ui/page/page.types";
 import { SetCurrentPath, } from "./docs-ui/internal-link/internal-link.types";
 import { MenuGroup, Page, } from "./api";
 import { MatchResults, } from "@stencil/router";
+import { SwitchOption, } from "./docs-ui/version-switch/version-switch.types";
 export namespace Components {
     interface AmplifyCallout {
         /**
@@ -361,6 +362,16 @@ export namespace Components {
          */
         "heading"?: string;
     }
+    interface DocsVersionSwitch {
+        /**
+          * * Switcher option appearing to the left **
+         */
+        "leftOption": SwitchOption;
+        /**
+          * * Switcher option appearing to the right **
+         */
+        "rightOption": SwitchOption;
+    }
     interface UiComponentProps {
         /**
           * * component tag for documented component page
@@ -633,6 +644,12 @@ declare global {
         prototype: HTMLDocsUniversalNavElement;
         new (): HTMLDocsUniversalNavElement;
     };
+    interface HTMLDocsVersionSwitchElement extends Components.DocsVersionSwitch, HTMLStencilElement {
+    }
+    var HTMLDocsVersionSwitchElement: {
+        prototype: HTMLDocsVersionSwitchElement;
+        new (): HTMLDocsVersionSwitchElement;
+    };
     interface HTMLUiComponentPropsElement extends Components.UiComponentProps, HTMLStencilElement {
     }
     var HTMLUiComponentPropsElement: {
@@ -684,6 +701,7 @@ declare global {
         "docs-select-anchor": HTMLDocsSelectAnchorElement;
         "docs-story-page": HTMLDocsStoryPageElement;
         "docs-universal-nav": HTMLDocsUniversalNavElement;
+        "docs-version-switch": HTMLDocsVersionSwitchElement;
         "ui-component-props": HTMLUiComponentPropsElement;
     }
 }
@@ -1036,6 +1054,16 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
     }
+    interface DocsVersionSwitch {
+        /**
+          * * Switcher option appearing to the left **
+         */
+        "leftOption"?: SwitchOption;
+        /**
+          * * Switcher option appearing to the right **
+         */
+        "rightOption"?: SwitchOption;
+    }
     interface UiComponentProps {
         /**
           * * component tag for documented component page
@@ -1087,6 +1115,7 @@ declare namespace LocalJSX {
         "docs-select-anchor": DocsSelectAnchor;
         "docs-story-page": DocsStoryPage;
         "docs-universal-nav": DocsUniversalNav;
+        "docs-version-switch": DocsVersionSwitch;
         "ui-component-props": UiComponentProps;
     }
 }
@@ -1138,6 +1167,7 @@ declare module "@stencil/core" {
             "docs-select-anchor": LocalJSX.DocsSelectAnchor & JSXBase.HTMLAttributes<HTMLDocsSelectAnchorElement>;
             "docs-story-page": LocalJSX.DocsStoryPage & JSXBase.HTMLAttributes<HTMLDocsStoryPageElement>;
             "docs-universal-nav": LocalJSX.DocsUniversalNav & JSXBase.HTMLAttributes<HTMLDocsUniversalNavElement>;
+            "docs-version-switch": LocalJSX.DocsVersionSwitch & JSXBase.HTMLAttributes<HTMLDocsVersionSwitchElement>;
             "ui-component-props": LocalJSX.UiComponentProps & JSXBase.HTMLAttributes<HTMLUiComponentPropsElement>;
         }
     }

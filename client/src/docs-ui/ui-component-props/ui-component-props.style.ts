@@ -7,7 +7,7 @@ export const tableStyle = css`
     background-color: var(--bg-color-tertiary);
   }
   h3 {
-    font-size: 20px;
+    font-size: 1.25rem;
     margin-top: 0.75rem;
   }
 `;

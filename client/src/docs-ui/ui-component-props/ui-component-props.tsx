@@ -4,7 +4,7 @@ import {JsonDocsComponent} from "@stencil/core/internal";
 import {tableStyle} from "./ui-component-props.style";
 
 @Component({tag: "ui-component-props", shadow: false})
-export class DocsCard {
+export class DocsUIComponentProps {
   /*** component tag for documented component page */
   @Prop() readonly tag: string;
 
