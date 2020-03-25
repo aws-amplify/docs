@@ -31,7 +31,7 @@ export class DocsFeedbackCallout {
           <h4>{`^ We'd love your feedback`}</h4>
         </amplify-external-link>
         <button onClick={this.dismiss}>
-          <span>X</span>
+          <img src="/assets/close.svg" />
         </button>
       </Host>
     );

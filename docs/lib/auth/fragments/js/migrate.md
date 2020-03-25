@@ -1,4 +1,4 @@
-A use case for the `USER_PASSWORD_AUTH` authentication flow is migrating users into Amazon Cognito. Read more about this authentication workflow in the [overview](/overview). 
+A use case for the `USER_PASSWORD_AUTH` authentication flow is migrating users into Amazon Cognito. Read more about this authentication workflow in the [overview](~/lib/auth/overview.md). 
 
 ## Setup auth backend
 

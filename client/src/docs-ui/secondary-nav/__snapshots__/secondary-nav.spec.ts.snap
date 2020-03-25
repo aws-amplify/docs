@@ -11,7 +11,7 @@ exports[`docs-secondary-nav Render logic should render 1`] = `
               Getting Started
             </span>
           </docs-internal-link>
-          <docs-internal-link childactiveclass="css-dmxdka" href="/lib">
+          <docs-internal-link childactiveclass="css-dmxdka" href="/sdk">
             <span>
               Libraries
             </span>

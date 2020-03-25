@@ -1,16 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`docs-feedback-callout Render logic should render 1`] = `
-<docs-feedback-callout class="css-1i82ydo css-kavskq">
-  <amplify-external-link href="https://github.com/aws-amplify/docs/issues/new?title=Feedback+On+Documentation&amp;body=**Page**:%20%5B%60http://testing.stenciljs.com/%60%5D(http://testing.stenciljs.com/)%0A%0A**Feedback**:%20%3C!--%20your%20feedback%20here%20--%3E%0A">
+<docs-feedback-callout class="css-1i82ydo css-ar9zx5">
+  <amplify-external-link href="https://github.com/aws-amplify/docs/issues/new?title=[v2-feedback]&amp;labels=v2&amp;body=**Page**:%20%5B%60http://testing.stenciljs.com/%60%5D(http://testing.stenciljs.com/)%0A%0A**Feedback**:%20%3C!--%20your%20feedback%20here%20--%3E%0A">
     <h4>
       ^ We'd love your feedback
     </h4>
   </amplify-external-link>
   <button>
-    <span>
-      X
-    </span>
+    <img src="/assets/close.svg">
   </button>
 </docs-feedback-callout>
 `;
