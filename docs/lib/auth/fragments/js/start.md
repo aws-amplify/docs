@@ -1,10 +1,9 @@
+## Automated configuration
 If you have previously enabled an Amplify category that uses Auth behind the scenes, e.g. API category, you may already have an Auth configuration. In such a case, run `amplify auth update` command to edit your configuration. To start from a scratch, run the following command in your project's root folder:
 
 ```bash
 amplify add auth
 ```
-
-## Additional authentication configurations
 
 The CLI prompts will help you to customize your auth flow for your app. With the provided options, you can:
 - Customize sign-in/registration flow 
@@ -12,7 +11,7 @@ The CLI prompts will help you to customize your auth flow for your app. With the
 - Customize attributes for your users, e.g. name, email
 - Enable 3rd party social providers, e.g. Facebook, Twitter, Google and Amazon
 
-## Import existing auth backend
+## Manual configuration
 
 If you want to re-use an existing authentication resource from AWS (e.g. Amazon Cognito UserPool or Identity Pool), update `Amplify.configure()` method with the following information.
 
@@ -77,47 +76,4 @@ Amplify.configure({
 
 // You can get the current config object
 const currentConfig = Auth.configure();
-```
-
-## Working with AWS service objects
-
-You can use AWS *Service Interface Objects* to work AWS Services in authenticated State. You can call methods on any AWS Service interface object by passing your credentials from `Auth` object to the service call constructor:
-
-```javascript
-import Route53 from 'aws-sdk/clients/route53';
-
-Auth.currentCredentials()
-  .then(credentials => {
-    const route53 = new Route53({
-      apiVersion: '2013-04-01',
-      credentials: Auth.essentialCredentials(credentials)
-    });
-
-    // more code working with route53 object
-    // route53.changeResourceRecordSets();
-  })
-```
-
-Full API Documentation for Service Interface Objects is available [here](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/_index.html).
-
-<amplify-callout warning>
-
-Note: To work with Service Interface Objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
-
-</amplify-callout>
-
-
-## API reference
-
-For the complete API documentation for Authentication module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html)
-
-## Using modular imports
-
-If you only need to use Auth, you can do: `npm install @aws-amplify/auth` which will only install the Auth module for you.
-
-Then in your code, you can import the Auth module by:
-```javascript
-import Auth from '@aws-amplify/auth';
-
-Auth.configure();
 ```

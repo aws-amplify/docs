@@ -1,5 +1,5 @@
 ---
-title: Advanced authentication setups
+title: Authentication configuration
 description: auth
 ---
 
