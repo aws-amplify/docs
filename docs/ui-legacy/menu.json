@@ -1,7 +1,3 @@
 {
-    "title": "UI Components",
-    "items": [
-        "auth",
-        "customization"
-    ]
+    "items": ["auth"]
 }
