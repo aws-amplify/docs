@@ -68,7 +68,9 @@ export class DocsInternalLink {
       const currentPathWithoutQS = this.currentPath?.split("?")?.[0];
       const hrefWithoutQS = this.href?.split("?")?.[0];
       this.isChildActive = !!(
-        hrefWithoutQS && currentPathWithoutQS?.startsWith(hrefWithoutQS)
+        hrefWithoutQS &&
+        currentPathWithoutQS?.startsWith(hrefWithoutQS) &&
+        !currentPathWithoutQS?.startsWith(`${hrefWithoutQS}-`)
       );
     }
   }
