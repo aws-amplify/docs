@@ -23,7 +23,7 @@ export class DocsInternalLink {
   /*** class name to attach a subpage is active */
   @Prop() readonly childActiveClass?: string;
   /*** override `isChildActive` to true */
-  @Prop() readonly overrideChildActiveToTrue?: boolean;
+  @Prop() readonly additionalActiveChildRoots?: string[];
 
   @State() url?: string;
   @State() isActive?: boolean;
@@ -70,7 +70,9 @@ export class DocsInternalLink {
       const currentPathWithoutQS = this.currentPath?.split("?")?.[0];
       const hrefWithoutQS = this.href?.split("?")?.[0];
       this.isChildActive =
-        this.overrideChildActiveToTrue ||
+        this.additionalActiveChildRoots?.some((root) =>
+          this.currentPath?.startsWith(root),
+        ) ||
         !!(
           hrefWithoutQS &&
           currentPathWithoutQS?.startsWith(hrefWithoutQS) &&

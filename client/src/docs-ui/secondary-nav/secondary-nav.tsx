@@ -8,14 +8,11 @@ import {
 import {createVNodeFromHyperscriptNode} from "../../utils/hyperscript";
 import {pageContext} from "../page/page.context";
 import {SelectedFilters} from "../page/page.types";
-import {internalLinkContext} from "../internal-link/internal-link.context";
 
 @Component({tag: "docs-secondary-nav", shadow: false})
 export class DocsSecondaryNav {
   /*** the current filter state */
   @Prop() readonly selectedFilters?: SelectedFilters;
-  /*** the current path */
-  @Prop() readonly currentPath?: string;
 
   componentDidRender() {
     if (Build.isBrowser) {
@@ -45,16 +42,12 @@ export class DocsSecondaryNav {
                     label: "Libraries",
                     url:
                       this.selectedFilters?.platform === "js" ? "/lib" : "/sdk",
-                    overrideChildActiveToTrue:
-                      this.currentPath?.startsWith("/sdk") ||
-                      this.currentPath?.startsWith("/lib"),
+                    additionalActiveChildRoots: ["/lib", "/sdk"],
                   },
                   {
                     label: "UI Components",
                     url: "/ui",
-                    overrideChildActiveToTrue: this.currentPath?.startsWith(
-                      "/ui",
-                    ),
+                    additionalActiveChildRoots: ["/ui"],
                   },
                   {
                     label: "CLI",
@@ -87,7 +80,7 @@ export class DocsSecondaryNav {
                         },
                       ]
                     : []),
-                ].map(({url, label, external, overrideChildActiveToTrue}) =>
+                ].map(({url, label, external, additionalActiveChildRoots}) =>
                   createVNodeFromHyperscriptNode([
                     external ? "amplify-external-link" : "docs-internal-link",
                     {
@@ -97,7 +90,7 @@ export class DocsSecondaryNav {
                         ? {graphic: "black"}
                         : {
                             childActiveClass: linkActiveStyle,
-                            overrideChildActiveToTrue,
+                            additionalActiveChildRoots,
                           }),
                     },
                     ["span", null, label],
@@ -126,4 +119,3 @@ export class DocsSecondaryNav {
 }
 
 pageContext.injectProps(DocsSecondaryNav, ["selectedFilters"]);
-internalLinkContext.injectProps(DocsSecondaryNav, ["currentPath"]);

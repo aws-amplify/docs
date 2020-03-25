@@ -236,6 +236,10 @@ export namespace Components {
          */
         "activeClass"?: string;
         /**
+          * * override `isChildActive` to true
+         */
+        "additionalActiveChildRoots"?: string[];
+        /**
           * * class name to attach a subpage is active
          */
         "childActiveClass"?: string;
@@ -247,10 +251,6 @@ export namespace Components {
           * * the route to render out
          */
         "href"?: string;
-        /**
-          * * override `isChildActive` to true
-         */
-        "overrideChildActiveToTrue"?: boolean;
         /**
           * * the global selected filter state
          */
@@ -327,10 +327,6 @@ export namespace Components {
     interface DocsRouter {
     }
     interface DocsSecondaryNav {
-        /**
-          * * the current path
-         */
-        "currentPath"?: string;
         /**
           * * the current filter state
          */
@@ -936,6 +932,10 @@ declare namespace LocalJSX {
          */
         "activeClass"?: string;
         /**
+          * * override `isChildActive` to true
+         */
+        "additionalActiveChildRoots"?: string[];
+        /**
           * * class name to attach a subpage is active
          */
         "childActiveClass"?: string;
@@ -947,10 +947,6 @@ declare namespace LocalJSX {
           * * the route to render out
          */
         "href"?: string;
-        /**
-          * * override `isChildActive` to true
-         */
-        "overrideChildActiveToTrue"?: boolean;
         /**
           * * the global selected filter state
          */
@@ -1027,10 +1023,6 @@ declare namespace LocalJSX {
     interface DocsRouter {
     }
     interface DocsSecondaryNav {
-        /**
-          * * the current path
-         */
-        "currentPath"?: string;
         /**
           * * the current filter state
          */
