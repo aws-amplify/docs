@@ -1,6 +1,6 @@
 import * as t from "../types";
 
-const IS_ABSOLUTE_REGEX = /^https?:\/\//i;
+const IS_URL_ABSOLUTE_REGEX = /^https?:\/\//i;
 
 export const imageReferences: t.Transformer = ({
   node,
