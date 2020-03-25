@@ -248,6 +248,10 @@ export namespace Components {
          */
         "href"?: string;
         /**
+          * * override `isChildActive` to true
+         */
+        "overrideChildActiveToTrue"?: boolean;
+        /**
           * * the global selected filter state
          */
         "selectedFilters"?: SelectedFilters;
@@ -324,9 +328,13 @@ export namespace Components {
     }
     interface DocsSecondaryNav {
         /**
+          * * the current path
+         */
+        "currentPath"?: string;
+        /**
           * * the current filter state
          */
-        "selectedFilters": SelectedFilters;
+        "selectedFilters"?: SelectedFilters;
     }
     interface DocsSelectAnchor {
         /**
@@ -940,6 +948,10 @@ declare namespace LocalJSX {
          */
         "href"?: string;
         /**
+          * * override `isChildActive` to true
+         */
+        "overrideChildActiveToTrue"?: boolean;
+        /**
           * * the global selected filter state
          */
         "selectedFilters"?: SelectedFilters;
@@ -1015,6 +1027,10 @@ declare namespace LocalJSX {
     interface DocsRouter {
     }
     interface DocsSecondaryNav {
+        /**
+          * * the current path
+         */
+        "currentPath"?: string;
         /**
           * * the current filter state
          */
