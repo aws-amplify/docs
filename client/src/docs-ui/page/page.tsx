@@ -71,7 +71,7 @@ export class DocsPage {
   // @ts-ignore
   @Listen("resize", {target: "window"})
   setSidebarStickyTop(): number {
-    const sidebarStickyTop = innerWidth > Breakpoint.TAPTOP * 16 ? 3 : 6.25;
+    const sidebarStickyTop = innerWidth > Breakpoint.LAPTOP * 16 ? 3 : 6.25;
     this.sidebarStickyTop = sidebarStickyTop;
     return sidebarStickyTop;
   }

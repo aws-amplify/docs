@@ -12,6 +12,7 @@ import { SelectedFilters, } from "./docs-ui/page/page.types";
 import { SetCurrentPath, } from "./docs-ui/internal-link/internal-link.types";
 import { MenuGroup, Page, } from "./api";
 import { MatchResults, } from "@stencil/router";
+import { SwitchOption, } from "./docs-ui/version-switch/version-switch.types";
 export namespace Components {
     interface AmplifyCallout {
         /**
@@ -235,6 +236,10 @@ export namespace Components {
          */
         "activeClass"?: string;
         /**
+          * * override `isChildActive` to true
+         */
+        "additionalActiveChildRoots"?: string[];
+        /**
           * * class name to attach a subpage is active
          */
         "childActiveClass"?: string;
@@ -325,7 +330,7 @@ export namespace Components {
         /**
           * * the current filter state
          */
-        "selectedFilters": SelectedFilters;
+        "selectedFilters"?: SelectedFilters;
     }
     interface DocsSelectAnchor {
         /**
@@ -360,6 +365,22 @@ export namespace Components {
           * * what label should go next to the brand icon?
          */
         "heading"?: string;
+    }
+    interface DocsVersionSwitch {
+        /**
+          * * Switcher option appearing to the left **
+         */
+        "leftOption": SwitchOption;
+        /**
+          * * Switcher option appearing to the right **
+         */
+        "rightOption": SwitchOption;
+    }
+    interface UiComponentProps {
+        /**
+          * * component tag for documented component page
+         */
+        "tag": string;
     }
 }
 declare global {
@@ -627,6 +648,18 @@ declare global {
         prototype: HTMLDocsUniversalNavElement;
         new (): HTMLDocsUniversalNavElement;
     };
+    interface HTMLDocsVersionSwitchElement extends Components.DocsVersionSwitch, HTMLStencilElement {
+    }
+    var HTMLDocsVersionSwitchElement: {
+        prototype: HTMLDocsVersionSwitchElement;
+        new (): HTMLDocsVersionSwitchElement;
+    };
+    interface HTMLUiComponentPropsElement extends Components.UiComponentProps, HTMLStencilElement {
+    }
+    var HTMLUiComponentPropsElement: {
+        prototype: HTMLUiComponentPropsElement;
+        new (): HTMLUiComponentPropsElement;
+    };
     interface HTMLElementTagNameMap {
         "amplify-callout": HTMLAmplifyCalloutElement;
         "amplify-card": HTMLAmplifyCardElement;
@@ -672,6 +705,8 @@ declare global {
         "docs-select-anchor": HTMLDocsSelectAnchorElement;
         "docs-story-page": HTMLDocsStoryPageElement;
         "docs-universal-nav": HTMLDocsUniversalNavElement;
+        "docs-version-switch": HTMLDocsVersionSwitchElement;
+        "ui-component-props": HTMLUiComponentPropsElement;
     }
 }
 declare namespace LocalJSX {
@@ -897,6 +932,10 @@ declare namespace LocalJSX {
          */
         "activeClass"?: string;
         /**
+          * * override `isChildActive` to true
+         */
+        "additionalActiveChildRoots"?: string[];
+        /**
           * * class name to attach a subpage is active
          */
         "childActiveClass"?: string;
@@ -1023,6 +1062,22 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
     }
+    interface DocsVersionSwitch {
+        /**
+          * * Switcher option appearing to the left **
+         */
+        "leftOption"?: SwitchOption;
+        /**
+          * * Switcher option appearing to the right **
+         */
+        "rightOption"?: SwitchOption;
+    }
+    interface UiComponentProps {
+        /**
+          * * component tag for documented component page
+         */
+        "tag"?: string;
+    }
     interface IntrinsicElements {
         "amplify-callout": AmplifyCallout;
         "amplify-card": AmplifyCard;
@@ -1068,6 +1123,8 @@ declare namespace LocalJSX {
         "docs-select-anchor": DocsSelectAnchor;
         "docs-story-page": DocsStoryPage;
         "docs-universal-nav": DocsUniversalNav;
+        "docs-version-switch": DocsVersionSwitch;
+        "ui-component-props": UiComponentProps;
     }
 }
 export { LocalJSX as JSX };
@@ -1118,6 +1175,8 @@ declare module "@stencil/core" {
             "docs-select-anchor": LocalJSX.DocsSelectAnchor & JSXBase.HTMLAttributes<HTMLDocsSelectAnchorElement>;
             "docs-story-page": LocalJSX.DocsStoryPage & JSXBase.HTMLAttributes<HTMLDocsStoryPageElement>;
             "docs-universal-nav": LocalJSX.DocsUniversalNav & JSXBase.HTMLAttributes<HTMLDocsUniversalNavElement>;
+            "docs-version-switch": LocalJSX.DocsVersionSwitch & JSXBase.HTMLAttributes<HTMLDocsVersionSwitchElement>;
+            "ui-component-props": LocalJSX.UiComponentProps & JSXBase.HTMLAttributes<HTMLUiComponentPropsElement>;
         }
     }
 }
