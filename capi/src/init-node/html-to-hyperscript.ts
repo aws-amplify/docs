@@ -58,8 +58,11 @@ const Hyperscript = (
     ...children,
   ] as t.HyperscriptNode;
   switch (node.tagName) {
+    case "table": {
+      return ["div", {class: "table-container"}, hyperscriptNode];
+    }
     case "h2":
-    case "h3":
+    case "h3": {
       // @ts-ignore
       return attributes.disableLinkification
         ? hyperscriptNode
@@ -68,6 +71,7 @@ const Hyperscript = (
             {targetId: `${props?.id as string}`},
             hyperscriptNode,
           ];
+    }
     default:
       return hyperscriptNode;
   }
