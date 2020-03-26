@@ -5,8 +5,6 @@ import {
   menuItemContainerStyle,
   menuBreakStyle,
   productRootLink,
-  libSDKSwitcherStyle,
-  activeSwitchStyle,
 } from "./menu.style";
 import {getFilterKeyFromPage} from "../../utils/filters";
 import {pageContext} from "../page/page.context";
@@ -25,39 +23,61 @@ export class DocsMenu {
     this.filterKey = this.page && getFilterKeyFromPage(this.page);
   }
 
+  renderVersionSwitch() {
+    if (
+      (this.page?.productRootLink?.route === "/lib" ||
+        this.page?.productRootLink?.route === "/sdk") &&
+      this.selectedFilters?.platform !== "js"
+    ) {
+      return (
+        <docs-version-switch
+          leftOption={{
+            title: "Libraries",
+            subTitle: "(preview)",
+            href: "/lib",
+          }}
+          rightOption={{
+            title: "SDK",
+            subTitle: "(stable)",
+            href: "/sdk",
+          }}
+        />
+      );
+    } else if (
+      this.page?.productRootLink?.route === "/ui" ||
+      this.page?.productRootLink?.route === "/ui-legacy"
+    ) {
+      return (
+        <docs-version-switch
+          leftOption={{
+            title: "Latest",
+            subTitle: "(v2)",
+            href: "/ui",
+          }}
+          rightOption={{
+            title: "Legacy",
+            subTitle: "(v1)",
+            href: "/ui-legacy",
+          }}
+        />
+      );
+    }
+  }
+
   render() {
     const menu = this.page?.menu;
     return (
       <Host class={menuStyle}>
         {this.page?.filterKey && <docs-select-anchor page={this.page} />}
-        {this.page?.productRootLink && [
-          (this.page.productRootLink.title === "Amplify Libraries" ||
-            this.page.productRootLink.title === "AWS Mobile SDK") &&
-            this.selectedFilters?.platform !== "js" && (
-              <div class={libSDKSwitcherStyle}>
-                <docs-internal-link
-                  href="/lib"
-                  childActiveClass={activeSwitchStyle}
-                >
-                  Libraries
-                  <span>(preview)</span>
-                </docs-internal-link>
-                <docs-internal-link
-                  href="/sdk"
-                  childActiveClass={activeSwitchStyle}
-                >
-                  SDK
-                  <span>(stable)</span>
-                </docs-internal-link>
-              </div>
-            ),
+        {this.renderVersionSwitch()}
+        {this.page?.productRootLink && (
           <docs-internal-link
             href={this.page.productRootLink.route}
             class={productRootLink}
           >
             {this.page.productRootLink.title}
-          </docs-internal-link>,
-        ]}
+          </docs-internal-link>
+        )}
         {menu && (
           <div class={menuItemContainerStyle}>
             {menu.map((menuGroup) => (
