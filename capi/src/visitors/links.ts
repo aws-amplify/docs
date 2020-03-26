@@ -18,6 +18,7 @@ const validLinkExtensions = {
   jpeg: true,
   png: true,
   gif: true,
+  md: true,
 };
 
 const getRoute = (
@@ -68,15 +69,23 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
       const isURLExternal = IS_URL_ABSOLUTE_REGEX.test(url);
 
       if (!isURLExternal) {
+        if (url.startsWith("..")) {
+          url = url.substr(2);
+        }
+
         if (!url.startsWith("~") && !url.startsWith("#")) {
           url = `~${url.startsWith("/") ? "" : "/"}${url}`;
         }
 
         if (
-          url.includes(".") &&
-          validLinkExtensions[url.split(".").pop() || ""]
+          !url.includes(".") ||
+          !validLinkExtensions[url.split(".").pop() || ""]
         ) {
           url = `${url}.md`;
+        }
+
+        if (transformerProps.srcPath.includes("start/start.md")) {
+          console.log(url);
         }
 
         // in page links (hash-only url)
