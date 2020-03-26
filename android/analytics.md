@@ -136,11 +136,9 @@ protected void onCreate(Bundle savedInstanceState) {
     }
 
     // Configure Amplify framework
-    AmplifyConfiguration configuration = new AmplifyConfiguration();
     try {
-        configuration.populateFromConfigFile(getApplicationContext(), R.raw.amplifyconfiguration);
         Amplify.addPlugin(new AmazonPinpointAnalyticsPlugin());
-        Amplify.configure(configuration, getApplicationContext());
+        Amplify.configure(getApplicationContext());
     } catch (AmplifyException e) {
         e.printStackTrace();
     }
