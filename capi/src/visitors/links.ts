@@ -70,7 +70,8 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
 
       if (!isURLExternal) {
         if (url.startsWith("..")) {
-          url = url.substr(2);
+          const sub = url.substr(2);
+          url = `${sub}${sub.startsWith("/") ? sub : `/${sub}`}`;
         }
 
         if (!url.startsWith("~") && !url.startsWith("#")) {
