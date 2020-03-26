@@ -58,6 +58,8 @@ export class DocsInternalLink {
         .toString()
         .split(origin)
         .pop();
+
+      console.log(this.url);
     }
   }
 
