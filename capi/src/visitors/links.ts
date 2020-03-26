@@ -12,6 +12,15 @@ const linkTags = {
   "docs-in-page-link": true,
 };
 
+const validLinkExtensions = {
+  svg: true,
+  jpg: true,
+  jpeg: true,
+  png: true,
+  gif: true,
+  md: true,
+};
+
 const getRoute = (
   url: string,
   transformerProps: t.TransformerProps,
@@ -38,7 +47,7 @@ const getRoute = (
         return `/${pieces.join(path.sep)}`;
       }
     } catch (e) {
-      console.log("\x1b[33m%s\x1b[0m", e.message.split("\n")[0]);
+      // console.log("\x1b[33m%s\x1b[0m", e.message.split("\n")[0]);
     }
   }
   return "";
@@ -55,64 +64,84 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
       );
     }
 
-    const url = (props.href || props.url) as string;
+    let url = (props.href || props.url) as string;
     if (url) {
-      // in page links (hash-only url)
-      if (url.startsWith("#")) {
-        lexicalScope.update([
-          "docs-in-page-link",
-          {targetId: url.substr(1)},
-          ...children,
-        ]);
-      }
+      const isURLExternal = IS_URL_ABSOLUTE_REGEX.test(url);
 
-      // others
-      else {
-        const isURLExternal = IS_URL_ABSOLUTE_REGEX.test(url);
-        const route = isURLExternal ? url : getRoute(url, transformerProps);
-
-        let finalTagName = tagName;
-        const finalProps: Record<string, unknown> = {...props};
-
-        switch (tagName) {
-          case "a": {
-            finalTagName = isURLExternal
-              ? "docs-external-link"
-              : "docs-internal-link";
-            finalProps.href = route;
-            break;
-          }
-
-          case "docs-card":
-          case "amplify-card": {
-            finalProps.url = route;
-
-            // to satisfy module redirect requirement
-            const urlOverrideForMobileFilter = props[
-              "url-override-for-mobile-filter"
-            ] as string | undefined;
-            const urlOverrideForMobileFilterIsExternal =
-              urlOverrideForMobileFilter &&
-              !IS_URL_ABSOLUTE_REGEX.test(urlOverrideForMobileFilter);
-            const routeOverrideForMobileFilter = urlOverrideForMobileFilterIsExternal
-              ? urlOverrideForMobileFilter
-              : getRoute(url, transformerProps);
-            if (routeOverrideForMobileFilter) {
-              props[
-                "url-override-for-mobile-filter"
-              ] = routeOverrideForMobileFilter;
-            }
-            break;
-          }
-
-          case "docs-internal-link-button": {
-            finalProps.href = route;
-            break;
-          }
+      if (!isURLExternal) {
+        if (url.startsWith("..")) {
+          const sub = url.substr(2);
+          url = `${sub}${sub.startsWith("/") ? sub : `/${sub}`}`;
         }
 
-        lexicalScope.update([finalTagName, finalProps, ...children]);
+        if (!url.startsWith("~") && !url.startsWith("#")) {
+          url = `~${url.startsWith("/") ? "" : "/"}${url}`;
+        }
+
+        if (
+          !url.includes(".") ||
+          !validLinkExtensions[url.split(".").pop() || ""]
+        ) {
+          url = `${url}.md`;
+        }
+
+        if (transformerProps.srcPath.includes("start/start.md")) {
+          console.log(url);
+        }
+
+        // in page links (hash-only url)
+        if (url.startsWith("#")) {
+          lexicalScope.update([
+            "docs-in-page-link",
+            {targetId: url.substr(1)},
+            ...children,
+          ]);
+        }
       }
+
+      const route = isURLExternal ? url : getRoute(url, transformerProps);
+
+      let finalTagName = tagName;
+      const finalProps: Record<string, unknown> = {...props};
+
+      switch (tagName) {
+        case "a": {
+          finalTagName = isURLExternal
+            ? "docs-external-link"
+            : "docs-internal-link";
+          finalProps.href = route;
+          break;
+        }
+
+        case "docs-card":
+        case "amplify-card": {
+          finalProps.url = route;
+
+          // to satisfy module redirect requirement
+          const urlOverrideForMobileFilter = props[
+            "url-override-for-mobile-filter"
+          ] as string | undefined;
+          const urlOverrideForMobileFilterIsExternal =
+            urlOverrideForMobileFilter &&
+            !IS_URL_ABSOLUTE_REGEX.test(urlOverrideForMobileFilter);
+          const routeOverrideForMobileFilter = urlOverrideForMobileFilterIsExternal
+            ? urlOverrideForMobileFilter
+            : getRoute(url, transformerProps);
+          if (routeOverrideForMobileFilter) {
+            props[
+              "url-override-for-mobile-filter"
+            ] = routeOverrideForMobileFilter;
+          }
+          break;
+        }
+
+        case "docs-internal-link-button": {
+          finalProps.href = route;
+          break;
+        }
+      }
+
+      lexicalScope.update([finalTagName, finalProps, ...children]);
     }
   }
 };
