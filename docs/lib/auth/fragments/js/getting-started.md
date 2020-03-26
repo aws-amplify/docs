@@ -61,11 +61,15 @@ import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 ```
 
-## Create login UI
+## Enable sign-in/sign-up and sign-out
+
+There are two ways to add authentication capabilites to your application. You can either re-use the pre-built UI components or manually call the sign-in / sign-up and sign-out APIs manually.
+
+### Option 1: Use pre-built UI components
 
 Now that we have our authentication service deployed to AWS, it's time to add authentication to our React app. Creating the login flow can be quite difficult and time consuming to get right. Luckily Amplify Framework has an authentication UI component we can use that will provide the entire authentication flow for us, using our configuration specified in our __aws-exports.js__ file.
 
-### React
+#### React
 
 Open __src/App.js__ and make the following changes:
 
@@ -87,7 +91,7 @@ Run the app to see the new Authentication flow protecting the app:
 npm start
 ```
 
-### React Native
+#### React Native
 
 Open __App.js__ and make the following changes:
 
@@ -120,6 +124,10 @@ npx react-native run-ios
 
 npx react-native run-android
 ```
+
+### Option 2: Call Authentication APIs manually
+
+Follow the instructions in the [Sign in, Sign up and Sign out](~/lib/auth/emailpassword.md) to learn about how to integrate these authentication flows in your application with the Auth APIs.
 
 ## Summary
 
