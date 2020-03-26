@@ -1,0 +1,1 @@
+> React Native is currently not supported in the latest Amplify UI Components. For documentation about using `aws-amplify-react-native` [go here](#)

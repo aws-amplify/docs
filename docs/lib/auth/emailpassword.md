@@ -1,5 +1,5 @@
 ---
-title: Password authentication
+title: Sign in, Sign up & Sign out
 description: auth
 ---
 

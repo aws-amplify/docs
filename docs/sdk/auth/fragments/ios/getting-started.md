@@ -85,7 +85,7 @@ For manual configuration without the CLI, you must have an `awsconfiguration.jso
 
 If you are using both Cognito User Pools and Identity Pools, such as in Federated scenarios, you will need all of the keys mentioned above.
 
-## Initialization
+### Initialization
 
 Open the AppDelegate of your Xcode project, or optionally in your View Controller `viewDidLoad()` and invoke the `initialize` routine:
 
