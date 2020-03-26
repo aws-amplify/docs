@@ -68,10 +68,6 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
           url = `${url}.md`;
         }
 
-        if (transformerProps.srcPath.includes("start/start.md")) {
-          console.log(url);
-        }
-
         // in page links (hash-only url)
         if (url.startsWith("#")) {
           lexicalScope.update([
