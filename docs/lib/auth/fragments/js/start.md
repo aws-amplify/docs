@@ -12,6 +12,69 @@ The CLI prompts will help you to customize your auth flow for your app. With the
 - Customize attributes for your users, e.g. name, email
 - Enable 3rd party social providers, e.g. Facebook, Twitter, Google and Amazon
 
+If you wish to federate with social providers [you will need to configure them first](~/lib/auth/social.md#social-providers-and-federation).
+
+After configuring your Authentication options, update your backend:
+
+```bash
+$ amplify push
+```
+
+A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`.
+
+> If your Authentication resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more](~/cli/lambda-node-version-update)
+
+### Configure your application
+
+Add Amplify to your app with `yarn` or `npm`:
+
+```bash
+yarn add aws-amplify
+```
+
+For React Native applications, install `aws-amplify-react-native` and link:
+
+```bash
+yarn add aws-amplify aws-amplify-react-native
+react-native link amazon-cognito-identity-js # DO NOT run this when using Expo or ExpoKit
+```
+
+If you are using React Native 0.60.0+, iOS and using Auth methods e.g. `Auth.signIn`, `Auth.signUp`, etc., please run the following commands instead of linking:
+
+```
+yarn add amazon-cognito-identity-js
+cd ios
+pod install --repo-update
+```
+
+In your app's entry point i.e. App.js, import and load the configuration file:
+
+```javascript
+import Amplify, { Auth } from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
+```
+
+### Lambda Triggers
+
+The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your AWS Cognito User Pool.  These enable you to add custom functionality to your registration and authentication flows. [Read more](~/cli/cli.md)
+
+Many Cognito Lambda Triggers accept unsanitized key/value pairs in the form of a 'ClientMetadata' attribute.  To configure a static set of key/value pairs, you can define a `clientMetadata` key in the `Auth.configure` function.  You can also pass a `clientMetadata` parameter to the various `Auth` functions which result in Cognito Lambda Trigger execution.   These functions include:
+
+- `Auth.changePassword`
+- `Auth.completeNewPassword`
+- `Auth.confirmSignIn`
+- `Auth.confirmSignUp`
+- `Auth.forgotPasswordSubmit`
+- `Auth.resendSignUp`
+- `Auth.sendCustomChallengeAnswer`
+- `Auth.signIn`
+- `Auth.signUp`
+- `Auth.updateUserAttributes`
+- `Auth.verifyUserAttribute`
+
+Please note that some of triggers which accept a 'validationData' attribute will use clientMetadata as the value for validationData.  Exercise caution with using clientMetadata when you are relying on validationData.
+
 ## Re-use existing authentication resource
 
 If you want to re-use an existing authentication resource from AWS (e.g. Amazon Cognito UserPool or Identity Pool), update `Amplify.configure()` method with the following information.

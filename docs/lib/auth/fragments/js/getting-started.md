@@ -28,6 +28,39 @@ Now, the authentication service has been deployed and you can start using it. To
 amplify console
 ```
 
+## Configure your application
+
+Add Amplify to your app with `yarn` or `npm`:
+
+For React apps install `aws-amplify-react`:
+
+```bash
+npm install -S aws-amplify aws-amplify-react
+```
+
+For React Native applications, install `aws-amplify-react-native` and link:
+
+```bash
+yarn add aws-amplify aws-amplify-react-native
+react-native link amazon-cognito-identity-js # DO NOT run this when using Expo or ExpoKit
+```
+
+If you are using React Native 0.60.0+, iOS and using Auth methods e.g. `Auth.signIn`, `Auth.signUp`, etc., please run the following commands instead of linking:
+
+```
+yarn add amazon-cognito-identity-js
+cd ios
+pod install --repo-update
+```
+
+In your app's entry point i.e. App.js, import and load the configuration file:
+
+```javascript
+import Amplify, { Auth } from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
+```
+
 ## Create login UI
 
 Now that we have our authentication service deployed to AWS, it's time to add authentication to our React app. Creating the login flow can be quite difficult and time consuming to get right. Luckily Amplify Framework has an authentication UI component we can use that will provide the entire authentication flow for us, using our configuration specified in our __aws-exports.js__ file.
