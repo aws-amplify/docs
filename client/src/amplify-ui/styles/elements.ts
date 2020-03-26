@@ -176,12 +176,21 @@ export const elementsStyle = css`
     }
   }
 
+  div.table-container {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    border-width: 0.0625rem;
+    border-style: solid;
+    border-color: var(--color-grey-md);
+    border-top-width: 0;
+    border-bottom-width: 0;
+  }
+
   table {
     border-collapse: collapse;
     border-spacing: 0;
     font-size: 100%;
     font: inherit;
-    margin-bottom: 1rem;
 
     th {
       font-weight: bold;
@@ -197,10 +206,6 @@ export const elementsStyle = css`
     tr {
       border-top: 0.0625rem solid var(--color-grey-md);
       background-color: var(--bg-color);
-    }
-
-    tr:nth-child(2n) {
-      background-color: var(--color-grey-lt);
     }
   }
 
@@ -228,6 +233,7 @@ export const elementsStyle = css`
   }
 
   table,
+  td,
   blockquote,
   li,
   p,
