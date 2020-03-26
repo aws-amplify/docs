@@ -1,5 +1,5 @@
 import {css} from "emotion";
-import {MQTaptop} from "../../amplify-ui/styles/media";
+import {MQLaptop} from "../../amplify-ui/styles/media";
 
 export const secondaryNavStyle = css`
   display: flex;
@@ -8,7 +8,7 @@ export const secondaryNavStyle = css`
   flex: 1;
   align-items: center;
 
-  ${MQTaptop} {
+  ${MQLaptop} {
     flex-direction: row;
     padding-left: 1.5rem;
   }
@@ -59,7 +59,7 @@ export const linkActiveStyle = css`
   > a {
     font-weight: bold;
 
-    ${MQTaptop} {
+    ${MQLaptop} {
       border-bottom: 0.125rem solid var(--font-color);
     }
 
@@ -77,7 +77,7 @@ export const hostStyle = css`
   background-color: var(--bg-color-secondary);
   padding-bottom: 1rem;
 
-  ${MQTaptop} {
+  ${MQLaptop} {
     padding: 0;
   }
 `;
@@ -86,7 +86,7 @@ export const hostStyle = css`
 export const searchStyle = css`
   width: 100%;
 
-  ${MQTaptop} {
+  ${MQLaptop} {
     width: initial;
     margin: 0 1rem;
   }
