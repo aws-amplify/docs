@@ -18,7 +18,7 @@ The default values are highlighted below.
 ? Please select from one of the below mentioned services:
 # GraphQL
 ? Provide API name:
-# (amplify-api)
+# (todoapi)
 ? Choose the default authorization type for the API:
 # API Key
 ? Enter a description for the API key:
