@@ -1,5 +1,5 @@
 import {h} from "@stencil/core";
-import {VNode} from "@stencil/core/dist/declarations";
+import {VNode} from "@stencil/core";
 import {isHTMLTagName} from "is-html-tag-name";
 
 export type Props = null | Record<string, unknown>;

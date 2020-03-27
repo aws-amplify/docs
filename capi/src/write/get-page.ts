@@ -19,10 +19,10 @@ export async function getPage(config: t.Config, ctx: t.Ctx): Promise<void> {
           .writeLine(`import * as t from "./types";`)
           .blankLine()
           .writeLine(
-            "export async function getPage(route: string): Promise<t.Page> {",
+            "export function getPage(route: string): Promise<t.Page> | undefined {",
           )
-          .writeLine(`  return (() => {`)
-          .writeLine("    switch(route) {");
+          .writeLine(`  const pending = (() => {`)
+          .writeLine("    switch (route) {");
 
         for (const [srcPath, pathDeduction] of ctx.pathDeductionBySrcPath) {
           if (pathDeduction.route) {
@@ -39,7 +39,12 @@ export async function getPage(config: t.Config, ctx: t.Ctx): Promise<void> {
 
         writer
           .writeLine("    }")
-          .writeLine(`  })().then((response) => response.json());`)
+          .writeLine(`  })();`)
+          .writeLine(`  return pending`)
+          .writeLine(
+            `    ? pending.then((response) => response.json()) as Promise<t.Page>`,
+          )
+          .writeLine(`    : undefined;`)
           .writeLine("}");
       },
       {overwrite: true},

@@ -4,7 +4,7 @@ import {SetContent} from "../toc.types";
 
 @Component({tag: "amplify-toc-contents", shadow: false})
 export class AmplifyTOCContent {
-  @Element() content?: HTMLAmplifyTocContentsElement;
+  @Element() content?: HTMLElement;
   /**
    * Sets `content` prop within parent `amplify-toc-provider`,
    * which propogates into the provider's child `amplify-toc` instances

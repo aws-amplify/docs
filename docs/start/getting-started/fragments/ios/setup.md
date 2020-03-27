@@ -56,29 +56,55 @@ In the Finder, drag `awsconfiguration.json` into Xcode under the top Project Nav
 
 ## Step 4: Add API and Database
 
-Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the the following command from the root of your application directory (accepting all defaults is OK):
+Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the the following command from the root of your application directory:
 
 ```bash
-$ amplify add api     #select 'GraphQL' service, and 'API Key' for the authorization type
+amplify add api #accept defaults
 ```
 
-The `add api` flow  will ask you simple questions. If this is your first time using the CLI select **No** for the question "Do you have an annotated GraphQL schema". The CLI then guides you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. You can always change the schema as needed. This process creates an AWS AppSync API and connects it to an Amazon DynamoDB database. The CLI flow will look like below:
-
+The default values are highlighted below.
 ```bash
-$ amplify add api
-? Please select from one of the below mentioned services: GraphQL
-? Provide API name: todo
-? Choose the default authorization type for the API: API key
-? Enter a description for the API key: ToDo description
-? After how many days from now the API key should expire (1-365): 180
-? Do you want to configure advanced settings for the GraphQL API: No, I am done.
-? Do you have an annotated GraphQL schema? No
-? Do you want a guided schema creation? Yes
-? What best describes your project: Single object with fields (e.g., “Todo” with ID, name, description)
-? Do you want to edit the schema now? No
+? Please select from one of the below mentioned services:
+# GraphQL
+? Provide API name:
+# myapi
+? Choose the default authorization type for the API:
+# API Key
+? Enter a description for the API key:
+# demo
+? After how many days from now the API key should expire:
+# 7 (or your preferred expiration)
+? Do you want to configure advanced settings for the GraphQL API:
+# No
+? Do you have an annotated GraphQL schema? 
+# No
+? Do you want a guided schema creation? 
+# Yes
+? What best describes your project: 
+# Single object with fields
+? Do you want to edit the schema now? 
+# Yes
 ```
 
-[Learn more](https://aws-amplify.github.io/docs/cli-toolchain/graphql) about annotating GraphQL schemas and data modeling.
+The CLI should open this GraphQL schema in your text editor.
+
+__amplify/backend/api/myapi/schema.graphql__
+
+```graphql
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
+```
+
+The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. This directive is part of the [GraphQL transform](/cli/graphql-transformer/directives) library of Amplify. 
+
+The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.
+
+A type decorated with the `@model` directive will scaffold out the database table for the type (Todo table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
+
+From the command line, press __enter__ to accept the schema and continue to the next steps.
 
 ## Step 5: Push changes
 
@@ -90,11 +116,33 @@ The codegen process generates a file named `API.swift` in your application root 
 The CLI flow for push command is shown below:
 
 ```bash
-$ amplify push
-? Are you sure you want to continue?: Yes
-? Do you want to generate code for your newly created GraphQL API: Yes
-? Enter the file name pattern of graphql queries, mutations and subscriptions: graphql/**/*.graphql
-? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions: Yes
-? Enter maximum statement depth [increase from default if your schema is deeply nested]: 2
-? Enter the file name for the generated code: API.swift
+amplify push
+? Are you sure you want to continue?
+# Yes
+? Do you want to generate code for your newly created GraphQL API:
+# Yes
+? Enter the file name pattern of graphql queries, mutations and subscriptions:
+# graphql/**/*.graphql
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions:
+# Yes
+? Enter maximum statement depth [increase from default if your schema is deeply nested]:
+# 2
+? Enter the file name for the generated code:
+# API.swift
+```
+
+Next, run the following command to check Amplify's status:
+
+```bash
+amplify status
+```
+
+This will give us the current status of the Amplify project, including the current environment, any categories that have been created, and what state those categories are in. It should look similar to this:
+
+```bash
+Current Environment: dev
+
+| Category | Resource name | Operation | Provider plugin   |
+| -------- | ------------- | --------- | ----------------- |
+| Api      | myapi         | No Change | awscloudformation |
 ```

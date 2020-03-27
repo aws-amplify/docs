@@ -24,7 +24,9 @@ export class AmplifyTOC {
   @State() activeLinkI?: number;
   previous?: number;
 
+  // @ts-ignore
   @Listen("scroll", {target: "window"})
+  // @ts-ignore
   @Listen("resize", {target: "window"})
   setActiveLink() {
     if (this.elements) {

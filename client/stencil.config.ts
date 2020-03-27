@@ -3,6 +3,9 @@ import nodePolyfills from "rollup-plugin-node-polyfills";
 
 export const config: Config = {
   globalScript: "src/global/global.ts",
+  nodeResolve: {
+    browser: true,
+  },
   plugins: [nodePolyfills()],
   commonjs: {
     namedExports: {
@@ -46,7 +49,9 @@ export const config: Config = {
       "@aws-sdk/property-provider": ["ProviderError"],
       "js-cookie": ["set", "get", "remove"],
       "@aws-sdk/node-http-handler": ["NodeHttpHandler"],
-      "@aws-sdk/hash-node": ["Hash"],
+      "@aws-sdk/client-cognito-identity": ["defaultProvider"],
+      "@aws-sdk/region-provider": ["defaultProvider"],
+      "@aws-sdk/eventstream-serde-node": ["eventStreamSerdeProvider"],
     },
   },
   outputTargets: [

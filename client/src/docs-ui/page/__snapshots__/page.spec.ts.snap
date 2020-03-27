@@ -9,8 +9,9 @@ exports[`docs-page Render logic should render 1`] = `
       <amplify-sidebar-layout>
         <amplify-sidebar-layout-main class="css-1j9n6qe" slot="main">
           <amplify-toc-contents></amplify-toc-contents>
-          <amplify-sidebar-layout-toggle class="css-tlw73z three-dee-effect" in-view-class="in-view">
-            <img src="/assets/burger.svg">
+          <amplify-sidebar-layout-toggle class="css-4whoga three-dee-effect" in-view-class="in-view">
+            <img class="burger-graphic" src="/assets/burger.svg">
+            <img class="ex-graphic" src="/assets/close.svg">
           </amplify-sidebar-layout-toggle>
         </amplify-sidebar-layout-main>
         <div class="css-1tmqkba" slot="toc">

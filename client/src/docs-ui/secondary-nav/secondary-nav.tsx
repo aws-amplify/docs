@@ -12,7 +12,7 @@ import {SelectedFilters} from "../page/page.types";
 @Component({tag: "docs-secondary-nav", shadow: false})
 export class DocsSecondaryNav {
   /*** the current filter state */
-  @Prop() readonly selectedFilters: SelectedFilters;
+  @Prop() readonly selectedFilters?: SelectedFilters;
 
   componentDidRender() {
     if (Build.isBrowser) {
@@ -40,7 +40,14 @@ export class DocsSecondaryNav {
                   },
                   {
                     label: "Libraries",
-                    url: "/lib",
+                    url:
+                      this.selectedFilters?.platform === "js" ? "/lib" : "/sdk",
+                    additionalActiveChildRoots: ["/lib", "/sdk"],
+                  },
+                  {
+                    label: "UI Components",
+                    url: "/ui",
+                    additionalActiveChildRoots: ["/ui"],
                   },
                   {
                     label: "CLI",
@@ -73,7 +80,7 @@ export class DocsSecondaryNav {
                         },
                       ]
                     : []),
-                ].map(({url, label, external}) =>
+                ].map(({url, label, external, additionalActiveChildRoots}) =>
                   createVNodeFromHyperscriptNode([
                     external ? "amplify-external-link" : "docs-internal-link",
                     {
@@ -81,7 +88,10 @@ export class DocsSecondaryNav {
                       href: url,
                       ...(external
                         ? {graphic: "black"}
-                        : {childActiveClass: linkActiveStyle}),
+                        : {
+                            childActiveClass: linkActiveStyle,
+                            additionalActiveChildRoots,
+                          }),
                     },
                     ["span", null, label],
                   ]),

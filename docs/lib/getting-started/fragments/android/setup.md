@@ -1,10 +1,10 @@
-# Getting Started
-
 Build an Android app using the Amplify Framework which contains:
 
 - Amplify Tools - CLI toolchain for creating and managing your serverless backend.
 - Android, iOS, and JavaScript libraries to access your resources using a category based programming model.
-- Framework-specific UI component libraries for React, React Native, Angular, Ionic and Vue.
+- Framework-specific UI component libraries for React, React Native, Angular, Ionic and Vue.  
+
+<br />
 
 This page guides you through setting up a backend and integration into your Android app. You will create a "Note app" with a GraphQL API to store and retrieve items in a cloud database, as well as receive updates over a realtime subscription.
 
@@ -12,7 +12,7 @@ This page guides you through setting up a backend and integration into your Andr
 
 ## Prerequisites
 
-* These steps currently only work on Mac. If you have a Windows machine, follow the steps on one of our categories such as [API here](./api).
+* These steps currently only work on Mac. If you have a Windows machine, follow the steps on one of our categories such as [API here](~/lib/graphqlapi/start.md).
 
 * [Install Node](https://nodejs.org/en/)
 
@@ -71,6 +71,8 @@ c. Run 'Make Project'
 When the build is successful, it will add two gradle tasks to you project - `modelgen` and `amplifyPush` (these can be found in the dropdown menu which currently would display app if it's a new project, up where you would run your project)
 
 <amplify-callout warning>
-**Note**
+
+**Note:**
 If you get the following error message: "ERROR: Process 'command 'npx'' finished with non-zero exit value 1”, this may be due to the logged in user on your machine having insufficient permissions to access the node_modules folder on your machine. Follow the steps [at this link](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally) to resolve it.
+
 </amplify-callout>

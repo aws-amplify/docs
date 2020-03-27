@@ -31,40 +31,57 @@ The `@model` directive let's Amplify know we intend for this type to have data t
 
 ## Create GraphQL API and database
 
-Now that the data is modeled, it's time to create the GraphQL API. From the root of the project, runthe following:
+Now that the data is modeled, it's time to create the GraphQL API. From the root of the project, run the following:
 
 ```bash
-$ amplify add api
+amplify add api #accept defaults
 ```
 
-You'll be prompted for some information so that Amplify can create the right infrastructure to support your API. For each question, choose the options listed below:
-
+The default values are highlighted below.
 ```bash
-# Amplify supports both REST and GraphQL APIs
-Please select from one of the below mentioned services (GraphQL)
-
-Provide API name (todo)
-
-# API_KEY is an authorization mechanism for your API
-Choose an authorization type for the API (API_KEY)
-
-# Because we use a schema to create the backend you can share these schemas and use them as boilerplates
-Do you have an annotated GraphQL schema (No)
-
-# Since we don't have a schema we want a guided creation
-Do you want a guided schema creation (Yes)
-
-# We only have one data type so we don't need to handle any data relationships
-What best describes your project (Single object with fields (e.g., “Todo” with ID, name, description))
-
-# This option will open a `schema.graphql` file in our editor
-# The TODO example will already be pre-populated
-# Save the file and then come back to the terminal
-Do you want to edit the schema now (Yes)
-
-# Once you have updated the schema.graphql file and saved it, press enter
-Press enter to continue
+? Please select from one of the below mentioned services:
+# GraphQL
+? Provide API name:
+# myapi
+? Choose the default authorization type for the API:
+# API Key
+? Enter a description for the API key:
+# demo
+? After how many days from now the API key should expire:
+# 7 (or your preferred expiration)
+? Do you want to configure advanced settings for the GraphQL API:
+# No
+? Do you have an annotated GraphQL schema? 
+# No
+? Do you want a guided schema creation? 
+# Yes
+? What best describes your project: 
+# Single object with fields
+? Do you want to edit the schema now? 
+# Yes
 ```
+
+The CLI should open this GraphQL schema in your text editor.
+
+__amplify/backend/api/myapi/schema.graphql__
+
+```graphql
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
+```
+
+The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. This directive is part of the [GraphQL transform](/cli/graphql-transformer/directives) library of Amplify. 
+
+The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.
+
+A type decorated with the `@model` directive will scaffold out the database table for the type (Todo table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
+
+From the command line, press __enter__ to accept the schema and continue to the next steps.
+
+## Deploy your GraphQL API
 
 Now that the API has been successfully created. We need to push our updated configuration to the cloud so our API can be deployed:
 
@@ -86,6 +103,22 @@ Enter the file name pattern of graphql queries, mutations and subscriptions (src
 Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions (Yes)
 
 Enter maximum statement depth [increase from default if your schema is deeply nested] (2)
+```
+
+Next, run the following command to check Amplify's status:
+
+```bash
+amplify status
+```
+
+This will give us the current status of the Amplify project, including the current environment, any categories that have been created, and what state those categories are in. It should look similar to this:
+
+```bash
+Current Environment: dev
+
+| Category | Resource name | Operation | Provider plugin   |
+| -------- | ------------- | --------- | ----------------- |
+| Api      | myapi         | No Change | awscloudformation |
 ```
 
 ### Testing your API

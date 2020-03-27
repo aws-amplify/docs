@@ -14,7 +14,8 @@
     "noUnusedParameters": true,
     "removeComments": true,
     "strict": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "target": "es2017"
   },
   "exclude": ["node_modules"]
 }
