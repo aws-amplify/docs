@@ -18,8 +18,8 @@ export class DocsSecondaryNav {
     if (Build.isBrowser) {
       // @ts-ignore
       docsearch({
-        apiKey: "25626fae796133dc1e734c6bcaaeac3c",
-        indexName: "docsearch",
+        apiKey: "24d37f059982b2f5ecf829afe93aed40",
+        indexName: "aws_amplify_new",
         inputSelector: "#amplify-docs-search-input",
         debug: false,
       });
