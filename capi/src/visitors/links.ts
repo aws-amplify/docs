@@ -125,7 +125,7 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
               ? urlOverrideForMobileFilter
               : getRoute(urlOverrideForMobileFilter, transformerProps);
             if (routeOverrideForMobileFilter) {
-              props[
+              finalProps[
                 "url-override-for-mobile-filter"
               ] = routeOverrideForMobileFilter;
             }
