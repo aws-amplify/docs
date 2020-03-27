@@ -7,7 +7,7 @@ import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 
 const App = () => (
-  <AmplifyAuthenticator>
+  <AmplifyAuthenticator usernameAlias="email">
     <div>
       My App
       <AmplifySignOut />
