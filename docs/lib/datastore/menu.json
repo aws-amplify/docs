@@ -1,8 +1,8 @@
 {
   "title": "Datastore",
   "items": [
+    "getting-started",
     "intro",
-    "start",
     "data-access",
     "sync",
     "relational",
