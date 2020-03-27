@@ -60,6 +60,8 @@ export const brandStyle = css`
     }
 
     > sup {
+      position: relative;
+      top: -0.25rem;
       margin-left: 0.125rem;
       font-size: 0.5rem;
       font-weight: bold;
