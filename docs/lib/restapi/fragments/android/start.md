@@ -39,15 +39,9 @@ parameters.put("lang", "en_US");
 
 RestOptions options = new RestOptions("/items", parameters);
 
-Amplify.API.get("myAPI", options, new ResultListener<RestResponse>() {
-    @Override
-    public void onResult(RestResponse restResponse) {
-        Log.i("SUCCESS", restResponse.toString());
-    }
-
-    @Override
-    public void onError(Throwable throwable) {
-        Log.e("RESTERROR", throwable.toString());
-    }
-});
+Amplify.API.get("myAPI",
+    options,
+    restResponse -> Log.i("ApiQuickStart", restResponse.toString()),
+    apiFailure -> Log.e("ApiQuickStart", apiFailure.getMessage(), apiFailure)
+);
 ```

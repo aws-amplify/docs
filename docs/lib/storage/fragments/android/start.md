@@ -88,14 +88,14 @@ Add the following code to the bottom of your MainActivity `onCreate` method (ide
                 Amplify.addPlugin(new AWSS3StoragePlugin());
                 Amplify.configure(getApplicationContext());
                 Log.i("StorageQuickstart", "All set and ready to go!");
-            } catch (Exception e) {
-                Log.e("StorageQuickstart", e.getMessage());
+            } catch (Exception exception) {
+                Log.e("StorageQuickstart", exception.getMessage(), exception);
             }
         }
 
         @Override
-        public void onError(Exception e) {
-            Log.e("StorageQuickstart", "Initialization error.", e);
+        public void onError(Exception exception) {
+            Log.e("StorageQuickstart", "Initialization error.", exception);
         }
     });
 ```
