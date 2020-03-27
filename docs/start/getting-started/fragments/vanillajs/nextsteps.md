@@ -1,12 +1,12 @@
-- [Authentication](../../lib/auth/overview.md)
-- [DataStore](../../lib/datastore/intro.md)
-- [User File Storage](../../lib/storage/start.md)
-- [Serverless APIs](../../lib/graphqlapi/start.md)
-- [Analytics](../../lib/analytics/start.md)
-- [AI/ML](../../lib/predictions/intro.md) 
-- [Push Notification](../../lib/push-notifications/overview.md)
-- [PubSub](../../lib/pubsub/overview.md)
-- [AR/VR](../../lib/xr/start.md)
+- [Authentication](~/lib/auth/overview.md)
+- [DataStore](~/lib/datastore/intro.md)
+- [User File Storage](~/lib/storage/start.md)
+- [Serverless APIs](~/lib/graphqlapi/overview.md)
+- [Analytics](~/lib/analytics/start.md)
+- [AI/ML](~/lib/predictions/intro.md)
+- [Push Notification](~/lib/push-notifications/overview.md)
+- [PubSub](~/lib/pubsub/overview.md)
+- [AR/VR](~/lib/xr/start.md)
 
 ## Existing AWS Resources
 
