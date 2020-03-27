@@ -77,9 +77,19 @@ Use the following steps to connect add file storage backend services to your app
 	<service android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService" android:enabled="true" />
 	```
 
+3. **For Android Q (API 29)**: API 29 enforces scoped storage access for Android apps. To gain access to legacy external storage, enable the following application property inside `AndroidManifest.xml`:
+
+	```xml
+	<manifest ...>
+	  <application android:requestLegacyExternalStorage="true" ...>
+	    ...
+	  </application>
+	</manifest>
+	```
+
 ## Mocking and Local Testing
 
-Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](../cli-toolchain/usage#mocking-and-testing) for more details.
+Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](/cli/usage/mock#storage-mocking-setup) for more details.
 
 ## Transfer Utility and AWS Cognito
 
