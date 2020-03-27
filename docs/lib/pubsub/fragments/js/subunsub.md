@@ -1,4 +1,5 @@
-## Subscribe to a topic
+## Subscribe
+### Subscribe to a topic
 
 In order to start receiving messages from your provider, you need to subscribe to a topic as follows;
 ```javascript
@@ -33,11 +34,25 @@ Event | Description
 `error` | Triggered when subscription attempt fails 
 `close` | Triggered when you unsubscribe from the topic
 
-## Subscribe to multiple topics
+### Subscribe to multiple topics
 
 To subscribe for multiple topics, just pass a String array including the topic names:
 ```javascript
 PubSub.subscribe(['myTopic1','myTopic1']).subscribe({
     //...
 });
+```
+
+## Unsubscribe
+
+To stop receiving messages from a topic, you can use `unsubscribe()` method:
+```javascript
+const sub1 = PubSub.subscribe('myTopicA').subscribe({
+    next: data => console.log('Message received', data),
+    error: error => console.error(error),
+    close: () => console.log('Done'),
+});
+
+sub1.unsubscribe();
+// You will no longer get messages for 'myTopicA'
 ```

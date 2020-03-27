@@ -41,6 +41,7 @@ export class DocsUniversalNav {
             >
               <img src={this.blend ? this.brandIconBlend : this.brandIcon} />
               <span>{this.heading}</span>
+              <sup>NEW</sup>
             </stencil-route-link>
 
             <div class={linksStyle}>
