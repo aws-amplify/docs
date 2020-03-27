@@ -850,7 +850,7 @@ This workflow outlines the steps required to share a backend across two (or more
 
 When you initialize a project, you create an Amplify backend environment. Every Amplify backend environment is a container for the categories added to your project. To deploy updates to an environment, run `amplify push`. In teams where multiple members are working on the same backend, it is good practice to run `amplify pull` to fetch changes from upstream before beginning work on new backend features. View the list of backend environments in your cloud project by visiting the [Amplify Console](https://console.aws.amazon.com/amplify).
 
-For multiple environments, Amplify matches the standard Git workflow where you switch between different branches using the `env checkout` command - similar to running `git checkout BRANCHNAME`, run `amplify env checkout ENVIRONMENT_NAME` to switch between environments. The diagram below shows a workflow of how to initialize new environments when creating new git branches.
+Amplify can manage multiple backend environments. To switch environments, run `amplify env checkout ENVIRONMENT_NAME` - this is similar to running `git checkout BRANCHNAME` to switch Git branches. The diagram below shows a workflow of how to initialize new environments when creating new git branches.
 
 ![Image]({{media_base}}/AmplifyEnvSwitching.jpg)
 
