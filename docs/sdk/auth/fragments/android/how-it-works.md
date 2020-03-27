@@ -29,22 +29,22 @@ AWSMobileClient.getInstance().addUserStateListener(new UserStateListener() {
     public void onUserStateChanged(UserStateDetails userStateDetails) {
         switch (userStateDetails.getUserState()){
             case GUEST:
-                Log.i("userState", "user is in guest mode");
+                Log.i("AuthQuickStart", "user is in guest mode");
                 break;
             case SIGNED_OUT:
-                Log.i("userState", "user is signed out");
+                Log.i("AuthQuickStart", "user is signed out");
                 break;
             case SIGNED_IN:
-                Log.i("userState", "user is signed in");
+                Log.i("AuthQuickStart", "user is signed in");
                 break;
             case SIGNED_OUT_USER_POOLS_TOKENS_INVALID:
-                Log.i("userState", "need to login again");
+                Log.i("AuthQuickStart", "need to login again");
                 break;
             case SIGNED_OUT_FEDERATED_TOKENS_INVALID:
-                Log.i("userState", "user logged in via federation, but currently needs new tokens");
+                Log.i("AuthQuickStart", "user logged in via federation, but currently needs new tokens");
                 break;
             default:
-                Log.e("userState", "unsupported");
+                Log.e("AuthQuickStart", "unsupported");
         }
     }
 });
@@ -63,20 +63,20 @@ If the Refresh tokens have expired and you then make call to any AWS service, su
 AWSMobileClient.getInstance().addUserStateListener(new UserStateListener() {
     @Override
     public void onUserStateChanged(UserStateDetails userStateDetails) {
-        switch (userStateDetails.getUserState()){
+        switch (userStateDetails.getUserState()) {
             case SIGNED_OUT:
                 // user clicked signout button and signedout
-                Log.i("userState", "user signed out");
+                Log.i("AuthQuickStart", "user signed out");
                 break;
             case SIGNED_OUT_USER_POOLS_TOKENS_INVALID:
-                Log.i("userState", "need to login again.");
+                Log.i("AuthQuickStart", "need to login again.");
                 AWSMobileClient.getInstance().signIn(username, password, null, new Callback<SignInResult>() {
                     //... 
                 });
                 //Alternatively call .showSignIn()
                 break;
             default:
-                Log.i("userState", "unsupported");
+                Log.i("AuthQuickStart", "unsupported");
         }
     }
 });

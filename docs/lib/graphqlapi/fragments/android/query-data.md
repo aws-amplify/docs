@@ -7,14 +7,14 @@ private void getBlog(String id) {
     Amplify.API.query(
         Blog.class,
         id,
-        response -> {
-            Log.i("ApiQuickStart", "Got " + response.getData().getName());
+        queryResponse -> {
+            Log.i("ApiQuickStart", "Got " + queryResponse.getData().getName());
 
-            for(Post post : response.getData().getPosts()) {
+            for (Post post : queryResponse.getData().getPosts()) {
                 Log.i("ApiQuickStart", "Post: " + post.getTitle());
             }
         },
-        throwable -> Log.e("ApiQuickStart", throwable.getMessage())
+        apiFailure -> Log.e("ApiQuickStart", apiFailure.getMessage(), apiFailure)
     );
 }
 ```
@@ -28,12 +28,12 @@ private void listBlogs() {
     Amplify.API.query(
         Blog.class,
         Blog.NAME.contains("first").and(Blog.NAME.ne("first day of kindergarten")),
-        iterableGraphQLResponse -> {
-            for(Blog blog : iterableGraphQLResponse.getData()) {
+        queryResponse -> {
+            for (Blog blog : queryResponse.getData()) {
                 Log.i("ApiQuickstart", "List result: " + blog.getName());
             }
         },
-        throwable -> Log.e("ApiQuickStart", throwable.getMessage())
+        apiFailure -> Log.e("ApiQuickStart", apiFailure.getMessage(), apiFailure)
     );
 }
 ```

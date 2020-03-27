@@ -32,18 +32,18 @@ Post post = Post.builder()
     .build();
 
 Amplify.DataStore.save(post,
-    dataStoreItemChange -> Log.i(TAG, "Post saved"),
-    e -> Log.e(TAG, e.getMessage())
+    postSaved -> Log.i("AmplifyGetStarted", "Post saved"),
+    dataStoreException -> Log.e("AmplifyGetStarted", dataStoreException.getMessage(), dataStoreException)
 );
 
 Comment comment = Comment.builder()
-        .content("Loving Amplify DataStore!")
-        .post(post) // Directly pass in the post instance
-        .build();
+    .content("Loving Amplify DataStore!")
+    .post(post) // Directly pass in the post instance
+    .build();
 
 Amplify.DataStore.save(comment,
-        dataStoreItemChange -> Log.i(TAG, "Comment saved"),
-        e -> Log.e(TAG, e.getMessage())
+    commentSaved -> Log.i("AmplifyGetStarted", "Comment saved"),
+    dataStoreException -> Log.e("AmplifyGetStarted", dataStoreException.getMessage(), dataStoreException)
 );
 ```
 
@@ -56,16 +56,16 @@ Post post = Post.builder()
     .build();
 
 Amplify.DataStore.save(post,
-    dataStoreItemChange -> Log.i(TAG, "Post saved"),
-    e -> Log.e(TAG, e.getMessage())
+    postSaved -> Log.i("AmplifyGetStarted", "Post saved"),
+    dataStoreException -> Log.e("AmplifyGetStarted", dataStoreException.getMessage(), dataStoreException)
 );
 
 User editor = User.builder()
     .username("Nadia")
     .build();
 Amplify.DataStore.save(editor,
-    dataStoreItemChange -> Log.i(TAG, "Editor saved"),
-    e -> Log.e(TAG, e.getMessage())
+    editorSaved -> Log.i("AmplifyGetStarted", "Editor saved"),
+    dataStoreException -> Log.e("AmplifyGetStarted", dataStoreException.getMessage(), dataStoreException)
 );
 
 PostEditor postEditor = PostEditor.builder()
@@ -73,8 +73,8 @@ PostEditor postEditor = PostEditor.builder()
     .editor(editor)
     .build();
 Amplify.DataStore.save(postEditor,
-    dataStoreItemChange -> Log.i(TAG, "Post editor saved"),
-    e -> Log.e(TAG, e.getMessage())
+    postEditorSaved -> Log.i("AmplifyGetStarted", "Post editor saved"),
+    dataStoreException -> Log.e("AmplifyGetStarted", dataStoreException.getMessage(), dataStoreException)
 );
 ```
 
@@ -92,11 +92,11 @@ Amplify.DataStore.query(
     Post.ID.eq("123"),
     commentIterator -> {
         while(commentIterator.hasNext()) {
-            Comment c = commentIterator.next();
-            Log.i(TAG, "Comment: "+c.getContent());
+            Comment comment = commentIterator.next();
+            Log.i("AmplifyGetStarted", "Comment: " + comment.getContent());
         }
     },
-    e -> Log.e(TAG, e.getMessage())
+    dataStoreException -> Log.e("AmplifyGetStarted", dataStoreException.getMessage(), dataStoreException)
 );
 ```
 
@@ -106,8 +106,8 @@ When you delete a parent object in a one-to-many relationship, the children will
 
 ```java
 Amplify.DataStore.delete(myPost,
-    dataStoreItemChange -> Log.i(TAG, "Item deleted"),
-    e -> Log.e(TAG, e.getMessage())
+    postDeleted -> Log.i("AmplifyGetStarted", "Post deleted"),
+    dataStoreException -> Log.e("AmplifyGetStarted", dataStoreException.getMessage(), dataStoreException)
 );
 ```
 However, in a many-to-many relationship, the children are not removed and you must explicitly delete them.

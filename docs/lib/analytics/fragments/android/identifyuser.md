@@ -5,24 +5,24 @@ This call sends information that you have specified about the user to Pinpoint. 
 UserStateDetails userStateDetails = AWSMobileClient.getInstance().currentUserState();
 String identityId = AWSMobileClient.getInstance().getIdentityId();
 UserProfile.Location location = UserProfile.Location.builder()
-        .latitude(47.606209)
-        .longitude(-122.332069)
-        .postalCode("98122")
-        .city("Seattle")
-        .region("WA")
-        .country("USA").build();
+    .latitude(47.606209)
+    .longitude(-122.332069)
+    .postalCode("98122")
+    .city("Seattle")
+    .region("WA")
+    .country("USA").build();
 
 Properties props = new Properties();
-userStateDetails.getDetails().forEach( (key, value) -> {
-    props.properties.put(key, () -> value);
-});
+for(String key : userStateDetails.getDetails().keySet()) {
+    props.properties.put(key, () -> userStateDetails.getDetails().get(key));
+}
 
 UserProfile profile = UserProfile.builder()
-        .location(location)
-        .customProperties(props)
-        .name("name")
-        .email("name@email.com")
-        .build();
+    .location(location)
+    .customProperties(props)
+    .name("name")
+    .email("name@email.com")
+    .build();
 
 Amplify.Analytics.identifyUser(identityId, profile);
 ```

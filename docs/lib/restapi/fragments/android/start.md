@@ -41,7 +41,7 @@ RestOptions options = new RestOptions("/items", parameters);
 
 Amplify.API.get("myAPI",
     options,
-    restResponse -> Log.i("SUCCESS", restResponse.toString()),
-    throwable -> Log.e("RESTERROR", throwable.toString())
+    restResponse -> Log.i("ApiQuickStart", restResponse.toString()),
+    apiFailure -> Log.e("ApiQuickStart", apiFailure.getMessage(), apiFailure)
 );
 ```

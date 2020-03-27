@@ -6,13 +6,15 @@ With the Blog model generated, add the following.
 
 ```java
 private void createBlog() {
-    Blog blog = Blog.builder().name("My first blog").build();
+    Blog blog = Blog.builder()
+        .name("My first blog")
+        .build();
 
     Amplify.API.mutate(
         blog,
         MutationType.CREATE,
         response -> Log.i("ApiQuickStart", "Added Blog with id: " + response.getData().getId()),
-        throwable -> Log.e("ApiQuickStart", throwable.getMessage())
+        apiFailure -> Log.e("ApiQuickStart", apiFailure.getMessage(), apiFailure)
     );
 }
 

@@ -8,7 +8,7 @@ You can list all of the objects uploaded.
                     Log.i("StorageQuickStart", "Item: " + item.getKey());
                 }
             },
-            error -> Log.e("StorageQuickStart", error.getMessage())
+            storageFailure -> Log.e("StorageQuickStart", storageFailure.getMessage(), storageFailure)
         );
     }
 ```

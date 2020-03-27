@@ -6,7 +6,7 @@ try {
     Amplify.configure(getApplicationContext());
     Log.i("AmplifyGetStarted", "Amplify is all setup and ready to go!");
 } catch (AmplifyException exception) {
-    Log.e("AmplifyGetStarted", exception.getMessage());
+    Log.e("AmplifyGetStarted", "Failed to initialize Amplify", exception);
 }
 ```
 
@@ -16,8 +16,8 @@ b. First add some data to your backend:
 Task task = Task.builder().title("My first task").description("Get started with Amplify").build();
     Amplify.API.mutate(task,
     MutationType.CREATE,
-    taskGraphQLResponse -> Log.i("AmplifyGetStarted", "Added task with id: " + taskGraphQLResponse.getData().getId()),
-    throwable -> Log.e("AmplifyGetStarted", throwable.toString())
+    taskCreationResponse -> Log.i("AmplifyGetStarted", "Added task with id: " + taskCreationResponse.getData().getId()),
+    apiFailure -> Log.e("AmplifyGetStarted", apiFailure.getMessage(), apiFailure)
 );
 ```
 
@@ -25,8 +25,12 @@ c. Next query the results from your API:
 
 ```java
 Amplify.API.query(Task.class,
-    result -> result.getData().forEach(task -> Log.i("AmplifyGetStarted", task.getTitle())),
-    throwable -> Log.e("AmplifyGetStarted", throwable.toString())
+    queryResults -> {
+        for(Task task : queryResults.getData()) {
+            Log.i("AmplifyGetStarted", task.getTitle());
+        }
+    },
+    apiFailure -> Log.e("AmplifyGetStarted", apiFailure.getMessage(), apiFailure)
 );
 ```
 
@@ -35,9 +39,9 @@ d. Finally, you can listen to the Subscription with a `StreamListener` using the
 ```java
 Amplify.API.subscribe(Task.class,
     SubscriptionType.ON_CREATE,
-    establishedMessage -> Log.i("AmplifyGetStarted", "Subscription established: "+establishedMessage),
-    response -> Log.i("AmplifyGetStarted", "Task created: "+response.getData().getTitle()),
-    throwable -> Log.e("AmplifyGetStarted", throwable.toString()),
+    subscriptionId -> Log.i("AmplifyGetStarted", "Subscription established: "+subscriptionId),
+    taskCreated -> Log.i("AmplifyGetStarted", "Task created: "+taskCreated.getData().getTitle()),
+    apiFailure -> Log.e("AmplifyGetStarted", apiFailure.getMessage(), apiFailure),
     () -> Log.i("AmplifyGetStarted", "Subscription completed.")
 );
 ```
