@@ -77,6 +77,10 @@ export const tocStyle = css`
       flex-direction: column;
       max-height: 100vh;
       overflow-y: auto;
+
+      > div {
+        padding-bottom: 3rem;
+      }
     }
   }
 `;
