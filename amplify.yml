@@ -3,7 +3,6 @@ frontend:
   phases:
     preBuild:
       commands:
-        - if [ "${AWS_BRANCH}" = "v2-preview" ]; then amplify pull --appId d39agkzf0cwtdz --envName docpreview; fi
         - yarn install
     build:
       commands:
