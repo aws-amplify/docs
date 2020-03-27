@@ -4,7 +4,7 @@ exports[`docs-universal-nav Render logic should render 1`] = `
 <docs-universal-nav class="css-1c42ddj">
   <amplify-container class="background-color-orange-hv">
     <div class="css-euo4me">
-      <stencil-route-link anchortitle="Amplify Docs" class="css-bnkb7z" url="/">
+      <stencil-route-link anchortitle="Amplify Docs" class="css-1oq1uqt" url="/">
         <img>
         <span></span>
         <sup>
