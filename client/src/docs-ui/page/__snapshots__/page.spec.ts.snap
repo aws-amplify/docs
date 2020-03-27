@@ -14,7 +14,7 @@ exports[`docs-page Render logic should render 1`] = `
             <img class="ex-graphic" src="/assets/close.svg">
           </amplify-sidebar-layout-toggle>
         </amplify-sidebar-layout-main>
-        <div class="css-1tmqkba" slot="toc">
+        <div class="css-250tbd" slot="toc">
           <div>
             <amplify-toc></amplify-toc>
           </div>

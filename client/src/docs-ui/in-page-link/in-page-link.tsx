@@ -2,6 +2,7 @@ import {h, Component, Prop, Watch} from "@stencil/core";
 import {headingIsVisible} from "../../utils/heading-is-visible";
 import {pageContext} from "../page/page.context";
 import {SelectedFilters} from "../page/page.types";
+import {getElementTop} from "../../utils/get-element-top";
 
 const STICKY_BAR_HEIGHT = 56;
 
@@ -30,9 +31,8 @@ export class DocsInPageLink {
   onClick = (e: Event) => {
     e.preventDefault();
     if (this.target) {
-      const top = this.target.offsetTop - STICKY_BAR_HEIGHT;
+      const top = getElementTop(this.target, STICKY_BAR_HEIGHT);
       if (top !== window.scrollY) {
-        // @ts-ignore
         window.scrollTo({top});
         history.replaceState(undefined, document.title, `#${this.targetId}`);
       }
