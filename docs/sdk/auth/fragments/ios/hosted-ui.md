@@ -38,7 +38,7 @@ You will find a domain-name provisioned by the CLI for the hosted UI as an outpu
 
 ### Set up auth with Facebook
 
-Set up your app in Facebook by following Facebook's [App Development](https://auth0.com/docs/connections/social/facebook) guide. Facebook will provide you an **App ID** and **App Secret** for your application which you will find in the app's **Basic Settings**; Take note of these.
+Set up your app in Facebook by following Facebook's [App Development](https://developers.facebook.com/docs/apps) guide. Facebook will provide you an **App ID** and **App Secret** for your application which you will find in the app's **Basic Settings**; Take note of these.
 
 When configuring your app, use the following settings (the domain will be generated in the next section):
 
