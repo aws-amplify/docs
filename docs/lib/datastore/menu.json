@@ -2,7 +2,7 @@
   "title": "Datastore",
   "items": [
     "getting-started",
-    "intro",
+    "overview",
     "data-access",
     "sync",
     "relational",
