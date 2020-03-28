@@ -1,3 +1,3 @@
 ---
-redirect_to: https://docs.amplify.aws/lib/storage/start?platform=android
+redirect_to: https://docs.amplify.aws/lib/storage/getting-started?platform=android
 ---
