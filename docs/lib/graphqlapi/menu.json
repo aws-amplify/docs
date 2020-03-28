@@ -1,8 +1,8 @@
 {
   "title": "API (GraphQL)",
   "items": [
+    "getting-started",
     "overview",
-    "start",
     "authz",
     "query-data",
     "mutate-data",
