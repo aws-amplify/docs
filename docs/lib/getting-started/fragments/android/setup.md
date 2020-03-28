@@ -1,4 +1,4 @@
-Build an Android app using the Amplify Framework. The Amplify software suite includes:
+Build an Android app using the Amplify Framework. The Amplify Framework includes:
 
 - Amplify Tools - CLI toolchain for creating and managing your serverless backend.
 - Android, iOS, and JavaScript libraries to access your resources using a category based programming model.
@@ -50,7 +50,7 @@ buildscript {
 apply plugin: 'com.amplifyframework.amplifytools'
 ```
 
-b. Next, add the following dependencies to your **app** `build.gradle`. Note the declaration of `compileOptions`, to make sure of Java 8 features:
+b. Next, add the following dependencies to your **app** `build.gradle`. Note the declaration of `compileOptions`, to make use of Java 8 features:
 
 ```gradle
 android {
