@@ -1,3 +1,3 @@
 ---
-redirect_to: https://docs.amplify.aws/lib/graphqlapi/overview?platform=android
+redirect_to: https://docs.amplify.aws/lib/graphqlapi/getting-started?platform=android
 ---
