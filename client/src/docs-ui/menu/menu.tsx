@@ -32,14 +32,14 @@ export class DocsMenu {
       return (
         <docs-version-switch
           leftOption={{
-            title: "Libraries",
-            subTitle: "(preview)",
-            href: "/lib",
+            title: "SDK",
+            subTitle: "(current)",
+            href: "/sdk",
           }}
           rightOption={{
-            title: "SDK",
-            subTitle: "(stable)",
-            href: "/sdk",
+            title: "Amplify",
+            subTitle: "(preview)",
+            href: "/lib",
           }}
         />
       );

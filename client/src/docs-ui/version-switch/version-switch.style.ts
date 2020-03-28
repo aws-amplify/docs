@@ -33,10 +33,6 @@ export const switchStyle = css`
         border-radius: 0.25rem;
         line-height: 1.25rem;
 
-        &:hover {
-          background-color: var(--color-grey-lt);
-        }
-
         span {
           font-size: 0.875rem;
         }
@@ -47,6 +43,7 @@ export const switchStyle = css`
 
 export const activeSwitchStyle = css`
   a {
-    background-color: var(--bg-color-secondary);
+    background-color: var(--color-orange-lt);
+    font-weight: 600;
   }
 `;
