@@ -12,8 +12,8 @@ Amazon Pinpoint is a fully managed AWS service that you can use to engage with y
 
 The Amplify CLI helps setup and configure Pinpoint within your application and connect with the AWS Mobile SDK.
 
-<b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
-<b>Recommendation:</b> [Complete the Getting Started guide](./start)
+ - **Prerequisite:** [Install and configure the Amplify CLI](/cli/start/install)
+ - **Recommendation:** [Complete the Getting Started guide](/start?integration=ios)
 
 ## Set Up Your Backend
 
@@ -42,7 +42,9 @@ The Amplify CLI helps setup and configure Pinpoint within your application and c
     $ amplify push
     ```
 
-### Update your IAM Policy:
+### Manually Updating your IAM Policy:
+
+> **Note** The Amplify CLI adds the appropriate policies and permissions for you. The information provided here is provided if you are ***not*** using the Amplify CLI in your project.
 
 The Amazon Pinpoint service requires permissions defined in an IAM policy to use the `submitEvents` API. If you are using long-term AWS credentials attached to an `Amazon IAM` user, attach the following policies to the role of that `IAM` user. If you are using temporary AWS credentials vended by `Amazon Cognito Identity Pools`, then attach the following policies to the Unauthenticated and/or Authenticated `IAM` roles of your `Cognito Identity Pool`. The role you attach the policies to depends on the scope of your application. For example, if you only want events submitted when users login, attach to the authenticated role. Similarly, if you want events submitted regardless of authentication state, attach the policy to the unauthenticated role. For more information on Cognito Identities authenticated/unauthenticated roles see <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html" target="_blank">here</a>.
 
@@ -79,8 +81,8 @@ platform :ios, '9.0'
 target 'YourAppName' do
     use_frameworks!
 
-    pod 'AWSPinpoint', '~> 2.12.0'
-    pod 'AWSMobileClient', '~> 2.12.0'
+    pod 'AWSPinpoint'
+    pod 'AWSMobileClient'
 
     # other pods
 
@@ -139,11 +141,11 @@ Build and run your app to see usage metrics in Amazon Pinpoint. When you run the
 1. To see visualizations of the analytics coming from your app, open your project in the Amazon Pinpoint console by running the following:
 
 ```bash
-$ amplify console analytics
+$ amplify analytics console
 ```
 
 2. Choose `Analytics` from the icons on the left of the console, and view the graphs of your app's usage. It may take up to 15 minutes for metrics to become visible.
 
     ![getting-started-analytics](~/images/getting-started-analytics.png)
 
-Analytics events can be grouped into segments, and you can engage your users more deeply by tying their app usage behavior to Push Notification, email, or SMS messaging campaigns. Read more about this in the [messaging section](./messaging) or [click here to learn more about Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html).
+Analytics events can be grouped into segments, and you can engage your users more deeply by tying their app usage behavior to Push Notification, email, or SMS messaging campaigns. Read more about this in the [messaging section](/sdk/push-notifications/messaging-campaign?platform=ios) or [click here to learn more about Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html).

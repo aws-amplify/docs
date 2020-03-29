@@ -1,11 +1,11 @@
-Enable your users to receive mobile push messages sent from the Apple (APNs) and Google (FCM/GCM) platforms. The CLI deploys your push notification backend using [Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/).
+Enable your users to receive mobile push messages sent from the Apple (APNs) and Google (FCM/GCM) platforms. The Amplify CLI deploys your push notification backend using [Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/).
 You can also create Amazon Pinpoint campaigns that tie user behavior to push or other forms of messaging.
 
 ## Set Up Your Backend
 
-1. Complete the [Get Started](./start) steps before you proceed.
+1. Complete the [Get Started](/start?integration=ios) steps before you proceed.
 
-2. Complete the [Setting Up APNS Guide](./push-notifications-setup-apns). This will guide you through the process of setting up an App ID, SSL certificate, provisioning profile, entitlements, distribution certificate, and provisioning profile, which are required to deliver notifications to iOS devices.
+2. Complete the [Setting Up APNS Guide](./setup-apns). This will guide you through the process of setting up an App ID, SSL certificate, provisioning profile, entitlements, distribution certificate, and provisioning profile, which are required to deliver notifications to iOS devices.
 
 3. Use the CLI to add notifications to your cloud-enabled backend and app.
 
@@ -30,7 +30,7 @@ You can also create Amazon Pinpoint campaigns that tie user behavior to push or 
         > Certificate
         ```
 
-    - Provide the path to your P12 certificate that you created in [Setting Up iOS Push Notifications](./push-notifications-setup-apns).
+    - Provide the path to your P12 certificate that you created in [Setting Up iOS Push Notifications](./setup-apns).
 
    Use the steps in the next section to connect your app to your backend.
 
@@ -48,9 +48,8 @@ Use the following steps to connect add push notification backend services to you
     target :'YOUR-APP-NAME' do
       use_frameworks!
 
-        pod  'AWSPinpoint', '~> 2.12.0'
-        # other pods
-        pod  'AWSMobileClient', '~> 2.12.0'
+        pod  'AWSPinpoint'
+        pod  'AWSMobileClient'
     end
     ```
 
