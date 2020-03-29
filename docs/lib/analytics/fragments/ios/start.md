@@ -76,11 +76,13 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 
 ## Using a Custom Plugin
 
-You can create your custom pluggable for Analytics. This may be helpful if you want to integrate your app with a custom analytics backend.
-
-Add `import AmplifyPlugins` and use the following code:
+You can create your custom plugin for Analytics. This may be helpful if you want to integrate your app with a custom analytics backend.
 
 ```swift
+ import AmplifyPlugins
+
+ ...
+ 
  func getEscapeHatch() throws {
     let plugin = try Amplify.Analytics.getPlugin(for: "awsPinpointAnalyticsPlugin")
     guard let pinpointAnalyticsPlugin = plugin as? AWSPinpointAnalyticsPlugin else {
