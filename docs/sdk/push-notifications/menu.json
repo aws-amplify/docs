@@ -3,6 +3,6 @@
   "items": [
     "getting-started",
     "messaging-campaign",
-    "setup-apns"
+    "setup-push-service"
   ]
 }
