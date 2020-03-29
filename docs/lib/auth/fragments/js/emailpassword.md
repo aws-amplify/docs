@@ -110,7 +110,7 @@ To enforce Cognito User Pool signups with a unique email, you need to change you
 
 ## Advanced use cases
 
-### Sign-in
+### Sign-in with custom auth challenges
 
 When signing in with user name and password, you will either sign in directly or be asked to pass some challenges before getting authenticated.
 
@@ -184,8 +184,13 @@ async function SignIn() {
         }
     }
 }
+```
 
-// You can also pass an object which has the username, password and validationData which is sent to a PreAuthentication Lambda trigger
+### Sign-in with custom validation data for Lambda Trigger
+
+You can also pass an object which has the username, password and validationData which is sent to a PreAuthentication Lambda trigger
+
+```js
 try {
     const user = await Auth.signIn({
         username, // Required, the username
