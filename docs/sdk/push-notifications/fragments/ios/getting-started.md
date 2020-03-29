@@ -5,7 +5,7 @@ You can also create Amazon Pinpoint campaigns that tie user behavior to push or 
 
 1. Complete the [Get Started](/start?integration=ios) steps before you proceed.
 
-2. Complete the [Setting Up APNS Guide](./setup-apns). This will guide you through the process of setting up an App ID, SSL certificate, provisioning profile, entitlements, distribution certificate, and provisioning profile, which are required to deliver notifications to iOS devices.
+2. Complete the [Setting Up APNS Guide](~/setup-apns). This will guide you through the process of setting up an App ID, SSL certificate, provisioning profile, entitlements, distribution certificate, and provisioning profile, which are required to deliver notifications to iOS devices.
 
 3. Use the CLI to add notifications to your cloud-enabled backend and app.
 
@@ -59,7 +59,7 @@ Use the following steps to connect add push notification backend services to you
 
 2. Classes that call Amazon Pinpoint APIs must use the following import statements:
 
-    ```
+    ```swift
     import AWSPinpoint
     import AWSMobileClient
     ```
