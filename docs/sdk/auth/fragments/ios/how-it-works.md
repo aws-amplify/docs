@@ -12,8 +12,7 @@ The `AWSMobileClient` provides APIs and building blocks for developers who want 
 
 When working together, Cognito User Pools acts as an Identity Provider (IDP) for Cognito Federated Identities (analogous to Facebook, Google etc.). AWS Amplify uses Cognito User Pools to store user information and Federated Identities to handle authorization. Amplify leverages Federated Identities to manage user access to AWS, for example allowing a user to upload a file to an S3 bucket.
 
- - **Prerequisite:** [Install and configure the Amplify CLI](/cli/start/install)
- - **Recommendation:** [Complete the Getting Started guide](/start?integration=ios)
+> **Prerequisite:** [Install and configure the Amplify CLI](/cli/start/install)
 
 ## How it works
 
