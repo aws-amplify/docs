@@ -1,5 +1,10 @@
-Many applications have UX with Guest or "Unauthenticated" users. This functionality is supported out of the box with `AWSMobileClient` through the initialization routine you have added. However, the Amplify CLI does not enable this by default with the `amplify add auth` flow. You can enable this by running `amplify update auth` and choosing `Manual Configuration` when prompted. Ensure you choose the **User Sign-Up, Sign-In, connected with AWS IAM controls** which will allow you to select **Allow unauthenticated logins**.
+Many applications have UX with Guest or "Unauthenticated" users. This functionality is supported out of the box with `AWSMobileClient` through the initialization routine. However, the Amplify CLI does not enable this by **default** with the `amplify add auth` flow. You can enable this by 
 
-When complete run `amplify push` to update your backend and the `awsconfiguration.json` which will work automatically with the updated settings. The `AWSMobileClient` user session will automatically have permissions configured for Guest users upon initialization. 
+- Run `amplify update auth` 
+- Choose `Manual Configuration`. 
+- Choose `User Sign-Up, Sign-In, connected with AWS IAM controls`
+- Select `Allow unauthenticated logins`.
 
-If you login in your app either using the [Drop-In Auth](/sdk/auth/drop-in-auth?platform=ios) or the [direct Auth APIs](/sdk/auth/working-with-api?platform=ios) then the `AWSMobileClient` user session will transition to an authenticated role.
+When complete run `amplify push` to update your backend and `awsconfiguration.json` file. The `AWSMobileClient` user session will automatically have permissions configured for Guest users upon initialization.
+
+> If you login in your app either using the [Drop-In Auth](/sdk/auth/drop-in-auth?platform=ios) or directly via the [Auth APIs](/sdk/auth/working-with-api?platform=ios), the user session will transition automatically to an authenticated role.
