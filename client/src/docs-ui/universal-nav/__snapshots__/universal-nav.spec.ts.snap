@@ -4,9 +4,12 @@ exports[`docs-universal-nav Render logic should render 1`] = `
 <docs-universal-nav class="css-1c42ddj">
   <amplify-container class="background-color-orange-hv">
     <div class="css-euo4me">
-      <stencil-route-link anchortitle="Amplify Docs" class="css-1h3u7ac" url="/">
+      <stencil-route-link anchortitle="Amplify Docs" class="css-1oq1uqt" url="/">
         <img>
         <span></span>
+        <sup>
+          NEW
+        </sup>
       </stencil-route-link>
       <div class="css-1ynba5z">
         <amplify-external-link anchortitle="Amplify Community" href="https://amplify.aws/community/" redirect="">

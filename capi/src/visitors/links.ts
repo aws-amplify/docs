@@ -85,10 +85,6 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
           url = `${url}.md`;
         }
 
-        if (transformerProps.srcPath.includes("start/start.md")) {
-          console.log(url);
-        }
-
         // in page links (hash-only url)
         if (url.startsWith("#")) {
           lexicalScope.update([
@@ -107,7 +103,7 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
       switch (tagName) {
         case "a": {
           finalTagName = isURLExternal
-            ? "docs-external-link"
+            ? "amplify-external-link"
             : "docs-internal-link";
           finalProps.href = route;
           break;
@@ -121,17 +117,20 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
           const urlOverrideForMobileFilter = props[
             "url-override-for-mobile-filter"
           ] as string | undefined;
-          const urlOverrideForMobileFilterIsExternal =
-            urlOverrideForMobileFilter &&
-            !IS_URL_ABSOLUTE_REGEX.test(urlOverrideForMobileFilter);
-          const routeOverrideForMobileFilter = urlOverrideForMobileFilterIsExternal
-            ? urlOverrideForMobileFilter
-            : getRoute(url, transformerProps);
-          if (routeOverrideForMobileFilter) {
-            props[
-              "url-override-for-mobile-filter"
-            ] = routeOverrideForMobileFilter;
+          if (urlOverrideForMobileFilter) {
+            const urlOverrideForMobileFilterIsExternal = IS_URL_ABSOLUTE_REGEX.test(
+              urlOverrideForMobileFilter,
+            );
+            const routeOverrideForMobileFilter = urlOverrideForMobileFilterIsExternal
+              ? urlOverrideForMobileFilter
+              : getRoute(urlOverrideForMobileFilter, transformerProps);
+            if (routeOverrideForMobileFilter) {
+              finalProps[
+                "url-override-for-mobile-filter"
+              ] = routeOverrideForMobileFilter;
+            }
           }
+
           break;
         }
 

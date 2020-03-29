@@ -1,7 +1,6 @@
 {
   "title": "Utilities",
   "items": [
-    "pubsub",
     "serviceworker",
     "cache",
     "hub",

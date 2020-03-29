@@ -21,7 +21,7 @@ public void recordEvent() throws AnalyticsException {
 
     // Plugin will automatically flush events.
     // You do not have to do this in the app code.
-    Amplify.Analytics.flushEvents()
+    Amplify.Analytics.flushEvents();
 }
 ```
 

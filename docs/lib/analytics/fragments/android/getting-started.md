@@ -20,8 +20,8 @@ buildscript {
 Next add the following dependencies to your app `build.gradle`:
 
 ```groovy
-implementation 'com.amplifyframework:core:0.9.1'
-implementation 'com.amplifyframework:aws-analytics-pinpoint:0.9.1'
+implementation 'com.amplifyframework:core:0.10.0'
+implementation 'com.amplifyframework:aws-analytics-pinpoint:0.10.0'
 ```
 
 Sync the project with Maven and then ensure it built successfully.
@@ -85,7 +85,7 @@ protected void onCreate(Bundle savedInstanceState) {
     AmplifyConfiguration configuration = new AmplifyConfiguration();
     try {
         configuration.populateFromConfigFile(getApplicationContext(), R.raw.amplifyconfiguration);
-        Amplify.addPlugin(new AmazonPinpointAnalyticsPlugin());
+        Amplify.addPlugin(new AmazonPinpointAnalyticsPlugin(getApplication()));
         Amplify.configure(configuration, getApplicationContext());
     } catch (AmplifyException e) {
         e.printStackTrace();
