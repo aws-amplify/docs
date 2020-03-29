@@ -1,22 +1,24 @@
-When your backend is successfully updated, there should be two newly created files: `amplifyconfiguration.json` and `awsconfiguration.json` in your project folder.
+When your backend is successfully updated there will be two newly created files: `amplifyconfiguration.json` and `awsconfiguration.json` in your project folder. The `amplifyconfiguration.json` is used for Amplify Library, while the `awsconfiguration.json` is used for the underlying AWS iOS SDK.
 
 ## Install Amplify libraries
 
 > iOS project targeting at least iOS 11.0
 
-If this is a new project, run `pod init` to create the `Podfile` to use CocoaPods to manage your dependencies. Add the following to the `Podfile`
+If this is a new project, run `pod init` to create a `Podfile` for use with CocoaPods to manage your dependencies. 
+
+Add the following to your `Podfile`
 
 ```ruby
     target :'YOUR-APP-NAME' do
         use_frameworks!
         pod 'AmplifyPlugins/AWSPinpointAnalyticsPlugin'
-        pod 'AWSMobileClient', '~> 2.12.0'
+        pod 'AWSMobileClient'
     end
 ```
 
 Close out of the existing Xcode project if you have it open.
 
-Install the dependencies via CocoaPods
+Install the dependencies via CocoaPods by running the following command:
 
 ```ruby
 $ pod install --repo-update
@@ -29,8 +31,8 @@ $ open <YOURAPP>.xcworkspace
 
 ## Add Configuration Files
 
-1. Open the finder of your project and drag the `amplifyconfiguration.json` and `awsconfiguration.json` over to the Xcode window, under the workspace. 
-2. Enable `Copy items if needed` if not already enabled
+1. Open the finder of your project and drag the `amplifyconfiguration.json` ***and*** `awsconfiguration.json` files into your Xcode window, under the workspace. 
+2. Enable `Copy items if needed` if not already checked
 3. For "Added folders", have `Create groups` selected. 
 4. For "Add to targets", make sure the app target is checked off.
 5. Build (`CMD+B`) the app 
@@ -72,15 +74,11 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 }
 ```
 
-## API Reference
-
-For a complete API reference visit the API Reference
-
-## Using a custom plugin
+## Using a Custom Plugin
 
 You can create your custom pluggable for Analytics. This may be helpful if you want to integrate your app with a custom analytics backend.
 
-Add `import AmplifyPlugins` and then the following code:
+Add `import AmplifyPlugins` and use the following code:
 
 ```swift
  func getEscapeHatch() throws {

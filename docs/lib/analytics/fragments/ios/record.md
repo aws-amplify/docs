@@ -1,6 +1,6 @@
 ## Record Event
 
-The Amplify Analytics plugin makes it easy to record custom events within the app. The plugin handles retry logic in the event the device looses network connectivity and automatically batches requests to reduce network bandwidth.
+The Amplify Analytics plugin provides a simple interface to record custom events within your app. The plugin handles retry logic in the event the device looses network connectivity, and automatically batches requests to reduce network bandwidth.
 
 ```swift
 func recordEvents() {
@@ -40,7 +40,8 @@ Events have default configuration to flush out to the network every 60 seconds. 
     }
 }
 ```
-If you do set `autoFlushEventsInterval` to 0, you are responsible for calling `Amplify..flushEvents()` to flush events.
+
+> **Note**: If you set `autoFlushEventsInterval` to 0, you are responsible for calling `Amplify..flushEvents()` to flush events.
 
 
 ## Global Properties
@@ -52,20 +53,23 @@ let globalProperties = ["globalPropertyKey": "value"] as [String: AnalyticsPrope
 Amplify.Analytics.registerGlobalProperties(globalProperties)
 ```
 
-To unregister all global properties, simply call `Amplify.Analytics.unregisterGlobalProperties()` or to unregister a single property, use
+To unregister all global properties call `Amplify.Analytics.unregisterGlobalProperties()`. 
+
+To unregister a single property:
 ```swift
 Amplify.Analytics.unregisterGlobalProperties(["globalPropertyKey"])
+```
 
 ## Disable Analytics
 
-To disable analytics, call:
+To disable analytics:
 ```swift
 Amplify.Analytics.disable()
 ```
 
 ## Enable Analytics
 
-To enable analytics, call:
+To enable analytics:
 ```swift
 Amplify.Analytics.enable()
 ```
