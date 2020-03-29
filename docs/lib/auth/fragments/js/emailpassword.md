@@ -100,14 +100,6 @@ try {
 }
 ```
 
-### Forcing Email Uniqueness in Cognito User Pools
-
-When your Cognito User Pool sign-in options are set to "*Username*", and "*Also allow sign in with verified email address*", the *signUp()* method creates a new user account every time it's called, without validating email uniqueness. In this case you will end up having multiple user pool identities and all previously created accounts will have their *email_verified* attribute changed to *false*. 
-
-To enforce Cognito User Pool signups with a unique email, you need to change your User Pool's *Attributes* setting in [Amazon Cognito console](https://console.aws.amazon.com/cognito) as the following:
-
-![cup](https://aws-amplify.github.io/docs/js/images/cognito_user_pool_settings.png)
-
 ## Advanced use cases
 
 ### Sign-in with custom auth challenges
@@ -202,3 +194,11 @@ try {
     console.log('error signing in:' , error);
 }
 ```
+
+### Forcing Email Uniqueness in Cognito User Pools
+
+When your Cognito User Pool sign-in options are set to "*Username*", and "*Also allow sign in with verified email address*", the *signUp()* method creates a new user account every time it's called, without validating email uniqueness. In this case you will end up having multiple user pool identities and all previously created accounts will have their *email_verified* attribute changed to *false*. 
+
+To enforce Cognito User Pool signups with a unique email, you need to change your User Pool's *Attributes* setting in [Amazon Cognito console](https://console.aws.amazon.com/cognito) as the following:
+
+![cup](https://aws-amplify.github.io/docs/js/images/cognito_user_pool_settings.png)
