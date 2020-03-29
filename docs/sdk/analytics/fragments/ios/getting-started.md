@@ -140,7 +140,7 @@ Build and run your app to see usage metrics in Amazon Pinpoint. When you run the
 1. To see visualizations of the analytics coming from your app, open your project in the Amazon Pinpoint console by running the following:
 
 ```bash
-$ amplify analytics console
+$ amplify console analytics
 ```
 
 2. Choose `Analytics` from the icons on the left of the console, and view the graphs of your app's usage. It may take up to 15 minutes for metrics to become visible.
