@@ -1,4 +1,4 @@
-> Prerequisite: [Install and configure](/link) the Amplify CLI
+> Prerequisite: [Install and configure](~/cli/start/install.md) the Amplify CLI
 
 ## Authentication with Amplify
 
@@ -139,4 +139,6 @@ You can also customize this component to add or remove fields, update styling, o
 
 In addition to the `withAuthenticator` you can build custom authentication flows using the `Auth` class.
 
-`Auth` has over 30 methods including [`signUp`](auth/emailpassword?platform=js#sign-up), [`signIn`](auth/emailpassword?platform=js#sign-in), [`forgotPasword`](auth/manageusers?platform=js#forgot-password), and [`signOut`](auth/emailpassword?platform=js#sign-out) that allow you full control over all aspects of the user authentication flow. Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).
+`Auth` has over 30 methods including [`signUp`](~/lib/auth/emailpassword.md#sign-up), [`signIn`](~/lib/auth/emailpassword.md#sign-in), [`forgotPasword`](~/lib/auth/manageusers.md#forgot-password), and [`signOut`](~/lib/auth/emailpassword.md#sign-out) that allow you full control over all aspects of the user authentication flow.
+
+Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).
