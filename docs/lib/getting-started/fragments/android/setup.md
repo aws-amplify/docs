@@ -18,7 +18,7 @@ This page guides you through setting up a backend and integration into your Andr
 
 * [Install Android Studio](https://developer.android.com/studio/index.html#downloads) version 3.1 or higher.
 
-* [Install Android SDK with a minimum API level of 15 (Ice Cream Sandwich).](https://developer.android.com/studio/releases/platforms)
+* [Install Android SDK with a minimum API level of 16 (Jelly Bean).](https://developer.android.com/studio/releases/platforms)
 
 * This guide assumes that you are familiar with Android development and tools. If you are new to Android development, you can follow [these steps](https://developer.android.com/training/basics/firstapp/creating-project) to create your first Android application using Java.
 
@@ -61,8 +61,8 @@ android {
 }
 
 dependencies {
-  implementation 'com.amplifyframework:core:0.9.1'
-  implementation 'com.amplifyframework:aws-api:0.9.1'
+  implementation 'com.amplifyframework:core:0.10.0'
+  implementation 'com.amplifyframework:aws-api:0.10.0'
 }
 ```
 
