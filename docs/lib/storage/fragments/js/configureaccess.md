@@ -10,15 +10,13 @@ When using Auth and Storage modules together, you do not need to construct the `
 
 The access level can be configured on the Storage object globally. Alternatively, the access levels can be set in individual function calls.
 
-<amplify-callout>
-Default access level for Storage module is `public`. Unless you configure Storage otherwise, all uploaded files will be publicly available for all users.
-</amplify-callout>
+> Default access level for Storage module is `public`. Unless you configure Storage otherwise, all uploaded files will be publicly available for all users.
+
 
 Access level configuration on the Storage object:
 
 ```javascript
 Storage.configure({ level: 'private' });
-
 Storage.get('welcome.png'); // Gets the welcome.png belonging to current user
 ```
 
