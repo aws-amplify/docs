@@ -103,7 +103,7 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
       switch (tagName) {
         case "a": {
           finalTagName = isURLExternal
-            ? "docs-external-link"
+            ? "amplify-external-link"
             : "docs-internal-link";
           finalProps.href = route;
           break;
