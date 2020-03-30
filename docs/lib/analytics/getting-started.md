@@ -1,5 +1,5 @@
 ---
-title: Setup analytics
+title: Getting Started
 description: Description
 ---
 
@@ -37,6 +37,6 @@ From the terminal run the following command. Navigate to the *Analytics* tab, an
 amplify console
 ```
 
-<inline-fragment platform="js" src="~/lib/analytics/fragments/js/start.md"></inline-fragment>
-<inline-fragment platform="ios" src="~/lib/analytics/fragments/ios/start.md"></inline-fragment>
-<inline-fragment platform="android" src="~/lib/analytics/fragments/android/start.md"></inline-fragment>
+<inline-fragment platform="js" src="~/lib/analytics/fragments/js/getting-started.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/analytics/fragments/ios/getting-started.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/analytics/fragments/android/getting-started.md"></inline-fragment>
