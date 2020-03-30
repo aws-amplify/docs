@@ -437,11 +437,11 @@ directive @key(fields: [String!]!, name: String, queryField: String) on OBJECT
 
 **Argument**
 
-| Argument   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| fields     | A list of fields that should comprise the @key, used in conjunction with an @model type. The first field in the list will always be the **HASH** key. If two fields are provided the second field will be the **SORT** key. If more than two fields are provided, a single composite **SORT** key will be created from a combination of `fields[1...n]`. All generated GraphQL queries & mutations will be updated to work with custom `@key` directives. |
-| name       | When provided, specifies the name of the secondary index. When omitted, specifies that the @key is defining the primary index. You may have at most one primary key per table and therefore you may have at most one @key that does not specify a **name** per @model type.                                                                                                                                                                               |
-| queryField | When defining a secondary index (by specifying the *name* argument), this specifies that a new top level query field that queries the secondary index should be generated with the given name.                                                                                                                                                                                                                                                            |
+| Argument  | Description  |
+|---|---|
+| fields  | A list of fields that should comprise the @key, used in conjunction with an @model type. The first field in the list will always be the **HASH** key. If two fields are provided the second field will be the **SORT** key. If more than two fields are provided, a single composite **SORT** key will be created from a combination of `fields[1...n]`. All generated GraphQL queries & mutations will be updated to work with custom `@key` directives. |
+| name  | When provided, specifies the name of the secondary index. When omitted, specifies that the @key is defining the primary index. You may have at most one primary key per table and therefore you may have at most one @key that does not specify a **name** per @model type.  |
+| queryField  | When defining a secondary index (by specifying the *name* argument), this specifies that a new top level query field that queries the secondary index should be generated with the given name.  |
 
 #### How to use @key
 
@@ -656,9 +656,9 @@ In this schema, only the owner of the object has the authorization to perform re
 Here's a truth table for the above-mentioned schema. In the table below `other` refers to any user other than the creator or owner of the object.
 
 |       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
-| ----- | ------- | --------- | ---------- | ---------- | ---------- |
-| owner | ✅       | ✅         | ✅          | ✅          | ✅          |
-| other | ❌       | ❌         | ✅          | ✅          | ✅          |
+|-------|---------|----------|------------|------------|------------|
+| owner |    ✅    |     ✅    |      ✅     |      ✅     |      ✅     |
+| other |    ❌    |     ❌    |      ✅     |      ✅     |      ✅     |
 
 If you want to prevent updates and deletes operations, you would need to modify the @auth rule to explicitly include the `update` and `delete` operation and your schema should look like the following:
 
@@ -674,9 +674,9 @@ type Todo @model
 Here's a truth table for the above-mentioned schema. In the table below `other` refers to any user other than the creator or owner of the object.
 
 |       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
-| ----- | ------- | --------- | ---------- | ---------- | ---------- |
-| owner | ✅       | ✅         | ✅          | ✅          | ✅          |
-| other | ❌       | ❌         | ✅          | ❌          | ❌          |
+|-------|---------|----------|------------|------------|------------|
+| owner |    ✅    |     ✅    |      ✅     |      ✅     |      ✅     |
+| other |    ❌    |     ❌    |      ✅     |      ❌     |      ❌     |
 
 **Note**: Specifying `@auth(rules: [{ allow: owner, operations: [create]}])` still allows anyone who has access to your API to create records (as shown in the above truth table). However, including this is necessary when specifying other owner auth rules to ensure that the owner is stored with the record so it can be verified on subsequent requests.
 
@@ -1061,11 +1061,11 @@ In the example above the model is protected by Cognito User Pools by default and
 The following table shows the allowed combinations of authorization modes and providers.
 
 |           | owner | groups | public | private |
-| :-------- | :---: | :----: | :----: | :-----: |
-| userPools |   ✅   |   ✅    |        |    ✅    |
-| oidc      |   ✅   |        |        |         |
-| apiKey    |       |        |   ✅    |         |
-| iam       |       |        |   ✅    |    ✅    |
+|:----------|:-----:|:------:|:------:|:-------:|
+| userPools |✅|✅||✅|
+| oidc|✅||||
+| apiKey|||✅||
+| iam|||✅|✅|
 
 Please note that `groups` is leveraging Cognito User Pools but no provider assignment needed/possible.
 
@@ -1641,15 +1641,15 @@ which will return user information related to the current user directly from you
 
 When writing lambda function's that are connected via the `@function` directive, you can expect the following structure for the AWS Lambda event object.
 
-| Key       | Description                                                                                                                                                            |
-| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| typeName  | The name of the parent object type of the field being resolver.                                                                                                        |
-| fieldName | The name of the field being resolved.                                                                                                                                  |
-| arguments | A map containing the arguments passed to the field being resolved.                                                                                                     |
-| identity  | A map containing identity information for the request. Contains a nested key 'claims' that will contains the JWT claims if they exist.                                 |
-| source    | When resolving a nested field in a query, the source contains parent value at runtime. For example when resolving `Post.comments`, the source will be the Post object. |
-| request   | The AppSync request object. Contains header information.                                                                                                               |
-| prev      | When using pipeline resolvers, this contains the object returned by the previous function. You can return the previous value for auditing use cases.                   |
+| Key  | Description  |
+|---|---|
+| typeName  | The name of the parent object type of the field being resolver.  |
+| fieldName  | The name of the field being resolved.  |
+| arguments  | A map containing the arguments passed to the field being resolved.  |
+| identity  | A map containing identity information for the request. Contains a nested key 'claims' that will contains the JWT claims if they exist. |
+| source  | When resolving a nested field in a query, the source contains parent value at runtime. For example when resolving `Post.comments`, the source will be the Post object.  |
+| request   | The AppSync request object. Contains header information.  |
+| prev | When using pipeline resolvers, this contains the object returned by the previous function. You can return the previous value for auditing use cases. |
 
 **Calling functions in different regions**
 
@@ -2371,12 +2371,12 @@ Assuming you used the `createPost` mutation to create new posts with `title`, `c
 
 Here is a complete list of searchable operations per GraphQL type supported as of today:
 
-| GraphQL Type | Searchable Operation                                                                                  |
-| -----------: | :---------------------------------------------------------------------------------------------------- |
-|       String | `ne`, `eq`, `match`, `matchPhrase`, `matchPhrasePrefix`, `multiMatch`, `exists`, `wildcard`, `regexp` |
-|          Int | `ne`, `gt`, `lt`, `gte`, `lte`, `eq`, `range`                                                         |
-|        Float | `ne`, `gt`, `lt`, `gte`, `lte`, `eq`, `range`                                                         |
-|      Boolean | `eq`, `ne`                                                                                            |
+| GraphQL Type        | Searchable Operation           |
+|-------------:|:-------------|
+| String      | `ne`, `eq`, `match`, `matchPhrase`, `matchPhrasePrefix`, `multiMatch`, `exists`, `wildcard`, `regexp` |
+| Int     | `ne`, `gt`, `lt`, `gte`, `lte`, `eq`, `range`      |
+| Float | `ne`, `gt`, `lt`, `gte`, `lte`, `eq`, `range`      |
+| Boolean | `eq`, `ne`      |
 
 
 
