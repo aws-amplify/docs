@@ -6,9 +6,6 @@ describe("docs-page", () => {
     let docsPage: DocsPage;
     beforeEach(() => (docsPage = new DocsPage()));
 
-    it("should init `match` as `undefined`", () =>
-      expect(docsPage.match).toBeUndefined());
-
     it("should init `selected` as `{}`", () =>
       expect(docsPage.selectedFilters).toEqual({}));
 

@@ -6,7 +6,6 @@ import {
   sidebarToggleClass,
   mainStyle,
 } from "./page.style";
-import {MatchResults} from "@stencil/router";
 import {Page, createVNodesFromHyperscriptNodes} from "../../api";
 import {updateDocumentHead} from "../../utils/update-document-head";
 import Url from "url-parse";
@@ -22,11 +21,10 @@ import {pageContext} from "./page.context";
 import {track, AnalyticsEventType} from "../../utils/track";
 import {Breakpoint} from "../../amplify-ui/styles/media";
 import {getPage} from "../../cache";
+import {popped, setPopped} from "../../utils/pop-state";
 
 @Component({tag: "docs-page", shadow: false})
 export class DocsPage {
-  /*** route metadata */
-  @Prop() readonly match?: MatchResults;
   /*** the current page path */
   @Prop() readonly currentPath?: string;
 
@@ -90,43 +88,52 @@ export class DocsPage {
     }
   };
 
-  async componentWillLoad() {
+  componentWillUpdate() {
+    if ((!this.data || this.data?.route !== location.pathname) && popped) {
+      setPopped(false);
+      return this.getPageData();
+    }
+  }
+
+  componentWillLoad() {
     track({
       type: AnalyticsEventType.PAGE_VISIT,
       attributes: {url: location.href},
     });
 
     this.setSidebarStickyTop();
-
-    if (this.match) {
-      const {path} = this.match;
-      this.blendUniversalNav = path === "/";
-      try {
-        this.data = await getPage(path);
-        if (this.data) {
-          updateDocumentHead(this.data);
-          this.filterKey = getFilterKeyFromPage(this.data);
-          this.selectedFilters = Object.assign(
-            {},
-            ...Object.keys(filterOptionsByName).map((filterKey) => {
-              const localStorageKey = getFilterKeyFromLocalStorage(filterKey);
-              return {
-                [filterKey]: localStorageKey
-                  ? localStorage.getItem(localStorageKey) || undefined
-                  : undefined,
-              };
-            }),
-          );
-          this.computeFilter();
-        }
-      } catch (exception) {
-        track({
-          type: AnalyticsEventType.PAGE_DATA_FETCH_EXCEPTION,
-          attributes: {url: location.href, exception},
-        });
-      }
-    }
+    return this.getPageData();
   }
+
+  getPageData = async () => {
+    const {pathname} = location;
+    this.blendUniversalNav = pathname === "/";
+
+    try {
+      this.data = await getPage(pathname);
+      if (this.data) {
+        updateDocumentHead(this.data);
+        this.filterKey = getFilterKeyFromPage(this.data);
+        this.selectedFilters = Object.assign(
+          {},
+          ...Object.keys(filterOptionsByName).map((filterKey) => {
+            const localStorageKey = getFilterKeyFromLocalStorage(filterKey);
+            return {
+              [filterKey]: localStorageKey
+                ? localStorage.getItem(localStorageKey) || undefined
+                : undefined,
+            };
+          }),
+        );
+        this.computeFilter();
+      }
+    } catch (exception) {
+      track({
+        type: AnalyticsEventType.PAGE_DATA_FETCH_EXCEPTION,
+        attributes: {url: location.href, exception},
+      });
+    }
+  };
 
   requiresFilterSelection = (): boolean =>
     !!(this.filterKey && !this.filterValue);
@@ -190,7 +197,10 @@ export class DocsPage {
                                 createVNodesFromHyperscriptNodes(
                                   this.data.body,
                                 ),
-                                <docs-next-previous page={this.data} />,
+                                <docs-next-previous
+                                  key={this.data.route}
+                                  page={this.data}
+                                />,
                               ]}
                             </amplify-toc-contents>
                             <amplify-sidebar-layout-toggle
