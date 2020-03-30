@@ -4,7 +4,7 @@ exports[`docs-page Render logic should render 1`] = `
 <docs-page class="css-mg8ajq">
   <docs-universal-nav blend="" brand-icon="/assets/logo-light.svg" brand-icon-blend="/assets/logo-dark.svg" heading="Amplify Docs"></docs-universal-nav>
   <docs-secondary-nav></docs-secondary-nav>
-  <div class="css-1dm9jwm">
+  <div class="css-1o5ehio">
     <amplify-toc-provider>
       <amplify-sidebar-layout>
         <amplify-sidebar-layout-main class="css-1j9n6qe" slot="main">
