@@ -2,13 +2,6 @@
 
 > https://aws-amplify.github.io/
 
-## Live Preview
-
-> https://master.d1oswu9t6bzjql.amplifyapp.com/
-
-- Username: `amplify`
-- Password: `docs-v2`
-
 ## Getting Started
 
 1. [Fork this repo](/fork).
