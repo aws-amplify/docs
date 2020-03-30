@@ -119,8 +119,8 @@ android {
 }
 
 dependencies {
-  implementation 'com.amplifyframework:core:0.9.1'
-  implementation 'com.amplifyframework:aws-api:0.9.1'
+  implementation 'com.amplifyframework:core:0.10.0'
+  implementation 'com.amplifyframework:aws-api:0.10.0'
 }
 ```
 
