@@ -47,7 +47,7 @@ const getRoute = (
         return `/${pieces.join(path.sep)}`;
       }
     } catch (e) {
-      // console.log("\x1b[33m%s\x1b[0m", e.message.split("\n")[0]);
+      console.log("\x1b[33m%s\x1b[0m", e.message.split("\n")[0]);
     }
   }
   return "";
