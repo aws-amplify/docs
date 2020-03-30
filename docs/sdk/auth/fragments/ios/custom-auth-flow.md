@@ -18,7 +18,6 @@ To enable a custom authentication flow update your `awsconfiguration.json` file 
   },
   "Auth": {
     "Default": {
-      // Add CUSTOM Authentication Flow
       "authenticationFlowType": "CUSTOM_AUTH"
     }
   }

@@ -82,7 +82,7 @@ AWS credentials are used for signing requests to services that use AWS IAM, and 
 
 ### Offline Support
 
-AWSMobileClient is optimized to account for applications transitioning from offline to online connectivity. It will refresh credentials at the appropriate time so that errors do not occur when actions are while offline. In no cases will AWSMobileClient automatically sign out a user if connectivity is not available. You must always make an explicit `signOut()` call for a user to be signed out of a session. 
+AWSMobileClient is optimized to account for applications transitioning from offline to online connectivity. It will refresh credentials at the appropriate time so that errors do not occur when offline. In no cases will AWSMobileClient automatically sign out a user if connectivity is not available. You must always make an explicit `signOut()` call for a user to be signed out of a session. 
 
 > **Note**: Credentials are stored in the Xcode keychain. This is an encrypted container. This also means that even after an uninstall/re-install of the app, if a session is authenticated and credentials are present in the keychain, the user will then be automatically logged in (if they have not signed out).
 
