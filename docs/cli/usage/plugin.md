@@ -42,7 +42,7 @@ You can add a 3rd party plugin to the Amplify CLI with the following steps:
 
 The Amplify CLI has a pluggable architecture. The CLI core provides the pluggable platform, and most of the CLI category functions are implemented as plugins.
 
-![Image]({{media_base}}/plugin-platform.png)
+![Image](~/assets/plugin-platform.png)
 
 The Amplify CLI Core maintains a `plugins.json` file to store the plugin management configuration settings and information of all the installed plugins.  <br/>
 The Amplify CLI plugins each contains a `amplify-plugin.json` file to manifest itself as a valid plugin.  <br/>
@@ -64,7 +64,7 @@ By default, the CLI core searches for plugins in its parent directory, its local
 Plugins communicate with the CLI core and with each other through the project metadata. The CLI core provides the read and write access to the project metadata for the plugins. The project metadata is stored in file `amplify/backend/amplify-meta.json` in the user project.
 
 ## Plugin types
-![Image]({{media_base}}/AmplifyCliConcept.jpg)
+![Image](~/assets/AmplifyCliConcept.jpg)
 
 There are four types of plugins
 - category
