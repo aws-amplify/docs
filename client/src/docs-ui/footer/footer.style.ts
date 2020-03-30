@@ -1,5 +1,5 @@
-import { css } from "emotion";
-import { MQLaptop } from "../../amplify-ui/styles/media";
+import {css} from "emotion";
+import {MQLaptop} from "../../amplify-ui/styles/media";
 
 export const footerContainerStyle = css`
   background-color: var(--color-ink-hv);
