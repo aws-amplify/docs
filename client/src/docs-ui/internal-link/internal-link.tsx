@@ -32,6 +32,7 @@ export class DocsInternalLink {
   // @ts-ignore
   @Watch("selectedFilters")
   computeURL() {
+    console.log("computing ", this.selectedFilters);
     if (this.href) {
       const parsed = new Url(this.href, true);
       const {query, pathname, origin, hash} = parsed;
