@@ -1,10 +1,8 @@
 {
 	"title": "PubSub",
 	"items": [
-	  "overview",
 	  "getting-started",
-	  "subscribe",
-	  "unsubscribe",
+	  "subunsub",
 	  "publish"
 	]
   }

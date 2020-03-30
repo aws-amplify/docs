@@ -23,23 +23,31 @@ The AWSMobileClient manages your application session for authentication related 
 
 This allows you to write workflows in your application based on the state of the user and what you would like to present on different screens. The `AWSMobileClient` also offers realtime notifications on user state changes which you can register for in your application using `.addUserStateListener` as in the code below.
 
-```swift
-AWSMobileClient.default().addUserStateListener(self) { (userState, info) in
-            switch (userState) {
-            case .guest:
-                print("user is in guest mode.")
-            case .signedOut:
-                print("user signed out")
-            case .signedIn:
-                print("user is signed in.")
-            case .signedOutUserPoolsTokenInvalid:
-                print("need to login again.")
-            case .signedOutFederatedTokensInvalid:
-                print("user logged in via federation, but currently needs new tokens")
+```java
+AWSMobileClient.getInstance().addUserStateListener(new UserStateListener() {
+    @Override
+    public void onUserStateChanged(UserStateDetails userStateDetails) {
+        switch (userStateDetails.getUserState()){
+            case GUEST:
+                Log.i("AuthQuickStart", "user is in guest mode");
+                break;
+            case SIGNED_OUT:
+                Log.i("AuthQuickStart", "user is signed out");
+                break;
+            case SIGNED_IN:
+                Log.i("AuthQuickStart", "user is signed in");
+                break;
+            case SIGNED_OUT_USER_POOLS_TOKENS_INVALID:
+                Log.i("AuthQuickStart", "need to login again");
+                break;
+            case SIGNED_OUT_FEDERATED_TOKENS_INVALID:
+                Log.i("AuthQuickStart", "user logged in via federation, but currently needs new tokens");
+                break;
             default:
-                print("unsupported")
-            }
+                Log.e("AuthQuickStart", "unsupported");
         }
+    }
+});
 ```
 
 
@@ -51,23 +59,27 @@ The `AWSMobileClient` will return valid JWT tokens from your cache immediately i
 
 If the Refresh tokens have expired and you then make call to any AWS service, such as a AppSync GraphQL request or S3 upload, the `AWSMobileClient` will dispatch a state notification that a re-login is required. At this point you can choose to present the user with a login screen, call `AWSMobileClient.default().signIn()`, or perform custom business logic. For example:
 
-```swift
-AWSMobileClient.default().addUserStateListener(self) { (userState, info) in
-            
-            switch (userState) {
-            case .signedOut:
+```java
+AWSMobileClient.getInstance().addUserStateListener(new UserStateListener() {
+    @Override
+    public void onUserStateChanged(UserStateDetails userStateDetails) {
+        switch (userStateDetails.getUserState()) {
+            case SIGNED_OUT:
                 // user clicked signout button and signedout
-                print("user signed out")
-            case .signedOutUserPoolsTokenInvalid:
-                print("need to login again.")
-                AWSMobileClient.default().signIn(username: "username", password: "password", completionHandler: { (res, err) in
-                    //...
+                Log.i("AuthQuickStart", "user signed out");
+                break;
+            case SIGNED_OUT_USER_POOLS_TOKENS_INVALID:
+                Log.i("AuthQuickStart", "need to login again.");
+                AWSMobileClient.getInstance().signIn(username, password, null, new Callback<SignInResult>() {
+                    //... 
                 });
                 //Alternatively call .showSignIn()
+                break;
             default:
-                print("unsupported")
-            }
-}
+                Log.i("AuthQuickStart", "unsupported");
+        }
+    }
+});
 ```
 
 You can register to listen for this state change anywhere in your app with `.addUserStateListener`, such as in `viewDidLoad()` in the above example. If you want to cancel the re-login process, for instance if your application is shared among multiple users of the device or a user clicks "cancel" on the re-login attempt, you can call `releaseSignInWait()` to terminate the call and then call a `signOut()`.

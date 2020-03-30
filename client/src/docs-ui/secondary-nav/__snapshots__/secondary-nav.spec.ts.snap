@@ -1,22 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`docs-secondary-nav Render logic should render 1`] = `
-<docs-secondary-nav class="css-p1ocbg">
+<docs-secondary-nav class="css-1cydfer">
   <amplify-container>
-    <div class="css-gj5aw0">
+    <div class="css-16891c2">
       <div>
         <div>
-          <docs-internal-link childactiveclass="css-dmxdka" href="/start">
+          <docs-internal-link childactiveclass="css-pnqqcs" href="/start">
             <span>
               Getting Started
             </span>
           </docs-internal-link>
-          <docs-internal-link childactiveclass="css-dmxdka" href="/sdk">
+          <docs-internal-link childactiveclass="css-pnqqcs" href="/lib">
             <span>
               Libraries
             </span>
           </docs-internal-link>
-          <docs-internal-link childactiveclass="css-dmxdka" href="/cli">
+          <docs-internal-link childactiveclass="css-pnqqcs" href="/ui">
+            <span>
+              UI Components
+            </span>
+          </docs-internal-link>
+          <docs-internal-link childactiveclass="css-pnqqcs" href="/cli">
             <span>
               CLI
             </span>
@@ -28,7 +33,7 @@ exports[`docs-secondary-nav Render logic should render 1`] = `
           </amplify-external-link>
         </div>
       </div>
-      <div class="css-gw5aib">
+      <div class="css-1bbteyh">
         <div>
           <div>
             <input class="three-dee-effect" id="amplify-docs-search-input" placeholder="Search" type="search">

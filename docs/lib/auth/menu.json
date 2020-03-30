@@ -1,20 +1,19 @@
 {
   "title": "Authentication",
   "items": [
+		"getting-started",
     "overview",
     "start",
     "emailpassword",
-    "manageusers",
     "social",
     "social2",
     "mfa",
-    "events",
-    "migrate",
-    "challenge",
+    "manageusers",
+    "switch-auth",
     "customui",
-    
+    "advanced",
+
     "how-it-works",
-		"getting-started",
 		"guest-access",
 		"working-with-api",
 		"drop-in-auth",

@@ -1,21 +1,23 @@
-If you uploaded the data at key `myUploadedFileName.txt` like in the previous example, you can retrieve the data using `Amplify.Storage.downloadFile` - you can replace the call to `uploadFile` after `Amplify.configure` with a call to this method to try it out:
+To upload to S3 from a data object, specify the key and the data object to be uploaded. Call the below method after `Amplify.configure(...)`
 
 ```java
-  private void downloadFile() {
-      Amplify.Storage.downloadFile(
-              "myUploadedFileName.txt",
-              getApplicationContext().getFilesDir() + "/download.txt",
-              new ResultListener<StorageDownloadFileResult>() {
-                  @Override
-                  public void onResult(StorageDownloadFileResult result) {
-                      Log.i("StorageQuickStart", "Successfully downloaded: " + result.getFile().getName());
-                  }
+  private void uploadFile() {
+    File sampleFile = new File(getApplicationContext().getFilesDir(), "sample.txt");
+    try {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(sampleFile));
+        writer.append("Howdy World!");
+        writer.close();
+    }
+    catch(Exception exception) {
+        Log.e("StorageQuickstart", exception.getMessage(), exception);
+    }
 
-                  @Override
-                  public void onError(Throwable error) {
-                      Log.e("StorageQuickStart", error.getMessage());
-                  }
-              }
-      );
+    Amplify.Storage.uploadFile(
+        "myUploadedFileName.txt",
+        sampleFile.getAbsolutePath(),
+        result -> Log.i("StorageQuickStart", "Successfully uploaded: " + result.getKey()),
+        storageFailure -> Log.e("StorageQuickstart", "Upload error.", storageFailure)
+    );
   }
+
 ```

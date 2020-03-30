@@ -2,7 +2,7 @@
 
 exports[`docs-chat-button Render logic should render 1`] = `
 <docs-chat-button>
-  <amplify-external-link class="css-iyytpd" graphic="black" href="https://gitter.im/AWS-Amplify/Lobby">
+  <amplify-external-link class="css-awflgg" graphic="white" href="https://gitter.im/AWS-Amplify/Lobby">
     Open Chat
   </amplify-external-link>
 </docs-chat-button>
