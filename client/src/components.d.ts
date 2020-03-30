@@ -376,6 +376,10 @@ export namespace Components {
           * * component tag for documented component page
          */
         "tag": string;
+        /**
+          * * whether or not the table contains header tags
+         */
+        "useTableHeaders": boolean;
     }
 }
 declare global {
@@ -1068,6 +1072,10 @@ declare namespace LocalJSX {
           * * component tag for documented component page
          */
         "tag"?: string;
+        /**
+          * * whether or not the table contains header tags
+         */
+        "useTableHeaders"?: boolean;
     }
     interface IntrinsicElements {
         "amplify-callout": AmplifyCallout;
