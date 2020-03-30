@@ -1,5 +1,5 @@
-import {css} from "emotion";
-import {MQLaptop} from "../../amplify-ui/styles/media";
+import { css } from "emotion";
+import { MQLaptop } from "../../amplify-ui/styles/media";
 
 export const footerContainerStyle = css`
   background-color: var(--color-ink-hv);
@@ -75,6 +75,10 @@ export const legalStyle = css`
 export const socialLinkContainerStyle = css`
   display: flex;
   flex-direction: row;
+
+  amplify-external-link {
+    margin-left: 0.75rem;
+  }
 
   img {
     width: 1.5rem;
