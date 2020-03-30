@@ -91,7 +91,7 @@ export class DocsPage {
   componentWillUpdate() {
     if ((!this.data || this.data?.route !== location.pathname) && popped) {
       setPopped(false);
-      return this.getPage();
+      return this.getPageData();
     }
   }
 
@@ -102,10 +102,10 @@ export class DocsPage {
     });
 
     this.setSidebarStickyTop();
-    return this.getPage();
+    return this.getPageData();
   }
 
-  getPage = async () => {
+  getPageData = async () => {
     const {pathname} = location;
     this.blendUniversalNav = pathname === "/";
 
