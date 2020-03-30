@@ -15,6 +15,7 @@
     "@aws-amplify/analytics": "ui-preview",
     "@aws-amplify/auth": "ui-preview",
     "@aws-amplify/ui-components": "^0.1.1-ui-preview.39",
+    "@aws-amplify/xr": "ui-preview",
     "array-flatten": "^3.0.0",
     "copy-to-clipboard": "^3.2.1",
     "emotion": "^10.0.23",

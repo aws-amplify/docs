@@ -1,11 +1,7 @@
 import {Component, h, Prop, Host, State} from "@stencil/core";
 import docs from "@aws-amplify/ui-components/dist/docs";
 import {JsonDocsComponent} from "@stencil/core/internal";
-import {
-  tableStyle,
-  sectionHeaderStyle,
-  tableHeaderStyle,
-} from "./ui-component-props.style";
+import {tableStyle, tableHeaderStyle} from "./ui-component-props.style";
 
 @Component({tag: "ui-component-props", shadow: false})
 export class DocsUIComponentProps {
