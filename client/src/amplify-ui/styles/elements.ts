@@ -91,7 +91,6 @@ export const elementsStyle = css`
   h4 {
     font-size: 1rem;
     line-height: 1.375rem;
-    margin-bottom: 1rem;
   }
 
   h5 {
