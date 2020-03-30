@@ -1,64 +1,66 @@
-a. Initialize Amplify in your app's entry point, such as in the `onCreate` method of MainActivity:
+a. First, configure Amplify. A good place to do this is in the [`onCreate()`](https://developer.android.com/reference/android/app/Application#onCreate()) method of [Android's `Application` class](https://developer.android.com/reference/android/app/Application).
 
 ```java
 try {
     Amplify.addPlugin(new AWSApiPlugin());
     Amplify.configure(getApplicationContext());
-    Log.i("AmplifyGetStarted", "Amplify is all setup and ready to go!");
-} catch (AmplifyException exception) {
-    Log.e("AmplifyGetStarted", "Failed to initialize Amplify", exception);
+    Log.i("AmplifyGetStarted", "Amplify is ready for use!");
+} catch (AmplifyException configurationFailure) {
+    Log.e("AmplifyGetStarted", "Failed to configure Amplify", configurationFailure);
 }
 ```
 
-b. First add some data to your backend:
+b. Next, add some data to your backend:
 
 ```java
-Task task = Task.builder().title("My first task").description("Get started with Amplify").build();
-    Amplify.API.mutate(task,
-    MutationType.CREATE,
-    taskCreationResponse -> Log.i("AmplifyGetStarted", "Added task with id: " + taskCreationResponse.getData().getId()),
-    apiFailure -> Log.e("AmplifyGetStarted", apiFailure.getMessage(), apiFailure)
+Task task = Task.builder()
+    .title("My first task")
+    .description("Get started with Amplify")
+    .build();
+Amplify.API.mutate(task, MutationType.CREATE,
+    taskCreationResponse -> {
+        final String idOfCreatedTask = taskCreationResponse.getData().getId();
+        Log.i("AmplifyGetStarted", "Created task with id: " + idOfCreatedTask);
+    },
+    apiFailure -> Log.e("AmplifyGetStarted", "Failed to create a task.", apiFailure)
 );
 ```
 
-c. Next query the results from your API:
+c. Now, query your API. You should see the `task` you just created.
 
 ```java
 Amplify.API.query(Task.class,
     queryResults -> {
-        for(Task task : queryResults.getData()) {
-            Log.i("AmplifyGetStarted", task.getTitle());
+        for (Task task : queryResults.getData()) {
+            Log.i("AmplifyGetStarted", "Found a task with title = " + task.getTitle());
         }
     },
-    apiFailure -> Log.e("AmplifyGetStarted", apiFailure.getMessage(), apiFailure)
+    apiFailure -> Log.e("AmplifyGetStarted", "Failed to query for tasks.", apiFailure)
 );
 ```
 
-d. Finally, you can listen to the Subscription with a `StreamListener` using the `onNext` callback:
+d. Finally, you can receive notifications whenever a `Task` is created on the backend. To do so, start a new subscription:
 
 ```java
-Amplify.API.subscribe(Task.class,
-    SubscriptionType.ON_CREATE,
-    subscriptionId -> Log.i("AmplifyGetStarted", "Subscription established: "+subscriptionId),
-    taskCreated -> Log.i("AmplifyGetStarted", "Task created: "+taskCreated.getData().getTitle()),
-    apiFailure -> Log.e("AmplifyGetStarted", apiFailure.getMessage(), apiFailure),
+Amplify.API.subscribe(Task.class, SubscriptionType.ON_CREATE,
+    subscriptionId -> Log.i("AmplifyGetStarted", "Subscription established: " + subscriptionId),
+    taskCreated -> Log.i("AmplifyGetStarted", "Task created: " + taskCreated.getData().getTitle()),
+    apiFailure -> Log.e("AmplifyGetStarted", "Subscription failed.", apiFailure),
     () -> Log.i("AmplifyGetStarted", "Subscription completed.")
 );
 ```
 
 **Testing your API**
-You can open the AWS console for you to run Queries, Mutation, or Subscription against you new API at any time directly by running the following command:
+The web-based AWS AppSync Console provides an easy way to run Queries, Mutation, or Subscription against you new API. The following command will directly open the Console for your API. When you run GraphQL operations on the server, you should be able to observe changes in your app.
 
 ```terminal
 $ amplify console api
 > GraphQL               ##Select GraphQL
 ```
 
-This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
-
 ## Next Steps
 
-🎉 Congratulations! Your app is built, with a realtime backend using AWS AppSync.
+🎉 Congratulations! You have now built an app with a realtime backend.
 
 What next? Here are some things to add to your app:
 
@@ -70,7 +72,7 @@ What next? Here are some things to add to your app:
 
 **Existing AWS Resources**
 
-If you want to use your existing AWS resources with your app you will need to **manually configure** your app with an `amplifyconfiguration.json` file in your code.
+If you want to use your existing AWS resources with your app, you will need to **manually configure** your app by including relevant configurations into the `amplifyconfiguration.json` file.
 
 ```json
 {
