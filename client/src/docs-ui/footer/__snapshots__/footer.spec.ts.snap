@@ -36,7 +36,7 @@ exports[`docs-footer Render logic should render 1`] = `
         </div>
       </div>
       <div class="css-1aoccyr">
-        <div class="css-sx29cg">
+        <div class="css-y1qw85">
           <amplify-external-link anchortitle="Twitter" href="https://twitter.com/AWSAmplify">
             <img src="/assets/twitter.svg">
           </amplify-external-link>

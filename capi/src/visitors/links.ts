@@ -69,12 +69,22 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
       const isURLExternal = IS_URL_ABSOLUTE_REGEX.test(url);
 
       if (!isURLExternal) {
+        // in page links (hash-only url)
+        if (url.startsWith("#")) {
+          lexicalScope.update([
+            "docs-in-page-link",
+            {targetId: url.substr(1)},
+            ...children,
+          ]);
+          return;
+        }
+
         if (url.startsWith("..")) {
           const sub = url.substr(2);
           url = `${sub}${sub.startsWith("/") ? sub : `/${sub}`}`;
         }
 
-        if (!url.startsWith("~") && !url.startsWith("#")) {
+        if (!url.startsWith("~")) {
           url = `~${url.startsWith("/") ? "" : "/"}${url}`;
         }
 
@@ -83,15 +93,6 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
           !validLinkExtensions[url.split(".").pop() || ""]
         ) {
           url = `${url}.md`;
-        }
-
-        // in page links (hash-only url)
-        if (url.startsWith("#")) {
-          lexicalScope.update([
-            "docs-in-page-link",
-            {targetId: url.substr(1)},
-            ...children,
-          ]);
         }
       }
 
