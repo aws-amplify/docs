@@ -38,7 +38,6 @@ export class DocsChooseIntegrationAnchor {
                 <amplify-card
                   key={label}
                   vertical
-                  class="three-dee-effect"
                   onClick={this.createOnClick(route)}
                   url={route}
                 >
@@ -64,7 +63,6 @@ export class DocsChooseIntegrationAnchor {
                 <amplify-card
                   key={label}
                   vertical
-                  class="three-dee-effect"
                   onClick={this.createOnClick(route)}
                   url={route}
                 >

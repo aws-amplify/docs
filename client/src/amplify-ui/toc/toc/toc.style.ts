@@ -19,7 +19,8 @@ export const tocStyle = css`
     display: flex;
 
     a {
-      display: block;
+      display: flex;
+      flex: 1;
       padding-top: 0.25rem;
       padding-bottom: 0.25rem;
       padding-right: 1.5rem;
