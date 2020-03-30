@@ -4,7 +4,7 @@ AWS Amplify Storage module provides a simple mechanism for managing user content
 Amplify CLI helps you to create and configure the storage buckets for your app. The default implementation of the Storage module leverages [Amazon S3](https://aws.amazon.com/s3).
 
 ### Create your backend with Amplify CLI
-> Ensure you have [installed and configured the Amplify CLI and library](https://docs.amplify.aws/cli)
+> Ensure you have [installed and configured the Amplify CLI and library](~/cli/cli.md)
 
 To create a project with the Storage category, run the following command from the root of your project:
 
@@ -60,7 +60,7 @@ Amplify.configure({
 
 ```
 ## Mocking and Local Testing with Amplify CLI
-Amplify CLI supports running a lock mock server for testing your application with Amazon S3. Please see the [CLI toolchain documentation](https://docs.amplify.aws/cli/usage/mock) for more details.
+Amplify CLI supports running a lock mock server for testing your application with Amazon S3. Please see the [CLI toolchain documentation](~/cli/usage/mock.md) for more details.
 
 ## Using Amazon S3
 If you set up your Cognito resources manually, the roles will need to be given permission to access the S3 bucket.
@@ -227,7 +227,7 @@ The following steps will set up your CORS Policy:
 
 </amplify-callout>
 
-For information on Amazon S3 file access levels, please see [configure file access levels](https://docs.amplify.aws/lib/storage/configureaccess?platform=js).
+For information on Amazon S3 file access levels, please see [configure file access levels](~/lib/storage/configureaccess.md).
 
 ## Working with the API: Configure frontend
 
