@@ -15,43 +15,43 @@ amplify add api
 **Go to the AWS RDS console and click "Create database".**
 
 
-![Create cluster](~/assets/create-database.png)
+![Create cluster](~/images/create-database.png)
 
 
 **Select "Serverless" for the capacity type and fill in some information.**
 
 
-![Database details](~/assets/database-details.png)
+![Database details](~/images/database-details.png)
 
 
 **Click next and configure any advanced settings. Click "Create database"**
 
 
-![Database details](~/assets/configure-database.png)
+![Database details](~/images/configure-database.png)
 
 
 **After creating the database, wait for the "Modify" button to become clickable. When ready, click "Modify" and scroll down to enable the "Data API"**
 
 
-![Database details](~/assets/data-api.png)
+![Database details](~/images/data-api.png)
 
 
 **Click continue, verify the changes and apply them immediately. Click "Modify cluster"**
 
 
-![Database details](~/assets/modify-after-data-api.png)
+![Database details](~/images/modify-after-data-api.png)
 
 
 **Next click on "Query Editor" in the left nav bar and fill in connection information when prompted.**
 
 
-![Database details](~/assets/connect-to-db-from-queries.png)
+![Database details](~/images/connect-to-db-from-queries.png)
 
 
 **After connecting, create a database and some tables.**
 
 
-![Database details](~/assets/create-a-database-and-schema.png)
+![Database details](~/images/create-a-database-and-schema.png)
 
 ```sql
 CREATE DATABASE MarketPlace;
@@ -75,7 +75,7 @@ CREATE TABLE Orders (
 **Return to your command line and run `amplify api add-graphql-datasource` from the root of your amplify project.**
 
 
-![Add GraphQL Data Source](~/assets/add-graphql-datasource.png)
+![Add GraphQL Data Source](~/images/add-graphql-datasource.png)
 
 **Push your project to AWS with `amplify push`.**
 
@@ -103,7 +103,7 @@ mutation CreateCustomer {
 }
 ```
 
-![GraphQL Results](~/assets/graphql-results.png)
+![GraphQL Results](~/images/graphql-results.png)
 
 Then open the RDS console and run a simple select statement to see the new customer:
 
@@ -112,7 +112,7 @@ USE MarketPlace;
 SELECT * FROM Customers;
 ```
 
-![SQL Results](~/assets/sql-results.png)
+![SQL Results](~/images/sql-results.png)
 
 ### How does this work?
 
