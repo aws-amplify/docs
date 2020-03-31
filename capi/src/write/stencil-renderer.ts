@@ -28,14 +28,16 @@ export const createVNodeFromHyperscriptNode = (
   if (Array.isArray(node)) {
     const [tag, props, ...childHyperscriptNodes] = node;
     const childVNodes = createVNodesFromHyperscriptNodes(childHyperscriptNodes);
-    return createVNode(tag, props, ...childVNodes);
+    return createVNode(tag, props, ...(childVNodes || []));
   }
   return node;
 };
 
 export const createVNodesFromHyperscriptNodes = (
-  nodes: HyperscriptNode[],
-): HyperscriptResult[] => nodes.map(createVNodeFromHyperscriptNode);
+  nodes?: HyperscriptNode[],
+): HyperscriptResult[] | undefined =>
+  nodes && nodes.map(createVNodeFromHyperscriptNode);
+
 `,
     {
       encoding: "utf8",

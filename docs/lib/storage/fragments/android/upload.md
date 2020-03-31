@@ -8,24 +8,16 @@ To upload to S3 from a data object, specify the key and the data object to be up
         writer.append("Howdy World!");
         writer.close();
     }
-    catch(Exception e) {
-        Log.e("StorageQuickstart", e.getMessage());
+    catch(Exception exception) {
+        Log.e("StorageQuickstart", exception.getMessage(), exception);
     }
 
     Amplify.Storage.uploadFile(
-            "myUploadedFileName.txt",
-            sampleFile.getAbsolutePath(),
-            new ResultListener<StorageUploadFileResult>() {
-                @Override
-                public void onResult(StorageUploadFileResult result) {
-                   Log.i("StorageQuickStart", "Successfully uploaded: " + result.getKey());
-                }
-
-                @Override
-                public void onError(Throwable error) {
-                    Log.e("StorageQuickstart", "Upload error.", error);
-                }
-            }
+        "myUploadedFileName.txt",
+        sampleFile.getAbsolutePath(),
+        result -> Log.i("StorageQuickStart", "Successfully uploaded: " + result.getKey()),
+        storageFailure -> Log.e("StorageQuickstart", "Upload error.", storageFailure)
     );
   }
+
 ```

@@ -2,43 +2,21 @@ Subscribe to onCreate, onUpdate, and onDelete events.
 
 ```java
 private void onUpdateBlog(String blogId) {
-    // Start listening for update events on the Blog model
-    ApiOperation subscription = Amplify.API.subscribe(
-            Blog.class,
-            SubscriptionType.ON_UPDATE,
-            new StreamListener<GraphQLResponse<Blog>>() {
-                @Override
-                public void onNext(GraphQLResponse<Blog> response) {
-                    Log.i("ApiQuickStart", "Blog update subscription received: " + response.getData().getName());
-                }
-
-                @Override
-                public void onComplete() {
-                    Log.i("ApiQuickStart", "Blog onUpdate subscription complete");
-                }
-
-                @Override
-                public void onError(Throwable throwable) {
-                    Log.e("ApiQuickStart", throwable.getMessage());
-                }
-            }
+     // Start listening for update events on the Blog model
+    ApiOperation subscription = Amplify.API.subscribe(Blog.class,
+        SubscriptionType.ON_UPDATE,
+        suscriptionEstablished -> Log.i("ApiQuickStart", "Subscription established: "+suscriptionEstablished),
+        blogUpdated -> Log.i("ApiQuickStart", "Blog update subscription received: " + blogUpdated.getData().getName()),
+        apiFailure -> Log.e("ApiQuickStart", apiFailure.getMessage(), apiFailure),
+        () -> Log.i("ApiQuickStart", "Subscription completed.")
     );
 
     // Perform an update on whatever blog id was passed in here
     Amplify.API.mutate(
-            Blog.builder().name("New updated first blog").id(blogId).build(),
-            MutationType.UPDATE,
-            new ResultListener<GraphQLResponse<Blog>>() {
-                @Override
-                public void onResult(GraphQLResponse<Blog> tGraphQLResponse) {
-                    // Do nothing - watch it come in the subscription
-                }
-
-                @Override
-                public void onError(Throwable throwable) {
-                    Log.e("ApiQuickStart", throwable.getMessage());
-                }
-            }
+        Blog.builder().name("New updated first blog").id(blogId).build(),
+        MutationType.UPDATE,
+        blogUpdated -> Log.i("ApiQuickStart", "Blog updated"),
+        apiFailure -> Log.e("ApiQuickStart", apiFailure.getMessage(), apiFailure)
     );
 
     // Cancel the subscription listener when you're finished with it

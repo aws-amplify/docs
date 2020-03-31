@@ -44,7 +44,7 @@ Please tell us about your project
 ? Do you want to configure advanced settings for the GraphQL API `No, I am done.`
 ? Do you have an annotated GraphQL schema? `No`
 ? Do you want a guided schema creation? `Yes`
-? What best describes your project: `One-to-many relationship (e.g., “Blogs” with “Posts” and “Comments”)`
+? What best describes your project: `One-to-many relationship (e.g., "Blogs" with "Posts" and "Comments")`
 ? Do you want to edit the schema now? `No`
 ```
 
@@ -83,9 +83,9 @@ The example above creates a backend with the types in the schema. You can open t
 
 ```bash
 The following types do not have '@auth' enabled. Consider using @auth with @model
-	 - Blog
-	 - Post
-	 - Comment
+     - Blog
+     - Post
+     - Comment
 Learn more about @auth here: https://aws-amplify.github.io/docs/cli-toolchain/graphql#auth
 
 
@@ -119,8 +119,8 @@ android {
 }
 
 dependencies {
-  implementation 'com.amplifyframework:core:0.9.1'
-  implementation 'com.amplifyframework:aws-api:0.9.1'
+  implementation 'com.amplifyframework:core:0.10.0'
+  implementation 'com.amplifyframework:aws-api:0.10.0'
 }
 ```
 
@@ -168,23 +168,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-	AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
-	    @Override
-	    public void onResult(UserStateDetails userStateDetails) {
-		try {
-		    Amplify.addPlugin(new AWSApiPlugin());
-		    Amplify.configure(getApplicationContext());
-		    Log.i("ApiQuickstart", "All set and ready to go!");
-		} catch (Exception e) {
-		    Log.e("ApiQuickstart", e.getMessage());
-		}
-	    }
-
-	    @Override
-	    public void onError(Exception e) {
-		Log.e("ApiQuickstart", "Initialization error.", e);
-	    }
-	});
-    }	
+        AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+            @Override
+            public void onResult(UserStateDetails userStateDetails) {
+                try {
+                    Amplify.addPlugin(new AWSApiPlugin());
+                    Amplify.configure(getApplicationContext());
+                    Log.i("ApiQuickstart", "All set and ready to go!");
+                } catch (Exception exception) {
+                    Log.e("ApiQuickstart", exception.getMessage(), exception);
+                }
+            }
+            @Override
+            public void onError(Exception exception) {
+                Log.e("ApiQuickstart", "Initialization error.", exception);
+            }
+        });
+    }    
 }
 ```
