@@ -1,6 +1,6 @@
 When your backend is successfully updated there will be two newly created files: `amplifyconfiguration.json` and `awsconfiguration.json` in your project folder. The `amplifyconfiguration.json` is used for Amplify Library, while the `awsconfiguration.json` is used for the underlying AWS iOS SDK.
 
-## Install Amplify libraries
+## Install Amplify Libraries
 
 > iOS project targeting at least iOS 11.0
 
