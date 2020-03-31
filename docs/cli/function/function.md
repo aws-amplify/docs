@@ -14,7 +14,6 @@ $ amplify add function
 ❯ Hello world function
   CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB)
   Serverless express function (Integration with Amazon API Gateway)
-? 
 ```
 
 ## Function templates
