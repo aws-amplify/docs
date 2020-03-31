@@ -1,5 +1,15 @@
 import {css} from "emotion";
 
+export const activeSwitchStyle = css`
+  a {
+    background-color: var(--primary-color);
+  }
+  a > span {
+    color: var(--font-color-contrast);
+    font-weight: 600;
+  }
+`;
+
 export const switchStyle = css`
   margin-top: 1rem;
   display: flex;
@@ -17,9 +27,9 @@ export const switchStyle = css`
     stencil-route-link {
       &,
       & > a {
+        color: var(--font-color);
         display: flex;
         flex: 1;
-        color: var(--font-color);
         text-align: center;
         justify-content: center;
       }
@@ -29,24 +39,18 @@ export const switchStyle = css`
         flex: 1;
         flex-direction: column;
         align-items: center;
-        padding: 0.25rem;
+        padding: 0.5rem;
         border-radius: 0.25rem;
         line-height: 1.25rem;
 
         &:hover {
-          background-color: var(--color-grey-lt);
+          opacity: 0.8;
         }
 
-        span {
+        .subtitle {
           font-size: 0.875rem;
         }
       }
     }
-  }
-`;
-
-export const activeSwitchStyle = css`
-  a {
-    background-color: var(--bg-color-secondary);
   }
 `;
