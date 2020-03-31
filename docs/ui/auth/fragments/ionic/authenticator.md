@@ -1,31 +1,33 @@
-The simplest way to add authentication flows into your app is to use the Authenticator component.
-
 <amplify-authenticator></amplify-authenticator>
 
 ## Installation
 
 ```
-yarn add aws-amplify@ui-preview @aws-amplify/ui-react@ui-preview
+yarn add aws-amplify@ui-preview @aws-amplify/ui-angular@ui-preview
 ```
 
 ## Usage
 
+_app.module.ts_
+
 ```js
-import React from 'react';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
+
+import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
 import Amplify from 'aws-amplify';
-import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
 
-const App = () => {
-  <AmplifyAuthenticator>
-    <div>
-      My App
-      <AmplifySignOut />
-    </div>
-  </AmplifyAuthenticator>;
-};
+@NgModule({
+  declarations: [AppComponent],
+  imports: [AmplifyUIAngularModule, BrowserModule],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
 ```
 
 <ui-component-props tag="amplify-authenticator" use-table-headers></ui-component-props>

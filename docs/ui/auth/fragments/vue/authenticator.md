@@ -1,5 +1,3 @@
-The simplest way to add authentication flows into your app is to use the Authenticator component.
-
 <amplify-authenticator></amplify-authenticator>
 
 ## Installation
