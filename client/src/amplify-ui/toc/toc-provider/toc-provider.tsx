@@ -24,7 +24,7 @@ export class AmplifyTOCProvider {
 
   // @ts-ignore
   @Watch("content")
-  bindToContent() {
+  componentDidLoad() {
     this.setElements();
     if (this.observer) this.observer.disconnect();
     if (Build.isBrowser) {
