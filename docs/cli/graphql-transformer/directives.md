@@ -2323,4 +2323,227 @@ Each of the actions described in the @predictions definition section can be used
 - [`translateText` Supported Language Codes](https://docs.aws.amazon.com/translate/latest/dg/what-is.html#what-is-languages)
 - [`convertTextToSpeech` Supported Voice IDs](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html)
 
+## @http
+
+The `@http` directive allows you to quickly configure HTTP resolvers within your AWS AppSync API.
+
+### Definition
+
+```graphql
+directive @http(method: HttpMethod, url: String!, headers: [HttpHeader]) on FIELD_DEFINITION
+enum HttpMethod { PUT POST GET DELETE PATCH }
+input HttpHeader {
+  key: String
+  value: String
+}
+```
+
+### Usage
+
+The `@http` directive allows you to quickly connect HTTP or HTTPS endpoint to an AppSync API by creating an AWS AppSync HTTP resolver. To connect an AWS Lambda resolver, add the `@http` directive to a field in your `schema.graphql`. For example:
+
+```graphql
+type Query {
+  listPosts: Post @http(url: "https://www.example.com/posts")
+}
+```
+
+**Request Headers**
+
+The `@http` directive generates resolvers that can handle xml and json responses. If an HTTP method is not defined, `GET` is used by default. You can specify a list of static headers to be passed with the HTTP requests to your backend in your directive definition.
+
+```graphql
+type Query {
+  listPosts: Post @http(
+    url: "https://www.example.com/posts"
+    headers: [{key: "X-Header", value: "X-Header-Value"}]
+    )
+}
+```
+
+**Path Parameters**
+
+You can create dynamic paths by specifying params in the directive URL by using the special `:<param>` notation.
+
+Given the definition
+
+```graphql
+  getPost: Post @http(
+    url: "https://www.example.com/posts/:id"
+  )
+}
+```
+
+you can fetch a specific post
+
+```graphql
+query post {
+  getPost(params: {id: "POST_ID"}) {
+    id
+  }
+}
+```
+
+which will send
+
+```
+GET /posts/POST_ID
+Host: www.example.com
+``` 
+
+**Query String**
+
+You can send a query string with your request by specifying variables for your query.
+
+Given the definition
+
+```graphql
+type Query {
+  listPosts(sort: String!, from: String!, limit: Int!): Post @http(
+    url: "https://www.example.com/posts"
+    )
+```
+
+you can query for posts with
+
+```graphql
+query posts{
+  listPosts(query: {sort: "DESC", from: "last-week", limit: 5}) {
+    id
+    title
+    description
+  }
+}
+```
+
+which would send the following request:
+
+```
+GET /posts?sort=DESC&from=last-week&limit=5
+Host: www.example.com
+```
+
+**Request Body**
+
+The `@http` directive also allows you to specify the body of a request, which is used for `POST`, `PUT`, and `PATCH` requests. To create a new post, you can define the following.
+
+
+```graphql
+type Query {
+  addPost(title: String!, description: String!, views: Int): Post @http(
+    method: POST
+    url: "https://www.example.com/post"
+    )
+}
+```
+
+Then add a post by using the body input type:
+
+```graphql
+mutation add {
+  addPost(body: {title: "new post", description: "fresh content"}) {
+    id
+  }
+}
+```
+
+**Specifying the environment**
+
+The `@http` directive allows you to use `${env}` to reference the current Amplify CLI environment.
+
+```graphql
+type Query {
+  listPosts: Post @http(
+    url: "https://www.example.com/${env}/posts"
+  )
+}
+```
+
+**Combining the different components**
+
+You can use a combination of params, query, body, headers, and environments in your `@http` directive definition.
+
+Given the definition
+
+```graphql
+type Query {
+  updatePost(title: String!, description: String!, views: Int, withComments: Boolean): Post @http(
+    method: PUT
+    url: "https://www.example.com/${env}/posts/:id"
+    headers: [{key: "X-Header", value: "X-Header-Value"}]
+    )
+}
+```
+
+you can update a post with
+
+```graphql
+mutation update {
+  updatePost(
+    body: {title: "new title", description: "updated description", views: 100}
+    params: {id: "EXISTING_ID"}
+    query: {withComments: true}) {
+    id
+    title
+    description
+    comments {
+      id
+    }
+  }
+}
+```
+
+which will send
+
+```
+PUT /ENV/posts/EXISTING_ID?withComments=true
+Host: www.example.com
+X-Header: X-Header-Value
+{
+  title: "new title"
+  description: "updated description"
+  views: 100
+}
+```
+
+**Advanced cases**
+
+In some cases, you may want to send a request based on existing field data. Take a scenario where you have a post and want to fetch comments associated with the post in a single query. You can fetch the comments based on the post id with the following definition. `$ctx.source` is a map that contains the resolution of the parent field (`Post`) and gives access to `id`.
+
+
+```graphql
+type Post {
+  id: ID!
+  comments: [Comment] @http(
+    url: "https://www.example.com/posts/${ctx.source.id}/comments"
+    )
+}
+```
+
+You can retrieve the comments of a specific post with the following query and selection set.
+
+```graphql
+query post {
+  getPost(params: {id: "POST_ID"}) {
+    id
+    comments {
+      id
+      content
+    }
+  }
+}
+```
+
+Assuming that getPost retrieves a post with the id `POST_ID`, the comments field is resolved by sending this request to the endpoint
+
+```
+GET /posts/POST_ID/comments
+Host: www.example.com
+```
+
+Note that there is no check to ensure that the reference variable (here the post ID) exists. When using this technique, it is recommended to make sure the referenced field is non-null.
+
+### Generates
+
+The `@http` directive will create one HTTP datasource for each identified base URL. For example, if multiple HTTP resolvers are created that interact with the "https://www.example.com" endpoint, only a single datasource is created. Each directive generates one resolver. Depending on the definition, the appropriate `body`, `params`, and `query` input types are created.
 
