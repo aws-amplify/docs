@@ -1,3 +1,4 @@
+## Put
 The `Put` method uploads files into Amazon S3.
 
 It returns a `{key: S3 Object key}` object on success:
@@ -8,7 +9,7 @@ Storage.put('test.txt', 'Hello')
     .catch(err => console.log(err));
 ```
 
-## Public level
+### Public level
 
 ```javascript
 Storage.put('test.txt', 'Hello')
@@ -16,7 +17,7 @@ Storage.put('test.txt', 'Hello')
     .catch(err => console.log(err));
 ```
 
-## Protected level
+### Protected level
 
 ```javascript
 Storage.put('test.txt', 'Protected Content', {
@@ -27,7 +28,7 @@ Storage.put('test.txt', 'Protected Content', {
 .catch(err => console.log(err));
 ```
 
-## Private level
+### Private level
 
 ```javascript
 Storage.put('test.txt', 'Private Content', {
@@ -38,7 +39,7 @@ Storage.put('test.txt', 'Private Content', {
 .catch(err => console.log(err));
 ```
 
-## Monitor progress of upload
+### Monitor progress of upload
 
 To track the progress of your upload, you can use the ```progressCallback```: 
 
@@ -49,7 +50,7 @@ Storage.put('test.txt', 'File content', {
   },
 });
 ```
-## Encrypted uploads
+### Encrypted uploads
 
 To utilize Server-Side Encryption with AWS KMS, the following options can be passed in with the Put API like so:
 
@@ -80,6 +81,7 @@ Storage.put('test.txt', 'My Content', {
 ```
 
 ## Browser uploads
+Upload an image in the browser:
 
 ```javascript
 class S3ImageUpload extends React.Component {
@@ -96,7 +98,7 @@ class S3ImageUpload extends React.Component {
       return (
           <input
               type="file" accept='image/png'
-              onChange={(e) => this.onChange(e)}
+              onChange={(evt) => this.onChange(evt)}
           />
       )
   }
@@ -104,6 +106,7 @@ class S3ImageUpload extends React.Component {
 ```
 
 ## React Native uploads
+Upload an image in your React Native app:
 
 ```javascript
 uploadToStorage = async pathToImageFile => {
