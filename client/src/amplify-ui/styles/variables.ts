@@ -32,6 +32,7 @@ export const variablesStyle = css`
     --github-gray: #333;
     --youtube-red: #c4302b;
 
+    --primary-color: var(--color-orange-hv);
     --font-color: var(--color-ink-hv);
     --font-color-secondary: var(--color-grey-hv);
     --secondary-color: var(--color-ink-hv);
