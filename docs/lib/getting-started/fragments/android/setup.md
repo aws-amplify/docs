@@ -1,4 +1,4 @@
-Build an Android app using the Amplify Framework which contains:
+Build an Android app using the Amplify Framework. The Amplify Framework includes:
 
 - Amplify Tools - CLI toolchain for creating and managing your serverless backend.
 - Android, iOS, and JavaScript libraries to access your resources using a category based programming model.
@@ -6,7 +6,7 @@ Build an Android app using the Amplify Framework which contains:
 
 <br />
 
-This page guides you through setting up a backend and integration into your Android app. You will create a "Note app" with a GraphQL API to store and retrieve items in a cloud database, as well as receive updates over a realtime subscription.
+This page guides you through setting up a backend and integrating Amplify into your Android app. You will create a "Note app" with a GraphQL API to store and retrieve items in a cloud database. The app will also receive updates over a realtime subscription.
 
 [GraphQL](http://graphql.org) is a data language that was developed to enable apps to fetch data from APIs. It has a declarative, self-documenting style. In a GraphQL operation, the client specifies how to structure the data when it is returned by the server. This makes it possible for the client to query only for the data it needs, in the format that it needs it in.
 
@@ -16,24 +16,24 @@ This page guides you through setting up a backend and integration into your Andr
 
 * [Install Node](https://nodejs.org/en/)
 
-* [Install Android Studio](https://developer.android.com/studio/index.html#downloads) version 3.1 or higher.
+* [Install Android Studio](https://developer.android.com/studio/index.html#downloads) version 3.6 or higher.
 
 * [Install Android SDK with a minimum API level of 16 (Jelly Bean).](https://developer.android.com/studio/releases/platforms)
 
 * This guide assumes that you are familiar with Android development and tools. If you are new to Android development, you can follow [these steps](https://developer.android.com/training/basics/firstapp/creating-project) to create your first Android application using Java.
 
-* If you had previously installed Amplify CLI (< 4.5.0), update to the latest version by running:
+* Install the latest version of the Amplify CLI by running:
 
 ```terminal
 $ npm install -g @aws-amplify/cli
 ```
 
 ## Step 1: Configure your app
-You can use an existing Android app or create a new Android app in Java as per the steps in prerequisite section.
+You can use an existing Android app or create a new one by following [these steps](https://developer.android.com/training/basics/firstapp/creating-project).
 
 a. Open your **project** `build.gradle` and add the following:
 * `mavenCentral()` as a repository
-* `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.0'` as a dependency
+* `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'` as a dependency
 * A plugin `'com.amplifyframework.amplifytools'` as shown in the example below:
 
 ```gradle
@@ -42,7 +42,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath 'com.android.tools.build:gradle:3.6.1'
         classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'
     }
 }
@@ -50,25 +50,25 @@ buildscript {
 apply plugin: 'com.amplifyframework.amplifytools'
 ```
 
-b. Next, add the following dependencies to your **app** `build.gradle` and `compileOptions` to work with the Java 8 features used:
+b. Next, add the following dependencies to your **app** `build.gradle`. Note the declaration of `compileOptions`, to make use of Java 8 features like Lambda Expressions.
 
 ```gradle
 android {
-  compileOptions {
+    compileOptions {
         sourceCompatibility 1.8
         targetCompatibility 1.8
     }
 }
 
 dependencies {
-  implementation 'com.amplifyframework:core:0.10.0'
-  implementation 'com.amplifyframework:aws-api:0.10.0'
+    implementation 'com.amplifyframework:core:0.10.0'
+    implementation 'com.amplifyframework:aws-api:0.10.0'
 }
 ```
 
 c. Run 'Make Project'
 
-When the build is successful, it will add two gradle tasks to you project - `modelgen` and `amplifyPush` (these can be found in the dropdown menu which currently would display app if it's a new project, up where you would run your project)
+When the build is successful, it will add two Gradle tasks to you project - `modelgen` and `amplifyPush`. (In the Android Studio UI, these tasks can be found in the top bar, up where you would run your project. Look for a drop-down menu displaying the word "app", if it's a new project.)
 
 <amplify-callout warning>
 
