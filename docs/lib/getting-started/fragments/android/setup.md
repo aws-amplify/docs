@@ -22,14 +22,14 @@ This page guides you through setting up a backend and integrating Amplify into y
 
 * This guide assumes that you are familiar with Android development and tools. If you are new to Android development, you can follow [these steps](https://developer.android.com/training/basics/firstapp/creating-project) to create your first Android application using Java.
 
-* If you have previously installed Amplify CLI (< 4.5.0), update to the latest version by running:
+* Install the latest version of the Amplify CLI by running:
 
 ```terminal
 $ npm install -g @aws-amplify/cli
 ```
 
 ## Step 1: Configure your app
-You can use an existing Android app or create a new Android app in Java as per the steps in the [prerequisites section](#prerequisites).
+You can use an existing Android app or create a new one by following [these steps](https://developer.android.com/training/basics/firstapp/creating-project).
 
 a. Open your **project** `build.gradle` and add the following:
 * `mavenCentral()` as a repository
@@ -50,7 +50,7 @@ buildscript {
 apply plugin: 'com.amplifyframework.amplifytools'
 ```
 
-b. Next, add the following dependencies to your **app** `build.gradle`. Note the declaration of `compileOptions`, to make use of Java 8 features:
+b. Next, add the following dependencies to your **app** `build.gradle`. Note the declaration of `compileOptions`, to make use of Java 8 features like Lambda Expressions.
 
 ```gradle
 android {
