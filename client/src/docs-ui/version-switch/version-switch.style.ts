@@ -44,7 +44,7 @@ export const switchStyle = css`
         line-height: 1.25rem;
 
         &:hover {
-          opacity: 0.8;
+          opacity: 0.9;
         }
 
         .subtitle {
