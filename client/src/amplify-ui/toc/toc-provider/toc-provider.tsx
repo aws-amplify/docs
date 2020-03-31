@@ -20,11 +20,11 @@ export class AmplifyTOCProvider {
         this.content.querySelectorAll("h2, h3"),
       ).filter((e) => headingIsVisible(e)) as HTMLElement[];
     }
-  }
+  };
 
   // @ts-ignore
   @Watch("content")
-  componentDidLoad() {
+  bindToContent() {
     this.setElements();
     if (this.observer) this.observer.disconnect();
     if (Build.isBrowser) {
