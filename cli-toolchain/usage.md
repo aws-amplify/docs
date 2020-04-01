@@ -1,6 +1,6 @@
 ---
 title: Usage
-canonical: https://docs.amplify.aws/cli/usage/headless
+canonical: https://docs.amplify.aws/cli/start
 ---
 {% if jekyll.environment == 'production' %}
   {% assign base_dir = site.amplify.docs_baseurl %}
