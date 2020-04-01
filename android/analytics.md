@@ -1,3 +1,6 @@
+---
+canonical_url: https://docs.amplify.aws/lib/analytics/getting-started?platform=android
+---
 <br />
 
 **Note**
