@@ -1,7 +1,7 @@
 {
   "title": "API (REST)",
   "items": [
-    "start",
+    "getting-started",
     "fetch",
     "update",
     "authz"

@@ -16,8 +16,7 @@ Open the created  `Podfile` in a text editor and add the pod for core AWS Mobile
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSCore', '~> 2.12.0'
-    pod 'AWSAppSync', '~> 3.0.2'
+    pod 'AWSAppSync', '~> 3.1.0'
 
     # other pods
 end
@@ -34,11 +33,10 @@ Close your Xcode project and reopen it using `./YOUR-PROJECT-NAME.xcworkspace` f
 
 ## Step 2: Initialize your project
 
-In a terminal window, navigate to your project folder (the folder that contains your `xcodeproj` file), and run the following command (for this app, accepting all defaults is OK):
+In a terminal window, run the following command (for this app, accepting all defaults is OK) in your project folder (the folder that contains your `xcodeproj` file):
 
 ```bash
-$ cd ./YOUR_PROJECT_FOLDER
-$ amplify init        #accept defaults
+$ amplify init        # accept defaults
 ```
 
 The `awsconfiguration.json` configuration file should be created in the root directory. 

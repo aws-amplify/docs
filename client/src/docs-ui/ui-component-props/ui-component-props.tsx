@@ -17,42 +17,56 @@ export class DocsUIComponentProps {
   }
 
   render() {
+    const sectionId = `props-${this.component?.tag as string}`;
+    let count = 0;
+
     return (
       <Host>
-        <h2>Properties</h2>
-        {this.component?.props.map((prop) => (
-          <table class={tableStyle}>
-            <thead>
-              <tr>
-                <th colSpan={2}>
-                  <h3>{prop.name}</h3>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {prop.attr && (
+        <docs-in-page-link targetId={sectionId}>
+          <h2 id={sectionId}>Properties</h2>
+        </docs-in-page-link>
+        {this.component?.props.map((prop) => {
+          const groupId = `prop-${prop.attr || String(count)}`;
+          if (!prop.attr) {
+            count++;
+          }
+
+          return (
+            <table class={tableStyle} key={groupId}>
+              <thead>
                 <tr>
-                  <th>Attribute</th>
-                  <td>{prop.attr}</td>
+                  <th colSpan={2}>
+                    <docs-in-page-link targetId={groupId}>
+                      <h3 id={groupId}>{prop.name}</h3>
+                    </docs-in-page-link>
+                  </th>
                 </tr>
-              )}
-              <tr>
-                <th>Description</th>
-                <td>{prop.docs}</td>
-              </tr>
-              <tr>
-                <th>Type</th>
-                <td>{prop.type}</td>
-              </tr>
-              {prop.default && (
+              </thead>
+              <tbody>
+                {prop.attr && (
+                  <tr>
+                    <th>Attribute</th>
+                    <td>{prop.attr}</td>
+                  </tr>
+                )}
                 <tr>
-                  <th>Default</th>
-                  <td>{prop.default}</td>
+                  <th>Description</th>
+                  <td>{prop.docs}</td>
                 </tr>
-              )}
-            </tbody>
-          </table>
-        ))}
+                <tr>
+                  <th>Type</th>
+                  <td>{prop.type}</td>
+                </tr>
+                {prop.default && (
+                  <tr>
+                    <th>Default</th>
+                    <td>{prop.default}</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          );
+        })}
       </Host>
     );
   }

@@ -12,6 +12,15 @@ const linkTags = {
   "docs-in-page-link": true,
 };
 
+const validLinkExtensions = {
+  svg: true,
+  jpg: true,
+  jpeg: true,
+  png: true,
+  gif: true,
+  md: true,
+};
+
 const getRoute = (
   url: string,
   transformerProps: t.TransformerProps,
@@ -55,64 +64,84 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
       );
     }
 
-    const url = (props.href || props.url) as string;
+    let url = (props.href || props.url) as string;
     if (url) {
-      // in page links (hash-only url)
-      if (url.startsWith("#")) {
-        lexicalScope.update([
-          "docs-in-page-link",
-          {targetId: url.substr(1)},
-          ...children,
-        ]);
+      const isURLExternal = IS_URL_ABSOLUTE_REGEX.test(url);
+
+      if (!isURLExternal) {
+        // in page links (hash-only url)
+        if (url.startsWith("#")) {
+          lexicalScope.update([
+            "docs-in-page-link",
+            {targetId: url.substr(1)},
+            ...children,
+          ]);
+          return;
+        }
+
+        if (url.startsWith("..")) {
+          const sub = url.substr(2);
+          url = `${sub}${sub.startsWith("/") ? sub : `/${sub}`}`;
+        }
+
+        if (!url.startsWith("~")) {
+          url = `~${url.startsWith("/") ? "" : "/"}${url}`;
+        }
+
+        if (
+          !url.includes(".") ||
+          !validLinkExtensions[url.split(".").pop() || ""]
+        ) {
+          url = `${url}.md`;
+        }
       }
 
-      // others
-      else {
-        const isURLExternal = IS_URL_ABSOLUTE_REGEX.test(url);
-        const route = isURLExternal ? url : getRoute(url, transformerProps);
+      const route = isURLExternal ? url : getRoute(url, transformerProps);
 
-        let finalTagName = tagName;
-        const finalProps: Record<string, unknown> = {...props};
+      let finalTagName = tagName;
+      const finalProps: Record<string, unknown> = {...props};
 
-        switch (tagName) {
-          case "a": {
-            finalTagName = isURLExternal
-              ? "docs-external-link"
-              : "docs-internal-link";
-            finalProps.href = route;
-            break;
-          }
+      switch (tagName) {
+        case "a": {
+          finalTagName = isURLExternal
+            ? "amplify-external-link"
+            : "docs-internal-link";
+          finalProps.href = route;
+          break;
+        }
 
-          case "docs-card":
-          case "amplify-card": {
-            finalProps.url = route;
+        case "docs-card":
+        case "amplify-card": {
+          finalProps.url = route;
 
-            // to satisfy module redirect requirement
-            const urlOverrideForMobileFilter = props[
-              "url-override-for-mobile-filter"
-            ] as string | undefined;
-            const urlOverrideForMobileFilterIsExternal =
-              urlOverrideForMobileFilter &&
-              !IS_URL_ABSOLUTE_REGEX.test(urlOverrideForMobileFilter);
+          // to satisfy module redirect requirement
+          const urlOverrideForMobileFilter = props[
+            "url-override-for-mobile-filter"
+          ] as string | undefined;
+          if (urlOverrideForMobileFilter) {
+            const urlOverrideForMobileFilterIsExternal = IS_URL_ABSOLUTE_REGEX.test(
+              urlOverrideForMobileFilter,
+            );
             const routeOverrideForMobileFilter = urlOverrideForMobileFilterIsExternal
               ? urlOverrideForMobileFilter
-              : getRoute(url, transformerProps);
+              : getRoute(urlOverrideForMobileFilter, transformerProps);
             if (routeOverrideForMobileFilter) {
-              props[
+              finalProps[
                 "url-override-for-mobile-filter"
               ] = routeOverrideForMobileFilter;
             }
-            break;
           }
 
-          case "docs-internal-link-button": {
-            finalProps.href = route;
-            break;
-          }
+          break;
         }
 
-        lexicalScope.update([finalTagName, finalProps, ...children]);
+        case "docs-internal-link-button": {
+          finalProps.href = route;
+          break;
+        }
       }
+
+      lexicalScope.update([finalTagName, finalProps, ...children]);
     }
   }
 };

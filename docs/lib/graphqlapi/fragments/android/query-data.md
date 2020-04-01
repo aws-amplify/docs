@@ -5,23 +5,16 @@ Now that you were able to make a mutation, take the `Id` that was printed out fo
 ```java
 private void getBlog(String id) {
     Amplify.API.query(
-            Blog.class,
-            id,
-            new ResultListener<GraphQLResponse<Blog>>() {
-                @Override
-                public void onResult(GraphQLResponse<Blog> response) {
-                    Log.i("ApiQuickStart", "Got " + response.getData().getName());
+        Blog.class,
+        id,
+        queryResponse -> {
+            Log.i("ApiQuickStart", "Got " + queryResponse.getData().getName());
 
-                    for(Post post : response.getData().getPosts()) {
-                        Log.i("ApiQuickStart", "Post: " + post.getTitle());
-                    }
-                }
-
-                @Override
-                public void onError(Throwable throwable) {
-                    Log.e("ApiQuickStart", throwable.getMessage());
-                }
+            for (Post post : queryResponse.getData().getPosts()) {
+                Log.i("ApiQuickStart", "Post: " + post.getTitle());
             }
+        },
+        apiFailure -> Log.e("ApiQuickStart", apiFailure.getMessage(), apiFailure)
     );
 }
 ```
@@ -35,19 +28,12 @@ private void listBlogs() {
     Amplify.API.query(
         Blog.class,
         Blog.NAME.contains("first").and(Blog.NAME.ne("first day of kindergarten")),
-        new ResultListener<GraphQLResponse<Iterable<Blog>>>() {
-            @Override
-            public void onResult(GraphQLResponse<Iterable<Blog>> iterableGraphQLResponse) {
-                for(Blog blog : iterableGraphQLResponse.getData()) {
-                    Log.i("ApiQuickstart", "List result: " + blog.getName());
-                }
+        queryResponse -> {
+            for (Blog blog : queryResponse.getData()) {
+                Log.i("ApiQuickstart", "List result: " + blog.getName());
             }
-
-            @Override
-            public void onError(Throwable throwable) {
-                Log.e("ApiQuickStart", throwable.getMessage());
-            }
-        }
+        },
+        apiFailure -> Log.e("ApiQuickStart", apiFailure.getMessage(), apiFailure)
     );
 }
 ```
