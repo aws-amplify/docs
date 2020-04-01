@@ -1,5 +1,6 @@
 ---
 title: DataStore
+canonical_url: https://docs.amplify.aws/lib/datastore/getting-started?platform=ios
 ---
 {% if jekyll.environment == 'production' %}
   {% assign base_dir = site.amplify.docs_baseurl %}

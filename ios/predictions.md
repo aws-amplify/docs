@@ -1,3 +1,6 @@
+---
+canonical_url: https://docs.amplify.aws/lib/predictions/getting-started?platform=ios
+---
 <br />
 
 **Note**
