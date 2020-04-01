@@ -1,5 +1,5 @@
 ---
-canonical_url: https://docs.amplify.aws/start
+canonical: https://docs.amplify.aws/start
 ---
 
 # Getting Started

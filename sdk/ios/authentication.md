@@ -1,6 +1,6 @@
 ---
 title: Authentication
-canonical_url: https://docs.amplify.aws/sdk/auth/how-it-works?platform=ios
+canonical: https://docs.amplify.aws/sdk/auth/how-it-works?platform=ios
 ---
 
 {% if jekyll.environment == 'production' %}

@@ -1,5 +1,5 @@
 ---
-canonical_url: https://docs.amplify.aws/lib/pubsub/getting-started?platform=js 
+canonical: https://docs.amplify.aws/lib/pubsub/getting-started?platform=js 
 ---
 # PubSub
 

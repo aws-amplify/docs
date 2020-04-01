@@ -1,5 +1,5 @@
 ---
-canonical_url: https://docs.amplify.aws/lib/xr/getting-started?platform=js
+canonical: https://docs.amplify.aws/lib/xr/getting-started?platform=js
 ---
 
 # XR

@@ -1,5 +1,5 @@
 ---
-canonical_url: https://docs.amplify.aws/lib/utilities/cache?platform=js
+canonical: https://docs.amplify.aws/lib/utilities/cache?platform=js
 ---
 # Cache
 

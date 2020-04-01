@@ -1,5 +1,5 @@
 ---
-canonical_url: https://docs.amplify.aws/start?integration=react-native
+canonical: https://docs.amplify.aws/start?integration=react-native
 ---
 
 # React Native

@@ -1,5 +1,5 @@
 ---
-canonical_url: https://docs.amplify.aws/cli/auth/triggers
+canonical: https://docs.amplify.aws/cli/auth/triggers
 ---
 # Cognito Lambda Triggers
 

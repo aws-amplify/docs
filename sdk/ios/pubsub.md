@@ -1,6 +1,6 @@
 ---
 title: PubSub
-canonical_url: https://docs.amplify.aws/sdk/pubsub/getting-started?platform=ios
+canonical: https://docs.amplify.aws/sdk/pubsub/getting-started?platform=ios
 ---
 
 # PubSub

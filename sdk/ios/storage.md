@@ -1,6 +1,6 @@
 ---
 title: Storage
-canonical_url: https://docs.amplify.aws/sdk/storage/getting-started?platform=ios
+canonical: https://docs.amplify.aws/sdk/storage/getting-started?platform=ios
 ---
 
 <br />

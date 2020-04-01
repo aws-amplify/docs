@@ -1,6 +1,6 @@
 ---
 title: Getting Started
-canonical_url: https://docs.amplify.aws/lib/getting-started/setup?platform=ios
+canonical: https://docs.amplify.aws/lib/getting-started/setup?platform=ios
 ---
 
 <br />

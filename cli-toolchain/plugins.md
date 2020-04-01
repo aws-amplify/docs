@@ -1,6 +1,6 @@
 ---
 title: Plugins & Extensions
-canonical_url: https://docs.amplify.aws/cli/usage/plugin
+canonical: https://docs.amplify.aws/cli/usage/plugin
 ---
 {% if jekyll.environment == 'production' %}
   {% assign base_dir = site.amplify.docs_baseurl %}

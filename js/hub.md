@@ -1,5 +1,5 @@
 ---
-canonical_url: https://docs.amplify.aws/lib/utilities/hub?platform=js
+canonical: https://docs.amplify.aws/lib/utilities/hub?platform=js
 ---
 # Hub
 

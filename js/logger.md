@@ -1,5 +1,5 @@
 ---
-canonical_url: https://docs.amplify.aws/lib/utilities/logger?platform=js
+canonical: https://docs.amplify.aws/lib/utilities/logger?platform=js
 ---
 
 # Logger

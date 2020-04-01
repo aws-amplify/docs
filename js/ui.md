@@ -1,5 +1,5 @@
 ---
-canonical_url: https://docs.amplify.aws/ui?framework=react
+canonical: https://docs.amplify.aws/ui?framework=react
 ---
 
 # UI Components

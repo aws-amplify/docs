@@ -1,6 +1,6 @@
 ---
 title: Storage
-canonical_url: https://docs.amplify.aws/lib/storage/getting-started?platform=js
+canonical: https://docs.amplify.aws/lib/storage/getting-started?platform=js
 ---
 {% if jekyll.environment == 'production' %}
   {% assign base_dir = site.amplify.docs_baseurl %}

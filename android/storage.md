@@ -1,5 +1,5 @@
 ---
-canonical_url: https://docs.amplify.aws/lib/storage/getting-started?platform=android
+canonical: https://docs.amplify.aws/lib/storage/getting-started?platform=android
 ---
 <br />
 

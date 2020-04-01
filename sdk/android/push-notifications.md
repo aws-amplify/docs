@@ -1,6 +1,6 @@
 ---
 title: Push Notifications
-canonical_url: https://docs.amplify.aws/sdk/push-notifications/getting-started?platform=android
+canonical: https://docs.amplify.aws/sdk/push-notifications/getting-started?platform=android
 ---
 
 # Push Notifications

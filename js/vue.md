@@ -1,5 +1,5 @@
 ---
-canonical_url: https://docs.amplify.aws/start?integration=vue
+canonical: https://docs.amplify.aws/start?integration=vue
 ---
 
 # Vue 

@@ -1,5 +1,5 @@
 ---
-canonical_url: https://docs.amplify.aws/lib/analytics/getting-started?platform=ios
+canonical: https://docs.amplify.aws/lib/analytics/getting-started?platform=ios
 ---
 <br />
 
