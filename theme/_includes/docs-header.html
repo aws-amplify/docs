@@ -123,8 +123,8 @@
 							<div id="docs-select" class="dropdown">
 								<a class="dropbtn white-text" href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/">Docs</a>
 								<div class="dropdown-content">
-									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/ios/start"><p>iOS</p></a>
-									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/android/start"><p>Android</p></a>
+									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/sdk/ios/start"><p>iOS</p></a>
+									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/sdk/android/start"><p>Android</p></a>
 									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/js/start?platform=purejs"><p>JavaScript</p></a>
 									<a href="{% if jekyll.environment == 'production' %}{{ site.amplify.docs_baseurl }}{% endif %}/js/start?platform=react-native"><p>React Native</p></a>
 								</div>
@@ -156,6 +156,10 @@
 				{% endif %}
 				{% unless page.name contains "index.md" %}
 				<div id="docs-edit-bar" class="hidden-xs" style="padding-top:0.5em;padding-bottom:2.5em;font-size:80%;">
+					<a id="docs-link" target="_blank" href="#">
+						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/icons/Minis/Card.svg" style="height:16px;" />
+						<p><b>New docs (Preview)</b></p>
+					</a>
 					<a id="feedback-link" target="_blank" href="#">
 						<img src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/icons/Minis/outline-feedback-24px.svg" style="height:16px;" />
 						<p>Feedback</p>
@@ -195,10 +199,12 @@
 	
 	const feedback_url = "https://github.com/aws-amplify/docs/issues/new/choose";
 	const tweet_url = "https://twitter.com/intent/tweet?text=Get%20started%20with%20AWS%20Amplify%20at%20https://aws-amplify.github.io/docs/js/start";
+	const docs_preview_url = "https://docs.amplify.aws";
 	// const edit_url = "https://github.com/aws-amplify/docs/tree/master/";
 	document.getElementById("feedback-link").href = feedback_url;
 	document.getElementById("tweet-link").href = tweet_url;
 	document.getElementById("edit-link").href = edit_path;
+	document.getElementById("docs-link").href = docs_preview_url;
 </script>
 
 {% if jekyll.environment == 'production' %}

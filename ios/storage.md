@@ -1,8 +1,8 @@
 <br />
 
 **Note**
-Amplify iOS is in preview mode and not intended for production usage at this time. We welcome feedback to improve your experience in using Amplify iOS.
-[Click here](../sdk/ios/storage) to access the Storage category guide for iOS SDK 2.0 docs.
+This guide shows how to build an app using our Amplify Libraries for iOS (Preview) and the Amplify CLI toolchain.
+To use the existing AWS Mobile SDK for iOS instead, [click here.](../sdk/ios/storage)
 {: .callout .callout--warning}
 
 # Storage
@@ -73,7 +73,7 @@ If this is a new project, run `pod init` from the root of your application folde
 target :'YOUR-APP-NAME' do
 use_frameworks!
     pod 'AmplifyPlugins/AWSS3StoragePlugin'
-    pod 'AWSMobileClient', '~> 2.12.0'
+    pod 'AWSMobileClient', '~> 2.13.0'
 end
 ```
 

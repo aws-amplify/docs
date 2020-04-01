@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		{% include site-head.html %}
+        {% include site-head.html %}
+        {% include google-analytics.html %}
 	</head>
 	<body class="{{ site.amplify.color_theme }}">
         {% include docs-header.html %}
@@ -130,14 +131,14 @@
                                 </div> -->
                                 <div class="platform-container">
                                         <div class="platform-box">
-                                            <a href="https://aws-amplify.github.io/docs/ios/start?ref=amplify-iOS-btn">
+                                            <a href="https://aws-amplify.github.io/docs/sdk/ios/start?ref=amplify-iOS-btn">
                                                 <img class="circle-badge" src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Circle-Badge/Apple@1x.png" />
                                                 <p class="platform-title">iOS</p>
                                                 <button class="btn">Get Started</button>
                                             </a>
                                         </div>
                                         <div class="platform-box">
-                                            <a href="https://aws-amplify.github.io/docs/android/start?ref=amplify-android-btn">
+                                            <a href="https://aws-amplify.github.io/docs/sdk/android/start?ref=amplify-android-btn">
                                                 <img class="circle-badge" src="{% if jekyll.environment == 'production' %}{{ site.amplify.baseurl }}{% endif %}/images/Circle-Badge/Droid@1x.png" />
                                                 <p class="platform-title">Android</p>
                                                 <button class="btn">Get Started</button>
