@@ -1,5 +1,6 @@
 ---
 title: API
+canonical_url: https://docs.amplify.aws/sdk/api/graphql?platform=ios
 ---
 
 {% if jekyll.environment == 'production' %}
