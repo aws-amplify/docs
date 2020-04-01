@@ -15,6 +15,20 @@
 	*/
 
 (function(document, history, location) {
+	(function() {
+		var redirectsDictionary = {
+			"/js/start#step-1-create-a-new-app": "https://docs.amplify.aws/start?integration=ios"
+		};
+
+		var pathname = location.pathname;
+		var hash = location.hash;
+		var completePath = pathname + hash;
+
+		var redirectTo = redirectsDictionary[completePath];
+		if (redirectTo) {
+			location.replace(redirectTo);
+		}
+	})()
 	
 	$(function(){
 	    $("a").click(function(e) {
