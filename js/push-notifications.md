@@ -1,4 +1,5 @@
 ---
+canonical_url: https://docs.amplify.aws/lib/push-notifications/getting-started?platform=js 
 ---
 
 # Push Notifications

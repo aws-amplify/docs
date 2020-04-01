@@ -1,5 +1,6 @@
 ---
 title: Predictions
+canonical_url: https://docs.amplify.aws/lib/predictions/getting-started?platform=js
 ---
 {% if jekyll.environment == 'production' %}
   {% assign base_dir = site.amplify.docs_baseurl %}

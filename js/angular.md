@@ -1,4 +1,5 @@
 ---
+canonical_url: https://docs.amplify.aws/start?integration=angular
 ---
 
 # Angular

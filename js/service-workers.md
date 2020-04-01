@@ -1,4 +1,5 @@
 ---
+canonical_url: https://docs.amplify.aws/lib/utilities/serviceworker?platform=js
 ---
 # Service Workers
 

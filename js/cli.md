@@ -1,4 +1,5 @@
 ---
+canonical_url: https://docs.amplify.aws/cli
 ---
 # CLI
 
