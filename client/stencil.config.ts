@@ -65,10 +65,6 @@ export const config: Config = {
           dest: "browserconfig.xml",
         },
         {
-          src: "robots.txt",
-          dest: "robots.txt",
-        },
-        {
           src: "fonts",
         },
         {
