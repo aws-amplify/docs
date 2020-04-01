@@ -13,6 +13,9 @@ Open the `amplifyxc.config` in your project and set `push` to `true`. Then build
 If you do not already have a local AWS profile with credentials (automatically setup with the Amplify CLI) you will be prompted to do this on the first push.
 
 ## Use Amplify CLI
+
+To sync your changes with the cloud using the Amplify CLI, run the following command from the root of your project.
+
 ```
 amplify push
 ```
