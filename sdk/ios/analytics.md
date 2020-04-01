@@ -1,5 +1,6 @@
 ---
 title: Analytics
+canonical_url: https://docs.amplify.aws/sdk/analytics/getting-started?platform=ios
 ---
 
 {% if jekyll.environment == 'production' %}
