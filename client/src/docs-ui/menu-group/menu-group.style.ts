@@ -14,7 +14,6 @@ export const menuGroupHeaderStyle = css`
 
   h4 {
     cursor: pointer;
-    margin-bottom: 0;
   }
 
   &:hover {

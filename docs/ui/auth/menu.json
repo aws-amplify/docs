@@ -1,6 +1,7 @@
 {
     "title": "Authentication",
     "items": [
-        "authenticator"
+        "authenticator",
+        "sign-out"
     ]
 }

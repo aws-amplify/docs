@@ -32,7 +32,11 @@ export class AppModule {}
 
 <ui-component-props tag="amplify-authenticator" use-table-headers></ui-component-props>
 
-## Slots
+## Customization
+
+### Slots
+
+Amplify UI Components use `slots` based off of the [Web Components slot element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/slot) which allow developers to customize and compose the components inside of the Authenticator's state machine.
 
 | Name                     | Description                                                                                                            |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
@@ -46,61 +50,184 @@ export class AppModule {}
 | `totp-setup`           | Content placed inside of the totp-setup workflow for when a user opts to use TOTP MFA                                  |
 | `greetings`            | Content placed inside of the greetings navigation for when a user is signed in                                         |
 
-## Sub Components
+## Components
 
 ### Sign In
 
-<amplify-sign-in></amplify-sign-in>
+<amplify-sign-in header-text="My Custom Sign In Text"></amplify-sign-in>
+
+**Usage**
+
+```html
+<amplify-authenticator>
+  <amplify-sign-in header-text="My Custom Sign In Text" slot="sign-in"></amplify-sign-in>
+
+  <div>
+    My App
+    <amplify-sign-out></amplify-sign-out>
+  </div>
+</amplify-authenticator>
+```
 
 <ui-component-props tag="amplify-sign-in"></ui-component-props>
 
 ### Sign Up
 
-<amplify-sign-up></amplify-sign-up>
+<amplify-sign-up header-text="My Custom Sign Up Text"></amplify-sign-up>
+
+**Usage**
+
+```html
+<amplify-authenticator>
+  <amplify-sign-up header-text="My Custom Sign Up Text" slot="sign-up"></amplify-sign-up>
+
+  <div>
+    My App
+    <amplify-sign-out></amplify-sign-out>
+  </div>
+</amplify-authenticator>
+```
 
 <ui-component-props tag="amplify-sign-up"></ui-component-props>
 
 ### Sign Out
 
-<amplify-sign-out></amplify-sign-out>
+<amplify-sign-out button-text="Custom Text"></amplify-sign-out>
+
+**Usage**
+
+```html
+<amplify-authenticator>
+  <div>
+    My App
+    <amplify-sign-out button-text="Custom Text"></amplify-sign-out>
+  </div>
+</amplify-authenticator>
+```
 
 <ui-component-props tag="amplify-sign-out"></ui-component-props>
 
 ### Confirm Sign In
 
-<amplify-confirm-sign-in></amplify-confirm-sign-in>
+<amplify-confirm-sign-in header-text="My Custom Confirm Sign In Text"></amplify-confirm-sign-in>
+
+**Usage**
+
+```html
+<amplify-authenticator>
+  <amplify-confirm-sign-in header-text="My Custom Confirm Sign In Text" slot="confirm-sign-in"></amplify-confirm-sign-in>
+
+  <div>
+    My App
+    <amplify-sign-out></amplify-sign-out>
+  </div>
+</amplify-authenticator>
+```
 
 <ui-component-props tag="amplify-confirm-sign-in"></ui-component-props>
 
 ### Confirm Sign Up
 
-<amplify-confirm-sign-up></amplify-confirm-sign-up>
+<amplify-confirm-sign-up header-text="My Custom Confirm Sign Up Text"></amplify-confirm-sign-up>
+
+**Usage**
+
+```html
+<amplify-authenticator>
+  <amplify-confirm-sign-up header-text="My Custom Confirm Sign Up Text" slot="confirm-sign-up"></amplify-confirm-sign-up>
+
+  <div>
+    My App
+    <amplify-sign-out></amplify-sign-out>
+  </div>
+</amplify-authenticator>
+```
 
 <ui-component-props tag="amplify-confirm-sign-up"></ui-component-props>
 
 ### Forgot Password
 
-<amplify-forgot-password></amplify-forgot-password>
+<amplify-forgot-password header-text="My Custom Forgot Password Text"></amplify-forgot-password>
+
+**Usage**
+
+```html
+<amplify-authenticator>
+  <amplify-forgot-password header-text="My Custom Forgot Password Text" slot="forgot-password"></amplify-forgot-password>
+
+  <div>
+    My App
+    <amplify-sign-out></amplify-sign-out>
+  </div>
+</amplify-authenticator>
+```
 
 <ui-component-props tag="amplify-forgot-password"></ui-component-props>
 
 ### Require New Password
 
-<amplify-require-new-password></amplify-require-new-password>
+<amplify-require-new-password header-text="My Custom Require New Password Text"></amplify-require-new-password>
+
+**Usage**
+
+```html
+<amplify-authenticator>
+  <amplify-require-new-password header-text="My Custom Require New Password Text" slot="require-new-password"></amplify-require-new-password>
+
+  <div>
+    My App
+    <amplify-sign-out></amplify-sign-out>
+  </div>
+</amplify-authenticator>
+```
 
 <ui-component-props tag="amplify-require-new-password"></ui-component-props>
 
 ### TOTP Setup
 
+**Usage**
+
+```html
+<amplify-authenticator>
+  <amplify-totp-setup header-text="My Custom TOTP Setup Text" slot="totp-setup"></amplify-totp-setup>
+
+  <div>
+    My App
+    <amplify-sign-out></amplify-sign-out>
+  </div>
+</amplify-authenticator>
+```
+
 <ui-component-props tag="amplify-totp-setup"></ui-component-props>
 
 ### Verify Contact
+
+```html
+<amplify-authenticator>
+  <amplify-verify-contact header-text="My Custom Verify Contact Text" slot="verify-contact"></amplify-verify-contact>
+
+  <div>
+    My App
+    <amplify-sign-out></amplify-sign-out>
+  </div>
+</amplify-authenticator>
+```
 
 <ui-component-props tag="amplify-verify-contact"></ui-component-props>
 
 ### Greetings
 
-<amplify-greetings></amplify-greetings>
+<amplify-greetings ></amplify-greetings>
+
+**Usage**
+
+```html
+<amplify-authenticator>
+  <div>
+    <amplify-greetings></amplify-greetings>
+    My App
+  </div>
+</amplify-authenticator>
+```
 
 <ui-component-props tag="amplify-greetings"></ui-component-props>
-
