@@ -1,9 +1,9 @@
-- [Authentication](~/lib/auth/overview.md)
-- [User File Storage](~/lib/storage/start.md)
-- [Serverless APIs](~/lib/graphqlapi/overview.md)
-- [Analytics](~/lib/analytics/start.md)
-- [Push Notification](~/lib/push-notifications/overview.md)
-- [PubSub](~/lib/pubsub/overview.md)
+- [Authentication](~/sdk/auth/how-it-works.md)
+- [User File Storage](~/sdk/storage/getting-started.md)
+- [Serverless APIs](~/sdk/api/graphql.md)
+- [Analytics](~/sdk/analytics/getting-started.md)
+- [Push Notification](~/sdk/push-notifications/getting-started.md)
+- [PubSub](~/sdk/pubsub/getting-started.md)
 
 ## Existing AWS Resources
 

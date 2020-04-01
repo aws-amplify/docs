@@ -19,7 +19,7 @@ For more information about Amazon Kinesis Firehose, see [Amazon Kinesis Firehose
 Add the following to your `Podfile`:
 
 ```ruby
-pod 'AWSKinesis', '~> 2.12.0'
+pod 'AWSKinesis'
 ```
 
 The instructions direct you to import the headers for the services you'll be using. For this example, you need the following import.

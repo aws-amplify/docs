@@ -19,7 +19,7 @@ disableLinkification: true
   class="background-color-off-white"
   inner-class="padding-top-lg padding-bottom-lg padding-horizontal-md">
   <amplify-responsive-grid class="margin-top-lg">
-    <docs-card url="~/lib/lib.md" class="three-dee-effect border-radius">
+    <docs-card url="~/lib/lib.md" class="border-radius">
       <img slot="graphic" src="~/assets/lib.png" />
       <h4 slot="heading">Amplify Libraries</h4>
       <p slot="description">
@@ -27,14 +27,14 @@ disableLinkification: true
         cloud-powered functionality.
       </p>
     </docs-card>
-    <docs-card url="~/cli/cli.md" class="three-dee-effect border-radius">
+    <docs-card url="~/cli/cli.md" class="border-radius">
       <img slot="graphic" src="~/assets/cli.png" />
       <h4 slot="heading">Amplify CLI</h4>
       <p slot="description">
         An open source interactive toolchain to create and manage a backend for your apps.
       </p>
     </docs-card>
-    <docs-card external url="https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html" class="three-dee-effect border-radius" container-tag="amplify-external-link">
+    <docs-card external url="https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html" class="border-radius" container-tag="amplify-external-link">
       <img slot="graphic" src="~/assets/console.png" />
       <h4 slot="heading">Amplify Console</h4>
       <p slot="description">
