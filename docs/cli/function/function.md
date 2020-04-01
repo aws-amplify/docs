@@ -55,7 +55,7 @@ Amplify CLI enables you to create, test and deploy Lambda functions with the fol
 |Runtime|Supported Version|Requirements|
 |-------|-----------------|------------|
 |NodeJS |10.x|- Install [NodeJS](https://nodejs.org/en/)|
-|Java   |11|- Install [Java 11 JDK](https://www.oracle.com/java/technologies/javase-downloads.html) and [Gradle 5+](https://gradle.org/install/)|
+|Java   |11|- Install [Java 11 JDK](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html) and [Gradle 5+](https://docs.gradle.org/current/userguide/installation.html)|
 |Go     |1.x|- Install [Go](https://golang.org/doc/install)|
 |.NET Core|3.1|- Install [.NET Core SDK](https://docs.microsoft.com/en-us/dotnet/core/install/sdk)|
 |Python |3.8.x|- Install [python3](https://www.python.org/downloads/) and [pipenv](https://pypi.org/project/pipenv/)|
