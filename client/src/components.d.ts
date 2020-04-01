@@ -236,6 +236,10 @@ export namespace Components {
          */
         "activeClass"?: string;
         /**
+          * * override `isChildActive` to true
+         */
+        "additionalActiveChildRoots"?: string[];
+        /**
           * * class name to attach a subpage is active
          */
         "childActiveClass"?: string;
@@ -326,7 +330,7 @@ export namespace Components {
         /**
           * * the current filter state
          */
-        "selectedFilters": SelectedFilters;
+        "selectedFilters"?: SelectedFilters;
     }
     interface DocsSelectAnchor {
         /**
@@ -927,6 +931,10 @@ declare namespace LocalJSX {
           * * class name to attach to link when active
          */
         "activeClass"?: string;
+        /**
+          * * override `isChildActive` to true
+         */
+        "additionalActiveChildRoots"?: string[];
         /**
           * * class name to attach a subpage is active
          */

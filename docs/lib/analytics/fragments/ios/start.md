@@ -17,6 +17,7 @@ If this is a new project, run `pod init` to create the `Podfile` to use CocoaPod
 Close out of the existing Xcode project if you have it open.
 
 Install the dependencies via CocoaPods
+
 ```ruby
 $ pod install --repo-update
 ```

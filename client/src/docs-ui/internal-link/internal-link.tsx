@@ -22,6 +22,8 @@ export class DocsInternalLink {
   @Prop() readonly activeClass?: string;
   /*** class name to attach a subpage is active */
   @Prop() readonly childActiveClass?: string;
+  /*** override `isChildActive` to true */
+  @Prop() readonly additionalActiveChildRoots?: string[];
 
   @State() url?: string;
   @State() isActive?: boolean;
@@ -32,7 +34,7 @@ export class DocsInternalLink {
   computeURL() {
     if (this.href) {
       const parsed = new Url(this.href, true);
-      const {query, pathname, origin} = parsed;
+      const {query, pathname, origin, hash} = parsed;
 
       if (Object.keys(query).length === 0) {
         const filters = filtersByRoute.get(pathname);
@@ -47,6 +49,7 @@ export class DocsInternalLink {
             filterValues.includes(selectedFilterValue)
           ) {
             parsed.set("query", {[filterKey]: selectedFilterValue});
+            parsed.set("hash", hash);
           }
         }
       }
@@ -67,11 +70,15 @@ export class DocsInternalLink {
       this.isActive = this.currentPath === this.url;
       const currentPathWithoutQS = this.currentPath?.split("?")?.[0];
       const hrefWithoutQS = this.href?.split("?")?.[0];
-      this.isChildActive = !!(
-        hrefWithoutQS &&
-        currentPathWithoutQS?.startsWith(hrefWithoutQS) &&
-        !currentPathWithoutQS?.startsWith(`${hrefWithoutQS}-`)
-      );
+      this.isChildActive =
+        this.additionalActiveChildRoots?.some((root) =>
+          this.currentPath?.startsWith(root),
+        ) ||
+        !!(
+          hrefWithoutQS &&
+          currentPathWithoutQS?.startsWith(hrefWithoutQS) &&
+          !currentPathWithoutQS?.startsWith(`${hrefWithoutQS}-`)
+        );
     }
   }
 
