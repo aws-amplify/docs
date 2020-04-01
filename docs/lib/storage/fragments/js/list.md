@@ -8,7 +8,7 @@ Storage.list('photos/')
     .catch(err => console.log(err));
 ```
 
-# Protected level list
+## Protected level list
 
 To list current user's objects
 ```javascript
@@ -27,10 +27,10 @@ Storage.list('photos/', {
 .catch(err => console.log(err));
 ```
 
-# Private level list
+## Private level list
 
 ```javascript
-Storage.list('photos/', {level: 'private'})
+Storage.list('photos/', { level: 'private' })
     .then(result => console.log(result))
     .catch(err => console.log(err));
 ```

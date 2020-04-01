@@ -1,14 +1,16 @@
-- [Authentication](../../lib/auth/overview.md)
-- [DataStore](../../lib/datastore/intro.md)
-- [User File Storage](../../lib/storage/start.md)
-- [Serverless APIs](../../lib/graphqlapi/start.md)
-- [Analytics](../../lib/analytics/start.md)
-- [AI/ML](../../lib/predictions/intro.md) 
-- [Push Notification](../../lib/push-notifications/overview.md)
-- [PubSub](../../lib/pubsub/overview.md)
-- [AR/VR](../../lib/xr/start.md)
+- [Authentication](~/lib/auth/getting-started.md)
+- [DataStore](~/lib/datastore/getting-started.md)
+- [User File Storage](~/lib/storage/getting-started.md)
+- [Serverless APIs](~/lib/graphqlapi/getting-started.md)
+- [Analytics](~/lib/analytics/getting-started.md)
+- [AI/ML](~/lib/predictions/getting-started.md) 
+- [Push Notification](~/lib/push-notifications/getting-started.md)
+- [PubSub](~/lib/pubsub/getting-started.md)
+- [AR/VR](~/lib/xr/getting-started.md)
 
-Learn more about Angular framework support.
+<br>
+
+In addition, please review the resources below regarding Angular framework support.
 
 ## Importing the Amplify Angular Module and the Amplify Provider
 

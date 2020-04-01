@@ -1,10 +1,13 @@
-> Prerequisite: [Install and configure](/link) the Amplify CLI
+> Prerequisite: [Install and configure](~/cli/start/install.md) the Amplify CLI
 
 ## Authentication with Amplify
 
 The Amplify Framework uses [Amazon Cognito](https://aws.amazon.com/cognito/) as the main authentication provider. Amazon Cognito is a robust user directory service that handles user registration, authentication, account recovery & other operations. In this tutorial, you'll learn how to add authentication to your application using Amazon Cognito and username/password login.
 
 ## Create authentication service
+To start from a scratch, run the following command in your project's root folder:
+
+> If you want to re-use an existing authentication resource from AWS (e.g. Amazon Cognito UserPool or Identity Pool) refer to [this section](~/lib/auth/start.md#re-use-existing-authentication-resource).
 
 ```sh
 amplify add auth
@@ -139,4 +142,6 @@ You can also customize this component to add or remove fields, update styling, o
 
 In addition to the `withAuthenticator` you can build custom authentication flows using the `Auth` class.
 
-`Auth` has over 30 methods including [`signUp`](auth/emailpassword?platform=js#sign-up), [`signIn`](auth/emailpassword?platform=js#sign-in), [`forgotPasword`](auth/manageusers?platform=js#forgot-password), and [`signOut`](auth/emailpassword?platform=js#sign-out) that allow you full control over all aspects of the user authentication flow. Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).
+`Auth` has over 30 methods including [`signUp`](~/lib/auth/emailpassword.md#sign-up), [`signIn`](~/lib/auth/emailpassword.md#sign-in), [`forgotPasword`](~/lib/auth/manageusers.md#forgot-password), and [`signOut`](~/lib/auth/emailpassword.md#sign-out) that allow you full control over all aspects of the user authentication flow.
+
+Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).

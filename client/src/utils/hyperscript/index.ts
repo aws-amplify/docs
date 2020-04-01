@@ -31,4 +31,4 @@ export const createVNodeFromHyperscriptNode = (
 
 export const createVNodesFromHyperscriptNodes = (
   nodes: HyperscriptNode[],
-): HyperscriptResult[] => nodes.map(createVNodeFromHyperscriptNode);
+): HyperscriptResult[] => nodes && nodes.map(createVNodeFromHyperscriptNode);
