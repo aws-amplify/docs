@@ -1,3 +1,6 @@
+---
+canonical_url: https://docs.amplify.aws/cli/auth/triggers
+---
 # Cognito Lambda Triggers
 
 Certain AWS Services can [invoke Lambda functions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-services.html) in response to lifecycle events. The Amplify CLI provides trigger templates for common use cases.
