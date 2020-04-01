@@ -21,6 +21,10 @@ Modeling your data and *generating models* which are used by DataStore is the fi
 ## Using NPX
 
 The fastest way to get started is using the `amplify-app` npx script. 
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/wH-UnQy1ltM">
+</iframe>
+
 ### For Web:   
 Such as with [Create React app](https://create-react-app.dev):
 
