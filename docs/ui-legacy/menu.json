@@ -2,6 +2,9 @@
     "title": "UI Components",
     "items": [
         "auth",
-        "customization"
+        "api",
+        "storage",
+        "interactions",
+        "xr"
     ]
 }

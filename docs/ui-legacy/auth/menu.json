@@ -1,16 +1,7 @@
 {
     "title": "Authentication",
     "items": [
-        "authenticator",
-        "sign-in",
-        "sign-up",
-        "sign-out",
-        "confirm-sign-in",
-        "confirm-sign-up",
-        "forgot-password",
-        "require-new-password",
-        "verify-contact",
-        "totp-setup",
-        "greetings"
+        "overview",
+        "authenticator"
     ]
 }

@@ -5,6 +5,8 @@ disableTOC: true
 filterKey: framework
 ---
 
+TODO: Check the contents here for Legacy. Keeping the landing page for now as is for latest.
+
 Amplify UI Components is an open-source UI toolkit that encapsulates cloud-connected workflows inside of cross-framework UI components.
 
 <inline-fragment framework="react" src="~/ui/fragments/react/installation.md"></inline-fragment>
