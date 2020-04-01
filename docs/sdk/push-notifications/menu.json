@@ -1,7 +1,8 @@
 {
-	"title": "Push notifications",
-	"items": [
-		"getting-started",
-		"messaging-campaign"
-    ]
+  "title": "Push notifications",
+  "items": [
+    "getting-started",
+    "messaging-campaign",
+    "setup-push-service"
+  ]
 }
