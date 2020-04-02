@@ -22,6 +22,8 @@ import {track, AnalyticsEventType} from "../../utils/track";
 import {Breakpoint} from "../../amplify-ui/styles/media";
 import {getPage} from "../../cache";
 import {popped, setPopped} from "../../utils/pop-state";
+import {headingIsVisible} from "../../utils/heading-is-visible";
+import {getElementTop} from "../../utils/get-element-top";
 
 @Component({tag: "docs-page", shadow: false})
 export class DocsPage {
@@ -103,6 +105,19 @@ export class DocsPage {
 
     this.setSidebarStickyTop();
     return this.getPageData();
+  }
+
+  componentDidLoad() {
+    const {hash} = location;
+    if (hash) {
+      const targets = Array.from(document.querySelectorAll(hash)).filter((e) =>
+        headingIsVisible(e),
+      ) as HTMLElement[];
+      if (targets[0]) {
+        const top = getElementTop(targets[0], this.sidebarStickyTop);
+        scrollTo({top});
+      }
+    }
   }
 
   getPageData = async () => {
