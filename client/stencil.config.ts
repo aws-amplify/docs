@@ -74,6 +74,10 @@ export const config: Config = {
         {
           src: "api",
         },
+        {
+          src: "robots.txt",
+          dest: "robots.txt",
+        },
       ],
     },
   ],
