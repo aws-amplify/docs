@@ -107,6 +107,35 @@ export const searchStyle = css`
         width: 100%;
       }
 
+      .algolia-autocomplete .ds-dropdown-menu {
+      }
+      
+      .algolia-autocomplete .algolia-docsearch-suggestion--category-header {
+      }
+      
+      .algolia-autocomplete .algolia-docsearch-suggestion--subcategory-column {
+        color: gray;
+      }
+
+      .algolia-autocomplete .algolia-docsearch-suggestion--subcategory-column-text {
+        white-space: normal;
+      }
+      
+      .algolia-autocomplete .algolia-docsearch-suggestion--title {
+        font-weight: bold;
+        color: black;
+
+      }
+      
+      .algolia-autocomplete .algolia-docsearch-suggestion--text {
+        font-size: 0.8rem;
+        color: gray;
+      }
+      
+      .algolia-autocomplete .algolia-docsearch-suggestion--highlight {
+        color: var(--color-orange-hv);
+      }
+
       input {
         position: relative;
         display: flex;
