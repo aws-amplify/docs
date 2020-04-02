@@ -3,7 +3,7 @@
 ## Installation
 
 ```
-yarn add aws-amplify@ui-preview @aws-amplify/ui-angular@ui-preview
+yarn add aws-amplify @aws-amplify/ui-angular
 ```
 
 ## Usage

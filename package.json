@@ -12,10 +12,9 @@
     "capi"
   ],
   "dependencies": {
-    "@aws-amplify/analytics": "ui-preview",
-    "@aws-amplify/auth": "ui-preview",
-    "@aws-amplify/ui-components": "ui-preview",
-    "@aws-amplify/xr": "ui-preview",
+    "@aws-amplify/analytics": "^3.1.3",
+    "@aws-amplify/auth": "^3.2.0",
+    "@aws-amplify/ui-components": "^0.3.0",
     "array-flatten": "^3.0.0",
     "copy-to-clipboard": "^3.2.1",
     "emotion": "^10.0.23",

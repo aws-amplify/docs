@@ -2,64 +2,57 @@
 # yarn lockfile v1
 
 
-"@aws-amplify/analytics@ui-preview":
-  version "1.4.1-ui-preview.40"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/analytics/-/analytics-1.4.1-ui-preview.40.tgz#8a83a8b8d140829b83e6f696ff015081e97ccf06"
-  integrity sha512-U05k2l3OrRJESVNUSE64o1sUyLfhJlWtBeJi07Ia2G6AQInWVDYiqMUc4FCBfsHwY7kduR0yrCL6VxDsIyDQSg==
+"@aws-amplify/analytics@^3.1.3":
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/analytics/-/analytics-3.1.3.tgz#0e490ebd67a8fca3598472842f1a03ec2a511cef"
+  integrity sha512-TUN83Vn6jDrcl9mpELZwiit8MO+GmpFdWq9b94iewhF6HzdzOCXPj66ailUZB8O3ARFZisDobG/HD2PsWnfo1A==
   dependencies:
-    "@aws-amplify/cache" "1.2.1-ui-preview.40+6aae9f44"
-    "@aws-amplify/core" "1.3.1-ui-preview.40+6aae9f44"
-    "@aws-sdk/client-firehose" "^1.0.0-alpha.23"
-    "@aws-sdk/client-kinesis" "^1.0.0-alpha.23"
-    "@aws-sdk/client-personalize-events" "^1.0.0-alpha.21"
-    "@aws-sdk/client-pinpoint" "^1.0.0-alpha.21"
+    "@aws-amplify/cache" "^3.1.3"
+    "@aws-amplify/core" "^3.2.0"
+    "@aws-sdk/client-firehose" "1.0.0-beta.3"
+    "@aws-sdk/client-kinesis" "1.0.0-beta.3"
+    "@aws-sdk/client-personalize-events" "1.0.0-beta.3"
+    "@aws-sdk/client-pinpoint" "1.0.0-beta.3"
     uuid "^3.2.1"
 
-"@aws-amplify/auth@ui-preview":
-  version "1.6.1-ui-preview.40"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/auth/-/auth-1.6.1-ui-preview.40.tgz#21f263e32a3cc5d135d18b848b9b4a9b5ca1c23c"
-  integrity sha512-0e9Tjvn6qwGATm/cMGkO1RBtlN/VhFzb0vhwDeoBWqR9K2Dor4p8NX3wYUNonwmZz34OTnY4iWTIDt3nIz1Phw==
+"@aws-amplify/auth@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/auth/-/auth-3.2.0.tgz#45391c7c8e28318c220e889f39eeff06a806fc5c"
+  integrity sha512-eK96FwRV1k+ScEuECoxkPsiVThG+WbW515rAvVVvIMUb5/eyshJSUPbum+FF2/r+QH8E28DNY5AD1ZA0oViL+g==
   dependencies:
-    "@aws-amplify/cache" "1.2.1-ui-preview.40+6aae9f44"
-    "@aws-amplify/core" "1.3.1-ui-preview.40+6aae9f44"
-    amazon-cognito-identity-js "3.3.1-ui-preview.40+6aae9f44"
-    crypto-js "^3.1.9-1"
+    "@aws-amplify/cache" "^3.1.3"
+    "@aws-amplify/core" "^3.2.0"
+    amazon-cognito-identity-js "^4.2.0"
+    crypto-js "^3.3.0"
 
-"@aws-amplify/cache@1.2.1-ui-preview.40+6aae9f44":
-  version "1.2.1-ui-preview.40"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/cache/-/cache-1.2.1-ui-preview.40.tgz#e90bdcc656c02e96df15f8e30c080c433e90479d"
-  integrity sha512-DTeN53jMTlmWSD3NPOtfuid5SGl/HTA9QQ1FvrRXnqLI140pSZ0gM0oxzMxGC9Uzay+c4nW6jMJYS24tf0aXzQ==
+"@aws-amplify/cache@^3.1.3":
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/cache/-/cache-3.1.3.tgz#5b899a2dc2b0e6e005e9c5d7a5ecd24c0b6d8ab5"
+  integrity sha512-h04VBAEKTu1miOjY/q2KDh+W4TDShUzb/7FGcrx/uGz3NQ4Z3zHAQS0xYcvdtOI2tNH7tIBb82iujd0r2p0Peg==
   dependencies:
-    "@aws-amplify/core" "1.3.1-ui-preview.40+6aae9f44"
+    "@aws-amplify/core" "^3.2.0"
 
-"@aws-amplify/core@1.3.1-ui-preview.40+6aae9f44":
-  version "1.3.1-ui-preview.40"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/core/-/core-1.3.1-ui-preview.40.tgz#7ebcf3ef3bf9ad2dbecb9577473e6f699d4ceac4"
-  integrity sha512-uuobpL5deOs305/GJC1nedqwSPrt5YqDKbzIILXohrV6SLvvJ4D+xvoIakLWThauVaxkknkbauQyeAtvIm4KeA==
+"@aws-amplify/core@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/core/-/core-3.2.0.tgz#ca0cf02737d20140c2afaea6c33ee91823b8eef2"
+  integrity sha512-VBlBOj78V/sLVOe4spA+DNXJaf6AxBoZEMjzbPPMHwXC11CAQNxYG3q9wgB0X1ffwqn7gsl96BVsRfZHQyBFuw==
   dependencies:
     "@aws-crypto/sha256-js" "1.0.0-alpha.0"
-    "@aws-sdk/client-cognito-identity" "^1.0.0-alpha.23"
-    "@aws-sdk/credential-provider-cognito-identity" "^1.0.0-alpha.21"
-    "@aws-sdk/node-http-handler" "^1.0.0-alpha.8"
-    "@aws-sdk/types" "^1.0.0-alpha.5"
-    "@aws-sdk/util-hex-encoding" "^1.0.0-alpha.2"
-    "@aws-sdk/util-user-agent-browser" "^1.0.0-alpha.8"
+    "@aws-sdk/client-cognito-identity" "1.0.0-beta.3"
+    "@aws-sdk/credential-provider-cognito-identity" "1.0.0-beta.3"
+    "@aws-sdk/node-http-handler" "1.0.0-beta.2"
+    "@aws-sdk/types" "1.0.0-beta.2"
+    "@aws-sdk/util-hex-encoding" "1.0.0-beta.2"
+    "@aws-sdk/util-user-agent-browser" "1.0.0-beta.2"
     url "^0.11.0"
-    zen-observable "^0.8.6"
+    zen-observable-ts "0.8.19"
 
-"@aws-amplify/ui-components@ui-preview":
-  version "0.1.1-ui-preview.54"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-components/-/ui-components-0.1.1-ui-preview.54.tgz#f6ad0f3ad26f0b36c283c144166258d979cee4a8"
-  integrity sha512-q+SfHXswydvqOunAz6erih8CH1lGE9z5wXiMPaxz0PbiI1cUGLZ1uJRFXT1V2cWwaeiO9s2NaP9PPo4BEoXnbQ==
+"@aws-amplify/ui-components@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-components/-/ui-components-0.3.0.tgz#c8ce6218572beec4f118567a894232677b304b12"
+  integrity sha512-MyRtP/fyZZwU66NjDjNgpod+kufztSJeSUKiRYStuErE6i61OiNfZ2DUydeiPEjwE6w6w187pNHH0elT1JxlQA==
   dependencies:
     qrcode "^1.4.4"
-
-"@aws-amplify/xr@ui-preview":
-  version "0.3.1-ui-preview.40"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/xr/-/xr-0.3.1-ui-preview.40.tgz#e9813fc9f2bc135d2a76b61c1ff70307123cfef3"
-  integrity sha512-y6JnDzZXi3gc1pJkTz3mHemrJsKQHsKGCxhEkB1acMj9APaWSUE6FU8eC/yFyviBZOUntTCZ4Ybj3bPfZTqN9g==
-  dependencies:
-    "@aws-amplify/core" "1.3.1-ui-preview.40+6aae9f44"
 
 "@aws-crypto/crc32@^1.0.0-alpha.0":
   version "1.0.0-alpha.0"
@@ -112,7 +105,7 @@
     "@aws-sdk/types" "^1.0.0-beta.2"
     tslib "^1.8.0"
 
-"@aws-sdk/client-cognito-identity@^1.0.0-alpha.23", "@aws-sdk/client-cognito-identity@^1.0.0-beta.3":
+"@aws-sdk/client-cognito-identity@1.0.0-beta.3", "@aws-sdk/client-cognito-identity@^1.0.0-beta.3":
   version "1.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-cognito-identity/-/client-cognito-identity-1.0.0-beta.3.tgz#2ecec11f2465f9bc9a615b5027cf1ee3d20a7977"
   integrity sha512-/MbgeiBxgQI7l3pRyufxwKhSrqf02XWuOXLwmRxMr0CIVphKFFC7JLgm4qkKQwJm0/0Ajkz+JCx3mEuq6cphpw==
@@ -151,7 +144,7 @@
     "@aws-sdk/util-utf8-node" "^1.0.0-beta.2"
     tslib "^1.8.0"
 
-"@aws-sdk/client-firehose@^1.0.0-alpha.23":
+"@aws-sdk/client-firehose@1.0.0-beta.3":
   version "1.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-firehose/-/client-firehose-1.0.0-beta.3.tgz#614a4073d6c1256958f1d2d18a30b0e1cf29c5af"
   integrity sha512-9HWdKpfP8v8wh1i0J44Tnlz4iMXdRMovYPTqxXHIzpFjvbmrKsNiIL80fH58DzBbQIc1eB1x65154gjrfzi4vw==
@@ -190,7 +183,7 @@
     "@aws-sdk/util-utf8-node" "^1.0.0-beta.2"
     tslib "^1.8.0"
 
-"@aws-sdk/client-kinesis@^1.0.0-alpha.23":
+"@aws-sdk/client-kinesis@1.0.0-beta.3":
   version "1.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-kinesis/-/client-kinesis-1.0.0-beta.3.tgz#2951f18a65c081e7b8dc15324d6f9fe17a8fa895"
   integrity sha512-Ahqv7wYESJ+2zmqE/1WnLsxGh4p+CSaSTytYMZG2TtYXlgSBvVrN/kSChKQuLl6KjEw6gdDYDCEvYK5W+zb6qw==
@@ -232,7 +225,7 @@
     "@aws-sdk/util-utf8-node" "^1.0.0-beta.2"
     tslib "^1.8.0"
 
-"@aws-sdk/client-personalize-events@^1.0.0-alpha.21":
+"@aws-sdk/client-personalize-events@1.0.0-beta.3":
   version "1.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-personalize-events/-/client-personalize-events-1.0.0-beta.3.tgz#1d0bdf95b08e59788864d82742187fdf36461835"
   integrity sha512-co6EqRm1LIhYmsKqKEpb+pFaHWTGGggf/MnUlIXVfs5GSFGs/PdiWAm4t6gEYM1Rq5nM1XJ41JlRYCJhJSa04A==
@@ -271,7 +264,7 @@
     "@aws-sdk/util-utf8-node" "^1.0.0-beta.2"
     tslib "^1.8.0"
 
-"@aws-sdk/client-pinpoint@^1.0.0-alpha.21":
+"@aws-sdk/client-pinpoint@1.0.0-beta.3":
   version "1.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-pinpoint/-/client-pinpoint-1.0.0-beta.3.tgz#8410b363c52ec29d872d6e6430459d890ab936e7"
   integrity sha512-EGzlM0a9Mh0vzTb/r5ESO86InZXUILAjc3djT7rjtfQS+GzxUeYgBzPt3cM2FDkOOprZy1XqI3VSHf/jTh9pRw==
@@ -319,7 +312,7 @@
     "@aws-sdk/types" "^1.0.0-beta.2"
     tslib "^1.8.0"
 
-"@aws-sdk/credential-provider-cognito-identity@^1.0.0-alpha.21":
+"@aws-sdk/credential-provider-cognito-identity@1.0.0-beta.3":
   version "1.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/@aws-sdk/credential-provider-cognito-identity/-/credential-provider-cognito-identity-1.0.0-beta.3.tgz#55402c289f3622ac32e6eae694cb712e15b999c0"
   integrity sha512-S/HV336QMuG358PDcCln3V6IkYGeW7Nw/07wUipwf5jbnisOe8JaBdfStMUW7gocRyWuEpNA/1Zac97Gevk+GQ==
@@ -512,7 +505,7 @@
     "@aws-sdk/types" "^1.0.0-beta.2"
     tslib "^1.8.0"
 
-"@aws-sdk/node-http-handler@^1.0.0-alpha.8", "@aws-sdk/node-http-handler@^1.0.0-beta.2":
+"@aws-sdk/node-http-handler@1.0.0-beta.2", "@aws-sdk/node-http-handler@^1.0.0-beta.2":
   version "1.0.0-beta.2"
   resolved "https://registry.yarnpkg.com/@aws-sdk/node-http-handler/-/node-http-handler-1.0.0-beta.2.tgz#576cd50c17b2025220f66a2f77c7bb8a363a02d8"
   integrity sha512-KTe7bKhhpgHj0Fppde13nBGURWU/WVZDgNeT8reqqYEUDwNC+dtW9cT0P61u4ufim3Te8S/mZXdV0Hmg+HyX8Q==
@@ -623,7 +616,7 @@
     "@aws-sdk/types" "^1.0.0-beta.2"
     tslib "^1.8.0"
 
-"@aws-sdk/types@^1.0.0-alpha.0", "@aws-sdk/types@^1.0.0-alpha.5", "@aws-sdk/types@^1.0.0-beta.2":
+"@aws-sdk/types@1.0.0-beta.2", "@aws-sdk/types@^1.0.0-alpha.0", "@aws-sdk/types@^1.0.0-beta.2":
   version "1.0.0-beta.2"
   resolved "https://registry.yarnpkg.com/@aws-sdk/types/-/types-1.0.0-beta.2.tgz#b0df883483ae1c87c914579eee595711675b692a"
   integrity sha512-zqb1EA9FSGLC/J7FBu6KYz+7EGeNG5sE2QeHGtj4tvFLDSJO6/hluDgQzVW1UsYUitdiBelg8m6xj45eGh2+wg==
@@ -684,7 +677,7 @@
     "@aws-sdk/is-array-buffer" "^1.0.0-beta.2"
     tslib "^1.8.0"
 
-"@aws-sdk/util-hex-encoding@^1.0.0-alpha.2", "@aws-sdk/util-hex-encoding@^1.0.0-beta.2":
+"@aws-sdk/util-hex-encoding@1.0.0-beta.2", "@aws-sdk/util-hex-encoding@^1.0.0-beta.2":
   version "1.0.0-beta.2"
   resolved "https://registry.yarnpkg.com/@aws-sdk/util-hex-encoding/-/util-hex-encoding-1.0.0-beta.2.tgz#5eb2c945bfd251ad262ad6a596bc3f935b0b05ea"
   integrity sha512-QTCsXd7KMl9yRBYCRa6hcT5tne2CcUNUmxWqwm/Tn1fKsvIryIt70/pCsDgHVvacyGtml/KicjxmY7zuX9hbGA==
@@ -705,7 +698,7 @@
   dependencies:
     tslib "^1.8.0"
 
-"@aws-sdk/util-user-agent-browser@^1.0.0-alpha.8", "@aws-sdk/util-user-agent-browser@^1.0.0-beta.2":
+"@aws-sdk/util-user-agent-browser@1.0.0-beta.2", "@aws-sdk/util-user-agent-browser@^1.0.0-beta.2":
   version "1.0.0-beta.2"
   resolved "https://registry.yarnpkg.com/@aws-sdk/util-user-agent-browser/-/util-user-agent-browser-1.0.0-beta.2.tgz#22801b6e1abbf1cfafec62c3ad7365055a625b18"
   integrity sha512-3eYCbKBosLnmRPeGE5l2CCthwKr2e3NSmuBi+p4pGrt3yA2g/XzVv4t7qsdSlhGhkrg3yPSJx1Vk86IJypKrDw==
@@ -1486,13 +1479,13 @@ ajv@^6.10.0, ajv@^6.10.2, ajv@^6.5.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-amazon-cognito-identity-js@3.3.1-ui-preview.40+6aae9f44:
-  version "3.3.1-ui-preview.40"
-  resolved "https://registry.yarnpkg.com/amazon-cognito-identity-js/-/amazon-cognito-identity-js-3.3.1-ui-preview.40.tgz#3ffaa4a53d9a521a1ee1560ac38542b1c41717bb"
-  integrity sha512-at8Ako6cAq6ZsszWEYXyxdG69kfSl7LNWivF5MtwZodTHuBOrfcRDauWnVAGkypTTFE+ScDNOhFNcDpX88Js2Q==
+amazon-cognito-identity-js@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/amazon-cognito-identity-js/-/amazon-cognito-identity-js-4.2.0.tgz#11d31f17248a90a9313d30ede726645156b29aec"
+  integrity sha512-w9WHth5khfv3PDKG8fSKKnoxmcQviR4OwmgrCK65QscpG5yPeGmZ6eWVfIaPGT11f2M9iBoLDylttEa0fJtntw==
   dependencies:
     buffer "4.9.1"
-    crypto-js "^3.1.9-1"
+    crypto-js "^3.3.0"
     js-cookie "^2.1.4"
 
 ansi-escapes@^3.0.0:
@@ -2146,7 +2139,7 @@ cross-spawn@^6.0.0, cross-spawn@^6.0.5:
     shebang-command "^1.2.0"
     which "^1.2.9"
 
-crypto-js@^3.1.9-1:
+crypto-js@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-3.3.0.tgz#846dd1cce2f68aacfa156c8578f926a609b7976b"
   integrity sha512-DIT51nX0dCfKltpRiXV+/TVZq+Qq2NgF4644+K7Ttnla7zEzqc+kjJyiB96BHNyUTBxyjzRcZYpUdZa+QAqi6Q==
@@ -5805,7 +5798,15 @@ yn@3.1.1:
   resolved "https://registry.yarnpkg.com/yn/-/yn-3.1.1.tgz#1e87401a09d767c1d5eab26a6e4c185182d2eb50"
   integrity sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
 
-zen-observable@^0.8.6:
+zen-observable-ts@0.8.19:
+  version "0.8.19"
+  resolved "https://registry.yarnpkg.com/zen-observable-ts/-/zen-observable-ts-0.8.19.tgz#c094cd20e83ddb02a11144a6e2a89706946b5694"
+  integrity sha512-u1a2rpE13G+jSzrg3aiCqXU5tN2kw41b+cBZGmnc+30YimdkKiDj9bTowcB41eL77/17RF/h+393AuVgShyheQ==
+  dependencies:
+    tslib "^1.9.3"
+    zen-observable "^0.8.0"
+
+zen-observable@^0.8.0:
   version "0.8.15"
   resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.8.15.tgz#96415c512d8e3ffd920afd3889604e30b9eaac15"
   integrity sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==
