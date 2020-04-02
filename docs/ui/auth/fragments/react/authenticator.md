@@ -22,7 +22,7 @@ const App = () => (
       My App
       <AmplifySignOut />
     </div>
-  </AmplifyAuthenticator>;
+  </AmplifyAuthenticator>
 );
 ```
 
