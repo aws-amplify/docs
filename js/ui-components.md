@@ -1,6 +1,6 @@
 # Amplify UI Components
 
-[Amplify UI Components](#) is an open-source UI component library that encapsulates cloud-connected workflows inside of framework-agnostic UI components.
+[Amplify UI Components](https://github.com/aws-amplify/amplify-js/blob/master/packages/amplify-ui-components/Readme.md) is an open-source UI component library that encapsulates cloud-connected workflows inside of framework-agnostic UI components.
 
 ## Frameworks
 
@@ -177,27 +177,27 @@ _index.html_
 
 ## Components
 
-- #### [amplify-authenticator](src/components/amplify-authenticator/readme.md)
+- #### [amplify-authenticator](https://github.com/aws-amplify/amplify-js/blob/master/packages/amplify-ui-components/src/components/amplify-authenticator/readme.md)
 
 <img width="450" alt="amplify-authenticator" src="https://user-images.githubusercontent.com/3868826/74710028-86392f80-51d5-11ea-951a-d582cb55d351.png">
 
-- [amplify-sign-in](src/components/amplify-sign-in/readme.md)
+- [amplify-sign-in](https://github.com/aws-amplify/amplify-js/blob/master/packages/amplify-ui-components/src/components/amplify-sign-in/readme.md)
 
-- [amplify-sign-up](src/components/amplify-sign-up/readme.md)
+- [amplify-sign-up](https://github.com/aws-amplify/amplify-js/blob/master/packages/amplify-ui-components/src/components/amplify-sign-up/readme.md)
 
-- [amplify-sign-out](src/components/amplify-sign-out/readme.md)
+- [amplify-sign-out](https://github.com/aws-amplify/amplify-js/blob/master/packages/amplify-ui-components/src/components/amplify-sign-out/readme.md)
 
-- [amplify-confirm-sign-up](src/components/amplify-confirm-sign-up/readme.md)
+- [amplify-confirm-sign-up](https://github.com/aws-amplify/amplify-js/blob/master/packages/amplify-ui-components/src/components/amplify-confirm-sign-up/readme.md)
 
-- [amplify-forgot-password](src/components/amplify-forgot-password/readme.md)
+- [amplify-forgot-password](https://github.com/aws-amplify/amplify-js/blob/master/packages/amplify-ui-components/src/components/amplify-forgot-password/readme.md)
 
-- [amplify-require-new-password](src/components/amplify-require-new-password/readme.md)
+- [amplify-require-new-password](https://github.com/aws-amplify/amplify-js/blob/master/packages/amplify-ui-components/src/components/amplify-require-new-password/readme.md)
 
-- [amplify-verify-contact](src/components/amplify-verify-contact/readme.md)
+- [amplify-verify-contact](https://github.com/aws-amplify/amplify-js/blob/master/packages/amplify-ui-components/src/components/amplify-verify-contact/readme.md)
 
-- [amplify-totp-setup](src/components/amplify-totp-setup/readme.md)
+- [amplify-totp-setup](https://github.com/aws-amplify/amplify-js/blob/master/packages/amplify-ui-components/src/components/amplify-totp-setup/readme.md)
 
-- [amplify-greetings](src/components/amplify-greetings/readme.md)
+- [amplify-greetings](https://github.com/aws-amplify/amplify-js/blob/master/packages/amplify-ui-components/src/components/amplify-greetings/readme.md)
 
 ## Customization
 
