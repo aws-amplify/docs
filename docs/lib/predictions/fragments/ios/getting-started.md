@@ -1,7 +1,7 @@
 ## Prerequisites
 
 * An iOS project targeting at least iOS 13.0
-* Install and configure the Amplify CLI
+* [Install and configure the Amplify CLI](/cli/start/install)
 
 ```bash
 $ npm install -g @aws-amplify/cli
@@ -110,7 +110,7 @@ Add the dependencies to the `Podfile`:
 target :'YOUR-APP-NAME' do
 	use_frameworks!
 	pod 'AWSPredictionsPlugin'
-	pod 'AWSMobileClient', '~> 2.12.0'
+	pod 'AWSMobileClient'
 end
 ```
 
