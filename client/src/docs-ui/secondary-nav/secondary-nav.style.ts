@@ -106,15 +106,14 @@ export const searchStyle = css`
         display: block;
         width: 100%;
       }
-
-      .algolia-autocomplete .ds-dropdown-menu {
-      }
       
+      .algolia-autocomplete .ds-dropdown-menu * {
+        white-space: normal
+      }
       .algolia-autocomplete .algolia-docsearch-suggestion--category-header {
       }
       
       .algolia-autocomplete .algolia-docsearch-suggestion--subcategory-column {
-        color: gray;
       }
 
       .algolia-autocomplete .algolia-docsearch-suggestion--subcategory-column-text {
@@ -124,16 +123,19 @@ export const searchStyle = css`
       .algolia-autocomplete .algolia-docsearch-suggestion--title {
         font-weight: bold;
         color: black;
+      }
 
+      .ds-cursor .algolia-docsearch-suggestion--content {
+        background-color: var(--bg-color-hover) !important;
       }
       
       .algolia-autocomplete .algolia-docsearch-suggestion--text {
         font-size: 0.8rem;
-        color: gray;
       }
       
       .algolia-autocomplete .algolia-docsearch-suggestion--highlight {
         color: var(--color-orange-hv);
+        background: var(--bg-color-hover);
       }
 
       input {
