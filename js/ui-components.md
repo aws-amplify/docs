@@ -32,7 +32,7 @@ In this Quick Start guide you will set up an Authenticator component and the clo
 #### Installation
 
 ```
-yarn add aws-amplify@ui-preview @aws-amplify/ui-react@ui-preview
+yarn add aws-amplify @aws-amplify/ui-react
 ```
 
 ##### Usage
@@ -60,7 +60,7 @@ const App = () => (
 #### Installation
 
 ```
-yarn add aws-amplify@ui-preview @aws-amplify/ui-angular@ui-preview
+yarn add aws-amplify @aws-amplify/ui-angular
 ```
 
 #### Usage
@@ -103,7 +103,7 @@ _app.component.html_
 #### Installation
 
 ```
-yarn add aws-amplify@ui-preview @aws-amplify/ui-vue@ui-preview
+yarn add aws-amplify @aws-amplify/ui-vue
 ```
 
 #### Usage
@@ -142,7 +142,7 @@ _App.vue_
 #### Installation
 
 ```
-yarn add aws-amplify@ui-preview @aws-amplify/ui-components@ui-preview
+yarn add aws-amplify @aws-amplify/ui-components
 ```
 
 #### Usage
@@ -370,7 +370,7 @@ The `amplify-authenticator` component has the ability to sign in or sign up with
 
 ```diff
 - yarn add aws-amplify-react
-+ yarn add @aws-amplify/ui-react@ui-preview
++ yarn add @aws-amplify/ui-react
 ```
 
 #### Usage
@@ -398,7 +398,7 @@ const App = () => (
 
 ```diff
 - yarn add aws-amplify-angular
-+ yarn add @aws-amplify/ui-angular@ui-preview
++ yarn add @aws-amplify/ui-angular
 ```
 
 #### Usage
@@ -433,7 +433,7 @@ export class AppModule {}
 
 ```diff
 - yarn add aws-amplify-vue
-+ yarn add @aws-amplify/ui-vue@ui-preview
++ yarn add @aws-amplify/ui-vue
 ```
 
 #### Usage
