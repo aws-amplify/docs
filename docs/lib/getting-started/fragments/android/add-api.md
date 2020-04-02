@@ -12,7 +12,7 @@ a. Run `amplify configure` in Terminal from the root of your application folder 
 
 b. Click the Gradle Task dropdown in your Android Studio toolbar, select **amplifyPush**, and run the task.
 
-Once this is successful, you will see three generated files:
+Once this is successful, you will see two generated files:
 
 * **amplifyconfiguration.json** and **awsconfiguration.json** under `src/main/res/raw`
 
