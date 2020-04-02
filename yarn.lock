@@ -54,6 +54,13 @@
   dependencies:
     qrcode "^1.4.4"
 
+"@aws-amplify/xr@^2.1.3":
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/xr/-/xr-2.1.3.tgz#90f48acbe5271a8605f6ec4cdc0b93ad5e40ee2f"
+  integrity sha512-HB/0yVnKrxuCf1BF5OFHoR6NHBkZ6pUu2fbTLyn6wQw0sISylbCL/MI9IVJiHaav4LPlzprNXIKoWLsTiH6ZIg==
+  dependencies:
+    "@aws-amplify/core" "^3.2.0"
+
 "@aws-crypto/crc32@^1.0.0-alpha.0":
   version "1.0.0-alpha.0"
   resolved "https://registry.yarnpkg.com/@aws-crypto/crc32/-/crc32-1.0.0-alpha.0.tgz#12e593b60c42352d1942a2fa31122747650dd8f8"
