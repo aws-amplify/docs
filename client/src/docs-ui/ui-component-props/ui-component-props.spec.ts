@@ -8,7 +8,6 @@ describe("ui-component-props", () => {
 
     it("should init `tag` as `undefined`", () =>
       expect(uiComponentProps.tag).toBeUndefined());
-
   });
 
   describe("Render logic", () => {
