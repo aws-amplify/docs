@@ -88,7 +88,7 @@ amplify:
       logo:
         text: AWS Amplify is supported by Amazon Web Services
         image: true
-      copyright: © 2018-2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+      copyright: © 2018-2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
     social_list:
       - network_name: gitter
         profile_url: "https://gitter.im/AWS-Amplify/Lobby/"
