@@ -1,5 +1,6 @@
 ---
 title: GraphQL Transform
+canonical: https://docs.amplify.aws/cli/graphql-transformer/overview
 ---
 {% if jekyll.environment == 'production' %}
   {% assign base_dir = site.amplify.docs_baseurl %}

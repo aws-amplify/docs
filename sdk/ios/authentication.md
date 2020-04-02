@@ -1,5 +1,6 @@
 ---
 title: Authentication
+canonical: https://docs.amplify.aws/sdk/auth/how-it-works?platform=ios
 ---
 
 {% if jekyll.environment == 'production' %}
