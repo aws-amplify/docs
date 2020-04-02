@@ -45,14 +45,14 @@ import awsconfig from "./aws-exports";
 
 Amplify.configure(awsconfig);
 
-const App = () => {
+const App = () => (
   <AmplifyAuthenticator>
     <div>
       My App
       <AmplifySignOut />
     </div>
   </AmplifyAuthenticator>;
-};
+);
 ```
 
 ### Angular
