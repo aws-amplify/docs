@@ -1,14 +1,44 @@
-## Model Generation
+## Datastore with Amplify
+
+Amplify DataStore provides a programming model for leveraging shared and distributed data without writing additional code for offline and online scenarios, which makes working with distributed, cross-user data just as simple as working with local-only data.
+
+## Generate models
 
 Modeling your data and *generating models* which are used by DataStore is the first step to get started. GraphQL is used as a common language across JavaScript, iOS, and Android for this process, and is also used as the network protocol when syncing with the cloud. GraphQL is also what powers some of the features such as Automerge in AppSync. Model generation can be done via an NPX script or from the command line with the Amplify CLI.
 
-### Using NPX
+<amplify-callout>
 
-The fastest way to get started is using the `amplify-app` npx script such as with [Create React app](https://create-react-app.dev):
+You do not need an AWS account to use Datastore locally, however if you wish to sync with the cloud it is recommended you [Install and configure](~/cli/start/install.md) the Amplify CLI.
+
+</amplify-callout>
+
+
+### Automated model generation with NPX
+
+The fastest way to get started is using the `amplify-app` npx script.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/wH-UnQy1ltM">
+</iframe>
+
+<br/>
+
+#### React
+
+Start with [Create React app](https://create-react-app.dev)
 
 ```sh
 npx create-react-app amplify-datastore --use-npm
 cd amplify-datastore
+npx amplify-app@latest
+```  
+
+#### React Native CLI
+
+Start with the [React Native CLI](https://reactnative.dev/docs/getting-started).
+
+```sh
+npx react-native init AmplifyDatastoreRN
+cd AmplifyDatastoreRN
 npx amplify-app@latest
 ```
 
@@ -30,11 +60,6 @@ type Post @model {
 
 After saving the file press *Enter* in your terminal and run `npm run amplify-modelgen`.
 
-<amplify-callout>
-
-You do not need an AWS account to run this and use DataStore locally, however if you wish to sync with the cloud it is recommended you [Install and configure the Amplify CLI](../../../getting-started/../../start/getting-started/installation.md)
-
-</amplify-callout>
 
 ### Manual Model Generation
 
@@ -50,9 +75,26 @@ The Amplify CLI can generate models at any time with the following command:
 amplify codegen models
 ```
 
-## Schema updates
+## Update the schema
 
-When a schema changes and Model generation re-runs, it will evaluate the changes and create a versioned hash if any changes are detected which impact the underlying on-device storage structure. For example types being added/deleted or fields becoming required/optional. DataStore evaluates this version on startup and if there are changes the local items on device will be removed and a full sync from AppSync will take place if you are syncing with the cloud. Local migrations on device are not supported. If you are syncing with the cloud the structure and items of that data in your DynamoDB table will not be touched as part of this process.
+Edit the schema and re-reun 'amplify codegen models'.
+
+```graphql
+enum PostStatus {
+  ACTIVE
+  INACTIVE
+  STAGED #new
+}
+
+type Post @model {
+  id: ID!
+  title: String!
+  rating: Int!
+  status: PostStatus!
+}
+```
+
+This will evaluate the changes and create a versioned hash if any changes are detected which impact the underlying on-device storage structure. For example, types being added/deleted or fields becoming required/optional. DataStore evaluates this version on startup and if there are changes the local items on device will be removed and a full sync from AppSync will take place if you are syncing with the cloud. Local migrations on device are not supported. If you are syncing with the cloud the structure and items of that data in your DynamoDB table will not be touched as part of this process.
 
 ## Client pre-requisites
 
@@ -73,7 +115,7 @@ import { Post, PostStatus } from "./models";
 ## Client sample
 
 
-```jsx=App.js
+```jsx
 import React, { useEffect } from "react";
 import logo from "./logo.svg";
 import "./App.css";
