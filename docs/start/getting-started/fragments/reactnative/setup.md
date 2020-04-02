@@ -55,14 +55,14 @@ Next, install the local Amplify dependencies. The directions here will depend on
 
 ### Expo
 
-With Expo, you only have to install the dependencies and then move on to the next step.
+With Expo, you only have to install the dependencies and then move on to the next step - [__Set up the frontend__](#set-up-the-frontend).
 
 ```sh
-npm install aws-amplify aws-amplify-react-native amazon-cognito-identity-js react-native-vector-icons @react-native-community/netinfo
+npm install aws-amplify aws-amplify-react-native @react-native-community/netinfo
 
 # or
 
-yarn add aws-amplify aws-amplify-react-native amazon-cognito-identity-js react-native-vector-icons @react-native-community/netinfo
+yarn add aws-amplify aws-amplify-react-native @react-native-community/netinfo
 ```
 
 ### React Native
@@ -114,7 +114,7 @@ Finally, open __android/app/build.gradle__ and add the following line at the top
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 ```
 
-## Set up frontend
+## Set up the frontend
 
 Finally, open __App.js__ (Expo) or __index.js__ (React Native CLI) and add the following lines of code at the top of the file below the last import:
 
