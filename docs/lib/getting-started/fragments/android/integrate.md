@@ -13,11 +13,11 @@ try {
 b. Next, add some data to your backend:
 
 ```java
-Task task = Task.builder()
+Task firstTask = Task.builder()
     .title("My first task")
     .description("Get started with Amplify")
     .build();
-Amplify.API.mutate(task, MutationType.CREATE,
+Amplify.API.mutate(firstTask, MutationType.CREATE,
     taskCreationResponse -> {
         final String idOfCreatedTask = taskCreationResponse.getData().getId();
         Log.i("AmplifyGetStarted", "Created task with id: " + idOfCreatedTask);
