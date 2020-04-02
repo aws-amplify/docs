@@ -1,5 +1,6 @@
 ---
 title: Analytics
+canonical: https://docs.amplify.aws/sdk/analytics/getting-started?platform=android
 ---
 {% if jekyll.environment == 'production' %}
   {% assign base_dir = site.amplify.docs_baseurl %}

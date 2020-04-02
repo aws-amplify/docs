@@ -1,4 +1,5 @@
 ---
+canonical: https://docs.amplify.aws/lib/utilities/cache?platform=js
 ---
 # Cache
 
