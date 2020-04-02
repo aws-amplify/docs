@@ -1,4 +1,4 @@
-import {Component, Prop, Host, h, State} from "@stencil/core";
+import {Component, Prop, Host, h, State, Element, Listen} from "@stencil/core";
 import {Page} from "../../api";
 import {
   menuStyle,
@@ -10,6 +10,9 @@ import {getFilterKeyFromPage} from "../../utils/filters";
 import {pageContext} from "../page/page.context";
 import {SelectedFilters} from "../page/page.types";
 
+const getScrollTopLocalStorageKey = (productGroupId: number): string =>
+  `amplify-docs::product-group-${String(productGroupId)}`;
+
 @Component({tag: "docs-menu", shadow: false})
 export class DocsMenu {
   /*** the `Page` instance for which this menu is being rendered */
@@ -17,10 +20,52 @@ export class DocsMenu {
   /*** the currently-selected filter state */
   @Prop() readonly selectedFilters?: SelectedFilters;
 
+  @Element() element?: HTMLDocsMenuElement;
+
   @State() filterKey?: string;
+  @State() scrollTopLocalStorageKey?: string;
+
+  previousScrollTop?: number;
 
   componentWillLoad() {
     this.filterKey = this.page && getFilterKeyFromPage(this.page);
+    if (this.page?.productGroupId) {
+      this.scrollTopLocalStorageKey = getScrollTopLocalStorageKey(
+        this.page.productGroupId,
+      );
+      if (this.scrollTopLocalStorageKey) {
+        const previousScrollTop = localStorage.getItem(
+          this.scrollTopLocalStorageKey,
+        );
+        if (previousScrollTop) {
+          this.previousScrollTop = parseInt(previousScrollTop);
+        }
+      }
+    }
+  }
+
+  @Listen("scroll", {target: this.element})
+  onMenuScroll(e: Event) {
+    if (this.scrollTopLocalStorageKey) {
+      localStorage.setItem(
+        this.scrollTopLocalStorageKey,
+        // @ts-ignore
+        String(e.target.scrollTop),
+      );
+    }
+  }
+
+  componentDidLoad() {
+    // console.log(this.previousScrollTop);
+    if (this.element && this.previousScrollTop) {
+      console.log(
+        "in the dom: ",
+        document.body.contains(this.element),
+        " persisted offset: ",
+        this.previousScrollTop,
+      );
+      this.element.scrollTo({top: this.previousScrollTop});
+    }
   }
 
   renderVersionSwitch() {

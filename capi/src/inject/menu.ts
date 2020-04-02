@@ -2,6 +2,8 @@ import * as t from "../types";
 import * as path from "path";
 import {createPageLink} from "../utils";
 
+let productGroupId = 0;
+
 /**
  * iterates through all pages who should have a menu, stitches together
  * their menus, and injects them in place into the page obj
@@ -72,8 +74,11 @@ export const injectMenu = (ctx: t.Ctx): void => {
       if (!page) {
         throw new Error(`Ran into problems resolving "${pagePath}".`);
       }
+      page.productGroupId = productGroupId;
       page.menu = menu;
       page.productRootLink = productRootPageLink;
     });
+
+    productGroupId += 1;
   });
 };
