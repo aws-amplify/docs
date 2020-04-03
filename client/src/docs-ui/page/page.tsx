@@ -37,10 +37,17 @@ export class DocsPage {
   @State() selectedFilters: Record<string, string | undefined> = {};
 
   setSelectedFilters: SetSelectedFilters = (updates) => {
+    const overrides = withFilterOverrides(updates, this.selectedFilters);
     this.selectedFilters = {
       ...this.selectedFilters,
-      ...withFilterOverrides(updates, this.selectedFilters),
+      ...overrides,
     };
+    for (const [filterKey, filterValue] of Object.entries(overrides)) {
+      localStorage.setItem(
+        getFilterKeyFromLocalStorage(filterKey),
+        filterValue,
+      );
+    }
   };
 
   /**
@@ -59,10 +66,6 @@ export class DocsPage {
       const {[this.filterKey]: filterValue} = queryParams;
       if (filterValue) {
         this.filterValue = filterValue;
-        localStorage.setItem(
-          getFilterKeyFromLocalStorage(this.filterKey),
-          filterValue,
-        );
         this.setSelectedFilters({[this.filterKey]: this.filterValue});
       }
     }
