@@ -33,7 +33,7 @@ exports[`docs-secondary-nav Render logic should render 1`] = `
           </amplify-external-link>
         </div>
       </div>
-      <div class="css-1bbteyh">
+      <div class="css-153d8ox">
         <div>
           <div>
             <input class="three-dee-effect" id="amplify-docs-search-input" placeholder="Search" type="search">
