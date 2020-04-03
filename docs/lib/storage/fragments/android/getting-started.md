@@ -81,16 +81,17 @@ android {
 Add the following code to the bottom of your MainActivity `onCreate` method (ideally this would go in your Application class but this works for getting started quickly):
 
 ```java
-  AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+    try {
+        Amplify.addPlugin(new AWSS3StoragePlugin());
+        Amplify.configure(getApplicationContext());
+        Log.i("StorageQuickstart", "Amplify is configured!");
+    } catch (Exception exception) {
+        Log.e("StorageQuickstart", exception.getMessage(), exception);
+    }
+    AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
         @Override
         public void onResult(UserStateDetails userStateDetails) {
-            try {
-                Amplify.addPlugin(new AWSS3StoragePlugin());
-                Amplify.configure(getApplicationContext());
-                Log.i("StorageQuickstart", "All set and ready to go!");
-            } catch (Exception exception) {
-                Log.e("StorageQuickstart", exception.getMessage(), exception);
-            }
+            Log.i("StorageQuickstart", "All set and ready to go!");
         }
 
         @Override
