@@ -30,7 +30,7 @@ export class DocsInPageLink {
   onClick = (e: Event) => {
     e.preventDefault();
     if (this.target) {
-      const top = getElementTop(this.target, getNavHeight());
+      const top = getElementTop(this.target, getNavHeight("px"));
       if (top !== window.scrollY) {
         window.scrollTo({top});
         history.replaceState(undefined, document.title, `#${this.targetId}`);

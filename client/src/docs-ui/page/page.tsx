@@ -1,4 +1,13 @@
-import {Component, Host, h, Prop, State, Watch, Listen} from "@stencil/core";
+import {
+  Component,
+  Host,
+  h,
+  Prop,
+  State,
+  Watch,
+  Listen,
+  Element,
+} from "@stencil/core";
 import {
   sidebarLayoutStyle,
   pageStyle,
@@ -27,12 +36,14 @@ import {scrollToHash} from "../../utils/scroll-to-hash";
 
 @Component({tag: "docs-page", shadow: false})
 export class DocsPage {
+  @Element() el: HTMLElement;
+
   /*** the current page path */
   @Prop() readonly currentPath?: string;
 
   @State() data?: Page;
   @State() blendUniversalNav?: boolean;
-  @State() sidebarStickyTop = getNavHeight(true);
+  @State() sidebarStickyTop = getNavHeight("rem");
 
   @State() selectedFilters: Record<string, string | undefined> = {};
 
@@ -71,7 +82,7 @@ export class DocsPage {
   // @ts-ignore
   @Listen("resize", {target: "window"})
   setSidebarStickyTop() {
-    this.sidebarStickyTop = getNavHeight(true);
+    this.sidebarStickyTop = getNavHeight("rem");
   }
 
   ensureMenuScrolledIntoViewOnMobileMenuOpen = () => {
@@ -109,8 +120,8 @@ export class DocsPage {
     const {hash} = location;
     if (hash) {
       setTimeout(() => {
-        scrollToHash(hash);
-      }, 250);
+        scrollToHash(hash, this.el);
+      }, 100);
     }
   }
 

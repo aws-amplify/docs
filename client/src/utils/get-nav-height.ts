@@ -4,12 +4,21 @@ let cachedAt = window.innerWidth;
 let cachedPxResult: number | undefined;
 let cachedRemsResult: number | undefined;
 
-export const getNavHeight = (rems?: boolean): number => {
+export const getNavHeight = (unit: "rem" | "px"): number => {
   if (cachedAt === innerWidth) {
-    if (rems && cachedRemsResult) {
-      return cachedRemsResult;
-    } else if (cachedPxResult) {
-      return cachedPxResult;
+    switch (unit) {
+      case "rem": {
+        if (cachedRemsResult) {
+          return cachedRemsResult;
+        }
+        break;
+      }
+      case "px": {
+        if (cachedPxResult) {
+          return cachedPxResult;
+        }
+        break;
+      }
     }
   }
 
@@ -19,10 +28,26 @@ export const getNavHeight = (rems?: boolean): number => {
     cachedAt = innerWidth;
     cachedPxResult = parseInt(getComputedStyle(nav).height);
     cachedRemsResult = cachedPxResult / 16;
-    return rems ? cachedRemsResult : cachedPxResult;
+
+    switch (unit) {
+      case "rem": {
+        return cachedRemsResult;
+      }
+      case "px": {
+        return cachedPxResult;
+      }
+    }
   }
 
   // fallback
   const value = innerWidth > Breakpoint.LAPTOP * 16 ? 3 : 6.25;
-  return rems ? value : value * 16;
+
+  switch (unit) {
+    case "rem": {
+      return value / 16;
+    }
+    case "px": {
+      return value;
+    }
+  }
 };
