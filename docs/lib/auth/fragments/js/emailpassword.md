@@ -43,9 +43,9 @@ import { Auth } from 'aws-amplify';
 
 async function confirmSignUp() {
     try {
-      await Auth.confirmSignUp(username, code)
+      await Auth.confirmSignUp(username, code);
     } catch (error) {
-        console.log('error confirming sign up', error)
+        console.log('error confirming sign up', error);
     }
 }
 ```
@@ -56,16 +56,16 @@ To create a custom attribute during your sign-up process, add it to the attribut
 
 ```js
 Auth.signUp({
-    'username': 'jdoe',
-    'password': 'mysecurepassword#123',
-    'attributes': {
-        'email': 'me@domain.com',
-        'phone_number': '+12135555555',
+    username,
+    password,
+    attributes: {
+        email,
         'custom:favorite_flavor': 'Cookie Dough'  // custom attribute, not standard
     }
-});
+})
 ```
 
+> Amazon Cognito does not dynamically create custom attributes on sign up. In order to use a custom attribute, the attribute must be first created in the user pool. To open the User Pool to create custom attributes using the Amplify ClI, run `amplify console auth`. If you are not using the Amplify CLI, you can view the user pool by visiting the AWS console and opening the Amazon Cognito dashboard.
 
 ## Sign-in
 
@@ -78,7 +78,7 @@ async function SignIn() {
     try {
         const user = await Auth.signIn(username, password);
     } catch (error) {
-        console.log('error signing in', error)  
+        console.log('error signing in', error);
     }
 }
 ```
@@ -91,7 +91,7 @@ import { Auth } from 'aws-amplify';
 async function resendConfirmationCode() {
     try {
     await Auth.resendSignUp(username);
-        console.log('code resent succesfully')
+        console.log('code resent succesfully');
     } catch (err) {
         console.log('error resending code: ', err);
     }
