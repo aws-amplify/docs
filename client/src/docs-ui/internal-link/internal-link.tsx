@@ -33,7 +33,7 @@ export class DocsInternalLink {
   @Watch("selectedFilters")
   computeURL() {
     if (this.href) {
-      const parsed = new Url(this.href, true);
+      const parsed = new Url(this.href, 'https://docs.amplify.aws', true);
       const {query, pathname, origin, hash} = parsed;
 
       if (Object.keys(query).length === 0) {
