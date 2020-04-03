@@ -110,7 +110,7 @@ export class DocsPage {
     if (hash) {
       setTimeout(() => {
         scrollToHash(hash);
-      }, 500);
+      }, 250);
     }
   }
 
