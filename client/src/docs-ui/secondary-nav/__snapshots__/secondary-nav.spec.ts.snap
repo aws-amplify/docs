@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`docs-secondary-nav Render logic should render 1`] = `
-<docs-secondary-nav class="css-1cydfer">
+<docs-secondary-nav class="css-1cydfer" id="secondary-nav">
   <amplify-container>
     <div class="css-16891c2">
       <div>
