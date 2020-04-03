@@ -120,6 +120,7 @@ export class DocsPage {
   }
 
   componentDidLoad() {
+    this.setSidebarStickyTop();
     const {hash} = location;
     if (hash) {
       setTimeout(() => {
