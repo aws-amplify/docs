@@ -11,7 +11,7 @@ Storage.remove('test.txt')
 ## Protected level remove
 
 ```javascript
-Storage.remove('test.txt', {level: 'protected'})
+Storage.remove('test.txt', { level: 'protected' })
     .then(result => console.log(result))
     .catch(err => console.log(err));
 ```
@@ -19,6 +19,7 @@ Storage.remove('test.txt', {level: 'protected'})
 ## Private level remove
 
 ```javascript
-Storage.remove('test.txt', {level: 'private'})
+Storage.remove('test.txt', { level: 'private' })
     .then(result => console.log(result))
     .catch(err => console.log(err));
+```

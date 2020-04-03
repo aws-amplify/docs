@@ -19,6 +19,6 @@ amplify publish
 ```
 👏 Congratulations, your app is online!
 
-![image](../../../../images/browser-published.png) 
+![image](~/images/browser-published.png) 
 
 After publishing, your browser will open your app hosted on a `amplifyapp.com` domain. Whenever you have additional changes to publish, just re-run the `amplify publish` command. 

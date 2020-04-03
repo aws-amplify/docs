@@ -1,6 +1,6 @@
 ## Create new authentication resource
 
-If you have previously enabled an Amplify category that uses Auth behind the scenes, e.g. API category, you may already have an Auth configuration. In such a case, run `amplify auth update` command to edit your configuration. To start from a scratch, run the following command in your project's root folder:
+If you have previously enabled an Amplify category that uses Auth behind the scenes, e.g. API category, you may already have an Auth configuration. In such a case, run `amplify auth update` command to edit your configuration. To start from scratch, run the following command in your project's root folder:
 
 ```bash
 amplify add auth
@@ -54,26 +54,6 @@ import Amplify, { Auth } from 'aws-amplify';
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 ```
-
-### Lambda Triggers
-
-The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your AWS Cognito User Pool.  These enable you to add custom functionality to your registration and authentication flows. [Read more](~/cli/function.md)
-
-Many Cognito Lambda Triggers accept unsanitized key/value pairs in the form of a 'ClientMetadata' attribute.  To configure a static set of key/value pairs, you can define a `clientMetadata` key in the `Auth.configure` function.  You can also pass a `clientMetadata` parameter to the various `Auth` functions which result in Cognito Lambda Trigger execution.   These functions include:
-
-- `Auth.changePassword`
-- `Auth.completeNewPassword`
-- `Auth.confirmSignIn`
-- `Auth.confirmSignUp`
-- `Auth.forgotPasswordSubmit`
-- `Auth.resendSignUp`
-- `Auth.sendCustomChallengeAnswer`
-- `Auth.signIn`
-- `Auth.signUp`
-- `Auth.updateUserAttributes`
-- `Auth.verifyUserAttribute`
-
-Please note that some of triggers which accept a 'validationData' attribute will use clientMetadata as the value for validationData.  Exercise caution with using clientMetadata when you are relying on validationData.
 
 ## Re-use existing authentication resource
 

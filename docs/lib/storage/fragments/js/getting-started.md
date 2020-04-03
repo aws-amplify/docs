@@ -1,8 +1,10 @@
 AWS Amplify Storage module provides a simple mechanism for managing user content for your app in public, protected or private storage buckets. The Storage category comes with built-in support for Amazon S3.
 
-## Create storage bucket
+## Automated Setup: Create storage bucket
+Amplify CLI helps you to create and configure the storage buckets for your app. The default implementation of the Storage module leverages [Amazon S3](https://aws.amazon.com/s3).
 
-> Ensure you have [installed and configured the Amplify CLI and library](tbd)
+### Create your backend with Amplify CLI
+> Ensure you have [installed and configured the Amplify CLI and library](~/cli/cli.md)
 
 To create a project with the Storage category, run the following command from the root of your project:
 
@@ -26,7 +28,15 @@ $ amplify push
 
 When your backend is successfully updated, your new configuration file `aws-exports.js` is copied under your source directory, e.g. '/src'.
 
-## Import storage bucket
+### Configure your Application
+In your app’s entry point i.e. App.js, import and load the configuration file `aws-exports.js` which has been created and replaced into `/src` folder in the previous step.
+```javascript
+import Amplify, { Storage } from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
+```
+
+## Manual Setup: Import storage bucket
 
 Manual setup enables you to use your existing Amazon Cognito and Amazon S3 credentials in your app:
 
@@ -49,8 +59,10 @@ Amplify.configure({
 });
 
 ```
+## Mocking and Local Testing with Amplify CLI
+Amplify CLI supports running a lock mock server for testing your application with Amazon S3. Please see the [CLI toolchain documentation](~/cli/usage/mock.md) for more details.
 
-### File access for imported buckets
+## Using Amazon S3
 If you set up your Cognito resources manually, the roles will need to be given permission to access the S3 bucket.
 
 There are two roles created by Cognito: an `Auth_Role` that grants signed-in-user-level bucket access and an `Unauth_Role` that allows unauthenticated access to resources. Attach the corresponding policies to each role for proper S3 access. Replace ```{enter bucket name}``` with the correct S3 bucket.
@@ -177,9 +189,9 @@ Inline policy for the `Unauth_Role`:
 
 The policy template that Amplify CLI uses is found [here](https://github.com/aws-amplify/amplify-cli/blob/b12d20b9d85f7fc6abf7e2f7fbe11e1a108911b9/packages/amplify-category-storage/provider-utils/awscloudformation/cloudformation-templates/s3-cloudformation-template.json).
 
-### Amazon S3 Bucket CORS Policy Setup
+## Amazon S3 Bucket CORS Policy Setup
 
-<amplify-callout>
+<amplify-callout warning>
 To make calls to your S3 bucket from your App, you need to set up a CORS Policy for your S3 bucket. This callout is only for manual configuration of your S3 bucket, CORS Policy configuration is done automatically via Amplify CLI when running `amplify add storage`.
 </amplify-callout>
 
@@ -215,7 +227,9 @@ The following steps will set up your CORS Policy:
 
 </amplify-callout>
 
-## Configure frontend
+For information on Amazon S3 file access levels, please see [configure file access levels](~/lib/storage/configureaccess.md).
+
+## Working with the API: Configure frontend
 
 Import *Storage* from the aws-amplify library:
 ```javascript
