@@ -4,121 +4,11 @@
 
 OAuth support in Amplify uses Cognito User Pools and supports federation with social providers, which will automatically create a corresponding user in the User Pool after a login. [OIDC](https://en.wikipedia.org/wiki/OpenID_Connect) tokens are available in the app after the application has completed this process.
 
-## Setup social provider
-
-Before adding a social provider to an Amplify project, you must first go to that provider and configure an application identifier as outlined below.
-
-- [Facebook Instructions](#facebook-instructions)
-- [Google Sign-In Instructions](#google-sign-in-instructions)
-- [Amazon Login Instructions](#amazon-login-instructions)
-
-### Facebook Instructions
-
-1. Create a [developer account with Facebook](https://developers.facebook.com/docs/facebook-login)
-2. [Sign In](https://developers.facebook.com/) with your Facebook credentials.
-3. From the *My Apps* menu, choose *Add New App*.
-![Image](~/images/cognitoHostedUI/facebook1.png)
-4. Give your Facebook app a name and choose *Create App ID*.
-![Image](~/images/cognitoHostedUI/facebook2.png)
-5. On the left navigation bar, choose *Settings* and then *Basic*.
-![Image](~/images/cognitoHostedUI/facebook3.png)
-6. Note the *App ID* and the *App Secret*. You will use them in the next section in the CLI flow.
-
-### Google Sign-In Instructions
-
-1. Go to the [Google developer console](https://console.developers.google.com).
-2. On the left navigation bar, choose *Credentials*.
-![Image](~/images/cognitoHostedUI/google5.png)
-3. Create your OAuth2.0 credentials by choosing *OAuth client ID* from the *Create credentials* drop-down list.
-![Image](~/images/cognitoHostedUI/google6.png)
-4. Choose *Web application*.
-5. Click *Create* twice.
-6. Note the *OAuth client ID* and *client secret*. You will need them for the next section in the CLI flow.
-7. Choose *OK*.
-
-### Amazon Login Instructions
-
-1. Create a [developer account with Amazon](https://developer.amazon.com/login-with-amazon).
-2. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
-3. You need to create an Amazon security profile to receive the Amazon client ID and client secret. Choose Create a Security Profile.
-![Image](~/images/cognitoHostedUI/amazon1.png)
-4. Type in a Security Profile Name, a Security Profile Description, and a Consent Privacy Notice URL.
-![Image](~/images/cognitoHostedUI/amazon2.png)
-5. Choose Save.
-6. Choose Client ID and Client Secret to show the client ID and secret. You will need them for the next section in the CLI flow.
-![Image](~/images/cognitoHostedUI/amazon3.png)
-
-## Finish social setup
-
-After adding your Social provider information into the Amplify project setup, the domain that was created must be added into the Social provider configuration to complete the process.
-
-### Facebook Instructions
-
-1. [Sign In](https://developers.facebook.com/) with your Facebook credentials.
-2. From the *My Apps* menu, choose *Your App*.
-![Image](~/images/cognitoHostedUI/facebook1.png)
-3. On the left navigation bar, choose *Settings* and then *Basic*.
-![Image](~/images/cognitoHostedUI/facebook3.png)
-4. Choose *+ Add Platform* from the bottom of the page and then choose *Website*.
-![Image](~/images/cognitoHostedUI/facebook4.png)
-5. Under Website, type your user pool domain with the /oauth2/idpresponse endpoint into *Site URL*
-
-    ```https://<your-user-pool-domain>/oauth2/idpresponse```
-
-    ![Image](~/images/cognitoHostedUI/facebook5.png)
-6. Save changes.
-7. Type your user pool domain into *App Domains*:
-
-    ```https://<your-user-pool-domain>```
-    
-    ![Image](~/images/cognitoHostedUI/facebook6.png)
-8. Save changes.
-9. From the navigation bar choose *Products* and then *Set up* from *Facebook Login*.
-![Image](~/images/cognitoHostedUI/facebook7.png)
-10. From the navigation bar choose *Facebook Login* and then *Settings*.
-11. Type your redirect URL into *Valid OAuth Redirect URIs*. It will consist of your user pool domain with the /oauth2/idpresponse endpoint.
-
-    ```https://<your-user-pool-domain>/oauth2/idpresponse```
-
-    ![Image](~/images/cognitoHostedUI/facebook8.png)
-12. Save changes.
-
-### Google Sign-In Instructions
-
-1. Go to [Google Developer Console](https://developers.google.com/identity/sign-in/web/sign-in).
-2. Click *CONFIGURURE A PROJECT*
-![Image](~/images/cognitoHostedUI/google1.png)
-3. Type in a project name and choose *NEXT*.
-![Image](~/images/cognitoHostedUI/google2.png)
-4. Type in your product name and choose *NEXT*.
-5. Choose *Web browser* from the *Where are you calling from?* drop-down list.
-![Image](~/images/cognitoHostedUI/google3.png)
-6. Click *CREATE*. You will NOT use the *Client ID* and *CLient Secret* from this step.
-7. Click Done.
-8. Go to the [Google developer console](https://console.developers.google.com).
-9. On the left navigation bar, choose *Credentials*.
-![Image](~/images/cognitoHostedUI/google5.png)
-10. Select the client you created in the first step and choose the edit option
-11. Type your user pool domain into Authorized Javascript origins.
-12. Type your user pool domain with the `/oauth2/idpresponse` endpoint into *Authorized Redirect URIs*.
-
-    ![Image](~/images/cognitoHostedUI/google7.png)
-
-    Note: If you saw an error message `Invalid Redirect: domain must be added to the authorized domains list before submitting.` when adding the endpoint, please go to the *authorized domains list* and add the domain.
-13. Click *Save*.
-
-### Amazon Login Instructions
-
-1. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
-2. Hover over the gear and choose Web Settings associated with the security profile you created in the previous step, and then choose Edit.
-![Image](~/images/cognitoHostedUI/amazon4.png)
-3. Type your user pool domain into Allowed Origins and type your user pool domain with the /oauth2/idpresponse endpoint into Allowed Return URLs.
-![Image](~/images/cognitoHostedUI/amazon5.png)
-5. Choose Save.
-
 ## Setup Amplify auth backend
+When configuring Authentication with the CLI, you can choose an identity provider (Google, Facebook or Login with Amazon) or use Cognito User Pools directly. When setting up the social providers, you will need the domain name that is generated by Cognito User Pools, as well as the credentials retrieved from the social providers website.
 
-Once you have the social provider configured, run the following in your project’s root folder:
+
+Run the following in your project’s root folder:
 
 ```bash
 $ amplify add auth     ##"amplify update auth" if already configured
@@ -133,10 +23,54 @@ Do you want to use the default authentication and security configuration?
   I want to learn more.
 ```
 
+You will be asked for the credentials from your social provider setup:
+- [Facebook Login Instructions](#facebook-login-instructions)
+- [Google Sign-In Instructions](#google-sign-in-instructions)
+- [Amazon Login Instructions](#amazon-login-instructions)
+
+### Facebook Login Instructions
+
+Set up your app in Facebook by following Facebook's [App Development](https://developers.facebook.com/docs/apps) guide. Facebook will provide you an **App ID** and **App Secret** for your application which you will find in the app's **Basic Settings**; Take note of these.
+
+When configuring your app, use the following settings (the domain will be generated in the next section):
+
+- When setting up scenarios, choose **Facebook Login**
+- Add your Cognito User Pools domain with the */oauth2/idpresponse*:
+    - `https://<your-user-pool-domain>/oauth2/idpresponse` to:
+        - **Facebook Login > Settings > Valid OAuth Redirect URIs**
+        - **Platforms > Website > Site URL**
+
+### Google Sign-in Instructions
+
+Set up and create a *Web application* in Google by following Google's [Setting up OAuth 2.0](https://support.google.com/googleapi/answer/6158849) doc. Google will provide you a a **Client ID** and **Client Secret** for your application; take note of these.
+
+- On the **OAuth consent screen**, under Authorized domains, add `https://<your-user-pool-domain>`
+- When setting up the **Web application** add the following:
+    - **Name Field**: The name of your application
+    - **Authorized JavaScript origins**: `https://<your-user-pool-domain>`
+    - **Authorized redirect URIs**: `https://<your-user-pool-domain>/oauth2/idpresponse`
+
+
+### Amazon Login Instructions
+
+- Sign in to the Develop Portal at [Login with Amazon](http://login.amazon.com/), select **App Console** using your Amazon.com credentials.
+- Choose **Create a Security Profile** or choose an existing one that you have created.
+    - **Security Profile Name**: Your application name
+    - **Security Profile Description**: Your application description
+    - **Consent Privacy Notice URL**: A URL to your privacy notice
+- Click **Show Client ID and Client Secret** and take note of these values.
+
+- Click the **Gear Icon ⚙️** and select **Web Settings** and edit the following:
+    - **Allowed origins**: `https://<your-user-pool-domain>/`
+    - **Allowed Return URLs**: `https://<your-user-pool-domain>/oauth2/idpresponse`
+
+
 ### Sign-in redirect URIs
 
 <amplify-callout>
+
 For *Sign in Redirect URI(s)* inputs, you can put one URI for local development and one for production. Example: `http://localhost:3000/` in dev and `https://www.example.com/` in production. The same is true for *Sign out redirect URI(s)*.
+
 </amplify-callout>
 
 For React Native applications, You need to define a custom URL scheme for your application before testing locally or publishing to the app store. This is different for Expo or vanilla React Native. Follow the steps at the [React Native Linking docs](https://facebook.github.io/react-native/docs/linking) or [Expo Linking docs](https://docs.expo.io/versions/latest/workflow/linking/) for more information. After completing those steps, assuming you are using "myapp" as the name of your URL Scheme (or whatever friendly name you have chosen), you will use these URLs as *Sign in Redirect URI(s)* and/or *Sign out redirect URI(s)* inputs. Your URIs could look like any of these:
