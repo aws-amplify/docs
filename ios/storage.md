@@ -1,3 +1,6 @@
+---
+canonical: https://docs.amplify.aws/lib/storage/getting-started?platform=ios
+---
 <br />
 
 **Note**

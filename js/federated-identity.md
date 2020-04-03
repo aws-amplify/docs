@@ -1,4 +1,5 @@
 ---
+canonical: https://docs.amplify.aws/lib/auth/social?platform=js
 ---
 
 # Federated Identity Setup

@@ -1,5 +1,6 @@
 ---
 title: Storage
+canonical: https://docs.amplify.aws/sdk/storage/getting-started?platform=ios
 ---
 
 <br />

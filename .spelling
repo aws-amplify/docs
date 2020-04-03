@@ -1091,3 +1091,28 @@ pre-created
 # ios/started.md
 amplifyconfiguration.json
 amplifyxc.config
+
+# js/ui-components.md
+amplify-totp-setup
+userpool
+totp-setup
+css
+Helvetica
+Neue
+Arial
+0.75rem
+0.81rem
+0.875rem
+1rem
+1.5rem
+2rem
+2.5rem
+ff9900
+ffac31          
+e88b01          
+31465f          
+5d8aff          
+7da1ff          
+c4c4c4          
+ffffff          
+dd3f5b
