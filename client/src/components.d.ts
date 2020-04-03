@@ -1016,6 +1016,10 @@ declare namespace LocalJSX {
         "page"?: Page;
     }
     interface DocsRouter {
+        /**
+          * even for when routes render
+         */
+        "onRouteDidRender"?: (event: CustomEvent<any>) => void;
     }
     interface DocsSecondaryNav {
         /**

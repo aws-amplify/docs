@@ -105,12 +105,12 @@ export class DocsPage {
     return this.getPageData();
   }
 
-  componentDidLoad() {
+  @Listen("routeDidRender")
+  scrollToHash(_event: CustomEvent) {
+    console.log("route did render");
     const {hash} = location;
     if (hash) {
-      setTimeout(() => {
-        scrollToHash(hash);
-      }, 250);
+      scrollToHash(hash);
     }
   }
 

@@ -1,4 +1,12 @@
-import {Component, h, State, Watch} from "@stencil/core";
+import {
+  Component,
+  h,
+  State,
+  Event,
+  EventEmitter,
+  Build,
+  Listen,
+} from "@stencil/core";
 import {routes} from "./api";
 import {internalLinkContext} from "./docs-ui/internal-link/internal-link.context";
 import {SetCurrentPath} from "./docs-ui/internal-link/internal-link.types";
@@ -6,7 +14,13 @@ import {setPopped} from "./utils/pop-state";
 
 @Component({tag: "docs-router", shadow: false})
 export class DocsRouter {
+  /** even for when routes render */
+  @Event() routeDidRender: EventEmitter;
+
   @State() currentPath = `${location.pathname}${location.search}`;
+
+  observer?: MutationObserver;
+  ref?: HTMLElement;
 
   setCurrentPath: SetCurrentPath = (route) => (this.currentPath = route);
 
@@ -15,6 +29,34 @@ export class DocsRouter {
       setPopped(true);
       this.currentPath = `${location.pathname}${location.search}`;
     });
+  }
+
+  triggerEventIfRouteDisplayChange = () => {
+    this.routeDidRender.emit();
+  };
+
+  setRef = (ref: HTMLElement | undefined) => {
+    if (Build.isBrowser) {
+      if (this.observer) {
+        this.observer.disconnect();
+      }
+
+      if (ref) {
+        this.observer = new MutationObserver(
+          this.triggerEventIfRouteDisplayChange,
+        );
+
+        this.observer.observe(ref, {
+          childList: true,
+          attributes: true,
+          subtree: false,
+        });
+      }
+    }
+  };
+
+  componentDidUnload() {
+    this.observer?.disconnect();
   }
 
   render() {
@@ -27,7 +69,7 @@ export class DocsRouter {
       >
         <stencil-router>
           {/* https://github.com/ionic-team/stencil-router/issues/104 */}
-          <stencil-route-switch scrollTopOffset={1}>
+          <stencil-route-switch scrollTopOffset={1} ref={this.setRef}>
             {routes.map((route) => (
               <stencil-route
                 key={route}
