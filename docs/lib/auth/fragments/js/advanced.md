@@ -462,7 +462,7 @@ export default withAuth0(Button);
 
 The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your AWS Cognito User Pool.  These enable you to add custom functionality to your registration and authentication flows. [Read more](~/cli/function/function.md)
 
-### Pre Authentication Lambda trigger
+### Pre Authentication and Pre Sign-up Lambda triggers
 
 If you have a Pre Sign-up or Pre Authentication Lambda trigger enabled, you can pass `validationData` as one the properties for `signUp` or `signIn`. This metadata can be used to implement additional validations around authentication, such as restricting the types of user accounts that can be registered.
 
