@@ -242,3 +242,20 @@ Amplify UI Components use `slots` based off of the [Web Components slot element]
 ```
 
 <ui-component-props tag="amplify-greetings"></ui-component-props>
+
+## Use Cases
+
+### Authenticate with email or phone number
+
+The `amplify-authenticator` component has the ability to sign in / sign up with `email` or `phone_number` instead of default `username`. 
+
+To achieve this, you first need to setup the userpool to allow email or phone number as the username [using the cli workflow](https://aws-amplify.github.io/docs/cli-toolchain/quickstart#configuring-auth-without-social-providers) or through the [Cognito Console](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-aliases-settings-option-2). To reflect this in the `amplify-authenticator` component, you can use the `usernameAlias` property. It can take one of the three values - `email`, `phone_number` or `username`. Default is set to `username`.
+
+```html
+<amplify-authenticator username-alias="email">
+  <div>
+    My App
+    <amplify-sign-out></amplify-sign-out>
+  </div>
+</amplify-authenticator>
+```
