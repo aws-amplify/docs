@@ -672,6 +672,8 @@ The `withAuthenticator` HOC wraps an `Authenticator` component. Using `Authentic
     amplifyConfig={myAWSExports}
     // Pass in a message map for error strings
     errorMessage={myMessageMap}
+    // Pass the username attribute 
+    usernameAttributes='email' | 'phone' | 'username' (default)
 >
     // Default components can be customized/passed in as child components. 
     // Define them here if you used hideDefault={true}
