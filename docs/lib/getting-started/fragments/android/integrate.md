@@ -26,7 +26,7 @@ Amplify.API.mutate(firstTask, MutationType.CREATE,
 );
 ```
 
-c. Now, query your API. You should see the `task` you just created.
+c. Now, query your API. You should see the `firstTask` you just created.
 
 ```java
 Amplify.API.query(Task.class,
