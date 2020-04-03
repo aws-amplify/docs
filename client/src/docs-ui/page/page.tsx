@@ -22,8 +22,8 @@ import {track, AnalyticsEventType} from "../../utils/track";
 import {Breakpoint} from "../../amplify-ui/styles/media";
 import {getPage} from "../../cache";
 import {popped, setPopped} from "../../utils/pop-state";
-import {headingIsVisible} from "../../utils/heading-is-visible";
-import {getElementTop} from "../../utils/get-element-top";
+import {getNavHeight} from "../../utils/get-nav-height";
+import {scrollToHash} from "../../utils/scroll-to-hash";
 
 @Component({tag: "docs-page", shadow: false})
 export class DocsPage {
@@ -32,7 +32,7 @@ export class DocsPage {
 
   @State() data?: Page;
   @State() blendUniversalNav?: boolean;
-  @State() sidebarStickyTop = this.setSidebarStickyTop();
+  @State() sidebarStickyTop = getNavHeight(true);
 
   @State() selectedFilters: Record<string, string | undefined> = {};
 
@@ -70,10 +70,8 @@ export class DocsPage {
 
   // @ts-ignore
   @Listen("resize", {target: "window"})
-  setSidebarStickyTop(): number {
-    const sidebarStickyTop = innerWidth > Breakpoint.LAPTOP * 16 ? 3 : 6.25;
-    this.sidebarStickyTop = sidebarStickyTop;
-    return sidebarStickyTop;
+  setSidebarStickyTop() {
+    this.sidebarStickyTop = getNavHeight(true);
   }
 
   ensureMenuScrolledIntoViewOnMobileMenuOpen = () => {
@@ -110,13 +108,9 @@ export class DocsPage {
   componentDidLoad() {
     const {hash} = location;
     if (hash) {
-      const targets = Array.from(document.querySelectorAll(hash)).filter((e) =>
-        headingIsVisible(e),
-      ) as HTMLElement[];
-      if (targets[0]) {
-        const top = getElementTop(targets[0], this.sidebarStickyTop);
-        scrollTo({top});
-      }
+      setTimeout(() => {
+        scrollToHash(hash);
+      }, 500);
     }
   }
 
