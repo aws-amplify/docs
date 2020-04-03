@@ -462,7 +462,24 @@ export default withAuth0(Button);
 
 The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your AWS Cognito User Pool.  These enable you to add custom functionality to your registration and authentication flows. [Read more](~/cli/function/function.md)
 
-Many Cognito Lambda Triggers accept unsanitized key/value pairs in the form of a 'ClientMetadata' attribute.  To configure a static set of key/value pairs, you can define a `clientMetadata` key in the `Auth.configure` function.  You can also pass a `clientMetadata` parameter to the various `Auth` functions which result in Cognito Lambda Trigger execution.   These functions include:
+### Pre Authentication Lambda trigger
+
+If you have a Pre Sign-up or Pre Authentication Lambda trigger enabled, you can pass `validationData` as one the properties for `signUp` or `signIn`. This metadata can be used to implement additional validations around authentication, such as restricting the types of user accounts that can be registered.
+
+```js
+Auth.signIn({
+    username, // Required, the username
+    password, // Optional, the password
+    validationData, // Optional, an array of key-value pairs which can contain any key and will be passed to your Lambda trigger as-is.
+}).then(user => console.log(user))
+  .catch(err => console.log(err));
+```
+
+### Passing metadata to other Lambda triggers
+
+Many Cognito Lambda Triggers also accept unsanitized key/value pairs in the form of a `clientMetadata` attribute.  To configure a static set of key/value pairs, you can define a `clientMetadata` key in the `Auth.configure` function.  You can also pass a `clientMetadata` parameter to the various `Auth` functions which result in Cognito Lambda Trigger execution.
+
+These functions include:
 
 - `Auth.changePassword`
 - `Auth.completeNewPassword`
@@ -476,7 +493,7 @@ Many Cognito Lambda Triggers accept unsanitized key/value pairs in the form of a
 - `Auth.updateUserAttributes`
 - `Auth.verifyUserAttribute`
 
-Please note that some of triggers which accept a 'validationData' attribute will use clientMetadata as the value for validationData.  Exercise caution with using clientMetadata when you are relying on validationData.
+Please note that some of triggers which accept a `validationData` attribute will use `clientMetadata` as the value for `validationData`.  Exercise caution with using `clientMetadata` when you are relying on `validationData`.
 
 ## Working with AWS service objects
 

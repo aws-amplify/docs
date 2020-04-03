@@ -14,8 +14,7 @@ async function signUp() {
                 email,          // optional
                 phone_number,   // optional - E.164 number convention
                 // other custom attributes 
-            },
-            validationData: []  //optional
+            }
         });
         console.log({ user });
     } catch (error) {
