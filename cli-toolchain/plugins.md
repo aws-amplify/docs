@@ -133,7 +133,7 @@ From here, you can start to develop the plugin package. See below for the detail
 
 After the completion of one development cycle and you are ready to release your plugin to the public, you can publish it to the NPM: [https://docs.npmjs.com/getting-started/publishing-npm-packages](https://docs.npmjs.com/getting-started/publishing-npm-packages)
 
-### Step 4: Install and Use
+### Step 5: Install and Use
 
 Once your plugin is published to the NPM, other developers can install and use it
 
