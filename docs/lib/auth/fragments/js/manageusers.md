@@ -1,3 +1,5 @@
+This section covers the client-side development experience for password and user management. To learn more about exposing administration actions to your application, click [here](~/cli/auth/admin.md). 
+
 ## Password operations
 
 ### Change password
