@@ -1,4 +1,13 @@
-import {Component, Host, h, Prop, State, Watch, Listen} from "@stencil/core";
+import {
+  Component,
+  Host,
+  h,
+  Prop,
+  State,
+  Watch,
+  Listen,
+  Element,
+} from "@stencil/core";
 import {
   sidebarLayoutStyle,
   pageStyle,
@@ -22,15 +31,19 @@ import {track, AnalyticsEventType} from "../../utils/track";
 import {Breakpoint} from "../../amplify-ui/styles/media";
 import {getPage} from "../../cache";
 import {popped, setPopped} from "../../utils/pop-state";
+import {getNavHeight} from "../../utils/get-nav-height";
+import {scrollToHash} from "../../utils/scroll-to-hash";
 
 @Component({tag: "docs-page", shadow: false})
 export class DocsPage {
+  @Element() el: HTMLElement;
+
   /*** the current page path */
   @Prop() readonly currentPath?: string;
 
   @State() data?: Page;
   @State() blendUniversalNav?: boolean;
-  @State() sidebarStickyTop = this.setSidebarStickyTop();
+  @State() sidebarStickyTop = getNavHeight("rem");
 
   @State() selectedFilters: Record<string, string | undefined> = {};
 
@@ -71,10 +84,8 @@ export class DocsPage {
 
   // @ts-ignore
   @Listen("resize", {target: "window"})
-  setSidebarStickyTop(): number {
-    const sidebarStickyTop = innerWidth > Breakpoint.LAPTOP * 16 ? 3 : 6.25;
-    this.sidebarStickyTop = sidebarStickyTop;
-    return sidebarStickyTop;
+  setSidebarStickyTop() {
+    this.sidebarStickyTop = getNavHeight("rem");
   }
 
   ensureMenuScrolledIntoViewOnMobileMenuOpen = () => {
@@ -106,6 +117,16 @@ export class DocsPage {
 
     this.setSidebarStickyTop();
     return this.getPageData();
+  }
+
+  componentDidLoad() {
+    this.setSidebarStickyTop();
+    const {hash} = location;
+    if (hash) {
+      setTimeout(() => {
+        scrollToHash(hash, this.el);
+      }, 100);
+    }
   }
 
   getPageData = async () => {

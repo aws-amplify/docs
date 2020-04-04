@@ -1,35 +1,16 @@
-## Set up your backend
+> ### Prerequisites
+> * An Android project targeting Android API level 16 (Android 4.1) or above.
+> * [Install and configure](~/cli/start/install.md) the Amplify CLI
 
-The Amplify CLI helps you to create and configure the storage buckets for your app. The Amplify AWS S3 Storage plugin leverages [Amazon S3](https://aws.amazon.com/s3).
+## Storage with Amplify
 
-### Prerequisites
-* An Android project targeting at least Android API 15 (Ice Cream Sandwich).
-* Install and configure the Amplify CLI
+The Amplify Storage category provides a simple mechanism for managing user content for your app in public, protected, or private storage buckets.  The Amplify AWS S3 Storage plugin leverages [Amazon S3](https://aws.amazon.com/s3).
 
-```bash
-$ npm install -g @aws-amplify/cli
-$ amplify configure
-```
+## Create storage service
 
-**Steps**
+Run the following command in your project's root folder:
 
-Go to your project directory and run the following commands to get a fully functioning backend with the Storage category:
-
-Run `amplify init` command as shown:
-
-```bash
-$ amplify init
-? Enter a name for the project AmplifyStorage
-? Enter a name for the environment dev
-? Choose your default editor: Visual Studio Code
-? Choose the type of app that you're building android
-? Do you want to use an AWS profile? Yes
-? Please choose the profile you want to use default
-```
-
-Add storage using the command `amplify add storage`. Here is an example:
-
-```bash
+```sh
 $ amplify add storage
 ? Please select from one of the below mentioned services: `Content (Images, audio, video, etc.)`
 ? You need to add auth (Amazon Cognito) to your project in order to add storage for user files. Do you want to add auth now? `Yes`
@@ -44,16 +25,21 @@ $ amplify add storage
 ? Do you want to add a Lambda Trigger for your S3 Bucket? `No`
 ```
 
-Push your changes to the cloud using the push command
-```bash
+To deploy the service, run the `push` command:
+
+```sh
 $ amplify push
 ```
 
 When your backend is successfully provisioned, there should be two new generated files : `amplifyconfiguration.json` and `awsconfiguration.json` in your app/src/main/res/raw directory.
 
-Run `amplify console storage` to open the AWS S3 console in a web browser.
+To view the deployed services in your project at any time, go to Amplify Console by running the following command:
 
-## Install Amplify libraries
+```sh
+$ amplify console
+```
+
+## Configure your application
 
 Add the following dependencies to your app build.gradle file and click "Sync Now" when asked:
 
@@ -99,3 +85,10 @@ Add the following code to the bottom of your MainActivity `onCreate` method (ide
         }
     });
 ```
+
+
+## Summary
+
+Now you should be able to build and run your Android application and see "All set and ready to go!" in logcat.
+
+In this example, you used the Amplify CLI to get a fully functioning backend with the Storage category, and integrated it into your Android application.
