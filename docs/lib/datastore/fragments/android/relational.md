@@ -31,8 +31,8 @@ Post post = Post.builder()
     .status(PostStatus.ACTIVE)
     .build();
 Amplify.DataStore.save(post,
-    saved -> Log.i("GetStarted", "Post saved."),
-    failure -> Log.e("GetStarted", "Post not saved.", failure)
+    saved -> Log.i("QuickStart", "Post saved."),
+    failure -> Log.e("QuickStart", "Post not saved.", failure)
 );
 
 Comment comment = Comment.builder()
@@ -40,8 +40,8 @@ Comment comment = Comment.builder()
     .post(post) // Directly pass in the post instance
     .build();
 Amplify.DataStore.save(comment,
-    saved -> Log.i("GetStarted", "Comment saved."),
-    failure -> Log.e("GetStarted", "Comment not saved.", failure)
+    saved -> Log.i("QuickStart", "Comment saved."),
+    failure -> Log.e("QuickStart", "Comment not saved.", failure)
 );
 ```
 
@@ -53,16 +53,16 @@ Post post = Post.builder()
     .status(PostStatus.ACTIVE)
     .build();
 Amplify.DataStore.save(post,
-    saved -> Log.i("GetStarted", "Post saved."),
-    failure -> Log.e("GetStarted", "Post not saved.", failure)
+    saved -> Log.i("QuickStart", "Post saved."),
+    failure -> Log.e("QuickStart", "Post not saved.", failure)
 );
 
 User editor = User.builder()
     .username("Nadia")
     .build();
 Amplify.DataStore.save(editor,
-    saved -> Log.i("GetStarted", "Editor saved."),
-    failure -> Log.e("GetStarted", "Editor not saved.", failure)
+    saved -> Log.i("QuickStart", "Editor saved."),
+    failure -> Log.e("QuickStart", "Editor not saved.", failure)
 );
 
 PostEditor postEditor = PostEditor.builder()
@@ -70,8 +70,8 @@ PostEditor postEditor = PostEditor.builder()
     .editor(editor)
     .build();
 Amplify.DataStore.save(postEditor,
-    saved -> Log.i("GetStarted", "PostEditor saved."),
-    failure -> Log.e("GetStarted", "PostEditor not saved.", failure)
+    saved -> Log.i("QuickStart", "PostEditor saved."),
+    failure -> Log.e("QuickStart", "PostEditor not saved.", failure)
 );
 ```
 
@@ -87,9 +87,9 @@ This example queries for all comments that belong to a post with given ID value.
 Amplify.DataStore.query(Comment.class, Post.ID.eq("123"), matches -> {
     while (matches.hasNext()) {
         Comment comment = matches.next();
-        Log.i("GetStarted", "Content: " + comment.getContent());
+        Log.i("QuickStart", "Content: " + comment.getContent());
     }
-}, failure -> Log.e("GetStarted", "Query failed.", failure));
+}, failure -> Log.e("QuickStart", "Query failed.", failure));
 ```
 
 ## Deleting relations
@@ -98,8 +98,8 @@ When you delete a parent object in a one-to-many relationship, the children will
 
 ```java
 Amplify.DataStore.delete(myPost,
-    deleted -> Log.i("GetStarted", "Post deleted."),
-    failure -> Log.e("GetStarted", "Delete failed.", failure)
+    deleted -> Log.i("QuickStart", "Post deleted."),
+    failure -> Log.e("QuickStart", "Delete failed.", failure)
 );
 ```
 

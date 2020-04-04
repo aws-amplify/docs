@@ -10,8 +10,8 @@ Post post = Post.builder()
     .build();
 
 Amplify.DataStore.save(post,
-    saved -> Log.i("DataStore", "Saved a post."),
-    failure -> Log.e("DataStore", "Save failed.", failure)
+    saved -> Log.i("QuickStart", "Saved a post."),
+    failure -> Log.e("QuickStart", "Save failed.", failure)
 );
 ```
 
@@ -23,9 +23,9 @@ Queries are always performed against the local copy of your data. When connected
 Amplify.DataStore.query(Post.class, allPosts -> {
     while (allPosts.hasNext()) {
         Post post = allPosts.next();
-        Log.i("DataStore", "Title: " + post.getTitle());
+        Log.i("QuickStart", "Title: " + post.getTitle());
     }
-}, failure -> Log.e("DataStore", "Query failed.", failure));
+}, failure -> Log.e("QuickStart", "Query failed.", failure));
 ```
 
 ### Query with Predicates
@@ -44,9 +44,11 @@ For example, if you wanted a list of all `Post` models that have a `rating` grea
 Amplify.DataStore.query(Post.class, Post.RATING.gt(4), goodPosts -> {
     while (goodPosts.hasNext()) {
         Post post = goodPosts.next();
-        Log.i("DataStore", "Title: " + post.getTitle());
+        Log.i("QuickStart", "Title: " +  post.getTitle());
+        Log.i("QuickStart", "Rating: " + post.getRating());
+        Log.i("QuickStart", "Status: " + post.getStatus());
     }
-}, failure -> Log.e("DataStore", "Query failed.", failure));
+}, failure -> Log.e("QuickStart", "Query failed.", failure));
 ```
 
 <amplify-callout>
@@ -62,10 +64,12 @@ Amplify.DataStore.query(
     goodActivePosts -> {
         while (goodActivePosts.hasNext()) {
             Post post = goodActivePosts.next();
-            Log.i("DataStore", "Title: " +  post.getTitle());
+            Log.i("QuickStart", "Title: " +  post.getTitle());
+            Log.i("QuickStart", "Rating: " + post.getRating());
+            Log.i("QuickStart", "Status: " + post.getStatus());
         }
     },
-    failure -> Log.e("DataStore", "Query failed.", failure)
+    failure -> Log.e("QuickStart", "Query failed.", failure)
 );
 ```
 
@@ -81,11 +85,11 @@ Amplify.DataStore.query(Post.class, Post.ID.eq("123"), matches -> {
             .title("New Title")
             .build();
         Amplify.DataStore.save(edited,
-            updated -> Log.i("DataStore", "Updated a post."),
-            failure -> Log.e("DataStore", "Update failed.", failure)
+            updated -> Log.i("QuickStart", "Updated a post."),
+            failure -> Log.e("QuickStart", "Update failed.", failure)
         );
     }
-}, failure -> Log.e("DataStore", "Query failed.", failure));
+}, failure -> Log.e("QuickStart", "Query failed.", failure));
 ```
 
 ## Delete Data
@@ -97,11 +101,11 @@ Amplify.DataStore.query(Post.class, Post.ID.eq("123"), matches -> {
     if (matches.hasNext()) {
         Post post = matches.next();
         Amplify.DataStore.delete(post,
-            deleted -> Log.i("DataStore", "Deleted a post."),
-            failure -> Log.i("DataStore", "Delete failed.", failure)
+            deleted -> Log.i("QuickStart", "Deleted a post."),
+            failure -> Log.i("QuickStart", "Delete failed.", failure)
         );
     }
-}, failure -> Log.e("DataStore", "Query failed.", failure));
+}, failure -> Log.e("QuickStart", "Query failed.", failure));
 ```
 
 ## Observe Data
@@ -114,12 +118,12 @@ You can subscribe to the `DataStore.observe()` method to get notifications whene
 
 ```java
 Amplify.DataStore.observe(Post.class,
-    cancelable -> Log.i("DataStore", "Observation began."),
+    cancelable -> Log.i("QuickStart", "Observation began."),
     postChanged -> {
         Post post = postChanged.item();
-        Log.i("DataStore", "Post Title: " + post.getTitle());
+        Log.i("QuickStart", "Post Title: " + post.getTitle());
     },
-    failure -> Log.e("DataStore", "Observation failed.", failure),
-    () -> Log.i("DataStore", "Observation complete.")
+    failure -> Log.e("QuickStart", "Observation failed.", failure),
+    () -> Log.i("QuickStart", "Observation complete.")
 );
 ```
