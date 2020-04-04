@@ -64,11 +64,12 @@ $ amplify console api
 
 What next? Here are some things to add to your app:
 
-* [Authentication](./authentication)
-* [DataStore](./datastore)
-* [Storage](./storage)
-* [API](./api)
-* [Analytics](./analytics)
+* [Analytics](~/lib/analytics/getting-started.md)
+* [API (GraphQL)](~/lib/graphqlapi/getting-started.md)
+* [API (REST)](~/lib/restapi/getting-started.md)
+* [Authentication](~/lib/auth/getting-started.md)
+* [DataStore](~/lib/datastore/getting-started.md)
+* [Storage](~/lib/storage/getting-started.md)
 
 **Existing AWS Resources**
 
