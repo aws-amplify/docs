@@ -1,6 +1,6 @@
 ## Relational Models
 
-DataStore has the capability to handle relationships between Models, such as `Has One`, `Has Many`, `Belongs To`, and `Many To Many`. In GraphQL this is done with `@connection` as defined in the [GraphQL Transformer documentation](https://aws-amplify.github.io/docs/cli-toolchain/graphql#connection). For the examples that follow, we will use the following schema:
+DataStore has the capability to handle relationships between Models, such as `Has One`, `Has Many`, `Belongs To`, and `Many To Many`. In GraphQL this is done with `@connection` as defined in the [GraphQL Transformer documentation](https://aws-amplify.github.io/docs/cli-toolchain/graphql#connection).  For the examples that follow, we will use the following schema:
 
 ```graphql
 enum PostStatus {
@@ -32,8 +32,8 @@ Post post = Post.builder()
     .build();
 
 Amplify.DataStore.save(post,
-    postSaved -> Log.i("AmplifyGetStarted", "Post saved"),
-    dataStoreException -> Log.e("AmplifyGetStarted", dataStoreException.getMessage(), dataStoreException)
+    postSaved -> Log.i("AmplifyGetStarted", "Post saved."),
+    saveFailure -> Log.e("AmplifyGetStarted", "Post not saved.", saveFailure)
 );
 
 Comment comment = Comment.builder()
@@ -42,8 +42,8 @@ Comment comment = Comment.builder()
     .build();
 
 Amplify.DataStore.save(comment,
-    commentSaved -> Log.i("AmplifyGetStarted", "Comment saved"),
-    dataStoreException -> Log.e("AmplifyGetStarted", dataStoreException.getMessage(), dataStoreException)
+    commentSaved -> Log.i("AmplifyGetStarted", "Comment saved."),
+    saveFailure -> Log.e("AmplifyGetStarted", "Comment not saved.", saveFailed)
 );
 ```
 
@@ -56,16 +56,16 @@ Post post = Post.builder()
     .build();
 
 Amplify.DataStore.save(post,
-    postSaved -> Log.i("AmplifyGetStarted", "Post saved"),
-    dataStoreException -> Log.e("AmplifyGetStarted", dataStoreException.getMessage(), dataStoreException)
+    postSaved -> Log.i("AmplifyGetStarted", "Post saved."),
+    saveFailure -> Log.e("AmplifyGetStarted", "Post not saved.", saveFailure)
 );
 
 User editor = User.builder()
     .username("Nadia")
     .build();
 Amplify.DataStore.save(editor,
-    editorSaved -> Log.i("AmplifyGetStarted", "Editor saved"),
-    dataStoreException -> Log.e("AmplifyGetStarted", dataStoreException.getMessage(), dataStoreException)
+    editorSaved -> Log.i("AmplifyGetStarted", "Editor saved."),
+    saveFailure -> Log.e("AmplifyGetStarted", "Editor not saved.", saveFailure)
 );
 
 PostEditor postEditor = PostEditor.builder()
@@ -73,8 +73,8 @@ PostEditor postEditor = PostEditor.builder()
     .editor(editor)
     .build();
 Amplify.DataStore.save(postEditor,
-    postEditorSaved -> Log.i("AmplifyGetStarted", "Post editor saved"),
-    dataStoreException -> Log.e("AmplifyGetStarted", dataStoreException.getMessage(), dataStoreException)
+    postEditorSaved -> Log.i("AmplifyGetStarted", "PostEditor saved."),
+    saveFailure -> Log.e("AmplifyGetStarted", "PostEditor not saved.", saveFailure)
 );
 ```
 
@@ -90,13 +90,13 @@ This example queries for all comments that belong to a post with given ID value.
 Amplify.DataStore.query(
     Comment.class,
     Post.ID.eq("123"),
-    commentIterator -> {
-        while(commentIterator.hasNext()) {
-            Comment comment = commentIterator.next();
+    matchingComments -> {
+        while (matchingComments.hasNext()) {
+            Comment comment = matchingComments.next();
             Log.i("AmplifyGetStarted", "Comment: " + comment.getContent());
         }
     },
-    dataStoreException -> Log.e("AmplifyGetStarted", dataStoreException.getMessage(), dataStoreException)
+    queryFailure -> Log.e("AmplifyGetStarted", "Query failed.", queryFailure)
 );
 ```
 
@@ -107,7 +107,9 @@ When you delete a parent object in a one-to-many relationship, the children will
 ```java
 Amplify.DataStore.delete(myPost,
     postDeleted -> Log.i("AmplifyGetStarted", "Post deleted"),
-    dataStoreException -> Log.e("AmplifyGetStarted", dataStoreException.getMessage(), dataStoreException)
+    deleteFailed -> Log.e("AmplifyGetStarted", "Post not deleted.", deleteFailed)
 );
 ```
+
 However, in a many-to-many relationship, the children are not removed and you must explicitly delete them.
+
