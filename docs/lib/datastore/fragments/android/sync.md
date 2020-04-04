@@ -1,15 +1,27 @@
-Once you're happy with your application, you can start syncing with the cloud by provisioning a backend from your project. This can be done using Gradle or with the Amplify CLI. Provisioning will also create a project in the [AWS Amplify Console](https://aws.amazon.com/amplify/console/) to store metadata (such as the GraphQL schema) which you can pull down to generate models on other platforms.
+Once you're happy with your application, you can start syncing with the
+cloud by provisioning a backend from your project. This can be done
+using Gradle or with the Amplify CLI. Provisioning will also create a
+project in the [AWS Amplify Console](https://aws.amazon.com/amplify/console/)
+to store metadata (such as the GraphQL schema) which you can pull down
+to generate models on other platforms.
 
-DataStore can connect to an existing AppSync backend that has been deployed from another project. In these workflows, it is best to work with the CLI directly. Run the `amplify pull` command from your terminal, then generate models as discussed earlier in this guide.
+DataStore can connect to an existing AppSync backend that has been
+deployed from another project. In these workflows, it is best to work
+with the CLI directly. Run the `amplify pull` command from your
+terminal, then generate models as discussed earlier in this guide.
 
-> For more information on this workflow please see the [Multiple Frontends documentation](https://aws-amplify.github.io/docs/cli-toolchain/quickstart#multiple-frontends).
+> For more information on this workflow please see the
+> [Multiple Frontends documentation](https://aws-amplify.github.io/docs/cli-toolchain/quickstart#multiple-frontends).
 
 ## Use Gradle
 
-If you have installed the Gradle tools for Amplify, select the Gradle dropdown in the toolbar and click **amplifyPush** then run the task.
+If you have installed the Gradle tools for Amplify, select the Gradle
+dropdown in the toolbar and click **amplifyPush** then run the task.
 
 <amplify-callout>
-If you do not already have a local AWS profile with credentials (automatically setup with the Amplify CLI) you will be prompted to do this on the first push.
+If you do not already have a local AWS profile with credentials
+(automatically setup with the Amplify CLI) you will be prompted to do
+this on the first push.
 </amplify-callout>
 
 ## Use Amplify CLI
@@ -50,7 +62,9 @@ In order to enable cloud sync, the `amplifyconfiguration.json` must:
 }
 ```
 
-If only using the DataStore for local data, without any cloud synchronization, your configuration file may be empty:
+If only using the DataStore for local data, without any cloud
+synchronization, your configuration file may be empty:
 ```
 {}
 ```
+
