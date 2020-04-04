@@ -10,8 +10,8 @@ Post post = Post.builder()
     .build();
 
 Amplify.DataStore.save(post,
-    saved -> Log.i("QuickStart", "Saved a post."),
-    failure -> Log.e("QuickStart", "Save failed.", failure)
+    saved -> Log.i("GetStarted", "Saved a post."),
+    failure -> Log.e("GetStarted", "Save failed.", failure)
 );
 ```
 
@@ -23,9 +23,9 @@ Queries are always performed against the local copy of your data. When connected
 Amplify.DataStore.query(Post.class, allPosts -> {
     while (allPosts.hasNext()) {
         Post post = allPosts.next();
-        Log.i("QuickStart", "Title: " + post.getTitle());
+        Log.i("GetStarted", "Title: " + post.getTitle());
     }
-}, failure -> Log.e("QuickStart", "Query failed.", failure));
+}, failure -> Log.e("GetStarted", "Query failed.", failure));
 ```
 
 ### Query with Predicates
@@ -44,11 +44,11 @@ For example, if you wanted a list of all `Post` models that have a `rating` grea
 Amplify.DataStore.query(Post.class, Post.RATING.gt(4), goodPosts -> {
     while (goodPosts.hasNext()) {
         Post post = goodPosts.next();
-        Log.i("QuickStart", "Title: " +  post.getTitle());
-        Log.i("QuickStart", "Rating: " + post.getRating());
-        Log.i("QuickStart", "Status: " + post.getStatus());
+        Log.i("GetStarted", "Title: " +  post.getTitle());
+        Log.i("GetStarted", "Rating: " + post.getRating());
+        Log.i("GetStarted", "Status: " + post.getStatus());
     }
-}, failure -> Log.e("QuickStart", "Query failed.", failure));
+}, failure -> Log.e("GetStarted", "Query failed.", failure));
 ```
 
 <amplify-callout>
@@ -64,12 +64,12 @@ Amplify.DataStore.query(
     goodActivePosts -> {
         while (goodActivePosts.hasNext()) {
             Post post = goodActivePosts.next();
-            Log.i("QuickStart", "Title: " +  post.getTitle());
-            Log.i("QuickStart", "Rating: " + post.getRating());
-            Log.i("QuickStart", "Status: " + post.getStatus());
+            Log.i("GetStarted", "Title: " +  post.getTitle());
+            Log.i("GetStarted", "Rating: " + post.getRating());
+            Log.i("GetStarted", "Status: " + post.getStatus());
         }
     },
-    failure -> Log.e("QuickStart", "Query failed.", failure)
+    failure -> Log.e("GetStarted", "Query failed.", failure)
 );
 ```
 
@@ -85,11 +85,11 @@ Amplify.DataStore.query(Post.class, Post.ID.eq("123"), matches -> {
             .title("New Title")
             .build();
         Amplify.DataStore.save(edited,
-            updated -> Log.i("QuickStart", "Updated a post."),
-            failure -> Log.e("QuickStart", "Update failed.", failure)
+            updated -> Log.i("GetStarted", "Updated a post."),
+            failure -> Log.e("GetStarted", "Update failed.", failure)
         );
     }
-}, failure -> Log.e("QuickStart", "Query failed.", failure));
+}, failure -> Log.e("GetStarted", "Query failed.", failure));
 ```
 
 ## Delete Data
@@ -101,11 +101,11 @@ Amplify.DataStore.query(Post.class, Post.ID.eq("123"), matches -> {
     if (matches.hasNext()) {
         Post post = matches.next();
         Amplify.DataStore.delete(post,
-            deleted -> Log.i("QuickStart", "Deleted a post."),
-            failure -> Log.i("QuickStart", "Delete failed.", failure)
+            deleted -> Log.i("GetStarted", "Deleted a post."),
+            failure -> Log.i("GetStarted", "Delete failed.", failure)
         );
     }
-}, failure -> Log.e("QuickStart", "Query failed.", failure));
+}, failure -> Log.e("GetStarted", "Query failed.", failure));
 ```
 
 ## Observe Data
@@ -118,12 +118,12 @@ You can subscribe to the `DataStore.observe()` method to get notifications whene
 
 ```java
 Amplify.DataStore.observe(Post.class,
-    cancelable -> Log.i("QuickStart", "Observation began."),
+    cancelable -> Log.i("GetStarted", "Observation began."),
     postChanged -> {
         Post post = postChanged.item();
-        Log.i("QuickStart", "Post Title: " + post.getTitle());
+        Log.i("GetStarted", "Post Title: " + post.getTitle());
     },
-    failure -> Log.e("QuickStart", "Observation failed.", failure),
-    () -> Log.i("QuickStart", "Observation complete.")
+    failure -> Log.e("GetStarted", "Observation failed.", failure),
+    () -> Log.i("GetStarted", "Observation complete.")
 );
 ```
