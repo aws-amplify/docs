@@ -30,20 +30,18 @@ Post post = Post.builder()
     .title("My Post with comments")
     .status(PostStatus.ACTIVE)
     .build();
-
 Amplify.DataStore.save(post,
-    postSaved -> Log.i("AmplifyGetStarted", "Post saved."),
-    saveFailure -> Log.e("AmplifyGetStarted", "Post not saved.", saveFailure)
+    saved -> Log.i("GetStarted", "Post saved."),
+    failure -> Log.e("GetStarted", "Post not saved.", failure)
 );
 
 Comment comment = Comment.builder()
     .content("Loving Amplify DataStore!")
     .post(post) // Directly pass in the post instance
     .build();
-
 Amplify.DataStore.save(comment,
-    commentSaved -> Log.i("AmplifyGetStarted", "Comment saved."),
-    saveFailure -> Log.e("AmplifyGetStarted", "Comment not saved.", saveFailed)
+    saved -> Log.i("GetStarted", "Comment saved."),
+    failure -> Log.e("GetStarted", "Comment not saved.", failure)
 );
 ```
 
@@ -54,18 +52,17 @@ Post post = Post.builder()
     .title("My First Post")
     .status(PostStatus.ACTIVE)
     .build();
-
 Amplify.DataStore.save(post,
-    postSaved -> Log.i("AmplifyGetStarted", "Post saved."),
-    saveFailure -> Log.e("AmplifyGetStarted", "Post not saved.", saveFailure)
+    saved -> Log.i("GetStarted", "Post saved."),
+    failure -> Log.e("GetStarted", "Post not saved.", failure)
 );
 
 User editor = User.builder()
     .username("Nadia")
     .build();
 Amplify.DataStore.save(editor,
-    editorSaved -> Log.i("AmplifyGetStarted", "Editor saved."),
-    saveFailure -> Log.e("AmplifyGetStarted", "Editor not saved.", saveFailure)
+    saved -> Log.i("GetStarted", "Editor saved."),
+    failure -> Log.e("GetStarted", "Editor not saved.", failure)
 );
 
 PostEditor postEditor = PostEditor.builder()
@@ -73,8 +70,8 @@ PostEditor postEditor = PostEditor.builder()
     .editor(editor)
     .build();
 Amplify.DataStore.save(postEditor,
-    postEditorSaved -> Log.i("AmplifyGetStarted", "PostEditor saved."),
-    saveFailure -> Log.e("AmplifyGetStarted", "PostEditor not saved.", saveFailure)
+    saved -> Log.i("GetStarted", "PostEditor saved."),
+    failure -> Log.e("GetStarted", "PostEditor not saved.", failure)
 );
 ```
 
@@ -87,17 +84,12 @@ When querying for a model that `Belongs To` (i.e. identity depends on) another m
 This example queries for all comments that belong to a post with given ID value.
 
 ```java
-Amplify.DataStore.query(
-    Comment.class,
-    Post.ID.eq("123"),
-    matchingComments -> {
-        while (matchingComments.hasNext()) {
-            Comment comment = matchingComments.next();
-            Log.i("AmplifyGetStarted", "Comment: " + comment.getContent());
-        }
-    },
-    queryFailure -> Log.e("AmplifyGetStarted", "Query failed.", queryFailure)
-);
+Amplify.DataStore.query(Comment.class, Post.ID.eq("123"), matches -> {
+    while (matches.hasNext()) {
+        Comment comment = matches.next();
+        Log.i("GetStarted", "Content: " + comment.getContent());
+    }
+}, failure -> Log.e("GetStarted", "Query failed.", failure));
 ```
 
 ## Deleting relations
@@ -106,8 +98,8 @@ When you delete a parent object in a one-to-many relationship, the children will
 
 ```java
 Amplify.DataStore.delete(myPost,
-    postDeleted -> Log.i("AmplifyGetStarted", "Post deleted"),
-    deleteFailed -> Log.e("AmplifyGetStarted", "Post not deleted.", deleteFailed)
+    deleted -> Log.i("GetStarted", "Post deleted."),
+    failure -> Log.e("GetStarted", "Delete failed.", failure)
 );
 ```
 

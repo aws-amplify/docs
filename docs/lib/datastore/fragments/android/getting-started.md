@@ -79,8 +79,8 @@ Whenever DataStore starts on a device, it will check for a change in the version
 In your app's `onCreate` (or similar lifecycle callback), initialize Amplify:
 
 ```java
-AWSDataStorePlugin dataStorePlugin = AWSDataStorePlugin.forModels(AmplifyModelProvider.getInstance());
-Amplify.addPlugin(dataStorePlugin);
+ModelProvider modelProvider = AmplifyModelProvider.getInstance();
+Amplify.addPlugin(AWSDataStorePlugin.forModels(modelProvider));
 Amplify.addPlugin(new AWSApiPlugin()); // If using remote model synchronization
 Amplify.configure(getApplicationContext());
 ```

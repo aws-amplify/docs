@@ -10,8 +10,8 @@ Post post = Post.builder()
     .build();
 
 Amplify.DataStore.save(post,
-    saved -> Log.i("DataStore", "Saved a post: " + saved.item()),
-    saveFailure -> Log.e("DataStore", "Save failed.", saveFailure)
+    saved -> Log.i("GetStarted", "Saved a post."),
+    failure -> Log.e("GetStarted", "Save failed.", failure)
 );
 ```
 
@@ -20,22 +20,18 @@ Amplify.DataStore.save(post,
 Queries are always performed against the local copy of your data. When connected to the cloud, the local copy of your data is automatically updated in the background. You can query for models by their class, or by providing additional search criteria for finer-grained results. A simple query without any filtering criteria is shown below.
 
 ```java
-Amplify.DataStore.query(Post.class,
-    allPosts -> {
-        while (allPosts.hasNext()) {
-            Post post = allPosts.next();
-            Log.i("DataStore", "Title: " + post.getTitle());
-            Log.i("DataStore", "Rating: " + post.getRating());
-            Log.i("DataStore", "Status: " + post.getStatus());
-        }
-    },
-    queryFailure -> Log.e("DataStore", "Query failed.", queryFailure)
-);
+Amplify.DataStore.query(Post.class, allPosts -> {
+    while (allPosts.hasNext()) {
+        Post post = allPosts.next();
+        Log.i("GetStarted", "Title: " + post.getTitle());
+    }
+}, failure -> Log.e("GetStarted", "Query failed.", failure));
 ```
 
 ### Query with Predicates
 
 You can provide additional filters to your query using a **query predicate**. The AWS-standard nomenclature of these query predicates will be familiar to those who have used Amazon DynamoDB, in the past.
+
 **Strings:** `eq | ne | le | lt | ge | gt | contains | beginsWith | between`
 
 **Numbers:** `eq | ne | le | lt | ge | gt | between`
@@ -45,17 +41,14 @@ You can provide additional filters to your query using a **query predicate**. Th
 For example, if you wanted a list of all `Post` models that have a `rating` greater than 4:
 
 ```java
-Amplify.DataStore.query(Post.class, Post.RATING.gt(4),
-    wellRatedPosts -> {
-        while (wellRatedPosts.hasNext()) {
-            Post post = wellRatedPosts.next();
-            Log.i("DataStore", "Title: " + post.getTitle());
-            Log.i("DataStore", "Rating: " + post.getRating());
-            Log.i("DataStore", "Status: " + post.getStatus());
-        }
-    },
-    queryFailure -> Log.e("DataStore", "Query failed.", queryFailure)
-);
+Amplify.DataStore.query(Post.class, Post.RATING.gt(4), goodPosts -> {
+    while (goodPosts.hasNext()) {
+        Post post = goodPosts.next();
+        Log.i("GetStarted", "Title: " +  post.getTitle());
+        Log.i("GetStarted", "Rating: " + post.getRating());
+        Log.i("GetStarted", "Status: " + post.getStatus());
+    }
+}, failure -> Log.e("GetStarted", "Query failed.", failure));
 ```
 
 <amplify-callout>
@@ -68,38 +61,35 @@ Multiple conditions can be chained together by using `and | or | not`:
 Amplify.DataStore.query(
     Post.class,
     Post.RATING.gt(4).and(Post.STATUS.eq(PostStatus.ACTIVE)),
-    wellRatedActivePosts -> {
-        while (wellRatedActivePosts.hasNext()) {
-            Post post = wellRatedActivePosts.next();
-            Log.i("DataStore", "Title: " +  post.getTitle());
-            Log.i("DataStore", "Rating: " + post.getRating());
-            Log.i("DataStore", "Status: " + post.getStatus());
+    goodActivePosts -> {
+        while (goodActivePosts.hasNext()) {
+            Post post = goodActivePosts.next();
+            Log.i("GetStarted", "Title: " +  post.getTitle());
+            Log.i("GetStarted", "Rating: " + post.getRating());
+            Log.i("GetStarted", "Status: " + post.getStatus());
         }
     },
-    queryFailure -> Log.e("DataStore", "Query failed.", queryFailure)
+    failure -> Log.e("GetStarted", "Query failed.", failure)
 );
 ```
 
 ## Update Data
 
-An in-memory representation of a DataStore Model is immutable. Instead of directly modifying the fields on a Model, you must use the `.copyOfBuilder()` function to create a new representation of the model:
+An in-memory representation of a DataStore Model is immutable. Instead of directly modifying the fields on a Model, you must use the `.copyOfBuilder()` function to create a new representation of the model. Below, we query for a Post with an `id` of `123`. If found, we update it.
 
 ```java
-Amplify.DataStore.query(Post.class, Post.ID.eq("123"),
-    postsToUpdate -> {
-        if (postsToUpdate.hasNext()) {
-            Post original = postsToUpdate.next();
-            Post edited = original.copyOfBuilder()
-                .title("New Title")
-                .build();
-            Amplify.DataStore.save(edited,
-                updated -> Log.i("DataStore", "Updated a post: " + updated.item()),
-                updateFailure -> Log.e("DataStore", "Update failed.", updateFailure)
-            );
-        }
-    },
-    queryFailure -> Log.e("DataStore", "Query failed.", queryFailure)
-);
+Amplify.DataStore.query(Post.class, Post.ID.eq("123"), matches -> {
+    if (matches.hasNext()) {
+        Post original = matches.next();
+        Post edited = original.copyOfBuilder()
+            .title("New Title")
+            .build();
+        Amplify.DataStore.save(edited,
+            updated -> Log.i("GetStarted", "Updated a post."),
+            failure -> Log.e("GetStarted", "Update failed.", failure)
+        );
+    }
+}, failure -> Log.e("GetStarted", "Query failed.", failure));
 ```
 
 ## Delete Data
@@ -107,18 +97,15 @@ Amplify.DataStore.query(Post.class, Post.ID.eq("123"),
 To delete an item, simply pass in an instance to `DataStore.delete()`.  Below, we query for an instance with an `id` of `"123"`, and then delete it, if found.
 
 ```java
-Amplify.DataStore.query(Post.class, Post.ID.eq("123"),
-    postsToDelete -> {
-        if (postsToDelete.hasNext()) {
-            Post post = postsToDelete.next();
-            Amplify.DataStore.delete(post,
-                deleted -> Log.i("DataStore", "Deleted a post: " + deleted.item()),
-                deleteFailure -> Log.i("DataStore", "Delete failed.", deleteFailure)
-            );
-        }
-    },
-    queryFailure -> Log.e("DataStore", "Query failed.", queryFailure)
-);
+Amplify.DataStore.query(Post.class, Post.ID.eq("123"), matches -> {
+    if (matches.hasNext()) {
+        Post post = matches.next();
+        Amplify.DataStore.delete(post,
+            deleted -> Log.i("GetStarted", "Deleted a post."),
+            failure -> Log.i("GetStarted", "Delete failed.", failure)
+        );
+    }
+}, failure -> Log.e("GetStarted", "Query failed.", failure));
 ```
 
 ## Observe Data
@@ -131,12 +118,12 @@ You can subscribe to the `DataStore.observe()` method to get notifications whene
 
 ```java
 Amplify.DataStore.observe(Post.class,
-    cancelable -> Log.i("DataStore", "Observation began."),
+    cancelable -> Log.i("GetStarted", "Observation began."),
     postChanged -> {
         Post post = postChanged.item();
-        Log.i("DataStore", "Post Title: " + post.getTitle());
+        Log.i("GetStarted", "Post Title: " + post.getTitle());
     },
-    failure -> Log.e("DataStore", "Observation failed.", failure),
-    () -> Log.i("DataStore", "Observation complete.")
+    failure -> Log.e("GetStarted", "Observation failed.", failure),
+    () -> Log.i("GetStarted", "Observation complete.")
 );
 ```
