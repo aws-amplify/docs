@@ -42,6 +42,7 @@ cd AmplifyDatastoreRN
 npx amplify-app@latest
 ```
 
+## Modifying the Schema
 
 Once this completes open the GraphQL schema in the `amplify/backend/api/<datasourcename>/schema.graphql`. You can use the sample or the one below that will be used in this documentation:
 
