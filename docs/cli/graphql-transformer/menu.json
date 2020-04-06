@@ -9,6 +9,6 @@
     "codegen",
     "resolvers",
     "examples",
-    "configparam"
+    "advanced"
   ]
 }

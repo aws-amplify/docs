@@ -52,7 +52,7 @@ After configuring your Authentication options, update your backend:
 $ amplify push
 ```
 
-A configuration file called `awsconfiguration.json` will be copied to your project `./app/src/main/res/raw` directory. The `AWSMobileClient` will leverage this for communicating with backend services. [Click here to learn more about this process.](./start#step-3-how-it-works)
+A configuration file called `awsconfiguration.json` will be copied to your project `./app/src/main/res/raw` directory. The `AWSMobileClient` will leverage this for communicating with backend services.
 
 ### Lambda Triggers
 
@@ -148,4 +148,4 @@ AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<U
 });
 ```
 
-You might leverage the above workflow to perform other actions in the `SIGNED_IN` case, such as calling [GraphQL or REST APIs with AWS AppSync and Amazon API Gateway](./api) or uploading content with [Amazon S3](./storage).
+You might leverage the above workflow to perform other actions in the `SIGNED_IN` case, such as calling [GraphQL or REST APIs with AWS AppSync and Amazon API Gateway](~/sdk/api/graphql) or uploading content with [Amazon S3](~/sdk/storage/getting-started).

@@ -28,7 +28,7 @@ export class DocsSecondaryNav {
 
   render() {
     return (
-      <Host class={hostStyle}>
+      <Host class={hostStyle} id="secondary-nav">
         <amplify-container>
           <div class={secondaryNavStyle}>
             <div>

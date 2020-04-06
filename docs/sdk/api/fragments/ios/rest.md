@@ -1,4 +1,4 @@
-### Overview
+## Overview
 
 The Amplify CLI deploys REST APIs and handlers using [Amazon API Gateway](http://docs.aws.amazon.com/apigateway/latest/developerguide/) and [AWS Lambda](http://docs.aws.amazon.com/lambda/latest/dg/).
 
@@ -6,7 +6,7 @@ The API category will perform SDK code generation which, when used with the `AWS
 
 See [the authentication section for more details](/sdk/auth/how-it-works?platform=ios) for using the `AWSMobileClient` in your application.
 
-### Set Up Your Backend
+## Set Up Your Backend
 
 In a terminal window, navigate to your project folder (the folder that contains your app `.Xcodeproj` file), and add the SDK to your app.
 
@@ -33,7 +33,7 @@ $ amplify push
 
 Once the deployment completes a folder called `generated-src` will be added in the folder directory. This is the client SDK that you will add to your project in the next section.
 
-### Connect to Your Backend
+## Connect to Your Backend
 
 Add `AWSAPIGateway` to your Podfile:
 
@@ -63,7 +63,7 @@ So, for an app named `useamplify` with an API resource named `xyz123`, the path 
 
 Find the resource name of your API by running `amplify status`. Copy your API client name to use when invoking the API in the following sections.
 
-#### IAM authorization
+### IAM authorization
 
 To invoke an API Gateway endpoint from your application, import `AWSAPIGateway` and use the generated client class, model, and resource paths as in the below example with `YOUR_API_CLIENT_NAME` replaced from the previous section. For AWS IAM authorization use the `AWSMobileClient` as outlined in [the authentication section](/sdk/auth/how-it-works?platform=ios).
 
@@ -127,7 +127,7 @@ import AWSMobileClient
 
 You can then invoke this method with `self.doInvokeAPI()` from your application code.
 
-#### Cognito User Pools authorization
+### Cognito User Pools authorization
 
 When invoking an API Gateway endpoint with Cognito User Pools authorizer, you can leverage the `AWSMobileClient` to dynamically refresh and pass tokens to your endpoint. Using the example from the previous section, update the `doInvokeAPI()` so that it takes an argument of `token:String`. Next, add a header of `"Authorization" : token` and set the service configuration to have `credentialsProvider: nil`. Finally, overload the `doInvokeAPI()` with a new definition that gets the Cognito User Pools token from the `AWSMobileClient` as below:
 
