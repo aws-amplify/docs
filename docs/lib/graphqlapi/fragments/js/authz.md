@@ -1,6 +1,6 @@
 ## Using Amplify GraphQL client
 
-Each AppSync API is set with __default__ authorization mode.
+Each AppSync API is set with a __default__ authorization mode.
 
 AWS AppSync also supports [multiple authorization modes on a single API](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes) enabling you to add additional authorization modes.
 
