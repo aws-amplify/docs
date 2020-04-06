@@ -139,3 +139,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
     ModelRegistry.register(modelType: Todo.self)
     ```
 Make sure it builds and runs (`CMD+R`) successfully before moving onto the next section.
+
+## API Reference   
+
+For the complete API documentation for API, visit our [API Reference](https://aws-amplify.github.io/amplify-ios/docs/Classes/AmplifyAPICategory.html)

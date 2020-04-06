@@ -48,6 +48,31 @@ var apiBetatestGraphQLAPIEndpointOutput = process.env.API_BETATEST_GRAPHQLAPIEND
 
 Behind the scenes, the CLI automates populating of the resource identifiers for the selected resources as Lambda environment variables which you will see in your function code as well. This process additionally configures CRUD level IAM policies on the Lambda execution role to access these resources from the Lambda function. For instance, you might grant permissions to your Lambda function to read/write to a DynamoDB table in the Amplify project by using the above flow and the appropriate IAM policy would be set on that Lambda function's execution policy which is scoped to that table only.
 
+## Supported Lambda runtimes
+
+Amplify CLI enables you to create, test and deploy Lambda functions with the following runtimes: 
+
+|Runtime|Default Version|Requirements|
+|-------|-----------------|------------|
+|NodeJS |12.x|- Install [NodeJS](https://nodejs.org/en/)|
+|Java   |11|- Install [Java 11 JDK](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html) and [Gradle 5+](https://docs.gradle.org/current/userguide/installation.html)|
+|Go     |1.x|- Install [Go](https://golang.org/doc/install)|
+|.NET Core|3.1|- Install [.NET Core SDK](https://docs.microsoft.com/en-us/dotnet/core/install/sdk)|
+|Python |3.8.x|- Install [python3](https://www.python.org/downloads/) and [pipenv](https://pypi.org/project/pipenv/)|
+
+In order to create and test Lambda functions locally, you need to have the runtime's requirements (table above) fulfilled. You'll be asked to `Choose the runtime you would like to use:` when running `amplify add function`.
+
+Once a runtime is selected, you can select a function template for the runtime to help bootstrap your Lambda function. 
+
+## Schedule recurring Lambda functions
+
+Amplify CLI allows you to schedule Lambda functions to be executed periodically (e.g every minute, hourly, daily, weekly, monthly or yearly). You can also formulate more complex schedules using AWS Cron Expressions such as: *“10:15 AM on the last Friday of every month”*. Review the [Schedule Expression for Rules documentation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions) for more details. 
+
+To schedule your Lambda function, answer **Yes** to `Do you want to invoke this function on a recurring schedule?` in the `amplify add function` flow. Once you deploy a function, it'll create a CloudWatch Rule to periodically execute the selected Lambda function.
+
 ## GraphQL from Lambda
 
 <inline-fragment src="~/lib/graphqlapi/fragments/graphql-from-node.md"></inline-fragment>
+
+## What is the amplify.state file?
+When creating a function using Amplify CLI >= 4.18.0, Amplify creates an `amplify.state` file to enable multi-runtime Lambda functions. `amplify.state` shouldn't be manually edited but should be checked in to version control.

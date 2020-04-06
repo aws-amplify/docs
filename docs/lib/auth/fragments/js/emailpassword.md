@@ -5,20 +5,21 @@ Create a new user in the Amazon Cognito UserPool by passing the new user's email
 ```javascript
 import { Auth } from 'aws-amplify';
 
-try {
-    const user = await Auth.signUp({
-        username,
-        password,
-        attributes: {
-            email,          // optional
-            phone_number,   // optional - E.164 number convention
-            // other custom attributes 
-        },
-        validationData: []  //optional
-    });
-    console.log({ user });
-} catch (error) {
-    console.log('error signing up:', error);
+async function signUp() {
+    try {
+        const user = await Auth.signUp({
+            username,
+            password,
+            attributes: {
+                email,          // optional
+                phone_number,   // optional - E.164 number convention
+                // other custom attributes 
+            }
+        });
+        console.log({ user });
+    } catch (error) {
+        console.log('error signing up:', error);
+    }
 }
 ```
 
@@ -37,12 +38,33 @@ The `Auth.signUp` promise returns a data object of type [`ISignUpResult`](https:
 If you enabled multi-factor auth, confirm the sign-up after retrieving a confirmation code from the user.
 
 ```js
-try {
-    await Auth.confirmSignUp(username, code)
-} catch (error) {
-    console.log('error confirming sign up', error)
+import { Auth } from 'aws-amplify';
+
+async function confirmSignUp() {
+    try {
+      await Auth.confirmSignUp(username, code);
+    } catch (error) {
+        console.log('error confirming sign up', error);
+    }
 }
 ```
+
+### Custom Attributes
+
+To create a custom attribute during your sign-up process, add it to the attributes field of the signUp method prepended with `custom:`.
+
+```js
+Auth.signUp({
+    username,
+    password,
+    attributes: {
+        email,
+        'custom:favorite_flavor': 'Cookie Dough'  // custom attribute, not standard
+    }
+})
+```
+
+> Amazon Cognito does not dynamically create custom attributes on sign up. In order to use a custom attribute, the attribute must be first created in the user pool. To open the User Pool to create custom attributes using the Amplify ClI, run `amplify console auth`. If you are not using the Amplify CLI, you can view the user pool by visiting the AWS console and opening the Amazon Cognito dashboard.
 
 ## Sign-in
 
@@ -55,7 +77,7 @@ async function SignIn() {
     try {
         const user = await Auth.signIn(username, password);
     } catch (error) {
-        console.log('error signing in', error)  
+        console.log('error signing in', error);
     }
 }
 ```
@@ -65,12 +87,14 @@ async function SignIn() {
 ```js
 import { Auth } from 'aws-amplify';
 
-try {
+async function resendConfirmationCode() {
+    try {
     await Auth.resendSignUp(username);
-    console.log('code resent succesfully')
-} catch (err) {
-    console.log('error resending code: ', err);
-}
+        console.log('code resent succesfully');
+    } catch (err) {
+        console.log('error resending code: ', err);
+    }
+    }
 ```
 
 ## Sign-out
@@ -78,10 +102,12 @@ try {
 ```javascript
 import { Auth } from 'aws-amplify';
 
-try {
+async function signOut() {
+    try {
     await Auth.signOut();
-} catch (error) {
-    console.log('error signing out: ', error);
+    } catch (error) {
+        console.log('error signing out: ', error);
+    }
 }
 ```
 
@@ -93,9 +119,11 @@ Note: although the tokens are revoked, the AWS credentials will remain valid unt
 ```js
 import { Auth } from 'aws-amplify';
 
-try {
-    await Auth.signOut({ global: true });
-} catch (error) {
-    console.log('error signing out: ', error);
+async function signOut() {
+    try {
+        await Auth.signOut({ global: true });
+    } catch (error) {
+        console.log('error signing out: ', error);
+    }
 }
 ```
