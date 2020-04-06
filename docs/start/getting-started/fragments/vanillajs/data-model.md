@@ -91,7 +91,7 @@ amplify push
 
 ## Generate code for the GraphQL API
 
-When you run `amplify push`, you will be have the option to have all the GraphQL operations found in your schema generated for you in code. Choose the following options:
+When you run `amplify push`, you will be presented with the option to have all the GraphQL operations found in your schema generated for you in code. Choose the following options:
 
 ```bash
 Do you want to generate code for your newly created GraphQL API (Yes)
