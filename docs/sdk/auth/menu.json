@@ -1,11 +1,11 @@
 {
 	"title": "Authentication",
 	"items": [
-		"how-it-works",
 		"getting-started",
+		"how-it-works",
 		"guest-access",
-		"working-with-api",
 		"drop-in-auth",
+		"working-with-api",
 		"federated-identities",
 		"hosted-ui",
 		"custom-auth-flow",

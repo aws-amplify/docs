@@ -2,7 +2,7 @@
 
 To write any data to the DataStore you can pass an instance of a Model to `DataStore.save()` and it will be persisted in offline storage. At this point you can use it as an item in a normal data store such as querying, updating or deleting. If you choose to later connect to the cloud the item will be synchronized using GraphQL mutations and any other systems connected to the same backend can run queries or mutations on these items as well as observe them with GraphQL subscriptions.
 
-```javascript
+```js
 await DataStore.save(
     new Post({
       title: `My First Post`,
@@ -16,13 +16,13 @@ await DataStore.save(
 
 Querying data is always against the locally synchronized data, which is updated in the background for you by the DataStore Sync Engine when connected to the cloud. You can query using models as well as conditions using predicate filters for finer grained results.
 
-```javascript
+```js
 const posts = await DataStore.query(Post);
 ```
 
 This will return a list of the first 100 items, you can optionally pass in a limit and page:
 
-```javascript
+```js
 const posts = await DataStore.query(Post, Predicates.ALL, {
   page: 0,
   limit: 100
@@ -42,19 +42,20 @@ You can apply predicate filters against the DataStore using the fields defined o
 **Lists:** `contains | notContains`
 
 For example if you wanted a list of all "Post" Models that have a "rating" greater than 4:
-```javascript
+
+```js
 const posts = await DataStore.query(Post, c => c.rating("gt", 4));
 ```
 
 When using multiple conditions, there is an implicit **AND** defined to mirror the GraphQL Transform condition statements. For example with multiple conditions:
 
-```javascript
+```js
 const posts = await DataStore.query(Post, c => c.rating("gt", 4).status("eq", PostStatus.ACTIVE));
 ```
 
 If you wanted this to be an **OR** statement you would wrap your combined predicates with `c => c.or(...)`
 
-```javascript
+```js
 const posts = await DataStore.query(Post, c => c.or(
   c => c.rating("gt", 4).status("eq", PostStatus.ACTIVE)
 ));
@@ -103,27 +104,27 @@ Conditional updates can only be applied to single items and not lists. If you wi
 
 To delete an item simply pass in an instance:
 
-```javascript
+```js
 const todelete = await DataStore.query(Post, "1234567");
 DataStore.delete(todelete);
 ```
 
 You can also pass predicate operators to delete multiple items. For example will delete all inactive posts:
 
-```javascript
+```js
 await DataStore.delete(Post, c => c.status("eq", PostStatus.INACTIVE));
 ```
 
 Additionally you can perform a conditional delete, for instance only delete **if** a post is inactive by passing in an instance of a model:
 
-```javascript
+```js
 const todelete = await DataStore.query(Post, "123");
 DataStore.delete(todelete, c => c.status("eq", PostStatus.INACTIVE));
 ```
 
 Also to delete all items for a model you can use `Predicates.ALL`:
 
-```javascript
+```js
 await DataStore.delete(Post, Predicates.ALL);
 ```
 
@@ -133,7 +134,7 @@ You can subscribe to changes on your Models by using `observe` in the DataStore 
 
 **Note**: `observe` is async however you should not put `await` in front of it like the other DataStore API methods.
 
-```javascript
+```js
 const subscription = DataStore.observe(Post).subscribe(msg => {
   console.log(msg.model, msg.opType, msg.element);
 });

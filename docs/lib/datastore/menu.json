@@ -1,11 +1,11 @@
 {
-  "title": "Datastore",
+  "title": "DataStore",
   "items": [
     "getting-started",
-    "overview",
     "data-access",
     "sync",
     "relational",
-    "conflict"
+    "conflict",
+    "overview"
   ]
 }
