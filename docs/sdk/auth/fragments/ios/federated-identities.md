@@ -226,12 +226,12 @@ AWSMobileClient.default().federatedSignIn(providerName: IdentityProvider.develop
 	  target 'YOUR-APP-NAME' do
 	    use_frameworks!
 
-	    pod 'AWSFacebookSignIn', '~> 2.12.0'     # Add this new dependency
-	    pod 'AWSAuthUI', '~> 2.12.0'             # Add this dependency if you have not already added
+	    pod 'AWSFacebookSignIn', '~> 2.13.0'     # Add this new dependency
+	    pod 'AWSAuthUI', '~> 2.13.0'             # Add this dependency if you have not already added
 	    
 	    # Other Pod entries
-	    pod 'AWSMobileClient', '~> 2.12.0'
-	    pod 'AWSUserPoolsSignIn', '~> 2.12.0'
+	    pod 'AWSMobileClient', '~> 2.13.0'
+	    pod 'AWSUserPoolsSignIn', '~> 2.13.0'
 	    
 	  end
 	```
@@ -295,13 +295,13 @@ Now, your drop-in UI will show a Facebook sign in button which the users can use
 	platform :ios, '9.0'
 	target :'YOUR-APP-NAME' do
 	  use_frameworks!
-	  pod 'AWSGoogleSignIn', '~> 2.12.0'     # Add this new dependency
+	  pod 'AWSGoogleSignIn', '~> 2.13.0'     # Add this new dependency
 	  pod 'GoogleSignIn', '~> 4.0'          # Add this new dependency
-	  pod 'AWSAuthUI', '~> 2.12.0'           # Add this dependency if you have not already added
+	  pod 'AWSAuthUI', '~> 2.13.0'           # Add this dependency if you have not already added
 	    
 	  # Other Pod entries
-	  pod 'AWSMobileClient', '~> 2.12.0'
-	  pod 'AWSUserPoolsSignIn', '~> 2.12.0'
+	  pod 'AWSMobileClient', '~> 2.13.0'
+	  pod 'AWSUserPoolsSignIn', '~> 2.13.0'
 	  
 	end
 	```
