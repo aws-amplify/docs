@@ -139,7 +139,7 @@ target :'YOUR-APP-NAME' do
 	pod 'AWSPluginsCore'
 	pod 'CoreMLPredictionsPlugin'
 	pod 'AWSPredictionsPlugin'
-	pod 'AWSMobileClient', '~> 2.13.0'
+	pod 'AWSMobileClient'
 end
 ```
 
