@@ -11,9 +11,9 @@ To make it easy to upload and download objects from Amazon S3, we provide a Tran
 You can use the `AWSS3TransferUtilityConfiguration` object to configure the operations of the `TransferUtility`.
 
 ### isAccelerateModeEnabled
-The isAccelerateModeEnabled option lets you to upload and download content from a bucket that has Transfer Acceleration enabled on it. This option is set to false by default. See [Transfer Acceleration](https://docs.aws.amazon.com/AmazonS3/latest/dev/transfer-acceleration.html) for information on how to enable transfer acceleration for your bucket. 
+The isAccelerateModeEnabled option allows you to upload and download content from a S3 bucket that has Transfer Acceleration enabled. This option is set to false by default. See [Transfer Acceleration](https://docs.aws.amazon.com/AmazonS3/latest/dev/transfer-acceleration.html) for information on how to enable transfer acceleration for your bucket. 
 
-_The code sample below manually sets up credentials for the TransferUtility. The best practice is to use the AWSMobileClient. See [Authentication](./authentication) for more details_
+_The code sample below manually sets up credentials for the TransferUtility. The best practice is to use the AWSMobileClient. See [Authentication](/sdk/auth/how-it-works?platform=ios) for more details_
 
 ```swift
 //Setup credentials, see your awsconfiguration.json for the "YOUR-IDENTITY-POOL-ID"
@@ -42,21 +42,21 @@ let transferUtility:(AWSS3TransferUtility?) = AWSS3TransferUtility.s3TransferUti
 ```
 
 ### retryLimit
-The retryLimit option allows you to specify the number of times the TransferUtility will retry a transfer when it encounters an error during the transfer. By default, it is set to 0, which means that there will be no retries.
+The retryLimit option allows you to specify the number of times the TransferUtility will retry a transfer when it encounters an error. By default it is set to `0`.
 
 ```swift
 tuConf.retryLimit = 5
 ```
 
 ### multiPartConcurrencyLimit
-The multiPartConcurrencyLimit option allows you to specify the number of parts that will be uploaded in parallel for a MultiPart upload request. By default, this is set to 5.
+The multiPartConcurrencyLimit option allows you to specify the number of parts that will be uploaded in parallel for a MultiPart upload request. By default, this is set to `5`.
 
 ```swift
 tuConf.multiPartConcurrencyLimit = 3
 ```
 
 ### timeoutIntervalForResource 
-The timeoutIntervalForResource parameter allows you to specify the maximum duration the transfer can run. The default value for this parameter is 50 minutes. This value is important if you use Amazon Cognito temporary credential because it aligns with the maximum span of time that those credentials are valid.
+The timeoutIntervalForResource parameter allows you to specify the maximum duration the transfer will run. The default value for this parameter is `50` minutes. This value is important if you use Amazon Cognito temporary credential because it aligns with the maximum span of time that those credentials are valid.
 
 ```swift
 tuConf.timeoutIntervalForResource = 15*60 //15 minutes
@@ -66,7 +66,7 @@ tuConf.timeoutIntervalForResource = 15*60 //15 minutes
 
  The transfer utility provides methods for both single-part and multipart uploads. When a transfer uses multipart upload, the data is chunked into a number of 5 MB parts which are transferred in parallel for increased speed.
 
- The following example shows how to upload a file to an Amazon S3 bucket.
+ The following example shows how to upload a file to an S3 bucket.
 
 ```swift
 func uploadData() {
@@ -109,7 +109,7 @@ func uploadData() {
 }
 ```
 
-The following example shows how to upload a file to an Amazon S3 bucket using multipart uploads.
+The following example shows how to upload a file to an S3 bucket using multipart uploads.
 
 ```swift
 func uploadData() {
@@ -154,7 +154,7 @@ func uploadData() {
 
 ## Download a File 
 
-The following example shows how to download a file from an Amazon S3 bucket.
+The following example shows how to download a file from an S3 bucket.
 
 ```swift
 func downloadData() {
@@ -276,9 +276,9 @@ refUploadTask.cancel()
 
 ## Background Transfers
 
-All transfers performed by TransferUtility for iOS happen in the background using NSURLSession background sessions. Once a transfer is initiated, it will continue regardless of whether the initiating app moves to the foreground, moves to the background, is suspended, or is terminated by the system. Note that this doesn't apply when the app is force-closed. Transfers initiated by apps that are force-closed are terminated by the operating system at the NSURLSession level. For regular uploads and downloads, you will have to re-initiate the transfer. For multi-part uploads, the TransferUtility will resume automatically and will continue the transfer.  
+All transfers performed by TransferUtility for iOS happen in the background using NSURLSession background sessions. Once a transfer is initiated, it will continue regardless of whether the initiating app moves to the foreground, moves to the background, is suspended, or is terminated by the system. Note that this doesn't apply when the app is force-closed. Transfers initiated by apps that are force-closed are terminated by the operating system at the NSURLSession level. For regular uploads and downloads you will have to re-initiate the transfer. For multi-part uploads, the TransferUtility will resume automatically and will continue the transfer.  
 
-To wake an app that is suspended or in the background when a transfer it has initiated is completed, implement the handleEventsForBackgroundURLSession method in the AppDelegate and have it call the interceptApplication method of AWSS3TransferUtility as follows. 
+To wake an app that is suspended or in the background when a transfer is completed, implement the handleEventsForBackgroundURLSession method in the AppDelegate and have it call the interceptApplication method of AWSS3TransferUtility as follows. 
 
 ```swift
 func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
@@ -289,7 +289,7 @@ func application(_ application: UIApplication, handleEventsForBackgroundURLSessi
 
 ## Managing Transfers When an App Restarts
 
-When an app that has initiated a transfer restarts (if it has been terminated by the system and not force-closed), the transfer may still be in progress or have completed. To make the restarting app aware of the status of transfers, instantiate the transfer utility using the ``AWSS3TransferUtility.s3TransferUtility(forKey: "YOUR_KEY")`` method. AWSS3TransferUtility uses the key to uniquely identify the NSURLSession of the transfers initiated by the app, so it is important to always use the same identifier. AWSS3TransferUtility will automatically reconnect to the transfers that were in progress the last time the app was running.
+When an app that has initiated a transfer restarts (if it has been terminated by the system and not force-closed), it is possible that the transfer may still be in progress or completed. To make the restarting app aware of the status of transfers, instantiate the transfer utility using the ``AWSS3TransferUtility.s3TransferUtility(forKey: "YOUR_KEY")`` method. AWSS3TransferUtility uses the key to uniquely identify the NSURLSession of the transfers initiated by the app, so it is important to always use the same identifier. AWSS3TransferUtility will automatically reconnect to the transfers that were in progress the last time the app was running.
 
 Though it can be called anywhere in the app, we recommend that you instantiate the AWSS3TransferUtility in the ``appDidFinishLaunching`` lifecycle method. 
 
@@ -354,84 +354,17 @@ transferUtility.uploadUsingMultiPart(data:data,
 
 ## Working with access levels in your app code
 
-By default, all Amazon S3 resources are private. If you want your users to have access to Amazon S3 buckets or objects, you can assign appropriate permissions with an [IAM policy](http://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html).
+All Amazon S3 resources are private by default. If you want your users to have access to S3 buckets or objects, you can assign appropriate permissions with an [IAM policy](http://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html).
 
 ### IAM Policy Based Permissions
 
-When you upload objects to the S3 bucket the Amplify CLI creates, you must manually prepend the appropriate access-level information to the `key`. The correct prefix - `public/`, `protected/` or `private/` - will depend on the access level of the object as documented in the [Storage Access section](./storage#storage-access). For example:
-
-```swift
-var s3Object = S3ObjectInput()
-// Accessible by all users
-s3Object.key = "public/myFile.txt"
-// Readable by all users, but writable only by the creating user
-s3Object.key = "protected/\(cognitoIdentityId)/myFile.txt"
-// Only accessible for the individual user
-s3Object.key = "private/\(cognitoIdentityId)/myFile.txt"
-```
-
-**Note:** These keys must be prepended when you are uploading the object, and the same key must be specified as part of the object's key during download. The `cognitoIdentityId` is required for `protected` and `private` access and you can get it by using the [Authentication Utilities](./authentication#utility-properties): `AWSMobileClient.default().identityId`.
-
-### Temporary Permissions via Pre-signed URLs
-
-However, what if you wanted to provide permissions temporarily, for example: _you want to share a link to file temporarily and have the link expire after a set time_. To do this using an IAM policy would require you to first setup the policy to grant access and then at a later time remember to delete the IAM policy to revoke access. 
-
-Alternatively, you can use pre-signed URLs to give your users temporary access to Amazon S3 objects. When you create a pre-signed URL, you must provide your security credentials, specify a bucket name, an object key, an HTTP method, and an expiration date and time. The pre-signed URL is valid only for the specified duration.
-
-The following example shows how to build a pre-signed URL to get an Amazon S3 object.
-
-```swift
-let getPreSignedURLRequest = AWSS3GetPreSignedURLRequest()
-getPreSignedURLRequest.bucket = "myBucket"
-getPreSignedURLRequest.key = "myFile.txt"
-getPreSignedURLRequest.httpMethod = .GET
-getPreSignedURLRequest.expires = Date(timeIntervalSinceNow: 3600)  // Change the value of the expires time interval as required
-
-AWSS3PreSignedURLBuilder.default().getPreSignedURL(getPreSignedURLRequest).continueWith { (task:AWSTask<NSURL>) -> Any? in
-    if let error = task.error as? NSError {
-        print("Error: \(error)")
-        return nil
-    }
-
-    let presignedURL = task.result
-    // Use the Pre-Signed URL here as required
-    ....
-    ....
-
-    return nil
-}
-```
-
-The preceding example uses `GET` as the HTTP method: `AWSHTTPMethodGET`. For an upload request to Amazon S3, we would need to use a PUT method.
-
-```swift
-let getPreSignedURLRequest = AWSS3GetPreSignedURLRequest()
-getPreSignedURLRequest.bucket = "myBucket"
-getPreSignedURLRequest.key = "myFile.txt"
-getPreSignedURLRequest.httpMethod = .PUT
-getPreSignedURLRequest.expires = Date(timeIntervalSinceNow: 3600)  // Change the value of the expires time interval as required
-getPreSignedURLRequest.contentType = "text/plain"
-
-AWSS3PreSignedURLBuilder.default().getPreSignedURL(getPreSignedURLRequest).continueWith { (task:AWSTask<NSURL>) -> Any? in
-    if let error = task.error as? NSError {
-        print("Error: \(error)")
-        return nil
-    }
-
-    let presignedURL = task.result
-    // Use the Pre-Signed URL here as required
-    ....
-    ....
-
-    return nil
-}
-```
+When you upload objects to the S3 bucket the Amplify CLI creates, you must manually prepend the appropriate access-level information to the `key`. The correct prefix - `public/`, `protected/` or `private/` - will depend on the access level of the object as documented in the [Storage Access section](/sdk/storage/getting-started?platform=ios#storage-access).
 
 ## Transfer Utility and Pre-Signed URLS 
 
 The TransferUtility generates Amazon S3 pre-signed URLs to use for background data transfer. The best practice is to use Amazon Cognito for credentials with Transfer Utility. With Amazon Cognito Identity, you receive AWS temporary credentials that are valid for up to 60 minutes. The pre-signed URLs built using these credentials are bound by the same time limit, after which the URLs will expire. 
 
-Because of this limitation, when you use TransferUtility with AWS Cognito, the expiry on the Pre-Signed URLs generated internally is set to **50 minutes**. Transfers that run longer than the 50 minutes will fail.  If you are transferring a large enough file where this becomes a constraint, you should create static credentials using AWSStaticCredentialsProvider ( _see [Authentication](./authentication) for more details on how to do this_)  and increase the expiry time on the Pre-Signed URLs by increasing the value for the `timeoutIntervalForResource` in the Transfer Utility Options.  Note that the max allowed expiry value for a Pre-Signed URL is 7 days. 
+Because of this limitation, when you use TransferUtility with Amazon Cognito, the expiry on the Pre-Signed URLs generated internally is set to **50 minutes**. Transfers that run longer than the 50 minutes will fail.  If you are transferring a large enough file where this becomes a constraint, you should create static credentials using AWSStaticCredentialsProvider ( _see [Authentication](sdk/auth/how-it-works?platform=ios) for more details on how to do this_)  and increase the expiry time on the Pre-Signed URLs by increasing the value for the `timeoutIntervalForResource` in the Transfer Utility Options.  Note that the max allowed expiry value for a Pre-Signed URL is 7 days. 
 
 
 ## Additional Resources

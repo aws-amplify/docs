@@ -41,7 +41,7 @@ The default routes and their functions, HTTP methods, and expected parameters ar
 
 ## Example
 
-To leverage this functionality in your app you would call the appropriate route in your [JavaScript](../lib/restapi/start), [iOS]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/ios/api#cognito-user-pools-authorization), or [Android]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}http://127.0.0.1:4000/android/api#cognito-user-pools-authorization) application after signing in. For example to add a user "richard" to the Editors Group and then list all members of the Editors Group with a pagination limit of 10 you could use the following React code below:
+To leverage this functionality in your app you would call the appropriate route in your [JavaScript](~/lib/restapi/authz.md#cognito-user-pools-authorization), [iOS, or Android](~/sdk/api/rest.md#cognito-user-pools-authorization) application after signing in. For example to add a user "richard" to the Editors Group and then list all members of the Editors Group with a pagination limit of 10 you could use the following React code below:
 
 ```js
 import React from 'react'

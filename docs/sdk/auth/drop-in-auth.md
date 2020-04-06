@@ -1,5 +1,5 @@
 ---
-title: Drop-in Auth
+title: Drop-in auth
 description: description
 ---
 
