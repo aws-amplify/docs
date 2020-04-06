@@ -1,6 +1,6 @@
 ## SignUp
 
-Creates a new user in your User Pool:
+Creates a new user in Cognito User Pools:
 
 ```swift
 AWSMobileClient.default().signUp(username: "your_username",
@@ -31,20 +31,23 @@ AWSMobileClient.default().signUp(username: "your_username",
 
 ## User Attributes
 
-You can provide custom user attributes in the `signUp()` method by passing them into the `userAttributes` argument as key-value pairs. For instance if you had a `nickname` or a `badge_number` in your Cognito User Pool:
+You can provide custom user attributes in the `signUp()` method by passing them into the `userAttributes` argument as key-value pairs. For example:
 
 ```swift
 AWSMobileClient.default().signUp(
     username: "your_username",
     password: "Abc@123!",
-    userAttributes: ["nickname":"Johnny", "badge_number": "ABC123XYZ"]) { (signUpResult, error) in
-    //Use results as before
-}
+    userAttributes: [
+        "nickname":"Johnny", 
+        "badge_number": "ABC123XYZ"
+        ]) { (signUpResult, error) in
+            //Use results as before
+        }
 ```
 
 ## Confirm SignUp
 
-Confirms a new user after signing up in a User Pool:
+Confirms a new user after signing up (MFA):
 
 ```swift
 AWSMobileClient.default().confirmSignUp(username: "your_username", confirmationCode: signUpCodeTextField.text!) { (signUpResult, error) in
@@ -63,7 +66,7 @@ AWSMobileClient.default().confirmSignUp(username: "your_username", confirmationC
 }
 ```
 
-## Re-send Confirmation Code
+## Re-send a Confirmation Code (MFA)
 
 ```swift
 AWSMobileClient.default().resendSignUpCode(username: "your_username", completionHandler: { (result, error) in
@@ -96,7 +99,7 @@ AWSMobileClient.default().signIn(username: "your_username", password: "Abc@123!"
 }
 ```
 
-## Confirm SignIn
+## Confirm SignIn (MFA)
 
 ```swift
 AWSMobileClient.default().confirmSignIn(challengeResponse: "code_here") { (signInResult, error) in
@@ -113,9 +116,9 @@ AWSMobileClient.default().confirmSignIn(challengeResponse: "code_here") { (signI
 }
 ```
 
-## Force Change Password
+## Force a Password Reset
 
-If a user is required to change their password on first login, there is a `newPasswordRequired` state returned when `signIn` is called. You need to provide a new password given by the user in that case. It can be done using `confirmSignIn` with the new password.
+If a user is required to change their password on first login, a `newPasswordRequired` state will be returned when `signIn` is called and you will need to provide a new password. This can be done by using `confirmSignIn`:
 
 ```swift
 AWSMobileClient.default().signIn(username: "abc123", password: "Abc123!@") { (signInResult, error) in
@@ -159,7 +162,9 @@ AWSMobileClient.default().signOut()
 
 ## Global SignOut
 
-Using global signout, you can signout a user from all active login sessions. By doing this, you are revoking all the OIDC tokens(id token, access token and refresh token) which means the user is signed out from all the devices. However, although the tokens are revoked, the AWS credentials will remain valid until they expire (which by default is 1 hour).
+Using global signout, you can signout a user from all active login sessions. By doing this, you are invalidating all tokens (id token, access token and refresh token) which means the user is signed out from **all** devices. 
+
+> **Note** Although the tokens are revoked the temporary AWS credentials (Access and Secret Keys) will remain valid until they expire, which by default is 1 hour.
 
 ```swift
 AWSMobileClient.default().signOut(options: SignOutOptions(signOutGlobally: true)) { (error) in
@@ -169,7 +174,10 @@ AWSMobileClient.default().signOut(options: SignOutOptions(signOutGlobally: true)
 
 ## Forgot Password
 
-Forgot password is a 2 step process. You need to first call `forgotPassword()` method which would send a confirmation code to user via email or phone number. The details of how the code was sent are included in the response of `forgotPassword()`. Once the code is given by the user, you need to call `confirmForgotPassword()` with the confirmation code to confirm the change of password.
+Forgot password is a 2 step process. 
+
+1. Call a `forgotPassword()` method which sends a confirmation code via email or phone number. The details of how the code was sent are included in the response of `forgotPassword()`. 
+2. Once the code is given call `confirmForgotPassword()` with the confirmation code.
 
 ```swift
 AWSMobileClient.default().forgotPassword(username: "my_username") { (forgotPasswordResult, error) in
@@ -203,7 +211,7 @@ AWSMobileClient.default().confirmForgotPassword(username: "my_username", newPass
 
 ## Utility Properties
 
-The `AWSMobileClient` provides several property "helpers" that are automatically cached locally for you to use in your application.
+AWSMobileClient provides several property helpers that are automatically cached locally.
 
 ```swift
 AWSMobileClient.default().username       //String
@@ -211,11 +219,11 @@ AWSMobileClient.default().isSignedIn     //Boolean
 AWSMobileClient.default().identityId     //String
 ```
 
-> Note: The property `username` is available only when using username-password based auth. The property `identityId` is available only when federation is enabled in `CognitoIdentityPool`.
+> Note: The property `username` is available only when using username-password based auth with Cognito User Pools.
 
 ## Managing Security Tokens
 
-**When using Authentication with `AWSMobileClient`, you don’t need to refresh Amazon Cognito tokens manually. The tokens are automatically refreshed by the library when necessary.**
+When using Authentication with AWSMobileClient, you do not need to refresh Amazon Cognito tokens manually. The tokens are automatically refreshed by the SDK when necessary.
 
 ### OIDC Tokens
 
