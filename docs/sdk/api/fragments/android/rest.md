@@ -1,4 +1,4 @@
-### Overview
+## Overview
 
 The Amplify CLI deploys REST APIs and handlers using [Amazon API Gateway](http://docs.aws.amazon.com/apigateway/latest/developerguide/) and [AWS Lambda](http://docs.aws.amazon.com/lambda/latest/dg/).
 
@@ -6,7 +6,7 @@ The API category will perform SDK code generation which, when used with the `AWS
 
 See [the authentication section for more details](~/sdk/auth/getting-started.md) for using the `AWSMobileClient` in your application.
 
-### Set Up Your Backend
+## Set Up Your Backend
 
 In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`), and add the SDK to your app. 
 
@@ -33,7 +33,7 @@ $ amplify push
 
 Once the deployment completes a folder with the name of your API's resource name will be created in `./src/main/java`. This is the client SDK with the models you will import and use in the `ApiClientFactory()` builder from your code in the following sections. 
 
-### Connect to Your Backend
+## Connect to Your Backend
 
 Add the following to your `app/build.gradle`:
 
@@ -61,7 +61,7 @@ apiClient = new ApiClientFactory()
 
 Find the resource name of your API by running `amplify status`. Copy your API client name to use when invoking the API in the following sections.
 
-#### IAM authorization
+### IAM authorization
 
 To invoke an API Gateway endpoint from your application, import the generated client as outlined in the last section and use the generated client class, model, and resource paths as in the below example with `YOUR_API_RESOURCE_NAME.YOUR_APP_NAME_XXXXClient`, `YOUR_APP_NAME_XXXXClient`, and `YOUR_API_CLIENT_NAME` replaced appropriately. For AWS IAM authorization use the `AWSMobileClient` as outlined in [the authentication section](~/sdk/auth/getting-started.md).
 
@@ -178,7 +178,7 @@ To invoke an API Gateway endpoint from your application, import the generated cl
       }
 ```
 
-#### Cognito User Pools authorization
+### Cognito User Pools authorization
 
 When invoking an API Gateway endpoint with Cognito User Pools authorizer, you can leverage the `AWSMobileClient` to dynamically refresh and pass tokens to your endpoint. Using the example from the previous section, update the `doInvokeAPI()` so that it takes a "token" string argument like `doInvokeAPI(String token)`. Next, add a header for the token to be passed with `.addHeader("Authorization", token)` and set the service configuration to have `credentialsProvider(null)`. Finally, overload the `doInvokeAPI()` with a new definition that gets the Cognito User Pools token from the `AWSMobileClient` as below:
 
