@@ -173,7 +173,7 @@ This section will walk through the steps needed to take an iOS project written i
 
 ### Setup
 
-After completing the [Amplify Getting Started](https://aws-amplify.github.io/media/get_started) navigate in your terminal to an Xcode project directory and run the following:
+After completing the [Amplify Getting Started](~/start/start.md) navigate in your terminal to an Xcode project directory and run the following:
 
 ```bash
 $amplify init       ## Select iOS as your platform
@@ -411,7 +411,7 @@ class ViewController: UIViewController {
 This section will walk through the steps needed to take an Android Studio project written in Java and add Amplify to it along with a GraphQL API using AWS AppSync. If you are a first time user, we recommend starting with a new Android Studio project and a single Activity class.
 
 ### Setup
-After completing the [Amplify Getting Started](https://aws-amplify.github.io/media/get_started) navigate in your terminal to an Android Studio project directory and run the following:
+After completing the [Amplify Getting Started](~/start/start.md) navigate in your terminal to an Android Studio project directory and run the following:
 
 ```bash
 $amplify init       ## Select iOS as your platform

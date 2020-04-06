@@ -13,11 +13,11 @@ try {
 b. Next, add some data to your backend:
 
 ```java
-Task task = Task.builder()
+Task firstTask = Task.builder()
     .title("My first task")
     .description("Get started with Amplify")
     .build();
-Amplify.API.mutate(task, MutationType.CREATE,
+Amplify.API.mutate(firstTask, MutationType.CREATE,
     taskCreationResponse -> {
         final String idOfCreatedTask = taskCreationResponse.getData().getId();
         Log.i("AmplifyGetStarted", "Created task with id: " + idOfCreatedTask);
@@ -26,7 +26,7 @@ Amplify.API.mutate(task, MutationType.CREATE,
 );
 ```
 
-c. Now, query your API. You should see the `task` you just created.
+c. Now, query your API. You should see the `firstTask` you just created.
 
 ```java
 Amplify.API.query(Task.class,
@@ -64,11 +64,12 @@ $ amplify console api
 
 What next? Here are some things to add to your app:
 
-* [Authentication](./authentication)
-* [DataStore](./datastore)
-* [Storage](./storage)
-* [API](./api)
-* [Analytics](./analytics)
+* [Analytics](~/lib/analytics/getting-started.md)
+* [API (GraphQL)](~/lib/graphqlapi/getting-started.md)
+* [API (REST)](~/lib/restapi/getting-started.md)
+* [Authentication](~/lib/auth/getting-started.md)
+* [DataStore](~/lib/datastore/getting-started.md)
+* [Storage](~/lib/storage/getting-started.md)
 
 **Existing AWS Resources**
 
