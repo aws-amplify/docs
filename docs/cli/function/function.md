@@ -52,9 +52,9 @@ Behind the scenes, the CLI automates populating of the resource identifiers for 
 
 Amplify CLI enables you to create, test and deploy Lambda functions with the following runtimes: 
 
-|Runtime|Supported Version|Requirements|
+|Runtime|Default Version|Requirements|
 |-------|-----------------|------------|
-|NodeJS |10.x|- Install [NodeJS](https://nodejs.org/en/)|
+|NodeJS |12.x|- Install [NodeJS](https://nodejs.org/en/)|
 |Java   |11|- Install [Java 11 JDK](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html) and [Gradle 5+](https://docs.gradle.org/current/userguide/installation.html)|
 |Go     |1.x|- Install [Go](https://golang.org/doc/install)|
 |.NET Core|3.1|- Install [.NET Core SDK](https://docs.microsoft.com/en-us/dotnet/core/install/sdk)|
