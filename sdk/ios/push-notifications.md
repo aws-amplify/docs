@@ -1,5 +1,6 @@
 ---
 title: Push Notifications
+canonical: https://docs.amplify.aws/sdk/push-notifications/getting-started?platform=ios
 ---
 
 {% if jekyll.environment == 'production' %}

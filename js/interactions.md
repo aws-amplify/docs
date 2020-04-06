@@ -1,4 +1,5 @@
 ---
+canonical: https://docs.amplify.aws/lib/interactions/getting-started?platform=js
 ---
 
 # Interactions

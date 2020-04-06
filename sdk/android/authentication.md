@@ -1,5 +1,6 @@
 ---
 title: Authentication
+canonical: https://docs.amplify.aws/sdk/auth/how-it-works?platform=android
 ---
 {% if jekyll.environment == 'production' %}
   {% assign base_dir = site.amplify.docs_baseurl %}

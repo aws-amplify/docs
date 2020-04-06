@@ -1,5 +1,6 @@
 ---
 title: Getting Started
+canonical: https://docs.amplify.aws/start?integration=android
 ---
 
 <br />
