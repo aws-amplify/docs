@@ -31,7 +31,7 @@ console.log(oneTodo);
 
 ### Custom authorization mode
 
-By default, each AppSync API will be set with a default authorization mode set at the root level of your app when you configure your app. If you would like to override the default authorization mode, you can do so by passing in an `authMode` property.
+By default, each AppSync API will be set with a default authorization mode when you configure your app. If you would like to override the default authorization mode, you can do so by passing in an `authMode` property.
 
 #### Query with custom authorization mode
 
