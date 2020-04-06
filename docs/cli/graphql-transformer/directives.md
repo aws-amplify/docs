@@ -220,7 +220,7 @@ The `@key` directive makes it simple to configure custom index structures for `@
 
 Amazon DynamoDB is a key-value and document database that delivers single-digit millisecond performance at any scale but making it work for your access patterns requires a bit of forethought. DynamoDB query operations may use at most two attributes to efficiently query data. The first query argument passed to a query (the hash key) must use strict equality and the second attribute (the sort key) may use gt, ge, lt, le, eq, beginsWith, and between. DynamoDB can effectively implement a wide variety of access patterns that are powerful enough for the majority of applications.
 
-When modeling your data during schema design there are common patterns that you may need to leverage. [We provide a fully working schema with 17 patterns related to relational designs](#data-access-patterns).
+When modeling your data during schema design there are common patterns that you may need to leverage. [We provide a fully working schema with 17 patterns related to relational designs](~/cli/graphql-transformer/dataaccess.md).
 
 ### Definition
 
@@ -883,13 +883,17 @@ type Post @model
 In this example the object owner will check against a `user_id` claim. Similarly if the `user_groups` claim contains a "Moderator" string then access will be granted.
 
 <amplify-callout>
+
 Note `identityField` is being deprecated for `identityClaim`.
+
 </amplify-callout>
 
 ### Authorizing Subscriptions
 
 <amplify-callout warning>
-Prior to version 2.0 of the CLI, `@auth` rules did not apply to subscriptions. Instead you were required to either turn them off or use [Custom Resolvers](./graphql#custom-resolvers) to manually add authorization checks. In the latest versions `@auth` protections have been added to subscriptions, however this can introduce different behavior into existing applications: First, `owner` is now a required argument for Owner-based authorization, as shown below. Second, the selection set will set `null` on fields when mutations are invoked if per-field `@auth` is set on that field. [Read more here](./graphql#per-field-with-subscriptions). If you wish to keep the previous behavior set `level: public` on your model as defined below.
+
+Prior to version 2.0 of the CLI, `@auth` rules did not apply to subscriptions. Instead you were required to either turn them off or use [Custom Resolvers](~/cli/graphql-transformer/resolvers.md#custom-resolvers) to manually add authorization checks. In the latest versions `@auth` protections have been added to subscriptions, however this can introduce different behavior into existing applications: First, `owner` is now a required argument for Owner-based authorization, as shown below. Second, the selection set will set `null` on fields when mutations are invoked if per-field `@auth` is set on that field. [Read more here](#per-field-with-subscriptions). If you wish to keep the previous behavior set `level: public` on your model as defined below.
+
 </amplify-callout>
 
 When `@auth` is used subscriptions have a few subtle behavior differences than queries and mutations based on their event based nature. When protecting a model using the owner auth strategy, each subscription request will **require** that the user is passed as an argument to the subscription request. If the user field is not passed, the subscription connection will fail. In the case where it is passed, the user will only get notified of updates to records for which they are the owner.
@@ -922,7 +926,7 @@ subscription onCreatePost(owner: “Bob”){
 }
 ```
 
-Note that if your type doesn’t already have an `owner` field the Transformer will automatically add this for you. Passing in the current user can be done dynamically in your code by using [Auth.currentAuthenticatedUser()](/js/authentication#retrieve-current-authenticated-user) in JavaScript, [AWSMobileClient.default().username](/ios/authentication#utility-properties) in iOS, or [AWSMobileClient.getInstance().getUsername()](/android/authentication#utility-properties) in Android. 
+Note that if your type doesn’t already have an `owner` field the Transformer will automatically add this for you. Passing in the current user can be done dynamically in your code by using [Auth.currentAuthenticatedUser()](~/lib/auth/manageusers#retrieve-current-authenticated-user) in JavaScript, [AWSMobileClient.default().username](~/sdk/auth/working-with-api.md#utility-properties) in iOS, or [AWSMobileClient.getInstance().getUsername()](~/sdk/auth/working-with-api.md#utility-properties) in Android. 
 
 In the case of groups if you define the following:
 
@@ -1484,7 +1488,7 @@ The `@function` directive generates these resources as necessary:
 
 The `@connection` directive enables you to specify relationships between `@model` types. Currently, this supports one-to-one, one-to-many, and many-to-one relationships. You may implement many-to-many relationships using two one-to-many connections and a joining `@model` type. See the usage section for details.
 
-[We also provide a fully working schema with 17 patterns related to relational designs](#data-access-patterns).
+[We also provide a fully working schema with 17 patterns related to relational designs](~/cli/graphql-transformer/dataaccess.md).
 
 ### Definition
 

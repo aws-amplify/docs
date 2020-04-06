@@ -1,6 +1,6 @@
-You can use the device related features of Amazon Cognito UserPools by enabling the `Devices` features. Go to your Cognito UserPool, click on `Devices` in Left Navigation Menu and chose one of `User Opt In` or `Always`. 
+You can use the device related features of Amazon Cognito User Pools by enabling the **Devices** features. Navigate to the Cognito User Pools console, click on **Devices** in Left Navigation Menu and chose one of **User Opt In** or **Always**. 
 
-If you chose `Always` every device used by your application’s users is remembered.
+If you chose **Always** every device used by your application users is remembered.
 
 You can read more about the device features in the following [blog](https://aws.amazon.com/blogs/mobile/tracking-and-remembering-devices-using-amazon-cognito-your-user-pools/).
 
