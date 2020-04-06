@@ -2,20 +2,70 @@
 
 ### Mutations
 
-Mutations are used to create or update data with GraphQL. A sample mutation query to create a new *Todo* looks like this:
+In GraphQL, mutations are used to create, update, or delete data. Here are some examples of creating, updating, and deleting items using the Amplify GraphQL client.
+
+#### Creating an item
 
 ```javascript
-import Amplify, { API, graphqlOperation } from "aws-amplify";
+import { API, graphqlOperation } from "aws-amplify";
 import * as mutations from './graphql/mutations';
 
-// Mutation
 const todoDetails = {
-    name: 'Todo 1',
-    description: 'Learn AWS AppSync'
+  name: 'Todo 1',
+  description: 'Learn AWS AppSync'
 };
 
 const newTodo = await API.graphql(graphqlOperation(mutations.createTodo, {input: todoDetails}));
-console.log(newTodo);
+```
+
+#### Updating an item
+
+```javascript
+import { API, graphqlOperation } from "aws-amplify";
+import * as mutations from './graphql/mutations';
+
+const todoDetails = {
+  id: 'some_id',
+  description: 'My updated description!'
+};
+
+const updatedTodo = await API.graphql(graphqlOperation(mutations.updateTodo, {input: todoDetails}));
+```
+
+#### Deleting an item
+
+```javascript
+import { API, graphqlOperation } from "aws-amplify";
+import * as mutations from './graphql/mutations';
+
+const todoDetails = {
+  id: 'some_id',
+};
+
+const deletedTodo = await API.graphql(graphqlOperation(mutations.deleteTodo, {input: todoDetails}));
+```
+
+### Custom authorization mode
+
+By default, each AppSync API will be set with a default authorization mode set at the root level of your app when you configure your app. If you would like to override the default authorization mode, you can do so by passing in an `authMode` property.
+
+#### Mutation with custom authorization mode
+
+```js
+import { API } from "aws-amplify";
+import * as mutations from './graphql/mutations';
+
+const todoDetails = {
+  id: 'some_id',
+  name: 'My todo!',
+  description: 'Hello world!'
+};
+
+const todo = await API.graphql({
+  query: queries.createTodo,
+  variables: {input: todoDetails},
+  authMode: 'AWS_IAM'
+});
 ```
 
 ## Using AWS AppSync SDK 
