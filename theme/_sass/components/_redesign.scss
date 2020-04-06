@@ -63,7 +63,7 @@
     box-shadow: 0px -2px 10px rgba(0,0,0,.3);
 
     @media (max-width: 828px) {
-        height: 60px; //75px
+        height: 93px; //75px
     }
 
     .site-header-container {
@@ -416,13 +416,13 @@ a {
 
 /* ----- Offcanvas toggle ----- */
 .toggle-button-container-expanded {
-    top: 11px !important;
+    top: 45px !important;
     left: 6px !important;
 }
 
 .toggle-button-container {
     position: absolute;
-    top: 17px;
+    top: 50px;
     left: 10px;
     z-index: 1;
 
@@ -556,7 +556,7 @@ a {
 
 /* ----- General ----- */
 .section-padding {
-    padding-top: 68px;
+    padding-top: 100px;
 }
 .hero-subheader {
 
@@ -797,7 +797,7 @@ a {
     
     @media (max-width: 828px) {    
         max-width: 95% !important;
-        margin-top: 30px !important;
+        margin-top: 63px !important;
 
         .container {
             margin: auto !important;
@@ -2180,6 +2180,13 @@ li {
 
 .docs-header {
     background-color: #FF9900;
+
+    .move-banner {
+        background-color: #F4F4F4;
+        padding: 4px 16px;
+        font-size: .9em;
+        text-align: center;
+    }
 
     .site-search {
         background-color: #F4F4F4;
