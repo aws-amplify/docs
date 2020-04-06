@@ -1,11 +1,11 @@
 export const getElementTop = (
   element: Element,
-  stickyBarTop: number,
+  stickyBarHeight: number,
 ): number => {
   return (
     element.getBoundingClientRect().top +
     pageYOffset -
     document.documentElement.clientTop -
-    stickyBarTop
+    stickyBarHeight
   );
 };

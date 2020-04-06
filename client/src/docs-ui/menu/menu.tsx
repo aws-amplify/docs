@@ -51,12 +51,10 @@ export class DocsMenu {
         <docs-version-switch
           leftOption={{
             title: "Latest",
-            subTitle: "(v2)",
             href: "/ui",
           }}
           rightOption={{
             title: "Legacy",
-            subTitle: "(v1)",
             href: "/ui-legacy",
           }}
         />

@@ -1,12 +1,14 @@
 import {Component, h, Prop, Host, State} from "@stencil/core";
 import docs from "@aws-amplify/ui-components/dist/docs";
 import {JsonDocsComponent} from "@stencil/core/internal";
-import {tableStyle} from "./ui-component-props.style";
+import {tableStyle, tableHeaderStyle} from "./ui-component-props.style";
 
 @Component({tag: "ui-component-props", shadow: false})
 export class DocsUIComponentProps {
   /*** component tag for documented component page */
   @Prop() readonly tag: string;
+  /*** whether or not the table contains header tags */
+  @Prop() readonly useTableHeaders: boolean = false;
 
   @State() component: JsonDocsComponent | undefined;
 
@@ -22,9 +24,14 @@ export class DocsUIComponentProps {
 
     return (
       <Host>
-        <docs-in-page-link targetId={sectionId}>
-          <h2 id={sectionId}>Properties</h2>
-        </docs-in-page-link>
+        {this.useTableHeaders ? (
+          <docs-in-page-link targetId={sectionId}>
+            <h2 id={sectionId}>Properties</h2>
+          </docs-in-page-link>
+        ) : (
+          <h4>Properties</h4>
+        )}
+
         {this.component?.props.map((prop) => {
           const groupId = `prop-${prop.attr || String(count)}`;
           if (!prop.attr) {
@@ -36,9 +43,13 @@ export class DocsUIComponentProps {
               <thead>
                 <tr>
                   <th colSpan={2}>
-                    <docs-in-page-link targetId={groupId}>
-                      <h3 id={groupId}>{prop.name}</h3>
-                    </docs-in-page-link>
+                    {this.useTableHeaders ? (
+                      <docs-in-page-link targetId={groupId}>
+                        <h3 id={groupId}>{prop.name}</h3>
+                      </docs-in-page-link>
+                    ) : (
+                      <div class={tableHeaderStyle}>{prop.name}</div>
+                    )}
                   </th>
                 </tr>
               </thead>

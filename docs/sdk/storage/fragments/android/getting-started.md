@@ -1,4 +1,4 @@
-Enable your app to store and retrieve user files from cloud storage with the permissions model that suits your purpose. The CLI deploys and configures cloud storage buckets using [Amazon Simple Storage Service](http://docs.aws.amazon.com/AmazonS3/latest/dev/).
+Enable your app to store and retrieve user files from cloud storage with the permissions model that suits your purpose. The CLI deploys and configures cloud storage buckets using [Amazon Simple Storage Service (Amazon S3)](http://docs.aws.amazon.com/AmazonS3/latest/dev/).
 
 **_Note_**
 
@@ -14,10 +14,10 @@ If you had previously enabled user sign-in by running `amplify add auth` in your
 * Protected: Readable by all users, but writable only by the creating user. Files are stored under `protected/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
 * Private: Only accessible for the individual user. Files are stored under `private/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
 
-See [Authentication](./authentication) for more information on how to get the `user_identity_id` for a signed in user.
+See [Authentication](~/sdk/auth/getting-started.md) for more information on how to get the `user_identity_id` for a signed in user.
 ## Set Up Your Backend
 
-1. Complete the [Get Started](start) steps before you proceed.
+1. Complete the [Get Started](~/start/start.md) steps before you proceed.
 
 2. Use the CLI to add storage to your cloud-enabled backend and app.
 
@@ -53,7 +53,7 @@ See [Authentication](./authentication) for more information on how to get the `u
     The CLI will create the awsconfiguration.json file in your project's `res/raw` directory.
 
 ### Lambda Triggers
-If you want to enable triggers for the storage category with Amazon S3 & Amazon DynamoDB as providers, the CLI supports associating Lambda triggers with S3 and DynamoDB events. For example, this can be useful for a use case where you want to invoke a Lambda function after a create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/cli-toolchain/quickstart#storage-examples)
+If you want to enable triggers for the storage category with Amazon S3 & Amazon DynamoDB as providers, the CLI supports associating Lambda triggers with S3 and DynamoDB events. For example, this can be useful for a use case where you want to invoke a Lambda function after a create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More](~/cli/storage/storage.md)
 
 ## Connect to Your Backend
 
@@ -89,17 +89,19 @@ Use the following steps to connect add file storage backend services to your app
 
 ## Mocking and Local Testing
 
-Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](/cli/usage/mock#storage-mocking-setup) for more details.
+Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](~/cli/usage/mock.md) for more details.
 
-## Transfer Utility and AWS Cognito
+## Note on Transfer Utility and Amazon Cognito
+
+Transfer Utility generates Amazon S3 pre-signed URLs and uses them to enable background transferring. Using Amazon Cognito Identity, you receive AWS temporary credentials that are valid for up to 60 minutes. It is not possible to generate S3 pre-signed URLs that last longer than 60 minutes. Due to this limitation, the Transfer Utility enforces 50-minute transfer timeouts (10-minute buffer for reducing AWS temporary credential regenerations). After 50 minutes, you receive a transfer failure.
 
 If you expect your app to perform transfers that take longer than 50 minutes, use [AmazonS3Client](http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/services/s3/AmazonS3Client.html) instead of [TransferUtility](http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/mobileconnectors/s3/transferutility/TransferUtility.html).
 
 ## Additional Resources
 
-* [Amazon Simple Storage Service Getting Started Guide](http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html)
-* [Amazon Simple Storage Service API Reference](http://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html)
-* [Amazon Simple Storage Service Developer Guide](http://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html)
+* [Amazon S3 Getting Started Guide](http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html)
+* [Amazon S3 API Reference](http://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html)
+* [Amazon S3 Developer Guide](http://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html)
 * [Identity and Access Management Console](https://console.aws.amazon.com/iam/home)
 * [Granting Access to an Amazon S3 Bucket](http://blogs.aws.amazon.com/security/post/Tx3VRSWZ6B3SHAV/Writing-IAM-Policies-How-to-grant-access-to-an-Amazon-S3-bucket)
 * [Protecting data using customer provided encryption keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html)

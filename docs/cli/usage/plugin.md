@@ -85,7 +85,7 @@ A provider plugin abstracts the actual cloud resource provider. It wraps up comm
 #### AWS CloudFormation provider
 Currently, the only official provider plugin, amplify-provider-awscloudformation, uses the AWS CloudFormation to form and update the backend resources in the AWS for the amplify categories. For more information about  AWS CloudFormation, check its user guide:
 [AWS CloudFormation User Guide](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html). The `amplify-provider-awscloudformation` uses
-[nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html)
+[nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html).
 
 ### Frontend plugin
 Amplify maintained frontend plugins are recognized by the `amplify-frontend-` prefix in the package name.<br/>

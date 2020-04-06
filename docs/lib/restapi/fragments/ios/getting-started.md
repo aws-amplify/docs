@@ -36,9 +36,9 @@ Add `AWSAPIGateway` to your Podfile:
 	target :'YOUR-APP-NAME' do
 	  use_frameworks!
 
-	    pod 'Amplify', :path => '~/aws-amplify/amplify-ios'
-        pod 'AWSPluginsCore', :path => '~/aws-amplify/amplify-ios'
-        pod 'AmplifyPlugins/AWSAPIPlugin', :path => '~/aws-amplify/amplify-ios'
+	    pod 'Amplify'
+        pod 'AWSPluginsCore'
+        pod 'AmplifyPlugins/AWSAPIPlugin'
 	end
 ```
 
