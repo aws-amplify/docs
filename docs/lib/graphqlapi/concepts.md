@@ -27,7 +27,7 @@ AWS AppSync helps you build data-driven apps with real-time and offline capabili
 
 The Amplify Framework offers three SDK options for AppSync.
 
-__[Amplify GraphQL client](~/lib/graphqlapi/query-data.md)__ - a light weight option if you're looking for a simple way to leverage GraphQL features and do not need the offline capabilities or caching. If you need those features, please look at [Amplify DataStore](https://aws-amplify.github.io/docs/js/datastore).
+__[Amplify GraphQL client](~/lib/graphqlapi/query-data.md)__ - a light weight option if you're looking for a simple way to leverage GraphQL features and do not need the offline capabilities or caching. If you need those features, please look at [Amplify DataStore](~/lib/datastore/getting-started.md).
 
 __[Amplify DataStore](~/lib/datastore/getting-started.md)__ - makes it easy to build apps that need to support offline and low-latency scenarios. DataStore also makes working with distributed, cross-user data just as simple as working with local-only data by providing a programming model for leveraging shared and distributed data without writing additional code.
 
