@@ -3,3 +3,5 @@ Many applications have UX with "Guest" or "Unauthenticated" users. This is provi
 When complete run `amplify push` and your `awsconfiguration.json` will work automatically with your updated Cognito settings. The `AWSMobileClient` user session will automatically have permissions configured for Guest/Unauthenticated users upon initialization. 
 
 If you login in your app either using the [Drop-In Auth](#dropinui) or the [direct Auth APIs](#iosapis) then the `AWSMobileClient` user session will transition to an authenticated role.
+
+ Note: If initialize is giving you the state as ‘signedOut’, try calling `AWSMobileClient.default().getCredentials`. With a fresh install, `AWSMobileClient.default().initialize` will return you `.signedOut` as the state.
