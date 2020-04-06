@@ -163,7 +163,7 @@ class MyCustomConfirmation extends AuthPiece {
 
 The following code sample demonstrates how to create a custom ConfirmSignIn component in Angular using the ng-recaptcha npm package.
 
-> Be sure to follow all instructions for [setting up an Angular application]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/angular) with aws-amplify-angular, and [configure your Amplify instance]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/authentication#switching-authentication-flow-type) to use the CUSTOM_AUTH flow.
+> Be sure to follow all instructions for [setting up an Angular application](~/start/start.md) with aws-amplify-angular, and [configure your Amplify instance](~/lib/auth/switch-auth.md) to use the CUSTOM_AUTH flow.
 
 app.module.ts:
 ```js
@@ -407,7 +407,7 @@ export default MyApp;
 
 The following is an example of how to configure the aws-amplify-angular authenticator so that it displays a message telling the user to check their email, instead of showing the default 'ConfirmSignUp' component.
 
-Be sure to follow all instructions for [setting up an Angular application]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/angular) with aws-amplify-angular.
+Be sure to follow all instructions for [setting up an Angular application](~/start/start.md) with aws-amplify-angular.
 
 app.component.ts:
 ```js

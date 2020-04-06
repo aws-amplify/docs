@@ -45,6 +45,7 @@ capi/src/__tests__/*/api
 capi/src/__tests__/*/www
 client/src/api
 client/src/assets
+report.*.json
 
 #amplify
 amplify/\#current-cloud-backend
@@ -55,9 +56,9 @@ amplify/backend/awscloudformation
 build/
 dist/
 node_modules/
-client/src/aws-exports.js
 client/src/aws-exports.ts
 awsconfiguration.json
 amplifyconfiguration.json
 amplify-gradle-config.json
 amplifyxc.config
+amplify/team-provider-info.json

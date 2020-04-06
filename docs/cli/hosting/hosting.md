@@ -19,10 +19,12 @@ This removes the hosting resources locally from the backend. On your next `ampli
 ## Using AWS Amplify Console
 
 <amplify-callout>
+
 The AWS Amplify Console is a continuous deployment and hosting service for Amplify web apps. [Learn more](https://console.amplify.aws).
+
 </amplify-callout>
 
-The AWS Amplify Console provides a Git-based workflow for building, deploying, and hosting your Amplify web app — both the frontend and backend — from source control. Once you connect a feature branch, all code commits are automatically deployed to an `amplifyapp.com` subdomain or your custom domain.
+The AWS Amplify Console provides a Git-based workflow for building, deploying, and hosting your Amplify web app — both the frontend and backend — from source control. Once you connect a feature branch, all code commits are automatically deployed to an `amplifyapp.com` subdomain or your custom domain. [Get Started](https://docs.aws.amazon.com/amplify/latest/userguide/getting-started.html)
 
 Following are the concepts you would encounter when adding Amplify console as a hosting option for your Amplify app.
 

@@ -11,7 +11,7 @@ export class AmplifyTOCContent {
    */
   @Prop() readonly setContent?: SetContent;
 
-  componentDidLoad() {
+  componentDidRender() {
     this.setContent && this.content && this.setContent(this.content);
   }
 

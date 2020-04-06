@@ -1,6 +1,6 @@
 ## Relational Models
 
-DataStore has the capability to handle relationships between Models, such as `Has One`, `Has Many`, `Belongs To`, and `Many To Many`. In GraphQL this is done with `@connection` as defined in the [GraphQL Transformer documentation](https://aws-amplify.github.io/docs/cli-toolchain/graphql#connection). For the examples below with DataStore use the following schema:
+DataStore has the capability to handle relationships between Models, such as `Has One`, `Has Many`, `Belongs To`, and `Many To Many`. In GraphQL this is done with `@connection` as defined in the [GraphQL Transformer documentation](/cli/graphql-transformer/overview). For the examples below with DataStore use the following schema:
 
 ```graphql
 type Post @model {
@@ -45,7 +45,7 @@ Amplify.DataStore.save(postWithComments) {
 }
 ```
 
-The above example shows how to use a one-to-many schema and save connected models. For many-to-many relations, such as the one shows in the [GraphQL Transformer examples](https://aws-amplify.github.io/docs/cli-toolchain/graphql#connection) you would do something like the following:
+The above example shows how to use a one-to-many schema and save connected models. For many-to-many relations, such as the one shows in the [GraphQL Transformer examples](/cli/graphql-transformer/overview) you would do something like the following:
 
 ```swift
 Amplify.DataStore.save(postWithEditors) {
