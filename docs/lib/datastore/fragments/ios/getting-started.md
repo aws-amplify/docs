@@ -33,7 +33,7 @@ After saving the file build your project.
 
 <amplify-callout>
 
-You do not need an AWS account to run this and use DataStore locally, however if you wish to sync with the cloud it is recommended you [Install and configure the Amplify CLI](../../../start/getting-started/../../../start/getting-started/installation.md)
+You do not need an AWS account to run this and use DataStore locally, however if you wish to sync with the cloud it is recommended you [Install and configure the Amplify CLI](/cli/start/install)
 
 </amplify-callout>
 
@@ -78,4 +78,4 @@ do {
 
 ## API Reference   
 
-For the complete API documentation for DataStore, visit our [API Reference](https://aws-amplify.github.io/amplify-ios/api/classes/datastoreclass.html)
+For the complete API documentation for DataStore, visit our [API Reference](https://aws-amplify.github.io/amplify-ios/docs/Classes/DataStoreCategory.html)
