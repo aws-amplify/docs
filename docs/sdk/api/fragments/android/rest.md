@@ -4,7 +4,7 @@ The Amplify CLI deploys REST APIs and handlers using [Amazon API Gateway](http:/
 
 The API category will perform SDK code generation which, when used with the `AWSMobileClient` can be used for creating signed requests for Amazon API Gateway when the service Authorization is set to `AWS_IAM` or when using a [Cognito User Pools Authorizer](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html).
 
-See [the authentication section for more details](./authentication) for using the `AWSMobileClient` in your application.
+See [the authentication section for more details](~/sdk/auth/getting-started.md) for using the `AWSMobileClient` in your application.
 
 ### Set Up Your Backend
 
@@ -63,7 +63,7 @@ Find the resource name of your API by running `amplify status`. Copy your API cl
 
 #### IAM authorization
 
-To invoke an API Gateway endpoint from your application, import the generated client as outlined in the last section and use the generated client class, model, and resource paths as in the below example with `YOUR_API_RESOURCE_NAME.YOUR_APP_NAME_XXXXClient`, `YOUR_APP_NAME_XXXXClient`, and `YOUR_API_CLIENT_NAME` replaced appropriately. For AWS IAM authorization use the `AWSMobileClient` as outlined in [the authentication section](./authentication).
+To invoke an API Gateway endpoint from your application, import the generated client as outlined in the last section and use the generated client class, model, and resource paths as in the below example with `YOUR_API_RESOURCE_NAME.YOUR_APP_NAME_XXXXClient`, `YOUR_APP_NAME_XXXXClient`, and `YOUR_API_CLIENT_NAME` replaced appropriately. For AWS IAM authorization use the `AWSMobileClient` as outlined in [the authentication section](~/sdk/auth/getting-started.md).
 
 
 ```java
