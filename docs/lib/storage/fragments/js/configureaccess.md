@@ -6,19 +6,17 @@ If you had previously enabled user sign-in by running `amplify add auth` in your
 * Protected: Readable by all users, but writable only by the creating user. Files are stored under `protected/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
 * Private: Only accessible for the individual user. Files are stored under `private/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
 
-When using Auth and Storage modules together, you do not need to construct the `/{user_identity_id}/` manually as the library will use the configured Cognito Identity ID for your user/device along with the configured access level for an action. This includes UnAuthenticated access where you will first call `Auth.currentCredentials()` before a Storage action. See [Authentication](./authentication) for more information.
+When using Auth and Storage modules together, you do not need to construct the `/{user_identity_id}/` manually as the library will use the configured Cognito Identity ID for your user/device along with the configured access level for an action. This includes UnAuthenticated access where you will first call `Auth.currentCredentials()` before a Storage action. See [Authentication](~/lib/auth/overview.md) for more information.
 
 The access level can be configured on the Storage object globally. Alternatively, the access levels can be set in individual function calls.
 
-<amplify-callout>
-Default access level for Storage module is `public`. Unless you configure Storage otherwise, all uploaded files will be publicly available for all users.
-</amplify-callout>
+> Default access level for Storage module is `public`. Unless you configure Storage otherwise, all uploaded files will be publicly available for all users.
+
 
 Access level configuration on the Storage object:
 
 ```javascript
 Storage.configure({ level: 'private' });
-
 Storage.get('welcome.png'); // Gets the welcome.png belonging to current user
 ```
 

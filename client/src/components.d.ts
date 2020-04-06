@@ -11,7 +11,6 @@ import { SetContent, } from "./amplify-ui/toc/toc.types";
 import { SelectedFilters, } from "./docs-ui/page/page.types";
 import { SetCurrentPath, } from "./docs-ui/internal-link/internal-link.types";
 import { MenuGroup, Page, } from "./api";
-import { MatchResults, } from "@stencil/router";
 import { SwitchOption, } from "./docs-ui/version-switch/version-switch.types";
 export namespace Components {
     interface AmplifyCallout {
@@ -313,10 +312,6 @@ export namespace Components {
           * * the current page path
          */
         "currentPath"?: string;
-        /**
-          * * route metadata
-         */
-        "match"?: MatchResults;
     }
     interface DocsRepoActions {
         /**
@@ -381,6 +376,10 @@ export namespace Components {
           * * component tag for documented component page
          */
         "tag": string;
+        /**
+          * * whether or not the table contains header tags
+         */
+        "useTableHeaders": boolean;
     }
 }
 declare global {
@@ -1009,10 +1008,6 @@ declare namespace LocalJSX {
           * * the current page path
          */
         "currentPath"?: string;
-        /**
-          * * route metadata
-         */
-        "match"?: MatchResults;
     }
     interface DocsRepoActions {
         /**
@@ -1077,6 +1072,10 @@ declare namespace LocalJSX {
           * * component tag for documented component page
          */
         "tag"?: string;
+        /**
+          * * whether or not the table contains header tags
+         */
+        "useTableHeaders"?: boolean;
     }
     interface IntrinsicElements {
         "amplify-callout": AmplifyCallout;

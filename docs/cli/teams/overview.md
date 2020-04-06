@@ -26,7 +26,7 @@ You can alternatively, have developers setup their own isolated replica of these
 2. Run `amplify env add` and set up a new environment (e.g. "mydev") with that developer's account and AWS profile
 3. Deploy with `amplify push`
 
-This workflow can be used to share complete Amplify projects with people outside of your organization as well by committing the project into a Git repository. If you are doing this remove (or add to the .gitignore) the **team-provider-info.json** which is located in the `amplify` directory. You can learn more about this file [here](#teamprovider).
+This workflow can be used to share complete Amplify projects with people outside of your organization as well by committing the project into a Git repository. If you are doing this remove (or add to the .gitignore) the **team-provider-info.json** which is located in the `amplify` directory. You can learn more about this file [here](~/cli/teams/shared.md#sharing-projects-outside-the-team).
 
 ### Continuous deployment and Hosting
 

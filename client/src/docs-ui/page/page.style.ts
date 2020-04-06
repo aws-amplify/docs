@@ -21,6 +21,10 @@ export const sidebarLayoutStyle = css`
     }
   }
 
+  amplify-toc-contents h4 {
+    margin-bottom: 1rem;
+  }
+
   amplify-sidebar-layout-toggle {
     position: fixed;
     right: 1rem;

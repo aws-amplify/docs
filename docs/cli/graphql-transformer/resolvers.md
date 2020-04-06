@@ -18,7 +18,7 @@ and you want to change the behavior of request mapping template for the *Query.g
 
 ## Custom Resolvers
 
-#### Add a custom resolver that targets a DynamoDB table from @model
+### Add a custom resolver that targets a DynamoDB table from @model
 
 This is useful if you want to write a more specific query against a DynamoDB table that was created by *@model*. For example, assume you had this schema with two *@model* types and a pair of *@connection* directives.
 
@@ -132,7 +132,7 @@ type Query {
 $util.toJson($ctx.result)
 ```
 
-#### Add a custom resolver that targets an AWS Lambda function
+### Add a custom resolver that targets an AWS Lambda function
 
 Velocity is useful as a fast, secure environment to run arbitrary code but when it comes to writing complex business logic you can just as easily call out to an AWS lambda function. Here is how:
 
@@ -306,7 +306,7 @@ query {
 }
 ```
 
-#### Add a custom geolocation search resolver that targets an Elasticsearch domain created by @searchable
+### Add a custom geolocation search resolver that targets an Elasticsearch domain created by @searchable
 
 To add a geolocation search capabilities to an API add the *@searchable* directive to an *@model* type.
 
