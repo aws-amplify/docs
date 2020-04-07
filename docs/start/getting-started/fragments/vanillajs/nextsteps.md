@@ -58,4 +58,4 @@ To work with service interface objects, your Amazon Cognito users' [IAM role](ht
 
 </amplify-callout>
 
-You can call methods on any AWS Service interface object supported by the AWS Android SDK by passing your credentials from the AWSMobileClient to the service call constructor. See [SDK Setup Options](./manualsetup) for more information.
+You can call methods on any AWS Service interface object supported by the AWS Android SDK by passing your credentials from the AWSMobileClient to the service call constructor. See [SDK Setup Options](~/sdk/configuration/setup-options.md) for more information.

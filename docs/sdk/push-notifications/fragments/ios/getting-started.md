@@ -3,9 +3,9 @@ You can also create Amazon Pinpoint campaigns that tie user behavior to push or 
 
 ## Set Up Your Backend
 
-1. Complete the [Get Started](/start?integration=ios) steps before you proceed.
+1. Complete the [Get Started](~/start/start.md) steps before you proceed.
 
-2. Complete the [Setting Up APNS Guide](~/setup-apns). This will guide you through the process of setting up an App ID, SSL certificate, provisioning profile, entitlements, distribution certificate, and provisioning profile, which are required to deliver notifications to iOS devices.
+2. Complete the [Setting Up APNS Guide](~/sdk/push-notifications/setup-push-service.md). This will guide you through the process of setting up an App ID, SSL certificate, provisioning profile, entitlements, distribution certificate, and provisioning profile, which are required to deliver notifications to iOS devices.
 
 3. Use the CLI to add notifications to your cloud-enabled backend and app.
 
@@ -30,7 +30,7 @@ You can also create Amazon Pinpoint campaigns that tie user behavior to push or 
         > Certificate
         ```
 
-    - Provide the path to your P12 certificate that you created in [Setting Up iOS Push Notifications](./setup-apns).
+    - Provide the path to your P12 certificate that you created in [Setting Up iOS Push Notifications](~/sdk/push-notifications/setup-push-service.md).
 
    Use the steps in the next section to connect your app to your backend.
 

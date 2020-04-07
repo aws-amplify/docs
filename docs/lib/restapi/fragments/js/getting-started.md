@@ -1,8 +1,8 @@
-The API category provides a solution for making HTTP requests to REST and GraphQL endpoints. For building GraphQL APIs please visit the [GraphQL guide](api-gql/intro)
+The API category provides a solution for making HTTP requests to REST and GraphQL endpoints. For building GraphQL APIs please visit the [GraphQL guide](~/lib/graphqlapi/getting-started.md)
 
 The REST API category can be used for creating signed requests against Amazon API Gateway when the API Gateway Authorization is set to `AWS_IAM`. 
 
-> Ensure you have [installed and configured the Amplify CLI and library](/js/start).
+> Ensure you have [installed and configured the Amplify CLI and library](~/cli/start/start.md).
 
 ## Create new REST API
 

@@ -21,7 +21,7 @@ Now click the *Download JSON configuration* button to download the scene configu
 
 ## Setup backend
 
-> Ensure you have [installed and configured the Amplify CLI and library](../../start/getting-started/installation.md)
+> Ensure you have [installed and configured the Amplify CLI and library](~/start/start.md)
 
 ```
 $ amplify add xr

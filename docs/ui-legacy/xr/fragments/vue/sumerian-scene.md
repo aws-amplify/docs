@@ -16,4 +16,4 @@ Options:
 <amplify-sumerian-scene scene-name="scene1"></amplify-sumerian-scene>
 ```
 
-See the [XR documentation](~/lib/xr/start.md) for information on creating and publishing a Sumerian scene.
+See the [XR documentation](~/lib/xr/getting-started.md) for information on creating and publishing a Sumerian scene.

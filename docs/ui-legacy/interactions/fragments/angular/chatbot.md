@@ -39,4 +39,4 @@ ChatBot Error: Invalid Bot Configuration: This bot does not have a Polly voice I
 </amplify-interactions>
 ```
 
-See the [Interactions documentation](~/lib/interactions/overview.md) for information on creating an Amazon Lex Chatbot.
+See the [Interactions documentation](~/lib/interactions/getting-started.md) for information on creating an Amazon Lex Chatbot.
