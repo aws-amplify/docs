@@ -5,6 +5,30 @@ import {filterMetadataByOptionByName} from "../../utils/filter-data";
 import {internalLinkContext} from "../internal-link/internal-link.context";
 import {SetCurrentPath} from "../internal-link/internal-link.types";
 
+const getRoute = (
+  initialRoute: string,
+  filterKey: string,
+  filterValue: string,
+): string => {
+  switch (filterValue) {
+    case "js": {
+      if (initialRoute.startsWith("/sdk")) {
+        return "lib?platform=js";
+      }
+      break;
+    }
+    case "android":
+    case "ios": {
+      if (initialRoute.startsWith("/lib")) {
+        return `/sdk?platform=${filterValue}`;
+      }
+      break;
+    }
+  }
+
+  return `${initialRoute}?${filterKey}=${filterValue}`;
+};
+
 @Component({tag: "docs-choose-anchor"})
 export class DocsChooseAnchor {
   /*** method to trigger the update of the currently-mounted `Page` */
@@ -31,13 +55,7 @@ export class DocsChooseAnchor {
               ([filterValue, {label, graphicURI}]) => {
                 const route =
                   this.page?.route &&
-                  filterValue === "js" &&
-                  this.page.route.startsWith("/sdk")
-                    ? "/lib?platform=js"
-                    : (filterValue === "android" || filterValue === "ios") &&
-                      this.page?.route.startsWith("/lib")
-                    ? `/sdk?platform=${filterValue}`
-                    : `${this.page?.route}?${filterKey}=${filterValue}`;
+                  getRoute(this.page.route, filterKey, filterValue);
 
                 return (
                   <amplify-card
