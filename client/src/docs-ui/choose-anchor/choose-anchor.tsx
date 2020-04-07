@@ -30,7 +30,14 @@ export class DocsChooseAnchor {
             Object.entries(filterMetadataByOptionByName[filterKey]).map(
               ([filterValue, {label, graphicURI}]) => {
                 const route =
-                  this.page && `${this.page.route}?${filterKey}=${filterValue}`;
+                  this.page?.route &&
+                  filterValue === "js" &&
+                  this.page.route.startsWith("/sdk")
+                    ? "/lib?platform=js"
+                    : (filterValue === "android" || filterValue === "ios") &&
+                      this.page?.route.startsWith("/lib")
+                    ? `/sdk?platform=${filterValue}`
+                    : `${this.page?.route}?${filterKey}=${filterValue}`;
 
                 return (
                   <amplify-card
