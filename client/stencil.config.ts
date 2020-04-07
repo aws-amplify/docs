@@ -61,12 +61,12 @@ export const config: Config = {
       baseUrl: "https://amplify.aws/",
       copy: [
         {
-          src: "browserconfig.xml",
-          dest: "browserconfig.xml",
+          src: "sitemap.xml",
+          dest: "sitemap.xml",
         },
         {
-          src: "robots.txt",
-          dest: "robots.txt",
+          src: "browserconfig.xml",
+          dest: "browserconfig.xml",
         },
         {
           src: "fonts",
@@ -77,6 +77,10 @@ export const config: Config = {
         },
         {
           src: "api",
+        },
+        {
+          src: "robots.txt",
+          dest: "robots.txt",
         },
       ],
     },

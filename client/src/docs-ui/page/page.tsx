@@ -1,4 +1,13 @@
-import {Component, Host, h, Prop, State, Watch, Listen} from "@stencil/core";
+import {
+  Component,
+  Host,
+  h,
+  Prop,
+  State,
+  Watch,
+  Listen,
+  Element,
+} from "@stencil/core";
 import {
   sidebarLayoutStyle,
   pageStyle,
@@ -6,7 +15,6 @@ import {
   sidebarToggleClass,
   mainStyle,
 } from "./page.style";
-import {MatchResults} from "@stencil/router";
 import {Page, createVNodesFromHyperscriptNodes} from "../../api";
 import {updateDocumentHead} from "../../utils/update-document-head";
 import Url from "url-parse";
@@ -22,25 +30,35 @@ import {pageContext} from "./page.context";
 import {track, AnalyticsEventType} from "../../utils/track";
 import {Breakpoint} from "../../amplify-ui/styles/media";
 import {getPage} from "../../cache";
+import {popped, setPopped} from "../../utils/pop-state";
+import {getNavHeight} from "../../utils/get-nav-height";
+import {scrollToHash} from "../../utils/scroll-to-hash";
 
 @Component({tag: "docs-page", shadow: false})
 export class DocsPage {
-  /*** route metadata */
-  @Prop() readonly match?: MatchResults;
+  @Element() el: HTMLElement;
+
   /*** the current page path */
   @Prop() readonly currentPath?: string;
 
   @State() data?: Page;
   @State() blendUniversalNav?: boolean;
-  @State() sidebarStickyTop = this.setSidebarStickyTop();
+  @State() sidebarStickyTop = getNavHeight("rem");
 
   @State() selectedFilters: Record<string, string | undefined> = {};
 
   setSelectedFilters: SetSelectedFilters = (updates) => {
+    const overrides = withFilterOverrides(updates, this.selectedFilters);
     this.selectedFilters = {
       ...this.selectedFilters,
-      ...withFilterOverrides(updates, this.selectedFilters),
+      ...overrides,
     };
+    for (const [filterKey, filterValue] of Object.entries(overrides)) {
+      localStorage.setItem(
+        getFilterKeyFromLocalStorage(filterKey),
+        filterValue,
+      );
+    }
   };
 
   /**
@@ -59,10 +77,6 @@ export class DocsPage {
       const {[this.filterKey]: filterValue} = queryParams;
       if (filterValue) {
         this.filterValue = filterValue;
-        localStorage.setItem(
-          getFilterKeyFromLocalStorage(this.filterKey),
-          filterValue,
-        );
         this.setSelectedFilters({[this.filterKey]: this.filterValue});
       }
     }
@@ -70,10 +84,8 @@ export class DocsPage {
 
   // @ts-ignore
   @Listen("resize", {target: "window"})
-  setSidebarStickyTop(): number {
-    const sidebarStickyTop = innerWidth > Breakpoint.LAPTOP * 16 ? 3 : 6.25;
-    this.sidebarStickyTop = sidebarStickyTop;
-    return sidebarStickyTop;
+  setSidebarStickyTop() {
+    this.sidebarStickyTop = getNavHeight("rem");
   }
 
   ensureMenuScrolledIntoViewOnMobileMenuOpen = () => {
@@ -90,43 +102,62 @@ export class DocsPage {
     }
   };
 
-  async componentWillLoad() {
+  componentWillUpdate() {
+    if ((!this.data || this.data?.route !== location.pathname) && popped) {
+      setPopped(false);
+      return this.getPageData();
+    }
+  }
+
+  componentWillLoad() {
     track({
       type: AnalyticsEventType.PAGE_VISIT,
       attributes: {url: location.href},
     });
 
     this.setSidebarStickyTop();
+    return this.getPageData();
+  }
 
-    if (this.match) {
-      const {path} = this.match;
-      this.blendUniversalNav = path === "/";
-      try {
-        this.data = await getPage(path);
-        if (this.data) {
-          updateDocumentHead(this.data);
-          this.filterKey = getFilterKeyFromPage(this.data);
-          this.selectedFilters = Object.assign(
-            {},
-            ...Object.keys(filterOptionsByName).map((filterKey) => {
-              const localStorageKey = getFilterKeyFromLocalStorage(filterKey);
-              return {
-                [filterKey]: localStorageKey
-                  ? localStorage.getItem(localStorageKey) || undefined
-                  : undefined,
-              };
-            }),
-          );
-          this.computeFilter();
-        }
-      } catch (exception) {
-        track({
-          type: AnalyticsEventType.PAGE_DATA_FETCH_EXCEPTION,
-          attributes: {url: location.href, exception},
-        });
-      }
+  componentDidLoad() {
+    this.setSidebarStickyTop();
+    const {hash} = location;
+    if (hash) {
+      setTimeout(() => {
+        scrollToHash(hash, this.el);
+      }, 100);
     }
   }
+
+  getPageData = async () => {
+    const {pathname} = location;
+    this.blendUniversalNav = pathname === "/";
+
+    try {
+      this.data = await getPage(pathname);
+      if (this.data) {
+        updateDocumentHead(this.data);
+        this.filterKey = getFilterKeyFromPage(this.data);
+        this.selectedFilters = Object.assign(
+          {},
+          ...Object.keys(filterOptionsByName).map((filterKey) => {
+            const localStorageKey = getFilterKeyFromLocalStorage(filterKey);
+            return {
+              [filterKey]: localStorageKey
+                ? localStorage.getItem(localStorageKey) || undefined
+                : undefined,
+            };
+          }),
+        );
+        this.computeFilter();
+      }
+    } catch (exception) {
+      track({
+        type: AnalyticsEventType.PAGE_DATA_FETCH_EXCEPTION,
+        attributes: {url: location.href, exception},
+      });
+    }
+  };
 
   requiresFilterSelection = (): boolean =>
     !!(this.filterKey && !this.filterValue);
@@ -190,7 +221,10 @@ export class DocsPage {
                                 createVNodesFromHyperscriptNodes(
                                   this.data.body,
                                 ),
-                                <docs-next-previous page={this.data} />,
+                                <docs-next-previous
+                                  key={this.data.route}
+                                  page={this.data}
+                                />,
                               ]}
                             </amplify-toc-contents>
                             <amplify-sidebar-layout-toggle

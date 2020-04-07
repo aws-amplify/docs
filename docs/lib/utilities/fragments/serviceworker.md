@@ -22,7 +22,7 @@ const serviceWorker = new ServiceWorker();
 
 You can register a service worker for the browser with `register` method. 
 
-First, you need to create a service worker script **service-worker.js**. Your service worker script includes cache settings for offline access and event handlers for related lifecycle events. [Click to see a sample service worker script]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/service-workers) for your app. 
+First, you need to create a service worker script **service-worker.js**. Your service worker script includes cache settings for offline access and event handlers for related lifecycle events. [Click to see a sample service worker script](#example-service-worker) for your app. 
 
 Make sure that worker script is included with your build and provide a script path relative to the source directory when registering:
 
@@ -121,7 +121,7 @@ In your *service-worker.js* file, add the following event listener:
 
 ### Monitoring Lifecycle Events
 
-If you enable AWS Amplify [Analytics]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/analytics) category, *ServiceWorker* module automatically tracks service worker state changes and message events.
+If you enable AWS Amplify [Analytics](~/lib/analytics/getting-started.md) category, *ServiceWorker* module automatically tracks service worker state changes and message events.
 
 You can see those analytics events are related metrics in Amazon Pinpoint console.
 

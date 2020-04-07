@@ -1,6 +1,7 @@
 {
     "title": "Authentication",
     "items": [
-        "installation"
+        "overview",
+        "authenticator"
     ]
 }

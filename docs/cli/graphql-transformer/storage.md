@@ -37,7 +37,7 @@ type Picture @model @auth(rules: [{allow: owner}]) {
 
 The GraphQL Transform handles creating the relevant input types and will store pointers to S3 objects in Amazon DynamoDB. The AppSync SDKs and Amplify library handle uploading the files to S3 transparently.
 
-**Run a mutation with s3 objects from your client app:**
+**Run a mutation with S3 objects from your client app:**
 
 ```
 mutation ($input: CreatePictureInput!) {

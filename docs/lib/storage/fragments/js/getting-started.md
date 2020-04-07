@@ -1,10 +1,12 @@
+> Prerequisite: [Install and configure](~/cli/start/install.md) the Amplify CLI
+
+## Storage with Amplify
+
 AWS Amplify Storage module provides a simple mechanism for managing user content for your app in public, protected or private storage buckets. The Storage category comes with built-in support for Amazon S3.
 
-## Create storage bucket
+## Automated Setup: Create storage bucket
 
-> Ensure you have [installed and configured the Amplify CLI and library](tbd)
-
-To create a project with the Storage category, run the following command from the root of your project:
+To start from scratch, run the following command from the root of your project:
 
 ```bash
 $ amplify add storage
@@ -26,12 +28,29 @@ $ amplify push
 
 When your backend is successfully updated, your new configuration file `aws-exports.js` is copied under your source directory, e.g. '/src'.
 
-## Import storage bucket
+## Configure your application
+
+Add Amplify to your app with `yarn` or `npm`:
+
+```bash
+npm install -S aws-amplify
+```
+
+In your app’s entry point i.e. `App.js`, import and load the configuration file `aws-exports.js` which has been created and replaced into `/src` folder in the previous step.
+```javascript
+import Amplify, { Storage } from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
+```
+
+## Manual Setup: Import storage bucket
+
+If you use `aws-exports.js` file, Storage is already configured when you call `Amplify.configure(awsconfig)`. To configure Storage manually, you will have to configure Amplify Auth category as well. 
 
 Manual setup enables you to use your existing Amazon Cognito and Amazon S3 credentials in your app:
 
 ```javascript
-import Amplify from 'aws-amplify';
+import Amplify, { Auth, Storage } from 'aws-amplify';
 
 Amplify.configure({
     Auth: {
@@ -50,7 +69,7 @@ Amplify.configure({
 
 ```
 
-### File access for imported buckets
+### Using Amazon S3
 If you set up your Cognito resources manually, the roles will need to be given permission to access the S3 bucket.
 
 There are two roles created by Cognito: an `Auth_Role` that grants signed-in-user-level bucket access and an `Unauth_Role` that allows unauthenticated access to resources. Attach the corresponding policies to each role for proper S3 access. Replace ```{enter bucket name}``` with the correct S3 bucket.
@@ -179,8 +198,10 @@ The policy template that Amplify CLI uses is found [here](https://github.com/aws
 
 ### Amazon S3 Bucket CORS Policy Setup
 
-<amplify-callout>
+<amplify-callout warning>
+
 To make calls to your S3 bucket from your App, you need to set up a CORS Policy for your S3 bucket. This callout is only for manual configuration of your S3 bucket, CORS Policy configuration is done automatically via Amplify CLI when running `amplify add storage`.
+
 </amplify-callout>
 
 The following steps will set up your CORS Policy: 
@@ -215,29 +236,7 @@ The following steps will set up your CORS Policy:
 
 </amplify-callout>
 
-## Configure frontend
-
-Import *Storage* from the aws-amplify library:
-```javascript
-import { Auth, Storage } from 'aws-amplify';
-```
-
-If you use `aws-exports.js` file, Storage is already configured when you call `Amplify.configure(awsconfig)`. To configure Storage manually, you will have to configure Amplify Auth category too.  
-```javascript
-Auth.configure(
-    // To get the aws credentials, you need to configure 
-    // the Auth module with your Cognito Federated Identity Pool
-    identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab',
-    region: 'XX-XXXX-X',
-);
-
-Storage.configure({
-    AWSS3: {
-        bucket: '',//Your bucket name;
-        region: ''//Specify the region your bucket was created in;
-    }
-});
-```
+For information on Amazon S3 file access levels, please see [configure file access levels](~/lib/storage/configureaccess.md).
 
 ## Using a Custom Plugin
 
@@ -298,6 +297,10 @@ Storage.configure({
 ```
 
 The default provider (Amazon S3) is in use when you call `Storage.put( )` unless you specify a different provider: `Storage.put(key, object, {provider: 'MyStorageProvider'})`. 
+
+
+## Mocking and Local Testing with Amplify CLI
+Amplify CLI supports running a lock mock server for testing your application with Amazon S3. Please see the [CLI toolchain documentation](~/cli/usage/mock.md) for more details.
 
 ## API Reference
 

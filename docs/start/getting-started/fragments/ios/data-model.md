@@ -128,7 +128,7 @@ func subscribe() {
     do {
         discard = try appSyncClient?.subscribe(subscription: OnCreateTodoSubscription(), resultHandler: { (result, transaction, error) in
             if let result = result {
-                print("CreateTodo subscription data:" +result.data!.onCreateTodo!.name + " " + result.data!.onCreateTodo!.description!)
+                print("CreateTodo subscription data:" + result.data!.onCreateTodo!.name + " " + result.data!.onCreateTodo!.description!)
             } else if let error = error {
                 print(error.localizedDescription)
             }

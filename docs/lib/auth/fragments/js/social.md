@@ -242,7 +242,7 @@ class MyApp extends Component {
 export default withOAuth(MyApp);
 ```
 
-After being redirected back to your app, you can use the [Hub module]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/hub#listening-authentication-events) to detect whether the user is signed in or not.
+After being redirected back to your app, you can use the [Hub module](~/lib/utilities/hub.md#authentication-events) to detect whether the user is signed in or not.
 
 ```javascript
 import Amplify, { Hub } from 'aws-amplify';

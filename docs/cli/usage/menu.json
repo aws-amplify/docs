@@ -6,6 +6,7 @@
     "iam",
     "files",
     "headless",
+    "build-options",
     "plugin"
   ]
 }

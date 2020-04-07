@@ -2,6 +2,7 @@
 title: Data access patterns
 description: Some Description
 ---
+
 In the [DynamoDB documentation for modeling relational data in a NoSQL database](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-modeling-nosql.html), there is an in depth example of 17 access patterns from the [First Steps for Modeling Relational Data in DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-modeling-nosql.html) page.
 
 ![17 Data Access Patterns](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/images/AccessPatternList.png "Access Patterns")
@@ -217,7 +218,7 @@ mutation createOrder {
 }
 ```
 
-**1. Look up employee details by employee ID:**
+## 1. Look up employee details by employee ID:
 This can simply be done by querying the employee model with an employee ID, no `@key` or `@connection` is needed to make this work.
 
 ```graphql
@@ -232,7 +233,7 @@ query getEmployee($id: ID!) {
 }
 ```
 
-**2. Query employee details by employee name:**
+## 2. Query employee details by employee name:
 The `@key` `byName` on the `Employee` type makes this access-pattern feasible because under the covers an index is created and a query is used to match against the name field. We can use this query:
 
 ```graphql
@@ -249,10 +250,10 @@ query employeeByName($name: String!) {
 }
 ```
 
-**3. Find an Employee’s phone number:**
+## 3. Find an Employee’s phone number:
 Either one of the previous queries would work to find an employee’s phone number as long as one has their ID or name.
 
-**4. Find a customer’s phone number:**
+## 4. Find a customer’s phone number:
 A similar query to those given above but on the Customer model would give you a customer’s phone number.
 
 ```graphql
@@ -263,7 +264,7 @@ query getCustomer($customerID: ID!) {
 }
 ```
 
-**5. Get orders for a given customer within a given date range:**
+## 5. Get orders for a given customer within a given date range:
 There is a one-to-many relation that lets all the orders of a customer be queried.
 
 This relationship is created by having the `@key` name `byCustomerByDate` on the Order model that is queried by the connection on the orders field of the Customer model.
@@ -288,7 +289,7 @@ query getCustomerWithOrdersByDate($customerID: ID!) {
 }
 ```
 
-**6. Show all open orders within a given date range across all customers:**
+## 6. Show all open orders within a given date range across all customers:
 The `@key` `byCustomerByStatusByDate` enables you to run a query that would work for this access pattern.
 
 In this example, a composite sort key (combination of two or more keys) with the `status` and `date` is used. What this means is that the unique identifier of a record in the database is created by concatenating these two fields (status and date) together, and then the GraphQL resolver can use predicates like `Between` or `Contains` to efficiently search the unique identifier for matches rather than scanning all records in the database and then filtering them out.
@@ -311,7 +312,7 @@ query getCustomerWithOrdersByStatusDate($customerID: ID!) {
 }
 ```
 
-**7. See all employees hired recently:**
+## 7. See all employees hired recently:
 Having ‘@key(name: "newHire", fields: ["newHire", "id"])’ on the `Employee` model allows one to query by whether an employee has been hired recently. 
 
 ```graphql
@@ -344,7 +345,7 @@ query employeesNewHireByDate {
 }
 ```
 
-**8. Find all employees working in a given warehouse:**
+## 8. Find all employees working in a given warehouse:
 This needs a one to many relationship from warehouses to employees. As can be seen from the @connection in the `Warehouse` model, this connection uses the `byWarehouse` key on the `Employee` model. The relevant query would look like this:
 
 ```graphql
@@ -364,7 +365,7 @@ query getWarehouse($warehouseID: ID!) {
 }
 ```
 
-**9. Get all items on order for a given product:**
+## 9. Get all items on order for a given product:
 This access-pattern would use a one-to-many relation from products to orders. With this query we can get all orders of a given product:
 
 ```graphql
@@ -383,7 +384,7 @@ query getProductOrders($productID: ID!) {
 }
 ```
 
-**10. Get current inventories for a product at all warehouses:**
+## 10. Get current inventories for a product at all warehouses:
 
 The query needed to get the inventories of a product in all warehouses would be:
 
@@ -401,7 +402,7 @@ query getProductInventoryInfo($productID: ID!) {
 }
 ```
 
-**11. Get customers by account representative:**
+## 11. Get customers by account representative:
 This uses a one-to-many connection between account representatives and customers:
 
 The query needed would look like this:
@@ -420,7 +421,7 @@ query getCustomersForAccountRepresentative($representativeId: ID!) {
 }
 ```
 
-**12. Get orders by account representative and date:**
+## 12. Get orders by account representative and date:
 
 
 As can be seen in the AccountRepresentative model this connection uses the `byRepresentativebyDate` field on the `Order` model to create the connection needed. The query needed would look like this:
@@ -445,10 +446,10 @@ query getOrdersForAccountRepresentative($representativeId: ID!) {
 }
 ```
 
-**13. Get all items on order for a given product:**
+## 13. Get all items on order for a given product:
 This is the same as number 9.
 
-**14. Get all employees with a given job title:**
+## 14. Get all employees with a given job title:
 Using the `byTitle` `@key` makes this access pattern quite easy.
 
 ```graphql
@@ -464,7 +465,7 @@ query employeesByJobTitle {
 }
 ```
 
-**15. Get inventory by product by warehouse:**
+## 15. Get inventory by product by warehouse:
 Here having the inventories be held in a separate model is particularly useful since this model can have its own partition key and sort key such that the inventories themselves can be queried as is needed for this access-pattern.
 
 A query on this model would look like this:
@@ -493,7 +494,7 @@ query byWarehouseId($warehouseID: ID!) {
 }
 ```
 
-**16. Get total product inventory:**
+## 16. Get total product inventory:
 How this would be done depends on the use case. If one just wants a list of all inventories in all warehouses, one could just run a list inventories on the Inventory model:
 
 ```graphql
@@ -508,7 +509,7 @@ query listInventorys {
 }
 ```
 
-**17. Get sales representatives ranked by order total and sales period:**
+## 17. Get sales representatives ranked by order total and sales period:
 It's uncertain exactly what this means. My take is that the sales period is either a date range or maybe even a month or week. Therefore we can set the sales period as a string and query using the combination of `salesPeriod` and `orderTotal`. We can also set the `sortDirection` in order to get the return values from largest to smallest:
 
 ```graphql

@@ -1,4 +1,4 @@
-Enable your users to receive mobile push messages sent from the Apple (APNs) and Google (FCM/GCM) platforms. The CLI deploys your push notification backend using [Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/).
+Enable your users to receive mobile push messages sent from the Apple (APNs) and Google (FCM/GCM) platforms. The Amplify CLI deploys your push notification backend using [Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/).
 You can also create Amazon Pinpoint campaigns that tie user behavior to push or other forms of messaging.
 
 ## Pre-requisite
@@ -41,10 +41,8 @@ Use the following steps to connect push notification backend services to your ap
 
     target :'YOUR-APP-NAME' do
       use_frameworks!
-
-        pod  'AWSPinpoint', '~> 2.13.0' 
-        # other pods
-        pod  'AWSMobileClient', '~> 2.13.0' 
+        pod  'AWSPinpoint'
+        pod  'AWSMobileClient'
     end
     ```
 
@@ -58,7 +56,7 @@ Use the following steps to connect push notification backend services to your ap
 
 5. Add the following import statements to your AppDelegate file:
 
-    ```
+    ```swift
     import UserNotifications
     import AWSPinpoint
     ```

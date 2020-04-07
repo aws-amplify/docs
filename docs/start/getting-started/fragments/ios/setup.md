@@ -16,7 +16,7 @@ Open the created  `Podfile` in a text editor and add the pod for core AWS Mobile
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSAppSync', '~> 3.1.0'
+    pod 'AWSAppSync'
 
     # other pods
 end
@@ -33,11 +33,10 @@ Close your Xcode project and reopen it using `./YOUR-PROJECT-NAME.xcworkspace` f
 
 ## Step 2: Initialize your project
 
-In a terminal window, navigate to your project folder (the folder that contains your `xcodeproj` file), and run the following command (for this app, accepting all defaults is OK):
+In a terminal window, run the following command (for this app, accepting all defaults is OK) in your project folder (the folder that contains your `xcodeproj` file):
 
 ```bash
-$ cd ./YOUR_PROJECT_FOLDER
-$ amplify init        #accept defaults
+$ amplify init        # accept defaults
 ```
 
 The `awsconfiguration.json` configuration file should be created in the root directory. 
@@ -46,7 +45,7 @@ The `awsconfiguration.json` configuration file should be created in the root dir
 
 **What is awsconfiguration.json?**
 
-Rather than configuring each service through a constructor or constants file, the AWS SDKs for iOS support configuration through a centralized file called `awsconfiguration.json` which defines all the regions and service endpoints to communicate. Whenever you run `amplify push`, this file is automatically created allowing you to focus on your Swift application code. On iOS projects the `awsconfiguration.json` will be placed into the root directory and you will need to add it to your Xcode project.
+> Rather than configuring each service through a constructor or constants file, the AWS SDKs for iOS support configuration through a centralized file called `awsconfiguration.json` which defines all the regions and service endpoints to communicate. Whenever you run `amplify push`, this file is automatically created allowing you to focus on your Swift application code. On iOS projects the `awsconfiguration.json` will be placed into the root directory and you will need to add it to your Xcode project.
 
 In the Finder, drag `awsconfiguration.json` into Xcode under the top Project Navigator folder (the folder name should match your Xcode project name). When the `Options` dialog box appears, do the following:
 

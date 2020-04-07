@@ -103,7 +103,7 @@ public void confirmSignIn() {
 
 ### Lambda trigger setup
 
-Amplify CLI can be used generate lambda triggers required by a custom authentication flow. See [documentation](https://aws-amplify.github.io/docs/cli-toolchain/cognito-triggers) for details. Amplify CLI creates a custom auth flow skeleton that you can manually edit. More information on each of the triggers can be found in [Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
+Amplify CLI can be used generate lambda triggers required by a custom authentication flow. See [documentation](~/cli/auth/triggers) for details. Amplify CLI creates a custom auth flow skeleton that you can manually edit. More information on each of the triggers can be found in [Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
 
 `AWSMobileClient` assumes that custom auth flows start with username and password. If you want a passwordless custom authentication flow, modify your `Define Auth Challenge` Lambda trigger to bypass the initial username/password verification and proceed to the custom challenge, as in the code below.
 

@@ -76,6 +76,10 @@ export const socialLinkContainerStyle = css`
   display: flex;
   flex-direction: row;
 
+  amplify-external-link {
+    margin-left: 0.75rem;
+  }
+
   img {
     width: 1.5rem;
     height: 1.5rem;

@@ -47,7 +47,7 @@ const getRoute = (
         return `/${pieces.join(path.sep)}`;
       }
     } catch (e) {
-      // console.log("\x1b[33m%s\x1b[0m", e.message.split("\n")[0]);
+      console.log("\x1b[33m%s\x1b[0m", e.message.split("\n")[0]);
     }
   }
   return "";
@@ -69,22 +69,6 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
       const isURLExternal = IS_URL_ABSOLUTE_REGEX.test(url);
 
       if (!isURLExternal) {
-        if (url.startsWith("..")) {
-          const sub = url.substr(2);
-          url = `${sub}${sub.startsWith("/") ? sub : `/${sub}`}`;
-        }
-
-        if (!url.startsWith("~") && !url.startsWith("#")) {
-          url = `~${url.startsWith("/") ? "" : "/"}${url}`;
-        }
-
-        if (
-          !url.includes(".") ||
-          !validLinkExtensions[url.split(".").pop() || ""]
-        ) {
-          url = `${url}.md`;
-        }
-
         // in page links (hash-only url)
         if (url.startsWith("#")) {
           lexicalScope.update([
@@ -92,6 +76,24 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
             {targetId: url.substr(1)},
             ...children,
           ]);
+          return;
+        }
+
+        if (url.startsWith("..")) {
+          const sub = url.substr(2);
+          url = `${sub}${sub.startsWith("/") ? sub : `/${sub}`}`;
+        }
+
+        if (!url.startsWith("~")) {
+          url = `~${url.startsWith("/") ? "" : "/"}${url}`;
+        }
+
+        if (
+          (!url.includes(".") ||
+            !validLinkExtensions[url.split(".").pop() || ""]) &&
+          !url.includes("#")
+        ) {
+          url = `${url}.md`;
         }
       }
 
