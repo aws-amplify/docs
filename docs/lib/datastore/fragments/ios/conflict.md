@@ -1,30 +1,32 @@
-When syncing with AWS AppSync, DataStore updates from multiple clients will converge by tracking object versions and adhering to different conflict resolution strategies. The default strategy is called *Automerge*, where GraphQL type information on an object is inspected at runtime to perform merge operations. You can read more about this behavior and alternatives such as *Optimistic Concurrency* Control and *custom Lambda functions* in the [AWS AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/conflict-detection-and-sync.html). To update the conflict resolution strategies navigate into your project from a terminal and run `amplify update api` choosing *Yes* when prompted to change the conflict detection and conflict resolution strategies:
+The code below illustrates a conflict resolution handler for the `Post` model that retries a mutation with the same title, but the most recent remote data for all other fields. The conflict resolution handler discards conflicts for all other models (by passing `.discard` to the `resolve` function).
 
-```sh
-amplify update api #Select GraphQL
+```swift
+// custom conflict resolution configuration
+Amplify.add(plugin: AWSDataStorePlugin(schema: schema, configuration: .custom(
+    conflictHandler: { (data, resolve) in
+        let (local, remote) = data
 
-? Do you want to configure advanced settings for the GraphQL API 
-❯ Yes, I want to make some additional changes. 
+        guard let localPost = local as? Post, let remotePost as? Post {
+            .resolve(.discard)
+        }
 
-? Configure conflict detection? Yes
-? Select the default resolution strategy 
-  Auto Merge 
-❯ Optimistic Concurrency 
-  Custom Lambda 
-  Learn More 
+        // always favor the title from the local post
+        let mergedModel = Post(title: localPost.title,
+                               rating: remotePost.rating,
+                               status: remotePost.status)
+        resolve(.new(mergedModel))
+    },
+    errorHandler: { error in
+        Amplify.Logging.error(error: error)
+    },
+    syncInterval: 1_440,
+    syncMaxRecords: 10_000,
+    syncPageSize: 1_000
+)))
 ```
 
-Note that this flow will also allow you to change the strategy on each individual GraphQL type, though is is recommended to use the same strategy for your whole schema unless you have an advanced use case:
+<amplify-callout>
 
-```sh
-? Do you want to override default per model settings? Yes
-? Select the models from below: 
-❯◉ Post
- ◯ PostEditor
- ◯ User
+**Note:** this API is under development and it is not generally available yet.
 
-? Select the resolution strategy for Post model Custom Lambda
-? Select from the options below (Use arrow keys)
-❯ Create a new Lambda Function 
-  Existing Lambda Function 
-```
+</amplify-callout>

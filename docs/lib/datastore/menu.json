@@ -6,6 +6,7 @@
     "sync",
     "relational",
     "conflict",
-    "overview"
+    "schema-updates",
+    "how-it-works"
   ]
 }

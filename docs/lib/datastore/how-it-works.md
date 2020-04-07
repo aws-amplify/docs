@@ -1,5 +1,5 @@
 ---
-title: Concepts
+title: How it works
 description: description
 ---
 
@@ -65,3 +65,5 @@ mutation UpdatePost {
   }
 }
 ```
+
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/how-it-works.md"></inline-fragment>

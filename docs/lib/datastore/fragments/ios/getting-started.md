@@ -1,22 +1,19 @@
-## Model Generation
-
-Modeling your data and *generating models* which are used by DataStore is the first step to get started. GraphQL is used as a common language across JavaScript, iOS, and Android for this process, and is also used as the network protocol when syncing with the cloud. GraphQL is also what powers some of the features such as Automerge in AppSync. Model generation can be done via an NPX script or from the command line with the Amplify CLI.
-
 ## Using CocoaPods
 
-The fastest way to get started is adding the `amplify-tools` dependency to your `Podfile`:
+The fastest way to get started is adding the `Amplify/Tools` dependency to your `Podfile`:
 
 ```ruby
 platform :ios, '13.0'
 use_frameworks!
 
 target 'DataStoreApp' do
-  pod 'amplify-tools'
+  pod 'Amplify'
   pod 'AmplifyPlugins/AWSDataStorePlugin'
+  pod 'AmplifyPlugins/AWSAPIPlugin'
 end
 ```
 
-Then run `pod install` and open the `.xcworkspace` file to build your app.
+Then run `pod install` and open the `.xcworkspace` file and build your app.
 
 Once this completes open the GraphQL schema in the `amplify/backend/api/amplifyDatasource/schema.graphql`. You can use the sample or the one below that will be used in this documentation:
 
@@ -33,7 +30,7 @@ After saving the file build your project.
 
 <amplify-callout>
 
-You do not need an AWS account to run this and use DataStore locally, however if you wish to sync with the cloud it is recommended you [Install and configure the Amplify CLI](../../../start/getting-started/../../../start/getting-started/installation.md)
+You do not need an AWS account to run this and use DataStore locally, however if you wish to sync with the cloud it is recommended you [Install and configure the Amplify CLI](~/cli/start/install.md).
 
 </amplify-callout>
 
@@ -67,7 +64,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 //...other code
 do {
-    try Amplify.add(plugin: AWSDataStorePlugin(modelRegistration: AmplifyModels()))
+    try Amplify.add(plugin: AWSAPIPlugin())
+    try Amplify.add(plugin: AWSDataStorePlugin(schema: AmplifyModels()))
     // add after all other plugins
     try Amplify.configure()
 } catch {
