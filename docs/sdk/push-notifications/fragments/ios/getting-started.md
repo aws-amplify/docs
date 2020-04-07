@@ -6,7 +6,7 @@ You can also create Amazon Pinpoint campaigns that tie user behavior to push or 
 - Enrolled in the Apple Developer Program
 - Actual device to run the app on
 
-1. Complete the [Get Started](./start) steps before you proceed.
+1. Complete the [Get Started](~/start/start.md) steps before you proceed.
 
 2. Under the target, select "Signing & Capabilities", make sure the `Bundle Identifier` is unique. Make sure `Automatically manage signing` is enabled and your apple developer team is chosen.
 

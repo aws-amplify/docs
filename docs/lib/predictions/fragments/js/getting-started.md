@@ -1,4 +1,4 @@
-> Prerequisite: [Install and configure the Amplify CLI](..)
+> Prerequisite: [Install and configure the Amplify CLI](~/cli/start/install.md)
 
 ## Create new backend
 
