@@ -358,7 +358,7 @@ All Amazon S3 resources are private by default. If you want your users to have a
 
 ### IAM Policy Based Permissions
 
-When you upload objects to the S3 bucket the Amplify CLI creates, you must manually prepend the appropriate access-level information to the `key`. The correct prefix - `public/`, `protected/` or `private/` - will depend on the access level of the object as documented in the [Storage Access section](/sdk/storage/getting-started?platform=ios#storage-access).
+When you upload objects to the S3 bucket the Amplify CLI creates, you must manually prepend the appropriate access-level information to the `key`. The correct prefix - `public/`, `protected/` or `private/` - will depend on the access level of the object as documented in the [Storage Access section](~/sdk/storage/getting-started.md#storage-access).
 
 ## Transfer Utility and Pre-Signed URLS 
 
