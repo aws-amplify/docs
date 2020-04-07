@@ -115,8 +115,8 @@ The following steps show how to receive push notifications targeted for your app
 
 ## Next Steps
 
-* [Handling FCM / GCM Push Notifications](./push-notifications-handle-fcm)
+* [Handling FCM / GCM Push Notifications](~/sdk/push-notifications/setup-push-service.md#handling-fcmgcm-push-notifications)
 
-* [Handling Amazon Device Messaging Push Notifications](./push-notifications-handle-adm)
+* [Handling Amazon Device Messaging Push Notifications](~/sdk/push-notifications/setup-push-service.md#handling-amazon-device-messaging-push-notifications)
 
-* [Handling Baidu Push Notifications](./push-notifications-handle-baidu)
+* [Handling Baidu Push Notifications](~/sdk/push-notifications/setup-push-service.md#handling-baidu-push-notifications)

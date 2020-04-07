@@ -2,7 +2,7 @@ The `AWSMobileClient` provides APIs and building blocks for developers who want 
 - Declarative methods for performing authentication actions
 - A "Drop-in" UI for performing common tasks
 - Automatic token and credential management
-- State tracking with notifications for performing autentication workflows.
+- State tracking with notifications for performing authentication workflows.
 
 **Amazon Cognito**
 
@@ -12,7 +12,7 @@ The `AWSMobileClient` provides APIs and building blocks for developers who want 
 
 When working together, Cognito User Pools acts as an Identity Provider (IDP) for Cognito Federated Identities (analogous to Facebook, Google etc.). AWS Amplify uses Cognito User Pools to store user information and Federated Identities to handle authorization. Amplify leverages Federated Identities to manage user access to AWS, for example allowing a user to upload a file to an S3 bucket.
 
-> **Prerequisite:** [Install and configure the Amplify CLI](/cli/start/install)
+> **Prerequisite:** [Install and configure the Amplify CLI](~/cli/start/install.md)
 
 ## How it works
 
@@ -84,6 +84,6 @@ AWSMobileClient is optimized to account for applications transitioning from offl
 
 > **Note**: Credentials are stored in the Xcode keychain. This is an encrypted container. This also means that even after an uninstall/re-install of the app, if a session is authenticated and credentials are present in the keychain, the user will then be automatically logged in (if they have not signed out).
 
-In most cases if you are offline and make a service request, and your tokens are valid, AWSMobileClient will pass the request directly to the service client. Therefore it is your responsibility to check network connectivity. In contrast, the AWS AppSync client supports offline operations and requests will be enqueued and automatically sent when connectivity is restored. [See the API guide for more information on AppSync](/sdk/api/graphql?platform=ios).
+In most cases if you are offline and make a service request, and your tokens are valid, AWSMobileClient will pass the request directly to the service client. Therefore it is your responsibility to check network connectivity. In contrast, the AWS AppSync client supports offline operations and requests will be enqueued and automatically sent when connectivity is restored. [See the API guide for more information on AppSync](~/sdk/api/graphql.md).
 
 If you are offline and make a service request, and your tokens are **NOT** valid, the service request will be blocked and notifications for `signedOutUserPoolsTokenInvalid` or `signedOutFederatedTokensInvalid` will be sent. In the case of the AppSync client this can be ignored and the queries will come from cache or mutations enqueued. For all other services, if this happens and you are offline you should not make the service request until you come back online, at which point AWSMobileClient will automatically re-enter the token refresh flow outlined above, and make the service call with the refreshed credentials.

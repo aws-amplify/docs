@@ -14,4 +14,4 @@ Note: The UI component will inherit the height and width of the direct parent DO
 ```
 
 
-See the [XR documentation](~/lib/xr/start.md) for information on creating and publishing a Sumerian scene.
+See the [XR documentation](~/lib/xr/getting-started.md) for information on creating and publishing a Sumerian scene.

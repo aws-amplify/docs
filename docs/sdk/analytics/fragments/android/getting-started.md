@@ -12,8 +12,8 @@ Amazon Pinpoint is a fully managed AWS service that you can use to engage with y
 
 The Amplify CLI helps setup and configure Pinpoint within your application and connect with the AWS Mobile SDK.
 
-<b>Prerequisite:</b> [Install and configure the Amplify CLI](..)<br>
-<b>Recommendation:</b> [Complete the Getting Started guide](./start)
+<b>Prerequisite:</b> [Install and configure the Amplify CLI](~/cli/start/install.md)<br>
+<b>Recommendation:</b> [Complete the Getting Started guide](~/start/start.md)
 
 ## Set Up Your Backend
 
@@ -182,4 +182,4 @@ Build and run your app to see usage metrics in Amazon Pinpoint. When you run the
 
     ![getting-started-analytics](~/images/getting-started-analytics.png)
 
-Analytics events can be grouped into segments, and you can engage your users more deeply by tying their app usage behavior to Push Notification, email, or SMS messaging campaigns. Read more about this in the [messaging section](./messaging) or [click here to learn more about Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html).
+Analytics events can be grouped into segments, and you can engage your users more deeply by tying their app usage behavior to Push Notification, email, or SMS messaging campaigns. Read more about this in the [messaging section](~/sdk/push-notifications/messaging-campaign.md) or [click here to learn more about Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html).

@@ -56,7 +56,7 @@ export async function API(c: t.Config): Promise<void> {
     if (!pathDeduction) {
       throw new Error(
         `Referenced non-existent ${assetType ||
-          "file"} "${srcPath}" from "${relativeTo}`,
+          "file"} "${srcPath}" from "${relativeTo} in "${reference}"`,
       );
     }
     return pathDeduction;
