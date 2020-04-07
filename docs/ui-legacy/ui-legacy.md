@@ -10,7 +10,6 @@ Amplify UI Components is an open-source UI toolkit that encapsulates cloud-conne
 <inline-fragment framework="react" src="~/ui/fragments/react/installation.md"></inline-fragment>
 <inline-fragment framework="angular" src="~/ui/fragments/angular/installation.md"></inline-fragment>
 <inline-fragment framework="vue" src="~/ui/fragments/vue/installation.md"></inline-fragment>
-<inline-fragment framework="react-native" src="~/ui/fragments/react-native/not-supported.md"></inline-fragment>
 
 ## Frameworks
 
