@@ -16,7 +16,7 @@ When working together, Cognito User Pools acts as an Identity Provider (IDP) for
 
 ## How it works
 
-AWSMobileClient manages user session for authentication related tasks. The credentials it pulls in can be used by other AWS resources when you call the `.default()` constructor.
+The AWSMobileClient manages your application session for authentication related tasks. The credentials it pulls in can be used by other AWS services when you call a `.default()` constructor. The Amplify category examples in this documentation use this by default, however [you can also use this with any AWS service via the generated SDK clients](~/sdk/configuration/setup-options.md#direct-aws-service-access).
 
 ### State tracking
 
@@ -45,8 +45,6 @@ AWSMobileClient.default().addUserStateListener(self) { (userState, info) in
             }
         }
 ```
-
-
 
 ### Token Fetch and Refresh
 
