@@ -1,10 +1,10 @@
 > ### Prerequisites
-> * An Android project targeting Android API level 16 (Android 4.1) or above.
+> * An [Android project](https://developer.android.com/training/basics/firstapp/creating-project) targeting Android API level 16 (Android 4.1) or above
 > * [Install and configure](~/cli/start/install.md) the Amplify CLI
 
 ## GraphQL API with Amplify
 
-The Amplify GraphQL API category provides a solution for making HTTP requests to GraphQL endpoints.  It supports [AWS AppSync](https://aws.amazon.com/appsync/) or any other GraphQL backend.
+The Amplify API category provides a solution for making HTTP requests to REST and GraphQL endpoints.  For GraphQL, it supports [AWS AppSync](https://aws.amazon.com/appsync/).
 
 ## Create GraphQL API service
 
@@ -84,7 +84,7 @@ Note: You will see import errors in these files until performing the next steps 
 
 ## Configure your application
 
-Open your **project** `build.gradle` and add `mavenCentral()` as a repository
+Open your **project** `build.gradle` and add `mavenCentral()` as a repository:
 
 ```groovy
 buildscript {
