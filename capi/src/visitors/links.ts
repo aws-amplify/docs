@@ -89,8 +89,9 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
         }
 
         if (
-          !url.includes(".") ||
-          !validLinkExtensions[url.split(".").pop() || ""]
+          (!url.includes(".") ||
+            !validLinkExtensions[url.split(".").pop() || ""]) &&
+          !url.includes("#")
         ) {
           url = `${url}.md`;
         }

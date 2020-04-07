@@ -2,10 +2,8 @@
 
 exports[`ui-component-props Render logic should render 1`] = `
 <ui-component-props>
-  <docs-in-page-link targetid="props-undefined">
-    <h2 id="props-undefined">
-      Properties
-    </h2>
-  </docs-in-page-link>
+  <h4>
+    Properties
+  </h4>
 </ui-component-props>
 `;

@@ -56,9 +56,7 @@ Our `docs/lib/menu.json` should reference the newly-created folder at `docs/lib/
 
 ```json
 {
-  "items": [
-    "auth"
-  ]
+  "items": ["auth"]
 }
 ```
 
@@ -67,9 +65,7 @@ Our `docs/lib/auth/menu.json` should reference the newly-created page at `docs/l
 ```json
 {
   "title": "Authentication",
-  "items": [
-    "overview"
-  ]
+  "items": ["overview"]
 }
 ```
 
@@ -154,6 +150,5 @@ title: Authentication Setup
 description: how to configure auth
 ---
 
-<inline-fragment platform="ios" src="~/docs/lib/auth/setup/fragments/ios/automated.md"></inline-fragment>
-<inline-fragment platform="web" src="~/docs/lib/auth/setup/fragments/web/automated.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/docs/lib/auth/setup/fragments/ios/automated.md"></inline-fragment> <inline-fragment platform="web" src="~/docs/lib/auth/setup/fragments/web/automated.md"></inline-fragment>
 ```

@@ -5,7 +5,7 @@ description: Landing page for the Amplify CLI
 
 The Amplify CLI requires the below IAM policies for performing actions across all categories. You can grant or restrict category permissions by including or removing items from the `Action` section as appropriate. For example, if you wish to restrict operations on the `Auth` category you can remove any of the lines starting with `cognito`.
 
-```
+```json
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -62,6 +62,11 @@ The Amplify CLI requires the below IAM policies for performing actions across al
                 "dynamodb:PutItem",
                 "dynamodb:UpdateItem",
                 "dynamodb:UpdateTable",
+                "events:DeleteRule",
+                "events:DescribeRule",
+                "events:PutRule",
+                "events:PutTargets",
+                "events:RemoveTargets",
                 "iam:CreateRole",
                 "iam:DeleteRole",
                 "iam:DeleteRolePolicy",

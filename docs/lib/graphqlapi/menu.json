@@ -2,12 +2,14 @@
   "title": "API (GraphQL)",
   "items": [
     "getting-started",
-    "overview",
+    "concepts",
+    "create-or-re-use-existing-backend",
     "authz",
     "query-data",
     "mutate-data",
     "subscribe-data",
     "offline",
-    "delta-sync"
+    "graphql-from-nodejs",
+    "advanced-workflows"
   ]
 }
