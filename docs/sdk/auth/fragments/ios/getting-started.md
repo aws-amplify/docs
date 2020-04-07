@@ -5,9 +5,9 @@ After initialization in your project directory with `amplify init`, edit your `P
 ```ruby
 target 'MyApp' do            ##Replace MyApp with your application name
   use_frameworks!
-  pod 'AWSMobileClient'      # Required dependency
-  pod 'AWSAuthUI'            # Optional dependency required to use drop-in UI
-  pod 'AWSUserPoolsSignIn'   # Optional dependency required to use drop-in UI
+  pod 'AWSMobileClient', '~> 2.13.0'      # Required dependency
+  pod 'AWSAuthUI', '~> 2.13.0'            # Optional dependency required to use drop-in UI
+  pod 'AWSUserPoolsSignIn', '~> 2.13.0'   # Optional dependency required to use drop-in UI
 end
 ```
 
