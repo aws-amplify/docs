@@ -65,7 +65,7 @@ Find the resource name of your API by running `amplify status`. Copy your API cl
 
 ### IAM authorization
 
-To invoke an API Gateway endpoint from your application, import `AWSAPIGateway` and use the generated client class, model, and resource paths as in the below example with `YOUR_API_CLIENT_NAME` replaced from the previous section. For AWS IAM authorization use the `AWSMobileClient` as outlined in [the authentication section](~/sdk/auth/how-it-works).
+To invoke an API Gateway endpoint from your application, import `AWSAPIGateway` and use the generated client class, model, and resource paths as in the below example with `YOUR_API_CLIENT_NAME` replaced from the previous section. For AWS IAM authorization use the `AWSMobileClient` as outlined in [the authentication section](~/sdk/auth/how-it-works.md).
 
 ```swift
 import AWSAPIGateway
