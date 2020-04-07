@@ -10,7 +10,7 @@ Setup instructions are provided for Android and iOS, and configuration for both 
 
 1. Make sure you have a [Firebase Project](https://console.firebase.google.com) and app setup. 
 
-2. Get your push messaging credentials for Android in Firebase console. [Click here for instructions](~/sdk/push-notifications/setup-push-service?platform=android).
+2. Get your push messaging credentials for Android in Firebase console. [Click here for instructions](~/sdk/push-notifications/setup-push-service.md?platform=android).
 
 3. Create a native link on a React Native app:
 
