@@ -2,6 +2,7 @@ import {Component, h, State, Watch} from "@stencil/core";
 import {routes} from "./api";
 import {internalLinkContext} from "./docs-ui/internal-link/internal-link.context";
 import {SetCurrentPath} from "./docs-ui/internal-link/internal-link.types";
+import {setPopped} from "./utils/pop-state";
 
 @Component({tag: "docs-router", shadow: false})
 export class DocsRouter {
@@ -11,6 +12,7 @@ export class DocsRouter {
 
   componentDidLoad() {
     addEventListener("popstate", () => {
+      setPopped(true);
       this.currentPath = `${location.pathname}${location.search}`;
     });
   }

@@ -1,6 +1,7 @@
 import {Component, Host, Listen, Prop, State, h} from "@stencil/core";
 import {tocContext} from "../toc.context";
 import {tocStyle, h2AnchorStyle, h3AnchorStyle, headerStyle} from "./toc.style";
+import {getElementTop} from "../../../utils/get-element-top";
 
 const headingStyleByTagName = {
   H2: h2AnchorStyle,
@@ -31,7 +32,7 @@ export class AmplifyTOC {
   setActiveLink() {
     if (this.elements) {
       let i = this.elements.findIndex(
-        (e) => e.offsetTop - this.stickyHeaderHeight - 2 > window.scrollY,
+        (e) => getElementTop(e, this.stickyHeaderHeight) - 3 > window.scrollY,
       );
       if (i === -1) {
         i = this.elements.length;
@@ -62,24 +63,26 @@ export class AmplifyTOC {
   render() {
     return (
       <Host class={tocStyle}>
-        {this.elements && this.elements.length > 0 && (
-          <h4 class={headerStyle}>{this.pageTitle || "Contents"}</h4>
-        )}
-        {this.elements &&
-          this.elements.map((e, i) => {
-            const headingAnchorClass = headingStyleByTagName[e.tagName];
-            return (
-              <docs-in-page-link
-                targetId={e.id}
-                class={{
-                  active: i === this.activeLinkI,
-                  [headingAnchorClass]: true,
-                }}
-              >
-                {e.innerHTML}
-              </docs-in-page-link>
-            );
-          })}
+        <div>
+          {this.elements && this.elements.length > 0 && (
+            <h4 class={headerStyle}>{this.pageTitle || "Contents"}</h4>
+          )}
+          {this.elements &&
+            this.elements.map((e, i) => {
+              const headingAnchorClass = headingStyleByTagName[e.tagName];
+              return (
+                <docs-in-page-link
+                  targetId={e.id}
+                  class={{
+                    active: i === this.activeLinkI,
+                    [headingAnchorClass]: true,
+                  }}
+                >
+                  <div innerHTML={e.innerHTML} />
+                </docs-in-page-link>
+              );
+            })}
+        </div>
       </Host>
     );
   }

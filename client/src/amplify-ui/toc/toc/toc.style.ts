@@ -16,9 +16,11 @@ export const tocStyle = css`
     transition: 0.25s ease;
     transition-property: margin-left border;
     border-left: 0.05rem solid var(--border-color);
+    display: flex;
 
     a {
-      display: block;
+      display: flex;
+      flex: 1;
       padding-top: 0.25rem;
       padding-bottom: 0.25rem;
       padding-right: 1.5rem;

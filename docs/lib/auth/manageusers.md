@@ -1,5 +1,5 @@
 ---
-title: Manage users
+title: Password & user management
 description: auth
 ---
 
