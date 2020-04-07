@@ -1,44 +1,40 @@
-### Automated model generation with NPX
+## Using Gradle
 
-The fastest way to get started is using the `amplify-app` npx script.
+Open your project `build.gradle` and add `mavenCentral()` as a repository, `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'` as a dependency, and `'com.amplifyframework.amplifytools'` as a plugin:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/wH-UnQy1ltM">
-</iframe>
-<br/>
+```groovy
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.6.2'
+        classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'
+    }
+}
 
-#### React
-
-Start with [Create React app](https://create-react-app.dev)
-
-```sh
-npx create-react-app amplify-datastore --use-npm
-cd amplify-datastore
-npx amplify-app@latest
-```  
-
-#### React Native CLI
-
-Start with the [React Native CLI](https://reactnative.dev/docs/getting-started).
-
-```sh
-npx react-native init AmplifyDatastoreRN
-cd AmplifyDatastoreRN
-npx amplify-app@latest
+apply plugin: 'com.amplifyframework.amplifytools'
 ```
 
-#### Generate models
+Next, add the following dependencies to your app `build.gradle`:
 
-Once the basic setup completes open the GraphQL schema located in `amplify/backend/api/<datasourcename>/schema.graphql`. You can use the previously [provided sample](#sample-schema) or the ones suggested by the Amplify CLI.
-
-After saving the file press run:
-
-```
-npm run amplify-modelgen
+```groovy
+implementation 'com.amplifyframework:core:0.10.0'
+implementation 'com.amplifyframework:aws-api:0.10.0' // If using cloud sync
+implementation 'com.amplifyframework:aws-datastore:0.10.0'
 ```
 
-### Manual Model Generation
+Sync the project and ensure that it built successfully. Switch to the **Project** view in Android Studio and open the schema file at `amplify/backend/api/amplifyDatasource/schema.graphql`. For this guide, edit this file so that it contains the schema definition below.  [Learn more](https://docs.amplify.aws/cli/graphql-transformer/overview) about annotating GraphQL schemas and data modeling.
 
-If you do not wish to use the above NPX scripts you can do this manually by first [installing the Amplify CLI](~/cli/start/install.md) and then use the following command to generate models:
+## Manual Model Generation
+
+If you do not wish to use the above Gradle task, you can perform the same steps manually. First, install the latest version of the Amplify CLI:
+
+```
+npm i -g @aws-amplify/cli@latest
+```
+
+Generate models at any time by executing this Amplify CLI command:
 
 ```
 amplify codegen models

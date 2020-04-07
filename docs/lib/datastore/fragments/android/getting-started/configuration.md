@@ -1,26 +1,23 @@
 ### Initialization
 
-The main configuration required by DataStore is the *schema initialization*. When generating the models, the following files will be available to the application:
+In your app's `onCreate` (or similar lifecycle callback), initialize Amplify:
 
-```
-src/
-|_ models/
-   |_ index.d.ts
-   |_ index.js
-   |_ schema.d.ts
-   |_ schema.js
+```java
+ModelProvider modelProvider = AmplifyModelProvider.getInstance();
+Amplify.addPlugin(AWSDataStorePlugin.forModels(modelProvider));
+Amplify.addPlugin(new AWSApiPlugin()); // If using remote model synchronization
+Amplify.configure(getApplicationContext());
 ```
 
-<amplify-callout>
+If you do not have any configuration file at `app/src/main/res/raw/amplifyconfiguration.json`, create a placeholder for now. For more information about this file, see the configuration section of this guide.
 
-The `.d.ts` are [TypeScript declaration files](https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html). If your project doesn't use TypeScript, don't worry, those files can still provide most editors a better developer experience, with a more accurate auto-complete and realtime type checking. Worst case scenario they'll just be ignored.
-
-</amplify-callout>
-
-The most important piece to understand is how the DataStore is initialized. Inside `src/models/index.js` you will find a call to the `initSchema`. That function takes the schema defined in `src/models/schema.js`, initializes the storage mechanism and exports the models as JavaScript objects.
-
-```js
-import { Post } from './models';
-
-// you can now use the Post model to save and query data
+```json
+{
+  "userAgent": "aws-amplify-cli/2.0",
+  "version": "1.0"
+}
 ```
+
+## API Reference   
+
+For the complete API documentation for DataStore, visit our [API Reference](https://docs.amplify.aws/lib/getting-started/setup?platform=android).

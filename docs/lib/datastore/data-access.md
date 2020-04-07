@@ -35,13 +35,13 @@ For example if you wanted a list of all `Post` Models that have a `rating` great
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/query-predicate-snippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/data-access/query-predicate-snippet.md"></inline-fragment>
 
-When using multiple conditions, there is an implicit `and` defined to mirror the [GraphQL Transform condition statements](~/cli/graphql-transformer/resolvers.md). For example with multiple conditions:
+Multiple conditions can also be used, like the ones defined in [GraphQL Transform condition statements](~/cli/graphql-transformer/resolvers.md). For example, fetch all posts that has a rating greater than `4` and are `active`:
 
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/query-predicate-multiple-snippet.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/query-predicate-multiple-snippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/data-access/query-predicate-multiple-snippet.md"></inline-fragment>
 
-If you wanted this to be an `or` statement you would wrap your combined predicates with `c => c.or(...)`
+Alternatively, the `or` logical operator can also be used:
 
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/query-predicate-or-snippet.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/query-predicate-or-snippet.md"></inline-fragment>

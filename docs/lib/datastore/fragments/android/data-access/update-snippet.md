@@ -1,19 +1,20 @@
-```js
-const original = await DataStore.query(Post, "123");
-
-await DataStore.save(
-	Post.copyOf(original, updated => {
-		updated.title = `title ${Date.now()}`;
-		updated.status =
-			updated.status === PostStatus.ACTIVE
-				? PostStatus.INACTIVE
-				: PostStatus.ACTIVE;
-	})
-);
+```java
+Amplify.DataStore.query(Post.class, Post.ID.eq("123"), matches -> {
+    if (matches.hasNext()) {
+        Post original = matches.next();
+        Post edited = original.copyOfBuilder()
+            .title("New Title")
+            .build();
+        Amplify.DataStore.save(edited,
+            updated -> Log.i("GetStarted", "Updated a post."),
+            failure -> Log.e("GetStarted", "Update failed.", failure)
+        );
+    }
+}, failure -> Log.e("GetStarted", "Query failed.", failure));
 ```
 
 <amplify-callout>
 
-Models in DataStore are *immutable*. To update a record you must use the `copyOf` function to apply updates to the item's fields rather than mutating the instance directly.
+Models in DataStore are *immutable*. Instead of directly modifying the fields on a Model, you must use the `.copyOfBuilder()` method to create a new representation of the model. 
 
 </amplify-callout>
