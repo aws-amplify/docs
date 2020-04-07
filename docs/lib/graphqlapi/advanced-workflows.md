@@ -1,5 +1,5 @@
 ---
-title: Delta Sync
+title: Advanced Workflows
 description: description
 ---
 

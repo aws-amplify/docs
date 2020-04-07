@@ -12,7 +12,7 @@ When working together, Cognito User Pools acts as a source of user identities (i
 
 ## How it works
 
-The AWSMobileClient manages your application session for authentication related tasks. The credentials it pulls in can be used by other AWS services when you call a `.getInstance()` constructor. The Amplify category examples in this documentation use this by default, however [you can also use this with any AWS service via the generated SDK clients](https://aws-amplify.github.io/docs/android/manualsetup).
+The AWSMobileClient manages your application session for authentication related tasks. The credentials it pulls in can be used by other AWS services when you call a `.getInstance()` constructor. The Amplify category examples in this documentation use this by default, however [you can also use this with any AWS service via the generated SDK clients](~/sdk/configuration/setup-options.md).
 
 ### State tracking
 

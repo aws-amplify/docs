@@ -1,0 +1,1869 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+      <loc>https://docs.amplify.aws/</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/start?integration=react</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/start?integration=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/start?integration=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/start?integration=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/getting-started?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/getting-started?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/graphqlapi/getting-started?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/datastore/getting-started?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/restapi/getting-started?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/analytics/getting-started?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/push-notifications/getting-started?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/xr/getting-started?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/pubsub/getting-started?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/interactions/getting-started?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/getting-started?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/start?integration=react</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/ui?framework=react</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/analytics/getting-started?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/analytics/record?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/analytics/autotrack?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/analytics/streaming?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/analytics/storing?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/analytics/personalize?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/graphqlapi/getting-started?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/graphqlapi/overview?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/graphqlapi/authz?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/graphqlapi/query-data?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/graphqlapi/mutate-data?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/graphqlapi/subscribe-data?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/graphqlapi/offline?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/graphqlapi/delta-sync?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/restapi/getting-started?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/restapi/fetch?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/restapi/update?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/restapi/authz?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/getting-started?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/overview?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/start?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/emailpassword?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/social?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/mfa?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/manageusers?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/switch-auth?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/customui?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/advanced?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/datastore/getting-started?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/datastore/data-access?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/datastore/sync?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/datastore/relational?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/datastore/conflict?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/datastore/overview?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/interactions/getting-started?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/interactions/chatbot?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/intro?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/getting-started?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/text-speech?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/transcribe?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/translate?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/identify-text?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/identify-entity?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/label-image?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/interpret?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/sample?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/pubsub/getting-started?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/pubsub/subunsub?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/pubsub/publish?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/push-notifications/overview?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/push-notifications/getting-started?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/push-notifications/working-with-api?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/push-notifications/testing?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/getting-started?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/configureaccess?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/upload?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/download?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/list?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/remove?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/autotrack?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/triggers?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/xr/getting-started?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/xr/sceneapi?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/utilities/serviceworker?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/utilities/cache?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/utilities/hub?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/utilities/i18n?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/utilities/logger?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/getting-started/setup?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/start?integration=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/ui</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/getting-started/setup?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/getting-started/generate-model?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/getting-started/add-api?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/getting-started/integrate?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/analytics/getting-started?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/analytics/record?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/analytics/autotrack?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/analytics/identifyuser?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/graphqlapi/getting-started?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/graphqlapi/overview?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/graphqlapi/authz?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/graphqlapi/query-data?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/graphqlapi/mutate-data?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/graphqlapi/subscribe-data?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/restapi/getting-started?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/restapi/authz?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/getting-started?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/overview?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/how-it-works?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/guest-access?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/working-with-api?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/drop-in-auth?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/federated-identities?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/hosted-ui?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/custom-auth-flow?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/device-features?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/datastore/getting-started?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/datastore/data-access?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/datastore/sync?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/datastore/relational?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/datastore/conflict?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/datastore/overview?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/getting-started?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/configureaccess?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/upload?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/download?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/list?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/remove?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/triggers?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/escapehatch?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/getting-started?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/push-notifications/getting-started?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/pubsub/getting-started?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/xr/getting-started?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/start?integration=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/ui</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/api/graphql?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/api/rest?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/analytics/getting-started?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/analytics/events?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/analytics/endpoints?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/analytics/kinesis?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/auth/getting-started?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/auth/how-it-works?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/auth/guest-access?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/auth/drop-in-auth?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/auth/working-with-api?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/auth/federated-identities?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/auth/hosted-ui?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/auth/custom-auth-flow?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/auth/device-features?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/push-notifications/getting-started?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/push-notifications/messaging-campaign?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/pubsub/getting-started?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/pubsub/working-api?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/storage/getting-started?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/storage/transfer-utility?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/storage/graphql-api?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/start?integration=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/ui</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/api/graphql?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/api/rest?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/analytics/getting-started?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/analytics/events?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/analytics/endpoints?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/analytics/kinesis?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/auth/getting-started?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/auth/how-it-works?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/auth/guest-access?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/auth/drop-in-auth?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/auth/working-with-api?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/auth/federated-identities?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/auth/hosted-ui?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/auth/custom-auth-flow?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/auth/device-features?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/push-notifications/getting-started?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/push-notifications/messaging-campaign?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/push-notifications/setup-push-service?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/pubsub/getting-started?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/pubsub/working-api?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/storage/getting-started?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/storage/transfer-utility?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/storage/graphql-api?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk/storage/configure-access?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/start?integration=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/ui</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib?platform=android</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib?platform=js</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/getting-started/setup?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/getting-started/generate-model?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/getting-started/add-api?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/getting-started/integrate?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/analytics/getting-started?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/analytics/record?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/analytics/autotrack?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/analytics/identifyuser?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/graphqlapi/getting-started?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/graphqlapi/overview?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/graphqlapi/authz?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/graphqlapi/query-data?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/graphqlapi/mutate-data?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/graphqlapi/subscribe-data?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/restapi/getting-started?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/restapi/fetch?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/restapi/update?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/restapi/authz?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/getting-started?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/overview?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/how-it-works?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/guest-access?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/working-with-api?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/drop-in-auth?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/federated-identities?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/hosted-ui?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/custom-auth-flow?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/auth/device-features?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/datastore/getting-started?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/datastore/data-access?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/datastore/sync?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/datastore/relational?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/datastore/conflict?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/datastore/overview?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/intro?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/getting-started?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/text-speech?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/transcribe?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/translate?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/identify-text?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/identify-entity?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/label-image?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/interpret?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/identify-celebrity?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/escapehatch?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/predictions/sample?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/getting-started?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/configureaccess?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/upload?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/download?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/list?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/remove?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/triggers?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/storage/escapehatch?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/push-notifications/getting-started?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/pubsub/getting-started?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/lib/xr/getting-started?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/start?integration=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/sdk?platform=ios</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/ui</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/start/install</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/start</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/graphql-transformer/overview</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/graphql-transformer/directives</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/graphql-transformer/dataaccess</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/graphql-transformer/storage</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/graphql-transformer/relational</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/graphql-transformer/codegen</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/graphql-transformer/resolvers</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/graphql-transformer/examples</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/graphql-transformer/advanced</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/restapi</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/auth/overview</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/auth/groups</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/auth/admin</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/auth/triggers</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/function</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/hosting</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/storage</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/teams/overview</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/teams/shared</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/teams/sandbox</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/teams/multi-frontend</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/teams/cicd</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/teams/commands</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/usage/mock</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/usage/customcf</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/usage/iam</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/usage/files</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/usage/headless</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/usage/build-options</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+<url>
+      <loc>https://docs.amplify.aws/cli/usage/plugin</loc>
+      <lastmod>2005-01-01</lastmod>
+      <changefreq>hourly</changefreq>
+      <priority>.5</priority>
+</url>
+</urlset>
