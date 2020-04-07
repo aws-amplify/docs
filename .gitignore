@@ -46,6 +46,7 @@ capi/src/__tests__/*/www
 client/src/api
 client/src/assets
 report.*.json
+_site/
 
 #amplify
 amplify/\#current-cloud-backend
