@@ -101,7 +101,7 @@ When configuration for Facebook sign-in is complete, the CLI displays a message 
 $ amplify push
 ```
 
-You can now [configure Facebook in your mobile app](./authentication#facebook-login-in-your-mobile-app).
+You can now [configure Facebook in your mobile app](#facebook-login-in-your-mobile-app).
 
 Note that the CLI allows you to select more than one identity provider for your app. You can also run `amplify auth update` to add an identity provider to an existing auth configuration.
 

@@ -1,11 +1,10 @@
-
-# Setting Up APNS for Push Notifications
+## Setting Up APNS for Push Notifications
 
 Push notifications for iOS apps are sent using Apple Push Notification service (APNs). Before you can send push notifications to iOS devices, you must create an app ID on the Apple Developer portal, and you must create the required certificates.
 
 This section describes how to use the Apple Developer portal to obtain iOS and APNs credentials. These credentials enable you to create an iOS project that can receive push notifications.
 
-You do not need an existing iOS app to complete the steps in this section. After you complete these steps, see the main [Push Notifications](push-notifications) API Guide for instructions on setting up an app to use AWS Pinpoint to receive push notifications.
+You do not need an existing iOS app to complete the steps in this section. After you complete these steps, see the main [Push Notifications](~/sdk/push-notifications/getting-started.md) API Guide for instructions on setting up an app to use AWS Pinpoint to receive push notifications.
 
 After completing the steps in this section, you will have the following items in your Apple Developer account:
 
@@ -31,7 +30,7 @@ The steps in this tutorial are based on the following versions of Mac OS softwar
 * [Step 5: Create a Provisioning Profile](#step-5-create-a-provisioning-profile)
 
 
-## Step 1: Create an App ID
+### Step 1: Create an App ID
 
 Create an app ID to identify your app in the Apple Developer portal. You need this ID when you create an SSL certificate for sending push notifications, when you create an iOS distribution certificate, and when you create a provisioning profile.
 
@@ -50,7 +49,7 @@ If you already have an ID assigned to your app, you can skip this step. You can 
 - Choose **Continue**. In the **Confirm your App ID** pane, check that all values were entered correctly. The identifier should match your app ID and bundle ID.
 - Choose **Register** to register the new app ID.
 
-## Step 2: Create an APNs SSL Certificate
+### Step 2: Create an APNs SSL Certificate
 
 Create an APNs SSL certificate so that you can deliver push notifications to your app through APNs. You will create and download the certificate from your Apple Developer account. Then, you will install the certificate in Keychain Access and export it as a `.p12` file.
 
@@ -74,7 +73,7 @@ If you already have an SSL certificate for your app, you can skip this step.
 
 [Back to top](#setting-up-ios-push-notifications)
 
-## Step 3: Register a Test Device
+### Step 3: Register a Test Device
 
 Register a test device with your Apple Developer account so that you can test your app on that device. Later, you associate this test device with your provisioning profile, which allows your app to launch on your device.
 
@@ -100,7 +99,7 @@ If you already have a registered device, you can skip this step.
 
 [Back to top](#setting-up-ios-push-notifications)
 
-## Step 4: Create an iOS Distribution Certificate
+### Step 4: Create an iOS Distribution Certificate
 
 An iOS distribution certificate enables you to install your app on a test device and deliver push notifications to that device. You specify your iOS distribution certificate later when you create a provisioning profile for your app.
 
@@ -120,7 +119,7 @@ If you already have an iOS distribution certificate, you can skip this step.
 
 [Back to top](#setting-up-ios-push-notifications)
 
-## Step 5: Create a Provisioning Profile
+### Step 5: Create a Provisioning Profile
 
 A provisioning profile allows your app to run on your test device. You create and download a provisioning profile from your Apple Developer account and then install the provisioning profile in Xcode.
 

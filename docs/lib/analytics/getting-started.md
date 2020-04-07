@@ -5,7 +5,7 @@ description: Description
 
 The Analytics category enables you to collect analytics data for your app. The Analytics category comes with built-in support for [Amazon Pinpoint](#using-amazon-pinpoint) and [Amazon Kinesis](#using-amazon-kinesis) (Kinesis support is currently only available in the Amplify JavaScript library).
 
-> Prerequisite:</b> [Install and configure the Amplify CLI](..)
+> Prerequisite:</b> [Install and configure the Amplify CLI](~/cli/start/install.md)
 
 ## Set up analytics backend
 
@@ -27,7 +27,7 @@ To deploy your backend run:
 $ amplify push
 ```
 
-> If your Analytics resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more](/cli/lambda-node-version-update)
+> If your Analytics resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more](~/cli/migration/lambda-node-version-update.md)
 
 ### View analytics console
 

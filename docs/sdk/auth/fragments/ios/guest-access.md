@@ -7,4 +7,4 @@ Many applications have UX with Guest or "Unauthenticated" users. This functional
 
 When complete run `amplify push` to update your backend and `awsconfiguration.json` file. The `AWSMobileClient` user session will automatically have permissions configured for Guest users upon initialization.
 
-> If you login in your app either using the [Drop-In Auth](/sdk/auth/drop-in-auth?platform=ios) or directly via the [Auth APIs](/sdk/auth/working-with-api?platform=ios), the user session will transition automatically to an authenticated role.
+> If you login in your app either using the [Drop-In Auth](~/sdk/auth/drop-in-auth.md) or directly via the [Auth APIs](~/sdk/auth/working-with-api.md), the user session will transition automatically to an authenticated role.
