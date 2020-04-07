@@ -1,13 +1,4 @@
-import {
-  Component,
-  Host,
-  h,
-  Prop,
-  State,
-  Watch,
-  Listen,
-  Element,
-} from "@stencil/core";
+import {Component, Host, h, Prop, State, Listen, Element} from "@stencil/core";
 import {
   sidebarLayoutStyle,
   pageStyle,
@@ -17,29 +8,24 @@ import {
 } from "./page.style";
 import {Page, createVNodesFromHyperscriptNodes} from "../../api";
 import {updateDocumentHead} from "../../utils/update-document-head";
-import Url from "url-parse";
 import {
   getFilterKeyFromPage,
   getFilterKeyFromLocalStorage,
   withFilterOverrides,
 } from "../../utils/filters";
 import {filterOptionsByName} from "../../utils/filter-data";
-import {internalLinkContext} from "../internal-link/internal-link.context";
 import {SetSelectedFilters} from "./page.types";
 import {pageContext} from "./page.context";
 import {track, AnalyticsEventType} from "../../utils/track";
 import {Breakpoint} from "../../amplify-ui/styles/media";
 import {getPage} from "../../cache";
-import {popped, setPopped} from "../../utils/pop-state";
 import {getNavHeight} from "../../utils/get-nav-height";
 import {scrollToHash} from "../../utils/scroll-to-hash";
+import {parseURL} from "../../utils/url";
 
 @Component({tag: "docs-page", shadow: false})
 export class DocsPage {
   @Element() el: HTMLElement;
-
-  /*** the current page path */
-  @Prop() readonly currentPath?: string;
 
   @State() data?: Page;
   @State() blendUniversalNav?: boolean;
@@ -69,11 +55,9 @@ export class DocsPage {
   filterKey?: string;
   filterValue?: string;
 
-  // @ts-ignore
-  @Watch("currentPath")
   computeFilter() {
     if (this.filterKey) {
-      const queryParams = new Url(location.href, true).query;
+      const queryParams = parseURL(location.href).params;
       const {[this.filterKey]: filterValue} = queryParams;
       if (filterValue) {
         this.filterValue = filterValue;
@@ -101,13 +85,6 @@ export class DocsPage {
       }
     }
   };
-
-  componentWillUpdate() {
-    if ((!this.data || this.data?.route !== location.pathname) && popped) {
-      setPopped(false);
-      return this.getPageData();
-    }
-  }
 
   componentWillLoad() {
     track({
@@ -265,5 +242,3 @@ export class DocsPage {
     );
   }
 }
-
-internalLinkContext.injectProps(DocsPage, ["currentPath"]);

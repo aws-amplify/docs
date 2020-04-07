@@ -18,8 +18,7 @@
     "array-flatten": "^3.0.0",
     "copy-to-clipboard": "^3.2.1",
     "emotion": "^10.0.23",
-    "is-html-tag-name": "^1.0.2",
-    "url-parse": "^1.4.7"
+    "is-html-tag-name": "^1.0.2"
   },
   "devDependencies": {
     "@stencil/core": "^1.10.1",

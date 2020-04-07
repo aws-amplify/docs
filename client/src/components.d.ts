@@ -9,7 +9,6 @@ import { ColumnCountByBreakpoint, } from "./amplify-ui/responsive-grid/responsiv
 import { ToggleInView, } from "./amplify-ui/sidebar-layout/sidebar-layout.types";
 import { SetContent, } from "./amplify-ui/toc/toc.types";
 import { SelectedFilters, } from "./docs-ui/page/page.types";
-import { SetCurrentPath, } from "./docs-ui/internal-link/internal-link.types";
 import { MenuGroup, Page, } from "./api";
 import { SwitchOption, } from "./docs-ui/version-switch/version-switch.types";
 export namespace Components {
@@ -188,20 +187,12 @@ export namespace Components {
           * * the current page's data
          */
         "page"?: Page;
-        /**
-          * * method to trigger the update of the currently-mounted `Page`
-         */
-        "setCurrentPath"?: SetCurrentPath;
     }
     interface DocsChooseIntegrationAnchor {
         /**
           * * the current page's data
          */
         "page"?: Page;
-        /**
-          * * method to trigger the update of the currently-mounted `Page`
-         */
-        "setCurrentPath"?: SetCurrentPath;
     }
     interface DocsFeedbackCallout {
     }
@@ -243,10 +234,6 @@ export namespace Components {
          */
         "childActiveClass"?: string;
         /**
-          * * the current route!
-         */
-        "currentPath"?: string;
-        /**
           * * the route to render out
          */
         "href"?: string;
@@ -254,10 +241,6 @@ export namespace Components {
           * * the global selected filter state
          */
         "selectedFilters"?: SelectedFilters;
-        /**
-          * * fn to set the current route
-         */
-        "setCurrentPath"?: SetCurrentPath;
     }
     interface DocsInternalLinkButton {
         /**
@@ -280,10 +263,6 @@ export namespace Components {
         "selectedFilters"?: SelectedFilters;
     }
     interface DocsMenuGroup {
-        /**
-          * * the current route
-         */
-        "currentPath": string;
         /**
           * * the filter key that applies to this product section
          */
@@ -308,10 +287,6 @@ export namespace Components {
         "selectedFilters"?: SelectedFilters;
     }
     interface DocsPage {
-        /**
-          * * the current page path
-         */
-        "currentPath"?: string;
     }
     interface DocsRepoActions {
         /**
@@ -336,10 +311,6 @@ export namespace Components {
           * * the globally-selected filter state
          */
         "selectedFilters"?: SelectedFilters;
-        /**
-          * * method to update the globally-provided page route
-         */
-        "setCurrentPath"?: SetCurrentPath;
     }
     interface DocsStoryPage {
     }
@@ -884,20 +855,12 @@ declare namespace LocalJSX {
           * * the current page's data
          */
         "page"?: Page;
-        /**
-          * * method to trigger the update of the currently-mounted `Page`
-         */
-        "setCurrentPath"?: SetCurrentPath;
     }
     interface DocsChooseIntegrationAnchor {
         /**
           * * the current page's data
          */
         "page"?: Page;
-        /**
-          * * method to trigger the update of the currently-mounted `Page`
-         */
-        "setCurrentPath"?: SetCurrentPath;
     }
     interface DocsFeedbackCallout {
     }
@@ -939,10 +902,6 @@ declare namespace LocalJSX {
          */
         "childActiveClass"?: string;
         /**
-          * * the current route!
-         */
-        "currentPath"?: string;
-        /**
           * * the route to render out
          */
         "href"?: string;
@@ -950,10 +909,6 @@ declare namespace LocalJSX {
           * * the global selected filter state
          */
         "selectedFilters"?: SelectedFilters;
-        /**
-          * * fn to set the current route
-         */
-        "setCurrentPath"?: SetCurrentPath;
     }
     interface DocsInternalLinkButton {
         /**
@@ -976,10 +931,6 @@ declare namespace LocalJSX {
         "selectedFilters"?: SelectedFilters;
     }
     interface DocsMenuGroup {
-        /**
-          * * the current route
-         */
-        "currentPath"?: string;
         /**
           * * the filter key that applies to this product section
          */
@@ -1004,10 +955,6 @@ declare namespace LocalJSX {
         "selectedFilters"?: SelectedFilters;
     }
     interface DocsPage {
-        /**
-          * * the current page path
-         */
-        "currentPath"?: string;
     }
     interface DocsRepoActions {
         /**
@@ -1032,10 +979,6 @@ declare namespace LocalJSX {
           * * the globally-selected filter state
          */
         "selectedFilters"?: SelectedFilters;
-        /**
-          * * method to update the globally-provided page route
-         */
-        "setCurrentPath"?: SetCurrentPath;
     }
     interface DocsStoryPage {
     }

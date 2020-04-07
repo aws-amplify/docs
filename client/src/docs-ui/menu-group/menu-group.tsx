@@ -11,7 +11,6 @@ import {
 } from "./menu-group.style";
 import {pageContext} from "../page/page.context";
 import {SelectedFilters} from "../page/page.types";
-import {internalLinkContext} from "../internal-link/internal-link.context";
 
 @Component({tag: "docs-menu-group", shadow: false})
 export class DocsMenuGroup {
@@ -21,8 +20,6 @@ export class DocsMenuGroup {
   @Prop() readonly filterKey?: string;
   /*** the currently-selected filters */
   @Prop() readonly selectedFilters: SelectedFilters;
-  /*** the current route */
-  @Prop() readonly currentPath: string;
 
   @State() expanded = false;
   @State() itemsToDisplay?: PageLink[];
@@ -93,8 +90,6 @@ export class DocsMenuGroup {
   };
 
   // @ts-ignore
-  @Watch("currentPath")
-  // @ts-ignore
   @Watch("menuGroup")
   // @ts-ignore
   @Watch("selectedFilters")
@@ -139,4 +134,3 @@ export class DocsMenuGroup {
 }
 
 pageContext.injectProps(DocsMenuGroup, ["selectedFilters"]);
-internalLinkContext.injectProps(DocsMenuGroup, ["currentPath"]);
