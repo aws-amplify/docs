@@ -1,11 +1,17 @@
 ## Using Amplify GraphQL client
 
-AWS AppSync can support [multiple authorization modes on a single API](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes). In order to use this feature with the Amplify Graphql Client the `API.graphql({...})` function would accept an optional parameter called `authMode`, its value will be one of the supported auth modes:
+Each AppSync API is set with a __default__ authorization mode.
+
+AWS AppSync also supports [multiple authorization modes on a single API](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes) enabling you to add additional authorization modes.
+
+In order to use this feature with the Amplify GraphQL Client the `API.graphql({...})` function accepts an optional parameter called `authMode`, its value will be one of the supported auth modes:
 
 - `API_KEY`
 - `AWS_IAM`
 - `OPENID_CONNECT`
 - `AMAZON_COGNITO_USER_POOLS`
+
+<br />
 
 This is an example of using `AWS_IAM` as an authorization mode:
 
@@ -18,8 +24,13 @@ const createdTodo = await API.graphql({
 });
 ```
 
-Note: Previous examples uses `graphqlOperation` function. That function only creates an object with two attributes `query` and `variables`. In order to use `authMode` you need to pass this object as is mentioned on the previous example.
+Previous examples uses `graphqlOperation` function. That function only creates an object with two attributes `query` and `variables`. In order to use `authMode` you need to pass this object as is mentioned on the previous example.
 
+<amplify-callout>
+
+When using __AWS_IAM__ for public API access, unauthenticated logins must be enabled. To enable unauthenticated logins, run `amplify update auth` from the command line and choose __Walkthrough all the auth configurations__.
+
+</amplify-callout>
 
 ## Using AWS AppSync SDK
 
