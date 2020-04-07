@@ -5,7 +5,7 @@ description: description
 
 ## Update the schema
 
-Edit the schema and re-reun `amplify codegen models`.
+Edit the schema and re-run `amplify codegen models`.
 
 ```graphql
 enum PostStatus {

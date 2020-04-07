@@ -40,10 +40,6 @@ Note that this flow will also allow you to change the strategy on each individua
 
 ## Optional configurations
 
-DataStore has a few optional configurations, such as the ability to specify a custom handler for error messages that take place in any part of the system. You can also specify a custom conflict handler that runs if a mutation is rejected by AWS AppSync during one of the conflict resolution strategies.
-
-Finally you can configure the number of records to sync as an upper bound on items (per-Model) which will be stored locally on the device, as well as a custom interval in minutes which is an override of the default 24 hour "base query" which runs as part of the Delta Sync process.
-
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/conflict.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/conflict.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/conflict.md"></inline-fragment>
