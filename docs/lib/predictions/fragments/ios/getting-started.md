@@ -109,8 +109,8 @@ Add the dependencies to the `Podfile`:
 ```ruby
 target :'YOUR-APP-NAME' do
 	use_frameworks!
-	pod 'AWSPredictionsPlugin'
-	pod 'AWSMobileClient'
+    pod 'CoreMLPredictionsPlugin'
+    pod 'AWSPredictionsPlugin'
 end
 ```
 
@@ -121,7 +121,7 @@ Add the following code to your AppDelegate:
 ```swift
 import Amplify
 import AWSMobileClient
-import AmplifyPlugins
+import AWSPredictionsPlugin
 
 // Inside  AppDelegate's application method
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -144,8 +144,6 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 	try! Amplify.configure()
 	print("Amplify initialized")
 
-	window = UIWindow()
-	window?.rootViewController  = MainTabBarController()
 	return true
 }
 ```

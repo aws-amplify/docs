@@ -22,10 +22,11 @@ export const lineCountStyle = css`
   position: sticky;
   left: 0;
   background-color: var(--code-bg-color);
-  color: var(--code-font-color);
+  color: var(--code-line-numbers-color);
   text-align: center;
   padding: 0 1rem;
   user-select: none;
+  opacity: 0.8;
 
   > div {
     display: flex;

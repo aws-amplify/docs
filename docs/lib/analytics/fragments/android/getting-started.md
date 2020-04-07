@@ -96,4 +96,4 @@ protected void onCreate(Bundle savedInstanceState) {
 
 ## API Reference
 
-For a complete API reference visit the [API Reference]().
+For a complete API reference visit the [API Reference](https://aws-amplify.github.io/aws-sdk-android/docs/reference/).
