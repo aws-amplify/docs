@@ -1,5 +1,5 @@
 ---
-title: Social sign-in (Hosted UI)
+title: Social sign-in (OAuth)
 description: auth
 ---
 

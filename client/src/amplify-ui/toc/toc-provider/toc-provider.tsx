@@ -14,11 +14,13 @@ export class AmplifyTOCProvider {
 
   setContent: SetContent = (content: HTMLElement) => (this.content = content);
 
-  setElements = () =>
-    this.content &&
-    (this.elements = Array.from(
-      this.content.querySelectorAll("h2, h3"),
-    ).filter((e) => headingIsVisible(e)) as HTMLElement[]);
+  setElements = () => {
+    if (this.content) {
+      this.elements = Array.from(
+        this.content.querySelectorAll("h2, h3"),
+      ).filter((e) => headingIsVisible(e)) as HTMLElement[];
+    }
+  };
 
   // @ts-ignore
   @Watch("content")

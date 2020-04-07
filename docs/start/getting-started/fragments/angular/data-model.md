@@ -160,7 +160,7 @@ Add the following to your `src/app/app.component.html` to display any of the tod
 
 ```html
 <ul>
-  <li *ngFor="let item of todos">{% raw %}{{item.name}}{% endraw %} - {% raw %}{{item.description}}{% endraw %}</li>
+  <li *ngFor="let item of todos">{{item.name}} - {{item.description}}</li>
 </ul>
 ```
 

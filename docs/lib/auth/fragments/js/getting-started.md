@@ -5,7 +5,7 @@
 The Amplify Framework uses [Amazon Cognito](https://aws.amazon.com/cognito/) as the main authentication provider. Amazon Cognito is a robust user directory service that handles user registration, authentication, account recovery & other operations. In this tutorial, you'll learn how to add authentication to your application using Amazon Cognito and username/password login.
 
 ## Create authentication service
-To start from a scratch, run the following command in your project's root folder:
+To start from scratch, run the following command in your project's root folder:
 
 > If you want to re-use an existing authentication resource from AWS (e.g. Amazon Cognito UserPool or Identity Pool) refer to [this section](~/lib/auth/start.md#re-use-existing-authentication-resource).
 

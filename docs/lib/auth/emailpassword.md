@@ -1,5 +1,5 @@
 ---
-title: Sign in, Sign up & Sign out
+title: Sign up, Sign in & Sign out
 description: auth
 ---
 

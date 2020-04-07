@@ -1,6 +1,6 @@
 ---
 title: Getting started
-description: description
+description: Authentication
 ---
 
 <inline-fragment platform="ios" src="~/sdk/auth/fragments/ios/getting-started.md"></inline-fragment>
