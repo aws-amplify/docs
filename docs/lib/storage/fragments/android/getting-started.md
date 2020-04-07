@@ -41,9 +41,9 @@ $ amplify console
 
 ## Configure your application
 
-Add the following dependencies to your app build.gradle file and click "Sync Now" when asked:
+Add the following dependencies to your **app** build.gradle file and click "Sync Now" when asked:
 
-```java
+```groovy
 dependencies {
     implementation 'com.amplifyframework:core:0.10.0'
     implementation 'com.amplifyframework:aws-storage-s3:0.10.0'
@@ -53,7 +53,7 @@ dependencies {
 
 Also up above in the same file, add this piece of code to support the Java 8 features Amplify uses:
 
-```java
+```groovy
 android {
   compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
