@@ -1,13 +1,6 @@
 ## Using withAuthenticator HOC
 
-For React and React Native apps, the simplest way to add authentication flows into your app is to use the `withAuthenticator` Higher Order Component.
-
-If you are using the `withAuthenticator` HOC with React Native, make sure to link `react-native-vector-icons` and then (re)launch your app:
-
-```bash
-react-native link react-native-vector-icons
-react-native run-ios
-```
+For React, the simplest way to add authentication flows into your app is to use the `withAuthenticator` Higher Order Component.
 
 `withAuthenticator` automatically detects the authentication state and updates the UI. If the user is signed in, the underlying component (typically your app's main component) is displayed otherwise signin/signup controls are displayed.
 
