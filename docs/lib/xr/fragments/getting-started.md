@@ -100,7 +100,7 @@ async loadAndStartScene() {
 <div id="sumerian-scene-dom-id"></div>
 ```
 
-Additionally, you can use the [Sumerian Scene UI components](/lib/xr/sceneapi#ui-components) for an out-of-the-box UI solution.
+Additionally, you can use the [Sumerian Scene UI components](~/lib/xr/sceneapi.md#ui-components) for an out-of-the-box UI solution.
 
 ## API Reference
 
