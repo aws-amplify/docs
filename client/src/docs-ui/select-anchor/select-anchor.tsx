@@ -13,6 +13,17 @@ import {
 } from "./select-anchor.style";
 import {SelectedFilters} from "../../docs-ui/page/page.types";
 import {pageContext} from "../../docs-ui/page/page.context";
+import {parseURL} from "../../utils/url/url";
+
+const rerouteIfNecessary = (path: string) => {
+  if (
+    path.includes("/lib") &&
+    (path.includes("/q/platform/ios") || path.includes("/q/platform/android"))
+  ) {
+    return `/sdk/q/platform/${parseURL(path).params?.platform as string}`;
+  }
+  return path;
+};
 
 @Component({tag: "docs-select-anchor"})
 export class DocsSelectAnchor {
@@ -83,7 +94,10 @@ export class DocsSelectAnchor {
                   ] as FilterOptionMetadata);
                 return (
                   meta && (
-                    <stencil-route-link key={filterValue} url={filterRoute}>
+                    <stencil-route-link
+                      key={filterValue}
+                      url={rerouteIfNecessary(filterRoute)}
+                    >
                       <img src={meta.graphicURI} alt={`${meta.label} Logo`} />
                       <span>{meta.label}</span>
                     </stencil-route-link>

@@ -81,7 +81,6 @@ export class DocsPage {
       attributes: {url: location.href},
     });
 
-    this.setSidebarStickyTop();
     return this.getPageData();
   }
 

@@ -4,13 +4,13 @@ export interface ParsedURL {
   params: Record<string, string>;
 }
 
-// const parsedCache = new Map<string, ParsedURL>();
+const parsedCache = new Map<string, ParsedURL>();
 
 export const parseURL = (path: string): ParsedURL => {
-  // const fromCache = parsedCache.get(path);
-  // if (fromCache) {
-  //   return fromCache;
-  // }
+  const fromCache = parsedCache.get(path);
+  if (fromCache) {
+    return fromCache;
+  }
 
   const pieces = path.split("/q/");
 
@@ -41,9 +41,9 @@ export const parseURL = (path: string): ParsedURL => {
       query = search;
     }
 
-    if (query !== "") {
+    if (query) {
       const searchPiecesSplit = query.split("/");
-      for (let i = 0; i < searchPiecesSplit.length / 2; i += 1) {
+      for (let i = 0; i < searchPiecesSplit.length / 2; i += 2) {
         params[searchPiecesSplit[i]] = searchPiecesSplit[i + 1];
       }
     }
@@ -55,21 +55,12 @@ export const parseURL = (path: string): ParsedURL => {
     params,
   };
 
-  // parsedCache.set(path, parsed);
+  parsedCache.set(path, parsed);
 
   return parsed;
 };
 
-const serializedCache = new Map<string, string>();
-
 export const serializeURL = (pieces: ParsedURL): string => {
-  const key = pieces.toString();
-
-  const fromCache = serializedCache.get(key);
-  if (fromCache) {
-    return fromCache;
-  }
-
   let serialized = pieces.base;
 
   const paramEntries = Object.entries(pieces.params);
@@ -83,10 +74,6 @@ export const serializeURL = (pieces: ParsedURL): string => {
   if (pieces.hash) {
     serialized += `#${pieces.hash}`;
   }
-
-  serializedCache.set(key, serialized);
-
-  // console.log(pieces, serialized);
 
   return serialized;
 };

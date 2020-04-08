@@ -5,6 +5,18 @@ import {pageContext} from "../page/page.context";
 import {getPage} from "../../cache";
 import {parseURL, serializeURL} from "../../utils/url/url";
 
+const rerouteURL = (
+  initialRoute: string | undefined,
+  selectedFilter: string | undefined,
+): string | undefined => {
+  if (initialRoute && selectedFilter) {
+    if (selectedFilter === "js" && initialRoute.startsWith("/sdk")) {
+      return initialRoute.replace("/sdk", "/lib");
+    }
+  }
+  return initialRoute;
+};
+
 @Component({tag: "docs-internal-link"})
 export class DocsInternalLink {
   /*** the global selected filter state */
@@ -18,6 +30,8 @@ export class DocsInternalLink {
   /*** override `isChildActive` to true */
   @Prop() readonly additionalActiveChildRoots?: string[];
 
+  selectedFilter?: string;
+
   @State() url?: string;
   @State() isActive?: boolean;
   @State() isChildActive?: boolean;
@@ -25,27 +39,33 @@ export class DocsInternalLink {
   computeURL() {
     if (this.href) {
       const parsed = parseURL(this.href);
-      const {base, hash} = parsed;
-      const {params} = parsed;
-      const paramEntries = Object.entries(params);
-      if (paramEntries.length === 0) {
-        for (const [filterKey, filterValue] of paramEntries) {
-          const filters = filtersByRoute.get(base);
-          if (filters) {
-            const [[filterKey, filterValues]] = Object.entries(filters);
-            const selectedFilterValue = this.selectedFilters?.[filterKey] as
-              | string
-              | undefined;
+
+      const {base} = parsed;
+      const {hash, params} = parsed;
+
+      const hasQuery = Object.keys(params).length > 0;
+
+      if (!hasQuery) {
+        const filters = filtersByRoute.get(base);
+
+        if (filters) {
+          const [[filterKey, filterValues]] = Object.entries(filters);
+          this.selectedFilter = this.selectedFilters?.[filterKey] as
+            | string
+            | undefined;
+
+          if (this.selectedFilter) {
             if (
-              selectedFilterValue &&
+              this.selectedFilter &&
               Array.isArray(filterValues) &&
-              filterValues.includes(selectedFilterValue)
+              filterValues.includes(this.selectedFilter)
             ) {
-              params[filterKey] = selectedFilterValue;
+              params[filterKey] = this.selectedFilter;
             }
           }
         }
       }
+
       this.url = serializeURL({base, hash, params});
     }
   }
@@ -82,7 +102,7 @@ export class DocsInternalLink {
     return (
       <Host>
         <stencil-route-link
-          url={this.url}
+          url={rerouteURL(this.url, this.selectedFilter)}
           class={{
             ...(this.activeClass ? {[this.activeClass]: !!this.isActive} : {}),
             ...(this.childActiveClass

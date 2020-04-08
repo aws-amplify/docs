@@ -30,7 +30,7 @@ Plugins are explicitly managed in the Amplify CLI pluggable platform. Plugins en
 ## Plugin installation
 
 You can add a 3rd party plugin to the Amplify CLI with the following steps:
-- If the plugin author named the plugin package according to the [naming convention](plugin-types).
+- If the plugin author named the plugin package according to the [naming convention](#plugin-types).
 1. Run `npm install -g <plugin>` and install the plugin to the global node_modules directory.<br/>
 2. Run `amplify plugin scan` so the Amplify CLI plugin platform will pick up the newly added plugin.
 

@@ -44,7 +44,7 @@ export class DocsChooseIntegrationAnchor {
           {Object.entries(mobileFilterMetadataByOption).map(
             ([filterValue, {label, graphicURI}]) => {
               const route =
-                this.page && `${this.page.route}?integration=${filterValue}`;
+                this.page && `${this.page.route}/q/integration/${filterValue}`;
 
               return (
                 <amplify-card key={label} vertical url={route}>

@@ -23,7 +23,7 @@ export class DocsMenu {
     this.filterKey = this.page && getFilterKeyFromPage(this.page);
   }
 
-  renderVersionSwitch() {
+  renderVersionSwitch = () => {
     if (
       (this.page?.productRootLink?.route === "/lib" ||
         this.page?.productRootLink?.route === "/sdk") &&
@@ -60,7 +60,7 @@ export class DocsMenu {
         />
       );
     }
-  }
+  };
 
   render() {
     const menu = this.page?.menu;

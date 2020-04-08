@@ -1,30 +1,38 @@
-When syncing with AWS AppSync, DataStore updates from multiple clients will converge by tracking object versions and adhering to different conflict resolution strategies. The default strategy is called *Automerge*, where GraphQL type information on an object is inspected at runtime to perform merge operations. You can read more about this behavior and alternatives such as *Optimistic Concurrency* Control and *custom Lambda functions* in the [AWS AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/conflict-detection-and-sync.html). To update the conflict resolution strategies navigate into your project from a terminal and run `amplify update api` choosing *Yes* when prompted to change the conflict detection and conflict resolution strategies:
+DataStore has a few optional configurations, such as the ability to specify a custom handler for error messages that take place in any part of the system. You can also specify a custom conflict handler that runs if a mutation is rejected by AWS AppSync during one of the conflict resolution strategies.
 
-```sh
-amplify update api #Select GraphQL
+Finally you can configure the number of records to sync as an upper bound on items (per-Model) which will be stored locally on the device, as well as a custom interval in minutes which is an override of the default 24 hour "base query" which runs as part of the Delta Sync process.
 
-? Do you want to configure advanced settings for the GraphQL API 
-❯ Yes, I want to make some additional changes. 
+### Example
 
-? Configure conflict detection? Yes
-? Select the default resolution strategy 
-  Auto Merge 
-❯ Optimistic Concurrency 
-  Custom Lambda 
-  Learn More 
-```
+<amplify-callout>
 
-Note that this flow will also allow you to change the strategy on each individual GraphQL type, though is is recommended to use the same strategy for your whole schema unless you have an advanced use case:
+**Note:** this API is under development and it is not generally available yet.
 
-```sh
-? Do you want to override default per model settings? Yes
-? Select the models from below: 
-❯◉ Post
- ◯ PostEditor
- ◯ User
+</amplify-callout>
 
-? Select the resolution strategy for Post model Custom Lambda
-? Select from the options below (Use arrow keys)
-❯ Create a new Lambda Function 
-  Existing Lambda Function 
+The code below illustrates a conflict resolution handler for the `Post` model that retries a mutation with the same title, but the most recent remote data for all other fields. The conflict resolution handler discards conflicts for all other models (by passing `.discard` to the `resolve` function).
+
+```swift
+// custom conflict resolution configuration
+Amplify.add(plugin: AWSDataStorePlugin(schema: schema, configuration: .custom(
+    conflictHandler: { (data, resolve) in
+        let (local, remote) = data
+
+        guard let localPost = local as? Post, let remotePost as? Post {
+            .resolve(.discard)
+        }
+
+        // always favor the title from the local post
+        let mergedModel = Post(title: localPost.title,
+                               rating: remotePost.rating,
+                               status: remotePost.status)
+        resolve(.new(mergedModel))
+    },
+    errorHandler: { error in
+        Amplify.Logging.error(error: error)
+    },
+    syncInterval: 1_440,
+    syncMaxRecords: 10_000,
+    syncPageSize: 1_000
+)))
 ```

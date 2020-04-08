@@ -3,6 +3,30 @@ import {Page} from "../../api";
 import {getFilterKeyFromPage} from "../../utils/filters";
 import {filterMetadataByOptionByName} from "../../utils/filter-data";
 
+const getRoute = (
+  initialRoute: string,
+  filterKey: string,
+  filterValue: string,
+): string => {
+  switch (filterValue) {
+    case "js": {
+      if (initialRoute.startsWith("/sdk")) {
+        return "lib/q/platform/js";
+      }
+      break;
+    }
+    case "android":
+    case "ios": {
+      if (initialRoute.startsWith("/lib")) {
+        return `/sdk/q/platform/${filterValue}`;
+      }
+      break;
+    }
+  }
+
+  return `${initialRoute}/q/${filterKey}/${filterValue}`;
+};
+
 @Component({tag: "docs-choose-anchor"})
 export class DocsChooseAnchor {
   /*** the current page's data */
@@ -22,8 +46,8 @@ export class DocsChooseAnchor {
             Object.entries(filterMetadataByOptionByName[filterKey]).map(
               ([filterValue, {label, graphicURI}]) => {
                 const route =
-                  this.page &&
-                  `${this.page.route}/q/${filterKey}/${filterValue}`;
+                  this.page?.route &&
+                  getRoute(this.page.route, filterKey, filterValue);
 
                 return (
                   <amplify-card key={label} vertical url={route}>

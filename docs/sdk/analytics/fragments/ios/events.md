@@ -110,3 +110,7 @@ You can report authentication events by doing either of the following:
 
 The limits applicable to the ingestion of events using the AWS Android SDK for Pinpoint and the Pinpoint Events API
 can be found [here](https://docs.aws.amazon.com/pinpoint/latest/developerguide/limits.html#limits-events).
+
+<amplify-callout>
+Note: Cognito User Pools only supports sending events to Amazon Pinpoint projects in the US East (N. Virginia) us-east-1 Region, regardless of the region in which the user pool resides.
+</amplify-callout>
