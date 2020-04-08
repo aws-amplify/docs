@@ -45,7 +45,7 @@ export class DocsMenu {
       );
     } else if (
       this.page?.productRootLink?.route === "/ui" ||
-      this.page?.productRootLink?.route === "/ui-legacy"
+      this.page?.productRootLink?.route === "/legacy-ui"
     ) {
       return (
         <docs-version-switch
@@ -55,7 +55,7 @@ export class DocsMenu {
           }}
           rightOption={{
             title: "Legacy",
-            href: "/ui-legacy",
+            href: "/legacy-ui",
           }}
         />
       );

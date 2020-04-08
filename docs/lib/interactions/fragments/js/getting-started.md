@@ -76,7 +76,7 @@ Amplify.configure(awsconfig);
 
 ## ChatBot UI component
 
-Use the `ChatBot` component to add conversational UI to your app. [Learn more](~/ui-legacy/interactions/chatbot.md).
+Use the `ChatBot` component to add conversational UI to your app. [Learn more](~/legacy-ui/interactions/chatbot.md).
 
 ## API reference
 
