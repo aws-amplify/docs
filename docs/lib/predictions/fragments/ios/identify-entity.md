@@ -2,23 +2,38 @@
 
 If you haven't already done so, run `amplify init` inside your project and then `amplify add auth` (we recommend selecting the *default configuration*).
 
-Run `amplify add predictions` and select **Identify**. Then use the following answers:
+Run `amplify add predictions`, then use the following answers:
 
 ```bash
-? What would you like to identify? 
+? Please select from one of the categories below (Use arrow keys)
+❯ Identify
+  Convert
+  Interpret
+  Infer
+  Learn More
+  
+? What would you like to identify?
   Identify Text
 ❯ Identify Entities
   Identify Labels
-  Learn More 
 
-? Would you like use the default configuration? Default Configuration
+? Provide a friendly name for your resource
+    <Enter a friendly name here>
 
-? Who should have access? Auth and Guest users
+? Would you like use the default configuration? (Use arrow keys)
+❯ Default Configuration
+  Advanced Configuration
+
+? Who should have access?
+  Auth users only
+❯ Auth and Guest users
 ```
+Run `amplify push` to create the resources in the cloud
+
 
 ## Working with the API
 
-In order to match entities from a pre-created [Amazon Rekognition Collection](https://docs.aws.amazon.com/rekognition/latest/dg/collections.html), make sure there is a `collectionId` set in your `amplifyconfiguration.json` file. If there is no `collectionId` set in the `amplifyconfiguration.json` file, then this call will just detect entities in general with facial features, landmarks, etc. Bounding boxes for entities are returned as ratios so make sure if you would like to place the bounding box of your entity on an image that you multiple the x by the width of the image, the y by the width of the image, and both height and width ratios by the image's respective height and width.
+In order to match entities from a pre-created [Amazon Rekognition Collection](https://docs.aws.amazon.com/rekognition/latest/dg/collections.html), make sure there is a `collectionId` set in your `amplifyconfiguration.json` file. If there is no `collectionId` set in the `amplifyconfiguration.json` file, then this call will just detect entities in general with facial features, landmarks, etc.
 
 You can identify entities in your app using the following code sample:
 
