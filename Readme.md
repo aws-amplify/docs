@@ -4,6 +4,10 @@
 
 This is the main documentation repository for the Amplify Framework. The documentation is new. We welcome [feedback](https://github.com/aws-amplify/docs/issues/new) and contributions. [Get Started >>](https://aws-amplify.github.io/docs)
 
+## V2 Docs (Preview)
+
+We just launched a preview of our new docs site. Check it out at **https://docs.amplify.aws** 🚀
+
 ## Contributing
 
 The documentation is tested for spelling errors in CircleCI and against a custom dictionary [.spelling](https://github.com/aws-amplify/docs/blob/master/.spelling). Add the words here e.g. service names etc. that should be bypassed by the checker. The spelling is checked via the `npm test` command during the build. You can see failing builds / errors by clicking on the build badge above. There is also a grammar check that should be run locally via `npm run grammar`.

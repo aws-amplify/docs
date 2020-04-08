@@ -1,4 +1,5 @@
 ---
+canonical: https://docs.amplify.aws/lib/xr/getting-started?platform=js
 ---
 
 # XR

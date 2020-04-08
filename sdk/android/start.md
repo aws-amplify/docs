@@ -1,5 +1,6 @@
 ---
 title: Getting Started
+canonical: https://docs.amplify.aws/start?integration=android
 ---
 
 <br />
@@ -23,7 +24,7 @@ This page guides you through setting up a backend and integration into your Andr
 
 ## Prerequisites
 
-* [Install and configure the Amplify CLI](..)
+* [Install and configure the Amplify CLI](../..)
 
 * [Install Android Studio](https://developer.android.com/studio/index.html#downloads) version 3.1 or higher. 
 

@@ -1,5 +1,6 @@
 ---
 title: Getting Started
+canonical: https://docs.amplify.aws/start?integration=ios
 ---
 
 {% if jekyll.environment == 'production' %}
@@ -29,13 +30,11 @@ This page guides you through setting up a backend and integration into your iOS 
 
 ## Prerequisites
 
-* [Install and configure the Amplify CLI](..)
+* [Install and configure the Amplify CLI](../..)
 
 * [Install Xcode](https://developer.apple.com/xcode/downloads/){:target="_blank"} version 10.2 or later.
 
 * This guide assumes that you are familiar with iOS development and tools. If you are new to iOS development, you can follow [these steps](https://developer.apple.com/library/archive/referencelibrary/GettingStarted/DevelopiOSAppsSwift/BuildABasicUI.html){:target="_blank"} to create your first iOS application using Swift.
-
-**Note:** This guide is designed for a *Storyboard* iOS application. Ensure that you select *Storyboard* in the *User Interface* dropdown when creating a new project. ![image]({{image_base}}/storyboard-selection.png)
 
 ## Step 1: Configure your app
 You can use an existing iOS app or create a new iOS app in Swift as per the steps in prerequisite section. 
@@ -54,8 +53,7 @@ Open the created  `Podfile` in a text editor and add the pod for core AWS Mobile
 target :'YOUR-APP-NAME' do
     use_frameworks!
 
-    pod 'AWSCore', '~> 2.12.0'
-    pod 'AWSAppSync', '~> 3.0.2'
+    pod 'AWSAppSync', '~> 3.1.0'
 
     # other pods
 end
@@ -180,13 +178,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 ```
 
-Next, in your application code where you wish to use the AppSync client (like your View Controller) reference this in the `viewDidLoad()` lifecycle method:
+Next, reference the AppSync client that you initialized in the AppDelegate, above. You could do so inside of your `viewDidLoad()` lifecycle method, or while instantiating a SwiftUI View. See the examples below.
 
+In your View Controller
 ```swift
 import AWSAppSync
 
 class Todos: UIViewController{
-  //Reference AppSync client
+  // Reference AppSync client
   var appSyncClient: AWSAppSyncClient?
 
   override func viewDidLoad() {
@@ -194,6 +193,24 @@ class Todos: UIViewController{
       let appDelegate = UIApplication.shared.delegate as! AppDelegate
       appSyncClient = appDelegate.appSyncClient
   }
+}
+```
+or SwiftUI View
+```swift
+import AWSAppSync
+
+struct TodoView: View {
+    // Reference AppSync client
+    var appSyncClient: AWSAppSyncClient?
+
+    init() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appSyncClient = appDelegate.appSyncClient
+    }
+
+    var body: some View {
+        Text("Todos")
+    }
 }
 ```
 

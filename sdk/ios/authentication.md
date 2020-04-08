@@ -1,5 +1,6 @@
 ---
 title: Authentication
+canonical: https://docs.amplify.aws/sdk/auth/how-it-works?platform=ios
 ---
 
 {% if jekyll.environment == 'production' %}
@@ -974,7 +975,7 @@ Note: your user pool domain is something like: `domain_prefix-<env-name>.auth.<r
 ##### Setting up Hosted UI Domain with Google
 
 1. Go to [Google Developer Console](https://developers.google.com/identity/sign-in/web/sign-in)
-2. Click *CONFIGURURE A PROJECT*
+2. Click *CONFIGURE A PROJECT*
 ![Image]({{common_media}}/cognitoHostedUI/google1.png)
 3. Type in a project name and choose *NEXT*.
 ![Image]({{common_media}}/cognitoHostedUI/google2.png)

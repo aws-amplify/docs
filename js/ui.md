@@ -1,4 +1,5 @@
 ---
+canonical: https://docs.amplify.aws/ui?framework=react
 ---
 
 # UI Components

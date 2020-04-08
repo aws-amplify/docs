@@ -1,5 +1,6 @@
 ---
 title: Authentication
+canonical: https://docs.amplify.aws/sdk/auth/how-it-works?platform=android
 ---
 {% if jekyll.environment == 'production' %}
   {% assign base_dir = site.amplify.docs_baseurl %}
@@ -265,6 +266,8 @@ Many applications have UX with "Guest" or "Unauthenticated" users. This is provi
 When complete run `amplify push` and your `awsconfiguration.json` will work automatically with your updated Cognito settings. The `AWSMobileClient` user session will automatically have permissions configured for Guest/Unauthenticated users upon initialization. 
 
 If you login in your app either using the "Drop-In Auth" or the `AWSMobileClient` APIs then the user session will transition to an authenticated role.
+
+Note: If initialize is giving you the state as ‘SIGNED_OUT’, try calling `AWSMobileClient.getInstance().getCredentials()` and then calling initialize again. 
 
 ## Drop-In Auth
 

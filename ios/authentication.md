@@ -1,5 +1,6 @@
 ---
 title: Authentication
+canonical: https://docs.amplify.aws/lib/auth/getting-started?platform=ios
 ---
 
 {% if jekyll.environment == 'production' %}
@@ -1014,6 +1015,16 @@ Note: your user pool domain is something like: `domain_prefix-<env-name>.auth.<r
 ![Image]({{common_media}}/cognitoHostedUI/amazon5.png)
 5. Choose Save.
 
+##### Setting up Hosted UI Domain for Sign In with Apple
+
+1. The easiest way to get HostedUI configuration in your app is through automated set up with CLI. Choose a supported identity provider in your set up (Google and/or Facebook, or Login with Amazon) you would like to use. 
+
+2. Run `amplify console auth` and choose User Pools to navigate to your Cognito User Pools over in the AWS Console. 
+
+3. Learn more about [How to set up Sign in with Apple for Amazon Cognito](https://aws.amazon.com/blogs/security/how-to-set-up-sign-in-with-apple-for-amazon-cognito/).
+
+4. Use `AWSMobileClient` to launch the HostedUI directly to sign in with Apple by specifying `HostedUIOptions(identityProvider: "SignInWithApple")`
+
 #### Manual Setup
 
 To configure your application for hosted UI, you need to use *HostedUI* options. Update your `awsconfiguration.json` file to add a new configuration for `Auth`. The configuration should look like this:
@@ -1115,6 +1126,9 @@ let hostedUIOptions = HostedUIOptions(scopes: ["openid", "email"], identityProvi
 //  OR
 // Option to launch Facebook sign in directly
 let hostedUIOptions = HostedUIOptions(scopes: ["openid", "email"], identityProvider: "Facebook")
+//  OR
+// Option to launch Apple sign in directly
+let hostedUIOptions = HostedUIOptions(identityProvider: "SignInWithApple")
 
 // Present the Hosted UI sign in.
 AWSMobileClient.default().showSignIn(navigationController: self.navigationController!, hostedUIOptions: hostedUIOptions) { (userState, error) in
