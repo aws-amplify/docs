@@ -4,7 +4,7 @@ The `<Connect/>` component is used to execute a GraphQL query or mutation. You c
 
 ## Subscription
 
-Also, you can use the `subscription` and `onSubscriptionMsg` attributes to enable subscriptions
+For subscriptions, you can use the `subscription` and `onSubscriptionMsg` attributes to enable subscriptions
 
 ## Mutations
 

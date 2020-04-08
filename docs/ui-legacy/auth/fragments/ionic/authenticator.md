@@ -1,4 +1,4 @@
-AWS Amplifies provides UI components that you can use in your view templates. 
+AWS Amplify provides UI components that you can use in your view templates. 
 
 The Authenticator component creates an drop-in user authentication experience. Add the `amplify-authenticator` component to your `app.component.html` view:
 
@@ -10,7 +10,7 @@ The Authenticator component creates an drop-in user authentication experience. A
 The SignUp component provides your users with the ability to sign up.  It is included as part of the ```authenticator``` component, but can also be used in isolation:
 
 Usage:  
-```<amplify-auth-sign-up [signUpConfig]="signUpConfig"></amplify-auth-sign-up>```  
+```<amplify-auth-sign-up framework="Ionic" [signUpConfig]="signUpConfig"></amplify-auth-sign-up>```  
 or  
 ```<amplify-authenticator framework="Ionic" [signUpConfig]="signUpConfig"></amplify-authenticator>```
 

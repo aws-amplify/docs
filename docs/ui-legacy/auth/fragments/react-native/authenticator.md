@@ -1,6 +1,6 @@
 ## Using withAuthenticator HOC
 
-For React, the simplest way to add authentication flows into your app is to use the `withAuthenticator` Higher Order Component.
+For React Native, the simplest way to add authentication flows into your app is to use the `withAuthenticator` Higher Order Component.
 
 `withAuthenticator` automatically detects the authentication state and updates the UI. If the user is signed in, the underlying component (typically your app's main component) is displayed otherwise signin/signup controls are displayed.
 
@@ -9,7 +9,7 @@ For React, the simplest way to add authentication flows into your app is to use 
 Just add these two lines to your `App.js`:
 
 ```javascript
-import { withAuthenticator } from 'aws-amplify-react-native'; // or 'aws-amplify-react-native';
+import { withAuthenticator } from 'aws-amplify-react-native';
 import Amplify from 'aws-amplify';
 // Get the aws resources configuration parameters
 import awsconfig from './aws-exports'; // if you are using Amplify CLI
@@ -101,7 +101,7 @@ The `withAuthenticator` HOC wraps an `Authenticator` component. Using `Authentic
 You can provide custom components to the `Authenticator` as child components in React and React Native. 
 
 ```jsx
-import { Authenticator, SignIn } from 'aws-amplify-react';
+import { Authenticator, SignIn } from 'aws-amplify-react-native';
 
 // The override prop tells the Authenticator that the SignUp component is not hidden but overridden
 <Authenticator hideDefault={true}>
@@ -142,42 +142,7 @@ You can render the custom component (or not) based on the injected `authState` w
 if (props.onStateChange) props.onStateChange(state, data);
 ```
 
-To customize the UI for Federated Identities sign-in, you can use `withFederated` component. The following code shows how you customize the login buttons and the layout for social sign-in.
-
 > ***The withFederated and Federated components are not supported on React Native***. Use the API Auth.federatedSignIn() on React Native.
-
-```javascript
-import { withFederated } from 'aws-amplify-react';
-
-const Buttons = (props) => (
-    <div>
-        <img
-            onClick={props.googleSignIn}
-            src={google_icon}
-        />
-        <img
-            onClick={props.facebookSignIn}
-            src={facebook_icon}
-        />
-        <img
-            onClick={props.amazonSignIn}
-            src={amazon_icon}
-        />
-    </div>
-)
-
-const Federated = withFederated(Buttons);
-
-...
-
-const federated = {
-    google_client_id: '', // Enter your google_client_id here
-    facebook_app_id: '', // Enter your facebook_app_id here   
-    amazon_client_id: '' // Enter your amazon_client_id here
-};
-
-<Federated federated={federated} onStateChange={this.handleAuthStateChange} />
-```
 
 There is also `withGoogle`, `withFacebook`, `withAmazon` components, in case you need to customize a single provider.
 
@@ -186,17 +151,15 @@ There is also `withGoogle`, `withFacebook`, `withAmazon` components, in case you
 This will render your App component with *Authenticator*:
 
 ```javascript
-import { Authenticator } from 'aws-amplify-react'; // or 'aws-amplify-react-native'
+import { Authenticator } from 'aws-amplify-react-native'; // or 'aws-amplify-react-native'
 ...
 
 class AppWithAuth extends Component {
   render(){
     return (
-      <div>
       <Authenticator>
         <App />
       </Authenticator>
-      </div>
     );
   }
 }
