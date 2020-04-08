@@ -141,14 +141,20 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 		}
 
 		print("AWSMobileClient initialized, userstate: \(userState)")
+		self.configureAmplifyWithPredictions()
 	}
-
-	let predictionsPlugin = AWSPredictionsPlugin()
-	try! Amplify.add(plugin: predictionsPlugin)
-	try! Amplify.configure()
-	print("Amplify initialized")
-
 	return true
+}
+
+func configureAmplifyWithPredictions() {
+	let predictionsPlugin = AWSPredictionsPlugin()
+	do {
+		try Amplify.add(plugin: predictionsPlugin)
+		try Amplify.configure()
+		print("Amplify initialized")
+	} catch {
+		print("Failed to initialize Amplify: \(error)")
+	}
 }
 ```
 
