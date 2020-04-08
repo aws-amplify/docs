@@ -76,8 +76,7 @@ Amplify.configure(awsconfig);
 
 Now that the GraphQL API has deployed, it’s time to learn how to interact with it from a JavaScript client application. With GraphQL, you typically have the following types of operations:
 
-- __Muatations__ - write data to the API (create, update, delete operations)
-
+- __Mutations__ - write data to the API (create, update, delete operations)
 
 ```js
 import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';

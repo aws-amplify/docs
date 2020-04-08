@@ -25,29 +25,30 @@ const getRoute = (
   url: string,
   transformerProps: t.TransformerProps,
 ): string => {
-  const {path: urlPath, hash} = parse(url);
+  const parsedURL = parse(url);
+  const {hash, query} = parsedURL;
+  let {path: urlPath} = parsedURL;
 
   if (urlPath) {
-    try {
-      const pathDeduction = transformerProps.ctx.resolvePathDeduction(
-        urlPath,
-        transformerProps.srcPath,
-      );
-      if (pathDeduction.route) {
-        return `${pathDeduction.route}${hash || ""}`;
-      } else if (pathDeduction.destinationPath) {
-        const pieces = path
-          .relative(
-            transformerProps.ctx.config.outDir,
-            pathDeduction.destinationPath,
-          )
-          .split(path.sep);
-        pieces.shift();
-        pieces.shift();
-        return `/${pieces.join(path.sep)}`;
-      }
-    } catch (e) {
-      console.log("\x1b[33m%s\x1b[0m", e.message.split("\n")[0]);
+    if (urlPath.includes("?")) {
+      urlPath = urlPath.split("?").shift() as string;
+    }
+    const pathDeduction = transformerProps.ctx.resolvePathDeduction(
+      urlPath,
+      transformerProps.srcPath,
+    );
+    if (pathDeduction.route) {
+      return `${pathDeduction.route}${query ? `?${query}` : ""}${hash || ""}`;
+    } else if (pathDeduction.destinationPath) {
+      const pieces = path
+        .relative(
+          transformerProps.ctx.config.outDir,
+          pathDeduction.destinationPath,
+        )
+        .split(path.sep);
+      pieces.shift();
+      pieces.shift();
+      return `/${pieces.join(path.sep)}`;
     }
   }
   return "";
@@ -91,7 +92,8 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
         if (
           (!url.includes(".") ||
             !validLinkExtensions[url.split(".").pop() || ""]) &&
-          !url.includes("#")
+          !url.includes("#") &&
+          !url.includes("?")
         ) {
           url = `${url}.md`;
         }
