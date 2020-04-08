@@ -1,7 +1,54 @@
-You can automatically track `Storage` operations on the following React components: `S3Album`, `S3Text`, `S3Image` by providing a `track` prop:
+### Customize Upload Path 
 
-```jsx
-return <S3Album track />
+You can customize your upload path by defining prefixes:
+
+```javascript
+const customPrefix = {
+    public: 'myPublicPrefix/',
+    protected: 'myProtectedPrefix/',
+    private: 'myPrivatePrefix/'
+};
+
+Storage.put('test.txt', 'Hello', {
+    customPrefix: customPrefix,
+    // ...
+})
+.then (result => console.log(result))
+.catch(err => console.log(err));
 ```
 
-Enabling tracking will automatically send 'Storage' events to Amazon Pinpoint, and you will be able to see the results in AWS Pinpoint console under *Custom Events*. The event name will be *Storage*, and event details will be displayed in *attributes* , e.g. Storage -> Method -> Put.
+For example, if you want to enable read, write and delete operation for all the objects under path *myPublicPrefix/*,  declare it in your IAM policy:
+
+```xml
+"Statement": [
+    {
+        "Effect": "Allow",
+        "Action": [
+            "s3:GetObject",
+            "s3:PutObject",
+            "s3:DeleteObject"
+        ],
+        "Resource": [
+            "arn:aws:s3:::your-s3-bucket/myPublicPrefix/*",
+        ]
+    }
+]
+```
+
+If you want to have custom *private* path prefix like *myPrivatePrefix/*, you need to add it into your IAM policy:
+```xml
+"Statement": [
+    {
+        "Effect": "Allow",
+        "Action": [
+            "s3:GetObject",
+            "s3:PutObject",
+            "s3:DeleteObject"
+        ],
+        "Resource": [
+            "arn:aws:s3:::your-s3-bucket/myPrivatePrefix/${cognito-identity.amazonaws.com:sub}/*"
+        ]
+    }
+]
+```
+This ensures only the authenticated users has the access to the objects under the path.

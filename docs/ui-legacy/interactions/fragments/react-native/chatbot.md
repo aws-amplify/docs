@@ -4,98 +4,148 @@ ChatBot automatically renders a complete chat messaging interface that can be us
 
 ## Usage
 
-When using React, you can use *ChatBot* with following properties;
+When using React Native, you can use *ChatBot* with following properties;
 
-```html
+```jsx
 <ChatBot
-    title="My Bot"
-    theme={myTheme}
-    botName="BookTrip"
-    welcomeMessage="Welcome, how can I help you today?"
-    onComplete={this.handleComplete.bind(this)}
-    clearOnComplete={true}
-    conversationModeOn={false}
+    botName={botName}
+    welcomeMessage={welcomeMessage}
+    onComplete={this.handleComplete}
+    clearOnComplete={false}
+    styles={StyleSheet.create({
+        itemMe: {
+            color: 'red'
+        }
+    })}
 />
 ```
 
-By default, the ChatBot will allow for only text interaction. You can turn off text interaction by passing prop `textEnabled={false}` or you can turn on voice interaction by passing prop `voiceEnabled={true}`. You should not disable both; this will cause no user inputs to be available. 
+By default, the ChatBot will allow for only text interaction. You can turn off text interaction by passing prop `textEnabled={false}`.
+### Turning on voice interaction
+To support voice interaction, the React Native ChatBot component requires installation of peer dependencies and linking of Native Modules. The peer dependencies are: [react-native-voice](https://github.com/wenkesj/react-native-voice), [react-native-sound](https://github.com/zmxv/react-native-sound), and [react-native-fs](https://github.com/itinance/react-native-fs). 
 
-Note: In order for voice input to work with Amazon Lex, you may have to enable Output voice in the AWS Console. Under the Amazon Lex service, click on your configured Lex chatbot and go to Settings -> General and pick your desired Output voice. Then, click Build. If you have forgotten to enable Output voice, you will get an error like this:
+After installation, link the native modules by running:
+```
+react-native link react-native-voice 
+react-native link react-native-fs
+react-native link react-native-sound
+```
+
+Include this import at the top of your App.js
+```jsx
+import voiceLibs from 'aws-amplify-react-native/dist/Interactions/ReactNativeModules'
+```
+
+Some configurations of Android will require requesting permissions while others will not - please to refer to the [Android docs](https://developer.android.com/training/permissions/requesting.html)
+
+iOS will require permissions for `NSMicrophoneUsageDescription` and `NSSpeechRecognitionUsageDescription`- you can add this snippet to your Info.plist file for iOS:
+```xml  
+<dict>
+  ...
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Description of why you require the use of the microphone</string>
+  <key>NSSpeechRecognitionUsageDescription</key>
+  <string>Description of why you require the use of the speech recognition</string>
+  ...
+</dict>
+```
+Then, turn on voice interaction by passing `voiceEnabled={true}` with `voiceLibs={voiceLibs}` to Chatbot props. Remember not to disable both voice and text input (don't set both voiceEnabled={false} and textEnabled={false})
+
+In order for voice interaction to work with Amazon Lex, you may have to enable Output voice in the AWS Console. Under the Amazon Lex service, click on your configured Lex chatbot and go to Settings -> General and pick your desired Output voice. Then, click Build. If you have forgotten to enable Output voice, you will get an error like this:
 ```
 ChatBot Error: Invalid Bot Configuration: This bot does not have a Polly voice ID associated with it. For voice interaction with the user, set a voice ID
 ```
 
-The `conversationModeOn` props turns continuous conversation cycle mode on/off for voice interaction. In continuous conversation mode, the user will only have to click the microphone button once to complete a chatbot conversation. This means that the component will detect when the user is done speaking to stop recording, and then send data to interactions provider, and then start recording again when a response is received from the interactions provider. The cycle will stop when the conversation is finished. 
+You can also configure `silenceDelay={customTime}` where `customTime` is the the silence detection time in milliseconds. The default value is 1000. 
 
-If needed, you can also pass `voiceConfig` in the props to modify the silence detection parameters, like in this example:
+The `conversationModeOn` props turns continuous conversation cycle mode on/off for voice interaction.
 
+Here is an example of a configured ChatBot component with voice enabled and conversation mode turned on
 ```jsx
-const customVoiceConfig = {
-    silenceDetectionConfig: {
-        time: 2000,
-        amplitude: 0.2
-    }   
-}
-
 <ChatBot
-    ...
-    voiceConfig={customVoiceConfig}
+    botName={botName}
+    welcomeMessage={welcomeMessage}
+    onComplete={this.handleComplete}
+    clearOnComplete={false}
+    styles={StyleSheet.create({
+        itemMe: {
+            color: 'red'
+        }
+    })}
+    voiceEnabled={true}
+    voiceLibs={voiceLibs}
+    conversationModeOn={true}
 />
-
 ```
 
-## Sample React app
+Following simple app shows how to use **ChatBot** component in a React Native app;
 
-Following simple app shows how to use **ChatBot** component in a React app, with the automatic setup outlined above;
-
-```javascript
+ ```javascript
 import React, { Component } from 'react';
-import Amplify, { Interactions } from 'aws-amplify';
-import { ChatBot, AmplifyTheme } from 'aws-amplify-react-native';
+import { StyleSheet, Text, SafeAreaView, Alert, StatusBar } from 'react-native';
+import Amplify from 'aws-amplify';
+import { ChatBot } from 'aws-amplify-react-native';
+
 import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
 
-// Imported default theme can be customized by overloading attributes
-const myTheme = {
-  ...AmplifyTheme,
-  sectionHeader: {
-    ...AmplifyTheme.sectionHeader,
-    backgroundColor: '#ff6600'
-  }
-};
+const styles = StyleSheet.create({
+  container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingTop: StatusBar.currentHeight,
+  },
+});
 
-class App extends Component {
+export default class App extends Component {
 
-  handleComplete(err, confirmation) {
-    if (err) {
-      alert('Bot conversation failed')
-      return;
+    state = {
+        botName: 'BookTrip',
+        welcomeMessage: 'Welcome, what would you like to do today?',
+    };
+
+    constructor(props) {
+        super(props);
+        this.handleComplete = this.handleComplete.bind(this);
     }
 
-    alert('Success: ' + JSON.stringify(confirmation, null, 2));
-    return 'Trip booked. Thank you! what would you like to do next?';
-  }
+    handleComplete(err, confirmation) {
+        if (err) {
+        Alert.alert('Error', 'Bot conversation failed', [{ text: 'OK' }]);
+        return;
+        }
 
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Welcome to ChatBot Demo</h1>
-        </header>
-        <ChatBot
-          title="My Bot"
-          theme={myTheme}
-          botName="BookTrip"
-          welcomeMessage="Welcome, how can I help you today?"
-          onComplete={this.handleComplete.bind(this)}
-          clearOnComplete={true}
-          conversationModeOn={false}
-        />
-      </div>
-    );
-  }
+        Alert.alert('Done', JSON.stringify(confirmation, null, 2), [{ text: 'OK' }]);
+
+        this.setState({
+        botName: 'BookTrip',
+        });
+
+        return 'Trip booked. Thank you! what would you like to do next?';
+    }
+
+    render() {
+        const { botName, showChatBot, welcomeMessage } = this.state;
+
+        return (
+        <SafeAreaView style={styles.container}>
+            <ChatBot
+            botName={botName}
+            welcomeMessage={welcomeMessage}
+            onComplete={this.handleComplete}
+            clearOnComplete={false}
+            styles={StyleSheet.create({
+                itemMe: {
+                color: 'red'
+                }
+            })}
+            />
+        </SafeAreaView>
+        );
+    }
+
 }
-
-export default App;
-```
+ ```
