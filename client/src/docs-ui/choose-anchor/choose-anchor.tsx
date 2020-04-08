@@ -22,7 +22,8 @@ export class DocsChooseAnchor {
             Object.entries(filterMetadataByOptionByName[filterKey]).map(
               ([filterValue, {label, graphicURI}]) => {
                 const route =
-                  this.page && `${this.page.route}?${filterKey}=${filterValue}`;
+                  this.page &&
+                  `${this.page.route}/q/${filterKey}/${filterValue}`;
 
                 return (
                   <amplify-card key={label} vertical url={route}>

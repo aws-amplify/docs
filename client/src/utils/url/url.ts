@@ -25,6 +25,9 @@ export const parseURL = (path: string): ParsedURL => {
   }
 
   base = pieces.pop() as string;
+  if (base.includes("http://localhost:3333")) {
+    base = base.substr(21);
+  }
 
   if (search) {
     const searchSplit = search.split("#");

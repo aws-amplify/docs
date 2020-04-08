@@ -1,4 +1,4 @@
-import {Component, Host, h, Prop, State, Listen, Element} from "@stencil/core";
+import {Component, Host, h, State, Listen, Element} from "@stencil/core";
 import {
   sidebarLayoutStyle,
   pageStyle,
@@ -21,7 +21,7 @@ import {Breakpoint} from "../../amplify-ui/styles/media";
 import {getPage} from "../../cache";
 import {getNavHeight} from "../../utils/get-nav-height";
 import {scrollToHash} from "../../utils/scroll-to-hash";
-import {parseURL} from "../../utils/url";
+import {parseURL} from "../../utils/url/url";
 
 @Component({tag: "docs-page", shadow: false})
 export class DocsPage {
@@ -54,17 +54,6 @@ export class DocsPage {
    */
   filterKey?: string;
   filterValue?: string;
-
-  computeFilter() {
-    if (this.filterKey) {
-      const queryParams = parseURL(location.href).params;
-      const {[this.filterKey]: filterValue} = queryParams;
-      if (filterValue) {
-        this.filterValue = filterValue;
-        this.setSelectedFilters({[this.filterKey]: this.filterValue});
-      }
-    }
-  }
 
   // @ts-ignore
   @Listen("resize", {target: "window"})
@@ -107,11 +96,11 @@ export class DocsPage {
   }
 
   getPageData = async () => {
-    const {pathname} = location;
-    this.blendUniversalNav = pathname === "/";
+    const {base, params} = parseURL(location.href);
+    this.blendUniversalNav = base === "/";
 
     try {
-      this.data = await getPage(pathname);
+      this.data = await getPage(base);
       if (this.data) {
         updateDocumentHead(this.data);
         this.filterKey = getFilterKeyFromPage(this.data);
@@ -126,7 +115,13 @@ export class DocsPage {
             };
           }),
         );
-        this.computeFilter();
+        if (this.filterKey) {
+          const {[this.filterKey]: filterValue} = params;
+          if (filterValue) {
+            this.filterValue = filterValue;
+            this.setSelectedFilters({[this.filterKey]: this.filterValue});
+          }
+        }
       }
     } catch (exception) {
       track({

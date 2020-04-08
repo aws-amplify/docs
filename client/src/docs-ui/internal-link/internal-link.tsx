@@ -3,7 +3,7 @@ import {filtersByRoute} from "../../api";
 import {SelectedFilters} from "../page/page.types";
 import {pageContext} from "../page/page.context";
 import {getPage} from "../../cache";
-import {parseURL, serializeURL} from "../../utils/url";
+import {parseURL, serializeURL} from "../../utils/url/url";
 
 @Component({tag: "docs-internal-link"})
 export class DocsInternalLink {
@@ -54,7 +54,7 @@ export class DocsInternalLink {
     if (this.url) {
       this.isActive = location.href === this.url;
       const currentPathWithoutQS = location.pathname.split("/q/")?.[0];
-      const hrefWithoutQS = this.href?.split("?")?.[0];
+      const hrefWithoutQS = this.href?.split("/q/")?.[0];
       this.isChildActive =
         this.additionalActiveChildRoots?.some((root) =>
           location.href.startsWith(root),

@@ -8,9 +8,9 @@ import * as path from "path";
  *
  * ```ts
  * {
- *   js: "/lib/auth/overview?platform=js",
- *   android: "/lib/auth/overview?platform=android",
- *   ios: "/lib/auth/overview?platform=ios"
+ *   js: "/lib/auth/overview/q/platform/js",
+ *   android: "/lib/auth/overview/q/platform/android",
+ *   ios: "/lib/auth/overview/q/platform/ios"
  * }
  * ```
  */
