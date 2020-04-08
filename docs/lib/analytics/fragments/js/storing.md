@@ -7,8 +7,8 @@ Register the *AWSKinesisFirehoseProvider* with the Analytics category:
 ```javascript
 import { Analytics, AWSKinesisFirehoseProvider } from 'aws-amplify';
 Analytics.addPluggable(new AWSKinesisFirehoseProvider());
-
 ```
+
 Ensure you have <a href="https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html" target="_blank">setup IAM permissions</a> for `PutRecordBatch`.
 
 Example IAM policy for Amazon Kinesis Firehose:
@@ -31,7 +31,6 @@ Example IAM policy for Amazon Kinesis Firehose:
 Configure Kinesis Firehose:
 
 ```javascript
-
 // Configure the plugin after adding it to the Analytics module
 Analytics.configure({
     AWSKinesisFirehose: {
@@ -52,7 +51,6 @@ Analytics.configure({
         resendLimit: 5
     } 
 });
-
 ```
 
 ## Storing data
