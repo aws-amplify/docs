@@ -2,24 +2,42 @@
 
 If you haven't already done so, run `amplify init` inside your project and then `amplify add auth` (we recommend selecting the *default configuration*).
 
-Run `amplify add predictions` and select **Identify**. Then use the following answers:
+Run `amplify add predictions`, then use the following answers:
 
 ```bash
+? Please select from one of the categories below
+❯ Identify
+  Convert
+  Interpret
+  Infer
+  Learn More
+
 ? What would you like to identify? (Use arrow keys)
 ❯ Identify Text
   Identify Entities
   Identify Labels
-  Learn More 
 
-? Would you also like to identify documents? Yes
-? Who should have access? Auth and Guest users
-```
+? Provide a friendly name for your resource
+    <Enter a friendly name here>
+
+? Would you also like to identify documents?
+    <Enter 'y'> 
+
+? Who should have access?
+  Auth users only
+❯ Auth and Guest users
 
 ## Identify text from image
 
-Amplify will make calls to both Amazon Textract and Rekognition depending on the type of text you are looking to identify (i.e. image or document). If you are detecting text from an image you would send in `.plain` as your text format as shown below. Similarly, you can obtain `.offline` functionality or get combined results with AWS services for better results with the `.plain` text format selected. Bounding boxes for text are returned as ratios so make sure if you would like to place your bounding box on an image that you multiple the x by the width of the image, the y by the width of the image, and both height and width ratios by the image's respective height and width. Additionally, because Rekognition places (0,0) at the top left and CoreML places (0,0) at the bottom left, we have flipped the y axis of the CoreML bounding box for you since iOS starts (0,0) from the top left.
+Amplify will make calls to both Amazon Textract and Rekognition depending on the type of text you are looking to identify (i.e. image or document).
+
+If you are detecting text from an image you would send in `.plain` as your text format as shown below.  Using `.plain` with `PredictionsIdentifyRequest.Options()` combines results from on device results from Core ML and AWS services to yield more accurate results.
 
 ``` swift
+import Amplify
+
+...
+
 func detectText(_ image: URL) {
 	_ = Amplify.Predictions.identify(type: .detectText(.plain), image: image, options: PredictionsIdentifyRequest.Options(), listener: { (event) in
 		switch event {
@@ -34,6 +52,24 @@ func detectText(_ image: URL) {
 	})
 }
 ```
+
+Note that bounding boxes in `IdentifyTextResult` are returned as ratios.  If you would like to place bounding boxes on an image, use the following method to calculate a frame.  The frame can be used to create view that is overlayed on to the image.
+```swift
+let image = UIImage(...)
+self.imageView = UIImageView(image: self.image)                        
+...
+let data = result as! IdentifyTextResult
+let word = data.words!.first!
+...
+let xBoundingBox = word.boundingBox.origin.x * self.imageView.frame.size.width
+let yBoundingBox = word.boundingBox.origin.y * self.imageView.frame.size.height
+let widthBoundingBox = word.boundingBox.size.width * self.imageView.frame.size.width
+let heightBoundingBox = word.boundingBox.size.height * self.imageView.frame.size.height
+let boundingBox = UIView(frame: CGRect(x: xBoundingBox, y: yBoundingBox, width: widthBoundingBox, height: heightBoundingBox))
+... // stylize bounding box
+self.imageView.addSubview(boundingBox)
+```
+
 
 ## Identify text in a document
 
