@@ -64,4 +64,4 @@ func textToSpeech(text: String) {
     })
 }
 ```
-As a result of running this code, you should hear audio of the text being emitted from your device.
+As a result of running this code, you will hear audio of the text being emitted from your device.
