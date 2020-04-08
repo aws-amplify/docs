@@ -89,12 +89,12 @@ import { Auth } from 'aws-amplify';
 
 async function resendConfirmationCode() {
     try {
-    await Auth.resendSignUp(username);
+        await Auth.resendSignUp(username);
         console.log('code resent succesfully');
     } catch (err) {
         console.log('error resending code: ', err);
     }
-    }
+}
 ```
 
 ## Sign-out
@@ -104,7 +104,7 @@ import { Auth } from 'aws-amplify';
 
 async function signOut() {
     try {
-    await Auth.signOut();
+        await Auth.signOut();
     } catch (error) {
         console.log('error signing out: ', error);
     }
