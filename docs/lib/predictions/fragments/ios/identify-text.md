@@ -26,6 +26,7 @@ Run `amplify add predictions`, then use the following answers:
 ? Who should have access?
   Auth users only
 ❯ Auth and Guest users
+```
 
 ## Identify text from image
 
@@ -53,6 +54,11 @@ func detectText(_ image: URL) {
 }
 ```
 
+To get results that utilize on-device capabilities (Core ML), without combining results from the backend, you can use the following to pass into the `options` argument of the `Amplify.Predictions.identify` function.
+```swift
+let options = PredictionsIdentifyRequest.Options(defaultNetworkPolicy: .offline, pluginOptions: nil)
+```
+
 Note that bounding boxes in `IdentifyTextResult` are returned as ratios.  If you would like to place bounding boxes on an image, use the following method to calculate a frame.  The frame can be used to create view that is overlayed on to the image.
 ```swift
 let image = UIImage(...)
@@ -69,7 +75,7 @@ let boundingBox = UIView(frame: CGRect(x: xBoundingBox, y: yBoundingBox, width: 
 ... // stylize bounding box
 self.imageView.addSubview(boundingBox)
 ```
-
+Note that Rekognition places (0,0) at the top left and Core ML places (0,0) at the bottom left, we have flipped the y axis of the CoreML bounding box for you since iOS starts (0,0) from the top left
 
 ## Identify text in a document
 
