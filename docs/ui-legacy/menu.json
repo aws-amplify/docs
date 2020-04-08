@@ -1,3 +1,10 @@
 {
-    "items": ["auth"]
+    "title": "UI Components",
+    "items": [
+        "auth",
+        "api",
+        "storage",
+        "interactions",
+        "xr"
+    ]
 }

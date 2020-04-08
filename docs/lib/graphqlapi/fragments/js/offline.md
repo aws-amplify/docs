@@ -1,4 +1,14 @@
-The AppSync client supports offline scenarios with a programing model that provides a "write through cache". This allows you to both render data in the UI when offline as well as add/update through an "optimistic response". The below diagram shows how the AppSync client interfaces with the network GraphQL calls, it's offline mutation queue, the Apollo cache, and your application code.
+For offline scenarios, Amplify provides two SDKS.
+
+[Amplify DataStore](~/lib/datastore/getting-started.md) uses AWS AppSync to make it easy to build apps that need to support offline and low-latency scenarios. DataStore also makes working with distributed, cross-user data just as simple as working with local-only data by providing a programming model for leveraging shared and distributed data without writing additional code.
+
+The [AWS AppSync SDK](https://github.com/awslabs/aws-mobile-appsync-sdk-js/) provides offline support and enables you to integrate your app with the AWS AppSync service and integrates with the Apollo client found [here](https://github.com/apollographql/apollo-client/).
+
+To learn more about building offline-first apps with DataStore, check out the documentation [here](~/lib/datastore/getting-started.md).
+
+## AWS AppSync Client SDK
+
+The AppSync client SDK supports offline scenarios with a programing model that provides a "write through cache". This allows you to both render data in the UI when offline as well as add/update through an "optimistic response". The below diagram shows how the AppSync client interfaces with the network GraphQL calls, it's offline mutation queue, the Apollo cache, and your application code.
 
 ![Image](~/images/appsync-architecture.png)
 
@@ -32,7 +42,7 @@ const client = new AWSAppSyncClient({
 });
 ```
 
-If you are performing a mutation, you can write an “optimistic response” anytime to this cache even if you are offline. You use the AppSync client to connect by passing in the query to update, reading the items off the cache. This normally returns a single item or list of items, depending on the GraphQL response type of the query to update. At this point you would add to the list, remove, or update it as appropriate and write back the response to the store persisting it to disk. When you reconnect to the network any responses from the service will overwrite the changes as the authoritative response. We'll give some examples of that in [Offline mutations](./api#offline-mutations).
+If you are performing a mutation, you can write an “optimistic response” anytime to this cache even if you are offline. You use the AppSync client to connect by passing in the query to update, reading the items off the cache. This normally returns a single item or list of items, depending on the GraphQL response type of the query to update. At this point you would add to the list, remove, or update it as appropriate and write back the response to the store persisting it to disk. When you reconnect to the network any responses from the service will overwrite the changes as the authoritative response. We'll give some examples of that in [Offline mutations](#offline-mutations).
 
 ## Configuration Options
 

@@ -1,37 +1,122 @@
-## Automated Configuration with CLI
+> Prerequisite: [Install and configure](~/cli/start/install.md) the Amplify CLI
 
-After creating your AWS AppSync API, the following command enables AppSync GraphQL API in your  project:
+In this section, you'll learn how to deploy an AWS AppSync GraphQL API and connect to it from a JavaScript client application.
+
+## Create the GraphQL API
+
+To create a GraphQL API, use the Amplify `add` command:
 
 ```bash
 $ amplify add api
+
+? Please select from one of the below mentioned services: GraphQL
+? Provide API name: myapi
+? Choose the default authorization type for the API: API Key
+? Enter a description for the API key: demo
+? After how many days from now the API key should expire: 7 (or your preferred expiration)
+? Do you want to configure advanced settings for the GraphQL API: No
+? Do you have an annotated GraphQL schema? No
+? Do you want a guided schema creation? Yes
+? What best describes your project: Single object with fields
+? Do you want to edit the schema now?  Yes
 ```
 
-Select *GraphQL* when prompted for service type:
+The CLI should open this GraphQL schema in your text editor.
 
-```terminal
-? Please select from one of the below mentioned services (Use arrow keys)
-❯ GraphQL
-  REST
+__amplify/backend/api/myapi/schema.graphql__
+
+```graphql
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
 ```
 
-Name your GraphQL endpoint and select the authorization type:
+To deploy the API, you can use the Amplify `push` command:
 
-```terminal
-? Please select from one of the below mentioned services GraphQL
-? Provide API name: myNotesApi
-? Choose an authorization type for the API (Use arrow keys)
-❯ API key
-  Amazon Cognito User Pool
+```sh
+amplify push
+
+? Are you sure you want to continue? Y
+
+? Do you want to generate code for your newly created GraphQL API? Y
+? Choose the code generation language target: javascript (or your preferred language target)
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions? Y
+? Enter maximum statement depth [increase from default if your schema is deeply nested]: 2
 ```
 
-<amplify-callout>
-AWS AppSync API keys expire seven days after creation, and using API KEY authentication is only suggested for development. To change the AWS AppSync authorization type after the initial configuration, use the `$ amplify update api` command and select `GraphQL`.
-</amplify-callout>
+Now the API has been deployed and you can start using it.
 
-When you update your backend with the *push* command, you can go to [AWS AppSync Console](https://aws.amazon.com/appsync/) and see that a new API is added under the *APIs* menu item:
+Because the `Todo` type was decorated with an `@model` directive of the [GraphQL Transform](/cli/graphql-transformer/directives) library, the CLI created the additional schema and resolvers for queries, mutations, and subscriptions as well as a DynamoDB table to hold the Todos.
+
+To view the deployed services in your project at any time, go to Amplify Console by running the Amplify `console` command:
+
+```sh
+amplify console
+```
+
+## Configure your application
+
+Add Amplify to your app with `yarn` or `npm`:
 
 ```bash
-$ amplify push
+npm install aws-amplify
+```
+
+In your app's entry point i.e. App.js, import and load the configuration file:
+
+```javascript
+import Amplify, { Auth } from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
+```
+
+## Enable queries, mutations, and subscriptions
+
+Now that the GraphQL API has deployed, it’s time to learn how to interact with it from a JavaScript client application. With GraphQL, you typically have the following types of operations:
+
+- __Mutations__ - write data to the API (create, update, delete operations)
+
+```js
+import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
+
+const todo = { name: "My first todo", description: "Hello world!" };
+
+/* create a todo */
+await API.graphql(graphqlOperation(createTodo, {input: todo}));
+
+/* update a todo */
+await API.graphql(graphqlOperation(updateTodo, { input: { id: todoId, name: "Updated todo info" }}));
+
+/* delete a todo */
+await API.graphql(graphqlOperation(deleteTodo, { input: { id: todoId }}));
+```
+- __Queries__ - read data from the API (list, get operations)
+
+```js
+import { listTodos } from './graphql/queries';
+
+const todos = await API.graphql(graphqlOperation(listTodos));
+```
+
+- __Subscriptions__ - subscribe to changes in data for real-time functionality (onCreate, onUpdate, onDelete)
+
+```js
+import { onCreateTodo } from './graphql/subscriptions';
+
+// Subscribe to creation of Todo
+const subscription = API.graphql(
+    graphqlOperation(onCreateTodo)
+).subscribe({
+    next: (todoData) => {
+      console.log(todoData);
+      // Do something with the data
+    }
+});
+
+// Stop receiving data updates from the subscription
+subscription.unsubscribe();
 ```
 
 ### Updating Your GraphQL Schema
@@ -75,11 +160,14 @@ When you run the *push* command, you will notice that your schema change is auto
 ```terminal
 | Category | Resource name   | Operation | Provider plugin   |
 | -------- | --------------- | --------- | ----------------- |
-| Api      | myNotesApi      | Update    | awscloudformation |
-| Auth     | cognito6255949a | No Change | awscloudformation |
+| Api      | myapi           | Update    | awscloudformation |
 ```
 
-When the update is complete, you can see the changes on your backend by visiting [AWS AppSync Console](https://aws.amazon.com/appsync/).
+When the update is complete, you can see the changes to your backend by visiting the Amplify Console, choosing __API__, then choosing __View in AppSync__.
+
+```sh
+amplify console
+```
 
 ### Using GraphQL Transformers
 
@@ -95,11 +183,11 @@ The following directives are available to be used when defining your schema:
 | @searchable on Object | Stream data of an @model object type to Amazon Elasticsearch Service. |
 | @versioned on Object | Add object versioning and conflict detection to a @model. | 
 
-You may also write your own transformers to implement reproducible patterns that you find useful. To learn more about the GraphQL Transform libraries see [GraphQL Transform Documentation](https://aws-amplify.github.io/docs/cli/graphql?sdk=js).
+You may also write your own transformers to implement reproducible patterns that you find useful. To learn more about the GraphQL Transform libraries see [GraphQL Transform Documentation](~/cli/graphql-transformer/directives.md).
 
 ### Mocking and Local Testing
 
-Amplify supports running a local mock server for testing your application with AWS AppSync, including debugging of resolvers, before pushing to the cloud. Please see the [CLI Toolchain documentation](../cli-toolchain/usage#mocking-and-testing) for more details.
+Amplify supports running a local mock server for testing your application with AWS AppSync, including debugging of resolvers, before pushing to the cloud. Please see the [CLI Toolchain documentation](~/cli/usage/mock.md) for more details.
 
 ### Generate client types from a GraphQL schema
 
@@ -113,72 +201,6 @@ $ amplify codegen
 
 A TypeScript or Flow type definition file will be generated in your target folder.  
 
-### Using the Configuration File in Your Code
+### API configuration in the amplify folder
 
-Import your auto-generated `aws-exports.js` file to configure your app to work with your AWS AppSync GraphQL backend:
-
-```javascript
-import awsconfig from './aws-exports';
-Amplify.configure(awsconfig);
-```
-
-## Manual Configuration
-
-As an alternative to automatic configuration, you can manually enter AWS AppSync configuration parameters in your app. Authentication type options are `API_KEY`, `AWS_IAM`, `AMAZON_COGNITO_USER_POOLS` and `OPENID_CONNECT`.
-
-### Using API_KEY
-
-```javascript
-const myAppConfig = {
-    // ...
-    'aws_appsync_graphqlEndpoint': 'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
-    'aws_appsync_region': 'us-east-1',
-    'aws_appsync_authenticationType': 'API_KEY',
-    'aws_appsync_apiKey': 'da2-xxxxxxxxxxxxxxxxxxxxxxxxxx',
-    // ...
-}
-
-Amplify.configure(myAppConfig);
-```
-
-### Using AWS_IAM
-
-```javascript
-const myAppConfig = {
-    // ...
-    'aws_appsync_graphqlEndpoint': 'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
-    'aws_appsync_region': 'us-east-1',
-    'aws_appsync_authenticationType': 'AWS_IAM',
-    // ...
-}
-
-Amplify.configure(myAppConfig);
-```
-
-### Using AMAZON_COGNITO_USER_POOLS
-
-```javascript
-const myAppConfig = {
-    // ...
-    'aws_appsync_graphqlEndpoint': 'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
-    'aws_appsync_region': 'us-east-1',
-    'aws_appsync_authenticationType': 'AMAZON_COGNITO_USER_POOLS', // You have configured Auth with Amazon Cognito User Pool ID and Web Client Id
-    // ...
-}
-
-Amplify.configure(myAppConfig);
-```
-
-### Using OPENID_CONNECT
-
-```javascript
-const myAppConfig = {
-    // ...
-    'aws_appsync_graphqlEndpoint': 'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
-    'aws_appsync_region': 'us-east-1',
-    'aws_appsync_authenticationType': 'OPENID_CONNECT', // Before calling API.graphql(...) is required to do Auth.federatedSignIn(...) check authentication guide for details.
-    // ...
-}
-
-Amplify.configure(myAppConfig);
-```
+The Amplify CLI will create an `amplify/backend/api` folder that will hold the existing GraphQL schema, resolvers, and additional configuration around the API. To learn more about how the CLI manages this configuration, check out the documentation [here](~/cli/graphql-transformer/overview.md). To learn how to configure custom GraphQL resolvers, check out the documentation [here](~/cli/graphql-transformer/resolvers.md).

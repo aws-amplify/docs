@@ -1,6 +1,6 @@
 ## Using Amplify GraphQL Client
 
-The API category provides a GraphQL client for working with queries, mutations, and subscriptions. This client does not support offline programming.
+The API category provides a GraphQL client for working with queries, mutations, and subscriptions.
 
 ### Query Declarations
 
@@ -17,9 +17,8 @@ import * as subscriptions from './graphql/subscriptions';
 Running a GraphQL query is simple. Import the generated query and execute it with `API.graphql`:
 
 ```javascript
-import Amplify, { API, graphqlOperation } from 'aws-amplify';
+import { API, graphqlOperation } from 'aws-amplify';
 import * as queries from './graphql/queries';
-
 
 // Simple query
 const allTodos = await API.graphql(graphqlOperation(queries.listTodos));
@@ -28,7 +27,22 @@ console.log(allTodos);
 // Query using a parameter
 const oneTodo = await API.graphql(graphqlOperation(queries.getTodo, { id: 'some id' }));
 console.log(oneTodo);
+```
 
+### Custom authorization mode
+
+By default, each AppSync API will be set with a default authorization mode when you configure your app. If you would like to override the default authorization mode, you can do so by passing in an `authMode` property.
+
+#### Query with custom authorization mode
+
+```js
+import { API } from 'aws-amplify';
+import * as queries from './graphql/queries';
+
+const todos = await API.graphql({
+  query: queries.listTodos,
+  authMode: 'AWS_IAM'
+});
 ```
 
 ## Using AWS AppSync SDK

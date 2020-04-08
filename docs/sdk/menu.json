@@ -5,6 +5,7 @@
         "auth",
         "push-notifications",
         "pubsub",
-        "storage"
+        "storage",
+        "configuration"
     ]
 }
