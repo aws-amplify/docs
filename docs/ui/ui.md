@@ -22,3 +22,8 @@ Amplify UI Components is an open-source UI toolkit that encapsulates cloud-conne
 | **Vue**            | [`@aws-amplify/ui-vue`](https://www.npmjs.com/package/@aws-amplify/ui-vue)               | [![version](https://img.shields.io/npm/v/@aws-amplify/ui-vue/latest.svg)](https://www.npmjs.com/package/@aws-amplify/ui-vue)               |   [`README.md`](../amplify-ui-vue/README.md)   | [`Vue`](#vue)                       |
 | **Web Components** | [`@aws-amplify/ui-components`](https://www.npmjs.com/package/@aws-amplify/ui-components) | [![version](https://img.shields.io/npm/v/@aws-amplify/ui-components/latest.svg)](https://www.npmjs.com/package/@aws-amplify/ui-components) |            [`README.md`](README.md)            | [`Web Components`](#web-components) |
 | **React Native** | [`aws-amplify-react-native`](https://www.npmjs.com/package/aws-amplify-react-native) | [![version](https://img.shields.io/npm/v/aws-amplify-react-native/latest.svg)](https://www.npmjs.com/package/aws-amplify-react-native) |            [`README.md`](README.md)            | [`Web Components`](#web-components) |
+
+
+<inline-fragment framework="react" src="~/ui/fragments/react/migration.md"></inline-fragment>
+<inline-fragment framework="angular" src="~/ui/fragments/angular/migration.md"></inline-fragment>
+<inline-fragment framework="vue" src="~/ui/fragments/vue/migration.md"></inline-fragment>
