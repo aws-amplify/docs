@@ -59,7 +59,7 @@ To get results that utilize on-device capabilities (Core ML), without combining 
 let options = PredictionsIdentifyRequest.Options(defaultNetworkPolicy: .offline, pluginOptions: nil)
 ```
 
-Note that bounding boxes in `IdentifyTextResult` are returned as ratios.  If you would like to place bounding boxes on an image, use the following method to calculate a frame.  The frame can be used to create view that is overlayed on to the image.
+Note that bounding boxes in `IdentifyTextResult` are returned as ratios.  If you would like to place bounding boxes on individual recognized words that appear in the image, use the following method to calculate a frame for a single bounding box.
 ```swift
 let image = UIImage(...)
 self.imageView = UIImageView(image: self.image)                        
