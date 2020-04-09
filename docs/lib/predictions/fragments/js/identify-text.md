@@ -28,7 +28,9 @@ Predictions.identify({
     text: {
         source: file
     }
-}).then((response) => {...})
+})
+.then(response => console.log({ response }))
+.catch(err => console.log({ err }));
 ```
 
 ## Identify image stored in Amazon S3
@@ -41,7 +43,9 @@ Predictions.identify({
             level?: 'public | private | protected', //optional, default is the configured on Storage category
         }
     }
-}).then((response) => {...})
+})
+.then((response) => console.log({ response }))
+.catch(err => console.log({ err }));
 ```
 
 > The following options are independent of which `source` is specified. For demonstration purposes we will reference a `file` but it can be an S3 Key as well. `Predictions.identify({text : {...}})` can detect unstructured text `PLAIN`, structured text from tables `TABLE` or text from forms `FORM`.
@@ -58,24 +62,33 @@ Predictions.identify({
         },
         format: "PLAIN", 
     }
-}).then(({
-    { text: 
-        { fullText, // String
-        lines // Array of String ordered from top to bottom
-        linesDetailed: {
-            text, // String
-            boundingBox: {
-                width, // ratio of overall image width
-                height, // ratio of overall image height
-                left, // left coordinate as a ratio of overall image width
-                top // top coordinate as a ratio of overall image heigth
-            },
-            polygon // Array of { x, y } coordinates as a ratio of overall image width and height
-        },  
-        words // Array of objects that contains { text, boundingBox, polygon} 
-    } 
-}) => {...});
+})
+.then(response => {
+    const {
+        text: {
+            fullText, // String
+            lines, // Array of String ordered from top to bottom
+            linesDetailed: [
+                {
+                    /* array of
+                    text, // String
+                    boundingBox: {
+                        width, // ratio of overall image width
+                        height, // ratio of overall image height
+                        left, // left coordinate as a ratio of overall image width
+                        top // top coordinate as a ratio of overall image heigth
+                    },
+                    polygon // Array of { x, y } coordinates as a ratio of overall image width and height
+                    */
+                }
+            ],  
+            words // Array of objects that contains { text, boundingBox, polygon} 
+        }
+    } = response
+})
+.catch(err => console.log({ err }));
 ```
+
 ## Identify structured forms
 
 For detecting structured forms (documents, tables, etc.) from an image, `keyValues` will return a string of the entity found in the image as well as metadata such as selected checkboxes or the relative location in the image using a `boundingBox`.
@@ -88,15 +101,16 @@ Predictions.identify({
         },
         format: "FORM", 
     }
-}).then(({
-    { text: 
-        { 
+})
+.then(response => {
+    const {
+        text: { 
             // same as PLAIN +
-            keyValues 
-                // Array of { key (String), value: { text (String), selected (boolean)}, polygon, boundingBox } 
-        }   
-    } 
-}) => {...});
+            keyValues  // Array of { key (String), value: { text (String), selected (boolean)}, polygon, boundingBox } 
+        }    
+    } = response
+})
+.catch(err => console.log({ err }));
 ```
 
 For example the below image would return `keyValues` with "Test" or "Checked" as a key, and `true` since they are selected. The location of these elements would be returned in the `boundingBox` value.
@@ -114,18 +128,22 @@ Predictions.identify({
         },
         format: "TABLE", 
     }
-}).then(({
-    { text: 
-        { 
+})
+.then(response => {
+    const {
+        text: { 
             // same as PLAIN +
-            tables : {
-                size: { rows, columns }, 
-                table // Matrix Array[ Array ] of size rows
+            tables : [
+                {
+                    size: { rows, columns }, 
+                    table // Matrix Array[ Array ] of size rows
                     // each element of the array contains { text, boundingBox, polygon, selected, rowSpan, columnSpan}
-            }
-        }   
-    } 
-}) => {...});
+                }
+            ]
+        }    
+    } = response
+})
+.catch(err => console.log({ err }));
 ```
 
 For detecting tables and forms on the image just select format "ALL"
@@ -137,13 +155,15 @@ Predictions.identify({
         },
         format: "ALL", 
     }
-}).then(({
-    { text: 
-        { 
+})
+.then(response => {
+    const {
+        text: { 
             // same as PLAIN + FORM + TABLE
-        }   
-    } 
-}) => {...});
+        }    
+    } = response
+})
+.catch(err => console.log({ err }));
 ```
 
 #### Identify Entities from a photo
@@ -205,29 +225,3 @@ Storage.put('test.jpg', file,
 ```
 
 In the sample React application code below, you will see that to use this functionality you will need to set `collection:true` when calling `Predictions.identify()` and remove `celebrityDetection: true`. The flow is that you will first upload an image to S3 with the `PredictionsUpload` function (which is connected to a button in the app) and after a few seconds you can send this same image to `Predictions.identify()` and it will check if that image has been indexed in the Collection.
-
-#### Label Real world objects
-
-If you haven't already done so, run `amplify init` inside your project and then `amplify add auth` (we recommend selecting the *default configuration*).
-
-Run `amplify add predictions` and select **Identify**. Then use the following answers:
-
-```bash
-? What would you like to identify? 
-  Identify Text 
-  Identify Entities 
-❯ Identify Labels 
-  Learn More 
-
-? Would you like use the default configuration? (Use arrow keys)
-❯ Default Configuration 
-  Advanced Configuration 
-
-? Who should have access? Auth and Guest users
-```
-
-The Advanced Configuration will allow you to select moderation for unsafe content or all of the identified labels. Default uses both.
-
-Now run `amplify push` which will generate your `aws-exports.js` and create resources in the cloud. You can now either add this to your backend or skip and add more features to your app.
-
-Services used: Amazon Rekognition

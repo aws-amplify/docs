@@ -31,17 +31,19 @@ Detect labels, such if an image has a desk or a chair in it
 ```javascript
 Predictions.identify({
     labels: {
-    source: {
-        file,
-    },
-    type: "LABELS"
+        source: {
+            file,
+        },
+        type: "LABELS"
     }
-}).then(response => {
+})
+.then(response => {
     const { labels } = response;
     labels.forEach(object => {
         const { name, boundingBoxes } = object
     });
-});
+})
+.catch(err => console.log({ err }));
 ```
 
 Detect unsafe content in an image
@@ -49,30 +51,34 @@ Detect unsafe content in an image
 ```javascript
 Predictions.identify({
     labels: {
-    source: {
-        file,
-    },
-    type: "UNSAFE"
+        source: {
+            file,
+        },
+        type: "UNSAFE"
     }
-}).then(response => {
+})
+.then(response => {
     const { unsafe } = response; // boolean 
-});
+})
+.catch(err => console.log({ err }));
 ```
 
 for both labels and unsafe content
 ```javascript
 Predictions.identify({
     labels: {
-    source: {
-        file,
-    },
-    type: "ALL"
+        source: {
+            file,
+        },
+        type: "ALL"
     }
-}).then(response => {
+})
+.then(response => {
     const { labels } = response;
     const { unsafe } = response; // boolean 
     labels.forEach(object => {
         const { name, boundingBoxes } = object
     });
-});
+})
+.catch(err => console.log({ err });
 ```

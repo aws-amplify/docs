@@ -7,7 +7,6 @@ Register the *AWSKinesisProvider* with the Analytics category:
 ```javascript
 import { Analytics, AWSKinesisProvider } from 'aws-amplify';
 Analytics.addPluggable(new AWSKinesisProvider());
-
 ```
 
 If you did not use the CLI, ensure you have <a href="https://docs.aws.amazon.com/streams/latest/dev/learning-kinesis-module-one-iam.html" target="_blank">setup IAM permissions</a> for `PutRecords`.
@@ -34,7 +33,6 @@ For more information visit [Amazon Kinesis Developer Documentation](https://docs
 Configure Kinesis:
 
 ```javascript
-
 // Configure the plugin after adding it to the Analytics module
 Analytics.configure({
     AWSKinesis: {
@@ -55,7 +53,6 @@ Analytics.configure({
         resendLimit: 5
     } 
 });
-
 ```
 
 ## Stream data
