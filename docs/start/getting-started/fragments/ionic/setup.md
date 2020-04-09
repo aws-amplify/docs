@@ -61,5 +61,5 @@ When you initialize a new Amplify project, a few things happen:
 In addition to `aws-amplify` core, install the Angular Ionic modules which provide a service provider, helpers, and components.
 
 ```
-$ npm install aws-amplify aws-amplify-angular
+$ npm install aws-amplify @aws-amplify/ui-angular
 ```

@@ -296,3 +296,33 @@ const App = () => (
   </AmplifyAuthenticator>
 );
 ```
+
+## Migration
+
+To migrate from using the `aws-amplify-react` library to the latest `@aws-amplify/ui-react` library use the steps below:
+
+### Installation
+
+```diff
+- yarn add aws-amplify-react
++ yarn add @aws-amplify/ui-react
+```
+
+### Usage
+
+```diff
+- import { Authenticator } from 'aws-amplify-react';
++ import { AmplifyAuthenticator } from '@aws-amplify/ui-react';
+
+const App = () => (
+
++ <AmplifyAuthenticator>
+- <Authenticator>
+    <div>
+      My App
++     <AmplifySignOut />
+    </div>
++ </AmplifyAuthenticator>;
+- </Authenticator>
+);
+```
