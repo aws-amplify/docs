@@ -36,7 +36,7 @@ Run `amplify push` to create the resources in the cloud
 
 ## Working with the API
 
-You can also identify real world objects such as chairs, desks, etc. which are referred to as “labels” by using the following sample code:
+You can identify real world objects such as chairs, desks, etc. which are referred to as “labels” by using the following sample code:
 
 ```swift
 func detectLabels(_ image:URL) {
