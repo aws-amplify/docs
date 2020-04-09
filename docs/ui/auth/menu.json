@@ -2,6 +2,7 @@
     "title": "Authentication",
     "items": [
         "authenticator",
-        "sign-out"
+        "sign-out",
+        "select-mfa-type"
     ]
 }
