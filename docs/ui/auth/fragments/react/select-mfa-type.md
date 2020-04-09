@@ -1,4 +1,4 @@
-<amplify-select-mfa-type MFATypes={SMS: true, Optional: true, TOTP: true}></amplify-select-mfa-type>
+<amplify-select-mfa-type></amplify-select-mfa-type>
 
 **Usage**
 
