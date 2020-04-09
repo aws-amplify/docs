@@ -3,15 +3,7 @@ export interface ParsedURL {
   hash: string;
   params: Record<string, string>;
 }
-
-const parsedCache = new Map<string, ParsedURL>();
-
 export const parseURL = (path: string): ParsedURL => {
-  const fromCache = parsedCache.get(path);
-  if (fromCache) {
-    return fromCache;
-  }
-
   const pieces = path.split("/q/");
 
   let search = "";
@@ -54,8 +46,6 @@ export const parseURL = (path: string): ParsedURL => {
     hash,
     params,
   };
-
-  parsedCache.set(path, parsed);
 
   return parsed;
 };

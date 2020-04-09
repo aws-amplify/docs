@@ -94,6 +94,11 @@ export class DocsPage {
     }
   }
 
+  @Listen("popstate", {target: "window"})
+  onBack() {
+    return this.getPageData();
+  }
+
   getPageData = async () => {
     const {base, params} = parseURL(location.href);
     this.blendUniversalNav = base === "/";

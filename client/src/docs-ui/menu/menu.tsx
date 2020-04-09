@@ -1,4 +1,4 @@
-import {Component, Prop, Host, h, State} from "@stencil/core";
+import {Component, Prop, Host, h, State, Watch} from "@stencil/core";
 import {Page} from "../../api";
 import {
   menuStyle,
@@ -17,57 +17,81 @@ export class DocsMenu {
   /*** the currently-selected filter state */
   @Prop() readonly selectedFilters?: SelectedFilters;
 
+  @State() switcher?: "lib" | "ui";
   @State() filterKey?: string;
 
-  componentWillLoad() {
-    this.filterKey = this.page && getFilterKeyFromPage(this.page);
+  @Watch("selectedFilters")
+  computeState() {
+    if (this.page) {
+      const filterKey = getFilterKeyFromPage(this.page);
+      let switcher: "ui" | "lib" | undefined;
+
+      const productRootRoute = this.page?.productRootLink?.route;
+      if (productRootRoute) {
+        if (
+          (productRootRoute === "/lib" || productRootRoute === "/sdk") &&
+          this.selectedFilters?.platform !== "js"
+        ) {
+          switcher = "lib";
+        }
+
+        if (productRootLink === "ui" || productRootLink === "ui-legacy") {
+          switcher = "ui";
+        }
+      }
+
+      Object.assign(this, {filterKey, switcher});
+    }
   }
 
-  renderVersionSwitch = () => {
-    if (
-      (this.page?.productRootLink?.route === "/lib" ||
-        this.page?.productRootLink?.route === "/sdk") &&
-      this.selectedFilters?.platform !== "js"
-    ) {
-      return (
-        <docs-version-switch
-          leftOption={{
-            title: "Libraries",
-            subTitle: "(preview)",
-            href: "/lib",
-          }}
-          rightOption={{
-            title: "SDK",
-            subTitle: "(stable)",
-            href: "/sdk",
-          }}
-        />
-      );
-    } else if (
-      this.page?.productRootLink?.route === "/ui" ||
-      this.page?.productRootLink?.route === "/ui-legacy"
-    ) {
-      return (
-        <docs-version-switch
-          leftOption={{
-            title: "Latest",
-            href: "/ui",
-          }}
-          rightOption={{
-            title: "Legacy",
-            href: "/ui-legacy",
-          }}
-        />
-      );
-    }
-  };
+  componentWillLoad() {
+    this.computeState();
+  }
 
   render() {
     const menu = this.page?.menu;
     return (
       <Host class={menuStyle}>
         {this.page?.filterKey && <docs-select-anchor page={this.page} />}
-        {this.renderVersionSwitch()}
+        {(() => {
+          switch (this.switcher) {
+            case "lib": {
+              return (
+                <docs-version-switch
+                  leftOption={{
+                    title: "Libraries",
+                    subTitle: "(preview)",
+                    href: "/lib",
+                  }}
+                  rightOption={{
+                    title: "SDK",
+                    subTitle: "(stable)",
+                    href: "/sdk",
+                  }}
+                />
+              );
+            }
+
+            case "ui": {
+              return (
+                <docs-version-switch
+                  leftOption={{
+                    title: "Latest",
+                    href: "/ui",
+                  }}
+                  rightOption={{
+                    title: "Legacy",
+                    href: "/ui-legacy",
+                  }}
+                />
+              );
+            }
+
+            default: {
+              return;
+            }
+          }
+        })()}
         {this.page?.productRootLink && (
           <docs-internal-link
             href={this.page.productRootLink.route}

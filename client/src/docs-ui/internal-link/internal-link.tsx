@@ -1,4 +1,4 @@
-import {Component, h, Prop, Host, State} from "@stencil/core";
+import {Component, h, Prop, Host, State, Watch} from "@stencil/core";
 import {filtersByRoute} from "../../api";
 import {SelectedFilters} from "../page/page.types";
 import {pageContext} from "../page/page.context";
@@ -36,46 +36,35 @@ export class DocsInternalLink {
   @State() isActive?: boolean;
   @State() isChildActive?: boolean;
 
-  computeURL() {
+  @Watch("selectedFilters")
+  computeState() {
+    let selectedFilter: string | undefined;
     if (this.href) {
-      const parsed = parseURL(this.href);
+      const {base, hash, params} = parseURL(this.href);
 
-      const {base} = parsed;
-      const {hash, params} = parsed;
-
-      const hasQuery = Object.keys(params).length > 0;
-
-      if (!hasQuery) {
+      if (Object.keys(params).length === 0) {
         const filters = filtersByRoute.get(base);
-
         if (filters) {
           const [[filterKey, filterValues]] = Object.entries(filters);
-          this.selectedFilter = this.selectedFilters?.[filterKey] as
+          selectedFilter = this.selectedFilters?.[filterKey] as
             | string
             | undefined;
-
-          if (this.selectedFilter) {
+          if (selectedFilter) {
             if (
-              this.selectedFilter &&
               Array.isArray(filterValues) &&
-              filterValues.includes(this.selectedFilter)
+              filterValues.includes(selectedFilter)
             ) {
-              params[filterKey] = this.selectedFilter;
+              params[filterKey] = selectedFilter;
             }
           }
         }
       }
 
-      this.url = serializeURL({base, hash, params});
-    }
-  }
-
-  computeMatch() {
-    if (this.url) {
-      this.isActive = location.href === this.url;
+      const url = serializeURL({base, hash, params});
+      const isActive = location.href === url;
       const currentPathWithoutQS = location.pathname.split("/q/")?.[0];
-      const hrefWithoutQS = this.href?.split("/q/")?.[0];
-      this.isChildActive =
+      const hrefWithoutQS = url.split("/q/")?.[0];
+      const isChildActive =
         this.additionalActiveChildRoots?.some((root) =>
           location.href.startsWith(root),
         ) ||
@@ -84,12 +73,17 @@ export class DocsInternalLink {
           currentPathWithoutQS?.startsWith(hrefWithoutQS) &&
           !currentPathWithoutQS?.startsWith(`${hrefWithoutQS}-`)
         );
+
+      Object.assign(this, {
+        url: rerouteURL(url, selectedFilter),
+        isActive,
+        isChildActive,
+      });
     }
   }
 
   componentWillLoad() {
-    this.computeURL();
-    this.computeMatch();
+    this.computeState();
   }
 
   componentDidRender() {
@@ -102,7 +96,7 @@ export class DocsInternalLink {
     return (
       <Host>
         <stencil-route-link
-          url={rerouteURL(this.url, this.selectedFilter)}
+          url={this.url}
           class={{
             ...(this.activeClass ? {[this.activeClass]: !!this.isActive} : {}),
             ...(this.childActiveClass
