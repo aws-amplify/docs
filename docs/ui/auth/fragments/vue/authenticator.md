@@ -256,3 +256,34 @@ To achieve this, you first need to setup the userpool to allow email or phone nu
   </div>
 </amplify-authenticator>
 ```
+
+## Migration
+
+To migrate from using the `aws-amplify-vue` library to the latest `@aws-amplify/ui-vue` library use the steps below:
+
+### Installation
+
+```diff
+- yarn add aws-amplify-vue
++ yarn add @aws-amplify/ui-vue
+```
+
+### Usage
+
+_main.ts_
+
+```diff
+import Vue from 'vue';
+import App from "./App.vue";
+- import Amplify, * as AmplifyModules from 'aws-amplify'
+- import { AmplifyPlugin } from 'aws-amplify-vue'
++ import '@aws-amplify/ui-vue';
++ import Amplify from 'aws-amplify';
++ import awsconfig from './aws-exports';
+
+Amplify.configure(awsconfig);
+
+new Vue({
+  render: h => h(App),
+}).$mount('#app');
+```

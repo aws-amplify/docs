@@ -20,6 +20,18 @@ $ amplify push
 
 A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`.
 
+## Configure the frontend
+
+Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `App.js` in React or `main.ts` in Angular or Ionic.
+
+```javascript
+import Amplify from 'aws-amplify';
+import Predictions, { AmazonAIPredictionsProvider } from '@aws-amplify/predictions';
+import awsconfig from './aws-exports';
+
+Amplify.configure(awsconfig);
+Amplify.addPluggable(new AmazonAIPredictionsProvider());
+```
 
 ## Import existing backend
 
@@ -140,16 +152,3 @@ The Amplify CLI will set appropriate IAM policy for Roles in your Cognito Identi
 ```
 
 For `rekognition:SearchFacesByImage` you can scope the Resource down to an individual collection such as `arn:aws:rekognition:<REGION>:<ACCOUNT_ID>:collection/<COLLECTION_ID>`. Amplify CLI automatically does this.
-
-## Configure the frontend
-
-Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `App.js` in React or `main.ts` in Angular or Ionic.
-
-```javascript
-import Amplify from '@aws-amplify/core';
-import Predictions, { AmazonAIPredictionsProvider } from '@aws-amplify/predictions';
-import awsconfig from './aws-exports';
-
-Amplify.configure(awsconfig);
-Amplify.addPluggable(new AmazonAIPredictionsProvider());
-```

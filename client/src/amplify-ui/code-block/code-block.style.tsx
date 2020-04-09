@@ -41,8 +41,8 @@ export const oneLineStyle = css`
 export const copyButtonStyle = css`
   position: sticky;
   height: 1rem;
-  top: 0;
-  right: 0.25rem;
+  top: 0.25rem;
+  right: 0.5rem;
   opacity: 0.75;
   background-color: transparent;
   appearance: none;
