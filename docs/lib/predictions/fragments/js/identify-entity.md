@@ -69,27 +69,28 @@ Detect entities directly from image uploaded from the browser. (File object)
 
 ```javascript
 Predictions.identify({
-      entities: {
-        source: {
-          file,
-        },
-      }
-    }).then((response) => {...})
-      .catch(err => {...})
+  entities: {
+    source: {
+      file,
+    },
   }
+})
+.then((response) => console.log({ response }))
+.catch(err => console.log({ err }));
 ```
 
 From Amazon S3 key
 ```javascript
 Predictions.identify({
-      entities: {
-        source: {
-          key: pathToPhoto,
-          level?: 'public | private | protected', //optional, default is the configured on Storage category
-        },
-      }
-    }).then((response) => {...})
-      .catch(err => {...})
+  entities: {
+    source: {
+      key: pathToPhoto,
+      level: 'public | private | protected', //optional, default is the configured on Storage category
+    },
+  }
+})
+.then((response) => console.log({ response }))
+.catch(err => console.log({ err }));
 ```
 
 The following options are independent of which `source` is specified. For demonstration purposes it will be used `file` but it can be used S3 Key as well. 
@@ -98,84 +99,84 @@ Detecting bounding box of faces from an image with its landmarks (eyes, mouth, n
 
 ```javascript
 Predictions.identify({
-      entities: {
-        source: {
-          file,
-        },
-      }
-    }).then(({ entities }) => {
-        entities.forEach(({boundingBox, landmarks}) => {
-          const { 
-            width, // ratio of overall image width
-            height, // ratio of overall image height
-            left, // left coordinate as a ratio of overall image width
-            top // top coordinate as a ratio of overall image heigth
-          } = boundingBox;
-          
-          landmarks.forEach(landmark => {
-              const {
-                  type, // string "eyeLeft", "eyeRight", "mouthLeft", "mouthRight", "nose"
-                  x, // ratio of overall image width
-                  y // ratio of overall image height
-              } = landmark;
-          })
-        })
-        .catch(err => {...})
+  entities: {
+    source: {
+      file,
+    },
   }
+})
+.then(({ entities }) => {
+  entities.forEach(({boundingBox, landmarks}) => {
+    const { 
+      width, // ratio of overall image width
+      height, // ratio of overall image height
+      left, // left coordinate as a ratio of overall image width
+      top // top coordinate as a ratio of overall image heigth
+    } = boundingBox;
+    landmarks.forEach(landmark => {
+        const {
+            type, // string "eyeLeft", "eyeRight", "mouthLeft", "mouthRight", "nose"
+            x, // ratio of overall image width
+            y // ratio of overall image height
+        } = landmark;
+    })
+  })
+})
+.catch(err => console.log({ err }));
 ```
 
 Detecting celebrities on an image. It will return only celebrities the name and urls with related information.
 
 ```javascript
 Predictions.identify({
-      entities: {
-        source: {
-          file,
-        },
-        celebrityDetection: true // boolean. It will only show detected celebreties 
-      }
-    }).then(({ entities }) => {
-      
-      entities.forEach(({ boundingBox, landmarks, metadata }) => {
-        const { 
-            name,
-            urls 
-        } = metadata; // celebrity info
-        
-        // ...
-      })
-    })
-      .catch(err => setResponse(JSON.stringify(err, null, 2)))
+  entities: {
+    source: {
+      file,
+    },
+    celebrityDetection: true // boolean. It will only show detected celebrities 
+  }
+})
+.then(({ entities }) => {
+  entities.forEach(({ boundingBox, landmarks, metadata }) => {
+    const { 
+        name,
+        urls 
+    } = metadata; // celebrity info
+    
+    // ...
+  })
+})
+.catch(err => console.log({ err }));
 ```
 
 Detecting entities from previously uploaded images (e.g. Advanced Configuration for Identify Entities)
 
 ```javascript
 Predictions.identify({
-      entities: {
-        source: {
-          file,
-        },
-        collection: true
-      }
-    }).then({entities} => {
-      entities.forEach(({ boundingBox, metadata: { externalImageId } }) => {
-        const {
-          width, // ratio of overall image width
-          height, // ratio of overall image height
-          left, // left coordinate as a ratio of overall image width
-          top // top coordinate as a ratio of overall image heigth
-        } = boundingBox;
-        console.log({externalImageId}); // this is the object key on S3 from the original image!
-        
-        Storage.get("", {
-            customPrefix: {
-            public: externalImageId
-            },
-            level: "public",
-        }).then(src => {...}); // this could be improve but 
-      })
-    })
-      .catch(err => console.log(err))
+  entities: {
+    source: {
+      file,
+    },
+    collection: true
   }
+})
+.then(({ entities }) => {
+  entities.forEach(({ boundingBox, metadata: { externalImageId } }) => {
+    const {
+      width, // ratio of overall image width
+      height, // ratio of overall image height
+      left, // left coordinate as a ratio of overall image width
+      top // top coordinate as a ratio of overall image heigth
+    } = boundingBox;
+    console.log({ externalImageId }); // this is the object key on S3 from the original image!
+    
+    Storage.get("", {
+        customPrefix: {
+        public: externalImageId
+        },
+        level: "public",
+    }).then(src => console.log({ src }));
+  })
+})
+.catch(err => console.log(err));
 ```
