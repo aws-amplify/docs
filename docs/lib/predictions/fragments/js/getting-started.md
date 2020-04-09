@@ -25,7 +25,7 @@ A configuration file called `aws-exports.js` will be copied to your configured s
 Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `App.js` in React or `main.ts` in Angular or Ionic.
 
 ```javascript
-import Amplify from '@aws-amplify/core';
+import Amplify from 'aws-amplify';
 import Predictions, { AmazonAIPredictionsProvider } from '@aws-amplify/predictions';
 import awsconfig from './aws-exports';
 
