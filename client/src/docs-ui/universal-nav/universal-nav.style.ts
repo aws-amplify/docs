@@ -95,11 +95,3 @@ export const hideAboutLinkStyle = css`
     display: initial;
   }
 `;
-
-export const hideOpenSourceLinkStyle = css`
-  display: none;
-
-  ${MQMobile} {
-    display: initial;
-  }
-`;

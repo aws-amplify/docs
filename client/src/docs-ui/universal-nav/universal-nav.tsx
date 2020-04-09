@@ -5,7 +5,6 @@ import {
   brandStyle,
   linksStyle,
   hideAboutLinkStyle,
-  hideOpenSourceLinkStyle,
 } from "./universal-nav.style";
 
 @Component({tag: "docs-universal-nav", shadow: false})
