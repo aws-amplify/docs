@@ -71,7 +71,7 @@ When you initialize a new Amplify project, a few things happen:
 Inside the app directory, install the Amplify Angular library and run your app:
 
 ```bash
-$ npm install aws-amplify aws-amplify-angular
+$ npm install aws-amplify @aws-amplify/ui-angular
 $ ng serve
 ```
-The `aws-amplify-angular` package is a set of Angular components and an Angular provider which helps integrate your application with the AWS-Amplify library.  It supports Angular 5.0 or above.  It also includes a [supplemental module](#ionic-4-components) for Ionic-specific components.
+The `@aws-amplify/ui-angular` package is a set of Angular components and an Angular provider which helps integrate your application with the AWS-Amplify library.  It supports Angular 5.0 and above.  It also includes a [supplemental module](#ionic-4-components) for Ionic-specific components.

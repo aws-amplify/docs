@@ -22,7 +22,7 @@ The `Podfile` that you configure to install the AWS Mobile SDK must contain the 
     target :'YOUR-APP-NAME' do
       use_frameworks!
 
-        pod  'AWSIoT', '~> 2.12.0'
+        pod  'AWSIoT', '~> 2.13.0'
         # other pods
 
     end

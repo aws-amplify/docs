@@ -12,7 +12,7 @@ This page guides you through setting up a backend and integrating Amplify into y
 
 ## Prerequisites
 
-* These steps currently only work on Mac. If you have a Windows machine, follow the steps on one of our categories such as [API here](~/lib/graphqlapi/start.md).
+* These steps currently only work on Mac. If you have a Windows machine, follow the steps on one of our categories such as [API here](~/lib/graphqlapi/getting-started.md).
 
 * [Install Node](https://nodejs.org/en/)
 

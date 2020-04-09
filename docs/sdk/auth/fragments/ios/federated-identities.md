@@ -101,7 +101,7 @@ When configuration for Facebook sign-in is complete, the CLI displays a message 
 $ amplify push
 ```
 
-You can now [configure Facebook in your mobile app](./authentication#facebook-login-in-your-mobile-app).
+You can now [configure Facebook in your mobile app](#facebook-login-in-your-mobile-app).
 
 Note that the CLI allows you to select more than one identity provider for your app. You can also run `amplify auth update` to add an identity provider to an existing auth configuration.
 
@@ -179,12 +179,12 @@ AWSMobileClient.default().federatedSignIn(providerName: IdentityProvider.develop
 	  target 'YOUR-APP-NAME' do
 	    use_frameworks!
 
-	    pod 'AWSFacebookSignIn'
-	    pod 'AWSAuthUI'            
+	    pod 'AWSFacebookSignIn', '~> 2.13.0'     # Add this new dependency
+	    pod 'AWSAuthUI', '~> 2.13.0'             # Add this dependency if you have not already added
 	    
 	    # Other Pod entries
-	    pod 'AWSMobileClient'
-	    pod 'AWSUserPoolsSignIn'
+	    pod 'AWSMobileClient', '~> 2.13.0'
+	    pod 'AWSUserPoolsSignIn', '~> 2.13.0'
 	    
 	  end
 	```
@@ -246,13 +246,13 @@ Add the following dependencies in the Podfile.
 	platform :ios, '9.0'
 	target :'YOUR-APP-NAME' do
 	  use_frameworks!
-	  pod 'AWSGoogleSignIn'    # Add this new dependency
-	  pod 'GoogleSignIn'       # Add this new dependency
-	  pod 'AWSAuthUI'          # Add this dependency if you have not already added
+	  pod 'AWSGoogleSignIn', '~> 2.13.0'     # Add this new dependency
+	  pod 'GoogleSignIn', '~> 4.0'          # Add this new dependency
+	  pod 'AWSAuthUI', '~> 2.13.0'           # Add this dependency if you have not already added
 	    
 	  # Other Pod entries
-	  pod 'AWSMobileClient'
-	  pod 'AWSUserPoolsSignIn'
+	  pod 'AWSMobileClient', '~> 2.13.0'
+	  pod 'AWSUserPoolsSignIn', '~> 2.13.0'
 	  
 	end
 	```

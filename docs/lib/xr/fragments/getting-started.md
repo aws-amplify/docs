@@ -21,7 +21,7 @@ Now click the *Download JSON configuration* button to download the scene configu
 
 ## Setup backend
 
-> Ensure you have [installed and configured the Amplify CLI and library](../../start/getting-started/installation.md)
+> Ensure you have [installed and configured the Amplify CLI and library](~/start/start.md)
 
 ```
 $ amplify add xr
@@ -100,7 +100,7 @@ async loadAndStartScene() {
 <div id="sumerian-scene-dom-id"></div>
 ```
 
-Additionally, you can use the [Sumerian Scene UI components](/lib/xr/sceneapi#ui-components) for an out-of-the-box UI solution.
+Additionally, you can use the [Sumerian Scene UI components](~/lib/xr/sceneapi.md#ui-components) for an out-of-the-box UI solution.
 
 ## API Reference
 

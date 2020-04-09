@@ -12,11 +12,11 @@ If you had previously enabled user sign-in by running `amplify add auth` in your
 * **Protected**: Readable by all authenticated users, writable only by the owner. Files are stored with the `protected/{cognito_user_identity_id}/` prefix.
 * **Private**: Only accessible by the owner. Files are stored with the `private/{cognito_user_identity_id}/` prefix.
 
-> The `cognito_user_identity_id` corresponds to the owner's unique Amazon Cognito Identity ID. See [Authentication](/sdk/auth/working-with-api?platform=ios#utility-properties) for more information on how to get the `cognito_user_identity_id` for a signed in user.
+> The `cognito_user_identity_id` corresponds to the owner's unique Amazon Cognito Identity ID. See [Authentication](~/sdk/auth/working-with-api.md#utility-properties) for more information on how to get the `cognito_user_identity_id` for a signed in user.
  
 ### Set Up Your Backend
 
-1. Complete the [Get Started](/start?integration=ios) steps before you proceed.
+1. Complete the [Get Started](~/start/start.md) steps before you proceed.
 
 2. Use the Amplify CLI to add storage to your app.
 
@@ -57,7 +57,7 @@ If you had previously enabled user sign-in by running `amplify add auth` in your
 * Choose `Create groups`, and then choose `Finish`.
 
 ##### Lambda Triggers
-The Amplify CLI supports associating Lambda triggers for Amazon S3 and DynamoDB events. This can be useful for a use case where you want to invoke a Lambda function after a create or update operation on a DynamoDB table managed by the CLI. [Read More](/cli/storage)
+The Amplify CLI supports associating Lambda triggers for Amazon S3 and DynamoDB events. This can be useful for a use case where you want to invoke a Lambda function after a create or update operation on a DynamoDB table managed by the CLI. [Read More](~/cli/storage/storage.md)
 
 ### Connect to Your Backend
 
@@ -88,4 +88,4 @@ Run `pod install --repo-update` before you continue.
 
 ### Mocking and Local Testing
 
-Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](../cli-toolchain/usage#mocking-and-testing) for more details.
+Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](~/cli/usage/mock.md) for more details.
