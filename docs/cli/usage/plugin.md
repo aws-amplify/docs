@@ -431,7 +431,7 @@ type Post @model @versioned {
 > Note: @versioned depends on @model so we must pass `new DynamoDBModelTransformer()` before `new VersionedModelTransformer()`. Also note that `new AppSyncTransformer()` must go first for now. In the future we can add a dependency mechanism and topologically sort it ourselves.
 
 The next step after defining the directive is to implement the transformer's business logic. The `graphql-transformer-core` package makes this a little easier
-by exporting a common class through which we may define transformers. User's extend the `Transformer` class and implement the required functions.
+by exporting a common class through which we may define transformers. Users extend the `Transformer` class and implement the required functions.
 
 ```js
 export class Transformer {
