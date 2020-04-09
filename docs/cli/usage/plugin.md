@@ -74,7 +74,7 @@ There are four types of plugins
 
 ### Category plugin
 Amplify maintained category plugins are recognized by the `amplify-category-` prefix in the package name.<br/>
-A category plugin wraps up the logic to create and manage one category of backend resources in the cloud. It defines the "shape" of the cloud resources based on user (the developer) input, constructs parameters to CRUD cloud resource, and exports relevant cloud resource information to the project metadata.
+A category plugin wraps up the logic to create and manage one category of backend resources in the cloud. It defines the "shape" of the cloud resources based on user (the developer) input, constructs parameters to CRUD cloud resource and exports relevant cloud resource information to the project metadata.
 
 Categories are managed by AWS and are a functional use case that a client engineer is building as part of their UX, rather than service implementations.
 
