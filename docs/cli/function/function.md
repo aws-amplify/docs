@@ -5,7 +5,7 @@ description: function
 
 ## Set up a function
 
-You can add a Lambda function to your project which you can use alongside a REST API or as a datasource, as a part of your GraphQL API using the `@function` directive. 
+You can add a Lambda function to your project which you can use alongside a REST API or as a datasource in your GraphQL API using the [`@function` directive](~cli/graphql-transformer/directives.md#function). 
 ```terminal
 $ amplify add function
 ? Provide a friendly name for your resource to be used as a label for this category in the project: lambdafunction
