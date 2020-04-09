@@ -9,8 +9,15 @@ The Predictions category provides a solution for using AI and ML cloud services 
 - Uploading images for automatic training
 - Transcribing text
 
-Predictions is broadly organized into 3 key use cases - Identify, Convert, and Interpret - which are available in the client API as well as CLI workflows.
-`Identify` will find text (words, tables, pages from a book), entities (faces and/or celebrities) from images. You can also identify real world objects such as chairs, desks, etc. which are referred to as “labels” from images. `Convert` allows you to translate text from one source language to a target language. You can also generate speech audio from text input. Lastly, you can take an audio input and transcribe it using a websocket stream. Finally `Interpret` allows you to analyze text for language, entities (places, people), key phrases, sentiment (positive, neutral, negative), and syntax (pronouns, verbs, adjectives).
+<br />
+Predictions is broadly organized into 3 key use cases - Identify, Convert, and Interpret - which are available in the client API as well as CLI workflows.   
+<br /><br />
+
+- `Identify` will find text (words, tables, pages from a book), entities (faces and/or celebrities) from images. You can also identify real world objects such as chairs, desks, etc. which are referred to as “labels” from images.
+
+- `Convert` allows you to translate text from one source language to a target language. You can also generate speech audio from text input. Lastly, you can take an audio input and transcribe it using a websocket stream.
+
+- `Interpret` allows you to analyze text for language, entities (places, people), key phrases, sentiment (positive, neutral, negative), and syntax (pronouns, verbs, adjectives).
 
 Some common use cases are listed below, as well as an advanced workflow which allows you to perform dynamic image indexing from your client application.
 
