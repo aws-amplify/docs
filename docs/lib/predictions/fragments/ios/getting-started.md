@@ -29,8 +29,12 @@ $ amplify init
 2. Add auth `amplify add auth` and choose `Default configuration`, allow users to sign in with `Email` and do not configure `advanced settings`
 
 3. Add predictions `amplify add predictions`
-    * choose `Convert (translate text, text to speech), Identify (labels, text, celebs, etc.), or Interpret (language characteristics, sentiment, etc)`
-    * Who should have access: `Auth and guest users`
+    * Choose `Convert`
+    * Choose `Translate text into a different language`
+    * Provide a friendly name for your resource: `transTextSample`
+    * What is the source language? `English`
+    * What is the target language? `Italian`
+    * Who should have access? `Auth and Guest users`
 
 4. Run `amplify push`to create the resources in the cloud.
 
@@ -137,13 +141,50 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 		}
 
 		print("AWSMobileClient initialized, userstate: \(userState)")
+		self.configureAmplifyWithPredictions()
 	}
-
-	let predictionsPlugin = AWSPredictionsPlugin()
-	try! Amplify.add(plugin: predictionsPlugin)
-	try! Amplify.configure()
-	print("Amplify initialized")
-
 	return true
 }
+
+func configureAmplifyWithPredictions() {
+	let predictionsPlugin = AWSPredictionsPlugin()
+	do {
+		try Amplify.add(plugin: predictionsPlugin)
+		try Amplify.configure()
+		print("Amplify initialized")
+	} catch {
+		print("Failed to initialize Amplify: \(error)")
+	}
+}
 ```
+
+## Working with the API
+
+Here is an example of translating text. In order to override any choices you made in regards to target or source languages while adding this resource using the Amplify CLI, you can pass in them in directly as parameters as shown below.
+
+```swift
+import Amplify
+
+...
+
+func translateText(text:String) {
+	_ = Amplify.Predictions.convert(textToTranslate: "I like to eat spaghetti",
+		language: .english,
+		targetLanguage: .spanish,
+		options: PredictionsTranslateTextRequest.Options(),
+		listener: { (event) in
+			switch event {
+			case .completed(let result):
+				print(result.text)
+			default:
+				print("")
+			}
+	})
+}
+```
+
+As a result of executing this code, this you should see the following printed to your console:
+```
+Me gusta comer espaguetis
+```
+
