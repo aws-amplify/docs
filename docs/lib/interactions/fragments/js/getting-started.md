@@ -20,7 +20,7 @@ You can choose to start from a sample chatbot or start from scratch.  If you cho
 
 You are allowed to run the `amplify add interactions` command multiple times to add multiple chatbots into your project.
 
-<amplify-callout>
+<amplify-callout warning>
 The Interactions category utilizes the Authentication category behind the scenes to authorize your app to send analytics events.
 </amplify-callout>
 
@@ -80,4 +80,4 @@ Use the `ChatBot` component to add conversational UI to your app. [Learn more](~
 
 ## API reference
 
-For the complete API documentation for Interactions module, visit our API Reference.
+For the complete API documentation for Interactions module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/interactions.html).
