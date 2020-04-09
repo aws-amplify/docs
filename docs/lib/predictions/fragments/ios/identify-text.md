@@ -35,10 +35,6 @@ Amplify will make calls to both Amazon Textract and Rekognition depending on the
 If you are detecting text from an image you would send in `.plain` as your text format as shown below.  Using `.plain` with `PredictionsIdentifyRequest.Options()` combines results from on device results from Core ML and AWS services to yield more accurate results.
 
 ``` swift
-import Amplify
-
-...
-
 func detectText(_ image: URL) {
 	_ = Amplify.Predictions.identify(type: .detectText(.plain), image: image, options: PredictionsIdentifyRequest.Options(), listener: { (event) in
 		switch event {
