@@ -65,6 +65,6 @@ When you initialize a new Amplify project, a few things happen:
 In addition to `aws-amplify` core, install the Angular Ionic modules which provide a service provider, helpers, and components.
 
 ```
-$ npm install aws-amplify aws-amplify-vue
+$ npm install aws-amplify @aws-amplify/ui-vue
 ```
-The `aws-amplify-vue package` is a set of Vue components which integrates your Vue application with the AWS-Amplify library. The package supports Vue applications using version 2.5 or above, and was created using the Vue 3.0 CLI.
+The `@aws-amplify/ui-vue` package is a set of Vue components which integrates your Vue application with the AWS-Amplify library. The package supports Vue applications using version 2.5 and above, and was created using the Vue 3.0 CLI.
