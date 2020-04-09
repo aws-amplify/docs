@@ -55,24 +55,6 @@ To get results that utilize on-device capabilities (Core ML), without combining 
 let options = PredictionsIdentifyRequest.Options(defaultNetworkPolicy: .offline, pluginOptions: nil)
 ```
 
-Note that bounding boxes in `IdentifyTextResult` are returned as ratios.  If you would like to place bounding boxes on individual recognized words that appear in the image, use the following method to calculate a frame for a single bounding box.
-```swift
-let image = UIImage(...)
-self.imageView = UIImageView(image: self.image)                        
-...
-let data = result as! IdentifyTextResult
-let word = data.words!.first!
-...
-let xBoundingBox = word.boundingBox.origin.x * self.imageView.frame.size.width
-let yBoundingBox = word.boundingBox.origin.y * self.imageView.frame.size.height
-let widthBoundingBox = word.boundingBox.size.width * self.imageView.frame.size.width
-let heightBoundingBox = word.boundingBox.size.height * self.imageView.frame.size.height
-let boundingBox = UIView(frame: CGRect(x: xBoundingBox, y: yBoundingBox, width: widthBoundingBox, height: heightBoundingBox))
-... // stylize bounding box
-self.imageView.addSubview(boundingBox)
-```
-Note that Rekognition places (0,0) at the top left and Core ML places (0,0) at the bottom left, we have flipped the y axis of the CoreML bounding box for you since iOS starts (0,0) from the top left
-
 ## Identify text in a document
 
 Sending in `.form` or `.table` or `.all` will do document analysis as well as text detection to detect tables and forms in a document. See below for an example with `.form`.
