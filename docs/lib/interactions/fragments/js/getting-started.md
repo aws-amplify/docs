@@ -6,7 +6,7 @@ AWS Amplify implements [Amazon Lex](https://aws.amazon.com/lex) as the default c
 
 ## Create new chatbot
 
-> Prerequisite: [Install and configure the Amplify CLI](..)
+> Prerequisite: [Install and configure the Amplify CLI](~/cli/start/install.md)
 
 Run the following command in your project's root folder:
 
@@ -20,7 +20,7 @@ You can choose to start from a sample chatbot or start from scratch.  If you cho
 
 You are allowed to run the `amplify add interactions` command multiple times to add multiple chatbots into your project.
 
-<amplify-callout>
+<amplify-callout warning>
 The Interactions category utilizes the Authentication category behind the scenes to authorize your app to send analytics events.
 </amplify-callout>
 
@@ -32,7 +32,7 @@ $ amplify push
 
 Upon successful execution of the push command, a configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`. 
 
-> If your Interactions resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more](/cli/lambda-node-version-update)
+> If your Interactions resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more](~/cli/migration/lambda-node-version-update.md)
 
 ## Manual setup
 
@@ -76,8 +76,8 @@ Amplify.configure(awsconfig);
 
 ## ChatBot UI component
 
-Use the `ChatBot` component to add conversational UI to your app. [Learn more](tbd).
+Use the `ChatBot` component to add conversational UI to your app. [Learn more](~/ui-legacy/interactions/chatbot.md).
 
 ## API reference
 
-For the complete API documentation for Interactions module, visit our API Reference.
+For the complete API documentation for Interactions module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/interactions.html).

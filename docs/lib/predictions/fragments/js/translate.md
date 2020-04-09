@@ -21,15 +21,16 @@ Now run `amplify push` which will generate your `aws-exports.js` and create reso
 Translate text from one source language to a destination language.
 
 ```javascript
-    Predictions.convert({
-      translateText: {
-        source: {
-          text: textToTranslate,
-          // language : "es" // defaults configured on aws-exports.js
-          // supported languages https://docs.aws.amazon.com/translate/latest/dg/how-it-works.html#how-it-works-language-codes
-        },
-        // targetLanguage: "en"
-      }
-    }).then(result => console.log(JSON.stringify(result, null, 2)))
-      .catch(err => console.log(JSON.stringify(err, null, 2)))
+Predictions.convert({
+  translateText: {
+    source: {
+      text: textToTranslate,
+      // language : "es" // defaults configured on aws-exports.js
+      // supported languages https://docs.aws.amazon.com/translate/latest/dg/how-it-works.html#how-it-works-language-codes
+    },
+    // targetLanguage: "en"
+  }
+})
+.then(result => console.log({ result }))
+.catch(err => console.log({ err }));
 ```

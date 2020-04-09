@@ -48,6 +48,10 @@ export class DocsInternalLink {
             Array.isArray(filterValues) &&
             filterValues.includes(selectedFilterValue)
           ) {
+            if (selectedFilterValue === "js" && pathname.startsWith("/sdk")) {
+              parsed.set("pathname", pathname.replace("/sdk", "/lib"));
+            }
+
             parsed.set("query", {[filterKey]: selectedFilterValue});
             parsed.set("hash", hash);
           }

@@ -23,17 +23,15 @@ Services used: Amazon Polly
 Generate an audio buffer for playback from a text input.
 
 ```javascript
-    Predictions.convert({
-      textToSpeech: {
-        source: {
-          text: textToGenerateSpeech
-        },
-        voiceId: "Amy" // default configured on aws-exports.js 
-        // list of different options are here https://docs.aws.amazon.com/polly/latest/dg/voicelist.html
-      }
-    }).then(result => {
-      
-    })
-      .catch(err => console.log(JSON.stringify(err, null, 2)))
+Predictions.convert({
+  textToSpeech: {
+    source: {
+      text: textToGenerateSpeech
+    },
+    voiceId: "Amy" // default configured on aws-exports.js 
+    // list of different options are here https://docs.aws.amazon.com/polly/latest/dg/voicelist.html
   }
+})
+.then(result => console.log({ result }))
+.catch(err => console.log({ err }));
 ```

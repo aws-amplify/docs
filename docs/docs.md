@@ -19,7 +19,7 @@ disableLinkification: true
   class="background-color-off-white"
   inner-class="padding-top-lg padding-bottom-lg padding-horizontal-md">
   <amplify-responsive-grid class="margin-top-lg">
-    <docs-card url="~/lib/lib.md" class="border-radius">
+    <docs-card url="~/lib/lib.md" url-override-for-mobile-filter="~/sdk/sdk.md" class="border-radius">
       <img slot="graphic" src="~/assets/lib.png" />
       <h4 slot="heading">Amplify Libraries</h4>
       <p slot="description">
