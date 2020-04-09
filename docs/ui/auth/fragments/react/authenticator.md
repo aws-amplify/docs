@@ -285,7 +285,7 @@ The `withAuthenticator` is a higher-order component (HoC) that wraps `AmplifyAut
 **Usage**
 ```jsx
 import React from 'react';
-import { withAuthenticator, AmplifySignOut} from '@aws-amplify/ui-react';
+import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 
 const App = () => (
   <div>
