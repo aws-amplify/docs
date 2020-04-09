@@ -1,8 +1,8 @@
-The `aws-amplify-angular` package is a set of Angular components and an Angular provider which helps integrate your application with the AWS-Amplify library.  It supports Angular 5.0 or above.  It also includes a [supplemental module](#ionic-4-components) for Ionic-specific components.
+The `aws-amplify-angular` package is a set of Angular components and an Angular provider which helps integrate your application with the AWS-Amplify library.  It supports Angular 5.0 and above.
 
 <amplify-callout>
 
-Currently, Angular 9 is not supported as this is a newer version of Angular that has come out recently. We are tracking this internally in order to investigate adding support.
+Angular 9 is not supported in the legacy version of the Angular UI Components. If you app in using Angular 9, please see our new [Angular UI Component package](~/ui/ui.md?framework=angular).
 
 </amplify-callout>
 
