@@ -3,6 +3,7 @@ import {css} from "emotion";
 export const hostStyle = css`
   display: block;
   padding-left: 0.75rem;
+  margin-bottom: 1rem;
 
   > div {
     padding: 1rem;
