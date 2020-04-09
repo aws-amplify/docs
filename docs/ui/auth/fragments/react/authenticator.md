@@ -54,7 +54,7 @@ Amplify UI Components use `slots` based off of the [Web Components slot element]
 
 **Usage**
 
-```js
+```jsx
 import React from 'react';
 import { AmplifyAuthenticator, AmplifySignIn, AmplifySignOut } from '@aws-amplify/ui-react';
 
@@ -78,7 +78,7 @@ const App = () => (
 
 **Usage**
 
-```js
+```jsx
 import React from 'react';
 import { AmplifyAuthenticator, AmplifySignUp, AmplifySignOut } from '@aws-amplify/ui-react';
 
@@ -102,7 +102,7 @@ const App = () => (
 
 **Usage**
 
-```js
+```jsx
 import React from 'react';
 import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 
@@ -124,7 +124,7 @@ const App = () => (
 
 **Usage**
 
-```js
+```jsx
 import React from 'react';
 import { AmplifyAuthenticator, AmplifyConfirmSignIn, AmplifySignOut } from '@aws-amplify/ui-react';
 
@@ -148,7 +148,7 @@ const App = () => (
 
 **Usage**
 
-```js
+```jsx
 import React from 'react';
 import { AmplifyAuthenticator, AmplifyConfirmSignIn, AmplifySignOut } from '@aws-amplify/ui-react';
 
@@ -172,7 +172,7 @@ const App = () => (
 
 **Usage**
 
-```js
+```jsx
 import React from 'react';
 import { AmplifyAuthenticator, AmplifyForgotPassword, AmplifySignOut } from '@aws-amplify/ui-react';
 
@@ -196,7 +196,7 @@ const App = () => (
 
 **Usage**
 
-```js
+```jsx
 import React from 'react';
 import { AmplifyAuthenticator, AmplifyRequireNewPassword, AmplifySignOut } from '@aws-amplify/ui-react';
 
@@ -218,7 +218,7 @@ const App = () => (
 
 **Usage**
 
-```js
+```jsx
 import React from 'react';
 import { AmplifyAuthenticator, AmplifyRequireNewPassword, AmplifySignOut } from '@aws-amplify/ui-react';
 
@@ -238,7 +238,7 @@ const App = () => (
 
 ### Verify Contact
 
-```js
+```jsx
 import React from 'react';
 import { AmplifyAuthenticator, AmplifyVerifyContract, AmplifySignOut } from '@aws-amplify/ui-react';
 
@@ -262,7 +262,7 @@ const App = () => (
 
 **Usage**
 
-```js
+```jsx
 import React from 'react';
 import { AmplifyAuthenticator, AmplifyGreetings} from '@aws-amplify/ui-react';
 
@@ -277,6 +277,30 @@ const App = () => (
 ```
 
 <ui-component-props tag="amplify-greetings"></ui-component-props>
+
+### withAuthenticator
+
+The `withAuthenticator` is a higher-order component (HoC) that wraps `AmplifyAuthenticator`.
+
+**Usage**
+```jsx
+import React from 'react';
+import { withAuthenticator, AmplifySignOut} from '@aws-amplify/ui-react';
+
+const App = () => (
+  <div>
+    <AmplifySignOut></AmplifySignOut>
+    My App
+  </div>
+);
+
+export withAuthenticator(App);
+```
+
+You can also pass in any of AmplifyAuthenticator props:
+```jsx
+export withAuthenticator(App, {initialAuthState: 'signup'});
+```
 
 ## Use Cases
 
@@ -296,6 +320,7 @@ const App = () => (
   </AmplifyAuthenticator>
 );
 ```
+
 
 ## Migration
 
@@ -326,3 +351,27 @@ const App = () => (
 - </Authenticator>
 );
 ```
+
+If you are using `withAuthenticator`:
+```diff
+- import { withAuthenticator } from 'aws-amplify-react';
++ import { withAuthenticator } from '@aws-amplify/ui-react';
+```
+
+```jsx
+export default withAuthenticator(App);
+```
+
+### Breaking changes for withAuthentciator
+
+<amplify-callout warning>
+
+If you were providing additional options to `withAuthenticator` (e.g. `includeGreetings`, `authenticatorComponents`, `federated`, `theme`), these have changed
+
+</amplify-callout>
+
+```jsx
+export default withAuthenticator(App, { /* ...AmplifyAuthenticator Properties */ })
+```
+
+> See list of [Properties](#properties)
