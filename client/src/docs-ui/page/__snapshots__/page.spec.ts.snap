@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`docs-page Render logic should render 1`] = `
-<docs-page class="css-mg8ajq">
+<docs-page class="css-ntiofr">
   <docs-universal-nav blend="" brand-icon="/assets/logo-light.svg" brand-icon-blend="/assets/logo-dark.svg" heading="Amplify Docs"></docs-universal-nav>
   <docs-secondary-nav></docs-secondary-nav>
   <div class="css-1o5ehio">
