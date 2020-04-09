@@ -1,5 +1,3 @@
-<amplify-select-mfa-type></amplify-select-mfa-type>
-
 **Usage**
 
 ```html

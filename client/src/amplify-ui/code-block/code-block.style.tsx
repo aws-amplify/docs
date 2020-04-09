@@ -129,7 +129,7 @@ export const slotContainerStyle = css`
   .token.constant,
   .token.symbol,
   .token.deleted {
-    color: #b5cea8;
+    color: #ce9178;
   }
 
   .token.selector,
@@ -138,7 +138,7 @@ export const slotContainerStyle = css`
   .token.char,
   .token.builtin,
   .token.inserted {
-    color: #ce9178;
+    color: #b5cea8;
   }
 
   .token.operator,
