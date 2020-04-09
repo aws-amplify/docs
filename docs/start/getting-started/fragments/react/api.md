@@ -65,9 +65,10 @@ amplify push
 
 ? Are you sure you want to continue? Y
 
-# If you did not mock the API, you will be walked through the following questions for GraphQL code generation
+# You will be walked through the following questions for GraphQL code generation
 ? Do you want to generate code for your newly created GraphQL API? Y
 ? Choose the code generation language target: javascript
+? Enter the file name pattern of graphql queries, mutations and subscriptions: src/graphql/**/*.js
 ? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions? Y
 ? Enter maximum statement depth [increase from default if your schema is deeply nested]: 2
 ```
@@ -108,19 +109,19 @@ amplify console
 
 To test this out locally, you can run the `mock` command.
 
-> If you'd like to go ahead and deploy the API, you can [jump to the next step](#deploying-the-api).
+> If you'd like to go ahead and connect the front end, you can [jump to the next step](#connect-frontend-to-api).
 
 ```sh
 amplify mock api
 
-# Before mocking you will be walked through the following steps for GraphQL code generation
+# If you have not already deployed you API, you will be walked through the following steps for GraphQL code generation
 ? Choose the code generation language target: javascript (or preferred target)
 ? Enter the file name pattern of graphql queries, mutations and subscriptions: src/graphql/**/*.js
 ? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions: Yes
 ? Enter maximum statement depth [increase from default if your schema is deeply nested] 2
 ```
 
-This will open the GraphiQL explorer on a local port. From the test environment you can try out different operations locally, like queries and mutations, before deploying the backend.
+This will open the GraphiQL explorer on a local port. From the test environment you can try out different operations locally, like queries and mutations.
 
 Try running a couple of mutations locally and then querying for the todos:
 
@@ -149,7 +150,7 @@ query listTodos {
 
 ## Connect frontend to API
 
-For a user interface to interact with this API, you will create a way to list and create todos. To do this, you will create a form with a button to create todos and way to fetch and render a list of todos.
+In this section you will create a way to list and create todos from the React application. To do this, you will create a form with a button to create todos as well as a way to fetch and render the list of todos.
 
 Open __src/App.js__ and update it with the following code:
 
@@ -184,6 +185,7 @@ const App = () => {
 
   async function addTodo() {
     try {
+      if (!formState.name || !formState.description) return
       const todo = { ...formState }
       setTodos([...todos, todo])
       setFormState(initialState)
