@@ -73,10 +73,10 @@ When you initialize a new Amplify project, a few things happen:
 The first step to using Amplify in the client is to install the necessary dependencies:
 
 ```bash
-npm install aws-amplify aws-amplify-react
+npm install aws-amplify @aws-amplify/ui-react
 ```
 
-The `aws-amplify` package is the main library for working with Amplify in your apps. The `aws-amplify-react` package includes React specific UI components we'll use as we build the app.
+The `aws-amplify` package is the main library for working with Amplify in your apps. The `@aws-amplify/ui-react` package includes React specific UI components we'll use as we build the app.
 
 ## Set up frontend
 
