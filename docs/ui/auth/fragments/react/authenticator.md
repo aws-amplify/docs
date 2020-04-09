@@ -258,7 +258,7 @@ const App = () => (
 
 ### Greetings
 
-<amplify-greetings></amplify-greetings>
+<amplify-greetings username="Test Username"></amplify-greetings>
 
 **Usage**
 
@@ -269,7 +269,7 @@ import { AmplifyAuthenticator, AmplifyGreetings} from '@aws-amplify/ui-react';
 const App = () => (
   <AmplifyAuthenticator>
     <div>
-      <AmplifyGreetings></AmplifyGreetings>
+      <AmplifyGreetings username="Test Username"></AmplifyGreetings>
       My App
     </div>
   </AmplifyAuthenticator>
@@ -297,7 +297,8 @@ const App = () => (
 export withAuthenticator(App);
 ```
 
-You can also pass in any of AmplifyAuthenticator props:
+You can also pass in any of the [AmplifyAuthenticator props](~/ui/auth/authenticator.md?framework=react#props-amplify-authenticator):
+
 ```jsx
 export withAuthenticator(App, {initialAuthState: 'signup'});
 ```
@@ -362,16 +363,12 @@ If you are using `withAuthenticator`:
 export default withAuthenticator(App);
 ```
 
-### Breaking changes for withAuthentciator
+### Breaking changes for withAuthenticator
 
 <amplify-callout warning>
 
-If you were providing additional options to `withAuthenticator` (e.g. `includeGreetings`, `authenticatorComponents`, `federated`, `theme`), these have changed
+We have deprecated some of the properties passed into `withAuthenticator`. If you were providing additional options to `withAuthenticator` (e.g. `includeGreetings`, `authenticatorComponents`, `federated`, `theme`), these have changed. Refer to the updated list of [Properties here](~/ui/auth/authenticator.md?framework=react#props-amplify-authenticator).
 
 </amplify-callout>
 
-```jsx
-export default withAuthenticator(App, { /* ...AmplifyAuthenticator Properties */ })
-```
-
-> See list of [Properties](#properties)
+The previous `withAuthenticator` component would render a Greetings and Sign Out button at the top of your app after logging in. If you would like to add a Greetings or Sign Out button to your app you can add the [`AmplifyGreetings`](#greetings) or [`AmplifySignOut`](#sign-out) component to your app. Visit the [`withAuthenticator` example](#withauthenticator) above to see this.
