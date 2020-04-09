@@ -66,7 +66,7 @@ export class DocsInternalLink {
       const hrefWithoutQS = url.split("/q/")?.[0];
       const isChildActive =
         this.additionalActiveChildRoots?.some((root) =>
-          location.href.startsWith(root),
+          location.pathname.startsWith(root),
         ) ||
         !!(
           hrefWithoutQS &&
@@ -80,10 +80,6 @@ export class DocsInternalLink {
         isChildActive,
       });
     }
-  }
-
-  componentWillLoad() {
-    this.computeState();
   }
 
   componentDidRender() {

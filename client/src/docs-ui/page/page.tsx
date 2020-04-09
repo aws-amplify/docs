@@ -76,16 +76,13 @@ export class DocsPage {
   };
 
   componentWillLoad() {
-    track({
-      type: AnalyticsEventType.PAGE_VISIT,
-      attributes: {url: location.href},
-    });
-
     return this.getPageData();
   }
 
   componentDidLoad() {
-    this.setSidebarStickyTop();
+    if (this.data?.menu) {
+      this.setSidebarStickyTop();
+    }
     const {hash} = location;
     if (hash) {
       setTimeout(() => {
@@ -94,14 +91,14 @@ export class DocsPage {
     }
   }
 
-  @Listen("popstate", {target: "window"})
-  onBack() {
-    return this.getPageData();
-  }
-
   getPageData = async () => {
     const {base, params} = parseURL(location.href);
     this.blendUniversalNav = base === "/";
+
+    track({
+      type: AnalyticsEventType.PAGE_VISIT,
+      attributes: {url: location.href},
+    });
 
     try {
       this.data = await getPage(base);
@@ -134,6 +131,11 @@ export class DocsPage {
       });
     }
   };
+
+  @Listen("popstate", {target: "window"})
+  onBack() {
+    return this.getPageData();
+  }
 
   requiresFilterSelection = (): boolean =>
     !!(this.filterKey && !this.filterValue);

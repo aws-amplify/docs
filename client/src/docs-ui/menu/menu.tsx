@@ -44,10 +44,6 @@ export class DocsMenu {
     }
   }
 
-  componentWillLoad() {
-    this.computeState();
-  }
-
   render() {
     const menu = this.page?.menu;
     return (
