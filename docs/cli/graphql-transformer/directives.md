@@ -2344,11 +2344,26 @@ input HttpHeader {
 
 ### Usage
 
-The `@http` directive allows you to quickly connect HTTP or HTTPS endpoint to an AppSync API by creating an AWS AppSync HTTP resolver. To connect an AWS Lambda resolver, add the `@http` directive to a field in your `schema.graphql`. For example:
+The `@http` directive allows you to quickly connect HTTP or HTTPS endpoint to an AppSync API by creating an AWS AppSync HTTP resolver. To connect to an endpoint, add the `@http` directive to a field in your `schema.graphql` file. The directive allows you to define URL path parameters, and specify a query string and/or specify a request body. For example, given the definition of a post type,
+
+```graphql
+type Post {
+  id: ID!
+  title: String
+  description: String
+  views: Int
+}
+
+type Query {
+  listPosts: Post @http(url: "https://www.example.com/posts")
+}
+```
+
+Amplify generates the defintion below that sends a request to the url when the `listPosts` query is used.
 
 ```graphql
 type Query {
-  listPosts: Post @http(url: "https://www.example.com/posts")
+  listPosts: Post
 }
 ```
 
@@ -2358,32 +2373,45 @@ The `@http` directive generates resolvers that can handle xml and json responses
 
 ```graphql
 type Query {
-  listPosts: Post @http(
-    url: "https://www.example.com/posts"
-    headers: [{key: "X-Header", value: "X-Header-Value"}]
+  listPosts: Post
+    @http(
+      url: "https://www.example.com/posts"
+      headers: [{ key: "X-Header", value: "X-Header-Value" }]
     )
 }
 ```
 
 **Path Parameters**
 
-You can create dynamic paths by specifying params in the directive URL by using the special `:<param>` notation.
+You can create dynamic paths by specifying parameters in the directive URL by using the special `:<parameter>` notation. Your set of parameters can then be specified in the `params` input object of the query. Note that path parameters are not added to the request body or query string. You can define multiple parameters.
 
 Given the definition
 
 ```graphql
-  getPost: Post @http(
-    url: "https://www.example.com/posts/:id"
-  )
+type Query {
+  getPost: Post @http(url: "https://www.example.com/posts/:id")
 }
 ```
 
-you can fetch a specific post
+Amplify generates
+
+```graphql
+type Query {
+  getPost(params: QueryGetPostParamsInput!): Post
+}
+
+input QueryGetPostParamsInput {
+  id: String!
+}
+```
+
+You can fetch a specific post by enclosing the `id` in the `params` input object.
 
 ```graphql
 query post {
   getPost(params: {id: "POST_ID"}) {
     id
+    title
   }
 }
 ```
@@ -2397,18 +2425,32 @@ Host: www.example.com
 
 **Query String**
 
-You can send a query string with your request by specifying variables for your query.
+You can send a query string with your request by specifying variables for your query. The query string is supported with all request methods.
 
 Given the definition
 
 ```graphql
 type Query {
-  listPosts(sort: String!, from: String!, limit: Int!): Post @http(
-    url: "https://www.example.com/posts"
-    )
+  listPosts(sort: String!, from: String!, limit: Int!): Post
+    @http(url: "https://www.example.com/posts")
+}
 ```
 
-you can query for posts with
+Amplify generates
+
+```graphql
+type Query {
+  listPosts(query: QueryListPostsQueryInput!): Post
+}
+
+input QueryListPostsQueryInput {
+  sort: String!
+  from: String!
+  limit: Int!
+}
+```
+
+You can query for posts using the `query` input object
 
 ```graphql
 query posts{
@@ -2420,7 +2462,7 @@ query posts{
 }
 ```
 
-which would send the following request:
+which sends the following request:
 
 ```
 GET /posts?sort=DESC&from=last-week&limit=5
@@ -2431,23 +2473,51 @@ Host: www.example.com
 
 The `@http` directive also allows you to specify the body of a request, which is used for `POST`, `PUT`, and `PATCH` requests. To create a new post, you can define the following.
 
-
 ```graphql
-type Query {
-  addPost(title: String!, description: String!, views: Int): Post @http(
-    method: POST
-    url: "https://www.example.com/post"
-    )
+type Mutation {
+  addPost(title: String!, description: String!, views: Int): Post
+    @http(method: POST, url: "https://www.example.com/post")
 }
 ```
 
-Then add a post by using the body input type:
+Amplify generates the `addPost` query field with the `query` and `body` input objects since this type of request also supports a query string. The generated resolver verifies that non-null arguments (e.g.: the `title` and `description`) are passed in at least one of the input objects; if not, an error is returned. 
+
+```graphql
+type Mutation {
+  addPost(query: QueryAddPostQueryInput, body: QueryAddPostBodyInput): Post
+}
+
+input QueryAddPostQueryInput {
+  title: String
+  description: String
+  views: Int
+}
+
+input QueryAddPostBodyInput {
+  title: String
+  description: String
+  views: Int
+}
+```
+
+You can add a post by using the `body` input object:
 
 ```graphql
 mutation add {
   addPost(body: {title: "new post", description: "fresh content"}) {
     id
   }
+}
+```
+
+which will send
+
+```
+POST /post
+Host: www.example.com
+{
+  title: "new post"
+  description: "fresh content"
 }
 ```
 
@@ -2463,18 +2533,44 @@ type Query {
 }
 ```
 
+which, in the `DEV` environment, will send
+
+```
+GET /DEV/posts
+Host: www.example.com
+```
+
 **Combining the different components**
 
-You can use a combination of params, query, body, headers, and environments in your `@http` directive definition.
+You can use a combination of parameters, query, body, headers, and environments in your `@http` directive definition.
 
 Given the definition
 
 ```graphql
-type Query {
-  updatePost(title: String!, description: String!, views: Int, withComments: Boolean): Post @http(
-    method: PUT
-    url: "https://www.example.com/${env}/posts/:id"
-    headers: [{key: "X-Header", value: "X-Header-Value"}]
+type Post {
+  id: ID!
+  title: String
+  description: String
+  views: Int
+  comments: [Comment]
+}
+
+type Comment {
+  id: ID!
+  content: String
+}
+
+type Mutation {
+  updatePost(
+    title: String!
+    description: String!
+    views: Int
+    withComments: Boolean
+  ): Post
+    @http(
+      method: PUT
+      url: "https://www.example.com/${env}/posts/:id"
+      headers: [{ key: "X-Header", value: "X-Header-Value" }]
     )
 }
 ```
@@ -2492,15 +2588,16 @@ mutation update {
     description
     comments {
       id
+      content
     }
   }
 }
 ```
 
-which will send
+which, in the `DEV` environment, will send
 
 ```
-PUT /ENV/posts/EXISTING_ID?withComments=true
+PUT /DEV/posts/EXISTING_ID?withComments=true
 Host: www.example.com
 X-Header: X-Header-Value
 {
@@ -2512,15 +2609,44 @@ X-Header: X-Header-Value
 
 **Advanced cases**
 
-In some cases, you may want to send a request based on existing field data. Take a scenario where you have a post and want to fetch comments associated with the post in a single query. You can fetch the comments based on the post id with the following definition. `$ctx.source` is a map that contains the resolution of the parent field (`Post`) and gives access to `id`.
+In some cases, you may want to send a request based on existing field data. Take a scenario where you have a post and want to fetch comments associated with the post in a single query. Let's use the previous definition of `Post` and `Comment`.
 
 
 ```graphql
 type Post {
   id: ID!
-  comments: [Comment] @http(
-    url: "https://www.example.com/posts/${ctx.source.id}/comments"
-    )
+  title: String
+  description: String
+  views: Int
+  comments: [Comment]
+}
+
+type Comment {
+  id: ID!
+  content: String
+}
+```
+
+A post can be fetched at `/posts/:id` and a post's comments at `/posts/:id/comments`. You can fetch the comments based on the post id with the following updated definition. `$ctx.source` is a map that contains the resolution of the parent field (`Post`) and gives access to `id`.
+
+
+```graphql
+type Post {
+  id: ID!
+  title: String
+  description: String
+  views: Int
+  comments: [Comment]
+    @http(url: "https://www.example.com/posts/${ctx.source.id}/comments")
+}
+
+type Comment {
+  id: ID!
+  content: String
+}
+
+type Query {
+  getPost: Post @http(url: "https://www.example.com/posts/:id")
 }
 ```
 
@@ -2530,6 +2656,8 @@ You can retrieve the comments of a specific post with the following query and se
 query post {
   getPost(params: {id: "POST_ID"}) {
     id
+    title
+    description
     comments {
       id
       content
@@ -2538,7 +2666,7 @@ query post {
 }
 ```
 
-Assuming that getPost retrieves a post with the id `POST_ID`, the comments field is resolved by sending this request to the endpoint
+Assuming that `getPost` retrieves a post with the id `POST_ID`, the comments field is resolved by sending this request to the endpoint
 
 ```
 GET /posts/POST_ID/comments
@@ -2549,5 +2677,5 @@ Note that there is no check to ensure that the reference variable (here the post
 
 ### Generates
 
-The `@http` directive will create one HTTP datasource for each identified base URL. For example, if multiple HTTP resolvers are created that interact with the "https://www.example.com" endpoint, only a single datasource is created. Each directive generates one resolver. Depending on the definition, the appropriate `body`, `params`, and `query` input types are created.
+The `@http` transformer will create one HTTP datasource for each identified base URL. For example, if multiple HTTP resolvers are created that interact with the "https://www.example.com" endpoint, only a single datasource is created. Each directive generates one resolver. Depending on the definition, the appropriate `body`, `params`, and `query` input types are created. Note that `@http` transformer does not support calling other AWS services where Signature Version 4 signing process is required.
 
