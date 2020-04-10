@@ -80,7 +80,7 @@ Categories are managed by AWS and are a functional use case that a client engine
 
 ### Provider plugin
 Amplify maintained provider plugins are recognized by the `amplify-provider-` prefix in the package name.<br/>
-A provider plugin abstracts the actual cloud resource provider. It wraps up communication details such as access credentials, api invoke and wait logic, and response data parsing. It also exposes simple interface methods for the category plugins to CRUD cloud resource.
+A provider plugin abstracts the actual cloud resource provider. It wraps up communication details such as access credentials, api invoke, wait logic, and response data parsing. It also exposes simple interface methods for the category plugins to CRUD cloud resource.
 
 #### AWS CloudFormation provider
 Currently, the only official provider plugin, amplify-provider-awscloudformation, uses the AWS CloudFormation to form and update the backend resources in the AWS for the amplify categories. For more information about  AWS CloudFormation, check its user guide:
