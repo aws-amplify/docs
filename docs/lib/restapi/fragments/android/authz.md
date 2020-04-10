@@ -20,7 +20,7 @@ To invoke an API Gateway endpoint with API Key as the auth mode, you should have
 
 ## Cognito User Pools authorization
 
-To invoke an API Gateway endpoint from your application with Cognito User Pools authorization use the `AWSMobileClient` as outlined in [the authentication section](./authentication). If you have logged in with the `AWSMobileClient` at the start of your application lifecycle, the Amplify API category will use these credentials automatically for you as long as the configuration set in your `amplifyconfiguration.json` file is set to `"authorizationType": "AMAZON_COGNITO_USER_POOLS"`.
+To invoke an API Gateway endpoint from your application with Cognito User Pools authorization use the `AWSMobileClient` as outlined in [the authentication section](~/lib/auth/getting-started.md). If you have logged in with the `AWSMobileClient` at the start of your application lifecycle, the Amplify API category will use these credentials automatically for you as long as the configuration set in your `amplifyconfiguration.json` file is set to `"authorizationType": "AMAZON_COGNITO_USER_POOLS"`.
 
 ```json
 {

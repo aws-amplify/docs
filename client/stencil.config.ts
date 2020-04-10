@@ -3,6 +3,9 @@ import nodePolyfills from "rollup-plugin-node-polyfills";
 
 export const config: Config = {
   globalScript: "src/global/global.ts",
+  devServer: {
+    reloadStrategy: 'pageReload'
+  },
   nodeResolve: {
     browser: true,
   },
@@ -60,6 +63,10 @@ export const config: Config = {
       serviceWorker: null,
       baseUrl: "https://amplify.aws/",
       copy: [
+        {
+          src: "sitemap.xml",
+          dest: "sitemap.xml",
+        },
         {
           src: "browserconfig.xml",
           dest: "browserconfig.xml",

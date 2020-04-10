@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`amplify-code-block Render logic should render 1`] = `
-<amplify-code-block class="css-1lj8awz css-75wbz6 three-dee-effect">
+<amplify-code-block class="css-1lj8awz css-75wbz6">
   <!---->
-  <div class="css-1e7418a"></div>
-  <button class="css-5abmbw">
+  <div class="css-khgmir"></div>
+  <button class="css-16vr62x">
     <span>
       copy
     </span>

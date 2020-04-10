@@ -28,72 +28,25 @@ Sync the project with Maven and then ensure it built successfully.
 
 ## Initialize Amplify
 
-Initialize `AWSMobileClient`, `Amplify`, and `AmazonPinpointAnalyticsPlugin`.
-
 Add the following imports to the top of your `MainActivity.java` file:
 
 ```java
-import com.amplifyframework.AmplifyException;
-import com.amplifyframework.analytics.AnalyticsException;
-import com.amplifyframework.core.Amplify;
 import com.amplifyframework.analytics.pinpoint.AmazonPinpointAnalyticsPlugin;
-import com.amplifyframework.core.AmplifyConfiguration;
-
-import com.amazonaws.mobile.client.Callback;
-import com.amazonaws.mobile.client.UserStateDetails;
-import com.amazonaws.mobile.config.AWSConfiguration;
-import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.analytics.AnalyticsEvent;
 ```
 
 Add the following code to the onCreate() method of `MainActivity.java`
 
 ```java
-private static final String TAG = MainActivity.class.getSimpleName();
-private static final int INITIALIZATION_TIMEOUT_MS = 2000;
-
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-    // Initialize Mobile Client.
-    final AWSConfiguration awsConfiguration = new AWSConfiguration(getApplicationContext());
-    final CountDownLatch mobileClientLatch = new CountDownLatch(1);
-    AWSMobileClient.getInstance().initialize(getApplicationContext(), awsConfiguration,
-            new Callback<UserStateDetails>() {
-                @Override
-                public void onResult(UserStateDetails userStateDetails) {
-                    Log.i(TAG, "Mobile client initialized");
-                    mobileClientLatch.countDown();
-                }
-
-                @Override
-                public void onError(Exception exception) {
-                    Log.e(TAG, "Error initializing AWS Mobile Client", exception);
-                }
-            });
-
-    try {
-        if (!mobileClientLatch.await(INITIALIZATION_TIMEOUT_MS, TimeUnit.MILLISECONDS)) {
-            throw new AnalyticsException("Failed to initialize mobile client.",
-                    "Please check your awsconfiguration json.");
-        }
-    } catch (InterruptedException | AnalyticsException exception) {
-        throw new RuntimeException("Failed to initialize mobile client: " + exception.getLocalizedMessage());
+try {
+        AmazonPinpointAnalyticsPlugin plugin = new AmazonPinpointAnalyticsPlugin((Application) context);
+        Amplify.addPlugin(plugin);
+        Amplify.configure(context);
+    } catch (Exception e) {
+        Log.e("GetStarted", "Error initializing", e);
     }
 
-    // Configure Amplify framework
-    AmplifyConfiguration configuration = new AmplifyConfiguration();
-    try {
-        configuration.populateFromConfigFile(getApplicationContext(), R.raw.amplifyconfiguration);
-        Amplify.addPlugin(new AmazonPinpointAnalyticsPlugin(getApplication()));
-        Amplify.configure(configuration, getApplicationContext());
-    } catch (AmplifyException e) {
-        e.printStackTrace();
-    }
-    Amplify.Analytics.recordEvent("test-event");
+    Analytics.recordEvent("GetStarted");
 }
 ```
-
-## API Reference
-
-For a complete API reference visit the [API Reference]().

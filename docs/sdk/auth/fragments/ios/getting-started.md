@@ -5,9 +5,9 @@ After initialization in your project directory with `amplify init`, edit your `P
 ```ruby
 target 'MyApp' do            ##Replace MyApp with your application name
   use_frameworks!
-  pod 'AWSMobileClient'      # Required dependency
-  pod 'AWSAuthUI'            # Optional dependency required to use drop-in UI
-  pod 'AWSUserPoolsSignIn'   # Optional dependency required to use drop-in UI
+  pod 'AWSMobileClient', '~> 2.13.0'      # Required dependency
+  pod 'AWSAuthUI', '~> 2.13.0'            # Optional dependency required to use drop-in UI
+  pod 'AWSUserPoolsSignIn', '~> 2.13.0'   # Optional dependency required to use drop-in UI
 end
 ```
 
@@ -21,8 +21,6 @@ Open the **.xcworkspace** file for your project (close the **.xcodeproj** file i
 
 * Clear the `Copy items if needed` check box.
 * Choose `Create groups`, and then choose `Finish`.
-
-[Click here to learn more about this process.](/cli/start#initialize-new-project)
 
 Build your project once to ensure all frameworks are pulled in and compile.
 
@@ -133,4 +131,4 @@ Build and run your program to see the initialized client in Xcode messages. Sinc
     }
 ```
 
-You might leverage the above workflow to perform other actions in the `signedIn` case, such as calling [GraphQL APIs with AWS AppSync](/sdk/api/graphql?platform=ios) or uploading content with [Amazon S3](/sdk/storage/getting-started?platform=ios).
+You might leverage the above workflow to perform other actions in the `signedIn` case, such as calling [GraphQL APIs with AWS AppSync](~/sdk/api/graphql.md) or uploading content with [Amazon S3](~/sdk/storage/getting-started.md).

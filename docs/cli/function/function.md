@@ -5,7 +5,7 @@ description: function
 
 ## Set up a function
 
-You can add a Lambda function to your project which you can use alongside a REST API or as a datasource, as a part of your GraphQL API using the `@function` directive. 
+You can add a Lambda function to your project which you can use alongside a REST API or as a datasource in your GraphQL API using the [`@function` directive](~/cli/graphql-transformer/directives.md#function). 
 ```terminal
 $ amplify add function
 ? Provide a friendly name for your resource to be used as a label for this category in the project: lambdafunction
@@ -18,9 +18,9 @@ $ amplify add function
 
 ## Function templates
 
-* The `Hello World function` would create a basic hello world Lambda function
+* The `Hello World function` will create a basic hello world Lambda function
 * The `CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB)` function would add a predefined [serverless-express](https://github.com/awslabs/aws-serverless-express) Lambda function template for CRUD operations to DynamoDB tables (which you can create by following the CLI prompts or use the tables which you've already configured using the `amplify add storage` command)
-* The `Serverless express function (Integration with Amazon API Gateway) ` would add a predefined [serverless-express](https://github.com/awslabs/aws-serverless-express) Lambda function template with routing enabled for your REST API paths.
+* The `Serverless express function (Integration with Amazon API Gateway) ` will add a predefined [serverless-express](https://github.com/awslabs/aws-serverless-express) Lambda function template with routing enabled for your REST API paths.
 
 You can update the Lambda execution role policies for your function to access other resources generated and maintained by the CLI, using the CLI
 
@@ -72,92 +72,7 @@ To schedule your Lambda function, answer **Yes** to `Do you want to invoke this 
 
 ## GraphQL from Lambda
 
-You can use a Lambda function to call your GraphQL API. For example, deploy a simple `Todo` model with the following schema in the `amplify add api` flow:
-
-```
-type Todo @model @auth (
-    rules: [
-        { allow: private, provider: iam, operations: [create] }
-    ]
-) {
-  id: ID!
-  name: String
-  description: String
-}
-```
-
-In the above example we want your Lambda function to have access to run a single mutation (`createTodo`) and hence we explicitly mention `create` in the `operations` list. To grant access for application users to perform other actions, you can add `read`, `update` or `delete` to the `operations` list along with `create`.
-
-Save your changes and create a Lambda function with `amplify add function` and make sure to add access for your GraphQL API when prompted for in the `amplify add function` flow. The CLI would automatically configure the Lambda execution IAM role required by the Lambda function to call the GraphQL API. The following function will sign the request and use environment variables for the AppSync and Region that `amplify add function` created for you.
-
-```javascript
-const https = require('https');
-const AWS = require("aws-sdk");
-const urlParse = require("url").URL;
-const appsyncUrl = process.env.API_BACKENDGRAPHQL_GRAPHQLAPIENDPOINTOUTPUT;
-const region = process.env.REGION;
-const endpoint = new urlParse(appsyncUrl).hostname.toString();
-const graphqlQuery = require('./query.js').mutation;
-const apiKey = process.env.API_KEY;
-
-exports.handler = async (event) => {
-    const req = new AWS.HttpRequest(appsyncUrl, region);
-
-    const item = {
-        input: {
-            name: "Lambda Item",
-            description: "Item Generated from Lambda"
-        }
-    };
-
-    req.method = "POST";
-    req.headers.host = endpoint;
-    req.headers["Content-Type"] = "application/json";
-    req.body = JSON.stringify({
-        query: graphqlQuery,
-        operationName: "createTodo",
-        variables: item
-    });
-
-    if (apiKey) {
-        req.headers["x-api-key"] = apiKey;
-    } else {
-        const signer = new AWS.Signers.V4(req, "appsync", true);
-        signer.addAuthorization(AWS.config.credentials, AWS.util.date.getDate());
-    }
-
-    const data = await new Promise((resolve, reject) => {
-        const httpRequest = https.request({ ...req, host: endpoint }, (result) => {
-            result.on('data', (data) => {
-                resolve(JSON.parse(data.toString()));
-            });
-        });
-
-        httpRequest.write(req.body);
-        httpRequest.end();
-    });
-
-    return {
-        statusCode: 200,
-        body: data
-    };
-};
-```
-
-Finally you can define the GraphQL operation you're running, in this case the `createTodo` mutation, in a separate `query.js` file:
-
-```javascript
-module.exports = {
-    mutation: `mutation createTodo($input: CreateTodoInput!) {
-      createTodo(input: $input) {
-        id
-        name
-        description
-      }
-    }
-    `
-}
-```
+<inline-fragment src="~/lib/graphqlapi/fragments/graphql-from-node.md"></inline-fragment>
 
 ## What is the amplify.state file?
 When creating a function using Amplify CLI >= 4.18.0, Amplify creates an `amplify.state` file to enable multi-runtime Lambda functions. `amplify.state` shouldn't be manually edited but should be checked in to version control.

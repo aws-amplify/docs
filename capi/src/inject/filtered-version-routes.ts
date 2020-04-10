@@ -95,6 +95,11 @@ export const injectFilteredVersionRoutes = (ctx: t.Ctx): void => {
             versions.js = `/lib?platform=js`;
           }
 
+          if (page.route.includes("/lib")) {
+            versions.ios = `/sdk?platform=ios`;
+            versions.android = `/sdk?platform=android`;
+          }
+
           // attach the `versions` and `filterKey` to the page
           page.versions = versions;
           if (srcPath !== productRootPagePath) {

@@ -1,12 +1,12 @@
 {
-  "title": "Adanced workflows",
+  "title": "Advanced workflows",
   "items": [
     "mock",
     "customcf",
     "iam",
+    "iam-roles-mfa",
     "files",
     "headless",
-    "build-options",
     "plugin"
   ]
 }
