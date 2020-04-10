@@ -8,7 +8,7 @@
     "relational",
     "codegen",
     "resolvers",
-    "examples",
-    "advanced"
+    "config-params",
+    "examples"
   ]
 }
