@@ -48,6 +48,7 @@ In order to enable cloud sync, the `amplifyconfiguration.json` must:
 ```
 
 If only using the DataStore for local data, without any cloud synchronization, your configuration file may be empty:
-```
+
+```json
 {}
 ```
