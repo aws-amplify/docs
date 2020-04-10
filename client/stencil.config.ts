@@ -3,6 +3,9 @@ import nodePolyfills from "rollup-plugin-node-polyfills";
 
 export const config: Config = {
   globalScript: "src/global/global.ts",
+  devServer: {
+    reloadStrategy: 'pageReload'
+  },
   nodeResolve: {
     browser: true,
   },
