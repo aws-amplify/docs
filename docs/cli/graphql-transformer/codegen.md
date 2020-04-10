@@ -87,14 +87,14 @@ The `amplify configure codegen` command allows you to update the codegen configu
 ```bash
 $ amplify codegen statements [--nodownload] [--max-depth <int>]
 ```
-The `amplify codegen statements` command  generates GraphQL statements(queries, mutation and subscription) based on your GraphQL schema. This command downloads introspection schema every time it is run but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag
+The `amplify codegen statements` command  generates GraphQL statements(queries, mutation and subscription) based on your GraphQL schema. This command downloads introspection schema every time it is run, but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag.
 
 
 #### amplify codegen types
 ```bash
 $ amplify codegen types
 ```
-The `amplify codegen types [--nodownload]` command generates GraphQL `types` for Flow and typescript and Swift class in an iOS project. This command downloads introspection schema every time it is run but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag
+The `amplify codegen types [--nodownload]` command generates GraphQL `types` for Flow and typescript and Swift class in an iOS project. This command downloads introspection schema every time it is run, but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag.
 
 #### amplify codegen
 ```bash
