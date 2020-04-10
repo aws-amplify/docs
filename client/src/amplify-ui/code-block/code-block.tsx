@@ -45,7 +45,6 @@ export class AmplifyCodeBlock {
     return (
       <Host
         class={{
-          "three-dee-effect": true,
           [codeBlockStyle]: true,
           [oneLineStyle]: this.parsedLineCount === undefined,
         }}

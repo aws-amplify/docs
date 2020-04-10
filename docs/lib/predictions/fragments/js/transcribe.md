@@ -23,14 +23,14 @@ Services used: Amazon Transcribe
 You can transcribe a PCM Audio byte buffer to Text, such as a recording from microphone.
 
 ```javascript
-    Predictions.convert({
-      transcription: {
-        source: {
-          bytes
-        },
-        // language: "en-US", // other options are "en-GB", "fr-FR", "fr-CA", "es-US"
-      },
-    }).then(({ transcription: { fullText } }) => console.log(fullText))
-      .catch(err => console.log(JSON.stringify(err, null, 2)))
+Predictions.convert({
+  transcription: {
+    source: {
+      bytes
+    },
+    // language: "en-US", // other options are "en-GB", "fr-FR", "fr-CA", "es-US"
   }
+})
+.then(({ transcription: { fullText } }) => console.log({ fullText }))
+.catch(err => console.log({ err }));
 ```
