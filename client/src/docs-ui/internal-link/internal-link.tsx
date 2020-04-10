@@ -40,10 +40,10 @@ export class DocsInternalLink {
   computeState() {
     let selectedFilter: string | undefined;
     if (this.href) {
-      const {base, hash, params} = parseURL(this.href);
+      const {path, hash, params} = parseURL(this.href);
 
       if (Object.keys(params).length === 0) {
-        const filters = filtersByRoute.get(base);
+        const filters = filtersByRoute.get(path);
         if (filters) {
           const [[filterKey, filterValues]] = Object.entries(filters);
           selectedFilter = this.selectedFilters?.[filterKey] as
@@ -60,7 +60,7 @@ export class DocsInternalLink {
         }
       }
 
-      const url = serializeURL({base, hash, params});
+      const url = serializeURL({path, hash, params});
       const isActive = location.href === url;
       const currentPathWithoutQS = location.pathname.split("/q/")?.[0];
       const hrefWithoutQS = url.split("/q/")?.[0];

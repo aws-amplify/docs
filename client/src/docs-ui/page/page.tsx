@@ -92,8 +92,8 @@ export class DocsPage {
   }
 
   getPageData = async () => {
-    const {base, params} = parseURL(location.href);
-    this.blendUniversalNav = base === "/";
+    const {path, params} = parseURL(location.href);
+    this.blendUniversalNav = path === "/";
 
     track({
       type: AnalyticsEventType.PAGE_VISIT,
@@ -101,7 +101,7 @@ export class DocsPage {
     });
 
     try {
-      this.data = await getPage(base);
+      this.data = await getPage(path);
       if (this.data) {
         updateDocumentHead(this.data);
         this.filterKey = getFilterKeyFromPage(this.data);

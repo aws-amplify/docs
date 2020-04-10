@@ -1,48 +1,31 @@
 export interface ParsedURL {
-  base: string;
+  path: string;
   hash: string;
   params: Record<string, string>;
 }
-export const parseURL = (path: string): ParsedURL => {
-  const pieces = path.split("/q/");
+export const parseURL = (url: string): ParsedURL => {
+  const {pathname, hash} = new URL(url, location.origin);
+  const pieces = pathname.split("/q/");
 
   let search = "";
-  let base = "";
-  let query = "";
-  let hash = "";
+  let path = "";
   const params = {};
 
   if (pieces.length == 2) {
     search = pieces.pop() as string;
   }
 
-  base = pieces.pop() as string;
-  if (base.includes("http://localhost:3333")) {
-    base = base.substr(21);
-  }
+  path = pieces.pop() as string;
 
   if (search) {
-    const searchSplit = search.split("#");
-
-    if (searchSplit.length === 2) {
-      query = searchSplit.shift() as string;
-      hash = `#${searchSplit.shift() as string}`;
-    } else if (search.includes("#")) {
-      hash = search;
-    } else {
-      query = search;
-    }
-
-    if (query) {
-      const searchPiecesSplit = query.split("/");
-      for (let i = 0; i < searchPiecesSplit.length / 2; i += 2) {
-        params[searchPiecesSplit[i]] = searchPiecesSplit[i + 1];
-      }
+    const searchPiecesSplit = search.split("/");
+    for (let i = 0; i < searchPiecesSplit.length / 2; i += 2) {
+      params[searchPiecesSplit[i]] = searchPiecesSplit[i + 1];
     }
   }
 
   const parsed = {
-    base,
+    path,
     hash,
     params,
   };
@@ -51,7 +34,7 @@ export const parseURL = (path: string): ParsedURL => {
 };
 
 export const serializeURL = (pieces: ParsedURL): string => {
-  let serialized = pieces.base;
+  let serialized = pieces.path;
 
   const paramEntries = Object.entries(pieces.params);
 
