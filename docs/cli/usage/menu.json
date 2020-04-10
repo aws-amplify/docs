@@ -4,9 +4,9 @@
     "mock",
     "customcf",
     "iam",
+    "iam-roles-mfa",
     "files",
     "headless",
-    "build-options",
     "plugin"
   ]
 }
