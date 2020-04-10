@@ -80,7 +80,7 @@ Categories are managed by AWS and are a functional use case that a client engine
 
 ### Provider plugin
 Amplify maintained provider plugins are recognized by the `amplify-provider-` prefix in the package name.<br/>
-A provider plugin abstracts the actual cloud resource provider. It wraps up communication details such as access credentials, api invoke and wait logic, and response data parsing. It also exposes simple interface methods for the category plugins to CRUD cloud resource.
+A provider plugin abstracts the actual cloud resource provider. It wraps up communication details such as access credentials, api invoke, wait logic, and response data parsing. It also exposes simple interface methods for the category plugins to CRUD cloud resource.
 
 #### AWS CloudFormation provider
 Currently, the only official provider plugin, amplify-provider-awscloudformation, uses the AWS CloudFormation to form and update the backend resources in the AWS for the amplify categories. For more information about  AWS CloudFormation, check its user guide:
@@ -431,7 +431,7 @@ type Post @model @versioned {
 > Note: @versioned depends on @model so we must pass `new DynamoDBModelTransformer()` before `new VersionedModelTransformer()`. Also note that `new AppSyncTransformer()` must go first for now. In the future we can add a dependency mechanism and topologically sort it ourselves.
 
 The next step after defining the directive is to implement the transformer's business logic. The `graphql-transformer-core` package makes this a little easier
-by exporting a common class through which we may define transformers. User's extend the `Transformer` class and implement the required functions.
+by exporting a common class through which we may define transformers. Users extend the `Transformer` class and implement the required functions.
 
 ```js
 export class Transformer {
