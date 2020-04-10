@@ -58,7 +58,7 @@ export const config: Config = {
     {
       type: "www",
       serviceWorker: null,
-      baseUrl: "https://amplify.aws/",
+      baseUrl: "https://amplify.aws/docs",
       copy: [
         {
           src: "sitemap.xml",

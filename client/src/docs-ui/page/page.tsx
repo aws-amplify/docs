@@ -76,7 +76,7 @@ export class DocsPage {
   };
 
   componentWillLoad() {
-    return this.getPageData();
+    this.getPageData();
   }
 
   componentDidLoad() {

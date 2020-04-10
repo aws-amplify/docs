@@ -1,4 +1,4 @@
-import {Component, h, State, Watch} from "@stencil/core";
+import {Component, h} from "@stencil/core";
 import {routes} from "./api";
 
 @Component({tag: "docs-router", shadow: false})
