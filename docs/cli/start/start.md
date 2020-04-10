@@ -25,7 +25,7 @@ To clone a sample amplify fullstack project, execute the following command insid
 
 `amplify init --app <github url>`
 
-where the github url is a valid sample amplify project repository. Click [here](https://aws-amplify.github.io/docs/cli-toolchain/usage#--app) for more details.
+where the github url is a valid sample amplify project repository. Click [here](~/cli/usage/headless.md#--app) for more details.
 
 ## Common CLI commands
 
