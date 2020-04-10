@@ -14,7 +14,7 @@ Run the following command in your project's root folder. The CLI will prompt con
 > The Analytics category utilizes the Authentication category behind the scenes to authorize your app to send analytics events.}
 
 ```bash
-$ amplify add analytics
+amplify add analytics
 ? Provide your pinpoint resource name: pinpointResourceName
 Adding analytics would add the Auth category to the project if not already added.
 ? Apps need authorization to send analytics events. Do you want to allow guests and unauthenticated users to send analytics events? (we recommend you allow this when getting 
@@ -24,7 +24,7 @@ started) Yes
 To deploy your backend run:
 
 ```bash
-$ amplify push
+amplify push
 ```
 
 > If your Analytics resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more](~/cli/migration/lambda-node-version-update.md)

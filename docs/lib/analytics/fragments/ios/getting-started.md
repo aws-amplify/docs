@@ -24,15 +24,15 @@ Close out of the existing Xcode project if you have it open.
 Install the dependencies via CocoaPods by running the following command:
 
 ```bash
-$ pod install --repo-update
+pod install --repo-update
 ```
 
 Open the `.xcworkspace` file created by CocoaPods:
 
 ```ruby
-$ open <YOURAPP>.xcworkspace
+open <YOURAPP>.xcworkspace
 # or
-$ xed .
+xed .
 ```
 
 ### Add Configuration Files
