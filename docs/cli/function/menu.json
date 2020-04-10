@@ -1,6 +1,7 @@
 {
   "title": "Functions",
   "items": [
-    "function"
+    "function",
+    "build-options"
   ]
 }

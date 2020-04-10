@@ -73,7 +73,7 @@ type Comment @model {
 }
 ```
 
-Once you are happy with your schema, save the file and click enter in your
+Once you are happy with your schema, save the file and hit enter in your
 terminal window. if no error messages are thrown this means the transformation
 was successful and you can deploy your new API.
 
@@ -82,8 +82,7 @@ amplify push
 ```
 ## Test the API
 
-Once the API is finished deploying, try going to the AWS AppSync console and
-running some of these queries in your new API's query page.
+Once the API is finished deploying, go to the AWS AppSync console or run `amplify mock api` to try some of these queries in your new API's query page.
 
 ```graphql
 # Create a blog. Remember the returned id.
@@ -207,6 +206,7 @@ At a high level, the transform libraries take a schema defined in the GraphQL Sc
 When creating APIs, you will make changes to the other files and directories in the *amplify/backend/api/YOUR-API-NAME/* directory but you should not manually change anything in the *build* directory. The build directory will be overwritten the next time you run `amplify push` or `amplify api gql-compile`. Here is an overview of the API directory:
 
 ```terminal
+-build/
 - resolvers/
 | # Store any resolver templates written in vtl here. E.G.
 |-- Query.ping.req.vtl
@@ -225,4 +225,5 @@ When creating APIs, you will make changes to the other files and directories in 
 | # Optionally break up your schema into many files. You must remove schema.graphql to use this.
 |-- Query.graphql
 |-- Post.graphql
+- transform.conf.json
 ```

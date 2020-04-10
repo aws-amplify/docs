@@ -5,11 +5,27 @@ description: Some Description
 
 In the [DynamoDB documentation for modeling relational data in a NoSQL database](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-modeling-nosql.html), there is an in depth example of 17 access patterns from the [First Steps for Modeling Relational Data in DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-modeling-nosql.html) page.
 
-![17 Data Access Patterns](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/images/AccessPatternList.png "Access Patterns")
+| | Most common/import access patterns in our organization|
+|---|--------------|
+|1| Look up employee details by employee ID|
+|2| Query employee details by employee name|
+|3| Find an employee's phone number(s)|
+|4| Fine a customer's phone number(s)|
+|5| Get orders for a given customer within a given date range|
+|6| Show all open orders within a given date range across all customers|
+|7| See all employees recently hired|
+|8| Find all employees working in a given warehouse|
+|9| Get all items on order for a given product|
+|10| Get current inventories for a given product at all warehouses|
+|11| Get customers by account representative|
+|12| Get orders by account representative and date|
+|13| Get all items on order for a given product|
+|14| Get all employees with a given job title|
+|15| Get inventory by product and warehouse|
+|16| Get total product inventory|
+|17| Get account representatives ranked by order total and sales period|
 
-In this example, you will learn how to support these data access patterns using GraphQL, AWS Amplify, and the GraphQL Transform library.
-
-This example has the following types:
+In this example, you will learn how to support these data access patterns using GraphQL, AWS Amplify, and the GraphQL Transform library. This example has the following types:
 
 - Warehouse
 - Product
@@ -18,27 +34,6 @@ This example has the following types:
 - AccountRepresentative
 - Customer
 - Product
-
-Let's have a look at the access patterns that we'll be implementing in this tutorial:
-
-1. Look up employee details by employee ID
-2. Query employee details by employee name
-3. Find an employee's phone number(s)
-4. Fine a customer's phone number(s)
-5. Get orders for a given customer within a given date range
-6. Show all open orders within a given date range across all customers
-7. See all employees recently hired
-8. Find all employees working in a given warehouse
-9. Get all items on order for a given product
-10. Get current inventories for a given product at all warehouses
-11. Get customers by account representative
-12. Get orders by account representative and date
-13. Get all items on order for a given product
-14. Get all employees with a given job title
-15. Get inventory by product and warehouse
-16. Get total product inventory
-17. Get account representatives ranked by order total and sales period
-
 
 The [following schema](https://gist.github.com/dabit3/e0af16db09b6e206292d1c5cfc0d0a07) introduces the required keys and connections so that we can support these access patterns:
 
