@@ -135,23 +135,25 @@ For the complete API documentation for Cache module, visit our [API Reference](h
 
 Here is the list of configuration parameters for the Cache module:
 
-**Parameter** | **Type** | **Description**
-keyPrefix | *string* | The ID of Cache which can only be configured when creating new instance.
-capacityInBytes | *number* | Max size of Cache in bytes. By default is 1MB and has a maximum of 5MB.  
-itemMaxSize |  *number* | Max size of individual item which can be set into Cache in bytes. The default value is 200KB.  
-defaultTTL | *number* | TTL for the cache items in milliseconds. The default value is 72 hours.  
-defaultPriority | *number* | Default priority of the cache items. The default value is 5, the highest priority is 1.
-warningThreshold | *number* | This is for keeping Cache's current capacity in a reasonable level. The default is 0.8, which sets warnings for 80% of space usage.
-storage | *StorageType* | The storage medium that will be used for the Cache. Supported values are *LocalStorage*(default) and *SessionStorage* for Web development and *AsyncStorage* for React Native.
+| **Parameter** | **Type** | **Description** |
+|---|---|---
+| keyPrefix | *string* | The ID of Cache which can only be configured when creating new instance. |
+| capacityInBytes | *number* | Max size of Cache in bytes. By default is 1MB and has a maximum of 5MB. |
+| itemMaxSize |  *number* | Max size of individual item which can be set into Cache in bytes. The default value is 200KB.  |
+| defaultTTL | *number* | TTL for the cache items in milliseconds. The default value is 72 hours.  |
+| defaultPriority | *number* | Default priority of the cache items. The default value is 5, the highest priority is 1. |
+| warningThreshold | *number* | This is for keeping Cache's current capacity in a reasonable level. The default is 0.8, which sets warnings for 80% of space usage. |
+| storage | *StorageType* | The storage medium that will be used for the Cache. Supported values are *LocalStorage*(default) and *SessionStorage* for Web development and *AsyncStorage* for React Native. |
 
 ### Configuration Parameters for Items
 
 Here is the list of configuration parameters for the items in the cache :
 
-**Parameter** | **Type** | **Description**
-priority | *number* | Priority of the item to be kept in cache. Higher priority means longer expiration time. 
-expires | *number* | The expiration time of the cache item in milliseconds.
-callback | *function* | You can provide a callback function with getItem() to implement cache miss scenarios. The provided function will only be called if there is not a match for the cache key, and the return value from the function will be assigned as the new value for the key in cache.  
+| **Parameter** | **Type** | **Description** |
+|---|---|---
+| priority|*number*| Priority of the item to be kept in cache. Higher priority means longer expiration time.|
+| expires |*number*|The expiration time of the cache item in milliseconds.|
+| callback | *function* | You can provide a callback function with getItem() to implement cache miss scenarios. The provided function will only be called if there is not a match for the cache key, and the return value from the function will be assigned as the new value for the key in cache. |
 
 ## Using Modular Imports
 

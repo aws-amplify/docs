@@ -5,7 +5,7 @@ description: function
 
 ## Set up a function
 
-You can add a Lambda function to your project which you can use alongside a REST API or as a datasource, as a part of your GraphQL API using the `@function` directive. 
+You can add a Lambda function to your project which you can use alongside a REST API or as a datasource in your GraphQL API using the [`@function` directive](~/cli/graphql-transformer/directives.md#function). 
 ```terminal
 $ amplify add function
 ? Provide a friendly name for your resource to be used as a label for this category in the project: lambdafunction
@@ -18,9 +18,9 @@ $ amplify add function
 
 ## Function templates
 
-* The `Hello World function` would create a basic hello world Lambda function
+* The `Hello World function` will create a basic hello world Lambda function
 * The `CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB)` function would add a predefined [serverless-express](https://github.com/awslabs/aws-serverless-express) Lambda function template for CRUD operations to DynamoDB tables (which you can create by following the CLI prompts or use the tables which you've already configured using the `amplify add storage` command)
-* The `Serverless express function (Integration with Amazon API Gateway) ` would add a predefined [serverless-express](https://github.com/awslabs/aws-serverless-express) Lambda function template with routing enabled for your REST API paths.
+* The `Serverless express function (Integration with Amazon API Gateway) ` will add a predefined [serverless-express](https://github.com/awslabs/aws-serverless-express) Lambda function template with routing enabled for your REST API paths.
 
 You can update the Lambda execution role policies for your function to access other resources generated and maintained by the CLI, using the CLI
 
