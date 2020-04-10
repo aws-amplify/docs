@@ -82,8 +82,7 @@ amplify push
 ```
 ## Test the API
 
-Once the API is finished deploying, try going to the AWS AppSync console and
-run some of these queries in your new API's query page.
+Once the API is finished deploying, go to the AWS AppSync console or run `amplify mock api` to try some of these queries in your new API's query page.
 
 ```graphql
 # Create a blog. Remember the returned id.
