@@ -5,10 +5,13 @@ description: Landing page for the Amplify CLI
 
 The CLI places the following folder structure at the root directory of the project when `init` is completed successfully:
 
+```
 amplify
-&nbsp;&nbsp;.config<br/>
-&nbsp;&nbsp;#current-cloud-backend<br/>
-&nbsp;&nbsp;backend<br/>
+  .config
+  #current-cloud-backend
+  backend
+```
+
 #### amplify/.config folder
 Contains files that store cloud configuration and user settings/preferences
 #### amplify/#current-cloud-backend folder
