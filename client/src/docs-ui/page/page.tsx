@@ -1,4 +1,5 @@
-import {Component, Host, h, State, Listen, Element} from "@stencil/core";
+import {Component, Host, h, State, Listen, Element, Prop} from "@stencil/core";
+import {MatchResults} from "@stencil/router";
 import {
   sidebarLayoutStyle,
   pageStyle,
@@ -26,6 +27,9 @@ import {parseURL} from "../../utils/url/url";
 @Component({tag: "docs-page", shadow: false})
 export class DocsPage {
   @Element() el: HTMLElement;
+
+  /** match path */
+  @Prop() readonly match?: MatchResults;
 
   @State() data?: Page;
   @State() blendUniversalNav?: boolean;
@@ -76,7 +80,7 @@ export class DocsPage {
   };
 
   componentWillLoad() {
-    this.getPageData();
+    return this.getPageData();
   }
 
   componentDidLoad() {
@@ -92,43 +96,47 @@ export class DocsPage {
   }
 
   getPageData = async () => {
-    const {path, params} = parseURL(location.href);
-    this.blendUniversalNav = path === "/";
+    if (this.match) {
+      const {path, params} = parseURL(this.match.path);
+      this.blendUniversalNav = path === "/";
 
-    track({
-      type: AnalyticsEventType.PAGE_VISIT,
-      attributes: {url: location.href},
-    });
-
-    try {
-      this.data = await getPage(path);
-      if (this.data) {
-        updateDocumentHead(this.data);
-        this.filterKey = getFilterKeyFromPage(this.data);
-        this.selectedFilters = Object.assign(
-          {},
-          ...Object.keys(filterOptionsByName).map((filterKey) => {
-            const localStorageKey = getFilterKeyFromLocalStorage(filterKey);
-            return {
-              [filterKey]: localStorageKey
-                ? localStorage.getItem(localStorageKey) || undefined
-                : undefined,
-            };
-          }),
-        );
-        if (this.filterKey) {
-          const {[this.filterKey]: filterValue} = params;
-          if (filterValue) {
-            this.filterValue = filterValue;
-            this.setSelectedFilters({[this.filterKey]: this.filterValue});
-          }
-        }
-      }
-    } catch (exception) {
       track({
-        type: AnalyticsEventType.PAGE_DATA_FETCH_EXCEPTION,
-        attributes: {url: location.href, exception},
+        type: AnalyticsEventType.PAGE_VISIT,
+        attributes: {url: this.match.path},
       });
+
+      try {
+        const data = await getPage(path);
+        if (data) {
+          updateDocumentHead(data);
+          this.filterKey = getFilterKeyFromPage(data);
+          this.selectedFilters = Object.assign(
+            {},
+            ...Object.keys(filterOptionsByName).map((filterKey) => {
+              const localStorageKey = getFilterKeyFromLocalStorage(filterKey);
+              return {
+                [filterKey]: localStorageKey
+                  ? localStorage.getItem(localStorageKey) || undefined
+                  : undefined,
+              };
+            }),
+          );
+          if (this.filterKey) {
+            const {[this.filterKey]: filterValue} = params;
+            if (filterValue) {
+              this.filterValue = filterValue;
+              this.setSelectedFilters({[this.filterKey]: this.filterValue});
+            }
+          }
+          Object.assign(this, {data});
+          return data;
+        }
+      } catch (exception) {
+        track({
+          type: AnalyticsEventType.PAGE_DATA_FETCH_EXCEPTION,
+          attributes: {url: this.match.url, exception},
+        });
+      }
     }
   };
 

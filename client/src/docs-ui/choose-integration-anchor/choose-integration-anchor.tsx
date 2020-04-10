@@ -6,7 +6,7 @@ import {
 } from "../../utils/filter-data";
 import {hostStyle} from "./choose-integration-anchor.style";
 
-@Component({tag: "docs-choose-integration-anchor"})
+@Component({tag: "docs-choose-integration-anchor", shadow: false})
 export class DocsChooseIntegrationAnchor {
   /*** the current page's data */
   @Prop() readonly page?: Page;

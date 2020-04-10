@@ -55,9 +55,11 @@ type AnalyticsEvent =
   | AnalyticsEventPageDataFetchException;
 
 export const track = (event: AnalyticsEvent): Promise<unknown> | undefined => {
-  try {
-    if (Build.isBrowser) {
+  if (Build.isBrowser) {
+    try {
       return Analytics.record(event.type, event.attributes);
+    } catch (e) {
+      console.error("failed to execute track");
     }
-  } catch (e) {}
+  }
 };

@@ -1,5 +1,7 @@
 module.exports = {
-  // afterHydrate(document) {
-  //   console.log(document);
+  // hydrateOptions() {
+  //   return {
+  //     timeout: 10000,
+  //   };
   // },
 };

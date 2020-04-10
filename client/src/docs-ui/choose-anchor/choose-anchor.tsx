@@ -27,7 +27,7 @@ const getRoute = (
   return `${initialRoute}/q/${filterKey}/${filterValue}`;
 };
 
-@Component({tag: "docs-choose-anchor"})
+@Component({tag: "docs-choose-anchor", shadow: false})
 export class DocsChooseAnchor {
   /*** the current page's data */
   @Prop() readonly page?: Page;

@@ -3,6 +3,7 @@ export interface ParsedURL {
   hash: string;
   params: Record<string, string>;
 }
+
 export const parseURL = (url: string): ParsedURL => {
   const {pathname, hash} = new URL(url, location.origin);
   const pieces = pathname.split("/q/");

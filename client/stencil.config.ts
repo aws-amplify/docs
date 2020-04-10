@@ -2,11 +2,18 @@ import {Config} from "@stencil/core";
 import nodePolyfills from "rollup-plugin-node-polyfills";
 
 export const config: Config = {
+  extras: {
+    appendChildSlotFix: true,
+    slotChildNodesFix: true,
+    shadowDomShim: true,
+  },
+  taskQueue: "async",
   globalScript: "src/global/global.ts",
   nodeResolve: {
     browser: true,
   },
   plugins: [nodePolyfills()],
+  enableCache: false,
   commonjs: {
     namedExports: {
       "@aws-sdk/client-cognito-identity-browser": [
@@ -57,10 +64,13 @@ export const config: Config = {
   outputTargets: [
     {
       type: "www",
-      serviceWorker: null,
+      serviceWorker: {
+        unregister: true,
+      },
       baseUrl: "https://docs.amplify.aws",
       prerenderConfig: "prerender-config.js",
       copy: [
+        
         {
           src: "sitemap.xml",
           dest: "sitemap.xml",

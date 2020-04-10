@@ -17,7 +17,7 @@ const rerouteURL = (
   return initialRoute;
 };
 
-@Component({tag: "docs-internal-link"})
+@Component({tag: "docs-internal-link", shadow: false})
 export class DocsInternalLink {
   /*** the global selected filter state */
   @Prop() readonly selectedFilters?: SelectedFilters;
@@ -83,8 +83,8 @@ export class DocsInternalLink {
   }
 
   componentDidRender() {
-    if (this.href) {
-      getPage(this.href);
+    if (this.url) {
+      getPage(parseURL(this.url).path);
     }
   }
 
