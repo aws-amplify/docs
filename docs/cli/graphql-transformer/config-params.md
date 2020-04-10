@@ -1,13 +1,11 @@
 ---
-title: Advanced scenarios
+title: Configurable Parameters
 description: Some Description
 ---
 
-## Configurable Parameters
-
 Much of the behavior of the GraphQL Transform logic is configured by passing arguments to the directives in the GraphQL SDL definition. However, certain other things are configured by passing parameters to the CloudFormation template itself. This provides escape hatches without leaking too many implementation details into the SDL definition. You can pass values to these parameters by adding them to the `parameters.json` file in the API directory of your amplify project.
 
-### AppSyncApiName
+## AppSyncApiName
 
 **Override the name of the generated AppSync API**
 
@@ -17,7 +15,7 @@ Much of the behavior of the GraphQL Transform logic is configured by passing arg
 }
 ```
 
-### CreateAPIKey
+## CreateAPIKey
 
 `CreateAPIKey` takes value of either `1` or `0`. 
 
@@ -43,7 +41,7 @@ Follow these two steps when you need to rotate an API Key
 }
 ```
 
-### APIKeyExpirationEpoch
+## APIKeyExpirationEpoch
 
 **Resets the API Key to expire 1 week after the next `amplify push`**
 
@@ -71,7 +69,7 @@ Follow these two steps when you need to rotate an API Key
 
 > The value specified is the expiration date in seconds since Epoch
 
-### DynamoDBBillingMode
+## DynamoDBBillingMode
 
 **Set the DynamoDB billing mode for the API. One of "PROVISIONED" or "PAY_PER_REQUEST".**
 
@@ -81,7 +79,7 @@ Follow these two steps when you need to rotate an API Key
 }
 ```
 
-### DynamoDBModelTableReadIOPS
+## DynamoDBModelTableReadIOPS
 
 **Override the default read IOPS provisioned for each @model table**
 
@@ -93,7 +91,7 @@ Follow these two steps when you need to rotate an API Key
 }
 ```
 
-### DynamoDBModelTableWriteIOPS
+## DynamoDBModelTableWriteIOPS
 
 **Override the default write IOPS provisioned for each @model table**
 
@@ -105,7 +103,7 @@ Follow these two steps when you need to rotate an API Key
 }
 ```
 
-### ElasticsearchStreamingFunctionName
+## ElasticsearchStreamingFunctionName
 
 **Override the name of the AWS Lambda searchable streaming function**
 
@@ -115,7 +113,7 @@ Follow these two steps when you need to rotate an API Key
 }
 ```
 
-### ElasticsearchInstanceCount
+## ElasticsearchInstanceCount
 
 **Override the number of instances launched into the Elasticsearch domain created by @searchable**
 
@@ -125,7 +123,7 @@ Follow these two steps when you need to rotate an API Key
 }
 ```
 
-### ElasticsearchInstanceType
+## ElasticsearchInstanceType
 
 **Override the type of instance launched into the Elasticsearch domain created by @searchable**
 
@@ -135,7 +133,7 @@ Follow these two steps when you need to rotate an API Key
 }
 ```
 
-### ElasticsearchEBSVolumeGB
+## ElasticsearchEBSVolumeGB
 
 **Override the amount of disk space allocated to each instance in the Elasticsearch domain created by @searchable**
 
@@ -167,57 +165,5 @@ type PrivateNote
 {
   id: ID!
   content: String!
-}
-```
-
-### Task Queries
-
-```graphql
-# Create a task. Only allowed if a manager.
-mutation CreateTask {
-  createTask(input:{
-    title:"A task",
-    description:"A task description",
-    status: "pending"
-  }) {
-    id
-    title
-    description
-  }
-}
-
-# Get a task. Allowed if an employee.
-query GetTask($taskId:ID!) {
-  getTask(id:$taskId) {
-    id
-    title
-    description
-  }
-}
-
-# Automatically inject the username as owner attribute.
-mutation CreatePrivateNote {
-  createPrivateNote(input:{content:"A private note of user 1"}) {
-    id
-    content
-  }
-}
-
-# Unauthorized error if not owner.
-query GetPrivateNote($privateNoteId:ID!) {
-  getPrivateNote(id:$privateNoteId) {
-    id
-    content
-  }
-}
-
-# Return only my own private notes.
-query ListPrivateNote {
-  listPrivateNote {
-    items {
-      id
-      content
-    }
-  }
 }
 ```
