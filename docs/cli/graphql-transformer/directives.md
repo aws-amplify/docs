@@ -472,8 +472,7 @@ Here's a truth table for the above-mentioned schema. In the table below `other` 
 | other |    ❌    |     ❌    |      ✅     |      ❌     |      ❌     |
 
 
-
-
+> **Note:** Specifying `@auth(rules: [{ allow: owner, operations: [create]}])` still allows anyone who has access to your API to create records (as shown in the above truth table). However, including this is necessary when specifying other owner auth rules to ensure that the owner is stored with the record so it can be verified on subsequent requests.
 
 You may also apply multiple ownership rules on a single `@model` type. For example, imagine you have a type **Draft**
 that stores unfinished posts for a blog. You might want to allow the **Draft's owner** to create, update, delete, and
