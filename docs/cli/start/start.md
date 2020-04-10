@@ -25,7 +25,7 @@ To clone a sample amplify fullstack project, execute the following command insid
 
 `amplify init --app <github url>`
 
-where the github url is a valid sample amplify project repository. Click [here](https://aws-amplify.github.io/docs/cli-toolchain/usage#--app) for more details.
+where the github url is a valid sample amplify project repository. Click [here](~/cli/usage/headless.md#--app) for more details.
 
 ## Common CLI commands
 
@@ -40,13 +40,13 @@ The provider logs the information of the root stack and the resources into the p
 The root stack's template can be found in `amplify/backend/awscloudformation`.
 
 ### amplify <category> add
-Once init is complete, run the command `amplify add <category>` to add resources of a category to the cloud. This will place a CloudFormation template for the resources of this category in the category's subdirectory `amplify/backend/<category>` and insert its reference into the above-mentioned root stack as the nested child stack. When working in teams, it is good practice to run an `amplify pull` before modifying the backend categories.
+Once init is complete, run the command `amplify <category> add` to add resources of a category to the cloud. This will place a CloudFormation template for the resources of this category in the category's subdirectory `amplify/backend/<category>` and insert its reference into the above-mentioned root stack as the nested child stack. When working in teams, it is good practice to run an `amplify pull` before modifying the backend categories.
 
 ### amplify push
 Once you have made your category updates, run the command `amplify push` to update the cloud resources. The CLI will first upload the latest versions of the category nested stack templates to the S3 deployment bucket, and then call the AWS CloudFormation API to create / update resources in the cloud. Based upon the resources added/updated, the `aws-exports.js` file (for JS projects) and the `awsconfiguration.json` file (for native projects) gets created/updated.
 
 ### amplify pull
-The `amplify pull` command operates similar to a *git pull*, fetching upstream backend environment definition changes from the cloud and updating the local environment to match that definition. The command is particularly helpful in team scenarios when multiple team members are editing the same backend, pulling a backend into a new project, or when connecting to [multiple frontend projects](#multiple-frontends) that share the same Amplify backend environment.
+The `amplify pull` command operates similar to a *git pull*, fetching upstream backend environment definition changes from the cloud and updating the local environment to match that definition. The command is particularly helpful in team scenarios when multiple team members are editing the same backend, pulling a backend into a new project, or when connecting to [multiple frontend projects](~/cli/teams/multi-frontend.md) that share the same Amplify backend environment.
 
 ### amplify console
 The `amplify console` command launches the browser directing you to your cloud project in the AWS Amplify Console. The Amplify Console provides a central location for development teams to view and manage their backend environments, status of the backend deployment, deep-links to the backend resources by Amplify category, and instructions on how to pull, clone, update, or delete environments.
@@ -72,5 +72,6 @@ The `amplify configure project` command is an advanced command and not commonly 
 ### Category commands
 
 - `amplify <category> add`
+- `amplify <category> update`
 - `amplify <category> remove`
 - `amplify <category> push`

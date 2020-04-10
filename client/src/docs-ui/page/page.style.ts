@@ -61,6 +61,14 @@ export const pageStyle = css`
   position: relative;
   display: flex;
   flex-direction: column;
+
+  ul {
+    margin-bottom: 1rem;
+
+    li + li {
+      margin-top: 0.25rem;
+    }
+  }
 `;
 
 export const tocStyle = css`

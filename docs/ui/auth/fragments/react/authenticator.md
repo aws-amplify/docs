@@ -54,7 +54,7 @@ Amplify UI Components use `slots` based off of the [Web Components slot element]
 
 **Usage**
 
-```js
+```jsx
 import React from 'react';
 import { AmplifyAuthenticator, AmplifySignIn, AmplifySignOut } from '@aws-amplify/ui-react';
 
@@ -78,7 +78,7 @@ const App = () => (
 
 **Usage**
 
-```js
+```jsx
 import React from 'react';
 import { AmplifyAuthenticator, AmplifySignUp, AmplifySignOut } from '@aws-amplify/ui-react';
 
@@ -102,7 +102,7 @@ const App = () => (
 
 **Usage**
 
-```js
+```jsx
 import React from 'react';
 import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 
@@ -124,7 +124,7 @@ const App = () => (
 
 **Usage**
 
-```js
+```jsx
 import React from 'react';
 import { AmplifyAuthenticator, AmplifyConfirmSignIn, AmplifySignOut } from '@aws-amplify/ui-react';
 
@@ -148,7 +148,7 @@ const App = () => (
 
 **Usage**
 
-```js
+```jsx
 import React from 'react';
 import { AmplifyAuthenticator, AmplifyConfirmSignIn, AmplifySignOut } from '@aws-amplify/ui-react';
 
@@ -172,7 +172,7 @@ const App = () => (
 
 **Usage**
 
-```js
+```jsx
 import React from 'react';
 import { AmplifyAuthenticator, AmplifyForgotPassword, AmplifySignOut } from '@aws-amplify/ui-react';
 
@@ -196,7 +196,7 @@ const App = () => (
 
 **Usage**
 
-```js
+```jsx
 import React from 'react';
 import { AmplifyAuthenticator, AmplifyRequireNewPassword, AmplifySignOut } from '@aws-amplify/ui-react';
 
@@ -218,7 +218,7 @@ const App = () => (
 
 **Usage**
 
-```js
+```jsx
 import React from 'react';
 import { AmplifyAuthenticator, AmplifyRequireNewPassword, AmplifySignOut } from '@aws-amplify/ui-react';
 
@@ -238,7 +238,7 @@ const App = () => (
 
 ### Verify Contact
 
-```js
+```jsx
 import React from 'react';
 import { AmplifyAuthenticator, AmplifyVerifyContract, AmplifySignOut } from '@aws-amplify/ui-react';
 
@@ -258,18 +258,18 @@ const App = () => (
 
 ### Greetings
 
-<amplify-greetings></amplify-greetings>
+<amplify-greetings username="Test Username"></amplify-greetings>
 
 **Usage**
 
-```js
+```jsx
 import React from 'react';
 import { AmplifyAuthenticator, AmplifyGreetings} from '@aws-amplify/ui-react';
 
 const App = () => (
   <AmplifyAuthenticator>
     <div>
-      <AmplifyGreetings></AmplifyGreetings>
+      <AmplifyGreetings username="Test Username"></AmplifyGreetings>
       My App
     </div>
   </AmplifyAuthenticator>
@@ -277,6 +277,31 @@ const App = () => (
 ```
 
 <ui-component-props tag="amplify-greetings"></ui-component-props>
+
+### withAuthenticator
+
+The `withAuthenticator` is a higher-order component (HoC) that wraps `AmplifyAuthenticator`.
+
+**Usage**
+```jsx
+import React from 'react';
+import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+
+const App = () => (
+  <div>
+    <AmplifySignOut></AmplifySignOut>
+    My App
+  </div>
+);
+
+export withAuthenticator(App);
+```
+
+You can also pass in any of the [AmplifyAuthenticator props](#props-amplify-authenticator):
+
+```jsx
+export withAuthenticator(App, {initialAuthState: 'signup'});
+```
 
 ## Use Cases
 
@@ -296,6 +321,7 @@ const App = () => (
   </AmplifyAuthenticator>
 );
 ```
+
 
 ## Migration
 
@@ -326,3 +352,23 @@ const App = () => (
 - </Authenticator>
 );
 ```
+
+If you are using `withAuthenticator`:
+```diff
+- import { withAuthenticator } from 'aws-amplify-react';
++ import { withAuthenticator } from '@aws-amplify/ui-react';
+```
+
+```jsx
+export default withAuthenticator(App);
+```
+
+### Breaking changes for withAuthenticator
+
+<amplify-callout warning>
+
+We have deprecated some of the properties passed into `withAuthenticator`. If you were providing additional options to `withAuthenticator` (e.g. `includeGreetings`, `authenticatorComponents`, `federated`, `theme`), these have changed. Refer to the updated list of [Properties here](~/ui/auth/authenticator.md?framework=react#props-amplify-authenticator).
+
+</amplify-callout>
+
+The previous `withAuthenticator` component would render a Greetings and Sign Out button at the top of your app after logging in. If you would like to add a Greetings or Sign Out button to your app you can add the [`AmplifyGreetings`](#greetings) or [`AmplifySignOut`](#sign-out) component to your app. Visit the [`withAuthenticator` example](#withauthenticator) above to see this.
