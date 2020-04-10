@@ -58,7 +58,8 @@ export const config: Config = {
     {
       type: "www",
       serviceWorker: null,
-      baseUrl: "https://amplify.aws/docs",
+      baseUrl: "https://docs.amplify.aws",
+      prerenderConfig: "prerender-config.js",
       copy: [
         {
           src: "sitemap.xml",
