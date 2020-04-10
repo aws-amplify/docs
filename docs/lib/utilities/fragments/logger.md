@@ -55,8 +55,8 @@ window.LOG_LEVEL = 'DEBUG';
 
 Supported log levels:
 
-* ERROR
-* WARN
-* INFO
-* DEBUG
-* VERBOSE
+* `ERROR`
+* `WARN`
+* `INFO`
+* `DEBUG`
+* `VERBOSE`
