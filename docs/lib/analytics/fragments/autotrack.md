@@ -2,8 +2,8 @@ The Amplify analytics plugin records when an application opens and closes. This 
 
 To view this from the Console:
 
-```
-amplify console
+```sh
+$ amplify console
 ```
 
 1. Navigate to the *Analytics* tab, and then choose *View in Pinpoint*.
