@@ -73,7 +73,7 @@ type Comment @model {
 }
 ```
 
-Once you are happy with your schema, save the file and click enter in your
+Once you are happy with your schema, save the file and hit enter in your
 terminal window. if no error messages are thrown this means the transformation
 was successful and you can deploy your new API.
 
@@ -83,7 +83,7 @@ amplify push
 ## Test the API
 
 Once the API is finished deploying, try going to the AWS AppSync console and
-running some of these queries in your new API's query page.
+run some of these queries in your new API's query page.
 
 ```graphql
 # Create a blog. Remember the returned id.

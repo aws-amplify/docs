@@ -12,7 +12,7 @@ This adds the hosting resources to the backend. The command will first prompt fo
 - `amplify configure hosting`<br/>
 This command walks through the steps to configure the different sections of the resources used in hosting, including S3, CloudFront, and publish ignore. See below for more details.<br/><br/>
 - `amplify publish`<br/>
-The `amplify publish` command is designed to build and publish both the backend and the frontend of the project. In the current implementation, the frontend publish functionality is only available for a JavaScript project for static web hosting.<br/>
+The `amplify publish` command is designed to build and publish both the backend and the frontend of the project. In the current implementation, the frontend publish functionality is only available for a JavaScript project for static web hosting.<br/><br/>
 - `amplify remove hosting`<br/>
 This removes the hosting resources locally from the backend. On your next `amplify push` the provisioned hosting resources will get removed from the cloud. <br/><br/>
 
