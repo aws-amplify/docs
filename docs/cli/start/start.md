@@ -72,5 +72,6 @@ The `amplify configure project` command is an advanced command and not commonly 
 ### Category commands
 
 - `amplify <category> add`
+- `amplify <category> update`
 - `amplify <category> remove`
 - `amplify <category> push`
