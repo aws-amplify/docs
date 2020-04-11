@@ -1,4 +1,4 @@
-A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`. The CLI will also print the URL for Amazon Pinpoint console to track your app events.  
+A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`. The CLI will also print the URL for AWS Pinpoint console to track your app events.  
 
 ## Configure Your App
 
@@ -10,7 +10,7 @@ import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 ```
 
-User session data is automatically collected unless you disabled analytics. To see the results visit the [Amazon Pinpoint console](https://console.aws.amazon.com/pinpoint/home/).
+User session data is automatically collected unless you disabled analytics. To see the results visit the [AWS Pinpoint console](https://console.aws.amazon.com/pinpoint/home/).
 
 ## Recording an event
 
@@ -40,7 +40,7 @@ For a complete API reference visit the [API Reference](https://aws-amplify.githu
 
 ## Set up existing analytics backend
 
-The manual setup enables you to use your existing Amazon Pinpoint resource in your app.
+The manual setup enables you to use your existing AWS Pinpoint resource in your app.
 
 ```javascript
 import Amplify from 'aws-amplify';
@@ -59,7 +59,7 @@ Amplify.configure({
         autoSessionRecord: true,
 
         AWSPinpoint: {
-            // OPTIONAL -  Amazon Pinpoint App Client ID
+            // OPTIONAL -  AWS Pinpoint App Client ID
             appId: 'XXXXXXXXXXabcdefghij1234567890ab',
             // OPTIONAL -  Amazon service region
             region: 'XX-XXXX-X',
@@ -69,7 +69,7 @@ Amplify.configure({
             endpoint: {
                 address: 'xxxxxxx', // The unique identifier for the recipient. For example, an address could be a device token, email address, or mobile phone number.
                 attributes: {
-                    // Custom attributes that your app reports to Amazon Pinpoint. You can use these attributes as selection criteria when you create a segment.
+                    // Custom attributes that your app reports to AWS Pinpoint. You can use these attributes as selection criteria when you create a segment.
                     hobbies: ['piano', 'hiking'],
                 },
                 channelType: 'APNS', // The channel type. Valid values: APNS, GCM
@@ -92,7 +92,7 @@ Amplify.configure({
                     region: 'xxxxxx' // The region of the endpoint location. For example, in the United States, this corresponds to a state.
                 },
                 metrics: {
-                    // Custom metrics that your app reports to Amazon Pinpoint.
+                    // Custom metrics that your app reports to AWS Pinpoint.
                 },
                 /** Indicates whether a user has opted out of receiving messages with one of the following values:
                  * ALL - User has opted out of all messages.
@@ -127,7 +127,7 @@ Amplify.configure({
 
 ### Update your IAM Policy:
 
-Amazon Pinpoint service requires an IAM policy in order to use the `record` API:
+AWS Pinpoint service requires an IAM policy in order to use the `record` API:
 
 ```json
 {
@@ -158,7 +158,7 @@ import Analytics from '@aws-amplify/analytics';
 Analytics.updateEndpoint({
     address: 'xxxxxxx', // The unique identifier for the recipient. For example, an address could be a device token, email address, or mobile phone number.
     attributes: {
-        // Custom attributes that your app reports to Amazon Pinpoint. You can use these attributes as selection criteria when you create a segment.
+        // Custom attributes that your app reports to AWS Pinpoint. You can use these attributes as selection criteria when you create a segment.
         hobbies: ['piano', 'hiking'],
     },
     channelType: 'APNS', // The channel type. Valid values: APNS, GCM
@@ -181,7 +181,7 @@ Analytics.updateEndpoint({
         region: 'xxxxxx' // The region of the endpoint location. For example, in the United States, this corresponds to a state.
     },
     metrics: {
-        // Custom metrics that your app reports to Amazon Pinpoint.
+        // Custom metrics that your app reports to AWS Pinpoint.
     },
     /** Indicates whether a user has opted out of receiving messages with one of the following values:
         * ALL - User has opted out of all messages.
@@ -199,7 +199,7 @@ Analytics.updateEndpoint({
 });
 ```
 
-<a href="https://docs.aws.amazon.com/pinpoint/latest/developerguide/audience-define-user.html" target="_blank">Learn more</a> about Amazon Pinpoint and Endpoints.
+<a href="https://docs.aws.amazon.com/pinpoint/latest/developerguide/audience-define-user.html" target="_blank">Learn more</a> about AWS Pinpoint and Endpoints.
 
 ## Using a Custom Plugin
 
@@ -251,4 +251,4 @@ Analytics.configure({
 
 ```
 
-The default provider (Amazon Pinpoint) is in use when you call `Analytics.record()` unless you specify a different provider: `Analytics.record({..},'MyAnalyticsProvider')`. 
+The default provider (AWS Pinpoint) is in use when you call `Analytics.record()` unless you specify a different provider: `Analytics.record({..},'MyAnalyticsProvider')`. 

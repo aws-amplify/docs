@@ -13,7 +13,6 @@ Add the following to your `Podfile`:
 ```ruby
 target :'YOUR-APP-NAME' do
   use_frameworks!
-  pod 'Amplify'
   pod 'AmplifyPlugins/AWSPinpointAnalyticsPlugin'
   pod 'AWSMobileClient'
 end
