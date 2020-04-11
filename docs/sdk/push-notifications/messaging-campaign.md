@@ -1,5 +1,5 @@
 ---
-title: Messaging Campaign
+title: Messaging campaigns
 description: description
 ---
 
