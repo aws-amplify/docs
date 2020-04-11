@@ -2,11 +2,11 @@ import {Config} from "@stencil/core";
 import nodePolyfills from "rollup-plugin-node-polyfills";
 
 export const config: Config = {
-  extras: {
-    appendChildSlotFix: true,
-    slotChildNodesFix: true,
-    shadowDomShim: true,
-  },
+  // extras: {
+  //   appendChildSlotFix: true,
+  //   slotChildNodesFix: true,
+  //   shadowDomShim: true,
+  // },
   taskQueue: "async",
   globalScript: "src/global/global.ts",
   nodeResolve: {

@@ -1,7 +1,10 @@
 module.exports = {
-  // hydrateOptions() {
-  //   return {
-  //     timeout: 10000,
-  //   };
-  // },
+  hydrateOptions() {
+    const hydrateOptions = {
+      addModulePreloads: true,
+      prettyHTML: true,
+    };
+
+    return hydrateOptions;
+  },
 };
