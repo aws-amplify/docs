@@ -3,30 +3,34 @@
 Posts data to the API endpoint:
 
 ```javascript
-let apiName = 'MyApiName'; // replace this with your api name.
-let path = '/path'; //replace this with the path you have configured on your API
-let myInit = {
+const apiName = 'MyApiName'; // replace this with your api name.
+const path = '/path'; //replace this with the path you have configured on your API
+const myInit = {
     body: {}, // replace this with attributes you need
-    headers: {} // OPTIONAL
-}
+    headers: {}, // OPTIONAL
+};
 
-API.post(apiName, path, myInit).then(response => {
+API
+  .post(apiName, path, myInit)
+  .then(response => {
     // Add your code here
-}).catch(error => {
-    console.log(error.response)
-});
+  })
+  .catch(error => {
+    console.log(error.response);
+  });
 ```
 
 Example with async/await
 
 ```javascript
 async function postData() { 
-    let apiName = 'MyApiName';
-    let path = '/path';
-    let myInit = { // OPTIONAL
+    const apiName = 'MyApiName';
+    const path = '/path';
+    const myInit = { // OPTIONAL
         body: {}, // replace this with attributes you need
-        headers: {} // OPTIONAL
-    }
+        headers: {}, // OPTIONAL
+    };
+
     return await API.post(apiName, path, myInit);
 }
 
@@ -38,30 +42,34 @@ postData();
 When used together with a REST API, `put()` method can be used to create or update records. It updates the record if a matching record is found. Otherwise, a new record is created.
 
 ```javascript
-let apiName = 'MyApiName'; // replace this with your api name.
-let path = '/path'; // replace this with the path you have configured on your API
-let myInit = {
+const apiName = 'MyApiName'; // replace this with your api name.
+const path = '/path'; // replace this with the path you have configured on your API
+const myInit = {
     body: {}, // replace this with attributes you need
-    headers: {} // OPTIONAL
-}
+    headers: {}, // OPTIONAL
+};
 
-API.put(apiName, path, myInit).then(response => {
+API
+  .put(apiName, path, myInit)
+  .then(response => {
     // Add your code here
-}).catch(error => {
-    console.log(error.response)
-});
+  })
+  .catch(error => {
+    console.log(error.response);
+  });
 ```
 
 Example with async/await:
 
 ```javascript
 async function putData() { 
-    let apiName = 'MyApiName';
-    let path = '/path';
-    let myInit = { // OPTIONAL
+    const apiName = 'MyApiName';
+    const path = '/path';
+    const myInit = { // OPTIONAL
         body: {}, // replace this with attributes you need
-        headers: {} // OPTIONAL
-    }
+        headers: {}, // OPTIONAL
+    };
+
     return await API.put(apiName, path, myInit);
 }
 
@@ -78,7 +86,7 @@ exports.handler = (event, context) => {
 
 // using serverless express
 app.put('/myendpoint', function(req, res) {
-  console.log('body: ', req.body)
+  console.log('body: ', req.body);
 });
 ```
 
@@ -89,34 +97,38 @@ const params = {
     body: {
         itemId: '12345',
         itemDesc: ' update description'
-    }
-}
+    },
+};
+
 const apiResponse = await API.put('MyTableCRUD', '/manage-items', params);
 ```
 
 ## DELETE data
 
 ```javascript
-let apiName = 'MyApiName'; // replace this with your api name.
-let path = '/path'; //replace this with the path you have configured on your API
-let myInit = { // OPTIONAL
-    headers: {} // OPTIONAL
-}
+const apiName = 'MyApiName'; // replace this with your api name.
+const path = '/path'; //replace this with the path you have configured on your API
+const myInit = { // OPTIONAL
+    headers: {}, // OPTIONAL
+};
 
-API.del(apiName, path, myInit).then(response => {
+API
+  .del(apiName, path, myInit)
+  .then(response => {
     // Add your code here
-}).catch(error => {
-    console.log(error.response)
-});
+  })
+  .catch(error => {
+    console.log(error.response);
+  });
 ```
 
 Example with async/await
 
 ```javascript
 async function deleteData() { 
-    let apiName = 'MyApiName';
-    let path = '/path';
-    let myInit = { // OPTIONAL
+    const apiName = 'MyApiName';
+    const path = '/path';
+    const myInit = { // OPTIONAL
         headers: {} // OPTIONAL
     }
     return await API.del(apiName, path, myInit);
@@ -135,7 +147,7 @@ exports.handler = (event, context) => {
 
 // using serverless express
 app.delete('/myendpoint', function(req, res) {
-  console.log('body: ', req.body)
+  console.log('body: ', req.body);
 });
 ```
 
@@ -149,6 +161,6 @@ exports.handler = (event, context) => {
 
 // using serverless express
 app.post('/myendpoint', function(req, res) {
-  console.log('body: ', req.body)
+  console.log('body: ', req.body);
 });
 ```
