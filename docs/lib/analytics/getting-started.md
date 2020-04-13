@@ -13,7 +13,7 @@ Run the following command in your project's root folder. The CLI will prompt con
 
 > The Analytics category utilizes the Authentication category behind the scenes to authorize your app to send analytics events.
 
-```bash
+```console
 amplify add analytics
 ? Provide your pinpoint resource name: pinpointResourceName
 Adding analytics would add the Auth category to the project if not already added.
@@ -23,7 +23,7 @@ started) Yes
 
 To deploy your backend run:
 
-```bash
+```console
 amplify push
 ```
 
@@ -35,6 +35,6 @@ amplify push
 
 From the terminal run the following command. Navigate to the *Analytics* tab, and then choose *View in Pinpoint*.
 
-```
+```console
 amplify console
 ```

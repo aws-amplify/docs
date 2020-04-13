@@ -23,7 +23,7 @@ func identifyUser() {
                                                      country: "USA")
         let properties = ["userState": "\(userState)"]
         let userProfile = AnalyticsUserProfile(name: "name",
-                                               email: "name@email.com",
+                                               email: "name@example.com",
                                                location: location,
                                                properties: properties)
         Amplify.Analytics.identifyUser(identityId as String, withProfile: userProfile)

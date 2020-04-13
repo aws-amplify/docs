@@ -5,7 +5,7 @@ The Amplify Analytics plugin provides a simple interface to record custom events
 ```swift
 func recordEvents() {
     let properties: [String: AnalyticsPropertyValue] = [
-        "eventPropertyStringKey": "eventProperyStringValue",
+        "eventPropertyStringKey": "eventPropertyStringValue",
         "eventPropertyIntKey": 123,
         "eventPropertyDoubleKey": 12.34,
         "eventPropertyBoolKey": true
@@ -17,7 +17,7 @@ func recordEvents() {
 
 ## Flush Events
 
-Events have default configuration to flush out to the network every 60 seconds. If you would like to change this, update `amplifyconfiguration.json` with the value you would like for `autoFlushEventsInterval` like so
+Events have default configuration to flush out to the network every 60 seconds. If you would like to change this, update `amplifyconfiguration.json` with the value you would like for `autoFlushEventsInterval` like so:
 
 ```json
 {
@@ -52,15 +52,19 @@ let globalProperties: [String: AnalyticsPropertyValue] = ["globalPropertyKey": "
 Amplify.Analytics.registerGlobalProperties(globalProperties)
 ```
 
-To unregister all global properties call `Amplify.Analytics.unregisterGlobalProperties()`:
+To unregister global properties call `Amplify.Analytics.unregisterGlobalProperties()`:
 
 ```swift
-Amplify.Analytics.unregisterGlobalProperties(["globalPropertyKey"])
+// when called with no arguments, it unregisters all global properties
+Amplify.Analytics.unregisterGlobalProperties()
+
+// or you can specify properties to unregister
+Amplify.Analytics.unregisterGlobalProperties(["globalPropertyKey1", "globalPropertyKey2"])
 ```
 
 ## Disable Analytics
 
-To disable analytics:
+Analytics are sent to the backend automatically (i.e. it's enabled by default). To disable it call:
 
 ```swift
 Amplify.Analytics.disable()
@@ -68,7 +72,7 @@ Amplify.Analytics.disable()
 
 ## Enable Analytics
 
-To enable analytics:
+To re-enable it call:
 
 ```swift
 Amplify.Analytics.enable()
