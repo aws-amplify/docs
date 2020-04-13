@@ -147,7 +147,7 @@ You can now [configure Google in your mobile app](#google-login-in-your-mobile-a
 
 > Note that the CLI allows you to select more than one identity provider for your app. You can also run `amplify update auth` to add an identity provider to an existing auth configuration.
 
-### Set up Apple
+### Set up Sign in with Apple
 
 To federate Sign in with Apple as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.default().federatedSignIn()`. You must set up your application to use Sign in with Apple, and then configure Amazon Cognito Identity Pools to use Apple as an authentication provider. There are three main steps to setting up Sign in with Apple: implementing Sign in with Apple in your app, configuring Sign in with Apple as an authentication provider in your Amazon Cognito Identity Pool, and passing the Sign in with Apple token to AWSMobileClient via `federatedSignIn`.
 
@@ -208,8 +208,8 @@ Once the a user has authenticated, the app will receive a Cognito identity ID an
 
 ```swift
 AWSMobileClient.default().federatedSignIn(providerName: IdentityProvider.developer.rawValue,
-                                                        token: "YOUR_TOKEN",
-                                       federatedSignInOptions: FederatedSignInOptions(cognitoIdentityId: identityId!)) { (userState, error) in
+                                          token: "YOUR_TOKEN",
+                                          federatedSignInOptions: FederatedSignInOptions(cognitoIdentityId: identityId!)) { (userState, error) in
     if let error = error as? AWSMobileClientError {
         print(error.localizedDescription)
     }
