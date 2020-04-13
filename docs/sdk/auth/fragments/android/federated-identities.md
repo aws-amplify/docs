@@ -150,6 +150,48 @@ You can now [configure Google in your mobile app](#google-login-in-your-mobile-a
 
 > Note that the CLI allows you to select more than one identity provider for your app. You can also run `amplify update auth` to add an identity provider to an existing auth configuration.
 
+### Set up Sign in with Apple
+
+To federate Sign in with Apple as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.default().federatedSignIn()`. You must set up your application to use Sign in with Apple, and then configure Amazon Cognito Identity Pools to use Apple as an authentication provider. There are three main steps to setting up Sign in with Apple: implementing Sign in with Apple in your app, configuring Sign in with Apple as an authentication provider in your Amazon Cognito Identity Pool, and passing the Sign in with Apple token to AWSMobileClient via `federatedSignIn`.
+
+1. **Implementing Sign in with Apple in your app**
+
+    Since we don’t have an SDK that supports Sign in with Apple for Android, we need to use the web flow in a web view. To configure Sign in with Apple in your application, follow [Configuring Your Webpage for Sign In with Apple](https://developer.apple.com/documentation/signinwithapplejs/configuring_your_webpage_for_sign_in_with_apple) in the Apple documentation. To add a Sign in with Apple button to your Android user interface, follow [Displaying and Configuring Sign In with Apple Buttons](https://developer.apple.com/documentation/signinwithapplejs/displaying_and_configuring_sign_in_with_apple_buttons) in the Apple documentation. To securely authenticate users using Sign in with Apple, follow [Configuring Your Webpage for Sign In with Apple](https://developer.apple.com/documentation/signinwithapplerestapi/authenticating_users_with_sign_in_with_apple) in the Apple documentation.
+
+2. **Configuring Sign in with Apple as an authentication provider in your Amazon Cognito Identity Pool**
+
+    Once you have configured your application to use Sign in with Apple, paste your app's **Bundle Identifier** into the **Apple Services ID** field of your Amazon Cognito Identity Pool. The Bundle Identifier can be found in the **Certificates, IDs & Profiles** section of your Apple Account page.
+
+    > **Note:** If you have set up Sign in with Apple for use on websites, or using Cognito HostedUI, you may have set up an Apple Services ID. That value is different from your app's **Bundle Identifier**, which can be found in Xcode by navigating to your Project's **General** tab.
+
+3. **Passing the Sign in with Apple token to AWSMobileClient via `federatedSignIn`**
+
+    Sign in with Apple uses a session object to track its state. Amazon Cognito uses the id token from this session object to authenticate the user, generate the unique identifier, and, if needed, grant the user access to other AWS resources.
+
+    Once you have configured Sign in with Apple as an authentication provider for your Amazon Cognito Identity Pool, and your app implements authentication with Sign in with Apple, you can retrieve the `id_token` value of the Sign in with Apple authentication response to use as the token for the `federatedSignIn` method:
+
+    ```java
+    // The onSuccess method of your app's Sign in with Apple flow
+
+    @Override
+    public void onSuccess(Bundle response) {
+        String token = response.getString("id_token");
+
+        AWSMobileClient.getInstance().federatedSignIn(IdentityProvider.APPLE.toString(), token, new Callback<UserStateDetails>() {
+            @Override
+            public void onResult(final UserStateDetails userStateDetails) {
+                //Handle the result
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Log.e(TAG, "sign-in error", e);
+        });
+    }
+    ```
+
+    After the `federatedSignIn` method successfully completes, `AWSMobileClient` will automatically use the federated identity to obtain credentials to make AWS service calls.
+
 ### Facebook Login in Your Mobile App
 
 > **Use Android API level 23 or higher** The `AWSMobileClient` library for Android sign-in provides the activity and view for presenting a `SignInUI` for the sign-in providers you configure. This library depends on the Android SDK API Level 23 or higher.
