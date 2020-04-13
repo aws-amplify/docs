@@ -159,6 +159,8 @@ To federate Sign in with Apple as a user sign-in provider for AWS services calle
 
     Once you have configured your application to use Sign in with Apple, paste your app's **Bundle Identifier** into the **Apple Services ID** field of your Amazon Cognito Identity Pool.
 
+    > **Note:** If you have set up Sign in with Apple for use on websites, or using Cognito HostedUI, you may have set up an Apple Services ID. That value is different from your app's **Bundle Identifier**, which can be found in Xcode by navigating to your Project's **General** tab.
+
 3. **Passing the Sign in with Apple token to AWSMobileClient via `federatedSignIn`**
 
     Once you have configured Sign in with Apple as an authentication provider for your Amazon Cognito Identity Pool, and your app implements authentication with Sign in with Apple, you can use the authentication tokens provided by Sign in with Apple to obtain credentials to authorize calls to AWS services in your app. When your app's [`authorizationController(controller:didCompleteWithAuthorization:)`](https://developer.apple.com/documentation/authenticationservices/asauthorizationcontrollerdelegate/3153050-authorizationcontroller) delegate method receives an `ASAuthorizationCredential` of type `ASAuthorizationAppleIDCredential`, you can use the credential's `identityToken` to federate into your Amazon Cognito Identity Pool, as in the following sample code:
