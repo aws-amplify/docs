@@ -1,5 +1,5 @@
 ---
-title: Updating data
+title: Updating Data
 description: Using Post, Put, etc. in Amplify Framework
 ---
 
