@@ -85,7 +85,7 @@ try {
 }
 ```
 
-This feature is available in the AWS SDK for Android starting from version `2.16.8`. See [AWSIoT - 2.16.8](https://github.com/aws/aws-sdk-android/releases/tag/release_v2.16.8) for more details.
+This feature is available in the AWS SDK for Android starting from version `2.16.8`.
 
 ## Subscribe to a topic
 

@@ -16,7 +16,7 @@ Amplify.Analytics.recordEvent(event);
 
 ## Flush Events
 
-Events have default configuration to flush out to the network every 60 seconds. If you would like to change this, update `amplifyconfiguration.json` with the value you would like for `autoFlushEventsInterval` like so
+Events have default configuration to flush out to the network every 30 seconds. If you would like to change this, update `amplifyconfiguration.json` with the value in milliseconds you would like for `autoFlushEventsInterval`. This configuration will flush events every 10 seconds:
 ```json
 {
     "UserAgent": "aws-amplify-cli/2.0",
@@ -31,7 +31,7 @@ Events have default configuration to flush out to the network every 60 seconds. 
                 "pinpointTargeting": {
                     "region": "Region"
                 },
-                "autoFlushEventsInterval": 30
+                "autoFlushEventsInterval": 10000
             }
         }
     }
@@ -49,13 +49,12 @@ Amplify.Analytics.flushEvents();
 You can register properties which will be used across all `Amplify.Analytics.record`.
 
 ```java
-
 Amplify.Analytics.registerGlobalProperties(
     PinpointProperties.builder()
         .add("GlobalProperty", "globalVal")
         .build()
 );
-``
+```
 
 To unregister all global properties, simply call `Amplify.Analytics.unregisterGlobalProperties()` or to unregister a single property, use
 
