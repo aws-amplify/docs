@@ -26,7 +26,7 @@ Once you retrieve the SAML tokens from your login, you can call the `federatedSi
 ```swift
 // Perform SAML token federation
 AWSMobileClient.default().federatedSignIn(providerName: "YOUR_SAML_PROVIDER_NAME",
-                                                    token: "YOUR_SAML_TOKEN") { (userState, error) in
+                                          token: "YOUR_SAML_TOKEN") { (userState, error) in
     if let error = error as? AWSMobileClientError {
         print(error.localizedDescription)
     }
@@ -45,8 +45,8 @@ val options = FederatedSignInOptions(customRoleARN: "choose-one")
 
 // Perform SAML token federation
 AWSMobileClient.default().federatedSignIn(providerName: "YOUR_SAML_PROVIDER_NAME",
-                                                        token: "YOUR_SAML_TOKEN"
-                                       federatedSignInOptions: options) { (userState, error) in
+                                          token: "YOUR_SAML_TOKEN"
+                                          federatedSignInOptions: options) { (userState, error) in
     if let error = error as? AWSMobileClientError {
         print(error.localizedDescription)
     }
@@ -146,6 +146,55 @@ $ amplify push
 You can now [configure Google in your mobile app](#google-login-in-your-mobile-app).
 
 > Note that the CLI allows you to select more than one identity provider for your app. You can also run `amplify update auth` to add an identity provider to an existing auth configuration.
+
+### Set up Apple
+
+To federate Sign in with Apple as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.default().federatedSignIn()`. You must set up your application to use Sign in with Apple, and then configure Amazon Cognito Identity Pools to use Apple as an authentication provider. There are three main steps to setting up Sign in with Apple: implementing Sign in with Apple in your app, configuring Sign in with Apple as an authentication provider in your Amazon Cognito Identity Pool, and passing the Sign in with Apple token to AWSMobileClient via `federatedSignIn`.
+
+1. **Implementing Sign in with Apple in your app**
+
+    On iOS devices, Sign in with Apple can be implemented using native controls and system-provided APIs. See [Apple's documentation and sample app](https://developer.apple.com/documentation/authenticationservices/implementing_user_authentication_with_sign_in_with_apple) for more details on setting up Sign in with Apple in your application.
+
+2. **Configuring Sign in with Apple as an authentication provider in your Amazon Cognito Identity Pool**
+
+    Once you have configured your application to use Sign in with Apple, paste your app's **Bundle Identifier** into the **Apple Services ID** field of your Amazon Cognito Identity Pool.
+
+3. **Passing the Sign in with Apple token to AWSMobileClient via `federatedSignIn`**
+
+    Once you have configured Sign in with Apple as an authentication provider for your Amazon Cognito Identity Pool, and your app implements authentication with Sign in with Apple, you can use the authentication tokens provided by Sign in with Apple to obtain credentials to authorize calls to AWS services in your app. When your app's [`authorizationController(controller:didCompleteWithAuthorization:)`](https://developer.apple.com/documentation/authenticationservices/asauthorizationcontrollerdelegate/3153050-authorizationcontroller) delegate method receives an `ASAuthorizationCredential` of type `ASAuthorizationAppleIDCredential`, you can use the credential's `identityToken` to federate into your Amazon Cognito Identity Pool, as in the following sample code:
+
+    ```swift
+    func authorizationController(controller: ASAuthorizationController,
+                                 didCompleteWithAuthorization authorization: ASAuthorization) {
+        guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
+            let identityTokenData = appleIDCredential.identityToken else {
+                print("No token available")
+                return
+        }
+        
+        guard let identityToken = String(data: identityTokenData, encoding: .utf8) else {
+            print("Can't convert identity token data to string")
+            return
+        }
+
+        AWSMobileClient.default().federatedSignIn(providerName: IdentityProvider.apple.rawValue,
+                                                  token: identityToken) { userState, error in
+            if let error = error {
+                print("Error in federatedSignIn: \(error)")
+                return
+            }
+            
+            guard let userState = userState else {
+                print("userState unexpectedly nil")
+                return
+            }
+            
+            print("federatedSignIn successful: \(userState)")
+        }
+    }
+    ```
+
+    After the `federatedSignIn` method successfully completes, `AWSMobileClient` will automatically use the federated identity to obtain credentials to make AWS service calls.
 
 ### Developer Authenticated Identities with Cognito Identity
 
