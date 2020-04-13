@@ -157,7 +157,6 @@ export class DocsPage {
   render() {
     return (
       <Host class={pageStyle}>
-        {this.data && `page data: ${JSON.stringify(this.data)}`}
         <pageContext.Provider
           state={{
             selectedFilters: this.selectedFilters,
