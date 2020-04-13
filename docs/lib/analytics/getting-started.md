@@ -3,13 +3,13 @@ title: Getting started
 description: Description
 ---
 
-The Analytics category enables you to collect analytics data for your app. The Analytics category comes with built-in support for [AWS Pinpoint](#using-amazon-pinpoint) and [Amazon Kinesis](#using-amazon-kinesis) (Kinesis support is currently only available in the Amplify JavaScript library).
+The Analytics category enables you to collect analytics data for your app. The Analytics category comes with built-in support for [Amazon Pinpoint](#using-amazon-pinpoint) and [Amazon Kinesis](#using-amazon-kinesis) (Kinesis support is currently only available in the Amplify JavaScript library).
 
 > **Prerequisite:** [Install and configure the Amplify CLI](~/cli/start/install.md)
 
 ## Set up analytics backend
 
-Run the following command in your project's root folder. The CLI will prompt configuration options for the Analytics category such as AWS Pinpoint resource name and analytics event settings.
+Run the following command in your project's root folder. The CLI will prompt configuration options for the Analytics category such as Amazon Pinpoint resource name and analytics event settings.
 
 > The Analytics category utilizes the Authentication category behind the scenes to authorize your app to send analytics events.
 

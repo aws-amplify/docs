@@ -1,4 +1,4 @@
-This call sends information that you have specified about the user to AWS Pinpoint. This could be an authenticated or guest user. AWSMobileClient assigns all users an `identityId` that can be used to call `Amplify.Analytics.identifyUser()`. If you have asked for location access and received the user's location information, you can also provide that in `AnalyticsUserProfile.Location`.
+This call sends information that you have specified about the user to Amazon Pinpoint. This could be an authenticated or guest user. AWSMobileClient assigns all users an `identityId` that can be used to call `Amplify.Analytics.identifyUser()`. If you have asked for location access and received the user's location information, you can also provide that in `AnalyticsUserProfile.Location`.
 
 ```swift
 func identifyUser() {
