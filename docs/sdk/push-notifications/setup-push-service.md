@@ -1,5 +1,5 @@
 ---
-title: Setting up Push Notifications Services
+title: Setting up push notification services
 description: Setting Push Notifications
 ---
 
