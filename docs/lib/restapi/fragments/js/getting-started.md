@@ -2,7 +2,7 @@ The API category provides a solution for making HTTP requests to REST and GraphQ
 
 The REST API category can be used for creating signed requests against Amazon API Gateway when the API Gateway Authorization is set to `AWS_IAM`. 
 
-> Ensure you have [installed and configured the Amplify CLI and library](~/start/start.md).
+> Ensure you have [installed and configured the Amplify CLI and library](~/cli/start/install.md).
 
 ## Create new REST API
 
