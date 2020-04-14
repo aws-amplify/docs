@@ -10,9 +10,8 @@ The following steps show how to receive push notifications targeted for your app
     the `MainActivity` shown in a previous step. Use the following steps to detect and display Push
     Notification in your app.
 
-2. The following push listener code assumes that the app's `MainActivity` is configured using
-            the manifest setup described in a previous section.
-
+2. The following push listener code assumes that the app's `MainActivity` is configured using the manifest setup described in a previous section.
+    
     ```java
     import android.content.Intent;
     import android.os.Bundle;
@@ -56,9 +55,9 @@ The following steps show how to receive push notifications targeted for your app
                     .intentAction(NotificationClient.FCM_INTENT_ACTION)
                     .build();
 
-            NotificationClient.CampaignPushResult pushResult = notificationClient.handleCampaignPush(notificationDetails);
+            NotificationClient.PushResult pushResult = notificationClient.handleNotificationReceived(notificationDetails);
 
-            if (!NotificationClient.CampaignPushResult.NOT_HANDLED.equals(pushResult)) {
+            if (!NotificationClient.PushResult.NOT_HANDLED.equals(pushResult)) {
                 /**
                    The push message was due to a Pinpoint campaign.
                    If the app was in the background, a local notification was added
@@ -67,7 +66,7 @@ The following steps show how to receive push notifications targeted for your app
                    for the demo, we will broadcast the notification to let the main
                    activity display it in a dialog.
                 */
-                if (NotificationClient.CampaignPushResult.APP_IN_FOREGROUND.equals(pushResult)) {
+                if (NotificationClient.PushResult.APP_IN_FOREGROUND.equals(pushResult)) {
                     /* Create a message that will display the raw data of the campaign push in a dialog. */
                     final HashMap<String, String> dataMap = new HashMap<>(remoteMessage.getData());
                     broadcast(remoteMessage.getFrom(), dataMap);
