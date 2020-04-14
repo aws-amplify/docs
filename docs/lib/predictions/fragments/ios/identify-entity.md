@@ -33,7 +33,7 @@ Run `amplify push` to create the resources in the cloud
 
 ## Working with the API
 
-To detect general entities like facial features, landmarks etc, you can use the following call pattern.  Results are mapped to `IdentifyEntityResults`.  For example:
+To detect general entities like facial features, landmarks etc, you can use the following call pattern.  Results are mapped to `IdentifyEntityResult`.  For example:
 
 ``` swift
 func detectEntities(_ image: URL) {
