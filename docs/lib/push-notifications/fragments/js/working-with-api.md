@@ -22,7 +22,11 @@ PushNotification.onNotificationOpened((notification) => {
 });
 ```
 
-Note: the `onRegister` handler will only be triggered once when the token is generated or updated by the push provider i.e. Apple/Google (and when the app opened the first time). 
+<amplify-callout>
+
+The `onRegister` handler will only be triggered once when the token is generated or updated by the push provider i.e. Apple/Google (and when the app opened the first time). 
+
+</amplify-callout>
 
 If you have configured your application not to automatically request iOS push notification permissions, you can use the `requestIOSPermissions` method to request them explicitly:
 
