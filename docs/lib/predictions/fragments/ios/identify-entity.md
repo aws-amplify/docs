@@ -33,26 +33,7 @@ Run `amplify push` to create the resources in the cloud
 
 ## Working with the API
 
-In order to match entities from a pre-created [Amazon Rekognition Collection](https://docs.aws.amazon.com/rekognition/latest/dg/collections.html), make sure there is a `collectionId` set in your `amplifyconfiguration.json` file. If there is no `collectionId` set in the `amplifyconfiguration.json` file, then this call will just detect entities in general with facial features, landmarks, etc.
-
-You can identify entities in your app using the following code sample:
-
-``` swift
-func detectEntities(_ image: URL) {
-	_ = Amplify.Predictions.identify(type: .detectEntities, image: image, options: PredictionsIdentifyRequest.Options(), listener: { (event) in
-		switch event {
-		case .completed(let result):
-			let data = result as! IdentifyEntityMatchesResult
-			print(data.entities)
-		case .failed(let error):
-			print(error)
-		default:
-			print("")
-		}
-	})
-}
-```
-If you would like to only detect entities and you do not have a collection of existing entities to match entities to, the call will be similar but the result is mapped to `IdentifyEntitiesResult` instead of the `IdentifyEntityMatchesResult`.
+To detect general entities like facial features, landmarks etc, you can use the following call pattern.  Results are mapped to `IdentifyEntityResults`.  For example:
 
 ``` swift
 func detectEntities(_ image: URL) {
