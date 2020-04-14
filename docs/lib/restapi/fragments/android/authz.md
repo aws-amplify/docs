@@ -6,13 +6,12 @@ To invoke an API Gateway endpoint with API Key as the auth mode, you should have
 
 ```json
 {
-    ...
     "awsAPIPlugin": {
-        "<YOUR-RESTENDPOINT-NAME": {
+        "<YOUR-RESTENDPOINT-NAME>": {
             "endpointType": "REST",
             "endpoint": "YOUR-REST-ENDPOINT",
             "region": "us-west-2",
-            "authorizationType": "API_KEY",
+            "authorizationType": "API_KEY"
         }
     }
 }
@@ -24,7 +23,7 @@ To invoke an API Gateway endpoint from your application with Cognito User Pools 
 
 ```json
 {
-  "CognitoUserPool": {
+    "CognitoUserPool": {
         "Default": {
             "PoolId": "POOL-ID",
             "AppClientId": "APP-CLIENT-ID",
@@ -33,26 +32,25 @@ To invoke an API Gateway endpoint from your application with Cognito User Pools 
         }
     },
     "CredentialsProvider": {
-      "CognitoIdentity": {
-          "Default": {
-              "PoolId": "YOUR-COGNITO-IDENTITY-POOLID",
-              "Region": "us-east-1"
-          }
-      }
-  }
+        "CognitoIdentity": {
+            "Default": {
+                "PoolId": "YOUR-COGNITO-IDENTITY-POOLID",
+                "Region": "us-east-1"
+            }
+        }
+    }
 }
 ```
 
 and your `amplifyconfiguration.json` file, under the `awsAPIPlugin`
 ```json
 {
-    ...
     "awsAPIPlugin": {
-        "<YOUR-RESTENDPOINT-NAME": {
+        "<YOUR-RESTENDPOINT-NAME>": {
             "endpointType": "REST",
             "endpoint": "YOUR-REST-ENDPOINT",
             "region": "us-east-1",
-            "authorizationType": "AMAZON_COGNITO_USER_POOLS",
+            "authorizationType": "AMAZON_COGNITO_USER_POOLS"
         }
     }
 }

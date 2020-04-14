@@ -4,21 +4,21 @@ The API category will perform SDK code generation which, when used with the `AWS
 
 ## Create new REST API
 
-In a terminal window, navigate to your project folder (the folder that contains your app `.Xcodeproj` file), and add the SDK to your app.
+In a terminal window, navigate to your project folder (the folder that contains your app `.xcodeproj` file), and add the SDK to your app.
 
-```bash
-$ cd ./YOUR_PROJECT_FOLDER
-$ amplify add api
+```console
+cd ./YOUR_PROJECT_FOLDER
+amplify add api
 ```
 
 When prompted select the following options:
 
-```bash
-$ > REST
-$ > Create a new Lambda function
-$ > Serverless express function
-$ > Restrict API access? Yes
-$ > Who should have access? Authenticated and Guest users
+```console
+> REST
+> Create a new Lambda function
+> Serverless express function
+> Restrict API access? Yes
+> Who should have access? Authenticated and Guest users
 ```
 
 When configuration of your API is complete, the CLI displays a message confirming that you have configured local CLI metadata for this category. You can confirm this by running `amplify status`. Finally deploy your changes to the cloud:
@@ -29,17 +29,16 @@ $ amplify push
 
 ## Connect to Your Backend
 
-Add `AWSAPIGateway` to your Podfile:
+Add `AWSAPIPlugin` to your Podfile:
 
 ```ruby
+target :'YOUR-APP-NAME' do
+  use_frameworks!
 
-	target :'YOUR-APP-NAME' do
-	  use_frameworks!
-
-	    pod 'Amplify'
-        pod 'AWSPluginsCore'
-        pod 'AmplifyPlugins/AWSAPIPlugin'
-	end
+  pod 'Amplify'
+  pod 'AWSPluginsCore'
+  pod 'AmplifyPlugins/AWSAPIPlugin'
+end
 ```
 
 Run `pod install --repo-update` and then add `awsconfiguration.json` and `amplifyconfiguration.json` file to your project **(File->Add Files to ..->Add)** and then build your project, ensuring there are no issues.
@@ -47,29 +46,29 @@ Run `pod install --repo-update` and then add `awsconfiguration.json` and `amplif
 Add the following code to your app:
 
 ```swift                                
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        AWSMobileClient.default().initialize { (userState, error) in
-            guard error == nil else {
-                print("Error initializing AWSMobileClient. Error: \(error!.localizedDescription)")
-                return
-            }
-            guard let userState = userState else {
-                print("userState is unexpectedly empty initializing AWSMobileClient")
-                return
-            }
-
-            print("AWSMobileClient initialized, userstate: \(userState)")
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    // Override point for customization after application launch.
+    AWSMobileClient.default().initialize { (userState, error) in
+        guard error == nil else {
+            print("Error initializing AWSMobileClient. Error: \(error!.localizedDescription)")
+            return
+        }
+        guard let userState = userState else {
+            print("userState is unexpectedly empty initializing AWSMobileClient")
+            return
         }
 
-        // Amplify section
-        let apiPlugin = AWSAPIPlugin()
-        try! Amplify.add(plugin: apiPlugin)
-        try! Amplify.configure()
-        print("Amplify initialized")
-
-        return true
+        print("AWSMobileClient initialized, userstate: \(userState)")
     }
+
+    // Amplify section
+    let apiPlugin = AWSAPIPlugin()
+    try! Amplify.add(plugin: apiPlugin)
+    try! Amplify.configure()
+    print("Amplify initialized")
+
+    return true
+}
 ```
 
 ## IAM authorization
