@@ -25,9 +25,15 @@ export class DocsMenu {
 
   renderVersionSwitch() {
     if (
-      (this.page?.productRootLink?.route === "/lib" ||
-        this.page?.productRootLink?.route === "/sdk") &&
-      this.selectedFilters?.platform !== "js"
+      this.selectedFilters?.platform === "react-native" ||
+      this.selectedFilters?.platform === "js"
+    ) {
+      // Don't render version switch when platform is js or react-native
+      return;
+    }
+    if (
+      this.page?.productRootLink?.route === "/lib" ||
+      this.page?.productRootLink?.route === "/sdk"
     ) {
       return (
         <docs-version-switch
