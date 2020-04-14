@@ -96,7 +96,7 @@ API: {
 ```
 <amplify-callout warning>
 
-**THIS IS NOT RECOMMENDED ARCHITECTURE** and we highly recommend you leverage AWS AppSync or API Gateway as the endpoint to invoke your Lambda functions. 
+**THIS IS NOT A RECOMMENDED ARCHITECTURE** and we highly recommend you leverage AWS AppSync or API Gateway as the endpoint to invoke your Lambda functions. 
 
 </amplify-callout>
 
