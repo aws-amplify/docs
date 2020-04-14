@@ -2,7 +2,7 @@ Setup instructions are provided for Android and iOS, and configuration for both 
 
 ## Requirements
 1. In order to use Amazon Pinpoint you need to setup credentials (keys or certificates) for your targeted mobile platform, e.g. Android and/or iOS.
-2. Testing Push Notifications requires a physical device, because simulators or emulators wont' be able to handle push notifications.
+2. Testing Push Notifications requires a physical device, because simulators or emulators won't be able to handle push notifications.
 
 <amplify-callout>
 
