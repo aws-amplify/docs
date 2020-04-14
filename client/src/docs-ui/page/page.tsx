@@ -42,14 +42,10 @@ export class DocsPage {
 
   @State() data?: Page;
   @State() blendUniversalNav?: boolean;
-  @State() sidebarStickyTop = getNavHeight("rem");
+  @State() sidebarStickyTop?: number;
   @State() selectedFilters: Record<string, string | undefined> = {};
-
-  initialPushState?: (
-    data: any,
-    title: string,
-    url?: string | null | undefined,
-  ) => void;
+  @State() requiresFilterSelection?: boolean;
+  @State() showMenu?: boolean;
 
   setSelectedFilters: SetSelectedFilters = (updates) => {
     const overrides = withFilterOverrides(updates, this.selectedFilters);
@@ -93,28 +89,9 @@ export class DocsPage {
     }
   };
 
+  @Listen("popstate", {target: "window"})
   @Watch("match")
-  triggerRerender() {
-    return this.getPageData();
-  }
-
-  componentWillLoad() {
-    return this.getPageData();
-  }
-
-  componentDidLoad() {
-    if (this.data?.menu) {
-      this.setSidebarStickyTop();
-    }
-    const {hash} = location;
-    if (hash) {
-      setTimeout(() => {
-        scrollToHash(hash, this.el);
-      }, 100);
-    }
-  }
-
-  getPageData = async () => {
+  async componentWillLoad() {
     if (this.match) {
       const {path, params} = parseURL(this.match.url);
       this.blendUniversalNav = path === "/";
@@ -145,9 +122,16 @@ export class DocsPage {
             if (filterValue) {
               this.filterValue = filterValue;
               this.setSelectedFilters({[this.filterKey]: this.filterValue});
+            } else {
+              this.requiresFilterSelection = true;
             }
           }
           this.data = data;
+          this.showMenu = ((): boolean => {
+            const menuItems = this.data?.menu;
+            const menuItemsExist = !!(menuItems && menuItems.length > 0);
+            return menuItemsExist && !this.requiresFilterSelection;
+          })();
         }
       } catch (exception) {
         track({
@@ -156,21 +140,19 @@ export class DocsPage {
         });
       }
     }
-  };
-
-  @Listen("popstate", {target: "window"})
-  onBack() {
-    return this.getPageData();
   }
 
-  requiresFilterSelection = (): boolean =>
-    !!(this.filterKey && !this.filterValue);
-
-  showMenu = (): boolean => {
-    const menuItems = this.data?.menu;
-    const menuItemsExist = !!(menuItems && menuItems.length > 0);
-    return menuItemsExist && !this.requiresFilterSelection();
-  };
+  componentDidLoad() {
+    if (this.data?.menu) {
+      this.setSidebarStickyTop();
+    }
+    const {hash} = location;
+    if (hash) {
+      setTimeout(() => {
+        scrollToHash(hash, this.el);
+      }, 100);
+    }
+  }
 
   render() {
     return (
@@ -193,15 +175,19 @@ export class DocsPage {
                 <div class={sidebarLayoutStyle}>
                   <amplify-toc-provider>
                     <amplify-sidebar-layout>
-                      {this.showMenu() && (
+                      {this.showMenu && (
                         <amplify-sidebar-layout-sidebar
                           slot="sidebar"
                           top={this.sidebarStickyTop}
                         >
-                          <docs-menu page={this.data} />
+                          <docs-menu
+                            key={this.data?.productRootLink?.route}
+                            page={this.data}
+                            filterKey={this.filterKey}
+                          />
                         </amplify-sidebar-layout-sidebar>
                       )}
-                      {this.requiresFilterSelection() ? (
+                      {this.requiresFilterSelection ? (
                         <amplify-sidebar-layout-main slot="main">
                           <amplify-toc-contents>
                             {this.filterKey === "integration" ? (

@@ -16,14 +16,14 @@ export class DocsMenu {
   @Prop() readonly page?: Page;
   /*** the currently-selected filter state */
   @Prop() readonly selectedFilters?: SelectedFilters;
+  /*** the filter key */
+  @Prop() readonly filterKey?: string;
 
   @State() switcher?: "lib" | "ui";
-  @State() filterKey?: string;
 
   @Watch("selectedFilters")
   computeState() {
     if (this.page) {
-      const filterKey = getFilterKeyFromPage(this.page);
       let switcher: "ui" | "lib" | undefined;
 
       const productRootRoute = this.page?.productRootLink?.route;
@@ -40,7 +40,7 @@ export class DocsMenu {
         }
       }
 
-      Object.assign(this, {filterKey, switcher});
+      this.switcher = switcher;
     }
   }
 
@@ -100,11 +100,7 @@ export class DocsMenu {
           {menu && (
             <div class={menuItemContainerStyle}>
               {menu.map((menuGroup) => (
-                <docs-menu-group
-                  key={menuGroup.title}
-                  {...{menuGroup}}
-                  filterKey={this.filterKey}
-                />
+                <docs-menu-group {...{menuGroup}} filterKey={this.filterKey} />
               ))}
             </div>
           )}

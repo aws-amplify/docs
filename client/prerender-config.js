@@ -2,7 +2,9 @@ module.exports = {
   hydrateOptions() {
     const hydrateOptions = {
       addModulePreloads: true,
-      prettyHTML: true,
+      removeUnusedStyles: true,
+      minifyStyleElements: true,
+      minifyScriptElements: true,
     };
 
     return hydrateOptions;

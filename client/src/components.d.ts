@@ -255,6 +255,10 @@ export namespace Components {
     }
     interface DocsMenu {
         /**
+          * * the filter key
+         */
+        "filterKey"?: string;
+        /**
           * * the `Page` instance for which this menu is being rendered
          */
         "page"?: Page;
@@ -926,6 +930,10 @@ declare namespace LocalJSX {
     interface DocsLinkBanner {
     }
     interface DocsMenu {
+        /**
+          * * the filter key
+         */
+        "filterKey"?: string;
         /**
           * * the `Page` instance for which this menu is being rendered
          */
