@@ -1,10 +1,10 @@
-The API category provides a solution for making HTTP requests to REST and GraphQL endpoints. For building GraphQL APIs please visit the [GraphQL guide](~/lib/graphqlapi/getting-started.md)
+The API category provides a solution for making HTTP requests to REST and GraphQL endpoints. For building GraphQL APIs please visit the [GraphQL Getting Started](~/lib/graphqlapi/getting-started.md) section of our documentation.
 
 The REST API category can be used for creating signed requests against Amazon API Gateway when the API Gateway Authorization is set to `AWS_IAM`. 
 
 > Ensure you have [installed and configured the Amplify CLI and library](~/cli/start/install.md).
 
-## Create new REST API
+## Automated Setup: Create new REST API
 
 Run the following command in your project's root folder:
 
@@ -32,8 +32,18 @@ $ amplify push
 
 A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`.
 
+### Configure your application
 
-## Import existing REST API
+Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `App.js` in React or `main.ts` in Angular.
+
+```javascript
+import Amplify, { API } from 'aws-amplify';
+import awsconfig from './aws-exports';
+
+Amplify.configure(awsconfig);
+```
+
+## Manual Setup: Import existing REST API
 
 For manual configuration you need to provide your AWS Resource configuration and optionally configure authentication.
 
@@ -84,31 +94,27 @@ API: {
     ]
 }
 ```
+<amplify-callout warning>
 
-Note **THIS IS NOT RECOMMENDED ARCHITECTURE** and we highly recommend you leverage AWS AppSync or API Gateway as the endpoint to invoke your Lambda functions. 
+**THIS IS NOT A RECOMMENDED ARCHITECTURE** and we highly recommend you leverage AWS AppSync or API Gateway as the endpoint to invoke your Lambda functions. 
 
- <amplify-callout warning>
+</amplify-callout>
+
+ <amplify-callout>
 
  **Configuring Amazon Cognito Regional Endpoints:** To call regional service endpoints, your Amazon Cognito role needs to be configured with appropriate access for the related service. See [AWS Cognito Documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) for more details.
 
  </amplify-callout>
 
-## Configure frontend
-
-Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `App.js` in React or `main.ts` in Angular.
-
-```javascript
-import Amplify, { API } from 'aws-amplify';
-import awsconfig from './aws-exports';
-
-Amplify.configure(awsconfig);
-```
-
 ## Modular imports
 
+<amplify-callout>
+
 If you only need to use API, you can run: `npm install @aws-amplify/api` which will only install the API module.
-Note: if you're using Cognito Federated Identity Pool to get AWS credentials, please also install `@aws-amplify/auth`.
-Note: if you're using Graphql, please also install `@aws-amplify/pubsub`
+If you're using Cognito Federated Identity Pool to get AWS credentials, please also install `@aws-amplify/auth`.
+If you're using Graphql, please also install `@aws-amplify/pubsub`.
+
+</amplify-callout>
 
 Then in your code, you can import the Api module by:
 
