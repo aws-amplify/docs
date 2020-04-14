@@ -14,8 +14,8 @@ Run the following command in your project's root folder. The CLI will prompt con
 > The Analytics category utilizes the Authentication category behind the scenes to authorize your app to send analytics events.
 
 ```console
-amplify add analytics
-? Provide your pinpoint resource name: pinpointResourceName
+$ amplify add analytics
+? Provide your pinpoint resource name: `pinpointResourceName`
 Adding analytics would add the Auth category to the project if not already added.
 ? Apps need authorization to send analytics events. Do you want to allow guests and unauthenticated users to send analytics events? (we recommend you allow this when getting 
 started) Yes
