@@ -4,6 +4,7 @@
     "getting-started",
     "fetch",
     "update",
+    "delete",
     "authz"
   ]
 }
