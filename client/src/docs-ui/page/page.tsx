@@ -1,4 +1,13 @@
-import {Component, Host, h, State, Listen, Element, Prop} from "@stencil/core";
+import {
+  Component,
+  Host,
+  h,
+  State,
+  Listen,
+  Element,
+  Prop,
+  Watch,
+} from "@stencil/core";
 import {MatchResults} from "@stencil/router";
 import {
   sidebarLayoutStyle,
@@ -34,8 +43,13 @@ export class DocsPage {
   @State() data?: Page;
   @State() blendUniversalNav?: boolean;
   @State() sidebarStickyTop = getNavHeight("rem");
-
   @State() selectedFilters: Record<string, string | undefined> = {};
+
+  initialPushState?: (
+    data: any,
+    title: string,
+    url?: string | null | undefined,
+  ) => void;
 
   setSelectedFilters: SetSelectedFilters = (updates) => {
     const overrides = withFilterOverrides(updates, this.selectedFilters);
@@ -79,6 +93,11 @@ export class DocsPage {
     }
   };
 
+  @Watch("match")
+  triggerRerender() {
+    return this.getPageData();
+  }
+
   componentWillLoad() {
     return this.getPageData();
   }
@@ -97,7 +116,7 @@ export class DocsPage {
 
   getPageData = async () => {
     if (this.match) {
-      const {path, params} = parseURL(this.match.path);
+      const {path, params} = parseURL(this.match.url);
       this.blendUniversalNav = path === "/";
 
       track({
@@ -128,8 +147,7 @@ export class DocsPage {
               this.setSelectedFilters({[this.filterKey]: this.filterValue});
             }
           }
-          Object.assign(this, {data});
-          return data;
+          this.data = data;
         }
       } catch (exception) {
         track({

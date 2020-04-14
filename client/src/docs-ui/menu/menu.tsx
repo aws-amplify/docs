@@ -47,70 +47,72 @@ export class DocsMenu {
   render() {
     const menu = this.page?.menu;
     return (
-      <Host class={menuStyle}>
-        {this.page?.filterKey && <docs-select-anchor page={this.page} />}
-        {(() => {
-          switch (this.switcher) {
-            case "lib": {
-              return (
-                <docs-version-switch
-                  leftOption={{
-                    title: "Libraries",
-                    subTitle: "(preview)",
-                    href: "/lib",
-                  }}
-                  rightOption={{
-                    title: "SDK",
-                    subTitle: "(stable)",
-                    href: "/sdk",
-                  }}
-                />
-              );
-            }
+      menu && (
+        <Host class={menuStyle}>
+          {this.page?.filterKey && <docs-select-anchor page={this.page} />}
+          {(() => {
+            switch (this.switcher) {
+              case "lib": {
+                return (
+                  <docs-version-switch
+                    leftOption={{
+                      title: "Libraries",
+                      subTitle: "(preview)",
+                      href: "/lib",
+                    }}
+                    rightOption={{
+                      title: "SDK",
+                      subTitle: "(stable)",
+                      href: "/sdk",
+                    }}
+                  />
+                );
+              }
 
-            case "ui": {
-              return (
-                <docs-version-switch
-                  leftOption={{
-                    title: "Latest",
-                    href: "/ui",
-                  }}
-                  rightOption={{
-                    title: "Legacy",
-                    href: "/ui-legacy",
-                  }}
-                />
-              );
-            }
+              case "ui": {
+                return (
+                  <docs-version-switch
+                    leftOption={{
+                      title: "Latest",
+                      href: "/ui",
+                    }}
+                    rightOption={{
+                      title: "Legacy",
+                      href: "/ui-legacy",
+                    }}
+                  />
+                );
+              }
 
-            default: {
-              return;
+              default: {
+                return;
+              }
             }
-          }
-        })()}
-        {this.page?.productRootLink && (
-          <docs-internal-link
-            href={this.page.productRootLink.route}
-            class={productRootLink}
-          >
-            {this.page.productRootLink.title}
-          </docs-internal-link>
-        )}
-        {menu && (
-          <div class={menuItemContainerStyle}>
-            {menu.map((menuGroup) => (
-              <docs-menu-group
-                key={menuGroup.title}
-                {...{menuGroup}}
-                filterKey={this.filterKey}
-              />
-            ))}
-          </div>
-        )}
-        <hr class={menuBreakStyle} />
-        <docs-repo-actions page={this.page} />
-        <docs-feedback-callout />
-      </Host>
+          })()}
+          {this.page?.productRootLink && (
+            <docs-internal-link
+              href={this.page.productRootLink.route}
+              class={productRootLink}
+            >
+              {this.page.productRootLink.title}
+            </docs-internal-link>
+          )}
+          {menu && (
+            <div class={menuItemContainerStyle}>
+              {menu.map((menuGroup) => (
+                <docs-menu-group
+                  key={menuGroup.title}
+                  {...{menuGroup}}
+                  filterKey={this.filterKey}
+                />
+              ))}
+            </div>
+          )}
+          <hr class={menuBreakStyle} />
+          <docs-repo-actions page={this.page} />
+          <docs-feedback-callout />
+        </Host>
+      )
     );
   }
 }
