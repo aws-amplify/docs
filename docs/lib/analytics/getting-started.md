@@ -5,7 +5,7 @@ description: Description
 
 The Analytics category enables you to collect analytics data for your app. The Analytics category comes with built-in support for [Amazon Pinpoint](#using-amazon-pinpoint) and [Amazon Kinesis](#using-amazon-kinesis) (Kinesis support is currently only available in the Amplify JavaScript library).
 
-> Prerequisite:</b> [Install and configure the Amplify CLI](~/cli/start/install.md)
+> **Prerequisite:** [Install and configure the Amplify CLI](~/cli/start/install.md)
 
 ## Set up analytics backend
 
@@ -18,12 +18,12 @@ $ amplify add analytics
 ? Provide your pinpoint resource name: `pinpointResourceName`
 Adding analytics would add the Auth category to the project if not already added.
 ? Apps need authorization to send analytics events. Do you want to allow guests and unauthenticated users to send analytics events? (we recommend you allow this when getting 
-started) `Yes`
+started) Yes
 ```
 
 To deploy your backend run:
 
-```bash
+```console
 amplify push
 ```
 
@@ -35,6 +35,6 @@ amplify push
 
 From the terminal run the following command. Navigate to the *Analytics* tab, and then choose *View in Pinpoint*.
 
-```
+```console
 amplify console
 ```
