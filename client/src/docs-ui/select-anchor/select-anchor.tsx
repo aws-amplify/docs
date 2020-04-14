@@ -97,6 +97,7 @@ export class DocsSelectAnchor {
                     <stencil-route-link
                       key={filterValue}
                       url={rerouteIfNecessary(filterRoute)}
+                      onClick={this.toggleShowOptions}
                     >
                       <img src={meta.graphicURI} alt={`${meta.label} Logo`} />
                       <span>{meta.label}</span>
