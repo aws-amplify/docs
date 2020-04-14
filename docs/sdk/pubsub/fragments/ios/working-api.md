@@ -30,8 +30,7 @@ iotDataManager.connectUsingALPN(withClientId: "<YOUR_CLIENT_ID>",
                        statusCallback: mqttEventCallback)
 ```
 
-You can take a look at the [API Reference](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/AWSIoT/Classes/AWSIoTDataManager.html#/c:objc(cs)AWSIoTDataManager(im)connectUsingALPNWithClientId:cleanSession:certificateId:statusCallback:
-) to get more information.
+You can take a look at the [API Reference](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/AWSIoT/Classes/AWSIoTDataManager.html#/c:objc(cs)AWSIoTDataManager(im)connectUsingALPNWithClientId:cleanSession:certificateId:statusCallback:) to get more information.
 
 ### AWS Credentials based Authentication
 
