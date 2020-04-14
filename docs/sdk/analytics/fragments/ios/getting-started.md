@@ -133,6 +133,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 ```
 
+4. If you enable notifications in your app, make sure to register the device token with the pinpoint SDK. You will have to do this in your app even if you are not using Pinpoint to target your users. 
+
+```swift
+// MARK: Remote Notifications Lifecycle
+func application(_ application: UIApplication,
+    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
+    let token = tokenParts.joined()
+    print("Device Token: \(token)")
+
+    // Register the device token with Pinpoint as the endpoint for this user
+    pinpoint!.notificationManager.interceptDidRegisterForRemoteNotifications(withDeviceToken: deviceToken)
+}
+
+func application(_ application: UIApplication,
+    didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    print("Failed to register: \(error)")
+}
+```
+
+If you are enabling push notifications, see [Push Notifications](/sdk/push-notifications/getting-started) for more details on how to leverage Amazon Pinpoint to target your users.
+
 ### Monitor Analytics
 
 Build and run your app to see usage metrics in Amazon Pinpoint. When you run the previous code samples, the console shows a logged Session.
