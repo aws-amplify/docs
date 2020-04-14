@@ -47,18 +47,21 @@ export class DocsMenu {
       this.page?.productRootLink?.route === "/ui" ||
       this.page?.productRootLink?.route === "/ui-legacy"
     ) {
-      return (
-        <docs-version-switch
-          leftOption={{
-            title: "Latest",
-            href: "/ui",
-          }}
-          rightOption={{
-            title: "Legacy",
-            href: "/ui-legacy",
-          }}
-        />
-      );
+      if (this.selectedFilters?.framework !== "react-native") {
+        return (
+          <docs-version-switch
+            leftOption={{
+              title: "Latest",
+              href: "/ui",
+            }}
+            rightOption={{
+              title: "Legacy",
+              href: "/ui-legacy",
+            }}
+          />
+        );
+      }
+      return;
     }
   }
 
