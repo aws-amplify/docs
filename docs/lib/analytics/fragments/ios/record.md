@@ -4,22 +4,21 @@ The Amplify Analytics plugin provides a simple interface to record custom events
 
 ```swift
 func recordEvents() {
-    let properties = ["eventPropertyStringKey": "eventProperyStringValue",
-                      "eventPropertyIntKey": 123,
-                      "eventPropertyDoubleKey": 12.34,
-                      "eventPropertyBoolKey": true] as [String: AnalyticsPropertyValue]
+    let properties: [String: AnalyticsPropertyValue] = [
+        "eventPropertyStringKey": "eventPropertyStringValue",
+        "eventPropertyIntKey": 123,
+        "eventPropertyDoubleKey": 12.34,
+        "eventPropertyBoolKey": true
+    ]
     let event = BasicAnalyticsEvent("eventName", properties: properties)
     Amplify.Analytics.record(event: event)
-
-    // Plugin will automatically flush events. 
-    // You do not have to do this in the app code.
-    Amplify.Analytics.flushEvents() 
 }
 ```
 
 ## Flush Events
 
-Events have default configuration to flush out to the network every 60 seconds. If you would like to change this, update `amplifyconfiguration.json` with the value you would like for `autoFlushEventsInterval` like so
+Events have default configuration to flush out to the network every 60 seconds. If you would like to change this, update `amplifyconfiguration.json` with the value you would like for `autoFlushEventsInterval` like so:
+
 ```json
 {
     "UserAgent": "aws-amplify-cli/2.0",
@@ -41,35 +40,40 @@ Events have default configuration to flush out to the network every 60 seconds. 
 }
 ```
 
-> **Note**: If you set `autoFlushEventsInterval` to 0, you are responsible for calling `Amplify..flushEvents()` to flush events.
+> **Note**: If you set `autoFlushEventsInterval` to 0, you are responsible for calling `Amplify.Analytics.flushEvents()` to submit the recorded events to the backend.
 
 
 ## Global Properties
 
-You can register properties which will be used across all `Amplify.Analytics.record`.
+You can register properties which will be used across all `Amplify.Analytics.record(event:)` calls.
 
 ```swift
-let globalProperties = ["globalPropertyKey": "value"] as [String: AnalyticsPropertyValue]
+let globalProperties: [String: AnalyticsPropertyValue] = ["globalPropertyKey": "value"]
 Amplify.Analytics.registerGlobalProperties(globalProperties)
 ```
 
-To unregister all global properties call `Amplify.Analytics.unregisterGlobalProperties()`. 
+To unregister global properties call `Amplify.Analytics.unregisterGlobalProperties()`:
 
-To unregister a single property:
 ```swift
-Amplify.Analytics.unregisterGlobalProperties(["globalPropertyKey"])
+// when called with no arguments, it unregisters all global properties
+Amplify.Analytics.unregisterGlobalProperties()
+
+// or you can specify properties to unregister
+Amplify.Analytics.unregisterGlobalProperties(["globalPropertyKey1", "globalPropertyKey2"])
 ```
 
 ## Disable Analytics
 
-To disable analytics:
+Analytics are sent to the backend automatically (i.e. it's enabled by default). To disable it call:
+
 ```swift
 Amplify.Analytics.disable()
 ```
 
 ## Enable Analytics
 
-To enable analytics:
+To re-enable it call:
+
 ```swift
 Amplify.Analytics.enable()
 ```

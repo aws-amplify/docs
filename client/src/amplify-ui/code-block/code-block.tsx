@@ -18,6 +18,7 @@ export class AmplifyCodeBlock {
    * the number of lines of the code block
    */
   @Prop() readonly lineCount?: string;
+  @Prop() readonly language?: string;
   @State() parsedLineCount?: number;
   @State() copyMessage: typeof COPY | typeof COPIED | typeof FAILED = "copy";
   element?: HTMLDivElement;
@@ -41,6 +42,16 @@ export class AmplifyCodeBlock {
     }, 1500);
   };
 
+  copyButton = () => {
+    if (this.language && this.language === "console") return;
+
+    return (
+      <button class={copyButtonStyle} onClick={this.copyToClipboard}>
+        <span>{this.copyMessage}</span>
+      </button>
+    );
+  };
+
   render() {
     return (
       <Host
@@ -62,9 +73,7 @@ export class AmplifyCodeBlock {
         <div ref={this.setElement} class={slotContainerStyle}>
           <slot />
         </div>
-        <button class={copyButtonStyle} onClick={this.copyToClipboard}>
-          <span>{this.copyMessage}</span>
-        </button>
+        {this.copyButton()}
       </Host>
     );
   }

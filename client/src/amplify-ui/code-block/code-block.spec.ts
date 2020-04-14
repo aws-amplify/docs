@@ -22,4 +22,28 @@ describe("amplify-code-block", () => {
       ).toMatchSnapshot();
     });
   });
+
+  describe("Copy button", () => {
+    it("is visible for languages other than console", async () => {
+      expect(
+        (
+          await newSpecPage({
+            components: [AmplifyCodeBlock],
+            html: `<amplify-code-block language="javascript" />`,
+          })
+        ).root,
+      ).toMatchSnapshot();
+    });
+
+    it("is not visible if the language is set to console", async () => {
+      expect(
+        (
+          await newSpecPage({
+            components: [AmplifyCodeBlock],
+            html: `<amplify-code-block language="console" />`,
+          })
+        ).root,
+      ).toMatchSnapshot();
+    });
+  });
 });
