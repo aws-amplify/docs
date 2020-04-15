@@ -1,13 +1,12 @@
 # Amplify Framework Documentation
 
-> https://aws-amplify.github.io/
+> https://docs.amplify.aws
 
 ## Getting Started
 
 1. [Fork this repo](/fork).
-1. `yarn install`
-1. `yarn start`
-1. <http://localhost:3335/> should open automatically.
+2. `yarn && yarn start`
+3. <http://localhost:3333/> should open automatically.
 
 ## Authoring Pages
 
