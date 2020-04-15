@@ -42,8 +42,6 @@ export class DocsInternalLink {
     if (this.href) {
       const {path, hash, params} = parseURL(this.href);
 
-      console.log(this.href);
-
       if (Object.keys(params).length === 0) {
         const filters = filtersByRoute.get(path);
         if (filters) {

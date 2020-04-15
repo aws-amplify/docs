@@ -283,7 +283,7 @@ export namespace Components {
         /**
           * match path
          */
-        "match"?: MatchResults;
+        "match": MatchResults;
     }
     interface DocsRepoActions {
         /**

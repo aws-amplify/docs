@@ -38,10 +38,8 @@ export class DocsPage {
   @Element() el: HTMLElement;
 
   /** match path */
-  @Prop() readonly match?: MatchResults;
+  @Prop() readonly match: MatchResults;
 
-  @State() requiresFilterSelection = false;
-  @State() showMenu?: boolean;
   @State() pageData?: Page;
   @State() blendUniversalNav?: boolean;
   @State() sidebarStickyTop = getNavHeight("rem");
@@ -74,6 +72,7 @@ export class DocsPage {
     if (this.pageData?.menu) {
       this.setSidebarStickyTop();
     }
+    // TODO: move into componentWillLoad
     const {hash} = location;
     if (hash) {
       setTimeout(() => {
@@ -85,55 +84,63 @@ export class DocsPage {
   @Watch("match")
   @Listen("popstate", {target: "window"})
   async componentWillLoad() {
-    if (this.match) {
-      const {path, params} = parseURL(location.pathname);
-      this.blendUniversalNav = path === "/";
+    const {path, params} = parseURL(location.pathname);
+    this.blendUniversalNav = path === "/";
 
-      track({
-        type: AnalyticsEventType.PAGE_VISIT,
-        attributes: {url: this.match.path},
-      });
+    track({
+      type: AnalyticsEventType.PAGE_VISIT,
+      attributes: {url: this.match.path},
+    });
 
-      try {
-        const pageData = await getPage(path);
-        if (pageData) {
-          updateDocumentHead(pageData);
-          this.filterKey = getFilterKeyFromPage(pageData);
-          this.selectedFilters = Object.assign(
-            {},
-            ...Object.keys(filterOptionsByName).map((filterKey) => {
-              const localStorageKey = getFilterKeyFromLocalStorage(filterKey);
-              return {
-                [filterKey]: localStorageKey
-                  ? localStorage.getItem(localStorageKey) || undefined
-                  : undefined,
-              };
-            }),
-          );
-          if (this.filterKey) {
-            const {[this.filterKey]: filterValue} = params;
-            if (filterValue) {
-              this.filterValue = filterValue;
-              this.setSelectedFilters({[this.filterKey]: this.filterValue});
-            } else {
-              this.requiresFilterSelection = true;
-            }
+    try {
+      const pageData = await getPage(path);
+      if (pageData) {
+        this.pageData = pageData;
+        updateDocumentHead(pageData);
+        this.filterKey = getFilterKeyFromPage(pageData);
+
+        this.selectedFilters = Object.assign(
+          {},
+          ...Object.keys(filterOptionsByName).map((filterKey) => {
+            const localStorageKey = getFilterKeyFromLocalStorage(filterKey);
+            return {
+              [filterKey]: localStorageKey
+                ? localStorage.getItem(localStorageKey) || undefined
+                : undefined,
+            };
+          }),
+        );
+
+        if (this.filterKey) {
+          const {[this.filterKey]: filterValue} = params;
+          if (typeof filterValue === "string" && filterValue !== "undefined") {
+            this.filterValue = filterValue;
+            this.setSelectedFilters({[this.filterKey]: this.filterValue});
+          } else {
+            this.filterValue = undefined;
           }
-          this.pageData = pageData;
-          this.showMenu = ((): boolean => {
-            const menuItems = this.pageData?.menu;
-            const menuItemsExist = !!(menuItems && menuItems.length > 0);
-            return menuItemsExist && !this.requiresFilterSelection;
-          })();
+        } else {
+          this.filterKey = undefined;
         }
-      } catch (exception) {
-        track({
-          type: AnalyticsEventType.PAGE_DATA_FETCH_EXCEPTION,
-          attributes: {url: this.match.url, exception},
-        });
+      } else {
+        this.pageData = undefined;
       }
+    } catch (exception) {
+      track({
+        type: AnalyticsEventType.PAGE_DATA_FETCH_EXCEPTION,
+        attributes: {url: this.match.url, exception},
+      });
     }
   }
+
+  requiresFilterSelection = (): boolean =>
+    !!(this.filterKey && !this.filterValue);
+
+  showMenu = (): boolean => {
+    const menuItems = this.pageData?.menu;
+    const menuItemsExist = !!(menuItems && menuItems.length > 0);
+    return menuItemsExist && !this.requiresFilterSelection();
+  };
 
   render() {
     return (
@@ -156,7 +163,7 @@ export class DocsPage {
                 <div class={sidebarLayoutStyle}>
                   <amplify-toc-provider>
                     <amplify-sidebar-layout>
-                      {this.showMenu && (
+                      {this.showMenu() && (
                         <amplify-sidebar-layout-sidebar
                           slot="sidebar"
                           top={this.sidebarStickyTop}
@@ -168,7 +175,7 @@ export class DocsPage {
                           />
                         </amplify-sidebar-layout-sidebar>
                       )}
-                      {this.requiresFilterSelection ? (
+                      {this.requiresFilterSelection() ? (
                         <amplify-sidebar-layout-main slot="main">
                           <amplify-toc-contents>
                             {this.filterKey === "integration" ? (
