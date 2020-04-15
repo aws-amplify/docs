@@ -2,27 +2,20 @@ This call sends information that you have specified about the user to Pinpoint. 
 
 
 ```java
-UserStateDetails userStateDetails = AWSMobileClient.getInstance().currentUserState();
-String identityId = AWSMobileClient.getInstance().getIdentityId();
 UserProfile.Location location = UserProfile.Location.builder()
     .latitude(47.606209)
     .longitude(-122.332069)
     .postalCode("98122")
     .city("Seattle")
     .region("WA")
-    .country("USA").build();
-
-Properties props = new Properties();
-for(String key : userStateDetails.getDetails().keySet()) {
-    props.properties.put(key, () -> userStateDetails.getDetails().get(key));
-}
+    .country("USA")
+    .build();
 
 UserProfile profile = UserProfile.builder()
     .location(location)
-    .customProperties(props)
     .name("name")
     .email("name@email.com")
     .build();
 
-Amplify.Analytics.identifyUser(identityId, profile);
+Amplify.Analytics.identifyUser("UserID", profile);
 ```

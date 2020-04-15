@@ -1,5 +1,5 @@
 ---
-title: Getting Started
+title: Getting started
 description: Get started with Storage category in Amplify
 ---
 

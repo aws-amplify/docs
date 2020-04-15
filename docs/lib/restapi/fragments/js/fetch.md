@@ -3,32 +3,37 @@ To invoke an endpoint, you need to set `apiName`, `path` and `headers` parameter
 ## GET requests
 
 ```javascript
-let apiName = 'MyApiName';
-let path = '/path'; 
-let myInit = { // OPTIONAL
+const apiName = 'MyApiName';
+const path = '/path'; 
+const myInit = { // OPTIONAL
     headers: {}, // OPTIONAL
     response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
     queryStringParameters: {  // OPTIONAL
-        name: 'param'
-    }
-}
-API.get(apiName, path, myInit).then(response => {
+        name: 'param',
+    },
+};
+
+API
+  .get(apiName, path, myInit)
+  .then(response => {
     // Add your code here
-}).catch(error => {
-    console.log(error.response)
-});
+  })
+  .catch(error => {
+    console.log(error.response);
+ });
 ```
 
 Example with async/await
 
 ```javascript
 async getData() { 
-    let apiName = 'MyApiName';
-    let path = '/path';
-    let myInit = { // OPTIONAL
-        headers: {} // OPTIONAL
-    }
-    return await API.get(apiName, path, myInit);
+  const apiName = 'MyApiName';
+  const path = '/path';
+  const myInit = { // OPTIONAL
+    headers: {}, // OPTIONAL
+  };
+
+  return await API.get(apiName, path, myInit);
 }
 
 getData();
@@ -39,7 +44,7 @@ getData();
 To use query parameters with `get` method, you can pass them in `queryStringParameters` parameter in your method call:
 
 ```javascript
-let items = await API.get('myCloudApi', '/items', {
+const items = await API.get('myCloudApi', '/items', {
   'queryStringParameters': {
     'order': 'byPrice'
   }
@@ -49,25 +54,29 @@ let items = await API.get('myCloudApi', '/items', {
 ## HEAD
 
 ```javascript
-let apiName = 'MyApiName'; // replace this with your api name.
-let path = '/path'; //replace this with the path you have configured on your API
-let myInit = { // OPTIONAL
-    headers: {} // OPTIONAL
-}
-API.head(apiName, path, myInit).then(response => {
+const apiName = 'MyApiName'; // replace this with your api name.
+const path = '/path'; //replace this with the path you have configured on your API
+const myInit = { // OPTIONAL
+    headers: {}, // OPTIONAL
+};
+
+API
+ .head(apiName, path, myInit)
+ .then(response => {
     // Add your code here
-});
+ });
 ```
 
 Example with async/await:
 
 ```javascript
 async function head() { 
-    let apiName = 'MyApiName';
-    let path = '/path';
-    let myInit = { // OPTIONAL
-        headers: {} // OPTIONAL
-    }
+    const apiName = 'MyApiName';
+    const path = '/path';
+    const myInit = { // OPTIONAL
+        headers: {}, // OPTIONAL
+    };
+
     return await API.head(apiName, path, myInit);
 }
 
@@ -83,7 +92,7 @@ If you are using a REST API which is generated with Amplify CLI, your backend is
 ```javascript
 exports.handler = function(event, context, callback) {
     console.log (event.queryStringParameters);
-    console.log('body: ', event.body)
+    console.log('body: ', event.body);
 }
 ```
 
@@ -91,7 +100,7 @@ Alternatively, you can update your backend file which is located at `amplify/bac
 
 ```javascript
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
-app.use(awsServerlessExpressMiddleware.eventContext())
+app.use(awsServerlessExpressMiddleware.eventContext());
 ```
 
 Accessing Query Parameters with Serverless Express
@@ -100,13 +109,13 @@ In your request handler use `req.apiGateway.event` or `req.query`:
 
 ```javascript
 app.get('/items', function(req, res) {
-  const query = req.query
+  const query = req.query;
   // or
   // const query = req.apiGateway.event.queryStringParameters
   res.json({
     event: req.apiGateway.event, // to view all event data
     query: query
-  })
+  });
 });
 ```
 
@@ -122,7 +131,7 @@ By default, calling an API with AWS Amplify parses a JSON response. If you have 
 
 ```javascript
 let file = await API.get('myCloudApi', '/items', {
-  'responseType': 'blob'
+  'responseType': 'blob',
 });
 ```
 

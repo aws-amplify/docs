@@ -30,8 +30,7 @@ iotDataManager.connectUsingALPN(withClientId: "<YOUR_CLIENT_ID>",
                        statusCallback: mqttEventCallback)
 ```
 
-You can take a look at the [API Reference](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/Classes/AWSIoTDataManager.html#//api/name/connectWithClientId:cleanSession:certificateId:statusCallback:
-) to get more information.
+You can take a look at the [API Reference](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/AWSIoT/Classes/AWSIoTDataManager.html#/c:objc(cs)AWSIoTDataManager(im)connectUsingALPNWithClientId:cleanSession:certificateId:statusCallback:) to get more information.
 
 ### AWS Credentials based Authentication
 
@@ -47,7 +46,7 @@ iotDataManager.connectUsingWebSocket(withClientId: "<YOUR_CLIENT_ID>",
                                      statusCallback: mqttEventCallback)
 ```
 
-You can take a look at the [API Reference](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/Classes/AWSIoTDataManager.html#//api/name/connectUsingWebSocketWithClientId:cleanSession:statusCallback:) to know more information.
+You can take a look at the [API Reference](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/AWSIoT/Classes/AWSIoTDataManager.html#/c:objc(cs)AWSIoTDataManager(im)connectUsingWebSocketWithClientId:cleanSession:statusCallback:) to know more information.
 
 ### Custom Authentication
 
@@ -71,7 +70,7 @@ iotDataManager.connectUsingWebSocket(withClientId: uuid,
                                      statusCallback: mqttEventCallback)
 ```
 
-You can take a look at the [API Reference](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/Classes/AWSIoTDataManager.html#//api/name/connectUsingWebSocketWithClientId:cleanSession:customAuthorizerName:tokenKeyName:tokenValue:tokenSignature:statusCallback:) to know more information. This feature is available in the AWS SDK for iOS starting from `2.8.4` version. See [AWSIoT - 2.8.4](https://github.com/aws-amplify/aws-sdk-ios/blob/master/CHANGELOG.md#284) for more details.
+You can take a look at the [API Reference](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/AWSIoT/Classes/AWSIoTDataManager.html#/c:objc(cs)AWSIoTDataManager(im)connectUsingWebSocketWithClientId:cleanSession:customAuthorizerName:tokenKeyName:tokenValue:tokenSignature:statusCallback:) to know more information. This feature is available in the AWS SDK for iOS starting from `2.8.4` version. See [AWSIoT - 2.8.4](https://github.com/aws-amplify/aws-sdk-ios/blob/master/CHANGELOG.md#284) for more details.
 
 ## Subscribe to a topic
 
@@ -124,4 +123,4 @@ iotDataManager.disconnect()
 
 ## API Reference
 
-For the complete API documentation for AWS IoT, visit our [API reference](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/Classes/AWSIoTDataManager.html)
+For the complete API documentation for AWS IoT, visit our [API reference](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/AWSIoT/Classes/AWSIoTDataManager.html).

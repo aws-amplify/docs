@@ -7,7 +7,7 @@ For this app, we have the following requirements:
 
 ### Model the data with the GraphQL Transform
 
-Given these requirements, we'll need to be able to display a list of photos and upload photos, meaning there will definitely be a Photo entity in the app. In GraphQL we would use a `type` to define that entity, like so:
+Given these requirements, we'll need to be able to query the API for a list of todos and also provide a way to send updates to the API to create, update, and delete todos. In GraphQL we would use a `type` to define that entity, like so:
 
 ```graphql
 type Todo {
@@ -20,14 +20,14 @@ type Todo {
 Because we're using Amplify, we can use the GraphQL Schema Definition Language (SDL) and custom Amplify directives to define our backend requirements for our API. The GraphQL Transform library then converts your SDL definition into a set of fully descriptive AWS CloudFormation templates that implement your data model.
 
 ```graphql
-type Todo {
+type Todo @model {
   id: ID!
   name: String!
   description: String!
 }
 ```
 
-The `@model` directive let's Amplify know we intend for this type to have data that needs to be stored. This will create a DynamoDB table for us and make all GraphQL operations available in the API.
+The `@model` directive lets Amplify know we intend for this type to have data that needs to be stored. This will create a DynamoDB table for us and make all GraphQL operations available in the API.
 
 ## Create GraphQL API and database
 

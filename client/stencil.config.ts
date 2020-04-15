@@ -9,6 +9,9 @@ export const config: Config = {
   // },
   taskQueue: "async",
   globalScript: "src/global/global.ts",
+  devServer: {
+    reloadStrategy: 'pageReload'
+  },
   nodeResolve: {
     browser: true,
   },
