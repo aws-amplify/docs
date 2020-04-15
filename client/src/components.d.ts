@@ -177,7 +177,7 @@ export namespace Components {
         /**
           * * the current page's data
          */
-        "page"?: Page;
+        "page": Page;
     }
     interface DocsChooseIntegrationAnchor {
         /**

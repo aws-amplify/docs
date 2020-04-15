@@ -5,18 +5,6 @@ import {pageContext} from "../page/page.context";
 import {getPage} from "../../cache";
 import {parseURL, serializeURL} from "../../utils/url/url";
 
-const rerouteURL = (
-  initialRoute: string | undefined,
-  selectedFilter: string | undefined,
-): string | undefined => {
-  if (initialRoute && selectedFilter) {
-    if (selectedFilter === "js" && initialRoute.startsWith("/sdk")) {
-      return initialRoute.replace("/sdk", "/lib");
-    }
-  }
-  return initialRoute;
-};
-
 @Component({tag: "docs-internal-link", shadow: false})
 export class DocsInternalLink {
   /*** the global selected filter state */
@@ -73,11 +61,7 @@ export class DocsInternalLink {
         !currentPathWithoutQS?.startsWith(`${hrefWithoutQS}-`)
       );
 
-    Object.assign(this, {
-      url: rerouteURL(url, selectedFilter),
-      isActive,
-      isChildActive,
-    });
+    Object.assign(this, {url, isActive, isChildActive});
   }
 
   componentDidRender() {

@@ -10,11 +10,11 @@ module.exports = {
     return hydrateOptions;
   },
 
-  // filterUrl(url) {
-  //   const {pathname} = url;
-  //   if (pathname.includes("amplify/latest")) {
-  //     return false;
-  //   }
-  //   return true;
-  // },
+  filterUrl(url) {
+    const {pathname} = url;
+    if (pathname.includes("amplify/latest")) {
+      return false;
+    }
+    return true;
+  },
 };

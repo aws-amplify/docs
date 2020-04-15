@@ -3,37 +3,27 @@ import {Page} from "../../api";
 import {getFilterKeyFromPage} from "../../utils/filters";
 import {filterMetadataByOptionByName} from "../../utils/filter-data";
 
-const getRoute = (
-  initialRoute: string,
-  filterKey: string,
-  filterValue: string,
-): string => {
+const getRoute = (page: Page, filterValue: string): string => {
   switch (filterValue) {
-    case "js": {
-      if (initialRoute.startsWith("/sdk")) {
-        return "lib/q/platform/js";
-      }
-      break;
-    }
     case "android":
     case "ios": {
-      if (initialRoute.startsWith("/lib")) {
+      if (page.route.startsWith("/lib")) {
         return `/sdk/q/platform/${filterValue}`;
       }
       break;
     }
   }
 
-  return `${initialRoute}/q/${filterKey}/${filterValue}`;
+  return page.versions?.[filterValue] as string;
 };
 
 @Component({tag: "docs-choose-anchor", shadow: false})
 export class DocsChooseAnchor {
   /*** the current page's data */
-  @Prop() readonly page?: Page;
+  @Prop() readonly page: Page;
 
   render() {
-    const filterKey = this.page && getFilterKeyFromPage(this.page);
+    const filterKey = getFilterKeyFromPage(this.page);
 
     return (
       <Host>
@@ -45,9 +35,7 @@ export class DocsChooseAnchor {
           {filterKey &&
             Object.entries(filterMetadataByOptionByName[filterKey]).map(
               ([filterValue, {label, graphicURI}]) => {
-                const route =
-                  this.page?.route &&
-                  getRoute(this.page.route, filterKey, filterValue);
+                const route = getRoute(this.page, filterValue);
 
                 return (
                   <amplify-card key={label} vertical url={route}>
