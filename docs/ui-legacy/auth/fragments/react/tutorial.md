@@ -444,7 +444,7 @@ In your project directory, open `./amplify/backend/function` and you'll see the 
 
 ## Adding XR Sumerian Scene
 
-To load Amazon Sumerian scenes you will need to activate the [Amplify Auth category]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/authentication).
+To load Amazon Sumerian scenes you will need to activate the [Amplify Auth category](~/lib/auth/getting-started.md?platform=js).
 
 ```
 $ amplify add auth
@@ -487,7 +487,7 @@ Update the `render()` method to include the Sumerian Scene component:
   }
 ```
 
-See the [XR documentation]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/xr) for information on creating and publishing a Sumerian scene.
+See the [XR documentation](~/lib/xr/getting-started.md?platform=js) for information on creating and publishing a Sumerian scene.
 
 ## Testing Serverless Functions
 
