@@ -26,8 +26,7 @@ mqttManager.connectUsingALPN(<YOUR_KEYSTORE>, new AWSIotMqttClientStatusCallback
 });
 ```
 
-You can take a look at the [API Reference](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/Classes/AWSIoTDataManager.html#//api/name/connectWithClientId:cleanSession:certificateId:statusCallback:
-) to get more information.
+You can take a look at the [API Reference](https://aws-amplify.github.io/aws-sdk-android/docs/reference/com/amazonaws/mobileconnectors/iot/AWSIotMqttManager.html#connectUsingALPN-java.security.KeyStore-com.amazonaws.mobileconnectors.iot.AWSIotMqttClientStatusCallback-) to get more information.
 
 ### AWS Credentials based Authentication
 
@@ -154,4 +153,4 @@ try {
 
 ## API Reference
 
-For the complete API documentation for AWS IoT, visit our [API reference](https://aws-amplify.github.io/aws-sdk-android/docs/reference/com/amazonaws/mobileconnectors/iot/package-frame.html)
+For the complete API documentation for AWS IoT, visit our [API reference](https://aws-amplify.github.io/aws-sdk-android/docs/reference/com/amazonaws/mobileconnectors/iot/package-summary.html).

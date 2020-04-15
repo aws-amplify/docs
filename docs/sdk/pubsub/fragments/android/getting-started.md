@@ -3,7 +3,9 @@ PubSub provides connectivity with cloud-based message-oriented middleware. You c
 PubSub is available with **AWS IoT**. 
 
 <amplify-callout>
+
 When using AWS IoT your PubSub HTTP requests are automatically signed when sending your messages.
+
 </amplify-callout>
 
 ## Installation and Configuration
