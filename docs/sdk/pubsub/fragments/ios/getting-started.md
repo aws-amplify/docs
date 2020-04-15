@@ -17,15 +17,15 @@ When used with `AWSIoTDataManager`, PubSub is capable of signing request accordi
 The `Podfile` that you configure to install the AWS Mobile SDK must contain the `AWSIoT` pod:
 
 ```ruby
-    platform :ios, '9.0'
+platform :ios, '9.0'
 
-    target :'YOUR-APP-NAME' do
-      use_frameworks!
+target :'YOUR-APP-NAME' do
+  use_frameworks!
 
-        pod  'AWSIoT', '~> 2.13.0'
-        # other pods
+  pod  'AWSIoT', '~> 2.13.0'
+  # other pods
 
-    end
+end
 ```
 
 Run `pod install --repo-update` before you continue.
@@ -53,7 +53,9 @@ let iotDataManager = AWSIoTDataManager(forKey: "MyAWSIoTDataManager")
 ```
 
 <amplify-callout>
+
 You can get the endpoint information from the IoT Core -> Settings page on the AWS Console.  
+
 </amplify-callout>
 
 **Create IAM policies for AWS IoT**
@@ -62,8 +64,7 @@ To use PubSub with AWS IoT, you will need to create the necessary IAM policies i
 
 Go to IoT Core and choose *Secure* from the left navigation pane. Then navigate to *Create Policy*. The following `myIOTPolicy` policy will allow full access to all the topics.
 
-![Alt text]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/images/iot_attach_policy.png?raw=true "Title")
-
+![Alt text](/images/iot_attach_policy.png)
 
 **Attach your policy to your Amazon Cognito Identity**
 
