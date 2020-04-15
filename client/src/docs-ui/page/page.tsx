@@ -77,13 +77,15 @@ export class DocsPage {
   @Watch("match")
   @Listen("popstate", {target: "window"})
   async componentWillLoad() {
-    const {path, params, hash} = parseURL(location.pathname);
+    const {path, params} = parseURL(location.pathname);
     this.blendUniversalNav = path === "/";
 
-    track({
-      type: AnalyticsEventType.PAGE_VISIT,
-      attributes: {url: this.match.path},
-    });
+    if (this.match) {
+      track({
+        type: AnalyticsEventType.PAGE_VISIT,
+        attributes: {url: this.match.path},
+      });
+    }
 
     try {
       const pageData = await getPage(path);
@@ -119,10 +121,12 @@ export class DocsPage {
         this.pageData = undefined;
       }
     } catch (exception) {
-      track({
-        type: AnalyticsEventType.PAGE_DATA_FETCH_EXCEPTION,
-        attributes: {url: this.match.url, exception},
-      });
+      if (this.match) {
+        track({
+          type: AnalyticsEventType.PAGE_DATA_FETCH_EXCEPTION,
+          attributes: {url: this.match.url, exception},
+        });
+      }
     }
   }
 

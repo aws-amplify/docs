@@ -47,6 +47,13 @@ export class DocsMenuGroup {
   @Watch("selectedFilters")
   componentWillLoad() {
     this.itemsToDisplay = this.menuGroup?.items.filter(this.shouldDisplay);
+    const currentRoute = location.pathname.split("/q/").shift() as string;
+    if (
+      this.itemsToDisplay &&
+      this.itemsToDisplay.some(({route}) => route.includes(currentRoute))
+    ) {
+      this.expanded = true;
+    }
   }
 
   render() {
