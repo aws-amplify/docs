@@ -74,8 +74,6 @@ export class DocsInternalLink {
           !currentPathWithoutQS?.startsWith(`${hrefWithoutQS}-`)
         );
 
-      console.log(url, location.href);
-
       Object.assign(this, {
         url: rerouteURL(url, selectedFilter),
         isActive,
