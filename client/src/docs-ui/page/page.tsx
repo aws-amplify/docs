@@ -42,7 +42,7 @@ export class DocsPage {
 
   @State() requiresFilterSelection = false;
   @State() showMenu?: boolean;
-  @State() data?: Page;
+  @State() pageData?: Page;
   @State() blendUniversalNav?: boolean;
   @State() sidebarStickyTop = getNavHeight("rem");
   @State() selectedFilters: Record<string, string | undefined> = {};
@@ -71,7 +71,7 @@ export class DocsPage {
   }
 
   componentDidLoad() {
-    if (this.data?.menu) {
+    if (this.pageData?.menu) {
       this.setSidebarStickyTop();
     }
     const {hash} = location;
@@ -95,10 +95,10 @@ export class DocsPage {
       });
 
       try {
-        const data = await getPage(path);
-        if (data) {
-          updateDocumentHead(data);
-          this.filterKey = getFilterKeyFromPage(data);
+        const pageData = await getPage(path);
+        if (pageData) {
+          updateDocumentHead(pageData);
+          this.filterKey = getFilterKeyFromPage(pageData);
           this.selectedFilters = Object.assign(
             {},
             ...Object.keys(filterOptionsByName).map((filterKey) => {
@@ -119,9 +119,9 @@ export class DocsPage {
               this.requiresFilterSelection = true;
             }
           }
-          this.data = data;
+          this.pageData = pageData;
           this.showMenu = ((): boolean => {
-            const menuItems = this.data?.menu;
+            const menuItems = this.pageData?.menu;
             const menuItemsExist = !!(menuItems && menuItems.length > 0);
             return menuItemsExist && !this.requiresFilterSelection;
           })();
@@ -150,7 +150,7 @@ export class DocsPage {
             brand-icon="/assets/logo-light.svg"
             brand-icon-blend="/assets/logo-dark.svg"
           />
-          {!this.data?.noTemplate
+          {!this.pageData?.noTemplate
             ? [
                 <docs-secondary-nav />,
                 <div class={sidebarLayoutStyle}>
@@ -163,8 +163,8 @@ export class DocsPage {
                         >
                           <docs-menu
                             filterKey={this.filterKey}
-                            page={this.data}
-                            key={this.data?.productRootLink?.route}
+                            page={this.pageData}
+                            key={this.pageData?.productRootLink?.route}
                           />
                         </amplify-sidebar-layout-sidebar>
                       )}
@@ -173,10 +173,10 @@ export class DocsPage {
                           <amplify-toc-contents>
                             {this.filterKey === "integration" ? (
                               <docs-choose-integration-anchor
-                                page={this.data}
+                                page={this.pageData}
                               />
                             ) : (
-                              <docs-choose-anchor page={this.data} />
+                              <docs-choose-anchor page={this.pageData} />
                             )}
                           </amplify-toc-contents>
                         </amplify-sidebar-layout-main>
@@ -187,14 +187,14 @@ export class DocsPage {
                             class={mainStyle}
                           >
                             <amplify-toc-contents>
-                              {this.data && [
-                                <h1>{this.data.title}</h1>,
+                              {this.pageData && [
+                                <h1>{this.pageData.title}</h1>,
                                 createVNodesFromHyperscriptNodes(
-                                  this.data.body,
+                                  this.pageData.body,
                                 ),
                                 <docs-next-previous
-                                  key={this.data.route}
-                                  page={this.data}
+                                  key={this.pageData.route}
+                                  page={this.pageData}
                                 />,
                               ]}
                             </amplify-toc-contents>
@@ -213,10 +213,10 @@ export class DocsPage {
                               <img class="ex-graphic" src="/assets/close.svg" />
                             </amplify-sidebar-layout-toggle>
                           </amplify-sidebar-layout-main>,
-                          !this.data?.disableTOC && (
+                          !this.pageData?.disableTOC && (
                             <div slot="toc" class={tocStyle}>
                               <div>
-                                <amplify-toc pageTitle={this.data?.title} />
+                                <amplify-toc pageTitle={this.pageData?.title} />
                               </div>
                             </div>
                           ),
@@ -227,7 +227,8 @@ export class DocsPage {
                 </div>,
                 <docs-footer />,
               ]
-            : this.data && createVNodesFromHyperscriptNodes(this.data.body)}
+            : this.pageData &&
+              createVNodesFromHyperscriptNodes(this.pageData.body)}
           <docs-chat-button />
         </pageContext.Provider>
       </Host>
