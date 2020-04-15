@@ -50,7 +50,7 @@ export class DocsMenuGroup {
     const currentRoute = location.pathname.split("/q/").shift() as string;
     if (
       this.itemsToDisplay &&
-      this.itemsToDisplay.some(({route}) => route.includes(currentRoute))
+      this.itemsToDisplay.some(({route}) => route === currentRoute)
     ) {
       this.expanded = true;
     }
