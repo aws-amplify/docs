@@ -37,7 +37,7 @@ export class DocsInternalLink {
   @State() isChildActive?: boolean;
 
   @Watch("selectedFilters")
-  computeState() {
+  componentWillLoad() {
     let selectedFilter: string | undefined;
     if (this.href) {
       const {path, hash, params} = parseURL(this.href);
@@ -61,7 +61,7 @@ export class DocsInternalLink {
       }
 
       const url = serializeURL({path, hash, params});
-      const isActive = location.href === url;
+      const isActive = location.pathname === url;
       const currentPathWithoutQS = location.pathname.split("/q/")?.[0];
       const hrefWithoutQS = url.split("/q/")?.[0];
       const isChildActive =
@@ -73,6 +73,8 @@ export class DocsInternalLink {
           currentPathWithoutQS?.startsWith(hrefWithoutQS) &&
           !currentPathWithoutQS?.startsWith(`${hrefWithoutQS}-`)
         );
+
+      console.log(url, location.href);
 
       Object.assign(this, {
         url: rerouteURL(url, selectedFilter),

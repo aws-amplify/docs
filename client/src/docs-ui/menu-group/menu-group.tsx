@@ -45,7 +45,7 @@ export class DocsMenuGroup {
 
   @Watch("menuGroup")
   @Watch("selectedFilters")
-  componentWillRender() {
+  componentWillLoad() {
     this.itemsToDisplay = this.menuGroup?.items.filter(this.shouldDisplay);
   }
 

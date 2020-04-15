@@ -27,7 +27,7 @@ import {filterOptionsByName} from "../../utils/filter-data";
 import {SetSelectedFilters} from "./page.types";
 import {pageContext} from "./page.context";
 import {track, AnalyticsEventType} from "../../utils/track";
-import {Breakpoint} from "../../amplify-ui/styles/media";
+import {ensureMenuScrolledIntoView} from "../../utils/ensure-menu-scrolled-into-view";
 import {getPage} from "../../cache";
 import {getNavHeight} from "../../utils/get-nav-height";
 import {scrollToHash} from "../../utils/scroll-to-hash";
@@ -40,12 +40,12 @@ export class DocsPage {
   /** match path */
   @Prop() readonly match?: MatchResults;
 
+  @State() requiresFilterSelection = false;
+  @State() showMenu?: boolean;
   @State() data?: Page;
   @State() blendUniversalNav?: boolean;
-  @State() sidebarStickyTop?: number;
+  @State() sidebarStickyTop = getNavHeight("rem");
   @State() selectedFilters: Record<string, string | undefined> = {};
-  @State() requiresFilterSelection?: boolean;
-  @State() showMenu?: boolean;
 
   setSelectedFilters: SetSelectedFilters = (updates) => {
     const overrides = withFilterOverrides(updates, this.selectedFilters);
@@ -61,11 +61,6 @@ export class DocsPage {
     }
   };
 
-  /**
-   * 1. we save to these members in `componentWillLoad`
-   * 2. we wait for the first render to set the state to avoid a race with the TOC
-   * (ensuring that the TOC has rendered nodes to gather and observe)
-   */
   filterKey?: string;
   filterValue?: string;
 
@@ -75,25 +70,23 @@ export class DocsPage {
     this.sidebarStickyTop = getNavHeight("rem");
   }
 
-  ensureMenuScrolledIntoViewOnMobileMenuOpen = () => {
-    const footer = document.querySelector("docs-footer");
-    const documentHeight = document.body.getBoundingClientRect().height;
-    if (footer && innerWidth <= Breakpoint.TABLET * 16) {
-      const footerHeight = footer.getBoundingClientRect().height;
-      if (scrollY > documentHeight - innerHeight - footerHeight) {
-        if (scrollY > documentHeight - innerHeight - footerHeight) {
-          const targetOffsetTop = documentHeight - (footerHeight + innerHeight);
-          scrollTo({top: targetOffsetTop});
-        }
-      }
+  componentDidLoad() {
+    if (this.data?.menu) {
+      this.setSidebarStickyTop();
     }
-  };
+    const {hash} = location;
+    if (hash) {
+      setTimeout(() => {
+        scrollToHash(hash, this.el);
+      }, 100);
+    }
+  }
 
-  @Listen("popstate", {target: "window"})
   @Watch("match")
+  @Listen("popstate", {target: "window"})
   async componentWillLoad() {
     if (this.match) {
-      const {path, params} = parseURL(this.match.url);
+      const {path, params} = parseURL(location.pathname);
       this.blendUniversalNav = path === "/";
 
       track({
@@ -142,18 +135,6 @@ export class DocsPage {
     }
   }
 
-  componentDidLoad() {
-    if (this.data?.menu) {
-      this.setSidebarStickyTop();
-    }
-    const {hash} = location;
-    if (hash) {
-      setTimeout(() => {
-        scrollToHash(hash, this.el);
-      }, 100);
-    }
-  }
-
   render() {
     return (
       <Host class={pageStyle}>
@@ -181,9 +162,9 @@ export class DocsPage {
                           top={this.sidebarStickyTop}
                         >
                           <docs-menu
-                            key={this.data?.productRootLink?.route}
-                            page={this.data}
                             filterKey={this.filterKey}
+                            page={this.data}
+                            key={this.data?.productRootLink?.route}
                           />
                         </amplify-sidebar-layout-sidebar>
                       )}
@@ -218,9 +199,7 @@ export class DocsPage {
                               ]}
                             </amplify-toc-contents>
                             <amplify-sidebar-layout-toggle
-                              onClick={
-                                this.ensureMenuScrolledIntoViewOnMobileMenuOpen
-                              }
+                              onClick={ensureMenuScrolledIntoView}
                               in-view-class="in-view"
                               class={{
                                 "three-dee-effect": true,

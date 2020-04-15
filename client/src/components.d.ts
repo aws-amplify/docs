@@ -49,8 +49,6 @@ export namespace Components {
          */
         "innerClass"?: string;
     }
-    interface AmplifyContainerStory {
-    }
     interface AmplifyExternalLink {
         /**
           * * Title attr same as for `a`
@@ -69,11 +67,7 @@ export namespace Components {
          */
         "redirect"?: boolean;
     }
-    interface AmplifyExternalLinkStory {
-    }
     interface AmplifyHero {
-    }
-    interface AmplifyHeroStory {
     }
     interface AmplifyLorem {
     }
@@ -90,8 +84,6 @@ export namespace Components {
           * how much space in between grid items (ems)
          */
         "gridGap": number;
-    }
-    interface AmplifyResponsiveGridStory {
     }
     interface AmplifySidebarLayout {
     }
@@ -151,8 +143,6 @@ export namespace Components {
     }
     interface AmplifyTocProvider {
     }
-    interface AmplifyTocStory {
-    }
     interface Docs404Page {
     }
     interface DocsCard {
@@ -208,8 +198,6 @@ export namespace Components {
         "selectedFilters"?: SelectedFilters;
     }
     interface DocsFooter {
-    }
-    interface DocsGlobalStylesStory {
     }
     interface DocsInPageLink {
         /**
@@ -321,8 +309,6 @@ export namespace Components {
          */
         "selectedFilters"?: SelectedFilters;
     }
-    interface DocsStoryPage {
-    }
     interface DocsUniversalNav {
         /**
           * * determines whether transparent background styles & starker text/logo colors are applied
@@ -387,35 +373,17 @@ declare global {
         prototype: HTMLAmplifyContainerElement;
         new (): HTMLAmplifyContainerElement;
     };
-    interface HTMLAmplifyContainerStoryElement extends Components.AmplifyContainerStory, HTMLStencilElement {
-    }
-    var HTMLAmplifyContainerStoryElement: {
-        prototype: HTMLAmplifyContainerStoryElement;
-        new (): HTMLAmplifyContainerStoryElement;
-    };
     interface HTMLAmplifyExternalLinkElement extends Components.AmplifyExternalLink, HTMLStencilElement {
     }
     var HTMLAmplifyExternalLinkElement: {
         prototype: HTMLAmplifyExternalLinkElement;
         new (): HTMLAmplifyExternalLinkElement;
     };
-    interface HTMLAmplifyExternalLinkStoryElement extends Components.AmplifyExternalLinkStory, HTMLStencilElement {
-    }
-    var HTMLAmplifyExternalLinkStoryElement: {
-        prototype: HTMLAmplifyExternalLinkStoryElement;
-        new (): HTMLAmplifyExternalLinkStoryElement;
-    };
     interface HTMLAmplifyHeroElement extends Components.AmplifyHero, HTMLStencilElement {
     }
     var HTMLAmplifyHeroElement: {
         prototype: HTMLAmplifyHeroElement;
         new (): HTMLAmplifyHeroElement;
-    };
-    interface HTMLAmplifyHeroStoryElement extends Components.AmplifyHeroStory, HTMLStencilElement {
-    }
-    var HTMLAmplifyHeroStoryElement: {
-        prototype: HTMLAmplifyHeroStoryElement;
-        new (): HTMLAmplifyHeroStoryElement;
     };
     interface HTMLAmplifyLoremElement extends Components.AmplifyLorem, HTMLStencilElement {
     }
@@ -428,12 +396,6 @@ declare global {
     var HTMLAmplifyResponsiveGridElement: {
         prototype: HTMLAmplifyResponsiveGridElement;
         new (): HTMLAmplifyResponsiveGridElement;
-    };
-    interface HTMLAmplifyResponsiveGridStoryElement extends Components.AmplifyResponsiveGridStory, HTMLStencilElement {
-    }
-    var HTMLAmplifyResponsiveGridStoryElement: {
-        prototype: HTMLAmplifyResponsiveGridStoryElement;
-        new (): HTMLAmplifyResponsiveGridStoryElement;
     };
     interface HTMLAmplifySidebarLayoutElement extends Components.AmplifySidebarLayout, HTMLStencilElement {
     }
@@ -476,12 +438,6 @@ declare global {
     var HTMLAmplifyTocProviderElement: {
         prototype: HTMLAmplifyTocProviderElement;
         new (): HTMLAmplifyTocProviderElement;
-    };
-    interface HTMLAmplifyTocStoryElement extends Components.AmplifyTocStory, HTMLStencilElement {
-    }
-    var HTMLAmplifyTocStoryElement: {
-        prototype: HTMLAmplifyTocStoryElement;
-        new (): HTMLAmplifyTocStoryElement;
     };
     interface HTMLDocs404PageElement extends Components.Docs404Page, HTMLStencilElement {
     }
@@ -530,12 +486,6 @@ declare global {
     var HTMLDocsFooterElement: {
         prototype: HTMLDocsFooterElement;
         new (): HTMLDocsFooterElement;
-    };
-    interface HTMLDocsGlobalStylesStoryElement extends Components.DocsGlobalStylesStory, HTMLStencilElement {
-    }
-    var HTMLDocsGlobalStylesStoryElement: {
-        prototype: HTMLDocsGlobalStylesStoryElement;
-        new (): HTMLDocsGlobalStylesStoryElement;
     };
     interface HTMLDocsInPageLinkElement extends Components.DocsInPageLink, HTMLStencilElement {
     }
@@ -615,12 +565,6 @@ declare global {
         prototype: HTMLDocsSelectAnchorElement;
         new (): HTMLDocsSelectAnchorElement;
     };
-    interface HTMLDocsStoryPageElement extends Components.DocsStoryPage, HTMLStencilElement {
-    }
-    var HTMLDocsStoryPageElement: {
-        prototype: HTMLDocsStoryPageElement;
-        new (): HTMLDocsStoryPageElement;
-    };
     interface HTMLDocsUniversalNavElement extends Components.DocsUniversalNav, HTMLStencilElement {
     }
     var HTMLDocsUniversalNavElement: {
@@ -644,14 +588,10 @@ declare global {
         "amplify-card": HTMLAmplifyCardElement;
         "amplify-code-block": HTMLAmplifyCodeBlockElement;
         "amplify-container": HTMLAmplifyContainerElement;
-        "amplify-container-story": HTMLAmplifyContainerStoryElement;
         "amplify-external-link": HTMLAmplifyExternalLinkElement;
-        "amplify-external-link-story": HTMLAmplifyExternalLinkStoryElement;
         "amplify-hero": HTMLAmplifyHeroElement;
-        "amplify-hero-story": HTMLAmplifyHeroStoryElement;
         "amplify-lorem": HTMLAmplifyLoremElement;
         "amplify-responsive-grid": HTMLAmplifyResponsiveGridElement;
-        "amplify-responsive-grid-story": HTMLAmplifyResponsiveGridStoryElement;
         "amplify-sidebar-layout": HTMLAmplifySidebarLayoutElement;
         "amplify-sidebar-layout-main": HTMLAmplifySidebarLayoutMainElement;
         "amplify-sidebar-layout-sidebar": HTMLAmplifySidebarLayoutSidebarElement;
@@ -659,7 +599,6 @@ declare global {
         "amplify-toc": HTMLAmplifyTocElement;
         "amplify-toc-contents": HTMLAmplifyTocContentsElement;
         "amplify-toc-provider": HTMLAmplifyTocProviderElement;
-        "amplify-toc-story": HTMLAmplifyTocStoryElement;
         "docs-404-page": HTMLDocs404PageElement;
         "docs-card": HTMLDocsCardElement;
         "docs-chat-button": HTMLDocsChatButtonElement;
@@ -668,7 +607,6 @@ declare global {
         "docs-feedback-callout": HTMLDocsFeedbackCalloutElement;
         "docs-filter-target": HTMLDocsFilterTargetElement;
         "docs-footer": HTMLDocsFooterElement;
-        "docs-global-styles-story": HTMLDocsGlobalStylesStoryElement;
         "docs-in-page-link": HTMLDocsInPageLinkElement;
         "docs-internal-link": HTMLDocsInternalLinkElement;
         "docs-internal-link-button": HTMLDocsInternalLinkButtonElement;
@@ -682,7 +620,6 @@ declare global {
         "docs-router": HTMLDocsRouterElement;
         "docs-secondary-nav": HTMLDocsSecondaryNavElement;
         "docs-select-anchor": HTMLDocsSelectAnchorElement;
-        "docs-story-page": HTMLDocsStoryPageElement;
         "docs-universal-nav": HTMLDocsUniversalNavElement;
         "docs-version-switch": HTMLDocsVersionSwitchElement;
         "ui-component-props": HTMLUiComponentPropsElement;
@@ -725,8 +662,6 @@ declare namespace LocalJSX {
          */
         "innerClass"?: string;
     }
-    interface AmplifyContainerStory {
-    }
     interface AmplifyExternalLink {
         /**
           * * Title attr same as for `a`
@@ -745,11 +680,7 @@ declare namespace LocalJSX {
          */
         "redirect"?: boolean;
     }
-    interface AmplifyExternalLinkStory {
-    }
     interface AmplifyHero {
-    }
-    interface AmplifyHeroStory {
     }
     interface AmplifyLorem {
     }
@@ -766,8 +697,6 @@ declare namespace LocalJSX {
           * how much space in between grid items (ems)
          */
         "gridGap"?: number;
-    }
-    interface AmplifyResponsiveGridStory {
     }
     interface AmplifySidebarLayout {
     }
@@ -827,8 +756,6 @@ declare namespace LocalJSX {
     }
     interface AmplifyTocProvider {
     }
-    interface AmplifyTocStory {
-    }
     interface Docs404Page {
     }
     interface DocsCard {
@@ -884,8 +811,6 @@ declare namespace LocalJSX {
         "selectedFilters"?: SelectedFilters;
     }
     interface DocsFooter {
-    }
-    interface DocsGlobalStylesStory {
     }
     interface DocsInPageLink {
         /**
@@ -997,8 +922,6 @@ declare namespace LocalJSX {
          */
         "selectedFilters"?: SelectedFilters;
     }
-    interface DocsStoryPage {
-    }
     interface DocsUniversalNav {
         /**
           * * determines whether transparent background styles & starker text/logo colors are applied
@@ -1042,14 +965,10 @@ declare namespace LocalJSX {
         "amplify-card": AmplifyCard;
         "amplify-code-block": AmplifyCodeBlock;
         "amplify-container": AmplifyContainer;
-        "amplify-container-story": AmplifyContainerStory;
         "amplify-external-link": AmplifyExternalLink;
-        "amplify-external-link-story": AmplifyExternalLinkStory;
         "amplify-hero": AmplifyHero;
-        "amplify-hero-story": AmplifyHeroStory;
         "amplify-lorem": AmplifyLorem;
         "amplify-responsive-grid": AmplifyResponsiveGrid;
-        "amplify-responsive-grid-story": AmplifyResponsiveGridStory;
         "amplify-sidebar-layout": AmplifySidebarLayout;
         "amplify-sidebar-layout-main": AmplifySidebarLayoutMain;
         "amplify-sidebar-layout-sidebar": AmplifySidebarLayoutSidebar;
@@ -1057,7 +976,6 @@ declare namespace LocalJSX {
         "amplify-toc": AmplifyToc;
         "amplify-toc-contents": AmplifyTocContents;
         "amplify-toc-provider": AmplifyTocProvider;
-        "amplify-toc-story": AmplifyTocStory;
         "docs-404-page": Docs404Page;
         "docs-card": DocsCard;
         "docs-chat-button": DocsChatButton;
@@ -1066,7 +984,6 @@ declare namespace LocalJSX {
         "docs-feedback-callout": DocsFeedbackCallout;
         "docs-filter-target": DocsFilterTarget;
         "docs-footer": DocsFooter;
-        "docs-global-styles-story": DocsGlobalStylesStory;
         "docs-in-page-link": DocsInPageLink;
         "docs-internal-link": DocsInternalLink;
         "docs-internal-link-button": DocsInternalLinkButton;
@@ -1080,7 +997,6 @@ declare namespace LocalJSX {
         "docs-router": DocsRouter;
         "docs-secondary-nav": DocsSecondaryNav;
         "docs-select-anchor": DocsSelectAnchor;
-        "docs-story-page": DocsStoryPage;
         "docs-universal-nav": DocsUniversalNav;
         "docs-version-switch": DocsVersionSwitch;
         "ui-component-props": UiComponentProps;
@@ -1094,14 +1010,10 @@ declare module "@stencil/core" {
             "amplify-card": LocalJSX.AmplifyCard & JSXBase.HTMLAttributes<HTMLAmplifyCardElement>;
             "amplify-code-block": LocalJSX.AmplifyCodeBlock & JSXBase.HTMLAttributes<HTMLAmplifyCodeBlockElement>;
             "amplify-container": LocalJSX.AmplifyContainer & JSXBase.HTMLAttributes<HTMLAmplifyContainerElement>;
-            "amplify-container-story": LocalJSX.AmplifyContainerStory & JSXBase.HTMLAttributes<HTMLAmplifyContainerStoryElement>;
             "amplify-external-link": LocalJSX.AmplifyExternalLink & JSXBase.HTMLAttributes<HTMLAmplifyExternalLinkElement>;
-            "amplify-external-link-story": LocalJSX.AmplifyExternalLinkStory & JSXBase.HTMLAttributes<HTMLAmplifyExternalLinkStoryElement>;
             "amplify-hero": LocalJSX.AmplifyHero & JSXBase.HTMLAttributes<HTMLAmplifyHeroElement>;
-            "amplify-hero-story": LocalJSX.AmplifyHeroStory & JSXBase.HTMLAttributes<HTMLAmplifyHeroStoryElement>;
             "amplify-lorem": LocalJSX.AmplifyLorem & JSXBase.HTMLAttributes<HTMLAmplifyLoremElement>;
             "amplify-responsive-grid": LocalJSX.AmplifyResponsiveGrid & JSXBase.HTMLAttributes<HTMLAmplifyResponsiveGridElement>;
-            "amplify-responsive-grid-story": LocalJSX.AmplifyResponsiveGridStory & JSXBase.HTMLAttributes<HTMLAmplifyResponsiveGridStoryElement>;
             "amplify-sidebar-layout": LocalJSX.AmplifySidebarLayout & JSXBase.HTMLAttributes<HTMLAmplifySidebarLayoutElement>;
             "amplify-sidebar-layout-main": LocalJSX.AmplifySidebarLayoutMain & JSXBase.HTMLAttributes<HTMLAmplifySidebarLayoutMainElement>;
             "amplify-sidebar-layout-sidebar": LocalJSX.AmplifySidebarLayoutSidebar & JSXBase.HTMLAttributes<HTMLAmplifySidebarLayoutSidebarElement>;
@@ -1109,7 +1021,6 @@ declare module "@stencil/core" {
             "amplify-toc": LocalJSX.AmplifyToc & JSXBase.HTMLAttributes<HTMLAmplifyTocElement>;
             "amplify-toc-contents": LocalJSX.AmplifyTocContents & JSXBase.HTMLAttributes<HTMLAmplifyTocContentsElement>;
             "amplify-toc-provider": LocalJSX.AmplifyTocProvider & JSXBase.HTMLAttributes<HTMLAmplifyTocProviderElement>;
-            "amplify-toc-story": LocalJSX.AmplifyTocStory & JSXBase.HTMLAttributes<HTMLAmplifyTocStoryElement>;
             "docs-404-page": LocalJSX.Docs404Page & JSXBase.HTMLAttributes<HTMLDocs404PageElement>;
             "docs-card": LocalJSX.DocsCard & JSXBase.HTMLAttributes<HTMLDocsCardElement>;
             "docs-chat-button": LocalJSX.DocsChatButton & JSXBase.HTMLAttributes<HTMLDocsChatButtonElement>;
@@ -1118,7 +1029,6 @@ declare module "@stencil/core" {
             "docs-feedback-callout": LocalJSX.DocsFeedbackCallout & JSXBase.HTMLAttributes<HTMLDocsFeedbackCalloutElement>;
             "docs-filter-target": LocalJSX.DocsFilterTarget & JSXBase.HTMLAttributes<HTMLDocsFilterTargetElement>;
             "docs-footer": LocalJSX.DocsFooter & JSXBase.HTMLAttributes<HTMLDocsFooterElement>;
-            "docs-global-styles-story": LocalJSX.DocsGlobalStylesStory & JSXBase.HTMLAttributes<HTMLDocsGlobalStylesStoryElement>;
             "docs-in-page-link": LocalJSX.DocsInPageLink & JSXBase.HTMLAttributes<HTMLDocsInPageLinkElement>;
             "docs-internal-link": LocalJSX.DocsInternalLink & JSXBase.HTMLAttributes<HTMLDocsInternalLinkElement>;
             "docs-internal-link-button": LocalJSX.DocsInternalLinkButton & JSXBase.HTMLAttributes<HTMLDocsInternalLinkButtonElement>;
@@ -1132,7 +1042,6 @@ declare module "@stencil/core" {
             "docs-router": LocalJSX.DocsRouter & JSXBase.HTMLAttributes<HTMLDocsRouterElement>;
             "docs-secondary-nav": LocalJSX.DocsSecondaryNav & JSXBase.HTMLAttributes<HTMLDocsSecondaryNavElement>;
             "docs-select-anchor": LocalJSX.DocsSelectAnchor & JSXBase.HTMLAttributes<HTMLDocsSelectAnchorElement>;
-            "docs-story-page": LocalJSX.DocsStoryPage & JSXBase.HTMLAttributes<HTMLDocsStoryPageElement>;
             "docs-universal-nav": LocalJSX.DocsUniversalNav & JSXBase.HTMLAttributes<HTMLDocsUniversalNavElement>;
             "docs-version-switch": LocalJSX.DocsVersionSwitch & JSXBase.HTMLAttributes<HTMLDocsVersionSwitchElement>;
             "ui-component-props": LocalJSX.UiComponentProps & JSXBase.HTMLAttributes<HTMLUiComponentPropsElement>;
