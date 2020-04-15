@@ -58,7 +58,7 @@ If this is a new project, run `pod init` from the root of your application folde
 target :'YOUR-APP-NAME' do
 use_frameworks!
   pod 'AmplifyPlugins/AWSS3StoragePlugin'
-  pod 'AWSMobileClient', '~> 2.13.0'
+  pod 'AWSMobileClient'
 end
 ```
 
@@ -110,9 +110,8 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
         print("AWSMobileClient initialized, userstate: \(userState)")
     }
 
-    let storagePlugin = AWSS3StoragePlugin()
     do {
-        try Amplify.add(plugin: storagePlugin)
+        try Amplify.add(plugin: AWSS3StoragePlugin())
         try Amplify.configure()
         print("Amplify configured with storage plugin")
     } catch {
