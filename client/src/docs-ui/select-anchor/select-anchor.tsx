@@ -15,14 +15,23 @@ import {SelectedFilters} from "../../docs-ui/page/page.types";
 import {pageContext} from "../../docs-ui/page/page.context";
 import {parseURL} from "../../utils/url/url";
 
+const rereouteCache = new Map<string, string>();
+
 const rerouteIfNecessary = (path: string) => {
-  if (
-    path.includes("/lib") &&
-    (path.includes("/q/platform/ios") || path.includes("/q/platform/android"))
-  ) {
-    return `/sdk/q/platform/${parseURL(path).params?.platform as string}`;
+  if (rereouteCache.has(path)) {
+    return rereouteCache.get(path);
   }
-  return path;
+  const rerouted = (() => {
+    if (
+      path.includes("/lib") &&
+      (path.includes("/q/platform/ios") || path.includes("/q/platform/android"))
+    ) {
+      return `/sdk/q/platform/${parseURL(path).params?.platform as string}`;
+    }
+    return path;
+  })();
+  rereouteCache.set(path, rerouted);
+  return rerouted;
 };
 
 @Component({tag: "docs-select-anchor"})

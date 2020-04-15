@@ -16,9 +16,13 @@ export async function filtersByRoute(
             ? ((): string | undefined => {
                 const filterKey = page?.filterKey as string | undefined;
                 return filterKey
-                  ? JSON.stringify({
-                      [filterKey]: ctx.config.filters[filterKey],
-                    })
+                  ? page.route.includes("/sdk")
+                    ? JSON.stringify({
+                        platform: ["ios", "android"],
+                      })
+                    : JSON.stringify({
+                        [filterKey]: ctx.config.filters[filterKey],
+                      })
                   : undefined;
               })()
             : undefined

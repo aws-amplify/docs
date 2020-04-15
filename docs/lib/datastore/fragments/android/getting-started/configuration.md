@@ -20,4 +20,4 @@ If you do not have any configuration file at `app/src/main/res/raw/amplifyconfig
 
 ## API Reference   
 
-For the complete API documentation for DataStore, visit our [API Reference](https://docs.amplify.aws/lib/getting-started/setup?platform=android).
+For the complete API documentation for DataStore, visit our [API Reference](~/lib/getting-started/setup.md/q/platform/android).

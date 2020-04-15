@@ -26,7 +26,7 @@ const StencilBuildProcess = (flags: string[]) =>
   });
 
 const DEV_FLAGS = ["--dev", "--watch", "--serve"];
-const PROD_FLAGS = ["--debug"];
+const PROD_FLAGS = ["--prerender", "--debug"];
 
 const onWatching = () => StencilBuildProcess(DEV_FLAGS);
 const onTargetsWritten = () => StencilBuildProcess(PROD_FLAGS);

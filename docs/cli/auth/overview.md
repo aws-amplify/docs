@@ -3,6 +3,12 @@ title: Overview
 description: Some Description
 ---
 
+[with nada](~/cli/auth/triggers.md)
+[with hash](~/cli/auth/triggers.md#set-up-lambda-triggers)
+[with params](~/lib/graphqlapi/getting-started.md/q/platform/android)
+[with both](~/lib/graphqlapi/getting-started.md/q/platform/android#create-graphql-api-service)
+
+
 The Amplify CLI supports configuring many different Authentication and Authorization workflows, including simple and advanced configurations of the login options, triggering Lambda functions during different lifecycle events, and administrative actions which you can optionally expose to your applications.
 
 ## Configuring auth without social providers
@@ -26,6 +32,7 @@ Once your User Pool is functioning, you can enable more configurations such as f
 ```bash
 $ amplify add auth     ##"amplify update auth" if already configured
 ```
+
 Select Default configuration with Social Provider (Federation):
 
 ```bash

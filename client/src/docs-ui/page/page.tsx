@@ -72,19 +72,12 @@ export class DocsPage {
     if (this.pageData?.menu) {
       this.setSidebarStickyTop();
     }
-    // TODO: move into componentWillLoad
-    const {hash} = location;
-    if (hash) {
-      setTimeout(() => {
-        scrollToHash(hash, this.el);
-      }, 100);
-    }
   }
 
   @Watch("match")
   @Listen("popstate", {target: "window"})
   async componentWillLoad() {
-    const {path, params} = parseURL(location.pathname);
+    const {path, params, hash} = parseURL(location.pathname);
     this.blendUniversalNav = path === "/";
 
     track({
@@ -141,6 +134,13 @@ export class DocsPage {
     const menuItemsExist = !!(menuItems && menuItems.length > 0);
     return menuItemsExist && !this.requiresFilterSelection();
   };
+
+  componentDidRender() {
+    const {hash} = location;
+    if (hash) {
+      scrollToHash(hash, this.el);
+    }
+  }
 
   render() {
     return (

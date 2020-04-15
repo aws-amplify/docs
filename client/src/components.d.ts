@@ -225,7 +225,7 @@ export namespace Components {
         /**
           * * the route to render out
          */
-        "href"?: string;
+        "href": string;
         /**
           * * the global selected filter state
          */

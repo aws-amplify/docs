@@ -26,19 +26,26 @@ const getRoute = (
   transformerProps: t.TransformerProps,
 ): string => {
   const parsedURL = parse(url);
-  const {hash, query} = parsedURL;
+  const {hash} = parsedURL;
   let {path: urlPath} = parsedURL;
 
   if (urlPath) {
-    if (urlPath.includes("?")) {
-      urlPath = urlPath.split("?").shift() as string;
+    if (urlPath.includes("#")) {
+      urlPath = urlPath.split("#").shift() as string;
+    }
+    let query = "";
+    if (urlPath.includes("/q/")) {
+      const pieces = urlPath.split("/q/");
+      urlPath = pieces.shift() as string;
+      const paramEntry = (pieces.shift() as string).split("/");
+      query = `/q/${paramEntry[0]}/${paramEntry[1]}`;
     }
     const pathDeduction = transformerProps.ctx.resolvePathDeduction(
       urlPath,
       transformerProps.srcPath,
     );
     if (pathDeduction.route) {
-      return `${pathDeduction.route}${query ? `?${query}` : ""}${hash || ""}`;
+      return `${pathDeduction.route}${query}${hash || ""}`;
     } else if (pathDeduction.destinationPath) {
       const pieces = path
         .relative(
@@ -80,22 +87,8 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
           return;
         }
 
-        if (url.startsWith("..")) {
-          const sub = url.substr(2);
-          url = `${sub}${sub.startsWith("/") ? sub : `/${sub}`}`;
-        }
-
         if (!url.startsWith("~")) {
           url = `~${url.startsWith("/") ? "" : "/"}${url}`;
-        }
-
-        if (
-          (!url.includes(".") ||
-            !validLinkExtensions[url.split(".").pop() || ""]) &&
-          !url.includes("#") &&
-          !url.includes("?")
-        ) {
-          url = `${url}.md`;
         }
       }
 

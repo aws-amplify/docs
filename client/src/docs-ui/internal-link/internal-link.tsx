@@ -22,7 +22,7 @@ export class DocsInternalLink {
   /*** the global selected filter state */
   @Prop() readonly selectedFilters?: SelectedFilters;
   /*** the route to render out */
-  @Prop() readonly href?: string;
+  @Prop() readonly href: string;
   /*** class name to attach to link when active */
   @Prop() readonly activeClass?: string;
   /*** class name to attach a subpage is active */
@@ -39,47 +39,45 @@ export class DocsInternalLink {
   @Watch("selectedFilters")
   componentWillLoad() {
     let selectedFilter: string | undefined;
-    if (this.href) {
-      const {path, hash, params} = parseURL(this.href);
+    const {path, hash, params} = parseURL(this.href);
 
-      if (Object.keys(params).length === 0) {
-        const filters = filtersByRoute.get(path);
-        if (filters) {
-          const [[filterKey, filterValues]] = Object.entries(filters);
-          selectedFilter = this.selectedFilters?.[filterKey] as
-            | string
-            | undefined;
-          if (selectedFilter) {
-            if (
-              Array.isArray(filterValues) &&
-              filterValues.includes(selectedFilter)
-            ) {
-              params[filterKey] = selectedFilter;
-            }
+    if (Object.keys(params).length === 0) {
+      const filters = filtersByRoute.get(path);
+      if (filters) {
+        const [[filterKey, filterValues]] = Object.entries(filters);
+        selectedFilter = this.selectedFilters?.[filterKey] as
+          | string
+          | undefined;
+        if (selectedFilter) {
+          if (
+            Array.isArray(filterValues) &&
+            filterValues.includes(selectedFilter)
+          ) {
+            params[filterKey] = selectedFilter;
           }
         }
       }
-
-      const url = serializeURL({path, hash, params});
-      const isActive = location.pathname === url;
-      const currentPathWithoutQS = location.pathname.split("/q/")?.[0];
-      const hrefWithoutQS = url.split("/q/")?.[0];
-      const isChildActive =
-        this.additionalActiveChildRoots?.some((root) =>
-          location.pathname.startsWith(root),
-        ) ||
-        !!(
-          hrefWithoutQS &&
-          currentPathWithoutQS?.startsWith(hrefWithoutQS) &&
-          !currentPathWithoutQS?.startsWith(`${hrefWithoutQS}-`)
-        );
-
-      Object.assign(this, {
-        url: rerouteURL(url, selectedFilter),
-        isActive,
-        isChildActive,
-      });
     }
+
+    const url = serializeURL({path, hash, params});
+    const isActive = location.pathname === url;
+    const currentPathWithoutQS = location.pathname.split("/q/")?.[0];
+    const hrefWithoutQS = url.split("/q/")?.[0];
+    const isChildActive =
+      this.additionalActiveChildRoots?.some((root) =>
+        location.pathname.startsWith(root),
+      ) ||
+      !!(
+        hrefWithoutQS &&
+        currentPathWithoutQS?.startsWith(hrefWithoutQS) &&
+        !currentPathWithoutQS?.startsWith(`${hrefWithoutQS}-`)
+      );
+
+    Object.assign(this, {
+      url: rerouteURL(url, selectedFilter),
+      isActive,
+      isChildActive,
+    });
   }
 
   componentDidRender() {

@@ -147,4 +147,4 @@ AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<U
 });
 ```
 
-You might leverage the above workflow to perform other actions in the `SIGNED_IN` case, such as calling [GraphQL or REST APIs with AWS AppSync and Amazon API Gateway](~/sdk/api/graphql) or uploading content with [Amazon S3](~/sdk/storage/getting-started).
+You might leverage the above workflow to perform other actions in the `SIGNED_IN` case, such as calling [GraphQL or REST APIs with AWS AppSync and Amazon API Gateway](~/sdk/api/graphql.md) or uploading content with [Amazon S3](~/sdk/storage/getting-started.md).

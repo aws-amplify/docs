@@ -46,7 +46,7 @@ export const serializeURL = (pieces: ParsedURL): string => {
   }
 
   if (pieces.hash) {
-    serialized += `#${pieces.hash}`;
+    serialized += pieces.hash;
   }
 
   return serialized;
