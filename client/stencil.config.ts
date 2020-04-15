@@ -10,13 +10,13 @@ export const config: Config = {
   taskQueue: "async",
   globalScript: "src/global/global.ts",
   devServer: {
-    reloadStrategy: 'pageReload'
+    reloadStrategy: "pageReload",
   },
   nodeResolve: {
     browser: true,
   },
   plugins: [nodePolyfills()],
-  enableCache: false,
+  enableCache: true,
   commonjs: {
     namedExports: {
       "@aws-sdk/client-cognito-identity-browser": [

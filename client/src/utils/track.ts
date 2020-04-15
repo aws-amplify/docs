@@ -59,7 +59,7 @@ export const track = (event: AnalyticsEvent): Promise<unknown> | undefined => {
     try {
       return Analytics.record(event.type, event.attributes);
     } catch (e) {
-      console.error("failed to execute track");
+      console.error("Failed to execute track.");
     }
   }
 };

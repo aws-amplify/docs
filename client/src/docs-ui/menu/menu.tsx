@@ -22,7 +22,7 @@ export class DocsMenu {
   @State() switcher?: "lib" | "ui";
 
   @Watch("selectedFilters")
-  computeState() {
+  componentWillLoad() {
     if (this.page) {
       let switcher: "ui" | "lib" | undefined;
 
@@ -35,7 +35,7 @@ export class DocsMenu {
           switcher = "lib";
         }
 
-        if (productRootLink === "ui" || productRootLink === "ui-legacy") {
+        if (productRootRoute === "/ui" || productRootRoute === "/ui-legacy") {
           switcher = "ui";
         }
       }
