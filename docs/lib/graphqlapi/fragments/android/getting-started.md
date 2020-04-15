@@ -144,9 +144,7 @@ When the build is successful, it adds two gradle tasks to you project - `modelge
 Add the following imports at the top of your MainActivity and code at the bottom of the `onCreate` method (ideally this would go in your Application class but this works for getting started quickly):
 
 ```java
-import com.amazonaws.mobile.client.AWSMobileClient;
-import com.amazonaws.mobile.client.Callback;
-import com.amazonaws.mobile.client.UserStateDetails;
+import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.core.Amplify;
 
@@ -157,22 +155,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
-            @Override
-            public void onResult(UserStateDetails userStateDetails) {
-                try {
-                    Amplify.addPlugin(new AWSApiPlugin());
-                    Amplify.configure(getApplicationContext());
-                    Log.i("ApiQuickstart", "All set and ready to go!");
-                } catch (Exception exception) {
-                    Log.e("ApiQuickstart", exception.getMessage(), exception);
-                }
-            }
-            @Override
-            public void onError(Exception exception) {
-                Log.e("ApiQuickstart", "Initialization error.", exception);
-            }
-        });
+        try {
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.configure(getApplicationContext());
+            Log.i("ApiQuickstart", "All set and ready to go!");
+        } catch (AmplifyException exception) {
+            Log.e("ApiQuickstart", exception.getMessage(), exception);
+        }
     }    
 }
 ```
