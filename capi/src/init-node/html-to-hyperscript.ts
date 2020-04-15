@@ -17,6 +17,13 @@ interface HTMLNode {
   value?: string;
 }
 
+const normalizeId = (id: string): string => {
+  if (!isNaN(parseInt(id.charAt(0)))) {
+    return `n${id}`;
+  }
+  return id;
+};
+
 const Attrs = (attrs: HTMLAttr[]): Record<string, unknown> | null => {
   return attrs && attrs.length > 0
     ? attrs.reduce((acc, {name, value}) => {
@@ -64,13 +71,15 @@ const Hyperscript = (
     case "h2":
     case "h3": {
       // @ts-ignore
-      return attributes.disableLinkification
-        ? hyperscriptNode
-        : [
-            "docs-in-page-link",
-            {targetId: `${props?.id as string}`},
-            hyperscriptNode,
-          ];
+      if (props?.id) {
+        // @ts-ignore
+        props.id = normalizeId(props.id);
+        // @ts-ignore
+        return attributes.disableLinkification
+          ? hyperscriptNode
+          : ["docs-in-page-link", {targetId: props?.id}, hyperscriptNode];
+      }
+      break;
     }
     default:
       return hyperscriptNode;

@@ -44,11 +44,14 @@ You can use the JWT token provided by the Authentication API to authenticate aga
 
 ```javascript
 async function postData() { 
-    let apiName = 'MyApiName';
-    let path = '/path';
-    let myInit = { 
-        headers: { Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
-    }
+    const apiName = 'MyApiName';
+    const path = '/path';
+    const myInit = { 
+      headers: { 
+        Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
+      },
+    };
+
     return await API.post(apiName, path, myInit);
 }
 

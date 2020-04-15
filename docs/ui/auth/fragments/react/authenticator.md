@@ -297,7 +297,7 @@ const App = () => (
 export withAuthenticator(App);
 ```
 
-You can also pass in any of the [AmplifyAuthenticator props](~/ui/auth/authenticator.md?framework=react#props-amplify-authenticator):
+You can also pass in any of the [AmplifyAuthenticator props](#props-amplify-authenticator):
 
 ```jsx
 export withAuthenticator(App, {initialAuthState: 'signup'});

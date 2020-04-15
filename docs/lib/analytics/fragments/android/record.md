@@ -3,31 +3,20 @@
 The Amplify analytics plugin also makes it easy to record custom events within the app. The plugin handles retry logic in the event the device looses network connectivity and automatically batches requests to reduce network bandwidth.
 
 ```java
-import com.amplifyframework.core.Amplify;
-import com.amplifyframework.analytics.AnalyticsException;
-import com.amplifyframework.analytics.BasicAnalyticsEvent;
-import com.amplifyframework.analytics.pinpoint.PinpointProperties
-
-public void recordEvent() throws AnalyticsException {
-
-    // Create an instance of BasicAnalyticsEvent.
-    BasicAnalyticsEvent event = new BasicAnalyticsEvent("Amplify-event" + UUID.randomUUID().toString(),
-            PinpointProperties.builder()
+BasicAnalyticsEvent event = new BasicAnalyticsEvent(
+        "EventName",
+        PinpointProperties.builder()
             .add("DemoProperty1", "DemoValue1")
             .add("DemoProperty2", 2.0)
-            .build());
+            .build()
+);
 
-    Amplify.Analytics.recordEvent(event);
-
-    // Plugin will automatically flush events.
-    // You do not have to do this in the app code.
-    Amplify.Analytics.flushEvents();
-}
+Amplify.Analytics.recordEvent(event);
 ```
 
 ## Flush Events
 
-Events have default configuration to flush out to the network every 60 seconds. If you would like to change this, update `amplifyconfiguration.json` with the value you would like for `autoFlushEventsInterval` like so
+Events have default configuration to flush out to the network every 30 seconds. If you would like to change this, update `amplifyconfiguration.json` with the value in milliseconds you would like for `autoFlushEventsInterval`. This configuration will flush events every 10 seconds:
 ```json
 {
     "UserAgent": "aws-amplify-cli/2.0",
@@ -42,7 +31,7 @@ Events have default configuration to flush out to the network every 60 seconds. 
                 "pinpointTargeting": {
                     "region": "Region"
                 },
-                "autoFlushEventsInterval": 30
+                "autoFlushEventsInterval": 10000
             }
         }
     }
@@ -59,22 +48,30 @@ Amplify.Analytics.flushEvents();
 
 You can register properties which will be used across all `Amplify.Analytics.record`.
 
-```swift
-let globalProperties = ["globalPropertyKey": "value"] as [String: AnalyticsPropertyValue]
-Amplify.Analytics.registerGlobalProperties(globalProperties)
+```java
+Amplify.Analytics.registerGlobalProperties(
+    PinpointProperties.builder()
+        .add("GlobalProperty", "globalVal")
+        .build()
+);
 ```
 
 To unregister all global properties, simply call `Amplify.Analytics.unregisterGlobalProperties()` or to unregister a single property, use
 
-```swift
-Amplify.Analytics.unregisterGlobalProperties(["globalPropertyKey"])
+```java
+Set<String> globalPropertyKeys = new HashSet<>();
+globalPropertyKeys.add("GlobalProperty");
+Amplify.Analytics.unregisterGlobalProperties(globalPropertyKeys);
+```
 
 ## Disable Analytics
 
 To disable analytics, call:
-```swift
+
+```java
 Amplify.Analytics.disable()
 ```
+
 
 ## Enable Analytics
 To re-enable, call:
@@ -83,13 +80,6 @@ To re-enable, call:
 Amplify.Analytics.enable()
 ```
 
-## Disable Analytics
-
-To disable analytics, call:
-
-```java
-Amplify.Analytics.disable()
-```
 
 ## Escape hatch
 

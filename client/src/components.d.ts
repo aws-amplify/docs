@@ -38,6 +38,7 @@ export namespace Components {
         "vertical"?: boolean;
     }
     interface AmplifyCodeBlock {
+        "language"?: string;
         /**
           * the number of lines of the code block
          */
@@ -734,6 +735,7 @@ declare namespace LocalJSX {
         "vertical"?: boolean;
     }
     interface AmplifyCodeBlock {
+        "language"?: string;
         /**
           * the number of lines of the code block
          */

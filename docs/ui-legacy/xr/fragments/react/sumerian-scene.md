@@ -25,4 +25,3 @@ render() {
   );
 }
 ```
-See [React configuration]({%if jekyll.environment == 'production'%}{{site.amplify.docs_baseurl}}{%endif%}/js/react#configuration) for additional configuration details.
