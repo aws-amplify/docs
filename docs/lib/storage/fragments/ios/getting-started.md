@@ -3,12 +3,7 @@ The Amplify Storage module provides a simple mechanism for managing user content
 ## Prerequisites
 
 * An iOS project targeting at least iOS 11.0.
-* Install and configure the Amplify CLI
-
-```bash
-$ npm install -g @aws-amplify/cli
-$ amplify configure
-```
+* Install and configure the [Amplify CLI](~/cli/start/install.md)
 
 ## Set up your backend
 
@@ -46,6 +41,7 @@ $ amplify add storage
 ```
 
 Push your changes to the cloud using the push command.
+
 ```bash
 $ amplify push
 ```
@@ -61,22 +57,25 @@ If this is a new project, run `pod init` from the root of your application folde
 ```ruby
 target :'YOUR-APP-NAME' do
 use_frameworks!
-    pod 'AmplifyPlugins/AWSS3StoragePlugin'
-    pod 'AWSMobileClient', '~> 2.13.0'
+  pod 'AmplifyPlugins/AWSS3StoragePlugin'
+  pod 'AWSMobileClient'
 end
 ```
 
 Close out of the existing Xcode project if you have it open.
 
 Install the dependencies via CocoaPods
+
 ```ruby
 pod install --repo-update
 ```
 
 Open the `.xcworkspace` file created by CocoaPods
+
 ```ruby
 open <YOURAPP>.xcworkspace
 ```
+
 ## Add configuration files
 
 1. Open the finder of your project and drag the `amplifyconfiguration.json` and `awsconfiguration.json` over to the Xcode window, under the workspace. 
@@ -89,41 +88,43 @@ open <YOURAPP>.xcworkspace
 
 Initialize `AWSMobileClient`, `Amplify`, and `AWSS3StoragePlugin`.
 
-Add the following imports to the top of your `AppDelegate.swift` file
-    ```swift
-    import Amplify
-    import AWSMobileClient
-    import AmplifyPlugins
-    ```
-Add the following code to your AppDelegate's `application:didFinishLaunchingWithOptions` method
+Add the following imports to the top of your `AppDelegate.swift` file:
 
-    ```swift
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+```swift
+import Amplify
+import AWSMobileClient
+import AmplifyPlugins
+```
 
-        AWSMobileClient.default().initialize { (userState, error) in
-            guard error == nil else {
-                print("Error initializing AWSMobileClient. Error: \(error!.localizedDescription)")
-                return
-            }
-            print("AWSMobileClient initialized, userstate: \(userState)")
+Add the following code to your AppDelegate's `application:didFinishLaunchingWithOptions` method:
+
+```swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    // Override point for customization after application launch.
+
+    AWSMobileClient.default().initialize { (userState, error) in
+        guard error == nil else {
+            print("Error initializing AWSMobileClient. Error: \(error!.localizedDescription)")
+            return
         }
-
-        let storagePlugin = AWSS3StoragePlugin()
-        do {
-            try Amplify.add(plugin: storagePlugin)
-            try Amplify.configure()
-            print("Amplify configured with storage plugin")
-        } catch {
-            print("Failed to initialize Amplify with \(error)")
-        }
-
-        return true
+        print("AWSMobileClient initialized, userstate: \(userState)")
     }
-    ```
+
+    do {
+        try Amplify.add(plugin: AWSS3StoragePlugin())
+        try Amplify.configure()
+        print("Amplify configured with storage plugin")
+    } catch {
+        print("Failed to initialize Amplify with \(error)")
+    }
+
+    return true
+}
+```
+
 ## Upload
 
-	To upload to S3 from a data object, specify the key and the data object to be uploaded.
+To upload to S3 from a data object, specify the key and the data object to be uploaded.
 
 ```swift
 func uploadData() {
