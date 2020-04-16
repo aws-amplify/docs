@@ -63,6 +63,7 @@ export const cardStyle = css`
   align-items: center;
   height: 100%;
   justify-content: flex-start;
+  height: initial;
   box-shadow: rgba(0, 0, 0, 0.09) 0.3125rem 0.3125rem 0 -0.0625rem,
     0 0.25rem 0.5rem 0 rgba(0, 0, 0, 0.15);
   transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);

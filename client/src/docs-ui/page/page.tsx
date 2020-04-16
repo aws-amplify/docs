@@ -85,7 +85,7 @@ export class DocsPage {
   }
 
   async getPageData() {
-    const {path, params} = parseURL(location.pathname);
+    const {path, params} = parseURL(this.match.params.page || "/");
     this.blendUniversalNav = path === "/";
 
     if (this.match) {

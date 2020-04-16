@@ -5,7 +5,6 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { ColumnCountByBreakpoint, } from "./amplify-ui/responsive-grid/responsive-grid.types";
 import { ToggleInView, } from "./amplify-ui/sidebar-layout/sidebar-layout.types";
 import { SetContent, } from "./amplify-ui/toc/toc.types";
 import { SelectedFilters, } from "./docs-ui/page/page.types";
@@ -73,10 +72,6 @@ export namespace Components {
     interface AmplifyLorem {
     }
     interface AmplifyResponsiveGrid {
-        /**
-          * a dictionary of what column counts to apply at given breakpoints
-         */
-        "columnCountByBreakpoint": ColumnCountByBreakpoint;
         /**
           * default column count for laptop
          */
@@ -687,10 +682,6 @@ declare namespace LocalJSX {
     interface AmplifyLorem {
     }
     interface AmplifyResponsiveGrid {
-        /**
-          * a dictionary of what column counts to apply at given breakpoints
-         */
-        "columnCountByBreakpoint"?: ColumnCountByBreakpoint;
         /**
           * default column count for laptop
          */
