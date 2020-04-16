@@ -11,6 +11,6 @@ filterKey: integration
 <inline-fragment integration="angular" src="~/start/getting-started/fragments/angular/data-model.md"></inline-fragment>
 <inline-fragment integration="ionic" src="~/start/getting-started/fragments/ionic/data-model.md"></inline-fragment>
 <inline-fragment integration="js" src="~/start/getting-started/fragments/vanillajs/data-model.md"></inline-fragment>
-<inline-fragment integration="vue" src="~/start/getting-started/fragments/vanillajs/data-model.md"></inline-fragment>
+<inline-fragment integration="vue" src="~/start/getting-started/fragments/vue/data-model.md"></inline-fragment>
 
 🙌 Great job! You have successfully deployed your API and connected it with your app!
