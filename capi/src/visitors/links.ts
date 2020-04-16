@@ -6,7 +6,6 @@ const IS_URL_ABSOLUTE_REGEX = /^https?:\/\//i;
 
 const linkTags = {
   a: true,
-  "amplify-card": true,
   "docs-card": true,
   "docs-internal-link-button": true,
   "docs-in-page-link": true,
@@ -106,8 +105,7 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
           break;
         }
 
-        case "docs-card":
-        case "amplify-card": {
+        case "docs-card": {
           finalProps.url = route;
 
           // to satisfy module redirect requirement

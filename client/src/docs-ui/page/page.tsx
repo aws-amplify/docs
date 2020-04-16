@@ -85,55 +85,58 @@ export class DocsPage {
   }
 
   async getPageData() {
-    const {path, params} = parseURL(this.match.params.page || "/");
-    this.blendUniversalNav = path === "/";
-
     if (this.match) {
+      const {path, params} = parseURL(this.match.params.page || "/");
+      this.blendUniversalNav = path === "/";
+
       track({
         type: AnalyticsEventType.PAGE_VISIT,
-        attributes: {url: this.match.path},
+        attributes: {url: path},
       });
-    }
 
-    try {
-      const pageData = await getPage(path);
-      if (pageData) {
-        this.pageData = pageData;
-        updateDocumentHead(pageData);
-        this.filterKey = getFilterKeyFromPage(pageData);
+      try {
+        const pageData = await getPage(path);
+        if (pageData) {
+          this.pageData = pageData;
+          updateDocumentHead(pageData);
+          this.filterKey = getFilterKeyFromPage(pageData);
 
-        this.selectedFilters = Object.assign(
-          {},
-          ...Object.keys(filterOptionsByName).map((filterKey) => {
-            const localStorageKey = getFilterKeyFromLocalStorage(filterKey);
-            return {
-              [filterKey]: localStorageKey
-                ? localStorage.getItem(localStorageKey) || undefined
-                : undefined,
-            };
-          }),
-        );
+          this.selectedFilters = Object.assign(
+            {},
+            ...Object.keys(filterOptionsByName).map((filterKey) => {
+              const localStorageKey = getFilterKeyFromLocalStorage(filterKey);
+              return {
+                [filterKey]: localStorageKey
+                  ? localStorage.getItem(localStorageKey) || undefined
+                  : undefined,
+              };
+            }),
+          );
 
-        if (this.filterKey) {
-          const {[this.filterKey]: filterValue} = params;
-          if (typeof filterValue === "string" && filterValue !== "undefined") {
-            this.filterValue = filterValue;
-            this.setSelectedFilters({[this.filterKey]: this.filterValue});
+          if (this.filterKey) {
+            const {[this.filterKey]: filterValue} = params;
+            if (
+              typeof filterValue === "string" &&
+              filterValue !== "undefined"
+            ) {
+              this.filterValue = filterValue;
+              this.setSelectedFilters({[this.filterKey]: this.filterValue});
+            } else {
+              this.filterValue = undefined;
+            }
           } else {
-            this.filterValue = undefined;
+            this.filterKey = undefined;
           }
         } else {
-          this.filterKey = undefined;
+          this.pageData = undefined;
         }
-      } else {
-        this.pageData = undefined;
-      }
-    } catch (exception) {
-      if (this.match) {
-        track({
-          type: AnalyticsEventType.PAGE_DATA_FETCH_EXCEPTION,
-          attributes: {url: this.match.url, exception},
-        });
+      } catch (exception) {
+        if (this.match) {
+          track({
+            type: AnalyticsEventType.PAGE_DATA_FETCH_EXCEPTION,
+            attributes: {url: this.match.url, exception},
+          });
+        }
       }
     }
   }

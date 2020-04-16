@@ -1,5 +1,5 @@
 import {css} from "emotion";
-import {MQFablet, MQDesktop} from "../styles/media";
+import {MQFablet, MQDesktop} from "../../amplify-ui/styles/media";
 
 export const graphicStyle = css`
   margin-right: 0.75rem;

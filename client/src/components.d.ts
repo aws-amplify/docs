@@ -18,24 +18,6 @@ export namespace Components {
          */
         "warning"?: boolean;
     }
-    interface AmplifyCard {
-        /**
-          * * link tag to use
-         */
-        "containerTag": string;
-        /**
-          * * whether or not to show external link graphic
-         */
-        "external"?: boolean;
-        /**
-          * * url
-         */
-        "url"?: string;
-        /**
-          * * if true, the thumbnail gets rendered to the left of the detail (not above)
-         */
-        "vertical"?: boolean;
-    }
     interface AmplifyCodeBlock {
         "language"?: string;
         /**
@@ -143,11 +125,11 @@ export namespace Components {
     }
     interface DocsCard {
         /**
-          * * what container tag to use
+          * * link tag to use
          */
-        "containerTag": "docs-internal-link";
+        "containerTag": string;
         /**
-          * * whether it's an external link
+          * * whether or not to show external link graphic
          */
         "external"?: boolean;
         /**
@@ -350,12 +332,6 @@ declare global {
     var HTMLAmplifyCalloutElement: {
         prototype: HTMLAmplifyCalloutElement;
         new (): HTMLAmplifyCalloutElement;
-    };
-    interface HTMLAmplifyCardElement extends Components.AmplifyCard, HTMLStencilElement {
-    }
-    var HTMLAmplifyCardElement: {
-        prototype: HTMLAmplifyCardElement;
-        new (): HTMLAmplifyCardElement;
     };
     interface HTMLAmplifyCodeBlockElement extends Components.AmplifyCodeBlock, HTMLStencilElement {
     }
@@ -581,7 +557,6 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "amplify-callout": HTMLAmplifyCalloutElement;
-        "amplify-card": HTMLAmplifyCardElement;
         "amplify-code-block": HTMLAmplifyCodeBlockElement;
         "amplify-container": HTMLAmplifyContainerElement;
         "amplify-external-link": HTMLAmplifyExternalLinkElement;
@@ -627,24 +602,6 @@ declare namespace LocalJSX {
           * * is it a warning?
          */
         "warning"?: boolean;
-    }
-    interface AmplifyCard {
-        /**
-          * * link tag to use
-         */
-        "containerTag"?: string;
-        /**
-          * * whether or not to show external link graphic
-         */
-        "external"?: boolean;
-        /**
-          * * url
-         */
-        "url"?: string;
-        /**
-          * * if true, the thumbnail gets rendered to the left of the detail (not above)
-         */
-        "vertical"?: boolean;
     }
     interface AmplifyCodeBlock {
         "language"?: string;
@@ -753,11 +710,11 @@ declare namespace LocalJSX {
     }
     interface DocsCard {
         /**
-          * * what container tag to use
+          * * link tag to use
          */
-        "containerTag"?: "docs-internal-link";
+        "containerTag"?: string;
         /**
-          * * whether it's an external link
+          * * whether or not to show external link graphic
          */
         "external"?: boolean;
         /**
@@ -955,7 +912,6 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "amplify-callout": AmplifyCallout;
-        "amplify-card": AmplifyCard;
         "amplify-code-block": AmplifyCodeBlock;
         "amplify-container": AmplifyContainer;
         "amplify-external-link": AmplifyExternalLink;
@@ -1000,7 +956,6 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "amplify-callout": LocalJSX.AmplifyCallout & JSXBase.HTMLAttributes<HTMLAmplifyCalloutElement>;
-            "amplify-card": LocalJSX.AmplifyCard & JSXBase.HTMLAttributes<HTMLAmplifyCardElement>;
             "amplify-code-block": LocalJSX.AmplifyCodeBlock & JSXBase.HTMLAttributes<HTMLAmplifyCodeBlockElement>;
             "amplify-container": LocalJSX.AmplifyContainer & JSXBase.HTMLAttributes<HTMLAmplifyContainerElement>;
             "amplify-external-link": LocalJSX.AmplifyExternalLink & JSXBase.HTMLAttributes<HTMLAmplifyExternalLinkElement>;

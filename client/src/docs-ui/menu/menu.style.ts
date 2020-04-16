@@ -1,6 +1,7 @@
 import {css} from "emotion";
 
 export const menuStyle = css`
+  display: block;
   padding: 0 2.5rem;
   overflow-y: auto;
   min-height: 100vh;

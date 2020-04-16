@@ -27,10 +27,10 @@ export class DocsChooseIntegrationAnchor {
                 this.page && `${this.page.route}/q/integration/${filterValue}`;
 
               return (
-                <amplify-card key={label} vertical url={route}>
+                <docs-card key={label} vertical url={route}>
                   <img slot="graphic" src={graphicURI} alt={`${label} Logo`} />
                   <h4 slot="heading">{label}</h4>
-                </amplify-card>
+                </docs-card>
               );
             },
           )}
@@ -47,10 +47,10 @@ export class DocsChooseIntegrationAnchor {
                 this.page && `${this.page.route}/q/integration/${filterValue}`;
 
               return (
-                <amplify-card key={label} vertical url={route}>
+                <docs-card key={label} vertical url={route}>
                   <img slot="graphic" src={graphicURI} alt={`${label} Logo`} />
                   <h4 slot="heading">{label}</h4>
-                </amplify-card>
+                </docs-card>
               );
             },
           )}

@@ -38,14 +38,14 @@ export class DocsChooseAnchor {
                 const route = getRoute(this.page, filterValue);
 
                 return (
-                  <amplify-card key={label} vertical url={route}>
+                  <docs-card key={label} vertical url={route}>
                     <img
                       slot="graphic"
                       src={graphicURI}
                       alt={`${label} Logo`}
                     />
                     <h4 slot="heading">{label}</h4>
-                  </amplify-card>
+                  </docs-card>
                 );
               },
             )}
