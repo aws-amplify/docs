@@ -5,34 +5,29 @@ You can also create Amazon Pinpoint campaigns that tie user behavior to push or 
 
 ### Prerequisites
 
-- Enrolled in the Apple Developer Program
-- Actual device to run the app on
-
-### Step-by-step
-
 1. Complete the [Get Started](~/start/start.md) steps before you proceed.
 
-1. Under the target, select "Signing & Capabilities", make sure the `Bundle Identifier` is unique. Make sure `Automatically manage signing` is enabled and your apple developer team is chosen.
+1. On Xcode, under the target, select "Signing & Capabilities", make sure the `Bundle Identifier` is unique. Make sure `Automatically manage signing` is enabled and your apple developer team is chosen.
 
 1. Plug in the device and make sure it is registered and there are no errors on this page provisioning the profile.
 
-1. On this page, click on `+ Capability`, and add `Push Notification` and `Background Modes`. For `Background Modes`, have `Remote notifications` checked.
+1. Click on `+ Capability`, and add `Push Notification` and `Background Modes`. For `Background Modes`, have `Remote notifications` checked.
 
-## Set Up Your Backend
+### Step-by-step
 
-1. Set up a new Amplify project, you can skip this step if you are using an existing one.
+1. Set up a new Amplify project, you can skip this step if you are using an existing one:
 
     ```
     amplify init
     ```
 
-1. Add analytics to your app and allow guests and unauthenticated users send analytics events.
+1. Add analytics to your app to allow guests and unauthenticated users to send analytics events:
 
     ```
     amplify add analytics
     ```
 
-1. Provision the backend
+1. Provision the backend:
 
     ```
     amplify push
@@ -42,7 +37,7 @@ You can also create Amazon Pinpoint campaigns that tie user behavior to push or 
 
 Use the following steps to connect push notification backend services to your app.
 
-1. Add the following pods to you `Podfile`:
+1. Add the following pods to your `Podfile`:
 
     ```ruby
     target :'YOUR-APP-NAME' do
@@ -56,7 +51,7 @@ Use the following steps to connect push notification backend services to your ap
 
 1. Open the `.xcworkspace` file.
 
-1. Make sure the project contains `awsconfiguration.json`. This should be generated from the previous step for setting up the backend. If you used `amplify-tools` to set up your amplify project then this file will already be added to your Xcode project bundle, if you are using the CLI directly, make sure the file is added to your Xcode project by dragging it in with `copy as needed` checked.
+1. Make sure the project contains the `awsconfiguration.json` file and it is added to Xcode (by dragging it in with `copy as needed` checked). It should be generated when you [set up your backend](#set-up-your-backend).
 
 1. Make sure the app builds.
 
@@ -67,7 +62,7 @@ Use the following steps to connect push notification backend services to your ap
     import AWSPinpoint
     ```
 
-1. In the `AppDelegate` file, inside [`application(_:didFinishLaunchingWithOptions:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622921-application), initialize [`AWSPinpoint`](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/AWSPinpoint/Classes/AWSPinpoint.html) instance and register for push notifications from the user. When the app runs, the user will be prompt with a modal to allow notifications. We recommend you request for authorization from the user during app startup, so your users can begin receiving notifications as early as possible.
+1. In the `AppDelegate` file, inside [`application(_:didFinishLaunchingWithOptions:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622921-application), initialize an [`AWSPinpoint`](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/AWSPinpoint/Classes/AWSPinpoint.html) instance and register for push notifications from the user. When the app runs, the user will be prompt with a modal to allow notifications. We recommend you request for authorization from the user during app startup, so your users can begin receiving notifications as early as possible.
 
     ```swift
     class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -117,7 +112,7 @@ Use the following steps to connect push notification backend services to your ap
     }
     ```
 
-    Make sure the app builds and runs, and prompts the user for notification authorization.
+    Make sure the app builds, runs and prompts the user for notification authorization.
 
 1. Add the AppDelegate methods to listen on the callbacks from [`UIApplication.shared.registerForRemoteNotifications()`](https://developer.apple.com/documentation/uikit/uiapplication/1623078-registerforremotenotifications). Either [`application(_:didRegisterForRemoteNotificationsWithDeviceToken:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622958-application) will be called indicating successfully registering with APNS or [`application(_:didFailToRegisterForRemoteNotificationsWithError:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622962-application) indicating a failure. On successfully registering with APNS, pass the device token to AWS pinpoint to register the endpoint
 
@@ -246,7 +241,7 @@ The following steps show how to send push notifications targeted for your app.
 
 1. Under "Certificates, Identifiers & Profiles", on the left side click on "Keys", click +, type in a name like "Push Notification Key", check off Apple Push Notification Service (APNs). Register and download the file. It should be in the format of `AuthKey_<Key ID>.p8`
 
-1. Go to your Membership details page to get the Team ID
+1. Go to your "Membership details" page to get the "Team ID"
 
 1. Run `amplify notifications add`
 
@@ -266,7 +261,7 @@ The following steps show how to send push notifications targeted for your app.
 
 1. In the segment section, select `Create a segment` and you should see 1 device as a targeted endpoint, which is the app we are running on the device. Choose this option and then choose **Next Step**.
 
-1. Provide text for a sample title and body for push notification, enter the device token or endpoint ID retrieved from the app.
+1. Provide text for a sample title and body for the push notification, enter the device token or endpoint ID retrieved from the app.
 
     - Make sure the app is in the foreground, click on Test message and you should see an alert modal pop up with your test message wrapped in push notification data.
     - Make sure the app is in the background, click on Test message and you should see push notification slide down from the top.

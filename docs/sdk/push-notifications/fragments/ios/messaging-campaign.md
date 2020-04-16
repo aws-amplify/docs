@@ -42,8 +42,8 @@ The following steps show how to receive push notifications targeted for your app
 
             if (application.applicationState == .active) {
                 let alert = UIAlertController(title: "Notification Received",
-                                            message: userInfo.description,
-                                            preferredStyle: .alert)
+                                              message: userInfo.description,
+                                              preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
 
                 UIApplication.shared.keyWindow?.rootViewController?.present(
@@ -105,4 +105,4 @@ The following steps show how to receive push notifications targeted for your app
 
     1. Review the details on the screen, and then choose **Launch Campaign**.
 
-    1. A notification should appear on the iPhone device. You may want to try testing your app receiving notifications when it is in the foreground and when closed.
+    1. A notification should appear on your iPhone. You may want to try testing push notifications when your app is in the foreground as well as when it is closed.
