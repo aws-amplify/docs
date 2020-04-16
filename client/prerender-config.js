@@ -5,6 +5,10 @@ module.exports = {
       removeUnusedStyles: true,
       minifyStyleElements: true,
       minifyScriptElements: true,
+      removeAttributeQuotes: true,
+      removeBooleanAttributeQuotes: true,
+      removeEmptyAttributes: true,
+      removeHtmlComments: true,
     };
 
     return hydrateOptions;
