@@ -1,5 +1,6 @@
 import {Config} from "@stencil/core";
 import nodePolyfills from "rollup-plugin-node-polyfills";
+import {sass} from "@stencil/sass";
 
 export const config: Config = {
   // extras: {
@@ -8,14 +9,14 @@ export const config: Config = {
   //   shadowDomShim: true,
   // },
   taskQueue: "async",
-  globalScript: "src/global/global.ts",
   devServer: {
     reloadStrategy: "pageReload",
   },
   nodeResolve: {
     browser: true,
   },
-  plugins: [nodePolyfills()],
+  plugins: [nodePolyfills(), sass()],
+  globalStyle: "src/styles/styles.scss",
   enableCache: true,
   commonjs: {
     namedExports: {
