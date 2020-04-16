@@ -119,15 +119,15 @@ Update the `AndroidManifest.xml` file with the following permissions, which are 
 <uses-permission android:name="baidu.push.permission.WRITE_PUSHINFOPROVIDER.YourPackageName" />
 
 <permission
-            android:name="baidu.push.permission.WRITE_PUSHINFOPROVIDER.YourPackageName"
-            android:protectionLevel="normal"></permission>
+    android:name="baidu.push.permission.WRITE_PUSHINFOPROVIDER.YourPackageName"
+    android:protectionLevel="normal" />
 
 <provider
-          android:name="com.baidu.android.pushservice.PushInfoProvider"
-          android:authorities="YourPackageName.bdpush"
-          android:exported="true"
-          android:protectionLevel="signature"
-          android:writePermission="baidu.push.permission.WRITE_PUSHINFOPROVIDER.YourPackageName" />
+    android:name="com.baidu.android.pushservice.PushInfoProvider"
+    android:authorities="YourPackageName.bdpush"
+    android:exported="true"
+    android:protectionLevel="signature"
+    android:writePermission="baidu.push.permission.WRITE_PUSHINFOPROVIDER.YourPackageName" />
 ```
 
 Inside your Android application, create a `MessageReceiver` class that subclasses `com.baidu.android.pushservice.PushMessageReceiver`. The subclass should implement the following methods and perform the corresponding calls:

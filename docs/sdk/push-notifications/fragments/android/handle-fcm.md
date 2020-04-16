@@ -32,8 +32,8 @@ To specify a destination activity for deep links, the app must have set up deep 
 Begin to set up deep linking by creating an intent filter in your `AndroidManifest.xml` file. For example:
 
 ```xml
-<!-- This activity allows your application to receive a deep link that navigates directly to the 
-"Deeplink Page"-->
+<!-- This activity allows your application to receive a deep link
+that navigates directly to the "Deeplink Page" -->
 <activity
     android:name=".DeepLinkActivity"
     android:label="A deeplink!" >
