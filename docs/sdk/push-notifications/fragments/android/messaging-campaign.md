@@ -10,8 +10,7 @@ The following steps show how to receive push notifications targeted for your app
     the `MainActivity` shown in a previous step. Use the following steps to detect and display Push
     Notification in your app.
 
-2. The following push listener code assumes that the app's `MainActivity` is configured using
-            the manifest setup described in a previous section.
+2. The following push listener code assumes that the app's `MainActivity` is configured using the manifest setup described in a previous section.
 
     ```java
     import android.content.Intent;
