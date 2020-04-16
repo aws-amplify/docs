@@ -62,21 +62,29 @@ export class DocsPage {
   filterKey?: string;
   filterValue?: string;
 
-  // @ts-ignore
+  @Watch("match")
   @Listen("resize", {target: "window"})
   setSidebarStickyTop() {
-    this.sidebarStickyTop = getNavHeight("rem");
-  }
-
-  componentDidLoad() {
     if (this.pageData?.menu) {
-      this.setSidebarStickyTop();
+      this.sidebarStickyTop = getNavHeight("rem");
     }
   }
 
   @Watch("match")
+  onRouteChange() {
+    this.getPageData();
+  }
+
   @Listen("popstate", {target: "window"})
-  async componentWillLoad() {
+  onPopState() {
+    this.getPageData();
+  }
+
+  componentWillLoad() {
+    return this.getPageData();
+  }
+
+  async getPageData() {
     const {path, params} = parseURL(location.pathname);
     this.blendUniversalNav = path === "/";
 
