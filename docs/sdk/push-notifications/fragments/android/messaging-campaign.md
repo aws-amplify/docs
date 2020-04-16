@@ -10,7 +10,7 @@ The following steps show how to receive push notifications targeted for your app
     the `MainActivity` shown in a previous step. Use the following steps to detect and display Push
     Notification in your app.
 
-2. The following push listener code assumes that the app's `MainActivity` is configured using the manifest setup described in a previous section.
+1. The following push listener code assumes that the app's `MainActivity` is configured using the manifest setup described in a previous section.
 
     ```java
     import android.content.Intent;
@@ -94,23 +94,23 @@ The following steps show how to receive push notifications targeted for your app
     }
     ```
 
-3. To create a new campaign to send notifications to your app from the Amazon Pinpoint console run the following command from your app project folder.
+1. To create a new campaign to send notifications to your app from the Amazon Pinpoint console run the following command from your app project folder.
 
     ```bash
     $ amplify notifications console
     ```
 
-4. Provide a campaign name, choose `Next`, choose `Filter by standard attributes`, and then choose `android` as the platform.
+1. Provide a campaign name, choose `Next`, choose `Filter by standard attributes`, and then choose `android` as the platform.
 
-5. You should see 1 device as a targeted endpoint, which is the app we are running on the Android device. Choose the option and then choose `Next Step`.
+1. You should see 1 device as a targeted endpoint, which is the app we are running on the Android device. Choose the option and then choose `Next Step`.
 
-6. Provide text for a sample title and body for push notification, and then choose `Next Step`.
+1. Provide text for a sample title and body for push notification, and then choose `Next Step`.
 
-7. Choose `Immediate`, and then choose `Next Step`.
+1. Choose `Immediate`, and then choose `Next Step`.
 
-8. Review the details on the screen, and then choose `Launch Campaign`.
+1. Review the details on the screen, and then choose `Launch Campaign`.
 
-9. A notification should appear on the Android device. You may want to try testing your app receiving notifications when it is in the foreground and when closed.
+1. A notification should appear on the Android device. You may want to try testing your app receiving notifications when it is in the foreground and when closed.
 
 ## Next Steps
 
