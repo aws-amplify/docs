@@ -5,7 +5,7 @@ You can also create Amazon Pinpoint campaigns that tie user behavior to push or 
 
 1. Complete the [Get Started](~/start/start.md) steps before you proceed.
 
-2. Use the CLI to add storage to your cloud-enabled backend and app.
+1. Use the CLI to add storage to your cloud-enabled backend and app.
 
     In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`), and add the SDK to your app.
 
@@ -14,13 +14,13 @@ You can also create Amazon Pinpoint campaigns that tie user behavior to push or 
     $ amplify add notifications
     ```
 
-3. Set up your backend to support receiving push notifications:
+1. Set up your backend to support receiving push notifications:
 
     - Choose Firebase Cloud Messaging (FCM).
 
-    ```
-    > FCM
-    ```
+        ```
+        > FCM
+        ```
 
     - Provide your ApiKey. The FCM console refers to this value as `ServerKey`. For information on getting an FCM ApiKey, see the section [Setting Up FCM/GCM Guide](~/sdk/push-notifications/setup-push-service.md). Use the steps in the next section to connect your app to your backend.
 
@@ -45,7 +45,7 @@ Use the following steps to connect your app to the push notification backend ser
     apply plugin: 'com.google.gms.google-services'
     ```
 
-2. Add the following to your project level `build.gradle`. Make sure that you specify the `google` repository:
+1. Add the following to your project level `build.gradle`. Make sure that you specify the `google` repository:
 
     ```groovy
     buildscript {
@@ -61,7 +61,7 @@ Use the following steps to connect your app to the push notification backend ser
     }
     ```
 
-3. `AndroidManifest.xml` must contain the definition of the following service for `PushListenerService` in the application tag:
+1. `AndroidManifest.xml` must contain the definition of the following service for `PushListenerService` in the application tag:
 
     ```xml
     <service
@@ -72,7 +72,7 @@ Use the following steps to connect your app to the push notification backend ser
     </service>
     ```
 
-4. Create an Amazon Pinpoint client in the location of your push notification code.
+1. Create an Amazon Pinpoint client in the location of your push notification code.
 
     ```java
     import android.content.BroadcastReceiver;
