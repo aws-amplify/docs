@@ -1,10 +1,14 @@
 Enable your users to receive mobile push messages sent from the Apple (APNs) and Google (FCM/GCM) platforms. The Amplify CLI deploys your push notification backend using [Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/).
 You can also create Amazon Pinpoint campaigns that tie user behavior to push or other forms of messaging.
 
-## Pre-requisite
+## Set Up Your Backend
+
+### Pre-requisite
 
 - Enrolled in the Apple Developer Program
 - Actual device to run the app on
+
+### Step-by-step
 
 1. Complete the [Get Started](~/start/start.md) steps before you proceed.
 
@@ -17,16 +21,19 @@ You can also create Amazon Pinpoint campaigns that tie user behavior to push or 
 ## Set Up Your Backend
 
 1. Set up a new Amplify project, you can skip this step if you are using an existing one.
+
 ```
 amplify init
 ```
 
 2. Add analytics to your app and allow guests and unauthenticated users send analytics events.
+
 ```
 amplify add analytics
 ```
 
 3. Provision the backend
+
 ```
 amplify push
 ```
@@ -37,16 +44,16 @@ Use the following steps to connect push notification backend services to your ap
 
 1. The `Podfile` that you configure to install the AWS Mobile SDK must contain the `AWSPinpoint` pod:
 
-    ```ruby
+```ruby
 
-    target :'YOUR-APP-NAME' do
-      use_frameworks!
-        pod  'AWSPinpoint'
-        pod  'AWSMobileClient'
-    end
-    ```
+target :'YOUR-APP-NAME' do
+  use_frameworks!
+  pod  'AWSPinpoint'
+  pod  'AWSMobileClient'
+end
+```
 
-    Run `pod install --repo-update` before you continue.
+Run `pod install --repo-update` before you continue.
 
 2. Open the `.xcworkspace` file.
 
@@ -61,105 +68,112 @@ Use the following steps to connect push notification backend services to your ap
     import AWSPinpoint
     ```
 
-6. In the AppDelegate file, inside `application:didFinishLaunchingWithOptions:`, initialize AWS Pinpoint instance and register for push notifications from the user. When the app runs, the user will be prompt with a modal to allow notifications. We recommend you request for authorization from the user during app startup, so your users can begin receiving notifications as early as possible.
+6. In the AppDelegate file, inside [`application(_:didFinishLaunchingWithOptions:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622921-application), initialize AWS Pinpoint instance and register for push notifications from the user. When the app runs, the user will be prompt with a modal to allow notifications. We recommend you request for authorization from the user during app startup, so your users can begin receiving notifications as early as possible.
 
-```swift
-class AppDelegate: UIResponder, UIApplicationDelegate {
+    ```swift
+    class AppDelegate: UIResponder, UIApplicationDelegate {
+        var pinpoint: AWSPinpoint?
 
-    var pinpoint: AWSPinpoint?
+        func application(
+            _: UIApplication,
+            didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?
+        ) -> Bool {
+            // Instantiate Pinpoint
+            let pinpointConfiguration = AWSPinpointConfiguration
+                .defaultPinpointConfiguration(launchOptions: launchOptions)
+            // Set debug mode to use APNS sandbox, make sure to toggle for your production app
+            pinpointConfiguration.debug = true
+            pinpoint = AWSPinpoint(configuration: pinpointConfiguration)
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+            // Present the user with a request to authorize push notifications
+            registerForPushNotifications()
 
-        // Instantiate Pinpoint
-        let pinpointConfiguration = AWSPinpointConfiguration.defaultPinpointConfiguration(launchOptions: launchOptions)
-        pinpointConfiguration.debug = true // Set debug mode to use APNS sandbox, make sure to toggle for your production app
-        pinpoint = AWSPinpoint(configuration: pinpointConfiguration)
-
-        // Present the user with a request to authorize push notifications
-        registerForPushNotifications()
-        
-        return true
-    }
-
-    // MARK: Push Notification methods
-
-    func registerForPushNotifications() {
-        UNUserNotificationCenter.current()
-            .requestAuthorization(options:[.alert, .sound, .badge]) {[weak self] granted, error in
-                print("Permission granted: \(granted)")
-                guard granted else { return }
-
-                // Only get the notification settings if user has granted permissions
-                self?.getNotificationSettings()
+            return true
         }
 
-    }
+        // MARK: Push Notification methods
 
-    func getNotificationSettings() {
-        UNUserNotificationCenter.current().getNotificationSettings { settings in
-            print("Notification settings: \(settings)")
-            guard settings.authorizationStatus == .authorized else { return }
+        func registerForPushNotifications() {
+            UNUserNotificationCenter.current()
+                .requestAuthorization(options: [.alert, .sound, .badge]) { [weak self] granted, _ in
+                    print("Permission granted: \(granted)")
+                    guard granted else { return }
 
-            DispatchQueue.main.async {
-                // Register with Apple Push Notification service
-                UIApplication.shared.registerForRemoteNotifications()
+                    // Only get the notification settings if user has granted permissions
+                    self?.getNotificationSettings()
+                }
+        }
+
+        func getNotificationSettings() {
+            UNUserNotificationCenter.current().getNotificationSettings { settings in
+                print("Notification settings: \(settings)")
+                guard settings.authorizationStatus == .authorized else { return }
+
+                DispatchQueue.main.async {
+                    // Register with Apple Push Notification service
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
             }
         }
     }
-}
-```
+    ```
 
 Make sure the app builds and runs, and prompts the user for notification authorization.
 
-7. Add the AppDelegate methods to listen on the callbacks from `UIApplication.shared.registerForRemoteNotifications()`. Either `didRegisterForRemoteNotificationsWithDeviceToken` will be called indicating successfully registering with APNS or `didFailToRegisterForRemoteNotificationsWithError` indicating a failure. On successfully registering with APNS, pass the device token to AWS pinpoint to register the endpoint
+1. Add the AppDelegate methods to listen on the callbacks from [`UIApplication.shared.registerForRemoteNotifications()`](https://developer.apple.com/documentation/uikit/uiapplication/1623078-registerforremotenotifications). Either [`application(_:didRegisterForRemoteNotificationsWithDeviceToken:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622958-application) will be called indicating successfully registering with APNS or [`application(_:didFailToRegisterForRemoteNotificationsWithError:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622962-application) indicating a failure. On successfully registering with APNS, pass the device token to AWS pinpoint to register the endpoint
 
 ```swift
 // MARK: Remote Notifications Lifecycle
-func application(_ application: UIApplication,
-    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+func application(_: UIApplication,
+                 didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
     let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
     let token = tokenParts.joined()
     print("Device Token: \(token)")
 
     // Register the device token with Pinpoint as the endpoint for this user
-    pinpoint!.notificationManager.interceptDidRegisterForRemoteNotifications(withDeviceToken: deviceToken)
+    pinpoint!.notificationManager
+        .interceptDidRegisterForRemoteNotifications(withDeviceToken: deviceToken)
 }
 
-func application(_ application: UIApplication,
-    didFailToRegisterForRemoteNotificationsWithError error: Error) {
+func application(_: UIApplication,
+                 didFailToRegisterForRemoteNotificationsWithError error: Error) {
     print("Failed to register: \(error)")
 }
 ```
 
 8. Build and run the app. You should see the device token printed out. 
 
-9. To handle push notifications, add `application:didReceiveRemoteNotification:`. 
+9. To handle push notifications, add [`application(_:didReceiveRemoteNotification:fetchCompletionHandler:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623013-application). 
+
 ```swift
 func application(_ application: UIApplication,
-                    didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-                    fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-
+                 didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                 fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult)
+                     -> Void) {
     // if the app is in the foreground, create an alert modal with the contents
-    if (application.applicationState == .active) {
+    if application.applicationState == .active {
         let alert = UIAlertController(title: "Notification Received",
-                                        message: userInfo.description,
-                                        preferredStyle: .alert)
+                                      message: userInfo.description,
+                                      preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
 
         UIApplication.shared.keyWindow?.rootViewController?.present(
-            alert, animated: true, completion:nil)
+            alert, animated: true, completion: nil
+        )
     }
 
     // Pass this remote notification event to pinpoint SDK to keep track of notifications produced by AWS Pinpoint campaigns.
     pinpoint!.notificationManager.interceptDidReceiveRemoteNotification(
-        userInfo, fetchCompletionHandler: completionHandler)
+        userInfo, fetchCompletionHandler: completionHandler
+    )
 }
 ```
 
 10. (Optional) Enable verbose logging for AWSPinpoint SDK. The `endpointId` will be printed out when verbose logging is turned on. It will be useful when testing push notification events with AWS Pinpoint campaigns but not required.
 
-Add this to `application:didFinishLaunchingWithOptions:`
-```
+Add this to [`application(_:didFinishLaunchingWithOptions:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622921-application)
+
+```swift
 AWSDDLog.sharedInstance.logLevel = .verbose
 AWSDDLog.add(AWSDDTTYLogger.sharedInstance)
 ```

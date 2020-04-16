@@ -3,9 +3,9 @@ For instance, you could email users that have not used the app in 30 days, or se
 
 The following steps show how to receive push notifications targeted for your app.
 
-1. To receive Amazon Pinpoint push notification to your app, you'll use `pinpoint.notificationManager` to intercept the registration of the app for notifications in the `application(_:didRegisterForRemoteNotificationsWithDeviceToken:)` application call back in AppDelegate.
+1. To receive Amazon Pinpoint push notification to your app, you'll use `pinpoint.notificationManager` to intercept the registration of the app for notifications in the [`application(_:didRegisterForRemoteNotificationsWithDeviceToken:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622958-application) application call back in AppDelegate.
 
-    Then add and call a function like `registerForPushNotifications()` to prompt permission from the user for the app to use notifications. The following example uses the `UNUserNotification` framework, which is available in iOS 10.0+. Choose the right location in your app to prompt the user for permissions. In the following example the call is implemented in the `application(_:didFinishLaunchingWithOptions:)` event in AppDelegate. This causes the prompt to appear when the app launches.
+    Then add and call a function like [`registerForPushNotifications()`](https://developer.apple.com/documentation/uikit/uiapplication/1623078-registerforremotenotifications) to prompt permission from the user for the app to use notifications. The following example uses the [`UNUserNotificationCenter`](https://developer.apple.com/documentation/usernotifications/unusernotificationcenter) framework, which is available in iOS 10.0+. Choose the right location in your app to prompt the user for permissions. In the following example the call is implemented in the [`application(_:didFinishLaunchingWithOptions:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622921-application) event in AppDelegate. This causes the prompt to appear when the app launches.
 
     ```swift
     import UserNotifications
@@ -72,37 +72,37 @@ The following steps show how to receive push notifications targeted for your app
 
     **Note**: If you already have push notification delegate methods, you can just add the `interceptDidRegisterForRemoteNotifications` and `interceptDidReceiveRemoteNotification` callbacks to Pinpoint client.
 
-1. In Xcode Project Navigator, choose your app name at the top, choose your app name under **Targets**, choose the **Capabilities** tab, and then turn on **Push Notifications**.
+2. In Xcode Project Navigator, choose your app name at the top, choose your app name under **Targets**, choose the **Capabilities** tab, and then turn on **Push Notifications**.
 
-1. Configure the app to run in the **Release** profile instead of the default **Debug** profile. Perform the following steps to get a notification to the device:
+3. Configure the app to run in the **Release** profile instead of the default **Debug** profile. Perform the following steps to get a notification to the device:
 
     1. For your app target, go to the **General** tab of project configuration and make sure **Automatically Manage Signing** check box is not selected.
 
-    1. In the **Signing (Release)** section, choose the production provisioning profile you created on Apple developer console. For testing push notifications on a device, you will need an [Ad Hoc Provisioning Profile](https://help.apple.com/xcode/mac/current/#/dev4335bfd3d) configured with a Production AppStore and Ad Hoc certificate, and with the device(s) to be used for testing.
+    2. In the **Signing (Release)** section, choose the production provisioning profile you created on Apple developer console. For testing push notifications on a device, you will need an [Ad Hoc Provisioning Profile](https://help.apple.com/xcode/mac/current/#/dev4335bfd3d) configured with a Production AppStore and Ad Hoc certificate, and with the device(s) to be used for testing.
 
-    1. In the top left corner of Xcode (where your app name is displayed next to the current build target device), choose on your app name and then select **Edit Scheme**, and then set **Build configuration** to **Release**
+    3. In the top left corner of Xcode (where your app name is displayed next to the current build target device), choose on your app name and then select **Edit Scheme**, and then set **Build configuration** to **Release**
 
         **Note**: Run your app on an iPhone device to test. Push notifications are not supported on simulators.
 
-    1. Xcode will give an error that it could not run the app, this is due to production profile apps not being allowed to debug. Click **Ok** and launch the app directly from the device.
+    4. Xcode will give an error that it could not run the app, this is due to production profile apps not being allowed to debug. Click **Ok** and launch the app directly from the device.
 
-    1. When prompted, chose to allow notifications for the device.
+    5. When prompted, chose to allow notifications for the device.
 
-    1. To create a new campaign to send notifications to your app from the Amazon Pinpoint console run the following command from your app project folder.
+    6. To create a new campaign to send notifications to your app from the Amazon Pinpoint console run the following command from your app project folder.
 
         ```bash
         $ cd YOUR_APP_PROJECT_FOLDER
         $ amplify notifications console
         ```
 
-    1. Provide a campaign name, choose **Next**, choose **Filter by standard attributes**, and then choose iOS as the platform.
+    7. Provide a campaign name, choose **Next**, choose **Filter by standard attributes**, and then choose iOS as the platform.
 
-    1. You should see 1 device as a targeted endpoint, which is the app we are running on the iPhone device. Choose the option and then choose **Next Step**.
+    8. You should see 1 device as a targeted endpoint, which is the app we are running on the iPhone device. Choose the option and then choose **Next Step**.
 
-    1. Provide text for a sample title and body for push notification, and then choose **Next Step**.
+    9. Provide text for a sample title and body for push notification, and then choose **Next Step**.
 
-    1. Choose **Immediate**, and then choose **Next Step**.
+    10. Choose **Immediate**, and then choose **Next Step**.
 
-    1. Review the details on the screen, and then choose **Launch Campaign**.
+    11. Review the details on the screen, and then choose **Launch Campaign**.
 
-    1. A notification should appear on the iPhone device. You may want to try testing your app receiving notifications when it is in the foreground and when closed.
+    12. A notification should appear on the iPhone device. You may want to try testing your app receiving notifications when it is in the foreground and when closed.
