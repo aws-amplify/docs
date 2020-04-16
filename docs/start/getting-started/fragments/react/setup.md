@@ -82,7 +82,7 @@ The `aws-amplify` package is the main library for working with Amplify in your a
 
 Next, we need to configure Amplify on the client so that we can use it to interact with our backend services.
 
-Open up __src/index.js__ and add the following code below the last import:
+Open __src/index.js__ and add the following code below the last import:
 
 ```javascript
 import Amplify from "aws-amplify";

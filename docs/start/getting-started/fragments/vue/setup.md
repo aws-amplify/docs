@@ -3,17 +3,16 @@
 Use the Vue CLI to bootstrap a new Vue app (selecting the defaults will work for this project):
 
 ```bash
-
-$ npm install -g @vue/cli
-$ vue create myamplifyproject 
-$ cd myamplifyproject
+npm install -g @vue/cli
+vue create myamplifyproject
+cd myamplifyproject
 ```
 
 Run your app:
 
 ```bash
-$ npm install
-$ npm run serve
+npm install
+npm run serve
 ```
 
 ## Initialize a new backend
@@ -62,9 +61,28 @@ When you initialize a new Amplify project, a few things happen:
 
 ## Install Amplify libraries
 
-In addition to `aws-amplify` core, install the Angular Ionic modules which provide a service provider, helpers, and components.
+The first step to using Amplify in the client is to install the necessary dependencies:
 
 ```
-$ npm install aws-amplify @aws-amplify/ui-vue
+npm install aws-amplify @aws-amplify/ui-vue
 ```
-The `@aws-amplify/ui-vue` package is a set of Vue components which integrates your Vue application with the AWS-Amplify library. The package supports Vue applications using version 2.5 and above, and was created using the Vue 3.0 CLI.
+
+The `@aws-amplify/ui-vue` package is a set of Vue-specific UI components that make it easy to integrate functionality like end-to-end authentication flows.
+
+## Set up frontend
+
+Next, we need to configure Amplify on the client so that we can use it to interact with our backend services.
+
+Open __src/main.js__ and add the following code below the last import:
+
+```js
+import Amplify, * as AmplifyModules from 'aws-amplify';
+import '@aws-amplify/ui-vue';
+import aws_exports from './aws-exports';
+
+Amplify.configure(aws_exports);
+Vue.use(AmplifyModules);
+```
+
+Now Amplify has been successfully configured. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in __aws-exports.js__ will update automatically.
+
