@@ -118,7 +118,7 @@ AWSMobileClient.getInstance().signIn(username, password, null, new Callback<Sign
 });
 ```
 
-### Confirm SignIn (MFA)
+## Confirm SignIn (MFA)
 
 In order to setup multifactor authentication, choose `Manual configuration` while setting up auth in the CLI. When you get to the `Multifactor authentication` step, choose these values:
 
