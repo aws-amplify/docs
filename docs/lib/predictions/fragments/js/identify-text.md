@@ -26,7 +26,9 @@ Detect text in an input image. Input can be sent directly from the browser or an
 ```javascript
 Predictions.identify({
     text: {
-        source: file
+        source: {
+            file
+        }
     }
 })
 .then(response => console.log({ response }))
