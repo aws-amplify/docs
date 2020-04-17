@@ -477,7 +477,26 @@ AWSMobileClient.getInstance().signIn(username, password, null, new Callback<Sign
 });
 ```
 
-### Confirm SignIn
+### Confirm SignIn (MFA)
+
+In order to setup multi-factor authentication, choose `Manual configuration` while setting up auth in the CLI and when you get to the `Multifactor authentication` step, choose these values:
+
+```bash
+ Multifactor authentication (MFA) user login options: ON (Required for all logins, can not be enabled later)
+ For user login, select the MFA types: SMS Text Message
+ Please specify an SMS authentication message: Your authentication code is {####}
+ Email based user registration/forgot password: Enabled (Requires per-user email entry at registration)
+ Please specify an email verification subject: Your verification code
+ Please specify an email verification message: Your verification code is {####}
+ Do you want to override the default password policy for this User Pool? No
+ Warning: you will not be able to edit these selections. 
+ What attributes are required for signing up? Email, Phone Number (This attribute is not supported by Facebook, Login With Amazon.)
+```
+
+Note that for the `What attributes are required for signing up?` prompt you currently need to use the arrow keys to scroll down in the list and select `Phone Number`. Otherwise you will not be able to add a phone number to the user and thus will not be able to sign in since SMS MFA is required.
+
+When signing up a user, be sure to pass an attributes map including both `email` (in the case above where email is used for password recovery) and `phone_number`.
+
 
 ```java
 AWSMobileClient.getInstance().confirmSignIn(signInChallengeResponse, new Callback<SignInResult>() {
