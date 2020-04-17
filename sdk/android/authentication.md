@@ -497,6 +497,7 @@ Note that for the `What attributes are required for signing up?` prompt you curr
 
 When signing up a user, be sure to pass an attributes map including both `email` (in the case above where email is used for password recovery) and `phone_number`.
 
+After you call sign in and get the `SMS_MFA` response back, you can send your user's input of the SMS code they received with the following command:
 
 ```java
 AWSMobileClient.getInstance().confirmSignIn(signInChallengeResponse, new Callback<SignInResult>() {
