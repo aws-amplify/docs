@@ -278,24 +278,7 @@ const App = () => (
 
 <ui-component-props tag="amplify-greetings"></ui-component-props>
 
-### withAuthenticator
-
-The `withAuthenticator` is a higher-order component (HoC) that wraps `AmplifyAuthenticator`.
-
-**Usage**
-```jsx
-import React from 'react';
-import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
-
-const App = () => (
-  <div>
-    <AmplifySignOut></AmplifySignOut>
-    My App
-  </div>
-);
-
-export withAuthenticator(App);
-```
+<inline-fragment src="~/ui/auth/fragments/react/withauthenticator.md"></inline-fragment>
 
 You can also pass in any of the [AmplifyAuthenticator props](#props-amplify-authenticator):
 
