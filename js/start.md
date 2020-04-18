@@ -70,7 +70,7 @@ Add the following to the `package.json` file:
     "webpack-dev-server": "^3.1.5"
   },
   "scripts": {
-    "start": "webpack && webpack-dev-server --mode development",
+    "start": "webpack && webpack-dev-server --mode development --host ::",
     "build": "webpack"
   }
 }
