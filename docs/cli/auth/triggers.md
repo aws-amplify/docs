@@ -295,7 +295,7 @@ export default {
       this.$Amplify.Auth.sendCustomChallengeAnswer(this.user, data)
         .then( (user) => { 
           AmplifyEventBus.$emit('authState', 'signedIn')
-          return AmplifyEventBus.$emit('localUser', 'user')
+          return AmplifyEventBus.$emit('localUser', user)
         })
         .catch(function (err) { console.log('challenge error: ', err) });
     },           
