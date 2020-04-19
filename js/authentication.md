@@ -957,6 +957,7 @@ function refreshToken() {
         }
         res(data);
     });
+  }
 
 class MyApp extends Component {
     // ...
