@@ -23,7 +23,7 @@ started) Yes
 
 To deploy your backend run:
 
-```console
+```bash
 amplify push
 ```
 

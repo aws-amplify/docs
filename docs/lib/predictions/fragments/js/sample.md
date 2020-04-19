@@ -467,8 +467,8 @@ Now run `yarn start` and press the buttons to demo the app.
 First, be sure you have the latest Ionic CLI installed, then generate a new app (for this example you can use any template, but it's simplest to start with the Blank template to start):
 
 ```bash
-$ npm i -g ionic
-$ ionic start predictions blank # the first argument is your project name, the second the template
+npm i -g ionic
+ionic start predictions blank # the first argument is your project name, the second the template
 ```
 
 Update the `src/polyfills.ts` and add to the top of the file `(window as any).global = window;`. Then, update the `src/tsconfig.app.json` file and add the "node" types:

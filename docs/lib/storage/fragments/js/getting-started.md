@@ -9,12 +9,12 @@ AWS Amplify Storage module provides a simple mechanism for managing user content
 To start from scratch, run the following command from the root of your project:
 
 ```bash
-$ amplify add storage
+amplify add storage
 ```
 
 and select *Content* in prompted options:
 
-```bash
+```console
 ? Please select from one of the below mentioned services (Use arrow keys)
 ❯ Content (Images, audio, video, etc.)
   NoSQL Database
@@ -23,7 +23,7 @@ and select *Content* in prompted options:
 The CLI will walk you though the options to enable Auth, if not enabled previously, and name your S3 bucket. To update your backend run:
 
 ```bash
-$ amplify push
+amplify push
 ```
 
 When your backend is successfully updated, your new configuration file `aws-exports.js` is copied under your source directory, e.g. '/src'.

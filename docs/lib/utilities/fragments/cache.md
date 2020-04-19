@@ -5,6 +5,7 @@ It is a key/value structure where expiration values can be configured **globally
 ## Installation
 
 Install `aws-amplify`.
+
 ```bash
 npm install aws-amplify
 ```

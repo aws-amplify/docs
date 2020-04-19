@@ -3,8 +3,8 @@
 Create a new ‘plain’ JavaScript <a href="https://babeljs.io/docs/en/learn/" target="_blank">ES2015</a> app with webpack. With the following commands, create the directory (`amplify-js-app`) and files for the app.
 
 ```bash
-$ mkdir -p amplify-js-app/src && cd amplify-js-app
-$ touch package.json index.html webpack.config.js src/app.js
+mkdir -p amplify-js-app/src && cd amplify-js-app
+touch package.json index.html webpack.config.js src/app.js
 ```
 
 The app directory structure should be:
@@ -126,7 +126,7 @@ module.exports = {
 Run the app:
 
 ```bash
-$ npm start
+npm start
 ```
 
 Open a browser and navigate to `http://localhost:8080`. The 'Add data' button does not work yet. We'll work on that next.
@@ -141,7 +141,7 @@ amplify init
 
 When you initialize Amplify you'll be prompted for some information about the app:
 
-```bash
+```console
 Enter a name for the project (todo)
 
 # All AWS services you provision for your app are grouped into an "environment"

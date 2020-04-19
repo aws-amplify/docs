@@ -11,8 +11,8 @@ You can integrate with Amplify framework using the following steps:
 * Install and configure the Amplify CLI
 
 ```bash
-$ npm install -g @aws-amplify/cli
-$ amplify configure
+npm install -g @aws-amplify/cli
+amplify configure
 ```
 
 **Steps**
@@ -21,7 +21,7 @@ Go to your project directory and run the following commands to get a fully funct
 
 Run `amplify init` command as shown:
 
-```bash
+```console
 $ amplify init
 ? Enter a name for the project AmplifAPI
 ? Enter a name for the environment dev

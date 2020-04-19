@@ -53,10 +53,11 @@ Amplify.API.subscribe(Task.class, SubscriptionType.ON_CREATE,
 **Testing your API**
 The web-based AWS AppSync Console provides an easy way to run Queries, Mutation, or Subscription against you new API. The following command will directly open the Console for your API. When you run GraphQL operations on the server, you should be able to observe changes in your app.
 
-```terminal
-$ amplify console api
-> GraphQL               ##Select GraphQL
+```bash
+amplify console api
 ```
+
+When prompted, select GraphQL.
 
 ## Next Steps
 

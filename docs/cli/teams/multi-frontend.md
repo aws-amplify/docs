@@ -13,7 +13,7 @@ This workflow outlines the steps required to share a backend across two (or more
 
 1. Initialize a backend for your React app. This will create an Amplify project and backend environment that is accessible in the Amplify Console (by running `amplify console`). 
 
-	```bash
+	```console
 	    $ cd my-react-app
 	    $ amplify init
 		? Enter a name for the project: ecommerce
@@ -25,7 +25,7 @@ This workflow outlines the steps required to share a backend across two (or more
 
 	3. Reference the backend from your Android app using the `amplify pull` command. Choose 'No' when asked if you want to modify or add new categories to your backend. This will put the `amplifyconfiguration` to your src folder only. Choosing 'Yes' will work, however your backend definition will now be stored in two separate repositories leading to unintended consequences with multiple sources of truth. 
 
-	```bash
+	```console
 	  cd my-android-app
 	  amplify pull
 		? Which app are you working on?

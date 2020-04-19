@@ -95,9 +95,8 @@ private AppSyncSubscriptionCall.Callback subCallback = new AppSyncSubscriptionCa
 
 Call the `runMutation()`, `runQuery()`, and `subscribe()` methods from your app code, such as from a button click or when your app starts in `onCreate()`. You will see data being stored and retrieved in your backend from the Android Studio console. At any time you can open the AWS console for your new API directly by running the following command:
 
-```terminal
-$ amplify console api
-> GraphQL               ##Select GraphQL
+```bash
+amplify console api
 ```
 
-This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
+When prompted, select GraphQL. This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.

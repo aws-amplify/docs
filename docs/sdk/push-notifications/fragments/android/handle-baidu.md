@@ -232,7 +232,7 @@ Complete the following steps using the Amplify CLI and Amazon Pinpoint console t
 Run the following command to navigate to the Amazon Pinpoint console.
 
 ```bash
-$ amplify console analytics
+amplify console analytics
 ```
 
 * On the left pane, select `Settings` and `Push notifications`. 

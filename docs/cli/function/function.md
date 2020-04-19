@@ -6,7 +6,8 @@ description: Use Amplify CLI to add powerful Lambda functions to your cloud-base
 ## Set up a function
 
 You can add a Lambda function to your project which you can use alongside a REST API or as a datasource in your GraphQL API using the [`@function` directive](~/cli/graphql-transformer/directives.md#function). 
-```terminal
+
+```console
 $ amplify add function
 ? Provide a friendly name for your resource to be used as a label for this category in the project: lambdafunction
 ? Provide the AWS Lambda function name: lambdafunction
@@ -24,7 +25,7 @@ $ amplify add function
 
 You can update the Lambda execution role policies for your function to access other resources generated and maintained by the CLI, using the CLI
 
-```bash
+```console
 $ amplify update function
 Please select the Lambda Function you would want to update: lambdafunction
 ? Do you want to update permissions granted to this Lambda function to perform on other resources in your project? Yes

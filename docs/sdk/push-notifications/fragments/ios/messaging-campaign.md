@@ -91,8 +91,8 @@ The following steps show how to receive push notifications targeted for your app
     1. To create a new campaign to send notifications to your app from the Amazon Pinpoint console run the following command from your app project folder.
 
         ```bash
-        $ cd YOUR_APP_PROJECT_FOLDER
-        $ amplify notifications console
+        cd YOUR_APP_PROJECT_FOLDER
+        amplify notifications console
         ```
 
     1. Provide a campaign name, choose **Next**, choose **Filter by standard attributes**, and then choose iOS as the platform.

@@ -24,12 +24,15 @@ See [Authentication](~/sdk/auth/getting-started.md) for more information on how 
     In a terminal window, navigate to your project folder (the folder that typically contains your project level build.gradle), and add the SDK to your app.
 
     ```bash
-    $ cd ./YOUR_PROJECT_FOLDER
-    $ amplify add storage
+    cd ./YOUR_PROJECT_FOLDER
+    amplify add storage
     ```
+
 3. Choose `Content` as your storage service.
 
-    `❯ Content (Images, audio, video, etc.)`
+    ```console
+    ❯ Content (Images, audio, video, etc.)
+    ```
 
 4. The combination of friendly name and bucket name must be globally unique. If another S3 user has specified the same values for both of these as you, the amplify push step below will fail.
 
@@ -37,7 +40,7 @@ See [Authentication](~/sdk/auth/getting-started.md) for more information on how 
 
 6. Confirm that you have Storage and Auth set up.
 
-    ```bash
+    ```console
       $ amplify status
       | Category  | Resource name   | Operation | Provider plugin   |
       | --------- | --------------- | --------- | ----------------- |
@@ -47,7 +50,7 @@ See [Authentication](~/sdk/auth/getting-started.md) for more information on how 
 7. To create your backend run:
 
     ```bash
-    $ amplify push
+    amplify push
     ```
 
     The CLI will create the awsconfiguration.json file in your project's `res/raw` directory.

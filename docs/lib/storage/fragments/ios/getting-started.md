@@ -11,7 +11,7 @@ Go to your project directory and run the following commands to get a fully funct
 
 Run `amplify init` command as shown:
 
-```bash
+```console
 $ amplify init
 ? Enter a name for the project AmplifyStorage
 ? Enter a name for the environment dev
@@ -25,7 +25,7 @@ $ amplify init
 
 Add storage using the command `amplify add storage`. Here is an example:
 
-```bash
+```console
 $ amplify add storage
 ? Please select from one of the below mentioned services: `Content (Images, audio, video, etc.)`
 ? You need to add auth (Amazon Cognito) to your project in order to add storage for user files. Do you want to add auth now? `Yes`
@@ -43,7 +43,7 @@ $ amplify add storage
 Push your changes to the cloud using the push command.
 
 ```bash
-$ amplify push
+amplify push
 ```
 
 When your backend is successfully provisioned, there should be two new generated files : `amplifyconfiguration.json` and `awsconfiguration.json` in your project folder. We will add these files to your project in a later step.

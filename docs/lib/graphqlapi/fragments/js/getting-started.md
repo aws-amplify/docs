@@ -6,9 +6,8 @@ In this section, you'll learn how to deploy an AWS AppSync GraphQL API and conne
 
 To create a GraphQL API, use the Amplify `add` command:
 
-```bash
+```console
 $ amplify add api
-
 ? Please select from one of the below mentioned services: GraphQL
 ? Provide API name: myapi
 ? Choose the default authorization type for the API: API Key
@@ -35,8 +34,8 @@ type Todo @model {
 
 To deploy the API, you can use the Amplify `push` command:
 
-```sh
-amplify push
+```console
+$ amplify push
 
 ? Are you sure you want to continue? Y
 
@@ -52,7 +51,7 @@ Because the `Todo` type was decorated with an `@model` directive of the [GraphQL
 
 To view the deployed services in your project at any time, go to Amplify Console by running the Amplify `console` command:
 
-```sh
+```bash
 amplify console
 ```
 
@@ -152,12 +151,12 @@ type Todo @model {
 Save your schema file and update your GraphQL backend:
 
 ```bash
-$ amplify push
+amplify push
 ```
 
 When you run the *push* command, you will notice that your schema change is automatically detected, and your backend will be updated respectively. 
 
-```terminal
+```console
 | Category | Resource name   | Operation | Provider plugin   |
 | -------- | --------------- | --------- | ----------------- |
 | Api      | myapi           | Update    | awscloudformation |
@@ -165,7 +164,7 @@ When you run the *push* command, you will notice that your schema change is auto
 
 When the update is complete, you can see the changes to your backend by visiting the Amplify Console, choosing __API__, then choosing __View in AppSync__.
 
-```sh
+```bash
 amplify console
 ```
 
@@ -196,7 +195,7 @@ When working with GraphQL data it is useful to import types from your schema for
 If you want to generate your GraphQL statements and types, run:
 
 ```bash
-$ amplify codegen
+amplify codegen
 ```
 
 A TypeScript or Flow type definition file will be generated in your target folder.  

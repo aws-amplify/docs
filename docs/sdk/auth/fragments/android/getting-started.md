@@ -34,7 +34,7 @@ Build your Android Studio project.
 Run the following command in your project's root folder:
 
 ```bash
-$ amplify add auth
+amplify add auth
 ```
 
 If you have previously enabled an Amplify category that uses Auth behind the scenes, e.g. API category, you may already have an Auth configuration. In such a case, run `amplify auth update` command to edit your configuration.
@@ -48,7 +48,7 @@ The CLI prompts will help you to customize your auth flow for your app. With the
 After configuring your Authentication options, update your backend:
 
 ```bash
-$ amplify push
+amplify push
 ```
 
 A configuration file called `awsconfiguration.json` will be copied to your project `./app/src/main/res/raw` directory. The `AWSMobileClient` will leverage this for communicating with backend services.

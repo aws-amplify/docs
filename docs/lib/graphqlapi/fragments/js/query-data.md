@@ -76,13 +76,14 @@ The `XXXXXX` is the unique AppSync API identifier that you can find in the conso
 
 Navigate in your terminal to a JavaScript project directory and run the following:
 
-```terminal
-$amplify init     ## Select JavaScript as your platform
-$amplify add api  ## Select GraphQL, API key, "Single object with fields Todo application"
+```bash
+amplify init     ## Select JavaScript as your platform
+amplify add api  ## Select GraphQL, API key, "Single object with fields Todo application"
 ```
+
 Select *GraphQL* when prompted for service type:
 
-```terminal
+```console
 ? Please select from one of the below mentioned services (Use arrow keys)
 ❯ GraphQL
   REST
@@ -92,7 +93,7 @@ The `add api` flow above will ask you some questions, such as if you already hav
 
 Name your GraphQL endpoint and select authorization type:
 
-```terminal
+```console
 ? Please select from one of the below mentioned services GraphQL
 ? Provide API name: myTodosApi
 ? Choose an authorization type for the API (Use arrow keys)
@@ -107,17 +108,16 @@ AWS AppSync API keys expire seven days after creation, and using API KEY authent
 When you update your backend with *push* command, you can go to [AWS AppSync Console](http://console.aws.amazon.com/appsync/home) and see that a new API is added under *APIs* menu item:
 
 ```bash
-$ amplify push
+amplify push
 ```
 
 The `amplify push` process will prompt you to enter the codegen process and walk through configuration options. Accept the defaults and it will create a `./src/graphql` folder structure with your documents. You also will have an `aws-exports.js` file that the AppSync client will use for initialization. At any time you can open the AWS console for your new API directly by running the following command:
 
-```terminal
-$ amplify console api
-> GraphQL               ##Select GraphQL
+```bash
+amplify console api
 ```
 
-This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
+When prompted, select GraphQL. This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
 
 #### Dependencies
 
@@ -125,7 +125,11 @@ To use AppSync in your JavaScript project, add in the following dependencies:
 
 ```bash
 npm install aws-appsync graphql-tag
-# or
+```
+
+Or, if you're using Yarn:
+
+```bash
 yarn add aws-appsync graphql-tag
 ```
 

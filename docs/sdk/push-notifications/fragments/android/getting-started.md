@@ -10,15 +10,15 @@ You can also create Amazon Pinpoint campaigns that tie user behavior to push or 
     In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`), and add the SDK to your app.
 
     ```bash
-    $ cd ./YOUR_PROJECT_FOLDER
-    $ amplify add notifications
+    cd ./YOUR_PROJECT_FOLDER
+    amplify add notifications
     ```
 
 1. Set up your backend to support receiving push notifications:
 
     - Choose Firebase Cloud Messaging (FCM).
 
-        ```
+        ```console
         > FCM
         ```
 

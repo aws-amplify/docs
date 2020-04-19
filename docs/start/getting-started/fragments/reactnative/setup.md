@@ -5,14 +5,14 @@ To start off, you'll need a React Native project. If you have an existing projec
 To get started, initialize a new React Native project.
 
  ###  Using Expo
-```sh
+```bash
 npm install -g expo-cli  
 expo init RNAmplify
 ```
 
 ###  Using the React Native CLI
 
-```sh
+```bash
 npx react-native init RNAmplify
 ```
 
@@ -20,14 +20,14 @@ npx react-native init RNAmplify
 
 You are now ready to initialize a new Amplify project. To do so, change into the project directory
 
-```sh
+```bash
 cd RNAmplify
 ```
 
 and use the Amplify CLI to create the project:
 
-```sh
-amplify init
+```console
+$ amplify init
 
 ? Enter a name for the project: rnamplify
 ? Enter a name for the environment: demo
@@ -54,8 +54,6 @@ When you initialize a new Amplify project, a few things happen:
 Next, install the local Amplify dependencies. The directions here will depend on whether you are using Expo or the React Native CLI.
 
 <inline-fragment src="~/start/getting-started/fragments/reactnative/getting-started-steps.md"></inline-fragment>
-
-## Integrate with the front end
 
 Finally, open __App.js__ (Expo) or __index.js__ (React Native CLI) and add the following lines of code at the top of the file below the last import:
 

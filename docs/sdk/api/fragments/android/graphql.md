@@ -38,12 +38,13 @@ The `XXXXXX` is the unique AppSync API identifier that you can find in the conso
 Navigate in your terminal to an Android Studio project directory and run the following:
 
 ```bash
-$amplify init     ## Select Android as your platform
-$amplify add api  ## Select GraphQL, API key, "Single object with fields Todo application"
+amplify init     ## Select Android as your platform
+amplify add api  ## Select GraphQL, API key, "Single object with fields Todo application"
 ```
+
 Select *GraphQL* when prompted for service type:
 
-```bash
+```console
 ? Please select from one of the below mentioned services (Use arrow keys)
 ❯ GraphQL
   REST
@@ -53,7 +54,7 @@ The `add api` flow above will ask you some questions, such as if you already hav
 
 Name your GraphQL endpoint and select authorization type:
 
-```bash
+```console
 ? Please select from one of the below mentioned services GraphQL
 ? Provide API name: myTodosApi
 ? Choose an authorization type for the API (Use arrow keys)
@@ -68,42 +69,41 @@ AWS AppSync API keys expire seven days after creation, and using API KEY authent
 When you update your backend with *push* command, you can go to [AWS AppSync Console](http://console.aws.amazon.com/appsync/home) and see that a new API is added under *APIs* menu item:
 
 ```bash
-$ amplify push
+amplify push
 ```
 
 The `amplify push` process will prompt you to enter the codegen process and walk through configuration options. Accept the defaults and it will create a `./src/main.graphql` folder structure with your documents. You also will have an `awsconfiguration.json` file that the AppSync client will use for initialization. At any time you can open the AWS console for your new API directly by running the following command:
 
 ```bash
-$ amplify console api
-> GraphQL               ##Select GraphQL
+amplify console api
 ```
 
-This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
+When prompted, select GraphQL. This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
 
 ### Import SDK and Config
 
 To use AppSync in your Android studio project, modify the project's `build.gradle` with the following dependency in the build script:
 
-```bash
-    classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.9.+'
+```groovy
+classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.9.+'
 ```
 
 Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `implementation 'com.amazonaws:aws-android-sdk-appsync:2.9.+'`. For example:
 
 
-```bash
-    apply plugin: 'com.android.application'
-    apply plugin: 'com.amazonaws.appsync' // REQUIRED
-    
-    android {
-        // Typical items
-    }
-    dependencies {
-        // REQUIRED: Typical dependencies
-        implementation 'com.amazonaws:aws-android-sdk-appsync:2.9.+'
-        implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
-        implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
-    }
+```groovy
+apply plugin: 'com.android.application'
+apply plugin: 'com.amazonaws.appsync' // REQUIRED
+
+android {
+    // Typical items
+}
+dependencies {
+    // REQUIRED: Typical dependencies
+    implementation 'com.amazonaws:aws-android-sdk-appsync:2.9.+'
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+}
 ```
 
 
