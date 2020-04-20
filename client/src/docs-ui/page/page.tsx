@@ -82,7 +82,6 @@ export class DocsPage {
   }
 
   componentWillLoad() {
-    console.log("hydrates again");
     return this.getPageData();
   }
 
