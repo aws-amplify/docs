@@ -34,7 +34,7 @@ import {getNavHeight} from "../../utils/get-nav-height";
 import {scrollToHash} from "../../utils/scroll-to-hash";
 import {parseURL} from "../../utils/url/url";
 
-@Component({tag: "docs-page", styleUrl: "page.scss", shadow: false})
+@Component({tag: "docs-page", shadow: false})
 export class DocsPage {
   @Element() el: HTMLElement;
 
