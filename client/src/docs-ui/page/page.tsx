@@ -7,6 +7,7 @@ import {
   Element,
   Prop,
   Watch,
+  Build,
 } from "@stencil/core";
 import {MatchResults} from "@stencil/router";
 import {
@@ -33,7 +34,7 @@ import {getNavHeight} from "../../utils/get-nav-height";
 import {scrollToHash} from "../../utils/scroll-to-hash";
 import {parseURL} from "../../utils/url/url";
 
-@Component({tag: "docs-page", shadow: false})
+@Component({tag: "docs-page", styleUrl: "page.scss", shadow: false})
 export class DocsPage {
   @Element() el: HTMLElement;
 
@@ -70,17 +71,12 @@ export class DocsPage {
     }
   }
 
-  @Watch("match")
-  onRouteChange() {
-    this.getPageData();
-  }
-
   @Listen("popstate", {target: "window"})
   onPopState() {
     this.getPageData();
   }
 
-  componentWillLoad() {
+  componentWillRender() {
     return this.getPageData();
   }
 
@@ -147,7 +143,7 @@ export class DocsPage {
   showMenu = (): boolean => {
     const menuItems = this.pageData?.menu;
     const menuItemsExist = !!(menuItems && menuItems.length > 0);
-    return menuItemsExist && !this.requiresFilterSelection();
+    return menuItemsExist; // && !this.requiresFilterSelection();
   };
 
   componentDidRender() {
@@ -209,16 +205,17 @@ export class DocsPage {
                             class={mainStyle}
                           >
                             <amplify-toc-contents>
-                              {this.pageData && [
-                                <h1>{this.pageData.title}</h1>,
-                                createVNodesFromHyperscriptNodes(
-                                  this.pageData.body,
-                                ),
-                                <docs-next-previous
-                                  key={this.pageData.route}
-                                  page={this.pageData}
-                                />,
-                              ]}
+                              {this.pageData &&
+                                Build.isBrowser && [
+                                  <h1>{this.pageData.title}</h1>,
+                                  createVNodesFromHyperscriptNodes(
+                                    this.pageData.body,
+                                  ),
+                                  <docs-next-previous
+                                    key={this.pageData.route}
+                                    page={this.pageData}
+                                  />,
+                                ]}
                             </amplify-toc-contents>
                             <amplify-sidebar-layout-toggle
                               onClick={ensureMenuScrolledIntoView}

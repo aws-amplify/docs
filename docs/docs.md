@@ -16,8 +16,7 @@ disableLinkification: true
   <docs-landing-hero-cta slot="cta" />
 </amplify-hero>
 <amplify-container
-  class="background-color-off-white"
-  inner-class="padding-top-lg padding-bottom-lg padding-horizontal-md">
+  class="background-color-off-white padding-top-lg padding-bottom-lg padding-horizontal-md">
   <amplify-responsive-grid class="margin-top-lg">
     <docs-card url="~/lib/lib.md" url-override-for-mobile-filter="~/sdk/sdk.md" class="border-radius">
       <img slot="graphic" src="~/assets/lib.png" />
@@ -44,8 +43,7 @@ disableLinkification: true
   </amplify-responsive-grid>
 </amplify-container>
 <amplify-container
-  class="background-color-off-white"
-  inner-class="padding-bottom-lg padding-horizontal-md"
+  class="background-color-off-white padding-bottom-lg padding-horizontal-md"
 >
   <h2 class="text-align-center">Explore Features</h2>
   <inline-fragment src="~/fragments/features-grid.md"></inline-fragment>

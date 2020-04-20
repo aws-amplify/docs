@@ -41,12 +41,15 @@ export const brandStyle = css`
     flex-direction: row;
     align-items: center;
 
+    > svg,
     > img {
       height: 1rem;
+      width: 1rem;
       margin-right: 0.125rem;
 
       ${MQFablet} {
         height: 1.25rem;
+        width: 1.25rem;
       }
     }
 

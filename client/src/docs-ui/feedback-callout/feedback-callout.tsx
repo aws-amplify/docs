@@ -1,4 +1,4 @@
-import {Component, h, Host, State} from "@stencil/core";
+import {Component, h, Host, State, Build} from "@stencil/core";
 import {hostStyle, displayStyle} from "./feedback-callout.style";
 
 const IS_DISMISSED_LOCAL_STORAGE_KEY =
@@ -9,12 +9,16 @@ export class DocsFeedbackCallout {
   @State() dismissed = true;
 
   componentWillLoad() {
-    this.dismissed = !!localStorage.getItem(IS_DISMISSED_LOCAL_STORAGE_KEY);
+    if (Build.isBrowser) {
+      this.dismissed = !!localStorage.getItem(IS_DISMISSED_LOCAL_STORAGE_KEY);
+    }
   }
 
   dismiss = () => {
-    this.dismissed = true;
-    localStorage.setItem(IS_DISMISSED_LOCAL_STORAGE_KEY, "true");
+    if (Build.isBrowser) {
+      this.dismissed = true;
+      localStorage.setItem(IS_DISMISSED_LOCAL_STORAGE_KEY, "true");
+    }
   };
 
   render() {
