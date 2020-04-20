@@ -30,7 +30,7 @@ export class DocsCard {
   /*** url */
   @Prop() readonly url?: string;
   /*** link tag to use */
-  @Prop() readonly containerTag: string = "a";
+  @Prop() readonly containerTag: string = "docs-internal-link";
   /*** whether or not to show external link graphic */
   @Prop() readonly external?: boolean;
 
