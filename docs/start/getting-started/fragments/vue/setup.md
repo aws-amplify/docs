@@ -76,12 +76,11 @@ Next, we need to configure Amplify on the client so that we can use it to intera
 Open __src/main.js__ and add the following code below the last import:
 
 ```js
-import Amplify, * as AmplifyModules from 'aws-amplify';
+import Amplify from 'aws-amplify';
 import '@aws-amplify/ui-vue';
 import aws_exports from './aws-exports';
 
 Amplify.configure(aws_exports);
-Vue.use(AmplifyModules);
 ```
 
 Now Amplify has been successfully configured. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in __aws-exports.js__ will update automatically.
