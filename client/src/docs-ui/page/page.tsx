@@ -62,6 +62,7 @@ export class DocsPage {
   filterKey?: string;
   filterValue?: string;
 
+  @Listen("popstate", {target: "window"})
   @Watch("match")
   @Listen("resize", {target: "window"})
   setSidebarStickyTop() {
@@ -81,12 +82,15 @@ export class DocsPage {
   }
 
   componentWillLoad() {
+    console.log("hydrates again");
     return this.getPageData();
   }
 
   async getPageData() {
     if (this.match) {
-      const {path, params} = parseURL(this.match.params.page || "/");
+      const {path, params} = parseURL(
+        this.match.params.page || location.pathname || "/",
+      );
       this.blendUniversalNav = path === "/";
 
       track({

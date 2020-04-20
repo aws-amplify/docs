@@ -14,26 +14,27 @@ export class DocsFilterTarget {
   @Watch("filters")
   @Watch("selectedFilters")
   componentWillLoad() {
-    this.shouldDisplay = ((): boolean => {
-      if (!this.selectedFilters) {
-        return false;
-      }
+    if (!this.selectedFilters) {
+      this.shouldDisplay = false;
+      return;
+    }
 
-      if (this.filters && this.selectedFilters) {
-        for (const [filterKey, filterValue] of Object.entries(this.filters)) {
-          if (this.selectedFilters[filterKey] !== filterValue) {
-            return false;
-          }
+    if (this.filters && this.selectedFilters) {
+      for (const [filterKey, filterValue] of Object.entries(this.filters)) {
+        if (this.selectedFilters[filterKey] !== filterValue) {
+          this.shouldDisplay = false;
+          return;
         }
       }
-      return true;
-    })();
+    }
+
+    this.shouldDisplay = true;
   }
 
   render() {
     return (
       <Host style={{display: this.shouldDisplay ? "initial" : "none"}}>
-        <slot />
+        <slot name="content" />
       </Host>
     );
   }

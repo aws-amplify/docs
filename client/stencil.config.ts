@@ -79,6 +79,10 @@ export const config: Config = {
           dest: "sitemap.xml",
         },
         {
+          src: "manifest.json",
+          dest: "manifest.json",
+        },
+        {
           src: "browserconfig.xml",
           dest: "browserconfig.xml",
         },

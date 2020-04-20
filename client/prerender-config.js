@@ -1,18 +1,18 @@
 module.exports = {
-  hydrateOptions() {
-    const hydrateOptions = {
-      addModulePreloads: true,
-      removeUnusedStyles: true,
-      minifyStyleElements: true,
-      minifyScriptElements: true,
-      removeAttributeQuotes: true,
-      removeBooleanAttributeQuotes: true,
-      removeEmptyAttributes: true,
-      removeHtmlComments: true,
-    };
+  // hydrateOptions() {
+  //   const hydrateOptions = {
+  //     addModulePreloads: true,
+  //     removeUnusedStyles: true,
+  //     minifyStyleElements: true,
+  //     minifyScriptElements: true,
+  //     removeAttributeQuotes: true,
+  //     removeBooleanAttributeQuotes: true,
+  //     removeEmptyAttributes: true,
+  //     removeHtmlComments: true,
+  //   };
 
-    return hydrateOptions;
-  },
+  //   return hydrateOptions;
+  // },
 
   filterUrl(url) {
     const {pathname} = url;
