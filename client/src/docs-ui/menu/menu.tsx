@@ -21,26 +21,64 @@ export class DocsMenu {
 
   @State() switcher?: "lib" | "ui";
 
-  @Watch("selectedFilters")
-  componentWillLoad() {
-    if (this.page) {
-      let switcher: "ui" | "lib" | undefined;
+  // @Watch("selectedFilters")
+  // componentWillLoad() {
+  //   if (this.page) {
+  //     let switcher: "ui" | "lib" | undefined;
 
-      const productRootRoute = this.page?.productRootLink?.route;
-      if (productRootRoute) {
-        if (
-          (productRootRoute === "/lib" || productRootRoute === "/sdk") &&
-          this.selectedFilters?.platform !== "js"
-        ) {
-          switcher = "lib";
-        }
+  //     const productRootRoute = this.page?.productRootLink?.route;
+  //     if (productRootRoute) {
+  //       if (
+  //         (productRootRoute === "/lib" || productRootRoute === "/sdk") &&
+  //         this.selectedFilters?.platform !== "js"
+  //       ) {
+  //         switcher = "lib";
+  //       }
 
-        if (productRootRoute === "/ui" || productRootRoute === "/ui-legacy") {
-          switcher = "ui";
-        }
+  //       if (productRootRoute === "/ui" || productRootRoute === "/ui-legacy") {
+  //         switcher = "ui";
+  //       }
+  //     }
+
+  renderVersionSwitch() {
+    if (
+      (this.page?.productRootLink?.route === "/lib" ||
+        this.page?.productRootLink?.route === "/sdk") &&
+      this.selectedFilters?.platform !== "js"
+    ) {
+      return (
+        <docs-version-switch
+          leftOption={{
+            title: "Libraries",
+            subTitle: "(preview)",
+            href: "/lib",
+          }}
+          rightOption={{
+            title: "SDK",
+            subTitle: "(stable)",
+            href: "/sdk",
+          }}
+        />
+      );
+    } else if (
+      this.page?.productRootLink?.route === "/ui" ||
+      this.page?.productRootLink?.route === "/ui-legacy"
+    ) {
+      if (this.selectedFilters?.framework !== "react-native") {
+        return (
+          <docs-version-switch
+            leftOption={{
+              title: "Latest",
+              href: "/ui",
+            }}
+            rightOption={{
+              title: "Legacy",
+              href: "/ui-legacy",
+            }}
+          />
+        );
       }
-
-      this.switcher = switcher;
+      return;
     }
   }
 
@@ -50,45 +88,7 @@ export class DocsMenu {
       menu && (
         <Host class={menuStyle}>
           {this.page?.filterKey && <docs-select-anchor page={this.page} />}
-          {(() => {
-            switch (this.switcher) {
-              case "lib": {
-                return (
-                  <docs-version-switch
-                    leftOption={{
-                      title: "Libraries",
-                      subTitle: "(preview)",
-                      href: "/lib",
-                    }}
-                    rightOption={{
-                      title: "SDK",
-                      subTitle: "(stable)",
-                      href: "/sdk",
-                    }}
-                  />
-                );
-              }
-
-              case "ui": {
-                return (
-                  <docs-version-switch
-                    leftOption={{
-                      title: "Latest",
-                      href: "/ui",
-                    }}
-                    rightOption={{
-                      title: "Legacy",
-                      href: "/ui-legacy",
-                    }}
-                  />
-                );
-              }
-
-              default: {
-                return;
-              }
-            }
-          })()}
+          {this.renderVersionSwitch()}
           {this.page?.productRootLink && (
             <docs-internal-link
               href={this.page.productRootLink.route}

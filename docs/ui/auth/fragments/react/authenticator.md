@@ -338,7 +338,7 @@ To migrate from using the `aws-amplify-react` library to the latest `@aws-amplif
 
 ```diff
 - import { Authenticator } from 'aws-amplify-react';
-+ import { AmplifyAuthenticator } from '@aws-amplify/ui-react';
++ import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 
 const App = () => (
 

@@ -5,6 +5,7 @@
         "api",
         "storage",
         "interactions",
-        "xr"
+        "xr",
+        "customization"
     ]
 }
