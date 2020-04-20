@@ -240,11 +240,11 @@ const App = () => (
 
 ```jsx
 import React from 'react';
-import { AmplifyAuthenticator, AmplifyVerifyContract, AmplifySignOut } from '@aws-amplify/ui-react';
+import { AmplifyAuthenticator, AmplifyVerifyContact, AmplifySignOut } from '@aws-amplify/ui-react';
 
 const App = () => (
   <AmplifyAuthenticator>
-    <AmplifyVerifyContract headerText="My Custom Verify Contact Text" slot="verify-contact"></AmplifyVerifyContract>
+    <AmplifyVerifyContact headerText="My Custom Verify Contact Text" slot="verify-contact"></AmplifyVerifyContact>
 
     <div>
       My App
