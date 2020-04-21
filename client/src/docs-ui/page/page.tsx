@@ -218,7 +218,9 @@ export class DocsPage {
                           >
                             <amplify-toc-contents>
                               {this.data && [
-                                <h1 class={sectionHeaderStyle}>{"API (GraphQL)"}</h1>,
+                                <h1 class={sectionHeaderStyle}>
+                                  {this.data.sectionTitle}
+                                </h1>,
                                 <h1>{this.data.title}</h1>,
                                 createVNodesFromHyperscriptNodes(
                                   this.data.body,
