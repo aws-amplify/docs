@@ -156,7 +156,10 @@ export class DocsPage {
     this.setSidebarStickyTop();
     const {hash} = location;
     if (hash) {
-      scrollToHash(hash, this.el);
+      // TODO: replace with better method for ensuring TOC rendered. Race condition!
+      setTimeout(() => {
+        scrollToHash(hash, this.el);
+      }, 250);
     }
   }
 
