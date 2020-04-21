@@ -102,7 +102,6 @@ export class DocsPage {
           this.pageData = pageData;
           updateDocumentHead(pageData);
           this.filterKey = getFilterKeyFromPage(pageData);
-
           this.selectedFilters = Object.assign(
             {},
             ...Object.keys(filterOptionsByName).map((filterKey) => {
