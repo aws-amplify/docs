@@ -1,6 +1,6 @@
 ---
 title: Overview
-description: function
+description: Use Amplify CLI to add powerful Lambda functions to your cloud-based mobile and web app with a simple guided workflow.
 ---
 
 ## Set up a function

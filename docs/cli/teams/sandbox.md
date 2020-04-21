@@ -1,6 +1,6 @@
 ---
 title: Sandbox environments
-description: auth
+description: Learn how to enable sandbox environments for your Amplify project.
 ---
 
 Now you have two independent environments (master & dev) in the cloud and have corresponding git branches with your amplify backend infrastructure code on Git. Suppose a team member wants to work on the same Amplify project, add some features to it and then push changes to the dev environment to test some changes. They would perform the following steps:

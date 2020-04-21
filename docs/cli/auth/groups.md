@@ -1,6 +1,6 @@
 ---
 title: User groups
-description: Some Description
+description: Create logical groups in Cognito User Pools and assign permissions to access resources in Amplify categories with the Amplify CLI.
 ---
 
 You can create logical groups in Cognito User Pools and assign permissions to access resources in Amplify categories with the CLI, as well as define the relative precedence of one group to another. This can be useful for defining which users should be part of "Admins" vs "Editors", and if the users in a Group should be able to just write or write & read to a resource (AppSync, API Gateway, S3 bucket, etc). [You can also use these with `@auth` Static Groups in the GraphQL Transformer](~/cli/graphql-transformer/directives.md#static-group-authorization). Precedence helps remove any ambiguity on permissions if a user is in multiple Groups.

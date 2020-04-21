@@ -1,6 +1,6 @@
 ---
 title: Create or update data
-description: description
+description: Learn more about how to create and update data using GraphQL APIs in Amplify
 ---
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/mutate-data.md"></inline-fragment>

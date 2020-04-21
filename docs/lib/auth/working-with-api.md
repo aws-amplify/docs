@@ -1,6 +1,6 @@
 ---
 title: Working with API
-description: Description 
+description: Learn more about how to use the Amplify Framework's auth APIs 
 ---
 
 <inline-fragment platform="ios" src="~/sdk/auth/fragments/ios/working-with-api.md"></inline-fragment>

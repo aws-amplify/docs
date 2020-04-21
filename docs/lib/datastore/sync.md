@@ -1,6 +1,6 @@
 ---
 title: Syncing data to cloud
-description: description
+description: Learn more about how DataStore connects to an AppSync backend and automatically syncs all locally saved data using GraphQL.
 ---
 
 Once you're happy with your application, you can start syncing with the cloud by provisioning a backend from your project. DataStore can connect to an AppSync backend and automatically sync all locally saved data using GraphQL as a data protocol.

@@ -1,6 +1,6 @@
 ---
 title: Examples
-description: Some Description
+description: Refer to these examples to learn about various sample application's GraphQL schemas.
 ---
 ## Simple Todo
 

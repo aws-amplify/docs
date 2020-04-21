@@ -1,6 +1,6 @@
 ---
 title: How it works
-description: description
+description: Amplify DataStore provides a persistent on-device storage repository for you to write, read, and observe changes to data if you are online or offline, and seamlessly sync to the cloud as well as across devices. Learn more about how it works.
 ---
 
 Amplify DataStore provides a persistent on-device storage repository for you to write, read, and observe changes to data if you are online or offline, and seamlessly sync to the cloud as well as across devices. Data modeling for your application is using GraphQL and converted to Models that are used in JavaScript, iOS, or Android applications. You can use DataStore for your offline use cases in a “local only” mode without an AWS account or provision an entire backend using AWS AppSync and Amazon DynamoDB. DataStore includes Delta Sync using your GraphQL backend and several conflict resolution strategies.

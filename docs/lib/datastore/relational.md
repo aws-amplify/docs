@@ -1,6 +1,6 @@
 ---
 title: Relational models
-description: description
+description: Learn more about how DataStore handles relationships between Models, such as "has one", "has many", "belongs to".
 ---
 
 DataStore has the capability to handle relationships between Models, such as *has one*, *has many*, *belongs to*. In GraphQL this is done with the `@connection` directive as defined in the [GraphQL Transformer documentation](https://aws-amplify.github.io/docs/cli-toolchain/graphql#connection).

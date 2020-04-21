@@ -1,6 +1,6 @@
 ---
 title: Concepts
-description: description
+description: Learn more about the foundation concepts of Amplify Framework's API category.
 ---
 
 ## AWS AppSync

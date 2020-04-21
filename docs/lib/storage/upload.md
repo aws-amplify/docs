@@ -1,6 +1,6 @@
 ---
 title: Upload files
-description: Get started with Storage category in Amplify
+description: Learn more about how to upload files using Amplify Framework's storage category
 ---
 
 <inline-fragment platform="js" src="~/lib/storage/fragments/js/upload.md"></inline-fragment>

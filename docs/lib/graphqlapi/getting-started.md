@@ -1,6 +1,6 @@
 ---
 title: Getting started
-description: description
+description: Learn more about how to get started with Amplify's API category
 ---
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/getting-started.md"></inline-fragment>

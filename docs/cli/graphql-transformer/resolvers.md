@@ -1,6 +1,6 @@
 ---
 title: Resolvers
-description: Some Description
+description: GraphQL resolvers connect the fields in a type’s schema to a data source. Resolvers are the mechanism by which requests are fulfilled. Learn how to overwrite or add custom resolvers with Amplify.
 ---
 ## Overwriting Resolvers
 

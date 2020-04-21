@@ -1,6 +1,6 @@
 ---
 title: Concepts
-description: Description
+description: Learn more about the foundational auth concepts for cloud-based application and how they work with Amplify Framework.
 ---
 
 *Authentication* is a process to validate **who you are** (abbreviated as *AuthN*). The system which does this validation is referred to as an **Identity Provider** or **IdP**. This can be your own self-hosted IdP or a cloud service. Oftentimes, this IdP is a social provider such as Facebook, Google, or Amazon.
