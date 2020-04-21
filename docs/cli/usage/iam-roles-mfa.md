@@ -1,6 +1,6 @@
 ---
 title: IAM Roles & MFA
-description: Landing page for the Amplify CLI
+description: Configure the Amplify CLI to assume an IAM role by defining a profile for the role in the shared `~/.aws/config` file.
 --- 
 
 You can optionally configure the Amplify CLI to assume an IAM role by defining a profile for the role in the shared `~/.aws/config` file. This is similar to how the [AWS CLI](https://aws.amazon.com/cli/) functions, including short term credentials. This can be useful when you have multiple developers using one or more AWS accounts, including team workflows where you want to restrict the category updates they might be permitted to make.

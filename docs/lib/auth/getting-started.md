@@ -1,6 +1,6 @@
 ---
 title: Getting started
-description: description
+description: The Amplify Framework uses Amazon Cognito as the main authentication provider. Learn how to handle user registration, authentication, account recovery & other operations. 
 ---
 
 <inline-fragment platform="js" src="/fragments/js/getting-started.md"></inline-fragment>

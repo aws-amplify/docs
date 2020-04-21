@@ -1,6 +1,6 @@
 ---
 title: Fetch data
-description: description
+description: Learn more about how to fetch data using Amplify's GraphQL API category
 ---
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/query-data.md"></inline-fragment>

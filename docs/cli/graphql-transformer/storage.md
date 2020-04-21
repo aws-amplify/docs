@@ -1,6 +1,6 @@
 ---
 title: GraphQL transform and Storage
-description: Some Description
+description: The GraphQL Transform, Amplify CLI, and Amplify Library make it simple to add complex object support with Amazon S3 to an application.
 ---
 The GraphQL Transform, Amplify CLI, and Amplify Library make it simple to add complex object support with Amazon S3 to an application.
 

@@ -1,6 +1,6 @@
 ---
 title: Admin actions
-description: Some Description
+description: Learn how to expose Administrative actions for your Cognito User Pool to your end user applications.
 ---
 
 In some scenarios you may wish to expose Administrative actions to your end user applications. For example, the ability to list all users in a Cognito User Pool may provide useful for the administrative panel of an app if the logged-in user is a member of a specific Group called "Admins". 

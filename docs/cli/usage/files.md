@@ -1,6 +1,6 @@
 ---
 title: Folder structure
-description: Landing page for the Amplify CLI
+description: Learn more about Amplify's generated folder structure.
 --- 
 
 The CLI places the following folder structure at the root directory of the project when `init` is completed successfully:

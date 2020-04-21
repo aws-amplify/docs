@@ -1,6 +1,6 @@
 ---
 title: Set up your backend
-description: Description
+description: Getting Started with Amplify Libraries - How to setup your backend with Amplify
 ---
 
 <inline-fragment platform="ios" src="~/lib/getting-started/fragments/ios/setup.md"></inline-fragment>

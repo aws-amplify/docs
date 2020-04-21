@@ -1,6 +1,6 @@
 ---
 title: Remove files
-description: Get started with Storage category in Amplify
+description: Learn more about how to remove files using Amplify Framework's storage category
 ---
 
 <inline-fragment platform="js" src="~/lib/storage/fragments/js/remove.md"></inline-fragment>

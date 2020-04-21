@@ -1,6 +1,6 @@
 ---
 title: Overview
-description: REST
+description: Use Amplify CLI's simple guided workflow to add REST APIs to cloud-based web and mobile apps.
 ---
 
 ## Set up a REST API with NoSQL database

@@ -1,6 +1,6 @@
 ---
 title: Scene API
-description: Get started with XR category in Amplify
+description: Learn more about the Scene API in the XR category of Amplify
 ---
 
 <inline-fragment platform="js" src="~/lib/xr/fragments/sceneapi.md"></inline-fragment>

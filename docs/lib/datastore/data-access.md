@@ -1,6 +1,6 @@
 ---
 title: Manipulating data
-description: description
+description: Learn how to save, query, paginate, update, delete and observe data in DataStore.
 ---
 
 ## Save Data

@@ -1,6 +1,6 @@
 ---
 title: Connect API and database to the app
-description: Data model description
+description: Getting Started with Amplify Framework - how to model your data using Amplify
 filterKey: integration
 ---
 

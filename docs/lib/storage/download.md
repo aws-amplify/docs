@@ -1,6 +1,6 @@
 ---
 title: Download files
-description: Get started with Storage category in Amplify
+description: Learn more about how to download / retrieve files using the Storage category of Amplify Framework
 ---
 
 <inline-fragment platform="js" src="~/lib/storage/fragments/js/download.md"></inline-fragment>

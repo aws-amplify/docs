@@ -1,6 +1,6 @@
 ---
 title: Interpret sentiment
-description: desc
+description: Learn more about how to determine key phrases, sentiment, language, syntax, and entities from text using Amplify.
 ---
 
 <inline-fragment platform="js" src="~/lib/predictions/fragments/js/interpret.md"></inline-fragment>

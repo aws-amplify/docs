@@ -1,6 +1,6 @@
 ---
 title: Authenticator
-description: authenticator
+description: Authenticator UI component
 filterKey: framework
 ---
 

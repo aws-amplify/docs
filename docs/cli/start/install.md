@@ -1,6 +1,6 @@
 ---
 title: Installation
-description: Installation
+description: How to install & configure Amplify CLI
 ---  
 
 ## Pre-requisites
