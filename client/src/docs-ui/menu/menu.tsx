@@ -34,7 +34,10 @@ export class DocsMenu {
           switcher = "lib";
         }
 
-        if (productRootRoute === "/ui" || productRootRoute === "/ui-legacy") {
+        if (
+          (productRootRoute === "/ui" || productRootRoute === "/ui-legacy") &&
+          this.selectedFilters?.framework !== "react-native"
+        ) {
           switcher = "ui";
         }
       }

@@ -21,7 +21,9 @@ export const tocStyle = css`
     a {
       display: flex;
       flex: 1;
-      padding: 0.25rem 1.5rem 0.25rem 0;
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
+      padding-right: 1.5rem;
       color: var(--font-color);
     }
 
@@ -58,6 +60,8 @@ export const h3AnchorStyle = css`
 `;
 
 export const headerStyle = css`
-  padding: 0 1.5rem 0.5 1.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-bottom: 0.5rem;
   border-left: 0.05rem solid var(--border-color);
 `;
