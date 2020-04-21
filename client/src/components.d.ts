@@ -146,6 +146,18 @@ export namespace Components {
         /**
           * * add a different url when mobile selected
          */
+        "urlOverrideForAndroidFilter"?: string;
+        /**
+          * * add a different url when mobile selected
+         */
+        "urlOverrideForIOSFilter"?: string;
+        /**
+          * * add a different url when mobile selected
+         */
+        "urlOverrideForJSFilter"?: string;
+        /**
+          * * add a different url when mobile selected
+         */
         "urlOverrideForMobileFilter"?: string;
         /**
           * * if true, the thumbnail gets rendered to the left of the detail (not above)
@@ -740,6 +752,18 @@ declare namespace LocalJSX {
           * * url
          */
         "url"?: string;
+        /**
+          * * add a different url when mobile selected
+         */
+        "urlOverrideForAndroidFilter"?: string;
+        /**
+          * * add a different url when mobile selected
+         */
+        "urlOverrideForIOSFilter"?: string;
+        /**
+          * * add a different url when mobile selected
+         */
+        "urlOverrideForJSFilter"?: string;
         /**
           * * add a different url when mobile selected
          */

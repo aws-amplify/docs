@@ -108,23 +108,27 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
         case "docs-card": {
           finalProps.url = route;
 
-          // to satisfy module redirect requirement
-          const urlOverrideForMobileFilter = props[
-            "url-override-for-mobile-filter"
-          ] as string | undefined;
-          if (urlOverrideForMobileFilter) {
-            const urlOverrideForMobileFilterIsExternal = IS_URL_ABSOLUTE_REGEX.test(
-              urlOverrideForMobileFilter,
-            );
-            const routeOverrideForMobileFilter = urlOverrideForMobileFilterIsExternal
-              ? urlOverrideForMobileFilter
-              : getRoute(urlOverrideForMobileFilter, transformerProps);
-            if (routeOverrideForMobileFilter) {
-              finalProps[
-                "url-override-for-mobile-filter"
-              ] = routeOverrideForMobileFilter;
+          [
+            "url-override-for-mobile-filter",
+            "url-override-for-ios-filter",
+            "url-override-for-android-filter",
+            "url-override-for-js-filter",
+          ].forEach((routeOverrideKey) => {
+            const routeOverrideValue = props[routeOverrideKey] as
+              | string
+              | undefined;
+            if (routeOverrideValue) {
+              const routeOverrideIsExternal = IS_URL_ABSOLUTE_REGEX.test(
+                routeOverrideValue,
+              );
+              const routeOverrideForMobileFilter = routeOverrideIsExternal
+                ? routeOverrideValue
+                : getRoute(routeOverrideValue, transformerProps);
+              if (routeOverrideForMobileFilter) {
+                finalProps[routeOverrideKey] = routeOverrideForMobileFilter;
+              }
             }
-          }
+          });
 
           break;
         }

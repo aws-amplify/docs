@@ -21,7 +21,7 @@ export async function filtersByRoute(
                         platform: ["ios", "android"],
                       })
                     : JSON.stringify({
-                        [filterKey]: ctx.config.filters[filterKey],
+                        [filterKey]: page.filters?.[filterKey],
                       })
                   : undefined;
               })()

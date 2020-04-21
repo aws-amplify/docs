@@ -52,6 +52,7 @@ export const updateDocumentHead = (page: Page): void => {
   createOgTag("og:description", page.description);
   createOgTag("og:url", window.location.href);
   createOgTag("og:image", "https://docs.amplify.aws/assets/ogp.jpg");
+
   createTwitterTag("twitter:card", `summary`);
   createTwitterTag("twitter:title", title);
   createTwitterTag("twitter:description", page.description);
