@@ -50,6 +50,7 @@ export const injectMenu = (ctx: t.Ctx): void => {
               `Ran into problems resolving "${pagePath}", referenced from "${nestedMenuPath}"`,
             );
           }
+          page.sectionTitle = nestedMenu.title;
 
           // create and return the page link
           return createPageLink(page);
