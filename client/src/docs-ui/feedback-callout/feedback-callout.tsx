@@ -28,7 +28,7 @@ export class DocsFeedbackCallout {
     return (
       <Host class={{[hostStyle]: true, [displayStyle]: !this.dismissed}}>
         <amplify-external-link
-          href={`https://github.com/aws-amplify/docs/issues/new?title=[v2-feedback]&labels=v2&body=${encodeURI(
+          href={`https://github.com/aws-amplify/docs/issues/new?title=[feedback]&labels=v2&body=${encodeURI(
             `**Page**: [\`${location.href}\`](${location.href})
 
 **Feedback**: <!-- your feedback here -->
