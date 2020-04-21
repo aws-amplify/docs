@@ -176,90 +176,93 @@ export class DocsPage {
               brand-icon="/assets/logo-light.svg"
               brand-icon-blend="/assets/logo-dark.svg"
             />
-            {!this.pageData?.noTemplate
-              ? [
+            {this.pageData && this.pageData.noTemplate
+              ? createVNodesFromHyperscriptNodes(this.pageData.body)
+              : [
                   <docs-secondary-nav />,
-                  <div class={sidebarLayoutStyle}>
-                    <amplify-toc-provider>
-                      <amplify-sidebar-layout>
-                        {this.showMenu() && (
-                          <amplify-sidebar-layout-sidebar
-                            slot="sidebar"
-                            top={this.sidebarStickyTop}
-                          >
-                            <docs-menu
-                              filterKey={this.filterKey}
-                              page={this.pageData}
-                              key={this.pageData?.productRootLink?.route}
-                            />
-                          </amplify-sidebar-layout-sidebar>
-                        )}
-                        {this.requiresFilterSelection() ? (
-                          <amplify-sidebar-layout-main slot="main">
-                            <amplify-toc-contents>
-                              {this.filterKey === "integration" ? (
-                                <docs-choose-integration-anchor
-                                  page={this.pageData}
-                                />
-                              ) : (
-                                <docs-choose-anchor page={this.pageData} />
-                              )}
-                            </amplify-toc-contents>
-                          </amplify-sidebar-layout-main>
-                        ) : (
-                          [
-                            <amplify-sidebar-layout-main
-                              slot="main"
-                              class={mainStyle}
+                  this.pageData ? (
+                    <div class={sidebarLayoutStyle}>
+                      <amplify-toc-provider>
+                        <amplify-sidebar-layout>
+                          {this.showMenu() && (
+                            <amplify-sidebar-layout-sidebar
+                              slot="sidebar"
+                              top={this.sidebarStickyTop}
                             >
+                              <docs-menu
+                                filterKey={this.filterKey}
+                                page={this.pageData}
+                                key={this.pageData?.productRootLink?.route}
+                              />
+                            </amplify-sidebar-layout-sidebar>
+                          )}
+                          {this.requiresFilterSelection() ? (
+                            <amplify-sidebar-layout-main slot="main">
                               <amplify-toc-contents>
-                                {this.pageData && [
-                                  <h1>{this.pageData.title}</h1>,
-                                  createVNodesFromHyperscriptNodes(
-                                    this.pageData.body,
-                                  ),
-                                  <docs-next-previous
-                                    key={this.pageData.route}
+                                {this.filterKey === "integration" ? (
+                                  <docs-choose-integration-anchor
                                     page={this.pageData}
-                                  />,
-                                ]}
-                              </amplify-toc-contents>
-                              <amplify-sidebar-layout-toggle
-                                onClick={ensureMenuScrolledIntoView}
-                                in-view-class="in-view"
-                                class={{
-                                  "three-dee-effect": true,
-                                  [sidebarToggleClass]: true,
-                                }}
-                              >
-                                <img
-                                  class="burger-graphic"
-                                  src="/assets/burger.svg"
-                                />
-                                <img
-                                  class="ex-graphic"
-                                  src="/assets/close.svg"
-                                />
-                              </amplify-sidebar-layout-toggle>
-                            </amplify-sidebar-layout-main>,
-                            !this.pageData?.disableTOC && (
-                              <div slot="toc" class={tocStyle}>
-                                <div>
-                                  <amplify-toc
-                                    pageTitle={this.pageData?.title}
                                   />
+                                ) : (
+                                  <docs-choose-anchor page={this.pageData} />
+                                )}
+                              </amplify-toc-contents>
+                            </amplify-sidebar-layout-main>
+                          ) : (
+                            [
+                              <amplify-sidebar-layout-main
+                                slot="main"
+                                class={mainStyle}
+                              >
+                                <amplify-toc-contents>
+                                  {this.pageData && [
+                                    <h1>{this.pageData.title}</h1>,
+                                    createVNodesFromHyperscriptNodes(
+                                      this.pageData.body,
+                                    ),
+                                    <docs-next-previous
+                                      key={this.pageData.route}
+                                      page={this.pageData}
+                                    />,
+                                  ]}
+                                </amplify-toc-contents>
+                                <amplify-sidebar-layout-toggle
+                                  onClick={ensureMenuScrolledIntoView}
+                                  in-view-class="in-view"
+                                  class={{
+                                    "three-dee-effect": true,
+                                    [sidebarToggleClass]: true,
+                                  }}
+                                >
+                                  <img
+                                    class="burger-graphic"
+                                    src="/assets/burger.svg"
+                                  />
+                                  <img
+                                    class="ex-graphic"
+                                    src="/assets/close.svg"
+                                  />
+                                </amplify-sidebar-layout-toggle>
+                              </amplify-sidebar-layout-main>,
+                              !this.pageData?.disableTOC && (
+                                <div slot="toc" class={tocStyle}>
+                                  <div>
+                                    <amplify-toc
+                                      pageTitle={this.pageData?.title}
+                                    />
+                                  </div>
                                 </div>
-                              </div>
-                            ),
-                          ]
-                        )}
-                      </amplify-sidebar-layout>
-                    </amplify-toc-provider>
-                  </div>,
+                              ),
+                            ]
+                          )}
+                        </amplify-sidebar-layout>
+                      </amplify-toc-provider>
+                    </div>
+                  ) : (
+                    <docs-four-o-four />
+                  ),
                   <docs-footer />,
-                ]
-              : this.pageData &&
-                createVNodesFromHyperscriptNodes(this.pageData.body)}
+                ]}
             <docs-chat-button />
           </pageContext.Provider>
         </Host>

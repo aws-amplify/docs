@@ -177,6 +177,8 @@ export namespace Components {
     }
     interface DocsFooter {
     }
+    interface DocsFourOFour {
+    }
     interface DocsInPageLink {
         /**
           * * the selected filter state
@@ -459,6 +461,12 @@ declare global {
         prototype: HTMLDocsFooterElement;
         new (): HTMLDocsFooterElement;
     };
+    interface HTMLDocsFourOFourElement extends Components.DocsFourOFour, HTMLStencilElement {
+    }
+    var HTMLDocsFourOFourElement: {
+        prototype: HTMLDocsFourOFourElement;
+        new (): HTMLDocsFourOFourElement;
+    };
     interface HTMLDocsInPageLinkElement extends Components.DocsInPageLink, HTMLStencilElement {
     }
     var HTMLDocsInPageLinkElement: {
@@ -578,6 +586,7 @@ declare global {
         "docs-feedback-callout": HTMLDocsFeedbackCalloutElement;
         "docs-filter-target": HTMLDocsFilterTargetElement;
         "docs-footer": HTMLDocsFooterElement;
+        "docs-four-o-four": HTMLDocsFourOFourElement;
         "docs-in-page-link": HTMLDocsInPageLinkElement;
         "docs-internal-link": HTMLDocsInternalLinkElement;
         "docs-internal-link-button": HTMLDocsInternalLinkButtonElement;
@@ -762,6 +771,8 @@ declare namespace LocalJSX {
     }
     interface DocsFooter {
     }
+    interface DocsFourOFour {
+    }
     interface DocsInPageLink {
         /**
           * * the selected filter state
@@ -933,6 +944,7 @@ declare namespace LocalJSX {
         "docs-feedback-callout": DocsFeedbackCallout;
         "docs-filter-target": DocsFilterTarget;
         "docs-footer": DocsFooter;
+        "docs-four-o-four": DocsFourOFour;
         "docs-in-page-link": DocsInPageLink;
         "docs-internal-link": DocsInternalLink;
         "docs-internal-link-button": DocsInternalLinkButton;
@@ -977,6 +989,7 @@ declare module "@stencil/core" {
             "docs-feedback-callout": LocalJSX.DocsFeedbackCallout & JSXBase.HTMLAttributes<HTMLDocsFeedbackCalloutElement>;
             "docs-filter-target": LocalJSX.DocsFilterTarget & JSXBase.HTMLAttributes<HTMLDocsFilterTargetElement>;
             "docs-footer": LocalJSX.DocsFooter & JSXBase.HTMLAttributes<HTMLDocsFooterElement>;
+            "docs-four-o-four": LocalJSX.DocsFourOFour & JSXBase.HTMLAttributes<HTMLDocsFourOFourElement>;
             "docs-in-page-link": LocalJSX.DocsInPageLink & JSXBase.HTMLAttributes<HTMLDocsInPageLinkElement>;
             "docs-internal-link": LocalJSX.DocsInternalLink & JSXBase.HTMLAttributes<HTMLDocsInternalLinkElement>;
             "docs-internal-link-button": LocalJSX.DocsInternalLinkButton & JSXBase.HTMLAttributes<HTMLDocsInternalLinkButtonElement>;
