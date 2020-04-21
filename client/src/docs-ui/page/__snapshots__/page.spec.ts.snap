@@ -9,6 +9,7 @@ exports[`docs-page Render logic should render 1`] = `
       <amplify-sidebar-layout>
         <amplify-sidebar-layout-main class="css-1j9n6qe" slot="main">
           <amplify-toc-contents>
+            <h1 class="css-6lyrbv"></h1>
             <h1></h1>
             <docs-next-previous></docs-next-previous>
           </amplify-toc-contents>
