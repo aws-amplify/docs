@@ -6,7 +6,6 @@ import {
   menuBreakStyle,
   productRootLink,
 } from "./menu.style";
-import {getFilterKeyFromPage} from "../../utils/filters";
 import {pageContext} from "../page/page.context";
 import {SelectedFilters} from "../page/page.types";
 
