@@ -48,6 +48,11 @@
 
 {% if site.amplify.header.logo.text or site.amplify.header.logo.image or site.amplify.header.nav %}
 <header class="site-header docs-header">
+	{% if page.canonical %}
+	<div class="move-banner">
+		<b>Our docs are moving! New docs available at <a href="{{ page.canonical }}">docs.amplify.aws</a></b>
+	</div>
+	{% endif %}
 	<div class="container site-header-container">
 		<div class="row">
 			<div class="visible-xs toggle-button-container" id="toggle-button-container">
