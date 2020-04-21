@@ -41,6 +41,9 @@ For client authorization, AppSync supports API Keys, Amazon IAM credentials (we 
 API Key is the easiest way to set up and prototype your application with AppSync. It’s also a good option if your application is completely public. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials provided by Cognito Identity Pools, which also supports “Guest” access. See the authentication section for more details. For manual configuration, add the following snippet to your aws-exports.js file:
 
 ```js
+import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
+import awsconfig from './aws-exports';
+
 const client = new AWSAppSyncClient({
   url: awsconfig.aws_appsync_graphqlEndpoint,
   region: awsconfig.aws_appsync_region,
@@ -58,6 +61,7 @@ Amazon Cognito User Pools is the most common service to use with AppSync when ad
 
 ```js
 import Amplify, { Auth } from 'aws-amplify';
+import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
@@ -86,6 +90,7 @@ When using AWS IAM in a mobile application you should leverage Amazon Cognito Id
 
 ```js
 import Amplify, { Auth } from 'aws-amplify';
+import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
@@ -115,6 +120,7 @@ If you are using a 3rd party OIDC provider you will need to configure it and man
 
 ```js
 import Amplify, { Auth } from 'aws-amplify';
+import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
