@@ -20,9 +20,13 @@ export async function filtersByRoute(
                     return JSON.stringify({
                       platform: ["ios", "android"],
                     });
-                  } else {
+                  } else if (page.filters) {
                     return JSON.stringify({
                       [filterKey]: page.filters?.[filterKey],
+                    });
+                  } else if (page.filterKey) {
+                    return JSON.stringify({
+                      [filterKey]: config.filters?.[filterKey],
                     });
                   }
                 }

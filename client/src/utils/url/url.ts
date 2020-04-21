@@ -49,5 +49,7 @@ export const serializeURL = (pieces: ParsedURL): string => {
     serialized += pieces.hash;
   }
 
+  console.log(serialized);
+
   return serialized;
 };
