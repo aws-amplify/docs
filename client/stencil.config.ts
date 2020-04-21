@@ -3,12 +3,7 @@ import nodePolyfills from "rollup-plugin-node-polyfills";
 import {sass} from "@stencil/sass";
 
 export const config: Config = {
-  // extras: {
-  //   appendChildSlotFix: true,
-  //   slotChildNodesFix: true,
-  //   shadowDomShim: true,
-  // },
-  taskQueue: "async",
+  taskQueue: "congestionAsync",
   devServer: {
     reloadStrategy: "pageReload",
   },

@@ -11,15 +11,6 @@ const linkTags = {
   "docs-in-page-link": true,
 };
 
-const validLinkExtensions = {
-  svg: true,
-  jpg: true,
-  jpeg: true,
-  png: true,
-  gif: true,
-  md: true,
-};
-
 const getRoute = (
   url: string,
   transformerProps: t.TransformerProps,

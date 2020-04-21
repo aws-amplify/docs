@@ -15,15 +15,17 @@ export async function filtersByRoute(
           page?.filterKey
             ? ((): string | undefined => {
                 const filterKey = page?.filterKey as string | undefined;
-                return filterKey
-                  ? page.route.includes("/sdk")
-                    ? JSON.stringify({
-                        platform: ["ios", "android"],
-                      })
-                    : JSON.stringify({
-                        [filterKey]: page.filters?.[filterKey],
-                      })
-                  : undefined;
+                if (filterKey) {
+                  if (page.route.includes("/sdk")) {
+                    return JSON.stringify({
+                      platform: ["ios", "android"],
+                    });
+                  } else {
+                    return JSON.stringify({
+                      [filterKey]: page.filters?.[filterKey],
+                    });
+                  }
+                }
               })()
             : undefined
         }],\n`);
