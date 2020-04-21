@@ -1,5 +1,6 @@
 ---
 title: Getting Started
+canonical: https://docs.amplify.aws/lib/getting-started/setup?platform=ios
 ---
 
 <br />

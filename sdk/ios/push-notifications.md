@@ -1,5 +1,6 @@
 ---
 title: Push Notifications
+canonical: https://docs.amplify.aws/sdk/push-notifications/getting-started?platform=ios
 ---
 
 {% if jekyll.environment == 'production' %}
@@ -59,9 +60,9 @@ Use the following steps to connect add push notification backend services to you
     target :'YOUR-APP-NAME' do
       use_frameworks!
 
-        pod  'AWSPinpoint', '~> 2.12.0'
+        pod  'AWSPinpoint', '~> 2.13.0'
         # other pods
-        pod  'AWSMobileClient', '~> 2.12.0'
+        pod  'AWSMobileClient', '~> 2.13.0'
     end
     ```
 

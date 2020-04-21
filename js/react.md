@@ -1,4 +1,5 @@
 ---
+canonical: https://docs.amplify.aws/start?integration=react
 ---
 
 # React & React Native
@@ -76,6 +77,12 @@ import awsconfig from './aws-exports';
 import { withAuthenticator } from 'aws-amplify-react'; // or 'aws-amplify-react-native';
 
 Amplify.configure(awsconfig);
+```
+
+As of `aws-amplify-react@4.x.x`, the Authenticator is not styled. To include default styling in JavaScript, add this line before `Amplify.configure`:
+
+```javascript
+import '@aws-amplify/ui/dist/style.css';
 ```
 
 Wrap the default `App` component using `withAuthenticator` at the bottom of the file as follows:

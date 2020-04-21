@@ -1,5 +1,6 @@
 ---
 title: Storage
+canonical: https://docs.amplify.aws/sdk/storage/getting-started?platform=ios
 ---
 
 <br />
@@ -83,10 +84,10 @@ Use the following steps to add file storage backend services to your app.
     target :'YOUR-APP-NAME' do
         use_frameworks!
 
-        pod 'AWSS3', '~> 2.12.0'   # For file transfers
+        pod 'AWSS3', '~> 2.13.0'   # For file transfers
 
         # other pods . . .
-        pod 'AWSMobileClient', '~> 2.12.0'
+        pod 'AWSMobileClient', '~> 2.13.0'
     end
     ```
 

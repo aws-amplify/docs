@@ -1,5 +1,6 @@
 ---
 title: API
+canonical: https://docs.amplify.aws/sdk/api/graphql?platform=ios
 ---
 {% if jekyll.environment == 'production' %}
   {% assign base_dir = site.amplify.docs_baseurl %}
@@ -975,7 +976,7 @@ Add `AWSAPIGateway` to your Podfile:
 	  use_frameworks!
 
 	     # For API
-	     pod 'AWSAPIGateway', '~> 2.12.0'
+	     pod 'AWSAPIGateway', '~> 2.13.0'
 	     # other pods
 	end
 ```
