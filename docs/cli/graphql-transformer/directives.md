@@ -1827,7 +1827,7 @@ longer needed.
 
 ## @versioned
 
-The `@versioned` directive adds object versioning and conflict resolution to a type.
+The `@versioned` directive adds object versioning and conflict resolution to a type. Do not use this directive when leveraging DataStore as the conflict detection and resolution features are automatically handled inside AppSync and are incompatible with the `@versioned` directive.
 
 ### Definition
 
@@ -1908,8 +1908,9 @@ The `@versioned` directive manipulates resolver mapping templates and will store
 
 ## @searchable
 
-The `@searchable` directive handles streaming the data of an `@model` object type to
-Amazon Elasticsearch Service and configures search resolvers that search that information.
+The `@searchable` directive handles streaming the data of an `@model` object type to Amazon Elasticsearch Service and configures search resolvers that search that information. 
+
+> **Note**: `@searchable` is not compatible with DataStore but you can use it with the API category. 
 
 > **Note**: Support for adding the `@searchable` directive does not yet provide automatic indexing for any existing data to Elasticsearch. View the feature request [here](https://github.com/aws-amplify/amplify-cli/issues/98).
 
