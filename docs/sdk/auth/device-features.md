@@ -1,6 +1,6 @@
 ---
 title: Device features
-description: description
+description: You can use the device related features of Amazon Cognito UserPools by enabling the Devices features.
 ---
 
 <inline-fragment platform="ios" src="~/sdk/auth/fragments/ios/device-features.md"></inline-fragment>

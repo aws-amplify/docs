@@ -1,6 +1,6 @@
 ---
 title: Setting up push notification services
-description: Setting Push Notifications
+description: Learn how to setup the various push notification services for your mobile app.
 ---
 
 <inline-fragment platform="ios" src="~/sdk/push-notifications/fragments/ios/setup-apns.md"></inline-fragment>

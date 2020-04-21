@@ -1,6 +1,6 @@
 ---
 title: Build options
-description: Build options for Amplify
+description: Use build options for Amplify's function category to execute a script before a function is deployed, e.g. to transpile Typescript or ES6 with Babel into a format that is supported by the AWS Lambda's node runtime.
 ---
 
 In some cases, it might be necessary to execute a script before a function is deployed, e.g. to transpile Typescript or ES6 with Babel into a format that is supported by the AWS Lambda's node runtime. `amplify push` will look for a `script` definition in the project root's `package.json` with the name `amplify:<resource_name>` and run it right after `npm install` is canned in the function resource's `src` directory.

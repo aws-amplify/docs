@@ -1,6 +1,6 @@
 ---
 title: Deploy and host app
-description: Introduction
+description: Getting Started with Amplify Framework - how to host & deploy your web app
 filterKey: integration
 ---
 

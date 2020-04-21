@@ -1,6 +1,6 @@
 ---
 title: Identify entities from images
-description: desc
+description: Learn more about how to identify entities from an image using Amplify.
 ---
 
 <inline-fragment platform="js" src="~/lib/predictions/fragments/js/identify-entity.md"></inline-fragment>

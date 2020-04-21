@@ -1,6 +1,6 @@
 ---
 title: Add API and database
-description: Description
+description: Getting Started with Amplify Libraries - how to add API and database to your app.
 ---
 
 <inline-fragment platform="ios" src="~/lib/getting-started/fragments/ios/add-api.md"></inline-fragment>

@@ -1,6 +1,6 @@
 ---
 title: Getting started
-description: Getting Started
+description: Getting Started with Amplify Framework
 disableTOC: true
 filterKey: integration
 ---

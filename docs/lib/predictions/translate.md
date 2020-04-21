@@ -1,6 +1,6 @@
 ---
 title: Translate language
-description: desc
+description: Learn more about how to integrate translation capabilities for your application using Amplify
 ---
 
 <inline-fragment platform="js" src="~/lib/predictions/fragments/js/translate.md"></inline-fragment>

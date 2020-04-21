@@ -1,6 +1,6 @@
 ---
 title: Overview
-description: hosting
+description: Deploy and host your app using either Amplify Console or Amazon CloudFront/S3. The Amplify Console offers fully managed hosting with features such as instant cache invalidation and atomic deploys.
 ---
 
 Deploy and host your app using either Amplify Console or Amazon CloudFront/S3. The Amplify Console offers fully managed hosting with features such as instant cache invalidation and atomic deploys. For more control with setting up a CDN and hosting buckets, use CloudFront and S3.

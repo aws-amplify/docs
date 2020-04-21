@@ -1,6 +1,6 @@
 ---
 title: List files
-description: Get started with Storage category in Amplify
+description: Learn more about how to list all of the uploaded objects using Amplify Framework's storage category.
 ---
 
 <inline-fragment platform="js" src="~/lib/storage/fragments/js/list.md"></inline-fragment>

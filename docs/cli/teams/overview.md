@@ -1,6 +1,6 @@
 ---
 title: Overview
-description: auth
+description: Every Amplify backend environment is a container for the categories added to your project. For multiple environments, Amplify matches the standard Git workflow where you switch between different branches using familiar commands.
 ---
 
 When you initialize a project, you create an Amplify backend environment. Every Amplify backend environment is a container for the categories added to your project. To deploy updates to an environment, run `amplify push`. In teams where multiple members are working on the same backend, it is good practice to run `amplify pull` to fetch changes from upstream before beginning work on new backend features. View the list of backend environments in your cloud project by visiting the [Amplify Console](https://console.aws.amazon.com/amplify).

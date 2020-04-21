@@ -1,6 +1,6 @@
 ---
 title: Getting started
-description: description
+description: Amplify DataStore provides a programming model for leveraging shared and distributed data without writing additional code for offline and online scenarios, which makes working with distributed, cross-user data just as simple as working with local-only data.
 ---
 
 ## Datastore with Amplify

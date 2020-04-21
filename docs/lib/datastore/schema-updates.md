@@ -1,6 +1,6 @@
 ---
 title: Schema updates
-description: description
+description: Learn more about how to issue schema updates for DataStore
 ---
 
 ## Update the schema

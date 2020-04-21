@@ -1,6 +1,6 @@
 ---
 title: AWS Mobile SDK
-description: SDK landing page
+description: The AWS Mobile SDK for Android enables you to build mobile apps by providing simplified APIs for AWS services such as Amazon Cognito, Amazon S3, AWS AppSync and more.
 filterKey: platform
 disableTOC: true
 ---
