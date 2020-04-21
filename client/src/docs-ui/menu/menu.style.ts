@@ -52,3 +52,7 @@ export const verticalGapStyle = css`
   width: 100%;
   height: 2rem;
 `;
+
+export const activeLinkStyle = css`
+  background-color: var(--bg-color-hover);
+`;

@@ -5,6 +5,7 @@ import {
   menuItemContainerStyle,
   menuBreakStyle,
   productRootLink,
+  activeLinkStyle,
 } from "./menu.style";
 import {pageContext} from "../page/page.context";
 import {SelectedFilters} from "../page/page.types";
@@ -95,6 +96,7 @@ export class DocsMenu {
             <docs-internal-link
               href={this.page.productRootLink.route}
               class={productRootLink}
+              activeClass={activeLinkStyle}
             >
               {this.page.productRootLink.title}
             </docs-internal-link>
