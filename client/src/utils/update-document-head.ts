@@ -1,14 +1,25 @@
 import {Build} from "@stencil/core";
 import {Page} from "../api";
 
+const ROOT_TITLE = "Amplify Framework Docs";
+const BASE_PAGE_TITLE = "Amplify Docs";
+
+function getPageTitle(page) {
+  if (page.title) {
+    if (page.sectionTitle) {
+      return `${page.sectionTitle} - ${page.title} - ${BASE_PAGE_TITLE}`;
+    }
+    return `${page.title} - ${BASE_PAGE_TITLE}`;
+  }
+  return BASE_PAGE_TITLE;
+}
+
 export const updateDocumentHead = (page: Page): void => {
-  let title = ""
+  let title = "";
   if (page.route === "/") {
-    title = "Amplify Framework Docs"
+    title = ROOT_TITLE;
   } else {
-    title = page.sectionTitle
-      ? `${page.sectionTitle} - ${page.title} - Amplify Docs`
-      : `${page.title} - Amplify Docs`
+    title = getPageTitle(page);
   }
   document.title = title;
 
