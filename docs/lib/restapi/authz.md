@@ -1,6 +1,6 @@
 ---
 title: Define authorization rules
-description: description
+description: Learn more about how to define authorization rules for Amplify's REST API capabilities
 ---
 
 <inline-fragment platform="js" src="~/lib/restapi/fragments/js/authz.md"></inline-fragment>

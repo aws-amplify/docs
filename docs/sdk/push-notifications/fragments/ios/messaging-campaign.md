@@ -3,9 +3,9 @@ For instance, you could email users that have not used the app in 30 days, or se
 
 The following steps show how to receive push notifications targeted for your app.
 
-1. To receive Amazon Pinpoint push notification to your app, you'll use `pinpoint.notificationManager` to intercept the registration of the app for notifications in the `application(_:didRegisterForRemoteNotificationsWithDeviceToken:)` application call back in AppDelegate.
+1. To receive Amazon Pinpoint push notification to your app, you'll use `pinpoint.notificationManager` to intercept the registration of the app for notifications in the [`application(_:didRegisterForRemoteNotificationsWithDeviceToken:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622958-application) application call back in AppDelegate.
 
-    Then add and call a function like `registerForPushNotifications()` to prompt permission from the user for the app to use notifications. The following example uses the `UNUserNotification` framework, which is available in iOS 10.0+. Choose the right location in your app to prompt the user for permissions. In the following example the call is implemented in the `application(_:didFinishLaunchingWithOptions:)` event in AppDelegate. This causes the prompt to appear when the app launches.
+    Then add and call a function like [`registerForPushNotifications()`](https://developer.apple.com/documentation/uikit/uiapplication/1623078-registerforremotenotifications) to prompt permission from the user for the app to use notifications. The following example uses the [`UNUserNotificationCenter`](https://developer.apple.com/documentation/usernotifications/unusernotificationcenter) framework, which is available in iOS 10.0+. Choose the right location in your app to prompt the user for permissions. In the following example the call is implemented in the [`application(_:didFinishLaunchingWithOptions:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622921-application) event in AppDelegate. This causes the prompt to appear when the app launches.
 
     ```swift
     import UserNotifications
@@ -42,8 +42,8 @@ The following steps show how to receive push notifications targeted for your app
 
             if (application.applicationState == .active) {
                 let alert = UIAlertController(title: "Notification Received",
-                                            message: userInfo.description,
-                                            preferredStyle: .alert)
+                                              message: userInfo.description,
+                                              preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
 
                 UIApplication.shared.keyWindow?.rootViewController?.present(
@@ -70,7 +70,7 @@ The following steps show how to receive push notifications targeted for your app
     }
     ```
 
-    **Note**: If you already have push notification delegate methods, you can just add the `interceptDidRegisterForRemoteNotifications` and `interceptDidReceiveRemoteNotification` callbacks to Pinpoint client.
+    **Note**: If you already have push notification delegate methods, you can just add the [`interceptDidRegisterForRemoteNotificationsWithDeviceToken:`](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/AWSPinpoint/Classes/AWSPinpointNotificationManager.html#/c:objc(cs)AWSPinpointNotificationManager(im)interceptDidRegisterForRemoteNotificationsWithDeviceToken:) and [`interceptDidReceiveRemoteNotification:fetchCompletionHandler:`](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/AWSPinpoint/Classes/AWSPinpointNotificationManager.html#/c:objc(cs)AWSPinpointNotificationManager(im)interceptDidReceiveRemoteNotification:fetchCompletionHandler:) callbacks to Pinpoint client.
 
 1. In Xcode Project Navigator, choose your app name at the top, choose your app name under **Targets**, choose the **Capabilities** tab, and then turn on **Push Notifications**.
 
@@ -105,4 +105,4 @@ The following steps show how to receive push notifications targeted for your app
 
     1. Review the details on the screen, and then choose **Launch Campaign**.
 
-    1. A notification should appear on the iPhone device. You may want to try testing your app receiving notifications when it is in the foreground and when closed.
+    1. A notification should appear on your iPhone. You may want to try testing push notifications when your app is in the foreground as well as when it is closed.

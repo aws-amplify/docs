@@ -1,6 +1,6 @@
 ---
 title: Code generation
-description: Some Description
+description: Amplify's codegen capabilities generates native code for iOS and Android, as well as the generation of types for Flow and TypeScript. It can also generate GraphQL statements(queries, mutations, and subscriptions).
 ---
 
 Codegen helps you generate native code for iOS and Android, as well as the generation of types for Flow and TypeScript. It can also generate GraphQL statements(queries, mutations, and subscriptions) so that you don't have to hand code them.

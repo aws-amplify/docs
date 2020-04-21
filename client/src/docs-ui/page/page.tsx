@@ -16,6 +16,7 @@ import {
   tocStyle,
   sidebarToggleClass,
   mainStyle,
+  sectionHeaderStyle,
 } from "./page.style";
 import {Page, createVNodesFromHyperscriptNodes} from "../../api";
 import {updateDocumentHead} from "../../utils/update-document-head";
@@ -218,6 +219,9 @@ export class DocsPage {
                               >
                                 <amplify-toc-contents>
                                   {this.pageData && [
+                                    <h1 class={sectionHeaderStyle}>
+                                      {this.pageData.sectionTitle}
+                                    </h1>,
                                     <h1>{this.pageData.title}</h1>,
                                     createVNodesFromHyperscriptNodes(
                                       this.pageData.body,

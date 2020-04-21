@@ -1,6 +1,6 @@
 ---
 title: Getting Started
-description: Description 
+description: Learn more about how to add analytics capabilities in your cloud-based application using AWS Amplify.
 ---
 
 <inline-fragment platform="ios" src="~/sdk/analytics/fragments/ios/getting-started.md"></inline-fragment>

@@ -1,5 +1,18 @@
 import {Page} from "../api";
 
+const ROOT_TITLE = "Amplify Framework Docs";
+const BASE_PAGE_TITLE = "Amplify Docs";
+
+function getPageTitle(page: Page) {
+  if (page.title) {
+    if (page.sectionTitle) {
+      return `${page.sectionTitle} - ${page.title} - ${BASE_PAGE_TITLE}`;
+    }
+    return `${page.title} - ${BASE_PAGE_TITLE}`;
+  }
+  return BASE_PAGE_TITLE;
+}
+
 const createOgTag = (type: string, content: string) => {
   let el = document.head.querySelector(`meta[property="${type}"]`);
   if (!el) {
@@ -27,7 +40,14 @@ const createTwitterTag = (type: string, content: string) => {
 };
 
 export const updateDocumentHead = (page: Page): void => {
-  const title = `Amplify Docs –– ${page.title}`;
+  let title = "";
+  if (page.route === "/") {
+    title = ROOT_TITLE;
+  } else {
+    title = getPageTitle(page);
+  }
+  document.title = title;
+
   createOgTag("og:title", title);
   createOgTag("og:description", page.description);
   createOgTag("og:url", window.location.href);

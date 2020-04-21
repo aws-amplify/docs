@@ -95,13 +95,9 @@ When you run `amplify push`, you will be have the option to have all the GraphQL
 
 ```bash
 Do you want to generate code for your newly created GraphQL API (Yes)
-
 Choose the code generation language target (javascript)
-
 Enter the file name pattern of graphql queries, mutations and subscriptions (src/graphql/**/*.js)
-
 Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions (Yes)
-
 Enter maximum statement depth [increase from default if your schema is deeply nested] (2)
 ```
 
@@ -129,127 +125,156 @@ To view services deployed in your project at any time in the AWS Amplify Console
 $ amplify console
 ```
 
-This will open your Amplify app project in the AWS service console. Choose the **API** tab to view your AppSync API. Clicking on the API, will ppen the AWS AppSync console where you can run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
+This will open your Amplify app project in the AWS service console. Choose the **API** tab to view your AppSync API. Clicking on the API, will open the AWS AppSync console where you can run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
 
-## Integrate into your app
+## Connect frontend to API
 
-Update your `main.js` file to configure the library with `Amplify.configure()` like so:
+Next, open __App.vue__.
 
-```javascript
-import Vue from 'vue'
-import App from './App.vue'
+### Writing data with GraphQL mutations
 
-import API from '@aws-amplify/api';
-import PubSub from '@aws-amplify/pubsub';
-import awsconfig from './aws-exports';
-API.configure(awsconfig);
-PubSub.configure(awsconfig);
-
-Vue.config.productionTip = false
-
-new Vue({
-  render: h => h(App),
-}).$mount('#app')
-```
-
-Next, open `App.vue` add data to your database with a mutation by using `API.graphql()`:
+To create a new todo in the database, use the `API.graphql()` operation with the `createTodo` mutation and pass in the data you'd like to write.
 
 ```html
 <template>
   <div id="app">
-    <button @click="createNewTodo">Add Todo</button>
+    <h1>Todo App</h1>
+    <input type="text" v-model="name" placeholder="Todo name">
+    <input type="text" v-model="description" placeholder="Todo description">
+    <button v-on:click="createTodo">Create Todo</button>
   </div>
 </template>
 
 <script>
-import API, {  graphqlOperation } from '@aws-amplify/api';
-// eslint-disable-next-line
-import { createTodo } from "./graphql/mutations";
+import { API } from 'aws-amplify';
+import { createTodo } from './graphql/mutations';
 
 export default {
   name: 'app',
-  methods :{
-    async createNewTodo(){
-      const todo = { name: "Use AppSync" , description: "Realtime and Offline"}
-      await API.graphql(graphqlOperation(createTodo, { input: todo }))
+  data() {
+    return {
+      name: '',
+      description: ''
+    }
+  },
+  methods: {
+    async createTodo() {
+      const { name, description } = this;
+      if (!name || !description) return;
+      const todo = { name, description };
+      await API.graphql({
+        query: createTodo,
+        variables: {input: todo},
+      });
+      this.name = '';
+      this.description = '';
     }
   }
 };
 </script>
 ```
+
+### Reading data with GraphQL queries
 
 To display the data, update `App.vue` to list all the items in the database by importing `listTodos` and then using the `created()` Vue lifecycle method to update the page when a query runs on page load:
 
 ```html
 <template>
   <div id="app">
-    <button @click="createNewTodo">Add Todo</button>
-    <ul>
-      <li v-for="todo in todos" :key="todo.id">
-        {% raw %}{{todo.name}}{% endraw %} - {% raw %}{{todo.description}}{% endraw %}
-      </li>
-    </ul>
+    <h1>Todo App</h1>
+    <input type="text" v-model="name" placeholder="Todo name">
+    <input type="text" v-model="description" placeholder="Todo description">
+    <button v-on:click="createTodo">Create Todo</button>
+    <div v-for="item in todos" :key="item.id">
+      <h3>{{ item.name }}</h3>
+      <p>{{ item.description }}</p>
+    </div>
   </div>
 </template>
 
 <script>
-// other imports
-import { listTodos } from './graphql/queries'
+import { API } from 'aws-amplify';
+import { createTodo } from './graphql/mutations';
+import { listTodos } from './graphql/queries';
 
 export default {
-  name: 'app',
-  data(){
+  name: 'App',
+  async created() {
+    this.getTodos();
+  },
+  data() {
     return {
+      name: '',
+      description: '',
       todos: []
     }
   },
-  methods :{
-    async createNewTodo(){ /* code above */}, 
-    async getData(){
-      const todoData = await API.graphql(graphqlOperation(listTodos))
-      this.todos.push(...this.todos, ...todoData.data.listTodos.items);
+  methods: {
+    async createTodo() {
+      const { name, description } = this;
+      if (!name || !description) return;
+      const todo = { name, description };
+      this.todos = [...this.todos, todo];
+      await API.graphql({
+        query: createTodo,
+        variables: {input: todo},
+      });
+      this.name = '';
+      this.description = '';
+    },
+    async getTodos() {
+      const todos = await API.graphql({
+        query: listTodos
+      });
+      this.todos = todos.data.listTodos.items;
     }
-  },
-  created(){
-    this.getData()
   }
-};
-
+}
 </script>
 ```
+
+### Real-time data with GraphQL subscriptions
 
 Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subscription with `API.graphql()` like so:
 
 ```html
 <script>
 // other imports
-import { onCreateTodo } from './graphql/subscriptions'
+import { onCreateTodo } from './graphql/subscriptions';
 
 export default {
-  name: 'app',
-  data(){
-    return {
-      todos: []
-    }
-  },
-  methods :{
-    async createNewTodo(){  /* code above */ }, 
-    async getData(){  /* code above */ },
-    subscribe(){
-      API.graphql(graphqlOperation(onCreateTodo)).subscribe({
-        next: (eventData) => {
-          const todo = eventData.value.data.onCreateTodo;
-          this.todos.push(todo);
-        }
-      })
-    }
-  },
+  // other functions and properties
   created(){
-    this.getData()
-    this.subscribe()
+    this.getData();
+    this.subscribe();
+  },
+  methods: {
+    // other methods
+    subscribe() {
+      API.graphql({ query: onCreateTodo })
+        .subscribe({
+          next: (eventData) => {
+            let todo = eventData.value.data.onCreateTodo;
+            if (this.todos.some(item => item.name === todo.name)) return; // remove duplications
+            this.todos = [...this.todos, todo];
+          }
+        });
+    }
   }
 };
 </script>
 ```
 
-> The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
+## Using Modular Imports
+
+To reduce bundle size, you can also import only specific categories into your app when you are only using specific features, `API` for example.
+
+```sh
+npm install @aws-amplify/api # Only installs the API category
+```
+
+Import only API:
+
+```
+import API from '@aws-amplify/api';
+```

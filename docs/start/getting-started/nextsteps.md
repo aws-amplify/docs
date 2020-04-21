@@ -1,6 +1,6 @@
 ---
 title: Next steps
-description: Bootstrap a React app and initialize a new Amplify project
+description: Getting Started with Amplify Framework - Next steps
 ---
 🎉 Congratulations! Your app is built, with a realtime backend.
 

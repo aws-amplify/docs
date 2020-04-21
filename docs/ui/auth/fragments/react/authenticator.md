@@ -240,11 +240,11 @@ const App = () => (
 
 ```jsx
 import React from 'react';
-import { AmplifyAuthenticator, AmplifyVerifyContract, AmplifySignOut } from '@aws-amplify/ui-react';
+import { AmplifyAuthenticator, AmplifyVerifyContact, AmplifySignOut } from '@aws-amplify/ui-react';
 
 const App = () => (
   <AmplifyAuthenticator>
-    <AmplifyVerifyContract headerText="My Custom Verify Contact Text" slot="verify-contact"></AmplifyVerifyContract>
+    <AmplifyVerifyContact headerText="My Custom Verify Contact Text" slot="verify-contact"></AmplifyVerifyContact>
 
     <div>
       My App
@@ -278,24 +278,7 @@ const App = () => (
 
 <ui-component-props tag="amplify-greetings"></ui-component-props>
 
-### withAuthenticator
-
-The `withAuthenticator` is a higher-order component (HoC) that wraps `AmplifyAuthenticator`.
-
-**Usage**
-```jsx
-import React from 'react';
-import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
-
-const App = () => (
-  <div>
-    <AmplifySignOut></AmplifySignOut>
-    My App
-  </div>
-);
-
-export withAuthenticator(App);
-```
+<inline-fragment src="~/ui/auth/fragments/react/withauthenticator.md"></inline-fragment>
 
 You can also pass in any of the [AmplifyAuthenticator props](#props-amplify-authenticator):
 
@@ -338,7 +321,7 @@ To migrate from using the `aws-amplify-react` library to the latest `@aws-amplif
 
 ```diff
 - import { Authenticator } from 'aws-amplify-react';
-+ import { AmplifyAuthenticator } from '@aws-amplify/ui-react';
++ import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 
 const App = () => (
 

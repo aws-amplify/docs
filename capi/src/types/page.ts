@@ -12,6 +12,7 @@ export interface PageLink {
 export type Direction = "next" | "previous";
 
 export interface Page extends PageLink {
+  sectionTitle?: string;
   productRootLink?: PageLink;
   relativeToContentDir: string;
   versions?: Record<string, string>;

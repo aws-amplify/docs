@@ -1,6 +1,6 @@
 ---
 title: Subscribe to data
-description: description
+description: Learn more about how to observe to data changes using subscriptions in Amplify.
 ---
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/subscribe-data.md"></inline-fragment>

@@ -1,6 +1,6 @@
 ---
 title: Mocking and testing
-description: Landing page for the Amplify CLI
+description: Learn how to quickly test and debug without pushing all changes in your Amplify project to the cloud. Use local mocking and testing for certain categories including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), and Functions (AWS Lambda). 
 ---  
 
 It is highly recommended that you complete the Getting Started section of Amplify setup before using local mocking.

@@ -1,6 +1,6 @@
 ---
 title: Configure authorization modes
-description: description
+description: Learn more about how to configure authorization modes in Amplify Framework's API category
 ---
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz.md"></inline-fragment>

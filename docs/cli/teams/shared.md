@@ -1,6 +1,6 @@
 ---
 title: Share single environment
-description: auth
+description: Learn the recommended workflow for multiple team members sharing a single Amplify environment.
 ---
 
 You have two independent environments (master & dev) in the cloud and have corresponding git branches with your amplify backend infrastructure code on Git. Suppose all team members want to work on the same Amplify project and push backend related changes to the same dev environment to test their changes. Each team member would run the following:
