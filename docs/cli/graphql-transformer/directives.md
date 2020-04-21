@@ -487,7 +487,7 @@ type Draft @model
     { allow: owner },
 
     # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
-    { allow: owner, ownerField: "editors", operations: [update] }
+    { allow: owner, ownerField: "editors", operations: [update, read] }
   ]) {
   id: ID!
   title: String!
