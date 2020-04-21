@@ -1,6 +1,6 @@
 ---
 title: Amplify Libraries
-description: Feature offerings
+description: The Amplify open-source client libraries provide use-case centric, opinionated, declarative, and easy-to-use interfaces across different categories of cloud powered operations enabling mobile and web developers to easily interact with their backends. 
 disableTOC: true
 filterKey: platform
 ---

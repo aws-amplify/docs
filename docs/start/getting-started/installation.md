@@ -1,6 +1,6 @@
 ---
 title: Prerequisites
-description: Introduction
+description: Getting Started with Amplify Framework - Prerequisites
 filterKey: integration
 ---
 Before we begin, make sure you have the following installed:

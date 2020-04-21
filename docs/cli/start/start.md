@@ -1,6 +1,6 @@
 ---
 title: Typical workflow
-description: Quickstart
+description: How to initialize a new Amplify project and other typical Amplify CLI workflows & commands.
 ---
 
 ## Initialize new project

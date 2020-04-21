@@ -1,6 +1,6 @@
 ---
 title: Generate model files
-description: Description
+description: Getting Started with Amplify Libraries - Generate model files
 ---
 
 <inline-fragment platform="ios" src="~/lib/getting-started/fragments/ios/generate-model.md"></inline-fragment>

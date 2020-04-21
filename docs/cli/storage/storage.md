@@ -1,6 +1,6 @@
 ---
 title: Overview
-description: storage
+description: Use Amplify CLI's simple guided workflow to add storage resources such as S3 or DynamoDB to your cloud-based web and mobile apps.
 ---
 
 ## File Storage Lambda Triggers

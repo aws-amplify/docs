@@ -1,6 +1,6 @@
 ---
 title: "Add authentication"
-description: auth
+description: Getting Started with Amplify Framework - how to add auth to your app
 ---
 
 <inline-fragment integration="react" src="~/start/getting-started/fragments/react/auth.md"></inline-fragment>

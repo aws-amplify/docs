@@ -1,6 +1,6 @@
 ---
 title: Commands
-description: auth
+description: Use these Amplify CLI commands to manage a team workflow with multiple environments.
 ---
 
 * amplify env add <br>

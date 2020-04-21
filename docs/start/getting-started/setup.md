@@ -1,6 +1,6 @@
 ---
 title: Set up fullstack project
-description: Bootstrap a React app and initialize a new Amplify project
+description: Getting Started with Amplify Framework - Setup a fullstack project
 ---
 
 <inline-fragment integration="react" src="~/start/getting-started/fragments/react/setup.md"></inline-fragment>

@@ -1,6 +1,6 @@
 ---
 title: Directives
-description: Some Description
+description: Annotate your GraphQL schema with directives to automatically transform it into a fully descriptive CloudFormation template that implements the spec.
 ---
 
 ## @model

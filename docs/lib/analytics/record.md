@@ -1,6 +1,6 @@
 ---
 title: Record events
-description: desc
+description: Learn how to record analytics events using Amplify.
 ---
 
 <inline-fragment platform="js" src="~/lib/analytics/fragments/js/record.md"></inline-fragment>

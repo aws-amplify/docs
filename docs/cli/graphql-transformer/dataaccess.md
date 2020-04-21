@@ -1,6 +1,6 @@
 ---
 title: Data access patterns
-description: Some Description
+description: Learn how to support these 17 common database access patterns using GraphQL, AWS Amplify, and the GraphQL Transform library
 ---
 
 In the [DynamoDB documentation for modeling relational data in a NoSQL database](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-modeling-nosql.html), there is an in depth example of 17 access patterns from the [First Steps for Modeling Relational Data in DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-modeling-nosql.html) page.

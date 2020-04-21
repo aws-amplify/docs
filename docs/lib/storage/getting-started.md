@@ -1,6 +1,6 @@
 ---
 title: Getting started
-description: Get started with Storage category in Amplify
+description: The Amplify Storage category provides a simple mechanism for managing user content for your app in public, protected, or private storage buckets. The Amplify AWS S3 Storage plugin leverages Amazon S3.
 ---
 
 <inline-fragment platform="js" src="~/lib/storage/fragments/js/getting-started.md"></inline-fragment>

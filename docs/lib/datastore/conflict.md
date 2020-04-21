@@ -1,6 +1,6 @@
 ---
 title: Conflict resolution
-description: description
+description: Learn more about how conflict resolution in DataStore is managed and how to configure it.
 ---
 
 ## Setup

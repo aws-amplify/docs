@@ -1,6 +1,6 @@
 ---
 title: Plugin platform
-description: Landing page for the Amplify CLI
+description: Plugins enable you to add additional commands and functionality to existing Amplify CLI. Learn how to create, publish, consume a plugin package.
 ---  
 
 Plugins are explicitly managed in the Amplify CLI pluggable platform. Plugins enable you to add additional commands and functionality to existing Amplify CLI. This section goes through the steps to create, publish, consume a plugin package, explains the folder structure, and key files in the plugin package. 

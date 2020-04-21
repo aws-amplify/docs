@@ -1,6 +1,6 @@
 ---
 title: Getting started
-description: Description
+description: The Analytics category enables you to collect analytics data for your app. The Analytics category comes with built-in support for Amazon Pinpoint and Amazon Kinesis (Kinesis support is currently only available in the Amplify JavaScript library).
 ---
 
 The Analytics category enables you to collect analytics data for your app. The Analytics category comes with built-in support for [Amazon Pinpoint](#using-amazon-pinpoint) and [Amazon Kinesis](#using-amazon-kinesis) (Kinesis support is currently only available in the Amplify JavaScript library).
