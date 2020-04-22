@@ -60,7 +60,7 @@ AWSMobileClient.default().confirmSignIn(challengeResponse: "<Challenge Response>
 
 ### Lambda Trigger Setup
 
-The Amplify CLI can be used to generate triggers required by a custom authentication flow. See the [CLI Documentation](~/cli/auth/triggers.md) for details. The CLI will create a custom auth flow skeleton that you can manually edit. 
+The Amplify CLI can be used to generate triggers required by a custom authentication flow. See the [CLI Documentation](~/cli/usage/lambda-triggers.md) for details. The CLI will create a custom auth flow skeleton that you can manually edit. 
 
 > More information on available triggers can be found in the [Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
 
