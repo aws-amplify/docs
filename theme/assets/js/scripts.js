@@ -79,6 +79,7 @@
 			"/docs/js/authentication#using-components-in-react--react-native": "https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/react-native",
 			"/docs/js/angular#authenticator": "https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/angular",
 			"/docs/js/vue#authentication-components": "https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/vue",
+			"/docs/js/ui-components": "https://docs.amplify.aws/ui",
 		};
 
 		var pathname = location.pathname;
