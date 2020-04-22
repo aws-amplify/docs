@@ -57,7 +57,7 @@ If you had previously enabled user sign-in by running `amplify add auth` in your
 * Choose `Create groups`, and then choose `Finish`.
 
 ##### Lambda Triggers
-The Amplify CLI supports associating Lambda triggers for Amazon S3 and DynamoDB events. This can be useful for a use case where you want to invoke a Lambda function after a create or update operation on a DynamoDB table managed by the CLI. [Read More](~/cli/storage/storage.md)
+The Amplify CLI supports associating Lambda triggers for Amazon S3 and DynamoDB events. This can be useful for a use case where you want to invoke a Lambda function after a create or update operation on a DynamoDB table managed by the CLI. [Read More](~/cli/usage/lambda-triggers.md#s3-lambda-triggers)
 
 ### Connect to Your Backend
 
