@@ -13,16 +13,32 @@ import {
 } from "./select-anchor.style";
 import {SelectedFilters} from "../../docs-ui/page/page.types";
 import {pageContext} from "../../docs-ui/page/page.context";
-import {internalLinkContext} from "../internal-link/internal-link.context";
-import {SetCurrentPath} from "../internal-link/internal-link.types";
+import {parseURL} from "../../utils/url/url";
+
+const rereouteCache = new Map<string, string>();
+
+const rerouteIfNecessary = (path: string) => {
+  if (rereouteCache.has(path)) {
+    return rereouteCache.get(path);
+  }
+  const rerouted = (() => {
+    if (
+      path.includes("/lib") &&
+      (path.includes("/q/platform/ios") || path.includes("/q/platform/android"))
+    ) {
+      return `/sdk/q/platform/${parseURL(path).params?.platform as string}`;
+    }
+    return path;
+  })();
+  rereouteCache.set(path, rerouted);
+  return rerouted;
+};
 
 @Component({tag: "docs-select-anchor"})
 export class DocsSelectAnchor {
   @Element() element: HTMLElement;
   /*** the globally-selected filter state */
   @Prop() readonly selectedFilters?: SelectedFilters;
-  /*** method to update the globally-provided page route */
-  @Prop() readonly setCurrentPath?: SetCurrentPath;
   /** the current page's data */
   @Prop() readonly page?: Page;
 
@@ -31,11 +47,6 @@ export class DocsSelectAnchor {
 
   toggleShowOptions = () => {
     this.showOptions = !this.showOptions;
-  };
-
-  createOnClick = (path: string) => () => {
-    this.setCurrentPath && this.setCurrentPath(path);
-    this.toggleShowOptions();
   };
 
   componentWillLoad() {
@@ -94,8 +105,8 @@ export class DocsSelectAnchor {
                   meta && (
                     <stencil-route-link
                       key={filterValue}
-                      onClick={this.createOnClick(filterRoute)}
-                      url={filterRoute}
+                      url={rerouteIfNecessary(filterRoute)}
+                      onClick={this.toggleShowOptions}
                     >
                       <img src={meta.graphicURI} alt={`${meta.label} Logo`} />
                       <span>{meta.label}</span>
@@ -112,4 +123,3 @@ export class DocsSelectAnchor {
 }
 
 pageContext.injectProps(DocsSelectAnchor, ["selectedFilters"]);
-internalLinkContext.injectProps(DocsSelectAnchor, ["setCurrentPath"]);

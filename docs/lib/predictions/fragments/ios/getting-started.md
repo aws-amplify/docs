@@ -1,7 +1,7 @@
 ## Prerequisites
 
 * An iOS project targeting at least iOS 13.0
-* [Install and configure the Amplify CLI](/cli/start/install)
+* [Install and configure the Amplify CLI](~/cli/start/install.md)
 
 ```bash
 $ npm install -g @aws-amplify/cli

@@ -11,7 +11,6 @@ import {
 } from "./menu-group.style";
 import {pageContext} from "../page/page.context";
 import {SelectedFilters} from "../page/page.types";
-import {internalLinkContext} from "../internal-link/internal-link.context";
 
 @Component({tag: "docs-menu-group", shadow: false})
 export class DocsMenuGroup {
@@ -21,61 +20,13 @@ export class DocsMenuGroup {
   @Prop() readonly filterKey?: string;
   /*** the currently-selected filters */
   @Prop() readonly selectedFilters: SelectedFilters;
-  /*** the current route */
-  @Prop() readonly currentPath: string;
 
-  @State() expanded = false;
+  @State() expanded = false || this.filterKey === "integration";
   @State() itemsToDisplay?: PageLink[];
-
-  /**
-   * given that the entire menu and its parents (up to the route level) are rerendered
-   * on every route change, we cannot store the expanded state in a parent. We could store
-   * it inside of the router component, but we'd still run into issues with returning users.
-   * Best to use the serialized menu as a key and save the state in local storage.
-   */
-  expandedLocalStorageKey?: string;
 
   toggleOpen = () => {
     this.expanded = !this.expanded;
-    if (this.expandedLocalStorageKey) {
-      localStorage.setItem(
-        this.expandedLocalStorageKey,
-        this.expanded ? "true" : "false",
-      );
-    }
   };
-
-  componentWillLoad() {
-    if (this.menuGroup) {
-      this.setItemsToDisplay();
-      this.expandedLocalStorageKey = JSON.stringify(this.menuGroup);
-      if (this.expandedLocalStorageKey) {
-        let expanded = false;
-
-        const retrieved =
-          localStorage.getItem(this.expandedLocalStorageKey) || undefined;
-        if (retrieved) {
-          expanded = retrieved === "true" ? true : false;
-        }
-
-        if (!expanded) {
-          this.menuGroup?.items.forEach(({route}) => {
-            if (route === location.pathname) {
-              expanded = true;
-              if (this.expandedLocalStorageKey) {
-                localStorage.setItem(
-                  this.expandedLocalStorageKey,
-                  this.expanded ? "true" : "false",
-                );
-              }
-            }
-          });
-        }
-
-        this.expanded = expanded || this.filterKey === "integration";
-      }
-    }
-  }
 
   shouldDisplay = ({filters}: PageLink): boolean => {
     return (
@@ -92,14 +43,17 @@ export class DocsMenuGroup {
     );
   };
 
-  // @ts-ignore
-  @Watch("currentPath")
-  // @ts-ignore
   @Watch("menuGroup")
-  // @ts-ignore
   @Watch("selectedFilters")
-  setItemsToDisplay() {
+  componentWillLoad() {
     this.itemsToDisplay = this.menuGroup?.items.filter(this.shouldDisplay);
+    const currentRoute = location.pathname.split("/q/").shift() as string;
+    if (
+      this.itemsToDisplay &&
+      this.itemsToDisplay.some(({route}) => route === currentRoute)
+    ) {
+      this.expanded = true;
+    }
   }
 
   render() {
@@ -139,4 +93,3 @@ export class DocsMenuGroup {
 }
 
 pageContext.injectProps(DocsMenuGroup, ["selectedFilters"]);
-internalLinkContext.injectProps(DocsMenuGroup, ["currentPath"]);

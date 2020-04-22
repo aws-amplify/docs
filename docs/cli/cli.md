@@ -16,11 +16,11 @@ The Amplify CLI makes it easy to provision a new cloud backend with features suc
 ### Data modeling with GraphQL
 At the core of most applications is one thing - the data. Easily being able to model and access data in your app allows you to focus on delivering core features and business value instead of architecting and re-architecting your back end.
 
-The GraphQL Transform library allows you to deploy AWS AppSync GraphQL APIs with features like NoSQL databases, authentication, elasticsearch engines, lambda function resolvers, relationships, authorization, and more using GraphQL schema directives. [Learn more](/cli/graphql-transformer/overview)
+The GraphQL Transform library allows you to deploy AWS AppSync GraphQL APIs with features like NoSQL databases, authentication, elasticsearch engines, lambda function resolvers, relationships, authorization, and more using GraphQL schema directives. [Learn more](~/cli/graphql-transformer/overview.md)
 
 ### Multiple environments
 
-Amplify CLI has support for multiple environments (e.g. dev, qa, and prod). When you initialize a project with the CLI, you create an Amplify backend environment. Every Amplify backend environment is a container for the categories added to your project. You can view all the backend environments as well as the categories added in the Amplify Console. [Learn more](/cli/teams/overview)
+Amplify CLI has support for multiple environments (e.g. dev, qa, and prod). When you initialize a project with the CLI, you create an Amplify backend environment. Every Amplify backend environment is a container for the categories added to your project. You can view all the backend environments as well as the categories added in the Amplify Console. [Learn more](~/cli/teams/overview.md)
 
 ### Infrastructure as code
 
@@ -30,7 +30,7 @@ For example, running `amplify add auth` will bootstrap a CloudFormation template
 
 ### Local mocking 
 
-Amplify supports running a local server for mocking and testing your application before pushing to the cloud with certain categories, including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), Functions (AWS Lambda), and Hosting. After running amplify init you can run the following to start a mock server. [Learn more](/cli/usage/mock)
+Amplify supports running a local server for mocking and testing your application before pushing to the cloud with certain categories, including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), Functions (AWS Lambda), and Hosting. After running amplify init you can run the following to start a mock server. [Learn more](~/cli/usage/mock.md)
 
 ```
 amplify mock

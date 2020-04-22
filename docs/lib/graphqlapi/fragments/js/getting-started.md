@@ -48,7 +48,7 @@ amplify push
 
 Now the API has been deployed and you can start using it.
 
-Because the `Todo` type was decorated with an `@model` directive of the [GraphQL Transform](/cli/graphql-transformer/directives) library, the CLI created the additional schema and resolvers for queries, mutations, and subscriptions as well as a DynamoDB table to hold the Todos.
+Because the `Todo` type was decorated with an `@model` directive of the [GraphQL Transform](~/cli/graphql-transformer/directives.md) library, the CLI created the additional schema and resolvers for queries, mutations, and subscriptions as well as a DynamoDB table to hold the Todos.
 
 To view the deployed services in your project at any time, go to Amplify Console by running the Amplify `console` command:
 
