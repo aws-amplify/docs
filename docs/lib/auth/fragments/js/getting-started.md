@@ -9,9 +9,11 @@ To start from scratch, run the following command in your project's root folder:
 
 > If you want to re-use an existing authentication resource from AWS (e.g. Amazon Cognito UserPool or Identity Pool) refer to [this section](~/lib/auth/start.md#re-use-existing-authentication-resource).
 
-```sh
+```bash
 amplify add auth
+```
 
+```console
 ? Do you want to use the default authentication and security configuration? Default configuration
 ? How do you want users to be able to sign in? Username
 ? Do you want to configure advanced settings?  No, I am done.
@@ -19,15 +21,13 @@ amplify add auth
 
 To deploy the service, run the `push` command:
 
-```sh
+```bash
 amplify push
-
-? Are you sure you want to continue? Y
 ```
 
 Now, the authentication service has been deployed and you can start using it. To view the deployed services in your project at any time, go to Amplify Console by running the following command:
 
-```sh
+```bash
 amplify console
 ```
 
@@ -82,8 +82,9 @@ Next, open __src/App.js__ and add the `withAuthenticator` component.
 
 First, install the `@aws-amplify/ui-vue` library as well as `aws-amplify` if you have not already:
 
-```sh
+```bash
 npm install aws-amplify @aws-amplify/ui-vue
+=======
 ```
 
 Now open __src/main.js__ and add the following below your last import:
@@ -114,7 +115,7 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 
 First, install the `@aws-amplify/ui-angular` library as well as `aws-amplify` if you have not already:
 
-```sh
+```bash
 npm install aws-amplify @aws-amplify/ui-angular
 ```
 

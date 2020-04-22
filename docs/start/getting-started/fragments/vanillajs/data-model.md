@@ -34,11 +34,12 @@ The `@model` directive lets Amplify know we intend for this type to have data th
 Now that the data is modeled, it's time to create the GraphQL API. From the root of the project, run the following:
 
 ```bash
-amplify add api #accept defaults
+amplify add api
 ```
 
-The default values are highlighted below.
-```bash
+Accept the **default values** which are highlighted below:
+
+```console
 ? Please select from one of the below mentioned services:
 # GraphQL
 ? Provide API name:
@@ -93,7 +94,7 @@ amplify push
 
 When you run `amplify push`, you will be presented with the option to have all the GraphQL operations found in your schema generated for you in code. Choose the following options:
 
-```bash
+```console
 Do you want to generate code for your newly created GraphQL API (Yes)
 
 Choose the code generation language target (javascript)
@@ -113,7 +114,7 @@ amplify status
 
 This will give us the current status of the Amplify project, including the current environment, any categories that have been created, and what state those categories are in. It should look similar to this:
 
-```bash
+```console
 Current Environment: dev
 
 | Category | Resource name | Operation | Provider plugin   |
@@ -126,11 +127,10 @@ Current Environment: dev
 You can open the AWS console to run Queries, Mutation, or Subscription against you new API at any time directly by running the following command:
 
 ```bash
-$ amplify console api
-> GraphQL               ##Select GraphQL
+amplify console api
 ```
 
-This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
+When prompted, select **GraphQL**. This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
 
 ## Connect frontend to API
 

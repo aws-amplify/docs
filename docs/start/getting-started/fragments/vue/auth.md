@@ -6,9 +6,11 @@ The Amplify Framework uses [Amazon Cognito](https://aws.amazon.com/cognito/) as 
 
 ## Create authentication service
 
-```sh
+```bash
 amplify add auth
+```
 
+```console
 ? Do you want to use the default authentication and security configuration? Default configuration
 ? How do you want users to be able to sign in? Username
 ? Do you want to configure advanced settings?  No, I am done.
@@ -16,15 +18,17 @@ amplify add auth
 
 To deploy the service, run the `push` command:
 
-```sh
+```bash
 amplify push
+```
 
+```console
 ? Are you sure you want to continue? Y
 ```
 
 Now, the authentication service has been deployed and you can start using it. To view the deployed services in your project at any time, go to Amplify Console by running the following command:
 
-```sh
+```bash
 amplify console
 ```
 
@@ -47,7 +51,7 @@ Within the template tag, add the `amplify-authenticator` and `amplify-sign-out` 
 
 Run the app to see the new Authentication flow protecting the app:
 
-```sh
+```bash
 npm run serve
 ```
 

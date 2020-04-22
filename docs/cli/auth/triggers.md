@@ -15,7 +15,7 @@ Amazon Cognito allows you to set up one Lambda trigger per event.  In order to c
 
 You have the opportunity to edit both the index file as well as each module. For example, when creating a email blacklist [PreSignUp](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-sign-up.html) trigger, you will be asked
 
-```bash
+```console
 $ Do you want to edit the local PreSignUp lambda function now? (Y/n)
 ```
 
@@ -23,7 +23,7 @@ Selecting 'yes' will open the index file in your editor.
 
 You will then be asked if you want to edit the individual JavaScript module for the email blacklist functionality:
 
-```bash
+```console
 $ Do you want to edit your email-filter-blacklist function now?
 ```
 
@@ -33,7 +33,7 @@ There are two ways to setup Lambda Triggers for your Cognito User Pool.
 
 1. In the default Auth CLI workflow, you will be presented with a list of Lambda Trigger templates if you opt to configure advanced settings:
 
-```bash
+```console
 $ Do you want to enable any of the following capabilities?
   ❯ ◯ Add Google reCaptcha Challenge
     ◯ Email Verification Link with Redirect
@@ -46,7 +46,7 @@ $ Do you want to enable any of the following capabilities?
 
 2.  In the manual Auth CLI workflow, you will be given the chance to select the options above, but will also be able to manually configure Lambda Trigger templates:
 
-```bash
+```console
 $ Do you want to configure Lambda Triggers for Cognito? Yes
 
 $ Which triggers do you want to enable for Cognito?

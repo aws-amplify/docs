@@ -56,10 +56,11 @@ Finally, update your AndroidManifest.xml with the following:
 In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`) and run the following command (for this app, accepting all defaults is OK):
 
 ```bash
-$ cd ./YOUR_PROJECT_FOLDER
-$ amplify init        #accept defaults
+cd ./YOUR_PROJECT_FOLDER
+amplify init
 ```
-An `awsconfiguration.json` file will be created with your configuration and updated as features get added to your project by the Amplify CLI. The file is placed in the `./app/src/main/res/raw` directory of your Android Studio project and automatically used by the SDKs at runtime.
+
+Accept the **default values**. An `awsconfiguration.json` file will be created with your configuration and updated as features get added to your project by the Amplify CLI. The file is placed in the `./app/src/main/res/raw` directory of your Android Studio project and automatically used by the SDKs at runtime.
 
 **What is awsconfiguration.json?**
 
@@ -70,11 +71,12 @@ Rather than configuring each service through a constructor or constants file, th
 Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the the following command from the root of your application directory:
 
 ```bash
-amplify add api #accept defaults
+amplify add api
 ```
 
-The default values are highlighted below.
-```bash
+Accept the **default values** which are highlighted below:
+
+```console
 ? Please select from one of the below mentioned services:
 # GraphQL
 ? Provide API name:
@@ -122,7 +124,7 @@ From the command line, press __enter__ to accept the schema and continue to the 
 Create required backend resources for your configured API with the following command:
 
 ```bash
-$ amplify push
+amplify push
 ```
 
 Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults which generate a `./app/src/main/graphql` folder structure with your statements.
@@ -137,7 +139,7 @@ amplify status
 
 This will give us the current status of the Amplify project, including the current environment, any categories that have been created, and what state those categories are in. It should look similar to this:
 
-```bash
+```console
 Current Environment: dev
 
 | Category | Resource name | Operation | Provider plugin   |

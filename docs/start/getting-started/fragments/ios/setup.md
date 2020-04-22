@@ -5,9 +5,9 @@ You can use an existing iOS app or create a new iOS app in Swift as per the step
 Install Cocoapods: From a terminal window navigate into your Xcode project's application directory and run the following:
 
 ```bash
-$ cd ./YOUR_PROJECT_FOLDER
-$ sudo gem install cocoapods
-$ pod init
+cd ./YOUR_PROJECT_FOLDER
+sudo gem install cocoapods
+pod init
 ```
 
 Open the created  `Podfile` in a text editor and add the pod for core AWS Mobile SDK components to your build.
@@ -36,10 +36,10 @@ Close your Xcode project and reopen it using `./YOUR-PROJECT-NAME.xcworkspace` f
 In a terminal window, run the following command (for this app, accepting all defaults is OK) in your project folder (the folder that contains your `xcodeproj` file):
 
 ```bash
-$ amplify init        # accept defaults
+amplify init
 ```
 
-The `awsconfiguration.json` configuration file should be created in the root directory. 
+Accept the **default values**. The `awsconfiguration.json` configuration file should be created in the root directory. 
 
 ## Step 3: Add config
 
@@ -57,11 +57,12 @@ In the Finder, drag `awsconfiguration.json` into Xcode under the top Project Nav
 Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the the following command from the root of your application directory:
 
 ```bash
-amplify add api #accept defaults
+amplify add api
 ```
 
-The default values are highlighted below.
-```bash
+Accept the **default values** which are highlighted below:
+
+```console
 ? Please select from one of the below mentioned services:
 # GraphQL
 ? Provide API name:
@@ -115,6 +116,9 @@ The CLI flow for push command is shown below:
 
 ```bash
 amplify push
+```
+
+```console
 ? Are you sure you want to continue?
 # Yes
 ? Do you want to generate code for your newly created GraphQL API:
@@ -137,7 +141,7 @@ amplify status
 
 This will give us the current status of the Amplify project, including the current environment, any categories that have been created, and what state those categories are in. It should look similar to this:
 
-```bash
+```console
 Current Environment: dev
 
 | Category | Resource name | Operation | Provider plugin   |

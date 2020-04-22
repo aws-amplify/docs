@@ -7,7 +7,7 @@ description: Use Amplify CLI's simple guided workflow to add storage resources s
 
 You can associate a trigger to an S3 bucket managed by the Amplify CLI, by following the `amplify add/update storage` flows. When attempting to add/update an S3 storage resource, you would get the following CLI prompts to add a trigger for it.
 
-```bash
+```console
 ? Do you want to add a Lambda Trigger for your S3 Bucket? Yes
 ? Select from the following options
 ❯ Choose an existing function from the project
@@ -21,7 +21,7 @@ As you can see in the prompt above, you can either choose to use an existing Lam
 
 You can associate a Lambda trigger with a DynamoDB table, managed by the Amplify CLI, using the amplify add/update storage flows. When attempting to add/update a DynamoDB storage resource, you would get the following CLI prompts to add a trigger for it.
 
-```bash
+```console
 ? Do you want to add a Lambda Trigger for your Table? Yes
 ? Select from the following options (Use arrow keys)
 ❯ Choose an existing function from the project

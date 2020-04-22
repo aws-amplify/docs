@@ -4,7 +4,7 @@ This will allow you to determine key phrases, sentiment, language, syntax, and e
 
 Run `amplify add predictions`, then use the following answers:
 
-```bash
+```console
 ? Please select from one of the categories below
   Identify
   Convert

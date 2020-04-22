@@ -17,7 +17,7 @@ If you wish to federate with social providers [you will need to configure them f
 After configuring your Authentication options, update your backend:
 
 ```bash
-$ amplify push
+amplify push
 ```
 
 A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`.

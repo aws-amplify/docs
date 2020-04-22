@@ -9,13 +9,13 @@ See the authentication section for more details for using the `AWSMobileClient` 
 In a terminal window, navigate to your project folder (the folder that contains your app `.Android Studioproj` file), and add the SDK to your app.
 
 ```bash
-$ cd ./YOUR_PROJECT_FOLDER
-$ amplify add api
+cd ./YOUR_PROJECT_FOLDER
+amplify add api
 ```
 
 When prompted select the following options:
 
-```bash
+```console
 $ > REST
 $ > Create a new Lambda function
 $ > Serverless express function
@@ -26,7 +26,7 @@ $ > Who should have access? Authenticated and Guest users
 When configuration of your API is complete, the CLI displays a message confirming that you have configured local CLI metadata for this category. You can confirm this by running `amplify status`. Finally deploy your changes to the cloud:
 
 ```bash
-$ amplify push
+amplify push
 ```
 
 ## Working with the API

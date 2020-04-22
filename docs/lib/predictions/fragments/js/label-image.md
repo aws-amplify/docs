@@ -4,7 +4,7 @@ If you haven't already done so, run `amplify init` inside your project and then 
 
 Run `amplify add predictions` and select **Identify**. Then use the following answers:
 
-```bash
+```console
 ? What would you like to identify? 
   Identify Text 
   Identify Entities 

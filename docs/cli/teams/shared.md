@@ -8,6 +8,9 @@ You have two independent environments (master & dev) in the cloud and have corre
 ```bash
 cd <project-dir>
 amplify init
+```
+
+```console
 Do you want to use an existing environment? Yes
 Choose the environment you would like to use:
 ❯ dev

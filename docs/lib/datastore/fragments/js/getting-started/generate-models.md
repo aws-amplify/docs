@@ -10,7 +10,7 @@ The fastest way to get started is using the `amplify-app` npx script.
 
 Start with [Create React app](https://create-react-app.dev)
 
-```sh
+```bash
 npx create-react-app amplify-datastore --use-npm
 cd amplify-datastore
 npx amplify-app@latest
@@ -20,7 +20,7 @@ npx amplify-app@latest
 
 Start with the [React Native CLI](https://reactnative.dev/docs/getting-started).
 
-```sh
+```bash
 npx react-native init AmplifyDatastoreRN
 cd AmplifyDatastoreRN
 npx amplify-app@latest

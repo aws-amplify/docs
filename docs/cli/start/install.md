@@ -31,9 +31,11 @@ Watch the video below to learn how to install and configure the Amplify CLI or s
 ></iframe>
 
 ### Option 2: Follow the instructions
+
 ```bash
 npm install -g @aws-amplify/cli
 ```
+
 > Because we're installing the Amplify CLI globally, you might need to run the command above with `sudo`.
 
 
@@ -48,7 +50,7 @@ amplify configure
 Once you're signed in, Amplify CLI will ask you to create an IAM user.
 > Amazon IAM (Identity and Access Management) enables you to manage users and user permissions in AWS. You can learn more about Amazon IAM [here](https://aws.amazon.com/iam/).
 
-```bash
+```console
 Specify the AWS Region
 ? region:  # Your preferred region
 Specify the username of the new IAM user:
@@ -62,7 +64,7 @@ Create a user with `AdministratorAccess` to your account to provision AWS resour
 
 Once the user is created, Amplify CLI will ask you to provide the `accessKeyId` and the `secretAccessKey` to connect Amplify CLI with your newly created IAM user.
 
-```bash
+```console
 Enter the access key of the newly created user:
 ? accessKeyId:  # YOUR_ACCESS_KEY_ID
 ? secretAccessKey:  # YOUR_SECRET_ACCESS_KEY
