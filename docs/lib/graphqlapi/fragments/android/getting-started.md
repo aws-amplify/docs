@@ -10,8 +10,11 @@ The Amplify API category provides a solution for making HTTP requests to REST an
 
 Run the following command in your project's root folder:
 
-```sh
-$ amplify add api
+```bash
+amplify add api
+```
+
+```console
 ? Please select from one of the below mentioned services: `GraphQL`
 ? Provide API name: `apiName`
 ? Choose the default authorization type for the API `API key`
@@ -48,9 +51,11 @@ type Comment @model {
 
 To deploy the API, you can use the Amplify `push` command:
 
-```sh
+```bash
 amplify push
+```
 
+```console
 ? Are you sure you want to continue? `Yes`
 ? Do you want to generate code for your newly created GraphQL API `No`
 ```
@@ -59,13 +64,13 @@ When your backend is successfully provisioned, there should be two new generated
 
 To view the deployed services in your project at any time, go to Amplify Console by running the following command:
 
-```sh
-$ amplify console
+```bash
+amplify console
 ```
 
 Generate the Java models to easily perform operations on your schema with the following command:
 
-```sh
+```console
 $ amplify codegen models
 
 The following types do not have '@auth' enabled. Consider using @auth with @model

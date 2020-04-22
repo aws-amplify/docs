@@ -22,13 +22,13 @@ The Amplify CLI helps setup and configure Pinpoint within your application and c
     In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`), and add the SDK to your app.
 
     ```bash
-    $ cd ./YOUR_PROJECT_FOLDER
-    $ amplify add analytics
+    cd ./YOUR_PROJECT_FOLDER
+    amplify add analytics
     ```
 
 2. When configuration for analytics is complete, a message appears confirming that you have configured local CLI metadata for this category. You can confirm this by viewing status.
 
-    ```bash
+    ```console
     $ amplify status
     | Category  | Resource name   | Operation | Provider plugin   |
     | --------- | --------------- | --------- | ----------------- |
@@ -39,7 +39,7 @@ The Amplify CLI helps setup and configure Pinpoint within your application and c
 3. To create your backend AWS resources run the following:
 
     ```bash
-    $ amplify push
+    amplify push
     ```
 
 ### Update your IAM Policy:
@@ -175,7 +175,7 @@ Build and run your app to see usage metrics in Amazon Pinpoint. When you run the
 1. To see visualizations of the analytics coming from your app, open your project in the Amazon Pinpoint console by running the following:
 
     ```bash
-    $ amplify console analytics
+    amplify console analytics
     ```
 
 2. Choose `Analytics` from the icons on the left of the console, and view the graphs of your app's usage. It may take up to 15 minutes for metrics to become visible.

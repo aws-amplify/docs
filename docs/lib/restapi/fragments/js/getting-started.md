@@ -9,12 +9,12 @@ The REST API category can be used for creating signed requests against Amazon AP
 Run the following command in your project's root folder:
 
 ```bash
-$ amplify add api
+amplify add api
 ```
 
 Select `REST` as the service type.
 
-```bash
+```console
 ? Please select from one of the below mentioned services
   GraphQL
 ❯ REST
@@ -27,7 +27,7 @@ The CLI will prompt several options to create your resources. With the provided 
 During setup you can use existing Lambda functions and DynamoDB tables or create new ones by following the CLI prompts. After your resources have been created update your backend with the `push` command:
 
 ```bash
-$ amplify push
+amplify push
 ```
 
 A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`.

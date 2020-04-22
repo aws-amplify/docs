@@ -24,8 +24,8 @@ This page guides you through setting up a backend and integrating Amplify into y
 
 * Install the latest version of the Amplify CLI by running:
 
-```terminal
-$ npm install -g @aws-amplify/cli
+```bash
+npm install -g @aws-amplify/cli
 ```
 
 ## Step 1: Configure your app

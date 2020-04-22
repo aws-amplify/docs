@@ -4,9 +4,9 @@ To create a new GraphQL API, you can use the Amplify CLI `api` category:
 
 ```bash
 amplify add api
-
-? Please select from one of the below mentioned services: GraphQL
 ```
+
+When prompted, select **GraphQL**.
 
 The CLI prompts will help you to customize the options for your GraphQL API. With the provided options, you can:
 - Choose the API name
@@ -19,7 +19,7 @@ The CLI prompts will help you to customize the options for your GraphQL API. Wit
 After configuring your GraphQL API options, update your backend:
 
 ```bash
-$ amplify push
+amplify push
 ```
 
 The `aws-exports.js` configuration file will be updated with the new API details, 

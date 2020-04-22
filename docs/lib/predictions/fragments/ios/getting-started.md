@@ -4,8 +4,8 @@
 * [Install and configure the Amplify CLI](~/cli/start/install.md)
 
 ```bash
-$ npm install -g @aws-amplify/cli
-$ amplify configure
+npm install -g @aws-amplify/cli
+amplify configure
 ```
 
 ## Automated Configuration
@@ -16,7 +16,7 @@ To create a project with the Predictions category, run the following command:
 
 1. Run `amplify init` command as shown:
 
-```bash
+```console
 $ amplify init
 ? Enter a name for the project AmplifyPredictions
 ? Enter a name for the environment dev

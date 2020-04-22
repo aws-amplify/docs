@@ -44,12 +44,15 @@ Follow the wizard to create a new app. After finishing the wizard run:
 
 ```bash
 amplify add api
-
-# Select the graphql option and when asked if you
-# have a schema, say No.
-# Select one of the default samples. You can change it later.
-# Choose to edit the schema and it will open your schema.graphql in your editor.
 ```
+
+Select the following options:
+
+- Select GraphQL
+- When asked if you have a schema, say No
+- Select one of the default samples; you can change this later
+- Choose to edit the schema and it will open the new `schema.graphql` in your
+  editor
 
 You can leave the sample as is or try this schema.
 
@@ -79,6 +82,7 @@ was successful and you can deploy your new API.
 ```bash
 amplify push
 ```
+
 ## Test the API
 
 Once the API is finished deploying, go to the AWS AppSync console or run `amplify mock api` to try some of these queries in your new API's query page.
@@ -204,7 +208,7 @@ At a high level, the transform libraries take a schema defined in the GraphQL Sc
 
 When creating APIs, you will make changes to the other files and directories in the *amplify/backend/api/YOUR-API-NAME/* directory but you should not manually change anything in the *build* directory. The build directory will be overwritten the next time you run `amplify push` or `amplify api gql-compile`. Here is an overview of the API directory:
 
-```terminal
+```console
 -build/
 - resolvers/
 | # Store any resolver templates written in vtl here. E.G.

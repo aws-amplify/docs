@@ -24,7 +24,7 @@ When prompted select the following options:
 When configuration of your API is complete, the CLI displays a message confirming that you have configured local CLI metadata for this category. You can confirm this by running `amplify status`. Finally deploy your changes to the cloud:
 
 ```bash
-$ amplify push
+amplify push
 ```
 
 ## Connect to Your Backend

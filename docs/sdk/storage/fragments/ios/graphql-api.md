@@ -157,10 +157,13 @@ Next, you have to add the new mutation, which is used to perform the S3 uploads.
   }
 ```
 After adding the new mutation in our operations file, we run the code generator again with the new schema to generate mutations that support file uploads. This time, we also pass the `-add-s3-wrapper` flag, as follows:
+
 ```bash
-  aws-appsync-codegen generate GraphQLOperations/posts.graphql --schema GraphQLOperations/schema.json --output API.swift --add-s3-wrapper
+aws-appsync-codegen generate GraphQLOperations/posts.graphql --schema GraphQLOperations/schema.json --output API.swift --add-s3-wrapper
 ```
+
 Update the `AWSAppSyncClientConfiguration` object to provide the `AWSS3TransferUtility` client for managing the uploads and downloads:
+
 ```swift
 let appSyncConfig = try AWSAppSyncClientConfiguration(url: AppSyncEndpointURL,
                                                       serviceRegion: AppSyncRegion,

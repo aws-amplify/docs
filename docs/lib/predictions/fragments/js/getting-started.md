@@ -5,7 +5,7 @@
 Run the following command in your project's root folder:
 
 ```bash
-$ amplify add predictions
+amplify add predictions
 ```
 
 The CLI will prompt configuration options for the Predictions category such as what type of use case you have (identifying objects from an image, translating text, etc) and default or advanced settings.
@@ -15,7 +15,7 @@ The Predictions category utilizes the Auth category behind the scenes to authori
 The `add` command automatically creates the backend configuration. Once all your configuration is complete run the following:
 
 ```bash
-$ amplify push
+amplify push
 ```
 
 A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`.

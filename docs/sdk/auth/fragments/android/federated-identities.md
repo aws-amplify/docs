@@ -88,8 +88,11 @@ Only users with roles assigned in the Facebook portal will be able to authentica
 In a terminal window, navigate to the root of your app files and add the auth category to your app. The CLI prompts you for configuration parameters. Choose **I will setup my own configuration** and **AWS IAM controls** when prompted.
 
 ```bash
-$ cd ./YOUR_PROJECT_FOLDER
-$ amplify add auth              ##"amplify update auth" if already configured
+cd ./YOUR_PROJECT_FOLDER
+amplify add auth              ##"amplify update auth" if already configured
+```
+
+```console
 ❯ Manual Configuration.
 ❯ User Sign-Up, Sign-In, connected with AWS IAM controls
 ```
@@ -101,7 +104,7 @@ Choose **YES** to `? Allow unauthenticated logins?` and **YES** to `? Do you wan
 When configuration for Facebook sign-in is complete, the CLI displays a message confirming that you have configured local CLI metadata for this category. Run the following to update your changes in the cloud:
 
 ```bash
-$ amplify push
+amplify push
 ```
 
 You can now [configure Facebook in your mobile app](#facebook-login-in-your-mobile-app).
@@ -132,8 +135,11 @@ Next, obtain your **OAuth Web Client ID** by navigating to the [Credentials sect
 In a terminal window, navigate to the root of your app files and add auth. The CLI prompts you for configuration parameters. Choose **I will setup my own configuration** and **AWS IAM controls** when prompted.
 
 ```bash
-$ cd ./YOUR_PROJECT_FOLDER
-$ amplify add auth # or `amplify update auth`
+cd ./YOUR_PROJECT_FOLDER
+amplify add auth # or `amplify update auth`
+```
+
+```console
 ❯ Manual Configuration  
 ❯ User Sign-Up, Sign-In, connected with AWS IAM controls
 ```
@@ -143,7 +149,7 @@ Choose **YES** to `? Allow unauthenticated logins?` and **YES** to `? Do you wan
 Choose **Google** and then provide the **Web Client ID** and **iOS Client ID** noted above. Once complete, run the following to update your backend:
 
 ```bash
-$ amplify push
+amplify push
 ```
 
 You can now [configure Google in your mobile app](#google-login-in-your-mobile-app).

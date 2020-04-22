@@ -121,11 +121,12 @@ After adding your Social provider information into the Amplify project setup, th
 Once you have the social provider configured, run the following in your project’s root folder:
 
 ```bash
-$ amplify add auth     ##"amplify update auth" if already configured
+amplify add auth     ##"amplify update auth" if already configured
 ```
+
 Select Default configuration with Social Provider (Federation):
 
-```bash
+```console
 Do you want to use the default authentication and security configuration? 
   Default configuration 
 ❯ Default configuration with Social Provider (Federation) 
@@ -383,9 +384,13 @@ The following `props` are used for building a custom UI with buttons if you do n
 To use `withOAuth` in your React Native application first install the appropriate dependencies:
 
 ```bash
+npm install aws-amplify-react-native aws-amplify
+```
 
+or, if you're using Yarn:
+
+```bash
 yarn add aws-amplify-react-native aws-amplify 
-# npm install aws-amplify-react-native aws-amplify
 ```
 
 The following code snippet shows an example of its possible usage:

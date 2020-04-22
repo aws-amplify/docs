@@ -20,10 +20,10 @@ Java is required on your development workstation to use Local Mocking in Amplify
 ## API mocking setup
 After running `amplify init` you can immediately add a GraphQL API and begin mocking without first pushing to the cloud. REST APIs are not yet supported. For example:
 
-```terminal
-$ amplify init
-$ amplify add api #select GraphQL, use API Key
-$ amplify mock api
+```bash
+amplify init
+amplify add api #select GraphQL, use API Key
+amplify mock api
 ```
 
 When you run `amplify mock api` the codegen process will run and create any required GraphQL assets such as queries, mutations, and subscriptions as well as TypeScript or Swift classes for your app. Android requires a build step for Gradle to create required classes after the codegen process completes, as well as an extra [configuration in your AndroidManifest.xml](#android-config).
@@ -47,11 +47,11 @@ For S3 storage mocking, after running `amplify init` you must first run through 
 
 Once you have done an initial push you can run the mock server and hit the local endpoint:
 
-```terminal
-$ amplify init
-$ amplify add storage #This will prompt you to add auth
-$ amplify push
-$ amplify mock storage
+```bash
+amplify init
+amplify add storage #This will prompt you to add auth
+amplify push
+amplify mock storage
 ```
 
 To use an iOS application with the local S3 endpoint you will need to [modify your Info.plist file](#ios-config). To use an Android application with the local S3 endpoint you will need an extra [configuration in your AndroidManifest.xml](#android-config).
@@ -63,10 +63,10 @@ For Lambda function mocking, after running `amplify init` you can add a function
 
 To invoke the function with the local mock:
 
-```terminal
-$ amplify init
-$ amplify add function ## Follow prompts
-$ amplify mock function <function_name>
+```bash
+amplify init
+amplify add function ## Follow prompts
+amplify mock function <function_name>
 ```
 
 This will take you through a few questions, such as the entry point for your Lambda function and sample event context to pass. The defaults are `index.js` and `event.json`.
@@ -81,9 +81,9 @@ Note that you will need to run `yarn` or `npm install` first if your Lambda func
 
 Alternatively, you can add a Lambda function and attach it as a GraphQL resolver with the `@function` directive. To do this first add a function to your project:
 
-```terminal
-$ amplify init  ## specify environment
-$ amplify add function
+```bash
+amplify init  ## specify environment
+amplify add function
 ```
 
 Once the function is added, you can attach it to a field in your GraphQL schema. You will need to append `-${env}` to the function name in your schema when using the `@function` directive to denote the environment being used. For example if you ran `amplify add function` and used the name **quoteOfTheDay** for your function, and then ran `amplify add api`, your schema might have a query that looks like the below:
