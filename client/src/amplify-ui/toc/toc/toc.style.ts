@@ -6,7 +6,7 @@ export const tocStyle = css`
   flex-direction: column;
   padding: 2rem 0;
   font-size: 0.875rem;
-  width: 15.9375rem;
+  width: 16.875rem;
 
   ${MQTablet} {
     display: flex;
@@ -61,6 +61,7 @@ export const h3AnchorStyle = css`
 
 export const headerStyle = css`
   padding-left: 1.5rem;
+  padding-right: 1.5rem;
   padding-bottom: 0.5rem;
   border-left: 0.05rem solid var(--border-color);
 `;

@@ -18,14 +18,14 @@
     "array-flatten": "^3.0.0",
     "copy-to-clipboard": "^3.2.1",
     "emotion": "^10.0.23",
-    "is-html-tag-name": "^1.0.2",
-    "url-parse": "^1.4.7"
+    "is-html-tag-name": "^1.0.2"
   },
   "devDependencies": {
-    "@stencil/core": "^1.10.1",
+    "@stencil/core": "^1.12.4",
     "@stencil/eslint-plugin": "^0.2.1",
     "@stencil/router": "^1.0.1",
-    "@types/jest": "24.0.25",
+    "@stencil/sass": "^1.3.1",
+    "@types/jest": "24.9.1",
     "@types/node": "^12.12.9",
     "@types/puppeteer": "1.20.2",
     "@types/url-parse": "^1.4.3",
@@ -43,7 +43,8 @@
     "puppeteer": "1.20.0",
     "rollup-plugin-node-polyfills": "^0.2.1",
     "ts-node": "^8.5.0",
-    "typescript": "^3.7.5"
+    "typescript": "^3.8.3",
+    "workbox-build": "4.3.1"
   },
   "scripts": {
     "clean-client": "cd client && rm -rf .stencil www dist",

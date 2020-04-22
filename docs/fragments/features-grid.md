@@ -60,7 +60,7 @@
     <h4 slot="heading">Interactions</h4>
     <p slot="description">Automate customer workflows by enlisting the help of conversational chatbots powered by deep learning technologies</p>
   </docs-card>
-  <docs-card url="~/lib/predictions/getting-started.md" class="border-radius">
+  <docs-card url="~/lib/predictions/getting-started.md" url-override-for-android-filter="~/sdk/sdk.md" class="border-radius">
     <img slot="graphic" src="~/assets/features/predictions.svg" />
     <h4 slot="heading">AI / ML Predictions</h4>
     <p slot="description">

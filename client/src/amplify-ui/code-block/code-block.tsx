@@ -12,21 +12,18 @@ const COPY = "copy";
 const COPIED = "copied";
 const FAILED = "failed to copy";
 
+let alwaysRecompute = 0;
+
 @Component({tag: "amplify-code-block", shadow: false})
 export class AmplifyCodeBlock {
-  /**
-   * the number of lines of the code block
-   */
+  /** the number of lines of the code block */
   @Prop() readonly lineCount?: string;
+  /** what language are we displaying */
   @Prop() readonly language?: string;
-  @State() parsedLineCount?: number;
-  @State() copyMessage: typeof COPY | typeof COPIED | typeof FAILED = "copy";
-  element?: HTMLDivElement;
 
-  componentWillLoad() {
-    const parsed = this.lineCount && parseInt(this.lineCount);
-    if (parsed && parsed > 1) this.parsedLineCount = parsed;
-  }
+  @State() copyMessage: typeof COPY | typeof COPIED | typeof FAILED = "copy";
+
+  element?: HTMLDivElement;
 
   setElement = (ref: HTMLDivElement | undefined) => (this.element = ref);
 
@@ -53,25 +50,32 @@ export class AmplifyCodeBlock {
   };
 
   render() {
+    const parsed = this.lineCount && parseInt(this.lineCount);
+    const parsedLineCount = parsed && parsed > 1 ? parsed : undefined;
+
     return (
       <Host
         class={{
           [codeBlockStyle]: true,
-          [oneLineStyle]: this.parsedLineCount === undefined,
+          [oneLineStyle]: parsedLineCount === undefined,
         }}
       >
-        {this.parsedLineCount && (
+        {parsedLineCount && (
           <div class={lineCountStyle}>
             <div>
               {this.lineCount &&
-                new Array(this.parsedLineCount)
+                new Array(parsedLineCount)
                   .fill(null)
                   .map((_, i) => <span>{String(i + 1)}</span>)}
             </div>
           </div>
         )}
-        <div ref={this.setElement} class={slotContainerStyle}>
-          <slot />
+        <div
+          key={String(alwaysRecompute++)}
+          ref={this.setElement}
+          class={slotContainerStyle}
+        >
+          <slot name="content" />
         </div>
         {this.copyButton()}
       </Host>

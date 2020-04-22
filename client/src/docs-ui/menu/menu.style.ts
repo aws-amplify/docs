@@ -1,6 +1,7 @@
 import {css} from "emotion";
 
 export const menuStyle = css`
+  display: block;
   padding: 0 2.5rem;
   overflow-y: auto;
   min-height: 100vh;
@@ -50,4 +51,8 @@ export const productRootLink = css`
 export const verticalGapStyle = css`
   width: 100%;
   height: 2rem;
+`;
+
+export const activeLinkStyle = css`
+  background-color: var(--bg-color-hover);
 `;

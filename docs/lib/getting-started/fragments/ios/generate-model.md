@@ -1,6 +1,6 @@
 
 The GraphQL schema is auto-generated can be found under `amplify/backend/api/amplifyDatasource/schema.graphql`.  
-[Learn more](/cli/graphql-transformer/overview) about annotating GraphQL schemas and data modeling.  
+[Learn more](~/cli/graphql-transformer/overview.md) about annotating GraphQL schemas and data modeling.  
 
 a. In this guide, use this schema:
 ```

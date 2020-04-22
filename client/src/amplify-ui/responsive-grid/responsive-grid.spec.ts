@@ -6,11 +6,6 @@ describe("amplify-responsive-grid", () => {
     let amplifyResponsiveGrid: AmplifyResponsiveGrid;
     beforeEach(() => (amplifyResponsiveGrid = new AmplifyResponsiveGrid()));
 
-    it("should init `columnCountByBreakpoint` as default", () =>
-      expect(amplifyResponsiveGrid.columnCountByBreakpoint).toEqual({
-        "64": 3,
-      }));
-
     it("should init `gridGap` as `2`", () =>
       expect(amplifyResponsiveGrid.gridGap).toBe(2));
   });

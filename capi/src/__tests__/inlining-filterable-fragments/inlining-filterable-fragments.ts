@@ -22,15 +22,19 @@ test("inlining-filterable-fragments", async () => {
         "docs-filter-target",
         {filters: {platform: "ios"}},
         [
-          "docs-in-page-link",
-          {targetId: "im-an-ios-specific-fragment"},
+          "div",
+          {slot: "content"},
           [
-            "h2",
-            {id: "im-an-ios-specific-fragment"},
-            "I’m an iOS-specific fragment",
+            "docs-in-page-link",
+            {targetId: "im-an-ios-specific-fragment"},
+            [
+              "h2",
+              {id: "im-an-ios-specific-fragment"},
+              "I’m an iOS-specific fragment",
+            ],
           ],
+          "\n",
         ],
-        "\n",
       ],
     ],
     "\n",
@@ -41,15 +45,19 @@ test("inlining-filterable-fragments", async () => {
         "docs-filter-target",
         {filters: {platform: "android"}},
         [
-          "docs-in-page-link",
-          {targetId: "im-an-android-specific-fragment"},
+          "div",
+          {slot: "content"},
           [
-            "h2",
-            {id: "im-an-android-specific-fragment"},
-            "I’m an Android-specific fragment",
+            "docs-in-page-link",
+            {targetId: "im-an-android-specific-fragment"},
+            [
+              "h2",
+              {id: "im-an-android-specific-fragment"},
+              "I’m an Android-specific fragment",
+            ],
           ],
+          "\n",
         ],
-        "\n",
       ],
     ],
     "\n",
@@ -58,9 +66,9 @@ test("inlining-filterable-fragments", async () => {
   // eslint-disable-next-line
   // @ts-ignore
   expect((await import("./api/product/a/aa")).versions).toEqual({
-    android: "/product/a/aa?platform=android",
-    ios: "/product/a/aa?platform=ios",
-    js: "/product?platform=js",
+    android: "/product/a/aa/q/platform/android",
+    ios: "/product/a/aa/q/platform/ios",
+    js: "/product/q/platform/js",
   });
 
   // eslint-disable-next-line
@@ -73,15 +81,19 @@ test("inlining-filterable-fragments", async () => {
         "docs-filter-target",
         {filters: {platform: "ios"}},
         [
-          "docs-in-page-link",
-          {targetId: "im-an-ios-specific-fragment"},
+          "div",
+          {slot: "content"},
           [
-            "h2",
-            {id: "im-an-ios-specific-fragment"},
-            "I’m an iOS-specific fragment",
+            "docs-in-page-link",
+            {targetId: "im-an-ios-specific-fragment"},
+            [
+              "h2",
+              {id: "im-an-ios-specific-fragment"},
+              "I’m an iOS-specific fragment",
+            ],
           ],
+          "\n",
         ],
-        "\n",
       ],
     ],
     "\n",
@@ -92,15 +104,19 @@ test("inlining-filterable-fragments", async () => {
         "docs-filter-target",
         {filters: {platform: "android"}},
         [
-          "docs-in-page-link",
-          {targetId: "im-an-android-specific-fragment"},
+          "div",
+          {slot: "content"},
           [
-            "h2",
-            {id: "im-an-android-specific-fragment"},
-            "I’m an Android-specific fragment",
+            "docs-in-page-link",
+            {targetId: "im-an-android-specific-fragment"},
+            [
+              "h2",
+              {id: "im-an-android-specific-fragment"},
+              "I’m an Android-specific fragment",
+            ],
           ],
+          "\n",
         ],
-        "\n",
       ],
     ],
     "\n",
@@ -111,15 +127,19 @@ test("inlining-filterable-fragments", async () => {
         "docs-filter-target",
         {filters: {platform: "js"}},
         [
-          "docs-in-page-link",
-          {targetId: "im-a-js-specific-fragment"},
+          "div",
+          {slot: "content"},
           [
-            "h2",
-            {id: "im-a-js-specific-fragment"},
-            "I’m a JS-specific fragment",
+            "docs-in-page-link",
+            {targetId: "im-a-js-specific-fragment"},
+            [
+              "h2",
+              {id: "im-a-js-specific-fragment"},
+              "I’m a JS-specific fragment",
+            ],
           ],
+          "\n",
         ],
-        "\n",
       ],
     ],
     "\n",
@@ -128,8 +148,8 @@ test("inlining-filterable-fragments", async () => {
   // eslint-disable-next-line
   // @ts-ignore
   expect((await import("./api/product/a/ab")).versions).toEqual({
-    android: "/product/a/ab?platform=android",
-    ios: "/product/a/ab?platform=ios",
-    js: "/product/a/ab?platform=js",
+    android: "/product/a/ab/q/platform/android",
+    ios: "/product/a/ab/q/platform/ios",
+    js: "/product/a/ab/q/platform/js",
   });
 });

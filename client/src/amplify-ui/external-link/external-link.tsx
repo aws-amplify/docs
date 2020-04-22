@@ -29,6 +29,7 @@ export class AmplifyExternalLink {
         {...(this.redirect ? {} : {target: "_blank"})}
         href={this.href}
         title={this.anchorTitle}
+        rel="noopener noreferrer"
       >
         <slot />
         {this.graphic && (

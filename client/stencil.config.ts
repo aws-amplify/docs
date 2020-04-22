@@ -1,15 +1,17 @@
 import {Config} from "@stencil/core";
 import nodePolyfills from "rollup-plugin-node-polyfills";
+import {sass} from "@stencil/sass";
 
 export const config: Config = {
-  globalScript: "src/global/global.ts",
   devServer: {
-    reloadStrategy: 'pageReload'
+    reloadStrategy: "pageReload",
   },
   nodeResolve: {
     browser: true,
   },
-  plugins: [nodePolyfills()],
+  plugins: [nodePolyfills(), sass()],
+  globalStyle: "src/styles/styles.scss",
+  enableCache: true,
   commonjs: {
     namedExports: {
       "@aws-sdk/client-cognito-identity-browser": [
@@ -60,12 +62,19 @@ export const config: Config = {
   outputTargets: [
     {
       type: "www",
-      serviceWorker: null,
-      baseUrl: "https://amplify.aws/",
+      serviceWorker: {
+        unregister: true,
+      },
+      baseUrl: "https://docs.amplify.aws",
+      prerenderConfig: "prerender-config.js",
       copy: [
         {
           src: "sitemap.xml",
           dest: "sitemap.xml",
+        },
+        {
+          src: "manifest.json",
+          dest: "manifest.json",
         },
         {
           src: "browserconfig.xml",

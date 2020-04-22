@@ -1,5 +1,5 @@
 import {css} from "emotion";
-import {MQFablet, MQMobile} from "../../amplify-ui/styles/media";
+import {MQFablet} from "../../amplify-ui/styles/media";
 
 export const universalNavStyle = css`
   display: block;
@@ -92,14 +92,6 @@ export const hideAboutLinkStyle = css`
   display: none;
 
   ${MQFablet} {
-    display: initial;
-  }
-`;
-
-export const hideOpenSourceLinkStyle = css`
-  display: none;
-
-  ${MQMobile} {
     display: initial;
   }
 `;
