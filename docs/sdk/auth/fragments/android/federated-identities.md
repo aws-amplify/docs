@@ -87,9 +87,12 @@ Only users with roles assigned in the Facebook portal will be able to authentica
 
 In a terminal window, navigate to the root of your app files and add the auth category to your app. The CLI prompts you for configuration parameters. Choose **I will setup my own configuration** and **AWS IAM controls** when prompted.
 
+```bash
+cd ./YOUR_PROJECT_FOLDER
+amplify add auth              ##"amplify update auth" if already configured
+```
+
 ```console
-$ cd ./YOUR_PROJECT_FOLDER
-$ amplify add auth              ##"amplify update auth" if already configured
 ❯ Manual Configuration.
 ❯ User Sign-Up, Sign-In, connected with AWS IAM controls
 ```
@@ -131,9 +134,12 @@ Next, obtain your **OAuth Web Client ID** by navigating to the [Credentials sect
 
 In a terminal window, navigate to the root of your app files and add auth. The CLI prompts you for configuration parameters. Choose **I will setup my own configuration** and **AWS IAM controls** when prompted.
 
+```bash
+cd ./YOUR_PROJECT_FOLDER
+amplify add auth # or `amplify update auth`
+```
+
 ```console
-$ cd ./YOUR_PROJECT_FOLDER
-$ amplify add auth # or `amplify update auth`
 ❯ Manual Configuration  
 ❯ User Sign-Up, Sign-In, connected with AWS IAM controls
 ```

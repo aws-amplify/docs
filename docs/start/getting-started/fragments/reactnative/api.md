@@ -61,9 +61,11 @@ From the command line, press __enter__ to accept the schema and continue to the 
 
 To deploy this backend, run the `push` command:
 
-```console
-$ amplify push
+```bash
+amplify push
+```
 
+```console
 ? Are you sure you want to continue? Y
 
 # If you did not mock the API, you will be walked through the following questions for GraphQL code generation

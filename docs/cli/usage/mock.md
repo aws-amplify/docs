@@ -63,7 +63,7 @@ For Lambda function mocking, after running `amplify init` you can add a function
 
 To invoke the function with the local mock:
 
-```console
+```bash
 amplify init
 amplify add function ## Follow prompts
 amplify mock function <function_name>

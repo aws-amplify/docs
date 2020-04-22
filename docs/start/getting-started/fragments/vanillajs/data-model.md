@@ -37,7 +37,7 @@ Now that the data is modeled, it's time to create the GraphQL API. From the root
 amplify add api
 ```
 
-Accept the default values which are highlighted below:
+Accept the **default values** which are highlighted below:
 
 ```console
 ? Please select from one of the below mentioned services:
@@ -130,7 +130,7 @@ You can open the AWS console to run Queries, Mutation, or Subscription against y
 amplify console api
 ```
 
-When prompted, select GraphQL. This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
+When prompted, select **GraphQL**. This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
 
 ## Connect frontend to API
 

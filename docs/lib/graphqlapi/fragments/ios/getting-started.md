@@ -21,8 +21,11 @@ Go to your project directory and run the following commands to get a fully funct
 
 Run `amplify init` command as shown:
 
+```bash
+amplify init
+```
+
 ```console
-$ amplify init
 ? Enter a name for the project AmplifAPI
 ? Enter a name for the environment dev
 ? Choose your default editor: Visual Studio Code
@@ -33,7 +36,7 @@ $ amplify init
 
 Add API using the command `amplify add api`. Here is an example:
 
-```perl
+```console
 ? Please select from one of the below mentioned services: `GraphQL`
 ? Provide API name: `apiName`
 ? Choose the default authorization type for the API `API key`
@@ -47,7 +50,7 @@ Add API using the command `amplify add api`. Here is an example:
 ```
 
 We'll be using this schema:
-```ruby
+```graphql
 type Todo @model {
   id: ID!
   name: String!
@@ -55,7 +58,8 @@ type Todo @model {
 }
 ```
 Provision the backend with `amplify push` command. Here is an example:
-```perl
+
+```console
 ? Are you sure you want to continue? `Yes`
 ? Do you want to generate code for your newly created GraphQL API `No`
 ```
@@ -78,14 +82,16 @@ end
 Close out of the existing Xcode project if you have it open.
 
 Install the dependencies via CocoaPods
-```ruby
+```bash
 pod install --repo-update
 ```
 
 Open the `.xcworkspace` file created by CocoaPods
-```ruby
+
+```bash
 open <YOURAPP>.xcworkspace
 ```
+
 Build your project and you should see the `amplify` folder, `amplifyxc.config`, `awsconfiguration.json`, and `amplifyconfiguration.json`. 
 
 ## Initialize Amplify

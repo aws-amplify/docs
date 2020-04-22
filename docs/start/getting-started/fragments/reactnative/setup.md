@@ -26,9 +26,11 @@ cd RNAmplify
 
 and use the Amplify CLI to create the project:
 
-```console
-$ amplify init
+```bash
+amplify init
+```
 
+```console
 ? Enter a name for the project: rnamplify
 ? Enter a name for the environment: demo
 ? Choose your default editor: <Your favorite text editor>

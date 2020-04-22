@@ -11,8 +11,11 @@ Go to your project directory and run the following commands to get a fully funct
 
 Run `amplify init` command as shown:
 
+```bash
+amplify init
+```
+
 ```console
-$ amplify init
 ? Enter a name for the project AmplifyStorage
 ? Enter a name for the environment dev
 ? Choose your default editor: Visual Studio Code
@@ -25,8 +28,11 @@ $ amplify init
 
 Add storage using the command `amplify add storage`. Here is an example:
 
+```bash
+amplify add storage
+```
+
 ```console
-$ amplify add storage
 ? Please select from one of the below mentioned services: `Content (Images, audio, video, etc.)`
 ? You need to add auth (Amazon Cognito) to your project in order to add storage for user files. Do you want to add auth now? `Yes`
 ? Do you want to use the default authentication and security configuration? `Default configuration`

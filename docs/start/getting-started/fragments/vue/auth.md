@@ -6,9 +6,11 @@ The Amplify Framework uses [Amazon Cognito](https://aws.amazon.com/cognito/) as 
 
 ## Create authentication service
 
-```console
-$ amplify add auth
+```bash
+amplify add auth
+```
 
+```console
 ? Do you want to use the default authentication and security configuration? Default configuration
 ? How do you want users to be able to sign in? Username
 ? Do you want to configure advanced settings?  No, I am done.
@@ -16,9 +18,11 @@ $ amplify add auth
 
 To deploy the service, run the `push` command:
 
-```console
-$ amplify push
+```bash
+amplify push
+```
 
+```console
 ? Are you sure you want to continue? Y
 ```
 

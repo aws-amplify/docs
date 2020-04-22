@@ -39,7 +39,7 @@ In a terminal window, run the following command (for this app, accepting all def
 amplify init
 ```
 
-Accept the default values. The `awsconfiguration.json` configuration file should be created in the root directory. 
+Accept the **default values**. The `awsconfiguration.json` configuration file should be created in the root directory. 
 
 ## Step 3: Add config
 
@@ -60,7 +60,7 @@ Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designin
 amplify add api
 ```
 
-Accept the default values which are highlighted below:
+Accept the **default values** which are highlighted below:
 
 ```console
 ? Please select from one of the below mentioned services:
@@ -114,8 +114,11 @@ The codegen process generates a file named `API.swift` in your application root 
 
 The CLI flow for push command is shown below:
 
+```bash
+amplify push
+```
+
 ```console
-$ amplify push
 ? Are you sure you want to continue?
 # Yes
 ? Do you want to generate code for your newly created GraphQL API:

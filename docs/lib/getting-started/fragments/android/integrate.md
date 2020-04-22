@@ -57,7 +57,7 @@ The web-based AWS AppSync Console provides an easy way to run Queries, Mutation,
 amplify console api
 ```
 
-When prompted, select GraphQL.
+When prompted, select **GraphQL**. This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
 
 ## Next Steps
 

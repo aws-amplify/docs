@@ -12,10 +12,10 @@ The Amplify CLI can setup a REST endpoint with secure access to a Lambda functio
 ## Enable Admin Queries
 
 ```bash
- amplify add auth
- ```
+amplify add auth
+```
 
- ```console
+```console
 ? Do you want to add an admin queries API? Yes
 ? Do you want to restrict access to a specific Group Yes
 ? Select the group to restrict access with: (Use arrow keys)

@@ -6,7 +6,7 @@ To create a new GraphQL API, you can use the Amplify CLI `api` category:
 amplify add api
 ```
 
-When prompted, select GraphQL.
+When prompted, select **GraphQL**.
 
 The CLI prompts will help you to customize the options for your GraphQL API. With the provided options, you can:
 - Choose the API name

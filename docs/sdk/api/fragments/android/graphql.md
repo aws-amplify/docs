@@ -78,7 +78,7 @@ The `amplify push` process will prompt you to enter the codegen process and walk
 amplify console api
 ```
 
-When prompted, select GraphQL. This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
+When prompted, select **GraphQL**. This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
 
 ### Import SDK and Config
 

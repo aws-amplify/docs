@@ -6,8 +6,11 @@ In this section, you'll learn how to deploy an AWS AppSync GraphQL API and conne
 
 To create a GraphQL API, use the Amplify `add` command:
 
+```bash
+amplify add api
+```
+
 ```console
-$ amplify add api
 ? Please select from one of the below mentioned services: GraphQL
 ? Provide API name: myapi
 ? Choose the default authorization type for the API: API Key
@@ -34,9 +37,11 @@ type Todo @model {
 
 To deploy the API, you can use the Amplify `push` command:
 
-```console
-$ amplify push
+```bash
+amplify push
+```
 
+```console
 ? Are you sure you want to continue? Y
 
 ? Do you want to generate code for your newly created GraphQL API? Y

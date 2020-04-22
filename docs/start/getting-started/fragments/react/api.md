@@ -12,7 +12,7 @@ Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designin
 amplify add api
 ```
 
-Accept the default values which are highlighted below:
+Accept the **default values** which are highlighted below:
 
 ```console
 ? Please select from one of the below mentioned services:
@@ -61,9 +61,11 @@ From the command line, press __enter__ to accept the schema and continue to the 
 
 To deploy this backend, run the `push` command:
 
-```console
-$ amplify push
+```bash
+amplify push
+```
 
+```console
 ? Are you sure you want to continue? Y
 
 # You will be walked through the following questions for GraphQL code generation
@@ -112,9 +114,11 @@ To test this out locally, you can run the `mock` command.
 
 > If you'd like to go ahead and connect the front end, you can [jump to the next step](#connect-frontend-to-api).
 
+```bash
+amplify mock api
+```
+  
 ```console
-$ amplify mock api
-
 # If you have not already deployed you API, you will be walked through the following steps for GraphQL code generation
 ? Choose the code generation language target: javascript (or preferred target)
 ? Enter the file name pattern of graphql queries, mutations and subscriptions: src/graphql/**/*.js

@@ -48,9 +48,11 @@ type Comment @model {
 
 To deploy the API, you can use the Amplify `push` command:
 
-```console
-$ amplify push
+```bash
+amplify push
+```
 
+```console
 ? Are you sure you want to continue? `Yes`
 ? Do you want to generate code for your newly created GraphQL API `No`
 ```

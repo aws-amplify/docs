@@ -60,7 +60,7 @@ cd ./YOUR_PROJECT_FOLDER
 amplify init
 ```
 
-Accept the default values. An `awsconfiguration.json` file will be created with your configuration and updated as features get added to your project by the Amplify CLI. The file is placed in the `./app/src/main/res/raw` directory of your Android Studio project and automatically used by the SDKs at runtime.
+Accept the **default values**. An `awsconfiguration.json` file will be created with your configuration and updated as features get added to your project by the Amplify CLI. The file is placed in the `./app/src/main/res/raw` directory of your Android Studio project and automatically used by the SDKs at runtime.
 
 **What is awsconfiguration.json?**
 
@@ -74,7 +74,7 @@ Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designin
 amplify add api
 ```
 
-Accept the default values which are highlighted below:
+Accept the **default values** which are highlighted below:
 
 ```console
 ? Please select from one of the below mentioned services:

@@ -9,9 +9,11 @@ To start from scratch, run the following command in your project's root folder:
 
 > If you want to re-use an existing authentication resource from AWS (e.g. Amazon Cognito UserPool or Identity Pool) refer to [this section](~/lib/auth/start.md#re-use-existing-authentication-resource).
 
-```console
-$ amplify add auth
+```bash
+amplify add auth
+```
 
+```console
 ? Do you want to use the default authentication and security configuration? Default configuration
 ? How do you want users to be able to sign in? Username
 ? Do you want to configure advanced settings?  No, I am done.
