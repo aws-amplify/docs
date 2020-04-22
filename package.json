@@ -14,7 +14,7 @@
   "dependencies": {
     "@aws-amplify/analytics": "^3.1.7",
     "@aws-amplify/auth": "^3.2.4",
-    "@aws-amplify/ui-components": "^0.3.0",
+    "@aws-amplify/ui-components": "^0.3.2",
     "array-flatten": "^3.0.0",
     "copy-to-clipboard": "^3.2.1",
     "emotion": "^10.0.23",
