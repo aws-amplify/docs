@@ -81,7 +81,7 @@ export default withAuthenticator(App, true);
 
 You can now use `amplify publish` to build and publish your app again. This time you'll be able to register a new user and sign in before opening the main application.
 
-> API & property details for the `Authenticator` and `withAuthenticator` HOC are available in the [Authentication Guide](/docs/js/authentication#using-components-in-react--react-native).
+> API & property details for the `Authenticator` and `withAuthenticator` HOC are available in the [Authentication Guide](~/ui-legacy/auth/authentcator/q/framework/react).
 
 #### SignUp Configuration
 

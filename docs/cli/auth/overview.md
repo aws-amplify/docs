@@ -3,6 +3,7 @@ title: Overview
 description: The Amplify CLI supports configuring many different Authentication and Authorization workflows, including simple and advanced configurations of the login options, triggering Lambda functions during different lifecycle events, and administrative actions which you can optionally expose to your applications.
 ---
 
+
 The Amplify CLI supports configuring many different Authentication and Authorization workflows, including simple and advanced configurations of the login options, triggering Lambda functions during different lifecycle events, and administrative actions which you can optionally expose to your applications.
 
 ## Configuring auth without social providers
@@ -26,6 +27,7 @@ Once your User Pool is functioning, you can enable more configurations such as f
 ```bash
 $ amplify add auth     ##"amplify update auth" if already configured
 ```
+
 Select Default configuration with Social Provider (Federation):
 
 ```bash

@@ -10,7 +10,7 @@ describe("docs-page", () => {
       expect(docsPage.selectedFilters).toEqual({}));
 
     it("should init `data` as `undefined`", () =>
-      expect(docsPage.data).toBeUndefined());
+      expect(docsPage.pageData).toBeUndefined());
 
     it("should init `blendUniversalNav` as `undefined`", () =>
       expect(docsPage.blendUniversalNav).toBeUndefined());

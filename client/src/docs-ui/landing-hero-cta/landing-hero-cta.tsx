@@ -15,7 +15,7 @@ export class DocsLandingHeroCTA {
         </docs-internal-link-button>
         <div class={platformsGroupStyle}>
           <docs-internal-link
-            href="/start?integration=js"
+            href="/start/q/integration/js"
             class="scale-up-on-hover"
           >
             <img
@@ -25,7 +25,7 @@ export class DocsLandingHeroCTA {
             />
           </docs-internal-link>
           <docs-internal-link
-            href="/start?integration=ios"
+            href="/start/q/integration/ios"
             class="scale-up-on-hover"
           >
             <img
@@ -35,7 +35,7 @@ export class DocsLandingHeroCTA {
             />
           </docs-internal-link>
           <docs-internal-link
-            href="/start?integration=android"
+            href="/start/q/integration/android"
             class="scale-up-on-hover"
           >
             <img

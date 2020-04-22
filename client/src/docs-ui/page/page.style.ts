@@ -74,7 +74,7 @@ export const pageStyle = css`
 export const sectionHeaderStyle = css`
   line-height: normal;
   margin-bottom: 0;
-  font-size: 1.25rem;
+  font-size: 1rem;
   text-transform: uppercase;
   color: var(--font-color-secondary);
   font-weight: bold;

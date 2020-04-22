@@ -9,59 +9,59 @@ exports[`docs-choose-integration-anchor Render logic should render 1`] = `
     Web
   </h3>
   <amplify-responsive-grid class="border-radius margin-top-md" columns="4" gridgap="1">
-    <amplify-card vertical="">
+    <docs-card vertical="">
       <img alt="JavaScript Logo" slot="graphic" src="/assets/integrations/js.svg">
       <h4 slot="heading">
         JavaScript
       </h4>
-    </amplify-card>
-    <amplify-card vertical="">
+    </docs-card>
+    <docs-card vertical="">
       <img alt="React Logo" slot="graphic" src="/assets/integrations/react.svg">
       <h4 slot="heading">
         React
       </h4>
-    </amplify-card>
-    <amplify-card vertical="">
+    </docs-card>
+    <docs-card vertical="">
       <img alt="Angular Logo" slot="graphic" src="/assets/integrations/angular.svg">
       <h4 slot="heading">
         Angular
       </h4>
-    </amplify-card>
-    <amplify-card vertical="">
+    </docs-card>
+    <docs-card vertical="">
       <img alt="Vue Logo" slot="graphic" src="/assets/integrations/vue.svg">
       <h4 slot="heading">
         Vue
       </h4>
-    </amplify-card>
+    </docs-card>
   </amplify-responsive-grid>
   <h3>
     Mobile
   </h3>
   <amplify-responsive-grid class="border-radius margin-top-md" columns="4" gridgap="1">
-    <amplify-card vertical="">
+    <docs-card vertical="">
       <img alt="Android Logo" slot="graphic" src="/assets/integrations/android.svg">
       <h4 slot="heading">
         Android
       </h4>
-    </amplify-card>
-    <amplify-card vertical="">
+    </docs-card>
+    <docs-card vertical="">
       <img alt="iOS Logo" slot="graphic" src="/assets/integrations/ios.svg">
       <h4 slot="heading">
         iOS
       </h4>
-    </amplify-card>
-    <amplify-card vertical="">
+    </docs-card>
+    <docs-card vertical="">
       <img alt="React Native Logo" slot="graphic" src="/assets/integrations/react-native.svg">
       <h4 slot="heading">
         React Native
       </h4>
-    </amplify-card>
-    <amplify-card vertical="">
+    </docs-card>
+    <docs-card vertical="">
       <img alt="Ionic Logo" slot="graphic" src="/assets/integrations/ionic.svg">
       <h4 slot="heading">
         Ionic
       </h4>
-    </amplify-card>
+    </docs-card>
   </amplify-responsive-grid>
 </docs-choose-integration-anchor>
 `;

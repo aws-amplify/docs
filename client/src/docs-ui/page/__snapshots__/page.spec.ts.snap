@@ -1,32 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`docs-page Render logic should render 1`] = `
-<docs-page class="css-ntiofr">
-  <docs-universal-nav blend="" brand-icon="/assets/logo-light.svg" brand-icon-blend="/assets/logo-dark.svg" heading="Amplify Docs"></docs-universal-nav>
-  <docs-secondary-nav></docs-secondary-nav>
-  <div class="css-1o5ehio">
-    <amplify-toc-provider>
-      <amplify-sidebar-layout>
-        <amplify-sidebar-layout-main class="css-1j9n6qe" slot="main">
-          <amplify-toc-contents>
-            <h1 class="css-6lyrbv"></h1>
-            <h1></h1>
-            <docs-next-previous></docs-next-previous>
-          </amplify-toc-contents>
-          <amplify-sidebar-layout-toggle class="css-4whoga three-dee-effect" in-view-class="in-view">
-            <img class="burger-graphic" src="/assets/burger.svg">
-            <img class="ex-graphic" src="/assets/close.svg">
-          </amplify-sidebar-layout-toggle>
-        </amplify-sidebar-layout-main>
-        <div class="css-250tbd" slot="toc">
-          <div>
-            <amplify-toc></amplify-toc>
-          </div>
-        </div>
-      </amplify-sidebar-layout>
-    </amplify-toc-provider>
-  </div>
-  <docs-footer></docs-footer>
-  <docs-chat-button></docs-chat-button>
-</docs-page>
-`;
+exports[`docs-page Render logic should render 1`] = `<docs-page></docs-page>`;

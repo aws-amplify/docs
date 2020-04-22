@@ -45,6 +45,10 @@ export const fragmentTags: t.Transformer = ({
         ? ["docs-filter-target", {filters}]
         : ["div", null];
     fragmentBody &&
-      lexicalScope.update([tag, newProps, ...clone(fragmentBody)]);
+      lexicalScope.update([
+        tag,
+        newProps,
+        ["div", {slot: "content"}, ...clone(fragmentBody)],
+      ]);
   }
 };

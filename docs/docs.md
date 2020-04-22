@@ -47,7 +47,7 @@ disableLinkification: true
   class="background-color-off-white"
   inner-class="padding-bottom-lg padding-horizontal-md"
 >
-  <h2 class="text-align-center">Explore Features</h2>
+  <h4 class="text-align-center">Explore Features</h4>
   <inline-fragment src="~/fragments/features-grid.md"></inline-fragment>
 </amplify-container>
 <docs-link-banner></docs-link-banner>

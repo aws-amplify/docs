@@ -1,6 +1,6 @@
 ## Using Amazon Cognito Hosted UI
 
-Amazon Cognito User Pools provides a customizable user experience via a web "Hosted UI". The Hosted UI provides an OAuth 2.0 flow that allows you to launch a web view (without embedding an SDK for Cognito or a social provider) via your application. The Hosted UI allows end-users to login and register directly to your user pool, through Facebook, Amazon, and Google, as well as through OpenID Connect (OIDC) and SAML identity providers. The Amplify CLI will setup and configure a Hosted UI for you when adding Authentication to your app. [Learn More](/cli/auth/overview)
+Amazon Cognito User Pools provides a customizable user experience via a web "Hosted UI". The Hosted UI provides an OAuth 2.0 flow that allows you to launch a web view (without embedding an SDK for Cognito or a social provider) via your application. The Hosted UI allows end-users to login and register directly to your user pool, through Facebook, Amazon, and Google, as well as through OpenID Connect (OIDC) and SAML identity providers. The Amplify CLI will setup and configure a Hosted UI for you when adding Authentication to your app. [Learn More](~/cli/auth/overview.md)
 
 ### Automated Setup with CLI
 

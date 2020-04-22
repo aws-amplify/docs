@@ -1,7 +1,7 @@
 {
   "name": "Amplify Framework Documentation",
   "short_name": "Amplify Docs",
-  "start_url": "/",
+  "start_url": "docs.amplify.aws",
   "display": "standalone",
   "icons": [
     {

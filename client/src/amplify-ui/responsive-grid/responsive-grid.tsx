@@ -10,10 +10,9 @@ export class AmplifyResponsiveGrid {
   @Prop() readonly gridGap: number = 2;
   /** default column count for laptop */
   @Prop() readonly columns: number = 3;
+
   /** a dictionary of what column counts to apply at given breakpoints */
-  @Prop() readonly columnCountByBreakpoint: ColumnCountByBreakpoint = {
-    [Breakpoint.LAPTOP]: this.columns,
-  };
+  @State() columnCountByBreakpoint: ColumnCountByBreakpoint;
 
   @State() computedStyle?: string;
 
@@ -37,6 +36,9 @@ export class AmplifyResponsiveGrid {
   }
 
   componentWillLoad() {
+    this.columnCountByBreakpoint = {
+      [Breakpoint.LAPTOP]: this.columns,
+    };
     this.computeStyle();
   }
 

@@ -5,12 +5,11 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { ColumnCountByBreakpoint, } from "./amplify-ui/responsive-grid/responsive-grid.types";
 import { ToggleInView, } from "./amplify-ui/sidebar-layout/sidebar-layout.types";
 import { SetContent, } from "./amplify-ui/toc/toc.types";
 import { SelectedFilters, } from "./docs-ui/page/page.types";
-import { SetCurrentPath, } from "./docs-ui/internal-link/internal-link.types";
 import { MenuGroup, Page, } from "./api";
+import { MatchResults, } from "@stencil/router";
 import { SwitchOption, } from "./docs-ui/version-switch/version-switch.types";
 export namespace Components {
     interface AmplifyCallout {
@@ -19,25 +18,10 @@ export namespace Components {
          */
         "warning"?: boolean;
     }
-    interface AmplifyCard {
-        /**
-          * * link tag to use
-         */
-        "containerTag": string;
-        /**
-          * * whether or not to show external link graphic
-         */
-        "external"?: boolean;
-        /**
-          * * url
-         */
-        "url"?: string;
-        /**
-          * * if true, the thumbnail gets rendered to the left of the detail (not above)
-         */
-        "vertical"?: boolean;
-    }
     interface AmplifyCodeBlock {
+        /**
+          * what language are we displaying
+         */
         "language"?: string;
         /**
           * the number of lines of the code block
@@ -49,8 +33,6 @@ export namespace Components {
           * * incase users want to add a class to the inner div
          */
         "innerClass"?: string;
-    }
-    interface AmplifyContainerStory {
     }
     interface AmplifyExternalLink {
         /**
@@ -70,19 +52,11 @@ export namespace Components {
          */
         "redirect"?: boolean;
     }
-    interface AmplifyExternalLinkStory {
-    }
     interface AmplifyHero {
-    }
-    interface AmplifyHeroStory {
     }
     interface AmplifyLorem {
     }
     interface AmplifyResponsiveGrid {
-        /**
-          * a dictionary of what column counts to apply at given breakpoints
-         */
-        "columnCountByBreakpoint": ColumnCountByBreakpoint;
         /**
           * default column count for laptop
          */
@@ -91,8 +65,6 @@ export namespace Components {
           * how much space in between grid items (ems)
          */
         "gridGap": number;
-    }
-    interface AmplifyResponsiveGridStory {
     }
     interface AmplifySidebarLayout {
     }
@@ -152,17 +124,15 @@ export namespace Components {
     }
     interface AmplifyTocProvider {
     }
-    interface AmplifyTocStory {
-    }
     interface Docs404Page {
     }
     interface DocsCard {
         /**
-          * * what container tag to use
+          * * link tag to use
          */
-        "containerTag": "docs-internal-link";
+        "containerTag": string;
         /**
-          * * whether it's an external link
+          * * whether or not to show external link graphic
          */
         "external"?: boolean;
         /**
@@ -173,6 +143,18 @@ export namespace Components {
           * * url
          */
         "url"?: string;
+        /**
+          * * add a different url when mobile selected
+         */
+        "urlOverrideForAndroidFilter"?: string;
+        /**
+          * * add a different url when mobile selected
+         */
+        "urlOverrideForIOSFilter"?: string;
+        /**
+          * * add a different url when mobile selected
+         */
+        "urlOverrideForJSFilter"?: string;
         /**
           * * add a different url when mobile selected
          */
@@ -188,21 +170,13 @@ export namespace Components {
         /**
           * * the current page's data
          */
-        "page"?: Page;
-        /**
-          * * method to trigger the update of the currently-mounted `Page`
-         */
-        "setCurrentPath"?: SetCurrentPath;
+        "page": Page;
     }
     interface DocsChooseIntegrationAnchor {
         /**
           * * the current page's data
          */
         "page"?: Page;
-        /**
-          * * method to trigger the update of the currently-mounted `Page`
-         */
-        "setCurrentPath"?: SetCurrentPath;
     }
     interface DocsFeedbackCallout {
     }
@@ -218,7 +192,7 @@ export namespace Components {
     }
     interface DocsFooter {
     }
-    interface DocsGlobalStylesStory {
+    interface DocsFourOFour {
     }
     interface DocsInPageLink {
         /**
@@ -244,21 +218,13 @@ export namespace Components {
          */
         "childActiveClass"?: string;
         /**
-          * * the current route!
-         */
-        "currentPath"?: string;
-        /**
           * * the route to render out
          */
-        "href"?: string;
+        "href": string;
         /**
           * * the global selected filter state
          */
         "selectedFilters"?: SelectedFilters;
-        /**
-          * * fn to set the current route
-         */
-        "setCurrentPath"?: SetCurrentPath;
     }
     interface DocsInternalLinkButton {
         /**
@@ -272,6 +238,10 @@ export namespace Components {
     }
     interface DocsMenu {
         /**
+          * * the filter key
+         */
+        "filterKey"?: string;
+        /**
           * * the `Page` instance for which this menu is being rendered
          */
         "page"?: Page;
@@ -281,10 +251,6 @@ export namespace Components {
         "selectedFilters"?: SelectedFilters;
     }
     interface DocsMenuGroup {
-        /**
-          * * the current route
-         */
-        "currentPath": string;
         /**
           * * the filter key that applies to this product section
          */
@@ -310,9 +276,9 @@ export namespace Components {
     }
     interface DocsPage {
         /**
-          * * the current page path
+          * match path
          */
-        "currentPath"?: string;
+        "match": MatchResults;
     }
     interface DocsRepoActions {
         /**
@@ -337,12 +303,6 @@ export namespace Components {
           * * the globally-selected filter state
          */
         "selectedFilters"?: SelectedFilters;
-        /**
-          * * method to update the globally-provided page route
-         */
-        "setCurrentPath"?: SetCurrentPath;
-    }
-    interface DocsStoryPage {
     }
     interface DocsUniversalNav {
         /**
@@ -390,12 +350,6 @@ declare global {
         prototype: HTMLAmplifyCalloutElement;
         new (): HTMLAmplifyCalloutElement;
     };
-    interface HTMLAmplifyCardElement extends Components.AmplifyCard, HTMLStencilElement {
-    }
-    var HTMLAmplifyCardElement: {
-        prototype: HTMLAmplifyCardElement;
-        new (): HTMLAmplifyCardElement;
-    };
     interface HTMLAmplifyCodeBlockElement extends Components.AmplifyCodeBlock, HTMLStencilElement {
     }
     var HTMLAmplifyCodeBlockElement: {
@@ -408,35 +362,17 @@ declare global {
         prototype: HTMLAmplifyContainerElement;
         new (): HTMLAmplifyContainerElement;
     };
-    interface HTMLAmplifyContainerStoryElement extends Components.AmplifyContainerStory, HTMLStencilElement {
-    }
-    var HTMLAmplifyContainerStoryElement: {
-        prototype: HTMLAmplifyContainerStoryElement;
-        new (): HTMLAmplifyContainerStoryElement;
-    };
     interface HTMLAmplifyExternalLinkElement extends Components.AmplifyExternalLink, HTMLStencilElement {
     }
     var HTMLAmplifyExternalLinkElement: {
         prototype: HTMLAmplifyExternalLinkElement;
         new (): HTMLAmplifyExternalLinkElement;
     };
-    interface HTMLAmplifyExternalLinkStoryElement extends Components.AmplifyExternalLinkStory, HTMLStencilElement {
-    }
-    var HTMLAmplifyExternalLinkStoryElement: {
-        prototype: HTMLAmplifyExternalLinkStoryElement;
-        new (): HTMLAmplifyExternalLinkStoryElement;
-    };
     interface HTMLAmplifyHeroElement extends Components.AmplifyHero, HTMLStencilElement {
     }
     var HTMLAmplifyHeroElement: {
         prototype: HTMLAmplifyHeroElement;
         new (): HTMLAmplifyHeroElement;
-    };
-    interface HTMLAmplifyHeroStoryElement extends Components.AmplifyHeroStory, HTMLStencilElement {
-    }
-    var HTMLAmplifyHeroStoryElement: {
-        prototype: HTMLAmplifyHeroStoryElement;
-        new (): HTMLAmplifyHeroStoryElement;
     };
     interface HTMLAmplifyLoremElement extends Components.AmplifyLorem, HTMLStencilElement {
     }
@@ -449,12 +385,6 @@ declare global {
     var HTMLAmplifyResponsiveGridElement: {
         prototype: HTMLAmplifyResponsiveGridElement;
         new (): HTMLAmplifyResponsiveGridElement;
-    };
-    interface HTMLAmplifyResponsiveGridStoryElement extends Components.AmplifyResponsiveGridStory, HTMLStencilElement {
-    }
-    var HTMLAmplifyResponsiveGridStoryElement: {
-        prototype: HTMLAmplifyResponsiveGridStoryElement;
-        new (): HTMLAmplifyResponsiveGridStoryElement;
     };
     interface HTMLAmplifySidebarLayoutElement extends Components.AmplifySidebarLayout, HTMLStencilElement {
     }
@@ -497,12 +427,6 @@ declare global {
     var HTMLAmplifyTocProviderElement: {
         prototype: HTMLAmplifyTocProviderElement;
         new (): HTMLAmplifyTocProviderElement;
-    };
-    interface HTMLAmplifyTocStoryElement extends Components.AmplifyTocStory, HTMLStencilElement {
-    }
-    var HTMLAmplifyTocStoryElement: {
-        prototype: HTMLAmplifyTocStoryElement;
-        new (): HTMLAmplifyTocStoryElement;
     };
     interface HTMLDocs404PageElement extends Components.Docs404Page, HTMLStencilElement {
     }
@@ -552,11 +476,11 @@ declare global {
         prototype: HTMLDocsFooterElement;
         new (): HTMLDocsFooterElement;
     };
-    interface HTMLDocsGlobalStylesStoryElement extends Components.DocsGlobalStylesStory, HTMLStencilElement {
+    interface HTMLDocsFourOFourElement extends Components.DocsFourOFour, HTMLStencilElement {
     }
-    var HTMLDocsGlobalStylesStoryElement: {
-        prototype: HTMLDocsGlobalStylesStoryElement;
-        new (): HTMLDocsGlobalStylesStoryElement;
+    var HTMLDocsFourOFourElement: {
+        prototype: HTMLDocsFourOFourElement;
+        new (): HTMLDocsFourOFourElement;
     };
     interface HTMLDocsInPageLinkElement extends Components.DocsInPageLink, HTMLStencilElement {
     }
@@ -636,12 +560,6 @@ declare global {
         prototype: HTMLDocsSelectAnchorElement;
         new (): HTMLDocsSelectAnchorElement;
     };
-    interface HTMLDocsStoryPageElement extends Components.DocsStoryPage, HTMLStencilElement {
-    }
-    var HTMLDocsStoryPageElement: {
-        prototype: HTMLDocsStoryPageElement;
-        new (): HTMLDocsStoryPageElement;
-    };
     interface HTMLDocsUniversalNavElement extends Components.DocsUniversalNav, HTMLStencilElement {
     }
     var HTMLDocsUniversalNavElement: {
@@ -662,17 +580,12 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "amplify-callout": HTMLAmplifyCalloutElement;
-        "amplify-card": HTMLAmplifyCardElement;
         "amplify-code-block": HTMLAmplifyCodeBlockElement;
         "amplify-container": HTMLAmplifyContainerElement;
-        "amplify-container-story": HTMLAmplifyContainerStoryElement;
         "amplify-external-link": HTMLAmplifyExternalLinkElement;
-        "amplify-external-link-story": HTMLAmplifyExternalLinkStoryElement;
         "amplify-hero": HTMLAmplifyHeroElement;
-        "amplify-hero-story": HTMLAmplifyHeroStoryElement;
         "amplify-lorem": HTMLAmplifyLoremElement;
         "amplify-responsive-grid": HTMLAmplifyResponsiveGridElement;
-        "amplify-responsive-grid-story": HTMLAmplifyResponsiveGridStoryElement;
         "amplify-sidebar-layout": HTMLAmplifySidebarLayoutElement;
         "amplify-sidebar-layout-main": HTMLAmplifySidebarLayoutMainElement;
         "amplify-sidebar-layout-sidebar": HTMLAmplifySidebarLayoutSidebarElement;
@@ -680,7 +593,6 @@ declare global {
         "amplify-toc": HTMLAmplifyTocElement;
         "amplify-toc-contents": HTMLAmplifyTocContentsElement;
         "amplify-toc-provider": HTMLAmplifyTocProviderElement;
-        "amplify-toc-story": HTMLAmplifyTocStoryElement;
         "docs-404-page": HTMLDocs404PageElement;
         "docs-card": HTMLDocsCardElement;
         "docs-chat-button": HTMLDocsChatButtonElement;
@@ -689,7 +601,7 @@ declare global {
         "docs-feedback-callout": HTMLDocsFeedbackCalloutElement;
         "docs-filter-target": HTMLDocsFilterTargetElement;
         "docs-footer": HTMLDocsFooterElement;
-        "docs-global-styles-story": HTMLDocsGlobalStylesStoryElement;
+        "docs-four-o-four": HTMLDocsFourOFourElement;
         "docs-in-page-link": HTMLDocsInPageLinkElement;
         "docs-internal-link": HTMLDocsInternalLinkElement;
         "docs-internal-link-button": HTMLDocsInternalLinkButtonElement;
@@ -703,7 +615,6 @@ declare global {
         "docs-router": HTMLDocsRouterElement;
         "docs-secondary-nav": HTMLDocsSecondaryNavElement;
         "docs-select-anchor": HTMLDocsSelectAnchorElement;
-        "docs-story-page": HTMLDocsStoryPageElement;
         "docs-universal-nav": HTMLDocsUniversalNavElement;
         "docs-version-switch": HTMLDocsVersionSwitchElement;
         "ui-component-props": HTMLUiComponentPropsElement;
@@ -716,25 +627,10 @@ declare namespace LocalJSX {
          */
         "warning"?: boolean;
     }
-    interface AmplifyCard {
-        /**
-          * * link tag to use
-         */
-        "containerTag"?: string;
-        /**
-          * * whether or not to show external link graphic
-         */
-        "external"?: boolean;
-        /**
-          * * url
-         */
-        "url"?: string;
-        /**
-          * * if true, the thumbnail gets rendered to the left of the detail (not above)
-         */
-        "vertical"?: boolean;
-    }
     interface AmplifyCodeBlock {
+        /**
+          * what language are we displaying
+         */
         "language"?: string;
         /**
           * the number of lines of the code block
@@ -746,8 +642,6 @@ declare namespace LocalJSX {
           * * incase users want to add a class to the inner div
          */
         "innerClass"?: string;
-    }
-    interface AmplifyContainerStory {
     }
     interface AmplifyExternalLink {
         /**
@@ -767,19 +661,11 @@ declare namespace LocalJSX {
          */
         "redirect"?: boolean;
     }
-    interface AmplifyExternalLinkStory {
-    }
     interface AmplifyHero {
-    }
-    interface AmplifyHeroStory {
     }
     interface AmplifyLorem {
     }
     interface AmplifyResponsiveGrid {
-        /**
-          * a dictionary of what column counts to apply at given breakpoints
-         */
-        "columnCountByBreakpoint"?: ColumnCountByBreakpoint;
         /**
           * default column count for laptop
          */
@@ -788,8 +674,6 @@ declare namespace LocalJSX {
           * how much space in between grid items (ems)
          */
         "gridGap"?: number;
-    }
-    interface AmplifyResponsiveGridStory {
     }
     interface AmplifySidebarLayout {
     }
@@ -849,17 +733,15 @@ declare namespace LocalJSX {
     }
     interface AmplifyTocProvider {
     }
-    interface AmplifyTocStory {
-    }
     interface Docs404Page {
     }
     interface DocsCard {
         /**
-          * * what container tag to use
+          * * link tag to use
          */
-        "containerTag"?: "docs-internal-link";
+        "containerTag"?: string;
         /**
-          * * whether it's an external link
+          * * whether or not to show external link graphic
          */
         "external"?: boolean;
         /**
@@ -870,6 +752,18 @@ declare namespace LocalJSX {
           * * url
          */
         "url"?: string;
+        /**
+          * * add a different url when mobile selected
+         */
+        "urlOverrideForAndroidFilter"?: string;
+        /**
+          * * add a different url when mobile selected
+         */
+        "urlOverrideForIOSFilter"?: string;
+        /**
+          * * add a different url when mobile selected
+         */
+        "urlOverrideForJSFilter"?: string;
         /**
           * * add a different url when mobile selected
          */
@@ -886,20 +780,12 @@ declare namespace LocalJSX {
           * * the current page's data
          */
         "page"?: Page;
-        /**
-          * * method to trigger the update of the currently-mounted `Page`
-         */
-        "setCurrentPath"?: SetCurrentPath;
     }
     interface DocsChooseIntegrationAnchor {
         /**
           * * the current page's data
          */
         "page"?: Page;
-        /**
-          * * method to trigger the update of the currently-mounted `Page`
-         */
-        "setCurrentPath"?: SetCurrentPath;
     }
     interface DocsFeedbackCallout {
     }
@@ -915,7 +801,7 @@ declare namespace LocalJSX {
     }
     interface DocsFooter {
     }
-    interface DocsGlobalStylesStory {
+    interface DocsFourOFour {
     }
     interface DocsInPageLink {
         /**
@@ -941,10 +827,6 @@ declare namespace LocalJSX {
          */
         "childActiveClass"?: string;
         /**
-          * * the current route!
-         */
-        "currentPath"?: string;
-        /**
           * * the route to render out
          */
         "href"?: string;
@@ -952,10 +834,6 @@ declare namespace LocalJSX {
           * * the global selected filter state
          */
         "selectedFilters"?: SelectedFilters;
-        /**
-          * * fn to set the current route
-         */
-        "setCurrentPath"?: SetCurrentPath;
     }
     interface DocsInternalLinkButton {
         /**
@@ -969,6 +847,10 @@ declare namespace LocalJSX {
     }
     interface DocsMenu {
         /**
+          * * the filter key
+         */
+        "filterKey"?: string;
+        /**
           * * the `Page` instance for which this menu is being rendered
          */
         "page"?: Page;
@@ -978,10 +860,6 @@ declare namespace LocalJSX {
         "selectedFilters"?: SelectedFilters;
     }
     interface DocsMenuGroup {
-        /**
-          * * the current route
-         */
-        "currentPath"?: string;
         /**
           * * the filter key that applies to this product section
          */
@@ -1007,9 +885,9 @@ declare namespace LocalJSX {
     }
     interface DocsPage {
         /**
-          * * the current page path
+          * match path
          */
-        "currentPath"?: string;
+        "match"?: MatchResults;
     }
     interface DocsRepoActions {
         /**
@@ -1034,12 +912,6 @@ declare namespace LocalJSX {
           * * the globally-selected filter state
          */
         "selectedFilters"?: SelectedFilters;
-        /**
-          * * method to update the globally-provided page route
-         */
-        "setCurrentPath"?: SetCurrentPath;
-    }
-    interface DocsStoryPage {
     }
     interface DocsUniversalNav {
         /**
@@ -1081,17 +953,12 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "amplify-callout": AmplifyCallout;
-        "amplify-card": AmplifyCard;
         "amplify-code-block": AmplifyCodeBlock;
         "amplify-container": AmplifyContainer;
-        "amplify-container-story": AmplifyContainerStory;
         "amplify-external-link": AmplifyExternalLink;
-        "amplify-external-link-story": AmplifyExternalLinkStory;
         "amplify-hero": AmplifyHero;
-        "amplify-hero-story": AmplifyHeroStory;
         "amplify-lorem": AmplifyLorem;
         "amplify-responsive-grid": AmplifyResponsiveGrid;
-        "amplify-responsive-grid-story": AmplifyResponsiveGridStory;
         "amplify-sidebar-layout": AmplifySidebarLayout;
         "amplify-sidebar-layout-main": AmplifySidebarLayoutMain;
         "amplify-sidebar-layout-sidebar": AmplifySidebarLayoutSidebar;
@@ -1099,7 +966,6 @@ declare namespace LocalJSX {
         "amplify-toc": AmplifyToc;
         "amplify-toc-contents": AmplifyTocContents;
         "amplify-toc-provider": AmplifyTocProvider;
-        "amplify-toc-story": AmplifyTocStory;
         "docs-404-page": Docs404Page;
         "docs-card": DocsCard;
         "docs-chat-button": DocsChatButton;
@@ -1108,7 +974,7 @@ declare namespace LocalJSX {
         "docs-feedback-callout": DocsFeedbackCallout;
         "docs-filter-target": DocsFilterTarget;
         "docs-footer": DocsFooter;
-        "docs-global-styles-story": DocsGlobalStylesStory;
+        "docs-four-o-four": DocsFourOFour;
         "docs-in-page-link": DocsInPageLink;
         "docs-internal-link": DocsInternalLink;
         "docs-internal-link-button": DocsInternalLinkButton;
@@ -1122,7 +988,6 @@ declare namespace LocalJSX {
         "docs-router": DocsRouter;
         "docs-secondary-nav": DocsSecondaryNav;
         "docs-select-anchor": DocsSelectAnchor;
-        "docs-story-page": DocsStoryPage;
         "docs-universal-nav": DocsUniversalNav;
         "docs-version-switch": DocsVersionSwitch;
         "ui-component-props": UiComponentProps;
@@ -1133,17 +998,12 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "amplify-callout": LocalJSX.AmplifyCallout & JSXBase.HTMLAttributes<HTMLAmplifyCalloutElement>;
-            "amplify-card": LocalJSX.AmplifyCard & JSXBase.HTMLAttributes<HTMLAmplifyCardElement>;
             "amplify-code-block": LocalJSX.AmplifyCodeBlock & JSXBase.HTMLAttributes<HTMLAmplifyCodeBlockElement>;
             "amplify-container": LocalJSX.AmplifyContainer & JSXBase.HTMLAttributes<HTMLAmplifyContainerElement>;
-            "amplify-container-story": LocalJSX.AmplifyContainerStory & JSXBase.HTMLAttributes<HTMLAmplifyContainerStoryElement>;
             "amplify-external-link": LocalJSX.AmplifyExternalLink & JSXBase.HTMLAttributes<HTMLAmplifyExternalLinkElement>;
-            "amplify-external-link-story": LocalJSX.AmplifyExternalLinkStory & JSXBase.HTMLAttributes<HTMLAmplifyExternalLinkStoryElement>;
             "amplify-hero": LocalJSX.AmplifyHero & JSXBase.HTMLAttributes<HTMLAmplifyHeroElement>;
-            "amplify-hero-story": LocalJSX.AmplifyHeroStory & JSXBase.HTMLAttributes<HTMLAmplifyHeroStoryElement>;
             "amplify-lorem": LocalJSX.AmplifyLorem & JSXBase.HTMLAttributes<HTMLAmplifyLoremElement>;
             "amplify-responsive-grid": LocalJSX.AmplifyResponsiveGrid & JSXBase.HTMLAttributes<HTMLAmplifyResponsiveGridElement>;
-            "amplify-responsive-grid-story": LocalJSX.AmplifyResponsiveGridStory & JSXBase.HTMLAttributes<HTMLAmplifyResponsiveGridStoryElement>;
             "amplify-sidebar-layout": LocalJSX.AmplifySidebarLayout & JSXBase.HTMLAttributes<HTMLAmplifySidebarLayoutElement>;
             "amplify-sidebar-layout-main": LocalJSX.AmplifySidebarLayoutMain & JSXBase.HTMLAttributes<HTMLAmplifySidebarLayoutMainElement>;
             "amplify-sidebar-layout-sidebar": LocalJSX.AmplifySidebarLayoutSidebar & JSXBase.HTMLAttributes<HTMLAmplifySidebarLayoutSidebarElement>;
@@ -1151,7 +1011,6 @@ declare module "@stencil/core" {
             "amplify-toc": LocalJSX.AmplifyToc & JSXBase.HTMLAttributes<HTMLAmplifyTocElement>;
             "amplify-toc-contents": LocalJSX.AmplifyTocContents & JSXBase.HTMLAttributes<HTMLAmplifyTocContentsElement>;
             "amplify-toc-provider": LocalJSX.AmplifyTocProvider & JSXBase.HTMLAttributes<HTMLAmplifyTocProviderElement>;
-            "amplify-toc-story": LocalJSX.AmplifyTocStory & JSXBase.HTMLAttributes<HTMLAmplifyTocStoryElement>;
             "docs-404-page": LocalJSX.Docs404Page & JSXBase.HTMLAttributes<HTMLDocs404PageElement>;
             "docs-card": LocalJSX.DocsCard & JSXBase.HTMLAttributes<HTMLDocsCardElement>;
             "docs-chat-button": LocalJSX.DocsChatButton & JSXBase.HTMLAttributes<HTMLDocsChatButtonElement>;
@@ -1160,7 +1019,7 @@ declare module "@stencil/core" {
             "docs-feedback-callout": LocalJSX.DocsFeedbackCallout & JSXBase.HTMLAttributes<HTMLDocsFeedbackCalloutElement>;
             "docs-filter-target": LocalJSX.DocsFilterTarget & JSXBase.HTMLAttributes<HTMLDocsFilterTargetElement>;
             "docs-footer": LocalJSX.DocsFooter & JSXBase.HTMLAttributes<HTMLDocsFooterElement>;
-            "docs-global-styles-story": LocalJSX.DocsGlobalStylesStory & JSXBase.HTMLAttributes<HTMLDocsGlobalStylesStoryElement>;
+            "docs-four-o-four": LocalJSX.DocsFourOFour & JSXBase.HTMLAttributes<HTMLDocsFourOFourElement>;
             "docs-in-page-link": LocalJSX.DocsInPageLink & JSXBase.HTMLAttributes<HTMLDocsInPageLinkElement>;
             "docs-internal-link": LocalJSX.DocsInternalLink & JSXBase.HTMLAttributes<HTMLDocsInternalLinkElement>;
             "docs-internal-link-button": LocalJSX.DocsInternalLinkButton & JSXBase.HTMLAttributes<HTMLDocsInternalLinkButtonElement>;
@@ -1174,7 +1033,6 @@ declare module "@stencil/core" {
             "docs-router": LocalJSX.DocsRouter & JSXBase.HTMLAttributes<HTMLDocsRouterElement>;
             "docs-secondary-nav": LocalJSX.DocsSecondaryNav & JSXBase.HTMLAttributes<HTMLDocsSecondaryNavElement>;
             "docs-select-anchor": LocalJSX.DocsSelectAnchor & JSXBase.HTMLAttributes<HTMLDocsSelectAnchorElement>;
-            "docs-story-page": LocalJSX.DocsStoryPage & JSXBase.HTMLAttributes<HTMLDocsStoryPageElement>;
             "docs-universal-nav": LocalJSX.DocsUniversalNav & JSXBase.HTMLAttributes<HTMLDocsUniversalNavElement>;
             "docs-version-switch": LocalJSX.DocsVersionSwitch & JSXBase.HTMLAttributes<HTMLDocsVersionSwitchElement>;
             "ui-component-props": LocalJSX.UiComponentProps & JSXBase.HTMLAttributes<HTMLUiComponentPropsElement>;

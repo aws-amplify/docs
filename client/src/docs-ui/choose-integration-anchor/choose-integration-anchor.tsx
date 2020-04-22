@@ -4,20 +4,12 @@ import {
   mobileFilterMetadataByOption,
   webFilterMetadataByOption,
 } from "../../utils/filter-data";
-import {internalLinkContext} from "../internal-link/internal-link.context";
-import {SetCurrentPath} from "../internal-link/internal-link.types";
 import {hostStyle} from "./choose-integration-anchor.style";
 
-@Component({tag: "docs-choose-integration-anchor"})
+@Component({tag: "docs-choose-integration-anchor", shadow: false})
 export class DocsChooseIntegrationAnchor {
-  /*** method to trigger the update of the currently-mounted `Page` */
-  @Prop() readonly setCurrentPath?: SetCurrentPath;
   /*** the current page's data */
   @Prop() readonly page?: Page;
-
-  createOnClick = (path: string | undefined) => () => {
-    path && this.setCurrentPath && this.setCurrentPath(path);
-  };
 
   render() {
     return (
@@ -32,18 +24,13 @@ export class DocsChooseIntegrationAnchor {
           {Object.entries(webFilterMetadataByOption).map(
             ([filterValue, {label, graphicURI}]) => {
               const route =
-                this.page && `${this.page.route}?integration=${filterValue}`;
+                this.page && `${this.page.route}/q/integration/${filterValue}`;
 
               return (
-                <amplify-card
-                  key={label}
-                  vertical
-                  onClick={this.createOnClick(route)}
-                  url={route}
-                >
+                <docs-card key={label} vertical url={route}>
                   <img slot="graphic" src={graphicURI} alt={`${label} Logo`} />
                   <h4 slot="heading">{label}</h4>
-                </amplify-card>
+                </docs-card>
               );
             },
           )}
@@ -57,18 +44,13 @@ export class DocsChooseIntegrationAnchor {
           {Object.entries(mobileFilterMetadataByOption).map(
             ([filterValue, {label, graphicURI}]) => {
               const route =
-                this.page && `${this.page.route}?integration=${filterValue}`;
+                this.page && `${this.page.route}/q/integration/${filterValue}`;
 
               return (
-                <amplify-card
-                  key={label}
-                  vertical
-                  onClick={this.createOnClick(route)}
-                  url={route}
-                >
+                <docs-card key={label} vertical url={route}>
                   <img slot="graphic" src={graphicURI} alt={`${label} Logo`} />
                   <h4 slot="heading">{label}</h4>
-                </amplify-card>
+                </docs-card>
               );
             },
           )}
@@ -77,7 +59,3 @@ export class DocsChooseIntegrationAnchor {
     );
   }
 }
-
-internalLinkContext.injectProps(DocsChooseIntegrationAnchor, [
-  "setCurrentPath",
-]);

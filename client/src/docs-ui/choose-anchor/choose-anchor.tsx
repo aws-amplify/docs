@@ -2,46 +2,28 @@ import {Component, Host, h, Prop} from "@stencil/core";
 import {Page} from "../../api";
 import {getFilterKeyFromPage} from "../../utils/filters";
 import {filterMetadataByOptionByName} from "../../utils/filter-data";
-import {internalLinkContext} from "../internal-link/internal-link.context";
-import {SetCurrentPath} from "../internal-link/internal-link.types";
 
-const getRoute = (
-  initialRoute: string,
-  filterKey: string,
-  filterValue: string,
-): string => {
+const getRoute = (page: Page, filterValue: string): string => {
   switch (filterValue) {
-    case "js": {
-      if (initialRoute.startsWith("/sdk")) {
-        return "lib?platform=js";
-      }
-      break;
-    }
     case "android":
     case "ios": {
-      if (initialRoute.startsWith("/lib")) {
-        return `/sdk?platform=${filterValue}`;
+      if (page.route.startsWith("/lib")) {
+        return `/sdk/q/platform/${filterValue}`;
       }
       break;
     }
   }
 
-  return `${initialRoute}?${filterKey}=${filterValue}`;
+  return page.versions?.[filterValue] as string;
 };
 
-@Component({tag: "docs-choose-anchor"})
+@Component({tag: "docs-choose-anchor", shadow: false})
 export class DocsChooseAnchor {
-  /*** method to trigger the update of the currently-mounted `Page` */
-  @Prop() readonly setCurrentPath?: SetCurrentPath;
   /*** the current page's data */
-  @Prop() readonly page?: Page;
-
-  createOnClick = (path: string | undefined) => () => {
-    path && this.setCurrentPath && this.setCurrentPath(path);
-  };
+  @Prop() readonly page: Page;
 
   render() {
-    const filterKey = this.page && getFilterKeyFromPage(this.page);
+    const filterKey = getFilterKeyFromPage(this.page);
 
     return (
       <Host>
@@ -53,24 +35,17 @@ export class DocsChooseAnchor {
           {filterKey &&
             Object.entries(filterMetadataByOptionByName[filterKey]).map(
               ([filterValue, {label, graphicURI}]) => {
-                const route =
-                  this.page?.route &&
-                  getRoute(this.page.route, filterKey, filterValue);
+                const route = getRoute(this.page, filterValue);
 
                 return (
-                  <amplify-card
-                    key={label}
-                    vertical
-                    onClick={this.createOnClick(route)}
-                    url={route}
-                  >
+                  <docs-card key={label} vertical url={route}>
                     <img
                       slot="graphic"
                       src={graphicURI}
                       alt={`${label} Logo`}
                     />
                     <h4 slot="heading">{label}</h4>
-                  </amplify-card>
+                  </docs-card>
                 );
               },
             )}
@@ -79,5 +54,3 @@ export class DocsChooseAnchor {
     );
   }
 }
-
-internalLinkContext.injectProps(DocsChooseAnchor, ["setCurrentPath"]);
