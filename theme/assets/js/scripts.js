@@ -64,6 +64,21 @@
 			"/docs/sdk/android/analytics": "https://docs.amplify.aws/sdk/analytics/getting-started?platform=android",
 			"/docs/sdk/android/push-notifications": "https://docs.amplify.aws/sdk/push-notifications/getting-started?platform=android",
 			"/docs/sdk/android/pubsub": "https://docs.amplify.aws/sdk/pubsub/getting-started?platform=android",
+			"/docs/js/ui": "https://docs.amplify.aws/ui",
+			"/docs/js/interactions#using-with-react": "https://docs.amplify.aws/ui-legacy/interactions/chatbot/q/framework/react",
+			"/docs/js/interactions#using-with-react-native": "https://docs.amplify.aws/ui-legacy/interactions/chatbot/q/framework/react-native",
+			"/docs/js/angular#interactions": "https://docs.amplify.aws/ui-legacy/interactions/chatbot/q/framework/angular",
+			"/docs/js/vue#interaction-components": "https://docs.amplify.aws/ui-legacy/q/framework/vue",
+			"/docs/js/storage#s3album": "https://docs.amplify.aws/ui-legacy/storage/s3-album/q/framework/react",
+			"/docs/js/storage#s3-album": "https://docs.amplify.aws/ui-legacy/storage/s3-album/q/framework/angular",
+			"/docs/js/vue#storage-components": "https://docs.amplify.aws/ui-legacy/storage/s3-album/q/framework/vue",
+			"/docs/js/storage#picker": "https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/react",
+			"/docs/js/storage#photo-picker": "https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/angular",
+			"/docs/js/vue#storage-components": "https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/vue",
+			"/docs/js/authentication#using-components-in-react": "https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/react",
+			"/docs/js/authentication#using-components-in-react--react-native": "https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/react-native",
+			"/docs/js/angular#authenticator": "https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/angular",
+			"/docs/js/vue#authentication-components": "https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/vue",
 		};
 
 		var pathname = location.pathname;
