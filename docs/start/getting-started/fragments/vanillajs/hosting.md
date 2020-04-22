@@ -21,4 +21,6 @@ amplify publish
 
 ![image](~/images/browser-published.png) 
 
-After publishing, your browser will open your app hosted on a `amplifyapp.com` domain. Whenever you have additional changes to publish, just re-run the `amplify publish` command. 
+After publishing, your terminal will display your app URL hosted on a `amplifyapp.com` domain. Whenever you have additional changes to publish, just re-run the `amplify publish` command. 
+
+To view your app and hosting configuration in the Amplify Console, run the `amplify console` command.
