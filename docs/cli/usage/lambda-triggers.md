@@ -1,6 +1,6 @@
 ---
 title: Lambda Triggers
-description: Associate a Lambda trigger with an S3 bucket, DynamoDB table or Kinesis Stream managed through the Amplify CLI.
+description: Lambda triggers are useful for adding functionality during certain lifecycles of the user's journey. Associate a Lambda trigger with an auth scenario, S3 bucket, DynamoDB table or Kinesis Stream managed through the Amplify CLI.
 --- 
 
 Lambda triggers are useful for adding functionality during certain lifecycles of the user's journey. Amplify ships common trigger templates which you can enable and modify (if necessary) through a few simple questions. 
