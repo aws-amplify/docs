@@ -103,6 +103,11 @@ export async function API(c: t.Config): Promise<void> {
     })) {
       // we make the given path deduction available in the `ctx`
       const srcPath = chunk.toString();
+      if (srcPath.includes("/q/")) {
+        throw new Error(
+          `Source path "${srcPath}" contains "q" as ancestor directory (invalid)`,
+        );
+      }
       ctx.srcPaths.push(srcPath);
       const pathDeduction = new PathDeduction(srcPath, config);
       ctx.pathDeductionBySrcPath.set(srcPath, pathDeduction);

@@ -2,22 +2,15 @@ import {Component, h, Prop, Host, State, Watch} from "@stencil/core";
 import {filtersByRoute} from "../../api";
 import {SelectedFilters} from "../page/page.types";
 import {pageContext} from "../page/page.context";
-import {internalLinkContext} from "./internal-link.context";
-import {SetCurrentPath} from "./internal-link.types";
-import Url from "url-parse";
-import {track, AnalyticsEventType} from "../../utils/track";
 import {getPage} from "../../cache";
+import {parseURL, serializeURL} from "../../utils/url/url";
 
-@Component({tag: "docs-internal-link"})
+@Component({tag: "docs-internal-link", shadow: false})
 export class DocsInternalLink {
-  /*** the current route! */
-  @Prop() readonly currentPath?: string;
-  /*** fn to set the current route */
-  @Prop() readonly setCurrentPath?: SetCurrentPath;
   /*** the global selected filter state */
   @Prop() readonly selectedFilters?: SelectedFilters;
   /*** the route to render out */
-  @Prop() readonly href?: string;
+  @Prop() readonly href: string;
   /*** class name to attach to link when active */
   @Prop() readonly activeClass?: string;
   /*** class name to attach a subpage is active */
@@ -25,96 +18,62 @@ export class DocsInternalLink {
   /*** override `isChildActive` to true */
   @Prop() readonly additionalActiveChildRoots?: string[];
 
+  selectedFilter?: string;
+
   @State() url?: string;
   @State() isActive?: boolean;
   @State() isChildActive?: boolean;
 
-  // @ts-ignore
   @Watch("selectedFilters")
-  computeURL() {
-    if (this.href) {
-      const parsed = new Url(this.href, true);
-      const {query, pathname, origin, hash} = parsed;
+  componentWillLoad() {
+    let selectedFilter: string | undefined;
+    const {path, hash, params} = parseURL(this.href);
 
-      if (Object.keys(query).length === 0) {
-        const filters = filtersByRoute.get(pathname);
-        if (filters) {
-          const [[filterKey, filterValues]] = Object.entries(filters);
-          const selectedFilterValue = this.selectedFilters?.[filterKey] as
-            | string
-            | undefined;
+    if (Object.keys(params).length === 0) {
+      const filters = filtersByRoute.get(path);
+      if (filters) {
+        const [[filterKey, filterValues]] = Object.entries(filters);
+        selectedFilter = this.selectedFilters?.[filterKey] as
+          | string
+          | undefined;
+        if (selectedFilter) {
           if (
-            selectedFilterValue &&
             Array.isArray(filterValues) &&
-            filterValues.includes(selectedFilterValue)
+            filterValues.includes(selectedFilter)
           ) {
-            if (selectedFilterValue === "js" && pathname.startsWith("/sdk")) {
-              parsed.set("pathname", pathname.replace("/sdk", "/lib"));
-            }
-
-            parsed.set("query", {[filterKey]: selectedFilterValue});
-            parsed.set("hash", hash);
+            params[filterKey] = selectedFilter;
           }
         }
       }
-
-      this.url = parsed
-        .toString()
-        .split(origin)
-        .pop();
     }
-  }
 
-  // @ts-ignore
-  @Watch("selectedFilters")
-  // @ts-ignore
-  @Watch("currentPath")
-  computeMatch() {
-    if (this.currentPath && this.url) {
-      this.isActive = this.currentPath === this.url;
-      const currentPathWithoutQS = this.currentPath?.split("?")?.[0];
-      const hrefWithoutQS = this.href?.split("?")?.[0];
-      this.isChildActive =
-        this.additionalActiveChildRoots?.some((root) =>
-          this.currentPath?.startsWith(root),
-        ) ||
-        !!(
-          hrefWithoutQS &&
-          currentPathWithoutQS?.startsWith(hrefWithoutQS) &&
-          !currentPathWithoutQS?.startsWith(`${hrefWithoutQS}-`)
-        );
-    }
-  }
+    const url = serializeURL({path, hash, params});
+    const isActive = location.pathname === url;
+    const currentPathWithoutQS = location.pathname.split("/q/")?.[0];
+    const hrefWithoutQS = url.split("/q/")?.[0];
+    const isChildActive =
+      this.additionalActiveChildRoots?.some((root) =>
+        location.pathname.startsWith(root),
+      ) ||
+      !!(
+        hrefWithoutQS &&
+        currentPathWithoutQS?.startsWith(hrefWithoutQS) &&
+        !currentPathWithoutQS?.startsWith(`${hrefWithoutQS}-`)
+      );
 
-  componentWillLoad() {
-    this.computeURL();
-    this.computeMatch();
+    Object.assign(this, {url, isActive, isChildActive});
   }
 
   componentDidRender() {
-    if (this.href) {
-      getPage(this.href);
+    if (this.url) {
+      getPage(parseURL(this.url).path);
     }
   }
-
-  onClick = () => {
-    if (this.url) {
-      track({
-        type: AnalyticsEventType.INTERNAL_LINK_CLICK,
-        attributes: {from: location.href, to: this.url},
-      });
-
-      if (this.setCurrentPath) {
-        this.setCurrentPath(this.url);
-      }
-    }
-  };
 
   render() {
     return (
       <Host>
         <stencil-route-link
-          onClick={this.onClick}
           url={this.url}
           class={{
             ...(this.activeClass ? {[this.activeClass]: !!this.isActive} : {}),
@@ -131,7 +90,3 @@ export class DocsInternalLink {
 }
 
 pageContext.injectProps(DocsInternalLink, ["selectedFilters"]);
-internalLinkContext.injectProps(DocsInternalLink, [
-  "currentPath",
-  "setCurrentPath",
-]);

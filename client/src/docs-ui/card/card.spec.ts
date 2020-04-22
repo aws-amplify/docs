@@ -1,13 +1,13 @@
 import {DocsCard} from "./card";
 import {newSpecPage} from "@stencil/core/testing";
 
-describe("docs-card", () => {
+describe("amplify-card", () => {
   describe("Component logic", () => {
-    let card: DocsCard;
-    beforeEach(() => (card = new DocsCard()));
+    let docsCard: DocsCard;
+    beforeEach(() => (docsCard = new DocsCard()));
 
     it("should init `vertical` as `undefined`", () =>
-      expect(card.vertical).toBeUndefined());
+      expect(docsCard.vertical).toBeUndefined());
   });
 
   describe("Render logic", () => {

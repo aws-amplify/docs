@@ -229,7 +229,7 @@ Like mutations, subscriptions can also take input types, in which case they will
 
 ### Mocking and Local Testing
 
-Amplify supports running a local mock server for testing your application with AWS AppSync, including debugging of resolvers, before pushing to the cloud. Please see the [CLI Toolchain documentation](/cli/usage/mock) for more details.
+Amplify supports running a local mock server for testing your application with AWS AppSync, including debugging of resolvers, before pushing to the cloud. Please see the [CLI Toolchain documentation](~/cli/usage/mock.md) for more details.
 
 ### Client Architecture
 

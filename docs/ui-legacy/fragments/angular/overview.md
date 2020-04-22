@@ -2,7 +2,7 @@ The `aws-amplify-angular` package is a set of Angular components and an Angular 
 
 <amplify-callout>
 
-Angular 9 is not supported in the legacy version of the Angular UI Components. If you app in using Angular 9, please see our new [Angular UI Component package](~/ui/ui.md?framework=angular).
+Angular 9 is not supported in the legacy version of the Angular UI Components. If you app in using Angular 9, please see our new [Angular UI Component package](~/ui/ui.md/q/framework/angular).
 
 </amplify-callout>
 

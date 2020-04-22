@@ -56,6 +56,10 @@ type AnalyticsEvent =
 
 export const track = (event: AnalyticsEvent): Promise<unknown> | undefined => {
   if (Build.isBrowser) {
-    return Analytics.record(event.type, event.attributes);
+    try {
+      return Analytics.record(event.type, event.attributes);
+    } catch (e) {
+      console.error("Failed to execute track.");
+    }
   }
 };

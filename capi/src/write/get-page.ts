@@ -38,6 +38,12 @@ export async function getPage(config: t.Config, ctx: t.Ctx): Promise<void> {
         }
 
         writer
+          .writeLine("      default: {")
+          .writeLine('        console.error(`No such page "${route}"`);')
+          .writeLine("        return undefined;")
+          .writeLine("      }");
+
+        writer
           .writeLine("    }")
           .writeLine(`  })();`)
           .writeLine(`  return pending`)

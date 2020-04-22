@@ -6,19 +6,9 @@ const IS_URL_ABSOLUTE_REGEX = /^https?:\/\//i;
 
 const linkTags = {
   a: true,
-  "amplify-card": true,
   "docs-card": true,
   "docs-internal-link-button": true,
   "docs-in-page-link": true,
-};
-
-const validLinkExtensions = {
-  svg: true,
-  jpg: true,
-  jpeg: true,
-  png: true,
-  gif: true,
-  md: true,
 };
 
 const getRoute = (
@@ -26,19 +16,26 @@ const getRoute = (
   transformerProps: t.TransformerProps,
 ): string => {
   const parsedURL = parse(url);
-  const {hash, query} = parsedURL;
+  const {hash} = parsedURL;
   let {path: urlPath} = parsedURL;
 
   if (urlPath) {
-    if (urlPath.includes("?")) {
-      urlPath = urlPath.split("?").shift() as string;
+    if (urlPath.includes("#")) {
+      urlPath = urlPath.split("#").shift() as string;
+    }
+    let query = "";
+    if (urlPath.includes("/q/")) {
+      const pieces = urlPath.split("/q/");
+      urlPath = pieces.shift() as string;
+      const paramEntry = (pieces.shift() as string).split("/");
+      query = `/q/${paramEntry[0]}/${paramEntry[1]}`;
     }
     const pathDeduction = transformerProps.ctx.resolvePathDeduction(
       urlPath,
       transformerProps.srcPath,
     );
     if (pathDeduction.route) {
-      return `${pathDeduction.route}${query ? `?${query}` : ""}${hash || ""}`;
+      return `${pathDeduction.route}${query}${hash || ""}`;
     } else if (pathDeduction.destinationPath) {
       const pieces = path
         .relative(
@@ -80,22 +77,8 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
           return;
         }
 
-        if (url.startsWith("..")) {
-          const sub = url.substr(2);
-          url = `${sub}${sub.startsWith("/") ? sub : `/${sub}`}`;
-        }
-
         if (!url.startsWith("~")) {
           url = `~${url.startsWith("/") ? "" : "/"}${url}`;
-        }
-
-        if (
-          (!url.includes(".") ||
-            !validLinkExtensions[url.split(".").pop() || ""]) &&
-          !url.includes("#") &&
-          !url.includes("?")
-        ) {
-          url = `${url}.md`;
         }
       }
 
@@ -113,27 +96,30 @@ export const links: t.Transformer = (transformerProps: t.TransformerProps) => {
           break;
         }
 
-        case "docs-card":
-        case "amplify-card": {
+        case "docs-card": {
           finalProps.url = route;
 
-          // to satisfy module redirect requirement
-          const urlOverrideForMobileFilter = props[
-            "url-override-for-mobile-filter"
-          ] as string | undefined;
-          if (urlOverrideForMobileFilter) {
-            const urlOverrideForMobileFilterIsExternal = IS_URL_ABSOLUTE_REGEX.test(
-              urlOverrideForMobileFilter,
-            );
-            const routeOverrideForMobileFilter = urlOverrideForMobileFilterIsExternal
-              ? urlOverrideForMobileFilter
-              : getRoute(urlOverrideForMobileFilter, transformerProps);
-            if (routeOverrideForMobileFilter) {
-              finalProps[
-                "url-override-for-mobile-filter"
-              ] = routeOverrideForMobileFilter;
+          [
+            "url-override-for-mobile-filter",
+            "url-override-for-ios-filter",
+            "url-override-for-android-filter",
+            "url-override-for-js-filter",
+          ].forEach((routeOverrideKey) => {
+            const routeOverrideValue = props[routeOverrideKey] as
+              | string
+              | undefined;
+            if (routeOverrideValue) {
+              const routeOverrideIsExternal = IS_URL_ABSOLUTE_REGEX.test(
+                routeOverrideValue,
+              );
+              const routeOverrideForMobileFilter = routeOverrideIsExternal
+                ? routeOverrideValue
+                : getRoute(routeOverrideValue, transformerProps);
+              if (routeOverrideForMobileFilter) {
+                finalProps[routeOverrideKey] = routeOverrideForMobileFilter;
+              }
             }
-          }
+          });
 
           break;
         }

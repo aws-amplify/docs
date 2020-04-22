@@ -8,9 +8,9 @@ import * as path from "path";
  *
  * ```ts
  * {
- *   js: "/lib/auth/overview?platform=js",
- *   android: "/lib/auth/overview?platform=android",
- *   ios: "/lib/auth/overview?platform=ios"
+ *   js: "/lib/auth/overview/q/platform/js",
+ *   android: "/lib/auth/overview/q/platform/android",
+ *   ios: "/lib/auth/overview/q/platform/ios"
  * }
  * ```
  */
@@ -65,7 +65,7 @@ export const injectFilteredVersionRoutes = (ctx: t.Ctx): void => {
           filterValues.forEach((filterValue) => {
             versions[
               filterValue
-            ] = `${productRootPage.route}?${filterKey}=${filterValue}`;
+            ] = `${productRootPage.route}/q/${filterKey}/${filterValue}`;
           });
 
           // get access to which filter options are available for the given page
@@ -77,7 +77,7 @@ export const injectFilteredVersionRoutes = (ctx: t.Ctx): void => {
             availableFilterValues.forEach((filterValue) => {
               versions[
                 filterValue
-              ] = `${page.route}?${filterKey}=${filterValue}`;
+              ] = `${page.route}/q/${filterKey}/${filterValue}`;
             });
           }
 
@@ -87,17 +87,12 @@ export const injectFilteredVersionRoutes = (ctx: t.Ctx): void => {
             filterValues.forEach((filterValue) => {
               versions[
                 filterValue
-              ] = `${page.route}?${filterKey}=${filterValue}`;
+              ] = `${page.route}/q/${filterKey}/${filterValue}`;
             });
           }
 
           if (page.route.includes("/sdk")) {
-            versions.js = `/lib?platform=js`;
-          }
-
-          if (page.route.includes("/lib")) {
-            versions.ios = `/sdk?platform=ios`;
-            versions.android = `/sdk?platform=android`;
+            versions.js = `/lib/q/platform/js`;
           }
 
           // attach the `versions` and `filterKey` to the page

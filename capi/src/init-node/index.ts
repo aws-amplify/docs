@@ -56,7 +56,7 @@ const highlight = (code: string, language: string): string => {
     highlighted = entities.encode(code);
   }
 
-  const c = `<div class="highlight highlight-source${
+  const c = `<div slot="content" class="highlight highlight-source${
     languageIsSet ? `-${language}` : ""
   }">${highlighted}</div>`;
 
