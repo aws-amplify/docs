@@ -10,8 +10,11 @@ The Amplify Storage category provides a simple mechanism for managing user conte
 
 Run the following command in your project's root folder:
 
+```bash
+amplify add storage
+```
+
 ```console
-$ amplify add storage
 ? Please select from one of the below mentioned services: `Content (Images, audio, video, etc.)`
 ? You need to add auth (Amazon Cognito) to your project in order to add storage for user files. Do you want to add auth now? `Yes`
 ? Do you want to use the default authentication and security configuration? `Default configuration`

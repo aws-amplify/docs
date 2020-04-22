@@ -23,8 +23,8 @@ Now click the *Download JSON configuration* button to download the scene configu
 
 > Ensure you have [installed and configured the Amplify CLI and library](~/start/start.md)
 
-```
-$ amplify add xr
+```bash
+amplify add xr
 ```
 The CLI will prompt configuration options for the XR category such as a scene name identifier and a Sumerian scene json configuration file.
 

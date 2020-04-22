@@ -10,8 +10,11 @@ The Amplify API category provides a solution for making HTTP requests to REST an
 
 Run the following command in your project's root folder:
 
+```bash
+amplify add api
+```
+
 ```console
-$ amplify add api
 ? Please select from one of the below mentioned services: `GraphQL`
 ? Provide API name: `apiName`
 ? Choose the default authorization type for the API `API key`

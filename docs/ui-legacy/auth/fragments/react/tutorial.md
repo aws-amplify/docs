@@ -446,8 +446,8 @@ In your project directory, open `./amplify/backend/function` and you'll see the 
 
 To load Amazon Sumerian scenes you will need to activate the [Amplify Auth category](~/lib/auth/getting-started.md?platform=js).
 
-```
-$ amplify add auth
+```bash
+amplify add auth
 ```
 
 The `./src/aws-exports.js` file that's created has all of the appropriate cloud resources defined for your application. Edit `./src/App.js` to include the Amplify library and configurations. Then, initialize the library as follows:
