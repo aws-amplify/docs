@@ -15,7 +15,7 @@ export class DocsSecondaryNav {
   @Prop() readonly selectedFilters?: SelectedFilters;
 
   componentDidRender() {
-    if (Build.isBrowser) {
+    if (Build.isBrowser && location.pathname !== "/") {
       // @ts-ignore
       docsearch({
         apiKey: "24d37f059982b2f5ecf829afe93aed40",
