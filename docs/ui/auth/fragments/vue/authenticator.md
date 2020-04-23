@@ -37,6 +37,21 @@ _App.vue_
 </template>
 ```
 
+_aws-exports.js_
+
+```
+const awsmobile = {
+    "aws_project_region": "us-east-1",
+    "aws_cognito_identity_pool_id": "us-east-1:c220ca7b-a29a-4bc8-9b4d-4ayb0b552f9a",
+    "aws_cognito_region": "us-east-1",
+    "aws_user_pools_id": "us-east-1_Q5aXgdZfg",
+    "aws_user_pools_web_client_id": "s7krte51ja32ugn15dh3du07z",
+    "oauth": {}
+};
+
+
+export default awsmobile;
+```
 <ui-component-props tag="amplify-authenticator" use-table-headers></ui-component-props>
 
 ## Customization
