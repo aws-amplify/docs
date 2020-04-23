@@ -11,10 +11,10 @@ export class DocsRepoActions {
     return (
       <Host class={repoActionsStyle}>
         <amplify-external-link
-          href={`https://github.com/aws-amplify/docs/issues/new?title=[feedback]&labels=v2&body=${encodeURI(
-            `**Page**: [\`${location.href}\`](${location.href})
+          href={`https://github.com/aws-amplify/docs/issues/new?title=Feedback&body=${encodeURI(
+            `**Page**: [\`${location.pathname}\`](${location.href})
 
-**Feedback**: <!-- your feedback here -->
+**Feedback**:\n\n<!-- your feedback here -->
 `,
           )}`}
         >
