@@ -1,6 +1,12 @@
 import {Component, Host, Listen, Prop, State, h} from "@stencil/core";
 import {tocContext} from "../toc.context";
-import {tocStyle, h2AnchorStyle, h3AnchorStyle, headerStyle} from "./toc.style";
+import {
+  tocStyle,
+  h2AnchorStyle,
+  h3AnchorStyle,
+  headerStyle,
+  hiddenStyle,
+} from "./toc.style";
 import {getElementTop} from "../../../utils/get-element-top";
 
 const headingStyleByTagName = {
@@ -62,27 +68,33 @@ export class AmplifyTOC {
 
   render() {
     return (
-      <Host class={tocStyle}>
-        <div>
-          {this.elements && (
+      this.elements &&
+      this.elements.length > 0 && (
+        <Host
+          class={{
+            [tocStyle]: true,
+            [hiddenStyle]: !this.elements || this.elements.length === 0,
+          }}
+        >
+          <div>
             <h4 class={headerStyle}>{this.pageTitle || "Contents"}</h4>
-          )}
-          {this.elements?.map((e, i) => {
-            const headingAnchorClass = headingStyleByTagName[e.tagName];
-            return (
-              <docs-in-page-link
-                targetId={e.id}
-                class={{
-                  active: i === this.activeLinkI,
-                  [headingAnchorClass]: true,
-                }}
-              >
-                <div innerHTML={e.innerHTML} />
-              </docs-in-page-link>
-            );
-          })}
-        </div>
-      </Host>
+            {this.elements.map((e, i) => {
+              const headingAnchorClass = headingStyleByTagName[e.tagName];
+              return (
+                <docs-in-page-link
+                  targetId={e.id}
+                  class={{
+                    active: i === this.activeLinkI,
+                    [headingAnchorClass]: true,
+                  }}
+                >
+                  <div innerHTML={e.innerHTML} />
+                </docs-in-page-link>
+              );
+            })}
+          </div>
+        </Host>
+      )
     );
   }
 }

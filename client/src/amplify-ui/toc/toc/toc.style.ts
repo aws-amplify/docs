@@ -65,3 +65,7 @@ export const headerStyle = css`
   padding-bottom: 0.5rem;
   border-left: 0.05rem solid var(--border-color);
 `;
+
+export const hiddenStyle = css`
+  display: none;
+`;
