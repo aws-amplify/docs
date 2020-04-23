@@ -88,6 +88,7 @@
 
 		var redirectTo = redirectsDictionary[completePath];
 		if (redirectTo) {
+			document.body.innerText = ""
 			location.replace(redirectTo);
 		}
 	})()
