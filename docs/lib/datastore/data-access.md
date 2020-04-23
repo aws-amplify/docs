@@ -3,6 +3,14 @@ title: Manipulating data
 description: Learn how to save, query, paginate, update, delete and observe data in DataStore.
 ---
 
+## Getting started
+
+To get started, first import the `DataStore` API:
+
+```js
+import { DataStore } from '@aws-amplify/datastore';
+```
+
 ## Save Data
 
 To write any data to the DataStore you can pass an instance of a Model to `DataStore.save()` and it will be persisted in offline storage. At this point you can use it as an item in a normal data store such as querying, updating or deleting. If you choose to later connect to the cloud the item will be synchronized using GraphQL mutations and any other systems connected to the same backend can run queries or mutations on these items as well as observe them with GraphQL subscriptions.
@@ -74,11 +82,3 @@ Conditional updates can only be applied to single items and not lists. If you wi
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/delete-snippet.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/delete-snippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/data-access/delete-snippet.md"></inline-fragment>
-
-## Observe Data
-
-You can subscribe to changes on your Models. This reacts dynamically to updates of data to the underlying Storage Engine, which could be the result of GraphQL Subscriptions as well as Queries or Mutations that run against the backing AppSync API if you are synchronizing with the cloud.
-
-<inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/observe-snippet.md"></inline-fragment>
-<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/observe-snippet.md"></inline-fragment>
-<inline-fragment platform="android" src="~/lib/datastore/fragments/android/data-access/observe-snippet.md"></inline-fragment>
