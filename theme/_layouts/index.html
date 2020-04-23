@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html>
 	<head>
+        <script>
+            if (location.pathname === "/docs/") {
+                document.getElementsByName('body').style = "display: none;"
+                window.location.replace("https://docs.amplify.aws/");
+            }
+        </script>
         {% include site-head.html %}
 	</head>
 	<body class="{{ site.amplify.color_theme }}">
