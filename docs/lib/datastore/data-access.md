@@ -2,14 +2,7 @@
 title: Manipulating data
 description: Learn how to save, query, paginate, update, delete and observe data in DataStore.
 ---
-
-## Getting started
-
-To get started, first import the `DataStore` API:
-
-```js
-import { DataStore } from '@aws-amplify/datastore';
-```
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/importing-datastore-snippet.md"></inline-fragment>
 
 ## Save Data
 
