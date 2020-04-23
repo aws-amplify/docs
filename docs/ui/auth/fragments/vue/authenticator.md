@@ -8,7 +8,7 @@ yarn add aws-amplify @aws-amplify/ui-vue
 
 ## Usage
 
-_main.ts_
+_main.js_
 
 ```js
 import Vue from 'vue';
