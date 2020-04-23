@@ -1,12 +1,6 @@
 import {Component, Host, Listen, Prop, State, h} from "@stencil/core";
 import {tocContext} from "../toc.context";
-import {
-  tocStyle,
-  h2AnchorStyle,
-  h3AnchorStyle,
-  headerStyle,
-  hiddenStyle,
-} from "./toc.style";
+import {tocStyle, h2AnchorStyle, h3AnchorStyle, headerStyle} from "./toc.style";
 import {getElementTop} from "../../../utils/get-element-top";
 
 const headingStyleByTagName = {
@@ -70,12 +64,7 @@ export class AmplifyTOC {
     return (
       this.elements &&
       this.elements.length > 0 && (
-        <Host
-          class={{
-            [tocStyle]: true,
-            [hiddenStyle]: !this.elements || this.elements.length === 0,
-          }}
-        >
+        <Host class={tocStyle}>
           <div>
             <h4 class={headerStyle}>{this.pageTitle || "Contents"}</h4>
             {this.elements.map((e, i) => {
