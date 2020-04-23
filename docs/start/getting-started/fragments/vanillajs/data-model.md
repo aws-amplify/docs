@@ -1,12 +1,12 @@
-Now that you’ve created and configured the web app and initialized a new Amplify project, you can add a feature. The first feature you will add is an API.
+Now that you’ve initialized a new Amplify project, you can add a feature. The first feature you will add is an API. An API will allow you to save and read data to and from the cloud.
 
-The Amplify CLI supports creating and interacting with two types of API categories: REST and GraphQL.
+The Amplify CLI supports creating and interacting with two types of API categories: [REST](~/lib/restapi/getting-started.md) and [GraphQL](~/lib/graphqlapi/getting-started.md).
 
 The API you will be creating in this step is a GraphQL API using AWS AppSync (a managed GraphQL service) and the database will be Amazon DynamoDB (a NoSQL database).
 
 ## Create GraphQL API and database
 
-Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the the following command from the root of your application directory:
+Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the following command from the root of your application directory:
 
 ```bash
 amplify add api # accept defaults
