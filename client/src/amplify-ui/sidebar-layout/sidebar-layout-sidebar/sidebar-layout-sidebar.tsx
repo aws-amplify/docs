@@ -15,7 +15,7 @@ export class AmplifySidebarLayoutSidebar {
   ref?: HTMLElement | null;
   setRef = (ref: HTMLElement | null) => (this.ref = ref);
 
-  @Listen("click", {target: "window"})
+  @Listen("click", {target: "document"})
   clickListener(e: Event) {
     if (this.inView) {
       const clickedElement = e.target as HTMLElement | undefined;
