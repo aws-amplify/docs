@@ -27,8 +27,8 @@ You can use an existing iOS app or create a new iOS app in Swift as per the step
 a. From a terminal window, navigate into your Xcode project's root application directory and run the following commands:
 
 ```bash
-$ cd ./YOUR_PROJECT_FOLDER
-$ pod init
+cd ./YOUR_PROJECT_FOLDER
+pod init
 ```
 
 b. Open the created  `Podfile` in a text editor and add the pods for the core Amplify Framework components.

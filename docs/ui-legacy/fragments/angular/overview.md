@@ -11,7 +11,7 @@ Angular 9 is not supported in the legacy version of the Angular UI Components. I
 Install `aws-amplify` and `aws-amplify-angular` npm packages into your Angular app.
 
 ```bash
-$ npm install aws-amplify aws-amplify-angular 
+npm install aws-amplify aws-amplify-angular 
 ```
 
 ### Angular 6-8 Support
@@ -36,10 +36,10 @@ In this example we will enable Authentication with Amazon Cognito User Pools as 
 Ensure you have installed and configured the [Amplify CLI](~/cli/start/install.md)
 
 ```bash
-$ amplify init
-$ amplify add auth
-$ amplify add storage
-$ amplify push
+amplify init
+amplify add auth
+amplify add storage
+amplify push
 ```
 
 Visit the [Authentication Guide](~/lib/auth/getting-started.md) and [Storage Guide](~/lib/storage/getting-started.md) to learn more about enabling and configuring these categories.

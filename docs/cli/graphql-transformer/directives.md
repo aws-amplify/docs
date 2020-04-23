@@ -487,7 +487,7 @@ type Draft @model
     { allow: owner },
 
     # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
-    { allow: owner, ownerField: "editors", operations: [update] }
+    { allow: owner, ownerField: "editors", operations: [update, read] }
   ]) {
   id: ID!
   title: String!
@@ -2031,18 +2031,14 @@ Here is a complete list of searchable operations per GraphQL type supported as o
 The following Python [script](https://github.com/aws-amplify/amplify-cli/blob/master/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) creates an event stream of your DynamoDB records and sends them to your Elasticsearch Index. This will help you backfill your data should you choose to add `@searchable` to your @model types at a later time.
 
 **Example of calling the script**:
-```bash
-python3 ddb_to_ess.py
-  # please use the region your table and elasticsearch domain reside in
-  --rn 'us-west-2'
-  # table name
-  --tn 'Post-XXXX-dev'
-  # lambda function arn
-  --lf 'arn:aws:lambda:us-west-2:123456789xxx:function:DdbToEsFn-<api__id>-dev'
-  # event source arn
-  --esarn 'arn:aws:dynamodb:us-west-2:123456789xxx:table/Post-<api__id>-dev/stream/2019-20-03T00:00:00.350'
-```
 
+```bash
+python3 ddb_to_ess.py \
+  --rn 'us-west-2' \ # Use the region in which your table and elasticsearch domain reside 
+  --tn 'Post-XXXX-dev' \ # Table name
+  --lf 'arn:aws:lambda:us-west-2:123456789xxx:function:DdbToEsFn-<api__id>-dev' \ # Lambda function ARN
+  --esarn 'arn:aws:dynamodb:us-west-2:123456789xxx:table/Post-<api__id>-dev/stream/2019-20-03T00:00:00.350' # Event source ARN
+```
 
 ## @predictions
 

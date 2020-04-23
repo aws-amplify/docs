@@ -9,11 +9,12 @@ The API you will be creating in this step is a GraphQL API using AWS AppSync (a 
 Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the the following command from the root of your application directory:
 
 ```bash
-amplify add api # accept defaults
+amplify add api
 ```
 
-The default values are highlighted below.
-```bash
+Accept the **default values** which are highlighted below:
+
+```console
 ? Please select from one of the below mentioned services:
 # GraphQL
 ? Provide API name:
@@ -60,9 +61,11 @@ From the command line, press __enter__ to accept the schema and continue to the 
 
 To deploy this backend, run the `push` command:
 
-```sh
+```bash
 amplify push
+```
 
+```console
 ? Are you sure you want to continue? Y
 
 # You will be walked through the following questions for GraphQL code generation
@@ -85,7 +88,7 @@ amplify status
 
 This will give us the current status of the Amplify project, including the current environment, any categories that have been created, and what state those categories are in. It should look similar to this:
 
-```bash
+```console
 Current Environment: dev
 
 | Category | Resource name | Operation | Provider plugin   |
@@ -95,13 +98,13 @@ Current Environment: dev
 
 To view the GraphQL API in the AppSync console at any time, run the following command:
 
-```sh
+```bash
 amplify console api
 ```
 
 To view your entire app in the Amplify console at any time, run the following command:
 
-```sh
+```bash
 amplify console
 ```
 
@@ -111,9 +114,11 @@ To test this out locally, you can run the `mock` command.
 
 > If you'd like to go ahead and connect the front end, you can [jump to the next step](#connect-frontend-to-api).
 
-```sh
+```bash
 amplify mock api
-
+```
+  
+```console
 # If you have not already deployed you API, you will be walked through the following steps for GraphQL code generation
 ? Choose the code generation language target: javascript (or preferred target)
 ? Enter the file name pattern of graphql queries, mutations and subscriptions: src/graphql/**/*.js
@@ -247,6 +252,6 @@ __createTodo__ - Uses the Amplify `API` category to call the AppSync GraphQL API
 
 Next, run the app and you should see the form rendered to the screen and be able to create and view the list of todos:
 
-```sh
+```bash
 npm start
 ```

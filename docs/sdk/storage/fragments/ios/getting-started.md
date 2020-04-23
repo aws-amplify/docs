@@ -23,13 +23,13 @@ If you had previously enabled user sign-in by running `amplify add auth` in your
     In a terminal window, navigate to your project root folder (the folder that contains your app's `.xcodeproj` file), and add the SDK to your app.
 
     ```bash
-    $ cd ./YOUR_PROJECT_FOLDER
-    $ amplify add storage
+    cd ./YOUR_PROJECT_FOLDER
+    amplify add storage
     ```
 
 3.  Choose `Content` as your storage service.
 
-    ```bash
+    ```console
     ❯ Content (Images, audio, video, etc.)
     ```
 
@@ -37,7 +37,7 @@ If you had previously enabled user sign-in by running `amplify add auth` in your
 
 5. Confirm that you have storage and auth set up by running `amplify status`:
 
-    ```bash
+    ```console
     $ amplify status
     | Category  | Resource name   | Operation | Provider plugin   |
     | --------- | --------------- | --------- | ----------------- |
@@ -48,7 +48,7 @@ If you had previously enabled user sign-in by running `amplify add auth` in your
 6. To create your backend run:
 
     ```bash
-    $ amplify push
+    amplify push
     ```
 
     The CLI will create the `awsconfiguration.json` file in your project directory. In the Finder, drag `awsconfiguration.json` into Xcode under the top Project Navigator folder (the folder name should match your Xcode project name). When the `Options` dialog box appears, do the following:
@@ -57,7 +57,7 @@ If you had previously enabled user sign-in by running `amplify add auth` in your
 * Choose `Create groups`, and then choose `Finish`.
 
 ##### Lambda Triggers
-The Amplify CLI supports associating Lambda triggers for Amazon S3 and DynamoDB events. This can be useful for a use case where you want to invoke a Lambda function after a create or update operation on a DynamoDB table managed by the CLI. [Read More](~/cli/storage/storage.md)
+The Amplify CLI supports associating Lambda triggers for Amazon S3 and DynamoDB events. This can be useful for a use case where you want to invoke a Lambda function after a create or update operation on a DynamoDB table managed by the CLI. [Read More](~/cli/usage/lambda-triggers.md#s3-lambda-triggers)
 
 ### Connect to Your Backend
 

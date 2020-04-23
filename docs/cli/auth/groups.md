@@ -8,7 +8,10 @@ You can create logical groups in Cognito User Pools and assign permissions to ac
 ## Create user groups
 
 ```bash
-$ amplify add auth
+amplify add auth
+```
+
+```console
 ❯ Manual configuration
 
 Do you want to add User Pool Groups? (Use arrow keys)
@@ -30,8 +33,10 @@ When asked as in the example above, you can press `Shift` on your keyboard along
 For certain Amplify categories you can restrict access with CRUD (Create, Read, Update, and Delete) permissions, setting different access controls for authenticated users vs Guests (e.g. Authenticated users can read & write to S3 buckets while Guests can only read). You can further restrict this to apply different permissions conditionally depending on if a logged-in user is part of a specific User Pool Group.
 
 ```bash
-$ amplify add storage  # Select content
+amplify add storage  # Select content
+```
 
+```console
 ? Restrict access by? (Use arrow keys)
   Auth/Guest Users 
   Individual Groups 

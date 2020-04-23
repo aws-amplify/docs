@@ -2,7 +2,7 @@ If you haven't already done so, run `amplify init` inside your project and then 
 
 Run `amplify add predictions`, then use the following answers:
 
-```bash
+```console
 ? Please select from one of the categories below
   Identify
 ❯ Convert

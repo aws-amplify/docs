@@ -11,7 +11,7 @@ AWS Amplify implements [Amazon Lex](https://aws.amazon.com/lex) as the default c
 Run the following command in your project's root folder:
 
 ```bash
-$ amplify add interactions
+amplify add interactions
 ```
 
 The CLI will lead you through the steps to specify the chatbot to be created. 
@@ -27,7 +27,7 @@ The Interactions category utilizes the Authentication category behind the scenes
 The `add` command automatically creates a backend configuration locally. To update your backend in the cloud, run:
 
 ```bash
-$ amplify push
+amplify push
 ```
 
 Upon successful execution of the push command, a configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`. 

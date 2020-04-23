@@ -10,8 +10,11 @@ The Amplify Storage category provides a simple mechanism for managing user conte
 
 Run the following command in your project's root folder:
 
-```sh
-$ amplify add storage
+```bash
+amplify add storage
+```
+
+```console
 ? Please select from one of the below mentioned services: `Content (Images, audio, video, etc.)`
 ? You need to add auth (Amazon Cognito) to your project in order to add storage for user files. Do you want to add auth now? `Yes`
 ? Do you want to use the default authentication and security configuration? `Default configuration`
@@ -27,16 +30,16 @@ $ amplify add storage
 
 To deploy the service, run the `push` command:
 
-```sh
-$ amplify push
+```bash
+amplify push
 ```
 
 When your backend is successfully provisioned, there should be two new generated files : `amplifyconfiguration.json` and `awsconfiguration.json` in your app/src/main/res/raw directory.
 
 To view the deployed services in your project at any time, go to Amplify Console by running the following command:
 
-```sh
-$ amplify console
+```bash
+amplify console
 ```
 
 ## Configure your application

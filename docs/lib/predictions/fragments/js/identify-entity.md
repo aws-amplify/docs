@@ -5,7 +5,7 @@ If you haven't already done so, run `amplify init` inside your project and then 
 
 Run `amplify add predictions` and select **Identify**. Then use the following answers:
 
-```bash
+```console
 ? What would you like to identify? 
   Identify Text 
 ❯ Identify Entities 
@@ -31,7 +31,7 @@ Amplify configures Lambda Triggers to automatically perform this indexing when t
 
 To add this functionality into your application choose **advanced** when prompted in the **Identify** flow (if you already enabled `Identify Entities` you will need to run `amplify update predictions`):
 
-```bash
+```console
 ? What would you like to identify? Identify Entities
 ? Would you like use the default configuration? Advanced Configuration
 ? Would you like to enable celebrity detection? Yes

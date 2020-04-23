@@ -24,12 +24,15 @@ See [Authentication](~/sdk/auth/getting-started.md) for more information on how 
     In a terminal window, navigate to your project folder (the folder that typically contains your project level build.gradle), and add the SDK to your app.
 
     ```bash
-    $ cd ./YOUR_PROJECT_FOLDER
-    $ amplify add storage
+    cd ./YOUR_PROJECT_FOLDER
+    amplify add storage
     ```
+
 3. Choose `Content` as your storage service.
 
-    `❯ Content (Images, audio, video, etc.)`
+    ```console
+    ❯ Content (Images, audio, video, etc.)
+    ```
 
 4. The combination of friendly name and bucket name must be globally unique. If another S3 user has specified the same values for both of these as you, the amplify push step below will fail.
 
@@ -37,7 +40,7 @@ See [Authentication](~/sdk/auth/getting-started.md) for more information on how 
 
 6. Confirm that you have Storage and Auth set up.
 
-    ```bash
+    ```console
       $ amplify status
       | Category  | Resource name   | Operation | Provider plugin   |
       | --------- | --------------- | --------- | ----------------- |
@@ -47,13 +50,13 @@ See [Authentication](~/sdk/auth/getting-started.md) for more information on how 
 7. To create your backend run:
 
     ```bash
-    $ amplify push
+    amplify push
     ```
 
     The CLI will create the awsconfiguration.json file in your project's `res/raw` directory.
 
 ### Lambda Triggers
-If you want to enable triggers for the storage category with Amazon S3 & Amazon DynamoDB as providers, the CLI supports associating Lambda triggers with S3 and DynamoDB events. For example, this can be useful for a use case where you want to invoke a Lambda function after a create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More](~/cli/storage/storage.md)
+If you want to enable triggers for the storage category with Amazon S3 & Amazon DynamoDB as providers, the CLI supports associating Lambda triggers with S3 and DynamoDB events. For example, this can be useful for a use case where you want to invoke a Lambda function after a create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More](~/cli/usage/lambda-triggers.md#s3-lambda-triggers)
 
 ## Connect to Your Backend
 
