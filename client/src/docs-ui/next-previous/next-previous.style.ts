@@ -8,6 +8,10 @@ export const nextPreviousLinkContainerStyle = css`
 `;
 
 export const nextPreviousLinkStyle = css`
+  &:first-child {
+    margin-right: 1rem;
+  }
+
   a {
     display: flex;
     flex-direction: row;
