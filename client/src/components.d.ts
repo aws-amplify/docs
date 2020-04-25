@@ -304,6 +304,10 @@ export namespace Components {
     }
     interface DocsSelectAnchor {
         /**
+          * * whether or not the menu is in view
+         */
+        "inView"?: boolean;
+        /**
           * the current page's data
          */
         "page"?: Page;
@@ -311,6 +315,10 @@ export namespace Components {
           * * the globally-selected filter state
          */
         "selectedFilters"?: SelectedFilters;
+        /**
+          * * the menu toggle
+         */
+        "toggleInView": ToggleInView;
     }
     interface DocsUniversalNav {
         /**
@@ -921,6 +929,10 @@ declare namespace LocalJSX {
     }
     interface DocsSelectAnchor {
         /**
+          * * whether or not the menu is in view
+         */
+        "inView"?: boolean;
+        /**
           * the current page's data
          */
         "page"?: Page;
@@ -928,6 +940,10 @@ declare namespace LocalJSX {
           * * the globally-selected filter state
          */
         "selectedFilters"?: SelectedFilters;
+        /**
+          * * the menu toggle
+         */
+        "toggleInView"?: ToggleInView;
     }
     interface DocsUniversalNav {
         /**
