@@ -99,7 +99,7 @@ func createSubscription() {
 Call the methods from your app code such as from a button click or when your app starts in `viewDidLoad()`. You will see data being stored and retrieved in your backend from the Xcode console.
 
 **Testing your API**
-You can open the AWS console for you to run Queries, Mutation, or Subscription against you new API at any time directly by running the following command:
+You can open the AWS console for you to run Queries, Mutation, or Subscription against your new API at any time directly by running the following command:
 
 ```bash
 amplify console api

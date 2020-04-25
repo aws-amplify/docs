@@ -81,7 +81,7 @@ Current Environment: dev
 
 ### Testing your API
 
-You can open the AWS console to run Queries, Mutation, or Subscription against you new API at any time directly by running the following command:
+You can open the AWS console to run Queries, Mutation, or Subscription against your new API at any time directly by running the following command:
 
 ```bash
 amplify console api
