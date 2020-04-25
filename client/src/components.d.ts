@@ -256,6 +256,10 @@ export namespace Components {
          */
         "filterKey"?: string;
         /**
+          * * whether or not the menu is in view
+         */
+        "inView"?: boolean;
+        /**
           * * the group to render
          */
         "menuGroup"?: MenuGroup;
@@ -263,6 +267,10 @@ export namespace Components {
           * * the currently-selected filters
          */
         "selectedFilters": SelectedFilters;
+        /**
+          * * the menu toggle
+         */
+        "toggleInView": ToggleInView;
     }
     interface DocsNextPrevious {
         /**
@@ -865,6 +873,10 @@ declare namespace LocalJSX {
          */
         "filterKey"?: string;
         /**
+          * * whether or not the menu is in view
+         */
+        "inView"?: boolean;
+        /**
           * * the group to render
          */
         "menuGroup"?: MenuGroup;
@@ -872,6 +884,10 @@ declare namespace LocalJSX {
           * * the currently-selected filters
          */
         "selectedFilters"?: SelectedFilters;
+        /**
+          * * the menu toggle
+         */
+        "toggleInView"?: ToggleInView;
     }
     interface DocsNextPrevious {
         /**

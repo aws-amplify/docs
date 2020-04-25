@@ -11,6 +11,8 @@ import {
 } from "./menu-group.style";
 import {pageContext} from "../page/page.context";
 import {SelectedFilters} from "../page/page.types";
+import {sidebarLayoutContext} from "../../amplify-ui/sidebar-layout/sidebar-layout.context";
+import {ToggleInView} from "../../amplify-ui/sidebar-layout/sidebar-layout.types";
 
 @Component({tag: "docs-menu-group", shadow: false})
 export class DocsMenuGroup {
@@ -20,6 +22,10 @@ export class DocsMenuGroup {
   @Prop() readonly filterKey?: string;
   /*** the currently-selected filters */
   @Prop() readonly selectedFilters: SelectedFilters;
+  /*** whether or not the menu is in view */
+  @Prop() readonly inView?: boolean;
+  /*** the menu toggle */
+  @Prop() readonly toggleInView: ToggleInView;
 
   @State() expanded = false || this.filterKey === "integration";
   @State() itemsToDisplay?: PageLink[];
@@ -56,6 +62,12 @@ export class DocsMenuGroup {
     }
   }
 
+  closeMenuIfOnMobile = () => {
+    if (this.inView) {
+      this.toggleInView();
+    }
+  };
+
   render() {
     return (
       <Host>
@@ -80,6 +92,7 @@ export class DocsMenuGroup {
                     href={item.route}
                     class={menuGroupItemStyle}
                     activeClass={activeLinkStyle}
+                    onClick={this.closeMenuIfOnMobile}
                   >
                     {item.title}
                   </docs-internal-link>
@@ -93,3 +106,4 @@ export class DocsMenuGroup {
 }
 
 pageContext.injectProps(DocsMenuGroup, ["selectedFilters"]);
+sidebarLayoutContext.injectProps(DocsMenuGroup, ["toggleInView", "inView"]);
