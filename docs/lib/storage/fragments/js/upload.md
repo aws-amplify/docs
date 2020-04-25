@@ -71,7 +71,7 @@ Other options available are:
 
 ```javascript
 Storage.put('test.txt', 'My Content', {
-    acl: 'public-read',, // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#upload-property
+    acl: 'public-read', // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#upload-property
     cacheControl: '', // (String) Specifies caching behavior along the request/reply chain
     contentDisposition: '', // (String) Specifies presentational information for the object
     expires: new Date().now() + 60 * 60 * 24 * 7, // (Date) The date and time at which the object is no longer cacheable. ISO-8601 string, or a UNIX timestamp in seconds
