@@ -14,6 +14,8 @@ import {
 import {SelectedFilters} from "../../docs-ui/page/page.types";
 import {pageContext} from "../../docs-ui/page/page.context";
 import {parseURL} from "../../utils/url/url";
+import {sidebarLayoutContext} from "../../amplify-ui/sidebar-layout/sidebar-layout.context";
+import {ToggleInView} from "../../amplify-ui/sidebar-layout/sidebar-layout.types";
 
 const rereouteCache = new Map<string, string>();
 
@@ -41,12 +43,23 @@ export class DocsSelectAnchor {
   @Prop() readonly selectedFilters?: SelectedFilters;
   /** the current page's data */
   @Prop() readonly page?: Page;
+  /*** whether or not the menu is in view */
+  @Prop() readonly inView?: boolean;
+  /*** the menu toggle */
+  @Prop() readonly toggleInView: ToggleInView;
 
   @State() showOptions = false;
   @State() sortedVersions?: [string, string][];
 
   toggleShowOptions = () => {
     this.showOptions = !this.showOptions;
+  };
+
+  toggleShowOptionsAndMenuInView = () => {
+    this.toggleShowOptions();
+    if (this.inView) {
+      this.toggleInView();
+    }
   };
 
   componentWillLoad() {
@@ -106,7 +119,7 @@ export class DocsSelectAnchor {
                     <stencil-route-link
                       key={filterValue}
                       url={rerouteIfNecessary(filterRoute)}
-                      onClick={this.toggleShowOptions}
+                      onClick={this.toggleShowOptionsAndMenuInView}
                     >
                       <img src={meta.graphicURI} alt={`${meta.label} Logo`} />
                       <span>{meta.label}</span>
@@ -123,3 +136,4 @@ export class DocsSelectAnchor {
 }
 
 pageContext.injectProps(DocsSelectAnchor, ["selectedFilters"]);
+sidebarLayoutContext.injectProps(DocsSelectAnchor, ["inView", "toggleInView"]);
