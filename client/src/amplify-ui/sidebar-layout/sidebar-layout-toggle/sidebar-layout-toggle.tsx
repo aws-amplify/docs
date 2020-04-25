@@ -26,6 +26,10 @@ export class AmplifySidebarLayoutToggle {
     };
   };
 
+  /**
+   * Ensures that we don't trigger the toggle if `this.inView` is truthy.
+   * This prevents accidental dual-toggling (which is equivalent to no toggling).
+   */
   safeToggle = (e: Event) => {
     if (this.inView) {
       e.stopPropagation();
