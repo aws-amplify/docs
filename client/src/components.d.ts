@@ -28,6 +28,12 @@ export namespace Components {
          */
         "lineCount"?: string;
     }
+    interface AmplifyCodeBlockSwitcher {
+        /**
+          * the tab headings, comma-separated as a single string
+         */
+        "tabHeadingList"?: string;
+    }
     interface AmplifyContainer {
         /**
           * * incase users want to add a class to the inner div
@@ -372,6 +378,12 @@ declare global {
         prototype: HTMLAmplifyCodeBlockElement;
         new (): HTMLAmplifyCodeBlockElement;
     };
+    interface HTMLAmplifyCodeBlockSwitcherElement extends Components.AmplifyCodeBlockSwitcher, HTMLStencilElement {
+    }
+    var HTMLAmplifyCodeBlockSwitcherElement: {
+        prototype: HTMLAmplifyCodeBlockSwitcherElement;
+        new (): HTMLAmplifyCodeBlockSwitcherElement;
+    };
     interface HTMLAmplifyContainerElement extends Components.AmplifyContainer, HTMLStencilElement {
     }
     var HTMLAmplifyContainerElement: {
@@ -597,6 +609,7 @@ declare global {
     interface HTMLElementTagNameMap {
         "amplify-callout": HTMLAmplifyCalloutElement;
         "amplify-code-block": HTMLAmplifyCodeBlockElement;
+        "amplify-code-block-switcher": HTMLAmplifyCodeBlockSwitcherElement;
         "amplify-container": HTMLAmplifyContainerElement;
         "amplify-external-link": HTMLAmplifyExternalLinkElement;
         "amplify-hero": HTMLAmplifyHeroElement;
@@ -652,6 +665,12 @@ declare namespace LocalJSX {
           * the number of lines of the code block
          */
         "lineCount"?: string;
+    }
+    interface AmplifyCodeBlockSwitcher {
+        /**
+          * the tab headings, comma-separated as a single string
+         */
+        "tabHeadingList"?: string;
     }
     interface AmplifyContainer {
         /**
@@ -986,6 +1005,7 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "amplify-callout": AmplifyCallout;
         "amplify-code-block": AmplifyCodeBlock;
+        "amplify-code-block-switcher": AmplifyCodeBlockSwitcher;
         "amplify-container": AmplifyContainer;
         "amplify-external-link": AmplifyExternalLink;
         "amplify-hero": AmplifyHero;
@@ -1031,6 +1051,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "amplify-callout": LocalJSX.AmplifyCallout & JSXBase.HTMLAttributes<HTMLAmplifyCalloutElement>;
             "amplify-code-block": LocalJSX.AmplifyCodeBlock & JSXBase.HTMLAttributes<HTMLAmplifyCodeBlockElement>;
+            "amplify-code-block-switcher": LocalJSX.AmplifyCodeBlockSwitcher & JSXBase.HTMLAttributes<HTMLAmplifyCodeBlockSwitcherElement>;
             "amplify-container": LocalJSX.AmplifyContainer & JSXBase.HTMLAttributes<HTMLAmplifyContainerElement>;
             "amplify-external-link": LocalJSX.AmplifyExternalLink & JSXBase.HTMLAttributes<HTMLAmplifyExternalLinkElement>;
             "amplify-hero": LocalJSX.AmplifyHero & JSXBase.HTMLAttributes<HTMLAmplifyHeroElement>;
