@@ -245,6 +245,7 @@ export async function API(c: t.Config): Promise<void> {
     write.filtersByRoute(config, ctx),
     write.index(config),
     write.pages(ctx),
+    write.sitemap(config, ctx),
   ]);
 
   console.log("`capi` compilation complete");
