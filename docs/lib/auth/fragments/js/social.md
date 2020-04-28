@@ -154,7 +154,7 @@ After configuring the OAuth endpoints, you can use them or the Hosted UI with `A
 
 ```javascript
 import Amplify, { Auth, Hub } from 'aws-amplify';
-import awsconfig from './aws_exports';
+import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 
 
