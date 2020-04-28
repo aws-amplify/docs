@@ -43,4 +43,5 @@ c.API({
   outDir: "client/src/api",
   publicDir: "client/src/assets",
   watch,
+  srcDir: "client/src",
 });

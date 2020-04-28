@@ -10,6 +10,7 @@ test("absolute md references", async () => {
     },
     outDir: "api",
     publicDir: "www",
+    srcDir: "",
   });
 
   // eslint-disable-next-line

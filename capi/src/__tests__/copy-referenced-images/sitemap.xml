@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+   <url>
+    <loc>https://docs.amplify.aws/</loc>
+    <lastmod>2020-4-28</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/product</loc>
+    <lastmod>2020-4-28</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/product/nested/a</loc>
+    <lastmod>2020-4-28</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/product/nested/b</loc>
+    <lastmod>2020-4-28</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+</urlset>
