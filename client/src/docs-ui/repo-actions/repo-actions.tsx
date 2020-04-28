@@ -1,6 +1,7 @@
 import {Component, h, Host, Prop} from "@stencil/core";
 import {repoActionsStyle} from "./repo-actions.style";
 import {Page} from "../../api";
+import {createIssueLink} from "../../utils/issue-link";
 
 @Component({tag: "docs-repo-actions", shadow: false})
 export class DocsRepoActions {
@@ -10,14 +11,7 @@ export class DocsRepoActions {
   render() {
     return (
       <Host class={repoActionsStyle}>
-        <amplify-external-link
-          href={`https://github.com/aws-amplify/docs/issues/new?title=[feedback]&labels=v2&body=${encodeURI(
-            `**Page**: [\`${location.href}\`](${location.href})
-
-**Feedback**: <!-- your feedback here -->
-`,
-          )}`}
-        >
+        <amplify-external-link href={createIssueLink()}>
           <img src="/assets/flag.svg" alt="Feedback" />
           Feedback
         </amplify-external-link>

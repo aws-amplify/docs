@@ -4,7 +4,7 @@ This will allow you to determine key phrases, sentiment analysis from text, etc.
 
 Run `amplify add predictions` and select **Interpret**. Then use the following answers:
 
-```bash
+```console
 ? What would you like to interpret? (Use arrow keys)
 ❯ Interpret Text 
   Learn More 

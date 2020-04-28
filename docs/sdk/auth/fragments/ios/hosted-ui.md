@@ -9,11 +9,12 @@ When configuring Authentication with the CLI, you can choose an identity provide
 Run the following command in your project’s root folder:
 
 ```bash
-$ amplify add auth
+amplify add auth
 ```
+
 Select Default configuration with Social Provider (Federation):
 
-```bash
+```console
 Do you want to use the default authentication and security configuration? 
   Default configuration 
 ❯ Default configuration with Social Provider (Federation) 
@@ -30,7 +31,7 @@ You will be asked for the credentials from your social provider setup:
 After going through the flow, run the following command to deploy the configured resources to the cloud:
 
 ```bash
-$ amplify push
+amplify push
 ```
 You will find a domain-name provisioned by the CLI for the hosted UI as an output in the terminal. You can also find that information anytime later using the `amplify status` command.
 

@@ -11,24 +11,24 @@ See [the authentication section for more details](~/sdk/auth/getting-started.md)
 In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`), and add the SDK to your app. 
 
 ```bash
-$ cd ./YOUR_PROJECT_FOLDER
-$ amplify add api
+cd ./YOUR_PROJECT_FOLDER
+amplify add api
 ```
 
 When prompted select the following options:
 
-```bash
-$ > REST
-$ > Create a new Lambda function
-$ > Serverless express function
-$ > Restrict API access? Yes
-$ > Who should have access? Authenticated and Guest users
+```console
+> REST
+> Create a new Lambda function
+> Serverless express function
+> Restrict API access? Yes
+> Who should have access? Authenticated and Guest users
 ```
 
 When configuration of your API is complete, the CLI displays a message confirming that you have configured local CLI metadata for this category. You can confirm this by running `amplify status`. Finally deploy your changes to the cloud:
 
 ```bash
-$ amplify push
+amplify push
 ```
 
 Once the deployment completes a folder with the name of your API's resource name will be created in `./src/main/java`. This is the client SDK with the models you will import and use in the `ApiClientFactory()` builder from your code in the following sections. 

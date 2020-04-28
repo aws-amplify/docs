@@ -19,12 +19,13 @@ Push Notifications category is integrated with [AWS Amplify Analytics category](
 3. Create a native link on a React Native app:
 
     ```bash
-    $ react-native init myapp
-    $ cd myapp
-    $ npm install aws-amplify && npm install @aws-amplify/pushnotification
-    $ react-native link @aws-amplify/pushnotification
-    $ react-native link amazon-cognito-identity-js # link if you need to Sign in into Cognito user pool
+    react-native init myapp
+    cd myapp
+    npm install aws-amplify && npm install @aws-amplify/pushnotification
+    react-native link @aws-amplify/pushnotification
+    react-native link amazon-cognito-identity-js # link if you need to Sign in into Cognito user pool
     ```
+
     That would install required npm modules and link React Native binaries.
 
     Please note that linking `aws-amplify-react-native` but not completing the rest of the configuration steps could break your build process. Please be sure that you have completed all the steps before you build your app.
@@ -32,15 +33,15 @@ Push Notifications category is integrated with [AWS Amplify Analytics category](
 4. Add your push messaging credentials (API key and Sender ID) with Amplify CLI by using the following commands:
 
     ```bash
-    $ cd myapp
-    $ amplify init
-    $ amplify add notifications
-    $ amplify push
+    cd myapp
+    amplify init
+    amplify add notifications
+    amplify push
     ```
 
     Choose *FCM* when promoted: 
 
-    ```terminal
+    ```console
     ? Choose the push notification channel to enable.
     APNS
     ❯ FCM
@@ -159,7 +160,7 @@ Push Notifications category is integrated with [AWS Amplify Analytics category](
 10. Run your app with `yarn` or with an appropriate run command.
 
     ```bash
-    $ npm start
+    npm start
     ```
 
 ## Setup for iOS
@@ -187,15 +188,15 @@ Push Notifications category is integrated with [AWS Amplify Analytics category](
 4. Enable notifications and add your p12 certificate with Amplify CLI by using the following commands:
 
     ```bash
-    $ cd myapp
-    $ amplify init
-    $ amplify add notifications
-    $ amplify push
+    cd myapp
+    amplify init
+    amplify add notifications
+    amplify push
     ```
 
     Choose *APNS* when promoted:
 
-    ```terminal
+    ```console
     ? Choose the push notification channel to enable.
     > APNS
     FCM

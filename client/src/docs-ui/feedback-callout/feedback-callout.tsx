@@ -7,6 +7,7 @@ import {
   exStyle,
   calloutTextStyle,
 } from "./feedback-callout.style";
+import {createIssueLink} from "../../utils/issue-link";
 
 const IS_DISMISSED_LOCAL_STORAGE_KEY =
   "amplify-docs::feedback-request-dismissed";
@@ -27,14 +28,7 @@ export class DocsFeedbackCallout {
   render() {
     return (
       <Host class={{[hostStyle]: true, [displayStyle]: !this.dismissed}}>
-        <amplify-external-link
-          href={`https://github.com/aws-amplify/docs/issues/new?title=[feedback]&labels=v2&body=${encodeURI(
-            `**Page**: [\`${location.href}\`](${location.href})
-
-**Feedback**: <!-- your feedback here -->
-`,
-          )}`}
-        >
+        <amplify-external-link href={createIssueLink()}>
           <span class={calloutTextStyle}>
             <i
               class={{

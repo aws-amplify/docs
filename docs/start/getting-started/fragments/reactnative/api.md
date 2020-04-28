@@ -14,7 +14,7 @@ amplify add api #accept defaults
 ```
 
 The default values are highlighted below.
-```bash
+```console
 ? Please select from one of the below mentioned services:
 # GraphQL
 ? Provide API name:
@@ -61,9 +61,11 @@ From the command line, press __enter__ to accept the schema and continue to the 
 
 To deploy this backend, run the `push` command:
 
-```sh
+```bash
 amplify push
+```
 
+```console
 ? Are you sure you want to continue? Y
 
 # If you did not mock the API, you will be walked through the following questions for GraphQL code generation
@@ -85,7 +87,7 @@ amplify status
 
 This will give us the current status of the Amplify project, including the current environment, any categories that have been created, and what state those categories are in. It should look similar to this:
 
-```bash
+```console
 Current Environment: dev
 
 | Category | Resource name | Operation | Provider plugin   |
@@ -95,13 +97,13 @@ Current Environment: dev
 
 To view the GraphQL API in the AppSync console at any time, run the following command:
 
-```sh
+```bash
 amplify console api
 ```
 
 To view your entire app in the Amplify console at any time, run the following command:
 
-```sh
+```bash
 amplify console
 ```
 
@@ -111,8 +113,8 @@ To test this out locally, you can run the `mock` command.
 
 > If you'd like to go ahead and deploy the API, you can [jump to the next step](#deploying-the-api).
 
-```sh
-amplify mock api
+```console
+$ amplify mock api
 
 # Before mocking you will be walked through the following steps for GraphQL code generation
 ? Choose the code generation language target: javascript (or preferred target)
@@ -246,7 +248,7 @@ __createTodo__ - Uses the Amplify `API` category to call the AppSync GraphQL API
 
 Next, run the app and you should see the form rendered to the screen and be able to create and view the list of todos:
 
-```sh
+```bash
 expo start
 
 # or

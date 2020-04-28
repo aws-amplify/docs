@@ -25,7 +25,7 @@ amplify init
 
 When you initialize Amplify you'll be prompted for some information about the app:
 
-```bash
+```console
 Enter a name for the project (todo)
 
 # All AWS services you provision for your app are grouped into an "environment"

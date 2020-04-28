@@ -6,6 +6,9 @@ You can manually deploy your web app or setup automatic continuous deployment. I
 From the root of your project, run the following command and select the **bolded options**. 
 ```bash
 amplify add hosting
+```
+
+```console
 ? Select the plugin module to execute: # Hosting with Amplify Console (Managed hosting with custom domains, Continuous deployment)
 ? Choose a type: # Manual Deployment
 ```
@@ -17,6 +20,7 @@ Run the following command to publish your app.
 ```bash
 amplify publish
 ```
+
 👏 Congratulations, your app is online!
 
 ![image](~/images/browser-published.png) 

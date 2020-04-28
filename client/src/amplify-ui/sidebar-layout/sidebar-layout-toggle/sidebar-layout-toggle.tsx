@@ -1,9 +1,6 @@
 import {Component, Host, Prop, h} from "@stencil/core";
 import {sidebarLayoutContext} from "../sidebar-layout.context";
-import {
-  sidebarLayoutSidebarToggleStyle,
-  unclickableStyle,
-} from "./sidebar-layout-toggle.style";
+import {sidebarLayoutSidebarToggleStyle} from "./sidebar-layout-toggle.style";
 import {ToggleInView} from "../sidebar-layout.types";
 
 @Component({tag: "amplify-sidebar-layout-toggle", shadow: false})
@@ -24,15 +21,27 @@ export class AmplifySidebarLayoutToggle {
    */
   getClass = () => {
     return {
-      [unclickableStyle]: !!this.inView,
       [sidebarLayoutSidebarToggleStyle]: true,
       ...(this.inViewClass ? {[this.inViewClass]: !!this.inView} : {}),
     };
   };
 
+  /**
+   * Ensures that we don't trigger the toggle if `this.inView` is truthy.
+   * This prevents accidental dual-toggling (which is equivalent to no toggling).
+   */
+  safeToggle = (e: Event) => {
+    if (this.inView) {
+      e.stopPropagation();
+    }
+    if (this.toggleInView) {
+      this.toggleInView();
+    }
+  };
+
   render() {
     return (
-      <Host onClick={this.toggleInView} class={this.getClass()}>
+      <Host onClick={this.safeToggle} class={this.getClass()}>
         <slot />
       </Host>
     );

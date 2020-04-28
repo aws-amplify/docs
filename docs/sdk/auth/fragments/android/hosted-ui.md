@@ -45,11 +45,12 @@ You need to configure your identity providers(Google, Facebook or Login with Ama
 Run the following command in your project’s root folder:
 
 ```bash
-$ amplify add auth     ##"amplify update auth" if already configured
+amplify add auth     ##"amplify update auth" if already configured
 ```
+
 Select Default configuration with Social Provider (Federation):
 
-```bash
+```console
 Do you want to use the default authentication and security configuration? 
   Default configuration 
 ❯ Default configuration with Social Provider (Federation) 
@@ -58,9 +59,11 @@ Do you want to use the default authentication and security configuration?
 ```
 
 After going through the CLI flow, run the following command to deploy the configured resources to the cloud:
+
 ```bash
-$ amplify push
+amplify push
 ```
+
 After running the `amplify push` command, you will find a domain-name provisioned by the CLI for the hosted UI as an output in the terminal. You can find that information anytime later using the `amplify status` command.
 
 **Note:** your user pool domain is something like: `domain_prefix-<env-name>.auth.<region>.amazoncognito.com`. 

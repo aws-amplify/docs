@@ -70,38 +70,45 @@ query GetComment($id: ID!) {
 ### General Usage
 
 ### amplify add codegen
+
 ```bash
-$ amplify add codegen [--apiId <api-id>]
+amplify add codegen
 ```
 
 The `amplify add codegen` allows you to add AppSync API created using the AWS console. If you have your API is in a different region then that of your current region, the command asks you to choose the region. If you are adding codegen outside of an initialized amplify project, provide your introspection schema named `schema.json` in the same directory that you make the add codegen call from.
 __Note__: If you use the --apiId flag to add an externally created AppSync API, such as one created in the AWS console, you will not be able to manage this API from the Amplify CLI with commands such as amplify api update when performing schema updates. You cannot add an external AppSync API when outside of an initialized project.
 
 ### amplify configure codegen
+
 ```bash
-$ amplify configure codegen
+amplify configure codegen
 ```
+
 The `amplify configure codegen` command allows you to update the codegen configuration after it is added to your project. When outside of an initialized project, you can use this to update your project configuration as well as the codegen configuration.
 
 #### amplify codegen statements
+
 ```bash
-$ amplify codegen statements [--nodownload] [--max-depth <int>]
+amplify codegen statements [--nodownload] [--max-depth <int>]
 ```
+
 The `amplify codegen statements` command  generates GraphQL statements(queries, mutation and subscription) based on your GraphQL schema. This command downloads introspection schema every time it is run, but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag.
 
-
 #### amplify codegen types
+
 ```bash
-$ amplify codegen types
+amplify codegen types
 ```
+
 The `amplify codegen types [--nodownload]` command generates GraphQL `types` for Flow and typescript and Swift class in an iOS project. This command downloads introspection schema every time it is run, but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag.
 
 #### amplify codegen
-```bash
-$ amplify codegen [--max-depth <int>]
-```
-The `amplify codegen [--nodownload]` generates GraphQL `statements` and `types`. This command downloads introspection schema every time it is run but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag. If you are running codegen outside of an initialized amplify project, the introspection schema named `schema.json` must be in the same directory that you run amplify codegen from. This command will not download the introspection schema when outside of an amplify project - it will only use the introspection schema provided.
 
+```bash
+amplify codegen [--max-depth <int>]
+```
+
+The `amplify codegen [--nodownload]` generates GraphQL `statements` and `types`. This command downloads introspection schema every time it is run but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag. If you are running codegen outside of an initialized amplify project, the introspection schema named `schema.json` must be in the same directory that you run amplify codegen from. This command will not download the introspection schema when outside of an amplify project - it will only use the introspection schema provided.
 
 ## Workflows
 
@@ -110,9 +117,9 @@ The design of codegen functionality provides mechanisms to run at different poin
 **Flow 1: Create API then automatically generate code**
 
 ```bash
-$amplify init
-$amplify add api (select GraphQL)
-$amplify push
+amplify init
+amplify add api (select GraphQL)
+amplify push
 ```
 
 You’ll see questions as before, but now it will also automatically ask you if you want to generate GraphQL statements and do codegen. It will also respect the `./app/src/main` directory for Android projects. After the AppSync deployment finishes the Swift file will be automatically generated (Android you’ll need to kick off a [Gradle Build step](#androiduse)) and you can begin using in your app immediately.
@@ -122,7 +129,7 @@ You’ll see questions as before, but now it will also automatically ask you if 
 During development, you might wish to update your GraphQL schema and generated code as part of an iterative dev/test cycle. Modify & save your schema in `./amplify/backend/api/<apiname>/schema.graphql` then run:
 
 ```bash
-$amplify push
+amplify push
 ```
 
 Each time you will be prompted to update the code in your API and also ask you if you want to run codegen again as well, including regeneration of the GraphQL statements from the new schema.
@@ -132,7 +139,7 @@ Each time you will be prompted to update the code in your API and also ask you i
 One of the benefits of GraphQL is the client can define it's data fetching requirements independently of the API. Amplify codegen supports this by allowing you to modify the selection set (e.g. add/remove fields inside the curly braces) for the GraphQL statements and running type generation again. This gives you fine-grained control over the network requests that your application is making. Modify your GraphQL statements (default in the `./graphql` folder unless you changed it) then save the files and run:
 
 ```bash
-$amplify codegen types
+amplify codegen types
 ```
 A new updated Swift file will be created (or run Gradle Build on Android for the same). You can then use the updates in your application code.
 
@@ -141,9 +148,10 @@ A new updated Swift file will be created (or run Gradle Build on Android for the
 Suppose you are working in a team and the schema is updated either from the AWS AppSync console or on another system. Your types are now out of date because your GraphQL statement was generated off an outdated schema. The easiest way to resolve this is to regenerate your GraphQL statements, update them if necessary, and then generate your types again. Modify the schema in the console or on a separate system, then run:
 
 ```bash
-$amplify codegen statements
-$amplify codegen types
+amplify codegen statements
+amplify codegen types
 ```
+
 You should have newly generated GraphQL statements and Swift code that matches the schema updates. If you ran the second command your types will be updated as well. Alternatively, if you run `amplify codegen` alone it will perform both of these actions.
 
 **Flow 5: Introspection Schema outside of an initialized project**
@@ -151,7 +159,7 @@ You should have newly generated GraphQL statements and Swift code that matches t
 If you would like to generate statements and types without initializing an amplify project, you can do so by providing your introspection schema named `schema.json` in your project directory and adding codegen from the same directory. To download your introspection schema from an AppSync api, in the AppSync console go to the schema editor and under "Export schema" choose `schema.json`.
 
 ```bash
-$amplify add codegen
+amplify add codegen
 ```
 
 Once codegen has been added you can update your introspection schema, then generate statements and types again without re-entering your project information.
@@ -163,8 +171,8 @@ $amplify codegen
 You can update your project and codegen configuration if required.
 
 ```bash
-$amplify configure codegen
-$amplify codegen
+amplify configure codegen
+amplify codegen
 ```
 
 ## iOS usage
@@ -176,9 +184,9 @@ This section will walk through the steps needed to take an iOS project written i
 After completing the [Amplify Getting Started](~/start/start.md) navigate in your terminal to an Xcode project directory and run the following:
 
 ```bash
-$amplify init       ## Select iOS as your platform
-$amplify add api    ## Select GraphQL, API key, "Single object with fields Todo application"
-$amplify push       ## Sets up backend and prompts you for codegen, accept the defaults
+amplify init       ## Select iOS as your platform
+amplify add api    ## Select GraphQL, API key, "Single object with fields Todo application"
+amplify push       ## Sets up backend and prompts you for codegen, accept the defaults
 ```
 
 The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on, you can always change it.
@@ -414,9 +422,9 @@ This section will walk through the steps needed to take an Android Studio projec
 After completing the [Amplify Getting Started](~/start/start.md) navigate in your terminal to an Android Studio project directory and run the following:
 
 ```bash
-$amplify init       ## Select iOS as your platform
-$amplify add api    ## Select GraphQL, API key, "Single object with fields Todo application"
-$amplify push       ## Sets up backend and prompts you for codegen, accept the defaults
+amplify init       ## Select iOS as your platform
+amplify add api    ## Select GraphQL, API key, "Single object with fields Todo application"
+amplify push       ## Sets up backend and prompts you for codegen, accept the defaults
 ```
 
 The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on, you can always change it.

@@ -99,14 +99,13 @@ func createSubscription() {
 Call the methods from your app code such as from a button click or when your app starts in `viewDidLoad()`. You will see data being stored and retrieved in your backend from the Xcode console.
 
 **Testing your API**
-You can open the AWS console for you to run Queries, Mutation, or Subscription against you new API at any time directly by running the following command:
+You can open the AWS console for you to run Queries, Mutation, or Subscription against your new API at any time directly by running the following command:
 
-```terminal
-$ amplify console api
-> GraphQL               ##Select GraphQL
+```bash
+amplify console api
 ```
 
-This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
+When prompted, select **GraphQL**. This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
 
 ## Next Steps
 

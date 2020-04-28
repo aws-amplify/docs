@@ -64,7 +64,7 @@ The AWS Mobile SDK for iOS is available through [Carthage](https://github.com/Ca
 
 Add the following to your `Cartfile`:
 
-```bash
+```
 github "aws-amplify/aws-sdk-ios"
 ```
 
@@ -109,7 +109,7 @@ Under the `Build Phases` tab in your `Target`, choose the `+` button on the top 
 
 Setup the build phase as follows. Make sure this phase is below the Embed Frameworks phase.
 
-```bash
+```
 Shell /bin/sh
 
 bash "${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework/strip-frameworks.sh"
@@ -307,7 +307,7 @@ Please note that creating multiple instances of `AWSMobileClient` <b>is not supp
 Open the macOS terminal and go to the directory containing the expanded archive. For example:
 
 ```bash
-$ cd ~/Downloads/aws-ios-sdk-2.9.0
+cd ~/Downloads/aws-ios-sdk-2.9.0
 ```
 
 **Note**: Replace 2.9.0 in the preceding example with the version number of the AWS Mobile SDK for iOS that you downloaded.
@@ -315,13 +315,13 @@ $ cd ~/Downloads/aws-ios-sdk-2.9.0
 Create a directory called `~/Library/Developer/Shared/Documentation/DocSets`:
 
 ```bash
-$ mkdir -p ~/Library/Developer/Shared/Documentation/DocSets
+mkdir -p ~/Library/Developer/Shared/Documentation/DocSets
 ```
 
 Copy (or move) `documentation/com.amazon.aws.ios.docset` from the SDK installation files to the directory you created in the previous step:
 
 ```bash
-$ mv documentation/com.amazon.aws.ios.docset ~/Library/Developer/Shared/Documentation/DocSets/
+mv documentation/com.amazon.aws.ios.docset ~/Library/Developer/Shared/Documentation/DocSets/
 ```
 
 If Xcode was running during this procedure, restart Xcode. To browse the documentation, go to **Help**, click **Documentation and API Reference**, and select **AWS Mobile SDK for iOS v2.7 Documentation** (where '2.7' is the appropriate version number).

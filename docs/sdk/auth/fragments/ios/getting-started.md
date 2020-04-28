@@ -29,7 +29,7 @@ Build your project once to ensure all frameworks are pulled in and compile.
 Run the following command in your project's root folder:
 
 ```bash
-$ amplify add auth
+amplify add auth
 ```
 
 > If you have previously enabled an Amplify category that uses Auth behind the scenes, e.g. Storage category, you may already have an Auth configuration. In such a case, run `amplify auth update` command to edit your configuration.
@@ -43,12 +43,12 @@ The Amplify CLI prompts will help you to customize your auth configuration:
 After configuring your Authentication options, update your backend:
 
 ```bash
-$ amplify push
+amplify push
 ```
 
 ### Lambda Triggers
 
-The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your Amazon Cognito User Pool. These enable you to add custom functionality to your registration and authentication flows. [Read more](~/cli/auth/triggers.md)
+The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your Amazon Cognito User Pool. These enable you to add custom functionality to your registration and authentication flows. [Read more](~/cli/usage/lambda-triggers.md)
 
 ## Manual Setup
 

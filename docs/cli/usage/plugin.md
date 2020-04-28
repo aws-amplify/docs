@@ -166,14 +166,13 @@ The Amplify CLI provides the command `amplify plugin init` (with alias `amplify 
 ### Step 1: Install Amplify CLI
 
 ```bash
-$ npm install -g @aws-amplify/cli
-
+npm install -g @aws-amplify/cli
 ```
 
 ### Step 2: Initialize plugin
 
 ```bash
-$ amplify plugin init
+amplify plugin init
 ```
 
 You will be prompted to enter the plugin name, then select the plugin type, and event subscriptions. The CLI will then create a plugin package for you and add it to the local Amplify CLI plugin platform.
@@ -183,7 +182,7 @@ You will be prompted to enter the plugin name, then select the plugin type, and 
 The newly created plugin package is already added to the local Amplify CLI, so you can start testing it immediately.
 Let's say you have chosen to use the default plugin name: `my-amplify-plugin`
 
-```bash
+```console
 $ amplify my-amplify-plugin help
 help command to be implemented.
 ```
@@ -202,9 +201,9 @@ After the completion of one development cycle and you are ready to release your 
 Once your plugin is published to the NPM, other developers can install and use it
 
 ```bash
-$ npm install -g my-amplify-plugin
-$ amplify plugin add my-amplify-plugin
-$ amplify my-amplify-plugin help
+npm install -g my-amplify-plugin
+amplify plugin add my-amplify-plugin
+amplify my-amplify-plugin help
 ```
 
 ## Plugin Package Structure

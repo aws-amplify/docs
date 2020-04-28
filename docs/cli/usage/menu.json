@@ -1,6 +1,7 @@
 {
   "title": "Advanced workflows",
   "items": [
+    "lambda-triggers",
     "mock",
     "customcf",
     "iam",
