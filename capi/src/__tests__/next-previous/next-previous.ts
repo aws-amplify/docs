@@ -10,6 +10,7 @@ test("next previous metadata generation", async () => {
     },
     outDir: "api",
     publicDir: "www",
+    srcDir: "",
   });
 
   // eslint-disable-next-line
