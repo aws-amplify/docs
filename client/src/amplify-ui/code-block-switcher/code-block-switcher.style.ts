@@ -20,7 +20,7 @@ export const activeTabStyle = css`
 `;
 
 export const tabStyle = css`
-  color: var(--color-white);
+  color: var(--font-color-contrast);
   border-radius: 0.25rem;
   height: 100%;
   appearance: none;
