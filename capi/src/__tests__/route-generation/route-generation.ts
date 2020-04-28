@@ -10,6 +10,7 @@ test("copy referenced images", async () => {
     },
     outDir: "api",
     publicDir: "www",
+    srcDir: "",
   });
 
   // eslint-disable-next-line
