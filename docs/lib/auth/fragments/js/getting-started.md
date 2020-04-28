@@ -53,7 +53,7 @@ There are two ways to add authentication capabilities to your application.
 
 1. [Use pre-built UI components](#option-1-use-pre-built-ui-components)
 
-2. [Call Authentication APIs manually](#n2-call-authentication-apis-manually)
+2. [Call Authentication APIs manually](#option-2-call-authentication-apis-manually)
 
 ## Option 1: Use pre-built UI components
 
