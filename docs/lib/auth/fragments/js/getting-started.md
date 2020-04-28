@@ -51,11 +51,11 @@ Amplify.configure(awsconfig);
 
 There are two ways to add authentication capabilities to your application.
 
-1. [Use pre-built UI components](#n1-use-pre-built-ui-components)
+1. [Use pre-built UI components](#option-1-use-pre-built-ui-components)
 
 2. [Call Authentication APIs manually](#n2-call-authentication-apis-manually)
 
-## 1. Use pre-built UI components
+## Option 1: Use pre-built UI components
 
 Creating the login flow can be quite difficult and time consuming to get right. Amplify Framework has authentication UI components you can use that will provide the entire authentication flow for you, using your configuration specified in your __aws-exports.js__ file.
 
@@ -66,7 +66,7 @@ Amplify has pre-built UI components for the the following frameworks:
 - [Angular](#angular)
 - [React Native](#react-native)
 
-## React
+### **React**
 
 First, install the `@aws-amplify/ui-react` library as well as `aws-amplify` if you have not already:
 
@@ -78,13 +78,12 @@ Next, open __src/App.js__ and add the `withAuthenticator` component.
 
 <inline-fragment src="~/ui/auth/fragments/react/withauthenticator.md"></inline-fragment>
 
-## Vue
+### **Vue**
 
 First, install the `@aws-amplify/ui-vue` library as well as `aws-amplify` if you have not already:
 
 ```bash
 npm install aws-amplify @aws-amplify/ui-vue
-=======
 ```
 
 Now open __src/main.js__ and add the following below your last import:
@@ -111,7 +110,7 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 </template>
 ```
 
-## Angular
+### **Angular**
 
 First, install the `@aws-amplify/ui-angular` library as well as `aws-amplify` if you have not already:
 
@@ -161,7 +160,7 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 </template>
 ```
 
-## React Native
+### **React Native**
 
 <inline-fragment src="~/start/getting-started/fragments/reactnative/getting-started-steps.md"></inline-fragment>
 
@@ -181,7 +180,7 @@ import { withAuthenticator } from 'aws-amplify-react-native'
 export default withAuthenticator(App)
 ```
 
-## 2. Call Authentication APIs manually
+## Option 2: Call Authentication APIs manually
 
 Follow the instructions in the [Sign in, Sign up and Sign out](~/lib/auth/emailpassword.md) to learn about how to integrate these authentication flows in your application with the Auth APIs.
 
