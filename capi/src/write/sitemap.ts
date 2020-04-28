@@ -26,17 +26,19 @@ export async function sitemap(config: t.Config, ctx: t.Ctx): Promise<void> {
     }
   }
 
-  const src = `<?xml version="1.0" encoding="utf-8"?>
+  if (routes.size > 0) {
+    const src = `<?xml version="1.0" encoding="utf-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   ${[...routes.keys()].map(createSitemapRoute).join("\n")}
 </urlset>
 `;
 
-  const destPathPieces = config.outDir.split(path.sep);
-  destPathPieces.pop();
-  const destPath = destPathPieces.join(path.sep);
-  await fs.ensureDir(destPath);
-  await fs.writeFile(path.join(destPath, "sitemap.xml"), src, {
-    encoding: "utf8",
-  });
+    const destPathPieces = config.outDir.split(path.sep);
+    destPathPieces.pop();
+    const destPath = destPathPieces.join(path.sep);
+    await fs.ensureDir(destPath);
+    await fs.writeFile(path.join(destPath, "sitemap.xml"), src, {
+      encoding: "utf8",
+    });
+  }
 }
