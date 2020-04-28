@@ -14,6 +14,7 @@ const config = {
   },
   outDir: "api",
   publicDir: "www",
+  srcDir: "",
 };
 
 test("PathDeduction", () => {

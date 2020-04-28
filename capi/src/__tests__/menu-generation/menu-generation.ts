@@ -10,6 +10,7 @@ test("menu-generation", async () => {
     },
     outDir: "api",
     publicDir: "www",
+    srcDir: "",
   });
 
   const menu = [
