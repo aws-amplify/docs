@@ -43,9 +43,5 @@ c.API({
   outDir: "client/src/api",
   publicDir: "client/src/assets",
   watch,
-  getSitemapDestDir(config) {
-    const destPathPieces = config.outDir.split(path.sep);
-    destPathPieces.pop();
-    return destPathPieces.join(path.sep);
-  },
+  srcPath: path.join(__dirname, "../client/src"),
 });
