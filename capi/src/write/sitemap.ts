@@ -33,8 +33,8 @@ export async function sitemap(config: t.Config, ctx: t.Ctx): Promise<void> {
 </urlset>
 `;
 
-    const siteMapDest = path.join(config.srcPath, "sitemap.xml");
-    await fs.ensureDir(config.srcPath);
+    const siteMapDest = path.join(config.srcDir, "sitemap.xml");
+    await fs.ensureDir(config.srcDir);
     await fs.writeFile(siteMapDest, src, {
       encoding: "utf8",
     });

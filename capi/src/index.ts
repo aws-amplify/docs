@@ -28,6 +28,7 @@ export async function API(c: t.Config): Promise<void> {
   config.contentDir = path.join(config.cwd, config.contentDir);
   config.outDir = path.join(config.cwd, config.outDir);
   config.publicDir = path.join(config.cwd, config.publicDir);
+  config.srcDir = path.join(config.cwd, config.srcDir);
 
   /**
    * Define the `PathDeductionBySrcPath` map here, so that we can make use

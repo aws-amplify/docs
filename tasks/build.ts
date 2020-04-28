@@ -43,5 +43,5 @@ c.API({
   outDir: "client/src/api",
   publicDir: "client/src/assets",
   watch,
-  srcPath: path.join(__dirname, "../client/src"),
+  srcDir: "client/src",
 });
