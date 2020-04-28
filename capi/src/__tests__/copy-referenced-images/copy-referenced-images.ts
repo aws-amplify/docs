@@ -12,6 +12,7 @@ test("route generation", async () => {
     },
     outDir: "api",
     publicDir: "www",
+    srcDir: "",
   });
 
   const a = path.join(__dirname, "www/product/another-image.jpg");
