@@ -35,7 +35,7 @@ Open __src/App.js__ and make the following changes:
 1. Import the `withAuthenticator` component:
 
 ```javascript
-import { withAuthenticator } from 'aws-amplify-react'
+import { withAuthenticator } from '@aws-amplify/ui-react'
 ```
 
 2. Change the default export to be the `withAuthenticator` wrapping the main component:
