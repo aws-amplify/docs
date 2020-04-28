@@ -31,30 +31,6 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/product/a/one-but-agnostic</loc>
-    <lastmod>2020-4-28</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/product/a/one-but-agnostic/q/platform/android</loc>
-    <lastmod>2020-4-28</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/product/a/one-but-agnostic/q/platform/ios</loc>
-    <lastmod>2020-4-28</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/product/a/one-but-agnostic/q/platform/js</loc>
-    <lastmod>2020-4-28</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/product</loc>
     <lastmod>2020-4-28</lastmod>
     <changefreq>hourly</changefreq>
@@ -86,6 +62,30 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/product/a/just-one/q/platform/js</loc>
+    <lastmod>2020-4-28</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/product/a/one-but-agnostic</loc>
+    <lastmod>2020-4-28</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/product/a/one-but-agnostic/q/platform/android</loc>
+    <lastmod>2020-4-28</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/product/a/one-but-agnostic/q/platform/ios</loc>
+    <lastmod>2020-4-28</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/product/a/one-but-agnostic/q/platform/js</loc>
     <lastmod>2020-4-28</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
