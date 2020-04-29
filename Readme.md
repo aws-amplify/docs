@@ -151,3 +151,25 @@ description: how to configure auth
 
 <inline-fragment platform="ios" src="~/docs/lib/auth/setup/fragments/ios/automated.md"></inline-fragment> <inline-fragment platform="web" src="~/docs/lib/auth/setup/fragments/web/automated.md"></inline-fragment>
 ```
+
+### Tab-switchable Code Blocks
+
+If you want to have a code block, which has tabs to change the language/framework/etc., go ahead and utilize the amplify-code-block-switcher component. This component accepts a single prop––`tab-heading-list`––which should be a comma-separated list of headings, where each heading accounts for a child code block. Here's an example of it's usage:
+
+````md
+<amplify-code-block-switcher tab-heading-list="JavaScript,TypeScript,Rust">
+
+```js
+const a = "a";
+```
+
+```ts
+const a: "a" = "a";
+```
+
+```rust
+let mut a = String::from("a");
+```
+
+</amplify-code-block-switcher>
+````
