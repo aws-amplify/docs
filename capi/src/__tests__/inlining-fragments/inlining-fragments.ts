@@ -10,6 +10,7 @@ test("inlining-fragments", async () => {
     },
     outDir: "api",
     publicDir: "www",
+    srcDir: "",
   });
 
   // eslint-disable-next-line

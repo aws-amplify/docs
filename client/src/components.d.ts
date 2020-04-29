@@ -28,6 +28,12 @@ export namespace Components {
          */
         "lineCount"?: string;
     }
+    interface AmplifyCodeBlockSwitcher {
+        /**
+          * the tab headings, comma-separated as a single string
+         */
+        "tabHeadingList"?: string;
+    }
     interface AmplifyContainer {
         /**
           * * incase users want to add a class to the inner div
@@ -256,6 +262,10 @@ export namespace Components {
          */
         "filterKey"?: string;
         /**
+          * * whether or not the menu is in view
+         */
+        "inView"?: boolean;
+        /**
           * * the group to render
          */
         "menuGroup"?: MenuGroup;
@@ -263,6 +273,10 @@ export namespace Components {
           * * the currently-selected filters
          */
         "selectedFilters": SelectedFilters;
+        /**
+          * * the menu toggle
+         */
+        "toggleInView": ToggleInView;
     }
     interface DocsNextPrevious {
         /**
@@ -296,6 +310,10 @@ export namespace Components {
     }
     interface DocsSelectAnchor {
         /**
+          * * whether or not the menu is in view
+         */
+        "inView"?: boolean;
+        /**
           * the current page's data
          */
         "page"?: Page;
@@ -303,6 +321,10 @@ export namespace Components {
           * * the globally-selected filter state
          */
         "selectedFilters"?: SelectedFilters;
+        /**
+          * * the menu toggle
+         */
+        "toggleInView": ToggleInView;
     }
     interface DocsUniversalNav {
         /**
@@ -355,6 +377,12 @@ declare global {
     var HTMLAmplifyCodeBlockElement: {
         prototype: HTMLAmplifyCodeBlockElement;
         new (): HTMLAmplifyCodeBlockElement;
+    };
+    interface HTMLAmplifyCodeBlockSwitcherElement extends Components.AmplifyCodeBlockSwitcher, HTMLStencilElement {
+    }
+    var HTMLAmplifyCodeBlockSwitcherElement: {
+        prototype: HTMLAmplifyCodeBlockSwitcherElement;
+        new (): HTMLAmplifyCodeBlockSwitcherElement;
     };
     interface HTMLAmplifyContainerElement extends Components.AmplifyContainer, HTMLStencilElement {
     }
@@ -581,6 +609,7 @@ declare global {
     interface HTMLElementTagNameMap {
         "amplify-callout": HTMLAmplifyCalloutElement;
         "amplify-code-block": HTMLAmplifyCodeBlockElement;
+        "amplify-code-block-switcher": HTMLAmplifyCodeBlockSwitcherElement;
         "amplify-container": HTMLAmplifyContainerElement;
         "amplify-external-link": HTMLAmplifyExternalLinkElement;
         "amplify-hero": HTMLAmplifyHeroElement;
@@ -636,6 +665,12 @@ declare namespace LocalJSX {
           * the number of lines of the code block
          */
         "lineCount"?: string;
+    }
+    interface AmplifyCodeBlockSwitcher {
+        /**
+          * the tab headings, comma-separated as a single string
+         */
+        "tabHeadingList"?: string;
     }
     interface AmplifyContainer {
         /**
@@ -865,6 +900,10 @@ declare namespace LocalJSX {
          */
         "filterKey"?: string;
         /**
+          * * whether or not the menu is in view
+         */
+        "inView"?: boolean;
+        /**
           * * the group to render
          */
         "menuGroup"?: MenuGroup;
@@ -872,6 +911,10 @@ declare namespace LocalJSX {
           * * the currently-selected filters
          */
         "selectedFilters"?: SelectedFilters;
+        /**
+          * * the menu toggle
+         */
+        "toggleInView"?: ToggleInView;
     }
     interface DocsNextPrevious {
         /**
@@ -905,6 +948,10 @@ declare namespace LocalJSX {
     }
     interface DocsSelectAnchor {
         /**
+          * * whether or not the menu is in view
+         */
+        "inView"?: boolean;
+        /**
           * the current page's data
          */
         "page"?: Page;
@@ -912,6 +959,10 @@ declare namespace LocalJSX {
           * * the globally-selected filter state
          */
         "selectedFilters"?: SelectedFilters;
+        /**
+          * * the menu toggle
+         */
+        "toggleInView"?: ToggleInView;
     }
     interface DocsUniversalNav {
         /**
@@ -954,6 +1005,7 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "amplify-callout": AmplifyCallout;
         "amplify-code-block": AmplifyCodeBlock;
+        "amplify-code-block-switcher": AmplifyCodeBlockSwitcher;
         "amplify-container": AmplifyContainer;
         "amplify-external-link": AmplifyExternalLink;
         "amplify-hero": AmplifyHero;
@@ -999,6 +1051,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "amplify-callout": LocalJSX.AmplifyCallout & JSXBase.HTMLAttributes<HTMLAmplifyCalloutElement>;
             "amplify-code-block": LocalJSX.AmplifyCodeBlock & JSXBase.HTMLAttributes<HTMLAmplifyCodeBlockElement>;
+            "amplify-code-block-switcher": LocalJSX.AmplifyCodeBlockSwitcher & JSXBase.HTMLAttributes<HTMLAmplifyCodeBlockSwitcherElement>;
             "amplify-container": LocalJSX.AmplifyContainer & JSXBase.HTMLAttributes<HTMLAmplifyContainerElement>;
             "amplify-external-link": LocalJSX.AmplifyExternalLink & JSXBase.HTMLAttributes<HTMLAmplifyExternalLinkElement>;
             "amplify-hero": LocalJSX.AmplifyHero & JSXBase.HTMLAttributes<HTMLAmplifyHeroElement>;

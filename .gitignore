@@ -43,12 +43,12 @@ package-lock.json
 generated
 capi/src/__tests__/*/api
 capi/src/__tests__/*/www
+capi/src/__tests__/*/sitemap.xml
 client/src/api
 client/src/assets
 report.*.json
 _site/
-
-#amplify
+client/src/sitemap.xml
 amplify/\#current-cloud-backend
 amplify/.config/local-*
 amplify/mock-data
