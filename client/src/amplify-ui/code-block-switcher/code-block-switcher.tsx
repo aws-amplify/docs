@@ -44,7 +44,7 @@ export class AmplifyCodeBlockSwitcher {
   };
 
   render() {
-    // + 2 because CSS child indices start at 1, and the first child in the host is the div of tabs
+    // + 1 because CSS child indices start at 1
     const revealStyle = css`
       > pre:nth-of-type(${this.activeChildI + 1}) {
         display: initial;

@@ -17,11 +17,11 @@ export const hostStyle = css`
 
 export const activeTabStyle = css`
   font-weight: 700;
-  border-bottom: 0.0625rem solid var(--font-color-contrast);
+  border-bottom: 0.0625rem solid var(--code-font-color);
 `;
 
 export const tabStyle = css`
-  color: var(--font-color-contrast);
+  color: var(--code-font-color);
   border-top-right-radius: 0.25rem;
   border-top-left-radius: 0.25rem;
   height: 100%;
