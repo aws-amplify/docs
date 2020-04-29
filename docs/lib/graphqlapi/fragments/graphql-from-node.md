@@ -60,7 +60,7 @@ exports.handler = async (event) => {
 
 ## Mutation
 
-In this example we create a mutation against an 
+In this example we create a mutation showing how to pass in variables as arguments.
 
 ```js
 const axios = require('axios');
