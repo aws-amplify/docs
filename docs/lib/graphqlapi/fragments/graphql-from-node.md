@@ -1,9 +1,125 @@
-You can also call an AppSync GraphQL API from a NodeJS app or a Lambda function. For example, deploy a simple `Todo` model with the following schema in the `amplify add api` flow:
+You can also call an AppSync GraphQL API from a Node.js app or a Lambda function. Take a basic `Todo` app as an example: 
 
+```graphql
+type Todo @model {
+  id: ID!
+  name: String
+  description: String
+}
 ```
+
+This API will have operations available for `create`, `read`, `update`, and `delete`. Let's take a look at how to perform both a __query__ as well as a __mutation__ from a Lambda function using Node.js.
+
+## Query
+
+```javascript
+const axios = require('axios');
+const gql = require('graphql-tag');
+const graphql = require('graphql');
+const { print } = graphql;
+
+const listTodos = gql`
+  query listTodos {
+    listTodos {
+      items {
+        id
+        name
+        description
+      }
+    }
+  }
+`
+
+exports.handler = async (event) => {
+  try {
+    const graphqlData = await axios({
+      url: process.env.API_URL,
+      method: 'post',
+      headers: {
+        'x-api-key': process.env.API_KEY
+      },
+      data: {
+        query: print(listTodos),
+      }
+    });
+    const body = {
+        graphqlData: graphqlData.data.data.listTodos
+    }
+    return {
+        statusCode: 200,
+        body: JSON.stringify(body),
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+        }
+    }
+  } catch (err) {
+    console.log('error posting to appsync: ', err);
+  } 
+}
+```
+
+## Mutation
+
+In this example we create a mutation showing how to pass in variables as arguments.
+
+```js
+const axios = require('axios');
+const gql = require('graphql-tag');
+const graphql = require('graphql');
+const { print } = graphql;
+
+const createTodo = gql`
+  mutation createTodo($input: CreateTodoInput!) {
+    createTodo(input: $input) {
+      id
+      name
+      description
+    }
+  }
+`
+
+exports.handler = async (event) => {
+  try {
+    const graphqlData = await axios({
+      url: process.env.API_URL,
+      method: 'post',
+      headers: {
+        'x-api-key': process.env.API_KEY
+      },
+      data: {
+        query: print(createTodo),
+        variables: {
+          input: {
+            name: "Hello world!",
+            description: "My first todo"
+          }
+        }
+      }
+    });
+    const body = {
+      message: "successfully created todo!"
+    }
+    return {
+      statusCode: 200,
+      body: JSON.stringify(body),
+      headers: {
+          "Access-Control-Allow-Origin": "*",
+      }
+    }
+  } catch (err) {
+    console.log('error creating todo: ', err);
+  } 
+}
+```
+
+## Signing a request from Lambda
+
+What about working with custom signing of the request? Let's take a look at another example schema that uses `iam` authorization.
+
+```graphql
 type Todo @model @auth (
     rules: [
-        { allow: private, provider: iam, operations: [create] }
+        { allow: private, provider: iam }
     ]
 ) {
   id: ID!
@@ -12,9 +128,9 @@ type Todo @model @auth (
 }
 ```
 
-In the above example we want your Lambda function to have access to run a single mutation (`createTodo`) and hence we explicitly mention `create` in the `operations` list. To grant access for application users to perform other actions, you can add `read`, `update` or `delete` to the `operations` list along with `create`.
+Create a Lambda function with `amplify add function` and make sure to give access to your GraphQL API when prompted for in the `amplify add function` flow.
 
-Save your changes and create a Lambda function with `amplify add function` and make sure to add access for your GraphQL API when prompted for in the `amplify add function` flow. The CLI would automatically configure the Lambda execution IAM role required by the Lambda function to call the GraphQL API. The following function will sign the request and use environment variables for the AppSync and Region that `amplify add function` created for you.
+The CLI will automatically configure the Lambda execution IAM role required by the Lambda function to call the GraphQL API. The following function will sign the request and use environment variables for the AppSync and Region that `amplify add function` created for you.
 
 ```javascript
 const https = require('https');

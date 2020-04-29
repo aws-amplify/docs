@@ -191,7 +191,7 @@ try {
     const user = await Auth.signIn({
         username, // Required, the username
         password, // Optional, the password
-        validationData, // Optional, a random key-value pair map which can contain any key and will be passed to your PreAuthentication Lambda trigger as-is. It can be used to implement additional validations around authentication
+        validationData, // Optional, an arbitrary key-value pair map which can contain any key and will be passed to your PreAuthentication Lambda trigger as-is. It can be used to implement additional validations around authentication
     });
     console.log('user is signed in!', user);
 } catch (error) {

@@ -31,9 +31,10 @@ exports[`docs-secondary-nav Render logic should render 1`] = `
               Console
             </span>
           </amplify-external-link>
+          <div class="css-1r4lk6l"></div>
         </div>
       </div>
-      <div class="css-153d8ox">
+      <div class="css-1wm7ral">
         <div>
           <div>
             <input class="three-dee-effect" id="amplify-docs-search-input" placeholder="Search" type="search">

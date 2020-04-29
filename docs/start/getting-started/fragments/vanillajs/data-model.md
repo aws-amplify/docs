@@ -1,37 +1,12 @@
-### Data requirements
+Now that you’ve initialized a new Amplify project, you can add a feature. The first feature you will add is an API. An API will allow you to save and read data to and from the cloud.
 
-For this app, we have the following requirements:
+The Amplify CLI supports creating and interacting with two types of API categories: [REST](~/lib/restapi/getting-started.md) and [GraphQL](~/lib/graphqlapi/getting-started.md).
 
-1. A list of todos
-2. Ability to create/update/delete a todo
-
-### Model the data with the GraphQL Transform
-
-Given these requirements, we'll need to be able to query the API for a list of todos and also provide a way to send updates to the API to create, update, and delete todos. In GraphQL we would use a `type` to define that entity, like so:
-
-```graphql
-type Todo {
-  id: ID!
-  name: String!
-  description: String!
-}
-```
-
-Because we're using Amplify, we can use the GraphQL Schema Definition Language (SDL) and custom Amplify directives to define our backend requirements for our API. The GraphQL Transform library then converts your SDL definition into a set of fully descriptive AWS CloudFormation templates that implement your data model.
-
-```graphql
-type Todo @model {
-  id: ID!
-  name: String!
-  description: String!
-}
-```
-
-The `@model` directive lets Amplify know we intend for this type to have data that needs to be stored. This will create a DynamoDB table for us and make all GraphQL operations available in the API.
+The API you will be creating in this step is a GraphQL API using AWS AppSync (a managed GraphQL service) and the database will be Amazon DynamoDB (a NoSQL database).
 
 ## Create GraphQL API and database
 
-Now that the data is modeled, it's time to create the GraphQL API. From the root of the project, run the following:
+Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the following command from the root of your application directory:
 
 ```bash
 amplify add api
@@ -95,15 +70,11 @@ amplify push
 When you run `amplify push`, you will be presented with the option to have all the GraphQL operations found in your schema generated for you in code. Choose the following options:
 
 ```console
-Do you want to generate code for your newly created GraphQL API (Yes)
-
-Choose the code generation language target (javascript)
-
-Enter the file name pattern of graphql queries, mutations and subscriptions (src/graphql/**/*.js)
-
-Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions (Yes)
-
-Enter maximum statement depth [increase from default if your schema is deeply nested] (2)
+? Do you want to generate code for your newly created GraphQL API (Yes)
+? Choose the code generation language target (javascript)
+? Enter the file name pattern of graphql queries, mutations and subscriptions (src/graphql/**/*.js)
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions (Yes)
+? Enter maximum statement depth [increase from default if your schema is deeply nested] (2)
 ```
 
 Next, run the following command to check Amplify's status:
@@ -124,7 +95,7 @@ Current Environment: dev
 
 ### Testing your API
 
-You can open the AWS console to run Queries, Mutation, or Subscription against you new API at any time directly by running the following command:
+You can open the AWS console to run Queries, Mutation, or Subscription against your new API at any time directly by running the following command:
 
 ```bash
 amplify console api

@@ -4,6 +4,7 @@ import {
   hostStyle,
   searchStyle,
   linkActiveStyle,
+  shadowStyle,
 } from "./secondary-nav.style";
 import {createVNodeFromHyperscriptNode} from "../../utils/hyperscript";
 import {pageContext} from "../page/page.context";
@@ -99,6 +100,7 @@ export class DocsSecondaryNav {
                     ["span", null, label],
                   ]),
                 )}
+                <div class={shadowStyle}></div>
               </div>
             </div>
             <div class={searchStyle}>
