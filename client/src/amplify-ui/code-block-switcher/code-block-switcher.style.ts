@@ -19,10 +19,8 @@ export const activeTabStyle = css`
   font-weight: 700;
 `;
 
-// TODO: add code bg color secondary
-// TODO: use code font color instead
 export const tabStyle = css`
-  color: var(--font-color-contrast);
+  color: var(--code-font-color);
   border-radius: 0.25rem;
   height: 100%;
   appearance: none;
@@ -39,5 +37,5 @@ export const tabStyle = css`
 export const tabContainerStyle = css`
   border-top-right-radius: 0.25rem;
   border-top-left-radius: 0.25rem;
-  background-color: var(--color-ink-md);
+  background-color: var(--code-bg-color-secondary);
 `;
