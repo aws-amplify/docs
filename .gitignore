@@ -47,8 +47,8 @@ client/src/api
 client/src/assets
 report.*.json
 _site/
-
-#amplify
+client/src/sitemap.xml
+capi/src/__tests__/*/sitemap.xml
 amplify/\#current-cloud-backend
 amplify/.config/local-*
 amplify/mock-data
@@ -63,4 +63,3 @@ amplifyconfiguration.json
 amplify-gradle-config.json
 amplifyxc.config
 amplify/team-provider-info.json
-client/src/sitemap.xml
