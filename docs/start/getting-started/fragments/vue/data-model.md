@@ -246,7 +246,7 @@ import { onCreateTodo } from './graphql/subscriptions';
 export default {
   // other functions and properties
   created(){
-    this.getData();
+    this.getTodos();
     this.subscribe();
   },
   methods: {
