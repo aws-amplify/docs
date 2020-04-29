@@ -3,18 +3,6 @@ title: Concepts
 description: Learn more about the foundational auth concepts for cloud-based application and how they work with Amplify Framework.
 ---
 
-<amplify-code-block-switcher tab-heading-list="JavaScript, TypeScript">
-
-```js
-const a = "a";
-```
-
-```ts
-const a: string = "a";
-```
-
-</amplify-code-block-switcher>
-
 *Authentication* is a process to validate **who you are** (abbreviated as *AuthN*). The system which does this validation is referred to as an **Identity Provider** or **IdP**. This can be your own self-hosted IdP or a cloud service. Oftentimes, this IdP is a social provider such as Facebook, Google, or Amazon.
 
 *Authorization* is the process of validating **what you can access** (abbreviated as *AuthZ*). This is sometimes done by looking at tokens with custom logic, predefined rules, or signed requests with policies.
