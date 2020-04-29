@@ -39,5 +39,5 @@ export const tabStyle = css`
 export const tabContainerStyle = css`
   border-top-right-radius: 0.25rem;
   border-top-left-radius: 0.25rem;
-  background-color: var(--color-ink-md);
+  background-color: var(--code-bg-color-secondary);
 `;
