@@ -8,6 +8,7 @@
     "iam-roles-mfa",
     "files",
     "headless",
-    "plugin"
+    "plugin",
+    "upgrade"
   ]
 }
