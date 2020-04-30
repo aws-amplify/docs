@@ -12,7 +12,7 @@ exports[`amplify-block-switcher Render logic should render with contained blocks
 <amplify-block-switcher class="css-1dfg3q css-6d0h3e">
   <!---->
   <div class="css-13kxqe8">
-    <button class="css-18ssisc css-euwyuz"></button>
+    <button class="css-18ssisc css-si1pwq"></button>
   </div>
   <div class="css-1fwr3l6">
     <amplify-block></amplify-block>
