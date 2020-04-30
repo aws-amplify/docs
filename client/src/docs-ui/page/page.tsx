@@ -23,7 +23,10 @@ import {
   createVNodesFromHyperscriptNodes,
   filtersByRoute,
 } from "../../api";
-import {updateDocumentHead} from "../../utils/update-document-head";
+import {
+  updateDocumentHead,
+  fileNotFound,
+} from "../../utils/update-document-head";
 import {
   getFilterKeyFromPage,
   getFilterKeyFromLocalStorage,
@@ -137,6 +140,8 @@ export class DocsPage {
                 this.validFilterValue = allFilters.includes(filterValue);
                 if (this.validFilterValue) {
                   this.setSelectedFilters({[this.filterKey]: this.filterValue});
+                } else {
+                  fileNotFound();
                 }
               }
             } else {
@@ -147,8 +152,10 @@ export class DocsPage {
           }
         } else {
           this.pageData = undefined;
+          fileNotFound();
         }
       } catch (exception) {
+        fileNotFound();
         if (this.match) {
           track({
             type: AnalyticsEventType.PAGE_DATA_FETCH_EXCEPTION,

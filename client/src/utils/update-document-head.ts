@@ -58,3 +58,10 @@ export const updateDocumentHead = (page: Page): void => {
   createTwitterTag("twitter:description", page.description);
   createTwitterTag("twitter:image", "https://docs.amplify.aws/assets/ogp.jpg");
 };
+
+export const fileNotFound = () => {
+  const metaTag = document.createElement("meta");
+  metaTag.setAttribute("http-equiv", "status");
+  metaTag.setAttribute("content", "404");
+  document.head.appendChild(metaTag);
+};
