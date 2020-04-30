@@ -211,6 +211,12 @@
     <priority>.5</priority>
   </url>
   <url>
+    <loc>https://docs.amplify.aws/cli/usage/upgrade</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
     <loc>https://docs.amplify.aws/lib</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
