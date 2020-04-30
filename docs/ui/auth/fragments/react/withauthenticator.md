@@ -1,5 +1,3 @@
-### withAuthenticator
-
 The `withAuthenticator` is a higher-order component (HoC) that wraps `AmplifyAuthenticator`. You'll also notice the `AmplifySignOut` component. This is an optional component if you'd like to render a sign out button.
 
 **Usage**
