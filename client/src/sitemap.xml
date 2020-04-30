@@ -7,133 +7,217 @@
     <priority>.5</priority>
   </url>
   <url>
+    <loc>https://docs.amplify.aws/cli</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/auth/admin</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/auth/groups</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/auth/overview</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/function</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/function/build-options</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/graphql-transformer/codegen</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/graphql-transformer/config-params</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/graphql-transformer/dataaccess</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/graphql-transformer/directives</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/graphql-transformer/examples</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/graphql-transformer/overview</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/graphql-transformer/relational</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/graphql-transformer/resolvers</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/graphql-transformer/storage</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/hosting</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/migration/lambda-node-version-update</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/restapi</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/start</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/start/install</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/teams/cicd</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/teams/commands</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/teams/multi-frontend</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/teams/overview</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/teams/sandbox</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/teams/shared</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/usage/customcf</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/usage/files</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/usage/headless</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/usage/iam</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/usage/iam-roles-mfa</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/usage/lambda-triggers</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/usage/mock</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/usage/plugin</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/usage/upgrade</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
     <loc>https://docs.amplify.aws/lib</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/q/platform/android</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/q/platform/ios</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/q/platform/js</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/q/platform/android</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/q/platform/ios</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/q/integration/android</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/q/integration/angular</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/q/integration/ionic</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/q/integration/ios</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/q/integration/js</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/q/integration/react</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/q/integration/react-native</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/q/integration/vue</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/q/framework/angular</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/q/framework/ionic</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/q/framework/react</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/q/framework/react-native</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/q/framework/vue</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -163,7 +247,25 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli</loc>
+    <loc>https://docs.amplify.aws/lib/analytics/getting-started</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/analytics/getting-started/q/platform/android</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/analytics/getting-started/q/platform/ios</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/analytics/getting-started/q/platform/js</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -235,42 +337,6 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/auth/advanced</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/auth/advanced/q/platform/js</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/analytics/getting-started</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/analytics/getting-started/q/platform/android</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/analytics/getting-started/q/platform/ios</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/analytics/getting-started/q/platform/js</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/lib/analytics/streaming</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
@@ -278,6 +344,18 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/analytics/streaming/q/platform/js</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/auth/advanced</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/auth/advanced/q/platform/js</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -301,6 +379,18 @@
     <priority>.5</priority>
   </url>
   <url>
+    <loc>https://docs.amplify.aws/lib/auth/customui</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/auth/customui/q/platform/js</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
     <loc>https://docs.amplify.aws/lib/auth/device-features</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
@@ -319,18 +409,6 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/auth/emailpassword</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/auth/emailpassword/q/platform/js</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/lib/auth/drop-in-auth</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
@@ -344,6 +422,18 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/auth/drop-in-auth/q/platform/ios</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/auth/emailpassword</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/auth/emailpassword/q/platform/js</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -391,55 +481,19 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/auth/how-it-works</loc>
+    <loc>https://docs.amplify.aws/lib/auth/guest-access</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/auth/how-it-works/q/platform/android</loc>
+    <loc>https://docs.amplify.aws/lib/auth/guest-access/q/platform/android</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/auth/how-it-works/q/platform/ios</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/q/framework/angular</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/q/framework/ionic</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/q/framework/react</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/q/framework/react-native</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/q/framework/vue</loc>
+    <loc>https://docs.amplify.aws/lib/auth/guest-access/q/platform/ios</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -463,6 +517,24 @@
     <priority>.5</priority>
   </url>
   <url>
+    <loc>https://docs.amplify.aws/lib/auth/how-it-works</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/auth/how-it-works/q/platform/android</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/auth/how-it-works/q/platform/ios</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
     <loc>https://docs.amplify.aws/lib/auth/manageusers</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
@@ -470,36 +542,6 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/auth/manageusers/q/platform/js</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/auth/guest-access</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/auth/guest-access/q/platform/android</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/auth/guest-access/q/platform/ios</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/auth/social</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/auth/social/q/platform/js</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -536,6 +578,18 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/auth/overview/q/platform/js</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/auth/social</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/auth/social/q/platform/js</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -583,18 +637,6 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/auth/customui</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/auth/customui/q/platform/js</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/lib/datastore/conflict</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
@@ -619,30 +661,6 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/datastore/getting-started</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/datastore/getting-started/q/platform/android</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/datastore/getting-started/q/platform/ios</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/datastore/getting-started/q/platform/js</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/lib/datastore/data-access</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
@@ -662,6 +680,30 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/datastore/data-access/q/platform/js</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/datastore/getting-started</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/datastore/getting-started/q/platform/android</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/datastore/getting-started/q/platform/ios</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/datastore/getting-started/q/platform/js</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -739,19 +781,49 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/getting-started/integrate</loc>
+    <loc>https://docs.amplify.aws/lib/datastore/schema-updates</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/getting-started/integrate/q/platform/android</loc>
+    <loc>https://docs.amplify.aws/lib/datastore/schema-updates/q/platform/android</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/getting-started/integrate/q/platform/ios</loc>
+    <loc>https://docs.amplify.aws/lib/datastore/schema-updates/q/platform/ios</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/datastore/schema-updates/q/platform/js</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/datastore/sync</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/datastore/sync/q/platform/android</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/datastore/sync/q/platform/ios</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/datastore/sync/q/platform/js</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -793,25 +865,19 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/datastore/sync</loc>
+    <loc>https://docs.amplify.aws/lib/getting-started/integrate</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/datastore/sync/q/platform/android</loc>
+    <loc>https://docs.amplify.aws/lib/getting-started/integrate/q/platform/android</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/datastore/sync/q/platform/ios</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/datastore/sync/q/platform/js</loc>
+    <loc>https://docs.amplify.aws/lib/getting-started/integrate/q/platform/ios</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -907,30 +973,6 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/graphqlapi/graphql-from-nodejs</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/graphqlapi/graphql-from-nodejs/q/platform/android</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/graphqlapi/graphql-from-nodejs/q/platform/ios</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/graphqlapi/graphql-from-nodejs/q/platform/js</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/lib/graphqlapi/getting-started</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
@@ -950,6 +992,30 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/graphqlapi/getting-started/q/platform/js</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/graphqlapi/graphql-from-nodejs</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/graphqlapi/graphql-from-nodejs/q/platform/android</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/graphqlapi/graphql-from-nodejs/q/platform/ios</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/graphqlapi/graphql-from-nodejs/q/platform/js</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -979,13 +1045,13 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/interactions/chatbot</loc>
+    <loc>https://docs.amplify.aws/lib/graphqlapi/offline</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/interactions/chatbot/q/platform/js</loc>
+    <loc>https://docs.amplify.aws/lib/graphqlapi/offline/q/platform/js</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1015,30 +1081,6 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/graphqlapi/offline</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/graphqlapi/offline/q/platform/js</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/interactions/getting-started</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/interactions/getting-started/q/platform/js</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/lib/graphqlapi/subscribe-data</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
@@ -1058,6 +1100,30 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/graphqlapi/subscribe-data/q/platform/js</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/interactions/chatbot</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/interactions/chatbot/q/platform/js</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/interactions/getting-started</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/interactions/getting-started/q/platform/js</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1088,6 +1154,18 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/predictions/getting-started/q/platform/js</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/predictions/identify-celebrity</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/predictions/identify-celebrity/q/platform/ios</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1129,13 +1207,19 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/predictions/identify-celebrity</loc>
+    <loc>https://docs.amplify.aws/lib/predictions/interpret</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/predictions/identify-celebrity/q/platform/ios</loc>
+    <loc>https://docs.amplify.aws/lib/predictions/interpret/q/platform/ios</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/predictions/interpret/q/platform/js</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1159,36 +1243,6 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/predictions/interpret</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/predictions/interpret/q/platform/ios</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/predictions/interpret/q/platform/js</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/predictions/sample</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/predictions/sample/q/platform/js</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/lib/predictions/label-image</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
@@ -1202,6 +1256,18 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/predictions/label-image/q/platform/js</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/predictions/sample</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/predictions/sample/q/platform/js</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1273,6 +1339,18 @@
     <priority>.5</priority>
   </url>
   <url>
+    <loc>https://docs.amplify.aws/lib/pubsub/publish</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/pubsub/publish/q/platform/js</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
     <loc>https://docs.amplify.aws/lib/pubsub/subunsub</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
@@ -1297,18 +1375,6 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/pubsub/publish</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/pubsub/publish/q/platform/js</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/lib/push-notifications/overview</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
@@ -1316,18 +1382,6 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/push-notifications/overview/q/platform/js</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/push-notifications/working-with-api</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/push-notifications/working-with-api/q/platform/js</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1345,13 +1399,31 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/restapi/delete</loc>
+    <loc>https://docs.amplify.aws/lib/push-notifications/working-with-api</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/restapi/delete/q/platform/js</loc>
+    <loc>https://docs.amplify.aws/lib/push-notifications/working-with-api/q/platform/js</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/q/platform/android</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/q/platform/ios</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/q/platform/js</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1376,6 +1448,18 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/restapi/authz/q/platform/js</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/restapi/delete</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/restapi/delete/q/platform/js</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1424,6 +1508,18 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/restapi/update/q/platform/js</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/storage/autotrack</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/storage/autotrack/q/platform/js</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1519,18 +1615,6 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/storage/autotrack</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/storage/autotrack/q/platform/js</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/lib/storage/list</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
@@ -1550,30 +1634,6 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/storage/list/q/platform/js</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/storage/triggers</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/storage/triggers/q/platform/android</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/storage/triggers/q/platform/ios</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/storage/triggers/q/platform/js</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1603,6 +1663,30 @@
     <priority>.5</priority>
   </url>
   <url>
+    <loc>https://docs.amplify.aws/lib/storage/triggers</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/storage/triggers/q/platform/android</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/storage/triggers/q/platform/ios</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/storage/triggers/q/platform/js</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
     <loc>https://docs.amplify.aws/lib/storage/upload</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
@@ -1627,6 +1711,66 @@
     <priority>.5</priority>
   </url>
   <url>
+    <loc>https://docs.amplify.aws/lib/utilities/cache</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/utilities/cache/q/platform/js</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/utilities/hub</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/utilities/hub/q/platform/js</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/utilities/i18n</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/utilities/i18n/q/platform/js</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/utilities/logger</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/utilities/logger/q/platform/js</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/utilities/serviceworker</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/utilities/serviceworker/q/platform/js</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
     <loc>https://docs.amplify.aws/lib/xr/getting-started</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
@@ -1634,6 +1778,24 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/xr/getting-started/q/platform/js</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/xr/sceneapi</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/xr/sceneapi/q/platform/js</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1657,13 +1819,19 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/xr/sceneapi</loc>
+    <loc>https://docs.amplify.aws/sdk/analytics/events</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/xr/sceneapi/q/platform/js</loc>
+    <loc>https://docs.amplify.aws/sdk/analytics/events/q/platform/android</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/analytics/events/q/platform/ios</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1705,66 +1873,6 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/utilities/hub</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/utilities/hub/q/platform/js</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/utilities/cache</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/utilities/cache/q/platform/js</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/utilities/logger</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/utilities/logger/q/platform/js</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/utilities/i18n</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/utilities/i18n/q/platform/js</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/utilities/serviceworker</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/utilities/serviceworker/q/platform/js</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/sdk/api/graphql</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
@@ -1778,24 +1886,6 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/sdk/api/graphql/q/platform/ios</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/custom-auth-flow</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/custom-auth-flow/q/platform/android</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/custom-auth-flow/q/platform/ios</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1819,19 +1909,19 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/sdk/auth/federated-identities</loc>
+    <loc>https://docs.amplify.aws/sdk/auth/custom-auth-flow</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/sdk/auth/federated-identities/q/platform/android</loc>
+    <loc>https://docs.amplify.aws/sdk/auth/custom-auth-flow/q/platform/android</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/sdk/auth/federated-identities/q/platform/ios</loc>
+    <loc>https://docs.amplify.aws/sdk/auth/custom-auth-flow/q/platform/ios</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1868,6 +1958,24 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/sdk/auth/drop-in-auth/q/platform/ios</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/federated-identities</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/federated-identities/q/platform/android</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/federated-identities/q/platform/ios</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1999,24 +2107,6 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/sdk/push-notifications/getting-started</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/push-notifications/getting-started/q/platform/android</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/push-notifications/getting-started/q/platform/ios</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/sdk/pubsub/working-api</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
@@ -2030,6 +2120,24 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/sdk/pubsub/working-api/q/platform/ios</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/push-notifications/getting-started</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/push-notifications/getting-started/q/platform/android</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/push-notifications/getting-started/q/platform/ios</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -2071,19 +2179,13 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/sdk/storage/graphql-api</loc>
+    <loc>https://docs.amplify.aws/sdk/q/platform/android</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/sdk/storage/graphql-api/q/platform/android</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/storage/graphql-api/q/platform/ios</loc>
+    <loc>https://docs.amplify.aws/sdk/q/platform/ios</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -2119,6 +2221,24 @@
     <priority>.5</priority>
   </url>
   <url>
+    <loc>https://docs.amplify.aws/sdk/storage/graphql-api</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/storage/graphql-api/q/platform/android</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/storage/graphql-api/q/platform/ios</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
     <loc>https://docs.amplify.aws/sdk/storage/transfer-utility</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
@@ -2137,517 +2257,7 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/ui/auth/authenticator</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/auth/authenticator/q/framework/angular</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/auth/authenticator/q/framework/ionic</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/auth/authenticator/q/framework/react</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/auth/authenticator/q/framework/react-native</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/auth/authenticator/q/framework/vue</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/auth/sign-out</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/auth/sign-out/q/framework/angular</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/auth/sign-out/q/framework/ionic</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/auth/sign-out/q/framework/react</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/auth/sign-out/q/framework/vue</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/auth/select-mfa-type</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/auth/select-mfa-type/q/framework/angular</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/auth/select-mfa-type/q/framework/ionic</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/auth/select-mfa-type/q/framework/react</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/auth/select-mfa-type/q/framework/vue</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/api/connect</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/api/connect/q/framework/react-native</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/customization/theming</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/customization/theming/q/framework/angular</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/customization/theming/q/framework/ionic</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/customization/theming/q/framework/react</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/customization/theming/q/framework/react-native</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/customization/theming/q/framework/vue</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/interactions/chatbot</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/interactions/chatbot/q/framework/react-native</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/storage/photo-picker</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/storage/photo-picker/q/framework/react-native</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/storage/s3-album</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/storage/s3-album/q/framework/react-native</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/storage/s3-image</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/storage/s3-image/q/framework/react-native</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/storage/tracking-events</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/storage/tracking-events/q/framework/react-native</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/angular</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/ionic</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/react</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/react-native</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/vue</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/api/connect</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/api/connect/q/framework/react</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/api/connect/q/framework/react-native</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/api/connect/q/framework/vue</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/customization/theming</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/customization/theming/q/framework/react-native</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot/q/framework/angular</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot/q/framework/ionic</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot/q/framework/react</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot/q/framework/react-native</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot/q/framework/vue</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/angular</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/ionic</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/react</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/react-native</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/vue</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/customization</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/customization/q/framework/react</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/customization/q/framework/react-native</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album/q/framework/angular</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album/q/framework/ionic</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album/q/framework/react</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album/q/framework/react-native</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album/q/framework/vue</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-image</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-image/q/framework/react</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-image/q/framework/react-native</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-image/q/framework/vue</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/tracking-events</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/tracking-events/q/framework/react</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/tracking-events/q/framework/react-native</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/xr/sumerian-scene</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/xr/sumerian-scene/q/framework/angular</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/xr/sumerian-scene/q/framework/ionic</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/xr/sumerian-scene/q/framework/react</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/xr/sumerian-scene/q/framework/vue</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/storage/customization</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/storage/customization/q/framework/react-native</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/datastore/schema-updates</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/datastore/schema-updates/q/platform/android</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/datastore/schema-updates/q/platform/ios</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/datastore/schema-updates/q/platform/js</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/cli/auth/admin</loc>
+    <loc>https://docs.amplify.aws/start</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -2726,12 +2336,6 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/start/getting-started/data-model/q/integration/vue</loc>
-    <lastmod>2020-4-29</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/cli/auth/overview</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -2935,211 +2539,607 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/function/build-options</loc>
+    <loc>https://docs.amplify.aws/start/q/integration/android</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/graphql-transformer/codegen</loc>
+    <loc>https://docs.amplify.aws/start/q/integration/angular</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/graphql-transformer/config-params</loc>
+    <loc>https://docs.amplify.aws/start/q/integration/ionic</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/function</loc>
+    <loc>https://docs.amplify.aws/start/q/integration/ios</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/graphql-transformer/dataaccess</loc>
+    <loc>https://docs.amplify.aws/start/q/integration/js</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/auth/groups</loc>
+    <loc>https://docs.amplify.aws/start/q/integration/react</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/graphql-transformer/examples</loc>
+    <loc>https://docs.amplify.aws/start/q/integration/react-native</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/graphql-transformer/directives</loc>
+    <loc>https://docs.amplify.aws/start/q/integration/vue</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/graphql-transformer/relational</loc>
+    <loc>https://docs.amplify.aws/ui</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/migration/lambda-node-version-update</loc>
+    <loc>https://docs.amplify.aws/ui-legacy</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/graphql-transformer/resolvers</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/api/connect</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/restapi</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/api/connect/q/framework/react</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/graphql-transformer/storage</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/api/connect/q/framework/react-native</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/start/install</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/api/connect/q/framework/vue</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/start</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/teams/cicd</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/angular</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/teams/multi-frontend</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/ionic</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/teams/overview</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/react</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/teams/commands</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/react-native</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/graphql-transformer/overview</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/vue</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/teams/sandbox</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/customization/theming</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/hosting</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/customization/theming/q/framework/react-native</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/usage/files</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/usage/customcf</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot/q/framework/angular</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/usage/headless</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot/q/framework/ionic</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/usage/lambda-triggers</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot/q/framework/react</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/usage/iam-roles-mfa</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot/q/framework/react-native</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/usage/mock</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot/q/framework/vue</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/usage/plugin</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/q/framework/angular</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/usage/upgrade</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/q/framework/ionic</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/usage/iam</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/q/framework/react</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/teams/shared</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/q/framework/react-native</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/sdk/analytics/events</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/q/framework/vue</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/sdk/analytics/events/q/platform/android</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/customization</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/sdk/analytics/events/q/platform/ios</loc>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/customization/q/framework/react</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/customization/q/framework/react-native</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/angular</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/ionic</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/react</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/react-native</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/vue</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album/q/framework/angular</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album/q/framework/ionic</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album/q/framework/react</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album/q/framework/react-native</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album/q/framework/vue</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-image</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-image/q/framework/react</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-image/q/framework/react-native</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-image/q/framework/vue</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/tracking-events</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/tracking-events/q/framework/react</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/tracking-events/q/framework/react-native</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/xr/sumerian-scene</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/xr/sumerian-scene/q/framework/angular</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/xr/sumerian-scene/q/framework/ionic</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/xr/sumerian-scene/q/framework/react</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/xr/sumerian-scene/q/framework/vue</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/api/connect</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/api/connect/q/framework/react-native</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/auth/authenticator</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/auth/authenticator/q/framework/angular</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/auth/authenticator/q/framework/ionic</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/auth/authenticator/q/framework/react</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/auth/authenticator/q/framework/react-native</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/auth/authenticator/q/framework/vue</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/auth/select-mfa-type</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/auth/select-mfa-type/q/framework/angular</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/auth/select-mfa-type/q/framework/ionic</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/auth/select-mfa-type/q/framework/react</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/auth/select-mfa-type/q/framework/vue</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/auth/sign-out</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/auth/sign-out/q/framework/angular</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/auth/sign-out/q/framework/ionic</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/auth/sign-out/q/framework/react</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/auth/sign-out/q/framework/vue</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/customization/theming</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/customization/theming/q/framework/angular</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/customization/theming/q/framework/ionic</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/customization/theming/q/framework/react</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/customization/theming/q/framework/react-native</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/customization/theming/q/framework/vue</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/interactions/chatbot</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/interactions/chatbot/q/framework/react-native</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/q/framework/angular</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/q/framework/ionic</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/q/framework/react</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/q/framework/react-native</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/q/framework/vue</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/storage/customization</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/storage/customization/q/framework/react-native</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/storage/photo-picker</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/storage/photo-picker/q/framework/react-native</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/storage/s3-album</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/storage/s3-album/q/framework/react-native</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/storage/s3-image</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/storage/s3-image/q/framework/react-native</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/storage/tracking-events</loc>
+    <lastmod>2020-4-29</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/storage/tracking-events/q/framework/react-native</loc>
     <lastmod>2020-4-29</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
