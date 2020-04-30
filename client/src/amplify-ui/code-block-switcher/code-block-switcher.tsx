@@ -64,8 +64,8 @@ export class AmplifyCodeBlockSwitcher {
               <button
                 onClick={this.createActiveChildISetter(i)}
                 class={{
-                  [activeTabStyle]: this.activeChildI === i,
                   [tabStyle]: true,
+                  [activeTabStyle]: this.activeChildI === i,
                 }}
                 key={e}
               >

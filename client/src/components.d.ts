@@ -12,6 +12,14 @@ import { MenuGroup, Page, } from "./api";
 import { MatchResults, } from "@stencil/router";
 import { SwitchOption, } from "./docs-ui/version-switch/version-switch.types";
 export namespace Components {
+    interface AmplifyBlock {
+        /**
+          * the tab headings, comma-separated as a single string
+         */
+        "tabHeadingList"?: string;
+    }
+    interface AmplifyBlockSwitcher {
+    }
     interface AmplifyCallout {
         /**
           * * is it a warning?
@@ -129,6 +137,12 @@ export namespace Components {
         "setContent"?: SetContent;
     }
     interface AmplifyTocProvider {
+    }
+    interface ComponentPlayground {
+        /**
+          * Name of component used in the playground
+         */
+        "componentName": string;
     }
     interface Docs404Page {
     }
@@ -366,6 +380,18 @@ export namespace Components {
     }
 }
 declare global {
+    interface HTMLAmplifyBlockElement extends Components.AmplifyBlock, HTMLStencilElement {
+    }
+    var HTMLAmplifyBlockElement: {
+        prototype: HTMLAmplifyBlockElement;
+        new (): HTMLAmplifyBlockElement;
+    };
+    interface HTMLAmplifyBlockSwitcherElement extends Components.AmplifyBlockSwitcher, HTMLStencilElement {
+    }
+    var HTMLAmplifyBlockSwitcherElement: {
+        prototype: HTMLAmplifyBlockSwitcherElement;
+        new (): HTMLAmplifyBlockSwitcherElement;
+    };
     interface HTMLAmplifyCalloutElement extends Components.AmplifyCallout, HTMLStencilElement {
     }
     var HTMLAmplifyCalloutElement: {
@@ -455,6 +481,12 @@ declare global {
     var HTMLAmplifyTocProviderElement: {
         prototype: HTMLAmplifyTocProviderElement;
         new (): HTMLAmplifyTocProviderElement;
+    };
+    interface HTMLComponentPlaygroundElement extends Components.ComponentPlayground, HTMLStencilElement {
+    }
+    var HTMLComponentPlaygroundElement: {
+        prototype: HTMLComponentPlaygroundElement;
+        new (): HTMLComponentPlaygroundElement;
     };
     interface HTMLDocs404PageElement extends Components.Docs404Page, HTMLStencilElement {
     }
@@ -607,6 +639,8 @@ declare global {
         new (): HTMLUiComponentPropsElement;
     };
     interface HTMLElementTagNameMap {
+        "amplify-block": HTMLAmplifyBlockElement;
+        "amplify-block-switcher": HTMLAmplifyBlockSwitcherElement;
         "amplify-callout": HTMLAmplifyCalloutElement;
         "amplify-code-block": HTMLAmplifyCodeBlockElement;
         "amplify-code-block-switcher": HTMLAmplifyCodeBlockSwitcherElement;
@@ -622,6 +656,7 @@ declare global {
         "amplify-toc": HTMLAmplifyTocElement;
         "amplify-toc-contents": HTMLAmplifyTocContentsElement;
         "amplify-toc-provider": HTMLAmplifyTocProviderElement;
+        "component-playground": HTMLComponentPlaygroundElement;
         "docs-404-page": HTMLDocs404PageElement;
         "docs-card": HTMLDocsCardElement;
         "docs-chat-button": HTMLDocsChatButtonElement;
@@ -650,6 +685,14 @@ declare global {
     }
 }
 declare namespace LocalJSX {
+    interface AmplifyBlock {
+        /**
+          * the tab headings, comma-separated as a single string
+         */
+        "tabHeadingList"?: string;
+    }
+    interface AmplifyBlockSwitcher {
+    }
     interface AmplifyCallout {
         /**
           * * is it a warning?
@@ -767,6 +810,12 @@ declare namespace LocalJSX {
         "setContent"?: SetContent;
     }
     interface AmplifyTocProvider {
+    }
+    interface ComponentPlayground {
+        /**
+          * Name of component used in the playground
+         */
+        "componentName"?: string;
     }
     interface Docs404Page {
     }
@@ -1003,6 +1052,8 @@ declare namespace LocalJSX {
         "useTableHeaders"?: boolean;
     }
     interface IntrinsicElements {
+        "amplify-block": AmplifyBlock;
+        "amplify-block-switcher": AmplifyBlockSwitcher;
         "amplify-callout": AmplifyCallout;
         "amplify-code-block": AmplifyCodeBlock;
         "amplify-code-block-switcher": AmplifyCodeBlockSwitcher;
@@ -1018,6 +1069,7 @@ declare namespace LocalJSX {
         "amplify-toc": AmplifyToc;
         "amplify-toc-contents": AmplifyTocContents;
         "amplify-toc-provider": AmplifyTocProvider;
+        "component-playground": ComponentPlayground;
         "docs-404-page": Docs404Page;
         "docs-card": DocsCard;
         "docs-chat-button": DocsChatButton;
@@ -1049,6 +1101,8 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "amplify-block": LocalJSX.AmplifyBlock & JSXBase.HTMLAttributes<HTMLAmplifyBlockElement>;
+            "amplify-block-switcher": LocalJSX.AmplifyBlockSwitcher & JSXBase.HTMLAttributes<HTMLAmplifyBlockSwitcherElement>;
             "amplify-callout": LocalJSX.AmplifyCallout & JSXBase.HTMLAttributes<HTMLAmplifyCalloutElement>;
             "amplify-code-block": LocalJSX.AmplifyCodeBlock & JSXBase.HTMLAttributes<HTMLAmplifyCodeBlockElement>;
             "amplify-code-block-switcher": LocalJSX.AmplifyCodeBlockSwitcher & JSXBase.HTMLAttributes<HTMLAmplifyCodeBlockSwitcherElement>;
@@ -1064,6 +1118,7 @@ declare module "@stencil/core" {
             "amplify-toc": LocalJSX.AmplifyToc & JSXBase.HTMLAttributes<HTMLAmplifyTocElement>;
             "amplify-toc-contents": LocalJSX.AmplifyTocContents & JSXBase.HTMLAttributes<HTMLAmplifyTocContentsElement>;
             "amplify-toc-provider": LocalJSX.AmplifyTocProvider & JSXBase.HTMLAttributes<HTMLAmplifyTocProviderElement>;
+            "component-playground": LocalJSX.ComponentPlayground & JSXBase.HTMLAttributes<HTMLComponentPlaygroundElement>;
             "docs-404-page": LocalJSX.Docs404Page & JSXBase.HTMLAttributes<HTMLDocs404PageElement>;
             "docs-card": LocalJSX.DocsCard & JSXBase.HTMLAttributes<HTMLDocsCardElement>;
             "docs-chat-button": LocalJSX.DocsChatButton & JSXBase.HTMLAttributes<HTMLDocsChatButtonElement>;

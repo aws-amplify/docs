@@ -17,7 +17,7 @@ export const hostStyle = css`
 
 export const activeTabStyle = css`
   font-weight: 700;
-  border-bottom: 0.0625rem solid var(--code-font-color);
+  border-bottom: 0.1rem solid var(--code-font-color);
 `;
 
 export const tabStyle = css`

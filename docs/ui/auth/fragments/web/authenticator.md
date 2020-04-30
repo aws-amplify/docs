@@ -2,11 +2,30 @@
 
 ## Installation
 
+<amplify-code-block-switcher tab-heading-list="React,Angular,Ionic,Vue">
+
 ```
 yarn add aws-amplify @aws-amplify/ui-react
 ```
 
+```
+yarn add aws-amplify @aws-amplify/ui-angular
+```
+
+```
+yarn add aws-amplify @aws-amplify/ui-angular
+```
+
+```
+yarn add aws-amplify @aws-amplify/ui-vue
+```
+
+</amplify-code-block-switcher>
+
 ## Usage
+
+<amplify-block-switcher>
+<amplify-block id="React">
 
 ```jsx
 import React from 'react';
@@ -25,6 +44,106 @@ const App = () => (
   </AmplifyAuthenticator>
 );
 ```
+</amplify-block>
+<amplify-block id="Angular">
+
+_app.module.ts_
+```js
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
+
+import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
+import Amplify from 'aws-amplify';
+import awsconfig from './aws-exports';
+
+Amplify.configure(awsconfig);
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [AmplifyUIAngularModule, BrowserModule],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+_app.component.html_
+```html
+<amplify-authenticator>
+  <div>
+    My App
+    <amplify-sign-out></amplify-sign-out>
+  </div>
+</amplify-authenticator>
+```
+</amplify-block>
+<amplify-block id="Ionic">
+
+_app.module.ts_
+```js
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
+
+import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
+import Amplify from 'aws-amplify';
+import awsconfig from './aws-exports';
+
+Amplify.configure(awsconfig);
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [AmplifyUIAngularModule, BrowserModule],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+_app.component.html_
+```html
+<amplify-authenticator>
+  <div>
+    My App
+    <amplify-sign-out></amplify-sign-out>
+  </div>
+</amplify-authenticator>
+```
+</amplify-block>
+
+<amplify-block id="Vue">
+
+_main.ts_
+
+```js
+import Vue from 'vue';
+import App from './App.vue';
+import '@aws-amplify/ui-vue';
+import Amplify from 'aws-amplify';
+import awsconfig from './aws-exports';
+
+Amplify.configure(awsconfig);
+
+new Vue({
+  render: h => h(App),
+}).$mount('#app');
+```
+
+_App.vue_
+
+```html
+<template>
+  <amplify-authenticator>
+    <div>
+      My App
+      <amplify-sign-out></amplify-sign-out>
+    </div>
+  </amplify-authenticator>
+</template>
+```
+</amplify-block>
+
+</amplify-block-switcher>
+
 
 <ui-component-props tag="amplify-authenticator" use-table-headers></ui-component-props>
 
@@ -116,11 +235,6 @@ import { AmplifyAuthenticator, AmplifySignIn, AmplifySignOut } from '@aws-amplif
 const App = () => (
   <AmplifyAuthenticator>
     <AmplifySignIn headerText="My Custom Sign In Text" slot="sign-in"></AmplifySignIn>
-
-    <div>
-      My App
-      <AmplifySignOut></AmplifySignOut>
-    </div>
   </AmplifyAuthenticator>
 );
 ```
@@ -140,11 +254,6 @@ import { AmplifyAuthenticator, AmplifySignUp, AmplifySignOut } from '@aws-amplif
 const App = () => (
   <AmplifyAuthenticator>
     <AmplifySignUp headerText="My Custom Sign Up Text" slot="sign-up"></AmplifySignUp>
-
-    <div>
-      My App
-      <AmplifySignOut></AmplifySignOut>
-    </div>
   </AmplifyAuthenticator>
 );
 ```
@@ -165,7 +274,7 @@ const App = () => (
   <AmplifyAuthenticator>
     <div>
       My App
-      <AmplifySignOut buttonText="Custom Text"></AmplifySignOut>
+      <AmplifySignOut buttonText="Custom Text" />
     </div>
   </AmplifyAuthenticator>
 );
@@ -185,12 +294,7 @@ import { AmplifyAuthenticator, AmplifyConfirmSignIn, AmplifySignOut } from '@aws
 
 const App = () => (
   <AmplifyAuthenticator>
-    <AmplifyConfirmSignIn headerText="My Custom Confirm Sign In Text" slot="confirm-sign-in"></AmplifyConfirmSignIn>
-
-    <div>
-      My App
-      <AmplifySignOut></AmplifySignOut>
-    </div>
+    <AmplifyConfirmSignIn headerText="My Custom Confirm Sign In Text" slot="confirm-sign-in" />
   </AmplifyAuthenticator>
 );
 ```
@@ -209,12 +313,7 @@ import { AmplifyAuthenticator, AmplifyConfirmSignIn, AmplifySignOut } from '@aws
 
 const App = () => (
   <AmplifyAuthenticator>
-    <AmplifyConfirmSignIn headerText="My Custom Confirm Sign Up Text" slot="confirm-sign-up"></AmplifyConfirmSignIn>
-
-    <div>
-      My App
-      <AmplifySignOut></AmplifySignOut>
-    </div>
+    <AmplifyConfirmSignIn headerText="My Custom Confirm Sign Up Text" slot="confirm-sign-up" />
   </AmplifyAuthenticator>
 );
 ```
@@ -233,12 +332,7 @@ import { AmplifyAuthenticator, AmplifyForgotPassword, AmplifySignOut } from '@aw
 
 const App = () => (
   <AmplifyAuthenticator>
-    <AmplifyForgotPassword headerText="My Custom Forgot Password Text" slot="forgot-password"></AmplifyForgotPassword>
-
-    <div>
-      My App
-      <AmplifySignOut></AmplifySignOut>
-    </div>
+    <AmplifyForgotPassword headerText="My Custom Forgot Password Text" slot="forgot-password" />
   </AmplifyAuthenticator>
 );
 ```
