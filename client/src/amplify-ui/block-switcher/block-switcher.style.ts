@@ -21,7 +21,10 @@ export const activeTabStyle = css`
 `;
 
 export const tabStyle = css`
+<<<<<<< HEAD
   /* color: var(--code-font-color); */
+=======
+>>>>>>> 67b844d5990e15808dcbf9a6804fc2c2f5269953
   border-top-right-radius: 0.25rem;
   border-top-left-radius: 0.25rem;
   height: 100%;

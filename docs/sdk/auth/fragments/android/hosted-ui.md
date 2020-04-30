@@ -7,7 +7,8 @@ Amazon Cognito provides a customizable user experience via the Hosted UI. The Ho
 
 You need to configure your identity providers(Google, Facebook or Login with Amazon) which you would like to use.
 
-### Setting Up OAuth With Facebook
+<amplify-block-switcher>
+<amplify-block name="Facebook Login">
 
 1. Create a [developer account with Facebook](https://developers.facebook.com/docs/facebook-login).
 2. [Sign In](https://developers.facebook.com/) with your Facebook credentials.
@@ -19,7 +20,8 @@ You need to configure your identity providers(Google, Facebook or Login with Ama
 ![Image](~/images/cognitoHostedUI/facebook3.png)
 6. Note the *App ID* and the *App Secret*. You will use them in the next section in the CLI flow.
 
-### Setting up OAuth with Google
+</amplify-block>
+<amplify-block name="Google Sign-In">
 
 1. Go to the [Google developer console](https://console.developers.google.com).
 2. On the left navigation bar, choose *Credentials*.
@@ -31,7 +33,9 @@ You need to configure your identity providers(Google, Facebook or Login with Ama
 6. Note the *OAuth client ID* and *client secret*. You will need them for the next section in the CLI flow.
 7. Choose *OK*.
 
-### Setting up OAuth with Login with Amazon
+</amplify-block>
+<amplify-block name="Login with Amazon">
+
 1. Create a [developer account with Amazon](https://developer.amazon.com/login-with-amazon).
 2. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
 3. You need to create an Amazon security profile to receive the Amazon client ID and client secret. Choose Create a Security Profile.
@@ -41,6 +45,9 @@ You need to configure your identity providers(Google, Facebook or Login with Ama
 5. Choose Save.
 6. Choose Client ID and Client Secret to show the client ID and secret. You will need them for the next section in the CLI flow.
 ![Image](~/images/cognitoHostedUI/amazon3.png)
+
+</amplify-block>
+</amplify-block-switcher>
 
 Run the following command in your project’s root folder:
 
@@ -69,7 +76,8 @@ After running the `amplify push` command, you will find a domain-name provisione
 **Note:** your user pool domain is something like: `domain_prefix-<env-name>.auth.<region>.amazoncognito.com`. 
 If you've setup federation through third party providers, you would need to update the providers with the CLI provisioned domain-name.
 
-### Setting up Hosted UI Domain With Facebook
+<amplify-block-switcher>
+<amplify-block name="Facebook Login">
 
 1. [Sign In](https://developers.facebook.com/) with your Facebook credentials.
 2. From the *My Apps* menu, choose *Your App*.
@@ -100,7 +108,8 @@ If you've setup federation through third party providers, you would need to upda
     ![Image](~/images/cognitoHostedUI/facebook8.png)
 12. Save changes.
 
-### Setting up Hosted UI Domain with Google
+</amplify-block>
+<amplify-block name="Google Sign-In">
 
 1. Go to [Google Developer Console](https://developers.google.com/identity/sign-in/web/sign-in)
 2. Click *CONFIGURURE A PROJECT*
@@ -124,7 +133,8 @@ If you've setup federation through third party providers, you would need to upda
     Note: If you saw an error message `Invalid Redirect: domain must be added to the authorized domains list before submitting.` when adding the endpoint, please go to the *authorized domains list* and add the domain.
 13. Click *Save*.
 
-### Setting up Hosted UI Domain with Login with Amazon
+</amplify-block>
+<amplify-block name="Login with Amazon">
 
 1. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
 2. Hover over the gear and choose Web Settings associated with the security profile you created in the previous step, and then choose Edit.
@@ -132,6 +142,9 @@ If you've setup federation through third party providers, you would need to upda
 3. Type your user pool domain into Allowed Origins and type your user pool domain with the /oauth2/idpresponse endpoint into Allowed Return URLs.
 ![Image](~/images/cognitoHostedUI/amazon5.png)
 5. Choose Save.
+
+</amplify-block>
+</amplify-block-switcher>
 
 ### Manual Setup
 
