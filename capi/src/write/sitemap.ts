@@ -2,13 +2,9 @@ import * as t from "../types";
 import * as path from "path";
 import * as fs from "fs-extra";
 
-const now = new Date();
-const yyyyMmDd = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
-
 function createSitemapRoute(route: string): string {
   return ` <url>
     <loc>https://docs.amplify.aws${route}</loc>
-    <lastmod>${yyyyMmDd}</lastmod>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>`;
