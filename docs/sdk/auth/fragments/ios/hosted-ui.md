@@ -38,7 +38,7 @@ When configuring your app, use the following settings (the domain will be genera
         - **Platforms > Website > Site URL**
 
 </amplify-block>
-<amplify-block name="Google Login">
+<amplify-block name="Google Sign-In">
 
 Set up and create a *Web application* in Google by following Google's [Setting up OAuth 2.0](https://support.google.com/googleapi/answer/6158849) doc. Google will provide you a a **Client ID** and **Client Secret** for your application; take note of these.
 
