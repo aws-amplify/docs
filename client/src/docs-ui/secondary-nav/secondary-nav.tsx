@@ -9,18 +9,7 @@ import {
 import {createVNodeFromHyperscriptNode} from "../../utils/hyperscript";
 import {pageContext} from "../page/page.context";
 import {SelectedFilters} from "../page/page.types";
-import {parseURL} from "../../utils/url/url";
-import {
-  platformFilterMetadataByOption,
-  frameworkFilterMetadataByOption,
-} from "../../utils/filter-data";
-
-const filterMetadataByOption = {
-  ...platformFilterMetadataByOption,
-  ...frameworkFilterMetadataByOption,
-} as const;
-
-type FilterMetadataKey = keyof typeof filterMetadataByOption;
+import {transformData} from "../../utils/transform-search-data";
 
 @Component({tag: "docs-secondary-nav", shadow: false})
 export class DocsSecondaryNav {
@@ -35,21 +24,7 @@ export class DocsSecondaryNav {
         indexName: "aws_amplify_new",
         inputSelector: "#amplify-docs-search-input",
         debug: true,
-        // no types :(
-        transformData(items: any) {
-          return items.map((item: any) => {
-            const {params} = parseURL(item.url);
-            const filterKey = Object.values(params)[0] as FilterMetadataKey;
-            const initial = item.hierarchy.lvl1 || item.hierarchy.lvl0;
-
-            console.log(item, initial);
-
-            return {
-              ...item,
-              content: `<button>yo: ${initial}</button>`,
-            };
-          });
-        },
+        transformData,
       });
     }
   }
