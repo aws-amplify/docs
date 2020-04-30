@@ -11,6 +11,14 @@ exports[`docs-universal-nav Render logic should render 1`] = `
           NEW
         </sup>
       </stencil-route-link>
+      <div class="css-1i6jj6p">
+        <div>
+          <div>
+            <input id="amplify-docs-search-input" placeholder="Search" type="search">
+            <img alt="search" src="/assets/search.svg">
+          </div>
+        </div>
+      </div>
       <div class="css-1ynba5z">
         <amplify-external-link anchortitle="Amplify Community" href="https://amplify.aws/community/" redirect="">
           <span>
