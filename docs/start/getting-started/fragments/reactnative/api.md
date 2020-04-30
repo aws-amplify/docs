@@ -248,14 +248,26 @@ __createTodo__ - Uses the Amplify `API` category to call the AppSync GraphQL API
 
 Next, run the app and you should see the form rendered to the screen and be able to create and view the list of todos:
 
+<amplify-block-switcher>
+
+<amplify-block name="Expo">
+
 ```bash
 expo start
+```
 
-# or
+</amplify-block>
 
+<amplify-block name="React Native CLI">
+
+```bash
 npx react-native run-ios
 
 # or
 
 npx react-native run-android
 ```
+
+</amplify-block>
+
+</amplify-block-switcher>

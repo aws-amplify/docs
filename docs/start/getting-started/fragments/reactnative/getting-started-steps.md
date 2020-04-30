@@ -1,4 +1,6 @@
-### Expo
+<amplify-block-switcher>
+
+<amplify-block name="Expo">
 
 With Expo, you only have to install the dependencies and then move on to the next step - [__Integrate with the front end__](#integrate-with-the-front-end).
 
@@ -6,7 +8,9 @@ With Expo, you only have to install the dependencies and then move on to the nex
 npm install aws-amplify aws-amplify-react-native @react-native-community/netinfo
 ```
 
-### React Native CLI
+</amplify-block>
+
+<amplify-block name="React Native CLI">
 
 If you've created the project using the React Native CLI, install these dependencies:
 
@@ -50,3 +54,7 @@ Finally, open __android/app/build.gradle__ and add the following line at the top
 ```groovy
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 ```
+
+</amplify-block>
+
+</amplify-block-switcher>

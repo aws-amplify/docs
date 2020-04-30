@@ -48,13 +48,17 @@ export default withAuthenticator(App)
 
 Run the app to see the new Authentication flow protecting the app:
 
-### With Expo
+<amplify-block-switcher>
+
+<amplify-block name="Expo">
 
 ```bash
 expo start
 ```
 
-### With the React Native CLI
+</amplify-block>
+
+<amplify-block name="React Native CLI">
 
 ```bash
 npx react-native run-ios
@@ -63,6 +67,10 @@ npx react-native run-ios
 
 npx react-native run-android
 ```
+
+</amplify-block>
+
+</amplify-block-switcher>
 
 Now you should see the app load with an authentication flow allowing users to sign up and sign in.
 
