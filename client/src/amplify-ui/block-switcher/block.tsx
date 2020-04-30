@@ -1,13 +1,13 @@
-import {Component, Host, h, Prop} from "@stencil/core";
+import {Component, Host, h, Prop, Element} from "@stencil/core";
 
 @Component({tag: "amplify-block", shadow: false})
 export class AmplifyCodeBlock {
-  /** the tab headings, comma-separated as a single string */
-  @Prop() readonly tabHeadingList?: string;
+  /** Block name */
+  @Prop() readonly name?: string;
 
   render() {
     return (
-      <Host>
+      <Host name={this.name}>
         <slot></slot>
       </Host>
     );

@@ -6,6 +6,8 @@ import {
   tabContainerStyle,
   contentStyle,
 } from "./block-switcher.style";
+import {AmplifyCodeBlock} from "./block";
+
 import {css} from "emotion";
 
 const getTabLocalStorageKey = (tabHeadingList: string): string =>
@@ -19,7 +21,7 @@ export class AmplifyCodeBlockSwitcher {
 
   @State() activeChildI = 0;
 
-  tabsHeadings: string[];
+  tabHeadings: string[];
 
   tabLocalStorageKey: string;
 
@@ -29,47 +31,27 @@ export class AmplifyCodeBlockSwitcher {
       return child.matches("amplify-block");
     });
 
-    // const [{ id: name }] = blocks;
-    // console.log(name)
-
     const headings: string[] = [];
     blocks.forEach((block) => {
-      headings.push(block.id);
+      // @ts-ignore
+      headings.push(block.name);
     });
-    // for (const block of blocks) {
-    //   headings.push(block.id);
-    // }
-    this.tabsHeadings = headings;
-    console.log(this.tabsHeadings);
-    // this.tabsHeadings = [...blocks]
-    // let headings = [];
-    // for (block in blocks) {
-    //   headings.push(block.id);
-    // }
-    // blocks.map((block) => {
-    //   return headings.push(block);
-    // });
+    this.tabHeadings = headings;
 
-    // const blockId = blocks[0].id;
-    // console.log(blockId);
-
-    // const blocks = this.el.getElementsByTagName("amplify-block");
-    // console.log(blocks[0].name);
-
-    // if (this.tabHeadingList) {
-    //   // get the split array of headings, to map over (for rendering buttons)
-    //   this.tabsHeadings = this.tabHeadingList.split(",").map((e) => e.trim());
-    //   // set the local storage key, so we can persist tab selection cross-session
-    //   this.tabLocalStorageKey = getTabLocalStorageKey(this.tabHeadingList);
-    //   // get from the previous session, if present
-    //   const persistedActiveChildI =
-    //     localStorage.getItem(this.tabLocalStorageKey) || undefined;
-    //   // ... if persisted selection is present...
-    //   if (typeof persistedActiveChildI === "string") {
-    //     // set the active child in state
-    //     this.activeChildI = parseInt(persistedActiveChildI);
-    //   }
-    // }
+    if (this.tabHeadings) {
+      // set the local storage key, so we can persist tab selection cross-session
+      this.tabLocalStorageKey = getTabLocalStorageKey(
+        this.tabHeadings.toString(),
+      );
+      // get from the previous session, if present
+      const persistedActiveChildI =
+        localStorage.getItem(this.tabLocalStorageKey) || undefined;
+      // ... if persisted selection is present...
+      if (typeof persistedActiveChildI === "string") {
+        // set the active child in state
+        this.activeChildI = parseInt(persistedActiveChildI);
+      }
+    }
   }
 
   createActiveChildISetter = (i: number) => (_event: Event): void => {
@@ -93,7 +75,7 @@ export class AmplifyCodeBlockSwitcher {
         }}
       >
         <div class={tabContainerStyle}>
-          {this.tabsHeadings?.map((e, i) => {
+          {this.tabHeadings?.map((e, i) => {
             return (
               <button
                 onClick={this.createActiveChildISetter(i)}

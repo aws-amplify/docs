@@ -14,9 +14,9 @@ import { SwitchOption, } from "./docs-ui/version-switch/version-switch.types";
 export namespace Components {
     interface AmplifyBlock {
         /**
-          * the tab headings, comma-separated as a single string
+          * Block name
          */
-        "tabHeadingList"?: string;
+        "name"?: string;
     }
     interface AmplifyBlockSwitcher {
     }
@@ -687,9 +687,9 @@ declare global {
 declare namespace LocalJSX {
     interface AmplifyBlock {
         /**
-          * the tab headings, comma-separated as a single string
+          * Block name
          */
-        "tabHeadingList"?: string;
+        "name"?: string;
     }
     interface AmplifyBlockSwitcher {
     }

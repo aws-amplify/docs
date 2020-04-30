@@ -2,30 +2,37 @@
 
 ## Installation
 
-<amplify-code-block-switcher tab-heading-list="React,Angular,Ionic,Vue">
+<amplify-block-switcher>
+<amplify-block name="React">
 
 ```
 yarn add aws-amplify @aws-amplify/ui-react
 ```
+</amplify-block>
+<amplify-block name="Angular">
 
 ```
 yarn add aws-amplify @aws-amplify/ui-angular
 ```
+</amplify-block>
+<amplify-block name="Ionic">
 
 ```
 yarn add aws-amplify @aws-amplify/ui-angular
 ```
+</amplify-block>
+<amplify-block name="Vue">
 
 ```
 yarn add aws-amplify @aws-amplify/ui-vue
 ```
-
-</amplify-code-block-switcher>
+</amplify-block>
+</amplify-block-switcher>
 
 ## Usage
 
 <amplify-block-switcher>
-<amplify-block id="React">
+<amplify-block name="React">
 
 ```jsx
 import React from 'react';
@@ -45,7 +52,7 @@ const App = () => (
 );
 ```
 </amplify-block>
-<amplify-block id="Angular">
+<amplify-block name="Angular">
 
 **app.module.ts**
 ```js
@@ -77,7 +84,7 @@ export class AppModule {}
 </amplify-authenticator>
 ```
 </amplify-block>
-<amplify-block id="Ionic">
+<amplify-block name="Ionic">
 
 **app.module.ts**
 ```js
@@ -110,7 +117,7 @@ export class AppModule {}
 ```
 </amplify-block>
 
-<amplify-block id="Vue">
+<amplify-block name="Vue">
 
 **main.ts**
 
