@@ -1,7 +1,7 @@
 <amplify-block-switcher>
 <amplify-block name="Expo">
 
-With Expo, you only have to install the dependencies and then move on to the next step - [__Integrate with the front end__](#integrate-with-the-front-end).
+Install the necessary dependencies by running the following command:
 
 ```sh
 npm install aws-amplify aws-amplify-react-native @react-native-community/netinfo

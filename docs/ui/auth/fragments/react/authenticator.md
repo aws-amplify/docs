@@ -278,6 +278,8 @@ const App = () => (
 
 <ui-component-props tag="amplify-greetings"></ui-component-props>
 
+### withAuthenticator
+
 <inline-fragment src="~/ui/auth/fragments/react/withauthenticator.md"></inline-fragment>
 
 You can also pass in any of the [AmplifyAuthenticator props](#props-amplify-authenticator):
