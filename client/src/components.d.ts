@@ -30,11 +30,11 @@ export namespace Components {
         /**
           * what language are we displaying
          */
-        "language"?: string;
+        "language": string;
         /**
           * the number of lines of the code block
          */
-        "lineCount"?: string;
+        "lineCount": number;
     }
     interface AmplifyCodeBlockSwitcher {
         /**
@@ -694,7 +694,7 @@ declare namespace LocalJSX {
         /**
           * the number of lines of the code block
          */
-        "lineCount"?: string;
+        "lineCount"?: number;
     }
     interface AmplifyCodeBlockSwitcher {
         /**
