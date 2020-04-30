@@ -8,6 +8,8 @@ import {
 } from "./block-switcher.style";
 import {css} from "emotion";
 
+const BLOCK_TAG_NAME = "amplify-block";
+
 const getTabLocalStorageKey = (tabHeadingList: string): string =>
   `amplify-docs::${tabHeadingList}`;
 
@@ -24,7 +26,7 @@ export class AmplifyBlockSwitcher {
   componentWillLoad() {
     const children = Array.from(this.el.children);
     const blocks = children.filter((child) => {
-      return child.matches("amplify-block");
+      return child.matches(BLOCK_TAG_NAME);
     });
 
     const headings: string[] = [];
