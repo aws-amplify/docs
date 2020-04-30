@@ -1,10 +1,11 @@
-import {Component, h, Host, Prop} from "@stencil/core";
+import {Component, h, Host, Prop, Build} from "@stencil/core";
 import {
   universalNavStyle,
   universalNavContentStyle,
   brandStyle,
   linksStyle,
   hideAboutLinkStyle,
+  searchStyle,
 } from "./universal-nav.style";
 
 @Component({tag: "docs-universal-nav", shadow: false})
@@ -17,6 +18,18 @@ export class DocsUniversalNav {
   @Prop() readonly brandIcon?: string;
   /*** image url for brand icon when nav in blend mode */
   @Prop() readonly brandIconBlend?: string;
+
+  componentDidRender() {
+    if (Build.isBrowser) {
+      // @ts-ignore
+      docsearch({
+        apiKey: "24d37f059982b2f5ecf829afe93aed40",
+        indexName: "aws_amplify_new",
+        inputSelector: "#amplify-docs-search-input",
+        debug: false,
+      })
+    }
+  }
 
   render() {
     return (
@@ -42,6 +55,19 @@ export class DocsUniversalNav {
               <span>{this.heading}</span>
               <sup>NEW</sup>
             </stencil-route-link>
+
+            <div class={searchStyle}>
+              <div>
+                <div>
+                  <input
+                    id="amplify-docs-search-input"
+                    type="search"
+                    placeholder="Search"
+                  />
+                  <img src="/assets/search.svg" alt="search" />
+                </div>
+              </div>
+            </div>
 
             <div class={linksStyle}>
               <amplify-external-link
