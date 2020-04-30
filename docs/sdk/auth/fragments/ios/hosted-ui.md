@@ -23,21 +23,9 @@ Do you want to use the default authentication and security configuration?
 ```
 
 You will be asked for the credentials from your social provider setup:
- - [Set up auth with Facebook](#set-up-auth-with-facebook)
- - [Set up auth with Google](#set-up-auth-with-google)
- - [Set up auth with Amazon](#set-up-auth-with-amazon)
- - [Set up auth with Apple](#set-up-auth-with-apple)
 
-After going through the flow, run the following command to deploy the configured resources to the cloud:
-
-```bash
-amplify push
-```
-You will find a domain-name provisioned by the CLI for the hosted UI as an output in the terminal. You can also find that information anytime later using the `amplify status` command.
-
-> Your Cognito User Pool domain is structured like so: `<unique_domain_prefix>-<env-name>.auth.<region>.amazoncognito.com`. Use this domain in the above steps when setting up your social provider.
-
-### Set up auth with Facebook
+<amplify-block-switcher>
+<amplify-block name="Facebook Login">
 
 Set up your app in Facebook by following Facebook's [App Development](https://developers.facebook.com/docs/apps) guide. Facebook will provide you an **App ID** and **App Secret** for your application which you will find in the app's **Basic Settings**; Take note of these.
 
@@ -49,7 +37,8 @@ When configuring your app, use the following settings (the domain will be genera
         - **Facebook Login > Settings > Valid OAuth Redirect URIs**
         - **Platforms > Website > Site URL**
 
-### Set up auth with Google
+</amplify-block>
+<amplify-block name="Google Login">
 
 Set up and create a *Web application* in Google by following Google's [Setting up OAuth 2.0](https://support.google.com/googleapi/answer/6158849) doc. Google will provide you a a **Client ID** and **Client Secret** for your application; take note of these.
 
@@ -59,7 +48,8 @@ Set up and create a *Web application* in Google by following Google's [Setting u
     - **Authorized JavaScript origins**: `amazoncognito.com`
     - **Authorized redirect URIs**: `https://<your-user-pool-domain>/oauth2/idpresponse`
 
-### Set up auth with Amazon
+</amplify-block>
+<amplify-block name="Login with Amazon">
 
 - Sign in to the Develop Portal at [Login with Amazon](http://login.amazon.com/), select **App Console** using your Amazon.com credentials.
 - Choose **Create a Security Profile** or choose an existing one that you have created.
@@ -68,13 +58,26 @@ Set up and create a *Web application* in Google by following Google's [Setting u
     - **Consent Privacy Notice URL**: A URL to your privacy notice
 - Click **Show Client ID and Client Secret** and take note of these values.
 
-### Set up auth with Apple
+</amplify-block>
+<amplify-block name="Sign in with Apple">
 
 > The [Apple App Store Developer Guidelines](https://developer.apple.com/app-store/review/guidelines/#sign-in-with-apple) require that Sign in with Apple to be available in applications that ***exclusively*** use third-party sign-in options, such as Facebook or Google. If you are only or additionally using Cognito User Pools directly (Signing in with Email/Password), you are not required to include Sign in with Apple.
 
 Before you add support for Signin with Apple you will need an Apple Developer account, which is a paid account with Apple.
 
 Learn more about [How to set up Sign in with Apple for Amazon Cognito](https://aws.amazon.com/blogs/security/how-to-set-up-sign-in-with-apple-for-amazon-cognito/). You can then use `AWSMobileClient` to launch the Hosted UI directly to sign in with Apple by specifying `HostedUIOptions(identityProvider: "SignInWithApple")`
+
+</amplify-block>
+</amplify-block-switcher>
+
+After going through the flow, run the following command to deploy the configured resources to the cloud:
+
+```bash
+amplify push
+```
+You will find a domain-name provisioned by the CLI for the hosted UI as an output in the terminal. You can also find that information anytime later using the `amplify status` command.
+
+> Your Cognito User Pool domain is structured like so: `<unique_domain_prefix>-<env-name>.auth.<region>.amazoncognito.com`. Use this domain in the above steps when setting up your social provider.
 
 ### Manual Setup
 
