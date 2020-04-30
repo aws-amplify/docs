@@ -4,17 +4,23 @@ To start off, you'll need a React Native project. If you have an existing projec
 
 To get started, initialize a new React Native project.
 
- ###  Using Expo
+<amplify-block-switcher>
+<amplify-block name="Expo">
+
 ```bash
 npm install -g expo-cli  
 expo init RNAmplify
 ```
 
-###  Using the React Native CLI
+</amplify-block>
+<amplify-block name="React Native CLI">
 
 ```bash
 npx react-native init RNAmplify
 ```
+
+</amplify-block>
+</amplify-block-switcher>
 
 ## Initialize a new backend
 
