@@ -6,18 +6,14 @@ import {
   tabContainerStyle,
   contentStyle,
 } from "./block-switcher.style";
-import {AmplifyCodeBlock} from "./block";
-
 import {css} from "emotion";
 
 const getTabLocalStorageKey = (tabHeadingList: string): string =>
   `amplify-docs::${tabHeadingList}`;
 
 @Component({tag: "amplify-block-switcher", shadow: false})
-export class AmplifyCodeBlockSwitcher {
+export class AmplifyBlockSwitcher {
   @Element() el: HTMLElement;
-  /** the tab headings, comma-separated as a single string */
-  // @Prop() readonly tabHeadingList?: string;
 
   @State() activeChildI = 0;
 
