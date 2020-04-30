@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`amplify-block-switcher Render logic should render 1`] = `
+<amplify-block-switcher class="css-1dfg3q css-6d0h3e">
+  <!---->
+  <div class="css-13kxqe8"></div>
+  <div class="css-1fwr3l6"></div>
+</amplify-block-switcher>
+`;
+
+exports[`amplify-block-switcher Render logic should render with contained blocks 1`] = `
+<amplify-block-switcher class="css-1dfg3q css-6d0h3e">
+  <!---->
+  <div class="css-13kxqe8">
+    <button class="css-18ssisc css-si1pwq"></button>
+  </div>
+  <div class="css-1fwr3l6">
+    <amplify-block></amplify-block>
+  </div>
+</amplify-block-switcher>
+`;
