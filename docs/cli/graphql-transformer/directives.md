@@ -19,19 +19,35 @@ top level object types in your API that are backed by Amazon DynamoDB.
 
 ```
 directive @model(
-  queries: ModelQueryMap,
-  mutations: ModelMutationMap,
+  queries: ModelQueryMap
+  mutations: ModelMutationMap
   subscriptions: ModelSubscriptionMap
+  timestamps: TimestampMap
 ) on OBJECT
-input ModelMutationMap { create: String, update: String, delete: String }
-input ModelQueryMap { get: String, list: String }
+input ModelMutationMap {
+  create: String
+  update: String
+  delete: String
+}
+input ModelQueryMap {
+  get: String
+  list: String
+}
 input ModelSubscriptionMap {
   onCreate: [String]
   onUpdate: [String]
   onDelete: [String]
   level: ModelSubscriptionLevel
 }
-enum ModelSubscriptionLevel { off public on }
+enum ModelSubscriptionLevel {
+  off
+  public
+  on
+}
+input TimestampMap {
+  create: String
+  update: String
+}
 ```
 
 ### Usage
@@ -55,6 +71,40 @@ type Post @model(queries: { get: "post" }, mutations: null, subscriptions: null)
   id: ID!
   title: String!
   tags: [String!]!
+}
+```
+
+Model directive automatically adds createdAt and updatedAt timestamps to each entities. The timestamp field names can be changed by passing `timestamps` attribute to the directive
+
+```graphql
+type Post @model(timestamps:{create: "createdOn", update: "updatedOn"}) {
+  id: ID!
+  title: String!
+  tags: [String!]!
+}
+```
+
+The above schema will generate Post with `createdOn` and `updatedOn` fields as shown
+
+```graphql
+type Post {
+  id: ID!
+  title: String!
+  tags: [String!]!
+  createdOn: AWSDateTime!
+  updatedOn: AWSDateTime!
+}
+```
+
+The automatically added `createdAt` and `updatedAt` fields cant be set in create or update mutation. If these fields need to be controlled as part of the mutation, they should be included as part of the input schema and should have `AWSDateTime` as their type
+
+```graphql
+type Post @model {
+  id: ID!
+  title: String!
+  tags: [String!]!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
 }
 ```
 
@@ -93,6 +143,8 @@ type Post {
   id: ID!
   title: String!
   metadata: MetaData
+  createdAt: AWSDatetime
+  updatedAt: AWSDateTime
 }
 
 type MetaData {
