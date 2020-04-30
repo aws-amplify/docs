@@ -8,11 +8,8 @@ OAuth support in Amplify uses Cognito User Pools and supports federation with so
 
 Before adding a social provider to an Amplify project, you must first go to that provider and configure an application identifier as outlined below.
 
-- [Facebook Instructions](#facebook-instructions)
-- [Google Sign-In Instructions](#google-sign-in-instructions)
-- [Amazon Login Instructions](#amazon-login-instructions)
-
-### Facebook Instructions
+<amplify-block-switcher>
+<amplify-block name="Facebook Login">
 
 1. Create a [developer account with Facebook](https://developers.facebook.com/docs/facebook-login)
 2. [Sign In](https://developers.facebook.com/) with your Facebook credentials.
@@ -24,7 +21,8 @@ Before adding a social provider to an Amplify project, you must first go to that
 ![Image](~/images/cognitoHostedUI/facebook3.png)
 6. Note the *App ID* and the *App Secret*. You will use them in the next section in the CLI flow.
 
-### Google Sign-In Instructions
+</amplify-block>
+<amplify-block name="Google Sign-In">
 
 1. Go to the [Google developer console](https://console.developers.google.com).
 2. On the left navigation bar, choose *Credentials*.
@@ -36,7 +34,8 @@ Before adding a social provider to an Amplify project, you must first go to that
 6. Note the *OAuth client ID* and *client secret*. You will need them for the next section in the CLI flow.
 7. Choose *OK*.
 
-### Amazon Login Instructions
+</amplify-block>
+<amplify-block name="Login with Amazon">
 
 1. Create a [developer account with Amazon](https://developer.amazon.com/login-with-amazon).
 2. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
@@ -48,11 +47,44 @@ Before adding a social provider to an Amplify project, you must first go to that
 6. Choose Client ID and Client Secret to show the client ID and secret. You will need them for the next section in the CLI flow.
 ![Image](~/images/cognitoHostedUI/amazon3.png)
 
-## Finish social setup
+</amplify-block>
+</amplify-block-switcher>
 
-After adding your Social provider information into the Amplify project setup, the domain that was created must be added into the Social provider configuration to complete the process.
+## Setup Amplify auth backend
 
-### Facebook Instructions
+Once you have the social provider configured, run the following in your project’s root folder:
+
+```bash
+amplify add auth     ##"amplify update auth" if already configured
+```
+
+Select Default configuration with Social Provider (Federation):
+
+```console
+Do you want to use the default authentication and security configuration? 
+  Default configuration 
+❯ Default configuration with Social Provider (Federation) 
+  Manual configuration 
+  I want to learn more.
+```
+
+### Sign-in redirect URIs
+
+<amplify-callout>
+
+For *Sign in Redirect URI(s)* inputs, you can put one URI for local development and one for production. Example: `http://localhost:3000/` in dev and `https://www.example.com/` in production. The same is true for *Sign out redirect URI(s)*.
+
+</amplify-callout>
+
+For React Native applications, You need to define a custom URL scheme for your application before testing locally or publishing to the app store. This is different for Expo or vanilla React Native. Follow the steps at the [React Native Linking docs](https://facebook.github.io/react-native/docs/linking) or [Expo Linking docs](https://docs.expo.io/versions/latest/workflow/linking/) for more information. After completing those steps, assuming you are using "myapp" as the name of your URL Scheme (or whatever friendly name you have chosen), you will use these URLs as *Sign in Redirect URI(s)* and/or *Sign out redirect URI(s)* inputs. Your URIs could look like any of these:
+
+- `myapp://`
+- `exp://127.0.0.1:19000/--/` (Local development if your app is running [in the Expo client](https://docs.expo.io/versions/latest/workflow/linking/#linking-to-your-app)).
+
+Log back in to your social provider settings and update the app domain (e.g. `https://<your-user-pool-domain`).
+
+<amplify-block-switcher>
+<amplify-block name="Facebook Login">
 
 1. [Sign In](https://developers.facebook.com/) with your Facebook credentials.
 2. From the *My Apps* menu, choose *Your App*.
@@ -83,7 +115,8 @@ After adding your Social provider information into the Amplify project setup, th
     ![Image](~/images/cognitoHostedUI/facebook8.png)
 12. Save changes.
 
-### Google Sign-In Instructions
+</amplify-block>
+<amplify-block name="Google Sign-In">
 
 1. Go to [Google Developer Console](https://developers.google.com/identity/sign-in/web/sign-in).
 2. Click *CONFIGURURE A PROJECT*
@@ -107,7 +140,8 @@ After adding your Social provider information into the Amplify project setup, th
     Note: If you saw an error message `Invalid Redirect: domain must be added to the authorized domains list before submitting.` when adding the endpoint, please go to the *authorized domains list* and add the domain.
 13. Click *Save*.
 
-### Amazon Login Instructions
+</amplify-block>
+<amplify-block name="Login with Amazon">
 
 1. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
 2. Hover over the gear and choose Web Settings associated with the security profile you created in the previous step, and then choose Edit.
@@ -116,36 +150,8 @@ After adding your Social provider information into the Amplify project setup, th
 ![Image](~/images/cognitoHostedUI/amazon5.png)
 5. Choose Save.
 
-## Setup Amplify auth backend
-
-Once you have the social provider configured, run the following in your project’s root folder:
-
-```bash
-amplify add auth     ##"amplify update auth" if already configured
-```
-
-Select Default configuration with Social Provider (Federation):
-
-```console
-Do you want to use the default authentication and security configuration? 
-  Default configuration 
-❯ Default configuration with Social Provider (Federation) 
-  Manual configuration 
-  I want to learn more.
-```
-
-### Sign-in redirect URIs
-
-<amplify-callout>
-For *Sign in Redirect URI(s)* inputs, you can put one URI for local development and one for production. Example: `http://localhost:3000/` in dev and `https://www.example.com/` in production. The same is true for *Sign out redirect URI(s)*.
-</amplify-callout>
-
-For React Native applications, You need to define a custom URL scheme for your application before testing locally or publishing to the app store. This is different for Expo or vanilla React Native. Follow the steps at the [React Native Linking docs](https://facebook.github.io/react-native/docs/linking) or [Expo Linking docs](https://docs.expo.io/versions/latest/workflow/linking/) for more information. After completing those steps, assuming you are using "myapp" as the name of your URL Scheme (or whatever friendly name you have chosen), you will use these URLs as *Sign in Redirect URI(s)* and/or *Sign out redirect URI(s)* inputs. Your URIs could look like any of these:
-
-- `myapp://`
-- `exp://127.0.0.1:19000/--/` (Local development if your app is running [in the Expo client](https://docs.expo.io/versions/latest/workflow/linking/#linking-to-your-app)).
-
-Log back in to your social provider settings and update the app domain (e.g. `https://<your-user-pool-domain`).
+</amplify-block>
+</amplify-block-switcher>
 
 ## Setup frontend
 

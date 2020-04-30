@@ -59,14 +59,10 @@ There are two ways to add authentication capabilities to your application.
 
 Creating the login flow can be quite difficult and time consuming to get right. Amplify Framework has authentication UI components you can use that will provide the entire authentication flow for you, using your configuration specified in your __aws-exports.js__ file.
 
-Amplify has pre-built UI components for the the following frameworks:
+Amplify has pre-built UI components for React, Vue, Angular and React Native.
 
-- [React](#react)
-- [Vue](#vue)
-- [Angular](#angular)
-- [React Native](#react-native)
-
-### **React**
+<amplify-block-switcher>
+<amplify-block name="React">
 
 First, install the `@aws-amplify/ui-react` library as well as `aws-amplify` if you have not already:
 
@@ -76,9 +72,12 @@ npm install aws-amplify @aws-amplify/ui-react
 
 Next, open __src/App.js__ and add the `withAuthenticator` component.
 
+**withAuthenticator**
+
 <inline-fragment src="~/ui/auth/fragments/react/withauthenticator.md"></inline-fragment>
 
-### **Vue**
+</amplify-block>
+<amplify-block name="Vue">
 
 First, install the `@aws-amplify/ui-vue` library as well as `aws-amplify` if you have not already:
 
@@ -94,7 +93,7 @@ import '@aws-amplify/ui-vue';
 
 Next, open __src/App.js__ and add the `amplify-authenticator` component.
 
-### amplify-authenticator
+**amplify-authenticator**
 
 The `amplify-authenticator` component offers a simple way to add authentication flows into your app. This component encapsulates an authentication workflow in the framework of your choice and is backed by the cloud resources set up in your Auth cloud resources. You’ll also notice the `amplify-sign-out` component. This is an optional component if you’d like to render a sign out button.
 
@@ -110,7 +109,8 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 </template>
 ```
 
-### **Angular**
+</amplify-block>
+<amplify-block name="Angular">
 
 First, install the `@aws-amplify/ui-angular` library as well as `aws-amplify` if you have not already:
 
@@ -144,7 +144,7 @@ export class AppModule {}
 
 Next, open __app.component.html__ and add the `amplify-authenticator` component.
 
-### amplify-authenticator
+**amplify-authenticator**
 
 The `amplify-authenticator` component offers a simple way to add authentication flows into your app. This component encapsulates an authentication workflow in the framework of your choice and is backed by the cloud resources set up in your Auth cloud resources. You’ll also notice the `amplify-sign-out` component. This is an optional component if you’d like to render a sign out button.
 
@@ -160,11 +160,14 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 </template>
 ```
 
-### **React Native**
+</amplify-block>
+<amplify-block name="React Native">
+
+First, you need to install the necessary dependencies. This step differs depending on if you're using Expo or React Native CLI.
 
 <inline-fragment src="~/start/getting-started/fragments/reactnative/getting-started-steps.md"></inline-fragment>
 
-### Integrate with the front end
+**Integrate with the front end**
 
 Open __App.js__ and make the following changes:
 
@@ -179,6 +182,8 @@ import { withAuthenticator } from 'aws-amplify-react-native'
 ```javascript
 export default withAuthenticator(App)
 ```
+</amplify-block>
+</amplify-block-switcher>
 
 ## Option 2: Call Authentication APIs manually
 

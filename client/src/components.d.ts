@@ -12,6 +12,14 @@ import { MenuGroup, Page, } from "./api";
 import { MatchResults, } from "@stencil/router";
 import { SwitchOption, } from "./docs-ui/version-switch/version-switch.types";
 export namespace Components {
+    interface AmplifyBlock {
+        /**
+          * Block name
+         */
+        "name"?: string;
+    }
+    interface AmplifyBlockSwitcher {
+    }
     interface AmplifyCallout {
         /**
           * * is it a warning?
@@ -366,6 +374,18 @@ export namespace Components {
     }
 }
 declare global {
+    interface HTMLAmplifyBlockElement extends Components.AmplifyBlock, HTMLStencilElement {
+    }
+    var HTMLAmplifyBlockElement: {
+        prototype: HTMLAmplifyBlockElement;
+        new (): HTMLAmplifyBlockElement;
+    };
+    interface HTMLAmplifyBlockSwitcherElement extends Components.AmplifyBlockSwitcher, HTMLStencilElement {
+    }
+    var HTMLAmplifyBlockSwitcherElement: {
+        prototype: HTMLAmplifyBlockSwitcherElement;
+        new (): HTMLAmplifyBlockSwitcherElement;
+    };
     interface HTMLAmplifyCalloutElement extends Components.AmplifyCallout, HTMLStencilElement {
     }
     var HTMLAmplifyCalloutElement: {
@@ -607,6 +627,8 @@ declare global {
         new (): HTMLUiComponentPropsElement;
     };
     interface HTMLElementTagNameMap {
+        "amplify-block": HTMLAmplifyBlockElement;
+        "amplify-block-switcher": HTMLAmplifyBlockSwitcherElement;
         "amplify-callout": HTMLAmplifyCalloutElement;
         "amplify-code-block": HTMLAmplifyCodeBlockElement;
         "amplify-code-block-switcher": HTMLAmplifyCodeBlockSwitcherElement;
@@ -650,6 +672,14 @@ declare global {
     }
 }
 declare namespace LocalJSX {
+    interface AmplifyBlock {
+        /**
+          * Block name
+         */
+        "name"?: string;
+    }
+    interface AmplifyBlockSwitcher {
+    }
     interface AmplifyCallout {
         /**
           * * is it a warning?
@@ -1003,6 +1033,8 @@ declare namespace LocalJSX {
         "useTableHeaders"?: boolean;
     }
     interface IntrinsicElements {
+        "amplify-block": AmplifyBlock;
+        "amplify-block-switcher": AmplifyBlockSwitcher;
         "amplify-callout": AmplifyCallout;
         "amplify-code-block": AmplifyCodeBlock;
         "amplify-code-block-switcher": AmplifyCodeBlockSwitcher;
@@ -1049,6 +1081,8 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "amplify-block": LocalJSX.AmplifyBlock & JSXBase.HTMLAttributes<HTMLAmplifyBlockElement>;
+            "amplify-block-switcher": LocalJSX.AmplifyBlockSwitcher & JSXBase.HTMLAttributes<HTMLAmplifyBlockSwitcherElement>;
             "amplify-callout": LocalJSX.AmplifyCallout & JSXBase.HTMLAttributes<HTMLAmplifyCalloutElement>;
             "amplify-code-block": LocalJSX.AmplifyCodeBlock & JSXBase.HTMLAttributes<HTMLAmplifyCodeBlockElement>;
             "amplify-code-block-switcher": LocalJSX.AmplifyCodeBlockSwitcher & JSXBase.HTMLAttributes<HTMLAmplifyCodeBlockSwitcherElement>;
