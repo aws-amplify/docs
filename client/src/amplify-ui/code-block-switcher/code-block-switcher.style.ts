@@ -3,7 +3,8 @@ import {css} from "emotion";
 export const hostStyle = css`
   display: block;
   margin-bottom: 1.5rem;
-
+  border: 1px solid var(--border-color);
+  border-radius: 0.25rem;
   > pre {
     display: none;
   }
@@ -17,27 +18,21 @@ export const hostStyle = css`
 
 export const activeTabStyle = css`
   font-weight: 700;
-  border-bottom: 0.1rem solid var(--code-font-color);
+  border-bottom: 0.25rem solid var(--amplify-primary-color);
 `;
 
 export const tabStyle = css`
-  color: var(--code-font-color);
   border-top-right-radius: 0.25rem;
   border-top-left-radius: 0.25rem;
   height: 100%;
   appearance: none;
   background-color: transparent;
-  padding: 0.75rem 0.5rem;
+  padding: 0.75rem 1rem 0.5rem;
   cursor: pointer;
-  font-size: 0.8125rem;
-
-  &:first-child {
-    margin-left: 0.5rem;
-  }
+  font-size: 0.875rem;
 `;
 
 export const tabContainerStyle = css`
   border-top-right-radius: 0.25rem;
   border-top-left-radius: 0.25rem;
-  background-color: var(--code-bg-color-secondary);
 `;

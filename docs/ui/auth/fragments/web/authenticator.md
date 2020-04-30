@@ -47,7 +47,7 @@ const App = () => (
 </amplify-block>
 <amplify-block id="Angular">
 
-_app.module.ts_
+**app.module.ts**
 ```js
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -67,7 +67,7 @@ Amplify.configure(awsconfig);
 })
 export class AppModule {}
 ```
-_app.component.html_
+**app.component.html**
 ```html
 <amplify-authenticator>
   <div>
@@ -79,7 +79,7 @@ _app.component.html_
 </amplify-block>
 <amplify-block id="Ionic">
 
-_app.module.ts_
+**app.module.ts**
 ```js
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -99,7 +99,7 @@ Amplify.configure(awsconfig);
 })
 export class AppModule {}
 ```
-_app.component.html_
+**app.component.html**
 ```html
 <amplify-authenticator>
   <div>
@@ -112,7 +112,7 @@ _app.component.html_
 
 <amplify-block id="Vue">
 
-_main.ts_
+**main.ts**
 
 ```js
 import Vue from 'vue';
@@ -128,7 +128,7 @@ new Vue({
 }).$mount('#app');
 ```
 
-_App.vue_
+**App.vue**
 
 ```html
 <template>
