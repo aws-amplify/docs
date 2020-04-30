@@ -22,14 +22,7 @@ export class DocsSecondaryNav {
         apiKey: "24d37f059982b2f5ecf829afe93aed40",
         indexName: "aws_amplify_new",
         inputSelector: "#amplify-docs-search-input",
-        debug: true,
-        transformData: function(hits) {
-          console.log(hits);
-          const newHits = hits;
-          newHits[0].hierarchy.lvl1 = "Android";
-          newHits[0].content = `<img src="/assets/integrations/android.svg" alt="Android Logo">`;
-          return newHits;
-        },
+        debug: false,
       });
     }
   }
