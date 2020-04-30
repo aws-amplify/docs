@@ -1,157 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
    <url>
-    <loc>https://docs.amplify.aws/cli</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/sdk</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/q/platform/js</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/q/framework/angular</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/q/framework/ionic</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/q/framework/react</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/q/framework/react-native</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/q/framework/vue</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/q/integration/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/q/integration/angular</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/q/integration/ionic</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/q/integration/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/q/integration/js</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/q/integration/react</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/q/integration/react-native</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/q/integration/vue</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/q/framework/angular</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/q/framework/ionic</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/q/framework/react</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/q/framework/react-native</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/q/framework/vue</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/cli/function</loc>
+    <loc>https://docs.amplify.aws/cli</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -161,17 +16,7 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/hosting</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/cli/function/build-options</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/cli/graphql-transformer/config-params</loc>
+    <loc>https://docs.amplify.aws/cli/auth/groups</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -181,7 +26,22 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/auth/groups</loc>
+    <loc>https://docs.amplify.aws/cli/function</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/function/build-options</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/graphql-transformer/codegen</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/graphql-transformer/config-params</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -191,12 +51,12 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/graphql-transformer/examples</loc>
+    <loc>https://docs.amplify.aws/cli/graphql-transformer/directives</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/graphql-transformer/codegen</loc>
+    <loc>https://docs.amplify.aws/cli/graphql-transformer/examples</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -221,22 +81,12 @@
     <priority>.5</priority>
   </url>
   <url>
+    <loc>https://docs.amplify.aws/cli/hosting</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
     <loc>https://docs.amplify.aws/cli/migration/lambda-node-version-update</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/cli/graphql-transformer/directives</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/cli/start/install</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/cli/teams/cicd</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -247,6 +97,16 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/cli/start</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/start/install</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/cli/teams/cicd</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -291,17 +151,12 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/usage/iam-roles-mfa</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/cli/usage/iam</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/cli/usage/mock</loc>
+    <loc>https://docs.amplify.aws/cli/usage/iam-roles-mfa</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -311,362 +166,22 @@
     <priority>.5</priority>
   </url>
   <url>
+    <loc>https://docs.amplify.aws/cli/usage/mock</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
     <loc>https://docs.amplify.aws/cli/usage/plugin</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/sdk/analytics/endpoints</loc>
+    <loc>https://docs.amplify.aws/cli/usage/upgrade</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/sdk/analytics/endpoints/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/analytics/endpoints/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/analytics/events</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/analytics/events/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/analytics/events/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/analytics/kinesis</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/analytics/kinesis/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/analytics/kinesis/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/api/graphql</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/api/graphql/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/api/graphql/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/analytics/getting-started</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/analytics/getting-started/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/analytics/getting-started/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/device-features</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/device-features/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/device-features/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/api/rest</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/api/rest/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/api/rest/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/custom-auth-flow</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/custom-auth-flow/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/custom-auth-flow/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/federated-identities</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/federated-identities/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/federated-identities/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/getting-started</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/getting-started/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/getting-started/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/guest-access</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/guest-access/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/guest-access/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/hosted-ui</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/hosted-ui/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/hosted-ui/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/working-with-api</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/working-with-api/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/working-with-api/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/how-it-works</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/how-it-works/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/how-it-works/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/pubsub/getting-started</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/pubsub/getting-started/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/pubsub/getting-started/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/configuration/setup-options</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/configuration/setup-options/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/configuration/setup-options/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/pubsub/working-api</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/pubsub/working-api/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/pubsub/working-api/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/push-notifications/getting-started</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/push-notifications/getting-started/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/push-notifications/getting-started/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/storage/configure-access</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/storage/configure-access/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/push-notifications/messaging-campaign</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/push-notifications/messaging-campaign/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/push-notifications/messaging-campaign/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/push-notifications/setup-push-service</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/push-notifications/setup-push-service/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/push-notifications/setup-push-service/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/drop-in-auth</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/drop-in-auth/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/auth/drop-in-auth/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/storage/getting-started</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/storage/getting-started/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/storage/getting-started/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/storage/transfer-utility</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/storage/transfer-utility/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/storage/transfer-utility/q/platform/ios</loc>
+    <loc>https://docs.amplify.aws/lib</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -691,6 +206,26 @@
     <priority>.5</priority>
   </url>
   <url>
+    <loc>https://docs.amplify.aws/lib/analytics/getting-started</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/analytics/getting-started/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/analytics/getting-started/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/analytics/getting-started/q/platform/js</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
     <loc>https://docs.amplify.aws/lib/analytics/identifyuser</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -706,17 +241,12 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/sdk/storage/graphql-api</loc>
+    <loc>https://docs.amplify.aws/lib/analytics/personalize</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/sdk/storage/graphql-api/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/sdk/storage/graphql-api/q/platform/ios</loc>
+    <loc>https://docs.amplify.aws/lib/analytics/personalize/q/platform/js</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -751,22 +281,22 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/analytics/personalize</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/analytics/personalize/q/platform/js</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/lib/analytics/streaming</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/analytics/streaming/q/platform/js</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/auth/advanced</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/auth/advanced/q/platform/js</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -786,12 +316,12 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/auth/advanced</loc>
+    <loc>https://docs.amplify.aws/lib/auth/customui</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/auth/advanced/q/platform/js</loc>
+    <loc>https://docs.amplify.aws/lib/auth/customui/q/platform/js</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -811,32 +341,27 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/auth/customui</loc>
+    <loc>https://docs.amplify.aws/lib/auth/drop-in-auth</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/auth/customui/q/platform/js</loc>
+    <loc>https://docs.amplify.aws/lib/auth/drop-in-auth/q/platform/android</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/analytics/getting-started</loc>
+    <loc>https://docs.amplify.aws/lib/auth/drop-in-auth/q/platform/ios</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/analytics/getting-started/q/platform/android</loc>
+    <loc>https://docs.amplify.aws/lib/auth/emailpassword</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/analytics/getting-started/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/analytics/getting-started/q/platform/js</loc>
+    <loc>https://docs.amplify.aws/lib/auth/emailpassword/q/platform/js</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -852,21 +377,6 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/auth/federated-identities/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/auth/drop-in-auth</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/auth/drop-in-auth/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/auth/drop-in-auth/q/platform/ios</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -887,16 +397,6 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/auth/getting-started/q/platform/js</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/auth/emailpassword</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/auth/emailpassword/q/platform/js</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -946,22 +446,22 @@
     <priority>.5</priority>
   </url>
   <url>
+    <loc>https://docs.amplify.aws/lib/auth/manageusers</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/auth/manageusers/q/platform/js</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
     <loc>https://docs.amplify.aws/lib/auth/mfa</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/auth/mfa/q/platform/js</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/auth/start</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/auth/start/q/platform/js</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -986,22 +486,32 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/auth/manageusers</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/auth/manageusers/q/platform/js</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/lib/auth/social</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/auth/social/q/platform/js</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/auth/start</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/auth/start/q/platform/js</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/auth/switch-auth</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/auth/switch-auth/q/platform/js</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -1041,26 +551,6 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/datastore/getting-started</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/datastore/getting-started/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/datastore/getting-started/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/datastore/getting-started/q/platform/js</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/lib/datastore/data-access</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1077,6 +567,26 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/datastore/data-access/q/platform/js</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/datastore/getting-started</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/datastore/getting-started/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/datastore/getting-started/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/datastore/getting-started/q/platform/js</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -1181,12 +691,32 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/auth/switch-auth</loc>
+    <loc>https://docs.amplify.aws/lib/getting-started/add-api</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/auth/switch-auth/q/platform/js</loc>
+    <loc>https://docs.amplify.aws/lib/getting-started/add-api/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/getting-started/add-api/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/getting-started/generate-model</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/getting-started/generate-model/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/getting-started/generate-model/q/platform/ios</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -1206,21 +736,6 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/getting-started/add-api</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/getting-started/add-api/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/getting-started/add-api/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/lib/getting-started/setup</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1232,21 +747,6 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/getting-started/setup/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/getting-started/generate-model</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/getting-started/generate-model/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/getting-started/generate-model/q/platform/ios</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -1281,26 +781,6 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/graphqlapi/getting-started</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/graphqlapi/getting-started/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/graphqlapi/getting-started/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/graphqlapi/getting-started/q/platform/js</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/lib/graphqlapi/concepts</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1327,6 +807,26 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/graphqlapi/create-or-re-use-existing-backend/q/platform/js</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/graphqlapi/getting-started</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/graphqlapi/getting-started/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/graphqlapi/getting-started/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/graphqlapi/getting-started/q/platform/js</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -1371,6 +871,16 @@
     <priority>.5</priority>
   </url>
   <url>
+    <loc>https://docs.amplify.aws/lib/graphqlapi/offline</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/graphqlapi/offline/q/platform/js</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
     <loc>https://docs.amplify.aws/lib/graphqlapi/query-data</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1411,12 +921,12 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/graphqlapi/offline</loc>
+    <loc>https://docs.amplify.aws/lib/interactions/chatbot</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/graphqlapi/offline/q/platform/js</loc>
+    <loc>https://docs.amplify.aws/lib/interactions/chatbot/q/platform/js</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -1427,6 +937,16 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/interactions/getting-started/q/platform/js</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/predictions/escapehatch</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/predictions/escapehatch/q/platform/ios</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -1446,47 +966,12 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/predictions/escapehatch</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/predictions/escapehatch/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/lib/predictions/identify-celebrity</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/predictions/identify-celebrity/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/interactions/chatbot</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/interactions/chatbot/q/platform/js</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/predictions/intro</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/predictions/intro/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/predictions/intro/q/platform/js</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -1532,6 +1017,21 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/predictions/interpret/q/platform/js</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/predictions/intro</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/predictions/intro/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/predictions/intro/q/platform/js</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -1626,12 +1126,12 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/push-notifications/overview</loc>
+    <loc>https://docs.amplify.aws/lib/pubsub/subunsub</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/push-notifications/overview/q/platform/js</loc>
+    <loc>https://docs.amplify.aws/lib/pubsub/subunsub/q/platform/js</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -1646,12 +1146,22 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/pubsub/subunsub</loc>
+    <loc>https://docs.amplify.aws/lib/push-notifications/overview</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/pubsub/subunsub/q/platform/js</loc>
+    <loc>https://docs.amplify.aws/lib/push-notifications/overview/q/platform/js</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/push-notifications/testing</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/push-notifications/testing/q/platform/js</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -1666,12 +1176,17 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/push-notifications/testing</loc>
+    <loc>https://docs.amplify.aws/lib/q/platform/android</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/push-notifications/testing/q/platform/js</loc>
+    <loc>https://docs.amplify.aws/lib/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/q/platform/js</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -1736,27 +1251,22 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/storage/escapehatch</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/storage/escapehatch/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/storage/escapehatch/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/lib/restapi/update</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/restapi/update/q/platform/js</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/storage/autotrack</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/storage/autotrack/q/platform/js</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -1777,6 +1287,41 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/storage/download</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/storage/download/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/storage/download/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/storage/download/q/platform/js</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/storage/escapehatch</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/storage/escapehatch/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/storage/escapehatch/q/platform/ios</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -1821,26 +1366,6 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/storage/triggers</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/storage/triggers/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/storage/triggers/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/storage/triggers/q/platform/js</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/lib/storage/remove</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1857,6 +1382,26 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/storage/remove/q/platform/js</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/storage/triggers</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/storage/triggers/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/storage/triggers/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/storage/triggers/q/platform/js</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -1881,42 +1426,12 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/storage/download</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/storage/download/q/platform/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/storage/download/q/platform/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/storage/download/q/platform/js</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/lib/utilities/cache</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/utilities/cache/q/platform/js</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/utilities/i18n</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/utilities/i18n/q/platform/js</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -1931,6 +1446,16 @@
     <priority>.5</priority>
   </url>
   <url>
+    <loc>https://docs.amplify.aws/lib/utilities/i18n</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/utilities/i18n/q/platform/js</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
     <loc>https://docs.amplify.aws/lib/utilities/logger</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1941,12 +1466,22 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/storage/autotrack</loc>
+    <loc>https://docs.amplify.aws/lib/utilities/serviceworker</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/storage/autotrack/q/platform/js</loc>
+    <loc>https://docs.amplify.aws/lib/utilities/serviceworker/q/platform/js</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/xr/getting-started</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/xr/getting-started/q/platform/js</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -1961,12 +1496,412 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/xr/getting-started</loc>
+    <loc>https://docs.amplify.aws/sdk</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/lib/xr/getting-started/q/platform/js</loc>
+    <loc>https://docs.amplify.aws/sdk/analytics/endpoints</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/analytics/endpoints/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/analytics/endpoints/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/analytics/events</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/analytics/events/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/analytics/events/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/analytics/getting-started</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/analytics/getting-started/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/analytics/getting-started/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/analytics/kinesis</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/analytics/kinesis/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/analytics/kinesis/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/api/graphql</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/api/graphql/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/api/graphql/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/api/rest</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/api/rest/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/api/rest/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/custom-auth-flow</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/custom-auth-flow/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/custom-auth-flow/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/device-features</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/device-features/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/device-features/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/drop-in-auth</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/drop-in-auth/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/drop-in-auth/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/federated-identities</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/federated-identities/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/federated-identities/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/getting-started</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/getting-started/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/getting-started/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/guest-access</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/guest-access/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/guest-access/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/hosted-ui</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/hosted-ui/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/hosted-ui/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/how-it-works</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/how-it-works/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/how-it-works/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/working-with-api</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/working-with-api/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/auth/working-with-api/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/configuration/setup-options</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/configuration/setup-options/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/configuration/setup-options/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/pubsub/getting-started</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/pubsub/getting-started/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/pubsub/getting-started/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/pubsub/working-api</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/pubsub/working-api/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/pubsub/working-api/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/push-notifications/getting-started</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/push-notifications/getting-started/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/push-notifications/getting-started/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/push-notifications/messaging-campaign</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/push-notifications/messaging-campaign/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/push-notifications/messaging-campaign/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/push-notifications/setup-push-service</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/push-notifications/setup-push-service/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/push-notifications/setup-push-service/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/storage/configure-access</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/storage/configure-access/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/storage/getting-started</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/storage/getting-started/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/storage/getting-started/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/storage/graphql-api</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/storage/graphql-api/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/storage/graphql-api/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/storage/transfer-utility</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/storage/transfer-utility/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/sdk/storage/transfer-utility/q/platform/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/start</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/start/getting-started/auth</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/start/getting-started/auth/q/integration/react</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/start/getting-started/auth/q/integration/react-native</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/start/getting-started/auth/q/integration/vue</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -2016,36 +1951,6 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/start/getting-started/auth</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/getting-started/auth/q/integration/react</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/getting-started/auth/q/integration/react-native</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/getting-started/auth/q/integration/vue</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/utilities/serviceworker</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/lib/utilities/serviceworker/q/platform/js</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/start/getting-started/hosting</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -2072,6 +1977,51 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/start/getting-started/hosting/q/integration/vue</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/start/getting-started/installation</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/start/getting-started/installation/q/integration/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/start/getting-started/installation/q/integration/angular</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/start/getting-started/installation/q/integration/ionic</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/start/getting-started/installation/q/integration/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/start/getting-started/installation/q/integration/js</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/start/getting-started/installation/q/integration/react</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/start/getting-started/installation/q/integration/react-native</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/start/getting-started/installation/q/integration/vue</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -2166,12 +2116,342 @@
     <priority>.5</priority>
   </url>
   <url>
+    <loc>https://docs.amplify.aws/start/q/integration/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/start/q/integration/angular</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/start/q/integration/ionic</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/start/q/integration/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/start/q/integration/js</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/start/q/integration/react</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/start/q/integration/react-native</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/start/q/integration/vue</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/api/connect</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/api/connect/q/framework/react</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/api/connect/q/framework/react-native</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/api/connect/q/framework/vue</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/angular</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/ionic</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/react</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/react-native</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/vue</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/customization/theming</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/customization/theming/q/framework/react-native</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot/q/framework/angular</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot/q/framework/ionic</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot/q/framework/react</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot/q/framework/react-native</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot/q/framework/vue</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/q/framework/angular</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/q/framework/ionic</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/q/framework/react</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/q/framework/react-native</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/q/framework/vue</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/customization</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/customization/q/framework/react</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/customization/q/framework/react-native</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/angular</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/ionic</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/react</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/react-native</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/vue</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album/q/framework/angular</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album/q/framework/ionic</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album/q/framework/react</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album/q/framework/react-native</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album/q/framework/vue</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-image</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-image/q/framework/react</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-image/q/framework/react-native</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-image/q/framework/vue</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/tracking-events</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/tracking-events/q/framework/react</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/storage/tracking-events/q/framework/react-native</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/xr/sumerian-scene</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/xr/sumerian-scene/q/framework/angular</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/xr/sumerian-scene/q/framework/ionic</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/xr/sumerian-scene/q/framework/react</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui-legacy/xr/sumerian-scene/q/framework/vue</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
     <loc>https://docs.amplify.aws/ui/api/connect</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
     <loc>https://docs.amplify.aws/ui/api/connect/q/framework/react-native</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/auth/authenticator</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/auth/authenticator/q/framework/angular</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/auth/authenticator/q/framework/ionic</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/auth/authenticator/q/framework/react</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/auth/authenticator/q/framework/react-native</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/auth/authenticator/q/framework/vue</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -2226,91 +2506,6 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/ui/interactions/chatbot</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/interactions/chatbot/q/framework/react-native</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/auth/authenticator</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/auth/authenticator/q/framework/angular</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/auth/authenticator/q/framework/ionic</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/auth/authenticator/q/framework/react</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/auth/authenticator/q/framework/react-native</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/auth/authenticator/q/framework/vue</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/getting-started/installation</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/getting-started/installation/q/integration/android</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/getting-started/installation/q/integration/angular</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/getting-started/installation/q/integration/ionic</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/getting-started/installation/q/integration/ios</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/getting-started/installation/q/integration/js</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/getting-started/installation/q/integration/react</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/getting-started/installation/q/integration/react-native</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/start/getting-started/installation/q/integration/vue</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/ui/customization/theming</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -2341,12 +2536,37 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/ui/storage/s3-image</loc>
+    <loc>https://docs.amplify.aws/ui/interactions/chatbot</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/ui/storage/s3-image/q/framework/react-native</loc>
+    <loc>https://docs.amplify.aws/ui/interactions/chatbot/q/framework/react-native</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/q/framework/angular</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/q/framework/ionic</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/q/framework/react</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/q/framework/react-native</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/ui/q/framework/vue</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -2371,76 +2591,6 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/angular</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/ionic</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/react</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/react-native</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/auth/authenticator/q/framework/vue</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/api/connect</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/api/connect/q/framework/react</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/api/connect/q/framework/react-native</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/api/connect/q/framework/vue</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/storage/tracking-events</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/storage/tracking-events/q/framework/react-native</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/customization/theming</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/customization/theming/q/framework/react-native</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/ui/storage/s3-album</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -2451,167 +2601,22 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot</loc>
+    <loc>https://docs.amplify.aws/ui/storage/s3-image</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot/q/framework/angular</loc>
+    <loc>https://docs.amplify.aws/ui/storage/s3-image/q/framework/react-native</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot/q/framework/ionic</loc>
+    <loc>https://docs.amplify.aws/ui/storage/tracking-events</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot/q/framework/react</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot/q/framework/react-native</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/interactions/chatbot/q/framework/vue</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-image</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-image/q/framework/react</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-image/q/framework/react-native</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-image/q/framework/vue</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/customization</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/customization/q/framework/react</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/customization/q/framework/react-native</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album/q/framework/angular</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album/q/framework/ionic</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album/q/framework/react</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album/q/framework/react-native</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/s3-album/q/framework/vue</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/angular</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/ionic</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/react</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/react-native</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/vue</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/tracking-events</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/tracking-events/q/framework/react</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/tracking-events/q/framework/react-native</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/xr/sumerian-scene</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/xr/sumerian-scene/q/framework/angular</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/xr/sumerian-scene/q/framework/ionic</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/xr/sumerian-scene/q/framework/react</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui-legacy/xr/sumerian-scene/q/framework/vue</loc>
+    <loc>https://docs.amplify.aws/ui/storage/tracking-events/q/framework/react-native</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
