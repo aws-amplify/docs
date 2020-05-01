@@ -34,7 +34,7 @@ export const lineCountStyle = css`
   }
 `;
 
-export const oneLineStyle = css`
+export const noLineNumbersStyle = css`
   padding-left: 1rem;
 `;
 
