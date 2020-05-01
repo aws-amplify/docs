@@ -201,6 +201,13 @@ You can then push updated changes with:
 ```bash
 amplify push
 ```
+#### Options 
+- **minify**: Generate minified CloudFormation templates for resources.  
+
+    ```bash
+    amplify push --minify
+    ```
+
 
 ## API Category Project Structure
 
