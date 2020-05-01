@@ -138,12 +138,6 @@ export namespace Components {
     }
     interface AmplifyTocProvider {
     }
-    interface ComponentPlayground {
-        /**
-          * Name of component used in the playground
-         */
-        "componentName": string;
-    }
     interface Docs404Page {
     }
     interface DocsCard {
@@ -197,6 +191,12 @@ export namespace Components {
           * * the current page's data
          */
         "page"?: Page;
+    }
+    interface DocsComponentPlayground {
+        /**
+          * Name of component used in the playground
+         */
+        "componentName": string;
     }
     interface DocsFeedbackCallout {
     }
@@ -482,12 +482,6 @@ declare global {
         prototype: HTMLAmplifyTocProviderElement;
         new (): HTMLAmplifyTocProviderElement;
     };
-    interface HTMLComponentPlaygroundElement extends Components.ComponentPlayground, HTMLStencilElement {
-    }
-    var HTMLComponentPlaygroundElement: {
-        prototype: HTMLComponentPlaygroundElement;
-        new (): HTMLComponentPlaygroundElement;
-    };
     interface HTMLDocs404PageElement extends Components.Docs404Page, HTMLStencilElement {
     }
     var HTMLDocs404PageElement: {
@@ -517,6 +511,12 @@ declare global {
     var HTMLDocsChooseIntegrationAnchorElement: {
         prototype: HTMLDocsChooseIntegrationAnchorElement;
         new (): HTMLDocsChooseIntegrationAnchorElement;
+    };
+    interface HTMLDocsComponentPlaygroundElement extends Components.DocsComponentPlayground, HTMLStencilElement {
+    }
+    var HTMLDocsComponentPlaygroundElement: {
+        prototype: HTMLDocsComponentPlaygroundElement;
+        new (): HTMLDocsComponentPlaygroundElement;
     };
     interface HTMLDocsFeedbackCalloutElement extends Components.DocsFeedbackCallout, HTMLStencilElement {
     }
@@ -656,12 +656,12 @@ declare global {
         "amplify-toc": HTMLAmplifyTocElement;
         "amplify-toc-contents": HTMLAmplifyTocContentsElement;
         "amplify-toc-provider": HTMLAmplifyTocProviderElement;
-        "component-playground": HTMLComponentPlaygroundElement;
         "docs-404-page": HTMLDocs404PageElement;
         "docs-card": HTMLDocsCardElement;
         "docs-chat-button": HTMLDocsChatButtonElement;
         "docs-choose-anchor": HTMLDocsChooseAnchorElement;
         "docs-choose-integration-anchor": HTMLDocsChooseIntegrationAnchorElement;
+        "docs-component-playground": HTMLDocsComponentPlaygroundElement;
         "docs-feedback-callout": HTMLDocsFeedbackCalloutElement;
         "docs-filter-target": HTMLDocsFilterTargetElement;
         "docs-footer": HTMLDocsFooterElement;
@@ -811,12 +811,6 @@ declare namespace LocalJSX {
     }
     interface AmplifyTocProvider {
     }
-    interface ComponentPlayground {
-        /**
-          * Name of component used in the playground
-         */
-        "componentName"?: string;
-    }
     interface Docs404Page {
     }
     interface DocsCard {
@@ -870,6 +864,12 @@ declare namespace LocalJSX {
           * * the current page's data
          */
         "page"?: Page;
+    }
+    interface DocsComponentPlayground {
+        /**
+          * Name of component used in the playground
+         */
+        "componentName"?: string;
     }
     interface DocsFeedbackCallout {
     }
@@ -1069,12 +1069,12 @@ declare namespace LocalJSX {
         "amplify-toc": AmplifyToc;
         "amplify-toc-contents": AmplifyTocContents;
         "amplify-toc-provider": AmplifyTocProvider;
-        "component-playground": ComponentPlayground;
         "docs-404-page": Docs404Page;
         "docs-card": DocsCard;
         "docs-chat-button": DocsChatButton;
         "docs-choose-anchor": DocsChooseAnchor;
         "docs-choose-integration-anchor": DocsChooseIntegrationAnchor;
+        "docs-component-playground": DocsComponentPlayground;
         "docs-feedback-callout": DocsFeedbackCallout;
         "docs-filter-target": DocsFilterTarget;
         "docs-footer": DocsFooter;
@@ -1118,12 +1118,12 @@ declare module "@stencil/core" {
             "amplify-toc": LocalJSX.AmplifyToc & JSXBase.HTMLAttributes<HTMLAmplifyTocElement>;
             "amplify-toc-contents": LocalJSX.AmplifyTocContents & JSXBase.HTMLAttributes<HTMLAmplifyTocContentsElement>;
             "amplify-toc-provider": LocalJSX.AmplifyTocProvider & JSXBase.HTMLAttributes<HTMLAmplifyTocProviderElement>;
-            "component-playground": LocalJSX.ComponentPlayground & JSXBase.HTMLAttributes<HTMLComponentPlaygroundElement>;
             "docs-404-page": LocalJSX.Docs404Page & JSXBase.HTMLAttributes<HTMLDocs404PageElement>;
             "docs-card": LocalJSX.DocsCard & JSXBase.HTMLAttributes<HTMLDocsCardElement>;
             "docs-chat-button": LocalJSX.DocsChatButton & JSXBase.HTMLAttributes<HTMLDocsChatButtonElement>;
             "docs-choose-anchor": LocalJSX.DocsChooseAnchor & JSXBase.HTMLAttributes<HTMLDocsChooseAnchorElement>;
             "docs-choose-integration-anchor": LocalJSX.DocsChooseIntegrationAnchor & JSXBase.HTMLAttributes<HTMLDocsChooseIntegrationAnchorElement>;
+            "docs-component-playground": LocalJSX.DocsComponentPlayground & JSXBase.HTMLAttributes<HTMLDocsComponentPlaygroundElement>;
             "docs-feedback-callout": LocalJSX.DocsFeedbackCallout & JSXBase.HTMLAttributes<HTMLDocsFeedbackCalloutElement>;
             "docs-filter-target": LocalJSX.DocsFilterTarget & JSXBase.HTMLAttributes<HTMLDocsFilterTargetElement>;
             "docs-footer": LocalJSX.DocsFooter & JSXBase.HTMLAttributes<HTMLDocsFooterElement>;
