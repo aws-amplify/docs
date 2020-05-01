@@ -157,19 +157,28 @@ description: how to configure auth
 If you want to have a code block, which has tabs to change the language/framework/etc., go ahead and utilize the amplify-code-block-switcher component. This component accepts a single prop––`tab-heading-list`––which should be a comma-separated list of headings, where each heading accounts for a child code block. Here's an example of it's usage:
 
 ````md
-<amplify-code-block-switcher tab-heading-list="JavaScript,TypeScript,Rust">
+<amplify-block-switcher>
+<amplify-block name="JavaScript">
 
 ```js
 const a = "a";
 ```
 
+</amplify-block>
+
+<amplify-block name="TypeScript">
+
 ```ts
 const a: "a" = "a";
 ```
+
+</amplify-block>
+<amplify-block name="Rust">
 
 ```rust
 let mut a = String::from("a");
 ```
 
-</amplify-code-block-switcher>
+</amplify-block>
+</amplify-block-switcher>
 ````
