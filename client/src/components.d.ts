@@ -138,6 +138,12 @@ export namespace Components {
     }
     interface AmplifyTocProvider {
     }
+    interface ComponentPlayground {
+        /**
+          * Name of component used in the playground
+         */
+        "componentName": string;
+    }
     interface Docs404Page {
     }
     interface DocsCard {
@@ -476,6 +482,12 @@ declare global {
         prototype: HTMLAmplifyTocProviderElement;
         new (): HTMLAmplifyTocProviderElement;
     };
+    interface HTMLComponentPlaygroundElement extends Components.ComponentPlayground, HTMLStencilElement {
+    }
+    var HTMLComponentPlaygroundElement: {
+        prototype: HTMLComponentPlaygroundElement;
+        new (): HTMLComponentPlaygroundElement;
+    };
     interface HTMLDocs404PageElement extends Components.Docs404Page, HTMLStencilElement {
     }
     var HTMLDocs404PageElement: {
@@ -644,6 +656,7 @@ declare global {
         "amplify-toc": HTMLAmplifyTocElement;
         "amplify-toc-contents": HTMLAmplifyTocContentsElement;
         "amplify-toc-provider": HTMLAmplifyTocProviderElement;
+        "component-playground": HTMLComponentPlaygroundElement;
         "docs-404-page": HTMLDocs404PageElement;
         "docs-card": HTMLDocsCardElement;
         "docs-chat-button": HTMLDocsChatButtonElement;
@@ -797,6 +810,12 @@ declare namespace LocalJSX {
         "setContent"?: SetContent;
     }
     interface AmplifyTocProvider {
+    }
+    interface ComponentPlayground {
+        /**
+          * Name of component used in the playground
+         */
+        "componentName"?: string;
     }
     interface Docs404Page {
     }
@@ -1050,6 +1069,7 @@ declare namespace LocalJSX {
         "amplify-toc": AmplifyToc;
         "amplify-toc-contents": AmplifyTocContents;
         "amplify-toc-provider": AmplifyTocProvider;
+        "component-playground": ComponentPlayground;
         "docs-404-page": Docs404Page;
         "docs-card": DocsCard;
         "docs-chat-button": DocsChatButton;
@@ -1098,6 +1118,7 @@ declare module "@stencil/core" {
             "amplify-toc": LocalJSX.AmplifyToc & JSXBase.HTMLAttributes<HTMLAmplifyTocElement>;
             "amplify-toc-contents": LocalJSX.AmplifyTocContents & JSXBase.HTMLAttributes<HTMLAmplifyTocContentsElement>;
             "amplify-toc-provider": LocalJSX.AmplifyTocProvider & JSXBase.HTMLAttributes<HTMLAmplifyTocProviderElement>;
+            "component-playground": LocalJSX.ComponentPlayground & JSXBase.HTMLAttributes<HTMLComponentPlaygroundElement>;
             "docs-404-page": LocalJSX.Docs404Page & JSXBase.HTMLAttributes<HTMLDocs404PageElement>;
             "docs-card": LocalJSX.DocsCard & JSXBase.HTMLAttributes<HTMLDocsCardElement>;
             "docs-chat-button": LocalJSX.DocsChatButton & JSXBase.HTMLAttributes<HTMLDocsChatButtonElement>;
