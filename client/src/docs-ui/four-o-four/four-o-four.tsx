@@ -1,8 +1,13 @@
 import {Component, h, Host} from "@stencil/core";
 import {hostStyle} from "./four-o-four.style";
+import {fileNotFound} from "../../utils/update-document-head";
 
 @Component({tag: "docs-four-o-four", shadow: false})
 export class DocsFourOFour {
+  componentWillLoad() {
+    fileNotFound();
+  }
+
   render() {
     return (
       <Host class={hostStyle}>
