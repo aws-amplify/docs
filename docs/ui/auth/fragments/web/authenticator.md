@@ -178,6 +178,9 @@ If you'd like to customize the form fields in the Authenticator Sign In or Sign 
 
 The following is an example highlights the Authenticator with customized to handle Sign In/Sign Up with email and uses custom Sign Up form fields:
 
+<amplify-block-switcher>
+<amplify-block name="React">
+
 ```jsx
 import React from 'react';
 import { AmplifyAuthenticator, AmplifySignUp, AmplifySignOut } from '@aws-amplify/ui-react';
@@ -214,6 +217,18 @@ const App = () => {
   );
 };
 ```
+</amplify-block>
+
+<amplify-block name="Angular">
+</amplify-block>
+
+<amplify-block name="Ionic">
+</amplify-block>
+
+<amplify-block name="Vue">
+</amplify-block>
+
+</amplify-block-switcher>
 
 Here is an example of the component in use:
 
