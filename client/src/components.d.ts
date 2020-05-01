@@ -9,6 +9,7 @@ import { ToggleInView, } from "./amplify-ui/sidebar-layout/sidebar-layout.types"
 import { SetContent, } from "./amplify-ui/toc/toc.types";
 import { SelectedFilters, } from "./docs-ui/page/page.types";
 import { MenuGroup, Page, } from "./api";
+import { CustomComponentName, } from "./docs-ui/component-playground/component-playground.types";
 import { MatchResults, } from "@stencil/router";
 import { SwitchOption, } from "./docs-ui/version-switch/version-switch.types";
 export namespace Components {
@@ -196,7 +197,7 @@ export namespace Components {
         /**
           * Name of component used in the playground
          */
-        "componentName": string;
+        "componentName": CustomComponentName;
     }
     interface DocsFeedbackCallout {
     }
@@ -869,7 +870,7 @@ declare namespace LocalJSX {
         /**
           * Name of component used in the playground
          */
-        "componentName"?: string;
+        "componentName"?: CustomComponentName;
     }
     interface DocsFeedbackCallout {
     }

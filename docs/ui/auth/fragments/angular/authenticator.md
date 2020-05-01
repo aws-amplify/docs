@@ -63,14 +63,15 @@ Amplify UI Components use `slots` based off of the [Web Components slot element]
 
 ### Custom Form Fields
 
-If you'd like to customize the form fields in the Authenticator Sign In or Sign Up component you can do so by using the `formFields` property.
+If you'd like to customize the form fields in the Authenticator Sign In or Sign Up component, you can do so by using the `formFields` property.
 
-The following is an example highlights the use of Authenticator with customized Sign Up form fields and [authentication with email](#authenticate-with-email-or-phone-number):
+The following example highlights the use of Authenticator with customized Sign Up form fields and [authentication with email](#authenticate-with-email-or-phone-number):
 
 *app.component.ts*
 ```js
 import { Component } from '@angular/core';
 import { FormFieldTypes } from '@aws-amplify/ui-components';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -78,6 +79,7 @@ import { FormFieldTypes } from '@aws-amplify/ui-components';
 })
 export class AppComponent {
   formFields: FormFieldTypes;
+
   constructor() {
     this.formFields = [
       {
@@ -104,6 +106,7 @@ export class AppComponent {
 ```
 
 *app.component.html*
+
 ```html
 <amplify-authenticator usernameAlias="email">
   <amplify-sign-up
@@ -120,11 +123,11 @@ Here is an example of the component in use:
 
 <amplify-callout warning>
 
-If you are using the `usernameAlias` prop with custom `slots` keep in mind that you must pass the `usernameAlias` prop value to both the Authenticator and custom slotted component since the slotted component overrides the configuration passed from the Authenticator.
+If you are using the `usernameAlias` prop with custom `slots`, keep in mind that you must pass the `usernameAlias` prop value to both the Authenticator and custom slotted component since the slotted component overrides the configuration passed from the Authenticator.
 
 </amplify-callout>
 
-For more details on this customization see the `amplify-form-field` prop documentation [here](https://github.com/aws-amplify/amplify-js/tree/master/packages/amplify-ui-components/src/components/amplify-form-field#properties) and the internal `FormFieldType` interface [here](https://github.com/aws-amplify/amplify-js/blob/master/packages/amplify-ui-components/src/components/amplify-auth-fields/amplify-auth-fields-interface.ts#L3).
+For more details on this customization see the `amplify-form-field` [prop documentation](https://github.com/aws-amplify/amplify-js/tree/master/packages/amplify-ui-components/src/components/amplify-form-field#properties) and the internal [`FormFieldType` interface](https://github.com/aws-amplify/amplify-js/blob/master/packages/amplify-ui-components/src/components/amplify-auth-fields/amplify-auth-fields-interface.ts#L3).
 
 ## Components
 

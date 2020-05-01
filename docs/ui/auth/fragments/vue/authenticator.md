@@ -59,37 +59,52 @@ Amplify UI Components use `slots` based off of the [Web Components slot element]
 
 ### Custom Form Fields
 
-If you'd like to customize the form fields in the Authenticator Sign In or Sign Up component you can do so by using the `formFields` property.
+If you'd like to customize the form fields in the Authenticator Sign In or Sign Up component, you can do so by using the `formFields` property.
 
-The following is an example highlights the use of Authenticator with customized Sign Up form fields and [authentication with email](#authenticate-with-email-or-phone-number):
+The following example highlights the use of Authenticator with customized Sign Up form fields and [authentication with email](#authenticate-with-email-or-phone-number):
+
 
 ```html
-<amplify-authenticator username-alias="email">
-  <amplify-sign-up
-    slot="sign-up"
-    username-alias="email"
-    :form-fields.prop="[
-      {
-        type: 'email',
-        label: 'Custom email Label',
-        placeholder: 'custom email placeholder',
-        required: true,
-      },
-      {
-        type: 'password',
-        label: 'Custom Password Label',
-        placeholder: 'custom password placeholder',
-        required: true,
-      },
-      {
-        type: 'address',
-        label: 'Custom Address Label',
-        placeholder: 'Enter your address',
-        required: false,
-      },
-    ]"
-  ></amplify-sign-up>
-</amplify-authenticator>
+<template>
+  <amplify-authenticator username-alias="email">
+    <amplify-sign-up
+      slot="sign-up"
+      username-alias="email"
+      :form-fields.prop="formFields"
+    ></amplify-sign-up>
+  </amplify-authenticator>
+</template>
+```
+```js
+<script>
+export default {
+  name: 'AuthWithSlots',
+  data() {
+    return {
+      formFields: [
+        {
+          type: 'email',
+          label: 'Custom email Label',
+          placeholder: 'custom email placeholder',
+          required: true,
+        },
+        {
+          type: 'password',
+          label: 'Custom Password Label',
+          placeholder: 'custom password placeholder',
+          required: true,
+        },
+        {
+          type: 'address',
+          label: 'Custom Address Label',
+          placeholder: 'Enter your address',
+          required: false,
+        },
+      ]
+    }
+  }
+}
+</script>
 ```
 
 Here is an example of the component in use:
@@ -98,11 +113,11 @@ Here is an example of the component in use:
 
 <amplify-callout warning>
 
-If you are using the `usernameAlias` prop with custom `slots` keep in mind that you must pass the `usernameAlias` prop value to both the Authenticator and custom slotted component since the slotted component overrides the configuration passed from the Authenticator.
+If you are using the `usernameAlias` prop with custom `slots`, keep in mind that you must pass the `usernameAlias` prop value to both the Authenticator and custom slotted component since the slotted component overrides the configuration passed from the Authenticator.
 
 </amplify-callout>
 
-For more details on this customization see the `amplify-form-field` prop documentation [here](https://github.com/aws-amplify/amplify-js/tree/master/packages/amplify-ui-components/src/components/amplify-form-field#properties) and the internal `FormFieldType` interface [here](https://github.com/aws-amplify/amplify-js/blob/master/packages/amplify-ui-components/src/components/amplify-auth-fields/amplify-auth-fields-interface.ts#L3).
+For more details on this customization see the `amplify-form-field` [prop documentation](https://github.com/aws-amplify/amplify-js/tree/master/packages/amplify-ui-components/src/components/amplify-form-field#properties) and the internal [`FormFieldType` interface](https://github.com/aws-amplify/amplify-js/blob/master/packages/amplify-ui-components/src/components/amplify-auth-fields/amplify-auth-fields-interface.ts#L3).
 
 ## Components
 
