@@ -21,6 +21,8 @@ export const injectMenu = (ctx: t.Ctx): void => {
       throw new Error(`Create a "${productDirMenuPath}" file.`);
     }
 
+    let nestedMenuTitle: string | undefined;
+
     // construct the menu, ... or throw errors ;)
     const menu: t.Menu = productDirMenu.items.map((item) => {
       const nestedMenuPath = path.join(productDir, item, "menu.json");
@@ -51,6 +53,9 @@ export const injectMenu = (ctx: t.Ctx): void => {
             );
           }
           page.sectionTitle = nestedMenu.title;
+          if (!nestedMenuTitle) {
+            nestedMenuTitle = nestedMenu.title;
+          }
 
           // create and return the page link
           return createPageLink(page);
@@ -66,6 +71,9 @@ export const injectMenu = (ctx: t.Ctx): void => {
       throw new Error(`Create a "${productRootPath}" file.`);
     }
     const productRootPageLink = createPageLink(productRootPage);
+    if (!productRootPage.sectionTitle) {
+      productRootPage.sectionTitle = nestedMenuTitle;
+    }
 
     // add the menu to the product subpages, ... or throw an error ;)
     menuForPaths.forEach((pagePath) => {
