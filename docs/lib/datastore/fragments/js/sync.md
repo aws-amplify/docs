@@ -1,6 +1,6 @@
 This can be done using the `amplify-app` npx script by running `npm run amplify-push`, or with the Amplify CLI by running `amplify push` directly. Provisioning will also create a project in the [AWS Amplify Console](https://aws.amazon.com/amplify/console/) to store metadata (such as the GraphQL schema) which you can pull down to generate models on other platforms.
 
-## Exiting backend
+## Existing backend
 
 DataStore can connect to an existing AppSync backend that has been deployed from another JavaScript project or even it was originally deployed by iOS or Android. In these workflows it is best to work with the CLI directly by running an `amplify pull` command from your terminal and then generating models, either using `npm run amplify-modelgen` from the NPX script or with `amplify codegen models` using the Amplify CLI.
 
