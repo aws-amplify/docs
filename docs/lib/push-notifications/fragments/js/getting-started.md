@@ -166,15 +166,18 @@ Push Notifications category is integrated with [AWS Amplify Analytics category](
 ## Setup for iOS
 
 1. For setting up iOS push notifications, you need to download and install Xcode from [Apple Developer Center](https://developer.apple.com/xcode/).
+
 2. Setup iOS Push Notifications and create a p12 certificate as instructed here in [Amazon Pinpoint Developer Guide](https://docs.aws.amazon.com/pinpoint/latest/developerguide/apns-setup.html).
- 
+
 3. Create a native link on a React Native app:
 
-    ```javascript
-    $ react-native init myapp
-    $ cd myapp
-    $ npm install
-    $ npm install aws-amplify && npm install @aws-amplify/pushnotification && npm install @react-native-community/push-notification-ios
+    ```bash
+    react-native init myapp
+    cd myapp
+    npm install
+    npm install aws-amplify
+    npm install @aws-amplify/pushnotification
+    npm install @react-native-community/push-notification-ios
     cd ios && pod install
     ```
 
