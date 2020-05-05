@@ -185,4 +185,16 @@ If you would like to add custom styling to the UI components you can pass a cust
 ```javascript
 export default withAuthenticator(App, false, [], null, MyTheme);
 ```
+You can also change the attributes needed with the sign up flow. The withAuthenticator accepts an config file where you can pass attributes to populate on signUp.
 
+This is useful when you require different attributes for your Cognito User Pool. For example, we see below we're hiding the default attribute phone number and adding an address attribute and setting it to required.
+
+```
+export default withAuthenticator(App, {
+  signUpConfig: {
+    hiddenDefaults: ["phone_number"],
+    signUpFields: [
+      { label: "Address", key: "address", required: true, type: "string" }
+    ]
+}});
+```
