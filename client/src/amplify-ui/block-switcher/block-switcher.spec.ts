@@ -3,8 +3,8 @@ import {newSpecPage} from "@stencil/core/testing";
 
 describe("amplify-block-switcher", () => {
   describe("Component logic", () => {
-    let codeBlock: AmplifyBlockSwitcher;
-    beforeEach(() => (codeBlock = new AmplifyBlockSwitcher()));
+    let blockSwitcher: AmplifyBlockSwitcher;
+    beforeEach(() => (blockSwitcher = new AmplifyBlockSwitcher()));
   });
 
   describe("Render logic", () => {
