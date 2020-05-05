@@ -103,43 +103,43 @@ Follow these two steps when you need to rotate an API Key
 }
 ```
 
-## ElasticsearchStreamingFunctionName
+## ElasticSearchStreamingFunctionName
 
 **Override the name of the AWS Lambda searchable streaming function**
 
 ```
 {
-  "ElasticsearchStreamingFunctionName": "CustomFunctionName"
+  "ElasticSearchStreamingFunctionName": "CustomFunctionName"
 }
 ```
 
-## ElasticsearchInstanceCount
+## ElasticSearchInstanceCount
 
 **Override the number of instances launched into the Elasticsearch domain created by @searchable**
 
 ```
 {
-  "ElasticsearchInstanceCount": 1
+  "ElasticSearchInstanceCount": 1
 }
 ```
 
-## ElasticsearchInstanceType
+## ElasticSearchInstanceType
 
 **Override the type of instance launched into the Elasticsearch domain created by @searchable**
 
 ```
 {
-  "ElasticsearchInstanceType": "t2.small.elasticsearch"
+  "ElasticSearchInstanceType": "t2.small.elasticsearch"
 }
 ```
 
-## ElasticsearchEBSVolumeGB
+## ElasticSearchStreamingFunctionName
 
 **Override the amount of disk space allocated to each instance in the Elasticsearch domain created by @searchable**
 
 ```
 {
-  "ElasticsearchEBSVolumeGB": 10
+  "ElasticSearchStreamingFunctionName": 10
 }
 ```
 
