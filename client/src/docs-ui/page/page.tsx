@@ -219,10 +219,17 @@ export class DocsPage {
                               >
                                 <amplify-toc-contents>
                                   {this.pageData && [
-                                    <h1 class={sectionHeaderStyle}>
+                                    <h1
+                                      class={{
+                                        [sectionHeaderStyle]: true,
+                                        "category-heading": true,
+                                      }}
+                                    >
                                       {this.pageData.sectionTitle}
                                     </h1>,
-                                    <h1>{this.pageData.title}</h1>,
+                                    <h1 class="page-heading">
+                                      {this.pageData.title}
+                                    </h1>,
                                     createVNodesFromHyperscriptNodes(
                                       this.pageData.body,
                                     ),
