@@ -1,4 +1,4 @@
-If your application requires calling any of the AWS Services behind the predictions Category in a manner that we aren't doing on your behalf, we provide an escape hatch so you can get a reference to that service.  For example, to get a reference to `AWSRekognition`:
+If your application requires calling any of the AWS Services behind the Amplify Predictions category in a manner that we aren't doing on your behalf, we provide an escape hatch so you can get a reference to that service.  For example, to get a reference to `AWSRekognition`:
 
 ```swift
 guard let predictionsPlugin = try Amplify.Predictions.getPlugin(for: "awsPredictionsPlugin") as? AWSPredictionsPlugin else {
