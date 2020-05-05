@@ -1,4 +1,4 @@
-If your application requires calling any of the AWS Services behind the Amplify Predictions category in a manner that we aren't doing on your behalf, we provide an escape hatch so you can get a reference to that service.  For example, to get a reference to `AWSRekognition`:
+If you need functionality in the AWS services used by the Amplify Predictions category that isn't available, we provide an escape hatch so you can get a reference to that service.  For example, to get a reference to `AWSRekognition`:
 
 ```swift
 guard let predictionsPlugin = try Amplify.Predictions.getPlugin(for: "awsPredictionsPlugin") as? AWSPredictionsPlugin else {
@@ -44,3 +44,11 @@ guard let textractService = predictionsPlugin.getEscapeHatch(key: .textract) as?
     return
 }
 ```
+
+**API Documentation Resources**
+* [Amazon Rekognition API Reference](https://docs.aws.amazon.com/rekognition/latest/dg/API_Reference.html)
+* [Amazon Translate API Reference](https://docs.aws.amazon.com/translate/latest/dg/API_Reference.html)
+* [Amazon Polly API Reference](https://docs.aws.amazon.com/polly/latest/dg/API_Reference.html)
+* [Amazon Transcribe API Reference](https://docs.aws.amazon.com/transcribe/latest/dg/API_Reference.html)
+* [Amazon Comprehend API Reference](https://docs.aws.amazon.com/comprehend/latest/dg/API_Reference.html)
+* [Amazon Textract API Reference](https://docs.aws.amazon.com/textract/latest/dg/API_Reference.html)
