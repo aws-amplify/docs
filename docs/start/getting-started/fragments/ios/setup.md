@@ -108,7 +108,7 @@ From the command line, press __enter__ to accept the schema and continue to the 
 ## Step 5: Push changes
 
 Create the required backend resources for your configured API using the `amplify push` command.
-Since you added an API, the `amplify push` process will automatically enter the [codegen process](https://aws-amplify.github.io/docs/cli-toolchain/graphql#codegen) and prompt you for configuration. Accept the defaults.
+Since you added an API, the `amplify push` process will automatically enter the [codegen process](~/cli/graphql-transformer/codegen.md) and prompt you for configuration. Accept the defaults.
 
 The codegen process generates a file named `API.swift` in your application root directory after the completion of `amplify push` command.
 
