@@ -129,7 +129,9 @@
 			if (redirectTo) {
 				document.getElementsByName('body').style = "display: none;"
 				window.location.replace(redirectTo);
-			} else if (redirectsDictionary[pathname]) {
+			}
+			
+			if (redirectsDictionary[pathname]) {
 				document.getElementsByName('body').style = "display: none;"
 				window.location.replace(redirectsDictionary[pathname]);
 			}
