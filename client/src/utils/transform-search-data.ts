@@ -48,10 +48,14 @@ export function transformData(items: Item[]): Item[] {
     const {params} = parseURL(item.url);
     const entries = Object.entries(params);
     if (entries.length > 0) {
-      const filterMetadataKey = entries[0][1] as FilterMetadataKey;
-      const label = filterMetadataByOption[filterMetadataKey].label;
-      const newHeading = `${item.hierarchy.lvl1} (${label})`;
-      item._highlightResult.hierarchy.lvl1.value = newHeading;
+      const filterMetadataKey = entries[0][1] as FilterMetadataKey | undefined;
+      if (typeof filterMetadataKey === "string") {
+        const label = filterMetadataByOption[filterMetadataKey].label;
+        if (label) {
+          const newHeading = `${item.hierarchy.lvl1} (${label})`;
+          item._highlightResult.hierarchy.lvl1.value = newHeading;
+        }
+      }
     }
     return item;
   });
