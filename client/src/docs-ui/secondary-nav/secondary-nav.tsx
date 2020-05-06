@@ -9,6 +9,7 @@ import {
 import {createVNodeFromHyperscriptNode} from "../../utils/hyperscript";
 import {pageContext} from "../page/page.context";
 import {SelectedFilters} from "../page/page.types";
+import {transformData} from "../../utils/transform-search-data";
 
 @Component({tag: "docs-secondary-nav", shadow: false})
 export class DocsSecondaryNav {
@@ -23,6 +24,7 @@ export class DocsSecondaryNav {
         indexName: "aws_amplify_new",
         inputSelector: "#amplify-docs-search-input",
         debug: false,
+        transformData,
       });
     }
   }

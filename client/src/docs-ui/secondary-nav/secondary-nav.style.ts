@@ -91,6 +91,14 @@ export const searchStyle = css`
     margin: 0 1rem;
   }
 
+  .algolia-autocomplete .ds-dropdown-menu {
+    min-width: initial;
+
+    ${MQLaptop} {
+      min-width: 500px;
+    }
+  }
+
   > div {
     width: 100%;
     padding: 0 1rem;
