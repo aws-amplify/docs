@@ -175,9 +175,9 @@ Push Notifications category is integrated with [AWS Amplify Analytics category](
     react-native init myapp
     cd myapp
     npm install
-    npm install aws-amplify
-    npm install @aws-amplify/pushnotification
-    npm install @react-native-community/push-notification-ios
+    npm install aws-amplify \
+        @aws-amplify/pushnotification \
+        @react-native-community/push-notification-ios
     cd ios && pod install
     ```
 
