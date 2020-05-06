@@ -1,6 +1,7 @@
 {
   "title": "Storage",
   "items": [
+    "getting-started-amplify",
     "getting-started",
     "configureaccess",
     "upload",
