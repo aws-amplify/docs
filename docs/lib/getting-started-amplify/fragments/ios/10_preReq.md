@@ -1,2 +1,2 @@
-* An iOS project targeting at least iOS 11.0
+* Install [CocoaPods](https://guides.cocoapods.org/)
 * Install and configure the [Amplify CLI](~/cli/start/install.md)

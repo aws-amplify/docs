@@ -6,6 +6,28 @@ If you already have a configured and setup with Amplify Libraries, you can go di
 
 ## Prerequisites
 
-<inline-fragment platform="ios" src="~/lib/getting-started-amplify/fragments/ios/02_preReq.md"></inline-fragment>
-<inline-fragment platform="android" src="~/lib/getting-started-amplify/fragments/android/02_preReq.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/getting-started-amplify/fragments/ios/10_preReq.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/getting-started-amplify/fragments/android/10_preReq.md"></inline-fragment>
 
+## Project Setup
+
+### Step 1: Create a new Project
+
+<inline-fragment platform="ios" src="~/lib/getting-started-amplify/fragments/ios/20_createProject.md"></inline-fragment>
+
+<!--This adds Step 2  -->
+<inline-fragment platform="ios" src="~/lib/getting-started-amplify/fragments/ios/30_cocoaPods.md"></inline-fragment>
+
+<!--This adds Step 3  -->
+<inline-fragment platform="ios" src="~/lib/getting-started-amplify/fragments/ios/40_verifyAmplifyLibraries.md"></inline-fragment>
+
+<!--This adds Step 4  -->
+<inline-fragment platform="ios" src="~/lib/getting-started-amplify/fragments/native_common/50_provisionBackend.md"></inline-fragment>
+
+<!--This adds Step 5  -->
+<inline-fragment platform="ios" src="~/lib/getting-started-amplify/fragments/native_common/60_verifyBackend.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/getting-started-amplify/fragments/native_common/60_verifyBackend.md"></inline-fragment>
+
+<!-- Next Steps -->
+<inline-fragment platform="ios" src="~/lib/getting-started-amplify/fragments/native_common/70_nextSteps.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/getting-started-amplify/fragments/native_common/70_nextSteps.md"></inline-fragment>
