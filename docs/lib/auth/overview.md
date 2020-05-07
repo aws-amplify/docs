@@ -30,7 +30,7 @@ For many apps, user sign-up and sign-in is all that is required. Once authentica
 
 ## Social Provider Federation
 	
-Many apps also support login with a social providers such as Facebook, Google Sign-In, or Login With Amazon. [The preferred way to do this is via an OAuth](#oauth-and-federation-overview) redirect which lets users login using their social media account and a corresponding user is created in User Pools. With this design you do not need to include an SDK for the social provider in your app. Set this up by running `amplify add auth` and selecting the social provider  option. Upon completion you can use [`Auth.federatedSignIn()`](#oauth-and-hosted-ui) in your application to either show a pre-built "Hosted UI" or pass in a provider name (e.g. [`Auth.federatedSignIn({provider: 'Facebook'})`](#oauth-and-hosted-ui)) to interface directly and build out your own UI.
+Many apps also support login with social providers such as Facebook, Google Sign-In, or Login With Amazon. [The preferred way to do this is via an OAuth](#oauth-and-federation-overview) redirect which lets users login using their social media account and a corresponding user is created in User Pools. With this design you do not need to include an SDK for the social provider in your app. Set this up by running `amplify add auth` and selecting the social provider  option. Upon completion you can use [`Auth.federatedSignIn()`](#oauth-and-hosted-ui) in your application to either show a pre-built "Hosted UI" or pass in a provider name (e.g. [`Auth.federatedSignIn({provider: 'Facebook'})`](#oauth-and-hosted-ui)) to interface directly and build out your own UI.
 	
 ![Image](~/images/SocialAuthZ.png)
 	
