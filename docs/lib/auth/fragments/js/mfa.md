@@ -205,4 +205,4 @@ When your Cognito User Pool sign-in options are set to "*Username*", and "*Also 
 
 To enforce Cognito User Pool signups with a unique email, you need to change your User Pool's *Attributes* setting in [Amazon Cognito console](https://console.aws.amazon.com/cognito) as the following:
 
-![cup](https://aws-amplify.github.io/docs/js/images/cognito_user_pool_settings.png)
+![cup](~/images/cognito_user_pool_settings.png)
