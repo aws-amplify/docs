@@ -1912,6 +1912,8 @@ The `@searchable` directive handles streaming the data of an `@model` object typ
 
 > **Note**: `@searchable` is not compatible with DataStore but you can use it with the API category. 
 
+> **Note**: `@searchable` is not compatible with Amazon ElasticSearch t2.micro instance as it only works with ElasticSearch version 1.5 and 2.3 and Amplify CLI only supports instances with ElasticSearch version >= 6.x.
+
 > **Note**: Support for adding the `@searchable` directive does not yet provide automatic indexing for any existing data to Elasticsearch. View the feature request [here](https://github.com/aws-amplify/amplify-cli/issues/98).
 
 > **Migration warning**: You might observe duplicate records on search operations, if you deployed your GraphQL schema using CLI version older than 4.14.1 and have thereafter updated your schema & deployed the changes with a CLI version between 4.14.1 - 4.16.1.
