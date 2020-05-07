@@ -133,13 +133,13 @@ Follow these two steps when you need to rotate an API Key
 }
 ```
 
-## ElasticSearchStreamingFunctionName
+## ElasticSearchEBSVolumeGB
 
 **Override the amount of disk space allocated to each instance in the Elasticsearch domain created by @searchable**
 
 ```
 {
-  "ElasticSearchStreamingFunctionName": 10
+  "ElasticSearchEBSVolumeGB": 10
 }
 ```
 
