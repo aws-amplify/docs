@@ -1,12 +1,12 @@
 ### Step 4: Provision the backend with Amplify CLI
-To start provisioning resources in the backend, go to your project directory and run the `amplify init`.  For example:
-```
+To start provisioning resources in the backend, go to your project directory and run `amplify init`.  For example:
+```bash
 $ cd ~/Developer/MyAmplifyApp/
 $ amplify init
 ```
 
 Enter the following when prompted:
-```
+```console
 ? Enter a name for the project
     MyAmplifyApp
 ? Enter a name for the environment
