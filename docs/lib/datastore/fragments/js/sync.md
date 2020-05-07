@@ -29,6 +29,7 @@ amplify push
 Once the push finishes an `aws-exports.js` file will be created in your project which you can import and configure your project:
 
 ```js
+import Amplify from "aws-amplify";
 import awsconfig from "./aws-exports";
 Amplify.configure(awsconfig);
 ```
