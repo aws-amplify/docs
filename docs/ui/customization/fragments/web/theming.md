@@ -1,3 +1,18 @@
+## Styling the amplify-authenticator
+
+You can directly style the `amplify-authenticator` component using CSS. Let's say that you wanted to update the layout by centering the component. You could use the following styling to achieve this.
+
+```css
+amplify-authenticator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+```
+
+## Theming the UI Components
+
 Theming for the UI components can be achieved by using CSS Variables. You can enable theming in your app by overriding the below mentioned CSS variable values. To do that, add the following code in root css file.
 
 ```
