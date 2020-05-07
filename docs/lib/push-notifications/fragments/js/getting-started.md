@@ -166,24 +166,20 @@ Push Notifications category is integrated with [AWS Amplify Analytics category](
 ## Setup for iOS
 
 1. For setting up iOS push notifications, you need to download and install Xcode from [Apple Developer Center](https://developer.apple.com/xcode/).
+
 2. Setup iOS Push Notifications and create a p12 certificate as instructed here in [Amazon Pinpoint Developer Guide](https://docs.aws.amazon.com/pinpoint/latest/developerguide/apns-setup.html).
- 
+
 3. Create a native link on a React Native app:
 
-    ```javascript
-    $ react-native init myapp
-    $ cd myapp
-    $ npm install
-    $ npm install aws-amplify && npm install @aws-amplify/pushnotification
-    $ react-native link @aws-amplify/pushnotification
-    $ react-native link amazon-cognito-identity-js # link it if you need to Sign in into Cognito user pool
+    ```bash
+    react-native init myapp
+    cd myapp
+    npm install
+    npm install aws-amplify \
+        @aws-amplify/pushnotification \
+        @react-native-community/push-notification-ios
+    cd ios && pod install
     ```
-
-    <amplify-callout warning>
-
-    Please note that linking `aws-amplify-react-native` but not completing the rest of the configuration steps could break your build process. Please be sure that you have completed all the steps before you build your app.
-    
-    </amplify-callout>
 
 4. Enable notifications and add your p12 certificate with Amplify CLI by using the following commands:
 
@@ -206,48 +202,9 @@ Push Notifications category is integrated with [AWS Amplify Analytics category](
 
     The CLI will prompt for your *p12 certificate path*, enter it respectively.
 
-5. Open *ios/myapp.xcodeproj* project file with Xcode.
+5. Setup Xcode for push notification support by following the "Add Capabilities : Background Mode - Remote Notifications" and "Augment AppDelegate" sections found in the: [React Native Push Notifications Documentation](https://github.com/react-native-community/push-notification-ios)
 
-6. Using Xcode, **manually link** the `PushNotificationIOS` library to your project. Please follow those steps in [React Native developer Documentation](https://facebook.github.io/react-native/docs/linking-libraries-ios.html#manual-linking) (Step 3 is not required)
-
-7. Add the following code at the top on the file *AppDelegate.m*:
-
-    ```
-    #import <React/RCTPushNotificationManager.h>
-    ```
-
-8. And then in your `AppDelegate` implementation add the following code:
-
-    ```c
-    // Required to register for notifications
-    - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
-    {
-    [RCTPushNotificationManager didRegisterUserNotificationSettings:notificationSettings];
-    }
-    // Required for the register event.
-    - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
-    {
-    [RCTPushNotificationManager didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-    }
-    // Required for the notification event. You must call the completion handler after handling the remote notification.
-    - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
-                                                            fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
-    {
-    [RCTPushNotificationManager didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
-    }
-    // Required for the registrationError event.
-    - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
-    {
-    [RCTPushNotificationManager didFailToRegisterForRemoteNotificationsWithError:error];
-    }
-    // Required for the localNotification event.
-    - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
-    {
-    [RCTPushNotificationManager didReceiveLocalNotification:notification];
-    }
-    ```
-
-9. Update General App settings:
+6. Update General App settings:
 
     - Make sure you have logged in with your Apple Developer account on Xcode
     - Set bundle identifier (with the one you create on your Apple Developer Account)
@@ -257,14 +214,9 @@ Push Notifications category is integrated with [AWS Amplify Analytics category](
     *Following screencast shows the required app settings in Xcode:*
     <img src="~/images/identifiers.gif"/>
 
-10. Setup capabilities on your App and enable **Push Notifications** and **Background Modes**. On Background Modes select **Remote notifications**.
+7.  Configure Push Notification module for your app as shown in [Configure your App](#configure-your-app) section.
 
-    *Following screencast shows the required app settings in Xcode:*
-    <img src="~/images/capabilities.gif" />
-
-11. Configure Push Notification module for your app as shown in [Configure your App](#configure-your-app) section.
-
-12. Run your app:
+8.  Run your app:
 
     - On Xcode, select your device and run it first using as *Executable appName.app*. This will install the App on your device but it won't run it.
     - Select **Ask on Launch** for *Executable* option on menu chain *Product > Schema > Edit Scheme > Run > Info*.
@@ -287,7 +239,7 @@ If you don't have Analytics already enabled, see our [Analytics Developer Guide]
 First, import `PushNotification` module and configure it with `PushNotification.configure()`.
 
 ```javascript
-import { PushNotificationIOS } from 'react-native';
+import { PushNotificationIOS } from '@react-native-community/push-notification-ios';
 import Analytics from '@aws-amplify/analytics';
 import PushNotification from '@aws-amplify/pushnotification';
 
@@ -307,7 +259,7 @@ PushNotification.configure({
 You can also use `aws-exports.js` file in case you have set up your backend with Amplify CLI.
 
 ```javascript
-import { PushNotificationIOS } from 'react-native';
+import { PushNotificationIOS } from '@react-native-community/push-notification-ios';
 import Analytics from '@aws-amplify/analytics';
 import PushNotification from '@aws-amplify/pushnotification';
 import awsconfig from './aws-exports';

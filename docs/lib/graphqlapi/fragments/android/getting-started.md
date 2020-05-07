@@ -77,7 +77,7 @@ The following types do not have '@auth' enabled. Consider using @auth with @mode
      - Blog
      - Post
      - Comment
-Learn more about @auth here: https://aws-amplify.github.io/docs/cli-toolchain/graphql#auth
+Learn more about @auth here: ~/cli/graphql-transformer/directives.md#auth
 
 
 GraphQL schema compiled successfully.
