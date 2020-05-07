@@ -18,7 +18,11 @@ import {
   mainStyle,
   sectionHeaderStyle,
 } from "./page.style";
-import {Page, createVNodesFromHyperscriptNodes} from "../../api";
+import {
+  Page,
+  createVNodesFromHyperscriptNodes,
+  filtersByRoute,
+} from "../../api";
 import {updateDocumentHead} from "../../utils/update-document-head";
 import {
   getFilterKeyFromPage,
@@ -63,6 +67,7 @@ export class DocsPage {
 
   filterKey?: string;
   filterValue?: string;
+  validFilterValue = true;
 
   @Listen("resize", {target: "window"})
   setSidebarStickyTop() {
@@ -90,6 +95,12 @@ export class DocsPage {
       const {path, params} = parseURL(
         this.match.params.page || location.pathname || "/",
       );
+      const routeFiltersEntry = filtersByRoute.get(path);
+      const allFilters =
+        routeFiltersEntry &&
+        Object.values(routeFiltersEntry).reduce((acc, curr) => {
+          return [...acc, ...curr];
+        }, []);
       this.blendUniversalNav = path === "/";
 
       track({
@@ -122,7 +133,12 @@ export class DocsPage {
               filterValue !== "undefined"
             ) {
               this.filterValue = filterValue;
-              this.setSelectedFilters({[this.filterKey]: this.filterValue});
+              if (allFilters) {
+                this.validFilterValue = allFilters.includes(filterValue);
+                if (this.validFilterValue) {
+                  this.setSelectedFilters({[this.filterKey]: this.filterValue});
+                }
+              }
             } else {
               this.filterValue = undefined;
             }
@@ -183,7 +199,7 @@ export class DocsPage {
               ? createVNodesFromHyperscriptNodes(this.pageData.body)
               : [
                   <docs-secondary-nav />,
-                  this.pageData ? (
+                  this.pageData && this.validFilterValue ? (
                     <div class={sidebarLayoutStyle}>
                       <amplify-toc-provider>
                         <amplify-sidebar-layout>
@@ -219,10 +235,17 @@ export class DocsPage {
                               >
                                 <amplify-toc-contents>
                                   {this.pageData && [
-                                    <h1 class={sectionHeaderStyle}>
+                                    <h1
+                                      class={{
+                                        [sectionHeaderStyle]: true,
+                                        "category-heading": true,
+                                      }}
+                                    >
                                       {this.pageData.sectionTitle}
                                     </h1>,
-                                    <h1>{this.pageData.title}</h1>,
+                                    <h1 class="page-heading">
+                                      {this.pageData.title}
+                                    </h1>,
                                     createVNodesFromHyperscriptNodes(
                                       this.pageData.body,
                                     ),
