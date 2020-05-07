@@ -1,5 +1,5 @@
 a. Switch to **Project** view in Android Studio and open the schema file at `amplify/backend/api/amplifyDatasource/schema.graphql`.  
-[Learn more](https://aws-amplify.github.io/docs/cli-toolchain/graphql) about annotating GraphQL schemas and data modeling.
+[Learn more](~/cli/graphql-transformer/overview.md) about annotating GraphQL schemas and data modeling.
 
 In this guide, use the default schema included:
 
