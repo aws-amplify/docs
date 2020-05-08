@@ -69,3 +69,13 @@ To upload to S3 from a data object, specify the key and the data object to be up
 <!--<inline-fragment platform="android" src="~/lib/storage/fragments/android/hello-storage/40_upload.md"></inline-fragment>-->
 
 Upon successfully executing this code, you should see an file called `myKey` in a folder called `public` with the data `My Data` in your S3 bucket.
+
+## Next Steps
+Congratulations! You've uploaded a file to an s3 bucket.  Check out the following links to see other Amplify Storage use cases:
+
+* [Configure file access levels](~/lib/storage/configureaccess.md)
+* [Download files](~/lib/storage/download.md)
+* [List Files](~/lib/storage/list.md)
+* [Remove files](~/lib/storage/remove.md)
+* [Using Lambda Triggers](~/lib/storage/triggers.md)
+* [Escape Hatch](~/lib/storage/escapehatch.md)
