@@ -66,7 +66,7 @@ Amplify.configure({
         endpoints: [
             {
                 name: "MyAPIGatewayAPI",
-                endpoint: "https://1234567890-abcdefgh.amazonaws.com"
+                endpoint: "https://1234567890-abcdefgh.amazonaws.com",
             },
             {
                 name: "MyCustomCloudFrontApi",
