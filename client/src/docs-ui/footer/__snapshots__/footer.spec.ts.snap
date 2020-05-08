@@ -40,8 +40,8 @@ exports[`docs-footer Render logic should render 1`] = `
           <amplify-external-link anchortitle="Twitter" href="https://twitter.com/AWSAmplify">
             <img src="/assets/twitter.svg">
           </amplify-external-link>
-          <amplify-external-link anchortitle="Gitter" href="https://gitter.im/AWS-Amplify/Lobby">
-            <img src="/assets/gitter.svg">
+          <amplify-external-link anchortitle="Discord" href="https://discord.gg/jWVbPfC">
+            <img src="/assets/icon/discord-logo.png">
           </amplify-external-link>
           <amplify-external-link anchortitle="GitHub" href="https://github.com/aws-amplify">
             <img src="/assets/github-light.svg">

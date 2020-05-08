@@ -50,10 +50,10 @@ export class DocsFooter {
                 <img src="/assets/twitter.svg" />
               </amplify-external-link>
               <amplify-external-link
-                anchorTitle="Gitter"
-                href="https://gitter.im/AWS-Amplify/Lobby"
+                anchorTitle="Discord"
+                href="https://discord.gg/jWVbPfC"
               >
-                <img src="/assets/gitter.svg" />
+                <img src="/assets/icon/discord-logo.png" />
               </amplify-external-link>
               <amplify-external-link
                 anchorTitle="GitHub"
