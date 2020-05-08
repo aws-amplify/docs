@@ -30,7 +30,6 @@ export interface Item {
     lvl5?: string;
     lvl6?: string;
   };
-  objectID: string;
   url: string;
   _highlightResult: {
     content: HighlightResult;
@@ -60,5 +59,3 @@ export function transformData(items: Item[]): Item[] {
     return item;
   });
 }
-
-// Getting Started
