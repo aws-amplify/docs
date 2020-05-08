@@ -11,4 +11,7 @@ Fill in the following for your project:
 
 ![GSA](~/images/getting-started-amplify/20_2_createProject.png)
 
-After tapping Next, **select where you would like to save your project**.  In this example, we will choose: **~/Developer**
+After tapping Next, **select where you would like to save your project**, then **tap Create**.  In this example, we will choose: **~/Developer**
+![GSA](~/images/getting-started-amplify/20_3_createProject.png)
+
+You should now have an empty iOS project without Amplify.

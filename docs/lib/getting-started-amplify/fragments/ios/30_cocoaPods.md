@@ -1,4 +1,4 @@
-### Step 2: Setup CocoaPods to include Amplify
+### Step 2: Install Amplify Libraries via CocoaPods
 
 Before starting this step, please make sure that please **close Xcode.**
 

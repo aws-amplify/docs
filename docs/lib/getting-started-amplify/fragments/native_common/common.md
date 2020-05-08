@@ -1,6 +1,6 @@
 <amplify-callout warning>
 
-If you already have a configured and setup with Amplify Libraries, you can go directly to our [Hello Amplify Storage example](~/lib/storage/getting-started.md).
+If you already have a project configured and setup with Amplify Libraries, you can go directly to our [Hello Amplify Storage example](~/lib/storage/getting-started.md).
 
 </amplify-callout>
 
