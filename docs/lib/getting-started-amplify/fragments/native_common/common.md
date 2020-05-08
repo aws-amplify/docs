@@ -4,6 +4,9 @@ If you already have a configured and setup with Amplify Libraries, you can go di
 
 </amplify-callout>
 
+## Goal
+Setup a skeleton project so that Amplify categories can be added to it
+
 ## Prerequisites
 
 <inline-fragment platform="ios" src="~/lib/getting-started-amplify/fragments/ios/10_preReq.md"></inline-fragment>

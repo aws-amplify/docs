@@ -7,8 +7,8 @@ Select **Single View App**, select **Next**
 Fill in the following for your project:
 * Product Name: **MyAmplifyApp**
 * Langauge: **Swift**
-* Then select **Next**
+* **Tap `Next`**
 
 ![GSA](~/images/getting-started-amplify/20_2_createProject.png)
 
-After clicking Next, select where you would like to save your project.  We will be saving the project in a folder called **~/Developer**
+After tapping Next, **select where you would like to save your project**.  In this example, we will choose: **~/Developer**

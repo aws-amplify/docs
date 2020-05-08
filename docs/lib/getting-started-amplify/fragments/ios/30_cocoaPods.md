@@ -2,12 +2,12 @@
 
 Before starting this step, please make sure that please **close Xcode.**
 
-Next, **open a terminal** and **change directories to your project**.  For example, if you created your project in the folder `~/Developer`, you can:
+**Open a terminal** and **change directories to your project**.  For example, if you created your project in the folder `~/Developer`, you can:
 ```bash
 cd ~/Developer/MyAmplifyApp
 ```
 
-In order to initialize your project with the CocoaPods package manager run:
+In order to initialize your project with the CocoaPods package manager, **execute the command**:
 ```bash
 pod init
 ```
@@ -22,12 +22,12 @@ target 'MyAmplifyApp' do
 end
 ```
 
-To download the Amplify pod, and have it integrated into your project run:
-```
+To download and install the Amplify pod into your project, **execute the command**:
+```bash
 pod install --repo-update
 ```
 
-After doing this, you should now see file called `MyAmplifyApp.xcworkspace`.  You are required to use this file from now on instead of the .xcodeproj file.  To open your workspace, issue the command:
+After doing this, you should now see file called `MyAmplifyApp.xcworkspace`.  You are required to use this file from now on instead of the .xcodeproj file.  To open your workspace, **execute the command**:
 ```bash
 xed .
 ```
