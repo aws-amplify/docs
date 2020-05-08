@@ -1,6 +1,7 @@
 The Amplify Storage category provides an interface for managing user content for your app in public, protected, or private storage buckets. The Storage category comes with default built-in support for Amazon Simple Storage Service (S3). The Amplify CLI helps you to create and configure the storage buckets for your app. The Amplify AWS S3 Storage plugin leverages [Amazon S3](https://aws.amazon.com/s3).
 
-<!-- TODO: Add promise statement here.. By the end of this document you should be able to..-->
+## Goal
+To setup and configure your application with Amplify Storage and go through a simple upload file example
 
 ## Prerequisites
 
