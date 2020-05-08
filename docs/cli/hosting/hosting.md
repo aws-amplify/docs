@@ -44,7 +44,7 @@ These settings do not get replicated or cloned between environments and you'd ha
 
 Amplify Console automatically handles cache invalidation and there is no additional configurations or commands/command-line parameters required for it.
 
-If you start from the Amplify Console's home page and connect your project's code repo (by clicking `Connect app` button), the frontend environment is created for your project once the `Connect app` workflow is successfully completed. Then you don't need to, and you also cannot, run the `amplify hosting add` command in your local development to add Amplify Console hosting. You cannot run `amplify hosting remove` in your local development to remove Amplify Console hosting either (because it's not in your local development). To remove hosting with Amplify Console in this case, go to the Amplify Console's home page, select the project and disconnect your frontend branches.
+If you start from the Amplify Console's home page and connect your project's code repository (by clicking `Connect app` button), the frontend environment is created for your project once the workflow successfully completes. After setting up hosting in the Amplify Console, you cannot run the `amplify hosting add` command from your local installation of the Amplify CLI. To disable hosting, please visit the Amplify Console and disconnect the branch from the `App settings > General` page.
 
 ## Amazon S3 and Amazon Cloudfront
 
