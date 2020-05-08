@@ -3,23 +3,27 @@ title: Installation
 description: How to install & configure Amplify CLI
 ---  
 
-## Pre-requisites
+## Install the Amplify CLI
+
+The Amplify Command Line Interface (CLI) is a unified toolchain to create AWS cloud services for your app. Let's go ahead and install the Amplify CLI.
+
+```bash
+npm install -g @aws-amplify/cli
+```
+
+> Because we're installing the Amplify CLI globally, you might need to run the command above with `sudo`.
+
+
+### Pre-requisites for installation
 
 * [Install Node.js®](https://nodejs.org/en/download/) and [NPM](https://www.npmjs.com/get-npm) if they are not already on your machine.
 * Verify that you are running at least Node.js version 10.x and npm version 6.x or greater by running `node -v` and npm -v in a terminal/console window
+* [Create AWS Account](https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start). If you don't already have an AWS account, you'll need to create one in order to follow the steps outlined in this tutorial. 
 
 
-### Sign up for an AWS account
+## Configure the Amplify CLI
 
-If you don't already have an AWS account, you'll need to create one in order to follow the steps outlined in this tutorial.
-
-[Create AWS Account](https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start)
-
-> There are no upfront charges or any term commitments to create an AWS account and signing up gives you immediate access to the AWS Free Tier.
-
-## Install and configure the Amplify CLI
-
-The Amplify Command Line Interface (CLI) is a unified toolchain to create AWS cloud services for your app. Let's go ahead and install the Amplify CLI.
+To set up the Amplify CLI on your local machine, you have to configure it to connect to your AWS account. 
 
 ### Option 1: Watch the video guide
 
@@ -32,14 +36,7 @@ Watch the video below to learn how to install and configure the Amplify CLI or s
 
 ### Option 2: Follow the instructions
 
-```bash
-npm install -g @aws-amplify/cli
-```
-
-> Because we're installing the Amplify CLI globally, you might need to run the command above with `sudo`.
-
-
-Now it's time to setup the Amplify CLI. Configure Amplify by running the following command:
+Configure Amplify by running the following command:
 
 ```bash
 amplify configure
