@@ -154,7 +154,7 @@ description: how to configure auth
 
 ### Tab-switchable Blocks
 
-If you want to have a block, which has tabs to change the language/framework/etc., go ahead and utilize the `amplify-block-switcher` component. This component accepts a single prop––`tab-heading-list`––which should be a comma-separated list of headings, where each heading accounts for a child code block. Here's an example of it's usage:
+`amplify-block-switcher` allows you to organize blocks of content into tabs. This is useful for presenting a reader different instructions based upon framework (e.g. Vue.js vs. React) or language (e.g. Java vs. Kotlin). Here's an example of its usage:
 
 ````md
 <amplify-block-switcher>
