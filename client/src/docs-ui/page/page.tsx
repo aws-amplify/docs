@@ -92,24 +92,25 @@ export class DocsPage {
 
   async getPageData() {
     if (this.match) {
-      const {path, params} = parseURL(
-        this.match.params.page || location.pathname || "/",
-      );
+      let currentRoute = this.match.params.page || location.pathname || "/";
+      if (!currentRoute.startsWith("/")) currentRoute = `/${currentRoute}`;
+
+      const {path, params} = parseURL(currentRoute);
       const routeFiltersEntry = filtersByRoute.get(path);
       const allFilters =
         routeFiltersEntry &&
         Object.values(routeFiltersEntry).reduce((acc, curr) => {
           return [...acc, ...curr];
         }, []);
-      this.blendUniversalNav = path === "/";
+      this.blendUniversalNav = currentRoute === "/";
 
       track({
         type: AnalyticsEventType.PAGE_VISIT,
-        attributes: {url: path},
+        attributes: {url: currentRoute},
       });
 
       try {
-        const pageData = await getPage(path);
+        const pageData = await getPage(currentRoute);
         if (pageData) {
           this.pageData = pageData;
           updateDocumentHead(pageData);

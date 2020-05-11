@@ -60,7 +60,13 @@ export async function pages(ctx: t.Ctx): Promise<void> {
         await Promise.all(
           filterValues.map(
             async (filterValue): Promise<void> => {
-              const filteredOutDir = [outDir, "q", filterKey, filterValue].join(
+              const virtualQueryString = ["q", filterKey, filterValue].join(
+                path.sep,
+              );
+              const filteredRoute = [page.route, virtualQueryString].join(
+                path.sep,
+              );
+              const filteredOutDir = [outDir, virtualQueryString].join(
                 path.sep,
               );
               await fs.ensureDir(filteredOutDir);
@@ -68,6 +74,26 @@ export async function pages(ctx: t.Ctx): Promise<void> {
                 filteredOutDir,
                 pathDeduction.fileName,
               ].join(path.sep)}.json`;
+              if (ctx.config.cwd && pathDeduction.destinationPath) {
+                const withoutFilterAssetURI = path.relative(
+                  ctx.config.srcDir,
+                  pathDeduction.destinationPath,
+                );
+                const withoutFilterAssetURIPieces = withoutFilterAssetURI.split(
+                  path.sep,
+                );
+                withoutFilterAssetURIPieces.pop();
+                const filteredAssetURI = `${[
+                  ...withoutFilterAssetURIPieces,
+                  virtualQueryString,
+                  pathDeduction.fileName,
+                ].join(path.sep)}.json`;
+                ctx.filteredPagePathByRoute.set(
+                  filteredRoute,
+                  filteredAssetURI,
+                );
+              }
+
               const bodyClone = clone(page.body);
               trimFiltered(bodyClone, {filterKey, filterValue});
               await fs.writeFile(

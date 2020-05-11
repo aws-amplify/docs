@@ -81,6 +81,7 @@ export async function API(c: t.Config): Promise<void> {
     resolvePathDeduction,
     pathDeductionBySrcPath,
     pageBySrcPath: new Map(),
+    filteredPagePathByRoute: new Map(),
     fragmentBySrcPath: new Map(),
     srcPathByRoute: new Map(),
     menuBySrcPath: new Map(),
@@ -238,6 +239,7 @@ export async function API(c: t.Config): Promise<void> {
   /**
    * We iterate through and write all pages, routes, types and utilities to the `outDir`.
    */
+  await write.pages(ctx);
   await Promise.all([
     write.getPage(config, ctx),
     write.routes(config, ctx),
@@ -245,7 +247,6 @@ export async function API(c: t.Config): Promise<void> {
     write.stencilRenderer(config),
     write.filtersByRoute(config, ctx),
     write.index(config),
-    write.pages(ctx),
     write.sitemap(config, ctx),
   ]);
 
