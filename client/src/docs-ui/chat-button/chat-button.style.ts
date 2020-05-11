@@ -1,7 +1,7 @@
 import {css} from "emotion";
 import {MQTablet} from "../../amplify-ui/styles/media";
 
-export const gitterChatStyle = css`
+export const discordChatStyle = css`
   display: none;
   position: fixed;
   right: 1rem;

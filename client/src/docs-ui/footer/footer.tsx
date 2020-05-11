@@ -21,7 +21,7 @@ export class DocsFooter {
               <docs-internal-link href="/start">
                 Getting Started
               </docs-internal-link>
-              <amplify-external-link href="https://gitter.im/AWS-Amplify/Lobby">
+              <amplify-external-link href="https://discord.gg/jWVbPfC">
                 Support
               </amplify-external-link>
             </div>
@@ -50,10 +50,10 @@ export class DocsFooter {
                 <img src="/assets/twitter.svg" />
               </amplify-external-link>
               <amplify-external-link
-                anchorTitle="Gitter"
-                href="https://gitter.im/AWS-Amplify/Lobby"
+                anchorTitle="Discord"
+                href="https://discord.gg/jWVbPfC"
               >
-                <img src="/assets/gitter.svg" />
+                <img src="/assets/discord-white.svg" />
               </amplify-external-link>
               <amplify-external-link
                 anchorTitle="GitHub"

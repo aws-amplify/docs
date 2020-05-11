@@ -21,11 +21,11 @@ export class DocsLinkBanner {
           Amplify GitHub
         </amplify-external-link>
         <amplify-external-link
-          href="https://gitter.im/AWS-Amplify/Lobby"
+          href="https://discord.gg/jWVbPfC"
           graphic="black"
         >
-          <img src="/assets/gitter-dark.svg" class={logoStyle} />
-          Amplify on Gitter
+          <img src="/assets/discord-blue.svg" class={logoStyle} />
+          Amplify on Discord
         </amplify-external-link>
         <amplify-external-link
           href="https://aws.amazon.com/amplify/framework/"
