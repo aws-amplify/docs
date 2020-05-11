@@ -1,5 +1,5 @@
 import {Component, h} from "@stencil/core";
-import {discordChatStyle} from "./chat-button.style";
+import {discordChatStyle, logoStyle} from "./chat-button.style";
 
 @Component({tag: "docs-chat-button", shadow: false})
 export class DocsChatButton {
@@ -10,6 +10,7 @@ export class DocsChatButton {
         class={discordChatStyle}
         graphic="white"
       >
+        <img src="/assets/discord-white.svg" class={logoStyle} />
         Open Chat
       </amplify-external-link>
     );
