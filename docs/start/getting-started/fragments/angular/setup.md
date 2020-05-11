@@ -31,10 +31,10 @@ Now that we have a running Angular app, it's time to set up Amplify for this app
 amplify init
 ```
 
-When you initialize Amplify you'll be prompted for some information about the app:
+When you initialize Amplify you'll be prompted for some information about the app.  For newer versions of Angular, you will have to change the Distribution Directory Path from `dist` to `dist/myAmplifyProject` to match how Angular will build your project.
 
 ```console
-Enter a name for the project (photo-share)
+Enter a name for the project (myAmplifyProject)
 
 # All AWS services you provision for your app are grouped into an "environment"
 # A common naming convention is dev, staging, and production
@@ -51,6 +51,7 @@ What JavaScript framework are you using (angular)
 Source directory path (src)
 
 Distribution directory path (dist)
+Change from dist to dist/myAmplifyProject
 
 Build command (npm run-script build)
 
