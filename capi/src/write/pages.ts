@@ -48,10 +48,15 @@ export async function pages(ctx: t.Ctx): Promise<void> {
 
       const outDir = path.dirname(pathDeduction.destinationPath);
 
-      await fs.ensureDir(outDir);
-      await fs.writeFile(pathDeduction.destinationPath, JSON.stringify(page), {
-        encoding: "utf8",
-      });
+      //       <amplify-sidebar-layout-main slot="main">
+      //   <amplify-toc-contents>
+      //     {this.filterKey === "integration" ? (
+      //       <docs-choose-integration-anchor page={this.pageData} />
+      //     ) : (
+      //       <docs-choose-anchor page={this.pageData} />
+      //     )}
+      //   </amplify-toc-contents>
+      // </amplify-sidebar-layout-main>;
 
       if (filters) {
         const filterEntries = Object.entries(filters);
@@ -106,7 +111,32 @@ export async function pages(ctx: t.Ctx): Promise<void> {
             },
           ),
         );
+
+        const chooseProps = {
+          page: {
+            filterKey: page.filterKey,
+            route: page.route,
+            versions: page.versions,
+          },
+        };
+
+        page.menu = undefined;
+        page.next = undefined;
+        page.previous = undefined;
+        page.body = [
+          [
+            page.filterKey === "integration"
+              ? "docs-choose-integration-anchor"
+              : "docs-choose-anchor",
+            chooseProps,
+          ],
+        ];
       }
+
+      await fs.ensureDir(outDir);
+      await fs.writeFile(pathDeduction.destinationPath, JSON.stringify(page), {
+        encoding: "utf8",
+      });
     }
   }
 }

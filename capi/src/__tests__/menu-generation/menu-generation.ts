@@ -45,6 +45,10 @@ test("menu-generation", async () => {
 
   // eslint-disable-next-line
   // @ts-ignore
+  expect((await import("./api/lib/api/overview")).menu).toEqual(undefined);
+
+  // eslint-disable-next-line
+  // @ts-ignore
   expect((await import("./api/lib/api/overview")).menu).toEqual(menu);
 
   // eslint-disable-next-line
