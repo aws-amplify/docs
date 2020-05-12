@@ -9,6 +9,7 @@ import { ToggleInView, } from "./amplify-ui/sidebar-layout/sidebar-layout.types"
 import { SetContent, } from "./amplify-ui/toc/toc.types";
 import { SelectedFilters, } from "./docs-ui/page/page.types";
 import { MenuGroup, Page, } from "./api";
+import { CustomComponentName, } from "./docs-ui/component-playground/component-playground.types";
 import { MatchResults, } from "@stencil/router";
 import { SwitchOption, } from "./docs-ui/version-switch/version-switch.types";
 export namespace Components {
@@ -191,6 +192,12 @@ export namespace Components {
           * * the current page's data
          */
         "page"?: Page;
+    }
+    interface DocsComponentPlayground {
+        /**
+          * Name of component used in the playground
+         */
+        "componentName": CustomComponentName;
     }
     interface DocsFeedbackCallout {
     }
@@ -506,6 +513,12 @@ declare global {
         prototype: HTMLDocsChooseIntegrationAnchorElement;
         new (): HTMLDocsChooseIntegrationAnchorElement;
     };
+    interface HTMLDocsComponentPlaygroundElement extends Components.DocsComponentPlayground, HTMLStencilElement {
+    }
+    var HTMLDocsComponentPlaygroundElement: {
+        prototype: HTMLDocsComponentPlaygroundElement;
+        new (): HTMLDocsComponentPlaygroundElement;
+    };
     interface HTMLDocsFeedbackCalloutElement extends Components.DocsFeedbackCallout, HTMLStencilElement {
     }
     var HTMLDocsFeedbackCalloutElement: {
@@ -649,6 +662,7 @@ declare global {
         "docs-chat-button": HTMLDocsChatButtonElement;
         "docs-choose-anchor": HTMLDocsChooseAnchorElement;
         "docs-choose-integration-anchor": HTMLDocsChooseIntegrationAnchorElement;
+        "docs-component-playground": HTMLDocsComponentPlaygroundElement;
         "docs-feedback-callout": HTMLDocsFeedbackCalloutElement;
         "docs-filter-target": HTMLDocsFilterTargetElement;
         "docs-footer": HTMLDocsFooterElement;
@@ -851,6 +865,12 @@ declare namespace LocalJSX {
           * * the current page's data
          */
         "page"?: Page;
+    }
+    interface DocsComponentPlayground {
+        /**
+          * Name of component used in the playground
+         */
+        "componentName"?: CustomComponentName;
     }
     interface DocsFeedbackCallout {
     }
@@ -1055,6 +1075,7 @@ declare namespace LocalJSX {
         "docs-chat-button": DocsChatButton;
         "docs-choose-anchor": DocsChooseAnchor;
         "docs-choose-integration-anchor": DocsChooseIntegrationAnchor;
+        "docs-component-playground": DocsComponentPlayground;
         "docs-feedback-callout": DocsFeedbackCallout;
         "docs-filter-target": DocsFilterTarget;
         "docs-footer": DocsFooter;
@@ -1103,6 +1124,7 @@ declare module "@stencil/core" {
             "docs-chat-button": LocalJSX.DocsChatButton & JSXBase.HTMLAttributes<HTMLDocsChatButtonElement>;
             "docs-choose-anchor": LocalJSX.DocsChooseAnchor & JSXBase.HTMLAttributes<HTMLDocsChooseAnchorElement>;
             "docs-choose-integration-anchor": LocalJSX.DocsChooseIntegrationAnchor & JSXBase.HTMLAttributes<HTMLDocsChooseIntegrationAnchorElement>;
+            "docs-component-playground": LocalJSX.DocsComponentPlayground & JSXBase.HTMLAttributes<HTMLDocsComponentPlaygroundElement>;
             "docs-feedback-callout": LocalJSX.DocsFeedbackCallout & JSXBase.HTMLAttributes<HTMLDocsFeedbackCalloutElement>;
             "docs-filter-target": LocalJSX.DocsFilterTarget & JSXBase.HTMLAttributes<HTMLDocsFilterTargetElement>;
             "docs-footer": LocalJSX.DocsFooter & JSXBase.HTMLAttributes<HTMLDocsFooterElement>;

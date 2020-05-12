@@ -3,7 +3,7 @@ title: Relational models
 description: Learn more about how DataStore handles relationships between Models, such as "has one", "has many", "belongs to".
 ---
 
-DataStore has the capability to handle relationships between Models, such as *has one*, *has many*, *belongs to*. In GraphQL this is done with the `@connection` directive as defined in the [GraphQL Transformer documentation](https://aws-amplify.github.io/docs/cli-toolchain/graphql#connection).
+DataStore has the capability to handle relationships between Models, such as *has one*, *has many*, *belongs to*. In GraphQL this is done with the `@connection` directive as defined in the [GraphQL Transformer documentation](~/cli/graphql-transformer/directives.md#connection).
 
 ## Updated schema
 
@@ -42,7 +42,7 @@ In order to save connected models you will create an instance of the model you w
 
 ### Many-to-many
 
-The above example shows how to use a *one-to-many* schema and save connected models. For *many-to-many* relations, such as the one shows in the [GraphQL Transformer examples](https://aws-amplify.github.io/docs/cli-toolchain/graphql#connection).
+The above example shows how to use a *one-to-many* schema and save connected models. For *many-to-many* relations, such as the one shows in the [GraphQL Transformer examples](~/cli/graphql-transformer/directives.md#connection).
 
 In this case, you save instances of models from each side of the relationship and then join them together in the connecting type on a field defined with `@connection`. Consider the following added to the previously defined [sample schema](~/lib/datastore/getting-started.md#sample-schema):
 

@@ -2316,11 +2316,6 @@
     <priority>.5</priority>
   </url>
   <url>
-    <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/react-native</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
     <loc>https://docs.amplify.aws/ui-legacy/storage/photo-picker/q/framework/vue</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -2577,16 +2572,6 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/ui/storage/customization/q/framework/react-native</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/storage/photo-picker</loc>
-    <changefreq>hourly</changefreq>
-    <priority>.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.amplify.aws/ui/storage/photo-picker/q/framework/react-native</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
