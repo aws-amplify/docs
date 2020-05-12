@@ -450,7 +450,7 @@ In this schema, only the owner of the object has the authorization to perform re
 Here's a truth table for the above-mentioned schema. In the table below `other` refers to any user other than the creator or owner of the object.
 
 |       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
-|:77------|:-------:|:---------:|:----------:|:----------:|:----------:|
+|:------|:-------:|:---------:|:----------:|:----------:|:----------:|
 | owner |    ✅   |     ✅    |     ✅     |      ✅   |     ✅     |
 | other |    ❌   |     ❌    |     ✅     |      ✅   |     ✅     |
 
@@ -855,7 +855,7 @@ The following table shows the allowed combinations of authorization modes and pr
 |           | owner | groups | public | private |
 |:----------|:-----:|:------:|:------:|:-------:|
 | userPools |✅|✅||✅|
-| oidc |✅|✅||✅|
+| oidc |✅|✅|||
 | apiKey |||✅||
 | iam |||✅|✅|
 
