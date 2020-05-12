@@ -6,8 +6,7 @@ To setup and configure your application with Amplify Storage and go through a si
 ## Prerequisites
 
 <inline-fragment platform="ios" src="~/lib/storage/fragments/ios/getting-started/10_preReq.md"></inline-fragment>
-<!-- TODO Android -->
-<!--<inline-fragment platform="android" src="~/lib/storage/fragments/android/getting-started/20_preReq.md"></inline-fragment>-->
+<inline-fragment platform="android" src="~/lib/storage/fragments/android/getting-started/10_preReq.md"></inline-fragment>
 
 ## Provision Backend Storage Services
 
@@ -53,21 +52,18 @@ Upon completion, `awsconfiguration.json` and `amplifyconfiguration.json` should 
 
 ## Install Amplify Libraries
 <inline-fragment platform="ios" src="~/lib/storage/fragments/ios/getting-started/20_installLib.md"></inline-fragment>
-<!-- TODO Android -->
-<!--<inline-fragment platform="android" src="~/lib/storage/fragments/android/getting-started/20_installLib.md"></inline-fragment>-->
+<inline-fragment platform="android" src="~/lib/storage/fragments/android/getting-started/20_installLib.md"></inline-fragment>
 
 ## Initialize Amplify Storage
 <inline-fragment platform="ios" src="~/lib/storage/fragments/ios/getting-started/30_initStorage.md"></inline-fragment>
-<!-- TODO Android -->
-<!--<inline-fragment platform="android" src="~/lib/storage/fragments/android/getting-started/30_initStorage.md"></inline-fragment>-->
+<inline-fragment platform="android" src="~/lib/storage/fragments/android/getting-started/30_initStorage.md"></inline-fragment>
 
 ## Uploading data to your bucket
 
 To upload to S3 from a data object, specify the key and the data object to be uploaded.
 
 <inline-fragment platform="ios" src="~/lib/storage/fragments/ios/getting-started/40_upload.md"></inline-fragment>
-<!-- TODO Android -->
-<!--<inline-fragment platform="android" src="~/lib/storage/fragments/android/getting-started/40_upload.md"></inline-fragment>-->
+<inline-fragment platform="android" src="~/lib/storage/fragments/android/getting-started/40_upload.md"></inline-fragment>
 
 Upon successfully executing this code, you should see an file called `myKey` in a folder called `public` with the data `My Data` in your S3 bucket.
 
