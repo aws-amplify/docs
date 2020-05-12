@@ -22,7 +22,7 @@ directive @model(
   queries: ModelQueryMap
   mutations: ModelMutationMap
   subscriptions: ModelSubscriptionMap
-  timestamps: TimestampMap
+  timestamps: TimestampInput
 ) on OBJECT
 input ModelMutationMap {
   create: String
@@ -44,9 +44,9 @@ enum ModelSubscriptionLevel {
   public
   on
 }
-input TimestampMap {
-  create: String
-  update: String
+input TimestampInput {
+  createdAt: String
+  updatedAt: String
 }
 ```
 
@@ -77,7 +77,7 @@ type Post @model(queries: { get: "post" }, mutations: null, subscriptions: null)
 Model directive automatically adds createdAt and updatedAt timestamps to each entities. The timestamp field names can be changed by passing `timestamps` attribute to the directive
 
 ```graphql
-type Post @model(timestamps:{create: "createdOn", update: "updatedOn"}) {
+type Post @model(timestamps:{createdAt: "createdOn", updatedAt: "updatedOn"}) {
   id: ID!
   title: String!
   tags: [String!]!
