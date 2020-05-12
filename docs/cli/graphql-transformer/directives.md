@@ -1438,7 +1438,7 @@ which will return user information related to the current user directly from you
 
 ### Structure of the function event
 
-When writing lambda function's that are connected via the `@function` directive, you can expect the following structure for the AWS Lambda event object.
+When writing lambda functions that are connected via the `@function` directive, you can expect the following structure for the AWS Lambda event object.
 
 | Key  | Description  |
 |---|---|
