@@ -18,7 +18,7 @@ export class DocsLinkBanner {
           <img src="/assets/github.svg" class={logoStyle} />
           Amplify GitHub
         </amplify-external-link>
-        <amplify-external-link href={links.GITHUB} graphic="black">
+        <amplify-external-link href={links.DISCORD} graphic="black">
           <img src="/assets/discord-blue.svg" class={logoStyle} />
           Amplify on Discord
         </amplify-external-link>

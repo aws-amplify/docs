@@ -7,7 +7,7 @@ exports[`docs-link-banner Render logic should render 1`] = `
       <img class="css-14cx9l" src="/assets/github.svg">
       Amplify GitHub
     </amplify-external-link>
-    <amplify-external-link graphic="black" href="https://github.com/aws-amplify">
+    <amplify-external-link graphic="black" href="https://discord.gg/jWVbPfC">
       <img class="css-14cx9l" src="/assets/discord-blue.svg">
       Amplify on Discord
     </amplify-external-link>
