@@ -22,7 +22,7 @@ directive @model(
   queries: ModelQueryMap
   mutations: ModelMutationMap
   subscriptions: ModelSubscriptionMap
-  timestamps: TimestampInput
+  timestamps: TimestampConfiguration
 ) on OBJECT
 input ModelMutationMap {
   create: String
@@ -44,7 +44,7 @@ enum ModelSubscriptionLevel {
   public
   on
 }
-input TimestampInput {
+input TimestampConfiguration {
   createdAt: String
   updatedAt: String
 }
