@@ -1,6 +1,6 @@
 To add these configuration files to your project, **open finder within your project** and **drag both `amplifyconfiguration.json` and `awsconfiguration.json` to the Xcode window**, under your project's folder as seen in this screenshot:
 
-![GSA](~/images/getting-started-amplify/50_1_dragDrop.png)
+![GSA](~/images/project-setup/50_1_dragDrop.png)
 
 * Enable **Copy items if needed** if not already enabled
 * For “Added folders”, have **Create groups** selected.
@@ -8,6 +8,6 @@ To add these configuration files to your project, **open finder within your proj
 
 Click **Finish** to add these files to your project as shown in this screenshot:
 
-![GSA](~/images/getting-started-amplify/50_2_addFiles.png)
+![GSA](~/images/project-setup/50_2_addFiles.png)
 
 Now when you build (CMD+ b) and run (CMD + r) your application, you should not see any errors on the console.
