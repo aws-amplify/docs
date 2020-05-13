@@ -1,8 +1,7 @@
 # Amplify Framework Documentation
 
-<a href="https://discord.gg/jWVbPfC" target="_blank">
-  <img src="https://img.shields.io/discord/308323056592486420?logo=discord"" alt="Discord Chat" />  
-</a>
+[![DiscordChat](https://img.shields.io/discord/308323056592486420?logo=discord")](https://discord.gg/jWVbPfC)
+
 > https://docs.amplify.aws                                                                                              
                                                                                                
                                                                                                
