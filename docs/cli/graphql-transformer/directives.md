@@ -96,7 +96,7 @@ type Post {
 }
 ```
 
-The automatically added `createdAt` and `updatedAt` fields cant be set in create or update mutation. If these fields need to be controlled as part of the mutation, they should be included as part of the input schema and should have `AWSDateTime` as their type
+The automatically added `createdAt` and `updatedAt` fields can't be set in create or update mutation. If these fields need to be controlled as part of the mutation, they should be in the input schema and should have `AWSDateTime` as their type
 
 ```graphql
 type Post @model {
