@@ -1,34 +1,44 @@
+With the basic setup complete, next you will model the data your application will store. Amplify DataStore will use this model to persist data to your local device will be synchronized to a backend API without writing any additional code. These models are specified as [GraphQL](http://graphql.org/) schemas. If you'd like, first [learn more](~/cli/graphql-transformer/overview.md) about GraphQL schemas and data modeling.
 
-The GraphQL schema is auto-generated can be found under `amplify/backend/api/amplifyDatasource/schema.graphql`.  
-[Learn more](~/cli/graphql-transformer/overview.md) about annotating GraphQL schemas and data modeling.  
+1. In Xcode, from the project navigation tab (Cmd+1), **open the schema file** located at **AmplifyConfig** > **schema.graphql**.  In your project folder, this is located at: `"amplify/backend/api/amplifyDatasource/schema.graphql"`.
 
-a. In this guide, use this schema:
-```
-type Task @model {
-    id: ID!
-    title: String!
-    description: String
-    status: String
-}
-type Note @model {
-    id: ID!
-    content: String!
-}
-```
+    Replace the contents of the file with the following schema:
 
-b. Open `amplifyxc.config` and update `modelgen` to `true`
-```
-modelgen=true
-```
+    ```graphql
+   enum Priority {
+     LOW
+     NORMAL
+     HIGH
+   }
 
-c. Run build in Xcode (`CMD+B`). Amplify will automatically generate the Model files using the graphql schema. You should see the following Model files under `amplify/generated/models`  
-```
-AmplifyModels.swift
-Note.swift
-Note+Schema.swift
-Task.swift
-Task+Schema.swift
-```
-d. Drag the `models` directory over to your project, click on each file, and on the right panel, under `Target Membership`, check your app target to add it.  
+   type Todo @model {
+     id: ID!
+     name: String!
+     priority: Priority
+     description: String
+   }
+    ```
 
-e. Next, build the project.  
+    This schema creates a model called `Todo` with four properties:
+
+    - **id** an auto-generated identifier field for a Todo item
+    - **name** a non-optional string field that is the title of the Todo item
+    - **priority** an optional enumeration type field that indicates the importance of a Todo item; the value of priority can be only *LOW*, *NORMAL*, or *HIGH*
+    - **description** an optional string field that holds more information about a Todo item
+
+1. Next, generate the classes for these models. **Update the amplifytools.xcconfig file** and change `modelgen=false` to:
+  ```bash
+  modelgen=true
+  ```
+
+1. **Build the project (Cmd+b)**.  Doing a build will invoke Amplify tools to generate the following swift files, and automatically add them to your project in a folder called "AmplifyModels".  These generated files will be compiled on the next time you build your project.
+    ```bash
+    $ ls amplify/generated/models/
+    AmplifyModels.swift
+    Priority.swift
+    Todo+Schema.swift
+    Todo.swift
+    ```
+    Note that when Amplify tools needs to update your project, this may disrupt the Xcode's build process, and leave the build in a canceled or error state.  If your project ends up in either of these states due to amplify tools needing to make updates to your project, you can just build again (Cmd+b) re-issue a build for the updated project.
+
+1. Now that Amplify tools has added the generated models to your project, you will need to **issue another build (Cmd+b)** to compile the newly generated files

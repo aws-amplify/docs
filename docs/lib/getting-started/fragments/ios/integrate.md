@@ -1,204 +1,273 @@
+Next you'll use the generated model to create, update, query, and delete data. In this section you'll initialize DataStore, and then manipulate Todo items.
 
-a. Add the following imports to the top of your `AppDelegate.swift` file 
-```swift
-import Amplify
-import AmplifyPlugins
-```
+## Configure Amplify and DataStore
 
-b. Add the follow code to your AppDelegate's `application:didFinishLaunchingWithOptions` method 
-```swift
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    let apiPlugin = AWSAPIPlugin(modelRegistration: AmplifyModels())
-    do {
-        try Amplify.add(plugin: apiPlugin)
-        try Amplify.configure()
-        print("Amplify initialized")
-    } catch {
-        print("Failed to configure Amplify \(error)")
-    }
-    return true
-}
-```
+First, we'll add the DataStore plugin and configure Amplify.
 
-c. Add data to your backend using the following mutate method: 
-```swift
-func apiMutate() {
-    let note = Note(content: "content")
-    Amplify.API.mutate(of: note, type: .create) { (event) in
-        switch event {
-        case .completed(let result):
-            switch result {
-            case .success(let note):
-                print("API Mutate successful, created note: \(note)")
-            case .failure(let error):
-                print("Completed with error: \(error.errorDescription)")
-            }
-        case .failed(let error):
-            print("Failed with error \(error.errorDescription)")
-        default:
-            print("Unexpected event")
-        }
-    }
-}
-```
-d. Query the results from your API using the query method by passing in `note.id` from the previous call: 
-```swift
-func apiQuery(id: String) {
-    Amplify.API.query(from: Note.self, byId: id) { (event) in
-        switch event {
-        case .completed(let result):
-            switch result {
-            case .success(let note):
-                guard let note = note else {
-                    print("API Query completed but missing note")
-                    return
-                }
-                print("API Query successful, got note: \(note)")
-            case .failure(let error):
-                print("Completed with error: \(error.errorDescription)")
-            }
-        case .failed(let error):
-            print("Failed with error \(error.errorDescription)")
-        default:
-            print("Unexpected event")
-        }
-    }
-}
-```
+1. Open `AppDelegate.swift` and **add the following** import statments at the top of the file:
+  ```swift
+  import Amplify
+  import AmplifyPlugins
+  ```
 
-e. Set up subscriptions to listen to realtime updates:
+1. In the same file (`AppDelegate.swift`), **add the following** code to the `application(_,Didfinishlaunchingwithoptions:)` method:
+  ```swift
 
-```swift
-
-func createSubscription() {
-    let subscriptionOperation = Amplify.API.subscribe(from: Note.self, type: .onCreate) { (event) in
-        switch event {
-        case .inProcess(let subscriptionEvent):
-            switch subscriptionEvent {
-            case .connection(let subscriptionConnectionState):
-                print("Subsription connect state is \(subscriptionConnectionState)")
-            case .data(let result):
-                switch result {
-                case .success(let todo):
-                    print("Successfully got note from subscription: \(todo)")
-                case .failure(let error):
-                    print("Got failed result with \(error.errorDescription)")
-                }
-            }
-        case .completed:
-            print("Subscription has been closed")
-        case .failed(let error):
-            print("Got failed result with \(error.errorDescription)")
-        default:
-            print("Should never happen")
-        }
-    }
-}
-```
-
-Call the methods from your app code such as from a button click or when your app starts in `viewDidLoad()`. You will see data being stored and retrieved in your backend from the Xcode console.
-
-**Testing your API**
-You can open the AWS console for you to run Queries, Mutation, or Subscription against your new API at any time directly by running the following command:
-
-```bash
-amplify console api
-```
-
-When prompted, select **GraphQL**. This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
-
-## Next Steps
-
-🎉 Congratulations! Your app is built, with a realtime backend using AWS AppSync.
-
-What next? Here are some things to add to your app:
-
-* [Analytics](~/lib/analytics/getting-started.md)
-* [API (GraphQL)](~/lib/graphqlapi/getting-started.md)
-* [API (REST)](~/lib/restapi/getting-started.md)
-* [Authentication](~/lib/auth/getting-started.md)
-* [DataStore](~/lib/datastore/getting-started.md)
-* [Predictions](~/lib/predictions/getting-started.md)
-* [Storage](~/lib/storage/getting-started.md)
-
-**Existing AWS Resources**
-
-If you want to use your existing AWS resources with your app you will need to **manually configure** your app with an `amplifyconfiguration.json` file in your code. 
-
-```json
-{
-  "UserAgent": "aws-amplify-cli/2.0",
-  "Version": "1.0",
-  "storage": {
-    "plugins": {
-      "awsS3StoragePlugin": {
-         "bucket": "my-s3-bucket",
-         "region": "us-west-2",
-         "defaultAccessLevel": "guest"
-      }
-    }
-  },
-  "analytics": {
-    "plugins": {
-      "awsPinpointAnalyticsPlugin": {
-        "pinpointAnalytics": {
-          "appId": "xxxx123xxxx23423bf24234",
-          "region": "us-east-1"
-        },
-        "pinpointTargeting": {
-           "region": "us-east-1",
-        }
-      }
-    }
-  },
-  "api": {
-    "plugins": {
-      "awsAPIPlugin": {
-        "uniqueApiname123": {
-          "endpoint": "http://api-gw-endpoint-1",
-          "region": "us-east-1"
-          "authorizationType": "AWS_IAM",
-          "endpointType": "REST"
-        },
-        "graphqlEndpoint123UserPools": {
-          "endpoint": "http://graphql-endpoint-1",
-          "region": "us-east-1",
-          "authorizationType": "AMAZON_COGNITO_USER_POOLS",
-          "endpointType": "GraphQL"
-        },
-        "graphqlEndpoint234APIKEy": { 
-          "endpoint": "http://graphql-endpoint-1", 
-          "region": "us-east-1", 
-          "authorizationType": "API_KEY",
-          "apiKey": "apikey12sudksjdfnskjd",
-          "endpointType": "GraphQL" 
-        },
-        "graphqlEndpoint345IAM": { 
-          "endpoint": "http://graphql-endpoint-1", 
-          "region": "us-east-1", 
-          "authorizationType": "AWS_IAM", 
-          "endpointType": "GraphQL" 
-        }
-
-      }
-    }
-  },
-"predictions":{
-  "plugins": { 
-     "awsPredictionsPlugin": {
-        "identify": {
-           "collectionId": "TestCollection",
-           "region": "us-east-1", 
-           "maxEntities": 50 
-         }, 
-        "convert": {
-           "voiceId": "Ivy",
-           "region": "us-east-1" 
-        } 
-      }
-    }
+  let dataStorePlugin = AWSDataStorePlugin(modelRegistration: AmplifyModels())
+  do {
+      try Amplify.add(plugin:dataStorePlugin)
+      try Amplify.configure()
+      print("Initialized Amplify");
+  } catch {
+      print("Could not initialize Amplify: \(error)")
   }
-}
-```
+  ```
 
-In the configuration above, you would need to set the appropriate values such as `Region`, `Bucket`, etc.
+1. **Build and run** the application. In console window, you'll see a log line indicating success:
+
+    ```console
+    Initialized Amplify
+    ```
+
+    Optinally, if you'd like to adjust the log level, you can do this by updating the `Amplify.Logging.logLevel` variable.  For example:
+    ```swift
+    Amplify.Logging.logLevel = .info
+    ```
+
+    Setting the logevel to `.info`, re-building and re-running the application should render additional log statements:
+    ```swift
+    [Amplify] Configuring
+    Initialized Amplify
+    [AWSDataStorePlugin] Unable to find suitable plugin for syncEngine.  syncEngine will not be started
+    ```
+
+## Create a Todo
+
+Next, you'll create a Todo and save it to DataStore.
+
+1. Open `ContentView.swift` and **add the following** import statments at the top of the file:
+  ```swift
+  import Amplify
+  import AmplifyPlugins
+  ```
+
+1. In the same file (`ContentView.swift`), **update the body view**  to call a function called `performOnAppear()`:
+
+  ```swift
+    var body: some View {
+        Text("Hello, World!")
+            .onAppear {
+                self.performOnAppear()
+        }
+    }
+  ```
+
+1. In the same file (`ContentView.swift`), **add a function** called `performOnAppear()`:
+
+  ```swift
+  func performOnAppear() {
+      let item = Todo(name: "Build iOS Application",
+                      description: "Build an iOS application using Amplify")
+  }
+  ```
+  This code creates a Todo item with two properties: a name and a description. This is a plain object that isn't stored in DataStore yet.
+
+1. Below the creation of the item, **add the code** to save the item to DataStore:
+
+  ```swift
+  Amplify.DataStore.save(item) { (result) in
+      switch(result) {
+      case .success(let savedItem):
+          print("Saved item: \(savedItem.name)")
+      case .failure(let error):
+          print("Could not save item to datastore: \(error)")
+      }    
+  }
+  ```
+
+1. **Build and run** the application. In the console output, you'll see an indication that the item was saved successfully:
+
+  ```console
+  Initialized Amplify
+  Saved item: Build iOS Application
+  ```
+
+1. **Replace the item** with a new Todo to save an additional item. Let's change the name and description, and add a priority:
+
+  ```java
+  let item = Todo(name: "Finish quarterly taxes",
+                  priority: .high,
+                  description: "Taxes are due for the quarter next week")
+  ```
+
+1. **Build and run** the application. In the console output, you'll see an indication that the item was saved successfully:
+
+  ```console
+  Initialized Amplify
+  Saved item: Finish quarterly taxes
+  ```
+
+## Query Todos
+
+Now that you have some data in DataStore, you can run queries to retrieve those records.
+
+1. Edit your `performOnAppear()` method to remove the item creation and save, and add the following instead of it.  Your entire function should be this:
+
+  ```swift
+  func performOnAppear() {
+      Amplify.DataStore.query(Todo.self, completion: { result in
+          switch(result) {
+          case .success(let todos):
+              for todo in todos {
+                  print("==== Todo ====")
+                  print("Name: \(todo.name)")
+                  if let priority = todo.priority {
+                      print("Priority: \(priority)")
+                  }
+                  if let description = todo.description {
+                      print("Description: \(description)")
+                  }
+              }
+          case .failure(let error):
+              print("Could not query DataStore: \(error)")
+          }
+      })
+  }
+  ```
+
+1. **Build and run** the application. In the console output, you'll see both items returned:
+
+  ```console
+  Initialized Amplify
+  ==== Todo ====
+  Name: Build an iOS application using Amplify
+  ==== Todo ====
+  Name: Finish quarterly taxes
+  Description: Taxes are due for the quarter next week
+  Priority: high
+  ```
+
+1. Queries can also contain predicate filters. These will query for specific objects matching a certain condition.
+
+  The following predicates are supported:
+
+  **Strings**
+  
+  `eq` `ne` `le` `lt` `ge` `gt` `contains` `notContains` `beginsWith` `between`
+
+  **Numbers**
+
+  `eq` `ne` `le` `lt` `ge` `gt` `between`
+
+  **Lists**
+
+  `contains` `notContains`
+
+  To use a predicate, pass an additional argument into your query. For example, to see all high priority items:
+
+  ```swift
+  Amplify.DataStore.query(Todo.self,
+                          where: Todo.keys.priority.eq(Priority.high.rawValue),
+                          completion: { result in
+      switch(result) {
+      case .success(let todos):
+          for todo in todos {
+              print("==== Todo ====")
+              print("Name: \(todo.name)")
+              if let description = todo.description {
+                  print("Description: \(description)")
+              }
+              if let priority = todo.priority {
+                  print("Priority: \(priority)")
+              }
+          }
+      case .failure(let error):
+          print("Could not query DataStore: \(error)")
+      }
+  })
+  ```
+  In the above, notice addition of the predicate parameter as the second argument.
+
+1. Run the application. In logcat, you'll see only the high priority item returned:
+
+  ```console
+  Initialized Amplify
+  ==== Todo ====
+  Name: Finish quarterly taxes
+  Description: Taxes are due for the quarter next week
+  Priority: high
+  ```
+
+## Update a Todo
+
+You may want to change the contents of a record. Below, we'll query for a record, create a copy of it, modify it, and save it back to DataStore. 
+1. Edit your `performOnAppear()` method to remove anything related to datastore and **add the following** instead of it:
+
+    ```swift
+    Amplify.DataStore.query(Todo.self,
+                            where: Todo.keys.name.eq("Finish quarterly taxes"),
+                            completion: { result in
+        switch(result) {
+        case .success(let todos):
+            guard todos.count == 1, var updatedTodo = todos.first else {
+                print("Did not find exactly one todo, bailing")
+                return
+            }
+            updatedTodo.name = "File quarterly taxes"
+            Amplify.DataStore.save(updatedTodo,
+                                   completion: { result in
+                                    switch(result) {
+                                    case .success(let savedTodo):
+                                        print("Updated item: \(savedTodo.name )")
+                                    case .failure(let error):
+                                        print("Could not update data in Datastore: \(error)")
+                                    }
+            })
+        case .failure(let error):
+            print("Could not query DataStore: \(error)")
+        }
+    })
+    ```
+
+1. **Build and run** the application. In your console output, you'll see an indication that the item was updated successfully:
+
+    ```console
+    Initialized Amplify
+    Updated item: File quarterly taxes
+    ```
+  
+## Delete a Todo
+
+To round out our CRUD operations, we'll query for a record and delete it from DataStore.
+1. Edit your `performOnAppear()` method to remove anything related to datastore and **add the following** instead of it:
+
+    ```swift
+    Amplify.DataStore.query(Todo.self,
+                            where: Todo.keys.name.eq("File quarterly taxes"),
+                            completion: { result in
+        switch(result) {
+        case .success(let todos):
+            guard todos.count == 1, let toDeleteTodo = todos.first else {
+                print("Did not find exactly one todo, bailing")
+                return
+            }
+            Amplify.DataStore.delete(toDeleteTodo,
+                                     completion: { result in
+                                        switch(result) {
+                                        case .success:
+                                            print("Deleted item: \(toDeleteTodo.name)")
+                                        case .failure(let error):
+                                            print("Could not update data in Datastore: \(error)")
+                                        }
+            })
+        case .failure(let error):
+            print("Could not query DataStore: \(error)")
+        }
+  })
+  ```
+
+1. **Build and run** the application. In the console output, you'll see an indication that the item was deleted successfully:
+  ```console
+  Initialized Amplify
+  Deleted item: File quarterly taxes
+  ```

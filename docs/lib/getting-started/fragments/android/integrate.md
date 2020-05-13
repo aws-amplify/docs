@@ -351,7 +351,7 @@ You may want to change the contents of a record. Below, we'll query for a record
 
                     Amplify.DataStore.save(updated,
                             success -> Log.i("Tutorial", "Updated item: " + success.item.getName()),
-                            error -> Log.e("Tutorial", "Could not save item to DataStore", error)
+                            error -> Log.e("Tutorial", "Could not update data in DataStore", error)
                     );
                 }
             },
