@@ -1,7 +1,7 @@
 ### Step 5: Verify backend (Optional)
 Optionally, you can see this empty cloud formation instance by going to the web based by issuing the command:
 ```
-$ amplify console
+amplify console
 ```
 Then using the navigation bar at the top to find **Cloud Formation**.
 
