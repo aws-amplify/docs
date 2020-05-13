@@ -48,16 +48,6 @@ export async function pages(ctx: t.Ctx): Promise<void> {
 
       const outDir = path.dirname(pathDeduction.destinationPath);
 
-      //       <amplify-sidebar-layout-main slot="main">
-      //   <amplify-toc-contents>
-      //     {this.filterKey === "integration" ? (
-      //       <docs-choose-integration-anchor page={this.pageData} />
-      //     ) : (
-      //       <docs-choose-anchor page={this.pageData} />
-      //     )}
-      //   </amplify-toc-contents>
-      // </amplify-sidebar-layout-main>;
-
       if (filters) {
         const filterEntries = Object.entries(filters);
         const [filterEntry] = filterEntries;
