@@ -12,6 +12,7 @@ First, we'll add the DataStore plugin and configure Amplify. Typically, a good p
   ```java
   try {
       Amplify.addPlugin(new AWSDataStorePlugin());
+      Amplify.addPlugin(new AWSApiPlugin());
       Amplify.configure(getApplicationContext());
 
       Log.i("Tutorial", "Initialized Amplify");
@@ -27,6 +28,7 @@ First, we'll add the DataStore plugin and configure Amplify. Typically, a good p
   ```kotlin
   try {
       Amplify.addPlugin(new AWSDataStorePlugin())
+      Amplify.addPlugin(new AWSApiPlugin())
       Amplify.configure(applicationContext)
 
       Log.i("Tutorial", "Initialized Amplify")
@@ -44,7 +46,7 @@ First, we'll add the DataStore plugin and configure Amplify. Typically, a good p
     com.example.todo I/Tutorial: Initialized Amplify
     ```
 
-    To make this easier to find, enter the string "Tutorial" into the search field.
+    To make this easier to find, enter the string **Tutorial** into the search field (denoted by the magnifying glass icon).
 
 ## Create a Todo
 
@@ -76,7 +78,7 @@ Next, you'll create a Todo and save it to DataStore.
   </amplify-block>
   </amplify-block-switcher>
 
-  This code creates a Todo item with two properties: a title and a description. This is a plain object that isn't stored in DataStore yet.
+  This code creates a Todo item with two properties: a name and a description. This is a plain object that isn't stored in DataStore yet.
 
 1. Below that, add the code to save the item to DataStore:
 
@@ -113,7 +115,7 @@ Next, you'll create a Todo and save it to DataStore.
   com.example.todo I/Tutorial: Saved item: Build application
   ```
 
-1. Edit your code to change the item to save an additional item. Let's change the name and description, and add a priority:
+1. Replace the item with a new Todo to save an additional item. Let's change the name and description, and add a priority:
 
   <amplify-block-switcher>
   <amplify-block name="Java">
