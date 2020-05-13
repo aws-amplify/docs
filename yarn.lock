@@ -1204,10 +1204,10 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
-"@stencil/core@^1.12.4":
-  version "1.12.5"
-  resolved "https://registry.yarnpkg.com/@stencil/core/-/core-1.12.5.tgz#7b9567b407aa88147d6bab14721adf1c64958231"
-  integrity sha512-A1rmWY8bG0QjPh2QBV567ziwmxT5dtSdG3p0PDTgzyBpK2jOP7dufbgQL6lL3eC/xfpk4NWgesaV5c9FS9c6wg==
+"@stencil/core@^1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@stencil/core/-/core-1.13.0.tgz#908c1a62e3676e261acf3b3db2a37e48d0879a5a"
+  integrity sha512-++kIXaEgmwm/vq+9QAVHPuLLddCKVdJyI8OfHxknkpu5udxZMYA/vaN/K9i+2NIiTLbGpvHNk9E+RyYzKxS0XQ==
   dependencies:
     typescript "3.8.3"
 

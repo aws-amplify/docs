@@ -165,7 +165,7 @@ export async function API(c: t.Config): Promise<void> {
        * applied to those fragments (which will have become part of the page body) as well.
        * We also copy any `render-if` conditions to the given `Page` instance's `filters`.
        */
-      [visitors.fragmentTags],
+      [visitors.fragmentTags, visitors.docsFilter],
       [
         /**
          * Any non-absolute links need to be resolved to the route resulting from
