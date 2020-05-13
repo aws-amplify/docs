@@ -1,62 +1,106 @@
-Build an iOS app using the Amplify Framework which contains:
 
-- Amplify Tools - CLI toolchain for creating and managing your serverless backend.
-- iOS, Android, and JavaScript libraries to access your resources using a category based programming model.
-- Framework-specific UI component libraries for React, React Native, Angular, Ionic and Vue.  
+👋 Welcome! In this tutorial, you will:
 
-<br />
-
-This page guides you through setting up a backend and integrating the Amplify libraries in your iOS app. You will create a "Note app" with a GraphQL API and to store and retrieve items in a cloud database, as well as receive updates over a realtime subscription using the [API category](~/lib/graphqlapi/getting-started.md). Alternatively the [DataStore category](~/lib/datastore/getting-started.md) can be used for local-first programming, offline access, and object sync with GraphQL.
-
-[GraphQL](http://graphql.org) is a data language that was developed to enable apps to fetch data from APIs. It has a declarative, self-documenting style. In a GraphQL operation, the client specifies how to structure the data when it is returned by the server. This makes it possible for the client to query only for the data it needs, in the format that it needs it in.
+- Set up an iOS application configured with Amplify
+- Create a data model and perist data to Amplify DataStore
+- Connect your local data to synchronize to a cloud backend
 
 ## Prerequisites
 
-* [Install Xcode](https://developer.apple.com/xcode/downloads/) version 10.2 or later.
+- Install [Node.js](https://nodejs.org/en/) version 10 or higher
+- Install [Xcode](https://developer.apple.com/xcode/downloads/) version 10.2 or later
+- Install [CocoaPods](https://cocoapods.org/)
 
-* [Install CocoaPods](https://cocoapods.org/)
+- Install the latest version of the [Amplify CLI](~/cli/cli.md) by running:
 
-* [Install Node](https://nodejs.org/en/)
+    ```bash
+    npm install -g @aws-amplify/cli
+    ```
 
-* This guide assumes that you are familiar with iOS development and tools. If you are new to iOS development, you can follow [these steps](https://developer.apple.com/library/archive/referencelibrary/GettingStarted/DevelopiOSAppsSwift/BuildABasicUI.html) to create your first iOS application using Swift. 
+## Set up your application
 
+### Create a new iOS application
+1.  **Open Xcode.**  From the menu bar, select **"File -> New -> Project..."**
 
-## Configure your app
-You can use an existing iOS app or create a new iOS app in Swift as per the steps in prerequisite section. 
+1.  Select **Single View App**, select **Next**
+  ![](~/images/lib/getting-started/ios/set-up-ios-select-project-template.png)
 
-a. From a terminal window, navigate into your Xcode project's root application directory and run the following commands:
+1.  Fill in the following for your project:
+  * Product Name: **Todo**
+  * Langauge: **Swift**
+  * User Interface: **SwiftUI**
+  * **Tap `Next`**
 
-```bash
-cd ./YOUR_PROJECT_FOLDER
-pod init
-```
+  ![](~/images/lib/getting-started/ios/set-up-ios-studio-configure-your-project.png)
 
-b. Open the created  `Podfile` in a text editor and add the pods for the core Amplify Framework components.
+1.  After tapping Next, **select where you would like to save your project**, then **tap Create**.
 
-```ruby
-target :'YOUR-APP-NAME' do
-    use_frameworks!
+  You should now have an empty iOS project without Amplify.
 
-    pod 'amplify-tools'
+### Add Amplify to your application
 
-    pod 'Amplify'
-    pod 'AWSPluginsCore'
-    pod 'AmplifyPlugins/AWSAPIPlugin'
+Amplify for iOS is distribued through Cocoapods as a Pod. In this section, you'll setup cocoa pods and add the required Amplify packages.
 
-    # other pods
-end
-```
+1.  Before starting this step, please make sure that please **close Xcode.**
 
-c. Install dependencies by running the following command:
+  **Open a terminal** and **change directories to your project**.  For example, if you created your project in the folder `~/Developer`, you can:
+  ```bash
+  cd ~/Developer/Todo
+  ```
 
-```bash
-pod install --repo-update
-```
+1.  In order to initialize your project with the CocoaPods package manager, **execute the command**:
+  ```bash
+  pod init
+  ```
 
-d. Close your Xcode project and reopen it using `./YOUR-PROJECT-NAME.xcworkspace` file. Remember to always use `./YOUR-PROJECT-NAME.xcworkspace` to open your Xcode project from now on.
+  After doing this, you should see a newly created file called `Podfile`.  This file is used to describe what packages your project depends on.
 
-e. Build your Xcode project.
+1.  **Update the file** to include the following pods:
+  ```
+  target 'Todo' do
+      use_frameworks!
 
-Once the build is successful, three files are generated:
-* **amplifyconfiguration.json** and **awsconfiguration.json**: Rather than configuring each service through a constructor or constants file, the Amplify Framework for iOS supports configuration through centralized files called amplifyconfiguration.json and awsconfiguration.json which define all the regions and service endpoints to communicate.
-* **amplifyxc.config** : This file is used to configure modelgen and push to cloud actions.
+      pod 'Amplify'
+      pod 'Amplify/Tools'
+      pod 'AWSPluginsCore'
+      pod 'AmplifyPlugins/AWSAPIPlugin'
+      pod 'AmplifyPlugins/AWSDataStorePlugin'
+
+  end
+  ```
+
+1.  To download and install the Amplify pod into your project, **execute the command**:
+  ```bash
+  pod install --repo-update
+  ```
+
+1.  After doing this, you should now see file called `Todo.xcworkspace`.  You are required to use this file from now on instead of the .xcodeproj file.  To open your workspace, **execute the command**:
+  ```bash
+  xed .
+  ```
+This should open the newly generated Todo.xcworkspace in Xcode.
+
+### Adding Amplify tools
+We will now add AmplifyTools as a build phase in your project.  
+1.  Click on the **Todo project** in the project workspace, then click the **Todo** app target, and then **click on `Build Phases`**.
+  ![](~/images/lib/getting-started/ios/set-up-ios-amplify-tools-1.png)
+
+1.  Tap the `+` button to add another phase, and **select "New Run Script Phase"**
+  ![](~/images/lib/getting-started/ios/set-up-ios-amplify-tools-2.png)
+
+1.  Drag the new `Run Script` phase to move the phase so that it runs prior to the `Compile Sources` phase.
+
+1.  Update the `Run Script` build phase title to **"Run Amplify Tools"**, and then update the shell script to have a single line with:
+  ```bash
+  ${PODS_ROOT}/AmplifyTools/amplify-tools.sh
+  ```
+  Your project should now look like this.  Notice that the amplify tools phase comes before the Compile Sources phase.
+  ![](~/images/lib/getting-started/ios/set-up-ios-amplify-tools-3.png)
+
+1.  Now that we've added Amplify tools to the build process, it will run when you build you project.  **Build your project** in Xcode (Cmd+b).  Because this is the first time you are buliding your project, Amplify tools will detect this and generate a number of files in your project directory.
+  * `amplify` (folder) - Contains a number of configuration files and pre-generated sample files that we will be using in you project
+  * `amplifytools.xcconfig` - this configuration file controls the behavior of amplify tools
+  * `amplifyconfiguration.json` - this configuration file will be added to your project and shipped with your bundle.  This is required by the amplify libraries.
+  * `awsconfiguration.json` - this configuration file will also be added to your poject and shipped with your bundle.  This is also requried by the amplify libraries.
+    
+You are ready to start building with Amplify! 🎉
