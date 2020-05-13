@@ -1,78 +1,108 @@
-Build an Android app using the Amplify Framework. The Amplify Framework includes:
 
-- Amplify Tools - CLI toolchain for creating and managing your serverless backend.
-- Android, iOS, and JavaScript libraries to access your resources using a category based programming model.
-- Framework-specific UI component libraries for React, React Native, Angular, Ionic and Vue.  
+👋 Welcome! In this tutorial, you will:
 
-<br />
-
-This page guides you through setting up a backend and integrating Amplify into your Android app. You will create a "Note app" with a GraphQL API to store and retrieve items in a cloud database. The app will also receive updates over a realtime subscription.
-
-[GraphQL](http://graphql.org) is a data language that was developed to enable apps to fetch data from APIs. It has a declarative, self-documenting style. In a GraphQL operation, the client specifies how to structure the data when it is returned by the server. This makes it possible for the client to query only for the data it needs, in the format that it needs it in.
+- Set up an Android application configured with Amplify
+- Create a data model and perist data to Amplify DataStore
+- Connect your local data to synchronize to a cloud backend
 
 ## Prerequisites
 
-* These steps currently only work on Mac. If you have a Windows machine, follow the steps on one of our categories such as [API here](~/lib/graphqlapi/getting-started.md).
+  <amplify-callout warning>
 
-* [Install Node](https://nodejs.org/en/)
+  **KNOWN LIMITATION** This tutorial currently does not work under Windows.
 
-* [Install Android Studio](https://developer.android.com/studio/index.html#downloads) version 3.6 or higher.
+  </amplify-callout>
 
-* [Install Android SDK with a minimum API level of 16 (Jelly Bean).](https://developer.android.com/studio/releases/platforms)
+- Install [Node.js](https://nodejs.org/en/) version 10 or higher
+- Install [Android Studio](https://developer.android.com/studio/index.html#downloads) version 3.6 or higher
+- Install the [Android SDK](https://developer.android.com/studio/releases/platforms) API level 16 (Jelly Bean) or higher
+- Install the latest version of the [Amplify CLI](~/cli/cli.md) by running:
 
-* This guide assumes that you are familiar with Android development and tools. If you are new to Android development, you can follow [these steps](https://developer.android.com/training/basics/firstapp/creating-project) to create your first Android application using Java.
+    ```bash
+    npm install -g @aws-amplify/cli
+    ```
 
-* Install the latest version of the Amplify CLI by running:
+## Set up your application
 
-```bash
-npm install -g @aws-amplify/cli
-```
+### Create a new Android application
 
-## Step 1: Configure your app
-You can use an existing Android app or create a new one by following [these steps](https://developer.android.com/training/basics/firstapp/creating-project).
+1. Open **Android Studio**. Select **+ Start a new Android Studio project**.
 
-a. Open your **project** `build.gradle` and add the following:
-* `mavenCentral()` as a repository
-* `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'` as a dependency
-* A plugin `'com.amplifyframework.amplifytools'` as shown in the example below:
+    ![](~/images/lib/getting-started/android/set-up-android-studio-welcome.png)
 
-```gradle
-buildscript {
-    repositories {
-        mavenCentral()
+1. In **Select a Project Template**, select **Empty Activity**. Press **Next**.
+
+    ![](~/images/lib/getting-started/android/set-up-android-studio-select-project-template.png)
+
+1. Next, configure your project:
+
+    - Enter *Todo* in the **Name** field
+    - Select either *Java* or *Kotlin* from the **Language** dropdown menu
+    - Select *API 16: Android 4.1 (Jelly Bean)* from the **Minimum SDK** dropdown menu
+    - Press **Finish**
+
+  ![](~/images/lib/getting-started/android/set-up-android-studio-configure-your-project.png)
+
+Android Studio will open your project with a tab opened to either *MainActivity.java* or *MainActivity.kt* depending upon if you created a Java or Kotlin project respectively.
+
+![](~/images/lib/getting-started/android/set-up-android-studio-successful-setup.png)
+
+### Add Amplify to your application
+
+Amplify for Android is distribued as an Apache Maven package. In this section, you'll add the packages and other required directives to your build configuration.
+
+1. Expand **Gradle Scripts** and open **build.gradle (Project: Todo)**. Add the following lines:
+
+    - Add the line `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'` within the `dependencies` block
+    - Add the line  `plugin 'com.amplifyframework.amplifytools'` at the end of the file 
+
+    ```groovy
+    buildscript {
+        ...
+
+        dependencies {
+            classpath 'com.android.tools.build:gradle:3.6.3'
+            classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'
+        }
     }
+
+    apply plugin: 'com.amplifyframework.amplifytools'
+    ```
+
+    This configuration adds helpers to your IDE to allow easy generation and deployment of Amplify files and resources.
+
+1. Under **Gradle Scripts**, open **build.gradle (Module: app)**. Add the following lines:
+
+    - `sourceCompatibility` and `targetCompatibility` to Java 1.8 which allows your application to make use of Java 8 features like Lambda expressions
+    - Add Amplify Core, API, and DataStore libraries in the `dependencies` block
+
+    ```groovy
+    android {
+        ...
+
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+    }
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.1'
-        classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'
+        ...
+
+        implementation 'com.amplifyframework:core:1.0.0'
+        implementation 'com.amplifyframework:aws-datastore:1.0.0'
+        implementation 'com.amplifyframework:aws-api:1.0.0'
     }
-}
+    ```
 
-apply plugin: 'com.amplifyframework.amplifytools'
-```
+1. Run **Gradle Sync**
 
-b. Next, add the following dependencies to your **app** `build.gradle`. Note the declaration of `compileOptions`, to make use of Java 8 features like Lambda Expressions.
+    Android Studio requires you to sync your project with your new configuration. To do this, click **Sync Now** in the notification bar above the file editor.
 
-```gradle
-android {
-    compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
-    }
-}
+    ![](~/images/lib/getting-started/android/set-up-android-studio-sync-gradle.png)
 
-dependencies {
-    implementation 'com.amplifyframework:core:0.10.0'
-    implementation 'com.amplifyframework:aws-api:0.10.0'
-}
-```
-
-c. Run 'Make Project'
-
-When the build is successful, it will add two Gradle tasks to you project - `modelgen` and `amplifyPush`. (In the Android Studio UI, these tasks can be found in the top bar, up where you would run your project. Look for a drop-down menu displaying the word "app", if it's a new project.)
-
-<amplify-callout warning>
-
-**Note:**
-If you get the following error message: "ERROR: Process 'command 'npx'' finished with non-zero exit value 1”, this may be due to the logged in user on your machine having insufficient permissions to access the node_modules folder on your machine. Follow the steps [at this link](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally) to resolve it.
-
-</amplify-callout>
+    When complete, you will see *CONFIGURE SUCCESSFUL* in the output in the *Build* tab at the bottom of your screen.
+    
+    ![](~/images/lib/getting-started/android/set-up-android-studio-configure-successful.png)
+    
+You are ready to start building with Amplify! 🎉

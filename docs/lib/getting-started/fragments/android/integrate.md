@@ -1,155 +1,461 @@
-a. First, configure Amplify. A good place to do this is in the [`onCreate()`](https://developer.android.com/reference/android/app/Application#onCreate()) method of [Android's `Application` class](https://developer.android.com/reference/android/app/Application).
+Next you'll use the generated model to create, update, query, and delete data. In this section you'll initialize DataStore, and then manipulate Todo items.
 
-```java
-try {
-    Amplify.addPlugin(new AWSApiPlugin());
-    Amplify.configure(getApplicationContext());
-    Log.i("AmplifyGetStarted", "Amplify is ready for use!");
-} catch (AmplifyException configurationFailure) {
-    Log.e("AmplifyGetStarted", "Failed to configure Amplify", configurationFailure);
-}
-```
+## Configure Amplify and DataStore
 
-b. Next, add some data to your backend:
+First, we'll add the DataStore plugin and configure Amplify. Typically, a good place to do this is in the [`onCreate()`](https://developer.android.com/reference/android/app/Application#onCreate()) method of [Android's `Application` class](https://developer.android.com/reference/android/app/Application). For the purposes of this tutorial, you can place these examples in the `onCreate()` method of the `MainActivity` class.
 
-```java
-Task firstTask = Task.builder()
-    .title("My first task")
-    .description("Get started with Amplify")
-    .build();
-Amplify.API.mutate(firstTask, MutationType.CREATE,
-    taskCreationResponse -> {
-        final String idOfCreatedTask = taskCreationResponse.getData().getId();
-        Log.i("AmplifyGetStarted", "Created task with id: " + idOfCreatedTask);
-    },
-    apiFailure -> Log.e("AmplifyGetStarted", "Failed to create a task.", apiFailure)
-);
-```
+1. Open `MainActivity` and add the following code to the bottom of the `onCreate()` method:
 
-c. Now, query your API. You should see the `firstTask` you just created.
+  <amplify-block-switcher>
+  <amplify-block name="Java">
+  
+  ```java
+  try {
+      Amplify.addPlugin(new AWSDataStorePlugin());
+      Amplify.addPlugin(new AWSApiPlugin());
+      Amplify.configure(getApplicationContext());
 
-```java
-Amplify.API.query(Task.class,
-    queryResults -> {
-        for (Task task : queryResults.getData()) {
-            Log.i("AmplifyGetStarted", "Found a task with title = " + task.getTitle());
-        }
-    },
-    apiFailure -> Log.e("AmplifyGetStarted", "Failed to query for tasks.", apiFailure)
-);
-```
-
-d. Finally, you can receive notifications whenever a `Task` is created on the backend. To do so, start a new subscription:
-
-```java
-Amplify.API.subscribe(Task.class, SubscriptionType.ON_CREATE,
-    subscriptionId -> Log.i("AmplifyGetStarted", "Subscription established: " + subscriptionId),
-    taskCreated -> Log.i("AmplifyGetStarted", "Task created: " + taskCreated.getData().getTitle()),
-    apiFailure -> Log.e("AmplifyGetStarted", "Subscription failed.", apiFailure),
-    () -> Log.i("AmplifyGetStarted", "Subscription completed.")
-);
-```
-
-**Testing your API**
-The web-based AWS AppSync Console provides an easy way to run Queries, Mutation, or Subscription against your new API. The following command will directly open the Console for your API. When you run GraphQL operations on the server, you should be able to observe changes in your app.
-
-```bash
-amplify console api
-```
-
-When prompted, select **GraphQL**. This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
-
-## Next Steps
-
-🎉 Congratulations! You have now built an app with a realtime backend.
-
-What next? Here are some things to add to your app:
-
-* [Analytics](~/lib/analytics/getting-started.md)
-* [API (GraphQL)](~/lib/graphqlapi/getting-started.md)
-* [API (REST)](~/lib/restapi/getting-started.md)
-* [Authentication](~/lib/auth/getting-started.md)
-* [DataStore](~/lib/datastore/getting-started.md)
-* [Storage](~/lib/storage/getting-started.md)
-
-**Existing AWS Resources**
-
-If you want to use your existing AWS resources with your app, you will need to **manually configure** your app by including relevant configurations into the `amplifyconfiguration.json` file.
-
-```json
-{
-  "UserAgent": "aws-amplify-cli/2.0",
-  "Version": "1.0",
-  "storage": {
-    "plugins": {
-      "awsS3StoragePlugin": {
-         "bucket": "my-s3-bucket",
-         "region": "us-west-2",
-         "defaultAccessLevel": "guest"
-      }
-    }
-  },
-  "analytics": {
-    "plugins": {
-      "awsPinpointAnalyticsPlugin": {
-        "pinpointAnalytics": {
-          "appId": "xxxx123xxxx23423bf24234",
-          "region": "us-east-1"
-        },
-        "pinpointTargeting": {
-           "region": "us-east-1",
-        }
-      }
-    }
-  },
-  "api": {
-    "plugins": {
-      "awsAPIPlugin": {
-        "uniqueApiname123": {
-          "endpoint": "http://api-gw-endpoint-1",
-          "region": "us-east-1"
-          "authorizationType": "AWS_IAM",
-          "endpointType": "REST"
-        },
-        "graphqlEndpoint123UserPools": {
-          "endpoint": "http://graphql-endpoint-1",
-          "region": "us-east-1",
-          "authorizationType": "AMAZON_COGNITO_USER_POOLS",
-          "endpointType": "GraphQL"
-        },
-        "graphqlEndpoint234APIKEy": {
-          "endpoint": "http://graphql-endpoint-1",
-          "region": "us-east-1",
-          "authorizationType": "API_KEY",
-          "apiKey": "apikey12sudksjdfnskjd",
-          "endpointType": "GraphQL"
-        },
-        "graphqlEndpoint345IAM": {
-          "endpoint": "http://graphql-endpoint-1",
-          "region": "us-east-1",
-          "authorizationType": "AWS_IAM",
-          "endpointType": "GraphQL"
-        }
-
-      }
-    }
-  },
-"predictions":{
-  "plugins": {
-     "awsPredictionsPlugin": {
-        "identify": {
-           "collectionId": "TestCollection",
-           "region": "us-east-1",
-           "maxEntities": 50
-         },
-        "convert": {
-           "voiceId": "Ivy",
-           "region": "us-east-1"
-        }
-      }
-    }
+      Log.i("Tutorial", "Initialized Amplify");
+  } catch (AmplifyException e) {
+      Log.e("Tutorial", "Could not initialize Amplify", e);
   }
-}
-```
+  ```
 
-In the configuration above, you would need to set the appropriate values such as `Region`, `Bucket`, etc.
+  </amplify-block>
+
+  <amplify-block name="Kotlin">
+
+  ```kotlin
+  try {
+      Amplify.addPlugin(new AWSDataStorePlugin())
+      Amplify.addPlugin(new AWSApiPlugin())
+      Amplify.configure(applicationContext)
+
+      Log.i("Tutorial", "Initialized Amplify")
+  } catch (e: AmplifyException) {
+      Log.e("Tutorial", "Could not initialize Amplify", e)
+  }
+  ```
+
+  </amplify-block>
+  </amplify-block-switcher>
+
+1. Run the application. In logcat, you'll see a log line indicating success:
+
+    ```console
+    com.example.todo I/Tutorial: Initialized Amplify
+    ```
+
+    To make this easier to find, enter the string **Tutorial** into the search field (denoted by the magnifying glass icon).
+
+## Create a Todo
+
+Next, you'll create a Todo and save it to DataStore.
+
+1. Open `MainActivity` and add the following code to the bottom of the `onCreate()` method:
+
+  <amplify-block-switcher>
+  <amplify-block name="Java">
+
+  ```java
+  Todo item = Todo.builder()
+          .name("Build Android application")
+          .description("Build an Android Application using Amplify")
+          .build();
+  ```
+
+  </amplify-block>
+
+  <amplify-block name="Kotlin">
+
+  ```kotlin
+  val item: Todo = Todo.builder()
+        .name("Build Android application")
+        .description("Build an Android Application using Amplify")
+        .build()
+  ```
+
+  </amplify-block>
+  </amplify-block-switcher>
+
+  This code creates a Todo item with two properties: a name and a description. This is a plain object that isn't stored in DataStore yet.
+
+1. Below that, add the code to save the item to DataStore:
+
+  <amplify-block-switcher>
+  <amplify-block name="Java">
+
+  ```java
+    Amplify.DataStore.save(
+            item,
+            success -> Log.i("Tutorial", "Saved item: " + success.item.getName()),
+            error -> Log.e("Tutorial", "Could not save item to DataStore", error)
+    );
+  ```
+
+  </amplify-block>
+
+  <amplify-block name="Kotlin">
+
+  ```kotlin
+  Amplify.DataStore.save(
+          item,
+          { success -> Log.i("Tutorial", "Saved item: " + success.item.name) },
+          { error -> Log.e("Tutorial", "Could not save item to DataStore", error) }
+  )
+  ```
+
+  </amplify-block>
+  </amplify-block-switcher>
+
+1. Run the application. In logcat, you'll see an indication that the item was saved successfully:
+
+  ```console
+  com.example.todo I/Tutorial: Initialized Amplify
+  com.example.todo I/Tutorial: Saved item: Build application
+  ```
+
+1. Replace the item with a new Todo to save an additional item. Let's change the name and description, and add a priority:
+
+  <amplify-block-switcher>
+  <amplify-block name="Java">
+
+  ```java
+  Todo item = Todo.builder()
+          .name("Finish quarterly taxes")
+          .priority(Priority.HIGH)
+          .description("Taxes are due for the quarter next week")
+          .build();
+  ```
+
+  </amplify-block>
+
+  <amplify-block name="Kotlin">
+
+  ```kotlin
+  val item = Todo.builder()
+        .name("Finish quarterly taxes")
+        .priority(1)
+        .description("Taxes are due for the quarter next week")
+        .build()
+  ```
+
+  </amplify-block>
+  </amplify-block-switcher>
+
+1. Run the application. In logcat, you'll see an indication that the item was saved successfully:
+
+  ```console
+  com.example.todo I/Tutorial: Initialized Amplify
+  com.example.todo I/Tutorial: Saved item: Finish quarterly taxes
+  ```
+
+## Query Todos
+
+Now that you have some data in DataStore, you can run queries to retrieve those records.
+
+1. Edit your `onCreate` method to remove the item creation and save. Your `onCreate()` should only include the code required to initiatize Amplify and not calls to `Todo.builder()` or `Amplify.DataStore.save()`.
+
+1. Below the initialization code, add the following:
+
+  <amplify-block-switcher>
+  <amplify-block name="Java">
+
+  ```java
+  Amplify.DataStore.query(
+          Todo.class,
+          todos -> {
+              while (todos.hasNext()) {
+                  Todo todo = todos.next();
+
+                  Log.i("Tutorial", "==== Todo ====");
+                  Log.i("Tutorial", "Name: " + todo.getName());
+
+                  if (todo.getPriority() != null) {
+                      Log.i("Tutorial", "Priority: " + todo.getPriority().toString());
+                  }
+
+                  if (todo.getDescription() != null) {
+                      Log.i("Tutorial", "Description: " + todo.getDescription());
+                  }
+              }
+          },
+          failure -> Log.e("Tutorial", "Could not query DataStore", failure)
+  );
+  ```
+
+  </amplify-block>
+
+  <amplify-block name="Kotlin">
+
+  ```kotlin
+  Amplify.DataStore.query(
+        Todo::class.java,
+        { todos ->
+            while (todos.hasNext()) {
+                val todo = todos.next()
+                val name = todo.name;
+                val priority: Priority? = todo.priority
+                val description: String? = todo.description
+
+                Log.i("Tutorial", "==== Todo ====")
+                Log.i("Tutorial", "Name: $name")
+
+                if (priority != null) {
+                    Log.i("Tutorial", "Priority: $priority")
+                }
+
+                if (description != null) {
+                    Log.i("Tutorial", "Description: $description")
+                }
+            }
+        },
+        { failure -> Log.e("Tutorial", "Could not query DataStore", failure) }
+  )
+  ```
+
+  </amplify-block>
+  </amplify-block-switcher>
+
+1. Run the application. In logcat, you'll see both items returned:
+
+  ```console
+  com.example.todo I/Tutorial: Initialized Amplify
+  com.example.todo I/Tutorial: ==== Todo ====
+  com.example.todo I/Tutorial: Name: Build application
+  com.example.todo I/Tutorial: Description: Build an Android Application using Amplify
+  com.example.todo I/Tutorial: ==== Todo ====
+  com.example.todo I/Tutorial: Name: Finish quarterly taxes
+  com.example.todo I/Tutorial: Description: Taxes are due for the quarter next week
+  com.example.todo I/Tutorial: Priority: HIGH
+  ```
+
+1. Queries can also contain predicate filters. These will query for specific objects matching a certain condition.
+
+  The following predicates are supported:
+
+  **Strings**
+  
+  `eq` `ne` `le` `lt` `ge` `gt` `contains` `notContains` `beginsWith` `between`
+
+  **Numbers**
+
+  `eq` `ne` `le` `lt` `ge` `gt` `between`
+
+  **Lists**
+
+  `contains` `notContains`
+
+  To use a predicate, pass an additional argument into your query. For example, to see all high priority items:
+
+  <amplify-block-switcher>
+  <amplify-block name="Java">
+
+  ```java
+  Amplify.DataStore.query(
+          Todo.class,
+          Where.matches(
+              Todo.PRIORITY.eq(Priority.HIGH)
+          ),
+          todos -> {
+              while (todos.hasNext()) {
+                  Todo todo = todos.next();
+
+                  Log.i("Tutorial", "==== Todo ====");
+                  Log.i("Tutorial", "Name: " + todo.getName());
+
+                  if (todo.getPriority() != null) {
+                      Log.i("Tutorial", "Priority: " + todo.getPriority().toString());
+                  }
+
+                  if (todo.getDescription() != null) {
+                      Log.i("Tutorial", "Description: " + todo.getDescription());
+                  }
+              }
+          },
+          failure -> Log.e("Tutorial", "Could not query DataStore", failure)
+  );
+  ```
+
+  </amplify-block>
+
+  <amplify-block name="Kotlin">
+
+    ```kotlin
+    Amplify.DataStore.query(
+        Todo::class.java,
+        Where.matches(
+            Todo.PRIORITY.eq(Priority.HIGH)
+        ),
+        Consumer { todos ->
+            while (todos.hasNext()) {
+                val todo = todos.next()
+                val name = todo.name;
+                val priority: Priority? = todo.priority
+                val description: String? = todo.description
+
+                Log.i("Tutorial", "==== Todo ====")
+                Log.i("Tutorial", "Name: $name")
+
+                if (priority != null) {
+                    Log.i("Tutorial", "Priority: $priority")
+                }
+
+                if (description != null) {
+                    Log.i("Tutorial", "Description: $description")
+                }
+            }
+        },
+        Consumer { failure -> Log.e("Tutorial", "Could not query DataStore", failure) }
+    )
+    ```
+
+  </amplify-block>
+  </amplify-block-switcher>
+
+  In the above, notice addition of the predicate parameter as the second argument.
+
+1. Run the application. In logcat, you'll see only the high priority item returned:
+
+  ```console
+  com.example.todo I/Tutorial: Initialized Amplify
+  com.example.todo I/Tutorial: ==== Todo ====
+  com.example.todo I/Tutorial: Name: Finish quarterly taxes
+  com.example.todo I/Tutorial: Description: Taxes are due for the quarter next week
+  com.example.todo I/Tutorial: Priority: HIGH
+  ```
+
+## Update a Todo
+
+You may want to change the contents of a record. Below, we'll query for a record, create a copy of it, modify it, and save it back to DataStore. 
+
+1. Edit your `onCreate` method to remove the item creation and save. Your `onCreate()` should only include the code required to initiatize Amplify and not calls to `Todo.builder()` or `Amplify.DataStore.save()`.
+
+1. Below the initialization code, add the following: 
+
+  <amplify-block-switcher>
+  <amplify-block name="Java">
+
+    ```java
+    Amplify.DataStore.query(
+            Todo.class,
+            Where.matches(
+              Todo.NAME.eq("Finish quarterly taxes")
+            ),
+            todos -> {
+                while (todos.hasNext()) {
+                    Todo todo = todos.next();
+                    Todo updated = todo.copyOfBuilder()
+                            .name("File quarterly taxes")
+                            .build();
+
+                    Amplify.DataStore.save(updated,
+                            success -> Log.i("Tutorial", "Updated item: " + success.item.getName()),
+                            error -> Log.e("Tutorial", "Could not save item to DataStore", error)
+                    );
+                }
+            },
+            failure -> Log.e("Tutorial", "Could not query DataStore", failure)
+    );
+    ```
+
+  </amplify-block>
+
+  <amplify-block name="Kotlin">
+
+    ```kotlin
+    Amplify.DataStore.query(
+            Todo::class.java,
+            Where.matches(
+              Todo.NAME.eq("Finish quarterly taxes")
+            ),
+            Consumer { todos ->
+                while (todos.hasNext()) {
+                    val todo = todos.next()
+                    val updated = todo.copyOfBuilder()
+                            .name("File quarterly taxes")
+                            .build()
+                    Amplify.DataStore.save(updated,
+                            { success -> Log.i("Tutorial", "Updated item: " + success.item.name) },
+                            { error -> Log.e("Tutorial", "Could not save item to DataStore", error) }
+                    )
+                }
+            },
+            Consumer { failure -> Log.e("Tutorial", "Could not query DataStore", failure) }
+    )
+    ```
+
+  </amplify-block>
+  </amplify-block-switcher>
+
+    Models in DataStore are immutable, so in order to update you first create a copy of the object, modify its properties, and then save it.
+
+1. Run the application. In logcat, you'll see an indication that the item was updated successfully:
+
+    ```console
+    com.example.todo I/Tutorial: Initialized Amplify
+    com.example.todo I/Tutorial: Updated item: File quarterly taxes
+    ```
+  
+## Delete a Todo
+
+To round out our CRUD operations, we'll query for a record and delete it from DataStore.
+
+1. Edit your `onCreate` method to remove the item creation and save. Your `onCreate()` should only include the code required to initiatize Amplify and not calls to `Todo.builder()` or `Amplify.DataStore.save()`.
+
+1. Below the initialization code, add the following: 
+
+  <amplify-block-switcher>
+  <amplify-block name="Java">
+
+    ```java
+    Amplify.DataStore.query(
+        Todo.class,
+        Where.matches(
+          Todo.NAME.eq("File quarterly taxes")
+        ),
+        todos -> {
+            if (todos.hasNext()) {
+                Todo todo = todos.next();
+
+                Amplify.DataStore.delete(todo,
+                        success -> Log.i("Tutorial", "Deleted item: " + success.item.getName()),
+                        error -> Log.e("Tutorial", "Could not delete item", error)
+                );
+            }
+        },
+        failure -> Log.e("Tutorial", "Could not query DataStore", failure)
+  );
+  ```
+  </amplify-block>
+
+  <amplify-block name="Kotlin">
+
+  ```kotlin
+  Amplify.DataStore.query(
+        Todo::class.java,
+        Where.matches(
+          Todo.NAME.eq("File quarterly taxes")
+        ),
+        Consumer { todos ->
+            if (todos.hasNext()) {
+                val todo = todos.next()
+                Amplify.DataStore.delete(todo,
+                        { success -> Log.i("Tutorial", "Deleted item: " + success.item.name) },
+                        { error -> Log.e("Tutorial", "Could not delete item", error) }
+                )
+            }
+        },
+        Consumer { failure -> Log.e("Tutorial", "Could not query DataStore", failure) }
+  )
+  ```
+
+  </amplify-block>
+  </amplify-block-switcher>
+
+  1. Run the application. In logcat, you'll see an indication that the item was deleted successfully:
+
+    ```console
+    com.example.todo I/Tutorial: Initialized Amplify
+    com.example.todo I/Tutorial: Deleted item: File quarterly taxes
+    ```
