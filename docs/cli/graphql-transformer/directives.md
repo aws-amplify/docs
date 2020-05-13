@@ -1983,9 +1983,9 @@ The `filter` parameter in the search query has a searchable type field that corr
 * `wildcard` - Corresponds to the Elasticsearch [Wildcard Query](https://www.elastic.co/guide/en/elasticsearch/reference/6.2/query-dsl-wildcard-query.html).
 * `regexp` - Corresponds to the Elasticsearch [Regexp Query](https://www.elastic.co/guide/en/elasticsearch/reference/6.2/query-dsl-regexp-query.html).
 
-The `sort` parameter can be used to specify the order of the search results, can be ascending or descending, if not specified ascending order is used.
+The `sort` parameter can be used to specify the order of the search results, can be ascending (`asc`) or descending (`desc`), if not specified ascending order is used.
 
-The `limit` parameter controls the number of search results returned, if not specified the default value is 100.
+The `limit` parameter controls the number of search results returned. If not specified the default value is 100.
 
 For example, you can filter using the wildcard expression to search for posts using the following `wildcard` query:
 
