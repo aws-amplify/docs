@@ -70,6 +70,7 @@ What next? Here are some things to add to your app:
 * [API (REST)](~/lib/restapi/getting-started.md)
 * [Authentication](~/lib/auth/getting-started.md)
 * [DataStore](~/lib/datastore/getting-started.md)
+* [Predictions](~/lib/predictions/getting-started.md)
 * [Storage](~/lib/storage/getting-started.md)
 
 **Existing AWS Resources**
