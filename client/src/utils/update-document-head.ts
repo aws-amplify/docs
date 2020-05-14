@@ -4,6 +4,9 @@ const ROOT_TITLE = "Amplify Framework Docs";
 const BASE_PAGE_TITLE = "Amplify Docs";
 
 function getPageTitle(page: Page) {
+  if (page.route === "/") {
+    return ROOT_TITLE;
+  }
   if (page.title) {
     if (page.sectionTitle) {
       return `${page.sectionTitle} - ${page.title} - ${BASE_PAGE_TITLE}`;
@@ -40,12 +43,7 @@ const createMetaNameTag = (type: string, content: string) => {
 };
 
 export const updateDocumentHead = (page: Page): void => {
-  let title = "";
-  if (page.route === "/") {
-    title = ROOT_TITLE;
-  } else {
-    title = getPageTitle(page);
-  }
+  const title = getPageTitle(page);
   document.title = title;
 
   createMetaProprtyTag("og:title", title);
