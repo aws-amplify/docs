@@ -1,7 +1,10 @@
 # Amplify Framework Documentation
 
-> https://docs.amplify.aws
+[![DiscordChat](https://img.shields.io/discord/308323056592486420?logo=discord")](https://discord.gg/jWVbPfC)
 
+> https://docs.amplify.aws                                                                                              
+                                                                                               
+                                                                                               
 ## Getting Started
 
 1. [Fork this repo](/fork).
