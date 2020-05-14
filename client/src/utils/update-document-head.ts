@@ -13,7 +13,7 @@ function getPageTitle(page: Page) {
   return BASE_PAGE_TITLE;
 }
 
-const createOgTag = (type: string, content: string) => {
+const createMetaProprtyTag = (type: string, content: string) => {
   let el = document.head.querySelector(`meta[property="${type}"]`);
   if (!el) {
     el = document.createElement("meta");
@@ -26,7 +26,7 @@ const createOgTag = (type: string, content: string) => {
   }
 };
 
-const createTwitterTag = (type: string, content: string) => {
+const createMetaNameTag = (type: string, content: string) => {
   let el = document.head.querySelector(`meta[name="${type}"]`);
   if (!el) {
     el = document.createElement("meta");
@@ -48,13 +48,14 @@ export const updateDocumentHead = (page: Page): void => {
   }
   document.title = title;
 
-  createOgTag("og:title", title);
-  createOgTag("og:description", page.description);
-  createOgTag("og:url", window.location.href);
-  createOgTag("og:image", "https://docs.amplify.aws/assets/ogp.jpg");
+  createMetaProprtyTag("og:title", title);
+  createMetaProprtyTag("og:description", page.description);
+  createMetaProprtyTag("og:url", window.location.href);
+  createMetaProprtyTag("og:image", "https://docs.amplify.aws/assets/ogp.jpg");
 
-  createTwitterTag("twitter:card", `summary`);
-  createTwitterTag("twitter:title", title);
-  createTwitterTag("twitter:description", page.description);
-  createTwitterTag("twitter:image", "https://docs.amplify.aws/assets/ogp.jpg");
+  createMetaNameTag("description", page.description);
+  createMetaNameTag("twitter:card", `summary`);
+  createMetaNameTag("twitter:title", title);
+  createMetaNameTag("twitter:description", page.description);
+  createMetaNameTag("twitter:image", "https://docs.amplify.aws/assets/ogp.jpg");
 };
