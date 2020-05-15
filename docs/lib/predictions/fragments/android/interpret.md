@@ -41,8 +41,8 @@ Here is an example of sending text for interpretation such as sentiment analysis
     public void interpret(String text) {
         Amplify.Predictions.interpret(
                 text,
-                result -> Log.i("PredictionsQuickstart", result.toString()),
-                error -> Log.e("PredictionsQuickstart", error.toString(), error)
+                result -> Log.i("AmplifyQuickstart", result.toString()),
+                error -> Log.e("AmplifyQuickstart", error.toString(), error)
         );
     }
 ```

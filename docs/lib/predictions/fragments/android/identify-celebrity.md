@@ -41,10 +41,10 @@ public void detectCelebs(Bitmap image) {
             result -> {
                 IdentifyCelebritiesResult identifyResult = (IdentifyCelebritiesResult) result;
                 CelebrityDetails metadata = identifyResult.getCelebrities().get(0);
-                Log.i("PredictionsQuickstart", metadata.getCelebrity().getName());
+                Log.i("AmplifyQuickstart", metadata.getCelebrity().getName());
             },
-            error -> Log.e("PredictionsQuickstart", error.toString(), error)
+            error -> Log.e("AmplifyQuickstart", error.toString(), error)
     );
 }
 ```
-As a result of passing in an image of a celebrity, you should see the corresponding celebrity name printed to the console.
+As a result of passing in an image, `identify` will return the name of a detected celebrity.

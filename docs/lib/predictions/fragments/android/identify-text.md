@@ -32,7 +32,7 @@ Run `amplify add predictions`, then use the following answers:
 
 ### Detect text in an image
 
-Amplify will make calls to both Amazon Textract and Rekognition depending on the type of text you are looking to identify (i.e. image or document).
+Amplify will make calls to both Amazon Textract and Amazon Rekognition depending on the type of text you are looking to identify (i.e. image or document).
 
 Passing in `TextFormatType.PLAIN` as the identify action will yield `IdentifyResult`, which must be cast into `IdentifyTextResult`. See below for an example of plain text detection from an image.
 
@@ -41,13 +41,14 @@ public void detectText(Bitmap image) {
     Amplify.Predictions.identify(
             TextFormatType.PLAIN,
             image,
-            result -> Log.i("PredictionsQuickstart", ((IdentifyTextResult) result).getFullText()),
-            error -> Log.e("PredictionsQuickstart", error.toString(), error)
+            result -> {
+                IdentifyTextResult identifyResult = (IdentifyTextResult) result;
+                Log.i("AmplifyQuickstart", identifyResult.getFullText())
+            },
+            error -> Log.e("AmplifyQuickstart", error.toString(), error)
     );
 }
 ```
-
-**Note**: Do *NOT* pass `IdentifyActionType.DETECT_TEXT` as identify action. Pass in an instance of `TextFormatType` instead.
 
 ### Detect text in a document
 
@@ -58,8 +59,11 @@ public void detectText(Bitmap image) {
     Amplify.Predictions.identify(
             TextFormatType.FORM,
             image,
-            result -> Log.i("PredictionsQuickstart", ((IdentifyDocumentTextResult) result).getFullText()),
-            error -> Log.e("PredictionsQuickstart", error.toString(), error)
+            result -> {
+                IdentifyDocumentTextResult identifyResult = (IdentifyDocumentTextResult) result;
+                Log.i("AmplifyQuickstart", identifyResult.getFullText())
+            },
+            error -> Log.e("AmplifyQuickstart", error.toString(), error)
     );
 }
 ```

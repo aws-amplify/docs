@@ -2,13 +2,8 @@ If you need functionality in the AWS services used by the Amplify Predictions ca
 
 ```java
 // Obtain reference to the plugin
-final AWSPredictionsPlugin predictionsPlugin;
-try {
-    predictionsPlugin = (AWSPredictionsPlugin) Amplify.Predictions.getPlugin("awsPredictionsPlugin");
-} catch (ClassCastException error) {
-    Log.e("PredictionsQuickstart", "Unable to cast to AWSPredictionsPlugin");
-    return;
-}
+AWSPredictionsPlugin predictionsPlugin = (AWSPredictionsPlugin)
+        Amplify.Predictions.getPlugin("awsPredictionsPlugin");
 AWSPredictionsEscapeHatch escapeHatch = predictionsPlugin.getEscapeHatch();
 
 // Send a new request to the Rekognition endpoint directly using the client
@@ -16,27 +11,6 @@ AmazonRekognitionClient client = escapeHatch.getRekognitionClient();
 CreateCollectionRequest request = new CreateCollectionRequest()
         .withCollectionId("<new-collection-id-here>");
 client.createCollection(request);
-```
-
-In addition to `AmazonRekognitionClient`, this same pattern can be used to get access to `AmazonTranslateClient`, `AmazonPollyClient`, `AmazonComprehendClient`, and `AmazonTextractClient`. For example:
-
-```java
-// Obtain reference to the plugin
-final AWSPredictionsPlugin predictionsPlugin;
-try {
-    predictionsPlugin = (AWSPredictionsPlugin) Amplify.Predictions.getPlugin("awsPredictionsPlugin");
-} catch (ClassCastException error) {
-    Log.e("PredictionsQuickstart", "Unable to cast to AWSPredictionsPlugin");
-    return;
-}
-AWSPredictionsEscapeHatch escapeHatch = plugin.getEscapeHatch();
-
-// Obtain a reference to each of the supported Amazon service clients
-AmazonRekognitionClient rekognitionClient = escapeHatch.getRekognitionClient();
-AmazonTranslateClient translateClient = escapeHatch.getTranslateClient();
-AmazonPollyClient pollyClient = escapeHatch.getPollyClient();
-AmazonComprehendClient comprehendClient = escapeHatch.getComprehendClient();
-AmazonTextractClient textractClient = escapeHatch.getTextractClient();
 ```
 
 **API Documentation Resources**

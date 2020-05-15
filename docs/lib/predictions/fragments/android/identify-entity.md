@@ -46,21 +46,18 @@ public void detectEntities(Bitmap image) {
             result -> {
                 IdentifyEntitiesResult identifyResult = (IdentifyEntitiesResult) result;
                 EntityDetails metadata = identifyResult.getEntities().get(0);
-                Log.i("PredictionsQuickstart", metadata.getBox().toShortString());
+                Log.i("AmplifyQuickstart", metadata.getBox().toShortString());
             },
-            error -> Log.e("PredictionsQuickstart", error.toString(), error)
+            error -> Log.e("AmplifyQuickstart", error.toString(), error)
     );
 }
 ```
-As a result of passing in an image, the bounding box ([`android.graphics.RectF`](https://developer.android.com/reference/android/graphics/RectF)) that captures detected entity will be printed to the console.
 
-**Note**: Bounding boxes for entities are returned as ratios, so make sure to properly scale it before using it.
+As a result of passing in an image, the bounding box ([`android.graphics.RectF`](https://developer.android.com/reference/android/graphics/RectF)) that captures detected entity will be printed to the console.
 
 ### Detect pre-determined entities in an image
 
-In order to match entities from a pre-created [Amazon Rekognition Collection](https://docs.aws.amazon.com/rekognition/latest/dg/collections.html), ensure that both `collectionId` and `maxEntities` are set in your `amplifyconfiguration.json` file. The value of `collectionId` should be the name of your collection that you created either with the CLI or the SDK. The value of `maxEntities` should be a number greater than `0` or less than `51` (50 is the max number of entities Rekognition can detect from a collection). If both `collectionId` and `maxEntities` do not have valid values in the `amplifyconfiguration.json` file, then this call will just detect entities in general with facial features, landmarks, etc.
-
-To identify entities by matching against a collection of images, Amplify must be re-configured as following:
+You can also match entities from a pre-created [Amazon Rekognition Collection](https://docs.aws.amazon.com/rekognition/latest/dg/collections.html) in Amplify. To access this feature, you must used advanced configuration in Amplify CLI:
 
 Run `amplify add predictions`, then use the following answers:
 
@@ -91,7 +88,7 @@ Run `amplify add predictions`, then use the following answers:
   <Enter 'y'>
 
 ? How many entities would you like to identify? (50)
-  1
+  10
 
 ? Would you like to allow users to add images to this collection? (Use arrow keys)
 ❯ Yes
@@ -103,9 +100,11 @@ Run `amplify add predictions`, then use the following answers:
 ```
 Run `amplify push` to create the resources in the cloud
 
-**Note**: Only one mode of entity detection can be used per app. If entity detection was already configured to default settings, then CLI will forbid you from adding another resource for identifying entities. In that case, run `amplify update predictions`, select the corresponding resource, and then re-configure it as necessary.
+**Note**: If entity detection was already configured, run `amplify update predictions` to reconfigure as necessary.
 
-If properly configured with `collectionId` and `maxEntities`, then Amplify will detect entity matches from the Rekogition Collection in your app. Results are mapped to `IdentifyEntityMatchesResult`. For example:
+The value of `collectionId` is the name of your collection, which can be created directly via CLI. The value of `maxEntities` must be a number greater than `0` or less than `51` (50 is the max number of entities Rekognition can detect from a collection). If either value of `collectionId` or `maxEntities` is invalid, then `identify` will just detect entities in general with facial features, landmarks, etc.
+
+If both `collectionId` and `maxEntities` are properly configured, then Amplify will detect entity matches from the Rekogition Collection in your app. Results are mapped to `IdentifyEntityMatchesResult`. For example:
 
 ```java
 public void detectEntities(Bitmap image) {
@@ -115,9 +114,9 @@ public void detectEntities(Bitmap image) {
             result -> {
                 IdentifyEntityMatchesResult identifyResult = (IdentifyEntityMatchesResult) result;
                 EntityMatch match = identifyResult.getEntityMatches().get(0);
-                Log.i("PredictionsQuickstart", match.getExternalImageId());
+                Log.i("AmplifyQuickstart", match.getExternalImageId());
             },
-            error -> Log.e("PredictionsQuickstart", error.toString(), error)
+            error -> Log.e("AmplifyQuickstart", error.toString(), error)
     );
 }
 ```

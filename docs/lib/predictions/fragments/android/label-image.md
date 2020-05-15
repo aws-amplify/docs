@@ -47,14 +47,12 @@ public void detectLabels(Bitmap image) {
             result -> {
                 IdentifyLabelsResult identifyResult = (IdentifyLabelsResult) result;
                 Label label = identifyResult.getLabels().get(0);
-                Log.i("PredictionsQuickstart", label.getName());
+                Log.i("AmplifyQuickstart", label.getName());
             },
-            error -> Log.e("PredictionsQuickstart", error.toString(), error)
+            error -> Log.e("AmplifyQuickstart", error.toString(), error)
     );
 }
 ```
-
-**Note**: Do *NOT* pass `IdentifyActionType.DETECT_LABELS` as identify action. Pass in an instance of `LabelType` instead.
 
 ### Label moderation tag in an image
 
@@ -67,9 +65,9 @@ public void detectLabels(Bitmap image) {
             image,
             result -> {
                 IdentifyLabelsResult identifyResult = (IdentifyLabelsResult) result;
-                Log.i("PredictionsQuickstart", Boolean.toString(identifyResult.isUnsafeContent()));
+                Log.i("AmplifyQuickstart", Boolean.toString(identifyResult.isUnsafeContent()));
             },
-            error -> Log.e("PredictionsQuickstart", error.toString(), error)
+            error -> Log.e("AmplifyQuickstart", error.toString(), error)
     );
 }
 ```

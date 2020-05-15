@@ -38,89 +38,25 @@ $ amplify init
 
 4. Run `amplify push` to create the resources in the cloud.
 
-When your backend is successfully updated, verify that `amplifyconfiguration.json` and `awsconfiguration.json` are properly updated inside the `res/raw` directory. Your new configuration file `amplifyconfiguration.json` will contain your default project `region` value as well as any necessary configuration options for each predictions method (i.e. target language and source language for translate, etc).
-
-
-## Manual Configuration
-
-If you have already created the resources in the cloud and would like to take advantage of those existing resources but still use the Amplify library in Android Studio, please follow the directions below:
-
-Create the file `amplifyconfiguration.json`:
-```
-touch amplifyconfiguration.json
-```
-
-Copy the contents over and update the values for the specific predictions method you are looking to use:
-```
-{
-    "UserAgent": "aws-amplify-cli/2.0",
-    "Version": "1.0",
-    "Predictions": {
-        "plugins": {
-            "awsPredictionsPlugin": {
-                "defaultRegion": "us-west-2",
-                 "identify": {
-                    "identifyText": {
-                        "format": "ALL",
-                        "region": "us-west-2",
-                        "defaultNetworkPolicy": "auto"
-                    },
-                    "identifyEntities": {
-                        "maxEntities": "0",
-                        "celebrityDetectionEnabled": "true",
-                        "region": "us-west-2",
-                        "defaultNetworkPolicy": "auto"
-                    },
-                    "identifyLabels": {
-                        "region": "us-west-2",
-                        "type": "LABELS",
-                        "defaultNetworkPolicy": "auto"
-                    }
-                },
-                "convert": {
-                    "translateText": {
-                        "targetLang": "zh",
-                        "sourceLang": "en",
-                        "region": "us-west-2",
-                        "defaultNetworkPolicy": "auto"
-                    },
-                    "speechGenerator": {
-                        "voice": "Salli",
-                        "language": "en-US",
-                        "region": "us-west-2",
-                        "defaultNetworkPolicy": "auto"
-                    }
-                },
-                "interpret": {
-                    "interpretText": {
-                        "region": "us-west-2",
-                        "defaultNetworkPolicy": "auto"
-                    }
-                }
-            }
-        }
-    }
-}
-```
-Add both the `amplifyconfiguration.json` and the `awsconfiguration.json` to your project inside the `res/raw` directory.
+When your backend is successfully updated, verify that `amplifyconfiguration.json` is properly updated inside the `res/raw` directory. Your new configuration file `amplifyconfiguration.json` will contain your default project `region` value as well as any necessary configuration options for each predictions method (i.e. target language and source language for translate, etc).
 
 ## Configure your application
 
 Add the following dependencies to your **app**'s' `build.gradle` file and click "Sync Now" when prompted:
 
-```gradle
+```groovy
 dependencies {
-    implementation 'com.amplifyframework:core:0.10.0'
-    implementation 'com.amplifyframework:aws-predictions:0.10.0'
+    implementation 'com.amplifyframework:core:1.0.0'
+    implementation 'com.amplifyframework:aws-predictions:1.0.0'
     implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.16.+'
 }
 ```
 
 Add the following compile options in the same file to support the Java 8 features that Amplify uses:
 
-```gradle
+```groovy
 android {
-  compileOptions {
+    compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -138,15 +74,15 @@ AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<U
         try {
             Amplify.addPlugin(new AWSPredictionsPlugin());
             Amplify.configure(getApplicationContext());
-            Log.i("PredictionsQuickstart", "All set and ready to go!");
+            Log.i("AmplifyQuickstart", "All set and ready to go!");
         } catch (Exception exception) {
-            Log.e("PredictionsQuickstart", exception.getMessage(), exception);
+            Log.e("AmplifyQuickstart", exception.getMessage(), exception);
         }
     }
 
     @Override
     public void onError(Exception exception) {
-        Log.e("PredictionsQuickstart", "Initialization error.", exception);
+        Log.e(TAG, "Initialization error.", exception);
     }
 });
 ```
@@ -160,12 +96,13 @@ Amplify.Predictions.translateText(
         "I like to eat spaghetti",
         LanguageType.ENGLISH,
         LanguageType.SPANISH,
-        result -> Log.i("PredictionsQuickstart", result.getTranslatedText()),
-        error -> Log.e("PredictionsQuickstart", error.toString())
+        result -> Log.i("AmplifyQuickstart", result.getTranslatedText()),
+        error -> Log.e("AmplifyQuickstart", error.toString())
 );
 ```
 
-As a result of executing this code, this you should see the following printed to your console:
+As a result of executing this code, you will see the following line printed to your console:
+
 ```
 Me gusta comer espaguetis
 ```

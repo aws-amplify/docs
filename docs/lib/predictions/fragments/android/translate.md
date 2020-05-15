@@ -44,8 +44,8 @@ Here is an example of translating text.
 public void translate(String text) {
     Amplify.Predictions.translateText(
             text,
-            result -> Log.i("PredictionsQuickstart", result.getTranslatedText()),
-            error -> Log.e("PredictionsQuickstart", error.toString())
+            result -> Log.i("AmplifyQuickstart", result.getTranslatedText()),
+            error -> Log.e("AmplifyQuickstart", error.toString())
     );
 }
 ```
@@ -61,8 +61,8 @@ public void translate(String text) {
             text,
             LanguageType.ENGLISH,
             LanguageType.ITALIAN,
-            result -> Log.i("PredictionsQuickstart", result.getTranslatedText()),
-            error -> Log.e("PredictionsQuickstart", error.toString())
+            result -> Log.i("AmplifyQuickstart", result.getTranslatedText()),
+            error -> Log.e("AmplifyQuickstart", error.toString())
     );
 }
 ```

@@ -55,7 +55,7 @@ private void playAudio(InputStream data) {
         mp.setDataSource(new FileInputStream(mp3File).getFD());
         mp.prepareAsync();
     } catch (IOException error) {
-        Log.e("PredictionsQuickstart", "Error writing audio file.");
+        Log.e("AmplifyQuickstart", "Error writing audio file.");
     }
 }
 
@@ -63,7 +63,7 @@ public void textToSpeech(String text) {
     Amplify.Predictions.convertTextToSpeech(
             text,
             result -> playAudio(result.getAudioData()),
-            error -> Log.e("PredictionsQuickstart", error.toString(), error)
+            error -> Log.e("AmplifyQuickstart", error.toString(), error)
     );
 }
 ```
