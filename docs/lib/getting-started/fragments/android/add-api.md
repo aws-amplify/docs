@@ -1,42 +1,76 @@
-a. Run `amplify configure` in Terminal from the root of your application folder to set up Amplify with your AWS account.
+Now that your have DataStore persisting data locally, in the next step you'll connect it to the cloud. With a couple of commands, you'll create an AWS AppSync API and configure DataStore to synchronize its data to it.
 
-    - Your default browser will open a tab prompting you to sign in / create a new AWS account
-    - Once done, return to the terminal and press Enter
-    - Choose a region
-    - Choose a username (can use default)
-    - Your default browser will open a tab prompting you to walkthrough the process of creating an IAM user. At the end of the process. Save the Access ID and Secret key and return to the terminal.
-    - Press Enter
-    - It will then ask you to enter the access key ID from the finish page of the browser. Make sure to backspace the default and copy-paste the key for the IAM user you just created.
-    - Do the same for <YOUR SECRET ACCESS KEY> in the next step
-    - Hit Enter to go with default as the profile name
+1. Configure Amplify to manage cloud resources on your behalf. Run `amplify configure`. This step will configure a new AWS user in your account for Amplify.
 
-b. Click the Gradle Task dropdown in your Android Studio toolbar, select **amplifyPush**, and run the task.
+    ```bash
+    amplify configure
+    ```
 
-Once this is successful, you will see three generated files:
+   This command will open up a web browser to the AWS Management Console and guide you through creating a new IAM user. For step-by-step directions to set this up, refer to the [CLI installation guide](~/cli/start/install.md).
 
-* **amplifyconfiguration.json** and **awsconfiguration.json** under `src/main/res/raw`
+1. Next, push your new API to AWS. In Android Studio, click the Gradle Task dropdown in the toolbar and select **amplifyPush**.
 
-Rather than configuring each service through a constructor or constants file, the Amplify Framework for Android supports configuration through centralized files called amplifyconfiguration.json and awsconfiguration.json which define all the regions and service endpoints to communicate. On Android projects these two files will be placed into the root directory.
+  ![](~/images/lib/getting-started/android/set-up-android-studio-run-task-dropdown-amplifyPush.png)
 
-You can also manually update them if you have existing AWS resources which you manage outside of the Amplify deployment process. Additionally, if you ever decide to run Amplify CLI commands from a terminal inside your Android Studio project these configurations will be automatically updated.
+1. Run the task. You can do this by pressing the **play button** or pressing **Control-R**.
 
-* **amplify-gradle-config.json** under the root directory: This file is used to configure modelgen and push to cloud actions.
+1. Open up a terminal window. You can use an external terminal or the integrated terminal in Android Studio. In the terminal, run `amplify api console`. When prompted, select **GraphQL**. This will open the AWS AppSync console.
 
-c. After the deployment has completed you can open the `amplifyconfiguration.json` and you should see the `api` section containing your backend like the following:
-```json
-{
-    "api": {
-        "plugins": {
-            "awsAPIPlugin": {
-                "amplifyDatasource": {
-                    "endpointType": "GraphQL",
-                    "endpoint": "https://<YOUR-GRAPHQL-ENDPOINT>.appsync-api.us-west-2.amazonaws.com/graphql",
-                    "region": "us-west-2",
-                    "authorizationType": "API_KEY",
-                    "apiKey": "<YOUR API KEY>"
-                }
+   ```bash
+   amplify api console
+   ```
+
+   ```console
+   ? Please select from one of the below mentioned services: (Use arrow keys)
+      GraphQL 
+   ```
+
+1. Copy and paste the following query:
+
+    ```graphql
+    query GetTodos {
+        listTodos {
+            items {
+                id
+                name
+                description
+                _deleted
             }
         }
     }
-}
-```
+    ```
+
+1. Press the **play button** to run the query. This will return all of the synchronized Todos:
+
+    ![](~/images/lib/getting-started/android/set-up-appsync-query.png)
+
+1. Synchronization will occur bi-directionally. Create an item in AWS AppSync by copying and pasting the following mutation:
+
+    ```graphql
+    mutation CreateTodo {
+        createTodo(
+            input: {
+            name: "Tidy up the office",
+            description: "Organize books, vaccuum, take out the trash",
+            priority: NORMAL
+            }
+        ) {
+            id,
+            name,
+            description,
+            priority,
+            _version,
+            _lastChangedAt,
+        }
+    }
+    ```
+
+    ![](~/images/lib/getting-started/android/set-up-appsync-create.png)
+
+1. Start your application. In the logs, filter for **aws-datastore** in **Verbose** mode.
+
+    You will see this item synchronize to your local storage:
+
+    ```console
+    com.example.todo I/amplify:aws-datastore: Remote model update was sync'd down into local storage: ModelWithMetadata{model=Todo {id=2fc77577-41e0-4d2a-88bb-c727e187e701 name=Tidy up the office priority=NORMAL description=Organize books, vaccuum, take out the trash}, syncMetadata=ModelMetadata{id='2fc77577-41e0-4d2a-88bb-c727e187e701', _deleted=null, _version=1, _lastChangedAt=1589396142622}}
+    ```
