@@ -1556,9 +1556,11 @@ mutation CreateProject {
 
 > **Note** The **Project.team** resolver is configured to work with the defined connection. This is done with a query on the Team table where `teamID` is passed in as an argument to the mutation.
 
-Likewise, you can make a simple one-to-many connection as follows for a post that has many comments:
+A Has One @connection can only reference the primary index of a model (ie. it cannot specify a "keyName" as described below in the Has Many section).
 
 ### Has Many
+
+The following schema defines a Post that can have many comments:
 
 ```graphql
 type Post @model {
