@@ -447,6 +447,10 @@ class App extends Component {
             <Button title="Amazon" onPress={amazonSignIn} />
 
             {/* e.g. for OIDC providers */}
+            <Button
+              title="Apple"
+              onPress={() => customProviderSignIn('SignInWithApple')}
+            />
             <Button title="Yahoo" onPress={() => customProviderSignIn('Yahoo')} />
           </React.Fragment>}
         </ScrollView>
