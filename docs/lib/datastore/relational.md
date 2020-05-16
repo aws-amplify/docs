@@ -5,6 +5,12 @@ description: Learn more about how DataStore handles relationships between Models
 
 DataStore has the capability to handle relationships between Models, such as *has one*, *has many*, *belongs to*. In GraphQL this is done with the `@connection` and `@key` directives as defined in the [GraphQL Transformer documentation](~/cli/graphql-transformer/directives.md#connection).
 
+<amplify-callout>
+
+When using the `@key` directive without a `name` property with DataStore, the first item in the `fields` array must be `id`, e.g. `@key(fields: ["id", "content"])`.
+
+</amplify-callout>
+
 ## Updated schema
 
 For the examples below with DataStore let's add a new model to the [sample schema](~/lib/datastore/getting-started.md#sample-schema):
