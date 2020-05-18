@@ -202,7 +202,7 @@ query ListPrivateNote {
 
 ## Conflict Detection
 
-```
+```graphql
 type Note @model @versioned {
   id: ID!
   content: String!
