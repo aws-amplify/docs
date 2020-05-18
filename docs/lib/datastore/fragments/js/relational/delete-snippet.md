@@ -1,4 +1,4 @@
 ```js
-const todelete = await DataStore.query(Post, "123");
-DataStore.delete(todelete);
+const toDelete = await DataStore.query(Post, "123");
+DataStore.delete(toDelete);
 ```
