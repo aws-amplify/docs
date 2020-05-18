@@ -70,7 +70,7 @@ export class AmplifyBlockSwitcher {
   createActiveChildISetter = (i: number) => (_event: Event): void => {
     this.activeChildI = i;
     const current = this.tabHeadings[i];
-    this.SetNewSelectedTabHeadings(current);
+    this.setNewSelectedTabHeadings(current);
   };
 
   render() {
@@ -114,5 +114,5 @@ export class AmplifyBlockSwitcher {
 
 blockSwitcherContext.injectProps(AmplifyBlockSwitcher, [
   "selectedTabHeadings",
-  "SetNewSelectedTabHeadings",
+  "setNewSelectedTabHeadings",
 ]);
