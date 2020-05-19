@@ -48,8 +48,8 @@ Now that your have DataStore persisting data locally, in the next step you'll co
 
   ```kotlin
   try {
-      Amplify.addPlugin(new AWSDataStorePlugin())
-      Amplify.addPlugin(new AWSApiPlugin())
+      Amplify.addPlugin(AWSDataStorePlugin())
+      Amplify.addPlugin(AWSApiPlugin())
       Amplify.configure(applicationContext)
 
       Log.i("Tutorial", "Initialized Amplify")
