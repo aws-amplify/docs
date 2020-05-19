@@ -17,7 +17,3 @@ If you do not have any configuration file at `app/src/main/res/raw/amplifyconfig
   "version": "1.0"
 }
 ```
-
-## API Reference   
-
-For the complete API documentation for DataStore, visit our [API Reference](~/lib/getting-started/setup.md/q/platform/android).
