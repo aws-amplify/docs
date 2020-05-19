@@ -26,7 +26,7 @@ First, we'll add the DataStore plugin and configure Amplify. Typically, a good p
 
   ```kotlin
   try {
-      Amplify.addPlugin(new AWSDataStorePlugin())
+      Amplify.addPlugin(AWSDataStorePlugin())
       Amplify.configure(applicationContext)
 
       Log.i("Tutorial", "Initialized Amplify")
