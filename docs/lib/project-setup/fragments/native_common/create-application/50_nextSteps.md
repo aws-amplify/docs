@@ -1,4 +1,3 @@
-### Next Steps
 Congratulations!  You'be created a skeleton app and are ready to start adding Amplify categories to your application.  The following are some categories that you can start to build into your application:
 
 * [Analytics](~/lib/analytics/getting-started.md) - for logging metrics and understanding your users

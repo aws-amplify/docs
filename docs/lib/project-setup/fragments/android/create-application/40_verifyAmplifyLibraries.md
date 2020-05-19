@@ -1,7 +1,4 @@
-### Step 3: Verify that Amplify Libraries are integrated into the application
-
 **Open `MainActivity`** and add the following code to the bottom of the `onCreate()` method:
-**TODO: VERIFY -- WORK IN PROGRESS, NEEDS TO BE VERIFIED**
 
 <amplify-block-switcher>
 <amplify-block name="Java">
@@ -38,12 +35,3 @@ Build and run the application.  In logcat, you'll see a log line indicating succ
 ```console
 com.example.todo I/Tutorial: Initialized Amplify
 ```
-
-**TODO: UPDATE THIS**
-
-In order to run the application (without it erroring), you will need to provision resources in the backend.  If you attempt run your application at this point, you will see the following error:
-```
-An error occurred setting up Amplify: ConfigurationError: Could not load default `amplifyconfiguration.json` file
-```
-
-

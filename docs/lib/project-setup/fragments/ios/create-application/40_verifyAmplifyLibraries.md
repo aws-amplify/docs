@@ -1,5 +1,3 @@
-### Step 3: Verify that Amplify Libraries are integrated into the application
-
 **Open AppDelegate.swift** and add `import Amplify` at the top of the file:
 ```swift
 import Amplify
@@ -21,5 +19,3 @@ Build your project (`CMD + b`).  If your build succeeeds, then you have successf
 ```
 An error occurred setting up Amplify: ConfigurationError: Could not load default `amplifyconfiguration.json` file
 ```
-
-
