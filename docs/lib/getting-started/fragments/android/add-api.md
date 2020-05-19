@@ -14,6 +14,66 @@ Now that your have DataStore persisting data locally, in the next step you'll co
 
 1. Run the task. You can do this by pressing the **play button** or pressing **Control-R**.
 
+1. Modify your initialization code to initialize API in order to connect to the backend. Open `MainActivity` and remove all of the previous code you entered. Now, add the following code to the bottom of the `onCreate()` method:
+
+  <amplify-block-switcher>
+  <amplify-block name="Java">
+  
+  ```java
+  try {
+      Amplify.addPlugin(new AWSDataStorePlugin());
+      Amplify.addPlugin(new AWSApiPlugin());
+      Amplify.configure(getApplicationContext());
+
+      Log.i("Tutorial", "Initialized Amplify");
+  } catch (AmplifyException e) {
+      Log.e("Tutorial", "Could not initialize Amplify", e);
+  }
+
+  Todo item = Todo.builder()
+      .name("Build Android application")
+      .description("Build an Android Application using Amplify")
+      .build();
+
+  Amplify.DataStore.save(
+      item,
+      success -> Log.i("Tutorial", "Saved item: " + success.item.getName()),
+      error -> Log.e("Tutorial", "Could not save item to DataStore", error)
+  );
+  ```
+
+  </amplify-block>
+
+  <amplify-block name="Kotlin">
+
+  ```kotlin
+  try {
+      Amplify.addPlugin(new AWSDataStorePlugin())
+      Amplify.addPlugin(new AWSApiPlugin())
+      Amplify.configure(applicationContext)
+
+      Log.i("Tutorial", "Initialized Amplify")
+  } catch (e: AmplifyException) {
+      Log.e("Tutorial", "Could not initialize Amplify", e)
+  }
+
+  val item: Todo = Todo.builder()
+      .name("Build Android application")
+      .description("Build an Android Application using Amplify")
+      .build()
+
+  Amplify.DataStore.save(
+          item,
+          { success -> Log.i("Tutorial", "Saved item: " + success.item.name) },
+          { error -> Log.e("Tutorial", "Could not save item to DataStore", error) }
+  )
+  ```
+
+  </amplify-block>
+  </amplify-block-switcher>
+
+1. Run the application. This will create a new Todo item and synchronize it to the backend.
+
 1. Open up a terminal window. You can use an external terminal or the integrated terminal in Android Studio. In the terminal, run `amplify api console`. When prompted, select **GraphQL**. This will open the AWS AppSync console.
 
    ```bash
