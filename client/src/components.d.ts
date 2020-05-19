@@ -5,10 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { SelectedTabHeadings, SetNewSelectedTabHeadings, } from "./amplify-ui/block-switcher/block-switcher.types";
+import { SelectedFilters, SelectedTabHeadings, SetNewSelectedTabHeadings, } from "./docs-ui/page/page.types";
 import { ToggleInView, } from "./amplify-ui/sidebar-layout/sidebar-layout.types";
 import { SetContent, } from "./amplify-ui/toc/toc.types";
-import { SelectedFilters, } from "./docs-ui/page/page.types";
 import { MenuGroup, Page, } from "./api";
 import { CustomComponentName, } from "./docs-ui/component-playground/component-playground.types";
 import { MatchResults, } from "@stencil/router";
@@ -29,8 +28,6 @@ export namespace Components {
           * tack on a new tab heading at highest priority
          */
         "setNewSelectedTabHeadings": SetNewSelectedTabHeadings;
-    }
-    interface AmplifyBlockSwitcherProvider {
     }
     interface AmplifyCallout {
         /**
@@ -398,12 +395,6 @@ declare global {
         prototype: HTMLAmplifyBlockSwitcherElement;
         new (): HTMLAmplifyBlockSwitcherElement;
     };
-    interface HTMLAmplifyBlockSwitcherProviderElement extends Components.AmplifyBlockSwitcherProvider, HTMLStencilElement {
-    }
-    var HTMLAmplifyBlockSwitcherProviderElement: {
-        prototype: HTMLAmplifyBlockSwitcherProviderElement;
-        new (): HTMLAmplifyBlockSwitcherProviderElement;
-    };
     interface HTMLAmplifyCalloutElement extends Components.AmplifyCallout, HTMLStencilElement {
     }
     var HTMLAmplifyCalloutElement: {
@@ -647,7 +638,6 @@ declare global {
     interface HTMLElementTagNameMap {
         "amplify-block": HTMLAmplifyBlockElement;
         "amplify-block-switcher": HTMLAmplifyBlockSwitcherElement;
-        "amplify-block-switcher-provider": HTMLAmplifyBlockSwitcherProviderElement;
         "amplify-callout": HTMLAmplifyCalloutElement;
         "amplify-code-block": HTMLAmplifyCodeBlockElement;
         "amplify-container": HTMLAmplifyContainerElement;
@@ -706,8 +696,6 @@ declare namespace LocalJSX {
           * tack on a new tab heading at highest priority
          */
         "setNewSelectedTabHeadings"?: SetNewSelectedTabHeadings;
-    }
-    interface AmplifyBlockSwitcherProvider {
     }
     interface AmplifyCallout {
         /**
@@ -1064,7 +1052,6 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "amplify-block": AmplifyBlock;
         "amplify-block-switcher": AmplifyBlockSwitcher;
-        "amplify-block-switcher-provider": AmplifyBlockSwitcherProvider;
         "amplify-callout": AmplifyCallout;
         "amplify-code-block": AmplifyCodeBlock;
         "amplify-container": AmplifyContainer;
@@ -1113,7 +1100,6 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "amplify-block": LocalJSX.AmplifyBlock & JSXBase.HTMLAttributes<HTMLAmplifyBlockElement>;
             "amplify-block-switcher": LocalJSX.AmplifyBlockSwitcher & JSXBase.HTMLAttributes<HTMLAmplifyBlockSwitcherElement>;
-            "amplify-block-switcher-provider": LocalJSX.AmplifyBlockSwitcherProvider & JSXBase.HTMLAttributes<HTMLAmplifyBlockSwitcherProviderElement>;
             "amplify-callout": LocalJSX.AmplifyCallout & JSXBase.HTMLAttributes<HTMLAmplifyCalloutElement>;
             "amplify-code-block": LocalJSX.AmplifyCodeBlock & JSXBase.HTMLAttributes<HTMLAmplifyCodeBlockElement>;
             "amplify-container": LocalJSX.AmplifyContainer & JSXBase.HTMLAttributes<HTMLAmplifyContainerElement>;

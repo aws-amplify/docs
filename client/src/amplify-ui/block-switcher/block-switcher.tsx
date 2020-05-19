@@ -7,11 +7,11 @@ import {
   contentStyle,
 } from "./block-switcher.style";
 import {css} from "emotion";
-import {blockSwitcherContext} from "./block-switcher.context";
+import {pageContext} from "../../docs-ui/page/page.context";
 import {
   SelectedTabHeadings,
   SetNewSelectedTabHeadings,
-} from "./block-switcher.types";
+} from "../../docs-ui/page/page.types";
 
 const BLOCK_TAG_NAME = "amplify-block";
 
@@ -112,7 +112,7 @@ export class AmplifyBlockSwitcher {
   }
 }
 
-blockSwitcherContext.injectProps(AmplifyBlockSwitcher, [
+pageContext.injectProps(AmplifyBlockSwitcher, [
   "selectedTabHeadings",
   "setNewSelectedTabHeadings",
 ]);
