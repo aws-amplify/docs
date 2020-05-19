@@ -16,8 +16,8 @@ const editor = await DataStore.save(
 // then you save the mode that links a post with an editor
 await DataStore.save(
   new PostEditor({
-    post,
-    editor
+    post: post,
+    editor: editor
   })
 );
 ```
