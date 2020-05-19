@@ -26,13 +26,13 @@ The first mode is a common authorization method for REST or GraphQL APIs, while 
 
 For many apps, user sign-up and sign-in is all that is required. Once authenticated the app can talk to an API to access and mutate data. In this case, you can simply create a User Pool by running `amplify add auth` using the Amplify CLI and selecting the default setup. In your application you can use [`Auth.signUp`](#sign-up)  and [`Auth.signIn`](#sign-in) (or an Amplify UI component) to complete this process and retrieve tokens. The Amplify client will refresh the tokens calling [`Auth.currentSession`](#retrieve-current-session) if they are no longer valid. 
 	
-![Image](https://aws-amplify.github.io/docs/images/SimpleAuthZ.png)
+![Image](~/images/SimpleAuthZ.png)
 
 ## Social Provider Federation
 	
-Many apps also support login with a social providers such as Facebook, Google Sign-In, or Login With Amazon. [The preferred way to do this is via an OAuth](#oauth-and-federation-overview) redirect which lets users login using their social media account and a corresponding user is created in User Pools. With this design you do not need to include an SDK for the social provider in your app. Set this up by running `amplify add auth` and selecting the social provider  option. Upon completion you can use [`Auth.federatedSignIn()`](#oauth-and-hosted-ui) in your application to either show a pre-built "Hosted UI" or pass in a provider name (e.g. [`Auth.federatedSignIn({provider: 'Facebook'})`](#oauth-and-hosted-ui)) to interface directly and build out your own UI.
+Many apps also support login with social providers such as Facebook, Google Sign-In, or Login With Amazon. [The preferred way to do this is via an OAuth](#oauth-and-federation-overview) redirect which lets users login using their social media account and a corresponding user is created in User Pools. With this design you do not need to include an SDK for the social provider in your app. Set this up by running `amplify add auth` and selecting the social provider  option. Upon completion you can use [`Auth.federatedSignIn()`](#oauth-and-hosted-ui) in your application to either show a pre-built "Hosted UI" or pass in a provider name (e.g. [`Auth.federatedSignIn({provider: 'Facebook'})`](#oauth-and-hosted-ui)) to interface directly and build out your own UI.
 	
-![Image](https://aws-amplify.github.io/docs/images/SocialAuthZ.png)
+![Image](~/images/SocialAuthZ.png)
 	
 You can also get credentials directly from Identity Pools by passing tokens from a provider directly to `Auth.federatedSignIn()`. However you will have to use that provider's SDK directly in your app and manage token refresh and auth flows manually.
 	
@@ -41,4 +41,4 @@ You can also get credentials directly from Identity Pools by passing tokens from
 
 Some apps need to use AWS services which require [signing requests](https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html). Examples of this would be storing images or videos on S3, or sending analytics to Pinpoint or Kinesis. Amplify automatically signs requests with short term credentials from a Cognito Identity Pool which automatically expire, rotate, and refresh by the Amplify client libraries. Setting up your backend with `amplify add auth` and calling [`Auth.signIn`](#sign-in) will automatically do this for you as well after the client authenticates. The diagram below shows how JWT tokens are returned from User Pools and AWS credentials from Identity Pools. You can access these at any time with [`Auth.currentSession()`](#retrieve-current-session) and `Auth.currentCredentials()`.
 	
-![Image](https://aws-amplify.github.io/docs/images/AWSAuthZ.png)
+![Image](~/images/AWSAuthZ.png)
