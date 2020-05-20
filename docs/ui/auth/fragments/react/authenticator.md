@@ -275,11 +275,11 @@ const App = () => (
 
 ```jsx
 import React from 'react';
-import { AmplifyAuthenticator, AmplifyRequireNewPassword, AmplifySignOut } from '@aws-amplify/ui-react';
+import { AmplifyAuthenticator, AmplifyTOTPSetup, AmplifySignOut } from '@aws-amplify/ui-react';
 
 const App = () => (
   <AmplifyAuthenticator>
-    <AmplifyRequireNewPassword headerText="My Custom TOTP Setup Text" slot="totp-setup"></AmplifyRequireNewPassword>
+    <AmplifyTOTPSetup headerText="My Custom TOTP Setup Text" slot="totp-setup"></AmplifyTOTPSetup>
 
     <div>
       My App
