@@ -58,24 +58,22 @@ export class DocsPage {
   @State() selectedFilters: Record<string, string | undefined> = {};
   @State() selectedTabHeadings: SelectedTabHeadings = [];
 
-  setSelectedNewSelectedTabHeading: SetNewSelectedTabHeadings = (
-    tabHeading,
-  ) => {
+  setNewSelectedTabHeading: SetNewSelectedTabHeadings = (tabHeading) => {
     // create temp array with `tabHeading` (the new highest priority) as first el
-    const temp = new Array<string>();
-    temp.push(tabHeading);
+    const nextSelectedTabHeadings = new Array<string>();
+    nextSelectedTabHeadings.push(tabHeading);
 
     // iterate through previous `selectedTabHeadings`
     this.selectedTabHeadings.forEach((e) => {
       // no repeats allowed!
       if (tabHeading !== e) {
         // ensure preexisting tab name priorities are preserved
-        temp.push(e);
+        nextSelectedTabHeadings.push(e);
       }
     });
 
     // set the new priority list in state
-    this.selectedTabHeadings = temp;
+    this.selectedTabHeadings = nextSelectedTabHeadings;
 
     // and serialize and save it to local storage
     localStorage.setItem(
@@ -224,122 +222,119 @@ export class DocsPage {
     if (Build.isBrowser) {
       return (
         <Host class={pageStyle}>
-          <amplify-block-switcher-provider>
-            <pageContext.Provider
-              state={{
-                selectedFilters: this.selectedFilters,
-                setSelectedFilters: this.setSelectedFilters,
-                selectedTabHeadings: this.selectedTabHeadings,
-                setNewSelectedTabHeadings: this
-                  .setSelectedNewSelectedTabHeading,
-              }}
-            >
-              <docs-universal-nav
-                blend={this.blendUniversalNav}
-                heading="Amplify Docs"
-                brand-icon="/assets/logo-light.svg"
-                brand-icon-blend="/assets/logo-dark.svg"
-              />
-              {this.pageData && this.pageData.noTemplate
-                ? createVNodesFromHyperscriptNodes(this.pageData.body)
-                : [
-                    <docs-secondary-nav />,
-                    this.pageData && this.validFilterValue ? (
-                      <div class={sidebarLayoutStyle}>
-                        <amplify-toc-provider>
-                          <amplify-sidebar-layout>
-                            {this.showMenu() && (
-                              <amplify-sidebar-layout-sidebar
-                                slot="sidebar"
-                                top={this.sidebarStickyTop}
+          <pageContext.Provider
+            state={{
+              selectedFilters: this.selectedFilters,
+              setSelectedFilters: this.setSelectedFilters,
+              selectedTabHeadings: this.selectedTabHeadings,
+              setNewSelectedTabHeadings: this.setNewSelectedTabHeading,
+            }}
+          >
+            <docs-universal-nav
+              blend={this.blendUniversalNav}
+              heading="Amplify Docs"
+              brand-icon="/assets/logo-light.svg"
+              brand-icon-blend="/assets/logo-dark.svg"
+            />
+            {this.pageData && this.pageData.noTemplate
+              ? createVNodesFromHyperscriptNodes(this.pageData.body)
+              : [
+                  <docs-secondary-nav />,
+                  this.pageData && this.validFilterValue ? (
+                    <div class={sidebarLayoutStyle}>
+                      <amplify-toc-provider>
+                        <amplify-sidebar-layout>
+                          {this.showMenu() && (
+                            <amplify-sidebar-layout-sidebar
+                              slot="sidebar"
+                              top={this.sidebarStickyTop}
+                            >
+                              <docs-menu
+                                filterKey={this.filterKey}
+                                page={this.pageData}
+                                key={this.pageData?.productRootLink?.route}
+                              />
+                            </amplify-sidebar-layout-sidebar>
+                          )}
+                          {this.requiresFilterSelection() ? (
+                            <amplify-sidebar-layout-main slot="main">
+                              <amplify-toc-contents>
+                                {this.filterKey === "integration" ? (
+                                  <docs-choose-integration-anchor
+                                    page={this.pageData}
+                                  />
+                                ) : (
+                                  <docs-choose-anchor page={this.pageData} />
+                                )}
+                              </amplify-toc-contents>
+                            </amplify-sidebar-layout-main>
+                          ) : (
+                            [
+                              <amplify-sidebar-layout-main
+                                slot="main"
+                                class={mainStyle}
                               >
-                                <docs-menu
-                                  filterKey={this.filterKey}
-                                  page={this.pageData}
-                                  key={this.pageData?.productRootLink?.route}
-                                />
-                              </amplify-sidebar-layout-sidebar>
-                            )}
-                            {this.requiresFilterSelection() ? (
-                              <amplify-sidebar-layout-main slot="main">
                                 <amplify-toc-contents>
-                                  {this.filterKey === "integration" ? (
-                                    <docs-choose-integration-anchor
+                                  {this.pageData && [
+                                    <h1
+                                      class={{
+                                        [sectionHeaderStyle]: true,
+                                        "category-heading": true,
+                                      }}
+                                    >
+                                      {this.pageData.sectionTitle}
+                                    </h1>,
+                                    <h1 class="page-heading">
+                                      {this.pageData.title}
+                                    </h1>,
+                                    createVNodesFromHyperscriptNodes(
+                                      this.pageData.body,
+                                    ),
+                                    <docs-next-previous
+                                      key={this.pageData.route}
                                       page={this.pageData}
-                                    />
-                                  ) : (
-                                    <docs-choose-anchor page={this.pageData} />
-                                  )}
+                                    />,
+                                  ]}
                                 </amplify-toc-contents>
-                              </amplify-sidebar-layout-main>
-                            ) : (
-                              [
-                                <amplify-sidebar-layout-main
-                                  slot="main"
-                                  class={mainStyle}
+                                <amplify-sidebar-layout-toggle
+                                  onClick={ensureMenuScrolledIntoView}
+                                  in-view-class="in-view"
+                                  class={{
+                                    "three-dee-effect": true,
+                                    [sidebarToggleClass]: true,
+                                  }}
                                 >
-                                  <amplify-toc-contents>
-                                    {this.pageData && [
-                                      <h1
-                                        class={{
-                                          [sectionHeaderStyle]: true,
-                                          "category-heading": true,
-                                        }}
-                                      >
-                                        {this.pageData.sectionTitle}
-                                      </h1>,
-                                      <h1 class="page-heading">
-                                        {this.pageData.title}
-                                      </h1>,
-                                      createVNodesFromHyperscriptNodes(
-                                        this.pageData.body,
-                                      ),
-                                      <docs-next-previous
-                                        key={this.pageData.route}
-                                        page={this.pageData}
-                                      />,
-                                    ]}
-                                  </amplify-toc-contents>
-                                  <amplify-sidebar-layout-toggle
-                                    onClick={ensureMenuScrolledIntoView}
-                                    in-view-class="in-view"
-                                    class={{
-                                      "three-dee-effect": true,
-                                      [sidebarToggleClass]: true,
-                                    }}
-                                  >
-                                    <img
-                                      class="burger-graphic"
-                                      src="/assets/burger.svg"
+                                  <img
+                                    class="burger-graphic"
+                                    src="/assets/burger.svg"
+                                  />
+                                  <img
+                                    class="ex-graphic"
+                                    src="/assets/close.svg"
+                                  />
+                                </amplify-sidebar-layout-toggle>
+                              </amplify-sidebar-layout-main>,
+                              !this.pageData?.disableTOC && (
+                                <div slot="toc" class={tocStyle}>
+                                  <div>
+                                    <amplify-toc
+                                      pageTitle={this.pageData?.title}
                                     />
-                                    <img
-                                      class="ex-graphic"
-                                      src="/assets/close.svg"
-                                    />
-                                  </amplify-sidebar-layout-toggle>
-                                </amplify-sidebar-layout-main>,
-                                !this.pageData?.disableTOC && (
-                                  <div slot="toc" class={tocStyle}>
-                                    <div>
-                                      <amplify-toc
-                                        pageTitle={this.pageData?.title}
-                                      />
-                                    </div>
                                   </div>
-                                ),
-                              ]
-                            )}
-                          </amplify-sidebar-layout>
-                        </amplify-toc-provider>
-                      </div>
-                    ) : (
-                      <docs-four-o-four />
-                    ),
-                    <docs-footer />,
-                  ]}
-              <docs-chat-button />
-            </pageContext.Provider>
-          </amplify-block-switcher-provider>
+                                </div>
+                              ),
+                            ]
+                          )}
+                        </amplify-sidebar-layout>
+                      </amplify-toc-provider>
+                    </div>
+                  ) : (
+                    <docs-four-o-four />
+                  ),
+                  <docs-footer />,
+                ]}
+            <docs-chat-button />
+          </pageContext.Provider>
         </Host>
       );
     }
