@@ -60,12 +60,12 @@ export class DocsMenu {
                   <docs-version-switch
                     leftOption={{
                       title: "Libraries",
-                      subTitle: "(preview)",
+                      subTitle: "(latest)",
                       href: "/lib",
                     }}
                     rightOption={{
                       title: "SDK",
-                      subTitle: "(stable)",
+                      subTitle: "(legacy)",
                       href: "/sdk",
                     }}
                   />
