@@ -1,10 +1,10 @@
 **Open Android Studio.**  Select **+ Start a new Android Studio project.**
 
-[TODO: ADD IMAGE]
+![](~/images/lib/getting-started/android/set-up-android-studio-welcome.png)
 
 In **Select a Project Template**, select **Empty Activity**. Press **Next**.
 
-[TODO: ADD IMAGE]
+![](~/images/lib/getting-started/android/set-up-android-studio-select-project-template.png)
 
 Next, configure your project:
 
@@ -13,10 +13,10 @@ Next, configure your project:
  - Select *API 16: Android 4.1 (Jelly Bean)* from the **Minimum SDK** dropdown menu
  - Press **Finish**
 
-[TODO: ADD IMAGE]
+![](~/images/lib/getting-started/android/set-up-android-studio-configure-your-project.png)
 
 Android Studio will open your project with a tab opened to either *MainActivity.java* or *MainActivity.kt* depending upon if you created a Java or Kotlin project respectively.
 
-[TODO: ADD IMAGE]
+![](~/images/lib/getting-started/android/set-up-android-studio-successful-setup.png)
 
 You should now have an empty Android project without Amplify.

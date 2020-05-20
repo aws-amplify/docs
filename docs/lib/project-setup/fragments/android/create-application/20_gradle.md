@@ -1,6 +1,4 @@
-### Step 2: Install Amplify Libraries via Gradle
-
-Amplify for Android is distribued as an Apache Maven package. In this section, you'll add the packages and other required directives to your build configuration.
+Amplify for Android is distributed as Apache Maven packages. In this section, you'll add the packages and other required directives to your build configuration.
 
 Expand **Gradle Scripts** and open **build.gradle (Project: Todo)**. Add the following lines:
 
@@ -49,8 +47,8 @@ Run **Gradle Sync**
 
 Android Studio requires you to sync your project with your new configuration. To do this, click **Sync Now** in the notification bar above the file editor.
 
-[TODO: Add image]
+![](~/images/lib/getting-started/android/set-up-android-studio-sync-gradle.png)
 
 When complete, you will see *CONFIGURE SUCCESSFUL* in the output in the *Build* tab at the bottom of your screen.
     
-[TODO: Add image]
+![](~/images/lib/getting-started/android/set-up-android-studio-configure-successful.png)
