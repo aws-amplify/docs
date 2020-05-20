@@ -5,3 +5,4 @@ description: Get started with integrating ML capabilities into your application 
 
 <inline-fragment platform="js" src="~/lib/predictions/fragments/js/getting-started.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/predictions/fragments/ios/getting-started.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/predictions/fragments/android/getting-started.md"></inline-fragment>

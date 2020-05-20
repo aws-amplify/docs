@@ -946,12 +946,22 @@
     <priority>.5</priority>
   </url>
   <url>
+    <loc>https://docs.amplify.aws/lib/predictions/escapehatch/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
     <loc>https://docs.amplify.aws/lib/predictions/escapehatch/q/platform/ios</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/predictions/getting-started</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/predictions/getting-started/q/platform/android</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -971,12 +981,22 @@
     <priority>.5</priority>
   </url>
   <url>
+    <loc>https://docs.amplify.aws/lib/predictions/identify-celebrity/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
     <loc>https://docs.amplify.aws/lib/predictions/identify-celebrity/q/platform/ios</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/predictions/identify-entity</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/predictions/identify-entity/q/platform/android</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -996,6 +1016,11 @@
     <priority>.5</priority>
   </url>
   <url>
+    <loc>https://docs.amplify.aws/lib/predictions/identify-text/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
     <loc>https://docs.amplify.aws/lib/predictions/identify-text/q/platform/ios</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1007,6 +1032,11 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/predictions/interpret</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/predictions/interpret/q/platform/android</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -1041,6 +1071,11 @@
     <priority>.5</priority>
   </url>
   <url>
+    <loc>https://docs.amplify.aws/lib/predictions/label-image/q/platform/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
     <loc>https://docs.amplify.aws/lib/predictions/label-image/q/platform/ios</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1062,6 +1097,11 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/predictions/text-speech</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/predictions/text-speech/q/platform/android</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
@@ -1092,6 +1132,11 @@
   </url>
   <url>
     <loc>https://docs.amplify.aws/lib/predictions/translate</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/lib/predictions/translate/q/platform/android</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
