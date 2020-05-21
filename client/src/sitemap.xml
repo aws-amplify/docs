@@ -1961,6 +1961,11 @@
     <priority>.5</priority>
   </url>
   <url>
+    <loc>https://docs.amplify.aws/start/getting-started/hosting/q/integration/android</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
     <loc>https://docs.amplify.aws/start/getting-started/hosting/q/integration/angular</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
@@ -1971,12 +1976,22 @@
     <priority>.5</priority>
   </url>
   <url>
+    <loc>https://docs.amplify.aws/start/getting-started/hosting/q/integration/ios</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
     <loc>https://docs.amplify.aws/start/getting-started/hosting/q/integration/js</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>
   <url>
     <loc>https://docs.amplify.aws/start/getting-started/hosting/q/integration/react</loc>
+    <changefreq>hourly</changefreq>
+    <priority>.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.amplify.aws/start/getting-started/hosting/q/integration/react-native</loc>
     <changefreq>hourly</changefreq>
     <priority>.5</priority>
   </url>

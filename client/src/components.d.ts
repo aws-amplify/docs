@@ -5,9 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { SelectedFilters, SelectedTabHeadings, SetNewSelectedTabHeadings, } from "./docs-ui/page/page.types";
 import { ToggleInView, } from "./amplify-ui/sidebar-layout/sidebar-layout.types";
 import { SetContent, } from "./amplify-ui/toc/toc.types";
-import { SelectedFilters, } from "./docs-ui/page/page.types";
 import { MenuGroup, Page, } from "./api";
 import { CustomComponentName, } from "./docs-ui/component-playground/component-playground.types";
 import { MatchResults, } from "@stencil/router";
@@ -20,6 +20,14 @@ export namespace Components {
         "name"?: string;
     }
     interface AmplifyBlockSwitcher {
+        /**
+          * list of previously tab headings in order of priority, passed from global provider
+         */
+        "selectedTabHeadings": SelectedTabHeadings;
+        /**
+          * tack on a new tab heading at highest priority
+         */
+        "setNewSelectedTabHeadings": SetNewSelectedTabHeadings;
     }
     interface AmplifyCallout {
         /**
@@ -36,12 +44,6 @@ export namespace Components {
           * the number of lines of the code block
          */
         "lineCount": number;
-    }
-    interface AmplifyCodeBlockSwitcher {
-        /**
-          * the tab headings, comma-separated as a single string
-         */
-        "tabHeadingList"?: string;
     }
     interface AmplifyContainer {
         /**
@@ -405,12 +407,6 @@ declare global {
         prototype: HTMLAmplifyCodeBlockElement;
         new (): HTMLAmplifyCodeBlockElement;
     };
-    interface HTMLAmplifyCodeBlockSwitcherElement extends Components.AmplifyCodeBlockSwitcher, HTMLStencilElement {
-    }
-    var HTMLAmplifyCodeBlockSwitcherElement: {
-        prototype: HTMLAmplifyCodeBlockSwitcherElement;
-        new (): HTMLAmplifyCodeBlockSwitcherElement;
-    };
     interface HTMLAmplifyContainerElement extends Components.AmplifyContainer, HTMLStencilElement {
     }
     var HTMLAmplifyContainerElement: {
@@ -644,7 +640,6 @@ declare global {
         "amplify-block-switcher": HTMLAmplifyBlockSwitcherElement;
         "amplify-callout": HTMLAmplifyCalloutElement;
         "amplify-code-block": HTMLAmplifyCodeBlockElement;
-        "amplify-code-block-switcher": HTMLAmplifyCodeBlockSwitcherElement;
         "amplify-container": HTMLAmplifyContainerElement;
         "amplify-external-link": HTMLAmplifyExternalLinkElement;
         "amplify-hero": HTMLAmplifyHeroElement;
@@ -693,6 +688,14 @@ declare namespace LocalJSX {
         "name"?: string;
     }
     interface AmplifyBlockSwitcher {
+        /**
+          * list of previously tab headings in order of priority, passed from global provider
+         */
+        "selectedTabHeadings"?: SelectedTabHeadings;
+        /**
+          * tack on a new tab heading at highest priority
+         */
+        "setNewSelectedTabHeadings"?: SetNewSelectedTabHeadings;
     }
     interface AmplifyCallout {
         /**
@@ -709,12 +712,6 @@ declare namespace LocalJSX {
           * the number of lines of the code block
          */
         "lineCount"?: number;
-    }
-    interface AmplifyCodeBlockSwitcher {
-        /**
-          * the tab headings, comma-separated as a single string
-         */
-        "tabHeadingList"?: string;
     }
     interface AmplifyContainer {
         /**
@@ -1057,7 +1054,6 @@ declare namespace LocalJSX {
         "amplify-block-switcher": AmplifyBlockSwitcher;
         "amplify-callout": AmplifyCallout;
         "amplify-code-block": AmplifyCodeBlock;
-        "amplify-code-block-switcher": AmplifyCodeBlockSwitcher;
         "amplify-container": AmplifyContainer;
         "amplify-external-link": AmplifyExternalLink;
         "amplify-hero": AmplifyHero;
@@ -1106,7 +1102,6 @@ declare module "@stencil/core" {
             "amplify-block-switcher": LocalJSX.AmplifyBlockSwitcher & JSXBase.HTMLAttributes<HTMLAmplifyBlockSwitcherElement>;
             "amplify-callout": LocalJSX.AmplifyCallout & JSXBase.HTMLAttributes<HTMLAmplifyCalloutElement>;
             "amplify-code-block": LocalJSX.AmplifyCodeBlock & JSXBase.HTMLAttributes<HTMLAmplifyCodeBlockElement>;
-            "amplify-code-block-switcher": LocalJSX.AmplifyCodeBlockSwitcher & JSXBase.HTMLAttributes<HTMLAmplifyCodeBlockSwitcherElement>;
             "amplify-container": LocalJSX.AmplifyContainer & JSXBase.HTMLAttributes<HTMLAmplifyContainerElement>;
             "amplify-external-link": LocalJSX.AmplifyExternalLink & JSXBase.HTMLAttributes<HTMLAmplifyExternalLinkElement>;
             "amplify-hero": LocalJSX.AmplifyHero & JSXBase.HTMLAttributes<HTMLAmplifyHeroElement>;

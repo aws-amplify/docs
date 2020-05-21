@@ -1,5 +1,7 @@
 # Amplify Framework Documentation
 
+[![DiscordChat](https://img.shields.io/discord/308323056592486420?logo=discord")](https://discord.gg/jWVbPfC)
+
 > https://docs.amplify.aws
 
 ## Getting Started
@@ -158,6 +160,7 @@ description: how to configure auth
 
 ````md
 <amplify-block-switcher>
+
 <amplify-block name="JavaScript">
 
 ```js
@@ -173,6 +176,7 @@ const a: "a" = "a";
 ```
 
 </amplify-block>
+
 <amplify-block name="Rust">
 
 ```rust
@@ -180,5 +184,6 @@ let mut a = String::from("a");
 ```
 
 </amplify-block>
+
 </amplify-block-switcher>
 ````
