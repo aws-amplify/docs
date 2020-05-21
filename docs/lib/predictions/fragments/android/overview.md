@@ -1,1 +1,0 @@
-this section will have some concepts
