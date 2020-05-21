@@ -1,6 +1,6 @@
 Now that your have DataStore persisting data locally, in the next step you'll connect it to the cloud. With a couple of commands, you'll create an AWS AppSync API and configure DataStore to synchronize its data to it.
 
-1. Configure Amplify to manage cloud resources on your behalf. This step will configure a new AWS user in your account for Amplify.
+1. Configure Amplify to manage cloud resources on your behalf. This step will configure a new AWS user in your account for Amplify. Open up a terminal window. You can use an external terminal or the integrated terminal in Android Studio. In the terminal, run:
 
     ```bash
     amplify configure
@@ -75,12 +75,13 @@ Now that your have DataStore persisting data locally, in the next step you'll co
 
 1. Run the application. This will synchronize the existing local Todo items to the cloud. The above snippet subscribes to Hub – our lightweight publish/subscribe mechanism to allow an application to be notified of events – for any items created on the cloud and synchronized locally and logs those Todo items. 
 
-1. Open up a terminal window. You can use an external terminal or the integrated terminal in Android Studio. In the terminal, run `amplify api console`. When prompted, select **GraphQL**. This will open the AWS AppSync console.
+1. Open up a terminal window. You can use an external terminal or the integrated terminal in Android Studio. In the terminal, run:
 
    ```bash
    amplify api console
    ```
 
+sc
    ```console
    ? Please select from one of the below mentioned services: (Use arrow keys)
       GraphQL 

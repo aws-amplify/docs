@@ -46,7 +46,9 @@ First, we'll add the DataStore plugin and configure Amplify. Typically, a good p
     com.example.todo I/Tutorial: Initialized Amplify
     ```
 
-    To make this easier to find, enter the string **Tutorial** into the search field (denoted by the magnifying glass icon).
+    To make this easier to find, select the **Verbose** logging level, and enter the string **Tutorial** into the search field (denoted by the magnifying glass icon):
+
+    ![](~/images/lib/getting-started/android/set-up-android-studio-logcat-setup.gif)
 
 ## Create a Todo
 
