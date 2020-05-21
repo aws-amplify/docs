@@ -58,7 +58,7 @@ Next, you'll create a Todo and save it to DataStore.
   ```java
   Todo item = Todo.builder()
           .name("Build Android application")
-          .description("Build an Android Application using Amplify")
+          .description("Build an Android application using Amplify")
           .build();
   ```
 
@@ -69,7 +69,7 @@ Next, you'll create a Todo and save it to DataStore.
   ```kotlin
   val item: Todo = Todo.builder()
         .name("Build Android application")
-        .description("Build an Android Application using Amplify")
+        .description("Build an Android application using Amplify")
         .build()
   ```
 

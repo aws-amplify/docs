@@ -1,6 +1,6 @@
 Now that your have DataStore persisting data locally, in the next step you'll connect it to the cloud. With a couple of commands, you'll create an AWS AppSync API and configure DataStore to synchronize its data to it.
 
-1. Configure Amplify to manage cloud resources on your behalf. Run `amplify configure`. This step will configure a new AWS user in your account for Amplify.
+1. Configure Amplify to manage cloud resources on your behalf. This step will configure a new AWS user in your account for Amplify.
 
     ```bash
     amplify configure
@@ -30,15 +30,33 @@ Now that your have DataStore persisting data locally, in the next step you'll co
       Log.e("Tutorial", "Could not initialize Amplify", e);
   }
 
-  Todo item = Todo.builder()
-      .name("Build Android application")
-      .description("Build an Android Application using Amplify")
-      .build();
-
   Amplify.DataStore.save(
-      item,
-      success -> Log.i("Tutorial", "Saved item: " + success.item.getName()),
-      error -> Log.e("Tutorial", "Could not save item to DataStore", error)
+          Todo.builder()
+                  .name("Build Android application")
+                  .description("Build an Android application using Amplify")
+                  .build(),
+          success -> Log.i("Tutorial", "Saved item: " + success.item.getName()),
+          error -> Log.e("Tutorial", "Could not save item to DataStore", error)
+  );
+
+  Amplify.Hub.subscribe(
+          HubChannel.DATASTORE,
+          event -> DataStoreChannelEventName.RECEIVED_FROM_CLOUD.toString().equals(event.getName()),
+          event -> {
+              ModelWithMetadata modelWithMetadata = (ModelWithMetadata) event.getData();
+              Todo todo = (Todo) modelWithMetadata.model;
+
+              Log.i("Tutorial", "==== Todo ====");
+              Log.i("Tutorial", "Name: " + todo.getName());
+
+              if (todo.getPriority() != null) {
+                  Log.i("Tutorial", "Priority: " + todo.getPriority().toString());
+              }
+
+              if (todo.getDescription() != null) {
+                  Log.i("Tutorial", "Description: " + todo.getDescription());
+              }
+          }
   );
   ```
 
@@ -57,22 +75,43 @@ Now that your have DataStore persisting data locally, in the next step you'll co
       Log.e("Tutorial", "Could not initialize Amplify", e)
   }
 
-  val item: Todo = Todo.builder()
-      .name("Build Android application")
-      .description("Build an Android Application using Amplify")
-      .build()
-
   Amplify.DataStore.save(
-          item,
-          { success -> Log.i("Tutorial", "Saved item: " + success.item.name) },
+          Todo.builder()
+                  .name("Build Android application")
+                  .description("Build an Android application using Amplify")
+                  .build(),
+          { success -> Log.i("Tutorial", "Saved item: " + success.item.getName()) },
           { error -> Log.e("Tutorial", "Could not save item to DataStore", error) }
+  )
+
+  Amplify.Hub.subscribe(
+          HubChannel.DATASTORE,
+          { event -> event.getName() == DataStoreChannelEventName.RECEIVED_FROM_CLOUD.toString() },
+          { event ->
+              val modelWithMetadata = event.getData() as ModelWithMetadata<*>?
+              val todo: Todo = modelWithMetadata!!.model as Todo
+              val name = todo.name;
+              val priority: Priority? = todo.priority
+              val description: String? = todo.description
+
+              Log.i("Tutorial", "==== Todo ====")
+              Log.i("Tutorial", "Name: $name")
+
+              if (priority != null) {
+                  Log.i("Tutorial", "Priority: $priority")
+              }
+
+              if (description != null) {
+                  Log.i("Tutorial", "Description: $description")
+              }
+          }
   )
   ```
 
   </amplify-block>
   </amplify-block-switcher>
 
-1. Run the application. This will create a new Todo item and synchronize it to the backend.
+1. Run the application. This will create a new Todo item and synchronize it to the backend called "Build Android application." Additionally, it subscribes to Hub – our lightweight publish/subscribe mechanism to allow an application to be notified of events – for any items created on the cloud and synchronized locally and logs those Todo items. 
 
 1. Open up a terminal window. You can use an external terminal or the integrated terminal in Android Studio. In the terminal, run `amplify api console`. When prompted, select **GraphQL**. This will open the AWS AppSync console.
 
@@ -127,10 +166,13 @@ Now that your have DataStore persisting data locally, in the next step you'll co
 
     ![](~/images/lib/getting-started/android/set-up-appsync-create.png)
 
-1. Start your application. In the logs, filter for **aws-datastore** in **Verbose** mode.
+1. Start your application. In the logs, filter for **Tutorial**.
 
     You will see this item synchronize to your local storage:
 
     ```console
-    com.example.todo I/amplify:aws-datastore: Remote model update was sync'd down into local storage: ModelWithMetadata{model=Todo {id=2fc77577-41e0-4d2a-88bb-c727e187e701 name=Tidy up the office priority=NORMAL description=Organize books, vaccuum, take out the trash}, syncMetadata=ModelMetadata{id='2fc77577-41e0-4d2a-88bb-c727e187e701', _deleted=null, _version=1, _lastChangedAt=1589396142622}}
+    com.example.todo I/Tutorial: ==== Todo ====
+    com.example.todo I/Tutorial: Name: Tidy up the office
+    com.example.todo I/Tutorial: Priority: NORMAL
+    com.example.todo I/Tutorial: Description: Organize books, vaccuum, take out the trash
     ```

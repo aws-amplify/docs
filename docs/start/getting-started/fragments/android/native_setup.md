@@ -7,12 +7,6 @@
 
 ## Prerequisites
 
-  <amplify-callout warning>
-
-  **KNOWN LIMITATION** This tutorial currently does not work under Windows.
-
-  </amplify-callout>
-
 - Install [Node.js](https://nodejs.org/en/) version 10 or higher
 - Install [Android Studio](https://developer.android.com/studio/index.html#downloads) version 3.6 or higher
 - Install the [Android SDK](https://developer.android.com/studio/releases/platforms) API level 16 (Jelly Bean) or higher
@@ -53,8 +47,9 @@ Amplify for Android is distribued as an Apache Maven package. In this section, y
 
 1. Expand **Gradle Scripts** and open **build.gradle (Project: Todo)**. Add the following lines:
 
-    - Add the line `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'` within the `dependencies` block
+    - Add the line `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.0'` within the `dependencies` block
     - Add the line  `plugin 'com.amplifyframework.amplifytools'` at the end of the file 
+    - Add the line `mavenCentral()` within the `repositories` block which is within the `allprojects` block
 
     ```groovy
     buildscript {
@@ -62,7 +57,15 @@ Amplify for Android is distribued as an Apache Maven package. In this section, y
 
         dependencies {
             classpath 'com.android.tools.build:gradle:3.6.3'
-            classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'
+            classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.0'
+        }
+    }
+
+    allprojects {
+        repositories {
+            google()
+            jcenter()
+            mavenCentral()
         }
     }
 
