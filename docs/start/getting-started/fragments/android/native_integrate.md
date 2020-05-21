@@ -1,4 +1,4 @@
-Next you'll use the generated model to create, update, query, and delete data. In this section you'll initialize DataStore, and then manipulate Todo items.
+Next you'll use the generated model to read and write data. In this section you'll initialize DataStore, and create and query for Todo items.
 
 ## Configure Amplify and DataStore
 
@@ -12,6 +12,7 @@ First, we'll add the DataStore plugin and configure Amplify. Typically, a good p
   ```java
   try {
       Amplify.addPlugin(new AWSDataStorePlugin());
+      Amplify.addPlugin(new AWSApiPlugin());
       Amplify.configure(getApplicationContext());
 
       Log.i("Tutorial", "Initialized Amplify");
@@ -27,6 +28,7 @@ First, we'll add the DataStore plugin and configure Amplify. Typically, a good p
   ```kotlin
   try {
       Amplify.addPlugin(AWSDataStorePlugin())
+      Amplify.addPlugin(AWSApiPlugin())
       Amplify.configure(applicationContext)
 
       Log.i("Tutorial", "Initialized Amplify")
@@ -133,7 +135,7 @@ Next, you'll create a Todo and save it to DataStore.
   ```kotlin
   val item = Todo.builder()
         .name("Finish quarterly taxes")
-        .priority(1)
+        .priority(Priority.HIGH)
         .description("Taxes are due for the quarter next week")
         .build()
   ```
@@ -285,7 +287,7 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
         Where.matches(
             Todo.PRIORITY.eq(Priority.HIGH)
         ),
-        Consumer { todos ->
+        { todos ->
             while (todos.hasNext()) {
                 val todo = todos.next()
                 val name = todo.name;
@@ -304,7 +306,7 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
                 }
             }
         },
-        Consumer { failure -> Log.e("Tutorial", "Could not query DataStore", failure) }
+        { failure -> Log.e("Tutorial", "Could not query DataStore", failure) }
     )
     ```
 
@@ -322,138 +324,3 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
   com.example.todo I/Tutorial: Description: Taxes are due for the quarter next week
   com.example.todo I/Tutorial: Priority: HIGH
   ```
-
-## Update a Todo
-
-You may want to change the contents of a record. Below, we'll query for a record, create a copy of it, modify it, and save it back to DataStore. 
-
-1. Edit your `onCreate` method to remove the item creation and save. Your `onCreate()` should only include the code required to initiatize Amplify and not calls to `Todo.builder()` or `Amplify.DataStore.save()`.
-
-1. Below the initialization code, add the following: 
-
-  <amplify-block-switcher>
-  <amplify-block name="Java">
-
-    ```java
-    Amplify.DataStore.query(
-            Todo.class,
-            Where.matches(
-              Todo.NAME.eq("Finish quarterly taxes")
-            ),
-            todos -> {
-                while (todos.hasNext()) {
-                    Todo todo = todos.next();
-                    Todo updated = todo.copyOfBuilder()
-                            .name("File quarterly taxes")
-                            .build();
-
-                    Amplify.DataStore.save(updated,
-                            success -> Log.i("Tutorial", "Updated item: " + success.item.getName()),
-                            error -> Log.e("Tutorial", "Could not update data in DataStore", error)
-                    );
-                }
-            },
-            failure -> Log.e("Tutorial", "Could not query DataStore", failure)
-    );
-    ```
-
-  </amplify-block>
-
-  <amplify-block name="Kotlin">
-
-    ```kotlin
-    Amplify.DataStore.query(
-            Todo::class.java,
-            Where.matches(
-              Todo.NAME.eq("Finish quarterly taxes")
-            ),
-            Consumer { todos ->
-                while (todos.hasNext()) {
-                    val todo = todos.next()
-                    val updated = todo.copyOfBuilder()
-                            .name("File quarterly taxes")
-                            .build()
-                    Amplify.DataStore.save(updated,
-                            { success -> Log.i("Tutorial", "Updated item: " + success.item.name) },
-                            { error -> Log.e("Tutorial", "Could not save item to DataStore", error) }
-                    )
-                }
-            },
-            Consumer { failure -> Log.e("Tutorial", "Could not query DataStore", failure) }
-    )
-    ```
-
-  </amplify-block>
-  </amplify-block-switcher>
-
-    Models in DataStore are immutable, so in order to update you first create a copy of the object, modify its properties, and then save it.
-
-1. Run the application. In logcat, you'll see an indication that the item was updated successfully:
-
-    ```console
-    com.example.todo I/Tutorial: Initialized Amplify
-    com.example.todo I/Tutorial: Updated item: File quarterly taxes
-    ```
-  
-## Delete a Todo
-
-To round out our CRUD operations, we'll query for a record and delete it from DataStore.
-
-1. Edit your `onCreate` method to remove the item creation and save. Your `onCreate()` should only include the code required to initiatize Amplify and not calls to `Todo.builder()` or `Amplify.DataStore.save()`.
-
-1. Below the initialization code, add the following: 
-
-  <amplify-block-switcher>
-  <amplify-block name="Java">
-
-    ```java
-    Amplify.DataStore.query(
-        Todo.class,
-        Where.matches(
-          Todo.NAME.eq("File quarterly taxes")
-        ),
-        todos -> {
-            if (todos.hasNext()) {
-                Todo todo = todos.next();
-
-                Amplify.DataStore.delete(todo,
-                        success -> Log.i("Tutorial", "Deleted item: " + success.item.getName()),
-                        error -> Log.e("Tutorial", "Could not delete item", error)
-                );
-            }
-        },
-        failure -> Log.e("Tutorial", "Could not query DataStore", failure)
-  );
-  ```
-  </amplify-block>
-
-  <amplify-block name="Kotlin">
-
-  ```kotlin
-  Amplify.DataStore.query(
-        Todo::class.java,
-        Where.matches(
-          Todo.NAME.eq("File quarterly taxes")
-        ),
-        Consumer { todos ->
-            if (todos.hasNext()) {
-                val todo = todos.next()
-                Amplify.DataStore.delete(todo,
-                        { success -> Log.i("Tutorial", "Deleted item: " + success.item.name) },
-                        { error -> Log.e("Tutorial", "Could not delete item", error) }
-                )
-            }
-        },
-        Consumer { failure -> Log.e("Tutorial", "Could not query DataStore", failure) }
-  )
-  ```
-
-  </amplify-block>
-  </amplify-block-switcher>
-
-  1. Run the application. In logcat, you'll see an indication that the item was deleted successfully:
-
-    ```console
-    com.example.todo I/Tutorial: Initialized Amplify
-    com.example.todo I/Tutorial: Deleted item: File quarterly taxes
-    ```

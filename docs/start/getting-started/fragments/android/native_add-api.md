@@ -14,31 +14,12 @@ Now that your have DataStore persisting data locally, in the next step you'll co
 
 1. Run the task. You can do this by pressing the **play button** or pressing **Control-R**.
 
-1. Modify your initialization code to initialize API in order to connect to the backend. Open `MainActivity` and remove all of the previous code you entered. Now, add the following code to the bottom of the `onCreate()` method:
+1. Modify your initialization code to initialize API in order to connect to the backend. Open `MainActivity` and remove all of the previous code you entered that saved and queried for Todo items. Now, add the following code to the bottom of the `onCreate()` method:
 
   <amplify-block-switcher>
   <amplify-block name="Java">
   
   ```java
-  try {
-      Amplify.addPlugin(new AWSDataStorePlugin());
-      Amplify.addPlugin(new AWSApiPlugin());
-      Amplify.configure(getApplicationContext());
-
-      Log.i("Tutorial", "Initialized Amplify");
-  } catch (AmplifyException e) {
-      Log.e("Tutorial", "Could not initialize Amplify", e);
-  }
-
-  Amplify.DataStore.save(
-          Todo.builder()
-                  .name("Build Android application")
-                  .description("Build an Android application using Amplify")
-                  .build(),
-          success -> Log.i("Tutorial", "Saved item: " + success.item.getName()),
-          error -> Log.e("Tutorial", "Could not save item to DataStore", error)
-  );
-
   Amplify.Hub.subscribe(
           HubChannel.DATASTORE,
           event -> DataStoreChannelEventName.RECEIVED_FROM_CLOUD.toString().equals(event.getName()),
@@ -65,25 +46,6 @@ Now that your have DataStore persisting data locally, in the next step you'll co
   <amplify-block name="Kotlin">
 
   ```kotlin
-  try {
-      Amplify.addPlugin(AWSDataStorePlugin())
-      Amplify.addPlugin(AWSApiPlugin())
-      Amplify.configure(applicationContext)
-
-      Log.i("Tutorial", "Initialized Amplify")
-  } catch (e: AmplifyException) {
-      Log.e("Tutorial", "Could not initialize Amplify", e)
-  }
-
-  Amplify.DataStore.save(
-          Todo.builder()
-                  .name("Build Android application")
-                  .description("Build an Android application using Amplify")
-                  .build(),
-          { success -> Log.i("Tutorial", "Saved item: " + success.item.getName()) },
-          { error -> Log.e("Tutorial", "Could not save item to DataStore", error) }
-  )
-
   Amplify.Hub.subscribe(
           HubChannel.DATASTORE,
           { event -> event.getName() == DataStoreChannelEventName.RECEIVED_FROM_CLOUD.toString() },
@@ -111,7 +73,7 @@ Now that your have DataStore persisting data locally, in the next step you'll co
   </amplify-block>
   </amplify-block-switcher>
 
-1. Run the application. This will create a new Todo item and synchronize it to the backend called "Build Android application." Additionally, it subscribes to Hub – our lightweight publish/subscribe mechanism to allow an application to be notified of events – for any items created on the cloud and synchronized locally and logs those Todo items. 
+1. Run the application. This will synchronize the existing local Todo items to the cloud. The above snippet subscribes to Hub – our lightweight publish/subscribe mechanism to allow an application to be notified of events – for any items created on the cloud and synchronized locally and logs those Todo items. 
 
 1. Open up a terminal window. You can use an external terminal or the integrated terminal in Android Studio. In the terminal, run `amplify api console`. When prompted, select **GraphQL**. This will open the AWS AppSync console.
 
@@ -133,7 +95,6 @@ Now that your have DataStore persisting data locally, in the next step you'll co
                 id
                 name
                 description
-                _deleted
             }
         }
     }
@@ -149,26 +110,24 @@ Now that your have DataStore persisting data locally, in the next step you'll co
     mutation CreateTodo {
         createTodo(
             input: {
-            name: "Tidy up the office",
-            description: "Organize books, vaccuum, take out the trash",
-            priority: NORMAL
+                name: "Tidy up the office"
+                description: "Organize books, vaccuum, take out the trash"
+                priority: NORMAL
             }
         ) {
-            id,
-            name,
-            description,
-            priority,
-            _version,
-            _lastChangedAt,
+            id
+            name
+            description
+            priority
+            _version
+            _lastChangedAt
         }
     }
-    ```
+```
 
     ![](~/images/lib/getting-started/android/set-up-appsync-create.png)
 
-1. Start your application. In the logs, filter for **Tutorial**.
-
-    You will see this item synchronize to your local storage:
+1. In the logs of your running application, filter for **Tutorial**. You will see this item synchronize to your local storage:
 
     ```console
     com.example.todo I/Tutorial: ==== Todo ====
