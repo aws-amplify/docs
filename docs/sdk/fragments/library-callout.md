@@ -1,4 +1,2 @@
-<amplify-callout warning>
-
-We recommend using the Amplify Android and Amplify iOS libraries to build your cloud connected apps. [Learn more](~/start/start.md)
-</amplify-callout>
+<inline-fragment platform="ios" src="~/sdk/fragments/ios/library-callout.md"></inline-fragment>
+<inline-fragment platform="android" src="~/sdk/fragments/android/library-callout.md"></inline-fragment>
