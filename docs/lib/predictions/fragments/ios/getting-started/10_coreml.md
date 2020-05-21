@@ -1,0 +1,1 @@
+Specifically on iOS, we leverage Apple’s Core ML [Vision Framework](https://developer.apple.com/documentation/vision) to support offline use cases, and augment results returned from Amazon Services for a couple of our use cases.  For more information, see each individual use case.

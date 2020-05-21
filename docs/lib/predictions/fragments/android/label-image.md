@@ -1,3 +1,5 @@
+The following APIs will enable you identify real world objects (chairs, desks, etc) in images.  These objects are referred to as "labels" from images.
+
 ## Set up your backend
 
 If you haven't already done so, run `amplify init` inside your project and then `amplify add auth` (we recommend selecting the *default configuration*).
