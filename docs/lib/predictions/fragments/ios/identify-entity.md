@@ -97,4 +97,4 @@ func detectCelebs(_ image: URL) {
   })
 }
 ```
-As a result of passing in a URL of an image of a celebrity, you should see the corresponding celebrity name printed to the screen along with additional metadata.
+As a result of passing in a URL of an image of a well known celebrity, you will see the corresponding celebrity name printed to the screen along with additional metadata.
