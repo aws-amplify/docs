@@ -1,4 +1,4 @@
-When your backend is successfully updated, there should be two newly created files: `amplifyconfiguration.json` and `awsconfiguration.json` in your project folder.
+When your backend is successfully updated, there should be one newly created file: `amplifyconfiguration.json` in your project folder.
 
 ## Install Amplify libraries and tools
 

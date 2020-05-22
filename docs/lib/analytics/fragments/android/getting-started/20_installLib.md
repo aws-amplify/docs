@@ -1,22 +1,22 @@
-To install the Analytic and Auth to your application, **add both `AmplifyPlugins/AWSPinpointPlugin` and `AmplifyPlugins/AWSCognitoAuthPlugin` to your `Podfile`**. Your `Podfile` should look similar to:
+Open your project `build.gradle` and add the following:
 
-```ruby
-target 'MyAmplifyApp' do
-  use_frameworks!
-  pod 'Amplify'
-  pod 'AmplifyPlugins/AWSPinpointAnalyticsPlugin'
-  pod `AmplifyPlugins/AWSCognitoAuthPlugin`
-end
+* `mavenCentral()` as a repository
+
+```groovy
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.0'
+    }
+}
 ```
 
-To install, download and resolve these pods, **execute the command**:
+Next add the following dependencies to your app `build.gradle`:
 
-```ruby
-pod install --repo-update
-```
-
-Now you can **open your project** by opening the `.xcworkspace` file using the following command:
-
-```ruby
-xed .
+```groovy
+implementation 'com.amplifyframework:core:0.10.0'
+implementation 'com.amplifyframework:aws-analytics-pinpoint:0.10.0'
+implementation 'com.amplifyframework:aws-auth-cognito:0.10.0'
 ```
