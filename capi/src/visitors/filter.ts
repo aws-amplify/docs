@@ -7,7 +7,9 @@ export const docsFilter: t.Transformer = ({
   lexicalScope,
   page,
 }) => {
+  // if the tag is "docs-filter"...
   if (Array.isArray(node) && node[0] === "docs-filter") {
+    // make sure it's provided a filter prop
     const [, filters, ...children] = node;
     if (!filters) {
       throw new Error(
@@ -24,11 +26,14 @@ export const docsFilter: t.Transformer = ({
       );
     }
 
+    // get the filter key and value
     const [[filterKey, filterValue]] = filterEntries;
 
+    // make sure the page has a filters object, as to avoid trying to set props on undefined
     page.filters === undefined &&
       ((page.filters = {}) as Record<string, string[]>);
 
+    // track the current page filters
     if (page.filters[filterKey] === undefined) {
       page.filters[filterKey] = [filterValue];
     } else {
@@ -36,11 +41,12 @@ export const docsFilter: t.Transformer = ({
         page.filters[filterKey].push(filterValue);
     }
 
-    children &&
+    if (children) {
       lexicalScope.update([
         "docs-filter-target",
         {filters},
         ...clone(children),
       ]);
+    }
   }
 };

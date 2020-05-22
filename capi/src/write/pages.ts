@@ -25,9 +25,9 @@ function trimFiltered(
       if (!currentFilterValue || currentFilterValue !== filterValue) {
         this.delete();
       } else {
-        const [_0, _1, ...rest] = node;
+        const [, , ...children] = node;
         if (node.length > 0) {
-          this.update(["div", null, ...rest]);
+          this.update(["div", null, ...children]);
         }
       }
     }
