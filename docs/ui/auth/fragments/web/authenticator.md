@@ -187,20 +187,39 @@ The following example highlights the use of Authenticator with customized Sign U
 
 ```jsx
 import React from 'react';
-import Amplify from 'aws-amplify';
-import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
-import awsconfig from './aws-exports';
+import { AmplifyAuthenticator, AmplifySignUp, AmplifySignOut } from '@aws-amplify/ui-react';
 
-Amplify.configure(awsconfig);
-
-const App = () => (
-  <AmplifyAuthenticator>
-    <div>
-      My App
-      <AmplifySignOut />
-    </div>
-  </AmplifyAuthenticator>
-);
+const App = () => {
+  return (
+    <AmplifyAuthenticator usernameAlias="email">
+      <AmplifySignUp
+        slot="sign-up"
+        usernameAlias="email"
+        formFields={[
+          {
+            type: "email",
+            label: "Custom email Label",
+            placeholder: "custom email placeholder",
+            required: true,
+          },
+          {
+            type: "password",
+            label: "Custom Password Label",
+            placeholder: "custom password placeholder",
+            required: true,
+          },
+          {
+            type: "phone_number",
+            label: "Custom Phone Label",
+            placeholder: "custom Phone placeholder",
+            required: false,
+          },
+        ]} 
+      />
+      <AmplifySignIn slot="sign-in" usernameAlias="email" />
+    </AmplifyAuthenticator>
+  );
+};
 ```
 </amplify-block>
 <amplify-block name="Angular">
@@ -252,6 +271,7 @@ export class AppComponent {
     usernameAlias="email"
     [formFields]="formFields"
   ></amplify-sign-up>
+  <amplify-sign-in slot="sign-in" username-alias="email"></amplify-sign-in>
 </amplify-authenticator>
 ```
 </amplify-block>
@@ -318,6 +338,7 @@ export class AppComponent {
       username-alias="email"
       :form-fields.prop="formFields"
     ></amplify-sign-up>
+    <amplify-sign-in slot="sign-in" username-alias="email"></amplify-sign-in>
   </amplify-authenticator>
 </template>
 ```
@@ -908,11 +929,25 @@ const App = () => (
 ### Verify Contact
 
 <amplify-block-switcher>
-<amplify-block name="React"></amplify-block>
-<amplify-block name="Angular"></amplify-block>
-<amplify-block name="Ionic"></amplify-block>
-<amplify-block name="Vue"></amplify-block>
-</amplify-block-switcher>
+<amplify-block name="React">
+
+```jsx
+import React from 'react';
+import { AmplifyAuthenticator, AmplifyVerifyContact, AmplifySignOut } from '@aws-amplify/ui-react';
+
+const App = () => (
+  <AmplifyAuthenticator>
+    <AmplifyVerifyContact headerText="My Custom Verify Contact Text" slot="verify-contact"></AmplifyVerifyContact>
+
+    <div>
+      My App
+      <AmplifySignOut></AmplifySignOut>
+    </div>
+  </AmplifyAuthenticator>
+);
+```
+</amplify-block>
+<amplify-block name="Angular">
 
 ```html
 <amplify-authenticator>
@@ -924,6 +959,34 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
+</amplify-block>
+<amplify-block name="Ionic">
+
+```html
+<amplify-authenticator>
+  <amplify-verify-contact header-text="My Custom Verify Contact Text" slot="verify-contact"></amplify-verify-contact>
+
+  <div>
+    My App
+    <amplify-sign-out></amplify-sign-out>
+  </div>
+</amplify-authenticator>
+```
+</amplify-block>
+<amplify-block name="Vue">
+
+```html
+<amplify-authenticator>
+  <amplify-verify-contact header-text="My Custom Verify Contact Text" slot="verify-contact"></amplify-verify-contact>
+
+  <div>
+    My App
+    <amplify-sign-out></amplify-sign-out>
+  </div>
+</amplify-authenticator>
+```
+</amplify-block>
+</amplify-block-switcher>
 
 <ui-component-props tag="amplify-verify-contact"></ui-component-props>
 
@@ -934,11 +997,23 @@ const App = () => (
 **Usage**
 
 <amplify-block-switcher>
-<amplify-block name="React"></amplify-block>
-<amplify-block name="Angular"></amplify-block>
-<amplify-block name="Ionic"></amplify-block>
-<amplify-block name="Vue"></amplify-block>
-</amplify-block-switcher>
+<amplify-block name="React">
+
+```jsx
+import React from 'react';
+import { AmplifyAuthenticator, AmplifyGreetings} from '@aws-amplify/ui-react';
+
+const App = () => (
+  <AmplifyAuthenticator>
+    <div>
+      <AmplifyGreetings username="Test Username"></AmplifyGreetings>
+      My App
+    </div>
+  </AmplifyAuthenticator>
+);
+```
+</amplify-block>
+<amplify-block name="Angular">
 
 ```html
 <amplify-authenticator>
@@ -948,8 +1023,45 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
+</amplify-block>
+<amplify-block name="Ionic">
+
+```html
+<amplify-authenticator>
+  <div>
+    <amplify-greetings></amplify-greetings>
+    My App
+  </div>
+</amplify-authenticator>
+```
+</amplify-block>
+<amplify-block name="Vue">
+
+```html
+<amplify-authenticator>
+  <div>
+    <amplify-greetings></amplify-greetings>
+    My App
+  </div>
+</amplify-authenticator>
+```
+</amplify-block>
+</amplify-block-switcher>
 
 <ui-component-props tag="amplify-greetings"></ui-component-props>
+
+<docs-filter framework="react">
+
+### withAuthenticator
+
+<inline-fragment src="~/ui/auth/fragments/react/withauthenticator.md"></inline-fragment>
+
+You can also pass in any of the [AmplifyAuthenticator props](#props-amplify-authenticator):
+
+```jsx
+export withAuthenticator(App, {initialAuthState: 'signup'});
+```
+</docs-filter>
 
 ## Use Cases
 
@@ -1040,6 +1152,53 @@ To migrate from using the `aws-amplify-<framework>` library to the latest `@aws-
 
 ### Usage
 
+<amplify-block-switcher>
+<amplify-block name="React">
+
+```diff
+- import { Authenticator } from 'aws-amplify-react';
++ import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+
+const App = () => (
+
++ <AmplifyAuthenticator>
+- <Authenticator>
+    <div>
+      My App
++     <AmplifySignOut />
+    </div>
++ </AmplifyAuthenticator>;
+- </Authenticator>
+);
+```
+
+If you are using `withAuthenticator`:
+```diff
+- import { withAuthenticator } from 'aws-amplify-react';
++ import { withAuthenticator } from '@aws-amplify/ui-react';
+```
+
+```jsx
+export default withAuthenticator(App);
+```
+
+<docs-filter framework="react">
+
+### Breaking changes for withAuthenticator
+
+<amplify-callout warning>
+
+We have deprecated some of the properties passed into `withAuthenticator`. If you were providing additional options to `withAuthenticator` (e.g. `includeGreetings`, `authenticatorComponents`, `federated`, `theme`), these have changed. Refer to the updated list of [Properties here](~/ui/auth/authenticator.md/q/framework/react#props-amplify-authenticator).
+
+</amplify-callout>
+
+The previous `withAuthenticator` component would render a Greetings and Sign Out button at the top of your app after logging in. If you would like to add a Greetings or Sign Out button to your app you can add the [`AmplifyGreetings`](#greetings) or [`AmplifySignOut`](#sign-out) component to your app. Visit the [`withAuthenticator` example](#withauthenticator) above to see this.
+
+</docs-filter>
+
+</amplify-block>
+<amplify-block name="Angular">
+
 _app.module.ts_
 
 ```diff
@@ -1063,3 +1222,52 @@ Amplify.configure(awsconfig);
 })
 export class AppModule {}
 ```
+</amplify-block>
+<amplify-block name="Ionic">
+
+_app.module.ts_
+
+```diff
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
+- import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
++ import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
+import Amplify from 'aws-amplify';
+import awsconfig from './aws-exports';
+
+Amplify.configure(awsconfig);
+
+@NgModule({
+  declarations: [AppComponent],
+- imports: [AmplifyAngularModule, BrowserModule],
++ imports: [AmplifyUIAngularModule, BrowserModule],
+- providers: [AmplifyService],
++ providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+</amplify-block>
+<amplify-block name="Vue">
+
+_main.ts_
+
+```diff
+import Vue from 'vue';
+import App from "./App.vue";
+- import Amplify, * as AmplifyModules from 'aws-amplify'
+- import { AmplifyPlugin } from 'aws-amplify-vue'
++ import '@aws-amplify/ui-vue';
++ import Amplify from 'aws-amplify';
++ import awsconfig from './aws-exports';
+
+Amplify.configure(awsconfig);
+
+new Vue({
+  render: h => h(App),
+}).$mount('#app');
+```
+
+</amplify-block>
+</amplify-block-switcher>

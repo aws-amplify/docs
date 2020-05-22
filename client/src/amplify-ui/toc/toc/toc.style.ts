@@ -1,5 +1,5 @@
 import {css} from "emotion";
-import {MQTablet} from "../../styles/media";
+import {MQFablet} from "../../styles/media";
 
 export const tocStyle = css`
   display: none;
@@ -8,7 +8,7 @@ export const tocStyle = css`
   font-size: 0.875rem;
   width: 16.875rem;
 
-  ${MQTablet} {
+  ${MQFablet} {
     display: flex;
   }
 

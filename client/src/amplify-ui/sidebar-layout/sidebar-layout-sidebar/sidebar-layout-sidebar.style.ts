@@ -1,4 +1,4 @@
-import {MQTablet} from "../../styles/media";
+import {MQLaptop} from "../../styles/media";
 import {css} from "emotion";
 
 export const sidebarLayoutSidebarStyle = css`
@@ -6,7 +6,7 @@ export const sidebarLayoutSidebarStyle = css`
   border-right: 0.0625rem solid var(--border-color);
   min-width: 20rem;
 
-  ${MQTablet} {
+  ${MQLaptop} {
     display: initial;
   }
 
