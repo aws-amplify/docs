@@ -42,7 +42,6 @@ Events have default configuration to flush out to the network every 60 seconds. 
 
 > **Note**: If you set `autoFlushEventsInterval` to 0, you are responsible for calling `Amplify.Analytics.flushEvents()` to submit the recorded events to the backend.
 
-
 ## Global Properties
 
 You can register properties which will be used across all `Amplify.Analytics.record(event:)` calls.
