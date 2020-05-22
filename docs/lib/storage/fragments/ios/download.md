@@ -31,9 +31,9 @@ _ = Amplify.Storage.downloadFile(key: "myKey", local: downloadToFileName,
         print(progress)
     }, resultListener: { event in
         switch event {
-        case .completed:
+        case .success:
             print("Completed")
-        case let .failed(storageError):
+        case .failure(let storageError):
             print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
     }
 }
