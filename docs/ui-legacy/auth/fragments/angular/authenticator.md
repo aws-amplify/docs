@@ -178,7 +178,7 @@ Each of these components expects to receive the authState object, which consists
 
 Example:
 ```javascript
-this.amplifyService.setAuthState({ state: 'confirmSignIn', user });
+this.amplifyService.setAuthState({ state: 'confirmSignIn', user: user });
 ```
 
 Additional details about the authState can be found in the [Subscribe to Authentication State Changes](~/ui-legacy/auth/authenticator.md#subscribe-to-authentication-state-changes) section.
