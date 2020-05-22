@@ -28,7 +28,8 @@ You need to ensure that the promise returned from `API.graphql()` has not been m
 async function makeAPICall() {
     return API.graphql(graphqlOperation(...));
 }
-const promise = makeAPICall()
+const promise = makeAPICall();
+
 
 // The following will NOT cancel the request.
 API.cancel(promise, "my error message");
