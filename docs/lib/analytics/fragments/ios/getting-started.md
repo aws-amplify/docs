@@ -14,7 +14,6 @@ Add the following to your `Podfile`:
 target :'YOUR-APP-NAME' do
   use_frameworks!
   pod 'AmplifyPlugins/AWSPinpointAnalyticsPlugin'
-  pod 'AWSMobileClient'
 end
 ```
 

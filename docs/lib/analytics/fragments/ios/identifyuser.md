@@ -2,33 +2,38 @@ This call sends information that you have specified about the user to Amazon Pin
 
 ```swift
 func identifyUser() {
-    let userState = AWSMobileClient.default().currentUserState
-    let getIdentityIdTask = AWSMobileClient.default().getIdentityId()
-    getIdentityIdTask.continueWith { (task) -> Any? in
-        if let error = task.error {
-            print("Failed to get identityId: \(error)")
+
+    var identityId: String?
+    
+    // Get identityId
+    _ = Amplify.Auth.fetchAuthSession(listener: { event in
+        switch event {
+        case .success(let authSession):
+            let cognitoAuthSession = (authSession as? AuthCognitoIdentityProvider)?.getIdentityId()
+            switch cognitoAuthSession {
+            case .success(let identityId):
+                identityId = identityId
+            case .failure(let error):
+                print("Failed to get identity id: \(error)")
+            }
+        case .failure(let error):
+            print("Failed to fetch auth session: \(error)")
         }
+    })
 
-        guard let identityId = task.result else {
-            print("Missing identityId")
-            return nil
-        }
+    let location = AnalyticsUserProfile.Location(latitude: 47.606209,
+                                                    longitude: -122.332069,
+                                                    postalCode: "98122",
+                                                    city: "Seattle",
+                                                    region: "WA",
+                                                    country: "USA")
 
-        print("Got identityId: \(identityId). UserState: \(userState)")
-        let location = AnalyticsUserProfile.Location(latitude: 47.606209,
-                                                     longitude: -122.332069,
-                                                     postalCode: "98122",
-                                                     city: "Seattle",
-                                                     region: "WA",
-                                                     country: "USA")
-        let properties = ["userState": "\(userState)"]
-        let userProfile = AnalyticsUserProfile(name: "name",
-                                               email: "name@example.com",
-                                               location: location,
-                                               properties: properties)
-        Amplify.Analytics.identifyUser(identityId as String, withProfile: userProfile)
+    let userProfile = AnalyticsUserProfile(name: "name",
+                                            email: "name@example.com",
+                                            phoneNumber: "206-266-1000"
+                                            location: location)
 
-        return nil
-    }
+    Amplify.Analytics.identifyUser(identityId as String, withProfile: userProfile)
+
 }
 ```
