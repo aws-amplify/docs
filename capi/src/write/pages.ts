@@ -4,6 +4,8 @@ import * as path from "path";
 import clone from "clone-deep";
 import traverse from "traverse";
 
+// gets rid of any filterable content that IS NOT of the provided filter key/value combo
+// returns the filtered hyperscript
 function trimFiltered(
   body: t.HyperscriptNode[],
   {
@@ -38,6 +40,7 @@ export async function pages(ctx: t.Ctx): Promise<void> {
   for (const [srcPath, page] of ctx.pageBySrcPath.entries()) {
     const pathDeduction = ctx.pathDeductionBySrcPath.get(srcPath);
     if (pathDeduction && pathDeduction.destinationPath) {
+      // gather all of the available filters for the page (if they exist)
       const filters =
         page.filters ||
         (page.filterKey
@@ -46,6 +49,7 @@ export async function pages(ctx: t.Ctx): Promise<void> {
             }
           : undefined);
 
+      // get the root outDir of the page
       const outDir = path.dirname(pathDeduction.destinationPath);
 
       if (filters) {
@@ -58,18 +62,22 @@ export async function pages(ctx: t.Ctx): Promise<void> {
               const virtualQueryString = ["q", filterKey, filterValue].join(
                 path.sep,
               );
+              // get the filtered route
               const filteredRoute = [page.route, virtualQueryString].join(
                 path.sep,
               );
               const filteredOutDir = [outDir, virtualQueryString].join(
                 path.sep,
               );
+              // avoid node fs error
               await fs.ensureDir(filteredOutDir);
+              // get the path on disk to the filtered page asset
               const filteredOutAsset = `${[
                 filteredOutDir,
                 pathDeduction.fileName,
               ].join(path.sep)}.json`;
               if (ctx.config.cwd && pathDeduction.destinationPath) {
+                // get the URI to request
                 const withoutFilterAssetURI = path.relative(
                   ctx.config.srcDir,
                   pathDeduction.destinationPath,
@@ -83,12 +91,14 @@ export async function pages(ctx: t.Ctx): Promise<void> {
                   virtualQueryString,
                   pathDeduction.fileName,
                 ].join(path.sep)}.json`;
+                // save in ctx so that we can use it in our `get-page` target
                 ctx.filteredPagePathByRoute.set(
                   filteredRoute,
                   filteredAssetURI,
                 );
               }
 
+              // create and write the page-specific asset
               const bodyClone = clone(page.body);
               trimFiltered(bodyClone, {filterKey, filterValue});
               await fs.writeFile(
@@ -102,6 +112,7 @@ export async function pages(ctx: t.Ctx): Promise<void> {
           ),
         );
 
+        // write the filter selection at filterable page root
         const chooseProps = {
           page: {
             filterKey: page.filterKey,
