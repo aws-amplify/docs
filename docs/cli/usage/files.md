@@ -65,3 +65,24 @@ This file is consumed by the [iOS](https://github.com/aws/aws-sdk-ios/) and [And
 - [Cognito security best practices for web app](https://forums.aws.amazon.com/message.jspa?messageID=757990#757990)
 - [Security / Best Practice for poolData (UserPoolId, ClientId) in a browser JS app](https://github.com/amazon-archives/amazon-cognito-identity-js/issues/312)
 - [Are the Cognito User pool id and Client Id sensitive?](https://stackoverflow.com/a/47865747/194974)
+
+### .gitignore configuration
+When a new project is initialized from the Amplify CLI, Amplify will automatically update the projects .gitignore file to include the following files and folders:
+
+```sh
+#amplify
+amplify/\#current-cloud-backend
+amplify/.config/local-*
+amplify/mock-data
+amplify/backend/amplify-meta.json
+amplify/backend/awscloudformation
+build/
+dist/
+node_modules/
+aws-exports.js
+awsconfiguration.json
+amplifyconfiguration.json
+amplify-build-config.json
+amplify-gradle-config.json
+amplifyxc.config
+```

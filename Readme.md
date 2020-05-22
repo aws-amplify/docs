@@ -1,5 +1,7 @@
 # Amplify Framework Documentation
 
+[![DiscordChat](https://img.shields.io/discord/308323056592486420?logo=discord")](https://discord.gg/jWVbPfC)
+
 > https://docs.amplify.aws
 
 ## Getting Started
@@ -152,12 +154,13 @@ description: how to configure auth
 <inline-fragment platform="ios" src="~/docs/lib/auth/setup/fragments/ios/automated.md"></inline-fragment> <inline-fragment platform="web" src="~/docs/lib/auth/setup/fragments/web/automated.md"></inline-fragment>
 ```
 
-### Tab-switchable Code Blocks
+### Tab-switchable Blocks
 
-If you want to have a code block, which has tabs to change the language/framework/etc., go ahead and utilize the amplify-code-block-switcher component. This component accepts a single prop––`tab-heading-list`––which should be a comma-separated list of headings, where each heading accounts for a child code block. Here's an example of it's usage:
+`amplify-block-switcher` allows you to organize blocks of content into tabs. This is useful for presenting a reader different instructions based upon framework (e.g. Vue.js vs. React) or language (e.g. Java vs. Kotlin). Here's an example of its usage:
 
 ````md
 <amplify-block-switcher>
+
 <amplify-block name="JavaScript">
 
 ```js
@@ -173,6 +176,7 @@ const a: "a" = "a";
 ```
 
 </amplify-block>
+
 <amplify-block name="Rust">
 
 ```rust
@@ -180,5 +184,6 @@ let mut a = String::from("a");
 ```
 
 </amplify-block>
+
 </amplify-block-switcher>
 ````

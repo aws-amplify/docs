@@ -30,7 +30,6 @@ export interface Item {
     lvl5?: string;
     lvl6?: string;
   };
-  objectID: string;
   url: string;
   _highlightResult: {
     content: HighlightResult;
@@ -51,9 +50,9 @@ export function transformData(items: Item[]): Item[] {
       const filterMetadataKey = entries[0][1] as FilterMetadataKey | undefined;
       if (typeof filterMetadataKey === "string") {
         const label = filterMetadataByOption[filterMetadataKey].label;
-        if (label && item?._highlightResult?.hierarchy?.lvl1) {
-          const newHeading = `${item.hierarchy.lvl1} (${label})`;
-          item._highlightResult.hierarchy.lvl1.value = newHeading;
+        if (label && item?._highlightResult?.hierarchy?.lvl0) {
+          const newHeading = `${item.hierarchy.lvl0} (${label})`;
+          item._highlightResult.hierarchy.lvl0.value = newHeading;
         }
       }
     }

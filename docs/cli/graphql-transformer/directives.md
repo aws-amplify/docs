@@ -17,21 +17,37 @@ model type.
 The following SDL defines the `@model` directive that allows you to easily define
 top level object types in your API that are backed by Amazon DynamoDB.
 
-```
+```graphql
 directive @model(
-  queries: ModelQueryMap,
-  mutations: ModelMutationMap,
+  queries: ModelQueryMap
+  mutations: ModelMutationMap
   subscriptions: ModelSubscriptionMap
+  timestamps: TimestampConfiguration
 ) on OBJECT
-input ModelMutationMap { create: String, update: String, delete: String }
-input ModelQueryMap { get: String, list: String }
+input ModelMutationMap {
+  create: String
+  update: String
+  delete: String
+}
+input ModelQueryMap {
+  get: String
+  list: String
+}
 input ModelSubscriptionMap {
   onCreate: [String]
   onUpdate: [String]
   onDelete: [String]
   level: ModelSubscriptionLevel
 }
-enum ModelSubscriptionLevel { off public on }
+enum ModelSubscriptionLevel {
+  off
+  public
+  on
+}
+input TimestampConfiguration {
+  createdAt: String
+  updatedAt: String
+}
 ```
 
 ### Usage
@@ -58,6 +74,40 @@ type Post @model(queries: { get: "post" }, mutations: null, subscriptions: null)
 }
 ```
 
+Model directive automatically adds createdAt and updatedAt timestamps to each entities. The timestamp field names can be changed by passing `timestamps` attribute to the directive
+
+```graphql
+type Post @model(timestamps:{createdAt: "createdOn", updatedAt: "updatedOn"}) {
+  id: ID!
+  title: String!
+  tags: [String!]!
+}
+```
+
+The above schema will generate Post with `createdOn` and `updatedOn` fields as shown
+
+```graphql
+type Post {
+  id: ID!
+  title: String!
+  tags: [String!]!
+  createdOn: AWSDateTime!
+  updatedOn: AWSDateTime!
+}
+```
+
+The automatically added `createdAt` and `updatedAt` fields can't be set in create or update mutation. If these fields need to be controlled as part of the mutation, they should be in the input schema and should have `AWSDateTime` as their type
+
+```graphql
+type Post @model {
+  id: ID!
+  title: String!
+  tags: [String!]!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+```
+
 This would create and configure a single query field `post(id: ID!): Post` and
 no mutation fields.
 
@@ -71,6 +121,7 @@ A single `@model` directive configures the following AWS resources:
 - Up to 8 resolvers (create, update, delete, get, list, onCreate, onUpdate, onDelete) but this is configurable via the `queries`, `mutations`, and `subscriptions` arguments on the `@model` directive.
 - Input objects for create, update, and delete mutations.
 - Filter input objects that allow you to filter objects in list queries and connection fields.
+- For list queries the default number of objects returned is 100. You can override this behavior by setting the **limit** argument.
 
 This input schema document
 
@@ -93,6 +144,8 @@ type Post {
   id: ID!
   title: String!
   metadata: MetaData
+  createdAt: AWSDatetime
+  updatedAt: AWSDateTime
 }
 
 type MetaData {
@@ -224,7 +277,7 @@ When modeling your data during schema design there are common patterns that you 
 
 ### Definition
 
-```
+```graphql
 directive @key(fields: [String!]!, name: String, queryField: String) on OBJECT
 ```
 
@@ -371,7 +424,7 @@ based on attributes found in the parent type.
 
 ### Definition
 
-```
+```graphql
 # When applied to a type, augments the application with
 # owner and group-based authorization rules.
 directive @auth(rules: [AuthRule!]!) on OBJECT, FIELD_DEFINITION
@@ -440,26 +493,26 @@ You can use the *operations* argument to specify which operations are augmented 
 type Todo @model
   @auth(rules: [{ allow: owner, operations: [read] }]) {
   id: ID!
-  updatedAt: AWSDateTime! 
+  updatedAt: AWSDateTime!
   content: String!
 }
 ```
 
-In this schema, only the owner of the object has the authorization to perform read (getTodo and listTodos) operations on the owner created object. But this does not prevent any other owner (any user other than the creator or owner of the object) to update/delete some other owner's object. 
+In this schema, only the owner of the object has the authorization to perform read (getTodo and listTodos) operations on the owner created object. But this does not prevent any other owner (any user other than the creator or owner of the object) to update/delete some other owner's object.
 Here's a truth table for the above-mentioned schema. In the table below `other` refers to any user other than the creator or owner of the object.
 
 |       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
-|-------|---------|----------|------------|------------|------------|
-| owner |    ✅    |     ✅    |      ✅     |      ✅     |      ✅     |
-| other |    ❌    |     ❌    |      ✅     |      ✅     |      ✅     |
+|:------|:-------:|:---------:|:----------:|:----------:|:----------:|
+| owner |    ✅   |     ✅    |     ✅     |      ✅   |     ✅     |
+| other |    ❌   |     ❌    |     ✅     |      ✅   |     ✅     |
 
 If you want to prevent updates and deletes operations, you would need to modify the @auth rule to explicitly include the `update` and `delete` operation and your schema should look like the following:
 
 ```graphql
 type Todo @model
   @auth(rules: [{ allow: owner, operations: [read, update, delete] }]) {
-  id: ID! 
-  updatedAt: AWSDateTime! 
+  id: ID!
+  updatedAt: AWSDateTime!
   content: String!
 }
 ```
@@ -467,7 +520,7 @@ type Todo @model
 Here's a truth table for the above-mentioned schema. In the table below `other` refers to any user other than the creator or owner of the object.
 
 |       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
-|-------|---------|----------|------------|------------|------------|
+|:------|:-------:|:--------:|:----------:|:----------:|:----------:|
 | owner |    ✅    |     ✅    |      ✅     |      ✅     |      ✅     |
 | other |    ❌    |     ❌    |      ✅     |      ❌     |      ❌     |
 
@@ -854,9 +907,9 @@ The following table shows the allowed combinations of authorization modes and pr
 |           | owner | groups | public | private |
 |:----------|:-----:|:------:|:------:|:-------:|
 | userPools |✅|✅||✅|
-| oidc|✅||||
-| apiKey|||✅||
-| iam|||✅|✅|
+| oidc |✅|✅|||
+| apiKey |||✅||
+| iam |||✅|✅|
 
 Please note that `groups` is leveraging Cognito User Pools but no provider assignment needed/possible.
 
@@ -925,7 +978,7 @@ subscription onCreatePost(owner: “Bob”){
 }
 ```
 
-Note that if your type doesn’t already have an `owner` field the Transformer will automatically add this for you. Passing in the current user can be done dynamically in your code by using [Auth.currentAuthenticatedUser()](~/lib/auth/manageusers.md/q/platform/js#retrieve-current-authenticated-user) in JavaScript, [AWSMobileClient.default().username](~/sdk/auth/working-with-api.md/q/platform/ios#utility-properties) in iOS, or [AWSMobileClient.getInstance().getUsername()](~/sdk/auth/working-with-api.md/q/platform/android#utility-properties) in Android. 
+Note that if your type doesn’t already have an `owner` field the Transformer will automatically add this for you. Passing in the current user can be done dynamically in your code by using [Auth.currentAuthenticatedUser()](~/lib/auth/manageusers.md/q/platform/js#retrieve-current-authenticated-user) in JavaScript, [AWSMobileClient.default().username](~/sdk/auth/working-with-api.md/q/platform/ios#utility-properties) in iOS, or [AWSMobileClient.getInstance().getUsername()](~/sdk/auth/working-with-api.md/q/platform/android#utility-properties) in Android.
 
 In the case of groups if you define the following:
 
@@ -1025,8 +1078,8 @@ to protecting the update mutation such that the field cannot be set to null unle
 type Todo
   @model
 {
-  id: ID! 
-  updatedAt: AWSDateTime! 
+  id: ID!
+  updatedAt: AWSDateTime!
   content: String! @auth(rules: [{ allow: owner, operations: [update] }])
 }
 ```
@@ -1034,10 +1087,10 @@ type Todo
 In this schema, only the owner of the object has the authorization to perform update operations on the `content` field. But this does not prevent any other owner (any user other than the creator or owner of the object) to update some other field in the object owned by another user. If you want to prevent update operations on a field, the user would need to explicitly add auth rules to restrict access to that field. One of the ways would be to explicitly specify @auth rules on the fields that you would want to protect like the following:
 
 ```graphql
-type Todo 
+type Todo
   @model
 {
-  id: ID! 
+  id: ID!
   updatedAt: AWSDateTime! @auth(rules: [{ allow: owner, operations: [update] }]) // or @auth(rules: [{ allow: groups, groups: ["Admins"] }])
   content: String! @auth(rules: [{ allow: owner, operations: [update] }])
 }
@@ -1045,10 +1098,10 @@ type Todo
 You can also provide explicit deny rules to your field like the following:
 
 ```graphql
-type Todo 
+type Todo
   @model
 {
-  id: ID! 
+  id: ID!
   updatedAt: AWSDateTime! @auth(rules: [{ allow: groups, groups: ["ForbiddenGroup"] }])
   content: String! @auth(rules: [{ allow: owner, operations: [update] }])
 }
@@ -1060,8 +1113,8 @@ You can also combine top-level @auth rules on the type with field level auth rul
 type Todo
   @model @auth(rules: [{allow: groups, groups: ["Admin"], operations:[update] }]
 {
-  id: ID! 
-  updatedAt: AWSDateTime! 
+  id: ID!
+  updatedAt: AWSDateTime!
   content: String! @auth(rules: [{ allow: owner, operations: [update] }])
 }
 ```
@@ -1175,7 +1228,7 @@ The `@function` directive allows you to quickly & easily configure AWS Lambda re
 
 ### Definition
 
-```
+```graphql
 directive @function(name: String!, region: String) on FIELD_DEFINITION
 ```
 
@@ -1438,7 +1491,7 @@ which will return user information related to the current user directly from you
 
 ### Structure of the function event
 
-When writing lambda function's that are connected via the `@function` directive, you can expect the following structure for the AWS Lambda event object.
+When writing lambda functions that are connected via the `@function` directive, you can expect the following structure for the AWS Lambda event object.
 
 | Key  | Description  |
 |---|---|
@@ -1491,7 +1544,7 @@ The `@connection` directive enables you to specify relationships between `@model
 
 ### Definition
 
-```
+```graphql
 directive @connection(keyName: String, fields: [String!]) on FIELD_DEFINITION
 ```
 
@@ -1720,7 +1773,7 @@ mutation CreateData {
     }
     u1: createUser(input: { id: "U1", username: "user1" }) {
         id
-    }   
+    }
     u2: createUser(input: { id: "U2", username: "user2" }) {
         id
     }
@@ -1729,7 +1782,7 @@ mutation CreateData {
 mutation CreateLinks {
     p1u1: createPostEditor(input: { id: "P1U1", postID: "P1", editorID: "U1" }) {
         id
-    }   
+    }
     p1u2: createPostEditor(input: { id: "P1U2", postID: "P1", editorID: "U2" }) {
         id
     }
@@ -1796,7 +1849,7 @@ This parameterization is not compatible with `@key`. See the parameterization ab
 
 ### Limit
 
-The default number of nested objects is 10. You can override this behavior by setting the **limit** argument. For example:
+The default number of nested objects is 100. You can override this behavior by setting the **limit** argument. For example:
 
 ```graphql
 type Post @model {
@@ -1831,7 +1884,7 @@ The `@versioned` directive adds object versioning and conflict resolution to a t
 
 ### Definition
 
-```
+```graphql
 directive @versioned(versionField: String = "version", versionInput: String = "expectedVersion") on OBJECT
 ```
 
@@ -1908,9 +1961,9 @@ The `@versioned` directive manipulates resolver mapping templates and will store
 
 ## @searchable
 
-The `@searchable` directive handles streaming the data of an `@model` object type to Amazon Elasticsearch Service and configures search resolvers that search that information. 
+The `@searchable` directive handles streaming the data of an `@model` object type to Amazon Elasticsearch Service and configures search resolvers that search that information.
 
-> **Note**: `@searchable` is not compatible with DataStore but you can use it with the API category. 
+> **Note**: `@searchable` is not compatible with DataStore but you can use it with the API category.
 
 > **Note**: `@searchable` is not compatible with Amazon ElasticSearch t2.micro instance as it only works with ElasticSearch version 1.5 and 2.3 and Amplify CLI only supports instances with ElasticSearch version >= 6.x.
 
@@ -1921,7 +1974,7 @@ Please use this Python [script](https://github.com/aws-amplify/amplify-cli/blob/
 
 ### Definition
 
-```
+```graphql
 # Streams data from DynamoDB to Elasticsearch and exposes search capabilities.
 directive @searchable(queries: SearchableQueryMap) on OBJECT
 input SearchableQueryMap { search: String }
@@ -1982,6 +2035,9 @@ The `filter` parameter in the search query has a searchable type field that corr
 * `wildcard` - Corresponds to the Elasticsearch [Wildcard Query](https://www.elastic.co/guide/en/elasticsearch/reference/6.2/query-dsl-wildcard-query.html).
 * `regexp` - Corresponds to the Elasticsearch [Regexp Query](https://www.elastic.co/guide/en/elasticsearch/reference/6.2/query-dsl-regexp-query.html).
 
+The `sort` parameter can be used to specify the order of the search results, can be ascending (`asc`) or descending (`desc`), if not specified ascending order is used.
+
+The `limit` parameter controls the number of search results returned. If not specified the default value is 100.
 
 For example, you can filter using the wildcard expression to search for posts using the following `wildcard` query:
 
@@ -2036,7 +2092,7 @@ The following Python [script](https://github.com/aws-amplify/amplify-cli/blob/ma
 
 ```bash
 python3 ddb_to_ess.py \
-  --rn 'us-west-2' \ # Use the region in which your table and elasticsearch domain reside 
+  --rn 'us-west-2' \ # Use the region in which your table and elasticsearch domain reside
   --tn 'Post-XXXX-dev' \ # Table name
   --lf 'arn:aws:lambda:us-west-2:123456789xxx:function:DdbToEsFn-<api__id>-dev' \ # Lambda function ARN
   --esarn 'arn:aws:dynamodb:us-west-2:123456789xxx:table/Post-<api__id>-dev/stream/2019-20-03T00:00:00.350' # Event source ARN
@@ -2049,9 +2105,10 @@ The `@predictions` directive allows you to query an orchestration of AI/ML servi
 > Note: Support for adding the `@predictions` directive uses the s3 storage bucket which is configured via the CLI. At the moment this directive works only with objects located within `public/`.
 
 ### Definition
+
 The supported actions in this directive are included in the definition.
 
-```
+```graphql
   directive @predictions(actions: [PredictionsActions!]!) on FIELD_DEFINITION
   enum PredictionsActions {
     identifyText # uses Amazon Rekognition to detect text
@@ -2113,7 +2170,7 @@ Amplify.configure(awsconfig);
 function SpeakTranslatedImage() {
   const [ src, setSrc ] = useState("");
   const [ img, setImg ] = useState("");
-  
+
   function putS3Image(event) {
     const file = event.target.files[0];
     Storage.put(file.name, file)
@@ -2136,7 +2193,7 @@ function SpeakTranslatedImage() {
           />
         <br />
         { img && <img src = {img}></img>}
-        { src && 
+        { src &&
           <div> <audio id="audioPlayback" controls>
               <source id="audioSource" type="audio/mp3" src = {src}/>
           </audio> </div>
@@ -2147,11 +2204,11 @@ function SpeakTranslatedImage() {
 }
 
 async function speakTranslatedImageTextOP(key) {
-  const inputObj = { 
-    translateText: { 
-      sourceLanguage: "en", targetLanguage: "es" }, 
+  const inputObj = {
+    translateText: {
+      sourceLanguage: "en", targetLanguage: "es" },
     identifyText: { key },
-    convertTextToSpeech: { voiceID: "Conchita" } 
+    convertTextToSpeech: { voiceID: "Conchita" }
   };
   const response = await API.graphql(
     graphqlOperation(speakTranslatedImageText, { input: inputObj }));
@@ -2170,7 +2227,7 @@ export default App;
 
 ### How it works
 From example schema above, `@predictions` will create resources to communicate with Amazon Rekognition, Translate and Polly.
-For each action the following is created: 
+For each action the following is created:
 
 - IAM Policy for each service (e.g. Amazon Rekognition `detectText` Policy)
 - An AppSync VTL function
@@ -2284,7 +2341,7 @@ which will send
 ```
 GET /posts/POST_ID
 Host: www.example.com
-``` 
+```
 
 **Query String**
 
@@ -2343,7 +2400,7 @@ type Mutation {
 }
 ```
 
-Amplify generates the `addPost` query field with the `query` and `body` input objects since this type of request also supports a query string. The generated resolver verifies that non-null arguments (e.g.: the `title` and `description`) are passed in at least one of the input objects; if not, an error is returned. 
+Amplify generates the `addPost` query field with the `query` and `body` input objects since this type of request also supports a query string. The generated resolver verifies that non-null arguments (e.g.: the `title` and `description`) are passed in at least one of the input objects; if not, an error is returned.
 
 ```graphql
 type Mutation {
