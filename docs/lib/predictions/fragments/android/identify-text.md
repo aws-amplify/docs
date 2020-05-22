@@ -1,3 +1,5 @@
+The following APIs will allow you to identify text (words, tables, pages from a book) from an image.
+
 ## Set up your backend
 
 If you haven't already done so, run `amplify init` inside your project and then `amplify add auth` (we recommend selecting the *default configuration*).

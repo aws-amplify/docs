@@ -1,3 +1,5 @@
+The following APIs will enable you to identify entities (faces and/or celebrities) from images.
+
 ## Set up your backend
 
 If you haven't already done so, run `amplify init` inside your project and then `amplify add auth` (we recommend selecting the *default configuration*).
@@ -120,3 +122,24 @@ public void detectEntities(Bitmap image) {
     );
 }
 ```
+
+### Detecting Celebrities
+
+To detect celebrities you can pass in `IdentifyActionType.DETECT_CELEBRITIES`.  Results are mapped to `IdentifyCelebritiesResult`.  For example:
+
+```java
+public void detectCelebs(Bitmap image) {
+    Amplify.Predictions.identify(
+            IdentifyActionType.DETECT_CELEBRITIES,
+            image,
+            result -> {
+                IdentifyCelebritiesResult identifyResult = (IdentifyCelebritiesResult) result;
+                CelebrityDetails metadata = identifyResult.getCelebrities().get(0);
+                Log.i("AmplifyQuickstart", metadata.getCelebrity().getName());
+            },
+            error -> Log.e("AmplifyQuickstart", error.toString(), error)
+    );
+}
+```
+
+As a result of passing in an image, `identify` will return the name of a detected celebrity.
