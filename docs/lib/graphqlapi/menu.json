@@ -8,6 +8,7 @@
     "query-data",
     "mutate-data",
     "subscribe-data",
+    "cancel-request",
     "offline",
     "graphql-from-nodejs",
     "advanced-workflows"

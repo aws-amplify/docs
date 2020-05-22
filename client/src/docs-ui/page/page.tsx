@@ -30,7 +30,11 @@ import {
   withFilterOverrides,
 } from "../../utils/filters";
 import {filterOptionsByName} from "../../utils/filter-data";
-import {SetSelectedFilters} from "./page.types";
+import {
+  SetSelectedFilters,
+  SelectedTabHeadings,
+  SetNewSelectedTabHeadings,
+} from "./page.types";
 import {pageContext} from "./page.context";
 import {track, AnalyticsEventType} from "../../utils/track";
 import {ensureMenuScrolledIntoView} from "../../utils/ensure-menu-scrolled-into-view";
@@ -38,6 +42,8 @@ import {getPage} from "../../cache";
 import {getNavHeight} from "../../utils/get-nav-height";
 import {scrollToHash} from "../../utils/scroll-to-hash";
 import {parseURL} from "../../utils/url/url";
+
+const SELECTED_TABS_LOCAL_STORAGE_KEY = `amplify-docs::selected-tabs`;
 
 @Component({tag: "docs-page", shadow: false})
 export class DocsPage {
@@ -50,6 +56,31 @@ export class DocsPage {
   @State() blendUniversalNav?: boolean;
   @State() sidebarStickyTop = getNavHeight("rem");
   @State() selectedFilters: Record<string, string | undefined> = {};
+  @State() selectedTabHeadings: SelectedTabHeadings = [];
+
+  setNewSelectedTabHeading: SetNewSelectedTabHeadings = (tabHeading) => {
+    // create temp array with `tabHeading` (the new highest priority) as first el
+    const nextSelectedTabHeadings = new Array<string>();
+    nextSelectedTabHeadings.push(tabHeading);
+
+    // iterate through previous `selectedTabHeadings`
+    this.selectedTabHeadings.forEach((e) => {
+      // no repeats allowed!
+      if (tabHeading !== e) {
+        // ensure preexisting tab name priorities are preserved
+        nextSelectedTabHeadings.push(e);
+      }
+    });
+
+    // set the new priority list in state
+    this.selectedTabHeadings = nextSelectedTabHeadings;
+
+    // and serialize and save it to local storage
+    localStorage.setItem(
+      SELECTED_TABS_LOCAL_STORAGE_KEY,
+      JSON.stringify(this.selectedTabHeadings),
+    );
+  };
 
   setSelectedFilters: SetSelectedFilters = (updates) => {
     const overrides = withFilterOverrides(updates, this.selectedFilters);
@@ -87,6 +118,14 @@ export class DocsPage {
   }
 
   componentWillLoad() {
+    // gather list of previously-selected tab headings (might be null)
+    const persistedSelectedTabsSerialized =
+      localStorage.getItem(SELECTED_TABS_LOCAL_STORAGE_KEY) || undefined;
+    if (persistedSelectedTabsSerialized) {
+      // save that selection array if it exists (otherwise, list is empty)
+      this.selectedTabHeadings = JSON.parse(persistedSelectedTabsSerialized);
+    }
+
     return this.getPageData();
   }
 
@@ -184,6 +223,8 @@ export class DocsPage {
             state={{
               selectedFilters: this.selectedFilters,
               setSelectedFilters: this.setSelectedFilters,
+              selectedTabHeadings: this.selectedTabHeadings,
+              setNewSelectedTabHeadings: this.setNewSelectedTabHeading,
             }}
           >
             <docs-universal-nav
