@@ -2,7 +2,7 @@ import * as t from "../types";
 import * as fs from "fs-extra";
 import * as path from "path";
 
-export async function index(config): Promise<void> {
+export async function index(config: t.Config): Promise<void> {
   await fs.ensureDir(config.outDir);
   await fs.writeFile(
     path.join(config.outDir, "index.ts"),

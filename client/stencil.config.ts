@@ -3,6 +3,9 @@ import nodePolyfills from "rollup-plugin-node-polyfills";
 import {sass} from "@stencil/sass";
 
 export const config: Config = {
+  extras: {
+    initializeNextTick: false,
+  },
   devServer: {
     reloadStrategy: "pageReload",
   },

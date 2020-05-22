@@ -3,6 +3,7 @@
   "items": [
     "getting-started",
     "data-access",
+    "real-time",
     "sync",
     "relational",
     "conflict",

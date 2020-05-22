@@ -46,6 +46,61 @@ Amplify UI Components use `slots` based off of the [Web Components slot element]
 | `totp-setup`           | Content placed inside of the totp-setup workflow for when a user opts to use TOTP MFA                                  |
 | `greetings`            | Content placed inside of the greetings navigation for when a user is signed in                                         |
 
+### Custom Form Fields
+
+If you'd like to customize the form fields in the Authenticator Sign In or Sign Up component, you can do so by using the `formFields` property.
+
+The following example highlights the use of Authenticator with customized Sign Up form fields and [authentication with email](#authenticate-with-email-or-phone-number):
+
+```jsx
+import React from 'react';
+import { AmplifyAuthenticator, AmplifySignUp, AmplifySignOut } from '@aws-amplify/ui-react';
+
+const App = () => {
+  return (
+    <AmplifyAuthenticator usernameAlias="email">
+      <AmplifySignUp
+        slot="sign-up"
+        usernameAlias="email"
+        formFields={[
+          {
+            type: "email",
+            label: "Custom email Label",
+            placeholder: "custom email placeholder",
+            required: true,
+          },
+          {
+            type: "password",
+            label: "Custom Password Label",
+            placeholder: "custom password placeholder",
+            required: true,
+          },
+          {
+            type: "phone_number",
+            label: "Custom Phone Label",
+            placeholder: "custom Phone placeholder",
+            required: false,
+          },
+        ]}
+        
+      ></AmplifySignUp>
+    </AmplifyAuthenticator>
+  );
+};
+```
+
+Here is an example of the component in use:
+
+<docs-component-playground component-name="AuthenticatorWithSlots"></docs-component-playground>
+
+<amplify-callout warning>
+
+If you are using the `usernameAlias` prop with custom `slots`, keep in mind that you must pass the `usernameAlias` prop value to both the Authenticator and custom slotted component since the slotted component overrides the configuration passed from the Authenticator.
+
+</amplify-callout>
+
+For more details on this customization see the `amplify-form-field` [prop documentation](https://github.com/aws-amplify/amplify-js/tree/master/packages/amplify-ui-components/src/components/amplify-form-field#properties) and the internal [`FormFieldType` interface](https://github.com/aws-amplify/amplify-js/blob/master/packages/amplify-ui-components/src/components/amplify-auth-fields/amplify-auth-fields-interface.ts#L3).
+
 ## Components
 
 ### Sign In
@@ -220,11 +275,11 @@ const App = () => (
 
 ```jsx
 import React from 'react';
-import { AmplifyAuthenticator, AmplifyRequireNewPassword, AmplifySignOut } from '@aws-amplify/ui-react';
+import { AmplifyAuthenticator, AmplifyTOTPSetup, AmplifySignOut } from '@aws-amplify/ui-react';
 
 const App = () => (
   <AmplifyAuthenticator>
-    <AmplifyRequireNewPassword headerText="My Custom TOTP Setup Text" slot="totp-setup"></AmplifyRequireNewPassword>
+    <AmplifyTOTPSetup headerText="My Custom TOTP Setup Text" slot="totp-setup"></AmplifyTOTPSetup>
 
     <div>
       My App
@@ -278,6 +333,8 @@ const App = () => (
 
 <ui-component-props tag="amplify-greetings"></ui-component-props>
 
+### withAuthenticator
+
 <inline-fragment src="~/ui/auth/fragments/react/withauthenticator.md"></inline-fragment>
 
 You can also pass in any of the [AmplifyAuthenticator props](#props-amplify-authenticator):
@@ -292,7 +349,7 @@ export withAuthenticator(App, {initialAuthState: 'signup'});
 
 The `AmplifyAuthenticator` component has the ability to sign in / sign up with `email` or `phone_number` instead of default `username`. 
 
-To achieve this, you first need to setup the userpool to allow email or phone number as the username [using the cli workflow](https://aws-amplify.github.io/docs/cli-toolchain/quickstart#configuring-auth-without-social-providers) or through the [Cognito Console](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-aliases-settings-option-2). To reflect this in the `AmplifyAuthenticator` component, you can use the `usernameAlias` property. It can take one of the three values - `email`, `phone_number` or `username`. Default is set to `username`.
+To achieve this, you first need to setup the userpool to allow email or phone number as the username [using the cli workflow](~/cli/auth/overview.md#configuring-auth-without-social-providers) or through the [Cognito Console](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-aliases-settings-option-2). To reflect this in the `AmplifyAuthenticator` component, you can use the `usernameAlias` property. It can take one of the three values - `email`, `phone_number` or `username`. Default is set to `username`.
 
 ```jsx
 const App = () => (

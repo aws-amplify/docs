@@ -235,7 +235,7 @@ export default withAuthenticator(App, { signUpConfig });
 
 ## Sign up/in with email/phone number
 
-If the user pool is set to allow email addresses/phone numbers as the username, you can then change the UI components accordingly by using `usernameAttributes` [(learn more about the setup)](https://aws-amplify.github.io/docs/js/authentication#automated-setup).
+If the user pool is set to allow email addresses/phone numbers as the username, you can then change the UI components accordingly by using `usernameAttributes` [(learn more about the setup)](~/lib/auth/getting-started.md/q/platform/js).
 
 When you are using `email` as the username:
 

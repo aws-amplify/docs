@@ -62,27 +62,28 @@ export class AmplifyTOC {
 
   render() {
     return (
-      <Host class={tocStyle}>
-        <div>
-          {this.elements && (
+      this.elements &&
+      this.elements.length > 0 && (
+        <Host class={tocStyle}>
+          <div>
             <h4 class={headerStyle}>{this.pageTitle || "Contents"}</h4>
-          )}
-          {this.elements?.map((e, i) => {
-            const headingAnchorClass = headingStyleByTagName[e.tagName];
-            return (
-              <docs-in-page-link
-                targetId={e.id}
-                class={{
-                  active: i === this.activeLinkI,
-                  [headingAnchorClass]: true,
-                }}
-              >
-                <div innerHTML={e.innerHTML} />
-              </docs-in-page-link>
-            );
-          })}
-        </div>
-      </Host>
+            {this.elements.map((e, i) => {
+              const headingAnchorClass = headingStyleByTagName[e.tagName];
+              return (
+                <docs-in-page-link
+                  targetId={e.id}
+                  class={{
+                    active: i === this.activeLinkI,
+                    [headingAnchorClass]: true,
+                  }}
+                >
+                  <div innerHTML={e.innerHTML} />
+                </docs-in-page-link>
+              );
+            })}
+          </div>
+        </Host>
+      )
     );
   }
 }

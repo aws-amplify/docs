@@ -2,7 +2,7 @@ import {Component, Host, h, Prop, State} from "@stencil/core";
 import {
   codeBlockStyle,
   lineCountStyle,
-  oneLineStyle,
+  noLineNumbersStyle,
   copyButtonStyle,
   slotContainerStyle,
 } from "./code-block.style";
@@ -11,15 +11,16 @@ import copy from "copy-to-clipboard";
 const COPY = "copy";
 const COPIED = "copied";
 const FAILED = "failed to copy";
+const CONSOLE = "console";
 
 let alwaysRecompute = 0;
 
 @Component({tag: "amplify-code-block", shadow: false})
 export class AmplifyCodeBlock {
   /** the number of lines of the code block */
-  @Prop() readonly lineCount?: string;
+  @Prop() readonly lineCount: number;
   /** what language are we displaying */
-  @Prop() readonly language?: string;
+  @Prop() readonly language: string;
 
   @State() copyMessage: typeof COPY | typeof COPIED | typeof FAILED = "copy";
 
@@ -40,36 +41,38 @@ export class AmplifyCodeBlock {
   };
 
   copyButton = () => {
-    if (this.language && this.language === "console") return;
+    if (this.language !== CONSOLE) {
+      return (
+        <button class={copyButtonStyle} onClick={this.copyToClipboard}>
+          <span>{this.copyMessage}</span>
+        </button>
+      );
+    }
+  };
 
-    return (
-      <button class={copyButtonStyle} onClick={this.copyToClipboard}>
-        <span>{this.copyMessage}</span>
-      </button>
-    );
+  lineNumbers = () => {
+    if (this.lineCount > 1 && this.language !== CONSOLE) {
+      return (
+        <div class={lineCountStyle}>
+          <div>
+              {new Array(this.lineCount)
+                .fill(null)
+                .map((_, i) => <span>{String(i + 1)}</span>)}
+          </div>
+        </div>
+      );
+    }
   };
 
   render() {
-    const parsed = this.lineCount && parseInt(this.lineCount);
-    const parsedLineCount = parsed && parsed > 1 ? parsed : undefined;
-
     return (
       <Host
         class={{
           [codeBlockStyle]: true,
-          [oneLineStyle]: parsedLineCount === undefined,
+          [noLineNumbersStyle]: this.lineCount === 1 || this.language === CONSOLE,
         }}
       >
-        {parsedLineCount && (
-          <div class={lineCountStyle}>
-            <div>
-              {this.lineCount &&
-                new Array(parsedLineCount)
-                  .fill(null)
-                  .map((_, i) => <span>{String(i + 1)}</span>)}
-            </div>
-          </div>
-        )}
+        {this.lineNumbers()}
         <div
           key={String(alwaysRecompute++)}
           ref={this.setElement}

@@ -18,7 +18,11 @@ import {
   mainStyle,
   sectionHeaderStyle,
 } from "./page.style";
-import {Page, createVNodesFromHyperscriptNodes} from "../../api";
+import {
+  Page,
+  createVNodesFromHyperscriptNodes,
+  filtersByRoute,
+} from "../../api";
 import {updateDocumentHead} from "../../utils/update-document-head";
 import {
   getFilterKeyFromPage,
@@ -26,7 +30,11 @@ import {
   withFilterOverrides,
 } from "../../utils/filters";
 import {filterOptionsByName} from "../../utils/filter-data";
-import {SetSelectedFilters} from "./page.types";
+import {
+  SetSelectedFilters,
+  SelectedTabHeadings,
+  SetNewSelectedTabHeadings,
+} from "./page.types";
 import {pageContext} from "./page.context";
 import {track, AnalyticsEventType} from "../../utils/track";
 import {ensureMenuScrolledIntoView} from "../../utils/ensure-menu-scrolled-into-view";
@@ -34,6 +42,8 @@ import {getPage} from "../../cache";
 import {getNavHeight} from "../../utils/get-nav-height";
 import {scrollToHash} from "../../utils/scroll-to-hash";
 import {parseURL} from "../../utils/url/url";
+
+const SELECTED_TABS_LOCAL_STORAGE_KEY = `amplify-docs::selected-tabs`;
 
 @Component({tag: "docs-page", shadow: false})
 export class DocsPage {
@@ -46,6 +56,31 @@ export class DocsPage {
   @State() blendUniversalNav?: boolean;
   @State() sidebarStickyTop = getNavHeight("rem");
   @State() selectedFilters: Record<string, string | undefined> = {};
+  @State() selectedTabHeadings: SelectedTabHeadings = [];
+
+  setNewSelectedTabHeading: SetNewSelectedTabHeadings = (tabHeading) => {
+    // create temp array with `tabHeading` (the new highest priority) as first el
+    const nextSelectedTabHeadings = new Array<string>();
+    nextSelectedTabHeadings.push(tabHeading);
+
+    // iterate through previous `selectedTabHeadings`
+    this.selectedTabHeadings.forEach((e) => {
+      // no repeats allowed!
+      if (tabHeading !== e) {
+        // ensure preexisting tab name priorities are preserved
+        nextSelectedTabHeadings.push(e);
+      }
+    });
+
+    // set the new priority list in state
+    this.selectedTabHeadings = nextSelectedTabHeadings;
+
+    // and serialize and save it to local storage
+    localStorage.setItem(
+      SELECTED_TABS_LOCAL_STORAGE_KEY,
+      JSON.stringify(this.selectedTabHeadings),
+    );
+  };
 
   setSelectedFilters: SetSelectedFilters = (updates) => {
     const overrides = withFilterOverrides(updates, this.selectedFilters);
@@ -63,6 +98,7 @@ export class DocsPage {
 
   filterKey?: string;
   filterValue?: string;
+  validFilterValue = true;
 
   @Listen("resize", {target: "window"})
   setSidebarStickyTop() {
@@ -82,6 +118,14 @@ export class DocsPage {
   }
 
   componentWillLoad() {
+    // gather list of previously-selected tab headings (might be null)
+    const persistedSelectedTabsSerialized =
+      localStorage.getItem(SELECTED_TABS_LOCAL_STORAGE_KEY) || undefined;
+    if (persistedSelectedTabsSerialized) {
+      // save that selection array if it exists (otherwise, list is empty)
+      this.selectedTabHeadings = JSON.parse(persistedSelectedTabsSerialized);
+    }
+
     return this.getPageData();
   }
 
@@ -90,6 +134,12 @@ export class DocsPage {
       const {path, params} = parseURL(
         this.match.params.page || location.pathname || "/",
       );
+      const routeFiltersEntry = filtersByRoute.get(path);
+      const allFilters =
+        routeFiltersEntry &&
+        Object.values(routeFiltersEntry).reduce((acc, curr) => {
+          return [...acc, ...curr];
+        }, []);
       this.blendUniversalNav = path === "/";
 
       track({
@@ -122,7 +172,12 @@ export class DocsPage {
               filterValue !== "undefined"
             ) {
               this.filterValue = filterValue;
-              this.setSelectedFilters({[this.filterKey]: this.filterValue});
+              if (allFilters) {
+                this.validFilterValue = allFilters.includes(filterValue);
+                if (this.validFilterValue) {
+                  this.setSelectedFilters({[this.filterKey]: this.filterValue});
+                }
+              }
             } else {
               this.filterValue = undefined;
             }
@@ -171,6 +226,8 @@ export class DocsPage {
             state={{
               selectedFilters: this.selectedFilters,
               setSelectedFilters: this.setSelectedFilters,
+              selectedTabHeadings: this.selectedTabHeadings,
+              setNewSelectedTabHeadings: this.setNewSelectedTabHeading,
             }}
           >
             <docs-universal-nav
@@ -183,7 +240,7 @@ export class DocsPage {
               ? createVNodesFromHyperscriptNodes(this.pageData.body)
               : [
                   <docs-secondary-nav />,
-                  this.pageData ? (
+                  this.pageData && this.validFilterValue ? (
                     <div class={sidebarLayoutStyle}>
                       <amplify-toc-provider>
                         <amplify-sidebar-layout>
@@ -219,10 +276,17 @@ export class DocsPage {
                               >
                                 <amplify-toc-contents>
                                   {this.pageData && [
-                                    <h1 class={sectionHeaderStyle}>
+                                    <h1
+                                      class={{
+                                        [sectionHeaderStyle]: true,
+                                        "category-heading": true,
+                                      }}
+                                    >
                                       {this.pageData.sectionTitle}
                                     </h1>,
-                                    <h1>{this.pageData.title}</h1>,
+                                    <h1 class="page-heading">
+                                      {this.pageData.title}
+                                    </h1>,
                                     createVNodesFromHyperscriptNodes(
                                       this.pageData.body,
                                     ),

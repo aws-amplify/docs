@@ -12,4 +12,5 @@ export interface Config {
   transformer?: string;
   validation?: string;
   watch?: boolean;
+  srcDir: string;
 }
