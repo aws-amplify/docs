@@ -1,6 +1,6 @@
 ## CANCEL API requests
 
-You may cancel any query or mutation requests made through API category by keeping a reference to the promise returned.
+You may cancel any query or mutation request made through API category by keeping a reference to the promise returned.
 
 ```javascript
 const promise = API.graphql(graphqlOperation(...));
