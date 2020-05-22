@@ -11,7 +11,7 @@
 - Install [Xcode](https://developer.apple.com/xcode/downloads/) version 10.2 or later
 - Install [CocoaPods](https://cocoapods.org/)
 
-- Install the latest version of the [Amplify CLI](~/cli/cli.md) by running:
+- Install [Amplify CLI](~/cli/cli.md) version 4.21.0 or later by running:
 
     ```bash
     npm install -g @aws-amplify/cli
