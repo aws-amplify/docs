@@ -1,12 +1,12 @@
 <!--TODO Update AWSmobile Client -> Auth -->
-To install the Amplify Storage and Authentication to your application, **add both `AmplifyPlugins/AWSS3StoragePlugin` and `AWSMobileClient` to your `Podfile`**.  Your `Podfile` should look similar to:
+To install the Amplify Storage and Authentication to your application, **add both `AmplifyPlugins/AWSS3StoragePlugin` and `AmplifyPlugins/AWSCognitoAuthPlugin` to your `Podfile`**.  Your `Podfile` should look similar to:
 
 ```ruby
 target 'MyAmplifyApp' do
   use_frameworks!
   pod 'Amplify'
   pod 'AmplifyPlugins/AWSS3StoragePlugin'
-  pod 'AWSMobileClient'
+  pod 'AmplifyPlugins/AWSCognitoAuthPlugin'
 end
 ```
 

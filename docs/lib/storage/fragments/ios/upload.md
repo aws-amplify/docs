@@ -3,18 +3,17 @@ To upload to S3 from a data object, specify the `key` and the `data` object to b
 ```swift
 let dataString = "My Data"
 let data = dataString.data(using: .utf8)!
-Amplify.Storage.uploadData(key: "myKey", data: data) { event in
-    switch event {
-    case let .completed(data):
-        print("Completed: \(data)")
-    case let .failed(storageError):
-        print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
-    case let .inProcess(progress):
-        print("Progress: \(progress)")
-    default:
-        break
-    }
-}
+Amplify.Storage.uploadData(key: "myKey", data: data, 
+    progressListener: { progress in
+        print(progress)
+    }, resultListener: { event in
+        switch event {
+        case let .success(data):
+            print("Completed: \(data)")
+        case let .failure(storageError):
+            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+    })
+})
 ```
 
 When you have a file that you want to upload, you can specify the url to the file in the `local` parameter.
@@ -32,14 +31,10 @@ do {
 
 _ = Amplify.Storage.uploadFile(key: fileNameKey, local: filename) { event in
     switch event {
-    case let .completed(data):
+    case let .success(data):
         print("Completed: \(data)")
-    case let .failed(storageError):
+    case let .failure(storageError):
         print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
-    case let .inProcess(progress):
-        print("Progress: \(progress)")
-    default:
-        break
     }
 }
 ```
