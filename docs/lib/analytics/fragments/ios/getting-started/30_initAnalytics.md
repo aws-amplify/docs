@@ -12,10 +12,10 @@ import AmplifyPlugins
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
     do {
-        try Amplify.add(plygin: AWSCognitoAuthPlugin())
+        try Amplify.add(plugin: AWSCognitoAuthPlugin())
         try Amplify.add(plugin: AWSPinpointPlugin())
         try Amplify.configure()
-        print("Amplify configured with auth and analytics plugin")
+        print("Amplify configured with auth and analytics plugins")
     } catch {
         print("Failed to initialize Amplify with \(error)")
     }
@@ -25,6 +25,6 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 ```
 Upon building and running this application you should see the following in your console window:
 
-```bash
+```console
 Amplify configured with auth and analytics plugin
 ```
