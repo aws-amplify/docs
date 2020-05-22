@@ -1,30 +1,25 @@
-To initialize the Amplify Analytics categories, we are required to use the `Amplify.add()` method for each category we want. Also, IAM credential is required to access AWS Pinpoint Service, `AWSCognitoAuthPlugin` also needs to be configured. When we are done calling `add()` on each category, we finish configuring Amplify by calling `Amplify.configure()`.
+Add the following imports to the top of your `MainActivity.java` file:
 
-**Add the following imports** to the top of your `AppDelegate.swift` file:
-
-```swift
-import Amplify
-import AmplifyPlugins
+```java
+import com.amplifyframework.analytics.pinpoint.AmazonPinpointAnalyticsPlugin;
+import com.amplifyframework.auth.Cognito.AmazonCognitoAuthPlugin;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.analytics.AnalyticsEvent;
 ```
 
-**Add the following code** to your AppDelegate's `application:didFinishLaunchingWithOptions` method:
-```swift
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+Add the following code to the onCreate() method of `MainActivity.java`
 
-    do {
-        try Amplify.add(plygin: AWSCognitoAuthPlugin())
-        try Amplify.add(plugin: AWSPinpointPlugin())
-        try Amplify.configure()
-        print("Amplify configured with auth and analytics plugin")
-    } catch {
-        print("Failed to initialize Amplify with \(error)")
+```java
+try {
+        AmazonCognitoAuthPlugin authPlugin = new AmazonCognitoAuthPlugin((Application) context)
+        AmazonPinpointAnalyticsPlugin analyticsPlugin = new AmazonPinpointAnalyticsPlugin((Application) context);
+        Amplify.addPlugin(authPlugin)
+        Amplify.addPlugin(analyticsPlugin);
+        Amplify.configure(context);
+    } catch (Exception e) {
+        Log.e("GetStarted", "Error initializing", e);
     }
 
-    return true
+    Analytics.recordEvent("GetStarted");
 }
-```
-Upon building and running this application you should see the following in your console window:
-
-```bash
-Amplify configured with auth and analytics plugin
 ```

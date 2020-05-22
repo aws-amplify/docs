@@ -5,7 +5,7 @@ The Analytics category enables you to collect analytics data for your app. The A
 <inline-fragment platform="ios" src="~/lib/analytics/fragments/ios/getting-started/10_preReq.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/analytics/fragments/android/getting-started/10_preReq.md"></inline-fragment>
 
-## Set up analytics backend
+## Set up Analytics backend
 
 Run the following command in your project's root folder. The CLI will prompt configuration options for the Analytics category such as Amazon Pinpoint resource name and analytics event settings.
 
