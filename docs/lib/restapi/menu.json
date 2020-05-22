@@ -5,6 +5,7 @@
     "fetch",
     "update",
     "delete",
+    "cancel",
     "authz"
   ]
 }
