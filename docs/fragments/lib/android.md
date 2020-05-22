@@ -1,11 +1,5 @@
 ## Amplify Android
 
-<amplify-callout warning>
-
-Amplify for Android is the recommended way to start building a cloud connected app. If you are currently using the Mobile SDK for Android, access the documentation [here](~/sdk/sdk.md).
-
-</amplify-callout>
-
 This guide shows how to build an app using our Amplify Libraries for Android and the Amplify CLI toolchain.
 
 <docs-internal-link-button href="~/lib/project-setup/prereq.md">
