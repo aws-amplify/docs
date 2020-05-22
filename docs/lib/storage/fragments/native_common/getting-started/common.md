@@ -48,7 +48,7 @@ To push your changes to the cloud, **execute the command**:
 amplify push
 ```
 
-Upon completion, `awsconfiguration.json` and `amplifyconfiguration.json` should be updated to reference provisioned backend storage resources.  Note that these files should already be a part of your project if you followed the [Project setup walkthrough](~/lib/project-setup/create-application.md).
+Upon completion, `amplifyconfiguration.json` should be updated to reference provisioned backend storage resources. Note that these files should already be a part of your project if you followed the [Project setup walkthrough](~/lib/project-setup/create-application.md).
 
 ## Install Amplify Libraries
 <inline-fragment platform="ios" src="~/lib/storage/fragments/ios/getting-started/20_installLib.md"></inline-fragment>

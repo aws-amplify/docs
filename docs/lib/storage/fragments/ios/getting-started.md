@@ -98,7 +98,6 @@ Add the following imports to the top of your `AppDelegate.swift` file:
 
 ```swift
 import Amplify
-import AWSMobileClient
 import AmplifyPlugins
 ```
 
@@ -136,17 +135,16 @@ To upload to S3 from a data object, specify the key and the data object to be up
 func uploadData() {
     let dataString = "My Data"
     let data = dataString.data(using: .utf8)!
-    Amplify.Storage.uploadData(key: "myKey", data: data) { (event) in
-        switch event {
-        case .completed(let data):
-            print("Completed: \(data)")
-        case .failed(let storageError):
-            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
-        case .inProcess(let progress):
-            print("Progress: \(progress)")
-        default:
-            break
+    Amplify.Storage.uploadData(key: "myKey", data: data, 
+        progressListner: { progress in
+            print(progress)
+        }, resultListener: { (event) in
+            switch event {
+            case .success(let data):
+                print("Completed: \(data)")
+            case .failure(let storageError):
+                print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
         }
-    }
+    })
 }
 ```
