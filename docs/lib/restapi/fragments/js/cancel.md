@@ -28,7 +28,8 @@ You need to ensure that the promise returned from `API.get()` or any other API c
 async function makeAPICall() {
     return API.get(myApiName, myPath, myInit);
 }
-const promise = makeAPICall()
+const promise = makeAPICall();
+
 
 // The following will NOT cancel the request.
 API.cancel(promise, "my error message");
