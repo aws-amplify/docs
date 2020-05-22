@@ -150,8 +150,8 @@ Follow these two steps when you need to rotate an API Key
 type Task
   @model
   @auth(rules: [
-      {allow: groups, groups: ["Managers"], mutations: [create, update, delete], queries: null},
-      {allow: groups, groups: ["Employees"], mutations: null, queries: [get, list]}
+      {allow: groups, groups: ["Managers"], operations: [create, update, delete]},
+      {allow: groups, groups: ["Employees"], operations: [read, list]}
     ])
 {
   id: ID!
