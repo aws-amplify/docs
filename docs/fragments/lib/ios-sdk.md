@@ -14,15 +14,8 @@ We use the term “library” to refer to programming interfaces that have been 
 
 This guide shows how to build an app using the AWS Mobile SDK for iOS and the Amplify CLI toolchain. To use our new, developer experience refer to the [Amplify Libraries for iOS guide](~/lib/lib.md).
 
+### Should I use the Amplify libraries or AWS Mobile SDK?
 
-### Should I use Amplify or AWS Mobile SDK?
+Amplify libraries should be used for all new applications. 
 
-We highly recommend the adoption of Amplify over the AWS SDK.
-
-### Supported AWS services
-
-For a complete list of supported AWS services, visit the [GitHub link](https://github.com/aws-amplify/aws-sdk-ios).
-
-### Changelog
-
-The changelog for AWS mobile SDK for iOS can be found [here](https://github.com/aws-amplify/aws-sdk-ios/blob/master/CHANGELOG.md).
+For existing applications, we recommend you evaluate migration to the Amplify libraries. The AWS Mobile SDK will continue be maintained with bug fixes and security updates.
