@@ -65,7 +65,7 @@ export class DocsMenu {
                     }}
                     rightOption={{
                       title: "SDK",
-                      subTitle: "",
+                      subTitle: "\u00A0",
                       href: "/sdk",
                     }}
                   />
