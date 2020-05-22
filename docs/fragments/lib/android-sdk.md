@@ -14,7 +14,7 @@ We use the term “library” to refer to programming interfaces that have been 
 
 This guide shows how to build an app using the AWS Mobile SDK for Android and the Amplify CLI toolchain. To use our new, developer experience refer to the [Amplify Libraries for Android guide](~/lib/lib.md).
 
-### Should I use Amplify or AWS Mobile SDK?
+### Should I use the Amplify libraries or AWS Mobile SDK?
 
 Amplify libraries should be used for all new applications. 
 
