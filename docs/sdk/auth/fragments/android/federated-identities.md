@@ -12,6 +12,7 @@ AWSMobileClient.getInstance().federatedSignIn(IdentityProvider.FACEBOOK.toString
     @Override
     public void onError(Exception e) {
         Log.e(TAG, "sign-in error", e);
+    }
 });
 ```
 
