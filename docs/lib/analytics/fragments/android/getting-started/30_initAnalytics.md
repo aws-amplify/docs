@@ -1,10 +1,10 @@
 Add the following imports to the top of your `MainActivity.java` file:
 
 ```java
-import com.amplifyframework.analytics.pinpoint.AmazonPinpointAnalyticsPlugin;
-import com.amplifyframework.auth.Cognito.AmazonCognitoAuthPlugin;
-import com.amplifyframework.core.Amplify;
-import com.amplifyframework.analytics.AnalyticsEvent;
+com.amplifyframework.analytics.pinpoint.AmazonPinpointAnalyticsPlugin;
+com.amplifyframework.auth.Cognito.AmazonCognitoAuthPlugin;
+com.amplifyframework.core.Amplify;
+com.amplifyframework.analytics.AnalyticsEvent;
 ```
 
 Add the following code to the onCreate() method of `MainActivity.java`

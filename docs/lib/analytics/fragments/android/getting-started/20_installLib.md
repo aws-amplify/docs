@@ -1,5 +1,3 @@
-Open your project `build.gradle` and add the following:
-
 * `mavenCentral()` as a repository
 
 ```groovy
@@ -16,7 +14,7 @@ buildscript {
 Next add the following dependencies to your app `build.gradle`:
 
 ```groovy
-implementation 'com.amplifyframework:core:0.10.0'
-implementation 'com.amplifyframework:aws-analytics-pinpoint:0.10.0'
-implementation 'com.amplifyframework:aws-auth-cognito:0.10.0'
+implementation 'com.amplifyframework:core:1.0.0'
+implementation 'com.amplifyframework:aws-analytics-pinpoint:1.0.0'
+implementation 'com.amplifyframework:aws-auth-cognito:1.0.0'
 ```

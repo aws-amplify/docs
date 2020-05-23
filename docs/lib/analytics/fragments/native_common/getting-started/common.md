@@ -1,4 +1,4 @@
-The Analytics category enables you to collect analytics data for your app. The Analytics category comes with built-in support for [Amazon Pinpoint](https://aws.amazon.com/pinpoint) and [Amazon Kinesis](https://aws.amazon.com/kinesis) (Kinesis support is currently only available in the Amplify JavaScript library).
+The Analytics category enables you to collect analytics data for your App. The Analytics category comes with built-in support for [Amazon Pinpoint](https://aws.amazon.com/pinpoint) and [Amazon Kinesis](https://aws.amazon.com/kinesis) (Kinesis support is currently only available in the Amplify JavaScript library).
 
 ## Prerequisites
 
@@ -16,9 +16,11 @@ amplify add analytics
 ```
 
 ```console
-? Provide your pinpoint resource name: `yourPinpointResourceName`
+? Provide your pinpoint resource name: 
+    `yourPinpointResourceName`
 Adding analytics would add the Auth category to the project if not already added.
-? Apps need authorization to send analytics events. Do you want to allow guests and unauthenticated users to send analytics events? (we recommend you allow this when getting started) `Yes`
+? Apps need authorization to send analytics events. Do you want to allow guests and unauthenticated users to send analytics events? (we recommend you allow this when getting started) 
+    `Yes`
 ```
 
 To deploy your backend, run:

@@ -1,6 +1,6 @@
 To install the Amplify Storage and Authentication to your application, **add both "AmplifyPlugins/AWSPinpointPlugin" and "AmplifyPlugins/AWSCognitoAuthPlugin" to your `Podfile`** (Because IAM credential is required to access AWS Pinpoint Service, `"AWSCognitoAuthPlugin"` also needs to be installed). Your `Podfile` should look similar to:
 
-```ruby
+```bash
 target 'MyAmplifyApp' do
   use_frameworks!
   pod 'Amplify'
@@ -11,12 +11,12 @@ end
 
 To install, download and resolve these pods, **execute the command**:
 
-```ruby
+```bash
 pod install --repo-update
 ```
 
 Now you can **open your project** by opening the `.xcworkspace` file using the following command:
 
-```ruby
+```bash
 xed .
 ```
