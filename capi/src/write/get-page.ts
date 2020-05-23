@@ -24,7 +24,7 @@ export async function getPage(config: t.Config, ctx: t.Ctx): Promise<void> {
           .writeLine(`  const pending = (() => {`)
           .writeLine("    switch (route) {");
 
-        for (const [srcPath, pathDeduction] of ctx.pathDeductionBySrcPath) {
+        for (const [, pathDeduction] of ctx.pathDeductionBySrcPath) {
           if (pathDeduction.route) {
             writer
               .writeLine(`      case "${pathDeduction.route}":`)
@@ -35,6 +35,12 @@ export async function getPage(config: t.Config, ctx: t.Ctx): Promise<void> {
                 )}");`,
               );
           }
+        }
+
+        for (const [filteredRoute, assetURI] of ctx.filteredPagePathByRoute) {
+          writer
+            .writeLine(`      case "${filteredRoute}":`)
+            .writeLine(`        return fetch("/${assetURI}");`);
         }
 
         writer

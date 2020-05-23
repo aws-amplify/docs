@@ -15,7 +15,13 @@ test("next previous metadata generation", async () => {
 
   // eslint-disable-next-line
   // @ts-ignore
-  expect((await import("./api/product/a/first")).next).toEqual({
+  expect((await import("./api/product/a/first")).next).toEqual(undefined);
+
+  expect(
+    // eslint-disable-next-line
+  // @ts-ignore
+    (await import("./api/product/a/q/platform/android/first")).next,
+  ).toEqual({
     android: {
       title: "Third",
       route: "/product/a/third",
@@ -37,6 +43,12 @@ test("next previous metadata generation", async () => {
     // eslint-disable-next-line
     // @ts-ignore
     (await import("./api/product/a/second")).previous,
+  ).toEqual(undefined);
+
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import("./api/product/a/q/platform/js/second")).previous,
   ).toEqual({
     android: {title: "First", route: "/product/a/first"},
     ios: {title: "First", route: "/product/a/first"},
@@ -47,6 +59,12 @@ test("next previous metadata generation", async () => {
     // eslint-disable-next-line
     // @ts-ignore
     (await import("./api/product/a/second")).next,
+  ).toEqual(undefined);
+
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import("./api/product/a/q/platform/js/second")).next,
   ).toEqual({
     android: {
       title: "Third",
@@ -65,6 +83,12 @@ test("next previous metadata generation", async () => {
     // eslint-disable-next-line
     // @ts-ignore
     (await import("./api/product/a/third")).previous,
+  ).toEqual(undefined);
+
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import("./api/product/a/q/platform/android/third")).previous,
   ).toEqual({
     android: {title: "First", route: "/product/a/first"},
     ios: {title: "First", route: "/product/a/first"},
@@ -79,6 +103,12 @@ test("next previous metadata generation", async () => {
     // eslint-disable-next-line
     // @ts-ignore
     (await import("./api/product/a/third")).next,
+  ).toEqual(undefined);
+
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import("./api/product/a/q/platform/android/third")).next,
   ).toEqual({
     android: {title: "Overview", route: "/product/a/overview"},
     ios: {
@@ -93,6 +123,12 @@ test("next previous metadata generation", async () => {
     // eslint-disable-next-line
     // @ts-ignore
     (await import("./api/product/a/fourth")).previous,
+  ).toEqual(undefined);
+
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import("./api/product/a/q/platform/ios/fourth")).previous,
   ).toEqual({
     android: {
       title: "Third",
@@ -111,6 +147,12 @@ test("next previous metadata generation", async () => {
     // eslint-disable-next-line
     // @ts-ignore
     (await import("./api/product/a/fourth")).next,
+  ).toEqual(undefined);
+
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import("./api/product/a/q/platform/ios/fourth")).next,
   ).toEqual({
     android: {title: "Overview", route: "/product/a/overview"},
     ios: {title: "Overview", route: "/product/a/overview"},
@@ -121,6 +163,12 @@ test("next previous metadata generation", async () => {
     // eslint-disable-next-line
     // @ts-ignore
     (await import("./api/product/a/overview")).previous,
+  ).toEqual(undefined);
+
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import("./api/product/a/q/platform/android/overview")).previous,
   ).toEqual({
     android: {
       title: "Third",
