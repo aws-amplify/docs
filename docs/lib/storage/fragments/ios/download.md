@@ -7,7 +7,7 @@ You can download to in-memory buffer [Data](https://developer.apple.com/document
 ```swift
 _ = Amplify.Storage.downloadData(key: "myKey", 
     progressListener: { progress in
-        print(progress)
+        print("Progress: \(progress)")
     }, resultListener: { (event) in
         switch event {
         case let .success(data):
@@ -28,7 +28,7 @@ let downloadToFileName = FileManager.default.urls(for: .documentDirectory,
     .appendingPathComponent("myFile.txt")
 _ = Amplify.Storage.downloadFile(key: "myKey", local: downloadToFileName, 
     progressListener: { progress in
-        print(progress)
+        print("Progress: \(progress)")
     }, resultListener: { event in
         switch event {
         case .success:

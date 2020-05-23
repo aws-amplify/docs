@@ -5,12 +5,12 @@ let dataString = "My Data"
 let data = dataString.data(using: .utf8)!
 Amplify.Storage.uploadData(key: "myKey", data: data, 
     progressListener: { progress in
-        print(progress)
+        print("Progress: \(progress)")
     }, resultListener: { event in
         switch event {
-        case let .success(data):
+        case .success(let data):
             print("Completed: \(data)")
-        case let .failure(storageError):
+        case .failure(let storageError):
             print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
     })
 })
@@ -29,12 +29,15 @@ do {
     print("Failed to write to file \(error)")
 }
 
-_ = Amplify.Storage.uploadFile(key: fileNameKey, local: filename) { event in
-    switch event {
-    case let .success(data):
-        print("Completed: \(data)")
-    case let .failure(storageError):
-        print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
-    }
+_ = Amplify.Storage.uploadFile(key: fileNameKey, local: filename
+    progressListener: { progress in
+        print("Progress: \(progress)")
+    }, resultListener: { event in
+        switch event {
+        case let .success(data):
+            print("Completed: \(data)")
+        case let .failure(storageError):
+            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+    })
 }
 ```
