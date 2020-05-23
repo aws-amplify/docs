@@ -1,13 +1,13 @@
 To start provisioning resources in the backend, change directories to your project directory and run `amplify init`:
 
 ```bash
-cd ~/Developer/MyAmplifyApp/
 amplify init
 ```
 
 Enter the following when prompted:
+
 ```console
-? Enter a name for the environment
+? Enter a name for the environment (dev)
     MyAmplifyApp
 ? Choose your default editor:
     IntelliJ IDEA
@@ -17,4 +17,4 @@ Enter the following when prompted:
     default
 ```
 
-Upon successfully running `amplify init`, you should see two new created files in your project directory: `amplifyconfiguration.json` and `awsconfiguration.json`.  These two files are added to your project via amplify-tools so that they are bundled with your application.  This is required so that Amplify libraries know how to reach your provisioned backend resources.
+The Amplify CLI had initialized your project in the cloud, created an `amplify` directory, and placed a `amplifyconfiguration.json` in the `./app/src/main/res/raw/` directory to connect your application with its new backend.
