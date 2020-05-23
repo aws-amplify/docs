@@ -1,8 +1,140 @@
 
-## CLI
+## Setup Your Auth Provider
 
-##Register
+<amplify-block-switcher>
+<amplify-block name="Facebook Login">
 
-Handled by webUI
+1. Create a [developer account with Facebook](https://developers.facebook.com/docs/facebook-login).
 
-## SignIN
+2. [Sign In](https://developers.facebook.com/) with your Facebook credentials.
+
+3. From the *My Apps* menu, choose *Add New App*.
+![Image](~/images/cognitoHostedUI/facebook1.png)
+
+4. Give your Facebook app a name and choose *Create App ID*.
+![Image](~/images/cognitoHostedUI/facebook2.png)
+
+5. On the left navigation bar, choose *Settings* and then *Basic*.
+![Image](~/images/cognitoHostedUI/facebook3.png)
+
+6. Note the *App ID* and the *App Secret*. You will use them in the next section in the CLI flow.
+
+</amplify-block>
+<amplify-block name="Google Sign-In">
+
+1. Go to the [Google developer console](https://console.developers.google.com).
+2. On the left navigation bar, choose *Credentials*.
+![Image](~/images/cognitoHostedUI/google5.png)
+3. Create your OAuth2.0 credentials by choosing *OAuth client ID* from the *Create credentials* drop-down list.
+![Image](~/images/cognitoHostedUI/google6.png).
+4. Choose *Web application*.
+5. Click *Create*.
+6. Note the *OAuth client ID* and *client secret*. You will need them for the next section in the CLI flow.
+7. Choose *OK*.
+
+</amplify-block>
+<amplify-block name="Login with Amazon">
+
+1. Create a [developer account with Amazon](https://developer.amazon.com/login-with-amazon).
+2. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
+3. You need to create an Amazon security profile to receive the Amazon client ID and client secret. Choose Create a Security Profile.
+![Image](~/images/cognitoHostedUI/amazon1.png)
+4. Type in a Security Profile Name, a Security Profile Description, and a Consent Privacy Notice URL.
+![Image](~/images/cognitoHostedUI/amazon2.png)
+5. Choose Save.
+6. Choose Client ID and Client Secret to show the client ID and secret. You will need them for the next section in the CLI flow.
+![Image](~/images/cognitoHostedUI/amazon3.png)
+
+</amplify-block>
+</amplify-block-switcher>
+
+
+## Configure Auth Category
+
+In terminal, navigate to your project, run `amplify add auth`, and choose the following options (the last steps are specific to Facebook here but are similar for other providers):
+
+```terminal
+Do you want to use the default authentication and security configuration? Default configuration with Social Provider (Federation)
+How do you want users to be able to sign in? Username
+Do you want to configure advanced settings? No, I am done.
+What domain name prefix you want us to create for you? (default)
+Enter your redirect signin URI: myapp://callback/
+? Do you want to add another redirect signin URI No
+Enter your redirect signout URI: myapp://signout/
+? Do you want to add another redirect signout URI No
+Select the social providers you want to configure for your user pool: <choose your provider and follow the prompts to input the proper tokens>
+```
+
+Once finished run `amplify push` to publish your changes. Once finished, it will display an auto generated URL for your web UI.
+
+You need to now inform your auth provider of this URL:
+
+<amplify-block-switcher>
+<amplify-block name="Facebook Login">
+
+1. [Sign In](https://developers.facebook.com/) with your Facebook credentials.
+2. From the *My Apps* menu, choose *Your App*.
+![Image](~/images/cognitoHostedUI/facebook1.png)
+3. On the left navigation bar, choose *Settings* and then *Basic*.
+![Image](~/images/cognitoHostedUI/facebook3.png)
+4. Choose *+ Add Platform* from the bottom of the page and then choose *Website*.
+![Image](~/images/cognitoHostedUI/facebook4.png)
+5. Under Website, type your user pool domain with the /oauth2/idpresponse endpoint into *Site URL*
+
+    `https://<your-user-pool-domain>/oauth2/idpresponse`
+
+    ![Image](~/images/cognitoHostedUI/facebook5.png)
+6. Save changes.
+7. Type your user pool domain into *App Domains*:
+
+    `https://<your-user-pool-domain>`
+
+    ![Image](~/images/cognitoHostedUI/facebook6.png)
+8. Save changes.
+9. From the navigation bar choose *Products* and then *Set up* from *Facebook Login*.
+![Image](~/images/cognitoHostedUI/facebook7.png)
+10. From the navigation bar choose *Facebook Login* and then *Settings*.
+11. Type your redirect URL into *Valid OAuth Redirect URIs*. It will consist of your user pool domain with the /oauth2/idpresponse endpoint.
+
+    `https://<your-user-pool-domain>/oauth2/idpresponse`
+
+    ![Image](~/images/cognitoHostedUI/facebook8.png)
+12. Save changes.
+
+</amplify-block>
+<amplify-block name="Google Sign-In">
+
+1. Go to [Google Developer Console](https://developers.google.com/identity/sign-in/web/sign-in)
+2. Click *CONFIGURURE A PROJECT*
+![Image](~/images/cognitoHostedUI/google1.png)
+3. Type in a project name and choose *NEXT*.
+![Image](~/images/cognitoHostedUI/google2.png)
+4. Type in your product name and choose *NEXT*.
+5. Choose *Web browser* from the *Where are you calling from?* drop-down list.
+![Image](~/images/cognitoHostedUI/google3.png)
+6. Click *CREATE*. You will NOT use the *Client ID* and *CLient Secret* from this step.
+7. Click Done.
+8. Go to the [Google developer console](https://console.developers.google.com).
+9. On the left navigation bar, choose *Credentials*.
+![Image](~/images/cognitoHostedUI/google5.png)
+10. Select the client you created in the first step and choose the edit option.
+11. Type your user pool domain into Authorized Javascript origins.
+12. Type your user pool domain with the `/oauth2/idpresponse` endpoint into *Authorized Redirect URIs*.
+
+    ![Image](~/images/cognitoHostedUI/google7.png)
+
+    Note: If you saw an error message `Invalid Redirect: domain must be added to the authorized domains list before submitting.` when adding the endpoint, please go to the *authorized domains list* and add the domain.
+13. Click *Save*.
+
+</amplify-block>
+<amplify-block name="Login with Amazon">
+
+1. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
+2. Hover over the gear and choose Web Settings associated with the security profile you created in the previous step, and then choose Edit.
+![Image](~/images/cognitoHostedUI/amazon4.png)
+3. Type your user pool domain into Allowed Origins and type your user pool domain with the /oauth2/idpresponse endpoint into Allowed Return URLs.
+![Image](~/images/cognitoHostedUI/amazon5.png)
+5. Choose Save.
+
+</amplify-block>
+</amplify-block-switcher>
