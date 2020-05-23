@@ -117,7 +117,7 @@ public void detectEntities(Bitmap image) {
                 EntityMatch match = identifyResult.getEntityMatches().get(0);
                 Log.i("AmplifyQuickstart", match.getExternalImageId());
             },
-            error -> Log.e("AmplifyQuickstart", error.toString(), error)
+            error -> Log.e("AmplifyQuickstart", "Identify failed", error)
     );
 }
 ```
@@ -137,7 +137,7 @@ fun detectEntities(image: Bitmap) {
             Log.i("AmplifyQuickstart", match.externalImageId)
         },
         Consumer { error: PredictionsException ->
-            Log.e("AmplifyQuickstart", error.toString(), error)
+            Log.e("AmplifyQuickstart", "Identify failed", error)
         }
     )
 }
@@ -161,9 +161,9 @@ public void detectCelebs(Bitmap image) {
             result -> {
                 IdentifyCelebritiesResult identifyResult = (IdentifyCelebritiesResult) result;
                 CelebrityDetails metadata = identifyResult.getCelebrities().get(0);
-                Log.i("AmplifyQuickstart", metadata.getCelebrity().getName());
+                Log.i("MyAmplifyApplication", metadata.getCelebrity().getName());
             },
-            error -> Log.e("AmplifyQuickstart", error.toString(), error)
+            error -> Log.e("MyAmplifyApplication", "Identify failed", error)
     );
 }
 ```
@@ -179,10 +179,10 @@ fun detectCelebs(image: Bitmap) {
         Consumer { result: IdentifyResult ->
             val identifyResult = result as IdentifyCelebritiesResult
             val metadata = identifyResult.getCelebrities()[0]
-            Log.i("AmplifyQuickstart", metadata.getCelebrity().name)
+            Log.i("MyAmplifyApplication", metadata.getCelebrity().name)
         },
         Consumer { error: PredictionsException ->
-            Log.e("AmplifyQuickstart", error.toString(), error)
+            Log.e("MyAmplifyApplication", "Identify failed", error)
         }
     )
 }

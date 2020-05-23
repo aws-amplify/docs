@@ -37,9 +37,9 @@ protected void onCreate(Bundle savedInstanceState) {
     setContentView(R.layout.activity_main);
 
     Amplify.Predictions.convertTextToSpeech(
-            "I like to eat spaghetti!",
+            "I like to eat spaghetti",
             result -> playAudio(result.getAudioData()),
-            error -> Log.e("MyAmplifyApplication", error.toString())
+            error -> Log.e("MyAmplifyApplication", "Conversion failed", error)
     );
 }
 
@@ -57,7 +57,7 @@ private void playAudio(InputStream data) {
         mp.setDataSource(new FileInputStream(mp3File).getFD());
         mp.prepareAsync();
     } catch (IOException error) {
-        Log.e("MyAmplifyApplication", "Error writing audio file.");
+        Log.e("MyAmplifyApplication", "Error writing audio file", error);
     }
 }
 ```

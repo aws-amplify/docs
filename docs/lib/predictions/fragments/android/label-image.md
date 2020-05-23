@@ -84,7 +84,7 @@ public void detectLabels(Bitmap image) {
                 IdentifyLabelsResult identifyResult = (IdentifyLabelsResult) result;
                 Log.i("MyAmplifyApplication", Boolean.toString(identifyResult.isUnsafeContent()));
             },
-            error -> Log.e("MyAmplifyApplication", error.toString(), error)
+            error -> Log.e("MyAmplifyApplication", "Identify failed", error)
     );
 }
 ```
@@ -99,13 +99,10 @@ fun detectLabels(image: Bitmap) {
         image,
         Consumer { result: IdentifyResult ->
             val identifyResult = result as IdentifyLabelsResult
-            Log.i(
-                "MyAmplifyApplication",
-                Boolean.toString(identifyResult.isUnsafeContent)
-            )
+            Log.i("MyAmplifyApplication", Boolean.toString(identifyResult.isUnsafeContent))
         },
         Consumer { error: PredictionsException ->
-            Log.e("MyAmplifyApplication", error.toString(), error)
+            Log.e("MyAmplifyApplication", "Identify failed", error)
         }
     )
 }

@@ -30,7 +30,7 @@ Here is an example of sending text for interpretation such as sentiment analysis
 Amplify.Predictions.interpret(
         "I like to eat spaghetti",
         result -> Log.i("MyAmplifyApplication", result.getSentiment().getValue().toString()),
-        error -> Log.e("MyAmplifyApplication", error.toString(), error)
+        error -> Log.e("MyAmplifyApplication", "Interpret failed", error)
 );
 ```
 
@@ -41,7 +41,7 @@ Amplify.Predictions.interpret(
 Amplify.Predictions.interpret(
     "I like to eat spaghetti",
     { result -> Log.i("MyAmplifyApplication", result.getSentiment()!!.getValue().toString()) },
-    { error -> Log.e("MyAmplifyApplication", error.toString(), error)
+    { error -> Log.e("MyAmplifyApplication", "Interpret failed", error)
 }
 ```
 

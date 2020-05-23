@@ -16,7 +16,6 @@ CreateCollectionRequest request = new CreateCollectionRequest()
 client.createCollection(request);
 ```
 
-
 </amplify-block>
 <amplify-block name="Kotlin">
 

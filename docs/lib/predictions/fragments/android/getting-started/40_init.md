@@ -1,4 +1,4 @@
-To initialize the Amplify Predictions and Authentication categories, we are required to use the `Amplify.addPlugin()` method for each category we want. When we are done calling `addPlugin()` on each category, we finish configuring Amplify by calling `Amplify.configure()`.
+To initialize the Amplify Predictions and Authentication categories you call `Amplify.addPlugin()` method for each category. To complete initialization call `Amplify.configure()`.
 
 Add the following code to your `onCreate()` method in your application class:
 
@@ -25,8 +25,8 @@ public class MyAmplifyApplication extends Application {
             Amplify.configure(getApplicationContext());
 
             Log.i("MyAmplifyApplication", "Initialized Amplify");
-        } catch (AmplifyException e) {
-            Log.e("MyAmplifyApplication", "Could not initialize Amplify", e);
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApplication", "Could not initialize Amplify", error);
         }
     }
 }
@@ -54,8 +54,8 @@ class MyAmplifyApplication : Application() {
             Amplify.configure(applicationContext)
 
             Log.i("MyAmplifyApplication", "Initialized Amplify")
-        } catch (e: AmplifyException) {
-            Log.e("MyAmplifyApplication", "Could not initialize Amplify", e)
+        } catch (error: AmplifyException) {
+            Log.e("MyAmplifyApplication", "Could not initialize Amplify", error)
         }
     }
 }

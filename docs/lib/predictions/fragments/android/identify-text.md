@@ -83,7 +83,7 @@ public void detectText(Bitmap image) {
                 IdentifyDocumentTextResult identifyResult = (IdentifyDocumentTextResult) result;
                 Log.i("MyAmplifyApplication", identifyResult.getFullText())
             },
-            error -> Log.e("MyAmplifyApplication", error.toString(), error)
+            error -> Log.e("MyAmplifyApplication", "Identify failed", error)
     );
 }
 ```
@@ -101,7 +101,7 @@ fun detectText(image: Bitmap) {
             Log.i("MyAmplifyApplication", identifyResult.getFullText())
         },
         Consumer { error: PredictionsException? ->
-            Log.e("MyAmplifyApplication", error.toString())
+            Log.e("MyAmplifyApplication", "Identify failed", error)
         }
     )
 }

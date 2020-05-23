@@ -32,7 +32,7 @@ Open `MainActivity.java` and add the following to the bottom of `onCreate()`:
 Amplify.Predictions.translateText(
         "I like to eat spaghetti",
         result -> Log.i("MyAmplifyApplication", result.getTranslatedText()),
-        error -> Log.e("AmplifMyAmplifyApplicationyQuickstart", error.toString())
+        error -> Log.e("MyAmplifyApplication", "Translation failed", error)
 );
 ```
 
@@ -45,7 +45,7 @@ Open `MainActivity.kt` and add the following to the bottom of `onCreate()`:
 Amplify.Predictions.translateText(
     "I like to eat spaghetti",
     { result -> Log.i("MyAmplifyApplication", result.getTranslatedText()) },
-    { error -> Log.e("MyAmplifyApplication", error.toString()) }
+    { error -> Log.e("MyAmplifyApplication", "Translation failed", error) }
 )
 ```
 
@@ -73,7 +73,7 @@ Amplify.Predictions.translateText(
         LanguageType.ENGLISH,
         LanguageType.RUSSIAN,
         result -> Log.i("MyAmplifyApplication", result.getTranslatedText()),
-        error -> Log.e("AmplifMyAmplifyApplicationyQuickstart", error.toString())
+        error -> Log.e("MyAmplifyApplication", "Translation failed", error)
 );
 ```
 
@@ -88,7 +88,7 @@ Amplify.Predictions.translateText(
     LanguageType.ENGLISH,
     LanguageType.RUSSIAN,
     { result -> Log.i("MyAmplifyApplication", result.getTranslatedText()) },
-    { error -> Log.e("MyAmplifyApplication", error.toString()) }
+    { error -> Log.e("MyAmplifyApplication", "Translation failed", error) }
 )
 ```
 

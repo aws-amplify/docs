@@ -1,4 +1,4 @@
-The Predictions category for enables you to integrate machine learning in your application without any prior machine learning experience.  We support a number of use cases which include, but not limited to: translating text from one language to another, converting text to speech, text recognition from an image, entities recognition, labeling real world objects, interpretation of text, and uploading images for automatic training. These use cases are powered by Amazon services including: [Amazon Translate](https://docs.aws.amazon.com/translate/latest/dg/what-is.html), [Amazon Polly](https://docs.aws.amazon.com/polly/latest/dg/what-is.html), [Amazon Transcribe](https://docs.aws.amazon.com/transcribe/latest/dg/what-is-transcribe.html), [Amazon Rekognition](https://docs.aws.amazon.com/rekognition/latest/dg/what-is.html), [Amazon Textract](https://docs.aws.amazon.com/textract/latest/dg/what-is.html), and [Amazon Comprehend](https://docs.aws.amazon.com/comprehend/latest/dg/what-is.html).
+The Predictions category enables you to integrate machine learning into your application without any prior machine learning experience. It supports translating text from one language to another, converting text to speech, text recognition from an image, entities recognition, labeling real world objects, interpretation of text, and uploading images for automatic training. This functionality is powered by AWS services including: [Amazon Translate](https://docs.aws.amazon.com/translate/latest/dg/what-is.html), [Amazon Polly](https://docs.aws.amazon.com/polly/latest/dg/what-is.html), [Amazon Transcribe](https://docs.aws.amazon.com/transcribe/latest/dg/what-is-transcribe.html), [Amazon Rekognition](https://docs.aws.amazon.com/rekognition/latest/dg/what-is.html), [Amazon Textract](https://docs.aws.amazon.com/textract/latest/dg/what-is.html), and [Amazon Comprehend](https://docs.aws.amazon.com/comprehend/latest/dg/what-is.html).
 
 <inline-fragment platform="ios" src="~/lib/predictions/fragments/ios/getting-started/10_coreml.md"></inline-fragment>
 
@@ -44,7 +44,7 @@ Enter the following when prompted:
     ` Auth and Guest users`
 ```
 
-Note that the languages selected during this stage will be the default language your app will translate to/from.  These source and target languages can be overridden when we write the code in our application.
+Note that the languages selected during this stage will be the default language your app will translate to/from. These source and target languages can be overridden when we write the code in our application.
 
 To push your change to the cloud, **execute the command**:
 
@@ -52,7 +52,7 @@ To push your change to the cloud, **execute the command**:
 amplify push
 ```
 
-Upon completion, `amplifyconfiguration.json` will be updated to reference provisioned backend resources.
+Upon completion, `amplifyconfiguration.json` will be updated to reference the newly provisioned backend resources.
 
 ## Install Amplify Libraries
 
@@ -66,7 +66,7 @@ Upon completion, `amplifyconfiguration.json` will be updated to reference provis
 
 ## Translating text
 
-To translate text from one language to another, specify the text you want translated, a source language, and a target langauge.  The source and target language parameters will override any choice you made while adding this resource using the Amplify CLI.
+To translate text from one language to another, specify the text you want translated, a source language, and a target langauge. The source and target language parameters will override any choice you made while adding this resource using the Amplify CLI.
 
 <inline-fragment platform="ios" src="~/lib/predictions/fragments/ios/getting-started/50_translate.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/predictions/fragments/android/getting-started/50_translate.md"></inline-fragment>
@@ -79,7 +79,7 @@ Me gusta comer espaguetis
 
 ## Next steps
 
-Congratulations! You've translated text from one language to another.  Check out the following links to explore other Amplify Predictions use cases:
+Congratulations! You've translated text from one language to another. Check out the following links to explore other Amplify Predictions use cases:
 
 <inline-fragment platform="ios" src="~/lib/predictions/fragments/ios/getting-started/60_nextSteps.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/predictions/fragments/android/getting-started/60_nextSteps.md"></inline-fragment>
