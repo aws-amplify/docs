@@ -1,14 +1,81 @@
-You can list all of the objects uploaded.
+You can list all of the objects uploaded under a given prefix. This will list all public files:
+
+<amplify-block-switcher>
+<amplify-block name="Java">
+
 ```java
-    private void listFiles() {
-        Amplify.Storage.list(
-            "",
-            storageListResult -> {
-                for(StorageItem item : storageListResult.getItems()) {
-                    Log.i("StorageQuickStart", "Item: " + item.getKey());
-                }
-            },
-            storageFailure -> Log.e("StorageQuickStart", storageFailure.getMessage(), storageFailure)
-        );
-    }
+Amplify.Storage.list(
+        "",
+        result -> {
+            for(StorageItem item : result.getItems()) {
+                Log.i("MyAmplifyApplication", "Item: " + item.getKey());
+            }
+        },
+        error -> Log.e("MyAmplifyApplication", "List failure", error)
+);
 ```
+
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+Amplify.Storage.list(
+    "",
+    { result ->
+        for (item in result.getItems()) {
+            Log.i("MyAmplifyApplication", "Item: " + item.getKey())
+        }
+    },
+    { error -> Log.e("MyAmplifyApplication", "List failure", error) }
+)
+```
+
+</amplify-block>
+</amplify-block-switcher>
+
+You can also list private or protected files by passing options. For example, to list all protected files owned by a user identified by the ID `otherUserID`:
+
+<amplify-block-switcher>
+<amplify-block name="Java">
+
+```java
+StorageListOptions options = StorageListOptions.builder()
+        .accessLevel(StorageAccessLevel.PROTECTED)
+        .targetIdentityId("otherUserID")
+        .build();
+        
+Amplify.Storage.list(
+        "",
+        options,
+        result -> {
+            for(StorageItem item : result.getItems()) {
+                Log.i("MyAmplifyApplication", "Item: " + item.getKey());
+            }
+        },
+        error -> Log.e("MyAmplifyApplication", "List failure", error)
+);
+```
+
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+val options = StorageListOptions.builder()
+            .accessLevel(StorageAccessLevel.PROTECTED)
+            .targetIdentityId("otherUserID")
+            .build()
+
+Amplify.Storage.list(
+    "",
+    options,
+    { result ->
+        for (item in result.getItems()) {
+            Log.i("MyAmplifyApplication", "Item: " + item.getKey())
+        }
+    },
+    { error -> Log.e("MyAmplifyApplication", "List failure", error) }
+)
+```
+
+</amplify-block>
+</amplify-block-switcher>

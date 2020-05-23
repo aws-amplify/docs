@@ -1,20 +1,50 @@
+<amplify-block-switcher>
+<amplify-block name="Java">
+
 ```java
 private void uploadFile() {
-  File sampleFile = new File(getApplicationContext().getFilesDir(), "myKey");
-  try {
-      BufferedWriter writer = new BufferedWriter(new FileWriter(sampleFile));
-      writer.append("My Data");
-      writer.close();
-  }
-  catch(Exception exception) {
-      Log.e("StorageQuickstart", exception.getMessage(), exception);
-  }
+    File exampleFile = new File(getApplicationContext().getFilesDir(), "ExampleKey");
 
-  Amplify.Storage.uploadFile(
-      "myKey",
-      sampleFile.getAbsolutePath(),
-      result -> Log.i("StorageQuickStart", "Successfully uploaded: " + result.getKey()),
-      storageFailure -> Log.e("StorageQuickstart", "Upload error.", storageFailure)
-  );
+    try {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(exampleFile));
+        writer.append("Example file contents");
+        writer.close();
+    } catch(Exception exception) {
+        Log.e("MyAmplifyApplication", "Upload failed", exception);
+    }
+
+    Amplify.Storage.uploadFile(
+            "ExampleKey",
+            exampleFile,
+            result -> Log.i("MyAmplifyApplication", "Successfully uploaded: " + result.getKey()),
+            storageFailure -> Log.e("MyAmplifyApplication", "Upload failed", storageFailure)
+    );
 }
 ```
+
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+private fun uploadFile() {
+    val exampleFile = File(applicationContext.filesDir, "ExampleKey")
+
+    try {
+        val writer = BufferedWriter(FileWriter(exampleFile))
+        writer.append("Example file contents")
+        writer.close()
+    } catch (exception: Exception) {
+        Log.e("MyAmplifyApplication", "Upload failed", exception)
+    }
+
+    Amplify.Storage.uploadFile(
+        "ExampleKey",
+        exampleFile,
+        { result: StorageUploadFileResult -> Log.i("MyAmplifyApplication", "Successfully uploaded: " + result.getKey()) },
+        { error -> Log.e("MyAmplifyApplication", "Upload failed", error) }
+    )
+}
+```
+
+</amplify-block>
+</amplify-block-switcher>

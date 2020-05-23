@@ -1,30 +1,65 @@
-To initialize the Amplify Storage and Authentication categories, we are required to use the `Amplify.addPlugin()` method for each category we want.  When we are done calling `addPlugin()` on each category, we finish configuring Amplify by calling `Amplify.configure()`.
+To initialize the Amplify Predictions and Storage categories you call `Amplify.addPlugin()` method for each category. To complete initialization call `Amplify.configure()`.
 
+Add the following code to your `onCreate()` method in your application class:
 
-Add the following code to the bottom of your MainActivity `onCreate` method (ideally this would go in your Application class but this works for getting started quickly):
+<amplify-block-switcher>
+<amplify-block name="Java">
 
 ```java
-AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+Amplify.addPlugin(new AWSCognitoAuthPlugin());
+Amplify.addPlugin(new AWSS3StoragePlugin());
+```
+
+Your class will look like this:
+
+```java
+public class MyAmplifyApplication extends Application {
     @Override
-    public void onResult(UserStateDetails userStateDetails) {
+    public void onCreate() {
+        super.onCreate();
+
         try {
+            // Add these lines to add the AWSCognitoAuthPlugin and AWSS3StoragePlugin plugins
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.addPlugin(new AWSS3StoragePlugin());
             Amplify.configure(getApplicationContext());
-            Log.i("StorageQuickstart", "Amplify configured with storage plugin");
-        } catch (Exception exception) {
-            Log.e("StorageQuickstart", exception.getMessage(), exception);
+
+            Log.i("MyAmplifyApplication", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApplication", "Could not initialize Amplify", error);
         }
     }
+}
+```
 
-    @Override
-    public void onError(Exception exception) {
-        Log.e("StorageQuickstart", "Initialization error.", exception);
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+Amplify.addPlugin(AWSCognitoAuthPlugin())
+Amplify.addPlugin(AWSPredictionsPlugin())
+```
+
+Your class will look like this:
+
+```kotlin
+class MyAmplifyApplication : Application() {
+    override fun onCreate() {
+        super.onCreate()
+
+        try {
+            // Add these lines to add the AWSCognitoAuthPlugin and AWSS3StoragePlugin plugins
+            Amplify.addPlugin(AWSCognitoAuthPlugin())
+            Amplify.addPlugin(AWSS3StoragePlugin())
+            Amplify.configure(applicationContext)
+
+            Log.i("MyAmplifyApplication", "Initialized Amplify")
+        } catch (error: AmplifyException) {
+            Log.e("MyAmplifyApplication", "Could not initialize Amplify", error)
+        }
     }
-});
+}
 ```
 
-Upon building and running this application you should see the following in your console window:
-
-```bash
-Amplify configured with storage plugin
-```
+</amplify-block>
+</amplify-block-switcher>

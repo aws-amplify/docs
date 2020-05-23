@@ -1,11 +1,26 @@
-Delete an object uploaded to S3 by using `Amplify.Storage.remove` and specify the key
+To delete an object uploaded to S3, use `Amplify.Storage.remove` and specify the key:
+
+<amplify-block-switcher>
+<amplify-block name="Java">
 
 ```java
-    private void removeFile() {
-        Amplify.Storage.remove(
-            "myUploadedFileName.txt",
-            storageRemoveResult -> Log.i("StorageQuickStart", "Successfully removed: " + storageRemoveResult.getKey()),
-            storageFailure -> Log.e("StorageQuickStart", storageFailure.getMessage(), storageFailure)
-        );
-    }
+Amplify.Storage.remove(
+        "myUploadedFileName.txt",
+        result -> Log.i("MyAmplifyApplication", "Successfully removed: " + result.getKey()),
+        error -> Log.e("MyAmplifyApplication", "Remove failure", error)
+);
 ```
+
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+Amplify.Storage.remove(
+    "myUploadedFileName.txt",
+    { result -> Log.i("MyAmplifyApplication", "Successfully removed: " + result.getKey()) },
+    { error -> Log.e("MyAmplifyApplication", "Remove failure", error) }
+)
+```
+
+</amplify-block>
+</amplify-block-switcher>
