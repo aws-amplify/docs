@@ -1,16 +1,3 @@
-* `mavenCentral()` as a repository
-
-```groovy
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0'
-    }
-}
-```
-
 Next add the following dependencies to your app `build.gradle`:
 
 ```groovy
