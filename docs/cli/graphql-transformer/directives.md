@@ -457,7 +457,7 @@ enum ModelMutation { create update delete }
 
 ```graphql
 # The simplest case
-type Post @model @auth(rules: [{allow: owner}]) {
+type Post @model @auth(rules: [{ allow: owner }]) {
   id: ID!
   title: String!
 }
@@ -467,7 +467,7 @@ type Post
   @model
   @auth(
     rules: [
-      {allow: owner, ownerField: "owner", operations: [create, update, delete, read]},
+      { allow: owner, ownerField: "owner", operations: [create, update, delete, read] },
     ])
 {
   id: ID!
@@ -476,60 +476,66 @@ type Post
 }
 ```
 
-Owner authorization specifies that a user can access an object. To
-do so, each object has an *ownerField* (by default "owner") that stores ownership information
-and is verified in various ways during resolver execution.
+Owner authorization specifies that a user can access an object. To do so, each object will get an `ownerField` field (by default "owner", will be added to the object if not specified) that stores ownership information and is verified in various ways during resolver execution.
 
-You can use the *operations* argument to specify which operations are augmented as follows:
+You can use the `operations` argument to specify which operations are enabled as follows:
 
 - **read**: If the record's owner is not the same as the logged in user (via `$ctx.identity.username`), throw `$util.unauthorized()` in any resolver that returns an object of this type.
-- **create**: Inject the logged in user's `$ctx.identity.username` as the *ownerField* automatically.
-- **update**: Add conditional update that checks the stored *ownerField* is the same as `$ctx.identity.username`.
-- **delete**: Add conditional update that checks the stored *ownerField* is the same as `$ctx.identity.username`.
+- **create**: Inject the logged in user's `$ctx.identity.username` as the `ownerField` automatically.
+- **update**: Add conditional update that checks the stored `ownerField` is the same as `$ctx.identity.username`.
+- **delete**: Add conditional update that checks the stored `ownerField` is the same as `$ctx.identity.username`.
 
-**Note**: When specifying operations as a part of the @auth rule, the operations not included in the list are not protected by default. For example, let's say you have the following schema:
+**Note**: When specifying operations as a part of the `@auth` rule, the operations not included in the list are not protected by default.
+
+Let's take a look at a few examples:
 
 ```graphql
 type Todo @model
-  @auth(rules: [{ allow: owner, operations: [read] }]) {
+  @auth(rules: [{ allow: owner }]) {
   id: ID!
   updatedAt: AWSDateTime!
   content: String!
 }
 ```
 
-In this schema, only the owner of the object has the authorization to perform read (getTodo and listTodos) operations on the owner created object. But this does not prevent any other owner (any user other than the creator or owner of the object) to update/delete some other owner's object.
+In this schema, only the owner of the object has the authorization to perform read (`getTodo` and `listTodos`) and update operations (`updateTodo` and `deleteTodo`) on the owner created object. This prevents any other owner (any user other than the creator of the object) to update/delete some other owner's object.
+
 Here's a truth table for the above-mentioned schema. In the table below `other` refers to any user other than the creator or owner of the object.
 
 |       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
 |:------|:-------:|:---------:|:----------:|:----------:|:----------:|
 | owner |    ✅   |     ✅    |     ✅     |      ✅   |     ✅     |
-| other |    ❌   |     ❌    |     ✅     |      ✅   |     ✅     |
+| other |    ❌   |     ❌    |     ✅     |      ❌   |     ❌     |
 
-If you want to prevent updates and deletes operations, you would need to modify the @auth rule to explicitly include the `update` and `delete` operation and your schema should look like the following:
+Next, let's say that we wanted wanted to modify the schema to allow anyone to create, read, and update, but only the owner to be able to delete.
 
 ```graphql
 type Todo @model
-  @auth(rules: [{ allow: owner, operations: [read, update, delete] }]) {
+  @auth(rules: [{ allow: owner, operations: [create, delete] }]) {
   id: ID!
   updatedAt: AWSDateTime!
   content: String!
 }
 ```
 
+In this schema, only the owner of the object has the authorization to perform delete operations on the owner created object, but anyone can read or update them.
+
 Here's a truth table for the above-mentioned schema. In the table below `other` refers to any user other than the creator or owner of the object.
 
 |       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
-|:------|:-------:|:--------:|:----------:|:----------:|:----------:|
-| owner |    ✅    |     ✅    |      ✅     |      ✅     |      ✅     |
-| other |    ❌    |     ❌    |      ✅     |      ❌     |      ❌     |
+|:------|:-------:|:---------:|:----------:|:----------:|:----------:|
+| owner |    ✅   |     ✅    |     ✅     |      ✅   |     ✅     |
+| other |    ✅   |     ✅    |     ✅     |      ✅   |     ❌     |
 
 
-> **Note:** Specifying `@auth(rules: [{ allow: owner, operations: [create]}])` still allows anyone who has access to your API to create records (as shown in the above truth table). However, including this is necessary when specifying other owner auth rules to ensure that the owner is stored with the record so it can be verified on subsequent requests.
+> **Note:** Specifying `@auth(rules: [{ allow: owner, operations: [create]}])` allows any signed in user to create records (as shown in the above truth table). Including this is necessary when specifying other owner auth rules to ensure that the owner is stored with the record so it can be verified on subsequent requests.
 
-You may also apply multiple ownership rules on a single `@model` type. For example, imagine you have a type **Draft**
-that stores unfinished posts for a blog. You might want to allow the **Draft's owner** to create, update, delete, and
-read **Draft** objects. However, you might also want the **Draft's editors** to be able to update and read **Draft** objects.
+### Multiple authorization rules
+
+You may also apply multiple ownership rules on a single `@model` type. 
+
+For example, imagine you have a type **Draft** that stores unfinished posts for a blog. You might want to allow the **Draft's owner** to create, update, delete, and read **Draft** objects. However, you might also want the **Draft's editors** to be able to update and read **Draft** objects.
+
 To allow for this use case you could use the following type definition:
 
 ```graphql
@@ -550,11 +556,9 @@ type Draft @model
 }
 ```
 
-
 ### Ownership with create mutations
 
-The ownership authorization rule tries to make itself as easy as possible to use. One
-feature that helps with this is that it will automatically fill ownership fields unless
+The ownership authorization rule will automatically fill ownership fields unless
 told explicitly not to do so. To show how this works, lets look at how the create mutation
 would work for the **Draft** type above:
 
@@ -586,8 +590,9 @@ Let's assume that when I call this mutation I am logged in as `someuser@my-domai
 
 The `Mutation.createDraft` resolver is smart enough to match your auth rules to attributes
 and will fill them in be default. If you do not want the value to be automatically set all
-you need to do is include a value for it in your input. For example, to have the resolver
-automatically set the **owner** but not the **editors**, you would run this:
+you need to do is include a value for it in your input.
+
+For example, to have the resolver automatically set the **owner** but not the **editors**, you would run this:
 
 ```graphql
 mutation CreateDraft {
@@ -615,6 +620,39 @@ This would return:
             "title": "A new draft",
             "owner": "someuser@my-domain.com",
             "editors": []
+        }
+    }
+}
+```
+
+To specify a list of custom **editors**, you could run this:
+
+```graphql
+mutation CreateDraft {
+  createDraft(
+    input: {
+      title: "A new draft",
+      editors: ["editor1@my-domain.com", "editor2@my-domain.com"]
+    }
+  ) {
+    id
+    title
+    owner
+    editors
+  }
+}
+```
+
+This would return:
+
+```json
+{
+    "data": {
+        "createDraft": {
+            "id": "...",
+            "title": "A new draft",
+            "owner": "someuser@my-domain.com",
+            "editors": ["editor1@my-domain.com", "editor2@my-domain.com"]
         }
     }
 }
@@ -681,7 +719,10 @@ to a known set of groups. For example, you can allow all **Admin** users to crea
 update, delete, get, and list Salary objects.
 
 ```graphql
-type Salary @model @auth(rules: [{allow: groups, groups: ["Admin"]}]) {
+type Salary @model
+  @auth(rules: [
+    { allow: groups, groups: ["Admin"] }
+  ]) {
   id: ID!
   wage: Int
   currency: String
@@ -700,7 +741,6 @@ now any member of the "Admin" group can also create, update, delete, and read a 
 ```graphql
 type Draft @model
   @auth(rules: [
-
     # Defaults to use the "owner" field.
     { allow: owner },
 
@@ -722,14 +762,14 @@ type Draft @model
 
 ```graphql
 # Dynamic group authorization with multiple groups
-type Post @model @auth(rules: [{allow: groups, groupsField: "groups"}]) {
+type Post @model @auth(rules: [{ allow: groups, groupsField: "groups" }]) {
   id: ID!
   title: String
   groups: [String]
 }
 
 # Dynamic group authorization with a single group
-type Post @model @auth(rules: [{allow: groups, groupsField: "group"}]) {
+type Post @model @auth(rules: [{ allow: groups, groupsField: "group" }]) {
   id: ID!
   title: String
   group: String
@@ -753,7 +793,6 @@ the draft. This would allow you to share an individual document with an external
 ```graphql
 type Draft @model
   @auth(rules: [
-
     # Defaults to use the "owner" field.
     { allow: owner },
 
@@ -809,7 +848,7 @@ mutation CreateDraft {
 
 ```graphql
 # The simplest case
-type Post @model @auth(rules: [{allow: public}]) {
+type Post @model @auth(rules: [{ allow: public }]) {
   id: ID!
   title: String!
 }
@@ -819,7 +858,7 @@ The `public` authorization specifies that everyone will be allowed to access the
 
 ```graphql
 # public authorization with provider override
-type Post @model @auth(rules: [{allow: public, provider: iam}]) {
+type Post @model @auth(rules: [{ allow: public, provider: iam }]) {
   id: ID!
   title: String!
 }
@@ -831,7 +870,7 @@ The @auth directive allows the override of the default provider for a given auth
 
 ```graphql
 # The simplest case
-type Post @model @auth(rules: [{allow: private}]) {
+type Post @model @auth(rules: [{ allow: private }]) {
   id: ID!
   title: String!
 }
@@ -841,7 +880,7 @@ The `private` authorization specifies that everyone will be allowed to access th
 
 ```graphql
 # private authorization with provider override
-type Post @model @auth(rules: [{allow: private, provider: iam}]) {
+type Post @model @auth(rules: [{ allow: private, provider: iam }]) {
   id: ID!
   title: String!
 }
@@ -853,13 +892,13 @@ The @auth directive allows the override of the default provider for a given auth
 
 ```graphql
 # private authorization with provider override
-type Post @model @auth(rules: [{allow: private, provider: oidc}]) {
+type Post @model @auth(rules: [{ allow: private, provider: oidc }]) {
   id: ID!
   title: String!
 }
 
 # owner authorization with provider override
-type Profile @model @auth(rules: [{allow: owner, provider: oidc, identityClaim: "sub"}]) {
+type Profile @model @auth(rules: [{ allow: owner, provider: oidc, identityClaim: "sub" }]) {
   id: ID!
   displayNAme: String!
 }
@@ -868,9 +907,37 @@ type Profile @model @auth(rules: [{allow: owner, provider: oidc, identityClaim: 
 By using a configured `oidc` provider for the API, it is possible to authenticate the users against it to perform operations on the `Post` type, and `owner` authorization is also possible.
 
 
-### Combining Authorization Rules
+### Combining Multiple Authorization Rules
 
-The objects and fields in the GraphQL schema can have rules with different authorization providers assigned.
+Amplify GraphQL APIs have a primary **default** Authentication type and, optionally, additional secondary authentication types. The objects and fields in the GraphQL schema can have rules with different authorization providers assigned based on the authentication types configured in your app.
+
+One of the most common scenarios for multiple authorization rules is for combining public and private access. Take for example a blog. Blogs usually offer public access for viewing posts (guest users as well as signed in users can view them) and private access for updating or deleting posts (signed in users that created the post).
+
+Let's take a look at how we can combine public and private access to achive this:
+
+```graphql
+type Post @model
+  @auth (
+    rules: [
+      # set owner permissions on new items, allow owners ability to read, update, and delete posts
+      { allow: owner },
+
+      # allow all authenticated users to read posts
+      { allow: private, operations: [read] },
+
+      # allow all guest users (not authenticated) to read posts
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  title: String
+  owner: String
+}
+```
+
+> The above schema assumes a default authentication type of `Amazon Cognito User Pools` and a secondary authentication type of `API key`.
+
+Let's take a look at another example:
 
 ```graphql
 type Post @model
@@ -886,7 +953,9 @@ type Post @model
 }
 ```
 
-In the example above the model is protected by Cognito User Pools by default and the `owner` can perform any operation on the `Post` type, but a Lambda function through the configured IAM policies can only call the ```getPost``` and ```listPosts``` query.
+> The above schema assumes a default authentication type of **Amazon Cognito User Pools** and a secondary authentication type of **IAM**.
+
+In the example above the `Post` model is protected by Cognito User Pools by default and the `owner` can perform any operation on the `Post` type. A Lambda function through the configured IAM policies can also call the `getPost` and `listPosts` query.
 
 ```graphql
 type Post @model @auth (rules: [{ allow: private }]) {
@@ -921,8 +990,8 @@ Please note that `groups` is leveraging Cognito User Pools but no provider assig
 type Post @model
 @model
 @auth(rules: [
-	{allow: owner, identityClaim: "user_id"},
-	{allow: groups, groups: ["Moderator"], groupClaim: "user_groups"}
+	{ allow: owner, identityClaim: "user_id" },
+	{ allow: groups, groups: ["Moderator"], groupClaim: "user_groups" }
 ])
 {
   id: ID!
@@ -984,7 +1053,7 @@ In the case of groups if you define the following:
 
 ```graphql
 type Post @model
-@model @auth(rules: [{allow: groups, groups: ["Admin"]}]) {
+@model @auth(rules: [{ allow: groups, groups: ["Admin"] }]) {
 {
   id: ID!
   owner: String
@@ -1111,7 +1180,7 @@ You can also combine top-level @auth rules on the type with field level auth rul
 
 ```graphql
 type Todo
-  @model @auth(rules: [{allow: groups, groups: ["Admin"], operations:[update] }]
+  @model @auth(rules: [{ allow: groups, groups: ["Admin"], operations:[update] }]
 {
   id: ID!
   updatedAt: AWSDateTime!
@@ -1166,7 +1235,7 @@ of authorization.
 **Owner Authorization**
 
 ```graphql
-type Post @model @auth(rules: [{allow: owner}]) {
+type Post @model @auth(rules: [{ allow: owner }]) {
   id: ID!
   title: String!
 }
@@ -1184,7 +1253,7 @@ The generated resolvers would be protected like so:
 ### Static Group Authorization
 
 ```graphql
-type Post @model @auth(rules: [{allow: groups, groups: ["Admin"]}]) {
+type Post @model @auth(rules: [{ allow: groups, groups: ["Admin"] }]) {
   id: ID!
   title: String!
   groups: String
@@ -1203,7 +1272,7 @@ Static group auth is simpler than the others. The generated resolvers would be p
 ### Dynamic Group Authorization
 
 ```graphql
-type Post @model @auth(rules: [{allow: groups, groupsField: "groups"}]) {
+type Post @model @auth(rules: [{ allow: groups, groupsField: "groups" }]) {
   id: ID!
   title: String!
   groups: String
