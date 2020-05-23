@@ -131,8 +131,7 @@ fun detectEntities(image: Bitmap) {
         IdentifyActionType.DETECT_ENTITIES,
         image,
         Consumer { result: IdentifyResult ->
-            val identifyResult =
-                result as IdentifyEntityMatchesResult
+            val identifyResult = result as IdentifyEntityMatchesResult
             val match = identifyResult.getEntityMatches()[0]
             Log.i("AmplifyQuickstart", match.externalImageId)
         },
