@@ -484,7 +484,7 @@ Owner authorization requires an authentication type of **Amazon Cognito User Poo
 
 </amplify-callout>
 
-Owner authorization specifies that a user can access or operate against an object. To do so, each object will get an `ownerField` field (by default `owner`, will be added to the object if not specified) that stores ownership information and is verified in various ways during resolver execution.
+Owner authorization specifies whether a user can access or operate against an object. To do so, each object will get an `ownerField` field (by default `owner` will be added to the object if not specified) that stores ownership information and is verified in various ways during resolver execution.
 
 You can use the `operations` argument to specify which operations are enabled as follows:
 
@@ -535,7 +535,7 @@ type Todo @model
 
 In this schema, only the owner of the object has the authorization to perform read (`getTodo` and `listTodos`), update (`updateTodo`), and delete (`deleteTodo`) operations on the owner created object. This prevents the object from being updated or deleted by users other than the creator of the object.
 
-Here's a table outlining which users are permitted to execute which operations. **owner** refers to the user who created the object,  **other** refers to all other users.
+Here's a table outlining which users are permitted to execute which operations. **owner** refers to the user who created the object, **other** refers to all other users.
 
 |       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
 |:------|:-------:|:---------:|:----------:|:----------:|:----------:|
@@ -545,7 +545,7 @@ Here's a table outlining which users are permitted to execute which operations. 
 Next, let's say that you wanted to modify the schema to allow only the owner of the object to be able to update or delete, but allow any authenticated user to read the objects.
 
 ```graphql
-type Post @model
+type Todo @model
   @auth(rules: [{ allow: owner, operations: [create, delete, update] }]) {
   id: ID!
   updatedAt: AWSDateTime!
@@ -555,7 +555,7 @@ type Post @model
 
 In this schema, only the owner of the object has the authorization to perform update (`updateTodo`) and delete (`deleteTodo`) operations on the owner created object, but anyone can read them. This prevents the object from being updated or deleted by users other than the creator of the object while allowing all users of the app to read them.
 
-Here's a table outlining which users are permitted to execute which operations. **owner** refers to the user who created the object,  **other** refers to all other users.
+Here's a table outlining which users are permitted to execute which operations. **owner** refers to the user who created the object, **other** refers to all other users.
 
 |       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
 |:------|:-------:|:---------:|:----------:|:----------:|:----------:|
@@ -575,7 +575,7 @@ type Todo @model
 
 In this schema, only the owner of the object has the authorization to perform delete operations on the owner created object, but anyone can read or update them. This is because `read` and `update` aren't specified as owner-only actions, so all users are able to perform them. Since `delete` is specified as an owner only action, only the object's creator can delete the object.
 
-Here's a table outlining which users are permitted to execute which operations. **owner** refers to the user who created the object,  **other** refers to all other users.
+Here's a table outlining which users are permitted to execute which operations. **owner** refers to the user who created the object, **other** refers to all other users.
 
 |       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
 |:------|:-------:|:---------:|:----------:|:----------:|:----------:|
