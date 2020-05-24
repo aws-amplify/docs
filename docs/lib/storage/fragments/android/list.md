@@ -21,9 +21,11 @@ Amplify.Storage.list(
 ```kotlin
 Amplify.Storage.list(
     "/",
-    { result -> result.getItems().forEach { item ->
-        Log.i("MyAmplifyApplication", "Item: " + item.getKey())
-    } },
+    { result ->
+        result.getItems().forEach { item ->
+            Log.i("MyAmplifyApplication", "Item: " + item.getKey())
+        }
+    },
     { error -> Log.e("MyAmplifyApplication", "List failure", error) }
 )
 ```
@@ -66,9 +68,11 @@ val options = StorageListOptions.builder()
 Amplify.Storage.list(
     "/",
     options,
-    { result -> result.getItems().forEach { item ->
-        Log.i("AmplifyApplication", "Item: " + item)
-    } }
+    { result ->
+        result.getItems().forEach { item ->
+            Log.i("AmplifyApplication", "Item: " + item)
+        }
+    },
     { error -> Log.e("MyAmplifyApplication", "List failure", error) }
 )
 ```
