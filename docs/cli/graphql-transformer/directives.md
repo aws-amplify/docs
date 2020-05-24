@@ -480,7 +480,7 @@ type Post
 
 <amplify-callout>
 
-Owner authorization requires an authentication type of `Amazon Cognito User Pools` to be enabled in your app.
+Owner authorization requires an authentication type of **Amazon Cognito User Pools** to be enabled in your app.
 
 </amplify-callout>
 
@@ -957,7 +957,7 @@ By using a configured `oidc` provider for the API, it is possible to authenticat
 
 ### Combining multiple authorization rules
 
-Amplify GraphQL APIs have a primary **default** Authentication type and, optionally, additional secondary authentication types. The objects and fields in the GraphQL schema can have rules with different authorization providers assigned based on the authentication types configured in your app.
+Amplify GraphQL APIs have a primary **default** authentication type and, optionally, additional secondary authentication types. The objects and fields in the GraphQL schema can have rules with different authorization providers assigned based on the authentication types configured in your app.
 
 One of the most common scenarios for multiple authorization rules is for combining public and private access. For example, blogs typically allow public access for viewing a post but only allow a post's creator to update or delete that post.
 
