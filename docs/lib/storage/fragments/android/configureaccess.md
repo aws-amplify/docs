@@ -95,7 +95,7 @@ private fun downloadFile(file: File, key: String, otherUserId: String) {
         key,
         file,
         options,
-        { result -> Log.i("MyAmplifyApplication", "Successfully downloaded: $key") },
+        { Log.i("MyAmplifyApplication", "Successfully downloaded: $key") },
         { error -> Log.e("MyAmplifyApplication", "Download failed", error) }
     )
 }
