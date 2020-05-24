@@ -49,7 +49,7 @@ private fun uploadFile(key: String, file: File) {
         key,
         file,
         options,
-        { _ -> Log.i("MyAmplifyApplication", "Successfully uploaded: $key" )},
+        { Log.i("MyAmplifyApplication", "Successfully uploaded: $key" )},
         { error -> Log.e("MyAmplifyApplication", "Upload failed", error)}
     )
 }
