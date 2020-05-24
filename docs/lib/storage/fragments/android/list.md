@@ -48,7 +48,7 @@ Amplify.Storage.list(
         "",
         options,
         result -> {
-            for(StorageItem item : result.getItems()) {
+            for (StorageItem item : result.getItems()) {
                 Log.i("MyAmplifyApplication", "Item: " + item.getKey());
             }
         },
