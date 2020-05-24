@@ -42,7 +42,7 @@ private fun uploadFile() {
     Amplify.Storage.uploadFile(
         "ExampleKey",
         exampleFile,
-        { result: StorageUploadFileResult -> Log.i("MyAmplifyApplication", "Successfully uploaded: " + result.getKey()) },
+        { result -> Log.i("MyAmplifyApplication", "Successfully uploaded: " + result.getKey()) },
         { error -> Log.e("MyAmplifyApplication", "Upload failed", error) }
     )
 }
