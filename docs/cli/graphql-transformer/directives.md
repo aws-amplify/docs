@@ -291,7 +291,7 @@ directive @key(fields: [String!]!, name: String, queryField: String) on OBJECT
 
 ### How to use @key
 
-When designing data models using the `@key` directive, the first step should be to write down your application's expected access patterns. For example, let's say we were building an e-commerce application
+When designing data models using the `@key` directive, the first step should be to write down your application's expected access patterns. For example, let's say you were building an e-commerce application
 and needed to implement access patterns like:
 
 1. Get customers by email.
@@ -309,7 +309,7 @@ type Customer @model @key(fields: ["email"]) {
 }
 ```
 
-A @key without a *name* specifies the key for the DynamoDB table's primary index. You may only provide 1 @key without a *name* per @model type. The example above shows the simplest case where we are specifying that the table's primary index should have a simple key where the hash key is *email*. This allows us to get unique customers by their *email*.
+A `@key` without a *name* specifies the key for the DynamoDB table's primary index. You may only provide 1 `@key` without a *name* per @model type. The example above shows the simplest case where you are specifying that the table's primary index should have a simple key where the hash key is *email*. This allows you to get unique customers by their *email*.
 
 ```graphql
 query GetCustomerById {
@@ -320,7 +320,7 @@ query GetCustomerById {
 }
 ```
 
-This is great for simple lookup operations, but what if we need to perform slightly more complex queries?
+This is great for simple lookup operations, but what if you need to perform slightly more complex queries?
 
 ```graphql
 # Get orders by customer by createdAt.
@@ -331,7 +331,7 @@ type Order @model @key(fields: ["customerEmail", "createdAt"]) {
 }
 ```
 
-This @key above allows us to efficiently query *Order* objects by both a *customerEmail* and the *createdAt* time stamp. The @key above creates a DynamoDB table where the primary index's hash key is *customerEmail* and the sort key is *createdAt*. This allows us to write queries like this:
+This @key above allows you to efficiently query *Order* objects by both a *customerEmail* and the *createdAt* time stamp. The @key above creates a DynamoDB table where the primary index's hash key is *customerEmail* and the sort key is *createdAt*. This allows you to write queries like this:
 
 ```graphql
 query ListOrdersForCustomerIn2019 {
@@ -345,7 +345,7 @@ query ListOrdersForCustomerIn2019 {
 }
 ```
 
-The query above shows how we can use compound key structures to implement more powerful query patterns on top of DynamoDB but we are not quite done yet. Given that DynamoDB limits you to query by at most two attributes at a time, the @key directive helps by streamlining the process of creating composite sort keys such that you can support querying by more than two attributes at a time. For example, we can implement “Get items by order, status, and createdAt” as well as “Get items by status and createdAt” for a single @model with this schema.
+The query above shows how you can use compound key structures to implement more powerful query patterns on top of DynamoDB but you are not quite done yet. Given that DynamoDB limits you to query by at most two attributes at a time, the @key directive helps by streamlining the process of creating composite sort keys such that you can support querying by more than two attributes at a time. For example, you can implement “Get items by order, status, and createdAt” as well as “Get items by status and createdAt” for a single @model with this schema.
 
 ```graphql
 type Item @model
@@ -453,7 +453,9 @@ enum ModelMutation { create update delete }
 
 > Note: The operations argument was added to replace the 'queries' and 'mutations' arguments. The 'queries' and 'mutations' arguments will continue to work but it is encouraged to move to 'operations'. If both are provided, the 'operations' argument takes precedence over 'queries'.
 
-### Owner Authorization
+### Owner authorization
+
+Enabling `owner` authorization allows any signed in user to create records.
 
 ```graphql
 # The simplest case
@@ -476,7 +478,13 @@ type Post
 }
 ```
 
-Owner authorization specifies that a user can access an object. To do so, each object will get an `ownerField` field (by default "owner", will be added to the object if not specified) that stores ownership information and is verified in various ways during resolver execution.
+<amplify-callout>
+
+Owner authorization requires an authentication type of `Amazon Cognito User Pools` to be enabled in your app.
+
+</amplify-callout>
+
+Owner authorization specifies that a user can access or operate against an object. To do so, each object will get an `ownerField` field (by default `owner`, will be added to the object if not specified) that stores ownership information and is verified in various ways during resolver execution.
 
 You can use the `operations` argument to specify which operations are enabled as follows:
 
@@ -485,7 +493,34 @@ You can use the `operations` argument to specify which operations are enabled as
 - **update**: Add conditional update that checks the stored `ownerField` is the same as `$ctx.identity.username`.
 - **delete**: Add conditional update that checks the stored `ownerField` is the same as `$ctx.identity.username`.
 
-**Note**: When specifying operations as a part of the `@auth` rule, the operations not included in the list are not protected by default.
+You must ensure that the `create` operations rule is either specified directly or indirectly to ensure that the owner's identity is stored with the record so it can be verified on subsequent requests.
+
+```graphql
+# owner identity automatically stored on every object
+type Post @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  title: String!
+}
+
+# owner identity automatically stored on every object
+type Post @model @auth(rules: [{ allow: owner, operations: [create] }]) {
+  id: ID!
+  title: String!
+}
+
+# owner identity not stored on objects
+type Post @model @auth(rules: [{ allow: owner, operations: [read] }]) {
+  id: ID!
+  title: String!
+}
+```
+
+<amplify-callout>
+
+When specifying operations as a part of the `@auth` rule, the operations not included in the list are not protected by default.
+
+</amplify-callout>
+
 
 Let's take a look at a few examples:
 
@@ -498,16 +533,36 @@ type Todo @model
 }
 ```
 
-In this schema, only the owner of the object has the authorization to perform read (`getTodo` and `listTodos`) and update operations (`updateTodo` and `deleteTodo`) on the owner created object. This prevents any other owner (any user other than the creator of the object) to update/delete some other owner's object.
+In this schema, only the owner of the object has the authorization to perform read (`getTodo` and `listTodos`), update (`updateTodo`), and delete (`deleteTodo`) operations on the owner created object. This prevents the object from being updated or deleted by users other than the creator of the object.
 
-Here's a truth table for the above-mentioned schema. In the table below `other` refers to any user other than the creator or owner of the object.
+Here's a table outlining which users are permitted to execute which operations. **owner** refers to the user who created the object,  **other** refers to all other users.
 
 |       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
 |:------|:-------:|:---------:|:----------:|:----------:|:----------:|
 | owner |    ✅   |     ✅    |     ✅     |      ✅   |     ✅     |
 | other |    ❌   |     ❌    |     ✅     |      ❌   |     ❌     |
 
-Next, let's say that we wanted wanted to modify the schema to allow anyone to create, read, and update, but only the owner to be able to delete.
+Next, let's say that you wanted to modify the schema to allow only the owner of the object to be able to update or delete, but allow any authenticated user to read the objects.
+
+```graphql
+type Post @model
+  @auth(rules: [{ allow: owner, operations: [create, delete, update] }]) {
+  id: ID!
+  updatedAt: AWSDateTime!
+  content: String!
+}
+```
+
+In this schema, only the owner of the object has the authorization to perform update (`updateTodo`) and delete (`deleteTodo`) operations on the owner created object, but anyone can read them. This prevents the object from being updated or deleted by users other than the creator of the object while allowing all users of the app to read them.
+
+Here's a table outlining which users are permitted to execute which operations. **owner** refers to the user who created the object,  **other** refers to all other users.
+
+|       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
+|:------|:-------:|:---------:|:----------:|:----------:|:----------:|
+| owner |    ✅   |     ✅    |     ✅     |      ✅   |     ✅     |
+| other |    ✅   |     ✅    |     ✅     |      ❌   |     ❌     |
+
+Next, let's say that you wanted to modify the schema to allow only the owner of the object to be able to delete, but allow anyone to create, read, and update.
 
 ```graphql
 type Todo @model
@@ -518,9 +573,9 @@ type Todo @model
 }
 ```
 
-In this schema, only the owner of the object has the authorization to perform delete operations on the owner created object, but anyone can read or update them.
+In this schema, only the owner of the object has the authorization to perform delete operations on the owner created object, but anyone can read or update them. This is because `read` and `update` aren't specified as owner-only actions, so all users are able to perform them. Since `delete` is specified as an owner only action, only the object's creator can delete the object.
 
-Here's a truth table for the above-mentioned schema. In the table below `other` refers to any user other than the creator or owner of the object.
+Here's a table outlining which users are permitted to execute which operations. **owner** refers to the user who created the object,  **other** refers to all other users.
 
 |       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
 |:------|:-------:|:---------:|:----------:|:----------:|:----------:|
@@ -528,20 +583,17 @@ Here's a truth table for the above-mentioned schema. In the table below `other` 
 | other |    ✅   |     ✅    |     ✅     |      ✅   |     ❌     |
 
 
-> **Note:** Specifying `@auth(rules: [{ allow: owner, operations: [create]}])` allows any signed in user to create records (as shown in the above truth table). Including this is necessary when specifying other owner auth rules to ensure that the owner is stored with the record so it can be verified on subsequent requests.
-
 ### Multiple authorization rules
 
 You may also apply multiple ownership rules on a single `@model` type. 
 
-For example, imagine you have a type **Draft** that stores unfinished posts for a blog. You might want to allow the **Draft's owner** to create, update, delete, and read **Draft** objects. However, you might also want the **Draft's editors** to be able to update and read **Draft** objects.
+For example, imagine you have a type **Draft** that stores unfinished posts for a blog. You might want to allow the **Draft's** owner to `create`, `update`, `delete`, and `read` **Draft** objects. However, you might also want the **Draft's editors** to be able to update and read **Draft** objects.
 
 To allow for this use case you could use the following type definition:
 
 ```graphql
 type Draft @model
   @auth(rules: [
-
     # Defaults to use the "owner" field.
     { allow: owner },
 
@@ -658,7 +710,7 @@ This would return:
 }
 ```
 
-You can try to do the same to **owner** but this will throw an **Unauthorized** exception because you are no longer the owner of the object you are trying to create
+You can try to perform the same modification to **owner** but this will throw an **Unauthorized** exception because you are no longer the owner of the object you are trying to create.
 
 ```graphql
 mutation CreateDraft {
@@ -711,18 +763,14 @@ Would return:
 }
 ```
 
-
-### Static Group Authorization
+### Static group authorization
 
 Static group authorization allows you to protect `@model` types by restricting access
 to a known set of groups. For example, you can allow all **Admin** users to create,
 update, delete, get, and list Salary objects.
 
 ```graphql
-type Salary @model
-  @auth(rules: [
-    { allow: groups, groups: ["Admin"] }
-  ]) {
+type Salary @model @auth(rules: [{ allow: groups, groups: ["Admin"] }]) {
   id: ID!
   wage: Int
   currency: String
@@ -733,8 +781,8 @@ When calling the GraphQL API, if the user credential (as specified by the resolv
 enrolled in the *Admin* group, the operation will fail.
 
 To enable advanced authorization use cases, you can layer auth rules to provide specialized functionality.
-To show how we might do that, let's expand the **Draft** example we started in the **Owner Authorization**
-section above. When we last left off, a **Draft** object could be updated and read by both its owner
+To show how you might do that, let's expand the **Draft** example you started in the **Owner Authorization**
+section above. When you last left off, a **Draft** object could be updated and read by both its owner
 and any of its editors and could be created and deleted only by its owner. Let's change it so that
 now any member of the "Admin" group can also create, update, delete, and read a **Draft** object.
 
@@ -758,7 +806,7 @@ type Draft @model
 }
 ```
 
-### Dynamic Group Authorization
+### Dynamic group authorization
 
 ```graphql
 # Dynamic group authorization with multiple groups
@@ -785,8 +833,8 @@ type `[String]`.
 
 Just as with the other auth rules, you can layer dynamic group rules on top of other rules.
 Let's again expand the **Draft** example from the **Owner Authorization** and **Static Group Authorization**
-sections above. When we last left off editors could update and read objects, owners had full
-access, and members of the admin group had full access to **Draft** objects. Now we have a new
+sections above. When you last left off editors could update and read objects, owners had full
+access, and members of the admin group had full access to **Draft** objects. Now you have a new
 requirement where each record should be able to specify an optional list of groups that can read
 the draft. This would allow you to share an individual document with an external team, for example.
 
@@ -844,7 +892,7 @@ mutation CreateDraft {
 }
 ```
 
-### `public` Authorization
+### `public` authorization
 
 ```graphql
 # The simplest case
@@ -866,7 +914,7 @@ type Post @model @auth(rules: [{ allow: public, provider: iam }]) {
 
 The @auth directive allows the override of the default provider for a given authorization mode. In the sample above iam is specified as the provider which allows you to use an "UnAuthenticated Role" from Cognito Identity Pools for public access, instead of an API Key. When used in conjunction with amplify add auth the CLI generates scoped down IAM policies for the "UnAuthenticated" role automatically.
 
-### `private` Authorization
+### `private` authorization
 
 ```graphql
 # The simplest case
@@ -888,7 +936,7 @@ type Post @model @auth(rules: [{ allow: private, provider: iam }]) {
 
 The @auth directive allows the override of the default provider for a given authorization mode. In the sample above iam is specified as the provider which allows you to use an "Authenticated Role" from Cognito Identity Pools for private access. When used in conjunction with amplify add auth the CLI generates scoped down IAM policies for the "Authenticated" role automatically.
 
-### Authorization Using an `oidc` Provider
+### Authorization using an `oidc` provider
 
 ```graphql
 # private authorization with provider override
@@ -907,23 +955,22 @@ type Profile @model @auth(rules: [{ allow: owner, provider: oidc, identityClaim:
 By using a configured `oidc` provider for the API, it is possible to authenticate the users against it to perform operations on the `Post` type, and `owner` authorization is also possible.
 
 
-### Combining Multiple Authorization Rules
+### Combining multiple authorization rules
 
 Amplify GraphQL APIs have a primary **default** Authentication type and, optionally, additional secondary authentication types. The objects and fields in the GraphQL schema can have rules with different authorization providers assigned based on the authentication types configured in your app.
 
-One of the most common scenarios for multiple authorization rules is for combining public and private access. Take for example a blog. Blogs usually offer public access for viewing posts (guest users as well as signed in users can view them) and private access for updating or deleting posts (signed in users that created the post).
+One of the most common scenarios for multiple authorization rules is for combining public and private access. For example, blogs typically allow public access for viewing a post but only allow a post's creator to update or delete that post.
 
-Let's take a look at how we can combine public and private access to achive this:
+Let's take a look at how you can combine public and private access to achieve this:
 
 ```graphql
 type Post @model
   @auth (
     rules: [
-      # set owner permissions on new items, allow owners ability to read, update, and delete posts
-      { allow: owner },
-
+      # allow all authenticated users ability to create posts
+      # allow owners ability to update and delete their posts
       # allow all authenticated users to read posts
-      { allow: private, operations: [read] },
+      { allow: owner, operations: [create, update, delete] },
 
       # allow all guest users (not authenticated) to read posts
       { allow: public, operations: [read] }
@@ -935,9 +982,13 @@ type Post @model
 }
 ```
 
-> The above schema assumes a default authentication type of `Amazon Cognito User Pools` and a secondary authentication type of `API key`.
+<amplify-callout>
 
-Let's take a look at another example:
+The above schema assumes a combination of **Amazon Cognito User Pools** and **API key** authentication types
+
+</amplify-callout>
+
+Let's take a look at another example. Here the `Post` model is protected by Cognito User Pools by default and the `owner` can perform any operation on the `Post` type. You can also call `getPosts` and `listPosts` from an AWS Lambda function if it is configured with the appropriate IAM policies in its execution role.
 
 ```graphql
 type Post @model
@@ -953,9 +1004,13 @@ type Post @model
 }
 ```
 
-> The above schema assumes a default authentication type of **Amazon Cognito User Pools** and a secondary authentication type of **IAM**.
+<amplify-callout>
 
-In the example above the `Post` model is protected by Cognito User Pools by default and the `owner` can perform any operation on the `Post` type. A Lambda function through the configured IAM policies can also call the `getPost` and `listPosts` query.
+The above schema assumes a combination of **Amazon Cognito User Pools** and **IAM** authentication types
+
+</amplify-callout>
+
+Let's have a look at one more example. In the following example the model is protected by Cognito User Pools by default and anyone with a valid JWT token can perform any operation on the `Post` type, but cannot update the `secret` field. The `secret` field can only be modified through the configured IAM policies, from a Lambda function for example.
 
 ```graphql
 type Post @model @auth (rules: [{ allow: private }]) {
@@ -967,9 +1022,13 @@ type Post @model @auth (rules: [{ allow: private }]) {
 }
 ```
 
-In the example above the model is protected by Cognito User Pools by default and anyone with a valid JWT token can perform any operation on the `Post` type, but cannot update the `secret` field. The `secret` field can only be modified through the configured IAM policies, from a Lambda function for example.
+<amplify-callout>
 
-### Allowed Authorization Mode vs. Provider Combinations
+The above schema assumes a combination of **Amazon Cognito User Pools** and **IAM** authentication types
+
+</amplify-callout>
+
+### Allowed authorization mode vs. provider combinations
 
 The following table shows the allowed combinations of authorization modes and providers.
 
@@ -982,7 +1041,7 @@ The following table shows the allowed combinations of authorization modes and pr
 
 Please note that `groups` is leveraging Cognito User Pools but no provider assignment needed/possible.
 
-### Custom Claims
+### Custom claims
 
 `@auth` supports using custom claims if you do not wish to use the default `username` or `cognito:groups` claims from your JWT token which are populated by Amazon Cognito. This can be helpful if you are using tokens from a 3rd party OIDC system or if you wish to populate a claim with a list of groups from an external system, such as when using a [Pre Token Generation Lambda Trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-token-generation.html) which reads from a database. To use custom claims specify `identityClaim` or `groupClaim` as appropriate like in the example below:
 
@@ -1009,7 +1068,7 @@ Note `identityField` is being deprecated for `identityClaim`.
 
 </amplify-callout>
 
-### Authorizing Subscriptions
+### Authorizing subscriptions
 
 <amplify-callout warning>
 
@@ -1078,7 +1137,7 @@ You may disable authorization checks on subscriptions or completely turn off sub
 @model (subscriptions: { level: public })
 ```
 
-### Field Level Authorization
+### Field level authorization
 
 The `@auth` directive specifies that access to a specific field should be restricted
  according to its own set of rules. Here are a few situations where this is useful:
@@ -1191,7 +1250,7 @@ In the above schema users in the `Admin` group have the authorization to create,
 An `owner` of an object, has the authorization to create Todo types and read all the objects of type Todo. In addition an `owner` can perform an update operation on the Todo object, only when the `content` field is present as a part of the input.
 Any other user - who isn't an owner of an object isn't authorized to update that object.
 
-#### Per-Field with Subscriptions
+#### Per-Field with subscriptions
 
 When setting per-field `@auth` the Transformer will alter the response of mutations for those fields by setting them to `null` in order to prevent sensitive data from being sent over subscriptions. For example in the schema below:
 
@@ -1228,9 +1287,7 @@ The mutation will run successfully, however `ssn` will return null in the GraphQ
 
 #### Generates
 
-The `@auth` directive will add authorization snippets to any relevant resolver
-mapping templates at compile time. Different operations use different methods
-of authorization.
+The `@auth` directive will add authorization snippets to any relevant resolver mapping templates at compile time. Different operations use different methods of authorization.
 
 **Owner Authorization**
 
@@ -1250,7 +1307,7 @@ The generated resolvers would be protected like so:
 - `Query.listX`: In the response mapping template filter the result's **items** such that only items with an **owner** attribute that is the same as the `$ctx.identity.username` are returned.
 - `@connection` resolvers: In the response mapping template filter the result's **items** such that only items with an **owner** attribute that is the same as the `$ctx.identity.username` are returned. This is not enabled when using the `queries` argument.
 
-### Static Group Authorization
+### Static group authorization
 
 ```graphql
 type Post @model @auth(rules: [{ allow: groups, groups: ["Admin"] }]) {
@@ -1269,7 +1326,7 @@ Static group auth is simpler than the others. The generated resolvers would be p
 - `Query.listX`: Verify the requesting user has a valid credential and that `$ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail.
 - `@connection` resolvers: Verify the requesting user has a valid credential and that `$ctx.identity.claims.get("cognito:groups")` contains the **Admin** group. If it does not, fail. This is not enabled when using the `queries` argument.
 
-### Dynamic Group Authorization
+### Dynamic group authorization
 
 ```graphql
 type Post @model @auth(rules: [{ allow: groups, groupsField: "groups" }]) {
@@ -1305,7 +1362,7 @@ directive @function(name: String!, region: String) on FIELD_DEFINITION
 
 The @function directive allows you to quickly connect lambda resolvers to an AppSync API. You may deploy the AWS Lambda functions via the Amplify CLI, AWS Lambda console, or any other tool. To connect an AWS Lambda resolver, add the `@function` directive to a field in your `schema.graphql`.
 
-Let's assume we have deployed an *echo* function with the following contents:
+Let's assume you have deployed an *echo* function with the following contents:
 
 ```javascript
 exports.handler = function (event, context) {
@@ -1325,7 +1382,7 @@ type Query {
 
 **If you deployed your function without amplify**
 
-If you deployed your API without amplify then you must provide the full Lambda function name. If we deployed the same function with the name **echofunction** then you would have:
+If you deployed your API without amplify then you must provide the full Lambda function name. If you deployed the same function with the name **echofunction** then you would have:
 
 ```
 type Query {
@@ -1402,7 +1459,7 @@ exports.handler = async (event) => {
 
 **Example: Get the logged in user from Amazon Cognito User Pools**
 
-When building applications, it is often useful to fetch information for the current user. We can use the `@function` directive to quickly add a resolver that uses AppSync identity information to fetch a user from Amazon Cognito User Pools. First make sure you have added Amazon Cognito User Pools enabled via `amplify add auth` and a GraphQL API via `amplify add api` to an amplify project. Once you have created the user pool, get the **UserPoolId** from **amplify-meta.json** in the **backend/** directory of your amplify project. You will provide this value as an environment variable in a moment. Next, using the Amplify function category, AWS console, or other tool, deploy a AWS Lambda function with the following contents.
+When building applications, it is often useful to fetch information for the current user. You can use the `@function` directive to quickly add a resolver that uses AppSync identity information to fetch a user from Amazon Cognito User Pools. First make sure you have added Amazon Cognito User Pools enabled via `amplify add auth` and a GraphQL API via `amplify add api` to an amplify project. Once you have created the user pool, get the **UserPoolId** from **amplify-meta.json** in the **backend/** directory of your amplify project. You will provide this value as an environment variable in a moment. Next, using the Amplify function category, AWS console, or other tool, deploy a AWS Lambda function with the following contents.
 
 For example purposes assume the function is named `GraphQLResolverFunction`:
 
@@ -1493,7 +1550,7 @@ This simple lambda function shows how you can write your own custom logic using 
 
 > When deploying the function, make sure your function has access to the auth resource. You can run the `amplify update function` command for the CLI to automatically supply an environment variable named `AUTH_<RESOURCE_NAME>_USERPOOLID` to the function and associate corresponding CRUD policies to the execution role of the function.
 
-After deploying our function, we can connect it to AppSync by defining some types and using the @function directive. Add this to your schema, to connect the
+After deploying our function, you can connect it to AppSync by defining some types and using the @function directive. Add this to your schema, to connect the
 `Query.echo` and `Query.me` resolvers to our new function.
 
 ```graphql
@@ -1574,7 +1631,7 @@ When writing lambda functions that are connected via the `@function` directive, 
 
 ### Calling functions in different regions
 
-By default, we expect the function to be in the same region as the amplify project. If you need to call a function in a different (or static) region, you can provide the **region** argument.
+By default, you expect the function to be in the same region as the amplify project. If you need to call a function in a different (or static) region, you can provide the **region** argument.
 
 ```graphql
 type Query {
@@ -1625,7 +1682,7 @@ The `fields` argument can be provided and indicates which fields can be queried 
 
 When specifying a `keyName`, the `fields` argument should be provided to indicate which field(s) will be used to get connected objects. If `keyName` is not provided, then `@connection` queries the target table's primary index.
 
-### Has One
+### Has one
 
 In the simplest case, you can define a one-to-one connection where a project has one team:
 
@@ -1679,7 +1736,7 @@ mutation CreateProject {
 
 Likewise, you can make a simple one-to-many connection as follows for a post that has many comments:
 
-### Has Many
+### Has many
 
 ```graphql
 type Post @model {
@@ -1732,9 +1789,9 @@ query getPost {
 }
 ```
 
-### Belongs To
+### Belongs to
 
-You can make a connection bi-directional by adding a many-to-one connection to types that already have a one-to-many connection. In this case we add a connection from Comment to Post since each comment belongs to a post:
+You can make a connection bi-directional by adding a many-to-one connection to types that already have a one-to-many connection. In this case you add a connection from Comment to Post since each comment belongs to a post:
 
 ```graphql
 type Post @model {
@@ -1798,7 +1855,7 @@ query GetCommentWithPostAndComments {
 }
 ```
 
-### Many-To-Many Connections
+### Many-to-many connections
 
 You can implement many to many using two 1-M @connections, an @key, and a joining @model. For example:
 
@@ -1906,7 +1963,7 @@ query GetPostWithEditorsWithPosts {
 }
 ```
 
-#### Alternative Definition
+#### Alternative definition
 
 The above definition is the recommended way to create relationships between model types in your API. This involves defining index structures using `@key` and connection resolvers using `@connection`. There is an older parameterization of @connection that creates indices and connection resolvers that is still functional for backwards compatibility reasons. It is recommended to use @key and the new @connection via the fields argument.
 
@@ -1937,7 +1994,7 @@ type Comment @model {
 
 In order to keep connection queries fast and efficient, the GraphQL transform
 manages global secondary indexes (GSIs) on the generated tables on your behalf.
-In the future we are investigating using adjacency lists along side GSIs for
+In the future you are investigating using adjacency lists along side GSIs for
 different use cases that are connection heavy.
 
 > **Note** After you have pushed a `@connection` directive you should not try to
@@ -2153,7 +2210,7 @@ Here is a complete list of searchable operations per GraphQL type supported as o
 | Float | `ne`, `gt`, `lt`, `gte`, `lte`, `eq`, `range`      |
 | Boolean | `eq`, `ne`      |
 
-### Backfill your Elasticsearch Index from your DynamoDB Table
+### Backfill your Elasticsearch index from your DynamoDB table
 
 The following Python [script](https://github.com/aws-amplify/amplify-cli/blob/master/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) creates an event stream of your DynamoDB records and sends them to your Elasticsearch Index. This will help you backfill your data should you choose to add `@searchable` to your @model types at a later time.
 
@@ -2312,7 +2369,7 @@ Each of the actions described in the @predictions definition section can be used
 - `translateText -> convertTextToSpeech`
 
 
-### Action Resources
+### Action resources
 - [`translateText` Supported Language Codes](https://docs.aws.amazon.com/translate/latest/dg/what-is.html#what-is-languages)
 - [`convertTextToSpeech` Supported Voice IDs](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html)
 
