@@ -535,7 +535,7 @@ type Todo @model
 
 In this schema, only the owner of the object has the authorization to perform read (`getTodo` and `listTodos`), update (`updateTodo`), and delete (`deleteTodo`) operations on the owner created object. This prevents the object from being updated or deleted by users other than the creator of the object.
 
-Here's a table outlining which users are permitted to execute which operations. **owner** refers to the user who created the object, **other** refers to all other users.
+Here's a table outlining which users are permitted to execute which operations. **owner** refers to the user who created the object, **other** refers to all other authenticated users.
 
 |       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
 |:------|:-------:|:---------:|:----------:|:----------:|:----------:|
@@ -553,9 +553,9 @@ type Todo @model
 }
 ```
 
-In this schema, only the owner of the object has the authorization to perform update (`updateTodo`) and delete (`deleteTodo`) operations on the owner created object, but anyone can read them. This prevents the object from being updated or deleted by users other than the creator of the object while allowing all users of the app to read them.
+In this schema, only the owner of the object has the authorization to perform update (`updateTodo`) and delete (`deleteTodo`) operations on the owner created object, but anyone can read them (`getTodo`, `listTodos`). This prevents the object from being updated or deleted by users other than the creator of the object while allowing all authenticated users of the app to read them.
 
-Here's a table outlining which users are permitted to execute which operations. **owner** refers to the user who created the object, **other** refers to all other users.
+Here's a table outlining which users are permitted to execute which operations. **owner** refers to the user who created the object, **other** refers to all other authenticated users.
 
 |       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
 |:------|:-------:|:---------:|:----------:|:----------:|:----------:|
@@ -575,7 +575,7 @@ type Todo @model
 
 In this schema, only the owner of the object has the authorization to perform delete operations on the owner created object, but anyone can read or update them. This is because `read` and `update` aren't specified as owner-only actions, so all users are able to perform them. Since `delete` is specified as an owner only action, only the object's creator can delete the object.
 
-Here's a table outlining which users are permitted to execute which operations. **owner** refers to the user who created the object, **other** refers to all other users.
+Here's a table outlining which users are permitted to execute which operations. **owner** refers to the user who created the object, **other** refers to all other authenticated users.
 
 |       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
 |:------|:-------:|:---------:|:----------:|:----------:|:----------:|
@@ -597,7 +597,7 @@ type Draft @model
     # Defaults to use the "owner" field.
     { allow: owner },
 
-    # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
+    # Authorize the update mutation and both queries.
     { allow: owner, ownerField: "editors", operations: [update, read] }
   ]) {
   id: ID!
@@ -792,7 +792,7 @@ type Draft @model
     # Defaults to use the "owner" field.
     { allow: owner },
 
-    # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
+    # Authorize the update mutation and both queries.
     { allow: owner, ownerField: "editors", operations: [update] },
 
     # Admin users can access any operation.
@@ -844,7 +844,7 @@ type Draft @model
     # Defaults to use the "owner" field.
     { allow: owner },
 
-    # Authorize the update mutation and both queries. Use `queries: null` to disable auth for queries.
+    # Authorize the update mutation and both queries.
     { allow: owner, ownerField: "editors", operations: [update] },
 
     # Admin users can access any operation.
