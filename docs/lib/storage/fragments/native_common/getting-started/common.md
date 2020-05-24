@@ -67,7 +67,7 @@ To upload to S3 from a data object, specify the key and the data object to be up
 <inline-fragment platform="ios" src="~/lib/storage/fragments/ios/getting-started/40_upload.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/storage/fragments/android/getting-started/40_upload.md"></inline-fragment>
 
-Upon successfully executing this code, you should see an file called `ExampleKey` in a folder called `public` with the data `Example file contents` in your S3 bucket.
+Upon successfully executing this code, you should see a new folder in your bucket, called `public`. It should contain a file called `ExampleKey`, whose contents is `Example file contents`.
 
 ## Next Steps
 
