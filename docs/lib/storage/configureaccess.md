@@ -1,7 +1,6 @@
 ---
 title: File access levels
-description: |
-Learn about configuring different access levels in Amplify Storage. Objects can be public, protected, or private.
+description: Learn about configuring different access levels in Amplify Storage. Objects can be public, protected, or private.
 ---
 
 <inline-fragment platform="js" src="~/lib/storage/fragments/js/configureaccess.md"></inline-fragment>

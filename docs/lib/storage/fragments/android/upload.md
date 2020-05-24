@@ -31,13 +31,7 @@ private void uploadFile() {
 private fun uploadFile() {
     val exampleFile = File(applicationContext.filesDir, "ExampleKey")
 
-    try {
-        val writer = BufferedWriter(FileWriter(exampleFile))
-        writer.append("Example file contents")
-        writer.close()
-    } catch (exception: Exception) {
-        Log.e("MyAmplifyApplication", "Upload failed", exception)
-    }
+    exampleFile.writeText("Example file contents")
 
     Amplify.Storage.uploadFile(
         "ExampleKey",
