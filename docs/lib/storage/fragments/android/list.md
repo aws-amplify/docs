@@ -7,7 +7,7 @@ You can list all of the objects uploaded under a given prefix. This will list al
 Amplify.Storage.list(
         "",
         result -> {
-            for(StorageItem item : result.getItems()) {
+            for (StorageItem item : result.getItems()) {
                 Log.i("MyAmplifyApplication", "Item: " + item.getKey());
             }
         },
