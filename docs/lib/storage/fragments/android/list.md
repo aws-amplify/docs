@@ -68,11 +68,9 @@ val options = StorageListOptions.builder()
 Amplify.Storage.list(
     "",
     options,
-    { result ->
-        for (item in result.getItems()) {
-            Log.i("MyAmplifyApplication", "Item: " + item.getKey())
-        }
-    },
+    { result -> result.getItems().forEach { item ->
+        Log.i("AmplifyApplication", "Item: " + item)
+    } }
     { error -> Log.e("MyAmplifyApplication", "List failure", error) }
 )
 ```
