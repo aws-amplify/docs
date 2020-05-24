@@ -30,7 +30,7 @@ private void uploadFile(String key, File file) {
             key,
             file,
             options,
-            result -> Log.i("MyAmplifyApplication", "Successfully uploaded: " + key,
+            result -> Log.i("MyAmplifyApplication", "Successfully uploaded: " + key),
             error -> Log.e("MyAmplifyApplication", "Upload failed", error)
     );
 }
