@@ -8,7 +8,7 @@ To setup and configure your application with Amplify Storage and go through a si
 <inline-fragment platform="ios" src="~/lib/storage/fragments/ios/getting-started/10_preReq.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/storage/fragments/android/getting-started/10_preReq.md"></inline-fragment>
 
-## Provision Backend Storage Services
+## Provision backend storage
 
 To start provisioning storage resources in the backend, go to your project directory and **execute the command**:
 

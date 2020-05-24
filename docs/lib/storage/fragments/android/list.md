@@ -5,7 +5,7 @@ You can list all of the objects uploaded under a given prefix. This will list al
 
 ```java
 Amplify.Storage.list(
-        "",
+        "/",
         result -> {
             for (StorageItem item : result.getItems()) {
                 Log.i("MyAmplifyApplication", "Item: " + item.getKey());
@@ -20,7 +20,7 @@ Amplify.Storage.list(
 
 ```kotlin
 Amplify.Storage.list(
-    "",
+    "/",
     { result -> result.getItems().forEach { item ->
         Log.i("MyAmplifyApplication", "Item: " + item.getKey())
     } },
@@ -43,7 +43,7 @@ StorageListOptions options = StorageListOptions.builder()
         .build();
         
 Amplify.Storage.list(
-        "",
+        "/",
         options,
         result -> {
             for (StorageItem item : result.getItems()) {
@@ -64,7 +64,7 @@ val options = StorageListOptions.builder()
             .build()
 
 Amplify.Storage.list(
-    "",
+    "/",
     options,
     { result -> result.getItems().forEach { item ->
         Log.i("AmplifyApplication", "Item: " + item)
