@@ -11,7 +11,7 @@ private void uploadFile() {
         BufferedWriter writer = new BufferedWriter(new FileWriter(exampleFile));
         writer.append("Example file contents");
         writer.close();
-    } catch(Exception exception) {
+    } catch (Exception exception) {
         Log.e("MyAmplifyApplication", "Upload failed", exception);
     }
 
