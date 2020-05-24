@@ -21,11 +21,9 @@ Amplify.Storage.list(
 ```kotlin
 Amplify.Storage.list(
     "",
-    { result ->
-        for (item in result.getItems()) {
-            Log.i("MyAmplifyApplication", "Item: " + item.getKey())
-        }
-    },
+    { result -> result.getItems().forEach { item ->
+        Log.i("MyAmplifyApplication", "Item: " + item.getKey())
+    } },
     { error -> Log.e("MyAmplifyApplication", "List failure", error) }
 )
 ```
