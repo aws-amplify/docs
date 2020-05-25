@@ -6,11 +6,19 @@ Add the following lines:
 
 ```groovy
 buildscript {
+    repositories {
+        google()
+        jcenter()
+
+        // Add this line into `repositories` in `buildscript`
+        mavenCentral()
+    }
+
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.3'
 
         // Add this line into `dependencies` in `buildscript`
-        classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.0'
+        classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.1'
     }
 }
 
@@ -28,8 +36,8 @@ allprojects {
 apply plugin: 'com.amplifyframework.amplifytools'
 ```
 
-- Add the line `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.0'` within the `dependencies` block which is within the `buildscript` block
-- Add the line `mavenCentral()` within the `repositories` block which is within the `allprojects` block
+- Add the line `mavenCentral()` within the `repositories` block in the `buildscript` and `allprojects` blocks
+- Add the line `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.1'` within the `dependencies` block
 - Add the line `apply plugin: 'com.amplifyframework.amplifytools'` at the end of the file 
 
 This configuration adds helpers to your IDE to allow easy generation and deployment of Amplify files and resources.
