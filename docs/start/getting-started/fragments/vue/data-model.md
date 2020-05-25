@@ -70,7 +70,7 @@ __amplify/backend/api/myapi/schema.graphql__
 type Todo @model {
   id: ID!
   name: String!
-  description: String
+  description: String!
 }
 ```
 
