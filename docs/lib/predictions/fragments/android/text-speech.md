@@ -39,7 +39,7 @@ protected void onCreate(Bundle savedInstanceState) {
     Amplify.Predictions.convertTextToSpeech(
             "I like to eat spaghetti",
             result -> playAudio(result.getAudioData()),
-            error -> Log.e("MyAmplifyApplication", "Conversion failed", error)
+            error -> Log.e("MyAmplifyApp", "Conversion failed", error)
     );
 }
 
@@ -57,7 +57,7 @@ private void playAudio(InputStream data) {
         mp.setDataSource(new FileInputStream(mp3File).getFD());
         mp.prepareAsync();
     } catch (IOException error) {
-        Log.e("MyAmplifyApplication", "Error writing audio file", error);
+        Log.e("MyAmplifyApp", "Error writing audio file", error);
     }
 }
 ```
@@ -76,7 +76,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
     Amplify.Predictions.convertTextToSpeech(
         "I like to eat spaghetti!",
         { result  -> playAudio(result.getAudioData()) },
-        { error -> Log.e("MyAmplifyApplication", error.toString()) }
+        { error -> Log.e("MyAmplifyApp", error.toString()) }
     )
 }
 
@@ -95,7 +95,7 @@ private fun playAudio(data: InputStream) {
             mp.prepareAsync()
         }
     } catch (error: IOException) {
-        Log.e("MyAmplifyApplication", "Error writing audio file.")
+        Log.e("MyAmplifyApp", "Error writing audio file.")
     }
 }
 ```

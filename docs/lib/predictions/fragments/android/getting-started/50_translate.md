@@ -8,8 +8,8 @@ Amplify.Predictions.translateText(
         "I like to eat spaghetti",
         LanguageType.ENGLISH,
         LanguageType.SPANISH,
-        result -> Log.i("MyAmplifyApplication", result.getTranslatedText()),
-        error -> Log.e("MyAmplifyApplication", "Translation failed", error)
+        result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
+        error -> Log.e("MyAmplifyApp", "Translation failed", error)
 );
 ```
 
@@ -23,8 +23,8 @@ Amplify.Predictions.translateText(
     "I like to eat spaghetti",
     LanguageType.ENGLISH,
     LanguageType.SPANISH,
-    { result -> Log.i("MyAmplifyApplication", result.getTranslatedText()) },
-    { error -> Log.e("MyAmplifyApplication", "Translation failed", error) }
+    { result -> Log.i("MyAmplifyApp", result.getTranslatedText()) },
+    { error -> Log.e("MyAmplifyApp", "Translation failed", error) }
 )
 ```
 

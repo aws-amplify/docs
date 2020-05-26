@@ -35,9 +35,9 @@ public void detectText(Bitmap image) {
             image,
             result -> {
                 IdentifyTextResult identifyResult = (IdentifyTextResult) result;
-                Log.i("MyAmplifyApplication", identifyResult.getFullText())
+                Log.i("MyAmplifyApp", identifyResult.getFullText())
             },
-            error -> Log.e("MyAmplifyApplication", "Identify text failed", error)
+            error -> Log.e("MyAmplifyApp", "Identify text failed", error)
     );
 }
 ```
@@ -52,10 +52,10 @@ fun detectText(image: Bitmap) {
         image,
         Consumer { result: IdentifyResult? ->
             val identifyResult = result as IdentifyTextResult
-            Log.i("MyAmplifyApplication", identifyResult.getFullText())
+            Log.i("MyAmplifyApp", identifyResult.getFullText())
         },
         Consumer { error: PredictionsException? ->
-            Log.e("MyAmplifyApplication", "Identify text failed, error)
+            Log.e("MyAmplifyApp", "Identify text failed, error)
         }
     )
 }
@@ -81,9 +81,9 @@ public void detectText(Bitmap image) {
             image,
             result -> {
                 IdentifyDocumentTextResult identifyResult = (IdentifyDocumentTextResult) result;
-                Log.i("MyAmplifyApplication", identifyResult.getFullText())
+                Log.i("MyAmplifyApp", identifyResult.getFullText())
             },
-            error -> Log.e("MyAmplifyApplication", "Identify failed", error)
+            error -> Log.e("MyAmplifyApp", "Identify failed", error)
     );
 }
 ```
@@ -98,10 +98,10 @@ fun detectText(image: Bitmap) {
         image,
         Consumer { result: IdentifyResult? ->
             val identifyResult = result as IdentifyDocumentTextResult
-            Log.i("MyAmplifyApplication", identifyResult.getFullText())
+            Log.i("MyAmplifyApp", identifyResult.getFullText())
         },
         Consumer { error: PredictionsException? ->
-            Log.e("MyAmplifyApplication", "Identify failed", error)
+            Log.e("MyAmplifyApp", "Identify failed", error)
         }
     )
 }
