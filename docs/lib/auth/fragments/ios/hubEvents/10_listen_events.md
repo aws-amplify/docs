@@ -16,8 +16,10 @@ override func viewDidLoad() {
         case HubPayload.EventName.Auth.signedOut:
             print("User signed out")
             // Update UI
-        }
 
+        default:
+            break
+        }
     }
 }
 ```
