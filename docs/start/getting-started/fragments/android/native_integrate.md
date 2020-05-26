@@ -90,7 +90,7 @@ Next, you'll create a Todo and save it to DataStore.
   ```java
     Amplify.DataStore.save(
             item,
-            success -> Log.i("Tutorial", "Saved item: " + success.item.getName()),
+            success -> Log.i("Tutorial", "Saved item: " + success.item().getName()),
             error -> Log.e("Tutorial", "Could not save item to DataStore", error)
     );
   ```
