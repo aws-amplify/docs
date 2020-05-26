@@ -1,4 +1,4 @@
-To initialize the Amplify Storage and Authentication categories, we are required to use the `Amplify.add()` method for each category we want.  When we are done calling `add()` on each category, we finish configuring Amplify by calling `Amplify.configure()`.
+To initialize the Amplify Analytics and Authentication categories, we are required to use the `Amplify.add()` method for each category we want.  When we are done calling `add()` on each category, we finish configuring Amplify by calling `Amplify.configure()`.
 
 **Add the following imports** to the top of your `AppDelegate.swift` file:
 
@@ -15,7 +15,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
         try Amplify.add(plugin: AWSCognitoAuthPlugin())
         try Amplify.add(plugin: AWSPinpointPlugin())
         try Amplify.configure()
-        print("Amplify configured with auth and analytics plugins")
+        print("Amplify configured with Auth and Analytics plugins")
     } catch {
         print("Failed to initialize Amplify with \(error)")
     }

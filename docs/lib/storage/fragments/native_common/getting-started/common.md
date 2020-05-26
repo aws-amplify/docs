@@ -69,7 +69,10 @@ To upload to S3 from a data object, specify the key and the data object to be up
 
 Upon successfully executing this code, you should see a new folder in your bucket, called `public`. It should contain a file called `ExampleKey`, whose contents is `Example file contents`.
 
+<<<<<<< HEAD
 ## Next Steps
+=======
+>>>>>>> revert js docs experience, add goals in getting-started, create 40_record.md, update identiryuser.md
 
 Congratulations! You've uploaded a file to an s3 bucket.  Check out the following links to see other Amplify Storage use cases:
 

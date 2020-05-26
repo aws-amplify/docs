@@ -1,5 +1,9 @@
 The Analytics category enables you to collect analytics data for your App. The Analytics category comes with built-in support for [Amazon Pinpoint](https://aws.amazon.com/pinpoint) and [Amazon Kinesis](https://aws.amazon.com/kinesis) (Kinesis support is currently only available in the Amplify JavaScript library).
 
+## Goal
+
+To setup and configure your application with Amplify Analytics and record an analytics event.
+
 ## Prerequisites
 
 <inline-fragment platform="ios" src="~/lib/analytics/fragments/ios/getting-started/10_preReq.md"></inline-fragment>
@@ -39,7 +43,12 @@ Upon completion, `amplifyconfiguration.json` should be updated to reference prov
 <inline-fragment platform="ios" src="~/lib/analytics/fragments/ios/getting-started/30_initAnalytics.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/analytics/fragments/android/getting-started/30_initAnalytics.md"></inline-fragment>
 
-## Next Steps
+## Record Events
+<inline-fragment platform="ios" src="~/lib/analytics/fragments/ios/getting-started/40_record.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/analytics/fragments/android/getting-started/40_record.md"></inline-fragment>
+
+Next Steps:
+
 Congratulations! Now that you have Analytics' backend provisioned and Analytics library installed.  Check out the following links to see Amplify Analytics use cases:
 
 * [Record Events](~/lib/analytics/record.md)
