@@ -1,6 +1,6 @@
 ## Using Gradle
 
-Open your project `build.gradle` and add `mavenCentral()` as a repository, `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'` as a dependency, and `'com.amplifyframework.amplifytools'` as a plugin:
+Open your project `build.gradle` and add `mavenCentral()` as a repository, `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.1'` as a dependency, and `'com.amplifyframework.amplifytools'` as a plugin:
 
 ```groovy
 buildscript {
@@ -9,7 +9,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.2'
-        classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'
+        classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.1'
     }
 }
 
