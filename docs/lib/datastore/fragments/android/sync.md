@@ -16,7 +16,7 @@ amplify push
 
 ## Cloud sync config requirements
 
-In order to enable cloud sync, the `amplifyconfiguration.json` must contain a configuration for the API category with *EXACTLY ONE* GraphQL endpoint
+The Amplify CLI should have generated a working `amplifyconfiguration.json` for you. Cloud sync will only be enabled if this file contains *exactly one* GraphQL endpoint, as shown below:
 
 ```json
 {
