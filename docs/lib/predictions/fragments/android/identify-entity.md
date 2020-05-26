@@ -39,7 +39,7 @@ public void detectEntities(Bitmap image) {
                 EntityDetails metadata = identifyResult.getEntities().get(0);
                 Log.i("MyAmplifyApplication", metadata.getBox().toShortString());
             },
-            error -> Log.e("MyAmplifyApplication", error.toString(), error)
+            error -> Log.e("MyAmplifyApplication", "Entity detection failed.", error)
     );
 }
 ```
@@ -58,7 +58,7 @@ fun detectEntities(image: Bitmap) {
             Log.i("MyAmplifyApplication", metadata.getBox()!!.toShortString())
         },
         Consumer { error ->
-            Log.e("MyAmplifyApplication", error.toString(), error)
+            Log.e("MyAmplifyApplication", "Entity detection failed.", error)
         }
     )
 }
