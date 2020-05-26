@@ -1,7 +1,7 @@
 The Amplify API category provides an interface for retrieving and persisting your model data. The API category comes with default built-in support for AWS AppSync. The Amplify CLI allows you to define your API and provision a GraphQL service with CRUD operations and real-time functionality. The Amplify AWS API plugin leverages [AWS AppSync](https://aws.amazon.com/appsync/).
 
 ## Goal
-To setup and configure your application with Amplify API to create a Todo persisted in the backend.
+To setup and configure your application with Amplify API to save items in the backend.
 
 ## Prerequisites
 
@@ -41,7 +41,7 @@ Enter the following when prompted:
 ```
 
 The guided schema creation will create a schema with the following:
-```
+```graphql
 type Todo @model {
   id: ID!
   name: String!

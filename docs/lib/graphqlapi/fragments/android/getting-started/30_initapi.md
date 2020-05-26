@@ -1,19 +1,61 @@
-To initialize the Amplify API category, we are required to use the `Amplify.addPlugin()` method followed by `Amplify.configure()`.
+Call `Amplify.addPlugin()` to initialize the Amplify API category followed by `Amplify.configure()`.
 
-Add the following code to the bottom of your MainActivity `onCreate` method (ideally this would go in your Application class but this works for getting started quickly):
+Add the following code to your `onCreate()` method in your application class:
+
+<amplify-block-switcher>
+<amplify-block name="Java">
 
 ```java
-try {
-    Amplify.addPlugin(new AWSApiPlugin());
-    Amplify.configure(getApplicationContext());
-    Log.i("APIQuickstart", "Amplify configured with api plugin");
-} catch (Exception exception) {
-    Log.e("APIQuickstart", exception.getMessage(), exception);
+Amplify.addPlugin(new AWSApiPlugin());
+```
+
+Your class will look like this:
+
+```java
+public class MyAmplifyApp extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        try {
+            // Add these lines to add the AWSApiPlugin plugins
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.configure(getApplicationContext());
+
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+        }
+    }
 }
 ```
 
-Upon building and running this application you should see the following in your console window:
+</amplify-block>
+<amplify-block name="Kotlin">
 
-```bash
-Amplify configured with api plugin
+```kotlin
+Amplify.addPlugin(AWSApiPlugin())
 ```
+
+Your class will look like this:
+
+```kotlin
+class MyAmplifyApp : Application() {
+    override fun onCreate() {
+        super.onCreate()
+
+        try {
+            // Add these lines to add the AWSApiPlugin plugins
+            Amplify.addPlugin(AWSApiPlugin())
+            Amplify.configure(applicationContext)
+
+            Log.i("MyAmplifyApp", "Initialized Amplify")
+        } catch (error: AmplifyException) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
+        }
+    }
+}
+```
+
+</amplify-block>
+</amplify-block-switcher>
