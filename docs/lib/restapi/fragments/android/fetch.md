@@ -1,8 +1,12 @@
 ## GET requests
 
 ```java
-func getTodo() {
-    
+void getTodo() {
+    RestOptions options = new RestOptions("/todo");
+    Amplify.API.get(options,
+            restResponse -> Log.i("ApiGettingStarted", restResponse.toString()),
+            apiFailure -> Log.e("ApiGettingStarted", apiFailure.getMessage(), apiFailure)
+    );
 }
 ```
 
@@ -45,7 +49,14 @@ app.get('/todo', function(req, res) {
 Then you can use query parameters in your path as follows:
 
 ```java
-func getTodo() {
-    
+void getTodo() {
+    HashMap<String, String> queryParameters = new HashMap<String, String>() {{
+        put("q", "test");
+    }};
+    RestOptions options = new RestOptions("/todo", queryParameters);
+    Amplify.API.get(options,
+            restResponse -> Log.i("ApiGettingStarted", restResponse.toString()),
+            apiFailure -> Log.e("ApiGettingStarted", apiFailure.getMessage(), apiFailure)
+    );
 }
 ```
