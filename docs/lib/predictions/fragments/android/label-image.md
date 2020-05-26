@@ -38,9 +38,9 @@ public void detectLabels(Bitmap image) {
             result -> {
                 IdentifyLabelsResult identifyResult = (IdentifyLabelsResult) result;
                 Label label = identifyResult.getLabels().get(0);
-                Log.i("MyAmplifyApplication", label.getName());
+                Log.i("MyAmplifyApp", label.getName());
             },
-            error -> Log.e("MyAmplifyApplication", "Label detection failed", error)
+            error -> Log.e("MyAmplifyApp", "Label detection failed", error)
     );
 }
 ```
@@ -56,10 +56,10 @@ fun detectLabels(image: Bitmap) {
         Consumer { result: IdentifyResult ->
             val identifyResult = result as IdentifyLabelsResult
             val label: Label = identifyResult.getLabels()[0]
-            Log.i("MyAmplifyApplication", label.getName())
+            Log.i("MyAmplifyApp", label.getName())
         },
         Consumer { error: PredictionsException ->
-            Log.e("MyAmplifyApplication", "Label detection failed", error)
+            Log.e("MyAmplifyApp", "Label detection failed", error)
         }
     )
 }
@@ -82,9 +82,9 @@ public void detectLabels(Bitmap image) {
             image,
             result -> {
                 IdentifyLabelsResult identifyResult = (IdentifyLabelsResult) result;
-                Log.i("MyAmplifyApplication", Boolean.toString(identifyResult.isUnsafeContent()));
+                Log.i("MyAmplifyApp", Boolean.toString(identifyResult.isUnsafeContent()));
             },
-            error -> Log.e("MyAmplifyApplication", "Identify failed", error)
+            error -> Log.e("MyAmplifyApp", "Identify failed", error)
     );
 }
 ```
@@ -99,10 +99,10 @@ fun detectLabels(image: Bitmap) {
         image,
         Consumer { result: IdentifyResult ->
             val identifyResult = result as IdentifyLabelsResult
-            Log.i("MyAmplifyApplication", Boolean.toString(identifyResult.isUnsafeContent))
+            Log.i("MyAmplifyApp", Boolean.toString(identifyResult.isUnsafeContent))
         },
         Consumer { error: PredictionsException ->
-            Log.e("MyAmplifyApplication", "Identify failed", error)
+            Log.e("MyAmplifyApp", "Identify failed", error)
         }
     )
 }

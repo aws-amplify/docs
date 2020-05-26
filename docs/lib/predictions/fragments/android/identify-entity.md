@@ -37,9 +37,9 @@ public void detectEntities(Bitmap image) {
             result -> {
                 IdentifyEntitiesResult identifyResult = (IdentifyEntitiesResult) result;
                 EntityDetails metadata = identifyResult.getEntities().get(0);
-                Log.i("MyAmplifyApplication", metadata.getBox().toShortString());
+                Log.i("MyAmplifyApp", metadata.getBox().toShortString());
             },
-            error -> Log.e("MyAmplifyApplication", "Entity detection failed", error)
+            error -> Log.e("MyAmplifyApp", "Entity detection failed", error)
     );
 }
 ```
@@ -55,10 +55,10 @@ fun detectEntities(image: Bitmap) {
         Consumer { result ->
             val identifyResult = result as IdentifyEntitiesResult
             val metadata = identifyResult.getEntities()[0]
-            Log.i("MyAmplifyApplication", metadata.getBox()!!.toShortString())
+            Log.i("MyAmplifyApp", metadata.getBox()!!.toShortString())
         },
         Consumer { error ->
-            Log.e("MyAmplifyApplication", "Entity detection failed", error)
+            Log.e("MyAmplifyApp", "Entity detection failed", error)
         }
     )
 }
@@ -160,9 +160,9 @@ public void detectCelebs(Bitmap image) {
             result -> {
                 IdentifyCelebritiesResult identifyResult = (IdentifyCelebritiesResult) result;
                 CelebrityDetails metadata = identifyResult.getCelebrities().get(0);
-                Log.i("MyAmplifyApplication", metadata.getCelebrity().getName());
+                Log.i("MyAmplifyApp", metadata.getCelebrity().getName());
             },
-            error -> Log.e("MyAmplifyApplication", "Identify failed", error)
+            error -> Log.e("MyAmplifyApp", "Identify failed", error)
     );
 }
 ```
@@ -178,10 +178,10 @@ fun detectCelebs(image: Bitmap) {
         Consumer { result: IdentifyResult ->
             val identifyResult = result as IdentifyCelebritiesResult
             val metadata = identifyResult.getCelebrities()[0]
-            Log.i("MyAmplifyApplication", metadata.getCelebrity().name)
+            Log.i("MyAmplifyApp", metadata.getCelebrity().name)
         },
         Consumer { error: PredictionsException ->
-            Log.e("MyAmplifyApplication", "Identify failed", error)
+            Log.e("MyAmplifyApp", "Identify failed", error)
         }
     )
 }
