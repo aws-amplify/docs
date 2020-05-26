@@ -455,7 +455,7 @@ enum ModelMutation { create update delete }
 
 ### Owner authorization
 
-Enabling `owner` authorization allows any signed in user to create records.
+By default, enabling `owner` authorization allows any signed in user to create records.
 
 ```graphql
 # The simplest case
@@ -488,21 +488,21 @@ Owner authorization specifies whether a user can access or operate against an ob
 
 You can use the `operations` argument to specify which operations are enabled as follows:
 
-- **read**: If the record's owner is not the same as the logged in user (via `$ctx.identity.username`), throw `$util.unauthorized()` in any resolver that returns an object of this type.
-- **create**: Inject the logged in user's `$ctx.identity.username` as the `ownerField` automatically.
-- **update**: Add conditional update that checks the stored `ownerField` is the same as `$ctx.identity.username`.
-- **delete**: Add conditional update that checks the stored `ownerField` is the same as `$ctx.identity.username`.
+- **read**: Allow the user to perform queries (`get` and `list` operations) against the API.
+- **create**: Inject the logged in user's identity as the `ownerField` automatically.
+- **update**: Add conditional update that checks the stored `ownerField` is the same as the signed in user.
+- **delete**: Add conditional update that checks the stored `ownerField` is the same as the signed in user.
 
-You must ensure that the `create` operations rule is either specified directly or indirectly to ensure that the owner's identity is stored with the record so it can be verified on subsequent requests.
+You must ensure that the `create` operations rule is specified explicitly or inferred from defaults to ensure that the owner's identity is stored with the record so it can be verified on subsequent requests.
 
 ```graphql
-# owner identity automatically stored on every object
+# owner identity inferred from defaults on every object
 type Post @model @auth(rules: [{ allow: owner }]) {
   id: ID!
   title: String!
 }
 
-# owner identity automatically stored on every object
+# owner identity specified explicitly on every object
 type Post @model @auth(rules: [{ allow: owner, operations: [create] }]) {
   id: ID!
   title: String!
