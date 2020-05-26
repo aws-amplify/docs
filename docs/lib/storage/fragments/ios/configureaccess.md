@@ -6,7 +6,7 @@ Create an `Options` object with the `.protected` access level to restrict access
 let dataString = "My Data"
 let data = dataString.data(using: .utf8)!
 let options = StorageUploadDataRequest.Options(accessLevel: .protected)
-Amplify.Storage.uploadData(key: "userProtectedKey", data: data, options: options) { (event) in
+_ = Amplify.Storage.uploadData(key: "userProtectedKey", data: data, options: options) { result in
     // handle result
 }
 ```
@@ -19,8 +19,8 @@ If another user wants to read the file, you will need to include the `targetIden
 
 ```swift
 let options = StorageDownloadDataRequest.Options(accessLevel: .protected,
-                                                 targetIdentityId: "OtherUserIdentityId")
-Amplify.Storage.downloadData(key: "userProtectedKey", options: options, listener: { (event) in
+                                                    targetIdentityId: "OtherUserIdentityId")
+_ = Amplify.Storage.downloadData(key: "userProtectedKey", options: options) { result in
     // handle result
-})
+}
 ```
