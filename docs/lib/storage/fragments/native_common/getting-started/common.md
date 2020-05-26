@@ -31,7 +31,7 @@ Enter the following when prompted:
 ? Please provide a friendly name for your resource that will be used to label this category in the project:
     `S3friendlyName`
 ? Please provide bucket name:
-    `storagebucketName`
+    `storagebucketname`
 ? Who should have access:
     `Auth and guest users`
 ? What kind of access do you want for Authenticated users?
