@@ -1,24 +1,16 @@
-Subscribe to onCreate, onUpdate, and onDelete events.
+Subscribe to mutations for creating real-time clients.
 
 ```java
-private void onUpdateBlog(String blogId) {
-     // Start listening for update events on the Blog model
-    ApiOperation subscription = Amplify.API.subscribe(Blog.class,
-        SubscriptionType.ON_UPDATE,
+private void onCreateTodo(String todoId) {
+     // Start listening for create events on the Todo model
+    ApiOperation subscription = Amplify.API.subscribe(Todo.class,
+        SubscriptionType.ON_CREATE,
         subscriptionEstablished -> Log.i("ApiQuickStart", "Subscription established: "+subscriptionEstablished),
-        blogUpdated -> Log.i("ApiQuickStart", "Blog update subscription received: " + blogUpdated.getData().getName()),
+        todoCreated -> Log.i("ApiQuickStart", "Todo create subscription received: " + todoCreated.getData().getName()),
         apiFailure -> Log.e("ApiQuickStart", apiFailure.getMessage(), apiFailure),
         () -> Log.i("ApiQuickStart", "Subscription completed.")
     );
-
-    // Perform an update on whatever blog id was passed in here
-    Amplify.API.mutate(
-        Blog.builder().name("New updated first blog").id(blogId).build(),
-        MutationType.UPDATE,
-        blogUpdated -> Log.i("ApiQuickStart", "Blog updated"),
-        apiFailure -> Log.e("ApiQuickStart", apiFailure.getMessage(), apiFailure)
-    );
-
+    
     // Cancel the subscription listener when you're finished with it
     subscription.cancel();
 }
