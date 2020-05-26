@@ -156,7 +156,7 @@ Next, you'll create a Todo and save it to DataStore.
 
 Now that you have some data in DataStore, you can run queries to retrieve those records.
 
-1. Edit your `onCreate` method to remove the item creation and save. Your `onCreate()` should only include the code required to initiatize Amplify and not calls to `Todo.builder()` or `Amplify.DataStore.save()`.
+1. Edit your `onCreate` method to remove the item creation and save. Your `onCreate()` should only include the code required to initialize Amplify and not calls to `Todo.builder()` or `Amplify.DataStore.save()`.
 
 1. Below the initialization code, add the following:
 
