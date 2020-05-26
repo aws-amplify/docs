@@ -2,7 +2,7 @@ To record an event, specify your event using `BasicAnalyticsEvent` and call `Amp
 
 ```swift
 func recordEvents() {
-    let properties: [String: AnalyticsPropertyValue] = [
+    let properties: AnalyticsProperties = [
         "eventPropertyStringKey": "eventPropertyStringValue",
         "eventPropertyIntKey": 123,
         "eventPropertyDoubleKey": 12.34,
