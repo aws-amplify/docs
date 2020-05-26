@@ -29,8 +29,8 @@ Here is an example of sending text for interpretation such as sentiment analysis
 ```java
 Amplify.Predictions.interpret(
         "I like to eat spaghetti",
-        result -> Log.i("MyAmplifyApplication", result.getSentiment().getValue().toString()),
-        error -> Log.e("MyAmplifyApplication", "Interpret failed", error)
+        result -> Log.i("MyAmplifyApp", result.getSentiment().getValue().toString()),
+        error -> Log.e("MyAmplifyApp", "Interpret failed", error)
 );
 ```
 
@@ -40,8 +40,8 @@ Amplify.Predictions.interpret(
 ```kotlin
 Amplify.Predictions.interpret(
     "I like to eat spaghetti",
-    { result -> Log.i("MyAmplifyApplication", result.getSentiment()!!.getValue().toString()) },
-    { error -> Log.e("MyAmplifyApplication", "Interpret failed", error)
+    { result -> Log.i("MyAmplifyApp", result.getSentiment()!!.getValue().toString()) },
+    { error -> Log.e("MyAmplifyApp", "Interpret failed", error)
 }
 ```
 
@@ -51,5 +51,5 @@ Amplify.Predictions.interpret(
 As a result of running this code, you will see the sentiment of the text printed to the console.
 
 ```console
-I/MyAmplifyApplication: POSITIVE
+I/MyAmplifyApp: POSITIVE
 ```

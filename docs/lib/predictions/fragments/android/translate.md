@@ -31,8 +31,8 @@ Open `MainActivity.java` and add the following to the bottom of `onCreate()`:
 ```java
 Amplify.Predictions.translateText(
         "I like to eat spaghetti",
-        result -> Log.i("MyAmplifyApplication", result.getTranslatedText()),
-        error -> Log.e("MyAmplifyApplication", "Translation failed", error)
+        result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
+        error -> Log.e("MyAmplifyApp", "Translation failed", error)
 );
 ```
 
@@ -44,8 +44,8 @@ Open `MainActivity.kt` and add the following to the bottom of `onCreate()`:
 ```kotlin
 Amplify.Predictions.translateText(
     "I like to eat spaghetti",
-    { result -> Log.i("MyAmplifyApplication", result.getTranslatedText()) },
-    { error -> Log.e("MyAmplifyApplication", "Translation failed", error) }
+    { result -> Log.i("MyAmplifyApp", result.getTranslatedText()) },
+    { error -> Log.e("MyAmplifyApp", "Translation failed", error) }
 )
 ```
 
@@ -55,7 +55,7 @@ Amplify.Predictions.translateText(
 As a result of running this code, you will see the translated text printed to the console.
 
 ```console
-I/MyAmplifyApplication: Mi piace mangiare gli spaghetti
+I/MyAmplifyApp: Mi piace mangiare gli spaghetti
 ```
 
 ### Override configured language
@@ -72,8 +72,8 @@ Amplify.Predictions.translateText(
         "I like to eat spaghetti",
         LanguageType.ENGLISH,
         LanguageType.RUSSIAN,
-        result -> Log.i("MyAmplifyApplication", result.getTranslatedText()),
-        error -> Log.e("MyAmplifyApplication", "Translation failed", error)
+        result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
+        error -> Log.e("MyAmplifyApp", "Translation failed", error)
 );
 ```
 
@@ -87,8 +87,8 @@ Amplify.Predictions.translateText(
     "I like to eat spaghetti",
     LanguageType.ENGLISH,
     LanguageType.RUSSIAN,
-    { result -> Log.i("MyAmplifyApplication", result.getTranslatedText()) },
-    { error -> Log.e("MyAmplifyApplication", "Translation failed", error) }
+    { result -> Log.i("MyAmplifyApp", result.getTranslatedText()) },
+    { error -> Log.e("MyAmplifyApp", "Translation failed", error) }
 )
 ```
 
@@ -98,5 +98,5 @@ Amplify.Predictions.translateText(
 As a result of running this code, you will see the translated text printed to the console.
 
 ```console
-I/MyAmplifyApplication: Мне нравится есть спагетти
+I/MyAmplifyApp: Мне нравится есть спагетти
 ```
