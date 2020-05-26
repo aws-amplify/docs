@@ -29,9 +29,9 @@ func getTodo() {
 You can get the list of items that match a condition that you specify using the `where` parameter in `Amplify.API.query`
 
 ```swift
-ffunc listTodos() {
+func listTodos() {
     let todo = Todo.keys
-    let predicate = todo.name == "MyTodo" && todo.description == "description"
+    let predicate = todo.name == "my first todo" && todo.description == "todo description"
     _ = Amplify.API.query(request: .list(Todo.self, where: predicate)) { event in
         switch event {
         case .success(let result):
