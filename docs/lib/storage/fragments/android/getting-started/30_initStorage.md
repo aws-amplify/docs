@@ -37,7 +37,7 @@ public class MyAmplifyApp extends Application {
 
 ```kotlin
 Amplify.addPlugin(AWSCognitoAuthPlugin())
-Amplify.addPlugin(AWSPredictionsPlugin())
+Amplify.addPlugin(AWSS3StoragePlugin())
 ```
 
 Your class will look like this:
