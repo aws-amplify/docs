@@ -138,3 +138,5 @@ You need to now inform your auth provider of this URL:
 
 </amplify-block>
 </amplify-block-switcher>
+
+<inline-fragment platform="android" src="~/lib/auth/fragments/android/social_signin_web_ui/social_signin_web_ui.md"></inline-fragment>
