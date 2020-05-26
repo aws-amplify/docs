@@ -96,7 +96,7 @@ export class DocsPage {
     }
   }
 
-  componentDidLoad() {
+  startRaf() {
     // lets us repeatedly call `updatePageData` without actually
     // triggering redundant `this.getPageData` calls.
     let {pathname} = location;
@@ -115,8 +115,11 @@ export class DocsPage {
     })();
   }
 
-  componentDidRender() {
-    this.setSidebarStickyTop();
+  componentDidLoad() {
+    this.startRaf();
+  }
+
+  scrollToId() {
     if (this.isFirstRenderOfCurrentPage) {
       const {hash} = location;
       if (hash) {
@@ -126,16 +129,25 @@ export class DocsPage {
         }, 250);
       }
     }
+  }
+
+  componentDidRender() {
+    this.setSidebarStickyTop();
+    this.scrollToId();
     this.isFirstRenderOfCurrentPage = false;
   }
 
-  componentWillUnload() {
+  stopRaf() {
     if (this.rafId) {
       cancelAnimationFrame(this.rafId);
     }
   }
 
-  componentWillLoad() {
+  componentWillUnload() {
+    this.stopRaf();
+  }
+
+  restoreBlockSwitcherState() {
     // gather list of previously-selected tab headings (might be null)
     const persistedSelectedTabsSerialized =
       localStorage.getItem(SELECTED_TABS_LOCAL_STORAGE_KEY) || undefined;
@@ -143,7 +155,10 @@ export class DocsPage {
       // save that selection array if it exists (otherwise, list is empty)
       this.selectedTabHeadings = JSON.parse(persistedSelectedTabsSerialized);
     }
+  }
 
+  componentWillLoad() {
+    this.restoreBlockSwitcherState();
     return this.getPageData();
   }
 
