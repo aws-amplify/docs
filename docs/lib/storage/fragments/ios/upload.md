@@ -20,7 +20,7 @@ When you have a file that you want to upload, you can specify the url to the fil
 
 ```swift
 let dataString = "My Data"
-let fileNameKey = "myFile.txt"
+let fileNameKey = "myFile2.txt"
 let filename = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     .appendingPathComponent(fileNameKey)
 do {
@@ -29,15 +29,15 @@ do {
     print("Failed to write to file \(error)")
 }
 
-_ = Amplify.Storage.uploadFile(key: fileNameKey, local: filename
-    progressListener: { progress in
-        print("Progress: \(progress)")
-    }, resultListener: { event in
-        switch event {
-        case let .success(data):
-            print("Completed: \(data)")
-        case let .failure(storageError):
-            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
-    })
-}
+_ = Amplify.Storage.uploadFile(key: fileNameKey, local: filename,
+                                progressListener: { progress in
+                                print("Progress: \(progress)")
+}, resultListener: { event in
+    switch event {
+    case let .success(data):
+        print("Completed: \(data)")
+    case let .failure(storageError):
+        print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+    }
+})
 ```
