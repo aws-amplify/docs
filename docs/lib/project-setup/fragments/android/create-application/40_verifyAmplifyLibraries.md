@@ -74,7 +74,7 @@ class MyAmplifyApp : Application() {
 
 This overrides the `onCreate()` to initialize Amplify when your application is launched.
 
-Next, configure your application to use your new custom `Application` class. Open **AndroidManifest.xml**, and add a `android:name` attribute with the value of your new class name:
+Next, configure your application to use your new custom `Application` class. Open **manifests** > **AndroidManifest.xml**, and add a `android:name` attribute with the value of your new class name:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
