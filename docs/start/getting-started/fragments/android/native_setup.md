@@ -9,7 +9,7 @@
 
 - Install [Node.js](https://nodejs.org/en/) version 10 or higher
 - Install [Android Studio](https://developer.android.com/studio/index.html#downloads) version 3.6 or higher
-- Install the [Android SDK](https://developer.android.com/studio/releases/platforms) API level 16 (Jelly Bean) or higher
+- Install the [Android SDK](https://developer.android.com/studio/releases/platforms) API level 29 (Android 10)
 - Install [Amplify CLI](~/cli/cli.md) version 4.21.0 or later by running:
 
     ```bash
