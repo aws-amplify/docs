@@ -42,7 +42,7 @@ apply plugin: 'com.amplifyframework.amplifytools'
 
 This configuration adds helpers to your IDE to allow easy generation and deployment of Amplify files and resources.
 
-Under **Gradle Scripts**, open **build.gradle (Module: app)**.
+Under **Gradle Scripts**, open **build.gradle (Module: MyAmplifyApp)**.
 
 Add the following lines:
 
