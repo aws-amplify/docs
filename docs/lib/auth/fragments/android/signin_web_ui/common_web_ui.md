@@ -36,14 +36,6 @@ Just be sure it matches the redirect URIs you specified above when configuring A
 and update the value in `onNewIntent` below.
 </amplify-callout>
 
-## Add Plugin
-Add `AWSCognitoAuthPlugin` to Amplify before the call to `configure` as described in Getting Started:
-
-```java
-Amplify.addPlugin(new AWSCognitoAuthPlugin());
-Amplify.configure(getApplicationContext());
-```
-
 ## Add Response Handler
 Add the following `onNewIntent` method in MainActivity to capture the response from the sign in web UI:
 
