@@ -3,12 +3,16 @@ title: Getting started
 description: The Amplify DataStore category enables developers to write applications whose data lives in the mobile device for instant/offline-first access while synchronization with a cloud backend is handled automatically.
 ---
 
-The Amplify DataStore category enables developers to write applications whose data lives in the mobile device for instant/offline-first access while synchronization with a cloud backend powered by [AppSync](https://aws.amazon.com/appsync/) is handled automatically, which makes working with distributed, cross-user data just as simple as working with local-only data.
+The Amplify DataStore category enables developers to write applications whose data lives in the mobile device for instant/offline-first access while synchronization with a cloud backend powered by [AWS AppSync](https://aws.amazon.com/appsync/) is handled automatically, which makes working with distributed, cross-user data just as simple as working with local-only data.
 
-**Note:** cloud synchronization is optional and disabled by default. This allows developers to start with Amplify DataStore right away, even without an AWS account.
+<amplify-callout>
+
+**Note:** cloud synchronization is optional and disabled by default. This allows you to start with Amplify DataStore right away, even without an AWS account.
+
+</amplify-callout>
 
 ## Goal
-To setup and configure your application with Amplify DataStore and go through a basic create/read example to make sure data is persisted in the device.
+To setup and configure your application with Amplify DataStore and use it to persist data locally on a device.
 
 ## Prerequisites
 
@@ -17,11 +21,11 @@ To setup and configure your application with Amplify DataStore and go through a 
 
 ## Data schema
 
-The first step to create an app backed by a persistent datastore is to **define a schema**. Amplify DataStore uses GraphQL schema files as the the definition of the application data model. The schema contains data types and relationships that represent the app functionality.
+The first step to create an app backed by a persistent datastore is to **define a schema**. DataStore uses GraphQL schema files as the the definition of the application data model. The schema contains data types and relationships that represent the app functionality.
 
 ### Sample schema
 
-For the sake of simplicity, the schema will represent a small *Blogging App* and will start with a single model: a `Post`. New types and constructs will be added to this base schema as more concepts are presented.
+Your first step is to define a schema for a small blog application. It has a single model, a `Post`. New types and constructs will be added to this base schema as more concepts are presented.
 
 Open the `schema.graphql` file located by default at `amplify/backend/{api_name}/`  and **define the model** `Post` as follows.
 
@@ -38,13 +42,13 @@ type Post @model {
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/20_installLib.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/20_installLib.md"></inline-fragment>
 
-## Idiomatic persistence: Models
+## Idiomatic persistence: models
 
 Amplify DataStore relies on platform standard data structures to represent the data schema in an idiomatic way. The persistence language is composed by data types that satisfies the `Model` interface and operations defined by common verbs such as `save`, `query` and `delete`.
 
 In order to start choose an option to **generate models** from the `schema.graphql`.
 
-### Option 1: Use AmplifyTools
+### Option 1: Use IDE integration
 
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/30_amplifyTools.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/30_amplifyTools.md"></inline-fragment>
@@ -90,7 +94,7 @@ amplify codegen models
 
 The files should be generated at `amplify/generated/models/`, add them to your Xcode project (TODO elaborate on how to do it?).
 
-<amplify-callout>
+<amplify-callout warning>
 
 **Troubleshooting:** without the **conflict detection** configuration cloud sync will fail. If that's the case use `amplify update api` and choose **Enable DataStore for entire API** (this option will enable the conflict detection as described above).
 
