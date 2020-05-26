@@ -2,7 +2,7 @@
 Amplify.Auth.updatePassword(
   "existingPassword",
   "newPassword",
-  () -> Log.i(TAG, "Updated password successfully"),
-  error -> Log.e(TAG, error.toString())
+  () -> Log.i("AuthQuickstart", "Updated password successfully"),
+  error -> Log.e("AuthQuickstart", error.toString())
 )
 ```

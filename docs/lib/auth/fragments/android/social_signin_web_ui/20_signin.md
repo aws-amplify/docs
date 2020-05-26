@@ -4,7 +4,7 @@ For now, just add this method to the `onCreate` method of MainActivity with what
 Amplify.Auth.signInWithSocialWebUI(
         AuthProvider.facebook(),
         this,
-        result -> Log.i(TAG, result.toString()),
-        error -> Log.e(TAG, error.toString())
+        result -> Log.i("AuthQuickstart", result.toString()),
+        error -> Log.e("AuthQuickstart", error.toString())
 );
 ```
