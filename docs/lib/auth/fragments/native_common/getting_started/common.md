@@ -55,5 +55,6 @@ The isSignedIn property of the authSession will be false since we havent signed 
 ## Next Steps
 Congratulations! You've successfully setup AWS Cognito Auth plugin.  Check out the following links to see other Amplify Auth use cases:
 
-* [Authenticate a user with username password]
-* [Authenticate a user with another auth provider]
+* [Authenticate a user with username password](~/lib/auth/signin.md)
+* [Authenticate a user using a web UI](~/lib/auth/signin_web_ui.md)
+* [Authenticate a user with another auth provider](~/lib/auth/social_signin_web_ui.md)
