@@ -1074,7 +1074,16 @@ To achieve this, you first need to setup the userpool to allow email or phone nu
 <amplify-block-switcher>
 <amplify-block name="React">
 
-
+```jsx
+const App = () => (
+  <AmplifyAuthenticator usernameAlias="email">
+    <div>
+      My App
+      <AmplifySignOut />
+    </div>
+  </AmplifyAuthenticator>
+);
+```
 </amplify-block>
 <amplify-block name="Angular">
 
