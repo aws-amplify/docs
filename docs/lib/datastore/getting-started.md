@@ -109,7 +109,7 @@ Even though a GraphQL API is already added to your project, the cloud synchroniz
 
 ### Writing to the database
 
-To write to the database, create a instance of the `Post` model and save it.
+To write to the database, create an instance of the `Post` model and save it.
 
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/50_saveSnippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/50_saveSnippet.md"></inline-fragment>
