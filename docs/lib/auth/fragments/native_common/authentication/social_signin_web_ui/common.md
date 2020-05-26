@@ -53,17 +53,8 @@
 
 In terminal, navigate to your project, run `amplify add auth`, and choose the following options (the last steps are specific to Facebook here but are similar for other providers):
 
-```terminal
-Do you want to use the default authentication and security configuration? Default configuration with Social Provider (Federation)
-How do you want users to be able to sign in? Username
-Do you want to configure advanced settings? No, I am done.
-What domain name prefix you want us to create for you? (default)
-Enter your redirect signin URI: myapp://callback/
-? Do you want to add another redirect signin URI No
-Enter your redirect signout URI: myapp://signout/
-? Do you want to add another redirect signout URI No
-Select the social providers you want to configure for your user pool: <choose your provider and follow the prompts to input the proper tokens>
-```
+<inline-fragment platform="android" src="~/lib/auth/fragments/android/social_signin_web_ui/10_cli_setup.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/auth/fragments/ios/authentication/social_signin_web_ui/10_cli_setup.md"></inline-fragment>
 
 Once finished run `amplify push` to publish your changes. Once finished, it will display an auto generated URL for your web UI.
 
@@ -139,4 +130,11 @@ You need to now inform your auth provider of this URL:
 </amplify-block>
 </amplify-block-switcher>
 
-<inline-fragment platform="android" src="~/lib/auth/fragments/android/social_signin_web_ui/social_signin_web_ui.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/auth/fragments/ios/authentication/signin_web_ui/20_platform_specific_setup.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/auth/fragments/android/signin_web_ui/20_platform_specific_setup.md"></inline-fragment>
+
+## Launch Social Web UI Sign In
+Sweet! You're now ready to launch sign in with your social provider's web UI.
+
+<inline-fragment platform="android" src="~/lib/auth/fragments/android/social_signin_web_ui/20_signin.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/auth/fragments/ios/authentication/social_signin_web_ui/20_signin.md"></inline-fragment>
