@@ -24,8 +24,8 @@ Now that your have DataStore persisting data locally, in the next step you'll co
           HubChannel.DATASTORE,
           event -> DataStoreChannelEventName.RECEIVED_FROM_CLOUD.toString().equals(event.getName()),
           event -> {
-              ModelWithMetadata modelWithMetadata = (ModelWithMetadata) event.getData();
-              Todo todo = (Todo) modelWithMetadata.model;
+              ModelWithMetadata<Todo> modelWithMetadata = (ModelWithMetadata<Todo>) event.getData();
+              Todo todo = modelWithMetadata.getModel();
 
               Log.i("Tutorial", "==== Todo ====");
               Log.i("Tutorial", "Name: " + todo.getName());
