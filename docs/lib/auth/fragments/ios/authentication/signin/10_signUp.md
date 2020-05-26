@@ -6,7 +6,7 @@ func signUp(username: String, password: String, email: String) {
         switch result {
         case .success(let signUpResult):
             if case let .confirmUser(deliveryDetails, _) = signUpResult.nextStep {
-                print("Delivery details \(deliveryDetails)")
+                print("Delivery details \(String(describing: deliveryDetails))")
             } else {
                 print("SignUp Complete")
             }
