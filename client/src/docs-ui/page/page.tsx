@@ -6,7 +6,6 @@ import {
   Listen,
   Element,
   Prop,
-  Watch,
   Build,
 } from "@stencil/core";
 import {MatchResults} from "@stencil/router";
@@ -58,6 +57,9 @@ export class DocsPage {
   @State() selectedFilters: Record<string, string | undefined> = {};
   @State() selectedTabHeadings: SelectedTabHeadings = [];
 
+  rafId?: number;
+  isFirstRenderOfCurrentPage = true;
+
   setNewSelectedTabHeading: SetNewSelectedTabHeadings = (tabHeading) => {
     // create temp array with `tabHeading` (the new highest priority) as first el
     const nextSelectedTabHeadings = new Array<string>();
@@ -107,14 +109,39 @@ export class DocsPage {
     }
   }
 
-  @Watch("match")
-  onRouteChange() {
-    this.getPageData();
+  componentDidLoad() {
+    let pathname = (" " + location.pathname).slice(1);
+    const updatePageData = () => {
+      if (location.pathname !== pathname) {
+        this.isFirstRenderOfCurrentPage = true;
+        pathname = location.pathname;
+        this.getPageData();
+      }
+    };
+    this.rafId = (function watchForRouteChange() {
+      updatePageData();
+      return requestAnimationFrame(watchForRouteChange);
+    })();
   }
 
-  @Listen("popstate", {target: "window"})
-  onPopState() {
-    this.getPageData();
+  componentDidRender() {
+    this.setSidebarStickyTop();
+    if (this.isFirstRenderOfCurrentPage) {
+      const {hash} = location;
+      if (hash) {
+        setTimeout(() => {
+          // TODO: fix potential race condition
+          scrollToHash(hash, this.el);
+        }, 250);
+      }
+    }
+    this.isFirstRenderOfCurrentPage = false;
+  }
+
+  componentWillUnload() {
+    if (this.rafId) {
+      cancelAnimationFrame(this.rafId);
+    }
   }
 
   componentWillLoad() {
@@ -131,7 +158,7 @@ export class DocsPage {
 
   async getPageData() {
     if (this.match) {
-      let currentRoute = this.match.params.page || location.pathname || "/";
+      let currentRoute = location.pathname || "/";
       if (!currentRoute.startsWith("/")) currentRoute = `/${currentRoute}`;
 
       const {path, params} = parseURL(currentRoute);
@@ -203,17 +230,6 @@ export class DocsPage {
     const menuItems = this.pageData?.menu;
     return !!(menuItems && menuItems.length > 0);
   };
-
-  componentDidRender() {
-    this.setSidebarStickyTop();
-    const {hash} = location;
-    if (hash) {
-      // TODO: replace with better method for ensuring TOC rendered. Race condition!
-      setTimeout(() => {
-        scrollToHash(hash, this.el);
-      }, 250);
-    }
-  }
 
   render() {
     if (Build.isBrowser) {
