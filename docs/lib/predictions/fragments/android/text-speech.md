@@ -1,49 +1,51 @@
 ## Set up the backend
 
-If you haven't already done so, run `amplify init` inside your project and then `amplify add auth` (we recommend selecting the *default configuration*).
-
 Run `amplify add predictions`, then use the following answers:
 
 ```console
 ? Please select from one of the categories below
-  Identify
-❯ Convert
-  Interpret
-  Infer
-  Learn More
-
+  `Convert`
 ? What would you like to convert? (Use arrow keys)
-  Translate text into a different language
-❯ Generate speech audio from text
-  Transcribe text from audio
-
+  `Translate text into a different language`
+? Generate speech audio from text
+  `Transcribe text from audio`
 ? Provide a friendly name for your resource
-  <Enter a friendly name here>
-
+  `speechGenerator`
 ? What is the source language? (Use arrow keys)
-  <Select your default source language>
-
+  `US English`
 ? Select a speaker (Use arrow keys)
-  <Select your default speaker voice>
-
+  `Joanna - Female`
 ? Who should have access? (Use arrow keys)
-  Auth users only
-❯ Auth and Guest users
+  `Auth and Guest users`
 ```
 
-Run `amplify push` to create the resources in the cloud
+Run `amplify push` to create the resources in the cloud.
 
 ## Working with the API
 
-Here is an example of converting text to speech. In order to override any choices you made while adding this resource using the Amplify CLI, you can pass in a voice in the options object as shown below.
+<amplify-block-switcher>
+<amplify-block name="Java">
+
+Open `MainActivity.java` and add the following code:
 
 ```java
 private final MediaPlayer mp = new MediaPlayer();
 
-// MediaPlayer does not support InputStream as its directly data source.
-// Write to a file to obtain its file descriptor.
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    Amplify.Predictions.convertTextToSpeech(
+            "I like to eat spaghetti",
+            result -> playAudio(result.getAudioData()),
+            error -> Log.e("MyAmplifyApplication", "Conversion failed", error)
+    );
+}
+
 private void playAudio(InputStream data) {
     File mp3File = new File(getCacheDir(), "audio.mp3");
+
     try (OutputStream out = new FileOutputStream(mp3File)) {
         byte[] buffer = new byte[8 * 1_024];
         int bytesRead;
@@ -55,18 +57,52 @@ private void playAudio(InputStream data) {
         mp.setDataSource(new FileInputStream(mp3File).getFD());
         mp.prepareAsync();
     } catch (IOException error) {
-        Log.e("AmplifyQuickstart", "Error writing audio file.");
+        Log.e("MyAmplifyApplication", "Error writing audio file", error);
     }
 }
+```
 
-public void textToSpeech(String text) {
+</amplify-block>
+<amplify-block name="Kotlin">
+
+Open `MainActivity.kt` and add the following code:
+
+```kotlin
+private val mp = MediaPlayer()
+
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
     Amplify.Predictions.convertTextToSpeech(
-            text,
-            result -> playAudio(result.getAudioData()),
-            error -> Log.e("AmplifyQuickstart", error.toString(), error)
-    );
+        "I like to eat spaghetti!",
+        { result  -> playAudio(result.getAudioData()) },
+        { error -> Log.e("MyAmplifyApplication", error.toString()) }
+    )
+}
+
+private fun playAudio(data: InputStream) {
+    val mp3File = File(cacheDir, "audio.mp3")
+    try {
+        FileOutputStream(mp3File).use { out ->
+            val buffer = ByteArray(8 * 1024)
+            var bytesRead: Int
+            while (data.read(buffer).also { bytesRead = it } != -1) {
+                out.write(buffer, 0, bytesRead)
+            }
+            mp.reset()
+            mp.setOnPreparedListener { obj: MediaPlayer -> obj.start() }
+            mp.setDataSource(FileInputStream(mp3File).fd)
+            mp.prepareAsync()
+        }
+    } catch (error: IOException) {
+        Log.e("MyAmplifyApplication", "Error writing audio file.")
+    }
 }
 ```
-As a result of running this code, you will hear audio of the text being emitted from your device.
 
-**Note**: Android API 23 added support for [`MediaDataSource`](https://developer.android.com/reference/android/media/MediaDataSource), which allows for `InputStream` from Amplify to be read directly without writing to a file.
+</amplify-block>
+</amplify-block-switcher>
+
+This example works on all supported versions of Android. Android API 23 added support for [`MediaDataSource`](https://developer.android.com/reference/android/media/MediaDataSource), which allows for `InputStream` from Amplify to be read directly without writing to a file.
+
+As a result of running this code, you will hear audio of the text being emitted from your device.

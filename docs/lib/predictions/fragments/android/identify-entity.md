@@ -2,33 +2,19 @@ The following APIs will enable you to identify entities (faces and/or celebritie
 
 ## Set up your backend
 
-If you haven't already done so, run `amplify init` inside your project and then `amplify add auth` (we recommend selecting the *default configuration*).
-
 Run `amplify add predictions`, then use the following answers:
 
 ```console
 ? Please select from one of the categories below (Use arrow keys)
-❯ Identify
-  Convert
-  Interpret
-  Infer
-  Learn More
-
+  `Identify`
 ? What would you like to identify? (Use arrow keys)
-  Identify Text
-❯ Identify Entities
-  Identify Labels
-
+  `Identify Entities`
 ? Provide a friendly name for your resource
-  <Enter a friendly name here>
-
+  `identifyEntities`
 ? Would you like use the default configuration? (Use arrow keys)
-❯ Default Configuration
-  Advanced Configuration
-
+  `Default Configuration`
 ? Who should have access? (Use arrow keys)
-  Auth users only
-❯ Auth and Guest users
+  `Auth and Guest users`
 ```
 Run `amplify push` to create the resources in the cloud.
 
@@ -40,6 +26,9 @@ To detect general entities like facial features, landmarks etc, default configur
 
 Amplify will now detect general entity features when `IdentifyActionType.DETECT_ENTITIES` is passed in. Results are mapped to `IdentifyEntitiesResult`. For example:
 
+<amplify-block-switcher>
+<amplify-block name="Java">
+
 ```java
 public void detectEntities(Bitmap image) {
     Amplify.Predictions.identify(
@@ -48,12 +37,35 @@ public void detectEntities(Bitmap image) {
             result -> {
                 IdentifyEntitiesResult identifyResult = (IdentifyEntitiesResult) result;
                 EntityDetails metadata = identifyResult.getEntities().get(0);
-                Log.i("AmplifyQuickstart", metadata.getBox().toShortString());
+                Log.i("MyAmplifyApplication", metadata.getBox().toShortString());
             },
-            error -> Log.e("AmplifyQuickstart", error.toString(), error)
+            error -> Log.e("MyAmplifyApplication", "Entity detection failed", error)
     );
 }
 ```
+
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+fun detectEntities(image: Bitmap) {
+    Amplify.Predictions.identify(
+        IdentifyActionType.DETECT_ENTITIES,
+        image,
+        Consumer { result ->
+            val identifyResult = result as IdentifyEntitiesResult
+            val metadata = identifyResult.getEntities()[0]
+            Log.i("MyAmplifyApplication", metadata.getBox()!!.toShortString())
+        },
+        Consumer { error ->
+            Log.e("MyAmplifyApplication", "Entity detection failed", error)
+        }
+    )
+}
+```
+
+</amplify-block>
+</amplify-block-switcher>
 
 As a result of passing in an image, the bounding box ([`android.graphics.RectF`](https://developer.android.com/reference/android/graphics/RectF)) that captures detected entity will be printed to the console.
 
@@ -65,41 +77,25 @@ Run `amplify add predictions`, then use the following answers:
 
 ```console
 ? Please select from one of the categories below (Use arrow keys)
-❯ Identify
-  Convert
-  Interpret
-  Infer
-  Learn More
-
+  `Identify`
 ? What would you like to identify? (Use arrow keys)
-  Identify Text
-❯ Identify Entities
-  Identify Labels
-
+  `Identify Entities`
 ? Provide a friendly name for your resource
-  <Enter a friendly name here>
-
+  `identifyEntities`
 ? Would you like use the default configuration? (Use arrow keys)
-  Default Configuration
-❯ Advanced Configuration
-
+  `Advanced Configuration`
 ? Would you like to enable celebrity detection? (Y/n)
-  <Enter 'y'>
-
+  `Y`
 ? Would you like to identify entities from a collection of images? (y/N)
-  <Enter 'y'>
-
+  `Y`
 ? How many entities would you like to identify? (50)
-  10
-
+  `10`
 ? Would you like to allow users to add images to this collection? (Use arrow keys)
-❯ Yes
-  No
-
+  `Yes`
 ? Who should have access? (Use arrow keys)
-  Auth users only
-❯ Auth and Guest users
+  `Auth and Guest users`
 ```
+
 Run `amplify push` to create the resources in the cloud
 
 **Note**: If entity detection was already configured, run `amplify update predictions` to reconfigure as necessary.
@@ -107,6 +103,9 @@ Run `amplify push` to create the resources in the cloud
 The value of `collectionId` is the name of your collection, which can be created directly via CLI. The value of `maxEntities` must be a number greater than `0` or less than `51` (50 is the max number of entities Rekognition can detect from a collection). If either value of `collectionId` or `maxEntities` is invalid, then `identify` will just detect entities in general with facial features, landmarks, etc.
 
 If both `collectionId` and `maxEntities` are properly configured, then Amplify will detect entity matches from the Rekogition Collection in your app. Results are mapped to `IdentifyEntityMatchesResult`. For example:
+
+<amplify-block-switcher>
+<amplify-block name="Java">
 
 ```java
 public void detectEntities(Bitmap image) {
@@ -118,14 +117,40 @@ public void detectEntities(Bitmap image) {
                 EntityMatch match = identifyResult.getEntityMatches().get(0);
                 Log.i("AmplifyQuickstart", match.getExternalImageId());
             },
-            error -> Log.e("AmplifyQuickstart", error.toString(), error)
+            error -> Log.e("AmplifyQuickstart", "Identify failed", error)
     );
 }
 ```
 
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+fun detectEntities(image: Bitmap) {
+    Amplify.Predictions.identify(
+        IdentifyActionType.DETECT_ENTITIES,
+        image,
+        Consumer { result: IdentifyResult ->
+            val identifyResult = result as IdentifyEntityMatchesResult
+            val match = identifyResult.getEntityMatches()[0]
+            Log.i("AmplifyQuickstart", match.externalImageId)
+        },
+        Consumer { error: PredictionsException ->
+            Log.e("AmplifyQuickstart", "Identify failed", error)
+        }
+    )
+}
+```
+
+</amplify-block>
+</amplify-block-switcher>
+
 ### Detecting Celebrities
 
 To detect celebrities you can pass in `IdentifyActionType.DETECT_CELEBRITIES`.  Results are mapped to `IdentifyCelebritiesResult`.  For example:
+
+<amplify-block-switcher>
+<amplify-block name="Java">
 
 ```java
 public void detectCelebs(Bitmap image) {
@@ -135,11 +160,34 @@ public void detectCelebs(Bitmap image) {
             result -> {
                 IdentifyCelebritiesResult identifyResult = (IdentifyCelebritiesResult) result;
                 CelebrityDetails metadata = identifyResult.getCelebrities().get(0);
-                Log.i("AmplifyQuickstart", metadata.getCelebrity().getName());
+                Log.i("MyAmplifyApplication", metadata.getCelebrity().getName());
             },
-            error -> Log.e("AmplifyQuickstart", error.toString(), error)
+            error -> Log.e("MyAmplifyApplication", "Identify failed", error)
     );
 }
 ```
+
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+fun detectCelebs(image: Bitmap) {
+    Amplify.Predictions.identify(
+        IdentifyActionType.DETECT_CELEBRITIES,
+        image,
+        Consumer { result: IdentifyResult ->
+            val identifyResult = result as IdentifyCelebritiesResult
+            val metadata = identifyResult.getCelebrities()[0]
+            Log.i("MyAmplifyApplication", metadata.getCelebrity().name)
+        },
+        Consumer { error: PredictionsException ->
+            Log.e("MyAmplifyApplication", "Identify failed", error)
+        }
+    )
+}
+```
+
+</amplify-block>
+</amplify-block-switcher>
 
 As a result of passing in an image, `identify` will return the name of a detected celebrity.

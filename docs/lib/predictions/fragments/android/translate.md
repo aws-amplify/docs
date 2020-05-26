@@ -1,68 +1,102 @@
 ## Set up the backend
 
-If you haven't already done so, run `amplify init` inside your project and then `amplify add auth` (we recommend selecting the *default configuration*).
-
 Run `amplify add predictions`, then use the following answers:
 
 ```console
 ? Please select from one of the categories below
-  Identify
-❯ Convert
-  Interpret
-  Infer
-  Learn More
-
+  `Convert`
 ? What would you like to convert? (Use arrow keys)
-❯ Translate text into a different language
-  Generate speech audio from text
-  Transcribe text from audio
-
+ `Translate text into a different language`
 ? Provide a friendly name for your resource
-  <Enter a friendly name here>
-
+  translate
 ? What is the source language? (Use arrow keys)
-  <Select your default source language>
-
+  `US English`
 ? What is the target language? (Use arrow keys)
-  <Select your default target language>
-
+  `Italian`
 ? Who should have access? (Use arrow keys)
-  Auth users only
-❯ Auth and Guest users
-
+  `Auth and Guest users`
 ```
 
-Run `amplify push` to create the resources in the cloud
+Run `amplify push` to create the resources in the cloud.
 
 ## Working with the API
 
 ### Translate text as configured
 
-Here is an example of translating text.
+<amplify-block-switcher>
+<amplify-block name="Java">
+
+Open `MainActivity.java` and add the following to the bottom of `onCreate()`:
 
 ```java
-public void translate(String text) {
-    Amplify.Predictions.translateText(
-            text,
-            result -> Log.i("AmplifyQuickstart", result.getTranslatedText()),
-            error -> Log.e("AmplifyQuickstart", error.toString())
-    );
-}
+Amplify.Predictions.translateText(
+        "I like to eat spaghetti",
+        result -> Log.i("MyAmplifyApplication", result.getTranslatedText()),
+        error -> Log.e("MyAmplifyApplication", "Translation failed", error)
+);
 ```
+
+</amplify-block>
+<amplify-block name="Kotlin">
+
+Open `MainActivity.kt` and add the following to the bottom of `onCreate()`:
+
+```kotlin
+Amplify.Predictions.translateText(
+    "I like to eat spaghetti",
+    { result -> Log.i("MyAmplifyApplication", result.getTranslatedText()) },
+    { error -> Log.e("MyAmplifyApplication", "Translation failed", error) }
+)
+```
+
+</amplify-block>
+</amplify-block-switcher>
+
 As a result of running this code, you will see the translated text printed to the console.
+
+```console
+I/MyAmplifyApplication: Mi piace mangiare gli spaghetti
+```
 
 ### Override configured language
 
 In order to override any choices you made in regards to target or source languages while adding this resource using the Amplify CLI, you can pass in them in directly as parameters as shown below.
 
+Add the `LanguageType` options as below:
+
+<amplify-block-switcher>
+<amplify-block name="Java">
+
 ```java
-public void translate(String text) {
-    Amplify.Predictions.translateText(
-            text,
-            LanguageType.ENGLISH,
-            LanguageType.ITALIAN,
-            result -> Log.i("AmplifyQuickstart", result.getTranslatedText()),
-            error -> Log.e("AmplifyQuickstart", error.toString())
-    );
-}
+Amplify.Predictions.translateText(
+        "I like to eat spaghetti",
+        LanguageType.ENGLISH,
+        LanguageType.RUSSIAN,
+        result -> Log.i("MyAmplifyApplication", result.getTranslatedText()),
+        error -> Log.e("MyAmplifyApplication", "Translation failed", error)
+);
+```
+
+</amplify-block>
+<amplify-block name="Kotlin">
+
+Open `MainActivity.kt` and add the following to the bottom of `onCreate()`:
+
+```kotlin
+Amplify.Predictions.translateText(
+    "I like to eat spaghetti",
+    LanguageType.ENGLISH,
+    LanguageType.RUSSIAN,
+    { result -> Log.i("MyAmplifyApplication", result.getTranslatedText()) },
+    { error -> Log.e("MyAmplifyApplication", "Translation failed", error) }
+)
+```
+
+</amplify-block>
+</amplify-block-switcher>
+
+As a result of running this code, you will see the translated text printed to the console.
+
+```console
+I/MyAmplifyApplication: Мне нравится есть спагетти
 ```

@@ -1,5 +1,8 @@
 If you need functionality in the AWS services used by the Amplify Predictions category that isn't available, we provide an escape hatch so you can get a reference to that service. For example, to get a reference to `AmazonRekognitionClient`:
 
+<amplify-block-switcher>
+<amplify-block name="Java">
+
 ```java
 // Obtain reference to the plugin
 AWSPredictionsPlugin predictionsPlugin = (AWSPredictionsPlugin)
@@ -13,7 +16,26 @@ CreateCollectionRequest request = new CreateCollectionRequest()
 client.createCollection(request);
 ```
 
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+// Obtain reference to the plugin
+val predictionsPlugin = Amplify.Predictions.getPlugin("awsPredictionsPlugin") as AWSPredictionsPlugin
+val escapeHatch = predictionsPlugin.escapeHatch
+
+// Send a new request to the Rekognition endpoint directly using the client
+val client = escapeHatch.rekognitionClient
+val request = CreateCollectionRequest().withCollectionId("<new-collection-id-here>")
+
+client.createCollection(request)
+```
+
+</amplify-block>
+</amplify-block-switcher>
+
 **API Documentation Resources**
+
 * [Amazon Rekognition API Reference](https://docs.aws.amazon.com/rekognition/latest/dg/API_Reference.html)
 * [Amazon Translate API Reference](https://docs.aws.amazon.com/translate/latest/dg/API_Reference.html)
 * [Amazon Polly API Reference](https://docs.aws.amazon.com/polly/latest/dg/API_Reference.html)
