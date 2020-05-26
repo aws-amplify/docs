@@ -1,21 +1,13 @@
-<!--TODO Update AWSmobile Client -> Auth -->
-Add the following dependencies to your **app** build.gradle file and click "Sync Now" when asked:
+Expand **Gradle Scripts**, open **build.gradle (Module: app)**. You will already have configured Amplify by following the steps in the [Project Setup walkthrough](~/lib/project-setup/create-application.md).
 
+Add Predictions by adding these libraries into the `dependencies` block:
 ```groovy
 dependencies {
-    implementation 'com.amplifyframework:core:0.10.0'
-    implementation 'com.amplifyframework:aws-storage-s3:0.10.0'
-    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.16.+'
+    implementation 'com.amplifyframework:aws-storage-s3:1.0.0'
+    implementation 'com.amplifyframework:aws-auth-cognito:1.0.0'
 }
 ```
 
-Also at the top of the same file, add this piece of code to support the Java 8 features Amplify uses:
+`aws-auth-cognito` is used to provide authentication for Amazon S3.
 
-```groovy
-android {
-  compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-}
-```
+Click **Sync Now**.

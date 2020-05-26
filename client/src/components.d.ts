@@ -203,16 +203,6 @@ export namespace Components {
     }
     interface DocsFeedbackCallout {
     }
-    interface DocsFilterTarget {
-        /**
-          * * the conditions off of which to style the host visible vs. hidden
-         */
-        "filters"?: Record<string, string>;
-        /**
-          * * the currently-selected filter state
-         */
-        "selectedFilters"?: SelectedFilters;
-    }
     interface DocsFooter {
     }
     interface DocsFourOFour {
@@ -521,12 +511,6 @@ declare global {
         prototype: HTMLDocsFeedbackCalloutElement;
         new (): HTMLDocsFeedbackCalloutElement;
     };
-    interface HTMLDocsFilterTargetElement extends Components.DocsFilterTarget, HTMLStencilElement {
-    }
-    var HTMLDocsFilterTargetElement: {
-        prototype: HTMLDocsFilterTargetElement;
-        new (): HTMLDocsFilterTargetElement;
-    };
     interface HTMLDocsFooterElement extends Components.DocsFooter, HTMLStencilElement {
     }
     var HTMLDocsFooterElement: {
@@ -659,7 +643,6 @@ declare global {
         "docs-choose-integration-anchor": HTMLDocsChooseIntegrationAnchorElement;
         "docs-component-playground": HTMLDocsComponentPlaygroundElement;
         "docs-feedback-callout": HTMLDocsFeedbackCalloutElement;
-        "docs-filter-target": HTMLDocsFilterTargetElement;
         "docs-footer": HTMLDocsFooterElement;
         "docs-four-o-four": HTMLDocsFourOFourElement;
         "docs-in-page-link": HTMLDocsInPageLinkElement;
@@ -871,16 +854,6 @@ declare namespace LocalJSX {
     }
     interface DocsFeedbackCallout {
     }
-    interface DocsFilterTarget {
-        /**
-          * * the conditions off of which to style the host visible vs. hidden
-         */
-        "filters"?: Record<string, string>;
-        /**
-          * * the currently-selected filter state
-         */
-        "selectedFilters"?: SelectedFilters;
-    }
     interface DocsFooter {
     }
     interface DocsFourOFour {
@@ -1073,7 +1046,6 @@ declare namespace LocalJSX {
         "docs-choose-integration-anchor": DocsChooseIntegrationAnchor;
         "docs-component-playground": DocsComponentPlayground;
         "docs-feedback-callout": DocsFeedbackCallout;
-        "docs-filter-target": DocsFilterTarget;
         "docs-footer": DocsFooter;
         "docs-four-o-four": DocsFourOFour;
         "docs-in-page-link": DocsInPageLink;
@@ -1121,7 +1093,6 @@ declare module "@stencil/core" {
             "docs-choose-integration-anchor": LocalJSX.DocsChooseIntegrationAnchor & JSXBase.HTMLAttributes<HTMLDocsChooseIntegrationAnchorElement>;
             "docs-component-playground": LocalJSX.DocsComponentPlayground & JSXBase.HTMLAttributes<HTMLDocsComponentPlaygroundElement>;
             "docs-feedback-callout": LocalJSX.DocsFeedbackCallout & JSXBase.HTMLAttributes<HTMLDocsFeedbackCalloutElement>;
-            "docs-filter-target": LocalJSX.DocsFilterTarget & JSXBase.HTMLAttributes<HTMLDocsFilterTargetElement>;
             "docs-footer": LocalJSX.DocsFooter & JSXBase.HTMLAttributes<HTMLDocsFooterElement>;
             "docs-four-o-four": LocalJSX.DocsFourOFour & JSXBase.HTMLAttributes<HTMLDocsFourOFourElement>;
             "docs-in-page-link": LocalJSX.DocsInPageLink & JSXBase.HTMLAttributes<HTMLDocsInPageLinkElement>;

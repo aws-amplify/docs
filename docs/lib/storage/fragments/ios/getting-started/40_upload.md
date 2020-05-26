@@ -1,6 +1,6 @@
 ```swift
 func uploadData() {
-    let dataString = "My Data"
+    let dataString = "Example file contents"
     let data = dataString.data(using: .utf8)!
     _ = Amplify.Storage.uploadData(key: "myKey", data: data, 
         progressListener: { progress in

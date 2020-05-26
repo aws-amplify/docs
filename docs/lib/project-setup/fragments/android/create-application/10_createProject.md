@@ -19,4 +19,4 @@ Android Studio will open your project with a tab opened to either *MainActivity.
 
 ![](~/images/lib/getting-started/android/set-up-android-studio-successful-setup.png)
 
-You should now have an empty Android project without Amplify.
+You now have an empty Android project into which you'll add Amplify in the next steps.

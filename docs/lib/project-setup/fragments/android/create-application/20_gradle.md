@@ -1,33 +1,54 @@
 Amplify for Android is distributed as Apache Maven packages. In this section, you'll add the packages and other required directives to your build configuration.
 
-Expand **Gradle Scripts** and open **build.gradle (Project: Todo)**. Add the following lines:
+Expand **Gradle Scripts** and open **build.gradle (Project: Todo)**.
 
- - Add the line `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'` within the `dependencies` block
- - Add the line  `plugin 'com.amplifyframework.amplifytools'` at the end of the file 
+Add the following lines:
 
 ```groovy
 buildscript {
-    ...
+    repositories {
+        google()
+        jcenter()
+
+        // Add this line into `repositories` in `buildscript`
+        mavenCentral()
+    }
+
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.3'
-        classpath 'com.amplifyframework:amplify-tools-gradle-plugin:0.2.1'
+
+        // Add this line into `dependencies` in `buildscript`
+        classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.1'
     }
 }
 
+allprojects {
+    repositories {
+        google()
+        jcenter()
+
+        // Add this line into `repositories` in `allprojects`
+        mavenCentral()
+    }
+}
+
+// Add this line at the end of the file
 apply plugin: 'com.amplifyframework.amplifytools'
 ```
 
+- Add the line `mavenCentral()` within the `repositories` block in the `buildscript` and `allprojects` blocks
+- Add the line `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.1'` within the `dependencies` block
+- Add the line `apply plugin: 'com.amplifyframework.amplifytools'` at the end of the file 
+
 This configuration adds helpers to your IDE to allow easy generation and deployment of Amplify files and resources.
 
-Under **Gradle Scripts**, open **build.gradle (Module: app)**. Add the following lines:
+Under **Gradle Scripts**, open **build.gradle (Module: MyAmplifyApp)**.
 
-- `sourceCompatibility` and `targetCompatibility` to Java 1.8 which allows your application to make use of Java 8 features like Lambda expressions
-- Add Amplify Core, API, and DataStore libraries in the `dependencies` block
+Add the following lines:
 
 ```groovy
 android {
-    ...
-
+    // Add these lines in `android`
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -35,13 +56,13 @@ android {
 }
 
 dependencies {
-    ...
-
+    // Add line in `dependencies`
     implementation 'com.amplifyframework:core:1.0.0'
-    implementation 'com.amplifyframework:aws-datastore:1.0.0'
-    implementation 'com.amplifyframework:aws-api:1.0.0'
 }
 ```
+
+- Set `sourceCompatibility` and `targetCompatibility` to Java 1.8 which allows your application to make use of Java 8 features like Lambda expressions
+- Add the Amplify Core library in the `dependencies` block
 
 Run **Gradle Sync**
 

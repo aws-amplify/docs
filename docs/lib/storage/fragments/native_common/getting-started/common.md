@@ -8,7 +8,7 @@ To setup and configure your application with Amplify Storage and go through a si
 <inline-fragment platform="ios" src="~/lib/storage/fragments/ios/getting-started/10_preReq.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/storage/fragments/android/getting-started/10_preReq.md"></inline-fragment>
 
-## Provision Backend Storage Services
+## Provision backend storage
 
 To start provisioning storage resources in the backend, go to your project directory and **execute the command**:
 
@@ -51,10 +51,12 @@ amplify push
 Upon completion, `amplifyconfiguration.json` should be updated to reference provisioned backend storage resources. Note that these files should already be a part of your project if you followed the [Project setup walkthrough](~/lib/project-setup/create-application.md).
 
 ## Install Amplify Libraries
+
 <inline-fragment platform="ios" src="~/lib/storage/fragments/ios/getting-started/20_installLib.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/storage/fragments/android/getting-started/20_installLib.md"></inline-fragment>
 
 ## Initialize Amplify Storage
+
 <inline-fragment platform="ios" src="~/lib/storage/fragments/ios/getting-started/30_initStorage.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/storage/fragments/android/getting-started/30_initStorage.md"></inline-fragment>
 
@@ -65,12 +67,13 @@ To upload to S3 from a data object, specify the key and the data object to be up
 <inline-fragment platform="ios" src="~/lib/storage/fragments/ios/getting-started/40_upload.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/storage/fragments/android/getting-started/40_upload.md"></inline-fragment>
 
-Upon successfully executing this code, you should see an file called `myKey` in a folder called `public` with the data `My Data` in your S3 bucket.
+Upon successfully executing this code, you should see a new folder in your bucket, called `public`. It should contain a file called `ExampleKey`, whose contents is `Example file contents`.
 
 ## Next Steps
+
 Congratulations! You've uploaded a file to an s3 bucket.  Check out the following links to see other Amplify Storage use cases:
 
-* [Configure file access levels](~/lib/storage/configureaccess.md)
+* [File access levels](~/lib/storage/configureaccess.md)
 * [Download files](~/lib/storage/download.md)
 * [List Files](~/lib/storage/list.md)
 * [Remove files](~/lib/storage/remove.md)
