@@ -3,8 +3,7 @@
 In your app's `onCreate` (or similar lifecycle callback), initialize Amplify:
 
 ```java
-ModelProvider modelProvider = AmplifyModelProvider.getInstance();
-Amplify.addPlugin(AWSDataStorePlugin.forModels(modelProvider));
+Amplify.addPlugin(new AWSDataStorePlugin());
 Amplify.addPlugin(new AWSApiPlugin()); // If using remote model synchronization
 Amplify.configure(getApplicationContext());
 ```
