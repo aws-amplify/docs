@@ -13,7 +13,7 @@ Given these requirements, we'll need to be able to query the API for a list of t
 type Todo {
   id: ID!
   name: String!
-  description: String!
+  description: String
 }
 ```
 
@@ -23,7 +23,7 @@ Because we're using Amplify, we can use the GraphQL Schema Definition Language (
 type Todo @model {
   id: ID!
   name: String!
-  description: String!
+  description: String
 }
 ```
 
@@ -70,7 +70,7 @@ __amplify/backend/api/myapi/schema.graphql__
 type Todo @model {
   id: ID!
   name: String!
-  description: String!
+  description: String
 }
 ```
 
