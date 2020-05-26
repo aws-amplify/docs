@@ -236,7 +236,7 @@ The following steps will set up your CORS Policy:
 
 </amplify-callout>
 
-For information on Amazon S3 file access levels, please see [configure file access levels](~/lib/storage/configureaccess.md).
+For information on Amazon S3 file access levels, please see [file access levels](~/lib/storage/configureaccess.md).
 
 ## Using a Custom Plugin
 
