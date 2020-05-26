@@ -59,7 +59,7 @@ fun detectLabels(image: Bitmap) {
             Log.i("MyAmplifyApplication", label.getName())
         },
         Consumer { error: PredictionsException ->
-            Log.e("MyAmplifyApplication", error.toString(), error)
+            Log.e("MyAmplifyApplication", "Label detection failed.", error)
         }
     )
 }
