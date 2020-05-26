@@ -3,7 +3,7 @@
 The Amplify analytics plugin also makes it easy to record custom events within the app. The plugin handles retry logic in the event the device looses network connectivity and automatically batches requests to reduce network bandwidth.
 
 ```java
-BasicAnalyticsEvent event = new BasicAnalyticsEvent(
+BasicAnalyticsEvent event = new AnalyticsEvent(
         "EventName",
         PinpointProperties.builder()
             .add("DemoProperty1", "DemoValue1")
