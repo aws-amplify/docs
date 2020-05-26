@@ -97,6 +97,8 @@ export class DocsPage {
   }
 
   componentDidLoad() {
+    // lets us repeatedly call `updatePageData` without actually
+    // triggering redundant `this.getPageData` calls.
     let {pathname} = location;
     const updatePageData = () => {
       if (location.pathname !== pathname) {
@@ -105,6 +107,8 @@ export class DocsPage {
         this.getPageData();
       }
     };
+
+    // create RAF loop to trigger `updatePageData`, which observes pathname
     this.rafId = (function watchForRouteChange() {
       updatePageData();
       return requestAnimationFrame(watchForRouteChange);
