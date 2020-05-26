@@ -8,7 +8,7 @@ Enter the following when prompted:
 
 ```console
 ? Enter a name for the environment (dev)
-    MyAmplifyApp
+    dev
 ? Choose your default editor:
     IntelliJ IDEA
 ? Do you want to use an AWS profile?
