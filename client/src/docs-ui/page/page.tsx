@@ -29,7 +29,10 @@ import {
   getFilterKeyFromLocalStorage,
   withFilterOverrides,
 } from "../../utils/filters";
-import {filterOptionsByName} from "../../utils/filter-data";
+import {
+  filterOptionsByName,
+  frameworkFilterMetadataByOption,
+} from "../../utils/filter-data";
 import {
   SetSelectedFilters,
   SelectedTabHeadings,
@@ -177,6 +180,12 @@ export class DocsPage {
                 this.validFilterValue = allFilters.includes(filterValue);
                 if (this.validFilterValue) {
                   this.setSelectedFilters({[this.filterKey]: this.filterValue});
+
+                  const filterMetadata =
+                    frameworkFilterMetadataByOption[this.filterValue];
+                  if (filterMetadata && filterMetadata.label) {
+                    this.setNewSelectedTabHeading(filterMetadata.label);
+                  }
                 }
               }
             } else {
