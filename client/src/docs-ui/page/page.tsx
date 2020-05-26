@@ -1,14 +1,4 @@
-import {
-  Component,
-  Host,
-  h,
-  State,
-  Listen,
-  Element,
-  Prop,
-  Build,
-} from "@stencil/core";
-import {MatchResults} from "@stencil/router";
+import {Component, Host, h, State, Listen, Element, Build} from "@stencil/core";
 import {
   sidebarLayoutStyle,
   pageStyle,
@@ -47,9 +37,6 @@ const SELECTED_TABS_LOCAL_STORAGE_KEY = `amplify-docs::selected-tabs`;
 @Component({tag: "docs-page", shadow: false})
 export class DocsPage {
   @Element() el: HTMLElement;
-
-  /** match path */
-  @Prop() readonly match: MatchResults;
 
   @State() pageData?: Page;
   @State() blendUniversalNav?: boolean;
@@ -110,7 +97,7 @@ export class DocsPage {
   }
 
   componentDidLoad() {
-    let pathname = (" " + location.pathname).slice(1);
+    let {pathname} = location;
     const updatePageData = () => {
       if (location.pathname !== pathname) {
         this.isFirstRenderOfCurrentPage = true;
@@ -157,72 +144,65 @@ export class DocsPage {
   }
 
   async getPageData() {
-    if (this.match) {
-      let currentRoute = location.pathname || "/";
-      if (!currentRoute.startsWith("/")) currentRoute = `/${currentRoute}`;
+    let currentRoute = location.pathname || "/";
+    if (!currentRoute.startsWith("/")) currentRoute = `/${currentRoute}`;
 
-      const {path, params} = parseURL(currentRoute);
-      const routeFiltersEntry = filtersByRoute.get(path);
-      const allFilters =
-        routeFiltersEntry &&
-        Object.values(routeFiltersEntry).reduce((acc, curr) => {
-          return [...acc, ...curr];
-        }, []);
-      this.blendUniversalNav = currentRoute === "/";
+    const {path, params} = parseURL(currentRoute);
+    const routeFiltersEntry = filtersByRoute.get(path);
+    const allFilters =
+      routeFiltersEntry &&
+      Object.values(routeFiltersEntry).reduce((acc, curr) => {
+        return [...acc, ...curr];
+      }, []);
+    this.blendUniversalNav = currentRoute === "/";
 
-      track({
-        type: AnalyticsEventType.PAGE_VISIT,
-        attributes: {url: currentRoute},
-      });
+    track({
+      type: AnalyticsEventType.PAGE_VISIT,
+      attributes: {url: currentRoute},
+    });
 
-      try {
-        const pageData = await getPage(currentRoute);
-        if (pageData) {
-          this.pageData = pageData;
-          updateDocumentHead(pageData);
-          this.filterKey = getFilterKeyFromPage(pageData);
-          this.selectedFilters = Object.assign(
-            {},
-            ...Object.keys(filterOptionsByName).map((filterKey) => {
-              const localStorageKey = getFilterKeyFromLocalStorage(filterKey);
-              return {
-                [filterKey]: localStorageKey
-                  ? localStorage.getItem(localStorageKey) || undefined
-                  : undefined,
-              };
-            }),
-          );
+    try {
+      const pageData = await getPage(currentRoute);
+      if (pageData) {
+        this.pageData = pageData;
+        updateDocumentHead(pageData);
+        this.filterKey = getFilterKeyFromPage(pageData);
+        this.selectedFilters = Object.assign(
+          {},
+          ...Object.keys(filterOptionsByName).map((filterKey) => {
+            const localStorageKey = getFilterKeyFromLocalStorage(filterKey);
+            return {
+              [filterKey]: localStorageKey
+                ? localStorage.getItem(localStorageKey) || undefined
+                : undefined,
+            };
+          }),
+        );
 
-          if (this.filterKey) {
-            const {[this.filterKey]: filterValue} = params;
-            if (
-              typeof filterValue === "string" &&
-              filterValue !== "undefined"
-            ) {
-              this.filterValue = filterValue;
-              if (allFilters) {
-                this.validFilterValue = allFilters.includes(filterValue);
-                if (this.validFilterValue) {
-                  this.setSelectedFilters({[this.filterKey]: this.filterValue});
-                }
+        if (this.filterKey) {
+          const {[this.filterKey]: filterValue} = params;
+          if (typeof filterValue === "string" && filterValue !== "undefined") {
+            this.filterValue = filterValue;
+            if (allFilters) {
+              this.validFilterValue = allFilters.includes(filterValue);
+              if (this.validFilterValue) {
+                this.setSelectedFilters({[this.filterKey]: this.filterValue});
               }
-            } else {
-              this.filterValue = undefined;
             }
           } else {
-            this.filterKey = undefined;
+            this.filterValue = undefined;
           }
         } else {
-          this.pageData = undefined;
+          this.filterKey = undefined;
         }
-      } catch (exception) {
-        if (this.match) {
-          track({
-            type: AnalyticsEventType.PAGE_DATA_FETCH_EXCEPTION,
-            attributes: {url: this.match.url, exception},
-          });
-        }
+      } else {
+        this.pageData = undefined;
       }
+    } catch (exception) {
+      track({
+        type: AnalyticsEventType.PAGE_DATA_FETCH_EXCEPTION,
+        attributes: {url: location.href, exception},
+      });
     }
   }
 
