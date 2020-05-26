@@ -1,6 +1,7 @@
 ```java
 Post post = Post.builder()
     .title("My Post with comments")
+    .rating(10)
     .status(PostStatus.ACTIVE)
     .build();
 
@@ -8,8 +9,8 @@ Amplify.DataStore.save(post,
     savedPost -> {
         Log.i("GetStarted", "Post saved.");
         Comment comment = Comment.builder()
+            .postId(post.getId())
             .content("Loving Amplify DataStore!")
-            .post(post) // Directly pass in the post instance
             .build();
         Amplify.DataStore.save(comment,
             savedComment -> Log.i("GetStarted", "Comment saved."),
