@@ -4,7 +4,7 @@ The Amplify Analytics plugin provides a simple interface to record custom events
 
 ```swift
 func recordEvents() {
-    let properties: [String: AnalyticsPropertyValue] = [
+    let properties: AnalyticsProperties = [
         "eventPropertyStringKey": "eventPropertyStringValue",
         "eventPropertyIntKey": 123,
         "eventPropertyDoubleKey": 12.34,

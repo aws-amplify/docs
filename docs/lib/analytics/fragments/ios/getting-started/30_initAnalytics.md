@@ -13,7 +13,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 
     do {
         try Amplify.add(plugin: AWSCognitoAuthPlugin())
-        try Amplify.add(plugin: AWSPinpointPlugin())
+        try Amplify.add(plugin: AWSPinpointAnalyticsPlugin())
         try Amplify.configure()
         print("Amplify configured with Auth and Analytics plugins")
     } catch {
@@ -26,5 +26,5 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 Upon building and running this application you should see the following in your console window:
 
 ```console
-Amplify configured with auth and analytics plugin
+Amplify configured with Auth and Analytics plugin
 ```

@@ -1,4 +1,4 @@
-To install the Amplify Storage and Authentication to your application, **add both "AmplifyPlugins/AWSPinpointPlugin" and "AmplifyPlugins/AWSCognitoAuthPlugin" to your `Podfile`** (Because IAM credential is required to access AWS Pinpoint Service, `"AWSCognitoAuthPlugin"` also needs to be installed). Your `Podfile` should look similar to:
+To install the Amplify Analytics and Authentication to your application, **add both "AmplifyPlugins/AWSPinpointAnalyticsPlugin" and "AmplifyPlugins/AWSCognitoAuthPlugin" to your `Podfile`** (Because IAM credential is required to access AWS Pinpoint Service, `"AWSCognitoAuthPlugin"` also needs to be installed). Your `Podfile` should look similar to:
 
 ```bash
 target 'MyAmplifyApp' do

@@ -15,10 +15,10 @@ func identifyUser() {
                                                  region: "WA",
                                                  country: "USA")
                                                  
-    let properties: [String: AnalyticsPropertyValue] = [
+    let properties: AnalyticsProperties = [
             "phoneNumber": "+11234567890",
             "age": 25]
-            
+
     let userProfile = AnalyticsUserProfile(name: username,
                                            email: "name@example.com",
                                            location: location,
