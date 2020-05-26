@@ -1,4 +1,4 @@
-To initialize the Amplify Predictions and Storage categories you call `Amplify.addPlugin()` method for each category. To complete initialization call `Amplify.configure()`.
+To initialize the Amplify Auth and Storage categories you call `Amplify.addPlugin()` method for each category. To complete initialization call `Amplify.configure()`.
 
 Add the following code to your `onCreate()` method in your application class:
 
@@ -37,7 +37,7 @@ public class MyAmplifyApp extends Application {
 
 ```kotlin
 Amplify.addPlugin(AWSCognitoAuthPlugin())
-Amplify.addPlugin(AWSPredictionsPlugin())
+Amplify.addPlugin(AWSS3StoragePlugin())
 ```
 
 Your class will look like this:
