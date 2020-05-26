@@ -26,7 +26,11 @@ export class AmplifyCodeBlock {
 
   element?: HTMLDivElement;
 
-  setElement = (ref: HTMLDivElement | undefined) => (this.element = ref);
+  setElement = (ref: HTMLDivElement | undefined) => {
+    if (ref !== null) {
+      this.element = ref;
+    }
+  }
 
   copyToClipboard = () => {
     if (this.element && this.element.textContent) {

@@ -81,10 +81,9 @@ Now that your have DataStore persisting data locally, in the next step you'll co
    amplify api console
    ```
 
-sc
    ```console
    ? Please select from one of the below mentioned services: (Use arrow keys)
-      GraphQL 
+      `GraphQL`
    ```
 
 1. Copy and paste the following query:
@@ -95,6 +94,7 @@ sc
             items {
                 id
                 name
+                priority
                 description
             }
         }

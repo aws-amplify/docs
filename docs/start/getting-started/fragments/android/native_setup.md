@@ -9,7 +9,7 @@
 
 - Install [Node.js](https://nodejs.org/en/) version 10 or higher
 - Install [Android Studio](https://developer.android.com/studio/index.html#downloads) version 3.6 or higher
-- Install the [Android SDK](https://developer.android.com/studio/releases/platforms) API level 16 (Jelly Bean) or higher
+- Install the [Android SDK](https://developer.android.com/studio/releases/platforms) API level 29 (Android 10)
 - Install [Amplify CLI](~/cli/cli.md) version 4.21.0 or later by running:
 
     ```bash
@@ -51,6 +51,14 @@ Amplify for Android is distribued as an Apache Maven package. In this section, y
 
     ```groovy
     buildscript {
+        repositories {
+            google()
+            jcenter()
+ 
+            // Add this line into `repositories` in `buildscript`
+            mavenCentral()
+        }
+
         dependencies {
             classpath 'com.android.tools.build:gradle:3.6.3'
 
@@ -73,9 +81,9 @@ Amplify for Android is distribued as an Apache Maven package. In this section, y
     apply plugin: 'com.amplifyframework.amplifytools'
     ```
     
-    - Add the line `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.0'` within the `dependencies` block which is within the `buildscript` block
-    - Add the line `mavenCentral()` within the `repositories` block which is within the `allprojects` block
-    - Add the line `apply plugin: 'com.amplifyframework.amplifytools'` at the end of the file 
+  - Add the line `mavenCentral()` within the `repositories` block in the `buildscript` and `allprojects` blocks
+  - Add the line `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.1'` within the `dependencies` block
+  - Add the line `apply plugin: 'com.amplifyframework.amplifytools'` at the end of the file 
 
 1. Under **Gradle Scripts**, open **build.gradle (Module: app)**.
 
