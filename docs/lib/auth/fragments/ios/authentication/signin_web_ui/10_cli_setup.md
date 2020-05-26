@@ -9,7 +9,7 @@ Enter your redirect signin URI: myapp://
 ? Do you want to add another redirect signin URI No
 Enter your redirect signout URI: myapp://
 ? Do you want to add another redirect signout URI No
-Select the social providers you want to configure for your user pool:
+Select the social providers you want to configure for your user pool: None
 ```
 
 Once finished, run `amplify push` to publish your changes.
