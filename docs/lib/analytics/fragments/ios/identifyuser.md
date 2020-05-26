@@ -14,10 +14,15 @@ func identifyUser() {
                                                  city: "Seattle",
                                                  region: "WA",
                                                  country: "USA")
-
-    let userProfile = AnalyticsUserProfile(name: "name",
+                                                 
+    let properties: [String: AnalyticsPropertyValue] = [
+            "phoneNumber": "+11234567890",
+            "age": 25]
+            
+    let userProfile = AnalyticsUserProfile(name: username,
                                            email: "name@example.com",
-                                           location: location)
+                                           location: location,
+                                           properties: properties)
 
     Amplify.Analytics.identifyUser(user.userId, withProfile: userProfile)
 
