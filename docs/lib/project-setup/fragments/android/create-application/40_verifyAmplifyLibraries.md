@@ -30,8 +30,8 @@ public class MyAmplifyApp extends Application {
             Amplify.configure(getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
-        } catch (AmplifyException e) {
-            Log.e("MyAmplifyApp", "Could not initialize Amplify", e);
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
         }
     }
 }
@@ -62,8 +62,8 @@ class MyAmplifyApp : Application() {
         try {
             Amplify.configure(applicationContext)
             Log.i("MyAmplifyApp", "Initialized Amplify")
-        } catch (e: AmplifyException) {
-            Log.e("MyAmplifyApp", "Could not initialize Amplify", e)
+        } catch (error: AmplifyException) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
         }
     }
 }
