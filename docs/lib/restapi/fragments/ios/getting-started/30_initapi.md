@@ -23,6 +23,6 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 ```
 Upon building and running this application you should see the following in your console window:
 
-```bash
+```console
 Amplify configured with API and Auth plugin
 ```

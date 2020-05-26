@@ -1,22 +1,65 @@
-To initialize the Amplify API and Authentication categories, we are required to use the `Amplify.addPlugin()` method for each category we want.  When we are done calling `addPlugin()` on each category, we finish configuring Amplify by calling `Amplify.configure()`.
+To initialize the Amplify Auth and API categories you call `Amplify.addPlugin()` method for each category. To complete initialization call `Amplify.configure()`.
 
+Add the following code to your `onCreate()` method in your application class:
 
-Add the following code to the bottom of your MainActivity `onCreate` method (ideally this would go in your Application class but this works for getting started quickly):
+<amplify-block-switcher>
+<amplify-block name="Java">
 
 ```java
-try {
-    Amplify.addPlugin(new AWSCognitoAuthPlugin());
-    Amplify.addPlugin(new AWSApiPlugiin());
-    Amplify.configure(getApplicationContext());
-    Log.i("APIQuickstart", "Amplify configured with api and auth plugin");
-} catch (Exception exception) {
-    Log.e("APIQuickstart", exception.getMessage(), exception);
+Amplify.addPlugin(new AWSCognitoAuthPlugin());
+Amplify.addPlugin(new AWSApiPlugiin());
+```
+
+Your class will look like this:
+
+```java
+public class MyAmplifyApp extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        try {
+            // Add these lines to add the AWSCognitoAuthPlugin and AWSApiPlugiin plugins
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.addPlugin(new AWSApiPlugiin());
+            Amplify.configure(getApplicationContext());
+
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+        }
+    }
 }
-
 ```
 
-Upon building and running this application you should see the following in your console window:
+</amplify-block>
+<amplify-block name="Kotlin">
 
-```bash
-Amplify configured with api and auth plugin
+```kotlin
+Amplify.addPlugin(AWSCognitoAuthPlugin())
+Amplify.addPlugin(AWSApiPlugiin())
 ```
+
+Your class will look like this:
+
+```kotlin
+class MyAmplifyApp : Application() {
+    override fun onCreate() {
+        super.onCreate()
+
+        try {
+            // Add these lines to add the AWSCognitoAuthPlugin and AWSApiPlugiin plugins
+            Amplify.addPlugin(AWSCognitoAuthPlugin())
+            Amplify.addPlugin(AWSApiPlugiin())
+            Amplify.configure(applicationContext)
+
+            Log.i("MyAmplifyApp", "Initialized Amplify")
+        } catch (error: AmplifyException) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
+        }
+    }
+}
+```
+
+</amplify-block>
+</amplify-block-switcher>
