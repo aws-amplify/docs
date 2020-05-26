@@ -44,7 +44,7 @@ _ = Amplify.Storage.downloadFile(key: "myKey", local: downloadToFileName,
 You can also retrieve a URL for the object in storage:
 
 ```swift
-Amplify.Storage.getURL(key: "myKey") { event in
+_ = Amplify.Storage.getURL(key: "myKey") { event in
     switch event {
     case let .success(url):
         print("Completed: \(url)")

@@ -7,9 +7,8 @@ func getEscapeHatch() {
     do {
         let plugin = try Amplify.Storage.getPlugin(for: "awsS3StoragePlugin") as! AWSS3StoragePlugin
         let awsS3 = plugin.getEscapeHatch()
-        XCTAssertNotNil(awsS3)
     } catch {
-        XCTFail("Failed to get AWSS3 instance")
+        print("Get escape hatch failed with error - \(error)")
     }
 }
 ```
