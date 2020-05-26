@@ -9,7 +9,7 @@ filterKey: integration
 
 ## Next steps
 
-In this tutorial, you created an application that persists data both locally on the device and in the cloud. You are now ready to start exploring additional Amplify categories to your application.
+In this tutorial, you created an application that persists data both locally on the device and in the cloud. You are now ready to start exploring additional Amplify categories to add to your application.
 
 - [Authentication](~/lib/auth/getting-started.md)
 - [Storage](~/lib/storage/getting-started.md)
