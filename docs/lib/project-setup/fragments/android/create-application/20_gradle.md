@@ -1,6 +1,6 @@
 Amplify for Android is distributed as Apache Maven packages. In this section, you'll add the packages and other required directives to your build configuration.
 
-Expand **Gradle Scripts** and open **build.gradle (Project: Todo)**.
+Expand **Gradle Scripts** and open **build.gradle (Project: `MyAmplifyApp`)**.
 
 Add the following lines:
 
