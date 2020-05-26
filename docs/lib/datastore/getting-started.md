@@ -1,52 +1,132 @@
 ---
 title: Getting started
-description: Amplify DataStore provides a programming model for leveraging shared and distributed data without writing additional code for offline and online scenarios, which makes working with distributed, cross-user data just as simple as working with local-only data.
+description: The Amplify DataStore category enables developers to write applications whose data lives in the mobile device for instant/offline-first access while synchronization with a cloud backend is handled automatically.
 ---
 
-## Datastore with Amplify
+The Amplify DataStore category enables developers to write applications whose data lives in the mobile device for instant/offline-first access while synchronization with a cloud backend powered by [AppSync](https://aws.amazon.com/appsync/) is handled automatically, which makes working with distributed, cross-user data just as simple as working with local-only data.
 
-Amplify DataStore provides a programming model for leveraging shared and distributed data without writing additional code for offline and online scenarios, which makes working with distributed, cross-user data just as simple as working with local-only data.
+**Note:** cloud synchronization is optional and disabled by default. This allows developers to start with Amplify DataStore right away, even without an AWS account.
 
-<amplify-callout>
+## Goal
+To setup and configure your application with Amplify DataStore and go through a basic create/read example to make sure data is persisted in the device.
 
-DataStore can be used as a local-only data persistence mechanism and an AWS account is not required for that. However, if you wish to sync with the cloud it is recommended you [Install and configure the Amplify CLI](~/cli/start/install.md).
+## Prerequisites
 
-</amplify-callout>
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/10_preReq.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/10_preReq.md"></inline-fragment>
 
-## Generate models
+## Data schema
 
-Modeling your data and *generating models* which are used by DataStore is the first step to get started. GraphQL is used as a common language across all supported platforms for this process, and is also used as the network protocol when syncing with the cloud. GraphQL is also what powers some of the features such as [Automerge in AppSync](https://docs.aws.amazon.com/appsync/latest/devguide/conflict-detection-and-sync.html#automerge).
+The first step to create an app backed by a persistent datastore is to **define a schema**. Amplify DataStore uses GraphQL schema files as the the definition of the application data model. The schema contains data types and relationships that represent the app functionality.
 
 ### Sample schema
 
-For the purpose of this guide, let's use the following simple GraphQL schema:
+For the sake of simplicity, the schema will represent a small *Blogging App* and will start with a single model: a `Post`. New types and constructs will be added to this base schema as more concepts are presented.
+
+Open the `schema.graphql` file located by default at `amplify/backend/{api_name}/`  and **define the model** `Post` as follows.
 
 ```graphql
-enum PostStatus {
-  ACTIVE
-  INACTIVE
-}
-
 type Post @model {
   id: ID!
   title: String!
-  rating: Int!
-  status: PostStatus!
+  content: String
 }
 ```
 
-<inline-fragment platform="js" src="~/lib/datastore/fragments/js/getting-started/generate-models.md"></inline-fragment>
-<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/generate-models.md"></inline-fragment>
-<inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/generate-models.md"></inline-fragment>
+## Install Amplify Libraries
 
-## Configuration
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/20_installLib.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/20_installLib.md"></inline-fragment>
 
-Amplify DataStore follows convention over configuration and it is initialized with nice defaults whenever possible. Moreover, the Amplify CLI generates most of the boilerplate necessary to setup your app.
+## Idiomatic persistence: Models
 
-### Schema
+Amplify DataStore relies on platform standard data structures to represent the data schema in an idiomatic way. The persistence language is composed by data types that satisfies the `Model` interface and operations defined by common verbs such as `save`, `query` and `delete`.
 
-The main configuration required by DataStore is the *schema*. The schema defines all the models and their fields. It is created from the aforementioned `schema.graphql` and it is used by the DataStore implementation to provision all the storage infrastructure, both locally and on the cloud.
+In order to start choose an option to **generate models** from the `schema.graphql`.
 
-<inline-fragment platform="js" src="~/lib/datastore/fragments/js/getting-started/configuration.md"></inline-fragment>
-<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/configuration.md"></inline-fragment>
-<inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/configuration.md"></inline-fragment>
+### Option 1: Use AmplifyTools
+
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/30_amplifyTools.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/30_amplifyTools.md"></inline-fragment>
+
+### Option 2: Use Amplify CLI
+
+If more control over the configuration and code generation process is needed the Amplify CLI can be used directly. This option is also useful for **existing codebases** with Amplify already configured.
+
+The base structure for a DataStore app is created by adding a new GraphQL API to your app.
+
+```console
+amplify add api
+```
+
+During the API configuration process select **GraphQL** as the API type and reply to the questions as follows. Make sure you respond **yes** to **advanced settings** and turn on **conflict detection**. This setting is critical when syncing data to the cloud since the conflict resolution strategy is what allows local data to be reconciled with data from the cloud backend.
+
+```console
+? Please select from one of the below mentioned services:
+    `GraphQL`
+? Choose the default authorization type for the API
+    `API key`
+? Enter a description for the API key:
+    `defaultapikey`
+? After how many days from now the API key should expire (1-365):
+    `365`
+? Do you want to configure advanced settings for the GraphQL API
+    `Yes, I want to make some additional changes.`
+? Configure additional auth types?
+    `No`
+? Configure conflict detection?
+    `Yes`
+? Select the default resolution strategy
+    `Auto Merge`
+? Do you want to override default per model settings?
+    `No`
+```
+
+Generate the models by running in the terminal.
+
+```console
+amplify codegen models
+```
+
+The files should be generated at `amplify/generated/models/`, add them to your Xcode project (TODO elaborate on how to do it?).
+
+<amplify-callout>
+
+**Troubleshooting:** without the **conflict detection** configuration cloud sync will fail. If that's the case use `amplify update api` and choose **Enable DataStore for entire API** (this option will enable the conflict detection as described above).
+
+</amplify-callout>
+
+## Initialize Amplify Storage
+
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/40_initDataStore.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/40_initDataStore.md"></inline-fragment>
+
+## Persistence operations
+
+Now the application is ready to execute persistence operations. The data will be persisted to a local database, enabling offline-first use cases by default.
+
+Even though a GraphQL API is already added to your project, the cloud synchronization will only be enabled when the API plugin is initialized and the backend provisioned. See the [Next steps](#next-steps) for more info.
+
+### Writing to the database
+
+To write to the database, create a instance of the `Post` model and save it.
+
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/50_saveSnippet.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/50_saveSnippet.md"></inline-fragment>
+
+### Reading from the database
+
+To read from the database, the simplest approach is to query for all records of a given model type.
+
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/60_querySnippet.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/60_querySnippet.md"></inline-fragment>
+
+## Next steps
+
+Congratulations! You’ve created and retrieved data from the local database. Check out the following links to see other Amplify DataStore use cases and advanced concepts:
+
+- Queries with conditions and pagination
+- Delete records
+- Cloud synchronization
+- Model associations
+- Clear the local database
