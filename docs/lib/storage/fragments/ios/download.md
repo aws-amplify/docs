@@ -15,7 +15,7 @@ _ = Amplify.Storage.downloadData(key: "myKey",
         case let .failure(storageError):
             print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
     }
-}
+})
 ```
 
 ### Download to file
@@ -36,7 +36,7 @@ _ = Amplify.Storage.downloadFile(key: "myKey", local: downloadToFileName,
         case .failure(let storageError):
             print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
     }
-}
+})
 ```
 
 ### Generate a download URL
