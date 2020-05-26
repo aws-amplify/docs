@@ -1,14 +1,13 @@
-The primary use case for remembering a device that user signed in with is reducing friction when using Multi-Factor Authentication (MFA).  If MFA is enabled for an Amazon Cognito user pool, end users have to type in a security code received by E-mail or SMS each time they want to sign in.  This increases security but comes at the expense of user experience.
+Remembering a device is useful in conjunction with Multi-Factor Authentication (MFA).  If MFA is enabled for an Amazon Cognito user pool, end users have to type in a security code received via e-mail or SMS each time they want to sign in.  This increases security but comes at the expense of the user's experience.
 
-Remembering a device that user logged in with acts as a second factor of authentication, thereby reducing friction in the user experience.
+Remembering a device allows the second factor requirement to be automatically met when the user signs in on that device, thereby reducing friction in the user experience.
 
 ## Prerequisites
-* An iOS application targeting at least iOS 11.0
-* Integrated with Amplify Auth and ability to sign in with an account
-  * For a full example, see: [Auth Getting Started](~/lib/auth/getting-started.md)
+<inline-fragment platform="ios" src="~/lib/auth/fragments/ios/getting_started/10_preReq.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/auth/fragments/android/getting_started/10_preReq.md"></inline-fragment>
 
 ## Configure the Backend
-To enable "Remember a device" open the Cognito User Pool console.  To do this, **go to your project directory** and **issue the command**:
+To enable remembered device functionality, open the Cognito User Pool console.  To do this, **go to your project directory** and **issue the command**:
 ```bash
 amplify auth console
 ```
@@ -23,9 +22,9 @@ When the console opens, **click on Devices** from the left navigation menu, whic
 
 ![auth](~/images/auth/webconsole_remember1.png)
 
-To enable remember a device, **choose either Always or User Opt in** depending on whether you always want to remember a user's device or give the user the ability to choose.
+**Choose either Always or User Opt in** depending on whether you want to remember a user's device by default or give the user the ability to choose.
 
-If MFA is enabled for the cognito user pool, you will have the option to suppress the second factor during multi-factor authentication.  **Choose** Yes if you want a remembered device to be used as a second factor mechanism or No otherwise.
+If MFA is enabled for the Cognito user pool, you will have the option to suppress the second factor during multi-factor authentication.  **Choose Yes** if you want a remembered device to be used as a second factor mechanism or No otherwise.
 
 ![auth](~/images/auth/webconsole_remember2.png)
 
@@ -38,7 +37,7 @@ You can mark your device as remembered:
 <inline-fragment platform="android" src="~/lib/auth/fragments/android/device_features/10_rememberDevice.md"></inline-fragment>
 
 ### Forget Device
-You can forget your device by using the following API.  Note that forgetten devices are still tracked.  See below for the difference between remembered, forgotten and tracked.
+You can forget your device by using the following API.  Note that forgotten devices are still tracked.  See below for the difference between remembered, forgotten and tracked.
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/device_features/20_forgetDevice.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/auth/fragments/android/device_features/20_forgetDevice.md"></inline-fragment>
 
