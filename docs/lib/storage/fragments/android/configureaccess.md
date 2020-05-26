@@ -30,8 +30,8 @@ private void uploadFile(String key, File file) {
             key,
             file,
             options,
-            result -> Log.i("MyAmplifyApplication", "Successfully uploaded: " + key),
-            error -> Log.e("MyAmplifyApplication", "Upload failed", error)
+            result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + key),
+            error -> Log.e("MyAmplifyApp", "Upload failed", error)
     );
 }
 ```
@@ -49,8 +49,8 @@ private fun uploadFile(key: String, file: File) {
         key,
         file,
         options,
-        { Log.i("MyAmplifyApplication", "Successfully uploaded: $key" )},
-        { error -> Log.e("MyAmplifyApplication", "Upload failed", error)}
+        { Log.i("MyAmplifyApp", "Successfully uploaded: $key" )},
+        { error -> Log.e("MyAmplifyApp", "Upload failed", error)}
     )
 }
 ```
@@ -75,8 +75,8 @@ private void downloadFile(File file, String key, String otherUserId) {
             key,
             file,
             options,
-            result -> Log.i("MyAmplifyApplication", "Successfully downloaded: " + key),
-            error -> Log.e("MyAmplifyApplication", "Download failed", error)
+            result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + key),
+            error -> Log.e("MyAmplifyApp", "Download failed", error)
     );
 }
 ```
@@ -95,8 +95,8 @@ private fun downloadFile(file: File, key: String, otherUserId: String) {
         key,
         file,
         options,
-        { Log.i("MyAmplifyApplication", "Successfully downloaded: $key") },
-        { error -> Log.e("MyAmplifyApplication", "Download failed", error) }
+        { Log.i("MyAmplifyApp", "Successfully downloaded: $key") },
+        { error -> Log.e("MyAmplifyApp", "Download failed", error) }
     )
 }
 ```
@@ -122,8 +122,8 @@ private void uploadFile(String key, File file) {
             key,
             file,
             options,
-            result -> Log.i("MyAmplifyApplication", "Successfully uploaded: " + key,
-            error -> Log.e("MyAmplifyApplication", "Upload failed", error)
+            result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + key,
+            error -> Log.e("MyAmplifyApp", "Upload failed", error)
     );
 }
 ```
@@ -141,8 +141,8 @@ private fun uploadFile(key: String, file: File) {
         key,
         file,
         options,
-        { Log.i("MyAmplifyApplication", "Successfully uploaded: $key") },
-        { error -> Log.e("MyAmplifyApplication", "Upload failed", error)}
+        { Log.i("MyAmplifyApp", "Successfully uploaded: $key") },
+        { error -> Log.e("MyAmplifyApp", "Upload failed", error)}
     )
 }
 ```
@@ -167,8 +167,8 @@ private void downloadFile(File file, String key, String userId) {
             key,
             file,
             options,
-            result -> Log.i("MyAmplifyApplication", "Successfully downloaded: " + key),
-            error -> Log.e("MyAmplifyApplication", "Download failed", error)
+            result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + key),
+            error -> Log.e("MyAmplifyApp", "Download failed", error)
     );
 }
 ```
@@ -187,8 +187,8 @@ private fun downloadFile(file: File, key: String, userId: String) {
         key,
         file,
         options,
-        { Log.i("MyAmplifyApplication", "Successfully downloaded: $key") },
-        { error -> Log.e("MyAmplifyApplication", "Download failed", error) }
+        { Log.i("MyAmplifyApp", "Successfully downloaded: $key") },
+        { error -> Log.e("MyAmplifyApp", "Download failed", error) }
 }
 ```
 

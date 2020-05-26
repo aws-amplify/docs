@@ -13,7 +13,7 @@ Amplify.addPlugin(new AWSS3StoragePlugin());
 Your class will look like this:
 
 ```java
-public class MyAmplifyApplication extends Application {
+public class MyAmplifyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
@@ -24,9 +24,9 @@ public class MyAmplifyApplication extends Application {
             Amplify.addPlugin(new AWSS3StoragePlugin());
             Amplify.configure(getApplicationContext());
 
-            Log.i("MyAmplifyApplication", "Initialized Amplify");
+            Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
-            Log.e("MyAmplifyApplication", "Could not initialize Amplify", error);
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
         }
     }
 }
@@ -43,7 +43,7 @@ Amplify.addPlugin(AWSPredictionsPlugin())
 Your class will look like this:
 
 ```kotlin
-class MyAmplifyApplication : Application() {
+class MyAmplifyApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
@@ -53,9 +53,9 @@ class MyAmplifyApplication : Application() {
             Amplify.addPlugin(AWSS3StoragePlugin())
             Amplify.configure(applicationContext)
 
-            Log.i("MyAmplifyApplication", "Initialized Amplify")
+            Log.i("MyAmplifyApp", "Initialized Amplify")
         } catch (error: AmplifyException) {
-            Log.e("MyAmplifyApplication", "Could not initialize Amplify", error)
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
         }
     }
 }

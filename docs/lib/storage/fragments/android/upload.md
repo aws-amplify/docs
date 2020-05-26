@@ -12,14 +12,14 @@ private void uploadFile() {
         writer.append("Example file contents");
         writer.close();
     } catch (Exception exception) {
-        Log.e("MyAmplifyApplication", "Upload failed", exception);
+        Log.e("MyAmplifyApp", "Upload failed", exception);
     }
 
     Amplify.Storage.uploadFile(
             "ExampleKey",
             exampleFile,
-            result -> Log.i("MyAmplifyApplication", "Successfully uploaded: " + result.getKey()),
-            storageFailure -> Log.e("MyAmplifyApplication", "Upload failed", storageFailure)
+            result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+            storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
     );
 }
 ```
@@ -36,8 +36,8 @@ private fun uploadFile() {
     Amplify.Storage.uploadFile(
         "ExampleKey",
         exampleFile,
-        { result -> Log.i("MyAmplifyApplication", "Successfully uploaded: " + result.getKey()) },
-        { error -> Log.e("MyAmplifyApplication", "Upload failed", error) }
+        { result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()) },
+        { error -> Log.e("MyAmplifyApp", "Upload failed", error) }
     )
 }
 ```

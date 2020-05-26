@@ -8,10 +8,10 @@ Amplify.Storage.list(
         "/",
         result -> {
             for (StorageItem item : result.getItems()) {
-                Log.i("MyAmplifyApplication", "Item: " + item.getKey());
+                Log.i("MyAmplifyApp", "Item: " + item.getKey());
             }
         },
-        error -> Log.e("MyAmplifyApplication", "List failure", error)
+        error -> Log.e("MyAmplifyApp", "List failure", error)
 );
 ```
 
@@ -23,10 +23,10 @@ Amplify.Storage.list(
     "/",
     { result ->
         result.getItems().forEach { item ->
-            Log.i("MyAmplifyApplication", "Item: " + item.getKey())
+            Log.i("MyAmplifyApp", "Item: " + item.getKey())
         }
     },
-    { error -> Log.e("MyAmplifyApplication", "List failure", error) }
+    { error -> Log.e("MyAmplifyApp", "List failure", error) }
 )
 ```
 
@@ -49,10 +49,10 @@ Amplify.Storage.list(
         options,
         result -> {
             for (StorageItem item : result.getItems()) {
-                Log.i("MyAmplifyApplication", "Item: " + item.getKey());
+                Log.i("MyAmplifyApp", "Item: " + item.getKey());
             }
         },
-        error -> Log.e("MyAmplifyApplication", "List failure", error)
+        error -> Log.e("MyAmplifyApp", "List failure", error)
 );
 ```
 
@@ -73,7 +73,7 @@ Amplify.Storage.list(
             Log.i("AmplifyApplication", "Item: " + item)
         }
     },
-    { error -> Log.e("MyAmplifyApplication", "List failure", error) }
+    { error -> Log.e("MyAmplifyApp", "List failure", error) }
 )
 ```
 
