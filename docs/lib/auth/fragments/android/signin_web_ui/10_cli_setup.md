@@ -1,4 +1,4 @@
-In terminal, navigate to your project, run `amplify add auth`, and choose the following options:
+In terminal, navigate to your project, run `amplify add auth` (or if you've already added it, run `amplify update auth`), and choose the following options:
 
 ```terminal
 Do you want to use the default authentication and security configuration? Default configuration with Social Provider (Federation)
@@ -9,7 +9,7 @@ Enter your redirect signin URI: myapp://callback/
 ? Do you want to add another redirect signin URI No
 Enter your redirect signout URI: myapp://signout/
 ? Do you want to add another redirect signout URI No
-Select the social providers you want to configure for your user pool:
+Select the social providers you want to configure for your user pool: <hit enter>
 ```
 
 Once finished, run `amplify push` to publish your changes.
