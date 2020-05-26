@@ -31,7 +31,7 @@ import {
 } from "../../utils/filters";
 import {
   filterOptionsByName,
-  frameworkFilterMetadataByOption,
+  integrationFilterMetadataByOption,
 } from "../../utils/filter-data";
 import {
   SetSelectedFilters,
@@ -182,8 +182,8 @@ export class DocsPage {
                   this.setSelectedFilters({[this.filterKey]: this.filterValue});
 
                   const filterMetadata =
-                    frameworkFilterMetadataByOption[this.filterValue];
-                  if (filterMetadata && filterMetadata.label) {
+                    integrationFilterMetadataByOption[this.filterValue];
+                  if (filterMetadata?.label) {
                     this.setNewSelectedTabHeading(filterMetadata.label);
                   }
                 }
