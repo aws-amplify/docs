@@ -94,6 +94,7 @@ Now that your have DataStore persisting data locally, in the next step you'll co
             items {
                 id
                 name
+                priority
                 description
             }
         }
