@@ -1,6 +1,7 @@
-Add `import AmplifyPlugins` and then the following code:
+```swift
 
-```
+import AmplifyPlugins
+
 func getEscapeHatch() {
     do {
         let plugin = try Amplify.Auth.getPlugin(for: "awsCognitoAuthPlugin") as! AWSCognitoAuthPlugin
