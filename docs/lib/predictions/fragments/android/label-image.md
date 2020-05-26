@@ -40,7 +40,7 @@ public void detectLabels(Bitmap image) {
                 Label label = identifyResult.getLabels().get(0);
                 Log.i("MyAmplifyApplication", label.getName());
             },
-            error -> Log.e("MyAmplifyApplication", error.toString(), error)
+            error -> Log.e("MyAmplifyApplication", "Label detection failed", error)
     );
 }
 ```
@@ -59,7 +59,7 @@ fun detectLabels(image: Bitmap) {
             Log.i("MyAmplifyApplication", label.getName())
         },
         Consumer { error: PredictionsException ->
-            Log.e("MyAmplifyApplication", "Label detection failed.", error)
+            Log.e("MyAmplifyApplication", "Label detection failed", error)
         }
     )
 }

@@ -9,7 +9,7 @@ Amplify.Predictions.translateText(
         LanguageType.ENGLISH,
         LanguageType.SPANISH,
         result -> Log.i("MyAmplifyApplication", result.getTranslatedText()),
-        error -> Log.e("MyAmplifyApplication", "Translation failed.", error)
+        error -> Log.e("MyAmplifyApplication", "Translation failed", error)
 );
 ```
 
