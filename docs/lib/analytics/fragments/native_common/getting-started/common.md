@@ -47,6 +47,14 @@ Upon completion, `amplifyconfiguration.json` should be updated to reference prov
 <inline-fragment platform="ios" src="~/lib/analytics/fragments/ios/getting-started/40_record.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/analytics/fragments/android/getting-started/40_record.md"></inline-fragment>
 
+## View Analytics Console
+
+From the terminal run the following command. Navigate to the Analytics tab, and then choose View in Pinpoint.
+
+```console
+amplify console analytics
+```
+
 Next Steps:
 
 Congratulations! Now that you have Analytics' backend provisioned and Analytics library installed.  Check out the following links to see Amplify Analytics use cases:

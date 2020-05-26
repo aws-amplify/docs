@@ -12,11 +12,3 @@ func recordEvents() {
     Amplify.Analytics.record(event: event)
 }
 ```
-
-## View Analytics Console
-
-From the terminal run the following command. Navigate to the Analytics tab, and then choose View in Pinpoint.
-
-```console
-amplify console analytics
-```

@@ -284,4 +284,11 @@ Analytics.configure({
 
 ```
 
-The default provider (Amazon Pinpoint) is in use when you call `Analytics.record()` unless you specify a different provider: `Analytics.record({..},'MyAnalyticsProvider')`. 
+The default provider (Amazon Pinpoint) is in use when you call `Analytics.record()` unless you specify a different provider: `Analytics.record({..},'MyAnalyticsProvider')`.
+
+## View Analytics Console
+
+From the terminal run the following command. Navigate to the Analytics tab, and then choose View in Pinpoint.
+```console
+amplify console analytics
+```
