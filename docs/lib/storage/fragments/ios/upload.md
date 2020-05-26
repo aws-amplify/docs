@@ -20,7 +20,7 @@ When you have a file that you want to upload, you can specify the url to the fil
 
 ```swift
 let dataString = "My Data"
-let fileNameKey = "myFile2.txt"
+let fileNameKey = "myFile.txt"
 let filename = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     .appendingPathComponent(fileNameKey)
 do {
