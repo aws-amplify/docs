@@ -20,9 +20,10 @@ amplify add analytics
 ```
 
 ```console
+? Select an Analytics provider (Use arrow keys)
+    `Amazon Pinpoint`
 ? Provide your pinpoint resource name: 
     `yourPinpointResourceName`
-Adding analytics would add the Auth category to the project if not already added.
 ? Apps need authorization to send analytics events. Do you want to allow guests and unauthenticated users to send analytics events? (we recommend you allow this when getting started) 
     `Yes`
 ```
@@ -33,21 +34,24 @@ To deploy your backend, run:
 amplify push
 ```
 
-Upon completion, `amplifyconfiguration.json` should be updated to reference provisioned backend analytics resources.  Note that these files should already be a part of your project if you followed the [Project setup walkthrough](~/lib/project-setup/create-application.md).
+Upon completion, `amplifyconfiguration.json` should be updated to reference provisioned backend analytics resources. Note that these files should already be a part of your project if you followed the [Project setup walkthrough](~/lib/project-setup/create-application.md).
 
 ## Install Amplify Libraries
+
 <inline-fragment platform="ios" src="~/lib/analytics/fragments/ios/getting-started/20_installLib.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/analytics/fragments/android/getting-started/20_installLib.md"></inline-fragment>
 
 ## Initialize Amplify Analytics
+
 <inline-fragment platform="ios" src="~/lib/analytics/fragments/ios/getting-started/30_initAnalytics.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/analytics/fragments/android/getting-started/30_initAnalytics.md"></inline-fragment>
 
-## Record Events
+## Record events
+
 <inline-fragment platform="ios" src="~/lib/analytics/fragments/ios/getting-started/40_record.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/analytics/fragments/android/getting-started/40_record.md"></inline-fragment>
 
-## View Analytics Console
+## View Analytics console
 
 From the terminal run the following command. Navigate to the Analytics tab, and then choose View in Pinpoint.
 
