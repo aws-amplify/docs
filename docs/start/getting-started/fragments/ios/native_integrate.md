@@ -38,7 +38,7 @@ First, we'll add the DataStore plugin and configure Amplify.
     ```swift
     [Amplify] Configuring
     Initialized Amplify
-    [AWSDataStorePlugin] Unable to find suitable plugin for syncEngine.  syncEngine will not be started
+    [AWSDataStorePlugin] Unable to find suitable API plugin for syncEngine.  syncEngine will not be started
     ```
 
 ## Create a Todo
