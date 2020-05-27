@@ -1,6 +1,6 @@
 To start provisioning resources in the backend, change directories to your project directory and run `amplify init`:
+
 ```bash
-cd ~/Developer/MyAmplifyApp/
 amplify init
 ```
 
