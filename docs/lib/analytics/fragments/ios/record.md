@@ -84,20 +84,12 @@ For advanced use cases where Amplify does not provide the functionality, you can
 Add `import AmplifyPlugins` and then the following code:
 
 ```swift
- unc getEscapeHatch(completion: @escaping(Result<AWSPinpoint, Error>) -> Void) {
-    var plugin: AnalyticsCategoryPlugin?
-    
-    do{
-        plugin = try Amplify.Analytics.getPlugin(for: "awsPinpointAnalyticsPlugin")
+func getEscapeHatch() {
+    do {
+        let plugin = try Amplify.Analytics.getPlugin(for: "awsPinpointAnalyticsPlugin") as! AWSPinpointAnalyticsPlugin
+        let awsPinpoint = plugin.getEscapeHatch()
     } catch {
-        print("Error trying to get AWSPinpointAnalyticsPlugin")
+        print("Get escape hatch failed with error - \(error)")
     }
-    
-    guard let pinpointAnalyticsPlugin = plugin as? AWSPinpointAnalyticsPlugin else {
-        print("Could not get plugin of type AWSPinpointAnalyticsPlugin")
-        return
-    }
-    let awsPinpoint = pinpointAnalyticsPlugin.getEscapeHatch()
-    completion(.success(awsPinpoint))
 }
 ```
