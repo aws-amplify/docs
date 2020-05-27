@@ -10,26 +10,26 @@ User editor = User.builder()
     .username("Nadia")
     .build();
 
+PostEditor postEditor = PostEditor.builder()
+    .post(post)
+    .editor(editor)
+    .build();
+
 Amplify.DataStore.save(post,
     savedPost -> {
-        Log.i("GetStarted", "Post saved.");
-
+        Log.i("MyAmplifyApp", "Post saved.");
         Amplify.DataStore.save(editor,
             savedEditor -> {
-                Log.i("GetStarted", "Editor saved.");
-                PostEditor postEditor = PostEditor.builder()
-                    .post(post)
-                    .editor(editor)
-                    .build();
+                Log.i("MyAmplifyApp", "Editor saved.");
                 Amplify.DataStore.save(postEditor,
-                    saved -> Log.i("GetStarted", "PostEditor saved."),
-                    failure -> Log.e("GetStarted", "PostEditor not saved.", failure)
+                    saved -> Log.i("MyAmplifyApp", "PostEditor saved."),
+                    failure -> Log.e("MyAmplifyApp", "PostEditor not saved.", failure)
                 );
             },
-            failure -> Log.e("GetStarted", "Editor not saved.", failure)
+            failure -> Log.e("MyAmplifyApp", "Editor not saved.", failure)
         );
     },
-    failure -> Log.e("GetStarted", "Post not saved.", failure)
+    failure -> Log.e("MyAmplifyApp", "Post not saved.", failure)
 );
 ```
 
@@ -45,25 +45,26 @@ val editor = User.builder()
     .username("Nadia")
     .build()
 
+val postEditor = PostEditor.builder()
+        .post(post)
+        .editor(editor)
+        .build()
+
 Amplify.DataStore.save(post,
     {
-        Log.i("GetStarted", "Post saved.")
+        Log.i("MyAmplifyApp", "Post saved.")
         Amplify.DataStore.save(editor,
             {
-                Log.i("GetStarted", "Editor saved.")
-                val postEditor = PostEditor.builder()
-                    .post(post)
-                    .editor(editor)
-                    .build()
+                Log.i("MyAmplifyApp", "Editor saved.")
                 Amplify.DataStore.save(postEditor,
-                    { Log.i("GetStarted", "PostEditor saved.") },
-                    { failure -> Log.e("GetStarted", "PostEditor not saved.", failure) }
+                    { Log.i("MyAmplifyApp", "PostEditor saved.") },
+                    { Log.e("MyAmplifyApp", "PostEditor not saved.", it) }
                 )
             },
-            { failure -> Log.e("GetStarted", "Editor not saved.", failure) }
+            { Log.e("MyAmplifyApp", "Editor not saved.", it) }
         )
     },
-    { failure -> Log.e("GetStarted", "Post not saved.", failure) }
+    { Log.e("MyAmplifyApp", "Post not saved.", it) }
 )
 ```
 

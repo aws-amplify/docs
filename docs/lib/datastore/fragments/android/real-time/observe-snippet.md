@@ -3,13 +3,13 @@
 
 ```java
 Amplify.DataStore.observe(Post.class,
-    cancelable -> Log.i("GetStarted", "Observation began."),
+    cancelable -> Log.i("MyAmplifyApp", "Observation began."),
     postChanged -> {
         Post post = postChanged.item();
-        Log.i("GetStarted", "Post: " + post);
+        Log.i("MyAmplifyApp", "Post: " + post);
     },
-    failure -> Log.e("GetStarted", "Observation failed.", failure),
-    () -> Log.i("GetStarted", "Observation complete.")
+    failure -> Log.e("MyAmplifyApp", "Observation failed.", failure),
+    () -> Log.i("MyAmplifyApp", "Observation complete.")
 );
 ```
 
@@ -18,13 +18,10 @@ Amplify.DataStore.observe(Post.class,
 
 ```kotlin
 Amplify.DataStore.observe(Post::class.java,
-    { Log.i("GetStarted", "Observation began.") },
-    { postChanged ->
-        val post = postChanged.item
-        Log.i("GetStarted", "Post: $post")
-    },
-    { failure -> Log.e("GetStarted", "Observation failed.", failure) },
-    { Log.i("GetStarted", "Observation complete.") }
+    { Log.i("MyAmplifyApp", "Observation began.") },
+    { Log.i("MyAmplifyApp", "Post: ${it.item}") },
+    { Log.e("MyAmplifyApp", "Observation failed.", it) },
+    { Log.i("MyAmplifyApp", "Observation complete.") }
 )
 ```
 

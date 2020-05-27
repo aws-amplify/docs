@@ -8,19 +8,20 @@ Post post = Post.builder()
     .status(PostStatus.ACTIVE)
     .build();
 
+Comment comment = Comment.builder()
+    .post(post) // Directly pass in the post instance
+    .content("Loving Amplify DataStore!")
+    .build();
+
 Amplify.DataStore.save(post,
     savedPost -> {
-        Log.i("GetStarted", "Post saved.");
-        Comment comment = Comment.builder()
-            .post(post) // Directly pass in the post instance
-            .content("Loving Amplify DataStore!")
-            .build();
+        Log.i("MyAmplifyApp", "Post saved.");
         Amplify.DataStore.save(comment,
-            savedComment -> Log.i("GetStarted", "Comment saved."),
-            failure -> Log.e("GetStarted", "Comment not saved.", failure)
+            savedComment -> Log.i("MyAmplifyApp", "Comment saved."),
+            failure -> Log.e("MyAmplifyApp", "Comment not saved.", failure)
         );
     },
-    failure -> Log.e("GetStarted", "Post not saved.", failure)
+    failure -> Log.e("MyAmplifyApp", "Post not saved.", failure)
 );
 ```
 
@@ -34,19 +35,20 @@ val post = Post.builder()
     .status(PostStatus.ACTIVE)
     .build()
 
+val comment = Comment.builder()
+    .post(post) // Directly pass in the post instance
+    .content("Loving Amplify DataStore!")
+    .build()
+
 Amplify.DataStore.save(post,
     {
-        Log.i("GetStarted", "Post saved.")
-        val comment = Comment.builder()
-            .post(post) // Directly pass in the post instance
-            .content("Loving Amplify DataStore!")
-            .build()
+        Log.i("MyAmplifyApp", "Post saved.")
         Amplify.DataStore.save(comment,
-            { Log.i("GetStarted", "Comment saved.") },
-            { failure -> Log.e("GetStarted", "Comment not saved.", failure) }
+            { Log.i("MyAmplifyApp", "Comment saved.") },
+            { Log.e("MyAmplifyApp", "Comment not saved.", it) }
         )
     },
-    { failure -> Log.e("GetStarted", "Post not saved.", failure) }
+    { Log.e("MyAmplifyApp", "Post not saved.", it) }
 )
 ```
 

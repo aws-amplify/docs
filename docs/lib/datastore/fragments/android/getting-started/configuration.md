@@ -1,23 +1,33 @@
 ### Initialization
 
-In your app's `onCreate` (or similar lifecycle callback), initialize Amplify:
+Add the following code to your `onCreate()` method in your application class:
 
 <amplify-block-switcher>
 <amplify-block name="Java">
 
 ```java
-Amplify.addPlugin(new AWSDataStorePlugin());
-Amplify.addPlugin(new AWSApiPlugin()); // If using remote model synchronization
-Amplify.configure(getApplicationContext());
+try {
+    Amplify.addPlugin(new AWSDataStorePlugin());
+    Amplify.addPlugin(new AWSApiPlugin()); // If using remote model synchronization
+    Amplify.configure(getApplicationContext());
+    Log.i("MyAmplifyApp", "Initialized Amplify");
+} catch (AmplifyException error) {
+    Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+}
 ```
 
 </amplify-block>
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.addPlugin(AWSDataStorePlugin())
-Amplify.addPlugin(AWSApiPlugin()) // If using remote model synchronization
-Amplify.configure(applicationContext)
+try {
+    Amplify.addPlugin(AWSDataStorePlugin())
+    Amplify.addPlugin(AWSApiPlugin()) // If using remote model synchronization
+    Amplify.configure(applicationContext)
+    Log.i("MyAmplifyApp", "Initialized Amplify")
+} catch (error: AmplifyException) {
+    Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
+}
 ```
 
 </amplify-block>

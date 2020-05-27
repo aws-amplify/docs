@@ -6,10 +6,10 @@ Amplify.DataStore.query(Comment.class, Post.STATUS.eq(PostStatus.ACTIVE),
     matches -> {
         while (matches.hasNext()) {
             Comment comment = matches.next();
-            Log.i("GetStarted", "Content: " + comment.getContent());
+            Log.i("MyAmplifyApp", "Content: " + comment.getContent());
         }
     },
-    failure -> Log.e("GetStarted", "Query failed.", failure)
+    failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
 );
 ```
 
@@ -18,14 +18,14 @@ Amplify.DataStore.query(Comment.class, Post.STATUS.eq(PostStatus.ACTIVE),
 
 ```kotlin
 Amplify.DataStore.query(Comment::class.java, Where.matches(Post.STATUS.eq(PostStatus.ACTIVE)),
-    { matches ->
-        while (matches.hasNext()) {
-            val comment: Comment = matches.next()
+    {
+        while (it.hasNext()) {
+            val comment: Comment = it.next()
             val content: String = comment.content
-            Log.i("GetStarted", "Content: $content")
+            Log.i("MyAmplifyApp", "Content: $content")
         }
     },
-    { failure -> Log.e("GetStarted", "Query failed.", failure) }
+    { Log.e("MyAmplifyApp", "Query failed.", it) }
 )
 ```
 

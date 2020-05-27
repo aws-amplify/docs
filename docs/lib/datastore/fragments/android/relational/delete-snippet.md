@@ -7,12 +7,12 @@ Amplify.DataStore.query(Post.class, Where.id("123"),
         if (match.hasNext()) {
             Post post = match.next();
             Amplify.DataStore.delete(post,
-                deleted -> Log.i("GetStarted", "Post deleted."),
-                failure -> Log.e("GetStarted", "Delete failed.", failure)
+                deleted -> Log.i("MyAmplifyApp", "Post deleted."),
+                failure -> Log.e("MyAmplifyApp", "Delete failed.", failure)
             );
         }
     },
-    failure -> Log.e("GetStarted", "Query failed.", failure)
+    failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
 );
 ```
 
@@ -21,16 +21,16 @@ Amplify.DataStore.query(Post.class, Where.id("123"),
 
 ```kotlin
 Amplify.DataStore.query(Post::class.java, Where.id("123"),
-    { match ->
-        if (match.hasNext()) {
-            val post: Post = match.next()
+    { matches ->
+        if (matches.hasNext()) {
+            val post: Post = matches.next()
             Amplify.DataStore.delete(post,
-                { Log.i("GetStarted", "Post deleted.") },
-                { failure -> Log.e("GetStarted", "Delete failed.", failure) }
+                { Log.i("MyAmplifyApp", "Post deleted.") },
+                { Log.e("MyAmplifyApp", "Delete failed.", it) }
             )
         }
     },
-    { failure -> Log.e("GetStarted", "Query failed.", failure) }
+    { Log.e("MyAmplifyApp", "Query failed.", it) }
 )
 ```
 
