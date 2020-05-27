@@ -44,11 +44,7 @@ export class DocsSecondaryNav {
                   },
                   {
                     label: "Libraries",
-                    url: this.selectedFilters?.platform
-                      ? this.selectedFilters.platform === "js"
-                        ? "/lib"
-                        : "/sdk"
-                      : "/lib",
+                    url: "/lib",
                     additionalActiveChildRoots: ["/lib", "/sdk"],
                   },
                   {

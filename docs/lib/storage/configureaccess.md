@@ -1,6 +1,6 @@
 ---
-title: Configure file access levels
-description: Learn more about how Amplify CLI configures different access levels on the storage bucket - public, protected and private.
+title: File access levels
+description: Learn about configuring different access levels in Amplify Storage. Objects can be public, protected, or private.
 ---
 
 <inline-fragment platform="js" src="~/lib/storage/fragments/js/configureaccess.md"></inline-fragment>

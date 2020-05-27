@@ -28,7 +28,7 @@ const rerouteIfNecessary = (path: string) => {
       path.includes("/lib") &&
       (path.includes("/q/platform/ios") || path.includes("/q/platform/android"))
     ) {
-      return `/sdk/q/platform/${parseURL(path).params?.platform as string}`;
+      return `/lib/q/platform/${parseURL(path).params?.platform as string}`;
     }
     return path;
   })();
