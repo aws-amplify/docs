@@ -12,7 +12,7 @@ Todo todo = Todo.builder()
 
 Amplify.API.mutate(
         ModelMutation.update(todo),
-        response -> Log.i("MyAmplifyApp", "Updated Blog with id: " + response.getData().getId()),
+        response -> Log.i("MyAmplifyApp", "Updated Todo with id: " + response.getData().getId()),
         error -> Log.e("MyAmplifyApp", "Update failed", error)
 );
 ```
