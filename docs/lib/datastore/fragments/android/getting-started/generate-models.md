@@ -19,9 +19,9 @@ apply plugin: 'com.amplifyframework.amplifytools'
 Next, add the following dependencies to your app `build.gradle`:
 
 ```groovy
-implementation 'com.amplifyframework:core:0.10.0'
-implementation 'com.amplifyframework:aws-api:0.10.0' // If using cloud sync
-implementation 'com.amplifyframework:aws-datastore:0.10.0'
+implementation 'com.amplifyframework:core:1.0.0'
+implementation 'com.amplifyframework:aws-api:1.0.0' // If using cloud sync
+implementation 'com.amplifyframework:aws-datastore:1.0.0'
 ```
 
 Sync the project and ensure that it built successfully. Switch to the **Project** view in Android Studio and open the schema file at `amplify/backend/api/amplifyDatasource/schema.graphql`. For this guide, edit this file so that it contains the schema definition below.  [Learn more](https://docs.amplify.aws/cli/graphql-transformer/overview) about annotating GraphQL schemas and data modeling.
