@@ -23,9 +23,9 @@ enum PostStatus {
 
 type Post @model {
   id: ID!
-  title: String!
-  rating: Int!
-  status: PostStatus!
+  title: String
+  rating: Int
+  status: PostStatus
   # New field with @connection
   comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
 }
