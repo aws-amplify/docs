@@ -16,9 +16,6 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.3'
-
-        // Add this line into `dependencies` in `buildscript`
-        classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.1'
     }
 }
 
@@ -31,14 +28,11 @@ allprojects {
         mavenCentral()
     }
 }
-
-// Add this line at the end of the file
-apply plugin: 'com.amplifyframework.amplifytools'
 ```
 
 - Add the line `mavenCentral()` within the `repositories` block in the `buildscript` and `allprojects` blocks
 - Add the line `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.1'` within the `dependencies` block
-- Add the line `apply plugin: 'com.amplifyframework.amplifytools'` at the end of the file 
+- Add the line `apply plugin: 'com.amplifyframework.amplifytools'` at the end of the file
 
 This configuration adds helpers to your IDE to allow easy generation and deployment of Amplify files and resources.
 
@@ -71,5 +65,5 @@ Android Studio requires you to sync your project with your new configuration. To
 ![](~/images/lib/getting-started/android/set-up-android-studio-sync-gradle.png)
 
 When complete, you will see *CONFIGURE SUCCESSFUL* in the output in the *Build* tab at the bottom of your screen.
-    
+
 ![](~/images/lib/getting-started/android/set-up-android-studio-configure-successful.png)
