@@ -1,5 +1,7 @@
 ## GET requests
 
+To make a GET request, first create a RESTRequest object and then use the Amplify.API.get api to issue the request:
+
 ```swift
 func getTodo() {
     let request = RESTRequest(path: "/todo", body: nil)
@@ -23,7 +25,7 @@ If you are using a REST API which is generated with Amplify CLI, your backend is
 
 ```javascript
 exports.handler = function(event, context, callback) {
-    console.log (event.queryStringParameters);
+    console.log(event.queryStringParameters);
     console.log('body: ', event.body);
 }
 ```

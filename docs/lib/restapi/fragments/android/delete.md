@@ -3,9 +3,10 @@
 ```java
 void deleteTodo() {
     RestOptions options = new RestOptions("/todo");
+
     Amplify.API.delete(options,
-            restResponse -> Log.i("ApiGettingStarted", restResponse.toString()),
-            apiFailure -> Log.e("ApiGettingStarted", apiFailure.getMessage(), apiFailure)
+            response -> Log.i("MyAmplifyApp", response.toString()),
+            error -> Log.e("MyAmplifyApp", "DELETE failed", error)
     );
 }
 ```

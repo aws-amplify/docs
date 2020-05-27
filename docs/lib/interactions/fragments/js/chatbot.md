@@ -11,7 +11,7 @@ let userInput = "I want to reserve a hotel for tonight";
 const response = await Interactions.send("BookTrip", userInput);
 
 // Log chatbot response
-console.log (response.message);
+console.log(response.message);
 ```
 
 ## Display end of chat message

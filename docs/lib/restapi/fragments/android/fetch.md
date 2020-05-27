@@ -1,11 +1,14 @@
 ## GET requests
 
+To make a GET request, first create a RestOptions object and then use the Amplify.API.get api to issue the request:
+
 ```java
 void getTodo() {
     RestOptions options = new RestOptions("/todo");
+
     Amplify.API.get(options,
-            restResponse -> Log.i("ApiGettingStarted", restResponse.toString()),
-            apiFailure -> Log.e("ApiGettingStarted", apiFailure.getMessage(), apiFailure)
+            restResponse -> Log.i("MyAmplifyApp", restResponse.toString()),
+            apiFailure -> Log.e("MyAmplifyApp", apiFailure.getMessage(), apiFailure)
     );
 }
 ```
@@ -18,7 +21,7 @@ If you are using a REST API which is generated with Amplify CLI, your backend is
 
 ```javascript
 exports.handler = function(event, context, callback) {
-    console.log (event.queryStringParameters);
+    console.log(event.queryStringParameters);
     console.log('body: ', event.body);
 }
 ```
@@ -53,10 +56,12 @@ void getTodo() {
     HashMap<String, String> queryParameters = new HashMap<String, String>() {{
         put("q", "test");
     }};
+
     RestOptions options = new RestOptions("/todo", queryParameters);
+
     Amplify.API.get(options,
-            restResponse -> Log.i("ApiGettingStarted", restResponse.toString()),
-            apiFailure -> Log.e("ApiGettingStarted", apiFailure.getMessage(), apiFailure)
+            response -> Log.i("MyAmplifyApp", response.toString()),
+            error -> Log.e("MyAmplifyApp", "GET failed", error)
     );
 }
 ```
