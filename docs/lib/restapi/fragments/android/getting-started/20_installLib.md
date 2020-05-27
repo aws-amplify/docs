@@ -4,10 +4,7 @@ Add API by adding these libraries into the `dependencies` block:
 ```groovy
 dependencies {
     implementation 'com.amplifyframework:aws-api:1.0.0'
-    implementation 'com.amplifyframework:aws-auth-cognito:1.0.0'
 }
 ```
-
-`aws-auth-cognito` is used to provide authentication with Amazon API Gateway.
 
 Click **Sync Now**.
