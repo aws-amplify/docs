@@ -14,13 +14,11 @@ Then **add a Build Phase** to your app target.
     ```console
     "${PODS_ROOT}/AmplifyTools/amplify-tools.sh"
     ```
-4. Build the project (`CMD+B`)
-5. Open `amplifytools.xcconfig` and set `modelgen` to `true`
-6. Build the project again (`CMD+B`)
+4. Build the project (`Cmd+b`)
 
-Once the build is done, the following files should be present in the project navigator:
+Once the build is done, a new group named "AmplifyConfig" should be added to your project and contain the following files:
 
-- `AmplifyModels/`
-  - `AmplifyModels.swift`
-  - `Todo.swift`
-  - `Todo+Schema.swift`
+- `AmplifyConfig/`
+  - `amplifytools.xcconfig`
+  - `amplifyconfigutarion.json`
+  - `schema.graphql`

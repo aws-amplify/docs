@@ -113,12 +113,6 @@ Like the initial setup, models can be generated either using the IDE integration
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/40_codegen.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/40_codegen.md"></inline-fragment>
 
-<amplify-callout warning>
-
-**Troubleshooting:** note that when new files are added to your project during an ongoing build, Xcode might cancel the build or leave it in an error state. If that happens you can just build again (`Cmd+b`) re-issue a build for the updated project.
-
-</amplify-callout>
-
 ### Code generation: Amplify CLI
 
 Models can also be generated using the Amplify CLI directly.
