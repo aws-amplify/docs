@@ -1,4 +1,4 @@
-This call sends information that you have specified about the user to Amazon Pinpoint. This could be an unauthenticated or an authenticated user. The Authentication category assigns all users an `identityId` that can be used to call `Amplify.Analytics.identifyUser`. If you have asked for location access and received permission, you can also provide that in `UserProfile.Location`.
+This call sends information that you have specified about the user to Amazon Pinpoint. This could be for an unauthenticated or an authenticated user. The Authentication category assigns all users an `identityId` that can be used to call `Amplify.Analytics.identifyUser`. Read [Accessing Credentials]('~/lib/auth/access_credentials.md') for information on how to retrieve the `identityId` of the currently logged in user. If you have asked for location access and received permission, you can also provide that in `UserProfile.Location`.
 
 <amplify-block-switcher>
 <amplify-block name="Java">
