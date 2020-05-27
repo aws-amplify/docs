@@ -1,5 +1,5 @@
 ---
-title: Fetching Data
+title: Fetching data
 description: Using the GET API REST in Amplify Framework
 ---
 
