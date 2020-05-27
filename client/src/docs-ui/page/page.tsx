@@ -165,7 +165,12 @@ export class DocsPage {
 
   async getPageData() {
     let currentRoute = location.pathname || "/";
-    if (!currentRoute.startsWith("/")) currentRoute = `/${currentRoute}`;
+    if (!currentRoute.startsWith("/")) {
+      currentRoute = `/${currentRoute}`;
+    }
+    if (currentRoute.endsWith("/") && currentRoute !== "/") {
+      currentRoute = currentRoute.substring(0, currentRoute.length - 1);
+    }
 
     const {path, params} = parseURL(currentRoute);
     const routeFiltersEntry = filtersByRoute.get(path);
