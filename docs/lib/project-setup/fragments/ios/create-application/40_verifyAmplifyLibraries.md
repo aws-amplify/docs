@@ -15,7 +15,15 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 }
 ```
 
-Build your project (`CMD + b`).  If your build succeeeds, then you have successfully added the Amplify library to your project.  In order to run the application (without it erroring), you will need to provision resources in the backend.  If you attempt run your application at this point, you will see the following error:
+Build your project (`CMD + b`).  If your build succeeeds, then you have successfully added the Amplify library to your project.  If you run the application, you should not see any errors being printed to the console.
+
+Optionally, if you'd like to see additional log messages of what amplify is doing during configuration, you can turn on verbose logging by adding the following line of code:
+```swift
+Amplify.Logging.logLevel = .verbose
 ```
-An error occurred setting up Amplify: ConfigurationError: Could not load default `amplifyconfiguration.json` file
+
+Re-running the application with verbose logging on, you will see the following messages:
+```console
+[Amplify] Configuring
+[Amplify] Configuration: nil
 ```

@@ -2,7 +2,7 @@
 👋 Welcome! In this tutorial, you will:
 
 - Set up an Android application configured with Amplify
-- Create a data model and perist data to Amplify DataStore
+- Create a data model and persist data to Amplify DataStore
 - Connect your local data to synchronize to a cloud backend
 
 ## Prerequisites
@@ -43,7 +43,7 @@ Android Studio will open your project with a tab opened to either *MainActivity.
 
 ### Add Amplify to your application
 
-Amplify for Android is distribued as an Apache Maven package. In this section, you'll add the packages and other required directives to your build configuration.
+Amplify for Android is distributed as an Apache Maven package. In this section, you'll add the packages and other required directives to your build configuration.
 
 1. Expand **Gradle Scripts** and open **build.gradle (Project: Todo)**.
 

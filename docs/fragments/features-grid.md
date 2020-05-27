@@ -1,15 +1,15 @@
 <amplify-responsive-grid grid-gap="2" columns="2" class="margin-top-lg">
-  <docs-card url="~/lib/auth/getting-started.md" url-override-for-mobile-filter="~/sdk/auth/getting-started.md" class="border-radius">
+  <docs-card url="~/lib/auth/getting-started.md" class="border-radius">
     <img slot="graphic" src="~/assets/features/auth.svg" />
     <h4 slot="heading">Authentication</h4>
     <p slot="description">Enable sign-in, sign-up and sign-out within minutes with pre-built UI components and powerful authentication APIs</p>
   </docs-card>
-  <docs-card url="~/lib/storage/getting-started.md" url-override-for-mobile-filter="~/sdk/auth/getting-started.md" class="border-radius">
+  <docs-card url="~/lib/storage/getting-started.md" class="border-radius">
     <img slot="graphic" src="~/assets/features/storage.svg" />
     <h4 slot="heading">Storage</h4>
     <p slot="description">A simple mechanism for managing user content in public, protected or private storage</p>
   </docs-card>
-  <docs-card url="~/lib/graphqlapi/getting-started.md" url-override-for-mobile-filter="~/sdk/api/graphql.md" class="border-radius">
+  <docs-card url="~/lib/graphqlapi/getting-started.md" class="border-radius">
     <img slot="graphic" src="~/assets/features/api.svg" />
     <h4 slot="heading">GraphQL API</h4>
     <p slot="description"> Easy and secure solution to access your backend data with support for real-time updates using GraphQL </p>
@@ -21,19 +21,19 @@
       Seamlessly synchronize and persist online & offline data to the cloud as well as across devices
     </p>
   </docs-card>
-  <docs-card url="~/lib/restapi/getting-started.md" url-override-for-mobile-filter="~/sdk/api/rest.md" class="border-radius">
+  <docs-card url="~/lib/restapi/getting-started.md" class="border-radius">
     <img slot="graphic" src="~/assets/features/api.svg" />
     <h4 slot="heading">REST API</h4>
     <p slot="description">
       A straightforward and secure solution for making HTTP requests using REST APIs
     </p>
   </docs-card>
-  <docs-card url="~/lib/analytics/getting-started.md" url-override-for-mobile-filter="~/sdk/analytics/getting-started.md" class="border-radius">
+  <docs-card url="~/lib/analytics/getting-started.md" class="border-radius">
     <img slot="graphic" src="~/assets/features/analytics.svg" />
     <h4 slot="heading">Analytics</h4>
     <p slot="description">Make informed decisions with drop-in analytics to track user sessions, custom user attributes and in-app metrics</p>
   </docs-card>
-  <docs-card url="~/lib/push-notifications/getting-started.md" url-override-for-mobile-filter="~/sdk/push-notifications/getting-started.md" class="border-radius">
+  <docs-card url="~/lib/push-notifications/getting-started.md" class="border-radius">
     <img
       slot="graphic"
       src="~/assets/features/push-notifications.svg"
@@ -48,7 +48,7 @@
       Engage your customers in a different dimension with augmented reality (AR) and virtual reality (VR) content within your app
     </p>
   </docs-card>
-  <docs-card url="~/lib/pubsub/getting-started.md" url-override-for-mobile-filter="~/sdk/pubsub/getting-started.md" class="border-radius">
+  <docs-card url="~/lib/pubsub/getting-started.md" class="border-radius">
     <img slot="graphic" src="~/assets/features/pubsub.svg" />
     <h4 slot="heading">PubSub</h4>
     <p slot="description">

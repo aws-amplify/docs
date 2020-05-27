@@ -16,10 +16,7 @@ amplify push
 
 ## Cloud sync config requirements
 
-In order to enable cloud sync, the `amplifyconfiguration.json` must:
-
-1. Contain a configuration for the API category with EXACTLY ONE GraphQL endpoint, and
-2. Contain a configuration for the Data Store category which sets `syncMode` to `api`
+The Amplify CLI should have generated a working `amplifyconfiguration.json` for you. Cloud sync will only be enabled if this file contains *exactly one* GraphQL endpoint, as shown below:
 
 ```json
 {
@@ -36,19 +33,6 @@ In order to enable cloud sync, the `amplifyconfiguration.json` must:
         }
       }
     }
-  },
-  "dataStore": {
-    "plugins": {
-      "awsDataStorePlugin": {
-        "syncMode": "api"
-      }
-    }
   }
 }
-```
-
-If only using the DataStore for local data, without any cloud synchronization, your configuration file may be empty:
-
-```json
-{}
 ```

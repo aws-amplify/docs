@@ -15,7 +15,7 @@ _ = Amplify.Storage.downloadData(key: "myKey",
         case let .failure(storageError):
             print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
     }
-}
+})
 ```
 
 ### Download to file
@@ -36,7 +36,7 @@ _ = Amplify.Storage.downloadFile(key: "myKey", local: downloadToFileName,
         case .failure(let storageError):
             print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
     }
-}
+})
 ```
 
 ### Generate a download URL
@@ -44,7 +44,7 @@ _ = Amplify.Storage.downloadFile(key: "myKey", local: downloadToFileName,
 You can also retrieve a URL for the object in storage:
 
 ```swift
-Amplify.Storage.getURL(key: "myKey") { event in
+_ = Amplify.Storage.getURL(key: "myKey") { event in
     switch event {
     case let .success(url):
         print("Completed: \(url)")

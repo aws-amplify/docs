@@ -29,15 +29,15 @@ do {
     print("Failed to write to file \(error)")
 }
 
-_ = Amplify.Storage.uploadFile(key: fileNameKey, local: filename
-    progressListener: { progress in
-        print("Progress: \(progress)")
-    }, resultListener: { event in
-        switch event {
-        case let .success(data):
-            print("Completed: \(data)")
-        case let .failure(storageError):
-            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
-    })
-}
+_ = Amplify.Storage.uploadFile(key: fileNameKey, local: filename,
+                                progressListener: { progress in
+                                print("Progress: \(progress)")
+}, resultListener: { event in
+    switch event {
+    case let .success(data):
+        print("Completed: \(data)")
+    case let .failure(storageError):
+        print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+    }
+})
 ```

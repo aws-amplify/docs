@@ -17,7 +17,7 @@
     "social_signin_web_ui",
     "auth-events",
     "user-attributes",
-    "device-features",
+    "device_features",
     "password_management",
     "signOut",
     "access_credentials",

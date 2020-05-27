@@ -1,7 +1,6 @@
 ```java
 Post post = Post.builder()
     .title("My First Post")
-    .status(PostStatus.ACTIVE)
     .build();
 
 User editor = User.builder()

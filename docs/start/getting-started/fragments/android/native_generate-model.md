@@ -1,4 +1,4 @@
-With the basic setup complete, next you will model the data your application will store. Amplify DataStore will use this model to persist data to your local device will be synchronized to a backend API without writing any additional code. These models are specified as [GraphQL](http://graphql.org/) schemas. If you'd like, first [learn more](~/cli/graphql-transformer/overview.md) about GraphQL schemas and data modeling.
+With the basic setup complete, next you will model the data your application will store. Amplify DataStore will use this model to persist data to your local device and synchronize it to a backend API without writing any additional code. These models are specified as [GraphQL](http://graphql.org/) schemas. If you'd like, first [learn more](~/cli/graphql-transformer/overview.md) about GraphQL schemas and data modeling.
 
 1. Switch to **Project** view in Android Studio.
 
