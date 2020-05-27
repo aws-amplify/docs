@@ -1,4 +1,8 @@
-This call sends information that you have specified about the user to Amazon Pinpoint. This could be for an unauthenticated or an authenticated user. The Authentication category assigns all users an `identityId` that can be used to call `Amplify.Analytics.identifyUser`. Read [Accessing Credentials]('~/lib/auth/access_credentials.md') for information on how to retrieve the `identityId` of the currently logged in user. If you have asked for location access and received permission, you can also provide that in `UserProfile.Location`.
+This call sends information that you have specified about the user to Amazon Pinpoint. This could be for an unauthenticated or an authenticated user.
+
+You can get the current user's ID from the Amplify Auth category as shown below. Be sure you have it added and setup per the Auth category documentation.
+
+If you have asked for location access and received permission, you can also provide that in `UserProfile.Location`.
 
 <amplify-block-switcher>
 <amplify-block name="Java">
@@ -19,7 +23,9 @@ UserProfile profile = UserProfile.builder()
     .email("name@email.com")
     .build();
 
-Amplify.Analytics.identifyUser("UserID", profile);
+String userId = Amplify.Auth.getCurrentUser().getUserId();
+
+Amplify.Analytics.identifyUser(userId, profile);
 ```
 
 </amplify-block>
@@ -41,7 +47,9 @@ val profile = UserProfile.builder()
         .email("name@email.com")
         .build()
 
-Amplify.Analytics.identifyUser("UserID", profile)
+val userId = Amplify.Auth.getCurrentUser().getUserId()
+
+Amplify.Analytics.identifyUser(userId, profile)
 ```
 
 </amplify-block>
