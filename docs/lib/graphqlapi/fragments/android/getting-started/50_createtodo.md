@@ -1,14 +1,35 @@
+<amplify-block-switcher>
+<amplify-block name="Java">
+
 ```java
-private void createBlog() {
-    Blog blog = Blog.builder()
-        .name("My first blog")
+Todo todo = Todo.builder()
+        .name("My first todo")
+        .description("todo description")
         .build();
 
-    Amplify.API.mutate(
-        blog,
-        MutationType.CREATE,
-        response -> Log.i("ApiQuickStart", "Added Blog with id: " + response.getData().getId()),
-        apiFailure -> Log.e("ApiQuickStart", apiFailure.getMessage(), apiFailure)
-    );
-}
+Amplify.API.mutate(
+        ModelMutation.create(todo),
+        response -> Log.i("MyAmplifyApp", "Added Todo with id: " + response.getData().getId()),
+        error -> Log.e("MyAmplifyApp", "Create failed", error)
+);
 ```
+
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+val todo: Todo = Todo.builder()
+        .name("My first todo")
+        .description("todo description")
+        .build()
+
+Amplify.API.mutate(
+        ModelMutation.create(todo),
+        { response -> Log.i("MyAmplifyApp", "Added Todo with id: " + response.getData().getId()) },
+        { error: ApiException? -> Log.e("MyAmplifyApp", "Create failed", error) }
+)
+```
+
+</amplify-block>
+</amplify-block-switcher>
+
