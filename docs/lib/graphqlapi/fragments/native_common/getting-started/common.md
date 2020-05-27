@@ -41,7 +41,7 @@ Enter the following when prompted:
     `No`
 ```
 
-The guided schema creation will create a schema in a file located at `amplify/backend/api/{api_name}/schema.graphql` with the following:
+The guided schema creation will output `amplify/backend/api/{api_name}/schema.graphql` containing the following:
 ```graphql
 type Todo @model {
   id: ID!
