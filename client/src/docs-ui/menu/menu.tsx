@@ -55,23 +55,6 @@ export class DocsMenu {
           {this.page?.filterKey && <docs-select-anchor page={this.page} />}
           {(() => {
             switch (this.switcher) {
-              case "lib": {
-                return (
-                  <docs-version-switch
-                    leftOption={{
-                      title: "Libraries",
-                      subTitle: "(preview)",
-                      href: "/lib",
-                    }}
-                    rightOption={{
-                      title: "SDK",
-                      subTitle: "(stable)",
-                      href: "/sdk",
-                    }}
-                  />
-                );
-              }
-
               case "ui": {
                 return (
                   <docs-version-switch

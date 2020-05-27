@@ -1,3 +1,7 @@
+The following APIs will allow you to identify text (words, tables, pages from a book) from an image.
+
+For identifying text on iOS we use both AWS backend services as well as Apple's on-device Core ML [Vision Framework](https://developer.apple.com/documentation/vision) to provide you with the most accurate results.  If your device is offline, we will return results only from Core ML.  On the other hand, if you are able to connect to AWS Services, we will return a unioned result from both the service and Core ML.  Switching between backend services and Core ML is done automatically without any additional configuration required.
+
 ## Set up the backend
 
 If you haven't already done so, run `amplify init` inside your project and then `amplify add auth` (we recommend selecting the *default configuration*).
@@ -27,6 +31,8 @@ Run `amplify add predictions`, then use the following answers:
   Auth users only
 ❯ Auth and Guest users
 ```
+
+Run `amplify push` to create the resources in the cloud.
 
 ## Identify text from image
 
