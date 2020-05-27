@@ -9,7 +9,7 @@ Amplify.DataStore.save(post,
     savedPost -> {
         Log.i("GetStarted", "Post saved.");
         Comment comment = Comment.builder()
-            .postId(post.getId())
+            .post(post) // Directly pass in the post instance
             .content("Loving Amplify DataStore!")
             .build();
         Amplify.DataStore.save(comment,

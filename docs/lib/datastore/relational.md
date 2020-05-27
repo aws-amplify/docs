@@ -35,6 +35,7 @@ type Comment @model
   @key(name: "byPost", fields: ["postID", "content"]) {
   id: ID!
   postID: ID!
+  post: Post! @connection(fields: ["postID"])
   content: String!
 }
 ```
