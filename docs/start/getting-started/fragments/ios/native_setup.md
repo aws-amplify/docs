@@ -62,7 +62,6 @@ Amplify for iOS is distribued through Cocoapods as a Pod. In this section, you'l
 
       pod 'Amplify'
       pod 'Amplify/Tools'
-      pod 'AWSPluginsCore'
       pod 'AmplifyPlugins/AWSAPIPlugin'
       pod 'AmplifyPlugins/AWSDataStorePlugin'
 
