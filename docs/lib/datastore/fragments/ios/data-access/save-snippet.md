@@ -1,14 +1,13 @@
 ```swift
 Amplify.DataStore.save(
-    Post(title: "My First Post",
-         rating: 10,
-         status: .active)
+    Post(title: "My first post",
+         description: "Amplify.DataStore is awesome!")
 ) {
     switch $0 {
     case .success:
-        print("Added post")
+        print("Created a new post successfully")
     case .failure(let error):
-        print("Error adding post - \(error.localizedDescription)")
+        print("Error creating post - \(error.localizedDescription)")
     }
 }
 ```

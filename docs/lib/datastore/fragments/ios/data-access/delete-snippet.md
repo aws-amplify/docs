@@ -1,5 +1,3 @@
-To delete an item simply pass in an instance:
-
 ```swift
 Amplify.DataStore.delete(post) {
     switch $0 {
@@ -11,7 +9,7 @@ Amplify.DataStore.delete(post) {
 }
 ```
 
-Or specify it by ID:
+Or specify the type and its `id`.
 
 ```swift
 Amplify.DataStore.delete(Post.self, withId: "123") {
@@ -22,10 +20,4 @@ Amplify.DataStore.delete(Post.self, withId: "123") {
         print("Error deleting post - \(error.localizedDescription)")
     }
 }
-```
-
-You can also pass predicate operators to delete multiple items. 
-
-```swift
-// Coming soon...
 ```

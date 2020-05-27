@@ -3,9 +3,11 @@ title: Conflict resolution
 description: Learn more about how conflict resolution in DataStore is managed and how to configure it.
 ---
 
-## Setup
+When syncing with [AWS AppSync](https://aws.amazon.com/appsync/), DataStore updates from multiple clients will converge by tracking object versions and adhere to different conflict resolution strategies. The default strategy is called *"Auto Merge"* where GraphQL type information on an object is inspected at runtime to perform merge operations. You can read more about this behavior and alternatives such as *"Optimistic Concurrency"* control and *"Custom Lambda"* functions in the [AWS AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/conflict-detection-and-sync.html).
 
-When syncing with AWS AppSync, DataStore updates from multiple clients will converge by tracking object versions and adhere to different conflict resolution strategies. The default strategy is called *Automerge* where GraphQL type information on an object is inspected at runtime to perform merge operations. You can read more about this behavior and alternatives such as *Optimistic Concurrency* Control and *custom Lambda functions* in the [AWS AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/conflict-detection-and-sync.html). To update the conflict resolution strategies navigate into your project from a terminal and run `amplify update api` choosing *Yes* when prompted to change the conflict detection and conflict resolution strategies:
+## Custom conflict resolution
+
+To update the conflict resolution strategies navigate into your project from a terminal and run `amplify update api` choosing *Yes* when prompted to change the conflict detection and conflict resolution strategies:
 
 ```
 amplify update api # Select GraphQL
@@ -38,7 +40,7 @@ Note that this flow will also allow you to change the strategy on each individua
   Existing Lambda Function 
 ```
 
-## Optional configurations
+## Custom configuration
 
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/conflict.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/conflict.md"></inline-fragment>
