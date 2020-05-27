@@ -31,8 +31,6 @@ allprojects {
 ```
 
 - Add the line `mavenCentral()` within the `repositories` block in the `buildscript` and `allprojects` blocks
-- Add the line `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.1'` within the `dependencies` block
-- Add the line `apply plugin: 'com.amplifyframework.amplifytools'` at the end of the file
 
 This configuration adds helpers to your IDE to allow easy generation and deployment of Amplify files and resources.
 
