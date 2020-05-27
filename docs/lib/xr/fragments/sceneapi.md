@@ -56,8 +56,8 @@ XR Category's scene controller emits audio-related events during scene playback.
 
 ```javascript
 
-XR.onSceneEvent('scene1', 'AudioEnabled', () => console.log ('Audio is enabled') );
-XR.onSceneEvent('scene1', 'AudioDisabled', () => console.log ('Audio is disabled') ));
+XR.onSceneEvent('scene1', 'AudioEnabled', () => console.log('Audio is enabled') );
+XR.onSceneEvent('scene1', 'AudioDisabled', () => console.log('Audio is disabled') ));
 
 ```
 
