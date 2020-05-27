@@ -18,6 +18,7 @@ To setup and configure your application with Amplify DataStore and use it to per
 
 ## Prerequisites
 
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/getting-started/10_preReq.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/10_preReq.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/10_preReq.md"></inline-fragment>
 
@@ -30,8 +31,9 @@ There are two options to integrate the Amplify build process with the project.
 
 ### Option 1: Platform integration
 
-<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/30_amplifyTools.md"></inline-fragment>
-<inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/30_amplifyTools.md"></inline-fragment>
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/getting-started/30_platformIntegration.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/30_platformIntegration.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/30_platformIntegration.md"></inline-fragment>
 
 ### Option 2: Use Amplify CLI
 
@@ -107,6 +109,7 @@ Like the initial setup, models can be generated either using the IDE integration
 
 ### Code generation: Platform integration
 
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/getting-started/40_codegen.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/40_codegen.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/40_codegen.md"></inline-fragment>
 
@@ -129,6 +132,7 @@ Models can also be generated using the Amplify CLI directly.
 
 ## Initialize Amplify DataStore
 
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/getting-started/50_initDataStore.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/50_initDataStore.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/50_initDataStore.md"></inline-fragment>
 
@@ -142,6 +146,7 @@ Even though a GraphQL API is already added to your project, the cloud synchroniz
 
 To write to the database, create an instance of the `Post` model and save it.
 
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/getting-started/60_saveSnippet.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/60_saveSnippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/60_saveSnippet.md"></inline-fragment>
 
@@ -149,6 +154,7 @@ To write to the database, create an instance of the `Post` model and save it.
 
 To read from the database, the simplest approach is to query for all records of a given model type.
 
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/getting-started/70_querySnippet.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/70_querySnippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/70_querySnippet.md"></inline-fragment>
 
