@@ -57,7 +57,7 @@ We will now demonstrate how to add a subscription to the application, so that we
 
 1.  Finally, in the same file (`ContentView.swift`), remove any existing code you may have in `performOnAppear()` function, and replace it with **calling the subscribeTodos() function**.  Your peformOnAppear() function may look like this:
   ```swift
-  func peformOnAppear() {
+  func performOnAppear() {
       subscribeTodos()
   }
   ```
@@ -72,7 +72,7 @@ In this seciton we will make a mutation using the app sync console and have our 
 
 1. Open a terminal window in your project's directory. **Execute the command:**
   ```bash
-  amplify api console
+  amplify console api
   ```
   
   When prompted, select **GraphQL**. This will open the AWS AppSync console.
