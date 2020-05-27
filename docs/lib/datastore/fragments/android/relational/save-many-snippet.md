@@ -1,3 +1,6 @@
+<amplify-block-switcher>
+<amplify-block name="Java">
+
 ```java
 Post post = Post.builder()
     .title("My First Post")
@@ -29,6 +32,43 @@ Amplify.DataStore.save(post,
     failure -> Log.e("GetStarted", "Post not saved.", failure)
 );
 ```
+
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+val post = Post.builder()
+    .title("My First Post")
+    .build()
+
+val editor = User.builder()
+    .username("Nadia")
+    .build()
+
+Amplify.DataStore.save(post,
+    {
+        Log.i("GetStarted", "Post saved.")
+        Amplify.DataStore.save(editor,
+            {
+                Log.i("GetStarted", "Editor saved.")
+                val postEditor = PostEditor.builder()
+                    .post(post)
+                    .editor(editor)
+                    .build()
+                Amplify.DataStore.save(postEditor,
+                    { Log.i("GetStarted", "PostEditor saved.") },
+                    { failure -> Log.e("GetStarted", "PostEditor not saved.", failure) }
+                )
+            },
+            { failure -> Log.e("GetStarted", "Editor not saved.", failure) }
+        )
+    },
+    { failure -> Log.e("GetStarted", "Post not saved.", failure) }
+)
+```
+
+</amplify-block>
+</amplify-block-switcher>
 
 <amplify-callout>
 
