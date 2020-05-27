@@ -17,6 +17,8 @@ Run `amplify add predictions`, then use the following answers:
   `Auth and Guest users`
 ```
 
+Run `amplify push` to create the resources in the cloud.
+
 ## Working with the API
 
 ### Detect text in an image
