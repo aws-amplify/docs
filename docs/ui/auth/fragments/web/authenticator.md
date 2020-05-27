@@ -266,7 +266,7 @@ export class AppComponent {
     usernameAlias="email"
     [formFields]="formFields"
   ></amplify-sign-up>
-  <amplify-sign-in slot="sign-in" username-alias="email"></amplify-sign-in>
+  <amplify-sign-in slot="sign-in" usernameAlias="email"></amplify-sign-in>
 </amplify-authenticator>
 ```
 </docs-filter>
@@ -319,7 +319,7 @@ export class AppComponent {
     usernameAlias="email"
     [formFields]="formFields"
   ></amplify-sign-up>
-  <amplify-sign-in slot="sign-in" username-alias="email"></amplify-sign-in>
+  <amplify-sign-in slot="sign-in" usernameAlias="email"></amplify-sign-in>
 </amplify-authenticator>
 ```
 </docs-filter>
