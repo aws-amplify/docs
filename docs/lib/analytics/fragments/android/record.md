@@ -83,7 +83,7 @@ Amplify.Analytics.flushEvents()
 
 ## Global Properties
 
-You can register properties which will be used sent along with all invocations of `Amplify.Analytics.recordEvent`.
+You can register global properties which will be sent along with all invocations of `Amplify.Analytics.recordEvent`.
 
 <amplify-block-switcher>
 <amplify-block name="Java">
