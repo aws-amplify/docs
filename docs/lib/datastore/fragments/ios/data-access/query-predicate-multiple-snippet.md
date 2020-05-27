@@ -1,7 +1,6 @@
 ```swift
 let p = Post.keys
-let predicate = p.rating > 4 && p.status == PostStatus.active
-Amplify.DataStore.query(Post.self, where: predicate) {
+Amplify.DataStore.query(Post.self, where: p.rating > 4 && p.status == PostStatus.active) {
     switch $0 {
     case .success(let result):
         // result if of type [Post]
