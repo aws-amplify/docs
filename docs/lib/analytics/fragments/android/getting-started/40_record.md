@@ -1,13 +1,34 @@
-To record an event, specify your event using `BasicAnalyticsEvent` and call `Amplify.Analytics.recordEvent()`
+To record an event, create an `AnalyticsEvent` and call `Amplify.Analytics.recordEvent()` to send it:
+
+<amplify-block-switcher>
+<amplify-block name="Java">
 
 ```java
-BasicAnalyticsEvent event = new AnalyticsEvent(
-        "EventName",
-        PinpointProperties.builder()
-            .add("DemoProperty1", "DemoValue1")
-            .add("DemoProperty2", 2.0)
-            .build()
-);
+AnalyticsEvent event = AnalyticsEvent.builder()
+        .name("PasswordReset")
+        .addProperty("Channel", "SMS")
+        .addProperty("Successful", true)
+        .addProperty("ProcessDuration", 792)
+        .addProperty("UserAge", 120.3)
+        .build();
 
 Amplify.Analytics.recordEvent(event);
 ```
+
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+val event: AnalyticsEvent = AnalyticsEvent.builder()
+        .name("PasswordReset")
+        .addProperty("Channel", "SMS")
+        .addProperty("Successful", true)
+        .addProperty("ProcessDuration", 792)
+        .addProperty("UserAge", 120.3)
+        .build()
+
+Amplify.Analytics.recordEvent(event)
+```
+
+</amplify-block>
+</amplify-block-switcher>
