@@ -27,7 +27,7 @@ val todo = Todo.builder()
 
 Amplify.API.mutate(
         ModelMutation.update(todo),
-        { response -> Log.i("MyAmplifyApp", "Updated Blog with id: " + response.data.id) },
+        { response -> Log.i("MyAmplifyApp", "Updated Todo with id: " + response.data.id) },
         { error -> Log.e("MyAmplifyApp", "Update failed", error) }
 )
 ```
