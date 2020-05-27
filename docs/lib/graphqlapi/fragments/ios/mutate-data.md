@@ -18,6 +18,7 @@ func updateTodo() {
             }
         case .failure(let error):
             print("Got failed event with error \(error)")
+        }
     }
 }
 ```

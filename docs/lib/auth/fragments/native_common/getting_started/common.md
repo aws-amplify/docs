@@ -1,4 +1,4 @@
-The Amplify Auth category provides an interface for <TODO: Add content here>. The Auth category comes with default built-in support for Amazon Cognito User Pool and Identity Pool. The Amplify CLI helps you to create and configure the auth category with an authentication provider. The Amplify AWS Cognito Auth Plugin leverages [Amazon Cognito](https://aws.amazon.com/cognito).
+The Amplify Auth category provides an interface for authenticating a user. Behind the scenes, it provides the necessary authorization to the other Amplify categories. It comes with default, built-in support for [Amazon Cognito](https://aws.amazon.com/cognito) User Pool and Identity Pool. The Amplify CLI helps you to create and configure the auth category with an authentication provider.
 
 ## Goal
 To setup and configure your application with Amplify Auth and go through a simple api to check the current auth session
@@ -8,7 +8,7 @@ To setup and configure your application with Amplify Auth and go through a simpl
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/getting_started/10_preReq.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/auth/fragments/android/getting_started/10_preReq.md"></inline-fragment>
 
-## Provision Backend Auth Services
+## Configure Auth Category
 
 To start provisioning auth resources in the backend, go to your project directory and **execute the command**:
 
@@ -20,7 +20,7 @@ Enter the following when prompted:
 ```console
 ? Do you want to use the default authentication and security configuration?
     `Default configuration`
-? How do you want users to be able to sign in? 
+? How do you want users to be able to sign in?
     `Username`
 ? Do you want to configure advanced settings?
     `No, I am done.`
@@ -45,7 +45,7 @@ Upon completion, `amplifyconfiguration.json` should be updated to reference prov
 
 ## Check the current auth session
 
-We can now check the current auth session
+We can now check the current auth session.
 
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/getting_started/40_fetchSession.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/auth/fragments/android/getting_started/40_fetchSession.md"></inline-fragment>
@@ -55,5 +55,6 @@ The isSignedIn property of the authSession will be false since we havent signed 
 ## Next Steps
 Congratulations! You've successfully setup AWS Cognito Auth plugin.  Check out the following links to see other Amplify Auth use cases:
 
-* [Authenticate a user with username password]
-* [Authenticate a user with another auth provider]
+* [Authenticate a user with username password](~/lib/auth/signin.md)
+* [Authenticate a user using a web UI](~/lib/auth/signin_web_ui.md)
+* [Authenticate a user with another auth provider](~/lib/auth/social_signin_web_ui.md)

@@ -1,5 +1,5 @@
 ```java
-Amplify.DataStore.query(Post.class, Post.ID.eq("123"),
+Amplify.DataStore.query(Post.class, Where.id("123"),
     match -> {
         if (match.hasNext()) {
             Post post = match.next();
