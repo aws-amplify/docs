@@ -10,7 +10,6 @@ import { ToggleInView, } from "./amplify-ui/sidebar-layout/sidebar-layout.types"
 import { SetContent, } from "./amplify-ui/toc/toc.types";
 import { MenuGroup, Page, } from "./api";
 import { CustomComponentName, } from "./docs-ui/component-playground/component-playground.types";
-import { MatchResults, } from "@stencil/router";
 import { SwitchOption, } from "./docs-ui/version-switch/version-switch.types";
 export namespace Components {
     interface AmplifyBlock {
@@ -296,10 +295,6 @@ export namespace Components {
         "selectedFilters"?: SelectedFilters;
     }
     interface DocsPage {
-        /**
-          * match path
-         */
-        "match": MatchResults;
     }
     interface DocsRepoActions {
         /**
@@ -947,10 +942,6 @@ declare namespace LocalJSX {
         "selectedFilters"?: SelectedFilters;
     }
     interface DocsPage {
-        /**
-          * match path
-         */
-        "match"?: MatchResults;
     }
     interface DocsRepoActions {
         /**
