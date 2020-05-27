@@ -41,7 +41,7 @@ Enter the following when prompted:
     `No`
 ```
 
-The guided schema creation will create a schema with the following:
+The guided schema creation will create a schema in a file located at `amplify/backend/api/{api_name}/schema.graphql` with the following:
 ```graphql
 type Todo @model {
   id: ID!
@@ -66,7 +66,7 @@ Upon completion, `amplifyconfiguration.json` will be updated to reference provis
 
 ## Generate Todo Model class
 
-To generate the Todo model, run:
+To generate the `Todo` model, change directories to your project folder and **execute the command**:
 
 ```bash
 amplify codegen models
@@ -90,11 +90,11 @@ amplify codegen models
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/getting-started/50_createtodo.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/getting-started/50_createtodo.md"></inline-fragment>
 
-Upon successfully executing this code, you should see the todo persisted in your dynamoDB table. To navigate to your backend, run `amplify console api` and choose `GraphQL`. This will open the AppSync console to your GraphQL service. Select `Data Sources` and select the Resource link in your TodoTable to bring you to the DynamoDB Console. Select the `items` tab to see the Todo object that has been persisted in your database.
+Upon successfully executing this code, you should see an instance of `todo` persisted in your dynamoDB table. To navigate to your backend, run `amplify console api` and choose `GraphQL`. This will open the AppSync console to your GraphQL service. Select `Data Sources` and select the Resource link in your `TodoTable` to bring you to the DynamoDB Console. Select the `items` tab to see the `Todo` object that has been persisted in your database.
 
 ## Next steps
 
-Congratulations! You've create a Todo object in your database. Check out the following links to see other Amplify API use cases:
+Congratulations! You've created a `Todo` object in your database. Check out the following links to see other Amplify API use cases:
 
 * [Fetch data](~/lib/graphqlapi/query-data.md)
 * [Update data](~/lib/graphqlapi/mutate-data.md)
