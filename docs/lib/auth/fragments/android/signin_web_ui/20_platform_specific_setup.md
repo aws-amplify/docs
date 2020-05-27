@@ -39,6 +39,9 @@ and update the value in `onNewIntent` below.
 ## Add Response Handler
 Add the following `onNewIntent` method in MainActivity to capture the response from the sign in web UI:
 
+<amplify-block-switcher>
+ <amplify-block name="Java">
+
 ```java
 @Override
 protected void onNewIntent(Intent intent) {
@@ -49,3 +52,21 @@ protected void onNewIntent(Intent intent) {
     }
 }
 ```
+
+ </amplify-block>
+ <amplify-block name="Kotlin">
+
+```kotlin
+override fun onNewIntent(intent: Intent?) {
+    super.onNewIntent(intent)
+
+    if(intent?.scheme != null && "myapp".equals(intent?.scheme)) {
+        Amplify.Auth.handleWebUISignInResponse(intent)
+    }
+}
+```
+
+ </amplify-block>
+</amplify-block-switcher>
+
+
