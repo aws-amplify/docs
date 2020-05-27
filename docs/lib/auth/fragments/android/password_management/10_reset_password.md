@@ -1,7 +1,7 @@
 ```java
 Amplify.Auth.resetPassword(
    "username",
-   result -> Log.i(TAG, result.toString()),
-   error -> Log.e(TAG, error.toString())
+   result -> Log.i("AuthQuickstart", result.toString()),
+   error -> Log.e("AuthQuickstart", error.toString())
 );
 ```

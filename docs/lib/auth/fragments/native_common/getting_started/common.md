@@ -45,7 +45,7 @@ Upon completion, `amplifyconfiguration.json` should be updated to reference prov
 
 ## Check the current auth session
 
-We can now check the current auth session
+We can now check the current auth session.
 
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/getting_started/40_fetchSession.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/auth/fragments/android/getting_started/40_fetchSession.md"></inline-fragment>

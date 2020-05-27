@@ -6,6 +6,7 @@ Amplify.Auth.fetchAuthSession(
             switch(cognitoAuthSession.getAWSCredentials().getType()) {
                 case SUCCESS:
                     Log.i("AuthQuickStart", "AWSCredentials" + cognitoAuthSession.getAWSCredentials().getValue().toString());
+                    break;
                 case FAILURE:
                     Log.i("AuthQuickStart", "AWSCredentials not present because: " + cognitoAuthSession.getAWSCredentials().getError().toString());
             }

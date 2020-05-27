@@ -1,7 +1,7 @@
 ```java
 Amplify.Auth.signOut(
     AuthSignOutOptions.builder().globalSignOut(true).build(),
-    () -> Log.i(TAG, "Signed out globally"),
-    error -> Log.e(TAG, error.toString())
+    () -> Log.i("AuthQuickstart", "Signed out globally"),
+    error -> Log.e("AuthQuickstart", error.toString())
 );
 ```
