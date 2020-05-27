@@ -32,6 +32,8 @@ Run `amplify add predictions`, then use the following answers:
 ❯ Auth and Guest users
 ```
 
+Run `amplify push` to create the resources in the cloud.
+
 ## Identify text from image
 
 Amplify will make calls to both Amazon Textract and Rekognition depending on the type of text you are looking to identify (i.e. image or document).
