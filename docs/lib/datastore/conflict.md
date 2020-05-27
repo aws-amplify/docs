@@ -22,8 +22,6 @@ When syncing with AWS AppSync, DataStore updates from multiple clients will conv
 ❯ Optimistic Concurrency 
   Custom Lambda 
   Learn More
-? Do you want to override default per model settings? 
-    `No`
 ```
 
 ### Per model configuration
