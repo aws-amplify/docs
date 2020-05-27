@@ -2,20 +2,35 @@
 
 Now that the client is set up, you can run a GraphQL mutation with `Amplify.API.mutate` to create, update, and delete your data.
 
-With the Blog model generated, add the following.
+<amplify-block-switcher>
+<amplify-block name="Java">
 
 ```java
-private void createBlog() {
-    Blog blog = Blog.builder()
-        .name("My first blog")
+Todo todo = Todo.builder()
+        .name("My updated todo")
         .build();
 
-    Amplify.API.mutate(
-        blog,
-        MutationType.CREATE,
-        response -> Log.i("ApiQuickStart", "Added Blog with id: " + response.getData().getId()),
-        apiFailure -> Log.e("ApiQuickStart", apiFailure.getMessage(), apiFailure)
-    );
-}
-
+Amplify.API.mutate(
+        ModelMutation.update(todo),
+        response -> Log.i("MyAmplifyApp", "Updated Todo with id: " + response.getData().getId()),
+        error -> Log.e("MyAmplifyApp", "Update failed", error)
+);
 ```
+
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+val todo = Todo.builder()
+        .name("My updated todo")
+        .build()
+
+Amplify.API.mutate(
+        ModelMutation.update(todo),
+        { response -> Log.i("MyAmplifyApp", "Updated Todo with id: " + response.data.id) },
+        { error -> Log.e("MyAmplifyApp", "Update failed", error) }
+)
+```
+
+</amplify-block>
+</amplify-block-switcher>

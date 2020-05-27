@@ -21,7 +21,7 @@ export const switchStyle = css`
     display: flex;
     flex: 1;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
     text-align: center;
 
     stencil-route-link {
