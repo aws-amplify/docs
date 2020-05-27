@@ -4,7 +4,7 @@ Amplify.DataStore.query(Post.self) { result in
     case .success(let posts):
         print("Posts retrieved successfully: \(posts)")
     case .failure(let error):
-        print("Error saving post \(error)")
+        print("Error retrieving post \(error)")
     }
 }
 ```

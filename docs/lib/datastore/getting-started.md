@@ -28,7 +28,7 @@ To setup and configure your application with Amplify DataStore and use it to per
 
 There are two options to integrate the Amplify build process with the project.
 
-### Option 1: Use IDE integration
+### Option 1: Platform integration
 
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/30_amplifyTools.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/30_amplifyTools.md"></inline-fragment>
@@ -105,15 +105,10 @@ Now you will to convert the platform-agnostic `schema.graphql` into platform-spe
 
 Like the initial setup, models can be generated either using the IDE integration or Amplify CLI directly.
 
-### Code generation: IDE integration
+### Code generation: Platform integration
 
-The `Amplify/Tools` pod can be used to generate the models from the `schema.graphql` and automatically add the new files to the project.
-
-1. **Update the amplifytools.xcconfig file** and change `modelgen=false` to:
-    ```
-    modelgen=true
-    ```
-2. **Build the project (`Cmd+b`)**. Doing a build will invoke the Amplify tools script to generate the model files, and automatically add them to your project in a group called “AmplifyModels”.
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/40_codegen.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/40_codegen.md"></inline-fragment>
 
 <amplify-callout warning>
 
@@ -134,8 +129,8 @@ Models can also be generated using the Amplify CLI directly.
 
 ## Initialize Amplify DataStore
 
-<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/40_initDataStore.md"></inline-fragment>
-<inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/40_initDataStore.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/50_initDataStore.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/50_initDataStore.md"></inline-fragment>
 
 ## Persistence operations
 
@@ -147,15 +142,15 @@ Even though a GraphQL API is already added to your project, the cloud synchroniz
 
 To write to the database, create an instance of the `Post` model and save it.
 
-<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/50_saveSnippet.md"></inline-fragment>
-<inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/50_saveSnippet.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/60_saveSnippet.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/60_saveSnippet.md"></inline-fragment>
 
 ### Reading from the database
 
 To read from the database, the simplest approach is to query for all records of a given model type.
 
-<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/60_querySnippet.md"></inline-fragment>
-<inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/60_querySnippet.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/70_querySnippet.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/70_querySnippet.md"></inline-fragment>
 
 ## Next steps
 

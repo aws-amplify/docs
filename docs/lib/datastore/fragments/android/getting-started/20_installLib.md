@@ -1,11 +1,10 @@
-<!--TODO Update AWSmobile Client -> Auth -->
 Add the following dependencies to your **app** build.gradle file and click "Sync Now" when asked:
 
 ```groovy
 dependencies {
-    implementation 'com.amplifyframework:core:0.10.0'
-    implementation 'com.amplifyframework:aws-storage-s3:0.10.0'
-    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.16.+'
+    implementation 'com.amplifyframework:core:1.0.0'
+    implementation 'com.amplifyframework:aws-datastore:1.0.0'
+    implementation 'com.amplifyframework:aws-api:1.0.0'
 }
 ```
 
