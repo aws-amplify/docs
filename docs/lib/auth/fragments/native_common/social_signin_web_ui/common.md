@@ -1,3 +1,7 @@
+## Prerequisites
+
+<inline-fragment platform="ios" src="~/lib/auth/fragments/ios/getting_started/10_preReq.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/auth/fragments/android/common_prereq.md"></inline-fragment>
 
 ## Setup Your Auth Provider
 
@@ -54,7 +58,7 @@
 In terminal, navigate to your project, run `amplify add auth`, and choose the following options (the last steps are specific to Facebook here but are similar for other providers):
 
 <inline-fragment platform="android" src="~/lib/auth/fragments/android/social_signin_web_ui/10_cli_setup.md"></inline-fragment>
-<inline-fragment platform="ios" src="~/lib/auth/fragments/ios/authentication/social_signin_web_ui/10_cli_setup.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/auth/fragments/ios/social_signin_web_ui/10_cli_setup.md"></inline-fragment>
 
 Once finished run `amplify push` to publish your changes. Once finished, it will display an auto generated URL for your web UI.
 
@@ -130,11 +134,11 @@ You need to now inform your auth provider of this URL:
 </amplify-block>
 </amplify-block-switcher>
 
-<inline-fragment platform="ios" src="~/lib/auth/fragments/ios/authentication/signin_web_ui/20_platform_specific_setup.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/auth/fragments/ios/signin_web_ui/20_platform_specific_setup.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/auth/fragments/android/signin_web_ui/20_platform_specific_setup.md"></inline-fragment>
 
 ## Launch Social Web UI Sign In
 Sweet! You're now ready to launch sign in with your social provider's web UI.
 
 <inline-fragment platform="android" src="~/lib/auth/fragments/android/social_signin_web_ui/20_signin.md"></inline-fragment>
-<inline-fragment platform="ios" src="~/lib/auth/fragments/ios/authentication/social_signin_web_ui/20_signin.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/auth/fragments/ios/social_signin_web_ui/20_signin.md"></inline-fragment>

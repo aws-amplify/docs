@@ -2,11 +2,11 @@ Remembering a device is useful in conjunction with Multi-Factor Authentication (
 
 Remembering a device allows the second factor requirement to be automatically met when the user signs in on that device, thereby reducing friction in the user experience.
 
-## Prerequisites
-<inline-fragment platform="ios" src="~/lib/auth/fragments/ios/getting_started/10_preReq.md"></inline-fragment>
-<inline-fragment platform="android" src="~/lib/auth/fragments/android/getting_started/10_preReq.md"></inline-fragment>
+## Configure Auth Category
+<amplify-callout>
+Device remembering functionality does not work if you use one of the web UI sign in methods.
+</amplify-callout>
 
-## Configure the Backend
 To enable remembered device functionality, open the Cognito User Pool console.  To do this, **go to your project directory** and **issue the command**:
 ```bash
 amplify auth console
