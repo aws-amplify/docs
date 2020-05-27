@@ -1,6 +1,7 @@
-The Amplify API category provides an interface for retrieving and persisting your model data. The API category comes with default built-in support for AWS AppSync. The Amplify CLI allows you to define your API and provision a GraphQL service with CRUD operations and real-time functionality. The Amplify AWS API plugin leverages [AWS AppSync](https://aws.amazon.com/appsync/).
+The Amplify API category provides an interface for retrieving and persisting your model data. The API category comes with default built-in support for AWS AppSync. The Amplify CLI allows you to define your API and provision a GraphQL service with CRUD operations and real-time functionality. 
 
 ## Goal
+
 To setup and configure your application with Amplify API to save items in the backend.
 
 ## Prerequisites
@@ -10,7 +11,7 @@ To setup and configure your application with Amplify API to save items in the ba
 
 ## Provision Backend Storage Services
 
-To start provisioning api resources in the backend, go to your project directory and **execute the command**:
+To start provisioning API resources in the backend, go to your project directory and **execute the command**:
 
 ```bash
 amplify add api
@@ -61,20 +62,26 @@ Enter the following when prompted:
     `No`
 ```
 
-Upon completion, `amplifyconfiguration.json` should be updated to reference provisioned backend storage resources.  Note that these files should already be a part of your project if you followed the [Project setup walkthrough](~/lib/project-setup/create-application.md).
+Upon completion, `amplifyconfiguration.json` will be updated to reference provisioned backend storage resources.  Note that these files should already be a part of your project if you followed the [Project setup walkthrough](~/lib/project-setup/create-application.md).
 
 ## Generate Todo Model class
 
-Run `amplify codegen models` to generate the Todo model. 
+To generate the Todo model, run:
+
+```bash
+amplify codegen models
+```
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/getting-started/40_codegen.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/getting-started/40_codegen.md"></inline-fragment>
 
 ## Install Amplify Libraries
+
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/getting-started/20_installLib.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/getting-started/20_installLib.md"></inline-fragment>
 
 ## Initialize Amplify API
+
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/getting-started/30_initapi.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/getting-started/30_initapi.md"></inline-fragment>
 
@@ -85,7 +92,8 @@ Run `amplify codegen models` to generate the Todo model.
 
 Upon successfully executing this code, you should see the todo persisted in your dynamoDB table. To navigate to your backend, run `amplify console api` and choose `GraphQL`. This will open the AppSync console to your GraphQL service. Select `Data Sources` and select the Resource link in your TodoTable to bring you to the DynamoDB Console. Select the `items` tab to see the Todo object that has been persisted in your database.
 
-## Next Steps
+## Next steps
+
 Congratulations! You've create a Todo object in your database. Check out the following links to see other Amplify API use cases:
 
 * [Fetch data](~/lib/graphqlapi/query-data.md)
