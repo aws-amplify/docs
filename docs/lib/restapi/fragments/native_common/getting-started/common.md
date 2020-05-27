@@ -69,14 +69,16 @@ Upon completion, `amplifyconfiguration.json` should be updated to reference prov
 <inline-fragment platform="ios" src="~/lib/restapi/fragments/ios/getting-started/30_initapi.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/restapi/fragments/android/getting-started/30_initapi.md"></inline-fragment>
 
-## Make a Post Request
+## Make a POST Request
+
+Copy and paste the following code in your application so that it runs only once when the app starts:
 
 <inline-fragment platform="ios" src="~/lib/restapi/fragments/ios/getting-started/40_postTodo.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/restapi/fragments/android/getting-started/40_postTodo.md"></inline-fragment>
 
 To navigate to your backend, go to the [API Gateway console](https://aws.amazon.com/apigateway) and select the API. The name of the API corresponds to the friendly name of the resource to be used as a label you specified earlier in the CLI steps.
 
-## Next Steps
+## Next steps
 Congratulations! You've made a call to your API Gateway and triggered your lambda function. Check out the following links to see other Amplify API use cases:
 
 * [Fetching Data](~/lib/restapi/fetch.md)
