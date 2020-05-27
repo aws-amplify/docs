@@ -6,7 +6,6 @@ Add the following code to your `onCreate()` method in your application class:
 <amplify-block name="Java">
 
 ```java
-Amplify.addPlugin(new AWSCognitoAuthPlugin());
 Amplify.addPlugin(new AWSApiPlugin());
 ```
 
@@ -19,8 +18,7 @@ public class MyAmplifyApp extends Application {
         super.onCreate();
 
         try {
-            // Add these lines to add the AWSCognitoAuthPlugin and AWSApiPlugin plugins
-            Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            // Add this line to add the AWSApiPlugin plugin
             Amplify.addPlugin(new AWSApiPlugin());
             Amplify.configure(getApplicationContext());
 
@@ -36,7 +34,6 @@ public class MyAmplifyApp extends Application {
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.addPlugin(AWSCognitoAuthPlugin())
 Amplify.addPlugin(AWSApiPlugin())
 ```
 
@@ -48,8 +45,7 @@ class MyAmplifyApp : Application() {
         super.onCreate()
 
         try {
-            // Add these lines to add the AWSCognitoAuthPlugin and AWSApiPlugin plugins
-            Amplify.addPlugin(AWSCognitoAuthPlugin())
+            // Add this line to add the AWSApiPlugin plugin
             Amplify.addPlugin(AWSApiPlugin())
             Amplify.configure(applicationContext)
 

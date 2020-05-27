@@ -51,17 +51,35 @@ app.get('/todo', function(req, res) {
 
 Then you can use query parameters in your path as follows:
 
+<amplify-block-switcher>
+<amplify-block name="Java">
+
 ```java
-void getTodo() {
-    HashMap<String, String> queryParameters = new HashMap<String, String>() {{
-        put("q", "test");
-    }};
+RestOptions options = RestOptions.builder()
+        .addPath("/todo")
+        .addQueryParameters(Collections.singletonMap("q", "test"))
+        .build();
 
-    RestOptions options = new RestOptions("/todo", queryParameters);
-
-    Amplify.API.get(options,
-            response -> Log.i("MyAmplifyApp", response.toString()),
-            error -> Log.e("MyAmplifyApp", "GET failed", error)
-    );
-}
+Amplify.API.get(options,
+        response -> Log.i("MyAmplifyApp", response.getData().asString()),
+        error -> Log.e("MyAmplifyApp", "GET failed", error)
+);
 ```
+
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+val options: RestOptions = RestOptions.builder()
+    .addPath("/todo")
+    .addQueryParameters(Collections.singletonMap("q", "test"))
+    .build()
+
+Amplify.API.get(options,
+    { response -> Log.i("MyAmplifyApp", response.data.asString()) },
+    { error -> Log.e("MyAmplifyApp", "GET failed", error) }
+)
+```
+
+</amplify-block>
+</amplify-block-switcher>

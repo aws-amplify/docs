@@ -99,7 +99,7 @@ fun detectLabels(image: Bitmap) {
         image,
         Consumer { result: IdentifyResult ->
             val identifyResult = result as IdentifyLabelsResult
-            Log.i("MyAmplifyApp", Boolean.toString(identifyResult.isUnsafeContent))
+            Log.i("MyAmplifyApp", identifyResult.isUnsafeContent.toString())
         },
         Consumer { error: PredictionsException ->
             Log.e("MyAmplifyApp", "Identify failed", error)

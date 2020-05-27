@@ -6,9 +6,7 @@ Run `amplify add predictions`, then use the following answers:
 ? Please select from one of the categories below
   `Convert`
 ? What would you like to convert? (Use arrow keys)
-  `Translate text into a different language`
-? Generate speech audio from text
-  `Transcribe text from audio`
+  `Generate speech audio from text`
 ? Provide a friendly name for your resource
   `speechGenerator`
 ? What is the source language? (Use arrow keys)

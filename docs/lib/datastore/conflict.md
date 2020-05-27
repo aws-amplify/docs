@@ -7,18 +7,21 @@ description: Learn more about how conflict resolution in DataStore is managed an
 
 When syncing with AWS AppSync, DataStore updates from multiple clients will converge by tracking object versions and adhere to different conflict resolution strategies. The default strategy is called *Automerge* where GraphQL type information on an object is inspected at runtime to perform merge operations. You can read more about this behavior and alternatives such as *Optimistic Concurrency* Control and *custom Lambda functions* in the [AWS AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/conflict-detection-and-sync.html). To update the conflict resolution strategies navigate into your project from a terminal and run `amplify update api` choosing *Yes* when prompted to change the conflict detection and conflict resolution strategies:
 
-```
-amplify update api # Select GraphQL
-
+```console
+? Please select from one of the below mentioned services: 
+    `GraphQL`
+...
 ? Do you want to configure advanced settings for the GraphQL API 
-❯ Yes, I want to make some additional changes. 
-
-? Configure conflict detection? Yes
-? Select the default resolution strategy 
+    `Yes, I want to make some additional changes.`
+? Configure additional auth types? 
+    `No`
+? Configure conflict detection? 
+    `Yes`
+? Select the default resolution strategy
   Auto Merge 
 ❯ Optimistic Concurrency 
   Custom Lambda 
-  Learn More 
+  Learn More
 ```
 
 ### Per model configuration
