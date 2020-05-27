@@ -108,7 +108,8 @@ export class DocsPage {
       }
     };
 
-    // create RAF loop to trigger `updatePageData`, which observes pathname
+    // create RAF loop, save its ID (so that we can end the loop in `componentWillUnload`).
+    // This loop triggers `updatePageData`, which––upon path changes––triggers the appropriate rerender.
     this.rafId = (function watchForRouteChange() {
       updatePageData();
       return requestAnimationFrame(watchForRouteChange);
@@ -120,20 +121,20 @@ export class DocsPage {
   }
 
   scrollToId() {
-    if (this.isFirstRenderOfCurrentPage) {
-      const {hash} = location;
-      if (hash) {
-        setTimeout(() => {
-          // TODO: fix potential race condition
-          scrollToHash(hash, this.el);
-        }, 250);
-      }
+    const {hash} = location;
+    if (hash) {
+      setTimeout(() => {
+        // TODO: fix potential race condition
+        scrollToHash(hash, this.el);
+      }, 250);
     }
   }
 
   componentDidRender() {
     this.setSidebarStickyTop();
-    this.scrollToId();
+    if (this.isFirstRenderOfCurrentPage) {
+      this.scrollToId();
+    }
     this.isFirstRenderOfCurrentPage = false;
   }
 
