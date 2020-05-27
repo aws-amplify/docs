@@ -1,7 +1,7 @@
 Models with one-to-many connections are lazy-loaded when accessing the connected property, so accessing a relation is as simple as:
 
 ```swift
-Amplify.DataStore.query(Post.self, byId: "111") {
+Amplify.DataStore.query(Post.self, byId: "123") {
     switch $0 {
     case .success(let post):
         if let postWithComments = post {
