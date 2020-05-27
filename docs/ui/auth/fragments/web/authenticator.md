@@ -2,37 +2,34 @@
 
 ## Installation
 
-<amplify-block-switcher>
-<amplify-block name="React">
+<docs-filter framework="react">
 
 ```
 yarn add aws-amplify @aws-amplify/ui-react
 ```
-</amplify-block>
-<amplify-block name="Angular">
+</docs-filter>
+<docs-filter framework="angular">
 
 ```
 yarn add aws-amplify @aws-amplify/ui-angular
 ```
-</amplify-block>
-<amplify-block name="Ionic">
+</docs-filter>
+<docs-filter framework="ionic">
 
 ```
 yarn add aws-amplify @aws-amplify/ui-angular
 ```
-</amplify-block>
-<amplify-block name="Vue">
+</docs-filter>
+<docs-filter framework="vue">
 
 ```
 yarn add aws-amplify @aws-amplify/ui-vue
 ```
-</amplify-block>
-</amplify-block-switcher>
+</docs-filter>
 
 ## Usage
 
-<amplify-block-switcher>
-<amplify-block name="React">
+<docs-filter framework="react">
 
 ```jsx
 import React from 'react';
@@ -51,8 +48,8 @@ const App = () => (
   </AmplifyAuthenticator>
 );
 ```
-</amplify-block>
-<amplify-block name="Angular">
+</docs-filter>
+<docs-filter framework="angular">
 
 _app.module.ts_
 
@@ -87,8 +84,8 @@ _app.component.html_
 </amplify-authenticator>
 ```
 
-</amplify-block>
-<amplify-block name="Ionic">
+</docs-filter>
+<docs-filter framework="ionic">
 
 _app.module.ts_
 
@@ -122,8 +119,8 @@ _app.component.html_
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Vue">
+</docs-filter>
+<docs-filter framework="vue">
 
 _main.js_
 
@@ -153,8 +150,7 @@ _App.vue_
   </amplify-authenticator>
 </template>
 ```
-</amplify-block>
-</amplify-block-switcher>
+</docs-filter>
 
 <ui-component-props tag="amplify-authenticator" use-table-headers></ui-component-props>
 
@@ -182,8 +178,7 @@ If you'd like to customize the form fields in the Authenticator Sign In or Sign 
 
 The following example highlights the use of Authenticator with customized Sign Up form fields and [authentication with email](#authenticate-with-email-or-phone-number):
 
-<amplify-block-switcher>
-<amplify-block name="React">
+<docs-filter framework="react">
 
 ```jsx
 import React from 'react';
@@ -221,8 +216,8 @@ const App = () => {
   );
 };
 ```
-</amplify-block>
-<amplify-block name="Angular">
+</docs-filter>
+<docs-filter framework="angular">
 
 *app.component.ts*
 ```js
@@ -274,8 +269,8 @@ export class AppComponent {
   <amplify-sign-in slot="sign-in" username-alias="email"></amplify-sign-in>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Ionic">
+</docs-filter>
+<docs-filter framework="ionic">
 
 *app.component.ts*
 ```js
@@ -324,10 +319,11 @@ export class AppComponent {
     usernameAlias="email"
     [formFields]="formFields"
   ></amplify-sign-up>
+  <amplify-sign-in slot="sign-in" username-alias="email"></amplify-sign-in>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Vue">
+</docs-filter>
+<docs-filter framework="vue">
 
 
 ```html
@@ -373,8 +369,7 @@ export default {
 }
 </script>
 ```
-</amplify-block>
-</amplify-block-switcher>
+</docs-filter>
 
 Here is an example of the component in use:
 
@@ -396,8 +391,7 @@ For more details on this customization see the `amplify-form-field` [prop docume
 
 **Usage**
 
-<amplify-block-switcher>
-<amplify-block name="React">
+<docs-filter framework="react">
 
 ```jsx
 import React from 'react';
@@ -414,8 +408,8 @@ const App = () => (
   </AmplifyAuthenticator>
 );
 ```
-</amplify-block>
-<amplify-block name="Angular">
+</docs-filter>
+<docs-filter framework="angular">
 
 ```html
 <amplify-authenticator>
@@ -427,8 +421,8 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Ionic">
+</docs-filter>
+<docs-filter framework="ionic">
 
 ```html
 <amplify-authenticator>
@@ -440,8 +434,8 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Vue">
+</docs-filter>
+<docs-filter framework="vue">
 
 ```html
 <amplify-authenticator>
@@ -453,8 +447,7 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-</amplify-block-switcher>
+</docs-filter>
 
 
 
@@ -466,8 +459,7 @@ const App = () => (
 
 **Usage**
 
-<amplify-block-switcher>
-<amplify-block name="React">
+<docs-filter framework="react">
 
 ```jsx
 import React from 'react';
@@ -484,8 +476,8 @@ const App = () => (
   </AmplifyAuthenticator>
 );
 ```
-</amplify-block>
-<amplify-block name="Angular">
+</docs-filter>
+<docs-filter framework="angular">
 
 ```html
 <amplify-authenticator>
@@ -497,8 +489,8 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Ionic">
+</docs-filter>
+<docs-filter framework="ionic">
 
 ```html
 <amplify-authenticator>
@@ -510,8 +502,8 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Vue">
+</docs-filter>
+<docs-filter framework="vue">
 
 ```html
 <amplify-authenticator>
@@ -523,8 +515,7 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-</amplify-block-switcher>
+</docs-filter>
 
 <ui-component-props tag="amplify-sign-up"></ui-component-props>
 
@@ -534,8 +525,7 @@ const App = () => (
 
 **Usage**
 
-<amplify-block-switcher>
-<amplify-block name="React">
+<docs-filter framework="react">
 
 ```jsx
 import React from 'react';
@@ -550,8 +540,8 @@ const App = () => (
   </AmplifyAuthenticator>
 );
 ```
-</amplify-block>
-<amplify-block name="Angular">
+</docs-filter>
+<docs-filter framework="angular">
 
 ```html
 <amplify-authenticator>
@@ -561,8 +551,8 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Ionic">
+</docs-filter>
+<docs-filter framework="ionic">
 
 ```html
 <amplify-authenticator>
@@ -572,8 +562,8 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Vue">
+</docs-filter>
+<docs-filter framework="vue">
 
 ```html
 <amplify-authenticator>
@@ -583,8 +573,7 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-</amplify-block-switcher>
+</docs-filter>
 
 <ui-component-props tag="amplify-sign-out"></ui-component-props>
 
@@ -594,8 +583,7 @@ const App = () => (
 
 **Usage**
 
-<amplify-block-switcher>
-<amplify-block name="React">
+<docs-filter framework="react">
 
 ```jsx
 import React from 'react';
@@ -612,8 +600,8 @@ const App = () => (
   </AmplifyAuthenticator>
 );
 ```
-</amplify-block>
-<amplify-block name="Angular">
+</docs-filter>
+<docs-filter framework="angular">
 
 ```html
 <amplify-authenticator>
@@ -625,8 +613,8 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Ionic">
+</docs-filter>
+<docs-filter framework="ionic">
 
 ```html
 <amplify-authenticator>
@@ -638,8 +626,8 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Vue">
+</docs-filter>
+<docs-filter framework="vue">
 
 ```html
 <amplify-authenticator>
@@ -651,8 +639,7 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-</amplify-block-switcher>
+</docs-filter>
 
 <ui-component-props tag="amplify-confirm-sign-in"></ui-component-props>
 
@@ -662,8 +649,7 @@ const App = () => (
 
 **Usage**
 
-<amplify-block-switcher>
-<amplify-block name="React">
+<docs-filter framework="react">
 
 ```jsx
 import React from 'react';
@@ -680,8 +666,8 @@ const App = () => (
   </AmplifyAuthenticator>
 );
 ```
-</amplify-block>
-<amplify-block name="Angular">
+</docs-filter>
+<docs-filter framework="angular">
 
 ```html
 <amplify-authenticator>
@@ -693,8 +679,8 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Ionic">
+</docs-filter>
+<docs-filter framework="ionic">
 
 ```html
 <amplify-authenticator>
@@ -706,8 +692,8 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Vue">
+</docs-filter>
+<docs-filter framework="vue">
 
 ```html
 <amplify-authenticator>
@@ -719,8 +705,7 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-</amplify-block-switcher>
+</docs-filter>
 
 <ui-component-props tag="amplify-confirm-sign-up"></ui-component-props>
 
@@ -730,8 +715,7 @@ const App = () => (
 
 **Usage**
 
-<amplify-block-switcher>
-<amplify-block name="React">
+<docs-filter framework="react">
 
 ```jsx
 import React from 'react';
@@ -748,8 +732,8 @@ const App = () => (
   </AmplifyAuthenticator>
 );
 ```
-</amplify-block>
-<amplify-block name="Angular">
+</docs-filter>
+<docs-filter framework="angular">
 
 ```html
 <amplify-authenticator>
@@ -761,8 +745,8 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Ionic">
+</docs-filter>
+<docs-filter framework="ionic">
 
 ```html
 <amplify-authenticator>
@@ -774,8 +758,8 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Vue">
+</docs-filter>
+<docs-filter framework="vue">
 
 ```html
 <amplify-authenticator>
@@ -787,8 +771,7 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-</amplify-block-switcher>
+</docs-filter>
 
 <ui-component-props tag="amplify-forgot-password"></ui-component-props>
 
@@ -798,8 +781,7 @@ const App = () => (
 
 **Usage**
 
-<amplify-block-switcher>
-<amplify-block name="React">
+<docs-filter framework="react">
 
 ```jsx
 import React from 'react';
@@ -816,8 +798,8 @@ const App = () => (
   </AmplifyAuthenticator>
 );
 ```
-</amplify-block>
-<amplify-block name="Angular">
+</docs-filter>
+<docs-filter framework="angular">
 
 ```html
 <amplify-authenticator>
@@ -829,8 +811,8 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Ionic">
+</docs-filter>
+<docs-filter framework="ionic">
 
 ```html
 <amplify-authenticator>
@@ -842,8 +824,8 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Vue">
+</docs-filter>
+<docs-filter framework="vue">
 
 ```html
 <amplify-authenticator>
@@ -855,8 +837,7 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-</amplify-block-switcher>
+</docs-filter>
 
 <ui-component-props tag="amplify-require-new-password"></ui-component-props>
 
@@ -864,8 +845,7 @@ const App = () => (
 
 **Usage**
 
-<amplify-block-switcher>
-<amplify-block name="React">
+<docs-filter framework="react">
 
 ```jsx
 import React from 'react';
@@ -882,8 +862,8 @@ const App = () => (
   </AmplifyAuthenticator>
 );
 ```
-</amplify-block>
-<amplify-block name="Angular">
+</docs-filter>
+<docs-filter framework="angular">
 
 ```html
 <amplify-authenticator>
@@ -895,8 +875,8 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Ionic">
+</docs-filter>
+<docs-filter framework="ionic">
 
 ```html
 <amplify-authenticator>
@@ -908,8 +888,8 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Vue">
+</docs-filter>
+<docs-filter framework="vue">
 
 ```html
 <amplify-authenticator>
@@ -921,15 +901,13 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-</amplify-block-switcher>
+</docs-filter>
 
 <ui-component-props tag="amplify-totp-setup"></ui-component-props>
 
 ### Verify Contact
 
-<amplify-block-switcher>
-<amplify-block name="React">
+<docs-filter framework="react">
 
 ```jsx
 import React from 'react';
@@ -946,8 +924,8 @@ const App = () => (
   </AmplifyAuthenticator>
 );
 ```
-</amplify-block>
-<amplify-block name="Angular">
+</docs-filter>
+<docs-filter framework="angular">
 
 ```html
 <amplify-authenticator>
@@ -959,8 +937,8 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Ionic">
+</docs-filter>
+<docs-filter framework="ionic">
 
 ```html
 <amplify-authenticator>
@@ -972,8 +950,8 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Vue">
+</docs-filter>
+<docs-filter framework="vue">
 
 ```html
 <amplify-authenticator>
@@ -985,8 +963,7 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-</amplify-block-switcher>
+</docs-filter>
 
 <ui-component-props tag="amplify-verify-contact"></ui-component-props>
 
@@ -996,8 +973,7 @@ const App = () => (
 
 **Usage**
 
-<amplify-block-switcher>
-<amplify-block name="React">
+<docs-filter framework="react">
 
 ```jsx
 import React from 'react';
@@ -1012,8 +988,8 @@ const App = () => (
   </AmplifyAuthenticator>
 );
 ```
-</amplify-block>
-<amplify-block name="Angular">
+</docs-filter>
+<docs-filter framework="angular">
 
 ```html
 <amplify-authenticator>
@@ -1023,8 +999,8 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Ionic">
+</docs-filter>
+<docs-filter framework="ionic">
 
 ```html
 <amplify-authenticator>
@@ -1034,8 +1010,8 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Vue">
+</docs-filter>
+<docs-filter framework="vue">
 
 ```html
 <amplify-authenticator>
@@ -1045,8 +1021,7 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-</amplify-block-switcher>
+</docs-filter>
 
 <ui-component-props tag="amplify-greetings"></ui-component-props>
 
@@ -1071,8 +1046,7 @@ The `amplify-authenticator` component has the ability to sign in / sign up with 
 
 To achieve this, you first need to setup the userpool to allow email or phone number as the username [using the cli workflow](~/cli/auth/overview.md#configuring-auth-without-social-providers) or through the [Cognito Console](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-aliases-settings-option-2). To reflect this in the `amplify-authenticator` component, you can use the `usernameAlias` property. It can take one of the three values - `email`, `phone_number` or `username`. Default is set to `username`.
 
-<amplify-block-switcher>
-<amplify-block name="React">
+<docs-filter framework="react">
 
 ```jsx
 const App = () => (
@@ -1084,8 +1058,8 @@ const App = () => (
   </AmplifyAuthenticator>
 );
 ```
-</amplify-block>
-<amplify-block name="Angular">
+</docs-filter>
+<docs-filter framework="angular">
 
 ```html
 <amplify-authenticator username-alias="email">
@@ -1095,8 +1069,8 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Ionic">
+</docs-filter>
+<docs-filter framework="ionic">
 
 ```html
 <amplify-authenticator username-alias="email">
@@ -1106,8 +1080,8 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-<amplify-block name="Vue">
+</docs-filter>
+<docs-filter framework="vue">
 
 ```html
 <amplify-authenticator username-alias="email">
@@ -1117,8 +1091,7 @@ const App = () => (
   </div>
 </amplify-authenticator>
 ```
-</amplify-block>
-</amplify-block-switcher>
+</docs-filter>
 
 ## Migration
 
@@ -1127,42 +1100,39 @@ To migrate from using the `aws-amplify-<framework>` library to the latest `@aws-
 
 ### Installation
 
-<amplify-block-switcher>
-<amplify-block name="React">
+<docs-filter framework="react">
 
 ```diff
 - yarn add aws-amplify-react
 + yarn add @aws-amplify/ui-react
 ```
-</amplify-block>
-<amplify-block name="Angular">
+</docs-filter>
+<docs-filter framework="angular">
 
 ```diff
 - yarn add aws-amplify-angular
 + yarn add @aws-amplify/ui-angular
 ```
-</amplify-block>
-<amplify-block name="Ionic">
+</docs-filter>
+<docs-filter framework="ionic">
 
 ```diff
 - yarn add aws-amplify-angular
 + yarn add @aws-amplify/ui-angular
 ```
-</amplify-block>
-<amplify-block name="Vue">
+</docs-filter>
+<docs-filter framework="vue">
 
 ```diff
 - yarn add aws-amplify-vue
 + yarn add @aws-amplify/ui-vue
 ```
-</amplify-block>
-</amplify-block-switcher>
+</docs-filter>
 
 
 ### Usage
 
-<amplify-block-switcher>
-<amplify-block name="React">
+<docs-filter framework="react">
 
 ```diff
 - import { Authenticator } from 'aws-amplify-react';
@@ -1205,8 +1175,8 @@ The previous `withAuthenticator` component would render a Greetings and Sign Out
 
 </docs-filter>
 
-</amplify-block>
-<amplify-block name="Angular">
+</docs-filter>
+<docs-filter framework="angular">
 
 _app.module.ts_
 
@@ -1231,8 +1201,8 @@ Amplify.configure(awsconfig);
 })
 export class AppModule {}
 ```
-</amplify-block>
-<amplify-block name="Ionic">
+</docs-filter>
+<docs-filter framework="ionic">
 
 _app.module.ts_
 
@@ -1257,8 +1227,8 @@ Amplify.configure(awsconfig);
 })
 export class AppModule {}
 ```
-</amplify-block>
-<amplify-block name="Vue">
+</docs-filter>
+<docs-filter framework="vue">
 
 _main.ts_
 
@@ -1278,5 +1248,4 @@ new Vue({
 }).$mount('#app');
 ```
 
-</amplify-block>
-</amplify-block-switcher>
+</docs-filter>
