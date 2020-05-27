@@ -10,7 +10,7 @@ func recordEvents() {
         "eventPropertyDoubleKey": 12.34,
         "eventPropertyBoolKey": true
     ]
-    let event = BasicAnalyticsEvent("eventName", properties: properties)
+    let event = BasicAnalyticsEvent(name: "eventName", properties: properties)
     Amplify.Analytics.record(event: event)
 }
 ```
@@ -47,7 +47,7 @@ Events have default configuration to flush out to the network every 60 seconds. 
 You can register properties which will be used across all `Amplify.Analytics.record(event:)` calls.
 
 ```swift
-let globalProperties: [String: AnalyticsPropertyValue] = ["globalPropertyKey": "value"]
+let globalProperties: AnalyticsProperties = ["globalPropertyKey": "value"]
 Amplify.Analytics.registerGlobalProperties(globalProperties)
 ```
 
@@ -81,16 +81,22 @@ Amplify.Analytics.enable()
 
 For advanced use cases where Amplify does not provide the functionality, you can retrieve the escape hatch to access AWSPinpoint instance.
 
-Add `import AmplifyPlugins` and then the following code:
+Add the following imports:
 
 ```swift
- func getEscapeHatch() throws {
-    let plugin = try Amplify.Analytics.getPlugin(for: "awsPinpointAnalyticsPlugin")
-    guard let pinpointAnalyticsPlugin = plugin as? AWSPinpointAnalyticsPlugin else {
-        XCTFail("Could not get plugin of type AWSPinpointAnalyticsPlugin")
-        return
+import AmplifyPlugins
+import AWSPinpoint
+```
+
+Then retrieve the escape hatch with this code:
+
+```swift
+func getEscapeHatch() {
+    do {
+        let plugin = try Amplify.Analytics.getPlugin(for: "awsPinpointAnalyticsPlugin") as! AWSPinpointAnalyticsPlugin
+        let awsPinpoint = plugin.getEscapeHatch()
+    } catch {
+        print("Get escape hatch failed with error - \(error)")
     }
-    let awsPinpoint = pinpointAnalyticsPlugin.getEscapeHatch()
-    XCTAssertNotNil(awsPinpoint)
 }
 ```
