@@ -15,8 +15,7 @@ You can also write this in a compositional function manner by replacing the oper
 
 ```swift
 let p = Post.keys
-let predicate = p.rating.gt(4).and(p.status.eq(PostStatus.active))
-Amplify.DataStore.query(Post.self, where: predicate) {
+Amplify.DataStore.query(Post.self, where: p.rating.gt(4).and(p.status.eq(PostStatus.active))) {
     // handle the callback like in the previous example
 }
 ```
