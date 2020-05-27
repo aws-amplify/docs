@@ -14,7 +14,7 @@ Now that your have DataStore persisting data locally, in the next step you'll co
     push=true
     ```
 
-1. **Build your project** (Cmd+b), which will instruct amplify tools to push your configuration to the backend.
+1. **Build your project** (Cmd+b), which will instruct amplify tools to push your configuration to the backend. This will take a few minutes and you can monitor the progress by going to Xcode's report navigator tab and clicking on the running build.
 
 ##  Add a subscription
 We will now demonstrate how to add a subscription to the application, so that we can receieve any updates to the `Todo` model.
@@ -57,7 +57,7 @@ We will now demonstrate how to add a subscription to the application, so that we
 
 1.  Finally, in the same file (`ContentView.swift`), remove any existing code you may have in `performOnAppear()` function, and replace it with **calling the subscribeTodos() function**.  Your peformOnAppear() function may look like this:
   ```swift
-  func peformOnAppear() {
+  func performOnAppear() {
       subscribeTodos()
   }
   ```
@@ -72,7 +72,7 @@ In this seciton we will make a mutation using the app sync console and have our 
 
 1. Open a terminal window in your project's directory. **Execute the command:**
   ```bash
-  amplify api console
+  amplify console api
   ```
   
   When prompted, select **GraphQL**. This will open the AWS AppSync console.

@@ -78,7 +78,7 @@ Now that your have DataStore persisting data locally, in the next step you'll co
 1. Open up a terminal window. You can use an external terminal or the integrated terminal in Android Studio. In the terminal, run:
 
    ```bash
-   amplify api console
+   amplify console api
    ```
 
    ```console
