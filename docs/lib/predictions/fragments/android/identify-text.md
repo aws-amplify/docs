@@ -37,7 +37,7 @@ public void detectText(Bitmap image) {
             image,
             result -> {
                 IdentifyTextResult identifyResult = (IdentifyTextResult) result;
-                Log.i("MyAmplifyApp", identifyResult.getFullText())
+                Log.i("MyAmplifyApp", identifyResult.getFullText());
             },
             error -> Log.e("MyAmplifyApp", "Identify text failed", error)
     );
@@ -57,7 +57,7 @@ fun detectText(image: Bitmap) {
             Log.i("MyAmplifyApp", identifyResult.getFullText())
         },
         Consumer { error: PredictionsException? ->
-            Log.e("MyAmplifyApp", "Identify text failed, error)
+            Log.e("MyAmplifyApp", "Identify text failed", error)
         }
     )
 }
