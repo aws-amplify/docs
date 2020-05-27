@@ -10,7 +10,7 @@ func recordEvents() {
         "eventPropertyDoubleKey": 12.34,
         "eventPropertyBoolKey": true
     ]
-    let event = BasicAnalyticsEvent("eventName", properties: properties)
+    let event = BasicAnalyticsEvent(name: "eventName", properties: properties)
     Amplify.Analytics.record(event: event)
 }
 ```
@@ -47,7 +47,7 @@ Events have default configuration to flush out to the network every 60 seconds. 
 You can register properties which will be used across all `Amplify.Analytics.record(event:)` calls.
 
 ```swift
-let globalProperties: [String: AnalyticsPropertyValue] = ["globalPropertyKey": "value"]
+let globalProperties: AnalyticsProperties = ["globalPropertyKey": "value"]
 Amplify.Analytics.registerGlobalProperties(globalProperties)
 ```
 
@@ -84,13 +84,20 @@ For advanced use cases where Amplify does not provide the functionality, you can
 Add `import AmplifyPlugins` and then the following code:
 
 ```swift
- func getEscapeHatch() throws {
-    let plugin = try Amplify.Analytics.getPlugin(for: "awsPinpointAnalyticsPlugin")
+ unc getEscapeHatch(completion: @escaping(Result<AWSPinpoint, Error>) -> Void) {
+    var plugin: AnalyticsCategoryPlugin?
+    
+    do{
+        plugin = try Amplify.Analytics.getPlugin(for: "awsPinpointAnalyticsPlugin")
+    } catch {
+        print("Error trying to get AWSPinpointAnalyticsPlugin")
+    }
+    
     guard let pinpointAnalyticsPlugin = plugin as? AWSPinpointAnalyticsPlugin else {
-        XCTFail("Could not get plugin of type AWSPinpointAnalyticsPlugin")
+        print("Could not get plugin of type AWSPinpointAnalyticsPlugin")
         return
     }
     let awsPinpoint = pinpointAnalyticsPlugin.getEscapeHatch()
-    XCTAssertNotNil(awsPinpoint)
+    completion(.success(awsPinpoint))
 }
 ```
