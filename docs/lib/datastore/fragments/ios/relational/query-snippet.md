@@ -1,10 +1,20 @@
 Models with one-to-many connections are lazy-loaded when accessing the connected property, so accessing a relation is as simple as:
 
 ```swift
-// assume postWithComments was fetched using Amplify.DataStore.query()
-if let comments = postWithComments.comments {
-    for comment in comments {
-        print(comment.content)
+Amplify.DataStore.query(Post.self, byId: "111") {
+    switch $0 {
+    case .success(let post):
+        if let postWithComments = post {
+            if let comments = postWithComments.comments {
+                for comment in comments {
+                    print(comment.content)
+                }
+            }
+        } else {
+            print("Post not found")
+        }
+    case .failure(let error):
+        print("Post not found - \(error.localizedDescription)")
     }
 }
 ```
