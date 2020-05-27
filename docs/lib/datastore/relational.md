@@ -23,7 +23,7 @@ enum PostStatus {
 
 type Post @model {
   id: ID!
-  title: String
+  title: String!
   rating: Int
   status: PostStatus
   # New field with @connection
