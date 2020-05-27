@@ -46,32 +46,54 @@ Some steps in setting up multi-factor authentication can only be chosen during t
 Now, run `amplify add auth` and setup Auth with the following options:  
 
 ```console
-Do you want to use the default authentication and security configuration? Manual configuration
-Select the authentication/authorization services that you want to use: User Sign-Up, Sign-In, connected with AWS IAM controls (Enables per
--user Storage features for images or other content, Analytics, and more)
-Please provide a friendly name for your resource that will be used to label this category in the project: <default>
-Please enter a name for your identity pool. <default>
-Allow unauthenticated logins? (Provides scoped down permissions that you can control via AWS IAM) Yes
-Do you want to enable 3rd party authentication providers in your identity pool? No
-Please provide a name for your user pool: <default>
+? Do you want to use the default authentication and security configuration? 
+    `Manual configuration`
+? Select the authentication/authorization services that you want to use: 
+    `User Sign-Up, Sign-In, connected with AWS IAM controls (Enables per-user Storage features for images or other content, Analytics, and more)`
+? Please provide a friendly name for your resource that will be used to label this category in the project: 
+    `<default>`
+? Please enter a name for your identity pool. 
+    `<default>`
+? Allow unauthenticated logins? (Provides scoped down permissions that you can control via AWS IAM) 
+    `Yes`
+? Do you want to enable 3rd party authentication providers in your identity pool? 
+    `No`
+? Please provide a name for your user pool: 
+    `<default>`
 Warning: you will not be able to edit these selections.
-How do you want users to be able to sign in? Username
-Do you want to add User Pool Groups? No
-Do you want to add an admin queries API? No
-Multifactor authentication (MFA) user login options: ON (Required for all logins, can not be enabled later)
-For user login, select the MFA types: SMS Text Message
-Please specify an SMS authentication message: Your authentication code is {####}
-Email based user registration/forgot password: Enabled (Requires per-user email entry at registration)
-Please specify an email verification subject: Your verification code
-Please specify an email verification message: Your verification code is {####}
-Do you want to override the default password policy for this User Pool? No
+? How do you want users to be able to sign in? 
+    `Username`
+? Do you want to add User Pool Groups? 
+    `No`
+? Do you want to add an admin queries API? 
+    `No`
+? Multifactor authentication (MFA) user login options: 
+    `ON (Required for all logins, can not be enabled later)`
+? For user login, select the MFA types: 
+    `SMS Text Message`
+? Please specify an SMS authentication message: 
+    `Your authentication code is {####}`
+? Email based user registration/forgot password: 
+    `Enabled (Requires per-user email entry at registration)`
+? Please specify an email verification subject: 
+    `Your verification code`
+? Please specify an email verification message: 
+    `Your verification code is {####}`
+? Do you want to override the default password policy for this User Pool? 
+    `No`
 Warning: you will not be able to edit these selections.
-What attributes are required for signing up? Email, Phone Number (This attribute is not supported by Facebook, Login With Amazon.)
-Specify the app's refresh token expiration period (in days): 30
-Do you want to specify the user attributes this app can read and write? No
-Do you want to enable any of the following capabilities?
-Do you want to use an OAuth flow? No
-? Do you want to configure Lambda Triggers for Cognito? No
+? What attributes are required for signing up? 
+    `Email, Phone Number (This attribute is not supported by Facebook, Login With Amazon.)`
+? Specify the app's refresh token expiration period (in days): 
+    `30`
+? Do you want to specify the user attributes this app can read and write? 
+    `No`
+? Do you want to enable any of the following capabilities?
+    `NA`
+? Do you want to use an OAuth flow? 
+    `No`
+? Do you want to configure Lambda Triggers for Cognito? 
+    `No`
 ```
 
 When you sign up, be sure to include both email and phone attributes with the phone number formatted as follows:
