@@ -11,30 +11,20 @@ Configure the new class in **New Java Class**:
 - Enter *android.app.Application* in the **Superclass** field
 - Press **OK**
 
-Initialize Amplify by replacing the contents with the following code:
+Initialize Amplify by adding an `onCreate` method with the following code:
 
 ```java
-package com.example.myamplifyapp;
+  public void onCreate() {
+      super.onCreate();
 
-import android.app.Application;
-import android.util.Log;
-import com.amplifyframework.AmplifyException;
-import com.amplifyframework.core.Amplify;
+      try {
+          Amplify.configure(getApplicationContext());
 
-public class MyAmplifyApp extends Application {
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        try {
-            Amplify.configure(getApplicationContext());
-
-            Log.i("MyAmplifyApp", "Initialized Amplify");
-        } catch (AmplifyException error) {
-            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
-        }
-    }
-}
+          Log.i("MyAmplifyApp", "Initialized Amplify");
+      } catch (AmplifyException error) {
+          Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+      }
+  }
 ```
 
 </amplify-block>
@@ -47,24 +37,17 @@ Configure the new class in **New Kotlin File/Class**:
 - Select *Class* from the types
 - Press enter
 
-Initialize Amplify by replacing the contents with the following code:
+Initialize Amplify by adding an `onCreate` method with the following code:
 
 ```kotlin
-import android.app.Application
-import android.util.Log
-import com.amplifyframework.AmplifyException
-import com.amplifyframework.core.Amplify
+override fun onCreate() {
+    super.onCreate()
 
-class MyAmplifyApp : Application() {
-    override fun onCreate() {
-        super.onCreate()
-
-        try {
-            Amplify.configure(applicationContext)
-            Log.i("MyAmplifyApp", "Initialized Amplify")
-        } catch (error: AmplifyException) {
-            Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
-        }
+    try {
+        Amplify.configure(applicationContext)
+        Log.i("MyAmplifyApp", "Initialized Amplify")
+    } catch (error: AmplifyException) {
+        Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
     }
 }
 ```
