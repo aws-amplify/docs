@@ -2,6 +2,11 @@ Remembering a device is useful in conjunction with Multi-Factor Authentication (
 
 Remembering a device allows the second factor requirement to be automatically met when the user signs in on that device, thereby reducing friction in the user experience.
 
+<amplify-callout>
+Device feature apis currently does not work if you are signed in with social provider or the webui signin.
+</amplify-callout>
+
+
 ## Prerequisites
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/getting_started/10_preReq.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/auth/fragments/android/getting_started/10_preReq.md"></inline-fragment>
