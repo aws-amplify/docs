@@ -9,7 +9,7 @@ To setup and configure your application with Amplify API to save items in the ba
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/getting-started/10_preReq.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/getting-started/10_preReq.md"></inline-fragment>
 
-## Provision Backend Storage Services
+## Configure API
 
 To start provisioning API resources in the backend, go to your project directory and **execute the command**:
 
