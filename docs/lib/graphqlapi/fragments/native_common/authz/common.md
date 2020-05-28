@@ -4,9 +4,9 @@ For client authorization AppSync supports API Keys, Amazon IAM credentials, Amaz
 
 API Key is the easiest way to setup and prototype your application with AppSync. 
 
-#### Cognito User Pools
+#### Amazon Cognito User Pools
 
-Amazon Cognito User Pools is the most common service to use with AppSync when adding user Sign-Up and Sign-In to your application. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials with Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth` and can also automatically federate User Pools with Identity Pools. This allows you to have both User Pool credentials for AppSync and AWS credentials for S3. You can learn more about Amplify Auth outlined in the [Accessing credentials section](~/lib/auth/access_credentials.md). For manual configuration, add the following snippet to your `amplifyconfiguration.json` file, under the `awsCognitoAuthPlugin`:
+Amazon Cognito's user pool is most commonly used with AWS AppSync when adding authorization check on your API calls. If your application needs to interact with other AWS services besides AWS AppSync, such as AWS S3, you will need to use AWS IAM credentials with Amazon Cognito's identity pools. Amplify CLI can automatically configure this for you when running `amplify add auth` and will also automatically use the authenticated user from user pools to federate with the identity pools to provide the AWS IAM credentials in the application. [See this for more information about the differences](https://aws.amazon.com/premiumsupport/knowledge-center/cognito-user-pools-identity-pools/). This allows you to have both user pool credentials for AWS AppSync and AWS IAM credentials for other AWS resources. You can learn more about Amplify Auth outlined in the [Accessing credentials section](~/lib/auth/access_credentials.md). For manual configuration, add the following snippet to your `amplifyconfiguration.json` file, under the `awsCognitoAuthPlugin`:
 
 ```json
 {
