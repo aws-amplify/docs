@@ -4,16 +4,24 @@ You can make a call to the specific client using the friendly name:
 <amplify-block name="Java">
 
 ```java
-// TODO
-Amplify.API.mutate(apiName: "friendly_name_API_KEY" ...)
+Amplify.API.mutate(
+    "friendly_name_API_KEY",
+    request,
+    response -> Log.i("MyAmplifyApp", "Mutation successful"),
+    error -> Log.e("MyAmplifyApp", "Failed to mutate model.", error)
+);
 ```
 
 </amplify-block>
 <amplify-block name="Kotlin">
 
 ```kotlin
-// TODO
-Amplify.API.mutate(apiName: "friendly_name_API_KEY" ...)
+Amplify.API.mutate(
+    "friendly_name_API_KEY",
+    request,
+    { Log.i("MyAmplifyApp", "Mutation successful") },
+    { Log.e("MyAmplifyApp","Failed to mutate model.", it) }
+)
 ```
 
 </amplify-block>
