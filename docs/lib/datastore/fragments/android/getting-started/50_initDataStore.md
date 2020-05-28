@@ -61,6 +61,6 @@ class MyAmplifyApp : Application() {
 
 Upon building and running this application you should see the following in your console window:
 
-```bash
+```console
 Initialized Amplify
 ```

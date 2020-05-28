@@ -9,7 +9,7 @@ Amplify DataStore provides a programming model for leveraging shared and distrib
 
 <amplify-callout>
 
-**Note:** cloud synchronization is optional and disabled by default. This allows you to start with DataStore right away, even without an AWS account.
+**Note:** this allows you to start persisting data locally to your device with DataStore, even without an AWS account.
 
 </amplify-callout>
 
@@ -37,7 +37,7 @@ There are two options to integrate the Amplify build process with the project.
 
 ### Option 2: Use Amplify CLI
 
-If more control over the configuration and code generation process is needed the Amplify CLI can be used directly. This option is particularly useful for **existing codebases** where Amplify is already configured.
+Instead of using the platform integration, you can alternatively use the Amplify CLI on its own to accomplish the same thing that Amplify Tools is doing for you. This option is particularly useful for **existing codebases** where Amplify is already configured.
 
 The base structure for a DataStore app is created by adding a new GraphQL API to your app.
 
@@ -98,8 +98,14 @@ Open the `schema.graphql` file located by default at `amplify/backend/{api_name}
 type Post @model {
   id: ID!
   title: String!
+  status: PostStatus!
   rating: Int
   content: String
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
 }
 ```
 
@@ -117,7 +123,7 @@ Like the initial setup, models can be generated either using the IDE integration
 
 Models can also be generated using the Amplify CLI directly.
 
-1. In your terminal **execute the codegen command**:
+1. In your terminal, change directories to your project's folder and **execute the codegen command**:
     ```console
     amplify codegen models
     ```
