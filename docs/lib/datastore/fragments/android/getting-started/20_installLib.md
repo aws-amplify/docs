@@ -8,7 +8,7 @@ dependencies {
 }
 ```
 
-Also at the top of the same file, add this piece of code to support the Java 8 features Amplify uses:
+At the top of the same file, add `compileOptions` to support the Java 8 features used by Amplify:
 
 ```groovy
 android {
