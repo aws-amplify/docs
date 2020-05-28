@@ -1,6 +1,6 @@
 ```swift
 let p = Post.keys
-Amplify.DataStore.query(Post.self, where: { p.rating > 4 && p.status == .active }) {
+Amplify.DataStore.query(Post.self, where: p.rating > 4 && p.status == PostStatus.active) {
     switch $0 {
     case .success(let result):
         // result if of type [Post]
@@ -15,7 +15,7 @@ You can also write this in a compositional function manner by replacing the oper
 
 ```swift
 let p = Post.keys
-Amplify.DataStore.query(Post.self, where: { p.rating.gt(4).and(p.status.eq(.active)) }) {
+Amplify.DataStore.query(Post.self, where: p.rating.gt(4).and(p.status.eq(PostStatus.active))) {
     // handle the callback like in the previous example
 }
 ```

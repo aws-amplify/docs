@@ -48,9 +48,16 @@ The above example shows how to use a *one-to-many* schema and save connected mod
 In this case, you save instances of models from each side of the relationship and then join them together by connecting type on a field defined with `@connection`. Consider the following schema:
 
 ```graphql
+enum PostStatus {
+  ACTIVE
+  INACTIVE
+}
+
 type Post @model {
   id: ID!
   title: String!
+  rating: Int
+  status: PostStatus
   editors: [PostEditor] @connection(keyName: "byPost", fields: ["id"])
 }
 
