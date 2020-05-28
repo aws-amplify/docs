@@ -12,7 +12,7 @@ Amplify.addPlugin(new AWSApiPlugin());
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.addPlugin(AWSCognitoAuthPlugin());
+Amplify.addPlugin(AWSCognitoAuthPlugin())
 Amplify.addPlugin(AWSApiPlugin())
 ```
 
