@@ -1,7 +1,7 @@
-To initialize the Amplify Storage and Authentication categories, we are required to use the `Amplify.addPlugin()` method for each category we want.  When we are done calling `addPlugin()` on each category, we finish configuring Amplify by calling `Amplify.configure()`.
+To initialize the Amplify DataStore, use the `Amplify.addPlugin()` method to add the AWS DataStore Plugin. Next, finish configuring the Amplify framework by calling `Amplify.configure()`.
 
 
-Add the following code to the bottom of your MainActivity `onCreate` method (ideally this would go in your Application class but this works for getting started quickly):
+Add the following code to the bottom of your MainActivity `onCreate` method. (Ideally, this code would live in an Application subclass. But, this works for getting started quickly.)
 
 <amplify-block-switcher>
 <amplify-block name="Java">
@@ -62,5 +62,5 @@ class MyAmplifyApp : Application() {
 Upon building and running this application you should see the following in your console window:
 
 ```bash
-Amplify configured with storage plugin
+Initialized Amplify
 ```
