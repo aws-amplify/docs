@@ -41,7 +41,7 @@ When you delete a parent object in a one to many relationship, the children will
 
 However, in a many to many relationship the children are not removed and you must explicitly delete them.
 
-### Many-to-many
+## Many-to-many
 
 The above example shows how to use a *one-to-many* schema and save connected models. For *many-to-many* relations, such as the one shows in the [GraphQL Transformer examples](~/cli/graphql-transformer/directives.md#connection).
 
