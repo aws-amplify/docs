@@ -1,6 +1,6 @@
 For client authorization AppSync supports API Keys, Amazon IAM credentials, Amazon Cognito User Pools, and 3rd party OIDC providers. This is inferred from the `amplifyconfiguration.json` file when you call `Amplify.configure()`.
 
-#### API Key
+#### API key
 
 API Key is the easiest way to setup and prototype your application with AppSync. 
 
@@ -151,4 +151,3 @@ The `friendly_name` illustrated here is created from Amplify CLI prompt. There a
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz/30_multi.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/30_multi.md"></inline-fragment>
-
