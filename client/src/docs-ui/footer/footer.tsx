@@ -13,7 +13,7 @@ import * as links from "../../constants/links";
 export class DocsFooter {
   render() {
     return (
-      <amplify-container class={footerContainerStyle}>
+      <docs-container class={footerContainerStyle}>
         <div class={footerStyle}>
           <div class={leftLinkContainerStyle}>
             <img src="/assets/logo-light.svg" />
@@ -72,7 +72,7 @@ export class DocsFooter {
             </div>
           </div>
         </div>
-      </amplify-container>
+      </docs-container>
     );
   }
 }

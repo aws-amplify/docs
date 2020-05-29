@@ -10,7 +10,7 @@ import * as links from "../../constants/links";
 export class DocsLinkBanner {
   render() {
     return (
-      <amplify-container
+      <docs-container
         class={containerOuterStyle}
         innerClass={containerInnerStyle}
       >
@@ -30,7 +30,7 @@ export class DocsLinkBanner {
           <img src="/assets/logo-dark.svg" class={logoStyle} />
           Amplify Community
         </amplify-external-link>
-      </amplify-container>
+      </docs-container>
     );
   }
 }
