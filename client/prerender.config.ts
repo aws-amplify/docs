@@ -1,11 +1,8 @@
-// eslint-disable-next-line
-const path = require("path");
-const project = path.join(__dirname, "../tsconfig.json");
-require("ts-node").register({project});
-// eslint-disable-next-line
-const {routes: entryUrls} = require("./www/api/routes");
+import {PrerenderConfig} from "@stencil/core";
+import {routes as entryUrls} from "./www/api/routes";
 
-module.exports = {
+export const config: PrerenderConfig = {
+  crawlUrls: false,
   entryUrls,
   hydrateOptions() {
     return {
@@ -17,6 +14,11 @@ module.exports = {
       removeBooleanAttributeQuotes: true,
       removeEmptyAttributes: true,
       removeHtmlComments: true,
+      maxHydrateCount: 2000,
+      runtimeLogging: true,
     };
+  },
+  filterUrl(url) {
+    return !!(url && entryUrls.includes(url.pathname) && url.pathname !== "/");
   },
 };

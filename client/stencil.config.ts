@@ -69,7 +69,7 @@ export const config: Config = {
         unregister: true,
       },
       baseUrl: "https://docs.amplify.aws",
-      prerenderConfig: "prerender-config.js",
+      prerenderConfig: "./prerender.config.ts",
       copy: [
         {
           src: "sitemap.xml",

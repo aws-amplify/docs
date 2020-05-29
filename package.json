@@ -42,7 +42,7 @@
     "prettier": "^1.19.1",
     "puppeteer": "1.20.0",
     "rollup-plugin-node-polyfills": "^0.2.1",
-    "ts-node": "^8.5.0",
+    "ts-node": "^8.10.2",
     "typescript": "^3.8.3",
     "workbox-build": "4.3.1"
   },

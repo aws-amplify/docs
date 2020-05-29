@@ -35,13 +35,15 @@ const watch = !!(process.argv[3] === "--watch");
 const skipClientBuild = !!(process.argv[3] === "--skip-client-build");
 const hooks = skipClientBuild ? {} : watch ? {onWatching} : {onTargetsWritten};
 
-c.API({
-  cwd: path.join(__dirname, ".."),
-  contentDir: "docs",
-  filters: filterOptionsByName,
-  hooks,
-  outDir: "client/src/api",
-  publicDir: "client/src/assets",
-  watch,
-  srcDir: "client/src",
-});
+// c.API({
+//   cwd: path.join(__dirname, ".."),
+//   contentDir: "docs",
+//   filters: filterOptionsByName,
+//   hooks,
+//   outDir: "client/src/api",
+//   publicDir: "client/src/assets",
+//   watch,
+//   srcDir: "client/src",
+// });
+
+onTargetsWritten();
