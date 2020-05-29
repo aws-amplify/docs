@@ -47,10 +47,10 @@
     url "^0.11.0"
     zen-observable-ts "0.8.19"
 
-"@aws-amplify/ui-components@^0.3.2":
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-components/-/ui-components-0.3.2.tgz#4dbc6a41027edd10d3c417cca9a69330fd3572ae"
-  integrity sha512-hsmXkJreYlQoWglW0Bfv00J+J4PChlvMw0ZhSppUHCe1tQmUabhjb/rMPob7m8rBgufpsv/zYRJwqebVbB3ODA==
+"@aws-amplify/ui-components@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-components/-/ui-components-0.5.0.tgz#61faac4e2e63fd6bb946f574d8c0bef0bf94ad46"
+  integrity sha512-cFV18j6RGdZQp+9j7z7XcEoaUc2OGKxTSVRGfG6039Ix1hQel1w9bZjbkXpfsPAtDjDXFmAn92Pwl/CPmmXINw==
   dependencies:
     qrcode "^1.4.4"
 
