@@ -1,12 +1,10 @@
 ```swift
 // In your type declaration, declare a cancellable to hold onto the subscription
 var postsSubscription: AnyCancellable?
-var postsPublisher: AnyPublisher<MutationEvent, DataStoreError>?
 
 // Then in the body of your code, subscribe to the publisher
 func subscribeToPosts() {
-    postsPublisher = Amplify.DataStore.publisher(for: Todo.self)
-    postsSubscription = postsPublisher?
+    postsSubscription = Amplify.DataStore.publisher(for: Todo.self)
         .sink(receiveCompletion: { completion in
             if case .failure(let error) = completion {
                 print("Subscription received error - \(error.localizedDescription)")
