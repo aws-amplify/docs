@@ -2,7 +2,7 @@
 
 exports[`docs-footer Render logic should render 1`] = `
 <docs-footer>
-  <amplify-container class="css-y7udmp">
+  <docs-container class="css-y7udmp">
     <div class="css-ens8oe">
       <div class="css-1yxcpri">
         <img src="/assets/logo-light.svg">
@@ -63,6 +63,6 @@ exports[`docs-footer Render logic should render 1`] = `
         </div>
       </div>
     </div>
-  </amplify-container>
+  </docs-container>
 </docs-footer>
 `;
