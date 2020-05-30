@@ -130,7 +130,7 @@ type Todo @model @auth (
 
 Create a Lambda function with `amplify add function` and make sure to give access to your GraphQL API when prompted for in the `amplify add function` flow.
 
-The CLI will automatically configure the Lambda execution IAM role required by the Lambda function to call the GraphQL API. The following function will sign the request and use environment variables for the AppSync and Region that `amplify add function` created for you.
+The CLI will automatically configure the Lambda execution IAM role required by the Lambda function to call the GraphQL API. The following function will sign the request and use environment variables for the AppSync and Region that `amplify add function` created for you. This will only work if you have enabled IAM as an authorization provider for the GraphQL API.
 
 ```javascript
 const https = require('https');
