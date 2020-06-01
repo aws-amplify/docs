@@ -112,12 +112,13 @@ Upload an image in your React Native app:
 ```javascript
 uploadToStorage = async pathToImageFile => {
   try {
-    const response = await fetch(pathToImageFile)
+    const imageBlob = (await fetch(pathToImageFile)).blob() // turn image to Blob object
+    const uriParts = pathToImageFile.split('.');
+    const fileType = `image/${uriParts[uriParts.length - 1]}`; // image/png or image/jpeg based on image file type
+    const key = `yourImageName.${uriParts[uriParts.length - 1]}` // set key name
     
-    const blob = await response.blob()
-    
-    Storage.put('yourKeyHere.jpeg', blob, {
-      contentType: 'image/jpeg',
+    Storage.put(key, blob, {
+      contentType: fileType,
     })
   } catch (err) {
     console.log(err)
