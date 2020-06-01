@@ -33,7 +33,7 @@ export class DocsSecondaryNav {
   render() {
     return (
       <Host class={hostStyle} id="secondary-nav">
-        <amplify-container>
+        <docs-container>
           <div class={secondaryNavStyle}>
             <div>
               <div>
@@ -115,7 +115,7 @@ export class DocsSecondaryNav {
               </div>
             </div>
           </div>
-        </amplify-container>
+        </docs-container>
       </Host>
     );
   }

@@ -1,4 +1,4 @@
-## Run a Mutation
+## Run a mutation
 
 Now that the client is set up, you can run a GraphQL mutation with `Amplify.API.mutate` to create, update, and delete your data.
 
