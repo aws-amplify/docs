@@ -14,6 +14,7 @@ export const graphicStyle = css`
 
   img {
     width: inherit;
+    height: 3rem;
   }
 
   img:hover {
