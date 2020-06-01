@@ -1,7 +1,7 @@
 import {AmplifyContainer} from "./container";
 import {newSpecPage} from "@stencil/core/testing";
 
-describe("amplify-container", () => {
+describe("docs-container", () => {
   describe("Component logic", () => {
     let amplifyContainer: AmplifyContainer;
     beforeEach(() => (amplifyContainer = new AmplifyContainer()));
@@ -16,7 +16,7 @@ describe("amplify-container", () => {
         (
           await newSpecPage({
             components: [AmplifyContainer],
-            html: `<amplify-container />`,
+            html: `<docs-container />`,
           })
         ).root,
       ).toMatchSnapshot();

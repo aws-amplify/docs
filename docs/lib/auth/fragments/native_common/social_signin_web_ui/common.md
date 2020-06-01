@@ -50,6 +50,26 @@
 ![Image](~/images/cognitoHostedUI/amazon3.png)
 
 </amplify-block>
+
+<amplify-block name="Sign in with Apple">
+
+1. [Sign In](https://developer.apple.com/account/) with your Apple developer credentials.
+2. On the main developer portal page, select **Certificates, IDs, & Profiles**.
+3. On the left navigation bar, select **Identifier**.
+4. On the Identifiers page, select the **+** icon.
+5. On the Register a New Identifier page, select **App IDs**.
+6. On the Register an App ID page, under App ID Prefix, take note of the Team ID value.
+7. Provide a description in the Description text box and provide the bundleID of the iOS app.
+![Image](~/images/cognitoHostedUI/apple1.png)
+8. Under Capabilities, select Sign in with Apple.
+9. Select **Continue**, review the configuration, and then select **Register**.
+10. On the Identifiers page, on the right, select **App IDs**, and then select **Services ID**.
+11. Select the **+** icon and, on the Register a New Identifier page, select **Services IDs**.
+12. Provide a description in the *Description* text box and provide an identifier for the service id.
+![Image](~/images/cognitoHostedUI/apple2.png)
+13. Continue and register the service id.
+
+</amplify-block>
 </amplify-block-switcher>
 
 
@@ -60,6 +80,9 @@ In terminal, navigate to your project, run `amplify add auth`, and choose the fo
 <inline-fragment platform="android" src="~/lib/auth/fragments/android/social_signin_web_ui/10_cli_setup.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/social_signin_web_ui/10_cli_setup.md"></inline-fragment>
 
+<amplify-callout>
+Sign in with Apple is not yet added to the CLI, follow the steps below to enable it.
+</amplify-callout>
 Once finished run `amplify push` to publish your changes. Once finished, it will display an auto generated URL for your web UI.
 
 You need to now inform your auth provider of this URL:
@@ -130,6 +153,39 @@ You need to now inform your auth provider of this URL:
 3. Type your user pool domain into Allowed Origins and type your user pool domain with the /oauth2/idpresponse endpoint into Allowed Return URLs.
 ![Image](~/images/cognitoHostedUI/amazon5.png)
 5. Choose Save.
+
+</amplify-block>
+<amplify-block name="Sign in with Apple">
+
+1. [Sign In](https://developer.apple.com/account/) with your Apple developer credentials.
+2. On the main developer portal page, select **Certificates, IDs, & Profiles**.
+3. On the left navigation bar, select **Identifiers** and then select **Service IDs** from the drop down list on the right.
+4. Select the service id created in `Setup your auth provider` step above.
+5. Enabled **Sign In with Apple** and select **Configure**.
+6. Under **Primary App ID** select the app id that was created before.
+7. Type your user pool domain into **Domains and Subdomains**.
+8. Type your user pool domain with the `/oauth2/idpresponse` endpoint into **Return URLs**.
+![Image](~/images/cognitoHostedUI/apple3.png)
+9. Click **Next**, review the information, then select **Done**.
+10. On *Edit your Services ID Configuration* click **Continue**, review the information, then select **Save**.
+11. On the main Certificates, Identifiers & Profiles, select **Keys**.
+12. On the Keys page, select the **+** icon.
+13. Provide a name for the key under **Key Name**.
+14. Enable **Sign in with Apple** and select **Configure**
+![Image](~/images/cognitoHostedUI/apple4.png)
+15. Under **Primary App ID** select the app id that was created before.
+16. Click on **Save**
+17. On **Register a New Key** click **Continue**, review the information, then select **Register**.
+18. On the page you are redirected to take note of the Key ID and download the .p8 file containing the private key.
+![Image](~/images/cognitoHostedUI/apple5.png)
+
+### Amazon Cognito User pool setup
+1. In your terminal type `amplify auth console` and select `User Pool` to open the AWS console for the Amazon Cognito User Pool.
+2. Under Federation, under the Identity providers tab, select Sign in with Apple.
+3. Provide the Apple Services ID, Team ID, Key ID, and the downloaded private key for the Sign in with Apple application along with the desired scopes.
+4. Select the Attribute mapping tab, and then select the Apple tab.
+5. Select the checkboxes under Capture next to the Apple attributes, and select the user pool attribute under User pool attribute that will receive the value from the Apple attribute and that you would like to receive in the tokens from Amazon Cognito.
+6. To enable your app client to allow federation through the Sign in with Apple IdP, under App Integration, select App client settings, find the App client that you want to allow Sign in with Apple, and select the Sign in with Apple check box.
 
 </amplify-block>
 </amplify-block-switcher>
