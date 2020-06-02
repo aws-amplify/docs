@@ -109,7 +109,7 @@ enum PostStatus {
 }
 ```
 
-Now you will to convert the platform-agnostic `schema.graphql` into platform-specific data structures that will enforce the idiomatic persistence concepts. DataStore relies on code generation to guarantee schemas are correctly converted to platform code.
+Now you will to convert the platform-agnostic `schema.graphql` into platform-specific data structures. DataStore relies on code generation to guarantee schemas are correctly converted to platform code.
 
 Like the initial setup, models can be generated either using the IDE integration or Amplify CLI directly.
 

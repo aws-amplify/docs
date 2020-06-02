@@ -17,7 +17,7 @@ Then **add a Build Phase** to your app target.
   ```
 5.  Now that Amplify tools  is added to the build process, it will run when you build you project.  **Build your project** in Xcode (`Cmd+b`).
 
-Once the build is done, a new group named "AmplifyConfig" should be added to your project and contain the following files:
+Once the build is done, a new group named `AmplifyConfig` should be added to your project and contain the following files:
 
 - `AmplifyConfig/`
   - `amplifytools.xcconfig`
