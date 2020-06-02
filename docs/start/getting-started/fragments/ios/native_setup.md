@@ -91,7 +91,7 @@ We will now add AmplifyTools as a build phase in your project.
 
 1.  Update the `Run Script` build phase title to **"Run Amplify Tools"**, and then update the shell script to have a single line with:
   ```bash
-  ${PODS_ROOT}/AmplifyTools/amplify-tools.sh
+  "${PODS_ROOT}/AmplifyTools/amplify-tools.sh"
   ```
   Your project should now look like this.  Notice that the amplify tools phase comes before the Compile Sources phase.
   ![](~/images/lib/getting-started/ios/set-up-ios-amplify-tools-3.png)
