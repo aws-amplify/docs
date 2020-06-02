@@ -12,9 +12,3 @@ Once the build is done, a new group named "AmplifyConfig" should be added to you
   - `AmplifyModels.swift`
   - `Todo.swift`
   - `Todo+Schema.swift`
-
-<amplify-callout warning>
-
-**Troubleshooting:** note that when new files are added to your project during an ongoing build, Xcode might cancel the build or leave it in an error state. If that happens you can just build again (`Cmd+b`) re-issue a build for the updated project.
-
-</amplify-callout>
