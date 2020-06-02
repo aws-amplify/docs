@@ -22,7 +22,7 @@ export class DocsUniversalNav {
   render() {
     return (
       <Host class={universalNavStyle}>
-        <amplify-container
+        <docs-container
           class={{
             "background-color-orange-hv":
               this.blend === undefined || !this.blend,
@@ -63,7 +63,7 @@ export class DocsUniversalNav {
               </amplify-external-link>
             </div>
           </div>
-        </amplify-container>
+        </docs-container>
       </Host>
     );
   }
