@@ -1,5 +1,7 @@
 # Amplify Framework Documentation
 
+[![DiscordChat](https://img.shields.io/discord/308323056592486420?logo=discord")](https://discord.gg/jWVbPfC)
+
 > https://docs.amplify.aws
 
 ## Getting Started
@@ -152,12 +154,27 @@ description: how to configure auth
 <inline-fragment platform="ios" src="~/docs/lib/auth/setup/fragments/ios/automated.md"></inline-fragment> <inline-fragment platform="web" src="~/docs/lib/auth/setup/fragments/web/automated.md"></inline-fragment>
 ```
 
+### Inlining Filterable Content
+
+`docs-filter` allows you to make some content filterable without needing to place that content in its own fragment file. This is useful for smaller, non-reusable snippets.
+
+For instance:
+
+```md
+<docs-filter platform="js">
+
+Some JS-specific content here
+
+</docs-filter>
+```
+
 ### Tab-switchable Blocks
 
 `amplify-block-switcher` allows you to organize blocks of content into tabs. This is useful for presenting a reader different instructions based upon framework (e.g. Vue.js vs. React) or language (e.g. Java vs. Kotlin). Here's an example of its usage:
 
 ````md
 <amplify-block-switcher>
+
 <amplify-block name="JavaScript">
 
 ```js
@@ -173,6 +190,7 @@ const a: "a" = "a";
 ```
 
 </amplify-block>
+
 <amplify-block name="Rust">
 
 ```rust
@@ -180,5 +198,6 @@ let mut a = String::from("a");
 ```
 
 </amplify-block>
+
 </amplify-block-switcher>
 ````

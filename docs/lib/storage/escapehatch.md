@@ -1,5 +1,5 @@
 ---
-title: Use S3 SDK directly
+title: Escape hatch
 description: For advanced use cases where Amplify does not provide the functionality, you can retrieve the escape hatch to access the AWSS3 instance.
 ---
 

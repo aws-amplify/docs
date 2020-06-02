@@ -1,13 +1,30 @@
+<amplify-block-switcher>
+<amplify-block name="Java">
+
 ```java
-Amplify.DataStore.query(Post.class, Post.RATING.gt(4),
+Amplify.DataStore.query(Post.class, Where.matches(Post.RATING.gt(4)),
     goodPosts -> {
         while (goodPosts.hasNext()) {
             Post post = goodPosts.next();
-            Log.i("GetStarted", "Post: " +  post);
+            Log.i("MyAmplifyApp", "Post: " +  post);
         }
     },
-    failure -> Log.e("GetStarted", "Query failed.", failure)
+    failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
 );
+```
+
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+Amplify.DataStore.query(Post::class.java, Where.matches(Post.RATING.gt(4)),
+    {
+        while (it.hasNext()) {
+            Log.i("MyAmplifyApp", "Post: ${it.next()}")
+        }
+    },
+    { Log.e("MyAmplifyApp", "Query failed.", it) }
+)
 ```
 
 <amplify-callout>

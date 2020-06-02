@@ -6,6 +6,7 @@ import {
   linksStyle,
   hideAboutLinkStyle,
 } from "./universal-nav.style";
+import * as links from "../../constants/links";
 
 @Component({tag: "docs-universal-nav", shadow: false})
 export class DocsUniversalNav {
@@ -21,7 +22,7 @@ export class DocsUniversalNav {
   render() {
     return (
       <Host class={universalNavStyle}>
-        <amplify-container
+        <docs-container
           class={{
             "background-color-orange-hv":
               this.blend === undefined || !this.blend,
@@ -46,13 +47,13 @@ export class DocsUniversalNav {
             <div class={linksStyle}>
               <amplify-external-link
                 redirect
-                href="https://amplify.aws/community/"
+                href={links.COMMUNITY}
                 anchorTitle="Amplify Community"
               >
                 <span>Community</span>
               </amplify-external-link>
               <amplify-external-link
-                href="https://aws.amazon.com/amplify/"
+                href={links.MARKETING}
                 anchorTitle="AWS Amplify Homepage"
                 graphic={this.blend ? "black" : "white"}
               >
@@ -62,7 +63,7 @@ export class DocsUniversalNav {
               </amplify-external-link>
             </div>
           </div>
-        </amplify-container>
+        </docs-container>
       </Host>
     );
   }

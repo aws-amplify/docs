@@ -10,6 +10,7 @@ import {createVNodeFromHyperscriptNode} from "../../utils/hyperscript";
 import {pageContext} from "../page/page.context";
 import {SelectedFilters} from "../page/page.types";
 import {transformData} from "../../utils/transform-search-data";
+import * as links from "../../constants/links";
 
 @Component({tag: "docs-secondary-nav", shadow: false})
 export class DocsSecondaryNav {
@@ -32,7 +33,7 @@ export class DocsSecondaryNav {
   render() {
     return (
       <Host class={hostStyle} id="secondary-nav">
-        <amplify-container>
+        <docs-container>
           <div class={secondaryNavStyle}>
             <div>
               <div>
@@ -43,11 +44,7 @@ export class DocsSecondaryNav {
                   },
                   {
                     label: "Libraries",
-                    url: this.selectedFilters?.platform
-                      ? this.selectedFilters.platform === "js"
-                        ? "/lib"
-                        : "/sdk"
-                      : "/lib",
+                    url: "/lib",
                     additionalActiveChildRoots: ["/lib", "/sdk"],
                   },
                   {
@@ -61,8 +58,7 @@ export class DocsSecondaryNav {
                   },
                   {
                     label: "Console",
-                    url:
-                      "https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html",
+                    url: links.AWS_USER_GUIDE,
                     external: true,
                   },
                   ...(this.selectedFilters?.platform
@@ -72,13 +68,13 @@ export class DocsSecondaryNav {
                           url: (() => {
                             switch (this.selectedFilters.platform) {
                               case "ios": {
-                                return "https://aws-amplify.github.io/aws-sdk-ios/docs/reference/";
+                                return links.IOS_REFERENCE;
                               }
                               case "android": {
-                                return "https://aws-amplify.github.io/aws-sdk-android/docs/reference/";
+                                return links.ANDROID_REFERENCE;
                               }
                               case "js": {
-                                return "https://aws-amplify.github.io/amplify-js/api/";
+                                return links.JS_REFERENCE;
                               }
                             }
                           })(),
@@ -119,7 +115,7 @@ export class DocsSecondaryNav {
               </div>
             </div>
           </div>
-        </amplify-container>
+        </docs-container>
       </Host>
     );
   }

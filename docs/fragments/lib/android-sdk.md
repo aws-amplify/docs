@@ -1,15 +1,21 @@
 The AWS Mobile SDK for Android enables you to build mobile apps by providing simplified APIs for AWS services such as Amazon Cognito, Amazon S3, AWS AppSync and more.
 
-<docs-internal-link-button href="~/sdk/api/graphql.md">
-  <span slot="text">Explore categories</span>
-</docs-internal-link-button>
+<inline-fragment src="~/sdk/fragments/library-callout.md"></inline-fragment>
 
 ## FAQs
 
 ### How is the AWS Mobile SDK for Android different from the Amplify Libraries for Android?
 
-The Amplify client libraries are use-case centric whereas the Mobile SDK is service-centric. The Amplify libraries provide a highly abstracted category based programming model. You can also use the Mobile SDK with the Amplify libraries using escape hatches if the use case you are trying to build is not available in Amplify libraries.
+Amplify Libraries are part of the Amplify Framework, an opinionated set of Libraries, UI Components, and CLI Toolchain that mobile and web developers can use to build applications. Instead of focusing on service implementations, they have a “category” based design focusing on use cases that you would use for your application. Categories have declarative APIs allowing developers to focus on application design and business use cases.
 
-Currently, the Amplify Libraries for Android are in preview and the existing AWS Mobile SDK for Android is production-ready.
+While Amplify aims to build in best practices with sensible defaults, there are times you may need a lower level interface and have more imperative control over how your applications interact with backend services. For these situations Amplify offers “escape hatches”. You can use certain categories with escape hatches, such as credentials from the Auth category, to interact directly with the services using the lower-level interfaces.
 
-This guide shows how to build an app using AWS Mobile SDK for Android and the Amplify CLI toolchain. To use our new, preview developer experience refer to the [Amplify Libraries for Android guide](~/lib/lib.md).
+We use the term “library” to refer to programming interfaces that have been hand authored for these category based use cases, and use “SDK” to refer to lower-level programming interfaces which have largely been auto-generated from underlying backend service interfaces and are implementation specific. The existing AWS Mobile SDK contains helper classes, utilities, and a set of code-generated, implementation specific APIs defined by AWS service interfaces. You can use it in your app via an escape hatch if you need lower level control.
+
+This guide shows how to build an app using the AWS Mobile SDK for Android and the Amplify CLI toolchain. To use our new, developer experience refer to the [Amplify Libraries for Android guide](~/lib/lib.md).
+
+### Should I use the Amplify libraries or AWS Mobile SDK?
+
+Amplify libraries should be used for all new applications. 
+
+For existing applications, we recommend you evaluate migration to the Amplify libraries. The AWS Mobile SDK will continue be maintained with bug fixes and security updates.

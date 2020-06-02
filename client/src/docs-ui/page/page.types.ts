@@ -12,7 +12,12 @@ export interface SelectedFilters {
 
 export type SetSelectedFilters = (updates: SelectedFilters) => void;
 
+export type SelectedTabHeadings = string[];
+export type SetNewSelectedTabHeadings = (tabHeading: string) => void;
+
 export interface PageContext {
   selectedFilters?: SelectedFilters;
   setSelectedFilters?: SetSelectedFilters;
+  selectedTabHeadings: SelectedTabHeadings;
+  setNewSelectedTabHeadings: SetNewSelectedTabHeadings;
 }

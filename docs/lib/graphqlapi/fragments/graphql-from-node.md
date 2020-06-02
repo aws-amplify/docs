@@ -136,7 +136,7 @@ The CLI will automatically configure the Lambda execution IAM role required by t
 const https = require('https');
 const AWS = require("aws-sdk");
 const urlParse = require("url").URL;
-const appsyncUrl = process.env.API_BACKENDGRAPHQL_GRAPHQLAPIENDPOINTOUTPUT;
+const appsyncUrl = process.env.API_<YOUR_API_NAME>_GRAPHQLAPIENDPOINTOUTPUT;
 const region = process.env.REGION;
 const endpoint = new urlParse(appsyncUrl).hostname.toString();
 const graphqlQuery = require('./query.js').mutation;
