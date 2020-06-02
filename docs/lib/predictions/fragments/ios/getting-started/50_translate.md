@@ -8,8 +8,8 @@ func translateText() {
             switch event {
             case .success(let result):
                 print(result.text)
-            default:
-                print("")
+            case .failure(let error):
+                print("Error: \(error)")
             }
     })
 }
