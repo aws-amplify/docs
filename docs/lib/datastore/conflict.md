@@ -9,18 +9,21 @@ When syncing with [AWS AppSync](https://aws.amazon.com/appsync/), DataStore upda
 
 To update the conflict resolution strategies navigate into your project from a terminal and run `amplify update api` choosing *Yes* when prompted to change the conflict detection and conflict resolution strategies:
 
-```
-amplify update api # Select GraphQL
-
+```console
+? Please select from one of the below mentioned services: 
+    `GraphQL`
+...
 ? Do you want to configure advanced settings for the GraphQL API 
-❯ Yes, I want to make some additional changes. 
-
-? Configure conflict detection? Yes
-? Select the default resolution strategy 
+    `Yes, I want to make some additional changes.`
+? Configure additional auth types? 
+    `No`
+? Configure conflict detection? 
+    `Yes`
+? Select the default resolution strategy
   Auto Merge 
 ❯ Optimistic Concurrency 
   Custom Lambda 
-  Learn More 
+  Learn More
 ```
 
 ### Per model configuration

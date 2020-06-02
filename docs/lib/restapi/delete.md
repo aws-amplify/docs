@@ -1,5 +1,5 @@
 ---
-title: Deleting Data
+title: Deleting data
 description: Using the Delete API REST in Amplify Framework
 ---
 

@@ -2,7 +2,7 @@
 
 exports[`docs-footer Render logic should render 1`] = `
 <docs-footer>
-  <amplify-container class="css-y7udmp">
+  <docs-container class="css-y7udmp">
     <div class="css-ens8oe">
       <div class="css-1yxcpri">
         <img src="/assets/logo-light.svg">
@@ -50,7 +50,7 @@ exports[`docs-footer Render logic should render 1`] = `
         <div class="css-19lbeye">
           <span>
             <img src="/assets/aws.svg">
-            Amplify open source, documentation and community are supported by Amazon Web Services © 2019, Amazon Web Services, Inc. and its affiliates. All rights reserved. View the
+            Amplify open source, documentation and community are supported by Amazon Web Services © 2020, Amazon Web Services, Inc. and its affiliates. All rights reserved. View the
             <amplify-external-link href="https://aws.amazon.com/terms/">
               site terms
             </amplify-external-link>
@@ -63,6 +63,6 @@ exports[`docs-footer Render logic should render 1`] = `
         </div>
       </div>
     </div>
-  </amplify-container>
+  </docs-container>
 </docs-footer>
 `;

@@ -13,25 +13,9 @@ When using the `@key` directive with DataStore, as long as you specifcy a `name`
 
 ## Updated schema
 
-For the examples below with DataStore let's **add a new model** to the [sample schema](~/lib/datastore/getting-started.md#sample-schema).
-
-```graphql
-type Post @model {
-  id: ID!
-  title: String!
-  description: String
-  # New field with @connection
-  comments: [Comment] @connection
-}
-
-# New model
-type Comment @model {
-  id: ID!
-  postID: ID!
-  post: Post! @connection(fields: ["postID"])
-  content: String!
-}
-```
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/relational/updated-schema.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/relational/updated-schema.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/relational/updated-schema.md"></inline-fragment>
 
 ## Saving relations
 
@@ -64,9 +48,16 @@ The above example shows how to use a *one-to-many* schema and save connected mod
 In this case, you save instances of models from each side of the relationship and then join them together by connecting type on a field defined with `@connection`. Consider the following schema:
 
 ```graphql
+enum PostStatus {
+  ACTIVE
+  INACTIVE
+}
+
 type Post @model {
   id: ID!
   title: String!
+  rating: Int
+  status: PostStatus
   editors: [PostEditor] @connection(keyName: "byPost", fields: ["id"])
 }
 

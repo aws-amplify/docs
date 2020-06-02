@@ -9,8 +9,8 @@ Post post = Post.builder()
     .build();
 
 Amplify.DataStore.save(post,
-    saved -> Log.i("GetStarted", "Saved a post."),
-    failure -> Log.e("GetStarted", "Save failed.", failure)
+    saved -> Log.i("MyAmplifyApp", "Saved a post."),
+    failure -> Log.e("MyAmplifyApp", "Save failed.", failure)
 );
 ```
 
@@ -25,8 +25,8 @@ val post = Post.builder()
     .build()
 
 Amplify.DataStore.save(post,
-    { saved -> Log.i("GetStarted", "Saved a post.") },
-    { failure -> Log.e("GetStarted", "Save failed.", failure) }
+    { Log.i("MyAmplifyApp", "Saved a post.") },
+    { Log.e("MyAmplifyApp", "Save failed.", it) }
 )
 ```
 

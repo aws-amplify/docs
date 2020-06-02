@@ -4,11 +4,10 @@ Add the following dependencies to your **app** build.gradle file and click "Sync
 dependencies {
     implementation 'com.amplifyframework:core:1.0.0'
     implementation 'com.amplifyframework:aws-datastore:1.0.0'
-    implementation 'com.amplifyframework:aws-api:1.0.0'
 }
 ```
 
-Also at the top of the same file, add this piece of code to support the Java 8 features Amplify uses:
+At the top of the same file, add `compileOptions` to support the Java 8 features used by Amplify:
 
 ```groovy
 android {

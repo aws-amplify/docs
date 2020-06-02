@@ -32,6 +32,7 @@ Run `amplify add predictions`, then use the following answers:
   Auth users only
 ❯ Auth and Guest users
 ```
+
 Run `amplify push` to create the resources in the cloud
 
 

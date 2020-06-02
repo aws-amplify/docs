@@ -41,8 +41,8 @@ Amplify.Predictions.interpret(
 Amplify.Predictions.interpret(
     "I like to eat spaghetti",
     { result -> Log.i("MyAmplifyApp", result.getSentiment()!!.getValue().toString()) },
-    { error -> Log.e("MyAmplifyApp", "Interpret failed", error)
-}
+    { error -> Log.e("MyAmplifyApp", "Interpret failed", error) }
+)
 ```
 
 </amplify-block>

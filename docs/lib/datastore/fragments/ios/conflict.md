@@ -14,25 +14,22 @@ The code below illustrates a conflict resolution handler for the `Post` model th
 
 ```swift
 // custom conflict resolution configuration
-Amplify.add(plugin: AWSDataStorePlugin(modelRegistration: registration, configuration: .custom(
+let dataStorePlugin = AWSDataStorePlugin(modelRegistration: AmplifyModels(), configuration: .custom(
+    errorHandler: { error in Amplify.Logging.error(error: error) },
     conflictHandler: { (data, resolve) in
-        let (local, remote) = data
-
-        guard let localPost = local as? Post, let remotePost as? Post {
-            .resolve(.discard)
+        guard let localPost = data.local as? Post,
+            let remotePost = data.remote as? Post else {
+                resolve(.applyRemote)
+                return
         }
 
         // always favor the title from the local post
         let mergedModel = Post(title: localPost.title,
                                rating: remotePost.rating,
                                status: remotePost.status)
-        resolve(.applyNew(mergedModel))
-    },
-    errorHandler: { error in
-        Amplify.Logging.error(error: error)
-    },
+        resolve(.retry(mergedModel))
+},
     syncInterval: 1_440,
     syncMaxRecords: 10_000,
-    syncPageSize: 1_000
-)))
+    syncPageSize: 1_000))
 ```

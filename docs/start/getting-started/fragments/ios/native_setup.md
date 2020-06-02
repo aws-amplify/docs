@@ -62,7 +62,6 @@ Amplify for iOS is distribued through Cocoapods as a Pod. In this section, you'l
 
       pod 'Amplify'
       pod 'Amplify/Tools'
-      pod 'AWSPluginsCore'
       pod 'AmplifyPlugins/AWSAPIPlugin'
       pod 'AmplifyPlugins/AWSDataStorePlugin'
 
@@ -92,15 +91,23 @@ We will now add AmplifyTools as a build phase in your project.
 
 1.  Update the `Run Script` build phase title to **"Run Amplify Tools"**, and then update the shell script to have a single line with:
   ```bash
-  ${PODS_ROOT}/AmplifyTools/amplify-tools.sh
+  "${PODS_ROOT}/AmplifyTools/amplify-tools.sh"
   ```
   Your project should now look like this.  Notice that the amplify tools phase comes before the Compile Sources phase.
   ![](~/images/lib/getting-started/ios/set-up-ios-amplify-tools-3.png)
 
-1.  Now that we've added Amplify tools to the build process, it will run when you build you project.  **Build your project** in Xcode (Cmd+b).  Because this is the first time you are buliding your project, Amplify tools will detect this and generate a number of files in your project directory.
+1.  Now that we've added Amplify tools to the build process, it will run when you build you project.  **Build your project** in Xcode (`Cmd+b`).  Because this is the first time you are buliding your project, Amplify tools will detect this and generate a number of files in your project directory.
   * `amplify` (folder) - Contains a number of configuration files and pre-generated sample files that we will be using in you project
   * `amplifytools.xcconfig` - this configuration file controls the behavior of amplify tools
   * `amplifyconfiguration.json` - this configuration file will be added to your project and shipped with your bundle.  This is required by the amplify libraries.
   * `awsconfiguration.json` - this configuration file will also be added to your poject and shipped with your bundle.  This is also requried by the amplify libraries.
     
 You are ready to start building with Amplify! 🎉
+
+<amplify-callout>
+
+If Xcode reports build errors like `Undefined symbol: _OBJC_CLASS_$_AWSSignatureV4Signer`, as shown in the screenshot below, clean build folder with **Product > Clean Build Folder** (`Shift+Cmd+K`) and rebuild the project (`Cmd+b`).
+
+![Xcode Build Error](~/images/xcode-build-error.png)
+
+</amplify-callout>

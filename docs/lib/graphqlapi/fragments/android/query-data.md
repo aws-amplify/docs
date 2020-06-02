@@ -1,35 +1,69 @@
-## Query by Id
+## Query item
 
 Now that you were able to make a mutation, take the `Id` that was printed out and use it in your query to retrieve data.
 
+<amplify-block-switcher>
+<amplify-block name="Java">
+
 ```java
 private void getTodo(String id) {
-    Amplify.API.query(
-        Todo.class,
-        id,
-        queryResponse -> {
-            Log.i("ApiQuickStart", "Got " + queryResponse.getData().getName());
-        },
-        apiFailure -> Log.e("ApiQuickStart", apiFailure.getMessage(), apiFailure)
-    );
+  Amplify.API.query(
+          ModelQuery.get(Todo.class, id),
+          response -> Log.i("MyAmplifyApp", ((Todo) response.getData()).getName()),
+          error -> Log.e("MyAmplifyApp", error.toString(), error)
+  );
 }
 ```
 
-## List Query
+</amplify-block>
+<amplify-block name="Kotlin">
 
-You can get the list of items that match a condition that you specify in `Amplify.API.query`
+```kotlin
+fun getTodo(id: String) {
+    Amplify.API.query(
+            ModelQuery.get(Todo::class.java, id),
+            { response -> Log.i("MyAmplifyApp", response.data.name) },
+            { error -> Log.e("MyAmplifyApp", "Query failed", error) }
+    )
+}
+```
+
+</amplify-block>
+</amplify-block-switcher>
+
+## List items
+
+You can get the list of items that match a condition that you specify in `Amplify.API.query`:
+
+<amplify-block-switcher>
+<amplify-block name="Java">
 
 ```java
-private void listTodo() {
-    Amplify.API.query(
-        Todo.class,
-        Todo.NAME.contains("first").and(Todo.NAME.ne("first todo name")),
-        queryResponse -> {
-            for (Todo todo : queryResponse.getData()) {
-                Log.i("ApiQuickstart", "List result: " + todo.getName());
+Amplify.API.query(
+        ModelQuery.list(Todo.class, Todo.NAME.contains("first")),
+        response -> {
+            for (Todo todo : response.getData()) {
+                Log.i("MyAmplifyApp", todo.getName());
             }
         },
-        apiFailure -> Log.e("ApiQuickStart", apiFailure.getMessage(), apiFailure)
-    );
-}
+        error -> Log.e("MyAmplifyApp", "Query failure", error)
+);
 ```
+
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+Amplify.API.query(
+        ModelQuery.list(Todo::class.java, Todo.NAME.contains("first")),
+        { response ->
+            for (todo in response.data) {
+                Log.i("MyAmplifyApp", todo.name)
+            }
+        },
+        { error -> Log.e("MyAmplifyApp", "Query failure", error) }
+)
+```
+
+</amplify-block>
+</amplify-block-switcher>

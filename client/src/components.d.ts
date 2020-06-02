@@ -10,7 +10,6 @@ import { ToggleInView, } from "./amplify-ui/sidebar-layout/sidebar-layout.types"
 import { SetContent, } from "./amplify-ui/toc/toc.types";
 import { MenuGroup, Page, } from "./api";
 import { CustomComponentName, } from "./docs-ui/component-playground/component-playground.types";
-import { MatchResults, } from "@stencil/router";
 import { SwitchOption, } from "./docs-ui/version-switch/version-switch.types";
 export namespace Components {
     interface AmplifyBlock {
@@ -44,12 +43,6 @@ export namespace Components {
           * the number of lines of the code block
          */
         "lineCount": number;
-    }
-    interface AmplifyContainer {
-        /**
-          * * incase users want to add a class to the inner div
-         */
-        "innerClass"?: string;
     }
     interface AmplifyExternalLink {
         /**
@@ -201,6 +194,12 @@ export namespace Components {
          */
         "componentName": CustomComponentName;
     }
+    interface DocsContainer {
+        /**
+          * * incase users want to add a class to the inner div
+         */
+        "innerClass"?: string;
+    }
     interface DocsFeedbackCallout {
     }
     interface DocsFooter {
@@ -296,10 +295,6 @@ export namespace Components {
         "selectedFilters"?: SelectedFilters;
     }
     interface DocsPage {
-        /**
-          * match path
-         */
-        "match": MatchResults;
     }
     interface DocsRepoActions {
         /**
@@ -396,12 +391,6 @@ declare global {
     var HTMLAmplifyCodeBlockElement: {
         prototype: HTMLAmplifyCodeBlockElement;
         new (): HTMLAmplifyCodeBlockElement;
-    };
-    interface HTMLAmplifyContainerElement extends Components.AmplifyContainer, HTMLStencilElement {
-    }
-    var HTMLAmplifyContainerElement: {
-        prototype: HTMLAmplifyContainerElement;
-        new (): HTMLAmplifyContainerElement;
     };
     interface HTMLAmplifyExternalLinkElement extends Components.AmplifyExternalLink, HTMLStencilElement {
     }
@@ -504,6 +493,12 @@ declare global {
     var HTMLDocsComponentPlaygroundElement: {
         prototype: HTMLDocsComponentPlaygroundElement;
         new (): HTMLDocsComponentPlaygroundElement;
+    };
+    interface HTMLDocsContainerElement extends Components.DocsContainer, HTMLStencilElement {
+    }
+    var HTMLDocsContainerElement: {
+        prototype: HTMLDocsContainerElement;
+        new (): HTMLDocsContainerElement;
     };
     interface HTMLDocsFeedbackCalloutElement extends Components.DocsFeedbackCallout, HTMLStencilElement {
     }
@@ -624,7 +619,6 @@ declare global {
         "amplify-block-switcher": HTMLAmplifyBlockSwitcherElement;
         "amplify-callout": HTMLAmplifyCalloutElement;
         "amplify-code-block": HTMLAmplifyCodeBlockElement;
-        "amplify-container": HTMLAmplifyContainerElement;
         "amplify-external-link": HTMLAmplifyExternalLinkElement;
         "amplify-hero": HTMLAmplifyHeroElement;
         "amplify-lorem": HTMLAmplifyLoremElement;
@@ -642,6 +636,7 @@ declare global {
         "docs-choose-anchor": HTMLDocsChooseAnchorElement;
         "docs-choose-integration-anchor": HTMLDocsChooseIntegrationAnchorElement;
         "docs-component-playground": HTMLDocsComponentPlaygroundElement;
+        "docs-container": HTMLDocsContainerElement;
         "docs-feedback-callout": HTMLDocsFeedbackCalloutElement;
         "docs-footer": HTMLDocsFooterElement;
         "docs-four-o-four": HTMLDocsFourOFourElement;
@@ -695,12 +690,6 @@ declare namespace LocalJSX {
           * the number of lines of the code block
          */
         "lineCount"?: number;
-    }
-    interface AmplifyContainer {
-        /**
-          * * incase users want to add a class to the inner div
-         */
-        "innerClass"?: string;
     }
     interface AmplifyExternalLink {
         /**
@@ -852,6 +841,12 @@ declare namespace LocalJSX {
          */
         "componentName"?: CustomComponentName;
     }
+    interface DocsContainer {
+        /**
+          * * incase users want to add a class to the inner div
+         */
+        "innerClass"?: string;
+    }
     interface DocsFeedbackCallout {
     }
     interface DocsFooter {
@@ -947,10 +942,6 @@ declare namespace LocalJSX {
         "selectedFilters"?: SelectedFilters;
     }
     interface DocsPage {
-        /**
-          * match path
-         */
-        "match"?: MatchResults;
     }
     interface DocsRepoActions {
         /**
@@ -1027,7 +1018,6 @@ declare namespace LocalJSX {
         "amplify-block-switcher": AmplifyBlockSwitcher;
         "amplify-callout": AmplifyCallout;
         "amplify-code-block": AmplifyCodeBlock;
-        "amplify-container": AmplifyContainer;
         "amplify-external-link": AmplifyExternalLink;
         "amplify-hero": AmplifyHero;
         "amplify-lorem": AmplifyLorem;
@@ -1045,6 +1035,7 @@ declare namespace LocalJSX {
         "docs-choose-anchor": DocsChooseAnchor;
         "docs-choose-integration-anchor": DocsChooseIntegrationAnchor;
         "docs-component-playground": DocsComponentPlayground;
+        "docs-container": DocsContainer;
         "docs-feedback-callout": DocsFeedbackCallout;
         "docs-footer": DocsFooter;
         "docs-four-o-four": DocsFourOFour;
@@ -1074,7 +1065,6 @@ declare module "@stencil/core" {
             "amplify-block-switcher": LocalJSX.AmplifyBlockSwitcher & JSXBase.HTMLAttributes<HTMLAmplifyBlockSwitcherElement>;
             "amplify-callout": LocalJSX.AmplifyCallout & JSXBase.HTMLAttributes<HTMLAmplifyCalloutElement>;
             "amplify-code-block": LocalJSX.AmplifyCodeBlock & JSXBase.HTMLAttributes<HTMLAmplifyCodeBlockElement>;
-            "amplify-container": LocalJSX.AmplifyContainer & JSXBase.HTMLAttributes<HTMLAmplifyContainerElement>;
             "amplify-external-link": LocalJSX.AmplifyExternalLink & JSXBase.HTMLAttributes<HTMLAmplifyExternalLinkElement>;
             "amplify-hero": LocalJSX.AmplifyHero & JSXBase.HTMLAttributes<HTMLAmplifyHeroElement>;
             "amplify-lorem": LocalJSX.AmplifyLorem & JSXBase.HTMLAttributes<HTMLAmplifyLoremElement>;
@@ -1092,6 +1082,7 @@ declare module "@stencil/core" {
             "docs-choose-anchor": LocalJSX.DocsChooseAnchor & JSXBase.HTMLAttributes<HTMLDocsChooseAnchorElement>;
             "docs-choose-integration-anchor": LocalJSX.DocsChooseIntegrationAnchor & JSXBase.HTMLAttributes<HTMLDocsChooseIntegrationAnchorElement>;
             "docs-component-playground": LocalJSX.DocsComponentPlayground & JSXBase.HTMLAttributes<HTMLDocsComponentPlaygroundElement>;
+            "docs-container": LocalJSX.DocsContainer & JSXBase.HTMLAttributes<HTMLDocsContainerElement>;
             "docs-feedback-callout": LocalJSX.DocsFeedbackCallout & JSXBase.HTMLAttributes<HTMLDocsFeedbackCalloutElement>;
             "docs-footer": LocalJSX.DocsFooter & JSXBase.HTMLAttributes<HTMLDocsFooterElement>;
             "docs-four-o-four": LocalJSX.DocsFourOFour & JSXBase.HTMLAttributes<HTMLDocsFourOFourElement>;
