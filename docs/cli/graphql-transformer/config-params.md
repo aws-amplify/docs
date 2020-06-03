@@ -142,28 +142,3 @@ Follow these two steps when you need to rotate an API Key
   "ElasticSearchEBSVolumeGB": 10
 }
 ```
-
-
-**Note: To use the @auth directive, the API must be configured to use Amazon Cognito user pools.**
-
-```graphql
-type Task
-  @model
-  @auth(rules: [
-      {allow: groups, groups: ["Managers"], operations: [create, update, delete]},
-      {allow: groups, groups: ["Employees"], operations: [read, list]}
-    ])
-{
-  id: ID!
-  title: String!
-  description: String
-  status: String
-}
-type PrivateNote
-  @model
-  @auth(rules: [{allow: owner}])
-{
-  id: ID!
-  content: String!
-}
-```
