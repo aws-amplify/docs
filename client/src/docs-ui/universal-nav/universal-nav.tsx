@@ -1,4 +1,4 @@
-import {Component, h, Host, Prop} from "@stencil/core";
+import {Component, h, Host, Prop, Listen, State} from "@stencil/core";
 import {
   universalNavStyle,
   universalNavContentStyle,
@@ -19,6 +19,13 @@ export class DocsUniversalNav {
   @Prop() readonly brandIcon?: string;
   /*** image url for brand icon when nav in blend mode */
   @Prop() readonly brandIconBlend?: string;
+
+  @State() screenWidth = window.outerWidth;
+
+  @Listen("resize", {target: "window"})
+  onResize(e: Event) {
+    console.log(e);
+  }
 
   render() {
     return (
