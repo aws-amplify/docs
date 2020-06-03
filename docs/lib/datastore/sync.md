@@ -7,7 +7,7 @@ Once you're happy with your application, you can start syncing with the cloud by
 
 <amplify-callout>
 
-**Best practice:** it is recommended to develop without cloud synchronization enabled initially so you can change the schema as your application takes shape without the impact of having to update the provisioned backend. Once you are satisfied with the stability of your data schema, setup cloud synchonization as described above and the data saved locally should be synchornized to the cloud backend automatically.
+**Best practice:** it is recommended to develop without cloud synchronization enabled initially so you can change the schema as your application takes shape without the impact of having to update the provisioned backend. Once you are satisfied with the stability of your data schema, setup cloud synchonization as described below and the data saved locally will be synchornized to the cloud automatically.
 
 </amplify-callout>
 
@@ -17,21 +17,8 @@ Synchronization between offline and online data can be tricky. DataStore goal is
 
 The next step is to make sure the local saved data is synchronized with a cloud backend powered by [AWS AppSync](https://aws.amazon.com/appsync/).
 
-### Add the API plugin
-
-The cloud synchronization uses the [API category](~/lib/graphqlapi/getting-started.md) behind the scenes. Therefor the first step is to configure the API plugin.
-
-Make sure you have the plugin dependency in your `Podfile`.
-
-```ruby
-pod 'AmplifyPlugins/AWSAPIPlugin'
-```
-
-Then add the plugin in your Amplify initialization code alongside with the previously added `AWSDataStorePlugin`.
-
-```swift
-try Amplify.add(plugin: AWSAPIPlugin())
-```
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/sync/10-installPlugin.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/sync/10-installPlugin.md"></inline-fragment>
 
 ### Push the backend to the cloud
 
@@ -79,33 +66,34 @@ For instance, when updating or deleting data, one has to consider that the state
 
 For such scenarios both the `save()` and the `delete()` APIs support an optional predicate which will be sent to the backend and executed against the remote state.
 
-```swift
-Amplify.DataStore.update(post, where: Post.keys.title.beginsWith("[Amplify]")) {
-    switch $0 {
-    case .success:
-        print("Post updated successfully!")
-    case .failure(let error)
-        print("Could not update post, maybe the title has been changed?")
-    }
-}
-```
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/sync/20-savePredicate.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/sync/20-savePredicate.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/sync/20-savePredicate.md"></inline-fragment>
 
 There's a difference between the traditional local condition check using `if/else` constructs and the predicate in the aforementioned APIs as you can see in the example below.
 
-```swift
-// Tests only against the local state
-if post.title.starts(with: "[Amplify]") {
-    Amplify.DataStore.update(post) {
-        // handle result
-    }
-}
-
-// Only applies the update if the data in the remote backend satisfies the criteria
-Amplify.DataStore.update(post, where: Post.keys.title.beginsWith("[Amplify]")) {
-    // handle result
-}
-```
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/sync/30-savePredicateComparison.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/sync/30-savePredicateComparison.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/sync/30-savePredicateComparison.md"></inline-fragment>
 
 ### Conlfict detection and resolution
 
 When concurrently updating the data in multiple places, it is likely that some conflict might happen. For most of the cases the default *Auto-merge* algorithm should be able to resolve. However, there are scenarios where the algorithm won't be able to solve and for those a more advanced option is available and will be described in details in the next section.
+
+## Clearing local data
+
+`Amplify.DataStore.clear()` provides a way for you to clear all local data if needed. This is a destructive operation but the **remote data will remain intact**. When the next sync happens, data will be pulled into the local storage again and reconstruct the local data.
+
+One common use for `clear()` is to manage different users sharing the same device or even as a development-time utility.
+
+<amplify-callout warning>
+
+**Note:** In case multiple users share the same device and your schema defines user-specific data, make sure you call `Amplify.DataStore.clear()` when switching users. Visit [Auth events](~/lib/auth/auth-events.md) for all authentication related events.
+
+</amplify-callout>
+
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/sync/40-clear.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/sync/40-clear.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/sync/40-clear.md"></inline-fragment>
+
+This is a simple yet effective example. However, in a real scenario you might want to optimize it and only call `clear()` when a different user `signedIn` in order to avoid clearing the database for a repeated sign-in of the same user.
