@@ -1,5 +1,5 @@
 ```swift
-Amplify.DataStore.update(post, where: Post.keys.title.beginsWith("[Amplify]")) {
+Amplify.DataStore.save(post, where: Post.keys.title.beginsWith("[Amplify]")) {
     switch $0 {
     case .success:
         print("Post updated successfully!")

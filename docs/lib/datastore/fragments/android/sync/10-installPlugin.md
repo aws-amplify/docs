@@ -1,15 +1,11 @@
 ### Add the API plugin
 
-The cloud synchronization uses the [API category](~/lib/graphqlapi/getting-started.md) behind the scenes. Therefor the first step is to configure the API plugin.
+The cloud synchronization uses the [API category](~/lib/graphqlapi/getting-started.md) behind the scenes. Therefore the first step is to configure the API plugin.
 
-Make sure you have the plugin dependency in your `Podfile`.
+Make sure you have the plugin dependency in your `build.gradle`.
 
-```ruby
-pod 'AmplifyPlugins/AWSAPIPlugin'
-```
+TODO: add Android Gradle dependency
 
 Then add the plugin in your Amplify initialization code alongside with the previously added `AWSDataStorePlugin`.
 
-```swift
-try Amplify.add(plugin: AWSAPIPlugin())
-```
+TODO: add Android API plugin

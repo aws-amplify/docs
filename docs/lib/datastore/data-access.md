@@ -28,9 +28,9 @@ To delete an item simply pass in an instance.
 
 ## Query Data
 
-Querying data is always against the local database. When cloud synchronization is enabled, the loca database is updated in the background for you by the DataStore Sync Engine.
+Querying data is always against the local database. When cloud synchronization is enabled, the local database is updated in the background by the DataStore Sync Engine.
 
-You can query using models as well as conditions using predicate filters for finer grained results.
+You can query using models as well as conditions using predicate filters to narrow down results.
 
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/query-basic-snippet.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/query-basic-snippet.md"></inline-fragment>

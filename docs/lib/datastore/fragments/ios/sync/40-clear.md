@@ -4,9 +4,9 @@ _ = Amplify.Hub.listen(to: .auth, isIncluded: isSignedOut) { _ in
     Amplify.DataStore.clear() { result in
         switch result {
         case .success:
-            print("")
-        case .failure:
-            print("")
+            print("Local data cleared successfully.")
+        case .failure(let error):
+            print("Local data not cleared \(error)")
         }
     }
 }

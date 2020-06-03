@@ -9,7 +9,7 @@ Amplify.DataStore.delete(post) {
 }
 ```
 
-Or specify the type and its `id`.
+A delete can also be achieved by a `type` and its `id`.
 
 ```swift
 Amplify.DataStore.delete(Post.self, withId: "123") {

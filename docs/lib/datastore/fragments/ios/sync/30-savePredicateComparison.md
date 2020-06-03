@@ -7,7 +7,7 @@ if post.title.starts(with: "[Amplify]") {
 }
 
 // Only applies the update if the data in the remote backend satisfies the criteria
-Amplify.DataStore.update(post, where: Post.keys.title.beginsWith("[Amplify]")) {
+Amplify.DataStore.save(post, where: Post.keys.title.beginsWith("[Amplify]")) {
     // handle result
 }
 ```
