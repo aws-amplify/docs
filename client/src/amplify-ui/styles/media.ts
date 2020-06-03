@@ -21,3 +21,6 @@ export const MQDesktop = createDeviceMQ(Breakpoint.DESKTOP);
 export const MQMonitor = createDeviceMQ(Breakpoint.MONITOR);
 
 export const MAX_WIDTH = "90rem";
+
+export const isWiderThanTablet = () =>
+  window.innerWidth >= Breakpoint.TABLET * 16;

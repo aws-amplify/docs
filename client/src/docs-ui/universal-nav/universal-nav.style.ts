@@ -96,7 +96,7 @@ export const hideAboutLinkStyle = css`
   }
 `;
 
-export const landingSearchStyle = css`
+export const searchContainerStyle = css`
   display: none;
   padding-left: 1rem;
   width: 100%;

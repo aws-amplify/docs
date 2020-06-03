@@ -1,5 +1,5 @@
 import * as links from "../../constants/links";
-import {Component, Host, h, Prop} from "@stencil/core";
+import {Component, Host, h, Prop, State, Listen} from "@stencil/core";
 import {
   secondaryNavStyle,
   hostStyle,
@@ -9,11 +9,20 @@ import {
 import {createVNodeFromHyperscriptNode} from "../../utils/hyperscript";
 import {pageContext} from "../page/page.context";
 import {SelectedFilters} from "../page/page.types";
+import {isWiderThanTablet} from "../../amplify-ui/styles/media";
 
 @Component({tag: "docs-secondary-nav", shadow: false})
 export class DocsSecondaryNav {
   /*** the current filter state */
   @Prop() readonly selectedFilters?: SelectedFilters;
+
+  @State() isWiderThanTablet = this.calculateIsWiderThanTablet();
+
+  @Listen("resize", {target: "window"})
+  calculateIsWiderThanTablet() {
+    this.isWiderThanTablet = isWiderThanTablet();
+    return this.isWiderThanTablet;
+  }
 
   render() {
     return (
@@ -86,7 +95,7 @@ export class DocsSecondaryNav {
                 <div class={shadowStyle}></div>
               </div>
             </div>
-            <docs-search-bar />
+            {!this.isWiderThanTablet && <docs-search-bar />}
           </div>
         </docs-container>
       </Host>

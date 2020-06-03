@@ -1,5 +1,5 @@
 import {css} from "emotion";
-import {MQLaptop} from "../../amplify-ui/styles/media";
+import {MQLaptop, MQTablet} from "../../amplify-ui/styles/media";
 
 export const secondaryNavStyle = css`
   display: flex;
@@ -77,7 +77,7 @@ export const hostStyle = css`
   background-color: var(--bg-color-secondary);
   padding-bottom: 1rem;
 
-  ${MQLaptop} {
+  ${MQTablet} {
     padding: 0;
   }
 `;

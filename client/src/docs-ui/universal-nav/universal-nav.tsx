@@ -1,13 +1,14 @@
 import {Component, h, Host, Prop, Listen, State} from "@stencil/core";
+import * as links from "../../constants/links";
 import {
   universalNavStyle,
   universalNavContentStyle,
   brandStyle,
   linksStyle,
   hideAboutLinkStyle,
-  landingSearchStyle,
+  searchContainerStyle,
 } from "./universal-nav.style";
-import * as links from "../../constants/links";
+import {isWiderThanTablet} from "../../amplify-ui/styles/media";
 
 @Component({tag: "docs-universal-nav", shadow: false})
 export class DocsUniversalNav {
@@ -20,11 +21,12 @@ export class DocsUniversalNav {
   /*** image url for brand icon when nav in blend mode */
   @Prop() readonly brandIconBlend?: string;
 
-  @State() screenWidth = window.outerWidth;
+  @State() isWiderThanTablet = this.calculateIsWiderThanTablet();
 
   @Listen("resize", {target: "window"})
-  onResize(e: Event) {
-    console.log(e);
+  calculateIsWiderThanTablet() {
+    this.isWiderThanTablet = isWiderThanTablet();
+    return this.isWiderThanTablet;
   }
 
   render() {
@@ -52,8 +54,8 @@ export class DocsUniversalNav {
               <sup>NEW</sup>
             </stencil-route-link>
 
-            {this.blend && (
-              <div class={landingSearchStyle}>
+            {this.isWiderThanTablet && (
+              <div class={searchContainerStyle}>
                 <docs-search-bar />
               </div>
             )}
