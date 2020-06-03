@@ -1,7 +1,8 @@
 ```swift
 Amplify.DataStore.save(
     Post(title: "My first post",
-         description: "Amplify.DataStore is awesome!")
+         description: "Amplify.DataStore is awesome!",
+         status: .draft)
 ) {
     switch $0 {
     case .success:

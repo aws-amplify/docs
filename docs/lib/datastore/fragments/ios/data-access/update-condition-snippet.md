@@ -5,8 +5,9 @@ Amplify.DataStore.query(Post.self, byId: "123") {
     case .success(let post):
         print("Updating the post \(String(describing: post))")
         if var updatedPost = post {
-            updatedPost.status = .inactive
-            Amplify.DataStore.save(updatedPost, where: p.rating > 3) { result in
+            updatedPost.status = .published
+            Amplify.DataStore.save(updatedPost,
+                                   where: p.status == PostStatus.draft) { result in
                 switch result {
                 case .success:
                     print("Post updated!")
