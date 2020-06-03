@@ -31,6 +31,7 @@ import {getPage} from "../../cache";
 import {getNavHeight} from "../../utils/get-nav-height";
 import {scrollToHash} from "../../utils/scroll-to-hash";
 import {parseURL} from "../../utils/url/url";
+import {transformData} from "../../utils/transform-search-data";
 
 const SELECTED_TABS_LOCAL_STORAGE_KEY = `amplify-docs::selected-tabs`;
 
@@ -134,12 +135,26 @@ export class DocsPage {
     }
   }
 
+  initSearch() {
+    if (Build.isBrowser && location.pathname !== "/") {
+      // @ts-ignore
+      docsearch({
+        apiKey: "24d37f059982b2f5ecf829afe93aed40",
+        indexName: "aws_amplify_new",
+        inputSelector: "#amplify-docs-search-input",
+        debug: false,
+        transformData,
+      });
+    }
+  }
+
   componentDidRender() {
     this.setSidebarStickyTop();
     if (this.isFirstRenderOfCurrentPage) {
       this.scrollToId();
     }
     this.isFirstRenderOfCurrentPage = false;
+    this.initSearch();
   }
 
   stopRaf() {
@@ -151,7 +166,6 @@ export class DocsPage {
   componentWillUnload() {
     this.stopRaf();
   }
-
   restoreBlockSwitcherState() {
     // gather list of previously-selected tab headings (might be null)
     const persistedSelectedTabsSerialized =
@@ -264,7 +278,9 @@ export class DocsPage {
               [
                 this.pageData && this.validFilterValue ? (
                   [
-                    // <docs-secondary-nav />,
+                    // <docs-secondary-nav
+                    //   selectedFilters={this.selectedFilters}
+                    // />,
                     <div class={sidebarLayoutStyle}>
                       <amplify-toc-provider>
                         <amplify-sidebar-layout>

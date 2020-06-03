@@ -1,16 +1,14 @@
+import * as links from "../../constants/links";
 import {Component, Host, h, Prop, Build} from "@stencil/core";
 import {
   secondaryNavStyle,
   hostStyle,
   searchStyle,
-  linkActiveStyle,
   shadowStyle,
+  linkActiveStyle,
 } from "./secondary-nav.style";
-import {createVNodeFromHyperscriptNode} from "../../utils/hyperscript";
-import {pageContext} from "../page/page.context";
 import {SelectedFilters} from "../page/page.types";
 import {transformData} from "../../utils/transform-search-data";
-import * as links from "../../constants/links";
 
 @Component({tag: "docs-secondary-nav", shadow: false})
 export class DocsSecondaryNav {
@@ -37,67 +35,56 @@ export class DocsSecondaryNav {
           <div class={secondaryNavStyle}>
             <div>
               <div>
-                {[
-                  {
-                    label: "Getting Started",
-                    url: "/start",
-                  },
-                  {
-                    label: "Libraries",
-                    url: "/lib",
-                    additionalActiveChildRoots: ["/lib", "/sdk"],
-                  },
-                  {
-                    label: "UI Components",
-                    url: "/ui",
-                    additionalActiveChildRoots: ["/ui"],
-                  },
-                  {
-                    label: "CLI",
-                    url: "/cli",
-                  },
-                  {
-                    label: "Console",
-                    url: links.AWS_USER_GUIDE,
-                    external: true,
-                  },
-                  ...(this.selectedFilters?.platform
-                    ? [
-                        {
-                          label: "API Reference",
-                          url: (() => {
-                            switch (this.selectedFilters.platform) {
-                              case "ios": {
-                                return links.IOS_REFERENCE;
-                              }
-                              case "android": {
-                                return links.ANDROID_REFERENCE;
-                              }
-                              case "js": {
-                                return links.JS_REFERENCE;
-                              }
-                            }
-                          })(),
-                          external: true,
-                        },
-                      ]
-                    : []),
-                ].map(({url, label, external, additionalActiveChildRoots}) =>
-                  createVNodeFromHyperscriptNode([
-                    external ? "amplify-external-link" : "docs-internal-link",
-                    {
-                      key: label,
-                      href: url,
-                      ...(external
-                        ? {graphic: "black"}
-                        : {
-                            childActiveClass: linkActiveStyle,
-                            additionalActiveChildRoots,
-                          }),
-                    },
-                    ["span", null, label],
-                  ]),
-                )}
+                <docs-internal-link
+                  href="/start"
+                  childActiveClass={linkActiveStyle}
+                >
+                  Getting Started
+                </docs-internal-link>
+                <docs-internal-link
+                  href="/lib"
+                  additionalActiveChildRoots={["/lib", "/sdk"]}
+                  childActiveClass={linkActiveStyle}
+                >
+                  Libraries
+                </docs-internal-link>
+                <docs-internal-link
+                  href="/ui"
+                  additionalActiveChildRoots={["/ui"]}
+                  childActiveClass={linkActiveStyle}
+                >
+                  UI Components
+                </docs-internal-link>
+                <docs-internal-link
+                  href="/cli"
+                  childActiveClass={linkActiveStyle}
+                >
+                  CLI
+                </docs-internal-link>
+                <amplify-external-link
+                  graphic="black"
+                  href={links.AWS_USER_GUIDE}
+                >
+                  Console
+                </amplify-external-link>
+                <amplify-external-link
+                  graphic="black"
+                  href={(() => {
+                    switch (this.selectedFilters?.platform) {
+                      case "ios": {
+                        return links.IOS_REFERENCE;
+                      }
+                      case "android": {
+                        return links.ANDROID_REFERENCE;
+                      }
+                      case "js": {
+                        return links.JS_REFERENCE;
+                      }
+                    }
+                  })()}
+                >
+                  API Reference
+                </amplify-external-link>
                 <div class={shadowStyle}></div>
               </div>
             </div>
@@ -120,5 +107,3 @@ export class DocsSecondaryNav {
     );
   }
 }
-
-pageContext.injectProps(DocsSecondaryNav, ["selectedFilters"]);
