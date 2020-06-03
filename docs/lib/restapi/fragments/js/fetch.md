@@ -91,7 +91,7 @@ If you are using a REST API which is generated with Amplify CLI, your backend is
 
 ```javascript
 exports.handler = function(event, context, callback) {
-    console.log (event.queryStringParameters);
+    console.log(event.queryStringParameters);
     console.log('body: ', event.body);
 }
 ```

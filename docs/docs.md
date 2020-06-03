@@ -15,11 +15,11 @@ disableLinkification: true
   </p>
   <docs-landing-hero-cta slot="cta" />
 </amplify-hero>
-<amplify-container
+<docs-container
   class="background-color-off-white"
   inner-class="padding-top-lg padding-bottom-lg padding-horizontal-md">
   <amplify-responsive-grid class="margin-top-lg">
-    <docs-card url="~/lib/lib.md" url-override-for-mobile-filter="~/sdk/sdk.md" class="border-radius">
+    <docs-card url="~/lib/lib.md" class="border-radius">
       <img slot="graphic" src="~/assets/lib.png" />
       <h4 slot="heading">Amplify Libraries</h4>
       <p slot="description">
@@ -42,13 +42,13 @@ disableLinkification: true
       </p>
     </docs-card>
   </amplify-responsive-grid>
-</amplify-container>
-<amplify-container
+</docs-container>
+<docs-container
   class="background-color-off-white"
   inner-class="padding-bottom-lg padding-horizontal-md"
 >
   <h4 class="text-align-center">Explore Features</h4>
   <inline-fragment src="~/fragments/features-grid.md"></inline-fragment>
-</amplify-container>
+</docs-container>
 <docs-link-banner></docs-link-banner>
 <docs-footer></docs-footer>

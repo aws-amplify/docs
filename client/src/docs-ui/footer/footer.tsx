@@ -13,7 +13,7 @@ import * as links from "../../constants/links";
 export class DocsFooter {
   render() {
     return (
-      <amplify-container class={footerContainerStyle}>
+      <docs-container class={footerContainerStyle}>
         <div class={footerStyle}>
           <div class={leftLinkContainerStyle}>
             <img src="/assets/logo-light.svg" />
@@ -58,7 +58,7 @@ export class DocsFooter {
               <span>
                 <img src="/assets/aws.svg" />
                 {`Amplify open source, documentation and community are supported
-                by Amazon Web Services © 2019, Amazon Web Services, Inc. and its
+                by Amazon Web Services © 2020, Amazon Web Services, Inc. and its
                 affiliates. All rights reserved. View the `}
                 <amplify-external-link href={links.TERMS}>
                   site terms
@@ -72,7 +72,7 @@ export class DocsFooter {
             </div>
           </div>
         </div>
-      </amplify-container>
+      </docs-container>
     );
   }
 }

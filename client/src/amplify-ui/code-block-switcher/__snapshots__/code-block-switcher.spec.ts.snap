@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`amplify-code-block-switcher Render logic should render 1`] = `
-<amplify-code-block-switcher class="css-111qeiq css-1b97n8h">
-  <!---->
-  <div class="css-ywitxs"></div>
-</amplify-code-block-switcher>
-`;

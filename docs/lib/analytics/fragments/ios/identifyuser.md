@@ -1,34 +1,28 @@
-This call sends information that you have specified about the user to Amazon Pinpoint. This could be an authenticated or guest user. AWSMobileClient assigns all users an `identityId` that can be used to call `Amplify.Analytics.identifyUser()`. If you have asked for location access and received the user's location information, you can also provide that in `AnalyticsUserProfile.Location`.
+This call sends information that you have specified about the user to Amazon Pinpoint. This could be an authenticated user. If the user is signed in through [Amplify.Auth.signIn](~/lib/auth/signin.md), then you can retrieve the current user and use it with Analytics. You have also provide location information in `AnalyticsUserProfile.Location`.
 
 ```swift
 func identifyUser() {
-    let userState = AWSMobileClient.default().currentUserState
-    let getIdentityIdTask = AWSMobileClient.default().getIdentityId()
-    getIdentityIdTask.continueWith { (task) -> Any? in
-        if let error = task.error {
-            print("Failed to get identityId: \(error)")
-        }
 
-        guard let identityId = task.result else {
-            print("Missing identityId")
-            return nil
-        }
-
-        print("Got identityId: \(identityId). UserState: \(userState)")
-        let location = AnalyticsUserProfile.Location(latitude: 47.606209,
-                                                     longitude: -122.332069,
-                                                     postalCode: "98122",
-                                                     city: "Seattle",
-                                                     region: "WA",
-                                                     country: "USA")
-        let properties = ["userState": "\(userState)"]
-        let userProfile = AnalyticsUserProfile(name: "name",
-                                               email: "name@example.com",
-                                               location: location,
-                                               properties: properties)
-        Amplify.Analytics.identifyUser(identityId as String, withProfile: userProfile)
-
-        return nil
+    guard let user = Amplify.Auth.getCurrentUser() else {
+        print("Could not get user, perhaps the user is not signed in")
+        return
     }
+
+    let location = AnalyticsUserProfile.Location(latitude: 47.606209,
+                                                 longitude: -122.332069,
+                                                 postalCode: "98122",
+                                                 city: "Seattle",
+                                                 region: "WA",
+                                                 country: "USA")
+                                                 
+    let properties: AnalyticsProperties = ["phoneNumber": "+11234567890", "age": 25]
+
+    let userProfile = AnalyticsUserProfile(name: username,
+                                           email: "name@example.com",
+                                           location: location,
+                                           properties: properties)
+
+    Amplify.Analytics.identifyUser(user.userId, withProfile: userProfile)
+
 }
 ```

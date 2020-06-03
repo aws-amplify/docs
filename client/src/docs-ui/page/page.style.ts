@@ -1,5 +1,5 @@
 import {css} from "emotion";
-import {MQLaptop} from "../../amplify-ui/styles/media";
+import {MQDesktop} from "../../amplify-ui/styles/media";
 
 export const sidebarLayoutStyle = css`
   display: flex;
@@ -83,7 +83,7 @@ export const sectionHeaderStyle = css`
 export const tocStyle = css`
   display: none;
 
-  ${MQLaptop} {
+  ${MQDesktop} {
     display: initial;
   }
 
