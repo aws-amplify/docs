@@ -97,23 +97,25 @@ export class DocsPage {
   }
 
   startRaf() {
-    // lets us repeatedly call `updatePageData` without actually
-    // triggering redundant `this.getPageData` calls.
-    let {pathname} = location;
-    const updatePageData = () => {
-      if (location.pathname !== pathname) {
-        this.isFirstRenderOfCurrentPage = true;
-        pathname = location.pathname;
-        this.getPageData();
-      }
-    };
+    if (Build.isBrowser) {
+      // lets us repeatedly call `updatePageData` without actually
+      // triggering redundant `this.getPageData` calls.
+      let {pathname} = location;
+      const updatePageData = () => {
+        if (location.pathname !== pathname) {
+          this.isFirstRenderOfCurrentPage = true;
+          pathname = location.pathname;
+          this.getPageData();
+        }
+      };
 
-    // create RAF loop, save its ID (so that we can end the loop in `componentWillUnload`).
-    // This loop triggers `updatePageData`, which––upon path changes––triggers the appropriate rerender.
-    this.rafId = (function watchForRouteChange() {
-      updatePageData();
-      return requestAnimationFrame(watchForRouteChange);
-    })();
+      // create RAF loop, save its ID (so that we can end the loop in `componentWillUnload`).
+      // This loop triggers `updatePageData`, which––upon path changes––triggers the appropriate rerender.
+      this.rafId = (function watchForRouteChange() {
+        updatePageData();
+        return requestAnimationFrame(watchForRouteChange);
+      })();
+    }
   }
 
   componentDidLoad() {
@@ -121,12 +123,14 @@ export class DocsPage {
   }
 
   scrollToId() {
-    const {hash} = location;
-    if (hash) {
-      setTimeout(() => {
-        // TODO: fix potential race condition
-        scrollToHash(hash, this.el);
-      }, 250);
+    if (Build.isBrowser) {
+      const {hash} = location;
+      if (hash) {
+        setTimeout(() => {
+          // TODO: fix potential race condition
+          scrollToHash(hash, this.el);
+        }, 250);
+      }
     }
   }
 
@@ -253,82 +257,90 @@ export class DocsPage {
             brand-icon="/assets/logo-light.svg"
             brand-icon-blend="/assets/logo-dark.svg"
           />
-          {this.pageData && this.pageData.noTemplate
-            ? createVNodesFromHyperscriptNodes(this.pageData.body)
-            : [
-                <docs-secondary-nav />,
+          {this.pageData ? (
+            this.pageData.noTemplate ? (
+              createVNodesFromHyperscriptNodes(this.pageData.body)
+            ) : (
+              [
                 this.pageData && this.validFilterValue ? (
-                  <div class={sidebarLayoutStyle}>
-                    <amplify-toc-provider>
-                      <amplify-sidebar-layout>
-                        {this.showMenu() && (
-                          <amplify-sidebar-layout-sidebar
-                            slot="sidebar"
-                            top={this.sidebarStickyTop}
-                          >
-                            <docs-menu
-                              filterKey={this.filterKey}
-                              page={this.pageData}
-                              key={this.pageData?.productRootLink?.route}
-                            />
-                          </amplify-sidebar-layout-sidebar>
-                        )}
-                        <amplify-sidebar-layout-main
-                          slot="main"
-                          class={mainStyle}
-                        >
-                          <amplify-toc-contents>
-                            {this.pageData && [
-                              <h1
-                                class={{
-                                  [sectionHeaderStyle]: true,
-                                  "category-heading": true,
-                                }}
-                              >
-                                {this.pageData.sectionTitle}
-                              </h1>,
-                              <h1 class="page-heading">
-                                {this.pageData.title}
-                              </h1>,
-                              createVNodesFromHyperscriptNodes(
-                                this.pageData.body,
-                              ),
-                              <docs-next-previous
-                                key={this.pageData.route}
+                  [
+                    // <docs-secondary-nav />,
+                    <div class={sidebarLayoutStyle}>
+                      <amplify-toc-provider>
+                        <amplify-sidebar-layout>
+                          {this.showMenu() && (
+                            <amplify-sidebar-layout-sidebar
+                              slot="sidebar"
+                              top={this.sidebarStickyTop}
+                            >
+                              <docs-menu
+                                filterKey={this.filterKey}
                                 page={this.pageData}
-                              />,
-                            ]}
-                          </amplify-toc-contents>
-                          <amplify-sidebar-layout-toggle
-                            onClick={ensureMenuScrolledIntoView}
-                            in-view-class="in-view"
-                            class={{
-                              "three-dee-effect": true,
-                              [sidebarToggleClass]: true,
-                            }}
+                                key={this.pageData?.productRootLink?.route}
+                              />
+                            </amplify-sidebar-layout-sidebar>
+                          )}
+                          <amplify-sidebar-layout-main
+                            slot="main"
+                            class={mainStyle}
                           >
-                            <img
-                              class="burger-graphic"
-                              src="/assets/burger.svg"
-                            />
-                            <img class="ex-graphic" src="/assets/close.svg" />
-                          </amplify-sidebar-layout-toggle>
-                        </amplify-sidebar-layout-main>
-                        {!this.pageData?.disableTOC && (
-                          <div slot="toc" class={tocStyle}>
-                            <div>
-                              <amplify-toc pageTitle={this.pageData?.title} />
+                            <amplify-toc-contents>
+                              {this.pageData && [
+                                <h1
+                                  class={{
+                                    [sectionHeaderStyle]: true,
+                                    "category-heading": true,
+                                  }}
+                                >
+                                  {this.pageData.sectionTitle}
+                                </h1>,
+                                <h1 class="page-heading">
+                                  {this.pageData.title}
+                                </h1>,
+                                createVNodesFromHyperscriptNodes(
+                                  this.pageData.body,
+                                ),
+                                <docs-next-previous
+                                  key={this.pageData.route}
+                                  page={this.pageData}
+                                />,
+                              ]}
+                            </amplify-toc-contents>
+                            <amplify-sidebar-layout-toggle
+                              onClick={ensureMenuScrolledIntoView}
+                              in-view-class="in-view"
+                              class={{
+                                "three-dee-effect": true,
+                                [sidebarToggleClass]: true,
+                              }}
+                            >
+                              <img
+                                class="burger-graphic"
+                                src="/assets/burger.svg"
+                              />
+                              <img class="ex-graphic" src="/assets/close.svg" />
+                            </amplify-sidebar-layout-toggle>
+                          </amplify-sidebar-layout-main>
+                          {!this.pageData?.disableTOC && (
+                            <div slot="toc" class={tocStyle}>
+                              <div>
+                                <amplify-toc pageTitle={this.pageData?.title} />
+                              </div>
                             </div>
-                          </div>
-                        )}
-                      </amplify-sidebar-layout>
-                    </amplify-toc-provider>
-                  </div>
+                          )}
+                        </amplify-sidebar-layout>
+                      </amplify-toc-provider>
+                    </div>,
+                  ]
                 ) : (
                   <docs-four-o-four />
                 ),
                 <docs-footer />,
-              ]}
+              ]
+            )
+          ) : (
+            <div />
+          )}
           <docs-chat-button />
         </pageContext.Provider>
       </Host>

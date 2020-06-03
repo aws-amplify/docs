@@ -39,8 +39,8 @@ During the init process, the root stack is created with three resources:
 The provider logs the information of the root stack and the resources into the project metadata file (amplify/backend/amplify-meta.json).
 The root stack's template can be found in `amplify/backend/awscloudformation`.
 
-### amplify <category> add
-Once init is complete, run the command `amplify <category> add` to add resources of a category to the cloud. This will place a CloudFormation template for the resources of this category in the category's subdirectory `amplify/backend/<category>` and insert its reference into the above-mentioned root stack as the nested child stack. When working in teams, it is good practice to run an `amplify pull` before modifying the backend categories.
+### amplify \<category\> add
+Once init is complete, run the command `amplify \<category\> add` to add resources of a category to the cloud. This will place a CloudFormation template for the resources of this category in the category's subdirectory `amplify/backend/\<category\>` and insert its reference into the above-mentioned root stack as the nested child stack. When working in teams, it is good practice to run an `amplify pull` before modifying the backend categories.
 
 ### amplify push
 Once you have made your category updates, run the command `amplify push` to update the cloud resources. The CLI will first upload the latest versions of the category nested stack templates to the S3 deployment bucket, and then call the AWS CloudFormation API to create / update resources in the cloud. Based upon the resources added/updated, the `aws-exports.js` file (for JS projects) and the `awsconfiguration.json` file (for native projects) gets created/updated.
@@ -56,10 +56,10 @@ The `amplify configure project` command is an advanced command and not commonly 
 
 ## List of commands
 
-- `amplify <category> <subcommand>`
+- `amplify \<category\> \<subcommand\>`
 - `amplify push`
 - `amplify pull`
-- `amplify env <subcommand>`
+- `amplify env \<subcommand\>`
 - `amplify configure`
 - `amplify console`
 - `amplify delete`
@@ -71,7 +71,7 @@ The `amplify configure project` command is an advanced command and not commonly 
 
 ### Category commands
 
-- `amplify <category> add`
-- `amplify <category> update`
-- `amplify <category> remove`
-- `amplify <category> push`
+- `amplify \<category\> add`
+- `amplify \<category\> update`
+- `amplify \<category\> remove`
+- `amplify \<category\> push`

@@ -22,7 +22,7 @@ Config:
 | [forgotPasswordConfig](#forgotpassword)                  | object |
 | [signInConfig](#signinconfig)                            | object |
 | [signUpConfig](#signupconfig)                            | object |
-| [usernameAttributes](#Sign-up/in-with-email/phone-number)| string |
+| [usernameAttributes](#Sign-up-in-with-email-phone-number)| string |
 
 &ast; The attributes above reference the config objects for the components that are nested inside Authenticator.  See the individual components for details. 
 
@@ -76,6 +76,7 @@ The SignUp component provides your users with the ability to sign up.
 Usage: ```<amplify-sign-up></amplify-sign-up>```
 
 Config:
+
 ```
 <amplify-sign-up v-bind:signUpConfig="signUpConfig"></amplify-sign-up>
 ```

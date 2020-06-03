@@ -5,12 +5,12 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { SelectedFilters, SelectedTabHeadings, SetNewSelectedTabHeadings, } from "./docs-ui/page/page.types";
-import { ToggleInView, } from "./amplify-ui/sidebar-layout/sidebar-layout.types";
-import { SetContent, } from "./amplify-ui/toc/toc.types";
-import { MenuGroup, Page, } from "./api";
-import { CustomComponentName, } from "./docs-ui/component-playground/component-playground.types";
-import { SwitchOption, } from "./docs-ui/version-switch/version-switch.types";
+import { SelectedFilters, SelectedTabHeadings, SetNewSelectedTabHeadings } from "./docs-ui/page/page.types";
+import { ToggleInView } from "./amplify-ui/sidebar-layout/sidebar-layout.types";
+import { SetContent } from "./amplify-ui/toc/toc.types";
+import { MenuGroup, Page } from "./api";
+import { CustomComponentName } from "./docs-ui/component-playground/component-playground.types";
+import { SwitchOption } from "./docs-ui/version-switch/version-switch.types";
 export namespace Components {
     interface AmplifyBlock {
         /**

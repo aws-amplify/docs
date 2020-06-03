@@ -1,5 +1,5 @@
 import {PrerenderConfig} from "@stencil/core";
-import {routes as entryUrls} from "./www/api/routes";
+import {routes as entryUrls} from "./src/api/routes";
 
 export const config: PrerenderConfig = {
   crawlUrls: false,
@@ -16,6 +16,7 @@ export const config: PrerenderConfig = {
       removeHtmlComments: true,
       maxHydrateCount: 2000,
       runtimeLogging: true,
+      timeout: 1000000,
     };
   },
   filterUrl(url) {

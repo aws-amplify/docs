@@ -1,4 +1,4 @@
-<amplify-authenticator></amplify-authenticator>
+<!-- <amplify-authenticator></amplify-authenticator> -->
 
 ## Installation
 
@@ -455,7 +455,7 @@ const App = () => (
 
 ### Sign Up
 
-<amplify-sign-up header-text="My Custom Sign Up Text"></amplify-sign-up>
+<!-- <amplify-sign-up header-text="My Custom Sign Up Text"></amplify-sign-up> -->
 
 **Usage**
 

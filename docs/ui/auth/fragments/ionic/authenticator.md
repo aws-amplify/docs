@@ -1,4 +1,4 @@
-<amplify-authenticator></amplify-authenticator>
+<!-- <amplify-authenticator></amplify-authenticator> -->
 
 ## Installation
 
@@ -122,7 +122,7 @@ For more details on this customization see the `amplify-form-field` [prop docume
 
 ### Sign In
 
-<amplify-sign-in header-text="My Custom Sign In Text"></amplify-sign-in>
+<!-- <amplify-sign-in header-text="My Custom Sign In Text"></amplify-sign-in> -->
 
 **Usage**
 
@@ -141,7 +141,7 @@ For more details on this customization see the `amplify-form-field` [prop docume
 
 ### Sign Up
 
-<amplify-sign-up header-text="My Custom Sign Up Text"></amplify-sign-up>
+<!-- <amplify-sign-up header-text="My Custom Sign Up Text"></amplify-sign-up> -->
 
 **Usage**
 
