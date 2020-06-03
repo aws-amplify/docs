@@ -1,5 +1,5 @@
 import {css} from "emotion";
-import {MQFablet} from "../../amplify-ui/styles/media";
+import {MQFablet, MQTablet} from "../../amplify-ui/styles/media";
 
 export const universalNavStyle = css`
   display: block;
@@ -93,5 +93,20 @@ export const hideAboutLinkStyle = css`
 
   ${MQFablet} {
     display: initial;
+  }
+`;
+
+export const landingSearchStyle = css`
+  display: none;
+  padding-left: 1rem;
+  width: 100%;
+
+  ${MQTablet} {
+    display: flex;
+    flex: 1;
+  }
+
+  docs-search-bar {
+    width: 100%;
   }
 `;

@@ -111,7 +111,9 @@ export async function initNode(srcPath: string, ctx: t.Ctx): Promise<void> {
           );
         }
         ctx.pageBySrcPath.set(srcPath, {
+          // @ts-ignore
           route: pathDeduction.route,
+          // @ts-ignore
           body,
           ...attributes,
         });

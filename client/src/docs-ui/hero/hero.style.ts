@@ -1,4 +1,5 @@
 import {css} from "emotion";
+import {MQTablet} from "../../amplify-ui/styles/media";
 
 export const heroStyle = css`
   display: block;
@@ -13,5 +14,14 @@ export const heroStyle = css`
   > p {
     color: var(--font-color-secondary);
     font-weight: 500;
+  }
+`;
+
+export const landingSearchStyle = css`
+  margin-top: 2rem;
+  display: block;
+
+  ${MQTablet} {
+    display: none;
   }
 `;

@@ -5,6 +5,7 @@ import {
   brandStyle,
   linksStyle,
   hideAboutLinkStyle,
+  landingSearchStyle,
 } from "./universal-nav.style";
 import * as links from "../../constants/links";
 
@@ -43,6 +44,12 @@ export class DocsUniversalNav {
               <span>{this.heading}</span>
               <sup>NEW</sup>
             </stencil-route-link>
+
+            {this.blend && (
+              <div class={landingSearchStyle}>
+                <docs-search-bar />
+              </div>
+            )}
 
             <div class={linksStyle}>
               <amplify-external-link

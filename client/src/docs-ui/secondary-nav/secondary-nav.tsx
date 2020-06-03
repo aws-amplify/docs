@@ -1,33 +1,28 @@
-import {Component, Host, h, Prop, Build} from "@stencil/core";
+import * as links from "../../constants/links";
+import {Component, Host, h, Prop, State, Listen} from "@stencil/core";
 import {
   secondaryNavStyle,
   hostStyle,
-  searchStyle,
   linkActiveStyle,
   shadowStyle,
 } from "./secondary-nav.style";
 import {createVNodeFromHyperscriptNode} from "../../utils/hyperscript";
 import {pageContext} from "../page/page.context";
 import {SelectedFilters} from "../page/page.types";
-import {transformData} from "../../utils/transform-search-data";
-import * as links from "../../constants/links";
+import {Breakpoint} from "../../amplify-ui/styles/media";
 
 @Component({tag: "docs-secondary-nav", shadow: false})
 export class DocsSecondaryNav {
   /*** the current filter state */
   @Prop() readonly selectedFilters?: SelectedFilters;
 
-  componentDidRender() {
-    if (Build.isBrowser && location.pathname !== "/") {
-      // @ts-ignore
-      docsearch({
-        apiKey: "24d37f059982b2f5ecf829afe93aed40",
-        indexName: "aws_amplify_new",
-        inputSelector: "#amplify-docs-search-input",
-        debug: false,
-        transformData,
-      });
-    }
+  // @State() screenWidth = window.outerWidth;
+
+  @Listen("resize")
+  setScreenWidth() {
+    console.log("yoyoyo");
+    // this.screenWidth = window.outerWidth;
+    // console.log(this.screenWidth);
   }
 
   render() {
@@ -101,19 +96,7 @@ export class DocsSecondaryNav {
                 <div class={shadowStyle}></div>
               </div>
             </div>
-            <div class={searchStyle}>
-              <div>
-                <div>
-                  <input
-                    id="amplify-docs-search-input"
-                    type="search"
-                    placeholder="Search"
-                    class="three-dee-effect"
-                  />
-                  <img src="/assets/search.svg" alt="search" />
-                </div>
-              </div>
-            </div>
+            {/* {this.screenWidth > Breakpoint.TABLET * 16 && <docs-search-bar />} */}
           </div>
         </docs-container>
       </Host>
