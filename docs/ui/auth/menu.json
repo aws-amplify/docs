@@ -1,6 +1,7 @@
 {
     "title": "Authentication",
     "items": [
+        "start",
         "authenticator",
         "sign-out",
         "select-mfa-type"
