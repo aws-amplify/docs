@@ -162,8 +162,8 @@ To read from the database, the simplest approach is to query for all records of 
 
 Congratulations! You’ve created and retrieved data from the local database. Check out the following links to see other Amplify DataStore use cases and advanced concepts:
 
-- [Write data](~/lib/datastore/data-access.md#insert-and-update)
+- [Write data](~/lib/datastore/data-access.md#create-and-update)
 - [Query data](~/lib/datastore/data-access.md#query-data)
 - [Model associations](~/lib/datastore/relational.md)
 - [Cloud synchronization](~/lib/datastore/sync.md)
-- [Clear the local database]()
+- [Clear local data](~/lib/datastore/sync.md#clear-local-data)

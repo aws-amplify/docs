@@ -4,7 +4,7 @@ description: Learn how to save, query, paginate, update, delete and observe data
 ---
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/importing-datastore-snippet.md"></inline-fragment>
 
-## Insert and update
+## Create and update
 
 To write data to the DataStore you can pass an instance of a model to `Amplify.DataStore.save()`.
 

@@ -80,7 +80,7 @@ There's a difference between the traditional local condition check using `if/els
 
 When concurrently updating the data in multiple places, it is likely that some conflict might happen. For most of the cases the default *Auto-merge* algorithm should be able to resolve. However, there are scenarios where the algorithm won't be able to solve and for those a more advanced option is available and will be described in details in the next section.
 
-## Clearing local data
+## Clear local data
 
 `Amplify.DataStore.clear()` provides a way for you to clear all local data if needed. This is a destructive operation but the **remote data will remain intact**. When the next sync happens, data will be pulled into the local storage again and reconstruct the local data.
 
