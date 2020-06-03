@@ -27,4 +27,6 @@ amplify publish
 
 After publishing, your terminal will display your app URL hosted on a `amplifyapp.com` domain. Whenever you have additional changes to publish, just re-run the `amplify publish` command. 
 
+If you get an "AccessDenied" error within an XML document, ensure that `DistributionDir` is set to the correct directory in `amplify/.config/project-config.json` and then re-run `amplify publish`
+
 To view your app and hosting configuration in the Amplify Console, run the `amplify console` command.
