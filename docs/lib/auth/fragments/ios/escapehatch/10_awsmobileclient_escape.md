@@ -18,3 +18,5 @@ func getEscapeHatch() {
 ```
 
 It is not recommened to use`AWSMobileClient` credentials apis like `getToken`, `getAWSCredentials` through the escape hatch object.
+
+You can use the escape hatch to `federatedSignIn` with a valid token from other social providers. Find more details [here](https://docs.amplify.aws/sdk/auth/federated-identities/q/platform/ios)
