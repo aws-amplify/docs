@@ -82,20 +82,20 @@ public void queryFirstPage() {
     query(ModelQuery.list(Todo.class, ModelPagination.firstPage().withLimit(1000)));
 }
 
-public void query(GraphQLRequest<PaginatedResult<Todo>> request) {
+private static void query(GraphQLRequest<PaginatedResult<Todo>> request) {
     Amplify.API.query(
         request,
         response -> {
-            if(response.hasData()) {
-                for(Todo todo : response.getData().getItems()) {
+            if (response.hasData()) {
+                for (Todo todo : response.getData().getItems()) {
                     Log.d("MyAmplifyApp", todo.getName());
                 }
-                if(response.getData().hasNextResult()) {
+                if (response.getData().hasNextResult()) {
                     query(response.getData().getRequestForNextResult());
                 }
             }
         },
-        error -> Log.e("MyAmplifyApp", "Query failure ", error)
+        failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
     );
 }
 ```
