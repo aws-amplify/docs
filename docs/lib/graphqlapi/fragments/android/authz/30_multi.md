@@ -1,4 +1,4 @@
-You can make a call to the specific client using the friendly name:
+When you have configured multiple APIs, you can specify the name of the API as a parameter as the target for an operation:
 
 <amplify-block-switcher>
 <amplify-block name="Java">
