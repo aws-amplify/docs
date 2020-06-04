@@ -121,7 +121,7 @@ fun query(request: GraphQLRequest<PaginatedResult<Todo>>) {
                 }
             }
         },
-        { error -> Log.e("MyAmplifyApp", "Query failure ", error) }
+        { failure -> Log.e("MyAmplifyApp", "Query failed.", failure) }
     )
 }
 ```
