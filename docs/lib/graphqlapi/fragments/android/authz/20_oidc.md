@@ -15,7 +15,7 @@ Amplify.addPlugin(new AWSApiPlugin(authProviders));
 
 ```kotlin
 val authProviders = ApiAuthProviders.builder()
-    .oidcAuthProvider { "{my-open-id-connect-token}" }
+    .oidcAuthProvider { "[OPEN-ID-CONNECT-TOKEN]" }
     .build()
 Amplify.addPlugin(AWSApiPlugin(authProviders))
 ```

@@ -1,6 +1,6 @@
-You can make a call to the specific client using the friendly name:
+When you have configured multiple APIs, you can specify the name of the API as a parameter as the target for an operation:
 
 ```swift
-let request = GraphQLRequest(apiName: "friendly_name_API_KEY", ...)
+let request = GraphQLRequest(apiName: "[FRIENDLY-NAME-API-WITH-API-KEY]", ...)
 Amplify.API.mutate(request: request, listener: ...)
 ```

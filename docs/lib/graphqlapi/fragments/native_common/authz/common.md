@@ -2,11 +2,11 @@ For client authorization AppSync supports API Keys, Amazon IAM credentials, Amaz
 
 #### API key
 
-API Key is the easiest way to setup and prototype your application with AppSync. 
+API Key is the easiest way to setup and prototype your application with AWS AppSync. This means anyone can easily discover the API Key and make requests to your service. API Key will expiry according to the expiry time set when provisioning AWS AppSync will require extending it or creating a new one if needed. 
 
 #### Amazon Cognito User Pools
 
-Amazon Cognito's user pool is most commonly used with AWS AppSync when adding authorization check on your API calls. If your application needs to interact with other AWS services besides AWS AppSync, such as AWS S3, you will need to use AWS IAM credentials with Amazon Cognito's identity pools. Amplify CLI can automatically configure this for you when running `amplify add auth` and will also automatically use the authenticated user from user pools to federate with the identity pools to provide the AWS IAM credentials in the application. [See this for more information about the differences](https://aws.amazon.com/premiumsupport/knowledge-center/cognito-user-pools-identity-pools/). This allows you to have both user pool credentials for AWS AppSync and AWS IAM credentials for other AWS resources. You can learn more about Amplify Auth outlined in the [Accessing credentials section](~/lib/auth/access_credentials.md). For manual configuration, add the following snippet to your `amplifyconfiguration.json` file, under the `awsCognitoAuthPlugin`:
+Amazon Cognito's user pool is most commonly used with AWS AppSync when adding authorization check on your API calls. If your application needs to interact with other AWS services besides AWS AppSync, such as Amazon S3, you will need to use AWS IAM credentials with Amazon Cognito's identity pools. Amplify CLI can automatically configure this for you when running `amplify add auth` and will also automatically use the authenticated user from user pools to federate with the identity pools to provide the AWS IAM credentials in the application. [See this for more information about the differences](https://aws.amazon.com/premiumsupport/knowledge-center/cognito-user-pools-identity-pools/). This allows you to have both user pool credentials for AWS AppSync and AWS IAM credentials for other AWS resources. You can learn more about Amplify Auth outlined in the [Accessing credentials section](~/lib/auth/access_credentials.md). For manual configuration, add the following snippet to your `amplifyconfiguration.json` file, under the `awsCognitoAuthPlugin`:
 
 ```json
 {
@@ -14,10 +14,10 @@ Amazon Cognito's user pool is most commonly used with AWS AppSync when adding au
     "awsCognitoAuthPlugin": {
         "CognitoUserPool": {
             "Default": {
-                "PoolId": "POOL-ID",
-                "AppClientId": "APP-CLIENT-ID",
-                "AppClientSecret": "APP-CLIENT-SECRET",
-                "Region": "us-east-1"
+                "PoolId": "[POOL-ID]",
+                "AppClientId": "[APP-CLIENT-ID]",
+                "AppClientSecret": "[APP-CLIENT-SECRET]",
+                "Region": "[REGION]"
             }
         }
     }
@@ -30,8 +30,8 @@ and under the `awsAPIPlugin`
     "awsAPIPlugin": {
         "<YOUR-GRAPHQLENDPOINT-NAME": {
             "endpointType": "GraphQL",
-            "endpoint": "YOUR-GRAPHQL-ENDPOINT",
-            "region": "us-west-2",
+            "endpoint": "[GRAPHQL-ENDPOINT]",
+            "region": "[REGION]",
             "authorizationType": "AMAZON_COGNITO_USER_POOLS",
         }
     }
@@ -53,8 +53,8 @@ Amazon Cognito identity pools allows you to use credentials from AWS IAM in a mo
         "CredentialsProvider": {
             "CognitoIdentity": {
                 "Default": {
-                    "PoolId": "YOUR-COGNITO-IDENTITY-POOLID",
-                    "Region": "us-east-1"
+                    "PoolId": "[COGNITO-IDENTITY-POOLID]",
+                    "Region": "[REGION]"
                 }
             }
         } 
@@ -68,8 +68,8 @@ and under the `awsAPIPlugin`
     "awsAPIPlugin": {
         "<YOUR-GRAPHQLENDPOINT-NAME": {
             "endpointType": "GraphQL",
-            "endpoint": "YOUR-GRAPHQL-ENDPOINT",
-            "region": "us-west-2",
+            "endpoint": "[GRAPHQL-ENDPOINT]",
+            "region": "[REGION]",
             "authorizationType": "API_IAM",
         }
     }
@@ -87,8 +87,8 @@ If you are using a 3rd party OIDC provider you will need to configure it and man
     "awsAPIPlugin": {
         "<YOUR-GRAPHQLENDPOINT-NAME": {
             "endpointType": "GraphQL",
-            "endpoint": "YOUR-GRAPHQL-ENDPOINT",
-            "region": "us-west-2",
+            "endpoint": "[GRAPHQL-ENDPOINT]",
+            "region": "[REGION]",
             "authorizationType": "OPENID_CONNECT",
         }
     }
@@ -118,29 +118,29 @@ The `friendly_name` illustrated here is created from Amplify CLI prompt. There a
     "api": {
         "plugins": {
             "awsAPIPlugin": {
-                "friendly_name_API_KEY": {
+                "[FRIENDLY-NAME-API-WITH-API-KEY]": {
                     "endpointType": "GraphQL",
-                    "endpoint": "https://xyz.appsync-api.us-west-2.amazonaws.com/graphql",
-                    "region": "us-west-2",
+                    "endpoint": "[GRAPHQL-ENDPOINT]",
+                    "region": "[REGION]",
                     "authorizationType": "API_KEY",
-                    "apiKey": "da2-abcdefghijklmnopqr"
+                    "apiKey": "[API_KEY]"
                 },
-                "friendly_name_AWS_IAM": {
+                "[FRIENDLY-NAME-API-WITH-IAM": {
                     "endpointType": "GraphQL",
-                    "endpoint": "https://xyz.appsync-api.us-west-2.amazonaws.com/graphql",
-                    "region": "us-west-2",
+                    "endpoint": "[GRAPHQL-ENDPOINT]",
+                    "region": "[REGION]",
                     "authorizationType": "API_IAM",
                 },
-                "friendly_name_AMAZON_COGNITO_USER_POOLS": {
+                "[FRIENDLY-NAME-API-WITH-USER-POOLS]": {
                     "endpointType": "GraphQL",
                     "endpoint": "https://xyz.appsync-api.us-west-2.amazonaws.com/graphql",
-                    "region": "us-west-2",
+                    "region": "[REGION]",
                     "authorizationType": "AMAZON_COGNITO_USER_POOLS",
                 },
-                "friendly_name_OPENID_CONNECT": {
+                "[FRIENDLY-NAME-API-WITH-OPENID-CONNECT]": {
                     "endpointType": "GraphQL",
                     "endpoint": "https://xyz.appsync-api.us-west-2.amazonaws.com/graphql",
-                    "region": "us-west-2",
+                    "region": "[REGION]",
                     "authorizationType": "OPENID_CONNECT",
                 }
             }
@@ -148,6 +148,8 @@ The `friendly_name` illustrated here is created from Amplify CLI prompt. There a
     }
 }
 ```
+
+The `GRAPHQL-ENDPOINT` from AWS AppSync will look similar to `https://xyz.appsync-api.us-west-2.amazonaws.com/graphql`.
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz/30_multi.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/30_multi.md"></inline-fragment>

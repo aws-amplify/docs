@@ -5,7 +5,7 @@ When you have configured multiple APIs, you can specify the name of the API as a
 
 ```java
 Amplify.API.mutate(
-    "friendly_name_API_KEY",
+    "[FRIENDLY-NAME-API-WITH-API-KEY]",
     request,
     response -> Log.i("MyAmplifyApp", "Mutation successful"),
     error -> Log.e("MyAmplifyApp", "Failed to mutate model.", error)
@@ -17,7 +17,7 @@ Amplify.API.mutate(
 
 ```kotlin
 Amplify.API.mutate(
-    "friendly_name_API_KEY",
+    "[FRIENDLY-NAME-API-WITH-API-KEY]",
     request,
     { Log.i("MyAmplifyApp", "Mutation successful") },
     { Log.e("MyAmplifyApp", "Failed to mutate model.", it) }
