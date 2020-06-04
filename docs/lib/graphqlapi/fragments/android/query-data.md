@@ -72,7 +72,7 @@ Amplify.API.query(
 
 ## List multiple pages of items
 
-You can use this approach to specify the number of results per page (limit), and request a next page of results if available.
+Pagination allows you to request a maximum number of results to be returned in a response. To consume further results beyond that, you can request a next page of results, if available.
 
 <amplify-block-switcher>
 <amplify-block name="Java">
