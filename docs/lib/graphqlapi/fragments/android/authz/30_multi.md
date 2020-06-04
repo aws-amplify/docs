@@ -20,7 +20,7 @@ Amplify.API.mutate(
     "friendly_name_API_KEY",
     request,
     { Log.i("MyAmplifyApp", "Mutation successful") },
-    { Log.e("MyAmplifyApp","Failed to mutate model.", it) }
+    { Log.e("MyAmplifyApp", "Failed to mutate model.", it) }
 )
 ```
 
