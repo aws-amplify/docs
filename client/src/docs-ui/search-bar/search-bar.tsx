@@ -11,7 +11,7 @@ export class DocsSearchBar {
         apiKey: "24d37f059982b2f5ecf829afe93aed40",
         indexName: "aws_amplify_new",
         inputSelector: "#amplify-docs-search-input",
-        debug: false,
+        debug: true,
         transformData,
       });
     }

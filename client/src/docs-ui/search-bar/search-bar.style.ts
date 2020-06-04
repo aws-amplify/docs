@@ -73,6 +73,10 @@ export const searchStyle = css`
         color: initial;
       }
 
+      .algolia-docsearch-suggestion--subcategory-column-text {
+        color: initial;
+      }
+
       input {
         position: relative;
         display: flex;
