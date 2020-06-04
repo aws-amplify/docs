@@ -26,17 +26,19 @@ API
 Example with async/await
 
 ```javascript
-async getData() { 
+function getData() { 
   const apiName = 'MyApiName';
   const path = '/path';
   const myInit = { // OPTIONAL
     headers: {}, // OPTIONAL
   };
 
-  return await API.get(apiName, path, myInit);
+  return API.get(apiName, path, myInit);
 }
 
-getData();
+(async function () {
+  const response = await getData();
+})();
 ```
 
 ## GET requests with query parameters
@@ -70,17 +72,19 @@ API
 Example with async/await:
 
 ```javascript
-async function head() { 
-    const apiName = 'MyApiName';
-    const path = '/path';
-    const myInit = { // OPTIONAL
-        headers: {}, // OPTIONAL
-    };
+function head() { 
+  const apiName = 'MyApiName';
+  const path = '/path';
+  const myInit = { // OPTIONAL
+      headers: {}, // OPTIONAL
+  };
 
-    return await API.head(apiName, path, myInit);
+  return API.head(apiName, path, myInit);
 }
 
-head();
+(async function () {
+  const response = await head();
+})();
 ```
 
 ## Accessing query parameters & body in Lambda proxy function
