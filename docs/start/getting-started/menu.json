@@ -6,10 +6,9 @@
         "data-model",
         "auth",
         "hosting",
-        "nextsteps",
-	"native_setup",
-	"native_generate-model",
-	"native_integrate",
-	"native_add-api"
+        "generate-model",
+        "integrate",
+        "add-api",
+        "nextsteps"
     ]
 }

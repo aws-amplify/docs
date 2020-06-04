@@ -39,6 +39,14 @@ With the basic setup complete, next you will model the data your application wil
     Todo+Schema.swift
     Todo.swift
     ```
-    Note that when Amplify tools needs to update your project, this may disrupt the Xcode's build process, and leave the build in a canceled or error state.  If your project ends up in either of these states due to amplify tools needing to make updates to your project, you can just build again (Cmd+b) re-issue a build for the updated project.
+    Note that when Amplify tools needs to update your project, this may disrupt the Xcode's build process, and leave the build in a canceled or error state.  If your project ends up in either of these states due to amplify tools needing to make updates to your project, you can just build again (`Cmd+b`) re-issue a build for the updated project.
 
-1. Now that Amplify tools has added the generated models to your project, you will need to **issue another build (Cmd+b)** to compile the newly generated files
+    <amplify-callout>
+
+    If Xcode reports build errors like `Undefined symbol: _OBJC_CLASS_$_AWSSignatureV4Signer`, as shown in the screenshot below, clean build folder with **Product > Clean Build Folder** (`Shift+Cmd+K`) and rebuild the project (`Cmd+b`).
+
+    ![Xcode Build Error](~/images/xcode-build-error.png)
+
+    </amplify-callout>
+
+1. Now that Amplify tools has added the generated models to your project, you will need to **issue another build (`Cmd+b`)** to compile the newly generated files
