@@ -105,7 +105,7 @@ private static void query(GraphQLRequest<PaginatedResult<Todo>> request) {
 
 ```kotlin
 fun queryFirstPage() {
-    query(ModelQuery.list(Todo::class.java, ModelPagination.firstPage().withLimit(1000)))
+    query(ModelQuery.list(Todo::class.java, ModelPagination.firstPage().withLimit(1_000)))
 }
 
 fun query(request: GraphQLRequest<PaginatedResult<Todo>>) {
