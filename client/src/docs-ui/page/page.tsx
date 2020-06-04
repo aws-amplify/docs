@@ -97,23 +97,25 @@ export class DocsPage {
   }
 
   startRaf() {
-    // lets us repeatedly call `updatePageData` without actually
-    // triggering redundant `this.getPageData` calls.
-    let {pathname} = location;
-    const updatePageData = () => {
-      if (location.pathname !== pathname) {
-        this.isFirstRenderOfCurrentPage = true;
-        pathname = location.pathname;
-        this.getPageData();
-      }
-    };
+    if (Build.isBrowser) {
+      // lets us repeatedly call `updatePageData` without actually
+      // triggering redundant `this.getPageData` calls.
+      let {pathname} = location;
+      const updatePageData = () => {
+        if (location.pathname !== pathname) {
+          this.isFirstRenderOfCurrentPage = true;
+          pathname = location.pathname;
+          this.getPageData();
+        }
+      };
 
-    // create RAF loop, save its ID (so that we can end the loop in `componentWillUnload`).
-    // This loop triggers `updatePageData`, which––upon path changes––triggers the appropriate rerender.
-    this.rafId = (function watchForRouteChange() {
-      updatePageData();
-      return requestAnimationFrame(watchForRouteChange);
-    })();
+      // create RAF loop, save its ID (so that we can end the loop in `componentWillUnload`).
+      // This loop triggers `updatePageData`, which––upon path changes––triggers the appropriate rerender.
+      this.rafId = (function watchForRouteChange() {
+        updatePageData();
+        return requestAnimationFrame(watchForRouteChange);
+      })();
+    }
   }
 
   componentDidLoad() {
@@ -121,12 +123,14 @@ export class DocsPage {
   }
 
   scrollToId() {
-    const {hash} = location;
-    if (hash) {
-      setTimeout(() => {
-        // TODO: fix potential race condition
-        scrollToHash(hash, this.el);
-      }, 250);
+    if (Build.isBrowser) {
+      const {hash} = location;
+      if (hash) {
+        setTimeout(() => {
+          // TODO: fix potential race condition
+          scrollToHash(hash, this.el);
+        }, 250);
+      }
     }
   }
 
@@ -237,7 +241,7 @@ export class DocsPage {
   };
 
   render() {
-    if (Build.isBrowser) {
+    if (Build.isBrowser || location.pathname === "/") {
       return (
         <Host class={pageStyle}>
           <pageContext.Provider

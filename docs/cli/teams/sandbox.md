@@ -13,7 +13,7 @@ $ amplify env add
 ? Do you want to use an existing environment? No
 ? Enter a name for the environment mysandbox
 // Rest of init steps
-// Add/update any backend configurations using amplify add/update <category>
+// Add/update any backend configurations using amplify add/update \<category\>
 $ amplify push
 $ git push -u origin mysandbox
 ```

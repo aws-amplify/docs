@@ -73,7 +73,7 @@ amplify push
 
 After running the `amplify push` command, you will find a domain-name provisioned by the CLI for the hosted UI as an output in the terminal. You can find that information anytime later using the `amplify status` command.
 
-**Note:** your user pool domain is something like: `domain_prefix-<env-name>.auth.<region>.amazoncognito.com`. 
+**Note:** your user pool domain is something like: `domain_prefix-\<env-name\>.auth.<region>.amazoncognito.com`. 
 If you've setup federation through third party providers, you would need to update the providers with the CLI provisioned domain-name.
 
 <amplify-block-switcher>

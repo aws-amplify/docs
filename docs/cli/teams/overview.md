@@ -41,7 +41,7 @@ From the root of your project, execute the following commands:
 $ amplify init
 ? Enter a name for the environment master
 // Provide AWS Profile info
-// Add amplify categories using `amplify add <category>`
+// Add amplify categories using `amplify add \<category\>`
 $ git init
 $ git add <all project related files>
 $ git commit -m "Creation of a master amplify environment"

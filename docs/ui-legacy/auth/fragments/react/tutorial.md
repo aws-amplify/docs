@@ -22,7 +22,7 @@ To get started, initialize your project in the new directory:
 amplify init
 ```
 
-After you answer the provided questions, you can use `amplify help` at any time to see the overall command structure, and `amplify help <category>` to see actions for a specific category.
+After you answer the provided questions, you can use `amplify help` at any time to see the overall command structure, and `amplify help \<category\>` to see actions for a specific category.
 
 The Amplify CLI uses AWS CloudFormation, and you can add or modify configurations locally before you push them for execution in your account. To see the status of the deployment at any time, run `amplify status`.
 

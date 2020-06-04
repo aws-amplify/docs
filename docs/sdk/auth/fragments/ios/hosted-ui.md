@@ -77,7 +77,7 @@ amplify push
 ```
 You will find a domain-name provisioned by the CLI for the hosted UI as an output in the terminal. You can also find that information anytime later using the `amplify status` command.
 
-> Your Cognito User Pool domain is structured like so: `<unique_domain_prefix>-<env-name>.auth.<region>.amazoncognito.com`. Use this domain in the above steps when setting up your social provider.
+> Your Cognito User Pool domain is structured like so: `<unique_domain_prefix>-\<env-name\>.auth.<region>.amazoncognito.com`. Use this domain in the above steps when setting up your social provider.
 
 ### Manual Setup
 

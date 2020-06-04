@@ -2,6 +2,7 @@
 // @ts-ignore
 import * as parse5 from "parse5";
 import * as t from "../types";
+import validTags from "./valid-tags.json";
 
 interface HTMLAttr {
   name: string;
@@ -40,10 +41,28 @@ const Hyperscript = (
   if (node.nodeName === "#text") {
     return node.value as string;
   }
+
+  if (node.nodeName === "#comment") {
+    return null;
+  }
+
+  if (node.tagName) {
+    if (!validTags[node.tagName] && !node.tagName.startsWith("amplify-")) {
+      throw new Error(
+        `Invalid tag "${node.tagName}" encountered in "${srcPath}"`,
+      );
+    }
+  } else {
+    throw new Error(
+      `Undefined is not a valid tag name, encountered in "${srcPath}". No info:\n${node}`,
+    );
+  }
+
   const props = node.attrs ? Attrs(node.attrs) : null;
   if (props?.style) {
     throw new Error(`'style' attribute used in "${srcPath}"`);
   }
+
   const children =
     node.childNodes && node.childNodes.length > 0
       ? // eslint-disable-next-line
@@ -59,6 +78,7 @@ const Hyperscript = (
           }
         }, new Array<t.HyperscriptNode>())
       : new Array<t.HyperscriptNode>();
+
   const hyperscriptNode = [
     node.tagName,
     props,
