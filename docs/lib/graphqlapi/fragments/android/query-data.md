@@ -79,7 +79,7 @@ Pagination allows you to request a maximum number of results to be returned in a
 
 ```java
 public void queryFirstPage() {
-    query(ModelQuery.list(Todo.class, ModelPagination.firstPage().withLimit(1000)));
+    query(ModelQuery.list(Todo.class, ModelPagination.firstPage().withLimit(1_000)));
 }
 
 private static void query(GraphQLRequest<PaginatedResult<Todo>> request) {
