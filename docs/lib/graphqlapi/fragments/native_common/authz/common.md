@@ -2,7 +2,7 @@ For client authorization AppSync supports API Keys, Amazon IAM credentials, Amaz
 
 #### API key
 
-API Key is the easiest way to setup and prototype your application with AWS AppSync. This means anyone can easily discover the API Key and make requests to your service. API Key will expiry according to the expiry time set when provisioning AWS AppSync will require extending it or creating a new one if needed. 
+API Key is the easiest way to setup and prototype your application with AWS AppSync. This means it is also prone to abuse since anyone can easily discover the API Key and make requests to your public service. To have authorization checks, use the other auth modes such as Cognito user pool or AWS IAM. API Key will expiry according to the expiry time set when provisioning AWS AppSync and will require extending it or creating a new one if needed. 
 
 #### Amazon Cognito User Pools
 
