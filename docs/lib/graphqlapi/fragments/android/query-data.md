@@ -68,7 +68,7 @@ Amplify.API.query(
 </amplify-block>
 </amplify-block-switcher>
 
-> **Note**: This approach will only return up to the first 1000 items.  To change this limit or make requests for additional results beyond this limit, see below.
+> **Note**: This approach will only return up to the first 1,000 items.  To change this limit or make requests for additional results beyond this limit, use *pagination* as discussed below.
 
 ## List multiple pages of items
 
