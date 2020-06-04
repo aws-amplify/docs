@@ -12,10 +12,16 @@ Amplify.Hub.subscribe(HubChannel.AUTH,
               switch (AuthChannelEventName.valueOf(hubEvent.getName())) {
                   case SIGNED_IN:
                       Log.i("AuthQuickstart", "Auth just became signed in.");
+                      break;
                   case SIGNED_OUT:
                       Log.i("AuthQuickstart", "Auth just became signed out.");
+                      break;
                   case SESSION_EXPIRED:
                       Log.i("AuthQuickstart", "Auth session just expired.");
+                      break;
+                  default:
+                      Log.i("AuthQuickstart", "Unhandled Auth Event");
+                      break;
               }
           }
       }
