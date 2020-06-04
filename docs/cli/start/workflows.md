@@ -1,5 +1,5 @@
 ---
-title: Typical workflow
+title: Typical workflows
 description: How to initialize a new Amplify project and other typical Amplify CLI workflows & commands.
 ---
 

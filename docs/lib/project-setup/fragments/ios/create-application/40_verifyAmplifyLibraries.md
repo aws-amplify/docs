@@ -15,7 +15,15 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 }
 ```
 
-Build your project (`CMD + b`).  If your build succeeeds, then you have successfully added the Amplify library to your project.  If you run the application, you should not see any errors being printed to the console.
+Build your project (`Cmd+b`).  If your build succeeeds, then you have successfully added the Amplify library to your project.  If you run the application, you should not see any errors being printed to the console.
+
+<amplify-callout>
+
+If Xcode reports build errors like `Undefined symbol: _OBJC_CLASS_$_AWSSignatureV4Signer`, as shown in the screenshot below, clean build folder with **Product > Clean Build Folder** (`Shift+Cmd+K`) and rebuild the project (`Cmd+b`).
+
+![Xcode Build Error](~/images/xcode-build-error.png)
+
+</amplify-callout>
 
 Optionally, if you'd like to see additional log messages of what amplify is doing during configuration, you can turn on verbose logging by adding the following line of code:
 ```swift

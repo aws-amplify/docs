@@ -4,6 +4,7 @@ To install the libraries required to translating text, **add both `AWSPrediction
 target 'MyAmplifyApp' do
   use_frameworks!
   pod 'Amplify'
+  pod 'AmplifyPlugins/AWSCognitoAuthPlugin'
   pod 'AWSPredictionsPlugin'
   pod 'CoreMLPredictionsPlugin'
 end
