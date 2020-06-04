@@ -44,7 +44,7 @@ and under the `awsAPIPlugin`
 
 #### IAM
 
-When using AWS IAM in a mobile application you should leverage Amazon Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth`. For manual configuration, add the following snippet to your `amplifyconfiguration.json` file:
+Amazon Cognito identity pools allows you to use credentials from AWS IAM in a mobile application. The Amplify CLI can automatically configure this for you when running `amplify add auth`. For manual configuration, add the following snippet to your `amplifyconfiguration.json` file:
 
 ```json
 {
