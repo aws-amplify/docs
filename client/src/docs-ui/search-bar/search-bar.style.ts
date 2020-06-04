@@ -7,7 +7,7 @@ export const searchStyle = css`
 
   ${MQLaptop} {
     width: initial;
-    margin: 0 1rem;
+    margin: 0 4rem;
   }
 
   .algolia-autocomplete .ds-dropdown-menu {
@@ -67,6 +67,10 @@ export const searchStyle = css`
       .algolia-autocomplete .algolia-docsearch-suggestion--highlight {
         color: var(--color-orange-hv);
         background: var(--bg-color-hover);
+      }
+
+      .algolia-docsearch-suggestion--category-header-lvl0 {
+        color: initial;
       }
 
       input {

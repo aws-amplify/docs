@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`docs-search-bar Render logic should render 1`] = `
-<docs-search-bar class="css-zajeey">
+<docs-search-bar class="css-1h5l5f4">
   <div>
     <div>
       <input class="three-dee-effect" id="amplify-docs-search-input" placeholder="Search" type="search">
