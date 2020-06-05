@@ -11,7 +11,7 @@ export class DocsSearchBar {
       docsearch({
         apiKey: ALGOLIA_API_KEY,
         indexName: ALGOLIA_INDEX_NAME,
-        inputSelector: "#amplify-docs-search-input",
+        inputSelector: ".amplify-docs-search-input:not(.ds-input)",
         debug: false,
         transformData,
       });
@@ -29,8 +29,7 @@ export class DocsSearchBar {
         <div>
           <div>
             <input
-              id="amplify-docs-search-input"
-              class="three-dee-effect"
+              class="amplify-docs-search-input three-dee-effect"
               type="search"
               placeholder="Search"
             />
