@@ -6,7 +6,7 @@ import {
   brandStyle,
   linksStyle,
   hideAboutLinkStyle,
-  searchContainerStyle,
+  searchStyle,
 } from "./universal-nav.style";
 
 @Component({tag: "docs-universal-nav", shadow: false})
@@ -45,9 +45,7 @@ export class DocsUniversalNav {
               <sup>NEW</sup>
             </stencil-route-link>
 
-            <div class={searchContainerStyle}>
-              <docs-search-bar />
-            </div>
+            <docs-search-bar class={searchStyle} />
 
             <div class={linksStyle}>
               <amplify-external-link

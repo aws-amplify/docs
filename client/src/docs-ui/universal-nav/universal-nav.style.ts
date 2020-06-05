@@ -93,15 +93,12 @@ export const linksStyle = css`
   }
 `;
 
-export const searchContainerStyle = css`
+export const searchStyle = css`
   display: none;
   width: 100%;
   ${MQTablet} {
     display: flex;
-    flex: 1;
-  }
-  docs-search-bar {
-    width: 100%;
+    flex: 1 16.875rem;
   }
 `;
 
