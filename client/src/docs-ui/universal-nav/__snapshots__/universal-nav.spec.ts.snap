@@ -11,9 +11,7 @@ exports[`docs-universal-nav Render logic should render 1`] = `
           NEW
         </sup>
       </stencil-route-link>
-      <div class="css-1w9noqt">
-        <docs-search-bar></docs-search-bar>
-      </div>
+      <docs-search-bar class="css-1o86vap"></docs-search-bar>
       <div class="css-1w8xurc">
         <amplify-external-link anchortitle="Amplify Community" href="https://amplify.aws/community" redirect="">
           <span>

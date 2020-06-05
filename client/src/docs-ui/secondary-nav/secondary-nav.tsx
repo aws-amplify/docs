@@ -1,4 +1,3 @@
-import * as links from "../../constants/links";
 import {Component, Host, h, Prop, State, Listen} from "@stencil/core";
 import {
   secondaryNavStyle,
@@ -9,6 +8,12 @@ import {
 import {createVNodeFromHyperscriptNode} from "../../utils/hyperscript";
 import {pageContext} from "../page/page.context";
 import {SelectedFilters} from "../page/page.types";
+import {
+  AWS_USER_GUIDE,
+  IOS_REFERENCE,
+  ANDROID_REFERENCE,
+  JS_REFERENCE,
+} from "../../constants/links";
 
 @Component({tag: "docs-secondary-nav", shadow: false})
 export class DocsSecondaryNav {
@@ -43,7 +48,7 @@ export class DocsSecondaryNav {
                   },
                   {
                     label: "Console",
-                    url: links.AWS_USER_GUIDE,
+                    url: AWS_USER_GUIDE,
                     external: true,
                   },
                   ...(this.selectedFilters?.platform
@@ -53,13 +58,13 @@ export class DocsSecondaryNav {
                           url: (() => {
                             switch (this.selectedFilters.platform) {
                               case "ios": {
-                                return links.IOS_REFERENCE;
+                                return IOS_REFERENCE;
                               }
                               case "android": {
-                                return links.ANDROID_REFERENCE;
+                                return ANDROID_REFERENCE;
                               }
                               case "js": {
-                                return links.JS_REFERENCE;
+                                return JS_REFERENCE;
                               }
                             }
                           })(),
