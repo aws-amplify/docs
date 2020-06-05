@@ -61,10 +61,10 @@ amplify add auth     ##"amplify update auth" if already configured
 Select Default configuration with Social Provider (Federation):
 
 ```console
-Do you want to use the default authentication and security configuration? 
-  Default configuration 
-❯ Default configuration with Social Provider (Federation) 
-  Manual configuration 
+Do you want to use the default authentication and security configuration?
+  Default configuration
+❯ Default configuration with Social Provider (Federation)
+  Manual configuration
   I want to learn more.
 ```
 
@@ -78,7 +78,8 @@ For *Sign in Redirect URI(s)* inputs, you can put one URI for local development 
 
 For React Native applications, You need to define a custom URL scheme for your application before testing locally or publishing to the app store. This is different for Expo or vanilla React Native. Follow the steps at the [React Native Linking docs](https://facebook.github.io/react-native/docs/linking) or [Expo Linking docs](https://docs.expo.io/versions/latest/workflow/linking/) for more information. After completing those steps, assuming you are using "myapp" as the name of your URL Scheme (or whatever friendly name you have chosen), you will use these URLs as *Sign in Redirect URI(s)* and/or *Sign out redirect URI(s)* inputs. Your URIs could look like any of these:
 
-- `myapp://`
+- `myapp://main/`
+- `exp://exp.host/@{YOUR-EXPO-USERNAME}/myapp/` (*Optional* this is for running the expo app while not pointed at a development build.)
 - `exp://127.0.0.1:19000/--/` (Local development if your app is running [in the Expo client](https://docs.expo.io/versions/latest/workflow/linking/#linking-to-your-app)).
 
 Log back in to your social provider settings and update the app domain (e.g. `https://<your-user-pool-domain`).
@@ -102,7 +103,7 @@ Log back in to your social provider settings and update the app domain (e.g. `ht
 7. Type your user pool domain into *App Domains*:
 
     ```https://<your-user-pool-domain>```
-    
+
     ![Image](~/images/cognitoHostedUI/facebook6.png)
 8. Save changes.
 9. From the navigation bar choose *Products* and then *Set up* from *Facebook Login*.
@@ -396,7 +397,7 @@ npm install aws-amplify-react-native aws-amplify
 or, if you're using Yarn:
 
 ```bash
-yarn add aws-amplify-react-native aws-amplify 
+yarn add aws-amplify-react-native aws-amplify
 ```
 
 The following code snippet shows an example of its possible usage:
@@ -469,7 +470,7 @@ const styles = StyleSheet.create({
 });
 
 export default withOAuth(App);
-``` 
+```
 
 ### Hosted UI with Expo
 
@@ -493,18 +494,26 @@ const urlOpener = async (url, redirectUrl) => {
 
 const oauth = {
     // Domain name
-    domain : 'your-domain-prefix.auth.us-east-1.amazoncognito.com', 
+    domain : 'your-domain-prefix.auth.us-east-1.amazoncognito.com',
 
     // Authorized scopes
-    scope : ['phone', 'email', 'profile', 'openid','aws.cognito.signin.user.admin'], 
+    scope : ['phone', 'email', 'profile', 'openid','aws.cognito.signin.user.admin'],
 
     // Callback URL
-    redirectSignIn : 'http://www.example.com/signin/', // or 'exp://127.0.0.1:19000/--/', 'myapp://main/'
+    redirectSignIn : 'http://www.example.com/signin/',
+    // For React Native via Expo in development
+    // redirectSignIn : 'exp://127.0.0.1:19000/--/',
+    // For React Native in production
+    // redirectSignIn : 'myapp://main/',
 
     // Sign out URL
-    redirectSignOut : 'http://www.example.com/signout/', // or 'exp://127.0.0.1:19000/--/', 'myapp://main/'
+    redirectSignOut : 'http://www.example.com/signout/',
+    // For React Native via Expo in development
+    // redirectSignOut : 'exp://127.0.0.1:19000/--/',
+    // For React Native in production
+    // redirectSignOut : 'myapp://main/',
 
-    // 'code' for Authorization code grant, 
+    // 'code' for Authorization code grant,
     // 'token' for Implicit grant
     // Note that REFRESH token will only be generated when the responseType is code
     responseType: 'code',
@@ -517,6 +526,38 @@ const oauth = {
 
     urlOpener: urlOpener
 }
+
+Amplify.configure({
+    Auth: {
+        // other configurations...
+        // ....
+        oauth: oauth
+    },
+    // ...
+});
+```
+
+### React Native Specifics
+
+It is a good idea to programmatically change the value of `oauth.redirectSignIn` and `oauth.redirectSignOut` dependent on the environment.
+This can be done with the following method:
+
+```javascript
+import { Linking } from "expo";
+
+const expoScheme = 'myapp';
+
+let redirectUrl = Linking.makeUrl(); // this will return values such as `exp://127.0.0.1` or `myapp://`
+if (redirectUrl.startsWith("exp://1")) {
+  // handle simulator(localhost) and device(Lan)
+  redirectUrl = redirectUrl + "/--/";
+} else if (redirectUrl.startsWith(expoScheme)) {
+  redirectUrl = redirectUrl + "main/";
+} else {
+  redirectUrl = redirectUrl + "/";
+}
+oauth.redirectSignIn = redirectUrl;
+oauth.redirectSignOut = redirectUrl;
 
 Amplify.configure({
     Auth: {
