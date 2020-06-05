@@ -1,6 +1,7 @@
 import {Component, Host, h, Build, Listen} from "@stencil/core";
 import {searchStyle} from "./search-bar.style";
 import {transformData} from "../../utils/transform-search-data";
+import {ALGOLIA_API_KEY} from "../../constants/algolia";
 
 @Component({tag: "docs-search-bar", shadow: false})
 export class DocsSearchBar {
@@ -8,7 +9,7 @@ export class DocsSearchBar {
     if (Build.isBrowser) {
       // @ts-ignore
       docsearch({
-        apiKey: "24d37f059982b2f5ecf829afe93aed40",
+        apiKey: ALGOLIA_API_KEY,
         indexName: "aws_amplify_new",
         inputSelector: "#amplify-docs-search-input",
         debug: true,
