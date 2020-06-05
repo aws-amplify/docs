@@ -1,5 +1,5 @@
 import {css} from "emotion";
-import {MQFablet} from "../../amplify-ui/styles/media";
+import {MQFablet, MQTablet} from "../../amplify-ui/styles/media";
 
 export const universalNavStyle = css`
   display: block;
@@ -16,6 +16,10 @@ export const universalNavContentStyle = css`
   width: 100%;
   transition: 0.25s ease all;
   padding: 0 0rem 0 1.5rem;
+
+  > * {
+    flex: 1;
+  }
 
   span {
     color: var(--color-white);
@@ -74,6 +78,7 @@ export const linksStyle = css`
   display: flex;
   flex-direction: row;
   padding-right: 1.5rem;
+  justify-content: flex-end;
 
   a {
     display: flex;
@@ -85,6 +90,18 @@ export const linksStyle = css`
     &:last-child {
       padding-right: 0;
     }
+  }
+`;
+
+export const searchContainerStyle = css`
+  display: none;
+  width: 100%;
+  ${MQTablet} {
+    display: flex;
+    flex: 1;
+  }
+  docs-search-bar {
+    width: 100%;
   }
 `;
 
