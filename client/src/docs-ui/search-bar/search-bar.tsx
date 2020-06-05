@@ -1,4 +1,4 @@
-import {Component, Host, h, Build, Listen, Element} from "@stencil/core";
+import {Component, Host, h, Build, Element} from "@stencil/core";
 import {searchStyle} from "./search-bar.style";
 import {transformData} from "../../utils/transform-search-data";
 import {
@@ -29,7 +29,6 @@ export class DocsSearchBar {
     }
   }
 
-  @Listen("resize", {target: "window"})
   componentDidRender() {
     this.initDocSearch();
   }
