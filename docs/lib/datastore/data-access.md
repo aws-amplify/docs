@@ -6,13 +6,13 @@ description: Learn how to save, query, paginate, update, delete and observe data
 
 ## Create and update
 
-To write data to the DataStore you can pass an instance of a model to `Amplify.DataStore.save()`.
+To write data to the DataStore, pass an instance of a model to `Amplify.DataStore.save()`:
 
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/save-snippet.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/save-snippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/data-access/save-snippet.md"></inline-fragment>
 
-The `save` method takes care of creating a new record or updating an existing one in case the model `id` already exists in the database.
+`save()` will create a new object, if the model's ID is not already known to the DataStore. Otherwise `save()` works like an update.
 
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/update-snippet.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/update-snippet.md"></inline-fragment>
@@ -28,9 +28,9 @@ To delete an item simply pass in an instance.
 
 ## Query Data
 
-Querying data is always against the local database. When cloud synchronization is enabled, the local database is updated in the background by the DataStore Sync Engine.
+Queries are performed against the _local database_. When cloud synchronization is enabled, the local database is updated in the background by the DataStore Sync Engine.
 
-You can query using models as well as conditions using predicate filters to narrow down results.
+You can narrow the results of your query by specifying a model type of interest. For more advanced filtering, such as matching arbitrary field values on an object, you can supply a query predicate.
 
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/query-basic-snippet.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/query-basic-snippet.md"></inline-fragment>
@@ -38,7 +38,7 @@ You can query using models as well as conditions using predicate filters to narr
 
 ### Predicates
 
-You can apply predicate filters against the DataStore using the fields defined on your schema along with the following conditions.
+Predicates are filters that can be used to match items in the DataStore. When applied to a query(), they constrain the returned results. When applied to a save(), they act as a pre-requisite for updating the data. You can match against fields in your schema by using the following predicates:
 
 **Strings:** `eq | ne | le | lt | ge | gt | contains | notContains | beginsWith | between`
 

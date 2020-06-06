@@ -3,11 +3,11 @@ title: Conflict resolution
 description: Learn more about how conflict resolution in DataStore is managed and how to configure it.
 ---
 
-When syncing with [AWS AppSync](https://aws.amazon.com/appsync/), DataStore updates from multiple clients will converge by tracking object versions and adhere to different conflict resolution strategies. The default strategy is called *"Auto Merge"* where GraphQL type information on an object is inspected at runtime to perform merge operations. You can read more about this behavior and alternatives such as *"Optimistic Concurrency"* control and *"Custom Lambda"* functions in the [AWS AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/conflict-detection-and-sync.html).
+If data synchronization is enabled via [AppSync](https://aws.amazon.com/appsync/), there can be different versions of the same object on the client and server. Multiple clients may have updated their respective copies of an object. DataStore will converge different object versions by applying conflict detection and resolution strategies. The default resolution is called *"Auto Merge"*. This strategy allows collections to grow, and prefers server-side versions of single-field data. Other strategies include *"Optimistic Concurrency"* control and *"Custom Lambda"* functions. For more information, see the [AWS AppSync documentation on conflict handling](https://docs.aws.amazon.com/appsync/latest/devguide/conflict-detection-and-sync.html).
 
 ## Custom conflict resolution
 
-To update the conflict resolution strategies navigate into your project from a terminal and run `amplify update api` choosing *Yes* when prompted to change the conflict detection and conflict resolution strategies:
+To select a different conflict resolution strategy, navigate into your project from a terminal and run `amplify update api`. Choose *Yes* when prompted to change the conflict detection and resolution strategies.
 
 ```console
 ? Please select from one of the below mentioned services: 
