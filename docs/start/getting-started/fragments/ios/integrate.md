@@ -29,7 +29,7 @@ First, we'll add the DataStore plugin and configure Amplify.
     Initialized Amplify
     ```
 
-    Optinally, if you'd like to adjust the log level, you can do this by updating the `Amplify.Logging.logLevel` variable.  For example:
+    Optionally, if you'd like to adjust the log level, you can do this by updating the `Amplify.Logging.logLevel` variable.  For example:
     ```swift
     Amplify.Logging.logLevel = .info
     ```
