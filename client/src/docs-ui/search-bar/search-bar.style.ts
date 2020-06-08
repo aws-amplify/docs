@@ -15,7 +15,6 @@ export const searchStyle = css`
   }
   > div {
     width: 100%;
-    padding: 0 1rem;
     > div {
       display: flex;
       flex: 1;

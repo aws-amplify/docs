@@ -17,11 +17,6 @@ export const universalNavContentStyle = css`
   padding: 1.5rem;
   flex-wrap: wrap;
 
-  ${MQTablet} {
-    padding: 0 0 0 1.5rem;
-    height: 4.5rem;
-  }
-
   > * {
     flex: 1;
   }
@@ -47,7 +42,10 @@ export const universalNavContentStyle = css`
 export const brandStyle = css`
   order: 1;
   width: 50%;
-  padding-right: 1.5rem;
+
+  ${MQTablet} {
+    margin-right: 3rem;
+  }
 
   > a {
     display: flex;
@@ -86,10 +84,10 @@ export const brandStyle = css`
 export const searchStyle = css`
   width: 100%;
   order: 3;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   flex: auto;
   ${MQTablet} {
-    flex: 1 16.875rem;
+    flex: 1 15rem;
     order: 2;
     margin: 0;
   }
@@ -98,12 +96,12 @@ export const searchStyle = css`
 export const linksStyle = css`
   display: flex;
   flex-direction: row;
-  padding-right: 1.5rem;
   justify-content: flex-end;
   order: 2;
   width: 50%;
 
   ${MQTablet} {
+    margin-left: 3rem;
     order: 3;
   }
 

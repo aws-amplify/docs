@@ -9,9 +9,6 @@ export class DocsHero {
         <slot name="heading" />
         <slot name="subheading" />
         <slot name="cta" />
-        <div class={landingSearchStyle}>
-          <docs-search-bar />
-        </div>
       </Host>
     );
   }
