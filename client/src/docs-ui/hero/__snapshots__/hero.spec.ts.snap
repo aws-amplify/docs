@@ -10,8 +10,5 @@ exports[`docs-hero Render logic should render 1`] = `
     Subheading
   </h3>
   <docs-landing-hero-cta slot="cta"></docs-landing-hero-cta>
-  <div class="css-9e4w9t">
-    <docs-search-bar></docs-search-bar>
-  </div>
 </docs-hero>
 `;

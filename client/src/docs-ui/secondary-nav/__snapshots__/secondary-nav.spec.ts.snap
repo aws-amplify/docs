@@ -3,7 +3,7 @@
 exports[`docs-secondary-nav Render logic should render 1`] = `
 <docs-secondary-nav class="css-11aq4yp" id="secondary-nav">
   <docs-container>
-    <div class="css-1polnqm">
+    <div class="css-16891c2">
       <div>
         <div>
           <docs-internal-link childactiveclass="css-pnqqcs" href="/start">
@@ -34,7 +34,6 @@ exports[`docs-secondary-nav Render logic should render 1`] = `
           <div class="css-1r4lk6l"></div>
         </div>
       </div>
-      <docs-search-bar></docs-search-bar>
     </div>
   </docs-container>
 </docs-secondary-nav>
