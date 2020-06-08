@@ -1,5 +1,4 @@
 import {css} from "emotion";
-import {MQTablet} from "../../amplify-ui/styles/media";
 
 export const heroStyle = css`
   display: block;
