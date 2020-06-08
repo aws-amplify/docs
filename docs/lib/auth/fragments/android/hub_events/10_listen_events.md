@@ -20,8 +20,8 @@ Amplify.Hub.subscribe(HubChannel.AUTH,
                       Log.i("AuthQuickstart", "Auth session just expired.");
                       break;
                   default:
-                      Log.i("AuthQuickstart", "Unhandled Auth Event");
-                      break;
+                      Log.w("AuthQuickstart", "Unhandled Auth Event: " + AuthChannelEventName.valueOf(hubEvent.getName()));
+                        break;
               }
           }
       }
