@@ -16,16 +16,3 @@ export const heroStyle = css`
     font-weight: 500;
   }
 `;
-
-export const landingSearchStyle = css`
-  margin-top: 2rem;
-  margin-bottom: 0.25rem;
-  display: block;
-  ${MQTablet} {
-    display: none;
-  }
-
-  docs-search-bar > div {
-    padding: 0;
-  }
-`;

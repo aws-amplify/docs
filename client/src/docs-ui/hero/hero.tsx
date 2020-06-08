@@ -1,5 +1,5 @@
 import {Component, h, Host} from "@stencil/core";
-import {heroStyle, landingSearchStyle} from "./hero.style";
+import {heroStyle} from "./hero.style";
 
 @Component({tag: "docs-hero", shadow: false})
 export class DocsHero {
