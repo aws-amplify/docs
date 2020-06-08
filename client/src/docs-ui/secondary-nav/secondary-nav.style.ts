@@ -75,7 +75,6 @@ export const hostStyle = css`
   position: sticky;
   top: 0;
   background-color: var(--bg-color-secondary);
-  padding-bottom: 1rem;
 
   ${MQTablet} {
     padding: 0;
