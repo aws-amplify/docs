@@ -4,7 +4,7 @@ exports[`docs-search-bar Render logic should render 1`] = `
 <docs-search-bar class="css-1c8623v">
   <div>
     <div>
-      <input class="amplify-docs-search-input three-dee-effect" placeholder="Search" type="search">
+      <input class="three-dee-effect" id="amplify-docs-search-input" placeholder="Search" type="search">
       <img alt="search" src="/assets/search.svg">
     </div>
   </div>

@@ -34,7 +34,8 @@ export class DocsSearchBar {
         <div>
           <div>
             <input
-              class="amplify-docs-search-input three-dee-effect"
+              id="amplify-docs-search-input"
+              class="three-dee-effect"
               type="search"
               placeholder="Search"
             />
