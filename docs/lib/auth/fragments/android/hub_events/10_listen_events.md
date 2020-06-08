@@ -21,7 +21,7 @@ Amplify.Hub.subscribe(HubChannel.AUTH,
                       break;
                   default:
                       Log.w("AuthQuickstart", "Unhandled Auth Event: " + AuthChannelEventName.valueOf(hubEvent.getName()));
-                        break;
+                      break;
               }
           }
       }
