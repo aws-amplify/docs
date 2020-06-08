@@ -1,19 +1,19 @@
-import {AmplifyHero} from "./hero";
+import {DocsHero} from "./hero";
 import {newSpecPage} from "@stencil/core/testing";
 
-describe("amplify-hero", () => {
+describe("docs-hero", () => {
   describe("Render logic", () => {
     it("should render", async () => {
       expect(
         (
           await newSpecPage({
-            components: [AmplifyHero],
+            components: [DocsHero],
             html: `
-              <amplify-hero>
+              <docs-hero>
                 <h1 slot="heading">Heading</h1>
                 <h3 slot="subheading">Subheading</h3>
                 <docs-landing-hero-cta slot="cta" />
-              </amplify-hero>
+              </docs-hero>
             `,
           })
         ).root,
