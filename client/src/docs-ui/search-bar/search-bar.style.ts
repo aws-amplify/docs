@@ -10,7 +10,7 @@ export const searchStyle = css`
   .algolia-autocomplete .ds-dropdown-menu {
     min-width: initial;
     ${MQLaptop} {
-      min-width: 500px;
+      min-width: 31.25rem;
     }
   }
   > div {
