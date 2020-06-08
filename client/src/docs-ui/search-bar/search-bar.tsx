@@ -13,23 +13,18 @@ export class DocsSearchBar {
 
   initDocSearch() {
     if (Build.isBrowser) {
-      const nToInit = this.element.querySelectorAll(
-        UNINITIALIZED_SEARCH_INPUT_SELECTOR,
-      ).length;
-      if (nToInit > 0) {
-        // @ts-ignore
-        docsearch({
-          apiKey: ALGOLIA_API_KEY,
-          indexName: ALGOLIA_INDEX_NAME,
-          inputSelector: UNINITIALIZED_SEARCH_INPUT_SELECTOR,
-          debug: false,
-          transformData,
-        });
-      }
+      // @ts-ignore
+      docsearch({
+        apiKey: ALGOLIA_API_KEY,
+        indexName: ALGOLIA_INDEX_NAME,
+        inputSelector: UNINITIALIZED_SEARCH_INPUT_SELECTOR,
+        debug: false,
+        transformData,
+      });
     }
   }
 
-  componentDidRender() {
+  componentDidLoad() {
     this.initDocSearch();
   }
 

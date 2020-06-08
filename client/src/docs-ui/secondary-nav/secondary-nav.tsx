@@ -91,7 +91,6 @@ export class DocsSecondaryNav {
                 <div class={shadowStyle}></div>
               </div>
             </div>
-            <docs-search-bar />
           </div>
         </docs-container>
       </Host>

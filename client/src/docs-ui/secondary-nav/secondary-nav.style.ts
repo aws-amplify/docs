@@ -49,14 +49,6 @@ export const secondaryNavStyle = css`
       }
     }
   }
-
-  docs-search-bar {
-    width: 100%;
-
-    ${MQTablet} {
-      display: none !important;
-    }
-  }
 `;
 
 export const spanStyle = css`
