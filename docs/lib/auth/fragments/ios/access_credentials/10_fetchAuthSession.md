@@ -1,7 +1,7 @@
 ```swift
 import AWSPluginsCore
 
-_ = Amplify.Auth.fetchAuthSession { (result) in
+_ = Amplify.Auth.fetchAuthSession { result in
     do {
         let session = try result.get()
 

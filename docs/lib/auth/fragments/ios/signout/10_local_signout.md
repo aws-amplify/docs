@@ -1,5 +1,5 @@
 ```swift
-_ = Amplify.Auth.signOut() { (result) in
+_ = Amplify.Auth.signOut() { result in
     switch result {
     case .success:
         print("Successfully signed out")
