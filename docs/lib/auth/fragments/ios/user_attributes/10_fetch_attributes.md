@@ -1,7 +1,7 @@
 ```swift
     func fetchAttributes() {
         
-        _ = Amplify.Auth.fetchUserAttributes() { (result) in
+        _ = Amplify.Auth.fetchUserAttributes() { result in
                 switch result {
                 case .success(let attributes):
                     print("User attribtues - \(attributes)")
