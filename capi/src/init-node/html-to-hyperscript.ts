@@ -1,8 +1,9 @@
-// eslint-disable-next-line
+import * as path from "path";
 // @ts-ignore
 import * as parse5 from "parse5";
 import * as t from "../types";
 import validTags from "./valid-tags.json";
+import {Ctx} from "../types/ctx";
 
 interface HTMLAttr {
   name: string;
@@ -34,6 +35,7 @@ const Attrs = (attrs: HTMLAttr[]): Record<string, unknown> | null => {
 };
 
 const Hyperscript = (
+  ctx: Ctx,
   node: HTMLNode,
   attributes: t.Page,
   srcPath: string,
@@ -49,7 +51,12 @@ const Hyperscript = (
   if (node.tagName) {
     if (!validTags[node.tagName] && !node.tagName.startsWith("amplify-")) {
       throw new Error(
-        `Invalid tag "${node.tagName}" encountered in "${srcPath}"`,
+        `Invalid tag "${
+          node.tagName
+        }" encountered in "${srcPath}". See instructions on adding valid tags at "${path.resolve(
+          ctx.config.cwd as string,
+          "Readme.md#adding-to-valid-tag-list",
+        )}"`,
       );
     }
   } else {
@@ -67,7 +74,12 @@ const Hyperscript = (
     node.childNodes && node.childNodes.length > 0
       ? // eslint-disable-next-line
       node.childNodes.reduce((acc: any, childNode: any) => {
-          const hyperscriptNode = Hyperscript(childNode, attributes, srcPath);
+          const hyperscriptNode = Hyperscript(
+            ctx,
+            childNode,
+            attributes,
+            srcPath,
+          );
           switch (hyperscriptNode) {
             case undefined:
             case null:
@@ -110,6 +122,7 @@ const Hyperscript = (
  * Turns an HTML source string into an array of Hyperscript nodes
  */
 export const htmlToHyperscript = (
+  ctx: Ctx,
   html: string,
   srcPath: string,
   attributes: t.Page,
@@ -119,6 +132,6 @@ export const htmlToHyperscript = (
   return parse5
     .parseFragment(html, {scriptingEnabled: true})
     .childNodes?.map((node: HTMLNode) =>
-      Hyperscript(node, attributes, srcPath),
+      Hyperscript(ctx, node, attributes, srcPath),
     );
 };
