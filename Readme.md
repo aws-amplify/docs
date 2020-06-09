@@ -204,4 +204,4 @@ let mut a = String::from("a");
 
 ### Adding to Valid Tag List
 
-When trying to use a new HTML tag / web component with markdown, you'll encounter an error. To fix this, navigate to `capi/src/init-node/valid-tags.json` and add a new entry for your tag.
+Markdown parsers don't handle `<whatever>` very well. If you intended to write (what the parser interprets as) usage of an element / web component, navigate to `capi/src/init-node/valid-tags.json` and add a new entry for your tag. If you meant for `<whatever>` to be text, you'll need to escape it with a backslash (`\<whatever\>`). Please confirm that this renders properly before PRing with your changes.
