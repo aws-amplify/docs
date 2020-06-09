@@ -3640,11 +3640,6 @@ is-glob@^4.0.0, is-glob@^4.0.1, is-glob@~4.0.1:
   dependencies:
     is-extglob "^2.1.1"
 
-is-html-tag-name@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/is-html-tag-name/-/is-html-tag-name-1.0.2.tgz#31383fb8ed5a10a9a40a9b2604f001ff714cb42d"
-  integrity sha512-Uhb8WbabI/sI/uCUZasvjnxPj1tGyXOQdc9glOnsmsjbMOAmDBdhQbOaku20ekjODmkCF+Bp1wG68zsH2EvChA==
-
 is-negated-glob@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/is-negated-glob/-/is-negated-glob-1.0.0.tgz#6910bca5da8c95e784b5751b976cf5a10fee36d2"

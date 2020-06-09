@@ -1,10 +1,10 @@
 ```swift
-_ = Amplify.Auth.rememberDevice() { (result) in
+_ = Amplify.Auth.rememberDevice() { result in
     switch result {
         case .success:
-            print("Remeber device succeeded")
+            print("Remember device succeeded")
         case .failure(let error):
-            print("Remeber device failed with error \(error)")
+            print("Remember device failed with error \(error)")
         }
     }
 ```
