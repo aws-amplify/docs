@@ -1,0 +1,9 @@
+{
+  "title": "Guides",
+  "items": [
+    "hosting",
+    "functions",
+    "graphql",
+    "authentication"
+  ]
+}
