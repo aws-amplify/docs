@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> 03e0e575... moving analytics escape hatch to its own section
-=======
->>>>>>> 8818ca91... minor fixes
 For advanced use cases where Amplify does not provide the functionality, you can retrieve the escape hatch to access AWSPinpoint instance.
 
 <amplify-block-switcher>
@@ -13,15 +6,7 @@ For advanced use cases where Amplify does not provide the functionality, you can
 ```java
 AWSPinpointAnalyticsPlugin plugin = (AWSPinpointAnalyticsPlugin) Amplify
         .Analytics
-<<<<<<< HEAD
-<<<<<<< HEAD
         .getPlugin("awsPinpointAnalyticsPlugin");
-=======
-        .getPlugin("amazonPinpointAnalyticsPlugin");
->>>>>>> 03e0e575... moving analytics escape hatch to its own section
-=======
-        .getPlugin("awsPinpointAnalyticsPlugin");
->>>>>>> 8bd5caf4... code review changes
 AnalyticsClient analyticsClient = plugin.getEscapeHatch();
 ```
 
@@ -30,15 +15,7 @@ AnalyticsClient analyticsClient = plugin.getEscapeHatch();
 
 ```kotlin
 val plugin: AWSPinpointAnalyticsPlugin = Amplify.Analytics
-<<<<<<< HEAD
-<<<<<<< HEAD
         .getPlugin("awsPinpointAnalyticsPlugin") as AWSPinpointAnalyticsPlugin
-=======
-        .getPlugin("amazonPinpointAnalyticsPlugin") as AWSPinpointAnalyticsPlugin
->>>>>>> 03e0e575... moving analytics escape hatch to its own section
-=======
-        .getPlugin("awsPinpointAnalyticsPlugin") as AWSPinpointAnalyticsPlugin
->>>>>>> 8bd5caf4... code review changes
 val analyticsClient: AnalyticsClient? = plugin.getEscapeHatch()
 ```
 

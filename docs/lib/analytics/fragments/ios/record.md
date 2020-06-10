@@ -75,12 +75,4 @@ To re-enable it call:
 
 ```swift
 Amplify.Analytics.enable()
-<<<<<<< HEAD
-<<<<<<< HEAD
 ```
-=======
-```
->>>>>>> 03e0e575... moving analytics escape hatch to its own section
-=======
-```
->>>>>>> 8818ca91... minor fixes
