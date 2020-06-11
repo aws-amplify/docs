@@ -13,7 +13,7 @@
 import { onAuthUIStateChange } from '@aws-amplify/ui-components'
 
 export default {
-  name: 'AuthWithSlots',
+  name: 'AuthStateApp',
   created() {
     onAuthUIStateChange((authState, authData) => {
       this.authState = authState;
@@ -25,6 +25,9 @@ export default {
       user: undefined,
       authState: undefined
     }
+  },
+  beforeDestroy() {
+    return onAuthUIStateChange;
   }
 }
 ```
