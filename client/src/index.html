@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
     />
     <meta name="theme-color" content="#16161d" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -92,21 +92,26 @@
     <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico" />
     <link crossorigin="use-credentials" rel="manifest" href="/manifest.json" />
     <link rel="manifest" href="/manifest.json" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/docsearch.js@2.6.3/dist/cdn/docsearch.min.css"
-    />
-    <link rel="stylesheet" href="/build/app.css" />
+    <!-- prevent error, as `global` will be referenced in select scripts -->
     <script>
       if (global === undefined) {
         var global = window;
       }
     </script>
+    <!-- preloads -->
+    <link rel="preload" href="/build/app.css" as="style" />
+    <link rel="modulepreload" href="/build/app.esm.js" />
+    <link rel="preload" href="/build/app.js" as="script" />
+    <!-- render-blocking resources -->
+    <link rel="stylesheet" href="/build/app.css" />
     <script type="module" src="/build/app.esm.js"></script>
     <script nomodule src="/build/app.js"></script>
   </head>
   <body>
     <docs-router></docs-router>
     <script src="https://cdn.jsdelivr.net/npm/docsearch.js@2.6.3/dist/cdn/docsearch.min.js"></script>
+    <noscript>
+      This website requires your browser to execute JavaScript.
+    </noscript>
   </body>
 </html>

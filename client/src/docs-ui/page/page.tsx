@@ -31,6 +31,7 @@ import {getPage} from "../../cache";
 import {getNavHeight} from "../../utils/get-nav-height";
 import {scrollToHash} from "../../utils/scroll-to-hash";
 import {parseURL} from "../../utils/url/url";
+import {BURGER, EX} from "../../constants/img";
 
 const SELECTED_TABS_LOCAL_STORAGE_KEY = `amplify-docs::selected-tabs`;
 
@@ -308,11 +309,8 @@ export class DocsPage {
                                 [sidebarToggleClass]: true,
                               }}
                             >
-                              <img
-                                class="burger-graphic"
-                                src="/assets/burger.svg"
-                              />
-                              <img class="ex-graphic" src="/assets/close.svg" />
+                              <img class="burger-graphic" {...BURGER} />
+                              <img class="ex-graphic" {...EX} />
                             </amplify-sidebar-layout-toggle>
                           </amplify-sidebar-layout-main>
                           {!this.pageData?.disableTOC && (

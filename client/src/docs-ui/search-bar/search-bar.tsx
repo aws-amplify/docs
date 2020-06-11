@@ -6,6 +6,7 @@ import {
   ALGOLIA_INDEX_NAME,
   UNINITIALIZED_SEARCH_INPUT_SELECTOR,
 } from "../../constants/algolia";
+import {SEARCH} from "../../constants/img";
 
 @Component({tag: "docs-search-bar", shadow: false})
 export class DocsSearchBar {
@@ -39,7 +40,7 @@ export class DocsSearchBar {
               type="search"
               placeholder="Search"
             />
-            <img src="/assets/search.svg" alt="search" />
+            <img {...SEARCH} />
           </div>
         </div>
       </Host>
