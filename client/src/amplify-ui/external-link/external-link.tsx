@@ -34,6 +34,7 @@ export class AmplifyExternalLink {
         <slot />
         {this.graphic && (
           <img
+            alt="External Link"
             class={graphicStyle}
             src={`/assets/external-link-${this.graphic}.svg`}
           />

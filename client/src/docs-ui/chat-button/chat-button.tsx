@@ -11,7 +11,11 @@ export class DocsChatButton {
         class={discordChatStyle}
         graphic="white"
       >
-        <img src="/assets/discord-white.svg" class={logoStyle} />
+        <img
+          alt="discord logo"
+          src="/assets/discord-white.svg"
+          class={logoStyle}
+        />
         Open Chat
       </amplify-external-link>
     );

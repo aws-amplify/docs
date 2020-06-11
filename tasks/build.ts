@@ -1,8 +1,12 @@
-import * as c from "capi/src";
 import * as path from "path";
-import {spawn} from "child_process";
-import {filterOptionsByName} from "../client/src/utils/filter-data";
+import * as fg from "fast-glob";
 import * as fs from "fs-extra";
+import Terser from "terser";
+import * as c from "capi/src";
+import {execSync} from "child_process";
+import {filterOptionsByName} from "../client/src/utils/filter-data";
+
+const ENCODING_PROP = {encoding: "utf8"};
 
 const clientDir = path.join(__dirname, "../client");
 
@@ -14,22 +18,38 @@ try {
   const awsExportsJSContents = fs.readFileSync(awsExportsJSPath, {
     encoding: "utf8",
   });
-  fs.writeFileSync(awsExportsTSPath, awsExportsJSContents, {encoding: "utf8"});
+  fs.writeFileSync(awsExportsTSPath, awsExportsJSContents, ENCODING_PROP);
 } catch (e) {
-  fs.writeFileSync(awsExportsTSPath, "export default {};", {encoding: "utf8"});
+  fs.writeFileSync(awsExportsTSPath, "export default {};", ENCODING_PROP);
 }
 
 const StencilBuildProcess = (flags: string[]) =>
-  spawn(`stencil`, ["build", ...flags], {
+  execSync(`stencil build ${flags.join(" ")}`, {
     stdio: "inherit",
     cwd: clientDir,
   });
 
 const DEV_FLAGS = ["--dev", "--watch", "--serve"];
-const PROD_FLAGS = ["--prerender", "--debug"];
+const PROD_FLAGS = ["--prod", "--prerender", "--debug"];
 
-const onWatching = () => StencilBuildProcess(DEV_FLAGS);
-const onTargetsWritten = () => StencilBuildProcess(PROD_FLAGS);
+const onWatching = () => {
+  StencilBuildProcess(DEV_FLAGS);
+};
+
+const onTargetsWritten = () => {
+  StencilBuildProcess(PROD_FLAGS);
+  (async(): Promise<void> => {
+    for await (const chunk of fg.stream("client/www/build/**/*", {cwd: path.resolve(__dirname, ".."), absolute: true})) {
+      const srcPath = chunk.toString();
+      const contents = await fs.readFile(srcPath, ENCODING_PROP);
+      if (path.extname(srcPath) === ".js") {
+        console.log(`Minifying "${srcPath}"`);
+        const minified = Terser.minify(contents).code;
+        fs.writeFile(srcPath, minified, {...ENCODING_PROP, flag: "w"});
+      }
+    }
+  })();
+};
 
 const watch = !!(process.argv[3] === "--watch");
 const skipClientBuild = !!(process.argv[3] === "--skip-client-build");

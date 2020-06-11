@@ -2283,6 +2283,7 @@ query SpeakTranslatedImageText($input: SpeakTranslatedImageTextInput!) {
 ```
 
 A code example of this using the JS Library:
+
 ```js
 import React, { useState } from 'react';
 import API, { graphqlOperation } from '@aws-amplify/api';

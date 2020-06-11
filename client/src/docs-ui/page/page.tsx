@@ -311,8 +311,13 @@ export class DocsPage {
                               <img
                                 class="burger-graphic"
                                 src="/assets/burger.svg"
+                                alt="Open Menu"
                               />
-                              <img class="ex-graphic" src="/assets/close.svg" />
+                              <img
+                                class="ex-graphic"
+                                src="/assets/close.svg"
+                                alt="Close Menu"
+                              />
                             </amplify-sidebar-layout-toggle>
                           </amplify-sidebar-layout-main>
                           {!this.pageData?.disableTOC && (

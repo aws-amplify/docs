@@ -103,7 +103,7 @@ export class DocsCard {
               <img
                 class={externalLinkGraphic}
                 src={`/assets/external-link-black.svg`}
-                alt="External link"
+                alt="External Link"
               />
             )}
           </div>,

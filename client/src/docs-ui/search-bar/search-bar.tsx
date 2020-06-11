@@ -39,7 +39,7 @@ export class DocsSearchBar {
               type="search"
               placeholder="Search"
             />
-            <img src="/assets/search.svg" alt="search" />
+            <img src="/assets/search.svg" alt="Search" />
           </div>
         </div>
       </Host>

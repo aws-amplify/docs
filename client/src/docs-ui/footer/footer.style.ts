@@ -39,8 +39,10 @@ export const leftLinkContainerStyle = css`
     align-items: flex-start;
 
     a {
+      display: inline-block;
       white-space: nowrap;
       color: var(--color-white);
+      padding: 0.75rem 0;
     }
   }
 `;

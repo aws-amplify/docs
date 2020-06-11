@@ -40,7 +40,7 @@ export class DocsFeedbackCallout {
           </span>
         </amplify-external-link>
         <button class={exStyle} onClick={this.dismiss}>
-          <img src="/assets/close.svg" />
+          <img alt="Close" src="/assets/close.svg" />
         </button>
       </Host>
     );
