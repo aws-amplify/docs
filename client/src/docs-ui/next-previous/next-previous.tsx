@@ -9,7 +9,6 @@ import {Page, PageLink, Direction} from "../../api";
 import {pageContext} from "../page/page.context";
 import {SelectedFilters} from "../page/page.types";
 import {VNode} from "@stencil/router/dist/types/stencil.core";
-import {NEXT_PAGE, PREVIOUS_PAGE} from "../../constants/img";
 
 @Component({tag: "docs-next-previous", shadow: false})
 export class DocsNextPrevious {
@@ -21,7 +20,9 @@ export class DocsNextPrevious {
   renderLink = (pageLink: PageLink, direction: Direction): VNode => {
     return (
       <docs-internal-link class={nextPreviousLinkStyle} href={pageLink.route}>
-        {direction === "previous" && <img {...PREVIOUS_PAGE} />}
+        {direction === "previous" && (
+          <img src="/assets/arrow-left.svg" alt="Previous Page" />
+        )}
         <div
           class={{
             [textGroupStyle]: true,
@@ -31,7 +32,9 @@ export class DocsNextPrevious {
           <span>{direction}</span>
           <h4>{pageLink.title}</h4>
         </div>
-        {direction === "next" && <img {...NEXT_PAGE} />}
+        {direction === "next" && (
+          <img src="/assets/arrow-right.svg" alt="Next Page" />
+        )}
       </docs-internal-link>
     );
   };
