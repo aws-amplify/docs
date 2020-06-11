@@ -1,13 +1,10 @@
-import * as path from "path";
-import * as fs from "fs-extra";
 import * as c from "capi/src";
-import {execSync} from "child_process";
+import * as path from "path";
+import {spawn} from "child_process";
 import {filterOptionsByName} from "../client/src/utils/filter-data";
+import * as fs from "fs";
 
-const ENCODING_PROP = {encoding: "utf8"};
-const cwd = path.resolve(__dirname, "..");
-const clientDir = path.resolve(cwd, "client");
-const BUILD_JS_GLOB_RELATIVE_TO_CWD = "client/www/build/**/*";
+const clientDir = path.join(__dirname, "../client");
 
 // ensure that `aws-exports.ts` is present, as to avoid Rollup error in GitHub CI
 const awsExportsPathWithoutExtension = path.join(clientDir, "src/aws-exports");
@@ -17,13 +14,13 @@ try {
   const awsExportsJSContents = fs.readFileSync(awsExportsJSPath, {
     encoding: "utf8",
   });
-  fs.writeFileSync(awsExportsTSPath, awsExportsJSContents, ENCODING_PROP);
+  fs.writeFileSync(awsExportsTSPath, awsExportsJSContents, {encoding: "utf8"});
 } catch (e) {
-  fs.writeFileSync(awsExportsTSPath, "export default {};", ENCODING_PROP);
+  fs.writeFileSync(awsExportsTSPath, "export default {};", {encoding: "utf8"});
 }
 
 const StencilBuildProcess = (flags: string[]) =>
-  execSync(`stencil build ${flags.join(" ")}`, {
+  spawn(`stencil`, ["build", ...flags], {
     stdio: "inherit",
     cwd: clientDir,
   });

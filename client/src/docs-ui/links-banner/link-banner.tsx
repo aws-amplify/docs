@@ -16,11 +16,7 @@ export class DocsLinkBanner {
         innerClass={containerInnerStyle}
       >
         <amplify-external-link href={links.GITHUB} graphic="black">
-          <img
-            alt={img.GITHUB.alt}
-            src={img.GITHUB.darkSrc}
-            class={logoStyle}
-          />
+          <img src="/assets/github.svg" class={logoStyle} />
           Amplify GitHub
         </amplify-external-link>
         <amplify-external-link href={links.DISCORD} graphic="black">
@@ -32,15 +28,11 @@ export class DocsLinkBanner {
           Amplify on Discord
         </amplify-external-link>
         <amplify-external-link href={links.MARKETING} graphic="black">
-          <img alt={img.AWS.alt} src={img.AWS.darkSrc} class={logoStyle} />
+          <img src="/assets/aws-dark.svg" class={logoStyle} />
           Amplify Resources
         </amplify-external-link>
         <amplify-external-link href={links.COMMUNITY} graphic="black">
-          <img
-            alt={img.AMPLIFY.alt}
-            src={img.AMPLIFY.darkSrc}
-            class={logoStyle}
-          />
+          <img src="/assets/logo-dark.svg" class={logoStyle} />
           Amplify Community
         </amplify-external-link>
       </docs-container>

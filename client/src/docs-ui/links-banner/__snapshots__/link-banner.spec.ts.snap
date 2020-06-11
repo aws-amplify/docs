@@ -4,7 +4,7 @@ exports[`docs-link-banner Render logic should render 1`] = `
 <docs-link-banner>
   <docs-container class="css-1gfnuqu" innerclass="css-1ym5me9">
     <amplify-external-link graphic="black" href="https://github.com/aws-amplify">
-      <img alt="GitHub Logo" class="css-14cx9l" src="/assets/github.svg">
+      <img class="css-14cx9l" src="/assets/github.svg">
       Amplify GitHub
     </amplify-external-link>
     <amplify-external-link graphic="black" href="https://discord.gg/jWVbPfC">
@@ -12,11 +12,11 @@ exports[`docs-link-banner Render logic should render 1`] = `
       Amplify on Discord
     </amplify-external-link>
     <amplify-external-link graphic="black" href="https://aws.amazon.com/amplify/framework/">
-      <img alt="AWS Logo" class="css-14cx9l" src="/assets/aws-dark.svg">
+      <img class="css-14cx9l" src="/assets/aws-dark.svg">
       Amplify Resources
     </amplify-external-link>
     <amplify-external-link graphic="black" href="https://amplify.aws/community">
-      <img alt="Amplify Logo" class="css-14cx9l" src="/assets/logo-dark.svg">
+      <img class="css-14cx9l" src="/assets/logo-dark.svg">
       Amplify Community
     </amplify-external-link>
   </docs-container>

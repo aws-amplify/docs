@@ -10,7 +10,6 @@ import {createVNode} from "../../utils/hyperscript";
 import {pageContext} from "../../docs-ui/page/page.context";
 import {SelectedFilters} from "../../docs-ui/page/page.types";
 import {PLATFORM_FILTER_OPTIONS} from "../../utils/filter-data";
-import {EXTERNAL_LINK} from "../../constants/img";
 
 const mobilePlatforms = {
   ios: true,
@@ -103,8 +102,8 @@ export class DocsCard {
             {this.external && (
               <img
                 class={externalLinkGraphic}
-                src={EXTERNAL_LINK.black}
-                alt={EXTERNAL_LINK.alt}
+                src={`/assets/external-link-black.svg`}
+                alt="External link"
               />
             )}
           </div>,

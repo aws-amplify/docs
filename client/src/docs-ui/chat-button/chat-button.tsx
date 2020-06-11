@@ -1,6 +1,6 @@
 import {Component, h} from "@stencil/core";
 import {discordChatStyle, logoStyle} from "./chat-button.style";
-import {DISCORD as DISCORD_HREF} from "../../constants/links";
+import {DISCORD as DISCORD_LINK} from "../../constants/links";
 import {DISCORD as DISCORD_IMG} from "../../constants/img";
 
 @Component({tag: "docs-chat-button", shadow: false})
@@ -8,7 +8,7 @@ export class DocsChatButton {
   render() {
     return (
       <amplify-external-link
-        href={DISCORD_HREF}
+        href={DISCORD_LINK}
         class={discordChatStyle}
         graphic="white"
       >

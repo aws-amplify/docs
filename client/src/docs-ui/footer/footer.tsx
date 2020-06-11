@@ -17,7 +17,7 @@ export class DocsFooter {
       <docs-container class={footerContainerStyle}>
         <div class={footerStyle}>
           <div class={leftLinkContainerStyle}>
-            <img alt={img.AMPLIFY.alt} src={img.AMPLIFY.lightSrc} />
+            <img src="/assets/logo-light.svg" />
             <div>
               <h3>Amplify</h3>
               <docs-internal-link href="/start">
@@ -46,18 +46,18 @@ export class DocsFooter {
           <div class={rightLinkContainerStyle}>
             <div class={socialLinkContainerStyle}>
               <amplify-external-link anchorTitle="Twitter" href={links.TWITTER}>
-                <img {...img.TWITTER} />
+                <img src="/assets/twitter.svg" />
               </amplify-external-link>
               <amplify-external-link anchorTitle="Discord" href={links.DISCORD}>
                 <img alt={img.DISCORD.alt} src={img.DISCORD.lightSrc} />
               </amplify-external-link>
               <amplify-external-link anchorTitle="GitHub" href={links.GITHUB}>
-                <img alt={img.GITHUB.alt} src={img.GITHUB.lightSrc} />
+                <img src="/assets/github-light.svg" />
               </amplify-external-link>
             </div>
             <div class={legalStyle}>
               <span>
-                <img alt={img.AWS.alt} src={img.AWS.lightSrc} />
+                <img src="/assets/aws.svg" />
                 {`Amplify open source, documentation and community are supported
                 by Amazon Web Services © 2020, Amazon Web Services, Inc. and its
                 affiliates. All rights reserved. View the `}
