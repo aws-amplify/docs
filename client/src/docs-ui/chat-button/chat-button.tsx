@@ -12,7 +12,11 @@ export class DocsChatButton {
         class={discordChatStyle}
         graphic="white"
       >
-        <img class={logoStyle} {...DISCORD_IMG} />
+        <img
+          class={logoStyle}
+          alt={DISCORD_IMG.alt}
+          src={DISCORD_IMG.lightSrc}
+        />
         Open Chat
       </amplify-external-link>
     );

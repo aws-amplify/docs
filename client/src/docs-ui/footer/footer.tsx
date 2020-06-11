@@ -49,7 +49,7 @@ export class DocsFooter {
                 <img {...img.TWITTER} />
               </amplify-external-link>
               <amplify-external-link anchorTitle="Discord" href={links.DISCORD}>
-                <img {...img.DISCORD} />
+                <img alt={img.DISCORD.alt} src={img.DISCORD.lightSrc} />
               </amplify-external-link>
               <amplify-external-link anchorTitle="GitHub" href={links.GITHUB}>
                 <img alt={img.GITHUB.alt} src={img.GITHUB.lightSrc} />

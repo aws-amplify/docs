@@ -6,7 +6,9 @@ export const EXTERNAL_LINK = {
 
 export const DISCORD = {
   alt: "Discord Logo",
-  src: "/assets/discord-white.svg",
+  lightSrc: "/assets/discord-white.svg",
+  darkSrc: "/assets/discord-black.svg",
+  blueSrc: "/assets/discord-blue.svg",
 };
 
 export const CLOSE = {

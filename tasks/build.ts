@@ -1,7 +1,5 @@
 import * as path from "path";
-import * as fg from "fast-glob";
 import * as fs from "fs-extra";
-import Terser from "terser";
 import * as c from "capi/src";
 import {execSync} from "child_process";
 import {filterOptionsByName} from "../client/src/utils/filter-data";
@@ -39,20 +37,6 @@ const onWatching = () => {
 
 const onTargetsWritten = () => {
   StencilBuildProcess(PROD_FLAGS);
-  (async (): Promise<void> => {
-    for await (const chunk of fg.stream(BUILD_JS_GLOB_RELATIVE_TO_CWD, {
-      cwd: path.resolve(__dirname, ".."),
-      absolute: true,
-    })) {
-      const srcPath = chunk.toString();
-      const contents = await fs.readFile(srcPath, ENCODING_PROP);
-      if (path.extname(srcPath) === ".js") {
-        console.log(`Minifying "${srcPath}"`);
-        const minified = Terser.minify(contents).code;
-        fs.writeFile(srcPath, minified, {...ENCODING_PROP, flag: "w"});
-      }
-    }
-  })();
 };
 
 const watch = !!(process.argv[3] === "--watch");

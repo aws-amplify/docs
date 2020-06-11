@@ -64,11 +64,12 @@ export class DocsInternalLink {
     Object.assign(this, {url, isActive, isChildActive});
   }
 
-  componentDidRender() {
-    if (this.url) {
-      getPage(parseURL(this.url).path);
-    }
-  }
+  // // temporarily disable to observe change in performance from hosting
+  // componentDidRender() {
+  //   if (this.url) {
+  //     getPage(parseURL(this.url).path);
+  //   }
+  // }
 
   render() {
     return (
