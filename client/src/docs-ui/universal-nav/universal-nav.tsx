@@ -8,6 +8,7 @@ import {
   hideAboutLinkStyle,
   searchStyle,
 } from "./universal-nav.style";
+import {AMPLIFY} from "../../constants/img";
 
 @Component({tag: "docs-universal-nav", shadow: false})
 export class DocsUniversalNav {
@@ -40,7 +41,10 @@ export class DocsUniversalNav {
               anchorTitle="Amplify Docs"
               class={brandStyle}
             >
-              <img src={this.blend ? this.brandIconBlend : this.brandIcon} />
+              <img
+                alt={AMPLIFY.alt}
+                src={this.blend ? this.brandIconBlend : this.brandIcon}
+              />
               <span>{this.heading}</span>
               <sup>NEW</sup>
             </stencil-route-link>

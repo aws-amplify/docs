@@ -14,8 +14,8 @@ exports[`docs-page Render logic should render 1`] = `
             <docs-next-previous></docs-next-previous>
           </amplify-toc-contents>
           <amplify-sidebar-layout-toggle class="css-4whoga three-dee-effect" in-view-class="in-view">
-            <img class="burger-graphic" src="/assets/burger.svg">
-            <img class="ex-graphic" src="/assets/close.svg">
+            <img alt="Open Menu" class="burger-graphic" src="/assets/burger.svg">
+            <img alt="Close Menu" class="ex-graphic" src="/assets/close.svg">
           </amplify-sidebar-layout-toggle>
         </amplify-sidebar-layout-main>
         <div class="css-1wv0zgd" slot="toc">

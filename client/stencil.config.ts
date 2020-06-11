@@ -66,7 +66,7 @@ export const config: Config = {
     {
       type: "www",
       serviceWorker: {
-        unregister: true,
+        globPatterns: ["**/*.{js,css,json,html,ico,png}"],
       },
       baseUrl: "https://docs.amplify.aws",
       prerenderConfig: "prerender.config.ts",

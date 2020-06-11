@@ -8,6 +8,7 @@ import {
   calloutTextStyle,
 } from "./feedback-callout.style";
 import {createIssueLink} from "../../utils/issue-link";
+import {CLOSE} from "../../constants/img";
 
 const IS_DISMISSED_LOCAL_STORAGE_KEY =
   "amplify-docs::feedback-request-dismissed";
@@ -40,7 +41,7 @@ export class DocsFeedbackCallout {
           </span>
         </amplify-external-link>
         <button class={exStyle} onClick={this.dismiss}>
-          <img src="/assets/close.svg" />
+          <img {...CLOSE} />
         </button>
       </Host>
     );

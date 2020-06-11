@@ -1,7 +1,7 @@
 {
   "name": "Amplify Framework Documentation",
   "short_name": "Amplify Docs",
-  "start_url": "docs.amplify.aws",
+  "start_url": "https://docs.amplify.aws/",
   "display": "standalone",
   "icons": [
     {
@@ -37,6 +37,12 @@
     {
       "src": "assets/icon/android-icon-192x192.png",
       "sizes": "192x192",
+      "type": "image/png",
+      "density": "4.0"
+    },
+    {
+      "src": "assets/icon/512x512.png",
+      "sizes": "512x512",
       "type": "image/png",
       "density": "4.0"
     }

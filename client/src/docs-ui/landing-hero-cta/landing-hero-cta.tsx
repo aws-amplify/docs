@@ -4,6 +4,7 @@ import {
   platformIcon,
   buttonStyle,
 } from "./landing-hero-cta.style";
+import * as img from "../../constants/img";
 
 @Component({tag: "docs-landing-hero-cta", shadow: false})
 export class DocsLandingHeroCTA {
@@ -18,31 +19,19 @@ export class DocsLandingHeroCTA {
             href="/start/q/integration/js"
             class="scale-up-on-hover"
           >
-            <img
-              class={platformIcon}
-              src="/assets/integrations/js.svg"
-              alt="JS Icon"
-            />
+            <img class={platformIcon} {...img.JS} />
           </docs-internal-link>
           <docs-internal-link
             href="/start/q/integration/ios"
             class="scale-up-on-hover"
           >
-            <img
-              class={platformIcon}
-              src="/assets/integrations/ios.svg"
-              alt="iOS Icon"
-            />
+            <img class={platformIcon} {...img.IOS} />
           </docs-internal-link>
           <docs-internal-link
             href="/start/q/integration/android"
             class="scale-up-on-hover"
           >
-            <img
-              class={platformIcon}
-              src="/assets/integrations/android.svg"
-              alt="Android Icon"
-            />
+            <img class={platformIcon} {...img.ANDROID} />
           </docs-internal-link>
         </div>
       </Host>

@@ -5,7 +5,7 @@ exports[`docs-footer Render logic should render 1`] = `
   <docs-container class="css-y7udmp">
     <div class="css-ens8oe">
       <div class="css-1yxcpri">
-        <img src="/assets/logo-light.svg">
+        <img alt="Amplify Logo" src="/assets/logo-light.svg">
         <div>
           <h3>
             Amplify
@@ -38,18 +38,18 @@ exports[`docs-footer Render logic should render 1`] = `
       <div class="css-1aoccyr">
         <div class="css-y1qw85">
           <amplify-external-link anchortitle="Twitter" href="https://twitter.com/AWSAmplify">
-            <img src="/assets/twitter.svg">
+            <img alt="Twitter Logo" src="/assets/twitter.svg">
           </amplify-external-link>
           <amplify-external-link anchortitle="Discord" href="https://discord.gg/jWVbPfC">
-            <img src="/assets/discord-white.svg">
+            <img alt="Discord Logo" src="/assets/discord-white.svg">
           </amplify-external-link>
           <amplify-external-link anchortitle="GitHub" href="https://github.com/aws-amplify">
-            <img src="/assets/github-light.svg">
+            <img alt="GitHub Logo" src="/assets/github-light.svg">
           </amplify-external-link>
         </div>
         <div class="css-19lbeye">
           <span>
-            <img src="/assets/aws.svg">
+            <img alt="AWS Logo" src="/assets/aws.svg">
             Amplify open source, documentation and community are supported by Amazon Web Services © 2020, Amazon Web Services, Inc. and its affiliates. All rights reserved. View the
             <amplify-external-link href="https://aws.amazon.com/terms/">
               site terms
