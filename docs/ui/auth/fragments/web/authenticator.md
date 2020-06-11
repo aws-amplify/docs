@@ -1093,6 +1093,25 @@ const App = () => (
 ```
 </docs-filter>
 
+### Manage Auth State and Conditional app rendering
+
+<docs-filter framework="react">
+  <inline-fragment src="~/ui/auth/fragments/react/auth-state-management.md"></inline-fragment>
+</docs-filter>
+
+<docs-filter framework="angular">
+  <inline-fragment src="~/ui/auth/fragments/angular/auth-state-management.md"></inline-fragment>
+</docs-filter>
+
+<docs-filter framework="ionic">
+  <inline-fragment src="~/ui/auth/fragments/ionic/auth-state-management.md"></inline-fragment>
+</docs-filter>
+
+<docs-filter framework="vue">
+  <inline-fragment src="~/ui/auth/fragments/vue/auth-state-management.md"></inline-fragment>
+</docs-filter>
+
+
 ## Migration
 
 
