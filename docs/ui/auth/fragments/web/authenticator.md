@@ -1040,6 +1040,24 @@ export withAuthenticator(App, {initialAuthState: 'signup'});
 
 ## Use Cases
 
+### Manage Auth State and Conditional app rendering
+
+<docs-filter framework="react">
+  <inline-fragment src="~/ui/auth/fragments/react/auth-state-management.md"></inline-fragment>
+</docs-filter>
+
+<docs-filter framework="angular">
+  <inline-fragment src="~/ui/auth/fragments/angular/auth-state-management.md"></inline-fragment>
+</docs-filter>
+
+<docs-filter framework="ionic">
+  <inline-fragment src="~/ui/auth/fragments/ionic/auth-state-management.md"></inline-fragment>
+</docs-filter>
+
+<docs-filter framework="vue">
+  <inline-fragment src="~/ui/auth/fragments/vue/auth-state-management.md"></inline-fragment>
+</docs-filter>
+
 ### Authenticate with email or phone number
 
 The `amplify-authenticator` component has the ability to sign in / sign up with `email` or `phone_number` instead of default `username`. 
@@ -1092,25 +1110,6 @@ const App = () => (
 </amplify-authenticator>
 ```
 </docs-filter>
-
-### Manage Auth State and Conditional app rendering
-
-<docs-filter framework="react">
-  <inline-fragment src="~/ui/auth/fragments/react/auth-state-management.md"></inline-fragment>
-</docs-filter>
-
-<docs-filter framework="angular">
-  <inline-fragment src="~/ui/auth/fragments/angular/auth-state-management.md"></inline-fragment>
-</docs-filter>
-
-<docs-filter framework="ionic">
-  <inline-fragment src="~/ui/auth/fragments/ionic/auth-state-management.md"></inline-fragment>
-</docs-filter>
-
-<docs-filter framework="vue">
-  <inline-fragment src="~/ui/auth/fragments/vue/auth-state-management.md"></inline-fragment>
-</docs-filter>
-
 
 ## Migration
 
