@@ -11,7 +11,7 @@ exports[`docs-feedback-callout Render logic should render 1`] = `
     </span>
   </amplify-external-link>
   <button class="css-nt7bpa">
-    <img alt="Close" src="/assets/close.svg">
+    <img src="/assets/close.svg">
   </button>
 </docs-feedback-callout>
 `;
