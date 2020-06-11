@@ -56,12 +56,7 @@ Replace the content inside of *app.component.html* with the following:
 <amplify-authenticator *ngIf="!user"></amplify-authenticator>
 
 <div *ngIf="user">
-  <amplify-greetings [username]="user.username"></amplify-greetings>
+  <div>Hello, {{user.username}}</div>
   <!-- This is where you application template code goes -->  
 </div>
-```
-
-## Run the application
-```
-ng serve --open
 ```
