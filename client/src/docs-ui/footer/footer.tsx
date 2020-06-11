@@ -8,6 +8,7 @@ import {
   socialLinkContainerStyle,
 } from "./footer.style";
 import * as links from "../../constants/links";
+import * as img from "../../constants/img";
 
 @Component({tag: "docs-footer", shadow: false})
 export class DocsFooter {
@@ -16,7 +17,7 @@ export class DocsFooter {
       <docs-container class={footerContainerStyle}>
         <div class={footerStyle}>
           <div class={leftLinkContainerStyle}>
-            <img alt="Amplify Logo" src="/assets/logo-light.svg" />
+            <img alt={img.AMPLIFY.alt} src={img.AMPLIFY.lightSrc} />
             <div>
               <h3>Amplify</h3>
               <docs-internal-link href="/start">
@@ -45,18 +46,18 @@ export class DocsFooter {
           <div class={rightLinkContainerStyle}>
             <div class={socialLinkContainerStyle}>
               <amplify-external-link anchorTitle="Twitter" href={links.TWITTER}>
-                <img alt="Twitter Logo" src="/assets/twitter.svg" />
+                <img {...img.TWITTER} />
               </amplify-external-link>
               <amplify-external-link anchorTitle="Discord" href={links.DISCORD}>
-                <img alt="Discord Logo" src="/assets/discord-white.svg" />
+                <img {...img.DISCORD} />
               </amplify-external-link>
               <amplify-external-link anchorTitle="GitHub" href={links.GITHUB}>
-                <img alt="GitHub Logo" src="/assets/github-light.svg" />
+                <img alt={img.GITHUB.alt} src={img.GITHUB.lightSrc} />
               </amplify-external-link>
             </div>
             <div class={legalStyle}>
               <span>
-                <img alt="AWS Logo" src="/assets/aws.svg" />
+                <img alt={img.AWS.alt} src={img.AWS.lightSrc} />
                 {`Amplify open source, documentation and community are supported
                 by Amazon Web Services © 2020, Amazon Web Services, Inc. and its
                 affiliates. All rights reserved. View the `}

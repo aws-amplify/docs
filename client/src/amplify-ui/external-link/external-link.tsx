@@ -1,6 +1,7 @@
 import {Component, Prop, h} from "@stencil/core";
 import {externalLinkStyle, graphicStyle} from "./external-link.style";
 import {track, AnalyticsEventType} from "../../utils/track";
+import {EXTERNAL_LINK} from "../../constants/img";
 
 @Component({tag: "amplify-external-link", shadow: false})
 export class AmplifyExternalLink {
@@ -34,9 +35,9 @@ export class AmplifyExternalLink {
         <slot />
         {this.graphic && (
           <img
-            alt="External Link"
+            alt={EXTERNAL_LINK.alt}
             class={graphicStyle}
-            src={`/assets/external-link-${this.graphic}.svg`}
+            src={EXTERNAL_LINK[this.graphic]}
           />
         )}
       </a>

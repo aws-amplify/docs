@@ -7,8 +7,9 @@ import {execSync} from "child_process";
 import {filterOptionsByName} from "../client/src/utils/filter-data";
 
 const ENCODING_PROP = {encoding: "utf8"};
-
-const clientDir = path.join(__dirname, "../client");
+const cwd = path.resolve(__dirname, "..");
+const clientDir = path.resolve(cwd, "client");
+const BUILD_JS_GLOB_RELATIVE_TO_CWD = "client/www/build/**/*";
 
 // ensure that `aws-exports.ts` is present, as to avoid Rollup error in GitHub CI
 const awsExportsPathWithoutExtension = path.join(clientDir, "src/aws-exports");
@@ -38,8 +39,11 @@ const onWatching = () => {
 
 const onTargetsWritten = () => {
   StencilBuildProcess(PROD_FLAGS);
-  (async(): Promise<void> => {
-    for await (const chunk of fg.stream("client/www/build/**/*", {cwd: path.resolve(__dirname, ".."), absolute: true})) {
+  (async (): Promise<void> => {
+    for await (const chunk of fg.stream(BUILD_JS_GLOB_RELATIVE_TO_CWD, {
+      cwd: path.resolve(__dirname, ".."),
+      absolute: true,
+    })) {
       const srcPath = chunk.toString();
       const contents = await fs.readFile(srcPath, ENCODING_PROP);
       if (path.extname(srcPath) === ".js") {

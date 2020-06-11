@@ -8,6 +8,7 @@ import {
   hideAboutLinkStyle,
   searchStyle,
 } from "./universal-nav.style";
+import {AMPLIFY} from "../../constants/img";
 
 @Component({tag: "docs-universal-nav", shadow: false})
 export class DocsUniversalNav {
@@ -41,7 +42,7 @@ export class DocsUniversalNav {
               class={brandStyle}
             >
               <img
-                alt="Amplify Logo"
+                alt={AMPLIFY.alt}
                 src={this.blend ? this.brandIconBlend : this.brandIcon}
               />
               <span>{this.heading}</span>
