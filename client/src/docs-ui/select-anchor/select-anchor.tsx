@@ -1,4 +1,14 @@
-import {Component, Host, h, Prop, State, Listen, Element} from "@stencil/core";
+import {
+  Component,
+  Host,
+  h,
+  Prop,
+  State,
+  Listen,
+  Element,
+  Watch,
+  VNode,
+} from "@stencil/core";
 import {Page} from "../../api";
 import {
   filterMetadataByOptionByName,
@@ -13,28 +23,9 @@ import {
 } from "./select-anchor.style";
 import {SelectedFilters} from "../../docs-ui/page/page.types";
 import {pageContext} from "../../docs-ui/page/page.context";
-import {parseURL} from "../../utils/url/url";
 import {sidebarLayoutContext} from "../../amplify-ui/sidebar-layout/sidebar-layout.context";
 import {ToggleInView} from "../../amplify-ui/sidebar-layout/sidebar-layout.types";
-
-const rereouteCache = new Map<string, string>();
-
-const rerouteIfNecessary = (path: string) => {
-  if (rereouteCache.has(path)) {
-    return rereouteCache.get(path);
-  }
-  const rerouted = (() => {
-    if (
-      path.includes("/lib") &&
-      (path.includes("/q/platform/ios") || path.includes("/q/platform/android"))
-    ) {
-      return `/lib/q/platform/${parseURL(path).params?.platform as string}`;
-    }
-    return path;
-  })();
-  rereouteCache.set(path, rerouted);
-  return rerouted;
-};
+import {rerouteIfNecessary} from "./reroute-if-necessary.worker";
 
 @Component({tag: "docs-select-anchor"})
 export class DocsSelectAnchor {
@@ -51,6 +42,10 @@ export class DocsSelectAnchor {
   @State() showOptions = false;
   @State() sortedVersions?: [string, string][];
 
+  selectedOption: SelectedFilters[keyof SelectedFilters];
+  selectedOptionMetadata?: FilterOptionMetadata;
+  options?: VNode[];
+
   toggleShowOptions = () => {
     this.showOptions = !this.showOptions;
   };
@@ -62,11 +57,50 @@ export class DocsSelectAnchor {
     }
   };
 
+  @Watch("page")
+  async computeOptionVNodes() {
+    const filterKey = this.page && getFilterKeyFromPage(this.page);
+    this.selectedOption = filterKey && this.selectedFilters?.[filterKey];
+    this.selectedOptionMetadata =
+      filterKey &&
+      this.selectedOption &&
+      (filterMetadataByOptionByName[filterKey][
+        this.selectedOption
+      ] as FilterOptionMetadata);
+
+    this.options =
+      this.sortedVersions &&
+      ((await Promise.all(
+        this.sortedVersions.map(async ([filterValue, filterRoute]) => {
+          if (filterValue !== this.selectedOption) {
+            const meta =
+              filterKey &&
+              (filterMetadataByOptionByName[filterKey][
+                filterValue
+              ] as FilterOptionMetadata);
+            return (
+              meta && (
+                <stencil-route-link
+                  key={filterValue}
+                  url={await rerouteIfNecessary(filterRoute)}
+                  onClick={this.toggleShowOptionsAndMenuInView}
+                >
+                  <img src={meta.graphicURI} alt={`${meta.label} Logo`} />
+                  <span>{meta.label}</span>
+                </stencil-route-link>
+              )
+            );
+          }
+        }),
+      )) as VNode[]);
+  }
+
   componentWillLoad() {
     if (this.page?.versions) {
       const entries = Object.entries(this.page.versions);
       entries.sort(([a], [b]) => (a > b ? 1 : a < b ? -1 : 0));
       this.sortedVersions = entries;
+      this.computeOptionVNodes();
     }
   }
 
@@ -79,18 +113,9 @@ export class DocsSelectAnchor {
   }
 
   render() {
-    const filterKey = this.page && getFilterKeyFromPage(this.page);
-    const selectedOption = filterKey && this.selectedFilters?.[filterKey];
-    const selectedOptionMetadata =
-      filterKey &&
-      selectedOption &&
-      (filterMetadataByOptionByName[filterKey][
-        selectedOption
-      ] as FilterOptionMetadata);
-
     return (
-      selectedOptionMetadata &&
-      selectedOption && (
+      this.selectedOptionMetadata &&
+      this.selectedOption && (
         <Host class={selectAnchorStyle}>
           <div class={currentlySelectedStyle}>
             <stencil-route-link
@@ -98,36 +123,16 @@ export class DocsSelectAnchor {
               onClick={this.toggleShowOptions}
             >
               <img
-                src={selectedOptionMetadata.graphicURI}
-                alt={`${selectedOptionMetadata.label} Logo`}
+                src={this.selectedOptionMetadata.graphicURI}
+                alt={`${this.selectedOptionMetadata.label} Logo`}
               />
-              <span>{selectedOptionMetadata.label}</span>
+              <span>{this.selectedOptionMetadata.label}</span>
             </stencil-route-link>
           </div>
           <div
             class={{[optionsStyle]: true, [showOptionsStyle]: this.showOptions}}
           >
-            {this.sortedVersions?.map(([filterValue, filterRoute]) => {
-              if (filterValue !== selectedOption) {
-                const meta =
-                  filterKey &&
-                  (filterMetadataByOptionByName[filterKey][
-                    filterValue
-                  ] as FilterOptionMetadata);
-                return (
-                  meta && (
-                    <stencil-route-link
-                      key={filterValue}
-                      url={rerouteIfNecessary(filterRoute)}
-                      onClick={this.toggleShowOptionsAndMenuInView}
-                    >
-                      <img src={meta.graphicURI} alt={`${meta.label} Logo`} />
-                      <span>{meta.label}</span>
-                    </stencil-route-link>
-                  )
-                );
-              }
-            })}
+            {this.options}
           </div>
         </Host>
       )
