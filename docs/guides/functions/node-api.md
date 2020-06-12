@@ -68,53 +68,14 @@ amplify push
 
 Here is how you can send a GET request to the API.
 
-<amplify-block-switcher>
-<amplify-block name="JavaScript">
-
-```js
-import { API } from 'aws-amplify';
-
-const response = await API.get('nodeapi', '/hello');
-```
-
-</amplify-block>
-<amplify-block name="iOS">
-
-```swift
-func getGreeting() {
-    let request = RESTRequest(path: "/hello", body: nil)
-    _ = Amplify.API.get(request: request) { result in
-        switch result {
-        case .success(let data):
-            let str = String(decoding: data, as: UTF8.self)
-            print("Success \(str)")
-        case .failure(let apiError):
-            print("Failed", apiError)
-        }
-    }
-}
-```
-
-</amplify-block>
-<amplify-block name="Android">
-
-```kotlin
-void getTodo() {
-    RestOptions options = new RestOptions("/hello");
-
-    Amplify.API.get(options,
-            restResponse -> Log.i("Success", restResponse.toString()),
-            apiFailure -> Log.e("Failed", apiFailure.getMessage(), apiFailure)
-    );
-}
-```
-</amplify-block>
-</amplify-block-switcher>
+<inline-fragment platform="js" src="~/guides/functions/fragments/js/rest-api-call.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/guides/functions/fragments/ios/rest-api-call.md"></inline-fragment>
+<inline-fragment platform="android" src="~/guides/functions/fragments/android/rest-api-call.md"></inline-fragment>
 
 The API endpoint is located in the `aws-exports.js` folder.
 
 You can also interact directly with the API using this URL and the specified path:
 
 ```sh
-curl https://api-url.execute-api.api-region.amazonaws.com/dev/hello
+curl https://<api-id>.execute-api.<api-region>.amazonaws.com/<your-env-name>/hello
 ```

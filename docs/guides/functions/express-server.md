@@ -1,6 +1,103 @@
 ---
 title: Express server
-description: How to enable a custom domain name using Amplify Hosting
+description: How to deploy an Express server to AWS using AWS Amplify
 ---
 
-To get started
+In this guide you'll learn how to deploy an [Express](https://expressjs.com/) web server complete with routing.
+
+## Getting started
+
+Initialize a new Amplify project:
+
+```sh
+amplify init
+
+# Follow the steps to give the project a name, environment name, and set the default text editor.
+# Accept defaults for everything else and choose your AWS Profile.
+```
+
+Next, create the API and web server. To do so, you can use the Amplify `add` command:
+
+```sh
+amplify add api
+
+? Please select from one of the below mentioned services: REST
+? Provide a friendly name for your resource to be used as a label for this category in the project: myapi
+? Provide a path (e.g., /items): /items (or whatever path you would like)
+? Choose a Lambda source: Create a new Lambda function
+? Provide a friendly name for your resource to be used as a label for this category in the project: mylambda
+? Provide the AWS Lambda function name: mylambda
+? Choose the function runtime that you want to use: NodeJS
+? Choose the function template that you want to use: Serverless express function
+? Do you want to access other resources created in this project from your Lambda function? N
+? Do you want to invoke this function on a recurring schedule? N
+? Do you want to edit the local lambda function now? N
+? Restrict API access: N
+? Do you want to add another path? N
+```
+
+The CLI has created a few things for you:
+
+- API endpoint
+- Lambda function
+- Web server using Serverless Express in the function
+- Some boilerplate code for different methods on the `/items` route
+
+Let's open the code for the server. 
+
+Open __amplify/backend/function/mylambda/src/index.js__. Here, you will see the main function handler with the `event` and `context` being proxied to an express server located at `./app.js`:
+
+```js
+const awsServerlessExpress = require('aws-serverless-express');
+const app = require('./app');
+
+const server = awsServerlessExpress.createServer(app);
+
+exports.handler = (event, context) => {
+  console.log(`EVENT: ${JSON.stringify(event)}`);
+  awsServerlessExpress.proxy(server, event, context);
+};
+
+```
+
+Next, open __amplify/backend/function/mylambda/src/app.js__.
+
+Here, you will see the code for the express server and some boilerplate for the different HTTP methods for the route you declared. 
+
+Find the route for `app.get('/items')` and update it to the following:
+
+```js
+// amplify/backend/function/mylambda/src/app.js
+app.get('/items', function(req, res) {
+  const items = ['hello', 'world']
+  res.json({ success: 'get call succeed!', items });
+});
+```
+
+To deploy the API and function, we can run the `push` command:
+
+```sh
+amplify push
+```
+
+<inline-fragment platform="js" src="~/guides/functions/fragments/js/express-api-call.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/guides/functions/fragments/ios/express-api-call.md"></inline-fragment>
+<inline-fragment platform="android" src="~/guides/functions/fragments/android/express-api-call.md"></inline-fragment>
+
+From here, you may want to add additional path. To do so, run the update command:
+
+```sh
+amplify update api
+```
+
+From there, you can add, update, or remove paths.
+
+For more info on the API category, click [here](https://docs.amplify.aws/lib/restapi/getting-started/).
+
+The API endpoint is located in the `aws-exports.js` folder.
+
+You can also interact directly with the API using this URL and the specified path:
+
+```sh
+curl https://<api-id>.execute-api.<api-region>.amazonaws.com/<your-env-name>/items
+```

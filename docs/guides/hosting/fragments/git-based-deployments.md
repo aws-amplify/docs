@@ -1,0 +1,73 @@
+
+This guide will show you how to host a static site from a GitHub repository using Amplify hosting.
+
+In this example we will be deploying a React app, but you can also also use any of the following types of projects or frameworks:
+
+1. Static HTML
+2. Vue
+3. Angular
+4. Ionic
+
+## 1. Create a new application
+
+```sh
+npx create-react-app amplifyapp
+cd amplifyapp
+npm start
+```
+
+## 2. Initialize GitHub repository
+
+In this step, you will create a GitHub repository and commit your code to the repository. You will need a GitHub account to complete this step – if you do not have an account, sign up [here](https://github.com/join).
+
+a. Create a new GitHub repo for your app ([link](https://github.com/new)).  
+ 
+![Create a new GitHub repo for your ap](~/images/hosting/git/1.png)
+
+b. Initialize git and push the application to the new GitHub repo executing the following commands in your command line interface:
+
+```sh
+git init
+git remote add origin git@github.com:username/reponame.git
+git add .
+git commit -m ‘initial commit’
+git push origin master
+```
+
+## 3. Log in to the AWS Amplify Console
+
+Open the [AWS Management Console](https://console.aws.amazon.com/amplify/home) in a new browser window, so you can keep this step-by-step guide open. When the screen loads, enter your user name and password to get started. Then type Amplify in the search bar and select AWS Amplify to open the service console.
+
+![Login to the AWS Amplify Console](~/images/hosting/git/2.png)
+
+## 4. Deploy your app to AWS Amplify
+
+In this step, you will connect the GitHub repository you just created to the AWS Amplify service. This will enable you to build, deploy, and host your app on AWS.
+
+a. Select Get Started under Deploy.
+
+![Select Get Started](~/images/hosting/git/3.png)
+
+b. Select GitHub as the repository service and select Next.
+
+![Select GitHub](~/images/hosting/git/4.png)
+
+c. Authenticate with GitHub and return to the Amplify Console. Choose the repository you created earlier and the master branch, then select Next.
+
+![Authenticate](~/images/hosting/git/5.png)
+
+d. Accept the default build settings and select Next.
+
+![Build settings](~/images/hosting/git/6.png)
+
+e. Review the final details and select Save and Deploy.
+
+![Review details](~/images/hosting/git/7.png)
+
+f. AWS Amplify Console will now build your source code and deploy your app at https://<branchname>.<appid>.amplifyapp.com
+
+![Successful deployment](~/images/hosting/git/8.png)
+
+g. Once the build completes, select the thumbnail to see your web app up and running live.
+
+![View your app](~/images/hosting/git/9.png)

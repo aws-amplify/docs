@@ -3,9 +3,4 @@ title: Password protected deployments
 description: How to enable password-protection for your Amplify web deployments
 ---
 
-In this video you will learn how to configure password-protection for your Amplify web deployments using the Amplify Console.
-
-<iframe
-  allowfullscreen
-  src="https://www.youtube.com/embed/QIxm9HPefT0"
-></iframe>
+<inline-fragment platform="js" src="~/guides/hosting/fragments/password-protected-deployments.md"></inline-fragment>
