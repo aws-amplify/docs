@@ -112,7 +112,8 @@ When prompted, update the schema located at __/amplify/backend/api/gqls3/schema.
 ```graphql
 type Product @model
   @auth(rules: [
-      { allow: owner, operations: [create, update, delete] },
+      { allow: owner },
+      { allow: private, operations: [read] },
       { allow: public, operations: [read] }
   ]) {
   id: ID!
@@ -125,7 +126,7 @@ type Product @model
 
 <amplify-callout>
 
-The above schema assumes a combination of Amazon Cognito User Pools and API key authentication types. It will allow authenticated users to create data and upload images, and both authenticated and unauthenticated users to read data and query images.
+The above schema assumes a combination of Amazon Cognito User Pools and API key authentication types. It will allow authenticated users to create products and upload images, and both authenticated and unauthenticated users to read products and images.
 
 </amplify-callout>
 
@@ -141,16 +142,49 @@ amplify push --y
 
 Now that the backend is created, how can we interact with it to upload and read images from it?
 
-Here is the code that we could use to not only save files to our API, but also query and render them in the UI.
+Here is the code that we could use to not only save products to our API along with an image:
 
-There are two main functions:
+```js
+import { Storage, API } from 'aws-amplify';
+import { createProduct } from './graphql/mutations';
 
-1. `createProduct` - (uploads the product image to S3 and saves the product data to AppSync in a GraphQL mutation)
-2. `fetchProducts` - Queries the GraphQL API for all products
+async function saveProduct() {
+  const fileName = "product-image-1";
+  await Storage.put(fileName, file);
+  const product = { name: "Product 1", description: "Black dress", price: 200, image: fileName };
+  await API.graphql({ query: createProduct, variables: { input: product }});
+}
+```
 
+Here is the code that we could use to query a product and corresponding image from the API:
 
 ```javascript
+import { Storage, API } from 'aws-amplify';
+import { getProduct } from './graphql/mutations';
 
+async function getProductById () {
+  const product = await API.graphql({ query: getProduct, variables: { id: "12345" }});
+  const s3Image = await Storage.get(product.data.getProduct.image);
+  product.data.getProduct.s3Image = s3Image;
+  console.log('product:', product);
+}
+```
+
+Here is the code that we could use to query an array of products and images from the API:
+
+```javascript
+import { Storage, API } from 'aws-amplify';
+import { listProducts } from './graphql/mutations';
+
+async function listProductsWithImages () {
+  const productData = await API.graphql({ query: listProducts });
+  const products = await Promise.all(productData.data.listProducts.items.map(async product => {
+    const image = await Storage.get(product.image)
+    product.s3Image = image
+    return product
+  }))
+  console.log('products: ', products)
+}
 ```
 
 To launch the app, run `npm start`.
