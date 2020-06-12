@@ -4,8 +4,8 @@ export interface Config {
   exclude?: string[];
   filters: Readonly<Record<Readonly<string>, Readonly<Readonly<string>[]>>>;
   hooks?: {
-    onTargetsWritten?: () => {};
-    onWatching?: () => {};
+    onTargetsWritten?: () => void;
+    onWatching?: () => void;
   };
   outDir: string;
   publicDir: string;
