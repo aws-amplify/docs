@@ -162,9 +162,11 @@ Open __src/App.js__ and update it with the following code:
 ```javascript
 /* src/App.js */
 import React, { useEffect, useState } from 'react'
-import { API, graphqlOperation } from 'aws-amplify'
+import Amplify, { API, graphqlOperation } from 'aws-amplify'
 import { createTodo } from './graphql/mutations'
 import { listTodos } from './graphql/queries'
+import awsconfig from "./aws-exports";
+Amplify.configure(awsconfig);
 
 const initialState = { name: '', description: '' }
 
