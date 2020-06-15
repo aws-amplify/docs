@@ -4,7 +4,7 @@ With the basic setup complete, next you will model the data your application wil
 
   ![](~/images/lib/getting-started/android/set-up-android-studio-project-view.png)
 
-1. Open the schema file located at **amplify** > **backend** > **api** > **amplifyDatasource** > **schema.graphql**.  
+1. Open the schema file located at **amplify** > **backend** > **api** > **amplifyDatasource** > **schema.graphql**. 
 
     Replace the contents of the file with the following schema:
 
@@ -29,6 +29,11 @@ With the basic setup complete, next you will model the data your application wil
     - **name** a non-optional string field that is the title of the Todo item
     - **priority** an optional enumeration type field that indicates the importance of a Todo item; the value of priority can be only *LOW*, *NORMAL*, or *HIGH*
     - **description** an optional string field that holds more information about a Todo item
+
+You can optionally add a plugin for GraphQL syntax highlighting by going to Android Studio > Preferences and go to the Plugins tab. Then you can search the Plugin Marketplace for the JS GraphQL plugin. Afterwards, install and activate the plugin, you may need to restart IDE.
+
+![](~/images/lib/getting-started/android/set-up-android-studio-install-plugin.png)
+
 
 1. Next, generate the classes for these models. In Android Studio, click the Gradle Task dropdown in the toolbar and select **modelgen**.
 

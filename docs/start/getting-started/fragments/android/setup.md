@@ -43,7 +43,7 @@ Android Studio will open your project with a tab opened to either *MainActivity.
 
 ### Add Amplify to your application
 
-Amplify for Android is distributed as an Apache Maven package. In this section, you'll add the packages and other required directives to your build configuration.
+Amplify for Android is distributed as an Apache Maven package. In this section, you'll add the packages and other required directives to your build configuration. Make sure to <strong>apply the plugin</strong> so the Amplify toolchain will be active in your Android Studio project (last line of the next code snippet).
 
 1. Expand **Gradle Scripts** and open **build.gradle (Project: Todo)**.
 

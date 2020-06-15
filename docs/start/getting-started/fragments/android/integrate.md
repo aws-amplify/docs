@@ -40,6 +40,23 @@ First, we'll add the DataStore plugin and configure Amplify. Typically, a good p
   </amplify-block>
   </amplify-block-switcher>
 
+You may run into this error:
+
+```
+ Invoke-customs are only supported starting with Android O (--min-api 26)
+ ```
+
+We need to require Java 8 for custom function invocations. Therefore, we need to add this compilation requirement to your app level build gradle 
+
+
+```gradle
+android {
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+```
 1. Run the application. In logcat, you'll see a log line indicating success:
 
     ```console
