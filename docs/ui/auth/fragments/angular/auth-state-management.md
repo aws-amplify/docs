@@ -30,17 +30,15 @@ import { onAuthUIStateChange, CognitoUserInterface, AuthState } from '@aws-ampli
 })
 export class AppComponent {
   title = 'amplify-angular-auth';
-  user: CognitoUserInterface;
+  user: CognitoUserInterface | undefined;
+  authState: AuthState;
 
   constructor(private ref: ChangeDetectorRef) {}
 
   ngOnInit() {
     onAuthUIStateChange((authState, authData) => {
-      if (authState === AuthState.SignedIn) {
-        this.user = authData as CognitoUserInterface;
-      } else if (authState === AuthState.SignedOut) {
-        this.user = undefined;
-      }
+      this.authState = authState;
+      this.user = authData as CognitoUserInterface;
       this.ref.detectChanges();
     })
   }
@@ -53,10 +51,11 @@ export class AppComponent {
 
 Replace the content inside of *app.component.html* with the following:
 ```html
-<amplify-authenticator *ngIf="!user"></amplify-authenticator>
+<amplify-authenticator *ngIf="authState !== 'signedin'"></amplify-authenticator>
 
-<div *ngIf="user">
-  <div>Hello, {{user.username}}</div>
-  <!-- This is where you application template code goes -->  
+<div *ngIf="authState === 'signedin' && user" class="App">
+    <amplify-sign-out></amplify-sign-out>
+    <div>Hello, {{user.username}}</div>
+    <!-- This is where you application template code goes -->  
 </div>
 ```

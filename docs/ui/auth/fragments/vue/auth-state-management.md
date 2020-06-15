@@ -1,3 +1,4 @@
+_App.vue_
 ```html
 <template>
   <div>
