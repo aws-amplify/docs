@@ -14,47 +14,48 @@ amplify add api
 
 **Go to the AWS RDS console and click "Create database".**
 
+**Select "Standard Create" for the database creation method**
 
-![Create cluster](~/images/create-database.png)
+![Database Creation](~/images/database-creation.png)
 
+**For Engine Options keep the following options**
 
-**Select "Serverless" for the capacity type and fill in some information.**
+![Engine Option](~/images/database-engine-option.png)
 
+**Select "Serverless" in Database Features**
 
-![Database details](~/images/database-details.png)
+![Database Features](~/images/database-features.png)
 
+**In Settings fill in the following information**
 
-**Click next and configure any advanced settings. Click "Create database"**
-
-
-![Database details](~/images/configure-database.png)
-
-
-**After creating the database, wait for the "Modify" button to become clickable. When ready, click "Modify" and scroll down to enable the "Data API"**
+![Database Settings](~/images/database-setting.png)
 
 
-![Database details](~/images/data-api.png)
+**Select the Capacity Settings as shown below**
+
+![Database Capacity](~/images/database-capacity.png)
 
 
-**Click continue, verify the changes and apply them immediately. Click "Modify cluster"**
+**Expand the "Additional connectivity configuration" and enable "Data API" and "Create New" if you do not have a VPC security group configured**
+
+![Database Connectivity](~/images/database-connectivity.png)
 
 
-![Database details](~/images/modify-after-data-api.png)
+**Expand "Additional Configuration" and fill in "Initial Database Name" as MarketPlace**
 
+![Database Additional Configuration](~/images/database-additional-configuration.png)
 
-**Next click on "Query Editor" in the left nav bar and fill in connection information when prompted.**
+**Click "Create Database" and dialog will open that will prompt you to connect select the cluster and fill in the credentials configured earlier**
 
-
-![Database details](~/images/connect-to-db-from-queries.png)
+![Database Connect ](~/images/connect-to-database.png)
 
 
 **After connecting, create a database and some tables.**
 
 
-![Database details](~/images/create-a-database-and-schema.png)
+![Database details](~/images/query-editor.png)
 
 ```sql
-CREATE DATABASE MarketPlace;
 USE MarketPlace;
 CREATE TABLE Customers (
   id int(11) NOT NULL PRIMARY KEY,
