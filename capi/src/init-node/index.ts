@@ -87,7 +87,7 @@ export async function initNode(srcPath: string, ctx: t.Ctx): Promise<void> {
       const contents = (await fs.readFile(srcPath)).toString();
       const {body: markdownBody, attributes} = fm<t.Page>(contents);
       const htmlBody = marked(markdownBody);
-      const body = htmlToHyperscript(htmlBody, srcPath, attributes);
+      const body = htmlToHyperscript(ctx, htmlBody, srcPath, attributes);
       // @ts-ignore
       if (attributes.disableLinkification) {
         // @ts-ignore

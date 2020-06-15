@@ -6,8 +6,7 @@ func confirmResetPassword(username: String,
     _ = Amplify.Auth.confirmResetPassword(
         for: username,
         with: newPassword,
-        confirmationCode: confirmationCode) {(result) in
-
+        confirmationCode: confirmationCode) { result in
             switch result {
             case .success:
                 print("Password reset confirmed")

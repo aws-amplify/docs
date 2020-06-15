@@ -955,7 +955,7 @@ type Profile @model @auth(rules: [{ allow: owner, provider: oidc, identityClaim:
 By using a configured `oidc` provider for the API, it is possible to authenticate the users against it to perform operations on the `Post` type, and `owner` authorization is also possible.
 
 
-### Combining multiple authorization rules
+### Combining multiple authorization types
 
 Amplify GraphQL APIs have a primary **default** authentication type and, optionally, additional secondary authentication types. The objects and fields in the GraphQL schema can have rules with different authorization providers assigned based on the authentication types configured in your app.
 
@@ -969,8 +969,10 @@ type Post @model
     rules: [
       # allow all authenticated users ability to create posts
       # allow owners ability to update and delete their posts
+      { allow: owner },
+
       # allow all authenticated users to read posts
-      { allow: owner, operations: [create, update, delete] },
+      { allow: private, operations: [read] },
 
       # allow all guest users (not authenticated) to read posts
       { allow: public, operations: [read] }
