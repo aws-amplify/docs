@@ -1,27 +1,16 @@
-`S3Album` renders a list of `S3Image` and `S3Text` objects:
+`S3Album` renders a list of `S3Image` objects:
 
-![Image](~/images/S3Album_and_code.png)
-
-```jsx
-import { S3Album } from 'aws-amplify-react-native';
-
-render() {
-    return <S3Album path={path} />
-```
+![S3Album Example](~/images/s3album-react-native.png)
 
 To display private objects, supply the `level` property:
 
 ```jsx
-return <S3Album level="private" path={path} />
+return (
+    <S3Album level="private" path={path} />
+);
 ```
 
-To display another user's protected objects, supply that user's `identityId` property as well:
-
-```jsx
-return <S3Album level="protected" identityId={identityId} path={path} />
-```
-
-You can use `filter` property customize the path for your album:
+You can use the `filter` property to customize the path of your album:
 
 ```jsx
 return (
@@ -32,28 +21,3 @@ return (
     />
 );
 ```
-
-**Picker**
-
-Set `picker` property to true on `S3Album`. A `Picker` let user select photos or text files from the device. The selected files will be automatically uploaded to the `path`. 
-
-```jsx
-<S3Album path={path} picker />
-```
-
-By default, photo picker saves images on S3 with filename as the key. To have custom keys, you can provide a callback:
-
-```jsx
-function fileToKey(data) {
-    const { name, size, type } = data;
-    return 'test_' + name;
-}
-
-...
-    <S3Album path={path} picker fileToKey={fileToKey} />
-```
-<amplify-callout>
-
-`S3Album` will escape all spaces in key value to underscore. For example, 'a b' will be converted to 'a_b'.
-
-</amplify-callout>
