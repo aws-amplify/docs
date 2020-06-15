@@ -1,9 +1,9 @@
 ---
-title: NodeJS API
-description: How to deploy a NodeJS API using Amplify Functions
+title: Go API
+description: How to deploy a Go API using Amplify Functions
 ---
 
-In this guide, you will learn how to deploy a Node.js API.
+In this guide, you will learn how to deploy a Go API.
 
 ## 1. Initialize a new Amplify project
 
@@ -20,13 +20,12 @@ amplify init
 amplify add api
 
 ? Please select from one of the below mentioned services: REST
-? Provide a friendly name for your resource to be used as a label for this category in the project: nodeapi
+? Provide a friendly name for your resource to be used as a label for this category in the project: goapi
 ? Provide a path (e.g., /book/{isbn}): /hello
 ? Choose a Lambda source: Create a new Lambda function
 ? Provide a friendly name for your resource to be used as a label for this category in the project: greetingfunction
 ? Provide the AWS Lambda function name: greetingfunction
-? Choose the function runtime that you want to use: NodeJS
-? Choose the function template that you want to use: Hello World
+? Choose the function runtime that you want to use: Go
 ? Do you want to access other resources created in this project from your Lambda function? N
 ? Do you want to invoke this function on a recurring schedule? N
 ? Do you want to edit the local lambda function now? N
@@ -38,22 +37,51 @@ The CLI should have created a new function located at **amplify/backend/function
 
 ## 3. Updating the function code
 
-Next, open  **amplify/backend/function/greetingfunction/src/index.js** and update the code to the following:
+Next, open  **amplify/backend/function/greetingfunction/src/main.go** and update the code to the following:
 
-```js
-exports.handler = async (event) => {
-  const body = {
-      message: "Hello from Lambda"
-  }
-  const response = {
-      statusCode: 200,
-      body: JSON.stringify(body),
-      headers: {
-          "Access-Control-Allow-Origin": "*",
-      }
-  };
-  return response;
-};
+```go
+package main
+
+import (
+	"bytes"
+	"context"
+	"encoding/json"
+	"github.com/aws/aws-lambda-go/events"
+	"github.com/aws/aws-lambda-go/lambda"
+)
+
+type Response events.APIGatewayProxyResponse
+
+func Handler(ctx context.Context) (Response, error) {
+	var buf bytes.Buffer
+
+	body, err := json.Marshal(map[string]interface{}{
+		"message": "Congrats! Your function executed successfully!",
+	})
+	if err != nil {
+		return Response{StatusCode: 404}, err
+	}
+	json.HTMLEscape(&buf, body)
+
+	resp := Response{
+		StatusCode:      200,
+		IsBase64Encoded: false,
+		Body:            buf.String(),
+		Headers: map[string]string{
+			"Content-Type": "application/json",
+			"X-MyCompany-Func-Reply": "hello-handler",
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
+			"Access-Control-Allow-Headers": "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization",
+		},
+	}
+
+	return resp, nil
+}
+
+func main() {
+	lambda.Start(Handler)
+}
 ```
 
 ## 4. Deploy the API
@@ -68,7 +96,7 @@ amplify push
 
 Here is how you can send a GET request to the API.
 
-<inline-fragment platform="js" src="~/guides/functions/fragments/js/rest-api-call.md"></inline-fragment>
+<inline-fragment platform="js" src="~/guides/functions/fragments/js/go-api-call.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/guides/functions/fragments/ios/rest-api-call.md"></inline-fragment>
 <inline-fragment platform="android" src="~/guides/functions/fragments/android/rest-api-call.md"></inline-fragment>
 

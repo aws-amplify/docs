@@ -90,9 +90,7 @@ From here, you may want to add additional path. To do so, run the update command
 amplify update api
 ```
 
-From there, you can add, update, or remove paths.
-
-For more info on the API category, click [here](https://docs.amplify.aws/lib/restapi/getting-started/).
+From there, you can add, update, or remove paths. To learn more about interacting with REST APIs using Amplify, check out the complete documentation [here](~/lib//restapi/getting-started.md).
 
 The API endpoint is located in the `aws-exports.js` folder.
 

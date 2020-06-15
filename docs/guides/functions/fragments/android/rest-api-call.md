@@ -1,5 +1,5 @@
 ```kotlin
-void getTodo() {
+void getMessage() {
     RestOptions options = new RestOptions("/hello");
 
     Amplify.API.get(options,

@@ -63,6 +63,9 @@ The first thing we will want to do is create the authentication service. To do s
 
 ```sh
 amplify init
+# Follow the steps to give the project a name, environment name, and set the default text editor.
+# Accept defaults for everything else and choose your AWS Profile.
+
 amplify add auth
 
 ? Do you want to use the default authentication and security configuration? Default configuration
@@ -84,8 +87,6 @@ amplify add storage
 ```
 
 Next you will be creating a GraphQL API with a type that has an image field. This image can only be accessed by someone using our app. If someone tries to fetch this image directly, they will not be able to view it.
-
-For the image field, we'll create a GraphQL type type that holds all of the information we need in order to create and read private files from an S3 bucket, including the bucket name and region as well as the key we'd like to read from the bucket.
 
 ```sh
 amplify add api
@@ -126,7 +127,7 @@ type Product @model
 
 <amplify-callout>
 
-The above schema assumes a combination of Amazon Cognito User Pools and API key authentication types. It will allow authenticated users to create products and upload images, and both authenticated and unauthenticated users to read products and images.
+The above schema assumes a combination of Amazon Cognito User Pools and API key authentication types. It will allow authenticated users to create products, and both authenticated and unauthenticated users to read products.
 
 </amplify-callout>
 
@@ -140,9 +141,9 @@ amplify push --y
 
 ### Interacting with the API from a client application
 
-Now that the backend is created, how can we interact with it to upload and read images from it?
+Now that the backend is created, how can we interact with it to save and read products and images from it?
 
-Here is the code that we could use to not only save products to our API along with an image:
+Here is the code that we could use to save a product and image to the API:
 
 ```js
 import { Storage, API } from 'aws-amplify';
@@ -186,5 +187,3 @@ async function listProductsWithImages () {
   console.log('products: ', products)
 }
 ```
-
-To launch the app, run `npm start`.
