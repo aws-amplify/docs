@@ -8,6 +8,14 @@ if (!configured) {
   Auth.configure(awsexports);
   Analytics.configure(awsexports);
   configured = true;
+
+  Analytics.autoTrack("session", {
+    enable: true,
+  });
+  Analytics.autoTrack("pageView", {
+    enable: true,
+    type: "SPA",
+  });
 }
 
 export enum AnalyticsEventType {
