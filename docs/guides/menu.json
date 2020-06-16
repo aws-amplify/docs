@@ -2,7 +2,7 @@
   "title": "Guides",
   "items": [
     "hosting",
-    "functions",
+    "api-rest",
     "graphql",
     "authentication"
   ]

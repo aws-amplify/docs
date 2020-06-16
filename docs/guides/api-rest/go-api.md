@@ -96,9 +96,9 @@ amplify push
 
 Here is how you can send a GET request to the API.
 
-<inline-fragment platform="js" src="~/guides/functions/fragments/js/go-api-call.md"></inline-fragment>
-<inline-fragment platform="ios" src="~/guides/functions/fragments/ios/rest-api-call.md"></inline-fragment>
-<inline-fragment platform="android" src="~/guides/functions/fragments/android/rest-api-call.md"></inline-fragment>
+<inline-fragment platform="js" src="~/guides/api-rest/fragments/js/go-api-call.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/guides/api-rest/fragments/ios/rest-api-call.md"></inline-fragment>
+<inline-fragment platform="android" src="~/guides/api-rest/fragments/android/rest-api-call.md"></inline-fragment>
 
 To learn more about interacting with REST APIs using Amplify, check out the complete documentation [here](~/lib//restapi/getting-started.md).
 

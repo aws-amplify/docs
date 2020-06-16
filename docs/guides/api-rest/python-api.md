@@ -1,9 +1,9 @@
 ---
-title: NodeJS API
-description: How to deploy a NodeJS API using Amplify Functions
+title: Python API
+description: How to deploy a Python API using Amplify Functions
 ---
 
-In this guide, you will learn how to deploy a Node.js API.
+In this guide, you will learn how to deploy a Python API.
 
 ## 1. Initialize a new Amplify project
 
@@ -20,13 +20,12 @@ amplify init
 amplify add api
 
 ? Please select from one of the below mentioned services: REST
-? Provide a friendly name for your resource to be used as a label for this category in the project: nodeapi
+? Provide a friendly name for your resource to be used as a label for this category in the project: pythonapi
 ? Provide a path (e.g., /book/{isbn}): /hello
 ? Choose a Lambda source: Create a new Lambda function
 ? Provide a friendly name for your resource to be used as a label for this category in the project: greetingfunction
 ? Provide the AWS Lambda function name: greetingfunction
-? Choose the function runtime that you want to use: NodeJS
-? Choose the function template that you want to use: Hello World
+? Choose the function runtime that you want to use: Python
 ? Do you want to access other resources created in this project from your Lambda function? N
 ? Do you want to invoke this function on a recurring schedule? N
 ? Do you want to edit the local lambda function now? N
@@ -38,22 +37,30 @@ The CLI should have created a new function located at **amplify/backend/function
 
 ## 3. Updating the function code
 
-Next, open  **amplify/backend/function/greetingfunction/src/index.js** and update the code to the following:
+Next, open  **amplify/backend/function/greetingfunction/src/index.py** and update the code to the following:
 
-```js
-exports.handler = async (event) => {
-  const body = {
-      message: "Hello from Lambda"
+```python
+import json
+import datetime
+
+def handler(event, context):
+
+  current_time = datetime.datetime.now().time()
+
+  body = {
+      "message": "Hello, the current time is " + str(current_time)
   }
-  const response = {
-      statusCode: 200,
-      body: JSON.stringify(body),
-      headers: {
-          "Access-Control-Allow-Origin": "*",
-      }
-  };
-  return response;
-};
+
+  response = {
+      "statusCode": 200,
+      "body": json.dumps(body),
+      'headers': {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      },
+  }
+  
+  return response
 ```
 
 ## 4. Deploy the API
@@ -68,9 +75,9 @@ amplify push
 
 Here is how you can send a GET request to the API.
 
-<inline-fragment platform="js" src="~/guides/functions/fragments/js/rest-api-call.md"></inline-fragment>
-<inline-fragment platform="ios" src="~/guides/functions/fragments/ios/rest-api-call.md"></inline-fragment>
-<inline-fragment platform="android" src="~/guides/functions/fragments/android/rest-api-call.md"></inline-fragment>
+<inline-fragment platform="js" src="~/guides/api-rest/fragments/js/python-api-call.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/guides/api-rest/fragments/ios/rest-api-call.md"></inline-fragment>
+<inline-fragment platform="android" src="~/guides/api-rest/fragments/android/rest-api-call.md"></inline-fragment>
 
 To learn more about interacting with REST APIs using Amplify, check out the complete documentation [here](~/lib//restapi/getting-started.md).
 

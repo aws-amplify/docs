@@ -80,9 +80,9 @@ To deploy the API and function, we can run the `push` command:
 amplify push
 ```
 
-<inline-fragment platform="js" src="~/guides/functions/fragments/js/express-api-call.md"></inline-fragment>
-<inline-fragment platform="ios" src="~/guides/functions/fragments/ios/express-api-call.md"></inline-fragment>
-<inline-fragment platform="android" src="~/guides/functions/fragments/android/express-api-call.md"></inline-fragment>
+<inline-fragment platform="js" src="~/guides/api-rest/fragments/js/express-api-call.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/guides/api-rest/fragments/ios/express-api-call.md"></inline-fragment>
+<inline-fragment platform="android" src="~/guides/api-rest/fragments/android/express-api-call.md"></inline-fragment>
 
 From here, you may want to add additional path. To do so, run the update command:
 

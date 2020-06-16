@@ -1,4 +1,3 @@
-
 This guide will show you how to host a static site from a GitHub repository using Amplify hosting.
 
 In this example we will be deploying a React app, but you can also also use any of the following types of projects or frameworks:
@@ -64,7 +63,7 @@ e. Review the final details and select Save and Deploy.
 
 ![Review details](~/images/hosting/git/7.png)
 
-f. AWS Amplify Console will now build your source code and deploy your app at https://<branchname>.<appid>.amplifyapp.com
+f. AWS Amplify Console will now build your source code and deploy your app at https://branchname.appid.amplifyapp.com
 
 ![Successful deployment](~/images/hosting/git/8.png)
 
