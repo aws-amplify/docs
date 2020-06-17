@@ -1,3 +1,3 @@
 ---
-redirect_to: https://docs.amplify.aws/lib/getting-started/setup?platform=android
+redirect_to: https://docs.amplify.aws/start/q/integration/android
 ---
