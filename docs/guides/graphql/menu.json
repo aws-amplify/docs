@@ -3,6 +3,7 @@
   "items": [
     "image-and-file-uploads",
     "subscriptions-by-id",
-    "graphql-pagination"
+    "graphql-pagination",
+    "query-with-sorting"
   ]
 }

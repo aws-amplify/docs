@@ -5,7 +5,7 @@ description: How to create a custom GraphQL subscription that will listen by id
 
 In this guide you will learn how to create a custom GraphQL subscription that will only by connected and triggered by a mutation containing a specific ID as an argument.
 
-When using the Amplify GraphQL transform library, there will often be times when you need to expand the GraphQL schema and operations created by the `@model` directive. One of the most common use cases is when fine grained control is needed for GraphQL subscriptions.
+When using the Amplify GraphQL transform library, there will often be times when you need to expand the GraphQL schema and operations created by the `@model` directive. A common use case is when fine grained control is needed for GraphQL subscriptions.
 
 Take for example the following GraphQL schema:
 

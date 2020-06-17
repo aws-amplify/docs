@@ -15,7 +15,7 @@ type Todo @model {
 }
 ```
 
-When the API is created with an `@model` directive, the following queries will be created:
+When the API is created with an `@model` directive, the following queries will automatically be created for you:
 
 ```graphql
 type Query {
