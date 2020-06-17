@@ -7,9 +7,9 @@ description: Use these Amplify CLI commands to manage a team workflow with multi
 Adds a new environment to your Amplify Project
 * amplify env list [--details] [--json] <br>
 Displays a list of all the environments in your Amplify project
-* amplify env remove <env-name> <br>
+* amplify env remove \<env-name\> <br>
 Removes an environment from the Amplify project
-* amplify env get --name <env-name> <br>
+* amplify env get --name \<env-name\> <br>
 Displays the details of the environment specified in the command 
 * amplify env pull <br>
 Pulls your environment from the cloud without impacting any local backend edits. Add the `--restore` flag to overwrite your local backend edits  (operates like the `amplify pull` command).

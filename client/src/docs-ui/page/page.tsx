@@ -237,7 +237,7 @@ export class DocsPage {
   };
 
   render() {
-    if (Build.isBrowser) {
+    if (Build.isBrowser || location.pathname === "/") {
       return (
         <Host class={pageStyle}>
           <pageContext.Provider
