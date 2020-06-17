@@ -1,6 +1,7 @@
 {
   "title": "GraphQL",
   "items": [
-    "image-and-file-uploads"
+    "image-and-file-uploads",
+    "subscriptions-by-id"
   ]
 }
