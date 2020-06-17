@@ -4,7 +4,10 @@ Add the Auth plugin along with any other plugins you added per the instructions 
   <amplify-block name="Java">
   
 ```java
+    // Add this line, to include the Auth plugin.
     Amplify.addPlugin(new AWSCognitoAuthPlugin());
+
+    Amplify.configure(getApplicationContext());
 ```
 
   </amplify-block>
@@ -12,7 +15,10 @@ Add the Auth plugin along with any other plugins you added per the instructions 
   <amplify-block name="Kotlin">
 
 ```kotlin
+    // Add this line, to include the Auth plugin.
     Amplify.addPlugin(AWSCognitoAuthPlugin())
+
+    Amplify.configure(applicationContext)
 ```
 
   </amplify-block>
