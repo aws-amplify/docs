@@ -24,7 +24,7 @@ const AuthStateApp = () => {
 
   return authState === AuthState.SignedIn && user ? (
       <div className="App">
-          <div>Hello, {user}</div>
+          <div>Hello, {user.username}</div>
           <AmplifySignOut />
       </div>
 	) : (
@@ -60,7 +60,7 @@ const AuthStateApp: React.FunctionComponent = () => {
 
   return authState === AuthState.SignedIn && user ? (
       <div className="App">
-          <div>Hello, {user}</div>
+          <div>Hello, {user.username}</div>
           <AmplifySignOut />
       </div>
   ) : (
