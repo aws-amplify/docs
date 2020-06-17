@@ -64,7 +64,7 @@ type Subscription {
 
 ```
 
-Now, you can subscribe to the comments for a specific post:
+Now you can subscribe to the comments for a specific post using the post id:
 
 ```js
 import { API } from 'aws-amplify';

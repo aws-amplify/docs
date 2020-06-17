@@ -2,6 +2,7 @@
   "title": "GraphQL",
   "items": [
     "image-and-file-uploads",
-    "subscriptions-by-id"
+    "subscriptions-by-id",
+    "graphql-pagination"
   ]
 }
