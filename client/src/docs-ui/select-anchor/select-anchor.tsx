@@ -25,7 +25,6 @@ import {SelectedFilters} from "../../docs-ui/page/page.types";
 import {pageContext} from "../../docs-ui/page/page.context";
 import {sidebarLayoutContext} from "../../amplify-ui/sidebar-layout/sidebar-layout.context";
 import {ToggleInView} from "../../amplify-ui/sidebar-layout/sidebar-layout.types";
-import {rerouteIfNecessary} from "./reroute-if-necessary.worker";
 
 @Component({tag: "docs-select-anchor"})
 export class DocsSelectAnchor {
@@ -58,7 +57,7 @@ export class DocsSelectAnchor {
   };
 
   @Watch("page")
-  async computeOptionVNodes() {
+  computeOptionVNodes() {
     const filterKey = this.page && getFilterKeyFromPage(this.page);
     this.selectedOption = filterKey && this.selectedFilters?.[filterKey];
     this.selectedOptionMetadata =
@@ -70,32 +69,30 @@ export class DocsSelectAnchor {
 
     this.options =
       this.sortedVersions &&
-      ((await Promise.all(
-        this.sortedVersions.map(async ([filterValue, filterRoute]) => {
-          if (filterValue !== this.selectedOption) {
-            const optionMetadata =
-              filterKey &&
-              (filterMetadataByOptionByName[filterKey][
-                filterValue
-              ] as FilterOptionMetadata);
-            return (
-              optionMetadata && (
-                <stencil-route-link
-                  key={filterValue}
-                  url={await rerouteIfNecessary(filterRoute)}
-                  onClick={this.toggleShowOptionsAndMenuInView}
-                >
-                  <img
-                    src={optionMetadata.graphicURI}
-                    alt={`${optionMetadata.label} Logo`}
-                  />
-                  <span>{optionMetadata.label}</span>
-                </stencil-route-link>
-              )
-            );
-          }
-        }),
-      )) as VNode[]);
+      (this.sortedVersions.map(([filterValue, filterRoute]) => {
+        if (filterValue !== this.selectedOption) {
+          const optionMetadata =
+            filterKey &&
+            (filterMetadataByOptionByName[filterKey][
+              filterValue
+            ] as FilterOptionMetadata);
+          return (
+            optionMetadata && (
+              <stencil-route-link
+                key={filterValue}
+                url={filterRoute}
+                onClick={this.toggleShowOptionsAndMenuInView}
+              >
+                <img
+                  src={optionMetadata.graphicURI}
+                  alt={`${optionMetadata.label} Logo`}
+                />
+                <span>{optionMetadata.label}</span>
+              </stencil-route-link>
+            )
+          );
+        }
+      }) as VNode[] | undefined);
   }
 
   componentWillLoad() {
