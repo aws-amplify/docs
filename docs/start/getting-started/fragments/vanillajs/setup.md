@@ -52,39 +52,51 @@ Add the following to the `index.html` file:
 ```html
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Amplify Framework</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-            html, body { font-family: "Amazon Ember", "Helvetica", "sans-serif"; margin: 0; }
-            a { color: #FF9900; }
-            h1 { font-weight: 300; }
-            .app { width: 100%; }
-            .app-header { color: white; text-align: center; background: linear-gradient(30deg, #f90 55%, #FFC300); width: 100%; margin: 0 0 1em 0; padding: 3em 0 3em 0; box-shadow: 1px 2px 4px rgba(0, 0, 0, .3); }
-            .app-logo { width: 126px; margin: 0 auto; }
-            .app-body { width: 400px; margin: 0 auto; text-align: center; }
-            .app-body button { background-color: #FF9900; font-size: 14px; color: white; text-transform: uppercase; padding: 1em; border: none; }
-            .app-body button:hover { opacity: 0.8; }
-        </style>
-    </head>
-    <body>
-        <div class="app">
-            <div class="app-header">
-                <div class="app-logo">
-                    <img src="https://aws-amplify.github.io/images/Logos/Amplify-Logo-White.svg" alt="AWS Amplify" />
-                </div>
-                <h1>Welcome to the Amplify Framework</h1>
-            </div>
-            <div class="app-body">
-                <button id="MutationEventButton">Add data</button>
-                <div id="MutationResult"></div>
-                <div id="QueryResult"></div>
-                <div id="SubscriptionResult"></div>
-            </div>
+  <head>
+    <meta charset="utf-8" />
+    <title>Amplify Framework</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      html, body { font-family: "Amazon Ember", "Helvetica", "sans-serif"; margin: 0; }
+      a { color: #ff9900; }
+      h1 { font-weight: 300; }
+      hr { height: 1px; background: lightgray; border: none; }
+      .app { width: 100%; }
+      .app-header { color: white; text-align: center; background: linear-gradient(30deg, #f90 55%, #ffc300); width: 100%; margin: 0 0 1em 0; padding: 3em 0 3em 0; box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3); }
+      .app-logo { width: 126px; margin: 0 auto; }
+      .app-body { width: 400px; margin: 0 auto; text-align: center; }
+      .app-body button { background-color: #ff9900; font-size: 14px; color: white; text-transform: uppercase; padding: 1em; border: none; }
+      .app-body button:hover { opacity: 0.8; }
+    </style>
+  </head>
+
+  <body>
+    <div class="app">
+      <div class="app-header">
+        <div class="app-logo">
+          <img
+            src="https://aws-amplify.github.io/images/Logos/Amplify-Logo-White.svg"
+            alt="AWS Amplify"
+          />
         </div>
-        <script src="main.bundle.js"></script>
-    </body>
+        <h1>Welcome to the Amplify Framework</h1>
+      </div>
+      <div class="app-body">
+        <h1>Mutation Results</h1>
+        <button id="MutationEventButton">Add data</button>
+        <div id="MutationResult"></div>
+        <hr />
+
+        <h1>Query Results</h1>
+        <div id="QueryResult"></div>
+        <hr />
+
+        <h1>Subscription Results</h1>
+        <div id="SubscriptionResult"></div>
+      </div>
+    </div>
+    <script src="main.bundle.js"></script>
+  </body>
 </html>
 ```
 
