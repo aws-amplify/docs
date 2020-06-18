@@ -139,39 +139,67 @@ MutationButton.addEventListener("click", (evt) => {
 
 After restarting your app using `npm start` go back to your browser and click **ADD DATA**.  You'll see that your application is now submitting events to AppSync and storing records in DynamoDB. Next, update `src/app.js` to list all the items in the database by importing `listTodos` and update the page when a query runs on app start by immediately calling the function:
 
-```javascript
-// other imports
-import { listTodos } from './graphql/queries'
+```diff
+ import awsconfig from "./aws-exports";
+ import { createTodo } from "./graphql/mutations";
++import { listTodos } from "./graphql/queries";
 
-const QueryResult = document.getElementById('QueryResult');
+ Amplify.configure(awsconfig);
 
-async function getData() {
-  QueryResult.innerHTML = `QUERY RESULTS`;
-  API.graphql(graphqlOperation(listTodos)).then((evt) => {
-    evt.data.listTodos.items.map((todo, i) => 
-    QueryResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`
-    );
-  })
-}
+@@ -10,8 +11,18 @@ async function createNewTodo() {
+   return await API.graphql(graphqlOperation(createTodo, { input: todo }));
+ }
 
-getData();
++async function getData() {
++  API.graphql(graphqlOperation(listTodos)).then((evt) => {
++    evt.data.listTodos.items.map((todo, i) => {
++      QueryResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`;
++    });
++  });
++}
++
+ const MutationButton = document.getElementById("MutationEventButton");
+ const MutationResult = document.getElementById("MutationResult");
++const QueryResult = document.getElementById("QueryResult");
+
+ MutationButton.addEventListener("click", (evt) => {
+@@ -19,3 +30,5 @@ MutationButton.addEventListener("click", (evt) => {
+     MutationResult.innerHTML += `<p>${evt.data.createTodo.name} - ${evt.data.createTodo.description}</p>`;
+   });
+ });
++
++getData();
 ```
 
 Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subscription with `API.graphql()` like so:
 
-```javascript
-// other imports
-import { onCreateTodo } from './graphql/subscriptions'
+```diff
+ import awsconfig from "./aws-exports";
+ import { createTodo } from "./graphql/mutations";
+ import { listTodos } from "./graphql/queries";
++import { onCreateTodo } from "./graphql/subscriptions";
 
-const SubscriptionResult = document.getElementById('SubscriptionResult');
+ Amplify.configure(awsconfig);
 
-API.graphql(graphqlOperation(onCreateTodo)).subscribe({
-  next: (evt) =>{
-    SubscriptionResult.innerHTML = `SUBSCRIPTION RESULTS`
-    const todo = evt.value.data.onCreateTodo;
-    SubscriptionResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`
-  }
-});
+@@ -23,6 +24,7 @@ async function getData() {
+ const MutationButton = document.getElementById("MutationEventButton");
+ const MutationResult = document.getElementById("MutationResult");
+ const QueryResult = document.getElementById("QueryResult");
++const SubscriptionResult = document.getElementById("SubscriptionResult");
+
+ MutationButton.addEventListener("click", (evt) => {
+@@ -31,4 +33,12 @@ MutationButton.addEventListener("click", (evt) => {
+   });
+ });
+
++API.graphql(graphqlOperation(onCreateTodo)).subscribe({
++  next: (evt) => {
++    const todo = evt.value.data.onCreateTodo;
++    SubscriptionResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`;
++  },
++});
++
+ getData();
 ```
 
 > The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
