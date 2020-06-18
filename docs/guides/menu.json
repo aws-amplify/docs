@@ -4,6 +4,7 @@
     "hosting",
     "api-rest",
     "graphql",
-    "authentication"
+    "authentication",
+    "functions"
   ]
 }

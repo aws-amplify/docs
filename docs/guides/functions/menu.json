@@ -1,0 +1,7 @@
+{
+  "title": "Functions",
+  "items": [
+    "dynamodb-from-js-lambda",
+    "dynamodb-from-python-lambda"
+  ]
+}
