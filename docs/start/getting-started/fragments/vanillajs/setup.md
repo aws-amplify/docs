@@ -90,7 +90,7 @@ Add the following to the `index.html` file:
 
 Add the following to the `webpack.config.js` file:
 
-```javascript
+```js
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
