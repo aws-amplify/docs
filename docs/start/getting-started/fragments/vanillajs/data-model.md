@@ -18,7 +18,7 @@ Accept the **default values** which are highlighted below:
 ? Please select from one of the below mentioned services:
 # GraphQL
 ? Provide API name:
-# myapi
+# amplifyjsapp
 ? Choose the default authorization type for the API:
 # API Key
 ? Enter a description for the API key:
@@ -90,7 +90,10 @@ Current Environment: dev
 
 | Category | Resource name | Operation | Provider plugin   |
 | -------- | ------------- | --------- | ----------------- |
-| Api      | myapi         | No Change | awscloudformation |
+| Api      | amplifyjsapp  | No Change | awscloudformation |
+
+GraphQL endpoint: https://•••••••••••.appsync-api.us-east-1.amazonaws.com/graphql
+GraphQL API KEY: ••••••••••
 ```
 
 ### Testing your API

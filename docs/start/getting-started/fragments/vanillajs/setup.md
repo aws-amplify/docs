@@ -142,7 +142,7 @@ amplify init
 When you initialize Amplify you'll be prompted for some information about the app:
 
 ```console
-Enter a name for the project (todo)
+Enter a name for the project (amplifyjsapp)
 
 # All AWS services you provision for your app are grouped into an "environment"
 # A common naming convention is dev, staging, and production
