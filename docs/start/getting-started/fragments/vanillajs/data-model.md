@@ -22,7 +22,7 @@ Accept the **default values** which are highlighted below:
 ? Choose the default authorization type for the API:
 # API Key
 ? Enter a description for the API key:
-# demo
+# todos
 ? After how many days from now the API key should expire:
 # 7 (or your preferred expiration)
 ? Do you want to configure advanced settings for the GraphQL API:
