@@ -35,6 +35,6 @@ return (
 );
 ```
 
-Set the `resizeMode` property to determine how resize the image if the frame doesn't match the image dimensions:
+Set the `resizeMode` property to determine how to resize the image if the frame doesn't match the image dimensions:
 
 ![S3Image resizeMode Example](~/images/s3image-resize-mode.png)
