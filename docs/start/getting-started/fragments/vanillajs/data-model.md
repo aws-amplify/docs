@@ -119,8 +119,12 @@ import { createTodo } from "./graphql/mutations";
 Amplify.configure(awsconfig);
 
 async function createNewTodo() {
-  const todo = { name: "Use AppSync" , description: "Realtime and Offline"}
-  return await API.graphql(graphqlOperation(createTodo, { input: todo }))
+  const todo = {
+    name: "Use AppSync",
+    description: `Realtime and Offline (${new Date().toLocaleString()})`,
+  };
+
+  return await API.graphql(graphqlOperation(createTodo, { input: todo }));
 }
 
 const MutationButton = document.getElementById("MutationEventButton");
