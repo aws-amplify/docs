@@ -111,27 +111,25 @@ When prompted, select **GraphQL**. This will open the AWS AppSync console for yo
 Update your `src/app.js` file to configure the library with `Amplify.configure()` and add data to your database with a mutation by using `API.graphql()`:
 
 ```javascript
-import API, { graphqlOperation } from '@aws-amplify/api'
-import PubSub from '@aws-amplify/pubsub';
-import { createTodo } from './graphql/mutations'
+import Amplify, { API, graphqlOperation } from "@aws-amplify/api";
 
-import awsconfig from './aws-exports';
-API.configure(awsconfig);
-PubSub.configure(awsconfig);
+import awsconfig from "./aws-exports";
+import { createTodo } from "./graphql/mutations";
+
+Amplify.configure(awsconfig);
 
 async function createNewTodo() {
   const todo = { name: "Use AppSync" , description: "Realtime and Offline"}
   return await API.graphql(graphqlOperation(createTodo, { input: todo }))
 }
 
-const MutationButton = document.getElementById('MutationEventButton');
-const MutationResult = document.getElementById('MutationResult');
+const MutationButton = document.getElementById("MutationEventButton");
+const MutationResult = document.getElementById("MutationResult");
 
-MutationButton.addEventListener('click', (evt) => {
-  MutationResult.innerHTML = `MUTATION RESULTS:`;
-  createNewTodo().then( (evt) => {
-    MutationResult.innerHTML += `<p>${evt.data.createTodo.name} - ${evt.data.createTodo.description}</p>`
-  })
+MutationButton.addEventListener("click", (evt) => {
+  createNewTodo().then((evt) => {
+    MutationResult.innerHTML += `<p>${evt.data.createTodo.name} - ${evt.data.createTodo.description}</p>`;
+  });
 });
 ```
 
