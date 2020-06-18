@@ -20,7 +20,7 @@ amplify-js-app
 
 Add the following to the `package.json` file:
 
-```javascript
+```json
 {
   "name": "amplify-js-app",
   "version": "1.0.0",
