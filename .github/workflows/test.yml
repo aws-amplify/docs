@@ -19,3 +19,5 @@ jobs:
         run: yarn build
       - name: Run Test Script
         run: yarn test
+      - name: Run Spellcheck
+        run: yarn spellcheck
