@@ -43,8 +43,8 @@ Add the following to the `package.json` file:
 
 ### Install local development dependencies
 
-```
-$ npm install
+```bash
+npm install
 ```
 
 Add the following to the `index.html` file:
