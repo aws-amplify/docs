@@ -1,135 +1,139 @@
 ## Create a new JavaScript app
 
-Create a new ‘plain’ JavaScript <a href="https://babeljs.io/docs/en/learn/" target="_blank">ES2015</a> app with webpack. With the following commands, create the directory (`amplify-js-app`) and files for the app.
+We will create a new "vanilla" JavaScript <a href="https://babeljs.io/docs/en/learn/" target="_blank">ES2015</a> app with [Parcel](https://parceljs.org/getting_started.html).
 
-```bash
-mkdir -p amplify-js-app/src && cd amplify-js-app
-touch package.json index.html webpack.config.js src/app.js
+
+### Create a new project
+
+First, let's create & initialize our project (named `amplify-js-app`):
+
+```shell
+mkdir amplify-js-app/src
+cd cd amplify-js-app
+npm init -y
+touch src/index.html src/index.js
+```
+
+### Add dependencies
+
+Next, install `aws-amplify` and `parcel`:
+
+```shell
+npm install aws-amplify
+npm install -g parcel-bundler
 ```
 
 The app directory structure should be:
 
-```
-- amplify-js-app
-    - index.html
-    - package.json
-    - webpack.config.js
-    - /src
-        |- app.js
-```
-
-Add the following to the `package.json` file:
-
-```javascript
-{
-  "name": "amplify-js-app",
-  "version": "1.0.0",
-  "description": "Amplify JavaScript Example",
-  "dependencies": {
-    "@aws-amplify/api": "latest",
-    "@aws-amplify/pubsub": "latest"
-  },
-  "devDependencies": {
-    "webpack": "^4.17.1",
-    "webpack-cli": "^3.1.0",
-    "copy-webpack-plugin": "^4.5.2",
-    "webpack-dev-server": "^3.1.5"
-  },
-  "scripts": {
-    "start": "webpack && webpack-dev-server --mode development",
-    "build": "webpack"
-  }
-}
+```console
+amplify-js-app
+├── package-lock.json
+├── package.json
+└── src
+    ├── index.html
+    └── index.js
 ```
 
-### Install local development dependencies
+### Create `index.html`
 
-```
-$ npm install
-```
-
-Add the following to the `index.html` file:
+Add the following to the `src/index.html` file:
 
 ```html
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Amplify Framework</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-            html, body { font-family: "Amazon Ember", "Helvetica", "sans-serif"; margin: 0; }
-            a { color: #FF9900; }
-            h1 { font-weight: 300; }
-            .app { width: 100%; }
-            .app-header { color: white; text-align: center; background: linear-gradient(30deg, #f90 55%, #FFC300); width: 100%; margin: 0 0 1em 0; padding: 3em 0 3em 0; box-shadow: 1px 2px 4px rgba(0, 0, 0, .3); }
-            .app-logo { width: 126px; margin: 0 auto; }
-            .app-body { width: 400px; margin: 0 auto; text-align: center; }
-            .app-body button { background-color: #FF9900; font-size: 14px; color: white; text-transform: uppercase; padding: 1em; border: none; }
-            .app-body button:hover { opacity: 0.8; }
-        </style>
-    </head>
-    <body>
-        <div class="app">
-            <div class="app-header">
-                <div class="app-logo">
-                    <img src="https://aws-amplify.github.io/images/Logos/Amplify-Logo-White.svg" alt="AWS Amplify" />
-                </div>
-                <h1>Welcome to the Amplify Framework</h1>
-            </div>
-            <div class="app-body">
-                <button id="MutationEventButton">Add data</button>
-                <div id="MutationResult"></div>
-                <div id="QueryResult"></div>
-                <div id="SubscriptionResult"></div>
-            </div>
+  <head>
+    <meta charset="utf-8" />
+    <title>Amplify Framework</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      html,
+      body {
+        font-family: "Amazon Ember", "Helvetica", "sans-serif";
+        margin: 0;
+      }
+
+      a {
+        color: #ff9900;
+      }
+
+      h1 {
+        font-weight: 300;
+      }
+
+      .app {
+        width: 100%;
+      }
+
+      .app-header {
+        color: white;
+        text-align: center;
+        background: linear-gradient(30deg, #f90 55%, #ffc300);
+        width: 100%;
+        margin: 0 0 1em 0;
+        padding: 3em 0 3em 0;
+        box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .app-logo {
+        width: 126px;
+        margin: 0 auto;
+      }
+
+      .app-body {
+        width: 400px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .app-body button {
+        background-color: #ff9900;
+        font-size: 14px;
+        color: white;
+        text-transform: uppercase;
+        padding: 1em;
+        border: none;
+      }
+
+      .app-body button:hover {
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="app">
+      <div class="app-header">
+        <div class="app-logo">
+          <img
+            src="https://aws-amplify.github.io/images/Logos/Amplify-Logo-White.svg"
+            alt="AWS Amplify"
+          />
         </div>
-        <script src="main.bundle.js"></script>
-    </body>
+        <h1>Welcome to the Amplify Framework</h1>
+      </div>
+      <div class="app-body">
+        <button id="MutationEventButton">Add data</button>
+        <div id="MutationResult"></div>
+        <div id="QueryResult"></div>
+        <div id="SubscriptionResult"></div>
+      </div>
+    </div>
+    <script src="src/index.js"></script>
+  </body>
 </html>
 ```
 
-Add the following to the `webpack.config.js` file:
-
-```javascript
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const webpack = require('webpack');
-const path = require('path');
-
-module.exports = {
-    mode: 'development',
-    entry: './src/app.js',
-    output: {
-        filename: '[name].bundle.js',
-        path: path.resolve(__dirname, 'dist')
-    },
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/
-            }
-        ]
-    },
-    devServer: {
-        contentBase: './dist',
-        overlay: true,
-        hot: true
-    },
-    plugins: [
-        new CopyWebpackPlugin(['index.html']),
-        new webpack.HotModuleReplacementPlugin()
-    ]
-};
-```
-
-Run the app:
+Next, run `parcel` to bundle, watch, and serve your app:
 
 ```bash
-npm start
+parcel src/index.html
 ```
 
-Open a browser and navigate to `http://localhost:8080`. The 'Add data' button does not work yet. We'll work on that next.
+_(You can press <kbd>Ctrl+C</kbd> to stop the server)_
+
+Open a browser and navigate to `http://localhost:1234/`.
+
+**The `Add data` button does not work yet. We'll work on that next!**
 
 ## Initialize a new backend
 
@@ -142,7 +146,7 @@ amplify init
 When you initialize Amplify you'll be prompted for some information about the app:
 
 ```console
-Enter a name for the project (todo)
+Enter a name for the project (amplifyjsapp)
 
 # All AWS services you provision for your app are grouped into an "environment"
 # A common naming convention is dev, staging, and production
