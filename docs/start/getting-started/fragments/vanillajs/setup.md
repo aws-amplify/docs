@@ -9,13 +9,13 @@ touch package.json index.html webpack.config.js src/app.js
 
 The app directory structure should be:
 
-```
-- amplify-js-app
-    - index.html
-    - package.json
-    - webpack.config.js
-    - /src
-        |- app.js
+```console
+amplify-js-app
+├── index.html
+├── package.json
+├── src
+│   └── app.js
+└── webpack.config.js
 ```
 
 Add the following to the `package.json` file:
