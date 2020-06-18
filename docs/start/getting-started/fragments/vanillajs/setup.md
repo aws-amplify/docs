@@ -128,7 +128,9 @@ Run the app:
 npm start
 ```
 
-Open a browser and navigate to `http://localhost:8080`. The 'Add data' button does not work yet. We'll work on that next.
+Open a browser and navigate to <http://localhost:8080>.
+
+_(The `Add data` button does not work yet. We'll work on that next!)_
 
 ## Initialize a new backend
 
