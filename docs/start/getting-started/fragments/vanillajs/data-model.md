@@ -202,6 +202,4 @@ Now if you wish to subscribe to data, import the `onCreateTodo` subscription and
  getData();
 ```
 
-> The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
-
 After restarting your app using `npm start` go back to your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs.
