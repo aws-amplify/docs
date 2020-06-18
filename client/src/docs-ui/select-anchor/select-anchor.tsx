@@ -73,20 +73,23 @@ export class DocsSelectAnchor {
       ((await Promise.all(
         this.sortedVersions.map(async ([filterValue, filterRoute]) => {
           if (filterValue !== this.selectedOption) {
-            const meta =
+            const optionMetadata =
               filterKey &&
               (filterMetadataByOptionByName[filterKey][
                 filterValue
               ] as FilterOptionMetadata);
             return (
-              meta && (
+              optionMetadata && (
                 <stencil-route-link
                   key={filterValue}
                   url={await rerouteIfNecessary(filterRoute)}
                   onClick={this.toggleShowOptionsAndMenuInView}
                 >
-                  <img src={meta.graphicURI} alt={`${meta.label} Logo`} />
-                  <span>{meta.label}</span>
+                  <img
+                    src={optionMetadata.graphicURI}
+                    alt={`${optionMetadata.label} Logo`}
+                  />
+                  <span>{optionMetadata.label}</span>
                 </stencil-route-link>
               )
             );
