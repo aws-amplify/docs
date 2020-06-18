@@ -120,6 +120,7 @@
 				"/docs/js/authentication#using-the-authenticator-component": "https://docs.amplify.aws/lib/auth/getting-started/q/platform/js#option-1-use-pre-built-ui-components",
 				"/docs/js/storage#using-amazon-s3": "https://docs.amplify.aws/lib/storage/getting-started/q/platform/js",
 				"/docs/cli-toolchain/quickstart#as-a-part-of-the-graphql-api-types-with-model-annotation": "https://docs.amplify.aws/cli/usage/lambda-triggers#as-a-part-of-the-graphql-api-types-with-model-annotation",
+				"/docs/js/cli": "https://docs.amplify.aws/cli"
 			};
 
 			var pathname = location.pathname;
@@ -133,6 +134,9 @@
 			} else if (redirectsDictionary[pathname]) {
 				document.getElementsByName('body').style = "display: none;"
 				window.location.replace(redirectsDictionary[pathname]);
+			} else {
+				document.getElementsByName('body').style = "display: none;"
+				window.location.replace("https://docs.amplify.aws");
 			}
 		</script>
 		{% include site-head.html %}
