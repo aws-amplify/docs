@@ -13,6 +13,6 @@ jobs:
           node-version: 10.x
       - name: Install Dependencies
         run: yarn
-      - name: Run Initial Build
+      - name: Run Spellcheck
         run: yarn spellcheck
 
