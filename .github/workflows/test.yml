@@ -15,6 +15,8 @@ jobs:
         run: yarn
       - name: Run Initial Build
         run: yarn build
+      - name: Run Test Script
+        run: yarn test
   spellcheck:
     name: Spellcheck
     runs-on: ubuntu-latest
