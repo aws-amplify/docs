@@ -7,7 +7,7 @@ The easiest way to interact with DynamoDB from Lambda in a Python environment is
 
 You will learn how to perform [put_item](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html#DynamoDB.Client.put_item), [get_item](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html#DynamoDB.Client.get_item), [scan](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html#DynamoDB.Client.scan), and [query](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html#DynamoDB.Client.query) operations.
 
-## Creating an item in DynamoDB from Lambda
+### Creating an item in DynamoDB from Lambda
 
 To create an item in DynamoDB you can use the `put` method:
 
@@ -44,7 +44,7 @@ def handler(event, context):
   return response
 ```
 
-## Getting an item by primary key in DynamoDB from Lambda
+### Getting an item by primary key in DynamoDB from Lambda
 
 To get an item by primary key in DynamoDB you can use the `get` method. A `get` request returns a single item given the primary key of that item:
 
@@ -76,7 +76,7 @@ def handler(event, context):
   return response
 ```
 
-## Scanning a table
+### Scanning a table
 
 A `scan` returns one or more items and item attributes by accessing every item in a table or a secondary index (limit of 1 MB of data).
 
@@ -103,7 +103,7 @@ def handler(event, context):
   return response
 ```
 
-## Querying a table
+### Querying a table
 
 A `query` returns one or more items and item attributes by querying items from a table by primary key or secondary index.
 

@@ -7,7 +7,7 @@ The easiest way to interact with DynamoDB from Lambda in a Node.js environment i
 
 You will learn how to perform [put](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#put-property), [get](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#get-property), [scan](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#scan-property), and [query](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#query-property) operations.
 
-## Creating an item in DynamoDB from Lambda
+### Creating an item in DynamoDB from Lambda
 
 To create an item in DynamoDB you can use the `put` method:
 
@@ -42,7 +42,7 @@ exports.handler = async (event) => {
 };
 ```
 
-## Getting an item by primary key in DynamoDB from Lambda
+### Getting an item by primary key in DynamoDB from Lambda
 
 To get an item by primary key in DynamoDB you can use the `get` method. A `get` request returns a single item given the primary key of that item:
 
@@ -77,7 +77,7 @@ exports.handler = async (event, context) => {
 }
 ```
 
-## Scanning a table
+### Scanning a table
 
 A `scan` returns one or more items and item attributes by accessing every item in a table or a secondary index (limit of 1 MB of data).
 
@@ -108,7 +108,7 @@ exports.handler = async (event, context) => {
 }
 ```
 
-## Querying a table
+### Querying a table
 
 A `query` returns one or more items and item attributes by querying items from a table by primary key or secondary index.
 

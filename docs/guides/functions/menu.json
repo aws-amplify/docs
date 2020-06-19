@@ -1,6 +1,8 @@
 {
   "title": "Functions",
   "items": [
+    "connecting-a-rest-api",
+    "integrating-dynamodb-with-lambda",
     "dynamodb-from-js-lambda",
     "dynamodb-from-python-lambda"
   ]
