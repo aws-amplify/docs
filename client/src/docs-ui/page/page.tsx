@@ -27,10 +27,10 @@ import {
 import {pageContext} from "./page.context";
 import {track, AnalyticsEventType} from "../../utils/track";
 import {ensureMenuScrolledIntoView} from "../../utils/ensure-menu-scrolled-into-view";
-import {getPage} from "../../cache";
+import {getPage} from "../../cache.worker";
 import {getNavHeight} from "../../utils/get-nav-height";
 import {scrollToHash} from "../../utils/scroll-to-hash";
-import {parseURL} from "../../utils/url/url";
+import {parseURL} from "../../utils/url/url.worker";
 
 const SELECTED_TABS_LOCAL_STORAGE_KEY = `amplify-docs::selected-tabs`;
 
@@ -172,7 +172,7 @@ export class DocsPage {
       currentRoute = currentRoute.substring(0, currentRoute.length - 1);
     }
 
-    const {path, params} = parseURL(currentRoute);
+    const {path, params} = await parseURL(currentRoute);
     const routeFiltersEntry = filtersByRoute.get(path);
     const allFilters =
       routeFiltersEntry &&
