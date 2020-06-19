@@ -1,6 +1,6 @@
 ---
 title: User attributes
-description: Access and update user attribtues
+description: Access and update user attributes
 ---
 
 

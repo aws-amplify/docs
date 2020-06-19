@@ -54,7 +54,7 @@
     "task": "ts-node tasks",
     "build": "yarn task build",
     "build-content": "yarn build --skip-client-build",
-    "spellcheck": "cspell check 'docs/**/*.md'",
+    "spellcheck": "cspell 'docs/**/*.md'",
     "start": "yarn build --watch",
     "test-client": "yarn build && cd client && stencil test --spec --e2e",
     "test-capi": "cd capi && yarn test",

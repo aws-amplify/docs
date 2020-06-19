@@ -7,7 +7,7 @@ DataStore has the capability to handle relationships between Models, such as *ha
 
 <amplify-callout>
 
-When using the `@key` directive with DataStore, as long as you specifcy a `name` you can use any value(s) in `fields`. However, if the `name` property is omitted, the first item in the `fields` array must be `"id"`. E.g., `@key(fields: ["id", "content"])`.
+When using the `@key` directive with DataStore, as long as you specify a `name` you can use any value(s) in `fields`. However, if the `name` property is omitted, the first item in the `fields` array must be `"id"`. E.g., `@key(fields: ["id", "content"])`.
 
 </amplify-callout>
 
