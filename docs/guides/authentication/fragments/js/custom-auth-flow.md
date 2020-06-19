@@ -1,4 +1,4 @@
-The [Amplify UI Component library](~/ui/auth/authenticator.md) allows you to scaffold out an end-to-end authentication flow in just a few lines of code, but often you need to create an authentication flow from scratch.
+The [Amplify UI Component library](~/ui/auth/authenticator.md) allows you to scaffold out an end-to-end authentication flow in just a few lines of code, but you will often need to create a custom authentication flow from scratch.
 
 In this guide, you will learn how to use the `Auth` class to manage user identity and the `Hub` utility to listen to authentication events.
 

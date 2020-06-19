@@ -5,6 +5,7 @@
     "integrating-dynamodb-with-lambda",
     "dynamodb-from-js-lambda",
     "dynamodb-from-python-lambda",
-    "graphql-from-lambda"
+    "graphql-from-lambda",
+    "graphql-server-in-lambda"
   ]
 }

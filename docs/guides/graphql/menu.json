@@ -4,6 +4,7 @@
     "image-and-file-uploads",
     "subscriptions-by-id",
     "graphql-pagination",
-    "query-with-sorting"
+    "query-with-sorting",
+    "lambda-resolvers"
   ]
 }

@@ -2,6 +2,7 @@
   "title": "Authentication",
   "items": [
     "custom-auth-flow",
-    "listening-for-auth-events"
+    "listening-for-auth-events",
+    "managing-user-attributes"
   ]
 }
