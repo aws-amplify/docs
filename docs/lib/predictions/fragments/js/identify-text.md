@@ -78,7 +78,7 @@ Predictions.identify({
                         width, // ratio of overall image width
                         height, // ratio of overall image height
                         left, // left coordinate as a ratio of overall image width
-                        top // top coordinate as a ratio of overall image heigth
+                        top // top coordinate as a ratio of overall image height
                     },
                     polygon // Array of { x, y } coordinates as a ratio of overall image width and height
                     */
