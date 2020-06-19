@@ -6,8 +6,8 @@ description: How to integrate a DynamoDB table with a Lambda function
 In this guide you will learn how to do three things:
 
 1. Create a new Lambda function and DynamoDB database that are integrated together
-2. Create a new DynamoDB Database and integrate with an existing Lambda function
-3. Create a new Lambda function and integrate with an an existing DynamoDB database
+2. Create a new DynamoDB Database and integrate it with an existing Lambda function
+3. Create a new Lambda function and integrate it with an an existing DynamoDB database
 
 ### Creating a new Lambda function and DynamoDB database that are integrated
 

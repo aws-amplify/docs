@@ -4,6 +4,7 @@
     "connecting-a-rest-api",
     "integrating-dynamodb-with-lambda",
     "dynamodb-from-js-lambda",
-    "dynamodb-from-python-lambda"
+    "dynamodb-from-python-lambda",
+    "graphql-from-lambda"
   ]
 }
