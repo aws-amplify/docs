@@ -46,6 +46,7 @@ export class DocsPage {
 
   rafId?: number;
   isFirstRenderOfCurrentPage = true;
+  previousPathname = "";
 
   setNewSelectedTabHeading: SetNewSelectedTabHeadings = (tabHeading) => {
     // create temp array with `tabHeading` (the new highest priority) as first el
@@ -103,6 +104,7 @@ export class DocsPage {
     const updatePageData = () => {
       if (location.pathname !== pathname) {
         this.isFirstRenderOfCurrentPage = true;
+        this.previousPathname = pathname;
         pathname = location.pathname;
         this.getPageData();
       }
@@ -183,7 +185,7 @@ export class DocsPage {
 
     track({
       type: AnalyticsEventType.PAGE_VISIT,
-      attributes: {url: currentRoute},
+      attributes: {url: currentRoute, previousUrl: this.previousPathname},
     });
 
     try {
