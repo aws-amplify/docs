@@ -12,7 +12,7 @@ func resetPassword(username: String) {
                 print("Reset completed")
             }
         } catch {
-            print("Reset passowrd failed with error \(error)")
+            print("Reset password failed with error \(error)")
         }
     }
 }

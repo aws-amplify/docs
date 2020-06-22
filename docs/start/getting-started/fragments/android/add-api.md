@@ -112,7 +112,7 @@ Now that your have DataStore persisting data locally, in the next step you'll co
         createTodo(
             input: {
                 name: "Tidy up the office"
-                description: "Organize books, vaccuum, take out the trash"
+                description: "Organize books, vacuum, take out the trash"
                 priority: NORMAL
             }
         ) {
@@ -134,5 +134,5 @@ Now that your have DataStore persisting data locally, in the next step you'll co
     com.example.todo I/Tutorial: ==== Todo ====
     com.example.todo I/Tutorial: Name: Tidy up the office
     com.example.todo I/Tutorial: Priority: NORMAL
-    com.example.todo I/Tutorial: Description: Organize books, vaccuum, take out the trash
+    com.example.todo I/Tutorial: Description: Organize books, vacuum, take out the trash
     ```

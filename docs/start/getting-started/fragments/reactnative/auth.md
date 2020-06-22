@@ -79,4 +79,4 @@ You can also customize this component to add or remove fields, update styling, o
 
 In addition to the `withAuthenticator` you can build custom authentication flows using the `Auth` class.
 
-`Auth` has over 30 methods including `signUp`, `signIn`, `forgotPasword`, and `signOut` that allow you full control over all aspects of the user authentication flow. Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html)
+`Auth` has over 30 methods including `signUp`, `signIn`, `forgotPassword`, and `signOut` that allow you full control over all aspects of the user authentication flow. Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html)

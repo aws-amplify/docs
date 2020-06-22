@@ -103,7 +103,7 @@ Run `amplify push` to create the resources in the cloud
 
 The value of `collectionId` is the name of your collection, which can be created directly via CLI. The value of `maxEntities` must be a number greater than `0` or less than `51` (50 is the max number of entities Rekognition can detect from a collection). If either value of `collectionId` or `maxEntities` is invalid, then `identify` will just detect entities in general with facial features, landmarks, etc.
 
-If both `collectionId` and `maxEntities` are properly configured, then Amplify will detect entity matches from the Rekogition Collection in your app. Results are mapped to `IdentifyEntityMatchesResult`. For example:
+If both `collectionId` and `maxEntities` are properly configured, then Amplify will detect entity matches from the Rekognition Collection in your app. Results are mapped to `IdentifyEntityMatchesResult`. For example:
 
 <amplify-block-switcher>
 <amplify-block name="Java">
