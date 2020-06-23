@@ -86,7 +86,7 @@ Now that your layer is set up, you'll see a new folder with the `layer-name` add
 
 A `nodejs` folder is auto-generated for you. In there you'll find an empty `package.json` file and a `node_modules` folder. If you want to offload other node_modules you can either:
 1. `cd` into the `nodejs` folder and run `npm install <required packaged>`
-2. move all your existing funciton's `node_modules` content into the layer's `node_modules` folder
+2. move all your existing function's `node_modules` content into the layer's `node_modules` folder
 
 Any node module that is in the layer's `node_modules` folder can be accessed from the function as if the node module is in the function's `node_modules` folder.
 
