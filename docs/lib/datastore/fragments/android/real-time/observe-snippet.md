@@ -19,7 +19,7 @@ Amplify.DataStore.observe(Post.class,
 ```kotlin
 Amplify.DataStore.observe(Post::class.java,
     { Log.i("MyAmplifyApp", "Observation began.") },
-    { Log.i("MyAmplifyApp", "Post: ${it.item}") },
+    { Log.i("MyAmplifyApp", "Post: ${it.item()}") },
     { Log.e("MyAmplifyApp", "Observation failed.", it) },
     { Log.i("MyAmplifyApp", "Observation complete.") }
 )
