@@ -130,7 +130,7 @@ When adding a layer from your Amplify project, you'll also be able to select the
   1
 ```
 
-Given that layer's can have overlapping contents, the order of the layer matters. You can adjust the layer's order if needed in the next step.
+Given that layers can have overlapping contents, the order of the layer matters. You can adjust the layer's order if needed in the next step.
 
 ```console
 ? Modify the layer order:
@@ -150,7 +150,7 @@ Once you're ready with your changes in your layer and functions, you can deploy 
 
 If a Layer’s content has been updated and it has permissions associated, Amplify CLI will prompt you whether you want to carry the permissions forward to a newer version.
 
-```
+```console
 Content changes in Lambda layer {LAYER_NAME} detected. What permissions do you want to grant to this new layer version?
 > The same permission as the latest layer version
 > Only accessible by the current account. You can always edit this later with: amplify update function
