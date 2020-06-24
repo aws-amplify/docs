@@ -1,4 +1,4 @@
-The `Amplify/Tools` pod provides an integration layer between the Amplify CLI headless mode (i.e. no AWS credentials needed) and Xcode. It integrates into the build process of the IDE to provide a seamsless experience.
+The `Amplify/Tools` pod provides an integration layer between the Amplify CLI headless mode (i.e. no AWS credentials needed) and Xcode. It integrates into the build process of the IDE to provide a seamless experience.
 
 First add the pod to your `Podfile`.
 
@@ -21,7 +21,7 @@ Once the build is done, a new group named `AmplifyConfig` should be added to you
 
 - `AmplifyConfig/`
   - `amplifytools.xcconfig`
-  - `amplifyconfigutarion.json`
+  - `amplifyconfiguration.json`
   - `schema.graphql`
 
 <amplify-callout warning>
