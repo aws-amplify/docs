@@ -13,11 +13,26 @@ Amplify.configure({
           return { Authorization : 'token' } 
           // Alternatively, with Cognito User Pools use this:
           // return { Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}` }
+          // return { Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
         }
       }
     ]
   }
 });
+```
+
+## Note related to use Access Token or ID Token
+
+The ID Token contains claims about the identity of the authenticated user such as name, email, and phone_number. It could have custom claims as well (For example using [Amplify CLI](https://docs.amplify.aws/cli/usage/lambda-triggers#override-id-token-claims) ). On Amplify Auth category you can retrieve the Id Token using: 
+
+```javascript
+(await Auth.currentSession()).getIdToken().getJwtToken()
+``` 
+
+The Access Token contains scopes and groups and is used to grant access to authorized resources. [This is a tutorial for enabling custom scopes.](https://aws.amazon.com/premiumsupport/knowledge-center/cognito-custom-scopes-api-gateway/). You can retrieve the Access Token using 
+
+```javascript
+(await Auth.currentSession()).getAccessToken().getJwtToken()
 ```
 
 ## Customizing HTTP request headers
@@ -40,7 +55,7 @@ You can use the API category to access API Gateway endpoints that don't require 
 
 ## Cognito User Pools Authorization
 
-You can use the JWT token provided by the Authentication API to authenticate against API Gateway directly when using a <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html" target="_blank">custom authorizer</a>. You can achieve this by retrieving the JWT token from the `(await Auth.currentSession()).getIdToken().getJwtToken()` API:
+You can use the JWT token provided by the Authentication API to authenticate against API Gateway directly when using a <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html" target="_blank">custom authorizer</a>.
 
 ```javascript
 async function postData() { 
