@@ -63,7 +63,7 @@ First, we'll add the DataStore plugin and configure Amplify by creating an Appli
   <application
       android:name=".MyAmplifyApplication"
       tools:replace="android:name"
-      ...  
+      ...
   ```
 
   Your file should look like this:

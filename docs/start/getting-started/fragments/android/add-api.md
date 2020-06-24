@@ -44,7 +44,7 @@ Now that your have DataStore persisting data locally, in the next step you'll co
   </amplify-block>
   </amplify-block-switcher>
 
-1. Run the application. This will synchronize the existing local Todo items to the cloud. The above snippet subscribes to all changes synchronized from the backend API.
+1. Run the application. This will synchronize the existing local Todo items to the cloud. `DataStore.observe` will log a message when new items are synchronized locally.
 
 1. Open up a terminal window. You can use an external terminal or the integrated terminal in Android Studio. In the terminal, run:
 
