@@ -17,6 +17,7 @@ First, we'll add the DataStore plugin and configure Amplify by creating an Appli
   
     ```java
     public class MyAmplifyApplication extends Application {
+      @Override
         public void onCreate() {
             super.onCreate();
             try {
@@ -55,7 +56,7 @@ First, we'll add the DataStore plugin and configure Amplify by creating an Appli
   </amplify-block>
   </amplify-block-switcher>
 
-1. Open **manifests** > **AndroidManifest.xml** to configure your application.
+1. Open **AndroidManifest.xml** to configure your application.
 
 1. Add the `android:name` and `tools:replace` attributes to the `application` node:
 
