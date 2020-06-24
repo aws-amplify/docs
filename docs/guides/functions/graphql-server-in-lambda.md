@@ -5,17 +5,59 @@ description: How to run an Apollo GraphQL server in a Lambda function
 
 In this guide you will learn how to run a GraphQL server in a Lambda function using [Apollo Server](https://www.apollographql.com/docs/) and [Apollo Server Lambda](https://github.com/apollographql/apollo-server/tree/master/packages/apollo-server-lambda).
 
-### Installing the dependencies
+### Creating the Amplify project
 
-To get started, change into the folder of the Lambda function and install the following dependencies:
+To get started, create a new Amplify project.
+
+<amplify-callout>
+
+If you already have an Amplify project created, you can jump to the next step - Creating the GraphQL API and function
+
+</amplify-callout>
 
 ```sh
+amplify init
+
+# Chooose your environment name and default text editor
+# You can answer the defaults for the rest of the questions and then choose the profile you created when you ran amplify configure
+```
+
+### Creating the GraphQL API and function
+
+Next we need to create the API and the Lambda function. Using the `api` category, the CLI will create a serverless function as well as an http endpoint that we can use for our GraphQL server.
+
+```sh
+$ amplify add api
+
+? Please select from one of the below mentioned services: REST
+? Provide a friendly name for your resource to be used as a label for this category in the project: apolloapi
+? Provide a path (e.g., /items): /graphql
+? Choose a Lambda source: Create a new Lambda function
+? Provide a friendly name for your resource to be used as a label for this category in the project: apolloserver
+? Provide the AWS Lambda function name: apolloserver
+? Choose the function runtime that you want to use: NodeJS
+? Choose the function template that you want to use: Hello World
+? Do you want to access other resources created in this project from your Lambda function? N
+? Do you want to edit the local lambda function now? N
+? Restrict API access: N
+? Do you want to add another path? N
+```
+
+#### Installing the dependencies
+
+Change into the folder of the Lambda function and install the following dependencies:
+
+```sh
+cd amplify/backend/function/apolloserver/src
 npm install apollo-server-lambda graphql
+cd ../../../../../
 ```
 
 ### Function code
 
-Next, open the Lambda function and add the following code for a basic GraphQL server with a single query:
+Now, let's open the code for the function.
+
+Open __amplify/backend/function/apolloserver/src/index.js__. Here, you will see the main function handler. Update the function with the following code:
 
 ```javascript
 const { ApolloServer, gql } = require('apollo-server-lambda');
@@ -50,3 +92,21 @@ exports.handler = server.createHandler({
   }
 })
 ```
+
+Now, we can deploy the function and GraphQL API:
+
+```sh
+amplify push
+```
+
+Now the API is deployed and you should be able to start interacting with it.
+
+### API URL
+
+Once the server is up and running, The url is available in the aws-exports.js file. The final GraphQL endpoint will look something like this:
+
+```
+https://6dbg37jfw5.execute-api.us-east-1.amazonaws.com/<env-name>/graphql
+```
+
+You can also use the GraphQL playground by navigating to the GraphQL endpoint `/graphql` directly in your browser.

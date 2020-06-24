@@ -59,10 +59,10 @@ The `event` object will contain the following properties:
 ```js
 /*
 event = {
-  "typeName": "Query", Filled dynamically based on @function usage location
-  "fieldName": "me", Filled dynamically based on @function usage location
-  "arguments": {}, GraphQL field arguments
-  "identity": {}, AppSync identity object via $ctx.identity
+  "typeName": "Query" or "Mutation", Filled dynamically based on @function usage location
+  "fieldName": Filled dynamically based on @function usage location
+  "arguments": { msg }, GraphQL field arguments
+  "identity": {}, AppSync identity object
   "source": {}, The object returned by the parent resolver. E.G. if resolving field 'Post.comments', the source is the Post object
   "request": {}, AppSync request object. Contains things like headers
   "prev": {} If using the built-in pipeline resolver support, this contains the object returned by the previous function.

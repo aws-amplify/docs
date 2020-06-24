@@ -4,6 +4,7 @@
     "node-api",
     "express-server",
     "go-api",
-    "python-api"
+    "python-api",
+    "form-api-with-dynamodb-and-lambda"
   ]
 }
