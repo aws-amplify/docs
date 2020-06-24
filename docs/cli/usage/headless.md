@@ -17,7 +17,7 @@ The following commands take the `--yes` flag:
 - `amplify pull`
 
 ## `amplify init` parameters
-The `ampify init` command takes these parameters:
+The `amplify init` command takes these parameters:
 - `--amplify`
 - `--frontend`
 - `--providers`

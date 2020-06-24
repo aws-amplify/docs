@@ -133,7 +133,7 @@ To stop receiving messages from a topic, you can use `unsubscribeTopic()` method
 try {
     mqttManager.unsubscribeTopic("myTopic");
 } catch (Exception e) {
-    Log.e(LOG_TAG, "Unsubscription error: ", e);
+    Log.e(LOG_TAG, "Unsubscribe error: ", e);
 }
 
 // You will no longer get messages for "myTopic"

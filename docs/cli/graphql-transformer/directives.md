@@ -2242,7 +2242,7 @@ The supported actions in this directive are included in the definition.
     identifyText # uses Amazon Rekognition to detect text
     identifyLabels # uses Amazon Rekognition to detect labels
     convertTextToSpeech # uses Amazon Polly in a lambda to output a presigned url to synthesized speech
-    translateText # uses Amazon Translate to translate text from source to target langauge
+    translateText # uses Amazon Translate to translate text from source to target language
   }
 ```
 
@@ -2407,7 +2407,7 @@ type Query {
 }
 ```
 
-Amplify generates the defintion below that sends a request to the url when the `listPosts` query is used.
+Amplify generates the definition below that sends a request to the url when the `listPosts` query is used.
 
 ```graphql
 type Query {

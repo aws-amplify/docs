@@ -1,4 +1,4 @@
-## Use Xcode with Ampify Tools
+## Use Xcode with Amplify Tools
 
 Open the `amplifyxc.config` in your project and set `push` to `true`. Then build your app with **Product > Build** (`Cmd+b`), and a push will take place.
 
