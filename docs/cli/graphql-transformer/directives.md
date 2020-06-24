@@ -2148,7 +2148,7 @@ And then search for posts using a `match` query:
 
 ```graphql
 query SearchPosts {
-  searchPost(filter: { title: { match: "Stream" }}) {
+  searchPosts(filter: { title: { match: "Stream" }}) {
     items {
       id
       title
