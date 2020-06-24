@@ -1,4 +1,4 @@
-When using `npx amplify-app` a NPM script named `amplify-modelgen` shoudl be added to you `package.json`. You can **generate model code** with the following command.
+When using `npx amplify-app` a NPM script named `amplify-modelgen` should be added to you `package.json`. You can **generate model code** with the following command.
 
 ```console
 npm run amplify-modelgen
