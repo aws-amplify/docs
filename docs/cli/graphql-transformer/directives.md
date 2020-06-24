@@ -1374,7 +1374,7 @@ The @function directive allows you to quickly connect lambda resolvers to an App
 Let's assume you have deployed an *echo* function with the following contents:
 
 ```javascript
-async function(event, context){
+exports.handler =  async function(event, context){
   return event.arguments.msg;
 };
 ```
