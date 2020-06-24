@@ -2,7 +2,7 @@
 👋 Welcome! In this tutorial, you will:
 
 - Set up an iOS application configured with Amplify
-- Create a data model and perist data to Amplify DataStore
+- Create a data model and persist data to Amplify DataStore
 - Connect your local data to synchronize to a cloud backend
 
 ## Prerequisites
@@ -27,7 +27,7 @@
 
 1.  Fill in the following for your project:
   * Product Name: **Todo**
-  * Langauge: **Swift**
+  * Language: **Swift**
   * User Interface: **SwiftUI**
   * **Tap `Next`**
 
@@ -39,7 +39,7 @@
 
 ### Add Amplify to your application
 
-Amplify for iOS is distribued through Cocoapods as a Pod. In this section, you'll setup cocoa pods and add the required Amplify packages.
+Amplify for iOS is distributed through Cocoapods as a Pod. In this section, you'll setup cocoa pods and add the required Amplify packages.
 
 1.  Before starting this step, please make sure that please **close Xcode.**
 
@@ -96,11 +96,11 @@ We will now add AmplifyTools as a build phase in your project.
   Your project should now look like this.  Notice that the amplify tools phase comes before the Compile Sources phase.
   ![](~/images/lib/getting-started/ios/set-up-ios-amplify-tools-3.png)
 
-1.  Now that we've added Amplify tools to the build process, it will run when you build you project.  **Build your project** in Xcode (`Cmd+b`).  Because this is the first time you are buliding your project, Amplify tools will detect this and generate a number of files in your project directory.
+1.  Now that we've added Amplify tools to the build process, it will run when you build you project.  **Build your project** in Xcode (`Cmd+b`).  Because this is the first time you are building your project, Amplify tools will detect this and generate a number of files in your project directory.
   * `amplify` (folder) - Contains a number of configuration files and pre-generated sample files that we will be using in you project
   * `amplifytools.xcconfig` - this configuration file controls the behavior of amplify tools
   * `amplifyconfiguration.json` - this configuration file will be added to your project and shipped with your bundle.  This is required by the amplify libraries.
-  * `awsconfiguration.json` - this configuration file will also be added to your poject and shipped with your bundle.  This is also requried by the amplify libraries.
+  * `awsconfiguration.json` - this configuration file will also be added to your project and shipped with your bundle.  This is also required by the amplify libraries.
     
 You are ready to start building with Amplify! 🎉
 

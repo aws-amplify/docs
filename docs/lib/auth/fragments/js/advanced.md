@@ -18,7 +18,7 @@ const {
     expiresIn, // the time in ms which describes how long the token could live
     user,  // the user object you defined, e.g. { username, email, phone_number }
     identity_id // Optional, the identity id specified by the provider
-} = getFromProvider(); // arbitrary funcion
+} = getFromProvider(); // arbitrary function
 
 Auth.federatedSignIn(
     domain,
@@ -116,7 +116,7 @@ class SignInWithFacebook extends Component {
 
     initFB() {
         const fb = window.FB;
-        console.log('FB SDK inited');
+        console.log('FB SDK initialized');
     }
 
     fbAsyncInit() {
@@ -362,7 +362,7 @@ Auth.federatedSignIn(
     },
     { 
         // the user object, you can put whatever property you get from the Auth0
-        // for exmaple:
+        // for example:
         name, // the user name
         email, // Optional, the email address
         phoneNumber, // Optional, the phone number
@@ -377,7 +377,7 @@ Step 3. Get the current user and current Credentials:
 ```js
 Auth.currentAuthenticatedUser().then(user => console.log(user));
 Auth.currentCredentials().then(creds => console.log(creds));
-// Auth.currentSession() does not currently support federated identities. Please store the auth0 session info manually(for exmaple, store tokens into the local storage).
+// Auth.currentSession() does not currently support federated identities. Please store the auth0 session info manually(for example, store tokens into the local storage).
 ```
 
 Step 4. You can pass a refresh handler to the Auth module to refresh the id token from `Auth0`:

@@ -31,4 +31,9 @@ This will evaluate the changes and create a versioned hash if any changes are de
 Local migrations on device are not currently supported. If you are syncing with the cloud the structure and items of that data in your DynamoDB table will not be touched as part of this process.
 
 <amplify-callout warning>
+
+**Troubleshooting:** due to a limitation in DynamoDB, you can only add one `@key` at a time. Make sure you run `amplify push` in between changes when cloud sync is enabled.
+
 </amplify-callout>
+
+## Migrations

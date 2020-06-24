@@ -2,7 +2,7 @@ import * as c from "capi/src";
 import * as path from "path";
 import {spawn} from "child_process";
 import {filterOptionsByName} from "../client/src/utils/filter-data";
-import * as fs from "fs";
+import * as fs from "fs-extra";
 
 const clientDir = path.join(__dirname, "../client");
 

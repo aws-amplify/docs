@@ -111,7 +111,7 @@ Predictions.identify({
       width, // ratio of overall image width
       height, // ratio of overall image height
       left, // left coordinate as a ratio of overall image width
-      top // top coordinate as a ratio of overall image heigth
+      top // top coordinate as a ratio of overall image height
     } = boundingBox;
     landmarks.forEach(landmark => {
         const {
@@ -166,7 +166,7 @@ Predictions.identify({
       width, // ratio of overall image width
       height, // ratio of overall image height
       left, // left coordinate as a ratio of overall image width
-      top // top coordinate as a ratio of overall image heigth
+      top // top coordinate as a ratio of overall image height
     } = boundingBox;
     console.log({ externalImageId }); // this is the object key on S3 from the original image!
     

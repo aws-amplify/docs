@@ -284,7 +284,7 @@ Storage.addPluggable(new MyStorageProvider());
 // get the plugin
 Storage.getPluggable(MyStorageProvider.providerName);
 
-// remove the plulgin
+// remove the plugin
 Storage.removePluggable(MyStorageProvider.providerName);
 
 // send configuration into Amplify

@@ -75,7 +75,7 @@ Note: You can also reference an output value from any other Amplify managed cate
 
 ```javascript
 "Parameters": {
-  // Rest of the paramters
+  // Rest of the parameters
  
   "authmycognitoresourceUserPoolId": { // The format out here is `<category><resource-name><attribute-name>` - we have defined all of these in the `backend-config.json` file above
 	 "Type": "String"
