@@ -86,3 +86,6 @@ amplify-build-config.json
 amplify-gradle-config.json
 amplifyxc.config
 ```
+
+### team-provider-info.json
+`team-provider-info.json` is used for sharing your project outside of the team. Learn more about it in the (Share single environment section)[~/cli/teams/shared.md#sharing-projects-outside-the-team]
