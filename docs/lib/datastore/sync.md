@@ -7,7 +7,7 @@ Once you're happy with your application, you can start syncing with the cloud by
 
 <amplify-callout>
 
-**Best practice:** it is recommended to develop without cloud synchronization enabled initially so you can change the schema as your application takes shape without the impact of having to update the provisioned backend. Once you are satisfied with the stability of your data schema, setup cloud synchonization as described below and the data saved locally will be synchornized to the cloud automatically.
+**Best practice:** it is recommended to develop without cloud synchronization enabled initially so you can change the schema as your application takes shape without the impact of having to update the provisioned backend. Once you are satisfied with the stability of your data schema, setup cloud synchronization as described below and the data saved locally will be synchronized to the cloud automatically.
 
 </amplify-callout>
 
@@ -60,7 +60,7 @@ For more information on this workflow please see the [Multiple Frontends documen
 
 When working with distributed data it is important to be mindful about the state of the local and the remote systems. DataStore tries to make that as transparent as possible to you; however, some scenarios might require some consideration
 
-For instance, when updating or deleting data, one has to consider that the state of the local data might be outdated in case the data syncrhonization process 
+For instance, when updating or deleting data, one has to consider that the state of the local data might be out-of-sync with the backend and that scenario can affect how conditions should be implemented..
 
 ### Update and delete with predicate
 
@@ -76,7 +76,7 @@ There's a difference between the traditional local condition check using `if/els
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/sync/30-savePredicateComparison.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/sync/30-savePredicateComparison.md"></inline-fragment>
 
-### Conlfict detection and resolution
+### Conflict detection and resolution
 
 When concurrently updating the data in multiple places, it is likely that some conflict might happen. For most of the cases the default *Auto-merge* algorithm should be able to resolve. However, there are scenarios where the algorithm won't be able to solve and for those a more advanced option is available and will be described in details in the next section.
 

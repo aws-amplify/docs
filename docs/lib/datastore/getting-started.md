@@ -37,7 +37,7 @@ There are two options to integrate the Amplify build process with the project.
 
 ### Option 2: Use Amplify CLI
 
-Instead of using the platform integration, you can alternatively use the Amplify CLI on its own to accomplish the same thing that Amplify Tools is doing for you. This option is particularly useful for **existing codebases** where Amplify is already configured.
+Instead of using the platform integration, you can alternatively use the Amplify CLI on its own to accomplish the same thing that Amplify Tools is doing for you. This option is particularly useful for **existing projects** where Amplify is already configured.
 
 The base structure for a DataStore app is created by adding a new GraphQL API to your app.
 

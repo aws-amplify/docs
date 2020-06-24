@@ -12,7 +12,7 @@ To write data to the DataStore, pass an instance of a model to `Amplify.DataStor
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/save-snippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/data-access/save-snippet.md"></inline-fragment>
 
-`save()` will create a new object, if the model's ID is not already known to the DataStore. Otherwise `save()` works like an update.
+The `save` method creates a new record, or in the event that one already exists in the database, it updates the record.
 
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/update-snippet.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/update-snippet.md"></inline-fragment>
