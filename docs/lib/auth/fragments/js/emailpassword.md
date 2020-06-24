@@ -90,7 +90,7 @@ import { Auth } from 'aws-amplify';
 async function resendConfirmationCode() {
     try {
         await Auth.resendSignUp(username);
-        console.log('code resent succesfully');
+        console.log('code resent successfully');
     } catch (err) {
         console.log('error resending code: ', err);
     }

@@ -1,5 +1,5 @@
 ```swift
-_ = Amplify.Auth.fetchDevices() { (result) in
+_ = Amplify.Auth.fetchDevices() { result in
     switch result {
     case .success(let fetchDeviceResult):
         for device in fetchDeviceResult {

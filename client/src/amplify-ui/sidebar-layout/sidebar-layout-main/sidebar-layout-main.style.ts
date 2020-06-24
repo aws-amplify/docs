@@ -23,7 +23,7 @@ export const sidebarLayoutMainStyle = css`
 
     ${MQFablet} {
       min-width: initial;
-      padding: 0 3rem;
+      padding: 0 2.5rem;
     }
   }
 `;

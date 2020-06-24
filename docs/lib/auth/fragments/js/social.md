@@ -119,7 +119,7 @@ Log back in to your social provider settings and update the app domain (e.g. `ht
 <amplify-block name="Google Sign-In">
 
 1. Go to [Google Developer Console](https://developers.google.com/identity/sign-in/web/sign-in).
-2. Click *CONFIGURURE A PROJECT*
+2. Click *CONFIGURE A PROJECT*
 ![Image](~/images/cognitoHostedUI/google1.png)
 3. Type in a project name and choose *NEXT*.
 ![Image](~/images/cognitoHostedUI/google2.png)
