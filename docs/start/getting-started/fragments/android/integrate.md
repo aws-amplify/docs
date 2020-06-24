@@ -60,10 +60,10 @@ First, we'll add the DataStore plugin and configure Amplify by creating an Appli
 1. Add the `android:name` and `tools:replace` attributes to the `application` node:
 
   ```xml
-    <application
-        android:name=".MyAmplifyApplication"
-        tools:replace="android:name"
-        ...  
+  <application
+      android:name=".MyAmplifyApplication"
+      tools:replace="android:name"
+      ...  
   ```
 
   Your file should look like this:
