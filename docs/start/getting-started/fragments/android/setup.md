@@ -60,7 +60,7 @@ Amplify for Android is distributed as an Apache Maven package. In this section, 
       }
 
       dependencies {
-          classpath 'com.android.tools.build:gradle:3.6.3'
+          classpath 'com.android.tools.build:gradle:4.0.0'
 
           // Add this line into `dependencies` in `buildscript`
           classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.1'
