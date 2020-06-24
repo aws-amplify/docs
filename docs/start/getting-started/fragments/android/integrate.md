@@ -6,7 +6,7 @@ First, we'll add the DataStore plugin and configure Amplify by creating an Appli
 
 1. Go to **File** > **New** and select either **Java Class** or **Kotlin File/Class**.
 
-1. Select *Class*.
+1. Select **Class**.
 
 1. Type **MyAmplifyApplication** in the **Name** field.
 
