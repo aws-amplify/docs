@@ -939,12 +939,6 @@ The @auth directive allows the override of the default provider for a given auth
 ### Authorization using an `oidc` provider
 
 ```graphql
-# private authorization with provider override
-type Post @model @auth(rules: [{ allow: private, provider: iam }]) {
-  id: ID!
-  title: String!
-}
-
 # owner authorization with provider override
 type Profile @model @auth(rules: [{ allow: owner, provider: oidc, identityClaim: "sub" }]) {
   id: ID!
@@ -952,7 +946,7 @@ type Profile @model @auth(rules: [{ allow: owner, provider: oidc, identityClaim:
 }
 ```
 
-By using a configured `oidc` provider for the API, it is possible to authenticate the users against it to perform operations on the `Post` type, and `owner` authorization is also possible.
+By using a configured `oidc` provider for the API, it is possible to authenticate the users against it. In the sample above, `oidc` is specified as the provider for the `owner` authorization on the type. The field `identityClaim: "sub"` specifies that the `"sub"` claim from your JWT token is used to provider ownership instead of the default `username` claim, which is used by the Amazon Cognito JWT.
 
 
 ### Combining multiple authorization types
