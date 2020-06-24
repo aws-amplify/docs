@@ -3,7 +3,7 @@ title: Reuse code & assets using layers
 description: Use Amplify CLI's Lambda layer capability to reuse code & assets across functions.
 ---
 
-Lambda layers allows you to pull common code & assets for your Lambda function into a centralized location. With Lambda layers you can:
+Lambda layers allow you to pull common code & assets for your Lambda function into a centralized location. With Lambda layers you can:
 1. _*Re-use your code & assets*_: Your Lambda functions can leverage these layers to reuse shared code & assets across functions
 2. _*Speed up function deployments*_: Iterating on your Lambda function will be significantly faster because it can be independently updated from the layer which usually contains the bulk of large static content
 
@@ -39,15 +39,14 @@ o NodeJS
 o Python
 ```
 
-Next, you'll be guided through a workflow to provide a **layer name**, select **supported runtimes**. Currently, Amplify CLI provides NodeJS, and Python runtime support for layers.
+Next, you'll be guided through a workflow to provide a **layer name**, and select **supported runtimes**. Currently, Amplify CLI provides NodeJS, and Python runtime support for layers.
 
-TODO UPDATE TEXT BASED ON USER FEEDBACK
 ```console
-? Who should have permission to use this layer?
-> Only the current AWS account
-> Specific AWS accounts
-> Specific AWS organization
-> Public (everyone on AWS can use this layer)
+? The current AWS account will always have access to this layer.
+  Optionally, configure who else can access this layer. (Hit <Enter> to skip)
+ ◯ Specific AWS accounts
+ ◯ Specific AWS organization
+ ◯ Public (everyone on AWS can use this layer)
 ```
 
 After that, you'll be asked to configure your **layer's permission**.
@@ -104,7 +103,7 @@ A `python` folder is auto-generated for you. In there you'll find a skeleton fol
 
 ### Add shared assets
 
-Any assets like large images or other files that you want to share across various functions can be placed in the `amplify/backend/function/<layer-name>/opt/` folder. Your function's code can import any assets by looking for files in the `opt/` path.
+Any assets like large images or other files that you want to share across various functions can be placed in the `amplify/backend/function/<layer-name>/opt/` folder. Your function's code can import any assets by looking for files in the `/opt/` path.
 
 ## Add a layer to a function
 
@@ -151,7 +150,7 @@ Once you're ready with your changes in your layer and functions, you can deploy 
 If a Layer’s content has been updated and it has permissions associated, Amplify CLI will prompt you whether you want to carry the permissions forward to a newer version.
 
 ```console
-Content changes in Lambda layer {LAYER_NAME} detected. What permissions do you want to grant to this new layer version?
+Content changes in Lambda layer <layer-name> detected. What permissions do you want to grant to this new layer version?
 > The same permission as the latest layer version
 > Only accessible by the current account. You can always edit this later with: amplify update function
 ```
@@ -163,11 +162,11 @@ You've updated Lambda layers: layer1, layer2...
 Do you want functions using the layers to upgrade to the latest version? (y/N)
 ```
 
+You also have the ability to manually set the layer version that is used by a function. Run `amplify update function` and follow the guided workflow within the `function` capability.
+
 ## Update layer content
 
 Any file changes within a layer's folder are automatically tracked by Amplify CLI. If there are changes available, the Amplify CLI will create a new layer version with the changes and ask during `amplify push` if you'd like to update all dependent functions to use the latest version.
-
-You also have the ability to manually increment the layer version is added to a function by running `amplify update function` and selecting the `function` that you want to change the layer configuration for.
 
 ## Update layer settings
 
@@ -179,33 +178,7 @@ Next, you'll be prompted to select the layer for which you want to update the se
 
 To remove a Lambda layer, run the `amplify function remove` command and select `Lambda layers`. Next, you'll be prompted to select which layer to remove.
 
-TODO
-```console
-if we can delete specific versions
-
-? Choose the resource you would want to remove (Use arrow keys)
-> function123 (function)
-> function123521 (function)
-> layer1223 (layer)
-*>** layer1895 **(**layer**)*
-> When you delete a layer version, you can no longer configure functions to use it.
-> However, any function that already uses the layer version continues to have access to it
-? Choose the Layer versions you want to remove. (Toggle using <space>, <a> to select all)
-o 1
-o 2
-o 4
-o 5
-o ....
-Layers marked for deletion:
-> 1
-> 2
-> 4
-? Are you sure you want to delete the resource? This action deletes all files related to this resource from the backend directory. (N/y)
-```
-
-TODO 1. Handling for functions that can’t be updated because layers are not existent anymore (introduce check during amplify function update & add when selecting a function)
-
-If we can’t delete a specific layer version
+> Warning: When you delete a layer, you can no longer configure functions to use it. However, any function that already uses the layer continues to have access to it.
 
 ```console
 ? Choose the resource you would want to remove (Use arrow keys)
