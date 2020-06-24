@@ -35,6 +35,8 @@ If you select Amplify Console for hosting your Amplify App in the `amplify add h
 - **Continuous deployment** allows you to publish changes on every code commit by connecting your GitHub, Bitbucket, GitLab, or AWS CodeCommit repositories. Selecting this option would open up your AWS Amplify console where you can connect your Git  repository. Once your repository is connected, run `git push` to deploy changes to both your backend and frontend in a single workflow.
 - **Manual deployment** allows you to publish your web app to the Amplify Console without connecting a Git provider. If you select this option, you will have to run the `amplify publish` command every time you would like to see your changes reflected in the cloud.
 
+In order to change deployment types, you need to run `amplify remove hosting` and then `amplify add hosting` to choose your new preferred deployment type.
+
 ### Custom domain, redirects, and more
 
 The `amplify configure hosting` command for the Amplify Console option, opens up the AWS Amplify Console browser tab for you where you can configure settings such as rewrite/redirect URL's, password protection, custom domain. 
