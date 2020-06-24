@@ -57,7 +57,16 @@ First, we'll add the DataStore plugin and configure Amplify by creating an Appli
 
 1. Open **manifests** > **AndroidManifest.xml** to configure your application.
 
-1. Add the `android:name` and `tools:replace` attributes in the `application` node. Your file will look like this:
+1. Add the `android:name` and `tools:replace` attributes to the `application` node:
+
+  ```xml
+    <application
+        android:name=".MyAmplifyApplication"
+        tools:replace="android:name"
+        ...  
+  ```
+
+  Your file should look like this:
 
   ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -65,7 +74,6 @@ First, we'll add the DataStore plugin and configure Amplify by creating an Appli
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.todo">
 
-    <!-- Add the android:name and tools:replace attributes to the application node -->
     <application
         android:name=".MyAmplifyApplication"
         tools:replace="android:name"
