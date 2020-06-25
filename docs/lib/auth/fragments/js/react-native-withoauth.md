@@ -26,6 +26,12 @@ yarn add aws-amplify-react-native aws-amplify
 
 The following code snippet shows an example of its possible usage:
 
+<amplify-callout>
+
+Although `urlOpener` is left out of this sample for brevity, it is still recommended to use the custom example from above in this `withOAuth` sample.
+
+</amplify-callout>
+
 ```javascript
 import React from 'react';
 import { Button, Text, View } from 'react-native';
