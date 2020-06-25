@@ -1199,7 +1199,9 @@
     "unmarshall",
     "Inventorys",
     "CRUDL",
-    "MYSTORAGE"
+    "MYSTORAGE",
+    "amplifyjsapp",
+    "lightgray"
   ],
   "flagWords": ["hte"]
 }
