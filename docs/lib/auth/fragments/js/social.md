@@ -39,8 +39,7 @@ For **React Native** applications, You need to define a custom URL scheme for yo
 
 ## Setup frontend
 
-After configuring the OAuth endpoints, you can use them or the Hosted UI with `Auth.federatedSignIn()`. Passing *LoginWithAmazon*, *Facebook*, or *Google* will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example. If you are looking to add a custom state, you are able to do so by passing a `string`
-(e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via Hub
+After configuring the OAuth endpoints, you can use them or the Hosted UI with `Auth.federatedSignIn()`. Passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example. If you are looking to add a custom state, you are able to do so by passing a string (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via Hub.
 
 ```javascript
 import Amplify, { Auth, Hub } from 'aws-amplify';
@@ -84,6 +83,8 @@ class App extends Component {
   }
 }
 ```
+
+TODO Remove whatever we can from these sections
 
 ### React Components
 
@@ -156,7 +157,11 @@ Hub.listen('auth', (data) => {
 });
 ```
 
-### Full React Sample
+### Full Samples
+
+<amplify-block-switcher>
+
+<amplify-block name="React">
 
 ```js
 // OAuthButton.js
@@ -219,7 +224,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log('on component mount');
     // check the current user when the App component is loaded
     Auth.currentAuthenticatedUser().then(user => {
       console.log(user);
@@ -252,162 +256,191 @@ class App extends Component {
 
 export default App;
 ```
+</amplify-block>
 
-With React Native, you can use `withOAuth` HOC to launch the hosted UI experience. Just wrap your app's main component with our HOC. Doing so, will pass the following `props` available to your component:
-
-- `oAuthUser`: If the sign was successful, this object will have the user from the user pool.
-- `oAuthError`: In case of an error, the string with the error as given by the Cognito Hosted UI.
-
-- `hostedUISignIn`: A callback function to trigger the hosted UI sign in flow, this will show the Cognito Hosted UI.
-
-- `signOut`: A callback function to trigger the hosted UI sign out flow.
+<amplify-block name="React Native">
 
 <amplify-callout>
-The following `props` are used for building a custom UI with buttons if you do not want to show the Cognito UI, however it will still create a User Pool entry once the OAuth flow has completed.
+
+**Note for iOS Apps**
+
+In order for Amplify to listen for data from Cognito when linking back to your app, you will need to setup the `Linking` module in `AppDelegate.m` (see [React Native docs](https://reactnative.dev/docs/linking#enabling-deep-links) for more information):
+
+```objective-c
+#import <React/RCTLinkingManager.h>
+
+- (BOOL)application:(UIApplication *)application
+   openURL:(NSURL *)url
+   options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  return [RCTLinkingManager application:application openURL:url options:options];
+}
+```
 </amplify-callout>
 
-- `facebookSignIn`: A callback function to trigger the hosted UI sign in flow for Facebook, this will show the Facebook login page.
-- `googleSignIn`: A callback function to trigger the hosted UI sign in flow for Google, this will show the Google login page.
-- `amazonSignIn`: A callback function to trigger the hosted UI sign in flow for LoginWithAmazon, this will show the LoginWithAmazon login page.
-- `customProviderSignIn`: A callback function to trigger the hosted UI sign in flow for an OIDC provider, this will show the OIDC provider login page. This function expects a string with the **provider name** specified when [adding the OIDC  IdP to your User Pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-oidc-idp.html#cognito-user-pools-oidc-idp-step-2).
+**In-App Browser Setup (optional, but recommended)**
 
-To use `withOAuth` in your React Native application first install the appropriate dependencies:
+By default, Amplify will opened the Cognito Hosted UI in Safari/Chrome, but you can override that behavior by providing a custom `urlOpener`. The sample below uses [react-native-inappbrowser-reborn](https://github.com/proyecto26/react-native-inappbrowser), but you can use any other in-app browser available.
 
-```bash
-npm install aws-amplify-react-native aws-amplify
-```
+**Sample**
 
-or, if you're using Yarn:
+```js
+import React, { useEffect, useState } from 'react';
+import { Button, Linking, Text, View } from 'react-native';
+import Amplify, { Auth, Hub } from 'aws-amplify';
+import InAppBrowser from 'react-native-inappbrowser-reborn';
+import awsconfig from './aws-exports';
 
-```bash
-yarn add aws-amplify-react-native aws-amplify 
-```
+async function urlOpener(url, redirectUrl) {
+  await InAppBrowser.isAvailable();
+  const { type, url: newUrl } = await InAppBrowser.openAuth(url, redirectUrl, {
+    showTitle: false,
+    enableUrlBarHiding: true,
+    enableDefaultShare: false,
+    ephemeralWebSession: false,
+  });
 
-The following code snippet shows an example of its possible usage:
-
-```javascript
-import React, { Component } from 'react';
-import { StyleSheet, Text, ScrollView, SafeAreaView, StatusBar, Button } from 'react-native';
-import { default as Amplify } from "aws-amplify";
-import { withOAuth } from "aws-amplify-react-native";
-import { default as awsConfig } from "./aws-exports";
-
-Amplify.configure(awsConfig);
-
-Amplify.configure({
-    Auth: {
-        oauth: {
-            // OAuth config...
-        }
-    },
-});
-
-
-class App extends Component {
-  render() {
-    const {
-      oAuthUser: user,
-      oAuthError: error,
-      hostedUISignIn,
-      facebookSignIn,
-      googleSignIn,
-      amazonSignIn,
-      customProviderSignIn,
-      signOut,
-    } = this.props;
-
-    return (
-      <SafeAreaView style={styles.safeArea}>
-        {user && <Button title="Sign Out" onPress={signOut} icon='logout' />}
-        <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-          <Text>{JSON.stringify({ user, error, }, null, 2)}</Text>
-          {!user && <React.Fragment>
-            {/* Go to the Cognito Hosted UI */}
-            <Button title="Cognito" onPress={hostedUISignIn} />
-
-            {/* Go directly to a configured identity provider */}
-            <Button title="Facebook" onPress={facebookSignIn} />
-            <Button title="Google" onPress={googleSignIn}  />
-            <Button title="Amazon" onPress={amazonSignIn} />
-
-            {/* e.g. for OIDC providers */}
-            <Button title="Yahoo" onPress={() => customProviderSignIn('Yahoo')} />
-          </React.Fragment>}
-        </ScrollView>
-      </SafeAreaView>
-    );
+  if (type === 'success') {
+    Linking.openURL(newUrl);
   }
 }
 
-const styles = StyleSheet.create({
-  safeArea: {
-    flexGrow: 1,
-    paddingTop: StatusBar.currentHeight,
-    backgroundColor: '#FFFFFF',
+Amplify.configure({
+  ...awsconfig,
+  oauth: {
+    ...awsconfig.oauth,
+    urlOpener,
   },
-  scrollViewContainer: {
-    flexGrow: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
 });
 
-export default withOAuth(App);
-``` 
+function App() {
+  const [user, setUser] = useState(null);
 
-### Hosted UI with Expo
+  useEffect(() => {
+    Hub.listen('auth', ({ payload: { event, data } }) => {
+      switch (event) {
+        case 'signIn':
+        case 'cognitoHostedUI':
+          getUser().then(userData => setUser(userData));
+          break;
+        case 'signOut':
+          setUser(null);
+          break;
+        case 'signIn_failure':
+        case 'cognitoHostedUI_failure':
+          console.log('Sign in failure', data);
+          break;
+      }
+    });
 
-It is possible to use Expo's `WebBrowser.openAuthSessionAsync` function to launch the hosted UI pages. To do this, you can provide a `urlOpener` function as below when configuring OAuth in Amplify:
+    getUser().then(userData => setUser(userData));
+  }, []);
 
-```javascript
-import Amplify from 'aws-amplify';
+  function getUser() {
+    return Auth.currentAuthenticatedUser()
+      .then(userData => userData)
+      .catch(() => console.log('Not signed in'));
+  }
+  return (
+    <View>
+      <Text>User: {user ? JSON.stringify(user.attributes) : 'None'}</Text>
+      {user ? (
+        <Button title="Sign Out" onPress={() => Auth.signOut()} />
+      ) : (
+        <Button title="Google Sign In" onPress={() => Auth.federatedSignIn()} />
+      )}
+    </View>
+  );
+}
 
-const urlOpener = async (url, redirectUrl) => {
-    // On Expo, use WebBrowser.openAuthSessionAsync to open the Hosted UI pages.
-    const { type, url: newUrl } = await WebBrowser.openAuthSessionAsync(url, redirectUrl);
+export default App;
+```
 
-    if (type === 'success') {
-        await WebBrowser.dismissBrowser();
+<inline-fragment src="~/lib/auth/fragments/js/react-native-withoauth.md"></inline-fragment>
 
-        if (Platform.OS === 'ios') {
-        return Linking.openURL(newUrl);
-        }
-    }
-};
+</amplify-block>
 
-const oauth = {
-    // Domain name
-    domain : 'your-domain-prefix.auth.us-east-1.amazoncognito.com', 
+<amplify-block name="Expo">
 
-    // Authorized scopes
-    scope : ['phone', 'email', 'profile', 'openid','aws.cognito.signin.user.admin'], 
+**In-App Browser Setup (optional, but recommended)**
 
-    // Callback URL
-    redirectSignIn : 'http://www.example.com/signin/', // or 'exp://127.0.0.1:19000/--/', 'myapp://main/'
+By default, Amplify will opened the Cognito Hosted UI in Safari/Chrome, but you can override that behavior by providing a custom `urlOpener`. The sample below uses Expo's [WebBrowser.openAuthSessionAsync](https://docs.expo.io/versions/v37.0.0/sdk/webbrowser/).
 
-    // Sign out URL
-    redirectSignOut : 'http://www.example.com/signout/', // or 'exp://127.0.0.1:19000/--/', 'myapp://main/'
+**Sample**
 
-    // 'code' for Authorization code grant, 
-    // 'token' for Implicit grant
-    // Note that REFRESH token will only be generated when the responseType is code
-    responseType: 'code',
+```js
+import React, { useEffect, useState } from 'react';
+import { Button, Linking, Platform, Text, View } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
+import Amplify, { Auth, Hub } from 'aws-amplify';
+import awsconfig from './aws-exports';
 
-    // optional, for Cognito hosted ui specified options
-    options: {
-        // Indicates if the data collection is enabled to support Cognito advanced security features. By default, this flag is set to true.
-        AdvancedSecurityDataCollectionFlag : true
-    },
+async function urlOpener(url, redirectUrl) {
+	const { type, url: newUrl } = await WebBrowser.openAuthSessionAsync(
+		url,
+		redirectUrl
+	);
 
-    urlOpener: urlOpener
+	if (type === 'success' && Platform.OS === 'ios') {
+		WebBrowser.dismissBrowser();
+		return Linking.openURL(newUrl);
+	}
 }
 
 Amplify.configure({
-    Auth: {
-        // other configurations...
-        // ....
-        oauth: oauth
-    },
-    // ...
+	...awsconfig,
+	oauth: {
+		...awsconfig.oauth,
+		urlOpener,
+	},
 });
+
+function App() {
+	const [user, setUser] = useState(null);
+
+	useEffect(() => {
+		Hub.listen('auth', ({ payload: { event, data } }) => {
+			switch (event) {
+				case 'signIn':
+					getUser().then((userData) => setUser(userData));
+					break;
+				case 'signOut':
+					setUser(null);
+					break;
+				case 'signIn_failure':
+				case 'cognitoHostedUI_failure':
+					console.log('Sign in failure', data);
+					break;
+			}
+		});
+
+		getUser().then((userData) => setUser(userData));
+	}, []);
+
+	function getUser() {
+		return Auth.currentAuthenticatedUser()
+			.then((userData) => userData)
+			.catch(() => console.log('Not signed in'));
+	}
+
+	return (
+		<View>
+			<Text>User: {user ? JSON.stringify(user.attributes) : 'None'}</Text>
+			{user ? (
+				<Button title="Sign Out" onPress={() => Auth.signOut()} />
+			) : (
+				<Button title="Google Sign In" onPress={() => Auth.federatedSignIn()} />
+			)}
+		</View>
+	);
+}
+
+export default App;
+
 ```
+
+<inline-fragment src="~/lib/auth/fragments/js/react-native-withoauth.md"></inline-fragment>
+
+</amplify-block>
+
+</amplify-block-switcher>
