@@ -2,7 +2,7 @@
 Sign in with Apple is not yet added to the CLI, follow the steps below to enable it.
 </amplify-callout>
 
-Once finished run `amplify push` to publish your changes. Once finished, it will display an auto generated URL for your web UI.
+Once finished, run `amplify push` to publish your changes. Once finished, it will display an auto generated URL for your web UI.
 
 You need to now inform your auth provider of this URL:
 
