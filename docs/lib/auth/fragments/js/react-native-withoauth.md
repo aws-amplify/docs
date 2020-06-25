@@ -70,5 +70,5 @@ function App(props) {
   );
 }
 
-export default App;
+export default withOAuth(App);
 ``` 
