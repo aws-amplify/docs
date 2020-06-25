@@ -23,7 +23,7 @@ Amplify.configure({
 
 ## Note related to use Access Token or ID Token
 
-The ID Token contains claims about the identity of the authenticated user such as name, email, and phone_number. It could have custom claims as well (For example using [Amplify CLI](https://docs.amplify.aws/cli/usage/lambda-triggers#override-id-token-claims) ). On Amplify Auth category you can retrieve the Id Token using: 
+The ID Token contains claims about the identity of the authenticated user such as name, email, and phone_number. It could have custom claims as well, for example using [Amplify CLI](https://docs.amplify.aws/cli/usage/lambda-triggers#override-id-token-claims). On the Amplify Authentication category you can retrieve the Id Token using: 
 
 ```javascript
 (await Auth.currentSession()).getIdToken().getJwtToken()
