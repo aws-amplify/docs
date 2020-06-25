@@ -5,6 +5,7 @@
     "local-deployments",
     "custom-domains",
     "password-protected-deployments",
-    "pull-request-previews"
+    "pull-request-previews",
+    "nextjs"
   ]
 }
