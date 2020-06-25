@@ -1198,7 +1198,9 @@
     "sjqub",
     "unmarshall",
     "Inventorys",
-    "CRUDL"
+    "CRUDL",
+    "inappbrowser",
+    "withoauth"
   ],
   "flagWords": ["hte"]
 }
