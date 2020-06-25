@@ -32,7 +32,7 @@ The ID Token contains claims about the identity of the authenticated user such a
 The Access Token contains scopes and groups and is used to grant access to authorized resources. [This is a tutorial for enabling custom scopes.](https://aws.amazon.com/premiumsupport/knowledge-center/cognito-custom-scopes-api-gateway/). You can retrieve the Access Token using 
 
 ```javascript
-(await Auth.currentSession()).getAccessToken().getJwtToken()
+(await Auth.currentSession()).getAccessToken().getJwtToken();
 ```
 
 ## Customizing HTTP request headers
