@@ -2,9 +2,11 @@
   "title": "GraphQL",
   "items": [
     "image-and-file-uploads",
+    "building-a-form-api",
     "subscriptions-by-id",
     "graphql-pagination",
     "query-with-sorting",
     "lambda-resolvers"
   ]
 }
+

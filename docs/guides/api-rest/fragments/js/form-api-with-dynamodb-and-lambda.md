@@ -53,7 +53,7 @@ Storage category has a resource called formtable
 ? Do you want to add another path? N
 ```
 
-The API endpoint has been configured and the function has been created locally.
+The API endpoint has been configured and some boilerplate function code has been created.
 
 Next, open the function code located at __amplify/backend/function/formfunction/src/app.js__ in your text editor and make the following changes:
 
@@ -99,6 +99,29 @@ Now the API has been created and you can begin interacting with it to send `get`
 
 ### Creating a new contact in a client-side web application
 
+Now that the API has been deployed, you can interact with it from a client-side application.
+
+#### Creating a new contact
+
+```js
+/* Import the Amplify API category */
+import { API } from 'aws-amplify';
+
+/* Next, create a function for calling the REST API to create a new contact */
+async function createContact() {
+  const data = {
+    body: {
+      name: 'Chris',
+      phone: '+1-555-555-5555'
+    }
+  };
+  const apiData = await API.post('formapi', '/contact', data);
+  console.log({ apiData });
+}
+```
+
+#### Creating a form for dynamic user input
+
 ```js
 /* Import the Amplify API category */
 import { API } from 'aws-amplify';
@@ -116,7 +139,7 @@ async function createContact() {
 }
 
 /* Create some type of local state to hold the form input. This is pseudocode and will differ based on your JavaScript framework. */
-const formState = { phone: '', name: '' }
+const formState = { phone: '', name: '' };
 
 /* Create a function to update the form state. This is pseudocode and will differ based on your JavaScript framework.  */
 function updateFormState(key, value) {

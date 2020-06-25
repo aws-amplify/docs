@@ -3,7 +3,9 @@ title: GraphQL Server in Lambda
 description: How to run an Apollo GraphQL server in a Lambda function
 ---
 
-In this guide you will learn how to run a GraphQL server in a Lambda function using [Apollo Server](https://www.apollographql.com/docs/) and [Apollo Server Lambda](https://github.com/apollographql/apollo-server/tree/master/packages/apollo-server-lambda).
+In this guide you will learn how to run a GraphQL server in a Lambda function. In this example we will be using [Apollo Server](https://www.apollographql.com/docs/) and [Apollo Server Lambda](https://github.com/apollographql/apollo-server/tree/master/packages/apollo-server-lambda), but you can use any server implementation you would like.
+
+The end goal is to have an API endpoint, like `https://your-api-endpoint.com/graphql`, deployed and integrated with a GraphQL server running in a serverless function.
 
 ### Creating the Amplify project
 
