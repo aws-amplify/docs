@@ -24,6 +24,8 @@ Do you want to use the default authentication and security configuration?
   I want to learn more.
 ```
 
+**Redirect URIs**
+
 For *Sign in Redirect URI(s)* inputs, you can put one URI for local development and one for production. Example: `http://localhost:3000/` in dev and `https://www.example.com/` in production. The same is true for *Sign out redirect URI(s)*.
 
 <amplify-callout>

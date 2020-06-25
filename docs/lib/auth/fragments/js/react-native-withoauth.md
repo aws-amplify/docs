@@ -1,6 +1,6 @@
 **withOAuth Higher-Order Component (HOC)**
 
-With React Native & Expo, you can also use the `withOAuth` HOC to launch the Coginto Hosted UI experience. Just wrap your app's main component with our HOC. Doing so, will pass the following `props` available to your component:
+With React Native & Expo, you can also use the `withOAuth` HOC to launch the Cognito Hosted UI experience. Just wrap your app's main component with our HOC. Doing so, will pass the following `props` available to your component:
 
 - `oAuthUser`: If the sign was successful, this object will have the user from the user pool.
 - `oAuthError`: In case of an error, the string with the error as given by the Cognito Hosted UI.
@@ -71,42 +71,4 @@ function App(props) {
 }
 
 export default App;
-
-class App extends Component {
-  render() {
-    const {
-      oAuthUser: user,
-      oAuthError: error,
-      hostedUISignIn,
-      facebookSignIn,
-      googleSignIn,
-      amazonSignIn,
-      customProviderSignIn,
-      signOut,
-    } = this.props;
-
-    return (
-      <SafeAreaView style={styles.safeArea}>
-        {user && <Button title="Sign Out" onPress={signOut} icon='logout' />}
-        <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-          <Text>{JSON.stringify({ user, error, }, null, 2)}</Text>
-          {!user && <React.Fragment>
-            {/* Go to the Cognito Hosted UI */}
-            <Button title="Cognito" onPress={hostedUISignIn} />
-
-            {/* Go directly to a configured identity provider */}
-            <Button title="Facebook" onPress={facebookSignIn} />
-            <Button title="Google" onPress={googleSignIn}  />
-            <Button title="Amazon" onPress={amazonSignIn} />
-
-            {/* e.g. for OIDC providers */}
-            <Button title="Yahoo" onPress={() => customProviderSignIn('Yahoo')} />
-          </React.Fragment>}
-        </ScrollView>
-      </SafeAreaView>
-    );
-  }
-}
-
-export default withOAuth(App);
 ``` 
