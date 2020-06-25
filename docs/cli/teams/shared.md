@@ -26,7 +26,7 @@ Since the team is sharing the same dev backend, periodically team members would 
 amplify pull
 ```
 
-## Sharing projects outside the team
+## Sharing projects within the team
 Inside the amplify/ dir file-structure you will observe a **team-provider-info.json** file which contains a structure similar to the following:
 
 ```json
