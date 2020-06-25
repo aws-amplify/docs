@@ -99,7 +99,7 @@ Amplify.configure({
         },
 
         // OPTIONAL - customized storage object
-        storage: new MyStorage(),
+        storage: MyStorage,
         
         // OPTIONAL - Manually set the authentication flow type. Default is 'USER_SRP_AUTH'
         authenticationFlowType: 'USER_PASSWORD_AUTH',
