@@ -28,10 +28,59 @@ For *Sign in Redirect URI(s)* inputs, you can put one URI for local development 
 
 <amplify-callout>
 
-For **React Native** applications, You need to define a custom URL scheme for your application before testing locally or publishing to the app store. This is different for Expo or vanilla React Native. Follow the steps at the [React Native Linking docs](https://facebook.github.io/react-native/docs/linking) or [Expo Linking docs](https://docs.expo.io/versions/latest/workflow/linking/) for more information. After completing those steps, assuming you are using "myapp" as the name of your URL Scheme (or whatever friendly name you have chosen), you will use these URLs as *Sign in Redirect URI(s)* and/or *Sign out redirect URI(s)* inputs. Your URIs could look like any of these:
+**React Native - Redirect URIs**
+
+For React Native applications, You need to define a custom URL scheme for your application before testing locally or publishing to the app store. This is different for Expo or vanilla React Native. Follow the steps below for React Native iOS & Android or [Expo Linking docs](https://docs.expo.io/versions/latest/workflow/linking/) for more information. After completing those steps, assuming you are using `myapp` as the name of your URL Scheme (or whatever friendly name you have chosen), you will use these URLs as *Sign in Redirect URI(s)* and/or *Sign out redirect URI(s)* inputs. Your URIs could look like any of these:
 
 - `myapp://`
 - `exp://127.0.0.1:19000/--/` (Local development if your app is running [in the Expo client](https://docs.expo.io/versions/latest/workflow/linking/#linking-to-your-app)).
+
+**iOS - Update Info.plist**
+
+```xml
+
+ <plist version="1.0">
+
+     <dict>
+     <!-- YOUR OTHER PLIST ENTRIES HERE -->
+
+     <!-- ADD AN ENTRY TO CFBundleURLTypes for Cognito Auth -->
+     <!-- IF YOU DO NOT HAVE CFBundleURLTypes, YOU CAN COPY THE WHOLE BLOCK BELOW -->
+     <key>CFBundleURLTypes</key>
+     <array>
+         <dict>
+             <key>CFBundleURLSchemes</key>
+             <array>
+                 <string>myapp</string>
+             </array>
+         </dict>
+     </array>
+
+     <!-- ... -->
+     </dict>
+```
+
+**Android - Update AndroidManifest.xml**
+
+- Set the `launchMode` of MainActivity to `singleTask`
+- Add new intent filter (below) with `scheme="myapp"`
+
+```xml
+<application>
+  <activity
+    android:name=".MainActivity"
+    android:launchMode="singleInstance">
+
+    <intent-filter>
+      <action android:name="android.intent.action.VIEW" />
+      <category android:name="android.intent.category.DEFAULT" />
+      <category android:name="android.intent.category.BROWSABLE" />
+      <data android:scheme="myapp" />
+    </intent-filter>
+
+  </activity>
+</application>
+```
 
 </amplify-callout>
 
@@ -45,7 +94,6 @@ After configuring the OAuth endpoints, you can use them or the Hosted UI with `A
 import Amplify, { Auth, Hub } from 'aws-amplify';
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
-
 
 class App extends Component {
   state = { user: null, customState: null };
@@ -84,79 +132,6 @@ class App extends Component {
 }
 ```
 
-TODO Remove whatever we can from these sections
-
-### React Components
-
-When using React and React Native, Amplify provides a `withOAuth` Higher Order Component (HOC) to launch the Hosted UI or bypass and use the social providers directly. The HOCs differ slightly and there are specifics outlined below.
-
-```javascript
-import React, { Component } from 'react';
-import { withOAuth } from 'aws-amplify-react';
-
-
-// inside an async function
-// Run this after the sign-in
-const federatedInfo = await Cache.getItem('federatedInfo');
-const { token } = federatedInfo;
-```
-
-### Refreshing JWT Tokens
-
-By default, AWS Amplify will automatically refresh the tokens for Google and Facebook when the app is in the web environment, so that your AWS credentials will be valid at all times. But if you are using another federated provider, or the app is running in React Native, you will need to provide your own token refresh method:
-```javascript
-import { Auth } from 'aws-amplify';
-
-function refreshToken() {
-    // refresh the token here and get the new token info
-    // ......
-
-    return new Promise(res, rej => {
-        const data = {
-            token, // the token from the provider
-            expires_at, // the timestamp for the expiration
-            identity_id, // optional, the identityId for the credentials
-        }
-        res(data);
-    });
-
-class MyApp extends Component {
-    // ...
-    render() {
-        return(
-            <button onClick={this.props.OAuthSignIn}>
-                Sign in with AWS
-            </button>
-        )
-    }
-}
-
-export default withOAuth(MyApp);
-```
-
-After being redirected back to your app, you can use the [Hub module](~/lib/utilities/hub.md#authentication-events) to detect whether the user is signed in or not.
-
-```javascript
-import Amplify, { Hub } from 'aws-amplify';
-
-// in your redirected sign in page
-// when the page is loaded, run the following function
-Hub.listen('auth', (data) => {
-    switch (data.payload.event) {
-        case 'signIn':
-            console.log('now the user is signed in');
-            const user = data.payload.data;
-            break;
-        case 'signIn_failure':
-            console.log('the user failed to sign in');
-            console.log('the error is', data.payload.data);
-            break;
-        default:
-            break;
-    }
-});
-```
-
 ### Full Samples
 
 <amplify-block-switcher>
@@ -164,94 +139,51 @@ Hub.listen('auth', (data) => {
 <amplify-block name="React">
 
 ```js
-// OAuthButton.js
-import { withOAuth } from 'aws-amplify-react';
-import React, { Component } from 'react';
-
-class OAuthButton extends Component {
-  render() {
-    return (
-      <button onClick={this.props.OAuthSignIn}>
-        Sign in with AWS
-      </button>
-    )
-  }
-}
-
-export default withOAuth(OAuthButton);
-
-// App.js
-import React, { Component } from 'react';
-import './App.css';
-import OAuthButton from './OAuthButton';
+import React, { useEffect, useState } from 'react';
 import Amplify, { Auth, Hub } from 'aws-amplify';
-import awsconfig from './aws-exports'; // your Amplify configuration
-
-// your Cognito Hosted UI configuration
-const oauth = {
-  domain: 'your_cognito_domain',
-  scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
-  redirectSignIn: 'http://localhost:3000/',
-  redirectSignOut: 'http://localhost:3000/',
-  responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
-};
+import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
-Auth.configure({ oauth });
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.signOut = this.signOut.bind(this);
-    // let the Hub module listen on Auth events
-    Hub.listen('auth', (data) => {
-        switch (data.payload.event) {
-            case 'signIn':
-                this.setState({authState: 'signedIn', authData: data.payload.data});
-                break;
-            case 'signIn_failure':
-                this.setState({authState: 'signIn', authData: null, authError: data.payload.data});
-                break;
-            default:
-                break;
-        }
+function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    Hub.listen('auth', ({ payload: { event, data } }) => {
+      switch (event) {
+        case 'signIn':
+        case 'cognitoHostedUI':
+          getUser().then(userData => setUser(userData));
+          break;
+        case 'signOut':
+          setUser(null);
+          break;
+        case 'signIn_failure':
+        case 'cognitoHostedUI_failure':
+          console.log('Sign in failure', data);
+          break;
+      }
     });
-    this.state = {
-      authState: 'loading',
-      authData: null,
-      authError: null
-    }
+
+    getUser().then(userData => setUser(userData));
+  }, []);
+
+  function getUser() {
+    return Auth.currentAuthenticatedUser()
+      .then(userData => userData)
+      .catch(() => console.log('Not signed in'));
   }
 
-  componentDidMount() {
-    // check the current user when the App component is loaded
-    Auth.currentAuthenticatedUser().then(user => {
-      console.log(user);
-      this.setState({authState: 'signedIn'});
-    }).catch(e => {
-      console.log(e);
-      this.setState({authState: 'signIn'});
-    });
-  }
-
-  signOut() {
-    Auth.signOut().then(() => {
-      this.setState({authState: 'signIn'});
-    }).catch(e => {
-      console.log(e);
-    });
-  }
-
-  render() {
-    const { authState } = this.state;
-    return (
-      <div className="App">
-        {authState === 'loading' && (<div>loading...</div>)}
-        {authState === 'signIn' && <OAuthButton/>}
-        {authState === 'signedIn' && <button onClick={this.signOut}>Sign out</button>}
-      </div>
-    );
-  }
+  return (
+    <div>
+      <p>User: {user ? JSON.stringify(user.attributes) : 'None'}</p>
+      {user ? (
+        <button onClick={() => Auth.signOut()}>Sign Out</button>
+      ) : (
+        <button obClick={() => Auth.federatedSignIn()}>Federated Sign In</button>
+      )}
+    </div>
+  );
 }
 
 export default App;
@@ -341,13 +273,14 @@ function App() {
       .then(userData => userData)
       .catch(() => console.log('Not signed in'));
   }
+
   return (
     <View>
       <Text>User: {user ? JSON.stringify(user.attributes) : 'None'}</Text>
       {user ? (
         <Button title="Sign Out" onPress={() => Auth.signOut()} />
       ) : (
-        <Button title="Google Sign In" onPress={() => Auth.federatedSignIn()} />
+        <Button title="Federated Sign In" onPress={() => Auth.federatedSignIn()} />
       )}
     </View>
   );
@@ -429,7 +362,7 @@ function App() {
 			{user ? (
 				<Button title="Sign Out" onPress={() => Auth.signOut()} />
 			) : (
-				<Button title="Google Sign In" onPress={() => Auth.federatedSignIn()} />
+				<Button title="Federated Sign In" onPress={() => Auth.federatedSignIn()} />
 			)}
 		</View>
 	);
