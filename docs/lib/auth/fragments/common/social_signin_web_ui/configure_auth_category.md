@@ -1,9 +1,3 @@
-## Configure Auth Category
-
-<inline-fragment platform="android" src="~/lib/auth/fragments/android/social_signin_web_ui/10_cli_setup.md"></inline-fragment>
-<inline-fragment platform="ios" src="~/lib/auth/fragments/ios/social_signin_web_ui/10_cli_setup.md"></inline-fragment>
-<inline-fragment platform="js" src="~/lib/auth/fragments/js/social_cli_setup.md"></inline-fragment>
-
 <amplify-callout>
 Sign in with Apple is not yet added to the CLI, follow the steps below to enable it.
 </amplify-callout>
