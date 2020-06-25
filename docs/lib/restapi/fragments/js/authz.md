@@ -26,7 +26,7 @@ Amplify.configure({
 The ID Token contains claims about the identity of the authenticated user such as name, email, and phone_number. It could have custom claims as well, for example using [Amplify CLI](https://docs.amplify.aws/cli/usage/lambda-triggers#override-id-token-claims). On the Amplify Authentication category you can retrieve the Id Token using: 
 
 ```javascript
-await Auth.currentSession()).getIdToken().getJwtToken();
+(await Auth.currentSession()).getIdToken().getJwtToken();
 ``` 
 
 The Access Token contains scopes and groups and is used to grant access to authorized resources. [This is a tutorial for enabling custom scopes.](https://aws.amazon.com/premiumsupport/knowledge-center/cognito-custom-scopes-api-gateway/). You can retrieve the Access Token using 
