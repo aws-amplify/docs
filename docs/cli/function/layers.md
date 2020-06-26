@@ -113,7 +113,7 @@ Every time `amplify push` or `amplify update function` is run, Amplify CLI check
 2. Select the `function` capability
 3. Follow the guided workflow to configure the latest *layer version*
 
-In order to speed up deployments when vast amount of node_modules exist, Amplify CLI scans for changes within each module's `package.json` file. If you don't see Amplify CLI detect your latest changes, verify that at least of your node module's `package.json` content has changed.
+In order to speed up deployments when vast amount of node_modules exist, Amplify CLI scans only for changes within each module's `package.json` file. If you don't see Amplify CLI detect your latest changes, verify that at least of your node module's `package.json` content has changed.
 
 ## Add a layer to a function
 
