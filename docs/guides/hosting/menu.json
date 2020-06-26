@@ -6,6 +6,9 @@
     "custom-domains",
     "password-protected-deployments",
     "pull-request-previews",
-    "nextjs"
+    "gatsby",
+    "nextjs",
+    "gridsome",
+    "nuxt"
   ]
 }
