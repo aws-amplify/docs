@@ -89,7 +89,7 @@ function EntityIdentification() {
 
   function identifyFromFile(event) {
     setResponse('searching...');
-    
+
     const { target: { files } } = event;
     const [file,] = files || [];
 
@@ -325,13 +325,13 @@ function TextToSpeech() {
         source: {
           text: textToGenerateSpeech,
         },
-        voiceId: "Amy" // default configured on aws-exports.js 
+        voiceId: "Amy" // default configured on aws-exports.js
         // list of different options are here https://docs.aws.amazon.com/polly/latest/dg/voicelist.html
       }
     }).then(result => {
       let AudioContext = window.AudioContext || window.webkitAudioContext;
       console.log({ AudioContext });
-      const audioCtx = new AudioContext(); 
+      const audioCtx = new AudioContext();
       const source = audioCtx.createBufferSource();
       audioCtx.decodeAudioData(result.audioStream, (buffer) => {
 
@@ -339,7 +339,7 @@ function TextToSpeech() {
         source.connect(audioCtx.destination);
         source.start(0);
       }, (err) => console.log({err}));
-      
+
       setResponse(`Generation completed, press play`);
     })
       .catch(err => setResponse(err))
@@ -462,6 +462,31 @@ export default App;
 
 Now run `yarn start` and press the buttons to demo the app.
 
+## Sample React Native App
+
+A sample React Native application with all of the Predictions features is provided below. This shows how to use all scenarios  by calling the appropriate `convert`, `identify`, and `interpret` API calls in the Amplify library.
+
+First ensure that you install React Native Expo client to run this sample app.
+
+```bash
+npm i -g expo-cli
+#Then run the following commands below to create a new React Native project called "RNAmplify" or any name of your choice.
+expo init RNAmplify
+
+cd RNAmplify
+npm start # you can also use: expo start
+
+```
+You will also need to install an Image Picker so as to pick images from your gallary.
+```
+  expo install expo-image-picker
+```
+In App.js file
+```javascript
+
+```
+
+
 ## Sample Ionic app
 
 First, be sure you have the latest Ionic CLI installed, then generate a new app (for this example you can use any template, but it's simplest to start with the Blank template to start):
@@ -577,7 +602,7 @@ export class HomePage {
       </ion-card-header>
       <ion-card-content>
 
-        <ion-list>        
+        <ion-list>
           <ion-item>
             <ion-label>Source Language</ion-label>
             <ion-select #srcLang placeholder="Source Language" (ionChange)="selectSource(srcLang.value)">
@@ -596,9 +621,9 @@ export class HomePage {
               <ion-select-option value="de" selected>German</ion-select-option>
               <ion-select-option value="no">Norwegian</ion-select-option>
             </ion-select>
-          </ion-item>                  
+          </ion-item>
         </ion-list>
-        
+
         <ion-grid>
           <ion-row>
               <ion-col align-self-center>
