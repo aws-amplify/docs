@@ -216,7 +216,7 @@ import java.util.WeakHashMap;
  * The constructor registers to receive Activity lifecycle events and also registers a
  * broadcast receiver to handle the screen being turned off.  Abstract methods are
  * provided to handle when the application enters the background or foreground.
- * Any activity lifecycle callbacks can easily be overriden if additional handling
+ * Any activity lifecycle callbacks can easily be overridden if additional handling
  * is needed. Just be sure to call through to the super method so that this class
  * will still behave as intended.
  **/

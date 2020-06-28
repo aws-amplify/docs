@@ -13,7 +13,7 @@ If you wish to modify the functionality of these templates, you are able to do s
 
 Amazon Cognito allows you to set up one Lambda trigger per event.  In order to create additional flexibility when configuring Cognito triggers via the CLI, the CLI will create an index file which loops through JavaScript modules.  Each template that you configure is its own JavaScript module. This allows you to attach multiple use cases and logical flows to a single lifecycle event.
 
-You have the opportunity to edit both the index file as well as each module. For example, when creating a email blacklist [PreSignUp](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-sign-up.html) trigger, you will be asked
+You have the opportunity to edit both the index file as well as each module. For example, when creating a email deny list [PreSignUp](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-sign-up.html) trigger, you will be asked
 
 ```console
 $ Do you want to edit the local PreSignUp lambda function now? (Y/n)
@@ -21,10 +21,10 @@ $ Do you want to edit the local PreSignUp lambda function now? (Y/n)
 
 Selecting 'yes' will open the index file in your editor.
 
-You will then be asked if you want to edit the individual JavaScript module for the email blacklist functionality:
+You will then be asked if you want to edit the individual JavaScript module for the email deny list functionality:
 
 ```console
-$ Do you want to edit your email-filter-blacklist function now?
+$ Do you want to edit your email-filter-deny-list function now?
 ```
 
 ### Set up Lambda triggers
@@ -38,8 +38,8 @@ $ Do you want to enable any of the following capabilities?
   ❯ ◯ Add Google reCaptcha Challenge
     ◯ Email Verification Link with Redirect
     ◯ Add User to Group
-    ◯ Email Domain Filtering (blacklist)
-    ◯ Email Domain Filtering (whitelist)
+    ◯ Email Domain Filtering (deny list)
+    ◯ Email Domain Filtering (allow list)
     ◯ Custom Auth Challenge Flow (basic scaffolding - not for production)
     ◯ Override ID Token Claims
 ```
@@ -513,7 +513,7 @@ This trigger allows you to define a Cognito group to which a user will be added 
 The trigger will check for the existence of the group in your User Pool, and will create the group if it is not present.
 
 
-### Email Domain Filtering (blacklist) and Email Domain Filtering (whitelist)
+### Email Domain Filtering (deny list) and Email Domain Filtering (allow list)
 
 These two templates allow you to define email domains which are allowed or disallowed (respectively). They can be used in tandem or individually.  
 
