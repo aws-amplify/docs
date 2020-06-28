@@ -1,5 +1,8 @@
 `S3Image` component renders an *Amazon S3 object key* as an image:
 
+![S3Image](~/images/s3image.png)
+
+
 ```jsx
 import React from 'react';
 
