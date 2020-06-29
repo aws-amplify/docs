@@ -1201,7 +1201,9 @@
     "CRUDL",
     "MYSTORAGE",
     "amplifyjsapp",
-    "lightgray"
+    "lightgray",
+    "inappbrowser",
+    "withoauth"
   ],
   "flagWords": ["hte"]
 }
