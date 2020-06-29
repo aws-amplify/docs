@@ -1,3 +1,5 @@
+In terminal, navigate to your project, run `amplify add auth`, and choose the following options (the last steps are specific to Facebook here but are similar for other providers):
+
 ```terminal
 ? Do you want to use the default authentication and security configuration? 
     `Default configuration with Social Provider (Federation)`
