@@ -481,7 +481,24 @@ You will also need to install an Image Picker so as to pick images from your gal
 ```
   expo install expo-image-picker
 ```
-In App.js file
+The components in the app code below are rendered according to the scenarios below like so:
+```javascript
+  return (
+    <ScrollView>
+      <View style={styles.container}>
+        <TextTranslation />
+        <TextToSpeech />
+        <TextIdentification />
+        <EntityIdentification />
+        <PredictionsUpload />
+        <LabelsIdentification />
+        <TextInterpretation />
+      </View>
+    </ScrollView>
+  );
+```
+React Native app code
+
 ```javascript
 
 ```
