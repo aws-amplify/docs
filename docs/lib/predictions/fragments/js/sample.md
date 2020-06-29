@@ -500,7 +500,25 @@ The components in the app code below are rendered according to the scenarios bel
 React Native app code
 
 ```javascript
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Button,
+  Image,
+  ScrollView,
+} from "react-native";
+import { withAuthenticator } from "aws-amplify-react-native";
+import * as ImagePicker from "expo-image-picker";
 
+import Amplify, { Storage, Predictions } from "aws-amplify";
+import awsconfig from "./aws-exports";
+import { AmazonAIPredictionsProvider } from "@aws-amplify/predictions";
+
+Amplify.configure(awsconfig);
+Amplify.addPluggable(new AmazonAIPredictionsProvider());
 ```
 
 
