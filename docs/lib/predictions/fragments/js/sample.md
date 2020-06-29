@@ -519,6 +519,165 @@ import { AmazonAIPredictionsProvider } from "@aws-amplify/predictions";
 
 Amplify.configure(awsconfig);
 Amplify.addPluggable(new AmazonAIPredictionsProvider());
+
+function TextTranslation() {
+  const [response, setResponse] = useState(
+    "Input some text and click enter to test"
+  );
+  const [textToTranslate, setTextToTranslate] = useState("write to translate");
+
+  function translate() {
+    Predictions.convert({
+      translateText: {
+        source: {
+          text: textToTranslate,
+          // language : "es" // defaults configured on aws-exports.js
+          // supported languages https://docs.aws.amazon.com/translate/latest/dg/how-it-works.html#how-it-works-language-codes
+        },
+        // targetLanguage: "en"
+      },
+    })
+      .then((result) => setResponse(JSON.stringify(result, null, 2)))
+      .catch((err) => setResponse(JSON.stringify(err, null, 2)));
+  }
+
+  function setText(event) {
+    setTextToTranslate(event.target.value);
+  }
+
+  return (
+    <View style={styles.text}>
+      <View>
+        <Text style={styles.renderText}>Translate Text</Text>
+
+        <TextInput
+          value={textToTranslate}
+          onChange={setText}
+          style={styles.input}
+        />
+        <Button onPress={translate} title="Translate" style={styles.button} />
+        <Text>{response}</Text>
+      </View>
+    </View>
+  );
+}
+
+function TextToSpeech() {
+  const [response, setResponse] = useState("...");
+  const [textToGenerateSpeech, setTextToGenerateSpeech] = useState(
+    "write to speech"
+  );
+
+  function generateTextToSpeech() {
+    setResponse("Generating audio...");
+
+    Predictions.convert({
+      textToSpeech: {
+        source: {
+          text: textToGenerateSpeech,
+        },
+        voiceId: "Amy", // default configured on aws-exports.js
+        // list of different options are here https://docs.aws.amazon.com/polly/latest/dg/voicelist.html
+      },
+    })
+      .then((result) => {
+        const audio = new Audio();
+        audio.src = result.speech.url;
+        audio.play();
+        setResponse(`Generation completed`);
+      })
+      .catch((err) => setResponse(err));
+  }
+
+  const setText = (value) => {
+    setTextToGenerateSpeech(value);
+  };
+
+  return (
+    <View style={styles.text}>
+      <View>
+        <Text style={styles.renderText}>Speech Generation</Text>
+        <TextInput
+          placeholder={textToGenerateSpeech}
+          onChangeText={setText}
+          style={styles.input}
+        ></TextInput>
+        <Button
+          onPress={generateTextToSpeech}
+          title="Text to Speech"
+          style={styles.button}
+        />
+        <Text>{response}</Text>
+      </View>
+    </View>
+  );
+}
+
+function TextIdentification() {
+  const [response, setResponse] = useState(
+    "You can add a photo by uploading direcly from the app "
+  );
+
+  async function identifyFromFile() {
+    setResponse("identifiying text...");
+
+    let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("Permission to access camera roll is required!");
+      return;
+    }
+
+    let pickerResult = await ImagePicker.launchImageLibraryAsync();
+
+    function dataURLtoFile(dataurl, filename) {
+      var arr = dataurl.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+
+      return new File([u8arr], filename, { type: mime });
+    }
+
+    const file = dataURLtoFile(pickerResult.uri);
+    console.log(file);
+
+    Predictions.identify({
+      text: {
+        source: {
+          file,
+        },
+        format: "ALL", // Available options "PLAIN", "FORM", "TABLE", "ALL"
+      },
+    })
+      .then(({ text: { fullText } }) => {
+        setResponse(fullText);
+      })
+      .catch((err) => setResponse(JSON.stringify(err, null, 2)));
+  }
+
+  return (
+    <View style={styles.text}>
+      <View>
+        <Text style={styles.renderText}>Identify Text</Text>
+        <Button
+          onPress={identifyFromFile}
+          title="Choose Image"
+          style={styles.button}
+        />
+        <Text>{response}</Text>
+      </View>
+    </View>
+  );
+}
+
+
+
 ```
 
 
