@@ -211,7 +211,7 @@ function LabelsIdentification() {
 
 function SpeechToText(props) {
   const [response, setResponse] = useState("Press 'start recording' to begin your transcription. Press STOP recording once you finish speaking.")
-  
+
   function AudioRecorder(props) {
     const [recording, setRecording] = useState(false);
     const [micStream, setMicStream] = useState();
@@ -226,7 +226,6 @@ function SpeechToText(props) {
           console.log("resetting buffer");
           buffer = [];
         }
- 
         return {
           reset: function() {
             newBuffer();
@@ -291,7 +290,6 @@ function SpeechToText(props) {
 
   function convertFromBuffer(bytes) {
     setResponse('Converting text...');
-    
     Predictions.convert({
       transcription: {
         source: {
@@ -477,11 +475,15 @@ cd RNAmplify
 npm start # you can also use: expo start
 
 ```
+
 You will also need to install an Image Picker so as to pick images from your gallary.
-```
+
+```bash
   expo install expo-image-picker
 ```
+
 The components in the app code below are rendered according to the scenarios below like so:
+
 ```javascript
   return (
     <ScrollView>
@@ -497,6 +499,7 @@ The components in the app code below are rendered according to the scenarios bel
     </ScrollView>
   );
 ```
+
 React Native app code
 
 ```javascript
@@ -949,9 +952,9 @@ const styles = StyleSheet.create({
 });
 
 export default withAuthenticator(App);
-
 ```
 
+Now run `yarn start` or `expo start` and scan the QRcode to demo the app in your mobile device using `Expo Client` app that you will download from App Store or Play Store.
 
 ## Sample Ionic app
 
@@ -964,7 +967,7 @@ ionic start predictions blank # the first argument is your project name, the sec
 
 Update the `src/polyfills.ts` and add to the top of the file `(window as any).global = window;`. Then, update the `src/tsconfig.app.json` file and add the "node" types:
 
-```
+```bash
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
@@ -1078,7 +1081,6 @@ export class HomePage {
               <ion-select-option value="no">Norwegian</ion-select-option>
             </ion-select>
           </ion-item>
-        
           <ion-item>
             <ion-label>Target Language</ion-label>
             <ion-select #targetLang placeholder="Target Language" (ionChange)="selectTarget(targetLang.value)">
