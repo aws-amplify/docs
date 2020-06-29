@@ -764,6 +764,50 @@ function EntityIdentification() {
   );
 }
 
+function PredictionsUpload() {
+  /* This is Identify Entities Advanced feature
+   * This will upload user images to the appropriate bucket prefix
+   * and a Lambda trigger will automatically perform indexing
+   */
+  async function upload() {
+    let pix = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+    });
+
+    function dataURLtoFile(dataurl, filename) {
+      var arr = dataurl.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+
+      return new File([u8arr], filename, { type: mime });
+    }
+
+    let file = dataURLtoFile(pix.uri);
+
+    Storage.put(file.name, file, {
+      level: "protected",
+      customPrefix: {
+        protected: "protected/predictions/index-faces/",
+      },
+    });
+  }
+
+  return (
+    <View style={styles.text}>
+      <View>
+        <Text>Upload to predictions s3</Text>
+        <Button onPress={upload} title="Upload" style={styles.button} />
+      </View>
+    </View>
+  );
+}
+
 ```
 
 
