@@ -808,6 +808,148 @@ function PredictionsUpload() {
   );
 }
 
+function LabelsIdentification() {
+  const [response, setResponse] = useState("Click upload for test ");
+
+  async function identifyFromFile() {
+    let image = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+    });
+
+    function dataURLtoFile(dataurl, filename) {
+      var arr = dataurl.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+
+      return new File([u8arr], filename, { type: mime });
+    }
+
+    const file = dataURLtoFile(image.uri);
+
+    Predictions.identify({
+      labels: {
+        source: {
+          file,
+        },
+        type: "ALL", // "LABELS" will detect objects , "UNSAFE" will detect if content is not safe, "ALL" will do both default on aws-exports.js
+      },
+    })
+      .then((result) => setResponse(JSON.stringify(result, null, 2)))
+      .catch((err) => setResponse(JSON.stringify(err, null, 2)));
+  }
+
+  return (
+    <View style={styles.text}>
+      <View>
+        <Text style={styles.renderText}>Label Objects</Text>
+        <Button
+          onPress={identifyFromFile}
+          title="Label Identification"
+          style={styles.button}
+        />
+        <Text>{response}</Text>
+      </View>
+    </View>
+  );
+}
+
+function TextInterpretation() {
+  const [response, setResponse] = useState(
+    "Input some text and click enter to test"
+  );
+  const [textToInterpret, setTextToInterpret] = useState("");
+
+  function interpretFromPredictions() {
+    Predictions.interpret({
+      text: {
+        source: {
+          text: textToInterpret,
+        },
+        type: "ALL",
+      },
+    })
+      .then((result) => setResponse(JSON.stringify(result, null, 2)))
+      .catch((err) => setResponse(JSON.stringify(err, null, 2)));
+  }
+
+  function setText(event) {
+    setTextToInterpret(event.target.value);
+  }
+
+  return (
+    <View style={styles.text}>
+      <View>
+        <Text style={styles.renderText}>Text Interpretation</Text>
+        <TextInput
+          value={textToInterpret}
+          onChange={setText}
+          placeholder="write some text here to interpret"
+          style={styles.input}
+        />
+        <Button
+          onPress={interpretFromPredictions}
+          title="test"
+          style={styles.button}
+        />
+        <Text>{response}</Text>
+      </View>
+    </View>
+  );
+}
+
+function App() {
+  return (
+    <ScrollView>
+      <View style={styles.container}>
+        <TextTranslation />
+        <TextToSpeech />
+        <TextIdentification />
+        <EntityIdentification />
+        <PredictionsUpload />
+        <LabelsIdentification />
+        <TextInterpretation />
+      </View>
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  input: {
+    width: "80%",
+    borderColor: "black",
+    borderWidth: 1,
+    padding: 10,
+    margin: 10,
+  },
+
+  button: {
+    width: "80%",
+    padding: 10,
+    margin: 5,
+  },
+
+  renderText: {
+    textAlign: "center",
+    fontSize: 20,
+    padding: 10,
+  },
+});
+
+export default withAuthenticator(App);
+
 ```
 
 
