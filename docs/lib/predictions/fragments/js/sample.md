@@ -676,7 +676,93 @@ function TextIdentification() {
   );
 }
 
+function EntityIdentification() {
+  const [response, setResponse] = useState("Click upload for test ");
+  const [image, setImage] = useState(null);
 
+  async function identifyFromFile() {
+    setResponse("searching...");
+    let image = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+    });
+
+    function dataURLtoFile(dataurl, filename) {
+      var arr = dataurl.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+
+      return new File([u8arr], filename, { type: mime });
+    }
+
+    const file = dataURLtoFile(image.uri);
+
+    Predictions.identify({
+      entities: {
+        source: {
+          file,
+        },
+        /**For using the Identify Entities advanced features, enable collection:true and comment out celebrityDetection
+         * Then after you upload a face with PredictionsUpload you'll be able to run this again
+         * and it will tell you if the photo you're testing is in that Collection or not and display it*/
+        //collection: true
+        celebrityDetection: true,
+      },
+    })
+      .then((result) => {
+        const entities = result.entities;
+        let imageId = "";
+        let names = "";
+        entities.forEach(
+          ({ boundingBox, metadata: { name = "", externalImageId = "" } }) => {
+            const {
+              width, // ratio of overall image width
+              height, // ratio of overall image height
+              left, // left coordinate as a ratio of overall image width
+              top, // top coordinate as a ratio of overall image heigth
+            } = boundingBox;
+            imageId = externalImageId;
+            if (name) {
+              names += name + " .";
+            }
+            console.log({ name });
+          }
+        );
+        if (imageId) {
+          Storage.get("", {
+            customPrefix: {
+              public: imageId,
+            },
+            level: "public",
+          }).then(setImage); // this should be better but it works
+        }
+        console.log({ entities });
+        setResponse(names);
+      })
+      .catch((err) => console.log(err));
+  }
+  return (
+    <View>
+      <View>
+        <Text style={styles.renderText}>Identify Entities</Text>
+        <Button
+          onPress={identifyFromFile}
+          title="Entity Identification"
+          style={styles.button}
+        />
+        <Text>{response}</Text>
+        {image && (
+          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+        )}
+      </View>
+    </View>
+  );
+}
 
 ```
 
