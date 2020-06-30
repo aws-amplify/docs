@@ -70,7 +70,7 @@ event = {
 */
 ```
 
-In the above function we've used the `aruguments` property to get the values passed in as arguments to the function.
+In the above function we've used the `arguments` property to get the values passed in as arguments to the function.
 
 Next, create another Lambda function:
 

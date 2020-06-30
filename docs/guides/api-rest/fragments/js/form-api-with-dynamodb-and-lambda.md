@@ -9,7 +9,7 @@ To get started, create a new Amplify project:
 ```sh
 amplify init
 
-# Chooose your environment name and default text editor
+# Choose your environment name and default text editor
 # You can answer the defaults for the rest of the questions and then choose the AWS profile you'd like to use for this project.
 ```
 

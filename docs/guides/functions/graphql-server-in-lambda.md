@@ -20,7 +20,7 @@ If you already have an Amplify project created, you can jump to the next step - 
 ```sh
 amplify init
 
-# Chooose your environment name and default text editor
+# Choose your environment name and default text editor
 # You can answer the defaults for the rest of the questions and then choose the profile you created when you ran amplify configure
 ```
 
