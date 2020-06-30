@@ -476,7 +476,7 @@ npm start # you can also use: expo start
 
 ```
 
-You will also need to install an Image Picker so as to pick images from your gallary.
+You will also need to install an Image Picker so as to pick images from the Gallery.
 
 ```bash
   expo install expo-image-picker
@@ -618,11 +618,11 @@ function TextToSpeech() {
 
 function TextIdentification() {
   const [response, setResponse] = useState(
-    "You can add a photo by uploading direcly from the app "
+    "You can add a photo by uploading directly from the app "
   );
 
   async function identifyFromFile() {
-    setResponse("identifiying text...");
+    setResponse("identifying text...");
 
     let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
 
@@ -690,7 +690,7 @@ function EntityIdentification() {
     });
 
     function dataURLtoFile(dataurl, filename) {
-      var arr = dataurl.split(","),
+      let arr = dataurl.split(","),
         mime = arr[0].match(/:(.*?);/)[1],
         bstr = atob(arr[1]),
         n = bstr.length,
