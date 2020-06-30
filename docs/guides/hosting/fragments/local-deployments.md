@@ -6,6 +6,7 @@ In this example you will be deploying a React app, but you can also also use any
 2. Vue
 3. Angular
 4. Ionic
+5. Gatsby
 
 ## 1. Create a new web app and change into the directory
 

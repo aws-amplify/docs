@@ -93,18 +93,16 @@ amplify add api
 
 ? Please select from one of the below mentioned services: GraphQL
 ? Provide API name: gqls3
-? Choose the default authorization type for the API Amazon Cognito User Pool
-Use a Cognito user pool configured as a part of this project.
-? Do you want to configure advanced settings for the GraphQL API Yes, I want to make some additional changes.
+? Choose the default authorization type for the API: Amazon Cognito User Pool
+? Do you want to configure advanced settings for the GraphQL API: Yes
 ? Configure additional auth types? Yes
-? Choose the additional authorization types you want to configure for the API API key
-API key configuration
+? Choose the additional authorization types you want to configure for the API: API key
 ? Enter a description for the API key: public
-? After how many days from now the API key should expire (1-365): 354
+? After how many days from now the API key should expire (1-365): 365 (or your preferred expiration)
 ? Configure conflict detection? No
 ? Do you have an annotated GraphQL schema? No
 ? Do you want a guided schema creation? Yes
-? What best describes your project: Single object with fields (e.g., “Todo” with ID, name, description)
+? What best describes your project: Single object with fields
 ? Do you want to edit the schema now? Yes
 ```
 

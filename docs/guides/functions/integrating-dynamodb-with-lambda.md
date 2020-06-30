@@ -54,6 +54,8 @@ amplify push
 
 Your function and database are now ready to use!
 
+To learn how to interact with DynamoDB from Lambda, check out [Calling DynamoDB from Lambda in Node.js](~/guides/functions/dynamodb-from-js-lambda.md).
+
 ### Creating a new DynamoDB Database and integrate with an existing Lambda function
 
 First, create the database using the __storage__ category:
@@ -124,3 +126,5 @@ amplify push
 ```
 
 Your function and database are now ready to use!
+
+To learn how to interact with DynamoDB from Lambda, check out [Calling DynamoDB from Lambda in Node.js](~/guides/functions/dynamodb-from-js-lambda.md).

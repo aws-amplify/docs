@@ -58,7 +58,7 @@ async function updateUser() {
 
 ### Reading user attributes
 
-To read the user attributes, you can use the `currentAuthenticatedUser` method of the Auth class:
+To read user attributes, you can use the `currentAuthenticatedUser` method of the Auth class:
 
 ```js
 async function getUserInfo() {

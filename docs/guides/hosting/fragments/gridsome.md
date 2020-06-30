@@ -4,7 +4,7 @@ In this guide you will learn how to deploy a Gridsome site with Amplify Hosting.
 
 <amplify-callout>
 
-In this step, you will create a new Gridsome site. If you have already created a site, you can jump to the [next step](#creating-the-github-repository).
+In this step, you will create a new Gridsome site. If you have already created a site, you can jump to the [next step](#creating-the-git-repository).
 
 </amplify-callout>
 
@@ -27,11 +27,11 @@ cd gridsome-amplify
 
 ### Creating the Git repository
 
-Next, create a new Git repository and copy the link to the repo to your clipboard.
+Next, create a new Git repository and copy the uri of the repo to your clipboard.
 
 ![Gridsome Hosting with Amplify Console - Creating the repo](~/images/hosting/gridsome/0.png)
 
-Now, initialize the new repository within the root of your project:
+Now, initialize the new repository within the root of your project and push the code to Git.
 
 ```sh
 git init
@@ -47,7 +47,7 @@ To use Amplify Hosting, visit the [Amplify Console](https://console.aws.amazon.c
 
 ![Gridsome Hosting with Amplify Console - Console view](~/images/hosting/gridsome/1.png)
 
-Next, Click on the Git provider that you are using and click __Continue__:
+Next, choose the Git provider that you are using and click __Continue__:
 
 ![Gridsome Hosting with Amplify Console - Choosing your Git provider](~/images/hosting/gridsome/2.png)
 

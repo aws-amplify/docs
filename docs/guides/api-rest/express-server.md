@@ -40,12 +40,14 @@ The CLI has created a few things for you:
 
 - API endpoint
 - Lambda function
-- Web server using Serverless Express in the function
+- Web server using [Serverless Express](https://github.com/awslabs/aws-serverless-express) in the function
 - Some boilerplate code for different methods on the `/items` route
 
 Let's open the code for the server. 
 
-Open __amplify/backend/function/mylambda/src/index.js__. Here, you will see the main function handler with the `event` and `context` being proxied to an express server located at `./app.js`:
+Open __amplify/backend/function/mylambda/src/index.js__.
+
+In this file you will see the main function handler with the `event` and `context` being proxied to an express server located at `./app.js` (do not make any changes to this file):
 
 ```js
 const awsServerlessExpress = require('aws-serverless-express');

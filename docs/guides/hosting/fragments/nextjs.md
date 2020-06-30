@@ -116,7 +116,7 @@ $ npm init next-app
 ✔ Pick a template › Default starter app
 ```
 
-__2.__ Be sure to set the new `build` script in your package.json:
+__2.__ Set the following custom `build` script in your package.json:
 
 ```json
 "scripts": {
@@ -130,7 +130,7 @@ __3.__ Create a Git repository, then push your code to Git.
 
 ```sh
 $ git init
-$ git remote add origin git@github.com:your-name/my-next-app.git
+$ git remote add origin git@github.com:username/my-next-app.git
 $ git add .
 $ git commit -m 'initial commit'
 $ git push origin master
@@ -145,6 +145,10 @@ __6.__ Set the __baseDirectory__ to __out__:
 ![Setting the baseDirectory property](https://dev-to-uploads.s3.amazonaws.com/i/edt8ccos33addseu2c06.png)
 
 __7.__ Click __Next__ then __Save and deploy__.
+
+Once your site has successfully deployed, you should see three green checkmarks.
+
+To view the live site, click on the automatically generated URL given to you by the Amplify Console.
 
 ### Kicking off a new build
 
