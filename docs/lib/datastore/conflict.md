@@ -28,7 +28,7 @@ To select a different conflict resolution strategy, navigate into your project f
 
 ### Per model configuration
 
-Note that this flow will also allow you to change the strategy on each individual GraphQL type, though is is recommended to use the same strategy for your whole schema unless you have an advanced use case:
+Note that this flow will also allow you to change the strategy on each individual GraphQL type, though it is recommended to use the same strategy for your whole schema unless you have an advanced use case:
 
 ```
 ? Do you want to override default per model settings? Yes
