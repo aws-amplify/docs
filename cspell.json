@@ -1198,7 +1198,12 @@
     "sjqub",
     "unmarshall",
     "Inventorys",
-    "CRUDL"
+    "CRUDL",
+    "MYSTORAGE",
+    "amplifyjsapp",
+    "lightgray",
+    "inappbrowser",
+    "withoauth"
   ],
   "flagWords": ["hte"]
 }
