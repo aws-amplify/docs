@@ -1,4 +1,6 @@
-In this guide you'll learn how to deploy a [Next](https://nextjs.org/) app using Amplify Hosting.
+In this guide you'll learn how to deploy a *static* [Next](https://nextjs.org/) app using Amplify Hosting.
+
+> Note: Next also supports pre-rendering for *dynamic* server-rendered routes. At this time, Amplify **does not** support the hosting of dynamic server-rendered routes with Next.
 
 There are two options: One using the Amplify CLI, and the other using a Git repository. This will cover both.
 
@@ -40,7 +42,7 @@ $ amplify configure
 
 > To see a video walkthrough of how to configure the CLI, click [here](https://www.youtube.com/watch?v=fWbM5DLh25U).
 
-Next, initialize a new Amplify project. __Make sure you se the Distribution Directory Path to `out`__.
+Next, initialize a new Amplify project. __Make sure you set the Distribution Directory Path to `out`__.
 
 ```sh
 $ amplify init
