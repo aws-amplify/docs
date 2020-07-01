@@ -5,7 +5,7 @@ Amplify.DataStore.query(Post.self) {
         // result will be of type [Post]
         print("Posts: \(result)")
     case .failure(let error):
-        print("Error listing posts - \(error.localizedDescription)")
+        print("Error on query() for type Post - \(error.localizedDescription)")
     }
 }
 ```
@@ -21,7 +21,7 @@ Amplify.DataStore.query(Post.self, byId: "123") {
         // result will be a single object of type Post?
         print("Posts: \(result)")
     case .failure(let error):
-        print("Error listing posts - \(error.localizedDescription)")
+        print("Error on query() for type Post - \(error.localizedDescription)")
     }
 }
 ```
