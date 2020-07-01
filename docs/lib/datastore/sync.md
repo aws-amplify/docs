@@ -96,4 +96,4 @@ One common use for `clear()` is to manage different users sharing the same devic
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/sync/40-clear.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/sync/40-clear.md"></inline-fragment>
 
-This is a simple yet effective example. However, in a real scenario you might want to optimize it and only call `clear()` when a different user `signedIn` in order to avoid clearing the database for a repeated sign-in of the same user.
+This is a simple yet effective example. However, in a real scenario you might want to only call `clear()` when a different user is `signedIn` in order to avoid clearing the database for a repeated sign-in of the same user.
