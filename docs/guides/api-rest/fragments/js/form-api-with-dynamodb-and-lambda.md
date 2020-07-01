@@ -2,7 +2,7 @@ In this guide, you will learn how to deploy a form API backed by Lambda and Dyna
 
 The form that we will be creating is a contact form that will capture the user's name and phone number. By the end of this guide, you should be able to create and fetch form entries.
 
-### Getting started
+### Initializing the Amplify project
 
 To get started, create a new Amplify project:
 
@@ -12,6 +12,8 @@ amplify init
 # Choose your environment name and default text editor
 # You can answer the defaults for the rest of the questions and then choose the AWS profile you'd like to use for this project.
 ```
+
+### Creating the database
 
 Next, add the DynamoDB table:
 
@@ -29,6 +31,8 @@ amplify add storage
 ? Do you want to add global secondary indexes to your table? N
 ? Do you want to add a Lambda Trigger for your Table? N
 ```
+
+### Creating the API
 
 Now that the table has been created, create the API and function that will connect with the table:
 
@@ -54,6 +58,8 @@ Storage category has a resource called formtable
 ```
 
 The API endpoint has been configured and some boilerplate function code has been created.
+
+### Updating the function code
 
 Next, open the function code located at __amplify/backend/function/formfunction/src/app.js__ in your text editor and make the following changes:
 

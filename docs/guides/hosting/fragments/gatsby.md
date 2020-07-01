@@ -1,4 +1,4 @@
-In this guide you will learn how to deploy a Gatsby site with Amplify Hosting.
+In this guide you will learn how to deploy a Gatsby site with Amplify hosting.
 
 ### Getting started
 
@@ -27,7 +27,7 @@ cd gatsby-amplify
 
 ### Creating the Git repository
 
-Next, create a new Git repository and copy the uri of the repo to your clipboard.
+Next, create a new Git repository and copy the URI of the repo to your clipboard.
 
 ![Gatsby Hosting with Amplify Console - Creating a new project in Git](~/images/hosting/gatsby/1.png)
 

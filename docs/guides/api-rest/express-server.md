@@ -5,7 +5,7 @@ description: How to deploy an Express server to AWS using AWS Amplify
 
 In this guide you'll learn how to deploy an [Express](https://expressjs.com/) web server complete with routing.
 
-## Getting started
+### Initializing the Amplify project
 
 Initialize a new Amplify project:
 
@@ -15,6 +15,8 @@ amplify init
 # Follow the steps to give the project a name, environment name, and set the default text editor.
 # Accept defaults for everything else and choose your AWS Profile.
 ```
+
+### Creating the API and function
 
 Next, create the API and web server. To do so, you can use the Amplify `add` command:
 
@@ -42,6 +44,8 @@ The CLI has created a few things for you:
 - Lambda function
 - Web server using [Serverless Express](https://github.com/awslabs/aws-serverless-express) in the function
 - Some boilerplate code for different methods on the `/items` route
+
+### Updating the function code
 
 Let's open the code for the server. 
 
@@ -75,6 +79,8 @@ app.get('/items', function(req, res) {
   res.json({ success: 'get call succeed!', items });
 });
 ```
+
+### Deploying the service
 
 To deploy the API and function, we can run the `push` command:
 

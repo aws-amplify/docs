@@ -91,4 +91,4 @@ query listContacts {
 }
 ```
 
-<inline-fragment platform="js" src="~/guides/graphql/fragments/js/building-a-form-api.md"></inline-fragment>
+<inline-fragment platform="js" src="~/guides/api-graphql/fragments/js/building-a-form-api.md"></inline-fragment>

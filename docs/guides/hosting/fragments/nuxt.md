@@ -28,7 +28,7 @@ cd nuxt-amplify
 
 ### Creating the Git repository
 
-Next, create a new Git repository and copy the uri of the repo to your clipboard.
+Next, create a new Git repository and copy the URI of the repo to your clipboard.
 
 ![Nuxt Hosting with Amplify Console - Creating the repo](~/images/hosting/nuxt/1.png)
 

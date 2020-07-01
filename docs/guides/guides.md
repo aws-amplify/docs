@@ -5,13 +5,13 @@ disableTOC: true
 filterKey: platform
 ---
 
-Amplify guides are meant to give you a more in depth understanding of how to use the Amplify CLI, libraries, and hosting to build out common functionality, end to end solutions, and frequently asked for workflows.
+Amplify guides are meant to give you a more in-depth understanding of how to use the Amplify CLI, libraries, and hosting to build out common functionality, end-to-end solutions, and frequently asked for workflows.
 
 ### Overview
 
 Like the library and CLI documentation, guides are organized by category (__Authentication__, __Hosting__, etc..), but some guides may overlap multiple categories (i.e. __Functions__ & __API__) to demonstrate how to integrate multiple services together.
 
-Unlike the library and CLI documentation, guides will often combine the CLI and libraries together in a single tutorial. This is done to teach an end to end solution using both the service creation and configuration as well as connecting to and interacting with the service from a client-side application.
+Unlike the library and CLI documentation, guides will often combine the CLI and libraries together in a single tutorial. This is done to teach an end-to-end solution using both the service creation and configuration as well as connecting to and interacting with the service from a client-side application.
 
 ### Contributing
 

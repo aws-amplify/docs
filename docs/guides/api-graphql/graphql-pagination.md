@@ -79,4 +79,4 @@ query listTodos {
 ```
 
 
-<inline-fragment platform="js" src="~/guides/graphql/fragments/js/graphql-pagination.md"></inline-fragment> 
+<inline-fragment platform="js" src="~/guides/api-graphql/fragments/js/graphql-pagination.md"></inline-fragment> 
