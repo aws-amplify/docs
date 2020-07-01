@@ -1,0 +1,14 @@
+{
+  "title": "Hosting",
+  "items": [
+    "git-based-deployments",
+    "local-deployments",
+    "custom-domains",
+    "password-protected-deployments",
+    "pull-request-previews",
+    "gatsby",
+    "nextjs",
+    "gridsome",
+    "nuxt"
+  ]
+}
