@@ -518,5 +518,5 @@ export class VersionedModelTransformer extends Transformer {
 ```
 ## VS Code Extension
 
-Add the [VSCode extension](https://marketplace.visualstudio.com/items?itemName=aws-amplify.aws-amplify-vscode) to get code snippets and automatic code compeletion for Amplify APIs. 
+Add the [VSCode extension](https://marketplace.visualstudio.com/items?itemName=aws-amplify.aws-amplify-vscode) to get code snippets and automatic code completion for Amplify APIs. 
 

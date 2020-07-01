@@ -5,7 +5,7 @@ func confirmSignUp(for username: String, with confirmationCode: String) {
         case .success(_):
                 print("Confirm signUp succeeded")
         case .failure(let error):
-            print("An error occured while registering a user \(error)")
+            print("An error occurred while registering a user \(error)")
         }
     }
 }

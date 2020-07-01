@@ -68,7 +68,7 @@ Auth.getPreferredMFA(user,{
     // If set to true, it will get the MFA type from server side instead of from local cache.
     bypassCache: false 
 }).then((data) => {
-    console.log('Current prefered MFA type is: ' + data);
+    console.log('Current preferred MFA type is: ' + data);
 })
 ```
 

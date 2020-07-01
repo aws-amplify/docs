@@ -19,7 +19,7 @@ Storage.put('test.txt', 'Hello', {
 
 For example, if you want to enable read, write and delete operation for all the objects under path *myPublicPrefix/*,  declare it in your IAM policy:
 
-```xml
+```json
 "Statement": [
     {
         "Effect": "Allow",
@@ -36,7 +36,7 @@ For example, if you want to enable read, write and delete operation for all the 
 ```
 
 If you want to have custom *private* path prefix like *myPrivatePrefix/*, you need to add it into your IAM policy:
-```xml
+```json
 "Statement": [
     {
         "Effect": "Allow",
