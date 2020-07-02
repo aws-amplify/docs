@@ -1204,7 +1204,8 @@
     "lightgray",
     "inappbrowser",
     "withoauth",
-    "dataurl"
+    "dataurl",
+    "Uint8Array"
   ],
   "flagWords": ["hte"]
 }
