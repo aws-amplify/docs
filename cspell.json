@@ -1203,7 +1203,8 @@
     "amplifyjsapp",
     "lightgray",
     "inappbrowser",
-    "withoauth"
+    "withoauth",
+    "dataurl"
   ],
   "flagWords": ["hte"]
 }

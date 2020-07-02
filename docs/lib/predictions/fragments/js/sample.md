@@ -635,16 +635,16 @@ function TextIdentification() {
 
     function dataURLtoFile(dataurl, filename) {
       var arr = dataurl.split(","),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
+        checkMatch = arr[0].match(/:(.*?);/)[1],
+        str = atob(arr[1]),
+        num = str.length,
+        u8arr = new Uint8Array(num);
 
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
+      while (num--) {
+        u8arr[num] = str.charCodeAt(num);
       }
 
-      return new File([u8arr], filename, { type: mime });
+      return new File([u8arr], filename, { type: checkMatch });
     }
 
     const file = dataURLtoFile(pickerResult.uri);
@@ -691,16 +691,16 @@ function EntityIdentification() {
 
     function dataURLtoFile(dataurl, filename) {
       let arr = dataurl.split(","),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
+        checkMatch = arr[0].match(/:(.*?);/)[1],
+        str = atob(arr[1]),
+        num = str.length,
+        u8arr = new Uint8Array(num);
 
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
+      while (num--) {
+        u8arr[num] = str.charCodeAt(num);
       }
 
-      return new File([u8arr], filename, { type: mime });
+      return new File([u8arr], filename, { type: checkMatch });
     }
 
     const file = dataURLtoFile(image.uri);
@@ -779,16 +779,16 @@ function PredictionsUpload() {
 
     function dataURLtoFile(dataurl, filename) {
       var arr = dataurl.split(","),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
+        checkMatch = arr[0].match(/:(.*?);/)[1],
+        str = atob(arr[1]),
+        num = str.length,
+        u8arr = new Uint8Array(num);
 
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
+      while (num--) {
+        u8arr[num] = str.charCodeAt(num);
       }
 
-      return new File([u8arr], filename, { type: mime });
+      return new File([u8arr], filename, { type: checkMatch });
     }
 
     let file = dataURLtoFile(pix.uri);
@@ -821,16 +821,16 @@ function LabelsIdentification() {
 
     function dataURLtoFile(dataurl, filename) {
       var arr = dataurl.split(","),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
+        checkMatch = arr[0].match(/:(.*?);/)[1],
+        str = atob(arr[1]),
+        num = str.length,
+        u8arr = new Uint8Array(num);
 
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
+      while (num--) {
+        u8arr[num] = str.charCodeAt(num);
       }
 
-      return new File([u8arr], filename, { type: mime });
+      return new File([u8arr], filename, { type: checkMatch });
     }
 
     const file = dataURLtoFile(image.uri);
