@@ -1205,7 +1205,7 @@
     "inappbrowser",
     "withoauth",
     "dataurl",
-    "Uint8Array"
+    "Uint"
   ],
   "flagWords": ["hte"]
 }

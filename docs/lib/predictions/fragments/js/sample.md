@@ -462,7 +462,7 @@ Now run `yarn start` and press the buttons to demo the app.
 
 ## Sample React Native App
 
-A sample React Native application with all of the Predictions features is provided below. This shows how to use all scenarios  by calling the appropriate `convert`, `identify`, and `interpret` API calls in the Amplify library.
+A sample React Native application with all of the Predictions features is provided below. This shows how to use all scenarios by calling the appropriate `convert`, `identify`, and `interpret` API calls in the Amplify library.
 
 First ensure that you install React Native Expo client to run this sample app.
 
