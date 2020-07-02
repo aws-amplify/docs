@@ -727,7 +727,7 @@ function EntityIdentification() {
               width, // ratio of overall image width
               height, // ratio of overall image height
               left, // left coordinate as a ratio of overall image width
-              top, // top coordinate as a ratio of overall image heigth
+              top, // top coordinate as a ratio of overall image height
             } = boundingBox;
             imageId = externalImageId;
             if (name) {
