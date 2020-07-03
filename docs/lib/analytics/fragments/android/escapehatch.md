@@ -6,7 +6,7 @@ For advanced use cases where Amplify does not provide the functionality, you can
 ```java
 AWSPinpointAnalyticsPlugin plugin = (AWSPinpointAnalyticsPlugin) Amplify
         .Analytics
-        .getPlugin("amazonPinpointAnalyticsPlugin");
+        .getPlugin("awsPinpointAnalyticsPlugin");
 AnalyticsClient analyticsClient = plugin.getEscapeHatch();
 ```
 
@@ -15,7 +15,7 @@ AnalyticsClient analyticsClient = plugin.getEscapeHatch();
 
 ```kotlin
 val plugin: AWSPinpointAnalyticsPlugin = Amplify.Analytics
-        .getPlugin("amazonPinpointAnalyticsPlugin") as AWSPinpointAnalyticsPlugin
+        .getPlugin("awsPinpointAnalyticsPlugin") as AWSPinpointAnalyticsPlugin
 val analyticsClient: AnalyticsClient? = plugin.getEscapeHatch()
 ```
 
