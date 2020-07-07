@@ -2,43 +2,98 @@ Next you'll use the generated model to read and write data. In this section you'
 
 ## Configure Amplify and DataStore
 
-First, we'll add the DataStore plugin and configure Amplify. Typically, a good place to do this is in the [`onCreate()`](https://developer.android.com/reference/android/app/Application#onCreate()) method of [Android's `Application` class](https://developer.android.com/reference/android/app/Application). For the purposes of this tutorial, you can place these examples in the `onCreate()` method of the `MainActivity` class.
+First, we'll add the DataStore plugin and configure Amplify by creating an Application class and overriding the `onCreate()` method.
 
-1. Open `MainActivity` and add the following code to the bottom of the `onCreate()` method:
+1. Go to **File** > **New** and select either **Java Class** or **Kotlin File/Class**.
+
+1. Select **Class**.
+
+1. Type **MyAmplifyApplication** in the **Name** field.
+
+1. Paste the following code to initialize Amplify:
 
   <amplify-block-switcher>
   <amplify-block name="Java">
   
-  ```java
-  try {
-      Amplify.addPlugin(new AWSDataStorePlugin());
-      Amplify.addPlugin(new AWSApiPlugin());
-      Amplify.configure(getApplicationContext());
+    ```java
+    public class MyAmplifyApplication extends Application {
+      @Override
+        public void onCreate() {
+            super.onCreate();
+            try {
+                Amplify.addPlugin(new AWSApiPlugin());
+                Amplify.addPlugin(new AWSDataStorePlugin());
+                Amplify.configure(getApplicationContext());
 
-      Log.i("Tutorial", "Initialized Amplify");
-  } catch (AmplifyException e) {
-      Log.e("Tutorial", "Could not initialize Amplify", e);
-  }
-  ```
+                Log.i("Tutorial", "Initialized Amplify");
+            } catch (AmplifyException e) {
+                Log.e("Tutorial", "Could not initialize Amplify", e);
+            }
+        }
+    }
+    ```
 
   </amplify-block>
 
   <amplify-block name="Kotlin">
 
   ```kotlin
-  try {
-      Amplify.addPlugin(AWSDataStorePlugin())
-      Amplify.addPlugin(AWSApiPlugin())
-      Amplify.configure(applicationContext)
-
-      Log.i("Tutorial", "Initialized Amplify")
-  } catch (e: AmplifyException) {
-      Log.e("Tutorial", "Could not initialize Amplify", e)
+  class MyAmplifyApplication : Application() {
+      override fun onCreate() {
+          super.onCreate()
+          try {
+              Amplify.addPlugin(AWSApiPlugin())
+              Amplify.addPlugin(AWSDataStorePlugin())
+              Amplify.configure(applicationContext)
+              Log.i("Tutorial", "Initialized Amplify")
+          } catch (e: AmplifyException) {
+              Log.e("Tutorial", "Could not initialize Amplify", e)
+          }
+      }
   }
   ```
 
   </amplify-block>
   </amplify-block-switcher>
+
+1. Open **AndroidManifest.xml** to configure your application.
+
+1. Add the `android:name` and `tools:replace` attributes to the `application` node:
+
+  ```xml
+  <application
+      android:name=".MyAmplifyApplication"
+      tools:replace="android:name"
+      ...
+  ```
+
+  Your file should look like this:
+
+  ```xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.todo">
+
+    <application
+        android:name=".MyAmplifyApplication"
+        tools:replace="android:name"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
+```
 
 1. Run the application. In logcat, you'll see a log line indicating success:
 

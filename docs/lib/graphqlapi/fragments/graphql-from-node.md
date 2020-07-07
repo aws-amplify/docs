@@ -1,4 +1,4 @@
-You can also call an AppSync GraphQL API from a Node.js app or a Lambda function. Take a basic `Todo` app as an example: 
+You can call an AppSync GraphQL API from a Node.js app or a Lambda function. Take a basic `Todo` app as an example: 
 
 ```graphql
 type Todo @model {
