@@ -14,8 +14,6 @@
   "amplify-sign-in": true,
   "amplify-sign-out": true,
   "amplify-sign-up": true,
-  "amplify-s3-image": true,
-  "amplifys3image": true,
   "b": true,
   "blockquote": true,
   "br": true,
