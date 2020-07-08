@@ -1,30 +1,3 @@
-## Installation
-
-<docs-filter framework="react">
-
-```
-yarn add aws-amplify @aws-amplify/ui-react
-```
-</docs-filter>
-<docs-filter framework="angular">
-
-```
-yarn add aws-amplify @aws-amplify/ui-angular
-```
-</docs-filter>
-<docs-filter framework="ionic">
-
-```
-yarn add aws-amplify @aws-amplify/ui-angular
-```
-</docs-filter>
-<docs-filter framework="vue">
-
-```
-yarn add aws-amplify @aws-amplify/ui-vue
-```
-</docs-filter>
-
 ## Usage
 
 <docs-filter framework="react">
@@ -138,7 +111,7 @@ _App.vue_
 
 ### Getting files from protected access level
 
-Protected files from S3 bucket can be accessed by anyone other than the owner by using `identityId` of the owner.
+Protected files from S3 bucket can be accessed by anyone other than the owner by using the `identityId` of the owner.
 
 <docs-filter framework="react">
 
@@ -191,7 +164,7 @@ _App.vue_
 
 
 ```css
-amplify-s3-image{
+amplify-s3-image {
 --height: 200px;
 --width: 400px;
 }

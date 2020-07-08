@@ -1,4 +1,4 @@
-You can automatically track `Storage` operations on the following React components: `AmplifyS3Album`, `AmplifyS3Text`, `AmplifyS3Image`, `AmplifyS3TextPicker`, `AmplifyS3ImagePicker` by providing a `track` prop:
+You can automatically track `Storage` operations on the following components: `AmplifyS3Album`, `AmplifyS3Text`, `AmplifyS3Image`, `AmplifyS3TextPicker`, `AmplifyS3ImagePicker` by providing a `track` prop:
 
 <docs-filter framework="react">
 
@@ -25,7 +25,7 @@ return <AmplifyS3Image track />
 
 ```html
 <template>
-<amplify-s3-image track />
+    <amplify-s3-image track />
 </template>
 ```
 </docs-filter>
