@@ -47,6 +47,10 @@ export class DocsSecondaryNav {
                     url: "/cli",
                   },
                   {
+                    label: "Guides",
+                    url: "/guides",
+                  },
+                  {
                     label: "Console",
                     url: AWS_USER_GUIDE,
                     external: true,
