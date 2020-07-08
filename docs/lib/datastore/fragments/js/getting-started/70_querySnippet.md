@@ -1,7 +1,7 @@
 ```js
 try {
   const posts = await DataStore.query(Post);
-  console.log("Posts retrieved successfully!", posts);
+  console.log("Posts retrieved successfully!", JSON.stringify(posts, null, 2));
 } catch (error) {
   console.log("Error retrieving posts", error);
 }
