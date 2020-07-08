@@ -1,6 +1,6 @@
 ---
 title: S3 Image
-description: S3 Image UI Component
+description: Amplify S3 Image Component is used to upload and render an image from S3 bucket using an image key
 filterKey: framework
 ---
 

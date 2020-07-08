@@ -1,6 +1,6 @@
 ---
 title: S3 Text Picker
-description: S3 Text Picker UI Component
+description: Amplify S3 Text Picker Component is a text picker component that uses local file input to upload text files into S3 bucket
 filterKey: framework
 ---
 
