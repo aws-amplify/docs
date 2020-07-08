@@ -41,27 +41,31 @@ Here is an example of converting text to speech. In order to override any choice
 import Amplify
 import AVFoundation
 
-...
+//...
 
 var player: AVAudioPlayer?
 
-...
+//...
 
 func textToSpeech(text: String) {
-  let options = PredictionsTextToSpeechRequest.Options(voiceType: .englishFemaleIvy, pluginOptions: nil)
+    let options = PredictionsTextToSpeechRequest.Options(
+        voiceType: .englishFemaleIvy,
+        pluginOptions: nil
+    )
 
-  _ = Amplify.Predictions.convert(textToSpeech: text, options: options, listener: { (event) in
-    switch event {
-    case .completed(let result):
-      print(result.audioData)
-      self.player = try? AVAudioPlayer(data: result.audioData)
-      if let player = self.player {
-        player.play()
-      }
-      default:
-        print("")
-      }
-    })
+    _ = Amplify.Predictions.convert(textToSpeech: text, options: options) { event in
+        switch event {
+        case let .success(result):
+            print(result.audioData)
+            self.player = try? AVAudioPlayer(data: result.audioData)
+            if let player = self.player {
+                player.play()
+            }
+        case let .failure(error):
+            print(error)
+        }
+    }
 }
 ```
+
 As a result of running this code, you will hear audio of the text being emitted from your device.
