@@ -12,7 +12,7 @@ To write data to the DataStore, pass an instance of a model to `Amplify.DataStor
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/save-snippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/data-access/save-snippet.md"></inline-fragment>
 
-The `save` method creates a new record, or in the event that one already exists in the database, it updates the record.
+The `save` method creates a new record, or in the event that one already exists in the local store, it updates the record.
 
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/update-snippet.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/update-snippet.md"></inline-fragment>
@@ -28,7 +28,7 @@ To delete an item simply pass in an instance.
 
 ## Query Data
 
-Queries are performed against the _local database_. When cloud synchronization is enabled, the local database is updated in the background by the DataStore Sync Engine.
+Queries are performed against the _local store_. When cloud synchronization is enabled, the local store is updated in the background by the DataStore Sync Engine.
 
 You can narrow the results of your query by specifying a model type of interest. For more advanced filtering, such as matching arbitrary field values on an object, you can supply a query predicate.
 
