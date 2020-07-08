@@ -4,13 +4,36 @@ DataStore's cloud synchronization uses the [API category](~/lib/graphqlapi/getti
 
 Make sure that you declare a dependency on the API plugin in your app-level `build.gradle`:
 
-\```groovy
+```groovy
 dependencies {
     // Add this line.
     implementation 'com.amplifyframework:aws-api:1.0.0'
 }
-\```
+```
 
-Then add the plugin in your Amplify initialization code alongside with the previously added `AWSDataStorePlugin`.
+Next, add the plugin in your Amplify initialization code alongside with the previously added `AWSDataStorePlugin`.
 
-TODO: add Android API plugin
+
+<amplify-block-switcher>
+<amplify-block name="Java">
+
+```java
+Amplify.addPlugin(new AWSDataStorePlugin());
+// Add this line.
+Amplify.addPlugin(new AWSApiPlugin());
+Amplify.configure(getApplicationContext());
+```
+
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+Amplify.addPlugin(AWSDataStorePlugin())
+// Add this line.
+Amplify.addPlugin(AWSApiPlugin())
+Amplify.configure(applicationContext)
+```
+
+</amplify-block>
+</amplify-block-switcher>
+
