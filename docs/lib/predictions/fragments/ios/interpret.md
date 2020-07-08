@@ -43,16 +43,14 @@ Here is an example of sending text for interpretation such as sentiment analysis
 
 ```swift
 func interpret(text: String) {
-  _ = Amplify.Predictions.interpret(text: text, options: PredictionsInterpretRequest.Options(), listener: { (event) in
-    switch event {
-    case .completed(let result):
-      print(result)
-    case .failed(let error):
-      print(error)
-    default:
-      break
-		}
-  })
+    _ = Amplify.Predictions.interpret(text: text) { event in
+        switch event {
+        case let .success(result):
+            print(result)
+        case let .failure(error):
+            print(error)
+        }
+    }
 }
 ```
 
