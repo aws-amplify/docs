@@ -176,3 +176,23 @@ _App.vue_
 </template>
 ```
 </docs-filter>
+
+## Customization
+
+### Custom CSS Properties
+
+`amplify-s3-text` provides the following CSS properties to modify the style at component level.
+
+| Name           | Description                      | Default value                    |
+| ---------------| ---------------------------------| ---------------------------------|
+| `--container-color`     | Used to set the text container background | `--amplify-smoke-white` |
+| `--border-color`     | Used to set the border color of text container | `--amplify-light-grey` | 
+| `--text-color`     | Used to set the font color for the text | `--amplify-secondary-color` |
+| `--font-size`     | Used to set the font size for the text | `--amplify-text-md` | 
+
+```css
+amplify-s3-text{
+  --container-color: black;
+  --text-color: deepskyblue;
+}
+```

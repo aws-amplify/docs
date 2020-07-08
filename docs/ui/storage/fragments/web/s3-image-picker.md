@@ -132,5 +132,3 @@ _App.vue_
 
 
 <ui-component-props tag="amplify-s3-image-picker" use-table-headers></ui-component-props>
-
----

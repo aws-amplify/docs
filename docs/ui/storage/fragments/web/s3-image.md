@@ -133,7 +133,6 @@ _App.vue_
 
 <ui-component-props tag="amplify-s3-image" use-table-headers></ui-component-props>
 
----
 
 ## Use Cases
 
@@ -178,3 +177,22 @@ _App.vue_
 </template>
 ```
 </docs-filter>
+
+## Customization
+
+### Custom CSS Properties
+
+`amplify-s3-image` provides the following CSS properties to modify the style at component level.
+
+| Name           | Description                      | Default value                    |
+| ---------------| ---------------------------------| ---------------------------------|
+| `--height`     | Used to set the height of the image | `inherit` |
+| `--width`     | Used to set the width of the image | `inherit` | 
+
+
+```css
+amplify-s3-image{
+--height: 200px;
+--width: 400px;
+}
+```

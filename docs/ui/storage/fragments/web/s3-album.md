@@ -130,7 +130,20 @@ _App.vue_
 ```
 </docs-filter>
 
-
 <ui-component-props tag="amplify-s3-album" use-table-headers></ui-component-props>
 
----
+## Customization
+
+### Custom CSS Properties
+
+`amplify-s3-album` provides the following CSS properties to modify the style at component level.
+
+| Name           | Description                      | Default value                    |
+| ---------------| ---------------------------------| ---------------------------------|
+| `--overlay-bg-color`     | Used to set the image overlay color on hover | `rgba(0, 0, 0, 0.15)` |
+
+```css
+amplify-s3-album {
+  --overlay-bg-color: rgba(0, 0, 0, 1);
+}
+```
