@@ -29,7 +29,7 @@ export const searchStyle = css`
         white-space: normal;
       }
       .algolia-autocomplete .ds-dropdown-menu [class^="ds-dataset-"] {
-        max-height: calc(100vh - 72px - 32px);
+        max-height: calc(100vh - 100px);
       }
       .algolia-autocomplete
         .algolia-docsearch-suggestion--subcategory-column-text {
