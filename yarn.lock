@@ -62,12 +62,13 @@
     events "^3.1.0"
     sinon "^7.5.0"
 
-"@aws-amplify/ui-components@latest":
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-components/-/ui-components-0.5.2.tgz#4b4b06c19cd7124f95e8aa25b80b54afebb835a2"
-  integrity sha512-70WNqaQwZWv6pFUD21l9EN2LcV0PxKMLpcC3crL9ugw8ShIFsFzNXmvX7ort27Nf+heWq3LFDP0Q9+hpcVwODg==
+"@aws-amplify/ui-components@0.5.4":
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-components/-/ui-components-0.5.4.tgz#491c7e1883364c56a8fabbb092fe4f61f102eb82"
+  integrity sha512-9wyN89yjlMJWyIncvqhPrA3whVgAKTvT46/saxN7RbT8CsEv5yTVX+F6IULIXVsOiFzdEocbLe0MlmV9X6aKpw==
   dependencies:
     qrcode "^1.4.4"
+    uuid "^8.2.0"
 
 "@aws-crypto/crc32@^1.0.0-alpha.0":
   version "1.0.0-alpha.0"
@@ -6501,6 +6502,11 @@ uuid@^3.2.1, uuid@^3.3.2:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
+
+uuid@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.2.0.tgz#cb10dd6b118e2dada7d0cd9730ba7417c93d920e"
+  integrity sha512-CYpGiFTUrmI6OBMkAdjSDM0k5h8SkkiTP4WAjQgDgNB1S3Ou9VBEvr6q0Kv2H1mMk7IWfxYGpMH5sd5AvcIV2Q==
 
 v8-compile-cache@^2.0.3:
   version "2.1.0"
