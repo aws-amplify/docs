@@ -339,9 +339,9 @@ When designing data models using the `@key` directive, the first step should be 
 and needed to implement access patterns like:
 
 1. Get customers by email.
-2. Get orders by customer email sorted by `createdAt` date.
-3. Get items by order sorted by status by `createdAt` date.
-4. Get items by status sorted by `createdAt` date.
+2. Get orders by customer by createdAt.
+3. Get items by order by status by createdAt.
+4. Get items by status by createdAt.
 
 Let's take a look at how you would define custom keys to implement these access patterns in your `schema.graphql`.
 
@@ -369,7 +369,7 @@ query GetCustomerById {
 
 This is great for simple lookup operations, but what if you need to perform slightly more complex queries?
 
-#### Get orders by customer email sorted by createdAt.
+#### Get orders by customer email by createdAt.
 
 ```graphql
 type Order @model @key(fields: ["customerEmail", "createdAt"]) {
@@ -419,7 +419,7 @@ The primary `@key` with 3 fields performs a bit more magic than the 1 and 2 fiel
 Using this schema, you can query the primary index to get IN_TRANSIT items created in 2019 for a given order.
 
 ```graphql
-# Get items for order by status sorted by createdAt.
+# Get items for order by status by createdAt.
 query ListInTransitItemsForOrder {
   listItems(orderId:"order1", statusCreatedAt: { beginsWith: { status: IN_TRANSIT, createdAt: "2019" }}) {
     items {
