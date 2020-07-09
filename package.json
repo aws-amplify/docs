@@ -12,8 +12,9 @@
     "capi"
   ],
   "dependencies": {
-    "@aws-amplify/analytics": "^3.1.7",
-    "@aws-amplify/auth": "^3.2.4",
+    "@aws-amplify/analytics": "latest",
+    "@aws-amplify/auth": "latest",
+    "@aws-amplify/storage": "latest",
     "@aws-amplify/ui-components": "latest",
     "array-flatten": "^3.0.0",
     "copy-to-clipboard": "^3.2.1",
