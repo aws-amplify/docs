@@ -1768,7 +1768,7 @@ type Team @model {
 }
 ```
 
-In this case, the Project type has a `teamID` field added as an identifier for the team that the project belongs to. @connection can then get the connected Team object by querying the Team table with this `teamID`.
+In this case, the Project type has a `teamID` field added as an identifier for the team that the project belongs to. `@connection` can then get the connected Team object by querying the Team table with this `teamID`.
 
 After it's transformed, you can create projects and query the connected team as follows:
 
@@ -2018,13 +2018,13 @@ query GetPostWithEditorsWithPosts {
 
 #### Alternative definition
 
-The above definition is the recommended way to create relationships between model types in your API. This involves defining index structures using `@key` and connection resolvers using `@connection`. There is an older parameterization of @connection that creates indices and connection resolvers that is still functional for backwards compatibility reasons. It is recommended to use `@key` and the new @connection via the fields argument.
+The above definition is the recommended way to create relationships between model types in your API. This involves defining index structures using `@key` and connection resolvers using `@connection`. There is an older parameterization of `@connection` that creates indices and connection resolvers that is still functional for backwards compatibility reasons. It is recommended to use `@key` and the new `@connection` via the fields argument.
 
 ```
 directive @connection(name: String, keyField: String, sortField: String, limit: Int) on FIELD_DEFINITION
 ```
 
-This parameterization is not compatible with `@key`. See the parameterization above to use @connection with indexes created by @key.
+This parameterization is not compatible with `@key`. See the parameterization above to use `@connection` with indexes created by @key.
 
 ### Limit
 
