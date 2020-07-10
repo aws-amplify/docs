@@ -338,7 +338,7 @@ function TextToSpeech() {
         source.start(0);
       }, (err) => console.log({err}));
 
-      setResponse(`Generation completed, press play`);
+      setResponse("Generation completed, press play");
     })
       .catch(err => setResponse(err))
   }
@@ -587,7 +587,7 @@ function TextToSpeech() {
         const audio = new Audio();
         audio.src = result.speech.url;
         audio.play();
-        setResponse(`Generation completed`);
+        setResponse("Generation completed");
       })
       .catch((err) => setResponse(err));
   }
