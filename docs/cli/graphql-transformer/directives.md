@@ -939,12 +939,6 @@ The @auth directive allows the override of the default provider for a given auth
 ### Authorization using an `oidc` provider
 
 ```graphql
-# private authorization with provider override
-type Post @model @auth(rules: [{ allow: private, provider: oidc }]) {
-  id: ID!
-  title: String!
-}
-
 # owner authorization with provider override
 type Profile @model @auth(rules: [{ allow: owner, provider: oidc, identityClaim: "sub" }]) {
   id: ID!
@@ -952,10 +946,10 @@ type Profile @model @auth(rules: [{ allow: owner, provider: oidc, identityClaim:
 }
 ```
 
-By using a configured `oidc` provider for the API, it is possible to authenticate the users against it to perform operations on the `Post` type, and `owner` authorization is also possible.
+By using a configured `oidc` provider for the API, it is possible to authenticate the users against it. In the sample above, `oidc` is specified as the provider for the `owner` authorization on the type. The field `identityClaim: "sub"` specifies that the `"sub"` claim from your JWT token is used to provider ownership instead of the default `username` claim, which is used by the Amazon Cognito JWT.
 
 
-### Combining multiple authorization rules
+### Combining multiple authorization types
 
 Amplify GraphQL APIs have a primary **default** authentication type and, optionally, additional secondary authentication types. The objects and fields in the GraphQL schema can have rules with different authorization providers assigned based on the authentication types configured in your app.
 
@@ -969,8 +963,10 @@ type Post @model
     rules: [
       # allow all authenticated users ability to create posts
       # allow owners ability to update and delete their posts
+      { allow: owner },
+
       # allow all authenticated users to read posts
-      { allow: owner, operations: [create, update, delete] },
+      { allow: private, operations: [read] },
 
       # allow all guest users (not authenticated) to read posts
       { allow: public, operations: [read] }
@@ -1046,7 +1042,7 @@ Please note that `groups` is leveraging Cognito User Pools but no provider assig
 `@auth` supports using custom claims if you do not wish to use the default `username` or `cognito:groups` claims from your JWT token which are populated by Amazon Cognito. This can be helpful if you are using tokens from a 3rd party OIDC system or if you wish to populate a claim with a list of groups from an external system, such as when using a [Pre Token Generation Lambda Trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-token-generation.html) which reads from a database. To use custom claims specify `identityClaim` or `groupClaim` as appropriate like in the example below:
 
 ```graphql
-type Post @model
+type Post
 @model
 @auth(rules: [
 	{ allow: owner, identityClaim: "user_id" },
@@ -1099,10 +1095,12 @@ type Post @model
 
 This means that the subscription must look like the following or it will fail:
 
-```javascript
-subscription onCreatePost(owner: “Bob”){
-  postname
-  content
+```graphql
+subscription OnCreatePost {
+  onCreatePost(owner: “Bob”){
+    postname
+    content
+  }
 }
 ```
 
@@ -1112,7 +1110,7 @@ In the case of groups if you define the following:
 
 ```graphql
 type Post @model
-@model @auth(rules: [{ allow: groups, groups: ["Admin"] }]) {
+@auth(rules: [{ allow: groups, groups: ["Admin"] }])
 {
   id: ID!
   owner: String
@@ -1185,6 +1183,7 @@ salaries but only admins may create or update them.
 type Employee @model {
   id: ID!
   email: String
+  username: String
 
   # Owners & members of the "Admin" group may read employee salaries.
   # Only members of the "Admin" group may create an employee with a salary
@@ -1207,6 +1206,7 @@ type Todo
   @model
 {
   id: ID!
+  owner: String
   updatedAt: AWSDateTime!
   content: String! @auth(rules: [{ allow: owner, operations: [update] }])
 }
@@ -1219,6 +1219,7 @@ type Todo
   @model
 {
   id: ID!
+  owner: String
   updatedAt: AWSDateTime! @auth(rules: [{ allow: owner, operations: [update] }]) // or @auth(rules: [{ allow: groups, groups: ["Admins"] }])
   content: String! @auth(rules: [{ allow: owner, operations: [update] }])
 }
@@ -1230,7 +1231,8 @@ type Todo
   @model
 {
   id: ID!
-  updatedAt: AWSDateTime! @auth(rules: [{ allow: groups, groups: ["ForbiddenGroup"] }])
+  owner: String
+  updatedAt: AWSDateTime @auth(rules: [{ allow: groups, groups: ["ForbiddenGroup"] }])
   content: String! @auth(rules: [{ allow: owner, operations: [update] }])
 }
 ```
@@ -1239,9 +1241,10 @@ You can also combine top-level @auth rules on the type with field level auth rul
 
 ```graphql
 type Todo
-  @model @auth(rules: [{ allow: groups, groups: ["Admin"], operations:[update] }]
+  @model @auth(rules: [{ allow: groups, groups: ["Admin"], operations:[update] }])
 {
   id: ID!
+  owner: String
   updatedAt: AWSDateTime!
   content: String! @auth(rules: [{ allow: owner, operations: [update] }])
 }
@@ -1276,8 +1279,8 @@ mutation {
     address: "123 First Ave"
     ssn: "392-95-2716"
   }){
-    title
-    content
+    name
+    address
     ssn
   }
 }
@@ -1365,8 +1368,8 @@ The @function directive allows you to quickly connect lambda resolvers to an App
 Let's assume you have deployed an *echo* function with the following contents:
 
 ```javascript
-exports.handler = function (event, context) {
-  context.done(null, event.arguments.msg);
+exports.handler =  async function(event, context){
+  return event.arguments.msg;
 };
 ```
 
@@ -2139,7 +2142,7 @@ And then search for posts using a `match` query:
 
 ```graphql
 query SearchPosts {
-  searchPost(filter: { title: { match: "Stream" }}) {
+  searchPosts(filter: { title: { match: "Stream" }}) {
     items {
       id
       title
@@ -2240,7 +2243,7 @@ The supported actions in this directive are included in the definition.
     identifyText # uses Amazon Rekognition to detect text
     identifyLabels # uses Amazon Rekognition to detect labels
     convertTextToSpeech # uses Amazon Polly in a lambda to output a presigned url to synthesized speech
-    translateText # uses Amazon Translate to translate text from source to target langauge
+    translateText # uses Amazon Translate to translate text from source to target language
   }
 ```
 
@@ -2405,7 +2408,7 @@ type Query {
 }
 ```
 
-Amplify generates the defintion below that sends a request to the url when the `listPosts` query is used.
+Amplify generates the definition below that sends a request to the url when the `listPosts` query is used.
 
 ```graphql
 type Query {

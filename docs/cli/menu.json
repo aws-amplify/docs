@@ -6,6 +6,7 @@
     "auth",
     "function",
     "hosting",
+    "plugins",
     "teams",
     "usage",
     "migration"
