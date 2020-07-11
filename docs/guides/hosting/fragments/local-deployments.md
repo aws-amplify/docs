@@ -36,9 +36,10 @@ amplify add hosting
 ## 4. Deploy the app
 
 Now, the app is ready to deploy. To do so, you can run the `publish` command.
-----
+
+```sh
 amplify publish
-----
+```
 
 ## 5. View in the Amplify Console
 
