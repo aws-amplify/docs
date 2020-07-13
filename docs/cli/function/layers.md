@@ -104,7 +104,7 @@ A `python` folder is auto-generated for you. In there you'll find a skeleton fol
 
 ### Add shared assets
 
-Any assets like large images or other files that you want to share across various functions can be placed in the `amplify/backend/function/<layer-name>/opt/` folder. Your function's code can import any assets by looking for files in the `/opt/` path.
+Any assets like large images or other files that you want to share across various functions can be placed in the `amplify/backend/function/<layer-name>/opt/` folder. Your function's code can import any assets by looking for files in the `/opt/opt/` path.
 
 ### Lambda layer versions
 
