@@ -44,37 +44,31 @@ You can identify real world objects such as chairs, desks, etc. which are referr
 
 ```swift
 func detectLabels(_ image:URL) {
-	//For offline calls only to Core ML models replace `options` in the call below with this instance:
-	// let options = PredictionsIdentifyRequest.Options(defaultNetworkPolicy: .offline, pluginOptions: nil)
-	_ = Amplify.Predictions.identify(type: .detectLabels(.labels), image: image, options: PredictionsIdentifyRequest.Options(), listener: { (event) in
-
-		switch event {
-		case .completed(let result):
-			let data = result as! IdentifyLabelsResult
-			print(data.labels)
-			//use the labels in your app as you like or display them
-		case .failed(let error):
-			print(error)
-		default:
-			print("")
-		}
-	})
+    //For offline calls only to Core ML models replace `options` in the call below with this instance:
+    // let options = PredictionsIdentifyRequest.Options(defaultNetworkPolicy: .offline, pluginOptions: nil)
+    _ = Amplify.Predictions.identify(type: .detectLabels(.labels), image: image) { event in
+        switch event {
+        case let .success(result):
+            let data = result as! IdentifyLabelsResult
+            print(data.labels)
+            // use the labels in your app as you like or display them
+        case let .failure(error):
+            print(error)
+        }
+    }
 }
 
 //To identify labels with unsafe content
 func detectLabels(_ image:URL) {
-	_ = Amplify.Predictions.identify(type: .detectLabels(.all), image: image, options: PredictionsIdentifyRequest.Options(), listener: { (event) in
-
-		switch event {
-		case .completed(let result):
-			let data = result as! IdentifyLabelsResult
-			print(data.labels)
-			//use the labels in your app as you like or display them
-		case .failed(let error):
-			print(error)
-		default:
-			print("")
-		}
-	})
+    _ = Amplify.Predictions.identify(type: .detectLabels(.all), image: image) { event in
+        switch event {
+        case let .success(result):
+            let data = result as! IdentifyLabelsResult
+            print(data.labels)
+            // use the labels in your app as you like or display them
+        case let .failure(error):
+            print(error)
+        }
+    }
 }
 ```
