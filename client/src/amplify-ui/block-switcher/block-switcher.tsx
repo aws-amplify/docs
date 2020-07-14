@@ -26,7 +26,7 @@ export class AmplifyBlockSwitcher {
 
   @State() activeChildI = 0;
 
-  tabHeadings: string[];
+  tabHeadings: string[] = [];
 
   componentWillLoad() {
     // gather tab headings from child `amplify-block` attrs
