@@ -1,7 +1,7 @@
 ```swift
 // Tests only against the local state
 if post.title.starts(with: "[Amplify]") {
-    Amplify.DataStore.update(post) {
+    Amplify.DataStore.save(post) {
         // handle result
     }
 }
