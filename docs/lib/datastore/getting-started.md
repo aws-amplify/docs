@@ -45,7 +45,7 @@ The base structure for a DataStore app is created by adding a new GraphQL API to
 amplify add api
 ```
 
-During the API configuration process select **GraphQL** as the API type and reply to the questions as follows. Make sure you respond **Yes, I want to make some additional changes** when prompted for **advanced settings** and turn on **conflict detection**. This setting is critical when syncing data to the cloud since the conflict resolution strategy is what allows local data to be reconciled with data from the cloud backend.
+During the API configuration process select **GraphQL** as the API type and reply to the questions as follows. Make sure you respond **Yes, I want to make some additional changes** when prompted for **advanced settings** and turn on **conflict detection**. This setting is **required** when syncing data to the cloud since the conflict resolution strategy is what allows local data to be reconciled with data from the cloud backend.
 
 ```console
 ? Please select from one of the below mentioned services:
@@ -162,8 +162,8 @@ To read from the database, the simplest approach is to query for all records of 
 
 Congratulations! You’ve created and retrieved data from the local database. Check out the following links to see other Amplify DataStore use cases and advanced concepts:
 
-- [Write data](~/lib/datastore/data-access.md#insert-and-update)
+- [Write data](~/lib/datastore/data-access.md#create-and-update)
 - [Query data](~/lib/datastore/data-access.md#query-data)
 - [Model associations](~/lib/datastore/relational.md)
 - [Cloud synchronization](~/lib/datastore/sync.md)
-- [Clear the local database]()
+- [Clear local data](~/lib/datastore/sync.md#clear-local-data)

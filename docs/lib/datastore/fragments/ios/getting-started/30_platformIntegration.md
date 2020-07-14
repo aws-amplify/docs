@@ -13,7 +13,7 @@ Then **add a Build Phase** to your app target.
 3. Drag the new `Run Script` phase to move the phase so that it runs prior to the `Compile Sources` phase.
 4. Update the `Run Script` build phase title to **"Run Amplify Tools"**, and then update the shell script to have a single line with:
   ```bash
-  ${PODS_ROOT}/AmplifyTools/amplify-tools.sh
+  "${PODS_ROOT}/AmplifyTools/amplify-tools.sh"
   ```
 5.  Now that Amplify tools  is added to the build process, it will run when you build you project.  **Build your project** in Xcode (`Cmd+b`).
 
