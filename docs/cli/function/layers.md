@@ -59,9 +59,9 @@ In addition, the customer can configure access for:
 
 ```console
 Next steps:
-Move your libraries in the following folder:
-[NodeJS]: amplify/backend/function/<lambda-layer-name>/nodejs/node_modules/...
-[Python]: amplify/backend/function/<lambda-layer-name>/python/dist-packages/...
+Install your libraries in the following folder:
+[NodeJS]: amplify/backend/function/<lambda-layer-name>/lib/nodejs/node_modules/...
+[Python]: amplify/backend/function/<lambda-layer-name>/lib/python/lib/python3.8/site-packages/...
 
 Include any files you want to share across runtimes in this folder:
 amplify/backend/function/<lambda-layer-name>/opt/data
@@ -104,7 +104,7 @@ A `python` folder is auto-generated for you. In there you'll find a skeleton fol
 
 ### Add shared assets
 
-Any assets like large images or other files that you want to share across various functions can be placed in the `amplify/backend/function/<layer-name>/opt/` folder. Your function's code can import any assets by looking for files in the `/opt/` path.
+Any assets like large images or other files that you want to share across various functions can be placed in the `amplify/backend/function/<layer-name>/opt/` folder. Your function's code can import any assets by looking for files in the `/opt/opt/` path.
 
 ### Lambda layer versions
 
