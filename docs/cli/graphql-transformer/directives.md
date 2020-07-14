@@ -1282,7 +1282,7 @@ type Todo
 {
   id: ID!
   owner: String
-  updatedAt: AWSDateTime @auth(rules: [{ allow: groups, groups: ["ForbiddenGroup"] }])
+  updatedAt: AWSDateTime! @auth(rules: [{ allow: groups, groups: ["ForbiddenGroup"], operations: [] }])
   content: String! @auth(rules: [{ allow: owner, operations: [update] }])
 }
 ```
