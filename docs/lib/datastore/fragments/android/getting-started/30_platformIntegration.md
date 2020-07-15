@@ -7,7 +7,7 @@ Add the plugin as a dependency under the `buildscript`'s `dependencies` block:
 ```groovy
 buildscript {
     repositories {
-        mavenLocal()
+        mavenCentral()
         google()
         jcenter()
     }
