@@ -43,7 +43,7 @@ Enter the following when prompted:
 
 <amplify-callout warning>
 
-**Troubleshooting:** The API plugin does not support conflict detection, so if AppSync returns errors about missing `_version` and `_lastChangedAt` fields, or unhandled conflicts, disable **conflict detection** by running `amplify update api`, and then choose **Disable DataStore for entire API**.  This step is likely required if you started with the Getting Started guide, which starts with DataStore.
+**Troubleshooting:** The AWS API plugins do not support conflict detection. If AppSync returns errors about missing `_version` and `_lastChangedAt` fields, or unhandled conflicts, disable **conflict detection**. Run `amplify update api`, and choose **Disable DataStore for entire API**.  If you started with the Getting Started guide, which introduces DataStore, this step is required.
 
 </amplify-callout>
 
