@@ -88,6 +88,7 @@ Use the following steps to connect push notification backend services to your ap
         // MARK: Push Notification methods
 
         func registerForPushNotifications() {
+            UNUserNotificationCenter.current().delegate = self
             UNUserNotificationCenter.current()
                 .requestAuthorization(options: [.alert, .sound, .badge]) { [weak self] granted, _ in
                     print("Permission granted: \(granted)")
@@ -161,6 +162,22 @@ Use the following steps to connect push notification backend services to your ap
             userInfo, fetchCompletionHandler: completionHandler
         )
     }
+    ```
+    For iOS 10 and above, pass the notification event to pinpoint SDK in `userNotificationCenter(_:willPresent:withCompletionHandler:)` and `userNotificationCenter(_:didReceive:withCompletionHandler:)`
+    ```swift
+    extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: (UNNotificationPresentationOptions) -> Void) {
+        // Handle foreground push notifications
+        pinpoint!.notificationManager.interceptDidReceiveRemoteNotification(notification.request.content.userInfo, fetchCompletionHandler: { _ in })
+        completionHandler(.badge)
+     }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: () -> Void)  {
+        // Handle background and closed push notifications
+        pinpoint!.notificationManager.interceptDidReceiveRemoteNotification(response.notification.request.content.userInfo, fetchCompletionHandler: { _ in })
+        completionHandler()
+    }
+}
     ```
 
 1. (Optional) Enable verbose logging for AWSPinpoint SDK. The `endpointId` will be printed out when verbose logging is turned on. It will be useful when testing push notification events with AWS Pinpoint campaigns but not required.
