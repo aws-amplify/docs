@@ -41,6 +41,12 @@ Enter the following when prompted:
     `No`
 ```
 
+<amplify-callout warning>
+
+**Troubleshooting:** The API plugin does not support conflict detection, so if AppSync returns errors about missing `_version` and `_lastChangedAt` fields, or unhandled conflicts, disable **conflict detection** by running `amplify update api`, and then choose **Disable DataStore for entire API**.  This step is likely required if you started with the Getting Started guide, which starts with DataStore.
+
+</amplify-callout>
+
 The guided schema creation will output `amplify/backend/api/{api_name}/schema.graphql` containing the following:
 ```graphql
 type Todo @model {
