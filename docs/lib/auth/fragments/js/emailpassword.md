@@ -73,7 +73,7 @@ When signing in with user name and password, you will pass in the username and t
 ```javascript
 import { Auth } from 'aws-amplify';
 
-async function SignIn() {
+async function signIn() {
     try {
         const user = await Auth.signIn(username, password);
     } catch (error) {
