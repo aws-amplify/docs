@@ -4,7 +4,7 @@ Next you'll use the generated model to create, update, query, and delete data. I
 
 First, we'll add the DataStore plugin and configure Amplify.
 
-1. Open `AppDelegate.swift` and **add the following** import statments at the top of the file:
+1. Open `AppDelegate.swift` and **add the following** import statements at the top of the file:
   ```swift
   import Amplify
   import AmplifyPlugins
@@ -29,12 +29,12 @@ First, we'll add the DataStore plugin and configure Amplify.
     Initialized Amplify
     ```
 
-    Optinally, if you'd like to adjust the log level, you can do this by updating the `Amplify.Logging.logLevel` variable.  For example:
+    Optionally, if you'd like to adjust the log level, you can do this by updating the `Amplify.Logging.logLevel` variable.  For example:
     ```swift
     Amplify.Logging.logLevel = .info
     ```
 
-    Setting the logevel to `.info`, re-building and re-running the application should render additional log statements:
+    Setting the log level to `.info`, re-building and re-running the application should render additional log statements:
     ```swift
     [Amplify] Configuring
     Initialized Amplify
@@ -45,7 +45,7 @@ First, we'll add the DataStore plugin and configure Amplify.
 
 Next, you'll create a Todo and save it to DataStore.
 
-1. Open `ContentView.swift` and **add the following** import statments at the top of the file:
+1. Open `ContentView.swift` and **add the following** import statements at the top of the file:
   ```swift
   import Amplify
   import AmplifyPlugins

@@ -66,3 +66,4 @@ Congratulations! Now that you have Analytics' backend provisioned and Analytics 
 * [Record Events](~/lib/analytics/record.md)
 * [Track Sessions](~/lib/analytics/autotrack.md)
 * [Identify User](~/lib/analytics/identifyuser.md)
+* [Escape Hatch](~/lib/analytics/escapehatch.md)

@@ -285,11 +285,55 @@ directive @key(fields: [String!]!, name: String, queryField: String) on OBJECT
 
 | Argument  | Description  |
 |---|---|
-| fields  | A list of fields that should comprise the @key, used in conjunction with an @model type. The first field in the list will always be the **HASH** key. If two fields are provided the second field will be the **SORT** key. If more than two fields are provided, a single composite **SORT** key will be created from a combination of `fields[1...n]`. All generated GraphQL queries & mutations will be updated to work with custom `@key` directives. |
-| name  | When provided, specifies the name of the secondary index. When omitted, specifies that the @key is defining the primary index. You may have at most one primary key per table and therefore you may have at most one @key that does not specify a **name** per @model type.  |
+| fields  | A list of fields that should comprise the @key, used in conjunction with an `@model` type. The first field in the list will always be the **HASH** key. If two fields are provided the second field will be the **SORT** key. If more than two fields are provided, a single composite **SORT** key will be created from a combination of `fields[1...n]`. All generated GraphQL queries & mutations will be updated to work with custom `@key` directives. |
+| name  | When provided, specifies the name of the secondary index. When omitted, specifies that the `@key` is defining the primary index. You may have at most one primary key per table and therefore you may have at most one `@key` that does not specify a **name** per `@model` type.  |
 | queryField  | When defining a secondary index (by specifying the *name* argument), this specifies that a new top level query field that queries the secondary index should be generated with the given name.  |
 
 ### How to use @key
+
+For an introduction to the `@key` directive, let's start by looking a basic `Todo` app schema with only an `@model` directive.
+
+```graphql
+type Todo @model {
+  id: ID!
+  name: String!
+  status: String!
+}
+```
+
+By default, the `@model` directive will enable the following 2 data access patterns:
+
+1. `getTodo` - Get a Todo by `id`
+2. `listTodos` - Query all Todos
+
+You will often need additional data access patterns. For example in a Todo app you may want to fetch Todos by `status`. The `@key` directive would allow you to add this additional data access pattern with a single new line of code:
+
+```graphql
+type Todo @model
+  @key(name: "todosByStatus", fields: ["status"], queryField: "todosByStatus") {
+  id: ID!
+  name: String!
+  status: String!
+}
+```
+
+Using the new `todosByStatus` query you can fetch todos by `status`:
+
+```graphql
+query todosByStatus {
+  todosByStatus(status: "completed") {
+    items {
+      id
+      name
+      status
+    }
+  }
+}
+```
+
+Next, let's take a closer look at how this works by examining a few more common data access patterns and how to model them.
+
+### Designing Data Models using @key
 
 When designing data models using the `@key` directive, the first step should be to write down your application's expected access patterns. For example, let's say you were building an e-commerce application
 and needed to implement access patterns like:
@@ -301,15 +345,18 @@ and needed to implement access patterns like:
 
 Let's take a look at how you would define custom keys to implement these access patterns in your `schema.graphql`.
 
+#### Get customers by email.
+
 ```graphql
-# Get customers by email.
 type Customer @model @key(fields: ["email"]) {
   email: String!
   username: String
 }
 ```
 
-A `@key` without a *name* specifies the key for the DynamoDB table's primary index. You may only provide 1 `@key` without a *name* per @model type. The example above shows the simplest case where you are specifying that the table's primary index should have a simple key where the hash key is *email*. This allows you to get unique customers by their *email*.
+A `@key` without a *name* specifies the key for the DynamoDB table's primary index. You may only provide 1 `@key` without a *name* per `@model` type.
+
+The example above shows the simplest case where you are specifying that the table's primary index should have a simple key where the hash key is *email*. This allows you to get unique customers by their *email*.
 
 ```graphql
 query GetCustomerById {
@@ -322,8 +369,9 @@ query GetCustomerById {
 
 This is great for simple lookup operations, but what if you need to perform slightly more complex queries?
 
+#### Get orders by customer email by createdAt.
+
 ```graphql
-# Get orders by customer by createdAt.
 type Order @model @key(fields: ["customerEmail", "createdAt"]) {
     customerEmail: String!
     createdAt: String!
@@ -331,7 +379,7 @@ type Order @model @key(fields: ["customerEmail", "createdAt"]) {
 }
 ```
 
-This @key above allows you to efficiently query *Order* objects by both a *customerEmail* and the *createdAt* time stamp. The @key above creates a DynamoDB table where the primary index's hash key is *customerEmail* and the sort key is *createdAt*. This allows you to write queries like this:
+This `@key` above allows you to efficiently query *Order* objects by both a *customerEmail* and the *createdAt* time stamp. The `@key` above creates a DynamoDB table where the primary index's hash key is *customerEmail* and the sort key is *createdAt*. This allows you to write queries like this:
 
 ```graphql
 query ListOrdersForCustomerIn2019 {
@@ -345,7 +393,9 @@ query ListOrdersForCustomerIn2019 {
 }
 ```
 
-The query above shows how you can use compound key structures to implement more powerful query patterns on top of DynamoDB but you are not quite done yet. Given that DynamoDB limits you to query by at most two attributes at a time, the @key directive helps by streamlining the process of creating composite sort keys such that you can support querying by more than two attributes at a time. For example, you can implement “Get items by order, status, and createdAt” as well as “Get items by status and createdAt” for a single @model with this schema.
+The query above shows how you can use compound key structures to implement more powerful query patterns on top of DynamoDB but you are not quite done yet.
+
+Given that DynamoDB limits you to query by at most two attributes at a time, the `@key` directive helps by streamlining the process of creating composite sort keys such that you can support querying by more than two attributes at a time. For example, you can implement “Get items by `orderId`, `status`, and `createdAt”` as well as “Get items by `status` and `createdAt”` for a single `@model` with this schema.
 
 ```graphql
 type Item @model
@@ -364,7 +414,7 @@ enum Status {
 }
 ```
 
-The primary @key with 3 fields performs a bit more magic than the 1 and 2 field variants. The first field orderId will be the **HASH** key as expected, but the **SORT** key will be a new composite key named *status#createdAt* that is made of the *status* and *createdAt* fields on the @model. The @key directive creates the table structures and also generates resolvers that inject composite key values for you during queries and mutations.
+The primary `@key` with 3 fields performs a bit more magic than the 1 and 2 field variants. The first field orderId will be the **HASH** key as expected, but the **SORT** key will be a new composite key named *status#createdAt* that is made of the *status* and *createdAt* fields on the @model. The `@key` directive creates the table structures and also generates resolvers that inject composite key values for you during queries and mutations.
 
 Using this schema, you can query the primary index to get IN_TRANSIT items created in 2019 for a given order.
 
@@ -403,9 +453,9 @@ query ItemsByStatus {
 There are a few important things to think about when making changes to APIs using `@key`. When you need to enable a new access pattern or change an existing access pattern you should follow these steps.
 
 1. Create a new index that enables the new or updated access pattern.
-2. If adding a @key with 3 or more fields, you will need to back-fill the new composite sort key for existing data. With a `@key(fields: ["email", "status", "date"])`, you would need to backfill the `status#date` field with composite key values made up of each object's *status* and *date* fields joined by a `#`. You do not need to backfill data for @key directives with 1 or 2 fields.
+2. If adding an `@key` with 3 or more fields, you will need to back-fill the new composite sort key for existing data. With a `@key(fields: ["email", "status", "date"])`, you would need to backfill the `status#date` field with composite key values made up of each object's *status* and *date* fields joined by a `#`. You do not need to backfill data for `@key` directives with 1 or 2 fields.
 3. Deploy your additive changes and update any downstream applications to use the new access pattern.
-4. Once you are certain that you do not need the old index, remove its @key and deploy the API again.
+4. Once you are certain that you do not need the old index, remove its `@key` and deploy the API again.
 
 ### Combining @key with @connection
 
@@ -939,12 +989,6 @@ The @auth directive allows the override of the default provider for a given auth
 ### Authorization using an `oidc` provider
 
 ```graphql
-# private authorization with provider override
-type Post @model @auth(rules: [{ allow: private, provider: oidc }]) {
-  id: ID!
-  title: String!
-}
-
 # owner authorization with provider override
 type Profile @model @auth(rules: [{ allow: owner, provider: oidc, identityClaim: "sub" }]) {
   id: ID!
@@ -952,10 +996,10 @@ type Profile @model @auth(rules: [{ allow: owner, provider: oidc, identityClaim:
 }
 ```
 
-By using a configured `oidc` provider for the API, it is possible to authenticate the users against it to perform operations on the `Post` type, and `owner` authorization is also possible.
+By using a configured `oidc` provider for the API, it is possible to authenticate the users against it. In the sample above, `oidc` is specified as the provider for the `owner` authorization on the type. The field `identityClaim: "sub"` specifies that the `"sub"` claim from your JWT token is used to provider ownership instead of the default `username` claim, which is used by the Amazon Cognito JWT.
 
 
-### Combining multiple authorization rules
+### Combining multiple authorization types
 
 Amplify GraphQL APIs have a primary **default** authentication type and, optionally, additional secondary authentication types. The objects and fields in the GraphQL schema can have rules with different authorization providers assigned based on the authentication types configured in your app.
 
@@ -969,8 +1013,10 @@ type Post @model
     rules: [
       # allow all authenticated users ability to create posts
       # allow owners ability to update and delete their posts
+      { allow: owner },
+
       # allow all authenticated users to read posts
-      { allow: owner, operations: [create, update, delete] },
+      { allow: private, operations: [read] },
 
       # allow all guest users (not authenticated) to read posts
       { allow: public, operations: [read] }
@@ -1046,7 +1092,7 @@ Please note that `groups` is leveraging Cognito User Pools but no provider assig
 `@auth` supports using custom claims if you do not wish to use the default `username` or `cognito:groups` claims from your JWT token which are populated by Amazon Cognito. This can be helpful if you are using tokens from a 3rd party OIDC system or if you wish to populate a claim with a list of groups from an external system, such as when using a [Pre Token Generation Lambda Trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-token-generation.html) which reads from a database. To use custom claims specify `identityClaim` or `groupClaim` as appropriate like in the example below:
 
 ```graphql
-type Post @model
+type Post
 @model
 @auth(rules: [
 	{ allow: owner, identityClaim: "user_id" },
@@ -1099,10 +1145,12 @@ type Post @model
 
 This means that the subscription must look like the following or it will fail:
 
-```javascript
-subscription onCreatePost(owner: “Bob”){
-  postname
-  content
+```graphql
+subscription OnCreatePost {
+  onCreatePost(owner: “Bob”){
+    postname
+    content
+  }
 }
 ```
 
@@ -1112,7 +1160,7 @@ In the case of groups if you define the following:
 
 ```graphql
 type Post @model
-@model @auth(rules: [{ allow: groups, groups: ["Admin"] }]) {
+@auth(rules: [{ allow: groups, groups: ["Admin"] }])
 {
   id: ID!
   owner: String
@@ -1185,6 +1233,7 @@ salaries but only admins may create or update them.
 type Employee @model {
   id: ID!
   email: String
+  username: String
 
   # Owners & members of the "Admin" group may read employee salaries.
   # Only members of the "Admin" group may create an employee with a salary
@@ -1207,6 +1256,7 @@ type Todo
   @model
 {
   id: ID!
+  owner: String
   updatedAt: AWSDateTime!
   content: String! @auth(rules: [{ allow: owner, operations: [update] }])
 }
@@ -1219,6 +1269,7 @@ type Todo
   @model
 {
   id: ID!
+  owner: String
   updatedAt: AWSDateTime! @auth(rules: [{ allow: owner, operations: [update] }]) // or @auth(rules: [{ allow: groups, groups: ["Admins"] }])
   content: String! @auth(rules: [{ allow: owner, operations: [update] }])
 }
@@ -1230,7 +1281,8 @@ type Todo
   @model
 {
   id: ID!
-  updatedAt: AWSDateTime! @auth(rules: [{ allow: groups, groups: ["ForbiddenGroup"] }])
+  owner: String
+  updatedAt: AWSDateTime! @auth(rules: [{ allow: groups, groups: ["ForbiddenGroup"], operations: [] }])
   content: String! @auth(rules: [{ allow: owner, operations: [update] }])
 }
 ```
@@ -1239,9 +1291,10 @@ You can also combine top-level @auth rules on the type with field level auth rul
 
 ```graphql
 type Todo
-  @model @auth(rules: [{ allow: groups, groups: ["Admin"], operations:[update] }]
+  @model @auth(rules: [{ allow: groups, groups: ["Admin"], operations:[update] }])
 {
   id: ID!
+  owner: String
   updatedAt: AWSDateTime!
   content: String! @auth(rules: [{ allow: owner, operations: [update] }])
 }
@@ -1276,8 +1329,8 @@ mutation {
     address: "123 First Ave"
     ssn: "392-95-2716"
   }){
-    title
-    content
+    name
+    address
     ssn
   }
 }
@@ -1365,8 +1418,8 @@ The @function directive allows you to quickly connect lambda resolvers to an App
 Let's assume you have deployed an *echo* function with the following contents:
 
 ```javascript
-exports.handler = function (event, context) {
-  context.done(null, event.arguments.msg);
+exports.handler =  async function(event, context){
+  return event.arguments.msg;
 };
 ```
 
@@ -1715,7 +1768,7 @@ type Team @model {
 }
 ```
 
-In this case, the Project type has a `teamID` field added as an identifier for the team that the project belongs to. @connection can then get the connected Team object by querying the Team table with this `teamID`.
+In this case, the Project type has a `teamID` field added as an identifier for the team that the project belongs to. `@connection` can then get the connected Team object by querying the Team table with this `teamID`.
 
 After it's transformed, you can create projects and query the connected team as follows:
 
@@ -1753,7 +1806,7 @@ type Comment @model
 }
 ```
 
-Note how a one-to-many connection needs a @key that allows comments to be queried by the postID and the connection uses this key to get all comments whose postID is the id of the post was called on.
+Note how a one-to-many connection needs an `@key` that allows comments to be queried by the postID and the connection uses this key to get all comments whose postID is the id of the post was called on.
 After it's transformed, you can create comments and query the connected Post as follows:
 
 ```graphql
@@ -1965,13 +2018,13 @@ query GetPostWithEditorsWithPosts {
 
 #### Alternative definition
 
-The above definition is the recommended way to create relationships between model types in your API. This involves defining index structures using `@key` and connection resolvers using `@connection`. There is an older parameterization of @connection that creates indices and connection resolvers that is still functional for backwards compatibility reasons. It is recommended to use @key and the new @connection via the fields argument.
+The above definition is the recommended way to create relationships between model types in your API. This involves defining index structures using `@key` and connection resolvers using `@connection`. There is an older parameterization of `@connection` that creates indices and connection resolvers that is still functional for backwards compatibility reasons. It is recommended to use `@key` and the new `@connection` via the fields argument.
 
 ```
 directive @connection(name: String, keyField: String, sortField: String, limit: Int) on FIELD_DEFINITION
 ```
 
-This parameterization is not compatible with `@key`. See the parameterization above to use @connection with indexes created by @key.
+This parameterization is not compatible with `@key`. See the parameterization above to use `@connection` with indexes created by @key.
 
 ### Limit
 
@@ -2139,7 +2192,7 @@ And then search for posts using a `match` query:
 
 ```graphql
 query SearchPosts {
-  searchPost(filter: { title: { match: "Stream" }}) {
+  searchPosts(filter: { title: { match: "Stream" }}) {
     items {
       id
       title
@@ -2240,7 +2293,7 @@ The supported actions in this directive are included in the definition.
     identifyText # uses Amazon Rekognition to detect text
     identifyLabels # uses Amazon Rekognition to detect labels
     convertTextToSpeech # uses Amazon Polly in a lambda to output a presigned url to synthesized speech
-    translateText # uses Amazon Translate to translate text from source to target langauge
+    translateText # uses Amazon Translate to translate text from source to target language
   }
 ```
 
@@ -2405,7 +2458,7 @@ type Query {
 }
 ```
 
-Amplify generates the defintion below that sends a request to the url when the `listPosts` query is used.
+Amplify generates the definition below that sends a request to the url when the `listPosts` query is used.
 
 ```graphql
 type Query {

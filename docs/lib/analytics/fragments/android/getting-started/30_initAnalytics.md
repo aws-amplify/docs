@@ -7,7 +7,7 @@ Add the following code to your `onCreate()` method in your application class:
 
 ```java
 Amplify.addPlugin(new AWSCognitoAuthPlugin());
-Amplify.addPlugin(new AWSPinpointAnalyticsPlugin());
+Amplify.addPlugin(new AWSPinpointAnalyticsPlugin(this));
 ```
 
 Your class will look like this:
@@ -21,7 +21,7 @@ public class MyAmplifyApp extends Application {
         try {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSPinpointAnalyticsPlugin plugins
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
-            Amplify.addPlugin(new AWSPinpointAnalyticsPlugin());
+            Amplify.addPlugin(new AWSPinpointAnalyticsPlugin(this));
             Amplify.configure(getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
@@ -37,7 +37,7 @@ public class MyAmplifyApp extends Application {
 
 ```kotlin
 Amplify.addPlugin(AWSCognitoAuthPlugin())
-Amplify.addPlugin(AWSPinpointAnalyticsPlugin())
+Amplify.addPlugin(AWSPinpointAnalyticsPlugin(this))
 ```
 
 Your class will look like this:
@@ -50,7 +50,7 @@ class MyAmplifyApp : Application() {
         try {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSPinpointAnalyticsPlugin plugins
             Amplify.addPlugin(AWSCognitoAuthPlugin())
-            Amplify.addPlugin(AWSPinpointAnalyticsPlugin())
+            Amplify.addPlugin(AWSPinpointAnalyticsPlugin(this))
             Amplify.configure(applicationContext)
 
             Log.i("MyAmplifyApp", "Initialized Amplify")

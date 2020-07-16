@@ -66,7 +66,7 @@ Upon completion, `amplifyconfiguration.json` will be updated to reference the ne
 
 ## Translating text
 
-To translate text from one language to another, specify the text you want translated, a source language, and a target langauge. The source and target language parameters will override any choice you made while adding this resource using the Amplify CLI.
+To translate text from one language to another, specify the text you want translated, a source language, and a target language. The source and target language parameters will override any choice you made while adding this resource using the Amplify CLI.
 
 <inline-fragment platform="ios" src="~/lib/predictions/fragments/ios/getting-started/50_translate.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/predictions/fragments/android/getting-started/50_translate.md"></inline-fragment>

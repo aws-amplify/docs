@@ -6,7 +6,7 @@ Select **Single View App**, select **Next**
 
 Fill in the following for your project:
 * Product Name: **MyAmplifyApp**
-* Langauge: **Swift**
+* Language: **Swift**
 * **Tap `Next`**
 
 ![GSA](~/images/project-setup/20_2_createProject.png)

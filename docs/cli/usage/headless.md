@@ -17,7 +17,7 @@ The following commands take the `--yes` flag:
 - `amplify pull`
 
 ## `amplify init` parameters
-The `ampify init` command takes these parameters:
+The `amplify init` command takes these parameters:
 - `--amplify`
 - `--frontend`
 - `--providers`
@@ -320,4 +320,20 @@ amplify pull \
 --frontend $FRONTEND \
 --providers $PROVIDERS \
 --yes
+```
+
+## `amplify delete` parameters
+The `amplify delete` command deletes all of the resources tied to the current project in the cloud, and removes all of the local files created by the Amplify CLI from the filesystem. The `amplify delete` command takes these parameters:
+- `--force`
+
+### `--force`
+
+Equivalent to the `--yes` parameter that other commands support for use in headless environments.
+
+### Sample script
+```bash
+#!/bin/bash
+set -e
+
+amplify delete --force
 ```
