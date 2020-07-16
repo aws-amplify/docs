@@ -39,7 +39,7 @@ export const platformFilterMetadataByOption: FilterMetadataByOption<typeof PLATF
   },
   flutter: {
     label: "Flutter",
-    graphicURI: "/assets/integrations/ios.svg",
+    graphicURI: "/assets/integrations/flutter.svg",
   },
 } as const;
 
