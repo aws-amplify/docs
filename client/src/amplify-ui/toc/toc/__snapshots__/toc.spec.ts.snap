@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`amplify-toc Render logic should render 1`] = `<amplify-toc></amplify-toc>`;

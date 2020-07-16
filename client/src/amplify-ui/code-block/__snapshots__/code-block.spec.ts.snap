@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`amplify-code-block Copy button is not visible if the language is set to console 1`] = `
+<amplify-code-block class="css-1lj8awz css-75wbz6" language="console">
+  <!---->
+  <div class="css-khgmir"></div>
+</amplify-code-block>
+`;
+
+exports[`amplify-code-block Copy button is visible for languages other than console 1`] = `
+<amplify-code-block class="css-1lj8awz" language="javascript">
+  <!---->
+  const lol = 'i dunno'; alert(lol);
+  <div class="css-khgmir"></div>
+  <button class="css-16vr62x">
+    <span>
+      copy
+    </span>
+  </button>
+</amplify-code-block>
+`;
+
+exports[`amplify-code-block Line numbers is not visible if the code block only has a single line 1`] = `
+<amplify-code-block class="css-1lj8awz css-75wbz6" language="console">
+  <!---->
+  line 1 line 2 line 3
+  <div class="css-khgmir"></div>
+</amplify-code-block>
+`;
+
+exports[`amplify-code-block Line numbers is not visible if the language is set to console 1`] = `
+<amplify-code-block class="css-1lj8awz css-75wbz6" language="console">
+  <!---->
+  line 1 line 2 line 3
+  <div class="css-khgmir"></div>
+</amplify-code-block>
+`;
+
+exports[`amplify-code-block Line numbers is visible if the code block has more than one line 1`] = `
+<amplify-code-block class="css-1lj8awz" language="javascript">
+  <!---->
+  const lol = 'i dunno'; alert(lol);
+  <div class="css-khgmir"></div>
+  <button class="css-16vr62x">
+    <span>
+      copy
+    </span>
+  </button>
+</amplify-code-block>
+`;
+
+exports[`amplify-code-block Render logic should render 1`] = `
+<amplify-code-block class="css-1lj8awz">
+  <!---->
+  <div class="css-khgmir"></div>
+  <button class="css-16vr62x">
+    <span>
+      copy
+    </span>
+  </button>
+</amplify-code-block>
+`;

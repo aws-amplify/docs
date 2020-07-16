@@ -1,0 +1,14 @@
+{
+	"auth": {
+		"cognitoc87f2d94": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation"
+		}
+	},
+	"analytics": {
+		"docsv2": {
+			"service": "Pinpoint",
+			"providerPlugin": "awscloudformation"
+		}
+	}
+}

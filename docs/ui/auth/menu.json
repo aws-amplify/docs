@@ -1,0 +1,8 @@
+{
+    "title": "Authentication",
+    "items": [
+        "authenticator",
+        "sign-out",
+        "select-mfa-type"
+    ]
+}

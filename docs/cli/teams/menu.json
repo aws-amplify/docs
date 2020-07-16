@@ -1,0 +1,11 @@
+{
+  "title": "Team environments",
+  "items": [
+    "overview",
+    "shared",
+    "sandbox",
+    "multi-frontend",
+    "cicd",
+    "commands"
+  ]
+}

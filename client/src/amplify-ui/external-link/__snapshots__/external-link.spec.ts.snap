@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`amplify-external-link Render logic should render 1`] = `
+<amplify-external-link>
+  <!---->
+  <a class="css-q4acy3" rel="noopener noreferrer" target="_blank"></a>
+</amplify-external-link>
+`;

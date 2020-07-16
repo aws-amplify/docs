@@ -1,0 +1,26 @@
+{
+  "title": "Authentication",
+  "items": [
+		"getting-started",
+    "overview",
+    "start",
+    "emailpassword",
+    "social",
+    "mfa",
+    "manageusers",
+    "switch-auth",
+    "customui",
+    "advanced",
+    
+    "signin",
+    "signin_web_ui",
+    "social_signin_web_ui",
+    "auth-events",
+    "user-attributes",
+    "device_features",
+    "password_management",
+    "signOut",
+    "access_credentials",
+    "escapehatch"
+  ]
+}

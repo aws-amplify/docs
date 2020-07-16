@@ -1,0 +1,14 @@
+{
+    "title": "Tutorial",
+    "items": [
+        "installation",
+        "setup",
+        "data-model",
+        "auth",
+        "hosting",
+        "generate-model",
+        "integrate",
+        "add-api",
+        "nextsteps"
+    ]
+}

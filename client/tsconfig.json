@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "react",
+    "jsxFactory": "h",
+    "lib": ["dom", "es2015"],
+    "module": "esnext",
+    "typeRoots": ["../node_modules/@types"]
+  },
+  "extends": "../tsconfig.base.json",
+  "include": ["src", "stencil.config.ts"]
+}

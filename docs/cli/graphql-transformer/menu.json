@@ -1,0 +1,14 @@
+{
+  "title": "API (GraphQL)",
+  "items": [
+    "overview",
+    "directives",
+    "dataaccess",
+    "storage",
+    "relational",
+    "codegen",
+    "resolvers",
+    "config-params",
+    "examples"
+  ]
+}

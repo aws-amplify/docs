@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`amplify-callout Render logic should render 1`] = `
+<amplify-callout class="css-wt2bt2 css-xtlbgq">
+  <!---->
+  <div></div>
+</amplify-callout>
+`;

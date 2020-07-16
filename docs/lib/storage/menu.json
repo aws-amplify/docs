@@ -1,0 +1,14 @@
+{
+  "title": "Storage",
+  "items": [
+    "getting-started",
+    "configureaccess",
+    "upload",
+    "download",
+    "list",
+    "remove",
+    "autotrack",
+    "triggers",
+    "escapehatch"
+  ]
+}

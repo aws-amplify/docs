@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`docs-chat-button Render logic should render 1`] = `
+<docs-chat-button>
+  <amplify-external-link class="css-swyh7p" graphic="white" href="https://discord.gg/jWVbPfC">
+    <img alt="Discord Logo" class="css-dp2ecj" src="/assets/discord-white.svg">
+    Open Chat
+  </amplify-external-link>
+</docs-chat-button>
+`;

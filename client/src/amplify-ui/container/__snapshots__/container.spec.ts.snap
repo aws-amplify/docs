@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`docs-container Render logic should render 1`] = `
+<docs-container class="css-1hbw5z0">
+  <!---->
+  <div></div>
+</docs-container>
+`;

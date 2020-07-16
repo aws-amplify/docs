@@ -1,0 +1,17 @@
+version: 0.1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - yarn install
+    build:
+      commands:
+        - yarn build
+  artifacts:
+    # IMPORTANT - Please verify your build output directory
+    baseDirectory: /client/www
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - node_modules/**/*

@@ -1,0 +1,20 @@
+To send a message to a topic, use `publish()` method with your topic name and the message:
+```javascript
+await PubSub.publish('myTopic1', { msg: 'Hello to all subscribers!' });
+```
+
+If multiple providers are defined in your app you can pass the message to a specific provider:
+```javascript
+await PubSub.publish('myTopic1', { msg: 'Hello to all subscribers!' }, { provider: 'AWSIoTProvider' });
+```
+
+You can also publish a message to multiple topics:
+```javascript
+await PubSub.publish(['myTopic1','myTopic2'], { msg: 'Hello to all subscribers!' });
+```
+
+<amplify-callout>
+
+**Note:** If you do not include a specific provider it will publish a message to all of the configured PubSub providers in your app.
+
+</amplify-callout>

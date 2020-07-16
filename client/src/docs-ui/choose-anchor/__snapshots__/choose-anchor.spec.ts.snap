@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`docs-choose-anchor Render logic should render 1`] = `
+<docs-choose-anchor>
+  <amplify-responsive-grid class="border-radius margin-top-md" columns="4" gridgap="1"></amplify-responsive-grid>
+</docs-choose-anchor>
+`;

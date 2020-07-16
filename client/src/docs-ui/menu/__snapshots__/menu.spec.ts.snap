@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`docs-menu Render logic should render 1`] = `<docs-menu></docs-menu>`;

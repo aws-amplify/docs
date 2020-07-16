@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`amplify-sidebar-layout Render logic should render 1`] = `
+<amplify-sidebar-layout>
+  <!---->
+  <div class="css-1oqiadb">
+  </div>
+</amplify-sidebar-layout>
+`;

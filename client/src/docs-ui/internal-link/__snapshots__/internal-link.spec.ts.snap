@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`docs-internal-link Render logic should render 1`] = `
+<docs-internal-link>
+  <!---->
+  <stencil-route-link url="/undefined"></stencil-route-link>
+</docs-internal-link>
+`;
