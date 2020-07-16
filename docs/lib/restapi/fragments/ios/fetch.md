@@ -4,7 +4,7 @@ To make a GET request, first create a RESTRequest object and then use the Amplif
 
 ```swift
 func getTodo() {
-    let request = RESTRequest(path: "/todo", body: nil)
+    let request = RESTRequest(path: "/todo")
     _ = Amplify.API.get(request: request) { result in
         switch result {
         case .success(let data):
@@ -58,7 +58,7 @@ Then you can use query parameters in your path as follows:
 ```swift
 func getTodo() {
     let queryParameters = ["q":"test"]
-    let request = RESTRequest(path: "/todo", queryParameters: queryParameters, body: nil)
+    let request = RESTRequest(path: "/todo", queryParameters: queryParameters)
     _ = Amplify.API.get(request: request) { result in
         switch result {
         case .success(let data):
