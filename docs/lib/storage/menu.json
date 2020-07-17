@@ -9,6 +9,7 @@
     "remove",
     "autotrack",
     "triggers",
-    "escapehatch"
+    "escapehatch",
+    "existing-resources"
   ]
 }
