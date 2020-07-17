@@ -11,6 +11,7 @@
     "cancel-request",
     "offline",
     "graphql-from-nodejs",
-    "advanced-workflows"
+    "advanced-workflows",
+    "existing-resources"
   ]
 }
