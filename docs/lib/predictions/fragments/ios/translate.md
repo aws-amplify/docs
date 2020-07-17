@@ -39,21 +39,20 @@ Here is an example of translating text. In order to override any choices you mad
 ```swift
 import Amplify
 
-...
+//...
 
 func translateText(text:String) {
-	_ = Amplify.Predictions.convert(textToTranslate: text,
-      language: .english,
-      targetLanguage: .italian,
-      options: PredictionsTranslateTextRequest.Options(),
-        listener: { (event) in
-          switch event {
-          case .completed(let result):
+    _ = Amplify.Predictions.convert(textToTranslate: text,
+                                    language: .english,
+                                    targetLanguage: .italian) { event in
+        switch event {
+        case let .success(result):
             print(result.text)
-          default:
-            print("")
+        case let .failure(error):
+            print(error)
         }
-    })
+    }
 }
 ```
+
 As a result of running this code, you will see the translated text printed to the console.

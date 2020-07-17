@@ -49,10 +49,10 @@ Amplify.configure(awsconfig);
 Amplify.addPluggable(new AmazonAIPredictionsProvider());
 
 function TextIdentification() {
-  const [response, setResponse] = useState("You can add a photo by uploading direcly from the app ")
+  const [response, setResponse] = useState("You can add a photo by uploading directly from the app ")
 
   function identifyFromFile(event) {
-    setResponse('identifiying text...');
+    setResponse('identifying text...');
     const { target: { files } } = event;
     const [file,] = files || [];
 
@@ -117,7 +117,7 @@ function EntityIdentification() {
           width, // ratio of overall image width
           height, // ratio of overall image height
           left, // left coordinate as a ratio of overall image width
-          top // top coordinate as a ratio of overall image heigth
+          top // top coordinate as a ratio of overall image height
         } = boundingBox;
         imageId = externalImageId;
         if (name) {
@@ -223,7 +223,7 @@ function SpeechToText(props) {
           return buffer;
         }
         function newBuffer() {
-          console.log("reseting buffer");
+          console.log("resetting buffer");
           buffer = [];
         }
  

@@ -16,27 +16,16 @@ Push Notifications category is integrated with [AWS Amplify Analytics category](
 
 2. Get your push messaging credentials for Android in Firebase console. [Click here for instructions](~/sdk/push-notifications/setup-push-service.md/q/platform/android).
 
-3. Create a native link on a React Native app:
+3. Install dependencies:
 
     ```bash
-    react-native init myapp
-    cd myapp
-    npm install aws-amplify && npm install @aws-amplify/pushnotification
-    react-native link @aws-amplify/pushnotification
-    react-native link amazon-cognito-identity-js # link if you need to Sign in into Cognito user pool
+    npm install aws-amplify @aws-amplify/pushnotification
     ```
 
-    That would install required npm modules and link React Native binaries.
-
-    Please note that linking `aws-amplify-react-native` but not completing the rest of the configuration steps could break your build process. Please be sure that you have completed all the steps before you build your app.
-
-4. Add your push messaging credentials (API key and Sender ID) with Amplify CLI by using the following commands:
+4. Add your push messaging credentials (Server key) with Amplify CLI by using the following commands:
 
     ```bash
-    cd myapp
-    amplify init
     amplify add notifications
-    amplify push
     ```
 
     Choose *FCM* when promoted: 
@@ -73,33 +62,17 @@ Push Notifications category is integrated with [AWS Amplify Analytics category](
 
 6. Open *android/build.gradle* file and perform following edits:
 
-    - Add *classpath 'com.google.gms:google-services:3.2.0'* in the `dependencies` under *buildscript*:
+    - Add `classpath("com.google.gms:google-services:4.3.3")` in the `dependencies` under `buildscript`:
         
     ```gradle
+    buildscript {
+        ...
         dependencies {
-            classpath 'com.android.tools.build:gradle:2.2.3'
-            classpath 'com.google.gms:google-services:3.2.0'  
-
-            // NOTE: Do not place your application dependencies here; they belong
-            // in the individual module build.gradle files
+            ...
+            classpath("com.google.gms:google-services:4.3.3")
+            ...
         }
-    ```
-    Also update maven `url` as the following under  *allprojects > repositories*. Revise *allprojects* to be:
-
-    ```gradle
-        allprojects {
-            repositories {
-                mavenLocal()
-                jcenter()
-                maven {
-                    // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
-                    url "$rootDir/../node_modules/react-native/android"
-                }
-                maven {
-                    url "https://maven.google.com"
-                }
-            }
-        }
+    }
     ```
 
 7. Open *android/app/build.gradle* and perform following edits:
@@ -108,21 +81,25 @@ Push Notifications category is integrated with [AWS Amplify Analytics category](
 
     ```gradle
     dependencies {
-        compile project(':@aws-amplify/pushnotification')
-        ..
-        ..
-        ..
-        compile 'com.google.firebase:firebase-core:12.0.1'
-        compile 'com.google.firebase:firebase-messaging:12.0.1'
+        ...
+        implementation "com.google.firebase:firebase-core:15.0.2"
+        implementation "com.google.firebase:firebase-messaging:15.0.2"
+        ...
     }
     ```
     - Add following configuration to the bottom of the file:
 
     ```gradle
-    apply plugin: 'com.google.gms.google-services'
+    apply plugin: "com.google.gms.google-services"
     ``` 
 
-8. Open *android/app/src/main/AndroidManifest.xml* file and add the following configuration into `application` element.
+8. Open *android/gradle/wrapper/gradle-wrapper.properties* update the Gradle `distributionUrl`:
+
+    ```properties
+    distributionUrl=https\://services.gradle.org/distributions/gradle-6.3-all.zip
+    ```
+
+9. Open *android/app/src/main/AndroidManifest.xml* file and add the following configuration into `application` element.
 
     ```xml
     <application ... >
@@ -155,12 +132,12 @@ Push Notifications category is integrated with [AWS Amplify Analytics category](
     </application>
     ```
 
-9. Configure Push Notifications category for your app as shown in [Configure your App](#configure-your-app) section.
+10. Configure Push Notifications category for your app as shown in [Configure your App](#configure-your-app) section.
 
-10. Run your app with `yarn` or with an appropriate run command.
+11. Run your app:
 
     ```bash
-    npm start
+    npx react-native run-android
     ```
 
 ## Setup for iOS
@@ -169,25 +146,19 @@ Push Notifications category is integrated with [AWS Amplify Analytics category](
 
 2. Setup iOS Push Notifications and create a p12 certificate as instructed here in [Amazon Pinpoint Developer Guide](https://docs.aws.amazon.com/pinpoint/latest/developerguide/apns-setup.html).
 
-3. Create a native link on a React Native app:
+3. Install dependencies and CocoaPods:
 
     ```bash
-    react-native init myapp
-    cd myapp
-    npm install
-    npm install aws-amplify \
-        @aws-amplify/pushnotification \
-        @react-native-community/push-notification-ios
-    cd ios && pod install
+    npm install aws-amplify @aws-amplify/pushnotification @react-native-community/push-notification-ios
+    ```
+    ```bash
+    npx pod-install
     ```
 
 4. Enable notifications and add your p12 certificate with Amplify CLI by using the following commands:
 
     ```bash
-    cd myapp
-    amplify init
     amplify add notifications
-    amplify push
     ```
 
     Choose *APNS* when promoted:
@@ -200,31 +171,32 @@ Push Notifications category is integrated with [AWS Amplify Analytics category](
     SMS
     ```
 
+    Choose *Certificate* when promoted:
+
+    ```console
+    ? Choose authentication method used for APNs
+    > Certificate
+    Key
+    ```
+
     The CLI will prompt for your *p12 certificate path*, enter it respectively.
 
-5. Setup Xcode for push notification support by following the "Add Capabilities : Background Mode - Remote Notifications" and "Augment AppDelegate" sections found in the: [React Native Push Notifications Documentation](https://github.com/react-native-community/push-notification-ios)
+5. Open project in Xcode and make updates for `@react-native-community/push-notification-ios`:
+    - [Add Capabilities : Background Mode - Remote Notifications](https://github.com/react-native-community/push-notification-ios#add-capabilities--background-mode---remote-notifications)
+    - [Augment `AppDelegate`](https://github.com/react-native-community/push-notification-ios#augment-appdelegate)
 
 6. Update General App settings:
 
-    - Make sure you have logged in with your Apple Developer account on Xcode
     - Set bundle identifier (with the one you create on your Apple Developer Account)
-    - Unselect **Automatically manage signing** under **Signing** section
-    - On Signing (Debug, Release) set the provisioning profile (created on your Apple Developer Account)
- 
-    *Following screencast shows the required app settings in Xcode:*
-    <img src="~/images/identifiers.gif"/>
+    - Make sure you have logged in with your Apple Developer account on Xcode and have a Team selected for the target.
 
 7.  Configure Push Notification module for your app as shown in [Configure your App](#configure-your-app) section.
 
-8.  Run your app:
+8. Run your app:
 
-    - On Xcode, select your device and run it first using as *Executable appName.app*. This will install the App on your device but it won't run it.
-    - Select **Ask on Launch** for *Executable* option on menu chain *Product > Schema > Edit Scheme > Run > Info*.
-    - Click *Run* button and select your app from the list.
-    - In case the build fails, try cleaning the project with *shift + command + k*.
-
-    *Following screencast shows the required app settings in Xcode:*
-    <img src="~/images/runningApp.gif" />
+    ```bash
+    npx react-native run-ios --device
+    ```
 
 ## Configure your App
 
@@ -236,36 +208,35 @@ If you don't have Analytics already enabled, see our [Analytics Developer Guide]
 
 </amplify-callout>
 
-First, import `PushNotification` module and configure it with `PushNotification.configure()`.
-
 ```javascript
-import { PushNotificationIOS } from '@react-native-community/push-notification-ios';
-import Analytics from '@aws-amplify/analytics';
+import Amplify from 'aws-amplify';
 import PushNotification from '@aws-amplify/pushnotification';
-
-// PushNotification need to work with Analytics
-Analytics.configure({
-    // You configuration will come here...
-});
-
-PushNotification.configure({
-    appId: 'XXXXXXXXXXabcdefghij1234567890ab',
-    requestIOSPermissions: false, // OPTIONAL, defaults to true
-});
-```
-
-`requestIOSPermissions` is an optional boolean flag which specifies whether or not to automatically request push notifications permissions in iOS when calling `PushNotification.configure` for the first time. If not provided, it defaults to `true`. When set to `false`, you may later call the method `PushNotification.requestIOSPermissions` at the explicit point in your application flow when you want to prompt the user for permissions.
-
-You can also use `aws-exports.js` file in case you have set up your backend with Amplify CLI.
-
-```javascript
 import { PushNotificationIOS } from '@react-native-community/push-notification-ios';
-import Analytics from '@aws-amplify/analytics';
-import PushNotification from '@aws-amplify/pushnotification';
 import awsconfig from './aws-exports';
 
-// PushNotification need to work with Analytics
-Analytics.configure(awsconfig);
+Amplify.configure(awsconfig);
+```
 
-PushNotification.configure(awsconfig);
+### Configuration Options
+
+- `requestIOSPermissions` is an optional boolean flag which specifies whether or not to automatically request push notifications permissions in iOS when calling `PushNotification.configure` for the first time. If not provided, it defaults to `true`. When set to `false`, you may later call the method `PushNotification.requestIOSPermissions` at the explicit point in your application flow when you want to prompt the user for permissions.
+- `appId` is optional and *only* needed if `aws-exports` doesn't contain `aws_mobile_analytics_app_id` or you are manually configuring each category inside `Amplify.configure()`.
+
+```javascript
+Amplify.configure({
+    ...awsconfig,
+    PushNotification: {
+        requestIOSPermissions: false
+    }
+});
+```
+```javascript
+Amplify.configure({
+    Auth: { /* ... */ },
+    Analytics: { /* ... */ },
+    PushNotification: {
+        appId: 'XXXXXXXXXXabcdefghij1234567890ab',
+        requestIOSPermissions: false
+    }
+});
 ```

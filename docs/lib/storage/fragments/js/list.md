@@ -1,4 +1,4 @@
-List keys under path specified.
+List keys under path specified, as well as `lastModified` timestamp.
 
 ## Public level list
 

@@ -4,17 +4,12 @@ Finally you can configure the number of records to sync as an upper bound on ite
 
 ### Example
 
-<amplify-callout>
-
-**Note:** this API is under development and it is not generally available yet.
-
-</amplify-callout>
-
-The code below illustrates a conflict resolution handler for the `Post` model that retries a mutation with the same title, but the most recent remote data for all other fields. The conflict resolution handler discards conflicts for all other models (by passing `.discard` to the `resolve` function).
+The code below illustrates a conflict resolution handler for the `Post` model that retries a mutation with the same title, but the most recent remote data for all other fields. The conflict resolution handler discards conflicts for all other models (by passing `.applyRemote` to the `resolve` function).
 
 ```swift
 // custom conflict resolution configuration
-let dataStorePlugin = AWSDataStorePlugin(modelRegistration: AmplifyModels(), configuration: .custom(
+let dataStorePlugin = AWSDataStorePlugin(modelRegistration: AmplifyModels(),
+                                         configuration: .custom(
     errorHandler: { error in Amplify.Logging.error(error: error) },
     conflictHandler: { (data, resolve) in
         guard let localPost = data.local as? Post,
@@ -28,8 +23,10 @@ let dataStorePlugin = AWSDataStorePlugin(modelRegistration: AmplifyModels(), con
                                rating: remotePost.rating,
                                status: remotePost.status)
         resolve(.retry(mergedModel))
-},
-    syncInterval: 1_440,
+    },
+    // Sync configuration defaults:
+    syncInterval: .hours(24),
     syncMaxRecords: 10_000,
-    syncPageSize: 1_000))
+    syncPageSize: 1_000
+))
 ```

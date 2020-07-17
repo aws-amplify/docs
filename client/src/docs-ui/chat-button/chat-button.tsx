@@ -1,17 +1,22 @@
 import {Component, h} from "@stencil/core";
 import {discordChatStyle, logoStyle} from "./chat-button.style";
-import {DISCORD} from "../../constants/links";
+import {DISCORD as DISCORD_LINK} from "../../constants/links";
+import {DISCORD as DISCORD_IMG} from "../../constants/img";
 
 @Component({tag: "docs-chat-button", shadow: false})
 export class DocsChatButton {
   render() {
     return (
       <amplify-external-link
-        href={DISCORD}
+        href={DISCORD_LINK}
         class={discordChatStyle}
         graphic="white"
       >
-        <img src="/assets/discord-white.svg" class={logoStyle} />
+        <img
+          class={logoStyle}
+          alt={DISCORD_IMG.alt}
+          src={DISCORD_IMG.lightSrc}
+        />
         Open Chat
       </amplify-external-link>
     );

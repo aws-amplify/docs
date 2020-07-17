@@ -22,7 +22,7 @@ platform :ios, '9.0'
 target :'YOUR-APP-NAME' do
   use_frameworks!
 
-  pod  'AWSIoT', '~> 2.13.0'
+  pod  'AWSIoT'
   # other pods
 
 end

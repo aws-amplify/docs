@@ -10,7 +10,7 @@ Note: The UI component will inherit the height and width of the direct parent DO
 
 ```javascript
 // sceneName: the configured friendly scene you would like to load
-<amplify-sumerian-scene framnework="Ionic" sceneName="scene1"></amplify-sumerian-scene>
+<amplify-sumerian-scene framework="Ionic" sceneName="scene1"></amplify-sumerian-scene>
 ```
 
 
