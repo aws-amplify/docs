@@ -162,7 +162,7 @@ Use the following steps to connect push notification backend services to your ap
             userInfo, fetchCompletionHandler: completionHandler
         )
 
-        // Pinpoint SDK will not call the completionHandler for you. Make sure to call `completionHandler` or your app may be terminated
+        // Pinpoint SDK will not call the `completionHandler` for you. Make sure to call `completionHandler` or your app may be terminated
         // See https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623013-application for more details
         completionHandler(.newData)
     }
