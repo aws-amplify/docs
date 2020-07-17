@@ -1,4 +1,4 @@
-> Prerequisite: [Install and configure](~/cli/start/install.md) the Amplify CLI
+> Prerequisite: [Install, configure and init an Amplify project](~/cli/start/install.md) with Amplify CLI
 
 In this section, you'll learn how to deploy an AWS AppSync GraphQL API and connect to it from a JavaScript client application.
 
@@ -72,7 +72,7 @@ npm install aws-amplify
 In your app's entry point i.e. App.js, import and load the configuration file:
 
 ```javascript
-import Amplify, { Auth } from 'aws-amplify';
+import Amplify, { API, graphqlOperation } from 'aws-amplify';
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 ```
@@ -168,10 +168,13 @@ When you run the *push* command, you will notice that your schema change is auto
 | Api      | myapi           | Update    | awscloudformation |
 ```
 
-When the update is complete, you can see the changes to your backend by visiting the Amplify Console, choosing __API__, then choosing __View in AppSync__.
+When the update is complete, you can see the changes to your backend by running the following command and select GraphQL option.
 
 ```bash
-amplify console
+amplify api console
+? Please select from one of the below mentioned services: (Use arrow keys)
+❯ GraphQL 
+  REST 
 ```
 
 ### Using GraphQL Transformers
