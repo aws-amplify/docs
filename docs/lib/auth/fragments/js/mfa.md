@@ -124,7 +124,7 @@ The following code is only for demonstration purpose:
 ```javascript
 import { Auth } from 'aws-amplify';
 
-async function SignIn() {
+async function signIn() {
     try {
         const user = await Auth.signIn(username, password);
         if (user.challengeName === 'SMS_MFA' ||

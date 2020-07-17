@@ -3,11 +3,12 @@
   "items": [
     "getting-started",
     "data-access",
-    "real-time",
-    "sync",
     "relational",
+    "sync",
     "conflict",
+    "real-time",
     "schema-updates",
-    "how-it-works"
+    "how-it-works",
+    "examples"
   ]
 }

@@ -5,7 +5,7 @@
 Post post = Post.builder()
     .title("My First Post")
     .rating(10)
-    .status(PostStatus.ACTIVE)
+    .status(PostStatus.PUBLISHED)
     .build();
 
 Amplify.DataStore.save(post,
@@ -21,7 +21,7 @@ Amplify.DataStore.save(post,
 val post = Post.builder()
     .title("My First Post")
     .rating(10)
-    .status(PostStatus.ACTIVE)
+    .status(PostStatus.PUBLISHED)
     .build()
 
 Amplify.DataStore.save(post,

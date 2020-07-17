@@ -46,6 +46,7 @@ amplify push
 
 ? Do you want to generate code for your newly created GraphQL API? Y
 ? Choose the code generation language target: javascript (or your preferred language target)
+? Enter the file name pattern of graphql queries, mutations and subscriptions src/graphql/**/*.js
 ? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions? Y
 ? Enter maximum statement depth [increase from default if your schema is deeply nested]: 2
 ```
