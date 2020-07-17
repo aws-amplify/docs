@@ -2,6 +2,6 @@ When using multiple conditions, there is an implicit `and` defined to mirror the
 
 ```js
 const posts = await DataStore.query(Post, c =>
-  c.rating("gt", 4).status("eq", PostStatus.ACTIVE)
+  c.rating("gt", 4).status("eq", PostStatus.PUBLISHED)
 );
 ```
