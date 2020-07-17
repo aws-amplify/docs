@@ -10,7 +10,7 @@ The Amplify CLI has a pluggable architecture. The CLI core provides the pluggabl
 ![Image](~/images/plugin-platform.png)
 
 The Amplify CLI Core maintains a `plugins.json` file to store the plugin management configuration settings and information of all the installed plugins.  <br/>
-The Amplify CLI plugins each contains a `amplify-plugin.json` file to manifest itself as a valid plugin.  <br/>
+The Amplify CLI plugins each contain an `amplify-plugin.json` file to manifest themselves as valid plugins.  <br/>
 The Amplify CLI Core provides a set of utility commands under `amplify plugin` for plugin management and to facilitate the development of plugins.
 
 The Amplify CLI Core does not dynamically scan for plugins at the beginning of each command execution. Instead, information about the installed plugins are retrieved from the `plugins.json` file and only the plugins that are needed for the execution of the command will be loaded.
@@ -21,7 +21,7 @@ The `plugins.json` file will be created or updated in the following situations:
 
 * If the `plugins.json` file is not found when the Amplify CLI Core tries to access it, the Amplify CLI Core will create this file and scan the local environment for plugins, and then store the information in the file.
 * If the last scan time was more than one day (configurable) ago, the Amplify CLI Core will scan again and update the information.
-* If inaccuracy is detected, e.g. a specified plugin can not be loaded, the Amplify CLI Core will scan again and update the information.
+* If inaccuracy is detected, e.g. a specified plugin cannot be loaded, the Amplify CLI Core will scan again and update the information.
 * After the execution of any of the `amplify plugin` commands that could change it, e.g. `amplify plugin scan`, `amplify plugin add/remove`.
 
 By default, the CLI core searches for plugins in its parent directory, its local `node_modules` directory, and the global `node_modules` directory. Plugins are recognized by the `amplify-` prefix in the package names.
