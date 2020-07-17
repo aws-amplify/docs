@@ -82,6 +82,9 @@ The aws secret access key if `useProfile` is set to false.
 The aws region if `useProfile` is set to false.
 
 ### `--app`
+
+`amplify init --app git@github.com:<github-username>/<repository-name>.git`
+
 Installs, initializes, and provisions resources for a sample amplify application from the provided GitHub repository URL. This option must be executed in an empty directory. The sample repository must have an amplify folder, including the following:
 
 - `project-config.json` in .config folder

@@ -6,6 +6,7 @@
     "update",
     "delete",
     "cancel",
-    "authz"
+    "authz",
+    "existing-resources"
   ]
 }
