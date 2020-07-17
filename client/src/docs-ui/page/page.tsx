@@ -185,7 +185,11 @@ export class DocsPage {
 
     track({
       type: AnalyticsEventType.PAGE_VISIT,
-      attributes: {url: currentRoute, previousUrl: this.previousPathname},
+      attributes: {
+        url: currentRoute,
+        previousUrl: this.previousPathname,
+        referrer: document.referrer,
+      },
     });
 
     try {
