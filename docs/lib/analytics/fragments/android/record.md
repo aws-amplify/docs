@@ -1,6 +1,6 @@
 ## Record event
 
-The Amplify analytics plugin also makes it easy to record custom events within the app. The plugin handles retry logic in the event the device looses network connectivity and automatically batches requests to reduce network bandwidth.
+The Amplify analytics plugin also makes it easy to record custom events within the app. The plugin handles retry logic in the event the device loses network connectivity and automatically batches requests to reduce network bandwidth.
 
 <amplify-block-switcher>
 <amplify-block name="Java">
