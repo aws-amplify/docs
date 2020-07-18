@@ -22,6 +22,7 @@ interface AnalyticsEventPageVisit {
   attributes: {
     url: string;
     previousUrl: string;
+    referrer: string;
   };
 }
 
