@@ -27,7 +27,7 @@ Enter the following when prompted:
 ? Do you want to invoke this function on a recurring schedule? 
     `No`
 ? Do you want to edit the local lambda function now? `No`
-Succesfully added the Lambda function locally
+Successfully added the Lambda function locally
 ? Restrict API access 
     `Yes`
 ? Who should have access? 

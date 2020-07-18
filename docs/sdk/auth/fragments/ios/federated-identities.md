@@ -236,12 +236,12 @@ AWSMobileClient.default().federatedSignIn(providerName: IdentityProvider.develop
 	  target 'YOUR-APP-NAME' do
 	    use_frameworks!
 
-	    pod 'AWSFacebookSignIn', '~> 2.13.0'     # Add this new dependency
-	    pod 'AWSAuthUI', '~> 2.13.0'             # Add this dependency if you have not already added
+	    pod 'AWSFacebookSignIn'     # Add this new dependency
+	    pod 'AWSAuthUI'             # Add this dependency if you have not already added
 	    
 	    # Other Pod entries
-	    pod 'AWSMobileClient', '~> 2.13.0'
-	    pod 'AWSUserPoolsSignIn', '~> 2.13.0'
+	    pod 'AWSMobileClient'
+	    pod 'AWSUserPoolsSignIn'
 	    
 	  end
 	```
@@ -303,13 +303,13 @@ Add the following dependencies in the Podfile.
 	platform :ios, '9.0'
 	target :'YOUR-APP-NAME' do
 	  use_frameworks!
-	  pod 'AWSGoogleSignIn', '~> 2.13.0'     # Add this new dependency
+	  pod 'AWSGoogleSignIn'                 # Add this new dependency
 	  pod 'GoogleSignIn', '~> 4.0'          # Add this new dependency
-	  pod 'AWSAuthUI', '~> 2.13.0'           # Add this dependency if you have not already added
+	  pod 'AWSAuthUI'                       # Add this dependency if you have not already added
 	    
 	  # Other Pod entries
-	  pod 'AWSMobileClient', '~> 2.13.0'
-	  pod 'AWSUserPoolsSignIn', '~> 2.13.0'
+	  pod 'AWSMobileClient'
+	  pod 'AWSUserPoolsSignIn'
 	  
 	end
 	```

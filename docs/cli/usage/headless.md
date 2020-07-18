@@ -17,7 +17,7 @@ The following commands take the `--yes` flag:
 - `amplify pull`
 
 ## `amplify init` parameters
-The `ampify init` command takes these parameters:
+The `amplify init` command takes these parameters:
 - `--amplify`
 - `--frontend`
 - `--providers`
@@ -82,6 +82,9 @@ The aws secret access key if `useProfile` is set to false.
 The aws region if `useProfile` is set to false.
 
 ### `--app`
+
+`amplify init --app git@github.com:<github-username>/<repository-name>.git`
+
 Installs, initializes, and provisions resources for a sample amplify application from the provided GitHub repository URL. This option must be executed in an empty directory. The sample repository must have an amplify folder, including the following:
 
 - `project-config.json` in .config folder
@@ -320,4 +323,20 @@ amplify pull \
 --frontend $FRONTEND \
 --providers $PROVIDERS \
 --yes
+```
+
+## `amplify delete` parameters
+The `amplify delete` command deletes all of the resources tied to the current project in the cloud, and removes all of the local files created by the Amplify CLI from the filesystem. The `amplify delete` command takes these parameters:
+- `--force`
+
+### `--force`
+
+Equivalent to the `--yes` parameter that other commands support for use in headless environments.
+
+### Sample script
+```bash
+#!/bin/bash
+set -e
+
+amplify delete --force
 ```

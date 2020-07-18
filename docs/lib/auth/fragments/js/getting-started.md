@@ -193,6 +193,6 @@ Follow the instructions in the [Sign in, Sign up and Sign out](~/lib/auth/emailp
 
 To implement authentication flows using Amplify you can either use the Amplify UI libraries or call authentication methods directly on the `Auth` class.
 
-`Auth` has over 30 methods including [`signUp`](~/lib/auth/emailpassword.md#sign-up), [`signIn`](~/lib/auth/emailpassword.md#sign-in), [`forgotPasword`](~/lib/auth/manageusers.md#forgot-password), and [`signOut`](~/lib/auth/emailpassword.md#sign-out) that allow you full control over all aspects of the user authentication flow.
+`Auth` has over 30 methods including [`signUp`](~/lib/auth/emailpassword.md#sign-up), [`signIn`](~/lib/auth/emailpassword.md#sign-in), [`forgotPassword`](~/lib/auth/manageusers.md#forgot-password), and [`signOut`](~/lib/auth/emailpassword.md#sign-out) that allow you full control over all aspects of the user authentication flow.
 
 Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).
