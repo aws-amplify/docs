@@ -1,3 +1,7 @@
+The following APIs will enable you identify real world objects (chairs, desks, etc) in images.  These objects are referred to as "labels" from images.
+
+For labeling images on iOS we use both AWS backend services as well as Apple's on-device Core ML [Vision Framework](https://developer.apple.com/documentation/vision) to provide you with the most accurate results.  If your device is offline, we will return results only from Core ML.  On the other hand, if you are able to connect to AWS Services, we will return a unioned result from both the service and Core ML.  Switching between backend services and Core ML is done automatically without any additional configuration required.
+
 ## Set up your backend
 
 If you haven't already done so, run `amplify init` inside your project and then `amplify add auth` (we recommend selecting the *default configuration*).
@@ -40,37 +44,31 @@ You can identify real world objects such as chairs, desks, etc. which are referr
 
 ```swift
 func detectLabels(_ image:URL) {
-	//For offline calls only to Core ML models replace `options` in the call below with this instance:
-	// let options = PredictionsIdentifyRequest.Options(defaultNetworkPolicy: .offline, pluginOptions: nil)
-	_ = Amplify.Predictions.identify(type: .detectLabels(.labels), image: image, options: PredictionsIdentifyRequest.Options(), listener: { (event) in
-
-		switch event {
-		case .completed(let result):
-			let data = result as! IdentifyLabelsResult
-			print(data.labels)
-			//use the labels in your app as you like or display them
-		case .failed(let error):
-			print(error)
-		default:
-			print("")
-		}
-	})
+    //For offline calls only to Core ML models replace `options` in the call below with this instance:
+    // let options = PredictionsIdentifyRequest.Options(defaultNetworkPolicy: .offline, pluginOptions: nil)
+    _ = Amplify.Predictions.identify(type: .detectLabels(.labels), image: image) { event in
+        switch event {
+        case let .success(result):
+            let data = result as! IdentifyLabelsResult
+            print(data.labels)
+            // use the labels in your app as you like or display them
+        case let .failure(error):
+            print(error)
+        }
+    }
 }
 
 //To identify labels with unsafe content
 func detectLabels(_ image:URL) {
-	_ = Amplify.Predictions.identify(type: .detectLabels(.all), image: image, options: PredictionsIdentifyRequest.Options(), listener: { (event) in
-
-		switch event {
-		case .completed(let result):
-			let data = result as! IdentifyLabelsResult
-			print(data.labels)
-			//use the labels in your app as you like or display them
-		case .failed(let error):
-			print(error)
-		default:
-			print("")
-		}
-	})
+    _ = Amplify.Predictions.identify(type: .detectLabels(.all), image: image) { event in
+        switch event {
+        case let .success(result):
+            let data = result as! IdentifyLabelsResult
+            print(data.labels)
+            // use the labels in your app as you like or display them
+        case let .failure(error):
+            print(error)
+        }
+    }
 }
 ```

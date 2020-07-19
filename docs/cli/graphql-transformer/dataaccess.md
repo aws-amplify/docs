@@ -10,7 +10,7 @@ In the [DynamoDB documentation for modeling relational data in a NoSQL database]
 |1| Look up employee details by employee ID|
 |2| Query employee details by employee name|
 |3| Find an employee's phone number(s)|
-|4| Fine a customer's phone number(s)|
+|4| Find a customer's phone number(s)|
 |5| Get orders for a given customer within a given date range|
 |6| Show all open orders within a given date range across all customers|
 |7| See all employees recently hired|

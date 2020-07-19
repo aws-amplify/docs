@@ -1,12 +1,13 @@
-import {Component, h, Host, Prop} from "@stencil/core";
+import * as links from "../../constants/links";
+import {Component, h, Host, Prop, Listen, State} from "@stencil/core";
 import {
   universalNavStyle,
   universalNavContentStyle,
   brandStyle,
   linksStyle,
   hideAboutLinkStyle,
+  searchStyle,
 } from "./universal-nav.style";
-import * as links from "../../constants/links";
 
 @Component({tag: "docs-universal-nav", shadow: false})
 export class DocsUniversalNav {
@@ -22,7 +23,7 @@ export class DocsUniversalNav {
   render() {
     return (
       <Host class={universalNavStyle}>
-        <amplify-container
+        <docs-container
           class={{
             "background-color-orange-hv":
               this.blend === undefined || !this.blend,
@@ -44,6 +45,8 @@ export class DocsUniversalNav {
               <sup>NEW</sup>
             </stencil-route-link>
 
+            <docs-search-bar class={searchStyle} />
+
             <div class={linksStyle}>
               <amplify-external-link
                 redirect
@@ -63,7 +66,7 @@ export class DocsUniversalNav {
               </amplify-external-link>
             </div>
           </div>
-        </amplify-container>
+        </docs-container>
       </Host>
     );
   }

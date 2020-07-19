@@ -69,7 +69,7 @@ amplify add function ## Follow prompts
 amplify mock function <function_name>
 ```
 
-This will take you through a few questions, such as the entry point for your Lambda function and sample event context to pass. The defaults are `index.js` and `event.json`.
+This will take you through a few questions, such as the entry point for your Lambda function and test event payload to pass. The defaults are `index.js` and `event.json`.
 
 <amplify-callout>
 

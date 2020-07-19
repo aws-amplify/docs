@@ -5,39 +5,17 @@ description: Learn more about how DataStore handles relationships between Models
 
 DataStore has the capability to handle relationships between Models, such as *has one*, *has many*, *belongs to*. In GraphQL this is done with the `@connection` and `@key` directives as defined in the [GraphQL Transformer documentation](~/cli/graphql-transformer/directives.md#connection).
 
-<amplify-callout>
+<amplify-callout warning>
 
-When using the `@key` directive with DataStore, as long as you specifcy a `name` you can use any value(s) in `fields`. However, if the `name` property is omitted, the first item in the `fields` array must be `"id"`. E.g., `@key(fields: ["id", "content"])`.
+When using the `@key` directive with DataStore, as long as you specify a `name` you can use any value(s) in `fields`. However, if the `name` property is omitted, the first item in the `fields` array must be `"id"`. E.g., `@key(fields: ["id", "content"])`.
 
 </amplify-callout>
 
 ## Updated schema
 
-For the examples below with DataStore let's add a new model to the [sample schema](~/lib/datastore/getting-started.md#sample-schema):
-
-```graphql
-enum PostStatus {
-  ACTIVE
-  INACTIVE
-}
-
-type Post @model {
-  id: ID!
-  title: String!
-  rating: Int!
-  status: PostStatus!
-  # New field with @connection
-  comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
-}
-
-# New model
-type Comment @model
-  @key(name: "byPost", fields: ["postID", "content"]) {
-  id: ID!
-  postID: ID!
-  content: String!
-}
-```
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/relational/updated-schema.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/relational/updated-schema.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/relational/updated-schema.md"></inline-fragment>
 
 ## Saving relations
 
@@ -70,9 +48,16 @@ The above example shows how to use a *one-to-many* schema and save connected mod
 In this case, you save instances of models from each side of the relationship and then join them together by connecting type on a field defined with `@connection`. Consider the following schema:
 
 ```graphql
+enum PostStatus {
+  ACTIVE
+  INACTIVE
+}
+
 type Post @model {
   id: ID!
   title: String!
+  rating: Int
+  status: PostStatus
   editors: [PostEditor] @connection(keyName: "byPost", fields: ["id"])
 }
 
