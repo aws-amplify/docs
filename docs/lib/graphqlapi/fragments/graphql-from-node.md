@@ -153,7 +153,7 @@ exports.handler = async (event) => {
     };
 
     req.method = "POST";
-    req.path = '/graphql';
+    req.path = "/graphql";
     req.headers.host = endpoint;
     req.headers["Content-Type"] = "application/json";
     req.body = JSON.stringify({
