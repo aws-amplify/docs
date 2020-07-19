@@ -4,7 +4,7 @@ Put data to the API endpoint:
 
 ```swift
 func putTodo() {
-    let request = RESTRequest(path: "/todo", body: nil)
+    let request = RESTRequest(path: "/todo", body: "my updated Todo".data(using: .utf8))
     _ = Amplify.API.put(request: request) { result in
         switch result {
         case .success(let data):

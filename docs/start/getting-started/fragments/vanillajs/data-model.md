@@ -39,7 +39,7 @@ Accept the **default values** which are highlighted below:
 
 The CLI should open this GraphQL schema in your text editor.
 
-__amplify/backend/api/myapi/schema.graphql__
+__amplify/backend/api/amplifyjsapp/schema.graphql__
 
 ```graphql
 type Todo @model {

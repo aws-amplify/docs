@@ -1,6 +1,6 @@
 ```swift
 func postTodo() {
-    let request = RESTRequest(path: "/todo", body: nil)
+    let request = RESTRequest(path: "/todo", body: "my new Todo".data(using: .utf8))
     _ = Amplify.API.post(request: request) { result in
         switch result {
         case .success(let data):
