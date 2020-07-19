@@ -154,6 +154,20 @@ description: how to configure auth
 <inline-fragment platform="ios" src="~/docs/lib/auth/setup/fragments/ios/automated.md"></inline-fragment> <inline-fragment platform="web" src="~/docs/lib/auth/setup/fragments/web/automated.md"></inline-fragment>
 ```
 
+### Inlining Filterable Content
+
+`docs-filter` allows you to make some content filterable without needing to place that content in its own fragment file. This is useful for smaller, non-reusable snippets.
+
+For instance:
+
+```md
+<docs-filter platform="js">
+
+Some JS-specific content here
+
+</docs-filter>
+```
+
 ### Tab-switchable Blocks
 
 `amplify-block-switcher` allows you to organize blocks of content into tabs. This is useful for presenting a reader different instructions based upon framework (e.g. Vue.js vs. React) or language (e.g. Java vs. Kotlin). Here's an example of its usage:
@@ -187,3 +201,7 @@ let mut a = String::from("a");
 
 </amplify-block-switcher>
 ````
+
+### Adding to Valid Tag List
+
+Markdown parsers don't handle `<whatever>` very well. If you intended to write what the parser interprets as usage of an element / web component, navigate to `capi/src/init-node/valid-tags.json` and add a new entry for your tag. If you meant for `<whatever>` to be text, you'll need to escape it with a backslash (`\<whatever\>`). Please confirm that this renders properly before PRing with your changes.

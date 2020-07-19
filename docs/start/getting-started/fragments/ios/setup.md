@@ -1,150 +1,113 @@
 
-## Step 1: Configure your app
-You can use an existing iOS app or create a new iOS app in Swift as per the steps in prerequisite section. 
+👋 Welcome! In this tutorial, you will:
 
-Install Cocoapods: From a terminal window navigate into your Xcode project's application directory and run the following:
+- Set up an iOS application configured with Amplify
+- Create a data model and persist data to Amplify DataStore
+- Connect your local data to synchronize to a cloud backend
 
-```bash
-cd ./YOUR_PROJECT_FOLDER
-sudo gem install cocoapods
-pod init
-```
+## Prerequisites
 
-Open the created  `Podfile` in a text editor and add the pod for core AWS Mobile SDK components to your build.
+- Install [Node.js](https://nodejs.org/en/) version 10 or higher
+- Install [Xcode](https://developer.apple.com/xcode/downloads/) version 10.2 or later
+- Install [CocoaPods](https://cocoapods.org/)
 
-```ruby
-target :'YOUR-APP-NAME' do
-    use_frameworks!
+- Install [Amplify CLI](~/cli/cli.md) version 4.21.0 or later by running:
 
-    pod 'AWSAppSync'
+    ```bash
+    npm install -g @aws-amplify/cli
+    ```
 
-    # other pods
-end
-```
+## Set up your application
 
-Install dependencies by running the following command:
+### Create a new iOS application
+1.  **Open Xcode.**  From the menu bar, select **"File -> New -> Project..."**
 
-```bash
-pod install --repo-update
-```
+1.  Select **Single View App**, select **Next**
+  ![](~/images/lib/getting-started/ios/set-up-ios-select-project-template.png)
 
-Close your Xcode project and reopen it using `./YOUR-PROJECT-NAME.xcworkspace` file. Remember to always use `./YOUR-PROJECT-NAME.xcworkspace` to open your Xcode project from now on. Build your Xcode project.
+1.  Fill in the following for your project:
+  * Product Name: **Todo**
+  * Language: **Swift**
+  * User Interface: **SwiftUI**
+  * **Tap `Next`**
 
+  ![](~/images/lib/getting-started/ios/set-up-ios-studio-configure-your-project.png)
 
-## Step 2: Initialize your project
+1.  After tapping Next, **select where you would like to save your project**, then **tap Create**.
 
-In a terminal window, run the following command (for this app, accepting all defaults is OK) in your project folder (the folder that contains your `xcodeproj` file):
+  You should now have an empty iOS project without Amplify.
 
-```bash
-amplify init
-```
+### Add Amplify to your application
 
-Accept the **default values**. The `awsconfiguration.json` configuration file should be created in the root directory. 
+Amplify for iOS is distributed through Cocoapods as a Pod. In this section, you'll setup cocoa pods and add the required Amplify packages.
 
-## Step 3: Add config
+1.  Before starting this step, please make sure that please **close Xcode.**
 
-**What is awsconfiguration.json?**
+  **Open a terminal** and **change directories to your project**.  For example, if you created your project in the folder `~/Developer`, you can:
+  ```bash
+  cd ~/Developer/Todo
+  ```
 
-> Rather than configuring each service through a constructor or constants file, the AWS SDKs for iOS support configuration through a centralized file called `awsconfiguration.json` which defines all the regions and service endpoints to communicate. Whenever you run `amplify push`, this file is automatically created allowing you to focus on your Swift application code. On iOS projects the `awsconfiguration.json` will be placed into the root directory and you will need to add it to your Xcode project.
+1.  In order to initialize your project with the CocoaPods package manager, **execute the command**:
+  ```bash
+  pod init
+  ```
 
-In the Finder, drag `awsconfiguration.json` into Xcode under the top Project Navigator folder (the folder name should match your Xcode project name). When the `Options` dialog box appears, do the following:
+  After doing this, you should see a newly created file called `Podfile`.  This file is used to describe what packages your project depends on.
 
-* Clear the `Copy items if needed` check box.
-* Choose `Create groups`, and then choose `Finish`.
+1.  **Update the file** to include the following pods:
+  ```
+  target 'Todo' do
+      use_frameworks!
 
-## Step 4: Add API and Database
+      pod 'Amplify'
+      pod 'Amplify/Tools'
+      pod 'AmplifyPlugins/AWSAPIPlugin'
+      pod 'AmplifyPlugins/AWSDataStorePlugin'
 
-Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the the following command from the root of your application directory:
+  end
+  ```
 
-```bash
-amplify add api
-```
+1.  To download and install the Amplify pod into your project, **execute the command**:
+  ```bash
+  pod install --repo-update
+  ```
 
-Accept the **default values** which are highlighted below:
+1.  After doing this, you should now see file called `Todo.xcworkspace`.  You are required to use this file from now on instead of the .xcodeproj file.  To open your workspace, **execute the command**:
+  ```bash
+  xed .
+  ```
+This should open the newly generated Todo.xcworkspace in Xcode.
 
-```console
-? Please select from one of the below mentioned services:
-# GraphQL
-? Provide API name:
-# myapi
-? Choose the default authorization type for the API:
-# API Key
-? Enter a description for the API key:
-# demo
-? After how many days from now the API key should expire:
-# 7 (or your preferred expiration)
-? Do you want to configure advanced settings for the GraphQL API:
-# No
-? Do you have an annotated GraphQL schema? 
-# No
-? Do you want a guided schema creation? 
-# Yes
-? What best describes your project: 
-# Single object with fields
-? Do you want to edit the schema now? 
-# Yes
-```
+### Adding Amplify tools
+We will now add AmplifyTools as a build phase in your project.  
+1.  Click on the **Todo project** in the project workspace, then click the **Todo** app target, and then **click on `Build Phases`**.
+  ![](~/images/lib/getting-started/ios/set-up-ios-amplify-tools-1.png)
 
-The CLI should open this GraphQL schema in your text editor.
+1.  Tap the `+` button to add another phase, and **select "New Run Script Phase"**
+  ![](~/images/lib/getting-started/ios/set-up-ios-amplify-tools-2.png)
 
-__amplify/backend/api/myapi/schema.graphql__
+1.  Drag the new `Run Script` phase to move the phase so that it runs prior to the `Compile Sources` phase.
 
-```graphql
-type Todo @model {
-  id: ID!
-  name: String!
-  description: String
-}
-```
+1.  Update the `Run Script` build phase title to **"Run Amplify Tools"**, and then update the shell script to have a single line with:
+  ```bash
+  "${PODS_ROOT}/AmplifyTools/amplify-tools.sh"
+  ```
+  Your project should now look like this.  Notice that the amplify tools phase comes before the Compile Sources phase.
+  ![](~/images/lib/getting-started/ios/set-up-ios-amplify-tools-3.png)
 
-The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. This directive is part of the [GraphQL transform](~/cli/graphql-transformer/directives.md) library of Amplify. 
+1.  Now that we've added Amplify tools to the build process, it will run when you build you project.  **Build your project** in Xcode (`Cmd+b`).  Because this is the first time you are building your project, Amplify tools will detect this and generate a number of files in your project directory.
+  * `amplify` (folder) - Contains a number of configuration files and pre-generated sample files that we will be using in you project
+  * `amplifytools.xcconfig` - this configuration file controls the behavior of amplify tools
+  * `amplifyconfiguration.json` - this configuration file will be added to your project and shipped with your bundle.  This is required by the amplify libraries.
+  * `awsconfiguration.json` - this configuration file will also be added to your project and shipped with your bundle.  This is also required by the amplify libraries.
+    
+You are ready to start building with Amplify! 🎉
 
-The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.
+<amplify-callout>
 
-A type decorated with the `@model` directive will scaffold out the database table for the type (Todo table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
+If Xcode reports build errors like `Undefined symbol: _OBJC_CLASS_$_AWSSignatureV4Signer`, as shown in the screenshot below, clean build folder with **Product > Clean Build Folder** (`Shift+Cmd+K`) and rebuild the project (`Cmd+b`).
 
-From the command line, press __enter__ to accept the schema and continue to the next steps.
+![Xcode Build Error](~/images/xcode-build-error.png)
 
-## Step 5: Push changes
-
-Create the required backend resources for your configured API using the `amplify push` command.
-Since you added an API, the `amplify push` process will automatically enter the [codegen process](~/cli/graphql-transformer/codegen.md) and prompt you for configuration. Accept the defaults.
-
-The codegen process generates a file named `API.swift` in your application root directory after the completion of `amplify push` command.
-
-The CLI flow for push command is shown below:
-
-```bash
-amplify push
-```
-
-```console
-? Are you sure you want to continue?
-# Yes
-? Do you want to generate code for your newly created GraphQL API:
-# Yes
-? Enter the file name pattern of graphql queries, mutations and subscriptions:
-# graphql/**/*.graphql
-? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions:
-# Yes
-? Enter maximum statement depth [increase from default if your schema is deeply nested]:
-# 2
-? Enter the file name for the generated code:
-# API.swift
-```
-
-Next, run the following command to check Amplify's status:
-
-```bash
-amplify status
-```
-
-This will give us the current status of the Amplify project, including the current environment, any categories that have been created, and what state those categories are in. It should look similar to this:
-
-```console
-Current Environment: dev
-
-| Category | Resource name | Operation | Provider plugin   |
-| -------- | ------------- | --------- | ----------------- |
-| Api      | myapi         | No Change | awscloudformation |
-```
+</amplify-callout>

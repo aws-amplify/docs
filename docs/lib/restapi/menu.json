@@ -5,6 +5,8 @@
     "fetch",
     "update",
     "delete",
-    "authz"
+    "cancel",
+    "authz",
+    "existing-resources"
   ]
 }

@@ -1,6 +1,6 @@
 ---
-title: Use S3 SDK directly
-description: For advanced use cases where Amplify does not provide the functionality, you can retrieve the escape hatch to access the AWSS3 instance.
+title: Escape hatch
+description: For specialized use cases where Amplify does not provide the functionality, you can use the escape hatch to access an AWSS3 low-level client instance. The returned AWSS3 instance is already configured with your access credentials.
 ---
 
 <inline-fragment platform="ios" src="~/lib/storage/fragments/ios/escapehatch.md"></inline-fragment>

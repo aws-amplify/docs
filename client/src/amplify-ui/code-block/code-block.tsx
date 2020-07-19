@@ -26,7 +26,11 @@ export class AmplifyCodeBlock {
 
   element?: HTMLDivElement;
 
-  setElement = (ref: HTMLDivElement | undefined) => (this.element = ref);
+  setElement = (ref: HTMLDivElement | undefined) => {
+    if (ref !== null) {
+      this.element = ref;
+    }
+  };
 
   copyToClipboard = () => {
     if (this.element && this.element.textContent) {
@@ -55,9 +59,9 @@ export class AmplifyCodeBlock {
       return (
         <div class={lineCountStyle}>
           <div>
-              {new Array(this.lineCount)
-                .fill(null)
-                .map((_, i) => <span>{String(i + 1)}</span>)}
+            {new Array(this.lineCount).fill(null).map((_, i) => (
+              <span>{String(i + 1)}</span>
+            ))}
           </div>
         </div>
       );
@@ -69,7 +73,8 @@ export class AmplifyCodeBlock {
       <Host
         class={{
           [codeBlockStyle]: true,
-          [noLineNumbersStyle]: this.lineCount === 1 || this.language === CONSOLE,
+          [noLineNumbersStyle]:
+            this.lineCount === 1 || this.language === CONSOLE,
         }}
       >
         {this.lineNumbers()}

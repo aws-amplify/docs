@@ -19,7 +19,7 @@ Much of the behavior of the GraphQL Transform logic is configured by passing arg
 
 `CreateAPIKey` takes value of either `1` or `0`. 
 
-It give you the mechanism to rotate the API Key, in scenarios such as to handle API Key expiration. 
+It gives you the mechanism to rotate the API Key, in scenarios such as to handle API Key expiration. 
 
 Follow these two steps when you need to rotate an API Key
 - Delete the existing API key by setting `CreateAPIKey` to `0` in the `amplify/backend/api/<apiName>/parameters.json` file and execute `amplify push`. 
@@ -150,8 +150,8 @@ Follow these two steps when you need to rotate an API Key
 type Task
   @model
   @auth(rules: [
-      {allow: groups, groups: ["Managers"], mutations: [create, update, delete], queries: null},
-      {allow: groups, groups: ["Employees"], mutations: null, queries: [get, list]}
+      {allow: groups, groups: ["Managers"], operations: [create, update, delete]},
+      {allow: groups, groups: ["Employees"], operations: [read, list]}
     ])
 {
   id: ID!

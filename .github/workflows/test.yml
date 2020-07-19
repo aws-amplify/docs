@@ -1,7 +1,5 @@
 name: Test
-on:
-  - push
-  - pull_request
+on: pull_request
 jobs:
   test:
     name: Test
@@ -19,3 +17,17 @@ jobs:
         run: yarn build
       - name: Run Test Script
         run: yarn test
+  spellcheck:
+    name: Spellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Setup Node.js 10.x
+        uses: actions/setup-node@master
+        with:
+          node-version: 10.x
+      - name: Install Dependencies
+        run: yarn
+      - name: Run Spellcheck
+        run: yarn spellcheck

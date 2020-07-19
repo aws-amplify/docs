@@ -5,3 +5,4 @@ description: Learn more about how to detect labels in an image using Amplify. Fo
 
 <inline-fragment platform="js" src="~/lib/predictions/fragments/js/label-image.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/predictions/fragments/ios/label-image.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/predictions/fragments/android/label-image.md"></inline-fragment>

@@ -10,7 +10,7 @@ const post = await DataStore.save(
 await DataStore.save(
   new Comment({
     content: "Loving Amplify DataStore!",
-    postID: post.ID
+    postID: post.id
   })
 );
 ```

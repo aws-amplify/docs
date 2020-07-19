@@ -198,7 +198,7 @@ Here is the example of how to use AsyncStorage as your storage object which will
 ```javascript
 import { AsyncStorage } from 'react-native';
 
-const MEMORY_KEY_PREFIX = '@MyStorage:';
+const MYSTORAGE_KEY_PREFIX = '@MyStorage:';
 let dataMemory = {};
 
 /** @class */
@@ -208,7 +208,7 @@ class MyStorage {
      * This is used to set a specific item in storage
      */
     static setItem(key, value) {
-        AsyncStorage.setItem(MEMORY_KEY_PREFIX + key, value);
+        AsyncStorage.setItem(MYSTORAGE_KEY_PREFIX + key, value);
         dataMemory[key] = value;
         return dataMemory[key];
     }
@@ -224,7 +224,7 @@ class MyStorage {
      * This is used to remove an item from storage
      */
     static removeItem(key) {
-        AsyncStorage.removeItem(MEMORY_KEY_PREFIX + key);
+        AsyncStorage.removeItem(MYSTORAGE_KEY_PREFIX + key);
         return delete dataMemory[key];
     }
 
@@ -237,20 +237,20 @@ class MyStorage {
     }
 
     /**
-     * Will sync the MemoryStorage data from AsyncStorage to storageWindow MemoryStorage
+     * Will sync the MyStorage data from AsyncStorage to storageWindow MyStorage
     */
     static sync() {
-        if (!MemoryStorage.syncPromise) {
-            MemoryStorage.syncPromise =  new Promise((res, rej) => {
+        if (!MyStorage.syncPromise) {
+            MyStorage.syncPromise =  new Promise((res, rej) => {
                 AsyncStorage.getAllKeys((errKeys, keys) => {
                     if (errKeys) rej(errKeys);
-                    const memoryKeys = keys.filter((key) => key.startsWith(MEMORY_KEY_PREFIX));
+                    const memoryKeys = keys.filter((key) => key.startsWith(MYSTORAGE_KEY_PREFIX));
                     AsyncStorage.multiGet(memoryKeys, (err, stores) => {
                         if (err) rej(err);
                         stores.map((result, index, store) => {
                             const key = store[index][0];
                             const value = store[index][1];
-                            const memoryKey = key.replace(MEMORY_KEY_PREFIX, '');
+                            const memoryKey = key.replace(MYSTORAGE_KEY_PREFIX, '');
                             dataMemory[memoryKey] = value;
                         });
                         res();
@@ -258,7 +258,7 @@ class MyStorage {
                 });
             });
         }
-        return MemoryStorage.syncPromise;
+        return MyStorage.syncPromise;
     }
 }
 

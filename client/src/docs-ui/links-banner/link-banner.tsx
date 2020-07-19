@@ -5,12 +5,13 @@ import {
   logoStyle,
 } from "./link-banner.style";
 import * as links from "../../constants/links";
+import * as img from "../../constants/img";
 
 @Component({tag: "docs-link-banner", shadow: false})
 export class DocsLinkBanner {
   render() {
     return (
-      <amplify-container
+      <docs-container
         class={containerOuterStyle}
         innerClass={containerInnerStyle}
       >
@@ -19,7 +20,11 @@ export class DocsLinkBanner {
           Amplify GitHub
         </amplify-external-link>
         <amplify-external-link href={links.DISCORD} graphic="black">
-          <img src="/assets/discord-blue.svg" class={logoStyle} />
+          <img
+            class={logoStyle}
+            alt={img.DISCORD.alt}
+            src={img.DISCORD.blueSrc}
+          />
           Amplify on Discord
         </amplify-external-link>
         <amplify-external-link href={links.MARKETING} graphic="black">
@@ -30,7 +35,7 @@ export class DocsLinkBanner {
           <img src="/assets/logo-dark.svg" class={logoStyle} />
           Amplify Community
         </amplify-external-link>
-      </amplify-container>
+      </docs-container>
     );
   }
 }
