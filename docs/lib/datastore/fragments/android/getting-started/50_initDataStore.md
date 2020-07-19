@@ -1,0 +1,66 @@
+To initialize the Amplify DataStore, use the `Amplify.addPlugin()` method to add the AWS DataStore Plugin. Next, finish configuring the Amplify framework by calling `Amplify.configure()`.
+
+
+Add the following code to the bottom of your MainActivity `onCreate` method. (Ideally, this code would live in an Application subclass. But, this works for getting started quickly.)
+
+<amplify-block-switcher>
+<amplify-block name="Java">
+
+```java
+Amplify.addPlugin(new AWSDataStorePlugin());
+```
+
+Your class will look like this:
+
+```java
+public class MyAmplifyApp extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        try {
+            Amplify.addPlugin(new AWSDataStorePlugin());
+            Amplify.configure(getApplicationContext());
+
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+        }
+    }
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+Amplify.addPlugin(AWSDataStorePlugin())
+```
+
+Your class will look like this:
+
+```kotlin
+class MyAmplifyApp : Application() {
+    override fun onCreate() {
+        super.onCreate()
+
+        try {
+            Amplify.addPlugin(AWSDataStorePlugin())
+            Amplify.configure(applicationContext)
+
+            Log.i("MyAmplifyApp", "Initialized Amplify")
+        } catch (error: AmplifyException) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
+        }
+    }
+}
+```
+
+</amplify-block>
+</amplify-block-switcher>
+
+Upon building and running this application you should see the following in your console window:
+
+```console
+Initialized Amplify
+```

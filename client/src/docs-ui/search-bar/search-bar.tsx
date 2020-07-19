@@ -20,6 +20,9 @@ export class DocsSearchBar {
         inputSelector: UNINITIALIZED_SEARCH_INPUT_SELECTOR,
         debug: false,
         transformData,
+        algoliaOptions: {
+          hitsPerPage: 10,
+        },
       });
     }
   }
