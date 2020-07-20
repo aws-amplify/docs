@@ -1,6 +1,6 @@
 ## Record event
 
-The Amplify analytics plugin also makes it easy to record custom events within the app. The plugin handles retry logic in the event the device looses network connectivity and automatically batches requests to reduce network bandwidth.
+The Amplify analytics plugin also makes it easy to record custom events within the app. The plugin handles retry logic in the event the device loses network connectivity and automatically batches requests to reduce network bandwidth.
 
 <amplify-block-switcher>
 <amplify-block name="Java">
@@ -170,28 +170,3 @@ Amplify.Analytics.enable()
 </amplify-block>
 </amplify-block-switcher>
 
-## Escape hatch
-
-For advanced use cases where Amplify does not provide the functionality, you can retrieve the escape hatch to access AWSPinpoint instance.
-
-<amplify-block-switcher>
-<amplify-block name="Java">
-
-```java
-AWSPinpointAnalyticsPlugin plugin = (AWSPinpointAnalyticsPlugin) Amplify
-        .Analytics
-        .getPlugin("amazonPinpointAnalyticsPlugin");
-AnalyticsClient analyticsClient = plugin.getEscapeHatch();
-```
-
-</amplify-block>
-<amplify-block name="Kotlin">
-
-```kotlin
-val plugin: AWSPinpointAnalyticsPlugin = Amplify.Analytics
-        .getPlugin("amazonPinpointAnalyticsPlugin") as AWSPinpointAnalyticsPlugin
-val analyticsClient: AnalyticsClient? = plugin.getEscapeHatch()
-```
-
-</amplify-block>
-</amplify-block-switcher>

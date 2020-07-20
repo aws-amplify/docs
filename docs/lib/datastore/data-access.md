@@ -4,25 +4,41 @@ description: Learn how to save, query, paginate, update, delete and observe data
 ---
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/importing-datastore-snippet.md"></inline-fragment>
 
-## Save Data
+## Create and update
 
-To write any data to the DataStore you can pass an instance of a Model to `DataStore.save()` and it will be persisted in offline storage. At this point you can use it as an item in a normal data store such as querying, updating or deleting. If you choose to later connect to the cloud the item will be synchronized using GraphQL mutations and any other systems connected to the same backend can run queries or mutations on these items as well as observe them with GraphQL subscriptions.
+To write data to the DataStore, pass an instance of a model to `Amplify.DataStore.save()`:
 
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/save-snippet.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/save-snippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/data-access/save-snippet.md"></inline-fragment>
 
+The `save` method creates a new record, or in the event that one already exists in the local store, it updates the record.
+
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/update-snippet.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/update-snippet.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/data-access/update-snippet.md"></inline-fragment>
+
+## Delete
+
+To delete an item simply pass in an instance.
+
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/delete-snippet.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/delete-snippet.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/data-access/delete-snippet.md"></inline-fragment>
+
 ## Query Data
 
-Querying data is always against the locally synchronized data, which is updated in the background for you by the DataStore Sync Engine when connected to the cloud. You can query using models as well as conditions using predicate filters for finer grained results.
+Queries are performed against the _local store_. When cloud synchronization is enabled, the local store is updated in the background by the DataStore Sync Engine.
+
+You can narrow the results of your query by specifying a model type of interest. For more advanced filtering, such as matching arbitrary field values on an object, you can supply a query predicate.
 
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/query-basic-snippet.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/query-basic-snippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/data-access/query-basic-snippet.md"></inline-fragment>
 
-### Query with Predicates
+### Predicates
 
-You can apply predicate filters against the DataStore using the fields defined on your GraphQL type along with the following conditions supported by DynamoDB:
+Predicates are filters that can be used to match items in the DataStore. When applied to a query(), they constrain the returned results. When applied to a save(), they act as a pre-requisite for updating the data. You can match against fields in your schema by using the following predicates:
 
 **Strings:** `eq | ne | le | lt | ge | gt | contains | notContains | beginsWith | between`
 
@@ -36,7 +52,7 @@ For example if you wanted a list of all `Post` Models that have a `rating` great
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/query-predicate-snippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/data-access/query-predicate-snippet.md"></inline-fragment>
 
-Multiple conditions can also be used, like the ones defined in [GraphQL Transform condition statements](~/cli/graphql-transformer/resolvers.md). For example, fetch all posts that has a rating greater than `4` and are `active`:
+Multiple conditions can also be used, like the ones defined in [GraphQL Transform condition statements](~/cli/graphql-transformer/resolvers.md). For example, fetch all posts that has a rating greater than `4` and are `PUBLISHED`:
 
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/query-predicate-multiple-snippet.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/query-predicate-multiple-snippet.md"></inline-fragment>
@@ -50,28 +66,8 @@ Alternatively, the `or` logical operator can also be used:
 
 ### Pagination
 
-Query results can also be paginated, you can optionally pass in a limit and page. This will return a list of the first 100 items:
+Query results can also be paginated by passing in a `page` number (starting at 0) and an optional `limit` (defaults to 100). This will return a list of the first 100 items:
 
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/query-pagination-snippet.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/query-pagination-snippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/data-access/query-pagination-snippet.md"></inline-fragment>
-
-## Update Data
-
-<inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/update-snippet.md"></inline-fragment>
-<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/update-snippet.md"></inline-fragment>
-<inline-fragment platform="android" src="~/lib/datastore/fragments/android/data-access/update-snippet.md"></inline-fragment>
-
-You can also apply conditions to update and delete operations. The condition will be applied locally and if you have enabled synchronization with the cloud it will be placed in a network mutation queue. The GraphQL mutation will then include this condition and be evaluated against the existing record in DynamoDB. If the condition holds the item in the cloud is updated and synchronized across devices. If the check fails then the item is not updated and the source of truth from the cloud will be applied to the local DataStore. For instance if you wanted to update if the `rating` was greater than 3:
-
-<inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/update-condition-snippet.md"></inline-fragment>
-<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/update-condition-snippet.md"></inline-fragment>
-<inline-fragment platform="android" src="~/lib/datastore/fragments/android/data-access/update-condition-snippet.md"></inline-fragment>
-
-Conditional updates can only be applied to single items and not lists. If you wish to update a list of items you can loop over them and apply conditions one at a time.
-
-## Delete Data
-
-<inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/delete-snippet.md"></inline-fragment>
-<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/delete-snippet.md"></inline-fragment>
-<inline-fragment platform="android" src="~/lib/datastore/fragments/android/data-access/delete-snippet.md"></inline-fragment>
