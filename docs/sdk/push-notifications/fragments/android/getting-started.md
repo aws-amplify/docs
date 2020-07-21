@@ -35,7 +35,6 @@ Use the following steps to connect your app to the push notification backend ser
         // Overrides an auth dependency to ensure correct behavior
         implementation 'com.google.android.gms:play-services-auth:15.0.1'
 
-        implementation 'com.google.firebase:firebase-core:16.0.1'
         implementation 'com.google.firebase:firebase-messaging:17.3.0'
 
         implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.15.+'

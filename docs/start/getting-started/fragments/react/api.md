@@ -157,14 +157,17 @@ query listTodos {
 
 In this section you will create a way to list and create todos from the React application. To do this, you will create a form with a button to create todos as well as a way to fetch and render the list of todos.
 
-Open __src/App.js__ and update it with the following code:
+Open __src/App.js__ and replace it with the following code:
 
 ```javascript
 /* src/App.js */
 import React, { useEffect, useState } from 'react'
-import { API, graphqlOperation } from 'aws-amplify'
+import Amplify, { API, graphqlOperation } from 'aws-amplify'
 import { createTodo } from './graphql/mutations'
 import { listTodos } from './graphql/queries'
+
+import awsExports from "./aws-exports";
+Amplify.configure(awsExports);
 
 const initialState = { name: '', description: '' }
 
