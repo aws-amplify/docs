@@ -6,22 +6,22 @@ exports[`docs-secondary-nav Render logic should render 1`] = `
     <div class="css-16891c2">
       <div>
         <div>
-          <docs-internal-link childactiveclass="css-pnqqcs" href="/start">
+          <docs-internal-link childactiveclass="css-pnqqcs docs-secondary-nav-link-active" href="/start">
             <span>
               Getting Started
             </span>
           </docs-internal-link>
-          <docs-internal-link childactiveclass="css-pnqqcs" href="/lib">
+          <docs-internal-link childactiveclass="css-pnqqcs docs-secondary-nav-link-active" href="/lib">
             <span>
               Libraries
             </span>
           </docs-internal-link>
-          <docs-internal-link childactiveclass="css-pnqqcs" href="/ui">
+          <docs-internal-link childactiveclass="css-pnqqcs docs-secondary-nav-link-active" href="/ui">
             <span>
               UI Components
             </span>
           </docs-internal-link>
-          <docs-internal-link childactiveclass="css-pnqqcs" href="/cli">
+          <docs-internal-link childactiveclass="css-pnqqcs docs-secondary-nav-link-active" href="/cli">
             <span>
               CLI
             </span>
