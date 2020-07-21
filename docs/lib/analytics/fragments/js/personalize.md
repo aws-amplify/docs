@@ -17,13 +17,11 @@ You need the tracking ID of your event tracker. For more information, see [Get a
 ```javascript
 import { Analytics, AmazonPersonalizeProvider } from 'aws-amplify';
 Analytics.addPluggable(new AmazonPersonalizeProvider());
-
 ```
 
 Configure Amazon Personalize:
 
 ```javascript
-
 // Configure the plugin after adding it to the Analytics module
 Analytics.configure({
     AmazonPersonalize: {
@@ -41,7 +39,6 @@ Analytics.configure({
         flushInterval: 5000, // 5s
     }
 });
-
 ```
 ### Working with the API
 
