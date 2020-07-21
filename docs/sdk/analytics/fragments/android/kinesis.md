@@ -121,7 +121,7 @@ Long maxStorageSize = kinesisRecorderConfig.getMaxStorageSize();
 // Do something with maxStorageSize
 ```
 
-To check the number of bytes currently stored in the directory passed in to the `KinesisRecoder` constructor, call `getDiskBytesUsed()`:
+To check the number of bytes currently stored in the directory passed in to the `KinesisRecorder` constructor, call `getDiskBytesUsed()`:
 
 ```java
 Long bytesUsed = recorder.getDiskBytesUsed();
