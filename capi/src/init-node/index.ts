@@ -36,6 +36,7 @@ const supportedLanguages = [
   "jsx",
   "sql",
   "groovy",
+  "dart"
 ];
 
 loadLanguages(supportedLanguages);

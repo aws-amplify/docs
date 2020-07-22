@@ -1,4 +1,4 @@
-```java
+```dart
 SignUpResult res = await Amplify.Auth.confirmSignUp(
   request: ConfirmSignUpRequest(
     userKey: usernameController.text.trim(),

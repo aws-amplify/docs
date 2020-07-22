@@ -1,6 +1,6 @@
 Add the following dependency to your **app**'s `pubspec.yaml` along with others you added above in **Prerequisites**:
 
-```groovy
+```yaml
 dependencies:
   flutter:
     sdk: flutter
