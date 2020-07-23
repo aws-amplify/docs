@@ -779,40 +779,6 @@ mutation CreateDraft {
 }
 ```
 
-To set the owner to null with the current schema, you would still need to be in the editors list:
-
-```graphql
-mutation CreateDraft {
-  createDraft(
-    input: {
-      title: "A new draft",
-      editors: ["someuser@my-domain.com"],
-      owner: null
-    }
-  ) {
-    id
-    title
-    owner
-    editors
-  }
-}
-```
-
-Would return:
-
-```json
-{
-    "data": {
-        "createDraft": {
-            "id": "...",
-            "title": "A new draft",
-            "owner": null,
-            "editors": ["someuser@my-domain.com"]
-        }
-    }
-}
-```
-
 ### Static group authorization
 
 Static group authorization allows you to protect `@model` types by restricting access
