@@ -64,7 +64,7 @@ Install your libraries in the following folder:
 [Python]: amplify/backend/function/<lambda-layer-name>/lib/python/lib/python3.8/site-packages/...
 
 Include any files you want to share across runtimes in this folder:
-amplify/backend/function/<lambda-layer-name>/opt/data
+amplify/backend/function/<lambda-layer-name>/opt/
 
 "amplify function update <function-name>" - configure a function with this Lambda layer
 "amplify push" builds all of your local backend resources and provisions them in the cloud
@@ -104,7 +104,7 @@ A `python` folder is auto-generated for you. In there you'll find a skeleton fol
 
 ### Add shared assets
 
-Any assets like large images or other files that you want to share across various functions can be placed in the `amplify/backend/function/<layer-name>/opt/` folder. Your function's code can import any assets by looking for files in the `/opt/opt/` path.
+Any assets like large images or other files that you want to share across various functions can be placed in the `amplify/backend/function/<layer-name>/opt/` folder. Your function's code can import any assets by looking for files in the `/opt/` path.
 
 ### Lambda layer versions
 
