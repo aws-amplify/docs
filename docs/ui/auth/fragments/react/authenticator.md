@@ -101,7 +101,7 @@ If you are using the `usernameAlias` prop with custom `slots`, keep in mind that
 
 ### Hiding a form field
 
-Often you will not need a default form field, for example the phone number field. To implement this you can define the array of fields you'd like to show (along with the optional field cusomizations).
+Often you will not need a default form field, for example the phone number field. To implement this you can define the array of fields you'd like to show (along with the optional field customizations).
 
 In this example we are also managing the auth state to show and hide the `AmplifyAuthenticator` component based on the authenticated state of the user. This code will also persist the user sign in state on refresh.
 
