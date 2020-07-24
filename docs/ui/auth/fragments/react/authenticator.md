@@ -99,6 +99,65 @@ If you are using the `usernameAlias` prop with custom `slots`, keep in mind that
 
 </amplify-callout>
 
+### Hiding a form field
+
+Often you will not need a default form field, for example the phone number field. To implement this you can define the array of fields you'd like to show (along with the optional field cusomizations).
+
+In this example we are also managing the auth state to show and hide the `AmplifyAuthenticator` component based on the authenticated state of the user. This code will also persist the user sign in state on refresh.
+
+We are using the default form fields with the exception of the `password` field where we customizing the label and placeholder.
+
+```js
+import React from 'react';
+import { AmplifyAuthenticator, AmplifySignUp, AmplifySignOut } from '@aws-amplify/ui-react';
+import { Auth, Hub } from 'aws-amplify';
+
+function App() {
+  const [user, updateUser] = React.useState(null);
+  React.useEffect(() => {
+    Auth.currentAuthenticatedUser()
+      .then(user => updateUser(user))
+      .catch(() => console.log('No signed in user.'));
+    Hub.listen('auth', data => {
+      switch (data.payload.event) {
+        case 'signIn':
+          return updateUser(data.payload.data);
+        case 'signOut':
+          return updateUser(null);
+      }
+    });
+  }, [])
+  if (user) {
+    return (
+      <div>
+        <h1>Hello {user.username}</h1>
+        <AmplifySignOut />
+      </div>
+    )
+  }
+  return (
+    <div style={{ display: 'flex', flex: 1, justifyContent: 'center' }}>
+      <AmplifyAuthenticator>
+        <AmplifySignUp
+          slot="sign-up"
+          formFields={[
+            { type: "username" },
+            {
+              type: "password",
+              label: "Custom Password Label",
+              placeholder: "custom password placeholder"
+            },
+            { type: "email" }
+          ]} 
+        />
+      </AmplifyAuthenticator>
+    </div>
+  );
+}
+
+export default App
+```
+
 For more details on this customization see the `amplify-form-field` [prop documentation](https://github.com/aws-amplify/amplify-js/tree/master/packages/amplify-ui-components/src/components/amplify-form-field#properties) and the internal [`FormFieldType` interface](https://github.com/aws-amplify/amplify-js/blob/master/packages/amplify-ui-components/src/components/amplify-auth-fields/amplify-auth-fields-interface.ts#L3).
 
 ## Components
