@@ -136,7 +136,7 @@ function App() {
     )
   }
   return (
-    <div style={{ display: 'flex', flex: 1, justifyContent: 'center' }}>
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
       <AmplifyAuthenticator>
         <AmplifySignUp
           slot="sign-up"
