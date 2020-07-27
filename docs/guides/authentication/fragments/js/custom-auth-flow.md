@@ -62,7 +62,7 @@ async function signUp() {
 /* Confirm sign up function for MFA */
 async function confirmSignUp() {
   try {
-    await Auth.confirmSignUp(formInputState.usernamne, formInputState.verificationCode);
+    await Auth.confirmSignUp(formInputState.username, formInputState.verificationCode);
     /* Once the user successfully confirms their account, update form state to show the sign in form*/
     formState = "signIn";
   } catch (err) { console.log({ err }); }
