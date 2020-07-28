@@ -1,7 +1,7 @@
 ---
 title: Folder structure
 description: Learn more about Amplify's generated folder structure.
---- 
+---
 
 The CLI places the following folder structure at the root directory of the project when `init` is completed successfully:
 
@@ -89,3 +89,6 @@ amplifyxc.config
 
 ### team-provider-info.json
 `team-provider-info.json` is used for sharing your project within your team. Learn more about it in the [Share single environment section](~/cli/teams/shared.md#sharing-projects-within-the-team)
+
+### amplify.json
+Amplify CLI implemented feature flag support and this file contains the feature flag configuration. If this file does not exist, it is created by Amplify CLI during `amplify init`. Beside `amplify.json`, CLI environment specific feature flag overrides can be defined in `amplify.{environment name}.json` as well.
