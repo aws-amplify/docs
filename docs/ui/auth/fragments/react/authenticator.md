@@ -6,7 +6,29 @@
 yarn add aws-amplify @aws-amplify/ui-react
 ```
 
-## Usage
+## Basic usage
+
+```js
+import React from 'react';
+import Amplify from 'aws-amplify';
+import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+import awsconfig from './aws-exports';
+
+Amplify.configure(awsconfig);
+
+const App = () => (
+  <AmplifyAuthenticator>
+    <div>
+      My App
+      <AmplifySignOut />
+    </div>
+  </AmplifyAuthenticator>
+);
+```
+
+### Managing user state and layout
+
+In most cases you will need to manage the rendering and layout of the `AmplifyAuthenticator` separately.
 
 ```js
 import React from 'react';
@@ -44,6 +66,8 @@ export default App
 ```
 
 ### Centering the component with CSS
+
+Since the UI components are implemented using web components, you can control the top level `amplify-authenticator` component directly using CSS.
 
 ```css
 amplify-authenticator {

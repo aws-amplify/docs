@@ -47,7 +47,7 @@ Theming for the UI components can be achieved by using CSS Variables. You can en
 
 ## Managing Layout
 
-Since the UI components are implemented using web components, you can control the top level `amplify-authenticator` component directly to define it's positioning using CSS.
+Since the UI components are implemented using web components, you can control the top level `amplify-authenticator` component directly using CSS.
 
 ```css
 /* Center the AmplifyAuthenticator component */
