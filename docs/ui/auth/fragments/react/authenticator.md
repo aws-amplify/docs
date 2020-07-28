@@ -8,22 +8,51 @@ yarn add aws-amplify @aws-amplify/ui-react
 
 ## Usage
 
-```jsx
+```js
 import React from 'react';
-import Amplify from 'aws-amplify';
 import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
-import awsconfig from './aws-exports';
+import { Auth, Hub } from 'aws-amplify';
 
-Amplify.configure(awsconfig);
+function App() {
+  const [user, updateUser] = React.useState(null);
+  React.useEffect(() => {
+    Auth.currentAuthenticatedUser()
+      .then(user => updateUser(user))
+      .catch(() => console.log('No signed in user.'));
+    Hub.listen('auth', data => {
+      switch (data.payload.event) {
+        case 'signIn':
+          return updateUser(data.payload.data);
+        case 'signOut':
+          return updateUser(null);
+      }
+    });
+  }, []);
+  if (user) {
+    return (
+      <div>
+        <h1>Hello {user.username}</h1>
+        <AmplifySignOut />
+      </div>
+    )
+  }
+  /* Optionally, wrap the AmplifyAuthenticator in a div to control layout with CSS in JS */
+  return <AmplifyAuthenticator />
+}
 
-const App = () => (
-  <AmplifyAuthenticator>
-    <div>
-      My App
-      <AmplifySignOut />
-    </div>
-  </AmplifyAuthenticator>
-);
+export default App
+```
+
+### Centering the component with CSS
+
+```css
+amplify-authenticator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  height: 100vh;
+}
 ```
 
 <ui-component-props tag="amplify-authenticator" use-table-headers></ui-component-props>
