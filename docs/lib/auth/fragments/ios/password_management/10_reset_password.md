@@ -1,7 +1,7 @@
 ```swift
 func resetPassword(username: String) {
 
-    _ = Amplify.Auth.resetPassword(for: username) {(result) in
+    _ = Amplify.Auth.resetPassword(for: username) { result in
 
         do {
             let resetResult = try result.get()
@@ -12,7 +12,7 @@ func resetPassword(username: String) {
                 print("Reset completed")
             }
         } catch {
-            print("Reset passowrd failed with error \(error)")
+            print("Reset password failed with error \(error)")
         }
     }
 }

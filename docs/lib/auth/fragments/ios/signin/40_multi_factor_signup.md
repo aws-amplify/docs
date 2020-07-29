@@ -11,7 +11,7 @@ func signUp(username: String, password: String, email: String, phonenumber: Stri
                 print("SignUp Complete")
             }
         case .failure(let error):
-            print("An error occured while registering a user \(error)")
+            print("An error occurred while registering a user \(error)")
         }
     }
 }

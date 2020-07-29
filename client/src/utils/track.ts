@@ -21,6 +21,8 @@ interface AnalyticsEventPageVisit {
   type: AnalyticsEventType.PAGE_VISIT;
   attributes: {
     url: string;
+    previousUrl: string;
+    referrer: string;
   };
 }
 

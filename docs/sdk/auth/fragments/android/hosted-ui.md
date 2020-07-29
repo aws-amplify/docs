@@ -112,7 +112,7 @@ If you've setup federation through third party providers, you would need to upda
 <amplify-block name="Google Sign-In">
 
 1. Go to [Google Developer Console](https://developers.google.com/identity/sign-in/web/sign-in)
-2. Click *CONFIGURURE A PROJECT*
+2. Click *CONFIGURE A PROJECT*
 ![Image](~/images/cognitoHostedUI/google1.png)
 3. Type in a project name and choose *NEXT*.
 ![Image](~/images/cognitoHostedUI/google2.png)

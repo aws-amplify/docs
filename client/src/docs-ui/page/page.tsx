@@ -27,10 +27,10 @@ import {
 import {pageContext} from "./page.context";
 import {track, AnalyticsEventType} from "../../utils/track";
 import {ensureMenuScrolledIntoView} from "../../utils/ensure-menu-scrolled-into-view";
-import {getPage} from "../../cache";
+import {getPage} from "../../cache.worker";
 import {getNavHeight} from "../../utils/get-nav-height";
 import {scrollToHash} from "../../utils/scroll-to-hash";
-import {parseURL} from "../../utils/url/url";
+import {parseURL} from "../../utils/url/url.worker";
 
 const SELECTED_TABS_LOCAL_STORAGE_KEY = `amplify-docs::selected-tabs`;
 
@@ -46,6 +46,7 @@ export class DocsPage {
 
   rafId?: number;
   isFirstRenderOfCurrentPage = true;
+  previousPathname = "";
 
   setNewSelectedTabHeading: SetNewSelectedTabHeadings = (tabHeading) => {
     // create temp array with `tabHeading` (the new highest priority) as first el
@@ -103,6 +104,7 @@ export class DocsPage {
     const updatePageData = () => {
       if (location.pathname !== pathname) {
         this.isFirstRenderOfCurrentPage = true;
+        this.previousPathname = pathname;
         pathname = location.pathname;
         this.getPageData();
       }
@@ -172,7 +174,7 @@ export class DocsPage {
       currentRoute = currentRoute.substring(0, currentRoute.length - 1);
     }
 
-    const {path, params} = parseURL(currentRoute);
+    const {path, params} = await parseURL(currentRoute);
     const routeFiltersEntry = filtersByRoute.get(path);
     const allFilters =
       routeFiltersEntry &&
@@ -183,7 +185,11 @@ export class DocsPage {
 
     track({
       type: AnalyticsEventType.PAGE_VISIT,
-      attributes: {url: currentRoute},
+      attributes: {
+        url: currentRoute,
+        previousUrl: this.previousPathname,
+        referrer: document.referrer,
+      },
     });
 
     try {
@@ -237,7 +243,7 @@ export class DocsPage {
   };
 
   render() {
-    if (Build.isBrowser) {
+    if (Build.isBrowser || location.pathname === "/") {
       return (
         <Host class={pageStyle}>
           <pageContext.Provider

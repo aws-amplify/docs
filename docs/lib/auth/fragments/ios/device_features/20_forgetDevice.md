@@ -1,5 +1,5 @@
 ```swift
-_ = Amplify.Auth.forgetDevice() {(result) in
+_ = Amplify.Auth.forgetDevice() { result in
     switch result {
     case .success:
         print("Forget device succeeded")

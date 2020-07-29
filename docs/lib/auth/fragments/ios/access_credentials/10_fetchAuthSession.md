@@ -1,7 +1,7 @@
 ```swift
 import AWSPluginsCore
 
-_ = Amplify.Auth.fetchAuthSession { (result) in
+_ = Amplify.Auth.fetchAuthSession { result in
     do {
         let session = try result.get()
 
@@ -9,7 +9,7 @@ _ = Amplify.Auth.fetchAuthSession { (result) in
         if let identityProvider = session as? AuthCognitoIdentityProvider {
             let usersub = try identityProvider.getUserSub().get()
             let identityId = try identityProvider.getIdentityId().get()
-            print("User sub - \(usersub) and idenity id \(identityId)")
+            print("User sub - \(usersub) and identity id \(identityId)")
         }
 
         // Get aws credentials

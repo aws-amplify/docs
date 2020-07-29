@@ -35,7 +35,7 @@ Called when the device is no longer registered with the ADM service.
 Called when the device receives a message notification from ADM. Include the following as part of this method:
 
 ```java
-NotificaitonDetails details = NotificationDetailsBuilder.builder()
+NotificationDetails details = NotificationDetailsBuilder.builder()
                                 .intent(intent);
                                 .intentAction(NotificationClient.ADM_INTENT_ACTION)
                                 .build();
