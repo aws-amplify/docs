@@ -41,7 +41,7 @@ You can learn more about the structure of a request from [GraphQL Query Language
 
 ## Subset of data
 
-The selection set of the document specifies which fields are returned in the response. For example, If you are displaying a view of the Todo without the description, you can construct the document to omit the field. You can learn more about the selection sets [here](https://spec.graphql.org/draft/#sec-Selection-Sets).
+The selection set of the document specifies which fields are returned in the response. For example, if you are displaying a view of the Todo without the description, you can construct the document to omit the field. You can learn more about selection sets [here](https://spec.graphql.org/draft/#sec-Selection-Sets).
 
 ```
 query getTodo($id: ID!) {
@@ -215,7 +215,6 @@ struct PostAndTodoResponse: Codable {
 }
 ```
 Then use `PostAndTodoResponse` as the `responseType` of the `GraphQLRequest` instead of using `JSONValue`.
-
 
 
 
