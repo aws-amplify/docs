@@ -6,6 +6,7 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { SelectedFilters, SelectedTabHeadings, SetNewSelectedTabHeadings, } from "./docs-ui/page/page.types";
+import { FeatureFlag, Value, } from "./amplify-ui/cli-feature-flag/feature-flag";
 import { ToggleInView, } from "./amplify-ui/sidebar-layout/sidebar-layout.types";
 import { SetContent, } from "./amplify-ui/toc/toc.types";
 import { MenuGroup, Page, } from "./api";
@@ -61,6 +62,28 @@ export namespace Components {
           * * Whether to cancel the overriden target behavior (defaults to "_blank")
          */
         "redirect"?: boolean;
+    }
+    interface AmplifyFeatureFlag {
+    }
+    interface AmplifyFeatureFlagSummary {
+        /**
+          * data of the feature flag
+         */
+        "feature": FeatureFlag;
+        /**
+          * name of the feature flag
+         */
+        "name": string;
+    }
+    interface AmplifyFeatureFlagValue {
+        /**
+          * name of the feature flag
+         */
+        "name": string;
+        /**
+          * data of the feature flag
+         */
+        "values": Value[];
     }
     interface AmplifyLorem {
     }
@@ -400,6 +423,24 @@ declare global {
         prototype: HTMLAmplifyExternalLinkElement;
         new (): HTMLAmplifyExternalLinkElement;
     };
+    interface HTMLAmplifyFeatureFlagElement extends Components.AmplifyFeatureFlag, HTMLStencilElement {
+    }
+    var HTMLAmplifyFeatureFlagElement: {
+        prototype: HTMLAmplifyFeatureFlagElement;
+        new (): HTMLAmplifyFeatureFlagElement;
+    };
+    interface HTMLAmplifyFeatureFlagSummaryElement extends Components.AmplifyFeatureFlagSummary, HTMLStencilElement {
+    }
+    var HTMLAmplifyFeatureFlagSummaryElement: {
+        prototype: HTMLAmplifyFeatureFlagSummaryElement;
+        new (): HTMLAmplifyFeatureFlagSummaryElement;
+    };
+    interface HTMLAmplifyFeatureFlagValueElement extends Components.AmplifyFeatureFlagValue, HTMLStencilElement {
+    }
+    var HTMLAmplifyFeatureFlagValueElement: {
+        prototype: HTMLAmplifyFeatureFlagValueElement;
+        new (): HTMLAmplifyFeatureFlagValueElement;
+    };
     interface HTMLAmplifyLoremElement extends Components.AmplifyLorem, HTMLStencilElement {
     }
     var HTMLAmplifyLoremElement: {
@@ -628,6 +669,9 @@ declare global {
         "amplify-callout": HTMLAmplifyCalloutElement;
         "amplify-code-block": HTMLAmplifyCodeBlockElement;
         "amplify-external-link": HTMLAmplifyExternalLinkElement;
+        "amplify-feature-flag": HTMLAmplifyFeatureFlagElement;
+        "amplify-feature-flag-summary": HTMLAmplifyFeatureFlagSummaryElement;
+        "amplify-feature-flag-value": HTMLAmplifyFeatureFlagValueElement;
         "amplify-lorem": HTMLAmplifyLoremElement;
         "amplify-responsive-grid": HTMLAmplifyResponsiveGridElement;
         "amplify-sidebar-layout": HTMLAmplifySidebarLayoutElement;
@@ -717,6 +761,28 @@ declare namespace LocalJSX {
           * * Whether to cancel the overriden target behavior (defaults to "_blank")
          */
         "redirect"?: boolean;
+    }
+    interface AmplifyFeatureFlag {
+    }
+    interface AmplifyFeatureFlagSummary {
+        /**
+          * data of the feature flag
+         */
+        "feature"?: FeatureFlag;
+        /**
+          * name of the feature flag
+         */
+        "name"?: string;
+    }
+    interface AmplifyFeatureFlagValue {
+        /**
+          * name of the feature flag
+         */
+        "name"?: string;
+        /**
+          * data of the feature flag
+         */
+        "values"?: Value[];
     }
     interface AmplifyLorem {
     }
@@ -1030,6 +1096,9 @@ declare namespace LocalJSX {
         "amplify-callout": AmplifyCallout;
         "amplify-code-block": AmplifyCodeBlock;
         "amplify-external-link": AmplifyExternalLink;
+        "amplify-feature-flag": AmplifyFeatureFlag;
+        "amplify-feature-flag-summary": AmplifyFeatureFlagSummary;
+        "amplify-feature-flag-value": AmplifyFeatureFlagValue;
         "amplify-lorem": AmplifyLorem;
         "amplify-responsive-grid": AmplifyResponsiveGrid;
         "amplify-sidebar-layout": AmplifySidebarLayout;
@@ -1078,6 +1147,9 @@ declare module "@stencil/core" {
             "amplify-callout": LocalJSX.AmplifyCallout & JSXBase.HTMLAttributes<HTMLAmplifyCalloutElement>;
             "amplify-code-block": LocalJSX.AmplifyCodeBlock & JSXBase.HTMLAttributes<HTMLAmplifyCodeBlockElement>;
             "amplify-external-link": LocalJSX.AmplifyExternalLink & JSXBase.HTMLAttributes<HTMLAmplifyExternalLinkElement>;
+            "amplify-feature-flag": LocalJSX.AmplifyFeatureFlag & JSXBase.HTMLAttributes<HTMLAmplifyFeatureFlagElement>;
+            "amplify-feature-flag-summary": LocalJSX.AmplifyFeatureFlagSummary & JSXBase.HTMLAttributes<HTMLAmplifyFeatureFlagSummaryElement>;
+            "amplify-feature-flag-value": LocalJSX.AmplifyFeatureFlagValue & JSXBase.HTMLAttributes<HTMLAmplifyFeatureFlagValueElement>;
             "amplify-lorem": LocalJSX.AmplifyLorem & JSXBase.HTMLAttributes<HTMLAmplifyLoremElement>;
             "amplify-responsive-grid": LocalJSX.AmplifyResponsiveGrid & JSXBase.HTMLAttributes<HTMLAmplifyResponsiveGridElement>;
             "amplify-sidebar-layout": LocalJSX.AmplifySidebarLayout & JSXBase.HTMLAttributes<HTMLAmplifySidebarLayoutElement>;

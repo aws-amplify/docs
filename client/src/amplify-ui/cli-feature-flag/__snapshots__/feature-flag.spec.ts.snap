@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`amplify-feature-flag Render logic should render 1`] = `
+<amplify-feature-flag class="css-14qb6h6">
+  <div>
+    <docs-in-page-link targetid="graphQLTransformer">
+      <h2 id="graphQLTransformer">
+        graphQLTransformer
+      </h2>
+    </docs-in-page-link>
+    <p>
+      This section contains feature flags that are generic to the GraphQL transformation process itself and not tied to any particular transformer.
+    </p>
+    <amplify-feature-flag-summary name="transformerVersion"></amplify-feature-flag-summary>
+  </div>
+  <div>
+    <docs-in-page-link targetid="keyTransformer">
+      <h2 id="keyTransformer">
+        keyTransformer
+      </h2>
+    </docs-in-page-link>
+    <p>
+      These feature flags are controlling \`@key\` transformer functionality.
+    </p>
+    <amplify-feature-flag-summary name="defaultQuery"></amplify-feature-flag-summary>
+  </div>
+</amplify-feature-flag>
+`;
