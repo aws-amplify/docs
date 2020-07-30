@@ -197,7 +197,7 @@ Amplify.API.query(request: .get(byPostId: "[POST_ID]", todoId: "[TODO_ID]")) { r
 }
 ```
 
-If you have custom models or when Model have required fields which you have decided not to include in the response, you can create a `Codable` that conforms to the structure of the response data that you expect. From the previous example, the `Codable` can look like this
+If you have custom models or your Model has required fields that you have decided not to include in the response, you can create a `Codable` that conforms to the structure of the response data that you expect. From the previous example, the `Codable` would look like this
 
 ```swift
 struct PostAndTodoResponse: Codable {
@@ -215,7 +215,6 @@ struct PostAndTodoResponse: Codable {
 }
 ```
 Then use `PostAndTodoResponse` as the `responseType` of the `GraphQLRequest` instead of using `JSONValue`.
-
 
 
 
