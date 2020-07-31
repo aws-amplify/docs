@@ -30,7 +30,7 @@ enum Visibility {
 
 and run `amplify push` to update the AppSync backend resource, remember to choose `udpate API.swift` when `Amplify CLI` prompts the choice
 
-The AWS AppSync SDK doesn't take a direct dependency on the AWS SDK for S3, but takes in `AWSS3TransferUtility` and `AWSS3PresignedURLClient` clients as part of `AWSAppSyncClientConfiguration`. The code generator used above for generating the API generates the S3 wrappers required to use the previous clients in code. To generate the wrappers, pass the `--add-s3-wrapper` flag while running the code generator tool. You will also need to take a dependency on the `AWSS3` SDK. You can do that by updating your Podfile:
+The AWS AppSync SDK doesn't take a direct dependency on the AWS SDK for S3, but takes in `AWSS3TransferUtility`. You will also need to take a dependency on the `AWSS3` SDK. You can do that by updating your Podfile:
 
 ```ruby
   target: 'PostsApp' do
