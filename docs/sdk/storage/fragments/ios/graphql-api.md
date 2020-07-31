@@ -98,5 +98,6 @@ func uploadImage() {
     }
 }            
 ```
-Remember to replace the `bucker` and `region` with what you find in `awsconfiguration.json`
+Note: Remember to replace the `bucket` and `region` with what you find in `awsconfiguration.json`
+
 The mutation operation doesn't require any specific changes in method signature. It requires only an `S3Object` with `bucket`, `key`, `region`, `localUri`, and `mimeType`. Now when you do a mutation, it automatically uploads the specified file to Amazon S3 using the `AWSS3TransferUtility` client internally.
