@@ -1,6 +1,7 @@
-## Example React application
+## Example application
 
-`App.js`:
+<amplify-block-switcher>
+<amplify-block name="React">
 
 ```jsx
 import React, { useEffect } from "react";
@@ -75,10 +76,64 @@ function App() {
 
 export default App;
 ```
+</amplify-block>
+<amplify-block name="Angular">
 
-## Example React Native application  
+```ts
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { DataStore, Predicates } from "@aws-amplify/datastore";
+import { Post, PostStatus } from "./models";
 
-`App.js`:
+@Component({
+  selector: 'app-root',
+  template: `
+    <div class="app-header">
+      <button type="button" (click)="onCreate()">NEW</button>
+      <button type="button" (click)="onDeleteAll()">DELETE ALL</button>
+      <button type="button" (click)="onQuery()">QUERY rating > 4</button>
+    </div>
+`})
+export class AppComponent implements OnInit, OnDestroy {
+  subscription;
+
+  ngOnInit() {
+    //Subscribe to changes
+    this.subscription = DataStore.observe<Post>(Post).subscribe((msg) => {
+      console.log(msg.model, msg.opType, msg.element);
+    });
+  }
+
+  ngOnDestroy() {
+    if (!this.subscription) return;
+    this.subscription.unsubscribe();
+  }
+
+  public async loadPosts() {
+    let posts = await DataStore.query(Post, (c) => c.rating("gt", 4));
+    console.log(posts);
+  }
+  
+  public onCreate() {
+    DataStore.save(
+      new Post({
+        title: `New title ${Date.now()}`,
+        rating: (function getRandomInt(min, max) {
+          min = Math.ceil(min);
+          max = Math.floor(max);
+          return Math.floor(Math.random() * (max - min)) + min;
+        })(1, 7),
+        status: PostStatus.ACTIVE,
+      })
+    );
+  }
+
+  public onDeleteAll() {
+    DataStore.delete(Post, Predicates.ALL);
+  }
+}
+```
+</amplify-block>
+<amplify-block name="React Native">
 
 ```jsx
 /**
@@ -206,6 +261,8 @@ const styles = StyleSheet.create({
 
 export default App;
 ```
+</amplify-block>
+</amplify-block-switcher>
 
 ## API Reference   
 
