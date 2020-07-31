@@ -12,6 +12,9 @@ At the top of the same file, add `compileOptions` to support the Java 8 features
 ```groovy
 android {
   compileOptions {
+        // Enable support for the new language APIs
+        coreLibraryDesugaringEnabled true
+        // Enable Java 8 features
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
