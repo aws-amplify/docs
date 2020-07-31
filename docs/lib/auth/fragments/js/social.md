@@ -178,7 +178,7 @@ function App() {
       {user ? (
         <button onClick={() => Auth.signOut()}>Sign Out</button>
       ) : (
-        <button obClick={() => Auth.federatedSignIn()}>Federated Sign In</button>
+        <button onClick={() => Auth.federatedSignIn()}>Federated Sign In</button>
       )}
     </div>
   );

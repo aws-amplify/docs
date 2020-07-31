@@ -43,3 +43,19 @@ Theming for the UI components can be achieved by using CSS Variables. You can en
 | `--amplify-light-grey`         | #c4c4c4              |
 | `--amplify-white`              | #ffffff              |
 | `--amplify-red`                | #dd3f5b              |
+
+
+## Managing Layout
+
+Since the UI components are implemented using web components, you can control the top level `amplify-authenticator` component directly using CSS.
+
+```css
+/* Center the AmplifyAuthenticator component */
+amplify-authenticator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  height: 100vh;
+}
+```

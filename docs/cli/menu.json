@@ -9,6 +9,7 @@
     "plugins",
     "teams",
     "usage",
-    "migration"
+    "migration",
+    "reference"
   ]
 }

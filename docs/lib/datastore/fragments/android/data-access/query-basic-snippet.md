@@ -26,3 +26,6 @@ Amplify.DataStore.query(Post::class.java,
     { Log.e("MyAmplifyApp", "Query failed.", it) }
 )
 ```
+
+</amplify-block>
+</amplify-block-switcher>
