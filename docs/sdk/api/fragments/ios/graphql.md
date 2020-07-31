@@ -124,7 +124,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 
 `AWSAppSyncServiceConfig` represents the configuration information present in your `awsconfiguration.json` file.
 
-Next, in your application code, you reference this in an appropriate lifecycle method such as `viewDidLoad()`:
+Next, in your application code, you reference this in an appropriate lifecycle method such as `viewDidLoad()` if you are using `UIKit`:
 
 ```swift
 import AWSAppSync
@@ -136,6 +136,24 @@ class Todos: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         //Reference AppSync client from App Delegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appSyncClient = appDelegate.appSyncClient
+    }
+}
+```
+
+if `SwiftUI` is what you are using, do the following by adding an init method to your View struct:
+
+```swift
+// Remember to import AWSAppSync
+import AWSAppSync
+
+struct ContentView: View {
+    
+    //Add an init method
+    var appSyncClient: AWSAppSyncClient?
+
+    init() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appSyncClient = appDelegate.appSyncClient
     }
