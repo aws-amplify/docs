@@ -918,7 +918,7 @@ type Post @model @auth(rules: [{ allow: public }]) {
 }
 ```
 
-The `public` authorization specifies that everyone will be allowed to access the API, behind the scenes the API will be protected with an API Key. To be able to use `public` the API must have API Key configured. For local execution, this key resides in the file `aws-exports.js` under the key `aws_appsync_apiKey`.
+The `public` authorization specifies that everyone will be allowed to access the API, behind the scenes the API will be protected with an API Key. To be able to use `public` the API must have API Key configured. For local execution, this key resides in the file `aws-exports.js` for the JavaScript library and `amplifyconfiguration.json` for Android and iOS under the key `aws_appsync_apiKey`.
 
 ```graphql
 # public authorization with provider override
