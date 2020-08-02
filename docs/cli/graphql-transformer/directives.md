@@ -1888,12 +1888,12 @@ You can implement many to many using two 1-M @connections, an @key, and a joinin
 type Post @model {
   id: ID!
   title: String!
-  editors: [PostEditor] @connection(keyName: "byPost", fields: ["id"])
+  editors: [PostEditorship] @connection(keyName: "byPost", fields: ["id"])
 }
 
 # Create a join model and disable queries as you don't need them
 # and can query through Post.editors and User.posts
-type PostEditor
+type PostEditorship
   @model(queries: null)
   @key(name: "byPost", fields: ["postID", "editorID"])
   @key(name: "byEditor", fields: ["editorID", "postID"]) {
@@ -1907,12 +1907,12 @@ type PostEditor
 type User @model {
   id: ID!
   username: String!
-  posts: [PostEditor] @connection(keyName: "byEditor", fields: ["id"])
+  posts: [PostEditorship] @connection(keyName: "byEditor", fields: ["id"])
 }
 ```
 
-This case is a bidirectional many-to-many which is why two `@key` calls are needed on the PostEditor model.
-You can first create a Post and a User, and then add a connection between them with by creating a PostEditor object as follows:
+This case is a bidirectional many-to-many which is why two `@key` calls are needed on the PostEditorship model.
+You can first create a Post and a User, and then add a connection between them with by creating a PostEditorship object as follows:
 
 ```graphql
 mutation CreateData {
@@ -1931,19 +1931,19 @@ mutation CreateData {
 }
 
 mutation CreateLinks {
-    p1u1: createPostEditor(input: { id: "P1U1", postID: "P1", editorID: "U1" }) {
+    p1u1: createPostEditorship(input: { id: "P1U1", postID: "P1", editorID: "U1" }) {
         id
     }
-    p1u2: createPostEditor(input: { id: "P1U2", postID: "P1", editorID: "U2" }) {
+    p1u2: createPostEditorship(input: { id: "P1U2", postID: "P1", editorID: "U2" }) {
         id
     }
-    p2u1: createPostEditor(input: { id: "P2U1", postID: "P2", editorID: "U1" }) {
+    p2u1: createPostEditorship(input: { id: "P2U1", postID: "P2", editorID: "U1" }) {
         id
     }
 }
 ```
 
-Note that neither the User type nor the Post type have any identifiers of connected objects. The connection info is held entirely inside the PostEditor objects.
+Note that neither the User type nor the Post type have any identifiers of connected objects. The connection info is held entirely inside the PostEditorship objects.
 
 You can query a given user with their posts:
 
