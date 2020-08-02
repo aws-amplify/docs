@@ -133,6 +133,68 @@ export class AppComponent implements OnInit, OnDestroy {
 }
 ```
 </amplify-block>
+
+<amplify-block name="Vue">
+
+```javascript 
+<template>
+  <div id="app">
+    <div class="app-body">
+      <button type="button" @click="onCreate" >NEW</button>
+      <button type="button" @click="onDeleteAll" >DELETE ALL</button>
+      <button type="button" @click="onQuery" >QUERY rating > 4</button>
+    </div>
+  </div>
+</template>
+
+<script>
+import { DataStore, Predicates } from "@aws-amplify/datastore";
+import { Post, PostStatus } from "./models";
+
+export default {
+  name: "app",
+  data() {
+    return {
+      subscription: undefined,
+    };
+  },
+  created() {
+    //Subscribe to changes
+    this.subscription = DataStore.observe(Post).subscribe(msg => {
+      console.log(msg.model, msg.opType, msg.element);
+    });
+  },
+  destroyed() {
+    if (!this.subscription) return;
+    this.subscription.unsubscribe();
+  },
+  methods: {
+    async onQuery() {
+      let posts = await DataStore.query(Post, (c) => c.rating("gt", 4));
+      console.log(posts);
+    },
+    onCreate() {
+      DataStore.save(
+        new Post({
+          title: `New title ${Date.now()}`,
+          rating: (function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min)) + min;
+          })(1, 7),
+          status: PostStatus.ACTIVE,
+        })
+      );
+    },
+    deleteAll() {
+      DataStore.delete(Post, Predicates.ALL);
+    }
+  }
+};
+</script>
+```
+</amplify-block>
+
 <amplify-block name="React Native">
 
 ```jsx
