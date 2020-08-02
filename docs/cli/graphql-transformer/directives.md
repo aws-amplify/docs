@@ -779,40 +779,6 @@ mutation CreateDraft {
 }
 ```
 
-To set the owner to null with the current schema, you would still need to be in the editors list:
-
-```graphql
-mutation CreateDraft {
-  createDraft(
-    input: {
-      title: "A new draft",
-      editors: ["someuser@my-domain.com"],
-      owner: null
-    }
-  ) {
-    id
-    title
-    owner
-    editors
-  }
-}
-```
-
-Would return:
-
-```json
-{
-    "data": {
-        "createDraft": {
-            "id": "...",
-            "title": "A new draft",
-            "owner": null,
-            "editors": ["someuser@my-domain.com"]
-        }
-    }
-}
-```
-
 ### Static group authorization
 
 Static group authorization allows you to protect `@model` types by restricting access
@@ -1791,9 +1757,11 @@ mutation CreateProject {
 
 > **Note** The **Project.team** resolver is configured to work with the defined connection. This is done with a query on the Team table where `teamID` is passed in as an argument to the mutation.
 
-Likewise, you can make a simple one-to-many connection as follows for a post that has many comments:
+A Has One @connection can only reference the primary index of a model (ie. it cannot specify a "keyName" as described below in the Has Many section).
 
 ### Has many
+
+The following schema defines a Post that can have many comments:
 
 ```graphql
 type Post @model {
