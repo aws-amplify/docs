@@ -31,8 +31,6 @@ yarn add aws-amplify @aws-amplify/ui-vue
 
 ### Basic Usage
 
-If you want to quickly set up and prototype the Authenticator component you can wrap the Authenticator around your application:
-
 <docs-filter framework="react">
 
 ```jsx
