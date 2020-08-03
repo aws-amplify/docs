@@ -33,7 +33,6 @@ In this example, you will learn how to support these data access patterns using 
 - Employee
 - AccountRepresentative
 - Customer
-- Product
 
 The [following schema](https://gist.github.com/dabit3/e0af16db09b6e206292d1c5cfc0d0a07) introduces the required keys and connections so that we can support these access patterns:
 
@@ -308,7 +307,7 @@ query getCustomerWithOrdersByStatusDate($customerID: ID!) {
 ```
 
 ## 7. See all employees hired recently:
-Having ‘@key(name: "newHire", fields: ["newHire", "id"])’ on the `Employee` model allows one to query by whether an employee has been hired recently. 
+Having `@key(name: "newHire", fields: ["newHire", "id"])` on the `Employee` model allows one to query by whether an employee has been hired recently. 
 
 ```graphql
 query employeesNewHire {
