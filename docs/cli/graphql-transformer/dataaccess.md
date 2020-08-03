@@ -504,7 +504,7 @@ query listInventorys {
 ```
 
 ## 17. Get sales representatives ranked by order total and sales period:
-It's uncertain exactly what this means. My take is that the sales period is either a date range or maybe even a month or week. Therefore we can set the sales period as a string and query using the combination of `salesPeriod` and `orderTotal`. We can also set the `sortDirection` in order to get the return values from largest to smallest:
+The sales period is either a date range or maybe even a month or week. Therefore we can set the sales period as a string and query using the combination of `salesPeriod` and `orderTotal`. We can also set the `sortDirection` in order to get the return values from largest to smallest:
 
 ```graphql
 query repsByPeriodAndTotal {
