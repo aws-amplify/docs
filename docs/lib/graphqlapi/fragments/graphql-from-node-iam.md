@@ -59,6 +59,8 @@ cd -
 
 ### Deposit using axios
 
+We can call the GraphQL API by signing the request with AWS.config.credentials.
+
 ```console
 amplify add function
 ? Select which capability you want to add: Lambda function (serverless function)
@@ -139,6 +141,8 @@ exports.handler = async (event) => {
 ```
 
 ### Withdraw using fetch
+
+We can call the GraphQL API by signing the request with AWS.config.credentials.
 
 ```console
 amplify add function
