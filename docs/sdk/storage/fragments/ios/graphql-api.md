@@ -28,7 +28,7 @@ enum Visibility {
 }
 ```
 
-and run `amplify push` to update the AppSync backend resource, remember to choose `udpate API.swift` when `Amplify CLI` prompts the choice
+and run `amplify push` to update the AppSync backend resource, remember to choose `update API.swift` when `Amplify CLI` prompts the choice
 
 The AWS AppSync SDK doesn't take a direct dependency on the AWS SDK for S3, but takes in `AWSS3TransferUtility`. You will also need to take a dependency on the `AWSS3` SDK. You can do that by updating your Podfile:
 
