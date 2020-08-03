@@ -10,7 +10,8 @@
     "subscribe-data",
     "cancel-request",
     "offline",
-    "graphql-from-nodejs",
+    "graphql-from-node-api-key",
+    "graphql-from-node-iam",
     "advanced-workflows",
     "existing-resources"
   ]

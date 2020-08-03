@@ -74,9 +74,13 @@ Amplify CLI allows you to schedule Lambda functions to be executed periodically 
 
 To schedule your Lambda function, answer **Yes** to `Do you want to invoke this function on a recurring schedule?` in the `amplify add function` flow. Once you deploy a function, it'll create a CloudWatch Rule to periodically execute the selected Lambda function.
 
-## GraphQL from Lambda
+## GraphQL from Lambda (API KEY)
 
-<inline-fragment src="~/lib/graphqlapi/fragments/graphql-from-node.md"></inline-fragment>
+<inline-fragment src="~/lib/graphqlapi/fragments/graphql-from-node-api-key.md"></inline-fragment>
+
+## GraphQL from Lambda (IAM)
+
+<inline-fragment src="~/lib/graphqlapi/fragments/graphql-from-node-iam.md"></inline-fragment>
 
 ## What is the amplify.state file?
 When creating a function using Amplify CLI >= 4.18.0, Amplify creates an `amplify.state` file to enable multi-runtime Lambda functions. `amplify.state` shouldn't be manually edited but should be checked in to version control.
