@@ -307,7 +307,7 @@ query getCustomerWithOrdersByStatusDate($customerID: ID!) {
 ```
 
 ## 7. See all employees hired recently:
-Having ‘@key(name: "newHire", fields: ["newHire", "id"])’ on the `Employee` model allows one to query by whether an employee has been hired recently. 
+Having `@key(name: "newHire", fields: ["newHire", "id"])` on the `Employee` model allows one to query by whether an employee has been hired recently. 
 
 ```graphql
 query employeesNewHire {
