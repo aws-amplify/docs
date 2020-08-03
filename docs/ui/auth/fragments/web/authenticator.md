@@ -29,6 +29,30 @@ yarn add aws-amplify @aws-amplify/ui-vue
 
 ## Usage
 
+### Recommended Usage
+
+In most cases you will need to manage the rendering and layout of the Authenticator separately.
+
+<docs-filter framework="react">
+  <inline-fragment src="~/ui/auth/fragments/react/auth-state-management.md"></inline-fragment>
+</docs-filter>
+
+<docs-filter framework="angular">
+  <inline-fragment src="~/ui/auth/fragments/angular/auth-state-management.md"></inline-fragment>
+</docs-filter>
+
+<docs-filter framework="ionic">
+  <inline-fragment src="~/ui/auth/fragments/ionic/auth-state-management.md"></inline-fragment>
+</docs-filter>
+
+<docs-filter framework="vue">
+  <inline-fragment src="~/ui/auth/fragments/vue/auth-state-management.md"></inline-fragment>
+</docs-filter>
+
+### Basic Usage
+
+If you want to quickly set up and prototype the Authenticator component you can wrap the Authenticator around your application:
+
 <docs-filter framework="react">
 
 ```jsx
@@ -152,6 +176,7 @@ _App.vue_
 ```
 </docs-filter>
 
+
 <ui-component-props tag="amplify-authenticator" use-table-headers></ui-component-props>
 
 ## Customization
@@ -180,195 +205,23 @@ The following example highlights the use of Authenticator with customized Sign U
 
 <docs-filter framework="react">
 
-```jsx
-import React from 'react';
-import { AmplifyAuthenticator, AmplifySignUp, AmplifySignOut } from '@aws-amplify/ui-react';
+<inline-fragment src="~/ui/auth/fragments/react/custom-form-fields.md"></inline-fragment>
 
-const App = () => {
-  return (
-    <AmplifyAuthenticator usernameAlias="email">
-      <AmplifySignUp
-        slot="sign-up"
-        usernameAlias="email"
-        formFields={[
-          {
-            type: "email",
-            label: "Custom email Label",
-            placeholder: "custom email placeholder",
-            required: true,
-          },
-          {
-            type: "password",
-            label: "Custom Password Label",
-            placeholder: "custom password placeholder",
-            required: true,
-          },
-          {
-            type: "phone_number",
-            label: "Custom Phone Label",
-            placeholder: "custom Phone placeholder",
-            required: false,
-          },
-        ]} 
-      />
-      <AmplifySignIn slot="sign-in" usernameAlias="email" />
-    </AmplifyAuthenticator>
-  );
-};
-```
 </docs-filter>
 <docs-filter framework="angular">
 
-*app.component.ts*
-```js
-import { Component } from '@angular/core';
-import { FormFieldTypes } from '@aws-amplify/ui-components';
+<inline-fragment src="~/ui/auth/fragments/angular/custom-form-fields.md"></inline-fragment>
 
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-})
-export class AppComponent {
-  formFields: FormFieldTypes;
-
-  constructor() {
-    this.formFields = [
-      {
-        type: "email",
-        label: "Custom email Label",
-        placeholder: "custom email placeholder",
-        required: true,
-      },
-      {
-        type: "password",
-        label: "Custom Password Label",
-        placeholder: "custom password placeholder",
-        required: true,
-      },
-      {
-        type: "phone_number",
-        label: "Custom Phone Label",
-        placeholder: "custom Phone placeholder",
-        required: false,
-      },
-    ];
-  }
-}
-```
-
-*app.component.html*
-
-```html
-<amplify-authenticator usernameAlias="email">
-  <amplify-sign-up
-    slot="sign-up"
-    usernameAlias="email"
-    [formFields]="formFields"
-  ></amplify-sign-up>
-  <amplify-sign-in slot="sign-in" usernameAlias="email"></amplify-sign-in>
-</amplify-authenticator>
-```
 </docs-filter>
 <docs-filter framework="ionic">
 
-*app.component.ts*
-```js
-import { Component } from '@angular/core';
-import { FormFieldTypes } from '@aws-amplify/ui-components';
+<inline-fragment src="~/ui/auth/fragments/ionic/custom-form-fields.md"></inline-fragment>
 
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-})
-export class AppComponent {
-  formFields: FormFieldTypes;
-
-  constructor() {
-    this.formFields = [
-      {
-        type: "email",
-        label: "Custom email Label",
-        placeholder: "custom email placeholder",
-        required: true,
-      },
-      {
-        type: "password",
-        label: "Custom Password Label",
-        placeholder: "custom password placeholder",
-        required: true,
-      },
-      {
-        type: "phone_number",
-        label: "Custom Phone Label",
-        placeholder: "custom Phone placeholder",
-        required: false,
-      },
-    ];
-  }
-}
-```
-
-*app.component.html*
-
-```html
-<amplify-authenticator usernameAlias="email">
-  <amplify-sign-up
-    slot="sign-up"
-    usernameAlias="email"
-    [formFields]="formFields"
-  ></amplify-sign-up>
-  <amplify-sign-in slot="sign-in" usernameAlias="email"></amplify-sign-in>
-</amplify-authenticator>
-```
 </docs-filter>
 <docs-filter framework="vue">
 
+<inline-fragment src="~/ui/auth/fragments/vue/custom-form-fields.md"></inline-fragment>
 
-```html
-<template>
-  <amplify-authenticator username-alias="email">
-    <amplify-sign-up
-      slot="sign-up"
-      username-alias="email"
-      :form-fields.prop="formFields"
-    ></amplify-sign-up>
-    <amplify-sign-in slot="sign-in" username-alias="email"></amplify-sign-in>
-  </amplify-authenticator>
-</template>
-```
-```js
-<script>
-export default {
-  name: 'AuthWithSlots',
-  data() {
-    return {
-      formFields: [
-        {
-          type: 'email',
-          label: 'Custom email Label',
-          placeholder: 'custom email placeholder',
-          required: true,
-        },
-        {
-          type: 'password',
-          label: 'Custom Password Label',
-          placeholder: 'custom password placeholder',
-          required: true,
-        },
-        {
-          type: 'address',
-          label: 'Custom Address Label',
-          placeholder: 'Enter your address',
-          required: false,
-        },
-      ]
-    }
-  }
-}
-</script>
-```
 </docs-filter>
 
 Here is an example of the component in use:
@@ -383,6 +236,52 @@ If you are using the `usernameAlias` prop with custom `slots`, keep in mind that
 
 For more details on this customization see the `amplify-form-field` [prop documentation](https://github.com/aws-amplify/amplify-js/tree/master/packages/amplify-ui-components/src/components/amplify-form-field#properties) and the internal [`FormFieldType` interface](https://github.com/aws-amplify/amplify-js/blob/master/packages/amplify-ui-components/src/components/amplify-auth-fields/amplify-auth-fields-interface.ts#L3).
 
+### Hiding form fields
+
+Often you will not need a default form field, for example the phone number field. To implement this you can define the array of fields you'd like to show (along with the optional field customizations).
+
+In this example we are also managing the auth state to show and hide the Authenticator component based on the authenticated state of the user. This code will also persist the user sign in state on refresh.
+
+We are using the default form fields with the exception of the `password` field where we customizing the label and placeholder.
+
+<docs-filter framework="react">
+
+<inline-fragment src="~/ui/auth/fragments/react/hiding-form-fields.md"></inline-fragment>
+
+</docs-filter>
+
+<docs-filter framework="angular">
+
+<inline-fragment src="~/ui/auth/fragments/angular/hiding-form-fields.md"></inline-fragment>
+
+</docs-filter>
+
+<docs-filter framework="ionic">
+
+<inline-fragment src="~/ui/auth/fragments/ionic/hiding-form-fields.md"></inline-fragment>
+
+</docs-filter>
+
+<docs-filter framework="vue">
+
+<inline-fragment src="~/ui/auth/fragments/vue/hiding-form-fields.md"></inline-fragment>
+
+</docs-filter>
+
+### Managing Layout with CSS
+
+Since the UI components are implemented using web components, you can control the top level `amplify-authenticator` component directly using CSS.
+
+```css
+amplify-authenticator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  height: 100vh;
+}
+```
+
 ## Components
 
 ### Sign In
@@ -394,19 +293,9 @@ For more details on this customization see the `amplify-form-field` [prop docume
 <docs-filter framework="react">
 
 ```jsx
-import React from 'react';
-import { AmplifyAuthenticator, AmplifySignIn, AmplifySignOut } from '@aws-amplify/ui-react';
-
-const App = () => (
-  <AmplifyAuthenticator>
-    <AmplifySignIn headerText="My Custom Sign In Text" slot="sign-in"></AmplifySignIn>
-
-    <div>
-      My App
-      <AmplifySignOut></AmplifySignOut>
-    </div>
-  </AmplifyAuthenticator>
-);
+<AmplifyAuthenticator>
+  <AmplifySignIn headerText="My Custom Sign In Text" slot="sign-in"></AmplifySignIn>
+</AmplifyAuthenticator>
 ```
 </docs-filter>
 <docs-filter framework="angular">
@@ -414,11 +303,6 @@ const App = () => (
 ```html
 <amplify-authenticator>
   <amplify-sign-in header-text="My Custom Sign In Text" slot="sign-in"></amplify-sign-in>
-
-  <div>
-    My App
-    <amplify-sign-out></amplify-sign-out>
-  </div>
 </amplify-authenticator>
 ```
 </docs-filter>
@@ -427,11 +311,6 @@ const App = () => (
 ```html
 <amplify-authenticator>
   <amplify-sign-in header-text="My Custom Sign In Text" slot="sign-in"></amplify-sign-in>
-
-  <div>
-    My App
-    <amplify-sign-out></amplify-sign-out>
-  </div>
 </amplify-authenticator>
 ```
 </docs-filter>
