@@ -117,7 +117,9 @@ To test this out locally, you can run the `mock` command.
 ```bash
 amplify mock api
 ```
-  
+
+*Note:* `amplify mock api` requires Java.
+ 
 ```console
 # If you have not already deployed you API, you will be walked through the following steps for GraphQL code generation
 ? Choose the code generation language target: javascript (or preferred target)
