@@ -1,8 +1,7 @@
- ```dart
+```dart
 Map<String, dynamic> userAttributes = {
-  "email": emailController.text,
-  "phone_number": phoneController.text,
-  // additional attributes as needed
+  "email": "email@testdomain.com",
+  "phone_number": "+15551234",
 };
 SignUpResult res = await Amplify.Auth.signUp(
   request: SignUpRequest(
@@ -14,4 +13,5 @@ SignUpResult res = await Amplify.Auth.signUp(
   )
 );
 ```
+
 
