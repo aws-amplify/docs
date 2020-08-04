@@ -6,9 +6,9 @@
 yarn add aws-amplify @aws-amplify/ui-react
 ```
 
-## Usage
+## Basic usage
 
-```jsx
+```js
 import React from 'react';
 import Amplify from 'aws-amplify';
 import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
@@ -24,6 +24,59 @@ const App = () => (
     </div>
   </AmplifyAuthenticator>
 );
+```
+
+### Managing user state and layout
+
+In most cases you will need to manage the rendering and layout of the `AmplifyAuthenticator` separately.
+
+```js
+import React from 'react';
+import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+import { Auth, Hub } from 'aws-amplify';
+
+function App() {
+  const [user, updateUser] = React.useState(null);
+  React.useEffect(() => {
+    Auth.currentAuthenticatedUser()
+      .then(user => updateUser(user))
+      .catch(() => console.log('No signed in user.'));
+    Hub.listen('auth', data => {
+      switch (data.payload.event) {
+        case 'signIn':
+          return updateUser(data.payload.data);
+        case 'signOut':
+          return updateUser(null);
+      }
+    });
+  }, []);
+  if (user) {
+    return (
+      <div>
+        <h1>Hello {user.username}</h1>
+        <AmplifySignOut />
+      </div>
+    )
+  }
+  /* Optionally, wrap the AmplifyAuthenticator in a div to control layout with CSS in JS */
+  return <AmplifyAuthenticator />
+}
+
+export default App
+```
+
+### Centering the component with CSS
+
+Since the UI components are implemented using web components, you can control the top level `amplify-authenticator` component directly using CSS.
+
+```css
+amplify-authenticator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  height: 100vh;
+}
 ```
 
 <ui-component-props tag="amplify-authenticator" use-table-headers></ui-component-props>
@@ -98,6 +151,65 @@ Here is an example of the component in use:
 If you are using the `usernameAlias` prop with custom `slots`, keep in mind that you must pass the `usernameAlias` prop value to both the Authenticator and custom slotted component since the slotted component overrides the configuration passed from the Authenticator.
 
 </amplify-callout>
+
+### Hiding a form field
+
+Often you will not need a default form field, for example the phone number field. To implement this you can define the array of fields you'd like to show (along with the optional field customizations).
+
+In this example we are also managing the auth state to show and hide the `AmplifyAuthenticator` component based on the authenticated state of the user. This code will also persist the user sign in state on refresh.
+
+We are using the default form fields with the exception of the `password` field where we customizing the label and placeholder.
+
+```js
+import React from 'react';
+import { AmplifyAuthenticator, AmplifySignUp, AmplifySignOut } from '@aws-amplify/ui-react';
+import { Auth, Hub } from 'aws-amplify';
+
+function App() {
+  const [user, updateUser] = React.useState(null);
+  React.useEffect(() => {
+    Auth.currentAuthenticatedUser()
+      .then(user => updateUser(user))
+      .catch(() => console.log('No signed in user.'));
+    Hub.listen('auth', data => {
+      switch (data.payload.event) {
+        case 'signIn':
+          return updateUser(data.payload.data);
+        case 'signOut':
+          return updateUser(null);
+      }
+    });
+  }, [])
+  if (user) {
+    return (
+      <div>
+        <h1>Hello {user.username}</h1>
+        <AmplifySignOut />
+      </div>
+    )
+  }
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <AmplifyAuthenticator>
+        <AmplifySignUp
+          slot="sign-up"
+          formFields={[
+            { type: "username" },
+            {
+              type: "password",
+              label: "Custom Password Label",
+              placeholder: "custom password placeholder"
+            },
+            { type: "email" }
+          ]} 
+        />
+      </AmplifyAuthenticator>
+    </div>
+  );
+}
+
+export default App
+```
 
 For more details on this customization see the `amplify-form-field` [prop documentation](https://github.com/aws-amplify/amplify-js/tree/master/packages/amplify-ui-components/src/components/amplify-form-field#properties) and the internal [`FormFieldType` interface](https://github.com/aws-amplify/amplify-js/blob/master/packages/amplify-ui-components/src/components/amplify-auth-fields/amplify-auth-fields-interface.ts#L3).
 
