@@ -1,10 +1,10 @@
-import {AmplifyFeatureFlag} from "./feature-flag";
+import {AmplifyFeatureFlags} from "./feature-flags";
 import {newSpecPage} from "@stencil/core/testing";
 
-describe("amplify-feature-flag", () => {
+describe("amplify-feature-flags", () => {
   describe("Component logic", () => {
-    let featureFlag: AmplifyFeatureFlag;
-    beforeEach(() => (featureFlag = new AmplifyFeatureFlag()));
+    let featureFlags: AmplifyFeatureFlags;
+    beforeEach(() => (featureFlags = new AmplifyFeatureFlags()));
   });
 
   describe("Render logic", () => {
@@ -12,8 +12,8 @@ describe("amplify-feature-flag", () => {
       expect(
         (
           await newSpecPage({
-            components: [AmplifyFeatureFlag],
-            html: `<amplify-feature-flag />`,
+            components: [AmplifyFeatureFlags],
+            html: `<amplify-feature-flags />`,
           })
         ).root,
       ).toMatchSnapshot();

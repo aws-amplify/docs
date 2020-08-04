@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`amplify-feature-flag Render logic should render 1`] = `
-<amplify-feature-flag class="css-14qb6h6">
+exports[`amplify-feature-flags Render logic should render 1`] = `
+<amplify-feature-flags class="css-14qb6h6">
   <div>
     <docs-in-page-link targetid="graphQLTransformer">
       <h2 id="graphQLTransformer">
@@ -24,5 +24,5 @@ exports[`amplify-feature-flag Render logic should render 1`] = `
     </p>
     <amplify-feature-flag-summary name="defaultQuery"></amplify-feature-flag-summary>
   </div>
-</amplify-feature-flag>
+</amplify-feature-flags>
 `;

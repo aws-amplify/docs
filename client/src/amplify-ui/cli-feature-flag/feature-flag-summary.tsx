@@ -1,11 +1,9 @@
-import {Component, Host, h, Prop, Element} from "@stencil/core";
-import {FeatureFlag} from "./feature-flag";
-import {tableStyle, summaryCell} from "./feature-flag.style";
+import {Component, h, Prop} from "@stencil/core";
+import {tableContainer, tableStyle, summaryRow} from "./feature-flag.style";
+import {FeatureFlag} from "./feature-flag.types";
 
 @Component({tag: "amplify-feature-flag-summary", shadow: false})
 export class AmplifyFeatureFlagSummary {
-  @Element() el: HTMLElement;
-
   /** name of the feature flag */
   @Prop() readonly name: string;
 
@@ -24,30 +22,32 @@ export class AmplifyFeatureFlagSummary {
         ) : (
           undefined
         )}
-        <table class={tableStyle}>
-          <thead>
-            <tr>
-              <th class={summaryCell}>Type</th>
-              <th class={summaryCell}>Added</th>
-              <th class={summaryCell}>Deprecation date</th>
-              <th class={summaryCell}>Deprecated</th>
-              <th class={summaryCell}>Removal date</th>
-              <th class={summaryCell}>Removed</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{this.feature.type}</td>
-              <td>{this.feature.versionAdded}</td>
-              <td>{this.feature.deprecationDate}</td>
-              <td>{this.feature.versionDeprecated}</td>
-              <td>{this.feature.removalDate}</td>
-              <td>{this.feature.versionRemoved}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class={tableContainer}>
+          <table class={tableStyle}>
+            <thead>
+              <tr class={summaryRow}>
+                <th>Type</th>
+                <th>Added</th>
+                <th>Deprecation date</th>
+                <th>Deprecated</th>
+                <th>Removal date</th>
+                <th>Removed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{this.feature.type}</td>
+                <td>{this.feature.versionAdded}</td>
+                <td>{this.feature.deprecationDate}</td>
+                <td>{this.feature.versionDeprecated}</td>
+                <td>{this.feature.removalDate}</td>
+                <td>{this.feature.versionRemoved}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-        <amplify-feature-flag-value values={this.feature.values} />
+        <amplify-feature-flag-values values={this.feature.values} />
       </div>
     );
   }

@@ -90,4 +90,4 @@ Due to the multiple levels of configuration options and overrides, Amplify CLI d
 
 ## Feature flags
 
-<amplify-feature-flag />
+<amplify-feature-flags />

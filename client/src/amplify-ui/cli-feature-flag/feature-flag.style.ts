@@ -1,15 +1,19 @@
 import {css} from "emotion";
 
 export const hostStyle = css`
-  amplify-feature-flag {
+  amplify-feature-flags {
     margin-top: 0;
   }
+`;
+
+export const tableContainer = css`
+  overflow-x: auto;
+  margin-bottom: 1rem;
 `;
 
 export const tableStyle = css`
   text-align: center;
   width: 100%;
-  margin-bottom: 1rem;
 
   thead tr {
     background-color: var(--bg-color-tertiary);
@@ -24,9 +28,11 @@ export const tableHeaderStyle = css`
   margin: 0.75rem 0;
 `;
 
-export const summaryCell = css`
-  min-width: 16%;
-  width: 16%;
+export const summaryRow = css`
+  th {
+    min-width: 16%;
+    width: 16%;
+  }
 `;
 
 export const valueCell = css`

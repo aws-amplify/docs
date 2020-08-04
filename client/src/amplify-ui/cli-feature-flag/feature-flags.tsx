@@ -1,37 +1,10 @@
 import {Component, Host, h, Prop, Element} from "@stencil/core";
 import {hostStyle} from "./feature-flag.style";
 import featureFlagsJson from "./feature-flags.json";
+import {FeatureFlags} from "./feature-flag.types";
 
-type FeatureFlags = Record<string, Section>;
-
-type Section = {
-  description: string;
-  features: Record<string, FeatureFlag>;
-};
-
-export type FeatureFlag = {
-  description: string;
-  type: "Feature" | "Release" | "Experimental";
-  valueType: "Boolean" | "Number" | "String";
-  versionAdded: string;
-  versionDeprecated?: string;
-  deprecationDate?: string;
-  versionRemoved?: string;
-  removalDate?: string;
-  values: Value[];
-};
-
-export type Value = {
-  value: string;
-  description: string;
-  defaultNewProject: boolean;
-  defaultExistingProject: boolean;
-};
-
-@Component({tag: "amplify-feature-flag", shadow: false})
-export class AmplifyFeatureFlag {
-  @Element() el: HTMLElement;
-
+@Component({tag: "amplify-feature-flags", shadow: false})
+export class AmplifyFeatureFlags {
   render() {
     const data = featureFlagsJson as FeatureFlags;
 
