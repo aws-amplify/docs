@@ -1,4 +1,4 @@
-import {Component, Host, h, Prop, Element} from "@stencil/core";
+import {Component, Host, h} from "@stencil/core";
 import {hostStyle} from "./feature-flag.style";
 import featureFlagsJson from "./feature-flags.json";
 import {FeatureFlags} from "./feature-flag.types";
