@@ -20,13 +20,13 @@ amplify env
  
 | Command  | Description  |
 |---|---|
-| `amplify env add` | Adds a new environment. [More](#add-a-new-environment) |
-| `amplify env pull [--restore]` | Pulls the current environment from the cloud. [More](#pull-the-environment-from-the-cloud) |
-| `amplify env checkout <env-name> [--restore]` | Switches to the selected environment. [More](#checkout-an-environment) |
-| `amplify env list [--details] [--json]` | Displays a list of all the environments. [More](#list-environments) |
-| `amplify env get --name <env-name>` | Displays the environment details. [More](#show-environment-details) |
-| `amplify env import --name <env-name> --config <provider-configs> [--awsInfo <aws-configs>]` | Imports an environment. [More](#import-an-environment) |
-| `amplify env remove <env-name>` | Removes an environment. [More](#remove-an-environment) |
+| [`amplify env add`](#add-a-new-environment) | Adds a new environment |
+| [`amplify env pull [--restore]`](#pull-the-environment-from-the-cloud) | Pulls the current environment from the cloud |
+| [`amplify env checkout <env-name> [--restore]`](#checkout-an-environment) | Switches to the selected environment |
+| [`amplify env list [--details] [--json]`](#list-environments) | Displays a list of all the environments |
+| [`amplify env get --name <env-name>`](#show-environment-details) | Displays the environment details |
+| [`amplify env import --name <env-name> --config <provider-configs> [--awsInfo <aws-configs>]`](#import-an-environment) | Imports an environment |
+| [`amplify env remove <env-name>`](#remove-an-environment) | Removes an environment |
  
 ## Environment CLI commands
  
