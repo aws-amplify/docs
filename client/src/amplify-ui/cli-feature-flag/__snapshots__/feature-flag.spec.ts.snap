@@ -1,6 +1,4 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`amplify-feature-flags Render logic should render 1`] = `
-<amplify-feature-flags class="css-b9wf8u">
-</amplify-feature-flags>
-`;
+<amplify-feature-flags class="css-b9wf8u"></amplify-feature-flags>`;
