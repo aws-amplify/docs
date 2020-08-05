@@ -581,6 +581,7 @@
     "graphqlapi",
     "GRAPHQLAPIENDPOINTOUTPUT",
     "GRAPHQLAPIIDOUTPUT",
+    "GRAPHQLAPIKEYOUTPUT",
     "graphqlconfig",
     "GRAPHQLENDPOINT",
     "GraphQLOperations",
