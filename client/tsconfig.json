@@ -5,7 +5,8 @@
     "jsxFactory": "h",
     "lib": ["dom", "es2015"],
     "module": "esnext",
-    "typeRoots": ["../node_modules/@types"]
+    "typeRoots": ["../node_modules/@types"],
+    "resolveJsonModule": true,
   },
   "extends": "../tsconfig.base.json",
   "include": ["src", "stencil.config.ts"]
