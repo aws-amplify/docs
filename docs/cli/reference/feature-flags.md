@@ -90,4 +90,6 @@ Due to the multiple levels of configuration options and overrides, Amplify CLI d
 
 ## Feature flags
 
+Currently there are no feature flags defined.
+
 <amplify-feature-flags />
