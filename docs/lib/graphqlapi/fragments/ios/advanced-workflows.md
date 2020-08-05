@@ -2,7 +2,6 @@ This section describes different use cases for constructing your own custom Grap
 - retrieve only a subset of the data to reduce data transfer
 - retrieve nested objects at a depth that you choose
 - combine multiple operations into a single request
-- decode the GraphQL response to a format of your choice
 
 A GraphQL request is automatically generated for you when using AWSAPIPlugin with the existing workflow. For example, if you have a Todo model, a mutation request to save the Todo will look like this:
 ```swift
@@ -12,20 +11,21 @@ Amplify.API.mutate(request: .create(todo))
 Underneath the covers, a request is generated with a GraphQL document and variables and sent to the AppSync service. 
 
 ```json
-// GraphQL document
-mutation createTodo($input: CreateTodoInput!) {
-  createTodo(input: $input) {
-    id
-    name
-    description
+{ 
+  "query": "mutation createTodo($input: CreateTodoInput!) {
+    createTodo(input: $input) {
+      id
+      name
+      description
+    }
   }
-}
-// GraphQL variables
-{
-  "input": {
-    "id": "[UNIQUE-ID]",
-    "name": "my first todo",
-    "description": "todo description"
+  ",
+  "variables":"{
+    "input": {
+      "id": "[UNIQUE-ID]",
+      "name": "my first todo",
+      "description": "todo description"
+    }
   }
 }
 ```
@@ -37,7 +37,7 @@ The different parts of the document is described as follows
 - `createTodo(input: $input)` - the mutation operation which takes a variable input from `$input`
 - the selection set containing `id`, `name`, and `description` are fields specified to be returned in the response
 
-You can learn more about the structure of a request from [GraphQL Query Language](https://graphql.org/learn/). To test out constructing your own requests, open the AppSync console using `amplify console api` and navigate to the Queries tab.
+You can learn more about the structure of a request from [GraphQL Query Language](https://graphql.org/learn/) and [AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/graphql-overview.html). To test out constructing your own requests, open the AppSync console using `amplify console api` and navigate to the Queries tab.
 
 ## Subset of data
 
