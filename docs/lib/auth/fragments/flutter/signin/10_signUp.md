@@ -1,17 +1,22 @@
  ```dart
-Map<String, dynamic> userAttributes = {
-  "email": emailController.text,
-  "phone_number": phoneController.text,
-  // additional attributes as needed
-};
-SignUpResult res = await Amplify.Auth.signUp(
-  request: SignUpRequest(
-    username: "myusername",
-    password: "mysupersecurepassword",
-    options: CognitoSignUpOptions(
-      userAttributes: userAttributes
+try {
+  Map<String, dynamic> userAttributes = {
+    "email": emailController.text,
+    "phone_number": phoneController.text,
+    // additional attributes as needed
+  };
+  SignUpResult res = await Amplify.Auth.signUp(
+    request: SignUpRequest(
+      username: "myusername",
+      password: "mysupersecurepassword",
+      options: CognitoSignUpOptions(
+        userAttributes: userAttributes
+      )
     )
-  )
-);
+  );
+} on AuthError catch (e) {
+  print(e);
+}
+
 ```
 
