@@ -1,12 +1,42 @@
 Invoke this api with whatever provider you're using (shown with Facebook below):
 
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
 ```swift
-_ = Amplify.Auth.signInWithWebUI(for: .facebook, presentationAnchor: self.view.window!) { result in
-            switch result {
-            case .success(_):
-                print("Sign in succeeded")
-            case .failure(let error):
-                print("Sign in failed \(error)")
+func socialSignInWithWebUI() {
+    _ = Amplify.Auth.signInWithWebUI(for: .facebook, presentationAnchor: self.view.window!) { result in
+        switch result {
+        case .success(_):
+            print("Sign in succeeded")
+        case .failure(let error):
+            print("Sign in failed \(error)")
+        }
+    }
+}
+```
+
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+func socialSignInWithWebUI() -> AnyCancellable {
+    Amplify.Auth.signInWithWebUI(for: .facebook, presentationAnchor: self.view.window!)
+        .resultPublisher
+        .sink {
+            if case let .failure(authError) = $0 {
+                print("Sign in failed \(authError)")
             }
         }
+        receiveValue: { signInResult in
+            print("Sign in succeeded")
+        }
+}
+
 ```
+
+</amplify-block>
+
+</amplify-block-switcher>
