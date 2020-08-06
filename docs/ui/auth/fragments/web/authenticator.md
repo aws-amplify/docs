@@ -241,8 +241,6 @@ Often you will not need a default form field, for example the phone number field
 
 In this example we are also managing the auth state to show and hide the Authenticator component based on the authenticated state of the user. This code will also persist the user sign in state on refresh.
 
-We are using the default form fields with the exception of the `password` field where we customizing the label and placeholder.
-
 <docs-filter framework="react">
 
 <inline-fragment src="~/ui/auth/fragments/react/hiding-form-fields.md"></inline-fragment>

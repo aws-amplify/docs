@@ -30,11 +30,7 @@ const AuthStateApp = () => {
           slot="sign-up"
           formFields={[
             { type: "username" },
-            {
-              type: "password",
-              label: "Custom Password Label",
-              placeholder: "custom password placeholder"
-            },
+            { type: "password" },
             { type: "email" }
           ]}
         />

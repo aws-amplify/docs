@@ -27,11 +27,7 @@ export default {
         authState: undefined
         formFields: [
             { type: "username" },
-            {
-                type: "password",
-                label: "Custom Password Label",
-                placeholder: "custom password placeholder"
-            },
+            { type: "password" },
             { type: "email" }
         ]
     }
