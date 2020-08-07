@@ -3,7 +3,7 @@
 
 ```java
 // Listen for sign out events.
-final String signedOutEventName = AuthEventChannelName.SIGNED_OUT.toString();
+final String signedOutEventName = AuthChannelEventName.SIGNED_OUT.toString();
 Amplify.Hub.subscribe(HubChannel.AUTH,
     anyAuthEvent -> signedOutEventName.equals(anyAuthEvent.getName()),
     // When one arrives, clear the DataStore.
@@ -18,7 +18,7 @@ Amplify.Hub.subscribe(HubChannel.AUTH,
 <amplify-block name="Kotlin">
 
 ```kotlin
-val signedOutEventName: String = AuthEventChannelName.SIGNED_OUT.toString()
+val signedOutEventName: String = AuthChannelEventName.SIGNED_OUT.toString()
 Amplify.Hub.subscribe(HubChannel.AUTH,
     { anyAuthEvent -> signedOutEventName == anyAuthEvent.getName() },
     { signedOutEvent ->
