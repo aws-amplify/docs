@@ -15,7 +15,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.0'
+        classpath 'com.android.tools.build:gradle:4.0.1'
     }
 }
 
@@ -49,7 +49,7 @@ android {
 
 dependencies {
     // Add line in `dependencies`
-    implementation 'com.amplifyframework:core:1.1.1'
+    implementation 'com.amplifyframework:core:1.1.2'
 }
 ```
 

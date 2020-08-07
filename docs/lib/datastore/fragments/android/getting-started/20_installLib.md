@@ -2,8 +2,8 @@ Add the following dependencies to your **app** build.gradle file and click "Sync
 
 ```groovy
 dependencies {
-    implementation 'com.amplifyframework:core:1.1.1'
-    implementation 'com.amplifyframework:aws-datastore:1.1.1'
+    implementation 'com.amplifyframework:core:1.1.2'
+    implementation 'com.amplifyframework:aws-datastore:1.1.2'
 }
 ```
 
