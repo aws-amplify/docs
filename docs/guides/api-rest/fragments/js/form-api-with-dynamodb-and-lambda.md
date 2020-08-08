@@ -25,6 +25,12 @@ amplify add storage
 ? Please provide table name: formtable
 ? What would you like to name this column: id
 ? Please choose the data type: string
+? Would you like to add another column? Yes
+? What would you like to name this column: name
+? Please choose the data type: string
+? Would you like to add another column? Yes
+? What would you like to name this column: phone
+? Please choose the data type: string
 ? Would you like to add another column? N
 ? Please choose partition key for the table: id
 ? Do you want to add a sort key to your table? N

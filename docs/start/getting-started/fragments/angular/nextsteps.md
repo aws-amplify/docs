@@ -14,7 +14,7 @@ In addition, please review the resources below regarding Angular framework suppo
 
 ## Importing the Amplify Angular Module and the Amplify Provider
 
-The 'aws-amplify-angular' package allows you to access the Amplify JS library as an Angular provider.  You have two options to choose from:
+The `aws-amplify-angular` package allows you to access the Amplify JS library as an Angular provider.  You have two options to choose from:
 
 1. Configure the provider with the entire Amplify JS library
 2. Configure the provider with only select Amplify JS library.
@@ -102,7 +102,7 @@ The `AmplifyService` provides AWS Amplify core categories and authentication sta
 
 ### Using Dependency Injection
 
-To use *AmplifyService* with [dependency injection](https://angular.io/guide/dependency-injection-in-action), inject it into the constructor of any component or service anywhere in your application.
+To use `AmplifyService` with [dependency injection](https://angular.io/guide/dependency-injection-in-action), inject it into the constructor of any component or service anywhere in your application.
 
 ```javascript
 import { Component } from '@angular/core';
@@ -182,12 +182,12 @@ export class AppComponent {
 }
 ```
 
-The authState's 'state' attribute must be a string with one of the following values:
+The authState's 'state' attribute must be a **string** with one of the following values:
 
-* 'confirmSignIn'
-* 'confirmSignUp'
-* 'forgotPassword'
-* 'requireNewPassword'
-* 'signedIn'
-* 'signIn'
-* 'signUp
+* confirmSignIn
+* confirmSignUp
+* forgotPassword
+* requireNewPassword
+* signedIn
+* signIn
+* signUp

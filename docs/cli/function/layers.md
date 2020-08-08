@@ -59,12 +59,12 @@ In addition, the customer can configure access for:
 
 ```console
 Next steps:
-Move your libraries in the following folder:
-[NodeJS]: amplify/backend/function/<lambda-layer-name>/nodejs/node_modules/...
-[Python]: amplify/backend/function/<lambda-layer-name>/python/dist-packages/...
+Install your libraries in the following folder:
+[NodeJS]: amplify/backend/function/<lambda-layer-name>/lib/nodejs/node_modules/...
+[Python]: amplify/backend/function/<lambda-layer-name>/lib/python/lib/python3.8/site-packages/...
 
 Include any files you want to share across runtimes in this folder:
-amplify/backend/function/<lambda-layer-name>/opt/data
+amplify/backend/function/<lambda-layer-name>/opt/
 
 "amplify function update <function-name>" - configure a function with this Lambda layer
 "amplify push" builds all of your local backend resources and provisions them in the cloud
