@@ -33,7 +33,6 @@ In this example, you will learn how to support these data access patterns using 
 - Employee
 - AccountRepresentative
 - Customer
-- Product
 
 The [following schema](https://gist.github.com/dabit3/e0af16db09b6e206292d1c5cfc0d0a07) introduces the required keys and connections so that we can support these access patterns:
 
@@ -308,7 +307,7 @@ query getCustomerWithOrdersByStatusDate($customerID: ID!) {
 ```
 
 ## 7. See all employees hired recently:
-Having ‘@key(name: "newHire", fields: ["newHire", "id"])’ on the `Employee` model allows one to query by whether an employee has been hired recently. 
+Having `@key(name: "newHire", fields: ["newHire", "id"])` on the `Employee` model allows one to query by whether an employee has been hired recently. 
 
 ```graphql
 query employeesNewHire {
@@ -505,7 +504,7 @@ query listInventorys {
 ```
 
 ## 17. Get sales representatives ranked by order total and sales period:
-It's uncertain exactly what this means. My take is that the sales period is either a date range or maybe even a month or week. Therefore we can set the sales period as a string and query using the combination of `salesPeriod` and `orderTotal`. We can also set the `sortDirection` in order to get the return values from largest to smallest:
+The sales period is either a date range or maybe even a month or week. Therefore we can set the sales period as a string and query using the combination of `salesPeriod` and `orderTotal`. We can also set the `sortDirection` in order to get the return values from largest to smallest:
 
 ```graphql
 query repsByPeriodAndTotal {
