@@ -39,6 +39,7 @@ Assume that we make **amplify-pull.sh** in root of our project.
 
 **amplify-pull.sh (sample script)**
 
+<!--cSpell:disable-->
 ```sh
 #!/usr/bin/env bash
 
