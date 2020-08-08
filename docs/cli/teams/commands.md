@@ -62,7 +62,7 @@ Use this command to list all the environments. Add the `--details` or `--json` f
 See the output below for an Amplify project with `dev` and `test` environments. The active environment is preceded with an asterisk.
  
 ```bash
-> amplify env list
+amplify env list
 ```
  
 ```console
