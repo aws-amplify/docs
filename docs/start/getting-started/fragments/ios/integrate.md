@@ -10,7 +10,7 @@ First, we'll add the DataStore plugin and configure Amplify.
   import AmplifyPlugins
   ```
 
-1. In the same file (`AppDelegate.swift`), **add the following** code to the `application(_,Didfinishlaunchingwithoptions:)` method:
+1. In the same file (`AppDelegate.swift`), **insert the following** code into the `application(_,Didfinishlaunchingwithoptions:)` method right before the `return true` line of code:
   ```swift
 
   let dataStorePlugin = AWSDataStorePlugin(modelRegistration: AmplifyModels())
@@ -23,13 +23,13 @@ First, we'll add the DataStore plugin and configure Amplify.
   }
   ```
 
-1. **Build and run** the application. In console window, you'll see a log line indicating success:
+1. **Build and run** the application. In the Xcode console window, you'll see a log line indicating success:
 
     ```console
     Initialized Amplify
     ```
 
-    Optionally, if you'd like to adjust the log level, you can do this by updating the `Amplify.Logging.logLevel` variable.  For example:
+    Optionally, if you'd like to adjust the log level, you can do this by updating the `Amplify.Logging.logLevel` variable.  For example, you can add the following line of code to the `application(_,Didfinishlaunchingwithoptions:)` method:
     ```swift
     Amplify.Logging.logLevel = .info
     ```
@@ -84,6 +84,43 @@ Next, you'll create a Todo and save it to DataStore.
       }    
   }
   ```
+1. After making the preceding updates to the `ContentView.swift`file, your code should look like the following:
+
+```
+import SwiftUI
+import Amplify
+import AmplifyPlugins
+
+struct ContentView: View {
+    
+     var body: some View {
+        Text("Hello, World!")
+            .onAppear {
+                self.performOnAppear()
+        }
+    }
+    
+    func performOnAppear() {
+       let item = Todo(name: "Build iOS Application",
+                       description: "Build an iOS application using Amplify")
+        
+        Amplify.DataStore.save(item) { (result) in
+           switch(result) {
+           case .success(let savedItem):
+               print("Saved item: \(savedItem.name)")
+           case .failure(let error):
+               print("Could not save item to datastore: \(error)")
+           }
+        }
+    }
+}
+    
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
+```
 
 1. **Build and run** the application. In the console output, you'll see an indication that the item was saved successfully:
 
@@ -111,7 +148,7 @@ Next, you'll create a Todo and save it to DataStore.
 
 Now that you have some data in DataStore, you can run queries to retrieve those records.
 
-1. Edit your `performOnAppear()` method to remove the item creation and save, and add the following instead of it.  Your entire function should be this:
+1. Edit your `performOnAppear()` method to remove the item creation and save operations, and replace them with the following code.  Your entire `performOnAppear` function should look like this:
 
   ```swift
   func performOnAppear() {
@@ -163,7 +200,7 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
 
   `contains` `notContains`
 
-  To use a predicate, pass an additional argument into your query. For example, to see all high priority items:
+  To use a predicate, pass an additional argument into your query. For example, you can use the following code to see all high priority items:
 
   ```swift
   Amplify.DataStore.query(Todo.self,
@@ -186,9 +223,9 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
       }
   })
   ```
-  In the above, notice addition of the predicate parameter as the second argument.
+  In the above code, notice the addition of the predicate parameter as the second argument.
 
-1. Run the application. In logcat, you'll see only the high priority item returned:
+1. Run the application. In the console output, you'll see only the high priority item returned:
 
   ```console
   Initialized Amplify
