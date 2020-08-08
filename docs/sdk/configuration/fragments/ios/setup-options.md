@@ -301,27 +301,3 @@ mobileClient.initialize { (userState, error) in
 Please note that creating multiple instances of `AWSMobileClient` <b>is not supported</b>. The configuration cannot be reset and/or re-initialized. Therefore, even though you can instantiate `AWSMobileClient` multiple times, all instances will have the same configuration reference. If you configure `AWSMobileClient` as shown above, make sure to use the initialized in memory object of mobileClient instead of the singleton object of `AWSMobileClient`.
 
 </amplify-callout>
-
-## DocSet for Xcode
-
-Open the macOS terminal and go to the directory containing the expanded archive. For example:
-
-```bash
-cd ~/Downloads/aws-ios-sdk-2.9.0
-```
-
-**Note**: Replace 2.9.0 in the preceding example with the version number of the AWS Mobile SDK for iOS that you downloaded.
-
-Create a directory called `~/Library/Developer/Shared/Documentation/DocSets`:
-
-```bash
-mkdir -p ~/Library/Developer/Shared/Documentation/DocSets
-```
-
-Copy (or move) `documentation/com.amazon.aws.ios.docset` from the SDK installation files to the directory you created in the previous step:
-
-```bash
-mv documentation/com.amazon.aws.ios.docset ~/Library/Developer/Shared/Documentation/DocSets/
-```
-
-If Xcode was running during this procedure, restart Xcode. To browse the documentation, go to **Help**, click **Documentation and API Reference**, and select **AWS Mobile SDK for iOS v2.7 Documentation** (where '2.7' is the appropriate version number).

@@ -23,6 +23,16 @@ amplify add api
   Serverless express function (Integration with Amazon API Gateway)
 ```
 
+In the example above with `/items` path, the following API will be created for you:
+
+1. GET /items/[ID] will return a list containing the item at the [ID]. If the item does not exist then an empty array is returned.
+2. GET /items/object/[ID] will return a single item at [ID]. If the item does not exist then an empty object is returned.
+3. PUT /items with your item in the request body will create or update the item.
+4. POST /items with your item in the request body will create or update the item.
+5. DELETE /items/object/[ID] will delete the item.
+
+When you have a sort key, you can append it to the end of the path, for example: `GET /items/object/[ID]/[SORT_KEY_ID]`
+
 ## REST endpoint that triggers new Lambda functions
 During the CLI setup, you'll be guided through to create a new Lambda function with a predefined [serverless-express](https://github.com/awslabs/aws-serverless-express) template with routing enabled for your REST API paths.
 

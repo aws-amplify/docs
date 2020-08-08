@@ -779,40 +779,6 @@ mutation CreateDraft {
 }
 ```
 
-To set the owner to null with the current schema, you would still need to be in the editors list:
-
-```graphql
-mutation CreateDraft {
-  createDraft(
-    input: {
-      title: "A new draft",
-      editors: ["someuser@my-domain.com"],
-      owner: null
-    }
-  ) {
-    id
-    title
-    owner
-    editors
-  }
-}
-```
-
-Would return:
-
-```json
-{
-    "data": {
-        "createDraft": {
-            "id": "...",
-            "title": "A new draft",
-            "owner": null,
-            "editors": ["someuser@my-domain.com"]
-        }
-    }
-}
-```
-
 ### Static group authorization
 
 Static group authorization allows you to protect `@model` types by restricting access
@@ -952,7 +918,7 @@ type Post @model @auth(rules: [{ allow: public }]) {
 }
 ```
 
-The `public` authorization specifies that everyone will be allowed to access the API, behind the scenes the API will be protected with an API Key. To be able to use `public` the API must have API Key configured.
+The `public` authorization specifies that everyone will be allowed to access the API, behind the scenes the API will be protected with an API Key. To be able to use `public` the API must have API Key configured. For local execution, this key resides in the file `aws-exports.js` for the JavaScript library and `amplifyconfiguration.json` for Android and iOS under the key `aws_appsync_apiKey`.
 
 ```graphql
 # public authorization with provider override
@@ -1124,6 +1090,10 @@ Prior to version 2.0 of the CLI, `@auth` rules did not apply to subscriptions. I
 
 When `@auth` is used subscriptions have a few subtle behavior differences than queries and mutations based on their event based nature. When protecting a model using the owner auth strategy, each subscription request will **require** that the user is passed as an argument to the subscription request. If the user field is not passed, the subscription connection will fail. In the case where it is passed, the user will only get notified of updates to records for which they are the owner.
 
+<amplify-callout warning>
+ Subscription filtering uses data passed from mutation to do the filtering. If a mutation does not include `owner` field in the selection set of a owner based auth, Subscription message won't be fired for that mutation.
+</amplify-callout>
+
 Alternatively, when the model is protected using the static group auth strategy, the subscription request will only succeed if the user is in an allowed group. Further, the user will only get notifications of updates to records if they are in an allowed group. Note: You don't need to pass the user as an argument in the subscription request, since the resolver will instead check the contents of your JWT token.
 
 <amplify-callout>
@@ -1282,7 +1252,7 @@ type Todo
 {
   id: ID!
   owner: String
-  updatedAt: AWSDateTime @auth(rules: [{ allow: groups, groups: ["ForbiddenGroup"] }])
+  updatedAt: AWSDateTime! @auth(rules: [{ allow: groups, groups: ["ForbiddenGroup"], operations: [] }])
   content: String! @auth(rules: [{ allow: owner, operations: [update] }])
 }
 ```
@@ -1785,11 +1755,13 @@ mutation CreateProject {
 }
 ```
 
-> **Note** The **Project.team** resolver is configured to work with the defined connection. This is done with a query on the Team table where `teamID` is passed in as an argument to the mutation.
+> **Note** The **Project.team** resolver is configured to work with the defined connection. This is done with a query on the Team table where `teamID` is passed in as an argument.
 
-Likewise, you can make a simple one-to-many connection as follows for a post that has many comments:
+A Has One @connection can only reference the primary index of a model (ie. it cannot specify a "keyName" as described below in the Has Many section).
 
 ### Has many
+
+The following schema defines a Post that can have many comments:
 
 ```graphql
 type Post @model {
