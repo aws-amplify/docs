@@ -43,7 +43,7 @@ Enter a name for the environment (dev)
 Choose your default editor
 
 # Amplify supports JavaScript (Web & React Native), iOS, and Android apps
-Choose the type of app that youre building (javascript)
+Choose the type of app that you're building (javascript)
 
 What JavaScript framework are you using (react)
 

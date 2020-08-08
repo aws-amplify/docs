@@ -5,7 +5,7 @@ noTemplate: true
 disableLinkification: true
 ---
 
-<amplify-hero>
+<docs-hero>
   <h1 slot="heading" class="font-weight-300">
     Amplify Framework Documentation
   </h1>
@@ -14,7 +14,7 @@ disableLinkification: true
     and web apps
   </p>
   <docs-landing-hero-cta slot="cta" />
-</amplify-hero>
+</docs-hero>
 <docs-container
   class="background-color-off-white"
   inner-class="padding-top-lg padding-bottom-lg padding-horizontal-md">

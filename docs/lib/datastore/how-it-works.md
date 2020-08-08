@@ -26,13 +26,13 @@ When developer application code interacts with the DataStore API the it is the r
 
 If a developer chooses to sync with the cloud, the Amplify CLI will use the GraphQL schema to deploy an AWS AppSync backend with DynamoDB tables for each type and an additional table used for *Delta Sync*. Other AWS services such as Amazon Cognito or AWS Lambda will also be deployed if added to the project. Once this completes the local configuration for the platform (`aws-exports.js` or `amplifyconfiguration.json`) will be generated inside the project and updated with settings and endpoint information.
 
-If the DataStore starts up and sees API information to sync with an AppSync endpoint, it will start an instance of it's *Sync Engine*. This component interfaces with the Storage Engine to get updates from the Model Repository. These components use an *Observer* pattern where the Sync Engine publishes events whenever updates happen in it (such as data being added, updated, or deleted) and both the DataStore API and Sync Engine subscribe to this publication stream. This is how the developer knows when updates have happened from the cloud by interacting with the DataStore API, and conversely how the Sync Engine knows when to communicate with the cloud when applications have made updates to data.
+If the DataStore starts up and sees API information to sync with an AppSync endpoint, it will start an instance of its *Sync Engine*. This component interfaces with the Storage Engine to get updates from the Model Repository. These components use an *Observer* pattern where the Sync Engine publishes events whenever updates happen in it (such as data being added, updated, or deleted) and both the DataStore API and Sync Engine subscribe to this publication stream. This is how the developer knows when updates have happened from the cloud by interacting with the DataStore API, and conversely how the Sync Engine knows when to communicate with the cloud when applications have made updates to data.
 
 ![Image](~/images/sync.png)
 
 As notifications come into the Sync Engine from the Storage Engine it converts information from the Model Repository into GraphQL statements at runtime. This includes subscribing to all create/update/delete operations for each type, as well as running queries or mutations. 
 
-The Sync Engine will run a GraphQL query on first start that hydrates the Storage Engine from the network using a *Base Query*. This defaults to a limit of 100 items at a time and will paginate through up to 1000 items. It will then store a *Last Sync Time* and each time the device goes from an offline to online state, it will use this as an argument in a *Delta Query*. When AppSync receives this Last Sync Time in it's argument list it will only returned the changes that have been missed by pulling items in a Delta Table.
+The Sync Engine will run a GraphQL query on first start that hydrates the Storage Engine from the network using a *Base Query*. This defaults to a limit of 100 items at a time and will paginate through up to 1000 items. It will then store a *Last Sync Time* and each time the device goes from an offline to online state, it will use this as an argument in a *Delta Query*. When AppSync receives this Last Sync Time in its argument list it will only returned the changes that have been missed by pulling items in a Delta Table.
 
 All items (or "objects") are versioned by *Sync Enabled Resolvers* in AppSync using monotonically increasing counters. Clients never update versions, only the service controls versions. The Sync Engine receives new items or updates from GraphQL operations and applies them with their versions to the Storage Engine. When items are updated by application code they are always written to a queue and the Sync Engine sends them to AppSync using the currently known version as an argument (`_version`) in the mutation. 
 
@@ -44,7 +44,7 @@ When multiple clients send concurrent updates using the same version and conflic
 
 DataStore is designed primarily for developers to not have to focus on the backend and let your application code and workflow create everything. However, there will be some use cases where you will use the AppSync console, a Lambda function, or other out of band processes to write data (such as batch actions or data migrations) and you might send GraphQL operations without the DataStore client.
 
-In these cases it's important that the selection set of your GraphQL mutation includes the fields `_lastChangedAt`, `_version`, and `_deleted` so that the DataStore clients can react to these updates. You will also need to send the **current** object version in the mutation input argument as `_version` so that the service can act accordingly. If you do not send this information the clients will still eventually catch up during the global sync process, but you will not see realtime updates to the client DataStore repositories. An example mutation:
+In these cases it's important that the selection set of your GraphQL mutation includes all the required fields of the model, including: `_lastChangedAt`, `_version`, and `_deleted` so that the DataStore clients can react to these updates. You will also need to send the **current** object version in the mutation input argument as `_version` so that the service can act accordingly. If you do not send this information the clients will still eventually catch up during the global sync process, but you will not see realtime updates to the client DataStore repositories. An example mutation:
 
 ```graphql
 mutation UpdatePost {
@@ -65,5 +65,3 @@ mutation UpdatePost {
   }
 }
 ```
-
-<inline-fragment platform="js" src="~/lib/datastore/fragments/js/how-it-works.md"></inline-fragment>

@@ -149,7 +149,7 @@ Called when the device is no longer registered with Baidu Cloud Push.
 Called when the device receives a raw message from Baidu Cloud Push. Amazon Pinpoint transmits campaign push notifications with the Baidu Cloud Push raw message format. Include the following call as part of this method:
 
 ```java
-NotificaitonDetails details = NotificationDetailsBuilder.builder()
+NotificationDetails details = NotificationDetailsBuilder.builder()
                               .message(message);
                               .intentAction(NotificationClient.BAIDU_INTENT_ACTION)
                               .build();
@@ -159,7 +159,7 @@ pinpointManager.getNotificationClient().handleCampaignPush(details)
 
 Only the message parameter contains data. The `customContentString` is not used with raw messages.
 
-After creating the subclass, modify the `AndoriodManifest.xml` file to register it as a receiver. In the following example, the `PushMessageReceiver` subclass is named `com.baidu.push.example.MyPushMessageReceiver`.
+After creating the subclass, modify the `AndroidManifest.xml` file to register it as a receiver. In the following example, the `PushMessageReceiver` subclass is named `com.baidu.push.example.MyPushMessageReceiver`.
 
 ```xml
 <receiver android:name="com.baidu.push.example.MyPushMessageReceiver">
