@@ -1,6 +1,6 @@
-With the basic setup complete, next you will model the data your application will store. Amplify DataStore will use this model to persist data to your local device will be synchronized to a backend API without writing any additional code. These models are specified as [GraphQL](http://graphql.org/) schemas. If you'd like, first [learn more](~/cli/graphql-transformer/overview.md) about GraphQL schemas and data modeling.
+With the basic setup complete, next you will model the data your application will store. Amplify DataStore will use this model to persist data to your local device that will be synchronized to a backend API without writing any additional code. These models are specified as [GraphQL](http://graphql.org/) schemas. If you'd like, first [learn more](~/cli/graphql-transformer/overview.md) about GraphQL schemas and data modeling.
 
-1. In Xcode, from the project navigation tab (Cmd+1), **open the schema file** located at **AmplifyConfig** > **schema.graphql**.  In your project folder, this is located at: `"amplify/backend/api/amplifyDatasource/schema.graphql"`.
+1. In Xcode, make sure the project navigator is displayed. You can use **Cmd+1** to switch to this view. **Open the schema file** located at **Todo** > **AmplifyConfig** > **schema.graphql**.  In your project folder, this file is located at `"amplify/backend/api/amplifyDatasource/schema.graphql"`.
 
     Replace the contents of the file with the following schema:
 
@@ -26,12 +26,12 @@ With the basic setup complete, next you will model the data your application wil
     - **priority** an optional enumeration type field that indicates the importance of a Todo item; the value of priority can be only *LOW*, *NORMAL*, or *HIGH*
     - **description** an optional string field that holds more information about a Todo item
 
-1. Next, generate the classes for these models. **Update the amplifytools.xcconfig file** and change `modelgen=false` to:
+1. Next, generate the classes for these models. **Update the amplifytools.xcconfig file** by changing `modelgen=false` to:
   ```bash
   modelgen=true
   ```
 
-1. **Build the project (Cmd+b)**.  Doing a build will invoke Amplify tools to generate the following swift files, and automatically add them to your project in a folder called "AmplifyModels".  These generated files will be compiled on the next time you build your project.
+1. **Build the project (Cmd+b)**.  Doing a build will invoke Amplify tools to generate the following swift files, and automatically add them to your project in a folder called "AmplifyModels".  These generated files will be compiled the next time you build your project.
     ```bash
     $ ls amplify/generated/models/
     AmplifyModels.swift
@@ -39,7 +39,7 @@ With the basic setup complete, next you will model the data your application wil
     Todo+Schema.swift
     Todo.swift
     ```
-    Note that when Amplify tools needs to update your project, this may disrupt the Xcode's build process, and leave the build in a canceled or error state.  If your project ends up in either of these states due to amplify tools needing to make updates to your project, you can just build again (`Cmd+b`) re-issue a build for the updated project.
+    Note that when Amplify tools needs to update your project, this may disrupt the Xcode's build process, and leave the build in a canceled or error state.  If your project ends up in either of these states due to amplify tools needing to make updates to your project, you can just build again (`Cmd+b`) to re-issue a build for the updated project.
 
     <amplify-callout>
 
