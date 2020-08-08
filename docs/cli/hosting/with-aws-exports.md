@@ -1,5 +1,5 @@
 ---
-title: Build with aws-exports.js in "Continuous deployment" configuration
+title: Continuous deployment
 description: The way how to find aws-exports.js in Build step of "Continuous deployment" configuration
 ---
 
