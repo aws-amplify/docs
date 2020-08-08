@@ -70,7 +70,7 @@ and under the `awsAPIPlugin`
             "endpointType": "GraphQL",
             "endpoint": "[GRAPHQL-ENDPOINT]",
             "region": "[REGION]",
-            "authorizationType": "API_IAM",
+            "authorizationType": "AWS_IAM",
         }
     }
 }
@@ -129,7 +129,7 @@ The `friendly_name` illustrated here is created from Amplify CLI prompt. There a
                     "endpointType": "GraphQL",
                     "endpoint": "[GRAPHQL-ENDPOINT]",
                     "region": "[REGION]",
-                    "authorizationType": "API_IAM",
+                    "authorizationType": "AWS_IAM",
                 },
                 "[FRIENDLY-NAME-API-WITH-USER-POOLS]": {
                     "endpointType": "GraphQL",

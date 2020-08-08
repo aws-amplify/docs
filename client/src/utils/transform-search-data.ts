@@ -52,6 +52,7 @@ export function transformData(items: Item[]): Item[] {
         const label = filterMetadataByOption[filterMetadataKey].label;
         if (label && item?._highlightResult?.hierarchy?.lvl0) {
           const newHeading = `${item.hierarchy.lvl0} (${label})`;
+          item.hierarchy.lvl0 = newHeading;
           item._highlightResult.hierarchy.lvl0.value = newHeading;
         }
       }

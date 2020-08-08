@@ -20,24 +20,11 @@ Now that your have DataStore persisting data locally, in the next step you'll co
   <amplify-block name="Java">
   
   ```java
-  Amplify.Hub.subscribe(
-          HubChannel.DATASTORE,
-          event -> DataStoreChannelEventName.RECEIVED_FROM_CLOUD.toString().equals(event.getName()),
-          event -> {
-              ModelWithMetadata<?> modelWithMetadata = (ModelWithMetadata<?>) event.getData();
-              Todo todo = (Todo) modelWithMetadata.getModel();
-
-              Log.i("Tutorial", "==== Todo ====");
-              Log.i("Tutorial", "Name: " + todo.getName());
-
-              if (todo.getPriority() != null) {
-                  Log.i("Tutorial", "Priority: " + todo.getPriority().toString());
-              }
-
-              if (todo.getDescription() != null) {
-                  Log.i("Tutorial", "Description: " + todo.getDescription());
-              }
-          }
+  Amplify.DataStore.observe(Todo.class,
+          started -> Log.i("Tutorial", "Observation began."),
+          change -> Log.i("Tutorial", change.item().toString()),
+          failure -> Log.e("Tutorial", "Observation failed.", failure),
+          () -> Log.i("Tutorial", "Observation complete.")
   );
   ```
 
@@ -46,34 +33,18 @@ Now that your have DataStore persisting data locally, in the next step you'll co
   <amplify-block name="Kotlin">
 
   ```kotlin
-  Amplify.Hub.subscribe(
-          HubChannel.DATASTORE,
-          { event -> event.getName() == DataStoreChannelEventName.RECEIVED_FROM_CLOUD.toString() },
-          { event ->
-              val modelWithMetadata = event.getData() as ModelWithMetadata<*>?
-              val todo: Todo = modelWithMetadata!!.model as Todo
-              val name = todo.name;
-              val priority: Priority? = todo.priority
-              val description: String? = todo.description
-
-              Log.i("Tutorial", "==== Todo ====")
-              Log.i("Tutorial", "Name: $name")
-
-              if (priority != null) {
-                  Log.i("Tutorial", "Priority: $priority")
-              }
-
-              if (description != null) {
-                  Log.i("Tutorial", "Description: $description")
-              }
-          }
+  Amplify.DataStore.observe(Todo::class.java,
+          { Log.i("Tutorial", "Observation began.") },
+          { Log.i("Tutorial", it.item().toString()) },
+          { Log.e("Tutorial", "Observation failed.", it) },
+          { Log.i("Tutorial", "Observation complete.") }
   )
   ```
 
   </amplify-block>
   </amplify-block-switcher>
 
-1. Run the application. This will synchronize the existing local Todo items to the cloud. The above snippet subscribes to Hub – our lightweight publish/subscribe mechanism to allow an application to be notified of events – for any items created on the cloud and synchronized locally and logs those Todo items. 
+1. Run the application. This will synchronize the existing local Todo items to the cloud. `DataStore.observe` will log a message when new items are synchronized locally.
 
 1. Open up a terminal window. You can use an external terminal or the integrated terminal in Android Studio. In the terminal, run:
 
@@ -112,7 +83,7 @@ Now that your have DataStore persisting data locally, in the next step you'll co
         createTodo(
             input: {
                 name: "Tidy up the office"
-                description: "Organize books, vaccuum, take out the trash"
+                description: "Organize books, vacuum, take out the trash"
                 priority: NORMAL
             }
         ) {
@@ -131,8 +102,5 @@ Now that your have DataStore persisting data locally, in the next step you'll co
 1. In the logs of your running application, filter for **Tutorial**. You will see this item synchronize to your local storage:
 
     ```console
-    com.example.todo I/Tutorial: ==== Todo ====
-    com.example.todo I/Tutorial: Name: Tidy up the office
-    com.example.todo I/Tutorial: Priority: NORMAL
-    com.example.todo I/Tutorial: Description: Organize books, vaccuum, take out the trash
+    com.example.todo I/Tutorial: Todo {id=b9fa0d33-873e-46f3-baa3-3148f6f47d44, name=Tidy up the office, priority=NORMAL, description=Organize books, vacuum, take out the trash}
     ```

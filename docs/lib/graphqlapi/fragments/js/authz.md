@@ -38,7 +38,7 @@ For client authorization, AppSync supports API Keys, Amazon IAM credentials (we 
 
 ### API Key
 
-API Key is the easiest way to set up and prototype your application with AppSync. It’s also a good option if your application is completely public. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials provided by Cognito Identity Pools, which also supports “Guest” access. See the authentication section for more details. For manual configuration, add the following snippet to your aws-exports.js file:
+API Key is the easiest way to set up and prototype your application with AppSync. It’s also a good option if your application is completely public. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials provided by Cognito Identity Pools, which also supports “Guest” access. See the authentication section for more details. Following code snippet shows how to configure `AWSAppSyncClient` using API Key:
 
 ```js
 import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
@@ -57,7 +57,7 @@ const client = new AWSAppSyncClient({
 
 ### Cognito User Pools
 
-Amazon Cognito User Pools is the most common service to use with AppSync when adding user Sign-Up and Sign-In to your application. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials with Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth` and can also automatically federate User Pools with Identity Pools. This allows you to have both User Pool credentials for AppSync and AWS credentials for S3. You can then use the Auth category for automatic credentials refresh as [outlined in the authentication section](~/lib/auth/getting-started.md). For manual configuration, add the following snippet to your `aws-exports.js` file:
+Amazon Cognito User Pools is the most common service to use with AppSync when adding user Sign-Up and Sign-In to your application. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials with Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth` and can also automatically federate User Pools with Identity Pools. This allows you to have both User Pool credentials for AppSync and AWS credentials for S3. You can then use the Auth category for automatic credentials refresh as [outlined in the authentication section](~/lib/auth/getting-started.md). Following code snippet shows how to configure `AWSAppSyncClient` using Cognito User Pools:
 
 ```js
 import Amplify, { Auth } from 'aws-amplify';
@@ -86,7 +86,7 @@ export default withAuthenticator(App);
 
 ### IAM
 
-When using AWS IAM in a mobile application you should leverage Amazon Cognito Identity Pools. The Amplify CLI will automatically configure this for you when running `amplify add auth`. You can then use the Auth category for automatic credentials refresh as [outlined in the authentication section](~/lib/auth/getting-started.md). For manual configuration, add the following snippet to your `aws-exports.js` file:
+When using AWS IAM in a mobile application you should leverage Amazon Cognito Identity Pools. The Amplify CLI will automatically configure this for you when running `amplify add auth`. You can then use the Auth category for automatic credentials refresh as [outlined in the authentication section](~/lib/auth/getting-started.md). Following code snippet shows how to configure `AWSAppSyncClient` using AWS IAM:
 
 ```js
 import Amplify, { Auth } from 'aws-amplify';
@@ -115,7 +115,7 @@ export default withAuthenticator(App);
 
 ### OIDC
 
-If you are using a 3rd party OIDC provider you will need to configure it and manage the details of token refreshes yourself. Update the `aws-exports.js` file and code snippet as follows:
+If you are using a 3rd party OIDC provider you will need to configure it and manage the details of token refreshes yourself. Following code snippet shows how to configure `AWSAppSyncClient` using OIDC:
 
 
 ```js

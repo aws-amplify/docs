@@ -4,7 +4,7 @@ Enable your app to store and retrieve user files from cloud storage with the per
 
 ### Storage Access
 
-The CLI configures three different access levels on the storage bucket: public, protected and private. When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using an Amazon Cognito Identity Pools IAM Role. You will have the option of adding CRUD (Create, Read, Update, and Delete) permissions as well so that Authenticated and Guest users will be granted diferent permissions based on these levels.
+The CLI configures three different access levels on the storage bucket: public, protected and private. When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using an Amazon Cognito Identity Pools IAM Role. You will have the option of adding CRUD (Create, Read, Update, and Delete) permissions as well so that Authenticated and Guest users will be granted different permissions based on these levels.
 
 If you had previously enabled user sign-in by running `amplify add auth` in your project, the policies will be connected to an `Authenticated Role` within Cognito Identity Pools which has scoped permissions to the objects in the S3 bucket prefixed by a user's Cognito Identity ID. If you haven't configured user sign-in, then an `Unauthenticated Role` will be assigned for each unique user/device combination, which will still have scoped permissions to owned objects.
 
