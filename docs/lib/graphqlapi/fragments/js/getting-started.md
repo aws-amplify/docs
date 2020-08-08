@@ -84,6 +84,7 @@ Now that the GraphQL API has deployed, it’s time to learn how to interact with
 - __Mutations__ - write data to the API (create, update, delete operations)
 
 ```js
+import { API } from 'aws-amplify';
 import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
 
 const todo = { name: "My first todo", description: "Hello world!" };
@@ -100,6 +101,7 @@ await API.graphql(graphqlOperation(deleteTodo, { input: { id: todoId }}));
 - __Queries__ - read data from the API (list, get operations)
 
 ```js
+import { API } from 'aws-amplify';
 import { listTodos } from './graphql/queries';
 
 const todos = await API.graphql(graphqlOperation(listTodos));
@@ -108,6 +110,7 @@ const todos = await API.graphql(graphqlOperation(listTodos));
 - __Subscriptions__ - subscribe to changes in data for real-time functionality (onCreate, onUpdate, onDelete)
 
 ```js
+import { API } from 'aws-amplify';
 import { onCreateTodo } from './graphql/subscriptions';
 
 // Subscribe to creation of Todo
