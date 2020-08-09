@@ -14,6 +14,9 @@ try {
       )
     )
   );
+  setState(() {
+    isSignUpComplete = res.isSignUpComplete;
+  });
 } on AuthError catch (e) {
   print(e);
 }

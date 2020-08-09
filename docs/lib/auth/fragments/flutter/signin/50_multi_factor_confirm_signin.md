@@ -6,6 +6,9 @@ try {
       confirmationValue: "123456"
     ), 
   );
+  setState(() {
+    isSignedIn = res.isSignedIn;
+  });
 } on AuthError catch (e) {
   print(e);
 }

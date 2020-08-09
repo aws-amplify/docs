@@ -5,6 +5,9 @@ try {
       userKey: "myusername",
     ), 
   );
+  setState(() {
+    isPasswordReset = res.isPasswordReset;
+  });
 } on AuthError catch (e) {
   print(e);
 }

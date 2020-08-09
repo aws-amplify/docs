@@ -6,6 +6,9 @@ try {
       confirmationCode: "123456"
     )
   );
+  setState(() {
+    isSignUpComplete = res.isSignUpComplete;
+  });
 } on AuthError catch (e) {
   print(e);
 }

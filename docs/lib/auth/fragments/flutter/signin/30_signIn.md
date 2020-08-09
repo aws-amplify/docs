@@ -6,6 +6,9 @@ try {
       password: passwordController.text.trim(),
     )
   );
+  setState(() {
+    isSignedIn = res.isSignedIn;
+  });
 } on AuthError catch (e) {
   print(e);
 }
