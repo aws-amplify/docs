@@ -2,8 +2,10 @@ Add the following dependencies to your **app** build.gradle file and click "Sync
 
 ```groovy
 dependencies {
-    implementation 'com.amplifyframework:core:1.1.2'
     implementation 'com.amplifyframework:aws-datastore:1.1.2'
+
+    // Support for Java 8 features
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
 }
 ```
 
@@ -11,7 +13,9 @@ At the top of the same file, add `compileOptions` to support the Java 8 features
 
 ```groovy
 android {
-  compileOptions {
+    compileOptions {
+        // Support for Java 8 features
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
