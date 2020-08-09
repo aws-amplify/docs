@@ -15,7 +15,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.0'
+        classpath 'com.android.tools.build:gradle:4.0.1'
     }
 }
 
@@ -51,7 +51,7 @@ android {
 
 // Add line in `dependencies`
 dependencies {
-    implementation 'com.amplifyframework:core:1.1.1'
+    implementation 'com.amplifyframework:core:1.1.2'
 
     // Support for Java 8 features
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
