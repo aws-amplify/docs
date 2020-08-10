@@ -170,7 +170,7 @@ Next, add a form that will be used for creating restaurants. Add the following t
 </div>
 ```
 
-Create a file at `types/restaurant.ts` to define a type for the Restaurant:
+Now, define a `Restaurant` type. Create a new file at `types/restaurant.ts`:
 
 ```ts
 export type Restaurant = {
