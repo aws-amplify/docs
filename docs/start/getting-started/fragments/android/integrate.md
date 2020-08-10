@@ -3,6 +3,7 @@ Next you'll use the generated model to read and write data. In this section you'
 ## Configure Amplify and DataStore
 
 First, we'll add the DataStore plugin and configure Amplify by creating an Application class and overriding the `onCreate()` method.
+1. Navigate to the **example.todo** folder located at **ToDo** > **app** > **src** > **main** > **java/kotlin** > **com** > **example.todo**
 
 1. Go to **File** > **New** and select either **Java Class** or **Kotlin File/Class**.
 
@@ -58,6 +59,8 @@ First, we'll add the DataStore plugin and configure Amplify by creating an Appli
 
 1. Open **AndroidManifest.xml** to configure your application.
 
+1. Add `xmlns:tools="http://schemas.android.com/tools"` to the `manifest` node.
+
 1. Add the `android:name` and `tools:replace` attributes to the `application` node:
 
   ```xml
@@ -95,7 +98,7 @@ First, we'll add the DataStore plugin and configure Amplify by creating an Appli
 </manifest>
 ```
 
-1. Run the application. In logcat, you'll see a log line indicating success:
+1. In the Gradle Task dropdown menu in the toolbar, select **app**, and run the application. In logcat, you'll see a log line indicating success:
 
     ```console
     com.example.todo I/Tutorial: Initialized Amplify
@@ -303,7 +306,7 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
 
   `contains` `notContains`
 
-  To use a predicate, pass an additional argument into your query. For example, to see all high priority items:
+  To use a predicate, pass an additional argument into your query. For example, the following code queries for all high priority items:
 
   <amplify-block-switcher>
   <amplify-block name="Java">
@@ -370,7 +373,7 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
   </amplify-block>
   </amplify-block-switcher>
 
-  In the above, notice addition of the predicate parameter as the second argument.
+  In the above code, notice the addition of the predicate parameter as the second argument.
 
 1. Run the application. In logcat, you'll see only the high priority item returned:
 

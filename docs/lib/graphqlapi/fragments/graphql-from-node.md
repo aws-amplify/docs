@@ -36,7 +36,7 @@ exports.handler = async (event) => {
       url: process.env.API_URL,
       method: 'post',
       headers: {
-        'x-api-key': process.env.API_KEY
+        'x-api-key': process.env.API_<YOUR_API_NAME>_GRAPHQLAPIKEYOUTPUT
       },
       data: {
         query: print(listTodos),
@@ -84,7 +84,7 @@ exports.handler = async (event) => {
       url: process.env.API_URL,
       method: 'post',
       headers: {
-        'x-api-key': process.env.API_KEY
+        'x-api-key': process.env.API_<YOUR_API_NAME>_GRAPHQLAPIKEYOUTPUT
       },
       data: {
         query: print(createTodo),
@@ -140,7 +140,7 @@ const appsyncUrl = process.env.API_<YOUR_API_NAME>_GRAPHQLAPIENDPOINTOUTPUT;
 const region = process.env.REGION;
 const endpoint = new urlParse(appsyncUrl).hostname.toString();
 const graphqlQuery = require('./query.js').mutation;
-const apiKey = process.env.API_KEY;
+const apiKey = process.env.API_<YOUR_API_NAME>_GRAPHQLAPIKEYOUTPUT;
 
 exports.handler = async (event) => {
     const req = new AWS.HttpRequest(appsyncUrl, region);
