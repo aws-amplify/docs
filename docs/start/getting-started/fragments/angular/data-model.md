@@ -31,7 +31,7 @@ Accept the **default values** which are highlighted below:
 # Yes
 ```
 
-The schema generated is for a Todo app. Replace the GraphQL schema at `amplify/backend/api/RestaurantAPI/schema.graphql` with the following:
+The generated schema is for a Todo app. Replace the GraphQL schema at `amplify/backend/api/RestaurantAPI/schema.graphql` with the following:
 
 ```graphql
 type Restaurant @model {
