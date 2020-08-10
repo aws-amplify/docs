@@ -84,7 +84,7 @@ Set the backend environment name to be `dev`
 ```
 
 Sometimes the CLI will prompt you to edit a file, it will use this editor to open those files.
-Select your prefered code editor software
+Select your preferred code editor software
 ```console
 ? Choose your default editor: (Use arrow keys)
 ❯ Visual Studio Code
@@ -247,4 +247,3 @@ Amplify.configure(aws_exports);
 ```
 
 Now Amplify has been successfully configured. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in __aws-exports.js__ will update automatically.
-
