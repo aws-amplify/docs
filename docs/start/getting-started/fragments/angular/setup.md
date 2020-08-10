@@ -10,7 +10,7 @@ cd amplify-app
 
 ### Angular 6+ Support
 
-Currently, the newest versions of Angular (6+) do not include shims for 'global' or 'process' which were provided in previous versions. Add the following to your `polyfills.ts` file to recreate them: 
+Currently, the newest versions of Angular (6+) do not include shims for 'global' or 'process' as provided in previous versions. Add the following to your `polyfills.ts` file to recreate them: 
 
 ```javascript
 (window as any).global = window;
