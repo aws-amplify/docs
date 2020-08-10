@@ -183,7 +183,7 @@ In the previous example, you'll see the App is rendered even before the user is 
  - signedIn
  ```
 
-**authData** - additional data within authState; when the state is `signedIn`, it will return a [`CognitoUser`](https://github.com/aws-amplify/amplify-js/blob/master/packages/amazon-cognito-identity-js/index.d.ts#L48) object.
+**authData** - additional data within authState; when the state is `signedIn`, it will return a [`CognitoUser`](https://github.com/aws-amplify/amplify-js/blob/main/packages/amazon-cognito-identity-js/index.d.ts#L48) object.
 
 Using the options above, to control the condition for *Authenticator* to render App component, simply set `_validAuthStates` property:
 

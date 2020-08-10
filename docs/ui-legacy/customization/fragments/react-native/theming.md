@@ -2,7 +2,7 @@
 
 For React, you can create your own theme and use it to render Amplify components:
 
-> Your custom theme must use the selectors from the following [template](https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-react/src/Amplify-UI/Amplify-UI-Theme.tsx)
+> Your custom theme must use the selectors from the following [template](https://github.com/aws-amplify/amplify-js/blob/main/packages/aws-amplify-react/src/Amplify-UI/Amplify-UI-Theme.tsx)
 
 ```javascript
 import MyTheme from './MyTheme';
@@ -21,7 +21,7 @@ const MyTheme = {
 <Authenticator theme={MyTheme} />
 ```
 
-For React Native, you must override properties defined in AmplifyTheme.js [here](https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-react-native/src/AmplifyTheme.js)
+For React Native, you must override properties defined in AmplifyTheme.js [here](https://github.com/aws-amplify/amplify-js/blob/main/packages/aws-amplify-react-native/src/AmplifyTheme.js)
 
 ```javascript
 import { AmplifyTheme } from 'aws-amplify-react-native';
