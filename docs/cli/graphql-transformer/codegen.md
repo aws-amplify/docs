@@ -165,7 +165,7 @@ amplify add codegen
 Once codegen has been added you can update your introspection schema, then generate statements and types again without re-entering your project information.
 
 ```bash
-$amplify codegen
+amplify codegen
 ```
 
 You can update your project and codegen configuration if required.
