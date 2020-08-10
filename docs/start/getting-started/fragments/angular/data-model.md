@@ -211,7 +211,7 @@ Add the following to your `src/app/app.component.html` to display any of the tod
 </div>
 ```
 
-Finally, to subscribe to realtime data, update `ngOnInit` to setup a subscription on app start and update the `restaurants` array when new events are received:
+Finally, to subscribe to realtime data, update `ngOnInit`. When the app starts, setup a subscription. The subscription will update the `restaurants` array when new events are received:
 
 ```javascript
 @Component(...)
