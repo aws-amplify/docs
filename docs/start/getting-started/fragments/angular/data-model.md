@@ -181,7 +181,7 @@ export type Restaurant = {
 }; 
 ```
 
-Next, update the class to list all items in the database by running a `ListRestaurants` query when the app starts by implementing [OnInit](https://angular.io/api/core/OnInit) and storing the items in an array:
+Next, update your `AppComponent` class so that it will list all restaurants in the database when the app starts. To do so, implement [OnInit](https://angular.io/api/core/OnInit) add a `ListRestaurants` query. Store the query results in an array.
 
 ```javascript
 import { APIService } from '../API.service';
