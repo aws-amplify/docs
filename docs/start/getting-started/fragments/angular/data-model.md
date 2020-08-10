@@ -148,7 +148,7 @@ export class AppComponent implements OnInit {
 }
 ```
 
-Add the following to your `src/app/app.component.html` to add the form to create a new restaurant:
+Next, add a form that will be used for creating restaurants. Add the following to your `src/app/app.component.html`:
 
 ```html
 <div class="form-body">
