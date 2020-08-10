@@ -13,9 +13,6 @@ auth.events.startListening((hubEvent) {
       print("USER IS SIGNED IN");
     }
     break;
-    default: {
-      print("CONFIGURATION EVENT");
-    }
   }
 });
 ```
