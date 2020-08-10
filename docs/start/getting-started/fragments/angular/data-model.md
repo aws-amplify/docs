@@ -60,7 +60,7 @@ amplify push
 
 ### Code generation
 
-Since you added an API the `amplify push` process will automatically prompt for codegen (select `yes` when prompted for automatic query and code generation). Choose **Angular** which will create an `API.service.ts` file in the app directory.
+Because you added an API, the `amplify push` process will automatically prompt for codegen. Select `yes` when prompted for automatic query and code generation. Choose **Angular**, which will create an `API.service.ts` file in the app directory.
 
 Next, run the following command to check Amplify's status:
 
