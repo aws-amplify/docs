@@ -2,7 +2,7 @@
 try {
   await Amplify.Auth.confirmPassword(
     request: ConfirmPasswordRequest(
-      userKey: "myusername",
+      username: "myusername",
       newPassword: "mynewpassword",
       confirmationCode: "123456"
     )

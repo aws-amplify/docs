@@ -2,7 +2,7 @@
 try {
   ResetPasswordResult res = await Amplify.Auth.resetPassword(
     request: ResetPasswordRequest(
-      userKey: "myusername",
+      username: "myusername",
     ), 
   );
   setState(() {

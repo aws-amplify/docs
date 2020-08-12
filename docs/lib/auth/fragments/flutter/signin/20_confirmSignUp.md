@@ -2,7 +2,7 @@
 try {
   SignUpResult res = await Amplify.Auth.confirmSignUp(
     request: ConfirmSignUpRequest(
-      userKey: "myusername",
+      username: "myusername",
       confirmationCode: "123456"
     )
   );
