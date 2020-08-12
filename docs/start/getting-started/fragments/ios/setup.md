@@ -48,6 +48,13 @@ Amplify for iOS is distributed through Cocoapods as a Pod. In this section, you'
   cd ~/Developer/Todo
   ```
 
+1. Verify that this directory is a parent to four subdirectories:
+
+1. `Todo` (again)
+2. `Todo.xcodeproj`
+3. `TodoTests`
+4. `TodoUITests`
+
 1.  To initialize your project with the CocoaPods package manager, **run the command**:
   ```bash
   pod init
