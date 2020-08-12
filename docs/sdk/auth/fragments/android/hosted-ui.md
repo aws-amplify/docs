@@ -58,10 +58,10 @@ amplify add auth     ##"amplify update auth" if already configured
 Select Default configuration with Social Provider (Federation):
 
 ```console
-Do you want to use the default authentication and security configuration? 
-  Default configuration 
-❯ Default configuration with Social Provider (Federation) 
-  Manual configuration 
+Do you want to use the default authentication and security configuration?
+  Default configuration
+❯ Default configuration with Social Provider (Federation)
+  Manual configuration
   I want to learn more.
 ```
 
@@ -73,7 +73,7 @@ amplify push
 
 After running the `amplify push` command, you will find a domain-name provisioned by the CLI for the hosted UI as an output in the terminal. You can find that information anytime later using the `amplify status` command.
 
-**Note:** your user pool domain is something like: `domain_prefix-<env-name>.auth.<region>.amazoncognito.com`. 
+**Note:** your user pool domain is something like: `domain_prefix-<env-name>.auth.<region>.amazoncognito.com`.
 If you've setup federation through third party providers, you would need to update the providers with the CLI provisioned domain-name.
 
 <amplify-block-switcher>
@@ -88,14 +88,18 @@ If you've setup federation through third party providers, you would need to upda
 ![Image](~/images/cognitoHostedUI/facebook4.png)
 5. Under Website, type your user pool domain with the /oauth2/idpresponse endpoint into *Site URL*
 
-    ```https://<your-user-pool-domain>/oauth2/idpresponse```
+    ```console
+    https://<your-user-pool-domain>/oauth2/idpresponse
+    ```
 
     ![Image](~/images/cognitoHostedUI/facebook5.png)
 6. Save changes.
 7. Type your user pool domain into *App Domains*:
 
-    ```https://<your-user-pool-domain>```
-    
+    ```console
+    https://<your-user-pool-domain>
+    ```
+
     ![Image](~/images/cognitoHostedUI/facebook6.png)
 8. Save changes.
 9. From the navigation bar choose *Products* and then *Set up* from *Facebook Login*.
@@ -103,7 +107,9 @@ If you've setup federation through third party providers, you would need to upda
 10. From the navigation bar choose *Facebook Login* and then *Settings*.
 11. Type your redirect URL into *Valid OAuth Redirect URIs*. It will consist of your user pool domain with the /oauth2/idpresponse endpoint.
 
-    ```https://<your-user-pool-domain>/oauth2/idpresponse```
+    ```console
+    https://<your-user-pool-domain>/oauth2/idpresponse
+    ```
 
     ![Image](~/images/cognitoHostedUI/facebook8.png)
 12. Save changes.
@@ -179,6 +185,40 @@ Note: The User Pool OIDC JWT token obtained from a successful sign-in will be fe
 
 ### Setup Amazon Cognito Hosted UI in Android App
 
+<amplify-block-switcher>
+<amplify-block name="Version 2.18.0 and above">
+
+1. Add the value for your redirect URI scheme ("myapp" in our example) to your app's build.gradle file as follows:
+
+   ```gradle
+  android {
+      defaultConfig {
+  	manifestPlaceholders = [
+  	    'authRedirectScheme': 'myapp'
+  	]
+      }
+  }
+   ```
+
+2. Add the following result handler to whichever Activity you are calling HostedUI from:
+
+  ```java
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (requestCode == AuthClient.CUSTOM_TABS_ACTIVITY_CODE) {
+    		AWSMobileClient.getInstance().handleAuthResponse(data);
+      }
+  }
+  ```
+
+3. If you previously setup HostedUI for version 2.17.1 or below, remove the intent filter
+for your "myapp" scheme from the AndroidManifest file as well as the onResume / onNewIntent
+handler methods you added to your Activity.
+
+</amplify-block>
+<amplify-block name="Version 2.17.1 and below">
+
 1. Add `myapp://` to your app's Intent filters located in `AndroidManifest.xml`. The `your.package.YourAuthIntentHandlingActivity` will be referenced in the next step.
 
     ```xml
@@ -206,7 +246,7 @@ Note: The User Pool OIDC JWT token obtained from a successful sign-in will be fe
     </manifest>
     ```
 
-1. Attach an intent callback so that the AWSMobileClient can handle the callback and confirm sign-in or sign-out. This should be in `your.package.YourAuthIntentHandlingActivity`.
+2. Attach an intent callback so that the AWSMobileClient can handle the callback and confirm sign-in or sign-out. This should be in `your.package.YourAuthIntentHandlingActivity`.
 
     ```java
     @Override
@@ -219,6 +259,9 @@ Note: The User Pool OIDC JWT token obtained from a successful sign-in will be fe
         }
     }
     ```
+
+</amplify-block>
+</amplify-block-switcher>
 
 ### Launching the Hosted UI
 
