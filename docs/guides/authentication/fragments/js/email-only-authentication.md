@@ -90,14 +90,15 @@ You can also call the Authentication service directly using the `Auth` category:
 **Signing up**
 
 ```js
-// Signing up
+import { Auth } from 'aws-amplify';
+
 await Auth.signUp({
   username: "youremail@yourdomain.com",
   password: "your-secure-password",
   attributes: {
     email: "youremail@yourdomain.com"
   }
-})
+});
 ```
 
 **Confirming sign up**
