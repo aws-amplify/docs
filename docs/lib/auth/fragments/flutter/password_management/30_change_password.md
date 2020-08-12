@@ -1,7 +1,7 @@
 ```dart
 try {
-  await Amplify.Auth.changePassword(
-    request: ChangePasswordRequest(
+  await Amplify.Auth.updatePassword(
+    request: UpdatePasswordRequest(
       newPassword: "mynewpassword",
       oldPassword: "myoldpassword"
     )
