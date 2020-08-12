@@ -1,3 +1,5 @@
+## Install Amplify Libraries
+
 Add the following dependencies to your **app** build.gradle file and click "Sync Now" when asked:
 
 ```groovy
