@@ -70,7 +70,7 @@ Our `docs/lib/auth/menu.json` should reference the newly-created page at `docs/l
 }
 ```
 
-Our `docs/overauth.md` can look like this for now:
+Our `docs/lib/auth/overview.md` can look like this for now:
 
 ```md
 ---
