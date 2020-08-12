@@ -17,7 +17,7 @@ For instance, to listen to see if the network status is active, you could set up
 
 ```js
 // Create listener
-listener = Hub.listen('datastore', async hubData => {
+const listener = Hub.listen('datastore', async hubData => {
   const  { event, data } = hubData.payload;
   if (event === 'networkStatus') {
     console.log(`User has a network connection? ${data.active}`)
@@ -32,7 +32,7 @@ To wait for the entire sync process to finish, you can listen for the `ready` ev
 
 ```js
 // Create listener
-listener = Hub.listen("datastore", async hubData => {
+const listener = Hub.listen("datastore", async hubData => {
   const  { event, data } = hubData.payload;
   if (event === "ready") {
     // do something here once the data is synced from the cloud
