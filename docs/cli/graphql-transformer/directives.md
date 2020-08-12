@@ -477,7 +477,7 @@ based on attributes found in the parent type.
 ```graphql
 # When applied to a type, augments the application with
 # owner and group-based authorization rules.
-directive @auth(rules: [AuthRule!]!) on OBJECT, FIELD_DEFINITION
+directive @auth(rules: [AuthRule!]!) on OBJECT | FIELD_DEFINITION
 input AuthRule {
   allow: AuthStrategy!
   provider: AuthProvider
