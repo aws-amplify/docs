@@ -1,3 +1,7 @@
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
 ```swift
 func signUp(username: String, password: String, email: String, phonenumber: String) {
     let userAttributes = [AuthUserAttribute(.email, value: email), AuthUserAttribute(.phoneNumber, value: phonenumber)]
@@ -16,3 +20,33 @@ func signUp(username: String, password: String, email: String, phonenumber: Stri
     }
 }
 ```
+
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+func signUp(username: String, password: String, email: String, phonenumber: String) -> AnyCancellable {
+    let userAttributes = [AuthUserAttribute(.email, value: email), AuthUserAttribute(.phoneNumber, value: phonenumber)]
+    let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
+    let sink = Amplify.Auth.signUp(username: username, password: password, options: options)
+        .resultPublisher
+        .sink {
+            if case let .failure(authError) = $0 {
+                print("Fetch session failed with error \(authError)")
+            }
+        }
+        receiveValue: { signUpResult in
+            if case let .confirmUser(deliveryDetails, _) = signUpResult.nextStep {
+                print("Delivery details \(String(describing: deliveryDetails))")
+            } else {
+                print("SignUp Complete")
+            }
+        }
+    return sink
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>

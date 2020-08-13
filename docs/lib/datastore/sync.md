@@ -78,7 +78,7 @@ There's a difference between the traditional local condition check using `if/els
 
 ### Conflict detection and resolution
 
-When concurrently updating the data in multiple places, it is likely that some conflict might happen. For most of the cases the default *Auto-merge* algorithm should be able to resolve conflicts. However, there are scenarios where the algorithm won't be able to be resolved, and in these cases, a more advanced option is available and will be described in details in the next section.
+When concurrently updating the data in multiple places, it is likely that some conflict might happen. For most of the cases the default *Auto-merge* algorithm should be able to resolve conflicts. However, there are scenarios where the algorithm won't be able to be resolved, and in these cases, a more advanced option is available and will be described in detail in the next section.
 
 ## Clear local data
 
