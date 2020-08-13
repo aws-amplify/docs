@@ -6,9 +6,9 @@ Invoke this api with whatever provider you're using (shown with Facebook below):
 
 ```swift
 func socialSignInWithWebUI() {
-    _ = Amplify.Auth.signInWithWebUI(for: .facebook, presentationAnchor: self.view.window!) { result in
+    Amplify.Auth.signInWithWebUI(for: .facebook, presentationAnchor: self.view.window!) { result in
         switch result {
-        case .success(_):
+        case .success:
             print("Sign in succeeded")
         case .failure(let error):
             print("Sign in failed \(error)")
@@ -30,11 +30,10 @@ func socialSignInWithWebUI() -> AnyCancellable {
                 print("Sign in failed \(authError)")
             }
         }
-        receiveValue: { signInResult in
+        receiveValue: { _ in
             print("Sign in succeeded")
         }
 }
-
 ```
 
 </amplify-block>

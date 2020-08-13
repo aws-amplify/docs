@@ -5,7 +5,7 @@ You can list all of the objects uploaded:
 <amplify-block name="Listener (iOS 11+)">
 
 ```swift
-_ = Amplify.Storage.list { event in
+Amplify.Storage.list { event in
     switch event {
     case let .success(listResult):
         print("Completed")

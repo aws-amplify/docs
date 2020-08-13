@@ -4,7 +4,7 @@
 
 ```swift
 func translateText() {
-    _ = Amplify.Predictions.convert(textToTranslate: "I like to eat spaghetti",
+    Amplify.Predictions.convert(textToTranslate: "I like to eat spaghetti",
         language: .english,
         targetLanguage: .spanish,
         listener: { (event) in

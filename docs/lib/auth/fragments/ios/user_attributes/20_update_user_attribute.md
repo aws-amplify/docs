@@ -4,8 +4,7 @@
 
 ```swift
 func updateAttribute() {
-    _ = Amplify.Auth.update(userAttribute: AuthUserAttribute(.phoneNumber, value: "+2223334444")) { result in
-
+    Amplify.Auth.update(userAttribute: AuthUserAttribute(.phoneNumber, value: "+2223334444")) { result in
         do {
             let updateResult = try result.get()
             switch updateResult.nextStep {

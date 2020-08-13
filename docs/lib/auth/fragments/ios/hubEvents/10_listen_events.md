@@ -37,25 +37,27 @@ override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
 
-    // Assumes `sink` is declared as an instance variable in your view
-    sink = Amplify.Hub.publisher(for: .auth).sink { payload in
-        switch payload.eventName {
-        case HubPayload.EventName.Auth.signedIn:
-            print("User signed in")
-            // Update UI
+    // Assumes `sink` is declared as an instance variable in your view controller
+    sink = Amplify.Hub
+        .publisher(for: .auth)
+        .sink { payload in
+            switch payload.eventName {
+            case HubPayload.EventName.Auth.signedIn:
+                print("User signed in")
+                // Update UI
 
-        case HubPayload.EventName.Auth.sessionExpired:
-            print("Session expired")
-            // Re-authenticate the user
+            case HubPayload.EventName.Auth.sessionExpired:
+                print("Session expired")
+                // Re-authenticate the user
 
-        case HubPayload.EventName.Auth.signedOut:
-            print("User signed out")
-            // Update UI
+            case HubPayload.EventName.Auth.signedOut:
+                print("User signed out")
+                // Update UI
 
-        default:
-            break
+            default:
+                break
+            }
         }
-    }
 }
 ```
 
