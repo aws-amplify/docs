@@ -188,14 +188,14 @@ Note: The User Pool OIDC JWT token obtained from a successful sign-in will be fe
 <amplify-block-switcher>
 <amplify-block name="Version 2.18.0 and above">
 
-1. Add the value for your redirect URI scheme ("myapp" in our example) to your app's build.gradle file as follows:
+1. Add the value for your redirect URI scheme ("myapp" in our example) to your app's `build.gradle` file as follows:
 
    ```gradle
   android {
       defaultConfig {
-  	manifestPlaceholders = [
-  	    'authRedirectScheme': 'myapp'
-  	]
+  	      manifestPlaceholders = [
+  	          'authRedirectScheme': 'myapp'
+  	      ]
       }
   }
    ```
@@ -213,8 +213,8 @@ Note: The User Pool OIDC JWT token obtained from a successful sign-in will be fe
   ```
 
 3. If you previously setup HostedUI for version 2.17.1 or below, remove the intent filter
-for your "myapp" scheme from the AndroidManifest file as well as the onResume / onNewIntent
-handler methods you added to your Activity.
+you previously added to the AndroidManifest file with the URI scheme (e.g. `myapp`)
+as well as the onResume or onNewIntent handler method you previously added to your Activity.
 
 </amplify-block>
 <amplify-block name="Version 2.17.1 and below">
