@@ -2,6 +2,10 @@
 
 Put data to the API endpoint:
 
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
 ```swift
 func putTodo() {
     let request = RESTRequest(path: "/todo", body: "my updated Todo".data(using: .utf8))
@@ -16,3 +20,29 @@ func putTodo() {
     }
 }
 ```
+
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+func putTodo() -> AnyCancellable {
+    let request = RESTRequest(path: "/todo", body: "my updated Todo".data(using: .utf8))
+    let sink = Amplify.API.put(request: request)
+        .resultPublisher
+        .sink {
+            if case let .failure(apiError) = $0 {
+                print("Failed", apiError)
+            }
+        }
+        receiveValue: { data in
+            let str = String(decoding: data, as: UTF8.self)
+            print("Success \(str)")
+        }
+    return sink
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>

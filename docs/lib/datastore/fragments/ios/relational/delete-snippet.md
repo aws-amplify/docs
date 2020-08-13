@@ -1,3 +1,7 @@
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
 ```swift
 Amplify.DataStore.query(Post.self, byId: "123") {
     switch $0 {
@@ -16,3 +20,28 @@ Amplify.DataStore.query(Post.self, byId: "123") {
     }
 }
 ```
+
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+let sink = Amplify.DataStore.query(Post.self, byId: "123")
+    // postWithComments might be nil, unwrap the optional appropriately
+    .compactMap { $0 }
+    .flatMap { postWithComments in
+        Amplify.DataStore.delete(postWithComments)
+    }
+    .sink {
+        if case let .failure(error) = $0 {
+            print("Error deleting post and comments - \(error.localizedDescription)")
+        }
+    }
+    receiveValue: {
+        print("Post with id 123 deleted with success")
+    }
+```
+
+</amplify-block>
+
+</amplify-block-switcher>

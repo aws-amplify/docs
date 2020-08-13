@@ -40,6 +40,10 @@ Amplify will make calls to both Amazon Textract and Rekognition depending on the
 
 If you are detecting text from an image you would send in `.plain` as your text format as shown below.  Using `.plain` with `PredictionsIdentifyRequest.Options()` combines results from on device results from Core ML and AWS services to yield more accurate results.
 
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
 ```swift
 func detectText(_ image: URL, completion: @escaping ([IdentifiedWord]) -> Void) {
     _ = Amplify.Predictions.identify(type: .detectText(.plain), image: image) { event in
@@ -53,6 +57,31 @@ func detectText(_ image: URL, completion: @escaping ([IdentifiedWord]) -> Void) 
     }
 }
 ```
+
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+func detectText(_ image: URL) -> AnyCancellable {
+    Amplify.Predictions.identify(type: .detectText(.plain), image: image)
+        .resultPublisher
+        .sink {
+            if case let .failure(error) = $0 {
+                print(error)
+            }
+        }
+        receiveValue: { result in
+            let data = result as! IdentifyTextResult
+            print(data.words)
+        }
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>
+
 
 **Note**: Bounding boxes in IdentifyTextResult are returned as ratios. If you would like to place bounding boxes on individual recognized words that appear in the image, use the following method to calculate a frame for a single bounding box.
 
@@ -90,6 +119,10 @@ let options = PredictionsIdentifyRequest.Options(defaultNetworkPolicy: .offline,
 
 Sending in `.form` or `.table` or `.all` will do document analysis as well as text detection to detect tables and forms in a document. See below for an example with `.form`.
 
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
 ```swift
 func detectText(_ image: URL) {
     _ = Amplify.Predictions.identify(type: .detectText(.form), image: image) { event in
@@ -103,3 +136,27 @@ func detectText(_ image: URL) {
     }
 }
 ```
+
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+func detectText(_ image: URL) -> AnyCancellable {
+    Amplify.Predictions.identify(type: .detectText(.form), image: image)
+        .resultPublisher
+        .sink {
+            if case let .failure(error) = $0 {
+                print(error)
+            }
+        }
+        receiveValue: { result in
+            let data = result as! IdentifyDocumentTextResult
+            print(data)
+        }
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>
