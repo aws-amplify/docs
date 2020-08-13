@@ -1,5 +1,5 @@
 ---
-title: Headless mode
+title: Headless mode for CI/CD
 description: Several commands in the Amplify CLI support arguments which could potentially be used in your CI/CD flows.
 ---
 Several commands in the Amplify CLI support arguments which could potentially be used in your CI/CD flows. The Amplify CLI arguments are not just simple strings, but also JSON objects containing information that the CLI would otherwise gather through prompts. The CLI will not prompt for input (work non-interactively) if the information it seeks is provided by an argument.
