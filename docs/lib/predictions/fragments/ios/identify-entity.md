@@ -42,7 +42,11 @@ In order to match entities from a pre-created [Amazon Rekognition Collection](ht
 
 You can identify entity matches from your Rekognition Collection in your app using the following code sample:
 
-``` swift
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
+```swift
 func detectEntities(_ image: URL) {
     _ = Amplify.Predictions.identify(type: .detectEntities, image: image) { event in
         switch event {
@@ -56,9 +60,37 @@ func detectEntities(_ image: URL) {
 }
 ```
 
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+func detectEntities(_ image: URL) -> AnyCancellable {
+    Amplify.Predictions.identify(type: .detectEntities, image: image)
+        .resultPublisher
+        .sink {
+            if case let .failure(error) = $0 {
+                print(error)
+            }
+        }
+        receiveValue: { result in
+            let data = result as! IdentifyEntityMatchesResult
+            print(data.entities)
+        }
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>
+
 To detect general entities like facial features, landmarks etc, you can use the following call pattern. Results are mapped to `IdentifyEntityResult`. For example:
 
-``` swift
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
+```swift
 func detectEntities(_ image: URL) {
     _ = Amplify.Predictions.identify(type: .detectEntities, image: image) { event in
         switch event {
@@ -72,11 +104,39 @@ func detectEntities(_ image: URL) {
 }
 ```
 
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+func detectEntities(_ image: URL) -> AnyCancellable {
+    Amplify.Predictions.identify(type: .detectEntities, image: image)
+        .resultPublisher
+        .sink {
+            if case let .failure(error) = $0 {
+                print(error)
+            }
+        }
+        receiveValue: { result in
+            let data = result as! IdentifyEntitiesResult
+            print(data.entities)
+        }
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>
+
 ### Detecting Celebrities
 
 To detect celebrities you can pass in `.detectCelebrity` in the `type:` field. Results are mapped to `IdentifyCelebritiesResult`. For example:
 
-``` swift
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
+```swift
 func detectCelebs(_ image: URL) {
     _ = Amplify.Predictions.identify(type: .detectCelebrity, image: image) { event in
         switch event {
@@ -92,4 +152,32 @@ func detectCelebs(_ image: URL) {
     }
 }
 ```
+
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+func detectCelebs(_ image: URL) -> AnyCancellable {
+    Amplify.Predictions.identify(type: .detectCelebrity, image: image)
+        .resultPublisher
+        .sink {
+            if case let .failure(error) = $0 {
+                print(error)
+            }
+        }
+        receiveValue: { result in
+            let data = result as! IdentifyCelebritiesResult
+            if let detectedCeleb = data.celebrities.first {
+                print("Celebrity Name: \(detectedCeleb.metadata.name)")
+            }
+            print(result)
+        }
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>
+
 As a result of passing in a URL of an image of a well known celebrity, you will see the corresponding celebrity name printed to the screen along with additional metadata.

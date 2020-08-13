@@ -676,6 +676,7 @@
     "kinesisvideo",
     "KMS-generated",
     "Kotlin",
+    "Kylo",
     "Lambda",
     "LambdaExecutionRole",
     "lambdafunction",
@@ -1258,7 +1259,12 @@
     "zoneinfo",
     "есть",
     "нравится",
-    "спагетти"
+    "спагетти",
+    "signingup",
+    "confirmsignupcustomflow",
+    "confirmingsignincustomflow",
+    "verifyingattributes",
+    "resettingpassword"
   ],
   "flagWords": ["hte"]
 }
