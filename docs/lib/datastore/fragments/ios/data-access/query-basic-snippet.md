@@ -1,3 +1,7 @@
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
 ```swift
 Amplify.DataStore.query(Post.self) {
     switch $0 {
@@ -10,9 +14,32 @@ Amplify.DataStore.query(Post.self) {
 }
 ```
 
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+let sink = Amplify.DataStore.query(Post.self).sink {
+    if case let .failure(error) = $0 {
+        print("Error on query() for type Post - \(error.localizedDescription)")
+    }
+}
+receiveValue: { result in
+    print("Posts: \(result)")
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>
+
 ### Query by `id`
 
 Query has an alternative signature that allows to fetch a single item by its `id`:
+
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
 
 ```swift
 Amplify.DataStore.query(Post.self, byId: "123") {
@@ -25,3 +52,22 @@ Amplify.DataStore.query(Post.self, byId: "123") {
     }
 }
 ```
+
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+let sink = Amplify.DataStore.query(Post.self, byId: "123").sink {
+    if case let .failure(error) = $0 {
+        print("Error on query() for type Post - \(error.localizedDescription)")
+    }
+}
+receiveValue: { result in
+    print("Posts: \(result)")
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>

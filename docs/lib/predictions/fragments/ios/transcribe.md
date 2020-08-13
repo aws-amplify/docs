@@ -18,6 +18,10 @@ Run `amplify add predictions` and select **Convert**. Then use the following ans
 
 Here is an example of converting speech to text. In order to override any choices you made while adding this resource using the Amplify CLI, you can pass in a language in the options object as shown below.
 
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
 ```swift
 func speechToText(speech: URL) {
     let options = PredictionsSpeechToTextRequest.Options(
@@ -36,3 +40,33 @@ func speechToText(speech: URL) {
     }
 }
 ```
+
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+func speechToText(speech: URL) -> AnyCancellable {
+    let options = PredictionsSpeechToTextRequest.Options(
+        defaultNetworkPolicy: .auto,
+        language: .usEnglish,
+        pluginOptions: nil
+    )
+
+    let sink = Amplify.Predictions.convert(speechToText: speech, options: options)
+        .resultPublisher
+        .sink {
+            if case let .failure(error) = $0 {
+                print(error)
+            }
+        }
+        receiveValue: { result in
+            print(result.transcription)
+        }
+    return sink
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>
