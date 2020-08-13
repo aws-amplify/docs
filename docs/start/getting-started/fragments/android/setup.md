@@ -47,7 +47,7 @@ Amplify for Android is distributed as an Apache Maven package. In this section, 
 
 1. Expand **Gradle Scripts** in the project file viewer and open **build.gradle (Project: Todo)**.
 
-  Add the following lines to the file:
+  Make the following additions to the project-level `build.gradle` file:
   - Add the line `mavenCentral()` within the `repositories` block in the `buildscript` and `allprojects` blocks.
   - Add the line `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.1'` within the `dependencies` block.
   - Add the line `apply plugin: 'com.amplifyframework.amplifytools'` at the end of the file. 
