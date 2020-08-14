@@ -1,9 +1,7 @@
 ```dart
 try {
   SignInResult res = await Amplify.Auth.confirmSignIn(
-    request: ConfirmSignInRequest(
-      confirmationValue: "123456"
-    ), 
+    confirmationValue: "123456"
   );
   setState(() {
     isSignedIn = res.isSignedIn;

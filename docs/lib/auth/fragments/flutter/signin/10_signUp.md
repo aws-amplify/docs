@@ -6,12 +6,10 @@ try {
     // additional attributes as needed
   };
   SignUpResult res = await Amplify.Auth.signUp(
-    request: SignUpRequest(
-      username: "myusername",
-      password: "mysupersecurepassword",
-      options: CognitoSignUpOptions(
-        userAttributes: userAttributes
-      )
+    username: "myusername",
+    password: "mysupersecurepassword",
+    options: CognitoSignUpOptions(
+      userAttributes: userAttributes
     )
   );
   setState(() {

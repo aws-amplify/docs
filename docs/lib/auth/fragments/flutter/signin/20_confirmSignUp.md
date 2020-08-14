@@ -1,10 +1,8 @@
 ```dart
 try {
   SignUpResult res = await Amplify.Auth.confirmSignUp(
-    request: ConfirmSignUpRequest(
-      username: "myusername",
-      confirmationCode: "123456"
-    )
+    username: "myusername",
+    confirmationCode: "123456"
   );
   setState(() {
     isSignUpComplete = res.isSignUpComplete;

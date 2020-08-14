@@ -1,9 +1,7 @@
  ```dart
 try {
   ResendSignUpCodeResult res = await Amplify.Auth.resendSignUpCode(
-    request: ResendSignUpCodeRequest(
-      username: "myusername"
-    )
+    username: "myusername"
   );
 } on AuthError catch (e) {
   print(e);

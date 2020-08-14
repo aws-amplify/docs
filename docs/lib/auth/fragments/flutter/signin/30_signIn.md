@@ -1,10 +1,8 @@
 ```dart
 try {
   SignInResult res = await Amplify.Auth.signIn(
-    request: SignInRequest(
-      username: usernameController.text.trim(),
-      password: passwordController.text.trim(),
-    )
+    username: usernameController.text.trim(),
+    password: passwordController.text.trim(),
   );
   setState(() {
     isSignedIn = res.isSignedIn;
