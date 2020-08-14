@@ -1,8 +1,26 @@
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
 ```swift
 Amplify.DataStore.query(Post.self, paginate: .page(0, limit: 100)) {
     // handle result
 }
 ```
+
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+let sink = Amplify.DataStore.query(Post.self, paginate: .page(0, limit: 100)).sink {
+    // handle result
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>
 
 The `paginate` arguments takes an object of type [`QueryPaginationInput`](https://aws-amplify.github.io/amplify-ios/docs/Structs/QueryPaginationInput.html). That object can be created with the following factory functions:
 
