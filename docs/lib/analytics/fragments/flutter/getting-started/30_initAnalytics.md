@@ -29,10 +29,10 @@ class MyAmplifyApp extends StatefulWidget {
     void initState() {
         super.initState(); 
 
-            Amplify.addPlugin(new AWSCognitoAuthPlugin());
-            Amplify.addPlugin(new AWSPinpointAnalyticsPlugin(this));
+        Amplify.addPlugin(new AWSCognitoAuthPlugin());
+        Amplify.addPlugin(new AWSPinpointAnalyticsPlugin(this));
 
-            Amplify.configure( amplifyConfig ); 
+        Amplify.configure( amplifyConfig ); 
 
     }
 }
