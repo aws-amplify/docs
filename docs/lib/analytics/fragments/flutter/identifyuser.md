@@ -5,9 +5,7 @@ You can get the current user's ID from the Amplify Auth category as shown below.
 If you have asked for location access and received permission, you can also provide that in `AnalyticsUserProfileLocation`
 
 
-```java
-
-// TODO INCLUDE AUTH GETCURRENTUSER 
+```dart
 
 AnalyticsUserProfileLocation location = new AnalyticsUserProfileLocation();
     location.latitude = 47.606209;

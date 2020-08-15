@@ -1276,7 +1276,8 @@
     "pubspec",
     "Stateful",
     "GETCURRENTUSER",
-    "amplifyconfig"
+    "amplifyconfig",
+    "Uploader"
   ],
   "flagWords": ["hte"]
 }

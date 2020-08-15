@@ -11,18 +11,15 @@ Within `lib/main.dart` modify the method `_initAmplifyFlutter_` and add the foll
 
 ```dart
   void _initAmplifyFlutter() async {
-
-    // Add Auth
     AmplifyAuthCognito auth = new AmplifyAuthCognito();
-    amplify.addPlugin(authPlugin: [auth]);
-
-    // Add Storage
     AmplifyStorageS3 storage = new AmplifyStorageS3();
-    amplify.addPlugin(storagePlugin: [storage]);
+    AmplifyAnalyticsPinpointPlugin analytics =
+        new AmplifyAnalyticsPinpointPlugin();
 
-    // Add Analytics 
-    AmplifyAnalyticsPinpoint analytics = new AmplifyAnalyticsPinpoint();
-    amplify.addPlugin(analyticsPlugin: [analytics]);
+    amplify.addPlugin(
+        authPlugins: [auth],
+        storagePlugins: [storage],
+        analyticsPlugins: [analytics]);
 
     // Initialize AmplifyFlutter
     await amplify.configure(amplifyconfig);
@@ -35,7 +32,7 @@ Within `lib/main.dart` modify the method `_initAmplifyFlutter_` and add the foll
 Note that all calls to `addPlugin` are made before `amplify.configure` is called.
 
 
-## Authentication
+# Authentication
 
 ### Sign Up 
 Within `lib/Views/SignUpView.dart`
@@ -44,18 +41,11 @@ modify the method `_signUp` and invoke the following api to initiate a sign up f
 This view is displayed for you from the `LandingPage.dart` class.  It prompts the user to enter information to sign up and calls the `_signUp` method when the user confirms. 
 
 ```dart
-  void _signUp() async {
-    Map<String, dynamic> userAttributes = {
-      "email": emailController.text,
-      "phone_number": phoneController.text,
-    };
+  void _signIn() async {
     try {
-      SignUpResult res = await Amplify.Auth.signUp(
-        request: SignUpRequest(
-            username: usernameController.text.trim(),
-            password: passwordController.text.trim(),
-            options: CognitoSignUpOptions(userAttributes: userAttributes)),
-      );
+      SignInResult res = await Amplify.Auth.signIn(
+          username: usernameController.text.trim(),
+          password: passwordController.text.trim());
       Navigator.pop(context, true);
     } on AuthError catch (e) {
       setState(() {
@@ -124,75 +114,93 @@ modify the method `_signOut_` and invoke the following api to initiate a sign ou
   }
 ```
 
-### Listening to Auth Hub Events 
 
-**TODO** Waiting for Auth Hub Events to be completed.  
+# Storage 
 
-We will use the Auth Hub to listen to changes in user auth status to display the current login status and user id in our app.  
+### List Files 
+Within `lib/Pages/MainPage.dart` 
+modify the method `_loadFileKeys_` and invoke the following api to get all file keys. 
 
+We will use the result of this request to update our Widget state to display a list of all files already uploaded in S3. 
 
+```dart 
+  void _loadFileKeys() {
+    Amplify.Storage.list(
+        "/",
+        { result ->
+          setState(() {
+            itemKeys = result
+          });
+        },
+        { error -> Log.e("MyAmplifyApp", "List failure", error) }
+    );
+  }
+```
 
-## Storage 
-
-**TODO** Waiting for Storage category to be completed 
-
-## Analytics 
-
-**TODO** Waiting to add Analytics category to be added to sample-app
-
-We will call the following methods: 
+### Upload Image 
+Within `lib/Views/ImageUploader.dart`
+modify the method `_uploadImage_` and invoke the following api to upload an image.
 
 ```dart
-void _recordEvent() async {
-    AnalyticsEvent event = AnalyticsEvent("test");
+  void _uploadImage(BuildContext context) async {
 
-    event.properties.addBoolProperty("boolKey", true);
-    event.properties.addDoubleProperty("doubleKey", 10.0);
-    event.properties.addIntProperty("intKey", 10);
-    event.properties.addStringProperty("stringKey", "stringValue");
+    File local = await FilePicker.getFile(type: FileType.image);
 
+    Amplify.Storage.uploadFile(
+        "ExampleKey",
+        exampleFile,
+        { result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()) },
+        { error -> Log.e("MyAmplifyApp", "Upload failed", error) }
+    )
+    
+    Navigator.pop(context, "fakeItemKey");
+  }
+```
+
+### Download Image
+Within `lib/Views/ImagePreview.dart`
+modify the method `_downloadImage_` and invoke the following api to upload an image.
+
+This will be invoked whenever we click on an item in the listView of MainPage.  We will download the image and display it as a popup for the user. 
+
+```dart
+  void _downloadImage(String storageKey) {
+      Amplify.Storage.downloadFile(
+          storageKey,
+          File(applicationContext.filesDir.toString() + "/download.png"),
+          { result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().name) },
+          { error -> Log.e("MyAmplifyApp", "Download Failure", error) }
+      )
+  }
+```
+
+# Analytics 
+
+We'll use Analytics to send a simple event to Pinpoint whenever a file is downloaded from S3. 
+
+### Record Event 
+
+Within `lib/Views/ImagePreview.dart`
+modify the method `_downloadImage_` and add this code to the end of the existing function: 
+
+```dart
+    AnalyticsEvent event = AnalyticsEvent("image_downloaded");
+    event.properties.addStringProperty("file_key", storageKey);
     Amplify.Analytics.recordEvent(event: event);
-  }
+```
 
-  void _flushEvents() async {
-    Amplify.Analytics.flushEvents();
-  }
-  void _registerGlobalProperties() async {
+### Recording Global Properties
 
-    print("register global properties: " + _globalProp);
+When we begin to track multiple events, we might want to include a property to be registered on each event.  
 
+Within `lib/main.dart`
+modify the method `_initAmplifyFlutter` and add this code to the end of the existing function: 
+
+```dart
     AnalyticsProperties properties = new AnalyticsProperties();
-    properties.addBoolProperty(_globalProp + "_boolKey", true);
-    properties.addDoubleProperty(_globalProp + "_doubleKey", 10.0);
-    properties.addIntProperty(_globalProp + "_intKey", 10);
-    properties.addStringProperty(_globalProp + "_stringKey", "stringValue");
-
+    properties.addStringProperty("platform", "flutter");
     Amplify.Analytics.registerGlobalProperties(globalProperties: properties);
+```
 
-  }
+We modify this initialization method as we know it's only called once at the beginning.  
 
-    void _identifyUser() async {
-    AnalyticsUserProfile analyticsUserProfile = new AnalyticsUserProfile();
-    analyticsUserProfile.name = _userId + "_name";
-    analyticsUserProfile.email = _userId + "_email";
-    analyticsUserProfile.plan = _userId + "_plan";
-
-    AnalyticsUserProfileLocation analyticsUserLocation = new AnalyticsUserProfileLocation();
-    analyticsUserLocation.latitude = 5;
-    analyticsUserLocation.longitude = 5;
-    analyticsUserLocation.postalCode = "94070";
-    analyticsUserLocation.city = "SanFrancisco";
-    analyticsUserLocation.region = "California";
-    analyticsUserLocation.country = "USA";
-
-    analyticsUserProfile.location = analyticsUserLocation;
-
-
-    AnalyticsProperties properties = new AnalyticsProperties();
-    properties.addStringProperty(_userId + "_stringKey" , "stringValue");
-
-    analyticsUserProfile.properties = properties;
-
-    Amplify.Analytics.identifyUser(userId: _userId, userProfile: analyticsUserProfile);
-  }
-  ```

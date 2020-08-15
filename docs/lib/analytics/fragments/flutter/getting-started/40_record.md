@@ -3,7 +3,7 @@ To record an event, create an `AnalyticsEvent` and call `Amplify.Analytics.recor
 
 
 
-```java
+```dart
 AnalyticsEvent event = AnalyticsEvent("test");
 
 event.properties.addBoolProperty("boolKey", true);

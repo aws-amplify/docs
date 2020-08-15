@@ -27,7 +27,11 @@
 
 ### Download Sample App 
 
-Download the starter [here](https://github.com/aws-amplify/amplify-flutter).  The starter project is contained within `amplify-flutter/example/sample-app`.
+Download the starter [here](https://github.com/aws-amplify/amplify-flutter).  The starter project is contained within `amplify-flutter/example/sample-app-blank`.
+
+### Reference Sample App 
+
+If you ever get stuck or your code doesn't compile, feel free to look at the `amplify-flutter/example/sample-app` contained within the directory you downloaded above.  This contains a complete working example of the app you will integrate.  
 
 #### Sample App Overview 
 
@@ -50,7 +54,6 @@ Please note that we **highly** recommend using our starter project.  This tutori
 Amplify for Flutter is distributed via **pub.dev**.
 In this section, you'll add the following dependencies to your **app**'s `pubspec.yaml`.
 
-**TODO** Clarify the names of our DART packages 
 
 ```yaml
 dependencies:
@@ -71,8 +74,6 @@ Afterwards, make sure to run `flutter pub get` in the command line within the ro
 ### Setup AWS Cloud Resources with Amplify CLI 
 
 We will now use the Amplify CLI to configure the AWS Cloud Resources that will power your app. 
-
-**TODO** Clarify that these instructions are correct
 
 #### Basic Auth Setup 
 ``` 
@@ -137,8 +138,6 @@ To save all your changes and to create your AWS resources, run the following com
 ``` 
 amplify push 
 ```
-
-**TODO** Clarify where the amplifyconfiguration.dart file will be placed 
 
 After these steps, you should notice a `amplifyconfiguration.dart` file within your lib directory of your project.  Guard this file carefully!  It contains sensitive information that your app will use to establish a secure communication with your backend AWS resources.  If it is lost or corrupted, you can always regenerate it by repeating the above steps again with the Amplify CLI. 
 

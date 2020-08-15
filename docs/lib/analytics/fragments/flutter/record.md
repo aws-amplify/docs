@@ -5,7 +5,7 @@ The Amplify analytics plugin also makes it easy to record custom events within t
 
 
 
-```java
+```dart
 AnalyticsEvent event = AnalyticsEvent("PasswordReset");
 event.properties.addStringProperty("Channel", "SMS"); 
 event.properties.addBoolProperty("Successful", true);
@@ -45,7 +45,7 @@ To manually flush events, call:
 
 
 
-```java
+```dart
 Amplify.Analytics.flushEvents();
 ```
 
@@ -56,7 +56,7 @@ You can register global properties which will be sent along with all invocations
 
 
 
-```java
+```dart
 AnalyticsProperties properties = new AnalyticsProperties();
 properties.addStringProperty("AppStyle", "DarkMode"); 
 Amplify.Analytics.registerGlobalProperties(globalProperties: properties);
@@ -67,7 +67,7 @@ To unregister a global property, call `Amplify.Analytics.unregisterGlobalPropert
 
 
 
-```java
+```dart
 Amplify.Analytics.unregisterGlobalProperties(propertyName: ["AppStyle", "OtherProperty"]);
 ```
 
@@ -78,7 +78,7 @@ To disable analytics, call:
 
 
 
-```java
+```dart
 Amplify.Analytics.disable();
 ```
 
@@ -90,7 +90,7 @@ To re-enable, call:
 
 
 
-```java
+```dart
 Amplify.Analytics.enable();
 ```
 

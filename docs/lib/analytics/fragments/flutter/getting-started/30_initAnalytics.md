@@ -5,14 +5,14 @@ Add the following code to the `initState` method
 
 
 
-```java
+```dart
 Amplify.addPlugin(new AWSCognitoAuthPlugin());
 Amplify.addPlugin(new AmplifyAnalyticsPinpointPlugin());
 ```
 
 (VERIFY, To be determined) Make sure that the amplifyconfiguration.dart file generated in the project setup is included and sent to Amplify.configure: 
 
-```java 
+```dart 
 import 'amplifyconfiguration.dart';
 
 Amplify.configure( amplifyConfig )
@@ -20,7 +20,7 @@ Amplify.configure( amplifyConfig )
 
 Your class will look like this:
 
-```java
+```dart
 import 'amplifyconfiguration.dart';
 
 class MyAmplifyApp extends StatefulWidget {
