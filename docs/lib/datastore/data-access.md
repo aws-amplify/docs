@@ -64,6 +64,18 @@ Alternatively, the `or` logical operator can also be used:
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/query-predicate-or-snippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/data-access/query-predicate-or-snippet.md"></inline-fragment>
 
+### Sort
+
+Results can be queried by order you specify, either sorted by one field or multiple fields.
+
+For one field sorting example, sort by `rating` in ascending order:
+
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/query-sort-snippet.md"></inline-fragment>
+
+And here is the example for multiple sorts, first sort by `rating` in ascending order and then sort on `title` by descending order:
+
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/query-sort-multiple-snippet.md"></inline-fragment>
+
 ### Pagination
 
 Query results can also be paginated by passing in a `page` number (starting at 0) and an optional `limit` (defaults to 100). This will return a list of the first 100 items:
