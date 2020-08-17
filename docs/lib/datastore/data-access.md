@@ -68,13 +68,15 @@ Alternatively, the `or` logical operator can also be used:
 
 Results can be queried by order you specify, either sorted by one field or multiple fields.
 
-For one field sorting example, sort by `rating` in ascending order:
+For example, to do single field sorting (sort by `rating` in ascending order):
 
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/query-sort-snippet.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/data-access/query-sort-snippet.md"></inline-fragment>
 
 And here is the example for multiple sorts, first sort by `rating` in ascending order and then sort on `title` by descending order:
 
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/query-sort-multiple-snippet.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/data-access/query-sort-multiple-snippet.md"></inline-fragment>
 
 ### Pagination
 
