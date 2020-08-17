@@ -2,10 +2,10 @@ In this tutorial, you will integrate the different functionality for **Authentic
 
 The sample-app you downloaded in the previous section already has all UI Widgets implemented in Flutter.  
 
-We will now implement its blank methods to allow it to use the Amplify Flutter SDK To power its functionality.  
+We will now implement its blank methods to allow it to use the Amplify Flutter Library To power its functionality.  
 
-## Initializing the Amplify Flutter SDK 
-Before using any methods in the Amplify Flutter SDK, it's important to add all necessary plugins and to call configure.  These init methods should only be called once at the root level of your flutter app. 
+## Initializing the Amplify Flutter Library 
+Before using any methods in the Amplify Flutter Library, it's important to add all necessary plugins and to call configure.  These init methods should only be called once at the root level of your flutter app. 
 
 Within `lib/main.dart` modify the method `_initAmplifyFlutter_` and add the following code: 
 
@@ -61,7 +61,7 @@ This view is displayed for you from the `LandingPage.dart` class.  It prompts th
 
 We use the `CognitoSignUpOptions` object to send additional sign up attributes such as email and phone number that we want to associate with this newly created user. 
 
-Note how we use a try/catch block to be able to gracefully handle any issues with calling the API.  All Auth methods in the Flutter SDK throw "AuthError" when something goes wrong.   
+Note how we use a try/catch block to be able to gracefully handle any issues with calling the API.  All Auth methods in the Flutter Library throw "AuthError" when something goes wrong.   
 
 Note the flow of creating a SignUpRequest and receive a SignUpResult.  This basic flow is repeated throughout Auth, in which you send a ---Request and receive a ---Result. 
 

@@ -2,7 +2,7 @@
 👋 Welcome! In this tutorial, you will:
 
 - Download the getting started app
-- Add the Flutter SDK dependencies
+- Add the Flutter Library dependencies
 - Use Amplify CLI to setup your AWS backend resources 
 
 ## Prerequisites
