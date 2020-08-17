@@ -58,7 +58,7 @@ In the next screen, choose your repository and branch and click __Next__:
 
 In the __App build and test settings__ view, click __Edit__ and do the following:
 
-1. Set the __build__ commands to: `npm run build && npm run export`
+1. Set the __build__ commands to: `npm run generate`
 2. Set the `baseDirectory` location to be `dist`
 3. Click __Save__
 4. Click __Next__
@@ -68,7 +68,5 @@ In the __App build and test settings__ view, click __Edit__ and do the following
 Finally, click __Save and deploy__.
 
 Once your site has successfully deployed, you should see three green checkmarks:
-
-![Nuxt Hosting with Amplify Console - Deployment complete](~/images/hosting/nuxt/5.png)
 
 To view the live site, click on the automatically generated URL given to you by the Amplify Console.
