@@ -66,9 +66,15 @@ dependencies:
 
 1. Run **Flutter Pub Get**
 
-    Android Studio requires you to sync your project with your new configuration. To do this, click **Flutter** in the notification bar above the file editor.
+    Android Studio requires you to sync your project with your new configuration. To do this, you can click **Flutter** in the notification bar above the file editor.  
 
     ![](~/images/lib/getting-started/flutter/set-up-android-studio-pub-get.png)
+
+    Alternatively, you can open a terminal window, cd into your project's root directory (where you pubspec.yaml is) and run: 
+
+    ```bash
+    flutter pub get 
+    ```
 
     When complete, you will see *Process finished with exit code 0* in the output of the *Messages* tab at the bottom of your screen.
     
