@@ -5,3 +5,4 @@ description: For advanced use cases where Amplify does not provide the functiona
 
 <inline-fragment platform="ios" src="~/lib/analytics/fragments/ios/escapehatch.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/analytics/fragments/android/escapehatch.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/analytics/fragments/flutter/escapehatch.md"></inline-fragment>

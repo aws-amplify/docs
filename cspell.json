@@ -1272,7 +1272,7 @@
     "confirmsignupcustomflow",
     "confirmingsignincustomflow",
     "verifyingattributes",
-    "resettingpassword"
+    "resettingpassword",
     "pubspec",
     "Stateful",
     "GETCURRENTUSER",
