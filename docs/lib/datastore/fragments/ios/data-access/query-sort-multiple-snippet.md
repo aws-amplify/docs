@@ -3,7 +3,6 @@
 <amplify-block name="Listener (iOS 11+)">
 
 ```swift
-let p = Post.keys
 Amplify.DataStore.query(Post.self, sort: .by(.ascending(Post.keys.rating),
                                              .descending(Post.keys.title))) {
     switch $0 {
@@ -20,7 +19,6 @@ Amplify.DataStore.query(Post.self, sort: .by(.ascending(Post.keys.rating),
 <amplify-block name="Combine (iOS 13+)">
 
 ```swift
-let p = Post.keys
 let sink = Amplify.DataStore.query(Post.self, sort: .by(.ascending(Post.keys.rating),
                                                         .descending(Post.keys.title))).sink {
     if case let .failure(error) = $0 {
