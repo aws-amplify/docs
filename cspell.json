@@ -1243,7 +1243,9 @@
     "amplifyjsapp",
     "lightgray",
     "inappbrowser",
-    "withoauth"
+    "withoauth",
+    "myawesomekey",
+    "myvalue"
   ],
   "flagWords": ["hte"]
 }
