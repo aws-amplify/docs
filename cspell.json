@@ -467,6 +467,7 @@
     "DeltaSync",
     "Deltum",
     "deserialize",
+    "destinationpath",
     "details.getDestination",
     "dev",
     "devcorpuser",

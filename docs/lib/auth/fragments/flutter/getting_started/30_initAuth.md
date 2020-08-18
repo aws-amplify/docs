@@ -3,5 +3,5 @@ Add the desired Auth plugin along with any other plugins you added per the instr
 ```dart
 // Add this line, to include the Auth plugin.
 AmplifyAuthCognito auth = new AmplifyAuthCognito();
-amplify.addPlugin([auth]);
+amplify.addPlugin(authPlugins: [auth]);
 ```

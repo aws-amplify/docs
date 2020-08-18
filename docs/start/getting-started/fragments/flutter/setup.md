@@ -7,7 +7,7 @@
 
 ## Prerequisites
 
-- Install [Flutter](https://flutter.dev/docs/get-started/install) version 1.17.0 or higher
+- Install [Flutter](https://flutter.dev/docs/get-started/install) version 1.20.0 or higher
     
     These steps will also guide you through downloading and setting up Android Studio and XCode for Flutter.   
 
@@ -15,12 +15,11 @@
 
     This tutorial assumes you are using AndroidStudio to develop your app. 
 
-- Install [Amplify CLI](~/cli/cli.md) version 4.21.0 or later by running:
+- Install the Amplify-Flutter Developer Preview version of the [Amplify CLI](~/cli/cli.md) by running:
 
     ```bash
-    npm install -g @aws-amplify/cli
+    npm install -g @aws-amplify/cli@flutter-preview
     ```
-
 
 
 ## Set up your application

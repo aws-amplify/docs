@@ -3,8 +3,6 @@ To initialize the Amplify Auth and Analytics categories you call `Amplify.addPlu
 Add the following code to the `initState` method 
 
 
-
-
 ```dart
 Amplify.addPlugin(new AWSCognitoAuthPlugin());
 Amplify.addPlugin(new AmplifyAnalyticsPinpointPlugin());
