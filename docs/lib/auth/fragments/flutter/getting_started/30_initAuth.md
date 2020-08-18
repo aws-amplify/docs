@@ -2,6 +2,6 @@ Add the Auth plugin, along with any other plugins you may have added as describe
 
 ```dart
 // Add this line, to include the Auth plugin.
-AmplifyAuthCognito auth = new AmplifyAuthCognito();
+AmplifyAuthCognito auth = AmplifyAuthCognito();
 amplify.addPlugin(authPlugins: [auth]);
 ```

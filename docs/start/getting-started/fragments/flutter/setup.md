@@ -20,6 +20,7 @@
     ```bash
     npm install -g @aws-amplify/cli@flutter-preview
     ```
+    An existing install of @aws-amplify/cli will not work, you need to install the flutter-preview version.
 
 
 ## Set up your application
@@ -58,9 +59,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  amplify_core: ^1.0.0
-  amplify_auth_cognito: ^1.0.0
-  amplify_analytics_pinpoint: ^1.0.0
+  amplify_core: '<1.0.0'
+  amplify_auth_cognito: '<1.0.0'
+  amplify_analytics_pinpoint: '<1.0.0'
 ```
 
 1. Run **Flutter Pub Get**

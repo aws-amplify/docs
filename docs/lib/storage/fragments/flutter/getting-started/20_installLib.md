@@ -4,6 +4,6 @@ Add the following dependency to your **app**'s `pubspec.yaml` along with others 
 dependencies:
   flutter:
     sdk: flutter
-  amplify_storage_s3: ^1.0.0
+  amplify_storage_s3: '<1.0.0'
 }
 ```

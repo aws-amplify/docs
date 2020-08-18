@@ -9,9 +9,9 @@ dependencies:
 
   # Should already be added during Project Setup walkthrough 
   amplify_core:
-    path: ^1.0.0
+    path: '<1.0.0'
 
   # Add these lines in `dependencies` 
   amplify_analytics_pinpoint:
-    path: ^1.0.0
+    path: '<1.0.0'
 ```

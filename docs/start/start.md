@@ -5,7 +5,7 @@ disableTOC: true
 filterKey: integration
 ---
 
-The open-source Amplify Framework provides the following products to build fullstack iOS, Android, Web, and React Native apps:
+The open-source Amplify Framework provides the following products to build fullstack iOS, Android, Flutter, Web, and React Native apps:
 - **Amplify [CLI](~/cli/cli.md)** - Configure all the services needed to power your backend through a simple command line interface.
 - **Amplify [Libraries](~/lib/lib.md)** - Use case-centric client libraries to integrate your app code with a backend using declarative interfaces.
 - **Amplify [UI Components](~/ui/ui.md)** - UI libraries for React, React Native, Angular, Ionic and Vue.
