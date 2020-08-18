@@ -2,6 +2,7 @@
   "title": "Project Setup",
   "items": [
     "prereq",
-    "create-application"
+    "create-application",
+    "combine"
   ]
 }

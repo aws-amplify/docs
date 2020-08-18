@@ -89,6 +89,7 @@ A channel is a logical group name that you use to organize messages and listen o
 * pubsub
 * storage
 * xr
+* datastore
 
 ### Authentication Events
 

@@ -42,39 +42,80 @@ Run `amplify push` to create the resources in the cloud
 
 You can identify real world objects such as chairs, desks, etc. which are referred to as “labels” by using the following sample code:
 
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
 ```swift
 func detectLabels(_ image:URL) {
-	//For offline calls only to Core ML models replace `options` in the call below with this instance:
-	// let options = PredictionsIdentifyRequest.Options(defaultNetworkPolicy: .offline, pluginOptions: nil)
-	_ = Amplify.Predictions.identify(type: .detectLabels(.labels), image: image, options: PredictionsIdentifyRequest.Options(), listener: { (event) in
-
-		switch event {
-		case .completed(let result):
-			let data = result as! IdentifyLabelsResult
-			print(data.labels)
-			//use the labels in your app as you like or display them
-		case .failed(let error):
-			print(error)
-		default:
-			print("")
-		}
-	})
+    // For offline calls only to Core ML models replace `options` in the call below with this instance:
+    // let options = PredictionsIdentifyRequest.Options(defaultNetworkPolicy: .offline, pluginOptions: nil)
+    _ = Amplify.Predictions.identify(type: .detectLabels(.labels), image: image) { event in
+        switch event {
+        case let .success(result):
+            let data = result as! IdentifyLabelsResult
+            print(data.labels)
+            // Use the labels in your app as you like or display them
+        case let .failure(error):
+            print(error)
+        }
+    }
 }
 
-//To identify labels with unsafe content
+// To identify labels with unsafe content
 func detectLabels(_ image:URL) {
-	_ = Amplify.Predictions.identify(type: .detectLabels(.all), image: image, options: PredictionsIdentifyRequest.Options(), listener: { (event) in
-
-		switch event {
-		case .completed(let result):
-			let data = result as! IdentifyLabelsResult
-			print(data.labels)
-			//use the labels in your app as you like or display them
-		case .failed(let error):
-			print(error)
-		default:
-			print("")
-		}
-	})
+    _ = Amplify.Predictions.identify(type: .detectLabels(.all), image: image) { event in
+        switch event {
+        case let .success(result):
+            let data = result as! IdentifyLabelsResult
+            print(data.labels)
+            // Use the labels in your app as you like or display them
+        case let .failure(error):
+            print(error)
+        }
+    }
 }
 ```
+
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+func detectLabels(_ image:URL) -> AnyCancellable {
+    // For offline calls only to Core ML models replace `options` in the call below with this instance:
+    // let options = PredictionsIdentifyRequest.Options(defaultNetworkPolicy: .offline, pluginOptions: nil)
+    Amplify.Predictions.identify(type: .detectLabels(.labels), image: image)
+        .resultPublisher
+        .sink {
+            if case let .failure(error) = $0 {
+                print(error)
+            }
+        }
+        receiveValue: { result in
+            let data = result as! IdentifyLabelsResult
+            print(data.labels)
+            // Use the labels in your app as you like or display them
+        }
+}
+
+// To identify labels with unsafe content
+func detectLabels(_ image:URL) -> AnyCancellable {
+    Amplify.Predictions.identify(type: .detectLabels(.all), image: image)
+        .resultPublisher
+        .sink {
+            if case let .failure(error) = $0 {
+                print(error)
+            }
+        }
+        receiveValue: { result in
+            let data = result as! IdentifyLabelsResult
+            print(data.labels)
+            // Use the labels in your app as you like or display them
+        }
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>

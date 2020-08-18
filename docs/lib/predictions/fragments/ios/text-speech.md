@@ -37,31 +37,81 @@ Run `amplify push` to create the resources in the cloud
 
 Here is an example of converting text to speech. In order to override any choices you made while adding this resource using the Amplify CLI, you can pass in a voice in the options object as shown below.
 
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
 ```swift
 import Amplify
 import AVFoundation
 
-...
+//...
 
 var player: AVAudioPlayer?
 
-...
+//...
 
 func textToSpeech(text: String) {
-  let options = PredictionsTextToSpeechRequest.Options(voiceType: .englishFemaleIvy, pluginOptions: nil)
+    let options = PredictionsTextToSpeechRequest.Options(
+        voiceType: .englishFemaleIvy,
+        pluginOptions: nil
+    )
 
-  _ = Amplify.Predictions.convert(textToSpeech: text, options: options, listener: { (event) in
-    switch event {
-    case .completed(let result):
-      print(result.audioData)
-      self.player = try? AVAudioPlayer(data: result.audioData)
-      if let player = self.player {
-        player.play()
-      }
-      default:
-        print("")
-      }
-    })
+    _ = Amplify.Predictions.convert(textToSpeech: text, options: options) { event in
+        switch event {
+        case let .success(result):
+            print(result.audioData)
+            self.player = try? AVAudioPlayer(data: result.audioData)
+            if let player = self.player {
+                player.play()
+            }
+        case let .failure(error):
+            print(error)
+        }
+    }
 }
 ```
+
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+import Amplify
+import AVFoundation
+
+//...
+
+var player: AVAudioPlayer?
+var textToSpeechSink: AnyCancellable?
+
+//...
+
+func textToSpeech(text: String) {
+    let options = PredictionsTextToSpeechRequest.Options(
+        voiceType: .englishFemaleIvy,
+        pluginOptions: nil
+    )
+
+    textToSpeechSink = Amplify.Predictions.convert(textToSpeech: text, options: options)
+        .resultPublisher
+        .sink {
+            if case let .failure(error) = $0 {
+                print(error)
+            }
+        }
+        receiveValue: { result in
+            print(result.audioData)
+            self.player = try? AVAudioPlayer(data: result.audioData)
+            if let player = self.player {
+                player.play()
+            }
+        }
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>
+
 As a result of running this code, you will hear audio of the text being emitted from your device.

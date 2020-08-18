@@ -40,44 +40,72 @@ Amplify will make calls to both Amazon Textract and Rekognition depending on the
 
 If you are detecting text from an image you would send in `.plain` as your text format as shown below.  Using `.plain` with `PredictionsIdentifyRequest.Options()` combines results from on device results from Core ML and AWS services to yield more accurate results.
 
-``` swift
-    func detectText(_ image: URL, completion: @escaping ([IdentifiedWord]) -> Void) {
-        _ = Amplify.Predictions.identify(type: .detectText(.plain), image: image, options: PredictionsIdentifyRequest.Options(), listener: { (event) in
-            switch event {
-            case .completed(let result):
-                let data = result as! IdentifyTextResult
-                completion(data.words!)
-            case .failed(let error):
-                print(error)
-            default:
-                print("")
-            }
-        })
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
+```swift
+func detectText(_ image: URL, completion: @escaping ([IdentifiedWord]) -> Void) {
+    _ = Amplify.Predictions.identify(type: .detectText(.plain), image: image) { event in
+        switch event {
+        case let .success(result):
+            let data = result as! IdentifyTextResult
+            completion(data.words!)
+        case let .failure(error):
+            print(error)
+        }
     }
+}
 ```
 
-**Note**: Bounding boxes in IdentifyTextResult are returned as ratios. If you would like to place bounding boxes on individual recognized words that appear in the image, use the following method to calculate a frame for a single bounding box.
-```swift 
-    @IBAction func didTapButton(_ sender: Any) {
-        let imageURL = URL(string: "https://imageWithText")
-        let data = try? Data(contentsOf: imageURL!)
-        let image = UIImage(data: data!)
-        let imageView = UIImageView(image: image)
-        self.view.addSubview(imageView)
+</amplify-block>
 
-        detectText(imageURL!, completion: { words in
-            let word = words.first!
-            DispatchQueue.main.async {
-                let xBoundingBox = word.boundingBox.origin.x * imageView.frame.size.width
-                let yBoundingBox = word.boundingBox.origin.y * imageView.frame.size.height
-                let widthBoundingBox = word.boundingBox.size.width * imageView.frame.size.width
-                let heightBoundingBox = word.boundingBox.size.height * imageView.frame.size.height
-                let boundingBox = UIView(frame: CGRect(x: xBoundingBox, y: yBoundingBox, width: widthBoundingBox, height: heightBoundingBox))
-                boundingBox.backgroundColor = .red
-                imageView.addSubview(boundingBox)
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+func detectText(_ image: URL) -> AnyCancellable {
+    Amplify.Predictions.identify(type: .detectText(.plain), image: image)
+        .resultPublisher
+        .sink {
+            if case let .failure(error) = $0 {
+                print(error)
             }
-        })
-    }
+        }
+        receiveValue: { result in
+            let data = result as! IdentifyTextResult
+            print(data.words)
+        }
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>
+
+
+**Note**: Bounding boxes in IdentifyTextResult are returned as ratios. If you would like to place bounding boxes on individual recognized words that appear in the image, use the following method to calculate a frame for a single bounding box.
+
+```swift 
+@IBAction func didTapButton(_ sender: Any) {
+    let imageURL = URL(string: "https://imageWithText")
+    let data = try? Data(contentsOf: imageURL!)
+    let image = UIImage(data: data!)
+    let imageView = UIImageView(image: image)
+    self.view.addSubview(imageView)
+
+    detectText(imageURL!, completion: { words in
+        let word = words.first!
+        DispatchQueue.main.async {
+            let xBoundingBox = word.boundingBox.origin.x * imageView.frame.size.width
+            let yBoundingBox = word.boundingBox.origin.y * imageView.frame.size.height
+            let widthBoundingBox = word.boundingBox.size.width * imageView.frame.size.width
+            let heightBoundingBox = word.boundingBox.size.height * imageView.frame.size.height
+            let boundingBox = UIView(frame: CGRect(x: xBoundingBox, y: yBoundingBox, width: widthBoundingBox, height: heightBoundingBox))
+            boundingBox.backgroundColor = .red
+            imageView.addSubview(boundingBox)
+        }
+    })
+}
 ```
 Additionally it's important to note that Rekognition places (0,0) at the top left and Core ML places (0,0) at the bottom left. In order to handle this issue, we have flipped the y axis of the CoreML bounding box for you since iOS starts (0,0) from the top left.
 
@@ -91,18 +119,44 @@ let options = PredictionsIdentifyRequest.Options(defaultNetworkPolicy: .offline,
 
 Sending in `.form` or `.table` or `.all` will do document analysis as well as text detection to detect tables and forms in a document. See below for an example with `.form`.
 
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
 ```swift
 func detectText(_ image: URL) {
-	_ = Amplify.Predictions.identify(type: .detectText(.form), image: image, options: PredictionsIdentifyRequest.Options(), listener: { (event) in
-		switch event {
-		case .completed(let result):
-			let data = result as! IdentifyDocumentTextResult
-			print(data)
-		case .failed(let error):
-			print(error)
-		default:
-			print("")
-		}
-	})
+    _ = Amplify.Predictions.identify(type: .detectText(.form), image: image) { event in
+        switch event {
+        case let .success(result):
+            let data = result as! IdentifyDocumentTextResult
+            print(data)
+        case let .failure(error):
+            print(error)
+        }
+    }
 }
 ```
+
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+func detectText(_ image: URL) -> AnyCancellable {
+    Amplify.Predictions.identify(type: .detectText(.form), image: image)
+        .resultPublisher
+        .sink {
+            if case let .failure(error) = $0 {
+                print(error)
+            }
+        }
+        receiveValue: { result in
+            let data = result as! IdentifyDocumentTextResult
+            print(data)
+        }
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>

@@ -285,11 +285,55 @@ directive @key(fields: [String!]!, name: String, queryField: String) on OBJECT
 
 | Argument  | Description  |
 |---|---|
-| fields  | A list of fields that should comprise the @key, used in conjunction with an @model type. The first field in the list will always be the **HASH** key. If two fields are provided the second field will be the **SORT** key. If more than two fields are provided, a single composite **SORT** key will be created from a combination of `fields[1...n]`. All generated GraphQL queries & mutations will be updated to work with custom `@key` directives. |
-| name  | When provided, specifies the name of the secondary index. When omitted, specifies that the @key is defining the primary index. You may have at most one primary key per table and therefore you may have at most one @key that does not specify a **name** per @model type.  |
+| fields  | A list of fields that should comprise the @key, used in conjunction with an `@model` type. The first field in the list will always be the **HASH** key. If two fields are provided the second field will be the **SORT** key. If more than two fields are provided, a single composite **SORT** key will be created from a combination of `fields[1...n]`. All generated GraphQL queries & mutations will be updated to work with custom `@key` directives. |
+| name  | When provided, specifies the name of the secondary index. When omitted, specifies that the `@key` is defining the primary index. You may have at most one primary key per table and therefore you may have at most one `@key` that does not specify a **name** per `@model` type.  |
 | queryField  | When defining a secondary index (by specifying the *name* argument), this specifies that a new top level query field that queries the secondary index should be generated with the given name.  |
 
 ### How to use @key
+
+For an introduction to the `@key` directive, let's start by looking a basic `Todo` app schema with only an `@model` directive.
+
+```graphql
+type Todo @model {
+  id: ID!
+  name: String!
+  status: String!
+}
+```
+
+By default, the `@model` directive will enable the following 2 data access patterns:
+
+1. `getTodo` - Get a Todo by `id`
+2. `listTodos` - Query all Todos
+
+You will often need additional data access patterns. For example in a Todo app you may want to fetch Todos by `status`. The `@key` directive would allow you to add this additional data access pattern with a single new line of code:
+
+```graphql
+type Todo @model
+  @key(name: "todosByStatus", fields: ["status"], queryField: "todosByStatus") {
+  id: ID!
+  name: String!
+  status: String!
+}
+```
+
+Using the new `todosByStatus` query you can fetch todos by `status`:
+
+```graphql
+query todosByStatus {
+  todosByStatus(status: "completed") {
+    items {
+      id
+      name
+      status
+    }
+  }
+}
+```
+
+Next, let's take a closer look at how this works by examining a few more common data access patterns and how to model them.
+
+### Designing Data Models using @key
 
 When designing data models using the `@key` directive, the first step should be to write down your application's expected access patterns. For example, let's say you were building an e-commerce application
 and needed to implement access patterns like:
@@ -301,15 +345,18 @@ and needed to implement access patterns like:
 
 Let's take a look at how you would define custom keys to implement these access patterns in your `schema.graphql`.
 
+#### Get customers by email.
+
 ```graphql
-# Get customers by email.
 type Customer @model @key(fields: ["email"]) {
   email: String!
   username: String
 }
 ```
 
-A `@key` without a *name* specifies the key for the DynamoDB table's primary index. You may only provide 1 `@key` without a *name* per @model type. The example above shows the simplest case where you are specifying that the table's primary index should have a simple key where the hash key is *email*. This allows you to get unique customers by their *email*.
+A `@key` without a *name* specifies the key for the DynamoDB table's primary index. You may only provide 1 `@key` without a *name* per `@model` type.
+
+The example above shows the simplest case where you are specifying that the table's primary index should have a simple key where the hash key is *email*. This allows you to get unique customers by their *email*.
 
 ```graphql
 query GetCustomerById {
@@ -322,8 +369,9 @@ query GetCustomerById {
 
 This is great for simple lookup operations, but what if you need to perform slightly more complex queries?
 
+#### Get orders by customer email by createdAt.
+
 ```graphql
-# Get orders by customer by createdAt.
 type Order @model @key(fields: ["customerEmail", "createdAt"]) {
     customerEmail: String!
     createdAt: String!
@@ -331,7 +379,7 @@ type Order @model @key(fields: ["customerEmail", "createdAt"]) {
 }
 ```
 
-This @key above allows you to efficiently query *Order* objects by both a *customerEmail* and the *createdAt* time stamp. The @key above creates a DynamoDB table where the primary index's hash key is *customerEmail* and the sort key is *createdAt*. This allows you to write queries like this:
+This `@key` above allows you to efficiently query *Order* objects by both a *customerEmail* and the *createdAt* time stamp. The `@key` above creates a DynamoDB table where the primary index's hash key is *customerEmail* and the sort key is *createdAt*. This allows you to write queries like this:
 
 ```graphql
 query ListOrdersForCustomerIn2019 {
@@ -345,7 +393,9 @@ query ListOrdersForCustomerIn2019 {
 }
 ```
 
-The query above shows how you can use compound key structures to implement more powerful query patterns on top of DynamoDB but you are not quite done yet. Given that DynamoDB limits you to query by at most two attributes at a time, the @key directive helps by streamlining the process of creating composite sort keys such that you can support querying by more than two attributes at a time. For example, you can implement “Get items by order, status, and createdAt” as well as “Get items by status and createdAt” for a single @model with this schema.
+The query above shows how you can use compound key structures to implement more powerful query patterns on top of DynamoDB but you are not quite done yet.
+
+Given that DynamoDB limits you to query by at most two attributes at a time, the `@key` directive helps by streamlining the process of creating composite sort keys such that you can support querying by more than two attributes at a time. For example, you can implement “Get items by `orderId`, `status`, and `createdAt”` as well as “Get items by `status` and `createdAt”` for a single `@model` with this schema.
 
 ```graphql
 type Item @model
@@ -364,7 +414,7 @@ enum Status {
 }
 ```
 
-The primary @key with 3 fields performs a bit more magic than the 1 and 2 field variants. The first field orderId will be the **HASH** key as expected, but the **SORT** key will be a new composite key named *status#createdAt* that is made of the *status* and *createdAt* fields on the @model. The @key directive creates the table structures and also generates resolvers that inject composite key values for you during queries and mutations.
+The primary `@key` with 3 fields performs a bit more magic than the 1 and 2 field variants. The first field orderId will be the **HASH** key as expected, but the **SORT** key will be a new composite key named *status#createdAt* that is made of the *status* and *createdAt* fields on the @model. The `@key` directive creates the table structures and also generates resolvers that inject composite key values for you during queries and mutations.
 
 Using this schema, you can query the primary index to get IN_TRANSIT items created in 2019 for a given order.
 
@@ -403,9 +453,9 @@ query ItemsByStatus {
 There are a few important things to think about when making changes to APIs using `@key`. When you need to enable a new access pattern or change an existing access pattern you should follow these steps.
 
 1. Create a new index that enables the new or updated access pattern.
-2. If adding a @key with 3 or more fields, you will need to back-fill the new composite sort key for existing data. With a `@key(fields: ["email", "status", "date"])`, you would need to backfill the `status#date` field with composite key values made up of each object's *status* and *date* fields joined by a `#`. You do not need to backfill data for @key directives with 1 or 2 fields.
+2. If adding an `@key` with 3 or more fields, you will need to back-fill the new composite sort key for existing data. With a `@key(fields: ["email", "status", "date"])`, you would need to backfill the `status#date` field with composite key values made up of each object's *status* and *date* fields joined by a `#`. You do not need to backfill data for `@key` directives with 1 or 2 fields.
 3. Deploy your additive changes and update any downstream applications to use the new access pattern.
-4. Once you are certain that you do not need the old index, remove its @key and deploy the API again.
+4. Once you are certain that you do not need the old index, remove its `@key` and deploy the API again.
 
 ### Combining @key with @connection
 
@@ -427,7 +477,7 @@ based on attributes found in the parent type.
 ```graphql
 # When applied to a type, augments the application with
 # owner and group-based authorization rules.
-directive @auth(rules: [AuthRule!]!) on OBJECT, FIELD_DEFINITION
+directive @auth(rules: [AuthRule!]!) on OBJECT | FIELD_DEFINITION
 input AuthRule {
   allow: AuthStrategy!
   provider: AuthProvider
@@ -729,40 +779,6 @@ mutation CreateDraft {
 }
 ```
 
-To set the owner to null with the current schema, you would still need to be in the editors list:
-
-```graphql
-mutation CreateDraft {
-  createDraft(
-    input: {
-      title: "A new draft",
-      editors: ["someuser@my-domain.com"],
-      owner: null
-    }
-  ) {
-    id
-    title
-    owner
-    editors
-  }
-}
-```
-
-Would return:
-
-```json
-{
-    "data": {
-        "createDraft": {
-            "id": "...",
-            "title": "A new draft",
-            "owner": null,
-            "editors": ["someuser@my-domain.com"]
-        }
-    }
-}
-```
-
 ### Static group authorization
 
 Static group authorization allows you to protect `@model` types by restricting access
@@ -902,7 +918,7 @@ type Post @model @auth(rules: [{ allow: public }]) {
 }
 ```
 
-The `public` authorization specifies that everyone will be allowed to access the API, behind the scenes the API will be protected with an API Key. To be able to use `public` the API must have API Key configured.
+The `public` authorization specifies that everyone will be allowed to access the API, behind the scenes the API will be protected with an API Key. To be able to use `public` the API must have API Key configured. For local execution, this key resides in the file `aws-exports.js` for the JavaScript library and `amplifyconfiguration.json` for Android and iOS under the key `aws_appsync_apiKey`.
 
 ```graphql
 # public authorization with provider override
@@ -1074,6 +1090,10 @@ Prior to version 2.0 of the CLI, `@auth` rules did not apply to subscriptions. I
 
 When `@auth` is used subscriptions have a few subtle behavior differences than queries and mutations based on their event based nature. When protecting a model using the owner auth strategy, each subscription request will **require** that the user is passed as an argument to the subscription request. If the user field is not passed, the subscription connection will fail. In the case where it is passed, the user will only get notified of updates to records for which they are the owner.
 
+<amplify-callout warning>
+ Subscription filtering uses data passed from mutation to do the filtering. If a mutation does not include `owner` field in the selection set of a owner based auth, Subscription message won't be fired for that mutation.
+</amplify-callout>
+
 Alternatively, when the model is protected using the static group auth strategy, the subscription request will only succeed if the user is in an allowed group. Further, the user will only get notifications of updates to records if they are in an allowed group. Note: You don't need to pass the user as an argument in the subscription request, since the resolver will instead check the contents of your JWT token.
 
 <amplify-callout>
@@ -1232,7 +1252,7 @@ type Todo
 {
   id: ID!
   owner: String
-  updatedAt: AWSDateTime @auth(rules: [{ allow: groups, groups: ["ForbiddenGroup"] }])
+  updatedAt: AWSDateTime! @auth(rules: [{ allow: groups, groups: ["ForbiddenGroup"], operations: [] }])
   content: String! @auth(rules: [{ allow: owner, operations: [update] }])
 }
 ```
@@ -1718,7 +1738,7 @@ type Team @model {
 }
 ```
 
-In this case, the Project type has a `teamID` field added as an identifier for the team that the project belongs to. @connection can then get the connected Team object by querying the Team table with this `teamID`.
+In this case, the Project type has a `teamID` field added as an identifier for the team that the project belongs to. `@connection` can then get the connected Team object by querying the Team table with this `teamID`.
 
 After it's transformed, you can create projects and query the connected team as follows:
 
@@ -1735,11 +1755,13 @@ mutation CreateProject {
 }
 ```
 
-> **Note** The **Project.team** resolver is configured to work with the defined connection. This is done with a query on the Team table where `teamID` is passed in as an argument to the mutation.
+> **Note** The **Project.team** resolver is configured to work with the defined connection. This is done with a query on the Team table where `teamID` is passed in as an argument.
 
-Likewise, you can make a simple one-to-many connection as follows for a post that has many comments:
+A Has One @connection can only reference the primary index of a model (ie. it cannot specify a "keyName" as described below in the Has Many section).
 
 ### Has many
+
+The following schema defines a Post that can have many comments:
 
 ```graphql
 type Post @model {
@@ -1756,7 +1778,7 @@ type Comment @model
 }
 ```
 
-Note how a one-to-many connection needs a @key that allows comments to be queried by the postID and the connection uses this key to get all comments whose postID is the id of the post was called on.
+Note how a one-to-many connection needs an `@key` that allows comments to be queried by the postID and the connection uses this key to get all comments whose postID is the id of the post was called on.
 After it's transformed, you can create comments and query the connected Post as follows:
 
 ```graphql
@@ -1968,13 +1990,13 @@ query GetPostWithEditorsWithPosts {
 
 #### Alternative definition
 
-The above definition is the recommended way to create relationships between model types in your API. This involves defining index structures using `@key` and connection resolvers using `@connection`. There is an older parameterization of @connection that creates indices and connection resolvers that is still functional for backwards compatibility reasons. It is recommended to use @key and the new @connection via the fields argument.
+The above definition is the recommended way to create relationships between model types in your API. This involves defining index structures using `@key` and connection resolvers using `@connection`. There is an older parameterization of `@connection` that creates indices and connection resolvers that is still functional for backwards compatibility reasons. It is recommended to use `@key` and the new `@connection` via the fields argument.
 
 ```
 directive @connection(name: String, keyField: String, sortField: String, limit: Int) on FIELD_DEFINITION
 ```
 
-This parameterization is not compatible with `@key`. See the parameterization above to use @connection with indexes created by @key.
+This parameterization is not compatible with `@key`. See the parameterization above to use `@connection` with indexes created by @key.
 
 ### Limit
 
@@ -2092,12 +2114,6 @@ The `@versioned` directive manipulates resolver mapping templates and will store
 
 The `@searchable` directive handles streaming the data of an `@model` object type to Amazon Elasticsearch Service and configures search resolvers that search that information.
 
-> **Note**: `@searchable` is not compatible with DataStore but you can use it with the API category.
-
-> **Note**: `@searchable` is not compatible with Amazon ElasticSearch t2.micro instance as it only works with ElasticSearch version 1.5 and 2.3 and Amplify CLI only supports instances with ElasticSearch version >= 6.x.
-
-> **Note**: Support for adding the `@searchable` directive does not yet provide automatic indexing for any existing data to Elasticsearch. View the feature request [here](https://github.com/aws-amplify/amplify-cli/issues/98).
-
 > **Migration warning**: You might observe duplicate records on search operations, if you deployed your GraphQL schema using CLI version older than 4.14.1 and have thereafter updated your schema & deployed the changes with a CLI version between 4.14.1 - 4.16.1.
 Please use this Python [script](https://github.com/aws-amplify/amplify-cli/blob/master/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) to remove the duplicate records from your Elasticsearch cluster. [This script](https://github.com/aws-amplify/amplify-cli/blob/master/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) indexes data from your DynamoDB Table to your Elasticsearch Cluster. View an example of how to call the script with the following parameters [here](https://aws-amplify.github.io/docs/cli-toolchain/graphql#example-of-calling-the-script).
 
@@ -2212,6 +2228,13 @@ Here is a complete list of searchable operations per GraphQL type supported as o
 | Int     | `ne`, `gt`, `lt`, `gte`, `lte`, `eq`, `range`      |
 | Float | `ne`, `gt`, `lt`, `gte`, `lte`, `eq`, `range`      |
 | Boolean | `eq`, `ne`      |
+
+### Known limitations
+
+- `@searchable` is not compatible with DataStore but you can use it with the API category.
+- `@searchable` is not compatible with Amazon ElasticSearch t2.micro instance as it only works with ElasticSearch version 1.5 and 2.3 and Amplify CLI only supports instances with ElasticSearch version >= 6.x.
+- `@searchable` is not compatible with the @connection directive
+- Support for adding the `@searchable` directive does not yet provide automatic indexing for any existing data to Elasticsearch. View the feature request [here](https://github.com/aws-amplify/amplify-cli/issues/98).
 
 ### Backfill your Elasticsearch index from your DynamoDB table
 

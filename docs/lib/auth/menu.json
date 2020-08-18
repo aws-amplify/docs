@@ -21,6 +21,7 @@
     "password_management",
     "signOut",
     "access_credentials",
-    "escapehatch"
+    "escapehatch",
+    "existing-resources"
   ]
 }
