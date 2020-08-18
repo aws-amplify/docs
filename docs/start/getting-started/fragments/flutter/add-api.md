@@ -21,18 +21,26 @@ We will now use the Amplify CLI to configure the AWS Cloud Resources that will p
     amplify init
     ```
 
-    Fill in the following values when running init: 
+    Enter the following when prompted:
 
-    ```
-    ? Choose your default editor: Visual Studio Code
-    ? Choose the type of app that you're building flutter
-    Please tell us about your project
-        :warning:  Flutter project support in the Amplify CLI is in DEVELOPER PREVIEW.
-        Only the following categories are supported:
-            * Auth
-            * Analytics
-            * Storage
-    ? Where do you want to store your configuration file? ./lib/
+    ```console
+    ? Enter a name for the environment
+        `dev`
+    ? Choose your default editor:
+        `IntelliJ IDEA`
+    ? Choose the type of app that you're building: 
+        'flutter'
+    ⚠️  Flutter project support in the Amplify CLI is in DEVELOPER PREVIEW.
+    Only the following categories are supported:
+     * Auth
+     * Analytics
+     * Storage
+    ? Where do you want to store your configuration file? 
+        ./lib/
+    ? Do you want to use an AWS profile?
+        `Yes`
+    ? Please choose the profile you want to use
+        `default`
     ```
 
 3. Configure Amplify to manage cloud resources on your behalf. This step will configure a new AWS user in your account for Amplify. Open up a terminal window. You can use an external terminal or the integrated terminal in Android Studio. In the terminal, run:

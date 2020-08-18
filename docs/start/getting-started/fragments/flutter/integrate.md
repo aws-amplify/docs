@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
   bool _amplifyConfigured = false;
 
   // Instantiate Amplify
-  Amplify amplifyInstance = new Amplify();
+  Amplify amplifyInstance = Amplify();
 
   @override
   void initState() {
@@ -76,8 +76,8 @@ void _configureAmplify() async {
   if (!mounted) return;
 
   // Add Pinpoint and Cognito Plugins
-  AmplifyAnalyticsPinpointPlugin analyticsPlugin = new AmplifyAnalyticsPinpointPlugin();
-  AmplifyAuthCognito authPlugin = new AmplifyAuthCognito();
+  AmplifyAnalyticsPinpointPlugin analyticsPlugin = AmplifyAnalyticsPinpointPlugin();
+  AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
   amplifyInstance.addPlugin(authPlugins: [authPlugin]);
   amplifyInstance.addPlugin(analyticsPlugins: [analyticsPlugin]);
 
