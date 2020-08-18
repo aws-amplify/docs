@@ -1,7 +1,4 @@
-To record an event, create an `AnalyticsEvent` and call `Amplify.Analytics.recordEvent()` to send it:
-
-
-
+To record an event, create an `AnalyticsEvent` and call `Amplify.Analytics.recordEvent()`:
 
 ```dart
 AnalyticsEvent event = AnalyticsEvent("test");

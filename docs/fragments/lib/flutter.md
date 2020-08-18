@@ -1,6 +1,6 @@
 <amplify-callout warning>
 
-Welcome to Flutter docs - currently under construction
+Welcome to Flutter Developer Preview documentation.
 
 </amplify-callout>
 

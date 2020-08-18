@@ -1,4 +1,6 @@
-In your Flutter project directory, open **pubspec.yaml**.  You will already have configured Amplify by following the steps in the Project setup walkthrough. 
+In your Flutter project directory, open **pubspec.yaml**.  
+
+> You will already have configured Amplify by following the steps in the project setup. 
 
 Add Analytics by adding these libraries into your dependencies block: 
 

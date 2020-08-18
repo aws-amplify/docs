@@ -1,4 +1,4 @@
-To initialize the Amplify Auth and Analytics categories you call `Amplify.addPlugin()` method for each category. To complete initialization call `Amplify.configure()`.
+To initialize the Amplify Auth and Analytics categories call the `Amplify.addPlugin()` method for each category. To complete initialization call `Amplify.configure()`.
 
 Add the following code to the `initState` method 
 

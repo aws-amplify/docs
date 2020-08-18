@@ -1,4 +1,4 @@
-Add the desired Auth plugin along with any other plugins you added per the instructions in the **Prerequisites** section.  Currently, the only officially supported auth plugin is amplify-auth-cognito.
+Add the Auth plugin, along with any other plugins you may have added as described in the **Prerequisites** section.
 
 ```dart
 // Add this line, to include the Auth plugin.

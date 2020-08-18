@@ -1,4 +1,4 @@
-This call sends information that you have specified about the user to Amazon Pinpoint. This could be for an unauthenticated or an authenticated user.
+This call sends information that you have specified about a user to Amazon Pinpoint. This could be for an unauthenticated (guest) or an authenticated user.
 
 You can get the current user's ID from the Amplify Auth category as shown below. Be sure you have it added and setup per the Auth category documentation.
 

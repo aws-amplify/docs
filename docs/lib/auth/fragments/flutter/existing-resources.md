@@ -1,4 +1,4 @@
-Existing Amazon Cognito identity pools and user pools can be used with the Amplify Libraries by referencing them in your `amplifyconfiguration.dart` file.
+Existing Amazon Cognito identity and user pools can be used with the Amplify Libraries by referencing them in your `amplifyconfiguration.dart` file.
 
 ```dart
 const amplifyconfig = ''' {
