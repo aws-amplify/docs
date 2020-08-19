@@ -157,16 +157,21 @@ If you've setup federation through third party providers, you would need to upda
 <amplify-block-switcher>
 <amplify-block name="Version 2.18.0 and above">
 
-1. Add the value for your redirect URI scheme ("myapp" in our example) to your app's `build.gradle` file as follows:
+1. Add the following activity to your app's `AndroidManifest.xml` file, replacing `myapp` with
+whatever value you used for your redirect URI prefix:
 
-  ```gradle
-  android {
-      defaultConfig {
-          manifestPlaceholders = [
-              'authRedirectScheme': 'myapp'
-          ]
-      }
-  }
+  ```xml
+  <activity
+      android:name="com.amazonaws.mobileconnectors.cognitoauth.activities.CustomTabsRedirectActivity">
+      <intent-filter>
+          <action android:name="android.intent.action.VIEW" />
+
+          <category android:name="android.intent.category.DEFAULT" />
+          <category android:name="android.intent.category.BROWSABLE" />
+
+          <data android:scheme="myapp" />
+      </intent-filter>
+  </activity>
   ```
 
 2. Add the following result handler to whichever `Activity` you are calling HostedUI from:
