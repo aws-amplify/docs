@@ -4,7 +4,7 @@
 
 ```swift
 func signOutLocally() {
-    _ = Amplify.Auth.signOut() { result in
+    Amplify.Auth.signOut() { result in
         switch result {
         case .success:
             print("Successfully signed out")

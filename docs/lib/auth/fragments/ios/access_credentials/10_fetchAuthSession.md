@@ -4,7 +4,7 @@ you can access these implementation details by casting the result of fetchAuthSe
 ```swift
 import AWSPluginsCore
 
-_ = Amplify.Auth.fetchAuthSession { result in
+Amplify.Auth.fetchAuthSession { result in
     do {
         let session = try result.get()
 

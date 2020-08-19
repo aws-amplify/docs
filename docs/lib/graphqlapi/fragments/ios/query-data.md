@@ -8,7 +8,7 @@ Now that you were able to make a mutation, take the `Id` that was printed out an
 
 ```swift
 func getTodo() {
-    _ = Amplify.API.query(request: .get(Todo.self, byId: "9FCF5DD5-1D65-4A82-BE76-42CB438607A0")) { event in
+    Amplify.API.query(request: .get(Todo.self, byId: "9FCF5DD5-1D65-4A82-BE76-42CB438607A0")) { event in
         switch event {
         case .success(let result):
             switch result {
@@ -73,7 +73,7 @@ You can get the list of items that match a condition that you specify using the 
 func listTodos() {
     let todo = Todo.keys
     let predicate = todo.name == "my first todo" && todo.description == "todo description"
-    _ = Amplify.API.query(request: .list(Todo.self, where: predicate)) { event in
+    Amplify.API.query(request: .list(Todo.self, where: predicate)) { event in
         switch event {
         case .success(let result):
             switch result {

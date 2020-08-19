@@ -4,7 +4,7 @@
 
 ```swift
 func changePassword(oldPassword: String, newPassword: String) {
-    _ = Amplify.Auth.update(oldPassword: oldPassword, to: newPassword) { result in
+    Amplify.Auth.update(oldPassword: oldPassword, to: newPassword) { result in
         switch result {
         case .success:
             print("Change password succeeded")

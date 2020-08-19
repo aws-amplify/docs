@@ -4,7 +4,7 @@
 
 ```swift
 func rememberDevice() {
-    _ = Amplify.Auth.rememberDevice() { result in
+    Amplify.Auth.rememberDevice() { result in
         switch result {
         case .success:
             print("Remember device succeeded")

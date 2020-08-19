@@ -4,7 +4,7 @@
 
 ```swift
 func fetchDevices() {
-    _ = Amplify.Auth.fetchDevices() { result in
+    Amplify.Auth.fetchDevices() { result in
         switch result {
         case .success(let fetchDeviceResult):
             for device in fetchDeviceResult {

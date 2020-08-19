@@ -6,7 +6,7 @@
 func uploadData() {
     let dataString = "Example file contents"
     let data = dataString.data(using: .utf8)!
-    _ = Amplify.Storage.uploadData(key: "ExampleKey", data: data, 
+    Amplify.Storage.uploadData(key: "ExampleKey", data: data, 
         progressListener: { progress in
             print("Progress: \(progress)")
         }, resultListener: { (event) in
