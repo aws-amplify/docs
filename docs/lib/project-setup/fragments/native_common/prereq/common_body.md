@@ -20,9 +20,9 @@ Watch the video below to learn how to install and configure the Amplify CLI or s
 ></iframe>
 
 ### Option 2: Follow the instructions
-```bash
-npm install -g @aws-amplify/cli
-```
+<inline-fragment platform="ios" src="~/lib/project-setup/fragments/native_common/prereq/cliInstall.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/project-setup/fragments/native_common/prereq/cliInstall.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/project-setup/fragments/flutter/prereq/cliInstall.md"></inline-fragment>
 > Because we're installing the Amplify CLI globally, you might need to run the command above with `sudo`.
 
 

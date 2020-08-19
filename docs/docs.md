@@ -23,22 +23,21 @@ disableLinkification: true
       <img slot="graphic" src="~/assets/lib.png" />
       <h4 slot="heading">Amplify Libraries</h4>
       <p slot="description">
-        Open source libraries and UI components for adding
-        cloud-powered functionality.
+        Open source libraries to connect to new or existing AWS services (Cognito, S3, and more).
       </p>
     </docs-card>
     <docs-card url="~/cli/cli.md" class="border-radius">
       <img slot="graphic" src="~/assets/cli.png" />
       <h4 slot="heading">Amplify CLI</h4>
       <p slot="description">
-        An open source interactive toolchain to create and manage a backend for your apps.
+       Open source toolchain to create and manage an app backend with a guided workflow.
       </p>
     </docs-card>
     <docs-card external url="https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html" class="border-radius" container-tag="amplify-external-link">
       <img slot="graphic" src="~/assets/console.png" />
       <h4 slot="heading">Amplify Console</h4>
       <p slot="description">
-        An AWS service to deploy and host fullstack serverless web applications.
+        AWS service to host fullstack serverless web apps with CI/CD built-in.
       </p>
     </docs-card>
   </amplify-responsive-grid>
