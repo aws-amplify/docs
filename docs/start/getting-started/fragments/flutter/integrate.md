@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
   bool _amplifyConfigured = false;
 
   // Instantiate Amplify
-  Amplify amplifyInstance = Amplify();
+  final amplifyInstance = Amplify();
 
   @override
   void initState() {
@@ -39,27 +39,26 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(
-            title: const Text('Amplify Core example app'),
-          ),
-          body: ListView(padding: EdgeInsets.all(10.0), children: <Widget>[
-            Center( 
-              child: Column (
-                children: [
-                  const Padding(padding: EdgeInsets.all(5.0)),
-                  RaisedButton(
+        appBar: AppBar(
+          title: const Text('Amplify Core example app'),
+        ),
+        body: ListView(
+          padding: const EdgeInsets.all(10.0),
+          children: <Widget>[
+            Column(
+              children: [
+                const Padding(padding: const EdgeInsets.all(5.0)),
+                RaisedButton(
                     onPressed: _amplifyConfigured ? null : _configureAmplify,
-                    child: const Text('configure Amplify')
-                  ),
-                  RaisedButton(
+                    child: const Text('configure Amplify')),
+                RaisedButton(
                     onPressed: _amplifyConfigured ? _recordEvent : null,
-                    child: const Text('record event')
-                  )
-                ]
-              ),
+                    child: const Text('record event'))
+              ],
             )
-          ])
-      )
+          ],
+        ),
+      ),
     );
   }
 }
