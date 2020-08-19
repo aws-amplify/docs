@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
   bool _amplifyConfigured = false;
 
   // Instantiate Amplify
-  final amplifyInstance = Amplify();
+  Amplify amplifyInstance = Amplify();
 
   @override
   void initState() {
