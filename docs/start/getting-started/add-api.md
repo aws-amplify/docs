@@ -6,3 +6,4 @@ filterKey: integration
 
 <inline-fragment integration="ios" src="~/start/getting-started/fragments/ios/add-api.md"></inline-fragment>
 <inline-fragment integration="android" src="~/start/getting-started/fragments/android/add-api.md"></inline-fragment>
+<inline-fragment integration="flutter" src="~/start/getting-started/fragments/flutter/add-api.md"></inline-fragment>
