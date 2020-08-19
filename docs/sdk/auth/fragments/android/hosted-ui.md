@@ -187,8 +187,7 @@ whatever value you used for your redirect URI prefix:
   ```
 
 3. If you previously setup HostedUI for version 2.17.1 or below, remove the intent filter
-you previously added to the `AndroidManifest.xml` file with the URI scheme (e.g. `myapp`)
-as well as the `onResume()` or `onNewIntent()` handler method you previously added to your `Activity`.
+you previously added to your activity in the `AndroidManifest.xml` file with the URI scheme (e.g. `myapp`) as well as the `onResume()` or `onNewIntent()` handler method you previously added to your `Activity`.
 
 </amplify-block>
 <amplify-block name="Version 2.17.1 and below">
