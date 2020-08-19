@@ -8,7 +8,7 @@ func confirmResetPassword(
     newPassword: String,
     confirmationCode: String
 ) {
-    _ = Amplify.Auth.confirmResetPassword(
+    Amplify.Auth.confirmResetPassword(
         for: username,
         with: newPassword,
         confirmationCode: confirmationCode

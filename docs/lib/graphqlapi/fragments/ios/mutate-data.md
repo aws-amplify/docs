@@ -11,7 +11,7 @@ func updateTodo() {
     // Retrieve your Todo using Amplify.API.query
     var todo = Todo(name: "my first todo", description: "todo description")
     todo.description = "updated description"
-    _ = Amplify.API.mutate(request: .update(todo)) { event in
+    Amplify.API.mutate(request: .update(todo)) { event in
         switch event {
         case .success(let result):
             switch result {
