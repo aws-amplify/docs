@@ -9,7 +9,8 @@ You can download to in-memory buffer [Data](https://developer.apple.com/document
 <amplify-block name="Listener (iOS 11+)">
 
 ```swift
-_ = Amplify.Storage.downloadData(key: "myKey", 
+Amplify.Storage.downloadData(
+    key: "myKey", 
     progressListener: { progress in
         print("Progress: \(progress)")
     }, resultListener: { (event) in
@@ -55,7 +56,10 @@ You can download to a file [URL](https://developer.apple.com/documentation/found
 let downloadToFileName = FileManager.default.urls(for: .documentDirectory,
                                                   in: .userDomainMask)[0]
     .appendingPathComponent("myFile.txt")
-_ = Amplify.Storage.downloadFile(key: "myKey", local: downloadToFileName, 
+
+Amplify.Storage.downloadFile(
+    key: "myKey",
+    local: downloadToFileName,
     progressListener: { progress in
         print("Progress: \(progress)")
     }, resultListener: { event in
@@ -64,8 +68,8 @@ _ = Amplify.Storage.downloadFile(key: "myKey", local: downloadToFileName,
             print("Completed")
         case .failure(let storageError):
             print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
-    }
-})
+        }
+    })
 ```
 
 </amplify-block>
@@ -101,7 +105,7 @@ You can also retrieve a URL for the object in storage:
 <amplify-block name="Listener (iOS 11+)">
 
 ```swift
-_ = Amplify.Storage.getURL(key: "myKey") { event in
+Amplify.Storage.getURL(key: "myKey") { event in
     switch event {
     case let .success(url):
         print("Completed: \(url)")

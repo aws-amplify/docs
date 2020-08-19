@@ -46,7 +46,7 @@ If you are detecting text from an image you would send in `.plain` as your text 
 
 ```swift
 func detectText(_ image: URL, completion: @escaping ([IdentifiedWord]) -> Void) {
-    _ = Amplify.Predictions.identify(type: .detectText(.plain), image: image) { event in
+    Amplify.Predictions.identify(type: .detectText(.plain), image: image) { event in
         switch event {
         case let .success(result):
             let data = result as! IdentifyTextResult
@@ -125,7 +125,7 @@ Sending in `.form` or `.table` or `.all` will do document analysis as well as te
 
 ```swift
 func detectText(_ image: URL) {
-    _ = Amplify.Predictions.identify(type: .detectText(.form), image: image) { event in
+    Amplify.Predictions.identify(type: .detectText(.form), image: image) { event in
         switch event {
         case let .success(result):
             let data = result as! IdentifyDocumentTextResult

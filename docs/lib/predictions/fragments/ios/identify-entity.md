@@ -48,7 +48,7 @@ You can identify entity matches from your Rekognition Collection in your app usi
 
 ```swift
 func detectEntities(_ image: URL) {
-    _ = Amplify.Predictions.identify(type: .detectEntities, image: image) { event in
+    Amplify.Predictions.identify(type: .detectEntities, image: image) { event in
         switch event {
         case let .success(result):
             let data = result as! IdentifyEntityMatchesResult
@@ -92,7 +92,7 @@ To detect general entities like facial features, landmarks etc, you can use the 
 
 ```swift
 func detectEntities(_ image: URL) {
-    _ = Amplify.Predictions.identify(type: .detectEntities, image: image) { event in
+    Amplify.Predictions.identify(type: .detectEntities, image: image) { event in
         switch event {
         case let .success(result):
             let data = result as! IdentifyEntitiesResult
@@ -138,7 +138,7 @@ To detect celebrities you can pass in `.detectCelebrity` in the `type:` field. R
 
 ```swift
 func detectCelebs(_ image: URL) {
-    _ = Amplify.Predictions.identify(type: .detectCelebrity, image: image) { event in
+    Amplify.Predictions.identify(type: .detectCelebrity, image: image) { event in
         switch event {
         case let .success(result):
             let data = result as! IdentifyCelebritiesResult

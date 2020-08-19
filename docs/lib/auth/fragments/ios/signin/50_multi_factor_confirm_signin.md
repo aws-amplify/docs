@@ -3,13 +3,13 @@
 <amplify-block name="Listener (iOS 11+)">
 
 ```swift
-func confirmSignUp() {
-    _ = Amplify.Auth.confirmSignIn(challengeResponse: "<confirmation code received via SMS>") { result in
+func confirmSignIn() {
+    Amplify.Auth.confirmSignIn(challengeResponse: "<confirmation code received via SMS>") { result in
         switch result {
-        case .success(_):
-            print("Sign in succeeded")
+        case .success(let signInResult):
+            print("Confirm sign in succeeded. Next step: \(signInResult.nextStep)")
         case .failure(let error):
-            print("Sign in failed \(error)")
+            print("Confirm sign in failed \(error)")
         }
     }
 }
@@ -20,21 +20,16 @@ func confirmSignUp() {
 <amplify-block name="Combine (iOS 13+)">
 
 ```swift
-func confirmSignUp() -> AnyCancellable {
+func confirmSignIn() -> AnyCancellable {
     Amplify.Auth.confirmSignIn(challengeResponse: "<confirmation code received via SMS>")
         .resultPublisher
         .sink {
             if case let .failure(authError) = $0 {
-                print("Fetch session failed with error \(authError)")
+                print("Confirm sign in failed \(authError)")
             }
         }
         receiveValue: { signInResult in
-            switch signInResult {
-            case .success:
-                print("Sign in succeeded")
-            case .failure(let error):
-                print("Sign in failed \(error)")
-            }
+            print("Confirm sign in succeeded. Next step: \(signInResult.nextStep)")
         }
 }
 ```
