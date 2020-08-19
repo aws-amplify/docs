@@ -24,3 +24,9 @@ yarn add aws-amplify @aws-amplify/ui-angular
 yarn add aws-amplify @aws-amplify/ui-vue
 ```
 </docs-filter>
+<docs-filter framework="react-native">
+
+```
+yarn add aws-amplify aws-amplify-react-native
+```
+</docs-filter>
