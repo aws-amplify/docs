@@ -1,6 +1,10 @@
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
 ```swift
 func translateText() {
-    _ = Amplify.Predictions.convert(textToTranslate: "I like to eat spaghetti",
+    Amplify.Predictions.convert(textToTranslate: "I like to eat spaghetti",
         language: .english,
         targetLanguage: .spanish,
         listener: { (event) in
@@ -13,3 +17,30 @@ func translateText() {
     })
 }
 ```
+
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+func translateText() -> AnyCancellable {
+    Amplify.Predictions.convert(
+        textToTranslate: "I like to eat spaghetti",
+        language: .english,
+        targetLanguage: .spanish
+    )
+    .resultPublisher
+    .sink {
+        if case let .failure(error) = $0 {
+            print("Error: \(error)")
+        }
+    }
+    receiveValue: { result in
+        print(result.text)
+    }
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>

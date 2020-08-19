@@ -9,4 +9,5 @@ The Amplify open-source client libraries provide use-case centric, opinionated, 
 
 <inline-fragment platform="ios" src="~/fragments/lib/ios.md"></inline-fragment>
 <inline-fragment platform="android" src="~/fragments/lib/android.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/fragments/lib/flutter.md"></inline-fragment>
 <inline-fragment platform="js" src="~/fragments/lib/js.md"></inline-fragment>

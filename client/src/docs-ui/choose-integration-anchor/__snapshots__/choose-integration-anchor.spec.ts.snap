@@ -62,6 +62,12 @@ exports[`docs-choose-integration-anchor Render logic should render 1`] = `
         Ionic
       </h4>
     </docs-card>
+    <docs-card vertical="">
+      <img alt="Flutter (Preview) Logo" slot="graphic" src="/assets/integrations/flutter.svg">
+      <h4 slot="heading">
+        Flutter (Preview)
+      </h4>
+    </docs-card>
   </amplify-responsive-grid>
 </docs-choose-integration-anchor>
 `;
