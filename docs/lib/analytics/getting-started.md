@@ -7,7 +7,3 @@ description: The Analytics category enables you to collect analytics data for yo
 <inline-fragment platform="ios" src="~/lib/analytics/fragments/native_common/getting-started/common.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/analytics/fragments/native_common/getting-started/common.md"></inline-fragment>
 <inline-fragment platform="flutter" src="~/lib/analytics/fragments/native_common/getting-started/common.md"></inline-fragment>
-
-<!--
-<inline-fragment platform="flutter" src="~/lib/analytics/fragments/flutter/getting-started/some-flutter-content.md"></inline-fragment>
--->
