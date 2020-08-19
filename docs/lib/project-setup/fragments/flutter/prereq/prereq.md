@@ -1,1 +1,3 @@
 - [Flutter SDK](https://flutter.dev/docs/get-started/install) version >= 1.20
+- Android API level 16 (Jelly Bean) or higher
+- iOS Platform 11.0 or higher
