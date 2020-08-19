@@ -7,7 +7,9 @@ override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
 
-    _ = Amplify.Hub.listen(to: .auth) { payload in
+    // Assumes `unsubscribeToken` is declared as an instance variable in your view
+
+    unsubscribeToken = Amplify.Hub.listen(to: .auth) { payload in
         switch payload.eventName {
         case HubPayload.EventName.Auth.signedIn:
             print("User signed in")
