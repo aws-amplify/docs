@@ -15,6 +15,8 @@
 
     This tutorial assumes you are using AndroidStudio to develop your app. 
 
+- Make sure that the Podfile in your iOS platform code targets iOS platform 11.0 or higher.
+
 - Install the Amplify-Flutter Developer Preview version of the [Amplify CLI](~/cli/cli.md) by running:
 
     ```bash
