@@ -9,7 +9,7 @@ To make a GET request, first create a RESTRequest object and then use the Amplif
 ```swift
 func getTodo() {
     let request = RESTRequest(path: "/todo")
-    _ = Amplify.API.get(request: request) { result in
+    Amplify.API.get(request: request) { result in
         switch result {
         case .success(let data):
             let str = String(decoding: data, as: UTF8.self)
@@ -26,7 +26,7 @@ func getTodo() {
 <amplify-block name="Combine (iOS 13+)">
 
 ```swift
-func postTodo() -> AnyCancellable {
+func getTodo() -> AnyCancellable {
     let request = RESTRequest(path: "/todo")
     let sink = Amplify.API.get(request: request)
         .resultPublisher
@@ -93,7 +93,7 @@ Then you can use query parameters in your path as follows:
 func getTodo() {
     let queryParameters = ["q":"test"]
     let request = RESTRequest(path: "/todo", queryParameters: queryParameters)
-    _ = Amplify.API.get(request: request) { result in
+    Amplify.API.get(request: request) { result in
         switch result {
         case .success(let data):
             let str = String(decoding: data, as: UTF8.self)
@@ -110,7 +110,7 @@ func getTodo() {
 <amplify-block name="Combine (iOS 13+)">
 
 ```swift
-func postTodo() -> AnyCancellable {
+func getTodo() -> AnyCancellable {
     let queryParameters = ["q":"test"]
     let request = RESTRequest(path: "/todo", queryParameters: queryParameters)
     let sink = Amplify.API.get(request: request)

@@ -47,7 +47,7 @@ Here is an example of sending text for interpretation such as sentiment analysis
 
 ```swift
 func interpret(text: String) {
-    _ = Amplify.Predictions.interpret(text: text) { event in
+    Amplify.Predictions.interpret(text: text) { event in
         switch event {
         case let .success(result):
             print(result)
