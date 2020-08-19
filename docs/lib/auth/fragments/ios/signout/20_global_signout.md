@@ -4,7 +4,7 @@
 
 ```swift
 func signOutGlobally() {
-    _ = Amplify.Auth.signOut(options: .init(globalSignOut: true)) { result in
+    Amplify.Auth.signOut(options: .init(globalSignOut: true)) { result in
         switch result {
         case .success:
             print("Successfully signed out")

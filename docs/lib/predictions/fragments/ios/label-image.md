@@ -50,7 +50,7 @@ You can identify real world objects such as chairs, desks, etc. which are referr
 func detectLabels(_ image:URL) {
     // For offline calls only to Core ML models replace `options` in the call below with this instance:
     // let options = PredictionsIdentifyRequest.Options(defaultNetworkPolicy: .offline, pluginOptions: nil)
-    _ = Amplify.Predictions.identify(type: .detectLabels(.labels), image: image) { event in
+    Amplify.Predictions.identify(type: .detectLabels(.labels), image: image) { event in
         switch event {
         case let .success(result):
             let data = result as! IdentifyLabelsResult
@@ -64,7 +64,7 @@ func detectLabels(_ image:URL) {
 
 // To identify labels with unsafe content
 func detectLabels(_ image:URL) {
-    _ = Amplify.Predictions.identify(type: .detectLabels(.all), image: image) { event in
+    Amplify.Predictions.identify(type: .detectLabels(.all), image: image) { event in
         switch event {
         case let .success(result):
             let data = result as! IdentifyLabelsResult

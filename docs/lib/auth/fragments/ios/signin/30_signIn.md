@@ -4,9 +4,9 @@
 
 ```swift
 func signIn(username: String, password: String) {
-    _ = Amplify.Auth.signIn(username: username, password: password) { result in
+    Amplify.Auth.signIn(username: username, password: password) { result in
         switch result {
-        case .success(_):
+        case .success:
             print("Sign in succeeded")
         case .failure(let error):
             print("Sign in failed \(error)")
@@ -25,7 +25,7 @@ func signIn(username: String, password: String) -> AnyCancellable {
         .resultPublisher
         .sink {
             if case let .failure(authError) = $0 {
-                print("Fetch session failed with error \(authError)")
+                print("Sign in failed \(authError)")
             }
         }
         receiveValue: { _ in
