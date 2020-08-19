@@ -45,17 +45,13 @@ class _MyAppState extends State<MyApp> {
         body: ListView(
           padding: const EdgeInsets.all(10.0),
           children: <Widget>[
-            Column(
-              children: [
-                const Padding(padding: const EdgeInsets.all(5.0)),
-                RaisedButton(
-                    onPressed: _amplifyConfigured ? null : _configureAmplify,
-                    child: const Text('configure Amplify')),
-                RaisedButton(
-                    onPressed: _amplifyConfigured ? _recordEvent : null,
-                    child: const Text('record event'))
-              ],
-            )
+            const Padding(padding: const EdgeInsets.all(5.0)),
+            RaisedButton(
+                onPressed: _amplifyConfigured ? null : _configureAmplify,
+                child: const Text('configure Amplify')),
+            RaisedButton(
+                onPressed: _amplifyConfigured ? _recordEvent : null,
+                child: const Text('record event'))
           ],
         ),
       ),
