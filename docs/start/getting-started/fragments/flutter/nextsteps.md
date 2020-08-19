@@ -6,4 +6,4 @@
 
 ### Reference Sample App 
 
-For an end to end example application check out the example available [in the GitHub repository](https://github.com/aws-amplify/amplify-flutter).
+For an end to end example application, check out the example available [in the GitHub repository](https://github.com/aws-amplify/amplify-flutter).
