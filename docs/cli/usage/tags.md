@@ -1,6 +1,6 @@
 ---
 title: Apply tags to generated resources
-description: Learn how to stay organized with your AWS resources by tagging them through the CLI
+description: Learn how to stay organized with your Amplify-generated AWS resources by tagging them through the CLI
 ---
 
 Tags are labels consisting of key-value pairs that make it easier to manage, search for, and filter resources. Some popular use cases include:
