@@ -3,6 +3,8 @@ title: Calling DynamoDB from a Lambda function in Python
 description: How to interact with a DynamoDB database from a Lambda function in Python
 ---
 
+<inline-fragment platform="flutter" src="~/guides/fragments/flutter/flutterFuncWarning.md"></inline-fragment>
+
 The easiest way to interact with DynamoDB from Lambda in a Python environment is to use the [boto3 DynamoDB client](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html). In this guide you will learn how to interact with a DynamoDB database from a Lambda function using the Python runtime.
 
 You will learn how to perform [put_item](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html#DynamoDB.Client.put_item), [get_item](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html#DynamoDB.Client.get_item), [scan](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html#DynamoDB.Client.scan), and [query](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html#DynamoDB.Client.query) operations.
