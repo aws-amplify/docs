@@ -1,54 +1,38 @@
 ## Update AndroidManifest.xml
-In your AndroidManifest.xml file, add the following property to the MainActivity activity: `android:launchMode="singleInstance"`
+Add the following activity to your app's `AndroidManifest.xml` file, replacing `myapp` with
+whatever value you used for your redirect URI prefix:
 
-e.g.
+  ```xml
+  <activity
+      android:name="com.amazonaws.mobileconnectors.cognitoauth.activities.CustomTabsRedirectActivity">
+      <intent-filter>
+          <action android:name="android.intent.action.VIEW" />
 
-```xml
-<application>
-   <activity
-        android:name=".MainActivity"
-        android:launchMode="singleInstance">
-   </activity>
-</application>
-```
+          <category android:name="android.intent.category.DEFAULT" />
+          <category android:name="android.intent.category.BROWSABLE" />
 
-<amplify-callout>
-We're using MainActivity here and in subsequent steps for the sake of the tutorial. In your production code, substitute whatever
-activity will be launching the web UI sign in experience.
-</amplify-callout>
-
-Add this new intent filter below the existing one in the Android Manifest:
-
-```xml
-<intent-filter>
-   <action android:name="android.intent.action.VIEW" />
-
-   <category android:name="android.intent.category.DEFAULT" />
-   <category android:name="android.intent.category.BROWSABLE" />
-
-   <data android:scheme="myapp" />
-</intent-filter>
-```
+          <data android:scheme="myapp" />
+      </intent-filter>
+  </activity>
+  ```
 
 <amplify-callout>
-The value of `myapp` above is just an example value. You can set this to whatever you want.
-Just be sure it matches the redirect URIs you specified above when configuring Auth in CLI
-and update the value in `onNewIntent` below.
+  These instructions have been updated since version 1.2.0. If you set this up for a version of Amplify prior to 1.2.0, be sure to remove the `intent-filter` with `android:scheme` from your own activity as well as the `singleInstance` launch mode.
 </amplify-callout>
 
 ## Add Response Handler
-Add the following `onNewIntent` method in MainActivity to capture the response from the sign in web UI:
+Add the following result handler to whichever `Activity` you are calling HostedUI from:
 
 <amplify-block-switcher>
  <amplify-block name="Java">
 
 ```java
 @Override
-protected void onNewIntent(Intent intent) {
-    super.onNewIntent(intent);
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
 
-    if(intent.getData() != null && "myapp".equals(intent.getData().getScheme())) {
-        Amplify.Auth.handleWebUISignInResponse(intent);
+    if (requestCode == AWSCognitoAuthPlugin.WEB_UI_SIGN_IN_ACTIVITY_CODE) {
+        Amplify.Auth.handleWebUISignInResponse(data);
     }
 }
 ```
@@ -57,11 +41,11 @@ protected void onNewIntent(Intent intent) {
  <amplify-block name="Kotlin">
 
 ```kotlin
-override fun onNewIntent(intent: Intent?) {
-    super.onNewIntent(intent)
+override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
 
-    if(intent?.scheme != null && "myapp".equals(intent?.scheme)) {
-        Amplify.Auth.handleWebUISignInResponse(intent)
+    if (requestCode == AWSCognitoAuthPlugin.WEB_UI_SIGN_IN_ACTIVITY_CODE) {
+        Amplify.Auth.handleWebUISignInResponse(data)
     }
 }
 ```
@@ -69,4 +53,6 @@ override fun onNewIntent(intent: Intent?) {
  </amplify-block>
 </amplify-block-switcher>
 
-
+<amplify-callout>
+  If you set this up for a version of Amplify prior to 1.2.0, be sure to remove the `onNewIntent` method code from your `Activity` that was previously specified.
+</amplify-callout>
