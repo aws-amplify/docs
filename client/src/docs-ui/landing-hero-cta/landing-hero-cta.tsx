@@ -44,6 +44,16 @@ export class DocsLandingHeroCTA {
               alt="Android Icon"
             />
           </docs-internal-link>
+          <docs-internal-link
+            href="/start/q/integration/flutter"
+            class="scale-up-on-hover"
+          >
+            <img
+              class={platformIcon}
+              src="/assets/integrations/flutter.svg"
+              alt="Flutter Icon"
+            />
+          </docs-internal-link>
         </div>
       </Host>
     );

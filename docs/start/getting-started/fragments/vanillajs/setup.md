@@ -26,7 +26,7 @@ Add the following to the `package.json` file:
   "version": "1.0.0",
   "description": "Amplify JavaScript Example",
   "dependencies": {
-    "aws-amplify": "latest",
+    "aws-amplify": "latest"
   },
   "devDependencies": {
     "webpack": "^4.17.1",

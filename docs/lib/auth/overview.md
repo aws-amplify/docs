@@ -4,3 +4,5 @@ description: Learn more about the foundational auth concepts for cloud-based app
 ---
 
 <inline-fragment platform="js" src="~/lib/auth/fragments/js/overview.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/auth/fragments/common/overview.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/auth/fragments/common/overview.md"></inline-fragment>
