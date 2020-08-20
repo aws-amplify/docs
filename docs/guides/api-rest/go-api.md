@@ -3,6 +3,8 @@ title: Go API
 description: How to deploy a Go API using Amplify Functions
 ---
 
+<inline-fragment platform="flutter" src="~/guides/fragments/flutter/flutterAPIWarning.md"></inline-fragment>
+
 In this guide, you will learn how to deploy a Go API.
 
 ## 1. Initialize a new Amplify project

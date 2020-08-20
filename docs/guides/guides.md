@@ -5,6 +5,8 @@ disableTOC: true
 filterKey: platform
 ---
 
+<inline-fragment platform="flutter" src="~/guides/fragments/flutter/flutterAPIWarning.md"></inline-fragment>
+
 Amplify guides are meant to give you a more in-depth understanding of how to use the Amplify CLI, libraries, and hosting to build out common functionality, end-to-end solutions, and frequently asked for workflows.
 
 ### Overview

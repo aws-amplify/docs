@@ -3,6 +3,8 @@ title: GraphQL pagination
 description: How to implement pagination with GraphQL 
 ---
 
+<inline-fragment platform="flutter" src="~/guides/fragments/flutter/flutterAPIWarning.md"></inline-fragment>
+
 In this guide you will learn how to implement pagination in your GraphQL API.
 
 When working with a large record set, you may want to only fetch the first __N__ number of items. For example, let's start with a basic GraphQL schema for a Todo app:
