@@ -3,6 +3,8 @@ title: GraphQL query with sorting
 description: How to implement sorting in a GraphQL query
 ---
 
+<inline-fragment platform="flutter" src="~/guides/fragments/flutter/flutterAPIWarning.md"></inline-fragment>
+
 In this guide you will learn how to implement sorting in a GraphQL API using the GraphQL transform library.
 
 ### Overview

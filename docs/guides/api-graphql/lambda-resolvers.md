@@ -3,6 +3,8 @@ title: How to use Lambda GraphQL Resolvers
 description: How to use Lambda GraphQL resolvers to interact with other services
 ---
 
+<inline-fragment platform="flutter" src="~/guides/fragments/flutter/flutterAPIWarning.md"></inline-fragment>
+
 The [GraphQL Transform Library](~/cli/graphql-transformer/directives.md) provides an `@function` directive that enables the configuration of AWS Lambda function resolvers within your GraphQL API. In this guide you will learn how to use Lambda functions as GraphQL resolvers to interact with other services and APIs using the `@function` directive.
 
 ## Creating basic query and mutation Function resolvers 
