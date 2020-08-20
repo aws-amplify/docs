@@ -3,8 +3,6 @@ title: Building a Form API with GraphQL
 description: How to implement pagination with GraphQL 
 ---
 
-<inline-fragment platform="flutter" src="~/guides/fragments/flutter/flutterAPIWarning.md"></inline-fragment>
-
 In this guide you will learn how to build and interact with a Form API using Amplify and the
  [GraphQL Transform library](~/cli/graphql-transformer/directives.md).
 

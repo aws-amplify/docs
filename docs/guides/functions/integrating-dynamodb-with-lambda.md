@@ -3,8 +3,6 @@ title: Integrating DynamoDB with Lambda
 description: How to integrate a DynamoDB table with a Lambda function
 ---
 
-<inline-fragment platform="flutter" src="~/guides/fragments/flutter/flutterFuncWarning.md"></inline-fragment>
-
 In this guide you will learn how to do three things:
 
 1. Create a new Lambda function and DynamoDB database that are integrated together
