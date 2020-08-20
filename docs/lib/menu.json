@@ -1,6 +1,7 @@
 {
   "items": [
     "project-setup",
+    "debugging",
     "analytics",
     "graphqlapi",
     "restapi",
