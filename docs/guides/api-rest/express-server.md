@@ -3,8 +3,6 @@ title: Express server
 description: How to deploy an Express server to AWS using AWS Amplify
 ---
 
-<inline-fragment platform="flutter" src="~/guides/fragments/flutter/flutterAPIWarning.md"></inline-fragment>
-
 In this guide you'll learn how to deploy an [Express](https://expressjs.com/) web server complete with routing.
 
 ### Initializing the Amplify project

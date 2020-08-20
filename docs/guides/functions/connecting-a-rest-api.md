@@ -3,8 +3,6 @@ title: Connecting a REST API to a Lambda function
 description: How to connect a REST API to a Lambda function
 ---
 
-<inline-fragment platform="flutter" src="~/guides/fragments/flutter/flutterFuncWarning.md"></inline-fragment>
-
 In this guide you will learn how to connect a REST API to an existing Lambda function.
 
 To get started, create a new API:

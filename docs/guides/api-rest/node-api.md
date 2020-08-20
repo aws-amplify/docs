@@ -3,8 +3,6 @@ title: NodeJS API
 description: How to deploy a NodeJS API using Amplify Functions
 ---
 
-<inline-fragment platform="flutter" src="~/guides/fragments/flutter/flutterAPIWarning.md"></inline-fragment>
-
 In this guide, you will learn how to deploy a Node.js API.
 
 ## 1. Initialize a new Amplify project
