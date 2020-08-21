@@ -2,10 +2,14 @@
 
 To make a GET request, first create a RESTRequest object and then use the Amplify.API.get api to issue the request:
 
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
 ```swift
 func getTodo() {
     let request = RESTRequest(path: "/todo")
-    _ = Amplify.API.get(request: request) { result in
+    Amplify.API.get(request: request) { result in
         switch result {
         case .success(let data):
             let str = String(decoding: data, as: UTF8.self)
@@ -16,6 +20,32 @@ func getTodo() {
     }
 }
 ```
+
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+func getTodo() -> AnyCancellable {
+    let request = RESTRequest(path: "/todo")
+    let sink = Amplify.API.get(request: request)
+        .resultPublisher
+        .sink {
+            if case let .failure(apiError) = $0 {
+                print("Failed", apiError)
+            }
+        }
+        receiveValue: { data in
+            let str = String(decoding: data, as: UTF8.self)
+            print("Success \(str)")
+        }
+    return sink
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>
 
 ## Accessing query parameters & body in Lambda proxy function
 
@@ -55,11 +85,15 @@ app.get('/todo', function(req, res) {
 
 Then you can use query parameters in your path as follows:
 
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
 ```swift
 func getTodo() {
     let queryParameters = ["q":"test"]
     let request = RESTRequest(path: "/todo", queryParameters: queryParameters)
-    _ = Amplify.API.get(request: request) { result in
+    Amplify.API.get(request: request) { result in
         switch result {
         case .success(let data):
             let str = String(decoding: data, as: UTF8.self)
@@ -70,3 +104,30 @@ func getTodo() {
     }
 }
 ```
+
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+func getTodo() -> AnyCancellable {
+    let queryParameters = ["q":"test"]
+    let request = RESTRequest(path: "/todo", queryParameters: queryParameters)
+    let sink = Amplify.API.get(request: request)
+        .resultPublisher
+        .sink {
+            if case let .failure(apiError) = $0 {
+                print("Failed", apiError)
+            }
+        }
+        receiveValue: { data in
+            let str = String(decoding: data, as: UTF8.self)
+            print("Success \(str)")
+        }
+    return sink
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>

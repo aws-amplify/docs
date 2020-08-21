@@ -8,6 +8,7 @@ To setup and configure your application with Amplify Analytics and record an ana
 
 <inline-fragment platform="ios" src="~/lib/analytics/fragments/ios/getting-started/10_preReq.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/analytics/fragments/android/getting-started/10_preReq.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/analytics/fragments/flutter/getting-started/10_preReq.md"></inline-fragment>
 
 ## Set up Analytics backend
 
@@ -40,16 +41,19 @@ Upon completion, `amplifyconfiguration.json` should be updated to reference prov
 
 <inline-fragment platform="ios" src="~/lib/analytics/fragments/ios/getting-started/20_installLib.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/analytics/fragments/android/getting-started/20_installLib.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/analytics/fragments/flutter/getting-started/20_installLib.md"></inline-fragment>
 
 ## Initialize Amplify Analytics
 
 <inline-fragment platform="ios" src="~/lib/analytics/fragments/ios/getting-started/30_initAnalytics.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/analytics/fragments/android/getting-started/30_initAnalytics.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/analytics/fragments/flutter/getting-started/30_initAnalytics.md"></inline-fragment>
 
 ## Record events
 
 <inline-fragment platform="ios" src="~/lib/analytics/fragments/ios/getting-started/40_record.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/analytics/fragments/android/getting-started/40_record.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/analytics/fragments/flutter/getting-started/40_record.md"></inline-fragment>
 
 ## View Analytics console
 

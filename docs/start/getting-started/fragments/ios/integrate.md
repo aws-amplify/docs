@@ -35,7 +35,7 @@ First, we'll add the DataStore plugin and configure Amplify.
     ```
 
     Setting the log level to `.info`, re-building and re-running the application should render additional log statements:
-    ```swift
+    ```console
     [Amplify] Configuring
     Initialized Amplify
     [AWSDataStorePlugin] Unable to find suitable API plugin for syncEngine.  syncEngine will not be started
@@ -86,7 +86,7 @@ Next, you'll create a Todo and save it to DataStore.
   ```
 1. After making the preceding updates to the `ContentView.swift`file, your code should look like the following:
 
-```
+```swift
 import SwiftUI
 import Amplify
 import AmplifyPlugins
@@ -131,7 +131,7 @@ struct ContentView_Previews: PreviewProvider {
 
 1. **Replace the item** with a new Todo to save an additional item. Let's change the name and description, and add a priority:
 
-  ```java
+  ```swift
   let item = Todo(name: "Finish quarterly taxes",
                   priority: .high,
                   description: "Taxes are due for the quarter next week")

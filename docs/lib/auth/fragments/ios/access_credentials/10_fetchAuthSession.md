@@ -1,7 +1,10 @@
+However, if you need to access them in relation to working with an API outside Amplify or want access to AWS specific identifying information (e.g. IdentityId),
+you can access these implementation details by casting the result of fetchAuthSession as follows:  
+
 ```swift
 import AWSPluginsCore
 
-_ = Amplify.Auth.fetchAuthSession { result in
+Amplify.Auth.fetchAuthSession { result in
     do {
         let session = try result.get()
 
