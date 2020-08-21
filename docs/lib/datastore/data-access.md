@@ -67,11 +67,7 @@ Alternatively, the `or` logical operator can also be used:
 
 Query results can also be sorted by one or more fields.
 
-<<<<<<< HEAD
 For example, to sort all `Post` objects by `rating` in ascending order: 
-=======
-For example, to do single field sorting (sort by `rating` in ascending order):
->>>>>>> Added fragments for Android
 
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/query-sort-snippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/data-access/query-sort-snippet.md"></inline-fragment>
