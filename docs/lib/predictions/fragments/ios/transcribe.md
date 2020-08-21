@@ -6,12 +6,19 @@ Run `amplify add predictions` and select **Convert**. Then use the following ans
 
 ```console
 ? What would you like to convert?
-  Convert text into a different language
-  Convert text to speech
-❯ Convert speech to text
-  Learn More
+  Translate text into a different language
+  Generate speech audio from text
+❯ Transcribe text from audio
 
-? Who should have access? Auth and Guest users
+? Provide a friendly name for your resource
+  <Enter a friendly name here>
+
+? What is the source language? (Use arrow keys)
+  <Select your default source language>
+
+? Who should have access?
+  Auth users only
+❯ Auth and Guest users
 ```
 
 ## Working with the API
@@ -30,7 +37,7 @@ func speechToText(speech: URL) {
         pluginOptions: nil
     )
 
-    _ = Amplify.Predictions.convert(speechToText: speech, options: options) { event in
+    Amplify.Predictions.convert(speechToText: speech, options: options) { event in
         switch event {
         case let .success(result):
             print(result.transcription)

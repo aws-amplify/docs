@@ -5,3 +5,4 @@ description: Configure the Amplify Libraries to use existing Amazon Pinpoint res
 
 <inline-fragment platform="android" src="~/lib/analytics/fragments/existing-resources.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/analytics/fragments/existing-resources.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/analytics/fragments/existing-resources.md"></inline-fragment>

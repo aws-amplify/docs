@@ -8,7 +8,7 @@
 ## Prerequisites
 
 - Install [Node.js](https://nodejs.org/en/) version 10 or higher
-- Install [Xcode](https://developer.apple.com/xcode/downloads/) version 10.2 or later
+- Install [Xcode](https://developer.apple.com/xcode/downloads/) version 11.4 or later
 - Install [CocoaPods](https://cocoapods.org/)
 
 - Install [Amplify CLI](~/cli/cli.md) version 4.21.0 or later by running:

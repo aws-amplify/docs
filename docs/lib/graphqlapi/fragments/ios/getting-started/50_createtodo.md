@@ -6,7 +6,7 @@
 ```swift
 func createTodo() {
     let todo = Todo(name: "my first todo", description: "todo description")
-    _ = Amplify.API.mutate(request: .create(todo)) { event in
+    Amplify.API.mutate(request: .create(todo)) { event in
         switch event {
         case .success(let result):
             switch result {
