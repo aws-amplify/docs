@@ -4,7 +4,7 @@
 
 ```swift
 func confirmAttribute() {
-    _ = Amplify.Auth.confirm(userAttribute: .email, confirmationCode: "390739") { result in
+    Amplify.Auth.confirm(userAttribute: .email, confirmationCode: "390739") { result in
         switch result {
         case .success:
             print("Attribute verified")

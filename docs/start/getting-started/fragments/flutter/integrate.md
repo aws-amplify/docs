@@ -71,7 +71,7 @@ void _configureAmplify() async {
   if (!mounted) return;
 
   // Add Pinpoint and Cognito Plugins
-  AmplifyAnalyticsPinpointPlugin analyticsPlugin = AmplifyAnalyticsPinpointPlugin();
+  AmplifyAnalyticsPinpoint analyticsPlugin = AmplifyAnalyticsPinpoint();
   AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
   amplifyInstance.addPlugin(authPlugins: [authPlugin]);
   amplifyInstance.addPlugin(analyticsPlugins: [analyticsPlugin]);
