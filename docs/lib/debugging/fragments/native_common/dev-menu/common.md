@@ -43,5 +43,10 @@ which contains your issue description, environment and device information, and (
 Within the developer menu, you can copy this issue report or directly file an issue on GitHub, 
 where the issue body will be pre-populated with the aforementioned information. When using the 
 developer menu to file a GitHub issue, you will have an opportunity to review the issue information 
-before filing the issue. Please ensure that you remove any sensitive information from the logs 
-section before filing an issue.
+before filing the issue.
+
+<amplify-callout warning>
+
+Please ensure that you remove any sensitive information from the logs section before filing an issue.
+
+</amplify-callout>
