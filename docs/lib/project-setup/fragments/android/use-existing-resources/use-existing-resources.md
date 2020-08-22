@@ -2,7 +2,7 @@ An application’s backend is built with cloud resources such as AWS AppSync Gra
 
 ## Add an existing AWS resource to an Android application
 
-Before you can add an existing AWS resource to an Android application, the application must have the Amplify libraries installed. For detailed instructions, see [Install Amplify Libraries](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/android#n2-install-amplify-libraries).
+Before you can add an existing AWS resource to an Android application, the application must have the Amplify libraries installed. For detailed instructions, see [Install Amplify Libraries](~/lib/project-setup/fragments/android/create-application/20_gradle.md).
 
 ### 1. Manually create the Amplify configuration file for your Android project
 
@@ -72,7 +72,7 @@ Add the `android:name` attribute to the application node. For example, if the ap
 
 Now you’re ready to customize your application’s `amplifyconfiguration.json`  file to specify an existing AWS resource to use. 
 
-Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/android#n2-install-amplify-libraries).
+Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](~/lib/project-setup/fragments/android/create-application/20_gradle.md).
 
 Select a category from the following list to view an example `amplifyconfiguration.json` file you can use as a template to author your own `amplifyconfiguration.json` file:
 
