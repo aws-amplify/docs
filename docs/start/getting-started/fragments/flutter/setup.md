@@ -80,7 +80,7 @@ dependencies:
 
     ![](~/images/lib/getting-started/flutter/set-up-android-studio-pub-get.png)
 
-    Alternatively, you can open a terminal window, cd into your project's root directory (where you pubspec.yaml is) and run: 
+    Alternatively, you can open a terminal window, cd into your project's root directory (where your pubspec.yaml is) and run: 
 
     ```bash
     flutter pub get 
