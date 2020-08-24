@@ -34,7 +34,13 @@
 
 ### Create a new Flutter application 
 
-1. Open **Android Studio**. Select **+ Start a new Flutter project**.
+1. Create a new project using Flutter CLI:
+
+    ```bash
+    flutter create todo
+    ```
+
+1. Or using **Android Studio**. Select **+ Start a new Flutter project**.
 
     ![](~/images/lib/getting-started/flutter/set-up-android-studio-welcome.png)
 
