@@ -1,38 +1,29 @@
-import {Component, Host, h, Prop, Build} from "@stencil/core";
+import {Component, Host, h, Prop, State, Listen} from "@stencil/core";
 import {
   secondaryNavStyle,
   hostStyle,
-  searchStyle,
   linkActiveStyle,
   shadowStyle,
 } from "./secondary-nav.style";
 import {createVNodeFromHyperscriptNode} from "../../utils/hyperscript";
 import {pageContext} from "../page/page.context";
 import {SelectedFilters} from "../page/page.types";
-import {transformData} from "../../utils/transform-search-data";
+import {
+  AWS_USER_GUIDE,
+  IOS_REFERENCE,
+  ANDROID_REFERENCE,
+  JS_REFERENCE,
+} from "../../constants/links";
 
 @Component({tag: "docs-secondary-nav", shadow: false})
 export class DocsSecondaryNav {
   /*** the current filter state */
   @Prop() readonly selectedFilters?: SelectedFilters;
 
-  componentDidRender() {
-    if (Build.isBrowser && location.pathname !== "/") {
-      // @ts-ignore
-      docsearch({
-        apiKey: "24d37f059982b2f5ecf829afe93aed40",
-        indexName: "aws_amplify_new",
-        inputSelector: "#amplify-docs-search-input",
-        debug: false,
-        transformData,
-      });
-    }
-  }
-
   render() {
     return (
       <Host class={hostStyle} id="secondary-nav">
-        <amplify-container>
+        <docs-container>
           <div class={secondaryNavStyle}>
             <div>
               <div>
@@ -43,11 +34,7 @@ export class DocsSecondaryNav {
                   },
                   {
                     label: "Libraries",
-                    url: this.selectedFilters?.platform
-                      ? this.selectedFilters.platform === "js"
-                        ? "/lib"
-                        : "/sdk"
-                      : "/lib",
+                    url: "/lib",
                     additionalActiveChildRoots: ["/lib", "/sdk"],
                   },
                   {
@@ -60,9 +47,12 @@ export class DocsSecondaryNav {
                     url: "/cli",
                   },
                   {
+                    label: "Guides",
+                    url: "/guides",
+                  },
+                  {
                     label: "Console",
-                    url:
-                      "https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html",
+                    url: AWS_USER_GUIDE,
                     external: true,
                   },
                   ...(this.selectedFilters?.platform
@@ -72,13 +62,13 @@ export class DocsSecondaryNav {
                           url: (() => {
                             switch (this.selectedFilters.platform) {
                               case "ios": {
-                                return "https://aws-amplify.github.io/aws-sdk-ios/docs/reference/";
+                                return IOS_REFERENCE;
                               }
                               case "android": {
-                                return "https://aws-amplify.github.io/aws-sdk-android/docs/reference/";
+                                return ANDROID_REFERENCE;
                               }
                               case "js": {
-                                return "https://aws-amplify.github.io/amplify-js/api/";
+                                return JS_REFERENCE;
                               }
                             }
                           })(),
@@ -105,21 +95,8 @@ export class DocsSecondaryNav {
                 <div class={shadowStyle}></div>
               </div>
             </div>
-            <div class={searchStyle}>
-              <div>
-                <div>
-                  <input
-                    id="amplify-docs-search-input"
-                    type="search"
-                    placeholder="Search"
-                    class="three-dee-effect"
-                  />
-                  <img src="/assets/search.svg" alt="search" />
-                </div>
-              </div>
-            </div>
           </div>
-        </amplify-container>
+        </docs-container>
       </Host>
     );
   }

@@ -32,26 +32,26 @@ This workflow can be used to share complete Amplify projects with people outside
 
 The Amplify CLI supports basic web application hosting with Amazon S3 and CloudFront. You can use the multi-environments feature with the Amplify Console for a fully managed web application hosting and continuous deployment solution. For more information please learn more in the [official documentation](https://docs.aws.amazon.com/amplify/latest/userguide/multi-environments.html).
 
-### Setting up master and dev environments
+### Setting up prod and dev environments
 
 Create a Git repository for your project if you haven't already. It is recommended managing separate Git branches for different environments (try to have the same branch name as your environment name to avoid confusion).
 From the root of your project, execute the following commands:
 
 ```
 $ amplify init
-? Enter a name for the environment master
+? Enter a name for the environment: prod
 // Provide AWS Profile info
 // Add amplify categories using `amplify add <category>`
 $ git init
 $ git add <all project related files>
-$ git commit -m "Creation of a master amplify environment"
+$ git commit -m "Creation of a prod amplify environment"
 $ git remote add origin git@github.com:<repo-name>
-$ git push -u origin master
+$ git push -u origin prod
 ```
 
 **Note**: When you initialize a project using the Amplify CLI, it appends (if a gitignore file exists at the root of the project) or creates one for you (if a gitignore file doesn't exist at the root of your project), with a list of recommended files to check in from the Amplify CLI generated list of files, into your Git repository.
 
-Once you have your 'master' branch setup in Git, set up a 'dev' environment in your Amplify project (which would be based on your 'master' environment), and then walk through the following steps to create a corresponding git branch for it.
+Once you have your 'prod' branch setup in Git, set up a 'dev' environment in your Amplify project (which would be based on your 'prod' environment), and then walk through the following steps to create a corresponding git branch for it.
 
 ```
 $ amplify env add
@@ -60,14 +60,14 @@ $ amplify env add
 // Provide AWS Profile info
 ```
 
-This will set up another environment for the project in the cloud. The backend-configs and resources are now cloned from the 'master' environment. Run `amplify push` to provision all the AWS resources for your new environment (dev).
+This will set up another environment for the project in the cloud. The backend-configs and resources are now cloned from the 'prod' environment. Run `amplify push` to provision all the AWS resources for your new environment (dev).
 
-Now push the changes to the 'master' branch (you would just see changes to the team-provider-info.json file - when running a `git status` command, which has cumulative stack information for all the project environments which are useful when you want to share the same backend within a team). After this, let's create a new git branch - 'dev' corresponding to the new environment we just created.
+Now push the changes to the 'prod' branch (you would just see changes to the team-provider-info.json file - when running a `git status` command, which has cumulative stack information for all the project environments which are useful when you want to share the same backend within a team). After this, let's create a new git branch - 'dev' corresponding to the new environment we just created.
 
 ```
 $ git add .
 $ git commit -m "Creation of a dev amplify environment"
-$ git push -u origin master
+$ git push -u origin prod
 $ git checkout -b dev
 $ git push -u origin dev
 ```

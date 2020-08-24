@@ -1,7 +1,7 @@
 ---
 title: Folder structure
 description: Learn more about Amplify's generated folder structure.
---- 
+---
 
 The CLI places the following folder structure at the root directory of the project when `init` is completed successfully:
 
@@ -65,3 +65,30 @@ This file is consumed by the [iOS](https://github.com/aws/aws-sdk-ios/) and [And
 - [Cognito security best practices for web app](https://forums.aws.amazon.com/message.jspa?messageID=757990#757990)
 - [Security / Best Practice for poolData (UserPoolId, ClientId) in a browser JS app](https://github.com/amazon-archives/amazon-cognito-identity-js/issues/312)
 - [Are the Cognito User pool id and Client Id sensitive?](https://stackoverflow.com/a/47865747/194974)
+
+### .gitignore configuration
+When a new project is initialized from the Amplify CLI, Amplify will automatically update the projects .gitignore file to include the following files and folders:
+
+```sh
+#amplify
+amplify/\#current-cloud-backend
+amplify/.config/local-*
+amplify/mock-data
+amplify/backend/amplify-meta.json
+amplify/backend/awscloudformation
+build/
+dist/
+node_modules/
+aws-exports.js
+awsconfiguration.json
+amplifyconfiguration.json
+amplify-build-config.json
+amplify-gradle-config.json
+amplifyxc.config
+```
+
+### team-provider-info.json
+`team-provider-info.json` is used for sharing your project within your team. Learn more about it in the [Share single environment section](~/cli/teams/shared.md#sharing-projects-within-the-team)
+
+### amplify.json
+Amplify CLI implemented feature flag support and this file contains the feature flag configuration. If this file does not exist, it is created by Amplify CLI during `amplify init`. Beside `amplify.json`, CLI environment specific feature flag overrides can be defined in `amplify.{environment name}.json` as well. Learn more at [Feature flags](~/cli/reference/feature-flags.md)

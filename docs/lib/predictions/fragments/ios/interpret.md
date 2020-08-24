@@ -1,3 +1,7 @@
+The following API allows you to analyze text for language, entities (places, people), key phrases, sentiment (positive, neutral, negative), and syntax (pronouns, verbs, adjectives).
+
+For analyzing language on iOS we use both AWS backend services as well as Apple's on-device [Natural Language Framework](https://developer.apple.com/documentation/naturallanguage) to provide you with the most accurate results.  If your device is offline, we will return results only Natural Language.  On the other hand, if you are able to connect to AWS Services, we will return a unioned result from both the service and Natural Language.  Switching between backend services and Natural Language is done automatically without any additional configuration required.
+
 ## Set up your backend
 
 This will allow you to determine key phrases, sentiment, language, syntax, and entities from text. If you haven't already done so, run `amplify init` inside your project and then `amplify add auth` (we recommend selecting the *default configuration*).
@@ -37,18 +41,42 @@ Run `amplify push` to create the resources in the cloud
 
 Here is an example of sending text for interpretation such as sentiment analysis or natural language characteristics. 
 
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
 ```swift
 func interpret(text: String) {
-  _ = Amplify.Predictions.interpret(text: text, options: PredictionsInterpretRequest.Options(), listener: { (event) in
-    switch event {
-    case .completed(let result):
-      print(result)
-    case .failed(let error):
-      print(error)
-    default:
-      break
-		}
-  })
+    Amplify.Predictions.interpret(text: text) { event in
+        switch event {
+        case let .success(result):
+            print(result)
+        case let .failure(error):
+            print(error)
+        }
+    }
 }
 ```
 
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+func interpret(text: String) -> AnyCancellable {
+    Amplify.Predictions.interpret(text: text)
+        .resultPublisher
+        .sink {
+            if case let .failure(error) = $0 {
+                print(error)
+            }
+        }
+        receiveValue: { result in
+            print(result)
+        }
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>

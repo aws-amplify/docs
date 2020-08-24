@@ -5,6 +5,7 @@ export const platformsGroupStyle = css`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  
 
   stencil-route-link > a {
     display: block;
@@ -14,6 +15,7 @@ export const platformsGroupStyle = css`
 
 export const platformIcon = css`
   width: 2.5rem;
+  height: 2.5rem;
 `;
 
 export const buttonStyle = css`

@@ -3,20 +3,6 @@ import {Page} from "../../api";
 import {getFilterKeyFromPage} from "../../utils/filters";
 import {filterMetadataByOptionByName} from "../../utils/filter-data";
 
-const getRoute = (page: Page, filterValue: string): string => {
-  switch (filterValue) {
-    case "android":
-    case "ios": {
-      if (page.route.startsWith("/lib")) {
-        return `/sdk/q/platform/${filterValue}`;
-      }
-      break;
-    }
-  }
-
-  return page.versions?.[filterValue] as string;
-};
-
 @Component({tag: "docs-choose-anchor", shadow: false})
 export class DocsChooseAnchor {
   /*** the current page's data */
@@ -35,7 +21,7 @@ export class DocsChooseAnchor {
           {filterKey &&
             Object.entries(filterMetadataByOptionByName[filterKey]).map(
               ([filterValue, {label, graphicURI}]) => {
-                const route = getRoute(this.page, filterValue);
+                const route = this.page.versions?.[filterValue] as string;
 
                 return (
                   <docs-card key={label} vertical url={route}>

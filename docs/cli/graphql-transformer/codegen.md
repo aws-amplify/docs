@@ -3,7 +3,7 @@ title: Code generation
 description: Amplify's codegen capabilities generates native code for iOS and Android, as well as the generation of types for Flow and TypeScript. It can also generate GraphQL statements(queries, mutations, and subscriptions).
 ---
 
-Codegen helps you generate native code for iOS and Android, as well as the generation of types for Flow and TypeScript. It can also generate GraphQL statements(queries, mutations, and subscriptions) so that you don't have to hand code them.
+Codegen helps you generate native code for iOS and Android, as well as the generation of types for Flow and TypeScript. It can also generate GraphQL statements (queries, mutations, and subscriptions) so that you don't have to hand code them.
 
 Codegen `add` workflow triggers automatically when an AppSync API is pushed to the cloud. You will be prompted if you want to configure codegen when an AppSync API is created and if you opt-in for codegen, subsequent pushes prompt you if they want to update the generated code after changes get pushed to the cloud.
 
@@ -165,7 +165,7 @@ amplify add codegen
 Once codegen has been added you can update your introspection schema, then generate statements and types again without re-entering your project information.
 
 ```bash
-$amplify codegen
+amplify codegen
 ```
 
 You can update your project and codegen configuration if required.

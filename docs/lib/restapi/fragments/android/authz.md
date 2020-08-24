@@ -1,6 +1,6 @@
 By default API Gateway is setup with AWS IAM authorization. To switch to another mode run `amplify console api` and select `REST` to change this in the API Gateway console.
 
-## API Key
+## API key
 
 To invoke an API Gateway endpoint with API Key as the auth mode, you should have the following configuration in your `amplifyconfiguration.json` file.
 
@@ -17,7 +17,7 @@ To invoke an API Gateway endpoint with API Key as the auth mode, you should have
 }
 ```
 
-## Cognito User Pools authorization
+## Cognito user pools authorization
 
 To invoke an API Gateway endpoint from your application with Cognito User Pools authorization use the `AWSMobileClient` as outlined in [the authentication section](~/lib/auth/getting-started.md). If you have logged in with the `AWSMobileClient` at the start of your application lifecycle, the Amplify API category will use these credentials automatically for you as long as the configuration set in your `amplifyconfiguration.json` file is set to `"authorizationType": "AMAZON_COGNITO_USER_POOLS"`.
 

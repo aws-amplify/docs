@@ -21,7 +21,7 @@ Finally, you might have other queries which you wish to represent in your applic
 // Start DeltaSync
 const subscription = client.sync(options)
 /*
-Under the covers, this is actually an Observable<T> that the AppSync client automatically subscribes to for you, so the returned object is a "subscription". This means that you can automatically stop the syncronization process like so:
+Under the covers, this is actually an Observable<T> that the AppSync client automatically subscribes to for you, so the returned object is a "subscription". This means that you can automatically stop the synchronization process like so:
 */
 // Stop DeltaSync
 subscription.unsubscribe();

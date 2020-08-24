@@ -61,7 +61,7 @@ Amplify.configure({
     },
     Storage: {
         AWSS3: {
-            bucket: '', //REQUIRED -  Amazon S3 bucket
+            bucket: '', //REQUIRED -  Amazon S3 bucket name
             region: 'XX-XXXX-X', //OPTIONAL -  Amazon service region
         }
     }
@@ -236,7 +236,7 @@ The following steps will set up your CORS Policy:
 
 </amplify-callout>
 
-For information on Amazon S3 file access levels, please see [configure file access levels](~/lib/storage/configureaccess.md).
+For information on Amazon S3 file access levels, please see [file access levels](~/lib/storage/configureaccess.md).
 
 ## Using a Custom Plugin
 
@@ -284,7 +284,7 @@ Storage.addPluggable(new MyStorageProvider());
 // get the plugin
 Storage.getPluggable(MyStorageProvider.providerName);
 
-// remove the plulgin
+// remove the plugin
 Storage.removePluggable(MyStorageProvider.providerName);
 
 // send configuration into Amplify

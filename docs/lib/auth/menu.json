@@ -11,14 +11,17 @@
     "switch-auth",
     "customui",
     "advanced",
-
-    "how-it-works",
-		"guest-access",
-		"working-with-api",
-		"drop-in-auth",
-		"federated-identities",
-		"hosted-ui",
-		"custom-auth-flow",
-		"device-features"
+    
+    "signin",
+    "signin_web_ui",
+    "social_signin_web_ui",
+    "auth-events",
+    "user-attributes",
+    "device_features",
+    "password_management",
+    "signOut",
+    "access_credentials",
+    "escapehatch",
+    "existing-resources"
   ]
 }
