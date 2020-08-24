@@ -1,36 +1,4 @@
-<amplify-block-switcher>
-
-<amplify-block name="Java">
-
-```java
-Amplify.DataStore.query(Post.class,
-    Where.sorted(Post.RATING.ascending()),
-    posts -> {
-        while (posts.hasNext()) {
-            Post post = posts.next();
-            Log.i("MyAmplifyApp", "Title: " + post.getTitle());
-        }
-    },
-    failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
-);
-```
-
-</amplify-block>
-
-<amplify-block name="Kotlin">
-
-```kotlin
-Amplify.DataStore.query(Post::class.java,
-    Where.sorted(Post.RATING.ascending()),
-    {
-        while (it.hasNext()) {
-            Log.i("MyAmplifyApp", "Title: ${it.next().title}")
-        }
-    },
-    { Log.e("MyAmplifyApp", "Query failed.", it) }
-)
-```
-
-</amplify-block>
-
-</amplify-block-switcher>
+<amplify-callout>
+This functionality has not yet been implemented for Android but is scheduled to be finished in the near future.
+This section will be updated once it has.
+</amplify-callout>
