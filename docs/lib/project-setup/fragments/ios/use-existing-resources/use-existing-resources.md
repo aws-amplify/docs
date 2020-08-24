@@ -1,8 +1,8 @@
-An application’s backend is built with cloud resources such as AWS AppSync GraphQL APIs, Amazon S3 storage, and Amazon Cognito authentication. The Amplify CLI simplifies the provisioning of new backend resources across these different categories. However, you can alternatively use the Amplify libraries to add or re-use existing AWS resources that you provisioned without the CLI. The Amplify libraries support configuration through the `amplifyconfiguration.json` file which defines all the regions and service endpoints for your backend AWS resources.  
+An application’s backend is built with cloud resources such as AWS AppSync GraphQL APIs, Amazon S3 storage, and Amazon Cognito authentication. The Amplify CLI simplifies the provisioning of new backend resources across these different categories. However, you can alternatively use the Amplify libraries to add or re-use existing AWS resources that you provisioned without the CLI. The Amplify libraries support configuration through the *amplifyconfiguration.json* file which defines all the regions and service endpoints for your backend AWS resources.  
 
 ## Add an existing AWS resource to an iOS application 
 
-Before you can add an existing AWS resource to an iOS application, the application must have the Amplify libraries installed. For detailed instructions, see [Install Amplify Libraries](~/lib/project-setup/fragments/ios/create-application/20_cocoaPods.md). 
+Before you can add an existing AWS resource to an iOS application, the application must have the Amplify libraries installed. For detailed instructions, see [Install Amplify Libraries](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/ios#n2-install-amplify-libraries). 
 
 ### 1. Manually create the Amplify configuration file for your iOS project
 
@@ -35,7 +35,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 
 Now you’re ready to customize your application’s `amplifyconfiguration.json` file to specify an existing AWS resource to use. 
 
-Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](~/lib/project-setup/fragments/ios/create-application/20_cocoaPods.md). 
+Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/ios#n2-install-amplify-libraries). 
 
 Select a category from the following list to view an example `amplifyconfiguration.json` file you can use as a template to author your own `amplifyconfiguration.json` file:
 
