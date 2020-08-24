@@ -37,7 +37,7 @@ func speechToText(speech: URL) {
         pluginOptions: nil
     )
 
-    _ = Amplify.Predictions.convert(speechToText: speech, options: options) { event in
+    Amplify.Predictions.convert(speechToText: speech, options: options) { event in
         switch event {
         case let .success(result):
             print(result.transcription)

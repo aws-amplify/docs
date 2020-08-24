@@ -121,12 +121,13 @@ Like the initial setup, models can be generated either using the IDE integration
 
 Models can also be generated using the Amplify CLI directly.
 
-1. In your terminal, change directories to your project's folder and **execute the codegen command**:
-    ```console
-    amplify codegen models
-    ```
-2. **Locate the generated files** at `amplify/generated/models/`.
-3. **Add the files** to the Xcode project.
+In your terminal, make sure you are in your project/root folder and **execute the codegen command**:
+
+```console
+amplify codegen models
+```
+    
+You can **find the generated files** at `amplify/generated/models/`. Remember to add them to your Xcode project if on iOS.
 
 ## Initialize Amplify DataStore
 
