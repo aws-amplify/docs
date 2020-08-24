@@ -34,7 +34,13 @@
 
 ### Create a new Flutter application 
 
-1. Open **Android Studio**. Select **+ Start a new Flutter project**.
+1. Create a new project using Flutter CLI:
+
+    ```bash
+    flutter create todo
+    ```
+
+1. Or using **Android Studio**. Select **+ Start a new Flutter project**.
 
     ![](~/images/lib/getting-started/flutter/set-up-android-studio-welcome.png)
 
@@ -80,7 +86,7 @@ dependencies:
 
     ![](~/images/lib/getting-started/flutter/set-up-android-studio-pub-get.png)
 
-    Alternatively, you can open a terminal window, cd into your project's root directory (where you pubspec.yaml is) and run: 
+    Alternatively, you can open a terminal window, cd into your project's root directory (where your pubspec.yaml is) and run: 
 
     ```bash
     flutter pub get 
