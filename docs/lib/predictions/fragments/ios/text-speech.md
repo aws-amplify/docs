@@ -43,6 +43,7 @@ Here is an example of converting text to speech. In order to override any choice
 
 ```swift
 import Amplify
+import AWSPredictionsPlugin
 import AVFoundation
 
 //...
@@ -57,7 +58,7 @@ func textToSpeech(text: String) {
         pluginOptions: nil
     )
 
-    _ = Amplify.Predictions.convert(textToSpeech: text, options: options) { event in
+    Amplify.Predictions.convert(textToSpeech: text, options: options) { event in
         switch event {
         case let .success(result):
             print(result.audioData)
@@ -78,6 +79,7 @@ func textToSpeech(text: String) {
 
 ```swift
 import Amplify
+import AWSPredictionsPlugin
 import AVFoundation
 
 //...

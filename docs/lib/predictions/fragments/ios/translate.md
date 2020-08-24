@@ -42,7 +42,7 @@ Here is an example of translating text. In order to override any choices you mad
 
 ```swift
 func translateText(text:String) {
-    _ = Amplify.Predictions.convert(textToTranslate: text,
+    Amplify.Predictions.convert(textToTranslate: text,
                                     language: .english,
                                     targetLanguage: .italian) { event in
         switch event {

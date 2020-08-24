@@ -1,17 +1,16 @@
 
 👋 Welcome! In this tutorial, you will:
 
-- Download the getting started app
-- Add the Flutter Library dependencies
+- Setup your Flutter development environment 
+- Add the Amplify Flutter Library dependencies
+- Create a basic app that records an analytics event
 - Use Amplify CLI to setup your AWS backend resources 
 
 ## Prerequisites
 
-- Install [Flutter](https://flutter.dev/docs/get-started/install) version 1.20.0 or higher
-    
-    These steps will also guide you through downloading and setting up Android Studio and XCode for Flutter.   
+- [Install Flutter](https://flutter.dev/docs/get-started/install) version 1.20.0 or higher
 
-- Setup your [IDE](https://flutter.dev/docs/get-started/editor?tab=androidstudio)
+- [Setup your IDE](https://flutter.dev/docs/get-started/editor?tab=androidstudio)
 
     This tutorial assumes you are using AndroidStudio to develop your app. 
 
@@ -21,6 +20,14 @@
     npm install -g @aws-amplify/cli@flutter-preview
     ```
     An existing install of @aws-amplify/cli will not work, you need to install the flutter-preview version.
+
+- Sign up for an AWS account
+
+    If you don't already have an AWS account, you'll need to create one in order to follow the steps outlined in this tutorial.
+
+    [Create AWS Account](https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start)
+
+    > There are no upfront charges or any term commitments to create an AWS account and signing up gives you immediate access to the AWS Free Tier.
 
 
 ## Set up your application
@@ -52,6 +59,9 @@
 
 Android Studio will open your project with a tab opened to *main.dart*
 
+1. Lastly, modify your Podfile to target iOS platform 11.0 or higher.  Within your project open `ios/Podfile` and change the second line to be `platform :ios, '11.0'. 
+
+You now have an empty Flutter project into which you’ll add Amplify in the next steps.
 
 ### Add Amplify to your application
 

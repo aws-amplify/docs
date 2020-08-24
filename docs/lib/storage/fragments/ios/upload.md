@@ -7,7 +7,9 @@ To upload to S3 from a data object, specify the `key` and the `data` object to b
 ```swift
 let dataString = "My Data"
 let data = dataString.data(using: .utf8)!
-Amplify.Storage.uploadData(key: "ExampleKey", data: data, 
+Amplify.Storage.uploadData(
+    key: "ExampleKey",
+    data: data,
     progressListener: { progress in
         print("Progress: \(progress)")
     }, resultListener: { event in
@@ -16,8 +18,9 @@ Amplify.Storage.uploadData(key: "ExampleKey", data: data,
             print("Completed: \(data)")
         case .failure(let storageError):
             print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
-    })
-})
+        }
+    }
+)
 ```
 
 </amplify-block>
@@ -60,17 +63,20 @@ do {
     print("Failed to write to file \(error)")
 }
 
-_ = Amplify.Storage.uploadFile(key: fileNameKey, local: filename,
-                                progressListener: { progress in
-                                print("Progress: \(progress)")
-}, resultListener: { event in
-    switch event {
-    case let .success(data):
-        print("Completed: \(data)")
-    case let .failure(storageError):
-        print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+Amplify.Storage.uploadFile(
+    key: fileNameKey,
+    local: filename,
+    progressListener: { progress in
+        print("Progress: \(progress)")
+    }, resultListener: { event in
+        switch event {
+        case let .success(data):
+            print("Completed: \(data)")
+        case let .failure(storageError):
+            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+        }
     }
-})
+)
 ```
 
 </amplify-block>

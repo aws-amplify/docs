@@ -10,3 +10,20 @@ try {
   print(e.toString());
 }
 ```
+
+### Generate a download URL
+
+You can also retrieve a URL for the object in storage:
+
+```dart
+
+try {
+  GetUrlResult result =
+    await Amplify.Storage.getUrl(key: "myKey");
+  print(result.url); 
+} catch (e) {
+  print(e.toString());
+}
+
+```
+
