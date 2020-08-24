@@ -142,7 +142,7 @@ class Todos: UIViewController{
 }
 ```
 
-if `SwiftUI` is what you are using, do the following by adding an init method to your View struct:
+If you are using SwiftUI, you can add a reference to the shared AppSync client as `@State` to your View, and assign it in your view's initializer:
 
 ```swift
 // Remember to import AWSAppSync
@@ -151,7 +151,7 @@ import AWSAppSync
 struct ContentView: View {
     
     //Add an init method
-    var appSyncClient: AWSAppSyncClient?
+    @State var appSyncClient: AWSAppSyncClient?
 
     init() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
