@@ -85,7 +85,7 @@ export class AppModule {}
 _app.component.html_
 
 ```diff
-+ <amplify-chatbot bot-name="yourBotName/>
++ <amplify-chatbot bot-name="yourBotName" />
 - <amplify-interactions framework="Ionic" bot="yourBotName"/>
 ```
 </docs-filter>
