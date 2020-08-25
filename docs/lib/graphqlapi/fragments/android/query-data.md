@@ -1,39 +1,130 @@
-## Query by Id
+## Query item
 
-Now that you were able to make a mutation, take the `Id` that was printed out for the blog creation and query for it - you'll see that it returns the Posts we associated with it as well.
+Now that you were able to make a mutation, take the `Id` that was printed out and use it in your query to retrieve data.
+
+<amplify-block-switcher>
+<amplify-block name="Java">
 
 ```java
-private void getBlog(String id) {
-    Amplify.API.query(
-        Blog.class,
-        id,
-        queryResponse -> {
-            Log.i("ApiQuickStart", "Got " + queryResponse.getData().getName());
+private void getTodo(String id) {
+  Amplify.API.query(
+          ModelQuery.get(Todo.class, id),
+          response -> Log.i("MyAmplifyApp", ((Todo) response.getData()).getName()),
+          error -> Log.e("MyAmplifyApp", error.toString(), error)
+  );
+}
+```
 
-            for (Post post : queryResponse.getData().getPosts()) {
-                Log.i("ApiQuickStart", "Post: " + post.getTitle());
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+fun getTodo(id: String) {
+    Amplify.API.query(
+            ModelQuery.get(Todo::class.java, id),
+            { response -> Log.i("MyAmplifyApp", response.data.name) },
+            { error -> Log.e("MyAmplifyApp", "Query failed", error) }
+    )
+}
+```
+
+</amplify-block>
+</amplify-block-switcher>
+
+## List items
+
+You can get the list of items that match a condition that you specify in `Amplify.API.query`:
+
+<amplify-block-switcher>
+<amplify-block name="Java">
+
+```java
+Amplify.API.query(
+        ModelQuery.list(Todo.class, Todo.NAME.contains("first")),
+        response -> {
+            for (Todo todo : response.getData()) {
+                Log.i("MyAmplifyApp", todo.getName());
             }
         },
-        apiFailure -> Log.e("ApiQuickStart", apiFailure.getMessage(), apiFailure)
+        error -> Log.e("MyAmplifyApp", "Query failure", error)
+);
+```
+
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+Amplify.API.query(
+        ModelQuery.list(Todo::class.java, Todo.NAME.contains("first")),
+        { response ->
+            for (todo in response.data) {
+                Log.i("MyAmplifyApp", todo.name)
+            }
+        },
+        { error -> Log.e("MyAmplifyApp", "Query failure", error) }
+)
+```
+
+</amplify-block>
+</amplify-block-switcher>
+
+> **Note**: This approach will only return up to the first 1,000 items.  To change this limit or make requests for additional results beyond this limit, use *pagination* as discussed below.
+
+## List multiple pages of items
+
+Pagination allows you to request a maximum number of results to be returned in a response. To consume further results beyond that, you can request a next page of results, if available.
+
+<amplify-block-switcher>
+<amplify-block name="Java">
+
+```java
+public void queryFirstPage() {
+    query(ModelQuery.list(Todo.class, ModelPagination.firstPage().withLimit(1_000)));
+}
+
+private static void query(GraphQLRequest<PaginatedResult<Todo>> request) {
+    Amplify.API.query(
+        request,
+        response -> {
+            if (response.hasData()) {
+                for (Todo todo : response.getData().getItems()) {
+                    Log.d("MyAmplifyApp", todo.getName());
+                }
+                if (response.getData().hasNextResult()) {
+                    query(response.getData().getRequestForNextResult());
+                }
+            }
+        },
+        failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
     );
 }
 ```
 
-## List Query
+</amplify-block>
+<amplify-block name="Kotlin">
 
-You can get the list of items that match a condition that you specify in `Amplify.API.query`
+```kotlin
+fun queryFirstPage() {
+    query(ModelQuery.list(Todo::class.java, ModelPagination.firstPage().withLimit(1_000)))
+}
 
-```java
-private void listBlogs() {
+fun query(request: GraphQLRequest<PaginatedResult<Todo>>) {
     Amplify.API.query(
-        Blog.class,
-        Blog.NAME.contains("first").and(Blog.NAME.ne("first day of kindergarten")),
-        queryResponse -> {
-            for (Blog blog : queryResponse.getData()) {
-                Log.i("ApiQuickstart", "List result: " + blog.getName());
+        request,
+        { response ->
+            if (response.hasData()) {
+                for (todo in response.data.items) {
+                    Log.d("MyAmplifyApp", todo.name)
+                }
+                if (response.data.hasNextResult()) {
+                    query(response.data.requestForNextResult)
+                }
             }
         },
-        apiFailure -> Log.e("ApiQuickStart", apiFailure.getMessage(), apiFailure)
-    );
+        { failure -> Log.e("MyAmplifyApp", "Query failed.", failure) }
+    )
 }
 ```
+
+</amplify-block>
+</amplify-block-switcher>

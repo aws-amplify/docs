@@ -68,7 +68,7 @@ Auth.getPreferredMFA(user,{
     // If set to true, it will get the MFA type from server side instead of from local cache.
     bypassCache: false 
 }).then((data) => {
-    console.log('Current prefered MFA type is: ' + data);
+    console.log('Current preferred MFA type is: ' + data);
 })
 ```
 
@@ -124,7 +124,7 @@ The following code is only for demonstration purpose:
 ```javascript
 import { Auth } from 'aws-amplify';
 
-async function SignIn() {
+async function signIn() {
     try {
         const user = await Auth.signIn(username, password);
         if (user.challengeName === 'SMS_MFA' ||

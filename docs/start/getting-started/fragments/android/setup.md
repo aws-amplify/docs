@@ -1,148 +1,125 @@
-## Step 1: Configure your app
 
-You can use an existing Android app or create a new Android app using Java as per the steps in prerequisite section.
+👋 Welcome! In this tutorial, you will:
 
-Modify your `project/build.gradle` with the following build dependency:
+- Set up an Android application configured with Amplify
+- Create a data model and persist data to Amplify DataStore
+- Connect your local data to synchronize to a cloud backend
 
-```groovy
-classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.9.+'
-```
+## Prerequisites
 
-Next, add dependencies to your `app/build.gradle`, and then choose Sync Now on the upper-right side of Android Studio.
+- Install [Node.js](https://nodejs.org/en/) version 10 or higher
+- Install [Android Studio](https://developer.android.com/studio/index.html#downloads) version 3.6 or higher
+- Install the [Android SDK](https://developer.android.com/studio/releases/platforms) API level 29 (Android 10)
+- Install [Amplify CLI](~/cli/cli.md) version 4.21.0 or later by running:
 
-```groovy
-apply plugin: 'com.amazonaws.appsync'
+    ```bash
+    npm install -g @aws-amplify/cli
+    ```
 
-dependencies {
-    //Base SDK
-    implementation 'com.amazonaws:aws-android-sdk-core:2.15.+'
-    //AppSync SDK
-    implementation 'com.amazonaws:aws-android-sdk-appsync:2.8.+'
-    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
-    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
-}
-```
+## Set up your application
 
-Finally, update your AndroidManifest.xml with the following:
+### Create a new Android application
 
-```xml
-<uses-permission android:name="android.permission.INTERNET"/>
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-<uses-permission android:name="android.permission.WAKE_LOCK" />
-<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+1. Open **Android Studio**. Select **+ Start a new Android Studio project**.
 
-        <!--other code-->
+    ![](~/images/lib/getting-started/android/set-up-android-studio-welcome.png)
 
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+1. In **Select a Project Template**, select **Empty Activity**. Press **Next**.
 
-        <service android:name="org.eclipse.paho.android.service.MqttService" />
+    ![](~/images/lib/getting-started/android/set-up-android-studio-select-project-template.png)
 
-        <!--other code-->
-    </application>
-```
+1. Next, configure your project:
 
-**Build** your Android Studio project.
+    - Enter *Todo* in the **Name** field
+    - Select either *Java* or *Kotlin* from the **Language** dropdown menu
+    - Select *API 16: Android 4.1 (Jelly Bean)* from the **Minimum SDK** dropdown menu
+    - Press **Finish**
 
-## Step 2: Initialize your project
+  ![](~/images/lib/getting-started/android/set-up-android-studio-configure-your-project.png)
 
-In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`) and run the following command (for this app, accepting all defaults is OK):
+Android Studio will open your project with a tab opened to either *MainActivity.java* or *MainActivity.kt* depending upon if you created a Java or Kotlin project respectively.
 
-```bash
-cd ./YOUR_PROJECT_FOLDER
-amplify init
-```
+![](~/images/lib/getting-started/android/set-up-android-studio-successful-setup.png)
 
-Accept the **default values**. An `awsconfiguration.json` file will be created with your configuration and updated as features get added to your project by the Amplify CLI. The file is placed in the `./app/src/main/res/raw` directory of your Android Studio project and automatically used by the SDKs at runtime.
+### Add Amplify to your application
 
-**What is awsconfiguration.json?**
+Amplify for Android is distributed as an Apache Maven package. In this section, you'll add the packages and other required directives to your build configuration.
 
-Rather than configuring each service through a constructor or constants file, the AWS SDKs for Android support configuration through a centralized file called `awsconfiguration.json` which defines all the regions and service endpoints to communicate. Whenever you run `amplify push`, this file is automatically created allowing you to focus on your application code. On Android projects, the `awsconfiguration.json` will be placed into the `./app/src/main/res/raw` directory.
+1. Expand **Gradle Scripts** in the project file viewer and open **build.gradle (Project: Todo)**.
 
-## Step 3: Add API and Database
+  Make the following additions to the project-level `build.gradle` file:
+  - Add the line `mavenCentral()` within the `repositories` block contained in both the `buildscript` and `allprojects` blocks.
+  - Add the line `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.1'` within the `dependencies` block.
+  - Add the line `apply plugin: 'com.amplifyframework.amplifytools'` at the end of the file. 
+  
+  Your file should look like this:
 
-Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the the following command from the root of your application directory:
+  ```groovy
+  buildscript {
+      repositories {
+          google()
+          jcenter()
 
-```bash
-amplify add api
-```
+          // Add this line into `repositories` in `buildscript`
+          mavenCentral()
+      }
 
-Accept the **default values** which are highlighted below:
+      dependencies {
+          classpath 'com.android.tools.build:gradle:4.0.1'
 
-```console
-? Please select from one of the below mentioned services:
-# GraphQL
-? Provide API name:
-# myapi
-? Choose the default authorization type for the API:
-# API Key
-? Enter a description for the API key:
-# demo
-? After how many days from now the API key should expire:
-# 7 (or your preferred expiration)
-? Do you want to configure advanced settings for the GraphQL API:
-# No
-? Do you have an annotated GraphQL schema? 
-# No
-? Do you want a guided schema creation? 
-# Yes
-? What best describes your project: 
-# Single object with fields
-? Do you want to edit the schema now? 
-# Yes
-```
+          // Add this line into `dependencies` in `buildscript`
+          classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.1'
+      }
+  }
 
-The CLI should open this GraphQL schema in your text editor.
+  allprojects {
+      repositories {
+          google()
+          jcenter()
 
-__amplify/backend/api/myapi/schema.graphql__
+          // Add this line into `repositories` in `allprojects`
+          mavenCentral()
+      }
+  }
 
-```graphql
-type Todo @model {
-  id: ID!
-  name: String!
-  description: String
-}
-```
+  // Add this line at the end of the file
+  apply plugin: 'com.amplifyframework.amplifytools'
+  ```
+    
 
-The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. This directive is part of the [GraphQL transform](~/cli/graphql-transformer/directives.md) library of Amplify. 
 
-The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.
+1. Under **Gradle Scripts**, open **build.gradle (Module: app)**.
 
-A type decorated with the `@model` directive will scaffold out the database table for the type (Todo table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
+   Update the `android` and `dependencies` blocks in your file with the following lines:
 
-From the command line, press __enter__ to accept the schema and continue to the next steps.
+  ```groovy
+  android {
+      // Add these lines in `android`
+      compileOptions {
+          sourceCompatibility JavaVersion.VERSION_1_8
+          targetCompatibility JavaVersion.VERSION_1_8
+      }
+  }
 
-## Step 4: Push changes
+  dependencies {
+      // Add these lines in `dependencies`
+      implementation 'com.amplifyframework:core:1.1.2'
+      implementation 'com.amplifyframework:aws-datastore:1.1.2'
+      implementation 'com.amplifyframework:aws-api:1.1.2'
+  }
+  ```
 
-Create required backend resources for your configured API with the following command:
+    - Set `sourceCompatibility` and `targetCompatibility` to Java 1.8 which allows your application to make use of Java 8 features like Lambda expressions.
+    - Add Amplify Core, API, and DataStore libraries in the `dependencies` block.
 
-```bash
-amplify push
-```
+1. Run **Gradle Sync**
 
-Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults which generate a `./app/src/main/graphql` folder structure with your statements.
+    Android Studio requires you to sync your project with your new configuration. To do this, click **Sync Now** in the notification bar above the file editor.
 
-Run a **Gradle Sync** and **Build** your app. The generated packages are automatically added to your project.
+    ![](~/images/lib/getting-started/android/set-up-android-studio-sync-gradle.png)
 
-Next, run the following command to check Amplify's status:
-
-```bash
-amplify status
-```
-
-This will give us the current status of the Amplify project, including the current environment, any categories that have been created, and what state those categories are in. It should look similar to this:
-
-```console
-Current Environment: dev
-
-| Category | Resource name | Operation | Provider plugin   |
-| -------- | ------------- | --------- | ----------------- |
-| Api      | myapi         | No Change | awscloudformation |
-```
+    When complete, you will see *CONFIGURE SUCCESSFUL* in the output in the *Build* tab at the bottom of your screen.
+    
+    ![](~/images/lib/getting-started/android/set-up-android-studio-configure-successful.png)
+    
+You are ready to start building with Amplify! 🎉

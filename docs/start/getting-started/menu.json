@@ -6,6 +6,9 @@
         "data-model",
         "auth",
         "hosting",
+        "generate-model",
+        "integrate",
+        "add-api",
         "nextsteps"
     ]
 }

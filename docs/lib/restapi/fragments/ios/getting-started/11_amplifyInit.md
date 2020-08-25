@@ -1,0 +1,50 @@
+To start provisioning api resources in the backend, go to your project directory and **execute the command**:
+
+```bash
+amplify add api
+```
+
+Enter the following when prompted:
+```console
+? Please select from one of the below mentioned services: 
+    `REST`
+? Provide a friendly name for your resource to be used as a label for this category in the project: 
+    `api1f12345`
+? Provide a path (e.g., /book/{isbn}): 
+    `/todo`
+? Choose a Lambda source 
+    `Create a new Lambda function`
+? Provide a friendly name for your resource to be used as a label for this category in the project: 
+    `restTodo123`
+? Provide the AWS Lambda function name: 
+    `restTodoLambda123`
+? Choose the function runtime that you want to use: 
+    `NodeJS`
+? Choose the function template that you want to use: 
+    `Serverless ExpressJS function (Integration with API Gateway)`
+? Do you want to access other resources created in this project from your Lambda function? 
+    `No`
+? Do you want to invoke this function on a recurring schedule? 
+    `No`
+? Do you want to edit the local lambda function now? `No`
+Successfully added the Lambda function locally
+? Restrict API access 
+    `Yes`
+? Who should have access? 
+    `Authenticated and Guest users`
+? What kind of access do you want for Authenticated users? 
+    `create, read, update, delete`
+? What kind of access do you want for Guest users? 
+    `create, read, update, delete`
+Successfully added auth resource locally.
+? Do you want to add another path? 
+    `No`
+```
+
+To push your changes to the cloud, **execute the command**:
+
+```bash
+amplify push
+```
+
+Upon completion, `amplifyconfiguration.json` should be updated to reference provisioned backend storage resources.  Note that these files should already be a part of your project if you followed the [Project setup walkthrough](~/lib/project-setup/create-application.md).

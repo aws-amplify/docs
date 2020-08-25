@@ -6,7 +6,7 @@ PushNotification.onNotification((notification) => {
   // Note that the notification object structure is different from Android and IOS
   console.log('in app notification', notification);
 
-  // required on iOS only (see fetchCompletionHandler docs: https://facebook.github.io/react-native/docs/pushnotificationios.html)
+  // required on iOS only (see fetchCompletionHandler docs: https://github.com/react-native-community/push-notification-ios#finish)
   notification.finish(PushNotificationIOS.FetchResult.NoData);
 });
 

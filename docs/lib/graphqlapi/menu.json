@@ -5,12 +5,13 @@
     "concepts",
     "create-or-re-use-existing-backend",
     "authz",
-    "query-data",
     "mutate-data",
+    "query-data",
     "subscribe-data",
     "cancel-request",
     "offline",
     "graphql-from-nodejs",
-    "advanced-workflows"
+    "advanced-workflows",
+    "existing-resources"
   ]
 }

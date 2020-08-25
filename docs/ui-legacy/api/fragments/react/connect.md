@@ -51,7 +51,7 @@ Also, you can use the `subscription` and `onSubscriptionMsg` attributes to enabl
     query={graphqlOperation(queries.listTodos)}
     subscription={graphqlOperation(subscriptions.onCreateTodo)}
     onSubscriptionMsg={(prev, { onCreateTodo }) => {
-        console.log ( onCreateTodo );
+        console.log(onCreateTodo);
         return prev; 
     }}
 >

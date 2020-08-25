@@ -92,7 +92,10 @@ export const injectFilteredVersionRoutes = (ctx: t.Ctx): void => {
           }
 
           if (page.route.includes("/sdk")) {
-            versions.js = `/lib/q/platform/js`;
+            versions.js = "/lib/q/platform/js";
+            versions.flutter = "/lib/q/platform/flutter";
+          } else if (page.route.includes("/guides")) {
+            versions.flutter = "/lib/q/platform/flutter";
           }
 
           // attach the `versions` and `filterKey` to the page

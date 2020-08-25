@@ -25,7 +25,7 @@ Within the second-level page's folder, you might see other markdown files, along
 
 IMPORTANT: every page has to have a `title` and `description` frontmatter field.
 
-The markdown body can include any valid HTML, although this is ill-advised, unless it's to embed an example from [Amplify UI](https://github.com/aws-amplify/amplify-js/tree/master/packages/amplify-ui). It's also important to note that objects (passed via attributes) are not valid in HTML (only in JSX). Another note: be careful––when embedding HTML in markdown––to not make use of non-standard self-closing tags (standard self-closing tags include area, base, br, col, command, embed, hr, img, input, keygen, param, source, track and wbr).
+The markdown body can include any valid HTML, although this is ill-advised, unless it's to embed an example from [Amplify UI](https://github.com/aws-amplify/amplify-js/tree/main/packages/amplify-ui). It's also important to note that objects (passed via attributes) are not valid in HTML (only in JSX). Another note: be careful––when embedding HTML in markdown––to not make use of non-standard self-closing tags (standard self-closing tags include area, base, br, col, command, embed, hr, img, input, keygen, param, source, track and wbr).
 
 Let's go ahead and create some new pages. Let's say we want to create pages for the auth category. We update the current directory structure...
 
@@ -70,7 +70,7 @@ Our `docs/lib/auth/menu.json` should reference the newly-created page at `docs/l
 }
 ```
 
-Our `docs/overauth.md` can look like this for now:
+Our `docs/lib/auth/overview.md` can look like this for now:
 
 ```md
 ---
@@ -201,3 +201,7 @@ let mut a = String::from("a");
 
 </amplify-block-switcher>
 ````
+
+### Adding to Valid Tag List
+
+Markdown parsers don't handle `<whatever>` very well. If you intended to write what the parser interprets as usage of an element / web component, navigate to `capi/src/init-node/valid-tags.json` and add a new entry for your tag. If you meant for `<whatever>` to be text, you'll need to escape it with a backslash (`\<whatever\>`). Please confirm that this renders properly before PRing with your changes.

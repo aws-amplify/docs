@@ -4,5 +4,5 @@ description: The API category provides a solution for making HTTP requests to RE
 ---
 
 <inline-fragment platform="js" src="~/lib/restapi/fragments/js/getting-started.md"></inline-fragment>
-<inline-fragment platform="ios" src="~/lib/restapi/fragments/ios/getting-started.md"></inline-fragment>
-<inline-fragment platform="android" src="~/lib/restapi/fragments/android/getting-started.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/restapi/fragments/native_common/getting-started/common.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/restapi/fragments/native_common/getting-started/common.md"></inline-fragment>

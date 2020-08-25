@@ -7,7 +7,7 @@ import { Auth } from 'aws-amplify';
 
 async function signUp() {
     try {
-        const user = await Auth.signUp({
+        const { user } = await Auth.signUp({
             username,
             password,
             attributes: {
@@ -16,7 +16,7 @@ async function signUp() {
                 // other custom attributes 
             }
         });
-        console.log({ user });
+        console.log(user);
     } catch (error) {
         console.log('error signing up:', error);
     }
@@ -73,7 +73,7 @@ When signing in with user name and password, you will pass in the username and t
 ```javascript
 import { Auth } from 'aws-amplify';
 
-async function SignIn() {
+async function signIn() {
     try {
         const user = await Auth.signIn(username, password);
     } catch (error) {
@@ -90,7 +90,7 @@ import { Auth } from 'aws-amplify';
 async function resendConfirmationCode() {
     try {
         await Auth.resendSignUp(username);
-        console.log('code resent succesfully');
+        console.log('code resent successfully');
     } catch (err) {
         console.log('error resending code: ', err);
     }
