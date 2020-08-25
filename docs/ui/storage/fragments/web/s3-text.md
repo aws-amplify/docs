@@ -1,3 +1,5 @@
+<inline-fragment src="~/ui/storage/fragments/web/installation.md"></inline-fragment>
+
 ## Usage
 
 <docs-filter framework="react">
