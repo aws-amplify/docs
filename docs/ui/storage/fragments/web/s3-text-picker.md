@@ -41,7 +41,7 @@ export class AppModule {}
 _app.component.html_
 
 ```html
-<amplify-s3-text-picker />
+<amplify-s3-text-picker></amplify-s3-text-picker>
 ```
 </docs-filter>
 
@@ -72,7 +72,7 @@ export class AppModule {}
 _app.component.html_
 
 ```html
-<amplify-s3-text-picker />
+<amplify-s3-text-picker></amplify-s3-text-picker>
 ```
 </docs-filter>
 
@@ -158,8 +158,8 @@ export class AppModule {}
 _app.component.html_
 
 ```diff
-+ <amplify-s3-text-picker />
-- <s3-text picker />
++ <amplify-s3-text-picker></amplify-s3-text-picker>
+- <s3-text picker></s3-text>
 ```
 </docs-filter>
 
@@ -192,8 +192,8 @@ export class AppModule {}
 _app.component.html_
 
 ```diff
-+ <amplify-s3-text-picker />
-- <s3-text picker />
++ <amplify-s3-text-picker></amplify-s3-text-picker>
+- <s3-text picker></s3-text>
 ```
 </docs-filter>
 

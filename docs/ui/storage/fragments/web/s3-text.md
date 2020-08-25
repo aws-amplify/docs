@@ -41,7 +41,7 @@ export class AppModule {}
 _app.component.html_
 
 ```html
-<amplify-s3-text text-key="example.txt" />
+<amplify-s3-text text-key="example.txt"></amplify-s3-text>
 ```
 </docs-filter>
 
@@ -72,7 +72,7 @@ export class AppModule {}
 _app.component.html_
 
 ```html
-<amplify-s3-text text-key="example.txt" />
+<amplify-s3-text text-key="example.txt"></amplify-s3-text>
 ```
 </docs-filter>
 
@@ -126,7 +126,7 @@ const App = () => (
 _app.component.html_
 
 ```html
- <amplify-s3-text level="protected" text-key="example.txt" identity-id="us-east-1:XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX"/>
+ <amplify-s3-text level="protected" text-key="example.txt" identity-id="us-east-1:XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX"></amplify-s3-text>
 ```
 </docs-filter>
 
@@ -135,7 +135,7 @@ _app.component.html_
 _app.component.html_
 
 ```html
- <amplify-s3-text level="protected" text-key="example.txt" identity-id="us-east-1:XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX"/>
+ <amplify-s3-text level="protected" text-key="example.txt" identity-id="us-east-1:XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX"></amplify-s3-text>
 ```
 </docs-filter>
 
@@ -224,8 +224,8 @@ export class AppModule {}
 _app.component.html_
 
 ```diff
-+ <amplify-s3-text text-key="example.txt" />
-- <s3-text text-key="example.txt" />
++ <amplify-s3-text text-key="example.txt"></amplify-s3-text>
+- <s3-text text-key="example.txt"></s3-text>
 ```
 </docs-filter>
 
@@ -258,8 +258,8 @@ export class AppModule {}
 _app.component.html_
 
 ```diff
-+ <amplify-s3-text text-key="example.txt" />
-- <s3-text text-key="example.txt" />
++ <amplify-s3-text text-key="example.txt"></amplify-s3-text>
+- <s3-text text-key="example.txt"></s3-text>
 ```
 </docs-filter>
 
