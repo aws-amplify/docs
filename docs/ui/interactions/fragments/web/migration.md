@@ -51,7 +51,7 @@ export class AppModule {}
 _app.component.html_
 
 ```diff
-+ <amplify-chatbot bot-name="yourBotName/>
++ <amplify-chatbot bot-name="yourBotName" />
 - <amplify-interactions bot="yourBotName"/>
 ```
 </docs-filter>
@@ -111,4 +111,3 @@ new Vue({
 ```
 
 </docs-filter>
-
