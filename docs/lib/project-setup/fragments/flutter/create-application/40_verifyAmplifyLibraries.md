@@ -31,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _configureAmplify() async {
 
     // Add Pinpoint and Cognito Plugins, or any other plugins you want to use
-    AmplifyAnalyticsPinpointPlugin analyticsPlugin = AmplifyAnalyticsPinpointPlugin(); // this needs extra config, see docs below
+    AmplifyAnalyticsPinpoint analyticsPlugin = AmplifyAnalyticsPinpoint();
     AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
     amplifyInstance.addPlugin(authPlugins: [authPlugin]);
     amplifyInstance.addPlugin(analyticsPlugins: [analyticsPlugin]);
