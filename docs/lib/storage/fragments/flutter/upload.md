@@ -14,3 +14,5 @@ try {
   print(e.toString());
 }
 ```
+
+Todo: explain what `key` and `options` are.
