@@ -124,7 +124,7 @@ _App.vue_
 ## Use Cases
 
 ### Setting Up Voice Chat
-In order for voice input to work with Amazon Lex, you may have to enable output voice in [AWS Console](https://console.aws.amazon.com/console/home). Under the Amazon Lex service, click on your configured Lex chatbot and go to settings -> General and pick your desired output voice. 
+In order for voice input to work with Amazon Lex, you may have to enable output voice in [AWS Management Console](https://console.aws.amazon.com/console/home). Under the Amazon Lex service, click on your configured Lex chatbot and go to settings -> General and pick your desired output voice. 
 
 ### Listening to Chat Fulfillment
 Once a conversation session is finished, `amplify-chatbot` emits a custom event `chatCompleted` that your app can listen to:
