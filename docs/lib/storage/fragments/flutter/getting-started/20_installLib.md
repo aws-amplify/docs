@@ -7,3 +7,10 @@ dependencies:
   amplify_storage_s3: '<1.0.0'
 }
 ```
+
+Don't forget to import it in your project:
+
+```dart
+// main.dart
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+```
