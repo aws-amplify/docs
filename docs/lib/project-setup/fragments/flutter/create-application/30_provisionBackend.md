@@ -1,6 +1,8 @@
 To start provisioning resources in the backend, change directories to your project directory and run `amplify init`:
 
 ```bash
+# make sure you have Amplify CLI v4.27 and above for Flutter support
+# npm install -g @aws-amplify/cli to upgrade
 amplify init
 ```
 
