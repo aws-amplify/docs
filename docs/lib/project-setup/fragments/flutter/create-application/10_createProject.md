@@ -23,6 +23,4 @@ sudo gem install cocoapods
 pod init
 ```
 
-</details>
-
 You now have an empty Flutter project into which you'll add Amplify in the next steps.
