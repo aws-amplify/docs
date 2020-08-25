@@ -16,15 +16,10 @@ Android Studio will open your project with a tab opened to *main.dart*
 
 If you use CocoaPods, modify your Podfile to target iOS platform 11.0 or higher.  Within your project open `ios/Podfile` and change the second line to be `platform :ios, '11.0'. 
 
-<details>
-<summary>
-CocoaPods instructions
-</summary>
-
 ```bash
 sudo gem install cocoapods
 
-# make sure you are in the project root (the ios folder)
+# make sure you are in the ios folder
 pod init
 ```
 
