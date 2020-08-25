@@ -4,8 +4,6 @@ description: Amplify S3 Image Component is used to upload and render an image fr
 filterKey: framework
 ---
 
-<inline-fragment src="~/ui/storage/fragments/web/installation.md"></inline-fragment>
-
 <inline-fragment framework="react" src="~/ui/storage/fragments/web/s3-image.md"></inline-fragment>
 <inline-fragment framework="angular" src="~/ui/storage/fragments/web/s3-image.md"></inline-fragment>
 <inline-fragment framework="vue" src="~/ui/storage/fragments/web/s3-image.md"></inline-fragment>
