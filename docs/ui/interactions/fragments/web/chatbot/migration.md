@@ -1,7 +1,6 @@
-
 ## Migration
 
-To migrate from the legacy chatbot component to the latest chatbot component, use the steps below: 
+To migrate from the legacy chatbot component to the latest chatbot component, use the steps below:
 
 ### Usage
 
@@ -14,11 +13,12 @@ To migrate from the legacy chatbot component to the latest chatbot component, us
 const App = () => (
 
 + <AmplifyChatbot botName="yourBotName" />
-- <ChatBot botName="yourBotName />
+- <ChatBot botName="yourBotName" />
 
 );
 ```
-If you were using `onComplete` prop previously, you need to use `eventListener` [described above](~/ui/interactions/chatbot.md#listening-to-chat-fulfillment). 
+
+If you were using `onComplete` prop previously, you need to use `eventListener` [described above](~/ui/interactions/chatbot.md#listening-to-chat-fulfillment).
 
 </docs-filter>
 
@@ -54,6 +54,7 @@ _app.component.html_
 + <amplify-chatbot bot-name="yourBotName" />
 - <amplify-interactions bot="yourBotName"/>
 ```
+
 </docs-filter>
 
 <docs-filter framework="ionic">
@@ -88,6 +89,7 @@ _app.component.html_
 + <amplify-chatbot bot-name="yourBotName" />
 - <amplify-interactions framework="Ionic" bot="yourBotName"/>
 ```
+
 </docs-filter>
 
 <docs-filter framework="vue">
