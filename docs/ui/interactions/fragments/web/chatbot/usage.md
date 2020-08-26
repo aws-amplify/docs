@@ -3,10 +3,10 @@
 <docs-filter framework="react">
 
 ```jsx
-import React from 'react';
-import Amplify from 'aws-amplify';
-import { AmplifyChatbot } from '@aws-amplify/ui-react';
-import awsconfig from './aws-exports';
+import React from "react";
+import Amplify from "aws-amplify";
+import {AmplifyChatbot} from "@aws-amplify/ui-react";
+import awsconfig from "./aws-exports";
 
 Amplify.configure(awsconfig);
 
@@ -18,18 +18,21 @@ const App = () => (
   />
 );
 ```
+
 </docs-filter>
 
 <docs-filter framework="angular">
 
-```js
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
+_app.module.ts_
 
-import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
+```js
+import {BrowserModule} from "@angular/platform-browser";
+import {NgModule} from "@angular/core";
+import {AppComponent} from "./app.component";
+
+import {AmplifyUIAngularModule} from "@aws-amplify/ui-angular";
+import Amplify from "aws-amplify";
+import awsconfig from "../aws-exports";
 
 Amplify.configure(awsconfig);
 
@@ -51,6 +54,7 @@ _app.component.html_
   welcome-message="Hello, how can I help you?"
 />
 ```
+
 </docs-filter>
 
 <docs-filter framework="ionic">
@@ -58,13 +62,13 @@ _app.component.html_
 _app.module.ts_
 
 ```js
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
+import {BrowserModule} from "@angular/platform-browser";
+import {NgModule} from "@angular/core";
+import {AppComponent} from "./app.component";
 
-import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
+import {AmplifyUIAngularModule} from "@aws-amplify/ui-angular";
+import Amplify from "aws-amplify";
+import awsconfig from "./aws-exports";
 
 Amplify.configure(awsconfig);
 
@@ -86,6 +90,7 @@ _app.component.html_
   welcome-message="Hello, how can I help you?"
 />
 ```
+
 </docs-filter>
 
 <docs-filter framework="vue">
@@ -93,17 +98,17 @@ _app.component.html_
 _main.js_
 
 ```js
-import Vue from 'vue';
-import App from './App.vue';
-import '@aws-amplify/ui-vue';
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
+import Vue from "vue";
+import App from "./App.vue";
+import "@aws-amplify/ui-vue";
+import Amplify from "aws-amplify";
+import awsconfig from "./aws-exports";
 
 Amplify.configure(awsconfig);
 
 new Vue({
-  render: h => h(App),
-}).$mount('#app');
+  render: (h) => h(App),
+}).$mount("#app");
 ```
 
 _App.vue_
@@ -117,6 +122,7 @@ _App.vue_
   />
 </template>
 ```
+
 </docs-filter>
 
 <ui-component-props tag="amplify-chatbot" use-table-headers></ui-component-props>
@@ -124,16 +130,103 @@ _App.vue_
 ## Use Cases
 
 ### Setting Up Voice Chat
-In order for voice input to work with Amazon Lex, you may have to enable output voice in [AWS Management Console](https://console.aws.amazon.com/console/home). Under the Amazon Lex service, click on your configured Lex chatbot and go to settings -> General and pick your desired output voice. 
+
+In order for voice input to work with Amazon Lex, you may have to enable output voice in [AWS Management Console](https://console.aws.amazon.com/console/home). Under the Amazon Lex service, click on your configured Lex chatbot and go to settings -> General and pick your desired output voice.
 
 ### Listening to Chat Fulfillment
+
 Once a conversation session is finished, `amplify-chatbot` emits a custom event `chatCompleted` that your app can listen to:
 
+<docs-filter framework="react">
+
 ```js
-  const chatbotElement = document.querySelector('amplify-chatbot');
-  chatbotElement.addEventListener('chatCompleted', event => {
-    const { data, err } = event.detail;
-    if (data) console.log('Chat fulfilled!', JSON.stringify(data));
-    if (err) console.error('Chat failed:', err);
-  });
+function App() {
+  const handleChatComplete = (event) => {
+    const {data, err} = event.detail;
+    if (data) console.log("Chat fulfilled!", JSON.stringify(data));
+    if (err) console.error("Chat failed:", err);
+  };
+
+  useEffect(() => {
+    const chatbotElement = document.querySelector("amplify-chatbot");
+    chatbotElement.addEventListener("chatCompleted", handleChatComplete);
+    return function cleanup() {
+      chatbotElement.removeEventListener("chatCompleted", handleChatComplete);
+    };
+  }, []);
+}
 ```
+
+</docs-filter>
+
+<docs-filter framework="vue">
+
+```html
+<script>
+  const handleChatComplete = (event) => {
+    const {data, err} = event.detail;
+    if (data) alert("success!\n" + JSON.stringify(data));
+    if (err) alert(err);
+  };
+
+  export default {
+    name: "App",
+    mounted() {
+      const chatbotElement = this.$el.querySelector("amplify-chatbot");
+      chatbotElement.addEventListener("chatCompleted", handleChatComplete);
+    },
+    beforeDestroy() {
+      const chatbotElement = this.$el.querySelector("amplify-chatbot");
+      chatbotELement.removeEventListner("chatCompleted", handleChatComplete);
+    },
+  };
+</script>
+```
+
+</docs-filter>
+
+<docs-filter framework="angular">
+
+```js
+const handleChatComplete = (event: Event) => {
+  const { data, err } = (event as any).detail;
+  if (data) console.log('Chat fulfilled!', JSON.stringify(data));
+  if (err) console.error('Chat failed:', err);
+};
+
+export class AppComponent implements OnInit, OnDestroy {
+  ngOnInit(): void {
+    const chatbotElement = document.querySelector('amplify-chatbot');
+    chatbotElement.addEventListener('chatCompleted', handleChatComplete);
+  }
+  ngOnDestroy(): void {
+    const chatbotElement = document.querySelector('amplify-chatbot');
+    chatbotElement.removeEventListener('chatCompleted', handleChatComplete);
+  }
+}
+```
+
+</docs-filter>
+
+<docs-filter framework="ionic">
+
+```js
+const handleChatComplete = (event: Event) => {
+  const { data, err } = (event as any).detail;
+  if (data) console.log('Chat fulfilled!', JSON.stringify(data));
+  if (err) console.error('Chat failed:', err);
+};
+
+export class AppComponent implements OnInit, OnDestroy {
+  ngOnInit(): void {
+    const chatbotElement = document.querySelector('amplify-chatbot');
+    chatbotElement.addEventListener('chatCompleted', handleChatComplete);
+  }
+  ngOnDestroy(): void {
+    const chatbotElement = document.querySelector('amplify-chatbot');
+    chatbotElement.removeEventListener('chatCompleted', handleChatComplete);
+  }
+}
+```
+
+</docs-filter>
