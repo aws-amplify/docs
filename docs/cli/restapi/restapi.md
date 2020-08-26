@@ -33,7 +33,7 @@ See a description of these user types below
 
 For each user type you can further specify what actions it has access to.
 
-| User type  | Actions | Http Method | Athentication Provider  |
+| User type  | Actions | Http Method | Authentication Provider  |
 |---|---|---|---|
 | Authenticated user | create, read, update, delete | POST, GET, PUT, PATCH, DELETE | Amazon Cognito |
 | Guest user | create, read, update, delete | POST, GET, PUT, PATCH, DELETE | None |
