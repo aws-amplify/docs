@@ -177,7 +177,7 @@ function App() {
     },
     beforeDestroy() {
       const chatbotElement = this.$el.querySelector("amplify-chatbot");
-      chatbotELement.removeEventListner("chatCompleted", handleChatComplete);
+      chatbotElement.removeEventListener("chatCompleted", handleChatComplete);
     },
   };
 </script>
