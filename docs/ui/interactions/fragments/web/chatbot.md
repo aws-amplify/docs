@@ -1,4 +1,6 @@
-ChatBot component is currently published on `ui-preview` tag for customer feedback.
+<amplify-callout warning>
+The Chatbot component is currently in Preview and published on `@ui-preview` tag for customer feedback.
+</amplify-callout>
 
 [![version](https://img.shields.io/npm/v/@aws-amplify/ui-react/ui-preview.svg)](https://www.npmjs.com/package/@aws-amplify/ui-react)
 
