@@ -6,7 +6,7 @@ Before you can add an existing AWS resource to an Android application, the appli
 
 ### 1. Manually create the Amplify configuration file for your Android project
 
-First, locate your project’s `res` folder. For example, if the name of your project is *TestApp*, you can find the `res` folder at the following location, `TestApp/app/src/main/res`:
+First, locate your project’s `res` folder. For example, if the name of your project is *MyAmplifyApp*, you can find the `res` folder at the following location, `MyAmplifyApp/app/src/main/res`:
 
 ![GSA](~/images/project-setup/2_useExistingResources.png)
 
@@ -17,7 +17,7 @@ Finally, in the `raw` folder, create a file named `amplifyconfiguration.json`. A
 ### 2. Initialize Amplify in your application
 To initialize Amplify when your application is launched, you will need to create a new `Application` class and override its `onCreate()` method.
 
-First, locate your application’s namespace where you will create the new application class. For example, if your application is named *TestApp*, navigate to either `TestApp/app/src/main/java/com.example.TestApp` or `TestApp/app/src/main/kotlin/com.example.TestApp` depending on the programming language you are using.
+First, locate your application’s namespace where you will create the new application class. For example, if your application is named *MyAmplifyApp*, navigate to either `MyAmplifyApp/app/src/main/java/com.example.MyAmplifyApp` or `MyAmplifyApp/app/src/main/kotlin/com.example.MyAmplifyApp` depending on the programming language you are using.
 
 From the Android Studio main menu, choose **File -> New** and select either **Java Class** or **Kotlin File/Class** depending your programming language.
 
@@ -36,9 +36,9 @@ Paste the following code for the `onCreate()` method inside your new class:
           try {
                 Amplify.configure(getApplicationContext());
 
-                Log.i("TestApp", "Initialized Amplify");
+                Log.i("MyAmplifyApp", "Initialized Amplify");
          } catch (AmplifyException e) {
-             Log.e("TestApp", "Could not initialize Amplify", e);
+             Log.e("MyAmplifyApp", "Could not initialize Amplify", e);
          }
 }
 ```
@@ -53,9 +53,9 @@ override fun onCreate() {
 
     try {
         Amplify.configure(applicationContext)
-        Log.i("TestApp ", "Initialized Amplify")
+        Log.i("MyAmplifyApp", "Initialized Amplify")
     } catch (error: AmplifyException) {
-        Log.e("TestApp ", "Could not initialize Amplify", error)
+        Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
     }
 }
 ```
@@ -66,11 +66,11 @@ override fun onCreate() {
 
 Next, configure your application to use your new custom `Application class`. Open the `AndroidManifest.xml` file located in your project directory at `app/src/main/AndroidManifest.xml`.
 
-Add the `android:name` attribute to the application node. For example, if the application name is  *TestApp* and the new class is named *MyAmplifyApplication*, the update to the `AndroidManifest.xml` file looks as follows:
+Add the `android:name` attribute to the application node. For example, if the application name is  *MyAmplifyApp* and the new class is named *MyAmplifyApplication*, the update to the `AndroidManifest.xml` file looks as follows:
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.testapp">
+    package="com.example.myamplifyapp">
 
     <!-- Add the android:name attribute to the application node -->
     <application

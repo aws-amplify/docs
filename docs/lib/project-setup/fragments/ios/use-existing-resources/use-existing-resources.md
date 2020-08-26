@@ -8,7 +8,7 @@ Before you can add an existing AWS resource to an iOS application, the applicati
 
 Create a file named `amplifyconfiguration.json` in your project’s main directory. At this point the contents of your `amplifyconfiguration.json` file can be an empty object, `{}`.
 
-For example, if the name of your project is *TestApp*, you will create the configuration file at the following location:
+For example, if the name of your project is *MyAmplifyApp*, you will create the configuration file in your main application directory, `MyAmplifyApp/amplifyconfiguration.json`, as follows:
 
 ![GSA](~/images/project-setup/1_useExistingResources.png)
 
