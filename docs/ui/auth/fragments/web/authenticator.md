@@ -50,6 +50,7 @@ const App = () => (
   </AmplifyAuthenticator>
 );
 ```
+</docs-filter>
 
 ### Recommended Usage
 
@@ -71,7 +72,6 @@ In most cases you will need to manage the rendering and layout of the Authentica
   <inline-fragment src="~/ui/auth/fragments/vue/auth-state-management.md"></inline-fragment>
 </docs-filter>
 
-</docs-filter>
 <docs-filter framework="angular">
 
 _app.module.ts_
@@ -108,6 +108,7 @@ _app.component.html_
 ```
 
 </docs-filter>
+
 <docs-filter framework="ionic">
 
 _app.module.ts_
@@ -175,7 +176,6 @@ _App.vue_
 ```
 </docs-filter>
 
-
 <ui-component-props tag="amplify-authenticator" use-table-headers></ui-component-props>
 
 ## Customization
@@ -195,6 +195,7 @@ Amplify UI Components use `slots` based off of the [Web Components slot element]
 | `verify-contact`       | Content placed inside of the verify-contact workflow for when a user must verify their contact information             |
 | `totp-setup`           | Content placed inside of the totp-setup workflow for when a user opts to use TOTP MFA                                  |
 | `greetings`            | Content placed inside of the greetings navigation for when a user is signed in                                         |
+| `loading`              | Content placed inside of the loading workflow for when the app is loading                                              |
 
 ### Custom Form Fields
 
@@ -233,7 +234,7 @@ If you are using the `usernameAlias` prop with custom `slots`, keep in mind that
 
 </amplify-callout>
 
-For more details on this customization see the `amplify-form-field` [prop documentation](https://github.com/aws-amplify/amplify-js/tree/master/packages/amplify-ui-components/src/components/amplify-form-field#properties) and the internal [`FormFieldType` interface](https://github.com/aws-amplify/amplify-js/blob/master/packages/amplify-ui-components/src/components/amplify-auth-fields/amplify-auth-fields-interface.ts#L3).
+For more details on this customization see the `amplify-form-field` [prop documentation](https://github.com/aws-amplify/amplify-js/tree/main/packages/amplify-ui-components/src/components/amplify-form-field#properties) and the internal [`FormFieldType` interface](https://github.com/aws-amplify/amplify-js/blob/main/packages/amplify-ui-components/src/components/amplify-auth-fields/amplify-auth-fields-interface.ts#L3).
 
 ### Hiding form fields
 
@@ -295,6 +296,7 @@ amplify-authenticator {
 </AmplifyAuthenticator>
 ```
 </docs-filter>
+
 <docs-filter framework="angular">
 
 ```html
@@ -303,6 +305,7 @@ amplify-authenticator {
 </amplify-authenticator>
 ```
 </docs-filter>
+
 <docs-filter framework="ionic">
 
 ```html
@@ -311,6 +314,7 @@ amplify-authenticator {
 </amplify-authenticator>
 ```
 </docs-filter>
+
 <docs-filter framework="vue">
 
 ```html
@@ -319,8 +323,6 @@ amplify-authenticator {
 </amplify-authenticator>
 ```
 </docs-filter>
-
-
 
 <ui-component-props tag="amplify-sign-in"></ui-component-props>
 
@@ -867,6 +869,67 @@ You can also pass in any of the [AmplifyAuthenticator props](#props-amplify-auth
 export withAuthenticator(App, {initialAuthState: 'signup'});
 ```
 </docs-filter>
+
+## Methods & Enums
+
+### AuthState
+
+`AuthState` is an enum with the following values:
+
+```js
+enum AuthState {
+  SignUp = 'signup',
+  SignOut = 'signout',
+  SignIn = 'signin',
+  Loading = 'loading',
+  SignedOut = 'signedout',
+  SignedIn = 'signedin',
+  SigningUp = 'signingup',
+  ConfirmSignUp = 'confirmSignUp',
+  confirmingSignUpCustomFlow = 'confirmsignupcustomflow',
+  ConfirmSignIn = 'confirmSignIn',
+  confirmingSignInCustomFlow = 'confirmingsignincustomflow',
+  VerifyingAttributes = 'verifyingattributes',
+  ForgotPassword = 'forgotpassword',
+  ResetPassword = 'resettingpassword',
+  SettingMFA = 'settingMFA',
+  TOTPSetup = 'TOTPSetup',
+  CustomConfirmSignIn = 'customConfirmSignIn',
+  VerifyContact = 'verifyContact'
+}
+```
+
+**Usage**
+
+```js
+import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components`;
+
+onAuthUIStateChange((nextAuthState, authData) => {
+  if (nextAuthState === AuthState.SignedIn) {
+    console.log('user successfully signed in!');
+  }
+});
+```
+
+### onAuthUIStateChange
+
+`onAuthUIStateChange` is a function that will fire whenever the state of the Authentication UI component changes.
+
+**Usage**
+
+```js
+import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components`;
+
+onAuthUIStateChange((nextAuthState, authData) => {
+  if (nextAuthState === AuthState.SignedIn) {
+    console.log('user successfully signed in!');
+    console.log('user data: ', authData);
+  }
+  if (!authData) {
+    console.log('user is not signed in...');
+  }
+});
+```
 
 ## Use Cases
 

@@ -17,7 +17,12 @@ type FilterMetadataByOption<T extends readonly string[]> = Record<
  * platform filter constants
  */
 
-export const PLATFORM_FILTER_OPTIONS = ["js", "android", "ios"] as const;
+export const PLATFORM_FILTER_OPTIONS = [
+  "js",
+  "android",
+  "ios",
+  "flutter",
+] as const;
 
 export const platformFilterMetadataByOption: FilterMetadataByOption<typeof PLATFORM_FILTER_OPTIONS> = {
   js: {
@@ -31,6 +36,10 @@ export const platformFilterMetadataByOption: FilterMetadataByOption<typeof PLATF
   ios: {
     label: "iOS",
     graphicURI: "/assets/integrations/ios.svg",
+  },
+  flutter: {
+    label: "Flutter (Preview)",
+    graphicURI: "/assets/integrations/flutter.svg",
   },
 } as const;
 
@@ -74,6 +83,7 @@ export const mobileFilterMetadataByOption = {
   ios: platformFilterMetadataByOption.ios,
   "react-native": frameworkFilterMetadataByOption["react-native"],
   ionic: frameworkFilterMetadataByOption.ionic,
+  flutter: platformFilterMetadataByOption.flutter,
 };
 
 export const webFilterMetadataByOption = {

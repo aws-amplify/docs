@@ -8,7 +8,7 @@
 ## Prerequisites
 
 - Install [Node.js](https://nodejs.org/en/) version 10 or higher
-- Install [Xcode](https://developer.apple.com/xcode/downloads/) version 10.2 or later
+- Install [Xcode](https://developer.apple.com/xcode/downloads/) version 11.4 or later
 - Install [CocoaPods](https://cocoapods.org/)
 
 - Install [Amplify CLI](~/cli/cli.md) version 4.21.0 or later by running:
@@ -56,17 +56,17 @@ Amplify for iOS is distributed through Cocoapods as a Pod. In this section, you'
   After doing this, you should see a newly created file called `Podfile`.  This file is used to describe the packages your project depends on.
 
 1. Open `Podfile` in the file editing tool of your choice, and replace the contents of the file so that your `Podfile` looks like the following:
-```
-target 'Todo' do
+  ```ruby
+  target 'Todo' do
     use_frameworks!
   
     pod 'Amplify'
     pod 'Amplify/Tools'
     pod 'AmplifyPlugins/AWSAPIPlugin'
     pod 'AmplifyPlugins/AWSDataStorePlugin'
-
-end
-```
+  
+  end
+  ```
 
 1.  To download and install the Amplify pod into your project, **run the command**:
   ```bash
