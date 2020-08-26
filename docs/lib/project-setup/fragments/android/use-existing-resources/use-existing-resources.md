@@ -70,7 +70,7 @@ Add the `android:name` attribute to the application node. For example, if the ap
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.myamplifyapp">
+    package="com.example.MyAmplifyApp">
 
     <!-- Add the android:name attribute to the application node -->
     <application
