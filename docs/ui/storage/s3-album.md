@@ -4,9 +4,6 @@ description: Amplify S3 Album Component is used to list images from S3 bucket in
 filterKey: framework
 ---
 
-<inline-fragment src="~/ui/storage/fragments/web/installation.md"></inline-fragment>
-
-
 <inline-fragment framework="react" src="~/ui/storage/fragments/web/s3-album.md"></inline-fragment>
 <inline-fragment framework="angular" src="~/ui/storage/fragments/web/s3-album.md"></inline-fragment>
 <inline-fragment framework="vue" src="~/ui/storage/fragments/web/s3-album.md"></inline-fragment>
