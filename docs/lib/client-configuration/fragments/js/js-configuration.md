@@ -16,8 +16,8 @@ Amplify.configure({
 ```js
 Amplify.configure({
   aws_cognito_region: "us-east-1", // (required) - Region where Amazon Cognito project was created   
-  aws_user_pools_id:  "us-east-1_6AfQ6LVUI", // (optional) -  Amazon Cognito User Pool ID   
-  aws_user_pools_web_client_id: "5t3le8878kgc7kvogiqq2uvilc", // (optional) - Amazon Cognito App Client ID (App client secret needs to be disabled)
+  aws_user_pools_id:  "us-east-1_6AfQ6", // (optional) -  Amazon Cognito User Pool ID   
+  aws_user_pools_web_client_id: "5t3le8878kgc72", // (optional) - Amazon Cognito App Client ID (App client secret needs to be disabled)
   aws_cognito_identity_pool_id: "us-east-1:f602c14b-0fde-409c-9a7e-0baccbfd87d0", // (optional) - Amazon Cognito Identity Pool ID   
   aws_mandatory_sign_in: "enable" // (optional) - Users are not allowed to get the aws credentials unless they are signed in   
 })
@@ -78,7 +78,7 @@ Amplify.configure({
       scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
       redirectSignIn: 'http://localhost:3000/',
       redirectSignOut: 'http://localhost:3000/',
-      clientId: "1g0nnr4h99jcloljaa3sd0vfs9",
+      clientId: "1g0nnr4h99a3sd0vfs9",
       responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
     }
 }
@@ -148,7 +148,7 @@ Amplify.configure({
 
 ```js
 "aws_cloud_logic_custom":  {
-  "name": "apiaff19d23", // (required) - API Name (This name is used used in the client app to identify the API - API.get('apiaff19d23', '/path'))
+  "name": "your-api-name", // (required) - API Name (This name is used used in the client app to identify the API - API.get('api-name', '/path'))
   "endpoint": "https://gfz59k9rlj.execute-api.us-east-1.amazonaws.com/dev", // (required) -API Gateway URL + environment
   "region": "us-east-1" // (required) - API Gateway region
 }
