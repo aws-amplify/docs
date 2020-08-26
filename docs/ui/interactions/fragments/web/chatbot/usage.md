@@ -52,7 +52,7 @@ _app.component.html_
   bot-name="yourBotName"
   bot-title="My ChatBot"
   welcome-message="Hello, how can I help you?"
-/>
+></amplify-chatbot>
 ```
 
 </docs-filter>
@@ -88,7 +88,7 @@ _app.component.html_
   bot-name="yourBotName"
   bot-title="My ChatBot"
   welcome-message="Hello, how can I help you?"
-/>
+></amplify-chatbot>
 ```
 
 </docs-filter>
