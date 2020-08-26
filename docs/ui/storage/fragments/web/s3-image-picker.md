@@ -43,7 +43,7 @@ export class AppModule {}
 _app.component.html_
 
 ```html
-<amplify-s3-image-picker />
+<amplify-s3-image-picker></amplify-s3-image-picker>
 ```
 </docs-filter>
 
@@ -74,7 +74,7 @@ export class AppModule {}
 _app.component.html_
 
 ```html
-<amplify-s3-image-picker />
+<amplify-s3-image-picker></amplify-s3-image-picker>
 ```
 </docs-filter>
 
@@ -160,8 +160,8 @@ export class AppModule {}
 _app.component.html_
 
 ```diff
-+ <amplify-s3-image-picker />
-- <s3-image picker />
++ <amplify-s3-image-picker></amplify-s3-image-picker>
+- <s3-image picker></s3-image>
 ```
 </docs-filter>
 
@@ -194,8 +194,8 @@ export class AppModule {}
 _app.component.html_
 
 ```diff
-+ <amplify-s3-image-picker />
-- <s3-image picker />
++ <amplify-s3-image-picker></amplify-s3-image-picker>
+- <s3-image picker></s3-image>
 ```
 </docs-filter>
 

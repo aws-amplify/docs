@@ -43,7 +43,7 @@ export class AppModule {}
 _app.component.html_
 
 ```html
-<amplify-s3-image img-key="example.png" />
+<amplify-s3-image img-key="example.png"></amplify-s3-image>
 ```
 </docs-filter>
 
@@ -74,7 +74,7 @@ export class AppModule {}
 _app.component.html_
 
 ```html
-<amplify-s3-image img-key="example.png" />
+<amplify-s3-image img-key="example.png"></amplify-s3-image>
 ```
 </docs-filter>
 
@@ -129,7 +129,7 @@ const App = () => (
 _app.component.html_
 
 ```html
- <amplify-s3-image level="protected" img-key="example.png" identity-id="us-east-1:XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX"/>
+ <amplify-s3-image level="protected" img-key="example.png" identity-id="us-east-1:XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX"></amplify-s3-image>
 ```
 </docs-filter>
 
@@ -138,7 +138,7 @@ _app.component.html_
 _app.component.html_
 
 ```html
- <amplify-s3-image level="protected" img-key="example.png" identity-id="us-east-1:XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX"/>
+ <amplify-s3-image level="protected" img-key="example.png" identity-id="us-east-1:XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX"></amplify-s3-image>
 ```
 </docs-filter>
 
@@ -224,8 +224,8 @@ export class AppModule {}
 _app.component.html_
 
 ```diff
-+ <amplify-s3-image img-key="example.png" />
-- <s3-image img-key="example.png" />
++ <amplify-s3-image img-key="example.png"></amplify-s3-image>
+- <s3-image img-key="example.png"></s3-image>
 ```
 </docs-filter>
 
@@ -258,8 +258,8 @@ export class AppModule {}
 _app.component.html_
 
 ```diff
-+ <amplify-s3-image img-key="example.png" />
-- <s3-image img-key="example.png" />
++ <amplify-s3-image img-key="example.png"></amplify-s3-image>
+- <s3-image img-key="example.png"></s3-image>
 ```
 </docs-filter>
 
