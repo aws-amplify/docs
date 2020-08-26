@@ -19,6 +19,7 @@ Add the following code to your application's root Stateful Widget, for a blank F
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  bool _amplifyConfigured = false
   Amplify amplifyInstance = Amplify();
 
   @override
@@ -30,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _configureAmplify() async {
 
     // Add Pinpoint and Cognito Plugins, or any other plugins you want to use
-    AmplifyAnalyticsPinpointPlugin analyticsPlugin = AmplifyAnalyticsPinpointPlugin();
+    AmplifyAnalyticsPinpoint analyticsPlugin = AmplifyAnalyticsPinpoint();
     AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
     amplifyInstance.addPlugin(authPlugins: [authPlugin]);
     amplifyInstance.addPlugin(analyticsPlugins: [analyticsPlugin]);
