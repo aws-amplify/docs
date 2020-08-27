@@ -13,12 +13,7 @@ Amplify CLI let's you choose either an existing Lambda function or create a new 
 
 > Lambda templates use [serverless-express](https://github.com/awslabs/aws-serverless-express) and provide the building blocks to start your REST API development.
 
-Amplify CLI supports the following Lambda runtimes:
-- .NET Core 3.5
-- Go
-- Java
-- Node.JS
-- Python
+> See the list of all [supported Lambda runtimes](~/cli/function#supported-lambda-runtimes).
 
 Amplify CLI allows you to restrict REST API access to
 - Only authenticated users; or
@@ -39,7 +34,7 @@ For each user type you can further specify what actions it has access to.
 | Guest user | create, read, update, delete | POST, GET, PUT, PATCH, DELETE | None |
 
 
-REST APIs have support for [multiple environments](/cli/teams/overview.md) (e.g. dev, qa, and prod). This means that you can easily isolate different versions of your REST API by using different environments:
+REST APIs have support for [multiple environments](~/cli/teams/overview.md) (e.g. dev, qa, and prod). This means that you can easily isolate different versions of your REST API by using different environments:
 
 ```console
 https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/items
