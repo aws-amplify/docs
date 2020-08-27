@@ -23,6 +23,19 @@ Amplify.Auth.signIn(
 ```
 
  </amplify-block>
+ <amplify-block name="RxJava">
+
+```java
+Amplify.Auth.signIn(
+    "username",
+    "password")
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.isSignInComplete() ? "Sign in succeeded" : "Sign in not complete"),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+ </amplify-block>
 </amplify-block-switcher>
 
 

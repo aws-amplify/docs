@@ -23,4 +23,17 @@ Amplify.Auth.confirmSignUp(
 ```
 
  </amplify-block>
+  <amplify-block name="RxJava">
+
+```java
+RxAmplify.Auth.confirmSignUp(
+    "username",
+    "the code you received via email")
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.isSignUpComplete() ? "Confirm signUp succeeded" : "Confirm sign up not complete"),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+ </amplify-block>
 </amplify-block-switcher>

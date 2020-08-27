@@ -23,6 +23,17 @@ Amplify.Auth.signInWithWebUI(
 ```
 
  </amplify-block>
+  <amplify-block name="RxJava">
+
+```java
+Amplify.Auth.signInWithWebUI(this)
+    .subscribe(
+        result -> Log.i("AuthQuickStart", result.toString()),
+        error -> Log.e("AuthQuickStart", error.toString())
+    );
+```
+
+ </amplify-block>
 </amplify-block-switcher>
 
 
