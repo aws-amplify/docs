@@ -65,7 +65,8 @@ With Amplify's RxJava interface we can merge these operations together:
 ```java
 Completable.merge(
     RxAmplify.DataStore.save(post),
-    RxAmplify.DataStore.save(editor),
+    RxAmplify.DataStore.save(editor)
+).andThen(
     RxAmplify.DataStore.save(postEditor)
 ).subscribe(
     () -> Log.i("MyAmplifyApp", "Post, Editor, and PostEditor saved."),

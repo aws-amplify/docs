@@ -69,7 +69,8 @@ Comment comment = Comment.builder()
 
 Completable.merge(
     RxAmplify.DataStore.save(post),
-    RxAmplify.DataStore.save(editor),
+    RxAmplify.DataStore.save(editor)
+).andThen(
     RxAmplify.DataStore.save(postEditor)
 ).subscribe(
     () -> Log.i("MyAmplifyApp", "Saved Post, Editor, and PostEditor."),
