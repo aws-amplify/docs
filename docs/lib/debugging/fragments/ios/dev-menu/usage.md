@@ -1,1 +1,0 @@
-To access the developer menu during a debug build of your app, long press the screen.
