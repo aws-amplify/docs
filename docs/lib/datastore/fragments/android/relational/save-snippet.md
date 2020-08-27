@@ -53,4 +53,29 @@ Amplify.DataStore.save(post,
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+Post post = Post.builder()
+    .title("My Post with comments")
+    .rating(10)
+    .status(PostStatus.ACTIVE)
+    .build();
+
+Comment comment = Comment.builder()
+    .post(post) // Directly pass in the post instance
+    .content("Loving Amplify DataStore!")
+    .build();
+
+Completable.merge(
+    RxAmplify.DataStore.save(post),
+    RxAmplify.DataStore.save(editor),
+    RxAmplify.DataStore.save(postEditor)
+).subscribe(
+    () -> Log.i("MyAmplifyApp", "Saved Post, Editor, and PostEditor."),
+    failure -> Log.e("MyAmplifyApp", "Failed to save at least one item.", failure)
+);
+```
+
+</amplify-block>
 </amplify-block-switcher>

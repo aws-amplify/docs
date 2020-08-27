@@ -27,4 +27,18 @@ Amplify.DataStore.save(post,
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+Post post = Post.builder()
+    .title("Create an Amplify DataStore app")
+    .build();
+
+RxAmplify.DataStore.save(post).subscribe(
+    () -> Log.i("MyAmplifyApp", "Created a new post successfully"),
+    error -> Log.e("MyAmplifyApp",  "Error creating post", error)
+);
+```
+
+</amplify-block>
 </amplify-block-switcher>
