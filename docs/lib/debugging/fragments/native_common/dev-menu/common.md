@@ -10,12 +10,6 @@ you in resolving the issue.
 
 </docs-filter>
 
-<docs-filter platform="android">
-
-![Amplify Android Developer Menu](~/images/debugging/androidDevMenu.png)
-
-</docs-filter>
-
 <amplify-callout warning>
 
 The developer menu is disabled in production builds.
@@ -25,12 +19,10 @@ The developer menu is disabled in production builds.
 ## Setup
 
 <inline-fragment platform="ios" src="~/lib/debugging/fragments/ios/dev-menu/setup.md"></inline-fragment>
-<inline-fragment platform="android" src="~/lib/debugging/fragments/android/dev-menu/setup.md"></inline-fragment>
 
 ## Access and Usage
 
 <inline-fragment platform="ios" src="~/lib/debugging/fragments/ios/dev-menu/usage.md"></inline-fragment>
-<inline-fragment platform="android" src="~/lib/debugging/fragments/android/dev-menu/usage.md"></inline-fragment>
 
 The developer menu contains the following components:
 
