@@ -1,5 +1,5 @@
 
-The Amplify library for Android and ships with APIs that return results via callbacks, as in:
+The Amplify library for Android ships with APIs that return results via callbacks, as in:
 
 ```java
 Post post = Post.builder()
@@ -15,6 +15,10 @@ Amplify.DataStore.save(post,
 Amplify also provides APIs that expose [Reactive Extensions](http://reactivex.io/), a cross-platform library for asynchronous and event-based programs:
 
 ```java
+Post post = Post.builder()
+    .title("My First Post")
+    .build();
+
 RxAmplify.DataStore.save(post)
     .subscribe(
         () -> Log.i("MyAmplifyApp", "Saved a post."),
@@ -22,7 +26,9 @@ RxAmplify.DataStore.save(post)
     );
 ```
 
-While this doesn't save much for a single invocation, it provides great readability benefits when chaining asynchronous calls, since you can use standard RxJava operators to compose complex functionality into readable chunks. Consider a relational model where the creation of a `Post` requires also a creation of an `User` for the editor, and a `PostEditor` object to link the two together:
+While this doesn't save much for a single invocation, it provides great readability benefits when chaining asynchronous calls, since you can use standard RxJava operators to compose complex functionality into readable chunks.
+
+Consider a relational model where the creation of a `Post` also requires the creation of a `User` for the editor, and a `PostEditor` object to link the two together:
 
 ```java
 Post post = Post.builder()
@@ -78,7 +84,7 @@ Compared to nesting these dependent calls in callbacks, this provides a much mor
 
 ## Installation
 
-Amplify's RxJava bindings are included with Amplify in a separate library. To use them, add the dependency to your application's gradle file.
+Amplify's RxJava bindings are included with Amplify. To use them, add the dependency to your application's gradle file.
 
 Under **Gradle Scripts**, open **build.gradle (Module: [YourApplicationName])**.
 
@@ -91,22 +97,72 @@ dependencies {
 }
 ```
 
+## Usage
+
+Amplify strives to provide an intuitive interface for APIs that expose RxJava functionality by using the counterpart callback API signature, minus the result callbacks. The majority of APIs return an RxJava `Single`, `Observable`, or `Completable`. 
+
 ### Special cases
 
-TK
+Some APIs return an operation which is cancellable such as subscribing to an API or uploading or downloading objects from Storage.
 
 #### `API.subscribe()`
 
-TK
+The `API.subscribe()` method exposes two `Observable` streams for subscription data and connection state accessible via `observeConnectionState()` and `observeSubscriptionData()` on the operation respectively.
 
-#### `Hub.on()`
+```java
+RxSubscriptionOperation<? extends GraphQLResponse<?>> subscriptionOperation = RxAmplify.API.subscribe(request);
 
-The Amplify Hub category exposes `Hub.on()`, which returns an `Observable` for all events on a given channel. You can then apply the standard RxJava [`filter`](http://reactivex.io/documentation/operators/filter.html) operator to inspect only those events you care about.
+subscriptionOperation
+	.observeConnectionState()
+	.subscribe(
+		connectionStateEvent -> Log.i("StatusObserver", connectionStateEvent)
+	);
+
+subscriptionOperation
+	.observeSubscriptionData()
+	.subscribe(
+		data -> Log.i("SubscriptionObserver", data),
+		exception -> Log.e("SubscriptionObserver", "Subscription failed.", exception),
+		() -> Log.i("SubscriptionObserver", "Subscription completed.")
+	);
+```
 
 #### `Storage` upload & download operations
 
-TK
+Similarly, `Storage.download()` and `Storage.upload()` return an operation which provide two `Observable` objects for download/upload progress and for the result of the operation.
 
-## Cancelling operations
+```java
+// Download
+RxProgressAwareSingleOperation<StorageDownloadFileResult> downloadOperation = RxAmplify.Storage.
+downloadFile(remoteKey, localFile);
 
-TK
+downloadOperation
+	.observeProgress()
+	.subscribe(
+		progress -> Log.i("ProgressObserver", progress.toString())
+	);
+
+downloadOperation
+	.observeResult()
+	.subscribe(
+		result -> Log.i("ResultObserver", result.getFile().getPath()),
+		exception -> Log.e("ResultObserver", "", exception)
+	);
+
+// Upload
+RxProgressAwareSingleOperation<StorageUploadFileResult> rxUploadOperation = RxAmplify.Storage.
+uploadFile(remoteKey, localFile);
+
+uploadOperation
+	.observeProgress()
+	.subscribe(
+		progress -> Log.i("ProgressObserver", progress.toString())
+	);
+
+ruploadOperation
+	.observeResult()
+	.subscribe(
+		result -> Log.i("ResultObserver", result.getKey()),
+		exception -> Log.e("ResultObserver", "", exception)
+	);
+```
