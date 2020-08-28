@@ -1,7 +1,6 @@
 {
   "items": [
     "project-setup",
-    "debugging",
     "analytics",
     "graphqlapi",
     "restapi",
@@ -13,6 +12,7 @@
     "push-notifications",
     "storage",
     "xr",
-    "utilities"
+    "utilities",
+    "debugging"
   ]
 }
