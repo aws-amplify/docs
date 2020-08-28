@@ -21,4 +21,15 @@ Amplify.Auth.signOut(
 ```
 
  </amplify-block>
+  <amplify-block name="RxJava">
+
+```java
+RxAmplify.Auth.signOut(AuthSignOutOptions.builder().globalSignOut(true).build())
+    .subscribe(
+        () -> Log.i("AuthQuickstart", "Signed out globally"),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+ </amplify-block>
 </amplify-block-switcher>

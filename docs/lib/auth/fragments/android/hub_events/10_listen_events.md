@@ -48,4 +48,37 @@ Amplify.Hub.subscribe(HubChannel.AUTH) { hubEvent: HubEvent<*> ->
 ```
 
  </amplify-block>
+ <amplify-block name="RxJava">
+
+```java
+RxAmplify.Hub.on(HubChannel.Auth)
+      .map(hubEvent::getName)
+      .flatMapObservable(
+          name -> {
+              if (name.equals(InitializationStatus.SUCCEEDED.toString())) {
+                  Log.i("AuthQuickstart", "Auth successfully initialized");
+              } else if (name.equals(InitializationStatus.FAILED.toString())){
+                  Log.i("AuthQuickstart", "Auth failed to succeed");
+              } else {
+                  switch (AuthChannelEventName.valueOf(name) {
+                      case SIGNED_IN:
+                          Log.i("AuthQuickstart", "Auth just became signed in.");
+                          break;
+                      case SIGNED_OUT:
+                          Log.i("AuthQuickstart", "Auth just became signed out.");
+                          break;
+                      case SESSION_EXPIRED:
+                          Log.i("AuthQuickstart", "Auth session just expired.");
+                          break;
+                      default:
+                          Log.w("AuthQuickstart", "Unhandled Auth Event: " + AuthChannelEventName.valueOf(name));
+                          break;
+                  }
+              }
+          }
+      );
+```
+
+ </amplify-block>
+
 </amplify-block-switcher>

@@ -21,4 +21,16 @@ Amplify.Auth.confirmSignIn(
 ```
 
  </amplify-block>
+  <amplify-block name="RxJava">
+
+```java
+Amplify.Auth.confirmSignIn("confirmation code received via SMS")
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.toString()),
+        error -> Log.e("AuthQuickstart", error.toString())
+    )
+);
+```
+
+ </amplify-block>
 </amplify-block-switcher>
