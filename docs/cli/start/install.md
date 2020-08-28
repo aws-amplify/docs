@@ -70,7 +70,9 @@ This would update/create the AWS Profile in your local machine
 
 Successfully set up the new user.
 ```
+The Amplify CLI uses the shared AWS [configuration and credentials files](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) to store the profile information. Once `amplify configure` finishes execution, the named profile will be update / created in the `~/.aws/config` and `~/.aws/credentials` files. 
 
+Please note that those two files are shared, other tools such as the AWS CLI use them as well. Updating a profile's credentials and region may cause the other tools to stop functioning properly. Use caution when specifying the profile name, if you already have the `default` profile set up in your local machine, enter a different profile name when prompted.
 
 ### Work within your frontend project
 
