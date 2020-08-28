@@ -1,0 +1,1 @@
+* An app setup according to the [getting started walkthrough](~/lib/auth/getting-started.md)

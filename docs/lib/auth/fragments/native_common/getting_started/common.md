@@ -7,6 +7,7 @@ To setup and configure your application with Amplify Auth and go through a simpl
 
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/getting_started/10_preReq.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/auth/fragments/android/getting_started/10_preReq.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/getting_started/10_preReq.md"></inline-fragment>
 
 ## Configure Auth Category
 
@@ -38,10 +39,12 @@ Upon completion, `amplifyconfiguration.json` should be updated to reference prov
 
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/getting_started/20_installLib.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/auth/fragments/android/getting_started/20_installLib.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/getting_started/20_installLib.md"></inline-fragment>
 
 ## Initialize Amplify Auth
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/getting_started/30_initAuth.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/auth/fragments/android/getting_started/30_initAuth.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/getting_started/30_initAuth.md"></inline-fragment>
 
 ## Check the current auth session
 
@@ -50,7 +53,7 @@ We can now check the current auth session.
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/getting_started/40_fetchSession.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/auth/fragments/android/getting_started/40_fetchSession.md"></inline-fragment>
 
-The isSignedIn property of the authSession will be false since we havent signed in to the category yet.
+The isSignedIn property of the authSession will be false since we haven't signed in to the category yet.
 
 ## Next Steps
 Congratulations! You've successfully setup AWS Cognito Auth plugin.  Check out the following links to see other Amplify Auth use cases:

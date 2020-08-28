@@ -15,7 +15,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 }
 ```
 
-Build your project (`Cmd+b`).  If your build succeeeds, then you have successfully added the Amplify library to your project.  If you run the application, you should not see any errors being printed to the console.
+Build your project (`Cmd+b`).  If your build succeeds, then you have successfully added the Amplify library to your project.  If you run the application, you should not see any errors being printed to the console.
 
 <amplify-callout>
 

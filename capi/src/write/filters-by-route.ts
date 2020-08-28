@@ -20,6 +20,10 @@ export async function filtersByRoute(
                     return JSON.stringify({
                       platform: ["ios", "android"],
                     });
+                  } else if (page.route.includes("/guides")) {
+                    return JSON.stringify({
+                      platform: ["ios", "android", "js"],
+                    });
                   } else if (page.filters) {
                     return JSON.stringify({
                       [filterKey]: page.filters?.[filterKey],

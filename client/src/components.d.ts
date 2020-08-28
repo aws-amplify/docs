@@ -6,6 +6,7 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { SelectedFilters, SelectedTabHeadings, SetNewSelectedTabHeadings, } from "./docs-ui/page/page.types";
+import { FeatureFlag, Value, } from "./amplify-ui/cli-feature-flag/feature-flag.types";
 import { ToggleInView, } from "./amplify-ui/sidebar-layout/sidebar-layout.types";
 import { SetContent, } from "./amplify-ui/toc/toc.types";
 import { MenuGroup, Page, } from "./api";
@@ -62,7 +63,27 @@ export namespace Components {
          */
         "redirect"?: boolean;
     }
-    interface AmplifyHero {
+    interface AmplifyFeatureFlagSummary {
+        /**
+          * data of the feature flag
+         */
+        "feature": FeatureFlag;
+        /**
+          * name of the feature flag
+         */
+        "name": string;
+    }
+    interface AmplifyFeatureFlagValues {
+        /**
+          * name of the feature flag
+         */
+        "name": string;
+        /**
+          * data of the feature flag
+         */
+        "values": Value[];
+    }
+    interface AmplifyFeatureFlags {
     }
     interface AmplifyLorem {
     }
@@ -206,6 +227,8 @@ export namespace Components {
     }
     interface DocsFourOFour {
     }
+    interface DocsHero {
+    }
     interface DocsInPageLink {
         /**
           * * the selected filter state
@@ -304,6 +327,8 @@ export namespace Components {
     }
     interface DocsRouter {
     }
+    interface DocsSearchBar {
+    }
     interface DocsSecondaryNav {
         /**
           * * the current filter state
@@ -398,11 +423,23 @@ declare global {
         prototype: HTMLAmplifyExternalLinkElement;
         new (): HTMLAmplifyExternalLinkElement;
     };
-    interface HTMLAmplifyHeroElement extends Components.AmplifyHero, HTMLStencilElement {
+    interface HTMLAmplifyFeatureFlagSummaryElement extends Components.AmplifyFeatureFlagSummary, HTMLStencilElement {
     }
-    var HTMLAmplifyHeroElement: {
-        prototype: HTMLAmplifyHeroElement;
-        new (): HTMLAmplifyHeroElement;
+    var HTMLAmplifyFeatureFlagSummaryElement: {
+        prototype: HTMLAmplifyFeatureFlagSummaryElement;
+        new (): HTMLAmplifyFeatureFlagSummaryElement;
+    };
+    interface HTMLAmplifyFeatureFlagValuesElement extends Components.AmplifyFeatureFlagValues, HTMLStencilElement {
+    }
+    var HTMLAmplifyFeatureFlagValuesElement: {
+        prototype: HTMLAmplifyFeatureFlagValuesElement;
+        new (): HTMLAmplifyFeatureFlagValuesElement;
+    };
+    interface HTMLAmplifyFeatureFlagsElement extends Components.AmplifyFeatureFlags, HTMLStencilElement {
+    }
+    var HTMLAmplifyFeatureFlagsElement: {
+        prototype: HTMLAmplifyFeatureFlagsElement;
+        new (): HTMLAmplifyFeatureFlagsElement;
     };
     interface HTMLAmplifyLoremElement extends Components.AmplifyLorem, HTMLStencilElement {
     }
@@ -518,6 +555,12 @@ declare global {
         prototype: HTMLDocsFourOFourElement;
         new (): HTMLDocsFourOFourElement;
     };
+    interface HTMLDocsHeroElement extends Components.DocsHero, HTMLStencilElement {
+    }
+    var HTMLDocsHeroElement: {
+        prototype: HTMLDocsHeroElement;
+        new (): HTMLDocsHeroElement;
+    };
     interface HTMLDocsInPageLinkElement extends Components.DocsInPageLink, HTMLStencilElement {
     }
     var HTMLDocsInPageLinkElement: {
@@ -584,6 +627,12 @@ declare global {
         prototype: HTMLDocsRouterElement;
         new (): HTMLDocsRouterElement;
     };
+    interface HTMLDocsSearchBarElement extends Components.DocsSearchBar, HTMLStencilElement {
+    }
+    var HTMLDocsSearchBarElement: {
+        prototype: HTMLDocsSearchBarElement;
+        new (): HTMLDocsSearchBarElement;
+    };
     interface HTMLDocsSecondaryNavElement extends Components.DocsSecondaryNav, HTMLStencilElement {
     }
     var HTMLDocsSecondaryNavElement: {
@@ -620,7 +669,9 @@ declare global {
         "amplify-callout": HTMLAmplifyCalloutElement;
         "amplify-code-block": HTMLAmplifyCodeBlockElement;
         "amplify-external-link": HTMLAmplifyExternalLinkElement;
-        "amplify-hero": HTMLAmplifyHeroElement;
+        "amplify-feature-flag-summary": HTMLAmplifyFeatureFlagSummaryElement;
+        "amplify-feature-flag-values": HTMLAmplifyFeatureFlagValuesElement;
+        "amplify-feature-flags": HTMLAmplifyFeatureFlagsElement;
         "amplify-lorem": HTMLAmplifyLoremElement;
         "amplify-responsive-grid": HTMLAmplifyResponsiveGridElement;
         "amplify-sidebar-layout": HTMLAmplifySidebarLayoutElement;
@@ -640,6 +691,7 @@ declare global {
         "docs-feedback-callout": HTMLDocsFeedbackCalloutElement;
         "docs-footer": HTMLDocsFooterElement;
         "docs-four-o-four": HTMLDocsFourOFourElement;
+        "docs-hero": HTMLDocsHeroElement;
         "docs-in-page-link": HTMLDocsInPageLinkElement;
         "docs-internal-link": HTMLDocsInternalLinkElement;
         "docs-internal-link-button": HTMLDocsInternalLinkButtonElement;
@@ -651,6 +703,7 @@ declare global {
         "docs-page": HTMLDocsPageElement;
         "docs-repo-actions": HTMLDocsRepoActionsElement;
         "docs-router": HTMLDocsRouterElement;
+        "docs-search-bar": HTMLDocsSearchBarElement;
         "docs-secondary-nav": HTMLDocsSecondaryNavElement;
         "docs-select-anchor": HTMLDocsSelectAnchorElement;
         "docs-universal-nav": HTMLDocsUniversalNavElement;
@@ -709,7 +762,27 @@ declare namespace LocalJSX {
          */
         "redirect"?: boolean;
     }
-    interface AmplifyHero {
+    interface AmplifyFeatureFlagSummary {
+        /**
+          * data of the feature flag
+         */
+        "feature"?: FeatureFlag;
+        /**
+          * name of the feature flag
+         */
+        "name"?: string;
+    }
+    interface AmplifyFeatureFlagValues {
+        /**
+          * name of the feature flag
+         */
+        "name"?: string;
+        /**
+          * data of the feature flag
+         */
+        "values"?: Value[];
+    }
+    interface AmplifyFeatureFlags {
     }
     interface AmplifyLorem {
     }
@@ -853,6 +926,8 @@ declare namespace LocalJSX {
     }
     interface DocsFourOFour {
     }
+    interface DocsHero {
+    }
     interface DocsInPageLink {
         /**
           * * the selected filter state
@@ -951,6 +1026,8 @@ declare namespace LocalJSX {
     }
     interface DocsRouter {
     }
+    interface DocsSearchBar {
+    }
     interface DocsSecondaryNav {
         /**
           * * the current filter state
@@ -1019,7 +1096,9 @@ declare namespace LocalJSX {
         "amplify-callout": AmplifyCallout;
         "amplify-code-block": AmplifyCodeBlock;
         "amplify-external-link": AmplifyExternalLink;
-        "amplify-hero": AmplifyHero;
+        "amplify-feature-flag-summary": AmplifyFeatureFlagSummary;
+        "amplify-feature-flag-values": AmplifyFeatureFlagValues;
+        "amplify-feature-flags": AmplifyFeatureFlags;
         "amplify-lorem": AmplifyLorem;
         "amplify-responsive-grid": AmplifyResponsiveGrid;
         "amplify-sidebar-layout": AmplifySidebarLayout;
@@ -1039,6 +1118,7 @@ declare namespace LocalJSX {
         "docs-feedback-callout": DocsFeedbackCallout;
         "docs-footer": DocsFooter;
         "docs-four-o-four": DocsFourOFour;
+        "docs-hero": DocsHero;
         "docs-in-page-link": DocsInPageLink;
         "docs-internal-link": DocsInternalLink;
         "docs-internal-link-button": DocsInternalLinkButton;
@@ -1050,6 +1130,7 @@ declare namespace LocalJSX {
         "docs-page": DocsPage;
         "docs-repo-actions": DocsRepoActions;
         "docs-router": DocsRouter;
+        "docs-search-bar": DocsSearchBar;
         "docs-secondary-nav": DocsSecondaryNav;
         "docs-select-anchor": DocsSelectAnchor;
         "docs-universal-nav": DocsUniversalNav;
@@ -1066,7 +1147,9 @@ declare module "@stencil/core" {
             "amplify-callout": LocalJSX.AmplifyCallout & JSXBase.HTMLAttributes<HTMLAmplifyCalloutElement>;
             "amplify-code-block": LocalJSX.AmplifyCodeBlock & JSXBase.HTMLAttributes<HTMLAmplifyCodeBlockElement>;
             "amplify-external-link": LocalJSX.AmplifyExternalLink & JSXBase.HTMLAttributes<HTMLAmplifyExternalLinkElement>;
-            "amplify-hero": LocalJSX.AmplifyHero & JSXBase.HTMLAttributes<HTMLAmplifyHeroElement>;
+            "amplify-feature-flag-summary": LocalJSX.AmplifyFeatureFlagSummary & JSXBase.HTMLAttributes<HTMLAmplifyFeatureFlagSummaryElement>;
+            "amplify-feature-flag-values": LocalJSX.AmplifyFeatureFlagValues & JSXBase.HTMLAttributes<HTMLAmplifyFeatureFlagValuesElement>;
+            "amplify-feature-flags": LocalJSX.AmplifyFeatureFlags & JSXBase.HTMLAttributes<HTMLAmplifyFeatureFlagsElement>;
             "amplify-lorem": LocalJSX.AmplifyLorem & JSXBase.HTMLAttributes<HTMLAmplifyLoremElement>;
             "amplify-responsive-grid": LocalJSX.AmplifyResponsiveGrid & JSXBase.HTMLAttributes<HTMLAmplifyResponsiveGridElement>;
             "amplify-sidebar-layout": LocalJSX.AmplifySidebarLayout & JSXBase.HTMLAttributes<HTMLAmplifySidebarLayoutElement>;
@@ -1086,6 +1169,7 @@ declare module "@stencil/core" {
             "docs-feedback-callout": LocalJSX.DocsFeedbackCallout & JSXBase.HTMLAttributes<HTMLDocsFeedbackCalloutElement>;
             "docs-footer": LocalJSX.DocsFooter & JSXBase.HTMLAttributes<HTMLDocsFooterElement>;
             "docs-four-o-four": LocalJSX.DocsFourOFour & JSXBase.HTMLAttributes<HTMLDocsFourOFourElement>;
+            "docs-hero": LocalJSX.DocsHero & JSXBase.HTMLAttributes<HTMLDocsHeroElement>;
             "docs-in-page-link": LocalJSX.DocsInPageLink & JSXBase.HTMLAttributes<HTMLDocsInPageLinkElement>;
             "docs-internal-link": LocalJSX.DocsInternalLink & JSXBase.HTMLAttributes<HTMLDocsInternalLinkElement>;
             "docs-internal-link-button": LocalJSX.DocsInternalLinkButton & JSXBase.HTMLAttributes<HTMLDocsInternalLinkButtonElement>;
@@ -1097,6 +1181,7 @@ declare module "@stencil/core" {
             "docs-page": LocalJSX.DocsPage & JSXBase.HTMLAttributes<HTMLDocsPageElement>;
             "docs-repo-actions": LocalJSX.DocsRepoActions & JSXBase.HTMLAttributes<HTMLDocsRepoActionsElement>;
             "docs-router": LocalJSX.DocsRouter & JSXBase.HTMLAttributes<HTMLDocsRouterElement>;
+            "docs-search-bar": LocalJSX.DocsSearchBar & JSXBase.HTMLAttributes<HTMLDocsSearchBarElement>;
             "docs-secondary-nav": LocalJSX.DocsSecondaryNav & JSXBase.HTMLAttributes<HTMLDocsSecondaryNavElement>;
             "docs-select-anchor": LocalJSX.DocsSelectAnchor & JSXBase.HTMLAttributes<HTMLDocsSelectAnchorElement>;
             "docs-universal-nav": LocalJSX.DocsUniversalNav & JSXBase.HTMLAttributes<HTMLDocsUniversalNavElement>;

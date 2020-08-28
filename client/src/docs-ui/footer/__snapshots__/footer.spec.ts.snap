@@ -41,7 +41,7 @@ exports[`docs-footer Render logic should render 1`] = `
             <img src="/assets/twitter.svg">
           </amplify-external-link>
           <amplify-external-link anchortitle="Discord" href="https://discord.gg/jWVbPfC">
-            <img src="/assets/discord-white.svg">
+            <img alt="Discord Logo" src="/assets/discord-white.svg">
           </amplify-external-link>
           <amplify-external-link anchortitle="GitHub" href="https://github.com/aws-amplify">
             <img src="/assets/github-light.svg">
@@ -59,6 +59,8 @@ exports[`docs-footer Render logic should render 1`] = `
               privacy policy
             </amplify-external-link>
             .
+            <ul></ul>
+            Flutter and the related logo are trademarks of Google LLC. We are not endorsed by or affiliated with Google LLC.
           </span>
         </div>
       </div>

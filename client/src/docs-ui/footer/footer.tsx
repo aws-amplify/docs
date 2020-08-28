@@ -8,6 +8,7 @@ import {
   socialLinkContainerStyle,
 } from "./footer.style";
 import * as links from "../../constants/links";
+import * as img from "../../constants/img";
 
 @Component({tag: "docs-footer", shadow: false})
 export class DocsFooter {
@@ -48,7 +49,7 @@ export class DocsFooter {
                 <img src="/assets/twitter.svg" />
               </amplify-external-link>
               <amplify-external-link anchorTitle="Discord" href={links.DISCORD}>
-                <img src="/assets/discord-white.svg" />
+                <img alt={img.DISCORD.alt} src={img.DISCORD.lightSrc} />
               </amplify-external-link>
               <amplify-external-link anchorTitle="GitHub" href={links.GITHUB}>
                 <img src="/assets/github-light.svg" />
@@ -68,6 +69,8 @@ export class DocsFooter {
                   privacy policy
                 </amplify-external-link>
                 .
+                <ul/>
+                {'Flutter and the related logo are trademarks of Google LLC. We are not endorsed by or affiliated with Google LLC.'}
               </span>
             </div>
           </div>

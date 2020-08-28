@@ -61,7 +61,7 @@ Amplify.configure({
     },
     Storage: {
         AWSS3: {
-            bucket: '', //REQUIRED -  Amazon S3 bucket
+            bucket: '', //REQUIRED -  Amazon S3 bucket name
             region: 'XX-XXXX-X', //OPTIONAL -  Amazon service region
         }
     }
@@ -284,7 +284,7 @@ Storage.addPluggable(new MyStorageProvider());
 // get the plugin
 Storage.getPluggable(MyStorageProvider.providerName);
 
-// remove the plulgin
+// remove the plugin
 Storage.removePluggable(MyStorageProvider.providerName);
 
 // send configuration into Amplify

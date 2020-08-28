@@ -1,5 +1,5 @@
 import {css} from "emotion";
-import {MQFablet} from "../../amplify-ui/styles/media";
+import {MQFablet, MQTablet, MQLaptop} from "../../amplify-ui/styles/media";
 
 export const universalNavStyle = css`
   display: block;
@@ -12,10 +12,14 @@ export const universalNavContentStyle = css`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 4.5rem;
   width: 100%;
   transition: 0.25s ease all;
-  padding: 0 0rem 0 1.5rem;
+  padding: 1.5rem;
+  flex-wrap: wrap;
+
+  > * {
+    flex: 1;
+  }
 
   span {
     color: var(--color-white);
@@ -36,6 +40,13 @@ export const universalNavContentStyle = css`
 `;
 
 export const brandStyle = css`
+  order: 1;
+  width: 50%;
+
+  ${MQTablet} {
+    margin-right: 3rem;
+  }
+
   > a {
     display: flex;
     flex-direction: row;
@@ -45,7 +56,7 @@ export const brandStyle = css`
       height: 1rem;
       margin-right: 0.125rem;
 
-      ${MQFablet} {
+      ${MQTablet} {
         height: 1.25rem;
       }
     }
@@ -54,7 +65,7 @@ export const brandStyle = css`
       margin-left: 0.25rem;
       font-size: 1rem;
 
-      ${MQFablet} {
+      ${MQTablet} {
         font-size: 1.25rem;
       }
     }
@@ -70,10 +81,29 @@ export const brandStyle = css`
   }
 `;
 
+export const searchStyle = css`
+  width: 100%;
+  order: 3;
+  margin-top: 1.5rem;
+  flex: auto;
+  ${MQTablet} {
+    flex: 1 15rem;
+    order: 2;
+    margin: 0;
+  }
+`;
+
 export const linksStyle = css`
   display: flex;
   flex-direction: row;
-  padding-right: 1.5rem;
+  justify-content: flex-end;
+  order: 2;
+  width: 50%;
+
+  ${MQTablet} {
+    margin-left: 3rem;
+    order: 3;
+  }
 
   a {
     display: flex;

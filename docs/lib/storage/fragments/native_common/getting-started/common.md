@@ -7,6 +7,7 @@ To setup and configure your application with Amplify Storage and go through a si
 
 <inline-fragment platform="ios" src="~/lib/storage/fragments/ios/getting-started/10_preReq.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/storage/fragments/android/getting-started/10_preReq.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/storage/fragments/flutter/getting-started/10_preReq.md"></inline-fragment>
 
 ## Provision backend storage
 
@@ -48,17 +49,19 @@ To push your changes to the cloud, **execute the command**:
 amplify push
 ```
 
-Upon completion, `amplifyconfiguration.json` should be updated to reference provisioned backend storage resources. Note that these files should already be a part of your project if you followed the [Project setup walkthrough](~/lib/project-setup/create-application.md).
+Upon completion, your config file (either `amplifyconfiguration.dart` for Flutter or `amplifyconfiguration.json` for JavaScript) should be updated to reference provisioned backend storage resources. Note that these files should already be a part of your project if you followed the [Project setup walkthrough](~/lib/project-setup/create-application.md).
 
 ## Install Amplify Libraries
 
 <inline-fragment platform="ios" src="~/lib/storage/fragments/ios/getting-started/20_installLib.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/storage/fragments/android/getting-started/20_installLib.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/storage/fragments/flutter/getting-started/20_installLib.md"></inline-fragment>
 
 ## Initialize Amplify Storage
 
 <inline-fragment platform="ios" src="~/lib/storage/fragments/ios/getting-started/30_initStorage.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/storage/fragments/android/getting-started/30_initStorage.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/storage/fragments/flutter/getting-started/30_initStorage.md"></inline-fragment>
 
 ## Uploading data to your bucket
 
@@ -66,6 +69,7 @@ To upload to S3 from a data object, specify the key and the data object to be up
 
 <inline-fragment platform="ios" src="~/lib/storage/fragments/ios/getting-started/40_upload.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/storage/fragments/android/getting-started/40_upload.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/storage/fragments/flutter/getting-started/40_upload.md"></inline-fragment>
 
 Upon successfully executing this code, you should see a new folder in your bucket, called `public`. It should contain a file called `ExampleKey`, whose contents is `Example file contents`.
 

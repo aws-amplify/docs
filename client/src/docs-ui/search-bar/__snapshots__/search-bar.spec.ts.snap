@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`docs-search-bar Render logic should render 1`] = `
+<docs-search-bar class="css-j5bz1e">
+  <div>
+    <div>
+      <input class="three-dee-effect" id="amplify-docs-search-input" placeholder="Search" type="search">
+      <img alt="search" src="/assets/search.svg">
+    </div>
+  </div>
+</docs-search-bar>
+`;

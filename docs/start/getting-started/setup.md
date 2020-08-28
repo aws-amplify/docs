@@ -9,3 +9,6 @@ description: Getting Started with Amplify Framework - Setup a fullstack project
 <inline-fragment integration="ionic" src="~/start/getting-started/fragments/ionic/setup.md"></inline-fragment>
 <inline-fragment integration="js" src="~/start/getting-started/fragments/vanillajs/setup.md"></inline-fragment>
 <inline-fragment integration="vue" src="~/start/getting-started/fragments/vue/setup.md"></inline-fragment>
+<inline-fragment integration="ios" src="~/start/getting-started/fragments/ios/setup.md"></inline-fragment>
+<inline-fragment integration="android" src="~/start/getting-started/fragments/android/setup.md"></inline-fragment>
+<inline-fragment integration="flutter" src="~/start/getting-started/fragments/flutter/setup.md"></inline-fragment>

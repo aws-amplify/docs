@@ -3,15 +3,13 @@
 exports[`docs-universal-nav Render logic should render 1`] = `
 <docs-universal-nav class="css-1c42ddj">
   <docs-container class="background-color-orange-hv">
-    <div class="css-euo4me">
-      <stencil-route-link anchortitle="Amplify Docs" class="css-1oq1uqt" url="/">
+    <div class="css-sx2vr3">
+      <stencil-route-link anchortitle="Amplify Docs" class="css-11aid50" url="/">
         <img>
         <span></span>
-        <sup>
-          NEW
-        </sup>
       </stencil-route-link>
-      <div class="css-1ynba5z">
+      <docs-search-bar class="css-fbz3bc"></docs-search-bar>
+      <div class="css-14o8hhr">
         <amplify-external-link anchortitle="Amplify Community" href="https://amplify.aws/community" redirect="">
           <span>
             Community
