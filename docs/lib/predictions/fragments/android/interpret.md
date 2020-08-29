@@ -46,6 +46,17 @@ Amplify.Predictions.interpret(
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+Amplify.Predictions.interpret("I like to eat spaghetti")
+        .subscribe(
+            result -> Log.i("MyAmplifyApp", result.getSentiment().getValue().toString()),
+            error -> Log.e("MyAmplifyApp", "Interpret failed", error)
+        );
+```
+
+</amplify-block>
 </amplify-block-switcher>
 
 As a result of running this code, you will see the sentiment of the text printed to the console.
