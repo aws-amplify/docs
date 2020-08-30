@@ -26,7 +26,7 @@ Amplify.Auth.signInWithWebUI(
   <amplify-block name="RxJava">
 
 ```java
-Amplify.Auth.signInWithWebUI(this)
+RxAmplify.Auth.signInWithWebUI(this)
     .subscribe(
         result -> Log.i("AuthQuickStart", result.toString()),
         error -> Log.e("AuthQuickStart", error.toString())
@@ -35,5 +35,4 @@ Amplify.Auth.signInWithWebUI(this)
 
  </amplify-block>
 </amplify-block-switcher>
-
 
