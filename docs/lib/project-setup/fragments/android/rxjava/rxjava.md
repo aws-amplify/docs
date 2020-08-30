@@ -110,21 +110,22 @@ Some APIs return an operation which is cancellable such as subscribing to an API
 The `API.subscribe()` method exposes two `Observable` streams for subscription data and connection state accessible via `observeConnectionState()` and `observeSubscriptionData()` on the operation respectively.
 
 ```java
-RxSubscriptionOperation<? extends GraphQLResponse<?>> subscriptionOperation = RxAmplify.API.subscribe(request);
+RxSubscriptionOperation<? extends GraphQLResponse<?>> subscription =
+      RxAmplify.API.subscribe(request);
 
-subscriptionOperation
-	.observeConnectionState()
-	.subscribe(
-		connectionStateEvent -> Log.i("StatusObserver", connectionStateEvent)
-	);
+subscription
+      .observeConnectionState()
+      .subscribe(
+        connectionStateEvent -> Log.i("StatusObserver", connectionStateEvent)
+      );
 
-subscriptionOperation
-	.observeSubscriptionData()
-	.subscribe(
-		data -> Log.i("SubscriptionObserver", data),
-		exception -> Log.e("SubscriptionObserver", "Subscription failed.", exception),
-		() -> Log.i("SubscriptionObserver", "Subscription completed.")
-	);
+subscription
+      .observeSubscriptionData()
+      .subscribe(
+          data -> Log.i("SubscriptionObserver", data),
+          exception -> Log.e("SubscriptionObserver", "Subscription failed.", exception),
+          () -> Log.i("SubscriptionObserver", "Subscription completed.")
+      );
 ```
 
 #### `Storage` upload & download operations
@@ -133,36 +134,36 @@ Similarly, `Storage.download()` and `Storage.upload()` return an operation which
 
 ```java
 // Download
-RxProgressAwareSingleOperation<StorageDownloadFileResult> downloadOperation = RxAmplify.Storage.
-downloadFile(remoteKey, localFile);
+RxProgressAwareSingleOperation<StorageDownloadFileResult> download =
+      RxAmplify.Storage.downloadFile(remoteKey, localFile);
 
-downloadOperation
-	.observeProgress()
-	.subscribe(
-		progress -> Log.i("ProgressObserver", progress.toString())
-	);
+download
+      .observeProgress()
+      .subscribe(
+        progress -> Log.i("ProgressObserver", progress.toString())
+      );
 
-downloadOperation
-	.observeResult()
-	.subscribe(
-		result -> Log.i("ResultObserver", result.getFile().getPath()),
-		exception -> Log.e("ResultObserver", "", exception)
-	);
+download
+      .observeResult()
+      .subscribe(
+        result -> Log.i("ResultObserver", result.getFile().getPath()),
+        exception -> Log.e("ResultObserver", "", exception)
+      );
 
 // Upload
-RxProgressAwareSingleOperation<StorageUploadFileResult> rxUploadOperation = RxAmplify.Storage.
-uploadFile(remoteKey, localFile);
+RxProgressAwareSingleOperation<StorageUploadFileResult> upload =
+      RxAmplify.Storage.uploadFile(remoteKey, localFile);
 
-uploadOperation
-	.observeProgress()
-	.subscribe(
-		progress -> Log.i("ProgressObserver", progress.toString())
-	);
+upload
+      .observeProgress()
+      .subscribe(
+        progress -> Log.i("ProgressObserver", progress.toString())
+      );
 
-uploadOperation
-	.observeResult()
-	.subscribe(
-		result -> Log.i("ResultObserver", result.getKey()),
-		exception -> Log.e("ResultObserver", "", exception)
-	);
+upload
+      .observeResult()
+      .subscribe(
+        result -> Log.i("ResultObserver", result.getKey()),
+        exception -> Log.e("ResultObserver", "", exception)
+      );
 ```
