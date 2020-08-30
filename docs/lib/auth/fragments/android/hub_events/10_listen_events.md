@@ -51,16 +51,16 @@ Amplify.Hub.subscribe(HubChannel.AUTH) { hubEvent: HubEvent<*> ->
  <amplify-block name="RxJava">
 
 ```java
-RxAmplify.Hub.on(HubChannel.Auth)
+RxAmplify.Hub.on(HubChannel.AUTH)
       .map(hubEvent::getName)
-      .flatMapObservable(
+      .subscribe(
           name -> {
               if (name.equals(InitializationStatus.SUCCEEDED.toString())) {
                   Log.i("AuthQuickstart", "Auth successfully initialized");
               } else if (name.equals(InitializationStatus.FAILED.toString())){
                   Log.i("AuthQuickstart", "Auth failed to succeed");
               } else {
-                  switch (AuthChannelEventName.valueOf(name) {
+                  switch (AuthChannelEventName.valueOf(name)) {
                       case SIGNED_IN:
                           Log.i("AuthQuickstart", "Auth just became signed in.");
                           break;
