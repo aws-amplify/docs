@@ -20,8 +20,10 @@
 | `--header-size` | Header text size | `--amplify-text-lg` |
 | `--bot-background-color` | Background color of bot messages | `rgb(230, 230, 230)` |
 | `--bot-text-color` | Text color of bot messages | `black` |
-| `--bot-background-color` | Background color of user messages | `#099ac8` |
-| `--bot-text-color` | Text color of user messages | `--amplify-white` |
+| `--bot-dot-color` | Base color of bot message loading animation | `var(--bot-background-color)` |
+| `--user-background-color` | Background color of user messages | `var(--amplify-blue)` |
+| `--user-text-color` | Text color of user messages | `var(--amplify-white)` |
+| `--user-dot-color` | Base color of user message loading animation | `var(--user-background-color)` |
 
 ```css
 amplify-chatbot {
