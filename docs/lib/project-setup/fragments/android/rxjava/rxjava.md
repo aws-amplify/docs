@@ -159,7 +159,7 @@ uploadOperation
 		progress -> Log.i("ProgressObserver", progress.toString())
 	);
 
-ruploadOperation
+uploadOperation
 	.observeResult()
 	.subscribe(
 		result -> Log.i("ResultObserver", result.getKey()),
