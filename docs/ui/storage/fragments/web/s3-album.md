@@ -1,3 +1,5 @@
+<inline-fragment src="~/ui/storage/fragments/web/installation.md"></inline-fragment>
+
 ## Usage
 
 <docs-filter framework="react">
@@ -41,7 +43,7 @@ export class AppModule {}
 _app.component.html_
 
 ```html
-<amplify-s3-album />
+<amplify-s3-album></amplify-s3-album>
 ```
 </docs-filter>
 
@@ -72,7 +74,7 @@ export class AppModule {}
 _app.component.html_
 
 ```html
-<amplify-s3-album />
+<amplify-s3-album></amplify-s3-album>
 ```
 </docs-filter>
 
@@ -174,8 +176,8 @@ export class AppModule {}
 _app.component.html_
 
 ```diff
-+ <amplify-s3-album />
-- <s3-album />
++ <amplify-s3-album></amplify-s3-album>
+- <s3-album></s3-album>
 ```
 </docs-filter>
 
@@ -208,8 +210,8 @@ export class AppModule {}
 _app.component.html_
 
 ```diff
-+ <amplify-s3-album />
-- <s3-album />
++ <amplify-s3-album></amplify-s3-album>
+- <s3-album></s3-album>
 ```
 </docs-filter>
 
