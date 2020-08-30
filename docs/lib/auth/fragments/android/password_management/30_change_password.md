@@ -1,5 +1,5 @@
 <amplify-block-switcher>
- <amplify-block name="Java">
+<amplify-block name="Java">
 
 ```java
 Amplify.Auth.updatePassword(
@@ -10,8 +10,8 @@ Amplify.Auth.updatePassword(
 );
 ```
 
- </amplify-block>
- <amplify-block name="Kotlin">
+</amplify-block>
+<amplify-block name="Kotlin">
 
  ```kotlin
 Amplify.Auth.updatePassword(
@@ -22,8 +22,8 @@ Amplify.Auth.updatePassword(
 )
 ```
 
- </amplify-block>
- <amplify-block name="RxJava">
+</amplify-block>
+<amplify-block name="RxJava">
 
 ```java
 RxAmplify.Auth.updatePassword("existingPassword", "newPassword")
@@ -33,6 +33,5 @@ RxAmplify.Auth.updatePassword("existingPassword", "newPassword")
     );
 ```
 
- </amplify-block>
-
+</amplify-block>
 </amplify-block-switcher>

@@ -1,5 +1,5 @@
 <amplify-block-switcher>
- <amplify-block name="Java">
+<amplify-block name="Java">
 
 ```java
 ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
@@ -15,8 +15,8 @@ Amplify.Auth.signUp(
 );
 ```
 
- </amplify-block>
- <amplify-block name="Kotlin">
+</amplify-block>
+<amplify-block name="Kotlin">
 
  ```kotlin
 val attributes: ArrayList<AuthUserAttribute> = ArrayList()
@@ -32,8 +32,8 @@ Amplify.Auth.signUp(
 )
 ```
 
- </amplify-block>
- <amplify-block name="RxJava">
+</amplify-block>
+<amplify-block name="RxJava">
 
 ```java
 ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
@@ -50,5 +50,5 @@ RxAmplify.Auth.signUp(
     );
 ```
 
- </amplify-block>
+</amplify-block>
 </amplify-block-switcher>

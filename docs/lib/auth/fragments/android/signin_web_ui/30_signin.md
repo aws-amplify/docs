@@ -1,7 +1,7 @@
 Sweet! You're now ready to launch sign in with web UI. For now, just add this method to the `onCreate` method of MainActivity:
 
 <amplify-block-switcher>
- <amplify-block name="Java">
+<amplify-block name="Java">
 
 ```java
 Amplify.Auth.signInWithWebUI(
@@ -11,8 +11,8 @@ Amplify.Auth.signInWithWebUI(
 );
 ```
 
- </amplify-block>
- <amplify-block name="Kotlin">
+</amplify-block>
+<amplify-block name="Kotlin">
 
 ```kotlin
 Amplify.Auth.signInWithWebUI(
@@ -22,8 +22,8 @@ Amplify.Auth.signInWithWebUI(
 )
 ```
 
- </amplify-block>
-  <amplify-block name="RxJava">
+</amplify-block>
+<amplify-block name="RxJava">
 
 ```java
 RxAmplify.Auth.signInWithWebUI(this)
@@ -33,6 +33,6 @@ RxAmplify.Auth.signInWithWebUI(this)
     );
 ```
 
- </amplify-block>
+</amplify-block>
 </amplify-block-switcher>
 

@@ -1,5 +1,5 @@
 <amplify-block-switcher>
- <amplify-block name="Java">
+<amplify-block name="Java">
 
 ```java
 Amplify.Auth.confirmSignIn(
@@ -9,8 +9,8 @@ Amplify.Auth.confirmSignIn(
 );
 ```
 
- </amplify-block>
- <amplify-block name="Kotlin">
+</amplify-block>
+<amplify-block name="Kotlin">
 
  ```kotlin
 Amplify.Auth.confirmSignIn(
@@ -20,8 +20,8 @@ Amplify.Auth.confirmSignIn(
 )
 ```
 
- </amplify-block>
-  <amplify-block name="RxJava">
+</amplify-block>
+<amplify-block name="RxJava">
 
 ```java
 RxAmplify.Auth.confirmSignIn("confirmation code received via SMS")
@@ -32,5 +32,5 @@ RxAmplify.Auth.confirmSignIn("confirmation code received via SMS")
 );
 ```
 
- </amplify-block>
+</amplify-block>
 </amplify-block-switcher>

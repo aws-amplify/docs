@@ -4,7 +4,7 @@
 Open `MainActivity.java` and add the following to the bottom of `onCreate()`:
 
 ```java
-RxAmplify.Predictions.translateText(
+Amplify.Predictions.translateText(
         "I like to eat spaghetti",
         LanguageType.ENGLISH,
         LanguageType.SPANISH,

@@ -1,5 +1,5 @@
 <amplify-block-switcher>
- <amplify-block name="Java">
+<amplify-block name="Java">
 
 ```java
 Amplify.Auth.signOut(
@@ -9,8 +9,8 @@ Amplify.Auth.signOut(
 );
 ```
 
- </amplify-block>
- <amplify-block name="Kotlin">
+</amplify-block>
+<amplify-block name="Kotlin">
 
  ```kotlin
 Amplify.Auth.signOut(
@@ -20,8 +20,8 @@ Amplify.Auth.signOut(
 )
 ```
 
- </amplify-block>
-  <amplify-block name="RxJava">
+</amplify-block>
+<amplify-block name="RxJava">
 
 ```java
 RxAmplify.Auth.signOut(AuthSignOutOptions.builder().globalSignOut(true).build())
@@ -31,5 +31,5 @@ RxAmplify.Auth.signOut(AuthSignOutOptions.builder().globalSignOut(true).build())
     );
 ```
 
- </amplify-block>
-</amplify-block-switcher>
+</amplify-block>
+</amplify-block-switcher> 
