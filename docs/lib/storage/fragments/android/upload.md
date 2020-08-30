@@ -43,6 +43,33 @@ private fun uploadFile() {
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+private void uploadFile() {
+    File exampleFile = new File(getApplicationContext().getFilesDir(), "ExampleKey");
+
+    try {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(exampleFile));
+        writer.append("Example file contents");
+        writer.close();
+    } catch (Exception exception) {
+        Log.e("MyAmplifyApp", "Upload failed", exception);
+    }
+
+    RxProgressAwareSingleOperation<StorageUploadFileResult> rxUploadOperation =
+            RxAmplify.Storage.uploadFile("ExampleKey", exampleFile);
+
+    rxUploadOperation
+            .observeResult()
+            .subscribe(
+                result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+                error -> Log.e("MyAmplifyApp", "Upload failed", error)
+            );
+}
+```
+
+</amplify-block>
 </amplify-block-switcher>
 
 To track progress of the upload, use the `uploadFile` API that includes a progress listener callback.
@@ -91,6 +118,20 @@ private fun uploadFile() {
             { error -> Log.e("MyAmplifyApp", "Upload failed", error) }
     )
 }
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxProgressAwareSingleOperation<StorageUploadFileResult> upload =
+        RxAmplify.Storage.uploadFile("exampleKey", exampleFile);
+
+upload
+    .observeProgress()
+    .subscribe(
+      progress -> Log.i("MyAmplifyApp", progress.getFractionCompleted())
+    );
 ```
 
 </amplify-block>
