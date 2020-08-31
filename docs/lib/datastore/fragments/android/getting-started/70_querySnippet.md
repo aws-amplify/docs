@@ -25,4 +25,14 @@ Amplify.DataStore.query(Post::class.java,
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.DataStore.query(Post.class).subscribe(
+    post -> Log.i("MyAmplifyApp", "Successful query, found post."),
+    error -> Log.e("MyAmplifyApp",  "Error retrieving posts", error)
+);
+```
+
+</amplify-block>
 </amplify-block-switcher>

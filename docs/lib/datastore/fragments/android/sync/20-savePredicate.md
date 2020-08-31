@@ -21,5 +21,16 @@ Amplify.DataStore.save(post,
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.DataStore.save(post, Where.matches(Post.TITLE.beginsWith("[Amplify]")))
+    .subscribe(
+        update -> Log.i("MyAmplifyApp", "Post updated successfully!"),
+        failure -> Log.e("MyAmplifyApp", "Could not update post, maybe the title has been changed?", failure)
+    );
+```
+
+</amplify-block>
 </amplify-block-switcher>
 
