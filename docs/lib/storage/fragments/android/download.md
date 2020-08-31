@@ -25,6 +25,24 @@ Amplify.Storage.downloadFile(
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxProgressAwareSingleOperation<StorageDownloadFileResult> download =
+        RxAmplify.Storage.downloadFile(
+            "ExampleKey",
+            new File(getApplicationContext().getFilesDir() + "/download.txt"
+        );
+
+download
+    .observeResult()
+    .subscribe(
+        result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName()),
+        error -> Log.e("MyAmplifyApp",  "Download Failure", error)
+    );
+```
+
+</amplify-block>
 </amplify-block-switcher>
 
 To track progress of the download, use the `downloadFile` API that includes a progress listener callback.
@@ -55,6 +73,20 @@ Amplify.Storage.downloadFile(
     { result -> Log.i("MyAmplifyApp", "Successfully downloaded: ${result.getFile().name}") },
     { error -> Log.e("MyAmplifyApp", "Download Failure", error) }
 )
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxProgressAwareSingleOperation<StorageDownloadFileResult> download =
+        RxAmplify.Storage.downloadFile(remoteKey, localFile);
+
+download
+    .observeProgress()
+    .subscribe(
+      progress -> Log.i("MyAmplifyApp", progress.getFractionCompleted())
+    );
 ```
 
 </amplify-block>

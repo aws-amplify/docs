@@ -66,6 +66,23 @@ fun detectLabels(image: Bitmap) {
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+public void detectLabels(Bitmap image) {
+    RxAmplify.Predictions.identify(LabelType.LABELS, image)
+            .subscribe(
+                  result -> {
+                      IdentifyLabelsResult identifyResult = (IdentifyLabelsResult) result;
+                      Label label = identifyResult.getLabels().get(0);
+                      Log.i("MyAmplifyApp", label.getName());
+                  },
+                  error -> Log.e("MyAmplifyApp", "Label detection failed", error)
+            );
+}
+```
+
+</amplify-block>
 </amplify-block-switcher>
 
 ### Label moderation tag in an image

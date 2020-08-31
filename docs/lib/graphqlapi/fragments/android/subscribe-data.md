@@ -33,4 +33,27 @@ subscription!!.cancel()
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxSubscriptionOperation<? extends GraphQLResponse<?>> subscription =
+        RxAmplify.API.subscribe(request);
+
+subscription
+        .observeConnectionState()
+        .subscribe(connectionStateEvent -> Log.i("ApiQuickStart", String.valueOf(connectionStateEvent)));
+
+subscription
+        .observeSubscriptionData()
+        .subscribe(
+            data -> Log.i("ApiQuickStart", data),
+            exception -> Log.e("ApiQuickStart", "Subscription failed.", exception),
+            () -> Log.i("ApiQuickStart", "Subscription completed.")
+        );
+
+// Cancel the subscription listener when you're finished with it
+subscription.cancel();
+```
+
+</amplify-block>
 </amplify-block-switcher>

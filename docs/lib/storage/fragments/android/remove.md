@@ -23,4 +23,15 @@ Amplify.Storage.remove(
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.Storage.remove("myUploadedFileName.txt")
+        .subscribe(
+            result -> Log.i("MyAmplifyApp", "Successfully removed: " + result.getKey()),
+            error -> Log.e("MyAmplifyApp", "Remove failure", error)
+        );
+```
+
+</amplify-block>
 </amplify-block-switcher>

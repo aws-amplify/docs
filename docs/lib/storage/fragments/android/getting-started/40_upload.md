@@ -41,4 +41,31 @@ private fun uploadFile() {
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+private void uploadFile() {
+    File exampleFile = new File(getApplicationContext().getFilesDir(), "ExampleKey");
+
+    try {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(exampleFile));
+        writer.append("Example file contents");
+        writer.close();
+    } catch (Exception exception) {
+        Log.e("MyAmplifyApp", "Upload failed", exception);
+    }
+
+    RxProgressAwareSingleOperation<StorageUploadFileResult> upload =
+            RxAmplify.Storage.uploadFile("ExampleKey", exampleFile);
+
+    upload
+        .observeResult()
+        .subscribe(
+            result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+            error -> Log.e("MyAmplifyApp", "Upload failed", error)
+        );
+}
+```
+
+</amplify-block>
 </amplify-block-switcher>

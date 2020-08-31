@@ -1,7 +1,7 @@
 For now, just add this method to the `onCreate` method of MainActivity with whatever provider you're using (shown with Facebook below):
 
 <amplify-block-switcher>
- <amplify-block name="Java">
+<amplify-block name="Java">
 
 ```java
 Amplify.Auth.signInWithSocialWebUI(
@@ -12,8 +12,8 @@ Amplify.Auth.signInWithSocialWebUI(
 );
 ```
 
- </amplify-block>
- <amplify-block name="Kotlin">
+</amplify-block>
+<amplify-block name="Kotlin">
 
  ```kotlin
 Amplify.Auth.signInWithSocialWebUI(
@@ -24,5 +24,16 @@ Amplify.Auth.signInWithSocialWebUI(
 )
 ```
 
- </amplify-block>
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), this)
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.toString()),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</amplify-block>
 </amplify-block-switcher>
