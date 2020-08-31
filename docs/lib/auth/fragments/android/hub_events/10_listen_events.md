@@ -51,32 +51,31 @@ Amplify.Hub.subscribe(HubChannel.AUTH) { hubEvent: HubEvent<*> ->
  <amplify-block name="RxJava">
 
 ```java
-RxAmplify.Hub.on(HubChannel.AUTH)
-      .map(hubEvent::getName)
-      .subscribe(
-          name -> {
-              if (name.equals(InitializationStatus.SUCCEEDED.toString())) {
-                  Log.i("AuthQuickstart", "Auth successfully initialized");
-              } else if (name.equals(InitializationStatus.FAILED.toString())){
-                  Log.i("AuthQuickstart", "Auth failed to succeed");
-              } else {
-                  switch (AuthChannelEventName.valueOf(name)) {
-                      case SIGNED_IN:
-                          Log.i("AuthQuickstart", "Auth just became signed in.");
-                          break;
-                      case SIGNED_OUT:
-                          Log.i("AuthQuickstart", "Auth just became signed out.");
-                          break;
-                      case SESSION_EXPIRED:
-                          Log.i("AuthQuickstart", "Auth session just expired.");
-                          break;
-                      default:
-                          Log.w("AuthQuickstart", "Unhandled Auth Event: " + AuthChannelEventName.valueOf(name));
-                          break;
-                  }
-              }
-          }
-      );
+RxAmplify.Hub.on(HubChannel.Auth)
+    .map(hubEvent::getName)
+    .subscribe(name -> {
+        if (name.equals(InitializationStatus.SUCCEEDED.toString())) {
+            Log.i("AuthQuickstart", "Auth successfully initialized");
+            return;
+        } else if (name.equals(InitializationStatus.FAILED.toString())) {
+            Log.i("AuthQuickstart", "Auth failed to succeed");
+            return;
+        }
+        switch (AuthChannelEventName.valueOf(name)) {
+            case SIGNED_IN:
+                Log.i("AuthQuickstart", "Auth just became signed in.");
+                break;
+            case SIGNED_OUT:
+                Log.i("AuthQuickstart", "Auth just became signed out.");
+                break;
+            case SESSION_EXPIRED:
+                Log.i("AuthQuickstart", "Auth session just expired.");
+                break;
+            default:
+                Log.w("AuthQuickstart", "Unhandled Auth Event: " + AuthChannelEventName.valueOf(name));
+                break;
+        }
+    });
 ```
 
  </amplify-block>
