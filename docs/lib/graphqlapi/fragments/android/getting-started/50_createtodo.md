@@ -31,5 +31,21 @@ Amplify.API.mutate(
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+Todo todo = Todo.builder()
+        .name("My first todo")
+        .description("todo description")
+        .build();
+
+RxAmplify.API.mutate(ModelMutation.create(todo))
+        .subscribe(
+              response -> Log.i("MyAmplifyApp", "Added Todo with id: " + response.getData().getId()),
+              error -> Log.e("MyAmplifyApp", "Create failed", error)
+        );
+```
+
+</amplify-block>
 </amplify-block-switcher>
 
