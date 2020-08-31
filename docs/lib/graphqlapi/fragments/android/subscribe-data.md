@@ -41,7 +41,7 @@ RxSubscriptionOperation<? extends GraphQLResponse<?>> subscription =
 
 subscription
         .observeConnectionState()
-        .subscribe(connectionStateEvent -> Log.i("ApiQuickStart", connectionStateEvent));
+        .subscribe(connectionStateEvent -> Log.i("ApiQuickStart", String.valueOf(connectionStateEvent)));
 
 subscription
         .observeSubscriptionData()
