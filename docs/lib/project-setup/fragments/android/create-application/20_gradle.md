@@ -51,7 +51,7 @@ android {
 
 // Add line in `dependencies`
 dependencies {
-    implementation 'com.amplifyframework:core:1.1.2'
+    implementation 'com.amplifyframework:core:1.3.0'
 
     // Support for Java 8 features
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'

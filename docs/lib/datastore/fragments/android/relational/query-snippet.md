@@ -30,4 +30,15 @@ Amplify.DataStore.query(Comment::class.java, Where.matches(Post.STATUS.eq(PostSt
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.DataStore.query(Comment.class, Post.STATUS.eq(PostStatus.ACTIVE))
+    .subscribe(
+        comment -> Log.i("MyAmplifyApp", "Content: " + comment.getContent()),
+        failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
+    );
+```
+
+</amplify-block>
 </amplify-block-switcher>

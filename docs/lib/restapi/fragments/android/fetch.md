@@ -2,6 +2,9 @@
 
 To make a GET request, first create a RestOptions object and then use the Amplify.API.get api to issue the request:
 
+<amplify-block-switcher>
+<amplify-block name="Java">
+
 ```java
 void getTodo() {
     RestOptions options = new RestOptions("/todo");
@@ -12,6 +15,40 @@ void getTodo() {
     );
 }
 ```
+
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+fun getTodo() {
+    val options: RestOptions = RestOptions.builder()
+        .addPath("/todo")
+        .build()
+
+    Amplify.API.get(options,
+      { response -> Log.i("MyAmplifyApp", "GET " + response.data.asString()) },
+      { error -> Log.e("MyAmplifyApp", "GET failed", error) }
+    )
+}
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+void getTodo() {
+    RestOptions options = new RestOptions("/todo");
+
+    RxAmplify.API.get(options)
+            .subscribe(
+                restResponse -> Log.i("MyAmplifyApp", restResponse.toString()),
+                apiFailure -> Log.e("MyAmplifyApp", apiFailure.getMessage(), apiFailure)
+            );
+}
+```
+
+</amplify-block>
+</amplify-block-switcher>
 
 ## Accessing query parameters & body in Lambda proxy function
 
@@ -79,6 +116,22 @@ Amplify.API.get(options,
     { response -> Log.i("MyAmplifyApp", response.data.asString()) },
     { error -> Log.e("MyAmplifyApp", "GET failed", error) }
 )
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RestOptions options = RestOptions.builder()
+        .addPath("/todo")
+        .addQueryParameters(Collections.singletonMap("q", "test"))
+        .build();
+
+RxAmplify.API.get(options)
+        .subscribe(
+            response -> Log.i("MyAmplifyApp", response.getData().asString()),
+            error -> Log.e("MyAmplifyApp", "GET failed", error)
+        );
 ```
 
 </amplify-block>

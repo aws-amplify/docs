@@ -4,3 +4,4 @@ description: Amplify developer menu helps you quickly file GitHub issues with cr
 ---
 
 <inline-fragment platform="ios" src="~/lib/debugging/fragments/native_common/dev-menu/common.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/debugging/fragments/native_common/dev-menu/common.md"></inline-fragment>
