@@ -13,6 +13,7 @@
     "storage",
     "xr",
     "utilities",
+    "client-configuration",
     "debugging"
   ]
 }
