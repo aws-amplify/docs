@@ -45,7 +45,7 @@ RxAmplify.Auth.fetchAuthSession()
         result -> {
             AWSCognitoAuthSession cognitoAuthSession = (AWSCognitoAuthSession) result;
 
-            switch(cognitoAuthSession.getIdentityId().getType()) {
+            switch (cognitoAuthSession.getIdentityId().getType()) {
                 case SUCCESS:
                     Log.i("AuthQuickStart", "IdentityId: " + cognitoAuthSession.getIdentityId().getValue());
                     break;
