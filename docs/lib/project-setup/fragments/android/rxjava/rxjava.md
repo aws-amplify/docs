@@ -116,7 +116,7 @@ RxSubscriptionOperation<? extends GraphQLResponse<?>> subscription =
 subscription
       .observeConnectionState()
       .subscribe(
-        connectionStateEvent -> Log.i("StatusObserver", connectionStateEvent)
+        connectionStateEvent -> Log.i("StatusObserver", String.valueOf(connectionStateEvent))
       );
 
 subscription
