@@ -51,6 +51,20 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
 ```
 
  </amplify-block>
+ <amplify-block name="RxJava">
+
+```java
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+
+    if (requestCode == AWSCognitoAuthPlugin.WEB_UI_SIGN_IN_ACTIVITY_CODE) {
+        RxAmplify.Auth.handleWebUISignInResponse(data);
+    }
+}
+```
+
+ </amplify-block>
 </amplify-block-switcher>
 
 <amplify-callout>

@@ -29,6 +29,19 @@ fun getTodo(id: String) {
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+private void getTodo(String id) {
+  RxAmplify.API.query(ModelQuery.get(Todo.class, id))
+          .subscribe(
+              response -> Log.i("MyAmplifyApp", ((Todo) response.getData()).getName()),
+              error -> Log.e("MyAmplifyApp", error.toString(), error)
+          );
+}
+```
+
+</amplify-block>
 </amplify-block-switcher>
 
 ## List items

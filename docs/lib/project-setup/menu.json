@@ -3,6 +3,7 @@
   "items": [
     "prereq",
     "create-application",
-    "combine"
+    "combine",
+    "rxjava"
   ]
 }
