@@ -21,7 +21,7 @@ Amplify.Auth.resetPassword(
 ```
 
  </amplify-block>
-  <amplify-block name="RxJava">
+ <amplify-block name="RxJava">
 
 ```java
 RxAmplify.Auth.resetPassword("username")
