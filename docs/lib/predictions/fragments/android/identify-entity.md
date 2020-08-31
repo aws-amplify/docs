@@ -66,6 +66,23 @@ fun detectEntities(image: Bitmap) {
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+public void detectEntities(Bitmap image) {
+    RxAmplify.Predictions.identify(IdentifyActionType.DETECT_ENTITIES, image)
+            .subscribe(
+                result -> {
+                    IdentifyEntitiesResult identifyResult = (IdentifyEntitiesResult) result;
+                    EntityDetails metadata = identifyResult.getEntities().get(0);
+                    Log.i("MyAmplifyApp", metadata.getBox().toShortString());
+                },
+                error -> Log.e("MyAmplifyApp", "Entity detection failed", error)
+            );
+}
+```
+
+</amplify-block>
 </amplify-block-switcher>
 
 As a result of passing in an image, the bounding box ([`android.graphics.RectF`](https://developer.android.com/reference/android/graphics/RectF)) that captures detected entity will be printed to the console.
@@ -144,6 +161,23 @@ fun detectEntities(image: Bitmap) {
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+public void detectEntities(Bitmap image) {
+    RxAmplify.Predictions.identify(IdentifyActionType.DETECT_ENTITIES, image)
+            .subscribe(
+                result -> {
+                    IdentifyEntityMatchesResult identifyResult = (IdentifyEntityMatchesResult) result;
+                    EntityMatch match = identifyResult.getEntityMatches().get(0);
+                    Log.i("AmplifyQuickstart", match.getExternalImageId());
+                },
+                error -> Log.e("AmplifyQuickstart", "Identify failed", error)
+            );
+}
+```
+
+</amplify-block>
 </amplify-block-switcher>
 
 ### Detecting Celebrities
@@ -185,6 +219,23 @@ fun detectCelebs(image: Bitmap) {
             Log.e("MyAmplifyApp", "Identify failed", error)
         }
     )
+}
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+public void detectCelebs(Bitmap image) {
+    RxAmplify.Predictions.identify(IdentifyActionType.DETECT_CELEBRITIES, image)
+            .subscribe(
+                result -> {
+                    IdentifyCelebritiesResult identifyResult = (IdentifyCelebritiesResult) result;
+                    CelebrityDetails metadata = identifyResult.getCelebrities().get(0);
+                    Log.i("MyAmplifyApp", metadata.getCelebrity().getName());
+                },
+                error -> Log.e("MyAmplifyApp", "Identify failed", error)
+            );
 }
 ```
 

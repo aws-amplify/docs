@@ -1,5 +1,5 @@
 <amplify-block-switcher>
- <amplify-block name="Java">
+<amplify-block name="Java">
 
 ```java
 Amplify.Auth.confirmSignUp(
@@ -10,8 +10,8 @@ Amplify.Auth.confirmSignUp(
 );
 ```
 
- </amplify-block>
- <amplify-block name="Kotlin">
+</amplify-block>
+<amplify-block name="Kotlin">
 
 ```kotlin
 Amplify.Auth.confirmSignUp(
@@ -22,5 +22,16 @@ Amplify.Auth.confirmSignUp(
 )
 ```
 
- </amplify-block>
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.Auth.confirmSignUp("username", "the code you received via email")
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.isSignUpComplete() ? "Confirm signUp succeeded" : "Confirm sign up not complete"),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</amplify-block>
 </amplify-block-switcher>

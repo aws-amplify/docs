@@ -41,6 +41,22 @@ Amplify.DataStore.query(Post::class.java, Where.id("123"),
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.DataStore.query(Post.class, Where.id("123"))
+    .map(matchingPost -> matchingPost.copyOfBuilder()
+        .title("New Title")
+        .build()
+    )
+    .flatMapCompletable(RxAmplify.DataStore::save)
+    .subscribe(
+        () -> Log.i("MyAmplifyApp", "Query and update succeeded."),
+        failure -> Log.e("MyAmplifyApp", "Update failed.", failure)
+    );
+```
+
+</amplify-block>
 </amplify-block-switcher>
 
 <amplify-callout>
