@@ -16,7 +16,7 @@ npm install -g @aws-amplify/cli
 
 ### Pre-requisites for installation
 
-* [Install Node.js®](https://nodejs.org/en/download/) and [NPM](https://www.npmjs.com/get-npm) if they are not already on your machine.
+* [Install Node.js®](https://nodejs.org/en/download/) and [NPM](https://www.npmjs.com/get-npm) if they are not already on your machine. ([Yarn](https://yarnpkg.com/) is not supported as of the moment)
 * Verify that you are running at least Node.js version 10.x and npm version 6.x or greater by running `node -v` and npm -v in a terminal/console window
 * [Create AWS Account](https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start). If you don't already have an AWS account, you'll need to create one in order to follow the steps outlined in this tutorial. 
 
