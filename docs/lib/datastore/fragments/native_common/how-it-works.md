@@ -16,7 +16,7 @@ Once Models have been generated, you can operate on these instances with the Dat
 
 ![Image](~/images/storage.png)
 
-When developer application code interacts with the DataStore API the it is the responsibility of the Storage Engine to store the specific Model for a GraphQL type in the Model Repository as well as serialize & deserialize as appropriate for persistence in the specific Storage Adapter representation. This includes conversion from a GraphQL specific type the appropriate structure in that database engine (e.g. `Int` to `Int64`).
+When developer application code interacts with the DataStore API, it is the responsibility of the Storage Engine to store the specific Model for a GraphQL type in the Model Repository as well as serialize & deserialize as appropriate for persistence in the specific Storage Adapter representation. This includes conversion from a GraphQL specific type the appropriate structure in that database engine (e.g. `Int` to `Int64`).
 
 ## Sync data to cloud
 
