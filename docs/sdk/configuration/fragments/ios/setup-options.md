@@ -1,5 +1,16 @@
 The AWS SDK contains [high level client interfaces](~/start/start.md) for quickly adding common features and functionality to your app. You can also manually add the generated AWS service interfaces for direct interaction if you have custom or advanced requirements.
 
+## Supported iOS platforms
+
+New versions of the AWS SDK removes support for older versions of iOS and building with Xcode. See the table below to determine which minimum iOS version you can support when using the AWS SDK.
+
+|AWS SDK version | Minimum iOS version | Xcode version |
+|------------|---------------------|---------------|
+|2.16.0 and up   | iOS 9.0 | Xcode 12 and above
+|2.15.3 and below| iOS 8.0 | Xcode 11 and below
+
+For example, when using AWS SDK 2.16.0 and newer, your app's minimum support version has to be iOS 9.0 and above. If using CocoaPods, this translate to having at least `platform :ios, '9.0'` in your Podfile. If your app supports less than iOS 9.0, then you will have to continue to use a lower AWS SDK version. Xcode 12 has also dropped support for iOS 8 and will not be able to build your app when using AWS SDK 2.15.3 and below.
+
 ## CocoaPods setup
 
 The AWS Mobile SDK for iOS is available through [CocoaPods](https://cocoapods.org). Install CocoaPods by running the following commands from the folder containing your projects `*.xcodeproj` file:
