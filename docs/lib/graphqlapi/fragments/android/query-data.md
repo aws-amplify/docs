@@ -79,6 +79,21 @@ Amplify.API.query(
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java 
+RxAmplify.API.query(ModelQuery.list(Todo.class, Todo.NAME.contains("first"))
+    .subscribe(
+        response -> {
+            for (Todo todo : response.getData()) {
+                Log.i("MyAmplifyApp", todo.getName());
+            }
+        },
+        error -> Log.e("MyAmplifyApp", "Query failure", error)
+    );
+```
+
+</amplify-block>
 </amplify-block-switcher>
 
 > **Note**: This approach will only return up to the first 1,000 items.  To change this limit or make requests for additional results beyond this limit, use *pagination* as discussed below.
@@ -137,6 +152,32 @@ fun query(request: GraphQLRequest<PaginatedResult<Todo>>) {
         { failure -> Log.e("MyAmplifyApp", "Query failed.", failure) }
     )
 }
+```
+
+</amplify-block>
+
+<amplify-block name="RxJava">
+
+```java
+BehaviorSubject<GraphQLRequest<PaginatedResult<Todo>>> subject =
+        BehaviorSubject.createDefault(ModelQuery.list(Todo.class, ModelPagination.limit(1_000)));
+subject.concatMap(request -> RxAmplify.API.query(request).toObservable())
+    .doOnNext(response -> {
+        if(response.hasErrors()) {
+            subject.onError(new Exception(String.format("Query failed: %s", response.getErrors())));
+        } else if (!response.hasData()) {
+            subject.onError(new Exception("Empty response from AppSync."));
+        } else if(response.getData().hasNextResult()) {
+            subject.onNext(response.getData().getRequestForNextResult());
+        } else {
+            subject.onComplete();
+        }
+    })
+    .concatMapIterable(GraphQLResponse::getData)
+    .subscribe(
+        todo -> Log.d(TAG, "Todo: " + todo),
+        error -> Log.e(TAG, "Error: " + error)
+    );
 ```
 
 </amplify-block>
