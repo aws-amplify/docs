@@ -1,3 +1,4 @@
+## Install Amplify Libraries
 
 To install the Amplify DataStore to your application, add `AmplifyPlugins/AWSDataStorePlugin`. Your `Podfile` should look similar to:
 

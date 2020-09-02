@@ -26,4 +26,16 @@ Amplify.DataStore.observe(Post::class.java,
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.DataStore.observe(Post.class)
+    .subscribe(
+        post -> Log.i("MyAmplifyApp", "Post: " + post),
+        failure -> Log.e("MyAmplifyApp", "Observation failed.", failure),
+        () -> Log.i("MyAmplifyApp", "Observation complete.")
+    );
+```
+
+</amplify-block>
 </amplify-block-switcher>

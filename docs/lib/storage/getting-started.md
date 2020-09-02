@@ -6,3 +6,4 @@ description: The Amplify Storage category provides a simple mechanism for managi
 <inline-fragment platform="js" src="~/lib/storage/fragments/js/getting-started.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/storage/fragments/native_common/getting-started/common.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/storage/fragments/native_common/getting-started/common.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/storage/fragments/native_common/getting-started/common.md"></inline-fragment>

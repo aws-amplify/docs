@@ -12,6 +12,8 @@
     "push-notifications",
     "storage",
     "xr",
-    "utilities"
+    "utilities",
+    "client-configuration",
+    "debugging"
   ]
 }

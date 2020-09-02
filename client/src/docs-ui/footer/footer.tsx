@@ -69,6 +69,8 @@ export class DocsFooter {
                   privacy policy
                 </amplify-external-link>
                 .
+                <ul/>
+                {'Flutter and the related logo are trademarks of Google LLC. We are not endorsed by or affiliated with Google LLC.'}
               </span>
             </div>
           </div>
