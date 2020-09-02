@@ -98,6 +98,7 @@
     "android.os.Bundle",
     "AndroidManifest.xml",
     "androiduse",
+    "androidx",
     "angular-cli",
     "anonymized",
     "AnyPublisher",

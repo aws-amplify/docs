@@ -67,7 +67,7 @@ dependencies {
 
 - If supporting a min SDK less than 21, add `multiDexEnabled true` to the defaultConfig block to support desugaring
 - Set `coreLibraryDesugaringEnabled`, `sourceCompatibility`, and `targetCompatibility` to allow your application to make use of Java 8 features like Lambda expressions
-- Add the Amplify Core, Multidex, and Desguaring libraries to the `dependencies` block
+- Add the Amplify Core, Multidex, and Desugaring libraries to the `dependencies` block
 
 Run **Gradle Sync**
 
