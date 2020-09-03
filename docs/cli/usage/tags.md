@@ -29,7 +29,7 @@ The structure of the file is the following:
   }
 ]
 ```
-## Existing projects
+## Use tags with projects created before CLI version 4.28.0
 
 Creating a `tags.json` file under `amplify/backend/` directory with the desired tags will ensure tags being applied to existing resources after invoking `amplify push`.
 
