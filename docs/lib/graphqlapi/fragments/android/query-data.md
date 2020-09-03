@@ -163,7 +163,7 @@ BehaviorSubject<GraphQLRequest<PaginatedResult<Todo>>> subject =
         BehaviorSubject.createDefault(ModelQuery.list(Todo.class, ModelPagination.limit(1_000)));
 subject.concatMap(request -> RxAmplify.API.query(request).toObservable())
     .doOnNext(response -> {
-        if(response.hasErrors()) {
+        if (response.hasErrors()) {
             subject.onError(new Exception(String.format("Query failed: %s", response.getErrors())));
         } else if (!response.hasData()) {
             subject.onError(new Exception("Empty response from AppSync."));
