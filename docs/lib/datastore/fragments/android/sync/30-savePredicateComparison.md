@@ -39,5 +39,26 @@ Amplify.DataStore.save(post,
 ```
 
 </amplify-block>
-</amplify-block-switcher>
+<amplify-block name="RxJava">
 
+```java
+// Tests only against the local state
+if (post.getTitle().startsWith("[Amplify]")) {
+    RxAmplify.DataStore.save(post)
+        .subscribe(
+            update -> { /* handle result */ },
+            failure -> { /* handle failure */}
+        );
+}
+
+// Only applies the update if the data in the remote backend satisfies the criteria
+RxAmplify.DataStore.save(
+    post,
+    Where.matches(Post.TITLE.beginsWith("[Amplify]")))
+    .subscribe(
+        update -> { /* handle result */ },
+        failure -> { /* handle failure */ }
+    );
+```
+</amplify-block>
+</amplify-block-switcher>
