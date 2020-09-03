@@ -29,6 +29,9 @@ The structure of the file is the following:
   }
 ]
 ```
+## Existing projects
+
+Creating a `tags.json` file under `amplify/backend/` directory with the desired tags will ensure tags being applied to existing resources after invoking `amplify push`.
 
 ## Using predefined variables
 
