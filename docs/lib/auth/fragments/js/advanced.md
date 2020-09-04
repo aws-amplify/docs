@@ -1,14 +1,14 @@
 ## Back Doors
 
-Depending on your use case, you may want to utilize either [`amazon-cognito-identity-js`](https://github.com/aws-amplify/amplify-js/tree/main/packages/amazon-cognito-identity-js) (the User Pool client underlying `@aws-amplify/auth`) or [`aws-sdk-js`](https://github.com/aws/aws-sdk-js) / [`aws-sdk-v3-js`](https://github.com/aws/aws-sdk-js-v3) directly.
+Depending on your use case, you may want to utilize either [`amazon-cognito-identity-js`](https://github.com/aws-amplify/amplify-js/tree/main/packages/amazon-cognito-identity-js) (the User Pool client, which underlies Amplify Auth), [`aws-sdk-js`](https://github.com/aws/aws-sdk-js), or [`aws-sdk-v3-js`](https://github.com/aws/aws-sdk-js-v3) directly.
 
-### amazon-cognito-identity-js
+### `amazon-cognito-identity-js`
 
-The [`amazon-cognito-identity-js`](https://github.com/aws-amplify/amplify-js/tree/main/packages/amazon-cognito-identity-js) package is responsible for forming AWS requests for common User Pool actions, while abstracting away the need to manually persist sessions and tokens between those requests. It also computes [SRP](https://en.wikipedia.org/wiki/Secure_Remote_Password_protocol) values to secure your authentication and challenge requests. This package is maintained with [the `amplify-js` repository](https://github.com/aws-amplify/amplify-js) (copied from [its original repository](https://github.com/amazon-archives/amazon-cognito-identity-js), which has since been deprecated and moved into `amazon-archives`).
+The [`amazon-cognito-identity-js`](https://github.com/aws-amplify/amplify-js/tree/main/packages/amazon-cognito-identity-js) package is responsible for forming AWS requests for common User Pool actions, while abstracting away the need to manually persist sessions and tokens between those requests. It also computes [SRP](https://en.wikipedia.org/wiki/Secure_Remote_Password_protocol) values to secure your authentication and challenge requests. This package is maintained with [the `amplify-js` repository](https://github.com/aws-amplify/amplify-js) (copied from [its original repository](https://github.com/amazon-archives/amazon-cognito-identity-js), which has since been deprecated and moved into [`amazon-archives`](https://github.com/amazon-archives)).
 
-### aws-sdk
+### `aws-sdk`
 
-The current version of [`aws-sdk-js`](https://github.com/aws/aws-sdk-js) enables service-level requests (no abstraction). This SDK **is NOT modularized**, meaning that it can dramatically increase the weight of your builds. While [`aws-sdk-js-v3`](https://github.com/aws/aws-sdk-js-v3) is currently in Gamma, it is relatively safe. In fact, it is used in production for this very site and is currently running in your browser. V3 enables you to import specific commands independent of others.
+The current version of [`aws-sdk-js`](https://github.com/aws/aws-sdk-js) enables service-level requests (no abstraction). This SDK **is NOT modularized**, meaning that it can dramatically increase the weight of your builds. Alternatively, you can use [`aws-sdk-js-v3`](https://github.com/aws/aws-sdk-js-v3). While this package is currently in Gamma, it is relatively safe. In fact, it is used in production for this very site and is currently running in your browser. V3 enables you to import specific commands, and tree shake those left unused.
 
 ## Subscribing Events
 
