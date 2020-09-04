@@ -1,6 +1,6 @@
 ## Back Doors
 
-Depending on your use case, you may want to utilize either [`amazon-cognito-identity-js`](https://github.com/aws-amplify/amplify-js/tree/main/packages/amazon-cognito-identity-js) (the User Pool client underlaying `@aws-amplify/auth`) or [`aws-sdk-js`](https://github.com/aws/aws-sdk-js) / [`aws-sdk-v3-js`](https://github.com/aws/aws-sdk-js-v3) directly.
+Depending on your use case, you may want to utilize either [`amazon-cognito-identity-js`](https://github.com/aws-amplify/amplify-js/tree/main/packages/amazon-cognito-identity-js) (the User Pool client underlying `@aws-amplify/auth`) or [`aws-sdk-js`](https://github.com/aws/aws-sdk-js) / [`aws-sdk-v3-js`](https://github.com/aws/aws-sdk-js-v3) directly.
 
 ### amazon-cognito-identity-js
 
@@ -8,7 +8,7 @@ The [`amazon-cognito-identity-js`](https://github.com/aws-amplify/amplify-js/tre
 
 ### aws-sdk
 
-The current version of [`aws-sdk-js`](https://github.com/aws/aws-sdk-js) enables unabstracted service-level requests. This SDK **is NOT modularized**, meaning that it can dramatically increase the weight of your builds. While [`aws-sdk-js-v3`](https://github.com/aws/aws-sdk-js-v3) is currently in Gamma, it is relatively safe. In fact, it is used in production for this very site and is currently running in your browser. V3 enables you to import specific commands independent of others.
+The current version of [`aws-sdk-js`](https://github.com/aws/aws-sdk-js) enables service-level requests (no abstraction). This SDK **is NOT modularized**, meaning that it can dramatically increase the weight of your builds. While [`aws-sdk-js-v3`](https://github.com/aws/aws-sdk-js-v3) is currently in Gamma, it is relatively safe. In fact, it is used in production for this very site and is currently running in your browser. V3 enables you to import specific commands independent of others.
 
 ## Subscribing Events
 
