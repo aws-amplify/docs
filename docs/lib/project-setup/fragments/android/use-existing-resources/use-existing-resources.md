@@ -2,7 +2,7 @@ An application’s backend is built with cloud resources such as AWS AppSync Gra
 
 ## Add an existing AWS resource to an Android application
 
-Before you can add an existing AWS resource to an Android application, the application must have the Amplify libraries installed. For detailed instructions, see [Install Amplify Libraries](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/android#n2-install-amplify-libraries).
+Before you can add an existing AWS resource to an Android application, the application must have the Amplify libraries installed. For detailed instructions, see [Install Amplify Libraries](~/lib/project-setup/create-application.md#n2-install-amplify-libraries).
 
 ### 1. Manually create the Amplify configuration file for your Android project
 
@@ -84,12 +84,12 @@ Add the `android:name` attribute to the application node. For example, if the ap
 
 Now you’re ready to customize your application’s `amplifyconfiguration.json`  file to specify an existing AWS resource to use. 
 
-Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/android#n2-install-amplify-libraries).
+Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](~/lib/project-setup/create-application.md#n2-install-amplify-libraries).
 
 Select a category from the following list to view an example `amplifyconfiguration.json` file you can use as a template to author your own `amplifyconfiguration.json` file:
 
-* Use existing [AWS Analytics resources](~/lib/analytics/existing-resources.md)
-* Use existing [AWS API (GraphQL) resources](~/lib/graphqlapi/existing-resources.md)
-* Use existing [AWS API (REST) resources](~/lib/restapi/existing-resources.md)
-* Use existing [AWS Authentication resources](~/lib/auth/existing-resources.md)
-* Use existing [AWS Storage resources](~/lib/storage/existing-resources.md)
+* See the [Analytics category](~/lib/analytics/existing-resources.md) to use existing AWS Pinpoint resources.
+* See the [API (GraphQL) category](~/lib/graphqlapi/existing-resources.md) to use existing AWS AppSync resources.
+* See the [API (REST) category](~/lib/restapi/existing-resources.md) to use existing Amazon API Gateway and AWS Lambda resources.
+* See the [Authentication category](~/lib/auth/existing-resources.md) to use existing Amazon Cognito resources.
+* See the [Storage category](~/lib/storage/existing-resources.md) to use existing Amazon S3 resources.
