@@ -3,4 +3,4 @@
   <span slot="text">Start the Tutorial �</span>
 </docs-internal-link-button>
 
-[Already have AWS resources?](~/lib/project-setup/use-existing-resources.md)
+[Already have AWS resources? (Cognito, S3, etc.)](~/lib/project-setup/use-existing-resources.md)
