@@ -62,7 +62,7 @@ const highlight = (code: string, language: string): string => {
   }">${highlighted}</div>`;
 
   return `<p class="searchable-code">${encodeURI(
-    code,
+    code.replace(/(<([^>]+)>)/gi, ""),
   )}</p><amplify-code-block language="${language}" line-count="${String(
     c.split(/\r\n|\r|\n/).length,
   )}">${c}</amplify-code-block>`;
