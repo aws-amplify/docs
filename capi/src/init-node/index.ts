@@ -61,8 +61,8 @@ const highlight = (code: string, language: string): string => {
     languageIsSet ? `-${language}` : ""
   }">${highlighted}</div>`;
 
-  return `<p class="searchable-code">${encodeURI(
-    code.replace(/(<([^>]+)>)/gi, ""),
+  return `<p class="searchable-code">${entities.encode(
+    code,
   )}</p><amplify-code-block language="${language}" line-count="${String(
     c.split(/\r\n|\r|\n/).length,
   )}">${c}</amplify-code-block>`;
