@@ -78,8 +78,7 @@ amplify mock function todosLambda
 
 Select the following options:
 
-- Provide the path to the event JSON object relative to {project}/amplify/bac
-kend/function/todosLambda __src/event.json__
+- Provide the path to the event JSON object relative to `{project}/amplify/backend/function/todosLambda` __src/event.json__
 
 ```console
 Starting execution...
@@ -87,7 +86,7 @@ EVENT: {"httpMethod":"GET","path":"/todos","queryStringParameters":{"limit":"10"
 App started
 
 Result:
-{"statusCode":200,"body":"{\"success\":\"get call succeed!\",\"url\":\"/todos?limit=10\"}","headers":{"x-powered-by":"Express","access-control-allow-origin":"*","access-control-allow-headers":"Origin, X-Requested-With, Content-Type, Accept","content-type":"application/json; charset=utf-8","content-length":"55","etag":"W/\"37-g5W66gHmgT8PGH9TMLm/RiayG/4\"","date":"Tue, 18 Aug 2020 16:50:53 GMT","connection":"close"},"isBase64Encoded":false}
+{"statusCode":200,"body":"{\"success\":\"get call succeed!\",\"url\":\"/todos?limit=10\"}","headers":{"x-powered-by":"Express","access-control-allow-origin":"*","access-control-allow-headers":"Origin, X-Requested-With, Content-Type, Accept","content-type":"application/json; charset=utf-8","content-length":"55", "date":"Tue, 18 Aug 2020 16:50:53 GMT","connection":"close"},"isBase64Encoded":false}
 Finished execution.
 ```
 
@@ -119,7 +118,7 @@ Let's test your new REST API using the route below with HTTP Method `GET` and pa
 
 - Choose Test to run the test for `GET /todos?limit=10`. The following information will be displayed: request, status, latency, response body, response headers and logs.
 
-```console
+```bash
 Request: /todos?limit=10
 Status: 200
 Latency: 139 ms
@@ -129,7 +128,7 @@ Response Body
   "url": "/todos?limit=10"
 }
 Response Headers
-{"access-control-allow-origin":"*","date":"Tue, 18 Aug 2020 17:36:14 GMT","content-length":"55","access-control-allow-headers":"Origin, X-Requested-With, Content-Type, Accept","x-powered-by":"Express","content-type":"application/json; charset=utf-8","etag":"W/\"37-g5W66gHmgT8PGH9TMLm/RiayG/4\"","connection":"close","X-Amzn-Trace-Id":"Root=1-5f3c118e-75bd08864af6a278d5ec6f6f;Sampled=0"}
+{"access-control-allow-origin":"*","date":"Tue, 18 Aug 2020 17:36:14 GMT","content-length":"55","access-control-allow-headers":"Origin, X-Requested-With, Content-Type, Accept","x-powered-by":"Express","content-type":"application/json; charset=utf-8","connection":"close"}
 Logs
 Execution log for request 4fc3c0c7-6f9f-4ac3-84d7-205500f39b5f
 Tue Aug 18 17:36:14 UTC 2020 : Starting execution for request: 4fc3c0c7-6f9f-4ac3-84d7-205500f39b5f
@@ -139,14 +138,14 @@ Tue Aug 18 17:36:14 UTC 2020 : Method request query string: {limit=10}
 Tue Aug 18 17:36:14 UTC 2020 : Method request headers: {}
 Tue Aug 18 17:36:14 UTC 2020 : Method request body before transformations: 
 Tue Aug 18 17:36:14 UTC 2020 : Endpoint request URI: https://lambda.eu-west-2.amazonaws.com/2015-03-31/functions/arn:aws:lambda:eu-west-2:664371068953:function:expressLambda-dev/invocations
-Tue Aug 18 17:36:14 UTC 2020 : Endpoint request headers: {x-amzn-lambda-integration-tag=4fc3c0c7-6f9f-4ac3-84d7-205500f39b5f, Authorization=************************************************************************************************************************************************************************************************************************************************************************************************************************bb0c6e, X-Amz-Date=20200818T173614Z, x-amzn-apigateway-api-id=s3zmw6fqy5, X-Amz-Source-Arn=arn:aws:execute-api:eu-west-2:664371068953:s3zmw6fqy5/test-invoke-stage/GET/todos, Accept=application/json, User-Agent=AmazonAPIGateway_s3zmw6fqy5, X-Amz-Security-Token=IQoJb3JpZ2luX2VjEDEaCWV1LXdlc3QtMiJGMEQCIC3KIeR66WhaCBw+eJ+GPhF7y4hz9xC2nN+ARb7T3psyAiBdsoaD9yMfiw2dHWjQM5x7vM11XmToNSGu64mckUQdzSq0AwgaEAEaDDU0NDM4ODgxNjY2MyIMIzObNbCd6QtYwb0IKpEDpHXEzkM2OYq7JfL0U/WbF09KNamodfnifRYwZd/GNOwykykc/zHiU9X0XZPRd+QTnQe/9eoy8DaxBkDgRzQQjTThQWJWadtcfjryTLRKpVeo1UueL+f6DTUDf+URjb0P9CN1gPm+ntZD3LSyAXGwACKG7YMA5/HyeEk [TRUNCATED]
-Tue Aug 18 17:36:14 UTC 2020 : Endpoint request body after transformations: {"resource":"/todos","path":"/todos","httpMethod":"GET","headers":null,"multiValueHeaders":null,"queryStringParameters":{"limit":"10"},"multiValueQueryStringParameters":{"limit":["10"]},"pathParameters":null,"stageVariables":null,"requestContext":{"resourceId":"ogxpuv","resourcePath":"/todos","httpMethod":"GET","extendedRequestId":"ReeuVFyOrPEFq1Q=","requestTime":"18/Aug/2020:17:36:14 +0000","path":"/todos","accountId":"664371068953","protocol":"HTTP/1.1","stage":"test-invoke-stage","domainPrefix":"testPrefix","requestTimeEpoch":1597772174890,"requestId":"4fc3c0c7-6f9f-4ac3-84d7-205500f39b5f","identity":{"cognitoIdentityPoolId":null,"cognitoIdentityId":null,"apiKey":"test-invoke-api-key","principalOrgId":null,"cognitoAuthenticationType":null,"userArn":"arn:aws:iam::664371068953:root","apiKeyId":"test-invoke-api-key-id","userAgent":"aws-internal/3 aws-sdk-java/1.11.820 Linux/4.9.217-0.1.ac.205.84.332.metal1.x86_64 OpenJDK_64-Bit_Server_VM/25.252-b09 java/1.8.0_252 v [TRUNCATED]
+Tue Aug 18 17:36:14 UTC 2020 : Endpoint request headers: { X-Amz-Date=20200818T173614Z, X-Amz-Source-Arn=arn:aws:execute-api:eu-west-2:664371068953:s3zmw6fqy5/test-invoke-stage/GET/todos, Accept=application/json, User-Agent=AmazonAPIGateway_s3zmw6fqy5, X-Amz-Security-Token=IQoJb3JpZ2luX2VjEDEaCWV1LXdlc3QtMiJGMEQCIC3KIeR66WhaCBw+eJ+GPhF7y4hz9xC2nN+ARb7T3psyAiBdsoaD9yMfiw2dHWjQM5x7vM11XmToNSGu64mckUQdzSq0AwgaEAEaDDU0NDM4ODgxNjY2MyIMIzObNbCd6QtYwb0IKpEDpHXEzkM2OYq7JfL0U/WbF09KNamodfnifRYwZd/GNOwykykc/zHiU9X0XZPRd+QTnQe/9eoy8DaxBkDgRzQQjTThQWJWadtcfjryTLRKpVeo1UueL+f6DTUDf+URjb0P9CN1gPm+ntZD3LSyAXGwACKG7YMA5/HyeEk [TRUNCATED]
+Tue Aug 18 17:36:14 UTC 2020 : Endpoint request body after transformations: {"resource":"/todos","path":"/todos","httpMethod":"GET","headers":null,"multiValueHeaders":null,"queryStringParameters":{"limit":"10"},"multiValueQueryStringParameters":{"limit":["10"]},"pathParameters":null,"stageVariables":null,"requestContext":{"resourcePath":"/todos","httpMethod":"GET","requestTime":"18/Aug/2020:17:36:14 +0000","path":"/todos","accountId":"664371068953","protocol":"HTTP/1.1","stage":"test-invoke-stage","domainPrefix":"testPrefix","requestTimeEpoch":1597772174890,"requestId":"4fc3c0c7-6f9f-4ac3-84d7-205500f39b5f","identity":{"cognitoIdentityPoolId":null,"cognitoIdentityId":null,"apiKey":"test-invoke-api-key","principalOrgId":null,"cognitoAuthenticationType":null,"userArn":"arn:aws:iam::664371068953:root","apiKeyId":"test-invoke-api-key-id","userAgent":"aws-internal/3 aws-sdk-java/1.11.820 Linux/4.9.217-0.1.ac.205.84.332.metal1.x86_64 OpenJDK_64-Bit_Server_VM/25.252-b09 java/1.8.0_252 v [TRUNCATED]
 Tue Aug 18 17:36:14 UTC 2020 : Sending request to https://lambda.eu-west-2.amazonaws.com/2015-03-31/functions/arn:aws:lambda:eu-west-2:664371068953:function:expressLambda-dev/invocations
 Tue Aug 18 17:36:15 UTC 2020 : Received response. Status: 200, Integration latency: 137 ms
-Tue Aug 18 17:36:15 UTC 2020 : Endpoint response headers: {Date=Tue, 18 Aug 2020 17:36:15 GMT, Content-Type=application/json, Content-Length=443, Connection=keep-alive, x-amzn-RequestId=70b66c18-ab97-4e8f-8090-99ec7a629133, x-amzn-Remapped-Content-Length=0, X-Amz-Executed-Version=$LATEST, X-Amzn-Trace-Id=root=1-5f3c118e-75bd08864af6a278d5ec6f6f;sampled=0}
-Tue Aug 18 17:36:15 UTC 2020 : Endpoint response body before transformations: {"statusCode":200,"body":"{\"success\":\"get call succeed!\",\"url\":\"/todos?limit=10\"}","headers":{"x-powered-by":"Express","access-control-allow-origin":"*","access-control-allow-headers":"Origin, X-Requested-With, Content-Type, Accept","content-type":"application/json; charset=utf-8","content-length":"55","etag":"W/\"37-g5W66gHmgT8PGH9TMLm/RiayG/4\"","date":"Tue, 18 Aug 2020 17:36:14 GMT","connection":"close"},"isBase64Encoded":false}
+Tue Aug 18 17:36:15 UTC 2020 : Endpoint response headers: {Date=Tue, 18 Aug 2020 17:36:15 GMT, Content-Type=application/json, Content-Length=443, Connection=keep-alive, sampled=0}
+Tue Aug 18 17:36:15 UTC 2020 : Endpoint response body before transformations: {"statusCode":200,"body":"{\"success\":\"get call succeed!\",\"url\":\"/todos?limit=10\"}","headers":{"x-powered-by":"Express","access-control-allow-origin":"*","access-control-allow-headers":"Origin, X-Requested-With, Content-Type, Accept","content-type":"application/json; charset=utf-8","content-length":"55","date":"Tue, 18 Aug 2020 17:36:14 GMT","connection":"close"},"isBase64Encoded":false}
 Tue Aug 18 17:36:15 UTC 2020 : Method response body after transformations: {"success":"get call succeed!","url":"/todos?limit=10"}
-Tue Aug 18 17:36:15 UTC 2020 : Method response headers: {x-powered-by=Express, access-control-allow-origin=*, access-control-allow-headers=Origin, X-Requested-With, Content-Type, Accept, content-type=application/json; charset=utf-8, content-length=55, etag=W/"37-g5W66gHmgT8PGH9TMLm/RiayG/4", date=Tue, 18 Aug 2020 17:36:14 GMT, connection=close, X-Amzn-Trace-Id=Root=1-5f3c118e-75bd08864af6a278d5ec6f6f;Sampled=0}
+Tue Aug 18 17:36:15 UTC 2020 : Method response headers: {x-powered-by=Express, access-control-allow-origin=*, access-control-allow-headers=Origin, X-Requested-With, Content-Type, Accept, content-type=application/json; charset=utf-8, content-length=55, date=Tue, 18 Aug 2020 17:36:14 GMT, connection=close, Sampled=0}
 Tue Aug 18 17:36:15 UTC 2020 : Successfully completed execution
 Tue Aug 18 17:36:15 UTC 2020 : Method completed with status: 200
 ```
