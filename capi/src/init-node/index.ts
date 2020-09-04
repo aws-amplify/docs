@@ -7,6 +7,7 @@ import fm from "front-matter";
 import * as prism from "prismjs";
 import loadLanguages from "prismjs/components/";
 import {Html5Entities} from "html-entities";
+import {escapePath} from "fast-glob";
 
 const entities = new Html5Entities();
 
@@ -36,7 +37,7 @@ const supportedLanguages = [
   "jsx",
   "sql",
   "groovy",
-  "dart"
+  "dart",
 ];
 
 loadLanguages(supportedLanguages);
@@ -61,7 +62,9 @@ const highlight = (code: string, language: string): string => {
     languageIsSet ? `-${language}` : ""
   }">${highlighted}</div>`;
 
-  return `<amplify-code-block language="${language}" line-count="${String(
+  return `<p class="searchable-code">${encodeURI(
+    code,
+  )}</p><amplify-code-block language="${language}" line-count="${String(
     c.split(/\r\n|\r|\n/).length,
   )}">${c}</amplify-code-block>`;
 };
