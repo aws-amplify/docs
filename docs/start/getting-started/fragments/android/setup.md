@@ -50,8 +50,8 @@ Amplify for Android is distributed as an Apache Maven package. In this section, 
   Make the following additions to the project-level `build.gradle` file:
   - Add the line `mavenCentral()` within the `repositories` block contained in both the `buildscript` and `allprojects` blocks.
   - Add the line `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.1'` within the `dependencies` block.
-  - Add the line `apply plugin: 'com.amplifyframework.amplifytools'` at the end of the file. 
-  
+  - Add the line `apply plugin: 'com.amplifyframework.amplifytools'` at the end of the file.
+
   Your file should look like this:
 
   ```groovy
@@ -85,41 +85,52 @@ Amplify for Android is distributed as an Apache Maven package. In this section, 
   // Add this line at the end of the file
   apply plugin: 'com.amplifyframework.amplifytools'
   ```
-    
 
 
-1. Under **Gradle Scripts**, open **build.gradle (Module: app)**.
+
+2. Under **Gradle Scripts**, open **build.gradle (Module: app)**.
 
    Update the `android` and `dependencies` blocks in your file with the following lines:
 
-  ```groovy
-  android {
-      // Add these lines in `android`
-      compileOptions {
-          sourceCompatibility JavaVersion.VERSION_1_8
-          targetCompatibility JavaVersion.VERSION_1_8
-      }
-  }
+   ```groovy
+   android {
+       defaultConfig {
+           // Enable multidex support (if supporting min SDK < 21)
+           multiDexEnabled true
+       }
 
-  dependencies {
-      // Add these lines in `dependencies`
-      implementation 'com.amplifyframework:core:1.3.0'
-      implementation 'com.amplifyframework:aws-datastore:1.3.0'
-      implementation 'com.amplifyframework:aws-api:1.3.0'
-  }
-  ```
+       compileOptions {
+           // Support for Java 8 features
+           coreLibraryDesugaringEnabled true
+           sourceCompatibility JavaVersion.VERSION_1_8
+           targetCompatibility JavaVersion.VERSION_1_8
+       }
+   }
 
-    - Set `sourceCompatibility` and `targetCompatibility` to Java 1.8 which allows your application to make use of Java 8 features like Lambda expressions.
-    - Add Amplify Core, API, and DataStore libraries in the `dependencies` block.
+   dependencies {
+       // Amplify core dependency
+       implementation 'com.amplifyframework:core:1.3.1'
 
-1. Run **Gradle Sync**
+       // Multidex dependency (if supporting min SDK < 21)
+       implementation 'androidx.multidex:multidex:2.0.1'
+
+       // Support for Java 8 features
+       coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
+   }
+   ```
+
+   - If supporting a min SDK less than 21, add `multiDexEnabled true` to the defaultConfig block to support desugaring
+   - Set `coreLibraryDesugaringEnabled`, `sourceCompatibility`, and `targetCompatibility` to allow your application to make use of Java 8 features like Lambda expressions
+   - Add the Amplify Core, Multidex, and Desugaring libraries to the `dependencies` block
+
+3. Run **Gradle Sync**
 
     Android Studio requires you to sync your project with your new configuration. To do this, click **Sync Now** in the notification bar above the file editor.
 
     ![](~/images/lib/getting-started/android/set-up-android-studio-sync-gradle.png)
 
     When complete, you will see *CONFIGURE SUCCESSFUL* in the output in the *Build* tab at the bottom of your screen.
-    
+
     ![](~/images/lib/getting-started/android/set-up-android-studio-configure-successful.png)
-    
+
 You are ready to start building with Amplify! 🎉

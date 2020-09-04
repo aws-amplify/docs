@@ -31,7 +31,7 @@ Add the following to the `package.json` file:
   "devDependencies": {
     "webpack": "^4.17.1",
     "webpack-cli": "^3.1.0",
-    "copy-webpack-plugin": "^4.5.2",
+    "copy-webpack-plugin": "^6.1.0",
     "webpack-dev-server": "^3.1.5"
   },
   "scripts": {
@@ -128,7 +128,9 @@ module.exports = {
         hot: true
     },
     plugins: [
-        new CopyWebpackPlugin(['index.html']),
+        new CopyWebpackPlugin({
+            patterns: ['index.html']
+        }),
         new webpack.HotModuleReplacementPlugin()
     ]
 };
