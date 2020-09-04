@@ -7,7 +7,6 @@ import fm from "front-matter";
 import * as prism from "prismjs";
 import loadLanguages from "prismjs/components/";
 import {Html5Entities} from "html-entities";
-import {escapePath} from "fast-glob";
 
 const entities = new Html5Entities();
 
