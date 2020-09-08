@@ -31,4 +31,21 @@ Amplify.DataStore.save(post,
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+Post post = Post.builder()
+    .title("My First Post")
+    .rating(10)
+    .status(PostStatus.PUBLISHED)
+    .build();
+
+RxAmplify.DataStore.save(post)
+    .subscribe(
+        () -> Log.i("MyAmplifyApp", "Saved a post."),
+        failure -> Log.e("MyAmplifyApp", "Save failed.", failure)
+    );
+```
+
+</amplify-block>
 </amplify-block-switcher>
