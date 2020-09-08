@@ -93,5 +93,4 @@ Then in your code, you can import the PubSub module by:
 import PubSub from '@aws-amplify/pubsub';
 
 PubSub.configure();
-
 ```
