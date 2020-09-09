@@ -29,6 +29,19 @@ fun getTodo(id: String) {
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+private void getTodo(String id) {
+  RxAmplify.API.query(ModelQuery.get(Todo.class, id))
+          .subscribe(
+              response -> Log.i("MyAmplifyApp", ((Todo) response.getData()).getName()),
+              error -> Log.e("MyAmplifyApp", error.toString(), error)
+          );
+}
+```
+
+</amplify-block>
 </amplify-block-switcher>
 
 ## List items
@@ -70,16 +83,16 @@ Amplify.API.query(
 
 > **Note**: This approach will only return up to the first 1,000 items.  To change this limit or make requests for additional results beyond this limit, use *pagination* as discussed below.
 
-## List multiple pages of items
+## List subsequent pages of items
 
-Pagination allows you to request a maximum number of results to be returned in a response. To consume further results beyond that, you can request a next page of results, if available.
+A list query only returns the first 1,000 items by default, so for large data sets, you'll need to paginate through the results.  After receiving a page of results, you can obtain a `GraphQLRequest` for requesting the next page, if there are more results available.  The page size is configurable as well, as in the example below.
 
 <amplify-block-switcher>
 <amplify-block name="Java">
 
 ```java
 public void queryFirstPage() {
-    query(ModelQuery.list(Todo.class, ModelPagination.firstPage().withLimit(1_000)));
+    query(ModelQuery.list(Todo.class, ModelPagination.limit(1_000)));
 }
 
 private static void query(GraphQLRequest<PaginatedResult<Todo>> request) {
@@ -87,7 +100,7 @@ private static void query(GraphQLRequest<PaginatedResult<Todo>> request) {
         request,
         response -> {
             if (response.hasData()) {
-                for (Todo todo : response.getData().getItems()) {
+                for (Todo todo : response.getData())) {
                     Log.d("MyAmplifyApp", todo.getName());
                 }
                 if (response.getData().hasNextResult()) {
@@ -113,7 +126,7 @@ fun query(request: GraphQLRequest<PaginatedResult<Todo>>) {
         request,
         { response ->
             if (response.hasData()) {
-                for (todo in response.data.items) {
+                for (todo in response.data) {
                     Log.d("MyAmplifyApp", todo.name)
                 }
                 if (response.data.hasNextResult()) {

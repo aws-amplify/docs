@@ -69,6 +69,34 @@ Amplify.DataStore.save(post,
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+Post post = Post.builder()
+    .title("My First Post")
+    .build();
+
+User editor = User.builder()
+    .username("Nadia")
+    .build();
+
+PostEditor postEditor = PostEditor.builder()
+    .post(post)
+    .editor(editor)
+    .build();
+
+Completable.merge(
+    RxAmplify.DataStore.save(post),
+    RxAmplify.DataStore.save(editor)
+).andThen(
+    RxAmplify.DataStore.save(postEditor)
+).subscribe(
+    () -> Log.i("MyAmplifyApp", "Post, Editor, and PostEditor saved."),
+    failure -> Log.e("MyAmplifyApp", "Item not saved.", failure)
+);
+```
+
+</amplify-block>
 </amplify-block-switcher>
 
 <amplify-callout>

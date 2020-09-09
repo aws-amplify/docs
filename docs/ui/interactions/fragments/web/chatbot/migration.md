@@ -8,7 +8,6 @@ To migrate from the legacy chatbot component to the latest chatbot component, us
 
 ```diff
 - import { ChatBot } from 'aws-amplify-react';
-+ // on preview: `yarn add @aws-amplify/ui-react@ui-preview`
 + import { AmplifyChatbot } from '@aws-amplify/ui-react';
 
 const App = () => (
@@ -32,7 +31,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 - import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
-+ // on preview: `yarn add @aws-amplify/ui-angular@ui-preview`
 + import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
 import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
@@ -68,7 +66,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 - import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
-+ // on preview: `yarn add @aws-amplify/ui-angular@ui-preview`
 + import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
 import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
@@ -104,7 +101,6 @@ import Vue from 'vue';
 import App from "./App.vue";
 - import Amplify, * as AmplifyModules from 'aws-amplify'
 - import { AmplifyPlugin } from 'aws-amplify-vue'
-+ // on preview: `yarn add @aws-amplify/ui-vue@ui-preview`
 + import '@aws-amplify/ui-vue';
 + import Amplify from 'aws-amplify';
 + import awsconfig from './aws-exports';
