@@ -109,3 +109,6 @@ receiveValue: { data in
 </amplify-block>
 
 </amplify-block-switcher>
+
+
+If the file is being upload is greater than 5MB, it will automatically leverage S3's multi-part upload API.
