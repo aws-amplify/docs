@@ -3,26 +3,23 @@
 <amplify-block name="Java">
 
 ```java
-extension GraphQLRequest {
-    static func get(byPostId postId: String, todoId: String) -> GraphQLRequest<JSONValue> {
-        let document = """
-        query get($postId: ID!, $todoId: ID!) {
-          getPost(id: $postId) {
-            id
-            title
-            rating
-          }
-          getTodo(id: $todoId) {
-            id
-            name
-          }
-        }
-        """
-        return GraphQLRequest<String>(document: document,
-                                         variables: ["postId": postId,
-                                                     "todoId": todoId],
-                                         responseType: String.self)
-    }
+private GraphQLRequest<String> getPostAndTodo(String postId, String todoId) {
+    String document = "query get($postId: ID!, $todoId: ID!) { "
+        + "getPost(id: $postId) { "
+            + "id "
+            + "title "
+            + "rating "
+        + "} "
+        + "getTodo(id: $todoId) { "
+            + "id "
+            + "name "
+        + "} "
+    + "}";
+    return new SimpleGraphQLRequest<>(
+            document, 
+            Collections.singletonMap("id", id), 
+            Post.class, 
+            new GsonVariablesSerializer());
 }
 ```
 
@@ -30,28 +27,25 @@ extension GraphQLRequest {
 <amplify-block name="Kotlin">
 
 ```kotlin
-extension GraphQLRequest {
-    static func get(byPostId postId: String, todoId: String) -> GraphQLRequest<String> {
-        let document = """
-        query get($postId: ID!, $todoId: ID!) {
-          getPost(id: $postId) {
-            id
-            title
-            rating
-          }
-          getTodo(id: $todoId) {
-            id
-            name
-          }
-        }
-        """
-        return GraphQLRequest<String>(document: document,
-                                         variables: ["postId": postId,
-                                                     "todoId": todoId],
-                                         responseType: String.self)
-    }
+private fun getPostAndTodo(postId: String, todoId: String): GraphQLRequest<String> {
+    val document = ("query get(\$postId: ID!, \$todoId: ID!) { "
+            + "getPost(id: \$postId) { "
+                + "id "
+                + "title "
+                + "rating "
+            + "} "
+            + "getTodo(id: \$todoId) { "
+                + "id "
+                + "name "
+            + "} "
+        + "}")
+
+    return SimpleGraphQLRequest(
+            document,
+            mapOf("postId" to "[POST_ID]", "todoId" to "[TODO_ID]"),
+            String::class.java,
+            GsonVariablesSerializer())
 }
 ```
-
 </amplify-block>
 </amplify-block-switcher>

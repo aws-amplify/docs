@@ -2,20 +2,18 @@
 <amplify-block name="Java">
 
 ```java
-extension GraphQLRequest {
-    static func getWithoutDescription(byId id: String) -> GraphQLRequest<Todo> {
-        let document = """
-        query getTodo($id: ID!) {
-          \(operationName)(id: $id) {
-            id
-            name
-          }
-        }
-        """
-        return GraphQLRequest<Todo>(document: document,
-                                    variables: ["id": id],
-                                    responseType: Todo.self)
-    }
+private GraphQLRequest<Todo> getTodoRequest(String id) {
+    String document = "query getTodo($id: ID!) { "
+        + "getTodo(id: $id) { "
+            + "id "
+            + "name "
+        + "}"
+    + "}";
+    return new SimpleGraphQLRequest<>(
+            document, 
+            Collections.singletonMap("id", id), 
+            Todo.class, 
+            new GsonVariablesSerializer());
 }
 ```
 
@@ -23,20 +21,18 @@ extension GraphQLRequest {
 <amplify-block name="Kotlin">
 
 ```kotlin
-extension GraphQLRequest {
-    static func getWithoutDescription(byId id: String) -> GraphQLRequest<Todo> {
-        let document = """
-        query getTodo($id: ID!) {
-          \(operationName)(id: $id) {
-            id
-            name
-          }
-        }
-        """
-        return GraphQLRequest<Todo>(document: document,
-                                    variables: ["id": id],
-                                    responseType: Todo.self)
-    }
+private fun getTodoRequest(id: String): GraphQLRequest<Todo> {
+    val document = ("query getTodo(\$id: ID!) { "
+          + "getTodo(id: \$id) { "
+              + "id "
+              + "name "
+            + "}"
+          + "}")
+    return SimpleGraphQLRequest(
+            document,
+            mapOf("id" to id),
+            Todo::class.java,
+            GsonVariablesSerializer())
 }
 ```
 
@@ -49,16 +45,18 @@ Then, query for the Todo by a todo id
 <amplify-block name="Java">
 
 ```java
-Amplify.API.query(request: .getWithoutDescription(byId: "[UNIQUE_ID]")) { 
-  // handle result
+Amplify.API.query(getTodoQuery("[TODO_ID]"),
+        response -> Log.d("MyAmplifyApp", "response" + response),
+        error -> Log.e("MyAmplifyApp", "error" + error));
 ```
 
 </amplify-block>
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.API.query(request: .getWithoutDescription(byId: "[UNIQUE_ID]")) { 
-  // handle result
+Amplify.API.query(getTodoQuery("[TODO_ID]"),
+        { response: GraphQLResponse<Todo> -> Log.d("MyAmplifyApp", "response$response") },
+        { error: ApiException -> Log.e("MyAmplifyApp", "error$error") })
 ```
 
 </amplify-block>
