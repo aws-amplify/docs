@@ -126,12 +126,12 @@ amplifytools.xcconfig
 
 Used to share project info within your team. Learn more at [Share single environment](~/cli/teams/shared.md#sharing-projects-within-the-team).
 
-### amplify.json
+### cli.json
 > Manual edits okay: YES
 
 > Add to version control: YES
 
-Contains feature flag configuration for the project. If this file does not exist, it is created by Amplify CLI during `amplify init`. Environment specific feature flag overrides can also be defined in `amplify.<environment name>.json`. Learn more at [Feature flags](~/cli/reference/feature-flags.md).
+Contains feature flag configuration for the project. If this file does not exist, it is created by Amplify CLI during `amplify init`. Environment specific feature flag overrides can also be defined in `cli.<environment name>.json`.  If an environment specific file exists for the currently checked out environment, during `amplify env add` command the same file will be copied for the newly created environment as well. Learn more at [Feature flags](~/cli/reference/feature-flags.md).
 
 ## General Category Files
 
