@@ -1,19 +1,5 @@
 For instance, to listen to see if the network status is active, you could set up the following listener:
 
-```js
-// Create listener
-const listener = Hub.listen('datastore', async hubData => {
-  const  { event, data } = hubData.payload;
-  if (event === 'networkStatus') {
-    console.log(`User has a network connection? ${data.active}`)
-  }
-})
-
-// Remove listener
-listener();
-```
-
-
 <amplify-block-switcher>
  <amplify-block name="Java">
 
