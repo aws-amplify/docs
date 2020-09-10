@@ -1,3 +1,3 @@
 <amplify-callout usage>
-Please note that the Android platform will allow a new user to sign in even if a different user has already signed in, while the iOS platform will force any currently authenticated user to signout before a different user can sign in.
+Please note that to sign in with a new account, the user must first be signed out of the existing account on iOS. On Android, this is not required and the user can simply sign in without first signing out of the existing account.
 </amplify-callout>
