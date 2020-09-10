@@ -5,7 +5,7 @@ For instance, to listen to see if the network status is active, you could set up
 const listener = Hub.listen('datastore', async hubData => {
   const  { event, data } = hubData.payload;
   if (event === 'networkStatus') {
-    console.log(`User has a network connection? ${data.active}`)
+    console.log(`User has a network connection: ${data.active}`)
   }
 })
 

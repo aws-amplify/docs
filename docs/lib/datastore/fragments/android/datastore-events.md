@@ -7,7 +7,7 @@ For instance, to listen to see if the network status is active, you could set up
 Amplify.Hub.subscribe(
       HubChannel.DATASTORE,
       DataStoreChannelEventName.NETWORK_STATUS,
-      hubEvent -> Log.i("User has a network connection? " + hubEvent.isActive().toString())
+      hubEvent -> Log.i("User has a network connection: " + hubEvent.isActive().toString())
 );
 ```
 
@@ -16,7 +16,7 @@ Amplify.Hub.subscribe(
 
  ```kotlin
 Amplify.Hub.subscribe(HubChannel.DATASTORE, DataStoreChannelEventName.NETWORK_STATUS) {
-    Log.i("User has a network connection? " + hubEvent.isActive().toString())
+    Log.i("User has a network connection: " + hubEvent.isActive().toString())
 }      
 ```
 
@@ -26,7 +26,7 @@ Amplify.Hub.subscribe(HubChannel.DATASTORE, DataStoreChannelEventName.NETWORK_ST
 ```java
 RxAmplify.Hub.on(HubChannel.DATASTORE)
     .filter(event -> DataStoreChannelEventName.NETWORK_STATUS.equals(event.getName()))
-    .subscribe(event -> Log.i("User has a network connection? " + hubEvent.isActive().toString()));
+    .subscribe(event -> Log.i("User has a network connection: " + hubEvent.isActive().toString()));
 ```
 
  </amplify-block>
