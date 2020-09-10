@@ -1,5 +1,7 @@
 Invoke the `signOut` api to sign out a user from the Auth category. You can only have one user signed in at a given time.
 
+<inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/signout/00_signout_callout.md"></inline-fragment>
+
 <inline-fragment platform="android" src="~/lib/auth/fragments/android/signout/10_local_signout.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/signout/10_local_signout.md"></inline-fragment>
 <inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/signout/10_local_signout.md"></inline-fragment>
