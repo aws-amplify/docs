@@ -1,14 +1,14 @@
-To initialize the Amplify Auth and Analytics categories call the `Amplify.addPlugin()` method for each category. To complete initialization call `Amplify.configure()`.
-
-Add the following code to the `initState` method 
-
+Add the Auth and Analytics plugin, along with any other plugins you may have added as described in the *Prerequisites* section; 
 
 ```dart
-Amplify.addPlugin(new AWSCognitoAuthPlugin());
-Amplify.addPlugin(new AmplifyAnalyticsPinpointPlugin());
+AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
+AmplifyAnalyticsPinpoint analyticsPlugin = AmplifyAnalyticsPinpoint();
+
+amplifyInstance.addPlugin(
+    authPlugins: [authPlugin], analyticsPlugins: [analyticsPlugin]);
 ```
 
-(VERIFY, To be determined) Make sure that the amplifyconfiguration.dart file generated in the project setup is included and sent to Amplify.configure: 
+Make sure that the amplifyconfiguration.dart file generated in the project setup is included and sent to Amplify.configure: 
 
 ```dart 
 import 'amplifyconfiguration.dart';
@@ -27,11 +27,13 @@ class MyAmplifyApp extends StatefulWidget {
     void initState() {
         super.initState(); 
 
-        Amplify.addPlugin(new AWSCognitoAuthPlugin());
-        Amplify.addPlugin(new AWSPinpointAnalyticsPlugin(this));
+        AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
+        AmplifyAnalyticsPinpoint analyticsPlugin = AmplifyAnalyticsPinpoint();
+
+        amplifyInstance.addPlugin(
+            authPlugins: [authPlugin], analyticsPlugins: [analyticsPlugin]);
 
         Amplify.configure( amplifyConfig ); 
-
     }
 }
 ```
