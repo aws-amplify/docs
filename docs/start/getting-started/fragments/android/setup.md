@@ -35,7 +35,7 @@
     - Select *API 16: Android 4.1 (Jelly Bean)* from the **Minimum SDK** dropdown menu
     - Press **Finish**
 
-  ![](~/images/lib/getting-started/android/set-up-android-studio-configure-your-project.png)
+  ![](~/images/lib/getting-started/android/set-up-android-studio-configure-your-project-todo.png)
 
 Android Studio will open your project with a tab opened to either *MainActivity.java* or *MainActivity.kt* depending upon if you created a Java or Kotlin project respectively.
 
