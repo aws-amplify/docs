@@ -36,7 +36,7 @@ RxAmplify.Hub.on(HubChannel.DATASTORE)
         .filter(hubEvent -> DataStoreChannelEventName.NETWORK_STATUS.equals(hubEvent.getName()))
         .subscribe(hubEvent -> {
             NetworkStatusEvent event = (NetworkStatusEvent) hubEvent.getData();
-            Log.i("MainActivity", "User has a network connection: " + event.getActive());
+            Log.i("MyAmplifyApp", "User has a network connection: " + event.getActive());
         });
 ```
 
