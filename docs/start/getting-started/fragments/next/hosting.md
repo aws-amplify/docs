@@ -1,11 +1,11 @@
 You've successfully built an Amplify app with Next.js! Now that you've built something, it's time to deploy it to the web!
 
 > **Note**: Amplify Console is adding support for Server-Side Rendering (SSR).
-> [Upvote & comment on this issue](https://github.com/aws-amplify/amplify-console/issues/412) to show your support!
+> [Vote & comment on this issue](https://github.com/aws-amplify/amplify-console/issues/412) to show your support!
 
 ## Using [Serverless Next.js Component](https://github.com/serverless-nextjs/serverless-next.js)
 
-> _For more information, read the [Serverless Next.js Component accouncement](https://www.serverless.com/blog/serverless-nextjs)_
+> _For more information, read the [Serverless Next.js Component announcement](https://www.serverless.com/blog/serverless-nextjs)_
 
 First, install the `serverless` binary from https://www.serverless.com/framework/docs/getting-started/.
 

@@ -1307,6 +1307,7 @@
     "Stateful",
     "GETCURRENTUSER",
     "amplifyconfig",
+    "nextamplified",
     "Uploader"
   ],
   "flagWords": ["hte"]
