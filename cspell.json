@@ -604,6 +604,7 @@
     "groupname",
     "groupsField",
     "GSIs",
+    "GsonVariablesSerializer",
     "gusta",
     "Gvdas",
     "handleEventsForBackgroundURLSession",
