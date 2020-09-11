@@ -7,28 +7,26 @@ You've successfully built an Amplify app with Next.js! Now that you've built som
 
 > _For more information, read the [Serverless Next.js Component announcement](https://www.serverless.com/blog/serverless-nextjs)_
 
-First, install the `serverless` binary from https://www.serverless.com/framework/docs/getting-started/.
+### Option 1: Watch the video guide
 
-Next, install `@sls-next/serverless-component`:
+Watch the video below to learn how to deploy a Next.js application with the Serverless framework, or skip to the next section to follow the step-by-step instructions.
 
-```bash
-npm install @sls-next/serverless-component@^1.17.0-alpha.12
-```
+<iframe width="560" height="315" src="https://www.youtube.com/embed/2SwlDpfGkXM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-Then, create __serverless.yml__ with the following content:
+### Options 2: Follow the instructions
+
+Create __serverless.yml__ with the following content:
 
 ```yaml
 # serverless.yml
 nextamplified:
-  component: "@sls-next/serverless-component@^1.17.0-alpha.12"
+  component: "@sls-next/serverless-component@1.16.0"
 ```
 
 Finally, deploy with the following command:
 
-<!-- Note: I had to run `isengard assume` to get the corrent behavior -->
-
 ```bash
-AWS_SDK_LOAD_CONFIG=1 serverless
+npx serverless
 ```
 
 You'll see a link to your app in the output:
@@ -40,6 +38,12 @@ You'll see a link to your app in the output:
     distributionId: XXXXXXXXXXXXXX
 ```
 
-> **Note**: It may take a few minutes for your CloudFront Distribution to become "Active".
+> **Note**: Your CloudFront Distribution may take several minutes to go from "In Progress" to "Active".  Visit your [CloudFront Console](https://console.aws.amazon.com/cloudfront/home) to monitor progress.
 
 👏 Congratulations, your app is online!
+
+To delete the app, run the following:
+
+```bash
+npx serverless remove
+```
