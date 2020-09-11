@@ -9,7 +9,7 @@ Amplify.Hub.subscribe(
         hubEvent -> DataStoreChannelEventName.NETWORK_STATUS.equals(hubEvent.getName()),
         hubEvent -> {
             NetworkStatusEvent event = (NetworkStatusEvent) hubEvent.getData();
-            Log.i("MainActivity", "User has a network connection: " + event.getActive());
+            Log.i("MyAmplifyApp", "User has a network connection: " + event.getActive());
         }
 );
 ```
