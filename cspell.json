@@ -1309,6 +1309,7 @@
     "GETCURRENTUSER",
     "amplifyconfig",
     "nextamplified",
+    "vercel",
     "Uploader"
   ],
   "flagWords": ["hte"]

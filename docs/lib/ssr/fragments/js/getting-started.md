@@ -61,7 +61,7 @@ Server-side functions that _don't_ have a `req` object (e.g. `getStaticProps`) s
 
 ## DataStore
 
-### Serialization
+### Serializing
 
 For Next.js, returned `props` from the server have to be valid JSON. Because `DataStore.query(Model)` returns _instances_ of `Model`, we need the `serializeModel` helper to convert it to JSON instead:
 
@@ -77,14 +77,14 @@ export async function getServerSideProps({ req }) {
 
 	return {
 		props: {
-      // 👇 This converts Post intances into serializable JSON for the client
+      // 👇 This converts Post instances into serialized JSON for the client
 			posts: serializeModel(posts),
 		},
 	};
 }
 ```
 
-### Deserialization
+### Deserializing
 
 If your client-side code only reads from the server-side props and doesn't perform any updates to these models, then your client-side code won't need any changes.
 
