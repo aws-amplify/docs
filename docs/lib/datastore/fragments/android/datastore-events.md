@@ -23,7 +23,7 @@ Amplify.Hub.subscribe(
         { hubEvent -> DataStoreChannelEventName.NETWORK_STATUS.equals(hubEvent.name) },
         { hubEvent ->
             val event = hubEvent.data as NetworkStatusEvent?
-            Log.i("MainActivity", "User has a network connection: " + event!!.active)
+            Log.i("MyAmplifyApp", "User has a network connection: " + event!!.active)
         }
 )
 ```
