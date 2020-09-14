@@ -39,3 +39,5 @@ Do you want to use the default authentication and security configuration?
   Manual configuration
   I want to learn more.
 ```
+
+You can find [more documentation on adding each social provider in the Libraries section](https://docs.amplify.aws/lib/auth/social/q/platform/js#setup-your-auth-provider) of the docs.
