@@ -22,7 +22,7 @@ Select the explicit values below to enable **IAM** (for public read access) and 
 ? Choose the default authorization type for the API:
 # API key
 ? Enter a description for the API key:
-# 
+#
 ? After how many days from now the API key should expire (1-365):
 # 7
 ? Do you want to configure advanced settings for the GraphQL API?
@@ -41,14 +41,10 @@ Select the explicit values below to enable **IAM** (for public read access) and 
 # No
 ? Do you have an annotated GraphQL schema?
 # No
-? Do you want a guided schema creation?
-# Yes
-? What best describes your project:
+? Choose a schema template:
 # Single object with fields (e.g., “Todo” with ID, name, description)
 ? Do you want to edit the schema now?
 # Yes
-? Please edit the file in your editor: ...amplify/backend/api/nextamplified/schema.graphql
-? Press enter to continue
 ```
 
 The CLI should open this GraphQL schema in your text editor.
