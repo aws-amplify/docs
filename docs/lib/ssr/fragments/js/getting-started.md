@@ -17,12 +17,18 @@ import awsExports from "../src/aws-exports";
 Amplify.configure({ ...awsExports, ssr: true });
 ```
 
+By providing `ssr: true`, Amplify persists credentials on the client in cookies so that subsequent requests to the server have access to them.
+
 > **Note**: Once [vercel/next.js#16977](https://github.com/vercel/next.js/issues/16977) is resolved, you can hoist `Amplify.configure` into **pages/_app.js**.  Until then, be sure that all **pages/*** run `Amplify.configure({ ...awsExports, ssr: true })`.
 
 
 ### withSSRContext
 
-Your page components should continue using top-level category imports for client-side code:
+Once an application has been configured with `ssr: true`, client-side credentials are passed to the server via cookies.
+
+The `withSSRContext` utility creates an instance of `Amplify` scoped to a single request (`req`) using those cookie credentials.
+
+For client-side code rendered in the browser, your page should continue using top-level imports as usual:
 
 ```js
 import { Amplify, API } from "aws-amplify";
@@ -42,7 +48,7 @@ export default function HomePage({ posts = [] }) {
 }
 ```
 
-However, when in server-only functions (e.g. Next.js' `getServerSideProps`, `getStaticProps`, & `getStaticPaths`), use `withSSRContext({ req?: ServerRequest })`:
+When on the server, use `withSSRContext({ req?: ServerRequest })`:
 
 ```js
 import { Amplify, API, withSSRContext } from "aws-amplify";
@@ -60,7 +66,7 @@ export async function getServerSideProps({ req }) {
 }
 ```
 
-Server-side functions that _don't_ have a `req` object (e.g. `getStaticProps`) should still use `withSSRContext()`.
+Server-side functions that _don't_ have a `req` object (e.g. Next.js' `getStaticProps` & `getStaticPaths`) should still use `withSSRContext()`.
 
 ## DataStore
 
