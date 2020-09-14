@@ -1,5 +1,5 @@
 ---
-title: Getting Started with SSR
+title: Getting Started with Server-Side Rendering (SSR)
 description: Getting Started with Server-Side Rendering (SSR)
 ---
 
