@@ -33,6 +33,12 @@ exports[`docs-choose-integration-anchor Render logic should render 1`] = `
         Vue
       </h4>
     </docs-card>
+    <docs-card vertical="">
+      <img alt="Next.js Logo" slot="graphic" src="/assets/integrations/next.svg">
+      <h4 slot="heading">
+        Next.js
+      </h4>
+    </docs-card>
   </amplify-responsive-grid>
   <h3>
     Mobile
