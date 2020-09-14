@@ -11,10 +11,10 @@ For client-only apps, `Amplify.configure(awsExports)` is all you need.
 To enable SSR support, also provide `ssr: true`:
 
 ```js
-import { Amplify } from "aws-amplify"
-import awsExports from "../src/aws-exports"
+import { Amplify } from "aws-amplify";
+import awsExports from "../src/aws-exports";
 
-Amplify.configure({ ...awsExports, ssr: true })
+Amplify.configure({ ...awsExports, ssr: true });
 ```
 
 > **Note**: Once [vercel/next.js#16977](https://github.com/vercel/next.js/issues/16977) is resolved, you can hoist `Amplify.configure` into **pages/_app.js**.  Until then, be sure that all **pages/*** run `Amplify.configure({ ...awsExports, ssr: true })`.
@@ -25,24 +25,27 @@ Amplify.configure({ ...awsExports, ssr: true })
 Your page components should continue using top-level category imports for client-side code:
 
 ```js
-import { Amplify, API } from "aws-amplify"
+import { Amplify, API } from "aws-amplify";
+import awsExports from "../src/aws-exports";
+
+Amplify.configure({ ...awsExports, ssr: true });
 
 export default function HomePage({ posts = [] }) {
-  const [posts, setPosts] = useState(posts)
+  const [posts, setPosts] = useState(posts);
 
   useEffect(() => {
-    // 👇 Notice how the client correctly uses the top-level `API`
-    API.graphql({ query: listPosts }).then(({ data }) => setPosts(data.listPosts.items))
+    // 👇 Notice how the client correctly uses the top-level `API` import
+    API.graphql({ query: listPosts }).then(({ data }) => setPosts(data.listPosts.items));
   }, [])
 
-  return ( ... )
+  return ( ... );
 }
 ```
 
 However, when in server-only functions (e.g. Next.js' `getServerSideProps`, `getStaticProps`, & `getStaticPaths`), use `withSSRContext({ req?: ServerRequest })`:
 
 ```js
-import { Amplify, API, withSSRContext } from "aws-amplify"
+import { Amplify, API, withSSRContext } from "aws-amplify";
 
 export async function getServerSideProps({ req }) {
   // 👇 Notice how the server uses `API` from `withSSRContext`, instead of the top-level `API`.
@@ -67,7 +70,7 @@ For Next.js, returned `props` from the server have to be valid JSON. Because `Da
 
 ```js
 import { serializeModel } from '@aws-amplify/datastore/ssr';
-import { Amplify, withSSRContext } from "aws-amplify"
+import { Amplify, withSSRContext } from "aws-amplify";
 
 ...
 
@@ -78,7 +81,7 @@ export async function getServerSideProps({ req }) {
 	return {
 		props: {
       // 👇 This converts Post instances into serialized JSON for the client
-			posts: serializeModel(posts),
+      posts: serializeModel(posts),
 		},
 	};
 }
@@ -92,13 +95,13 @@ However, if you receive models from the server and need to `DataStore.delete(mod
 
 ```js
 import { serializeModel } from '@aws-amplify/datastore/ssr';
-import { Amplify, withSSRContext } from "aws-amplify"
+import { Amplify, withSSRContext } from "aws-amplify";
 
-import { Post } from "../src/models"
+import { Post } from "../src/models";
 
 export default function HomePage(initialData) {
     // 👇 This converts the serialized JSON back into Post instances
-  	const [posts, setPosts] = useState(deserializeModel(Post, initialData.posts));
+    const [posts, setPosts] = useState(deserializeModel(Post, initialData.posts));
 
     ...
 }
