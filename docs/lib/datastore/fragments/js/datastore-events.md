@@ -1,18 +1,3 @@
-Amplify uses `Hub` for different categories to communicate with one another when specific events occur. DataStore emits `Hub` messages for the following events:
-
-```
-storageSubscribed
-subscriptionsEstablished
-syncQueriesStarted
-syncQueriesReady
-modelSynced
-outboxMutationEnqueued
-outboxMutationProcessed
-outboxStatus
-networkStatus
-ready
-```
-
 For instance, to listen to see if the network status is active, you could set up the following listener:
 
 ```js
@@ -20,7 +5,7 @@ For instance, to listen to see if the network status is active, you could set up
 const listener = Hub.listen('datastore', async hubData => {
   const  { event, data } = hubData.payload;
   if (event === 'networkStatus') {
-    console.log(`User has a network connection? ${data.active}`)
+    console.log(`User has a network connection: ${data.active}`)
   }
 })
 
