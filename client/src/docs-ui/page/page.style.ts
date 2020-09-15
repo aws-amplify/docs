@@ -12,6 +12,10 @@ export const sidebarLayoutStyle = css`
 
   p {
     margin-bottom: 1rem;
+
+    &.searchable-code {
+      display: none;
+    }
   }
 
   a {
