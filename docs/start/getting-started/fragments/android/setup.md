@@ -109,7 +109,7 @@ Amplify for Android is distributed as an Apache Maven package. In this section, 
 
    dependencies {
        // Amplify core dependency
-       implementation 'com.amplifyframework:core:1.3.1'
+       implementation 'com.amplifyframework:core:1.3.2'
 
        // Amplify plugins
        implementation 'com.amplifyframework:aws-api:1.3.1'
