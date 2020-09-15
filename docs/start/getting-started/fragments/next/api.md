@@ -316,7 +316,7 @@ Submit that form to create a new post, and we'll build that page next!
 
 Statically generating pages during the build process improves performance. But, dynamically created posts still need to not `404`.
 
-To solve this, create __pages/[id].js__ and paste in the following content:
+To solve this, create __pages/posts/[id].js__ and paste in the following content:
 
 ```jsx
 import { Amplify, API, withSSRContext } from "aws-amplify";
