@@ -11,7 +11,7 @@ You've successfully built an Amplify app with Next.js! Now that you've built som
 
 Watch the video below to learn how to deploy a Next.js application with the Serverless framework, or skip to the next section to follow the step-by-step instructions.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/2SwlDpfGkXM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/2SwlDpfGkXM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ### Options 2: Follow the instructions
 
