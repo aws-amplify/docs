@@ -4,7 +4,7 @@ Subscribe to mutations for creating real-time clients:
 <amplify-block name="Java">
 
 ```java
- ApiOperation subscription = ApiOperation subscription = Amplify.API.subscribe(
+ ApiOperation subscription = Amplify.API.subscribe(
         ModelSubscription.onCreate(Todo.class),
         onEstablished -> Log.i("ApiQuickStart", "Subscription established"),
         onCreated -> Log.i("ApiQuickStart", "Todo create subscription received: " + ((Todo) onCreated.getData()).getName()),

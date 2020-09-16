@@ -14,6 +14,7 @@
     "xr",
     "utilities",
     "client-configuration",
-    "debugging"
+    "debugging",
+    "ssr"
   ]
 }
