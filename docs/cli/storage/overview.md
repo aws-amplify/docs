@@ -3,7 +3,9 @@ title: Overview
 description: Use Amplify CLI to create and manage cloud-connected file & data storage for your app.
 ---
 
-Amplify CLI's `storage` category enables you to create and manage cloud-connected file & data storage. Use the `storage` category when you need to store app content (images, audio, video etc.) or data for your app in an public, protected or private storage bucket. 
+Amplify CLI's `storage` category enables you to create and manage cloud-connected file & data storage. Use the `storage` category when you need to store:
+1. app content (images, audio, video etc.) in an public, protected or private storage bucket or
+2. app data in a NoSQL database and access it with a REST API + Lambda
 
 ## Setup a new storage resource
 
