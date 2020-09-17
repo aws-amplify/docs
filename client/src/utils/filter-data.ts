@@ -53,7 +53,6 @@ export const FRAMEWORK_FILTER_OPTIONS = [
   "angular",
   "vue",
   "ionic",
-  "next",
 ] as const;
 
 export const frameworkFilterMetadataByOption: FilterMetadataByOption<typeof FRAMEWORK_FILTER_OPTIONS> = {
@@ -77,10 +76,6 @@ export const frameworkFilterMetadataByOption: FilterMetadataByOption<typeof FRAM
     label: "Ionic",
     graphicURI: "/assets/integrations/ionic.svg",
   },
-  next: {
-    label: "Next.js",
-    graphicURI: "/assets/integrations/next.svg",
-  },
 } as const;
 
 export const mobileFilterMetadataByOption = {
@@ -96,7 +91,6 @@ export const webFilterMetadataByOption = {
   react: frameworkFilterMetadataByOption.react,
   angular: frameworkFilterMetadataByOption.angular,
   vue: frameworkFilterMetadataByOption.vue,
-  next: frameworkFilterMetadataByOption.next,
 };
 
 /**
@@ -106,11 +100,16 @@ export const webFilterMetadataByOption = {
 export const integrationFilterOptions = [
   ...PLATFORM_FILTER_OPTIONS,
   ...FRAMEWORK_FILTER_OPTIONS,
+  "next",
 ] as const;
 
 export const integrationFilterMetadataByOption: FilterMetadataByOption<typeof integrationFilterOptions> = {
   ...platformFilterMetadataByOption,
   ...frameworkFilterMetadataByOption,
+  next: {
+    label: "Next.js",
+    graphicURI: "/assets/integrations/next.svg",
+  },
 };
 
 /**
