@@ -1,6 +1,6 @@
 ---
 title: Amplify CLI
-description: The Amplify Command Line Interface (CLI) is a unified toolchain to create, integrate, and manage the AWS cloud services for your app. The Amplify CLI makes it easy to provision a new cloud backend with features such as authentication, APIs (REST and GraphQL), Storage, Functions and Hosting.
+description: The Amplify Command Line Interface (CLI) is a unified toolchain to create, integrate, and manage the AWS cloud services for your app. The Amplify CLI makes it easy to provision a cloud backend with features such as Authentication, APIs (REST and GraphQL), Storage, Functions and Hosting.
 ---
 
 The Amplify Command Line Interface (CLI) is a unified toolchain to create, integrate, and manage the AWS cloud services for your app. 
