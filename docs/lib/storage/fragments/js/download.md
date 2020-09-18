@@ -12,13 +12,13 @@ await Storage.get(key: string, config: {
 })
 ```
 
-`Storage.get` returns a `data` object if `download` is false, which is the default.
+`Storage.get` returns a signed URL `string` to your file if `download` is false, which is the default.
 
 `Storage.get` returns a [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob) of object data if `download` is true.
 
 ### Frequent User Questions
 
-- Very common issue: Calling `Storage.get` for a nonexistent file, or incorrect credentials, **does not throw an error** because that would involve an extra API call. [Active issue here](https://github.com/aws-amplify/amplify-js/issues/1145). If you are having trouble accessing a file, make sure to check that you have the right filename, bucket, region, and auth configs.
+- Very common issue: Calling `Storage.get` for a nonexistent file, or incorrect credentials, **does not throw an error** because that would involve an extra API call. [Active issue here](https://github.com/aws-amplify/amplify-js/issues/1145). If you are having trouble accessing a file, make sure to check that you have the right filename, bucket, region, and auth configs. You can get a current list of files from `Storage.list`.
 - `Storage.get` is cached; if you have recently modified a file you may not get the most recent version right away. [There is an active issue for a new option to enable cachebusting.](https://github.com/aws-amplify/amplify-js/issues/6413)
 - `Storage.get` only returns the latest cached version of the file; there is [not yet an API to view prior versions](https://github.com/aws-amplify/amplify-js/issues/2131).
 - Download progress tracking is not yet possible. [Active issue here](https://github.com/aws-amplify/amplify-js/issues/4734).
