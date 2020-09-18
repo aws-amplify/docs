@@ -16,17 +16,6 @@ await Storage.get(key: string, config: {
 
 `Storage.get` returns a [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob) of object data if `download` is true.
 
-### Frequent User Questions
-
-- Very common issue: Calling `Storage.get` for a nonexistent file, or incorrect credentials, **does not throw an error** because that would involve an extra API call. [Active issue here](https://github.com/aws-amplify/amplify-js/issues/1145). If you are having trouble accessing a file, make sure to check that you have the right filename, bucket, region, and auth configs. You can get a current list of files from `Storage.list`.
-- `Storage.get` is cached; if you have recently modified a file you may not get the most recent version right away. [There is an active issue for a new option to enable cachebusting.](https://github.com/aws-amplify/amplify-js/issues/6413)
-- `Storage.get` only returns the latest cached version of the file; there is [not yet an API to view prior versions](https://github.com/aws-amplify/amplify-js/issues/2131).
-- Download progress tracking is not yet possible. [Active issue here](https://github.com/aws-amplify/amplify-js/issues/4734).
-- You cannot [only get file metadata](https://github.com/aws-amplify/amplify-js/issues/6157) yet.
-- [Image compression](https://github.com/aws-amplify/amplify-js/issues/6081) or CloudFront CDN caching for your S3 buckets is not yet possible.
-- There is no API for [Cognito Group-based access to files](https://github.com/aws-amplify/amplify-js/issues/3388).
-- There is currently [no API for getting the identityId of other users](https://github.com/aws-amplify/amplify-js/issues/5177); you have to retrieve this from elsewhere before calling `Storage.get`.
-
 ### File download
 
 Send object data for immediate file download:
@@ -81,3 +70,17 @@ You can use `expires` option to limit the availability of your URLs. This config
 ```javascript
 await Storage.get('filename.txt', { expires: 60 })
 ```
+
+
+### Frequent User Questions
+
+Users often run into unexpected issues, so we are giving you advance notice in documentation with links to open issues - please upvote what you need, to help the team prioritize.
+
+- Very common issue: Calling `Storage.get` for a nonexistent file, or incorrect credentials, **does not throw an error** because that would involve an extra API call. [Active issue here](https://github.com/aws-amplify/amplify-js/issues/1145). If you are having trouble accessing a file, make sure to check that you have the right filename, bucket, region, and auth configs. You can get a current list of files from `Storage.list`.
+- `Storage.get` is cached; if you have recently modified a file you may not get the most recent version right away. [There is an active issue for a new option to enable cachebusting.](https://github.com/aws-amplify/amplify-js/issues/6413)
+- `Storage.get` only returns the latest cached version of the file; there is [not yet an API to view prior versions](https://github.com/aws-amplify/amplify-js/issues/2131).
+- Download progress tracking is not yet possible. [Active issue here](https://github.com/aws-amplify/amplify-js/issues/4734).
+- You cannot [only get file metadata](https://github.com/aws-amplify/amplify-js/issues/6157) yet.
+- [Image compression](https://github.com/aws-amplify/amplify-js/issues/6081) or CloudFront CDN caching for your S3 buckets is not yet possible.
+- There is no API for [Cognito Group-based access to files](https://github.com/aws-amplify/amplify-js/issues/3388).
+- There is currently [no API for getting the identityId of other users](https://github.com/aws-amplify/amplify-js/issues/5177); you have to retrieve this from elsewhere before calling `Storage.get`.
