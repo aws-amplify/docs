@@ -1,10 +1,26 @@
 ## Get
-Retrieves a publicly accessible URL for data stored.
+
+Get a presigned URL of a stored file. You can specify 2 options: [file access `level`](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js) and whether to `download` the file:
+
+```typescript
+Storage.get(key: string, config: {
+  level?: private | protected | public,
+  identityId?: string // id of another user, if `level: protected`
+  download?: boolean // default false
+})
+```
+
+### File download
+
+```javascript
+Storage.get(`filename.txt`, { download: true })
+    .then(result =>  console.log(result))
+```
 
 ### Public level
 
 ```javascript
-Storage.get('test.txt')
+Storage.get('filename.txt')
     .then(result => console.log(result))
     .catch(err => console.log(err));
 ```
@@ -12,14 +28,17 @@ Storage.get('test.txt')
 ### Protected level
 
 To get current user's objects
+
 ```javascript
-Storage.get('test.txt', { level: 'protected' })
+Storage.get('filename.txt', { level: 'protected' })
     .then(result => console.log(result))
     .catch(err => console.log(err));
 ```
+
 To get other users' objects
+
 ```javascript
-Storage.get('test.txt', { 
+Storage.get('filename.txt', { 
     level: 'protected', 
     identityId: 'xxxxxxx' // the identityId of that user
 })
@@ -30,15 +49,17 @@ Storage.get('test.txt', {
 ### Private level
 
 ```javascript
-Storage.get('test.txt', { level: 'private' })
+Storage.get('filename.txt', { level: 'private' })
     .then(result => console.log(result))
     .catch(err => console.log(err));
 ```
+
 ## Generate a download URL
 
 You can use `expires` option to limit the availability of your URLs. This configuration returns the pre-signed URL that expires in 60 seconds:
+
 ```javascript
-Storage.get('test.txt', { expires: 60 })
+Storage.get('filename.txt', { expires: 60 })
     .then(result => console.log(result))
     .catch(err => console.log(err));
 ```
