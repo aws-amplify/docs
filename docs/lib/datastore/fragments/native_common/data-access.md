@@ -61,6 +61,7 @@ Alternatively, the `or` logical operator can also be used:
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/query-predicate-or-snippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/data-access/query-predicate-or-snippet.md"></inline-fragment>
 
+<inline-fragment platform="js" src="~/lib/datastore/fragments/native_common/sort.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/native_common/sort.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/native_common/sort.md"></inline-fragment>
 

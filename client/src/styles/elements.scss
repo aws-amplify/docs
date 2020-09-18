@@ -251,7 +251,8 @@ span {
 }
 
 iframe {
-  width: 100% !important;
-  height: 61.81vh !important;
-  max-height: 37.5rem !important;
+  width: 100%;
+  min-height: 20rem;
+  max-height: 37.5rem;
+  max-width: 40rem;
 }
