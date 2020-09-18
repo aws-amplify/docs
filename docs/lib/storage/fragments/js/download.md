@@ -11,6 +11,11 @@ await Storage.get(key: string, config: {
 })
 ```
 
+`Storage.get` returns a `data` object if `download` is false, which is the default.
+
+`Storage.get` returns a `string` of object data if `download` is true.
+
+
 ### File download
 
 Send object data for immediate file download:
