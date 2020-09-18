@@ -15,13 +15,17 @@ await Storage.get(key: string, config: {
 
 `Storage.get` returns a `string` of object data if `download` is true.
 
+Storage.get is cached; if you have recently modified a file you may not get the most recent version right away. [There is an active issue for a new option to enable cachebusting.](https://github.com/aws-amplify/amplify-js/issues/6413)
 
 ### File download
 
 Send object data for immediate file download:
 
 ```javascript
-await Storage.get(`filename.txt`, { download: true })
+const data = await Storage.get(`filename.txt`, { download: true })
+data.Body.text().then(string => { 
+  // handle the String data return String 
+})
 ```
 
 ### File Access Levels
