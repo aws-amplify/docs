@@ -33,4 +33,20 @@ Amplify.API.put(options,
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RestOptions options = RestOptions.builder()
+        .addPath("/todo/1")
+        .addBody("{\"name\":\"Mow the lawn\"}".getBytes())
+        .build();
+
+RxAmplify.API.put(options)
+        .subscribe(
+              response -> Log.i("MyAmplifyApp", "PUT " + response.getData().asString()),
+              error -> Log.e("MyAmplifyApp", "PUT failed", error)
+        );
+```
+
+</amplify-block>
 </amplify-block-switcher>

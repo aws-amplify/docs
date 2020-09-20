@@ -58,4 +58,32 @@ class MyAmplifyApp : Application() {
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+Amplify.addPlugin(new AWSApiPlugin());
+```
+
+Your class will look like this:
+
+```java
+public class MyAmplifyApp extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        try {
+            // Add this line to add the AWSApiPlugin plugin
+            RxAmplify.addPlugin(new AWSApiPlugin());
+            RxAmplify.configure(getApplicationContext());
+
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+        }
+    }
+}
+```
+
+</amplify-block>
 </amplify-block-switcher>

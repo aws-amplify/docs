@@ -1,4 +1,4 @@
-<amplify-responsive-grid grid-gap="2" columns="2" class="margin-top-lg">
+<amplify-responsive-grid grid-gap="2" columns="3" class="margin-top-lg">
   <docs-card url="~/lib/auth/getting-started.md" class="border-radius">
     <img slot="graphic" src="~/assets/features/auth.svg" />
     <h4 slot="heading">Authentication</h4>

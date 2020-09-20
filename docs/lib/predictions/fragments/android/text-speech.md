@@ -99,6 +99,45 @@ private fun playAudio(data: InputStream) {
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+Open `MainActivity.java` and add the following code:
+
+```java
+private final MediaPlayer mp = new MediaPlayer();
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    RxAmplify.Predictions.convertTextToSpeech("I like to eat spaghetti")
+            .subscribe(
+                result -> playAudio(result.getAudioData()),
+                error -> Log.e("MyAmplifyApp", "Conversion failed", error)
+            );
+}
+
+private void playAudio(InputStream data) {
+    File mp3File = new File(getCacheDir(), "audio.mp3");
+
+    try (OutputStream out = new FileOutputStream(mp3File)) {
+        byte[] buffer = new byte[8 * 1_024];
+        int bytesRead;
+        while ((bytesRead = data.read(buffer)) != -1) {
+            out.write(buffer, 0, bytesRead);
+        }
+        mp.reset();
+        mp.setOnPreparedListener(MediaPlayer::start);
+        mp.setDataSource(new FileInputStream(mp3File).getFD());
+        mp.prepareAsync();
+    } catch (IOException error) {
+        Log.e("MyAmplifyApp", "Error writing audio file", error);
+    }
+}
+```
+
+</amplify-block>
 </amplify-block-switcher>
 
 This example works on all supported versions of Android. Android API 23 added support for [`MediaDataSource`](https://developer.android.com/reference/android/media/MediaDataSource), which allows for `InputStream` from Amplify to be read directly without writing to a file.

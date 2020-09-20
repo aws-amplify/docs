@@ -195,6 +195,7 @@ Amplify UI Components use `slots` based off of the [Web Components slot element]
 | `verify-contact`       | Content placed inside of the verify-contact workflow for when a user must verify their contact information             |
 | `totp-setup`           | Content placed inside of the totp-setup workflow for when a user opts to use TOTP MFA                                  |
 | `greetings`            | Content placed inside of the greetings navigation for when a user is signed in                                         |
+| `loading`              | Content placed inside of the loading workflow for when the app is loading                                              |
 
 ### Custom Form Fields
 
@@ -901,7 +902,7 @@ enum AuthState {
 **Usage**
 
 ```js
-import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components`;
+import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
 
 onAuthUIStateChange((nextAuthState, authData) => {
   if (nextAuthState === AuthState.SignedIn) {
@@ -917,7 +918,7 @@ onAuthUIStateChange((nextAuthState, authData) => {
 **Usage**
 
 ```js
-import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components`;
+import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
 
 onAuthUIStateChange((nextAuthState, authData) => {
   if (nextAuthState === AuthState.SignedIn) {
