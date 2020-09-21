@@ -42,7 +42,11 @@ In order to change deployment types, you need to run `amplify remove hosting` an
 The `amplify configure hosting` command for the Amplify Console option, opens up the AWS Amplify Console browser tab for you where you can configure settings such as rewrite/redirect URL's, password protection, custom domain. 
 These settings do not get replicated or cloned between environments and you'd have to configure them on a per-environment basis.
 
-**Note**: Amplify Console automatically handles cache invalidation and there is no additional configurations or commands/command-line parameters required for it.
+**Note**: 
+
+Amplify Console automatically handles cache invalidation and there is no additional configurations or commands/command-line parameters required for it.
+
+If you start from the Amplify Console's home page and connect your project's code repository (by clicking `Connect app` button), the frontend environment is created for your project once the workflow successfully completes. After setting up hosting in the Amplify Console, you cannot run the `amplify hosting add` command from your local installation of the Amplify CLI. To disable hosting, please visit the Amplify Console and disconnect the branch from the `App settings > General` page.
 
 ## Amazon S3 and Amazon Cloudfront
 

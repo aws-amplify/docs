@@ -33,6 +33,11 @@ There are two options to integrate the Amplify build process with the project.
 
 Instead of using the platform integration, you can alternatively use the Amplify CLI on its own to accomplish the same thing that Amplify Tools is doing for you. This option is particularly useful for **existing projects** where Amplify is already configured.
 
+If you don't have an existing project already, create a new Amplify project by running:
+```bash
+amplify init
+```
+
 The base structure for a DataStore app is created by adding a new GraphQL API to your app.
 
 ```console
@@ -66,15 +71,13 @@ During the API configuration process select **GraphQL** as the API type and repl
     `Auto Merge`
 ? Do you have an annotated GraphQL schema?
     `No`
-? Do you want a guided schema creation?
-    `No`
-? Provide a custom type name
-    `Post`
+? Choose a schema template
+    `Single object with fields (e.g., “Todo” with ID, name, description)`
 ```
 
 <amplify-callout warning>
 
-**Troubleshooting:** without the **conflict detection** configuration cloud sync will fail. In that case use `amplify update api` and choose **Enable DataStore for entire API** (this option will enable the conflict detection as described above).
+**Troubleshooting:** Cloud sync will fail without the **conflict detection** configuration. In that case use `amplify update api` and choose **Enable DataStore for entire API** (this option will enable the conflict detection as described above).
 
 </amplify-callout>
 
@@ -88,9 +91,9 @@ The first step to create an app backed by a persistent datastore is to **define 
 
 ### Sample schema
 
-For the next steps, let's start with a schema for a small blog application. It has a single model, a `Post`. New types and constructs will be added to this base schema as more concepts are presented.
+For the next steps, let's start with a schema for a small blog application. Currently, it has only a single model. New types and constructs will be added to this base schema as more concepts are presented.
 
-Open the `schema.graphql` file located by default at `amplify/backend/{api_name}/` and **define the model** `Post` as follows.
+Open the `schema.graphql` file located by default at `amplify/backend/{api_name}/` and **define a model** `Post` as follows.
 
 ```graphql
 type Post @model {
@@ -123,9 +126,9 @@ Models can also be generated using the Amplify CLI directly.
 
 In your terminal, make sure you are in your project/root folder and **execute the codegen command**:
 
-    ```console
-    amplify codegen models
-    ```
+```console
+amplify codegen models
+```
     
 You can **find the generated files** at `amplify/generated/models/`. Remember to add them to your Xcode project if on iOS.
 
