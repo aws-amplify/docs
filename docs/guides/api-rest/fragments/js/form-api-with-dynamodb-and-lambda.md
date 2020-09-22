@@ -76,7 +76,7 @@ var bodyParser = require('body-parser')
 var express = require('express')
 var app = express()
 var cors = require('cors') // ADDED - for avoiding CORS in local dev
-app.use(cors())
+app.use(cors())  // ADDED - for avoiding CORS in local dev
 app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
 
