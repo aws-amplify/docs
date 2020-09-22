@@ -125,6 +125,7 @@ The Amplify CLI requires the below IAM policies for performing actions across al
                 "dynamodb:DescribeTimeToLive",
                 "dynamodb:ListStreams",
                 "dynamodb:PutItem",
+                "dynamodb:TagResource",
                 "dynamodb:UpdateContinuousBackups",
                 "dynamodb:UpdateItem",
                 "dynamodb:UpdateTable",
