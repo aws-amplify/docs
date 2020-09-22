@@ -92,7 +92,7 @@ function id () {
 /* 3. Update the app.get request with the following code for reading all contacts */
 app.get('/contact', function(req, res) {
   var params = {
-    TableName: process.env.STORAGE_FORMTABLE_NAME
+    TableName: process.env.STORAGE_FORMTABLE_NAME // TODO: UPDATE THIS WITH THE ACTUAL NAME OF THE FORM TABLE ENV VAR (set by Amplify CLI)
   }
   docClient.scan(params, function(err, data) {
     if (err) res.json({ err })
@@ -103,7 +103,7 @@ app.get('/contact', function(req, res) {
 /* 4. Update the app.post request with the following code for creating a new contact */
 app.post('/contact', function(req, res) {
   var params = {
-    TableName : process.env.STORAGE_FORMTABLE_NAME,
+    TableName : process.env.STORAGE_FORMTABLE_NAME, // TODO: UPDATE THIS WITH THE ACTUAL NAME OF THE FORM TABLE ENV VAR (set by Amplify CLI)
     Item: {
       id: id(),
       name: req.body.name,
