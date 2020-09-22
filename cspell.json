@@ -604,6 +604,7 @@
     "groupname",
     "groupsField",
     "GSIs",
+    "GsonVariablesSerializer",
     "gusta",
     "Gvdas",
     "handleEventsForBackgroundURLSession",
@@ -1307,6 +1308,8 @@
     "Stateful",
     "GETCURRENTUSER",
     "amplifyconfig",
+    "nextamplified",
+    "vercel",
     "Uploader"
   ],
   "flagWords": ["hte"]

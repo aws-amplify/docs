@@ -55,7 +55,7 @@ android {
 
 dependencies {
     // Amplify core dependency
-    implementation 'com.amplifyframework:core:1.3.1'
+    implementation 'com.amplifyframework:core:1.3.2'
 
     // Multidex dependency (if supporting min SDK < 21)
     implementation 'androidx.multidex:multidex:2.0.1'
