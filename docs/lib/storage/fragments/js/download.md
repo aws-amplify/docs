@@ -74,7 +74,7 @@ await Storage.get('filename.txt', { expires: 60 })
 
 ### Frequent User Questions
 
-Users often run into unexpected issues, so we are giving you advance notice in documentation with links to open issues - please upvote what you need, to help the team prioritize.
+Users can run into unexpected issues, so we are giving you advance notice in documentation with links to open issues - please upvote what you need, to help the team prioritize.
 
 - Very common issue: Calling `Storage.get` for a nonexistent file, or incorrect credentials, **does not throw an error** because that would involve an extra API call. [Active issue here](https://github.com/aws-amplify/amplify-js/issues/1145). If you are having trouble accessing a file, make sure to check that you have the right filename, bucket, region, and auth configs. You can get a current list of files from `Storage.list`.
 - `Storage.get` is cached; if you have recently modified a file you may not get the most recent version right away. [There is an active issue for a new option to enable cache busting.](https://github.com/aws-amplify/amplify-js/issues/6413)
