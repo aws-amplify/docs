@@ -72,7 +72,7 @@ await Storage.get('filename.txt', { expires: 60 })
 ```
 
 
-### Frequent User Questions
+### Frequently Asked Questions
 
 Users can run into unexpected issues, so we are giving you advance notice in documentation with links to open issues - please upvote what you need, to help the team prioritize.
 
