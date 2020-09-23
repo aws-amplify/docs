@@ -1,4 +1,4 @@
-The `amplify-app` library provides an integration layer between the Amplify CLI headless mode (i.e. no AWS credentials needed) and Xcode.
+The `amplify-app` utility provides an integration layer between the Amplify CLI and Xcode.
 
 First make sure you have the latest version installed:
 
