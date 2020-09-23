@@ -28,8 +28,8 @@ Amplify.Auth.confirmUserAttribute(
 ```java
 RxAmplify.Auth.confirmUserAttribute(AuthUserAttributeKey.email(), "344299")
     .subscribe(
-        () -> Log.i("User attribute is confirmed", "Code is correct"),
-        error -> Log.e("User attribute is not confirmed", error.toString())
+        () -> Log.i("AuthDemo", "Confirmed user attribute using correct code."),
+        error -> Log.e("AuthDemo", "Failed to confirm user attribute. Bad code?", error)
     );
 ```
 
