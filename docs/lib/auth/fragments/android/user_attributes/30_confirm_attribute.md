@@ -14,11 +14,9 @@ Amplify.Auth.confirmUserAttribute(
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.Auth.confirmUserAttribute(
-    AuthUserAttributeKey.email(),
-    "344299",
-    { Log.i("User attribute is confirmed", "Code is correct") },
-    { error-> Log.e("User attribute is not confirmed", error.toString()) }
+Amplify.Auth.confirmUserAttribute(AuthUserAttributeKey.email(), "344299",
+    { Log.i("AuthDemo", "Confirmed user attribute with correct code.") },
+    { Log.e("AuthDemo", "Failed to confirm user attribute. Bade code?", $it) }
 )
 ```
 
