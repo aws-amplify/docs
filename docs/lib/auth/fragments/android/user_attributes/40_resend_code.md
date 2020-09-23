@@ -25,8 +25,8 @@ Amplify.Auth.resendUserAttributeConfirmationCode(
 ```java
 RxAmplify.Auth.resendUserAttributeConfirmationCode(AuthUserAttributeKey.email())
     .subscribe(
-        result -> Log.i("Code was resent", "Result: " + result.toString()),
-        error -> Log.e("Code wasn't resent", error.toString())
+        result -> Log.i("AuthDemo", "Code was resent: " + result.toString()),
+        error -> Log.e("AuthDemo", "Failed to resend code.", error)
     );
 ```
 
