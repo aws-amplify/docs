@@ -23,9 +23,11 @@ Amplify.Auth.fetchUserAttributes(
 
 ```java
 RxAmplify.Auth.fetchUserAttributes()
+    .doOnSubscribe(() -> Log.i("AuthDemo", "Attributes:"))
+    .flatMapObservable(Observable::fromIterable)
     .subscribe(
-        result -> Log.i("Fetch user attributes succeeded", "Result: " + result.toString()),
-        error -> Log.e("Fetch user attributes failed", error.toString())
+        eachAttribute -> Log.i("AuthDemo", eachAttribute.toString()),
+        error -> Log.e("AuthDemo", "Failed to fetch attributes.", error)
     );
 ```
 
