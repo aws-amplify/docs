@@ -93,7 +93,7 @@ import AmplifyPlugins
 
 struct ContentView: View {
     
-     var body: some View {
+    var body: some View {
         Text("Hello, World!")
             .onAppear {
                 self.performOnAppear()
