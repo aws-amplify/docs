@@ -128,7 +128,7 @@ import { AppComponent } from './app.component';
 /* Add Amplify imports */
 import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
 import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
+import awsconfig from '../aws-exports';
 
 /* Configure Amplify resources */
 Amplify.configure(awsconfig);
