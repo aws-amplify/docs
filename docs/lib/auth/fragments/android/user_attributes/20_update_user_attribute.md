@@ -58,8 +58,8 @@ Amplify.Auth.updateUserAttributes(
 ```kotlin
 Amplify.Auth.updateUserAttributes(
     attributes, // attributes is a list of AuthUserAttribute
-    { result-> Log.i("Update user attributes succeeded", "Result: " + result.toString()) },
-    { error-> Log.e("Update user attributes failed", error.toString()) }
+    { Log.i("Updated user attributes = $it") },
+    { Log.e("Failed to update user attributes.", $it) }
 )
 ```
 
