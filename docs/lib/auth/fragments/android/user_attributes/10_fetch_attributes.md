@@ -1,4 +1,33 @@
-<amplify-callout>
-This functionality has not yet been implemented for Android but is scheduled to be finished in the near future.
-This section will be updated once it has. 
-</amplify-callout>
+<amplify-block-switcher>
+<amplify-block name="Java">
+
+```java
+Amplify.Auth.fetchUserAttributes(
+    result -> Log.i("Fetch user attributes succeeded", "Result: " + result.toString()),
+    error -> Log.e("Fetch user attributes failed", error.toString())
+);
+```
+
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+Amplify.Auth.fetchUserAttributes(
+    { result-> Log.i("Fetch user attributes succeeded", "Result: " + result.toString()) },
+    { error-> Log.e("Fetch user attributes failed", error.toString()) }
+)
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.Auth.fetchUserAttributes()
+    .subscribe(
+        result -> Log.i("Fetch user attributes succeeded", "Result: " + result.toString()),
+        error -> Log.e("Fetch user attributes failed", error.toString())
+    );
+```
+
+</amplify-block>
+</amplify-block-switcher>
