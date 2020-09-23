@@ -4,9 +4,11 @@ To update a single user attribute, call `updateUserAttribute`:
 <amplify-block name="Java">
 
 ```java
-Amplify.Auth.updateUserAttribute(new AuthUserAttribute(AuthUserAttributeKey.email(), "email@email.com"),
-    result -> Log.i("Update user attribute succeeded", "Result: " + result.toString()),
-    error -> Log.e("Update user attribute failed", error.toString())
+AuthUserAttribute userEmail =
+    new AuthUserAttribute(AuthUserAttributeKey.email(), "email@email.com");
+Amplify.Auth.updateUserAttribute(userEmail,
+    result -> Log.i("AuthDemo", "Updated user attribute = " + result.toString()),
+    error -> Log.e("AuthDemo", "Failed to update user attribute.", error)
 );
 ```
 
