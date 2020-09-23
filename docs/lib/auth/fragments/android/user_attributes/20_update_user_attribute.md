@@ -16,10 +16,10 @@ Amplify.Auth.updateUserAttribute(userEmail,
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.Auth.updateUserAttribute(
-    AuthUserAttribute(AuthUserAttributeKey.email(), "email@email.com"),
-    { result-> Log.i("Update user attribute succeeded", "Result: " + result.toString()) },
-    { error-> Log.e("Update user attribute failed", error.toString()) }
+val userEmail = AuthUserAttribute(AuthUserAttributeKey.email(), "email@email.com")
+Amplify.Auth.updateUserAttribute(userEmail,
+    { Log.i("AuthDemo", "Updated user attribute = $it") },
+    { Log.e("AuthDemo", "Failed to update user attribute.", $it) }
 )
 ```
 
