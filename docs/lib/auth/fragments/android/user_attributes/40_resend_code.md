@@ -12,10 +12,9 @@ Amplify.Auth.resendUserAttributeConfirmationCode(AuthUserAttributeKey.email(),
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.Auth.resendUserAttributeConfirmationCode(
-    AuthUserAttributeKey.email(),
-    { result -> Log.i("Code was resent", "Result: " + result.toString()) },
-    { error -> Log.e("Code wasn't resent", error.toString()) }
+Amplify.Auth.resendUserAttributeConfirmationCode(AuthUserAttributeKey.email(),
+    { Log.i("AuthDemo", "Code was resent: $it.") },
+    { Log.e("AuthDemo", "Failed to resend code.", $it) }
 )
 ```
 
