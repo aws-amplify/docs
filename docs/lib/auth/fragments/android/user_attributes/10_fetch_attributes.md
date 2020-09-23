@@ -13,8 +13,8 @@ Amplify.Auth.fetchUserAttributes(
 
 ```kotlin
 Amplify.Auth.fetchUserAttributes(
-    { result-> Log.i("Fetch user attributes succeeded", "Result: " + result.toString()) },
-    { error-> Log.e("Fetch user attributes failed", error.toString()) }
+    { Log.i("AuthDemo", "User attributes = $it") },
+    { Log.e("AuthDemo", "Failed to fetch user attributes.", $it) }
 )
 ```
 
