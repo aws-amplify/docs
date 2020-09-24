@@ -252,7 +252,7 @@ You may want to change the contents of a record. Below, we'll query for a record
             Amplify.DataStore.save(updatedTodo) { result in
                 switch(result) {
                 case .success(let savedTodo):
-                    print("Updated item: \(savedTodo.name )")
+                    print("Updated item: \(savedTodo.name)")
                 case .failure(let error):
                     print("Could not update data in Datastore: \(error)")
                 }
