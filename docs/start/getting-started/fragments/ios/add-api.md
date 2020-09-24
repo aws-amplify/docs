@@ -10,7 +10,14 @@ Now that you have DataStore persisting data locally, in the next step you'll con
 
    This command will open up a web browser to the AWS Management Console and guide you through creating a new IAM user. For step-by-step directions to set this up, refer to the [CLI installation guide](~/cli/start/install.md).
 
-1. Next, push your new API to AWS. To do this, **run the command**:
+1. Initialize the Amplify backend. To do this, **run the command**:
+
+    ```bash
+    amplify init
+    ```
+
+1. Next, push your new backend to the cloud. To do this, **run the command**:
+
     ```bash
     amplify push
     ```
