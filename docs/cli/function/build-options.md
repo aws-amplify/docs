@@ -27,6 +27,7 @@ Navigate into `amplify/backend/function/generateReport` and create `tsconfig.jso
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "lib": ["dom", "esnext"],
+    "module": "commonjs",
     "moduleResolution": "node",
     "skipLibCheck": true,
     "resolveJsonModule": true,
@@ -39,6 +40,15 @@ Navigate into `amplify/backend/function/generateReport` and create `tsconfig.jso
   }
 }
 
+```
+
+**NOTE:** It is important to note that if you are using `aws-sdk` in your TypeScript file, you will get a timeout if you attempt to import it with the following:
+```js
+import AWS from 'aws-sdk';
+```
+Change to this:
+```js
+import * as AWS from 'aws-sdk';
 ```
 
 Once you run `amplify push`, the `amplify:generateReport` script will be executed, either by `yarn` or by `npm` depending on the existence of a `yarn.lock` file in the project root directory.
