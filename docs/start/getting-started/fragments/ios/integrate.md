@@ -84,7 +84,7 @@ Next, you'll create a Todo and save it to DataStore.
       }    
   }
   ```
-1. After making the preceding updates to the `ContentView.swift`file, your code should look like the following:
+1. After making the preceding updates to the `ContentView.swift` file, your code should look like the following:
 
 ```swift
 import SwiftUI
@@ -152,7 +152,7 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
 
   ```swift
   func performOnAppear() {
-      Amplify.DataStore.query(Todo.self, completion: { result in
+      Amplify.DataStore.query(Todo.self) { result in
           switch(result) {
           case .success(let todos):
               for todo in todos {
@@ -168,7 +168,7 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
           case .failure(let error):
               print("Could not query DataStore: \(error)")
           }
-      })
+      }
   }
   ```
 
@@ -204,8 +204,7 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
 
   ```swift
   Amplify.DataStore.query(Todo.self,
-                          where: Todo.keys.priority.eq(Priority.high.rawValue),
-                          completion: { result in
+                          where: Todo.keys.priority.eq(Priority.high) { result in
       switch(result) {
       case .success(let todos):
           for todo in todos {
@@ -221,7 +220,7 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
       case .failure(let error):
           print("Could not query DataStore: \(error)")
       }
-  })
+  }
   ```
   In the above code, notice the addition of the predicate parameter as the second argument.
 
@@ -242,8 +241,7 @@ You may want to change the contents of a record. Below, we'll query for a record
 
     ```swift
     Amplify.DataStore.query(Todo.self,
-                            where: Todo.keys.name.eq("Finish quarterly taxes"),
-                            completion: { result in
+                            where: Todo.keys.name.eq("Finish quarterly taxes") { result in
         switch(result) {
         case .success(let todos):
             guard todos.count == 1, var updatedTodo = todos.first else {
@@ -263,7 +261,7 @@ You may want to change the contents of a record. Below, we'll query for a record
         case .failure(let error):
             print("Could not query DataStore: \(error)")
         }
-    })
+    }
     ```
 
 1. **Build and run** the application. In your console output, you'll see an indication that the item was updated successfully:
@@ -276,12 +274,12 @@ You may want to change the contents of a record. Below, we'll query for a record
 ## Delete a Todo
 
 To round out our CRUD operations, we'll query for a record and delete it from DataStore.
+
 1. Edit your `performOnAppear()` method to remove anything related to datastore and **add the following** instead of it:
 
     ```swift
     Amplify.DataStore.query(Todo.self,
-                            where: Todo.keys.name.eq("File quarterly taxes"),
-                            completion: { result in
+                            where: Todo.keys.name.eq("File quarterly taxes") { result in
         switch(result) {
         case .success(let todos):
             guard todos.count == 1, let toDeleteTodo = todos.first else {
@@ -300,7 +298,7 @@ To round out our CRUD operations, we'll query for a record and delete it from Da
         case .failure(let error):
             print("Could not query DataStore: \(error)")
         }
-  })
+  }
   ```
 
 1. **Build and run** the application. In the console output, you'll see an indication that the item was deleted successfully:
@@ -308,3 +306,9 @@ To round out our CRUD operations, we'll query for a record and delete it from Da
   Initialized Amplify
   Deleted item: File quarterly taxes
   ```
+
+## Almost done
+
+We just reached a *very cool* checkpoint. We have a fully featured CRUD application that saves and retrieves data saved in the local device, which means the app **works without an AWS account and even without internet connection**.
+
+Next, let's connect it to AWS and make the data available in the cloud.

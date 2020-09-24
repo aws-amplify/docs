@@ -28,10 +28,9 @@ Now that you have DataStore persisting data locally, in the next step you'll con
     
     </amplify-callout>
 
-##  Add a subscription
-We will now demonstrate how to add a subscription to the application, so that we can receive any updates to the `Todo` model.
+## Enable cloud syncing
 
-1. To configure your application to use the Amplify API category, open the `AppDelegate.swift` file and **update the amplify initialization code** to add the API plugin. The `application(_,didFinishLaunchingWithOptions:)` function should now call `Amplify.add(plugin:)` with a reference to `AWSAPIPlugin`:
+In order to enable cloud syncing you need to **configure your application to use the Amplify API category**. Open the `AppDelegate.swift` file and **update the amplify initialization code** to add the API plugin. The `application(_,didFinishLaunchingWithOptions:)` function should now call `Amplify.add(plugin:)` with a reference to an `AWSAPIPlugin` instance:
   
   ```swift
   let models = AmplifyModels()
@@ -46,6 +45,12 @@ We will now demonstrate how to add a subscription to the application, so that we
       print("Could not initialize Amplify: \(error)")
   }
   ```
+
+Now when you run you application the data will be synced to your cloud backend automatically! 🎉
+
+## Add a subscription
+
+We will now demonstrate how to add a subscription to the application, so that we can receive any updates to the `Todo` model.
 
 1. Open `ContentView.swift` and **add the following** import statement at the top of the file:
   ```swift
