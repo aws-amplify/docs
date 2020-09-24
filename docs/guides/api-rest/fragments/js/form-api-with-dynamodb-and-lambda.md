@@ -67,11 +67,21 @@ The API endpoint has been configured and some boilerplate function code has been
 
 ### Updating the function code
 
-Next, open the function code located at __amplify/backend/function/formfunction/src/app.js__ in your text editor and make the following changes:
+Next, open the function code located at __amplify/backend/function/formfunction/src/app.js__ in your text editor and replace its contents:
 
 ```js
+// from REST API + DynamoDB template
+var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
+var bodyParser = require('body-parser')
+var express = require('express')
+var app = express()
+var cors = require('cors') // ADDED - for avoiding CORS in local dev
+app.use(cors())  // ADDED - for avoiding CORS in local dev
+app.use(bodyParser.json())
+app.use(awsServerlessExpressMiddleware.eventContext())
+
 /* 1. Import the AWS SDK and create an instance of the DynamoDB Document Client */
-const AWS = require('aws-sdk');
+const AWS = require('aws-sdk')
 const docClient = new AWS.DynamoDB.DocumentClient();
 
 /* 2. create a function that will generate a unique ID for each entry in the database */
@@ -82,7 +92,7 @@ function id () {
 /* 3. Update the app.get request with the following code for reading all contacts */
 app.get('/contact', function(req, res) {
   var params = {
-    TableName: process.env.STORAGE_FORMTABLE_NAME
+    TableName: process.env.STORAGE_FORMTABLE_NAME // TODO: UPDATE THIS WITH THE ACTUAL NAME OF THE FORM TABLE ENV VAR (set by Amplify CLI)
   }
   docClient.scan(params, function(err, data) {
     if (err) res.json({ err })
@@ -93,7 +103,7 @@ app.get('/contact', function(req, res) {
 /* 4. Update the app.post request with the following code for creating a new contact */
 app.post('/contact', function(req, res) {
   var params = {
-    TableName : process.env.STORAGE_FORMTABLE_NAME,
+    TableName : process.env.STORAGE_FORMTABLE_NAME, // TODO: UPDATE THIS WITH THE ACTUAL NAME OF THE FORM TABLE ENV VAR (set by Amplify CLI)
     Item: {
       id: id(),
       name: req.body.name,
@@ -105,6 +115,13 @@ app.post('/contact', function(req, res) {
     else res.json({ success: 'Contact created successfully!' })
   })
 });
+
+// from REST API + DynamoDB template
+app.listen(3000, function() {
+    console.log("App started")
+});
+
+module.exports = app
 ```
 
 Now the API has been created and you can begin interacting with it to send `get`  and `post` requests for creating and reading contacts!
