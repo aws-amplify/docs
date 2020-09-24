@@ -75,7 +75,7 @@ Next, you'll create a Todo and save it to DataStore.
 1. Below the creation of the item, **add the code** to save the item to DataStore:
 
   ```swift
-  Amplify.DataStore.save(item) { (result) in
+  Amplify.DataStore.save(item) { result in
       switch(result) {
       case .success(let savedItem):
           print("Saved item: \(savedItem.name)")
@@ -104,7 +104,7 @@ struct ContentView: View {
        let item = Todo(name: "Build iOS Application",
                        description: "Build an iOS application using Amplify")
         
-        Amplify.DataStore.save(item) { (result) in
+        Amplify.DataStore.save(item) { result in
            switch(result) {
            case .success(let savedItem):
                print("Saved item: \(savedItem.name)")
@@ -249,15 +249,14 @@ You may want to change the contents of a record. Below, we'll query for a record
                 return
             }
             updatedTodo.name = "File quarterly taxes"
-            Amplify.DataStore.save(updatedTodo,
-                                   completion: { result in
-                                    switch(result) {
-                                    case .success(let savedTodo):
-                                        print("Updated item: \(savedTodo.name )")
-                                    case .failure(let error):
-                                        print("Could not update data in Datastore: \(error)")
-                                    }
-            })
+            Amplify.DataStore.save(updatedTodo) { result in
+                switch(result) {
+                case .success(let savedTodo):
+                    print("Updated item: \(savedTodo.name )")
+                case .failure(let error):
+                    print("Could not update data in Datastore: \(error)")
+                }
+            }
         case .failure(let error):
             print("Could not query DataStore: \(error)")
         }
@@ -286,15 +285,14 @@ To round out our CRUD operations, we'll query for a record and delete it from Da
                 print("Did not find exactly one todo, bailing")
                 return
             }
-            Amplify.DataStore.delete(toDeleteTodo,
-                                     completion: { result in
-                                        switch(result) {
-                                        case .success:
-                                            print("Deleted item: \(toDeleteTodo.name)")
-                                        case .failure(let error):
-                                            print("Could not update data in Datastore: \(error)")
-                                        }
-            })
+            Amplify.DataStore.delete(toDeleteTodo) { result in
+                switch(result) {
+                case .success:
+                    print("Deleted item: \(toDeleteTodo.name)")
+                case .failure(let error):
+                    print("Could not update data in Datastore: \(error)")
+                }
+            }
         case .failure(let error):
             print("Could not query DataStore: \(error)")
         }
@@ -309,6 +307,6 @@ To round out our CRUD operations, we'll query for a record and delete it from Da
 
 ## Almost done
 
-We just reached a *very cool* checkpoint. We have a fully featured CRUD application that saves and retrieves data saved in the local device, which means the app **works without an AWS account and even without internet connection**.
+We just reached a *very cool* checkpoint. We have a fully featured CRUD application that saves and retrieves data in the local device, which means the app **works without an AWS account and even without internet connection**.
 
-Next, let's connect it to AWS and make the data available in the cloud.
+Next, let's connect it to AWS and make sure the data available in the cloud.
