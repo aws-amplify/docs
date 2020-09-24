@@ -1,0 +1,17 @@
+The AWS Cognito Auth Plugin can be configured to automatically obtain guest credentials once the device is online so that you are able to use other categories "anonymously" without the need to sign in. You will not be able to perform user specific methods while in this state such as updating attributes, changing your password, or getting the current user. However, you can obtain the unique Identity ID which is assigned to the device through the `fetchAuthSession` method [described here](~/lib/auth/access_credentials.md).
+
+Follow these steps to enable guest access on your Auth category:
+
+```console
+amplify update auth
+What do you want to do? Walkthrough all the auth configurations
+Select the authentication/authorization services that you want to use: [choose whatever you initially selected - default is User Sign-Up, Sign-In, connected with AWS IAM controls]
+Allow unauthenticated logins? (Provides scoped down permissions that you can control via AWS IAM)
+❯ Yes
+ No
+ I want to learn more.
+
+ [proceed through the rest of the steps choosing the values you want - default is usually "No"]
+```
+
+That's it! Now as long as you are online, you will automatically gain guest credentials (which are then cached for offline use as well).
