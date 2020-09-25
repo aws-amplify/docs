@@ -9,7 +9,7 @@ npm install -g amplify-app
 Then **run the command** to create the Amplify app structure and automatically add the necessary files to Xcode:
 
 ```bash
-amplify-app
+amplify-app --platform ios
 ```
 
 Once the command is done, a new group named `AmplifyConfig` should be added to your project and contain the following files:
