@@ -7,13 +7,13 @@ Now that the client is set up, you can run a GraphQL mutation with `Amplify.API.
 
 ```java
 Todo todo = Todo.builder()
-        .name("My updated todo")
+        .name("My todo")
         .build();
 
 Amplify.API.mutate(
-        ModelMutation.update(todo),
-        response -> Log.i("MyAmplifyApp", "Updated Todo with id: " + response.getData().getId()),
-        error -> Log.e("MyAmplifyApp", "Update failed", error)
+        ModelMutation.create(todo),
+        response -> Log.i("MyAmplifyApp", "Todo with id: " + response.getData().getId()),
+        error -> Log.e("MyAmplifyApp", "Create failed", error)
 );
 ```
 
@@ -22,13 +22,13 @@ Amplify.API.mutate(
 
 ```kotlin
 val todo = Todo.builder()
-        .name("My updated todo")
+        .name("My todo")
         .build()
 
 Amplify.API.mutate(
-        ModelMutation.update(todo),
-        { response -> Log.i("MyAmplifyApp", "Updated Todo with id: " + response.data.id) },
-        { error -> Log.e("MyAmplifyApp", "Update failed", error) }
+        ModelMutation.create(todo),
+        { response -> Log.i("MyAmplifyApp", "Todo with id: " + response.data.id) },
+        { error -> Log.e("MyAmplifyApp", "Create failed", error) }
 )
 ```
 
@@ -40,10 +40,10 @@ Todo todo = Todo.builder()
         .name("My updated todo")
         .build();
 
-RxAmplify.API.mutate(ModelMutation.update(todo))
+RxAmplify.API.mutate(ModelMutation.create(todo))
         .subscribe(
-            response -> Log.i("MyAmplifyApp", "Updated Todo with id: " + response.getData().getId()),
-            error -> Log.e("MyAmplifyApp", "Update failed", error)
+            response -> Log.i("MyAmplifyApp", "Todo with id: " + response.getData().getId()),
+            error -> Log.e("MyAmplifyApp", "Create failed", error)
         );
 ```
 
