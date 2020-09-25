@@ -220,7 +220,7 @@ export class AppComponent implements OnInit {
 
 At this point your `app.module.ts` should look like:
 
-```
+```javascript
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
