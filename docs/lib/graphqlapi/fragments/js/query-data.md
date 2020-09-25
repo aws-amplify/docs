@@ -128,7 +128,7 @@ Note that querying for `priority` of 1 AND 2 would return no results, because th
 
 ### Paginating Queries
 
-Pagination in AppSync is done by making a request with a `limit`, and geting back a `nextToken` in order to get a cursor for the next page in your query:
+Pagination in AppSync is done by making a request with a `limit`, and getting back a `nextToken` in order to get a cursor for the next page in your query:
 
 ```js
 // page 1 of query
