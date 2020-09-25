@@ -37,7 +37,7 @@ Amplify.API.mutate(
 
 ```java
 Todo todo = Todo.builder()
-        .name("My updated todo")
+        .name("My todo")
         .build();
 
 RxAmplify.API.mutate(ModelMutation.create(todo))
