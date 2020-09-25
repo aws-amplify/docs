@@ -88,12 +88,12 @@ Those input types in your schema indicate what kinds of filtering you can perfor
 
 ```graphql
 input ModelIntInput {
-	ne: Int
-	eq: Int
-	le: Int
-	lt: Int
-	ge: Int
-	gt: Int
+	ne: Int # "not equal to"
+	eq: Int # "equal to"
+	le: Int # "less than or equal to"
+	lt: Int # "less than"
+	ge: Int # "greater than or equal to"
+	gt: Int # "greater than"
 	between: [Int]
 	attributeExists: Boolean
 	attributeType: ModelAttributeTypes
