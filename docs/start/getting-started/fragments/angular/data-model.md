@@ -23,10 +23,8 @@ Accept the **default values** which are highlighted below:
 # No
 ? Do you have an annotated GraphQL schema? 
 # No
-? Do you want a guided schema creation? 
-# Yes
-? What best describes your project: 
-# Single object with fields
+? Choose a schema template: 
+# Single object with fields (e.g., “Todo” with ID, name, description)
 ? Do you want to edit the schema now? 
 # Yes
 ```
@@ -100,7 +98,7 @@ Amplify.configure(aws_exports);
 
 <amplify-callout>The code above imports the entire Amplify library. You can use separate imports like `import Auth from '@aws-amplify/auth'` to reduce the final bundle size.</amplify-callout>
 
-Update `src/tsconfig.app.json` to include the "node" compiler option in *types*:
+Update `tsconfig.app.json` to include the "node" compiler option in *types*:
 
 ```json
 "compilerOptions": {
@@ -114,7 +112,7 @@ In your `src/app/app.component.ts` file, add the following imports and modificat
 
 ```javascript
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { APIService } from '../API.service';
+import { APIService } from './API.service';
 
 @Component(...)
 export class AppComponent implements OnInit {
@@ -178,7 +176,7 @@ export type Restaurant = {
 Next, update your `AppComponent` class so that it will list all restaurants in the database when the app starts. To do so, implement [OnInit](https://angular.io/api/core/OnInit) add a `ListRestaurants` query. Store the query results in an array.
 
 ```javascript
-import { APIService } from '../API.service';
+import { APIService } from './API.service';
 import { Restaurant } from './../types/restaurant';
 
 @Component(...)
@@ -218,6 +216,32 @@ export class AppComponent implements OnInit {
     });
   }
 }
+```
+
+At this point your `app.module.ts` should look like:
+
+```
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AppComponent } from './app.component';
+import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AmplifyUIAngularModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
 ```
 
 After restarting your app using `ng serve` go back to your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs. 
