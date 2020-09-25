@@ -136,7 +136,7 @@ const { data: { listProducts: { items: itemsPage1, nextToken } } } = await API.g
 const { data: { listProducts: { items: itemsPage2 } } } = await API.graphql({ query: listProducts, variables: { limit: 20, nextToken }}));
 ```
 
-A `nextToken` is a very long string that looks like `"eyJ2ZXJzaW9uejE1a2RPanZPQzFCMlFTdGNxdUFBQUJxekNDQWFjR0NTcUdTSWIzRFFFSEJxQ0NBWmd3Z2dHVUFnRUFNSUlCalFZSktvWklodmNOQVFjQk1CNEdDV0NHU0FGbEF3UUJMakFSQkF5eEtWQjUvTlJxS2o5ZHBYc0NBUkNBZ2dGZUZFNW1MbTRkb25BOUg0U0FpOGhSZ1lucmRndmQz"` which represents the 
+A `nextToken` is a very long string that looks like `"eyJ2ZXJzaW9uejE1a2RPanZPQzFCMlFTdGNxdUFBQUJxekNDQWFjR0NTcUdTSWIzRFFFSEJxQ0NBWmd3Z2dHVUFnRUFNSUlCalFZSktvWklodmNOQVFjQk1CNEdDV0NHU0FGbEF3UUJMakFSQkF5eEtWQjUvTlJxS2o5ZHBYc0NBUkNBZ2dGZUZFNW1MbTRkb25BOUg0U0FpOGhSZ1lucmRndmQz"` which represents the cursor to the starting item of the next query made with these filters.
 
 ### Frequently Asked Questions
 
