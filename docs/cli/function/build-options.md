@@ -16,12 +16,12 @@ Let's say, a function resource has been created with `amplify function add` and 
   "scripts": {
     "amplify:generateReport": "cd amplify/backend/function/generateReport && tsc -p ./tsconfig.json && cd -"
   },
-  ...
 }
 ```
 
 Navigate into `amplify/backend/function/generateReport` and create `tsconfig.json` then add the following to it:
 
+<!-- // spell-checker: disable -->
 ```json
 {
   "compilerOptions": {
@@ -39,8 +39,9 @@ Navigate into `amplify/backend/function/generateReport` and create `tsconfig.jso
     }
   }
 }
-
 ```
+
+<!-- // spell-checker: enable -->
 
 **NOTE:** It is important to note that if you are using `aws-sdk` in your TypeScript file, you will get a timeout if you attempt to import it with the following:
 ```js
