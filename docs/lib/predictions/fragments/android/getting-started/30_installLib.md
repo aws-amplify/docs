@@ -4,11 +4,11 @@ Add Predictions by adding these libraries into the `dependencies` block:
 
 ```groovy
 dependencies {
-    implementation 'com.amplifyframework:core:1.3.2'
+    implementation 'com.amplifyframework:core:1.4.0'
 
     // Add these lines in `dependencies`
-    implementation 'com.amplifyframework:aws-predictions:1.3.2'
-    implementation 'com.amplifyframework:aws-auth-cognito:1.3.2'
+    implementation 'com.amplifyframework:aws-predictions:1.4.0'
+    implementation 'com.amplifyframework:aws-auth-cognito:1.4.0'
 }
 ```
 
