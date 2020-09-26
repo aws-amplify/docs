@@ -12,3 +12,12 @@ What's next? Here are some things you can add to your app:
 - [Push Notification](~/lib/push-notifications/getting-started.md)
 - [PubSub](~/lib/pubsub/getting-started.md)
 - [AR/VR](~/lib/xr/getting-started.md)
+
+
+### Addressing Bundle Size Concerns
+
+Amplify is highly sensitive to the importance of bundle size for performant web apps and takes it very seriously. [A lot of work was done between v2 and v3](https://github.com/aws-amplify/amplify-js/issues/3365) to [make Amplify tree-shakable](https://github.com/aws-amplify/amplify-js/issues/3365#issuecomment-601457386), and further modularization is an ongoing priority with monitoring in place to prevent regression. 
+
+Today, `aws-amplify` is a single library with multiple modules that can be treeshaken based on usage. Automated tooling like [BundlePhobia](https://bundlephobia.com/result?p=aws-amplify) overstate the bundle size impact because it assumes *all* exports are used by your app. A more accurate assessment would look at the final bundle in a production build of your app, including gzipping.
+
+The SDKs for each category also come with modular import options ([example for REST](https://docs.amplify.aws/lib/restapi/getting-started/q/platform/js#modular-imports)) you can use if you are having trouble with treeshaking and desire more control. However we expect the majority of users can simply rely on treeshaking `aws-amplify` and will not need to use explicit modular imports.
