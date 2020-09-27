@@ -3,6 +3,7 @@ title: Set up fullstack project
 description: Getting Started with Amplify Framework - Setup a fullstack project
 ---
 
+<inline-fragment integration="next" src="~/start/getting-started/fragments/next/setup.md"></inline-fragment>
 <inline-fragment integration="react" src="~/start/getting-started/fragments/react/setup.md"></inline-fragment>
 <inline-fragment integration="react-native" src="~/start/getting-started/fragments/reactnative/setup.md"></inline-fragment>
 <inline-fragment integration="angular" src="~/start/getting-started/fragments/angular/setup.md"></inline-fragment>

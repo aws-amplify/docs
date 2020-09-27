@@ -27,6 +27,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    _configureAmplify(); 
   }
 
   void _configureAmplify() async {
@@ -47,10 +48,9 @@ class _MyAppState extends State<MyApp> {
               child: Column (
                 children: [
                   const Padding(padding: EdgeInsets.all(5.0)),
-                  RaisedButton(
-                    onPressed: _amplifyConfigured ? null : _configureAmplify,
-                    child: const Text('configure Amplify')
-                  ),
+                  Text(
+                    _amplifyConfigured ? "configured" : "not configured"
+                  ),                  
                   RaisedButton(
                     onPressed: _amplifyConfigured ? _recordEvent : null,
                     child: const Text('record event')
@@ -95,6 +95,8 @@ void _configureAmplify() async {
 ```
 
 Note that all calls to `addPlugin` are made before `amplify.configure` is called.
+
+`amplify.configure` should only be called once.  Calling it multiple times will result in an error. 
 
 ## Recording a simple event with Analytics 
 
