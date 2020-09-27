@@ -1,6 +1,6 @@
 ```jsx
 import React from 'react';
-import { AmplifyAuthenticator, AmplifySignUp, AmplifySignOut } from '@aws-amplify/ui-react';
+import { AmplifyAuthenticator, AmplifySignUp, AmplifySignIn } from '@aws-amplify/ui-react';
 
 const App = () => {
   return (

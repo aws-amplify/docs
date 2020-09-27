@@ -2,7 +2,7 @@ However, if you need to access them in relation to working with an API outside A
 you can access these implementation details by casting the result of fetchAuthSession as follows:  
 
 <amplify-block-switcher>
- <amplify-block name="Java">
+<amplify-block name="Java">
 
 ```java
 Amplify.Auth.fetchAuthSession(
@@ -20,8 +20,8 @@ Amplify.Auth.fetchAuthSession(
 );
 ```
 
- </amplify-block>
- <amplify-block name="Kotlin">
+</amplify-block>
+<amplify-block name="Kotlin">
 
  ```kotlin
 Amplify.Auth.fetchAuthSession(
@@ -36,5 +36,26 @@ Amplify.Auth.fetchAuthSession(
 )
 ```
 
- </amplify-block>
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.Auth.fetchAuthSession()
+    .subscribe(
+        result -> {
+            AWSCognitoAuthSession cognitoAuthSession = (AWSCognitoAuthSession) result;
+
+            switch (cognitoAuthSession.getIdentityId().getType()) {
+                case SUCCESS:
+                    Log.i("AuthQuickStart", "IdentityId: " + cognitoAuthSession.getIdentityId().getValue());
+                    break;
+                case FAILURE:
+                    Log.i("AuthQuickStart", "IdentityId not present because: " + cognitoAuthSession.getIdentityId().getError().toString());
+            }
+        },
+        error -> Log.e("AuthQuickStart", error.toString())
+    );
+```
+
+</amplify-block>
 </amplify-block-switcher>

@@ -14,7 +14,7 @@ You can learn more about how tags work [here](https://docs.aws.amazon.com/genera
 
 ## Setting up tags in a new project
 
-When running `amplify init`, a `tags.json` file is automatically generated in the `amplify/` directory, containing predefined tags.
+When running `amplify init`, a `tags.json` file is automatically generated in the `amplify/backend/` directory, containing predefined tags.
 
 The structure of the file is the following:
 ```json
@@ -26,23 +26,20 @@ The structure of the file is the following:
   {
     "Key": "user:Application",
     "Value": "{project-name}"
-  },
-  {
-    "Key": "user:AmplifyCLIVersion",
-    "Value": "{cli-version}"
   }
 ]
 ```
+**Note:** For projects created before CLI version 4.28.0. Creating a `tags.json` file under `amplify/backend/` directory with the desired tags will ensure tags being applied to existing resources after invoking `amplify push`.
 
 ## Using predefined variables
 
 There are predefined tags that let you be more specific with information about the current project, while giving you the opportunity of structuring the tags according to what feels right to you.
 
-The 3 predefined tags are the following:
+The 2 predefined tags are the following:
 
 * {project-env} - Refers to the project environment (e.g. prod, env, etc)
 * {project-name} - Refers to the current project name (e.g mytestproject)
-* {cli-version} - Refers to  the current version of Amplify CLI (e.g. 4.2.1)
+
 
 There are many different cases in which these tag variables can be used. This is an example of how they can be used together and what the output would be:
 
@@ -84,7 +81,7 @@ To update the AWS resources from your Amplify project just run `amplify push`.
 
 ## Restrictions
 
-* You can only add up to 50 tags to the `amplify/tags.json` file.
+* You can only add up to 50 tags to the `amplify/backend/tags.json` file.
 * Tag keys and values are case sensitive.
 * Duplicate tag keys are not allowed.
 
