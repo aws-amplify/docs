@@ -2,6 +2,7 @@
   "title": "Storage",
   "items": [
     "getting-started",
+    "overview",
     "configureaccess",
     "upload",
     "download",
@@ -9,6 +10,7 @@
     "remove",
     "autotrack",
     "triggers",
-    "escapehatch"
+    "escapehatch",
+    "existing-resources"
   ]
 }

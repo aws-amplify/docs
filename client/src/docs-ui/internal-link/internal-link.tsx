@@ -2,8 +2,8 @@ import {Component, h, Prop, Host, State, Watch} from "@stencil/core";
 import {filtersByRoute} from "../../api";
 import {SelectedFilters} from "../page/page.types";
 import {pageContext} from "../page/page.context";
-import {getPage} from "../../cache";
-import {parseURL, serializeURL} from "../../utils/url/url";
+import {getPage} from "../../cache.worker";
+import {parseURL, serializeURL} from "../../utils/url/url.worker";
 
 @Component({tag: "docs-internal-link", shadow: false})
 export class DocsInternalLink {
@@ -25,9 +25,9 @@ export class DocsInternalLink {
   @State() isChildActive?: boolean;
 
   @Watch("selectedFilters")
-  componentWillLoad() {
+  async componentWillLoad() {
     let selectedFilter: string | undefined;
-    const {path, hash, params} = parseURL(this.href);
+    const {path, hash, params} = await parseURL(this.href);
 
     if (Object.keys(params).length === 0) {
       const filters = filtersByRoute.get(path);
@@ -47,7 +47,7 @@ export class DocsInternalLink {
       }
     }
 
-    const url = serializeURL({path, hash, params});
+    const url = await serializeURL({path, hash, params});
     const isActive = location.pathname === url;
     const currentPathWithoutQS = location.pathname.split("/q/")?.[0];
     const hrefWithoutQS = url.split("/q/")?.[0];
@@ -64,9 +64,9 @@ export class DocsInternalLink {
     Object.assign(this, {url, isActive, isChildActive});
   }
 
-  componentDidRender() {
+  async componentDidRender() {
     if (this.url) {
-      getPage(parseURL(this.url).path);
+      getPage((await parseURL(this.url)).path);
     }
   }
 

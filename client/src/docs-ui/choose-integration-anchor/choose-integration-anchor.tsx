@@ -18,7 +18,7 @@ export class DocsChooseIntegrationAnchor {
         <h3>Web</h3>
         <amplify-responsive-grid
           gridGap={1}
-          columns={4}
+          columns={5}
           class="border-radius margin-top-md"
         >
           {Object.entries(webFilterMetadataByOption).map(
@@ -27,7 +27,7 @@ export class DocsChooseIntegrationAnchor {
                 this.page && `${this.page.route}/q/integration/${filterValue}`;
 
               return (
-                <docs-card key={label} vertical url={route}>
+                <docs-card key={label} url={route}>
                   <img slot="graphic" src={graphicURI} alt={`${label} Logo`} />
                   <h4 slot="heading">{label}</h4>
                 </docs-card>
@@ -38,7 +38,7 @@ export class DocsChooseIntegrationAnchor {
         <h3>Mobile</h3>
         <amplify-responsive-grid
           gridGap={1}
-          columns={4}
+          columns={5}
           class="border-radius margin-top-md"
         >
           {Object.entries(mobileFilterMetadataByOption).map(
@@ -47,7 +47,7 @@ export class DocsChooseIntegrationAnchor {
                 this.page && `${this.page.route}/q/integration/${filterValue}`;
 
               return (
-                <docs-card key={label} vertical url={route}>
+                <docs-card key={label} url={route}>
                   <img slot="graphic" src={graphicURI} alt={`${label} Logo`} />
                   <h4 slot="heading">{label}</h4>
                 </docs-card>

@@ -1,15 +1,4 @@
-import {
-  Component,
-  Host,
-  h,
-  State,
-  Listen,
-  Element,
-  Prop,
-  Watch,
-  Build,
-} from "@stencil/core";
-import {MatchResults} from "@stencil/router";
+import {Component, Host, h, State, Listen, Element, Build} from "@stencil/core";
 import {
   sidebarLayoutStyle,
   pageStyle,
@@ -38,10 +27,10 @@ import {
 import {pageContext} from "./page.context";
 import {track, AnalyticsEventType} from "../../utils/track";
 import {ensureMenuScrolledIntoView} from "../../utils/ensure-menu-scrolled-into-view";
-import {getPage} from "../../cache";
+import {getPage} from "../../cache.worker";
 import {getNavHeight} from "../../utils/get-nav-height";
 import {scrollToHash} from "../../utils/scroll-to-hash";
-import {parseURL} from "../../utils/url/url";
+import {parseURL} from "../../utils/url/url.worker";
 
 const SELECTED_TABS_LOCAL_STORAGE_KEY = `amplify-docs::selected-tabs`;
 
@@ -49,14 +38,15 @@ const SELECTED_TABS_LOCAL_STORAGE_KEY = `amplify-docs::selected-tabs`;
 export class DocsPage {
   @Element() el: HTMLElement;
 
-  /** match path */
-  @Prop() readonly match: MatchResults;
-
   @State() pageData?: Page;
   @State() blendUniversalNav?: boolean;
   @State() sidebarStickyTop = getNavHeight("rem");
   @State() selectedFilters: Record<string, string | undefined> = {};
   @State() selectedTabHeadings: SelectedTabHeadings = [];
+
+  rafId?: number;
+  isFirstRenderOfCurrentPage = true;
+  previousPathname = "";
 
   setNewSelectedTabHeading: SetNewSelectedTabHeadings = (tabHeading) => {
     // create temp array with `tabHeading` (the new highest priority) as first el
@@ -107,17 +97,60 @@ export class DocsPage {
     }
   }
 
-  @Watch("match")
-  onRouteChange() {
-    this.getPageData();
+  startRaf() {
+    // lets us repeatedly call `updatePageData` without actually
+    // triggering redundant `this.getPageData` calls.
+    let {pathname} = location;
+    const updatePageData = () => {
+      if (location.pathname !== pathname) {
+        this.isFirstRenderOfCurrentPage = true;
+        this.previousPathname = pathname;
+        pathname = location.pathname;
+        this.getPageData();
+      }
+    };
+
+    // create RAF loop, save its ID (so that we can end the loop in `componentWillUnload`).
+    // This loop triggers `updatePageData`, which––upon path changes––triggers the appropriate rerender.
+    this.rafId = (function watchForRouteChange() {
+      updatePageData();
+      return requestAnimationFrame(watchForRouteChange);
+    })();
   }
 
-  @Listen("popstate", {target: "window"})
-  onPopState() {
-    this.getPageData();
+  componentDidLoad() {
+    this.startRaf();
   }
 
-  componentWillLoad() {
+  scrollToId() {
+    const {hash} = location;
+    if (hash) {
+      setTimeout(() => {
+        // TODO: fix potential race condition
+        scrollToHash(hash, this.el);
+      }, 250);
+    }
+  }
+
+  componentDidRender() {
+    this.setSidebarStickyTop();
+    if (this.isFirstRenderOfCurrentPage) {
+      this.scrollToId();
+    }
+    this.isFirstRenderOfCurrentPage = false;
+  }
+
+  stopRaf() {
+    if (this.rafId) {
+      cancelAnimationFrame(this.rafId);
+    }
+  }
+
+  componentWillUnload() {
+    this.stopRaf();
+  }
+
+  restoreBlockSwitcherState() {
     // gather list of previously-selected tab headings (might be null)
     const persistedSelectedTabsSerialized =
       localStorage.getItem(SELECTED_TABS_LOCAL_STORAGE_KEY) || undefined;
@@ -125,101 +158,92 @@ export class DocsPage {
       // save that selection array if it exists (otherwise, list is empty)
       this.selectedTabHeadings = JSON.parse(persistedSelectedTabsSerialized);
     }
+  }
 
+  componentWillLoad() {
+    this.restoreBlockSwitcherState();
     return this.getPageData();
   }
 
   async getPageData() {
-    if (this.match) {
-      const {path, params} = parseURL(
-        this.match.params.page || location.pathname || "/",
-      );
-      const routeFiltersEntry = filtersByRoute.get(path);
-      const allFilters =
-        routeFiltersEntry &&
-        Object.values(routeFiltersEntry).reduce((acc, curr) => {
-          return [...acc, ...curr];
-        }, []);
-      this.blendUniversalNav = path === "/";
+    let currentRoute = location.pathname || "/";
+    if (!currentRoute.startsWith("/")) {
+      currentRoute = `/${currentRoute}`;
+    }
+    if (currentRoute.endsWith("/") && currentRoute !== "/") {
+      currentRoute = currentRoute.substring(0, currentRoute.length - 1);
+    }
 
-      track({
-        type: AnalyticsEventType.PAGE_VISIT,
-        attributes: {url: path},
-      });
+    const {path, params} = await parseURL(currentRoute);
+    const routeFiltersEntry = filtersByRoute.get(path);
+    const allFilters =
+      routeFiltersEntry &&
+      Object.values(routeFiltersEntry).reduce((acc, curr) => {
+        return [...acc, ...curr];
+      }, []);
+    this.blendUniversalNav = currentRoute === "/";
 
-      try {
-        const pageData = await getPage(path);
-        if (pageData) {
-          this.pageData = pageData;
-          updateDocumentHead(pageData);
-          this.filterKey = getFilterKeyFromPage(pageData);
-          this.selectedFilters = Object.assign(
-            {},
-            ...Object.keys(filterOptionsByName).map((filterKey) => {
-              const localStorageKey = getFilterKeyFromLocalStorage(filterKey);
-              return {
-                [filterKey]: localStorageKey
-                  ? localStorage.getItem(localStorageKey) || undefined
-                  : undefined,
-              };
-            }),
-          );
+    track({
+      type: AnalyticsEventType.PAGE_VISIT,
+      attributes: {
+        url: currentRoute,
+        previousUrl: this.previousPathname,
+        referrer: document.referrer,
+      },
+    });
 
-          if (this.filterKey) {
-            const {[this.filterKey]: filterValue} = params;
-            if (
-              typeof filterValue === "string" &&
-              filterValue !== "undefined"
-            ) {
-              this.filterValue = filterValue;
-              if (allFilters) {
-                this.validFilterValue = allFilters.includes(filterValue);
-                if (this.validFilterValue) {
-                  this.setSelectedFilters({[this.filterKey]: this.filterValue});
-                }
+    try {
+      const pageData = await getPage(currentRoute);
+      if (pageData) {
+        this.pageData = pageData;
+        updateDocumentHead(pageData);
+        this.filterKey = getFilterKeyFromPage(pageData);
+        this.selectedFilters = Object.assign(
+          {},
+          ...Object.keys(filterOptionsByName).map((filterKey) => {
+            const localStorageKey = getFilterKeyFromLocalStorage(filterKey);
+            return {
+              [filterKey]: localStorageKey
+                ? localStorage.getItem(localStorageKey) || undefined
+                : undefined,
+            };
+          }),
+        );
+
+        if (this.filterKey) {
+          const {[this.filterKey]: filterValue} = params;
+          if (typeof filterValue === "string" && filterValue !== "undefined") {
+            this.filterValue = filterValue;
+            if (allFilters) {
+              this.validFilterValue = allFilters.includes(filterValue);
+              if (this.validFilterValue) {
+                this.setSelectedFilters({[this.filterKey]: this.filterValue});
               }
-            } else {
-              this.filterValue = undefined;
             }
           } else {
-            this.filterKey = undefined;
+            this.filterValue = undefined;
           }
         } else {
-          this.pageData = undefined;
+          this.filterKey = undefined;
         }
-      } catch (exception) {
-        if (this.match) {
-          track({
-            type: AnalyticsEventType.PAGE_DATA_FETCH_EXCEPTION,
-            attributes: {url: this.match.url, exception},
-          });
-        }
+      } else {
+        this.pageData = undefined;
       }
+    } catch (exception) {
+      track({
+        type: AnalyticsEventType.PAGE_DATA_FETCH_EXCEPTION,
+        attributes: {url: location.href, exception},
+      });
     }
   }
-
-  requiresFilterSelection = (): boolean =>
-    !!(this.filterKey && !this.filterValue);
 
   showMenu = (): boolean => {
     const menuItems = this.pageData?.menu;
-    const menuItemsExist = !!(menuItems && menuItems.length > 0);
-    return menuItemsExist && !this.requiresFilterSelection();
+    return !!(menuItems && menuItems.length > 0);
   };
 
-  componentDidRender() {
-    this.setSidebarStickyTop();
-    const {hash} = location;
-    if (hash) {
-      // TODO: replace with better method for ensuring TOC rendered. Race condition!
-      setTimeout(() => {
-        scrollToHash(hash, this.el);
-      }, 250);
-    }
-  }
-
   render() {
-    if (Build.isBrowser) {
+    if (Build.isBrowser || location.pathname === "/") {
       return (
         <Host class={pageStyle}>
           <pageContext.Provider
@@ -256,74 +280,53 @@ export class DocsPage {
                               />
                             </amplify-sidebar-layout-sidebar>
                           )}
-                          {this.requiresFilterSelection() ? (
-                            <amplify-sidebar-layout-main slot="main">
-                              <amplify-toc-contents>
-                                {this.filterKey === "integration" ? (
-                                  <docs-choose-integration-anchor
-                                    page={this.pageData}
-                                  />
-                                ) : (
-                                  <docs-choose-anchor page={this.pageData} />
-                                )}
-                              </amplify-toc-contents>
-                            </amplify-sidebar-layout-main>
-                          ) : (
-                            [
-                              <amplify-sidebar-layout-main
-                                slot="main"
-                                class={mainStyle}
-                              >
-                                <amplify-toc-contents>
-                                  {this.pageData && [
-                                    <h1
-                                      class={{
-                                        [sectionHeaderStyle]: true,
-                                        "category-heading": true,
-                                      }}
-                                    >
-                                      {this.pageData.sectionTitle}
-                                    </h1>,
-                                    <h1 class="page-heading">
-                                      {this.pageData.title}
-                                    </h1>,
-                                    createVNodesFromHyperscriptNodes(
-                                      this.pageData.body,
-                                    ),
-                                    <docs-next-previous
-                                      key={this.pageData.route}
-                                      page={this.pageData}
-                                    />,
-                                  ]}
-                                </amplify-toc-contents>
-                                <amplify-sidebar-layout-toggle
-                                  onClick={ensureMenuScrolledIntoView}
-                                  in-view-class="in-view"
+                          <amplify-sidebar-layout-main
+                            slot="main"
+                            class={mainStyle}
+                          >
+                            <amplify-toc-contents>
+                              {this.pageData && [
+                                <h1
                                   class={{
-                                    "three-dee-effect": true,
-                                    [sidebarToggleClass]: true,
+                                    [sectionHeaderStyle]: true,
+                                    "category-heading": true,
                                   }}
                                 >
-                                  <img
-                                    class="burger-graphic"
-                                    src="/assets/burger.svg"
-                                  />
-                                  <img
-                                    class="ex-graphic"
-                                    src="/assets/close.svg"
-                                  />
-                                </amplify-sidebar-layout-toggle>
-                              </amplify-sidebar-layout-main>,
-                              !this.pageData?.disableTOC && (
-                                <div slot="toc" class={tocStyle}>
-                                  <div>
-                                    <amplify-toc
-                                      pageTitle={this.pageData?.title}
-                                    />
-                                  </div>
-                                </div>
-                              ),
-                            ]
+                                  {this.pageData.sectionTitle}
+                                </h1>,
+                                <h1 class="page-heading">
+                                  {this.pageData.title}
+                                </h1>,
+                                createVNodesFromHyperscriptNodes(
+                                  this.pageData.body,
+                                ),
+                                <docs-next-previous
+                                  key={this.pageData.route}
+                                  page={this.pageData}
+                                />,
+                              ]}
+                            </amplify-toc-contents>
+                            <amplify-sidebar-layout-toggle
+                              onClick={ensureMenuScrolledIntoView}
+                              in-view-class="in-view"
+                              class={{
+                                "three-dee-effect": true,
+                                [sidebarToggleClass]: true,
+                              }}
+                            >
+                              <img
+                                class="burger-graphic"
+                                src="/assets/burger.svg"
+                              />
+                              <img class="ex-graphic" src="/assets/close.svg" />
+                            </amplify-sidebar-layout-toggle>
+                          </amplify-sidebar-layout-main>
+                          {!this.pageData?.disableTOC && (
+                            <div slot="toc" class={tocStyle}>
+                              <div>
+                                <amplify-toc pageTitle={this.pageData?.title} />
+                              </div>
+                            </div>
                           )}
                         </amplify-sidebar-layout>
                       </amplify-toc-provider>

@@ -1,6 +1,8 @@
 {
     "title": "Customization",
     "items": [
-        "theming"
+        "theming",
+        "customizing-css",
+        "translations"
     ]
 }

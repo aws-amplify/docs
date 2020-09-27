@@ -25,6 +25,6 @@ export const AuthenticatorWithSlots = () => (
         },
       ]}
     ></amplify-sign-up>
-    <amplify-sign-in slot="sign-in"></amplify-sign-in>
+    <amplify-sign-in slot="sign-in" usernameAlias="email"></amplify-sign-in>
   </amplify-authenticator>
 );

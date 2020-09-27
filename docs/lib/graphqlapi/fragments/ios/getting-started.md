@@ -125,7 +125,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 5. Click on Build Phases
 6. Expand the Copy Bundle Resources
 7. Click on the + button, and select `awsconfiguration.json` and `amplifyconfiguration.json` to add.
-8. Build and run (`CMD+R`) the app and make sure Amplify is initialized.
+8. Build and run (`Cmd+R`) the app and make sure Amplify is initialized.
 
 ## Running code generator
 
@@ -133,7 +133,16 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
     ```ruby
     modelgen=true
     ```
-2. Build (`CMD+B`). This will generate the Model files to be used with `Amplify.API` to query, mutate, and subscribe to you AppSync service. After build completes, the model files will be generated under `amplify/generated/models`. When you edit the schema under `amplify/backend/api/<APINAME>/schema.graphql` and build, it will regenerate the Model files.
+2. Build your project with **Product > Build** (`Cmd+b`). This will generate the Model files to be used with `Amplify.API` to query, mutate, and subscribe to you AppSync service. After build completes, the model files will be generated under `amplify/generated/models`. When you edit the schema under `amplify/backend/api/<APINAME>/schema.graphql` and build, it will regenerate the Model files.
+
+    <amplify-callout>
+
+    If Xcode reports build errors like `Undefined symbol: _OBJC_CLASS_$_AWSSignatureV4Signer`, as shown in the screenshot below, clean build folder with **Product > Clean Build Folder** (`Shift+Cmd+K`) and rebuild the project (`Cmd+b`).
+
+    ![Xcode Build Error](~/images/xcode-build-error.png)
+
+    </amplify-callout>
+
 
 3. Alternatively, you can run `amplify codegen models` using Amplify CLI. Make sure you set `modelgen=false` if you are using the CLI instead of Amplify Tools.
 
@@ -144,7 +153,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
     ```
     ModelRegistry.register(modelType: Todo.self)
     ```
-Make sure it builds and runs (`CMD+R`) successfully before moving onto the next section.
+Make sure it builds and runs (`Cmd+R`) successfully before moving onto the next section.
 
 ## API Reference   
 

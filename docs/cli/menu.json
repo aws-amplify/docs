@@ -4,10 +4,13 @@
     "graphql-transformer",
     "restapi",
     "auth",
+    "storage",
     "function",
     "hosting",
+    "plugins",
     "teams",
     "usage",
-    "migration"
+    "migration",
+    "reference"
   ]
 }

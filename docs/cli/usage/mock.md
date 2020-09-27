@@ -22,7 +22,7 @@ After running `amplify init` you can immediately add a GraphQL API and begin moc
 
 ```bash
 amplify init
-amplify add api #select GraphQL, use API Key
+amplify add api # Select GraphQL, use API key
 amplify mock api
 ```
 
@@ -40,7 +40,7 @@ When defining a schema you can use directives from the GraphQL Transformer in lo
 - [@versioned](~/cli/graphql-transformer/directives.md#versioned)
 - [@function](~/cli/graphql-transformer/directives.md#function)
 
-Note that `@searchable` is not supported at this time.
+> Note that `@searchable` is not supported at this time.
 
 ## Storage mocking setup
 For S3 storage mocking, after running `amplify init` you must first run through `amplify add auth`, either explicitly or implicitly if adding storage first, and then run an `amplify push`. This is because mocking storage in client libraries requires credentials for initial setup. Note however that S3 authorization rules, such as those placed on a bucket policy, are not checked by local mocking at this time.
@@ -49,7 +49,7 @@ Once you have done an initial push you can run the mock server and hit the local
 
 ```bash
 amplify init
-amplify add storage #This will prompt you to add auth
+amplify add storage # This will prompt you to add auth
 amplify push
 amplify mock storage
 ```
@@ -59,42 +59,40 @@ To use an iOS application with the local S3 endpoint you will need to [modify yo
 For DynamoDB storage, setup is automatically done when creating a GraphQL API with no action is needed on your part. Resources for the mocked data, such as the DynamoDB Local database or objects uploaded using the local S3 endpoint, inside your project under `./amplify/mock-data`.
 
 ## Function mocking setup
-For Lambda function mocking, after running `amplify init` you can add a function to your project with `amplify add function` and either mock invoke it directly, or use the [@function](~/cli/graphql-transformer/directives.md#function) directive as part of your GraphQL schema to mock the invocation as part of your API.
+For Lambda function mocking, after running `amplify init` you can add a function to your project with `amplify add function` and either invoke it directly, or use the [@function](~/cli/graphql-transformer/directives.md#function) directive as part of your GraphQL schema to mock the invocation as part of your API.
 
-To invoke the function with the local mock:
+To invoke the function directly:
 
 ```bash
 amplify init
-amplify add function ## Follow prompts
+amplify add function # Follow prompts
 amplify mock function <function_name>
 ```
 
-This will take you through a few questions, such as the entry point for your Lambda function and sample event context to pass. The defaults are `index.js` and `event.json`.
-
-<amplify-callout>
-
-Note that you will need to run `yarn` or `npm install` first if your Lambda function has any external dependencies (`<project-dir>/amplify/backend/function/<function-name>/src`). Only Node.js functions are supported at this time.
-
-</amplify-callout>
+This will ask you for the path to a JSON file that contains the event payload to pass to the event handler of your Lambda. It defaults to `src/event.json`. To avoid entering the path every time, you can also run
+```bash
+amplify mock function <function_name> --event "<path to event JSON file>"
+```
 
 ### Function mocking with GraphQL
 
-Alternatively, you can add a Lambda function and attach it as a GraphQL resolver with the `@function` directive. To do this first add a function to your project:
+Alternatively, you can add a Lambda function and attach it as a GraphQL resolver with the `@function` directive. To do this, first add a function to your project:
 
 ```bash
-amplify init  ## specify environment
-amplify add function
+amplify init
+amplify add function # Follow prompts
+amplify add api # Select GraphQL, use API key
 ```
-
-Once the function is added, you can attach it to a field in your GraphQL schema. You will need to append `-${env}` to the function name in your schema when using the `@function` directive to denote the environment being used. For example if you ran `amplify add function` and used the name **quoteOfTheDay** for your function, and then ran `amplify add api`, your schema might have a query that looks like the below:
+Then add the function as a resolver on a query or field in your schema. For example, if you named your function **quoteOfTheDay** your schema might have a query that looks like:
 
 ```
 type Query {
     getQuote: String @function(name: "quoteOfTheDay-${env}")
 }
 ```
+Full instructions on how to use the @function directive can be found [here](~/cli/graphql-transformer/directives.md#function).
 
-Then when you run `amplify mock` the local GraphQL endpoint will invoke this function when running a GraphQL query such as:
+Then when running `amplify mock api`, the local GraphQL endpoint will invoke this function when running a GraphQL query such as:
 
 ```
 query {

@@ -4,3 +4,4 @@ description: For any of the AWS services behind predictions, you can use the SDK
 ---
 
 <inline-fragment platform="ios" src="~/lib/predictions/fragments/ios/escapehatch.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/predictions/fragments/android/escapehatch.md"></inline-fragment>

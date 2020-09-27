@@ -36,6 +36,7 @@ const supportedLanguages = [
   "jsx",
   "sql",
   "groovy",
+  "dart",
 ];
 
 loadLanguages(supportedLanguages);
@@ -60,7 +61,9 @@ const highlight = (code: string, language: string): string => {
     languageIsSet ? `-${language}` : ""
   }">${highlighted}</div>`;
 
-  return `<amplify-code-block language="${language}" line-count="${String(
+  return `<p class="searchable-code">${entities.encode(
+    code,
+  )}</p><amplify-code-block language="${language}" line-count="${String(
     c.split(/\r\n|\r|\n/).length,
   )}">${c}</amplify-code-block>`;
 };
@@ -87,7 +90,7 @@ export async function initNode(srcPath: string, ctx: t.Ctx): Promise<void> {
       const contents = (await fs.readFile(srcPath)).toString();
       const {body: markdownBody, attributes} = fm<t.Page>(contents);
       const htmlBody = marked(markdownBody);
-      const body = htmlToHyperscript(htmlBody, srcPath, attributes);
+      const body = htmlToHyperscript(ctx, htmlBody, srcPath, attributes);
       // @ts-ignore
       if (attributes.disableLinkification) {
         // @ts-ignore
@@ -111,7 +114,9 @@ export async function initNode(srcPath: string, ctx: t.Ctx): Promise<void> {
           );
         }
         ctx.pageBySrcPath.set(srcPath, {
+          // @ts-ignore
           route: pathDeduction.route,
+          // @ts-ignore
           body,
           ...attributes,
         });

@@ -1,14 +1,13 @@
 {
   "title": "Advanced workflows",
   "items": [
+    "tags",
     "lambda-triggers",
     "mock",
     "customcf",
     "iam",
     "iam-roles-mfa",
-    "files",
     "headless",
-    "plugin",
     "upgrade"
   ]
 }

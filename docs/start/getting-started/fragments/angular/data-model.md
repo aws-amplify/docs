@@ -12,7 +12,7 @@ Accept the **default values** which are highlighted below:
 ? Please select from one of the below mentioned services:
 # GraphQL
 ? Provide API name:
-# myapi
+# RestaurantAPI
 ? Choose the default authorization type for the API:
 # API Key
 ? Enter a description for the API key:
@@ -23,31 +23,28 @@ Accept the **default values** which are highlighted below:
 # No
 ? Do you have an annotated GraphQL schema? 
 # No
-? Do you want a guided schema creation? 
-# Yes
-? What best describes your project: 
-# Single object with fields
+? Choose a schema template: 
+# Single object with fields (e.g., “Todo” with ID, name, description)
 ? Do you want to edit the schema now? 
 # Yes
 ```
 
-The CLI should open this GraphQL schema in your text editor.
-
-__amplify/backend/api/myapi/schema.graphql__
+The generated schema is for a Todo app. Replace the GraphQL schema at `amplify/backend/api/RestaurantAPI/schema.graphql` with the following:
 
 ```graphql
-type Todo @model {
+type Restaurant @model {
   id: ID!
   name: String!
-  description: String
+  description: String!
+  city: String!
 }
 ```
 
-The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. This directive is part of the [GraphQL transform](~/cli/graphql-transformer/directives.md) library of Amplify. 
+ You'll notice a directive on the `Restaurant` type of `@model`. This directive is part of Amplify's [GraphQL transformer](~/cli/graphql-transformer/directives.md) functionality.
 
 The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.
 
-A type decorated with the `@model` directive will scaffold out the database table for the type (Todo table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
+A type decorated with the `@model` directive will scaffold out the database table for the type (Restaurant table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
 
 From the command line, press __enter__ to accept the schema and continue to the next steps.
 
@@ -61,7 +58,7 @@ amplify push
 
 ### Code generation
 
-Since you added an API the `amplify push` process will automatically prompt for codegen (select `y` when prompted for automatic query and code generation). Choose **Angular** which will create an `API.service.ts` file in the app directory.
+Because you added an API, the `amplify push` process will automatically prompt for codegen. Select `yes` when prompted for automatic query and code generation. Choose **Angular**, which will create an `API.service.ts` file in the app directory.
 
 Next, run the following command to check Amplify's status:
 
@@ -76,7 +73,7 @@ Current Environment: dev
 
 | Category | Resource name | Operation | Provider plugin   |
 | -------- | ------------- | --------- | ----------------- |
-| Api      | myapi         | No Change | awscloudformation |
+| Api      | RestaurantAPI | No Change | awscloudformation |
 ```
 
 ### Testing your API
@@ -94,21 +91,14 @@ When prompted, select **GraphQL**. This will open the AWS AppSync console for yo
 Update your `main.ts` to configure the library with `Amplify.configure()`:
 
 ```javascript
-import PubSub from '@aws-amplify/pubsub';
-import API from '@aws-amplify/api';
-import awsconfig from './aws-exports';
-
-API.configure(awsconfig);
-PubSub.configure(awsconfig);
+import Amplify from "aws-amplify";
+import aws_exports from "./aws-exports";
+Amplify.configure(aws_exports);
 ```
 
-<amplify-callout>
+<amplify-callout>The code above imports the entire Amplify library. You can use separate imports like `import Auth from '@aws-amplify/auth'` to reduce the final bundle size.</amplify-callout>
 
-Depending on your TypeScript version you may need to rename `aws-exports.js` to `aws-exports.ts` prior to importing, or enable the `allowJs` <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" target="_blank">compiler option</a> in your tsconfig. 
-
-</amplify-callout>
-
-Update `src/tsconfig.app.json` to include the "node" compiler option in *types*:
+Update `tsconfig.app.json` to include the "node" compiler option in *types*:
 
 ```json
 "compilerOptions": {
@@ -116,72 +106,142 @@ Update `src/tsconfig.app.json` to include the "node" compiler option in *types*:
 }
 ```
 
+<amplify-callout>Depending on your TypeScript version you may need to rename `aws-exports.js` to `aws-exports.ts` prior to importing, or enable the `allowJs` <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" target="_blank">compiler option</a> in your tsconfig.</amplify-callout>
+
 In your `src/app/app.component.ts` file, add the following imports and modifications to your class to to add data to your database with a mutation by using the `API.service` file which was generated when you ran `amplify add api`:
 
 ```javascript
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { APIService } from './API.service';
 
-export class AppComponent {
+@Component(...)
+export class AppComponent implements OnInit {
+  public createForm: FormGroup;
 
-  constructor(private apiService: APIService) {}
+  constructor(private api: APIService, private fb: FormBuilder) { }
 
-  createTodo() {
-    this.apiService.CreateTodo({
-        name: 'Angular',
-        description: 'testing'
+  async ngOnInit() {
+    this.createForm = this.fb.group({
+      'name': ['', Validators.required],
+      'description': ['', Validators.required],
+      'city': ['', Validators.required]
+    });
+  } 
+  
+  public onCreate(restaurant: any) {
+    this.api.CreateRestaurant(restaurant).then(event => {
+      console.log('item created!');
+      this.createForm.reset();
+    })
+    .catch(e => {
+      console.log('error creating restaurant...', e);
     });
   }
 }
 ```
 
-Add the following to your `src/app/app.component.html` to add a button which calls your `createTodo()` method:
+Next, add a form that will be used for creating restaurants. Add the following to your `src/app/app.component.html`:
 
 ```html
-<button (click)="createTodo()">Add Todo</button>
+<div class="form-body">
+  <form autocomplete="off" [formGroup]="createForm" (ngSubmit)="onCreate(createForm.value)">
+    <div>
+      <label>Name: </label>
+      <input type="text" formControlName="name" autocomplete="off">
+    </div>
+    <div>
+      <label>Description: </label>
+      <input type="text" formControlName="description" autocomplete="off">
+    </div>
+    <div>
+      <label>City: </label>
+      <input type="text" formControlName="city" autocomplete="off">
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+</div>
 ```
 
-Next, update the class to list all items in the database by running a `ListTodos` query when the app starts by implementing [OnInit](https://angular.io/api/core/OnInit) and storing the items in an array:
+Now, define a `Restaurant` type. Create a new file at `types/restaurant.ts`:
+
+```ts
+export type Restaurant = {
+  id : string,
+  name : string,
+  description : string,
+  city: string
+}; 
+```
+
+Next, update your `AppComponent` class so that it will list all restaurants in the database when the app starts. To do so, implement [OnInit](https://angular.io/api/core/OnInit) add a `ListRestaurants` query. Store the query results in an array.
 
 ```javascript
+import { APIService } from './API.service';
+import { Restaurant } from './../types/restaurant';
 
+@Component(...)
 export class AppComponent implements OnInit {
-  todos: Array<any>;
+  restaurants: Array<Restaurant>;
 
-  async ngOnInit() {
-    this.apiService.ListTodos().then((evt) => {
-      this.todos = evt.items;
+  constructor(private api: APIService) { }
+
+  ngOnInit() {
+    this.api.ListRestaurants().then(event => {
+      this.restaurants = event.items;
     });
   }
-  //Other code....
 }
 ```
 
 Add the following to your `src/app/app.component.html` to display any of the todos you have added:
 
 ```html
-<ul>
-  <li *ngFor="let item of todos">{{item.name}} - {{item.description}}</li>
-</ul>
+<div *ngFor="let restaurant of restaurants">
+  <div>{{ restaurant.city }}</div>
+  <div>{{ restaurant.name }}</div>
+  <div>{{ restaurant.description }}</div>
+</div>
 ```
 
-Finally, to subscribe to realtime data, update `ngOnInit` to setup a subscription on app start and update the `todos` array when new events are received:
+Finally, to subscribe to realtime data, update `ngOnInit`. When the app starts, setup a subscription. The subscription will update the `restaurants` array when new events are received:
 
 ```javascript
-import { Component, OnInit } from '@angular/core';
-
+@Component(...)
 export class AppComponent implements OnInit {
-
-  async ngOnInit() {
-    //Other code...
-
-    this.apiService.OnCreateTodoListener.subscribe((evt) => {
-      const data = (evt as any).value.data.onCreateTodo;
-      this.todos = [...this.todos, data];
+  ngOnInit() {
+    //Subscribe to changes
+    this.api.OnCreateRestaurantListener.subscribe( (event: any) => {
+      const newRestaurant = event.value.data.onCreateRestaurant;
+      this.restaurants = [newRestaurant, ...this.restaurants];
     });
   }
+}
 ```
 
-<amplify-callout>The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
-</amplify-callout>
+At this point your `app.module.ts` should look like:
+
+```javascript
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AppComponent } from './app.component';
+import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AmplifyUIAngularModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
 
 After restarting your app using `ng serve` go back to your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs. 

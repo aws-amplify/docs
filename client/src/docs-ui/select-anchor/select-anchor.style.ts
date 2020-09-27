@@ -18,6 +18,7 @@ export const selectAnchorStyle = css`
     img {
       margin-right: 0.5rem;
       width: 1.75rem;
+      height: 1.75rem;
     }
 
     &:hover {
