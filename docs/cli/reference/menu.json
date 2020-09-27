@@ -1,6 +1,7 @@
 {
   "title": "Reference",
   "items": [
+      "files",
       "usage-data",
       "feature-flags"
   ]

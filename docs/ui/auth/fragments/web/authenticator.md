@@ -902,7 +902,7 @@ enum AuthState {
 **Usage**
 
 ```js
-import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components`;
+import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
 
 onAuthUIStateChange((nextAuthState, authData) => {
   if (nextAuthState === AuthState.SignedIn) {
@@ -918,7 +918,7 @@ onAuthUIStateChange((nextAuthState, authData) => {
 **Usage**
 
 ```js
-import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components`;
+import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
 
 onAuthUIStateChange((nextAuthState, authData) => {
   if (nextAuthState === AuthState.SignedIn) {

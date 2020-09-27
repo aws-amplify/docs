@@ -56,6 +56,28 @@ private fun uploadFile(key: String, file: File) {
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+private void uploadFile(String key, File file) {
+    StorageUploadFileOptions options =
+            StorageUploadFileOptions.builder()
+                    .accessLevel(StorageAccessLevel.PROTECTED)
+                    .build();
+
+    RxProgressAwareSingleOperation<StorageUploadFileResult> upload =
+            RxAmplify.Storage.uploadFile("ExampleKey", exampleFile, options);
+
+    upload
+        .observeResult()
+        .subscribe(
+            result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+            error -> Log.e("MyAmplifyApp", "Upload failed", error)
+        );
+}
+```
+
+</amplify-block>
 </amplify-block-switcher>
 
 For other users to read the file, you must specify the user ID of the creating user in the passed options:

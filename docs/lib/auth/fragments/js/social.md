@@ -168,6 +168,10 @@ class App extends Component {
 }
 ```
 
+### Deploying to Amplify Console
+
+To deploy your app to Amplify Console with continuous deployment of the frontend and backend, please follow [these instructions](https://docs.aws.amazon.com/amplify/latest/userguide/environment-variables.html#creating-a-new-backend-environment-with-authentication-parameters).
+
 ### Full Samples
 
 <amplify-block-switcher>
@@ -413,3 +417,4 @@ export default App;
 </amplify-block>
 
 </amplify-block-switcher>
+

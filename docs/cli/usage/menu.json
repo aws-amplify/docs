@@ -7,7 +7,6 @@
     "customcf",
     "iam",
     "iam-roles-mfa",
-    "files",
     "headless",
     "upgrade"
   ]
