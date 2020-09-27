@@ -62,7 +62,7 @@ const todoDetails = {
 };
 
 const todo = await API.graphql({
-  mutation: mutations.createTodo,
+  query: mutations.createTodo,
   variables: {input: todoDetails},
   authMode: 'AWS_IAM'
 });
