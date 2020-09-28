@@ -65,9 +65,9 @@ Your `amplifyconfiguration.json` should contain Cognito configuration in the `aw
 {
     "CognitoUserPool": {
         "Default": {
-            "PoolId": "POOL-ID",
-            "AppClientId": "APP-CLIENT-ID",
-            "AppClientSecret": "APP-CLIENT-SECRET",
+            "PoolId": "YOUR-POOL-ID",
+            "AppClientId": "YOUR-APP-CLIENT-ID",
+            "AppClientSecret": "YOUR-APP-CLIENT-SECRET",
             "Region": "us-east-1"
         }
     },
