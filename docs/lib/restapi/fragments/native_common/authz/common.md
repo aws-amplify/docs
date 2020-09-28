@@ -82,7 +82,7 @@ Your `amplifyconfiguration.json` should contain Cognito configuration in the `aw
 }
 ```
 
-This will automatically add the Authorization header with access token to your requests to this API. To see more details on how to configure the API Gateway with the custom authorization, see [this](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html)
+With this configuration, your access token will automatically be included in outbound requests to your API, as an `Authorization` header. For more details on how to configure the API Gateway with the custom authorization, see [this](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html)
 
 
 ## Custom Interceptor
