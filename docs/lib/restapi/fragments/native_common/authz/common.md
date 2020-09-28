@@ -60,7 +60,7 @@ If you set up the API Gateway with a custom authorization with a Cognito User po
 }
 ```
 
-Also in `amplifyconfiguration.json` file, under `awsCognitoAuthPlugin` will contain the corresponding Cognito configuration values that refer to the Cognito User Pool you want to use.
+Your `amplifyconfiguration.json` should contain Cognito configuration in the `awsCognitoAuthPlugin` block, including details about your Cognito user pool:
 ```json
 {
     "CognitoUserPool": {
