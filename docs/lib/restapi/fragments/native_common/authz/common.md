@@ -2,7 +2,7 @@ When determining the authorization mode for your REST endpoint, there are a few 
 
 ## IAM Authorization
 
-By default, the API will be using IAM authorization and the requests will be signed for you automatically. IAM authorization has two modes of authorization, an unauthenticated role and an authenticated role. When the user has not signed in through Amplify.Auth.signIn then the assumed role will be unauth. Once the user has signed in, then the role with be auth.
+By default, the API will be using IAM authorization and the requests will be signed for you automatically. IAM authorization has two modes: one using an **unauthenticated** role, and one using an **authenticated** role. When the user has not signed in through `Amplify.Auth.signIn`, the unauthenticated role is used by default. Once the user has signed in, the authenticate role is used, instead.
 
 When creating the REST API, you assigned the permissions for these roles when you were asked if you wanted to restrict access. If no, then unauth role will have access to the API. If yes, you would have configured more fine grain access to your API.
 
