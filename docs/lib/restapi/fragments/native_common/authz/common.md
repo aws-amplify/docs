@@ -10,7 +10,7 @@ When you created your REST API with the Amplify CLI, you were asked if you wante
 
 You can use the API category to access API Gateway endpoints that don't require authentication. In this case, you need to allow unauthenticated identities in your Amazon Cognito Identity Pool settings. For more information, please visit [Amazon Cognito Developer Documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html#enable-or-disable-unauthenticated-identities).
 
-Your requests will be automatically have the IAM credentials when your API is set up to use IAM as the authorization mode. For example, you can check this by looking at what authorization type is configured for the API
+When your API is configured to use IAM as the authorization type, your requests will automatically have IAM credentials added to the headers of outgoing requests. You can verify that IAM is being used as the authorization type by inspecting the `authorizationType` associated with your API in `amplifyconfiguration.json`:
 
 ```json
 {
