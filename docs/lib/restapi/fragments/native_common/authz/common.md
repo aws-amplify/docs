@@ -1,5 +1,3 @@
-
-
 When determining the authorization mode for your REST endpoint, there are a few built in options and customizations you can do.
 
 ## IAM Authorization
