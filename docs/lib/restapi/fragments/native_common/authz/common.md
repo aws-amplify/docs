@@ -27,7 +27,7 @@ When your API is configured to use IAM as the authorization type, your requests 
 
 ## API Key
 
-If you want to configure the REST API to be a public API, you can set an API key on the API Gateway and update your configuration to use the API key. You should have the following configuration in your `amplifyconfiguration.json` file containing the `API_KEY` authorization mode and the value of the API key to be used when creating requests.
+If you want to configure a public REST API, you can set an API key in Amazon API Gateway. Then, update your `amplifyconfiguration.json` to reference it.  The value associated to the `"authorizationType"` key should be `"API_KEY"`.  Also include a `"API_KEY"` as a key, and set its value to whatever your configured in API Gateway.
 
 ```json
 {
