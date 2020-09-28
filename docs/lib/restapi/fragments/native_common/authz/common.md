@@ -19,7 +19,7 @@ When your API is configured to use IAM as the authorization type, your requests 
             "endpointType": "REST",
             "endpoint": "YOUR-REST-ENDPOINT",
             "region": "us-west-2",
-            "authorizationType": "IAM"
+            "authorizationType": "AWS_IAM"
         }
     }
 }
