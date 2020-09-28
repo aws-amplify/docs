@@ -54,7 +54,7 @@ If you set up the API Gateway with a custom authorization with a Cognito User po
             "endpointType": "REST",
             "endpoint": "YOUR-REST-ENDPOINT",
             "region": "us-west-2",
-            "authorizationType": "COGNITO_USER_POOL"
+            "authorizationType": "AMAZON_COGNITO_USER_POOLS"
         }
     }
 }
