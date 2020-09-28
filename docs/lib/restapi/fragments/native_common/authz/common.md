@@ -111,7 +111,7 @@ The Access Token contains scopes and groups and is used to grant access to autho
 
 To use custom headers on your HTTP request, you need to add these to Amazon API Gateway first. For more info about configuring headers, please visit [Amazon API Gateway Developer Guide](http://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-cors.html)
 
-If you have used Amplify CLI to create your API, you can enable custom headers by following above steps:  
+If you used the Amplify CLI to create your API, you can enable custom headers by following these steps:  
 
 1. Visit [Amazon API Gateway console](https://aws.amazon.com/api-gateway/).
 3. On Amazon API Gateway console, click on the path you want to configure (e.g. /{proxy+})
