@@ -43,7 +43,6 @@ If you want to configure a public REST API, you can set an API key in Amazon API
 }
 ```
 
-
 ## Cognito User pool authorization
 
 If you set up the API Gateway with a custom authorization with a Cognito User pool, then you can set the `amplifyconfiguration.json` to use `COGNITO_USER_POOL`. 
