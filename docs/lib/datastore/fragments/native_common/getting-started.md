@@ -23,15 +23,19 @@ To setup and configure your application with Amplify DataStore and use it to per
 
 There are two options to integrate the Amplify build process with the project.
 
-## Option 1: Platform integration
+## Setup local development environment
+
+In order to setup your local development environment, you have two options.
+
+### Option 1: Platform integration
 
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/getting-started/30_platformIntegration.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/30_platformIntegration.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/30_platformIntegration.md"></inline-fragment>
 
-## Option 2: Use Amplify CLI
+### Option 2: Use Amplify CLI
 
-Instead of using the platform integration, you can alternatively use the Amplify CLI on its own to accomplish the same thing that Amplify Tools is doing for you. This option is particularly useful for **existing projects** where Amplify is already configured.
+Instead of using the platform integration, you can alternatively use the Amplify CLI on its own. This option is particularly **useful for existing projects** where Amplify is already configured and you want to add DataStore to it.
 
 If you don't have an existing project already, create a new Amplify project by running:
 ```bash
