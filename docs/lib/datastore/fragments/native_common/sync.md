@@ -34,6 +34,12 @@ You should see a table similar to this one.
 | Api      | amplifyDatasource | No Change | awscloudformation |
 ```
 
+<amplify-callout>
+
+**Troubleshooting:** if `amplify status` gives you an error saying *"You are not working inside a valid Amplify project"*, make sure you run `amplify init` before the next step.
+
+</amplify-callout>
+
 In case `Operation` says `Create` or `Update` you need to **push the backend to the cloud**.
 
 ```console
