@@ -279,7 +279,7 @@ Add the following to your `src/app/app.component.html` to display any of the res
 </div>
 ```
 
-Finally, to subscribe to realtime data, update `ngOnInit` in `src/app/app.component.ts`. When the app starts, setup a subscription. The subscription will update the `restaurants` array when new events are received:
+Finally, to subscribe to realtime data, update `ngOnInit` in `src/app/app.component.ts`. When the app starts, this code will set up a subscription. The subscription will update the `restaurants` array when new events are received (when a new restaurant is created):
 
 ```javascript
 async ngOnInit() {
@@ -300,4 +300,4 @@ async ngOnInit() {
 } 
 ```
 
-After restarting your app using `ng serve` go back to your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs. 
+Now, open the app in another browser window so that you have two side by side. When creating a new item in one window, you should see it come through in the other window in real-time.
