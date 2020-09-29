@@ -54,11 +54,18 @@ Create required backend resources for your configured api with the following com
 
 ```bash
 amplify push
+
+? Do you want to generate code for your newly created GraphQL API: Yes
+? Choose the code generation language target: angular
+? Enter the file name pattern of graphql queries, mutations and subscriptions: src/graphql/**/*.graphql
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions: Yes
+? Enter maximum statement depth: 2
+? Enter the file name for the generated code: src/app/API.service.ts
 ```
 
 ### Code generation
 
-Because you added an API, the `amplify push` process will automatically prompt for codegen. Select `yes` when prompted for automatic query and code generation. Choose **Angular**, which will create an `API.service.ts` file in the app directory.
+Once the deployment is complete, the CLI will create a new directory in `src/graphql` with all of the GraphQL operations you will need for your API. The CLI also created an `API.service.ts` file in the app directory that we will be using shortly.
 
 Next, run the following command to check Amplify's status:
 
@@ -111,11 +118,18 @@ Update `tsconfig.app.json` to include the "node" compiler option in *types*:
 In your `src/app/app.component.ts` file, add the following imports and modifications to your class to to add data to your database with a mutation by using the `API.service` file which was generated when you ran `amplify add api`:
 
 ```javascript
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { APIService } from './API.service';
 
-@Component(...)
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+
 export class AppComponent implements OnInit {
+  title = 'amplify-angular-app';
   public createForm: FormGroup;
 
   constructor(private api: APIService, private fb: FormBuilder) { }
@@ -127,7 +141,7 @@ export class AppComponent implements OnInit {
       'city': ['', Validators.required]
     });
   } 
-  
+
   public onCreate(restaurant: any) {
     this.api.CreateRestaurant(restaurant).then(event => {
       console.log('item created!');
@@ -138,6 +152,36 @@ export class AppComponent implements OnInit {
     });
   }
 }
+```
+
+Next, enable the Angular forms modules in `src/app/app.module.ts`:
+
+```js
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+/* new form imports */
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    AmplifyUIAngularModule,
+    /* configuring form modules */
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
 ```
 
 Next, add a form that will be used for creating restaurants. Add the following to your `src/app/app.component.html`:
@@ -162,7 +206,7 @@ Next, add a form that will be used for creating restaurants. Add the following t
 </div>
 ```
 
-Now, define a `Restaurant` type. Create a new file at `types/restaurant.ts`:
+Now, define a `Restaurant` type. Create a new file at `src/types/restaurant.ts`:
 
 ```ts
 export type Restaurant = {
@@ -173,21 +217,48 @@ export type Restaurant = {
 }; 
 ```
 
-Next, update your `AppComponent` class so that it will list all restaurants in the database when the app starts. To do so, implement [OnInit](https://angular.io/api/core/OnInit) add a `ListRestaurants` query. Store the query results in an array.
+Next, update your `AppComponent` class so that it will list all restaurants in the database when the app starts. To do so, implement [OnInit](https://angular.io/api/core/OnInit) add a `ListRestaurants` query in `src/app/app.component.ts`. Store the query results in an array.
 
 ```javascript
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { APIService } from './API.service';
+/* import Restaurant type */
 import { Restaurant } from './../types/restaurant';
 
-@Component(...)
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+
 export class AppComponent implements OnInit {
+  title = 'amplify-angular-app';
+  public createForm: FormGroup;
+  /* declare restaurants variable */
   restaurants: Array<Restaurant>;
 
-  constructor(private api: APIService) { }
+  constructor(private api: APIService, private fb: FormBuilder) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.createForm = this.fb.group({
+      'name': ['', Validators.required],
+      'description': ['', Validators.required],
+      'city': ['', Validators.required]
+    });
+    /* fetch restaurants when app loads */
     this.api.ListRestaurants().then(event => {
       this.restaurants = event.items;
+    });
+  } 
+
+  public onCreate(restaurant: any) {
+    this.api.CreateRestaurant(restaurant).then(event => {
+      console.log('item created!');
+      this.createForm.reset();
+    })
+    .catch(e => {
+      console.log('error creating restaurant...', e);
     });
   }
 }
@@ -203,45 +274,23 @@ Add the following to your `src/app/app.component.html` to display any of the tod
 </div>
 ```
 
-Finally, to subscribe to realtime data, update `ngOnInit`. When the app starts, setup a subscription. The subscription will update the `restaurants` array when new events are received:
+Finally, to subscribe to realtime data, update `ngOnInit` in `src/app/app.component.ts`. When the app starts, setup a subscription. The subscription will update the `restaurants` array when new events are received:
 
 ```javascript
-@Component(...)
-export class AppComponent implements OnInit {
-  ngOnInit() {
-    //Subscribe to changes
-    this.api.OnCreateRestaurantListener.subscribe( (event: any) => {
-      const newRestaurant = event.value.data.onCreateRestaurant;
-      this.restaurants = [newRestaurant, ...this.restaurants];
-    });
-  }
-}
-```
-
-At this point your `app.module.ts` should look like:
-
-```javascript
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-
-import { AppComponent } from './app.component';
-import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-@NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    AmplifyUIAngularModule,
-    FormsModule,
-    ReactiveFormsModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
+async ngOnInit() {
+  this.createForm = this.fb.group({
+    'name': ['', Validators.required],
+    'description': ['', Validators.required],
+    'city': ['', Validators.required]
+  });
+  this.api.ListRestaurants().then(event => {
+    this.restaurants = event.items;
+  });
+  this.api.OnCreateRestaurantListener.subscribe( (event: any) => {
+    const newRestaurant = event.value.data.onCreateRestaurant;
+    this.restaurants = [newRestaurant, ...this.restaurants];
+  });
+} 
 ```
 
 After restarting your app using `ng serve` go back to your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs. 

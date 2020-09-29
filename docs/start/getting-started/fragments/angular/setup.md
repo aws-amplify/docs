@@ -5,12 +5,16 @@ Use the [Angular CLI](https://github.com/angular/angular-cli) to bootstrap a new
 ```bash
 npm install -g @angular/cli
 ng new amplify-app
+
+? Would you like to add Angular routing? Y
+? Which stylesheet format would you like to use? (your preferred stylesheet provider)
+
 cd amplify-app
 ```
 
 ### Angular 6+ Support
 
-Currently, the newest versions of Angular (6+) do not include shims for 'global' or 'process' as provided in previous versions. Add the following to your `polyfills.ts` file to recreate them: 
+Currently, the newest versions of Angular (6+) do not include shims for 'global' or 'process' as provided in previous versions. Add the following to your `src/polyfills.ts` file to recreate them: 
 
 ```javascript
 (window as any).global = window;
@@ -83,11 +87,27 @@ The `@aws-amplify/ui-angular` package is a set of Angular components and an Angu
 Add the **Amplify Angular UI Module** to `src/app/app.module.ts`:
 
 ```ts
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+/* import AmplifyUIAngularModule  */
 import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
 
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+
 @NgModule({
+  declarations: [
+    AppComponent
+  ],
   imports: [
+    BrowserModule,
+    AppRoutingModule,
+    /* configure app with AmplifyUIAngularModule */
     AmplifyUIAngularModule
   ],
-});
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
 ```
