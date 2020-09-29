@@ -83,15 +83,17 @@ The `@aws-amplify/ui-angular` package is a set of Angular components and an Angu
 <amplify-callout>Angular CLI output warnings: if you see CommonJS or AMD dependencies optimization bailouts warnings using Angular +9 you can use this [gist](https://gist.github.com/gsans/8982c126c4fef668c094ff288f04241b) to remove them. More details about these [here](https://angular.io/guide/build#configuring-commonjs-dependencies).
 </amplify-callout>
 
-### Importing the Amplify Angular UI Module
+### Importing the Form and Amplify Angular UI Module
 
-Add the **Amplify Angular UI Module** to `src/app/app.module.ts`:
+Add Form modules and the **Amplify Angular UI Module** to `src/app/app.module.ts`:
 
 ```ts
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 /* import AmplifyUIAngularModule  */
 import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
+/* import form modules */
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -104,11 +106,13 @@ import { AppComponent } from './app.component';
     BrowserModule,
     AppRoutingModule,
     /* configure app with AmplifyUIAngularModule */
-    AmplifyUIAngularModule
+    AmplifyUIAngularModule,
+    /* configure form modules */
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-
 ```
