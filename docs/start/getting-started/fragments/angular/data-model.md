@@ -227,7 +227,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { APIService } from './API.service';
 
 /* import Restaurant type */
-import { Restaurant } from './../types/restaurant';
+import { Restaurant } from '../types/restaurant';
 
 @Component({
   selector: 'app-root',
