@@ -265,7 +265,7 @@ export class AppComponent implements OnInit {
 }
 ```
 
-Add the following to your `src/app/app.component.html` to display any of the todos you have added:
+Add the following to your `src/app/app.component.html` to display any of the restaurants you have added:
 
 ```html
 <div *ngFor="let restaurant of restaurants">
