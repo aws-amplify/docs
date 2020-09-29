@@ -96,7 +96,7 @@ When prompted, select **GraphQL**. This will open the AWS AppSync console for yo
 
 ## Connect frontend to API
 
-Update your `src/main.ts` to configure the library with `Amplify.configure()`:
+Open `src/main.ts` and add the following code to configure the Angular project with Amplify:
 
 ```javascript
 import Amplify from "aws-amplify";
