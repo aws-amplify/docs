@@ -116,7 +116,7 @@ Update `tsconfig.app.json` to include the "node" compiler option in *types*:
 
 <amplify-callout>Depending on your TypeScript version you may need to rename `aws-exports.js` to `aws-exports.ts` prior to importing, or enable the `allowJs` <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" target="_blank">compiler option</a> in your tsconfig.</amplify-callout>
 
-In your `src/app/app.component.ts` file, use the following code to to add data to your database with a mutation by using the `API.service` file which was generated when you ran `amplify add api`:
+In your `src/app/app.component.ts` file, use the following code to add data to your database with a mutation by using the `API.service` file which was generated when you ran `amplify add api`:
 
 ```javascript
 import { Component, OnInit } from '@angular/core';
@@ -162,10 +162,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 /* new form imports */
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [
@@ -224,6 +225,7 @@ Next, update your `AppComponent` class so that it will list all restaurants in t
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { APIService } from './API.service';
+
 /* import Restaurant type */
 import { Restaurant } from './../types/restaurant';
 
@@ -236,6 +238,7 @@ import { Restaurant } from './../types/restaurant';
 export class AppComponent implements OnInit {
   title = 'amplify-angular-app';
   public createForm: FormGroup;
+
   /* declare restaurants variable */
   restaurants: Array<Restaurant>;
 
@@ -247,6 +250,7 @@ export class AppComponent implements OnInit {
       'description': ['', Validators.required],
       'city': ['', Validators.required]
     });
+
     /* fetch restaurants when app loads */
     this.api.ListRestaurants().then(event => {
       this.restaurants = event.items;
@@ -287,6 +291,8 @@ async ngOnInit() {
   this.api.ListRestaurants().then(event => {
     this.restaurants = event.items;
   });
+
+  /* subscribe to new restaurants being created */
   this.api.OnCreateRestaurantListener.subscribe( (event: any) => {
     const newRestaurant = event.value.data.onCreateRestaurant;
     this.restaurants = [newRestaurant, ...this.restaurants];
