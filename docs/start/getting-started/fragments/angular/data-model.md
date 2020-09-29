@@ -134,6 +134,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { APIService } from './API.service';
 
+/* import Restaurant type */
+import { Restaurant } from '../types/restaurant';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -172,9 +175,6 @@ Next, enable the Angular forms modules in `src/app/app.module.ts`:
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
-
-/* import Restaurant type */
-import { Restaurant } from '../types/restaurant';
 
 /* new form imports */
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
