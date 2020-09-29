@@ -66,7 +66,7 @@ amplify push
 
 ### Code generation
 
-Once the deployment is complete, the CLI will create a new directory in `src/graphql` with all of the GraphQL operations you will need for your API. The CLI also created an `API.service.ts` file in the app directory that we will be using shortly.
+Once the deployment is complete, the CLI will create a new directory in `src/graphql` with all of the GraphQL operations you will need for your API. The CLI also created an `API.service.ts` file in the `app` directory that we will be using shortly.
 
 Next, run the following command to check Amplify's status:
 

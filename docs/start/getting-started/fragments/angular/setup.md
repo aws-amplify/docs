@@ -70,7 +70,7 @@ When you initialize a new Amplify project, a few things happen:
 
 ## Install Amplify libraries
 
-Inside the app directory, install the Amplify Angular library and run your app:
+Inside the `app` directory, install the Amplify Angular library and run your app:
 
 ```bash
 npm install --save aws-amplify @aws-amplify/ui-angular
