@@ -133,8 +133,6 @@ In your `src/app/app.component.ts` file, use the following code to add data to y
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { APIService } from './API.service';
-
-/* import Restaurant type */
 import { Restaurant } from '../types/restaurant';
 
 @Component({
