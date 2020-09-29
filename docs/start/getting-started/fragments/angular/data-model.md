@@ -116,6 +116,17 @@ Update `tsconfig.app.json` to include the "node" compiler option in *types*:
 
 <amplify-callout>Depending on your TypeScript version you may need to rename `aws-exports.js` to `aws-exports.ts` prior to importing, or enable the `allowJs` <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" target="_blank">compiler option</a> in your tsconfig.</amplify-callout>
 
+Next, define a `Restaurant` type. Create a new file at `src/types/restaurant.ts`:
+
+```ts
+export type Restaurant = {
+  id : string,
+  name : string,
+  description : string,
+  city: string
+}; 
+```
+
 In your `src/app/app.component.ts` file, use the following code to add data to your database with a mutation by using the `API.service` file which was generated when you ran `amplify add api`:
 
 ```javascript
@@ -143,7 +154,7 @@ export class AppComponent implements OnInit {
     });
   } 
 
-  public onCreate(restaurant: any) {
+  public onCreate(restaurant: Restaurant) {
     this.api.CreateRestaurant(restaurant).then(event => {
       console.log('item created!');
       this.createForm.reset();
@@ -208,17 +219,6 @@ Next, add a form that will be used for creating restaurants. Add the following t
 </div>
 ```
 
-Now, define a `Restaurant` type. Create a new file at `src/types/restaurant.ts`:
-
-```ts
-export type Restaurant = {
-  id : string,
-  name : string,
-  description : string,
-  city: string
-}; 
-```
-
 Next, update your `AppComponent` class so that it will list all restaurants in the database when the app starts. To do so, implement [OnInit](https://angular.io/api/core/OnInit) add a `ListRestaurants` query in `src/app/app.component.ts`. Store the query results in an array.
 
 ```javascript
@@ -257,7 +257,7 @@ export class AppComponent implements OnInit {
     });
   } 
 
-  public onCreate(restaurant: any) {
+  public onCreate(restaurant: Restaurant) {
     this.api.CreateRestaurant(restaurant).then(event => {
       console.log('item created!');
       this.createForm.reset();
