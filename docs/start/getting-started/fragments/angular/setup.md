@@ -74,6 +74,7 @@ Inside the app directory, install the Amplify Angular library and run your app:
 
 ```bash
 npm install --save aws-amplify @aws-amplify/ui-angular
+
 ng serve
 ```
 
