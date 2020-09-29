@@ -173,6 +173,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
 
+/* import Restaurant type */
+import { Restaurant } from '../types/restaurant';
+
 /* new form imports */
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -225,8 +228,6 @@ Next, update your `AppComponent` class so that it will list all restaurants in t
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { APIService } from './API.service';
-
-/* import Restaurant type */
 import { Restaurant } from '../types/restaurant';
 
 @Component({
