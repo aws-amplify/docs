@@ -1,11 +1,11 @@
 Amplify uses `Hub` for different categories to communicate with one another when specific events occur. DataStore emits `Hub` messages for the following events:
 
 ```
-/// Dispatched when DataStore starts and everytime network status changes
+/// Dispatched when DataStore starts and every time network status changes
 /// HubPayload `NetworkStatusEvent` contains a boolean value `active` to notify network status
 networkStatus
 
-/// Dispatched when DataStore has finished establishing its subscriptions to all syncable models
+/// Dispatched when DataStore has finished establishing its subscriptions to all sync-able models
 subscriptionsEstablished
 
 /// Dispatched when DataStore is about to start sync queries
