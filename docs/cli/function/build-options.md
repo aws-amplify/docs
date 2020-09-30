@@ -94,3 +94,11 @@ Babel needs to be configured properly so that the transpiled code can be run on 
 ```
 
 Once you run `amplify push`, the `amplify:generateReport` script will be executed, either by `yarn` or by `npm` depending on the existence of a `yarn.lock` file in the project root directory.
+
+## Python
+
+**There are no existing build options for Python functions**
+
+The process of building and packaging Python functions is in line with Amazon's [existing documentation](https://docs.aws.amazon.com/lambda/latest/dg/python-package.html#python-package-venv) for manually creating a Lambda deployment package which depends on a virtual environment. Amplify will run `pipenv install` in your function's source directory during builds, using either Pipenv's default virtual environment, or whichever virtual environment happens to be active. Then, during the packaging stage, the contents of the `site-packages` directory for that virtual environment will be zipped up along with the function-specific files.
+
+This means that the contents of the Python build can include local development dependencies (e.g. for testing) in addition to those necessary for your function to run. This also means that packages installed as "editable" (using the `-e` flag) will not be properly packaged, as their only representation in the `site-packages` directory is an `.egg-link` file pointing to the local, editable code of the dependency.
