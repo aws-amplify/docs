@@ -1,3 +1,4 @@
+## Usage
 For instance, to see if the network status is active, you could set up the following listener or Subscriber (using Combine):
 
 <amplify-block-switcher>
@@ -36,6 +37,14 @@ let hubEventSubscriber = Amplify.Hub.publisher(for: .dataStore).sink { event in
 
 </amplify-block-switcher>
 
+<amplify-callout>
+
 For `networkStatus` event, an initial value in which `active` is always set to `false` is received, but shortly after, you will receive a updated value which represents the real status of network connectivity.
 
-You may want to setup your HubEvent Listener or Subscriber before calling `Amplify.configure()`, otherwise you may miss some of the `DataStore` events that are emitted.
+</amplify-callout>
+
+<amplify-callout>
+
+You may want to setup your Hub Listener or Subscriber before calling `Amplify.configure()`, otherwise you may miss some of the `DataStore` events that are emitted.
+
+</amplify-callout>
