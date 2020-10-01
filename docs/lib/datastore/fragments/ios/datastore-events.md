@@ -1,6 +1,3 @@
-## Usage
-For instance, to see if the network status is active, you could set up the following listener or Subscriber (using Combine):
-
 <amplify-block-switcher>
 
 <amplify-block name="Listener (iOS 11+)">

@@ -1,8 +1,5 @@
-## Usage
-For instance, to listen to see if the network status is active, you could set up the following listener:
-
 <amplify-block-switcher>
- <amplify-block name="Java">
+<amplify-block name="Java">
 
 ```java
 Amplify.Hub.subscribe(
@@ -15,8 +12,8 @@ Amplify.Hub.subscribe(
 );
 ```
 
- </amplify-block>
- <amplify-block name="Kotlin">
+</amplify-block>
+<amplify-block name="Kotlin">
 
  ```kotlin
 Amplify.Hub.subscribe(
@@ -29,8 +26,8 @@ Amplify.Hub.subscribe(
 )
 ```
 
- </amplify-block>
- <amplify-block name="RxJava">
+</amplify-block>
+<amplify-block name="RxJava">
 
 ```java
 RxAmplify.Hub.on(HubChannel.DATASTORE)
@@ -41,6 +38,6 @@ RxAmplify.Hub.on(HubChannel.DATASTORE)
         });
 ```
 
- </amplify-block>
+</amplify-block>
 
 </amplify-block-switcher>
