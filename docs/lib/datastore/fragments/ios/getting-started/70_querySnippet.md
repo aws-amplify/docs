@@ -1,3 +1,7 @@
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
 ```swift
 Amplify.DataStore.query(Post.self) { result in
     switch result {
@@ -8,3 +12,22 @@ Amplify.DataStore.query(Post.self) { result in
     }
 }
 ```
+
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+let querySink = Amplify.DataStore.query(Post.self).sink {
+    if case let .failure(error) = $0 {
+        print("Error retrieving posts \(error)")
+    }
+}
+receiveValue: { posts in
+    print("Posts retrieved successfully: \(posts)")
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>

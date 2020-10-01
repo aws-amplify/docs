@@ -1,6 +1,6 @@
 Existing Amazon Pinpoint resources can be used with the Amplify Libraries by referencing your **Application ID** and **Region** in your `amplifyconfiguration.json` file.
 
-```json
+```dart
 {
     "analytics": {
         "plugins": {

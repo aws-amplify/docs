@@ -31,6 +31,21 @@ Amplify.Storage.list(
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.Storage.list("/")
+        .subscribe(
+            result -> {
+                for (StorageItem item : result.getItems()) {
+                    Log.i("MyAmplifyApp", "Item: " + item.getKey());
+                }
+            },
+            error -> Log.e("MyAmplifyApp", "List failure", error)
+        );
+```
+
+</amplify-block>
 </amplify-block-switcher>
 
 You can also list private or protected files by passing options. For example, to list all protected files owned by a user identified by the ID `otherUserID`:
@@ -43,7 +58,7 @@ StorageListOptions options = StorageListOptions.builder()
         .accessLevel(StorageAccessLevel.PROTECTED)
         .targetIdentityId("otherUserID")
         .build();
-        
+
 Amplify.Storage.list(
         "/",
         options,
@@ -75,6 +90,26 @@ Amplify.Storage.list(
     },
     { error -> Log.e("MyAmplifyApp", "List failure", error) }
 )
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+StorageListOptions options = StorageListOptions.builder()
+        .accessLevel(StorageAccessLevel.PROTECTED)
+        .targetIdentityId("otherUserID")
+        .build();
+
+RxAmplify.Storage.list("/", options)
+        .subscribe(
+            result -> {
+                for (StorageItem item : result.getItems()) {
+                    Log.i("MyAmplifyApp", "Item: " + item.getKey());
+                }
+            },
+            error -> Log.e("MyAmplifyApp", "List failure", error)
+        );
 ```
 
 </amplify-block>

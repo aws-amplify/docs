@@ -15,7 +15,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.0'
+        classpath 'com.android.tools.build:gradle:4.0.1'
     }
 }
 
@@ -40,21 +40,34 @@ Add the following lines:
 
 ```groovy
 android {
-    // Add these lines in `android`
+    defaultConfig {
+        // Enable multidex support (if supporting min SDK < 21)
+        multiDexEnabled true
+    }
+
     compileOptions {
+        // Support for Java 8 features
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
-    // Add line in `dependencies`
-    implementation 'com.amplifyframework:core:1.1.1'
+    // Amplify core dependency
+    implementation 'com.amplifyframework:core:1.4.0'
+
+    // Multidex dependency (if supporting min SDK < 21)
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    // Support for Java 8 features
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
 }
 ```
 
-- Set `sourceCompatibility` and `targetCompatibility` to Java 1.8 which allows your application to make use of Java 8 features like Lambda expressions
-- Add the Amplify Core library in the `dependencies` block
+- If supporting a min SDK less than 21, add `multiDexEnabled true` to the defaultConfig block to support desugaring
+- Set `coreLibraryDesugaringEnabled`, `sourceCompatibility`, and `targetCompatibility` to allow your application to make use of Java 8 features like Lambda expressions
+- Add the Amplify Core, Multidex, and Desugaring libraries to the `dependencies` block
 
 Run **Gradle Sync**
 

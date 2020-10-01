@@ -2,6 +2,7 @@
     "title": "Customization",
     "items": [
         "theming",
+        "customizing-css",
         "translations"
     ]
 }

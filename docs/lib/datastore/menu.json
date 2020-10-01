@@ -7,6 +7,8 @@
     "sync",
     "conflict",
     "real-time",
+    "datastore-events",
+    "other-methods",
     "schema-updates",
     "how-it-works",
     "examples"

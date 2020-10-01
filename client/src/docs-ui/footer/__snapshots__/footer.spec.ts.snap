@@ -59,6 +59,8 @@ exports[`docs-footer Render logic should render 1`] = `
               privacy policy
             </amplify-external-link>
             .
+            <ul></ul>
+            Flutter and the related logo are trademarks of Google LLC. We are not endorsed by or affiliated with Google LLC.
           </span>
         </div>
       </div>

@@ -14,15 +14,12 @@ The Amplify Command Line Interface (CLI) is a unified toolchain to create AWS cl
 
 Watch the video below to learn how to install and configure the Amplify CLI or skip to the next section to follow the step-by-step instructions.
 
-<iframe
-  allowfullscreen
-  src="https://www.youtube.com/embed/fWbM5DLh25U"
-></iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/fWbM5DLh25U" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ### Option 2: Follow the instructions
-```bash
-npm install -g @aws-amplify/cli
-```
+<inline-fragment platform="ios" src="~/lib/project-setup/fragments/native_common/prereq/cliInstall.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/project-setup/fragments/native_common/prereq/cliInstall.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/project-setup/fragments/flutter/prereq/cliInstall.md"></inline-fragment>
 > Because we're installing the Amplify CLI globally, you might need to run the command above with `sudo`.
 
 
