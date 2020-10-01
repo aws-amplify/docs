@@ -1,6 +1,6 @@
 The following APIs will enable you to identify entities (faces and/or celebrities) from images.
 
-For identifying entities on iOS we use both AWS backend services as well as Apple's on-device Core ML [Vision Framework](https://developer.apple.com/documentation/vision) to provide you with the most accurate results.  If your device is offline, we will return results only from Core ML.  On the other hand, if you are able to connect to AWS Services, we will return a unioned result from both the service and Core ML.  Switching between backend services and Core ML is done automatically without any additional configuration required.
+For identifying entities on iOS we use both AWS backend services as well as Apple's on-device Core ML [Vision Framework](https://developer.apple.com/documentation/vision) to provide you with the most accurate results. If your device is offline, we will return results only from Core ML. On the other hand, if you are able to connect to AWS Services, we will return a unioned result from both the service and Core ML. Switching between backend services and Core ML is done automatically without any additional configuration required.
 
 ## Set up your backend
 
@@ -42,60 +42,142 @@ In order to match entities from a pre-created [Amazon Rekognition Collection](ht
 
 You can identify entity matches from your Rekognition Collection in your app using the following code sample:
 
-``` swift
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
+```swift
 func detectEntities(_ image: URL) {
-	_ = Amplify.Predictions.identify(type: .detectEntities, image: image, options: PredictionsIdentifyRequest.Options(), listener: { (event) in
-		switch event {
-		case .completed(let result):
-			let data = result as! IdentifyEntityMatchesResult
-			print(data.entities)
-		case .failed(let error):
-			print(error)
-		default:
-			print("")
-		}
-	})
+    Amplify.Predictions.identify(type: .detectEntities, image: image) { event in
+        switch event {
+        case let .success(result):
+            let data = result as! IdentifyEntityMatchesResult
+            print(data.entities)
+        case let .failure(error):
+            print(error)
+        }
+    }
 }
 ```
 
-To detect general entities like facial features, landmarks etc, you can use the following call pattern.  Results are mapped to `IdentifyEntityResult`.  For example:
+</amplify-block>
 
-``` swift
-func detectEntities(_ image: URL) {
-	_ = Amplify.Predictions.identify(type: .detectEntities, image: image, options: PredictionsIdentifyRequest.Options(), listener: { (event) in
-		switch event {
-		case .completed(let result):
-			let data = result as! IdentifyEntitiesResult
-			print(data.entities)
-		case .failed(let error):
-			print(error)
-		default:
-			print("")
-		}
-	})
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+func detectEntities(_ image: URL) -> AnyCancellable {
+    Amplify.Predictions.identify(type: .detectEntities, image: image)
+        .resultPublisher
+        .sink {
+            if case let .failure(error) = $0 {
+                print(error)
+            }
+        }
+        receiveValue: { result in
+            let data = result as! IdentifyEntityMatchesResult
+            print(data.entities)
+        }
 }
 ```
+
+</amplify-block>
+
+</amplify-block-switcher>
+
+To detect general entities like facial features, landmarks etc, you can use the following call pattern. Results are mapped to `IdentifyEntityResult`. For example:
+
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
+```swift
+func detectEntities(_ image: URL) {
+    Amplify.Predictions.identify(type: .detectEntities, image: image) { event in
+        switch event {
+        case let .success(result):
+            let data = result as! IdentifyEntitiesResult
+            print(data.entities)
+        case let .failure(error):
+            print(error)
+        }
+    }
+}
+```
+
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+func detectEntities(_ image: URL) -> AnyCancellable {
+    Amplify.Predictions.identify(type: .detectEntities, image: image)
+        .resultPublisher
+        .sink {
+            if case let .failure(error) = $0 {
+                print(error)
+            }
+        }
+        receiveValue: { result in
+            let data = result as! IdentifyEntitiesResult
+            print(data.entities)
+        }
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>
 
 ### Detecting Celebrities
 
-To detect celebrities you can pass in `.detectCelebrity` in the `type:` field.  Results are mapped to `IdentifyCelebritiesResult`.  For example:
+To detect celebrities you can pass in `.detectCelebrity` in the `type:` field. Results are mapped to `IdentifyCelebritiesResult`. For example:
 
-``` swift
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
+```swift
 func detectCelebs(_ image: URL) {
-  _ = Amplify.Predictions.identify(type: .detectCelebrity, image: image, options: PredictionsIdentifyRequest.Options(), listener: { (event) in
-    switch event {
-    case .completed(let result):
-      let data = result as! IdentifyCelebritiesResult
-      if let detectedCeleb = data.celebrities.first {
-        print("Celebrity Name: \(detectedCeleb.metadata.name)")
-      }
-      print(result)
-    case .failed(let error):
-      print(error)
-    default:
-      print("")
+    Amplify.Predictions.identify(type: .detectCelebrity, image: image) { event in
+        switch event {
+        case let .success(result):
+            let data = result as! IdentifyCelebritiesResult
+            if let detectedCeleb = data.celebrities.first {
+                print("Celebrity Name: \(detectedCeleb.metadata.name)")
+            }
+            print(result)
+        case let .failure(error):
+            print(error)
+        }
     }
-  })
 }
 ```
+
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+func detectCelebs(_ image: URL) -> AnyCancellable {
+    Amplify.Predictions.identify(type: .detectCelebrity, image: image)
+        .resultPublisher
+        .sink {
+            if case let .failure(error) = $0 {
+                print(error)
+            }
+        }
+        receiveValue: { result in
+            let data = result as! IdentifyCelebritiesResult
+            if let detectedCeleb = data.celebrities.first {
+                print("Celebrity Name: \(detectedCeleb.metadata.name)")
+            }
+            print(result)
+        }
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>
+
 As a result of passing in a URL of an image of a well known celebrity, you will see the corresponding celebrity name printed to the screen along with additional metadata.

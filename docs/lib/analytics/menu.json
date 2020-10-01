@@ -7,6 +7,8 @@
     "identifyuser",
     "streaming",
     "storing",
-    "personalize"
+    "personalize",
+    "escapehatch",
+    "existing-resources"
   ]
 }

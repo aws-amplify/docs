@@ -6,3 +6,4 @@ description: The Amplify analytics plugin records when an application opens and 
 <inline-fragment platform="js" src="~/lib/analytics/fragments/js/autotrack.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/analytics/fragments/autotrack.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/analytics/fragments/autotrack.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/analytics/fragments/autotrack.md"></inline-fragment>

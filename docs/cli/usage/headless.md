@@ -1,5 +1,5 @@
 ---
-title: Headless mode
+title: Headless mode for CI/CD
 description: Several commands in the Amplify CLI support arguments which could potentially be used in your CI/CD flows.
 ---
 Several commands in the Amplify CLI support arguments which could potentially be used in your CI/CD flows. The Amplify CLI arguments are not just simple strings, but also JSON objects containing information that the CLI would otherwise gather through prompts. The CLI will not prompt for input (work non-interactively) if the information it seeks is provided by an argument.
@@ -82,6 +82,9 @@ The aws secret access key if `useProfile` is set to false.
 The aws region if `useProfile` is set to false.
 
 ### `--app`
+
+`amplify init --app git@github.com:<github-username>/<repository-name>.git`
+
 Installs, initializes, and provisions resources for a sample amplify application from the provided GitHub repository URL. This option must be executed in an empty directory. The sample repository must have an amplify folder, including the following:
 
 - `project-config.json` in .config folder

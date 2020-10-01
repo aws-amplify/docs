@@ -11,16 +11,18 @@
     "switch-auth",
     "customui",
     "advanced",
-    
+
     "signin",
     "signin_web_ui",
     "social_signin_web_ui",
+    "guest_access",
     "auth-events",
     "user-attributes",
     "device_features",
     "password_management",
     "signOut",
     "access_credentials",
-    "escapehatch"
+    "escapehatch",
+    "existing-resources"
   ]
 }

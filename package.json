@@ -12,8 +12,7 @@
     "capi"
   ],
   "dependencies": {
-    "@aws-amplify/analytics": "^3.1.7",
-    "@aws-amplify/auth": "^3.2.4",
+    "aws-amplify": "latest",
     "@aws-amplify/ui-components": "latest",
     "array-flatten": "^3.0.0",
     "copy-to-clipboard": "^3.2.1",
@@ -38,6 +37,7 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.16.0",
     "fs-extra": "^9.0.1",
+    "husky": "^4.2.5",
     "jest": "^24.9.0",
     "jest-cli": "^24.9.0",
     "prettier": "^1.19.1",
@@ -46,6 +46,11 @@
     "ts-node": "^8.5.0",
     "typescript": "^3.8.3",
     "workbox-build": "4.3.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "yarn spellcheck"
+    }
   },
   "scripts": {
     "clean-client": "cd client && rm -rf .stencil www dist",

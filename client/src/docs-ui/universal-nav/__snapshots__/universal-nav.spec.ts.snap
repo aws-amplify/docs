@@ -7,9 +7,6 @@ exports[`docs-universal-nav Render logic should render 1`] = `
       <stencil-route-link anchortitle="Amplify Docs" class="css-11aid50" url="/">
         <img>
         <span></span>
-        <sup>
-          NEW
-        </sup>
       </stencil-route-link>
       <docs-search-bar class="css-fbz3bc"></docs-search-bar>
       <div class="css-14o8hhr">

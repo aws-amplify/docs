@@ -82,8 +82,8 @@ Push Notifications category is integrated with [AWS Amplify Analytics category](
     ```gradle
     dependencies {
         ...
-        implementation "com.google.firebase:firebase-core:12.0.1"
-        implementation "com.google.firebase:firebase-messaging:12.0.1"
+        implementation "com.google.firebase:firebase-core:15.0.2"
+        implementation "com.google.firebase:firebase-messaging:15.0.2"
         ...
     }
     ```

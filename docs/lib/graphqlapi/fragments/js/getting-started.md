@@ -1,4 +1,4 @@
-> Prerequisite: [Install and configure](~/cli/start/install.md) the Amplify CLI
+> Prerequisite: [Install, configure and init an Amplify project](~/cli/start/install.md) with Amplify CLI
 
 In this section, you'll learn how to deploy an AWS AppSync GraphQL API and connect to it from a JavaScript client application.
 
@@ -46,6 +46,7 @@ amplify push
 
 ? Do you want to generate code for your newly created GraphQL API? Y
 ? Choose the code generation language target: javascript (or your preferred language target)
+? Enter the file name pattern of graphql queries, mutations and subscriptions src/graphql/**/*.js
 ? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions? Y
 ? Enter maximum statement depth [increase from default if your schema is deeply nested]: 2
 ```
@@ -71,7 +72,7 @@ npm install aws-amplify
 In your app's entry point i.e. App.js, import and load the configuration file:
 
 ```javascript
-import Amplify, { Auth } from 'aws-amplify';
+import Amplify, { API, graphqlOperation } from 'aws-amplify';
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 ```
@@ -83,6 +84,7 @@ Now that the GraphQL API has deployed, it’s time to learn how to interact with
 - __Mutations__ - write data to the API (create, update, delete operations)
 
 ```js
+import { API } from 'aws-amplify';
 import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
 
 const todo = { name: "My first todo", description: "Hello world!" };
@@ -99,6 +101,7 @@ await API.graphql(graphqlOperation(deleteTodo, { input: { id: todoId }}));
 - __Queries__ - read data from the API (list, get operations)
 
 ```js
+import { API } from 'aws-amplify';
 import { listTodos } from './graphql/queries';
 
 const todos = await API.graphql(graphqlOperation(listTodos));
@@ -107,6 +110,7 @@ const todos = await API.graphql(graphqlOperation(listTodos));
 - __Subscriptions__ - subscribe to changes in data for real-time functionality (onCreate, onUpdate, onDelete)
 
 ```js
+import { API } from 'aws-amplify';
 import { onCreateTodo } from './graphql/subscriptions';
 
 // Subscribe to creation of Todo
@@ -167,10 +171,13 @@ When you run the *push* command, you will notice that your schema change is auto
 | Api      | myapi           | Update    | awscloudformation |
 ```
 
-When the update is complete, you can see the changes to your backend by visiting the Amplify Console, choosing __API__, then choosing __View in AppSync__.
+When the update is complete, you can see the changes to your backend by running the following command and select GraphQL option.
 
 ```bash
-amplify console
+amplify api console
+? Please select from one of the below mentioned services: (Use arrow keys)
+❯ GraphQL 
+  REST 
 ```
 
 ### Using GraphQL Transformers

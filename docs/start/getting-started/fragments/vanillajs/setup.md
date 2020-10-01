@@ -26,12 +26,12 @@ Add the following to the `package.json` file:
   "version": "1.0.0",
   "description": "Amplify JavaScript Example",
   "dependencies": {
-    "aws-amplify": "latest",
+    "aws-amplify": "latest"
   },
   "devDependencies": {
     "webpack": "^4.17.1",
     "webpack-cli": "^3.1.0",
-    "copy-webpack-plugin": "^4.5.2",
+    "copy-webpack-plugin": "^6.1.0",
     "webpack-dev-server": "^3.1.5"
   },
   "scripts": {
@@ -128,7 +128,9 @@ module.exports = {
         hot: true
     },
     plugins: [
-        new CopyWebpackPlugin(['index.html']),
+        new CopyWebpackPlugin({
+            patterns: ['index.html']
+        }),
         new webpack.HotModuleReplacementPlugin()
     ]
 };

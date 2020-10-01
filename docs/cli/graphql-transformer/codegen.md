@@ -165,7 +165,7 @@ amplify add codegen
 Once codegen has been added you can update your introspection schema, then generate statements and types again without re-entering your project information.
 
 ```bash
-$amplify codegen
+amplify codegen
 ```
 
 You can update your project and codegen configuration if required.
@@ -198,7 +198,7 @@ Next, modify your **Podfile** with a dependency of the AWS AppSync SDK:
 ```ruby
 target 'PostsApp' do
   use_frameworks!
-  pod 'AWSAppSync', ' ~> 2.9.0'
+  pod 'AWSAppSync'
 end
 ```
 

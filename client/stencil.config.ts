@@ -29,7 +29,7 @@ export const config: Config = {
       uuid: ["v1", "v4"],
       lodash: ["isEmpty", "isEqual", "get"],
       "@aws-sdk/eventstream-marshaller": ["EventStreamMarshaller"],
-      "@aws-sdk/fetch-http-handler": ["FetchHttpHandler"],
+      "@aws-sdk/fetch-http-handler": ["FetchHttpHandler", "streamCollector"],
       "@aws-crypto/sha256-browser": ["Sha256"],
       "@aws-sdk/util-uri-escape": ["escapeUri"],
       "@aws-sdk/config-resolver": [
@@ -51,8 +51,11 @@ export const config: Config = {
         "isa",
         "extendedEncodeURIComponent",
         "LazyJsonString",
+        "dateToUtcString",
+        "getArrayIfSingleItem",
+        "getValueFromTextNode",
       ],
-      "@aws-sdk/protocol-http": ["HttpRequest"],
+      "@aws-sdk/protocol-http": ["HttpRequest", "HttpResponse"],
       "@aws-sdk/middleware-serde": ["getSerdePlugin"],
       "@aws-sdk/property-provider": ["ProviderError"],
       "js-cookie": ["set", "get", "remove"],
@@ -60,6 +63,16 @@ export const config: Config = {
       "@aws-sdk/client-cognito-identity": ["defaultProvider"],
       "@aws-sdk/region-provider": ["defaultProvider"],
       "@aws-sdk/eventstream-serde-node": ["eventStreamSerdeProvider"],
+      "@aws-sdk/eventstream-serde-browser": ["eventStreamSerdeProvider"],
+      "@aws-sdk/middleware-bucket-endpoint": [
+        "resolveBucketEndpointConfig",
+        "getBucketEndpointPlugin",
+      ],
+      "@aws-sdk/middleware-sdk-s3": ["getValidateBucketNamePlugin"],
+      "@aws-sdk/xml-builder": ["XmlText", "XmlNode"],
+      "@aws-sdk/middleware-apply-body-checksum": [
+        "getApplyMd5BodyChecksumPlugin",
+      ],
     },
   },
   outputTargets: [
