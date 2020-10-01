@@ -59,7 +59,7 @@ Start command (npm start)
 Do you want to use an AWS profile?
 ```
 
-> Where possible the CLI will infer the proper configuration based on the type of project Amplify is being initialized in. In this case it knew we are using Create React App and provided the proper configuration for type of app, framework, source, distribution, build, and start options.
+> Where possible the CLI will infer the proper configuration based on the type of project Amplify is being initialized in. In this case it knew we are using Create Next App and provided the proper configuration for type of app, framework, source, distribution, build, and start options.
 
 When you initialize a new Amplify project, a few things happen:
 

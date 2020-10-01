@@ -7,7 +7,7 @@ In GraphQL, mutations are used to create, update, or delete data. Here are some 
 #### Creating an item
 
 ```javascript
-import { API, graphqlOperation } from "aws-amplify";
+import { API } from "aws-amplify";
 import * as mutations from './graphql/mutations';
 
 const todoDetails = {
@@ -15,13 +15,23 @@ const todoDetails = {
   description: 'Learn AWS AppSync'
 };
 
-const newTodo = await API.graphql(graphqlOperation(mutations.createTodo, {input: todoDetails}));
+const newTodo = await API.graphql({ query: mutations.createTodo, variables: {input: todoDetails}}));
+```
+
+You do not have to pass in `createdAt` and `updatedAt` fields, AppSync manages this for you.
+
+You can optionally import the `graphqlOperation` helper function to help you construct the argument object:
+
+```javascript
+import { API, graphqlOperation } from 'aws-amplify';
+// ...
+const newTodo = await API.graphql({ query: mutations.createTodo, variables: {input: todoDetails}})); // equivalent to above example
 ```
 
 #### Updating an item
 
 ```javascript
-import { API, graphqlOperation } from "aws-amplify";
+import { API } from "aws-amplify";
 import * as mutations from './graphql/mutations';
 
 const todoDetails = {
@@ -29,21 +39,28 @@ const todoDetails = {
   description: 'My updated description!'
 };
 
-const updatedTodo = await API.graphql(graphqlOperation(mutations.updateTodo, {input: todoDetails}));
+const updatedTodo = await API.graphql({ query: mutations.updateTodo, variables: {input: todoDetails}}));
 ```
+
+Notes:
+
+- You do not have to pass in `createdAt` and `updatedAt` fields, AppSync manages this for you.
+- If you pass in *extra* input fields not expected by the AppSync schema, this query will fail. You can see this in the `error` field returned by the query (the query itself does not throw, per GraphQL design).
 
 #### Deleting an item
 
 ```javascript
-import { API, graphqlOperation } from "aws-amplify";
+import { API } from "aws-amplify";
 import * as mutations from './graphql/mutations';
 
 const todoDetails = {
   id: 'some_id',
 };
 
-const deletedTodo = await API.graphql(graphqlOperation(mutations.deleteTodo, {input: todoDetails}));
+const deletedTodo = await API.graphql({ query: mutations.deleteTodo, variables: {input: todoDetails}}));
 ```
+
+Only an `id` is needed.
 
 ### Custom authorization mode
 
