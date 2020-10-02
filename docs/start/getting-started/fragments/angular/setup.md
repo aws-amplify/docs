@@ -5,12 +5,16 @@ Use the [Angular CLI](https://github.com/angular/angular-cli) to bootstrap a new
 ```bash
 npm install -g @angular/cli
 ng new amplify-app
+
+? Would you like to add Angular routing? Y
+? Which stylesheet format would you like to use? (your preferred stylesheet provider)
+
 cd amplify-app
 ```
 
 ### Angular 6+ Support
 
-Currently, the newest versions of Angular (6+) do not include shims for 'global' or 'process' as provided in previous versions. Add the following to your `polyfills.ts` file to recreate them: 
+Currently, the newest versions of Angular (6+) do not include shims for 'global' or 'process' as provided in previous versions. Add the following to your `src/polyfills.ts` file to recreate them: 
 
 ```javascript
 (window as any).global = window;
@@ -27,7 +31,7 @@ Now that we have a running Angular app, it's time to set up Amplify for this app
 amplify init
 ```
 
-When you initialize Amplify you'll be prompted for some information about the app.  For newer versions of Angular, you will have to change the Distribution Directory Path from `dist` to `dist/amplifyapp` to match how Angular will build your project.
+When you initialize Amplify you'll be prompted for some information about the app.  For newer versions of Angular, you will have to change the Distribution Directory Path from `dist` to `dist/amplify-app` to match how Angular will build your project.
 
 ```console
 Enter a name for the project (amplifyapp)
@@ -47,7 +51,7 @@ What JavaScript framework are you using (angular)
 Source directory path (src)
 
 Distribution directory path (dist)
-Change from dist to dist/amplifyapp
+Change from dist to dist/amplify-app
 
 Build command (npm run-script build)
 
@@ -66,16 +70,20 @@ When you initialize a new Amplify project, a few things happen:
 
 ## Install Amplify libraries
 
-Inside the app directory, install the Amplify Angular library and run your app:
+Inside the `app` directory, install the Amplify Angular library and run your app:
 
 ```bash
 npm install --save aws-amplify @aws-amplify/ui-angular
+
 ng serve
 ```
 
 The `@aws-amplify/ui-angular` package is a set of Angular components and an Angular provider which helps integrate your application with the AWS-Amplify library.  It supports Angular 5.0 and above.  It also includes a [supplemental module](#ionic-4-components) for Ionic-specific components.
 
-<amplify-callout>Angular CLI output warnings: if you see CommonJS or AMD dependencies optimization bailouts warnings using Angular +9 you can use this [gist](https://gist.github.com/gsans/8982c126c4fef668c094ff288f04241b) to remove them. More details about these [here](https://angular.io/guide/build#configuring-commonjs-dependencies).
+<amplify-callout>
+
+Angular CLI output warnings: if you see CommonJS or AMD dependencies optimization bailouts warnings using Angular +9 you can use this [gist](https://gist.github.com/gsans/8982c126c4fef668c094ff288f04241b) to remove them. More details about these [here](https://angular.io/guide/build#configuring-commonjs-dependencies).
+
 </amplify-callout>
 
 ### Importing the Amplify Angular UI Module
@@ -83,11 +91,27 @@ The `@aws-amplify/ui-angular` package is a set of Angular components and an Angu
 Add the **Amplify Angular UI Module** to `src/app/app.module.ts`:
 
 ```ts
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+/* import AmplifyUIAngularModule  */
 import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
 
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+
 @NgModule({
+  declarations: [
+    AppComponent
+  ],
   imports: [
+    BrowserModule,
+    AppRoutingModule,
+    /* configure app with AmplifyUIAngularModule */
     AmplifyUIAngularModule
   ],
-});
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
 ```
