@@ -82,6 +82,6 @@ query listTodos {
 }
 ```
 
-When there are no other items left to be returned, the `nextToken` in the resoonse will be set to null.
+When there are no other items left to be returned, the `nextToken` in the response will be set to null.
 
 <inline-fragment platform="js" src="~/guides/api-graphql/fragments/js/graphql-pagination.md"></inline-fragment> 
