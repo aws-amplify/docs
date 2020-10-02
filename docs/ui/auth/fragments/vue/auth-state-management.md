@@ -2,6 +2,7 @@ _App.vue_
 ```html
 <template>
   <div>
+    <div v-if="authState !== 'signedin'">You are signed out.</div>
     <amplify-authenticator>
       <div v-if="authState === 'signedin' && user">
         <div>Hello, {{user.username}}</div>
