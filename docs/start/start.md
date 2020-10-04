@@ -16,6 +16,7 @@ The **Amplify [Console](https://aws.amazon.com/amplify/console/)** is an AWS ser
 <inline-fragment integration="android" src="~/start/getting-started/fragments/android/build.md"></inline-fragment>
 <inline-fragment integration="flutter" src="~/start/getting-started/fragments/flutter/build.md"></inline-fragment>
 <inline-fragment integration="js" src="~/start/getting-started/fragments/vanillajs/build.md"></inline-fragment>
+<inline-fragment integration="next" src="~/start/getting-started/fragments/next/build.md"></inline-fragment>
 <inline-fragment integration="react" src="~/start/getting-started/fragments/react/build.md"></inline-fragment>
 <inline-fragment integration="react-native" src="~/start/getting-started/fragments/reactnative/build.md"></inline-fragment>
 <inline-fragment integration="angular" src="~/start/getting-started/fragments/angular/build.md"></inline-fragment>
@@ -26,6 +27,7 @@ The **Amplify [Console](https://aws.amazon.com/amplify/console/)** is an AWS ser
 <inline-fragment integration="android" src="~/start/getting-started/fragments/android/build-footer.md"></inline-fragment>
 <inline-fragment integration="flutter" src="~/start/getting-started/fragments/flutter/build-footer.md"></inline-fragment>
 <inline-fragment integration="js" src="~/start/getting-started/fragments/common/build-footer.md"></inline-fragment>
+<inline-fragment integration="next" src="~/start/getting-started/fragments/common/build-footer.md"></inline-fragment>
 <inline-fragment integration="react" src="~/start/getting-started/fragments/common/build-footer.md"></inline-fragment>
 <inline-fragment integration="react-native" src="~/start/getting-started/fragments/common/build-footer.md"></inline-fragment>
 <inline-fragment integration="angular" src="~/start/getting-started/fragments/common/build-footer.md"></inline-fragment>

@@ -4,6 +4,7 @@
     "prereq",
     "create-application",
     "combine",
-    "rxjava"
+    "rxjava",
+    "use-existing-resources"
   ]
 }
