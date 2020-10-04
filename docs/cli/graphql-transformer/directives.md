@@ -74,7 +74,7 @@ type Post @model(queries: { get: "post" }, mutations: null, subscriptions: null)
 }
 ```
 
-Model directive automatically adds createdAt and updatedAt timestamps to each entities. The timestamp field names can be changed by passing `timestamps` attribute to the directive
+Model directive automatically adds `createdAt` and `updatedAt` timestamps to each entities. The timestamp field names can be changed by passing `timestamps` attribute to the directive
 
 ```graphql
 type Post @model(timestamps:{createdAt: "createdOn", updatedAt: "updatedOn"}) {
@@ -144,7 +144,7 @@ type Post {
   id: ID!
   title: String!
   metadata: MetaData
-  createdAt: AWSDatetime
+  createdAt: AWSDateTime
   updatedAt: AWSDateTime
 }
 
@@ -374,7 +374,7 @@ This is great for simple lookup operations, but what if you need to perform slig
 ```graphql
 type Order @model @key(fields: ["customerEmail", "createdAt"]) {
     customerEmail: String!
-    createdAt: String!
+    createdAt: AWSDateTime!
     orderId: ID!
 }
 ```
@@ -2133,8 +2133,8 @@ Given the following schema an index is created for Post, if there are more types
 type Post @model @searchable {
   id: ID!
   title: String!
-  createdAt: String!
-  updatedAt: String!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
   upvotes: Int
 }
 ```
