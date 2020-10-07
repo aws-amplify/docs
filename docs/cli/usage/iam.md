@@ -65,6 +65,7 @@ The Amplify CLI requires the below IAM policies for performing actions across al
                 "appsync:ListResolvers",
                 "appsync:DeleteType",
                 "appsync:GetType",
+                "appsync:TagResource",
                 "cloudformation:CreateChangeSet",
                 "cloudformation:CreateStack",
                 "cloudformation:CreateStackSet",
