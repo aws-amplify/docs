@@ -10,7 +10,7 @@ Storage.list('photos/') // for listing ALL files without prefix, pass '' instead
 
 The format of the result looks like this:
 
-```json
+```js
 [{
     eTag: ""30074401292215403a42b0739f3b5262"",
     key: "example.png",
