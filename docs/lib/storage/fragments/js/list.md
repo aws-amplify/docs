@@ -8,12 +8,15 @@ Storage.list('photos/') // for listing ALL files without prefix, pass '' instead
     .catch(err => console.log(err));
 ```
 
+Note the trailing slash `/` - if we had requested `Storage.list('photos')` it would also match against files like `photos123.jpg` alongside `photos/123.jpg`.
+
 The format of the result looks like this:
 
 ```js
-[{
+[
+  {
     eTag: ""30074401292215403a42b0739f3b5262"",
-    key: "example.png",
+    key: "123.png",
     lastModified: "Thu Oct 08 2020 23:59:31 GMT+0800 (Singapore Standard Time)",
     size: 138256
   },
