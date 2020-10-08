@@ -41,6 +41,29 @@ Manually created folders will show up as files with a `size` of 0, but you can a
   }
 ```
 
+If you need the files and folders in terms of a nested object instead (for example, to build an explorer UI), you could parse it recursively:
+
+```js
+  function processStorageList(results) {
+    const filesystem = {}
+    // https://stackoverflow.com/questions/44759750/how-can-i-create-a-nested-object-representation-of-a-folder-structure
+    const add = (source, target, item) => {
+      const elements = source.split("/");
+      const element = elements.shift();
+      if (!element) return // blank
+      target[element] = target[element] || {__data: item}// element;
+      if (elements.length) {
+        target[element] = typeof target[element] === "object" ? target[element] : {};
+        add(elements.join("/"), target[element], item);
+      }
+    };
+    results.forEach(item => add(item.key, filesystem, item));
+    return filesystem
+  }
+```
+
+This places each item's data inside a special `__data` key.
+
 ## Protected level list
 
 To list current user's objects:
