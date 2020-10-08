@@ -336,9 +336,15 @@ type Todo @model @searchable {
   id: ID!
   name: String!
   description: String
-  comments: [Todo] @connection(name: "TodoComments")
+  comments: [Comment] @connection(name: "TodoComments")
   location: Location
 }
+
+type TodoConnection {
+  items: [Todo]
+  nextToken: String
+}
+
 type Query {
   nearbyTodos(location: LocationInput!, km: Int): TodoConnection
 }
