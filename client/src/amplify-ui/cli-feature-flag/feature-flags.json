@@ -1,2 +1,27 @@
 {
+  "graphQLTransformer": {
+    "description": "Feature Flag related to GraphQL Transformer",
+    "features": {
+      "addMissingOwnerFields": {
+        "description": "Automatically add owner field to when owner fields are not in the type",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "> 4.29.5",
+        "values": [
+          {
+            "value": "true",
+            "description": "inserts the owner field from auth rules when its missing in type",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "don't insert the owner field automatically",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      }
+    }
+  }
 }
