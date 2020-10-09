@@ -51,7 +51,6 @@ data.Body.text().then(string => {
 You can programmatically download Blobs using JavaScript:
 
 ```js
-// https://blog.logrocket.com/programmatic-file-downloads-in-the-browser-9a5186298d5c/
 export function downloadBlob(blob, filename) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
