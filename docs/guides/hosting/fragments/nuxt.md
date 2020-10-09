@@ -58,7 +58,7 @@ In the next screen, choose your repository and branch and click __Next__:
 
 In the __App build and test settings__ view, click __Edit__ and do the following:
 
-1. Set the __build__ command to: `npm run generate`
+1. Set the __build__ command to: `yarn run generate`
 2. Set the `baseDirectory` location to be `dist`
 3. Click __Save__
 4. Click __Next__
