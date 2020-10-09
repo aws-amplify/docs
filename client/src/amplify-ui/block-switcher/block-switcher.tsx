@@ -23,22 +23,36 @@ export class AmplifyBlockSwitcher {
   @Prop() readonly selectedTabHeadings: SelectedTabHeadings;
   /** tack on a new tab heading at highest priority */
   @Prop() readonly setNewSelectedTabHeadings: SetNewSelectedTabHeadings;
+  /** increments whenever the platform changes and we need to refrech the tabHeadings */
+  @Prop() readonly alwaysRerenderBlockSwitcher: number;
 
   @State() activeChildI = 0;
 
-  tabHeadings: string[] = [];
+  /** Is a state so that it forces a rerender of the component */
+  @State() tabHeadings: string[] = [];
 
-  componentWillLoad() {
+  @Watch("alwaysRerenderBlockSwitcher")
+  triggerGatherHeadings() {
+    // Just calling this.gather() is too fast -- we need to wait for the DOM to attach
+    setTimeout(this.gatherHeadings.bind(this), 0);
+  }
+
+  recursivelyFindBlocks(el: HTMLElement) {
+    if (el.matches(BLOCK_TAG_NAME)) {
+      // Somehow this doesn't cause a rerender each time a heading is pushed, just at the end
+      this.tabHeadings.push(((el as any) as {name: string}).name);
+      return;
+    }
+    const children = Array.from(el.children);
+    for (const child of children) {
+      this.recursivelyFindBlocks(child as HTMLElement);
+    }
+  }
+
+  gatherHeadings() {
     // gather tab headings from child `amplify-block` attrs
-    this.tabHeadings = Array.from(this.el.children).reduce(
-      (acc, curr): string[] => {
-        if (curr.matches(BLOCK_TAG_NAME)) {
-          acc.push(((curr as any) as {name: string}).name);
-        }
-        return acc;
-      },
-      new Array<string>(),
-    );
+    this.tabHeadings = [];
+    this.recursivelyFindBlocks(this.el);
 
     // default to the first tab
     this.activeChildI = 0;
@@ -113,6 +127,7 @@ export class AmplifyBlockSwitcher {
 }
 
 pageContext.injectProps(AmplifyBlockSwitcher, [
+  "alwaysRerenderBlockSwitcher",
   "selectedTabHeadings",
   "setNewSelectedTabHeadings",
 ]);
