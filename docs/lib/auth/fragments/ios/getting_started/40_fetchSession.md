@@ -1,3 +1,7 @@
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
 ```swift
 func fetchCurrentAuthSession() {
     _ = Amplify.Auth.fetchAuthSession { result in
@@ -10,3 +14,25 @@ func fetchCurrentAuthSession() {
     }
 }
 ```
+
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+func fetchCurrentAuthSession() -> AnyCancellable {
+    Amplify.Auth.fetchAuthSession().resultPublisher
+        .sink {
+            if case let .failure(authError) = $0 {
+                print("Fetch session failed with error \(authError)")
+            }
+        }
+        receiveValue: { session in
+            print("Is user signed in - \(session.isSignedIn)")
+        }
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>

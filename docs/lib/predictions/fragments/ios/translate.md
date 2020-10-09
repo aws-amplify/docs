@@ -36,13 +36,13 @@ Run `amplify push` to create the resources in the cloud
 
 Here is an example of translating text. In order to override any choices you made in regards to target or source languages while adding this resource using the Amplify CLI, you can pass in them in directly as parameters as shown below.
 
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
 ```swift
-import Amplify
-
-//...
-
 func translateText(text:String) {
-    _ = Amplify.Predictions.convert(textToTranslate: text,
+    Amplify.Predictions.convert(textToTranslate: text,
                                     language: .english,
                                     targetLanguage: .italian) { event in
         switch event {
@@ -54,5 +54,32 @@ func translateText(text:String) {
     }
 }
 ```
+
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+func translateText(text:String) -> AnyCancellable {
+    Amplify.Predictions.convert(
+        textToTranslate: text,
+        language: .english,
+        targetLanguage: .italian
+    )
+    .resultPublisher
+    .sink {
+        if case let .failure(error) = $0 {
+            print(error)
+        }
+    }
+    receiveValue: { result in
+        print(result.text)
+    }
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>
 
 As a result of running this code, you will see the translated text printed to the console.

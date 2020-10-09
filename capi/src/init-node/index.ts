@@ -36,6 +36,7 @@ const supportedLanguages = [
   "jsx",
   "sql",
   "groovy",
+  "dart",
 ];
 
 loadLanguages(supportedLanguages);
@@ -60,7 +61,9 @@ const highlight = (code: string, language: string): string => {
     languageIsSet ? `-${language}` : ""
   }">${highlighted}</div>`;
 
-  return `<amplify-code-block language="${language}" line-count="${String(
+  return `<p class="searchable-code">${entities.encode(
+    code,
+  )}</p><amplify-code-block language="${language}" line-count="${String(
     c.split(/\r\n|\r|\n/).length,
   )}">${c}</amplify-code-block>`;
 };

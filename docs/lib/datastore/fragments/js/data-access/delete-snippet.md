@@ -1,5 +1,3 @@
-To delete an item simply pass in an instance:
-
 ```js
 const todelete = await DataStore.query(Post, "1234567");
 DataStore.delete(todelete);

@@ -7,6 +7,7 @@ To setup and configure your application with Amplify Auth and go through a simpl
 
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/getting_started/10_preReq.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/auth/fragments/android/getting_started/10_preReq.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/getting_started/10_preReq.md"></inline-fragment>
 
 ## Configure Auth Category
 
@@ -38,10 +39,12 @@ Upon completion, `amplifyconfiguration.json` should be updated to reference prov
 
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/getting_started/20_installLib.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/auth/fragments/android/getting_started/20_installLib.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/getting_started/20_installLib.md"></inline-fragment>
 
 ## Initialize Amplify Auth
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/getting_started/30_initAuth.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/auth/fragments/android/getting_started/30_initAuth.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/getting_started/30_initAuth.md"></inline-fragment>
 
 ## Check the current auth session
 

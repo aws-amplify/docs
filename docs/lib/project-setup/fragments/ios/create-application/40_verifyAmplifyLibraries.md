@@ -25,9 +25,13 @@ If Xcode reports build errors like `Undefined symbol: _OBJC_CLASS_$_AWSSignature
 
 </amplify-callout>
 
-Optionally, if you'd like to see additional log messages of what amplify is doing during configuration, you can turn on verbose logging by adding the following line of code:
+Optionally, if you'd like to see additional log messages of what amplify is doing during configuration, you can turn on verbose logging before calling `Amplify.configure()`:
 ```swift
-Amplify.Logging.logLevel = .verbose
+do {
+    Amplify.Logging.logLevel = .verbose
+    // Configure Amplify as usual...
+    try Amplify.configure()
+    // ...
 ```
 
 Re-running the application with verbose logging on, you will see the following messages:

@@ -4,7 +4,7 @@ Subscribe to mutations for creating real-time clients:
 <amplify-block name="Java">
 
 ```java
- ApiOperation subscription = ApiOperation subscription = Amplify.API.subscribe(
+ ApiOperation subscription = Amplify.API.subscribe(
         ModelSubscription.onCreate(Todo.class),
         onEstablished -> Log.i("ApiQuickStart", "Subscription established"),
         onCreated -> Log.i("ApiQuickStart", "Todo create subscription received: " + ((Todo) onCreated.getData()).getName()),
@@ -30,6 +30,29 @@ val subscription: ApiOperation<*>? = Amplify.API.subscribe(
 
 // Cancel the subscription listener when you're finished with it
 subscription!!.cancel()
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxSubscriptionOperation<? extends GraphQLResponse<?>> subscription =
+        RxAmplify.API.subscribe(request);
+
+subscription
+        .observeConnectionState()
+        .subscribe(connectionStateEvent -> Log.i("ApiQuickStart", String.valueOf(connectionStateEvent)));
+
+subscription
+        .observeSubscriptionData()
+        .subscribe(
+            data -> Log.i("ApiQuickStart", data),
+            exception -> Log.e("ApiQuickStart", "Subscription failed.", exception),
+            () -> Log.i("ApiQuickStart", "Subscription completed.")
+        );
+
+// Cancel the subscription listener when you're finished with it
+subscription.cancel();
 ```
 
 </amplify-block>
