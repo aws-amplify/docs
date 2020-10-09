@@ -43,9 +43,11 @@ To test this out, try creating 5 todos using a mutation like this:
 mutation createTodo {
   createTodo(input: {
     title: "Todo 1"
+    description: "My first todo"
   }) {
     id
     title
+    description
   }
 }
 ```
@@ -58,6 +60,7 @@ query listTodos {
     items {
       id
       title
+      description
     }
     nextToken
   }
@@ -72,11 +75,13 @@ query listTodos {
     items {
       id
       title
+      description
     }
     nextToken
   }
 }
 ```
 
+When there are no other items left to be returned, the `nextToken` in the response will be set to null.
 
 <inline-fragment platform="js" src="~/guides/api-graphql/fragments/js/graphql-pagination.md"></inline-fragment> 
