@@ -21,7 +21,7 @@ export namespace Components {
     }
     interface AmplifyBlockSwitcher {
         /**
-          * increments whenever the platform changes and we need to refrech the tabHeadings
+          * increments whenever the platform changes and we need to refresh the tabHeadings
          */
         "alwaysRerenderBlockSwitcher": number;
         /**
@@ -724,7 +724,7 @@ declare namespace LocalJSX {
     }
     interface AmplifyBlockSwitcher {
         /**
-          * increments whenever the platform changes and we need to refrech the tabHeadings
+          * increments whenever the platform changes and we need to refresh the tabHeadings
          */
         "alwaysRerenderBlockSwitcher"?: number;
         /**

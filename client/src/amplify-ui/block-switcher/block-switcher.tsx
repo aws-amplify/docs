@@ -23,23 +23,23 @@ export class AmplifyBlockSwitcher {
   @Prop() readonly selectedTabHeadings: SelectedTabHeadings;
   /** tack on a new tab heading at highest priority */
   @Prop() readonly setNewSelectedTabHeadings: SetNewSelectedTabHeadings;
-  /** increments whenever the platform changes and we need to refrech the tabHeadings */
+  /** increments whenever the platform changes and we need to refresh the tabHeadings */
   @Prop() readonly alwaysRerenderBlockSwitcher: number;
 
   @State() activeChildI = 0;
 
-  /** Is a state so that it forces a rerender of the component */
+  /** is a state so that it forces a rerender of the component */
   @State() tabHeadings: string[] = [];
 
   @Watch("alwaysRerenderBlockSwitcher")
   triggerGatherHeadings() {
-    // Just calling this.gather() is too fast -- we need to wait for the DOM to attach
+    // just calling this.gather() is too fast -- we need to wait for the DOM to attach
     setTimeout(this.gatherHeadings.bind(this), 0);
   }
 
   recursivelyFindBlocks(el: HTMLElement) {
     if (el.matches(BLOCK_TAG_NAME)) {
-      // Somehow this doesn't cause a rerender each time a heading is pushed, just at the end
+      // somehow this doesn't cause a rerender each time a heading is pushed, just at the end
       this.tabHeadings.push(((el as any) as {name: string}).name);
       return;
     }
