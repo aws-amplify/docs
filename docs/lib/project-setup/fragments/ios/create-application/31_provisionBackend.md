@@ -11,11 +11,3 @@ Click **Finish** to add these files to your project as shown in this screenshot:
 ![GSA](~/images/project-setup/50_2_addFiles.png)
 
 Now when you build (`Cmd+b`) and run (`Cmd+r`) your application, you should not see any errors on the console.
-
-<amplify-callout>
-
-If Xcode reports build errors like `Undefined symbol: _OBJC_CLASS_$_AWSSignatureV4Signer`, as shown in the screenshot below, clean build folder with **Product > Clean Build Folder** (`Shift+Cmd+K`) and rebuild the project (`Cmd+b`).
-
-![Xcode Build Error](~/images/xcode-build-error.png)
-
-</amplify-callout>
