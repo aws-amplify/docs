@@ -94,7 +94,7 @@ Add a Babel configuration file that specifies the compilation target. The config
 }
 ```
 
-Add a command to the `scripts` in your `package.json` that allows that updates your layer with the latest codegen:
+Add a command to the `scripts` in your `package.json` that updates your layer with the latest codegen:
 
 ```json
 {
@@ -104,7 +104,7 @@ Add a command to the `scripts` in your `package.json` that allows that updates y
 }
 ```
 
-Run it:
+You can run this command after you've modified your schema to update the codegen and your layer:
 
 ```shell
 npm run updateAppsyncOperations
