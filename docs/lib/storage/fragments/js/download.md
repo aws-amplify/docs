@@ -20,7 +20,7 @@ await Storage.get(key: string, config: {
 {
   $metadata: {
     attempts: 1
-    httpHeaders: {content-length: "388187", content-type: "audio/x-m4a", etag: ""c05e324f61613c2472d47a8ee6fbb628"", last-modified: "Fri, 09 Oct 2020 14:29:13 GMT", x-amz-id-2: "/rRqsX/c2h5V00tYMtDY994wEenyPm0SDw1lyWyncWepyg+T6YJJSjLHKIsz0dxMI3kN5KjA6GQ=", …}
+    httpHeaders: {content-length: "388187", content-type: "audio/x-m4a", last-modified: "Fri, 09 Oct 2020 14:29:13 GMT", x-amz-id-2: "/rRqsX/c2h5V00tYMtDY994wEenyPm0SDw1lyWyncWepyg+T6YJJSjLHKIsz0dxMI3kN5KjA6GQ=", …}
     httpStatusCode: 200
     requestId: undefined
     totalRetryDelay: 0
