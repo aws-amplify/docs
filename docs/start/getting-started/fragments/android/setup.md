@@ -48,7 +48,6 @@ Amplify for Android is distributed as an Apache Maven package. In this section, 
 1. Expand **Gradle Scripts** in the project file viewer and open **build.gradle (Project: Todo)**.
 
   Make the following additions to the project-level `build.gradle` file:
-  - Add the line `mavenCentral()` within the `repositories` block contained in both the `buildscript` and `allprojects` blocks.
   - Add the line `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.1'` within the `dependencies` block.
   - Add the line `apply plugin: 'com.amplifyframework.amplifytools'` at the end of the file.
 
@@ -59,9 +58,6 @@ Amplify for Android is distributed as an Apache Maven package. In this section, 
       repositories {
           google()
           jcenter()
-
-          // Add this line into `repositories` in `buildscript`
-          mavenCentral()
       }
 
       dependencies {
@@ -76,9 +72,6 @@ Amplify for Android is distributed as an Apache Maven package. In this section, 
       repositories {
           google()
           jcenter()
-
-          // Add this line into `repositories` in `allprojects`
-          mavenCentral()
       }
   }
 
@@ -94,11 +87,6 @@ Amplify for Android is distributed as an Apache Maven package. In this section, 
 
    ```groovy
    android {
-       defaultConfig {
-           // Enable multidex support (if supporting min SDK < 21)
-           multiDexEnabled true
-       }
-
        compileOptions {
            // Support for Java 8 features
            coreLibraryDesugaringEnabled true
@@ -108,24 +96,21 @@ Amplify for Android is distributed as an Apache Maven package. In this section, 
    }
 
    dependencies {
-       // Amplify core dependency
-       implementation 'com.amplifyframework:core:1.4.0'
-
        // Amplify plugins
        implementation 'com.amplifyframework:aws-api:1.4.0'
        implementation 'com.amplifyframework:aws-datastore:1.4.0'
-
-       // Multidex dependency (if supporting min SDK < 21)
-       implementation 'androidx.multidex:multidex:2.0.1'
 
        // Support for Java 8 features
        coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
    }
    ```
 
-   - If supporting a min SDK less than 21, add `multiDexEnabled true` to the defaultConfig block to support desugaring
    - Set `coreLibraryDesugaringEnabled`, `sourceCompatibility`, and `targetCompatibility` to allow your application to make use of Java 8 features like Lambda expressions
-   - Add the Amplify Core, Multidex, and Desugaring libraries to the `dependencies` block
+   - Add Amplify and Desugaring libraries to the `dependencies` block
+
+<amplify-callout>
+Amplify Android supports API level 16 and up. If you are targeting a `minSdkVersion` below 21, you will additionally need to follow [Android's documentation for adding multidex support](https://developer.android.com/studio/build/multidex#mdex-pre-l).
+</amplify-callout>
 
 3. Run **Gradle Sync**
 
