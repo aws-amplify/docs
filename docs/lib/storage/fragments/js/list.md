@@ -1,4 +1,4 @@
-List keys under a specified prefix, as well as `lastModified` timestamp.
+List keys under a specified path, as well as `lastModified` timestamp.
 
 ## Public level list
 
