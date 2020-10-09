@@ -10,14 +10,14 @@ return <AmplifyS3Image track />
 <docs-filter framework="angular">
 
 ```html
-<amplify-s3-image track />
+<amplify-s3-image track></amplify-s3-image>
 ```
 </docs-filter>
 
 <docs-filter framework="ionic">
 
 ```html
-<amplify-s3-image track />
+<amplify-s3-image track></amplify-s3-image>
 ```
 </docs-filter>
 

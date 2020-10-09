@@ -6,6 +6,7 @@
     "dynamodb-from-js-lambda",
     "dynamodb-from-python-lambda",
     "graphql-from-lambda",
-    "graphql-server-in-lambda"
+    "graphql-server-in-lambda",
+    "cognito-trigger-lambda-dynamodb"
   ]
 }

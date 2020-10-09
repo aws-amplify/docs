@@ -58,7 +58,7 @@ Inside the amplify/ dir file-structure you will observe a **team-provider-info.j
 }
 ```
 
-This file is to be shared between team members, so that they have the ability to push/provision resources to the same Cloudformation stack and that way teams can work in a push/pull way and can always be in sync with the latest state of the project in the cloud.
+This file is to be shared between team members, so that they have the ability to push/provision resources to the same CloudFormation stack and that way teams can work in a push/pull way and can always be in sync with the latest state of the project in the cloud.
 
 Note: Team members would only be able to push to a stack only if they have the correct credentials (access key/secret keys) to do so.
 

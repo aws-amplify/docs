@@ -50,6 +50,19 @@ Amplify.Predictions.translateText(
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+Open `MainActivity.java` and add the following to the bottom of `onCreate()`:
+
+```java
+RxAmplify.Predictions.translateText("I like to eat spaghetti")
+        .subscribe(
+            result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
+            error -> Log.e("MyAmplifyApp", "Translation failed", error)
+        );
+```
+
+</amplify-block>
 </amplify-block-switcher>
 
 As a result of running this code, you will see the translated text printed to the console.
@@ -90,6 +103,19 @@ Amplify.Predictions.translateText(
     { result -> Log.i("MyAmplifyApp", result.getTranslatedText()) },
     { error -> Log.e("MyAmplifyApp", "Translation failed", error) }
 )
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.Predictions.translateText("I like to eat spaghetti",
+        LanguageType.ENGLISH,
+        LanguageType.RUSSIAN)
+        .subscribe(
+            result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
+            error -> Log.e("MyAmplifyApp", "Translation failed", error)
+        );
 ```
 
 </amplify-block>

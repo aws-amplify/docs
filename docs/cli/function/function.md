@@ -78,5 +78,4 @@ To schedule your Lambda function, answer **Yes** to `Do you want to invoke this 
 
 <inline-fragment src="~/lib/graphqlapi/fragments/graphql-from-node.md"></inline-fragment>
 
-## What is the amplify.state file?
-When creating a function using Amplify CLI >= 4.18.0, Amplify creates an `amplify.state` file to enable multi-runtime Lambda functions. `amplify.state` shouldn't be manually edited but should be checked in to version control.
+For more information on files generated in the function resource folder, see [Function Category Files](~/cli/reference/files.md#function-category-files).
