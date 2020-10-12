@@ -14,7 +14,9 @@ await Storage.get(key: string, config: {
 
 `Storage.get` returns a signed URL `string` to your file if `download` is false, which is the default.
 
-`Storage.get` returns an object with a `Body` of [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob) of object data if `download` is true. The full return signature looks like this:
+If `download` is true, `Storage.get` returns an object with a `Body` field of type [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob). It is up to you to then save it to disk (we suggest a method below) or do whatever else you need with it. 
+
+The full return signature looks like this:
 
 ```js
 {
