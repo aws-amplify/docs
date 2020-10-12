@@ -16,7 +16,7 @@ await Storage.get(key: string, config: {
 
 ```js
 // get the signed URL string
-const signedURL = await Storage.get(file.__data.key)
+const signedURL = await Storage.get(key) // get key from Storage.list
 
 // inside your template or JSX code. Note <a download> doesn't work here because it is not same origin
 <a href={signedURL} target="_blank">{fileName}</a>
