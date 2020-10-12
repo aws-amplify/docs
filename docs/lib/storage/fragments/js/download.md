@@ -12,7 +12,7 @@ await Storage.get(key: string, config: {
 })
 ```
 
-`Storage.get` merely returns a signed URL `string` to your file, if `download` is false, which is the default. You can use this to create a download link for people to click. This is usually the recommended option. Note that this method **does not check if the file actually exists** as that would involve an extra API call.
+`Storage.get` returns a signed URL `string` to your file, if `download` is false, which is the default. You can use this to create a download link for people to click on. This is our recommended option. Note that this method **does not check if the file actually exists** as that would involve an extra API call.
 
 ```js
 // get the signed URL string
