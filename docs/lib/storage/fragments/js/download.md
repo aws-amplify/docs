@@ -63,7 +63,7 @@ Storage.get(fileKey, { download: true })
         .then(res => downloadBlob(res.Body, downloadFileName)) // derive downloadFileName from fileKey if you wish
 ```
 
-The full return signature of `Storage.get(somekey, { download: true })` looks like this:
+The full return signature of `Storage.get(key, { download: true })` looks like this:
 
 ```js
 {
