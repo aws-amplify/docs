@@ -23,10 +23,7 @@ The Amplify Command Line Interface (CLI) is a unified toolchain to create AWS cl
 
 Watch the video below to learn how to install and configure the Amplify CLI or skip to the next section to follow the step-by-step instructions.
 
-<iframe
-  allowfullscreen
-  src="https://www.youtube.com/embed/fWbM5DLh25U"
-></iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/fWbM5DLh25U" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ### Option 2: Follow the instructions
 ```bash
