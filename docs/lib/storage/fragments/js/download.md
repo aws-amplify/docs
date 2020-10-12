@@ -14,32 +14,19 @@ await Storage.get(key: string, config: {
 
 `Storage.get` merely returns a signed URL `string` to your file, if `download` is false, which is the default. You can use this to create a download link for people to click. This is usually the recommended option. Note that this method **does not check if the file actually exists** as that would involve an extra API call.
 
-If `download` is true, `Storage.get` returns an object with a `Body` field of type [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob). It is up to you to programmatically save it to disk (we suggest a method below) or do whatever else you need with it. 
-
-The full return signature of `Storage.get(somekey, { download: true })` looks like this:
-
 ```js
-{
-  $metadata: {
-    attempts: 1
-    httpHeaders: {content-length: "388187", content-type: "audio/x-m4a", last-modified: "Fri, 09 Oct 2020 14:29:13 GMT", x-amz-id-2: "/rRqsX/c2h5V00tYMtDY994wEenyPm0SDw1lyWyncWepyg+T6YJJSjLHKIsz0dxMI3kN5KjA6GQ=", …}
-    httpStatusCode: 200
-    requestId: undefined
-    totalRetryDelay: 0
-  },
-  Body: Blob {size: 388187, type: "audio/x-m4a"}, // this will vary
-  ContentLength: 388187,
-  ContentType: "audio/x-m4a",
-  ETag: ""c05e324f61613c2472d47a8ee6fbb628"",
-  LastModified: Fri Oct 09 2020 22:29:13 GMT+0800 (Singapore Standard Time) {},
-  Metadata: {},
-  __type: "GetObjectOutput",
-}
+// get the signed URL string
+const signedURL = await Storage.get(file.__data.key)
+
+// inside your template or JSX code. Note <a download> doesn't work here because it is not same origin
+<a href={signedURL} target="_blank">{fileName}</a>
 ```
 
-### File download
+If `download` is true, `Storage.get` returns an object with a `Body` field of type [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob). It is up to you to programmatically save it to disk (we suggest a method below) or do whatever else you need with it.
 
-Send object data for immediate file download:
+### File download option
+
+The `download` option send you the object data for download or programmatic manipulation:
 
 ```javascript
 const data = await Storage.get(`filename.txt`, { download: true })
@@ -49,6 +36,8 @@ data.Body.text().then(string => {
   // handle the String data return String 
 })
 ```
+
+Note that the `Blob` methods like `.text()` are not supported on [IE/Opera/Safari](https://developer.mozilla.org/en-US/docs/Web/API/Blob/text); in those cases you can [parse manually](https://developer.mozilla.org/en-US/docs/Web/API/Blob#JavaScript).
 
 You can programmatically download Blobs using JavaScript:
 
@@ -74,7 +63,26 @@ Storage.get(fileKey, { download: true })
         .then(res => downloadBlob(res.Body, downloadFileName)) // derive downloadFileName from fileKey if you wish
 ```
 
-Note that the `Blob` methods like `.text()` are not supported on [IE/Opera/Safari](https://developer.mozilla.org/en-US/docs/Web/API/Blob/text); in those cases you can [parse manually](https://developer.mozilla.org/en-US/docs/Web/API/Blob#JavaScript).
+The full return signature of `Storage.get(somekey, { download: true })` looks like this:
+
+```js
+{
+  $metadata: {
+    attempts: 1
+    httpHeaders: {content-length: "388187", content-type: "audio/x-m4a", last-modified: "Fri, 09 Oct 2020 14:29:13 GMT", x-amz-id-2: "/rRqsX/c2h5V00tYMtDY994wEenyPm0SDw1lyWyncWepyg+T6YJJSjLHKIsz0dxMI3kN5KjA6GQ=", …}
+    httpStatusCode: 200
+    requestId: undefined
+    totalRetryDelay: 0
+  },
+  Body: Blob {size: 388187, type: "audio/x-m4a"}, // this will vary
+  ContentLength: 388187,
+  ContentType: "audio/x-m4a",
+  ETag: ""c05e324f61613c2472d47a8ee6fbb628"",
+  LastModified: Fri Oct 09 2020 22:29:13 GMT+0800 (Singapore Standard Time) {},
+  Metadata: {},
+  __type: "GetObjectOutput",
+}
+```
 
 ### File Access Levels
 
