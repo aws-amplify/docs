@@ -1,7 +1,14 @@
 import {Component, h, Prop, Host, State} from "@stencil/core";
 import docs from "@aws-amplify/ui-components/dist/docs";
-import {JsonDocsComponent} from "@stencil/core/internal";
-import {tableStyle, tableHeaderStyle} from "./ui-component-props.style";
+import {JsonDocsComponent, JSXBase} from "@stencil/core/internal";
+import {tableGeneratorMap} from "./table-generator";
+import {PropType} from "./ui-component-props.types";
+
+const headerNames: Record<PropType, string> = {
+  attr: "Properties",
+  css: "Custom CSS Properties",
+  slots: "Slots",
+};
 
 @Component({tag: "ui-component-props", shadow: false})
 export class DocsUIComponentProps {
@@ -9,6 +16,8 @@ export class DocsUIComponentProps {
   @Prop() readonly tag: string;
   /*** whether or not the table contains header tags */
   @Prop() readonly useTableHeaders: boolean = false;
+  /** Desired property to document */
+  @Prop() readonly propType: PropType = "attr";
 
   @State() component: JsonDocsComponent | undefined;
 
@@ -18,66 +27,53 @@ export class DocsUIComponentProps {
     );
   }
 
-  render() {
-    const sectionId = `props-${this.component?.tag as string}`;
-    let count = 0;
+  header() {
+    const sectionId = `props-${this.propType}-${this.component?.tag as string}`;
+    return this.useTableHeaders ? (
+      <docs-in-page-link targetId={sectionId}>
+        <h2 id={sectionId}>{headerNames[this.propType]}</h2>
+      </docs-in-page-link>
+    ) : (
+      <h4>Properties</h4>
+    );
+  }
 
+  content() {
+    let explanation: string = "";
+    if (this.propType === "attr") {
+      explanation =
+        "provides the following properties to configure the component.";
+    } else if (this.propType === "css") {
+      const link = (
+        <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties">
+          css properties
+        </a>
+      );
+      explanation = `provides the following ${link} to modify the style at component level.`;
+    } else if (this.propType === "slots") {
+      const link = (
+        <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/slot">
+          Web Components slot element
+        </a>
+      );
+      explanation = `provides the following slots based off of the ${link}.`;
+    }
+    return (
+      <p>
+        <code>{this.component?.tag}</code> {explanation}
+      </p>
+    );
+  }
+
+  render() {
+    console.log(this.propType)
+    if (!this.component || !this.component.tag) return;
+    const tableGenerator = tableGeneratorMap[this.propType];
     return (
       <Host>
-        {this.useTableHeaders ? (
-          <docs-in-page-link targetId={sectionId}>
-            <h2 id={sectionId}>Properties</h2>
-          </docs-in-page-link>
-        ) : (
-          <h4>Properties</h4>
-        )}
-
-        {this.component?.props.map((prop) => {
-          const groupId = `prop-${prop.attr || String(count)}`;
-          if (!prop.attr) {
-            count++;
-          }
-
-          return (
-            <table class={tableStyle} key={groupId}>
-              <thead>
-                <tr>
-                  <th colSpan={2}>
-                    {this.useTableHeaders ? (
-                      <docs-in-page-link targetId={groupId}>
-                        <h3 id={groupId}>{prop.name}</h3>
-                      </docs-in-page-link>
-                    ) : (
-                      <div class={tableHeaderStyle}>{prop.name}</div>
-                    )}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {prop.attr && (
-                  <tr>
-                    <th>Attribute</th>
-                    <td>{prop.attr}</td>
-                  </tr>
-                )}
-                <tr>
-                  <th>Description</th>
-                  <td>{prop.docs}</td>
-                </tr>
-                <tr>
-                  <th>Type</th>
-                  <td>{prop.type}</td>
-                </tr>
-                {prop.default && (
-                  <tr>
-                    <th>Default</th>
-                    <td>{prop.default}</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          );
-        })}
+        {this.header()}
+        {this.content()}
+        {tableGenerator(this.component)}
       </Host>
     );
   }
