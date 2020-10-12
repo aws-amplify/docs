@@ -12,11 +12,11 @@ await Storage.get(key: string, config: {
 })
 ```
 
-`Storage.get` returns a signed URL `string` to your file if `download` is false, which is the default.
+`Storage.get` merely returns a signed URL `string` to your file, if `download` is false, which is the default. You can use this to create a download link for people to click. This is usually the recommended option. Note that this method **does not check if the file actually exists** as that would involve an extra API call.
 
-If `download` is true, `Storage.get` returns an object with a `Body` field of type [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob). It is up to you to then save it to disk (we suggest a method below) or do whatever else you need with it. 
+If `download` is true, `Storage.get` returns an object with a `Body` field of type [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob). It is up to you to programmatically save it to disk (we suggest a method below) or do whatever else you need with it. 
 
-The full return signature looks like this:
+The full return signature of `Storage.get(somekey, { download: true })` looks like this:
 
 ```js
 {
