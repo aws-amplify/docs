@@ -69,7 +69,7 @@ export function downloadBlob(blob, filename) {
 
 // usage
 Storage.get(fileKey, { download: true })
-        .then(res => downloadBlob(res.Body, downloadFileName)) // can derive from fileKey if you wish
+        .then(res => downloadBlob(res.Body, downloadFileName)) // derive downloadFileName from fileKey if you wish
 ```
 
 Note that the `Blob` methods like `.text()` are not supported on [IE/Opera/Safari](https://developer.mozilla.org/en-US/docs/Web/API/Blob/text); in those cases you can [parse manually](https://developer.mozilla.org/en-US/docs/Web/API/Blob#JavaScript).
