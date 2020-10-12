@@ -14,7 +14,7 @@ Next, configure your project:
 
 Android Studio will open your project with a tab opened to *main.dart*
 
-If you use CocoaPods, modify your Podfile to target iOS platform 11.0 or higher.  Within your project open `ios/Podfile` and change the second line to be `platform :ios, '11.0'. Some Amplify categories may require version 13.0. Please see the documentation for the categories you are importing for their minimum iOS platform requirements.
+If you use CocoaPods, modify your Podfile to target iOS platform 11.0 or higher.  Within your project open `ios/Podfile` and change the second line to be `platform :ios, '11.0'.
 
 ```bash
 sudo gem install cocoapods
@@ -23,7 +23,7 @@ sudo gem install cocoapods
 pod init
 ```
 
-In XCode, select your project in the Project Navigator and select the "Info" tab.  Set the Deployment Target to at least 11.0 or 13.0, depending on the categories you are using.
+In XCode, select your project in the Project Navigator and select the "Info" tab.  Set the Deployment Target to at least 11.0.
 
   ![](~/images/lib/getting-started/flutter/set-up-xcode-deployment-target.png)
 
