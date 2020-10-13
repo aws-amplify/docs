@@ -39,34 +39,40 @@ export class DocsUIComponentProps {
   }
 
   content() {
-    let explanation: string = "";
     if (this.propType === "attr") {
-      explanation =
-        "provides the following properties to configure the component.";
+      return (
+        <p>
+          <code>{this.component?.tag}</code>
+          provides the following properties to configure the component.
+        </p>
+      );
     } else if (this.propType === "css") {
-      const link = (
-        <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties">
-          css properties
-        </a>
+      return (
+        <p>
+          <code>{this.component?.tag}</code>
+          provides the following
+          <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties">
+            css properties
+          </a>
+          to modify the style at component level.
+        </p>
       );
-      explanation = `provides the following ${link} to modify the style at component level.`;
     } else if (this.propType === "slots") {
-      const link = (
-        <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/slot">
-          Web Components slot element
-        </a>
+      return (
+        <p>
+          <code>{this.component?.tag}</code>
+          provides the following slots based off of the
+          <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/slot">
+            Web Components slot
+          </a>
+          element.
+        </p>
       );
-      explanation = `provides the following slots based off of the ${link}.`;
     }
-    return (
-      <p>
-        <code>{this.component?.tag}</code> {explanation}
-      </p>
-    );
   }
 
   render() {
-    console.log(this.propType)
+    console.log(this.propType);
     if (!this.component || !this.component.tag) return;
     const tableGenerator = tableGeneratorMap[this.propType];
     return (
