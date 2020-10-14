@@ -34,7 +34,7 @@ private fun onCreateCommentByPostId(id: String): GraphQLRequest<Comment?>? {
     + "}")
     return SimpleGraphQLRequest(
             document,
-            Collections.singletonMap("id", id),
+            mapOf("id", id),
             Comment::class.java,
             GsonVariablesSerializer())
 }
