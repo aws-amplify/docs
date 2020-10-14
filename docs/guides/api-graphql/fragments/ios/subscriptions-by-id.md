@@ -8,7 +8,6 @@ extension GraphQLRequest {
         subscription onCreateCommentByPostId($id:ID!) {
           \(operationName)(postCommentsId: $id) {
             content
-            createdAt
             id
             postCommentsId
           }
