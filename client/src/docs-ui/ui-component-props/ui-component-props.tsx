@@ -2,13 +2,13 @@ import {Component, h, Prop, Host, State} from "@stencil/core";
 import docs from "@aws-amplify/ui-components/dist/docs";
 import {JsonDocsComponent, JSXBase} from "@stencil/core/internal";
 import {tableGeneratorMap} from "./table-generator";
-import {PropType} from "./ui-component-props.types";
+import {WebComponentProps} from "./ui-component-props.types";
 import {ATTR_HEADER, CSS_HEADER, SLOTS_HEADER} from "../../constants/strings";
 
-const headerNames: Record<PropType, string> = {
-  attr: ATTR_HEADER,
-  css: CSS_HEADER,
-  slots: SLOTS_HEADER,
+const headerNames: Record<WebComponentProps, string> = {
+  [WebComponentProps.ATTR]: ATTR_HEADER,
+  [WebComponentProps.CSS]: CSS_HEADER,
+  [WebComponentProps.SLOTS]: SLOTS_HEADER,
 };
 
 @Component({tag: "ui-component-props", shadow: false})
@@ -18,7 +18,7 @@ export class DocsUIComponentProps {
   /*** whether or not the table contains header tags */
   @Prop() readonly useTableHeaders: boolean = false;
   /** Desired property to document */
-  @Prop() readonly propType: PropType = "attr";
+  @Prop() readonly propType: WebComponentProps = WebComponentProps.ATTR;
 
   @State() component: JsonDocsComponent | undefined;
 
@@ -40,14 +40,14 @@ export class DocsUIComponentProps {
   }
 
   content() {
-    if (this.propType === "attr") {
+    if (this.propType === WebComponentProps.ATTR) {
       return (
         <p>
           <code>{this.component?.tag}</code>
           &nbsp;provides the following properties to configure the component.
         </p>
       );
-    } else if (this.propType === "css") {
+    } else if (this.propType === WebComponentProps.CSS) {
       return (
         <p>
           <code>{this.component?.tag}</code>
@@ -58,7 +58,7 @@ export class DocsUIComponentProps {
           &nbsp;to modify the style at component level.
         </p>
       );
-    } else if (this.propType === "slots") {
+    } else if (this.propType === WebComponentProps.SLOTS) {
       return (
         <p>
           <code>{this.component?.tag}</code>
@@ -73,7 +73,6 @@ export class DocsUIComponentProps {
   }
 
   render() {
-    console.log(this.propType);
     if (!this.component || !this.component.tag) return;
     const tableGenerator = tableGeneratorMap[this.propType];
     return (

@@ -1,7 +1,7 @@
 import {JsonDocsComponent} from "@stencil/core/internal";
 import {h} from "@stencil/core";
 import {tableStyle, tableHeaderStyle} from "./ui-component-props.style";
-import {PropType, TableGenerator} from "./ui-component-props.types";
+import {WebComponentProps, TableGenerator} from "./ui-component-props.types";
 
 const attrTableGenerator: TableGenerator = (docs: JsonDocsComponent) => {
   let count = 0;
@@ -52,34 +52,34 @@ const attrTableGenerator: TableGenerator = (docs: JsonDocsComponent) => {
 
 /**
  * Luckily, `docs.slots` and `docs.css` share the same object structure.
- * We can take care both of them in a  single function.
+ * We can take care both of them in a single function.
  */
-const createCssOrSlotsTable = (docs: JsonDocsComponent) => {
-  const rows = docs?.slots.map(({name, docs}, index) => {
-    if (!name || !docs) return undefined;
-    return (
-      <tr key={index}>
-        <td>
-          <code>{name}</code>
-        </td>
-        <td>{docs}</td>
-      </tr>
-    );
-  });
-  return (
-    <div>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </table>
-    </div>
-  );
-};
+// const createCssOrSlotsTable = (docs: JsonDocsComponent) => {
+//   const rows = docs?.slots.map(({name, docs}, index) => {
+//     if (!name || !docs) return undefined;
+//     return (
+//       <tr key={index}>
+//         <td>
+//           <code>{name}</code>
+//         </td>
+//         <td>{docs}</td>
+//       </tr>
+//     );
+//   });
+//   return (
+//     <div>
+//       <table>
+//         <thead>
+//           <tr>
+//             <th>Name</th>
+//             <th>Description</th>
+//           </tr>
+//         </thead>
+//         <tbody>{rows}</tbody>
+//       </table>
+//     </div>
+//   );
+// };
 
 const slotsTableGenerator: TableGenerator = (docs: JsonDocsComponent) => {
   const rows = docs?.slots.map(({name, docs}, index) => {
@@ -135,8 +135,8 @@ const cssTableGenerator: TableGenerator = (docs: JsonDocsComponent) => {
   );
 };
 
-export const tableGeneratorMap: Record<PropType, TableGenerator> = {
-  attr: attrTableGenerator,
-  css: cssTableGenerator,
-  slots: slotsTableGenerator,
+export const tableGeneratorMap: Record<WebComponentProps, TableGenerator> = {
+  [WebComponentProps.ATTR]: attrTableGenerator,
+  [WebComponentProps.CSS]: cssTableGenerator,
+  [WebComponentProps.SLOTS]: slotsTableGenerator,
 };
