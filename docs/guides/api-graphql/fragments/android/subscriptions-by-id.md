@@ -8,7 +8,6 @@ private GraphQLRequest<Comment> onCreateCommentByPostId(String id) {
     String document = "subscription onCreateCommentByPostId($id: ID!) { "
         + "onCommentByPostId(postCommentsId: $id) { "
             + "content "
-            + "createdAt "
             + "id "
             + "postCommentsId "
             + "updatedAt "
