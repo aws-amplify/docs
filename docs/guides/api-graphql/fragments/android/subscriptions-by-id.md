@@ -4,25 +4,21 @@ Now you can create a custom subscription for comment creation with a specific po
 <amplify-block name="Java">
 
 ```java
-extension GraphQLRequest {
-    static func onCreateComment(byPostId id: String) -> GraphQLRequest<Comment> {
-        let operationName = "onCommentByPostId"
-        let document = """
-        subscription onCreateCommentByPostId($id:ID!) {
-          \(operationName)(postCommentsId: $id) {
-            content
-            createdAt
-            id
-            postCommentsId
-            updatedAt
-          }
-        }
-        """
-        return GraphQLRequest<Comment>(document: document,
-                                    variables: ["id": id],
-                                    responseType: Comment.self,
-                                    decodePath: operationName)
-    }
+private GraphQLRequest<Comment> onCreateCommentByPostId(String id) {
+    String document = "subscription onCreateCommentByPostId($id: ID!) { "
+        + "onCommentByPostId(postCommentsId: $id) { "
+            + "content "
+            + "createdAt "
+            + "id "
+            + "postCommentsId "
+            + "updatedAt "
+        + "}"
+    + "}";
+    return new SimpleGraphQLRequest<>(
+            document,
+            Collections.singletonMap("id", id),
+            Comment.class,
+            new GsonVariablesSerializer());
 }
 ```
 
@@ -30,51 +26,21 @@ extension GraphQLRequest {
 <amplify-block name="Kotlin">
 
 ```kotlin
-extension GraphQLRequest {
-    static func onCreateComment(byPostId id: String) -> GraphQLRequest<Comment> {
-        let operationName = "onCommentByPostId"
-        let document = """
-        subscription onCreateCommentByPostId($id:ID!) {
-          \(operationName)(postCommentsId: $id) {
-            content
-            createdAt
-            id
-            postCommentsId
-            updatedAt
-          }
-        }
-        """
-        return GraphQLRequest<Comment>(document: document,
-                                    variables: ["id": id],
-                                    responseType: Comment.self,
-                                    decodePath: operationName)
-    }
-}
-```
-
-</amplify-block>
-<amplify-block name="RxJava">
-
-```java
-extension GraphQLRequest {
-    static func onCreateComment(byPostId id: String) -> GraphQLRequest<Comment> {
-        let operationName = "onCommentByPostId"
-        let document = """
-        subscription onCreateCommentByPostId($id:ID!) {
-          \(operationName)(postCommentsId: $id) {
-            content
-            createdAt
-            id
-            postCommentsId
-            updatedAt
-          }
-        }
-        """
-        return GraphQLRequest<Comment>(document: document,
-                                    variables: ["id": id],
-                                    responseType: Comment.self,
-                                    decodePath: operationName)
-    }
+private fun onCreateCommentByPostId(id: String): GraphQLRequest<Comment?>? {
+    val document = ("subscription onCreateCommentByPostId(\$id: ID!) { "
+        + "onCommentByPostId(postCommentsId: \$id) { "
+            + "content "
+            + "createdAt "
+            + "id "
+            + "postCommentsId "
+            + "updatedAt "
+        + "}"
+    + "}")
+    return SimpleGraphQLRequest(
+            document,
+            Collections.singletonMap("id", id),
+            Comment::class.java,
+            GsonVariablesSerializer())
 }
 ```
 
@@ -87,27 +53,20 @@ To listen to creation updates with the specific post using the post id, you can 
 <amplify-block name="Java">
 
 ```java
-func createSubscription() {
-    subscription = Amplify.API.subscribe(request: .onCreateComment(byPostId: "12345"), valueListener: { (subscriptionEvent) in
-        switch subscriptionEvent {
-        case .connection(let subscriptionConnectionState):
-            print("Subscription connect state is \(subscriptionConnectionState)")
-        case .data(let result):
-            switch result {
-            case .success(let createdComment):
-                print("Successfully got comment from subscription: \(createdComment)")
-            case .failure(let error):
-                print("Got failed result with \(error.errorDescription)")
-            }
-        }
-    }, completionListener: { (result) in
-        switch result {
-        case .success:
-            print("Subscription has been closed successfully")
-        case .failure(let apiError):
-            print("Subscription has terminated with \(apiError)")
-        }
-    })
+private void createSubscription() {
+    Amplify.API.subscribe(onCreateCommentByPostId("12345"),
+            subscriptionId -> Log.d("MyAmplifyApp", "Established subscription with id: " + subscriptionId), 
+            response -> {
+                if(response.hasErrors()) {
+                    Log.e("MyAmplifyApp", "Error receiving Comment: " + response.getErrors());
+                } else if(!response.hasData()) {
+                    Log.e("MyAmplifyApp", "Error receiving Comment, no data in response.");
+                } else {
+                    Log.d("MyAmplifyApp", "Successfully got comment from subscription: " + response.getData());
+                }
+            }, 
+            exception -> Log.e("MyAmplifyApp", "Subscription terminated with error: " + exception), 
+            () -> Log.d("MyAmplifyApp", "Subscription has been closed successfully."));
 }
 ```
 
@@ -115,27 +74,20 @@ func createSubscription() {
 <amplify-block name="Kotlin">
 
 ```kotlin
-func createSubscription() {
-    subscription = Amplify.API.subscribe(request: .onCreateComment(byPostId: "12345"), valueListener: { (subscriptionEvent) in
-        switch subscriptionEvent {
-        case .connection(let subscriptionConnectionState):
-            print("Subscription connect state is \(subscriptionConnectionState)")
-        case .data(let result):
-            switch result {
-            case .success(let createdComment):
-                print("Successfully got comment from subscription: \(createdComment)")
-            case .failure(let error):
-                print("Got failed result with \(error.errorDescription)")
-            }
-        }
-    }, completionListener: { (result) in
-        switch result {
-        case .success:
-            print("Subscription has been closed successfully")
-        case .failure(let apiError):
-            print("Subscription has terminated with \(apiError)")
-        }
-    })
+private fun createSubscription() {
+    Amplify.API.subscribe(onCreateCommentByPostId("12345")!!,
+            { subscriptionId: String -> Log.d("MyAmplifyApp", "Established subscription with id: $subscriptionId") },
+            { response: GraphQLResponse<Comment?> ->
+                if (response.hasErrors()) {
+                    Log.e("MyAmplifyApp", "Error receiving Comment: " + response.errors)
+                } else if (!response.hasData()) {
+                    Log.e("MyAmplifyApp", "Error receiving Comment, no data in response.")
+                } else {
+                    Log.d("MyAmplifyApp", "Successfully got comment from subscription: " + response.data)
+                }
+            },
+            { exception: ApiException -> Log.e("MyAmplifyApp", "Subscription terminated with error: $exception") }
+    ) { Log.d("MyAmplifyApp", "Subscription has been closed successfully.") }
 }
 ```
 
@@ -143,27 +95,32 @@ func createSubscription() {
 <amplify-block name="RxJava">
 
 ```java
-func createSubscription() {
-    subscription = Amplify.API.subscribe(request: .onCreateComment(byPostId: "12345"), valueListener: { (subscriptionEvent) in
-        switch subscriptionEvent {
-        case .connection(let subscriptionConnectionState):
-            print("Subscription connect state is \(subscriptionConnectionState)")
-        case .data(let result):
-            switch result {
-            case .success(let createdComment):
-                print("Successfully got comment from subscription: \(createdComment)")
-            case .failure(let error):
-                print("Got failed result with \(error.errorDescription)")
-            }
-        }
-    }, completionListener: { (result) in
-        switch result {
-        case .success:
-            print("Subscription has been closed successfully")
-        case .failure(let apiError):
-            print("Subscription has terminated with \(apiError)")
-        }
-    })
+private void createSubscription() {
+    RxOperations.RxSubscriptionOperation<? extends GraphQLResponse<Comment>> subscription =
+            RxAmplify.API.subscribe(onCreateCommentByPostId("12345"));
+
+    subscription
+            .observeConnectionState()
+            .subscribe(connectionStateEvent -> Log.i("MyAmplifyApp", String.valueOf(connectionStateEvent)));
+
+    subscription
+            .observeSubscriptionData()
+            .subscribe(
+                    response -> {
+                        if (response.hasErrors()) {
+                            Log.e("MyAmplifyApp", "Error receiving Comment: " + response.getErrors());
+                        } else if (!response.hasData()) {
+                            Log.e("MyAmplifyApp", "Error receiving Comment, no data in response.");
+                        } else {
+                            Log.d("MyAmplifyApp", "Successfully got comment from subscription: " + response.getData());
+                        }
+                    },
+                    exception -> Log.e("MyAmplifyApp", "Subscription failed.", exception),
+                    () -> Log.i("MyAmplifyApp", "Subscription completed.")
+            );
+
+    // Cancel the subscription listener when you're finished with it
+    subscription.cancel();
 }
 ```
 
