@@ -10,7 +10,6 @@ private GraphQLRequest<Comment> onCreateCommentByPostId(String id) {
             + "content "
             + "id "
             + "postCommentsId "
-            + "updatedAt "
         + "}"
     + "}";
     return new SimpleGraphQLRequest<>(
