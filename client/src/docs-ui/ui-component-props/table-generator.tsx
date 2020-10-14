@@ -50,17 +50,90 @@ const attrTableGenerator: TableGenerator = (docs: JsonDocsComponent) => {
   return tables;
 };
 
-const slotsTableGenerator: TableGenerator = (docs: JsonDocsComponent) => {
-  console.log(docs);
-  return <div></div>;
+/**
+ * Luckily, `docs.slots` and `docs.css` share the same object structure.
+ * We can take care both of them in a  single function.
+ */
+const createCssOrSlotsTable = (docs: JsonDocsComponent) => {
+  const rows = docs?.slots.map(({name, docs}, index) => {
+    if (!name || !docs) return undefined;
+    return (
+      <tr key={index}>
+        <td>
+          <code>{name}</code>
+        </td>
+        <td>{docs}</td>
+      </tr>
+    );
+  });
+  return (
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </table>
+    </div>
+  );
 };
 
-const cssTableGenerator: TableGenerator = () =>
-  // useTableHeaders: boolean,
-  // docs: JsonDocsComponent,
-  {
-    return <div></div>;
-  };
+const slotsTableGenerator: TableGenerator = (docs: JsonDocsComponent) => {
+  const rows = docs?.slots.map(({name, docs}, index) => {
+    if (!name || !docs) return undefined;
+    return (
+      <tr key={index}>
+        <td>
+          <code>{name}</code>
+        </td>
+        <td>{docs}</td>
+      </tr>
+    );
+  });
+  return (
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </table>
+    </div>
+  );
+};
+
+const cssTableGenerator: TableGenerator = (docs: JsonDocsComponent) => {
+  const rows = docs?.styles.map(({name, docs}, index) => {
+    if (!name || !docs) return undefined;
+    return (
+      <tr key={index}>
+        <td>
+          <code>{name}</code>
+        </td>
+        <td>{docs}</td>
+      </tr>
+    );
+  });
+  return (
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </table>
+    </div>
+  );
+};
 
 export const tableGeneratorMap: Record<PropType, TableGenerator> = {
   attr: attrTableGenerator,
