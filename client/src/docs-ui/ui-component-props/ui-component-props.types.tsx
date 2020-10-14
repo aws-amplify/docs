@@ -1,9 +1,9 @@
 import {JsonDocsComponent, JSXBase} from "@stencil/core/internal";
 
 export enum WebComponentProps {
-  ATTR,
-  SLOTS,
-  CSS,
+  ATTR = "attr",
+  SLOTS = "slots",
+  CSS = "css",
 }
 
 export type TableGenerator = (
