@@ -31,7 +31,6 @@ private fun onCreateCommentByPostId(id: String): GraphQLRequest<Comment?>? {
             + "createdAt "
             + "id "
             + "postCommentsId "
-            + "updatedAt "
         + "}"
     + "}")
     return SimpleGraphQLRequest(
