@@ -26,7 +26,7 @@ With the basic setup complete, next you will model the data your application wil
     - **priority** an optional enumeration type field that indicates the importance of a Todo item; the value of priority can be only *LOW*, *NORMAL*, or *HIGH*
     - **description** an optional string field that holds more information about a Todo item
 
-1. Next, generate the classes for these models and add then to your Xcode project. **Run the command**:
+1. Next, generate the classes for these models and add them to your Xcode project. **Run the command**:
   ```bash
   amplify codegen models && amplify-app
   ```
