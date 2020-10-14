@@ -11,7 +11,6 @@ extension GraphQLRequest {
             createdAt
             id
             postCommentsId
-            updatedAt
           }
         }
         """
