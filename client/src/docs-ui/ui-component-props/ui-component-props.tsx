@@ -34,7 +34,7 @@ export class DocsUIComponentProps {
         <h2 id={sectionId}>{headerNames[this.propType]}</h2>
       </docs-in-page-link>
     ) : (
-      <h4>Properties</h4>
+      <h4>{headerNames[this.propType]}</h4>
     );
   }
 
@@ -43,29 +43,29 @@ export class DocsUIComponentProps {
       return (
         <p>
           <code>{this.component?.tag}</code>
-          provides the following properties to configure the component.
+          &nbsp;provides the following properties to configure the component.
         </p>
       );
     } else if (this.propType === "css") {
       return (
         <p>
           <code>{this.component?.tag}</code>
-          provides the following
+          &nbsp;provides the following&nbsp;
           <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties">
             css properties
           </a>
-          to modify the style at component level.
+          &nbsp;to modify the style at component level.
         </p>
       );
     } else if (this.propType === "slots") {
       return (
         <p>
           <code>{this.component?.tag}</code>
-          provides the following slots based off of the
+          &nbsp;provides the following slots based off of the&nbsp;
           <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/slot">
             Web Components slot
           </a>
-          element.
+          &nbsp;element.
         </p>
       );
     }
