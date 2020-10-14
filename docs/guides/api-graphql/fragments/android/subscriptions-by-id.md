@@ -28,7 +28,6 @@ private fun onCreateCommentByPostId(id: String): GraphQLRequest<Comment?>? {
     val document = ("subscription onCreateCommentByPostId(\$id: ID!) { "
         + "onCommentByPostId(postCommentsId: \$id) { "
             + "content "
-            + "createdAt "
             + "id "
             + "postCommentsId "
         + "}"
