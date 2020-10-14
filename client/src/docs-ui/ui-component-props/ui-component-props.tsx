@@ -3,11 +3,12 @@ import docs from "@aws-amplify/ui-components/dist/docs";
 import {JsonDocsComponent, JSXBase} from "@stencil/core/internal";
 import {tableGeneratorMap} from "./table-generator";
 import {PropType} from "./ui-component-props.types";
+import {ATTR_HEADER, CSS_HEADER, SLOTS_HEADER} from "../../constants/strings";
 
 const headerNames: Record<PropType, string> = {
-  attr: "Properties",
-  css: "Custom CSS Properties",
-  slots: "Slots",
+  attr: ATTR_HEADER,
+  css: CSS_HEADER,
+  slots: SLOTS_HEADER,
 };
 
 @Component({tag: "ui-component-props", shadow: false})
