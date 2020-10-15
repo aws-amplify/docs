@@ -25,18 +25,21 @@ private GraphQLRequest<Comment> onCreateCommentByPostId(String id) {
 
 ```kotlin
 private fun onCreateCommentByPostId(id: String): GraphQLRequest<Comment?>? {
-    val document = ("subscription onCreateCommentByPostId(\$id: ID!) { "
-        + "onCommentByPostId(postCommentsId: \$id) { "
-            + "content "
-            + "id "
-            + "postCommentsId "
-        + "}"
-    + "}")
+    val document = """
+        subscription onCreateCommentByPostId(${'$'}id: ID!) {
+            onCommentByPostId(postCommentsId: ${'$'}id) {
+                content
+                id
+                postCommentsId
+            }
+         }
+    """.trimIndent()
     return SimpleGraphQLRequest(
-            document,
-            mapOf("id", id),
-            Comment::class.java,
-            GsonVariablesSerializer())
+        document,
+        mapOf("id" to id),
+        Comment::class.java,
+        GsonVariablesSerializer()
+    )
 }
 ```
 
