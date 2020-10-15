@@ -55,18 +55,19 @@ To listen to creation updates with the specific post using the post id, you can 
 ```java
 private void createSubscription() {
     Amplify.API.subscribe(onCreateCommentByPostId("12345"),
-            subscriptionId -> Log.d("MyAmplifyApp", "Established subscription with id: " + subscriptionId), 
-            response -> {
-                if(response.hasErrors()) {
-                    Log.e("MyAmplifyApp", "Error receiving Comment: " + response.getErrors());
-                } else if(!response.hasData()) {
-                    Log.e("MyAmplifyApp", "Error receiving Comment, no data in response.");
-                } else {
-                    Log.d("MyAmplifyApp", "Successfully got comment from subscription: " + response.getData());
-                }
-            }, 
-            exception -> Log.e("MyAmplifyApp", "Subscription terminated with error: " + exception), 
-            () -> Log.d("MyAmplifyApp", "Subscription has been closed successfully."));
+        subscriptionId -> Log.d("MyAmplifyApp", "Established subscription with id: " + subscriptionId),
+        response -> {
+            if (response.hasErrors()) {
+                Log.e("MyAmplifyApp", "Error receiving Comment: " + response.getErrors());
+            } else if(!response.hasData()) {
+                Log.e("MyAmplifyApp", "Error receiving Comment; no data in response.");
+            } else {
+                Log.d("MyAmplifyApp", "Got comment from subscription: " + response.getData());
+            }
+        },
+        failure -> Log.e("MyAmplifyApp", "Subscription terminated with error.", failure),
+        () -> Log.d("MyAmplifyApp", "Subscription has been closed successfully.")
+    );
 }
 ```
 
