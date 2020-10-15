@@ -6,9 +6,9 @@ import {WebComponentProps} from "./ui-component-props.types";
 import {ATTR_HEADER, CSS_HEADER, SLOTS_HEADER} from "../../constants/strings";
 
 const headerNames: Record<WebComponentProps, string> = {
-  [WebComponentProps.ATTR]: ATTR_HEADER,
-  [WebComponentProps.CSS]: CSS_HEADER,
-  [WebComponentProps.SLOTS]: SLOTS_HEADER,
+  attr: ATTR_HEADER,
+  css: CSS_HEADER,
+  slots: SLOTS_HEADER,
 };
 
 @Component({tag: "ui-component-props", shadow: false})
@@ -18,7 +18,7 @@ export class DocsUIComponentProps {
   /*** whether or not the table contains header tags */
   @Prop() readonly useTableHeaders: boolean = false;
   /** Desired property to document */
-  @Prop() readonly propType: WebComponentProps = WebComponentProps.ATTR;
+  @Prop() readonly propType: WebComponentProps = "attr";
 
   @State() component: JsonDocsComponent | undefined;
 
@@ -40,14 +40,14 @@ export class DocsUIComponentProps {
   }
 
   content() {
-    if (this.propType === WebComponentProps.ATTR) {
+    if (this.propType === "attr") {
       return (
         <p>
           <code>{this.component?.tag}</code>
           &nbsp;provides the following properties to configure the component.
         </p>
       );
-    } else if (this.propType === WebComponentProps.CSS) {
+    } else if (this.propType === "css") {
       return (
         <p>
           <code>{this.component?.tag}</code>
@@ -58,7 +58,7 @@ export class DocsUIComponentProps {
           &nbsp;to modify the style at component level.
         </p>
       );
-    } else if (this.propType === WebComponentProps.SLOTS) {
+    } else if (this.propType === "slots") {
       return (
         <p>
           <code>{this.component?.tag}</code>

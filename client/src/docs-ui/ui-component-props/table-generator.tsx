@@ -101,7 +101,7 @@ const slotsTableGenerator: TableGenerator = (docs: JsonDocsComponent) => {
 };
 
 export const tableGeneratorMap: Record<WebComponentProps, TableGenerator> = {
-  [WebComponentProps.ATTR]: attrTableGenerator,
-  [WebComponentProps.CSS]: cssTableGenerator,
-  [WebComponentProps.SLOTS]: slotsTableGenerator,
+  attr: attrTableGenerator,
+  css: cssTableGenerator,
+  slots: slotsTableGenerator,
 };
