@@ -1,6 +1,6 @@
 import {Component, h, Prop, Host, State} from "@stencil/core";
 import docs from "@aws-amplify/ui-components/dist/docs";
-import {JsonDocsComponent, JSXBase} from "@stencil/core/internal";
+import {JsonDocsComponent} from "@stencil/core/internal";
 import {tableGeneratorMap} from "./table-generator";
 import {WebComponentProps} from "./ui-component-props.types";
 import {ATTR_HEADER, CSS_HEADER, SLOTS_HEADER} from "../../constants/strings";
