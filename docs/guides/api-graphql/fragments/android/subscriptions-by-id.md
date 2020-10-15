@@ -75,9 +75,9 @@ private void createSubscription() {
 
 ```kotlin
 private fun createSubscription() {
-    Amplify.API.subscribe(onCreateCommentByPostId("12345")!!,
+    Amplify.API.subscribe(onCreateCommentByPostId("12345"),
         { Log.d("MyAmplifyApp", "Established subscription. id = $it") },
-        { response: GraphQLResponse<Comment?> ->
+        { response: GraphQLResponse<Comment> ->
             if (response.hasErrors()) {
                 Log.e("MyAmplifyApp", "Error receiving Comment: " + response.errors)
             } else if (!response.hasData()) {
