@@ -76,18 +76,19 @@ private void createSubscription() {
 ```kotlin
 private fun createSubscription() {
     Amplify.API.subscribe(onCreateCommentByPostId("12345")!!,
-            { subscriptionId: String -> Log.d("MyAmplifyApp", "Established subscription with id: $subscriptionId") },
-            { response: GraphQLResponse<Comment?> ->
-                if (response.hasErrors()) {
-                    Log.e("MyAmplifyApp", "Error receiving Comment: " + response.errors)
-                } else if (!response.hasData()) {
-                    Log.e("MyAmplifyApp", "Error receiving Comment, no data in response.")
-                } else {
-                    Log.d("MyAmplifyApp", "Successfully got comment from subscription: " + response.data)
-                }
-            },
-            { exception: ApiException -> Log.e("MyAmplifyApp", "Subscription terminated with error: $exception") }
-    ) { Log.d("MyAmplifyApp", "Subscription has been closed successfully.") }
+        { Log.d("MyAmplifyApp", "Established subscription. id = $it") },
+        { response: GraphQLResponse<Comment?> ->
+            if (response.hasErrors()) {
+                Log.e("MyAmplifyApp", "Error receiving Comment: " + response.errors)
+            } else if (!response.hasData()) {
+                Log.e("MyAmplifyApp", "Error receiving Comment; no data in response.")
+            } else {
+                Log.d("MyAmplifyApp", "Got comment on subscription: " + response.data)
+            }
+        },
+        { Log.e("MyAmplifyApp", "Subscription terminated with error.", it) },
+        { Log.d("MyAmplifyApp", "Subscription has been closed successfully.") }
+    )
 }
 ```
 
