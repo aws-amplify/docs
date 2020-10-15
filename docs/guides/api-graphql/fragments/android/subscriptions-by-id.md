@@ -25,7 +25,7 @@ private GraphQLRequest<Comment> onCreateCommentByPostId(String id) {
 <amplify-block name="Kotlin">
 
 ```kotlin
-private fun onCreateCommentByPostId(id: String): GraphQLRequest<Comment?>? {
+private fun onCreateCommentByPostId(id: String): GraphQLRequest<Comment> {
     val document = """
         subscription onCreateCommentByPostId(${'$'}id: ID!) {
             onCommentByPostId(postCommentsId: ${'$'}id) {
