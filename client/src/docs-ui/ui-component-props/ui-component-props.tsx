@@ -52,9 +52,9 @@ export class DocsUIComponentProps {
         <p>
           <code>{this.component?.tag}</code>
           &nbsp;provides the following&nbsp;
-          <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties">
+          <amplify-external-link href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties">
             css properties
-          </a>
+          </amplify-external-link>
           &nbsp;to modify the style at component level.
         </p>
       );
@@ -63,9 +63,9 @@ export class DocsUIComponentProps {
         <p>
           <code>{this.component?.tag}</code>
           &nbsp;provides the following slots based off of the&nbsp;
-          <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/slot">
+          <amplify-external-link href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/slot">
             Web Components slot
-          </a>
+          </amplify-external-link>
           &nbsp;element.
         </p>
       );
