@@ -98,31 +98,32 @@ private fun createSubscription() {
 
 ```java
 private void createSubscription() {
+private void createSubscription() {
     RxOperations.RxSubscriptionOperation<? extends GraphQLResponse<Comment>> subscription =
-            RxAmplify.API.subscribe(onCreateCommentByPostId("12345"));
-
+        RxAmplify.API.subscribe(onCreateCommentByPostId("12345"));
     subscription
-            .observeConnectionState()
-            .subscribe(connectionStateEvent -> Log.i("MyAmplifyApp", String.valueOf(connectionStateEvent)));
-
+        .observeConnectionState()
+        .subscribe(connectionStateEvent -> 
+            Log.i("MyAmplifyApp", String.valueOf(connectionStateEvent))
+        );
     subscription
-            .observeSubscriptionData()
-            .subscribe(
-                    response -> {
-                        if (response.hasErrors()) {
-                            Log.e("MyAmplifyApp", "Error receiving Comment: " + response.getErrors());
-                        } else if (!response.hasData()) {
-                            Log.e("MyAmplifyApp", "Error receiving Comment, no data in response.");
-                        } else {
-                            Log.d("MyAmplifyApp", "Successfully got comment from subscription: " + response.getData());
-                        }
-                    },
-                    exception -> Log.e("MyAmplifyApp", "Subscription failed.", exception),
-                    () -> Log.i("MyAmplifyApp", "Subscription completed.")
-            );
-
+        .observeSubscriptionData()
+        .subscribe(
+            response -> {
+                if (response.hasErrors()) {
+                    Log.e("MyAmplifyApp", "Error receiving Comment: " + response.getErrors());
+                } else if (!response.hasData()) {
+                    Log.e("MyAmplifyApp", "Error receiving Comment; no data in response.");
+                } else {
+                    Log.d("MyAmplifyApp", "Got comment from subscription: " + response.getData());
+                }
+            },
+            failure -> Log.e("MyAmplifyApp", "Subscription failed.", failure),
+            () -> Log.i("MyAmplifyApp", "Subscription completed.")
+        );
     // Cancel the subscription listener when you're finished with it
     subscription.cancel();
+}
 }
 ```
 
