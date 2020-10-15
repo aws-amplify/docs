@@ -13,10 +13,11 @@ private GraphQLRequest<Comment> onCreateCommentByPostId(String id) {
         + "}"
     + "}";
     return new SimpleGraphQLRequest<>(
-            document,
-            Collections.singletonMap("id", id),
-            Comment.class,
-            new GsonVariablesSerializer());
+        document,
+        Collections.singletonMap("id", id),
+        Comment.class,
+        new GsonVariablesSerializer()
+    );
 }
 ```
 
