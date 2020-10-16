@@ -3,8 +3,7 @@ Amplify DataStore provides a persistent on-device storage repository for you to 
 
 ## How it Works
 
-<iframe allowfullscreen src="https://www.youtube.com/embed/KcYl6_We0EU">
-</iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/KcYl6_We0EU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Amplify DataStore is an on device persistent repository for interacting with your local data while it synchronizes with the cloud. The core idea is to focus on your data modeling in your application with GraphQL, adding any authorization rules or business logic into your application when needed. This can be done using Amplify CLI project functionality (`amplify add auth` or `amplify add function`) as well as the [GraphQL Transformer](~/cli/graphql-transformer/overview.md).
 
@@ -16,7 +15,7 @@ Once Models have been generated, you can operate on these instances with the Dat
 
 ![Image](~/images/storage.png)
 
-When developer application code interacts with the DataStore API the it is the responsibility of the Storage Engine to store the specific Model for a GraphQL type in the Model Repository as well as serialize & deserialize as appropriate for persistence in the specific Storage Adapter representation. This includes conversion from a GraphQL specific type the appropriate structure in that database engine (e.g. `Int` to `Int64`).
+When developer application code interacts with the DataStore API, it is the responsibility of the Storage Engine to store the specific Model for a GraphQL type in the Model Repository as well as serialize & deserialize as appropriate for persistence in the specific Storage Adapter representation. This includes conversion from a GraphQL specific type the appropriate structure in that database engine (e.g. `Int` to `Int64`).
 
 ## Sync data to cloud
 

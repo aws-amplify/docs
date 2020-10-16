@@ -4,6 +4,7 @@
     "graphql-transformer",
     "restapi",
     "auth",
+    "storage",
     "function",
     "hosting",
     "plugins",

@@ -20,6 +20,7 @@ Auth.currentAuthenticatedUser()
 ```javascript
 import { Auth } from 'aws-amplify';
 
+// Send confirmation code to user's email
 Auth.forgotPassword(username)
     .then(data => console.log(data))
     .catch(err => console.log(err));

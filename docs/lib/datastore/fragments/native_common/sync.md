@@ -34,6 +34,12 @@ You should see a table similar to this one.
 | Api      | amplifyDatasource | No Change | awscloudformation |
 ```
 
+<amplify-callout>
+
+**Troubleshooting:** if `amplify status` gives you an error saying *"You are not working inside a valid Amplify project"*, make sure you run `amplify init` before the next step.
+
+</amplify-callout>
+
 In case `Operation` says `Create` or `Update` you need to **push the backend to the cloud**.
 
 ```console
@@ -54,9 +60,9 @@ For more information on this workflow please see the [Multiple Frontends documen
 
 ## Distributed data
 
-When working with distributed data it is important to be mindful about the state of the local and the remote systems. DataStore tries to make that as transparent as possible to you; however, some scenarios might require some consideration
+When working with distributed data it is important to be mindful about the state of the local and the remote systems. DataStore tries to make that as transparent as possible to you; however, some scenarios might require some consideration.
 
-For instance, when updating or deleting data, one has to consider that the state of the local data might be out-of-sync with the backend and that scenario can affect how conditions should be implemented..
+For instance, when updating or deleting data, one has to consider that the state of the local data might be out-of-sync with the backend and that scenario can affect how conditions should be implemented.
 
 ### Update and delete with predicate
 
