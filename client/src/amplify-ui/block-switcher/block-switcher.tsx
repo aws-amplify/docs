@@ -28,15 +28,15 @@ export class AmplifyBlockSwitcher {
 
   @State() activeChildI = 0;
 
-  /** is a state so that it forces a rerender of the component */
-  @State() tabHeadings: string[] = [];
+  tabHeadings: string[] = [];
 
-  @Watch("alwaysRerenderBlockSwitcher")
-  triggerGatherHeadings() {
-    // just calling this.gather() is too fast -- we need to wait for the DOM to attach
-    setTimeout(this.gatherHeadings.bind(this), 0);
+  componentWillRender() {
+    this.gatherHeadings();
   }
 
+  // recursively traverse the DOM tree to gather the language names from all child code blocks.
+  // when originally constructed, the code blocks are briefly direct children of the block-switcher, living in the shadow DOM,
+  // but then they are moved into slots, which are further down in the component, and thus we must recurse down to reach them.
   recursivelyFindBlocks(el: HTMLElement) {
     if (el.matches(BLOCK_TAG_NAME)) {
       // somehow this doesn't cause a rerender each time a heading is pushed, just at the end

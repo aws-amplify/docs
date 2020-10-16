@@ -34,8 +34,6 @@ import {parseURL} from "../../utils/url/url.worker";
 
 const SELECTED_TABS_LOCAL_STORAGE_KEY = `amplify-docs::selected-tabs`;
 
-/** increments every time the page changes, to tell all block switchers on the page to rerender */
-let alwaysRerenderBlockSwitcher = 0;
 @Component({tag: "docs-page", shadow: false})
 export class DocsPage {
   @Element() el: HTMLElement;
@@ -49,6 +47,8 @@ export class DocsPage {
   rafId?: number;
   isFirstRenderOfCurrentPage = true;
   previousPathname = "";
+  /** increments every time the page changes, to tell all block switchers on the page to rerender */
+  alwaysRerenderBlockSwitcher = 0;
 
   setNewSelectedTabHeading: SetNewSelectedTabHeadings = (tabHeading) => {
     // create temp array with `tabHeading` (the new highest priority) as first el
@@ -250,7 +250,7 @@ export class DocsPage {
         <Host class={pageStyle}>
           <pageContext.Provider
             state={{
-              alwaysRerenderBlockSwitcher: alwaysRerenderBlockSwitcher++,
+              alwaysRerenderBlockSwitcher: this.alwaysRerenderBlockSwitcher++,
               selectedFilters: this.selectedFilters,
               setSelectedFilters: this.setSelectedFilters,
               selectedTabHeadings: this.selectedTabHeadings,
