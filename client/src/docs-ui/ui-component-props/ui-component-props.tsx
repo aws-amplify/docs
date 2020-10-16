@@ -72,8 +72,17 @@ export class DocsUIComponentProps {
     }
   }
 
+  propsAreEmpty = () => {
+    return (
+      (this.propType === "attr" && this.component?.props.length === 0) ||
+      (this.propType === "css" && this.component?.styles.length === 0) ||
+      (this.propType === "slots" && this.component?.slots.length === 0)
+    );
+  };
+
   render() {
-    if (!this.component || !this.component.tag) return;
+    if (!this.component || !this.component.tag || this.propsAreEmpty()) return;
+
     const tableGenerator = tableGeneratorMap[this.propType];
     return (
       <Host>
