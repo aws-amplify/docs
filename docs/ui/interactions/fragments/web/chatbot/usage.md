@@ -127,8 +127,6 @@ _App.vue_
 
 <ui-component-props tag="amplify-chatbot" prop-type="attr" use-table-headers></ui-component-props>
 
-<ui-component-props tag="amplify-chatbot" prop-type="slots" use-table-headers></ui-component-props>
-
 ## Use Cases
 
 ### Setting Up Voice Chat
