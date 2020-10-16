@@ -42,7 +42,7 @@ Before removal a removal date is added to the feature flag, and after a feature 
 
 ## Configuration
 
-Configuration of feature flags are primarily done by having an `amplify.json` file in the project's root folder. If the file does not exist Amplify CLI creates it during the `amplify init` command. The emitted values are representing the default values for new projects. This file must be under version control, to make sure that the same features are used locally, in CI/CD environments, between team members.
+Configuration of feature flags are primarily done by having an `cli.json` file in the project's `amplify` folder. If the file does not exist Amplify CLI creates it during the `amplify init` command. The emitted values are representing the default values for new projects. This file must be under version control, to make sure that the same features are used locally, in CI/CD environments, between team members. If an environment specific file exists for the currently checked out environment, during `amplify env add` command the same file will be copied for the newly created environment as well.
 
 Example configuration file
 
@@ -66,7 +66,7 @@ Example configuration file
 }
 ```
 
-If for some reason different functionality is needed to be enabled for a given Amplify CLI environment a copy can be made of the project level file with the following naming convention: `amplify.{environment name}.json`.
+If for some reason different functionality is needed to be enabled for a given Amplify CLI environment a copy can be made of the project level file with the following naming convention: `cli.{environment name}.json`.
 
 ### Environment variables
 
@@ -75,7 +75,7 @@ Amplify CLI supports the definition and override of feature flags values from en
 The environment variables must follow a naming convention, to be picked up by Amplify CLI:
 
 - Project level override: `AMPLIFYCLI_{SECTION}__{PROPERTY}`, for example: `AMPLIFYCLI_GRAPHQLTRANSFORMER__TRANSFORMERVERSION`
-- Environment specific override: `AMPLIFYCLI_{ENVNAME}_{SECTION}__{PROPERTY}`, for example: `AMPLIFYCLI-PROD_GRAPHQLTRANSFORMER__TRANSFORMERVERSION`
+- Environment specific override: `AMPLIFYCLI_{ENVNAME}_{SECTION}__{PROPERTY}`, for example: `AMPLIFYCLI_PROD_GRAPHQLTRANSFORMER__TRANSFORMERVERSION`
 
 If a `.env` file is used in the project's root folder, then it is being merged on top of the current process' environment variables, overwriting those.
 
@@ -83,8 +83,8 @@ If a `.env` file is used in the project's root folder, then it is being merged o
 
 Due to the multiple levels of configuration options and overrides, Amplify CLI does a top-to-bottom evaluation as follows:
 
-- `amplify.json`
-- `amplify.{environment name}.json`
+- `cli.json`
+- `cli.{environment name}.json`
 - Project level environment variables
 - CLI Environment level environment variables
 

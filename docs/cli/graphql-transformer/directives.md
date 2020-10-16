@@ -477,7 +477,7 @@ based on attributes found in the parent type.
 ```graphql
 # When applied to a type, augments the application with
 # owner and group-based authorization rules.
-directive @auth(rules: [AuthRule!]!) on OBJECT, FIELD_DEFINITION
+directive @auth(rules: [AuthRule!]!) on OBJECT | FIELD_DEFINITION
 input AuthRule {
   allow: AuthStrategy!
   provider: AuthProvider
@@ -1013,24 +1013,6 @@ type Post @model
   id: ID!
   title: String
   owner: String
-}
-```
-
-<amplify-callout>
-
-The above schema assumes a combination of **Amazon Cognito User Pools** and **IAM** authentication types
-
-</amplify-callout>
-
-Let's have a look at one more example. In the following example the model is protected by Cognito User Pools by default and anyone with a valid JWT token can perform any operation on the `Post` type, but cannot update the `secret` field. The `secret` field can only be modified through the configured IAM policies, from a Lambda function for example.
-
-```graphql
-type Post @model @auth (rules: [{ allow: private }]) {
-  id: ID!
-  title: String
-  owner: String
-  secret: String
-    @auth (rules: [{ allow: private, provider: iam, operations: [create, update] }])
 }
 ```
 
@@ -2114,12 +2096,6 @@ The `@versioned` directive manipulates resolver mapping templates and will store
 
 The `@searchable` directive handles streaming the data of an `@model` object type to Amazon Elasticsearch Service and configures search resolvers that search that information.
 
-> **Note**: `@searchable` is not compatible with DataStore but you can use it with the API category.
-
-> **Note**: `@searchable` is not compatible with Amazon ElasticSearch t2.micro instance as it only works with ElasticSearch version 1.5 and 2.3 and Amplify CLI only supports instances with ElasticSearch version >= 6.x.
-
-> **Note**: Support for adding the `@searchable` directive does not yet provide automatic indexing for any existing data to Elasticsearch. View the feature request [here](https://github.com/aws-amplify/amplify-cli/issues/98).
-
 > **Migration warning**: You might observe duplicate records on search operations, if you deployed your GraphQL schema using CLI version older than 4.14.1 and have thereafter updated your schema & deployed the changes with a CLI version between 4.14.1 - 4.16.1.
 Please use this Python [script](https://github.com/aws-amplify/amplify-cli/blob/master/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) to remove the duplicate records from your Elasticsearch cluster. [This script](https://github.com/aws-amplify/amplify-cli/blob/master/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) indexes data from your DynamoDB Table to your Elasticsearch Cluster. View an example of how to call the script with the following parameters [here](https://aws-amplify.github.io/docs/cli-toolchain/graphql#example-of-calling-the-script).
 
@@ -2234,6 +2210,13 @@ Here is a complete list of searchable operations per GraphQL type supported as o
 | Int     | `ne`, `gt`, `lt`, `gte`, `lte`, `eq`, `range`      |
 | Float | `ne`, `gt`, `lt`, `gte`, `lte`, `eq`, `range`      |
 | Boolean | `eq`, `ne`      |
+
+### Known limitations
+
+- `@searchable` is not compatible with DataStore but you can use it with the API category.
+- `@searchable` is not compatible with Amazon ElasticSearch t2.micro instance as it only works with ElasticSearch version 1.5 and 2.3 and Amplify CLI only supports instances with ElasticSearch version >= 6.x.
+- `@searchable` is not compatible with the @connection directive
+- Support for adding the `@searchable` directive does not yet provide automatic indexing for any existing data to Elasticsearch. View the feature request [here](https://github.com/aws-amplify/amplify-cli/issues/98).
 
 ### Backfill your Elasticsearch index from your DynamoDB table
 

@@ -29,4 +29,19 @@ Amplify.API.delete(options,
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RestOptions options = RestOptions.builder()
+        .addPath("/todo/1")
+        .build();
+
+RxAmplify.API.delete(options)
+        .subscribe(
+            response -> Log.i("MyAmplifyApp", response.getData().asString()),
+            error -> Log.e("MyAmplifyApp", "DELETE failed", error)
+        );
+```
+
+</amplify-block>
 </amplify-block-switcher>

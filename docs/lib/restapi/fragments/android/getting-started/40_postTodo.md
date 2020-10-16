@@ -29,4 +29,20 @@ Amplify.API.post(options,
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RestOptions options = RestOptions.builder()
+        .addPath("/todo")
+        .addBody("{\"name\":\"Mow the lawn\"}".getBytes())
+        .build();
+
+RxAmplify.API.post(options)
+        .subscribe(
+            response -> Log.i("MyAmplifyApp", "POST " + response.getData().asString()),
+            error -> Log.e("MyAmplifyApp", "POST failed", error)
+        );
+```
+
+</amplify-block>
 </amplify-block-switcher>

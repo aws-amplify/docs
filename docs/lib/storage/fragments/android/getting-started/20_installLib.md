@@ -3,8 +3,8 @@ Expand **Gradle Scripts**, open **build.gradle (Module: app)**. You will already
 Add these libraries into the `dependencies` block:
 ```groovy
 dependencies {
-    implementation 'com.amplifyframework:aws-storage-s3:1.1.1'
-    implementation 'com.amplifyframework:aws-auth-cognito:1.1.1'
+    implementation 'com.amplifyframework:aws-storage-s3:1.4.1'
+    implementation 'com.amplifyframework:aws-auth-cognito:1.4.1'
 }
 ```
 

@@ -63,6 +63,21 @@ fun detectText(image: Bitmap) {
 }
 ```
 
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+public void detectText(Bitmap image) {
+    RxAmplify.Predictions.identify(TextFormatType.PLAIN, image)
+            .subscribe(
+                result -> {
+                    IdentifyTextResult identifyResult = (IdentifyTextResult) result;
+                    Log.i("MyAmplifyApp", identifyResult.getFullText());
+                },
+                error -> Log.e("MyAmplifyApp", "Identify text failed", error)
+            );
+}
+```
 
 </amplify-block>
 </amplify-block-switcher>
@@ -106,6 +121,22 @@ fun detectText(image: Bitmap) {
             Log.e("MyAmplifyApp", "Identify failed", error)
         }
     )
+}
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+public void detectText(Bitmap image) {
+    RxAmplify.Predictions.identify(TextFormatType.FORM, image)
+            .subscribe(
+                result -> {
+                    IdentifyDocumentTextResult identifyResult = (IdentifyDocumentTextResult) result;
+                    Log.i("MyAmplifyApp", identifyResult.getFullText())
+                },
+                error -> Log.e("MyAmplifyApp", "Identify failed", error)
+            );
 }
 ```
 
