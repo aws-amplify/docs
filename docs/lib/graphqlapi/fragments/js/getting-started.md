@@ -53,7 +53,7 @@ amplify push
 
 Now the API has been deployed and you can start using it.
 
-Because the `Todo` type was decorated with an `@model` directive of the [GraphQL Transform](~/cli/graphql-transformer/directives.md) library, the CLI created the additional schema and resolvers for queries, mutations, and subscriptions as well as a DynamoDB table to hold the Todos.
+Because the `Todo` type was decorated with an `@model` directive of the [GraphQL Transform](~/cli/graphql-transformer/model.md) library, the CLI created the additional schema and resolvers for queries, mutations, and subscriptions as well as a DynamoDB table to hold the Todos.
 
 To view the deployed services in your project at any time, go to Amplify Console by running the Amplify `console` command:
 
@@ -163,7 +163,7 @@ Save your schema file and update your GraphQL backend:
 amplify push
 ```
 
-When you run the *push* command, you will notice that your schema change is automatically detected, and your backend will be updated respectively. 
+When you run the *push* command, you will notice that your schema change is automatically detected, and your backend will be updated respectively.
 
 ```console
 | Category | Resource name   | Operation | Provider plugin   |
@@ -176,25 +176,25 @@ When the update is complete, you can see the changes to your backend by running 
 ```bash
 amplify api console
 ? Please select from one of the below mentioned services: (Use arrow keys)
-❯ GraphQL 
-  REST 
+❯ GraphQL
+  REST
 ```
 
 ### Using GraphQL Transformers
 
-As you can notice in the sample schema file above, the schema has a `@model` directive. The `@model` directive leverages a set of libraries that can help simplify the process of bootstrapping highly scalable, serverless GraphQL APIs on AWS. The `@model` directive tells the GraphQL Transform that we would like to store Todo objects in an Amazon DynamoDB table and configure CRUD operations for it. When you create or update your backend with *push* command, the CLI will automatically create and configure a new DynamoDB table that works with your AppSync API. The `@model` directive is just one of multiple transformers that can be used by annotating your *schema.graphql*. 
+As you can notice in the sample schema file above, the schema has a `@model` directive. The `@model` directive leverages a set of libraries that can help simplify the process of bootstrapping highly scalable, serverless GraphQL APIs on AWS. The `@model` directive tells the GraphQL Transform that we would like to store Todo objects in an Amazon DynamoDB table and configure CRUD operations for it. When you create or update your backend with *push* command, the CLI will automatically create and configure a new DynamoDB table that works with your AppSync API. The `@model` directive is just one of multiple transformers that can be used by annotating your *schema.graphql*.
 
 The following directives are available to be used when defining your schema:  
 
 | Directive | Description |
 | --- | --- |
-| @model on Object | Store objects in DynamoDB and configure CRUD resolvers. |
-| @auth on Object | Define authorization strategies for your API. | 
-| @connection on Field | Specify relationships between @model object types. |
-| @searchable on Object | Stream data of an @model object type to Amazon Elasticsearch Service. |
-| @versioned on Object | Add object versioning and conflict detection to a @model. | 
+| [@model](~/cli/graphql-transformer/model.md) on Object | Store objects in DynamoDB and configure CRUD resolvers. |
+| [@auth](~/cli/graphql-transformer/auth.md) on Object | Define authorization strategies for your API. |
+| [@connection](~/cli/graphql-transformer/connection.md) on Field | Specify relationships between @model object types. |
+| [@searchable](~/cli/graphql-transformer/searchable.md) on Object | Stream data of an @model object type to Amazon Elasticsearch Service. |
+| [@versioned](~/cli/graphql-transformer/versioned.md) on Object | Add object versioning and conflict detection to a @model. |
 
-You may also write your own transformers to implement reproducible patterns that you find useful. To learn more about the GraphQL Transform libraries see [GraphQL Transform Documentation](~/cli/graphql-transformer/directives.md).
+You may also write your own transformers to implement reproducible patterns that you find useful.
 
 ### Mocking and Local Testing
 

@@ -61,7 +61,7 @@ type Post
 }
 ```
 
-The schema generated is for a blog app. You'll notice a directive on the `Post` type of `@model`. This directive is part of the [GraphQL transform](~/cli/graphql-transformer/directives.md) library of Amplify. 
+The schema generated is for a blog app. You'll notice a directive on the `Post` type of `@model`. This directive is part of the [GraphQL transform](~/cli/graphql-transformer/model.md) library of Amplify. 
 
 The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.
 
@@ -127,7 +127,7 @@ To view your entire app in the Amplify console at any time, run the following co
 amplify console
 ```
 
-### (Optional) Test your API 
+### (Optional) Test your API
 
 To test this out locally, you can run the `mock` command.
 
@@ -138,7 +138,7 @@ amplify mock api
 ```
 
 *Note:* `amplify mock api` requires Java.
- 
+
 ```console
 # If you have not already deployed you API, you will be walked through the following steps for GraphQL code generation
 ? Choose the code generation language target: javascript (or preferred target)
@@ -428,5 +428,3 @@ Let's walk through some of this file:
 ## Testing SSG
 
 With your server running (`npm run dev`), refresh the page (or go back home to http://localhost:3000/ and click into a post) and you'll see a page for this post!
-
-

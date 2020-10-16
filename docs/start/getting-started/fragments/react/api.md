@@ -27,13 +27,13 @@ Accept the **default values** which are highlighted below:
 # 7 (or your preferred expiration)
 ? Do you want to configure advanced settings for the GraphQL API:
 # No
-? Do you have an annotated GraphQL schema? 
+? Do you have an annotated GraphQL schema?
 # No
-? Do you want a guided schema creation? 
+? Do you want a guided schema creation?
 # Yes
-? What best describes your project: 
+? What best describes your project:
 # Single object with fields
-? Do you want to edit the schema now? 
+? Do you want to edit the schema now?
 # Yes
 ```
 
@@ -49,7 +49,7 @@ type Todo @model {
 }
 ```
 
-The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. This directive is part of the [GraphQL transform](~/cli/graphql-transformer/directives.md) library of Amplify. 
+The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. This directive is part of the [GraphQL transform](~/cli/graphql-transformer/model.md) library of Amplify. 
 
 The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.
 
@@ -108,7 +108,7 @@ To view your entire app in the Amplify console at any time, run the following co
 amplify console
 ```
 
-### (Optional) Test your API 
+### (Optional) Test your API
 
 To test this out locally, you can run the `mock` command.
 
@@ -119,7 +119,7 @@ amplify mock api
 ```
 
 *Note:* `amplify mock api` requires Java.
- 
+
 ```console
 # If you have not already deployed you API, you will be walked through the following steps for GraphQL code generation
 ? Choose the code generation language target: javascript (or preferred target)
@@ -211,7 +211,7 @@ const App = () => {
       <input
         onChange={event => setInput('name', event.target.value)}
         style={styles.input}
-        value={formState.name} 
+        value={formState.name}
         placeholder="Name"
       />
       <input
