@@ -374,9 +374,7 @@
     "ClientMetadata",
     "cloudform",
     "cloudformation-template",
-    "cloudformation",
     "CloudFormation",
-    "Cloudformaton",
     "Cloudfront",
     "CloudFront",
     "CloudWatch",
@@ -745,6 +743,7 @@
     "mobiletargeting",
     "MobX",
     "modelgen",
+    "modularization",
     "mouseover",
     "mqttv",
     "msg",
@@ -1310,7 +1309,8 @@
     "amplifyconfig",
     "nextamplified",
     "vercel",
-    "Uploader"
+    "Uploader",
+    "AMPLIFYLAYERGUIDE"
   ],
   "flagWords": ["hte"]
 }
