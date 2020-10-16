@@ -75,7 +75,7 @@ Amplify CLI supports the definition and override of feature flags values from en
 The environment variables must follow a naming convention, to be picked up by Amplify CLI:
 
 - Project level override: `AMPLIFYCLI_{SECTION}__{PROPERTY}`, for example: `AMPLIFYCLI_GRAPHQLTRANSFORMER__TRANSFORMERVERSION`
-- Environment specific override: `AMPLIFYCLI_{ENVNAME}_{SECTION}__{PROPERTY}`, for example: `AMPLIFYCLI-PROD_GRAPHQLTRANSFORMER__TRANSFORMERVERSION`
+- Environment specific override: `AMPLIFYCLI_{ENVNAME}_{SECTION}__{PROPERTY}`, for example: `AMPLIFYCLI_PROD_GRAPHQLTRANSFORMER__TRANSFORMERVERSION`
 
 If a `.env` file is used in the project's root folder, then it is being merged on top of the current process' environment variables, overwriting those.
 
