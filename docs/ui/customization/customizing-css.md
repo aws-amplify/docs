@@ -7,10 +7,18 @@ You can control top level components directly using CSS. For instance, to contro
 
 ```css
 amplify-authenticator {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  height: 100vh;
+  background: tomato;
+  padding: 5px;
 }
 ```
+
+The top level control is available for the following components. _**Note:**_ The components needs to be rolled out in the client in order to enable this CSS update.
+
+- `amplify-sign-in`
+- `amplify-confirm-sign-in`
+- `amplify-sign-up`
+- `amplify-confirm-sign-up`
+- `amplify-forgot-password`
+- `amplify-require-new-password`
+- `amplify-verify-contact`
+- `amplify-totp-setup`
