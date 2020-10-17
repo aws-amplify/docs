@@ -89,7 +89,7 @@ When prompted, select **GraphQL**. This will open the AWS AppSync console for yo
 
 ## Connect frontend to API
 
-Update your main.ts to configure the library:
+Update __src/main.ts__ to configure the library:
 
 ```javascript
 import Amplify from "aws-amplify";
@@ -135,14 +135,6 @@ constructor(
   }
 ```
 
-Then, replace your `src/app/app.component.html` code with a button to add data:
-
-```html
-<ion-app>
-  <ion-button (click)="createTodo()">Add Data</ion-button>
-</ion-app>
-```
-
 Next, update `initializeApp()` in `src/app/app.component.ts` to list all items in the database by running a query on start and populating a local variable called `todos`:
 
 ```javascript
@@ -160,7 +152,7 @@ export class AppComponent {
 }
 ```
 
-Add the following to your `src/app/app.component.html` to display any of the todos you have added:
+Update the code in `src/app/app.component.html` with the following to display the list of todos:
 
 ```html
 <ion-app>
