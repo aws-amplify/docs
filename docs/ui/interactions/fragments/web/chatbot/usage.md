@@ -125,7 +125,13 @@ _App.vue_
 
 </docs-filter>
 
-<ui-component-props tag="amplify-chatbot" prop-type="attr" use-table-headers></ui-component-props>
+<inline-fragment framework="react" src="~/ui/interactions/fragments/web/chatbot/properties-jsx.md"></inline-fragment>
+
+<inline-fragment framework="vue" src="~/ui/interactions/fragments/web/chatbot/properties-attributes.md"></inline-fragment>
+
+<inline-fragment framework="ionic" src="~/ui/interactions/fragments/web/chatbot/properties-attributes.md"></inline-fragment>
+
+<inline-fragment framework="angular" src="~/ui/interactions/fragments/web/chatbot/properties-attributes.md"></inline-fragment>
 
 ## Use Cases
 

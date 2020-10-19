@@ -12,7 +12,6 @@ import { SetContent } from "./amplify-ui/toc/toc.types";
 import { MenuGroup, Page } from "./api";
 import { CustomComponentName } from "./docs-ui/component-playground/component-playground.types";
 import { SwitchOption } from "./docs-ui/version-switch/version-switch.types";
-import { WebComponentProps } from "./docs-ui/ui-component-props/ui-component-props.types";
 export namespace Components {
     interface AmplifyBlock {
         /**
@@ -383,10 +382,6 @@ export namespace Components {
         "rightOption": SwitchOption;
     }
     interface UiComponentProps {
-        /**
-          * Desired property to document
-         */
-        "propType": WebComponentProps;
         /**
           * * component tag for documented component page
          */
@@ -1086,10 +1081,6 @@ declare namespace LocalJSX {
         "rightOption"?: SwitchOption;
     }
     interface UiComponentProps {
-        /**
-          * Desired property to document
-         */
-        "propType"?: WebComponentProps;
         /**
           * * component tag for documented component page
          */
