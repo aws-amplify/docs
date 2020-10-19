@@ -29,7 +29,11 @@ Run `amplify push` to complete the import procedure.
 
 Select the "Cognito User Pool and Identity Pool" option when you've run `amplify import auth`. In order to successfully import your Identity Pool, it must have a User Pool fulfilling [these requirements](#import-an-existing-cognito-user-pool) associated as an authentication provider.
 
-Ensure your Identity Pool has an Unauthenticated role and an Authenticated role configured. These roles should be automatically configured when you create a new Identity Pool enabling Unauthenticated access and have a Cognito User Pool as an authentication provider.
+Your Identity Pool needs:
+- an Authenticated Role with a trust relationship to your Identity Pool
+- an **optional** Unauthenticated Role if you want to use any Guest user access for your Amplify categories. (Example: Guest access for your S3 buckets or REST API endpoints)
+
+These roles are usually automatically configured when you create a new Identity Pool enabling "Unauthenticated" access and have a Cognito User Pool as an authentication provider.
 
 Amplify CLI will update the policies attached to the roles to ensure Amplify categories function correctly. For example, enabling Storage for authenticated & guest users will add private, protected, public, read and upload permissions for the S3 bucket to the unauthenticated & authenticated role.
 
