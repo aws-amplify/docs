@@ -20,8 +20,8 @@ This feature is particularly useful if you're trying to:
 ## Import an existing Cognito User Pool
 
 Select the "Cognito User Pool only" option when you've run `amplify import auth`. In order to successfully import your User Pool, your User Pools require at least two app clients with the following conditions:
-- *One "Web app client"*: an app client **without** a client secret
-- *One "Native app client*": an app client **with** a client secret
+- *At least one "Web app client"*: an app client **without** a client secret
+- *At least one "Native app client*": an app client **with** a client secret
 
 Run `amplify push` to complete the import procedure.
 
