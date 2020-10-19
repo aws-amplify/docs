@@ -2,7 +2,7 @@ Shake the device to access the developer menu during a debug build of your app. 
 
 ![Shake Android Emulator](~/images/debugging/shakeAndroidEmulator.gif)
 
-The developer menu will only be shown when running a debug build of your app.  However, if you still would like to disable the menu even for debug builds, you can pass a custom configuration when configuring Amplify like this:
+The developer menu will only be shown when running a debug build of your app.  However, if you still would like to disable the menu even for debug builds, you can pass a custom configuration when configuring Amplify:
 
 <amplify-block-switcher>
 <amplify-block name="Java">
