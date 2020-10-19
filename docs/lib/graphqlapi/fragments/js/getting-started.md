@@ -193,6 +193,10 @@ The following directives are available to be used when defining your schema:
 | [@connection](~/cli/graphql-transformer/connection.md) on Field | Specify relationships between @model object types. |
 | [@searchable](~/cli/graphql-transformer/searchable.md) on Object | Stream data of an @model object type to Amazon Elasticsearch Service. |
 | [@versioned](~/cli/graphql-transformer/versioned.md) on Object | Add object versioning and conflict detection to a @model. |
+| [@key](~/cli/graphql-transformer/key.md) on Object | Index your data with keys. |
+| [@function](~/cli/graphql-transformer/function.md) on Object | Connect Lambda resolvers to your API. |
+| [@predictions](~/cli/graphql-transformer/predictions.md) on Object | Connect machine learning services. |
+| [@http](~/cli/graphql-transformer/http.md) on Object | Configure HTTP resolvers within your API. |
 
 You may also write your own transformers to implement reproducible patterns that you find useful.
 
