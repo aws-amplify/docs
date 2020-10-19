@@ -1,19 +1,19 @@
 ---
 title: Use an existing Cognito User Pool and Identity Pool
-description: Configure the Amplify CLI to use existing Amazon Cognito User Pool and Identity resources as an authentication & authorization mechanism for other Amplify categories. (API, Storage, and more)
+description: Configure the Amplify CLI to use existing Amazon Cognito User Pool and Identity Pool resources as an authentication & authorization mechanism for other Amplify categories. (API, Storage, and more)
 ---
 
 Import existing Amazon Cognito resources into your Amplify project. Get started by running `amplify import auth` command to search for & import an existing Cognito User Pool & Identity Pool in your account. 
 
 The `amplify import auth` will:
 * automatically populate your Amplify Library configuration files (aws-exports.js, amplifyconfiguration.json) with your chosen Amazon Cognito resource information 
-* provide your designated existing Cognito resource as the authentication & authorization mechanism for all auth-dependent categories (API, storage and more)
+* provide your designated existing Cognito resource as the authentication & authorization mechanism for all auth-dependent categories (API, Storage and more)
 * enable Lambda functions to access the chosen Cognito resource if you permit it
 
 Make sure to run `amplify push` to complete the import process and deploy this backend change to the cloud. 
 
 This feature is particularly useful if you're trying to:
-* enable Amplify categories (such as API, storage, and function) for your existing user base;
+* enable Amplify categories (such as API, Storage, and function) for your existing user base;
 * incrementally adopt Amplify for your application stack;
 * independently manage Cognito resources while working with Amplify.
 
@@ -31,7 +31,7 @@ Select the "Cognito User Pool and Identity Pool" option when you've run `amplify
 
 Your Identity Pool needs:
 - an Authenticated Role with a trust relationship to your Identity Pool
-- an **optional** Unauthenticated Role if you want to use any Guest user access for your Amplify categories. (Example: Guest access for your S3 buckets or REST API endpoints)
+- an **optional** Unauthenticated Role if you want to use any guest user access for your Amplify categories. (Example: Guest access for your S3 buckets or REST API endpoints)
 
 These roles are usually automatically configured when you create a new Identity Pool enabling "Unauthenticated" access and have a Cognito User Pool as an authentication provider.
 
