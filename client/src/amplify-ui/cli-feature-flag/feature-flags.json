@@ -6,7 +6,7 @@
         "description": "Automatically add owner field to when owner fields are not in the type",
         "type": "Feature",
         "valueType": "Boolean",
-        "versionAdded": "> 4.29.5",
+        "versionAdded": "4.30.0",
         "values": [
           {
             "value": "true",
