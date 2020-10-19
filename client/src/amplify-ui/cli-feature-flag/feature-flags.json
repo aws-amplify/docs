@@ -3,7 +3,7 @@
     "description": "Feature Flag related to GraphQL Transformer",
     "features": {
       "addMissingOwnerFields": {
-        "description": "Automatically add owner field to when owner fields are not in the type",
+        "description": "Automatically add owner field to type when owner fields are not in the type",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "4.30.0",
