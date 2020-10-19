@@ -35,6 +35,8 @@ Run `amplify push` to complete the import procedure.
 
 When you create a new environment through `amplify env add`, Amplify CLI will assume by default that you're managing your app's Cognito resources outside of an Amplify project. You'll be asked to either import a different Cognito resource or maintain the same Cognito resource for your app's auth category.
 
+If you want to have Amplify manage your auth resources in a new environment, run `amplify remove auth` to unlink the imported Cognito resource and `amplify add auth` to create new Amplify-managed auth resources.
+
 ## Unlink an existing Cognito User Pool or Identity Pool
 
 In order to unlink your existing Cognito resource run `amplify remove auth`. This will only unlink the Cognito resource reference from the Amplify project. It will not remove the Cognito resource itself. 
