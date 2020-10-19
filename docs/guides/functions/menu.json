@@ -1,6 +1,7 @@
 {
   "title": "Functions",
   "items": [
+    "appsync-operations-to-lambda-layer",
     "connecting-a-rest-api",
     "integrating-dynamodb-with-lambda",
     "dynamodb-from-js-lambda",
