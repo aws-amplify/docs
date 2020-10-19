@@ -10,6 +10,8 @@ To get started, initialize a new React Native project.
 ```bash
 npm install -g expo-cli  
 expo init RNAmplify
+? Choose a template: (blank) 
+# expo-template-blank
 ```
 
 </amplify-block>
