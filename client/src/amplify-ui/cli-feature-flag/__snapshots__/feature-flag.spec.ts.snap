@@ -1,3 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`amplify-feature-flags Render logic should render 1`] = `<amplify-feature-flags class="css-b9wf8u"></amplify-feature-flags>`;
+exports[`amplify-feature-flags Render logic should render 1`] = `
+<amplify-feature-flags class="css-b9wf8u">
+  <div>
+    <docs-in-page-link targetid="graphQLTransformer">
+      <h2 id="graphQLTransformer">
+        graphQLTransformer
+      </h2>
+    </docs-in-page-link>
+    <p>
+      Feature Flag related to GraphQL Transformer
+    </p>
+    <amplify-feature-flag-summary name="addMissingOwnerFields"></amplify-feature-flag-summary>
+  </div>
+</amplify-feature-flags>
+`;
