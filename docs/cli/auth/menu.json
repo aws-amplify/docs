@@ -3,6 +3,7 @@
   "items": [
     "overview",
     "groups",
-    "admin"
+    "admin",
+    "import"
   ]
 }
