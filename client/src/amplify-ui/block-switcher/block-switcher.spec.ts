@@ -4,7 +4,7 @@ import {newSpecPage} from "@stencil/core/testing";
 
 describe("amplify-block-switcher", () => {
   describe("Component logic", () => {
-    it("should rerender when alwaysRerenderBlockSwitcher increments", async () => {
+    it("should recursively gather all block names as headings", async () => {
       const page = await newSpecPage({
         components: [AmplifyBlockSwitcher, AmplifyCodeBlock],
         html: `
