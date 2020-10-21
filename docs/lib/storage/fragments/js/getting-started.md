@@ -300,7 +300,7 @@ The default provider (Amazon S3) is in use when you call `Storage.put( )` unless
 
 
 ## Mocking and Local Testing with Amplify CLI
-Amplify CLI supports running a lock mock server for testing your application with Amazon S3. Please see the [CLI toolchain documentation](~/cli/usage/mock.md) for more details.
+Amplify CLI supports running a local mock server for testing your application with Amazon S3. Please see the [CLI toolchain documentation](~/cli/usage/mock.md) for more details.
 
 ## API Reference
 

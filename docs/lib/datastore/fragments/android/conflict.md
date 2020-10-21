@@ -1,5 +1,59 @@
-<amplify-callout>
+DataStore has a few optional configurations, such as the ability to specify a custom handler for error messages that take place in any part of the system. You can also specify a custom conflict handler that runs if a mutation is rejected by AWS AppSync during one of the conflict resolution strategies.
 
-**Note:** custom conflict resolution is not generally available yet. The API is currently being designed for Android. Check back soon for updates.
+Finally you can configure the number of records to sync as an upper bound on items (per-Model) which will be stored locally on the device, as well as a custom interval in minutes which is an override of the default 24 hour "base query" which runs as part of the Delta Sync process.
 
-</amplify-callout>
+### Example
+
+The code below illustrates a conflict resolution handler for the `Post` model that retries a mutation with the same title, but the most recent remote data for all other fields. The conflict resolution handler discards conflicts for all other models (by passing `ConflictResolutionDecision.applyRemote()` to `onDecision.accept(...)`).
+
+<amplify-block-switcher>
+<amplify-block name="Java">
+
+```java
+DataStoreConfiguration config = DataStoreConfiguration.builder()
+    .errorHandler(error -> Log.e("YourApp", "Error.", error))
+    .conflictHandler((conflictData, onDecision) -> {
+        if (conflictData.getRemote() instanceof Post) {
+            Post patched = ((Post) conflictData.getRemote())
+                .copyOfBuilder()
+                .title(((Post) conflictData.getLocal()).getTitle())
+                .build();
+            onDecision.accept(ConflictResolutionDecision.retry(patched));
+        } else {
+            onDecision.accept(ConflictResolutionDecision.applyRemote());
+        }
+    })
+    .syncInterval(1, TimeUnit.DAYS)
+    .syncMaxRecords(10_000)
+    .syncPageSize(1_000)
+    .build();
+AWSDataStorePlugin dataStorePlugin = new AWSDataStorePlugin(config);
+```
+
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+val config = DataStoreConfiguration.builder()
+    .errorHandler { Log.e("YourApp", "Error.", it) }
+    .conflictHandler { conflictData, onDecision ->
+        if (conflictData.remote is Post) {
+            val patched = (conflictData.remote as Post)
+                .copyOfBuilder()
+                .title((conflictData.local as Post).title)
+                .build()
+            onDecision.accept(ConflictResolutionDecision.retry(patched))
+        } else {
+            onDecision.accept(ConflictResolutionDecision.applyRemote())
+        }
+    }
+    .syncInterval(1, TimeUnit.DAYS)
+    .syncMaxRecords(10_000)
+    .syncPageSize(1_000)
+    .build()
+val dataStorePlugin = AWSDataStorePlugin(config)
+```
+
+</amplify-block>
+</amplify-block-switcher>
+

@@ -299,4 +299,10 @@ async ngOnInit() {
 } 
 ```
 
-Now, open the app in another browser window so that you have two side by side. When creating a new item in one window, you should see it come through in the other window in real-time.
+Next, run the app:
+
+```sh
+npm start
+```
+
+Now, open the app in 2 browser windows (both at http://localhost:4200/) so that you have your app running side by side. When creating a new item in one window, you should see it come through in the other window in real-time.
