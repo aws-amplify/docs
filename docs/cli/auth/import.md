@@ -27,7 +27,7 @@ Run `amplify push` to complete the import procedure.
 
 ## Import an existing Identity Pool
 
-Select the "Cognito User Pool and Identity Pool" option when you've run `amplify import auth`. In order to successfully import your Identity Pool, it must have a User Pool fulfilling [these requirements](#import-an-existing-cognito-user-pool) associated as an authentication provider.
+Select the "Cognito User Pool and Identity Pool" option when you've run `amplify import auth`. In order to successfully import your Identity Pool, it must have both of the User Pool app clients fulfilling [these requirements](#import-an-existing-cognito-user-pool) associated as an authentication provider.
 
 Your Identity Pool needs:
 - an Authenticated Role with a trust relationship to your Identity Pool
