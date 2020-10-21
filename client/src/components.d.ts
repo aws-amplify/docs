@@ -195,8 +195,6 @@ export namespace Components {
          */
         "vertical"?: boolean;
     }
-    interface DocsChatButton {
-    }
     interface DocsChooseAnchor {
         /**
           * * the current page's data
@@ -507,12 +505,6 @@ declare global {
         prototype: HTMLDocsCardElement;
         new (): HTMLDocsCardElement;
     };
-    interface HTMLDocsChatButtonElement extends Components.DocsChatButton, HTMLStencilElement {
-    }
-    var HTMLDocsChatButtonElement: {
-        prototype: HTMLDocsChatButtonElement;
-        new (): HTMLDocsChatButtonElement;
-    };
     interface HTMLDocsChooseAnchorElement extends Components.DocsChooseAnchor, HTMLStencilElement {
     }
     var HTMLDocsChooseAnchorElement: {
@@ -683,7 +675,6 @@ declare global {
         "amplify-toc-provider": HTMLAmplifyTocProviderElement;
         "docs-404-page": HTMLDocs404PageElement;
         "docs-card": HTMLDocsCardElement;
-        "docs-chat-button": HTMLDocsChatButtonElement;
         "docs-choose-anchor": HTMLDocsChooseAnchorElement;
         "docs-choose-integration-anchor": HTMLDocsChooseIntegrationAnchorElement;
         "docs-component-playground": HTMLDocsComponentPlaygroundElement;
@@ -893,8 +884,6 @@ declare namespace LocalJSX {
           * * if true, the thumbnail gets rendered to the left of the detail (not above)
          */
         "vertical"?: boolean;
-    }
-    interface DocsChatButton {
     }
     interface DocsChooseAnchor {
         /**
@@ -1110,7 +1099,6 @@ declare namespace LocalJSX {
         "amplify-toc-provider": AmplifyTocProvider;
         "docs-404-page": Docs404Page;
         "docs-card": DocsCard;
-        "docs-chat-button": DocsChatButton;
         "docs-choose-anchor": DocsChooseAnchor;
         "docs-choose-integration-anchor": DocsChooseIntegrationAnchor;
         "docs-component-playground": DocsComponentPlayground;
@@ -1161,7 +1149,6 @@ declare module "@stencil/core" {
             "amplify-toc-provider": LocalJSX.AmplifyTocProvider & JSXBase.HTMLAttributes<HTMLAmplifyTocProviderElement>;
             "docs-404-page": LocalJSX.Docs404Page & JSXBase.HTMLAttributes<HTMLDocs404PageElement>;
             "docs-card": LocalJSX.DocsCard & JSXBase.HTMLAttributes<HTMLDocsCardElement>;
-            "docs-chat-button": LocalJSX.DocsChatButton & JSXBase.HTMLAttributes<HTMLDocsChatButtonElement>;
             "docs-choose-anchor": LocalJSX.DocsChooseAnchor & JSXBase.HTMLAttributes<HTMLDocsChooseAnchorElement>;
             "docs-choose-integration-anchor": LocalJSX.DocsChooseIntegrationAnchor & JSXBase.HTMLAttributes<HTMLDocsChooseIntegrationAnchorElement>;
             "docs-component-playground": LocalJSX.DocsComponentPlayground & JSXBase.HTMLAttributes<HTMLDocsComponentPlaygroundElement>;
