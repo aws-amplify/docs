@@ -105,7 +105,7 @@ This method should be called after the Auth module is configured or the user is 
 You can also access the user's attributes like their email address, phone number, sub, or any other attributes that are associated with them from the user object returned by `Auth.currentAuthenticatedUser`.
 
 ```js
-const { attributes } = Auth.currentAuthenticatedUser();
+const { attributes } = await Auth.currentAuthenticatedUser();
 ```
 
 ## Retrieve current session
