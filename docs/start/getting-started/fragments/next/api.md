@@ -65,7 +65,7 @@ The schema generated is for a blog app. You'll notice a directive on the `Post` 
 
 The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.
 
-A type decorated with the `@model` directive will scaffold out the database table for the type (Todo table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
+A type decorated with the `@model` directive will scaffold out the database table for the type (Post table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
 
 From the command line, press __enter__ to accept the schema and continue to the next steps.
 
@@ -96,7 +96,7 @@ Current Environment: dev
 
 Now the API is live and you can start interacting with it!
 
-The API you have deployed is for a Todo app, including operations for creating, reading, updating, deleting, and listing todos.
+The API you have deployed includes operations for creating, reading, updating, deleting, and listing posts.
 
 Next, run the following command to check Amplify's status:
 

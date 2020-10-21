@@ -11,8 +11,7 @@ if (post.getTitle().startsWith("[Amplify]")) {
 }
 
 // Only applies the update if the data in the remote backend satisfies the criteria
-Amplify.DataStore.save(post,
-    Where.matches(Post.TITLE.beginsWith("[Amplify]")),
+Amplify.DataStore.save(post, Post.TITLE.beginsWith("[Amplify]"),
     update -> { /* handle result */ },
     failure -> { /* handle failure */ }
 );
@@ -31,8 +30,7 @@ if (post.title.starts("[Amplify]")) {
 }
 
 // Only applies the update if the data in the remote backend satisfies the criteria
-Amplify.DataStore.save(post,
-    Where.matches(Post.TITLE.beginsWith("[Amplify]")),
+Amplify.DataStore.save(post, Post.TITLE.beginsWith("[Amplify]"),
     { /* handle result */ },
     { /* handle failure */ }
 )
@@ -52,9 +50,7 @@ if (post.getTitle().startsWith("[Amplify]")) {
 }
 
 // Only applies the update if the data in the remote backend satisfies the criteria
-RxAmplify.DataStore.save(
-    post,
-    Where.matches(Post.TITLE.beginsWith("[Amplify]")))
+RxAmplify.DataStore.save(post, Post.TITLE.beginsWith("[Amplify]"))
     .subscribe(
         update -> { /* handle result */ },
         failure -> { /* handle failure */ }

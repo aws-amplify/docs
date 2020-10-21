@@ -48,6 +48,10 @@ Amplify Console automatically handles cache invalidation and there is no additio
 
 If you start from the Amplify Console's home page and connect your project's code repository (by clicking `Connect app` button), the frontend environment is created for your project once the workflow successfully completes. After setting up hosting in the Amplify Console, you cannot run the `amplify hosting add` command from your local installation of the Amplify CLI. To disable hosting, please visit the Amplify Console and disconnect the branch from the `App settings > General` page.
 
+If you're hosting a Single Page Web App (SPA) with routing such as [`react-router`](https://reactrouter.com/web/guides/quick-start), you'll need to add a [redirect](https://docs.aws.amazon.com/amplify/latest/userguide/redirects.html#redirects-for-single-page-web-apps-spa) in the Amplify console. 
+
+![SPA redirect](~/images/hosting/spa-redirect.png)
+
 ## Amazon S3 and Amazon Cloudfront
 
 The Amplify CLI provides you the option to manage the hosting of your static website using Amazon S3 and Amazon Cloudfront directly as well. Following are the concepts you would encounter when adding S3 & Cloudfront as a hosting option for your Amplify app.
