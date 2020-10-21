@@ -35,9 +35,9 @@ HubPayload `modelSyncedEvent` contains:
 - `modelName` (String): the name of the model that was synced
 - `isFullSync` (Bool): `true` if the model was synced with a "full" query to retrieve all models
 - `isDeltaSync` (Bool): `true` if the model was synced with a "delta" query to retrieve only changes since the last sync
-- `create` (Int): the number of new model instances added to the local store
-- `update` (Int): the number of existing model instances updated in the local store
-- `delete` (Int): the number of model instances deleted from the local stor
+- `added` (Int): the number of new model instances added to the local store
+- `updated` (Int): the number of existing model instances updated in the local store
+- `deleted` (Int): the number of model instances deleted from the local stor
 
 ## syncQueriesReady
 
