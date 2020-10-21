@@ -36,7 +36,7 @@ let hubEventSubscriber = Amplify.Hub.publisher(for: .dataStore).sink { event in
 
 <amplify-callout>
 
-For `networkStatus` event, an initial value in which `active` is always set to `false` is received, but shortly after, you will receive a updated value which represents the real status of network connectivity.
+An initial `networkStatus` event is always dispatched, in which `active` is set to `false`. Shortly thereafter, you will receive an updated event that reflects the true status of the network connectivity.
 
 </amplify-callout>
 

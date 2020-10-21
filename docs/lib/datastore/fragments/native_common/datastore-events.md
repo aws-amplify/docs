@@ -1,18 +1,15 @@
-Making use of Amplify’s `Hub` category, DataStore publishes events to the `datastore` channel notifying its internal state and providing a payload with additional data pertaining the event being notified. So that customers listen for events on `datastore` channel, and react to those events.
-
-DataStore events can tell what internal state your App is at: 
-* The client device goes offline / comes back online
-* Data is synchronized
-* There are outgoing changes not yet synchronized
-
-There are following nine DataStore events:
+DataStore periodically publishes state notifications onto Amplify's Hub. You can subscribe to the Hub to gain insight into the internal state of the DataStore. Events are published when:
+* Your device loses or regains network connectivity;
+* Data is synchronized with the Cloud;
+* There are new, pending changes that are have not yet been synchronized.
+The following nine DataStore events are defined:
 
 ## networkStatus
 
 Dispatched when DataStore starts and every time network status changes
 
 HubPayload `NetworkStatusEvent` contains:
-- `active` (Bool): a boolean value to notify network status
+- `active` (Bool): true if the DataStore is on a network that can connect the Cloud; false, otherwise
 
 ## subscriptionsEstablished
 
@@ -22,14 +19,14 @@ HubPayload: `N/A`
 
 ## syncQueriesStarted
 
-Dispatched when DataStore is about to start sync queries
+Dispatched when DataStore is about to perform its initial sync queries
 
-HubPayload `syncQueriesStartedEvent` contains: an array of each model's `name`
+HubPayload `syncQueriesStartedEvent` contains:
 - `models` ([String]): an array of each model's `name`
 
 ## modelSynced
 
-Dispatched once for each model after the model instances have been synced from the cloud.
+Dispatched once for each model after the model instances have been synced from the cloud
 
 HubPayload `modelSyncedEvent` contains:
 - `modelName` (String): the name of the model that was synced
@@ -53,25 +50,25 @@ HubPayload: `N/A`
 
 ## outboxMutationEnqueued
 
-Dispatched when a local mutation is enqueued into the outgoing mutation queue `outbox`
+Dispatched when a local change has been newly staged for synchronization with the Cloud
 
 HubPayload `outboxMutationEvent` contains:
-- `modelName` (String): the model name of the mutation that was enqueued,
+- `modelName` (String): the name of the model that is awaiting publication to the Cloud
 - `element`: 
-    - `model` (Model): the instance of your model
+    - `model` (Model): the model instance that will be published
 
 
 ## outboxMutationProcessed
 
-Dispatched when a mutation from outgoing mutation queue `outbox` is sent to backend and updated locally.
+Dispatched when a local change has finished synchronization with the Cloud and is updated locally
 
-HubPayload `outboxMutationEvent` contains: the name and instance of the model
-- `modelName` (String): the model name of the mutation that was enqueued,
+HubPayload `outboxMutationEvent` contains:
+- `modelName` (String): the name of the model that has finished processing
 - `element`: 
-    - `model` (Model): the instance of your model
+    - `model` (Model): the model instance that is processed
     - `_version` (Int): version of the model instance
-    - `_lastChangedAt` (Int): last change time of model instance (epoch time)
-    - `_deleted` (Bool): whether the model instance is deleted or not
+    - `_lastChangedAt` (Int): last change time of model instance (unix time)
+    - `_deleted` (Bool): true if the model instance has been deleted in Cloud
 
 ## outboxStatus
 
@@ -81,7 +78,7 @@ Dispatched when:
 - each time a local mutation is finished processing
 
 HubPayload `OutboxStatusEvent` contains: 
-- `isEmpty` (Bool): a boolean value to notify if there are mutations in the outbox
+- `isEmpty` (Bool): a boolean value indicating that there are no local changes still pending upload to the Cloud
 
 ## Usage
-For instance, to see if the network status is active, you could set up the following listener:
+To see if the network status is active, you could set up the following listener:
