@@ -23,9 +23,7 @@ Accept the **default values** which are highlighted below:
 # No
 ? Do you have an annotated GraphQL schema? 
 # No
-? Do you want a guided schema creation? 
-# Yes
-? What best describes your project: 
+? Choose a schema template: 
 # Single object with fields
 ? Do you want to edit the schema now? 
 # Yes
@@ -91,15 +89,13 @@ When prompted, select **GraphQL**. This will open the AWS AppSync console for yo
 
 ## Connect frontend to API
 
-Update your main.ts to configure the library:
+Update __src/main.ts__ to configure the library:
 
 ```javascript
-import PubSub from '@aws-amplify/pubsub';
-import API from '@aws-amplify/api';
-import awsconfig from './aws-exports';
+import Amplify from "aws-amplify";
+import aws_exports from "./aws-exports";
 
-API.configure(awsconfig);
-PubSub.configure(awsconfig);
+Amplify.configure(aws_exports);
 ```
 
 When working with underlying `aws-js-sdk`, the "node" package should be included in *types* compiler option. update your `src/tsconfig.app.json`:
@@ -139,12 +135,6 @@ constructor(
   }
 ```
 
-Then, replace your `src/app/app.component.html` code with a button to add data:
-
-```html
-<ion-button (click)="createTodo()">Add Data</ion-button>
-```
-
 Next, update `initializeApp()` in `src/app/app.component.ts` to list all items in the database by running a query on start and populating a local variable called `todos`:
 
 ```javascript
@@ -162,14 +152,18 @@ export class AppComponent {
 }
 ```
 
-Add the following to your `src/app/app.component.html` to display any of the todos you have added:
+Update the code in `src/app/app.component.html` with the following to display the list of todos:
 
 ```html
-<ion-list>
-  <ion-item *ngFor="let item of todos">
-    {% raw %}{{item.name}}{% endraw %} - {% raw %}{{item.description}}{% endraw %}
-  </ion-item>
-</ion-list>
+<ion-app>
+  <ion-button (click)="createTodo()">Add Data</ion-button>
+  <ion-list>
+    <ion-item *ngFor="let item of todos">
+      <p>{{item.name}} - {{item.description}}</p>
+    </ion-item>
+  </ion-list>
+</ion-app>
+
 ```
 
 Finally, to subscribe to realtime data, update `initializeApp()` to setup a subscription on app start and update the `todos` array when new events are received:
@@ -188,4 +182,4 @@ initializeApp() {
 
 > The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
 
-After restarting your app using `ng serve` go back to your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs.
+After restarting your app using `npm start` go back to your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs.
