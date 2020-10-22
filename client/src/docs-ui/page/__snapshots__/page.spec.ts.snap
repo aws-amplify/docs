@@ -27,6 +27,5 @@ exports[`docs-page Render logic should render 1`] = `
     </amplify-toc-provider>
   </div>
   <docs-footer></docs-footer>
-  <docs-chat-button></docs-chat-button>
 </docs-page>
 `;

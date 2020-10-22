@@ -1,5 +1,5 @@
 ---
-title: Concepts
+title: Under the hood
 description: Learn more about the foundational auth concepts for cloud-based application and how they work with Amplify Framework.
 ---
 

@@ -3,8 +3,7 @@
 Use the [Angular CLI](https://github.com/angular/angular-cli) to bootstrap a new Angular app:
 
 ```bash
-npm install -g @angular/cli
-ng new amplify-app
+npx ng new amplify-app
 
 ? Would you like to add Angular routing? Y
 ? Which stylesheet format would you like to use? (your preferred stylesheet provider)
@@ -55,7 +54,7 @@ Change from dist to dist/amplify-app
 
 Build command (npm run-script build)
 
-Start command (ng serve)
+Start command (ng serve or npm start)
 
 # This is the profile you created with the `amplify configure` command in the introduction step.
 Do you want to use an AWS profile
@@ -75,7 +74,7 @@ Inside the `app` directory, install the Amplify Angular library and run your app
 ```bash
 npm install --save aws-amplify @aws-amplify/ui-angular
 
-ng serve
+npm start
 ```
 
 The `@aws-amplify/ui-angular` package is a set of Angular components and an Angular provider which helps integrate your application with the AWS-Amplify library.  It supports Angular 5.0 and above.  It also includes a [supplemental module](#ionic-4-components) for Ionic-specific components.

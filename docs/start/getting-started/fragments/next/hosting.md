@@ -20,7 +20,7 @@ Create __serverless.yml__ with the following content:
 ```yaml
 # serverless.yml
 nextamplified:
-  component: "@sls-next/serverless-component@1.16.0"
+  component: "@sls-next/serverless-component@1.17.0"
 ```
 
 Finally, deploy with the following command:
