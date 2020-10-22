@@ -131,7 +131,7 @@ amplify console
 
 To test this out locally, you can run the `mock` command.
 
-> If you'd like to go ahead and connect the front end, you can [jump to the next step](#connect-frontend-to-api).
+> If you'd like to go ahead and connect the front end, you can [jump to the next step](#api-with-server-side-rendering-ssr).
 
 ```bash
 amplify mock api
