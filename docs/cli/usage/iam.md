@@ -100,6 +100,7 @@ The Amplify CLI requires the below IAM policies for performing actions across al
                 "cognito-identity:DescribeIdentity",
                 "cognito-identity:DescribeIdentityPool",
                 "cognito-identity:SetIdentityPoolRoles",
+                "cognito-identity:GetIdentityPoolRoles",
                 "cognito-identity:TagResource",
                 "cognito-identity:UpdateIdentityPool",
                 "cognito-idp:AdminAddUserToGroup",

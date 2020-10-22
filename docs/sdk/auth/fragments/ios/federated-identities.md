@@ -19,7 +19,7 @@ The API calls to get AWS credentials will be asynchronously blocked until you fe
 ### SAML with Cognito Identity
 
 To federate your SAML sign-in provider as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.default().federatedSignIn()`. 
-You must first register your SAML application with AWS IAM by using the the following [instructions](https://docs.aws.amazon.com/cognito/latest/developerguide/saml-identity-provider.html). 
+You must first register your SAML application with AWS IAM by using the following [instructions](https://docs.aws.amazon.com/cognito/latest/developerguide/saml-identity-provider.html). 
 
 Once you retrieve the SAML tokens from your login, you can call the `federatedSignIn` API in `AWSMobileClient`:
 
