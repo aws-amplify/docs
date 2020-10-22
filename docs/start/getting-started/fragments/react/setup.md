@@ -51,7 +51,7 @@ Source directory path (src)
 
 Distribution directory path (build)
 
-Build command (npm build)
+Build command (npm run build)
 
 Start command (npm start)
 
@@ -68,7 +68,7 @@ When you initialize a new Amplify project, a few things happen:
 - It modifies the `.gitignore` file, adding some generated files to the ignore list
 - A cloud project is created for you in the AWS Amplify Console that can be accessed by running `amplify console`. The Console provides a list of backend environments, deep links to provisioned resources per Amplify category, status of recent deployments, and instructions on how to promote, clone, pull, and delete backend resources
 
-## Install Amplify libraries 
+## Install Amplify libraries
 
 The first step to using Amplify in the client is to install the necessary dependencies:
 
