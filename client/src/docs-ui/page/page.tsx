@@ -339,7 +339,6 @@ export class DocsPage {
                   ),
                   <docs-footer />,
                 ]}
-            <docs-chat-button />
           </pageContext.Provider>
         </Host>
       );
