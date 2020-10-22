@@ -315,7 +315,7 @@ type Todo @model @searchable {
   id: ID!
   name: String!
   description: String
-  comments: [Todo] @connection(name: "TodoComments")
+  comments: [Comment] @connection(name: "TodoComments")
 }
 ```
 
@@ -324,11 +324,12 @@ The next time you run `amplify push`, an Amazon Elasticsearch domain will be cre
 * Add the relevant location and search fields to the schema.
 
 ```graphql
-type Location {
-  lat: Float
-  lon: Float
+type Comment  @model {
+  id: ID!
+  content: String
+  todoID: ID!
 }
-input LocationInput {
+type Location {
   lat: Float
   lon: Float
 }
@@ -336,8 +337,16 @@ type Todo @model @searchable {
   id: ID!
   name: String!
   description: String
-  comments: [Todo] @connection(name: "TodoComments")
+  comments: [Comment] @connection(name: "TodoComments")
   location: Location
+}
+type TodoConnection {
+  items: [Todo]
+  nextToken: String
+}
+input LocationInput {
+  lat: Float
+  lon: Float
 }
 type Query {
   nearbyTodos(location: LocationInput!, km: Int): TodoConnection
