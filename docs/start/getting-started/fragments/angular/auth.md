@@ -45,7 +45,7 @@ Add the `amplify-authenticator` component to the top of `src/app/app.component.h
 Run the app to see the new Authentication flow protecting the app:
 
 ```bash
-ng serve
+npm start
 ```
 
 Now you should see the app load with an authentication flow allowing users to sign up and sign in.

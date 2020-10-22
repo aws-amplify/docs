@@ -10,6 +10,8 @@ To get started, initialize a new React Native project.
 ```bash
 npm install -g expo-cli  
 expo init RNAmplify
+
+? Choose a template: blank
 ```
 
 </amplify-block>
@@ -42,8 +44,8 @@ amplify init
 ? Choose your default editor: <Your favorite text editor>
 ? Choose the type of app that you're building: javascript
 ? What javascript framework are you using: react-native
-? Source Directory Path:  /
-? Distribution Directory Path: /
+? Source Directory Path:  ./
+? Distribution Directory Path: ./
 ? Build Command:  npm run-script build
 ? Start Command: npm run-script start
 ? Do you want to use an AWS profile? Y

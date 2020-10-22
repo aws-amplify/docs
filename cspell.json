@@ -1309,7 +1309,9 @@
     "amplifyconfig",
     "nextamplified",
     "vercel",
-    "Uploader"
+    "Uploader",
+    "AMPLIFYLAYERGUIDE",
+    "instanceof"
   ],
   "flagWords": ["hte"]
 }

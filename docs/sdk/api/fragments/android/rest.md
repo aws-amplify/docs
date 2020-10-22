@@ -55,7 +55,7 @@ import YOUR_API_RESOURCE_NAME.YOUR_APP_NAME_XXXXClient;
 private YOUR_APP_NAME_XXXXClient apiClient;
 
 apiClient = new ApiClientFactory()
-    .credentialsProvider(AWSMobileClient.getInstance().getCredentialsProvider())
+    .credentialsProvider(AWSMobileClient.getInstance())
     .build(YOUR_API_CLIENT_NAME.class);
 ```
 

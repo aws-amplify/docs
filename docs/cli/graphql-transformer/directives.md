@@ -1022,24 +1022,6 @@ The above schema assumes a combination of **Amazon Cognito User Pools** and **IA
 
 </amplify-callout>
 
-Let's have a look at one more example. In the following example the model is protected by Cognito User Pools by default and anyone with a valid JWT token can perform any operation on the `Post` type, but cannot update the `secret` field. The `secret` field can only be modified through the configured IAM policies, from a Lambda function for example.
-
-```graphql
-type Post @model @auth (rules: [{ allow: private }]) {
-  id: ID!
-  title: String
-  owner: String
-  secret: String
-    @auth (rules: [{ allow: private, provider: iam, operations: [create, update] }])
-}
-```
-
-<amplify-callout>
-
-The above schema assumes a combination of **Amazon Cognito User Pools** and **IAM** authentication types
-
-</amplify-callout>
-
 ### Allowed authorization mode vs. provider combinations
 
 The following table shows the allowed combinations of authorization modes and providers.
