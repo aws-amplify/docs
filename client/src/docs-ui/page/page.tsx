@@ -47,6 +47,8 @@ export class DocsPage {
   rafId?: number;
   isFirstRenderOfCurrentPage = true;
   previousPathname = "";
+  /** increments every time the page changes, to tell all block switchers on the page to rerender */
+  alwaysRerenderBlockSwitcher = 0;
 
   setNewSelectedTabHeading: SetNewSelectedTabHeadings = (tabHeading) => {
     // create temp array with `tabHeading` (the new highest priority) as first el
@@ -248,6 +250,7 @@ export class DocsPage {
         <Host class={pageStyle}>
           <pageContext.Provider
             state={{
+              alwaysRerenderBlockSwitcher: this.alwaysRerenderBlockSwitcher++,
               selectedFilters: this.selectedFilters,
               setSelectedFilters: this.setSelectedFilters,
               selectedTabHeadings: this.selectedTabHeadings,

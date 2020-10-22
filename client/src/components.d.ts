@@ -21,6 +21,10 @@ export namespace Components {
     }
     interface AmplifyBlockSwitcher {
         /**
+          * increments whenever the platform changes and we need to refresh the tabHeadings
+         */
+        "alwaysRerenderBlockSwitcher": number;
+        /**
           * list of previously tab headings in order of priority, passed from global provider
          */
         "selectedTabHeadings": SelectedTabHeadings;
@@ -710,6 +714,10 @@ declare namespace LocalJSX {
         "name"?: string;
     }
     interface AmplifyBlockSwitcher {
+        /**
+          * increments whenever the platform changes and we need to refresh the tabHeadings
+         */
+        "alwaysRerenderBlockSwitcher"?: number;
         /**
           * list of previously tab headings in order of priority, passed from global provider
          */
