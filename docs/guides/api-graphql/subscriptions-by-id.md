@@ -64,21 +64,6 @@ type Subscription {
 
 ```
 
-Now you can subscribe to the comments for a specific post using the post id:
-
-```js
-import { API } from 'aws-amplify';
-import { onCommentByPostId } from './graphql/subscriptions';
-
-API.graphql({
-  query: onCommentByPostId,
-  variables: {
-    postCommentsId: "12345"
-  }
-})
-.subscribe({
-  next: data => {
-    console.log('data: ', data)
-  }
-})
-```
+<inline-fragment platform="ios" src="~/guides/api-graphql/fragments/ios/subscriptions-by-id.md"></inline-fragment>
+<inline-fragment platform="js" src="~/guides/api-graphql/fragments/js/subscriptions-by-id.md"></inline-fragment>
+<inline-fragment platform="android" src="~/guides/api-graphql/fragments/android/subscriptions-by-id.md"></inline-fragment>
