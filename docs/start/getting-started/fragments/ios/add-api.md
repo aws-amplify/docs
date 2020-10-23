@@ -32,19 +32,19 @@ Now that you have DataStore persisting data locally, in the next step you'll con
 
 In order to enable cloud syncing you need to **configure your application to use the Amplify API category**. Open the `AppDelegate.swift` file and **update the amplify initialization code** to add the API plugin. The `application(_,didFinishLaunchingWithOptions:)` function should now call `Amplify.add(plugin:)` with a reference to an `AWSAPIPlugin` instance:
   
-  ```swift
-  let models = AmplifyModels()
-  let apiPlugin = AWSAPIPlugin(modelRegistration: models)
-  let dataStorePlugin = AWSDataStorePlugin(modelRegistration: models)
-  do {
-      try Amplify.add(plugin: apiPlugin)
-      try Amplify.add(plugin: dataStorePlugin)
-      try Amplify.configure()
-      print("Initialized Amplify");
-  } catch {
-      print("Could not initialize Amplify: \(error)")
-  }
-  ```
+```swift
+let models = AmplifyModels()
+let apiPlugin = AWSAPIPlugin(modelRegistration: models)
+let dataStorePlugin = AWSDataStorePlugin(modelRegistration: models)
+do {
+    try Amplify.add(plugin: apiPlugin)
+    try Amplify.add(plugin: dataStorePlugin)
+    try Amplify.configure()
+    print("Initialized Amplify");
+} catch {
+    print("Could not initialize Amplify: \(error)")
+}
+```
 
 Now when you run you application the data will be synced to your cloud backend automatically! 🎉
 
