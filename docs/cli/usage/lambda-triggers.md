@@ -1,9 +1,9 @@
 ---
 title: Lambda Triggers
 description: Lambda triggers are useful for adding functionality during certain lifecycles of the user's journey. Associate a Lambda trigger with an auth scenario, S3 bucket, DynamoDB table or Kinesis Stream managed through the Amplify CLI.
---- 
+---
 
-Lambda triggers are useful for adding functionality during certain lifecycles of the user's journey. Amplify ships common trigger templates which you can enable and modify (if necessary) through a few simple questions. 
+Lambda triggers are useful for adding functionality during certain lifecycles of the user's journey. Amplify ships common trigger templates which you can enable and modify (if necessary) through a few simple questions.
 
 ## Cognito Lambda Triggers
 
@@ -91,7 +91,7 @@ import React from 'react';
 import './App.css';
 import Amplify, { Auth, Hub } from 'aws-amplify';
 import awsconfig from './aws-exports';
-import { Authenticator, SignUp, SignIn, Greetings, ConfirmSignUp, AuthPiece } from 'aws-amplify-react'; 
+import { Authenticator, SignUp, SignIn, Greetings, ConfirmSignUp, AuthPiece } from 'aws-amplify-react';
 import ReCAPTCHA from "react-google-recaptcha";
 
 
@@ -113,7 +113,7 @@ class MyCustomConfirmation extends AuthPiece {
 
   onChange(data) {
     Auth.sendCustomChallengeAnswer(this.props.authData, data)
-    .then( (user) => { 
+    .then( (user) => {
       console.log('user signed in!: ', user)
       this.changeState('signedIn', user);
     })
@@ -135,7 +135,7 @@ class MyCustomConfirmation extends AuthPiece {
       }
     }
   }
-  
+
   class App extends React.Component {
     render() {
       return (
@@ -145,17 +145,17 @@ class MyCustomConfirmation extends AuthPiece {
             <SignUp />
             <ConfirmSignUp />
             <Greetings />
-            <MyCustomConfirmation override={'ConfirmSignIn'}/> 
+            <MyCustomConfirmation override={'ConfirmSignIn'}/>
             </Authenticator>
         </div>
       );
     }
   }
-  
+
   function MyApp() {
     return <App />
   }
-  
+
   export default MyApp;
 ```
 
@@ -239,7 +239,7 @@ app.component.html
 The following code sample demonstrates how to create a custom ConfirmSignIn component in Vue using the vue-recaptcha npm package.
 
 App.vue
-```javascript 
+```javascript
 <template>
   <div id="app">
     <amplify-authenticator></amplify-authenticator>
@@ -260,7 +260,7 @@ import VueRecaptcha from 'vue-recaptcha';
 
 
 export default {
-  name: 'app', 
+  name: 'app',
   components: {
     VueRecaptcha,
     ...components
@@ -293,7 +293,7 @@ export default {
   methods: {
     onVerify: function (data) {
       this.$Amplify.Auth.sendCustomChallengeAnswer(this.user, data)
-        .then( (user) => { 
+        .then( (user) => {
           AmplifyEventBus.$emit('authState', 'signedIn')
           return AmplifyEventBus.$emit('localUser', user)
         })
@@ -361,7 +361,7 @@ import React from 'react';
 import './App.css';
 import Amplify, { Auth, Hub } from 'aws-amplify';
 import awsconfig from './aws-exports';
-import { Authenticator, SignUp, SignIn, Greetings, AuthPiece } from 'aws-amplify-react'; 
+import { Authenticator, SignUp, SignIn, Greetings, AuthPiece } from 'aws-amplify-react';
 
 
 Amplify.configure(awsconfig);
@@ -389,7 +389,7 @@ class App extends React.Component {
           <SignIn />
           <SignUp />
           <Greetings />
-          <MyCustomConfirmation override={'ConfirmSignUp'}/> 
+          <MyCustomConfirmation override={'ConfirmSignUp'}/>
           </Authenticator>
       </div>
     );
@@ -469,7 +469,7 @@ import VueRecaptcha from 'vue-recaptcha';
 
 
 export default {
-  name: 'app', 
+  name: 'app',
   components: {
     VueRecaptcha,
     ...components
@@ -543,7 +543,7 @@ As you can see in the prompt above, you can either choose to use an existing Lam
 You can associate a Lambda trigger with a DynamoDB table, managed by the Amplify CLI. There are two ways by which DynamoDB is provisioned by the Amplify CLI
 
 - As a part of the [Storage category](~/cli/storage/overview.md#)
-- As a part of the [GraphQL API (types with @model annotation)](~/cli/graphql-transformer/directives.md#model)
+- As a part of the [GraphQL API (types with @model annotation)](~/cli/graphql-transformer/model.md)
 
 
 ### As a part of the Storage category
@@ -574,10 +574,10 @@ Proceed by providing a name and selecting a Lambda Trigger template:
 ```bash
 ? Provide a friendly name for your resource to be used as a label for this category in the project: testtrigger
 ? Provide the AWS Lambda function name: mytrigger
-? Choose the function template that you want to use: 
-  Hello world function 
-  CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB) 
-  Serverless express function (Integration with Amazon API Gateway) 
+? Choose the function template that you want to use:
+  Hello world function
+  CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB)
+  Serverless express function (Integration with Amazon API Gateway)
 ❯ Lambda Trigger
 ```
 
@@ -585,7 +585,7 @@ Then select `Amazon DynamoDB Stream` when prompted with event source question.
 
 ```bash
 ? What event source do you want to associate with Lambda trigger (Use arrow keys)
-❯ Amazon DynamoDB Stream 
+❯ Amazon DynamoDB Stream
   Amazon Kinesis Stream
 ```
 
@@ -594,8 +594,8 @@ Now select `API category graphql @model backed DynamoDB table`.
 ```
 ?
 > Use API category graphql @model backed DynamoDB table(s) in the current Amplify project
-  Use storage category DynamoDB table configured in the current Amplify project 
-  Provide the ARN of DynamoDB stream directly 
+  Use storage category DynamoDB table configured in the current Amplify project
+  Provide the ARN of DynamoDB stream directly
 ```
 After the above question, you can select one of the types annotated by @model for which you want to add a trigger for.
 
@@ -637,10 +637,10 @@ Proceed by providing a name and selecting a Lambda Trigger template:
 ```bash
 ? Provide a friendly name for your resource to be used as a label for this category in the project: testtrigger
 ? Provide the AWS Lambda function name: mytrigger
-? Choose the function template that you want to use: 
-  Hello world function 
-  CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB) 
-  Serverless express function (Integration with Amazon API Gateway) 
+? Choose the function template that you want to use:
+  Hello world function
+  CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB)
+  Serverless express function (Integration with Amazon API Gateway)
 ❯ Lambda Trigger
 ```
 
@@ -648,11 +648,11 @@ Then select `Amazon Kinesis Stream` when prompted with event source question and
 
 ```bash
 ? What event source do you want to associate with Lambda trigger (Use arrow keys)
-  Amazon DynamoDB Stream 
+  Amazon DynamoDB Stream
 ❯ Amazon Kinesis Stream
 ? Choose a Kinesis event source option (Use arrow keys)
-❯ Use Analytics category kinesis stream in the current Amplify project 
-  Provide the ARN of Kinesis stream directly 
+❯ Use Analytics category kinesis stream in the current Amplify project
+  Provide the ARN of Kinesis stream directly
 ```
 
 

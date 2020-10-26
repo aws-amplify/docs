@@ -77,7 +77,7 @@ The following types do not have '@auth' enabled. Consider using @auth with @mode
      - Blog
      - Post
      - Comment
-Learn more about @auth here: ~/cli/graphql-transformer/directives.md#auth
+Learn more about [@auth here](~/cli/graphql-transformer/auth.md).
 
 
 GraphQL schema compiled successfully.

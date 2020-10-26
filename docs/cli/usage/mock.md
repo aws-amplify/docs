@@ -1,6 +1,6 @@
 ---
 title: Mocking and testing
-description: Learn how to quickly test and debug without pushing all changes in your Amplify project to the cloud. Use local mocking and testing for certain categories including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), and Functions (AWS Lambda). 
+description: Learn how to quickly test and debug without pushing all changes in your Amplify project to the cloud. Use local mocking and testing for certain categories including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), and Functions (AWS Lambda).
 ---  
 
 It is highly recommended that you complete the Getting Started section of Amplify setup before using local mocking.
@@ -34,11 +34,11 @@ When adding a schema use an API Key at first to ensure everything works, though 
 
 When defining a schema you can use directives from the GraphQL Transformer in local testing as well as local code generation from the schema for types. The following directives are currently supported in local testing:
 
-- [@auth](~/cli/graphql-transformer/directives.md#auth)
-- [@key](~/cli/graphql-transformer/directives.md#key)
-- [@connection](~/cli/graphql-transformer/directives.md#connection)
-- [@versioned](~/cli/graphql-transformer/directives.md#versioned)
-- [@function](~/cli/graphql-transformer/directives.md#function)
+- [@auth](~/cli/graphql-transformer/auth.md)
+- [@key](~/cli/graphql-transformer/key.md)
+- [@connection](~/cli/graphql-transformer/connection.md)
+- [@versioned](~/cli/graphql-transformer/versioned.md)
+- [@function](~/cli/graphql-transformer/function.md)
 
 > Note that `@searchable` is not supported at this time.
 
@@ -59,7 +59,7 @@ To use an iOS application with the local S3 endpoint you will need to [modify yo
 For DynamoDB storage, setup is automatically done when creating a GraphQL API with no action is needed on your part. Resources for the mocked data, such as the DynamoDB Local database or objects uploaded using the local S3 endpoint, inside your project under `./amplify/mock-data`.
 
 ## Function mocking setup
-For Lambda function mocking, after running `amplify init` you can add a function to your project with `amplify add function` and either invoke it directly, or use the [@function](~/cli/graphql-transformer/directives.md#function) directive as part of your GraphQL schema to mock the invocation as part of your API.
+For Lambda function mocking, after running `amplify init` you can add a function to your project with `amplify add function` and either invoke it directly, or use the [@function](~/cli/graphql-transformer/function.md) directive as part of your GraphQL schema to mock the invocation as part of your API.
 
 To invoke the function directly:
 
@@ -90,7 +90,7 @@ type Query {
     getQuote: String @function(name: "quoteOfTheDay-${env}")
 }
 ```
-Full instructions on how to use the @function directive can be found [here](~/cli/graphql-transformer/directives.md#function).
+Full instructions on how to use the @function directive can be found [here](~/cli/graphql-transformer/function.md).
 
 Then when running `amplify mock api`, the local GraphQL endpoint will invoke this function when running a GraphQL query such as:
 
