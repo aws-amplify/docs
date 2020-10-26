@@ -177,7 +177,7 @@ Here's a table outlining which users are permitted to execute which operations. 
 
 ### Multiple authorization rules
 
-You may also apply multiple ownership rules on a single `@model` type.
+You may also apply multiple ownership rules on a single `@model` type. 
 
 For example, imagine you have a type **Draft** that stores unfinished posts for a blog. You might want to allow the **Draft's** owner to `create`, `update`, `delete`, and `read` **Draft** objects. However, you might also want the **Draft's editors** to be able to update and read **Draft** objects.
 
