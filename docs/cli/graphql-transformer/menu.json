@@ -2,6 +2,7 @@
   "title": "API (GraphQL)",
   "items": [
     "overview",
+    "directives",
     "model",
     "key",
     "auth",
