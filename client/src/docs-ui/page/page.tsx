@@ -31,6 +31,7 @@ import {getPage} from "../../cache.worker";
 import {getNavHeight} from "../../utils/get-nav-height";
 import {scrollToHash} from "../../utils/scroll-to-hash";
 import {parseURL} from "../../utils/url/url.worker";
+import {redirects} from "./redirects";
 
 const SELECTED_TABS_LOCAL_STORAGE_KEY = `amplify-docs::selected-tabs`;
 
@@ -174,6 +175,14 @@ export class DocsPage {
     }
     if (currentRoute.endsWith("/") && currentRoute !== "/") {
       currentRoute = currentRoute.substring(0, currentRoute.length - 1);
+    }
+    if (currentRoute.includes("cli/graphql-transformer/directives")) {
+      const redirected = redirects[location.hash];
+      if (redirected) {
+        currentRoute = `/cli/graphql-transformer${redirected}`;
+        // @ts-ignore
+        window.location = currentRoute;
+      }
     }
 
     const {path, params} = await parseURL(currentRoute);
