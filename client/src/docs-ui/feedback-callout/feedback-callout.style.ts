@@ -3,6 +3,7 @@ import {css} from "emotion";
 export const hostStyle = css`
   display: none;
   position: relative;
+  margin-top: 0.5rem;
 
   button {
     position: absolute;

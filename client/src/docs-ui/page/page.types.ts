@@ -16,6 +16,7 @@ export type SelectedTabHeadings = string[];
 export type SetNewSelectedTabHeadings = (tabHeading: string) => void;
 
 export interface PageContext {
+  alwaysRerenderBlockSwitcher?: number;
   selectedFilters?: SelectedFilters;
   setSelectedFilters?: SetSelectedFilters;
   selectedTabHeadings: SelectedTabHeadings;

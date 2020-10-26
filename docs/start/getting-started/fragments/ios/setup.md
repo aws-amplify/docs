@@ -9,7 +9,7 @@
 
 - Install [Node.js](https://nodejs.org/en/) version 10 or higher
 - Install [Xcode](https://developer.apple.com/xcode/downloads/) version 11.4 or later
-- Install [Cocoapods](https://Cocoapods.org/)
+- Install [Cocoapods](https://cocoapods.org/)
 - Install [Amplify CLI](~/cli/cli.md) version 4.22.0 or later by running:
 
     ```bash
@@ -27,8 +27,9 @@
 
 1. Fill in the following for your project:
   * Product Name: **Todo**
+  * Interface: **SwiftUI**
+  * Life Cycle: **SwiftUI App** (only relevant if Xcode 12 is being used)
   * Language: **Swift**
-  * User Interface: **SwiftUI**
   * Select the **Next** button
 
   ![](~/images/lib/getting-started/ios/set-up-ios-studio-configure-your-project.png)

@@ -56,7 +56,7 @@ In order for voice interaction to work with Amazon Lex, you may have to enable O
 ChatBot Error: Invalid Bot Configuration: This bot does not have a Polly voice ID associated with it. For voice interaction with the user, set a voice ID
 ```
 
-You can also configure `silenceDelay={customTime}` where `customTime` is the the silence detection time in milliseconds. The default value is 1000. 
+You can also configure `silenceDelay={customTime}` where `customTime` is the silence detection time in milliseconds. The default value is 1000. 
 
 The `conversationModeOn` props turns continuous conversation cycle mode on/off for voice interaction.
 

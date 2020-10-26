@@ -4,24 +4,59 @@ Next you'll use the generated model to create, update, query, and delete data. I
 
 First, we'll add the DataStore plugin and configure Amplify.
 
-1. Open `AppDelegate.swift` and **add the following** import statements at the top of the file:
+1. Open the main file of the application - `AppDelegate.swift` or `TodoApp.swift` depending on the Life Cycle previously chosen - and **add the following** import statements at the top of the file:
   ```swift
   import Amplify
   import AmplifyPlugins
   ```
 
-1. In the same file (`AppDelegate.swift`), **insert the following** code into the `application(_,Didfinishlaunchingwithoptions:)` method right before the `return true` line of code:
+1. In the same file, **create a function** to configure Amplify:
   ```swift
-
-  let dataStorePlugin = AWSDataStorePlugin(modelRegistration: AmplifyModels())
-  do {
-      try Amplify.add(plugin:dataStorePlugin)
-      try Amplify.configure()
-      print("Initialized Amplify");
-  } catch {
-      print("Could not initialize Amplify: \(error)")
+  func configureAmplify() {
+      let dataStorePlugin = AWSDataStorePlugin(modelRegistration: AmplifyModels())
+      do {
+          try Amplify.add(plugin: dataStorePlugin)
+          try Amplify.configure()
+          print("Initialized Amplify");
+      } catch {
+          // simplified error handling for the tutorial
+          print("Could not initialize Amplify: \(error)")
+      }
   }
   ```
+
+1. Now **call the `configureAmplify()` function** in the starting point of your application.
+  <amplify-block-switcher>
+    <amplify-block name="SwiftUI App">
+    
+    ```swift
+    @main
+    struct TodoApp: App {
+        // add a default initializer and configure Amplify
+        public init() {
+            configureAmplify()
+        }
+    }
+    ```
+    
+    </amplify-block>
+    <amplify-block name="UIKit App Delegate">
+    
+    ```swift
+    @UIApplicationMain
+    class AppDelegate: UIResponder, UIApplicationDelegate {
+        func application(_: UIApplication,
+                         didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?
+        ) -> Bool {
+            configureAmplify()
+            return true
+        }
+        // ...
+    }
+    ```
+    
+    </amplify-block>
+  </amplify-block-switcher>
 
 1. **Build and run** the application. In the Xcode console window, you'll see a log line indicating success:
 
@@ -29,7 +64,7 @@ First, we'll add the DataStore plugin and configure Amplify.
     Initialized Amplify
     ```
 
-    Optionally, if you'd like to adjust the log level, you can do this by updating the `Amplify.Logging.logLevel` variable.  For example, you can add the following line of code to the `application(_,Didfinishlaunchingwithoptions:)` method:
+    Optionally, if you'd like to adjust the log level, you can do this by updating the `Amplify.Logging.logLevel` variable. For example, you can add the following line of code to the `configureAmplify()` function:
     ```swift
     Amplify.Logging.logLevel = .info
     ```

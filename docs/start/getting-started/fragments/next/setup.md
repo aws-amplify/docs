@@ -51,7 +51,7 @@ Source directory path (src)
 
 Distribution directory path (build)
 
-Build command (npm build)
+Build command (npm run build)
 
 Start command (npm start)
 
@@ -70,7 +70,7 @@ When you initialize a new Amplify project, a few things happen:
 
 As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in __aws-exports.js__ will update automatically.
 
-## Install Amplify libraries 
+## Install Amplify libraries
 
 The first step to using Amplify in the client is to install the necessary dependencies:
 

@@ -1,7 +1,7 @@
 The `AWSMobileClient` client supports a simple "drop-in" UI for your application. You can add drop-in Auth UI like so:
 
 ```java
-// 'this' refers the the current active activity
+// 'this' refers the current active activity
 AWSMobileClient.getInstance().showSignIn(this, new Callback<UserStateDetails>() {
     @Override
     public void onResult(UserStateDetails result) {
