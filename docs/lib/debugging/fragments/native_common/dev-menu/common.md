@@ -1,5 +1,11 @@
 When running a **debug** build of your app, you can access information, view logs, and file GitHub issues for Amplify directly from your application through the developer menu. By filing GitHub issues through the developer menu, critical information about the issue (device and environment information) is automatically added to the issue description, allowing Amplify team members to better assist you in resolving the issue.
 
+<docs-filter platform="ios">
+
+![Amplify iOS Developer Menu](~/images/debugging/iosDevMenu.png)
+
+</docs-filter>
+
 <docs-filter platform="android">
 
 ![Amplify Android Developer Menu](~/images/debugging/androidDevMenu.png)
@@ -14,10 +20,12 @@ The developer menu is disabled in **production** app builds.
 
 ## Setup
 
+<inline-fragment platform="ios" src="~/lib/debugging/fragments/ios/dev-menu/setup.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/debugging/fragments/android/dev-menu/setup.md"></inline-fragment>
 
 ## Access and Usage
 
+<inline-fragment platform="ios" src="~/lib/debugging/fragments/ios/dev-menu/usage.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/debugging/fragments/android/dev-menu/usage.md"></inline-fragment>
 
 The developer menu contains the following:
