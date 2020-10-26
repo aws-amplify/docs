@@ -12,6 +12,7 @@
     "advanced",
 
     "signin",
+    "signin_with_custom_flow",
     "signin_web_ui",
     "social_signin_web_ui",
     "guest_access",
