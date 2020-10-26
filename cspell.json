@@ -1310,7 +1310,8 @@
     "nextamplified",
     "vercel",
     "Uploader",
-    "AMPLIFYLAYERGUIDE"
+    "AMPLIFYLAYERGUIDE",
+    "instanceof"
   ],
   "flagWords": ["hte"]
 }

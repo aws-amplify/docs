@@ -73,7 +73,7 @@ const Hyperscript = (
   const children =
     node.childNodes && node.childNodes.length > 0
       ? // eslint-disable-next-line
-      node.childNodes.reduce((acc: any, childNode: any) => {
+        node.childNodes.reduce((acc: any, childNode: any) => {
           const hyperscriptNode = Hyperscript(
             ctx,
             childNode,
