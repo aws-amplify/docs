@@ -11,7 +11,7 @@ The Amplify CLI provides GraphQL directives to enhance your schema with addition
 - [`@key`: Configures custom index structures for @model types](~/cli/graphql-transformer/key.md)
 - [`@auth`: Defines authorization rules for your @model types and fields](~/cli/graphql-transformer/auth.md)
 - [`@connection`: Defines 1:1, 1:M, and N:M relationships between @model types](~/cli/graphql-transformer/connection.md)
-- [`@function`: Adds a function trigger to a field](~/cli/graphql-transformer/function.md)
+- [`@function`: Configures a Lambda function resolvers for a field](~/cli/graphql-transformer/function.md)
 - [`@http`: Configures an HTTP resolver for a field](~/cli/graphql-transformer/http.md)
 - [`@predictions`: Queries an orchestration of AI/ML services such as Amazon Rekognition, Amazon Translate, and/or Amazon Polly](~/cli/graphql-transformer/predictions.md)
 - [`@searchable`: Makes your data searchable by streaming it to Elasticsearch](~/cli/graphql-transformer/searchable.md)

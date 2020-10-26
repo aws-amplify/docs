@@ -1,5 +1,5 @@
 ---
-title: Create lambda triggers
+title: Configure Lambda resolvers
 description: Quickly & easily configure AWS Lambda resolvers within your AWS AppSync API.
 ---
 

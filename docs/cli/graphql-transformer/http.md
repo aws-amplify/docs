@@ -1,5 +1,5 @@
 ---
-title: Configure endpoint to access data
+title: Configure HTTP resolvers
 description: The `@http` directive allows you to quickly connect HTTP or HTTPS endpoint to an AppSync API by creating an AWS AppSync HTTP resolver.
 ---
 
