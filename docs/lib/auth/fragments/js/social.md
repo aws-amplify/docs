@@ -59,7 +59,7 @@ const updatedAwsConfig = {
   oauth: {
     ...awsConfig.oauth,
     redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
-    redirectSignOut: isLocalHost ? localRedirectSignOut : productionRedirectSignOut,
+    redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
   }
 }
 
