@@ -15,7 +15,15 @@ We will now use the Amplify CLI to configure the AWS Cloud Resources that will p
     npm install -g @aws-amplify/cli@flutter-preview
     ```
 
-2. Initialize Amplify CLI by running: 
+1. Configure Amplify to manage cloud resources on your behalf. Open a terminal window and run `amplify configure`. This step will configure a new AWS user in your account for Amplify.
+
+    ```bash
+    amplify configure
+    ```
+
+   This command will open up a web browser to the AWS Management Console and guide you through creating a new IAM user. For step-by-step directions to set this up, refer to the [CLI installation guide](~/cli/start/install.md).
+
+1. Initialize Amplify CLI by running: 
 
     ```bash
     amplify init
@@ -43,15 +51,7 @@ We will now use the Amplify CLI to configure the AWS Cloud Resources that will p
         `default`
     ```
 
-3. Configure Amplify to manage cloud resources on your behalf. This step will configure a new AWS user in your account for Amplify. Open up a terminal window. You can use an external terminal or the integrated terminal in Android Studio. In the terminal, run:
-
-    ```bash
-    amplify configure
-    ```
-
-    This command will open up a web browser to the AWS Management Console and guide you through creating a new IAM user. For step-by-step directions to set this up, refer to the [CLI installation guide](~/cli/start/install.md).
-
-4. Add Analytics by typing in the following in terminal: 
+1. Add Analytics by typing in the following in terminal: 
 
     ```
     amplify add analytics
@@ -68,7 +68,7 @@ We will now use the Amplify CLI to configure the AWS Cloud Resources that will p
         `Yes`
     ```
 
-5. To save all your changes and to create your AWS resources, run the following command last:
+1. To save all your changes and to create your AWS resources, run the following command last:
 
     ``` 
     amplify push 
