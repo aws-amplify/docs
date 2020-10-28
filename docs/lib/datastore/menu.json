@@ -4,6 +4,7 @@
     "getting-started",
     "data-access",
     "relational",
+    "setup-auth-rules",
     "sync",
     "conflict",
     "real-time",
