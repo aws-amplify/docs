@@ -3,7 +3,7 @@
 Use the [Angular CLI](https://github.com/angular/angular-cli) to bootstrap a new Angular app:
 
 ```bash
-npx ng new amplify-app
+npx -p @angular/cli ng new test-app
 
 ? Would you like to add Angular routing? Y
 ? Which stylesheet format would you like to use? (your preferred stylesheet provider)
