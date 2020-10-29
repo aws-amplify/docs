@@ -239,7 +239,7 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
 
   ```swift
   Amplify.DataStore.query(Todo.self,
-                          where: Todo.keys.priority.eq(Priority.high) { result in
+                          where: Todo.keys.priority.eq(Priority.high)) { result in
       switch(result) {
       case .success(let todos):
           for todo in todos {
@@ -276,7 +276,7 @@ You may want to change the contents of a record. Below, we'll query for a record
 
     ```swift
     Amplify.DataStore.query(Todo.self,
-                            where: Todo.keys.name.eq("Finish quarterly taxes") { result in
+                            where: Todo.keys.name.eq("Finish quarterly taxes")) { result in
         switch(result) {
         case .success(let todos):
             guard todos.count == 1, var updatedTodo = todos.first else {
@@ -313,7 +313,7 @@ To round out our CRUD operations, we'll query for a record and delete it from Da
 
     ```swift
     Amplify.DataStore.query(Todo.self,
-                            where: Todo.keys.name.eq("File quarterly taxes") { result in
+                            where: Todo.keys.name.eq("File quarterly taxes")) { result in
         switch(result) {
         case .success(let todos):
             guard todos.count == 1, let toDeleteTodo = todos.first else {
