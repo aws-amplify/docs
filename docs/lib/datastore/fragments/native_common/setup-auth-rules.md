@@ -1,4 +1,4 @@
-The `@auth` directive can be used to describe the authorization configuration parameters for each of the models.
+Amplify gives you the ability to limit which individuals or groups should have access to create, read, update, or delete data on your various schema types by specifying an `@auth` directive.
 
 The following is a high level overview of the various authorization scenarios we support in the Amplify libraries.  Each scenario has a variety of options you can tune to fit the needs of your application.  Use the links below to find out more information.
 
