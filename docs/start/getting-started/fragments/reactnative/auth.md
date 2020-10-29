@@ -32,6 +32,10 @@ amplify console
 
 Now that we have our authentication service deployed to AWS, it's time to add authentication to our React app. Creating the login flow can be quite difficult and time consuming to get right. Luckily Amplify Framework has an authentication UI component we can use that will provide the entire authentication flow for us, using our configuration specified in our __aws-exports.js__ file.
 
+First, install the `aws-amplify-react-native` library as well as the other necessary dependencies if you have not already in a previous step. This step differs depending on if you're using Expo or React Native CLI.
+
+<inline-fragment src="~/start/getting-started/fragments/reactnative/getting-started-steps-ui.md"></inline-fragment>
+
 Open __App.js__ and make the following changes:
 
 1. Import the `withAuthenticator` component:
