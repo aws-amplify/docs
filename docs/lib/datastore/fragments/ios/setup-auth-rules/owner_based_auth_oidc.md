@@ -18,7 +18,7 @@ class MyOIDCAuthProvider : AmplifyOIDCAuthProvider {
     }
 }
 ```
-* Finally, register your instance of `APIAuthProviderFactory` prior to calling `Amplify.configure()`
+* Finally, register your instance of `APIAuthProviderFactory` prior to calling `Amplify.configure()`:
 ```swift
 let dataStorePlugin = AWSDataStorePlugin(modelRegistration: AmplifyModels())
 try Amplify.add(plugin: dataStorePlugin)
