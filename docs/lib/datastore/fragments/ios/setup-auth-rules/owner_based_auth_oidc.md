@@ -1,4 +1,4 @@
-When using a 3rd party OIDC auth provider, you are required to provide an instance of `APIAuthProviderFactory` which is capable of creating an instance of a class that conforms to `AmplifyOIDCAuthProvider`.  The responsibility of the `AmplifyOIDCAuthProvider` is to return the JWT token that was provided by your OIDC provider.  To do this:
+When using a third-party OIDC auth provider, you are required to provide an instance of `APIAuthProviderFactory`. Your factory implementation must be capable of creating objects conforming to the `AmplifyOIDCAuthProvider` protocol.  The responsibility of the `AmplifyOIDCAuthProvider` is to return the JWT token that was provided by your OIDC provider. To do this:
 * Create a subclass of `APIAuthProviderFactory`
 ```swift
 class MyAPIAuthProviderFactory: APIAuthProviderFactory {
