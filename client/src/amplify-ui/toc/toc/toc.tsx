@@ -1,5 +1,6 @@
 import {Component, Host, Listen, Prop, State, h} from "@stencil/core";
 import {tocContext} from "../toc.context";
+import {sidebarLayoutContext} from "../../sidebar-layout/sidebar-layout.context";
 import {tocStyle, h2AnchorStyle, h3AnchorStyle, headerStyle} from "./toc.style";
 import {getElementTop} from "../../../utils/get-element-top";
 
@@ -17,6 +18,11 @@ export class AmplifyTOC {
    * an `amplify-toc-content` instance)
    */
   @Prop() readonly elements?: HTMLElement[];
+  /**
+   * Whether or not the left sidebar is in view; injected from the sidebar context.
+   * If the left sidebar isn't in view, there is more space for this table of contents
+   */
+  @Prop() readonly inView?: boolean;
   /*** the title of the page on which this TOC is being rendered */
   @Prop() readonly pageTitle?: string;
   /*** offset the active item (useful when combatting sticky header) */
@@ -64,7 +70,7 @@ export class AmplifyTOC {
     return (
       this.elements &&
       this.elements.length > 0 && (
-        <Host class={tocStyle}>
+        <Host class={(this.inView ? "" : "more-width ") + tocStyle}>
           <div>
             <h4 class={headerStyle}>{this.pageTitle || "Contents"}</h4>
             {this.elements.map((e, i) => {
@@ -89,3 +95,4 @@ export class AmplifyTOC {
 }
 
 tocContext.injectProps(AmplifyTOC, ["elements"]);
+sidebarLayoutContext.injectProps(AmplifyTOC, ["inView"]);

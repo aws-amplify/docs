@@ -273,6 +273,7 @@ export class DocsPage {
                               slot="sidebar"
                               top={this.sidebarStickyTop}
                             >
+                              <amplify-sidebar-close-button />
                               <docs-menu
                                 filterKey={this.filterKey}
                                 page={this.pageData}

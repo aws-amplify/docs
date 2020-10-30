@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`amplify-sidebar-layout-toggle Render logic should render 1`] = `
+<amplify-sidebar-open-button class="css-e8itss">
+  <a>
+    <img src="/assets/burger-light.svg">
+  </a>
+</amplify-sidebar-open-button>
+`;
