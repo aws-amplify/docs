@@ -5,28 +5,29 @@
 <docs-filter framework="react">
 
 ```jsx
-import React from "react";
-import Amplify from "aws-amplify";
-import {AmplifyS3Text} from "@aws-amplify/ui-react";
-import awsconfig from "./aws-exports";
+import React from 'react';
+import Amplify from 'aws-amplify';
+import { AmplifyS3Text } from '@aws-amplify/ui-react';
+import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
 
-const App = () => <AmplifyS3Text textKey="example.txt" />;
+const App = () => (
+ <AmplifyS3Text textKey="example.txt" />
+);
 ```
-
 </docs-filter>
 
 <docs-filter framework="angular">
 
 ```js
-import {BrowserModule} from "@angular/platform-browser";
-import {NgModule} from "@angular/core";
-import {AppComponent} from "./app.component";
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
 
-import {AmplifyUIAngularModule} from "@aws-amplify/ui-angular";
-import Amplify from "aws-amplify";
-import awsconfig from "./aws-exports";
+import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
+import Amplify from 'aws-amplify';
+import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
 
@@ -44,7 +45,6 @@ _app.component.html_
 ```html
 <amplify-s3-text text-key="example.txt"></amplify-s3-text>
 ```
-
 </docs-filter>
 
 <docs-filter framework="ionic">
@@ -52,13 +52,13 @@ _app.component.html_
 _app.module.ts_
 
 ```js
-import {BrowserModule} from "@angular/platform-browser";
-import {NgModule} from "@angular/core";
-import {AppComponent} from "./app.component";
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
 
-import {AmplifyUIAngularModule} from "@aws-amplify/ui-angular";
-import Amplify from "aws-amplify";
-import awsconfig from "./aws-exports";
+import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
+import Amplify from 'aws-amplify';
+import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
 
@@ -76,7 +76,6 @@ _app.component.html_
 ```html
 <amplify-s3-text text-key="example.txt"></amplify-s3-text>
 ```
-
 </docs-filter>
 
 <docs-filter framework="vue">
@@ -84,17 +83,17 @@ _app.component.html_
 _main.js_
 
 ```js
-import Vue from "vue";
-import App from "./App.vue";
-import "@aws-amplify/ui-vue";
-import Amplify from "aws-amplify";
-import awsconfig from "./aws-exports";
+import Vue from 'vue';
+import App from './App.vue';
+import '@aws-amplify/ui-vue';
+import Amplify from 'aws-amplify';
+import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
 
 new Vue({
-  render: (h) => h(App),
-}).$mount("#app");
+  render: h => h(App),
+}).$mount('#app');
 ```
 
 _App.vue_
@@ -104,19 +103,10 @@ _App.vue_
   <amplify-s3-text text-key="example.txt" />
 </template>
 ```
-
 </docs-filter>
 
-<ui-component-props tag="amplify-s3-text" prop-type="attr" use-table-headers></ui-component-props>
 
-<ui-component-props tag="amplify-s3-text" prop-type="css" use-table-headers></ui-component-props>
-
-```css
-amplify-s3-text {
-  --container-color: black;
-  --text-color: deepskyblue;
-}
-```
+<ui-component-props tag="amplify-s3-text" use-table-headers></ui-component-props>
 
 ## Use Cases
 
@@ -128,14 +118,9 @@ Protected files from S3 bucket can be accessed by anyone other than the owner by
 
 ```jsx
 const App = () => (
-  <AmplifyS3Text
-    level="protected"
-    textKey="example.txt"
-    identityId="us-east-1:XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX"
-  />
+ <AmplifyS3Text level="protected" textKey="example.txt" identityId="us-east-1:XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX"/>
 );
 ```
-
 </docs-filter>
 
 <docs-filter framework="angular">
@@ -143,13 +128,8 @@ const App = () => (
 _app.component.html_
 
 ```html
-<amplify-s3-text
-  level="protected"
-  text-key="example.txt"
-  identity-id="us-east-1:XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX"
-></amplify-s3-text>
+ <amplify-s3-text level="protected" text-key="example.txt" identity-id="us-east-1:XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX"></amplify-s3-text>
 ```
-
 </docs-filter>
 
 <docs-filter framework="ionic">
@@ -157,13 +137,8 @@ _app.component.html_
 _app.component.html_
 
 ```html
-<amplify-s3-text
-  level="protected"
-  text-key="example.txt"
-  identity-id="us-east-1:XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX"
-></amplify-s3-text>
+ <amplify-s3-text level="protected" text-key="example.txt" identity-id="us-east-1:XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX"></amplify-s3-text>
 ```
-
 </docs-filter>
 
 <docs-filter framework="vue">
@@ -172,15 +147,32 @@ _App.vue_
 
 ```html
 <template>
-  <amplify-s3-text
-    level="protected"
-    text-key="example.txt"
-    identity-id="us-east-1:XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX"
-  />
+   <amplify-s3-text level="protected" text-key="example.txt" identity-id="us-east-1:XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX"/>
 </template>
 ```
-
 </docs-filter>
+
+## Customization
+
+### Custom CSS Properties
+
+`amplify-s3-text` provides the following CSS properties to modify the style at component level.
+
+| Name           | Description                      | Default value                    |
+| ---------------| ---------------------------------| ---------------------------------|
+| `--container-color`     | Used to set the text container background | `--amplify-smoke-white` |
+| `--border-color`     | Used to set the border color of text container | `--amplify-light-grey` | 
+| `--text-color`     | Used to set the font color for the text | `--amplify-secondary-color` |
+| `--font-size`     | Used to set the font size for the text | `--amplify-text-md` | 
+
+```css
+amplify-s3-text {
+  --container-color: black;
+  --text-color: deepskyblue;
+}
+```
+
+
 
 ## Migration
 
@@ -203,7 +195,6 @@ const App = () => (
 
 );
 ```
-
 </docs-filter>
 
 <docs-filter framework="angular">
@@ -238,7 +229,6 @@ _app.component.html_
 + <amplify-s3-text text-key="example.txt"></amplify-s3-text>
 - <s3-text text-key="example.txt"></s3-text>
 ```
-
 </docs-filter>
 
 <docs-filter framework="ionic">
@@ -273,7 +263,6 @@ _app.component.html_
 + <amplify-s3-text text-key="example.txt"></amplify-s3-text>
 - <s3-text text-key="example.txt"></s3-text>
 ```
-
 </docs-filter>
 
 <docs-filter framework="vue">
@@ -304,7 +293,8 @@ _App.vue_
 + <amplify-s3-text text-key="example.txt" />
  </template>
 ```
-
 </docs-filter>
 
-If you were using `S3Text` with `picker` property enabled, please see the documentation for [`S3TextPicker`](~/ui/storage/s3-text-picker.md).
+
+If you were using `S3Text` with `picker` property enabled, please see the documentation for  [`S3TextPicker`](~/ui/storage/s3-text-picker.md).
+
