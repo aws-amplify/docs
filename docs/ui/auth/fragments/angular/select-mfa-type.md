@@ -8,7 +8,7 @@ const MFATypeOptions = {
   TOTP: true,
 };
 
-<amplify-select-mfa-type MFATypes={MFATypeOptions}></amplify-select-mfa-type>;
+<amplify-select-mfa-type MFATypes={MFATypeOptions}></amplify-select-mfa-type>
 ```
 
-<ui-component-props tag="amplify-select-mfa-type" use-table-headers prop-type="attr"></ui-component-props>
+<ui-component-props tag="amplify-select-mfa-type" use-table-headers></ui-component-props>
