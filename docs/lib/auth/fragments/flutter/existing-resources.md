@@ -22,7 +22,6 @@ const amplifyconfig = ''' {
                   "Default": {
                       "PoolId": "[COGNITO USER POOL ID]",
                       "AppClientId": "[COGNITO USER POOL APP CLIENT ID]",
-                      "AppClientSecret": "[COGNITO USER POOL APP CLIENT SECRET]",
                       "Region": "[REGION]"
                   }
               },
@@ -46,5 +45,4 @@ const amplifyconfig = ''' {
   - **Default**:
     - **PoolId**: ID of the Amazon Cognito User Pool (e.g. `us-east-1_abcdefghi`)
     - **AppClientId**: ID for the client used to authenticate against the user pool
-    - **AppClientSecret**: Secret for the client used to authenticate against the user pool
     - **Region**: AWS Region where the resources are provisioned (e.g. `us-east-1`)
