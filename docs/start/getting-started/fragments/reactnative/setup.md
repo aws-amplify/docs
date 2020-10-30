@@ -63,7 +63,7 @@ When you initialize a new Amplify project, a few things happen:
 
 Next, install the local Amplify dependencies. The directions here will depend on whether you are using Expo or the React Native CLI.
 
-<inline-fragment src="~/start/getting-started/fragments/reactnative/getting-started-steps.md"></inline-fragment>
+<inline-fragment src="~/start/getting-started/fragments/reactnative/getting-started-steps-ui.md"></inline-fragment>
 
 Finally, open __App.js__ (Expo) or __index.js__ (React Native CLI) and add the following lines of code at the top of the file below the last import:
 
