@@ -10,7 +10,7 @@ The following is a high level overview of the various authorization scenarios we
 * [**Owner based Authorization with OIDC provider**](#owner-based-authorization-with-oidc-provider): Use a 3rd party OIDC Provider to achieve *Owner based authorization*
 * [**Static Group Authorization with OIDC provider**](#static-group-authorization-with-oidc-provider): Use a 3rd party OIDC Provider to achieve *Static group authorization* using a custom `groupClaim`.
 
-## Commonly used @auth rule patterns
+## Commonly used `@auth` rule patterns
 
 ### Owner Based Authorization
 
