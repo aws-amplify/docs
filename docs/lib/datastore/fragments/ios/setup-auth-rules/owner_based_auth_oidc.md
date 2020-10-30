@@ -10,7 +10,7 @@ class MyAPIAuthProviderFactory: APIAuthProviderFactory {
 }
 ```
 
-* Implement your class which conforms `AmplifyOIDCAuthProvider`
+* Implement your class which conforms to `AmplifyOIDCAuthProvider`
 ```swift
 class MyOIDCAuthProvider : AmplifyOIDCAuthProvider {
     func getLatestAuthToken() -> Result<String, Error> {
