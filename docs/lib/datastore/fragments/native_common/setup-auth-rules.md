@@ -63,7 +63,7 @@ type YourModel @model @auth(rules: [{ allow: owner },
 ```
 
 ### Public Authorization
-The following are commonly used patterns for public authorization.  For more information on how to tune these examples, please see the [CLI documentation on static group authorization](~/cli/graphql-transformer/auth.md#static-group-authorization#public-authorization).
+The following are commonly used patterns for public CRUD authorization.  For more information on how to tune these examples, please see the [CLI documentation on static group authorization](~/cli/graphql-transformer/auth.md#static-group-authorization#public-authorization).
 
 * Auth provider is API Key, and all data is public
 ```graphql
@@ -72,7 +72,7 @@ type YourModel @model @auth(rules: [{ allow: public }]) {
 }
 ```
 
-* Auth provider is IAM, and all data is public
+* Auth provider is IAM, and all data is public CRUD
 ```graphql
 type YourModel @model @auth(rules: [{ allow: public, provider: iam }]) {
   ...
