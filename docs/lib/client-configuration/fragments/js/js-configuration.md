@@ -125,6 +125,7 @@ Amplify.configure({
   aws_appsync_graphqlEndpoint: "https://<app-id>.appsync-api.<region>.amazonaws.com/graphql", // (optional) - AWS AppSync endpoint
   aws_appsync_authenticationType: "AMAZON_COGNITO_USER_POOLS", // (optional) - Primary AWS AppSync authentication type
   graphql_endpoint: "https://www.yourdomain.com/graphql", // (optional) - Custom GraphQL endpoint 
+  aws_appsync_apiKey: "da2-xxxxxxxxxxxxxxxxxxxxxxxxxx", // (optional) - AppSync API Key
   graphql_endpoint_iam_region: "us-east-1" // (optional) - Custom IAM region 
 });
 
