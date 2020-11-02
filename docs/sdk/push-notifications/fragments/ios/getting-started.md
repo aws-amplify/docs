@@ -221,7 +221,6 @@ As an alternative to automatic configuration using the Amplify CLI, you can manu
         "Default": {
             "PoolId": "COGNITO-USER-POOL-ID",
             "AppClientId": "COGNITO-USER-APP-CLIENT-ID",
-            "AppClientSecret": "COGNITO-USER-POOL-APP-CLIENT-SECRET",
             "Region": "COGNITO-USER-POOL-REGION"
         }
     },

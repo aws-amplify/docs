@@ -80,7 +80,6 @@ For manual configuration without the CLI, you must have an `awsconfiguration.jso
             "Default": {
                 "PoolId": "XX-XXXX-X_abcd1234",
                 "AppClientId": "XXXXXXXX",
-                "AppClientSecret": "XXXXXXXXX",
                 "Region": "XX-XXXX-X"
             }
         }
