@@ -5,7 +5,7 @@ description: How to use existing Amplify resources in a CDK project
 
 When using Amplify, you may run into a scenario when you need a feature that the Amplify CLI does not yet support. As an escape hatch, you can either configure [custom resources](~/cli/usage/customcf.md) with Amplify or manage resources outside of Amplify using another cloudformation provider.
 
-In this guide you'll learn how to extend an Amplify project with CDK by importing exising Amplify rousources into a CDK project. You'll then learn how to programatically create a CDK exports file similar to the Amplify exports file for consumption by your client-side project.
+In this guide you'll learn how to extend an Amplify project with CDK by importing existing Amplify resources into a CDK project. You'll then learn how to programmatically create a CDK exports file similar to the Amplify exports file for consumption by your client-side project.
 
 ### Getting started
 

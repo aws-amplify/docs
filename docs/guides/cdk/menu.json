@@ -2,6 +2,6 @@
   "title": "CDK",
   "items": [
     "creating-exports-file",
-    "extending-amplify-with-cdk"
+    "using-amplify-with-cdk"
   ]
 }

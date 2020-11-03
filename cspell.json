@@ -1311,7 +1311,9 @@
     "vercel",
     "Uploader",
     "AMPLIFYLAYERGUIDE",
-    "instanceof"
+    "instanceof",
+    "xray",
+    "customcf"
   ],
   "flagWords": ["hte"]
 }
