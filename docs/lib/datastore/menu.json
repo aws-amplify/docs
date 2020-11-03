@@ -5,6 +5,7 @@
     "data-access",
     "relational",
     "sync",
+    "setup-auth-rules",
     "conflict",
     "real-time",
     "datastore-events",
