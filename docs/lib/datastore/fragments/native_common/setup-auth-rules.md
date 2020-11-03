@@ -23,7 +23,7 @@ type YourModel @model @auth(rules: [{ allow: owner }]) {
 }
 ```
 
-* Allow others to update and read, but not delete.
+* Owners can create & delete; others can update and read.
 ```graphql
 type YourModel @model @auth(rules: [{ allow: owner,
                                    operations: [create, delete]}]) {
