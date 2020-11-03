@@ -106,6 +106,7 @@ type YourModel @model @auth(rules: [{ allow: owner,
   ...
 }
 ```
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/setup-auth-rules/owner_based_auth_oidc.md"></inline-fragment>
 
 ### Static Group Authorization with OIDC provider
 The following are commonly used patterns for using `groupClaims` to achieve group based authorization using a 3rd party OIDC provider.  For more information on how to tune these examples, please see the [CLI documentation on static group authorization](~/cli/graphql-transformer/auth.md#custom-claims).
