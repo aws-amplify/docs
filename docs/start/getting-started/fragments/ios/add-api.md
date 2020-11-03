@@ -71,20 +71,19 @@ We will now demonstrate how to add a subscription to the application, so that we
                   print("Subscription has been completed: \(completion)")
               }, receiveValue: { mutationEvent in
                   print("Subscription got this value: \(mutationEvent)")
-                  guard let mutationType = MutationEvent.MutationType(
-                    rawValue: mutationEvent.mutationType
-                  ) else { return }
 
                   do {
                     let todo = try mutationEvent.decodeModel(as: Todo.self)
 
-                    switch mutationType {
-                    case .create:
+                    switch mutationEvent.mutationType {
+                    case "create":
                       print("Created: \(todo)")
-                    case .update:
+                    case "update":
                       print("Updated: \(todo)")
-                    case .delete:
+                    case "delete":
                       print("Deleted: \(todo)")
+                    default:
+                      break
                     }
 
                   } catch {
