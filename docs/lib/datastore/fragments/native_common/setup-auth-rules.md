@@ -2,12 +2,12 @@ Amplify gives you the ability to limit which individuals or groups should have a
 
 Here's a high-level overview of the authorization scenarios we support in the Amplify libraries. Each scenario has options you can tune to fit the needs of your application.
 
-* [**Owner Based Authorization**](#owner-based-authorization): Limit an object instance's access to an "owner" and defines authorization rules for those owners. Backed by Cognito User Pool.
-* [**Static Group Authorization**](#static-group-authorization): Limit an object instance's access to a specific group of users and define authorization rules for that group. Backend by Cognito User Pool.
+* [**Owner Based Authorization**](#owner-based-authorization): Limit a model instance's access to an "owner" and defines authorization rules for those owners. Backed by Cognito User Pool.
+* [**Static Group Authorization**](#static-group-authorization): Limit a model instance's access to a specific group of users and define authorization rules for that group. Backend by Cognito User Pool.
 * [**Owner and Static Group Combined**](#owner-and-static-group-combined): Uses a combination of both *Owner Based Authorization* and *Static Group Authorization* to control ownership and access.
-* [**Public Authorization**](#public-authorization): Use API Key or IAM to allow public access to your model instances
-* [**Private Authorization**](#private-authorization): Use IAM or Cognito User Pools to allow private access to your model instances
-* [**Owner based Authorization with OIDC provider**](#owner-based-authorization-with-oidc-provider): Use a 3rd party OIDC Provider to achieve *Owner based authorization*
+* [**Public Authorization**](#public-authorization): Allow public access to your model instances. Backed by an API Key or IAM.
+* [**Private Authorization**](#private-authorization): Allow any signed-in user to access your model instances. Backed by IAM or Cognito User Pool.
+* [**Owner based Authorization with OIDC provider**](#owner-based-authorization-with-oidc-provider): Use a 3rd party OIDC Provider to achieve *Owner based authorization*.
 * [**Static Group Authorization with OIDC provider**](#static-group-authorization-with-oidc-provider): Use a 3rd party OIDC Provider to achieve *Static group authorization* using a custom `groupClaim`.
 
 ## Commonly used `@auth` rule patterns
