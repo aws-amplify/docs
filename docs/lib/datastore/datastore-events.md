@@ -29,7 +29,7 @@ Dispatched when DataStore is about to perform its initial sync queries
 HubPayload `syncQueriesStartedEvent` contains:
 - `models` ([String]): an array of each model's `name`
 
-<inline-fragment platform="js" src="~/lib/datastore/fragments/js/datastore-events-modelsynced.md"></inline-fragment>
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/datastore-events-model-synced.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/native_common/datastore-events.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/native_common/datastore-events.md"></inline-fragment>
 
