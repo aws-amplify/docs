@@ -1,9 +1,9 @@
-Amplify gives you the ability to limit which individuals or groups should have access to create, read, update, or delete data on your various schema types by specifying an `@auth` directive.
+Amplify gives you the ability to limit which individuals or groups should have access to create, read, update, or delete data on your types by specifying an `@auth` directive.
 
-The following is a high level overview of the various authorization scenarios we support in the Amplify libraries.  Each scenario has a variety of options you can tune to fit the needs of your application.
+Here's a high-level overview of the authorization scenarios we support in the Amplify libraries. Each scenario has options you can tune to fit the needs of your application.
 
-* [**Owner Based Authorization**](#owner-based-authorization): Uses Cognito User Pools as an auth provider to add ownership and access rules to instances of your model
-* [**Static Group Authorization**](#static-group-authorization): Uses Cognito User Pools as an auth provider with groups to apply access rules to instances of your model
+* [**Owner Based Authorization**](#owner-based-authorization): Limit an object instance's access to an "owner" and defines authorization rules for those owners. Backed by Cognito User Pool.
+* [**Static Group Authorization**](#static-group-authorization): Limit an object instance's access to a specific group of users and define authorization rules for that group. Backend by Cognito User Pool.
 * [**Owner and Static Group Combined**](#owner-and-static-group-combined): Uses a combination of both *Owner Based Authorization* and *Static Group Authorization* to control ownership and access.
 * [**Public Authorization**](#public-authorization): Use API Key or IAM to allow public access to your model instances
 * [**Private Authorization**](#private-authorization): Use IAM or Cognito User Pools to allow private access to your model instances
@@ -16,7 +16,7 @@ The following is a high level overview of the various authorization scenarios we
 
 The following are commonly used patterns for owner based authorization.  For more information on how to tune these examples, please see the [CLI documentation on owner based authorization](~/cli/graphql-transformer/auth.md#owner-authorization).
 
-* Create/update/delete mutations are private to the owner.
+* Create/Read/Update/Delete mutations are private to the owner.
 ```graphql
 type YourModel @model @auth(rules: [{ allow: owner }]) {
   ...
@@ -65,7 +65,7 @@ type YourModel @model @auth(rules: [{ allow: owner },
 ### Public Authorization
 The following are commonly used patterns for public CRUD authorization.  For more information on how to tune these examples, please see the [CLI documentation on static group authorization](~/cli/graphql-transformer/auth.md#static-group-authorization#public-authorization).
 
-* Auth provider is API Key, and all data is public
+* Auth provider is API Key, and all data is public CRUD
 ```graphql
 type YourModel @model @auth(rules: [{ allow: public }]) {
   ...
@@ -80,15 +80,15 @@ type YourModel @model @auth(rules: [{ allow: public, provider: iam }]) {
 ```
 
 ### Private Authorization
-The following are commonly used patterns for private authorization.  For more information on how to tune these examples, please see the [CLI documentation on static group authorization](~/cli/graphql-transformer/auth.md#static-group-authorization#private-authorization).
+The following are commonly used patterns for private authorization. For more information on how to tune these examples, please see the [CLI documentation on static group authorization](~/cli/graphql-transformer/auth.md#static-group-authorization#private-authorization).
 
-* Cognito user pool authenticated users can CRUD all posts, regardless of who created it.  Guest users do not have access.
+* Cognito user pool authenticated users can CRUD all posts, regardless of who created it. Guest users do not have access.
 ```graphql
 type YourModel @model @auth(rules: [{ allow: private }]) {
   ...
 }
 ```
-* IAM authenticated users can CRUD all posts, regardless of who created it.  Guest users do not have access:
+* IAM authenticated users can CRUD all posts, regardless of who created it. Guest users do not have access:
 ```graphql
 type YourModel @model @auth(rules: [{ allow: private, provider: iam }]) {
   ...
@@ -96,7 +96,7 @@ type YourModel @model @auth(rules: [{ allow: private, provider: iam }]) {
 ```
 
 ### Owner based Authorization with OIDC provider
-The following are commonly used patterns for owner based authorization using a 3rd party OIDC provider (e.g. Facebook, Google, Apple login).  For more information on how to tune these examples, please see the [CLI documentation on static group authorization](~/cli/graphql-transformer/auth.md#authorization-using-an-oidc-provider).
+The following are commonly used patterns for owner based authorization using a 3rd party OIDC provider (e.g. Facebook, Google, etc...). For more information on how to tune these examples, please see the [CLI documentation on static group authorization](~/cli/graphql-transformer/auth.md#authorization-using-an-oidc-provider).
 
 * Using a 3rd party OIDC provider to achieve owner based authorization.
 ```graphql
@@ -109,7 +109,7 @@ type YourModel @model @auth(rules: [{ allow: owner,
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/setup-auth-rules/owner_based_auth_oidc.md"></inline-fragment>
 
 ### Static Group Authorization with OIDC provider
-The following are commonly used patterns for using `groupClaims` to achieve group based authorization using a 3rd party OIDC provider.  For more information on how to tune these examples, please see the [CLI documentation on static group authorization](~/cli/graphql-transformer/auth.md#custom-claims).
+The following are commonly used patterns for using `groupClaims` to achieve group based authorization using a 3rd party OIDC provider. For more information on how to tune these examples, please see the [CLI documentation on static group authorization](~/cli/graphql-transformer/auth.md#custom-claims).
 
 * Using a custom value for `groupClaim` to achieve static group authorization with a 3rd party OIDC provider.
 ```graphql
