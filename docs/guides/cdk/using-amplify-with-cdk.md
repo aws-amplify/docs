@@ -40,7 +40,11 @@ mkdir cdk-backend
 cd cdk-backend
 cdk init --language=typescript
 ```
+<amplify-callout>
 
+If this is your first time using the CDK CLI, you can install it with `npm install -g aws-cdk` and learn more about the `cdk` command [in the CDK docs](https://docs.aws.amazon.com/cdk/latest/guide/cli.html).
+
+</amplify-callout>
 Next, install the necessary CDK dependencies for AWS AppSync, AWS Lambda, Amazon Cognito, and Amazon DynamoDB:
 
 ```sh
