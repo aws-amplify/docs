@@ -19,7 +19,7 @@ Add the following code to your application's root Stateful Widget, for a blank F
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  bool _amplifyConfigured = false
+  bool _amplifyConfigured = false;
   Amplify amplifyInstance = Amplify();
 
   @override
@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   }
 
-  ...
+  // customize the rest of your Widget below as you wish...
 
 ```
 
