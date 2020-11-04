@@ -21,27 +21,15 @@ If you already have an authentication service created using the Amplify CLI, you
 
 </amplify-callout>
 
-### Initializing the Amplify project:
-
 ```sh
-amplify init
-```
-
-### Adding authentication
-
-```sh
-amplify add auth
+amplify init # Initializing the Amplify project - choose all defaults
+amplify add auth # Adding authentication
 
 ? Do you want to use default authentication and security configuration? Default configuration 
 ? How do you want users to be able to sign in when using your Cognito User Pool? Username
 ? Do you want to configure advanced settings? No, I am done. 
-```
 
-### Deploying the Amplify back end
-
-```sh
-amplify push --y
-```
+amplify push --y # Deploying the Amplify back end
 
 ## Creating the CDK project
 
