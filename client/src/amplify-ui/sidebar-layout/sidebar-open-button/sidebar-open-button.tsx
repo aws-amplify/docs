@@ -38,13 +38,14 @@ export class AmplifySidebarOpenButton {
       : "/assets/burger-light.svg";
     return (
       !this.inView && (
-        <Host class={sidebarOpenButtonStyle}>
-          <a onClick={this.onClick}>
-            <img
-              src={imgLink}
-              onMouseEnter={this.hover}
-              onMouseLeave={this.unhover}
-            />
+        <Host
+          class={sidebarOpenButtonStyle}
+          onClick={this.onClick}
+          onMouseEnter={this.hover}
+          onMouseLeave={this.unhover}
+        >
+          <a>
+            <img src={imgLink} />
           </a>
         </Host>
       )

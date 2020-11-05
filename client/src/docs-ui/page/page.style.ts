@@ -45,6 +45,12 @@ export const sidebarLayoutStyle = css`
   }
 `;
 
+export const sidebarHeaderStyle = css`
+  display: flex;
+  flex-direction: row;
+  margin: 1.75rem 1.25rem;
+`;
+
 export const mainStyle = css`
   a {
     &,

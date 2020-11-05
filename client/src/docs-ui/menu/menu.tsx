@@ -52,7 +52,6 @@ export class DocsMenu {
     return (
       menu && (
         <Host class={menuStyle}>
-          {this.page?.filterKey && <docs-select-anchor page={this.page} />}
           {(() => {
             switch (this.switcher) {
               case "ui": {

@@ -34,13 +34,14 @@ export class AmplifySidebarCloseButton {
       ? "/assets/close-dark.svg"
       : "/assets/close-light.svg";
     return (
-      <Host class={sidebarCloseButtonStyle}>
-        <a onClick={this.onClick}>
-          <img
-            src={imgLink}
-            onMouseEnter={this.hover}
-            onMouseLeave={this.unhover}
-          />
+      <Host
+        class={sidebarCloseButtonStyle}
+        onClick={this.onClick}
+        onMouseEnter={this.hover}
+        onMouseLeave={this.unhover}
+      >
+        <a>
+          <img src={imgLink} />
         </a>
       </Host>
     );

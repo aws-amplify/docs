@@ -1,12 +1,7 @@
 import {css} from "emotion";
-import {MQTablet} from "../../amplify-ui/styles/media";
 
 export const selectAnchorStyle = css`
   position: relative;
-  margin-top: 1.75rem;
-  ${MQTablet} {
-    margin-top: 0;
-  }
 
   display: block;
   user-select: none;
