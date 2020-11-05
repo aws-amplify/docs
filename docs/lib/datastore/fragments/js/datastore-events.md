@@ -1,5 +1,3 @@
-For instance, to listen to see if the network status is active, you could set up the following listener:
-
 ```js
 // Create listener
 const listener = Hub.listen('datastore', async hubData => {
