@@ -22,6 +22,7 @@ export const productRootLink = css`
   display: flex;
   flex-direction: row;
   font-weight: 700;
+  margin-top: 2rem;
 
   > stencil-route-link,
   > stencil-route-link > a {
