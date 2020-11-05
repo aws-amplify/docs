@@ -2,6 +2,7 @@ import {css} from "emotion";
 
 export const selectAnchorStyle = css`
   position: relative;
+  flex-grow: 2;
 
   display: block;
   user-select: none;

@@ -31,8 +31,8 @@ export class AmplifySidebarCloseButton {
 
   render() {
     const imgLink = this.isHovered
-      ? "/assets/close-dark.svg"
-      : "/assets/close-light.svg";
+      ? "/assets/burger-dark.svg"
+      : "/assets/burger-light.svg";
     return (
       <Host
         class={sidebarCloseButtonStyle}
