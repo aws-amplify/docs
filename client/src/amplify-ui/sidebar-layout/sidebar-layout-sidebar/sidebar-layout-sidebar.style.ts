@@ -1,4 +1,3 @@
-import {MQTablet} from "../../styles/media";
 import {css} from "emotion";
 
 export const sidebarLayoutSidebarStyle = css`
