@@ -103,7 +103,9 @@ if (event.request.session.length == 1 && event.request.session[0].challengeName 
     context.done(null, event);
 }
 ```
-Define auth lambda trigger is invoked to initiate the custom authentication flow. In the above lambda trigger since the SDK starts with SRP_A flow, we bypass SRP_A to `CUSTOM_CHALLENGE` in the first step. And in the second step if `CUSTOM_CHALLENGE` return with `challengeResult == true` we ask Cognito to issue tokens. In the last `else` block we ask Cognito to fail the authentication flow.
+Amazon Cognito invokes the Define Auth Challenge trigger to initiate the custom authentication flow.
+
+The Amplify Auth library always starts with an SRP_A flow, so in the code above, we bypass SRP_A and return `CUSTOM_CHALLENGE` in the first step. In the second step, if `CUSTOM_CHALLENGE` return with `challengeResult == true` we recognize the custom auth challenge is successful, and tell Cognito to issue tokens. In the last `else` block we tell Cognito to fail the authentication flow.
 
 Save and close the file, then switch back to the terminal and follow the instructions:
 
