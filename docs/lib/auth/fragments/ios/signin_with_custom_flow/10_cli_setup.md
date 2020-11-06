@@ -131,7 +131,7 @@ exports.handler = (event, context, callback) => {
     callback(null, event);
 };
 ```
-Verify auth challenge is used to verify the input entered by the user. The reponse from user will be available in `event.request.challengeAnswer`, the above code compares that with `privateChallengeParameters` value set in the create auth challenge trigger.
+Verify auth challenge is used to verify the input entered by the user. The response from user will be available in `event.request.challengeAnswer`, the above code compares that with `privateChallengeParameters` value set in the create auth challenge trigger.
 Save and close the file, then switch back to the terminal and follow the instructions:
 
 ```
