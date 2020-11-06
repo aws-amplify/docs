@@ -73,7 +73,7 @@ exports.handler = (event, context, callback) => {
     callback(null, event);
 };
 ```
-Create Auth Challenge lambda trigger is called after Define auth challenge is invoked with Custom challenge. In this lambda trigger we define the challenge to present to the user. `privateChallengeParameters` contains all the information to validate the response from the user.
+Amazon Cognito invokes the Create Auth Challenge trigger after Define Auth Challenge to create a custom challenge. In this lambda trigger we define the challenge to present to the user. `privateChallengeParameters` contains all the information to validate the response from the user.
 Save and close the file, then switch back to the terminal and follow the instructions:
 
 ```
