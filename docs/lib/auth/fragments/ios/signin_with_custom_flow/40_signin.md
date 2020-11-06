@@ -32,8 +32,12 @@ func signIn(username: String, password: String) -> AnyCancellable {
                 print("Sign in failed \(authError)")
             }
         }
-        receiveValue: { _ in
-            print("Sign in succeeded")
+        receiveValue: { result in
+            if case .confirmSignInWithCustomChallenge(_) = result.nextStep {
+                // Ask the user to enter the custom challenge.
+            } else {
+                print("Sign in succeeded")
+            }
         }
 }
 ```
@@ -41,3 +45,5 @@ func signIn(username: String, password: String) -> AnyCancellable {
 </amplify-block>
 
 </amplify-block-switcher>
+
+Since this is a custom authentication flow with a challenge, the result of the signin process has a next step `.confirmSignInWithCustomChallenge`. Implement a UI to allow the user to enter the custom challenge.

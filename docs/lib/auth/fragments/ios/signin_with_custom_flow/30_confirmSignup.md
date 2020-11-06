@@ -37,3 +37,9 @@ func confirmSignUp(for username: String, with confirmationCode: String) -> AnyCa
 </amplify-block>
 
 </amplify-block-switcher>
+
+You will know the sign up flow is complete if you see the following in your console window:
+
+```console
+Confirm signUp succeeded
+```

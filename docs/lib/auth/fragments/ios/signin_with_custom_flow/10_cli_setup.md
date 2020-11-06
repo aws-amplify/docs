@@ -73,6 +73,7 @@ exports.handler = (event, context, callback) => {
     callback(null, event);
 };
 ```
+Create Auth Challenge lambda trigger is called after Define auth challenge is invoked with Custom challenge. In this lambda trigger we define the challenge to present to the user. `privateChallengeParameters` contains all the information to validate the response from the user.
 Save and close the file, then switch back to the terminal and follow the instructions:
 
 ```
@@ -102,6 +103,8 @@ if (event.request.session.length == 1 && event.request.session[0].challengeName 
     context.done(null, event);
 }
 ```
+Define auth lambda trigger is invoked to initiate the custom authentication flow. In the above lambda trigger since the SDK starts with SRP_A flow, we bypass SRP_A to `CUSTOM_CHALLENGE` in the first step. And in the second step if `CUSTOM_CHALLENGE` return with `challengeResult == true` we ask Cognito to issue tokens. In the last `else` block we ask Cognito to fail the authentication flow.
+
 Save and close the file, then switch back to the terminal and follow the instructions:
 
 ```
@@ -128,6 +131,7 @@ exports.handler = (event, context, callback) => {
     callback(null, event);
 };
 ```
+Verify auth challenge is used to verify the input entered by the user. The reponse from user will be available in `event.request.challengeAnswer`, the above code compares that with `privateChallengeParameters` value set in the create auth challenge trigger.
 Save and close the file, then switch back to the terminal and follow the instructions:
 
 ```

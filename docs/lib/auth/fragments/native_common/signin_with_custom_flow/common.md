@@ -18,19 +18,11 @@ The next step in the sign up flow is to confirm the user. A confirmation code wi
 
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/signin_with_custom_flow/30_confirmSignup.md"></inline-fragment>
 
-You will know the sign up flow is complete if you see the following in your console window:
-
-```console
-Confirm signUp succeeded
-```
-
 ## Sign in a user
 
 Implement a UI to get the username from the user. After the user enters the username you can start the sign in flow by calling the following method:
 
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/signin_with_custom_flow/40_signin.md"></inline-fragment>
-
-Since this is a custom authentication flow with a challenge, the result of the signin process has a next step `.confirmSignInWithCustomChallenge`. Implement a UI to allow the user to enter the custom challenge.
 
 ## Confirm sign in with custom challenge
 
