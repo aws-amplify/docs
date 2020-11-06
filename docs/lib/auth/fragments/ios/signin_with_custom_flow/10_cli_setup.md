@@ -117,7 +117,7 @@ Save and close the file, then switch back to the terminal and follow the instruc
     `Yes`
 ? Please edit the file in your editor: <local file path>/src/boilerplate-verify.js
 ```
-The boilerplate for Verify Auth Challenge opens in a your favorite code editor. Enter the following code to this file:
+The boilerplate for Verify Auth Challenge opens in your favorite code editor. Enter the following code to this file:
 
 ```js
 function verifyAuthChallengeResponse(event) {
