@@ -57,7 +57,7 @@ In terminal, navigate to your project, run `amplify add auth`, and choose the fo
     `Yes`
 ? Please edit the file in your editor: <local file path>/src/boilerplate-create-challenge.js
 ```
-The boiler plate for Create Auth Challenge opens in a your favorite code editor. Enter the following code to this file:
+The boilerplate for Create Auth Challenge opens in a your favorite code editor. Enter the following code to this file:
 
 ```js
 function createAuthChallenge(event) {
