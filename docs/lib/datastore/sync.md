@@ -5,4 +5,5 @@ description: Learn more about how DataStore connects to an AppSync backend and a
 
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/native_common/sync.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/native_common/sync.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/native_common/sync.md"></inline-fragment>
 <inline-fragment platform="js" src="~/lib/datastore/fragments/native_common/sync.md"></inline-fragment>

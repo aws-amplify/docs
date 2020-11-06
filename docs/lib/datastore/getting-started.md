@@ -5,4 +5,5 @@ description: Amplify DataStore provides a programming model for leveraging share
 
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/native_common/getting-started.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/native_common/getting-started.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/native_common/getting-started.md"></inline-fragment>
 <inline-fragment platform="js" src="~/lib/datastore/fragments/native_common/getting-started.md"></inline-fragment>

@@ -6,3 +6,4 @@ You can subscribe to changes on your Models. This reacts dynamically to updates 
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/real-time/observe-snippet.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/real-time/observe-snippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/real-time/observe-snippet.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/real-time/observe-snippet.md"></inline-fragment>
