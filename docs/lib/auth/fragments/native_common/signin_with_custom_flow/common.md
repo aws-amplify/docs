@@ -1,4 +1,4 @@
-The Auth category can be configured to perform custom authentication flow setup by developer. The following guide shows how to setup a passwordless authentication flow.
+The Auth category can be configured to perform a custom authentication flow defined by you. The following guide shows how to setup a simple passwordless authentication flow.
 
 ## Prerequisites
 
