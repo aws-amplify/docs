@@ -83,7 +83,7 @@ Save and close the file, then switch back to the terminal and follow the instruc
     `Yes`
 ? Please edit the file in your editor: <local file path>/src/boilerplate-define-challenge.js
 ```
-The boiler plate for Define Auth Challenge opens in a your favorite code editor. Enter the following code to this file:
+The boilerplate for Define Auth Challenge opens in a your favorite code editor. Enter the following code to this file:
 
 ```js
 exports.handler = function(event, context) {
