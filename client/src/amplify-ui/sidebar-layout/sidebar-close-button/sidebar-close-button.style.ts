@@ -2,9 +2,10 @@ import {css} from "emotion";
 import {MQTablet} from "../../styles/media";
 
 export const sidebarCloseButtonStyle = css`
-  margin: 0.75rem 0.75rem 0 0;
+  margin: 0.5rem 0.75rem 0 0;
+  width: 2rem;
+  background-color: var(--amplify-background-color);
 
-  user-select: none;
   display: none;
 
   :hover {

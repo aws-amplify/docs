@@ -31,18 +31,18 @@ export class AmplifySidebarCloseButton {
 
   render() {
     const imgLink = this.isHovered
-      ? "/assets/burger-dark.svg"
-      : "/assets/burger-light.svg";
+      ? "/assets/close-nav-sm.svg"
+      : "/assets/close-nav-sm.svg";
     return (
-      <Host
-        class={sidebarCloseButtonStyle}
-        onClick={this.onClick}
-        onMouseEnter={this.hover}
-        onMouseLeave={this.unhover}
-      >
-        <a>
-          <img src={imgLink} />
-        </a>
+      <Host>
+        <button
+          class={sidebarCloseButtonStyle}
+          onClick={this.onClick}
+          onMouseEnter={this.hover}
+          onMouseLeave={this.unhover}
+        >
+          <img alt="Close menu" src={imgLink} />
+        </button>
       </Host>
     );
   }

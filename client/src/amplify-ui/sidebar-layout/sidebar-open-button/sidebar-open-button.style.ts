@@ -2,12 +2,14 @@ import {css} from "emotion";
 import {MQTablet} from "../../styles/media";
 
 export const sidebarOpenButtonStyle = css`
+  width: 2.5rem;
   margin-top: 1.75rem;
+  padding: 0.3125rem 0.4375rem 0.125rem 0.5rem;
   padding-left: 0.5rem;
   padding-right: 0.4375rem;
   padding-top: 0.3125rem;
+  padding-bottom: 0.125rem;
   position: absolute;
-  user-select: none;
 
   border-top: 0.0625rem solid var(--border-color);
   border-right: 0.0625rem solid var(--border-color);
