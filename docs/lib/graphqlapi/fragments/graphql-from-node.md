@@ -168,11 +168,15 @@ exports.handler = async (event) => {
         const signer = new AWS.Signers.V4(req, "appsync", true);
         signer.addAuthorization(AWS.config.credentials, AWS.util.date.getDate());
     }
-
+    
+    const chunks = [];
     const data = await new Promise((resolve, reject) => {
         const httpRequest = https.request({ ...req, host: endpoint }, (result) => {
             result.on('data', (data) => {
-                resolve(JSON.parse(data.toString()));
+                chucks.push(data);
+            });
+            result.on('end', (data) => {
+                resolve(Buffer.concat(chunks).toString());
             });
         });
 
@@ -182,7 +186,7 @@ exports.handler = async (event) => {
 
     return {
         statusCode: 200,
-        body: data
+        body: JSON.parse(data)
     };
 };
 ```
