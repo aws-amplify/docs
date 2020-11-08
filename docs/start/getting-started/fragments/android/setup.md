@@ -109,7 +109,9 @@ Amplify for Android is distributed as an Apache Maven package. In this section, 
    - Add Amplify and Desugaring libraries to the `dependencies` block
 
 <amplify-callout>
+
 Amplify Android supports API level 16 and up. If you are targeting a `minSdkVersion` below 21, you will additionally need to follow [Android's documentation for adding multidex support](https://developer.android.com/studio/build/multidex#mdex-pre-l).
+  
 </amplify-callout>
 
 3. Run **Gradle Sync**
