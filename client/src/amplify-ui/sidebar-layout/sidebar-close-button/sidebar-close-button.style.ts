@@ -6,12 +6,11 @@ export const sidebarCloseButtonStyle = css`
   width: 2rem;
   background-color: var(--amplify-background-color);
 
-  display: none;
-
   :hover {
     cursor: pointer;
   }
 
+  display: none;
   ${MQTablet} {
     display: initial;
   }
