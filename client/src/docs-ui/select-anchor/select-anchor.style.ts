@@ -41,7 +41,6 @@ export const optionsStyle = css`
   visibility: hidden;
   position: absolute;
   background-color: var(--bg-color);
-  min-width: 14rem;
   box-shadow: rgba(0, 0, 0, 0.09) 0.3125rem 0.3125rem 0 -0.0625rem;
   width: 100%;
   z-index: 1;

@@ -3,7 +3,7 @@ import {css} from "emotion";
 export const menuStyle = css`
   display: block;
   padding: 0 2.5rem;
-  overflow-y: auto;
+  overflow-y: overlay;
   min-height: 100vh;
   padding-bottom: 3rem;
 `;
