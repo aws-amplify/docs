@@ -2,6 +2,7 @@ import {Component, Prop, h, Host, State} from "@stencil/core";
 import {sidebarLayoutContext} from "../sidebar-layout.context";
 import {ToggleInView} from "../sidebar-layout.types";
 import {sidebarCloseButtonStyle} from "./sidebar-close-button.style";
+import {DESKTOP_CLOSE} from "../../../constants/img";
 
 @Component({tag: "amplify-sidebar-close-button"})
 export class AmplifySidebarCloseButton {
@@ -31,8 +32,8 @@ export class AmplifySidebarCloseButton {
 
   render() {
     const imgLink = this.isHovered
-      ? "/assets/close-dark.svg"
-      : "/assets/close-light.svg";
+      ? DESKTOP_CLOSE.darkSrc
+      : DESKTOP_CLOSE.lightSrc;
     return (
       <Host>
         <button
@@ -41,7 +42,7 @@ export class AmplifySidebarCloseButton {
           onMouseEnter={this.hover}
           onMouseLeave={this.unhover}
         >
-          <img alt="Close menu" src={imgLink} />
+          <img alt={DESKTOP_CLOSE.alt} src={imgLink} />
         </button>
       </Host>
     );

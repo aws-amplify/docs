@@ -2,7 +2,7 @@
 
 exports[`amplify-sidebar-layout-toggle Render logic should render 1`] = `
 <amplify-sidebar-close-button>
-  <button class="css-1jvn5ph">
+  <button class="css-1vyn9ge">
     <img alt="Close menu" src="/assets/close-light.svg">
   </button>
 </amplify-sidebar-close-button>

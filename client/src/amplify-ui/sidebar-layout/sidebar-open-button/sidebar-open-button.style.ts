@@ -2,9 +2,9 @@ import {css} from "emotion";
 import {MQTablet} from "../../styles/media";
 
 export const sidebarOpenButtonStyle = css`
-  width: 2.5rem;
+  width: 2.75rem;
   margin-top: 1.75rem;
-  padding: 0.3125rem 0.4375rem 0.125rem 0.5rem;
+  padding: 0.3125rem 0.4375rem 0.125rem 0.75rem;
   position: absolute;
 
   border-top: 0.0625rem solid var(--border-color);
@@ -14,7 +14,7 @@ export const sidebarOpenButtonStyle = css`
   box-shadow: rgba(0, 0, 0, 0.09) 0.08rem 0.15625rem 0 0.08rem;
 
   background-color: var(--bg-color);
-  :hover {
+  &:hover {
     background-color: var(--bg-color-hover);
     cursor: pointer;
   }
