@@ -7,6 +7,7 @@ DataStore periodically publishes state notifications onto Amplify's Hub. You can
 * Your device loses or regains network connectivity;
 * Data is synchronized with the Cloud;
 * There are new, pending changes that have not yet been synchronized.
+
 The following nine DataStore events are defined:
 
 ## networkStatus
