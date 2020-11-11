@@ -144,7 +144,7 @@ if (props.onStateChange) props.onStateChange(state, data);
 
 > ***The withFederated and Federated components are not supported on React Native***. Use the API Auth.federatedSignIn() on React Native.
 
-There is also `withGoogle`, `withFacebook`, `withAmazon` components, in case you need to customize a single provider.
+There are also `withGoogle`, `withFacebook`, `withAmazon` components, in case you need to customize a single provider.
 
 #### Wrapping your Component
 

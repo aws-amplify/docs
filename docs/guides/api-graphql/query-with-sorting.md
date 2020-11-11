@@ -36,7 +36,7 @@ type ModelTodoConnection {
 
 By default, the `listTodos` query will return the `items` array __unordered__. Many times you will need these items to be ordered by title, by creation date, or in some other way.
 
-To enable this, you can use the [@key](~/cli/graphql-transformer/directives.md#key) directive. This directive will allow you to set a custom `sortKey` on any field in your API.
+To enable this, you can use the [@key](~/cli/graphql-transformer/key.md) directive. This directive will allow you to set a custom `sortKey` on any field in your API.
 
 ### Implementation
 
@@ -104,4 +104,4 @@ query todosByDateDescending {
 }
 ```
 
-To learn more about the `@key` directive, check out the documentation [here](~/cli/graphql-transformer/directives.md#key)
+To learn more about the `@key` directive, check out the documentation [here](~/cli/graphql-transformer/key.md)

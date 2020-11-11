@@ -1,10 +1,9 @@
 ---
 title: Building a Form API with GraphQL
-description: How to implement pagination with GraphQL 
+description: How to implement pagination with GraphQL
 ---
 
-In this guide you will learn how to build and interact with a Form API using Amplify and the
- [GraphQL Transform library](~/cli/graphql-transformer/directives.md).
+In this guide you will learn how to build and interact with a Form API using Amplify.
 
 The API that we will create is for a basic contact form. The form will allow the user to input their name and phone number, and for us to query for the list of contacts.
 
@@ -50,7 +49,7 @@ type Contact @model(mutations: {
 
 <amplify-callout>
 
-In the above schema, we've overriding the default mutations and are specifying that only the `createContact` mutation be allowed to be created. By this this, the API does not allow users to update or delete contacts. For more fine grained authorization rules, check out the [@auth directive](~/cli/graphql-transformer/directives.md#auth).
+In the above schema, we've overriding the default mutations and are specifying that only the `createContact` mutation be allowed to be created. By this this, the API does not allow users to update or delete contacts. For more fine grained authorization rules, check out the [@auth directive](~/cli/graphql-transformer/auth.md).
 
 </amplify-callout>
 

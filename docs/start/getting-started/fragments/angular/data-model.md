@@ -1,6 +1,6 @@
 ### Model the data with GraphQL transform
 
-Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the the following command from the root of your application directory:
+Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the following command from the root of your application directory:
 
 ```bash
 amplify add api
@@ -21,11 +21,11 @@ Accept the **default values** which are highlighted below:
 # 7 (or your preferred expiration)
 ? Do you want to configure advanced settings for the GraphQL API:
 # No
-? Do you have an annotated GraphQL schema? 
+? Do you have an annotated GraphQL schema?
 # No
-? Choose a schema template: 
+? Choose a schema template:
 # Single object with fields (e.g., “Todo” with ID, name, description)
-? Do you want to edit the schema now? 
+? Do you want to edit the schema now?
 # Yes
 ```
 
@@ -40,7 +40,7 @@ type Restaurant @model {
 }
 ```
 
- You'll notice a directive on the `Restaurant` type of `@model`. This directive is part of Amplify's [GraphQL transformer](~/cli/graphql-transformer/directives.md) functionality.
+ You'll notice a directive on the `Restaurant` type of `@model`. This directive is part of Amplify's [GraphQL transformer](~/cli/graphql-transformer/model.md) functionality.
 
 The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.
 
@@ -124,7 +124,7 @@ export type Restaurant = {
   name : string,
   description : string,
   city: string
-}; 
+};
 ```
 
 In your `src/app/app.component.ts` file, use the following code to add data to your database with a mutation by using the `API.service` file which was generated when you ran `amplify add api`:
@@ -153,7 +153,7 @@ export class AppComponent implements OnInit {
       'description': ['', Validators.required],
       'city': ['', Validators.required]
     });
-  } 
+  }
 
   public onCreate(restaurant: Restaurant) {
     this.api.CreateRestaurant(restaurant).then(event => {
@@ -254,7 +254,7 @@ export class AppComponent implements OnInit {
     this.api.ListRestaurants().then(event => {
       this.restaurants = event.items;
     });
-  } 
+  }
 
   public onCreate(restaurant: Restaurant) {
     this.api.CreateRestaurant(restaurant).then(event => {
@@ -296,7 +296,13 @@ async ngOnInit() {
     const newRestaurant = event.value.data.onCreateRestaurant;
     this.restaurants = [newRestaurant, ...this.restaurants];
   });
-} 
+}
 ```
 
-Now, open the app in another browser window so that you have two side by side. When creating a new item in one window, you should see it come through in the other window in real-time.
+Next, run the app:
+
+```sh
+npm start
+```
+
+Now, open the app in 2 browser windows (both at http://localhost:4200/) so that you have your app running side by side. When creating a new item in one window, you should see it come through in the other window in real-time.

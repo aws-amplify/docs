@@ -27,7 +27,6 @@ To invoke an API Gateway endpoint from your application with Cognito User Pools 
         "Default": {
             "PoolId": "POOL-ID",
             "AppClientId": "APP-CLIENT-ID",
-            "AppClientSecret": "APP-CLIENT-SECRET",
             "Region": "us-east-1"
         }
     },

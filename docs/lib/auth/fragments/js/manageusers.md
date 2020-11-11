@@ -20,6 +20,7 @@ Auth.currentAuthenticatedUser()
 ```javascript
 import { Auth } from 'aws-amplify';
 
+// Send confirmation code to user's email
 Auth.forgotPassword(username)
     .then(data => console.log(data))
     .catch(err => console.log(err));
@@ -87,6 +88,7 @@ Auth.verifyCurrentUserAttributeSubmit(attr, 'the_verification_code')
 ## Retrieve current authenticated user
 
 You can call `Auth.currentAuthenticatedUser()` to get the current authenticated user object.
+
 ```javascript
 import { Auth } from 'aws-amplify';
 
@@ -97,6 +99,14 @@ Auth.currentAuthenticatedUser({
 ```
 This method can be used to check if a user is logged in when the page is loaded. It will throw an error if there is no user logged in.
 This method should be called after the Auth module is configured or the user is logged in. To ensure that you can listen on the auth events `configured` or `signIn`. [Learn how to listen on auth events.](~/lib/utilities/hub.md#authentication-events)
+
+### Retrieve attributes for current authenticated user
+
+You can also access the user's attributes like their email address, phone number, sub, or any other attributes that are associated with them from the user object returned by `Auth.currentAuthenticatedUser`.
+
+```js
+const { attributes } = await Auth.currentAuthenticatedUser();
+```
 
 ## Retrieve current session
 
@@ -109,8 +119,8 @@ This method will automatically refresh the `accessToken` and `idToken` if tokens
 import { Auth } from 'aws-amplify';
 
 Auth.currentSession()
-    .then(data => console.log(data))
-    .catch(err => console.log(err));
+  .then(data => console.log(data))
+  .catch(err => console.log(err));
 ```
 
 ## Managing user attributes

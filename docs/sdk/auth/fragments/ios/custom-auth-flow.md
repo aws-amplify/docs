@@ -12,7 +12,6 @@ To enable a custom authentication flow update your `awsconfiguration.json` file 
     "Default": {
       "PoolId": "XX-XXXX-X_abcd1234",
       "AppClientId": "XXXXXXXX",
-      "AppClientSecret": "XXXXXXXXX",
       "Region": "XX-XXXX-X"
     }
   },

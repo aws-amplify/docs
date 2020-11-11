@@ -283,7 +283,6 @@ let configuration: [String: Any] = [
         "Default": [
             "OAuth": [
                 "AppClientId": "APP_CLIENT_ID",
-                "AppClientSecret": "APP_CLIENT_SECRET",
                 "Scopes": ["email"]
             ]
         ]

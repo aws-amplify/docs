@@ -1,2 +1,48 @@
 {
+  "graphQLTransformer": {
+    "description": "Feature Flag related to GraphQL Transformer",
+    "features": {
+      "addMissingOwnerFields": {
+        "description": "Automatically add owner field to type when owner fields are not in the type",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.30.0",
+        "values": [
+          {
+            "value": "true",
+            "description": "Inserts the owner field from auth rules when its missing in type",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Doesn't insert the owner field automatically",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "validateTypeNameReservedWords": {
+        "description": "Throw an error when compiling the GraphQL schema if a type name is a reserved word.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.32.1",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "Throws an error if a type name is a reserved word.",
+            "defaultNewProject": true,
+            "defaultExistingProject": true
+          },
+          {
+            "value": "false",
+            "description": "Allows compilation to pass with reserved words as type names. However, you may encounter downstream GraphQL errors.",
+            "defaultNewProject": false,
+            "defaultExistingProject": false
+          }
+        ]
+      }
+    }
+  }
 }

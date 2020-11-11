@@ -9,6 +9,11 @@ You have two independent environments (master & dev) in the cloud and have corre
 cd <project-dir>
 amplify init
 ```
+<amplify-callout warning>
+
+Ensure the root of your project has the `amplify` folder set up in order to be able to re-use existing environments.
+
+</amplify-callout>
 
 ```console
 Do you want to use an existing environment? Yes

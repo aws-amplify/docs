@@ -1,0 +1,6 @@
+/docs/**/android @aws-amplify/amplify-native
+/docs/**/flutter @aws-amplify/amplify-native
+/docs/**/ios @aws-amplify/amplify-native
+/docs/**/js  @aws-amplify/amplify-js
+/docs/cli @aws-amplify/amplify-cli
+/docs/guides @aws-amplify/developer-advocates

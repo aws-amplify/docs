@@ -10,6 +10,8 @@ To get started, initialize a new React Native project.
 ```bash
 npm install -g expo-cli  
 expo init RNAmplify
+
+? Choose a template: blank
 ```
 
 </amplify-block>
@@ -42,8 +44,8 @@ amplify init
 ? Choose your default editor: <Your favorite text editor>
 ? Choose the type of app that you're building: javascript
 ? What javascript framework are you using: react-native
-? Source Directory Path:  /
-? Distribution Directory Path: /
+? Source Directory Path:  ./
+? Distribution Directory Path: ./
 ? Build Command:  npm run-script build
 ? Start Command: npm run-script start
 ? Do you want to use an AWS profile? Y
@@ -61,7 +63,7 @@ When you initialize a new Amplify project, a few things happen:
 
 Next, install the local Amplify dependencies. The directions here will depend on whether you are using Expo or the React Native CLI.
 
-<inline-fragment src="~/start/getting-started/fragments/reactnative/getting-started-steps.md"></inline-fragment>
+<inline-fragment src="~/start/getting-started/fragments/reactnative/getting-started-steps-ui.md"></inline-fragment>
 
 Finally, open __App.js__ (Expo) or __index.js__ (React Native CLI) and add the following lines of code at the top of the file below the last import:
 

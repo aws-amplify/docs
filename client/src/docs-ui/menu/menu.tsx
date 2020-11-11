@@ -6,9 +6,11 @@ import {
   menuBreakStyle,
   productRootLink,
   activeLinkStyle,
+  discordLinkStyle,
 } from "./menu.style";
 import {pageContext} from "../page/page.context";
 import {SelectedFilters} from "../page/page.types";
+import {DISCORD} from "../../constants/img";
 
 @Component({tag: "docs-menu", shadow: false})
 export class DocsMenu {
@@ -92,6 +94,15 @@ export class DocsMenu {
           )}
           <hr class={menuBreakStyle} />
           <docs-repo-actions page={this.page} />
+          <amplify-external-link
+            redirect={false}
+            href="https://discord.gg/jWVbPfC"
+            anchorTitle="Discord Community"
+            class={discordLinkStyle}
+          >
+            <img alt={DISCORD.alt} src={DISCORD.lightSrc} />
+            Chat with us
+          </amplify-external-link>
           <docs-feedback-callout />
         </Host>
       )

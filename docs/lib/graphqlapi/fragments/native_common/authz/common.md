@@ -16,7 +16,6 @@ Amazon Cognito's user pool is most commonly used with AWS AppSync when adding au
             "Default": {
                 "PoolId": "[POOL-ID]",
                 "AppClientId": "[APP-CLIENT-ID]",
-                "AppClientSecret": "[APP-CLIENT-SECRET]",
                 "Region": "[REGION]"
             }
         }

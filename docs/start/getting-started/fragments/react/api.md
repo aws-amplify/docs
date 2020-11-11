@@ -6,7 +6,7 @@ The API you will be creating in this step is a GraphQL API using AWS AppSync (a 
 
 ## Create a GraphQL API and database
 
-Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the the following command from the root of your application directory:
+Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the following command from the root of your application directory:
 
 ```bash
 amplify add api
@@ -27,13 +27,13 @@ Accept the **default values** which are highlighted below:
 # 7 (or your preferred expiration)
 ? Do you want to configure advanced settings for the GraphQL API:
 # No
-? Do you have an annotated GraphQL schema? 
+? Do you have an annotated GraphQL schema?
 # No
-? Do you want a guided schema creation? 
+? Do you want a guided schema creation?
 # Yes
-? What best describes your project: 
+? What best describes your project:
 # Single object with fields
-? Do you want to edit the schema now? 
+? Do you want to edit the schema now?
 # Yes
 ```
 
@@ -49,7 +49,7 @@ type Todo @model {
 }
 ```
 
-The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. This directive is part of the [GraphQL transform](~/cli/graphql-transformer/directives.md) library of Amplify. 
+The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. This directive is part of the [GraphQL transform](~/cli/graphql-transformer/model.md) library of Amplify. 
 
 The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.
 
@@ -108,7 +108,7 @@ To view your entire app in the Amplify console at any time, run the following co
 amplify console
 ```
 
-### (Optional) Test your API 
+### (Optional) Test your API
 
 To test this out locally, you can run the `mock` command.
 
@@ -119,7 +119,7 @@ amplify mock api
 ```
 
 *Note:* `amplify mock api` requires Java.
- 
+
 ```console
 # If you have not already deployed you API, you will be walked through the following steps for GraphQL code generation
 ? Choose the code generation language target: javascript (or preferred target)
@@ -211,7 +211,7 @@ const App = () => {
       <input
         onChange={event => setInput('name', event.target.value)}
         style={styles.input}
-        value={formState.name} 
+        value={formState.name}
         placeholder="Name"
       />
       <input
@@ -234,7 +234,7 @@ const App = () => {
 }
 
 const styles = {
-  container: { width: 400, margin: '0 auto', display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', padding: 20 },
+  container: { width: 400, margin: '0 auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 20 },
   todo: {  marginBottom: 15 },
   input: { border: 'none', backgroundColor: '#ddd', marginBottom: 10, padding: 8, fontSize: 18 },
   todoName: { fontSize: 20, fontWeight: 'bold' },
@@ -251,7 +251,7 @@ __useEffect__ - When the component loads, the `useEffect` hook is called and it 
 
 __fetchTodos__ - Uses the Amplify `API` category to call the AppSync GraphQL API with the `listTodos` query. Once the data is returned, the items array is passed in to the `setTodos` function to update the local state.
 
-__createTodo__ - Uses the Amplify `API` category to call the AppSync GraphQL API with the `createTodo` mutation. A difference between the `listTodos` query and the `createTodo` mutation is that `createTodo` accepts an argument containing the variables needed for the mutation.
+__addTodo__ - Uses the Amplify `API` category to call the AppSync GraphQL API with the `createTodo` mutation. A difference between the `listTodos` query and the `createTodo` mutation is that `createTodo` accepts an argument containing the variables needed for the mutation.
 
 ## Run locally
 

@@ -12,6 +12,7 @@ import { SetContent } from "./amplify-ui/toc/toc.types";
 import { MenuGroup, Page } from "./api";
 import { CustomComponentName } from "./docs-ui/component-playground/component-playground.types";
 import { SwitchOption } from "./docs-ui/version-switch/version-switch.types";
+import { WebComponentProps } from "./docs-ui/ui-component-props/ui-component-props.types";
 export namespace Components {
     interface AmplifyBlock {
         /**
@@ -20,6 +21,10 @@ export namespace Components {
         "name"?: string;
     }
     interface AmplifyBlockSwitcher {
+        /**
+          * increments whenever the platform changes and we need to refresh the tabHeadings
+         */
+        "alwaysRerenderBlockSwitcher": number;
         /**
           * list of previously tab headings in order of priority, passed from global provider
          */
@@ -219,8 +224,6 @@ export namespace Components {
          */
         "vertical"?: boolean;
     }
-    interface DocsChatButton {
-    }
     interface DocsChooseAnchor {
         /**
           * * the current page's data
@@ -407,6 +410,10 @@ export namespace Components {
     }
     interface UiComponentProps {
         /**
+          * Desired property to document
+         */
+        "propType": WebComponentProps;
+        /**
           * * component tag for documented component page
          */
         "tag": string;
@@ -542,12 +549,6 @@ declare global {
     var HTMLDocsCardElement: {
         prototype: HTMLDocsCardElement;
         new (): HTMLDocsCardElement;
-    };
-    interface HTMLDocsChatButtonElement extends Components.DocsChatButton, HTMLStencilElement {
-    }
-    var HTMLDocsChatButtonElement: {
-        prototype: HTMLDocsChatButtonElement;
-        new (): HTMLDocsChatButtonElement;
     };
     interface HTMLDocsChooseAnchorElement extends Components.DocsChooseAnchor, HTMLStencilElement {
     }
@@ -721,7 +722,6 @@ declare global {
         "amplify-toc-provider": HTMLAmplifyTocProviderElement;
         "docs-404-page": HTMLDocs404PageElement;
         "docs-card": HTMLDocsCardElement;
-        "docs-chat-button": HTMLDocsChatButtonElement;
         "docs-choose-anchor": HTMLDocsChooseAnchorElement;
         "docs-choose-integration-anchor": HTMLDocsChooseIntegrationAnchorElement;
         "docs-component-playground": HTMLDocsComponentPlaygroundElement;
@@ -757,6 +757,10 @@ declare namespace LocalJSX {
         "name"?: string;
     }
     interface AmplifyBlockSwitcher {
+        /**
+          * increments whenever the platform changes and we need to refresh the tabHeadings
+         */
+        "alwaysRerenderBlockSwitcher"?: number;
         /**
           * list of previously tab headings in order of priority, passed from global provider
          */
@@ -956,8 +960,6 @@ declare namespace LocalJSX {
          */
         "vertical"?: boolean;
     }
-    interface DocsChatButton {
-    }
     interface DocsChooseAnchor {
         /**
           * * the current page's data
@@ -1144,6 +1146,10 @@ declare namespace LocalJSX {
     }
     interface UiComponentProps {
         /**
+          * Desired property to document
+         */
+        "propType"?: WebComponentProps;
+        /**
           * * component tag for documented component page
          */
         "tag"?: string;
@@ -1174,7 +1180,6 @@ declare namespace LocalJSX {
         "amplify-toc-provider": AmplifyTocProvider;
         "docs-404-page": Docs404Page;
         "docs-card": DocsCard;
-        "docs-chat-button": DocsChatButton;
         "docs-choose-anchor": DocsChooseAnchor;
         "docs-choose-integration-anchor": DocsChooseIntegrationAnchor;
         "docs-component-playground": DocsComponentPlayground;
@@ -1227,7 +1232,6 @@ declare module "@stencil/core" {
             "amplify-toc-provider": LocalJSX.AmplifyTocProvider & JSXBase.HTMLAttributes<HTMLAmplifyTocProviderElement>;
             "docs-404-page": LocalJSX.Docs404Page & JSXBase.HTMLAttributes<HTMLDocs404PageElement>;
             "docs-card": LocalJSX.DocsCard & JSXBase.HTMLAttributes<HTMLDocsCardElement>;
-            "docs-chat-button": LocalJSX.DocsChatButton & JSXBase.HTMLAttributes<HTMLDocsChatButtonElement>;
             "docs-choose-anchor": LocalJSX.DocsChooseAnchor & JSXBase.HTMLAttributes<HTMLDocsChooseAnchorElement>;
             "docs-choose-integration-anchor": LocalJSX.DocsChooseIntegrationAnchor & JSXBase.HTMLAttributes<HTMLDocsChooseIntegrationAnchorElement>;
             "docs-component-playground": LocalJSX.DocsComponentPlayground & JSXBase.HTMLAttributes<HTMLDocsComponentPlaygroundElement>;

@@ -6,7 +6,7 @@ The API you will be creating in this step is a GraphQL API using AWS AppSync (a 
 
 ## Create a GraphQL API and database
 
-Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the the following command from the root of your application directory:
+Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the following command from the root of your application directory:
 
 ```bash
 amplify add api
@@ -61,11 +61,11 @@ type Post
 }
 ```
 
-The schema generated is for a blog app. You'll notice a directive on the `Post` type of `@model`. This directive is part of the [GraphQL transform](~/cli/graphql-transformer/directives.md) library of Amplify. 
+The schema generated is for a blog app. You'll notice a directive on the `Post` type of `@model`. This directive is part of the [GraphQL transform](~/cli/graphql-transformer/model.md) library of Amplify. 
 
 The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.
 
-A type decorated with the `@model` directive will scaffold out the database table for the type (Todo table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
+A type decorated with the `@model` directive will scaffold out the database table for the type (Post table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
 
 From the command line, press __enter__ to accept the schema and continue to the next steps.
 
@@ -96,7 +96,7 @@ Current Environment: dev
 
 Now the API is live and you can start interacting with it!
 
-The API you have deployed is for a Todo app, including operations for creating, reading, updating, deleting, and listing todos.
+The API you have deployed includes operations for creating, reading, updating, deleting, and listing posts.
 
 Next, run the following command to check Amplify's status:
 
@@ -127,7 +127,7 @@ To view your entire app in the Amplify console at any time, run the following co
 amplify console
 ```
 
-### (Optional) Test your API 
+### (Optional) Test your API
 
 To test this out locally, you can run the `mock` command.
 
@@ -138,7 +138,7 @@ amplify mock api
 ```
 
 *Note:* `amplify mock api` requires Java.
- 
+
 ```console
 # If you have not already deployed you API, you will be walked through the following steps for GraphQL code generation
 ? Choose the code generation language target: javascript (or preferred target)
@@ -428,5 +428,3 @@ Let's walk through some of this file:
 ## Testing SSG
 
 With your server running (`npm run dev`), refresh the page (or go back home to http://localhost:3000/ and click into a post) and you'll see a page for this post!
-
-

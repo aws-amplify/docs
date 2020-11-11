@@ -3,9 +3,9 @@ title: How to use Lambda GraphQL Resolvers
 description: How to use Lambda GraphQL resolvers to interact with other services
 ---
 
-The [GraphQL Transform Library](~/cli/graphql-transformer/directives.md) provides an `@function` directive that enables the configuration of AWS Lambda function resolvers within your GraphQL API. In this guide you will learn how to use Lambda functions as GraphQL resolvers to interact with other services and APIs using the `@function` directive.
+The [GraphQL Transform Library](~/cli/graphql-transformer/function.md) provides a `@function` directive that enables the configuration of AWS Lambda function resolvers within your GraphQL API. In this guide you will learn how to use Lambda functions as GraphQL resolvers to interact with other services and APIs using the `@function` directive.
 
-## Creating basic query and mutation Function resolvers 
+## Creating basic query and mutation Function resolvers
 
 To get started, let's take a look at a GraphQL schema with a query and a mutation that has the data source set as a Lambda function.
 
@@ -216,4 +216,4 @@ query getCoins {
 }
 ```
 
-To learn more about the `@function` directive, check out the GraphQL Transform documentation [here](~/cli/graphql-transformer/directives.md).
+To learn more about the `@function` directive, check out the GraphQL Transform documentation [here](~/cli/graphql-transformer/function.md).

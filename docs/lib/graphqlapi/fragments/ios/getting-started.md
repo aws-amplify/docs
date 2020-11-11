@@ -135,19 +135,11 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
     ```
 2. Build your project with **Product > Build** (`Cmd+b`). This will generate the Model files to be used with `Amplify.API` to query, mutate, and subscribe to you AppSync service. After build completes, the model files will be generated under `amplify/generated/models`. When you edit the schema under `amplify/backend/api/<APINAME>/schema.graphql` and build, it will regenerate the Model files.
 
-    <amplify-callout>
-
-    If Xcode reports build errors like `Undefined symbol: _OBJC_CLASS_$_AWSSignatureV4Signer`, as shown in the screenshot below, clean build folder with **Product > Clean Build Folder** (`Shift+Cmd+K`) and rebuild the project (`Cmd+b`).
-
-    ![Xcode Build Error](~/images/xcode-build-error.png)
-
-    </amplify-callout>
-
-
 3. Alternatively, you can run `amplify codegen models` using Amplify CLI. Make sure you set `modelgen=false` if you are using the CLI instead of Amplify Tools.
 
-3. Drag the entire `models` directory over to your project. If you Build the project, the model files will be regenerated under the `amplify` folder. 
-4. Select each model file, and select the app under Target Membership, to make sure it gets added to the target when building the app.
+4. Drag the entire `models` directory over to your project. If you Build the project, the model files will be regenerated under the `amplify` folder. 
+
+5. Select each model file, and select the app under Target Membership, to make sure it gets added to the target when building the app.
 
 6. Register the models before initializing Amplify in your AppDelegate method.
     ```

@@ -14,7 +14,7 @@ To use in your app, import `AWSIoTProvider`:
 
 ```javascript
 import Amplify, { PubSub } from 'aws-amplify';
-import { AWSIoTProvider } from '@aws-amplify/pubsub/lib/Providers';
+import { AWSIoTProvider } from '@aws-amplify/pubsub';
 ```
 
 Define your endpoint and region in your configuration:
@@ -29,7 +29,7 @@ Amplify.addPluggable(new AWSIoTProvider({
 
 Find your `aws_pubsub_endpoint` by logging onto your **AWS Console**, choose **IoT Core** from the list of services, then choose *Settings* from the left navigation pane.
 
-### Create IAM policies for AWS IoT
+### Step 1: Create IAM policies for AWS IoT
 
 To use PubSub with AWS IoT, you will need to create the necessary IAM policies in the AWS IoT Console, and attach them to your Amazon Cognito Identity. 
 
@@ -38,7 +38,7 @@ Go to IoT Core and choose *Secure* from the left navigation pane. Then navigate 
 ![Alt text](~/images/create-iot-policy.png)
 
 
-### Attach your policy to your Amazon Cognito Identity
+### Step 2: Attach your policy to your Amazon Cognito Identity
 
 The next step is attaching the policy to your *Cognito Identity*. 
 
@@ -55,7 +55,7 @@ Then, you need to send your *Cognito Identity Id* to the AWS backend and attach 
 aws iot attach-principal-policy --policy-name 'myIoTPolicy' --principal '<YOUR_COGNITO_IDENTITY_ID>'
 ```
 
-### Allowing your Amazon Cognito Authenticated Role to access IoT Services
+### Step 3: Allow the Amazon Cognito Authenticated Role to access IoT Services
 
 For your Cognito Authenticated Role to be able to interact with **AWS IoT** it may be necessary to update its permissions, if you haven't done this before.  
 One way of doing this is to log to your **AWS Console**, select **CloudFormation** from the available services. Locate the parent stack of your solution: it is usually named `<SERVICE-NAME>-<CREATION_TIMESTAMP>`.  
@@ -93,5 +93,4 @@ Then in your code, you can import the PubSub module by:
 import PubSub from '@aws-amplify/pubsub';
 
 PubSub.configure();
-
 ```

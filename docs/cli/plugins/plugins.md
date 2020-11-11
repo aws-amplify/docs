@@ -26,6 +26,7 @@ Plugins are explicitly managed in the Amplify CLI pluggable platform. Plugins en
 
 * [amplify-category-video](https://www.npmjs.com/package/amplify-category-video)
 * [amplify-category-docs](https://www.npmjs.com/package/amplify-category-docs)
+* [graphql-ttl-transformer](https://github.com/flogy/graphql-ttl-transformer)
 
 ## Plugin installation
 

@@ -1,5 +1,5 @@
 
-DataStore has the capability to handle relationships between Models, such as *has one*, *has many*, *belongs to*. In GraphQL this is done with the `@connection` and `@key` directives as defined in the [GraphQL Transformer documentation](~/cli/graphql-transformer/directives.md#connection).
+DataStore has the capability to handle relationships between Models, such as *has one*, *has many*, *belongs to*. In GraphQL this is done with the `@connection` and `@key` directives as defined in the [GraphQL Transformer documentation](~/cli/graphql-transformer/connection.md).
 
 <amplify-callout warning>
 
@@ -39,7 +39,7 @@ However, in a many to many relationship the children are not removed and you mus
 
 ### Many-to-many
 
-The above example shows how to use a *one-to-many* schema and save connected models. For *many-to-many* relations, such as the one shows in the [GraphQL Transformer examples](~/cli/graphql-transformer/directives.md#connection).
+The above example shows how to use a *one-to-many* schema and save connected models. For *many-to-many* relations, such as the one shows in the [GraphQL Transformer examples](~/cli/graphql-transformer/connection.md).
 
 In this case, you save instances of models from each side of the relationship and then join them together by connecting type on a field defined with `@connection`. Consider the following schema:
 
