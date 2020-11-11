@@ -358,6 +358,10 @@ export namespace Components {
     }
     interface DocsSecondaryNav {
         /**
+          * * whether or not the current page has a menu
+         */
+        "pageHasMenu"?: boolean;
+        /**
           * * the current filter state
          */
         "selectedFilters"?: SelectedFilters;
@@ -1093,6 +1097,10 @@ declare namespace LocalJSX {
     interface DocsSearchBar {
     }
     interface DocsSecondaryNav {
+        /**
+          * * whether or not the current page has a menu
+         */
+        "pageHasMenu"?: boolean;
         /**
           * * the current filter state
          */

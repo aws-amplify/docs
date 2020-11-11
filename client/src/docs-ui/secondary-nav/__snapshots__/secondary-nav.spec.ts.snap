@@ -40,7 +40,6 @@ exports[`docs-secondary-nav Render logic should render 1`] = `
         </div>
       </div>
     </div>
-    <amplify-sidebar-open-button></amplify-sidebar-open-button>
   </docs-container>
 </docs-secondary-nav>
 `;
