@@ -2,7 +2,7 @@ import {Component, Prop, h, Host, State} from "@stencil/core";
 import {sidebarLayoutContext} from "../sidebar-layout.context";
 import {ToggleInView} from "../sidebar-layout.types";
 import {sidebarOpenButtonStyle} from "./sidebar-open-button.style";
-import {DESKTOP_CLOSE, DESKTOP_OPEN} from "../../../constants/img";
+import {DESKTOP_OPEN} from "../../../constants/img";
 
 @Component({tag: "amplify-sidebar-open-button"})
 export class AmplifySidebarOpenButton {
