@@ -118,6 +118,15 @@ Amplify.addPlugin(AWSApiPlugin(authProviders))
 </amplify-block>
 <amplify-block name="RxJava">
 
+Using the `rxbindings` module can simplify this greatly.
+
+```groovy
+dependencies {
+    // other dependencies...
+    implementation 'com.amplifyframework:rxbindings:1.5.0'
+}
+```
+
 ```java
 ApiAuthProviders authProviders = ApiAuthProviders.builder()
     .oidcAuthProvider(() -> RxAmplify.Auth.fetchAuthSession()
@@ -132,6 +141,15 @@ Amplify.addPlugin(new AWSApiPlugin(authProviders));
 
 </amplify-block>
 <amplify-block name="RxKotlin">
+
+Using the `rxbindings` module can simplify this greatly.
+
+```groovy
+dependencies {
+    // other dependencies...
+    implementation 'com.amplifyframework:rxbindings:1.5.0'
+}
+```
 
 ```kotlin
 val authProviders = ApiAuthProviders.builder()
