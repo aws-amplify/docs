@@ -100,7 +100,7 @@ Add the following code to your app to initialize API plugin with custom OIDC aut
 
 ```java
 ApiAuthProviders authProviders = ApiAuthProviders.builder()
-    .oidcAuthProvider(() -> new MyOidcAuthProvider())
+    .oidcAuthProvider(new MyOidcAuthProvider())
     .build();
 Amplify.addPlugin(new AWSApiPlugin(authProviders));
 ```
