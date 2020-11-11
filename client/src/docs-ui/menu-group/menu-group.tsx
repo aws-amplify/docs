@@ -13,6 +13,7 @@ import {pageContext} from "../page/page.context";
 import {SelectedFilters} from "../page/page.types";
 import {sidebarLayoutContext} from "../../amplify-ui/sidebar-layout/sidebar-layout.context";
 import {ToggleInView} from "../../amplify-ui/sidebar-layout/sidebar-layout.types";
+import {MQTablet} from "../../amplify-ui/styles/media";
 
 @Component({tag: "docs-menu-group", shadow: false})
 export class DocsMenuGroup {
@@ -63,7 +64,10 @@ export class DocsMenuGroup {
   }
 
   closeMenuIfOnMobile = () => {
-    if (this.inView) {
+    // Slice off the "@media " string at the start for use in JS instead of CSS
+    const MQTabletJS = MQTablet.substring(6);
+    const isMobile = !window.matchMedia(MQTabletJS).matches;
+    if (isMobile && this.inView) {
       this.toggleInView();
     }
   };

@@ -96,6 +96,7 @@ export class DocsSecondaryNav {
               </div>
             </div>
           </div>
+          <amplify-sidebar-open-button />
         </docs-container>
       </Host>
     );

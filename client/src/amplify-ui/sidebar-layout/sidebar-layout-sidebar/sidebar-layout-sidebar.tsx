@@ -2,6 +2,7 @@ import {Component, Host, Listen, Prop, h} from "@stencil/core";
 import {sidebarLayoutContext} from "../sidebar-layout.context";
 import {sidebarLayoutSidebarStyle} from "./sidebar-layout-sidebar.style";
 import {ToggleInView} from "../sidebar-layout.types";
+import {MQTablet} from "../../styles/media";
 
 @Component({tag: "amplify-sidebar-layout-sidebar", shadow: false})
 export class AmplifySidebarLayoutSidebar {
@@ -17,7 +18,11 @@ export class AmplifySidebarLayoutSidebar {
 
   @Listen("click", {target: "document"})
   clickListener(e: Event) {
-    if (this.inView) {
+    // Slice off the "@media " string at the start for use in JS instead of CSS
+    const MQTabletJS = MQTablet.substring(6);
+    const isMobile = !window.matchMedia(MQTabletJS).matches;
+    // Hide the sidebar only if we're on mobile and the user tapped the content, not the sidebar itself
+    if (isMobile && this.inView) {
       const clickedElement = e.target as HTMLElement | undefined;
       if (this.ref && clickedElement && !this.ref.contains(clickedElement)) {
         this.toggleInView && this.toggleInView();

@@ -102,6 +102,16 @@ export namespace Components {
          */
         "gridGap": number;
     }
+    interface AmplifySidebarCloseButton {
+        /**
+          * * whether or not the sidebar is in view, provided by `sidebar-layout`
+         */
+        "inView"?: boolean;
+        /**
+          * * toggles the state provided by `sidebar-layout`
+         */
+        "toggleInView"?: ToggleInView;
+    }
     interface AmplifySidebarLayout {
     }
     interface AmplifySidebarLayoutMain {
@@ -138,11 +148,25 @@ export namespace Components {
          */
         "toggleInView"?: ToggleInView;
     }
+    interface AmplifySidebarOpenButton {
+        /**
+          * * whether or not the sidebar is in view, provided by `sidebar-layout`
+         */
+        "inView"?: boolean;
+        /**
+          * * toggles the state provided by `sidebar-layout`
+         */
+        "toggleInView"?: ToggleInView;
+    }
     interface AmplifyToc {
         /**
           * A list of `h2` and/or `h3` nodes, provided by either of 2 means: 1. User-provided (`<amplify-toc elements={[...h2h3DomNodes]} />`) 2. Provider-injected (within parent `amplify-toc-provider`, sibling an `amplify-toc-content` instance)
          */
         "elements"?: HTMLElement[];
+        /**
+          * Whether or not the left sidebar is in view; injected from the sidebar context. If the left sidebar isn't in view, there is more space for this table of contents
+         */
+        "inView"?: boolean;
         /**
           * * the title of the page on which this TOC is being rendered
          */
@@ -460,6 +484,12 @@ declare global {
         prototype: HTMLAmplifyResponsiveGridElement;
         new (): HTMLAmplifyResponsiveGridElement;
     };
+    interface HTMLAmplifySidebarCloseButtonElement extends Components.AmplifySidebarCloseButton, HTMLStencilElement {
+    }
+    var HTMLAmplifySidebarCloseButtonElement: {
+        prototype: HTMLAmplifySidebarCloseButtonElement;
+        new (): HTMLAmplifySidebarCloseButtonElement;
+    };
     interface HTMLAmplifySidebarLayoutElement extends Components.AmplifySidebarLayout, HTMLStencilElement {
     }
     var HTMLAmplifySidebarLayoutElement: {
@@ -483,6 +513,12 @@ declare global {
     var HTMLAmplifySidebarLayoutToggleElement: {
         prototype: HTMLAmplifySidebarLayoutToggleElement;
         new (): HTMLAmplifySidebarLayoutToggleElement;
+    };
+    interface HTMLAmplifySidebarOpenButtonElement extends Components.AmplifySidebarOpenButton, HTMLStencilElement {
+    }
+    var HTMLAmplifySidebarOpenButtonElement: {
+        prototype: HTMLAmplifySidebarOpenButtonElement;
+        new (): HTMLAmplifySidebarOpenButtonElement;
     };
     interface HTMLAmplifyTocElement extends Components.AmplifyToc, HTMLStencilElement {
     }
@@ -675,10 +711,12 @@ declare global {
         "amplify-feature-flags": HTMLAmplifyFeatureFlagsElement;
         "amplify-lorem": HTMLAmplifyLoremElement;
         "amplify-responsive-grid": HTMLAmplifyResponsiveGridElement;
+        "amplify-sidebar-close-button": HTMLAmplifySidebarCloseButtonElement;
         "amplify-sidebar-layout": HTMLAmplifySidebarLayoutElement;
         "amplify-sidebar-layout-main": HTMLAmplifySidebarLayoutMainElement;
         "amplify-sidebar-layout-sidebar": HTMLAmplifySidebarLayoutSidebarElement;
         "amplify-sidebar-layout-toggle": HTMLAmplifySidebarLayoutToggleElement;
+        "amplify-sidebar-open-button": HTMLAmplifySidebarOpenButtonElement;
         "amplify-toc": HTMLAmplifyTocElement;
         "amplify-toc-contents": HTMLAmplifyTocContentsElement;
         "amplify-toc-provider": HTMLAmplifyTocProviderElement;
@@ -800,6 +838,16 @@ declare namespace LocalJSX {
          */
         "gridGap"?: number;
     }
+    interface AmplifySidebarCloseButton {
+        /**
+          * * whether or not the sidebar is in view, provided by `sidebar-layout`
+         */
+        "inView"?: boolean;
+        /**
+          * * toggles the state provided by `sidebar-layout`
+         */
+        "toggleInView"?: ToggleInView;
+    }
     interface AmplifySidebarLayout {
     }
     interface AmplifySidebarLayoutMain {
@@ -836,11 +884,25 @@ declare namespace LocalJSX {
          */
         "toggleInView"?: ToggleInView;
     }
+    interface AmplifySidebarOpenButton {
+        /**
+          * * whether or not the sidebar is in view, provided by `sidebar-layout`
+         */
+        "inView"?: boolean;
+        /**
+          * * toggles the state provided by `sidebar-layout`
+         */
+        "toggleInView"?: ToggleInView;
+    }
     interface AmplifyToc {
         /**
           * A list of `h2` and/or `h3` nodes, provided by either of 2 means: 1. User-provided (`<amplify-toc elements={[...h2h3DomNodes]} />`) 2. Provider-injected (within parent `amplify-toc-provider`, sibling an `amplify-toc-content` instance)
          */
         "elements"?: HTMLElement[];
+        /**
+          * Whether or not the left sidebar is in view; injected from the sidebar context. If the left sidebar isn't in view, there is more space for this table of contents
+         */
+        "inView"?: boolean;
         /**
           * * the title of the page on which this TOC is being rendered
          */
@@ -1107,10 +1169,12 @@ declare namespace LocalJSX {
         "amplify-feature-flags": AmplifyFeatureFlags;
         "amplify-lorem": AmplifyLorem;
         "amplify-responsive-grid": AmplifyResponsiveGrid;
+        "amplify-sidebar-close-button": AmplifySidebarCloseButton;
         "amplify-sidebar-layout": AmplifySidebarLayout;
         "amplify-sidebar-layout-main": AmplifySidebarLayoutMain;
         "amplify-sidebar-layout-sidebar": AmplifySidebarLayoutSidebar;
         "amplify-sidebar-layout-toggle": AmplifySidebarLayoutToggle;
+        "amplify-sidebar-open-button": AmplifySidebarOpenButton;
         "amplify-toc": AmplifyToc;
         "amplify-toc-contents": AmplifyTocContents;
         "amplify-toc-provider": AmplifyTocProvider;
@@ -1157,10 +1221,12 @@ declare module "@stencil/core" {
             "amplify-feature-flags": LocalJSX.AmplifyFeatureFlags & JSXBase.HTMLAttributes<HTMLAmplifyFeatureFlagsElement>;
             "amplify-lorem": LocalJSX.AmplifyLorem & JSXBase.HTMLAttributes<HTMLAmplifyLoremElement>;
             "amplify-responsive-grid": LocalJSX.AmplifyResponsiveGrid & JSXBase.HTMLAttributes<HTMLAmplifyResponsiveGridElement>;
+            "amplify-sidebar-close-button": LocalJSX.AmplifySidebarCloseButton & JSXBase.HTMLAttributes<HTMLAmplifySidebarCloseButtonElement>;
             "amplify-sidebar-layout": LocalJSX.AmplifySidebarLayout & JSXBase.HTMLAttributes<HTMLAmplifySidebarLayoutElement>;
             "amplify-sidebar-layout-main": LocalJSX.AmplifySidebarLayoutMain & JSXBase.HTMLAttributes<HTMLAmplifySidebarLayoutMainElement>;
             "amplify-sidebar-layout-sidebar": LocalJSX.AmplifySidebarLayoutSidebar & JSXBase.HTMLAttributes<HTMLAmplifySidebarLayoutSidebarElement>;
             "amplify-sidebar-layout-toggle": LocalJSX.AmplifySidebarLayoutToggle & JSXBase.HTMLAttributes<HTMLAmplifySidebarLayoutToggleElement>;
+            "amplify-sidebar-open-button": LocalJSX.AmplifySidebarOpenButton & JSXBase.HTMLAttributes<HTMLAmplifySidebarOpenButtonElement>;
             "amplify-toc": LocalJSX.AmplifyToc & JSXBase.HTMLAttributes<HTMLAmplifyTocElement>;
             "amplify-toc-contents": LocalJSX.AmplifyTocContents & JSXBase.HTMLAttributes<HTMLAmplifyTocContentsElement>;
             "amplify-toc-provider": LocalJSX.AmplifyTocProvider & JSXBase.HTMLAttributes<HTMLAmplifyTocProviderElement>;

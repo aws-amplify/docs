@@ -25,6 +25,7 @@ import {SelectedFilters} from "../../docs-ui/page/page.types";
 import {pageContext} from "../../docs-ui/page/page.context";
 import {sidebarLayoutContext} from "../../amplify-ui/sidebar-layout/sidebar-layout.context";
 import {ToggleInView} from "../../amplify-ui/sidebar-layout/sidebar-layout.types";
+import {MQTablet} from "../../amplify-ui/styles/media";
 
 @Component({tag: "docs-select-anchor"})
 export class DocsSelectAnchor {
@@ -51,7 +52,11 @@ export class DocsSelectAnchor {
 
   toggleShowOptionsAndMenuInView = () => {
     this.toggleShowOptions();
-    if (this.inView) {
+
+    // Slice off the "@media " string at the start for use in JS instead of CSS
+    const MQTabletJS = MQTablet.substring(6);
+    const isMobile = !window.matchMedia(MQTabletJS).matches;
+    if (isMobile && this.inView) {
       this.toggleInView();
     }
   };

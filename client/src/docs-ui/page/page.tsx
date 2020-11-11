@@ -6,6 +6,7 @@ import {
   sidebarToggleClass,
   mainStyle,
   sectionHeaderStyle,
+  sidebarHeaderStyle,
 } from "./page.style";
 import {
   Page,
@@ -285,6 +286,12 @@ export class DocsPage {
                               slot="sidebar"
                               top={this.sidebarStickyTop}
                             >
+                              <div class={sidebarHeaderStyle}>
+                                <amplify-sidebar-close-button />
+                                {this.pageData?.filterKey && (
+                                  <docs-select-anchor page={this.pageData} />
+                                )}
+                              </div>
                               <docs-menu
                                 filterKey={this.filterKey}
                                 page={this.pageData}
