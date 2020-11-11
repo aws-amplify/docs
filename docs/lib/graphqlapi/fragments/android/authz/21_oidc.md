@@ -116,4 +116,34 @@ Amplify.addPlugin(AWSApiPlugin(authProviders))
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+ApiAuthProviders authProviders = ApiAuthProviders.builder()
+    .oidcAuthProvider(() -> RxAmplify.Auth.fetchAuthSession()
+        .map(session -> ((AWSCognitoAuthSession) session)
+            .getUserPoolTokens()
+            .getValue()
+            .getIdToken())
+        .blockingGet())
+    .build();
+Amplify.addPlugin(new AWSApiPlugin(authProviders));
+```
+
+</amplify-block>
+<amplify-block name="RxKotlin">
+
+```kotlin
+val authProviders = ApiAuthProviders.builder()
+    .oidcAuthProvider { RxAmplify.Auth.fetchAuthSession()
+        .map { (it as AWSCognitoAuthSession)
+            .userPoolTokens
+            .value
+            ?.idToken }
+        .blockingGet() }
+    .build()
+Amplify.addPlugin(AWSApiPlugin(authProviders))
+```
+
+</amplify-block>
 </amplify-block-switcher>
