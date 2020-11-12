@@ -105,7 +105,7 @@ const listener = (data) => {
     switch (data.payload.event) {
     
         case 'signIn':
-            logger.info('user signed in'); //[ERROR] My-Logger - user signed in
+            logger.info('user signed in');
             break;
         case 'signUp':
             logger.info('user signed up');
