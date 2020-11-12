@@ -93,7 +93,7 @@ A channel is a logical group name that you use to organize messages and listen o
 
 ### Authentication Events
 
-Amplify's `Auth` category publishes in the `auth` channel when 'signIn', 'signUp', and 'signOut' events happen. You can listen and act upon those event notifications.
+Amplify's `Auth` category publishes in the `auth` channel when 'signIn', 'signUp', 'tokenRefresh' and 'signOut' events happen. You can listen and act upon those event notifications.
 
 ```javascript
 import { Hub, Logger } from 'aws-amplify';
@@ -105,19 +105,25 @@ const listener = (data) => {
     switch (data.payload.event) {
     
         case 'signIn':
-            logger.error('user signed in'); //[ERROR] My-Logger - user signed in
+            logger.info('user signed in'); //[ERROR] My-Logger - user signed in
             break;
         case 'signUp':
-            logger.error('user signed up');
+            logger.info('user signed up');
             break;
         case 'signOut':
-            logger.error('user signed out');
+            logger.info('user signed out');
             break;
         case 'signIn_failure':
             logger.error('user sign in failed');
             break;
+        case 'tokenRefresh':
+            logger.info('token refresh succeeded');
+            break;
+        case 'tokenRefresh_failure':
+            logger.error('token refresh failed');
+            break;
         case 'configured':
-            logger.error('the Auth module is configured');
+            logger.info('the Auth module is configured');
             
     }
 }
