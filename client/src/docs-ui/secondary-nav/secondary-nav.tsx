@@ -19,6 +19,8 @@ import {
 export class DocsSecondaryNav {
   /*** the current filter state */
   @Prop() readonly selectedFilters?: SelectedFilters;
+  /*** whether or not the current page has a menu */
+  @Prop() readonly pageHasMenu?: boolean;
 
   render() {
     return (
@@ -96,7 +98,7 @@ export class DocsSecondaryNav {
               </div>
             </div>
           </div>
-          <amplify-sidebar-open-button />
+          {this.pageHasMenu && <amplify-sidebar-open-button />}
         </docs-container>
       </Host>
     );
