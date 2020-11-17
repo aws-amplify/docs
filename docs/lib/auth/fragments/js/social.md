@@ -122,6 +122,9 @@ For React Native applications, You need to define a custom URL scheme for your a
 
 <inline-fragment src="~/lib/auth/fragments/common/social_signin_web_ui/configure_auth_category.md"></inline-fragment>
 
+### Known Limitations
+* When using the federated OAuth flow with Cognito User Pools, [device tracking and remembering](https://aws.amazon.com/blogs/mobile/tracking-and-remembering-devices-using-amazon-cognito-your-user-pools/) is not available.
+
 ## Setup frontend
 
 After configuring the OAuth endpoints, you can use them or the Hosted UI with `Auth.federatedSignIn()`. Passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example. If you are looking to add a custom state, you are able to do so by passing a string (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via Hub.
