@@ -58,7 +58,7 @@ Upon calling `DataStore.start()` (or executing a DataStore operation, e.g., `que
 
 In the above case, the predicate will contain the value `1`, so all Posts with `rating > 1` will get synced down.
 
-Keep in mind that when calling `DataStore.stop()` the existing contents of the local store are retained. 
+Keep in mind that the existing contents of the local store is _retained_ when calling `DataStore.stop()`.
 
 <amplify-callout>
 
