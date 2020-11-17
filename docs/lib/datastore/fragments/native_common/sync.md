@@ -15,6 +15,7 @@ The next step is to make sure the local saved data is synchronized with a cloud 
 
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/sync/10-installPlugin.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/sync/10-installPlugin.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/sync/10-installPlugin.md"></inline-fragment>
 
 ### Push the backend to the cloud
 
@@ -71,12 +72,14 @@ For such scenarios both the `save()` and the `delete()` APIs support an optional
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/sync/20-savePredicate.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/sync/20-savePredicate.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/sync/20-savePredicate.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/sync/20-savePredicate.md"></inline-fragment>
 
 There's a difference between the traditional local condition check using `if/else` constructs and the predicate in the aforementioned APIs as you can see in the example below.
 
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/sync/30-savePredicateComparison.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/sync/30-savePredicateComparison.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/sync/30-savePredicateComparison.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/sync/30-savePredicateComparison.md"></inline-fragment>
 
 ### Conflict detection and resolution
 
@@ -97,6 +100,7 @@ One common use for `clear()` is to manage different users sharing the same devic
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/sync/40-clear.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/sync/40-clear.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/sync/40-clear.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/sync/40-clear.md"></inline-fragment>
 
 This is a simple yet effective example. However, in a real scenario you might want to only call `clear()` when a different user is `signedIn` in order to avoid clearing the database for a repeated sign-in of the same user.
 
