@@ -123,7 +123,7 @@ For React Native applications, You need to define a custom URL scheme for your a
 <inline-fragment src="~/lib/auth/fragments/common/social_signin_web_ui/configure_auth_category.md"></inline-fragment>
 
 ### Known Limitations
-* When using the federated OAuth flow with Cognito User Pools, [device tracking and remembering](https://aws.amazon.com/blogs/mobile/tracking-and-remembering-devices-using-amazon-cognito-your-user-pools/) is not available.
+When using the federated OAuth flow with Cognito User Pools, the [device tracking and remembering](https://aws.amazon.com/blogs/mobile/tracking-and-remembering-devices-using-amazon-cognito-your-user-pools/) features are currently not available within the library. If you are looking for this feature within the library, please open a feature request [here](https://github.com/aws-amplify/amplify-js/issues/new?assignees=&labels=feature-request&template=feature_request.md&title=) and provide upvotes in order for us to take this into consideration for the future of the library.
 
 ## Setup frontend
 
@@ -420,4 +420,3 @@ export default App;
 </amplify-block>
 
 </amplify-block-switcher>
-
