@@ -1,6 +1,6 @@
 ## Selectively syncing a subset of your data
 
-By default, DataStore persists the entire contents of your cloud data source to the local store. 
+By default, DataStore downloads the entire contents of your cloud data source to your local device.
 The max number of records that will be stored is configurable [here](https://docs.amplify.aws/lib/datastore/conflict/q/platform/js#example).
 
 You can utilize selective sync to have DataStore persist a subset of your data instead.
