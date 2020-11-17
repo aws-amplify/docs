@@ -92,7 +92,7 @@ DataStore.configure({
   ]
 });
 ```
-<amplify-callout>
+<amplify-callout warning>
 
 `DataStore.configure` should only by called once at the root of your file.
 
