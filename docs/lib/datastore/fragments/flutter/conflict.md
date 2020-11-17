@@ -4,7 +4,7 @@ Finally you can configure the number of records to sync as an upper bound on ite
 
 ### Example
 
-The code below illustrates a conflict resolution handler for the `Post` model that retries a mutation with the same title, but the most recent remote data for all other fields. The conflict resolution handler discards conflicts for all other models (by passing `ConflictResolutionDecision.applyRemote()` to `onDecision.accept(...)`).
+The code below illustrates a conflict resolution handler for the `Post` model that retries a mutation with the same title, but the most recent remote data for all other fields. The conflict resolution handler discards conflicts for all other models.
 
 ```dart
 TBD
