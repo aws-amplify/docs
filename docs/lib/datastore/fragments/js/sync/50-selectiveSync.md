@@ -138,7 +138,7 @@ type User @model
 }
 ```
 
-Either of these sync expressions will result in AppSync retrieving records from DynamoDB via a query operation:
+Either of these sync expressions will result in AWS AppSync retrieving records from Amazon DynamoDB via a query operation:
 
 ```js
 DataStore.configure({
