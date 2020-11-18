@@ -1,6 +1,6 @@
 ---
 title: Relational Databases
-description: The Amplify CLI currently supports importing serverless Amazon Aurora MySQL 5.6 databases running in the following regions us-east-1,us-east-2,us-west-2,eu-west-1 and ap-northeast-1. Learn how to create an Amazon Aurora Serverless database, import this database as a GraphQL data source and test it.
+description: The Amplify CLI currently supports importing serverless Amazon Aurora MySQL 5.6 databases running in your account. Learn how to create an Amazon Aurora Serverless database, import this database as a GraphQL data source and test it.
 ---
 
 The Amplify CLI currently supports importing serverless Amazon Aurora MySQL 5.6 databases running in your account. The following instruction show how to create an Amazon Aurora Serverless database, import this database as a GraphQL data source and test it.
