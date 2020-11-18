@@ -3,6 +3,7 @@
   "items": [
     "tags",
     "lambda-triggers",
+    "containers",
     "mock",
     "customcf",
     "iam",
