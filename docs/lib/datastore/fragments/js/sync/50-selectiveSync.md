@@ -3,7 +3,7 @@
 By default, DataStore downloads the entire contents of your cloud data source to your local device.
 The max number of records that will be stored is configurable [here](https://docs.amplify.aws/lib/datastore/conflict/q/platform/js#example).
 
-You can utilize selective sync to  only persist a subset of your data instead.
+You can utilize selective sync to only persist a subset of your data instead.
 
 Selective sync works by applying predicates to the base and delta sync queries, as well as to incoming subscriptions.
 
@@ -123,7 +123,7 @@ DataStore.configure({
 ```
 
 ### Advanced use case - Query instead of Scan
-You can configure selective sync to retrieve items from DynamoDB with a [query operation](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Query.html) against a GSI. By default, the base sync will perform a scan. Learn about creating GSIs with the `@key` directive [here](https://docs.amplify.aws/cli/graphql-transformer/key).
+You can configure selective sync to retrieve items from DynamoDB with a [query operation](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.html) against a GSI. By default, the base sync will perform a [scan](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html). Query operations enable a highly performant and cost-effective data retrieval for customers running DynamoDB at scale. Learn about creating GSIs with the `@key` directive [here](https://docs.amplify.aws/cli/graphql-transformer/key).
 
 In order to do that, your `syncExpression` should return a predicate that maps to a query expression.
 
