@@ -1,8 +1,11 @@
-## Selective Sync
+## Selectively syncing a subset of your data
 
-By default, DataStore persists the entire contents of your data source. (The max number of records is configurable here: https://docs.amplify.aws/lib/datastore/conflict/q/platform/js#example).
+By default, DataStore downloads the entire contents of your cloud data source to your local device.
+The max number of records that will be stored is configurable [here](https://docs.amplify.aws/lib/datastore/conflict/q/platform/js#example).
 
-You can utilize Selective Sync to apply predicates to the base and delta sync queries, as well as to incoming subscriptions.
+You can utilize selective sync to only persist a subset of your data instead.
+
+Selective sync works by applying predicates to the base and delta sync queries, as well as to incoming subscriptions.
 
 ```js
 import { DataStore, syncExpression } from 'aws-amplify';
@@ -22,13 +25,17 @@ DataStore.configure({
 
 When DataStore starts syncing, only Posts with `rating > 5` and Comments with `status === 'active'` will be synced down to the user's local store.
 
+<amplify-callout>
+
 Developers should only specify a single `syncExpression` per model. Any subsequent expressions for the same model will be ignored.
+
+</amplify-callout>
 
 ### Reevaluate expressions at runtime
 Sync expressions get evaluated whenever DataStore starts.
-In order to have your expressions reevaluated, you can **clear** or **stop** DataStore and then start it back up.
+In order to have your expressions reevaluated, you can execute `DataStore.clear()` or `DataStore.stop()` followed by `DataStore.start()`.
 
-If you have the following expression:
+If you have the following expression and you want to change the filter that gets applied at runtime, you can do the following:
 ```js
 let rating = 5;
 
@@ -39,9 +46,7 @@ DataStore.configure({
     })
   ]
 });
-```
-And you want to change the filter that gets applied at runtime, you can do the following:
-```js
+
 async function changeSync() {
   rating = 1;
   await DataStore.stop();
@@ -49,13 +54,18 @@ async function changeSync() {
 }
 ```
 
-Upon calling `start()` (or executing a DataStore operation, e.g., `query`, `save`, `delete`, or `observe`), DataStore will reevaluate the `syncExpressions`. 
+Upon calling `DataStore.start()` (or executing a DataStore operation, e.g., `query`, `save`, `delete`, or `observe`), DataStore will reevaluate the `syncExpressions`. 
 
 In the above case, the predicate will contain the value `1`, so all Posts with `rating > 1` will get synced down.
 
-Please note that when calling `DataStore.stop()` the existing contents of the local store are retained. 
+Keep in mind: `DataStore.stop()` will retain the local store's existing content. Run `DataStore.clear()` to clear the locally-stored contents.
 
-If you're applying a more restrictive filter and would therefore like to clear the local records, consider using `DataStore.clear()` instead:
+<amplify-callout>
+
+When applying a more restrictive filter, clear the local records first by running `DataStore.clear()` instead:
+
+</amplify-callout>
+
 ```js
 async function changeSync() {
   rating = 8;
@@ -82,6 +92,11 @@ DataStore.configure({
   ]
 });
 ```
+<amplify-callout warning>
+
+`DataStore.configure()` should only by called once at the root of your file.
+
+</amplify-callout>
 
 ### Async expressions
 You can pass a Promise to `syncExpression`:
@@ -108,7 +123,7 @@ DataStore.configure({
 ```
 
 ### Advanced use case - Query instead of Scan
-You can utilize Selective Sync in order to have your base sync retrieve items from DynamoDB by performing a [query operation](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Query.html) against a GSI. By default, the base sync will perform a scan.
+You can configure selective sync to retrieve items from DynamoDB with a [query operation](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.html) against a GSI. By default, the base sync will perform a [scan](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html). Query operations enable a highly efficient and cost-effective data retrieval for customers running DynamoDB at scale. Learn about creating GSIs with the `@key` directive [here](https://docs.amplify.aws/cli/graphql-transformer/key).
 
 In order to do that, your `syncExpression` should return a predicate that maps to a query expression.
 
@@ -123,9 +138,20 @@ type User @model
 }
 ```
 
-This sync expression will produce a query operation:
+Both of these sync expressions will result in AWS AppSync retrieving records from Amazon DynamoDB via a query operation:
 
 ```js
+DataStore.configure({
+  syncExpressions: [
+    syncExpression(User, () => {
+      const lastName = await getLastNameForSync();
+      return (c) => c.lastName('eq', lastName)
+    })
+  ]
+});
+
+// OR
+
 DataStore.configure({
   syncExpressions: [
     syncExpression(User, () => {
@@ -135,3 +161,11 @@ DataStore.configure({
   ]
 });
 ```
+
+To construct a query expression, return a predicate with the primary key of the GSI. You can only use the `eq` operator with this predicate.
+
+For the schema defined above `(c) => c.lastName('eq', 'Bobby')` is a valid query expression.
+
+Optionally, you can also chain the sort key to this expression, using any of the following operators: `eq | ne | le | lt | ge | gt | beginsWith | between`. 
+
+E.g., `(c) => c.lastName('eq', 'Bobby').createdAt('gt', '2020-10-10')`.
