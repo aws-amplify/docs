@@ -123,7 +123,7 @@ DataStore.configure({
 ```
 
 ### Advanced use case - Query instead of Scan
-You can configure selective sync to retrieve items from DynamoDB with a [query operation](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.html) against a GSI. By default, the base sync will perform a [scan](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html). Query operations enable a highly performant and cost-effective data retrieval for customers running DynamoDB at scale. Learn about creating GSIs with the `@key` directive [here](https://docs.amplify.aws/cli/graphql-transformer/key).
+You can configure selective sync to retrieve items from DynamoDB with a [query operation](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.html) against a GSI. By default, the base sync will perform a [scan](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html). Query operations enable a highly efficient and cost-effective data retrieval for customers running DynamoDB at scale. Learn about creating GSIs with the `@key` directive [here](https://docs.amplify.aws/cli/graphql-transformer/key).
 
 In order to do that, your `syncExpression` should return a predicate that maps to a query expression.
 
