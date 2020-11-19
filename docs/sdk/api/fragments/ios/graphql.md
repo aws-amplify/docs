@@ -124,7 +124,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 
 `AWSAppSyncServiceConfig` represents the configuration information present in your `awsconfiguration.json` file.
 
-Next, in your application code, you reference this in an appropriate lifecycle method such as `viewDidLoad()`:
+Next, in your application code, you reference this in an appropriate lifecycle method such as `viewDidLoad()` if you are using `UIKit`:
 
 ```swift
 import AWSAppSync
@@ -136,6 +136,24 @@ class Todos: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         //Reference AppSync client from App Delegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appSyncClient = appDelegate.appSyncClient
+    }
+}
+```
+
+If you are using SwiftUI, you can add a reference to the shared AppSync client as `@State` to your View, and assign it in your view's initializer:
+
+```swift
+// Remember to import AWSAppSync
+import AWSAppSync
+
+struct ContentView: View {
+    
+    //Add an init method
+    @State var appSyncClient: AWSAppSyncClient?
+
+    init() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appSyncClient = appDelegate.appSyncClient
     }
@@ -349,7 +367,6 @@ Amazon Cognito User Pools is the most common service to use with AppSync when ad
         "Default": {
             "PoolId": "POOL-ID",
             "AppClientId": "APP-CLIENT-ID",
-            "AppClientSecret": "APP-CLIENT-SECRET",
             "Region": "us-east-1"
         }
     },

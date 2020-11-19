@@ -37,4 +37,16 @@ Amplify.DataStore.query(Post::class.java, Where.id("123"),
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.DataStore.query(Post.class, Where.id("123"))
+    .flatMapCompletable(RxAmplify.DataStore::delete)
+    .subscribe(
+        () -> Log.i("MyAmplifyApp", "Deleted a post."),
+        failure -> Log.e("MyAmplifyApp", "Delete failed.", failure)
+    );
+```
+
+</amplify-block>
 </amplify-block-switcher>

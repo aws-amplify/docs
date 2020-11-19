@@ -109,7 +109,6 @@ Amazon Cognito user pools are user directories that make it easier to add sign-u
         "Default": {
             "PoolId": "<poolid>",
             "AppClientId": "<appclientid>",
-            "AppClientSecret": "<appclientsecret>",
             "Region": "<region>",
             "PinpointAppId": "<pinpointappid>"
         }

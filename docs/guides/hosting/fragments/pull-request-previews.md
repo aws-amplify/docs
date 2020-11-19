@@ -1,6 +1,3 @@
 In this video you will learn how to enable Pull Request Previews using the Amplify Console.
 
-<iframe
-  allowfullscreen
-  src="https://www.youtube.com/embed/NMln6UpcodE"
-></iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/NMln6UpcodE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

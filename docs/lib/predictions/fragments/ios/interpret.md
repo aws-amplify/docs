@@ -41,9 +41,13 @@ Run `amplify push` to create the resources in the cloud
 
 Here is an example of sending text for interpretation such as sentiment analysis or natural language characteristics. 
 
+<amplify-block-switcher>
+
+<amplify-block name="Listener (iOS 11+)">
+
 ```swift
 func interpret(text: String) {
-    _ = Amplify.Predictions.interpret(text: text) { event in
+    Amplify.Predictions.interpret(text: text) { event in
         switch event {
         case let .success(result):
             print(result)
@@ -54,3 +58,25 @@ func interpret(text: String) {
 }
 ```
 
+</amplify-block>
+
+<amplify-block name="Combine (iOS 13+)">
+
+```swift
+func interpret(text: String) -> AnyCancellable {
+    Amplify.Predictions.interpret(text: text)
+        .resultPublisher
+        .sink {
+            if case let .failure(error) = $0 {
+                print(error)
+            }
+        }
+        receiveValue: { result in
+            print(result)
+        }
+}
+```
+
+</amplify-block>
+
+</amplify-block-switcher>

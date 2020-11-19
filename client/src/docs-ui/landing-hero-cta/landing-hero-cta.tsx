@@ -15,9 +15,26 @@ export class DocsLandingHeroCTA {
         </docs-internal-link-button>
         <div class={platformsGroupStyle}>
           <docs-internal-link
-            href="/start/q/integration/js"
+            href="/start/q/integration/react"
             class="scale-up-on-hover"
           >
+            <img
+              class={platformIcon}
+              src="/assets/integrations/react.svg"
+              alt="React Icon"
+            />
+          </docs-internal-link>
+          <docs-internal-link
+            href="/start/q/integration/vue"
+            class="scale-up-on-hover"
+          >
+            <img
+              class={platformIcon}
+              src="/assets/integrations/vue.svg"
+              alt="Vue Icon"
+            />
+          </docs-internal-link>
+          <docs-internal-link href="/start/" class="scale-up-on-hover">
             <img
               class={platformIcon}
               src="/assets/integrations/js.svg"
@@ -42,6 +59,16 @@ export class DocsLandingHeroCTA {
               class={platformIcon}
               src="/assets/integrations/android.svg"
               alt="Android Icon"
+            />
+          </docs-internal-link>
+          <docs-internal-link
+            href="/start/q/integration/flutter"
+            class="scale-up-on-hover"
+          >
+            <img
+              class={platformIcon}
+              src="/assets/integrations/flutter.svg"
+              alt="Flutter Icon"
             />
           </docs-internal-link>
         </div>

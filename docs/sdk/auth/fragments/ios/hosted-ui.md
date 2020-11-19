@@ -99,7 +99,6 @@ To configure your application for hosted UI, you need to use *HostedUI* options.
                 "OAuth": {
                     "WebDomain": "YOUR_AUTH_DOMAIN.auth.us-west-2.amazoncognito.com", // Do not include the https:// prefix
                     "AppClientId": "YOUR_APP_CLIENT_ID",
-                    "AppClientSecret": "YOUR_APP_CLIENT_SECRET",
                     "SignInRedirectURI": "myapp://",
                     "SignOutRedirectURI": "myapp://",
                     "Scopes": ["openid", "email"]

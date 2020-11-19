@@ -27,13 +27,13 @@ Accept the **default values** which are highlighted below:
 # 7 (or your preferred expiration)
 ? Do you want to configure advanced settings for the GraphQL API:
 # No
-? Do you have an annotated GraphQL schema? 
+? Do you have an annotated GraphQL schema?
 # No
-? Do you want a guided schema creation? 
+? Do you want a guided schema creation?
 # Yes
-? What best describes your project: 
+? What best describes your project:
 # Single object with fields
-? Do you want to edit the schema now? 
+? Do you want to edit the schema now?
 # Yes
 ```
 
@@ -49,7 +49,7 @@ type Todo @model {
 }
 ```
 
-The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. This directive is part of the [GraphQL transform](~/cli/graphql-transformer/directives.md) library of Amplify. 
+The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. This directive is part of the [GraphQL transform](~/cli/graphql-transformer/model.md) library of Amplify. 
 
 The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.
 
@@ -140,13 +140,20 @@ MutationButton.addEventListener("click", (evt) => {
 After restarting your app using `npm start` go back to your browser and click **ADD DATA**.  You'll see that your application is now submitting events to AppSync and storing records in DynamoDB. Next, update `src/app.js` to list all the items in the database by importing `listTodos` and update the page when a query runs on app start by immediately calling the function:
 
 ```diff
+ import Amplify, { API, graphqlOperation } from "@aws-amplify/api";
+
  import awsconfig from "./aws-exports";
  import { createTodo } from "./graphql/mutations";
 +import { listTodos } from "./graphql/queries";
 
  Amplify.configure(awsconfig);
 
-@@ -10,8 +11,18 @@ async function createNewTodo() {
+ async function createNewTodo() {
+   const todo = {
+     name: "Use AppSync",
+     description: `Realtime and Offline (${new Date().toLocaleString()})`,
+   };
+
    return await API.graphql(graphqlOperation(createTodo, { input: todo }));
  }
 
@@ -163,17 +170,19 @@ After restarting your app using `npm start` go back to your browser and click **
 +const QueryResult = document.getElementById("QueryResult");
 
  MutationButton.addEventListener("click", (evt) => {
-@@ -19,3 +30,5 @@ MutationButton.addEventListener("click", (evt) => {
+   createNewTodo().then((evt) => {
      MutationResult.innerHTML += `<p>${evt.data.createTodo.name} - ${evt.data.createTodo.description}</p>`;
    });
  });
-+
+
 +getData();
 ```
 
 Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subscription with `API.graphql()` like so:
 
 ```diff
+ import Amplify, { API, graphqlOperation } from "@aws-amplify/api";
+
  import awsconfig from "./aws-exports";
  import { createTodo } from "./graphql/mutations";
  import { listTodos } from "./graphql/queries";
@@ -181,14 +190,31 @@ Now if you wish to subscribe to data, import the `onCreateTodo` subscription and
 
  Amplify.configure(awsconfig);
 
-@@ -23,6 +24,7 @@ async function getData() {
+ async function createNewTodo() {
+   const todo = {
+     name: "Use AppSync",
+     description: `Realtime and Offline (${new Date().toLocaleString()})`,
+   };
+
+   return await API.graphql(graphqlOperation(createTodo, { input: todo }));
+ }
+
+ async function getData() {
+   API.graphql(graphqlOperation(listTodos)).then((evt) => {
+     evt.data.listTodos.items.map((todo, i) => {
+       QueryResult.innerHTML += `<p>${todo.name} - ${todo.description}</p>`;
+     });
+   });
+ }
+
  const MutationButton = document.getElementById("MutationEventButton");
  const MutationResult = document.getElementById("MutationResult");
  const QueryResult = document.getElementById("QueryResult");
 +const SubscriptionResult = document.getElementById("SubscriptionResult");
 
  MutationButton.addEventListener("click", (evt) => {
-@@ -31,4 +33,12 @@ MutationButton.addEventListener("click", (evt) => {
+   createNewTodo().then((evt) => {
+     MutationResult.innerHTML += `<p>${evt.data.createTodo.name} - ${evt.data.createTodo.description}</p>`;
    });
  });
 

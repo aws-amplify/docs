@@ -1,14 +1,14 @@
 ---
 title: Amplify CLI
-description: The Amplify Command Line Interface (CLI) is a unified toolchain to create, integrate, and manage the AWS cloud services for your app. The CLI is category-based with best practices built in. 
+description: The Amplify Command Line Interface (CLI) is a unified toolchain to create, integrate, and manage the AWS cloud services for your app. The Amplify CLI makes it easy to provision a cloud backend with features such as Authentication, APIs (REST and GraphQL), Storage, Functions and Hosting.
 ---
 
-The Amplify Command Line Interface (CLI) is a unified toolchain to create, integrate, and manage the AWS cloud services for your app. The CLI is category-based with best practices built in. The categories overlap with those in the Amplify libraries, but the CLI is a superset because some functionality doesn’t apply to the runtime (e.g. hosting or codegen).
+The Amplify Command Line Interface (CLI) is a unified toolchain to create, integrate, and manage the AWS cloud services for your app. 
 
-The Amplify CLI makes it easy to provision a new cloud backend with features such as authentication, APIs (REST and GraphQL), Storage, Functions and Hosting.
+![Amplify CLI feature carousel](~/assets/cli-b-roll.gif)
 
 <docs-internal-link-button href="~/cli/start/install.md">
-  <span slot="text">Install the CLI</span>
+  <span slot="text">Install Amplify CLI</span>
 </docs-internal-link-button>
 
 ## Key capabilities
@@ -27,6 +27,8 @@ Amplify CLI has support for multiple environments (e.g. dev, qa, and prod). When
 The AWS Amplify CLI uses AWS CloudFormation and nested stacks. This allows you to add or modify configurations locally before you push them for execution in your account. It also takes any “magic” away and allows full transparency in the process of customizing your resources. To see the status of the deployment at any time, run amplify status.
 
 For example, running `amplify add auth` will bootstrap a CloudFormation template in the `amplify>auth` folder. The infrastructure template can be re-used in CI/CD processes (either with the Amplify Console or your own build process), and can be used to replicate stacks.
+
+**Note:** We strongly advise against manually updating or deleting resources created by AWS CloudFormation; it may cause the stack to be stuck in a state that can no longer be updated. Among those operations, manually updating or deleting **Cognito** resources (created by the Amplify Auth category) are considered especially dangerous and you may lose user data or break auth-related functionalities in your app.
 
 ### Local mocking 
 

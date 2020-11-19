@@ -9,6 +9,11 @@ You have two independent environments (master & dev) in the cloud and have corre
 cd <project-dir>
 amplify init
 ```
+<amplify-callout warning>
+
+Ensure the root of your project has the `amplify` folder set up in order to be able to re-use existing environments.
+
+</amplify-callout>
 
 ```console
 Do you want to use an existing environment? Yes
@@ -58,7 +63,7 @@ Inside the amplify/ dir file-structure you will observe a **team-provider-info.j
 }
 ```
 
-This file is to be shared between team members, so that they have the ability to push/provision resources to the same Cloudformation stack and that way teams can work in a push/pull way and can always be in sync with the latest state of the project in the cloud.
+This file is to be shared between team members, so that they have the ability to push/provision resources to the same CloudFormation stack and that way teams can work in a push/pull way and can always be in sync with the latest state of the project in the cloud.
 
 Note: Team members would only be able to push to a stack only if they have the correct credentials (access key/secret keys) to do so.
 

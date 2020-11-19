@@ -3,7 +3,7 @@ Expand **Gradle Scripts**, open **build.gradle (Module: app)**. You will already
 Add API by adding these libraries into the `dependencies` block:
 ```groovy
 dependencies {
-    implementation 'com.amplifyframework:aws-api:1.1.2'
+    implementation 'com.amplifyframework:aws-api:1.4.1'
 }
 ```
 

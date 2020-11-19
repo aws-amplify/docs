@@ -1,4 +1,5 @@
 ## Provision backend
+
 Now that you have DataStore persisting data locally, in the next step you'll connect it to the cloud. With a couple of commands, you'll create an AWS AppSync API and configure DataStore to synchronize its data to it.
 
 1. Configure Amplify to manage cloud resources on your behalf. Open a terminal window and run `amplify configure`. This step will configure a new AWS user in your account for Amplify.
@@ -9,36 +10,47 @@ Now that you have DataStore persisting data locally, in the next step you'll con
 
    This command will open up a web browser to the AWS Management Console and guide you through creating a new IAM user. For step-by-step directions to set this up, refer to the [CLI installation guide](~/cli/start/install.md).
 
-1. Next, push your new API to AWS. To do this, **update the amplifytools.xcconfig** by changing `push=false` to:
+1. Initialize the Amplify backend. To do this, **run the command**:
+
     ```bash
-    push=true
+    amplify init
     ```
 
-1. **Build your project** (`Cmd+b`), which will instruct amplify tools to push your configuration to the backend. This will take a few minutes and you can monitor the progress by going to Xcode's report navigator tab and clicking on the running build.
+1. Next, push your new backend to the cloud. To do this, **run the command**:
+
+    ```bash
+    amplify push
+    ```
 
     <amplify-callout>
-
-    If Xcode reports build errors like `Undefined symbol: _OBJC_CLASS_$_AWSSignatureV4Signer`, as shown in the screenshot below, clean build folder with **Product > Clean Build Folder** (`Shift+Cmd+K`) and rebuild the project (`Cmd+b`).
-
-    ![Xcode Build Error](~/images/xcode-build-error.png)
-
+    
+    **Note:** sit back and relax since this command will generate all the required cloud resources on your AWS account and it might take a while to complete.
+    
     </amplify-callout>
 
-##  Add a subscription
+## Enable cloud syncing
+
+In order to enable cloud syncing you need to **configure your application to use the Amplify API category**. Open the `AppDelegate.swift` file and **update the amplify initialization code** to add the API plugin. The `application(_,didFinishLaunchingWithOptions:)` function should now call `Amplify.add(plugin:)` with a reference to an `AWSAPIPlugin` instance:
+  
+```swift
+let models = AmplifyModels()
+let apiPlugin = AWSAPIPlugin(modelRegistration: models)
+let dataStorePlugin = AWSDataStorePlugin(modelRegistration: models)
+do {
+    try Amplify.add(plugin: apiPlugin)
+    try Amplify.add(plugin: dataStorePlugin)
+    try Amplify.configure()
+    print("Initialized Amplify");
+} catch {
+    print("Could not initialize Amplify: \(error)")
+}
+```
+
+Now when you run you application the data will be synced to your cloud backend automatically! 🎉
+
+## Add a subscription
+
 We will now demonstrate how to add a subscription to the application, so that we can receive any updates to the `Todo` model.
-1. To configure your application to use the Amplify API category, open the `AppDelegate.swift` file and **update the amplify initialization code** to add the API plugin.  The `application(_,didFinishLaunchingWithOptions:)` function should now call `Amplify.add(plugin:)` with a reference to `AWSAPIPlugin`:
-  ```swift
-  let apiPlugin = AWSAPIPlugin(modelRegistration: AmplifyModels())
-  let dataStorePlugin = AWSDataStorePlugin(modelRegistration: AmplifyModels())
-  do {
-      try Amplify.add(plugin:apiPlugin)
-      try Amplify.add(plugin:dataStorePlugin)
-      try Amplify.configure()
-      print("Initialized Amplify");
-  } catch {
-      print("Could not initialize Amplify: \(error)")
-  }
-  ```
 
 1. Open `ContentView.swift` and **add the following** import statement at the top of the file:
   ```swift
@@ -59,20 +71,38 @@ We will now demonstrate how to add a subscription to the application, so that we
                   print("Subscription has been completed: \(completion)")
               }, receiveValue: { mutationEvent in
                   print("Subscription got this value: \(mutationEvent)")
+
+                  do {
+                    let todo = try mutationEvent.decodeModel(as: Todo.self)
+
+                    switch mutationEvent.mutationType {
+                    case "create":
+                      print("Created: \(todo)")
+                    case "update":
+                      print("Updated: \(todo)")
+                    case "delete":
+                      print("Deleted: \(todo)")
+                    default:
+                      break
+                    }
+
+                  } catch {
+                    print("Model could not be decoded: \(error)")
+                  }
               })
   }
   ```
 
-1.  Finally, in the same file (`ContentView.swift`), remove any existing code you may have in the `performOnAppear()` function, and replace it with code **calling the subscribeTodos() function**.  Your performOnAppear() function may look like this:
+1. Finally, in the same file (`ContentView.swift`), remove any existing code you may have in the `performOnAppear()` function, and replace it with code **calling the subscribeTodos() function**. Your `performOnAppear()` function may look like this:
   ```swift
   func performOnAppear() {
       subscribeTodos()
   }
   ```
 
-1.  **Build and run** the application.  In the console output, you will see that we are making a websocket connection to receive updates any time there is a mutation to the Todo model.
+1. **Build and run** the application. In the console output, you will see that we are making a websocket connection to receive updates any time there is a mutation to the Todo model.
 
-Since this is the first time you are connecting to API, DataStore will sync any mutations that were previously made offline.  If you have been following the guide, there should be one mutation that is synchronized to the backend that has an id of "Build iOS Application".
+Since this is the first time you are connecting to API, DataStore will sync any mutations that were previously made offline. If you have been following the guide, there should be one mutation that is synchronized to the backend that has an id of "Build iOS Application".
 
 ## Query for mutations using the console
 

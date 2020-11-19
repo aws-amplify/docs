@@ -77,7 +77,7 @@ The following types do not have '@auth' enabled. Consider using @auth with @mode
      - Blog
      - Post
      - Comment
-Learn more about @auth here: ~/cli/graphql-transformer/directives.md#auth
+Learn more about [@auth here](~/cli/graphql-transformer/auth.md).
 
 
 GraphQL schema compiled successfully.
@@ -103,7 +103,7 @@ Next, add the following dependencies to your **app** `build.gradle`:
 
 ```groovy
 dependencies {
-  implementation 'com.amplifyframework:aws-api:1.1.2'
+  implementation 'com.amplifyframework:aws-api:1.4.1'
 
   // Support for Java 8 features
   coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'

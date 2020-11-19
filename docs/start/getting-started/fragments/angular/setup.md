@@ -1,6 +1,26 @@
 ## Create a new Angular app
 
-<inline-fragment src="~/ui/auth/fragments/angular/new-angular-app.md"></inline-fragment>
+Use the [Angular CLI](https://github.com/angular/angular-cli) to bootstrap a new Angular app:
+
+```bash
+npx -p @angular/cli ng new amplify-app
+
+? Would you like to add Angular routing? Y
+? Which stylesheet format would you like to use? (your preferred stylesheet provider)
+
+cd amplify-app
+```
+
+### Angular 6+ Support
+
+Currently, the newest versions of Angular (6+) do not include shims for 'global' or 'process' as provided in previous versions. Add the following to your `src/polyfills.ts` file to recreate them: 
+
+```javascript
+(window as any).global = window;
+(window as any).process = {
+  env: { DEBUG: undefined },
+};
+``` 
 
 ## Create a new Amplify backend
 
@@ -10,10 +30,10 @@ Now that we have a running Angular app, it's time to set up Amplify for this app
 amplify init
 ```
 
-When you initialize Amplify you'll be prompted for some information about the app.  For newer versions of Angular, you will have to change the Distribution Directory Path from `dist` to `dist/myAmplifyProject` to match how Angular will build your project.
+When you initialize Amplify you'll be prompted for some information about the app.  For newer versions of Angular, you will have to change the Distribution Directory Path from `dist` to `dist/amplify-app` to match how Angular will build your project.
 
 ```console
-Enter a name for the project (myAmplifyProject)
+Enter a name for the project (amplifyapp)
 
 # All AWS services you provision for your app are grouped into an "environment"
 # A common naming convention is dev, staging, and production
@@ -30,11 +50,11 @@ What JavaScript framework are you using (angular)
 Source directory path (src)
 
 Distribution directory path (dist)
-Change from dist to dist/myAmplifyProject
+Change from dist to dist/amplify-app
 
 Build command (npm run-script build)
 
-Start command (ng serve)
+Start command (ng serve or npm start)
 
 # This is the profile you created with the `amplify configure` command in the introduction step.
 Do you want to use an AWS profile
@@ -49,11 +69,48 @@ When you initialize a new Amplify project, a few things happen:
 
 ## Install Amplify libraries
 
-Inside the app directory, install the Amplify Angular library and run your app:
+Inside the `amplify-app` directory, install the Amplify Angular library and run your app:
 
 ```bash
-npm install aws-amplify @aws-amplify/ui-angular
-ng serve
+npm install --save aws-amplify @aws-amplify/ui-angular
+
+npm start
 ```
 
 The `@aws-amplify/ui-angular` package is a set of Angular components and an Angular provider which helps integrate your application with the AWS-Amplify library.  It supports Angular 5.0 and above.  It also includes a [supplemental module](#ionic-4-components) for Ionic-specific components.
+
+<amplify-callout>
+
+Angular CLI output warnings: if you see CommonJS or AMD dependencies optimization bailouts warnings using Angular +9 you can use this [gist](https://gist.github.com/gsans/8982c126c4fef668c094ff288f04241b) to remove them. More details about these [here](https://angular.io/guide/build#configuring-commonjs-dependencies).
+
+</amplify-callout>
+
+### Importing the Amplify Angular UI Module
+
+Add the **Amplify Angular UI Module** to `src/app/app.module.ts`:
+
+```ts
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+/* import AmplifyUIAngularModule  */
+import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    /* configure app with AmplifyUIAngularModule */
+    AmplifyUIAngularModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```

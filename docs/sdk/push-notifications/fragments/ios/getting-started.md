@@ -88,6 +88,7 @@ Use the following steps to connect push notification backend services to your ap
         // MARK: Push Notification methods
 
         func registerForPushNotifications() {
+            UNUserNotificationCenter.current().delegate = self
             UNUserNotificationCenter.current()
                 .requestAuthorization(options: [.alert, .sound, .badge]) { [weak self] granted, _ in
                     print("Permission granted: \(granted)")
@@ -125,7 +126,7 @@ Use the following steps to connect push notification backend services to your ap
         print("Device Token: \(token)")
 
         // Register the device token with Pinpoint as the endpoint for this user
-        pinpoint!.notificationManager
+        pinpoint?.notificationManager
             .interceptDidRegisterForRemoteNotifications(withDeviceToken: deviceToken)
     }
 
@@ -157,10 +158,36 @@ Use the following steps to connect push notification backend services to your ap
         }
 
         // Pass this remote notification event to pinpoint SDK to keep track of notifications produced by AWS Pinpoint campaigns.
-        pinpoint!.notificationManager.interceptDidReceiveRemoteNotification(
+        pinpoint?.notificationManager.interceptDidReceiveRemoteNotification(
             userInfo, fetchCompletionHandler: completionHandler
         )
+
+        // Pinpoint SDK will not call the `completionHandler` for you. Make sure to call `completionHandler` or your app may be terminated
+        // See https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623013-application for more details
+        completionHandler(.newData)
     }
+    ```
+    For iOS 10 and above, pass the notification event to pinpoint SDK in `userNotificationCenter(_:willPresent:withCompletionHandler:)` and `userNotificationCenter(_:didReceive:withCompletionHandler:)`
+    ```swift
+    extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: (UNNotificationPresentationOptions) -> Void) {
+        // Handle foreground push notifications
+        pinpoint?.notificationManager.interceptDidReceiveRemoteNotification(notification.request.content.userInfo, fetchCompletionHandler: { _ in })
+
+        // Make sure to call `completionHandler`
+        // See https://developer.apple.com/documentation/usernotifications/unusernotificationcenterdelegate/1649518-usernotificationcenter for more details
+        completionHandler(.badge)
+     }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: () -> Void)  {
+        // Handle background and closed push notifications
+        pinpoint?.notificationManager.interceptDidReceiveRemoteNotification(response.notification.request.content.userInfo, fetchCompletionHandler: { _ in })
+
+        // Make sure to call `completionHandler`
+        // See https://developer.apple.com/documentation/usernotifications/unusernotificationcenterdelegate/1649501-usernotificationcenter for more details
+        completionHandler()
+    }
+}
     ```
 
 1. (Optional) Enable verbose logging for AWSPinpoint SDK. The `endpointId` will be printed out when verbose logging is turned on. It will be useful when testing push notification events with AWS Pinpoint campaigns but not required.
@@ -194,7 +221,6 @@ As an alternative to automatic configuration using the Amplify CLI, you can manu
         "Default": {
             "PoolId": "COGNITO-USER-POOL-ID",
             "AppClientId": "COGNITO-USER-APP-CLIENT-ID",
-            "AppClientSecret": "COGNITO-USER-POOL-APP-CLIENT-SECRET",
             "Region": "COGNITO-USER-POOL-REGION"
         }
     },

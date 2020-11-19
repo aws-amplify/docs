@@ -1,11 +1,13 @@
 {
   "title": "Functions",
   "items": [
+    "appsync-operations-to-lambda-layer",
     "connecting-a-rest-api",
     "integrating-dynamodb-with-lambda",
     "dynamodb-from-js-lambda",
     "dynamodb-from-python-lambda",
     "graphql-from-lambda",
-    "graphql-server-in-lambda"
+    "graphql-server-in-lambda",
+    "cognito-trigger-lambda-dynamodb"
   ]
 }

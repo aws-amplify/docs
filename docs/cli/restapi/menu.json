@@ -1,6 +1,7 @@
 {
-  "title": "API (Rest)",
+  "title": "API (REST)",
   "items": [
-    "restapi"
+    "restapi",
+    "testing"
   ]
 }

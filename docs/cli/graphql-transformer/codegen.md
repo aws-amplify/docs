@@ -1,5 +1,5 @@
 ---
-title: Code generation
+title: Client code generation
 description: Amplify's codegen capabilities generates native code for iOS and Android, as well as the generation of types for Flow and TypeScript. It can also generate GraphQL statements(queries, mutations, and subscriptions).
 ---
 
@@ -198,7 +198,7 @@ Next, modify your **Podfile** with a dependency of the AWS AppSync SDK:
 ```ruby
 target 'PostsApp' do
   use_frameworks!
-  pod 'AWSAppSync', ' ~> 2.9.0'
+  pod 'AWSAppSync'
 end
 ```
 

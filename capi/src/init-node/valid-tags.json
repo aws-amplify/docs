@@ -55,5 +55,6 @@
   "thead": true,
   "tr": true,
   "ui-component-props": true,
-  "ul": true
+  "ul": true,
+  "small": true
 }

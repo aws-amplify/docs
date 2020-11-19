@@ -28,6 +28,44 @@ Do you want to use the default authentication and security configuration?
 
 For *Sign in Redirect URI(s)* inputs, you can put one URI for local development and one for production. Example: `http://localhost:3000/` in dev and `https://www.example.com/` in production. The same is true for *Sign out redirect URI(s)*.
 
+**Note:** if you have multiple redirect URI inputs, you'll need to handle both of them where you configure your Amplify project. For example:
+
+```javascript
+import awsConfig from './aws-exports';
+
+const isLocalhost = Boolean(
+  window.location.hostname === "localhost" ||
+    // [::1] is the IPv6 localhost address.
+    window.location.hostname === "[::1]" ||
+    // 127.0.0.1/8 is considered localhost for IPv4.
+    window.location.hostname.match(
+      /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
+    )
+);
+
+// Assuming you have two redirect URIs, and the first is for localhost and second is for production
+const [
+  localRedirectSignIn,
+  productionRedirectSignIn,
+] = awsConfig.oauth.redirectSignIn.split(",");
+
+const [
+  localRedirectSignOut,
+  productionRedirectSignOut,
+] = awsConfig.oauth.redirectSignOut.split(",");
+
+const updatedAwsConfig = {
+  ...awsConfig,
+  oauth: {
+    ...awsConfig.oauth,
+    redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
+    redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
+  }
+}
+
+Amplify.configure(updatedAwsConfig);
+```
+
 **React Native - Redirect URIs**
 
 For React Native applications, You need to define a custom URL scheme for your application before testing locally or publishing to the app store. This is different for Expo or vanilla React Native. Follow the steps below for React Native iOS & Android or [Expo Linking docs](https://docs.expo.io/versions/latest/workflow/linking/) for more information. After completing those steps, assuming you are using `myapp` as the name of your URL Scheme (or whatever friendly name you have chosen), you will use these URLs as *Sign in Redirect URI(s)* and/or *Sign out redirect URI(s)* inputs. Your URIs could look like any of these:
@@ -84,6 +122,9 @@ For React Native applications, You need to define a custom URL scheme for your a
 
 <inline-fragment src="~/lib/auth/fragments/common/social_signin_web_ui/configure_auth_category.md"></inline-fragment>
 
+### Known Limitations
+When using the federated OAuth flow with Cognito User Pools, the [device tracking and remembering](https://aws.amazon.com/blogs/mobile/tracking-and-remembering-devices-using-amazon-cognito-your-user-pools/) features are currently not available within the library. If you are looking for this feature within the library, please open a feature request [here](https://github.com/aws-amplify/amplify-js/issues/new?assignees=&labels=feature-request&template=feature_request.md&title=) and provide upvotes in order for us to take this into consideration for the future of the library.
+
 ## Setup frontend
 
 After configuring the OAuth endpoints, you can use them or the Hosted UI with `Auth.federatedSignIn()`. Passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example. If you are looking to add a custom state, you are able to do so by passing a string (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via Hub.
@@ -129,6 +170,10 @@ class App extends Component {
   }
 }
 ```
+
+### Deploying to Amplify Console
+
+To deploy your app to Amplify Console with continuous deployment of the frontend and backend, please follow [these instructions](https://docs.aws.amazon.com/amplify/latest/userguide/environment-variables.html#creating-a-new-backend-environment-with-authentication-parameters).
 
 ### Full Samples
 

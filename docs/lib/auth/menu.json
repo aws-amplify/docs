@@ -2,7 +2,6 @@
   "title": "Authentication",
   "items": [
 		"getting-started",
-    "overview",
     "start",
     "emailpassword",
     "social",
@@ -11,10 +10,12 @@
     "switch-auth",
     "customui",
     "advanced",
-    
+
     "signin",
+    "signin_with_custom_flow",
     "signin_web_ui",
     "social_signin_web_ui",
+    "guest_access",
     "auth-events",
     "user-attributes",
     "device_features",
@@ -22,6 +23,7 @@
     "signOut",
     "access_credentials",
     "escapehatch",
+    "overview",
     "existing-resources"
   ]
 }

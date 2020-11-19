@@ -7,24 +7,28 @@
 ```
 yarn add aws-amplify @aws-amplify/ui-react
 ```
+
 </docs-filter>
 <docs-filter framework="angular">
 
 ```
 yarn add aws-amplify @aws-amplify/ui-angular
 ```
+
 </docs-filter>
 <docs-filter framework="ionic">
 
 ```
 yarn add aws-amplify @aws-amplify/ui-angular
 ```
+
 </docs-filter>
 <docs-filter framework="vue">
 
 ```
 yarn add aws-amplify @aws-amplify/ui-vue
 ```
+
 </docs-filter>
 
 ## Usage
@@ -34,10 +38,10 @@ yarn add aws-amplify @aws-amplify/ui-vue
 <docs-filter framework="react">
 
 ```jsx
-import React from 'react';
-import Amplify from 'aws-amplify';
-import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
-import awsconfig from './aws-exports';
+import React from "react";
+import Amplify from "aws-amplify";
+import {AmplifyAuthenticator, AmplifySignOut} from "@aws-amplify/ui-react";
+import awsconfig from "./aws-exports";
 
 Amplify.configure(awsconfig);
 
@@ -50,6 +54,8 @@ const App = () => (
   </AmplifyAuthenticator>
 );
 ```
+
+</docs-filter>
 
 ### Recommended Usage
 
@@ -71,19 +77,18 @@ In most cases you will need to manage the rendering and layout of the Authentica
   <inline-fragment src="~/ui/auth/fragments/vue/auth-state-management.md"></inline-fragment>
 </docs-filter>
 
-</docs-filter>
 <docs-filter framework="angular">
 
 _app.module.ts_
 
 ```js
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
+import {BrowserModule} from "@angular/platform-browser";
+import {NgModule} from "@angular/core";
+import {AppComponent} from "./app.component";
 
-import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
+import {AmplifyUIAngularModule} from "@aws-amplify/ui-angular";
+import Amplify from "aws-amplify";
+import awsconfig from "./aws-exports";
 
 Amplify.configure(awsconfig);
 
@@ -108,18 +113,19 @@ _app.component.html_
 ```
 
 </docs-filter>
+
 <docs-filter framework="ionic">
 
 _app.module.ts_
 
 ```js
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
+import {BrowserModule} from "@angular/platform-browser";
+import {NgModule} from "@angular/core";
+import {AppComponent} from "./app.component";
 
-import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
+import {AmplifyUIAngularModule} from "@aws-amplify/ui-angular";
+import Amplify from "aws-amplify";
+import awsconfig from "./aws-exports";
 
 Amplify.configure(awsconfig);
 
@@ -142,23 +148,24 @@ _app.component.html_
   </div>
 </amplify-authenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="vue">
 
 _main.js_
 
 ```js
-import Vue from 'vue';
-import App from './App.vue';
-import '@aws-amplify/ui-vue';
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
+import Vue from "vue";
+import App from "./App.vue";
+import "@aws-amplify/ui-vue";
+import Amplify from "aws-amplify";
+import awsconfig from "./aws-exports";
 
 Amplify.configure(awsconfig);
 
 new Vue({
-  render: h => h(App),
-}).$mount('#app');
+  render: (h) => h(App),
+}).$mount("#app");
 ```
 
 _App.vue_
@@ -173,28 +180,16 @@ _App.vue_
   </amplify-authenticator>
 </template>
 ```
+
 </docs-filter>
 
+<ui-component-props tag="amplify-authenticator" prop-type='attr' use-table-headers></ui-component-props>
 
-<ui-component-props tag="amplify-authenticator" use-table-headers></ui-component-props>
+<ui-component-props tag="amplify-authenticator" prop-type='slots' use-table-headers></ui-component-props>
+
+<ui-component-props tag="amplify-authenticator" prop-type='css' use-table-headers></ui-component-props>
 
 ## Customization
-
-### Slots
-
-Amplify UI Components use `slots` based off of the [Web Components slot element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/slot) which allow developers to customize and compose the components inside of the Authenticator's state machine.
-
-| Name                     | Description                                                                                                            |
-| ------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
-| `sign-in`              | Content placed inside of the sign in workflow for when a user wants to sign into their account                         |
-| `confirm-sign-in`      | Content placed inside of the confirm sign in workflow for when a user needs to confirm the account they signed in with |
-| `sign-up`              | Content placed inside of the sign up workflow for when a user wants to register a new account                          |
-| `confirm-sign-up`      | Content placed inside of the confirm sign up workflow for when a user needs to confirm the account they signed up with |
-| `forgot-password`      | Content placed inside of the forgot password workflow for when a user wants to reset their password                    |
-| `require-new-password` | Content placed inside of the require new password workflow for when a user is required to update their password        |
-| `verify-contact`       | Content placed inside of the verify-contact workflow for when a user must verify their contact information             |
-| `totp-setup`           | Content placed inside of the totp-setup workflow for when a user opts to use TOTP MFA                                  |
-| `greetings`            | Content placed inside of the greetings navigation for when a user is signed in                                         |
 
 ### Custom Form Fields
 
@@ -233,7 +228,7 @@ If you are using the `usernameAlias` prop with custom `slots`, keep in mind that
 
 </amplify-callout>
 
-For more details on this customization see the `amplify-form-field` [prop documentation](https://github.com/aws-amplify/amplify-js/tree/master/packages/amplify-ui-components/src/components/amplify-form-field#properties) and the internal [`FormFieldType` interface](https://github.com/aws-amplify/amplify-js/blob/master/packages/amplify-ui-components/src/components/amplify-auth-fields/amplify-auth-fields-interface.ts#L3).
+For more details on this customization see the `amplify-form-field` [prop documentation](https://github.com/aws-amplify/amplify-js/tree/main/packages/amplify-ui-components/src/components/amplify-form-field#properties) and the internal [`FormFieldType` interface](https://github.com/aws-amplify/amplify-js/blob/main/packages/amplify-ui-components/src/components/amplify-auth-fields/amplify-auth-fields-interface.ts#L3).
 
 ### Hiding form fields
 
@@ -291,38 +286,59 @@ amplify-authenticator {
 
 ```jsx
 <AmplifyAuthenticator>
-  <AmplifySignIn headerText="My Custom Sign In Text" slot="sign-in"></AmplifySignIn>
+  <AmplifySignIn
+    headerText="My Custom Sign In Text"
+    slot="sign-in"
+  ></AmplifySignIn>
 </AmplifyAuthenticator>
 ```
+
 </docs-filter>
+
 <docs-filter framework="angular">
 
 ```html
 <amplify-authenticator>
-  <amplify-sign-in header-text="My Custom Sign In Text" slot="sign-in"></amplify-sign-in>
+  <amplify-sign-in
+    header-text="My Custom Sign In Text"
+    slot="sign-in"
+  ></amplify-sign-in>
 </amplify-authenticator>
 ```
+
 </docs-filter>
+
 <docs-filter framework="ionic">
 
 ```html
 <amplify-authenticator>
-  <amplify-sign-in header-text="My Custom Sign In Text" slot="sign-in"></amplify-sign-in>
+  <amplify-sign-in
+    header-text="My Custom Sign In Text"
+    slot="sign-in"
+  ></amplify-sign-in>
 </amplify-authenticator>
 ```
+
 </docs-filter>
+
 <docs-filter framework="vue">
 
 ```html
 <amplify-authenticator>
-  <amplify-sign-in header-text="My Custom Sign In Text" slot="sign-in"></amplify-sign-in>
+  <amplify-sign-in
+    header-text="My Custom Sign In Text"
+    slot="sign-in"
+  ></amplify-sign-in>
 </amplify-authenticator>
 ```
+
 </docs-filter>
 
+<ui-component-props tag="amplify-sign-in" prop-type="attr"></ui-component-props>
 
+<ui-component-props tag="amplify-sign-in" prop-type="css"></ui-component-props>
 
-<ui-component-props tag="amplify-sign-in"></ui-component-props>
+<ui-component-props tag="amplify-sign-in" prop-type="slots"></ui-component-props>
 
 ### Sign Up
 
@@ -334,36 +350,56 @@ amplify-authenticator {
 
 ```jsx
 <AmplifyAuthenticator>
-  <AmplifySignUp headerText="My Custom Sign Up Text" slot="sign-up"></AmplifySignUp>
+  <AmplifySignUp
+    headerText="My Custom Sign Up Text"
+    slot="sign-up"
+  ></AmplifySignUp>
 </AmplifyAuthenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="angular">
 
 ```html
 <amplify-authenticator>
-  <amplify-sign-up header-text="My Custom Sign Up Text" slot="sign-up"></amplify-sign-up>
+  <amplify-sign-up
+    header-text="My Custom Sign Up Text"
+    slot="sign-up"
+  ></amplify-sign-up>
 </amplify-authenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="ionic">
 
 ```html
 <amplify-authenticator>
-  <amplify-sign-up header-text="My Custom Sign Up Text" slot="sign-up"></amplify-sign-up>
+  <amplify-sign-up
+    header-text="My Custom Sign Up Text"
+    slot="sign-up"
+  ></amplify-sign-up>
 </amplify-authenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="vue">
 
 ```html
 <amplify-authenticator>
-  <amplify-sign-up header-text="My Custom Sign Up Text" slot="sign-up"></amplify-sign-up>
+  <amplify-sign-up
+    header-text="My Custom Sign Up Text"
+    slot="sign-up"
+  ></amplify-sign-up>
 </amplify-authenticator>
 ```
+
 </docs-filter>
 
-<ui-component-props tag="amplify-sign-up"></ui-component-props>
+<ui-component-props tag="amplify-sign-up" prop-type='attr'></ui-component-props>
+
+<ui-component-props tag="amplify-sign-up" prop-type='css'></ui-component-props>
+
+<ui-component-props tag="amplify-sign-up" prop-type='slots'></ui-component-props>
 
 ### Sign Out
 
@@ -379,6 +415,7 @@ amplify-authenticator {
   <AmplifySignOut buttonText="Custom Text"></AmplifySignOut>
 </div>
 ```
+
 </docs-filter>
 <docs-filter framework="angular">
 
@@ -388,6 +425,7 @@ amplify-authenticator {
   <amplify-sign-out button-text="Custom Text"></amplify-sign-out>
 </div>
 ```
+
 </docs-filter>
 <docs-filter framework="ionic">
 
@@ -397,6 +435,7 @@ amplify-authenticator {
   <amplify-sign-out button-text="Custom Text"></amplify-sign-out>
 </div>
 ```
+
 </docs-filter>
 <docs-filter framework="vue">
 
@@ -406,9 +445,14 @@ amplify-authenticator {
   <amplify-sign-out button-text="Custom Text"></amplify-sign-out>
 </div>
 ```
+
 </docs-filter>
 
-<ui-component-props tag="amplify-sign-out"></ui-component-props>
+<ui-component-props tag="amplify-sign-out" prop-type="attr"></ui-component-props>
+
+<ui-component-props tag="amplify-sign-out" prop-type="css"></ui-component-props>
+
+<ui-component-props tag="amplify-sign-out" prop-type="slots"></ui-component-props>
 
 ### Confirm Sign In
 
@@ -420,36 +464,52 @@ amplify-authenticator {
 
 ```jsx
 <AmplifyAuthenticator>
-  <AmplifyConfirmSignIn headerText="My Custom Confirm Sign In Text" slot="confirm-sign-in"></AmplifyConfirmSignIn>
+  <AmplifyConfirmSignIn
+    headerText="My Custom Confirm Sign In Text"
+    slot="confirm-sign-in"
+  ></AmplifyConfirmSignIn>
 </AmplifyAuthenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="angular">
 
 ```html
 <amplify-authenticator>
-  <amplify-confirm-sign-in header-text="My Custom Confirm Sign In Text" slot="confirm-sign-in"></amplify-confirm-sign-in>
+  <amplify-confirm-sign-in
+    header-text="My Custom Confirm Sign In Text"
+    slot="confirm-sign-in"
+  ></amplify-confirm-sign-in>
 </amplify-authenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="ionic">
 
 ```html
 <amplify-authenticator>
-  <amplify-confirm-sign-in header-text="My Custom Confirm Sign In Text" slot="confirm-sign-in"></amplify-confirm-sign-in>
+  <amplify-confirm-sign-in
+    header-text="My Custom Confirm Sign In Text"
+    slot="confirm-sign-in"
+  ></amplify-confirm-sign-in>
 </amplify-authenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="vue">
 
 ```html
 <amplify-authenticator>
-  <amplify-confirm-sign-in header-text="My Custom Confirm Sign In Text" slot="confirm-sign-in"></amplify-confirm-sign-in>
+  <amplify-confirm-sign-in
+    header-text="My Custom Confirm Sign In Text"
+    slot="confirm-sign-in"
+  ></amplify-confirm-sign-in>
 </amplify-authenticator>
 ```
+
 </docs-filter>
 
-<ui-component-props tag="amplify-confirm-sign-in"></ui-component-props>
+<ui-component-props tag="amplify-confirm-sign-in" prop-type="attr"></ui-component-props>
 
 ### Confirm Sign Up
 
@@ -461,36 +521,52 @@ amplify-authenticator {
 
 ```jsx
 <AmplifyAuthenticator>
-  <AmplifyConfirmSignIn headerText="My Custom Confirm Sign Up Text" slot="confirm-sign-up"></AmplifyConfirmSignIn>
+  <AmplifyConfirmSignUp
+    headerText="My Custom Confirm Sign Up Text"
+    slot="confirm-sign-up"
+  ></AmplifyConfirmSignUp>
 </AmplifyAuthenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="angular">
 
 ```html
 <amplify-authenticator>
-  <amplify-confirm-sign-up header-text="My Custom Confirm Sign Up Text" slot="confirm-sign-up"></amplify-confirm-sign-up>
+  <amplify-confirm-sign-up
+    header-text="My Custom Confirm Sign Up Text"
+    slot="confirm-sign-up"
+  ></amplify-confirm-sign-up>
 </amplify-authenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="ionic">
 
 ```html
 <amplify-authenticator>
-  <amplify-confirm-sign-up header-text="My Custom Confirm Sign Up Text" slot="confirm-sign-up"></amplify-confirm-sign-up>
+  <amplify-confirm-sign-up
+    header-text="My Custom Confirm Sign Up Text"
+    slot="confirm-sign-up"
+  ></amplify-confirm-sign-up>
 </amplify-authenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="vue">
 
 ```html
 <amplify-authenticator>
-  <amplify-confirm-sign-up header-text="My Custom Confirm Sign Up Text" slot="confirm-sign-up"></amplify-confirm-sign-up>
+  <amplify-confirm-sign-up
+    header-text="My Custom Confirm Sign Up Text"
+    slot="confirm-sign-up"
+  ></amplify-confirm-sign-up>
 </amplify-authenticator>
 ```
+
 </docs-filter>
 
-<ui-component-props tag="amplify-confirm-sign-up"></ui-component-props>
+<ui-component-props tag="amplify-confirm-sign-up" prop-type="attr"></ui-component-props>
 
 ### Forgot Password
 
@@ -502,37 +578,52 @@ amplify-authenticator {
 
 ```jsx
 <AmplifyAuthenticator>
-  <AmplifyForgotPassword headerText="My Custom Forgot Password Text" slot="forgot-password"></AmplifyForgotPassword>
+  <AmplifyForgotPassword
+    headerText="My Custom Forgot Password Text"
+    slot="forgot-password"
+  ></AmplifyForgotPassword>
 </AmplifyAuthenticator>
-
 ```
+
 </docs-filter>
 <docs-filter framework="angular">
 
 ```html
 <amplify-authenticator>
-  <amplify-forgot-password header-text="My Custom Forgot Password Text" slot="forgot-password"></amplify-forgot-password>
+  <amplify-forgot-password
+    header-text="My Custom Forgot Password Text"
+    slot="forgot-password"
+  ></amplify-forgot-password>
 </amplify-authenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="ionic">
 
 ```html
 <amplify-authenticator>
-  <amplify-forgot-password header-text="My Custom Forgot Password Text" slot="forgot-password"></amplify-forgot-password>
+  <amplify-forgot-password
+    header-text="My Custom Forgot Password Text"
+    slot="forgot-password"
+  ></amplify-forgot-password>
 </amplify-authenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="vue">
 
 ```html
 <amplify-authenticator>
-  <amplify-forgot-password header-text="My Custom Forgot Password Text" slot="forgot-password"></amplify-forgot-password>
+  <amplify-forgot-password
+    header-text="My Custom Forgot Password Text"
+    slot="forgot-password"
+  ></amplify-forgot-password>
 </amplify-authenticator>
 ```
+
 </docs-filter>
 
-<ui-component-props tag="amplify-forgot-password"></ui-component-props>
+<ui-component-props tag="amplify-forgot-password" prop-type='attr'></ui-component-props>
 
 ### Require New Password
 
@@ -544,36 +635,52 @@ amplify-authenticator {
 
 ```jsx
 <AmplifyAuthenticator>
-  <AmplifyRequireNewPassword headerText="My Custom Require New Password Text" slot="require-new-password"></AmplifyRequireNewPassword>
+  <AmplifyRequireNewPassword
+    headerText="My Custom Require New Password Text"
+    slot="require-new-password"
+  ></AmplifyRequireNewPassword>
 </AmplifyAuthenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="angular">
 
 ```html
 <amplify-authenticator>
-  <amplify-require-new-password header-text="My Custom Require New Password Text" slot="require-new-password"></amplify-require-new-password>
+  <amplify-require-new-password
+    header-text="My Custom Require New Password Text"
+    slot="require-new-password"
+  ></amplify-require-new-password>
 </amplify-authenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="ionic">
 
 ```html
 <amplify-authenticator>
-  <amplify-require-new-password header-text="My Custom Require New Password Text" slot="require-new-password"></amplify-require-new-password>
+  <amplify-require-new-password
+    header-text="My Custom Require New Password Text"
+    slot="require-new-password"
+  ></amplify-require-new-password>
 </amplify-authenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="vue">
 
 ```html
 <amplify-authenticator>
-  <amplify-require-new-password header-text="My Custom Require New Password Text" slot="require-new-password"></amplify-require-new-password>
+  <amplify-require-new-password
+    header-text="My Custom Require New Password Text"
+    slot="require-new-password"
+  ></amplify-require-new-password>
 </amplify-authenticator>
 ```
+
 </docs-filter>
 
-<ui-component-props tag="amplify-require-new-password"></ui-component-props>
+<ui-component-props tag="amplify-require-new-password" prop-type="attr"></ui-component-props>
 
 ### TOTP Setup
 
@@ -583,36 +690,52 @@ amplify-authenticator {
 
 ```jsx
 <AmplifyAuthenticator>
-  <AmplifyTOTPSetup headerText="My Custom TOTP Setup Text" slot="totp-setup"></AmplifyTOTPSetup>
+  <AmplifyTOTPSetup
+    headerText="My Custom TOTP Setup Text"
+    slot="totp-setup"
+  ></AmplifyTOTPSetup>
 </AmplifyAuthenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="angular">
 
 ```html
 <amplify-authenticator>
-  <amplify-totp-setup header-text="My Custom TOTP Setup Text" slot="totp-setup"></amplify-totp-setup>
+  <amplify-totp-setup
+    header-text="My Custom TOTP Setup Text"
+    slot="totp-setup"
+  ></amplify-totp-setup>
 </amplify-authenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="ionic">
 
 ```html
 <amplify-authenticator>
-  <amplify-totp-setup header-text="My Custom TOTP Setup Text" slot="totp-setup"></amplify-totp-setup>
+  <amplify-totp-setup
+    header-text="My Custom TOTP Setup Text"
+    slot="totp-setup"
+  ></amplify-totp-setup>
 </amplify-authenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="vue">
 
 ```html
 <amplify-authenticator>
-  <amplify-totp-setup header-text="My Custom TOTP Setup Text" slot="totp-setup"></amplify-totp-setup>
+  <amplify-totp-setup
+    header-text="My Custom TOTP Setup Text"
+    slot="totp-setup"
+  ></amplify-totp-setup>
 </amplify-authenticator>
 ```
+
 </docs-filter>
 
-<ui-component-props tag="amplify-totp-setup"></ui-component-props>
+<ui-component-props tag="amplify-totp-setup" prop-type='attr'></ui-component-props>
 
 ### Verify Contact
 
@@ -620,36 +743,52 @@ amplify-authenticator {
 
 ```jsx
 <AmplifyAuthenticator>
-  <AmplifyVerifyContact headerText="My Custom Verify Contact Text" slot="verify-contact"></AmplifyVerifyContact>
+  <AmplifyVerifyContact
+    headerText="My Custom Verify Contact Text"
+    slot="verify-contact"
+  ></AmplifyVerifyContact>
 </AmplifyAuthenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="angular">
 
 ```html
 <amplify-authenticator>
-  <amplify-verify-contact header-text="My Custom Verify Contact Text" slot="verify-contact"></amplify-verify-contact>
+  <amplify-verify-contact
+    header-text="My Custom Verify Contact Text"
+    slot="verify-contact"
+  ></amplify-verify-contact>
 </amplify-authenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="ionic">
 
 ```html
 <amplify-authenticator>
-  <amplify-verify-contact header-text="My Custom Verify Contact Text" slot="verify-contact"></amplify-verify-contact>
+  <amplify-verify-contact
+    header-text="My Custom Verify Contact Text"
+    slot="verify-contact"
+  ></amplify-verify-contact>
 </amplify-authenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="vue">
 
 ```html
 <amplify-authenticator>
-  <amplify-verify-contact header-text="My Custom Verify Contact Text" slot="verify-contact"></amplify-verify-contact>
+  <amplify-verify-contact
+    header-text="My Custom Verify Contact Text"
+    slot="verify-contact"
+  ></amplify-verify-contact>
 </amplify-authenticator>
 ```
+
 </docs-filter>
 
-<ui-component-props tag="amplify-verify-contact"></ui-component-props>
+<ui-component-props tag="amplify-verify-contact" prop-type="attr"></ui-component-props>
 
 ### Greetings
 
@@ -660,48 +799,49 @@ amplify-authenticator {
 <docs-filter framework="react">
 
 ```jsx
-import React from 'react';
-import './App.css';
-import Amplify from 'aws-amplify';
-import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
-import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
-import awsconfig from './aws-exports';
+import React from "react";
+import "./App.css";
+import Amplify from "aws-amplify";
+import {AmplifyAuthenticator, AmplifySignOut} from "@aws-amplify/ui-react";
+import {AuthState, onAuthUIStateChange} from "@aws-amplify/ui-components";
+import awsconfig from "./aws-exports";
 
 Amplify.configure(awsconfig);
 
 const GreetingsApp = () => {
-    const [authState, setAuthState] = React.useState();
-    const [user, setUser] = React.useState();
+  const [authState, setAuthState] = React.useState();
+  const [user, setUser] = React.useState();
 
-    React.useEffect(() => {
-        return onAuthUIStateChange((nextAuthState, authData) => {
-            setAuthState(nextAuthState);
-            setUser(authData)
-        });
-    }, []);
+  React.useEffect(() => {
+    return onAuthUIStateChange((nextAuthState, authData) => {
+      setAuthState(nextAuthState);
+      setUser(authData);
+    });
+  }, []);
 
   return authState === AuthState.SignedIn && user ? (
-      <div className="App">
-        <AmplifyGreetings username={user.username}></AmplifyGreetings>
-      </div>
-	) : (
-      <AmplifyAuthenticator />
+    <div className="App">
+      <AmplifyGreetings username={user.username}></AmplifyGreetings>
+    </div>
+  ) : (
+    <AmplifyAuthenticator />
   );
-}
+};
 
 export default GreetingsApp;
 ```
+
 </docs-filter>
 <docs-filter framework="angular">
 
 ```js
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
+import {BrowserModule} from "@angular/platform-browser";
+import {NgModule} from "@angular/core";
+import {AppComponent} from "./app.component";
 
-import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
-import Amplify from 'aws-amplify';
-import awsconfig from '../aws-exports';
+import {AmplifyUIAngularModule} from "@aws-amplify/ui-angular";
+import Amplify from "aws-amplify";
+import awsconfig from "../aws-exports";
 
 Amplify.configure(awsconfig);
 
@@ -714,7 +854,8 @@ Amplify.configure(awsconfig);
 export class AppModule {}
 ```
 
-Replace the content inside of *app.component.ts* with the following:
+Replace the content inside of _app.component.ts_ with the following:
+
 ```js
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { onAuthUIStateChange, CognitoUserInterface, AuthState } from '@aws-amplify/ui-components';
@@ -745,25 +886,27 @@ export class AppComponent {
 }
 ```
 
-Replace the content inside of *app.component.html* with the following:
+Replace the content inside of _app.component.html_ with the following:
+
 ```html
 <amplify-authenticator *ngIf="authState !== 'signedin'"></amplify-authenticator>
 
 <div *ngIf="authState === 'signedin' && user" class="App">
-    <amplify-greetings [username]="user.username"></amplify-greetings>
+  <amplify-greetings [username]="user.username"></amplify-greetings>
 </div>
 ```
+
 </docs-filter>
 <docs-filter framework="ionic">
 
 ```js
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
+import {BrowserModule} from "@angular/platform-browser";
+import {NgModule} from "@angular/core";
+import {AppComponent} from "./app.component";
 
-import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
-import Amplify from 'aws-amplify';
-import awsconfig from '../aws-exports';
+import {AmplifyUIAngularModule} from "@aws-amplify/ui-angular";
+import Amplify from "aws-amplify";
+import awsconfig from "../aws-exports";
 
 Amplify.configure(awsconfig);
 
@@ -776,7 +919,8 @@ Amplify.configure(awsconfig);
 export class AppModule {}
 ```
 
-Replace the content inside of *app.component.ts* with the following:
+Replace the content inside of _app.component.ts_ with the following:
+
 ```js
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { onAuthUIStateChange, CognitoUserInterface, AuthState } from '@aws-amplify/ui-components';
@@ -807,53 +951,64 @@ export class AppComponent {
 }
 ```
 
-Replace the content inside of *app.component.html* with the following:
+Replace the content inside of _app.component.html_ with the following:
+
 ```html
 <amplify-authenticator *ngIf="authState !== 'signedin'"></amplify-authenticator>
 
 <div *ngIf="authState === 'signedin' && user" class="App">
-    <amplify-greetings [username]="user.username"></amplify-greetings>
+  <amplify-greetings [username]="user.username"></amplify-greetings>
 </div>
 ```
+
 </docs-filter>
 <docs-filter framework="vue">
 
 _App.vue_
+
 ```html
 <template>
   <div>
-    <amplify-authenticator v-if="authState !== 'signedin'"></amplify-authenticator>
+    <amplify-authenticator
+      v-if="authState !== 'signedin'"
+    ></amplify-authenticator>
     <div v-if="authState === 'signedin' && user">
       <amplify-greetings :username="user.username"></amplify-greetings>
     </div>
   </div>
 </template>
 ```
+
 ```js
-import { onAuthUIStateChange } from '@aws-amplify/ui-components'
+import {onAuthUIStateChange} from "@aws-amplify/ui-components";
 
 export default {
-  name: 'AuthStateApp',
+  name: "AuthStateApp",
   created() {
     onAuthUIStateChange((authState, authData) => {
       this.authState = authState;
       this.user = authData;
-    })
+    });
   },
   data() {
     return {
       user: undefined,
-      authState: undefined
-    }
+      authState: undefined,
+    };
   },
   beforeDestroy() {
     return onAuthUIStateChange;
-  }
-}
+  },
+};
 ```
+
 </docs-filter>
 
-<ui-component-props tag="amplify-greetings"></ui-component-props>
+<ui-component-props tag="amplify-greetings" prop-type="attr"></ui-component-props>
+
+<ui-component-props tag="amplify-greetings" prop-type="css"></ui-component-props>
+
+<ui-component-props tag="amplify-greetings" prop-type="slots"></ui-component-props>
 
 <docs-filter framework="react">
 
@@ -866,7 +1021,69 @@ You can also pass in any of the [AmplifyAuthenticator props](#props-amplify-auth
 ```jsx
 export withAuthenticator(App, {initialAuthState: 'signup'});
 ```
+
 </docs-filter>
+
+## Methods & Enums
+
+### AuthState
+
+`AuthState` is an enum with the following values:
+
+```js
+enum AuthState {
+  SignUp = 'signup',
+  SignOut = 'signout',
+  SignIn = 'signin',
+  Loading = 'loading',
+  SignedOut = 'signedout',
+  SignedIn = 'signedin',
+  SigningUp = 'signingup',
+  ConfirmSignUp = 'confirmSignUp',
+  confirmingSignUpCustomFlow = 'confirmsignupcustomflow',
+  ConfirmSignIn = 'confirmSignIn',
+  confirmingSignInCustomFlow = 'confirmingsignincustomflow',
+  VerifyingAttributes = 'verifyingattributes',
+  ForgotPassword = 'forgotpassword',
+  ResetPassword = 'resettingpassword',
+  SettingMFA = 'settingMFA',
+  TOTPSetup = 'TOTPSetup',
+  CustomConfirmSignIn = 'customConfirmSignIn',
+  VerifyContact = 'verifyContact'
+}
+```
+
+**Usage**
+
+```js
+import {AuthState, onAuthUIStateChange} from "@aws-amplify/ui-components";
+
+onAuthUIStateChange((nextAuthState, authData) => {
+  if (nextAuthState === AuthState.SignedIn) {
+    console.log("user successfully signed in!");
+  }
+});
+```
+
+### onAuthUIStateChange
+
+`onAuthUIStateChange` is a function that will fire whenever the state of the Authentication UI component changes.
+
+**Usage**
+
+```js
+import {AuthState, onAuthUIStateChange} from "@aws-amplify/ui-components";
+
+onAuthUIStateChange((nextAuthState, authData) => {
+  if (nextAuthState === AuthState.SignedIn) {
+    console.log("user successfully signed in!");
+    console.log("user data: ", authData);
+  }
+  if (!authData) {
+    console.log("user is not signed in...");
+  }
+});
+```
 
 ## Use Cases
 
@@ -890,7 +1107,7 @@ export withAuthenticator(App, {initialAuthState: 'signup'});
 
 ### Authenticate with email or phone number
 
-The `amplify-authenticator` component has the ability to sign in / sign up with `email` or `phone_number` instead of default `username`. 
+The `amplify-authenticator` component has the ability to sign in / sign up with `email` or `phone_number` instead of default `username`.
 
 To achieve this, you first need to setup the userpool to allow email or phone number as the username [using the cli workflow](~/cli/auth/overview.md#configuring-auth-without-social-providers) or through the [Cognito Console](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-aliases-settings-option-2). To reflect this in the `amplify-authenticator` component, you can use the `usernameAlias` property. It can take one of the three values - `email`, `phone_number` or `username`. Default is set to `username`.
 
@@ -899,28 +1116,31 @@ To achieve this, you first need to setup the userpool to allow email or phone nu
 ```jsx
 <AmplifyAuthenticator usernameAlias="email"></AmplifyAuthenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="angular">
 
 ```html
 <amplify-authenticator username-alias="email"></amplify-authenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="ionic">
 
 ```html
 <amplify-authenticator username-alias="email"></amplify-authenticator>
 ```
+
 </docs-filter>
 <docs-filter framework="vue">
 
 ```html
 <amplify-authenticator username-alias="email"></amplify-authenticator>
 ```
+
 </docs-filter>
 
 ## Migration
-
 
 To migrate from using the `aws-amplify-<framework>` library to the latest `@aws-amplify/ui-<framework>` library use the steps below:
 
@@ -932,6 +1152,7 @@ To migrate from using the `aws-amplify-<framework>` library to the latest `@aws-
 - yarn add aws-amplify-react
 + yarn add @aws-amplify/ui-react
 ```
+
 </docs-filter>
 <docs-filter framework="angular">
 
@@ -939,6 +1160,7 @@ To migrate from using the `aws-amplify-<framework>` library to the latest `@aws-
 - yarn add aws-amplify-angular
 + yarn add @aws-amplify/ui-angular
 ```
+
 </docs-filter>
 <docs-filter framework="ionic">
 
@@ -946,6 +1168,7 @@ To migrate from using the `aws-amplify-<framework>` library to the latest `@aws-
 - yarn add aws-amplify-angular
 + yarn add @aws-amplify/ui-angular
 ```
+
 </docs-filter>
 <docs-filter framework="vue">
 
@@ -953,8 +1176,8 @@ To migrate from using the `aws-amplify-<framework>` library to the latest `@aws-
 - yarn add aws-amplify-vue
 + yarn add @aws-amplify/ui-vue
 ```
-</docs-filter>
 
+</docs-filter>
 
 ### Usage
 
@@ -978,6 +1201,7 @@ const App = () => (
 ```
 
 If you are using `withAuthenticator`:
+
 ```diff
 - import { withAuthenticator } from 'aws-amplify-react';
 + import { withAuthenticator } from '@aws-amplify/ui-react';
@@ -1027,6 +1251,7 @@ Amplify.configure(awsconfig);
 })
 export class AppModule {}
 ```
+
 </docs-filter>
 <docs-filter framework="ionic">
 
@@ -1053,6 +1278,7 @@ Amplify.configure(awsconfig);
 })
 export class AppModule {}
 ```
+
 </docs-filter>
 <docs-filter framework="vue">
 

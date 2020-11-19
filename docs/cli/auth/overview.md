@@ -39,3 +39,11 @@ Do you want to use the default authentication and security configuration?
   Manual configuration
   I want to learn more.
 ```
+
+You can find [more documentation on adding each social provider in the Libraries section](https://docs.amplify.aws/lib/auth/social/q/platform/js#setup-your-auth-provider) of the docs.
+
+## Re-use an existing Cognito User Pool and Identity Pool
+
+Instead of letting Amplify CLI create a new set of auth resources, you can also import your existing Cognito resources. These resources can be used to auto-generate the Amplify library configuration files, used as an auth dependency for other categories and provided access permissions from within Lambda functions.
+
+Run `amplify import auth` or read the [guide on how to import existing Cognito resources](~/cli/auth/import.md).

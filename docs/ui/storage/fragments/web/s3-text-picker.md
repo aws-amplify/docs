@@ -1,31 +1,32 @@
+<inline-fragment src="~/ui/storage/fragments/web/installation.md"></inline-fragment>
+
 ## Usage
 
 <docs-filter framework="react">
 
 ```jsx
-import React from 'react';
-import Amplify from 'aws-amplify';
-import { AmplifyS3TextPicker } from '@aws-amplify/ui-react';
-import awsconfig from './aws-exports';
+import React from "react";
+import Amplify from "aws-amplify";
+import {AmplifyS3TextPicker} from "@aws-amplify/ui-react";
+import awsconfig from "./aws-exports";
 
 Amplify.configure(awsconfig);
 
-const App = () => (
- <AmplifyS3TextPicker />
-);
+const App = () => <AmplifyS3TextPicker />;
 ```
+
 </docs-filter>
 
 <docs-filter framework="angular">
 
 ```js
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
+import {BrowserModule} from "@angular/platform-browser";
+import {NgModule} from "@angular/core";
+import {AppComponent} from "./app.component";
 
-import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
+import {AmplifyUIAngularModule} from "@aws-amplify/ui-angular";
+import Amplify from "aws-amplify";
+import awsconfig from "./aws-exports";
 
 Amplify.configure(awsconfig);
 
@@ -41,8 +42,9 @@ export class AppModule {}
 _app.component.html_
 
 ```html
-<amplify-s3-text-picker />
+<amplify-s3-text-picker></amplify-s3-text-picker>
 ```
+
 </docs-filter>
 
 <docs-filter framework="ionic">
@@ -50,13 +52,13 @@ _app.component.html_
 _app.module.ts_
 
 ```js
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
+import {BrowserModule} from "@angular/platform-browser";
+import {NgModule} from "@angular/core";
+import {AppComponent} from "./app.component";
 
-import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
+import {AmplifyUIAngularModule} from "@aws-amplify/ui-angular";
+import Amplify from "aws-amplify";
+import awsconfig from "./aws-exports";
 
 Amplify.configure(awsconfig);
 
@@ -72,8 +74,9 @@ export class AppModule {}
 _app.component.html_
 
 ```html
-<amplify-s3-text-picker />
+<amplify-s3-text-picker></amplify-s3-text-picker>
 ```
+
 </docs-filter>
 
 <docs-filter framework="vue">
@@ -81,17 +84,17 @@ _app.component.html_
 _main.js_
 
 ```js
-import Vue from 'vue';
-import App from './App.vue';
-import '@aws-amplify/ui-vue';
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
+import Vue from "vue";
+import App from "./App.vue";
+import "@aws-amplify/ui-vue";
+import Amplify from "aws-amplify";
+import awsconfig from "./aws-exports";
 
 Amplify.configure(awsconfig);
 
 new Vue({
-  render: h => h(App),
-}).$mount('#app');
+  render: (h) => h(App),
+}).$mount("#app");
 ```
 
 _App.vue_
@@ -101,10 +104,10 @@ _App.vue_
   <amplify-s3-text-picker />
 </template>
 ```
+
 </docs-filter>
 
-
-<ui-component-props tag="amplify-s3-text-picker" use-table-headers></ui-component-props>
+<ui-component-props tag="amplify-s3-text-picker" prop-type="attr" use-table-headers></ui-component-props>
 
 ## Migration
 
@@ -127,6 +130,7 @@ const App = () => (
 
 );
 ```
+
 </docs-filter>
 
 <docs-filter framework="angular">
@@ -158,9 +162,10 @@ export class AppModule {}
 _app.component.html_
 
 ```diff
-+ <amplify-s3-text-picker />
-- <s3-text picker />
++ <amplify-s3-text-picker></amplify-s3-text-picker>
+- <s3-text picker></s3-text>
 ```
+
 </docs-filter>
 
 <docs-filter framework="ionic">
@@ -192,9 +197,10 @@ export class AppModule {}
 _app.component.html_
 
 ```diff
-+ <amplify-s3-text-picker />
-- <s3-text picker />
++ <amplify-s3-text-picker></amplify-s3-text-picker>
+- <s3-text picker></s3-text>
 ```
+
 </docs-filter>
 
 <docs-filter framework="vue">
@@ -225,6 +231,7 @@ _App.vue_
 + <amplify-s3-text-picker/>
  </template>
 ```
+
 </docs-filter>
 
-If you want to use `S3Text` without `picker` property enabled, please see the documentation for  [`S3Text`](~/ui/storage/s3-text.md).
+If you want to use `S3Text` without `picker` property enabled, please see the documentation for [`S3Text`](~/ui/storage/s3-text.md).

@@ -123,7 +123,7 @@ Output Files: Empty
 
 Now **build** your project to start using the SDK. Whenever a new version of the SDK is released you can update by running `carthage update` and rebuilding your project to use the new features.
 
-> Note: Currently, the AWS SDK for iOS builds the Carthage binaries using Xcode 10.1.0. To consume the pre-built binaries your Xcode version needs to be the same, else you have to build the frameworks on your machine by passing `--no-use-binaries` flag to `carthage update` command.
+> Note: The AWS SDK for iOS builds the Carthage binaries using the latest released version of Xcode. To consume the pre-built binaries your Xcode version needs to be the same, else you have to build the frameworks on your machine by passing `--no-use-binaries` flag to `carthage update` command.
 
 ## Frameworks setup
 
@@ -283,7 +283,6 @@ let configuration: [String: Any] = [
         "Default": [
             "OAuth": [
                 "AppClientId": "APP_CLIENT_ID",
-                "AppClientSecret": "APP_CLIENT_SECRET",
                 "Scopes": ["email"]
             ]
         ]

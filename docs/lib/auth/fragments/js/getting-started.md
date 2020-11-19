@@ -33,11 +33,9 @@ amplify console
 
 ## Configure your application
 
-Add Amplify to your app with `yarn` or `npm`:
+Add Amplify to your app:
 
-```bash
-npm install aws-amplify
-```
+<inline-fragment src="~/lib/auth/fragments/js/getting-started-steps-basic-auth.md"></inline-fragment>
 
 In your app's entry point (i.e. __App.js__, __index.js__, or __main.js__), import and load the configuration file:
 
@@ -128,7 +126,7 @@ import { AppComponent } from './app.component';
 /* Add Amplify imports */
 import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
 import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
+import awsconfig from '../aws-exports';
 
 /* Configure Amplify resources */
 Amplify.configure(awsconfig);
@@ -163,9 +161,9 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 </amplify-block>
 <amplify-block name="React Native">
 
-First, you need to install the necessary dependencies. This step differs depending on if you're using Expo or React Native CLI.
+First, install the `aws-amplify-react-native` library as well as the other necessary dependencies if you have not already in the previous step. This step differs depending on if you're using Expo or React Native CLI.
 
-<inline-fragment src="~/start/getting-started/fragments/reactnative/getting-started-steps.md"></inline-fragment>
+<inline-fragment src="~/start/getting-started/fragments/reactnative/getting-started-steps-ui.md"></inline-fragment>
 
 **Integrate with the front end**
 

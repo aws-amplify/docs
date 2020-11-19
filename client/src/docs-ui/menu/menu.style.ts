@@ -3,9 +3,8 @@ import {css} from "emotion";
 export const menuStyle = css`
   display: block;
   padding: 0 2.5rem;
-  overflow-y: auto;
-  min-height: 100vh;
-  padding-bottom: 3rem;
+  overflow-y: overlay;
+  padding-bottom: 6rem;
 `;
 
 export const menuItemContainerStyle = css`
@@ -22,7 +21,7 @@ export const productRootLink = css`
   display: flex;
   flex-direction: row;
   font-weight: 700;
-  margin-top: 1.75rem;
+  margin-top: 2rem;
 
   > stencil-route-link,
   > stencil-route-link > a {
@@ -55,4 +54,33 @@ export const verticalGapStyle = css`
 
 export const activeLinkStyle = css`
   background-color: var(--bg-color-hover);
+`;
+
+export const discordLinkStyle = css`
+  > a {
+    display: flex;
+    background-color: var(--color-discord-blue);
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.125rem;
+    padding: 0.675rem 1rem;
+    opacity: 0.9;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  a {
+    display: flex;
+    color: var(--color-white);
+    font-weight: 700;
+  }
+
+  img {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.25rem;
+  }
 `;

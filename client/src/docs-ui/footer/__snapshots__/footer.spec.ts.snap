@@ -13,7 +13,7 @@ exports[`docs-footer Render logic should render 1`] = `
           <docs-internal-link href="/start">
             Getting Started
           </docs-internal-link>
-          <amplify-external-link href="https://discord.gg/jWVbPfC">
+          <amplify-external-link href="https://discord.gg/amplify">
             Support
           </amplify-external-link>
         </div>
@@ -40,7 +40,7 @@ exports[`docs-footer Render logic should render 1`] = `
           <amplify-external-link anchortitle="Twitter" href="https://twitter.com/AWSAmplify">
             <img src="/assets/twitter.svg">
           </amplify-external-link>
-          <amplify-external-link anchortitle="Discord" href="https://discord.gg/jWVbPfC">
+          <amplify-external-link anchortitle="Discord" href="https://discord.gg/amplify">
             <img alt="Discord Logo" src="/assets/discord-white.svg">
           </amplify-external-link>
           <amplify-external-link anchortitle="GitHub" href="https://github.com/aws-amplify">
@@ -59,6 +59,8 @@ exports[`docs-footer Render logic should render 1`] = `
               privacy policy
             </amplify-external-link>
             .
+            <ul></ul>
+            Flutter and the related logo are trademarks of Google LLC. We are not endorsed by or affiliated with Google LLC.
           </span>
         </div>
       </div>

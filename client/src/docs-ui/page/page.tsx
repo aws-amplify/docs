@@ -6,6 +6,7 @@ import {
   sidebarToggleClass,
   mainStyle,
   sectionHeaderStyle,
+  sidebarHeaderStyle,
 } from "./page.style";
 import {
   Page,
@@ -31,6 +32,7 @@ import {getPage} from "../../cache.worker";
 import {getNavHeight} from "../../utils/get-nav-height";
 import {scrollToHash} from "../../utils/scroll-to-hash";
 import {parseURL} from "../../utils/url/url.worker";
+import {redirects} from "./redirects";
 
 const SELECTED_TABS_LOCAL_STORAGE_KEY = `amplify-docs::selected-tabs`;
 
@@ -47,6 +49,8 @@ export class DocsPage {
   rafId?: number;
   isFirstRenderOfCurrentPage = true;
   previousPathname = "";
+  /** increments every time the page changes, to tell all block switchers on the page to rerender */
+  alwaysRerenderBlockSwitcher = 0;
 
   setNewSelectedTabHeading: SetNewSelectedTabHeadings = (tabHeading) => {
     // create temp array with `tabHeading` (the new highest priority) as first el
@@ -173,6 +177,14 @@ export class DocsPage {
     if (currentRoute.endsWith("/") && currentRoute !== "/") {
       currentRoute = currentRoute.substring(0, currentRoute.length - 1);
     }
+    if (currentRoute.includes("cli/graphql-transformer/directives")) {
+      const redirected = redirects[location.hash];
+      if (redirected) {
+        currentRoute = `/cli/graphql-transformer${redirected}`;
+        // @ts-ignore
+        window.location = currentRoute;
+      }
+    }
 
     const {path, params} = await parseURL(currentRoute);
     const routeFiltersEntry = filtersByRoute.get(path);
@@ -248,6 +260,7 @@ export class DocsPage {
         <Host class={pageStyle}>
           <pageContext.Provider
             state={{
+              alwaysRerenderBlockSwitcher: this.alwaysRerenderBlockSwitcher++,
               selectedFilters: this.selectedFilters,
               setSelectedFilters: this.setSelectedFilters,
               selectedTabHeadings: this.selectedTabHeadings,
@@ -263,7 +276,9 @@ export class DocsPage {
             {this.pageData && this.pageData.noTemplate
               ? createVNodesFromHyperscriptNodes(this.pageData.body)
               : [
-                  <docs-secondary-nav />,
+                  <docs-secondary-nav
+                    pageHasMenu={!!this.pageData && !!this.pageData.menu}
+                  />,
                   this.pageData && this.validFilterValue ? (
                     <div class={sidebarLayoutStyle}>
                       <amplify-toc-provider>
@@ -273,6 +288,12 @@ export class DocsPage {
                               slot="sidebar"
                               top={this.sidebarStickyTop}
                             >
+                              <div class={sidebarHeaderStyle}>
+                                <amplify-sidebar-close-button />
+                                {this.pageData?.filterKey && (
+                                  <docs-select-anchor page={this.pageData} />
+                                )}
+                              </div>
                               <docs-menu
                                 filterKey={this.filterKey}
                                 page={this.pageData}
@@ -336,7 +357,6 @@ export class DocsPage {
                   ),
                   <docs-footer />,
                 ]}
-            <docs-chat-button />
           </pageContext.Provider>
         </Host>
       );

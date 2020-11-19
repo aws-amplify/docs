@@ -5,7 +5,7 @@ description: Use Amplify CLI to add powerful Lambda functions to your cloud-base
 
 ## Set up a function
 
-You can add a Lambda function to your project which you can use alongside a REST API or as a datasource in your GraphQL API using the [`@function` directive](~/cli/graphql-transformer/directives.md#function). 
+You can add a Lambda function to your project which you can use alongside a REST API or as a datasource in your GraphQL API using the [`@function` directive](~/cli/graphql-transformer/function.md). 
 
 ```bash
 amplify add function
@@ -54,7 +54,7 @@ Behind the scenes, the CLI automates populating of the resource identifiers for 
 
 ## Supported Lambda runtimes
 
-Amplify CLI enables you to create, test and deploy Lambda functions with the following runtimes: 
+Amplify CLI enables you to create, test and deploy Lambda functions with the following runtimes:
 
 |Runtime|Default Version|Requirements|
 |-------|-----------------|------------|
@@ -66,11 +66,11 @@ Amplify CLI enables you to create, test and deploy Lambda functions with the fol
 
 In order to create and test Lambda functions locally, you need to have the runtime's requirements (table above) fulfilled. You'll be asked to `Choose the runtime you would like to use:` when running `amplify add function`.
 
-Once a runtime is selected, you can select a function template for the runtime to help bootstrap your Lambda function. 
+Once a runtime is selected, you can select a function template for the runtime to help bootstrap your Lambda function.
 
 ## Schedule recurring Lambda functions
 
-Amplify CLI allows you to schedule Lambda functions to be executed periodically (e.g every minute, hourly, daily, weekly, monthly or yearly). You can also formulate more complex schedules using AWS Cron Expressions such as: *“10:15 AM on the last Friday of every month”*. Review the [Schedule Expression for Rules documentation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions) for more details. 
+Amplify CLI allows you to schedule Lambda functions to be executed periodically (e.g every minute, hourly, daily, weekly, monthly or yearly). You can also formulate more complex schedules using AWS Cron Expressions such as: *“10:15 AM on the last Friday of every month”*. Review the [Schedule Expression for Rules documentation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions) for more details.
 
 To schedule your Lambda function, answer **Yes** to `Do you want to invoke this function on a recurring schedule?` in the `amplify add function` flow. Once you deploy a function, it'll create a CloudWatch Rule to periodically execute the selected Lambda function.
 
@@ -78,5 +78,4 @@ To schedule your Lambda function, answer **Yes** to `Do you want to invoke this 
 
 <inline-fragment src="~/lib/graphqlapi/fragments/graphql-from-node.md"></inline-fragment>
 
-## What is the amplify.state file?
-When creating a function using Amplify CLI >= 4.18.0, Amplify creates an `amplify.state` file to enable multi-runtime Lambda functions. `amplify.state` shouldn't be manually edited but should be checked in to version control.
+For more information on files generated in the function resource folder, see [Function Category Files](~/cli/reference/files.md#function-category-files).
