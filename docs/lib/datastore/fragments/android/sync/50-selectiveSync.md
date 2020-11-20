@@ -15,7 +15,6 @@ Amplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
     .syncExpression(Post.class, () -> Post.RATING.gt(5))
     .syncExpression(Comment.class, () -> Comment.STATUS.eq("active"))
     .build()));
-Amplify.configure(context);
 ```
 
 </amplify-block>
@@ -26,7 +25,16 @@ Amplify.addPlugin(AWSDataStorePlugin(DataStoreConfiguration.builder()
     .syncExpression(Post::class.java) { Post.RATING.gt(5) }
     .syncExpression(Comment::class.java) { Comment.STATUS.eq("active") }
     .build()))
-Amplify.configure(context)
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
+    .syncExpression(Post.class, () -> Post.RATING.gt(5))
+    .syncExpression(Comment.class, () -> Comment.STATUS.eq("active"))
+    .build()));
 ```
 
 </amplify-block>
@@ -57,7 +65,6 @@ public void initialize() {
     Amplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
         .syncExpression(Post.class, () -> Post.RATING.gt(rating))
         .build()));
-    Amplify.configure(context);
 }
 
 public void changeSync() {
@@ -82,7 +89,6 @@ fun initialize() {
     Amplify.addPlugin(AWSDataStorePlugin(DataStoreConfiguration.builder()
         .syncExpression(Post::class.java) { Post.RATING.gt(5) }
         .build()))
-    Amplify.configure(context)
 }
 
 fun changeSync() {
@@ -103,10 +109,9 @@ fun changeSync() {
 public Integer rating = 5;
 
 public void initialize() {
-    Amplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
+    RxAmplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
         .syncExpression(Post.class, () -> Post.RATING.gt(rating))
         .build()));
-    Amplify.configure(context);
 }
 
 public void changeSync() {
@@ -167,6 +172,21 @@ fun changeSync() {
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+public void changeSync() {
+    rating = 8;
+    RxAmplify.DataStore.clear()
+        .andThen(RxAmplify.DataStore.start()
+        .subscribe(
+            () -> Log.i("MyAmplifyApp", "DataStore cleared and restarted"),
+            error -> Log.e("MyAmplifyApp", "Error clearing or restarting DataStore: ", error)
+        );
+}
+```
+
+</amplify-block>
 </amplify-block-switcher>
 
 This will clear the contents of your local store, reevaluate your sync expressions and re-sync the data from the cloud, applying all of the specified predicates to the sync queries.
@@ -188,7 +208,6 @@ public void initialize() {
             return QueryPredicates.all();
         })
         .build()));
-    Amplify.configure(context);
 }
 ```
 
@@ -207,7 +226,24 @@ fun initialize() {
             QueryPredicates.all()
         }
         .build()))
-    Amplify.configure(context)
+}
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+public Integer rating = null;
+
+public void initialize() {
+    RxAmplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
+        .syncExpression(Post.class, () -> {
+            if(rating != null) {
+                return () -> Post.RATING.gt(rating);
+            }
+            return QueryPredicates.all();
+        })
+        .build()));
 }
 ```
 
@@ -253,14 +289,12 @@ Both of these sync expressions will result in AWS AppSync retrieving records fro
 Amplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
     .syncExpression(User.class, () -> User.LAST_NAME.eq("Doe"))
     .build()));
-Amplify.configure(context);
 
 // OR
 
 Amplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
     .syncExpression(User.class, () -> User.LAST_NAME.eq("Doe").and(User.CREATED_AT.gt("2020-10-10")))
     .build()));
-Amplify.configure(context);
 ```
 
 </amplify-block>
@@ -270,14 +304,27 @@ Amplify.configure(context);
 Amplify.addPlugin(AWSDataStorePlugin(DataStoreConfiguration.builder()
     .syncExpression(User::class.java) { User.LAST_NAME.eq("Doe") }
     .build()))
-Amplify.configure(context)
 
 // OR
 
 Amplify.addPlugin(AWSDataStorePlugin(DataStoreConfiguration.builder()
     .syncExpression(User::class.java) { User.LAST_NAME.eq("Doe").and(User.CREATED_AT.gt("2020-10-10")) }
     .build()))
-Amplify.configure(context)
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
+    .syncExpression(User.class, () -> User.LAST_NAME.eq("Doe"))
+    .build()));
+
+// OR
+
+RxAmplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
+    .syncExpression(User.class, () -> User.LAST_NAME.eq("Doe").and(User.CREATED_AT.gt("2020-10-10")))
+    .build()));
 ```
 
 </amplify-block>
