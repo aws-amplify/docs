@@ -7,6 +7,16 @@ let configured = false;
 if (!configured) {
   Auth.configure(awsexports);
   Analytics.configure(awsexports);
+  // @ts-ignore
+  /*
+  const shortbread = AWSCShortbread({
+    domain: ".amplify.aws",
+    onConsentChanged: (c) => {
+      console.log(c);
+    },
+  });
+  shortbread.checkForCookieConsent();
+  */
   configured = true;
 }
 
