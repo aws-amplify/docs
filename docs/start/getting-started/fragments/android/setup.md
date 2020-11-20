@@ -97,8 +97,8 @@ Amplify for Android is distributed as an Apache Maven package. In this section, 
 
    dependencies {
        // Amplify plugins
-       implementation 'com.amplifyframework:aws-api:1.4.1'
-       implementation 'com.amplifyframework:aws-datastore:1.4.1'
+       implementation 'com.amplifyframework:aws-api:1.6.2'
+       implementation 'com.amplifyframework:aws-datastore:1.6.2'
 
        // Support for Java 8 features
        coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
