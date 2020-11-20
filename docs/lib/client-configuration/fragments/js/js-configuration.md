@@ -148,11 +148,15 @@ Amplify.configure({
 ## REST API (Amazon API Gateway)
 
 ```js
-"aws_cloud_logic_custom":  {
-  "name": "your-api-name", // (required) - API Name (This name is used used in the client app to identify the API - API.get('api-name', '/path'))
-  "endpoint": "https://gfz59k9rlj.execute-api.us-east-1.amazonaws.com/dev", // (required) -API Gateway URL + environment
-  "region": "us-east-1" // (required) - API Gateway region
-}
+Amplify.configure({
+  aws_cloud_logic_custom:  [
+    {
+      name: "your-api-name", // (required) - API Name (This name is used used in the client app to identify the API - API.get('your-api-name', '/path'))
+      endpoint: "https://gfz59k9rlj.execute-api.us-east-1.amazonaws.com/dev", // (required) -API Gateway URL + environment
+      region: "us-east-1" // (required) - API Gateway region
+    }
+  ]
+})
 ```
 
 ## Predictions 
