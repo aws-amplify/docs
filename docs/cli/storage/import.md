@@ -31,7 +31,7 @@ Run `amplify push` to complete the import procedure.
 
 ### Connect to an imported S3 bucket with Amplify Libraries
 
-By default, Amplify Libraries assumes that S3 buckets are configured with the following folder access:
+By default, Amplify Libraries assumes that S3 buckets are configured with the following access patterns:
 - `public/` - Accessible by all users of your app
 - `protected/{user_identity_id}/` - Readable by all users, but writable only by the creating user 
 - `private/{user_identity_id}/` - Only accessible for the individual user
