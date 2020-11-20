@@ -17,49 +17,170 @@ The `amplify import storage` command will:
 * enable Lambda functions to access the chosen S3 or DynamoDB resource if you permit it
 
 This feature is particularly useful if you're trying to:
-* enable Amplify categories (such as API and function) to access your existing storage resources;
+* enable Amplify categories (such as API and Function) to access your existing storage resources;
 * incrementally adopt Amplify for your application stack;
 * independently manage S3 and DynamoDB resources while working with Amplify.
 
 ## Import an existing S3 bucket
 
-Select the "Content (Images, audio, video, etc.)" option when you've run `amplify import storage`. In order to successfully import your S3 bucket, your S3 bucket must be hosted in the same region as your Amplify project.
+Select the "S3 bucket - Content (Images, audio, video, etc.)" option when you've run `amplify import storage`. 
 
 Run `amplify push` to complete the import procedure.
 
-> Amplify projects are limited to one exactly S3 bucket.
+> Amplify projects are limited to exactly one S3 bucket.
 
-### Working with an imported S3 bucket with Amplify Libraries
+### Connect to an imported S3 bucket with Amplify Libraries
 
 By default, Amplify Libraries assumes that S3 buckets are configured with the following folder access:
-- `public/` - TODO
-- `protected/` -  
-- `private/` - 
+- `public/` - Accessible by all users of your app
+- `protected/{user_identity_id}/` - Readable by all users, but writable only by the creating user 
+- `private/{user_identity_id}/` - Only accessible for the individual user
 
-You can either configure your IAM role to use the Amplify-recommended policies or in your Amplify libraries configuration overwrite the default behavior.
+You can either configure your IAM role to use the Amplify-recommended policies or in your Amplify libraries configuration [overwrite the default storage path behavior](~/lib/storage/configureaccess.md/q/platform/js#customize-object-key-path).
+
+It is highly recommended to review your S3 bucket's CORS settings. Review the [recommendation guide here](~/lib/storage/getting-started.md/q/platform/js#amazon-s3-bucket-cors-policy-setup).
 
 ### Configuring IAM role to use Amplify-recommended policies
 
-TODO: modifying amplify generated auth
+If you're using an imported S3 bucket with an imported Cognito resource, then you'll need to update the policy of your Cognito Identity Pool's authenticated and unauthenticated role. Create new __managed policies__ (not *inline policies*) for these roles with the following statements:
 
-If you're using an imported S3 bucket with an imported Cognito resource, then you'll need to update the policy of your Cognito Identity Pool's authenticated and unauthenticated role.
+> Make sure to replace `{YOUR_S3_BUCKET_NAME}` with your S3 bucket's name.
 
-IAM policy statement for `public/`:
-TODO
-IAM policy statement for `protected/`:
-TODO
-IAM policy statement for `private/`:
-TODO
+#### Unauthenticated role policies:
+- IAM policy statement for `public/`:
+```json
+{
+    "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:DeleteObject"
+    ],
+    "Resource": [
+        "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/public/*"
+    ],
+    "Effect": "Allow"
+}
+```
+
+- IAM policy statement for read access to `public/`, `protected/`, and `private/`:
+```json
+{
+    "Action": [
+        "s3:GetObject"
+    ],
+    "Resource": [
+        "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/protected/*"
+    ],
+    "Effect": "Allow"
+},
+{
+    "Condition": {
+        "StringLike": {
+            "s3:prefix": [
+                "public/",
+                "public/*",
+                "protected/",
+                "protected/*"
+            ]
+        }
+    },
+    "Action": [
+        "s3:ListBucket"
+    ],
+    "Resource": [
+        "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}"
+    ],
+    "Effect": "Allow"
+}
+```
+
+#### Authenticated role policies:
+- IAM policy statement for `public/`:
+```json
+{
+    "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:DeleteObject"
+    ],
+    "Resource": [
+        "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/public/*"
+    ],
+    "Effect": "Allow"
+}
+```
+
+- IAM policy statement for `protected/`:
+```json
+{
+    "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:DeleteObject"
+    ],
+    "Resource": [
+        "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/protected/${cognito-identity.amazonaws.com:sub}/*"
+    ],
+    "Effect": "Allow"
+}
+```
+
+- IAM policy statement for `private/`:
+```json
+{
+    "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:DeleteObject"
+    ],
+    "Resource": [
+        "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/private/${cognito-identity.amazonaws.com:sub}/*"
+    ],
+    "Effect": "Allow"
+}
+```
+
+- IAM policy statement for read access to `public/`, `protected/`, and `private/`:
+```json
+{
+    "Action": [
+        "s3:GetObject"
+    ],
+    "Resource": [
+        "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/protected/*"
+    ],
+    "Effect": "Allow"
+},
+{
+    "Condition": {
+        "StringLike": {
+            "s3:prefix": [
+                "public/",
+                "public/*",
+                "protected/",
+                "protected/*",
+                "private/${cognito-identity.amazonaws.com:sub}/",
+                "private/${cognito-identity.amazonaws.com:sub}/*"
+            ]
+        }
+    },
+    "Action": [
+        "s3:ListBucket"
+    ],
+    "Resource": [
+        "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}"
+    ],
+    "Effect": "Allow"
+}
+```
 
 ## Import an existing DynamoDB table
 
-Select the "NoSQL Database" option when you've run `amplify import storage`. In order to successfully import your DynamoDB....
+Select the "DynamoDB table - NoSQL Database" option when you've run `amplify import storage`. In order to successfully import your DynamoDB table, your DynamoDB table needs to be located within the same region as your Amplify project.
 
 Run `amplify push` to complete the import procedure.
 
 > Amplify projects can contain multiple DynamoDB tables.
-
-TODO: Limitations / requirements?
 
 ## Multi-environment support
 
