@@ -1,6 +1,6 @@
 ---
 title: Use an existing S3 bucket or DynamoDB table
-description: Configure the Amplify CLI to use existing S3 bucket or DynamoDB table resources as a storage resource for other Amplify categories. (API, function, and more)
+description: Configure the Amplify CLI to use existing S3 bucket or DynamoDB table resources as a storage resource for other Amplify categories. (API, Function, and more)
 ---
 
 Import an existing S3 bucket or DynamoDB tables into your Amplify project. Get started by running `amplify import storage` command to search for & import an S3 or DynamoDB resource from your account. 
@@ -13,7 +13,7 @@ Make sure to run `amplify push` to complete the import process and deploy this b
 
 The `amplify import storage` command will:
 * automatically populate your Amplify Library configuration files (aws-exports.js, amplifyconfiguration.json) with your chosen S3 bucket information 
-* provide your designated S3 bucket or DynamoDB table as a storage mechanism for all storage-dependent categories 
+* provide your designated S3 bucket or DynamoDB table as a storage mechanism for all storage-dependent categories (API, Function, Predictions, and more) 
 * enable Lambda functions to access the chosen S3 or DynamoDB resource if you permit it
 
 This feature is particularly useful if you're trying to:
