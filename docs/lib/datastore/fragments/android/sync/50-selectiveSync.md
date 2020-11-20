@@ -1,7 +1,7 @@
 ## Selectively syncing a subset of your data
 
 By default, DataStore downloads the entire contents of your cloud data source to your local device.
-The max number of records that will be stored is configurable [here](~/lib/datastore/conflict).
+The max number of records that will be stored is configurable [here](~/lib/datastore/conflict.md).
 
 You can utilize selective sync to only persist a subset of your data instead.
 
