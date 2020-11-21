@@ -10,9 +10,6 @@ if (!configured) {
   // @ts-ignore
   const shortbread = AWSCShortbread({
     domain: ".amplify.aws",
-    onConsentChanged: (c) => {
-      console.log(c);
-    },
   });
   shortbread.checkForCookieConsent();
   configured = true;
@@ -79,4 +76,8 @@ export const track = (event: AnalyticsEvent): Promise<unknown> | undefined => {
       s.t();
     }
   }
+  console.log(event);
+  // @ts-ignore
+  console.log(s);
+  console.log(Build.isBrowser);
 };
