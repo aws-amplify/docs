@@ -86,7 +86,7 @@ RxAmplify.DataStore.start()
 
 ## Stop
 
-To stop the DataStore sync process, you can use `DataStore.stop()`.  This ensures the real time subscription connection is closed when your app is no longer interested in updates, such as when you application is closed.  This can also be used to modify [DataStore sync expressions]((~/lib/datastore/sync.md) at runtime by calling `stop()`, then `start()` to force your sync expressions to be re-evaluated.
+To stop the DataStore sync process, you can use `DataStore.stop()`.  This ensures the real time subscription connection is closed when your app is no longer interested in updates, such as when you application is closed.  This can also be used to modify [DataStore sync expressions](~/lib/datastore/sync.md) at runtime by calling `stop()`, then `start()` to force your sync expressions to be re-evaluated.
 
 <amplify-block-switcher>
 <amplify-block name="Java">
