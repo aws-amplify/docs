@@ -71,5 +71,12 @@ export const track = (event: AnalyticsEvent): Promise<unknown> | undefined => {
     } catch (e) {
       console.error("Failed to execute track.");
     }
+
+    if (event.type === AnalyticsEventType.PAGE_VISIT) {
+      // @ts-ignore
+      console.log(s);
+      // @ts-ignore
+      s.t();
+    }
   }
 };
