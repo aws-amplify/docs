@@ -25,7 +25,7 @@ $ amplify configure project
  > Enable Serverless Containers
 ```
 
-Next add a DynamoDB table called **Posts** with a primary key of **id** of type **number** (N). Then add an API using the REST (or GraphQL) default ExpressJS template and grant it access to this DynamoDB table. Finally run `amplify push` to deploy the backend:
+Next add a DynamoDB resource & table named **posts** with a primary key of **id** of type **number** (N). Then add an API using the REST (or GraphQL) default ExpressJS template and grant it access to this DynamoDB table. Finally run `amplify push` to deploy the backend:
 
 ```console
 $ amplify add storage
@@ -47,7 +47,7 @@ $ amplify add api
 $ amplify push
 ```
 
-Once this completes your container will be built via an automated pipeline and deployed to Fargate Tasks on an ECS Cluster fronted by an Amazon API Gateway HTTP API using a direct Cloud Map integration to your VPC. If you selected *Yes* to protect your API with Authentication, an Amazon Cognito User Pool will be created with an Authorizer integration for that API. 
+Once this completes your container will be built via an automated pipeline and deployed to Fargate Tasks on an ECS Cluster fronted by an Amazon API Gateway HTTP API using a direct Cloud Map integration to your VPC. If you selected *Yes* to protect your API with Authentication, an Amazon Cognito User Pool will be created with an Authorizer integration for that API.
 
 // TODO - Fragment for JS/iOS/Android fetch code
 
@@ -60,7 +60,7 @@ If you are unfamiliar with using a Dockerfile you may wish to walk through [Dock
 
 #### Suggested Workflow
 
-It is recommended to test your application locally first before deploying with `amplify push`, otherwise your Fargate Task may fail to start if there are application issues such as missing dependencies. With a Single Dockerfile you can do this by navigating to `./amplify/backend/api/<name>/src` and running `docker build -t` to build and tag your image followed by `docker run` to launch 
+It is recommended to test your application locally first before deploying with `amplify push`, otherwise your Fargate Task may fail to start if there are application issues such as missing dependencies. With a Single Dockerfile you can do this by navigating to `./amplify/backend/api/<name>/src` and running `docker build -t` to build and tag your image followed by `docker run` to launch your container similar to the below example:
 
 ```console
 $ cd ./amplify/backend/api/<name>/src
@@ -69,12 +69,15 @@ $ docker run -p 8080:8080 -d node-app:1.0
 $ curl -i localhost:8080  ## Alternatively open in a web browser
 ```
 
-You can also run your application using standard tooling such as running `node index.js` or `python server.py` in Node or Python.
+You can also run your application using standard tooling such as running `node index.js` or `python server.py` in Node or Python. Once you are satisfied with Dockerfile and your application code, run `amplify push` and the `./amplify/backend/api/<name>/src` will be bundled for the build pipeline to run and deploy your image to Fargate. At the end of the deployment the endpoint URL will be printed and client configuration files will be updated.
 
 ### Docker Compose
 
-If you wish to deploy Amplify will parse a `docker-compose.yml` file in your `./amplify/backend/api/<name>/src` directory to define the ECS
+If you wish to deploy multiple containers into Fargate to define your API, Amplify will parse a `docker-compose.yml` file in your `./amplify/backend/api/<name>/src` directory to define the backend service. This includes the logical container names, build & images settings, launch commands, ports, and more.
 
+```yaml
+
+```
 
 #### Suggested Workflow
 
@@ -178,6 +181,10 @@ Serverless containers are fronted by a secure endpoint by which you can interact
 
 Note that if you have enabled Authorization checks on your endpoints during `amplify add api` your clients will need to Authenticate against the Cognito User Pool configured and pass tokens. Please see the [appropriate platform guide](../../docs/docs/lib/auth/getting-started.md) for adding Sign-Up and Sign-In calls to your aplication.
 
+### Hosting
+
+When using containers in the `amplify add hosting` workflow the setup will be largely the same, including the ability to define your backend with a single Dockerfile or Docker Compose file yaml. However the ECS cluster will be fronted by an Application Load Balancer (ALB) and CloudFront distribution, and you will be required to provide a domain name which you own. This can either be a domain which you have purchased on a 3rd party registrar or with Route53. The domain will be used with Amazon Certificate Manager to configure SSL between ALB and Cognito User Pools to perform authorization to your website hosted on Fargate containers. 
+
 ### Build Pipeline
 
 Amplify creates APIs as an [ECS Service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html) to ensure that your application is monitored and tasks are in a healthy and active state, automatically recovering if an instance fails. When you make changes to your source code, the build and deployment pipeline will take your source code and Dockerfile/Docker Compose configuration as inputs. One or more containers will be built in AWS CodeBuild using your source code and pushed to ECR with a build hash as a tag, allowing you to roll back deployments if something unexpected happens in your application code. After the build is complete, the pipeline will perform a rolling deployment to launch Fargate Tasks automatically. Only when all new versions of the image are in a healthy & running state will the old tasks be stopped. Finally the build artifacts in S3 (in the fully managed scenario) and ECR images are set with a lifecycle policy retention of 7 days for cost optimization.
@@ -197,7 +204,7 @@ The fully managed workflow does not require you to have a source control reposit
 #### Manual Builds
 
 
-#### Troubleshooting
+### Troubleshooting
 
 Note that a container deployment could fail or be problematic in a few different ways ranging from a build issue to bugs in your application code not seen until production. There are different checkpoints along the way to help prevent application issues as well as methods to revert changes which are outlined below.
 
