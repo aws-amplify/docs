@@ -55,8 +55,24 @@ Once this completes your container will be built via an automated pipeline and d
 
 The single Dockerfile scenario allows you to take an application running in a single Container which has been built with a Dockerfile and deploy it to AWS Fargate with the Amplify CLI. 
 
-If you are unfamiliar with using a Dockerfile you may wish to walk through [Dockerizing a Node.js web app](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/) or create a project with a template built into the Amplify CLI to review the Dockerfile and source code structure. You will need an [`EXPOSE` statement in your Dockerfile](https://docs.docker.com/engine/reference/builder/#expose) to specify a port to communicate with the container. If you do not provide one Amplify will suggest to use port 80.
+If you are unfamiliar with using a Dockerfile you may wish to walk through [Dockerizing a Node.js web app](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/) or create a project using one of the provided templates built into the Amplify CLI to review the Dockerfile and source code structure. You will need an [`EXPOSE` statement in your Dockerfile](https://docs.docker.com/engine/reference/builder/#expose) to specify a port to communicate with the container. If you do not provide one Amplify will suggest to use port 80.
 
+A simple Dockerfile example is below, which would start a NodeJS application (`index.js`) in a built image by copying all the source files and installing dependencies. This example also shows how could can specify environment variables and use the `EXPOSE` statement for defining your container's communication port inside ECS.
+
+```dockerfile
+FROM node:alpine
+
+ENV NODE_ENV=development
+EXPOSE 8080
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+RUN npm install
+COPY . .
+
+CMD [ "node", "index.js" ]
+```
 
 #### Suggested Workflow
 
@@ -73,10 +89,49 @@ You can also run your application using standard tooling such as running `node i
 
 ### Docker Compose
 
-If you wish to deploy multiple containers into Fargate to define your API, Amplify will parse a `docker-compose.yml` file in your `./amplify/backend/api/<name>/src` directory to define the backend service. This includes the logical container names, build & images settings, launch commands, ports, and more.
+If you wish to deploy multiple containers into Fargate to define your API, Amplify will parse a `docker-compose.yml` file in your `./amplify/backend/api/<name>/src` directory to define the backend service. This includes the logical container names, build & images settings, launch commands, ports, and more. An example Docker Compose file is below:
 
 ```yaml
+version: "3.8"
+services:
+  express:
+    build:
+      context: ./express
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - public
+      - private
+    environment:
+      - NODE_ENV=development
+  python:
+    build:
+      context: ./python
+      dockerfile: Dockerfile
+    networks:
+      - public
+      - private
+    ports:
+      - "5000:5000"
+networks:
+  public:
+  private:
+```
 
+This `docker-compose.yml` file would be placed in your `./amplify/backend/api/<name>/src` when using the BYO Container flow. It defines two containers called **express** and **python** which each have a Dockerfile in two sub directories along with the application source files
+
+```
+./amplify/backend/api/<name>/src
+ docker-compose.yml
+ /express
+   Dockerfile
+   package.json
+   index.js
+/python
+   Dockerfile
+   requirements.txt
+   server.py
 ```
 
 #### Suggested Workflow
@@ -91,7 +146,32 @@ $ curl -i localhost:8080  ## Alternatively open in a web browser
 
 #### Container networking
 
-Multiple containers are deployed as a single unit in Fargate (e.g. same Task Definition). This opinionated deployment allows ease of networking between containers on the local loopback interface and avoids extra configuration, costs, operations, and debugging. The loopback interface has an IP of 127.0.0.1 and a hostname of `localhost` which you can use in one container's application code to communicate with another. A recommended pattern is to use enviornment variables in your application code that are specified in your Docker Compose file, but do not specify the hostname when deploying in `amplify push`. For example the `DATABASE_HOST` variable below might be specified locally when using `docker-compose up` with the  `environment` setting:
+Multiple containers are deployed as a single unit in Fargate (e.g. same Task Definition). This opinionated deployment allows ease of networking between containers on the local loopback interface and avoids extra configuration, costs, operations, and debugging. The loopback interface has an IP of 127.0.0.1 and a hostname of `localhost` which you can use in one container's application code to communicate with another. However, when performing local development and testing with `docker-compose up` you will use the logical container name defined in your `docker-compose.yaml` file:
+
+```javascript
+//Local testing with "docker-compose up"
+const options = {
+  port: 5000,
+  host: 'python',   //Name of other container in docker-compose
+  method: 'GET',
+  path: '/images'
+};
+  
+http.get(options, data => {...})
+
+//Deployed to Fargate
+const options = {
+  port: 5000,
+  host: 'localhost',  //Loopback interface communication
+  method: 'GET',
+  path: '/images'
+};
+  
+http.get(options, data => {...})
+
+```
+
+A recommended pattern is to use enviornment variables in your application code that are specified in your Docker Compose file, but do not specify the hostname when deploying in `amplify push`. For example the `DATABASE_HOST` variable below might be specified locally when using `docker-compose up` with the  `environment` setting:
 
 ```yaml
 environment:
