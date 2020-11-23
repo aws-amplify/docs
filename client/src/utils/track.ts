@@ -74,8 +74,9 @@ export const track = (event: AnalyticsEvent): Promise<unknown> | undefined => {
       s.t();
     }
     if (event.type === AnalyticsEventType.EXTERNAL_LINK_CLICK) {
+      console.log(event.attributes.to);
       // @ts-ignore
-      s.tl(true, "e", event.attributes.url);
+      s.tl(this, "e", event.attributes.to);
     }
   }
 };
