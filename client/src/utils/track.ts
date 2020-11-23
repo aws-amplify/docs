@@ -71,13 +71,11 @@ export const track = (event: AnalyticsEvent): Promise<unknown> | undefined => {
 
     if (event.type === AnalyticsEventType.PAGE_VISIT) {
       // @ts-ignore
-      console.log(s);
-      // @ts-ignore
       s.t();
     }
+    if (event.type === AnalyticsEventType.EXTERNAL_LINK_CLICK) {
+      // @ts-ignore
+      s.tl(true, "e");
+    }
   }
-  console.log(event);
-  // @ts-ignore
-  console.log(s);
-  console.log(Build.isBrowser);
 };
