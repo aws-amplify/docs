@@ -207,6 +207,8 @@ By default Amplify will use a single Availability Zone however if you choose the
 
 When you have multiple container entries specifying a `port` Amplify will prompt you upon running `amplify push` to select an **Entrypoint Container**. Since all containers are deployed as a "unit" and fronted by an API Gateway HTTP endpoint for client applications to access, Amplify needs to know which container in the Cluster's Service to route requests. The answer to the Entrypoint question will use the first specified `ports` entry to perform this routing.
 
+It is recommended that you define container settings early in the development process if possible. While these settings can be updated later, it will cause an in-place replacement of the Fargate service configuration and could lead to your endpoint being unavailable for a few moments while the process completes. For best results minimize configuration changes in your Docker Compose settings and make more frequents updates to your application code in order to take advantage of rolling updates in the build and deploy pipeline.
+
 ### Environment variables and secrets
 
 You can use environment variables in your application code that are specified in your Docker Compose file, but do not specify the hostname when deploying in `amplify push`. For example the `DATABASE_HOST` variable below might be specified locally when using `docker-compose up` with the  `environment` setting:
@@ -291,17 +293,22 @@ Amplify creates APIs as an [ECS Service](https://docs.aws.amazon.com/AmazonECS/l
 
 #### Fully Managed
 
-The fully managed workflow does not require you to have a source control repository or even Docker installed on your local workstation in order to build and deploy a container to Fargate. 
+The fully managed workflow does not require you to have a source control repository or even Docker installed on your local workstation in order to build and deploy a container to Fargate. Amplify will package the contents of `./amplify/backend/api/<name>/src` and place it onto an S3 deployment bucket. This will trigger a Code Pipeline process which builds your container(s), stores the results in ECR, and deploys them to Fargate.
 
 ![Fully Managed Pipeline](../../images/containers/BuildWorkflow.png)
 
+Fore single containers only one ECR entry and deployment will take place. When using a Dockerfile, a build and push to ECR will take place for each container that has a corresponding `build` entry. For containers that only have an `image` entry no ECR push will take place and this image will be launched directly into the Fargate Task. As you make changes to your source code in `./amplify/backend/api/<name>/src`, Amplify will detect any changes when you run `amplify push`, package the new files together and place them on S3. This will start another run of the build and deploy pipeline automatically updating your Fargate Service.
+
 #### GitHub Source
 
+If you are using GitHub as your source repository for an Amplify project, you can use this to invoke the pipeline instead of having Amplify package and upload source to S3. In this use case you will need to provide a [GitHub apersonal access token](https://docs.github.com/en/enterprise/2.17/user/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) which will be stored in Secrets Manager. Code Pipeline will use this for accessing the GitHub repo of your choosing and invoke the build and deploy to your Fargate Service, just as with the Fully Managed flow. Your repository must have the same structure as you would have had locally in `./amplify/backend/api/<name>/src`, that is to say:
 
-[GitHub documentation for creating a personal access token](https://docs.github.com/en/enterprise/2.17/user/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line)
+- Single container needs to have a Dockerfile and all other required files (package.json, etc)
+- Multiple containers needs to have a `docker-compose.yml` and related file structure
 
-#### Manual Builds
+#### Self-managed builds
 
+You can always interact directly with the resources in your account to build containers locally and deploy them to ECR. This is an advanced option that we do not recommend for customers getting started. As you will need to run manual docker commands for building, tagging, and pushing your images to ECR. You will also need to restart the tasks manually on your ECS Service. Please see the [ECR documentation](https://docs.aws.amazon.com/AmazonECR/latest/userguide/getting-started-cli.html) for more information.
 
 ### Troubleshooting
 
