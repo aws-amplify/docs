@@ -60,7 +60,7 @@ $ amplify init
 ? Please choose the profile you want to use: <your profile>
 ```
 
-Now, add hosing with the Amplify `add` command:
+Now, add hosting with the Amplify `add` command:
 
 ```sh
 $ amplify add hosting
