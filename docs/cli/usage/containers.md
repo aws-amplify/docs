@@ -286,6 +286,14 @@ Note that if you have enabled Authorization checks on your endpoints during `amp
 
 When using containers in the `amplify add hosting` workflow the setup will be largely the same, including the ability to define your backend with a single Dockerfile or Docker Compose file yaml. However the ECS cluster will be fronted by an Application Load Balancer (ALB) and CloudFront distribution, and you will be required to provide a domain name which you own. This can either be a domain which you have purchased on a 3rd party registrar or with Route53. The domain will be used with Amazon Certificate Manager to configure SSL between ALB and Cognito User Pools to perform authorization to your website hosted on Fargate containers. 
 
+If you are using a non-Route53 registrar, you will need two additional steps:
+
+1. Approve the certificate request. This will come via email to your registered address. If you do not see it you may need to [resend the email](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-resend.html).
+2. Add a CNAME (A Record) on your to your DNS for the CloudFront distribution and Application Load Balancer. These will be printed out to the screen after `amplify push` succeeds. 
+
+For Route53 registered domains these steps are not needed and Amplify will register everything automatically. You can learn more about [registering a domain name in the Route53 documentation](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar.html).
+
+
 ## Build Pipeline
 
 Amplify creates APIs as an [ECS Service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html) to ensure that your application is monitored and tasks are in a healthy and active state, automatically recovering if an instance fails. When you make changes to your source code, the build and deployment pipeline will take your source code and Dockerfile/Docker Compose configuration as inputs. One or more containers will be built in AWS CodeBuild using your source code and pushed to ECR with a build hash as a tag, allowing you to roll back deployments if something unexpected happens in your application code. After the build is complete, the pipeline will perform a rolling deployment to launch Fargate Tasks automatically. Only when all new versions of the image are in a healthy & running state will the old tasks be stopped. Finally the build artifacts in S3 (in the fully managed scenario) and ECR images are set with a lifecycle policy retention of 7 days for cost optimization.
@@ -301,10 +309,14 @@ Fore single containers only one ECR entry and deployment will take place. When u
 
 #### GitHub Source
 
-If you are using GitHub as your source repository for an Amplify project, you can use this to invoke the pipeline instead of having Amplify package and upload source to S3. In this use case you will need to provide a [GitHub apersonal access token](https://docs.github.com/en/enterprise/2.17/user/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) which will be stored in Secrets Manager. Code Pipeline will use this for accessing the GitHub repo of your choosing and invoke the build and deploy to your Fargate Service, just as with the Fully Managed flow. Your repository must have the same structure as you would have had locally in `./amplify/backend/api/<name>/src`, that is to say:
+If you are using GitHub as your source repository for an Amplify project, you can use this to invoke the pipeline instead of having Amplify package and upload source to S3. In this use case you will need to provide a [GitHub apersonal access token](https://docs.github.com/en/enterprise/2.17/user/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) which will be stored in Secrets Manager as well as the full URL to your repository folder (or the branch). For instance if you push an Amplify project to GitHub called **MyFargateProject** you would use **https://github.com/username/MyFargateProject/tree/main/amplify/backend/api/APINAME/src**. `repo` and `admin:repo_hook` scopes will be needed. Plea
+
+Code Pipeline will use this for accessing the GitHub repo of your choosing and invoke the build and deploy to your Fargate Service, just as with the Fully Managed flow. Your repository must have the same structure as you would have had locally in `./amplify/backend/api/APINAME/src`, that is to say:
 
 - Single container needs to have a Dockerfile and all other required files (package.json, etc)
 - Multiple containers needs to have a `docker-compose.yml` and related file structure
+
+Code Pipeline will create a [webhook on the GitHub repository](https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/about-webhooks) which will trigger an invocation of the build and deployment pipeline to Fargate.
 
 #### Self-managed builds
 
