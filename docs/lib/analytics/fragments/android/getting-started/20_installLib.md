@@ -4,10 +4,10 @@ Add Analytics by adding these libraries into the dependencies block:
 
 ```groovy
 dependencies {
-    implementation 'com.amplifyframework:core:1.6.2'
+    implementation 'com.amplifyframework:core:1.6.3'
 
     // Add these lines in `dependencies`
-    implementation 'com.amplifyframework:aws-analytics-pinpoint:1.6.2'
-    implementation 'com.amplifyframework:aws-auth-cognito:1.6.2'
+    implementation 'com.amplifyframework:aws-analytics-pinpoint:1.6.3'
+    implementation 'com.amplifyframework:aws-auth-cognito:1.6.3'
 }
 ```
