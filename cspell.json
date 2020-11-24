@@ -1312,7 +1312,16 @@
     "Uploader",
     "AMPLIFYLAYERGUIDE",
     "instanceof",
-    "CHALLENGEANSWER"
+    "CHALLENGEANSWER",
+    "Fargate",
+    "Dockerizing",
+    "WORKDIR",
+    "entrypoint",
+    "Entrypoint",
+    "healthcheck",
+    "CNAME",
+    "imagedefinitions",
+    "mydb"
   ],
   "flagWords": ["hte"]
 }
