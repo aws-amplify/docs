@@ -14,38 +14,53 @@ Note that serverless containers do incur additional costs and operational overhe
 
 ## Getting Started
 
-Serverless containers are not enabled in your Amplify CLI project by default. To get started you will need to run `amplify configure project` in order to see the options for deploying to Fargate. To get started initialize your project and enable serverless containers:
+Serverless containers are not enabled in your Amplify CLI project by default. To get started you will need to run `amplify configure project` in order to see the options for deploying to Fargate. To get started initialize your project and enable **container-based deployments**:
 
-```console
+```bash
 $ amplify init
 
 $ amplify configure project
- > Enable Serverless containers
+ > Do you want to enable container-based deployments? Yes
 ```
-Next add a DynamoDB resource & table named **posts** with a primary key of **id** of type **number** (N). 
+
+Next add a NoSQL Database table named **posts** with column called **id** of type **number** (N). Make this the **partition key**.
 ```bash
 amplify add storage
 ```
 ```console
-  > NoSQL # Name table “Posts”
-  > Primary key named “id” of type “N” (number)  # Do not add other columns or indexes
+  > NoSQL Database # Name table “posts”
+  
+  > What would you like to name this column: id
+  
+  ? Please choose the data type: 
+    string 
+  > number 
+    binary
+
+  ? Please choose partition key for the table: (Use arrow keys)
+  > id 
 ```
-Then add an API using the REST (or GraphQL) default ExpressJS template and grant it access to this DynamoDB table. 
+
+You can select **no** for all other questions. After this add an API using the REST (or GraphQL) default ExpressJS template and grant it access to this DynamoDB table. 
+
 ```bash
 amplify add api
 ```
 ```console
   > REST
-  > Elastic Container Services
-  > ExpressJS Sample Template
-  > Require Authentication? (Y/n)              # Will use Amazon Cognito if Yes is selected
-  > Do you want to access other resources? Y   # select yes
+  > API Gateway + AWS Fargate (Container-based) 
+  > ExpressJS - REST template 
+  ? Do you want to access other resources in this project from your api? Y   # select yes
   > storage  # select posts table              # select post table and all permissions
     ◉ create
     ◉ read
     ◉ update
     ◉ delete
+  > Do you want to restrict API access (Y/n)    # Will use Amazon Cognito if Yes is selected
 ```
+
+Note the environment variables printed to the screen. If you choose a different database table name so that your variables are different from `STORAGE_POSTS_NAME` then update the `TableName` variable at the top of `./amplify/backend/api/<apiname>/src/DynamoDBActions.js` appropriately.
+
 Finally run `amplify push` to deploy the backend:
 ```bash
 $ amplify push
