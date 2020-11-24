@@ -5,9 +5,9 @@ description: Deploy containers to AWS. Serverless containers leverage AWS Fargat
 
 Serverless containers provide the ability for you to deploy APIs and host websites using AWS Fargate. Customers with existing applications or those who require a lower level of control can bring Docker containers and deploy them into an Amplify project fully integrating with other resources. 
 
-Amplify [libraries](../docs/lib/lib.md) can be used with the [Auth category](../docs/lib/auth/start.md) giving mobile and web applications secure connectivity and access controls to your Serverless containers. Additionally, existing GraphQL and REST services such as AWS AppSync and Amazon API Gateway can be used in the same project along with Fargate-backed APIs giving flexibility to mix and match for cost optimization and operational needs. 
+Amplify [libraries](~/lib/lib.md) can be used with the [Auth category](~/lib/auth/start.md) giving mobile and web applications secure connectivity and access controls to your Serverless containers. Additionally, existing GraphQL and REST services such as AWS AppSync and Amazon API Gateway can be used in the same project along with Fargate-backed APIs giving flexibility to mix and match for cost optimization and operational needs. 
 
-Note that serverless containers do incur additional costs and operational overhead, as such we recommend using AWS AppSync with the [GraphQL Transform](../docs/cli/graphql-transformer/overview.md) as a starting point when building mobile and web apps with Amplify.
+Note that serverless containers do incur additional costs and operational overhead, as such we recommend using AWS AppSync with the [GraphQL Transform](~/cli/graphql-transformer/overview.md) as a starting point when building mobile and web apps with Amplify.
 
 
 > **Billing warning**: Serverless containers incurs additional costs when resources are not in use for services such as VPC, Fargate, ECR, Cloud Map, CodePipeline, and CodeBuild. For more information refer to [VPC pricing](https://aws.amazon.com/vpc/pricing/), [Fargate pricing](https://aws.amazon.com/fargate/pricing/), [ECR Pricing](https://aws.amazon.com/ecr/pricing/), [CodePipeline pricing](https://aws.amazon.com/codepipeline/pricing/), [CodeBuild pricing](https://aws.amazon.com/codebuild/pricing/), and [Cloud Map pricing](https://aws.amazon.com/cloud-map/pricing/).
@@ -286,14 +286,14 @@ password = os.environ['DB_PASSWORD']
 
 Serverless containers are fronted by a secure endpoint by which you can interact with them from a mobile or web application. Amplify CLI will attempt to update the project `aws-exports.js` or `amplifyconfiguration.json` file with the endpoint, however for GraphQL API types this is not possible and you will need to manually specify it in an `Amplify.configure()` call within your application code. The endpoint will be printed out to the screen after running an `amplify push` for you to make these changes, take note of it and follow one of the guides below appropriately.
 
-- [JavaScript GraphQL configuration](../../docs/docs/lib/graphqlapi/fragments/js/create-or-re-use-existing-backend.md)
-- [JavaScript REST configuration](../../docs/docs/lib/restapi/fragments/js/getting-started.md#manual-setup-import-existing-rest-api)
-- [Android GraphQL configuration](../../docs/docs/lib/graphqlapi/fragments/existing-resources.md)
-- [Android REST configuration](../../docs/docs/lib/restapi/fragments/native_common/getting-started/common.md)
-- [iOS GraphQL configuration](../../docs/docs/lib/graphqlapi/fragments/existing-resources.md)
-- [iOS REST configuration](../../docs/docs/lib/restapi/fragments/native_common/getting-started/common.md)
+- [JavaScript GraphQL configuration](~/lib/graphqlapi/create-or-re-use-existing-backend.md)
+- [JavaScript REST configuration](~/lib/restapi/getting-started.md#manual-setup-import-existing-rest-api)
+- [Android GraphQL configuration](https://docs.amplify.aws/lib/graphqlapi/existing-resources/q/platform/android)
+- [Android REST configuration](https://docs.amplify.aws/lib/restapi/getting-started/q/platform/android)
+- [iOS GraphQL configuration](https://docs.amplify.aws/lib/graphqlapi/existing-resources/q/platform/ios)
+- [iOS REST configuration](https://docs.amplify.aws/lib/restapi/getting-started/q/platform/ios)
 
-Note that if you have enabled Authorization checks on your endpoints during `amplify add api` your clients will need to Authenticate against the Cognito User Pool configured and pass tokens. Please see the [appropriate platform guide](../../docs/docs/lib/auth/getting-started.md) for adding Sign-Up and Sign-In calls to your aplication.
+Note that if you have enabled Authorization checks on your endpoints during `amplify add api` your clients will need to Authenticate against the Cognito User Pool configured and pass tokens. Please see the [appropriate platform guide](~/lib/auth/getting-started.md) for adding Sign-Up and Sign-In calls to your application.
 
 ## Hosting
 
@@ -316,13 +316,13 @@ Amplify creates APIs as an [ECS Service](https://docs.aws.amazon.com/AmazonECS/l
 
 The fully managed workflow does not require you to have a source control repository or even Docker installed on your local workstation in order to build and deploy a container to Fargate. Amplify will package the contents of `./amplify/backend/api/<name>/src` and place it onto an S3 deployment bucket. This will trigger a Code Pipeline process which builds your container(s), stores the results in ECR, and deploys them to Fargate.
 
-![Fully Managed Pipeline](../../images/containers/BuildWorkflow.png)
+![Fully Managed Pipeline](~/images/containers/BuildWorkflow.PNG)
 
 Fore single containers only one ECR entry and deployment will take place. When using a Dockerfile, a build and push to ECR will take place for each container that has a corresponding `build` entry. For containers that only have an `image` entry no ECR push will take place and this image will be launched directly into the Fargate Task. As you make changes to your source code in `./amplify/backend/api/<name>/src`, Amplify will detect any changes when you run `amplify push`, package the new files together and place them on S3. This will start another run of the build and deploy pipeline automatically updating your Fargate Service.
 
 #### GitHub Source
 
-If you are using GitHub as your source repository for an Amplify project, you can use this to invoke the pipeline instead of having Amplify package and upload source to S3. In this use case you will need to provide a [GitHub apersonal access token](https://docs.github.com/en/enterprise/2.17/user/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) which will be stored in Secrets Manager as well as the full URL to your repository folder (or the branch). For instance if you push an Amplify project to GitHub called **MyFargateProject** you would use **https://github.com/username/MyFargateProject/tree/main/amplify/backend/api/APINAME/src**. `repo` and `admin:repo_hook` scopes will be needed. Plea
+If you are using GitHub as your source repository for an Amplify project, you can use this to invoke the pipeline instead of having Amplify package and upload source to S3. In this use case you will need to provide a [GitHub personal access token](https://docs.github.com/en/enterprise/2.17/user/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) which will be stored in Secrets Manager as well as the full URL to your repository folder (or the branch). For instance if you push an Amplify project to GitHub called **MyFargateProject** you would use **https://github.com/username/MyFargateProject/tree/main/amplify/backend/api/APINAME/src**. `repo` and `admin:repo_hook` scopes will be needed. Plea
 
 Code Pipeline will use this for accessing the GitHub repo of your choosing and invoke the build and deploy to your Fargate Service, just as with the Fully Managed flow. Your repository must have the same structure as you would have had locally in `./amplify/backend/api/APINAME/src`, that is to say:
 
@@ -349,7 +349,7 @@ When your code is submitted to the pipeline either via `amplify push` or check-i
 - Push each container to ECR (`docker push` with commit hash)
 - Write the build artifact (`imagedefinitions.json`) to S3
 
-If you see a failure in the Code Pipeline console at this step, you can view the details of the build (even clicking "Tail Logs" while the pipeline is running) to see what error occured. It's possible you have a misconfiguration in your Dockerfile or even a network failure pulling an image from a 3rd party repository. To help avoid this issue you can always run `docker build` or `docker-compose up` locally before submitting a build and validating the application runs.
+If you see a failure in the Code Pipeline console at this step, you can view the details of the build (even clicking "Tail Logs" while the pipeline is running) to see what error occurred. It's possible you have a misconfiguration in your Dockerfile or even a network failure pulling an image from a 3rd party repository. To help avoid this issue you can always run `docker build` or `docker-compose up` locally before submitting a build and validating the application runs.
 
 Note that on your first deployment a queueing process will take a bit longer to setup your project networking stack and run initial builds in Code Pipeline. During this time if your build fails for any reason (even external image throttling or Dockerfile config) the process will roll back. If you wish to debug this during initial rollout the Amplify CLI will print out the URL of the pipeline when `amplify push` starts to process the stack for you to view the build phase actively. 
 
