@@ -3,13 +3,13 @@
 
 ```java
 RestOptions options = RestOptions.builder()
-        .addPath("/todo")
-        .addBody("{\"name\":\"Mow the lawn\"}".getBytes())
-        .build();
+    .addPath("/todo")
+    .addBody("{\"name\":\"Mow the lawn\"}".getBytes())
+    .build();
 
 Amplify.API.post(options,
-        response -> Log.i("MyAmplifyApp", "POST " + response.getData().asString()),
-        error -> Log.e("MyAmplifyApp", "POST failed", error)
+    response -> Log.i("MyAmplifyApp", "POST succeeded: " + response),
+    error -> Log.e("MyAmplifyApp", "POST failed.", error)
 );
 ```
 
@@ -17,14 +17,14 @@ Amplify.API.post(options,
 <amplify-block name="Kotlin">
 
 ```kotlin
-val options: RestOptions = RestOptions.builder()
+val options = RestOptions.builder()
     .addPath("/todo")
     .addBody("{\"name\":\"Mow the lawn\"}".toByteArray())
     .build()
 
 Amplify.API.post(options,
-    { response -> Log.i("MyAmplifyApp", "POST " + response.data.asString()) },
-    { error -> Log.e("MyAmplifyApp", "POST failed", error) }
+    { Log.i("MyAmplifyApp", "POST succeeded: $it") },
+    { Log.e("MyAmplifyApp", "POST failed.", it) }
 )
 ```
 
@@ -33,15 +33,15 @@ Amplify.API.post(options,
 
 ```java
 RestOptions options = RestOptions.builder()
-        .addPath("/todo")
-        .addBody("{\"name\":\"Mow the lawn\"}".getBytes())
-        .build();
+    .addPath("/todo")
+    .addBody("{\"name\":\"Mow the lawn\"}".getBytes())
+    .build();
 
 RxAmplify.API.post(options)
-        .subscribe(
-            response -> Log.i("MyAmplifyApp", "POST " + response.getData().asString()),
-            error -> Log.e("MyAmplifyApp", "POST failed", error)
-        );
+    .subscribe(
+        response -> Log.i("MyAmplifyApp", "POST succeeded: " + response),
+        error -> Log.e("MyAmplifyApp", "POST failed.", error)
+    );
 ```
 
 </amplify-block>

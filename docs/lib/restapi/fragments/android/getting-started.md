@@ -33,15 +33,14 @@ amplify push
 
 Next make a call using one of the HTTP verbs under `Amplify.API` such as a GET:
 
-```java
-final Map parameters = new HashMap<>();
-parameters.put("lang", "en_US");
+```kotlin
+val options = RestOptions.builder()
+    .addPath("/items")
+    .addQueryParameters(mapOf("lang" to "en_US"))
+    .build()
 
-RestOptions options = new RestOptions("/items", parameters);
-
-Amplify.API.get("myAPI",
-    options,
-    restResponse -> Log.i("ApiQuickStart", restResponse.toString()),
-    apiFailure -> Log.e("ApiQuickStart", apiFailure.getMessage(), apiFailure)
-);
+Amplify.API.get("myAPI", options,
+    { Log.i("ApiQuickStart", "GET succeeded: $it") },
+    { Log.e("ApiQuickStart", "GET failed.", it) }
+)
 ```

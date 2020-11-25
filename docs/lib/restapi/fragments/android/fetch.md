@@ -1,17 +1,19 @@
 ## GET requests
 
-To make a GET request, first create a RestOptions object and then use the Amplify.API.get api to issue the request:
+To make a GET request, first build a RestOptions object and then use the Amplify.API.get api to issue the request:
 
 <amplify-block-switcher>
 <amplify-block name="Java">
 
 ```java
 void getTodo() {
-    RestOptions options = RestOptions.builder().addPath("/todo").build();
+    RestOptions options = RestOptions.builder()
+        .addPath("/todo")
+        .build();
 
     Amplify.API.get(options,
-            restResponse -> Log.i("MyAmplifyApp", restResponse.toString()),
-            apiFailure -> Log.e("MyAmplifyApp", apiFailure.getMessage(), apiFailure)
+        restResponse -> Log.i("MyAmplifyApp", "GET succeeded: " + restResponse),
+        apiFailure -> Log.e("MyAmplifyApp", "GET failed.", apiFailure)
     );
 }
 ```
@@ -21,13 +23,13 @@ void getTodo() {
 
 ```kotlin
 fun getTodo() {
-    val options: RestOptions = RestOptions.builder()
+    val options = RestOptions.builder()
         .addPath("/todo")
         .build()
 
     Amplify.API.get(options,
-      { response -> Log.i("MyAmplifyApp", "GET " + response.data.asString()) },
-      { error -> Log.e("MyAmplifyApp", "GET failed", error) }
+        { Log.i("MyAmplifyApp", "GET succeeded: ${it.data}") },
+        { Log.e("MyAmplifyApp", "GET failed", it) }
     )
 }
 ```
@@ -37,13 +39,15 @@ fun getTodo() {
 
 ```java
 void getTodo() {
-    RestOptions options = new RestOptions("/todo");
+    RestOptions options = RestOptions.builder()
+        .addPath("/todo")
+        .build();
 
     RxAmplify.API.get(options)
-            .subscribe(
-                restResponse -> Log.i("MyAmplifyApp", restResponse.toString()),
-                apiFailure -> Log.e("MyAmplifyApp", apiFailure.getMessage(), apiFailure)
-            );
+        .subscribe(
+            restResponse -> Log.i("MyAmplifyApp", "GET succeeded: " + restResponse),
+            apiFailure -> Log.e("MyAmplifyApp", "GET failed.", apiFailure)
+        );
 }
 ```
 
@@ -93,13 +97,13 @@ Then you can use query parameters in your path as follows:
 
 ```java
 RestOptions options = RestOptions.builder()
-        .addPath("/todo")
-        .addQueryParameters(Collections.singletonMap("q", "test"))
-        .build();
+    .addPath("/todo")
+    .addQueryParameters(Collections.singletonMap("q", "test"))
+    .build();
 
 Amplify.API.get(options,
-        response -> Log.i("MyAmplifyApp", response.getData().asString()),
-        error -> Log.e("MyAmplifyApp", "GET failed", error)
+    response -> Log.i("MyAmplifyApp", "GET succeeded: " + response),
+    error -> Log.e("MyAmplifyApp", "GET failed.", error)
 );
 ```
 
@@ -113,8 +117,8 @@ val options: RestOptions = RestOptions.builder()
     .build()
 
 Amplify.API.get(options,
-    { response -> Log.i("MyAmplifyApp", response.data.asString()) },
-    { error -> Log.e("MyAmplifyApp", "GET failed", error) }
+    { Log.i("MyAmplifyApp", "GET succeeded: $it.") },
+    { Log.e("MyAmplifyApp", "GET failed.", it) }
 )
 ```
 
@@ -123,15 +127,15 @@ Amplify.API.get(options,
 
 ```java
 RestOptions options = RestOptions.builder()
-        .addPath("/todo")
-        .addQueryParameters(Collections.singletonMap("q", "test"))
-        .build();
+    .addPath("/todo")
+    .addQueryParameters(Collections.singletonMap("q", "test"))
+    .build();
 
 RxAmplify.API.get(options)
-        .subscribe(
-            response -> Log.i("MyAmplifyApp", response.getData().asString()),
-            error -> Log.e("MyAmplifyApp", "GET failed", error)
-        );
+    .subscribe(
+        response -> Log.i("MyAmplifyApp", "GET succeeded: " + response),
+        error -> Log.e("MyAmplifyApp", "GET failed.", error)
+    );
 ```
 
 </amplify-block>
