@@ -19,6 +19,10 @@ export class DocsSearchBar {
         indexName: ALGOLIA_INDEX_NAME,
         inputSelector: UNINITIALIZED_SEARCH_INPUT_SELECTOR,
         debug: false,
+        queryHook: (query) => {
+          //@ts-ignore
+          s.eVar26 = query;
+        },
         transformData,
         algoliaOptions: {
           hitsPerPage: 10,
