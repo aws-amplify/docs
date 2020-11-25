@@ -7,7 +7,7 @@ To make a GET request, first create a RestOptions object and then use the Amplif
 
 ```java
 void getTodo() {
-    RestOptions options = new RestOptions("/todo");
+    RestOptions options = RestOptions.builder().addPath("/todo").build();
 
     Amplify.API.get(options,
             restResponse -> Log.i("MyAmplifyApp", restResponse.toString()),
