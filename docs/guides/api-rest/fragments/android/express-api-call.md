@@ -8,7 +8,7 @@ fun getItems() {
 
     Amplify.API.get(options,
         { Log.i("MyAmplifyApp", "GET succeeded: $it") },
-        { Log.e("MyAmplifyApp", "GET failed." it) }
+        { Log.e("MyAmplifyApp", "GET failed.", it) }
     )
 }
 ```
