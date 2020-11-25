@@ -8,10 +8,13 @@ if (!configured) {
   Auth.configure(awsexports);
   Analytics.configure(awsexports);
   // @ts-ignore
-  const shortbread = AWSCShortbread({
-    domain: ".amplify.aws",
-  });
-  shortbread.checkForCookieConsent();
+  if (typeof AWSCShortbread !== "undefined") {
+    // @ts-ignore
+    const shortbread = AWSCShortbread({
+      domain: ".amplify.aws",
+    });
+    shortbread.checkForCookieConsent();
+  }
   configured = true;
 }
 
