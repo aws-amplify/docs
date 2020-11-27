@@ -20,31 +20,38 @@ disableLinkification: true
   class="background-color-off-white"
   inner-class="padding-top-lg padding-bottom-lg padding-horizontal-md">
   <h4 class="text-align-center">Discover the end-to-end AWS solution for mobile and front-end web developers</h4>
-  <amplify-responsive-grid columns="2" class="margin-top-lg">
     <amplify-responsive-grid columns="1">
+  <amplify-responsive-grid columns="4" class="margin-top-lg">
       <docs-card url="~/lib/lib.md" class="border-radius">
         <img slot="graphic" src="~/assets/lib.png" />
         <h4 slot="heading">Amplify Libraries</h4>
         <p slot="description">
-          Open source libraries to connect to new or existing AWS services (Cognito, S3, and more).
+          Connect app to new or existing AWS services (Cognito, S3, and more).
+        </p>
+      </docs-card>
+      <docs-card url="https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html" class="border-radius" container-tag="amplify-external-link">
+        <img slot="graphic" src="~/assets/console.png" />
+        <h4 slot="heading">NEW! Amplify Admin UI</h4>
+        <p slot="description">
+          Visually configure and manage your app backend.
         </p>
       </docs-card>
       <docs-card url="~/cli/cli.md" class="border-radius">
         <img slot="graphic" src="~/assets/cli.png" />
         <h4 slot="heading">Amplify CLI</h4>
         <p slot="description">
-        Open source toolchain to create and manage an app backend with a guided workflow.
+        Configure an app backend with a guided CLI workflow.
         </p>
       </docs-card>
       <docs-card external url="https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html" class="border-radius" container-tag="amplify-external-link">
         <img slot="graphic" src="~/assets/console.png" />
         <h4 slot="heading">Amplify Console</h4>
         <p slot="description">
-          AWS service to host fullstack serverless web apps with CI/CD built-in.
+          Static web hosting with CI/CD support built-in.
         </p>
       </docs-card>
     </amplify-responsive-grid>
-    <iframe class="padding-horizontal-md align-self-center" width="560" height="315" src="https://www.youtube-nocookie.com/embed/-Vm-4BbY58Y" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <iframe class="padding-horizontal-md justify-self-center" width="560" height="315" src="https://www.youtube-nocookie.com/embed/-Vm-4BbY58Y" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   </amplify-responsive-grid>
 </docs-container>
 <docs-container

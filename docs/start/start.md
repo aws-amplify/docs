@@ -34,4 +34,4 @@ The **Amplify [Console](https://aws.amazon.com/amplify/console/)** is an AWS ser
 <inline-fragment integration="ionic" src="~/start/getting-started/fragments/common/build-footer.md"></inline-fragment>
 <inline-fragment integration="vue" src="~/start/getting-started/fragments/common/build-footer.md"></inline-fragment>
 
-
+**NEW!** [Use a visual interface to get started with Amplify. Click to learn more.](https://sandbox.amplifyapp.com/data)
