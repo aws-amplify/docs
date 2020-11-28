@@ -5,15 +5,17 @@ var postsSubscription: AnyCancellable?
 // Then in the body of your code, subscribe to the publisher
 func subscribeToPosts() {
     postsSubscription = Amplify.DataStore.publisher(for: Todo.self)
-        .sink {
-            if case let .failure(error) = $0 {
-                print("Subscription received error - \(error.localizedDescription)")
+        .sink(receiveCompletion: { (completion) in
+            switch(completion) {
+            case .finished:
+                print("Subscription finished")
+            case .failure(let error):
+                print("subscription recieved error - \(error.localizedDescription)")
             }
-        }
-        receiveValue: { changes in
+        }, receiveValue: { changes in
             // handle incoming changes
             print("Subscription received mutation: \(changes)")
-        }
+    })
 }
 
 // Then, when you're finished observing, cancel the subscription
