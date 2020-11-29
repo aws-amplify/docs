@@ -47,31 +47,27 @@ Note that this isn't from a Cognito User Pool so the user you get after calling 
 ### Facebook sign-in (React)
 
 ```js
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { Auth } from 'aws-amplify';
 // To federated sign in from Facebook
-class SignInWithFacebook extends Component {
-    constructor(props) {
-        super(props);
-        this.signIn = this.signIn.bind(this);
-    }
+const SignInWithFacebook = () => {
 
-    componentDidMount() {
-        if (!window.FB) this.createScript();
-    }
+    useEffect(() => {
+        if (!window.FB) createScript();
+    }, [])
 
-    signIn() {
+    const signIn = () => {
         const fb = window.FB;
         fb.getLoginStatus(response => {
             if (response.status === 'connected') {
-                this.getAWSCredentials(response.authResponse);
+                getAWSCredentials(response.authResponse);
             } else {
                 fb.login(
                     response => {
                         if (!response || !response.authResponse) {
                             return;
                         }
-                        this.getAWSCredentials(response.authResponse);
+                        getAWSCredentials(response.authResponse);
                     },
                     {
                         // the authorized scopes
@@ -82,7 +78,7 @@ class SignInWithFacebook extends Component {
         });
     }
 
-    getAWSCredentials(response) {
+    const getAWSCredentials = (response) => {
             const { accessToken, expiresIn } = response;
             const date = new Date();
             const expires_at = expiresIn * 1000 + date.getTime();
@@ -104,22 +100,22 @@ class SignInWithFacebook extends Component {
             });
         }
 
-    createScript() {
+    const createScript = () => {
         // load the sdk
-        window.fbAsyncInit = this.fbAsyncInit;
+        window.fbAsyncInit = fbAsyncInit;
         const script = document.createElement('script');
         script.src = 'https://connect.facebook.net/en_US/sdk.js';
         script.async = true;
-        script.onload = this.initFB;
+        script.onload = initFB;
         document.body.appendChild(script);
     }
 
-    initFB() {
+    const initFB = () => {
         const fb = window.FB;
         console.log('FB SDK initialized');
     }
 
-    fbAsyncInit() {
+    const fbAsyncInit = () => {
         // init the fb sdk client
         const fb = window.FB;
         fb.init({
@@ -129,25 +125,23 @@ class SignInWithFacebook extends Component {
             version : 'v2.11'
         });
     }
-
-    render() {
-        return (
-            <div>
-                <button onClick={this.signIn}>Sign in with Facebook</button>
-            </div>
-        );
-    }
+   
+    return (
+        <div>
+            <button onClick={this.signIn}>Sign in with Facebook</button>
+        </div>
+    );
 }
 ```
 ### Facebook Sign-in (React Native - Expo)
 
 ```javascript
 import Expo from 'expo';
-import React, { Component } from 'react';
+import React from 'react';
 import Amplify, { Auth } from 'aws-amplify';
 
-export default class App extends Component {
-  async signIn() {
+const App = () => {
+  const signIn = async() => {
     const { type, token, expires } = await Expo.Facebook.logInWithReadPermissionsAsync('YOUR_FACEBOOK_APP_ID', {
         permissions: ['public_profile'],
       });
@@ -164,40 +158,36 @@ export default class App extends Component {
 
   // ...
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Button title="FBSignIn" onPress={this.signIn.bind(this)} />
-      </View>
-    );
-  }
+  return (
+    <View style={styles.container}>
+      <Button title="FBSignIn" onPress={this.signIn.bind(this)} />
+    </View>
+  );
+
 }
 ```
 
 ### Google sign-in (React)
 
 ```js
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { Auth } from 'aws-amplify';
 // To federated sign in from Google
-class SignInWithGoogle extends Component {
-    constructor(props) {
-        super(props);
-        this.signIn = this.signIn.bind(this);
-    }
+const SignInWithGoogle = () => {
 
-    componentDidMount() {
+    useEffect(() => {
         const ga = window.gapi && window.gapi.auth2 ? 
             window.gapi.auth2.getAuthInstance() : 
             null;
-        if (!ga) this.createScript();
-    }
 
-    signIn() {
+        if (!ga) createScript();
+    }, [])
+
+    const signIn = () => {
         const ga = window.gapi.auth2.getAuthInstance();
         ga.signIn().then(
             googleUser => {
-                this.getAWSCredentials(googleUser);
+                getAWSCredentials(googleUser);
             },
             error => {
                 console.log(error);
@@ -205,7 +195,7 @@ class SignInWithGoogle extends Component {
         );
     }
 
-    async getAWSCredentials(googleUser) {
+    const getAWSCredentials = async(googleUser) => {
         const { id_token, expires_at } = googleUser.getAuthResponse();
         const profile = googleUser.getBasicProfile();
         let user = {
@@ -221,16 +211,16 @@ class SignInWithGoogle extends Component {
         console.log('credentials', credentials);
     }
 
-    createScript() {
+    const createScript = () => {
         // load the Google SDK
         const script = document.createElement('script');
         script.src = 'https://apis.google.com/js/platform.js';
         script.async = true;
-        script.onload = this.initGapi;
+        script.onload = initGapi;
         document.body.appendChild(script);
     }
 
-    initGapi() {
+    const initGapi = () => {
         // init the Google SDK client
         const g = window.gapi;
         g.load('auth2', function() {
@@ -242,13 +232,11 @@ class SignInWithGoogle extends Component {
         });
     }
 
-    render() {
-        return (
-            <div>
-                <button onClick={this.signIn}>Sign in with Google</button>
-            </div>
-        );
-    }
+    return (
+        <div>
+            <button onClick={this.signIn}>Sign in with Google</button>
+        </div>
+    );
 }
 ```
 
@@ -426,7 +414,7 @@ Auth.configure({
     }
 });
 
-class App extends Component { //... }
+const App = () => { //... }
 
 export default withAuthenticator(App);
 ```
