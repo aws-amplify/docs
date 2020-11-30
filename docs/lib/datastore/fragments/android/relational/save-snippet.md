@@ -67,14 +67,12 @@ Comment comment = Comment.builder()
     .content("Loving Amplify DataStore!")
     .build();
 
-Completable.merge(
-    RxAmplify.DataStore.save(post),
-).andThen(
-    RxAmplify.DataStore.save(comment)
-).subscribe(
-    () -> Log.i("MyAmplifyApp", "Saved Post and Comment."),
-    failure -> Log.e("MyAmplifyApp", "Failed to save at least one item.", failure)
-);
+RxAmplify.DataStore.save(post))
+    .andThen(RxAmplify.DataStore.save(comment))
+    .subscribe(
+        () -> Log.i("MyAmplifyApp", "Saved Post and Comment."),
+        failure -> Log.e("MyAmplifyApp", "Failed to save at least one item.", failure)
+    );
 ```
 
 </amplify-block>

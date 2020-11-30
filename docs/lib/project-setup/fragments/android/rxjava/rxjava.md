@@ -69,7 +69,7 @@ Amplify.DataStore.save(post,
 With Amplify's RxJava interface we can merge these operations together:
 
 ```java
-Completable.merge(
+Completable.mergeArray(
     RxAmplify.DataStore.save(post),
     RxAmplify.DataStore.save(editor)
 ).andThen(
