@@ -83,3 +83,4 @@ To see if the network status is active, you could set up the following listener:
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/datastore-events.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/datastore-events.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/datastore-events.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/datastore-events.md"></inline-fragment>
