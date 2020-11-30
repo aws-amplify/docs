@@ -15,3 +15,9 @@ Please note that all amplify-flutter DataStore Hub events are currently structur
 Support for custom types representing these events as well as automated instantiation of models within the event payloads is forthcoming.  
 
 </amplify-callout>
+
+<amplify-callout>
+
+You may want to setup your Hub Listener or Subscriber before calling Amplify.configure(), otherwise you may miss some of the DataStore events that are emitted.
+
+</amplify-callout>
