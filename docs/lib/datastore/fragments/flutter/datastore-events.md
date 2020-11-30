@@ -1,5 +1,5 @@
 ```dart
-datastorePlugin.events.listenToDataStore((event) {
+AmplifyDataStore.events.listenToDataStore((event) {
     if (event["eventName"] == "networkStatus") {
         setState(() {
             networkIsUp = event["active"];
