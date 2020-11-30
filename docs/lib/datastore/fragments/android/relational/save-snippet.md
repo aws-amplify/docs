@@ -67,9 +67,8 @@ Comment comment = Comment.builder()
     .content("Loving Amplify DataStore!")
     .build();
 
-Completable.merge(
-    RxAmplify.DataStore.save(post),
-).andThen(
+RxAmplify.DataStore.save(post)
+.andThen(
     RxAmplify.DataStore.save(comment)
 ).subscribe(
     () -> Log.i("MyAmplifyApp", "Saved Post and Comment."),
