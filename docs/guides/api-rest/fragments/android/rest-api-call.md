@@ -1,10 +1,12 @@
 ```kotlin
-void getMessage() {
-    RestOptions options = new RestOptions("/hello");
+fun getMessage() {
+    val options = RestOptions.builder()
+        .addPath("/hello")
+        .build()
 
     Amplify.API.get(options,
-            restResponse -> Log.i("Success", restResponse.toString()),
-            apiFailure -> Log.e("Failed", apiFailure.getMessage(), apiFailure)
-    );
+        { Log.i("MyAmplifyApp", "GET succeeded: $it") },
+        { Log.e("MyAmplifyApp", "GET failed.", it) }
+    )
 }
 ```
