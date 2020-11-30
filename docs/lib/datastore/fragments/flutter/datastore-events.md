@@ -1,3 +1,23 @@
 ```dart
-TBD
+AmplifyDataStore.events.listenToDataStore((event) {
+    if (event["eventName"] == "networkStatus") {
+        setState(() {
+            networkIsUp = event["active"];
+        });
+    }
+});
 ```
+
+<amplify-callout>
+
+Please note that all amplify-flutter DataStore Hub events are currently structured as serialized maps.  The event name is specified in an 'eventName' attribute within the map.
+
+Support for custom types representing these events as well as automated instantiation of models within the event payloads is forthcoming.  
+
+</amplify-callout>
+
+<amplify-callout>
+
+You may want to setup your Hub Listener or Subscriber before calling Amplify.configure(), otherwise you may miss some of the DataStore events that are emitted.
+
+</amplify-callout>
