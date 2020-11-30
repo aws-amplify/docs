@@ -5,12 +5,9 @@ Comment comment = Comment(
     post: post, // Directly pass in the post instance
     content: "Loving Amplify DataStore!");
 
-try {
-  await Amplify.DataStore.save(post);
-  print("Post saved");
-  await Amplify.DataStore.save(comment);
-  print("Comment saved");
-} catch (e) {
-  print("Save failed");
-}
+await Amplify.DataStore.save(post);
+print("Post saved");
+await Amplify.DataStore.save(comment);
+print("Comment saved");
+
 ```
