@@ -33,8 +33,8 @@ First, we'll add the DataStore plugin and configure Amplify by creating an Appli
       Amplify.addPlugin(AWSDataStorePlugin())
       Amplify.configure(applicationContext)
       Log.i("Tutorial", "Initialized Amplify")
-  } catch (e: AmplifyException) {
-      Log.e("Tutorial", "Could not initialize Amplify", e)
+  } catch (failure: AmplifyException) {
+      Log.e("Tutorial", "Could not initialize Amplify", failure)
   }
   ```
 

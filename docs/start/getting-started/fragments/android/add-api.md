@@ -14,7 +14,7 @@ Now that your have DataStore persisting data locally, in the next step you'll co
 
 1. Run the task. You can do this by pressing the **play button** or pressing **Control-R**.
 
-1. Modify your initialization code to initialize API in order to connect to the backend. Open `MainActivity`, and remove all of the code you added to `onCreate`. Replace it with the following:
+1. Modify your initialization code so that the DataStore can sync with the backend through an API. Open `MainActivity`, and remove all of the code you added to `onCreate`. Replace it with the following:
 
   <amplify-block-switcher>
   <amplify-block name="Java">
@@ -26,8 +26,8 @@ Now that your have DataStore persisting data locally, in the next step you'll co
       Amplify.configure(getApplicationContext());
 
       Log.i("Tutorial", "Initialized Amplify");
-  } catch (AmplifyException e) {
-      Log.e("Tutorial", "Could not initialize Amplify", e);
+  } catch (AmplifyException failure) {
+      Log.e("Tutorial", "Could not initialize Amplify", failure);
   }
 
   Amplify.DataStore.observe(Todo.class,
@@ -48,8 +48,8 @@ Now that your have DataStore persisting data locally, in the next step you'll co
       Amplify.addPlugin(AWSDataStorePlugin())
       Amplify.configure(applicationContext)
       Log.i("Tutorial", "Initialized Amplify")
-  } catch (e: AmplifyException) {
-      Log.e("Tutorial", "Could not initialize Amplify", e)
+  } catch (failure: AmplifyException) {
+      Log.e("Tutorial", "Could not initialize Amplify", failure)
   }
 
   Amplify.DataStore.observe(Todo::class.java,
