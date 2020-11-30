@@ -1,6 +1,7 @@
 import {Component, Host, h, Build, Element} from "@stencil/core";
 import {searchStyle} from "./search-bar.style";
 import {transformData} from "../../utils/transform-search-data";
+import {setSearchQuery} from "../../utils/track";
 import {
   ALGOLIA_API_KEY,
   ALGOLIA_INDEX_NAME,
@@ -19,10 +20,7 @@ export class DocsSearchBar {
         indexName: ALGOLIA_INDEX_NAME,
         inputSelector: UNINITIALIZED_SEARCH_INPUT_SELECTOR,
         debug: false,
-        queryHook: (query) => {
-          //@ts-ignore
-          s.eVar26 = query;
-        },
+        queryHook: setSearchQuery,
         transformData,
         algoliaOptions: {
           hitsPerPage: 10,

@@ -3,6 +3,7 @@ import {
   platformFilterMetadataByOption,
   frameworkFilterMetadataByOption,
 } from "./filter-data";
+import {trackSearchResult} from "./track";
 
 const filterMetadataByOption = {
   ...platformFilterMetadataByOption,
@@ -43,12 +44,7 @@ export interface Item {
 }
 
 export function transformData(items: Item[]): Item[] {
-  //@ts-ignore
-  s.eVar27 = items.length;
-  //@ts-ignore
-  s.events = items.length === 0 ? "event1" : "event2";
-  //@ts-ignore
-  s.tl(true, "o", "internal search");
+  trackSearchResult(items.length);
 
   return items.map((item) => {
     const {params} = parseURL(item.url);

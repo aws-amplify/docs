@@ -71,14 +71,29 @@ export const track = (event: AnalyticsEvent): Promise<unknown> | undefined => {
     } catch (e) {
       console.error("Failed to execute track.");
     }
-
-    if (event.type === AnalyticsEventType.PAGE_VISIT) {
-      // @ts-ignore
-      s.t();
-    }
-    if (event.type === AnalyticsEventType.EXTERNAL_LINK_CLICK) {
-      // @ts-ignore
-      //s.tl(this, "e");
-    }
   }
+};
+
+export const trackPageVisit = (): void => {
+  // @ts-ignore
+  s.t();
+};
+
+export const trackPageFetchException = (): void => {
+  // @ts-ignore
+  s.tl(true, "o", "page fetch exception");
+};
+
+export const setSearchQuery = (query: string): void => {
+  // @ts-ignore
+  s.eVar26 = query;
+};
+
+export const trackSearchResult = (resultCount: number): void => {
+  //@ts-ignore
+  s.eVar27 = resultCount;
+  //@ts-ignore
+  s.events = resultCount === 0 ? "event1" : "event2";
+  //@ts-ignore
+  s.tl(true, "o", "internal search");
 };

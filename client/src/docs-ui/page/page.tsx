@@ -26,7 +26,12 @@ import {
   SetNewSelectedTabHeadings,
 } from "./page.types";
 import {pageContext} from "./page.context";
-import {track, AnalyticsEventType} from "../../utils/track";
+import {
+  track,
+  trackPageVisit,
+  trackPageFetchException,
+  AnalyticsEventType,
+} from "../../utils/track";
 import {ensureMenuScrolledIntoView} from "../../utils/ensure-menu-scrolled-into-view";
 import {getPage} from "../../cache.worker";
 import {getNavHeight} from "../../utils/get-nav-height";
@@ -203,6 +208,7 @@ export class DocsPage {
         referrer: document.referrer,
       },
     });
+    trackPageVisit();
 
     try {
       const pageData = await getPage(currentRoute);
@@ -246,6 +252,7 @@ export class DocsPage {
         type: AnalyticsEventType.PAGE_DATA_FETCH_EXCEPTION,
         attributes: {url: location.href, exception},
       });
+      trackPageFetchException();
     }
   }
 
