@@ -1,8 +1,11 @@
 ```dart
-datastorePlugin.events.listenToDataStore((msg) {
-      print(msg);
+datastorePlugin.events.listenToDataStore((event) {
+    if (event["eventName"] == "networkStatus") {
+        setState(() {
+            networkIsUp = event["active"];
+        });
     }
-);
+});
 ```
 
 <amplify-callout>
