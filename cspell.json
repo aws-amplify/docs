@@ -1314,7 +1314,20 @@
     "Uploader",
     "AMPLIFYLAYERGUIDE",
     "instanceof",
-    "CHALLENGEANSWER"
+    "CHALLENGEANSWER",
+    "adminui",
+    "autologin",
+    "UI's",
+    "ownersaccess",
+    "privatesaccess",
+    "menudetaileditors",
+    "editorgroupaccess",
+    "publicauthreadonly",
+    "envs",
+    "Onetoone",
+    "onetomany",
+    "manytomany",
+    "datamodel"
   ],
   "flagWords": ["hte"]
 }
