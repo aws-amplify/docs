@@ -3,7 +3,7 @@ title: Introduction
 description: Introduction to Admin UI
 ---
 
-The Amplify Admin UI is a visual interface for frontend web and mobile developers to create app backends and manage app content outside the AWS Management Console. Teams can use the Admin UI to create and manage enterprise-ready, scalable, and secure cloud backends for their apps. 
+The Amplify Admin UI is a visual interface for frontend web and mobile developers to develop app backends and manage app content outside the AWS Management Console. Teams can use the Admin UI to create and manage enterprise-ready, scalable, and secure cloud backends for their apps. 
 
 <docs-internal-link-button href="~/console/adminui/start.md">
   <span slot="text">Get started with the Admin UI</span>
