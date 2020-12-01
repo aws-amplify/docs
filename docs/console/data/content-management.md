@@ -2,14 +2,17 @@
 title: Content management
 description: Get started with the Admin UI
 ---
+<amplify-callout warning>
+
+The content management experience is currently in preview. You may encounter issues while trying to save or update data.
+
+</amplify-callout>
 
 The Admin UI **Content** management view provides a tabular view of the backend data for an application. You can use this feature to test your models and to provide both technical and non-technical team members with the ability to create and update an application's data in real-time instead of building admin views.
 
 ![cms](~/images/console/cms.png)
 
 The [Data modeling](~/console/data/data-model.md) topic guides you through several examples for creating data models and setting the relationships between them. The following content management procedures, reference the *Book* and *Author* tables that were created in the data modeling example in order to demonstrate how to perform operations on your data.
-
-[\\]: * (Wasn't sure whether to add screenshots to these examples due to the Preview status)
 
 ## To create data
 1. Open the Admin UI for an app.
@@ -45,5 +48,6 @@ When you create a new instance in a table, you can also link it to an instance i
 5. In the **Delete item** confirmation window, choose **Delete**.
 
 ## Create or edit data in markdown
+You can also edit and store the data as markdown with the markdown editor. This is especially useful for blogs, news, marketing, or content-focused apps where you want the app UI to be styled appropriately. The markdown editor is available by choosing **Edit in markdown** when you are in the **Edit** window for a data instance.
 
-You can also edit and store the data as markdown with the markdown editor. This is especially useful for blogs, news, marketing, or content-focused apps where you want the app UI to be styled appropriately. 
+![cms](~/images/console/cms.png)
