@@ -29,13 +29,6 @@ disableLinkification: true
           Connect app to new or existing AWS services (Cognito, S3, and more).
         </p>
       </docs-card>
-      <docs-card url="https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html" class="border-radius" container-tag="amplify-external-link">
-        <img slot="graphic" src="~/assets/console.png" />
-        <h4 slot="heading">NEW! Amplify Admin UI</h4>
-        <p slot="description">
-          Visually configure and manage your app backend.
-        </p>
-      </docs-card>
       <docs-card url="~/cli/cli.md" class="border-radius">
         <img slot="graphic" src="~/assets/cli.png" />
         <h4 slot="heading">Amplify CLI</h4>
@@ -43,11 +36,18 @@ disableLinkification: true
         Configure an app backend with a guided CLI workflow.
         </p>
       </docs-card>
-      <docs-card external url="https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html" class="border-radius" container-tag="amplify-external-link">
+      <docs-card url="~/console/console.md" class="border-radius" >
         <img slot="graphic" src="~/assets/console.png" />
         <h4 slot="heading">Amplify Console</h4>
         <p slot="description">
-          Static web hosting with CI/CD support built-in.
+          AWS service for creating an app backend and hosting full-stack web apps.
+        </p>
+      </docs-card>
+      <docs-card url="~/console/adminui/intro.md" class="border-radius">
+        <img slot="graphic" src="~/assets/console.png" />
+        <h4 slot="heading">NEW! Amplify Admin UI</h4>
+        <p slot="description">
+          Visually configure and manage your app backend.
         </p>
       </docs-card>
     </amplify-responsive-grid>

@@ -1,0 +1,10 @@
+{
+    "title": "Admin UI basics",
+    "items": [
+      "intro",
+      "start",
+      "access-management",
+      "custom-domain",
+      "extend-cli"
+    ]
+  }
