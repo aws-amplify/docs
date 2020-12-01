@@ -9,14 +9,14 @@ This topic shows you how to create and manage your app's users and groups. To se
 
 ## To create a user
 1. Open Admin UI for an app.
-2. On the **Manage** menu, choose **Users & groups**.
+2. On the **Manage** menu, choose **User management**.
 3. On the **User management** page, choose the **Users** tab and then choose **Create user**.
 4. In the **Create user** window, for **Unique identifer** enter a username, email address, or phone number. For **Temporary password** enter a password.
 5. Choose **Create user**.
 
 ## To modify access for a user
 1. Open Admin UI for an app.
-2. On the **Manage** menu, choose **Users & groups**.
+2. On the **Manage** menu, choose **User management**.
 3. On the **User management** page, choose the **Users** tab.
 4. Select the name of the user to manage.
 5. On the **Actions** menu, choose the action to perform on the user. The options are **Reset password**, **Delete**, **Suspend**, or **Reactivate**.
@@ -24,14 +24,14 @@ This topic shows you how to create and manage your app's users and groups. To se
 
 ## To create a group
 1. Open Admin UI for an app.
-2. On the **Manage** menu, choose **Users & groups**. 
+2. On the **Manage** menu, choose **User management**. 
 3. On the **User management** page, choose the **Groups** tab and then choose **Create group**.
 4. In the **Create group** window, for **Title** enter a name for the group.
 5. Choose **Create group**.
 
 ## To add a user to a group
 1. Open Admin UI for an app.
-2. On the **Manage** menu, choose **Users & groups**. 
+2. On the **Manage** menu, choose **User management**. 
 3. On the **User management** page, choose the **Groups** tab.
 4. Select the name of the group to add users to.
 5. Choose **Add user(s)**.
@@ -40,7 +40,7 @@ This topic shows you how to create and manage your app's users and groups. To se
 
 ## To delete a group
 1. Open Admin UI for an app.
-2. On the **Manage** menu, choose **Users**. 
+2. On the **Manage** menu, choose **User management**. 
 3. On the **User management** page, choose the **Groups** tab.
 4. In the **Groups** section, select the name of the group to delete.
 5. Choose **Delete**.
