@@ -8,7 +8,7 @@ The Amplify Console is accessible within the AWS console and  acts as the contro
 
 ## Get started
 
-Access the following tools and services from the Amplify Console: Amplify Hosting, Admin UI
+Access the following tools and services from the Amplify Console:
 
 <amplify-responsive-grid columns="2" class="margin-top-lg margin-bottom-lg">
       <docs-card external url="https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html" class="border-radius" container-tag="amplify-external-link">
