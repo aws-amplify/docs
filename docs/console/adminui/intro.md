@@ -27,7 +27,7 @@ Only the *first* backend deployment to Amplify Console requires an AWS account. 
 
 The Admin UI's data model designer enables you to build a backend by focusing on your domain specifics (for example, a product with a descriptions and price), relationships (for example, products have many orders), and authorization rules (for example, only signed in users can order a product) instead of setting up database tables, and APIs.
 
-![datamode](~/images/console/datamodel.gif)
+![datamodel](~/images/console/datamodel.gif)
 
 ### Content management
 

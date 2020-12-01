@@ -7,7 +7,7 @@ All backends created in the Admin UI are deployed using AWS CloudFormation. The 
 
 With the launch of the Admin UI, a new CLI feature is available that enables the use of the CLI without an AWS account. This allows you to use the Amplify CLI's features without the need to configure it with AWS Identity and Access Management (IAM). Changes made in the Admin UI can be made available in the CLI by running the `amplify pull` command. Similarly, CLI changes to the data model or auth will be visible in the Admin UI. For all other categories, the Admin UI provides links to the relevant service consoles in AWS.
 
-![autlogin](~/images/console/cli-autologin.gif)
+![autologin](~/images/console/cli-autologin.gif)
 
 
 ## To install the Amplify CLI
@@ -22,14 +22,14 @@ curl -sL https://aws-amplify.github.io/amplify-cli/install | bash && $SHELL
 
 1. Open the Admin UI for an app. Choose **Local setup instructions** in the header and copy the `amplify pull` command.
 
-![autlogin](~/images/console/cli-pull.png)
+![autologin](~/images/console/cli-pull.png)
 
 2. Open a terminal window and run the following command, replacing the `xxx` values with your unique `appId` and `envName`. 
 ```bash
 amplify pull --appId xxx --envName xxx
 ```
 3. A browser window opens and prompts you to continue logging in to the Amplify CLI. Choose **Yes**. 
-![autlogin](~/images/console/cli-autologin.png)
+![autologin](~/images/console/cli-autologin.png)
 
 4. Return to the terminal window. You should see the following success statement:
 ```bash

@@ -20,7 +20,7 @@ Skip ahead to [relationships](~/console/data/relationships.md) or read below on 
 
 The Admin UI data model designer provides a visual way to define your app's data model, relationships, and authorization rules. Admin UI generates a `schema.graphql` GraphQL Transform for the data model you create. To learn more about how the GraphQl transform works, see [GraphQL Transform Overview](~/cli/graphql-transformer/overview.md). 
 
-![datamode](~/images/console/datamodel.gif)
+![datamodel](~/images/console/datamodel.gif)
 
 All data models built with Admin UI work with Amplify DataStore out-of-the-box. DataStore is an on-device storage engine that automatically synchronizes data between your mobile and web apps and your database in the AWS cloud to help you build real-time and offline apps faster. [Learn more](https://docs.awsamplifyconsole.com/lib/datastore/getting-started/)
 

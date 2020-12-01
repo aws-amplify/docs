@@ -51,4 +51,4 @@ When you are finished modeling your data and defining the data relationships, yo
 
 3. If you are working in the Admin UI from your AWS account, the deployment status displays in the upper right corner of the page.
 
-4. Navigate to the **Contet** tab and create data in the tables. You should be able to create and link records from different models. For more information, see [Manage content](~/console/data/content-management.md).
+4. Navigate to the **Content** tab and create data in the tables. You should be able to create and link records from different models. For more information, see [Manage content](~/console/data/content-management.md).
