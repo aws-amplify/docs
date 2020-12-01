@@ -26,16 +26,16 @@ exports[`docs-secondary-nav Render logic should render 1`] = `
               CLI
             </span>
           </docs-internal-link>
-          <docs-internal-link childactiveclass="css-pnqqcs" href="/console">
-            <span>
-              Console
-            </span>
-          </docs-internal-link>
           <docs-internal-link childactiveclass="css-pnqqcs" href="/guides">
             <span>
               Guides
             </span>
           </docs-internal-link>
+          <amplify-external-link graphic="black" href="https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html">
+            <span>
+              Console
+            </span>
+          </amplify-external-link>
           <div class="css-1r4lk6l"></div>
         </div>
       </div>

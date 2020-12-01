@@ -7,37 +7,14 @@
 
 ## Prerequisites
 
-- Install [Android Studio](https://developer.android.com/studio/index.html#downloads) version 4.0 or higher
+- Install [Node.js](https://nodejs.org/en/) version 10 or higher
+- Install [Android Studio](https://developer.android.com/studio/index.html#downloads) version 4.1.1 or higher
 - Install the [Android SDK](https://developer.android.com/studio/releases/platforms) API level 29 (Android 10)
 - Install [Amplify CLI](~/cli/cli.md) version 4.21.0 or later by running:
 
-<amplify-block-switcher>
-
-<amplify-block name="NPM">
-
-```bash
-npm install -g @aws-amplify/cli
-```
-
-</amplify-block>
-
-<amplify-block name="cURL (Mac and Linux)">
-
-```bash
-curl -sL https://aws-amplify.github.io/amplify-cli/install | bash && $SHELL
-```
-
-</amplify-block>
-
-<amplify-block name="cURL (Windows)">
-
-```bash
-curl -sL https://aws-amplify.github.io/amplify-cli/install-win -o install.cmd && install.cmd
-```
-
-</amplify-block>
-
-</amplify-block-switcher>
+    ```bash
+    npm install -g @aws-amplify/cli
+    ```
 
 ## Set up your application
 
