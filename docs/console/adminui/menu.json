@@ -3,8 +3,8 @@
     "items": [
       "intro",
       "start",
+      "extend-cli",
       "access-management",
-      "custom-domain",
-      "extend-cli"
+      "custom-domain"
     ]
   }
