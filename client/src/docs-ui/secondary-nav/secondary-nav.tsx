@@ -49,13 +49,12 @@ export class DocsSecondaryNav {
                     url: "/cli",
                   },
                   {
-                    label: "Guides",
-                    url: "/guides",
+                    label: "Console",
+                    url: "/console",
                   },
                   {
-                    label: "Console",
-                    url: AWS_USER_GUIDE,
-                    external: true,
+                    label: "Guides",
+                    url: "/guides",
                   },
                   ...(this.selectedFilters?.platform
                     ? [

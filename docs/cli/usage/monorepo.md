@@ -23,9 +23,33 @@ This project contains the frontend code for an angular and react Todo app. The r
 
 To set up a backend on AWS, we are going to use the Amplify CLI. The Amplify CLI is a command-line toolchain that simplifies provisioning AWS services. 
 
-```
+<amplify-block-switcher>
+
+<amplify-block name="NPM">
+
+```bash
 npm install -g @aws-amplify/cli
 ```
+
+</amplify-block>
+
+<amplify-block name="cURL (Mac and Linux)">
+
+```bash
+curl -sL https://aws-amplify.github.io/amplify-cli/install | bash && $SHELL
+```
+
+</amplify-block>
+
+<amplify-block name="cURL (Windows)">
+
+```bash
+curl -sL https://aws-amplify.github.io/amplify-cli/install-win -o install.cmd && install.cmd
+```
+
+</amplify-block>
+
+</amplify-block-switcher>
 
 First, [configure the CLI](~/cli/start/install.md#configure-the-amplify-cli) on your machine. Once configured, initialize a new backend project at the root of one of your frontend projects. While we could also initialize the project at the root level, the Amplify is best used attached to one of your projects. This allows you to set up continuous deployment pipelines of the frontend and backend together.
 
