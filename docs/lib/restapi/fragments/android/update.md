@@ -7,13 +7,13 @@ To update an item via the API endpoint:
 
 ```java
 RestOptions options = RestOptions.builder()
-        .addPath("/todo/1")
-        .addBody("{\"name\":\"Mow the lawn\"}".getBytes())
-        .build();
+    .addPath("/todo/1")
+    .addBody("{\"name\":\"Mow the lawn\"}".getBytes())
+    .build();
 
 Amplify.API.put(options,
-        response -> Log.i("MyAmplifyApp", "PUT " + response.getData().asString()),
-        error -> Log.e("MyAmplifyApp", "PUT failed", error)
+    response -> Log.i("MyAmplifyApp", "PUT succeeded: " + response),
+    error -> Log.e("MyAmplifyApp", "PUT failed.", error)
 );
 ```
 
@@ -21,14 +21,14 @@ Amplify.API.put(options,
 <amplify-block name="Kotlin">
 
 ```kotlin
-val options: RestOptions = RestOptions.builder()
+val options = RestOptions.builder()
     .addPath("/todo/1")
     .addBody("{\"name\":\"Mow the lawn\"}".toByteArray())
     .build()
 
 Amplify.API.put(options,
-    { response -> Log.i("MyAmplifyApp", "PUT " + response.data.asString()) },
-    { error -> Log.e("MyAmplifyApp", "PUT failed", error) }
+    { Log.i("MyAmplifyApp", "PUT succeeded: $it") },
+    { Log.e("MyAmplifyApp", "PUT failed.", it) }
 )
 ```
 
@@ -37,15 +37,15 @@ Amplify.API.put(options,
 
 ```java
 RestOptions options = RestOptions.builder()
-        .addPath("/todo/1")
-        .addBody("{\"name\":\"Mow the lawn\"}".getBytes())
-        .build();
+    .addPath("/todo/1")
+    .addBody("{\"name\":\"Mow the lawn\"}".getBytes())
+    .build();
 
 RxAmplify.API.put(options)
-        .subscribe(
-              response -> Log.i("MyAmplifyApp", "PUT " + response.getData().asString()),
-              error -> Log.e("MyAmplifyApp", "PUT failed", error)
-        );
+    .subscribe(
+          response -> Log.i("MyAmplifyApp", "PUT succeeded: " + response),
+          error -> Log.e("MyAmplifyApp", "PUT failed.", error)
+    );
 ```
 
 </amplify-block>

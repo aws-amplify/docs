@@ -85,7 +85,7 @@ PostEditor postEditor = PostEditor.builder()
     .editor(editor)
     .build();
 
-Completable.merge(
+Completable.mergeArray(
     RxAmplify.DataStore.save(post),
     RxAmplify.DataStore.save(editor)
 ).andThen(

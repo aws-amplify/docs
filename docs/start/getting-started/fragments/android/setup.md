@@ -55,7 +55,7 @@ curl -sL https://aws-amplify.github.io/amplify-cli/install-win -o install.cmd &&
 
     - Enter *Todo* in the **Name** field
     - Select either *Java* or *Kotlin* from the **Language** dropdown menu
-    - Select *API 16: Android 4.1 (Jelly Bean)* from the **Minimum SDK** dropdown menu
+    - Select *API 21: Android 5.0 (Lollipop)* from the **Minimum SDK** dropdown menu
     - Press **Finish**
 
   ![](~/images/lib/getting-started/android/set-up-android-studio-configure-your-project-todo.png)
@@ -102,40 +102,16 @@ Amplify for Android is distributed as an Apache Maven package. In this section, 
   apply plugin: 'com.amplifyframework.amplifytools'
   ```
 
-
-
 2. Under **Gradle Scripts**, open **build.gradle (Module: app)**.
 
-   Update the `android` and `dependencies` blocks in your file with the following lines:
+   Update the `dependencies` block in your file with the following lines:
 
    ```groovy
-   android {
-       compileOptions {
-           // Support for Java 8 features
-           coreLibraryDesugaringEnabled true
-           sourceCompatibility JavaVersion.VERSION_1_8
-           targetCompatibility JavaVersion.VERSION_1_8
-       }
-   }
-
    dependencies {
-       // Amplify plugins
        implementation 'com.amplifyframework:aws-api:1.6.4'
        implementation 'com.amplifyframework:aws-datastore:1.6.4'
-
-       // Support for Java 8 features
-       coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
    }
    ```
-
-   - Set `coreLibraryDesugaringEnabled`, `sourceCompatibility`, and `targetCompatibility` to allow your application to make use of Java 8 features like Lambda expressions
-   - Add Amplify and Desugaring libraries to the `dependencies` block
-
-<amplify-callout>
-
-Amplify Android supports API level 16 and up. If you are targeting a `minSdkVersion` below 21, you will additionally need to follow [Android's documentation for adding multidex support](https://developer.android.com/studio/build/multidex#mdex-pre-l).
-  
-</amplify-callout>
 
 3. Run **Gradle Sync**
 

@@ -1,12 +1,14 @@
 To make a GET request, first create a RestOptions object and then use the Amplify.API.get api to issue the request:
 
 ```kotlin
-void getItems() {
-    RestOptions options = new RestOptions("/items");
+fun getItems() {
+    val options = RestOptions.builder()
+        .addPath("/items")
+        .build()
 
     Amplify.API.get(options,
-            restResponse -> Log.i("MyAmplifyApp", restResponse.toString()),
-            apiFailure -> Log.e("MyAmplifyApp", apiFailure.getMessage(), apiFailure)
-    );
+        { Log.i("MyAmplifyApp", "GET succeeded: $it") },
+        { Log.e("MyAmplifyApp", "GET failed.", it) }
+    )
 }
 ```
