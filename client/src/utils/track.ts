@@ -7,13 +7,16 @@ let configured = false;
 if (!configured) {
   Auth.configure(awsexports);
   Analytics.configure(awsexports);
-  // @ts-ignore
-  if (typeof AWSCShortbread !== "undefined") {
+  if (Build.isBrowser) {
     // @ts-ignore
     const shortbread = AWSCShortbread({
       domain: ".amplify.aws",
     });
     shortbread.checkForCookieConsent();
+  }
+  if (Build.isBrowser) {
+    // @ts-ignore
+    s.trackExternalLinks = false;
   }
   configured = true;
 }
@@ -85,6 +88,13 @@ export const trackPageFetchException = (): void => {
   if (Build.isBrowser) {
     // @ts-ignore
     s.tl(true, "o", "page fetch exception");
+  }
+};
+
+export const trackExternalLink = (): void => {
+  if (Build.isBrowser) {
+    // @ts-ignore
+    s.tl(true, "e");
   }
 };
 
