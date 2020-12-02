@@ -41,7 +41,7 @@ Push Notifications category is integrated with [AWS Amplify Analytics category](
     The CLI will prompt for your *Firebase credentials*, enter them respectively.
     
     
-    You can find said *Firebase credentials* by visiting https://console.firebase.google.com/project/[your-project-id]/settings/cloudmessaging or by navigating to (gear-next-to-project-name) > Project Settings > Cloud Messaging on the firebase console.
+    You can find said *Firebase credentials* by visiting https://console.firebase.google.com/project/[your-project-id]/settings/cloudmessaging or by navigating to (gear-next-to-project-name) > Project Settings > Cloud Messaging on the Firebase Console.
 
     Alternatively, you can set up Android push notifications in Amazon Pinpoint Console. [Click here for instructions](https://docs.aws.amazon.com/pinpoint/latest/developerguide/mobile-push-android.html).
 
