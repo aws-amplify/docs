@@ -1,0 +1,8 @@
+{
+  "items": [
+    "adminui",
+    "data",
+    "auth",
+    "authz"
+  ]
+}

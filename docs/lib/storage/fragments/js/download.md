@@ -7,7 +7,7 @@ await Storage.get(key: string, config: {
   level?: private | protected | public, // defaults to `public`
   identityId?: string, // id of another user, if `level: protected`
   download?: boolean, // defaults to false
-  expires?: number, // validity, in seconds. defaults to no expiry
+  expires?: number, // validity of the URL, in seconds. defaults to 900 (15 minutes)
   contentType?: string // set return content type, eg "text/html"
 })
 ```

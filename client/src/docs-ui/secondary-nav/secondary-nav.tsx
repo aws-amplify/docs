@@ -19,6 +19,8 @@ import {
 export class DocsSecondaryNav {
   /*** the current filter state */
   @Prop() readonly selectedFilters?: SelectedFilters;
+  /*** whether or not the current page has a menu */
+  @Prop() readonly pageHasMenu?: boolean;
 
   render() {
     return (
@@ -47,13 +49,12 @@ export class DocsSecondaryNav {
                     url: "/cli",
                   },
                   {
-                    label: "Guides",
-                    url: "/guides",
+                    label: "Console",
+                    url: "/console",
                   },
                   {
-                    label: "Console",
-                    url: AWS_USER_GUIDE,
-                    external: true,
+                    label: "Guides",
+                    url: "/guides",
                   },
                   ...(this.selectedFilters?.platform
                     ? [
@@ -96,6 +97,7 @@ export class DocsSecondaryNav {
               </div>
             </div>
           </div>
+          {this.pageHasMenu && <amplify-sidebar-open-button />}
         </docs-container>
       </Host>
     );

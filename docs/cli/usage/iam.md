@@ -1,7 +1,7 @@
 ---
 title: IAM Policy
 description: The Amplify CLI requires several IAM policies for performing actions across all categories. You can grant or restrict category permissions by including or removing items from the `Action` section as appropriate.
---- 
+---
 
 The Amplify CLI requires the below IAM policies for performing actions across all categories. You can grant or restrict category permissions by including or removing items from the `Action` section as appropriate. For example, if you wish to restrict operations on the `Auth` category you can remove any of the lines starting with `cognito`.
 
@@ -76,9 +76,9 @@ The Amplify CLI requires the below IAM policies for performing actions across al
                 "cloudformation:DescribeStackEvents",
                 "cloudformation:DescribeStackResource",
                 "cloudformation:DescribeStackResources",
+                "cloudformation:DescribeStacks",
                 "cloudformation:DescribeStackSet",
                 "cloudformation:DescribeStackSetOperation",
-                "cloudformation:DescribeStacks",
                 "cloudformation:ExecuteChangeSet",
                 "cloudformation:GetTemplate",
                 "cloudformation:UpdateStack",
@@ -99,8 +99,8 @@ The Amplify CLI requires the below IAM policies for performing actions across al
                 "cognito-identity:DeleteIdentityPool",
                 "cognito-identity:DescribeIdentity",
                 "cognito-identity:DescribeIdentityPool",
-                "cognito-identity:SetIdentityPoolRoles",
                 "cognito-identity:GetIdentityPoolRoles",
+                "cognito-identity:SetIdentityPoolRoles",
                 "cognito-identity:TagResource",
                 "cognito-identity:UpdateIdentityPool",
                 "cognito-idp:AdminAddUserToGroup",
@@ -125,6 +125,7 @@ The Amplify CLI requires the below IAM policies for performing actions across al
                 "dynamodb:DescribeTable",
                 "dynamodb:DescribeTimeToLive",
                 "dynamodb:ListStreams",
+                "dynamodb:ListTables",
                 "dynamodb:PutItem",
                 "dynamodb:TagResource",
                 "dynamodb:UpdateContinuousBackups",

@@ -1127,7 +1127,9 @@
     "todoitem",
     "todoitems",
     "todolist",
+    "todoreact",
     "todos",
+    "Todotable",
     "tokenInstructions",
     "toolchain",
     "totp-setup",
@@ -1311,7 +1313,21 @@
     "vercel",
     "Uploader",
     "AMPLIFYLAYERGUIDE",
-    "instanceof"
+    "instanceof",
+    "CHALLENGEANSWER",
+    "adminui",
+    "autologin",
+    "UI's",
+    "ownersaccess",
+    "privatesaccess",
+    "menudetaileditors",
+    "editorgroupaccess",
+    "publicauthreadonly",
+    "envs",
+    "Onetoone",
+    "onetomany",
+    "manytomany",
+    "datamodel"
   ],
   "flagWords": ["hte"]
 }

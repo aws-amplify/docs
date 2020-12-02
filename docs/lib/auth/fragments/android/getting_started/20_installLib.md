@@ -2,6 +2,6 @@ Add the following dependency to your **app**'s `build.gradle` along with others 
 
 ```groovy
 dependencies {
-    implementation 'com.amplifyframework:aws-auth-cognito:1.4.1'
+    implementation 'com.amplifyframework:aws-auth-cognito:1.6.4'
 }
 ```

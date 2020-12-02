@@ -69,7 +69,7 @@ Amplify.DataStore.save(post,
 With Amplify's RxJava interface we can merge these operations together:
 
 ```java
-Completable.merge(
+Completable.mergeArray(
     RxAmplify.DataStore.save(post),
     RxAmplify.DataStore.save(editor)
 ).andThen(
@@ -93,7 +93,7 @@ Add the following line in `dependencies`:
 ```groovy
 dependencies {
     // Add the below line in `dependencies`
-    implementation 'com.amplifyframework:rxbindings:1.4.1'
+    implementation 'com.amplifyframework:rxbindings:1.6.4'
 }
 ```
 
