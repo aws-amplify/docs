@@ -10,7 +10,7 @@ import * as subscriptions from './graphql/subscriptions';
 const subscription = API.graphql(
     graphqlOperation(subscriptions.onCreateTodo)
 ).subscribe({
-    next: (todoData) => console.log(todoData)
+    next: ({ provider, value }) => console.log({ provider, value })
 });
 
 // Stop receiving data updates from the subscription
