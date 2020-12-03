@@ -11,7 +11,7 @@ dependencies:
   amplify_api: '<1.0.0'
 ```
 
-Next, add the plugin in your Amplify initialization code alongside with the previously added `AWSDataStorePlugin`, but before calling `configure()`
+Next, add the plugin in your Amplify initialization code alongside with the previously added `AWSDataStorePlugin` but before calling `configure()`
 
 ```dart
 

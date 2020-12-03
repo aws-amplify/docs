@@ -11,7 +11,7 @@ amplifyInstance.addPlugin(dataStorePlugins: [datastorePlugin]);
 
 Next, finish configuring the Amplify framework by calling `configure()`.
 
-Your code will look like this:
+Your code should look like this:
 
 ```dart
 import 'package:amplify_core/amplify_core.dart';
