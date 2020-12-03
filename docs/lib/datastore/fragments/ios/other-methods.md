@@ -19,7 +19,7 @@ If your app has authentication implemented, it is recommended to call `DataStore
 
 ## Start
 
-Synchronization starts automatically whenever you run any DataStore operation (`query()`, `save()`, `delete()`, `observe()`) however you can explicitly begin the process with `DataStore.start()`:
+Synchronization starts automatically whenever you run any DataStore operation (`query()`, `save()`, `delete()`, `observe()`.) You can also explicitly begin the process with `DataStore.start()`:
 
 ```swift
 Amplify.DataStore.start { result in
