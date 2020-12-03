@@ -3,15 +3,14 @@
 To clear local data from DataStore, use the `clear` method:
 
 ```swift
-Amplify.DataStore.clear { (result) in
-    switch(result){
+Amplify.DataStore.clear { result in
+    switch result {
     case .success:
         print("DataStore cleared")
     case .failure(let error):
         print("Error clearing DataStore:  \(error)")
     }
 }
-```
 <amplify-callout>
 
 If your app has authentication implemented, it is recommended to call `DataStore.clear()` on signin/signout to remove any user-specific data. This method is often important to use for shared device scenarios or where you need to purge the local on-device storage of records for security/privacy concerns.
