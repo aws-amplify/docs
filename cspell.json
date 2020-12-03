@@ -284,6 +284,7 @@
     "AWSSimpleDB",
     "AWSSNS",
     "AWSSQS",
+    "AWSSTS",
     "AWSStaticCredentialsProvider",
     "AWSTask",
     "AWSTextract",
