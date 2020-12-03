@@ -1,4 +1,4 @@
-Apple App Store require the developer to provide the data usage policy of the app when they submit the app to the store. Given below are the different categories identified by Apple and the corresponding data type used by the Amplify library. 
+Apple requires app developers to provide the data usage policy of the app when they submit their app to the App Store. Below are the different categories identified by Apple and the corresponding data type used by the Amplify library.
 
 ## Contact info 
 
@@ -138,6 +138,5 @@ No data is collected
 
 ## Diagnostics
 No data is collected
-
 
 
