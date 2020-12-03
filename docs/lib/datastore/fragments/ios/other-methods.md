@@ -23,8 +23,8 @@ If your app has authentication implemented, it is recommended to call `DataStore
 Synchronization starts automatically whenever you run any DataStore operation (`query()`, `save()`, `delete()`, `observe()`) however you can explicitly begin the process with `DataStore.start()`:
 
 ```swift
-Amplify.DataStore.start { (result) in
-    switch(result) {
+Amplify.DataStore.start { result in
+    switch result {
     case .success:
         print("DataStore started")
     case .failure(let error):
