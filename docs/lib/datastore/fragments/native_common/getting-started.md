@@ -96,6 +96,12 @@ DataStore relies on platform standard data structures to represent the data sche
 
 The first step to create an app backed by a persistent datastore is to **define a schema**. DataStore uses GraphQL schema files as the definition of the application data model. The schema contains data types and relationships that represent the app's functionality.
 
+<amplify-callout warning>
+
+**Note:** When using Temporal Types, avoid using `AWSDate` and `AWSTime` within your schema.  We only support `AWSDateTime` and `AWSTimestamp` at the moment.  
+
+</amplify-callout>
+
 ### Sample schema
 
 For the next steps, let's start with a schema for a small blog application. Currently, it has only a single model. New types and constructs will be added to this base schema as more concepts are presented.
