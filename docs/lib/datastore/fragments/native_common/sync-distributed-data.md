@@ -1,6 +1,7 @@
 ## Distributed data
 
-When working with distributed data, it is important to be mindful about the state of the local and the remote systems. DataStore tries to make that as transparent as possible to you; however, some scenarios might require some consideration.
+When working with distributed data, it is important to be mindful about the state of the local and the remote systems. DataStore tries to make that as simple as possible for you; however, some scenarios might require some consideration.
+
 
 For instance, when updating or deleting data, one has to consider that the state of the local data might be out-of-sync with the backend. This scenario can affect how conditions should be implemented.
 
