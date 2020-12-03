@@ -2,7 +2,8 @@
 
 When working with distributed data, it is important to be mindful about the state of the local and the remote systems. DataStore tries to make that as transparent as possible to you; however, some scenarios might require some consideration.
 
-For instance, when updating or deleting data, one has to consider that the state of the local data might be out-of-sync with the backend and that scenario can affect how conditions should be implemented.
+For instance, when updating or deleting data, one has to consider that the state of the local data might be out-of-sync with the backend. This scenario can affect how conditions should be implemented.
+
 
 <inline-fragment platform="js" src="~/lib/datastore/fragments/native_common/sync-save-delete-predicate.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/sync/19-sync-save-delete-predicate.md"></inline-fragment>
