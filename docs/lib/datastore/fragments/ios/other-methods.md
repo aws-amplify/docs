@@ -34,7 +34,7 @@ Amplify.DataStore.start { result in
 
 ## Stop
 
-To stop the DataStore sync process, you can use `DataStore.stop()`.  This ensures the real time subscription connection is closed when your app is no longer interested in updates, such as when you application is closed.  This can also be used to modify [DataStore sync expressions](~/lib/datastore/sync.md) at runtime by calling `stop()`, then `start()` to force your sync expressions to be re-evaluated.
+To stop the DataStore sync process, you can use `DataStore.stop()`.  This will close the real time subscription connection when your app is no longer interested in updates. You will typically call `DataStore.stop()` just before your application is closed.  You can also force your [DataStore sync expressions](~/lib/datastore/sync.md) to be re-evaluated at runtime by calling `stop()` followed by `start()`.
 
 ```swift
 Amplify.DataStore.stop { result in
