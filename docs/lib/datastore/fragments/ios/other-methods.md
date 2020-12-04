@@ -11,6 +11,8 @@ Amplify.DataStore.clear { result in
         print("Error clearing DataStore:  \(error)")
     }
 }
+```
+
 <amplify-callout>
 
 If your app uses authentication, it is recommended to call `DataStore.clear()` on sign-in or sign-out to remove any user-specific data. In scenarios where a mobile device can be shared by several users, calling `DataStore.clear()` will ensure that data does not leak from one user to another.
