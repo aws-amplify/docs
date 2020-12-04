@@ -17,7 +17,7 @@
 - Install the Amplify-Flutter Developer Preview version of the [Amplify CLI](~/cli/cli.md) by running:
 
     ```bash
-    npm install -g @aws-amplify/cli@flutter-preview
+    npm install -g @aws-amplify/cli
     ```
     An existing install of @aws-amplify/cli will not work, you need to install the flutter-preview version.
 
