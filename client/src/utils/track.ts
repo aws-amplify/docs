@@ -108,6 +108,8 @@ export const setSearchQuery = (query: string): void => {
 export const trackSearchResult = (resultCount: number): void => {
   if (Build.isBrowser) {
     // @ts-ignore
+    s.linkTrackVars = "eVar26,eVar27";
+    // @ts-ignore
     s.eVar27 = resultCount;
     // @ts-ignore
     s.events = resultCount === 0 ? "event1" : "event2";
