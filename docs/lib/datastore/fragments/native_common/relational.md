@@ -43,9 +43,9 @@ However, in a many to many relationship the children are not removed and you mus
 
 ### Many-to-many
 
-The above example shows how to use a *one-to-many* schema and save connected models. For *many-to-many* relations, such as the one shows in the [GraphQL Transformer examples](~/cli/graphql-transformer/connection.md).
+The above example shows how to use a *one-to-many* schema and save connected models. You can also define *many-to-many* relationships, such as the relationship shown in the [@connection examples](~/cli/graphql-transformer/connection.md#many-to-many-connections).
 
-In this case, you save instances of models from each side of the relationship and then join them together by connecting type on a field defined with `@connection`. Consider the following schema:
+For many-to-many relationships, you save instances of models from each side of the relationship and then join them together by connecting type on a field defined with `@connection`. Consider the following schema:
 
 ```graphql
 enum PostStatus {
