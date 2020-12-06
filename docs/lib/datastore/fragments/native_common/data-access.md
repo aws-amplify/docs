@@ -30,12 +30,14 @@ To delete an item simply pass in an instance.
 
 Queries are performed against the _local store_. When cloud synchronization is enabled, the local store is updated in the background by the DataStore Sync Engine.
 
-You can narrow the results of your query by specifying a model type of interest. For more advanced filtering, such as matching arbitrary field values on an object, you can supply a query predicate.
+For more advanced filtering, such as matching arbitrary field values on an object, you can supply a query predicate.
 
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/query-basic-snippet.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/data-access/query-basic-snippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/data-access/query-basic-snippet.md"></inline-fragment>
 <inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/data-access/query-basic-snippet.md"></inline-fragment>
+
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/data-access/query-single-item-snippet.md"></inline-fragment>
 
 ### Predicates
 
