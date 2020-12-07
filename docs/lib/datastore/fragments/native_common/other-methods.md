@@ -13,7 +13,8 @@ If your app uses authentication, it is recommended to call `DataStore.clear()` o
 
 ## Start
 
-Synchronization starts automatically whenever you run any DataStore operation (`query()`, `save()`, `delete()`, `observe()`.) You can also explicitly begin the process with `DataStore.start()`:
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/other-methods/15_start.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/other-methods/15_start.md"></inline-fragment>
 
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/other-methods/20_start.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/other-methods/20_start.md"></inline-fragment>
