@@ -4,7 +4,7 @@ Amplify.DataStore.clear { result in
     case .success:
         print("DataStore cleared")
     case .failure(let error):
-        print("Error clearing DataStore:  \(error)")
+        print("Error clearing DataStore: \(error)")
     }
 }
 ```
