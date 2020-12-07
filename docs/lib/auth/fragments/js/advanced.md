@@ -160,7 +160,7 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      <Button title="FBSignIn" onPress={this.signIn.bind(this)} />
+      <Button title="FBSignIn" onPress={signIn} />
     </View>
   );
 
