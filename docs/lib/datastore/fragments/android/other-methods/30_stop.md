@@ -14,7 +14,7 @@ Amplify.DataStore.stop(
 ```kotlin
 Amplify.DataStore.stop(
     { Log.i("MyAmplifyApp", "DataStore stopped") },
-    { error: DataStoreException? -> Log.e("MyAmplifyApp", "Error stopping DataStore", error) }
+    { Log.e("MyAmplifyApp", "Error stopping DataStore", it) }
 )
 ```
 
