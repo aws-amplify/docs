@@ -4,7 +4,7 @@
 ```java
 Amplify.DataStore.start(
     () -> Log.i("MyAmplifyApp", "DataStore started"),
-    error -> Log.e("MyAmplifyApp", "Error starting DataStore: ", error)
+    error -> Log.e("MyAmplifyApp", "Error starting DataStore", error)
 );
 ```
 
