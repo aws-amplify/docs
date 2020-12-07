@@ -234,7 +234,7 @@ const SignInWithGoogle = () => {
 
     return (
         <div>
-            <button onClick={this.signIn}>Sign in with Google</button>
+            <button onClick={signIn}>Sign in with Google</button>
         </div>
     );
 }
