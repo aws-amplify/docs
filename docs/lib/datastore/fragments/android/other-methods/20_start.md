@@ -14,7 +14,7 @@ Amplify.DataStore.start(
 ```kotlin
 Amplify.DataStore.start(
     { Log.i("MyAmplifyApp", "DataStore started") },
-    { error: DataStoreException? -> Log.e("MyAmplifyApp", "Error starting DataStore", error) }
+    { Log.e("MyAmplifyApp", "Error starting DataStore", it) }
 )
 ```
 
