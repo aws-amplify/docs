@@ -25,7 +25,7 @@ Amplify.DataStore.stop(
 RxAmplify.DataStore.stop()
     .subscribe(
         () -> Log.i("MyAmplifyApp", "DataStore stopped"),
-        error -> Log.e("MyAmplifyApp", "Error stopping DataStore: ", error)
+        error -> Log.e("MyAmplifyApp", "Error stopping DataStore", error)
     );
 }
 ```
