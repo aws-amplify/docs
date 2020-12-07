@@ -141,7 +141,7 @@ import React from 'react';
 import Amplify, { Auth } from 'aws-amplify';
 
 const App = () => {
-  const signIn = async() => {
+  const signIn = async () => {
     const { type, token, expires } = await Expo.Facebook.logInWithReadPermissionsAsync('YOUR_FACEBOOK_APP_ID', {
         permissions: ['public_profile'],
       });
