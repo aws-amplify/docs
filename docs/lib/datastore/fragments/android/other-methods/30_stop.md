@@ -4,7 +4,7 @@
 ```java
 Amplify.DataStore.stop(
     () -> Log.i("MyAmplifyApp", "DataStore stopped"),
-    error -> Log.e("MyAmplifyApp", "Error stopped DataStore: ", error)
+    error -> Log.e("MyAmplifyApp", "Error stopped DataStore", error)
 );
 ```
 
