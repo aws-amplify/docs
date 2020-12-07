@@ -25,7 +25,7 @@ Amplify.DataStore.start(
 RxAmplify.DataStore.start()
     .subscribe(
         () -> Log.i("MyAmplifyApp", "DataStore started"),
-        error -> Log.e("MyAmplifyApp", "Error starting DataStore: ", error)
+        error -> Log.e("MyAmplifyApp", "Error starting DataStore", error)
     );
 }
 ```
