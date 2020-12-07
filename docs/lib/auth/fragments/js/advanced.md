@@ -128,7 +128,7 @@ const SignInWithFacebook = () => {
    
     return (
         <div>
-            <button onClick={this.signIn}>Sign in with Facebook</button>
+            <button onClick={signIn}>Sign in with Facebook</button>
         </div>
     );
 }
@@ -195,7 +195,7 @@ const SignInWithGoogle = () => {
         );
     }
 
-    const getAWSCredentials = async(googleUser) => {
+    const getAWSCredentials = async (googleUser) => {
         const { id_token, expires_at } = googleUser.getAuthResponse();
         const profile = googleUser.getBasicProfile();
         let user = {
