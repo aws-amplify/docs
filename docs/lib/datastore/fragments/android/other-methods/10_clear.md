@@ -15,7 +15,7 @@ Amplify.DataStore.clear(
 ```kotlin
 Amplify.DataStore.clear(
     { Log.i("MyAmplifyApp", "DataStore cleared") },
-    { error: DataStoreException? -> Log.e("MyAmplifyApp", "Error clearing DataStore", error) }
+    { Log.e("MyAmplifyApp", "Error clearing DataStore", it) }
 )
 
 ```
