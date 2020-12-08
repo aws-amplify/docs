@@ -12,7 +12,7 @@
 
 ## Contributing 
 
-We welcome contributions to the docmentation site! Please test your changes locally followed by a PR against our `master` branch. After your PR is reviewed, it will be merged and the branch will be deleted. 
+We welcome contributions to the documentation site! Please verify your changes locally followed by a PR against our `master` branch. After your PR is reviewed and all tests pass, it will be merged and the branch will be deleted. 
 
 ### Branches 
 
