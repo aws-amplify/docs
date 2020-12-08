@@ -1,4 +1,4 @@
-Add the Auth plugin before calling `Amplify.configure`. Update [the code you added](~/lib/project-setup/create-application/q/platform/android#n4-initialize-amplify-in-the-application) in **Prerequisites**: 
+Add the Auth plugin before calling `Amplify.configure`. Update [the code you added](~/lib/project-setup/create-application.md#n4-initialize-amplify-in-the-application) in **Prerequisites**: 
 
 <amplify-block-switcher>
 <amplify-block name="Java">
