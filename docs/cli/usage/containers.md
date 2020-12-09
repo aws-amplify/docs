@@ -10,7 +10,7 @@ Amplify [libraries](~/lib/lib.md) can be used with the [Auth category](~/lib/aut
 Note that serverless containers do incur additional costs and operational overhead, as such we recommend using AWS AppSync with the [GraphQL Transform](~/cli/graphql-transformer/overview.md) as a starting point when building mobile and web apps with Amplify.
 
 
-> **Billing warning**: Serverless containers incurs additional costs when resources are not in use for services such as VPC, Fargate, ECR, Cloud Map, CodePipeline, and CodeBuild. For more information refer to [VPC pricing](https://aws.amazon.com/vpc/pricing/), [Fargate pricing](https://aws.amazon.com/fargate/pricing/), [ECR Pricing](https://aws.amazon.com/ecr/pricing/), [CodePipeline pricing](https://aws.amazon.com/codepipeline/pricing/), [CodeBuild pricing](https://aws.amazon.com/codebuild/pricing/), and [Cloud Map pricing](https://aws.amazon.com/cloud-map/pricing/).
+> **Billing warning**: When you deploy serverless containers with Amplify, it incurs additional costs when resources are not in use for services such as VPC, Fargate, ECR, Cloud Map, CodePipeline, and CodeBuild. For more information refer to [VPC pricing](https://aws.amazon.com/vpc/pricing/), [Fargate pricing](https://aws.amazon.com/fargate/pricing/), [ECR Pricing](https://aws.amazon.com/ecr/pricing/), [CodePipeline pricing](https://aws.amazon.com/codepipeline/pricing/), [CodeBuild pricing](https://aws.amazon.com/codebuild/pricing/), and [Cloud Map pricing](https://aws.amazon.com/cloud-map/pricing/).
 
 ## Getting Started
 
