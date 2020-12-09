@@ -77,9 +77,9 @@ If you are unfamiliar with using a Dockerfile review the [Dockerizing a Node.js 
 A simple Dockerfile example is below, which would start a NodeJS application (`index.js`) in a built image by copying all the source files and installing dependencies. This example also shows how could can specify environment variables and use the `EXPOSE` statement for defining your container's communication port.
 
 ```dockerfile
-FROM node:alpine
+FROM public.ecr.aws/bitnami/node:14.15.1-debian-10-r8
 
-ENV NODE_ENV=development
+ENV PORT=8080
 EXPOSE 8080
 
 WORKDIR /usr/src/app
@@ -124,8 +124,6 @@ services:
     networks:
       - public
       - private
-    environment:
-      - NODE_ENV=development
   python:
     build:
       context: ./python
