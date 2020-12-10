@@ -2,6 +2,7 @@
   "title": "Advanced workflows",
   "items": [
     "tags",
+    "monorepo",
     "lambda-triggers",
     "containers",
     "mock",

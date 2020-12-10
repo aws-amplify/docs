@@ -23,14 +23,14 @@ When building a user authentication flow, there are a few pieces of state that y
 
 1. __Form state__ - The form state manages which form should be shown to the user. Are they a new user? How can you show them the sign up form. Are they in the process of signing up? Should you be showing them the confirm sign up form for an MFA flow?
 2. __Form input state__ - The form input state is the value of the actual form fields as the user is typing. For instance, you may have a form that allows the user to input their email address, password, and phone number. The form input state will hold these values and allow you to send them in an API request.
-3. __Routing state__ - The routing state determines what url, route, or page the user is viewing. Many times this will determine whether a user can or cannot view a certain route or page. The implementation depends heavily on the type of app your building, and the framework you are using (if any).
+3. __Routing state__ - The routing state determines what url, route, or page the user is viewing. Many times this will determine whether a user can or cannot view a certain route or page. The implementation depends heavily on the type of app you are building, and the framework you are using (if any).
 4. __User state__ - The user state is the currently signed in user (if there is one). Using this user state, you can determine the routing state and enable more fine grained control based on whether a user is signed in or based on the identity of the signed in user.
 
 <!-- This guide will cover strategies for handling __form state__, __form input state__, and __user state__ but will not be covering routing state as this is very dependent on the framework. -->
 
 ## Implementation of a custom authentication flow
 
-Using the a combination of application state and the Amplify APIs you can easily manage the authentication flow of your app. Let's have a look at how we could achieve this with __pseudocode__:
+Using a combination of application state and the Amplify APIs you can easily manage the authentication flow of your app. Let's have a look at how we could achieve this with __pseudocode__:
 
 ```javascript
 /* Import the Amplify Auth API */
@@ -101,7 +101,7 @@ if (formState === "signUp") {
   )
 }
 
-/* If the form state is "confirmSignUp", show the sign up form */
+/* If the form state is "confirmSignUp", show the confirm sign up form */
 if (formState === "confirmSignUp") {
   return (
     <div>

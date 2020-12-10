@@ -12,6 +12,7 @@ When using the `@key` directive with DataStore, as long as you specify a `name` 
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/relational/updated-schema.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/relational/updated-schema.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/relational/updated-schema.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/relational/updated-schema.md"></inline-fragment>
 
 ## Saving relations
 
@@ -20,12 +21,14 @@ In order to save connected models you will create an instance of the model you w
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/relational/save-snippet.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/relational/save-snippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/relational/save-snippet.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/relational/save-snippet.md"></inline-fragment>
 
 ## Querying relations
 
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/relational/query-snippet.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/relational/query-snippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/relational/query-snippet.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/relational/query-snippet.md"></inline-fragment>
 
 ## Deleting relations
 
@@ -34,14 +37,15 @@ When you delete a parent object in a one to many relationship, the children will
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/relational/delete-snippet.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/relational/delete-snippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/relational/delete-snippet.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/relational/delete-snippet.md"></inline-fragment>
 
 However, in a many to many relationship the children are not removed and you must explicitly delete them.
 
 ### Many-to-many
 
-The above example shows how to use a *one-to-many* schema and save connected models. For *many-to-many* relations, such as the one shows in the [GraphQL Transformer examples](~/cli/graphql-transformer/connection.md).
+The above example shows how to use a *one-to-many* schema and save connected models. You can also define *many-to-many* relationships, such as the relationship shown in the [@connection examples](~/cli/graphql-transformer/connection.md#many-to-many-connections).
 
-In this case, you save instances of models from each side of the relationship and then join them together by connecting type on a field defined with `@connection`. Consider the following schema:
+For many-to-many relationships, you save instances of models from each side of the relationship and then join them together by connecting type on a field defined with `@connection`. Consider the following schema:
 
 ```graphql
 enum PostStatus {
@@ -78,3 +82,4 @@ type User @model {
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/relational/save-many-snippet.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/relational/save-many-snippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/relational/save-many-snippet.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/relational/save-many-snippet.md"></inline-fragment>

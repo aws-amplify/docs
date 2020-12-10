@@ -15,6 +15,7 @@
     "utilities",
     "client-configuration",
     "debugging",
+    "info",
     "ssr"
   ]
 }

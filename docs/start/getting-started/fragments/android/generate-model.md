@@ -4,7 +4,7 @@ With the basic setup complete, next you will model the data your application wil
 
   ![](~/images/lib/getting-started/android/set-up-android-studio-project-view.png)
 
-1. Expand the **ToDo** folder and open the schema file located at **amplify** > **backend** > **api** > **amplifyDatasource** > **schema.graphql**.  
+1. Expand the **Todo** folder and open the schema file located at **amplify** > **backend** > **api** > **amplifyDatasource** > **schema.graphql**.  
 
     Replace the contents of the file with the following schema:
 

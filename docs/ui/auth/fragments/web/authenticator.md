@@ -521,10 +521,10 @@ amplify-authenticator {
 
 ```jsx
 <AmplifyAuthenticator>
-  <AmplifyConfirmSignIn
+  <AmplifyConfirmSignUp
     headerText="My Custom Confirm Sign Up Text"
     slot="confirm-sign-up"
-  ></AmplifyConfirmSignIn>
+  ></AmplifyConfirmSignUp>
 </AmplifyAuthenticator>
 ```
 

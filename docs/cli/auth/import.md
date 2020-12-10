@@ -5,7 +5,11 @@ description: Configure the Amplify CLI to use existing Amazon Cognito User Pool 
 
 Import existing Amazon Cognito resources into your Amplify project. Get started by running `amplify import auth` command to search for & import an existing Cognito User Pool & Identity Pool in your account. 
 
-The `amplify import auth` will:
+```sh
+amplify import auth
+```
+
+The `amplify import auth` command will:
 * automatically populate your Amplify Library configuration files (aws-exports.js, amplifyconfiguration.json) with your chosen Amazon Cognito resource information 
 * provide your designated existing Cognito resource as the authentication & authorization mechanism for all auth-dependent categories (API, Storage and more)
 * enable Lambda functions to access the chosen Cognito resource if you permit it
@@ -47,6 +51,6 @@ If you want to have Amplify manage your auth resources in a new environment, run
 
 ## Unlink an existing Cognito User Pool or Identity Pool
 
-In order to unlink your existing Cognito resource run `amplify remove auth`. This will only unlink the Cognito resource reference from the Amplify project. It will not remove the Cognito resource itself. 
+In order to unlink your existing Cognito resource run `amplify remove auth`. This will only unlink the Cognito resource referenced from the Amplify project. It will not delete the Cognito resource itself. 
 
 Run `amplify push` to complete the unlink procedure.

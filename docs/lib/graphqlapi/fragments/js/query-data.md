@@ -25,7 +25,7 @@ const allTodos = await API.graphql({ query: queries.listTodos });
 console.log(allTodos); // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
 
 // Query using a parameter
-const oneTodo = await API.graphql({ query: queries.getTodo, variables: { id: 'some id' }}));
+const oneTodo = await API.graphql({ query: queries.getTodo, variables: { id: 'some id' }});
 ```
 
 The TypeScript signature of API.graphql returns a `Promise | Observable`. [For now](https://github.com/aws-amplify/amplify-js/issues/6369), you need to assert the type before `await`ing:

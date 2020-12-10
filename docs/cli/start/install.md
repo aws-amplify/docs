@@ -7,9 +7,33 @@ description: How to install & configure Amplify CLI
 
 The Amplify Command Line Interface (CLI) is a unified toolchain to create AWS cloud services for your app. Let's go ahead and install the Amplify CLI.
 
+<amplify-block-switcher>
+
+<amplify-block name="NPM">
+
 ```bash
 npm install -g @aws-amplify/cli
 ```
+
+</amplify-block>
+
+<amplify-block name="cURL (Mac and Linux)">
+
+```bash
+curl -sL https://aws-amplify.github.io/amplify-cli/install | bash && $SHELL
+```
+
+</amplify-block>
+
+<amplify-block name="cURL (Windows)">
+
+```bash
+curl -sL https://aws-amplify.github.io/amplify-cli/install-win -o install.cmd && install.cmd
+```
+
+</amplify-block>
+
+</amplify-block-switcher>
 
 > Because we're installing the Amplify CLI globally, you might need to run the command above with `sudo`.
 
@@ -17,7 +41,7 @@ npm install -g @aws-amplify/cli
 ### Pre-requisites for installation
 
 * [Install Node.js®](https://nodejs.org/en/download/) and [NPM](https://www.npmjs.com/get-npm) if they are not already on your machine.
-* Verify that you are running at least Node.js version 10.x and npm version 6.x or greater by running `node -v` and npm -v in a terminal/console window
+* Verify that you are running at least Node.js version 10.x and npm version 6.x or greater by running `node -v` and `npm -v` in a terminal/console window
 * [Create AWS Account](https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start). If you don't already have an AWS account, you'll need to create one in order to follow the steps outlined in this tutorial. 
 
 
