@@ -318,7 +318,7 @@ Amplify creates APIs as an [ECS Service](https://docs.aws.amazon.com/AmazonECS/l
 
 The fully managed workflow does not require you to have a source control repository or even Docker installed on your local workstation in order to build and deploy a container to Fargate. Amplify will package the contents of `./amplify/backend/api/<name>/src` and place it onto an S3 deployment bucket. This will trigger a Code Pipeline process which builds your container(s), stores the results in ECR, and deploys them to Fargate.
 
-![Fully Managed Pipeline](~/images/containers/BuildWorkflow.PNG)
+![Fully Managed Pipeline](~/images/containers/build-workflow.png)
 
 Fore single containers only one ECR entry and deployment will take place. When using a Dockerfile, a build and push to ECR will take place for each container that has a corresponding `build` entry. For containers that only have an `image` entry no ECR push will take place and this image will be launched directly into the Fargate Task. As you make changes to your source code in `./amplify/backend/api/<name>/src`, Amplify will detect any changes when you run `amplify push`, package the new files together and place them on S3. This will start another run of the build and deploy pipeline automatically updating your Fargate Service.
 
