@@ -308,6 +308,7 @@ If you are using a non-Route53 registrar, you will need two additional steps:
 
 For Route53 registered domains these steps are not needed and Amplify will register everything automatically. You can learn more about [registering a domain name in the Route53 documentation](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar.html).
 
+You can additionally restrict access to your hosted site using Amazon Cognito User Pools. The ALB will authorize requests by using the OAuth endpoint of the Cognito Hosted UI with an SSL-enabled HTTP listener. To do this run `amplify add auth` first and select *Default configuration with Social Provider (Federation)* to enable the Hosted UI (you don't need to select any of the 3rd party social providers if it's not needed in your application). After this select *Yes* when prompted *Do you want to automatically protect your web app using Amazon Cognito Hosted UI* in the `amplify add hosting` flow. Alternatively, you can first add hosting and later add auth to your project by running `amplify configure hosting` after this is completed.
 
 ## Build Pipeline
 
