@@ -301,6 +301,8 @@ Note that if you have enabled Authorization checks on your endpoints during `amp
 
 When using containers in the `amplify add hosting` workflow the setup will be largely the same, including the ability to define your backend with a single Dockerfile or Docker Compose file yaml. However the ECS cluster will be fronted by an Application Load Balancer (ALB) and CloudFront distribution, and you will be required to provide a domain name which you own. This can either be a domain which you have purchased on a 3rd party registrar or with Route53. The domain will be used with Amazon Certificate Manager to configure SSL between ALB and Cognito User Pools to perform authorization to your website hosted on Fargate containers. 
 
+> Hosting with Fargate in Amplify is only available in US-East-1 at this time
+
 If you are using a non-Route53 registrar, you will need two additional steps:
 
 1. Approve the certificate request. This will come via email to your registered address. If you do not see it you may need to [resend the email](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-resend.html).
