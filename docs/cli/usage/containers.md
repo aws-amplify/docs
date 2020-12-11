@@ -338,7 +338,7 @@ You can always interact directly with the resources in your account to build con
 
 ### Troubleshooting
 
-Note that a container deployment could fail or be problematic in a few different ways ranging from a build issue to bugs in your application code not seen until production. There are different checkpoints along the way to help prevent application issues as well as methods to revert changes which are outlined below.
+Note that a container deployment could fail or be problematic in a few different ways ranging from a build issue to bugs in your application code not seen until production. There are different checkpoints along the way to help prevent application issues as well as methods to revert changes which are outlined below. To access the AWS Console with details of your container status, logging, or build pipeline at any time run `amplify console api` and select your deployed API.
 
 ### Build failure
 
