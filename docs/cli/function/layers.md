@@ -180,7 +180,7 @@ You also have the ability to manually set the layer version that is used by a fu
 
 ## Update layer content
 
-Any file changes within a layer's folder are automatically tracked by Amplify CLI. If there are changes available, the Amplify CLI will create a new layer version with the changes and ask during `amplify push` if you'd like to update all dependent functions to use the latest version.
+Any file changes within a layer's folder are automatically tracked by Amplify CLI. If there are changes available, the Amplify CLI will create a new layer version with the changes. Functions that depend on the layer will NOT automatically update to use the new layer version. You can run `amplify update function`, select `Lambda Function` and follow the walkthrough to update the layer version used by a function.
 
 ## Update layer settings
 
