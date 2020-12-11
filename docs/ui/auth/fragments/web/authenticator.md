@@ -802,7 +802,7 @@ amplify-authenticator {
 import React from "react";
 import "./App.css";
 import Amplify from "aws-amplify";
-import {AmplifyAuthenticator, AmplifySignOut} from "@aws-amplify/ui-react";
+import {AmplifyAuthenticator, AmplifyGreetings} from "@aws-amplify/ui-react";
 import {AuthState, onAuthUIStateChange} from "@aws-amplify/ui-components";
 import awsconfig from "./aws-exports";
 
