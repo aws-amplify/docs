@@ -14,9 +14,9 @@ The SDK provides `PinpointNotificationReceiver` which handles the notification t
 
 ```xml
 <receiver
-    android:name=”com.amazonaws.mobileconnectors.pinpoint.targeting.notification.PinpointNotificationReceiver” android:exported=”false” >
+    android:name="com.amazonaws.mobileconnectors.pinpoint.targeting.notification.PinpointNotificationReceiver" android:exported="false" >
     <intent-filter>
-        <action android:name=”com.amazonaws.intent.fcm.NOTIFICATION_OPEN” />
+        <action android:name="com.amazonaws.intent.fcm.NOTIFICATION_OPEN" />
     </intent-filter>
 </receiver>
 ```
