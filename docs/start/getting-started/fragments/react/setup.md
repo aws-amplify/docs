@@ -51,9 +51,9 @@ Source directory path (src)
 
 Distribution directory path (build)
 
-Build command (npm run build)
+Build command (npm run-script build)
 
-Start command (npm start)
+Start command (npm run-script start)
 
 # This is the profile you created with the `amplify configure` command in the introduction step.
 Do you want to use an AWS profile
