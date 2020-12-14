@@ -9,10 +9,9 @@ if (!configured) {
   Analytics.configure(awsexports);
   if (Build.isBrowser) {
     // @ts-ignore
-    const shortbread = AWSCShortbread({
+    AWSCShortbread({
       domain: ".amplify.aws",
-    });
-    shortbread.checkForCookieConsent();
+    }).checkForCookieConsent();
   }
   if (Build.isBrowser) {
     // @ts-ignore
