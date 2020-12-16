@@ -89,7 +89,7 @@ In order to access Amazon Location Service APIs you will need to create resource
 
 This section provides you an example of using the Amazon Location Service APIs. In this example, we will first create a Place Index in the Amazon Location Service console and use the APIs to search for places.  
 
-Creating a new place index
+### Creating a new place index
 
 1. Open the [Amazon Location Service console](https://console.aws.amazon.com/location/places/home#/create) to create a place index.
 2. Enter **MyPlaceIndex** in **Name**.
@@ -101,7 +101,7 @@ Creating a new place index
 
 ![Amazon Location Service - Place index](~/images/als/my-place-index.png)
 
-Allow Guest users access to the place index
+### Allow Guest users access to the place index
 
 Now that you have created a Place Index resource, you must create an inline policy to give users of your application access to the resource:
 
@@ -136,7 +136,7 @@ amplify console auth
 11. In the Name field, enter ``LocationTracker`.
 12. Click on the Create policy button. You have now successfully added authentication to your Android app.
 
-Searching for places
+### Searching for places
 
 The following code details how to use the Amazon Location Service APIs to search for places using the Place Index you just created: 
 
