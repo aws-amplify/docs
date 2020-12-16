@@ -36,7 +36,7 @@ You have now successfully created and started your new React app.
 The first step to using the SDKs in the client is to install the necessary dependencies with the following command:
 
 ```bash
-npm install @aws-sdk/client-amazon-location-service aws-amplify
+npm install aws-sdk aws-amplify
 ```
 
 ## Adding authentication
@@ -69,11 +69,14 @@ Open your `src/App.js` file, and call the following function to initialize the A
 
 ```javascript
 import Amplify, { Auth } from 'aws-amplify';
-import { LocationClient } from '@aws-sdk/client-amazon-location-service';
+import Location from "aws-sdk/clients/location";
+import awsconfig from './aws-exports';
+
+Amplify.configure(awsconfig);
 
 const createClient = async () => {
     const credentials = await Auth.currentCredentials();
-    const client = await new LocationClient({
+    const client = new Location({
         credentials,
         region: awsconfig.aws_project_region,
    });
@@ -141,13 +144,12 @@ amplify console auth
 The following code details how to use the Amazon Location Service APIs to search for places using the Place Index you just created: 
 
 ```javascript
-const searchPlaceIndexForTextHere = () => {
-    const params = {
-        IndexName: 'MyPlaceIndex',
-        Text: 'Indianapolis',
-    };
-    client.send(new SearchPlaceIndexForTextCommand(params))
-        .then(response => console.log(response))
-        .catch(error => console.error(error));
+const params = {
+  IndexName: "MyPlaceIndex",
+  Text: "Indianapolis",
 };
+client.searchPlaceIndexForText(params, (err, data) => {
+  if (err) console.error(err);
+  if (data) console.log(data);
+});
 ```
