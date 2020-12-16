@@ -3,7 +3,7 @@
 
 In order to start tracking, you create an Amazon Location Tracking resource to capture and store positions of your users. 
 
-1. Open the [Amazon Location Service console](https://console.aws.amazon.com/location/places/home#/create) to create a tracker.
+1. Open the [Amazon Location Service console](https://console.aws.amazon.com/location/tracking/home#/create) to create a tracker.
 1. Enter **MyTracker** in **Name**.
 1. Press **Create tracker**.
 

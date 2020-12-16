@@ -16,7 +16,7 @@ When using the Amazon Location Service within your iOS app, your application mus
 
 The Amplify Framework uses [Amazon Cognito](https://aws.amazon.com/cognito/) as its primary authentication provider. Amazon Cognito is a robust user directory service that handles user registration, authentication, account recovery, and other operations. Use the following procedure to add authentication to your app using Amazon Cognito and Amplify CLI. 
 
-1. Open a terminal window in Android Studio by clicking Terminal.
+1. Open a terminal window.
 1. Install the [Amplify CLI](https://docs.amplify.aws/cli/start/install) by running the following command:
 
     ```bash
@@ -46,7 +46,7 @@ The Amplify Framework uses [Amazon Cognito](https://aws.amazon.com/cognito/) as 
       `No, I am done.`
     ```
 
-1. Run the following command to push your changes to the cloud. When completed, the awsconfiguration.json file will be updated to reference your newly provisioned backend auth resources.
+1. Run the following command to push your changes to the cloud. When completed, the `awsconfiguration.json` file will be updated to reference your newly provisioned backend auth resources.
 
     ```bash
     amplify push
@@ -82,7 +82,7 @@ Then you will need to install the necessary Amazon Location Service SDK dependen
     pod install --repo-update
     ```
 
-1. After doing this, you should now see a file called `MyAmplifyApp.xcworkspace`. You are required to use this file from now on instead of the .xcodeproj file. To open your workspace, **run the command**:
+1. After doing this, you should now see a file ending with `.xcworkspace`. You are required to use this file from now on instead of the `.xcodeproj` file. To open your workspace, **run the command**:
 
     ```bash
     xed .
@@ -106,7 +106,7 @@ Then you will need to install the necessary Amazon Location Service SDK dependen
 
 The following procedure details how to initialize the `AWSMobileClient` and the `AWSLocation` client. The `AWSLocation` client is the low level SDK you need to access the Amazon Location Service APIs. 
 
-1. Add the following imports to the top of your main app file:
+1. Add the following imports to the top of your `AppDelegate` file:
 
     ```swift
     import AWSMobileClient
@@ -160,9 +160,9 @@ The following procedure details how to initialize the `AWSMobileClient` and the 
     ```json
     {
         "UserAgent": "aws-amplify/cli",
-          "Version": "0.1.0",
-          // ...
-          "Location": {
+        "Version": "0.1.0",
+        // ...
+        "Location": {
             "Default": {
                 "Region": "[REGION]"
             }
@@ -171,7 +171,7 @@ The following procedure details how to initialize the `AWSMobileClient` and the 
 
 1. Build (⌘B) and run the app (⌘R).
 
-You have now successfully setup and configured your app to use Amazon Location Service!
+You have now successfully setup and configured your app to use Amazon Location Service.
 
 ## Using the Amazon Location Service APIs
 
@@ -206,12 +206,12 @@ Now create an inline policy that will give guest users of your application acces
 1. Open the drop down for **Unauthenticated identities**, choose **Enable access to unauthenticated identities**, and then press **Save Changes**.
 1. Click on **Edit identity pool** once more. Make a note of the name of the Unauthenticated role. For example, `amplify-<project_name>-<env_name>-<id>-unauthRole`.
 1. Open the [AWS Identity and Access Management (IAM) console](https://console.aws.amazon.com/iam/home#/roles) to manage Roles.
-1. In the **Search** field, enter the name of your `unauthRole` noted above and click on it.
+1. In the **Search** field, enter the name of your Unauthenticated role noted above and click on it.
 1. Click **+Add inline policy**, then click on the **JSON** tab.
 1. Fill in the `[ARN]` placeholder with the ARN of your place index which you noted above and replace the contents of the policy with the below.
 
     ```json
-    {
+{
         "Version": "2012-10-17",
         "Statement": [
             {
@@ -220,7 +220,7 @@ Now create an inline policy that will give guest users of your application acces
                 "Resource": "[ARN]"
             }
         ]
-    }
+}
     ```
 
 1. Click on the **Review policy** button.
@@ -232,6 +232,9 @@ Now create an inline policy that will give guest users of your application acces
 Here is how you can search for places using the place index you just created:
 
 ```swift
+// Add the following import to the top of your class
+import AWSLocation
+
 func searchForPlaces() {
     let request = AWSLocationSearchPlaceIndexForTextRequest()!
     request.text = "dessert"

@@ -145,12 +145,12 @@ Now create an inline policy that will give guest users of your application acces
 1. Open the drop down for **Unauthenticated identities**, choose **Enable access to unauthenticated identities**, and then press **Save Changes**.
 1. Click on **Edit identity pool** once more. Make a note of the name of the Unauthenticated role. For example, `amplify-<project_name>-<env_name>-<id>-unauthRole`.
 1. Open the [AWS Identity and Access Management (IAM) console](https://console.aws.amazon.com/iam/home#/roles) to manage Roles.
-1. In the **Search** field, enter the name of your `unauthRole` noted above and click on it.
+1. In the **Search** field, enter the name of your Unauthenticated role noted above and click on it.
 1. Click **+Add inline policy**, then click on the **JSON** tab.
 1. Fill in the `[ARN]` placeholder with the ARN of your place index which you noted above and replace the contents of the policy with the below.
 
     ```json
-    {
+{
         "Version": "2012-10-17",
         "Statement": [
             {
@@ -159,7 +159,7 @@ Now create an inline policy that will give guest users of your application acces
                 "Resource": "[ARN]"
             }
         ]
-    }
+}
     ```
 
 1. Click on the **Review policy** button.

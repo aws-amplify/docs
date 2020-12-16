@@ -2,7 +2,7 @@
 
 In order to start tracking, you create an Amazon Location Tracking resource to capture and store positions of your users. 
 
-1. Open the [Amazon Location Service console](https://console.aws.amazon.com/location/places/home#/create) to create a tracker.
+1. Open the [Amazon Location Service console](https://console.aws.amazon.com/location/tracking/home#/create) to create a tracker.
 1. Enter **MyTracker** in **Name**.
 1. Press **Create tracker**.
 
@@ -32,7 +32,7 @@ Now that you have created a tracker resource, you must create an inline policy t
 1. Fill in the **[ARN]** placeholder with the ARN of your tracker which you noted above and replace the contents of the policy with the below.
 
     ```json
-    {
+{
         "Version": "2012-10-17",
         "Statement": [
             {
@@ -41,7 +41,7 @@ Now that you have created a tracker resource, you must create an inline policy t
                 "Resource": "[ARN]"
             }
         ]
-    }
+}
     ```
 
 1. Click on the **Review policy** button.
@@ -288,29 +288,30 @@ The below steps describe how you can pass device location to the tracker resourc
 
     ```swift
     func onTrackingEvent(event: TrackingListener) {
-            switch event {
-            case .onDataPublished(let trackingPublishedEvent):
-                print("onDataPublished: \(trackingPublishedEvent)")
-            case .onDataPublicationError(let error):
-                switch error.errorType {
-                case .invalidTrackerName, .trackerAlreadyStarted, .unauthorized:
-                    print("onDataPublicationError \(error)")
-                case .serviceError(let serviceError):
-                    print("onDataPublicationError serviceError: \(serviceError)")
-                }
-            case .onStop:
-                print("tracker stopped")
+        switch event {
+        case .onDataPublished(let trackingPublishedEvent):
+            print("onDataPublished: \(trackingPublishedEvent)")
+        case .onDataPublicationError(let error):
+            switch error.errorType {
+            case .invalidTrackerName, .trackerAlreadyStarted, .unauthorized:
+                print("onDataPublicationError \(error)")
+            case .serviceError(let serviceError):
+                print("onDataPublicationError serviceError: \(serviceError)")
             }
+        case .onStop:
+            print("tracker stopped")
         }
-        
-        // pass `onTrackingEvent` on startTracking()
-        let result = locationTracker.startTracking(
-                        delegate: self,
-                        options: TrackerOptions(
-                            customDeviceId: "12345",
-                            retrieveLocationFrequency: TimeInterval(30),
-                            emitLocationFrequency: TimeInterval(120)),
-                        listener: onTrackingEvent)
+    }
+    ```
+    Pass `onTrackingEvent` to `startTracking()`
+    ```swift
+    let result = locationTracker.startTracking(
+                    delegate: self,
+                    options: TrackerOptions(
+                        customDeviceId: "12345",
+                        retrieveLocationFrequency: TimeInterval(30),
+                        emitLocationFrequency: TimeInterval(120)),
+                    listener: onTrackingEvent)
       ```
     
       **Note**: `onDataPublished` will be triggered for each successful call to Amazon Location Service. The `trackingPublishedEvent` payload contains the request containing locations sent and the successful response from the service.
@@ -339,7 +340,9 @@ You have now successfully set up `AWSLocationTracker` in your app.
 When you want to prevent the tracker from continuing to store and emit location data, call the following method:
 
 ```swift
-locationTracker.stopTracking()
+func stopTracking() {
+    locationTracker.stopTracking()
+}
 ```
 
 ### Tracking status
@@ -347,7 +350,9 @@ locationTracker.stopTracking()
 You can also check if the tracker is currently tracking by calling the following method:
 
 ```swift
-locationTracker.isTracking()
+func isTracking() -> Bool {
+    locationTracker.isTracking()
+}
 ```
 
 ## Complete code sample
@@ -371,7 +376,7 @@ class LocationManagement: NSObject, CLLocationManagerDelegate, AWSLocationTracke
     
     let locationManager = CLLocationManager()
     let locationTracker = AWSLocationTracker(trackerName: "MyTracker",
-                                             region: AWSRegionType.USEast1,
+                                             region: AWSRegionType.[UPDATE_ME],
                                              credentialsProvider: AWSMobileClient.default())
     
     override init() {
@@ -446,6 +451,13 @@ class LocationManagement: NSObject, CLLocationManagerDelegate, AWSLocationTracke
         } else {
             print("other error:", error.localizedDescription)
         }
+    }
+    func stopTracking() {
+        locationTracker.stopTracking()
+    }
+    
+    func isTracking() -> Bool {
+        locationTracker.isTracking()
     }
 }
 ```
@@ -544,6 +556,13 @@ class LocationManagement: NSObject,
         } else {
             print("other error:", error.localizedDescription)
         }
+    }
+    func stopTracking() {
+        locationTracker.stopTracking()
+    }
+    
+    func isTracking() -> Bool {
+        locationTracker.isTracking()
     }
 }
 ```
