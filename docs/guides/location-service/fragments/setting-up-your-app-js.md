@@ -115,9 +115,9 @@ amplify console auth
 3. Open the drop down for `Unauthenticated identities`,  choose `Enable` access to unauthenticated identities, and then press `Save` Changes.
 4. Click on `Edit` identity pool once more. Make a note of the name of the `Unauthenticated` role. For example, `amplify-<project_name>-<env_name>-<id>-unauthRole`.
 5. Open the [AWS Identity and Access Management (IAM) console](https://console.aws.amazon.com/iam/home#/roles) to manage Roles.
-6. In the **Search** field, enter the name of your `unauthRole` noted above and click on it.
-7. Click **+Add inline policy**, then click on the **JSON** tab.
-8. Fill in the `[ARN]` placeholder with the ARN of your place index which you noted above and replace the contents of the policy with the below.
+6. In the *Search* field, enter the name of your Unauthenticated role noted above and click on it.
+7. Click *+Add inline policy*, then click on the *JSON* tab.
+8. Fill in the *[ARN]* placeholder with the ARN of your place index which you noted above and replace the contents of the policy with the below.
 
 ```bash
 {
