@@ -35,9 +35,33 @@ The Amplify Framework uses [Amazon Cognito](https://aws.amazon.com/cognito/) as 
 1. Open a terminal window in Android Studio by clicking Terminal.
 1. Install the [Amplify CLI](https://docs.amplify.aws/cli/start/install) by running the following command:
 
+    <amplify-block-switcher>
+
+    <amplify-block name="NPM">
+
     ```bash
     npm install -g @aws-amplify/cli
     ```
+
+    </amplify-block>
+
+    <amplify-block name="cURL (Mac and Linux)">
+
+    ```bash
+    curl -sL https://aws-amplify.github.io/amplify-cli/install | bash && $SHELL
+    ```
+
+    </amplify-block>
+
+    <amplify-block name="cURL (Windows)">
+
+    ```bash
+    curl -sL https://aws-amplify.github.io/amplify-cli/install-win -o install.cmd && install.cmd
+    ```
+
+    </amplify-block>
+
+    </amplify-block-switcher>
 
 1. Initialize a new Amplify project by running the following command from the root directory of your app:
 
