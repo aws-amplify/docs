@@ -10,6 +10,15 @@
 2. `yarn && yarn start`
 3. <http://localhost:3333/> should open automatically.
 
+## Contributing 
+
+We welcome contributions to the documentation site! Please verify your changes locally followed by a PR against our `master` branch. After your PR is reviewed and all tests pass, it will be merged and the branch will be deleted. 
+
+### Branches 
+
+`master` - at parity with our production site https://docs.amplify.aws/
+`gh-pages` - used to handle redirects from v1 of the documentaiton site. This should not be deleted. 
+
 ## Authoring Pages
 
 Below is a full description of how to author pages. For now though, trigger the `start` script (`yarn start`).
