@@ -44,7 +44,7 @@
         ]
       },
       "useExperimentalPipelinedTransformer": {
-        "description": "Use pipeline feature in new Transformer.",
+        "description": "Use pipeline resolver-based GraphQL Transformer.",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "4.32.4",
@@ -52,20 +52,20 @@
         "values": [
           {
             "value": "true",
-            "description": "Allows to use pipeline feature in transfomer.",
+            "description": "Enable pipeline resolver-based GraphQL Transformer.",
             "defaultNewProject": true,
             "defaultExistingProject": false
           },
           {
             "value": "false",
-            "description": "previous graphql transformer.",
+            "description": "Disables pipeline resolver-based GraphQL Transformer.",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }
         ]
       },
       "enableIterativeGsiUpdates": {
-        "description": "Enable updating more than 1 GSIs in update stage .",
+        "description": "Enable multiple GSI updates through iterative incremental deployments.",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "4.38.0",
@@ -73,7 +73,7 @@
         "values": [
           {
             "value": "true",
-            "description": "Projects can mutate more than 1 GSIs in update flow.",
+            "description": "GraphQL schemas changes can contain multiple GSI changes.",
             "defaultNewProject": true,
             "defaultExistingProject": false
           },
@@ -88,10 +88,10 @@
     }
   },
   "frontend-ios": {
-    "description": "Feature Flag related to Frontend Ios",
+    "description": "Feature Flag related to iOS projects",
     "features": {
       "enableXcodeIntegration": {
-        "description": "Enable xCode integration .",
+        "description": "Automatically add DataStore / API models to the Xcode project.",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "4.40.0",
@@ -99,13 +99,13 @@
         "values": [
           {
             "value": "true",
-            "description": "Enables Xcode integration.",
+            "description": "All newly generated DataStore/API models are auto-added to the Xcode project",
             "defaultNewProject": true,
             "defaultExistingProject": false
           },
           {
             "value": "false",
-            "description": "Doesnt allows Xcode integration",
+            "description": "All newly generated DataStore/API models are NOT auto-added to the Xcode project.",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }
@@ -117,7 +117,7 @@
     "description": "Feature Flag related to auth",
     "features": {
       "enableCaseInsensitivity": {
-        "description": "enable case insensitivity .",
+        "description": "Toggles case insensitivity for Cognito login mechanisms (username, email etc..)",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "4.40.0",
@@ -125,13 +125,13 @@
         "values": [
           {
             "value": "true",
-            "description": "enables case insensitivity for auth",
+            "description": "Emails and usernames are case insensitive",
             "defaultNewProject": true,
             "defaultExistingProject": false
           },
           {
             "value": "false",
-            "description": "Disables case insensitivity for auth.",
+            "description": "Emails and usernames are case sensitive.",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }
