@@ -46,8 +46,8 @@ Now that you have created a tracker resource, you must create an inline policy t
     ```
 
 1. Click on the **Review policy** button.
-2. In the **Name** field, enter **LocationTracker**.
-3. Click on the **Create policy** button.  
+1. In the **Name** field, enter **LocationTracker**.
+1. Click on the **Create policy** button.  
 
 You have now successfully added authentication to your Android app.
 
