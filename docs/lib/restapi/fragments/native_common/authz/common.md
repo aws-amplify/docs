@@ -105,6 +105,8 @@ If you are using a 3rd party OIDC provider you will need to configure it and man
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz/20_oidc.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/20_oidc.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/authz/20_oidc.md"></inline-fragment>
+
 
 ### Note related to use Access Token or ID Token
 
@@ -116,6 +118,8 @@ If you are using Cognito's user pool as the authorization type, this will by def
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz/21_oidc.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/21_oidc.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/authz/21_oidc.md"></inline-fragment>
+
 
 ## Customizing HTTP request headers
 
