@@ -42,6 +42,126 @@
             "defaultExistingProject": false
           }
         ]
+      },
+      "useExperimentalPipelinedTransformer": {
+        "description": "Use pipeline feature in new Transformer.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.32.1",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "Allows to use pipeline feature in transfomer.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "previous graphql transformer.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "enableIterativeGsiUpdates": {
+        "description": "Enable updating more than 1 GSIs in update stage .",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.32.1",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "Projects can mutate more than 1 GSIs in update flow.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Throws Error when mutating more than 1 GSIs in update flow. .",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      }
+    }
+  },
+  "frontend-ios": {
+    "description": "Feature Flag related to Frontend Ios",
+    "features": {
+      "enableXcodeIntegration": {
+        "description": "Enable xCode integration .",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.40.0",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "Enables Xcode integration.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Doesnt allows Xcode integration",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      }
+    }
+  },
+  "auth": {
+    "description": "Feature Flag related to auth",
+    "features": {
+      "enableCaseInsensitivity": {
+        "description": "enable case insensitivity .",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.40.0",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "enables case insensitivity for auth",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Disables case insensitivity for auth.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      }
+    }
+  },
+  "codegen": {
+    "description": "Feature Flag related to Codegen",
+    "features": {
+      "useAppsyncModelgenPlugin": {
+        "description": "Allows to use migrated codegen package.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.40.0",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "Allows using newly migrated codegen package.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Allows using older codegen package",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
       }
     }
   }
