@@ -97,7 +97,7 @@ This section provides you an example of using the Amazon Location Service APIs. 
 
 ![Amazon Location Service - Create place index](~/images/als/create-place-index.png)
 
-4. Note the Amazon Resource Name (ARN) of your place index. This will start with *arn:aws:geo* as in the below screenshot.
+4. Note the Amazon Resource Name (ARN) of your place index. This will start with **arn:aws:geo** as in the below screenshot.
 
 ![Amazon Location Service - Place index](~/images/als/my-place-index.png)
 
