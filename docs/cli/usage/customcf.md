@@ -69,7 +69,7 @@ Note: You can also reference an output value from any other Amplify managed cate
         parameters.json
         template.json
   ```
-  `template.json` is a cloudformation template, and `parameters.json` is a json file of parameters that will be passed to the cloudformation template. Additionally, the `env` parameter will be passed in to your cloudformation templates dynamically by the CLI. Note: If you have multiple resources in the same category, the cloudformation template files names must be unique.
+  `template.json` is a cloudformation template, and `parameters.json` is a json file of parameters that will be passed to the cloudformation template. Additionally, the `env` parameter will be passed in to your cloudformation templates dynamically by the CLI. Note: If you have multiple resources in the same category, the cloudformation template files names must be unique but still contain `template`. For example: `template_<your_resource>.json` or `<your_resource>_template.yaml`.
 
 3. To use the above mentioned attribute `UserPoolId` from the auth category in your custom cloudformation stack, you would need to construct the following input parameter in the `template.json` file. The CLI will be passing this input automatically from the other nested stack.
 
