@@ -86,7 +86,7 @@ The below steps describe how you can get a device location and pass it to the tr
         }
 
         @Override
-        public void onError(Exception e) {
+        public void onError(Exception error) {
             // Handle AWSMobileClient initialization error
         }
     });

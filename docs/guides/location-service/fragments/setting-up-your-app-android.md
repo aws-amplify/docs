@@ -62,7 +62,7 @@ The Amplify Framework uses [Amazon Cognito](https://aws.amazon.com/cognito/) as 
       `No, I am done.`
     ```
 
-1. Run the following command to push your changes to the cloud. When completed, the awsconfiguration.json file will be updated to reference your newly provisioned backend auth resources.
+1. Run the following command to push your changes to the cloud. When completed, the `awsconfiguration.json` file will be updated to reference your newly provisioned backend auth resources.
 
     ```bash
     amplify push
@@ -84,8 +84,8 @@ AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<U
     }
 
     @Override
-    public void onError(Exception e) {
-        Log.e("QuickStart", "Initialization error: ", e);
+    public void onError(Exception error) {
+        Log.e("QuickStart", "Initialization error: ", error);
     }
 });
 ```
@@ -99,8 +99,8 @@ AWSMobileClient.getInstance().initialize(applicationContext, object : Callback<U
         Log.i("QuickStart", "onResult: " + userStateDetails.userState)
     }
 
-    override fun onError(e: Exception) {
-        Log.e("QuickStart", "Initialization error: ", e)
+    override fun onError(error: Exception) {
+        Log.e("QuickStart", "Initialization error: ", error)
     }
 })
 ```
@@ -163,8 +163,8 @@ Now create an inline policy that will give guest users of your application acces
     ```
 
 1. Click on the **Review policy** button.
-2. In the **Name** field, enter *LocationTracker*.
-3. Click on the **Create policy** button. You have now successfully added authentication to your Android app.
+1. In the **Name** field, enter *LocationTracker*.
+1. Click on the **Create policy** button. You have now successfully added authentication to your Android app.
 
 ### Searching for places
 
