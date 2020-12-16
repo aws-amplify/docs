@@ -1,27 +1,27 @@
 export async function getStaticPaths() {
   // from { step: "01" } to { step: "24" }
-  const paths = Array.from({ length: 24 }, (_, i) => ({
-    params: { step: (i + 1).toString().padStart(2, "0") },
-  }))
+  const paths = Array.from({length: 24}, (_, i) => ({
+    params: {step: (i + 1).toString().padStart(2, "0")},
+  }));
 
   return {
     paths: paths,
     fallback: false,
-  }
+  };
 }
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps({params}) {
   return {
     props: {
       step: params.step,
     },
-  }
+  };
 }
 
-export default function Page({ step }) {
-  if (!step) return null
+export default function Page({step}) {
+  if (!step) return null;
 
-  const { Game } = require(`../../src/demo/game.${step}`)
+  const {Game} = require(`src/demo/game.${step}`);
   return (
     <div>
       <div
@@ -124,5 +124,5 @@ console.error = (function(old) {
         }}
       />
     </div>
-  )
+  );
 }

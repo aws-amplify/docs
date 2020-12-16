@@ -148,7 +148,7 @@ function getColumnSteps(kids) {
   });
 }
 function getCode(fileName) {
-  const code = require(`!!raw-loader!./demo/${fileName}`).default;
+  const code = require(`!!raw-loader!src/demo/${fileName}`).default;
   if (fileName.startsWith("game")) {
     const lines = code.split("\n");
     return lines.slice(2, -2).join("\n");
