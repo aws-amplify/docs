@@ -1,3 +1,5 @@
+.next
+out
 dist/
 !www/favicon.ico
 www/

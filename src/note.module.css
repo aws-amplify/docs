@@ -1,0 +1,42 @@
+.container {
+  box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
+    0 8px 16px -8px rgba(0, 0, 0, 0.3),
+    0 -6px 16px -6px rgba(0, 0, 0, 0.025);
+  background: #282c34;
+  border-radius: 8px;
+  color: white;
+  padding: 24px;
+  display: flex;
+  justify-content: space-around;
+  flex-flow: column;
+}
+
+.container h2.title {
+  color: #61dafb;
+}
+
+.container h2::before {
+  content: none !important;
+}
+
+.container p {
+  line-height: 1.4 !important;
+  margin: 0 !important;
+}
+
+.container a.link {
+  display: block;
+  background-color: initial;
+  color: #61dafb;
+  border: none;
+  margin: 0.3em 0;
+}
+.container a.link:hover {
+  display: block;
+  background-color: initial;
+  color: white;
+}
+
+.container svg {
+  margin-left: 8px;
+}

@@ -12,11 +12,24 @@
     "capi"
   ],
   "dependencies": {
-    "aws-amplify": "latest",
     "@aws-amplify/ui-components": "latest",
+    "@code-hike/mini-browser": "0.0.0-01f6c70",
+    "@code-hike/mini-editor": "0.0.0-01f6c70",
+    "@code-hike/scroller": "0.0.0-01f6c70",
+    "@code-hike/smooth-column": "0.0.0-01f6c70",
+    "@mdx-js/loader": "^1.6.5",
+    "@mdx-js/react": "^1.0.6",
+    "@next/mdx": "^9.4.4",
+    "@silvenon/remark-smartypants": "^1.0.0",
     "array-flatten": "^3.0.0",
+    "aws-amplify": "latest",
     "copy-to-clipboard": "^3.2.1",
-    "emotion": "^10.0.23"
+    "emotion": "^10.0.23",
+    "next": "^10.0.3",
+    "raw-loader": "^4.0.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "use-spring": "^0.2.3"
   },
   "devDependencies": {
     "@stencil/core": "^1.13.0",
@@ -27,6 +40,7 @@
     "@types/jest": "24.9.1",
     "@types/node": "^12.12.9",
     "@types/puppeteer": "1.20.2",
+    "@types/react": "^17.0.0",
     "@types/url-parse": "^1.4.3",
     "@typescript-eslint/eslint-plugin": "^2.7.0",
     "@typescript-eslint/parser": "^2.7.0",
@@ -53,6 +67,7 @@
     }
   },
   "scripts": {
+    "dev": "next",
     "clean-client": "cd client && rm -rf .stencil www dist",
     "clean-capi": "cd capi && yarn clean",
     "clean-root": "rm -rf node_modules yarn.lock",
