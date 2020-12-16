@@ -47,7 +47,7 @@
         "description": "Use pipeline feature in new Transformer.",
         "type": "Feature",
         "valueType": "Boolean",
-        "versionAdded": "4.32.1",
+        "versionAdded": "4.32.4",
         "deprecationDate": "May 1st 2021",
         "values": [
           {
@@ -68,7 +68,7 @@
         "description": "Enable updating more than 1 GSIs in update stage .",
         "type": "Feature",
         "valueType": "Boolean",
-        "versionAdded": "4.32.1",
+        "versionAdded": "4.38.0",
         "deprecationDate": "May 1st 2021",
         "values": [
           {
