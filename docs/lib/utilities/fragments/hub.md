@@ -91,46 +91,6 @@ A channel is a logical group name that you use to organize messages and listen o
 * xr
 * datastore
 
-### Authentication Events
-
-Amplify's `Auth` category publishes in the `auth` channel when 'signIn', 'signUp', 'tokenRefresh' and 'signOut' events happen. You can listen and act upon those event notifications.
-
-```javascript
-import { Hub, Logger } from 'aws-amplify';
-
-const logger = new Logger('My-Logger');
-
-const listener = (data) => {
-
-    switch (data.payload.event) {
-    
-        case 'signIn':
-            logger.info('user signed in');
-            break;
-        case 'signUp':
-            logger.info('user signed up');
-            break;
-        case 'signOut':
-            logger.info('user signed out');
-            break;
-        case 'signIn_failure':
-            logger.error('user sign in failed');
-            break;
-        case 'tokenRefresh':
-            logger.info('token refresh succeeded');
-            break;
-        case 'tokenRefresh_failure':
-            logger.error('token refresh failed');
-            break;
-        case 'configured':
-            logger.info('the Auth module is configured');
-            
-    }
-}
-
-Hub.listen('auth', listener);
-```
-
 ### Listening for Regular Expressions
 
 The listener feature of Hub is a powerful way to perform filtering when you're unsure what the data across different channels will look like. Additionally it's also a nice realtime debugging feature. For instance, if you wanted to listen to all messages then you can just pass in a wildcard:
