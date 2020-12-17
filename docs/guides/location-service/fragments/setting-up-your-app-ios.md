@@ -261,7 +261,7 @@ import AWSLocation
 
 func searchForPlaces() {
     let request = AWSLocationSearchPlaceIndexForTextRequest()!
-    request.text = "dessert"
+    request.text = "Space Needle"
     request.indexName = "MyPlaceIndex"
     let result = AWSLocation.default().searchPlaceIndex(forText: request)
     result.continueWith { (task) -> Any? in
