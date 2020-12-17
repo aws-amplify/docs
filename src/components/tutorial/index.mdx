@@ -1,10 +1,11 @@
 import {Note} from "src/components/note";
 
+
 <Column>
   <Browser
     style={{height: "100%"}}
-    height={500}
-    loadUrl="https://next-js-conf-2020.ericclemmons.vercel.app/"
+    height={300}
+    loadUrl="https://d3uiem601ewx5l.cloudfront.net/"
     id="final"
     zoom={0.5}
   />
@@ -58,8 +59,7 @@ If you don't already have an AWS account, you'll need to create one in order to 
     style={{height: "100%"}}
     height={300}
     loadUrl="https://www.youtube-nocookie.com/embed/fWbM5DLh25U"
-    id="final"
-    zoom={1.2}
+    id="video-guide"
   />
 </Column>
 
@@ -139,6 +139,15 @@ Once the user is created, Amplify CLI will ask you to provide the `accessKeyId` 
 Next, we'll set up the app and initialize Amplify!
 
 ## Set up fullstack project
+
+
+<Column>
+  {/* <Terminal id="amplify-mock" text="$ npx create-next-app next-amplified" /> */}
+  <Cast src="/npx.cast" />
+</Column>
+
+
+
 
 ### Create a new Next.js App
 
@@ -586,7 +595,7 @@ For each request (`req`) on the server, we create a copy of Amplify (called `SSR
   <Browser
     style={{height: "100%"}}
     height={500}
-    loadUrl="https://next-js-conf-2020.ericclemmons.vercel.app/"
+    loadUrl="https://d3uiem601ewx5l.cloudfront.net/"
     id="final"
     zoom={0.5}
   />

@@ -1,4 +1,5 @@
 import * as React from "react";
+import Head from "next/head";
 import {MiniTerminal} from "@code-hike/mini-terminal";
 import s from "./page.module.css";
 import Content from "./tutorial/index.mdx";
@@ -14,9 +15,21 @@ export {Page};
 
 function Page() {
   return (
-    <MDXProvider components={components}>
-      <Content />
-    </MDXProvider>
+    <>
+      <Head>
+        <link
+          rel="stylesheet"
+          type="text/css"
+          href="https://unpkg.com/asciinema-player@2.6.1/resources/public/css/asciinema-player.css"
+        />
+      </Head>
+
+      <MDXProvider components={components}>
+        <Content />
+      </MDXProvider>
+
+      <script src="https://unpkg.com/asciinema-player@2.6.1/resources/public/js/asciinema-player.js"></script>
+    </>
   );
 }
 
@@ -24,6 +37,24 @@ const components = {
   ...headings,
   wrapper: Wrapper,
   code: Code,
+  Cast({autoPlay = true, preload = true, src}) {
+    const ref = React.useRef();
+
+    React.useLayoutEffect(() => {
+      if (!ref.current || !window.asciinema) {
+        return;
+      }
+
+      asciinema.player.js.CreatePlayer(ref.current, src, {
+        autoPlay,
+        preload,
+      });
+
+      return () => asciinema.player.js.UnmountPlayer(ref.current);
+    }, []);
+
+    return <div ref={ref} />;
+  },
   "docs-internal-link-button": ({children, href}) => (
     <a href={href}>{children}</a>
   ),
@@ -117,7 +148,7 @@ function getColumnSteps(kids) {
 
   return steps.map((elements, stepIndex) => {
     const items = elements.map((element) => {
-      const {id, height, mdxType, ...props} = element.props;
+      const {id, height = 300, mdxType, ...props} = element.props;
       if (mdxType === "Browser") {
         let stepsProp = propsById[id];
         if (!stepsProp) {
@@ -126,7 +157,10 @@ function getColumnSteps(kids) {
         }
         return {
           element: (
-            <MiniBrowser prependOrigin={true} url="/demo" steps={stepsProp} />
+            <MiniBrowser
+              url="https://d3uiem601ewx5l.cloudfront.net/"
+              steps={stepsProp}
+            />
           ),
           height,
           id,
@@ -138,12 +172,6 @@ function getColumnSteps(kids) {
           stepsProp[stepIndex] = props;
         }
 
-        if (
-          typeof stepsProp[stepIndex].code === "undefined" &&
-          stepsProp[stepIndex].file
-        ) {
-          stepsProp[stepIndex].code = getCode(stepsProp[stepIndex].file);
-        }
         const defaultEditorProps = {
           // style: { height: "100%" },
         };
@@ -181,13 +209,4 @@ function getColumnSteps(kids) {
     });
     return {items};
   });
-}
-function getCode(fileName) {
-  const code = require(`!!raw-loader!src/demo/${fileName}`).default;
-  if (fileName.startsWith("game")) {
-    const lines = code.split("\n");
-    return lines.slice(2, -2).join("\n");
-  } else {
-    return code;
-  }
 }
