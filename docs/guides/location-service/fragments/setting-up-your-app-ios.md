@@ -199,13 +199,13 @@ You have now successfully setup and configured your app to use Amazon Location S
 
 ## Using the Amazon Location Service APIs
 
-In order to access Amazon Location Service APIs you will need to create resources. You can create resources using the [Amazon Location Service console](http://console.aws.amazon.com/location/home) or using the [AWS Command Line Interface (CLI)](https://aws.amazon.com/cli/). Once you have created the resources, you can use these resources by calling the [APIs](https://aws-amplify.github.io/aws-sdk-android/docs/reference/). 
+In order to access Amazon Location Service APIs you will need to create resources. You can create resources using the [Amazon Location Service console](http://console.aws.amazon.com/location/home) or using the [AWS Command Line Interface (CLI)](https://aws.amazon.com/cli/). Once you have created the resources, you can use these resources by calling the [APIs](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/AWSLocation/index.html). 
 
 This section provides you an example of using the Amazon Location Service APIs. In this example, we will first create a Place Index in the Amazon Location Service console and use the APIs to search for places.  
 
 ### Creating a new place index
 
-1. Open the Amazon Location Service console (https://console.aws.amazon.com/location/places/home#/create) to create a place index.
+1. Open the [Amazon Location Service console](https://console.aws.amazon.com/location/places/home#/create) to create a place index.
 1. Enter **MyPlaceIndex** in **Name**.
 1. Press **Create place index**
 
