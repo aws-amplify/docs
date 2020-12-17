@@ -32,18 +32,18 @@ Now that you have created a tracker resource, you must create an inline policy t
 1. Click **+Add inline policy**, then click on the **JSON** tab.
 1. Fill in the **[ARN]** placeholder with the ARN of your tracker which you noted above and replace the contents of the policy with the below.
 
-    ```json
-    {
-        "Version": "2012-10-17",
-        "Statement": [
-            {
-                "Effect": "Allow",
-                "Action": "geo:BatchUpdateDevicePosition",
-                "Resource": "[ARN]"
-            }
-        ]
-    }
-    ```
+   ```json
+   {
+       "Version": "2012-10-17",
+       "Statement": [
+           {
+               "Effect": "Allow",
+               "Action": "geo:BatchUpdateDevicePosition",
+               "Resource": "[ARN]"
+           }
+       ]
+   }
+   ```
 
 1. Click on the **Review policy** button.
 1. In the **Name** field, enter **LocationTracker**.
@@ -53,11 +53,11 @@ You have now successfully added authentication to your Android app.
 
 ## Sending device location data to Amazon Location Service
 
-The below steps describe how you can get a device location and pass it to the tracker resource you have created with Amazon Location Service:
+The below steps describe how you can retrieve a device location and pass it to the tracker resource you have created with Amazon Location Service. You can see a full sample app in the [aws-samples/amazon-location-samples](https://github.com/aws-samples/amazon-location-samples/blob/main/tracking-android/) repository.
 
 1. In Android Studio, expand **manifests** in the project viewer and open **AndroidManifest.xml**.
 
-1. Add the following permissions after the opening **manifest** tag. This grants your application access to location services and network connectivity. To learn more, refer to Request location permissions (https://developer.android.com/training/location/permissions) in the Android Developers documentation.
+1. Add the following permissions after the opening **manifest** tag. This grants your application access to location services and network connectivity. To learn more, refer to [Request location permissions](https://developer.android.com/training/location/permissions) in the Android Developers documentation.
 
     ```xml
     <manifest ...>
@@ -70,19 +70,124 @@ The below steps describe how you can get a device location and pass it to the tr
     </manifest>
     ```
 
-1. Create a new Tracker instance:
+1. First, add a new `AWSLocationTracker` to the Activity:
+
+    <amplify-block-switcher>
+    <amplify-block name="Java">
+
+    ```java
+    private AWSLocationTracker tracker;
+    ```
+
+    </amplify-block>
+    <amplify-block name="Kotlin">
+
+    ```kotlin
+    private lateinit var tracker: AWSLocationTracker
+    ```
+
+    </amplify-block>
+    </amplify-block-switcher>
+
+1. Add helper methods to the class that will request location permission from the application user and start tracking.
+
+    <amplify-block-switcher>
+    <amplify-block name="Java">
+
+    ```java
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 0 && grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            startTracking();
+        }
+    }
+
+    void startTracking() {
+            TrackingListener listener = new TrackingListener() {
+            @Override
+            public void onStop() {
+                // Handle tracked stopped event.
+            }
+
+            @Override
+            public void onDataPublished(TrackingPublishedEvent trackingPublishedEvent) {
+                // Handle a successful publishing event for a batch of locations.
+            }
+
+            @Override
+            public void onDataPublicationError(TrackingError trackingError) {
+                // Handle an unsuccessful publishing event for a batch of locations.
+
+            }
+        };
+
+        TrackingOptions options = TrackingOptions.builder()
+                .customDeviceId("MyTracker")
+                .retrieveLocationFrequency(1_000L) // Retrieve the current location every 30 seconds
+                .emitLocationFrequency(5_000L)    // Emit a batch of locations to Amazon Location every 5 minutes
+                .build();
+
+        tracker.startTracking(this, options, listener);
+    }
+    ```
+
+    </amplify-block>
+    <amplify-block name="Kotlin">
+
+    ```kotlin
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        if (requestCode == 0 && grantResults.size == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            startTracking()
+        }
+    }
+
+    fun startTracking() {
+        val listener: TrackingListener = object : TrackingListener {
+            override fun onStop() {
+                // Handle tracked stopped event.
+            }
+
+            override fun onDataPublished(trackingPublishedEvent: TrackingPublishedEvent) {
+                // Handle a successful publishing event for a batch of locations.
+            }
+
+            override fun onDataPublicationError(trackingError: TrackingError) {
+                // Handle an unsuccessful publishing event for a batch of locations.
+            }
+        }
+        val options = TrackingOptions.builder()
+                .customDeviceId("MyTracker")
+                .retrieveLocationFrequency(1000L) // Retrieve the current location every 30 seconds
+                .emitLocationFrequency(5000L) // Emit a batch of locations to Amazon Location every 5 minutes
+                .build()
+
+        tracker.startTracking(this, options, listener)
+    }
+    ```
+
+    </amplify-block>
+    </amplify-block-switcher>
+
+1. Initialize `AWSMobileClient` in your `onCreate` method. This code will get credentials from Amazon Cognito, check to see if the application has location permissions, request them if necessary, and start the tracker.
 
     <amplify-block-switcher>
 
     <amplify-block name="Java">
 
     ```java
-    AWSLocationTracker tracker;
-
     AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
-      @Override
+        @Override
         public void onResult(UserStateDetails userStateDetails) {
             tracker = new AWSLocationTracker("MyTracker", AWSMobileClient.getInstance());
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    startTracking();
+                } else {
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+                }
+            } else {
+                startTracking();
+            }
         }
 
         @Override
@@ -96,112 +201,25 @@ The below steps describe how you can get a device location and pass it to the tr
     <amplify-block name="Kotlin">
 
     ```kotlin
-    var tracker: AWSLocationTracker
-
-    AWSMobileClient.getInstance().initialize(applicationContext, object : Callback<UserStateDetails?> {
+    AWSMobileClient.getInstance().initialize(applicationContext, object : Callback<UserStateDetails?>() {
         override fun onResult(userStateDetails: UserStateDetails?) {
             tracker = AWSLocationTracker("MyTracker", AWSMobileClient.getInstance())
+            
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    startTracking()
+                } else {
+                    requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 0)
+                }
+            } else {
+                startTracking()
+            }
         }
 
-        override fun onError(e: Exception) {
+        override fun onError(error: Exception?) {
             // Handle AWSMobileClient initialization error
         }
     })
-    ```
-
-    </amplify-block>
-    </amplify-block-switcher>
-
-1. Create `TrackingListener` and `TrackingOptions` objects to supply to `startTracking()` from an Android `Activity` class. `TrackingOptions` allows you to configure the intervals the client will retrieve and report location to Amazon Location. The default values are to retrieve the location of the device every 30 seconds and to send the locations in a batch to the backend every 5 minutes.
-
-    <amplify-block-switcher>
-
-    <amplify-block name="Java">
-
-    ```java
-    TrackingListener listener = new TrackingListener() {
-        @Override
-        public void onStop() {
-            // Handle tracked stopped event
-        }
-
-        @Override
-        public void onDataPublished(TrackingPublishedEvent trackingPublishedEvent) {
-            // Handle a successful publishing event for a batch of locations.
-        }
-
-        @Override
-        public void onDataPublicationError(TrackingError trackingError) {
-            // Handle a failure to publish location data.
-        }
-    };
-
-    TrackingOptions options = TrackingOptions.builder()
-        .customDeviceId("customId")
-        .retrieveLocationFrequency(30_000L) // Retrieve the current location every 30 seconds
-        .emitLocationFrequency(300_000L)    // Emit a batch of locations to Amazon Location every 5 minutes 
-        .build();
-    ```
-
-    </amplify-block>
-    <amplify-block name="Kotlin">
-
-    ```kotlin
-    val listener: TrackingListener = object : TrackingListener {
-        override fun onStop() {
-            // Handle tracked stopped event
-        }
-
-        override fun onDataPublished(trackingPublishedEvent: TrackingPublishedEvent) {
-            // Handle a successful publishing event for a batch of locations.
-        }
-
-        override fun onDataPublicationError(trackingError: TrackingError) {
-            // Handle a failure to publish location data.
-        }
-    }
-
-    val options = TrackingOptions.builder()
-        .customDeviceId("customId")
-        .retrieveLocationFrequency(30_000L) // Retrieve the current location every 30 seconds
-        .emitLocationFrequency(300_000L)    // Emit a batch of locations to Amazon Location every 5 minutes 
-        .build()
-    ```
-
-    </amplify-block>
-    </amplify-block-switcher>
-
-1. The tracker can now be started and stopped, and its status can be queried:
-
-    <amplify-block-switcher>
-
-    <amplify-block name="Java">
-
-    ```java
-    // Starts the tracker
-
-    tracker.startTracking(this, options, listener);
-
-    // Returns true if the tracker is started
-    boolean isStarted = tracker.isTracking();
-
-    // Stops the tracker
-    tracker.stopTracking(this);
-    ```
-
-    </amplify-block>
-    <amplify-block name="Kotlin">
-
-    ```kotlin
-    // Starts the tracker
-    tracker.startTracking(this, options, listener)
-
-    // Returns true if the tracker is started
-    val isStarted: Boolean = tracker.isTracking()
-
-    // Stops the tracker
-    tracker.stopTracking(this)
-
     ```
 
     </amplify-block>

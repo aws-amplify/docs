@@ -144,7 +144,7 @@ This section provides you an example of using the Amazon Location Service APIs. 
 
 ### Creating a new place index
 
-1. Open the Amazon Location Service console (https://console.aws.amazon.com/location/places/home#/create) to create a place index.
+1. Open the [Amazon Location Service console](https://console.aws.amazon.com/location/places/home#/create) to create a place index.
 1. Enter **MyPlaceIndex** in **Name**.
 1. Press **Create place index**
 
@@ -199,18 +199,30 @@ Here is how you can search for places using the place index you just created:
 <amplify-block name="Java">
 
 ```java
-ExecutorService executorService = Executors.newFixedThreadPool(4);
+AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+    @Override
+    public void onResult(UserStateDetails userStateDetails) {
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
 
-executorService.execute(() -> {
-    AmazonLocationClient client = new AmazonLocationClient(AWSMobileClient.getInstance());
-    SearchPlaceIndexForTextRequest request = new SearchPlaceIndexForTextRequest();
+        executorService.execute(() -> {
+            AmazonLocationClient client = new AmazonLocationClient(AWSMobileClient.getInstance());
+            SearchPlaceIndexForTextRequest request = new SearchPlaceIndexForTextRequest();
 
-    request.setText("dessert");
-    request.setIndexName("MyPlaceIndex");
+            request.setText("Space Needle");
+            request.setIndexName("MyPlaceIndex");
 
-    SearchPlaceIndexForTextResult result = client.searchPlaceIndexForText(request);
+            SearchPlaceIndexForTextResult response = client.searchPlaceIndexForText(request);
 
-    Log.i("QuickStart", result.getSummary().getText());
+            for (SearchForTextResult result : response.getResults()) {
+                Log.i("QuickStart", result.getPlace().toString());
+            }
+        });
+    }
+
+    @Override
+    public void onError(Exception error) {
+        Log.e("QuickStart", "Initialization error: ", error);
+    }
 });
 ```
 
@@ -218,16 +230,29 @@ executorService.execute(() -> {
 <amplify-block name="Kotlin">
 
 ```kotlin
-var executorService = Executors.newFixedThreadPool(4)
+AWSMobileClient.getInstance().initialize(applicationContext, object : Callback<UserStateDetails> {
+    override fun onResult(userStateDetails: UserStateDetails) {
+        val executorService = Executors.newFixedThreadPool(4)
 
-executorService.execute {
-    val client = AmazonLocationClient(AWSMobileClient.getInstance())
-    val request = SearchPlaceIndexForTextRequest()
-    request.text = "dessert"
-    request.indexName = "MyPlaceIndex"
-    val result = client.searchPlaceIndexForText(request)
-    Log.i("QuickStart", result.summary.text)
-}
+        executorService.execute {
+            val client = AmazonLocationClient(AWSMobileClient.getInstance())
+            val request = SearchPlaceIndexForTextRequest()
+
+            request.text = "Space Needle"
+            request.indexName = "MyPlaceIndex"
+
+            val response = client.searchPlaceIndexForText(request)
+
+            for (result in response.results) {
+                Log.i("QuickStart", result.place.toString())
+            }
+        }
+    }
+
+    override fun onError(error: Exception) {
+        Log.e("QuickStart", "Initialization error: ", error)
+    }
+})
 ```
 
 </amplify-block>
