@@ -1,6 +1,7 @@
 import * as React from "react";
+import {MiniTerminal} from "@code-hike/mini-terminal";
 import s from "./page.module.css";
-import Content from "./tutorial.mdx";
+import Content from "./tutorial/index.mdx";
 import {MDXProvider} from "@mdx-js/react";
 import {headings} from "./headings";
 import {MiniEditor} from "@code-hike/mini-editor";
@@ -23,6 +24,15 @@ const components = {
   ...headings,
   wrapper: Wrapper,
   code: Code,
+  "docs-internal-link-button": ({children, href}) => (
+    <a href={href}>{children}</a>
+  ),
+  "amplify-block-switcher": ({children}) => {
+    return <>{React.Children.toArray(children)[0]}</>;
+  },
+  "amplify-block": ({children, name}) => {
+    return children;
+  },
 };
 
 function Code(props) {
@@ -127,12 +137,37 @@ function getColumnSteps(kids) {
           stepsProp = Array.from(steps, (_) => ({}));
           stepsProp[stepIndex] = props;
         }
-        stepsProp[stepIndex].code = getCode(stepsProp[stepIndex].code);
+
+        if (
+          typeof stepsProp[stepIndex].code === "undefined" &&
+          stepsProp[stepIndex].file
+        ) {
+          stepsProp[stepIndex].code = getCode(stepsProp[stepIndex].file);
+        }
         const defaultEditorProps = {
           // style: { height: "100%" },
         };
         return {
           element: <MiniEditor {...defaultEditorProps} steps={stepsProp} />,
+          height,
+          id,
+        };
+      } else if (mdxType === "Terminal") {
+        let stepsProp = propsById[id];
+        if (!stepsProp) {
+          stepsProp = Array.from(steps, (_) => ({}));
+          stepsProp[stepIndex] = props;
+        }
+        const defaultTerminalProps = {
+          style: {
+            height: "250px",
+            width: "100%",
+            ...stepsProp[stepIndex].style,
+          },
+        };
+
+        return {
+          element: <MiniTerminal {...defaultTerminalProps} steps={stepsProp} />,
           height,
           id,
         };

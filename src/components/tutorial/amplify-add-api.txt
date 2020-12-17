@@ -1,0 +1,30 @@
+? Please select from one of the below mentioned services:
+# GraphQL
+? Provide API name:
+# nextamplified
+? Choose the default authorization type for the API:
+# API key
+? Enter a description for the API key:
+#
+? After how many days from now the API key should expire (1-365):
+# 7
+? Do you want to configure advanced settings for the GraphQL API?
+#  Yes, I want to make some additional changes.
+? Configure additional auth types?
+# Yes
+? Choose the additional authorization types you want to configure for the API:
+# Amazon Cognito User Pool
+? Do you want to use the default authentication and security configuration?
+# Default configuration
+? How do you want users to be able to sign in?
+# Username
+? Do you want to configure advanced settings?
+# No, I am done.
+? Configure conflict detection?
+# No
+? Do you have an annotated GraphQL schema?
+# No
+? Choose a schema template:
+# Single object with fields (e.g., “Todo” with ID, name, description)
+? Do you want to edit the schema now?
+# Yes

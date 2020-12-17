@@ -1,19 +1,22 @@
-import React from "react"
+import React from "react";
 
 export const headings = {
   h2: heading("h2"),
   h3: heading("h3"),
   h4: heading("h4"),
   h5: heading("h5"),
-}
+};
 
 function heading(type) {
-  return function Heading({ children }) {
-    const match = /^.+(\s*\{#([a-z0-9\-_]+?)\}\s*)$/.exec(
-      children
-    )
+  return function Heading({children}) {
+    // TODO Slugify headings without IDs
+    const match = /^.+(\s*\{#([a-z0-9\-_]+?)\}\s*)$/.exec(children) || [
+      children,
+      null,
+      null,
+    ];
 
-    const id = match[2]
+    const id = match[2];
 
     return React.createElement(
       type,
@@ -35,7 +38,7 @@ function heading(type) {
           ></path>
         </svg>
       </a>,
-      children.replace(match[1], "")
-    )
-  }
+      children.replace(match[1], ""),
+    );
+  };
 }
