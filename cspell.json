@@ -687,6 +687,7 @@
     "LambdaExecutionRole",
     "lambdafunction",
     "Lastname",
+    "lateinit",
     "le",
     "libs",
     "lifecycle",

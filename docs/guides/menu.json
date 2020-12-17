@@ -5,6 +5,7 @@
     "api-rest",
     "authentication",
     "functions",
-    "hosting"
+    "hosting",
+    "location-service"
   ]
 }
