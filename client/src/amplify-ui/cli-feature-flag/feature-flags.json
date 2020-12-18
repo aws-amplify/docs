@@ -44,7 +44,7 @@
         ]
       },
       "useExperimentalPipelinedTransformer": {
-        "description": "Use pipeline resolver-based GraphQL Transformer.",
+        "description": "Use pipeline resolver-based GraphQL Transformer (GraphQL Transformer vNext).",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "4.32.4",
@@ -52,7 +52,7 @@
         "values": [
           {
             "value": "true",
-            "description": "Enable pipeline resolver-based GraphQL Transformer.",
+            "description": "Enable pipeline resolver-based GraphQL Transformer (GraphQL Transformer vNext).",
             "defaultNewProject": true,
             "defaultExistingProject": false
           },
