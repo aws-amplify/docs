@@ -14,10 +14,10 @@ import { Post, Comment } from './models';
 DataStore.configure({
   syncExpressions: [
     syncExpression(Post, () => {
-      return (c) => c.rating('gt', 5);
+      return post => post.rating('gt', 5);
     }),
     syncExpression(Comment, () => {
-      return (c) => c.status('eq', 'active');
+      return comment => comment.status('eq', 'active');
     }),
   ]
 });
@@ -42,7 +42,7 @@ let rating = 5;
 DataStore.configure({
   syncExpressions: [
     syncExpression(Post, () => {
-      return (c) => c.rating('gt', rating));
+      return post => post.rating('gt', rating));
     })
   ]
 });
@@ -84,7 +84,7 @@ DataStore.configure({
   syncExpressions: [
     syncExpression(Post, () => {
       if (rating) {
-        return (c) => c.rating('gt', rating));
+        return post => post.rating('gt', rating));
       }
 
       return Predicates.ALL;
@@ -105,7 +105,7 @@ DataStore.configure({
   syncExpressions: [
     syncExpression(Post, async () => {
       const ratingValue = await getRatingValue();
-      return (c) => c.rating('gt', ratingValue);
+      return post => post.rating('gt', ratingValue);
     })
   ]
 });
@@ -117,7 +117,7 @@ If you don't need to add any logic to your `syncExpression`, you can use the fol
 ```js
 DataStore.configure({
   syncExpressions: [
-    syncExpression(Post, (c) => c.rating('gt', 5))
+    syncExpression(Post, post => post.rating('gt', 5))
   ]
 });
 ```
@@ -145,7 +145,7 @@ DataStore.configure({
   syncExpressions: [
     syncExpression(User, () => {
       const lastName = await getLastNameForSync();
-      return (c) => c.lastName('eq', lastName)
+      return user => user.lastName('eq', lastName)
     })
   ]
 });
@@ -156,7 +156,7 @@ DataStore.configure({
   syncExpressions: [
     syncExpression(User, () => {
       const lastName = await getLastNameForSync();
-      return (c) => c.lastName('eq', lastName).createdAt('gt', '2020-10-10')
+      return user => user.lastName('eq', lastName).createdAt('gt', '2020-10-10')
     })
   ]
 });
@@ -164,8 +164,8 @@ DataStore.configure({
 
 To construct a query expression, return a predicate with the primary key of the GSI. You can only use the `eq` operator with this predicate.
 
-For the schema defined above `(c) => c.lastName('eq', 'Bobby')` is a valid query expression.
+For the schema defined above `user => user.lastName('eq', 'Bobby')` is a valid query expression.
 
 Optionally, you can also chain the sort key to this expression, using any of the following operators: `eq | ne | le | lt | ge | gt | beginsWith | between`. 
 
-E.g., `(c) => c.lastName('eq', 'Bobby').createdAt('gt', '2020-10-10')`.
+E.g., `user => user.lastName('eq', 'Bobby').createdAt('gt', '2020-10-10')`.
