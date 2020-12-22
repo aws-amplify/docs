@@ -54,7 +54,7 @@ Using the `rxbindings` module can simplify this further.
 ```groovy
 dependencies {
     // other dependencies...
-    implementation 'com.amplifyframework:rxbindings:1.6.0'
+    implementation 'com.amplifyframework:rxbindings:1.6.8'
 }
 ```
 
@@ -78,7 +78,7 @@ Using the `rxbindings` module can simplify this further.
 ```groovy
 dependencies {
     // other dependencies...
-    implementation 'com.amplifyframework:rxbindings:1.6.0'
+    implementation 'com.amplifyframework:rxbindings:1.6.8'
 }
 ```
 
