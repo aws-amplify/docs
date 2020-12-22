@@ -84,7 +84,7 @@ Amplify for Android is distributed as an Apache Maven package. In this section, 
       }
 
       dependencies {
-          classpath 'com.android.tools.build:gradle:4.0.1'
+          classpath 'com.android.tools.build:gradle:4.1.1'
 
           // Add this line into `dependencies` in `buildscript`
           classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.2'
@@ -108,8 +108,8 @@ Amplify for Android is distributed as an Apache Maven package. In this section, 
 
    ```groovy
    dependencies {
-       implementation 'com.amplifyframework:aws-api:1.6.4'
-       implementation 'com.amplifyframework:aws-datastore:1.6.4'
+       implementation 'com.amplifyframework:aws-api:1.6.8'
+       implementation 'com.amplifyframework:aws-datastore:1.6.8'
    }
    ```
 
