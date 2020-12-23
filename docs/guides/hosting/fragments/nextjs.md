@@ -202,7 +202,7 @@ Let's say you have a folder and file structure that looks like this:
 /pages/posts/[id].js
 ```
 
-This component needs to read the ID of the URL parameter and use this data in some way in the app. To make this happen, we can use `next/router`:
+This component needs to read the ID from the URL and do something useful with it in the app. To make this happen, we can use `next/router`:
 
 ```javascript
 // /pages/posts/[id].js
