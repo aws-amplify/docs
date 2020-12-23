@@ -105,7 +105,7 @@ $ amplify publish
 
 ⚡️ Congratulations, your app has now been successfully deployed! The URL for the app should be displayed in your terminal.
 
-![](https://dev-to-uploads.s3.amazonaws.com/i/bc06wo8unppp7am869ra.png)
+![CLI Output](~/images/hosting/next/cli-output.png)
 
 To see your app in the Amplify console at any time, run the following command:
 
@@ -170,7 +170,7 @@ __5.__ Follow the steps to choose your Git provider and your branch.
 
 __6.__ Set the __baseDirectory__ to __out__:
 
-![Setting the baseDirectory property](https://dev-to-uploads.s3.amazonaws.com/i/edt8ccos33addseu2c06.png)
+![Setting the baseDirectory property](~/images/hosting/next/build-config.png)
 
 __7.__ Click __Next__ then __Save and deploy__.
 
@@ -192,8 +192,38 @@ $ git commit -m 'updates'
 $ git push origin master
 ```
 
-## Dynamic server-rendered routes
+## Dynamic routes
+
+Next also supports dynamic routes.
+
+Let's say you have a folder and file structure that looks like this:
+
+```
+/pages/posts/[id].js
+```
+
+This component needs to read the ID of the URL parameter and use this data in some way in the app. To make this happen, we can use `next/router`:
+
+```javascript
+// /pages/posts/[id].js
+import { useRouter } from 'next/router'
+
+const Post = () => {
+  const router = useRouter()
+  const { id } = router.query
+
+  return <p>Post: {id}</p>
+}
+
+export default Post
+```
+
+To enable this, you need to set up a rewrite for __/pages/posts/[id].html__ in the __Rewrites and redirects__ section of the Amplify Console:
+
+![Rewrites](~/images/hosting/next/rewrites.png)
+
+## API routes and server-rendered routes
 
 In this guide you learned how to deploy a static __Next__ site using Amplify Hosting.
 
-Next also supports pre-rendering for dynamic server-rendered routes. At this time, Amplify does not support the hosting of dynamic server-rendered routes with Next.
+Next also supports pre-rendering for dynamic server-rendered routes. At this time, Amplify does not support the hosting of API routes or server-rendered routes with Next.
