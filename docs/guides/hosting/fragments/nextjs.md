@@ -1,6 +1,6 @@
 In this guide you'll learn how to deploy a *static* [Next](https://nextjs.org/) app using Amplify Hosting.
 
-> Note: Next also supports pre-rendering for *dynamic* server-rendered routes. At this time, Amplify **does not** support the hosting of dynamic server-rendered routes with Next.
+> Note: Next.js also supports pre-rendering for *dynamic* server-rendered routes. At this time, Amplify **does not** support the hosting of dynamic server-rendered routes with Next.js.
 
 There are two options: One using the Amplify CLI, and the other using a Git repository. This will cover both.
 
@@ -9,7 +9,7 @@ There are two options: One using the Amplify CLI, and the other using a Git repo
 
 ## CLI workflow
 
-To get started, create a new Next site:
+To get started, create a new Next.js app:
 
 ```sh
 $ npm init next-app
@@ -224,6 +224,6 @@ To enable this, you need to set up a rewrite for __/pages/posts/[id].html__ in t
 
 ## API routes and server-rendered routes
 
-In this guide you learned how to deploy a static __Next__ site using Amplify Hosting.
+In this guide you learned how to deploy a static __Next.js__ site using Amplify Hosting.
 
-Next also supports pre-rendering for dynamic server-rendered routes. At this time, Amplify does not support the hosting of API routes or server-rendered routes with Next.
+Next.js also supports pre-rendering for dynamic server-rendered routes. At this time, Amplify does not support the hosting of API routes or server-rendered routes with Next.js.
