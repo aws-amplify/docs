@@ -1,5 +1,5 @@
 ---
-title: Custom CloudFormation stacks
+title: Custom AWS Resources
 description: The Amplify CLI provides escape hatches for modifying the backend configurations generated in the form of CloudFormation templates by the CLI. This allows you to use the CLI for common flows but also any advanced scenarios which aren't provided in the standard category workflows.
 ---
 
