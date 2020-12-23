@@ -194,7 +194,7 @@ $ git push origin master
 
 ## Dynamic routes
 
-Next also supports dynamic routes.
+Next.js also supports dynamic routes.
 
 Let's say you have a folder and file structure that looks like this:
 
