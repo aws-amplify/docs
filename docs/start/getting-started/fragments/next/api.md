@@ -157,8 +157,6 @@ mutation CreatePost {
     id
     owner
     title
-    updatedAt
-    createdAt
     content
   }
 }
@@ -171,7 +169,6 @@ query ListPosts {
   listPosts {
     items {
       content
-      createdAt
       id
       owner
       title
