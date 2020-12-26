@@ -29,6 +29,8 @@ Finally, deploy with the following command:
 npx serverless
 ```
 
+> **Note**: You need to set your AWS credentials to deploy via `npx serverless`. You can use the credentials of an IAM user you created in "Prerequisites" section of this tutorial. Set both `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` as environment variables before running the command.
+
 You'll see a link to your app in the output:
 
 ```console
