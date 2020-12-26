@@ -49,7 +49,7 @@ Select the explicit values below to enable **IAM** (for public read access) and 
 
 The CLI should open this GraphQL schema in your text editor.
 
-__amplify/backend/api/myapi/schema.graphql__
+__amplify/backend/api/nextamplified/schema.graphql__
 
 ```graphql
 type Post
