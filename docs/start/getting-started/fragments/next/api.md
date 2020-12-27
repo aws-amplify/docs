@@ -12,7 +12,7 @@ Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designin
 amplify add api
 ```
 
-Select the explicit values below to enable **IAM** (for public read access) and **Cognito User Pools** (for authenticated access).
+Select the explicit values below to enable **API key** (for public read access) and **Cognito User Pools** (for authenticated access).
 
 ```console
 ? Please select from one of the below mentioned services:
