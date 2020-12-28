@@ -138,9 +138,9 @@ The following Python [script](https://github.com/aws-amplify/amplify-cli/blob/ma
 **Example of calling the script**:
 
 ```bash
-python3 ddb_to_ess.py \
+python3 ddb_to_es.py \
   --rn 'us-west-2' \ # Use the region in which your table and elasticsearch domain reside
   --tn 'Post-XXXX-dev' \ # Table name
-  --lf 'arn:aws:lambda:us-west-2:123456789xxx:function:DdbToEsFn-<api__id>-dev' \ # Lambda function ARN
-  --esarn 'arn:aws:dynamodb:us-west-2:123456789xxx:table/Post-<api__id>-dev/stream/2019-20-03T00:00:00.350' # Event source ARN
+  --lf 'arn:aws:lambda:us-west-2:123456789xxx:function:DdbToEsFn-<api__id>-dev' \ # Lambda function ARN, find the DdbToEsFn in your Lambda functions list, copy entire ARN
+  --esarn 'arn:aws:dynamodb:us-west-2:123456789xxx:table/Post-<api__id>-dev/stream/2019-20-03T00:00:00.350' # Event source ARN, copy the full DynamoDB table ARM
 ```
