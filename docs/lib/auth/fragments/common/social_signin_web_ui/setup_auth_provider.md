@@ -26,7 +26,7 @@
 ![Image](~/images/cognitoHostedUI/google5.png)
 3. Create your OAuth2.0 credentials by choosing *OAuth client ID* from the *Create credentials* drop-down list.
 ![Image](~/images/cognitoHostedUI/google6.png).
-4. Choose *Web application*.
+4. Choose *Web application*. If you haven't configured the OAuth consent screen, you will be asked to do that first.
 5. Click *Create*.
 6. Note the *OAuth client ID* and *client secret*. You will need them for the next section in the CLI flow.
 7. Choose *OK*.

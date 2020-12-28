@@ -117,27 +117,22 @@ If you've setup federation through third party providers, you would need to upda
 </amplify-block>
 <amplify-block name="Google Sign-In">
 
-1. Go to [Google Developer Console](https://developers.google.com/identity/sign-in/web/sign-in)
-2. Click *CONFIGURE A PROJECT*
+1. Go to [Google Developer Console](https://console.developers.google.com)
+2. Click *CREATE PROJECT*
 ![Image](~/images/cognitoHostedUI/google1.png)
-3. Type in a project name and choose *NEXT*.
+3. Type in a project name and click *CREATE*.
 ![Image](~/images/cognitoHostedUI/google2.png)
-4. Type in your product name and choose *NEXT*.
-5. Choose *Web browser* from the *Where are you calling from?* drop-down list.
-![Image](~/images/cognitoHostedUI/google3.png)
-6. Click *CREATE*. You will NOT use the *Client ID* and *CLient Secret* from this step.
-7. Click Done.
-8. Go to the [Google developer console](https://console.developers.google.com).
-9. On the left navigation bar, choose *Credentials*.
+4. Go to the [Google developer console](https://console.developers.google.com).
+5. On the left navigation bar, choose *Credentials*.
 ![Image](~/images/cognitoHostedUI/google5.png)
-10. Select the client you created in the first step and choose the edit option.
-11. Type your user pool domain into Authorized Javascript origins.
-12. Type your user pool domain with the `/oauth2/idpresponse` endpoint into *Authorized Redirect URIs*.
+6. Select the client you created in the first step and choose the edit option.
+7. Type your user pool domain into Authorized Javascript origins.
+8. Type your user pool domain with the `/oauth2/idpresponse` endpoint into *Authorized Redirect URIs*.
 
     ![Image](~/images/cognitoHostedUI/google7.png)
 
     Note: If you saw an error message `Invalid Redirect: domain must be added to the authorized domains list before submitting.` when adding the endpoint, please go to the *authorized domains list* and add the domain.
-13. Click *Save*.
+9. Click *Save*.
 
 </amplify-block>
 <amplify-block name="Login with Amazon">
