@@ -1016,7 +1016,7 @@ export default {
 
 <inline-fragment src="~/ui/auth/fragments/react/withauthenticator.md"></inline-fragment>
 
-You can also pass in any of the [AmplifyAuthenticator props](#props-amplify-authenticator):
+You can also pass in any of the [AmplifyAuthenticator props](#props-attr-amplify-authenticator):
 
 ```jsx
 export withAuthenticator(App, {initialAuthState: 'signup'});
@@ -1217,7 +1217,7 @@ export default withAuthenticator(App);
 
 <amplify-callout warning>
 
-We have deprecated some of the properties passed into `withAuthenticator`. If you were providing additional options to `withAuthenticator` (e.g. `includeGreetings`, `authenticatorComponents`, `federated`, `theme`), these have changed. Refer to the updated list of [Properties here](~/ui/auth/authenticator.md/q/framework/react#props-amplify-authenticator).
+We have deprecated some of the properties passed into `withAuthenticator`. If you were providing additional options to `withAuthenticator` (e.g. `includeGreetings`, `authenticatorComponents`, `federated`, `theme`), these have changed. Refer to the updated list of [Properties here](~/ui/auth/authenticator.md/q/framework/react#props-attr-amplify-authenticator).
 
 </amplify-callout>
 
