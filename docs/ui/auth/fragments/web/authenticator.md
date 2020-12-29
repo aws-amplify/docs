@@ -1085,6 +1085,10 @@ onAuthUIStateChange((nextAuthState, authData) => {
 });
 ```
 
+<docs-filter framework="react">
+  <inline-fragment src="~/ui/auth/fragments/react/handleauthstatechange.md"></inline-fragment>
+</docs-filter>
+
 ## Use Cases
 
 ### Manage Auth State and Conditional app rendering
