@@ -19,6 +19,8 @@
 npm install -g @aws-amplify/cli
 ```
 
+> Because we're installing the Amplify CLI globally, you might need to run the command above with `sudo`.
+
 </amplify-block>
 
 <amplify-block name="cURL (Mac and Linux)">

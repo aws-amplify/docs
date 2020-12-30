@@ -31,6 +31,8 @@ To set up a backend on AWS, we are going to use the Amplify CLI. The Amplify CLI
 npm install -g @aws-amplify/cli
 ```
 
+> Because we're installing the Amplify CLI globally, you might need to run the command above with `sudo`.
+
 </amplify-block>
 
 <amplify-block name="cURL (Mac and Linux)">

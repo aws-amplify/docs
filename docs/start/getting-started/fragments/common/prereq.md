@@ -35,6 +35,8 @@ Watch the video below to learn how to install and configure the Amplify CLI or s
 npm install -g @aws-amplify/cli
 ```
 
+> Because we're installing the Amplify CLI globally, you might need to run the command above with `sudo`.
+
 </amplify-block>
 
 <amplify-block name="cURL (Mac and Linux)">
@@ -54,8 +56,6 @@ curl -sL https://aws-amplify.github.io/amplify-cli/install-win -o install.cmd &&
 </amplify-block>
 
 </amplify-block-switcher>
-
-> Because we're installing the Amplify CLI globally, you might need to run the command above with `sudo`.
 
 
 Now it's time to setup the Amplify CLI. Configure Amplify by running the following command:

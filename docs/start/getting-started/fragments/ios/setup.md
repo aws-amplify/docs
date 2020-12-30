@@ -7,14 +7,40 @@
 
 ## Prerequisites
 
-- Install [Node.js](https://nodejs.org/en/) version 10 or higher
 - Install [Xcode](https://developer.apple.com/xcode/downloads/) version 11.4 or later
 - Install [Cocoapods](https://cocoapods.org/)
 - Install [Amplify CLI](~/cli/cli.md) version 4.22.0 or later by running:
 
-    ```bash
-    npm install -g @aws-amplify/cli amplify-app
-    ```
+<amplify-block-switcher>
+
+<amplify-block name="NPM">
+
+```bash
+npm install -g @aws-amplify/cli
+```
+
+> Because we're installing the Amplify CLI globally, you might need to run the command above with `sudo`.
+
+</amplify-block>
+
+<amplify-block name="cURL (Mac and Linux)">
+
+```bash
+curl -sL https://aws-amplify.github.io/amplify-cli/install | bash && $SHELL
+```
+
+</amplify-block>
+
+<amplify-block name="cURL (Windows)">
+
+```bash
+curl -sL https://aws-amplify.github.io/amplify-cli/install-win -o install.cmd && install.cmd
+```
+
+</amplify-block>
+
+</amplify-block-switcher>
+
 
 ## Set up your application
 
