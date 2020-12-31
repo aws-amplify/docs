@@ -49,20 +49,20 @@ Example configuration file
 ```json
 {
   "features": {
-    "graphqltransformer": {
-      "addmissingownerfields": true,
-      "validatetypenamereservedwords": true,
-      "useexperimentalpipelinedtransformer": false,
-      "enableiterativegsiupdates": false
+    "graphqlTransformer": {
+      "addMissingOwnerFields": true,
+      "validateTypeNameReservedWords": true,
+      "useExperimentalPipelinedTransformer": false,
+      "enableIterativeGSIUpdates": false
     },
     "frontend-ios": {
-      "enablexcodeintegration": true
+      "enableXcodeIntegration": true
     },
     "auth": {
-      "enablecaseinsensitivity": true
+      "enableCaseInsensitivity": true
     },
     "codegen": {
-      "useappsyncmodelgenplugin": true
+      "useAppSyncModelgenPlugin": true
     }
   }
 }
