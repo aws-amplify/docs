@@ -1,4 +1,4 @@
-To initialize the Amplify Auth and API categories you call `Amplify.addPlugin()` method for each category. To complete initialization call `Amplify.configure()`.
+To initialize the Amplify API category you call `Amplify.addPlugin()` method for each category. To complete initialization call `Amplify.configure()`.
 
 Your code should look like this:
 
@@ -10,15 +10,15 @@ import 'amplifyconfiguration.dart';
 
 class MyAmplifyApp extends StatefulWidget {
 
-    Amplify amplifyInstance = Amplify();
+    Amplify amplifyInstance = Amplify()
 
     @override
     void initState() {
-        super.initState(); 
+        super.initState()
 
-        AmplifyAPIRest apiRest = AmplifyAPIRest();
-        amplifyInstance.addPlugin(apiRestPlugins: [apiRest]);
-        amplifyInstance.configure(amplifyConfig); 
+        AmplifyAPI api = AmplifyAPI()
+        amplifyInstance.addPlugin(apiPlugins: [api])
+        amplifyInstance.configure(amplifyConfig)
     }
 }
 ```

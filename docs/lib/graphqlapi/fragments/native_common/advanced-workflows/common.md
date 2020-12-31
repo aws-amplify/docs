@@ -7,6 +7,7 @@ A GraphQL request is automatically generated for you when using AWSAPIPlugin wit
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/advanced-workflows/10_example.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/advanced-workflows/10_example.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/advanced-workflows/10_example.md"></inline-fragment>
 
 Underneath the covers, a request is generated with a GraphQL document and variables and sent to the AppSync service. 
 
@@ -65,6 +66,7 @@ First, create your own `GraphQLRequest`
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/advanced-workflows/20_custom.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/advanced-workflows/20_custom.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/advanced-workflows/20_custom.md"></inline-fragment>
 
 ## Nested Data
 If you have a relational model, you can retrieve the nested object by creating a `GraphQLRequest` with a selection set containing the nested object's fields. For example, in this schema, the Post can contain multiple comments and notes.
@@ -100,6 +102,7 @@ If you only want to retrieve the comments, without the notes, create a `GraphQLR
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/advanced-workflows/30_nested.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/advanced-workflows/30_nested.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/advanced-workflows/30_nested.md"></inline-fragment>
 
 ## Combining Multiple Operations
 
@@ -107,6 +110,7 @@ When you want to perform more than one operation in a single request, you can pl
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/advanced-workflows/40_multiple.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/advanced-workflows/40_multiple.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/advanced-workflows/40_multiple.md"></inline-fragment>
 
 
 

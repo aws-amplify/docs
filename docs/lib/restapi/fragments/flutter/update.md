@@ -12,8 +12,8 @@ try{
         restOptions: options
     );
     RestResponse response = await restOperation.response;
-    Log.i("MyAmplifyApp", "PUT succeeded: " + response);
+    print("Put SUCCESS");
 } on Exception catch(e) {
-    Log.e("MyAmplifyApp", "PUT failed.", error);
+    print("Put FAILED");
 }
 ```

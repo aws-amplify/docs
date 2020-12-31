@@ -12,9 +12,9 @@ void getTodo() {
             restOptions: options
         );
         RestResponse response = await restOperation.response;
-        Log.i("MyAmplifyApp", "GET succeeded: " + response);
+        print("Get SUCCESS");
     } on Exception catch(e) {
-        Log.e("MyAmplifyApp", "GET failed.", error);
+        print("Get FAILED");
     }
 }
 ```
@@ -69,8 +69,8 @@ try{
         restOptions: options
     );
     RestResponse response = await restOperation.response;
-    Log.i("MyAmplifyApp", "GET succeeded: " + response);
+    print("Get SUCCESS");
 } on Exception catch(e) {
-    Log.e("MyAmplifyApp", "GET failed.", error);
+    print("Get FAILED");
 }
 ```

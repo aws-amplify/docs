@@ -1,89 +1,24 @@
-Call `Amplify.addPlugin()` to initialize the Amplify API category followed by `Amplify.configure()`.
+To initialize the Amplify API category you call `Amplify.addPlugin()` method for each category. To complete initialization call `Amplify.configure()`.
 
-Add the following code to your `onCreate()` method in your application class:
+Your code should look like this:
 
-<amplify-block-switcher>
-<amplify-block name="Java">
+```dart
+import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_api_rest/amplify_api_rest.dart';
 
-```java
-Amplify.addPlugin(new AWSApiPlugin());
-```
+import 'amplifyconfiguration.dart';
 
-Your class will look like this:
+class MyAmplifyApp extends StatefulWidget {
 
-```java
-public class MyAmplifyApp extends Application {
-    @Override
-    public void onCreate() {
-        super.onCreate();
+    Amplify amplifyInstance = Amplify()
 
-        try {
-            // Add these lines to add the AWSApiPlugin plugins
-            Amplify.addPlugin(new AWSApiPlugin());
-            Amplify.configure(getApplicationContext());
+    @override
+    void initState() {
+        super.initState()
 
-            Log.i("MyAmplifyApp", "Initialized Amplify");
-        } catch (AmplifyException error) {
-            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
-        }
+        AmplifyAPI api = AmplifyAPI()
+        amplifyInstance.addPlugin(apiPlugins: [api])
+        amplifyInstance.configure(amplifyConfig)
     }
 }
 ```
-
-</amplify-block>
-<amplify-block name="Kotlin">
-
-```kotlin
-Amplify.addPlugin(AWSApiPlugin())
-```
-
-Your class will look like this:
-
-```kotlin
-class MyAmplifyApp : Application() {
-    override fun onCreate() {
-        super.onCreate()
-
-        try {
-            // Add these lines to add the AWSApiPlugin plugins
-            Amplify.addPlugin(AWSApiPlugin())
-            Amplify.configure(applicationContext)
-
-            Log.i("MyAmplifyApp", "Initialized Amplify")
-        } catch (error: AmplifyException) {
-            Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
-        }
-    }
-}
-```
-
-</amplify-block>
-<amplify-block name="RxJava">
-
-```java
-RxAmplify.addPlugin(new AWSApiPlugin());
-```
-
-Your class will look like this:
-
-```java
-public class MyAmplifyApp extends Application {
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        try {
-            // Add these lines to add the AWSApiPlugin plugins
-            RxAmplify.addPlugin(new AWSApiPlugin());
-            RxAmplify.configure(getApplicationContext());
-
-            Log.i("MyAmplifyApp", "Initialized Amplify");
-        } catch (AmplifyException error) {
-            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
-        }
-    }
-}
-```
-
-</amplify-block>
-</amplify-block-switcher>

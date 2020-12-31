@@ -1,51 +1,19 @@
-<amplify-block-switcher>
-<amplify-block name="Java">
-
-```java
-Todo todo = Todo.builder()
-        .name("My first todo")
-        .description("todo description")
-        .build();
-
-Amplify.API.mutate(
-        ModelMutation.create(todo),
-        response -> Log.i("MyAmplifyApp", "Added Todo with id: " + response.getData().getId()),
-        error -> Log.e("MyAmplifyApp", "Create failed", error)
-);
+```dart
+try{
+    String graphQLDocument = '''mutation MyMutation(\$name: String!) {
+      createBlog(input: {name: \$name}) {
+        id
+        name
+        createdAt
+      }
+    }''';
+    
+    var operation = await Amplify.API.mutate(
+        request: GraphQLRequest<String>(
+            document: graphQLDocument, variables: {"name": "Test App Blog"}))
+    var response = await operation.response
+    print('Mutate SUCCESS')
+} on Exception catch(e) {
+    print('Mutate FAILED')
+}
 ```
-
-</amplify-block>
-<amplify-block name="Kotlin">
-
-```kotlin
-val todo: Todo = Todo.builder()
-        .name("My first todo")
-        .description("todo description")
-        .build()
-
-Amplify.API.mutate(
-        ModelMutation.create(todo),
-        { response -> Log.i("MyAmplifyApp", "Added Todo with id: " + response.getData().getId()) },
-        { error: ApiException? -> Log.e("MyAmplifyApp", "Create failed", error) }
-)
-```
-
-</amplify-block>
-<amplify-block name="RxJava">
-
-```java
-Todo todo = Todo.builder()
-        .name("My first todo")
-        .description("todo description")
-        .build();
-
-RxAmplify.API.mutate(ModelMutation.create(todo))
-        .subscribe(
-              response -> Log.i("MyAmplifyApp", "Added Todo with id: " + response.getData().getId()),
-              error -> Log.e("MyAmplifyApp", "Create failed", error)
-        );
-```
-
-</amplify-block>
-</amplify-block-switcher>
-

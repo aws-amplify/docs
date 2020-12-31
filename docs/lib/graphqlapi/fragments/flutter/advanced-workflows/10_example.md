@@ -1,26 +1,28 @@
-<amplify-block-switcher>
-<amplify-block name="Java">
+```dart
+try{
+    String graphQLDocument = '''mutation createTodo(\$input: CreateTodoInput!) {
+      createTodo(input: \$input) {
+        id
+        name
+        description
+      }
+    }''';
 
-```java
-Todo todo = Todo.builder()
-        .name("My first todo")
-        .description("todo description")
-        .build();
+    var operation = await Amplify.API.mutate(
+        request: GraphQLRequest<String>(
+            document: graphQLDocument,
+            variables: {
+              "name": "my first todo",
+              "description": "todo description"
+            }
+        )
+    );
 
-Amplify.API.mutate(ModelMutation.create(todo));
+    var response = await operation.response;
+    var data = response.data;
+    
+    print("Mutate SUCCESS");
+} on Exception catch(e) {
+    print("Mutate FAILED");
+}
 ```
-
-</amplify-block>
-<amplify-block name="Kotlin">
-
-```kotlin
-val todo: Todo = Todo.builder()
-        .name("My first todo")
-        .description("todo description")
-        .build()
-
-Amplify.API.mutate(ModelMutation.create(todo))
-```
-
-</amplify-block>
-</amplify-block-switcher>

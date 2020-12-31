@@ -40,7 +40,7 @@ To push your changes to the cloud, **execute the command**:
 amplify push
 ```
 
-Upon completion, `amplifyconfiguration.json` should be updated to reference provisioned backend storage resources.  Note that these files should already be a part of your project if you followed the [Project setup walkthrough](~/lib/project-setup/create-application.md).
+Upon completion, `amplifyconfiguration.dart` should be updated to reference provisioned backend storage resources.  Note that these files should already be a part of your project if you followed the [Project setup walkthrough](~/lib/project-setup/create-application.md).
 
 <amplify-callout warning>
 

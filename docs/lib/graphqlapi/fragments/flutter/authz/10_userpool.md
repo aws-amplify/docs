@@ -1,20 +1,8 @@
 Add the following code to your app:
 
-<amplify-block-switcher>
-<amplify-block name="Java">
-
-```java
-Amplify.addPlugin(new AWSCognitoAuthPlugin());
-Amplify.addPlugin(new AWSApiPlugin());
+```dart
+await amplify.addPlugin(
+    authPlugins: [AmplifyAuth()]
+    apiPlugins: [AmplifyAPI()]
+);
 ```
-
-</amplify-block>
-<amplify-block name="Kotlin">
-
-```kotlin
-Amplify.addPlugin(AWSCognitoAuthPlugin())
-Amplify.addPlugin(AWSApiPlugin())
-```
-
-</amplify-block>
-</amplify-block-switcher>

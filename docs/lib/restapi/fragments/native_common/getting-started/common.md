@@ -13,6 +13,7 @@ To setup and configure your application with Amplify API to make requests to you
 
 <inline-fragment platform="ios" src="~/lib/restapi/fragments/ios/getting-started/11_amplifyInit.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/restapi/fragments/android/getting-started/11_amplifyInit.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/restapi/fragments/flutter/getting-started/11_amplifyInit.md"></inline-fragment>
 
 ## Install Amplify Libraries
 

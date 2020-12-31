@@ -8,6 +8,7 @@ To setup and configure your application with Amplify API to save items in the ba
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/getting-started/10_preReq.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/getting-started/10_preReq.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/getting-started/10_preReq.md"></inline-fragment>
 
 ## Configure API
 
@@ -80,21 +81,25 @@ amplify codegen models
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/getting-started/40_codegen.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/getting-started/40_codegen.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/getting-started/40_codegen.md"></inline-fragment>
 
 ## Install Amplify Libraries
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/getting-started/20_installLib.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/getting-started/20_installLib.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/getting-started/20_installLib.md"></inline-fragment>
 
 ## Initialize Amplify API
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/getting-started/30_initapi.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/getting-started/30_initapi.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/getting-started/30_initapi.md"></inline-fragment>
 
 ## Create a Todo
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/getting-started/50_createtodo.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/getting-started/50_createtodo.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/getting-started/50_createtodo.md"></inline-fragment>
 
 Upon successfully executing this code, you should see an instance of `todo` persisted in your dynamoDB table. To navigate to your backend, run `amplify console api` and choose `GraphQL`. This will open the AppSync console to your GraphQL service. Select `Data Sources` and select the Resource link in your `TodoTable` to bring you to the DynamoDB Console. Select the `items` tab to see the `Todo` object that has been persisted in your database.
 

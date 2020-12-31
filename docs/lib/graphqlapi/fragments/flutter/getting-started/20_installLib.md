@@ -1,11 +1,8 @@
-Expand **Gradle Scripts**, open **build.gradle (Module: app)**. You will already have configured Amplify by following the steps in the [Project Setup walkthrough](~/lib/project-setup/create-application.md).
+Add the following dependencies to your `pubspec.yaml` file and install dependencies when asked:
 
-Add these libraries into the `dependencies` block:
-```groovy
-dependencies {
-    implementation 'com.amplifyframework:core:1.6.4'
-    implementation 'com.amplifyframework:aws-api:1.6.4'
-}
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+  amplify_api: '<1.0.0'
 ```
-
-Click **Sync Now**.

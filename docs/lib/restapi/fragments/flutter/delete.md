@@ -8,10 +8,10 @@ try{
     RestOperation restOperation = Amplify.API.delete(
         restOptions: options
     );
-    RestResponse response = await restOperation.response;
-    Log.i("MyAmplifyApp", "DELETE succeeded: " + response);
+    RestResponse response = await restOperation.response
+    print("Delete SUCCESS");
 } on Exception catch(e) {
-    Log.e("MyAmplifyApp", "DELETE failed.", error);
+    print("Delete FAILED");
 }
 ```
 

@@ -1,51 +1,30 @@
+```dart
+try{
+    String graphQLDocument = '''query get(\$postId: ID!, \$todoId: ID!) {
+          getPost(id: \$postId) {
+            id
+            title
+            rating
+          }
+          getTodo(id: \$todoId) {
+            id
+            name
+          }
+        }''';
 
-<amplify-block-switcher>
-<amplify-block name="Java">
+    var operation = await Amplify.API
+        .query<String>(request: GraphQLRequest(
+        document: graphQLDocument,
+        variables: {
+            "postId" : "[POST_ID]", 
+            "todoId" : "[TODO_ID]"
+        });
 
-```java
-private GraphQLRequest<String> getPostAndTodo(String postId, String todoId) {
-    String document = "query get($postId: ID!, $todoId: ID!) { "
-        + "getPost(id: $postId) { "
-            + "id "
-            + "title "
-            + "rating "
-        + "} "
-        + "getTodo(id: $todoId) { "
-            + "id "
-            + "name "
-        + "} "
-    + "}";
-    return new SimpleGraphQLRequest<>(
-            document, 
-            Collections.singletonMap("id", id), 
-            Post.class, 
-            new GsonVariablesSerializer());
+    var response = await operation.response;
+    var data = response.data;
+
+    print("Query SUCCESS");
+} on Exception catch(e) {
+    print("Query FAILED");
 }
 ```
-
-</amplify-block>
-<amplify-block name="Kotlin">
-
-```kotlin
-private fun getPostAndTodo(postId: String, todoId: String): GraphQLRequest<String> {
-    val document = ("query get(\$postId: ID!, \$todoId: ID!) { "
-            + "getPost(id: \$postId) { "
-                + "id "
-                + "title "
-                + "rating "
-            + "} "
-            + "getTodo(id: \$todoId) { "
-                + "id "
-                + "name "
-            + "} "
-        + "}")
-
-    return SimpleGraphQLRequest(
-            document,
-            mapOf("postId" to "[POST_ID]", "todoId" to "[TODO_ID]"),
-            String::class.java,
-            GsonVariablesSerializer())
-}
-```
-</amplify-block>
-</amplify-block-switcher>
