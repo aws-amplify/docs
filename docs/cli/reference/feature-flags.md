@@ -49,7 +49,7 @@ Example configuration file
 ```json
 {
   "features": {
-    "graphqlTransformer": {
+    "graphQLTransformer": {
       "addMissingOwnerFields": true,
       "validateTypeNameReservedWords": true,
       "useExperimentalPipelinedTransformer": false,
