@@ -13,6 +13,41 @@ exports[`amplify-feature-flags Render logic should render 1`] = `
     </p>
     <amplify-feature-flag-summary name="addMissingOwnerFields"></amplify-feature-flag-summary>
     <amplify-feature-flag-summary name="validateTypeNameReservedWords"></amplify-feature-flag-summary>
+    <amplify-feature-flag-summary name="useExperimentalPipelinedTransformer"></amplify-feature-flag-summary>
+    <amplify-feature-flag-summary name="enableIterativeGsiUpdates"></amplify-feature-flag-summary>
+  </div>
+  <div>
+    <docs-in-page-link targetid="frontend-ios">
+      <h2 id="frontend-ios">
+        frontend-ios
+      </h2>
+    </docs-in-page-link>
+    <p>
+      Feature Flag related to iOS projects
+    </p>
+    <amplify-feature-flag-summary name="enableXcodeIntegration"></amplify-feature-flag-summary>
+  </div>
+  <div>
+    <docs-in-page-link targetid="auth">
+      <h2 id="auth">
+        auth
+      </h2>
+    </docs-in-page-link>
+    <p>
+      Feature Flag related to auth
+    </p>
+    <amplify-feature-flag-summary name="enableCaseInsensitivity"></amplify-feature-flag-summary>
+  </div>
+  <div>
+    <docs-in-page-link targetid="codegen">
+      <h2 id="codegen">
+        codegen
+      </h2>
+    </docs-in-page-link>
+    <p>
+      Feature Flag related to Codegen
+    </p>
+    <amplify-feature-flag-summary name="useAppsyncModelgenPlugin"></amplify-feature-flag-summary>
   </div>
 </amplify-feature-flags>
 `;
