@@ -2,7 +2,7 @@
 
 Welcome to the Amplify Flutter documentation. To stay up to date with the latest changes and provide feedback, please take a look at our [RFC](https://github.com/aws-amplify/amplify-flutter/issues/5)
 
-There are some planned upcoming breaking changes, please take a look at this issue:  [issue](https://github.com/aws-amplify/amplify-flutter/issues/274) for more details. 
+There are some planned upcoming breaking changes, please take a look at this [issue](https://github.com/aws-amplify/amplify-flutter/issues/274) for more details. 
 
 </amplify-callout>
 
