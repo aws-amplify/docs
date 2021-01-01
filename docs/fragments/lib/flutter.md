@@ -1,6 +1,6 @@
 <amplify-callout warning>
 
-Welcome to Flutter Developer Preview documentation.
+Welcome to the Amplify Flutter documentation. To stay up to date with the latest changes and provide feedback, please take a look at our [RFC](https://github.com/aws-amplify/amplify-flutter/issues/5)
 
 </amplify-callout>
 
