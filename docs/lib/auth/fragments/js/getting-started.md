@@ -40,7 +40,8 @@ Add Amplify to your app:
 In your app's entry point (i.e. __App.js__, __index.js__, or __main.js__), import and load the configuration file:
 
 ```javascript
-import Amplify, { Auth } from 'aws-amplify';
+import Amplify from 'aws-amplify';
+import { Auth } from '@aws-amplify/auth';
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 ```
