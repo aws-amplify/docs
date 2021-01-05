@@ -4,6 +4,10 @@ import {routes as entryUrls} from "./src/api/routes";
 export const config: PrerenderConfig = {
   crawlUrls: false,
   entryUrls,
+  beforeHydrate(document, _) {
+    // @ts-ignore
+    document.defaultView.navigator.product = "NS";
+  },
   hydrateOptions() {
     return {
       addModulePreloads: true,
