@@ -282,8 +282,6 @@ export default function Home({ posts = [] }) {
                 <button type="button" onClick={() => Auth.signOut()}>
                   Sign out
                 </button>
-                  Sign out
-                </button>
               </form>
             </AmplifyAuthenticator>
           </div>
