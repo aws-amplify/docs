@@ -11,7 +11,7 @@ This topic shows you how to create and manage your app's users and groups. To se
 1. Open Admin UI for an app.
 2. On the **Manage** menu, choose **User management**.
 3. On the **User management** page, choose the **Users** tab and then choose **Create user**.
-4. In the **Create user** window, for **Unique identifer** enter a username, email address, or phone number. For **Temporary password** enter a password.
+4. In the **Create user** window, for **Unique identifier** enter a username, email address, or phone number. For **Temporary password** enter a password.
 5. Choose **Create user**.
 
 ## To modify access for a user
