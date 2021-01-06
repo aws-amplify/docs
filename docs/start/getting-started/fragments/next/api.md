@@ -279,7 +279,9 @@ export default function Home({ posts = [] }) {
                 </fieldset>
 
                 <button>Create Post</button>
-                <button onClick={(e) => (e.preventDefault(), Auth.signOut())}>
+                <button type="button" onClick={() => Auth.signOut()}>
+                  Sign out
+                </button>
                   Sign out
                 </button>
               </form>
