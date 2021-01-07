@@ -240,10 +240,55 @@ Open __src/main.js__ and add the following code below the last import:
 
 ```js
 import Amplify from 'aws-amplify';
-import '@aws-amplify/ui-vue';
 import aws_exports from './aws-exports';
+import {
+  applyPolyfills,
+  defineCustomElements,
+} from '@aws-amplify/ui-components/loader';
 
 Amplify.configure(aws_exports);
+applyPolyfills().then(() => {
+  defineCustomElements(window);
+});
 ```
 
 Now Amplify has been successfully configured. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in __aws-exports.js__ will update automatically.
+
+### Specify Custom Elements
+Next, we need to tell Vue which custom elements are from Amplify.
+
+<amplify-block-switcher>
+<amplify-block name="Vue 3">
+
+Create __vue.config.js__ on the app directory and add the following:
+
+```js
+module.exports = {
+  chainWebpack: config => {
+    config.module
+      .rule('vue')
+      .use('vue-loader')
+      .loader('vue-loader')
+      .tap(options => {
+        options.compilerOptions = {
+          ...(options.compilerOptions || {}),
+          isCustomElement: tag => tag.startsWith('amplify-'),
+        };
+        return options;
+      });
+  },
+};
+```
+
+</amplify-block>
+<amplify-block name="Vue 2">
+
+Open __src/main.ts__ and add the following:
+
+```js
+import Vue from 'vue';
+Vue.config.ignoredElements = [/amplify-\w*/];
+```
+
+</amplify-block>
+</amplify-block-switcher>
