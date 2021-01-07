@@ -41,9 +41,3 @@ amplify push
 ```
 
 Upon completion, `amplifyconfiguration.dart` should be updated to reference provisioned backend storage resources.  Note that these files should already be a part of your project if you followed the [Project setup walkthrough](~/lib/project-setup/create-application.md).
-
-<amplify-callout warning>
-
-The current version of the Amplify CLI will create classes intended for use with the AWS SDK for Android in your project. If you see compilation errors relating to `com.amazonaws.mobileconnectors.apigateway.annotation`, please delete the directory with the name of your API in Android Studio.
-
-</amplify-callout>

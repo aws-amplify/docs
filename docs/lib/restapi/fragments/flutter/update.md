@@ -3,7 +3,7 @@
 To update an item via the API endpoint:
 
 ```dart
-try{
+try {
     RestOptions options = RestOptions(
         path: "/todo/1",
         body: Uint8List.fromList("{\"name\":\"Mow the lawn\"}".codeUnits)
@@ -13,7 +13,7 @@ try{
     );
     RestResponse response = await restOperation.response;
     print("Put SUCCESS");
-} on Exception catch(e) {
+} catch(e) {
     print("Put FAILED");
 }
 ```

@@ -1,7 +1,7 @@
 ## DELETE requests
 
 ```dart
-try{
+try {
     RestOptions options = RestOptions(
         path: "/todo"
     );
@@ -10,7 +10,7 @@ try{
     );
     RestResponse response = await restOperation.response
     print("Delete SUCCESS");
-} on Exception catch(e) {
+} catch(e) {
     print("Delete FAILED");
 }
 ```

@@ -4,7 +4,7 @@ To make a GET request, first build a RestOptions object and then use the Amplify
 
 ```dart
 void getTodo() {
-    try{
+    try {
         RestOptions options = RestOptions(
             path: "/todo"
         );
@@ -13,7 +13,7 @@ void getTodo() {
         );
         RestResponse response = await restOperation.response;
         print("Get SUCCESS");
-    } on Exception catch(e) {
+    } catch(e) {
         print("Get FAILED");
     }
 }
@@ -58,7 +58,7 @@ app.get('/todo', function(req, res) {
 Then you can use query parameters in your path as follows:
 
 ```dart
-try{
+try {
     RestOptions options = RestOptions(
         path: "/todo",
         queryParameters: {
@@ -70,7 +70,7 @@ try{
     );
     RestResponse response = await restOperation.response;
     print("Get SUCCESS");
-} on Exception catch(e) {
+} catch(e) {
     print("Get FAILED");
 }
 ```

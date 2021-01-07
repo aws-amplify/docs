@@ -69,7 +69,9 @@ Enter the following when prompted:
     `No`
 ```
 
-Upon completion, `amplifyconfiguration.json` will be updated to reference provisioned backend storage resources.  Note that these files should already be a part of your project if you followed the [Project setup walkthrough](~/lib/project-setup/create-application.md).
+<inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/getting-started/12_amplifyConfig.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/getting-started/12_amplifyConfig.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/getting-started/12_amplifyConfig.md"></inline-fragment>
 
 ## Generate Todo Model class
 

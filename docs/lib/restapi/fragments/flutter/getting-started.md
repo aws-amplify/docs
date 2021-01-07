@@ -1,12 +1,10 @@
 The Amplify CLI deploys REST APIs and handlers using [Amazon API Gateway](http://docs.aws.amazon.com/apigateway/latest/developerguide/) and [AWS Lambda](http://docs.aws.amazon.com/lambda/latest/dg/).
 
-The API category will perform SDK code generation which when used with the `AWSMobileClient` can be used for creating signed requests for Amazon API Gateway when the service Authorization is set to `AWS_IAM` or when using a [Cognito User Pools Authorizer](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html).
-
 See the authentication section for more details for using the `AWSMobileClient` in your application.
 
 ## Create new REST API
 
-In a terminal window, navigate to your project folder (the folder that contains your app `.Android Studioproj` file), and add the SDK to your app.
+In a terminal window, navigate to your project folder (the folder that contains your app `/lib` folder), and add the SDK to your app.
 
 ```bash
 cd ./YOUR_PROJECT_FOLDER
@@ -34,7 +32,7 @@ amplify push
 Next make a call using one of the HTTP verbs under `Amplify.API` such as a GET:
 
 ```dart
-try{
+try {
     RestOptions options = RestOptions(
         path: "/items",
         queryParameters: {
@@ -46,7 +44,7 @@ try{
     );
     RestResponse response = await restOperation.response;
     print("Get SUCCESS");
-} on Exception catch(e) {
+} catch(e) {
     print("Get FAILED");
 }
 ```

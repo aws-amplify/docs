@@ -4,21 +4,21 @@ Your code should look like this:
 
 ```dart
 import 'package:amplify_core/amplify_core.dart';
-import 'package:amplify_api_rest/amplify_api_rest.dart';
+import 'package:amplify_api/amplify_api.dart';
 
 import 'amplifyconfiguration.dart';
 
 class MyAmplifyApp extends StatefulWidget {
 
-    Amplify amplifyInstance = Amplify()
+    Amplify amplifyInstance = Amplify();
 
     @override
     void initState() {
-        super.initState()
+        super.initState();
 
-        AmplifyAPI api = AmplifyAPI()
-        amplifyInstance.addPlugin(apiPlugins: [api])
-        amplifyInstance.configure(amplifyConfig)
+        AmplifyAPI api = AmplifyAPI();
+        amplifyInstance.addPlugin(apiPlugins: [api]);
+        amplifyInstance.configure(amplifyConfig);
     }
 }
 ```

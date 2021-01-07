@@ -1,5 +1,5 @@
 ```dart
-try{
+try {
     String graphQLDocument = '''query get(\$postId: ID!, \$todoId: ID!) {
           getPost(id: \$postId) {
             id
@@ -12,19 +12,21 @@ try{
           }
         }''';
 
-    var operation = await Amplify.API
-        .query<String>(request: GraphQLRequest(
+    var operation = Amplify.API.query<String>(
+      request: GraphQLRequest(
         document: graphQLDocument,
         variables: {
             "postId" : "[POST_ID]", 
             "todoId" : "[TODO_ID]"
-        });
+        }
+      )
+    ); 
 
     var response = await operation.response;
     var data = response.data;
 
     print("Query SUCCESS");
-} on Exception catch(e) {
+} catch(e) {
     print("Query FAILED");
 }
 ```

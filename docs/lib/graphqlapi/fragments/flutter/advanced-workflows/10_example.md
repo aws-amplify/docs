@@ -1,5 +1,5 @@
 ```dart
-try{
+try {
     String graphQLDocument = '''mutation createTodo(\$input: CreateTodoInput!) {
       createTodo(input: \$input) {
         id
@@ -8,7 +8,7 @@ try{
       }
     }''';
 
-    var operation = await Amplify.API.mutate(
+    var operation = Amplify.API.mutate(
         request: GraphQLRequest<String>(
             document: graphQLDocument,
             variables: {
@@ -22,7 +22,7 @@ try{
     var data = response.data;
     
     print("Mutate SUCCESS");
-} on Exception catch(e) {
+} catch(e) {
     print("Mutate FAILED");
 }
 ```
