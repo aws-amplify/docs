@@ -15,7 +15,7 @@ if (!configured) {
   }
   if (Build.isBrowser) {
     // @ts-ignore
-    s.trackExternalLinks = false;
+    if (typeof(s) != "undefined") s.trackExternalLinks = false;
   }
   configured = true;
 }
@@ -77,35 +77,40 @@ export const track = (event: AnalyticsEvent): Promise<unknown> | undefined => {
 };
 
 export const trackPageVisit = (): void => {
-  if (Build.isBrowser) {
+  // @ts-ignore
+  if (Build.isBrowser && typeof(s) != "undefined") {
     // @ts-ignore
     s.t();
   }
 };
 
 export const trackPageFetchException = (): void => {
-  if (Build.isBrowser) {
+  // @ts-ignore
+  if (Build.isBrowser && typeof(s) != "undefined") {
     // @ts-ignore
     s.tl(true, "o", "page fetch exception");
   }
 };
 
 export const trackExternalLink = (): void => {
-  if (Build.isBrowser) {
+  // @ts-ignore
+  if (Build.isBrowser && typeof(s) != "undefined") {
     // @ts-ignore
     s.tl(true, "e");
   }
 };
 
 export const setSearchQuery = (query: string): void => {
-  if (Build.isBrowser) {
+  // @ts-ignore
+  if (Build.isBrowser && typeof(s) != "undefined") {
     // @ts-ignore
     s.eVar26 = query;
   }
 };
 
 export const trackSearchResult = (resultCount: number): void => {
-  if (Build.isBrowser) {
+  // @ts-ignore
+  if (Build.isBrowser && typeof(s) != "undefined") {
     // @ts-ignore
     s.linkTrackVars = "eVar26,eVar27";
     // @ts-ignore
