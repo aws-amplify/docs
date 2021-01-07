@@ -3,7 +3,7 @@ title: Admin actions
 description: Learn how to expose Administrative actions for your Cognito User Pool to your end user applications.
 ---
 
-Admin Actions allow you to execute queries against users and groups in your Cognito user pool.
+Admin Actions allow you to execute queries and operations against users and groups in your Cognito user pool.
 
 For example, the ability to list all users in a Cognito User Pool may provide useful for the administrative panel of an app if the logged-in user is a member of a specific Group called "Admins". 
 
