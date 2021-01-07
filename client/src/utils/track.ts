@@ -80,7 +80,7 @@ export const trackPageVisit = (): void => {
   // @ts-ignore
   if (Build.isBrowser && typeof(s) != "undefined") {
     // @ts-ignore
-    if (s) s.t();
+    s.t();
   }
 };
 
@@ -88,7 +88,7 @@ export const trackPageFetchException = (): void => {
   // @ts-ignore
   if (Build.isBrowser && typeof(s) != "undefined") {
     // @ts-ignore
-    if (s) s.tl(true, "o", "page fetch exception");
+    s.tl(true, "o", "page fetch exception");
   }
 };
 
@@ -96,7 +96,7 @@ export const trackExternalLink = (): void => {
   // @ts-ignore
   if (Build.isBrowser && typeof(s) != "undefined") {
     // @ts-ignore
-    if (s) s.tl(true, "e");
+    s.tl(true, "e");
   }
 };
 
@@ -104,7 +104,7 @@ export const setSearchQuery = (query: string): void => {
   // @ts-ignore
   if (Build.isBrowser && typeof(s) != "undefined") {
     // @ts-ignore
-    if (s) s.eVar26 = query;
+    s.eVar26 = query;
   }
 };
 
