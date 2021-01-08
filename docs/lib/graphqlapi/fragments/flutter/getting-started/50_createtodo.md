@@ -1,19 +1,25 @@
 ```dart
 try {
-    String graphQLDocument = '''mutation MyMutation(\$name: String!) {
-      createBlog(input: {name: \$name}) {
-        id
-        name
-        createdAt
-      }
-    }''';
-    
+    String graphQLDocument =
+        '''mutation CreateTodo(\$name: String!, \$description: String) {
+              createTodo(input: {name: \$name, description: \$description}) {
+                id
+                name
+                description
+              }
+        }''';
+
     var operation = Amplify.API.mutate(
-        request: GraphQLRequest<String>(
-            document: graphQLDocument, variables: {"name": "Test App Blog"}));
+        request: GraphQLRequest<String>(document: graphQLDocument, variables: {
+      "name": "my first todo",
+      "description": "todo description",
+    }));
+
     var response = await operation.response;
-    print('Mutate SUCCESS');
+    var data = response.data;
+    
+    print('Mutation result: ' + data);
 } catch(e) {
-    print('Mutate FAILED');
+    print(e);
 }
 ```

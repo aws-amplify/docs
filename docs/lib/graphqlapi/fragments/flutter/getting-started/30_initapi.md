@@ -10,15 +10,15 @@ import 'amplifyconfiguration.dart';
 
 class MyAmplifyApp extends StatefulWidget {
 
-    Amplify amplifyInstance = Amplify();
+    Amplify amplify = Amplify();
 
     @override
     void initState() {
         super.initState();
 
         AmplifyAPI api = AmplifyAPI();
-        amplifyInstance.addPlugin(apiPlugins: [api]);
-        amplifyInstance.configure(amplifyConfig);
+        await amplify.addPlugin(apiPlugins: [api]);
+        await amplify.configure(amplifyConfig);
     }
 }
 ```

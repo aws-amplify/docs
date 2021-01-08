@@ -1,5 +1,5 @@
 <amplify-callout>
 
-Subscribe is not available just yet for Flutter. We are actively working on this. 
+Subscribe is not yet available for Amplify Flutter and is being actively worked on.
 
 </amplify-callout>

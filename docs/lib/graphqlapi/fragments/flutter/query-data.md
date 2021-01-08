@@ -4,29 +4,25 @@ Now that you were able to make a mutation, take the `id` that was printed out an
 
 ```dart
 try {
-    String graphQLDocument = '''query getTodo(id: \$todoId) {
-      getTodo(id: \$todoId) {
+    String graphQLDocument = '''query GetTodo(\$id: ID!) {
+      getTodo(id: \$id) {
         id
         name
         description
       }
     }''';
 
-    var operation = Amplify.API.query<String>(
-        request: GraphQLRequest(
-            document: graphQLDocument, 
-            variables: {
-              "todoId": todoId,
-            }
-        )
-    );
+    var operation = Amplify.API.query(
+        request: GraphQLRequest<String>(
+            document: graphQLDocument,
+            variables: {"id": "8e0dd2fc-2f4a-4dc4-b47f-2052eda10775"}));
 
     var response = await operation.response;
     var data = response.data;
 
-    print("Query SUCCESS");
+    print('Query result: ' + data);
 } catch(e) {
-    print("Query FAILED");
+    print(e);
 }
 ```
 
@@ -36,27 +32,27 @@ You can get the list of items in `Amplify.API.query`:
 
 ```dart
 try {
-    String graphQLDocument = '''query GetTodos {
+    String graphQLDocument = '''query ListTodos {
       listTodos {
         items {
           id
           name
           description
         }
+        nextToken
       }
     }''';
 
-    var operation = Amplify.API.query<String>(
-        request: GraphQLRequest(
-            document: graphQLDocument, 
-        )
-    );
+    var operation = Amplify.API.query(
+        request: GraphQLRequest<String>(
+      document: graphQLDocument,
+    ));
 
     var response = await operation.response;
     var data = response.data;
 
-    print("Query SUCCESS");
+    print('Query result: ' + data);
 } catch(e) {
-    print("Query FAILED");
+    print(e);
 }
 ```
