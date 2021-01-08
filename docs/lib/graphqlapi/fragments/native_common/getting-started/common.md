@@ -1,3 +1,5 @@
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/getting-started/01_models_callout.md"></inline-fragment>
+
 The Amplify API category provides an interface for retrieving and persisting your model data. The API category comes with default built-in support for AWS AppSync. The Amplify CLI allows you to define your API and provision a GraphQL service with CRUD operations and real-time functionality. 
 
 ## Goal
