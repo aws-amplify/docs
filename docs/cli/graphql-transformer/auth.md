@@ -158,7 +158,7 @@ Next, let's say that you wanted to modify the schema to allow only the owner of 
 
 ```graphql
 type Todo @model
-  @auth(rules: [{ allow: owner, operations: [create, delete] }]) {
+  @auth(rules: [{ allow: owner, operations: [delete] }]) {
   id: ID!
   updatedAt: AWSDateTime!
   content: String!
