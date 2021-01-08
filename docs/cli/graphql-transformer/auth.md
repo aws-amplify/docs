@@ -132,7 +132,7 @@ Here's a table outlining which users are permitted to execute which operations. 
 |       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
 |:------|:-------:|:---------:|:----------:|:----------:|:----------:|
 | owner |    ✅   |     ✅    |     ✅     |      ✅   |     ✅     |
-| other |    ❌   |     ❌    |     ✅     |      ❌   |     ❌     |
+| other |    ❌   |     ❌    |     ❌     |      ❌   |     ❌     |
 
 Next, let's say that you wanted to modify the schema to allow only the owner of the object to be able to update or delete, but allow any authenticated user to read the objects.
 
@@ -145,14 +145,14 @@ type Todo @model
 }
 ```
 
-In this schema, only the owner of the object has the authorization to perform update (`updateTodo`) and delete (`deleteTodo`) operations on the owner created object, but anyone can read them (`getTodo`, `listTodos`). This prevents the object from being updated or deleted by users other than the creator of the object while allowing all authenticated users of the app to read them.
+In this schema, only the owner of the object has the authorization to perform update (`updateTodo`), create (`createTodo`) and delete (`deleteTodo`) operations on the owner created object, but anyone can read them (`getTodo`, `listTodos`). This prevents the object from being updated or deleted by users other than the creator of the object while allowing all authenticated users of the app to read them.
 
 Here's a table outlining which users are permitted to execute which operations. **owner** refers to the user who created the object, **other** refers to all other authenticated users.
 
 |       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
 |:------|:-------:|:---------:|:----------:|:----------:|:----------:|
 | owner |    ✅   |     ✅    |     ✅     |      ✅   |     ✅     |
-| other |    ✅   |     ✅    |     ✅     |      ❌   |     ❌     |
+| other |    ✅   |     ✅    |     ❌     |      ❌   |     ❌     |
 
 Next, let's say that you wanted to modify the schema to allow only the owner of the object to be able to delete, but allow anyone to create, read, and update.
 
