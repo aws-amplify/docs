@@ -52,7 +52,8 @@ HubPayload: N/A
 Dispatched when a local change has been newly staged for synchronization with the Cloud
 
 HubPayload `outboxMutationEvent` contains:
-- `modelName` (String): the name of the model that is awaiting publication to the Cloud
+- `model`:
+    - `name` (String): the name of the model that was synced
 - `element`: 
     - `model` (Model): the model instance that will be published
 
@@ -61,7 +62,8 @@ HubPayload `outboxMutationEvent` contains:
 Dispatched when a local change has finished synchronization with the Cloud and is updated locally
 
 HubPayload `outboxMutationEvent` contains:
-- `modelName` (String): the name of the model that has finished processing
+- `model`:
+    - `name` (String): the name of the model that was synced
 - `element`: 
     - `model` (Model): the model instance that is processed
     - `_version` (Int): version of the model instance
