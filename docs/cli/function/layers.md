@@ -90,6 +90,10 @@ A `nodejs` folder is auto-generated for you. In there you'll find an empty `pack
 
 Any node module that is in the layer's `node_modules` folder can be accessed from the function as if the node module is in the function's `node_modules` folder.
 
+#### Custom code in a layer
+
+To add custom code to the layer, inside `node_modules` create the structure `node_modules/<namespace>/index.js` (for example: `node_modules/myWidget/index.js`). Now you can import the custom code into any lambda with the layer attached with `import myWidget from 'myWidget';`.
+
 *In order to take advantage of Lambda layer's for your NodeJS function, you don't even need to update your function's code!*
 
 </amplify-block>
