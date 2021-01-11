@@ -84,38 +84,9 @@ Your `amplifyconfiguration.json` should contain Cognito configuration in the `aw
 
 With this configuration, your access token will automatically be included in outbound requests to your API, as an `Authorization` header. For more details on how to configure the API Gateway with the custom authorization, see [this](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html)
 
-
 ## OIDC
 
-If you are using a 3rd party OIDC provider you will need to configure it and manage the details of token refreshes yourself. Update the `amplifyconfiguration.json` file and code snippet as follows:
-
-```json
-{
-    ...
-    "awsAPIPlugin": {
-        "<YOUR-RESTENDPOINT-NAME": {
-            "endpointType": "GraphQL",
-            "endpoint": "[REST-ENDPOINT]",
-            "region": "[REGION]",
-            "authorizationType": "OPENID_CONNECT",
-        }
-    }
-}
-```
-
-<inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz/20_oidc.md"></inline-fragment>
-<inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/20_oidc.md"></inline-fragment>
-
-### Note related to use Access Token or ID Token
-
-The Access Token contains scopes and groups and is used to grant access to authorized resources. [This is a tutorial for enabling custom scopes.](https://aws.amazon.com/premiumsupport/knowledge-center/cognito-custom-scopes-api-gateway/).
-
-The ID Token contains claims about the identity of the authenticated user such as name, email, and phone_number. It could have custom claims as well, for example using [Amplify CLI](https://docs.amplify.aws/cli/usage/lambda-triggers#override-id-token-claims).
-
-If you are using Cognito's user pool as the authorization type, this will by default retrieve and use the Access Token for your requests. If you would like to override this behavior and use the ID Token instead, you can treat Cognito user pool as your OIDC provider, set the authorization type to `OPENID_CONNECT` and use `Amplify.Auth` to retrieve the ID Token for your requests.
-
-<inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz/21_oidc.md"></inline-fragment>
-<inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/21_oidc.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/authz/20_oidc.md"></inline-fragment>
 
 ## Customizing HTTP request headers
 

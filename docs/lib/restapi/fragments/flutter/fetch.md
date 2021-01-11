@@ -3,19 +3,17 @@
 To make a GET request, first build a RestOptions object and then use the Amplify.API.get api to issue the request:
 
 ```dart
-void getTodo() {
-    try {
-        RestOptions options = RestOptions(
-            path: "/todo"
-        );
-        RestOperation restOperation = Amplify.API.get(
-            restOptions: options
-        );
-        RestResponse response = await restOperation.response;
-        print("Get SUCCESS");
-    } catch(e) {
-        print("Get FAILED");
-    }
+try {
+    RestOptions options = RestOptions(
+        path: "/todo"
+    );
+    RestOperation restOperation = Amplify.API.get(
+        restOptions: options
+    );
+    RestResponse response = await restOperation.response;
+    print("Get SUCCESS");
+} catch(e) {
+    print("Get FAILED");
 }
 ```
 
