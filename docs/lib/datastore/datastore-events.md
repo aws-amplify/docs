@@ -53,7 +53,7 @@ Dispatched when a local change has been newly staged for synchronization with th
 
 HubPayload `outboxMutationEvent` contains:
 - `model`:
-    - `name` (String): the name of the model that was synced
+    - `name` (String): the name of the model that is awaiting publication to the Cloud
 - `element`: 
     - `model` (Model): the model instance that will be published
 
