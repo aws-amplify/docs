@@ -63,7 +63,7 @@ Dispatched when a local change has finished synchronization with the Cloud and i
 
 HubPayload `outboxMutationEvent` contains:
 - `model`:
-    - `name` (String): the name of the model that was synced
+    - `name` (String): the name of the model that has finished processing
 - `element`: 
     - `model` (Model): the model instance that is processed
     - `_version` (Int): version of the model instance
