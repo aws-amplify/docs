@@ -55,7 +55,7 @@ amplify
 
 ### 3. (Optional) Reference existing parameters
 
-Reference an output value from any other Amplify-managed category CloudFormation stack. For example, if you want to use `auth` category genarted Amazon Cognito `UserPoolId` in your custom CloudFormation stack, you would need to add the `dependsOn` block in the `backend-config.json` file. The above `backend-config.json` file would look like the following:
+Reference an output value from any other Amplify-managed category CloudFormation stack. For example, if you want to use `auth` category generated Amazon Cognito `UserPoolId` in your custom CloudFormation stack, you would need to add the `dependsOn` block in the `backend-config.json` file. The above `backend-config.json` file would look like the following:
 
 ```json
 {
