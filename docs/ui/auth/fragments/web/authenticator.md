@@ -1,7 +1,5 @@
 <amplify-authenticator></amplify-authenticator>
 
-## Installation
-
 <inline-fragment src="~/ui/fragments/web/installation.md"></inline-fragment>
 
 ## Usage
