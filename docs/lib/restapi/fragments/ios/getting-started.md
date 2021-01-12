@@ -21,7 +21,7 @@ When prompted select the following options:
 > Who should have access? Authenticated and Guest users
 ```
 
-Finally deploy your changes to the cloud:
+When configuration of your API is complete, the CLI displays a message confirming that you have configured local CLI metadata for this category. You can confirm this by running `amplify status`. Finally deploy your changes to the cloud:
 
 ```bash
 amplify push
