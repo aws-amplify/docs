@@ -9,7 +9,7 @@ The Amplify CLI provides escape hatches for modifying the backend configurations
 
 The most common scenarios for extending your app beyond Amplify CLI's features are to:
 * customize your GraphQL API business logic by [overriding resolvers](~/cli/graphql-transformer/resolvers.md#overwriting-resolvers) or author your own [custom resolvers](~/cli/graphql-transformer/resolvers.md#custom-resolvers).
-* override Amplify CLI's generated CloudFormation by editing `amplify/backend/<category>/<cloudformation-template.json/yml>`. [Read more about Cloudformation](https://aws.amazon.com/cloudformation/)
+* update the base configuration of an Amplify generated resource. Override Amplify CLI's generated CloudFormation by editing `amplify/backend/<category>/<cloudformation-template.json/yml>`. [Read more about Cloudformation](https://aws.amazon.com/cloudformation/)
 * add custom AWS resources that are not supported by the Amplify CLI currently, follow the steps below.
 
 ## Add custom AWS resources 
