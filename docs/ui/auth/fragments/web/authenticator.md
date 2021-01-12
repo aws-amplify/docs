@@ -4,8 +4,6 @@
 
 <inline-fragment src="~/ui/fragments/web/installation.md"></inline-fragment>
 
-</docs-filter>
-
 ## Usage
 
 <docs-filter framework="react">
