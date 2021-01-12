@@ -8,7 +8,7 @@ Add Analytics by adding these libraries into your dependencies block:
 dependencies:
 
   # Should already be added during Project Setup walkthrough 
-  amplify_core:
+  amplify_flutter:
     path: '<1.0.0'
 
   # Add these lines in `dependencies` 
