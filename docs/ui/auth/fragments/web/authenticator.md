@@ -81,25 +81,7 @@ In most cases you will need to manage the rendering and layout of the Authentica
 
 _app.module.ts_
 
-```js
-import {BrowserModule} from "@angular/platform-browser";
-import {NgModule} from "@angular/core";
-import {AppComponent} from "./app.component";
-
-import {AmplifyUIAngularModule} from "@aws-amplify/ui-angular";
-import Amplify from "aws-amplify";
-import awsconfig from "./aws-exports";
-
-Amplify.configure(awsconfig);
-
-@NgModule({
-  declarations: [AppComponent],
-  imports: [AmplifyUIAngularModule, BrowserModule],
-  providers: [],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
-```
+<inline-fragment src="~/ui/fragments/angular/configure-module.md"></inline-fragment>
 
 _app.component.html_
 
@@ -118,25 +100,7 @@ _app.component.html_
 
 _app.module.ts_
 
-```js
-import {BrowserModule} from "@angular/platform-browser";
-import {NgModule} from "@angular/core";
-import {AppComponent} from "./app.component";
-
-import {AmplifyUIAngularModule} from "@aws-amplify/ui-angular";
-import Amplify from "aws-amplify";
-import awsconfig from "./aws-exports";
-
-Amplify.configure(awsconfig);
-
-@NgModule({
-  declarations: [AppComponent],
-  imports: [AmplifyUIAngularModule, BrowserModule],
-  providers: [],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
-```
+<inline-fragment src="~/ui/fragments/angular/configure-module.md"></inline-fragment>
 
 _app.component.html_
 
@@ -154,19 +118,7 @@ _app.component.html_
 
 _main.js_
 
-```js
-import Vue from "vue";
-import App from "./App.vue";
-import "@aws-amplify/ui-vue";
-import Amplify from "aws-amplify";
-import awsconfig from "./aws-exports";
-
-Amplify.configure(awsconfig);
-
-new Vue({
-  render: (h) => h(App),
-}).$mount("#app");
-```
+<inline-fragment src="~/ui/fragments/vue/configure-app.md"></inline-fragment>
 
 _App.vue_
 
@@ -834,25 +786,7 @@ export default GreetingsApp;
 </docs-filter>
 <docs-filter framework="angular">
 
-```js
-import {BrowserModule} from "@angular/platform-browser";
-import {NgModule} from "@angular/core";
-import {AppComponent} from "./app.component";
-
-import {AmplifyUIAngularModule} from "@aws-amplify/ui-angular";
-import Amplify from "aws-amplify";
-import awsconfig from "../aws-exports";
-
-Amplify.configure(awsconfig);
-
-@NgModule({
-  declarations: [AppComponent],
-  imports: [AmplifyUIAngularModule, BrowserModule],
-  providers: [],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
-```
+<inline-fragment src="~/ui/fragments/angular/configure-module.md"></inline-fragment>
 
 Replace the content inside of _app.component.ts_ with the following:
 
@@ -899,25 +833,7 @@ Replace the content inside of _app.component.html_ with the following:
 </docs-filter>
 <docs-filter framework="ionic">
 
-```js
-import {BrowserModule} from "@angular/platform-browser";
-import {NgModule} from "@angular/core";
-import {AppComponent} from "./app.component";
-
-import {AmplifyUIAngularModule} from "@aws-amplify/ui-angular";
-import Amplify from "aws-amplify";
-import awsconfig from "../aws-exports";
-
-Amplify.configure(awsconfig);
-
-@NgModule({
-  declarations: [AppComponent],
-  imports: [AmplifyUIAngularModule, BrowserModule],
-  providers: [],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
-```
+<inline-fragment src="~/ui/fragments/angular/configure-module.md"></inline-fragment>
 
 Replace the content inside of _app.component.ts_ with the following:
 
