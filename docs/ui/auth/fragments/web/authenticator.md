@@ -2,40 +2,15 @@
 
 ## Installation
 
-<docs-filter framework="react">
-
-```
-yarn add aws-amplify @aws-amplify/ui-react
-```
-
-</docs-filter>
-<docs-filter framework="angular">
-
-```
-yarn add aws-amplify @aws-amplify/ui-angular
-```
-
-</docs-filter>
-<docs-filter framework="ionic">
-
-```
-yarn add aws-amplify @aws-amplify/ui-angular
-```
-
-</docs-filter>
-<docs-filter framework="vue">
-
-```
-yarn add aws-amplify @aws-amplify/ui-vue
-```
+<inline-fragment src="~/ui/fragments/web/installation.md"></inline-fragment>
 
 </docs-filter>
 
 ## Usage
 
-### Basic Usage
-
 <docs-filter framework="react">
+
+### Basic Usage
 
 ```jsx
 import React from "react";
