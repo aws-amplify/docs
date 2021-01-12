@@ -75,17 +75,8 @@ Enter the following when prompted:
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/getting-started/12_amplifyConfig.md"></inline-fragment>
 <inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/getting-started/12_amplifyConfig.md"></inline-fragment>
 
-## Generate Todo Model class
-
-To generate the `Todo` model, change directories to your project folder and **execute the command**:
-
-```bash
-amplify codegen models
-```
-
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/getting-started/40_codegen.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/getting-started/40_codegen.md"></inline-fragment>
-<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/getting-started/40_codegen.md"></inline-fragment>
 
 ## Install Amplify Libraries
 
