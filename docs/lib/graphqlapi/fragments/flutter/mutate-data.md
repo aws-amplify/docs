@@ -27,3 +27,27 @@ try {
     print(e);
 }
 ```
+
+The response data will be a JSON String that looks like this:
+
+```json
+{
+  "createTodo": {
+    "name": "my first todo",
+    "id": "4422c06e-3f93-4db1-87c4-571f87e656a0",
+    "description": "todo description"
+  }
+}
+```
+
+You can decode the data to a Map and access the attributes as needed:
+
+```dart
+//Decode the data to a Map
+Map result = json.decode(response.data);
+Map todoMap = result['createTodo'];
+
+//access the attributes
+final id = todoMap['id'];
+print('Todo id: $id');
+```
