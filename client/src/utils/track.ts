@@ -15,7 +15,7 @@ if (!configured) {
   }
   if (Build.isBrowser) {
     // @ts-ignore
-    if (typeof(s) != "undefined") s.trackExternalLinks = false;
+    if (typeof s != "undefined") s.trackExternalLinks = false;
   }
   configured = true;
 }
@@ -78,7 +78,7 @@ export const track = (event: AnalyticsEvent): Promise<unknown> | undefined => {
 
 export const trackPageVisit = (): void => {
   // @ts-ignore
-  if (Build.isBrowser && typeof(s) != "undefined") {
+  if (Build.isBrowser && typeof s != "undefined") {
     // @ts-ignore
     s.t();
   }
@@ -86,7 +86,7 @@ export const trackPageVisit = (): void => {
 
 export const trackPageFetchException = (): void => {
   // @ts-ignore
-  if (Build.isBrowser && typeof(s) != "undefined") {
+  if (Build.isBrowser && typeof s != "undefined") {
     // @ts-ignore
     s.tl(true, "o", "page fetch exception");
   }
@@ -94,7 +94,7 @@ export const trackPageFetchException = (): void => {
 
 export const trackExternalLink = (): void => {
   // @ts-ignore
-  if (Build.isBrowser && typeof(s) != "undefined") {
+  if (Build.isBrowser && typeof s != "undefined") {
     // @ts-ignore
     s.tl(true, "e");
   }
@@ -102,22 +102,44 @@ export const trackExternalLink = (): void => {
 
 export const setSearchQuery = (query: string): void => {
   // @ts-ignore
-  if (Build.isBrowser && typeof(s) != "undefined") {
+  if (Build.isBrowser && typeof s != "undefined") {
     // @ts-ignore
     s.eVar26 = query;
   }
 };
 
-export const trackSearchResult = (resultCount: number): void => {
-  // @ts-ignore
-  if (Build.isBrowser && typeof(s) != "undefined") {
-    // @ts-ignore
-    s.linkTrackVars = "eVar26,eVar27";
+export const setSearchResultCount = (resultCount: number): void => {
+  if (Build.isBrowser) {
     // @ts-ignore
     s.eVar27 = resultCount;
     // @ts-ignore
     s.events = resultCount === 0 ? "event1" : "event2";
+
+    if (resultCount === 0) {
+      // @ts-ignore
+      s.linkTrackEvents = "event2";
+      // @ts-ignore
+      s.linkTrackVars = "eVar26,eVar27";
+      // @ts-ignore
+      s.tl(true, "o", "internal search");
+    }
+  }
+};
+
+export const trackSearchQuery = (
+  _input,
+  _event,
+  suggestion,
+  _datasetNumber,
+  _context,
+): void => {
+  if (Build.isBrowser) {
+    // @ts-ignore
+    s.linkTrackEvents = "event1";
+    // @ts-ignore
+    s.linkTrackVars = "eVar26,eVar27";
     // @ts-ignore
     s.tl(true, "o", "internal search");
   }
+  window.location.assign(suggestion.url);
 };
