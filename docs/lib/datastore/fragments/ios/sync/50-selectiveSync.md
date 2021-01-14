@@ -46,7 +46,7 @@ func initialize() {
 }
 
 func changeSync() {
-    rating = 1;
+    rating = 1
     Amplify.DataStore.stop { (result) in
         switch(result) {
         case .success:
@@ -78,7 +78,7 @@ When applying a more restrictive filter, clear the local records first by runnin
 
 ```swift
 func changeSync() {
-    rating = 8;
+    rating = 8
     Amplify.DataStore.clear { (result) in
         switch(result) {
         case .success:
