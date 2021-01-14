@@ -195,4 +195,4 @@ There are a few important things to think about when making changes to APIs usin
 
 ### Combining @key with @connection
 
-Secondary indexes created with the `@key` directive can be used to resolve connections when creating relationships between types. To learn how this works, check out [the documentation for @connection](#connection).
+Secondary indexes created with the `@key` directive can be used to resolve connections when creating relationships between types. To learn how this works, check out [the documentation for @connection](~/cli/graphql-transformer/connection.md).
