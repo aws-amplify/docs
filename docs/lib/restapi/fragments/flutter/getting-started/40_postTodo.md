@@ -9,6 +9,7 @@ try {
     );
     RestResponse response = await restOperation.response;
     print("POST call succeeded");
+    print(new String.fromCharCodes(response.data));
 } catch(error) {
     print("POST call failed: $error");
 }

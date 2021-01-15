@@ -12,9 +12,9 @@ try {
         restOptions: options
     );
     RestResponse response = await restOperation.response;
-    print("Put SUCCESS");
+    print("PUT call succeeded");
     print(new String.fromCharCodes(response.data));
-} catch(e) {
-    print("Put FAILED");
+} catch(error) {
+    print("PUT call failed: $error");
 }
 ```
