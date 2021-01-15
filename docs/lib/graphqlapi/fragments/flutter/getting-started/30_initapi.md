@@ -15,7 +15,7 @@ class MyAmplifyApp extends StatefulWidget {
         super.initState();
 
         AmplifyAPI api = AmplifyAPI();
-        Amplify.addPlugin(apiRest);
+        Amplify.addPlugin(api);
         Amplify.configure(amplifyconfig);
     }
 }

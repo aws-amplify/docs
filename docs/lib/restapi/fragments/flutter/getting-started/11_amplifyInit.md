@@ -1,4 +1,4 @@
-To start provisioning api resources in the backend, go to your project directory and **execute the command**:
+To start provisioning API resources in the backend, go to your project directory and **execute the command**:
 
 ```bash
 amplify add api
@@ -40,4 +40,4 @@ To push your changes to the cloud, **execute the command**:
 amplify push
 ```
 
-Upon completion, `amplifyconfiguration.dart` should be updated to reference provisioned backend storage resources.  Note that these files should already be a part of your project if you followed the [Project setup walkthrough](~/lib/project-setup/create-application.md).
+Upon completion, `amplifyconfiguration.dart` should be updated to reference provisioned backend storage resources.  Note that this file should already be a part of your project if you followed the [Project setup walkthrough](~/lib/project-setup/create-application.md).

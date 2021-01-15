@@ -13,6 +13,7 @@ try {
     );
     RestResponse response = await restOperation.response;
     print("Put SUCCESS");
+    print(new String.fromCharCodes(response.data));
 } catch(e) {
     print("Put FAILED");
 }

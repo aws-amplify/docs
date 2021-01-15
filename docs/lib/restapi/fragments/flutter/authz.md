@@ -1,4 +1,4 @@
-When determining the authorization mode for your REST endpoint, there are a few built in options and customizations you can do.
+When determining the authorization mode for your REST endpoint, there are a few built in options and customizations you can use.
 
 ## IAM Authorization
 
@@ -8,9 +8,9 @@ When you created your REST API with the Amplify CLI, you were asked if you wante
 
 ### Unauthenticated Requests
 
-You can use the API category to access API Gateway endpoints that don't require authentication. In this case, you need to allow unauthenticated identities in your Amazon Cognito Identity Pool settings. For more information, please visit [Amazon Cognito Developer Documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html#enable-or-disable-unauthenticated-identities).
+You can use the API category to access API Gateway endpoints that don't require authentication. In this case, you need to allow unauthenticated identities in your Amazon Cognito Identity Pool settings. For more information, please see the [Amazon Cognito developer documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html#enable-or-disable-unauthenticated-identities).
 
-When your API is configured to use IAM as the authorization type, your requests will automatically have IAM credentials added to the headers of outgoing requests. You can verify that IAM is being used as the authorization type by inspecting the `authorizationType` associated with your API in `amplifyconfiguration.json`:
+When your API is configured to use IAM as the authorization type, your requests will automatically have IAM credentials added to the headers of outgoing requests. You can verify that IAM is being used as the authorization type by inspecting the `authorizationType` associated with your API in `amplifyconfiguration.dart`:
 
 ```json
 {
@@ -27,7 +27,7 @@ When your API is configured to use IAM as the authorization type, your requests 
 
 ## API Key
 
-If you want to configure a public REST API, you can set an API key in Amazon API Gateway. Then, update your `amplifyconfiguration.json` to reference it.  The value associated to the `"authorizationType"` key should be `"API_KEY"`.  Also include a `"API_KEY"` as a key, and set its value to whatever your configured in API Gateway.
+If you want to configure a public REST API, you can set an API key in Amazon API Gateway. Then, update your `amplifyconfiguration.dart` to reference it.  The value associated to the `"authorizationType"` key should be `"API_KEY"`.  Also include an `"API_KEY"` as a key, and set its value to whatever your configured in API Gateway.
 
 ```json
 {
@@ -45,7 +45,7 @@ If you want to configure a public REST API, you can set an API key in Amazon API
 
 ## Cognito User pool authorization
 
-If you set up the API Gateway with a custom authorization with a Cognito User pool, then you can set the `amplifyconfiguration.json` to use `AMAZON_COGNITO_USER_POOLS `. 
+If you set up the API Gateway with a custom authorization with a Cognito User pool, then you can set the `amplifyconfiguration.dart` to use `AMAZON_COGNITO_USER_POOLS `. 
 
 ```json
 {
@@ -60,7 +60,7 @@ If you set up the API Gateway with a custom authorization with a Cognito User po
 }
 ```
 
-Your `amplifyconfiguration.json` should contain Cognito configuration in the `awsCognitoAuthPlugin` block, including details about your Cognito user pool:
+Your `amplifyconfiguration.dart` should contain Cognito configuration in the `awsCognitoAuthPlugin` block, including details about your Cognito user pool:
 ```json
 {
     "CognitoUserPool": {
@@ -95,8 +95,8 @@ To use custom headers on your HTTP request, you need to add these to Amazon API 
 If you used the Amplify CLI to create your API, you can enable custom headers by following these steps:  
 
 1. Visit [Amazon API Gateway console](https://aws.amazon.com/api-gateway/).
-3. On Amazon API Gateway console, click on the path you want to configure (e.g. /{proxy+})
-4. Then click the *Actions* dropdown menu and select **Enable CORS**
+3. In the Amazon API Gateway console, click on the path you want to configure (e.g. /{proxy+})
+4. Click the *Actions* dropdown menu and select **Enable CORS**
 5. Add your custom header (e.g. my-custom-header) on the text field Access-Control-Allow-Headers, separated by commas, like: 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,my-custom-header'.
 6. Click on 'Enable CORS and replace existing CORS headers' and confirm.
 7. Finally, similar to step 3, click the Actions drop-down menu and then select **Deploy API**. Select **Development** on deployment stage and then **Deploy**. (Deployment could take a couple of minutes).

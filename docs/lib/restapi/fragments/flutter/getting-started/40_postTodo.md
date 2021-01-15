@@ -8,8 +8,8 @@ try {
         restOptions: options
     );
     RestResponse response = await restOperation.response;
-    print("Post SUCCESS");
-} catch(e) {
-    print("Post FAILED");
+    print("POST call succeeded");
+} catch(error) {
+    print("POST call failed: $error");
 }
 ```

@@ -9,9 +9,10 @@ try {
         restOptions: options
     );
     RestResponse response = await restOperation.response
-    print("Delete SUCCESS");
-} catch(e) {
-    print("Delete FAILED");
+    print("DELETE call succeeded"); 
+    print(new String.fromCharCodes(response.data));
+} catch(error) {
+    print("DELETE call failed: $error");
 }
 ```
 

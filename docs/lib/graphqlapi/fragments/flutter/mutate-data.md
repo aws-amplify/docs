@@ -43,11 +43,11 @@ The response data will be a JSON String that looks like this:
 You can decode the data to a Map and access the attributes as needed:
 
 ```dart
-//Decode the data to a Map
+// Decode the data into a Map
 Map result = json.decode(response.data);
 Map todoMap = result['createTodo'];
 
-//access the attributes
+// Access the attributes
 final id = todoMap['id'];
 print('Todo id: $id');
 ```

@@ -1,9 +1,11 @@
 <amplify-callout>
 
-Amplify Flutter currently supports the advanced workflow for GraphQL which involves constructing custom requests by providing a GraphQL document and variables.
+Amplify Flutter does not currently support the use of data models when making GraphQL calls. To make a GraphQL request, you must provide a GraphQL query or mutation document, along with any runtime data needed to resolve variables in the document.
 
-Model based APIs that will generate a GraphQL request for you under the covers will be supported in the future.
+In the future, Amplify Flutter will provide APIs that generate GraphQL requests directly from Dart-language data models.
 
-You can learn more about the structure of a request from [GraphQL Query Language](https://graphql.org/learn/) and [AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/graphql-overview.html). To test out constructing your own requests, open the AppSync console using `amplify console api` and navigate to the Queries tab.
+You can learn more about the structure of a request from the [GraphQL Query Language](https://graphql.org/learn/) and [AppSync](https://docs.aws.amazon.com/appsync/latest/devguide/graphql-overview.html) documentation. To test out a few of your own requests, open the AppSync console using `amplify console api` and navigate to the Queries tab.
+
+We have created a [Github Issue](https://github.com/aws-amplify/amplify-flutter/issues/308) to track this missing feature. 
 
 </amplify-callout>

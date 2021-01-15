@@ -1,6 +1,6 @@
 ## GET requests
 
-To make a GET request, first build a RestOptions object and then use the Amplify.API.get api to issue the request:
+To make a GET request, first build a `RestOptions` object and then use the `Amplify.API.get` API to issue the request:
 
 ```dart
 try {
@@ -11,9 +11,9 @@ try {
         restOptions: options
     );
     RestResponse response = await restOperation.response;
-    print("Get SUCCESS");
-} catch(e) {
-    print("Get FAILED");
+    print("GET call succeeded");
+} catch(error) {
+    print("GET call failed: $error");
 }
 ```
 
@@ -67,8 +67,9 @@ try {
         restOptions: options
     );
     RestResponse response = await restOperation.response;
-    print("Get SUCCESS");
-} catch(e) {
-    print("Get FAILED");
+    print("GET call succeeded"); 
+    print(new String.fromCharCodes(response.data));
+} catch(error) {
+    print("GET call failed: $error");
 }
 ```
