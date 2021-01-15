@@ -1,5 +1,5 @@
 ```dart
-auth.events.startListening((hubEvent) {
+StreamSubscription hubSubscription = Amplify.Hub.listen([HubChannel.Auth], (hubEvent) {
   if (hubEvent["eventName"] == "SIGNED_OUT") {
     try {
       await Amplify.DataStore.clear();
