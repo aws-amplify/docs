@@ -43,6 +43,7 @@ In your app's entry point (i.e. __App.js__, __index.js__, or __main.js__), impor
 import Amplify, { Auth } from 'aws-amplify';
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
+Auth.configure(awsconfig);
 ```
 
 ## Enable sign-up, sign-in, and sign-out
