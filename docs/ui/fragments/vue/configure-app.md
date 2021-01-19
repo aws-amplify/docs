@@ -1,3 +1,5 @@
+_main.js_
+
 ```js
 import Vue from "vue";
 import App from "./App.vue";

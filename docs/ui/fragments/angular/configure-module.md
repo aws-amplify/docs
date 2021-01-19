@@ -1,3 +1,5 @@
+_app.module.ts_
+
 ```js
 import {BrowserModule} from "@angular/platform-browser";
 import {NgModule} from "@angular/core";
