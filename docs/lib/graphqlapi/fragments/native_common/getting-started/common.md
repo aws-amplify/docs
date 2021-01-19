@@ -1,3 +1,5 @@
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/getting-started/01_models_callout.md"></inline-fragment>
+
 The Amplify API category provides an interface for retrieving and persisting your model data. The API category comes with default built-in support for AWS AppSync. The Amplify CLI allows you to define your API and provision a GraphQL service with CRUD operations and real-time functionality. 
 
 ## Goal
@@ -8,6 +10,7 @@ To setup and configure your application with Amplify API to save items in the ba
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/getting-started/10_preReq.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/getting-started/10_preReq.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/getting-started/10_preReq.md"></inline-fragment>
 
 ## Configure API
 
@@ -68,15 +71,9 @@ Enter the following when prompted:
     `No`
 ```
 
-Upon completion, `amplifyconfiguration.json` will be updated to reference provisioned backend storage resources.  Note that these files should already be a part of your project if you followed the [Project setup walkthrough](~/lib/project-setup/create-application.md).
-
-## Generate Todo Model class
-
-To generate the `Todo` model, change directories to your project folder and **execute the command**:
-
-```bash
-amplify codegen models
-```
+<inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/getting-started/12_amplifyConfig.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/getting-started/12_amplifyConfig.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/getting-started/12_amplifyConfig.md"></inline-fragment>
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/getting-started/40_codegen.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/getting-started/40_codegen.md"></inline-fragment>
@@ -85,16 +82,19 @@ amplify codegen models
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/getting-started/20_installLib.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/getting-started/20_installLib.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/getting-started/20_installLib.md"></inline-fragment>
 
 ## Initialize Amplify API
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/getting-started/30_initapi.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/getting-started/30_initapi.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/getting-started/30_initapi.md"></inline-fragment>
 
 ## Create a Todo
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/getting-started/50_createtodo.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/getting-started/50_createtodo.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/getting-started/50_createtodo.md"></inline-fragment>
 
 Upon successfully executing this code, you should see an instance of `todo` persisted in your dynamoDB table. To navigate to your backend, run `amplify console api` and choose `GraphQL`. This will open the AppSync console to your GraphQL service. Select `Data Sources` and select the Resource link in your `TodoTable` to bring you to the DynamoDB Console. Select the `items` tab to see the `Todo` object that has been persisted in your database.
 

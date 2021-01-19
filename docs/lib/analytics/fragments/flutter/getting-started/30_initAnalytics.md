@@ -22,6 +22,8 @@ import 'amplifyconfiguration.dart';
 
 class MyAmplifyApp extends StatefulWidget {
 
+    Amplify amplifyInstance = Amplify();
+
     @override
     void initState() {
         super.initState(); 

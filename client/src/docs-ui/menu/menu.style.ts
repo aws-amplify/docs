@@ -3,7 +3,7 @@ import {css} from "emotion";
 export const menuStyle = css`
   display: block;
   padding: 0 2.5rem;
-  overflow-y: scroll; /* for Firefox */
+  overflow-y: auto; /* for Firefox */
   overflow-y: overlay; /* for Webkit browsers */
   margin-bottom: 6rem;
 `;
