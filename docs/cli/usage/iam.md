@@ -25,6 +25,7 @@ The Amplify CLI requires the below IAM policies for performing actions across al
                 "amplify:ListBackendEnvironments",
                 "amplify:ListBranches",
                 "amplify:ListDomainAssociations",
+                "amplify:ListJobs",
                 "amplify:UpdateApp",
                 "apigateway:DELETE",
                 "apigateway:GET",
