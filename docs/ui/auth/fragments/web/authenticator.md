@@ -1029,38 +1029,7 @@ To achieve this, you first need to setup the userpool to allow email or phone nu
 
 To migrate from using the `aws-amplify-<framework>` library to the latest `@aws-amplify/ui-<framework>` library use the steps below:
 
-### Installation
-
-<docs-filter framework="react">
-
-```diff
-- yarn add aws-amplify-react
-+ yarn add @aws-amplify/ui-react
-```
-
-</docs-filter>
-<docs-filter framework="angular">
-
-```diff
-- yarn add aws-amplify-angular
-+ yarn add @aws-amplify/ui-angular
-```
-
-</docs-filter>
-<docs-filter framework="ionic">
-
-```diff
-- yarn add aws-amplify-angular
-+ yarn add @aws-amplify/ui-angular
-```
-
-</docs-filter>
-<docs-filter framework="vue">
-
-```diff
-- yarn add aws-amplify-vue
-+ yarn add @aws-amplify/ui-vue
-```
+<inline-fragment src="~/ui/fragments/web/installation-diff.md"></inline-fragment>
 
 </docs-filter>
 

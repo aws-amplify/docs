@@ -61,7 +61,7 @@ _App.vue_
 
 To migrate from using the `aws-amplify-<framework>` library to the latest `@aws-amplify/ui-<framework>` library use the steps below:
 
-<inline-fragment src="~/ui/storage/fragments/web/installation-diff.md"></inline-fragment>
+<inline-fragment src="~/ui/fragments/web/installation-diff.md"></inline-fragment>
 
 ### Usage
 

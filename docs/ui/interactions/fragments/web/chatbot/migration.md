@@ -2,6 +2,8 @@
 
 To migrate from the legacy chatbot component to the latest chatbot component, use the steps below:
 
+<inline-fragment src="~/ui/fragments/web/installation-diff.md"></inline-fragment>
+
 ### Usage
 
 <docs-filter framework="react">
