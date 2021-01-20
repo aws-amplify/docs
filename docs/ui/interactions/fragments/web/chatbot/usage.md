@@ -23,8 +23,6 @@ const App = () => (
 
 <docs-filter framework="angular">
 
-_app.module.ts_
-
 <inline-fragment src="~/ui/fragments/angular/configure-module.md"></inline-fragment>
 
 _app.component.html_
@@ -41,8 +39,6 @@ _app.component.html_
 
 <docs-filter framework="ionic">
 
-_app.module.ts_
-
 <inline-fragment src="~/ui/fragments/angular/configure-module.md"></inline-fragment>
 
 _app.component.html_
@@ -58,8 +54,6 @@ _app.component.html_
 </docs-filter>
 
 <docs-filter framework="vue">
-
-_main.js_
 
 <inline-fragment src="~/ui/fragments/vue/configure-app.md"></inline-fragment>
 

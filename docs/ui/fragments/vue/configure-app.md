@@ -1,3 +1,5 @@
+_main.js_
+
 <amplify-block-switcher>
 <amplify-block name="Vue 3">
 
