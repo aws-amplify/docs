@@ -7,10 +7,7 @@ filterKey: framework
 
 Amplify UI Components is an open-source UI toolkit that encapsulates cloud-connected workflows inside of cross-framework UI components.
 
-<inline-fragment framework="react" src="~/ui/fragments/react/installation.md"></inline-fragment>
-<inline-fragment framework="angular" src="~/ui/fragments/angular/installation.md"></inline-fragment>
-<inline-fragment framework="vue" src="~/ui/fragments/vue/installation.md"></inline-fragment>
-<inline-fragment framework="ionic" src="~/ui/fragments/ionic/installation.md"></inline-fragment>
+<inline-fragment src="~/ui/fragments/web/installation.md"></inline-fragment>
 <inline-fragment framework="react-native" src="~/ui/fragments/react-native/installation.md"></inline-fragment>
 
 ## Frameworks

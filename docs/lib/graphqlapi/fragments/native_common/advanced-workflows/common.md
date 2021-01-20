@@ -107,10 +107,3 @@ When you want to perform more than one operation in a single request, you can pl
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/advanced-workflows/40_multiple.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/advanced-workflows/40_multiple.md"></inline-fragment>
-
-
-
-
-
-
-
