@@ -13,8 +13,8 @@ import App from "./App.vue";
 +   applyPolyfills,
 +   defineCustomElements,
 + } from '@aws-amplify/ui-components/loader';
-+ import Amplify from 'aws-amplify';
-+ import awsconfig from './aws-exports';
+import Amplify from 'aws-amplify';
+import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
 
