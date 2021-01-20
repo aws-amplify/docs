@@ -7,21 +7,25 @@ To setup and configure your application with Amplify API to make requests to you
 
 <inline-fragment platform="ios" src="~/lib/restapi/fragments/ios/getting-started/10_preReq.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/restapi/fragments/android/getting-started/10_preReq.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/restapi/fragments/flutter/getting-started/10_preReq.md"></inline-fragment>
 
 ## Configure API
 
 <inline-fragment platform="ios" src="~/lib/restapi/fragments/ios/getting-started/11_amplifyInit.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/restapi/fragments/android/getting-started/11_amplifyInit.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/restapi/fragments/flutter/getting-started/11_amplifyInit.md"></inline-fragment>
 
 ## Install Amplify Libraries
 
 <inline-fragment platform="ios" src="~/lib/restapi/fragments/ios/getting-started/20_installLib.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/restapi/fragments/android/getting-started/20_installLib.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/restapi/fragments/flutter/getting-started/20_installLib.md"></inline-fragment>
 
 ## Initialize Amplify API
 
 <inline-fragment platform="ios" src="~/lib/restapi/fragments/ios/getting-started/30_initapi.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/restapi/fragments/android/getting-started/30_initapi.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/restapi/fragments/flutter/getting-started/30_initapi.md"></inline-fragment>
 
 ## Make a POST Request
 
@@ -29,6 +33,7 @@ Copy and paste the following code in your application so that it runs only once 
 
 <inline-fragment platform="ios" src="~/lib/restapi/fragments/ios/getting-started/40_postTodo.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/restapi/fragments/android/getting-started/40_postTodo.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/restapi/fragments/flutter/getting-started/40_postTodo.md"></inline-fragment>
 
 To navigate to your backend, go to the [API Gateway console](https://aws.amazon.com/apigateway) and select the API. The name of the API corresponds to the friendly name of the resource to be used as a label you specified earlier in the CLI steps.
 

@@ -4,6 +4,8 @@ Add the Auth and Analytics plugin, along with any other plugins you may have add
 AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
 AmplifyAnalyticsPinpoint analyticsPlugin = AmplifyAnalyticsPinpoint();
 
+Amplify amplifyInstance = Amplify();
+
 amplifyInstance.addPlugin(
     authPlugins: [authPlugin], analyticsPlugins: [analyticsPlugin]);
 ```
@@ -13,7 +15,7 @@ Make sure that the amplifyconfiguration.dart file generated in the project setup
 ```dart 
 import 'amplifyconfiguration.dart';
 
-Amplify.configure( amplifyConfig )
+Amplify.configure( amplifyconfig )
 ```
 
 Your class will look like this:
@@ -22,6 +24,8 @@ Your class will look like this:
 import 'amplifyconfiguration.dart';
 
 class MyAmplifyApp extends StatefulWidget {
+
+    Amplify amplifyInstance = Amplify();
 
     @override
     void initState() {
