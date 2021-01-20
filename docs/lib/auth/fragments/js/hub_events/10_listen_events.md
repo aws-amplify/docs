@@ -8,14 +8,23 @@ const listener = (data) => {
         case 'signIn':
             logger.info('user signed in');
             break;
+        case 'signIn_failure':
+            logger.error('user sign in failed');
+            break;
         case 'signUp':
             logger.info('user signed up');
             break;
+        case 'signUp_failure':
+            logger.info('user failed to signup');
+            break;
+        case 'confirmSignUp':
+            logger.info('user is confirmed');
+            break;
+        case 'confirmSignUp_failure':
+            logger.info('user confirmation failed');
+            break;
         case 'signOut':
             logger.info('user signed out');
-            break;
-        case 'signIn_failure':
-            logger.error('user sign in failed');
             break;
         case 'tokenRefresh':
             logger.info('token refresh succeeded');
