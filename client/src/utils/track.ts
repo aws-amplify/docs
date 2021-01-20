@@ -4,6 +4,7 @@ import awsexports from "../aws-exports";
 import {Build} from "@stencil/core";
 
 let configured = false;
+let firstPageOfVisit = true;
 if (!configured) {
   Auth.configure(awsexports);
   Analytics.configure(awsexports);
@@ -78,10 +79,11 @@ export const track = (event: AnalyticsEvent): Promise<unknown> | undefined => {
 
 export const trackPageVisit = (): void => {
   // @ts-ignore
-  if (Build.isBrowser && typeof s != "undefined") {
+  if (Build.isBrowser && typeof s != "undefined" && !firstPageOfVisit) {
     // @ts-ignore
     s.t();
   }
+  firstPageOfVisit = false;
 };
 
 export const trackPageFetchException = (): void => {
