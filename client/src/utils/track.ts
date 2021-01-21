@@ -4,7 +4,7 @@ import awsexports from "../aws-exports";
 import {Build} from "@stencil/core";
 
 let configured = false;
-if (!configured) {
+if (Build.isBrowser && !configured) {
   Auth.configure(awsexports);
   Analytics.configure(awsexports);
   if (Build.isBrowser) {

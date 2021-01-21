@@ -101,7 +101,7 @@ export class DocsPage {
 
   @Listen("resize", {target: "window"})
   setSidebarStickyTop() {
-    if (this.pageData?.menu) {
+    if (Build.isBrowser && this.pageData?.menu) {
       this.sidebarStickyTop = getNavHeight("rem");
     }
   }
@@ -200,15 +200,16 @@ export class DocsPage {
       }, []);
     this.blendUniversalNav = currentRoute === "/";
 
-    track({
-      type: AnalyticsEventType.PAGE_VISIT,
-      attributes: {
-        url: currentRoute,
-        previousUrl: this.previousPathname,
-        referrer: document.referrer,
-      },
-    });
-    trackPageVisit();
+    if (Build.isBrowser) {
+      track({
+        type: AnalyticsEventType.PAGE_VISIT,
+        attributes: {
+          url: currentRoute,
+          previousUrl: this.previousPathname,
+          referrer: document.referrer,
+        },
+      });
+    }
 
     try {
       const pageData = await getPage(currentRoute);
@@ -262,111 +263,109 @@ export class DocsPage {
   };
 
   render() {
-    if (Build.isBrowser || location.pathname === "/") {
-      return (
-        <Host class={pageStyle}>
-          <pageContext.Provider
-            state={{
-              alwaysRerenderBlockSwitcher: this.alwaysRerenderBlockSwitcher++,
-              selectedFilters: this.selectedFilters,
-              setSelectedFilters: this.setSelectedFilters,
-              selectedTabHeadings: this.selectedTabHeadings,
-              setNewSelectedTabHeadings: this.setNewSelectedTabHeading,
-            }}
-          >
-            <docs-universal-nav
-              blend={this.blendUniversalNav}
-              heading="Amplify Docs"
-              brand-icon="/assets/logo-light.svg"
-              brand-icon-blend="/assets/logo-dark.svg"
-            />
-            {this.pageData && this.pageData.noTemplate
-              ? createVNodesFromHyperscriptNodes(this.pageData.body)
-              : [
-                  <docs-secondary-nav
-                    pageHasMenu={!!this.pageData && !!this.pageData.menu}
-                  />,
-                  this.pageData && this.validFilterValue ? (
-                    <div class={sidebarLayoutStyle}>
-                      <amplify-toc-provider>
-                        <amplify-sidebar-layout>
-                          {this.showMenu() && (
-                            <amplify-sidebar-layout-sidebar
-                              slot="sidebar"
-                              top={this.sidebarStickyTop}
-                            >
-                              <div class={sidebarHeaderStyle}>
-                                <amplify-sidebar-close-button />
-                                {this.pageData?.filterKey && (
-                                  <docs-select-anchor page={this.pageData} />
-                                )}
-                              </div>
-                              <docs-menu
-                                filterKey={this.filterKey}
-                                page={this.pageData}
-                                key={this.pageData?.productRootLink?.route}
-                              />
-                            </amplify-sidebar-layout-sidebar>
-                          )}
-                          <amplify-sidebar-layout-main
-                            slot="main"
-                            class={mainStyle}
+    return (
+      <Host class={pageStyle}>
+        <pageContext.Provider
+          state={{
+            alwaysRerenderBlockSwitcher: this.alwaysRerenderBlockSwitcher++,
+            selectedFilters: this.selectedFilters,
+            setSelectedFilters: this.setSelectedFilters,
+            selectedTabHeadings: this.selectedTabHeadings,
+            setNewSelectedTabHeadings: this.setNewSelectedTabHeading,
+          }}
+        >
+          <docs-universal-nav
+            blend={this.blendUniversalNav}
+            heading="Amplify Docs"
+            brand-icon="/assets/logo-light.svg"
+            brand-icon-blend="/assets/logo-dark.svg"
+          />
+          {this.pageData && this.pageData.noTemplate
+            ? createVNodesFromHyperscriptNodes(this.pageData.body)
+            : [
+                <docs-secondary-nav
+                  pageHasMenu={!!this.pageData && !!this.pageData.menu}
+                />,
+                this.pageData && this.validFilterValue ? (
+                  <div class={sidebarLayoutStyle}>
+                    <amplify-toc-provider>
+                      <amplify-sidebar-layout>
+                        {this.showMenu() && (
+                          <amplify-sidebar-layout-sidebar
+                            slot="sidebar"
+                            top={this.sidebarStickyTop}
                           >
-                            <amplify-toc-contents>
-                              {this.pageData && [
-                                <h1
-                                  class={{
-                                    [sectionHeaderStyle]: true,
-                                    "category-heading": true,
-                                  }}
-                                >
-                                  {this.pageData.sectionTitle}
-                                </h1>,
-                                <h1 class="page-heading">
-                                  {this.pageData.title}
-                                </h1>,
-                                createVNodesFromHyperscriptNodes(
-                                  this.pageData.body,
-                                ),
-                                <docs-next-previous
-                                  key={this.pageData.route}
-                                  page={this.pageData}
-                                />,
-                              ]}
-                            </amplify-toc-contents>
-                            <amplify-sidebar-layout-toggle
-                              onClick={ensureMenuScrolledIntoView}
-                              in-view-class="in-view"
-                              class={{
-                                "three-dee-effect": true,
-                                [sidebarToggleClass]: true,
-                              }}
-                            >
-                              <img
-                                class="burger-graphic"
-                                src="/assets/burger.svg"
-                              />
-                              <img class="ex-graphic" src="/assets/close.svg" />
-                            </amplify-sidebar-layout-toggle>
-                          </amplify-sidebar-layout-main>
-                          {!this.pageData?.disableTOC && (
-                            <div slot="toc" class={tocStyle}>
-                              <div>
-                                <amplify-toc pageTitle={this.pageData?.title} />
-                              </div>
+                            <div class={sidebarHeaderStyle}>
+                              <amplify-sidebar-close-button />
+                              {this.pageData?.filterKey && (
+                                <docs-select-anchor page={this.pageData} />
+                              )}
                             </div>
-                          )}
-                        </amplify-sidebar-layout>
-                      </amplify-toc-provider>
-                    </div>
-                  ) : (
-                    <docs-four-o-four />
-                  ),
-                  <docs-footer />,
-                ]}
-          </pageContext.Provider>
-        </Host>
-      );
-    }
+                            <docs-menu
+                              filterKey={this.filterKey}
+                              page={this.pageData}
+                              key={this.pageData?.productRootLink?.route}
+                            />
+                          </amplify-sidebar-layout-sidebar>
+                        )}
+                        <amplify-sidebar-layout-main
+                          slot="main"
+                          class={mainStyle}
+                        >
+                          <amplify-toc-contents>
+                            {this.pageData && [
+                              <h1
+                                class={{
+                                  [sectionHeaderStyle]: true,
+                                  "category-heading": true,
+                                }}
+                              >
+                                {this.pageData.sectionTitle}
+                              </h1>,
+                              <h1 class="page-heading">
+                                {this.pageData.title}
+                              </h1>,
+                              createVNodesFromHyperscriptNodes(
+                                this.pageData.body,
+                              ),
+                              <docs-next-previous
+                                key={this.pageData.route}
+                                page={this.pageData}
+                              />,
+                            ]}
+                          </amplify-toc-contents>
+                          <amplify-sidebar-layout-toggle
+                            onClick={ensureMenuScrolledIntoView}
+                            in-view-class="in-view"
+                            class={{
+                              "three-dee-effect": true,
+                              [sidebarToggleClass]: true,
+                            }}
+                          >
+                            <img
+                              class="burger-graphic"
+                              src="/assets/burger.svg"
+                            />
+                            <img class="ex-graphic" src="/assets/close.svg" />
+                          </amplify-sidebar-layout-toggle>
+                        </amplify-sidebar-layout-main>
+                        {!this.pageData?.disableTOC && (
+                          <div slot="toc" class={tocStyle}>
+                            <div>
+                              <amplify-toc pageTitle={this.pageData?.title} />
+                            </div>
+                          </div>
+                        )}
+                      </amplify-sidebar-layout>
+                    </amplify-toc-provider>
+                  </div>
+                ) : (
+                  <docs-four-o-four />
+                ),
+                <docs-footer />,
+              ]}
+        </pageContext.Provider>
+      </Host>
+    );
   }
 }
