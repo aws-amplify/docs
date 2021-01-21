@@ -218,7 +218,6 @@ The first step to using Amplify in the client is to install the necessary depend
 
 ```
 npm install aws-amplify @aws-amplify/ui-components
-npm install -D vue-loader@next
 ```
 
 </amplify-block>
@@ -226,7 +225,6 @@ npm install -D vue-loader@next
 
 ```
 yarn add aws-amplify @aws-amplify/ui-components
-yarn add --dev vue-loader@next
 ```
 
 </amplify-block>
@@ -256,5 +254,8 @@ applyPolyfills().then(() => {
 
 Now Amplify has been successfully configured. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in __aws-exports.js__ will update automatically.
 
-### Specify Custom Elements
-Next, we need to tell Vue which custom elements are from Amplify. You can use <amplify-external-link href="https://gist.github.com/wlee221/3d47f9598d5ad85bfa7a138bad112c3c"><code>vue.config.js</code></amplify-external-link> gist to configure them.
+<amplify-callout>
+
+Console warnings: if you see "failed to resolve component" warnings, you can create `vue.config.js` from the app directory and use this <amplify-external-link href="https://gist.github.com/wlee221/3d47f9598d5ad85bfa7a138bad112c3c">gist</amplify-external-link> to remove them. Make sure that `vue-loader@next` is installed.
+
+</amplify-callout>
