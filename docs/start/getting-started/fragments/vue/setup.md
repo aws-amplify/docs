@@ -10,7 +10,7 @@ npm install -g @vue/cli
 vue create myamplifyproject
 
 ? Please pick a preset: (Use arrow keys)
-❯ default (babel, eslint)   <--
+❯ Default (Vue 3 Preview) ([Vue 3] babel, eslint)  <--
   Manually select features
 
 cd myamplifyproject
@@ -217,14 +217,16 @@ The first step to using Amplify in the client is to install the necessary depend
 <amplify-block name="NPM">
 
 ```
-npm install aws-amplify @aws-amplify/ui-vue
+npm install aws-amplify @aws-amplify/ui-components
+npm install -D vue-loader@next
 ```
 
 </amplify-block>
 <amplify-block name="Yarn">
 
 ```
-yarn add aws-amplify @aws-amplify/ui-vue
+yarn add aws-amplify @aws-amplify/ui-components
+yarn add --dev vue-loader@next
 ```
 
 </amplify-block>
@@ -257,9 +259,6 @@ Now Amplify has been successfully configured. As you add or remove categories an
 ### Specify Custom Elements
 Next, we need to tell Vue which custom elements are from Amplify.
 
-<amplify-block-switcher>
-<amplify-block name="Vue 3">
-
 Create __vue.config.js__ on the app directory and add the following:
 
 ```js
@@ -279,16 +278,3 @@ module.exports = {
   },
 };
 ```
-
-</amplify-block>
-<amplify-block name="Vue 2">
-
-Open __src/main.ts__ and add the following:
-
-```js
-import Vue from 'vue';
-Vue.config.ignoredElements = [/amplify-\w*/];
-```
-
-</amplify-block>
-</amplify-block-switcher>
