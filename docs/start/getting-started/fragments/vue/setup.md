@@ -257,24 +257,4 @@ applyPolyfills().then(() => {
 Now Amplify has been successfully configured. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in __aws-exports.js__ will update automatically.
 
 ### Specify Custom Elements
-Next, we need to tell Vue which custom elements are from Amplify.
-
-Create __vue.config.js__ on the app directory and add the following:
-
-```js
-module.exports = {
-  chainWebpack: config => {
-    config.module
-      .rule('vue')
-      .use('vue-loader')
-      .loader('vue-loader')
-      .tap(options => {
-        options.compilerOptions = {
-          ...(options.compilerOptions || {}),
-          isCustomElement: tag => tag.startsWith('amplify-'),
-        };
-        return options;
-      });
-  },
-};
-```
+Next, we need to tell Vue which custom elements are from Amplify. You can use <amplify-external-link href="https://gist.github.com/wlee221/3d47f9598d5ad85bfa7a138bad112c3c"><code>vue.config.js</code></amplify-external-link> gist to configure them.
