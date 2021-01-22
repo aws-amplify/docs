@@ -2,7 +2,7 @@
 
 Replace the content inside of *app.component.ts* with the following:
 ```js
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { onAuthUIStateChange, CognitoUserInterface, AuthState } from '@aws-amplify/ui-components';
 
 @Component({
@@ -10,18 +10,21 @@ import { onAuthUIStateChange, CognitoUserInterface, AuthState } from '@aws-ampli
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'amplify-angular-auth';
   user: CognitoUserInterface | undefined;
   authState: AuthState;
 
-  constructor(private ref: ChangeDetectorRef) {}
+  constructor(private zone: NgZone) {}
 
   ngOnInit() {
     onAuthUIStateChange((authState, authData) => {
       this.authState = authState;
       this.user = authData as CognitoUserInterface;
-      this.ref.detectChanges();
+      
+      this.zone.run(() => {
+        //If you have calls to Angular services, Angular components, or other Angular-specific functionality, place it here.
+      });
     })
   }
 
