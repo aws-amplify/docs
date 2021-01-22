@@ -24,7 +24,6 @@ export const config: PrerenderConfig = {
     };
   },
   filterUrl(url) {
-    if (url && url.toString().includes("authenticator")) return false;
-    return !!(url && entryUrls.includes(url.pathname) && url.pathname !== "/");
+    return !(url && url.toString().includes("authenticator"))
   },
 };
