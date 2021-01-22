@@ -43,7 +43,7 @@ export class DocsCard {
   /*** url */
   @Prop() readonly url?: string;
   /*** link tag to use */
-  @Prop() readonly containerTag: string = "docs-internal-link";
+  @Prop() readonly containertag: string = "docs-internal-link";
   /*** whether or not to show external link graphic */
   @Prop() readonly external?: boolean;
 
@@ -86,7 +86,7 @@ export class DocsCard {
     return (
       <Host class={hostStyle}>
         {createVNode(
-          this.containerTag,
+          this.containertag,
           {
             href,
             ...(this.external ? {target: "_blank"} : {}),

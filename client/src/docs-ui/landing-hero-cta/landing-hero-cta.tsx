@@ -34,7 +34,7 @@ export class DocsLandingHeroCTA {
               alt="Vue Icon"
             />
           </docs-internal-link>
-          <docs-internal-link href="/start/" class="scale-up-on-hover">
+          <docs-internal-link href="/start" class="scale-up-on-hover">
             <img
               class={platformIcon}
               src="/assets/integrations/js.svg"

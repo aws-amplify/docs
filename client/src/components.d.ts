@@ -190,7 +190,7 @@ export namespace Components {
         /**
           * * link tag to use
          */
-        "containerTag": string;
+        "containertag": string;
         /**
           * * whether or not to show external link graphic
          */
@@ -930,7 +930,7 @@ declare namespace LocalJSX {
         /**
           * * link tag to use
          */
-        "containerTag"?: string;
+        "containertag"?: string;
         /**
           * * whether or not to show external link graphic
          */
