@@ -3,8 +3,8 @@ Expand **Gradle Scripts**, open **build.gradle (Module: app)**. You will already
 Add these libraries into the `dependencies` block:
 ```groovy
 dependencies {
-    implementation 'com.amplifyframework:core:1.6.9'
-    implementation 'com.amplifyframework:aws-api:1.6.9'
+    implementation 'com.amplifyframework:core:1.6.10'
+    implementation 'com.amplifyframework:aws-api:1.6.10'
 }
 ```
 
