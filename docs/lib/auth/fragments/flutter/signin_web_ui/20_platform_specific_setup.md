@@ -2,7 +2,7 @@
 Sign-in with web UI requires the Amplify plugin to display the sign-in UI inside a web view. The UI is managed internally by the Amplify iOS and Android libraries. After the sign-in process is complete, the native libraries will redirect back to your app.
 
 ## Android Platform Setup
-Add the following activity to the `AndroidManifest.xml` file in your app's `Android` directory, replacing `myapp` with whatever value you used for your redirect URI prefix:
+Add the following activity to the `AndroidManifest.xml` file in your app's `android` directory. Replace `myapp` with the "redirect signin URI" you provided to the CLI:
 
   ```xml
   <activity
@@ -19,7 +19,7 @@ Add the following activity to the `AndroidManifest.xml` file in your app's `Andr
   ```
 
 ## iOS Platform Setup
-Add the following entry to the URL scheme in the `Info.plist` file in your app's `iOS` directory, replacing `myapp` with whatever value you used for your redirect URI prefix:
+Add the following entry to the URL scheme in the `Info.plist` file in your app's `ios` directory. Replace `myapp` with the "redirect signin URI" you provided to the CLI:
 
 ```xml
  <plist version="1.0">
