@@ -14,7 +14,7 @@ exports[`docs-landing-hero-cta Render logic should render 1`] = `
     <docs-internal-link class="scale-up-on-hover" href="/start/q/integration/vue">
       <img alt="Vue Icon" class="css-16ygk4v" src="/assets/integrations/vue.svg">
     </docs-internal-link>
-    <docs-internal-link class="scale-up-on-hover" href="/start/">
+    <docs-internal-link class="scale-up-on-hover" href="/start">
       <img alt="JS Icon" class="css-16ygk4v" src="/assets/integrations/js.svg">
     </docs-internal-link>
     <docs-internal-link class="scale-up-on-hover" href="/start/q/integration/ios">
