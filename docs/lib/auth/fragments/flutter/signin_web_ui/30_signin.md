@@ -8,7 +8,7 @@ try {
 }
 ```
 
-You can also specify a provider with the `provider` attribute.
+You can also specify a provider with the `provider` attribute:
 
 ```dart
 try {
@@ -22,4 +22,3 @@ Amplify-Flutter currently supports the following social login providers:
   * Google
   * Facebook
   * Login With Amazon
-
