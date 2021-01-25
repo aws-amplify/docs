@@ -1,3 +1,4 @@
+## Upload files
 To upload to S3 from a data object, specify the key and the file to be uploaded. 
 
 <amplify-block-switcher>
@@ -132,6 +133,62 @@ upload
     .subscribe(
       progress -> Log.i("MyAmplifyApp", progress.getFractionCompleted())
     );
+```
+
+</amplify-block>
+</amplify-block-switcher>
+
+## Upload inputStream
+To upload to S3 from a data object, specify the key and the InputStream to be uploaded. 
+
+<amplify-block-switcher>
+<amplify-block name="Java">
+
+```java
+private void uploadInputStream() {
+    InputStream exampleInputStream = new ByteArrayInputStream(RandomBytes.bytes());
+
+    Amplify.Storage.uploadInputStream(
+            "ExampleKey",
+            exampleInputStream,
+            result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+            storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+    );
+}
+```
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+private fun uploadInputStream() {
+    val exampleInputStream = ByteArrayInputStream(RandomBytes.bytes())
+
+    Amplify.Storage.uploadInputStream(
+        "ExampleKey",
+        exampleInputStream,
+        { result-> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()) },
+        { storageFailure-> Log.e("MyAmplifyApp", "Upload failed", storageFailure) }
+    )
+}
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+private void uploadInputStream() {
+    InputStream exampleInputStream = new ByteArrayInputStream(RandomBytes.bytes());
+
+    RxProgressAwareSingleOperation<StorageUploadInputStreamResult> rxUploadOperation =
+            RxAmplify.Storage.uploadInputStream("ExampleKey", exampleInputStream);
+
+    rxUploadOperation
+            .observeResult()
+            .subscribe(
+                result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+                error -> Log.e("MyAmplifyApp", "Upload failed", error)
+            );
+}
 ```
 
 </amplify-block>
