@@ -18,7 +18,7 @@ try {
 }
 ```
 
-Amplify-Flutter currently supports the following social login providers: 
+Amplify Flutter currently supports the following social sign-in providers: 
   * Google
   * Facebook
   * Login With Amazon
