@@ -29,8 +29,8 @@ private fun uploadInputStream() {
     Amplify.Storage.uploadInputStream(
         "ExampleKey",
         exampleInputStream,
-        { result-> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()) },
-        { storageFailure-> Log.e("MyAmplifyApp", "Upload failed", storageFailure) }
+        { Log.i("MyAmplifyApp", "Successfully uploaded: ${it.getKey()}.") },
+        { Log.e("MyAmplifyApp", "Upload failed", it) }
     )
 }
 ```
