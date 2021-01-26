@@ -1,5 +1,7 @@
-## Upload inputStream
-To upload to S3 from a data object, specify the key and the `InputStream` to be uploaded. 
+Amplify allows you to upload `File`s and `InputStream`s.
+
+## Upload InputStream
+To upload data to S3 from an `InputStream`:
 
 <amplify-block-switcher>
 <amplify-block name="Java">
