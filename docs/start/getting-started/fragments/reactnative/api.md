@@ -154,7 +154,7 @@ query listTodos {
 
 For a user interface to interact with this API, you will create a way to list and create todos. To do this, you will create a form with a button to create todos and way to fetch and render a list of todos.
 
-Open __App.js__ and update it with the following code (If you are using Expo, you also need to be sure to include the `Amplify.configure` configuration as well):
+Open __App.js__ and replace the contents with the following code (If you are using Expo, you also need to be sure to include the `Amplify.configure` configuration as well):
 
 ```javascript
 import React, { useEffect, useState } from 'react'
