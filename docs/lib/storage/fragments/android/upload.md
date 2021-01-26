@@ -54,6 +54,7 @@ private void uploadInputStream() {
 
 </amplify-block>
 </amplify-block-switcher>
+
 ## Upload files
 To upload to S3 from a data object, specify the key and the file to be uploaded. 
 
