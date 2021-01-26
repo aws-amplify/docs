@@ -119,9 +119,12 @@ export const setSearchResultCount = (resultCount: number): void => {
 
     if (resultCount === 0) {
       // @ts-ignore
+      s.linkTrackVars =
+        "prop39,prop41,prop50,prop61,prop62,eVar39,eVar41,eVar50,eVar61,eVar62,eVar69,events";
+      // @ts-ignore
       s.linkTrackEvents = "event2";
       // @ts-ignore
-      s.linkTrackVars = "eVar26,eVar27";
+      s.events = "event2";
       // @ts-ignore
       s.tl(true, "o", "internal search");
     }
@@ -137,9 +140,12 @@ export const trackSearchQuery = (
 ): void => {
   if (Build.isBrowser) {
     // @ts-ignore
+    s.linkTrackVars =
+      "prop39,prop41,prop50,prop61,prop62,eVar39,eVar41,eVar50,eVar61,eVar62,eVar69,events";
+    // @ts-ignore
     s.linkTrackEvents = "event1";
     // @ts-ignore
-    s.linkTrackVars = "eVar26,eVar27";
+    s.events = "event1";
     // @ts-ignore
     s.tl(true, "o", "internal search");
   }
