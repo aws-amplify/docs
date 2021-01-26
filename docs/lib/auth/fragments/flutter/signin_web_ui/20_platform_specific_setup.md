@@ -1,5 +1,5 @@
 ## How It Works
-Sign-in with web UI will display the sign-in UI inside a web view. After the sign-in process is complete, the sign-in UI will redirect back to your app.
+Sign-in with web UI will display the sign-in UI inside a webview. After the sign-in process is complete, the sign-in UI will redirect back to your app.
 
 ## Android Platform Setup
 Add the following activity to the `AndroidManifest.xml` file in your app's `android` directory. Replace `myapp` with the "redirect signin URI" you provided to the CLI:
