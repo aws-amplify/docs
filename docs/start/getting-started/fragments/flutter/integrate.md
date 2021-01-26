@@ -3,10 +3,10 @@ In this tutorial, you will integrate basic functionality for **Analytics**.
 First, delete the contents of your app's *main.dart* file and paste in this starter boilerplate UI code.   
 
 ```dart
-import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:flutter/material.dart';
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_flutter/amplify.dart';
 import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'amplifyconfiguration.dart';
 
 void main() {
@@ -20,9 +20,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool _amplifyConfigured = false;
-
-  // Instantiate Amplify
-  Amplify amplifyInstance = Amplify();
 
   @override
   void initState() {
@@ -51,7 +48,7 @@ class _MyAppState extends State<MyApp> {
                   Text(
                     _amplifyConfigured ? "configured" : "not configured"
                   ),                  
-                  RaisedButton(
+                  ElevatedButton(
                     onPressed: _amplifyConfigured ? _recordEvent : null,
                     child: const Text('record event')
                   )
@@ -76,13 +73,11 @@ void _configureAmplify() async {
   if (!mounted) return;
 
   // Add Pinpoint and Cognito Plugins
-  AmplifyAnalyticsPinpoint analyticsPlugin = AmplifyAnalyticsPinpoint();
-  AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
-  amplifyInstance.addPlugin(authPlugins: [authPlugin]);
-  amplifyInstance.addPlugin(analyticsPlugins: [analyticsPlugin]);
+  Amplify.addPlugin(AmplifyAnalyticsPinpoint());
+  Amplify.addPlugin(AmplifyAuthCognito());
 
   // Once Plugins are added, configure Amplify
-  await amplifyInstance.configure(amplifyconfig);
+  await Amplify.configure(amplifyconfig);
   try {
     setState(() {
       _amplifyConfigured = true;
@@ -94,9 +89,9 @@ void _configureAmplify() async {
 }
 ```
 
-Note that all calls to `addPlugin` are made before `amplify.configure` is called.
+Note that all calls to `addPlugin()` are made before `Amplify.configure()` is called.
 
-`amplify.configure` should only be called once.  Calling it multiple times will result in an error. 
+`Amplify.configure()` should only be called once.  Calling it multiple times will result in an exception. 
 
 ## Recording a simple event with Analytics 
 

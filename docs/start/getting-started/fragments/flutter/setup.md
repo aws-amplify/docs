@@ -74,7 +74,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  amplify_core: '<1.0.0'
+  amplify_flutter: '<1.0.0'
   amplify_auth_cognito: '<1.0.0'
   amplify_analytics_pinpoint: '<1.0.0'
 ```
