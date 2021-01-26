@@ -1,3 +1,63 @@
+Amplify allows you to upload `File`s and `InputStream`s.
+
+## Upload InputStream
+To upload data to S3 from an `InputStream`:
+
+<amplify-block-switcher>
+<amplify-block name="Java">
+
+```java
+private void uploadInputStream() {
+    InputStream exampleInputStream = getContentResolver().openInputStream(uri);
+
+    Amplify.Storage.uploadInputStream(
+            "ExampleKey",
+            exampleInputStream,
+            result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+            storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+    );
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+private fun uploadInputStream() {
+    val exampleInputStream = getContentResolver().openInputStream(uri)
+
+    Amplify.Storage.uploadInputStream(
+        "ExampleKey",
+        exampleInputStream,
+        { Log.i("MyAmplifyApp", "Successfully uploaded: ${it.getKey()}.") },
+        { Log.e("MyAmplifyApp", "Upload failed", it) }
+    )
+}
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+private void uploadInputStream() {
+    InputStream exampleInputStream = getContentResolver().openInputStream(uri);
+
+    RxProgressAwareSingleOperation<StorageUploadInputStreamResult> rxUploadOperation =
+            RxAmplify.Storage.uploadInputStream("ExampleKey", exampleInputStream);
+
+    rxUploadOperation
+            .observeResult()
+            .subscribe(
+                result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+                error -> Log.e("MyAmplifyApp", "Upload failed", error)
+            );
+}
+```
+
+</amplify-block>
+</amplify-block-switcher>
+
+## Upload files
 To upload to S3 from a data object, specify the key and the file to be uploaded. 
 
 <amplify-block-switcher>
