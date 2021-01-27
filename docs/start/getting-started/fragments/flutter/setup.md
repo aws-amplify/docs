@@ -16,9 +16,7 @@
 
 - Install the [Amplify CLI](~/cli/cli.md) by running:
 
-    ```bash
-    npm install -g @aws-amplify/cli
-    ```
+    <inline-fragment src="~/fragments/cli-install-block.md"></inline-fragment>
 
 - Sign up for an AWS account
 

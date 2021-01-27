@@ -4,9 +4,7 @@ We will now use the Amplify CLI to configure the AWS Cloud Resources that will p
 
 1. First install the amplify cli. Within your terminal run: 
 
-    ```bash
-    npm install -g @aws-amplify/cli
-    ```
+    <inline-fragment src="~/fragments/cli-install-block.md"></inline-fragment>
 
 2. Initialize Amplify CLI by running: 
 

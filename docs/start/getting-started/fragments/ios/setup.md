@@ -12,9 +12,13 @@
 - Install [Cocoapods](https://cocoapods.org/)
 - Install [Amplify CLI](~/cli/cli.md) version 4.22.0 or later by running:
 
+<<<<<<< Updated upstream
     ```bash
     npm install -g @aws-amplify/cli amplify-app
     ```
+=======
+<inline-fragment src="~/fragments/cli-install-block.md"></inline-fragment>
+>>>>>>> Stashed changes
 
 ## Set up your application
 
