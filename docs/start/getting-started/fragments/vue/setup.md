@@ -256,6 +256,6 @@ Now Amplify has been successfully configured. As you add or remove categories an
 
 <amplify-callout>
 
-Console warnings: if you see "failed to resolve component" warnings, you can create `vue.config.js` from the app directory and use this <amplify-external-link href="https://gist.github.com/wlee221/3d47f9598d5ad85bfa7a138bad112c3c">gist</amplify-external-link> to remove them. Make sure that `vue-loader@next` is installed.
+Console warnings: if you see "failed to resolve component" warnings, you can create `vue.config.js` from the app directory and use this <amplify-external-link href="https://gist.github.com/wlee221/3d47f9598d5ad85bfa7a138bad112c3c">gist</amplify-external-link> to remove them.
 
 </amplify-callout>

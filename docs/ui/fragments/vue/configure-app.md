@@ -24,9 +24,9 @@ app.config.isCustomElement = tag => tag.startsWith('amplify-');
 app.mount('#app');
 ```
 
-<amplify-callout warning>
+<amplify-callout>
 
-If you are using the runtime-only build, you must configure `isCustomElement` option from the compiler configuration. You can use <amplify-external-link href="https://gist.github.com/wlee221/3d47f9598d5ad85bfa7a138bad112c3c"><code>vue.config.js</code></amplify-external-link> gist or <amplify-external-link href="https://gist.github.com/wlee221/3d47f9598d5ad85bfa7a138bad112c3c"><code>vite.config.js</code></amplify-external-link> gist to configure them for example. 
+If you are using a build step to compile templates, you must configure `isCustomElement` option from the compiler configuration. You can use <amplify-external-link href="https://gist.github.com/wlee221/3d47f9598d5ad85bfa7a138bad112c3c"><code>vue.config.js</code></amplify-external-link> gist or <amplify-external-link href="https://gist.github.com/wlee221/3d47f9598d5ad85bfa7a138bad112c3c"><code>vite.config.js</code></amplify-external-link> gist to configure them for example. 
 
 </amplify-callout>
 
