@@ -54,10 +54,8 @@ Select the default values which are highlighted below:
 # No
 ? Do you have an annotated GraphQL schema?
 # No
-? Do you want a guided schema creation?
-# Yes
-? What best describes your project:
-# Single object with fields
+? Choose a schema template:
+# Single object with fields (e.g., “Todo” with ID, name, description)
 ? Do you want to edit the schema now?
 # Yes
 ```

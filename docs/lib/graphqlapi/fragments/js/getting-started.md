@@ -18,8 +18,7 @@ amplify add api
 ? After how many days from now the API key should expire: 7 (or your preferred expiration)
 ? Do you want to configure advanced settings for the GraphQL API: No
 ? Do you have an annotated GraphQL schema? No
-? Do you want a guided schema creation? Yes
-? What best describes your project: Single object with fields
+? Choose a schema template: Single object with fields (e.g., “Todo” with ID, name, description)
 ? Do you want to edit the schema now?  Yes
 ```
 
