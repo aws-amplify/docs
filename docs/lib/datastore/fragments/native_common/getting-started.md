@@ -23,70 +23,12 @@ To setup and configure your application with Amplify DataStore and use it to per
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/20_installLib.md"></inline-fragment>
 <inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/getting-started/20_installLib.md"></inline-fragment>
 
-There are two options to integrate the Amplify build process with the project.
-
 ## Setup local development environment
 
-In order to setup your local development environment, you have two options.
-
-### Option 1: Platform integration
-
-<inline-fragment platform="js" src="~/lib/datastore/fragments/js/getting-started/30_platformIntegration.md"></inline-fragment>
-<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/30_platformIntegration.md"></inline-fragment>
-<inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/30_platformIntegration.md"></inline-fragment>
-<inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/getting-started/30_platformIntegration.md"></inline-fragment>
-
-### Option 2: Use Amplify CLI
-
-Instead of using the platform integration, you can alternatively use the Amplify CLI on its own. This option is particularly **useful for existing projects** where Amplify is already configured and you want to add DataStore to it.
-
-If you don't have an existing project already, create a new Amplify project by running:
-```bash
-amplify init
-```
-
-The base structure for a DataStore app is created by adding a new GraphQL API to your app.
-
-```console
-# For new APIs
-amplify add api
-
-# For existing APIs
-amplify update api
-```
-
-During the API configuration process select **GraphQL** as the API type and reply to the questions as follows. Make sure you respond **Yes, I want to make some additional changes** when prompted for **advanced settings** and turn on **conflict detection**. This setting is **required** when syncing data to the cloud since the conflict resolution strategy is what allows local data to be reconciled with data from the cloud backend.
-
-```console
-? Please select from one of the below mentioned services:
-    `GraphQL`
-? Provide API name:
-    `BlogAppApi`
-? Choose the default authorization type for the API
-    `API key`
-? Enter a description for the API key:
-    `BlogAPIKey`
-? After how many days from now the API key should expire (1-365):
-    `365`
-? Do you want to configure advanced settings for the GraphQL API
-    `Yes, I want to make some additional changes.`
-? Configure additional auth types?
-    `No`
-? Configure conflict detection?
-    `Yes`
-? Select the default resolution strategy
-    `Auto Merge`
-? Do you have an annotated GraphQL schema?
-    `No`
-? Choose a schema template
-    `Single object with fields (e.g., “Todo” with ID, name, description)`
-```
-
-<amplify-callout warning>
-
-**Troubleshooting:** Cloud sync will fail without the **conflict detection** configuration. In that case use `amplify update api` and choose **Enable DataStore for entire API** (this option will enable the conflict detection as described above).
-
-</amplify-callout>
+<inline-fragment platform="js" src="~/lib/datastore/fragments/native_common/setup-env.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/30_setupEnv.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/native_common/setup-env.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/native_common/setup-env.md"></inline-fragment>
 
 ## Idiomatic persistence
 
