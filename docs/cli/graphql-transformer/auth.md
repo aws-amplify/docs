@@ -217,7 +217,7 @@ mutation CreateDraft {
 }
 ```
 
-Let's assume that when I call this mutation I am logged in as `someuser@my-domain.com`. The result would be:
+Let's assume that when I call this mutation I am logged in with email as username alias. The result would be:
 
 ```json
 {
@@ -225,15 +225,15 @@ Let's assume that when I call this mutation I am logged in as `someuser@my-domai
         "createDraft": {
             "id": "...",
             "title": "A new draft",
-            "owner": "someuser@my-domain.com",
-            "editors": ["someuser@my-domain.com"]
+            "owner": "someuser",
+            "editors": ["someuser"]
         }
     }
 }
 ```
 
 The `Mutation.createDraft` resolver is smart enough to match your auth rules to attributes
-and will fill them in be default. If you do not want the value to be automatically set all
+and will fill them with username in be default. If you do not want the value to be automatically set all
 you need to do is include a value for it in your input.
 
 For example, to have the resolver automatically set the **owner** but not the **editors**, you would run this:
@@ -262,7 +262,7 @@ This would return:
         "createDraft": {
             "id": "...",
             "title": "A new draft",
-            "owner": "someuser@my-domain.com",
+            "owner": "someuser",
             "editors": []
         }
     }
@@ -276,7 +276,7 @@ mutation CreateDraft {
   createDraft(
     input: {
       title: "A new draft",
-      editors: ["editor1@my-domain.com", "editor2@my-domain.com"]
+      editors: ["editor1", "editor2"]
     }
   ) {
     id
@@ -295,8 +295,8 @@ This would return:
         "createDraft": {
             "id": "...",
             "title": "A new draft",
-            "owner": "someuser@my-domain.com",
-            "editors": ["editor1@my-domain.com", "editor2@my-domain.com"]
+            "owner": "someuser",
+            "editors": ["editor1", "editor2"]
         }
     }
 }
