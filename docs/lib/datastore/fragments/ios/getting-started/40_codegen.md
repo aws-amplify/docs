@@ -1,11 +1,11 @@
-On iOS the aforementioned `amplify-app` offers an Xcode integration that automatically adds the Amplify-specific files to your project.
+On iOS the `amplify` CLI offers an Xcode integration that automatically adds the Amplify-specific files to your project.
 
 1. **Run the command**:
     ```
-    amplify codegen models && amplify-app
+    amplify codegen models
     ```
 
-1. Once the command finishes, a new group named `AmplifyModels` should be added to your project and contain the following files:
+2. The `amplify codegen models` command adds a new `AmplifyModels` group to your Xcode project. It will contain the following files:
 
   - `AmplifyModels/`
     - `AmplifyModels.swift`

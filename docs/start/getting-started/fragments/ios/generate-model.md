@@ -28,7 +28,7 @@ With the basic setup complete, next you will model the data your application wil
 
 1. Next, generate the classes for these models and add them to your Xcode project. **Run the command**:
   ```bash
-  amplify codegen models && amplify-app
+  amplify codegen models
   ```
 
 1. Now that the generated models has been added to your project, you will need to **build (`Cmd+b`)** to compile the newly generated files.

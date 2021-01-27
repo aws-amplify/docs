@@ -45,9 +45,9 @@ Amplify for iOS is distributed through Cocoapods as a Pod. In this section, you'
   cd ~/Developer/Todo
   ```
 
-1. To create the Amplify app first you will need to use `amplify-app` CLI previously installed, **run the command**:
+1. To create the Amplify app first you will need to use `amplify` CLI previously installed, **run the command**:
   ```bash
-  amplify-app --platform ios
+  amplify init --quickstart --frontend ios
   ```
 
 1. To initialize your project with the Cocoapods package manager, **run the command**:
