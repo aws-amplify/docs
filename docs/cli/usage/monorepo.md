@@ -80,13 +80,12 @@ Add api and database
 > amplify add api
 ? Please select from one of the below mentioned services: GraphQL
 ? Provide API name: todo
-? Choose the default authorization type for the API API key
+? Choose the default authorization type for the API: API key
 ? Enter a description for the API key: 
 ? After how many days from now the API key should expire (1-365): 7
-? Do you want to configure advanced settings for the GraphQL API No, I am done.
+? Do you want to configure advanced settings for the GraphQL API: No, I am done.
 ? Do you have an annotated GraphQL schema? No
-? Do you want a guided schema creation? (Y/n) Y
-? What best describes your project: Single object with fields (e.g., “Todo” with ID, name, description)
+? Choose a schema template: Single object with fields (e.g., “Todo” with ID, name, description)
 ? Do you want to edit the schema now? (Y/n) Y
 ```
 
