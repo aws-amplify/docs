@@ -1,4 +1,4 @@
-If you don't have an existing project already, create a new Amplify project by running:
+To use Amplify, you must first initialize it for use in your project. If you haven't already done so, run this command:
 ```bash
 amplify init
 ```
@@ -13,7 +13,7 @@ amplify add api
 amplify update api
 ```
 
-During the API configuration process select **GraphQL** as the API type and reply to the questions as follows. Make sure you respond **Yes, I want to make some additional changes** when prompted for **advanced settings** and turn on **conflict detection**. This setting is **required** when syncing data to the cloud since the conflict resolution strategy is what allows local data to be reconciled with data from the cloud backend.
+The CLI will prompt you to configure your API. Select **GraphQL** as the API type and reply to the questions as shown below. When prompted to configure **advanced settings**, respond **Yes, I want to make some additional changes**, and ensure that **conflict detection** is enabled. Conflict detection is **required** when using the DataStore to sync data with the cloud.
 
 ```console
 ? Please select from one of the below mentioned services:
@@ -42,6 +42,6 @@ During the API configuration process select **GraphQL** as the API type and repl
 
 <amplify-callout warning>
 
-**Troubleshooting:** Cloud sync will fail without the **conflict detection** configuration. In that case use `amplify update api` and choose **Enable DataStore for entire API** (this option will enable the conflict detection as described above).
+**Troubleshooting:** Cloud sync will fail without the **conflict detection** configuration. To enable it for an existing project, run `amplify update api` and choose **Enable DataStore for entire API**.
 
 </amplify-callout>

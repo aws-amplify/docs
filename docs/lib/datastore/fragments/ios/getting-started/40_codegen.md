@@ -5,7 +5,7 @@ On iOS the `amplify` CLI offers an Xcode integration that automatically adds the
     amplify codegen models
     ```
 
-2. Once the command finishes, a new group named `AmplifyModels` should be added to your project and contain the following files:
+2. The `amplify codegen models` command adds a new `AmplifyModels` group to your Xcode project. It will contain the following files:
 
   - `AmplifyModels/`
     - `AmplifyModels.swift`
