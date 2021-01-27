@@ -16,10 +16,10 @@ android {
 
 dependencies {
     // Amplify core dependency
-    implementation 'com.amplifyframework:core:1.4.1'
+    implementation 'com.amplifyframework:core:1.6.10'
 
     // Support for Java 8 features
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
 }
 ```
 

@@ -16,7 +16,6 @@ Amazon Cognito's user pool is most commonly used with AWS AppSync when adding au
             "Default": {
                 "PoolId": "[POOL-ID]",
                 "AppClientId": "[APP-CLIENT-ID]",
-                "AppClientSecret": "[APP-CLIENT-SECRET]",
                 "Region": "[REGION]"
             }
         }
@@ -41,6 +40,7 @@ and under the `awsAPIPlugin`
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz/10_userpool.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/10_userpool.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/authz/10_userpool.md"></inline-fragment>
 
 #### IAM
 
@@ -97,7 +97,12 @@ If you are using a 3rd party OIDC provider you will need to configure it and man
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz/20_oidc.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/20_oidc.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/authz/20_oidc.md"></inline-fragment>
 
+If you are using Cognito's user pool as the authorization type, this will by default retrieve and use the Access Token for your requests. If you would like to override this behavior and use the ID Token instead, you can treat Cognito user pool as your OIDC provider and use `Amplify.Auth` to retrieve the ID Token for your requests.
+
+<inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz/21_oidc.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/21_oidc.md"></inline-fragment>
 
 #### Multi-Auth
 
@@ -153,3 +158,4 @@ The `GRAPHQL-ENDPOINT` from AWS AppSync will look similar to `https://xyz.appsyn
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz/30_multi.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/30_multi.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/authz/30_multi.md"></inline-fragment>

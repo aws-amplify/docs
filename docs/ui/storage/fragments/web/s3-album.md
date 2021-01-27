@@ -1,100 +1,49 @@
-<inline-fragment src="~/ui/storage/fragments/web/installation.md"></inline-fragment>
+<inline-fragment src="~/ui/fragments/web/installation.md"></inline-fragment>
 
 ## Usage
 
 <docs-filter framework="react">
 
 ```jsx
-import React from 'react';
-import Amplify from 'aws-amplify';
-import { AmplifyS3Album } from '@aws-amplify/ui-react';
-import awsconfig from './aws-exports';
+import React from "react";
+import Amplify from "aws-amplify";
+import {AmplifyS3Album} from "@aws-amplify/ui-react";
+import awsconfig from "./aws-exports";
 
 Amplify.configure(awsconfig);
 
-const App = () => (
- <AmplifyS3Album />
-);
+const App = () => <AmplifyS3Album />;
 ```
+
 </docs-filter>
 
 <docs-filter framework="angular">
 
-```js
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
-
-import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
-
-Amplify.configure(awsconfig);
-
-@NgModule({
-  declarations: [AppComponent],
-  imports: [AmplifyUIAngularModule, BrowserModule],
-  providers: [],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
-```
+<inline-fragment src="~/ui/fragments/angular/configure-module.md"></inline-fragment>
 
 _app.component.html_
 
 ```html
 <amplify-s3-album></amplify-s3-album>
 ```
+
 </docs-filter>
 
 <docs-filter framework="ionic">
 
-_app.module.ts_
-
-```js
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
-
-import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
-
-Amplify.configure(awsconfig);
-
-@NgModule({
-  declarations: [AppComponent],
-  imports: [AmplifyUIAngularModule, BrowserModule],
-  providers: [],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
-```
+<inline-fragment src="~/ui/fragments/angular/configure-module.md"></inline-fragment>
 
 _app.component.html_
 
 ```html
 <amplify-s3-album></amplify-s3-album>
 ```
+
 </docs-filter>
 
 <docs-filter framework="vue">
 
-_main.js_
-
-```js
-import Vue from 'vue';
-import App from './App.vue';
-import '@aws-amplify/ui-vue';
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
-
-Amplify.configure(awsconfig);
-
-new Vue({
-  render: h => h(App),
-}).$mount('#app');
-```
+<inline-fragment src="~/ui/fragments/vue/configure-app.md"></inline-fragment>
 
 _App.vue_
 
@@ -103,32 +52,18 @@ _App.vue_
   <amplify-s3-album />
 </template>
 ```
+
 </docs-filter>
 
-<ui-component-props tag="amplify-s3-album" use-table-headers></ui-component-props>
+<ui-component-props tag="amplify-s3-album" prop-type="attr" use-table-headers></ui-component-props>
 
-## Customization
-
-### Custom CSS Properties
-
-`amplify-s3-album` provides the following CSS properties to modify the style at component level.
-
-| Name           | Description                      | Default value                    |
-| ---------------| ---------------------------------| ---------------------------------|
-| `--overlay-bg-color`     | Used to set the image overlay color on hover | `rgba(0, 0, 0, 0.15)` |
-
-```css
-amplify-s3-album {
-  --overlay-bg-color: rgba(0, 0, 0, 1);
-}
-```
-
+<ui-component-props tag="amplify-s3-album" prop-type="css" use-table-headers></ui-component-props>
 
 ## Migration
 
 To migrate from using the `aws-amplify-<framework>` library to the latest `@aws-amplify/ui-<framework>` library use the steps below:
 
-<inline-fragment src="~/ui/storage/fragments/web/installation-diff.md"></inline-fragment>
+<inline-fragment src="~/ui/fragments/web/installation-diff.md"></inline-fragment>
 
 ### Usage
 
@@ -145,33 +80,12 @@ const App = () => (
 
 );
 ```
+
 </docs-filter>
 
 <docs-filter framework="angular">
 
-_app.module.ts_
-
-```diff
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
-- import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
-+ import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
-
-Amplify.configure(awsconfig);
-
-@NgModule({
-  declarations: [AppComponent],
-- imports: [AmplifyAngularModule, BrowserModule],
-+ imports: [AmplifyUIAngularModule, BrowserModule],
-- providers: [AmplifyService],
-+ providers: [],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
-```
+<inline-fragment src="~/ui/fragments/angular/configure-module-diff.md"></inline-fragment>
 
 _app.component.html_
 
@@ -179,33 +93,12 @@ _app.component.html_
 + <amplify-s3-album></amplify-s3-album>
 - <s3-album></s3-album>
 ```
+
 </docs-filter>
 
 <docs-filter framework="ionic">
 
-_app.module.ts_
-
-```diff
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
-- import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
-+ import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
-
-Amplify.configure(awsconfig);
-
-@NgModule({
-  declarations: [AppComponent],
-- imports: [AmplifyAngularModule, BrowserModule],
-+ imports: [AmplifyUIAngularModule, BrowserModule],
-- providers: [AmplifyService],
-+ providers: [],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
-```
+<inline-fragment src="~/ui/fragments/angular/configure-module-diff.md"></inline-fragment>
 
 _app.component.html_
 
@@ -213,27 +106,12 @@ _app.component.html_
 + <amplify-s3-album></amplify-s3-album>
 - <s3-album></s3-album>
 ```
+
 </docs-filter>
 
 <docs-filter framework="vue">
 
-_main.ts_
-
-```diff
-import Vue from 'vue';
-import App from "./App.vue";
-- import Amplify, * as AmplifyModules from 'aws-amplify'
-- import { AmplifyPlugin } from 'aws-amplify-vue'
-+ import '@aws-amplify/ui-vue';
-+ import Amplify from 'aws-amplify';
-+ import awsconfig from './aws-exports';
-
-Amplify.configure(awsconfig);
-
-new Vue({
-  render: h => h(App),
-}).$mount('#app');
-```
+<inline-fragment src="~/ui/fragments/vue/configure-app-diff.md"></inline-fragment>
 
 _App.vue_
 
@@ -243,5 +121,5 @@ _App.vue_
 + <amplify-s3-album />
  </template>
 ```
-</docs-filter>
 
+</docs-filter>

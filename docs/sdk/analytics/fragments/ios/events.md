@@ -85,7 +85,6 @@ You can report authentication events by doing either of the following:
         "Default": {
             "PoolId": "<poolid>",
             "AppClientId": "<appclientid>",
-            "AppClientSecret": "<appclientsecret>",
             "Region": "<region>",
             "PinpointAppId": "<pinpointappid>"
        }

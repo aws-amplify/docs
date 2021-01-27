@@ -2,17 +2,10 @@
 
 We will now use the Amplify CLI to configure the AWS Cloud Resources that will power your app. 
 
-1. First ensure that you have installed the proper amplify cli version.  Within your terminal run: 
+1. First install the amplify cli. Within your terminal run: 
 
     ```bash
-    amplify --version 
-    ```
-    Your output should be a version with "-flutter-preview" appended at the end. 
-
-    If not, run:
-
-    ```bash
-    npm install -g @aws-amplify/cli@flutter-preview
+    npm install -g @aws-amplify/cli
     ```
 
 2. Initialize Amplify CLI by running: 
@@ -30,11 +23,6 @@ We will now use the Amplify CLI to configure the AWS Cloud Resources that will p
         `IntelliJ IDEA`
     ? Choose the type of app that you're building: 
         'flutter'
-    ⚠️  Flutter project support in the Amplify CLI is in DEVELOPER PREVIEW.
-    Only the following categories are supported:
-     * Auth
-     * Analytics
-     * Storage
     ? Where do you want to store your configuration file? 
         ./lib/
     ? Do you want to use an AWS profile?

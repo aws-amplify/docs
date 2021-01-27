@@ -1,3 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`docs-landing-hero-cta Render logic should render 1`] = `MockHTMLElement {}`;
+exports[`docs-landing-hero-cta Render logic should render 1`] = `
+<docs-landing-hero-cta>
+  <docs-internal-link-button class="css-8k8r6" href="/start">
+    <span slot="text">
+      Get started for free
+    </span>
+  </docs-internal-link-button>
+  <div class="css-1nsan66">
+    <docs-internal-link class="scale-up-on-hover" href="/start/q/integration/react">
+      <img alt="React Icon" class="css-16ygk4v" src="/assets/integrations/react.svg">
+    </docs-internal-link>
+    <docs-internal-link class="scale-up-on-hover" href="/start/q/integration/vue">
+      <img alt="Vue Icon" class="css-16ygk4v" src="/assets/integrations/vue.svg">
+    </docs-internal-link>
+    <docs-internal-link class="scale-up-on-hover" href="/start/">
+      <img alt="JS Icon" class="css-16ygk4v" src="/assets/integrations/js.svg">
+    </docs-internal-link>
+    <docs-internal-link class="scale-up-on-hover" href="/start/q/integration/ios">
+      <img alt="iOS Icon" class="css-16ygk4v" src="/assets/integrations/ios.svg">
+    </docs-internal-link>
+    <docs-internal-link class="scale-up-on-hover" href="/start/q/integration/android">
+      <img alt="Android Icon" class="css-16ygk4v" src="/assets/integrations/android.svg">
+    </docs-internal-link>
+    <docs-internal-link class="scale-up-on-hover" href="/start/q/integration/flutter">
+      <img alt="Flutter Icon" class="css-16ygk4v" src="/assets/integrations/flutter.svg">
+    </docs-internal-link>
+  </div>
+</docs-landing-hero-cta>
+`;

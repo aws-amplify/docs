@@ -7,6 +7,16 @@ let configured = false;
 if (!configured) {
   Auth.configure(awsexports);
   Analytics.configure(awsexports);
+  if (Build.isBrowser) {
+    // @ts-ignore
+    AWSCShortbread({
+      domain: ".amplify.aws",
+    }).checkForCookieConsent();
+  }
+  if (Build.isBrowser) {
+    // @ts-ignore
+    if (typeof(s) != "undefined") s.trackExternalLinks = false;
+  }
   configured = true;
 }
 
@@ -63,5 +73,51 @@ export const track = (event: AnalyticsEvent): Promise<unknown> | undefined => {
     } catch (e) {
       console.error("Failed to execute track.");
     }
+  }
+};
+
+export const trackPageVisit = (): void => {
+  // @ts-ignore
+  if (Build.isBrowser && typeof(s) != "undefined") {
+    // @ts-ignore
+    s.t();
+  }
+};
+
+export const trackPageFetchException = (): void => {
+  // @ts-ignore
+  if (Build.isBrowser && typeof(s) != "undefined") {
+    // @ts-ignore
+    s.tl(true, "o", "page fetch exception");
+  }
+};
+
+export const trackExternalLink = (): void => {
+  // @ts-ignore
+  if (Build.isBrowser && typeof(s) != "undefined") {
+    // @ts-ignore
+    s.tl(true, "e");
+  }
+};
+
+export const setSearchQuery = (query: string): void => {
+  // @ts-ignore
+  if (Build.isBrowser && typeof(s) != "undefined") {
+    // @ts-ignore
+    s.eVar26 = query;
+  }
+};
+
+export const trackSearchResult = (resultCount: number): void => {
+  // @ts-ignore
+  if (Build.isBrowser && typeof(s) != "undefined") {
+    // @ts-ignore
+    s.linkTrackVars = "eVar26,eVar27";
+    // @ts-ignore
+    s.eVar27 = resultCount;
+    // @ts-ignore
+    s.events = resultCount === 0 ? "event1" : "event2";
+    // @ts-ignore
+    s.tl(true, "o", "internal search");
   }
 };

@@ -24,9 +24,10 @@ Plugins are explicitly managed in the Amplify CLI pluggable platform. Plugins en
 
 ## Third-party plugins
 
-* [amplify-category-video](https://www.npmjs.com/package/amplify-category-video)
-* [amplify-category-docs](https://www.npmjs.com/package/amplify-category-docs)
-* [graphql-ttl-transformer](https://github.com/flogy/graphql-ttl-transformer)
+* [amplify-category-video](https://www.npmjs.com/package/amplify-category-video) - Make it easy to incorporate video streaming into your mobile and web applications powered by AWS Amplify and AWS Media Services
+* [amplify-category-docs](https://www.npmjs.com/package/amplify-category-docs) - An easy way to view the Amplify Docs from the Amplify CLI
+* [amplify-category-data-importer](https://www.npmjs.com/package/amplify-category-data-importer) - Automate the process of seeding, importing, and managing data for Amplify projects
+* [graphql-ttl-transformer](https://github.com/flogy/graphql-ttl-transformer) - Enable DynamoDB's time-to-live feature to auto-delete old entries in your AWS Amplify API
 
 ## Plugin installation
 

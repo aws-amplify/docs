@@ -12,7 +12,7 @@ Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designin
 amplify add api
 ```
 
-Select the explicit values below to enable **IAM** (for public read access) and **Cognito User Pools** (for authenticated access).
+Select the explicit values below to enable **API key** (for public read access) and **Cognito User Pools** (for authenticated access).
 
 ```console
 ? Please select from one of the below mentioned services:
@@ -49,7 +49,7 @@ Select the explicit values below to enable **IAM** (for public read access) and 
 
 The CLI should open this GraphQL schema in your text editor.
 
-__amplify/backend/api/myapi/schema.graphql__
+__amplify/backend/api/nextamplified/schema.graphql__
 
 ```graphql
 type Post
@@ -279,7 +279,9 @@ export default function Home({ posts = [] }) {
                 </fieldset>
 
                 <button>Create Post</button>
-                <button onClick={() => Auth.signOut()}>Sign out</button>
+                <button type="button" onClick={() => Auth.signOut()}>
+                  Sign out
+                </button>
               </form>
             </AmplifyAuthenticator>
           </div>

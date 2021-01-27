@@ -37,3 +37,7 @@ Amplify supports running a local server for mocking and testing your application
 ```
 amplify mock
 ```
+
+### Serverless containers
+
+Amplify supports AWS Lambda and AWS Fargate compute options for building applications giving a full spectrum of control and integration within your infrastructure. Lambda Functions can be used in your GraphQL and REST APIs in addition to triggers from event sources such as S3 and DynamoDB. Similarly you can bring a [Dockerfile](https://docs.docker.com/engine/reference/builder/) or a [Docker Compose file](https://docs.docker.com/compose/compose-file/) to automatically build and deploy Serverless containers into Amazon Elastic Container Service. [Learn more](~/cli/usage/containers.md).

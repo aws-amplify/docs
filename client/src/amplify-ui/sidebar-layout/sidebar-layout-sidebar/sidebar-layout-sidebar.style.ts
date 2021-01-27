@@ -1,14 +1,9 @@
-import {MQTablet} from "../../styles/media";
 import {css} from "emotion";
 
 export const sidebarLayoutSidebarStyle = css`
   display: none;
   border-right: 0.0625rem solid var(--border-color);
   min-width: 20rem;
-
-  ${MQTablet} {
-    display: initial;
-  }
 
   &.in-view {
     display: initial;

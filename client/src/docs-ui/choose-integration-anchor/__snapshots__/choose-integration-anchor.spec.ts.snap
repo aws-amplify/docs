@@ -69,9 +69,9 @@ exports[`docs-choose-integration-anchor Render logic should render 1`] = `
       </h4>
     </docs-card>
     <docs-card>
-      <img alt="Flutter (Preview) Logo" slot="graphic" src="/assets/integrations/flutter.svg">
+      <img alt="Flutter Logo" slot="graphic" src="/assets/integrations/flutter.svg">
       <h4 slot="heading">
-        Flutter (Preview)
+        Flutter
       </h4>
     </docs-card>
   </amplify-responsive-grid>

@@ -125,6 +125,7 @@ Amplify.configure({
   aws_appsync_graphqlEndpoint: "https://<app-id>.appsync-api.<region>.amazonaws.com/graphql", // (optional) - AWS AppSync endpoint
   aws_appsync_authenticationType: "AMAZON_COGNITO_USER_POOLS", // (optional) - Primary AWS AppSync authentication type
   graphql_endpoint: "https://www.yourdomain.com/graphql", // (optional) - Custom GraphQL endpoint 
+  aws_appsync_apiKey: "da2-xxxxxxxxxxxxxxxxxxxxxxxxxx", // (optional) - AWS AppSync API Key
   graphql_endpoint_iam_region: "us-east-1" // (optional) - Custom IAM region 
 });
 
@@ -147,11 +148,15 @@ Amplify.configure({
 ## REST API (Amazon API Gateway)
 
 ```js
-"aws_cloud_logic_custom":  {
-  "name": "your-api-name", // (required) - API Name (This name is used used in the client app to identify the API - API.get('api-name', '/path'))
-  "endpoint": "https://gfz59k9rlj.execute-api.us-east-1.amazonaws.com/dev", // (required) -API Gateway URL + environment
-  "region": "us-east-1" // (required) - API Gateway region
-}
+Amplify.configure({
+  aws_cloud_logic_custom:  [
+    {
+      name: "your-api-name", // (required) - API Name (This name is used used in the client app to identify the API - API.get('your-api-name', '/path'))
+      endpoint: "https://gfz59k9rlj.execute-api.us-east-1.amazonaws.com/dev", // (required) -API Gateway URL + environment
+      region: "us-east-1" // (required) - API Gateway region
+    }
+  ]
+})
 ```
 
 ## Predictions 

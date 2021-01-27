@@ -1,5 +1,4 @@
 import {css} from "emotion";
-import {MQDesktop} from "../../amplify-ui/styles/media";
 
 export const sidebarLayoutStyle = css`
   display: flex;
@@ -45,6 +44,12 @@ export const sidebarLayoutStyle = css`
   }
 `;
 
+export const sidebarHeaderStyle = css`
+  display: flex;
+  flex-direction: row;
+  margin: 1.75rem 2.75rem 0 2.5rem;
+`;
+
 export const mainStyle = css`
   a {
     &,
@@ -85,12 +90,6 @@ export const sectionHeaderStyle = css`
 `;
 
 export const tocStyle = css`
-  display: none;
-
-  ${MQDesktop} {
-    display: initial;
-  }
-
   > div {
     position: relative;
     height: 100%;
@@ -98,7 +97,6 @@ export const tocStyle = css`
     > amplify-toc {
       position: sticky;
       top: 3rem;
-      display: flex;
       flex-direction: column;
       max-height: 100vh;
       overflow-y: auto;

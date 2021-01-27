@@ -22,9 +22,9 @@ public class MyAmplifyApp extends Application {
             Amplify.addPlugin(new AWSApiPlugin());
             Amplify.configure(getApplicationContext());
 
-            Log.i("MyAmplifyApp", "Initialized Amplify");
+            Log.i("MyAmplifyApp", "Initialized Amplify.");
         } catch (AmplifyException error) {
-            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+            Log.e("MyAmplifyApp", "Could not initialize Amplify.", error);
         }
     }
 }
@@ -49,9 +49,9 @@ class MyAmplifyApp : Application() {
             Amplify.addPlugin(AWSApiPlugin())
             Amplify.configure(applicationContext)
 
-            Log.i("MyAmplifyApp", "Initialized Amplify")
+            Log.i("MyAmplifyApp", "Initialized Amplify.")
         } catch (error: AmplifyException) {
-            Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
+            Log.e("MyAmplifyApp", "Could not initialize Amplify.", error)
         }
     }
 }
@@ -61,7 +61,7 @@ class MyAmplifyApp : Application() {
 <amplify-block name="RxJava">
 
 ```java
-Amplify.addPlugin(new AWSApiPlugin());
+RxAmplify.addPlugin(new AWSApiPlugin());
 ```
 
 Your class will look like this:
@@ -77,9 +77,9 @@ public class MyAmplifyApp extends Application {
             RxAmplify.addPlugin(new AWSApiPlugin());
             RxAmplify.configure(getApplicationContext());
 
-            Log.i("MyAmplifyApp", "Initialized Amplify");
+            Log.i("MyAmplifyApp", "Initialized Amplify.");
         } catch (AmplifyException error) {
-            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+            Log.e("MyAmplifyApp", "Could not initialize Amplify.", error);
         }
     }
 }

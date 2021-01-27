@@ -26,7 +26,6 @@ If you want to use your existing AWS resources with your app you will need to **
         "Default": {
             "PoolId": "XX-XXXX-X_abcd1234",
             "AppClientId": "XXXXXXXX",
-            "AppClientSecret": "XXXXXXXXX",
             "Region": "XX-XXXX-X"
         }
     },

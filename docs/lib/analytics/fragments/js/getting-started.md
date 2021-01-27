@@ -179,7 +179,6 @@ Amazon Pinpoint service requires an IAM policy in order to use the `record` API:
     ]
 }
 ```
-If you get the error message: `Exceeded maximum endpoint per user count 10` when updating the endpoints, you can update the Policy with the Action: `mobiletargeting:GetUserEndpoints` which will allow the Analytics module to get the endpoints info and remove unused endpoints automatically.
 
 ## Update Endpoint
 

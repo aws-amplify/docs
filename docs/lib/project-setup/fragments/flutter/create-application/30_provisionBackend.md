@@ -2,7 +2,7 @@ To start provisioning resources in the backend, change directories to your proje
 
 ```bash
 # in future, make sure you have Amplify CLI v4.28 and above for Flutter support
-# npm install -g @aws-amplify/cli@4.26.1-flutter-preview.0 for now
+# npm install -g @aws-amplify/cli
 amplify init
 ```
 
@@ -15,11 +15,6 @@ Enter the following when prompted:
     `IntelliJ IDEA`
 ? Choose the type of app that you're building: 
     'flutter'
-⚠️  Flutter project support in the Amplify CLI is in DEVELOPER PREVIEW.
-Only the following categories are supported:
- * Auth
- * Analytics
- * Storage
 ? Where do you want to store your configuration file? 
     ./lib/
 ? Do you want to use an AWS profile?

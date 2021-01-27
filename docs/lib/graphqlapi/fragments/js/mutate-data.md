@@ -25,7 +25,7 @@ You can optionally import the `graphqlOperation` helper function to help you con
 ```javascript
 import { API, graphqlOperation } from 'aws-amplify';
 // ...
-const newTodo = await API.graphql({ query: mutations.createTodo, variables: {input: todoDetails}})); // equivalent to above example
+const newTodo = await API.graphql(graphqlOperation(mutations.createTodo, {input: todoDetails})); // equivalent to above example
 ```
 
 #### Updating an item

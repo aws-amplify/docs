@@ -18,8 +18,7 @@ amplify add api
 ? After how many days from now the API key should expire: 7 (or your preferred expiration)
 ? Do you want to configure advanced settings for the GraphQL API: No
 ? Do you have an annotated GraphQL schema? No
-? Do you want a guided schema creation? Yes
-? What best describes your project: Single object with fields
+? Choose a schema template: Single object with fields (e.g., “Todo” with ID, name, description)
 ? Do you want to edit the schema now?  Yes
 ```
 
@@ -194,9 +193,9 @@ The following directives are available to be used when defining your schema:
 | [@searchable](~/cli/graphql-transformer/searchable.md) on Object | Stream data of an @model object type to Amazon Elasticsearch Service. |
 | [@versioned](~/cli/graphql-transformer/versioned.md) on Object | Add object versioning and conflict detection to a @model. |
 | [@key](~/cli/graphql-transformer/key.md) on Object | Index your data with keys. |
-| [@function](~/cli/graphql-transformer/function.md) on Object | Connect Lambda resolvers to your API. |
-| [@predictions](~/cli/graphql-transformer/predictions.md) on Object | Connect machine learning services. |
-| [@http](~/cli/graphql-transformer/http.md) on Object | Configure HTTP resolvers within your API. |
+| [@function](~/cli/graphql-transformer/function.md) on Field | Connect Lambda resolvers to your API. |
+| [@predictions](~/cli/graphql-transformer/predictions.md) on Field | Connect machine learning services. |
+| [@http](~/cli/graphql-transformer/http.md) on Field | Configure HTTP resolvers within your API. |
 
 You may also write your own transformers to implement reproducible patterns that you find useful.
 

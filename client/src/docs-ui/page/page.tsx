@@ -6,6 +6,7 @@ import {
   sidebarToggleClass,
   mainStyle,
   sectionHeaderStyle,
+  sidebarHeaderStyle,
 } from "./page.style";
 import {
   Page,
@@ -25,7 +26,12 @@ import {
   SetNewSelectedTabHeadings,
 } from "./page.types";
 import {pageContext} from "./page.context";
-import {track, AnalyticsEventType} from "../../utils/track";
+import {
+  track,
+  trackPageVisit,
+  trackPageFetchException,
+  AnalyticsEventType,
+} from "../../utils/track";
 import {ensureMenuScrolledIntoView} from "../../utils/ensure-menu-scrolled-into-view";
 import {getPage} from "../../cache.worker";
 import {getNavHeight} from "../../utils/get-nav-height";
@@ -202,6 +208,7 @@ export class DocsPage {
         referrer: document.referrer,
       },
     });
+    trackPageVisit();
 
     try {
       const pageData = await getPage(currentRoute);
@@ -245,6 +252,7 @@ export class DocsPage {
         type: AnalyticsEventType.PAGE_DATA_FETCH_EXCEPTION,
         attributes: {url: location.href, exception},
       });
+      trackPageFetchException();
     }
   }
 
@@ -275,7 +283,9 @@ export class DocsPage {
             {this.pageData && this.pageData.noTemplate
               ? createVNodesFromHyperscriptNodes(this.pageData.body)
               : [
-                  <docs-secondary-nav />,
+                  <docs-secondary-nav
+                    pageHasMenu={!!this.pageData && !!this.pageData.menu}
+                  />,
                   this.pageData && this.validFilterValue ? (
                     <div class={sidebarLayoutStyle}>
                       <amplify-toc-provider>
@@ -285,6 +295,12 @@ export class DocsPage {
                               slot="sidebar"
                               top={this.sidebarStickyTop}
                             >
+                              <div class={sidebarHeaderStyle}>
+                                <amplify-sidebar-close-button />
+                                {this.pageData?.filterKey && (
+                                  <docs-select-anchor page={this.pageData} />
+                                )}
+                              </div>
                               <docs-menu
                                 filterKey={this.filterKey}
                                 page={this.pageData}

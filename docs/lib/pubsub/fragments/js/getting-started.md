@@ -14,7 +14,7 @@ To use in your app, import `AWSIoTProvider`:
 
 ```javascript
 import Amplify, { PubSub } from 'aws-amplify';
-import { AWSIoTProvider } from '@aws-amplify/pubsub/lib/Providers';
+import { AWSIoTProvider } from '@aws-amplify/pubsub';
 ```
 
 Define your endpoint and region in your configuration:

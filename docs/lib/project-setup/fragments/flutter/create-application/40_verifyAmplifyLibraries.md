@@ -5,7 +5,7 @@ Import the necessary dart dependencies at the top of main.dart:
 
 ```dart
 // Amplify Flutter Packages
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_flutter/amplify.dart';
 import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 
@@ -19,8 +19,7 @@ Add the following code to your application's root Stateful Widget, for a blank F
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  bool _amplifyConfigured = false
-  Amplify amplifyInstance = Amplify();
+  bool _amplifyConfigured = false;
 
   @override
   initState() {
@@ -33,13 +32,10 @@ class _MyHomePageState extends State<MyHomePage> {
     // Add Pinpoint and Cognito Plugins, or any other plugins you want to use
     AmplifyAnalyticsPinpoint analyticsPlugin = AmplifyAnalyticsPinpoint();
     AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
-    amplifyInstance.addPlugin(
-      authPlugins: [authPlugin], 
-      analyticsPlugins: [analyticsPlugin]
-    );
+    Amplify.addPlugins([authPlugin, analyticsPlugin]);
 
     // Once Plugins are added, configure Amplify
-    await amplifyInstance.configure(amplifyconfig);
+    await Amplify.configure(amplifyconfig);
     try {
       setState(() {
         _amplifyConfigured = true;
@@ -50,8 +46,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   }
 
-  ...
+  // customize the rest of your Widget below as you wish...
 
 ```
 
-Note that all calls to `addPlugin` are made before `amplify.configure` is called.
+Note that all calls to `addPlugin()` or `addPlugins()` are made before `Amplify.configure()` is called.

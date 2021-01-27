@@ -478,7 +478,6 @@ Amazon Cognito User Pools is the most common service to use with AppSync when ad
         "Default": {
             "PoolId": "POOL-ID",
             "AppClientId": "APP-CLIENT-ID",
-            "AppClientSecret": "APP-CLIENT-SECRET",
             "Region": "us-east-1"
         }
     },

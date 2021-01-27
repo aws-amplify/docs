@@ -14,7 +14,6 @@ To initiate a custom authentication flow in your app, specify `authenticationFlo
     "Default": {
       "PoolId": "XX-XXXX-X_abcd1234",
       "AppClientId": "XXXXXXXX",
-      "AppClientSecret": "XXXXXXXXX",
       "Region": "XX-XXXX-X"
     }
   },

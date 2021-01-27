@@ -48,21 +48,23 @@ Example configuration file
 
 ```json
 {
-    "features": {
-        "graphQLTransformer": {
-            "transformerVersion": 5
-        },
-        "keyTransformer": {
-            "defaultQuery": true
-        },
-        "experimental": {
-            "feature1": true,
-            "feature2": false
-        },
-        "release": {
-            "lambdaLayers": true
-        }
+  "features": {
+    "graphQLTransformer": {
+      "addMissingOwnerFields": true,
+      "validateTypeNameReservedWords": true,
+      "useExperimentalPipelinedTransformer": false,
+      "enableIterativeGSIUpdates": false
+    },
+    "frontend-ios": {
+      "enableXcodeIntegration": true
+    },
+    "auth": {
+      "enableCaseInsensitivity": true
+    },
+    "codegen": {
+      "useAppSyncModelgenPlugin": true
     }
+  }
 }
 ```
 
@@ -89,7 +91,5 @@ Due to the multiple levels of configuration options and overrides, Amplify CLI d
 - CLI Environment level environment variables
 
 ## Feature flags
-
-Currently there are no feature flags defined.
 
 <amplify-feature-flags />

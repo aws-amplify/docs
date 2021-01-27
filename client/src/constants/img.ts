@@ -88,3 +88,15 @@ export const SEARCH = {
   src: "/assets/search.svg",
   alt: "Search",
 };
+
+export const DESKTOP_CLOSE = {
+  alt: "Close menu",
+  lightSrc: "/assets/close-light.svg",
+  darkSrc: "/assets/close-dark.svg",
+};
+
+export const DESKTOP_OPEN = {
+  alt: "Open menu",
+  lightSrc: "/assets/burger-light.svg",
+  darkSrc: "/assets/burger-dark.svg",
+};

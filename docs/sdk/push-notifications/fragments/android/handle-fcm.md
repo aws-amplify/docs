@@ -14,9 +14,9 @@ The SDK provides `PinpointNotificationReceiver` which handles the notification t
 
 ```xml
 <receiver
-    android:name=”com.amazonaws.mobileconnectors.pinpoint.targeting.notification.PinpointNotificationReceiver” android:exported=”false” >
+    android:name="com.amazonaws.mobileconnectors.pinpoint.targeting.notification.PinpointNotificationReceiver" android:exported="false" >
     <intent-filter>
-        <action android:name=”com.amazonaws.intent.fcm.NOTIFICATION_OPEN” />
+        <action android:name="com.amazonaws.intent.fcm.NOTIFICATION_OPEN" />
     </intent-filter>
 </receiver>
 ```
@@ -55,7 +55,7 @@ The data element in the previous example registers a URL scheme, `pinpoint://`, 
 Next, set up an intent handler to present the screen associated with the registered URL scheme and host. Intent data is retrieved in the onCreate() method, which then can use `Uri` data to create an activity. The following example shows an alert and tracks an event.
 
 ```java
-public class DeeplinkActivity extends Activity {
+public class DeepLinkActivity extends Activity {
  
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
