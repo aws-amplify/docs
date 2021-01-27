@@ -915,7 +915,6 @@ export default {
 </amplify-block>
 </amplify-block-switcher>
 
-
 </docs-filter>
 
 <ui-component-props tag="amplify-greetings" prop-type="attr"></ui-component-props>
