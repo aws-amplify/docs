@@ -75,5 +75,3 @@ export default {
 
 </amplify-block>
 </amplify-block-switcher>
-
-
