@@ -86,7 +86,7 @@ In your terminal, make sure you are in your project/root folder and **execute th
 amplify codegen models
 ```
     
-You can **find the generated files** at `amplify/generated/models/`. Remember to add them to your Xcode project if on iOS.
+You can **find the generated files** at `amplify/generated/models/`.
 
 ## Initialize Amplify DataStore
 
