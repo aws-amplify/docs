@@ -99,7 +99,7 @@ import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
 Import the configuration file and load it in `main.ts`: 
 
 ```javascript
-import Amplify from '@aws-amplify/core';
+import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 ```
@@ -110,9 +110,7 @@ These modules will then be passed into the AmplifyModules helper.
 
 ```javascript
 import { AmplifyAngularModule, AmplifyService, AmplifyModules } from 'aws-amplify-angular';
-import Auth from '@aws-amplify/auth';
-import Interactions from '@aws-amplify/interactions';
-import Storage from '@aws-amplify/storage';
+import { Auth, Interactions, Storage } from 'aws-amplify';
 
 @NgModule({
   ...
