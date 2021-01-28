@@ -53,7 +53,8 @@ Example configuration file
       "addMissingOwnerFields": true,
       "validateTypeNameReservedWords": true,
       "useExperimentalPipelinedTransformer": false,
-      "enableIterativeGSIUpdates": false
+      "enableIterativeGSIUpdates": false,
+      "skipOverrideMutationInputTypes": true,
     },
     "frontend-ios": {
       "enableXcodeIntegration": true
