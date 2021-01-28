@@ -3,8 +3,6 @@ Amplify has a local eventing system called Hub. It is a lightweight implementati
 ## Installation
 ```javascript
 import { Hub } from 'aws-amplify';
-// or
-import { Hub } from '@aws-amplify/core';
 ```
 
 ## Working with the API

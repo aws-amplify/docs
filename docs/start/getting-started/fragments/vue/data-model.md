@@ -263,17 +263,3 @@ export default {
 };
 </script>
 ```
-
-## Using Modular Imports
-
-To reduce bundle size, you can also import only specific categories into your app when you are only using specific features, `API` for example.
-
-```bash
-npm install @aws-amplify/api # Only installs the API category
-```
-
-Import only API:
-
-```
-import API from '@aws-amplify/api';
-```

@@ -109,7 +109,7 @@ When prompted, select **GraphQL**. This will open the AWS AppSync console for yo
 Update your `src/app.js` file to configure the library with `Amplify.configure()` and add data to your database with a mutation by using `API.graphql()`:
 
 ```javascript
-import Amplify, { API, graphqlOperation } from "@aws-amplify/api";
+import Amplify, { API, graphqlOperation } from "aws-amplify";
 
 import awsconfig from "./aws-exports";
 import { createTodo } from "./graphql/mutations";
@@ -138,7 +138,7 @@ MutationButton.addEventListener("click", (evt) => {
 After restarting your app using `npm start` go back to your browser and click **ADD DATA**.  You'll see that your application is now submitting events to AppSync and storing records in DynamoDB. Next, update `src/app.js` to list all the items in the database by importing `listTodos` and update the page when a query runs on app start by immediately calling the function:
 
 ```diff
- import Amplify, { API, graphqlOperation } from "@aws-amplify/api";
+ import Amplify, { API, graphqlOperation } from "aws-amplify";
 
  import awsconfig from "./aws-exports";
  import { createTodo } from "./graphql/mutations";
@@ -179,7 +179,7 @@ After restarting your app using `npm start` go back to your browser and click **
 Now if you wish to subscribe to data, import the `onCreateTodo` subscription and create a new subscription by adding subscription with `API.graphql()` like so:
 
 ```diff
- import Amplify, { API, graphqlOperation } from "@aws-amplify/api";
+ import Amplify, { API, graphqlOperation } from "aws-amplify";
 
  import awsconfig from "./aws-exports";
  import { createTodo } from "./graphql/mutations";

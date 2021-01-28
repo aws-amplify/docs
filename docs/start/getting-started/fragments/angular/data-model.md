@@ -104,8 +104,6 @@ import aws_exports from "./aws-exports";
 Amplify.configure(aws_exports);
 ```
 
-<amplify-callout>The code above imports the entire Amplify library. You can use separate imports like `import Auth from '@aws-amplify/auth'` to reduce the final bundle size.</amplify-callout>
-
 Update `tsconfig.app.json` to include the "node" compiler option in *types*:
 
 ```json

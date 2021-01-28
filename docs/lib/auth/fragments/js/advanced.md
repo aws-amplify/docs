@@ -514,17 +514,6 @@ Note: To work with Service Interface Objects, your Amazon Cognito users' [IAM ro
 
 </amplify-callout>
 
-## Using modular imports
-
-If you only need to use Auth, you can do: `npm install @aws-amplify/auth` which will only install the Auth module for you.
-
-Then in your code, you can import the Auth module by:
-```javascript
-import Auth from '@aws-amplify/auth';
-
-Auth.configure();
-```
-
 ## API reference
 
 For the complete API documentation for Authentication module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html)

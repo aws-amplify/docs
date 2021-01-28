@@ -129,16 +129,6 @@ You can see those analytics events are related metrics in Amazon Pinpoint consol
 
 For the complete API documentation for ServiceWorker module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/docs/api/classes/serviceworkerclass.html)
 
-## Using Modular Imports
-
-If you only need to use ServiceWorker, you can do: `npm install @aws-amplify/core` which will only install the Core module which contains the ServiceWorker module.
-
-Then in your code, you can import the Analytics module by:
-```javascript
-import { ServiceWorker } from '@aws-amplify/core';
-
-```
-
 ## Example Service Worker
 
 ```javascript

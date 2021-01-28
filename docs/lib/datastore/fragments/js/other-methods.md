@@ -3,7 +3,7 @@
 To clear local data from DataStore, use the `clear` method:
 
 ```js
-import { DataStore } from '@aws-amplify/datastore';
+import { DataStore } from 'aws-amplify';
 
 await DataStore.clear();
 ```
@@ -19,7 +19,7 @@ If your app is has authentication implemented, it is recommended to call `DataSt
 To manually start the sync process, use the `start` method:
 
 ```js
-import { DataStore } from '@aws-amplify/datastore';
+import { DataStore } from 'aws-amplify';
 
 await DataStore.start();
 ```

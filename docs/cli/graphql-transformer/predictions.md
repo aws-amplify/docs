@@ -64,8 +64,7 @@ query SpeakTranslatedImageText($input: SpeakTranslatedImageTextInput!) {
 A code example of this using the JS Library:
 ```js
 import React, { useState } from 'react';
-import API, { graphqlOperation } from '@aws-amplify/api';
-import Amplify, { Storage } from 'aws-amplify';
+import Amplify, { Storage, API, graphqlOperation } from 'aws-amplify';
 import awsconfig from './aws-exports';
 import { speakTranslatedImageText } from './graphql/queries';
 
