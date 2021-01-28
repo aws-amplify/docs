@@ -86,7 +86,7 @@
         ]
       },
       "secondaryKeyAsGSI": {
-        "description": "Changes the behaviour of @key to remove the creation of an LSI.",
+        "description": "Changes the behaviour of @key directive to always create GSIs.",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "4.41.x",
@@ -94,13 +94,13 @@
         "values": [
           {
             "value": "true",
-            "description": "Will default to creating a GSI when using @key",
+            "description": "@key will always create GSIs for named keys.",
             "defaultNewProject": true,
             "defaultExistingProject": false
           },
           {
             "value": "false",
-            "description": "Will use old behavior to create a LSI when the using a primary field.",
+            "description": "@key create an LSI when the named key includes a primary field.",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }
