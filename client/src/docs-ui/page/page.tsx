@@ -254,6 +254,9 @@ export class DocsPage {
       });
       trackPageFetchException();
     }
+    if (this.pageData === undefined) {
+      trackPageFetchException();
+    }
   }
 
   showMenu = (): boolean => {

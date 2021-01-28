@@ -90,15 +90,18 @@ export const trackPageFetchException = (): void => {
   // @ts-ignore
   if (Build.isBrowser && typeof s != "undefined") {
     // @ts-ignore
+    s.linkTrackVars =
+      "prop39,prop41,prop50,prop61,prop62,eVar39,eVar41,eVar50,eVar61,eVar62,eVar69";
+    // @ts-ignore
     s.tl(true, "o", "page fetch exception");
   }
 };
 
-export const trackExternalLink = (): void => {
+export const trackExternalLink = (hrefTo: string): void => {
   // @ts-ignore
   if (Build.isBrowser && typeof s != "undefined") {
     // @ts-ignore
-    s.tl(true, "e");
+    s.tl(true, "e", hrefTo);
   }
 };
 
@@ -110,6 +113,27 @@ export const setSearchQuery = (query: string): void => {
   }
 };
 
+const triggerNoSearchResults = (query: string): void => {
+  // @ts-ignore
+  const queryBackup: string = s.eVar26;
+
+  // @ts-ignore
+  s.eVar26 = query;
+  // @ts-ignore
+  s.linkTrackVars =
+    "prop39,prop41,prop50,prop61,prop62,eVar26,eVar27,eVar39,eVar41,eVar50,eVar61,eVar62,eVar69,events";
+  // @ts-ignore
+  s.linkTrackEvents = "event2";
+  // @ts-ignore
+  s.events = "event2";
+  // @ts-ignore
+  s.tl(true, "o", "internal search");
+
+  // @ts-ignore
+  s.eVar26 = queryBackup;
+};
+
+let noResultsTimeout: NodeJS.Timeout;
 export const setSearchResultCount = (resultCount: number): void => {
   if (Build.isBrowser) {
     // @ts-ignore
@@ -118,15 +142,14 @@ export const setSearchResultCount = (resultCount: number): void => {
     s.events = resultCount === 0 ? "event1" : "event2";
 
     if (resultCount === 0) {
-      // @ts-ignore
-      s.linkTrackVars =
-        "prop39,prop41,prop50,prop61,prop62,eVar39,eVar41,eVar50,eVar61,eVar62,eVar69,events";
-      // @ts-ignore
-      s.linkTrackEvents = "event2";
-      // @ts-ignore
-      s.events = "event2";
-      // @ts-ignore
-      s.tl(true, "o", "internal search");
+      if (noResultsTimeout) {
+        clearTimeout(noResultsTimeout);
+      }
+      noResultsTimeout = setTimeout(
+        // @ts-ignore
+        triggerNoSearchResults.bind(null, s.eVar26),
+        1000,
+      );
     }
   }
 };
@@ -141,7 +164,7 @@ export const trackSearchQuery = (
   if (Build.isBrowser) {
     // @ts-ignore
     s.linkTrackVars =
-      "prop39,prop41,prop50,prop61,prop62,eVar39,eVar41,eVar50,eVar61,eVar62,eVar69,events";
+      "prop39,prop41,prop50,prop61,prop62,eVar26,eVar27,eVar39,eVar41,eVar50,eVar61,eVar62,eVar69,events";
     // @ts-ignore
     s.linkTrackEvents = "event1";
     // @ts-ignore
