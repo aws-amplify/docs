@@ -1,8 +1,6 @@
 <amplify-block-switcher>
 <amplify-block name="JavaScript">
 
-> Make sure not to return the result of `onAuthUIStateChange` within `useEffect` hook.
-
 ```jsx
 import React from 'react';
 import './App.css';
@@ -18,7 +16,7 @@ const AuthStateApp = () => {
     const [user, setUser] = React.useState();
 
     React.useEffect(() => {
-        onAuthUIStateChange((nextAuthState, authData) => {
+        return onAuthUIStateChange((nextAuthState, authData) => {
             setAuthState(nextAuthState);
             setUser(authData)
         });
@@ -54,7 +52,7 @@ const AuthStateApp: React.FunctionComponent = () => {
     const [user, setUser] = React.useState<object | undefined>();
 
     React.useEffect(() => {
-        onAuthUIStateChange((nextAuthState, authData) => {
+        return onAuthUIStateChange((nextAuthState, authData) => {
             setAuthState(nextAuthState);
             setUser(authData)
         });
