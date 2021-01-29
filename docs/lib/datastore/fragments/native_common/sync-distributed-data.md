@@ -5,10 +5,9 @@ When working with distributed data, it is important to be mindful about the stat
 
 For instance, when updating or deleting data, one has to consider that the state of the local data might be out-of-sync with the backend. This scenario can affect how conditions should be implemented.
 
+### Update and delete with predicate
 
-<inline-fragment platform="js" src="~/lib/datastore/fragments/native_common/sync-save-delete-predicate.md"></inline-fragment>
-<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/sync/19-sync-save-delete-predicate.md"></inline-fragment>
-<inline-fragment platform="android" src="~/lib/datastore/fragments/native_common/sync-save-delete-predicate.md"></inline-fragment>
+For such scenarios both the `save()` and the `delete()` APIs support an optional predicate which will be sent to the backend and executed against the remote state.
 
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/sync/20-savePredicate.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/sync/20-savePredicate.md"></inline-fragment>
