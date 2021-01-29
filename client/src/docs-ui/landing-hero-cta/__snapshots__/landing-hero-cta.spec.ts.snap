@@ -2,28 +2,28 @@
 
 exports[`docs-landing-hero-cta Render logic should render 1`] = `
 <docs-landing-hero-cta>
-  <docs-internal-link-button class="css-8k8r6" href="/start">
+  <docs-internal-link-button class="css-8k8r6" href="/start" qsps="?sc_campaign=home&amp;sc_channel=docs">
     <span slot="text">
       Get started for free
     </span>
   </docs-internal-link-button>
   <div class="css-1nsan66">
-    <docs-internal-link class="scale-up-on-hover" href="/start/q/integration/react">
+    <docs-internal-link class="scale-up-on-hover" href="/start/q/integration/react" qsps="?sc_campaign=home&amp;sc_channel=docs">
       <img alt="React Icon" class="css-16ygk4v" src="/assets/integrations/react.svg">
     </docs-internal-link>
-    <docs-internal-link class="scale-up-on-hover" href="/start/q/integration/vue">
+    <docs-internal-link class="scale-up-on-hover" href="/start/q/integration/vue" qsps="?sc_campaign=home&amp;sc_channel=docs">
       <img alt="Vue Icon" class="css-16ygk4v" src="/assets/integrations/vue.svg">
     </docs-internal-link>
-    <docs-internal-link class="scale-up-on-hover" href="/start/">
+    <docs-internal-link class="scale-up-on-hover" href="/start/" qsps="?sc_campaign=home&amp;sc_channel=docs">
       <img alt="JS Icon" class="css-16ygk4v" src="/assets/integrations/js.svg">
     </docs-internal-link>
-    <docs-internal-link class="scale-up-on-hover" href="/start/q/integration/ios">
+    <docs-internal-link class="scale-up-on-hover" href="/start/q/integration/ios" qsps="?sc_campaign=home&amp;sc_channel=docs">
       <img alt="iOS Icon" class="css-16ygk4v" src="/assets/integrations/ios.svg">
     </docs-internal-link>
-    <docs-internal-link class="scale-up-on-hover" href="/start/q/integration/android">
+    <docs-internal-link class="scale-up-on-hover" href="/start/q/integration/android" qsps="?sc_campaign=home&amp;sc_channel=docs">
       <img alt="Android Icon" class="css-16ygk4v" src="/assets/integrations/android.svg">
     </docs-internal-link>
-    <docs-internal-link class="scale-up-on-hover" href="/start/q/integration/flutter">
+    <docs-internal-link class="scale-up-on-hover" href="/start/q/integration/flutter" qsps="?sc_campaign=home&amp;sc_channel=docs">
       <img alt="Flutter Icon" class="css-16ygk4v" src="/assets/integrations/flutter.svg">
     </docs-internal-link>
   </div>
