@@ -102,7 +102,7 @@ Next, add the following dependencies to your **app** `build.gradle`:
 
 ```groovy
 dependencies {
-  implementation 'com.amplifyframework:aws-api:1.6.10'
+  implementation 'com.amplifyframework:aws-api:1.6.11'
 
   // Support for Java 8 features
   coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
@@ -135,7 +135,7 @@ If you would like your models to easily update both locally and on the server wh
 ```groovy
 buildscript {
   dependencies {
-      classpath 'com.android.tools.build:gradle:4.1.1'
+      classpath 'com.android.tools.build:gradle:4.1.2'
       classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.2'
   }
 }
