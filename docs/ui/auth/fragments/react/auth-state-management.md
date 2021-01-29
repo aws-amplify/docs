@@ -44,19 +44,19 @@ import React from 'react';
 import './App.css';
 import Amplify from 'aws-amplify';
 import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
-import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
+import { AuthState, onAuthUIStateChange, CognitoUserInterface } from '@aws-amplify/ui-components';
 import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
 
 const AuthStateApp: React.FunctionComponent = () => {
     const [authState, setAuthState] = React.useState<AuthState>();
-    const [user, setUser] = React.useState<object | undefined>();
+    const [user, setUser] = React.useState<CognitoUserInterface | undefined>();
 
     React.useEffect(() => {
         onAuthUIStateChange((nextAuthState, authData) => {
             setAuthState(nextAuthState);
-            setUser(authData)
+            setUser(authData as CognitoUserInterface)
         });
     }, []);
 
