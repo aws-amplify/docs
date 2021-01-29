@@ -121,7 +121,7 @@ const triggerNoSearchResults = (query: string): void => {
   s.eVar26 = query;
   // @ts-ignore
   s.linkTrackVars =
-    "prop39,prop41,prop50,prop61,prop62,eVar26,eVar27,eVar39,eVar41,eVar50,eVar61,eVar62,eVar69,events";
+    "prop39,prop41,prop50,prop61,prop62,eVar26,eVar39,eVar41,eVar50,eVar61,eVar62,eVar69,events";
   // @ts-ignore
   s.linkTrackEvents = "event2";
   // @ts-ignore
