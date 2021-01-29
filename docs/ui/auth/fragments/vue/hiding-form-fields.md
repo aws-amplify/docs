@@ -20,7 +20,7 @@ import { onAuthUIStateChange } from '@aws-amplify/ui-components'
 export default {
   name: 'AuthStateApp',
   created() {
-    onAuthUIStateChange((authState, authData) => {
+    this.unsubscribeAuth = onAuthUIStateChange((authState, authData) => {
       this.authState = authState;
       this.user = authData;
     })
@@ -28,16 +28,17 @@ export default {
   data() {
     return {
         user: undefined,
-        authState: undefined
+        authState: undefined,
+        unsubscribeAuth: undefined
         formFields: [
             { type: "username" },
             { type: "password" },
             { type: "email" }
-        ]
+        ],
     }
   },
   beforeUnmount() {
-    return onAuthUIStateChange;
+    this.unsubscribeAuth();
   }
 }
 ```
@@ -51,7 +52,7 @@ import { onAuthUIStateChange } from '@aws-amplify/ui-components'
 export default {
   name: 'AuthStateApp',
   created() {
-    onAuthUIStateChange((authState, authData) => {
+    this.unsubscribeAuth = onAuthUIStateChange((authState, authData) => {
       this.authState = authState;
       this.user = authData;
     })
@@ -59,7 +60,8 @@ export default {
   data() {
     return {
         user: undefined,
-        authState: undefined
+        authState: undefined,
+        unsubscribeAuth: undefined,
         formFields: [
             { type: "username" },
             { type: "password" },
@@ -68,7 +70,7 @@ export default {
     }
   },
   beforeDestroy() {
-    return onAuthUIStateChange;
+    this.unsubscribeAuth();
   }
 }
 ```

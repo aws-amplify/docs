@@ -869,7 +869,7 @@ import {onAuthUIStateChange} from "@aws-amplify/ui-components";
 export default {
   name: "AuthStateApp",
   created() {
-    onAuthUIStateChange((authState, authData) => {
+    this.unsubscribeAuth = onAuthUIStateChange((authState, authData) => {
       this.authState = authState;
       this.user = authData;
     });
@@ -878,10 +878,11 @@ export default {
     return {
       user: undefined,
       authState: undefined,
+      unsubscribeAuth: undefined
     };
   },
   beforeUnmount() {
-    return onAuthUIStateChange;
+    this.unsubscribeAuth();
   },
 };
 ```
@@ -895,7 +896,7 @@ import {onAuthUIStateChange} from "@aws-amplify/ui-components";
 export default {
   name: "AuthStateApp",
   created() {
-    onAuthUIStateChange((authState, authData) => {
+    this.unsubscribeAuth = onAuthUIStateChange((authState, authData) => {
       this.authState = authState;
       this.user = authData;
     });
@@ -904,10 +905,11 @@ export default {
     return {
       user: undefined,
       authState: undefined,
+      unsubscribeAuth: undefined
     };
   },
   beforeDestroy() {
-    return onAuthUIStateChange;
+    this.unsubscribeAuth();
   },
 };
 ```
