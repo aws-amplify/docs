@@ -212,7 +212,10 @@ export class DocsPage {
 
     try {
       const pageData = await getPage(currentRoute);
-      if (pageData) {
+      if (!pageData) {
+        trackPageFetchException();
+        this.pageData = undefined;
+      } else {
         this.pageData = pageData;
         updateDocumentHead(pageData);
         this.filterKey = getFilterKeyFromPage(pageData);
@@ -244,17 +247,12 @@ export class DocsPage {
         } else {
           this.filterKey = undefined;
         }
-      } else {
-        this.pageData = undefined;
       }
     } catch (exception) {
       track({
         type: AnalyticsEventType.PAGE_DATA_FETCH_EXCEPTION,
         attributes: {url: location.href, exception},
       });
-      trackPageFetchException();
-    }
-    if (this.pageData === undefined) {
       trackPageFetchException();
     }
   }
