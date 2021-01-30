@@ -81,6 +81,8 @@ export const trackPageVisit = (): void => {
   // @ts-ignore
   if (Build.isBrowser && typeof s != "undefined" && !firstPageOfVisit) {
     // @ts-ignore
+    s.pageURL = window.location.href;
+    // @ts-ignore
     s.t();
   }
   firstPageOfVisit = false;
