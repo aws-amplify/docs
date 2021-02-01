@@ -13,14 +13,14 @@ export class DocsLandingHeroCTA {
         <docs-internal-link-button
           class={buttonStyle}
           href="/start"
-          QSPs="?sc_campaign=home&sc_channel=docs"
+          QSPs="?sc_campaign=start&sc_channel=docs-home"
         >
           <span slot="text">Get started for free</span>
         </docs-internal-link-button>
         <div class={platformsGroupStyle}>
           <docs-internal-link
             href="/start/q/integration/react"
-            QSPs="?sc_campaign=home&sc_channel=docs"
+            QSPs="?sc_campaign=react-start&sc_channel=docs-home"
             class="scale-up-on-hover"
           >
             <img
@@ -31,7 +31,7 @@ export class DocsLandingHeroCTA {
           </docs-internal-link>
           <docs-internal-link
             href="/start/q/integration/vue"
-            QSPs="?sc_campaign=home&sc_channel=docs"
+            QSPs="?sc_campaign=vue-start&sc_channel=docs-home"
             class="scale-up-on-hover"
           >
             <img
@@ -42,7 +42,7 @@ export class DocsLandingHeroCTA {
           </docs-internal-link>
           <docs-internal-link
             href="/start/"
-            QSPs="?sc_campaign=home&sc_channel=docs"
+            QSPs="?sc_campaign=js-start&sc_channel=docs-home"
             class="scale-up-on-hover"
           >
             <img
@@ -53,7 +53,7 @@ export class DocsLandingHeroCTA {
           </docs-internal-link>
           <docs-internal-link
             href="/start/q/integration/ios"
-            QSPs="?sc_campaign=home&sc_channel=docs"
+            QSPs="?sc_campaign=ios-start&sc_channel=docs-home"
             class="scale-up-on-hover"
           >
             <img
@@ -64,7 +64,7 @@ export class DocsLandingHeroCTA {
           </docs-internal-link>
           <docs-internal-link
             href="/start/q/integration/android"
-            QSPs="?sc_campaign=home&sc_channel=docs"
+            QSPs="?sc_campaign=android-start&sc_channel=docs-home"
             class="scale-up-on-hover"
           >
             <img
@@ -75,7 +75,7 @@ export class DocsLandingHeroCTA {
           </docs-internal-link>
           <docs-internal-link
             href="/start/q/integration/flutter"
-            QSPs="?sc_campaign=home&sc_channel=docs"
+            QSPs="?sc_campaign=flutter-start&sc_channel=docs-home"
             class="scale-up-on-hover"
           >
             <img

@@ -188,6 +188,10 @@ export namespace Components {
     }
     interface DocsCard {
         /**
+          * * query string parameters to attach to the link
+         */
+        "QSPs": string;
+        /**
           * * link tag to use
          */
         "containerTag": string;
@@ -935,6 +939,10 @@ declare namespace LocalJSX {
     interface Docs404Page {
     }
     interface DocsCard {
+        /**
+          * * query string parameters to attach to the link
+         */
+        "QSPs"?: string;
         /**
           * * link tag to use
          */
