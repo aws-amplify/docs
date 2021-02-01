@@ -10,13 +10,17 @@ _App.vue_
   </div>
 </template>
 ```
+
+<amplify-block-switcher>
+<amplify-block name="Vue 3">
+
 ```js
 import { onAuthUIStateChange } from '@aws-amplify/ui-components'
 
 export default {
   name: 'AuthStateApp',
   created() {
-    onAuthUIStateChange((authState, authData) => {
+    this.unsubscribeAuth = onAuthUIStateChange((authState, authData) => {
       this.authState = authState;
       this.user = authData;
     })
@@ -24,7 +28,40 @@ export default {
   data() {
     return {
         user: undefined,
-        authState: undefined
+        authState: undefined,
+        unsubscribeAuth: undefined
+        formFields: [
+            { type: "username" },
+            { type: "password" },
+            { type: "email" }
+        ],
+    }
+  },
+  beforeUnmount() {
+    this.unsubscribeAuth();
+  }
+}
+```
+
+</amplify-block>
+<amplify-block name="Vue 2">
+
+```js
+import { onAuthUIStateChange } from '@aws-amplify/ui-components'
+
+export default {
+  name: 'AuthStateApp',
+  created() {
+    this.unsubscribeAuth = onAuthUIStateChange((authState, authData) => {
+      this.authState = authState;
+      this.user = authData;
+    })
+  },
+  data() {
+    return {
+        user: undefined,
+        authState: undefined,
+        unsubscribeAuth: undefined,
         formFields: [
             { type: "username" },
             { type: "password" },
@@ -33,7 +70,10 @@ export default {
     }
   },
   beforeDestroy() {
-    return onAuthUIStateChange;
+    this.unsubscribeAuth();
   }
 }
 ```
+
+</amplify-block>
+</amplify-block-switcher>

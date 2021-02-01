@@ -107,6 +107,34 @@ function App() {
 
 <docs-filter framework="vue">
 
+<amplify-block-switcher>
+<amplify-block name="Vue 3">
+
+```html
+<script>
+  const handleChatComplete = (event) => {
+    const {data, err} = event.detail;
+    if (data) alert("success!\n" + JSON.stringify(data));
+    if (err) alert(err);
+  };
+
+  export default {
+    name: "App",
+    mounted() {
+      const chatbotElement = this.$el.querySelector("amplify-chatbot");
+      chatbotElement.addEventListener("chatCompleted", handleChatComplete);
+    },
+    beforeUnmount() {
+      const chatbotElement = this.$el.querySelector("amplify-chatbot");
+      chatbotElement.removeEventListener("chatCompleted", handleChatComplete);
+    },
+  };
+</script>
+```
+
+</amplify-block>
+<amplify-block name="Vue 2">
+
 ```html
 <script>
   const handleChatComplete = (event) => {
@@ -128,6 +156,8 @@ function App() {
   };
 </script>
 ```
+
+</amplify-block>
 
 </docs-filter>
 

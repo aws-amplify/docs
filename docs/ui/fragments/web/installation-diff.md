@@ -23,8 +23,22 @@
 </docs-filter>
 <docs-filter framework="vue">
 
+<amplify-block-switcher>
+<amplify-block name="Vue 3">
+
+```diff
+- yarn add aws-amplify-vue
++ yarn add @aws-amplify/ui-components
+```
+
+</amplify-block>
+<amplify-block name="Vue 2">
+
 ```diff
 - yarn add aws-amplify-vue
 + yarn add @aws-amplify/ui-vue
 ```
+
+</amplify-block>
+
 </docs-filter>
