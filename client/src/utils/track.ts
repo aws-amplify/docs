@@ -118,12 +118,16 @@ export const setSearchQuery = (query: string): void => {
 const triggerNoSearchResults = (query: string): void => {
   // @ts-ignore
   const queryBackup: string = s.eVar26;
+  // @ts-ignore
+  const resultCountBackup: number = s.eVar27;
 
   // @ts-ignore
   s.eVar26 = query;
   // @ts-ignore
+  s.eVar27 = "0"; // If it's the number 0, the variable won't be sent
+  // @ts-ignore
   s.linkTrackVars =
-    "prop39,prop41,prop50,prop61,prop62,eVar26,eVar39,eVar41,eVar50,eVar61,eVar62,eVar69,events";
+    "prop39,prop41,prop50,prop61,prop62,eVar26,eVar27,eVar39,eVar41,eVar50,eVar61,eVar62,eVar69,events";
   // @ts-ignore
   s.linkTrackEvents = "event2";
   // @ts-ignore
@@ -133,6 +137,8 @@ const triggerNoSearchResults = (query: string): void => {
 
   // @ts-ignore
   s.eVar26 = queryBackup;
+  // @ts-ignore
+  s.eVar27 = resultCountBackup;
 };
 
 let noResultsTimeout: NodeJS.Timeout;

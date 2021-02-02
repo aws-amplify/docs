@@ -30,7 +30,7 @@ export class DocsChooseIntegrationAnchor {
                 <docs-card
                   key={label}
                   url={route}
-                  QSPs={`?sc_campaign=${filterValue}-start&sc_channel=choose-integration`}
+                  QSPs={`?sc_icampaign=${filterValue}-start&sc_ichannel=choose-integration`}
                 >
                   <img slot="graphic" src={graphicURI} alt={`${label} Logo`} />
                   <h4 slot="heading">{label}</h4>
@@ -54,7 +54,7 @@ export class DocsChooseIntegrationAnchor {
                 <docs-card
                   key={label}
                   url={route}
-                  QSPs={`?sc_campaign=${filterValue}-start&sc_channel=choose-integration`}
+                  QSPs={`?sc_icampaign=${filterValue}-start&sc_ichannel=choose-integration`}
                 >
                   <img slot="graphic" src={graphicURI} alt={`${label} Logo`} />
                   <h4 slot="heading">{label}</h4>
