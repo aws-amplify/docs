@@ -35,7 +35,12 @@ class _MyHomePageState extends State<MyHomePage> {
     Amplify.addPlugins([authPlugin, analyticsPlugin]);
 
     // Once Plugins are added, configure Amplify
-    await Amplify.configure(amplifyconfig);
+    // Note: Amplify can only be configured once.
+    try {
+      await Amplify.configure(amplifyconfig);
+    } on AmplifyAlreadyConfiguredException {
+      print("Amplify was already configured. Was the app restarted?");
+    }
     try {
       setState(() {
         _amplifyConfigured = true;
