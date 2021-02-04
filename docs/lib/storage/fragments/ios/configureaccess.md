@@ -2,6 +2,8 @@
 
 Create an `Options` object with the `.protected` access level to restrict access for your key.
 
+TODO: user needs to be signed in
+
 ```swift
 let dataString = "My Data"
 let data = dataString.data(using: .utf8)!
