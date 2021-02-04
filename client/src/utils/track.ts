@@ -143,7 +143,8 @@ const triggerNoSearchResults = (query: string): void => {
 
 let noResultsTimeout: NodeJS.Timeout;
 export const setSearchResultCount = (resultCount: number): void => {
-  if (Build.isBrowser) {
+  // @ts-ignore
+  if (Build.isBrowser && typeof s != "undefined") {
     // @ts-ignore
     s.eVar27 = resultCount;
     // @ts-ignore
@@ -169,7 +170,8 @@ export const trackSearchQuery = (
   _datasetNumber,
   _context,
 ): void => {
-  if (Build.isBrowser) {
+  // @ts-ignore
+  if (Build.isBrowser && typeof s != "undefined") {
     // @ts-ignore
     s.linkTrackVars =
       "prop39,prop41,prop50,prop61,prop62,eVar26,eVar27,eVar39,eVar41,eVar50,eVar61,eVar62,eVar69,events";
