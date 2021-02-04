@@ -19,7 +19,7 @@ export class AmplifyExternalLink {
         type: AnalyticsEventType.EXTERNAL_LINK_CLICK,
         attributes: {from: location.href, to: this.href},
       });
-      trackExternalLink();
+      trackExternalLink(this.href);
     }
   };
 

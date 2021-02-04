@@ -27,7 +27,11 @@ export class DocsChooseIntegrationAnchor {
                 this.page && `${this.page.route}/q/integration/${filterValue}`;
 
               return (
-                <docs-card key={label} url={route}>
+                <docs-card
+                  key={label}
+                  url={route}
+                  QSPs={`?sc_icampaign=${filterValue}-start&sc_ichannel=choose-integration`}
+                >
                   <img slot="graphic" src={graphicURI} alt={`${label} Logo`} />
                   <h4 slot="heading">{label}</h4>
                 </docs-card>
@@ -47,7 +51,11 @@ export class DocsChooseIntegrationAnchor {
                 this.page && `${this.page.route}/q/integration/${filterValue}`;
 
               return (
-                <docs-card key={label} url={route}>
+                <docs-card
+                  key={label}
+                  url={route}
+                  QSPs={`?sc_icampaign=${filterValue}-start&sc_ichannel=choose-integration`}
+                >
                   <img slot="graphic" src={graphicURI} alt={`${label} Logo`} />
                   <h4 slot="heading">{label}</h4>
                 </docs-card>
