@@ -14,6 +14,30 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
     return true
 }
 ```
+**Note:** If you are building an app that conforms to the `App` protocol, you can instead create your own `AppDelegate` and use the `UIApplicationDelegateAdaptor` property wrapper to tell SwiftUI to use your `AppDelegate class` for the application delegate.
+
+```swift
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        do {
+            try Amplify.configure()
+        } catch {
+            print("An error occurred setting up Amplify: \(error)")
+        }
+        return true
+    }
+}
+@main
+struct MyAmplifyApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
+```
 
 Build your project (`Cmd+b`), then you have successfully added the Amplify library to your project and you should be able to run the application.
 
