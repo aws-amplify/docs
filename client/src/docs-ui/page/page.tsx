@@ -295,17 +295,19 @@ export class DocsPage {
                             slot="sidebar"
                             top={this.sidebarStickyTop}
                           >
-                            <div class={sidebarHeaderStyle}>
-                              <amplify-sidebar-close-button />
-                              {this.pageData?.filterKey && (
-                                <docs-select-anchor page={this.pageData} />
-                              )}
+                            <div>
+                              <div class={sidebarHeaderStyle}>
+                                <amplify-sidebar-close-button />
+                                {this.pageData?.filterKey && (
+                                  <docs-select-anchor page={this.pageData} />
+                                )}
+                              </div>
+                              <docs-menu
+                                filterKey={this.filterKey}
+                                page={this.pageData}
+                                key={this.pageData?.productRootLink?.route}
+                              />
                             </div>
-                            <docs-menu
-                              filterKey={this.filterKey}
-                              page={this.pageData}
-                              key={this.pageData?.productRootLink?.route}
-                            />
                           </amplify-sidebar-layout-sidebar>
                         )}
                         <amplify-sidebar-layout-main
@@ -313,26 +315,28 @@ export class DocsPage {
                           class={mainStyle}
                         >
                           <amplify-toc-contents>
-                            {this.pageData && [
-                              <h1
-                                class={{
-                                  [sectionHeaderStyle]: true,
-                                  "category-heading": true,
-                                }}
-                              >
-                                {this.pageData.sectionTitle}
-                              </h1>,
-                              <h1 class="page-heading">
-                                {this.pageData.title}
-                              </h1>,
-                              createVNodesFromHyperscriptNodes(
-                                this.pageData.body,
-                              ),
-                              <docs-next-previous
-                                key={this.pageData.route}
-                                page={this.pageData}
-                              />,
-                            ]}
+                            <div>
+                              {this.pageData && [
+                                <h1
+                                  class={{
+                                    [sectionHeaderStyle]: true,
+                                    "category-heading": true,
+                                  }}
+                                >
+                                  {this.pageData.sectionTitle}
+                                </h1>,
+                                <h1 class="page-heading">
+                                  {this.pageData.title}
+                                </h1>,
+                                createVNodesFromHyperscriptNodes(
+                                  this.pageData.body,
+                                ),
+                                <docs-next-previous
+                                  key={this.pageData.route}
+                                  page={this.pageData}
+                                />,
+                              ]}
+                            </div>
                           </amplify-toc-contents>
                           <amplify-sidebar-layout-toggle
                             onClick={ensureMenuScrolledIntoView}
