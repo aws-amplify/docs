@@ -46,7 +46,7 @@ class _MyAppState extends State<MyApp> {
                 children: [
                   const Padding(padding: EdgeInsets.all(5.0)),
                   Text(
-                    _amplifyConfigured ? "configured" : "not configured"
+                    _amplifyConfigured ? 'configured' : 'not configured'
                   ),                  
                   ElevatedButton(
                     onPressed: _amplifyConfigured ? _recordEvent : null,
@@ -100,11 +100,11 @@ Now that modules are initialized, modify the *_recordEvent* method to send event
 ```dart
 // Send an event to Pinpoint
 void _recordEvent() async {
-  AnalyticsEvent event = AnalyticsEvent("test");
-  event.properties.addBoolProperty("boolKey", true);
-  event.properties.addDoubleProperty("doubleKey", 10.0);
-  event.properties.addIntProperty("intKey", 10);
-  event.properties.addStringProperty("stringKey", "stringValue");
+  AnalyticsEvent event = AnalyticsEvent('test');
+  event.properties.addBoolProperty('boolKey', true);
+  event.properties.addDoubleProperty('doubleKey', 10.0);
+  event.properties.addIntProperty('intKey', 10);
+  event.properties.addStringProperty('stringKey', 'stringValue');
   Amplify.Analytics.recordEvent(event: event);
 }
 ```

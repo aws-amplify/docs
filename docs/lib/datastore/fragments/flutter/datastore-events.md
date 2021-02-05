@@ -1,6 +1,6 @@
 ```dart
 StreamSubscription hubSubscription = Amplify.Hub.listen([HubChannel.DataStore], (hubEvent) {
-    if (hubEvent.eventName == "networkStatus") {
+    if (hubEvent.eventName == 'networkStatus') {
         setState(() {
             networkIsUp = hubEvent.payload.active;
         });

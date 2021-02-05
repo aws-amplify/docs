@@ -19,8 +19,6 @@ Add the following code to your application's root Stateful Widget, for a blank F
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  bool _amplifyConfigured = false;
-
   @override
   initState() {
     super.initState(); 
@@ -35,13 +33,11 @@ class _MyHomePageState extends State<MyHomePage> {
     Amplify.addPlugins([authPlugin, analyticsPlugin]);
 
     // Once Plugins are added, configure Amplify
-    await Amplify.configure(amplifyconfig);
     try {
-      setState(() {
-        _amplifyConfigured = true;
-      });
-    } catch (e) {
-      print(e);
+      await Amplify.configure(amplifyconfig);      
+    } on AmplifyAlreadyConfiguredException {
+      print(
+          'Amplify was already configured. Looks like app restarted on android.');
     }
 
   }
