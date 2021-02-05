@@ -14,7 +14,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
     return true
 }
 ```
-**Note:** If you are building an app that conforms to the `App` protocol, you can instead create your own `AppDelegate` and use the `UIApplicationDelegateAdaptor` property wrapper to tell SwiftUI to use your `AppDelegate class` for the application delegate.
+**Note:** If your app conforms to the `App` protocol, you can use your own `AppDelegate` class. Implement an `AppDelegate` and point Swift UI's `UIApplicationDelegateAdaptor` property wrapper to it, as below.
 
 ```swift
 class AppDelegate: NSObject, UIApplicationDelegate {
