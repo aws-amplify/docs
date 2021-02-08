@@ -211,18 +211,30 @@ The following steps will set up your CORS Policy:
 3. Update your bucket's CORS Policy to look like:
 
 ```json
-{
-  "AllowedHeaders": [
-    "x-amz-server-side-encryption",
-    "x-amz-request-id",
-    "x-amz-id-2",
-    "ETag"
-  ],
-  "AllowedMethods": ["GET", "PUT", "POST", "HEAD", "DELETE"],
-  "AllowedOrigins": ["*"],
-  "ExposeHeaders": [],
-  "MaxAgeSeconds": 3000
-}
+[
+    {
+        "AllowedHeaders": [
+            "*"
+        ],
+        "AllowedMethods": [
+            "GET",
+            "HEAD",
+            "PUT",
+            "POST",
+            "DELETE"
+        ],
+        "AllowedOrigins": [
+            "*"
+        ],
+        "ExposeHeaders": [
+            "x-amz-server-side-encryption",
+            "x-amz-request-id",
+            "x-amz-id-2",
+            "ETag"
+        ],
+        "MaxAgeSeconds": 3000
+    }
+]
 ```
 
 <amplify-callout>
