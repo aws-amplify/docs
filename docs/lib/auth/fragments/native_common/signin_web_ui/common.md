@@ -20,3 +20,5 @@
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/signin_web_ui/30_signin.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/auth/fragments/android/signin_web_ui/30_signin.md"></inline-fragment>
 <inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/signin_web_ui/30_signin.md"></inline-fragment>
+
+<inline-fragment platform="ios" src="~/lib/auth/fragments/ios/signin_web_ui/40_private_session.md"></inline-fragment>
