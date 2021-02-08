@@ -11,7 +11,7 @@ import AmplifyPlugins
 
 <amplify-block-switcher>
 
-<amplify-block name="UIKit App Delegate">
+<amplify-block name="UIKit AppDelegate">
 
 Add to your AppDelegate's `application:didFinishLaunchingWithOptions` method
 
