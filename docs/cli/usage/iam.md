@@ -203,6 +203,7 @@ The Amplify CLI requires the below IAM policies for performing actions across al
                 "s3:HeadBucket",
                 "s3:ListAllMyBuckets",
                 "s3:ListBucket",
+                "s3:ListBucketVersions",
                 "s3:PutBucketAcl",
                 "s3:PutBucketCORS",
                 "s3:PutBucketNotification",
