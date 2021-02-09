@@ -6,7 +6,7 @@ To set up the project, we'll first create a new React app with [create-react-app
 From your projects directory, run the following commands:
 
 ```bash
-npx create-react-app react-amplified
+npx create-react-app react-amplified --use-npm
 cd react-amplified
 ```
 
