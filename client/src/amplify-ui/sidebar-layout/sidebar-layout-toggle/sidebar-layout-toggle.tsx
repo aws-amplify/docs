@@ -2,7 +2,6 @@ import {Component, Host, Prop, h} from "@stencil/core";
 import {sidebarLayoutContext} from "../sidebar-layout.context";
 import {sidebarLayoutSidebarToggleStyle} from "./sidebar-layout-toggle.style";
 import {ToggleInView} from "../sidebar-layout.types";
-import { sidebarToggleClass } from "src/docs-ui/page/page.style";
 
 @Component({tag: "amplify-sidebar-layout-toggle", shadow: false})
 export class AmplifySidebarLayoutToggle {

@@ -5,7 +5,6 @@ export const menuStyle = css`
   padding: 0 2.5rem;
   overflow-y: auto; /* for Firefox */
   overflow-y: overlay; /* for Webkit browsers */
-  margin-bottom: 6rem;
 `;
 
 export const menuItemContainerStyle = css`

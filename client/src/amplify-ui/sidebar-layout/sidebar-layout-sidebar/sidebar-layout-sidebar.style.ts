@@ -14,7 +14,7 @@ export const sidebarLayoutSidebarStyle = css`
     min-height: 100vh;
     height: 100%;
 
-    > div {
+    > div > div {
       position: sticky;
       display: flex;
       flex-direction: column;
