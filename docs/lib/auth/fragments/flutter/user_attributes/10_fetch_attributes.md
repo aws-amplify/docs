@@ -1,3 +1,9 @@
 <amplify-callout>
-This functionality has not yet been implemented for Flutter, this section will be updated once it has been added. 
+```dart
+try {
+  SignInResult res = await Amplify.Auth.fetchUserAttributes();
+} on AuthException catch (e) {
+  print(e.message);
+}
+```
 </amplify-callout>

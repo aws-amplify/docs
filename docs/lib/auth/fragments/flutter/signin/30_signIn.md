@@ -7,8 +7,8 @@ try {
   setState(() {
     isSignedIn = res.isSignedIn;
   });
-} on AuthError catch (e) {
-  print(e);
+} on AuthException catch (e) {
+  print(e.message);
 }
 ```
 

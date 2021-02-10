@@ -3,8 +3,8 @@ Sweet! You're now ready to launch sign in with web UI.
 ```dart
 try {
   SignInResult res = await Amplify.Auth.signInWithWebUI();
-} on AuthError catch (e) {
-  print(e);
+} on AuthException catch (e) {
+  print(e.message);
 }
 ```
 
@@ -13,8 +13,8 @@ You can also specify a provider with the `provider` attribute:
 ```dart
 try {
   SignInResult res = await Amplify.Auth.signInWithWebUI(provider:  AuthProvider.google);
-} on AuthError catch (e) {
-  print(e);
+} on AuthException catch (e) {
+  print(e.message);
 }
 ```
 
