@@ -33,7 +33,7 @@ class MyAmplifyApp extends StatefulWidget {
             await Amplify.configure(amplifyconfig);      
         } on AmplifyAlreadyConfiguredException {
             print(
-                'Amplify was already configured. Looks like app restarted on android.');
+                'Tried to reconfigure Amplify; this can occur when your app restarts on Android.');
         }        
     }
 }

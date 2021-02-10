@@ -37,9 +37,8 @@ class _MyHomePageState extends State<MyHomePage> {
       await Amplify.configure(amplifyconfig);      
     } on AmplifyAlreadyConfiguredException {
       print(
-          'Amplify was already configured. Looks like app restarted on android.');
+          'Tried to reconfigure Amplify; this can occur when your app restarts on Android.');
     }
-
   }
 
   // customize the rest of your Widget below as you wish...
