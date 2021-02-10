@@ -1,6 +1,6 @@
 ### Add the API plugin
 
-The cloud synchronization uses the [API category](~/lib/graphqlapi/getting-started.md) behind the scenes. Therefore the first step is to add the API plugin.
+DataStore's cloud synchronization uses the [API category](~/lib/graphqlapi/getting-started.md) behind the scenes. Therefore, the first step is to add the API plugin.
 
 Make sure you have the following plugin dependency in your `pubspec.yaml`.
 
