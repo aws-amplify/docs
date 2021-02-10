@@ -8,7 +8,7 @@ Make sure you have the following plugin dependency in your `pubspec.yaml`.
 amplify_api: '<1.0.0'
 ```
 
-Then import and add the plugin in your Amplify initialization code alongside with the previously added `AmplifyDataStore` plugin.
+Locate your Amplify initialization code, and add an `AmplifyAPI()` plugin. Your initialization code should already include an `AmplifyDataStore()` plugin from previous steps. Note the new `import` statement for API towards the top of the file.
 
 ```dart
 import 'package:amplify_flutter/amplify.dart';
