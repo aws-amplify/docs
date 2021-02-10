@@ -1,3 +1,31 @@
 ### Add the API plugin
 
-DataStore's cloud synchronization uses the API (GraphQL) category behind the scenes. We are currently building this category for Flutter. When it becomes available, you will need to add it explicitly in order to use remote data synchronization. This step is not needed in the DataStore Developer Preview.
+The cloud synchronization uses the [API category](~/lib/graphqlapi/getting-started.md) behind the scenes. Therefore the first step is to add the API plugin.
+
+Make sure you have the following plugin dependency in your `pubspec.yaml`.
+
+```yaml
+amplify_api: '<1.0.0'
+```
+
+Then import and add the plugin in your Amplify initialization code alongside with the previously added `AmplifyDataStore` plugin.
+
+```dart
+import 'package:amplify_flutter/amplify.dart';
+import 'package:amplify_datastore/amplify_datastore.dart';
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+// Add the following line
+import 'package:amplify_api/amplify_api.dart';
+
+import 'amplifyconfiguration.dart';
+import 'models/ModelProvider.dart';
+```
+
+```dart
+AmplifyDataStore datastorePlugin =
+    AmplifyDataStore(modelProvider: ModelProvider.instance);
+Amplify.addPlugin(datastorePlugin);
+// Add the following line
+Amplify.addPlugin(AmplifyAPI())
+Amplify.configure(amplifyconfig);
+```
