@@ -335,10 +335,7 @@ type Comment @model {
 
 ### Generates
 
-In order to keep connection queries fast and efficient, the GraphQL transform
-manages global secondary indexes (GSIs) on the generated tables on your behalf.
-In the future you are investigating using adjacency lists along side GSIs for
-different use cases that are connection heavy.
+In order to keep connection queries fast and efficient, the GraphQL transform manages global secondary indexes (GSIs) on the generated tables on your behalf when using @connection
 
 > **Note** After you have pushed a `@connection` directive you should not try to
 change it. If you try to change it, the DynamoDB
