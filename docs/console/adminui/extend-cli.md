@@ -3,7 +3,13 @@ title: Extend with the Amplify CLI
 description: Install the CLI without npm and use the CLI without an AWS account
 ---
 
-All backends created in the Admin UI are deployed using AWS CloudFormation. The backend infrastructure-as-code definitions can be added to your project with the Amplify Command Line Interface (CLI). Use the Amplify CLI to extend your backend with functionality such as functions, storage, predictions, and analytics. 
+All backends created in the Admin UI are deployed using AWS CloudFormation. AWS CloudFormation allows you store your backend configuration as code in your repository. This has three major benefits:
+
+1. Ability to extend a project with capabilities offered by individual services (e.g. Cognito, DynamoDB) that are not available in Amplify.
+2. Ability to easily replicate backend environments across AWS accounts and regions 
+3. Ability to easily integrate with CI/CD pipelines such as the pipeline offered in the Amplify console. 
+
+All backend infrastructure-as-code definitions can be added to your project with the Amplify Command Line Interface (CLI). Use the Amplify CLI to extend your backend with functionality such as functions, storage, predictions, and analytics. 
 
 With the launch of the Admin UI, a new CLI feature is available that enables the use of the CLI without an AWS account. This allows you to use the Amplify CLI's features without the need to configure it with AWS Identity and Access Management (IAM). Changes made in the Admin UI can be made available in the CLI by running the `amplify pull` command. Similarly, CLI changes to the data model or auth will be visible in the Admin UI. For all other categories, the Admin UI provides links to the relevant service consoles in AWS.
 
