@@ -82,15 +82,3 @@ Amplify.addPluggable(new MqttOverWSProvider({
 ```
 
 You can integrate any MQTT Over WebSocket provider with your app. Click [here](https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html#mqtt-ws) to learn more about MQTT Over WebSocket.
-
-## Using Modular Imports
-
-If you only need to use PubSub, you can do: `npm install @aws-amplify/pubsub` which will only install the PubSub module for you.
-Note: if you're using Cognito Federated Identity Pool to get AWS credentials, please also install `@aws-amplify/auth`.
-
-Then in your code, you can import the PubSub module by:
-```javascript
-import PubSub from '@aws-amplify/pubsub';
-
-PubSub.configure();
-```

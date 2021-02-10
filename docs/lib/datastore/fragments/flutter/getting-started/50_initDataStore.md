@@ -6,7 +6,7 @@ import 'codegen/ModelProvider.dart';
 // Add this in your app initialization
 AmplifyDataStore datastorePlugin =
     AmplifyDataStore(modelProvider: ModelProvider.instance);
-amplifyInstance.addPlugin(dataStorePlugins: [datastorePlugin]);
+Amplify.addPlugin(datastorePlugin);
 ```
 
 Next, finish configuring the Amplify framework by calling `configure()`.
@@ -14,16 +14,14 @@ Next, finish configuring the Amplify framework by calling `configure()`.
 Your code should look like this:
 
 ```dart
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_flutter/amplify.dart';
 import 'package:amplify_datastore/amplify_datastore.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 
 import 'amplifyconfiguration.dart';
-import 'codegen/ModelProvider.dart';
+import 'models/ModelProvider.dart';
 
 class MyAmplifyApp extends StatefulWidget {
-
-    Amplify amplifyInstance = Amplify();
 
     @override
     void initState() {
@@ -32,9 +30,9 @@ class MyAmplifyApp extends StatefulWidget {
         AmplifyDataStore datastorePlugin =
             AmplifyDataStore(modelProvider: ModelProvider.instance);
 
-        amplifyInstance.addPlugin(dataStorePlugins: [datastorePlugin]);
+        Amplify.addPlugin(datastorePlugin);
 
-        amplifyInstance.configure(amplifyConfig); 
+        Amplify.configure(amplifyConfig); 
     }
 }
 ```

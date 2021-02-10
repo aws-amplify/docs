@@ -26,7 +26,7 @@ Enter the following when prompted:
     `GraphQL`
 ? Provide API name: 
     `apiName`
-? Choose the default authorization type for the API 
+? Choose the default authorization type for the API:
     `API key`
 ? Enter a description for the API key:
     `description`
@@ -36,9 +36,7 @@ Enter the following when prompted:
     `No, I am done.`
 ? Do you have an annotated GraphQL schema? 
     `No`
-? Do you want a guided schema creation? 
-    `Yes`
-? What best describes your project: 
+? Choose a schema template:
     `Single object with fields (e.g., “Todo” with ID, name, description)`
 ? Do you want to edit the schema now? 
     `No`

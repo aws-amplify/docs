@@ -16,9 +16,7 @@
 
 - Install the [Amplify CLI](~/cli/cli.md) by running:
 
-    ```bash
-    npm install -g @aws-amplify/cli
-    ```
+    <inline-fragment src="~/fragments/cli-install-block.md"></inline-fragment>
 
 - Sign up for an AWS account
 
@@ -74,7 +72,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  amplify_core: '<1.0.0'
+  amplify_flutter: '<1.0.0'
   amplify_auth_cognito: '<1.0.0'
   amplify_analytics_pinpoint: '<1.0.0'
 ```

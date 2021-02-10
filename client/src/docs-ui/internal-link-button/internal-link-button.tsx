@@ -9,11 +9,17 @@ import {
 export class DocsInternalLinkButton {
   /*** the path to redirect to (internal only!) */
   @Prop() readonly href?: string;
+  /*** query string parameters to attach to the link */
+  @Prop() readonly QSPs: string = "";
 
   render() {
     return (
       <Host class={hostStyle}>
-        <docs-internal-link class={containerStyle} href={this.href}>
+        <docs-internal-link
+          class={containerStyle}
+          href={this.href}
+          QSPs={this.QSPs}
+        >
           <div class={graphicStyle}>
             <slot name="graphic" />
           </div>

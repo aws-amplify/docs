@@ -3,5 +3,5 @@
 To get started, first import the `DataStore` API:
 
 ```js
-import { DataStore } from '@aws-amplify/datastore';
+import { DataStore } from 'aws-amplify';
 ```

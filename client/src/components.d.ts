@@ -188,6 +188,10 @@ export namespace Components {
     }
     interface DocsCard {
         /**
+          * * query string parameters to attach to the link
+         */
+        "QSPs": string;
+        /**
           * * link tag to use
          */
         "containertag": string;
@@ -268,6 +272,10 @@ export namespace Components {
     }
     interface DocsInternalLink {
         /**
+          * * query string parameters to attach to the link
+         */
+        "QSPs": string;
+        /**
           * * class name to attach to link when active
          */
         "activeClass"?: string;
@@ -289,6 +297,10 @@ export namespace Components {
         "selectedFilters"?: SelectedFilters;
     }
     interface DocsInternalLinkButton {
+        /**
+          * * query string parameters to attach to the link
+         */
+        "QSPs": string;
         /**
           * * the path to redirect to (internal only!)
          */
@@ -928,6 +940,10 @@ declare namespace LocalJSX {
     }
     interface DocsCard {
         /**
+          * * query string parameters to attach to the link
+         */
+        "QSPs"?: string;
+        /**
           * * link tag to use
          */
         "containertag"?: string;
@@ -1008,6 +1024,10 @@ declare namespace LocalJSX {
     }
     interface DocsInternalLink {
         /**
+          * * query string parameters to attach to the link
+         */
+        "QSPs"?: string;
+        /**
           * * class name to attach to link when active
          */
         "activeClass"?: string;
@@ -1029,6 +1049,10 @@ declare namespace LocalJSX {
         "selectedFilters"?: SelectedFilters;
     }
     interface DocsInternalLinkButton {
+        /**
+          * * query string parameters to attach to the link
+         */
+        "QSPs"?: string;
         /**
           * * the path to redirect to (internal only!)
          */

@@ -17,13 +17,12 @@ amplify add api
 ```console
 ? Please select from one of the below mentioned services: `GraphQL`
 ? Provide API name: `apiName`
-? Choose the default authorization type for the API `API key`
+? Choose the default authorization type for the API: `API key`
 ? Enter a description for the API key:
 ? After how many days from now the API key should expire (1-365): `30`
 ? Do you want to configure advanced settings for the GraphQL API `No, I am done.`
 ? Do you have an annotated GraphQL schema? `No`
-? Do you want a guided schema creation? `Yes`
-? What best describes your project: `One-to-many relationship (e.g., "Blogs" with "Posts" and "Comments")`
+? Choose a schema template: `One-to-many relationship (e.g., "Blogs" with "Posts" and "Comments")`
 ? Do you want to edit the schema now? `No`
 ```
 
@@ -103,7 +102,7 @@ Next, add the following dependencies to your **app** `build.gradle`:
 
 ```groovy
 dependencies {
-  implementation 'com.amplifyframework:aws-api:1.6.9'
+  implementation 'com.amplifyframework:aws-api:1.16.11'
 
   // Support for Java 8 features
   coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
@@ -136,7 +135,7 @@ If you would like your models to easily update both locally and on the server wh
 ```groovy
 buildscript {
   dependencies {
-      classpath 'com.android.tools.build:gradle:4.1.1'
+      classpath 'com.android.tools.build:gradle:4.1.2'
       classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.2'
   }
 }

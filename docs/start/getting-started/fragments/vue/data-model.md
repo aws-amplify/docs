@@ -54,10 +54,8 @@ Select the default values which are highlighted below:
 # No
 ? Do you have an annotated GraphQL schema?
 # No
-? Do you want a guided schema creation?
-# Yes
-? What best describes your project:
-# Single object with fields
+? Choose a schema template:
+# Single object with fields (e.g., “Todo” with ID, name, description)
 ? Do you want to edit the schema now?
 # Yes
 ```
@@ -264,18 +262,4 @@ export default {
   }
 };
 </script>
-```
-
-## Using Modular Imports
-
-To reduce bundle size, you can also import only specific categories into your app when you are only using specific features, `API` for example.
-
-```bash
-npm install @aws-amplify/api # Only installs the API category
-```
-
-Import only API:
-
-```
-import API from '@aws-amplify/api';
 ```
