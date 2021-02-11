@@ -5,7 +5,7 @@ try {
   RemoveResult res = await Amplify.Storage.remove(
     key: 'ExampleKey',
   );
-} catch (e) {
-  print(e.toString());
+} on StorageException catch (e) {
+  print(e.message);
 }
 ```

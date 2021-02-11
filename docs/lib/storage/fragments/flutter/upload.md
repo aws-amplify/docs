@@ -25,8 +25,8 @@ try {
     local: local,
     options: options
   );
-} catch (e) {
-  print(e.toString());
+} on StorageException catch (e) {
+  print(e.message);
 }
 ```
 
