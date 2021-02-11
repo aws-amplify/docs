@@ -19,8 +19,6 @@ Add the following code to your application's root Stateful Widget, for a blank F
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  bool _amplifyConfigured = false;
-
   @override
   initState() {
     super.initState(); 
@@ -39,16 +37,8 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       await Amplify.configure(amplifyconfig);
     } on AmplifyAlreadyConfiguredException {
-      print("Amplify was already configured. Was the app restarted?");
+      print("Tried to reconfigure Amplify; this can occur when your app restarts on Android.");
     }
-    try {
-      setState(() {
-        _amplifyConfigured = true;
-      });
-    } catch (e) {
-      print(e);
-    }
-
   }
 
   // customize the rest of your Widget below as you wish...

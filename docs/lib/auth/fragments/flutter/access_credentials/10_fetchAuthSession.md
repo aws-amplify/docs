@@ -5,8 +5,9 @@ However, if needed you can directly access the credentials as follows:
     try {
       CognitoAuthSession res = await Amplify.Auth.fetchAuthSession(
         options: CognitoSessionOptions(getAWSCredentials: true)
-      );    } on AuthError catch (e) {
-      print(e);
+      );    
+    } on AuthException catch (e) {
+      print(e.message);
     }
   }
 ```

@@ -6,8 +6,8 @@ try {
     key: 'ExampleKey',
     local: new File('$path/download.png')
   );
-} catch (e) {
-  print(e.toString());
+} on StorageException catch (e) {
+  print(e.message);
 }
 ```
 
@@ -21,8 +21,8 @@ try {
   GetUrlResult result =
     await Amplify.Storage.getUrl(key: "myKey");
   print(result.url); 
-} catch (e) {
-  print(e.toString());
+} on StorageException catch (e) {
+  print(e.message);
 }
 
 ```

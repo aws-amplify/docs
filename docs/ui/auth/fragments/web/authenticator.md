@@ -48,23 +48,6 @@ In most cases you will need to manage the rendering and layout of the Authentica
   <inline-fragment src="~/ui/auth/fragments/vue/auth-state-management.md"></inline-fragment>
 </docs-filter>
 
-<docs-filter framework="angular">
-
-<inline-fragment src="~/ui/fragments/angular/configure-module.md"></inline-fragment>
-
-_app.component.html_
-
-```html
-<amplify-authenticator>
-  <div>
-    My App
-    <amplify-sign-out></amplify-sign-out>
-  </div>
-</amplify-authenticator>
-```
-
-</docs-filter>
-
 <docs-filter framework="ionic">
 
 <inline-fragment src="~/ui/fragments/angular/configure-module.md"></inline-fragment>

@@ -1,8 +1,8 @@
 ```dart
 try {
   Amplify.Auth.signOut()
-} on AuthError catch (e) {
-  print(e);
+} on AuthException catch (e) {
+  print(e.message);
 }
 ```
 

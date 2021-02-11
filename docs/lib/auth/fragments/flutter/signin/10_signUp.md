@@ -1,13 +1,13 @@
  ```dart
 try {
   Map<String, dynamic> userAttributes = {
-    "email": emailController.text,
-    "phone_number": phoneController.text,
+    'email': 'email@domain.com',
+    'phone_number': '+15559101234',
     // additional attributes as needed
   };
   SignUpResult res = await Amplify.Auth.signUp(
-    username: "myusername",
-    password: "mysupersecurepassword",
+    username: 'myusername',
+    password: 'mysupersecurepassword',
     options: CognitoSignUpOptions(
       userAttributes: userAttributes
     )
@@ -15,8 +15,8 @@ try {
   setState(() {
     isSignUpComplete = res.isSignUpComplete;
   });
-} on AuthError catch (e) {
-  print(e);
+} on AuthException catch (e) {
+  print(e.message);
 }
 
 ```

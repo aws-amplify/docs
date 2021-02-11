@@ -5,15 +5,15 @@ To make a GET request, first build a `RestOptions` object and then use the `Ampl
 ```dart
 try {
     RestOptions options = RestOptions(
-        path: "/todo"
+        path: '/todo'
     );
     RestOperation restOperation = Amplify.API.get(
         restOptions: options
     );
     RestResponse response = await restOperation.response;
-    print("GET call succeeded");
-} catch(error) {
-    print("GET call failed: $error");
+    print('GET call succeeded');
+} on ApiException catch (e) {
+    print('GET call failed: $e');
 }
 ```
 
@@ -58,18 +58,18 @@ Then you can use query parameters in your path as follows:
 ```dart
 try {
     RestOptions options = RestOptions(
-        path: "/todo",
+        path: '/todo',
         queryParameters: {
-            "q" : "test"
+            'q' : 'test'
         }
     );
     RestOperation restOperation = Amplify.API.get(
         restOptions: options
     );
     RestResponse response = await restOperation.response;
-    print("GET call succeeded"); 
+    print('GET call succeeded'); 
     print(new String.fromCharCodes(response.data));
-} catch(error) {
-    print("GET call failed: $error");
-}
+} on ApiException catch (e) {
+    print('GET call failed: $e');
+} 
 ```

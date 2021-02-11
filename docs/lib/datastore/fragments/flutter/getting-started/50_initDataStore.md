@@ -19,7 +19,7 @@ import 'package:amplify_datastore/amplify_datastore.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 
 import 'amplifyconfiguration.dart';
-import 'codegen/ModelProvider.dart';
+import 'models/ModelProvider.dart';
 
 class MyAmplifyApp extends StatefulWidget {
 

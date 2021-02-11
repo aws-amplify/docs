@@ -3,7 +3,7 @@ try {
   Amplify.Auth.signOut(
     globalSignOut: true
   );
-} on AuthError catch (e) {
-  print(e);
+} on AuthException catch (e) {
+  print(e.message);
 }
 ```
