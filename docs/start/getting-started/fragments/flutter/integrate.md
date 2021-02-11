@@ -77,7 +77,12 @@ void _configureAmplify() async {
   Amplify.addPlugin(AmplifyAuthCognito());
 
   // Once Plugins are added, configure Amplify
-  await Amplify.configure(amplifyconfig);
+  // Note: Amplify can only be configured once.
+  try {
+    await Amplify.configure(amplifyconfig);
+  } on AmplifyAlreadyConfiguredException {
+    print("Amplify was already configured. Was the app restarted?");
+  }
   try {
     setState(() {
       _amplifyConfigured = true;

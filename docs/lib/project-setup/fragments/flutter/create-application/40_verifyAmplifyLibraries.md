@@ -33,11 +33,11 @@ class _MyHomePageState extends State<MyHomePage> {
     Amplify.addPlugins([authPlugin, analyticsPlugin]);
 
     // Once Plugins are added, configure Amplify
+    // Note: Amplify can only be configured once.
     try {
-      await Amplify.configure(amplifyconfig);      
+      await Amplify.configure(amplifyconfig);
     } on AmplifyAlreadyConfiguredException {
-      print(
-          'Tried to reconfigure Amplify; this can occur when your app restarts on Android.');
+      print("Tried to reconfigure Amplify; this can occur when your app restarts on Android.");
     }
   }
 
