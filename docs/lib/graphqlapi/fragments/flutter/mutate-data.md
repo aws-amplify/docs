@@ -15,16 +15,16 @@ try {
 
     var operation = Amplify.API.mutate(
         request: GraphQLRequest<String>(document: graphQLDocument, variables: {
-      "name": "my first todo",
-      "description": "todo description",
+      'name': 'my first todo',
+      'description': 'todo description',
     }));
 
     var response = await operation.response;
     var data = response.data;
     
     print('Mutation result: ' + data);
-} catch(e) {
-    print(e);
+} on ApiException catch (e) {
+  print('Mutation failed: $e');
 }
 ```
 

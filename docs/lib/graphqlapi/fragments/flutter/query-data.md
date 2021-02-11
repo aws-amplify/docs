@@ -15,14 +15,14 @@ try {
     var operation = Amplify.API.query(
         request: GraphQLRequest<String>(
             document: graphQLDocument,
-            variables: {"id": "8e0dd2fc-2f4a-4dc4-b47f-2052eda10775"}));
+            variables: {'id': '8e0dd2fc-2f4a-4dc4-b47f-2052eda10775'}));
 
     var response = await operation.response;
     var data = response.data;
 
     print('Query result: ' + data);
-} catch(e) {
-    print(e);
+} on ApiException catch (e) {
+    print('Query failed: $e');
 }
 ```
 
@@ -52,7 +52,7 @@ try {
     var data = response.data;
 
     print('Query result: ' + data);
-} catch(e) {
-    print(e);
+} on ApiException catch (e) {
+    print('Query failed: $e');
 }
 ```
