@@ -107,24 +107,3 @@ export const tocStyle = css`
     }
   }
 `;
-
-export const sidebarToggleClass = css`
-  width: 3rem;
-  height: 3rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .ex-graphic {
-    display: none;
-  }
-
-  &.in-view {
-    .burger-graphic {
-      display: none;
-    }
-    .ex-graphic {
-      display: initial;
-    }
-  }
-`;

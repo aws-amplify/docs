@@ -3,7 +3,6 @@ import {
   sidebarLayoutStyle,
   pageStyle,
   tocStyle,
-  sidebarToggleClass,
   mainStyle,
   sectionHeaderStyle,
   sidebarHeaderStyle,
@@ -342,10 +341,7 @@ export class DocsPage {
                           <amplify-sidebar-layout-toggle
                             onClick={ensureMenuScrolledIntoView}
                             in-view-class="in-view"
-                            class={{
-                              "three-dee-effect": true,
-                              [sidebarToggleClass]: true,
-                            }}
+                            class="three-dee-effect"
                           >
                             <img
                               class="burger-graphic"
