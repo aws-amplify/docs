@@ -1,0 +1,1 @@
+Signin flow is complete when you get `done` and the user is successfully authenticated into the app.
