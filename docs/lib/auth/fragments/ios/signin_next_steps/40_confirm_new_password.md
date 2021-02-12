@@ -1,4 +1,4 @@
-If you receive `confirmSignInWithNewPassword`, the next step is to provide a new password for the user. You should ask the user for a new passowrd and invoke `confirmSignIn` api with the new password:
+If you receive `confirmSignInWithNewPassword`, the next step is to provide a new password for the user. You should ask the user for a new password and invoke `confirmSignIn` api with the new password:
 
 <amplify-block-switcher>
 
