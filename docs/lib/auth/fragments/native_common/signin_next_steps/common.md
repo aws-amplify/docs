@@ -1,4 +1,4 @@
-Amplify Auth signin flows can be multi step process based on the configuration that you provided when the category was created. In this case you might need to call different apis to successfully authenticate the user into your app. To identify the next step to follow during a signin flow you can inspect the nextStep parameter in the signin result.
+After a user has finished signup, they can proceed to sign in. Amplify Auth signin flows can be multi step processes. The required steps are determined by the configuration you provided when you ran `amplifiy add auth`. Depending on the configuration, you may need to call various APIs to finish authenticating a user's signin attempt. To identify the next step in a signin flow, inspect the `nextStep` parameter in the signin result.
 
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/signin_next_steps/10_signin.md"></inline-fragment>
 
@@ -25,4 +25,3 @@ Amplify Auth signin flows can be multi step process based on the configuration t
 ### Done
 
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/signin_next_steps/70_done.md"></inline-fragment>
-
