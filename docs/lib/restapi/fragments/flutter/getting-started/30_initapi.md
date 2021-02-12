@@ -13,9 +13,18 @@ class MyAmplifyApp extends StatefulWidget {
     @override
     void initState() {
         super.initState();
+        _configureAmplify();
+    }
 
+    void _configureAmplify() async {
+        // Add the following line to add API plugin to your app
         Amplify.addPlugin(AmplifyAPI());
-        Amplify.configure(amplifyconfig);
+
+        try {
+            await Amplify.configure(amplifyconfig);
+        } on AmplifyAlreadyConfiguredException {
+            print("Tried to reconfigure Amplify; this can occur when your app restarts on Android.");
+        }
     }
 }
 ```
