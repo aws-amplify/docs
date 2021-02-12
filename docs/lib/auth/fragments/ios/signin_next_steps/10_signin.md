@@ -1,5 +1,5 @@
 
-The signin apis if it succeeds you will get back an associated value of type `AuthSignInResult`, and you can access the next step through the property `nextStep` of `AuthSignInResult`. 
+When called successfully, the signin APIs will return an `AuthSignInResult`. Inspect the `nextStep` property in the result to see if additional signin steps are required.
 
 ```swift
 func signIn(username: String, password: String) {
