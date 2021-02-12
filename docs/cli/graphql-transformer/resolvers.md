@@ -324,10 +324,10 @@ The next time you run `amplify push`, an Amazon Elasticsearch domain will be cre
 * Add the relevant location and search fields to the schema.
 
 ```graphql
-type Comment  @model {
+type Comment @model {
   id: ID!
   content: String
-  todoID: ID!
+  todo: Todo @connection(name: "TodoComments")
 }
 type Location {
   lat: Float
