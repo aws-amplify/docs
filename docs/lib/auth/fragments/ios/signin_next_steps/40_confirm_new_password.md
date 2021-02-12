@@ -1,4 +1,4 @@
-If you receive `confirmSignInWithNewPassword`, the next step is to provide a new password for the user. You should ask the user for a new password and invoke `confirmSignIn` api with the new password:
+If the next step is `confirmSignInWithNewPassword`, Amplify Auth requires a new password for the user before they can proceed. Prompt the user for a new password and pass it to the `confirmSignIn` API.
 
 <amplify-block-switcher>
 
