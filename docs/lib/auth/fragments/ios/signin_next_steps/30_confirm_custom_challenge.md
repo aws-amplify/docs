@@ -1,4 +1,4 @@
-If you receive `confirmSignInWithCustomChallenge`, the next step is to verify the user through custom authentication challenge. The challenge is based on the lambda trigger you have setup for a [custom sign in flow](~/lib/auth/signin_with_custom_flow.md). You should get the custom challenge answer from the user and invoke the `confirmSignIn` api with the custom challenge answer
+If the next step is `confirmSignInWithCustomChallenge`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the Lambda trigger you setup when you configured a [custom sign in flow](~/lib/auth/signin_with_custom_flow.md). To complete this step, you should prompt the user for the custom challenge answer, and pass the answer to the `confirmSignIn` API.
 
 <amplify-block-switcher>
 
