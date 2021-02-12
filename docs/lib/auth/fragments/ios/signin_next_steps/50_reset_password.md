@@ -5,11 +5,12 @@ If you receive `resetPassword`, authentication flow could not proceed without re
 <amplify-block name="Listener (iOS 11+)">
 
 ```swift
-func resetPassword() {
-    Amplify.Auth.resetPassword(for: "<user name>") { result in
+func resetPassword(username: String) {
+    Amplify.Auth.resetPassword(for: username) { result in
         switch result {
         case .success(let resetPasswordResult):
-            print("Reset password succeeded. Next step: \(resetPasswordResult.nextStep)")
+            print("Reset password succeeded."
+            print("Next step: \(resetPasswordResult.nextStep)")
         case .failure(let error):
             print("Reset password  failed \(error)")
         }
@@ -22,8 +23,8 @@ func resetPassword() {
 <amplify-block name="Combine (iOS 13+)">
 
 ```swift
-func resetPassword() -> AnyCancellable {
-    Amplify.Auth.resetPassword(for: "<user name>")
+func resetPassword(username: String) -> AnyCancellable {
+    Amplify.Auth.resetPassword(for: username)
         .resultPublisher
         .sink {
             if case let .failure(authError) = $0 {
@@ -31,7 +32,8 @@ func resetPassword() -> AnyCancellable {
             }
         }
         receiveValue: { resetPasswordResult in
-            print("Reset password succeeded. Next step: \(resetPasswordResult.nextStep)")
+            print("Reset password succeeded."
+            print("Next step: \(resetPasswordResult.nextStep)")
         }
 }
 ```

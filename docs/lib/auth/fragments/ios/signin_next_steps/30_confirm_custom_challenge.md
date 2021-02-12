@@ -5,11 +5,19 @@ If the next step is `confirmSignInWithCustomChallenge`, Amplify Auth is awaiting
 <amplify-block name="Listener (iOS 11+)">
 
 ```swift
-func confirmSignIn() {
-    Amplify.Auth.confirmSignIn(challengeResponse: "<custom challenge answer>") { result in
+func confirmSignIn(challengeAnswerFromUser: String) {
+    Amplify.Auth.confirmSignIn(challengeResponse: challengeAnswerFromUser) { result in
         switch result {
         case .success(let signInResult):
-            print("Confirm sign in succeeded. Next step: \(signInResult.nextStep)")
+            if signInResult.isSignedIn {
+                print("Confirm sign in succeeded. The user is signed in.")
+            } else {
+                print("Confirm sign in succeeded.")
+                print("Next step: \(signInResult.nextStep)")
+                // Switch on the next step to take appropriate actions. 
+                // If `signInResult.isSignedIn` is true, the next step 
+                // is 'done', and the user is now signed in.
+            }
         case .failure(let error):
             print("Confirm sign in failed \(error)")
         }
@@ -22,8 +30,8 @@ func confirmSignIn() {
 <amplify-block name="Combine (iOS 13+)">
 
 ```swift
-func confirmSignIn() -> AnyCancellable {
-    Amplify.Auth.confirmSignIn(challengeResponse: "<custom challenge answer>")
+func confirmSignIn(challengeAnswerFromUser: String) -> AnyCancellable {
+    Amplify.Auth.confirmSignIn(challengeResponse: challengeAnswerFromUser)
         .resultPublisher
         .sink {
             if case let .failure(authError) = $0 {
@@ -31,7 +39,15 @@ func confirmSignIn() -> AnyCancellable {
             }
         }
         receiveValue: { signInResult in
-            print("Confirm sign in succeeded. Next step: \(signInResult.nextStep)")
+            if signInResult.isSignedIn {
+                print("Confirm sign in succeeded. The user is signed in.")
+            } else {
+                print("Confirm sign in succeeded.")
+                print("Next step: \(signInResult.nextStep)")
+                // Switch on the next step to take appropriate actions. 
+                // If `signInResult.isSignedIn` is true, the next step 
+                // is 'done', and the user is now signed in.
+            }
         }
 }
 ```

@@ -1,4 +1,4 @@
-If you receive `confirmSignUp`, authentication flow could not proceed without confirming the user as part of signup. The next step is to invoke `confirmSignUp` api and follow the confirm signup flow.
+If you receive `confirmSignUp` as a next step, sign up could not proceed without confirming user information such as email or phone number. The next step is to invoke the `confirmSignUp` API and follow the confirm signup flow.
 
 <amplify-block-switcher>
 

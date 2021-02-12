@@ -7,11 +7,19 @@ Note: the signin result also includes an `AuthCodeDeliveryDetails` member. It in
 <amplify-block name="Listener (iOS 11+)">
 
 ```swift
-func confirmSignIn() {
-    Amplify.Auth.confirmSignIn(challengeResponse: "<confirmation code received via SMS>") { result in
+func confirmSignIn(confirmationCodeFromUser: String) {
+    Amplify.Auth.confirmSignIn(challengeResponse: confirmationCodeFromUser) { result in
         switch result {
         case .success(let signInResult):
-            print("Confirm sign in succeeded. Next step: \(signInResult.nextStep)")
+            if signInResult.isSignedIn {
+                print("Confirm sign in succeeded. The user is signed in.")
+            } else {
+                print("Confirm sign in succeeded.")
+                print("Next step: \(signInResult.nextStep)")
+                // Switch on the next step to take appropriate actions. 
+                // If `signInResult.isSignedIn` is true, the next step 
+                // is 'done', and the user is now signed in.
+            }
         case .failure(let error):
             print("Confirm sign in failed \(error)")
         }
@@ -24,8 +32,8 @@ func confirmSignIn() {
 <amplify-block name="Combine (iOS 13+)">
 
 ```swift
-func confirmSignIn() -> AnyCancellable {
-    Amplify.Auth.confirmSignIn(challengeResponse: "<confirmation code received via SMS>")
+func confirmSignIn(confirmationCodeFromUser: String) -> AnyCancellable {
+    Amplify.Auth.confirmSignIn(challengeResponse: confirmationCodeFromUser)
         .resultPublisher
         .sink {
             if case let .failure(authError) = $0 {
@@ -33,7 +41,15 @@ func confirmSignIn() -> AnyCancellable {
             }
         }
         receiveValue: { signInResult in
-            print("Confirm sign in succeeded. Next step: \(signInResult.nextStep)")
+            if signInResult.isSignedIn {
+                print("Confirm sign in succeeded. The user is signed in.")
+            } else {
+                print("Confirm sign in succeeded.")
+                print("Next step: \(signInResult.nextStep)")
+                // Switch on the next step to take appropriate actions. 
+                // If `signInResult.isSignedIn` is true, the next step 
+                // is 'done', and the user is now signed in.
+            }
         }
 }
 ```
