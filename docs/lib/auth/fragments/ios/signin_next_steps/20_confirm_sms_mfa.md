@@ -1,4 +1,6 @@
-If you get `confirmSignInWithSMSMFACode`, the next step is to verify the user through SMS multi-factor authentication. `AuthCodeDeliveryDetails` will contain information regarding where the code has been send. You should ask the user to provide the code that they received via SMS and invoke the `confirmSignIn` api with the SMS code:
+If the next step is `confirmSignInWithSMSMFACode`, Amplify Auth has sent the user a random code over SMS, and is waiting to find out if the user successfully received it. To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, your implementation must pass the value to Amplify Auth's `confirmSignIn` API.
+
+Note: the signin result also includes an `AuthCodeDeliveryDetails` member. It includes additional information about the code delivery such as the partial phone number of the SMS recipient.
 
 <amplify-block-switcher>
 
