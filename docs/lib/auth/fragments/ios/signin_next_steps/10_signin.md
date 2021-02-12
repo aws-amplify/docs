@@ -55,4 +55,4 @@ func signIn(username: String, password: String) {
 }
 ```
 
-The next step property is an enum of type `AuthSignInStep`, based on the value you can perform the following steps:
+The `nextStep` property is of enum type `AuthSignInStep`. Depending on its value, your code should take one of the following actions:
