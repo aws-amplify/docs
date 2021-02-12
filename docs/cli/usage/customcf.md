@@ -105,7 +105,7 @@ Place one parameter in `parameters.json` named `authmycognitoresourceUserPoolId`
   // We have defined all of these in the `backend-config.json` file above
   "authmycognitoresourceUserPoolId": {
     "Fn::GetAtt": [
-      // check `amplify status` to find resource name in the category auth
+      // Reference the auth resource with this format <category><resource-name>
       "authmycognitoresource",  
       "Outputs.UserPoolId"
     ]
