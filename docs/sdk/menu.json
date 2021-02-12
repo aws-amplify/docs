@@ -6,6 +6,7 @@
         "push-notifications",
         "pubsub",
         "storage",
-        "configuration"
+        "configuration",
+        "info"
     ]
 }
