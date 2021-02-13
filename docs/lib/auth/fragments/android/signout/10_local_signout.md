@@ -12,10 +12,12 @@ Amplify.Auth.signOut(
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.Auth.signOut(
-    { Log.i("AuthQuickstart", "Signed out successfully") },
-    { error -> Log.e("AuthQuickstart", error.toString()) }
-)
+try {
+    Amplify.Auth.signOut()
+    Log.i("AuthQuickstart", "Signed out successfully")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign out failed", error)
+}
 ```
 
 </amplify-block>

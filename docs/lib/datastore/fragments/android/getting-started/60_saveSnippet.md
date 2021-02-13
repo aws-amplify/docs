@@ -20,10 +20,12 @@ val post = Post.builder()
     .title("Create an Amplify DataStore app")
     .build()
 
-Amplify.DataStore.save(post,
-    { Log.i("MyAmplifyApp", "Saved a new post successfully") },
-    { Log.e("MyAmplifyApp", "Error saving post", it) }
-)
+try {
+    Amplify.DataStore.save(post)
+    Log.i("MyAmplifyApp", "Saved a new post successfully") 
+} catch (error: DataStoreException) {
+    Log.e("MyAmplifyApp", "Error saving post", error) 
+}
 ```
 
 </amplify-block>

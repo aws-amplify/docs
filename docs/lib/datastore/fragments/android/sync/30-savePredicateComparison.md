@@ -23,10 +23,11 @@ Amplify.DataStore.save(post, Post.TITLE.beginsWith("[Amplify]"),
 ```kotlin
 // Tests only against the local state
 if (post.title.starts("[Amplify]")) {
-    Amplify.DataStore.save(post,
-        { /* handle result */ },
-        { /* handle failure */ }
-    )
+    try {
+        Amplify.DataStore.save(post)
+    } catch (error: DataStoreException) {
+        // handle error
+    }
 }
 
 // Only applies the update if the data in the remote backend satisfies the criteria

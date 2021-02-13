@@ -17,16 +17,10 @@ Amplify.DataStore.query(Comment.class, Post.STATUS.eq(PostStatus.ACTIVE),
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.DataStore.query(Comment::class.java, Where.matches(Post.STATUS.eq(PostStatus.ACTIVE)),
-    {
-        while (it.hasNext()) {
-            val comment: Comment = it.next()
-            val content: String = comment.content
-            Log.i("MyAmplifyApp", "Content: $content")
-        }
-    },
-    { Log.e("MyAmplifyApp", "Query failed.", it) }
-)
+Amplify.DataStore
+    .query(Comment::class, Where.matches(Post.STATUS.eq(PostStatus.ACTIVE)))
+    .catch { Log.e("MyAmplifyApp", "Query failed", it) }
+    .collect { Log.i("MyAmplifyApp", "Content: ${it.content}") }
 ```
 
 </amplify-block>

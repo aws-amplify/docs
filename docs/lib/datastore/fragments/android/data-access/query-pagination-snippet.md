@@ -18,15 +18,13 @@ Amplify.DataStore.query(Post.class,
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.DataStore.query(Post::class.java,
-    Where.matchesAll().paginated(Page.startingAt(0).withLimit(100)),
-    {
-        while (it.hasNext()) {
-            Log.i("MyAmplifyApp", "Title: ${it.next().title}")
-        }
-    },
-    { Log.e("MyAmplifyApp", "Query failed.", it) }
-)
+Amplify.DataStore
+    .query(Post::class,
+        Where.matchesAll()
+            .paginated(Page.startingAt(0).withLimit(100))
+    )
+    .catch { Log.e("MyAmplifyApp", "Query failed", it) }
+    .collect { Log.i("MyAmplifyApp", "Title: ${it.title}") }
 ```
 
 </amplify-block>

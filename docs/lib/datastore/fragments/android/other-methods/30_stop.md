@@ -12,10 +12,12 @@ Amplify.DataStore.stop(
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.DataStore.stop(
-    { Log.i("MyAmplifyApp", "DataStore stopped") },
-    { Log.e("MyAmplifyApp", "Error stopping DataStore", it) }
-)
+try {
+    Amplify.DataStore.stop()
+    Log.i("MyAmplifyApp", "DataStore stopped")
+} catch (error: DataStoreException) {
+    Log.e("MyAmplifyApp", "Error stopping DataStore", error)
+}
 ```
 
 </amplify-block>

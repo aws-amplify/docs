@@ -14,14 +14,16 @@ Amplify.Auth.signUp(
 </amplify-block>
 <amplify-block name="Kotlin">
 
- ```kotlin
-Amplify.Auth.signUp(
-        "username",
-        "Password123",
-        AuthSignUpOptions.builder().userAttribute(AuthUserAttributeKey.email(), "my@email.com").build(),
-        { result -> Log.i("AuthQuickStart", "Result: $result") },
-        { error -> Log.e("AuthQuickStart", "Sign up failed", error) }
-)
+```kotlin
+val options = AuthSignUpOptions.builder()
+    .userAttribute(AuthUserAttributeKey.email(), "my@email.com")
+    .build()
+try {
+    val result = Amplify.Auth.signUp("username", "Password123", options)
+    Log.i("AuthQuickStart", "Result: $result") 
+} catch (error: AuthException) {
+    Log.e("AuthQuickStart", "Sign up failed", error)
+}
 ```
 
 </amplify-block>

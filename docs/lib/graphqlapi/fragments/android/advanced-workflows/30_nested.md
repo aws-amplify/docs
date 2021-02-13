@@ -72,10 +72,12 @@ Amplify.API.query(getPostWithCommentsRequest("[TODO_ID]"),
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.API.query(getPostWithCommentsRequest("[TODO_ID]"),
-        { response: GraphQLResponse<Todo> -> Log.d("MyAmplifyApp", "response$response") },
-        { error: ApiException -> Log.e("MyAmplifyApp", "error$error") })
-
+try {
+    val response = Amplify.API.query(getPostWithCommentsRequest("[TODO_ID]"))
+    Log.d("MyAmplifyApp", "Query response = $response")
+} catch (error: ApiException) {
+    Log.e("MyAmplifyApp", "Query error", error) 
+}
 ```
 
 </amplify-block>

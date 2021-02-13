@@ -21,15 +21,19 @@ Amplify.API.put(options,
 <amplify-block name="Kotlin">
 
 ```kotlin
-val options = RestOptions.builder()
+val request = RestOptions.builder()
     .addPath("/todo/1")
-    .addBody("{\"name\":\"Mow the lawn\"}".toByteArray())
+    .addBody(JSONObject()
+        .put("name", "Mow the lawn")
+        .toString()
+        .toByteArray())
     .build()
-
-Amplify.API.put(options,
-    { Log.i("MyAmplifyApp", "PUT succeeded: $it") },
-    { Log.e("MyAmplifyApp", "PUT failed.", it) }
-)
+try {
+    val response = Amplify.API.put(request)
+    Log.i("MyAmplifyApp", "PUT succeeded: $response")
+} catch (error: ApiException) {
+    Log.e("MyAmplifyApp", "PUT failed", it)
+}
 ```
 
 </amplify-block>

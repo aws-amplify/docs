@@ -14,12 +14,17 @@ Amplify.Auth.confirmSignUp(
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.Auth.confirmSignUp(
-    "username",
-    "the code you received via email",
-    { result -> Log.i("AuthQuickstart", if (result.isSignUpComplete) "Confirm signUp succeeded" else "Confirm sign up not complete") },
-    { error -> Log.e("AuthQuickstart", error.toString()) }
-)
+try {
+    val code = "code you received via email"
+    val result = Amplify.Auth.confirmSignUp("username", code)
+    if (result.isSignUpComplete) {
+        Log.i("AuthQuickstart", "Signup confirmed")
+    } else {
+        Log.i("AuthQuickstart", "Signup confirmation not yet complete")
+    }
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Failed to confirm signup", error)
+}
 ```
 
 </amplify-block>

@@ -15,13 +15,13 @@ Amplify.Auth.signInWithSocialWebUI(
 </amplify-block>
 <amplify-block name="Kotlin">
 
- ```kotlin
-Amplify.Auth.signInWithSocialWebUI(
-        AuthProvider.facebook(),
-        this,
-        { result -> Log.i("AuthQuickstart", result.toString()) },
-        { error -> Log.e("AuthQuickstart", error.toString()) }
-)
+```kotlin
+try {
+    val result = Amplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), this)
+    Log.i("AuthQuickstart", "Sign in OK: $result")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign in failed", error)
+}
 ```
 
 </amplify-block>

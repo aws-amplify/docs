@@ -91,14 +91,15 @@ fun initialize() {
         .build()))
 }
 
-fun changeSync() {
+suspend fun changeSync() {
     rating = 1
-    Amplify.DataStore.stop({
-        Amplify.DataStore.start(
-            { Log.i("MyAmplifyApp", "DataStore started") },
-            { error: DataStoreException? -> Log.e("MyAmplifyApp", "Error starting DataStore", error) }
-        )},
-        { error: DataStoreException? -> Log.e("MyAmplifyApp", "Error stopping DataStore", error) })
+    try {
+        Amplify.DataStore.stop()
+        Amplify.DataStore.start()
+        Log.i("MyAmplifyApp", "DataStore started")
+    } catch (error: DataStoreException) {
+        Log.w("MyAmplifyApp", "Failed to restart DataStore", error)
+    }
 }
 ```
 
@@ -160,14 +161,15 @@ public void changeSync() {
 <amplify-block name="Kotlin">
 
 ```kotlin
-fun changeSync() {
+suspend fun changeSync() {
     rating = 8
-    Amplify.DataStore.clear({
-        Amplify.DataStore.start(
-            { Log.i("MyAmplifyApp", "DataStore started") },
-            { error: DataStoreException? -> Log.e("MyAmplifyApp", "Error starting DataStore", error) }
-        )},
-        { error: DataStoreException? -> Log.e("MyAmplifyApp", "Error clearing DataStore", error) })
+    try {
+        Amplify.DataStore.clear()
+        Amplify.DataStore.start()
+        Log.i("MyAmplifyApp", "DataStore started")
+    } catch (error: DataStoreException) {
+        Log.w("MyAmplifyApp", "Error clearing/starting DataStore", error)
+    }
 }
 ```
 

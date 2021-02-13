@@ -19,13 +19,13 @@ Amplify.Predictions.translateText(
 Open `MainActivity.kt` and add the following to the bottom of `onCreate()`:
 
 ```kotlin
-Amplify.Predictions.translateText(
-    "I like to eat spaghetti",
-    LanguageType.ENGLISH,
-    LanguageType.SPANISH,
-    { result -> Log.i("MyAmplifyApp", result.getTranslatedText()) },
-    { error -> Log.e("MyAmplifyApp", "Translation failed", error) }
-)
+val text = "I like to eat spaghetti"
+try {
+    val result = Amplify.Predictions.translateText(text, ENGLISH, SPANISH)
+    Log.i("MyAmplifyApp", result.translatedText) 
+} catch (error: PredictionsException) {
+    Log.e("MyAmplifyApp", "Translation failed", error) 
+}
 ```
 
 </amplify-block>

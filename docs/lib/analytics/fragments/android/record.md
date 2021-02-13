@@ -21,13 +21,13 @@ Amplify.Analytics.recordEvent(event);
 <amplify-block name="Kotlin">
 
 ```kotlin
-val event: AnalyticsEvent = AnalyticsEvent.builder()
-        .name("PasswordReset")
-        .addProperty("Channel", "SMS")
-        .addProperty("Successful", true)
-        .addProperty("ProcessDuration", 792)
-        .addProperty("UserAge", 120.3)
-        .build()
+val event = AnalyticsEvent.builder()
+    .name("PasswordReset")
+    .addProperty("Channel", "SMS")
+    .addProperty("Successful", true)
+    .addProperty("ProcessDuration", 792)
+    .addProperty("UserAge", 120.3)
+    .build()
 
 Amplify.Analytics.recordEvent(event)
 ```
@@ -99,11 +99,10 @@ Amplify.Analytics.registerGlobalProperties(
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.Analytics.registerGlobalProperties(
-        AnalyticsProperties.builder()
-                .add("AppStyle", "DarkMode")
-                .build()
-)
+val properties = AnalyticsProperties.builder()
+    .add("AppStyle", "DarkMode")
+    .build()
+Amplify.Analytics.registerGlobalProperties(properties)
 ```
 
 </amplify-block>

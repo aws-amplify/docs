@@ -15,15 +15,13 @@ Amplify.Hub.subscribe(
 </amplify-block>
 <amplify-block name="Kotlin">
 
- ```kotlin
-Amplify.Hub.subscribe(
-        HubChannel.DATASTORE,
-        { hubEvent -> DataStoreChannelEventName.NETWORK_STATUS.toString().equals(hubEvent.name) },
-        { hubEvent ->
-            val event = hubEvent.data as NetworkStatusEvent?
-            Log.i("MyAmplifyApp", "User has a network connection: " + event!!.active)
-        }
-)
+```kotlin
+Amplify.Hub.subscribe(DATASTORE)
+    { it.name == NETWORK_STATUS.toString() }
+    .collect {
+        val event = it.data as NetworkStatusEvent
+        Log.i("MyAmplifyApp", "User has a network connection: ${event.active}")
+    }
 ```
 
 </amplify-block>

@@ -14,12 +14,16 @@ Amplify.Auth.signIn(
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.Auth.signIn(
-    "username",
-    "password",
-    { result -> Log.i("AuthQuickstart", if (result.isSignInComplete) "Sign in succeeded" else "Sign in not complete") },
-    { error -> Log.e("AuthQuickstart", error.toString()) }
-)
+try {
+    val result = Amplify.Auth.signIn("username", "password")
+    if (result.isSignInComplete) {
+        Log.i("AuthQuickstart", "Sign in succeeded")
+    } else {
+        Log.e("AuthQuickstart", "Sign in not complete")
+    }
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign in failed", error)
+}
 ```
 
 </amplify-block>

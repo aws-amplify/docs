@@ -16,11 +16,14 @@ Amplify.Auth.updateUserAttribute(userEmail,
 <amplify-block name="Kotlin">
 
 ```kotlin
-val userEmail = AuthUserAttribute(AuthUserAttributeKey.email(), "email@email.com")
-Amplify.Auth.updateUserAttribute(userEmail,
-    { Log.i("AuthDemo", "Updated user attribute = $it") },
-    { Log.e("AuthDemo", "Failed to update user attribute.", $it) }
-)
+val attribute =
+    AuthUserAttribute(AuthUserAttributeKey.email(), "email@email.com")
+try {
+    val result = Amplify.Auth.updateUserAttribute(attribute)
+    Log.i("AuthDemo", "Updated user attribute = $result")
+} catch (error: AuthException) {
+    Log.e("AuthDemo", "Failed to update user attribute.", error)
+}
 ```
 
 </amplify-block>
@@ -56,11 +59,12 @@ Amplify.Auth.updateUserAttributes(
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.Auth.updateUserAttributes(
-    attributes, // attributes is a list of AuthUserAttribute
-    { Log.i("Updated user attributes = $it") },
-    { Log.e("Failed to update user attributes.", $it) }
-)
+try {
+    val result = Amplify.Auth.updateUserAttributes(attributes)
+    Log.i("Updated user attributes = $result") 
+} catch (error: AuthException) {
+    Log.e("Failed to update user attributes", error)
+}
 ```
 
 </amplify-block>

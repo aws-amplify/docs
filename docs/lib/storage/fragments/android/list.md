@@ -19,15 +19,13 @@ Amplify.Storage.list(
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.Storage.list(
-    "/",
-    { result ->
-        result.getItems().forEach { item ->
-            Log.i("MyAmplifyApp", "Item: " + item.getKey())
-        }
-    },
-    { error -> Log.e("MyAmplifyApp", "List failure", error) }
-)
+try {
+    Amplify.Storage.list("/").items.forEach {
+        Log.i("MyAmplifyApp", "Item: ${it.key}")
+    }
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "List failure", error)
+}
 ```
 
 </amplify-block>
@@ -76,20 +74,17 @@ Amplify.Storage.list(
 
 ```kotlin
 val options = StorageListOptions.builder()
-            .accessLevel(StorageAccessLevel.PROTECTED)
-            .targetIdentityId("otherUserID")
-            .build()
+    .accessLevel(StorageAccessLevel.PROTECTED)
+    .targetIdentityId("otherUserID")
+    .build()
 
-Amplify.Storage.list(
-    "/",
-    options,
-    { result ->
-        result.getItems().forEach { item ->
-            Log.i("AmplifyApplication", "Item: " + item)
-        }
-    },
-    { error -> Log.e("MyAmplifyApp", "List failure", error) }
-)
+try {
+    Amplify.Storage.list("/", options).items.forEach {
+        Log.i("AmplifyApplication", "Item: $it")
+    }
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "List failure", error)
+}
 ```
 
 </amplify-block>

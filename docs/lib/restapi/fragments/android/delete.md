@@ -18,14 +18,15 @@ Amplify.API.delete(options,
 <amplify-block name="Kotlin">
 
 ```kotlin
-val options = RestOptions.builder()
+val request = RestOptions.builder()
     .addPath("/todo/1")
     .build()
-
-Amplify.API.delete(options,
-    { Log.i("MyAmplifyApp", "DELETE succeeded: $it") },
-    { Log.e("MyAmplifyApp", "DELETE failed.", it) }
-)
+try {
+    val response = Amplify.API.delete(request)
+    Log.i("MyAmplifyApp", "DELETE succeeded: $response")
+} catch (error: ApiException) {
+    Log.e("MyAmplifyApp", "DELETE failed", error)
+}
 ```
 
 </amplify-block>
