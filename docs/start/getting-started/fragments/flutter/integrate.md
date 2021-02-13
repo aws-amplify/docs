@@ -46,7 +46,7 @@ class _MyAppState extends State<MyApp> {
                 children: [
                   const Padding(padding: EdgeInsets.all(5.0)),
                   Text(
-                    _amplifyConfigured ? "configured" : "not configured"
+                    _amplifyConfigured ? 'configured' : 'not configured'
                   ),                  
                   ElevatedButton(
                     onPressed: _amplifyConfigured ? _recordEvent : null,
@@ -77,7 +77,12 @@ void _configureAmplify() async {
   Amplify.addPlugin(AmplifyAuthCognito());
 
   // Once Plugins are added, configure Amplify
-  await Amplify.configure(amplifyconfig);
+  // Note: Amplify can only be configured once.
+  try {
+    await Amplify.configure(amplifyconfig);
+  } on AmplifyAlreadyConfiguredException {
+    print("Amplify was already configured. Was the app restarted?");
+  }
   try {
     setState(() {
       _amplifyConfigured = true;
@@ -100,11 +105,11 @@ Now that modules are initialized, modify the *_recordEvent* method to send event
 ```dart
 // Send an event to Pinpoint
 void _recordEvent() async {
-  AnalyticsEvent event = AnalyticsEvent("test");
-  event.properties.addBoolProperty("boolKey", true);
-  event.properties.addDoubleProperty("doubleKey", 10.0);
-  event.properties.addIntProperty("intKey", 10);
-  event.properties.addStringProperty("stringKey", "stringValue");
+  AnalyticsEvent event = AnalyticsEvent('test');
+  event.properties.addBoolProperty('boolKey', true);
+  event.properties.addDoubleProperty('doubleKey', 10.0);
+  event.properties.addIntProperty('intKey', 10);
+  event.properties.addStringProperty('stringKey', 'stringValue');
   Amplify.Analytics.recordEvent(event: event);
 }
 ```

@@ -20,7 +20,7 @@ try {
     var data = response.data;
     
     print('Mutation result: ' + data);
-} catch(error) {
-    print('Mutation failed: $error');
+} on ApiException catch (e) {
+    print('Mutation failed: $e');
 }
 ```

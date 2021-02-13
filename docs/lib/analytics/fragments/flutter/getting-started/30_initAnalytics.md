@@ -29,7 +29,12 @@ class MyAmplifyApp extends StatefulWidget {
 
         Amplify.addPlugins([AmplifyAuthCognito(), AmplifyAnalyticsPinpoint()]);
 
-        Amplify.configure(amplifyConfig); 
+        try {
+            await Amplify.configure(amplifyconfig);      
+        } on AmplifyAlreadyConfiguredException {
+            print(
+                'Tried to reconfigure Amplify; this can occur when your app restarts on Android.');
+        }        
     }
 }
 ```
