@@ -40,18 +40,19 @@ private void uploadFile(String key, File file) {
 <amplify-block name="Kotlin">
 
 ```kotlin
-private fun uploadFile(key: String, file: File) {
+private suspend fun uploadFile(key: String, file: File) {
     val options = StorageUploadFileOptions.builder()
         .accessLevel(StorageAccessLevel.PROTECTED)
         .build()
-    
-    Amplify.Storage.uploadFile(
-        key,
-        file,
-        options,
-        { Log.i("MyAmplifyApp", "Successfully uploaded: $key" )},
-        { error -> Log.e("MyAmplifyApp", "Upload failed", error)}
-    )
+
+    val upload = Amplify.Storage.uploadFile(key, file, options)
+
+    try {
+        upload.result()
+        Log.i("MyAmplifyApp", "Successfully uploaded: $key")
+    } catch (error: StorageException) {
+        Log.e("MyAmplifyApp", "Upload failed", error)
+    }
 }
 ```
 
@@ -107,19 +108,20 @@ private void downloadFile(File file, String key, String otherUserId) {
 <amplify-block name="Kotlin">
 
 ```kotlin
-private fun downloadFile(file: File, key: String, otherUserId: String) {
+private suspend fun downloadFile(file: File, key: String, otherUserId: String) {
     val options = StorageDownloadFileOptions.builder()
         .accessLevel(StorageAccessLevel.PROTECTED)
         .targetIdentityId(otherUserId)
         .build()
     
-    Amplify.Storage.downloadFile(
-        key,
-        file,
-        options,
-        { Log.i("MyAmplifyApp", "Successfully downloaded: $key") },
-        { error -> Log.e("MyAmplifyApp", "Download failed", error) }
-    )
+    val download = Amplify.Storage.downloadFile(key, file, options)
+
+    try {
+        download.result()
+        Log.i("MyAmplifyApp", "Successfully downloaded: $key")
+    } catch (error: StorageException) {
+        Log.e("MyAmplifyApp", "Download failed", error)
+    }
 }
 ```
 
@@ -154,18 +156,19 @@ private void uploadFile(String key, File file) {
 <amplify-block name="Kotlin">
 
 ```kotlin
-private fun uploadFile(key: String, file: File) {
+private suspend fun uploadFile(key: String, file: File) {
     val options = StorageUploadFileOptions.builder()
         .accessLevel(StorageAccessLevel.PRIVATE)
         .build()
-    
-    Amplify.Storage.uploadFile(
-        key,
-        file,
-        options,
-        { Log.i("MyAmplifyApp", "Successfully uploaded: $key") },
-        { error -> Log.e("MyAmplifyApp", "Upload failed", error)}
-    )
+
+    val upload = Amplify.Storage.uploadFile(key, file, options)
+
+    try {
+        upload.result()
+        Log.i("MyAmplifyApp", "Successfully uploaded: $key")
+    } catch (error: StorageException) {
+        Log.e("MyAmplifyApp", "Upload failed", error)
+    }
 }
 ```
 
@@ -199,18 +202,20 @@ private void downloadFile(File file, String key, String userId) {
 <amplify-block name="Kotlin">
 
 ```kotlin
-private fun downloadFile(file: File, key: String, userId: String) {
+private suspend fun downloadFile(file: File, key: String, userId: String) {
     val options = StorageDownloadFileOptions.builder()
         .accessLevel(StorageAccessLevel.PRIVATE)
         .targetIdentityId(userId)
         .build()
-    
-    Amplify.Storage.downloadFile(
-        key,
-        file,
-        options,
-        { Log.i("MyAmplifyApp", "Successfully downloaded: $key") },
-        { error -> Log.e("MyAmplifyApp", "Download failed", error) }
+
+    val download = Amplify.Storage.downloadFile(key, file, options)
+
+    try {
+        download.result()
+        Log.i("MyAmplifyApp", "Successfully downloaded: $key")
+    } catch (error: StorageException) {
+        Log.e("MyAmplifyApp", "Download failed", error)
+    }
 }
 ```
 

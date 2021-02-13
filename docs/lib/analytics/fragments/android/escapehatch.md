@@ -14,9 +14,8 @@ AnalyticsClient analyticsClient = plugin.getEscapeHatch();
 <amplify-block name="Kotlin">
 
 ```kotlin
-val plugin: AWSPinpointAnalyticsPlugin = Amplify.Analytics
-        .getPlugin("awsPinpointAnalyticsPlugin") as AWSPinpointAnalyticsPlugin
-val analyticsClient: AnalyticsClient? = plugin.getEscapeHatch()
+val plugin = Amplify.Analytics.getPlugin("awsPinpointAnalyticsPlugin")
+val analyticsClient = (plugin as AWSPinpointAnalyticsPlugin).escapeHatch
 ```
 
 </amplify-block>

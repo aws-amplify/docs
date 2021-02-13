@@ -40,16 +40,16 @@ val comment = Comment.builder()
     .content("Loving Amplify DataStore!")
     .build()
 
-Amplify.DataStore.save(post,
-    {
-        Log.i("MyAmplifyApp", "Post saved.")
-        Amplify.DataStore.save(comment,
-            { Log.i("MyAmplifyApp", "Comment saved.") },
-            { Log.e("MyAmplifyApp", "Comment not saved.", it) }
-        )
-    },
-    { Log.e("MyAmplifyApp", "Post not saved.", it) }
-)
+try {
+    Amplify.DataStore.save(post)
+    Log.i("MyAmplifyApp", "Post saved.")
+
+    Amplify.DataStore.save(comment)
+    Log.i("MyAmplifyApp", "Comment saved.")
+
+} catch (error: DataStoreException) {
+    Log.e("MyAmplifyApp", "Save failed", error)
+}
 ```
 
 </amplify-block>

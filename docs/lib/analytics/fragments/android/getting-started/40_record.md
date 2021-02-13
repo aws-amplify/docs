@@ -19,14 +19,13 @@ Amplify.Analytics.recordEvent(event);
 <amplify-block name="Kotlin">
 
 ```kotlin
-val event: AnalyticsEvent = AnalyticsEvent.builder()
-        .name("PasswordReset")
-        .addProperty("Channel", "SMS")
-        .addProperty("Successful", true)
-        .addProperty("ProcessDuration", 792)
-        .addProperty("UserAge", 120.3)
-        .build()
-
+val event = AnalyticsEvent.builder()
+    .name("PasswordReset")
+    .addProperty("Channel", "SMS")
+    .addProperty("Successful", true)
+    .addProperty("ProcessDuration", 792)
+    .addProperty("UserAge", 120.3)
+    .build()
 Amplify.Analytics.recordEvent(event)
 ```
 

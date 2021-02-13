@@ -46,26 +46,23 @@ val editor = User.builder()
     .build()
 
 val postEditor = PostEditor.builder()
-        .post(post)
-        .editor(editor)
-        .build()
+    .post(post)
+    .editor(editor)
+    .build()
 
-Amplify.DataStore.save(post,
-    {
-        Log.i("MyAmplifyApp", "Post saved.")
-        Amplify.DataStore.save(editor,
-            {
-                Log.i("MyAmplifyApp", "Editor saved.")
-                Amplify.DataStore.save(postEditor,
-                    { Log.i("MyAmplifyApp", "PostEditor saved.") },
-                    { Log.e("MyAmplifyApp", "PostEditor not saved.", it) }
-                )
-            },
-            { Log.e("MyAmplifyApp", "Editor not saved.", it) }
-        )
-    },
-    { Log.e("MyAmplifyApp", "Post not saved.", it) }
-)
+try {
+    Amplify.DataStore.save(post)
+    Log.i("MyAmplifyApp", "Post saved.")
+
+    Amplify.DataStore.save(editor)
+    Log.i("MyAmplifyApp", "Editor saved.")
+
+    Amplify.DataStore.save(postEditor)
+    Log.i("MyAmplifyApp", "PostEditor saved.")
+
+} catch (error: DataStoreException) {
+    Log.e("MyAmplifyApp", "Save failed", error)
+}
 ```
 
 </amplify-block>
@@ -101,6 +98,6 @@ Completable.mergeArray(
 
 <amplify-callout>
 
-This example illustrates the complexity of working with multiple sequential save operations. To remove the nested callbacks, consider using Amplify's [RxJava](~/lib/project-setup/rxjava.md) support.
+This example illustrates the complexity of working with multiple sequential save operations. To remove the nested callbacks, consider using Amplify's support for [RxJava](~/lib/project-setup/rxjava.md) or [Coroutines](~/lib/project-setup/coroutines.md).
 
 </amplify-callout>

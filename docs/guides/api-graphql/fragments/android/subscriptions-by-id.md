@@ -75,21 +75,25 @@ private void createSubscription() {
 <amplify-block name="Kotlin">
 
 ```kotlin
-private fun createSubscription() {
-    Amplify.API.subscribe(onCreateCommentByPostId("12345"),
-        { Log.d("MyAmplifyApp", "Established subscription. id = $it") },
-        { response: GraphQLResponse<Comment> ->
+private suspend fun createSubscription() {
+    val request = onCreateCommentByPostId("12345")
+    val subscription = Amplify.API.subscribe(request)
+
+    subscription.connectionState()
+        .filter { it is CONNECTED }
+        .collect { Log.d("MyAmplifyApp", "Established subscription.") }
+
+    subscription.subscriptionData()
+        .catch { Log.e("MyAmplifyApp", "Subscription failure:", it) }
+        .collect { response ->
             if (response.hasErrors()) {
-                Log.e("MyAmplifyApp", "Error receiving Comment: " + response.errors)
+                Log.e("MyAmplifyApp", "Error receiving Comment: ${response.errors}")
             } else if (!response.hasData()) {
                 Log.e("MyAmplifyApp", "Error receiving Comment; no data in response.")
             } else {
-                Log.d("MyAmplifyApp", "Got comment on subscription: " + response.data)
+                Log.i("MyAmplifyApp", "Got comment on subscription: ${response.data}")
             }
-        },
-        { Log.e("MyAmplifyApp", "Subscription terminated with error.", it) },
-        { Log.d("MyAmplifyApp", "Subscription has been closed successfully.") }
-    )
+        }
 }
 ```
 
@@ -97,7 +101,6 @@ private fun createSubscription() {
 <amplify-block name="RxJava">
 
 ```java
-private void createSubscription() {
 private void createSubscription() {
     RxOperations.RxSubscriptionOperation<? extends GraphQLResponse<Comment>> subscription =
         RxAmplify.API.subscribe(onCreateCommentByPostId("12345"));

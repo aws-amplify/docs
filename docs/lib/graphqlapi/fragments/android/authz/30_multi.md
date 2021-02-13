@@ -16,12 +16,13 @@ Amplify.API.mutate(
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.API.mutate(
-    "[FRIENDLY-NAME-API-WITH-API-KEY]",
-    request,
-    { Log.i("MyAmplifyApp", "Mutation successful") },
-    { Log.e("MyAmplifyApp", "Failed to mutate model.", it) }
-)
+try {
+    val apiName = "[FRIENDLY-NAME-API-WITH-API-KEY]"
+    val response = Amplify.API.mutate(request, apiName)
+    Log.i("MyAmplifyApp", "Mutation successful")
+} catch (error: ApiException) {
+    Log.e("MyAmplifyApp", "Failed to mutate model.", error)
+}
 ```
 
 </amplify-block>

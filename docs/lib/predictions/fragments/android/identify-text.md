@@ -48,18 +48,14 @@ public void detectText(Bitmap image) {
 <amplify-block name="Kotlin">
 
 ```kotlin
-fun detectText(image: Bitmap) {
-    Amplify.Predictions.identify(
-        TextFormatType.PLAIN,
-        image,
-        Consumer { result: IdentifyResult? ->
-            val identifyResult = result as IdentifyTextResult
-            Log.i("MyAmplifyApp", identifyResult.getFullText())
-        },
-        Consumer { error: PredictionsException? ->
-            Log.e("MyAmplifyApp", "Identify text failed", error)
-        }
-    )
+suspend fun detectText(image: Bitmap) {
+    try {
+        val result = Amplify.Predictions.identify(PLAIN, image)
+        val identifyResult = result as IdentifyTextResult
+        Log.i("MyAmplifyApp", identifyResult.fullText)
+    } catch (error: PredictionsResult) {
+        Log.e("MyAmplifyApp", "Identify text failed", error)
+    }
 }
 ```
 
@@ -109,18 +105,14 @@ public void detectText(Bitmap image) {
 <amplify-block name="Kotlin">
 
 ```kotlin
-fun detectText(image: Bitmap) {
-    Amplify.Predictions.identify(
-        TextFormatType.FORM,
-        image,
-        Consumer { result: IdentifyResult? ->
-            val identifyResult = result as IdentifyDocumentTextResult
-            Log.i("MyAmplifyApp", identifyResult.getFullText())
-        },
-        Consumer { error: PredictionsException? ->
-            Log.e("MyAmplifyApp", "Identify failed", error)
-        }
-    )
+suspend fun detectText(image: Bitmap) {
+    try {
+        val result = Amplify.Predictions.identify(FORM, image)
+        val identifyResult = result as IdentifyDocumentTextResult
+        Log.i("MyAmplifyApp", identifyResult.fullText)
+    } catch (error: PredictionsException) {
+        Log.e("MyAmplifyApp", "Identify failed", error)
+    }
 }
 ```
 

@@ -17,14 +17,10 @@ Amplify.DataStore.query(Post.class, Where.matches(Post.RATING.gt(4)),
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.DataStore.query(Post::class.java, Where.matches(Post.RATING.gt(4)),
-    {
-        while (it.hasNext()) {
-            Log.i("MyAmplifyApp", "Post: ${it.next()}")
-        }
-    },
-    { Log.e("MyAmplifyApp", "Query failed.", it) }
-)
+Amplify.DataStore
+    .query(Post::class, Where.matches(Post.RATING.gt(4)))
+    .catch { Log.e("MyAmplifyApp", "Query failed", it) }
+    .collect { Log.i("MyAmplifyApp", "Post: $it") }
 ```
 
 </amplify-block>

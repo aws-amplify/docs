@@ -13,11 +13,12 @@ Amplify.Auth.resetPassword(
  <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.Auth.resetPassword(
-   "username",
-   { result -> Log.i("AuthQuickstart", result.toString()) },
-   { error -> Log.e("AuthQuickstart", error.toString()) }
-)
+try {
+    val result = Amplify.Auth.resetPassword("username")
+    Log.i("AuthQuickstart", "Password reset OK: $result")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Password reset failed", error)
+}
 ```
 
  </amplify-block>

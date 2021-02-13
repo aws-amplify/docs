@@ -33,19 +33,19 @@ Amplify.Analytics.identifyUser(userId, profile);
 
 ```kotlin
 val location = UserProfile.Location.builder()
-        .latitude(47.606209)
-        .longitude(-122.332069)
-        .postalCode("98122")
-        .city("Seattle")
-        .region("WA")
-        .country("USA")
-        .build()
+    .latitude(47.606209)
+    .longitude(-122.332069)
+    .postalCode("98122")
+    .city("Seattle")
+    .region("WA")
+    .country("USA")
+    .build()
 
 val profile = UserProfile.builder()
-        .location(location)
-        .name("name")
-        .email("name@email.com")
-        .build()
+    .location(location)
+    .name("name")
+    .email("name@email.com")
+    .build()
 
 val userId = Amplify.Auth.getCurrentUser().getUserId()
 

@@ -71,11 +71,17 @@ private val mp = MediaPlayer()
 override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
-    Amplify.Predictions.convertTextToSpeech(
-        "I like to eat spaghetti!",
-        { result  -> playAudio(result.getAudioData()) },
-        { error -> Log.e("MyAmplifyApp", error.toString()) }
-    )
+    convertTextToSpeech()
+}
+
+private fun convertTextToSpeech() = activityScope.launch {
+    val text = "I like to eat spaghetti!"
+    try {
+        val result = Amplify.Predictions.convertTextToSpeech(text)
+        playAudio(result.audioData)
+    } catch (error: PredictionsException) {
+        Log.e("MyAmplifyApp", "Failed to convert text to speech", error)
+    }
 }
 
 private fun playAudio(data: InputStream) {

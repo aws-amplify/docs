@@ -23,10 +23,11 @@ val post = Post.builder()
     .rating(10)
     .status(PostStatus.PUBLISHED)
     .build()
-
-Amplify.DataStore.save(post,
-    { Log.i("MyAmplifyApp", "Saved a post.") },
-    { Log.e("MyAmplifyApp", "Save failed.", it) }
+try {
+    Amplify.DataStore.save(post)
+    Log.i("MyAmplifyApp", "Saved a post.")
+} catch (error: DataStoreException) {
+    Log.e("MyAmplifyApp", "Save failed.", error)
 )
 ```
 

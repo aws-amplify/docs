@@ -15,11 +15,12 @@ Amplify.Storage.remove(
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.Storage.remove(
-    "myUploadedFileName.txt",
-    { result -> Log.i("MyAmplifyApp", "Successfully removed: " + result.getKey()) },
-    { error -> Log.e("MyAmplifyApp", "Remove failure", error) }
-)
+try {
+    val result = Amplify.Storage.remove("myUploadedFileName.txt")
+    Log.i("MyAmplifyApp", "Successfully removed: ${result.key}")
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "Remove failure", error)
+}
 ```
 
 </amplify-block>

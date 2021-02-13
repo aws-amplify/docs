@@ -17,15 +17,16 @@ Amplify.API.post(options,
 <amplify-block name="Kotlin">
 
 ```kotlin
-val options = RestOptions.builder()
+val request = RestOptions.builder()
     .addPath("/todo")
     .addBody("{\"name\":\"Mow the lawn\"}".toByteArray())
     .build()
-
-Amplify.API.post(options,
-    { Log.i("MyAmplifyApp", "POST succeeded: $it") },
-    { Log.e("MyAmplifyApp", "POST failed.", it) }
-)
+try {
+    val response = Amplify.API.post(request)
+    Log.i("MyAmplifyApp", "POST succeeded: $response")
+} catch (error: ApiException) {
+    Log.e("MyAmplifyApp", "POST failed", error)
+}
 ```
 
 </amplify-block>

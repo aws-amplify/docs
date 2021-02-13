@@ -12,10 +12,12 @@ Amplify.DataStore.save(post, Post.TITLE.beginsWith("[Amplify]"),
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.DataStore.save(post, Post.TITLE.beginsWith("[Amplify]"),
-    { Log.i("MyAmplifyApp", "Post updated successfully!") },
-    { Log.e("MyAmplifyApp", "Could not update post, maybe the title has been changed?", it) }
-)
+try {
+    Amplify.DataStore.save(post, Post.TITLE.beginsWith("[Amplify]"))
+    Log.i("MyAmplifyApp", "Post updated successfully!") 
+} catch (error: DataStoreException) {
+    Log.e("MyAmplifyApp", "Could not update post, maybe the title has been changed?", error) 
+}
 ```
 
 </amplify-block>

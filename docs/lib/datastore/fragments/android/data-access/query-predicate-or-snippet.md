@@ -19,16 +19,13 @@ Amplify.DataStore.query(
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.DataStore.query(
-    Post::class.java,
-    Where.matches(Post.RATING.gt(4).or(Post.STATUS.eq(PostStatus.PUBLISHED))),
-    {
-        while (it.hasNext()) {
-            Log.i("MyAmplifyApp", "Post: ${it.next()}")
-        }
-    },
-    { Log.e("MyAmplifyApp", "Query failed.", it) }
-)
+Amplify.DataStore
+    .query(Post::class,
+        Where.matches(Post.RATING.gt(4)
+            .or(Post.STATUS.eq(PostStatus.PUBLISHED)))
+    )
+    .catch { Log.e("MyAmplifyApp", "Query failed", it) }
+    .collect { Log.i("MyAmplifyApp", "Post: $it") }
 ```
 
 </amplify-block>

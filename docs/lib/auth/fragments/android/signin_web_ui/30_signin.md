@@ -15,11 +15,12 @@ Amplify.Auth.signInWithWebUI(
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.Auth.signInWithWebUI(
-    this,
-    { result -> Log.i("AuthQuickStart", result.toString()) },
-    { error -> Log.e("AuthQuickStart", error.toString()) }
-)
+try {
+    val result = Amplify.Auth.signInWithWebUI(this)
+    Log.i("AuthQuickStart", "Signin OK: $result")
+} catch (error: AuthException) {
+    Log.e("AuthQuickStart", "Signin failed", error)
+}
 ```
 
 </amplify-block>

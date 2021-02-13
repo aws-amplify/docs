@@ -18,10 +18,9 @@ Amplify.DataStore.query(Post.class,
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.DataStore.query(Post::class.java,
-    { result -> Log.i("MyAmplifyApp", "Posts retrieved successfully") },
-    { error -> Log.e("MyAmplifyApp",  "Error retrieving posts", error) }
-)
+Amplify.DataStore.query(Post::class)
+    .collect { Log.i("MyAmplifyApp", "Post retrieved successfully") }
+    .catch { Log.e("MyAmplifyApp",  "Error retrieving posts", it) }
 ```
 
 </amplify-block>

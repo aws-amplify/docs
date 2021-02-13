@@ -23,21 +23,12 @@ Amplify.DataStore.query(Post.class, Where.id("123"),
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.DataStore.query(Post::class.java, Where.id("123"),
-    { matches ->
-        if (matches.hasNext()) {
-            val original = matches.next()
-            val edited = original.copyOfBuilder()
-                .title("New Title")
-                .build()
-            Amplify.DataStore.save(edited,
-                { Log.i("MyAmplifyApp", "Updated a post.") },
-                { Log.e("MyAmplifyApp", "Update failed.", it) }
-            )
-        }
-    },
-    { Log.e("MyAmplifyApp", "Query failed.", it) }
-)
+Amplify.DataStore.query(Post::class, Where.id("123"))
+    .catch { Log.e("MyAmplifyApp", "Query failed", it) }
+    .map { it.copyOfBuilder().title("New Title").build() }
+    .onEach { Amplify.DataStore.save(it) }
+    .catch { Log.e("MyAmplifyApp", "Update failed", it) }
+    .collect { Log.i("MyAmplifyApp", "Updated a post") }
 ```
 
 </amplify-block>

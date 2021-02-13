@@ -19,12 +19,13 @@ private void getTodo(String id) {
 <amplify-block name="Kotlin">
 
 ```kotlin
-fun getTodo(id: String) {
-    Amplify.API.query(
-            ModelQuery.get(Todo::class.java, id),
-            { response -> Log.i("MyAmplifyApp", response.data.name) },
-            { error -> Log.e("MyAmplifyApp", "Query failed", error) }
-    )
+suspend fun getTodo(id: String) {
+   try {
+       val response = Amplify.API.query(ModelQuery.get(Todo::class.java, id))
+       Log.i("MyAmplifyApp", response.data.name)
+   } catch (error: ApiException) {
+       Log.e("MyAmplifyApp", "Query failed", error)
+   }
 }
 ```
 
@@ -67,15 +68,14 @@ Amplify.API.query(
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.API.query(
-        ModelQuery.list(Todo::class.java, Todo.NAME.contains("first")),
-        { response ->
-            for (todo in response.data) {
-                Log.i("MyAmplifyApp", todo.name)
-            }
-        },
-        { error -> Log.e("MyAmplifyApp", "Query failure", error) }
-)
+try {
+    Amplify.API
+        .query(ModelQuery.list(Todo::class.java, Todo.NAME.contains("first")))
+        .response.data
+        .items.forEach { todo -> Log.i("MyAmplifyApp", todo.name) }
+} catch (error: ApiException) {
+    Log.e("MyAmplifyApp", "Query failure", error)
+}
 ```
 
 </amplify-block>
@@ -132,25 +132,23 @@ private static void query(GraphQLRequest<PaginatedResult<Todo>> request) {
 <amplify-block name="Kotlin">
 
 ```kotlin
-fun queryFirstPage() {
-    query(ModelQuery.list(Todo::class.java, ModelPagination.firstPage().withLimit(1_000)))
+suspend fun queryFirstPage() {
+    query(ModelQuery.list(Todo::class.java,
+        ModelPagination.firstPage().withLimit(1_000)))
 }
 
-fun query(request: GraphQLRequest<PaginatedResult<Todo>>) {
-    Amplify.API.query(
-        request,
-        { response ->
-            if (response.hasData()) {
-                for (todo in response.data) {
-                    Log.d("MyAmplifyApp", todo.name)
-                }
-                if (response.data.hasNextResult()) {
-                    query(response.data.requestForNextResult)
-                }
-            }
-        },
-        { failure -> Log.e("MyAmplifyApp", "Query failed.", failure) }
-    )
+suspend fun query(request: GraphQLRequest<PaginatedResult<Todo>>) {
+    try {
+        val response = Amplify.API.query(request).response
+        response.data.items.forEach { todo ->
+            Log.d("MyAmplifyApp", todo.name)
+        }
+        if (response.data.hasNextResult()) {
+            query(response.data.requestForNextResult)
+        }
+    } catch (error: ApiException) {
+        Log.e("MyAmplifyApp", "Query failed.", failure)
+    }
 }
 ```
 

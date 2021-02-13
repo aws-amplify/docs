@@ -13,11 +13,13 @@ Amplify.Auth.fetchAuthSession(
  </amplify-block>
  <amplify-block name="Kotlin">
 
- ```kotlin
-Amplify.Auth.fetchAuthSession(
-        { result -> Log.i("AmplifyQuickstart", result.toString()) },
-        { error -> Log.e("AmplifyQuickstart", error.toString()) }
-)
+```kotlin
+try {
+    val session = Amplify.Auth.fetchAuthSession()
+    Log.i("AmplifyQuickstart", "Auth session = $session")
+} catch (error: AuthException) {
+    Log.e("AmplifyQuickstart", "Failed to fetch auth session", error)
+}
 ```
 
  </amplify-block>

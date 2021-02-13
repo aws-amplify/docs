@@ -34,13 +34,14 @@ amplify push
 Next make a call using one of the HTTP verbs under `Amplify.API` such as a GET:
 
 ```kotlin
-val options = RestOptions.builder()
+val request = RestOptions.builder()
     .addPath("/items")
     .addQueryParameters(mapOf("lang" to "en_US"))
     .build()
-
-Amplify.API.get("myAPI", options,
-    { Log.i("ApiQuickStart", "GET succeeded: $it") },
-    { Log.e("ApiQuickStart", "GET failed.", it) }
-)
+try {
+    val response = Amplify.API.get("myAPI", request)
+    Log.i("ApiQuickStart", "GET succeeded: $response")
+} catch (error: ApiException) {
+    Log.e("ApiQuickStart", "GET failed", error)
+}
 ```
