@@ -1,6 +1,6 @@
  ```dart
 try {
-  Map<String, dynamic> userAttributes = {
+  Map<String, String> userAttributes = {
     'email': 'email@domain.com',
     'phone_number': '+15559101234',
     // additional attributes as needed
