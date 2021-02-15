@@ -2,7 +2,7 @@ Subscribe to mutations for creating real-time clients.
 
 ## Setup subscription with callbacks
 
-To listen to creation updates, you can use the following code sample:
+To listen to create mutations, you can use the following code sample:
 
 ```dart
 try {
