@@ -9,7 +9,7 @@ Make sure that the amplifyconfiguration.dart file generated in the project setup
 ```dart 
 import 'amplifyconfiguration.dart';
 
-Amplify.configure(amplifyConfig)
+await Amplify.configure(amplifyconfig)
 ```
 
 Your class will look like this:
@@ -25,16 +25,19 @@ class MyAmplifyApp extends StatefulWidget {
 
     @override
     void initState() {
-        super.initState(); 
+        super.initState();
+        _configureAmplify();
+    }
 
+    void _configureAmplify() async {
+        // Add the following line to add Pinpoint and Cognito plugin to your app
         Amplify.addPlugins([AmplifyAuthCognito(), AmplifyAnalyticsPinpoint()]);
 
         try {
-            await Amplify.configure(amplifyconfig);      
+            await Amplify.configure(amplifyconfig);
         } on AmplifyAlreadyConfiguredException {
-            print(
-                'Tried to reconfigure Amplify; this can occur when your app restarts on Android.');
-        }        
+            print("Tried to reconfigure Amplify; this can occur when your app restarts on Android.");
+        }
     }
 }
 ```

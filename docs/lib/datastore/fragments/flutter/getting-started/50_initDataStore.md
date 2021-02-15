@@ -25,14 +25,19 @@ class MyAmplifyApp extends StatefulWidget {
 
     @override
     void initState() {
-        super.initState(); 
+        super.initState();
+        _configureAmplify();
+    }
 
-        AmplifyDataStore datastorePlugin =
-            AmplifyDataStore(modelProvider: ModelProvider.instance);
+    void _configureAmplify() async {
+        // Add the following line to add DataStore plugin to your app
+        Amplify.addPlugin(AmplifyDataStore(modelProvider: ModelProvider.instance));
 
-        Amplify.addPlugin(datastorePlugin);
-
-        Amplify.configure(amplifyConfig); 
+        try {
+            await Amplify.configure(amplifyconfig);
+        } on AmplifyAlreadyConfiguredException {
+            print("Tried to reconfigure Amplify; this can occur when your app restarts on Android.");
+        }
     }
 }
 ```
