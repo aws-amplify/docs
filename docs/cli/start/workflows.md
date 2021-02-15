@@ -57,7 +57,7 @@ The `amplify configure project` command is an advanced command and not commonly 
 `amplify configure project` is also used to enable **Serverless Container** options in your project with Amazon Elastic Container Service. When enabled, you will be able to build APIs with both AWS Lambda and AWS Fargate using a [Dockerfile](https://docs.docker.com/engine/reference/builder/) or a [Docker Compose file](https://docs.docker.com/compose/compose-file/). See [Serverless Containers](~/cli/usage/containers.md) for more information.
 
 ### amplify logout --appId \<Amplify App Id\>
-When Amplify CLI is authenticated with the amplify admin UI, Json Web Tokens (JWTs) are stored on the developer's machine. This command will remove the JWTs associated with a particular Amplify App Id. The CLI will also prompt if you want to logout from all sessions. Answering yes will not only remove the JWTs, but ensure they are invalidated globally. Answering no will still remove the stored JWTs, but the tokens will remain valid until they expire.
+When Amplify CLI is authenticated with the Amplify Admin UI, JSON Web Tokens (JWTs) are stored on the developer's machine. This command will remove the JWTs associated with a particular Amplify app. The CLI will also prompt if you want to logout from all sessions. 'Yes' will remove the JWTs and ensure they are invalidated globally. 'No' will still remove the locally-stored JWTs but the tokens will remain valid until they expire.
 
 ## List of commands
 
