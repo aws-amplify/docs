@@ -93,7 +93,7 @@ Add the following line in `dependencies`:
 ```groovy
 dependencies {
     // Add the below line in `dependencies`
-    implementation 'com.amplifyframework:rxbindings:1.16.11'
+    implementation 'com.amplifyframework:rxbindings:1.16.13'
 }
 ```
 
