@@ -3,7 +3,7 @@ title: GraphQL query with sorting by date
 description: How to implement sorting in a GraphQL query
 ---
 
-In this guide you will learn how to implement sorting in a GraphQL API. In our example, you will implement sorting results by date in both an ascending and descending order by implementing an additional data access pattern leveraging a DynamoDB Global Secondary Index using the `@key` GraphQL Transform directive.
+In this guide you will learn how to implement sorting in a GraphQL API. In our example, you will implement sorting results by date in either an ascending or descending order by implementing an additional data access pattern leveraging a DynamoDB Global Secondary Index using the `@key` GraphQL Transform directive.
 
 ### Overview
 
