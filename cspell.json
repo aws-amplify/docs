@@ -1344,7 +1344,10 @@
     "Onetoone",
     "onetomany",
     "manytomany",
-    "datamodel"
+    "datamodel",
+    "AUTHCONFIG",
+    "myproject",
+    "STORAGECONFIG"
   ],
   "flagWords": ["hte"]
 }
