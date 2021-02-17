@@ -15,7 +15,6 @@ export const config: Config = {
   plugins: [nodePolyfills(), sass()],
   globalStyle: "src/styles/styles.scss",
   enableCache: true,
-  hashFileNames: false,
   commonjs: {
     namedExports: {
       "@aws-sdk/client-cognito-identity-browser": [
