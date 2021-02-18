@@ -1,4 +1,29 @@
-Run the following commands from the Android project directory to add a copy of the file `./amplify/.config/local-env-info.json` to the `./app/src/main/res/raw/` directory in your Android project and rename the copy to `localenvinfo.json`:
+To enable the developer menu, pass a custom configuration when configuring Amplify:
+
+<amplify-block-switcher>
+<amplify-block name="Java">
+
+```java
+AmplifyConfiguration config = AmplifyConfiguration.builder(getApplicationContext())
+        .devMenuEnabled(true)
+        .build();
+Amplify.configure(config, getApplicationContext());
+```
+
+</amplify-block>
+<amplify-block name="Kotlin">
+
+```kotlin
+val config = AmplifyConfiguration.builder(applicationContext)
+    .devMenuEnabled(true)
+    .build()
+Amplify.configure(config, applicationContext)
+```
+
+</amplify-block>
+</amplify-block-switcher>
+
+Next, run the following commands from the Android project directory to add a copy of the file `./amplify/.config/local-env-info.json` to the `./app/src/main/res/raw/` directory in your Android project and rename the copy to `localenvinfo.json`:
 
 ```bash
 cp amplify/.config/local-env-info.json app/src/main/res/raw
