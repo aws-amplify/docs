@@ -147,3 +147,4 @@ When the button above is clicked, an event will be sent automatically and this i
 </script>
 <button onclick="sendEvent()"/>
 ```
+Note: This is not supported in React Native.
