@@ -59,46 +59,101 @@ To use an iOS application with the local S3 endpoint you will need to [modify yo
 For DynamoDB storage, setup is automatically done when creating a GraphQL API with no action is needed on your part. Resources for the mocked data, such as the DynamoDB Local database or objects uploaded using the local S3 endpoint, inside your project under `./amplify/mock-data`.
 
 ## Function mocking setup
-For Lambda function mocking, after running `amplify init` you can add a function to your project with `amplify add function` and either invoke it directly, or use the [@function](~/cli/graphql-transformer/function.md) directive as part of your GraphQL schema to mock the invocation as part of your API.
+After adding a function to your project with `amplify add function` you can test it using `amplify mock function`. 
 
-To invoke the function directly:
-
-```bash
-amplify init
-amplify add function # Follow prompts
-amplify mock function <function_name>
-```
-
-This will ask you for the path to a JSON file that contains the event payload to pass to the event handler of your Lambda. It defaults to `src/event.json`. To avoid entering the path every time, you can also run
-```bash
-amplify mock function <function_name> --event "<path to event JSON file>"
-```
+`amplify mock function` supports the following arguments:
+- `<function name>` - The name of the function to mock. Must immediately follow `amplify mock function`, eg. `amplify mock function myFunctionName`
+- `--event "<path to event JSON file>"` - Use the specified JSON file as the event to pass to the Lambda handler
+- `--timeout <number of seconds>` - Override the default 10 second function response timeout with a custom timeout value
 
 ### Function mocking with GraphQL
-
-Alternatively, you can add a Lambda function and attach it as a GraphQL resolver with the `@function` directive. To do this, first add a function to your project:
-
-```bash
-amplify init
-amplify add function # Follow prompts
-amplify add api # Select GraphQL, use API key
-```
-Then add the function as a resolver on a query or field in your schema. For example, if you named your function **quoteOfTheDay** your schema might have a query that looks like:
-
-```
+A GraphQL Lambda resolver connected to your schema using [@function](~/cli/graphql-transformer/function.md) can be mocked using [`amplify mock api`](#api-mocking-setup).
+For example, if you have a function named **quoteOfTheDay** and a schema like:
+```graphql
 type Query {
     getQuote: String @function(name: "quoteOfTheDay-${env}")
 }
 ```
-Full instructions on how to use the @function directive can be found [here](~/cli/graphql-transformer/function.md).
-
-Then when running `amplify mock api`, the local GraphQL endpoint will invoke this function when running a GraphQL query such as:
-
-```
+Then when running `amplify mock api`, the local GraphQL endpoint will invoke this function locally when running a GraphQL query such as:
+```graphql
 query {
     getQuote
 }
 ```
+
+### Function mock environment variables
+`amplify mock function`populates environment variables that mimic what will be present when deployed in the cloud. Amplify parses the function's CloudFormation template and attempts to resolve any environment variables specified there (also review [function mock limitations](#function-mock-limitations)).
+
+CloudFormation parameters will be resolved by:
+- Resolving values specified in the `parameters.json` file for the function
+- Resolving values specified in `team-provider-info.json` within the `<env>.categories.function.<function name>` block, where `<env>` is the currently checked out environment and `<function name>` is the function being mocked
+- `AWS::Region`, `AWS::AccountID`, `AWS::StackName`, and `AWS::StackId` are resolved by parsing the `awscloudformation` configuration of the current environment in `team-provider-info.json`
+- Parameters constructed from dependencies on other resources in the project are resolved by parsing `amplify-meta.json`. Additionally, if a mock API is currently running and the function depends on the API, the local API URL will replace the cloud URL
+
+The mock environment will also populate [lambda runtime environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-runtime) in the following way:
+- `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_SESSION_TOKEN` will be populated using the AWS credentials that the Amplify project is currently configured to use
+- `_HANDLER`, `AWS_REGION`, `AWS_LAMBDA_FUNCTION_NAME`, `LAMBDA_TASK_ROOT`, and `LAMBDA_RUNTIME_DIR` will be set based on the function being mocked
+- Static defaults will be specified for all other runtime environment variables. The full list of static defaults can be found [here](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-util-mock/src/utils/lambda/populate-lambda-mock-env-vars.ts#L39)
+
+You can also override any mock environment variables in a `.env` file within the function directory (ie. `<project root>/amplify/backend/function/<function name>/.env`).
+
+### Connecting to a mock `@model` table
+Connect a mock function that operates on a table generated by `@model` to the mock table when running `amplify mock api` by:
+
+1. Create a `.env` file in the function directory with the following:
+```
+AWS_REGION=us-fake-1
+DDB_ENDPOINT=http://localhost:62224
+AWS_ACCESS_KEY_ID=fake
+AWS_SECRET_ACCESS_KEY=fake
+API_<api name>_<model>TABLE_NAME=<model>Table
+```
+Replace `<api name>` with the name of your API and `<model>` with the name of your model. The environment variable name should be all capitalized. For example, if you have an API named "FlightStats" and a model defined as `type Airplane @model {...}`, then then last line of the `.env` file should be:
+```
+API_FLIGHTSTATS_AIRPLANETABLE_NAME=AirplaneTable
+```
+2. Configure the DynamoDB client in your function as follows:
+```javascript
+const ddb = new aws.DynamoDB.DocumentClient({
+    endpoint: process.env.DDB_ENDPOINT,
+});
+const result = await ddb.put({
+    TableName: process.env.API_FLIGHTSTATS_AIRPLANETABLE_NAME,
+    Item: {
+        id: '1234567890',
+        name: 'F-22',
+        description: 'Cool fighter jet',
+    },
+}).promise();
+```
+3. Run `amplify mock api` to activate the local DynamoDB endpoint
+4. Run `amplify mock function` which will now connect to the mock DynamoDB table
+
+When running in the cloud, these environment variables will have valid values except `DDB_ENDPOINT` which will be `undefined`. In this case the DynamoDB client will use the default endpoint.
+
+When running locally, these environment variables will be populated using the local .env file which specifies the fake values required to connect to the local database. 
+
+**Note:** While connected to the mock database, calls to other AWS resources within the mock function will not work because the AWS credential environment variables have been overwritten with fake credentials. To call a mock table as well as other AWS services, add logic to switch between the fake credentials and the real ones in the DynamoDB client configuration. In this case, you could configure your `.env` file with:
+```
+IS_MOCK=true
+```
+And configure the DynamoDB client with:
+```javascript
+const clientConfig = process.env.IS_MOCK ? {
+    region: 'us-fake-1',
+    endpoint: 'http://localhost:62224',
+    credentials: new aws.Credentials({
+        accessKeyId: 'fake',
+        secretAccessKey: 'fake',
+    }),
+} : undefined;
+const ddb = new aws.DynamoDB.DocumentClient(clientConfig);
+```
+
+### Function mock limitations
+`amplify mock function` does not attempt to fully simulate the Lambda runtime environment. There may be some cases where the behavior of your function when mocking differs from executing in the cloud.
+
+For example, mock runs on your local OS and does not attempt to emulate Amazon Linux which executes your function in the cloud. Testing with `amplify mock function` should be used to get quick feedback on the correctness of your function but should not be used as a substitute for testing in a cloud development environment.
 
 ## Config files
 
