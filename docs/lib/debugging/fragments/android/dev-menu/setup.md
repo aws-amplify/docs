@@ -5,8 +5,8 @@ To enable the developer menu, pass a custom configuration when configuring Ampli
 
 ```java
 AmplifyConfiguration config = AmplifyConfiguration.builder(getApplicationContext())
-        .devMenuEnabled(true)
-        .build();
+    .devMenuEnabled(true)
+    .build();
 Amplify.configure(config, getApplicationContext());
 ```
 
